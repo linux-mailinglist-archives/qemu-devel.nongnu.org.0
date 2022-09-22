@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA7E5E5E00
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 10:54:57 +0200 (CEST)
-Received: from localhost ([::1]:60164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D315E5E0F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 10:59:45 +0200 (CEST)
+Received: from localhost ([::1]:55904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obHyy-0007PV-OF
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 04:54:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35774)
+	id 1obI3c-0004PD-Tf
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 04:59:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tommy.wu@sifive.com>)
- id 1obHly-00083w-2A
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:41:30 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:39447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tommy.wu@sifive.com>)
- id 1obHls-0000PV-O6
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:41:29 -0400
-Received: by mail-pg1-x533.google.com with SMTP id b5so303882pgb.6
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 01:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=HvuMTW94+hFSQqzauz4aeVbKjUjPDqFiwXpARMEgMMY=;
- b=JSLWeu1CVqE96Twxs7Wxo8zCKgsuEuMPm8+jiBJn+HXBpNXXQiCcsFuMmgpSGNnPDR
- Fgcqa0APPsN1D1+h71D5LEnUNfSr2PTMCZTujNiAPKNOk0+q6XLw4ar1FVsYFwiTYbK6
- NTDFOMUjbqugYdqDpvgn35kJEsk2j4Fe8uNCIP3C3Yy2ik+Dg+UqWObRjYqN1egghwMW
- tu6tMtIee0Z/xMOVnr/Vtln6RDhTqcWloIpHrTqR789QH86zQN+AA3ER4OkUaxA2NNgS
- JaV2LjIlkBVyhYfRLYQf4QjbFsnVNrR+3tco4cF1XfkWP1BZXXX0WcJ89mQUyN5JAP+6
- 5Olg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=HvuMTW94+hFSQqzauz4aeVbKjUjPDqFiwXpARMEgMMY=;
- b=y3Aee3fWghUpGQ0OIoblFwhseHDaBZ1tMaDpgDgs5D38/2S4F2e1AtxLP1eoScFwjo
- h0n5hdH0+6NLT9ohQ7EXpeFiCQ6P7cd35sdhXkYaHLk/OzM9fxvjKZwkyTm0gX3voKUx
- i+pnqswLH+cGiV5kd0JehESD/4yVH2+X+qCJdzNfVFSF83u+7lBu8vEhaMIXoE4vrlnC
- YwlilvaxYZMA7XZet77F162oRLHVWKJYxp6JPNXHv35UHpSb8XL430gNZZlWlpr8ihHp
- 2ji5i++rOIOzr7eNmNe0zNRD54VVd196tHVsH7nvOQ370QJ4+PhU6bcu4EC046heCXDq
- YoWg==
-X-Gm-Message-State: ACrzQf23E7J5053QF3ZawlnRbLKDSmlcYx1qX0gFxR7bHz/VjVz8uaTc
- l5xCvqlo5tbd5dYKq8kN+RZX3cpwQqszsYQf4DjRBts+9zL5e0p4NtseZAZgX2fIXlV84tsYfPz
- WuhRD6D78BGFV5wQzQrpFYiLGclN9Pc6+fy30/t3kQqmSbYcTdUBBSt5a1W0y8J84EtC7xlU=
-X-Google-Smtp-Source: AMsMyM4r5bGfiM7j0M51h2Kyokh3JWWZX6fBAPCKLGAdnvdEzdcTc06TXoN2NwNW/TdyuegtDsc1uw==
-X-Received: by 2002:a05:6a00:1946:b0:54d:bdea:e159 with SMTP id
- s6-20020a056a00194600b0054dbdeae159mr2538828pfk.47.1663836082911; 
- Thu, 22 Sep 2022 01:41:22 -0700 (PDT)
-Received: from sw06.internal.sifive.com ([64.62.193.194])
- by smtp.gmail.com with ESMTPSA id
- x2-20020a17090a1f8200b0020379616053sm3239202pja.57.2022.09.22.01.41.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 01:41:22 -0700 (PDT)
-From: Tommy Wu <tommy.wu@sifive.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- jim.shu@sifive.com, frank.chang@sifive.com, Tommy Wu <tommy.wu@sifive.com>
-Subject: [PATCH 3/3] tests/qtest: sifive-e-aon-watchdog-test.c : Add QTest of
- watchdog of sifive_e
-Date: Thu, 22 Sep 2022 01:41:07 -0700
-Message-Id: <20220922084107.2834285-4-tommy.wu@sifive.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220922084107.2834285-1-tommy.wu@sifive.com>
-References: <20220922084107.2834285-1-tommy.wu@sifive.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1obHoV-00011d-Mw
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:44:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51999)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1obHoS-0002Cr-87
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:44:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663836242;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g3EbjYEnNvaILRbxi6JDqLbDsLI8zvYAamKZ1FXvs7I=;
+ b=h5GKxpnPyF4DQ2MxP/FKPCjWqFtaiC8+7uTAofYUWfTBLV45tOi3cZ5qBM0dIpiot8cdq4
+ YI2OY4VP2/OvRXVPy76/BlocQYNJMhuBsdElpzGUAlnrBa/33SgyqFW8J2fP270KchfRYP
+ guJGJ57gPD3n6JJiBgj3dyOBotcF9OY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-595-MaaJWsr7PGu3fzlRjTHVkg-1; Thu, 22 Sep 2022 04:43:59 -0400
+X-MC-Unique: MaaJWsr7PGu3fzlRjTHVkg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C811D882820;
+ Thu, 22 Sep 2022 08:43:58 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 55532C158CF;
+ Thu, 22 Sep 2022 08:43:58 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B93D01800084; Thu, 22 Sep 2022 10:43:56 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, kvm@vger.kernel.org,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v3] x86: add etc/phys-bits fw_cfg file
+Date: Thu, 22 Sep 2022 10:43:56 +0200
+Message-Id: <20220922084356.878907-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=tommy.wu@sifive.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,437 +80,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add some simple tests of the watchdog timer in the always-on domain device
-of HiFive 1 rev b.
+In case phys bits are functional and can be used by the guest (aka
+host-phys-bits=on) add a fw_cfg file carrying the value.  This can
+be used by the guest firmware for address space configuration.
 
-Signed-off-by: Tommy Wu <tommy.wu@sifive.com>
+This is only enabled for 7.2+ machine types for live migration
+compatibility reasons.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/qtest/meson.build                  |   3 +
- tests/qtest/sifive-e-aon-watchdog-test.c | 400 +++++++++++++++++++++++
- 2 files changed, 403 insertions(+)
- create mode 100644 tests/qtest/sifive-e-aon-watchdog-test.c
+ hw/i386/fw_cfg.h     |  1 +
+ include/hw/i386/pc.h |  1 +
+ hw/i386/fw_cfg.c     | 12 ++++++++++++
+ hw/i386/pc.c         |  5 +++++
+ hw/i386/pc_piix.c    |  2 ++
+ hw/i386/pc_q35.c     |  2 ++
+ 6 files changed, 23 insertions(+)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index e910cb32ca..446115ea34 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -234,6 +234,9 @@ qtests_s390x = \
-    'cpu-plug-test',
-    'migration-test']
+diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
+index 275f15c1c5e8..6ff198a6cb85 100644
+--- a/hw/i386/fw_cfg.h
++++ b/hw/i386/fw_cfg.h
+@@ -26,5 +26,6 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
+ void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg);
+ void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg);
+ void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg);
++void fw_cfg_phys_bits(FWCfgState *fw_cfg);
  
-+qtests_riscv32 = \
-+  (config_all_devices.has_key('CONFIG_SIFIVE_E_AON') ? ['sifive-e-aon-watchdog-test'] : [])
+ #endif
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index c95333514ed3..bedef1ee13c1 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -119,6 +119,7 @@ struct PCMachineClass {
+     bool enforce_aligned_dimm;
+     bool broken_reserved_end;
+     bool enforce_amd_1tb_hole;
++    bool phys_bits_in_fw_cfg;
+ 
+     /* generate legacy CPU hotplug AML */
+     bool legacy_cpu_hotplug;
+diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+index a283785a8de4..6a1f18925725 100644
+--- a/hw/i386/fw_cfg.c
++++ b/hw/i386/fw_cfg.c
+@@ -219,3 +219,15 @@ void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg)
+     aml_append(dev, aml_name_decl("_CRS", crs));
+     aml_append(scope, dev);
+ }
 +
- qos_test_ss = ss.source_set()
- qos_test_ss.add(
-   'ac97-test.c',
-diff --git a/tests/qtest/sifive-e-aon-watchdog-test.c b/tests/qtest/sifive-e-aon-watchdog-test.c
-new file mode 100644
-index 0000000000..a583539346
---- /dev/null
-+++ b/tests/qtest/sifive-e-aon-watchdog-test.c
-@@ -0,0 +1,400 @@
-+#include "qemu/osdep.h"
-+#include "qemu/timer.h"
-+#include "qemu/bitops.h"
-+#include "libqtest-single.h"
-+#include "hw/misc/sifive_e_aon.h"
-+
-+#define WDOG_BASE (0x10000000)
-+#define WDOGCFG (0x0)
-+#define WDOGCOUNT (0x8)
-+#define WDOGS (0x10)
-+#define WDOGFEED (0x18)
-+#define WDOGKEY (0x1c)
-+#define WDOGCMP0 (0x20)
-+
-+#define SIFIVE_E_AON_WDOGKEY (0x51F15E)
-+#define SIFIVE_E_AON_WDOGFEED (0xD09F00D)
-+#define SIFIVE_E_LFCLK_DEFAULT_FREQ (32768)
-+
-+static void test_init(void)
++void fw_cfg_phys_bits(FWCfgState *fw_cfg)
 +{
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCOUNT, 0);
++    X86CPU *cpu = X86_CPU(first_cpu);
++    uint64_t phys_bits = cpu->phys_bits;
 +
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, 0);
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCMP0, 0xBEEF);
-+}
-+
-+static void test_wdogcount(void)
-+{
-+    test_init();
-+
-+    uint64_t tmp;
-+    tmp = readl(WDOG_BASE + WDOGCOUNT);
-+    writel(WDOG_BASE + WDOGCOUNT, 0xBEEF);
-+    g_assert(readl(WDOG_BASE + WDOGCOUNT) == tmp);
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCOUNT, 0xBEEF);
-+    g_assert(0xBEEF == readl(WDOG_BASE + WDOGCOUNT));
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCOUNT, 0xAAAAAAAA);
-+    g_assert(0x2AAAAAAA == readl(WDOG_BASE + WDOGCOUNT));
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGFEED, 0xAAAAAAAA);
-+    g_assert(0x2AAAAAAA == readl(WDOG_BASE + WDOGCOUNT));
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGFEED, SIFIVE_E_AON_WDOGFEED);
-+    g_assert(0 == readl(WDOG_BASE + WDOGCOUNT));
-+}
-+
-+static void test_wdogcfg(void)
-+{
-+    test_init();
-+
-+    wdogcfg_s tmp;
-+    tmp.value = readl(WDOG_BASE + WDOGCFG);
-+    writel(WDOG_BASE + WDOGCFG, 0xFFFFFFFF);
-+    g_assert(readl(WDOG_BASE + WDOGCFG) == tmp.value);
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, 0xFFFFFFFF);
-+    g_assert(0xFFFFFFFF == readl(WDOG_BASE + WDOGCFG));
-+
-+    tmp.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(15 == tmp.wdogscale);
-+    g_assert(1 == tmp.wdogrsten);
-+    g_assert(1 == tmp.wdogzerocmp);
-+    g_assert(1 == tmp.wdogenalways);
-+    g_assert(1 == tmp.wdogencoreawake);
-+    g_assert(1 == tmp.wdogip0);
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, 0);
-+    g_assert(0 == readl(WDOG_BASE + WDOGCFG));
-+
-+    tmp.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(0 == tmp.wdogscale);
-+    g_assert(0 == tmp.wdogrsten);
-+    g_assert(0 == tmp.wdogzerocmp);
-+    g_assert(0 == tmp.wdogenalways);
-+    g_assert(0 == tmp.wdogencoreawake);
-+    g_assert(0 == tmp.wdogip0);
-+}
-+
-+static void test_wdogcmp0(void)
-+{
-+    test_init();
-+
-+    wdogcfg_s tmp;
-+    tmp.value = readl(WDOG_BASE + WDOGCMP0);
-+    writel(WDOG_BASE + WDOGCMP0, 0xBEEF);
-+    g_assert(readl(WDOG_BASE + WDOGCMP0) == tmp.value);
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCMP0, 0xBEEF);
-+    g_assert(0xBEEF == readl(WDOG_BASE + WDOGCMP0));
-+}
-+
-+static void test_wdogkey(void)
-+{
-+    test_init();
-+
-+    g_assert(0 == readl(WDOG_BASE + WDOGKEY));
-+
-+    writel(WDOG_BASE + WDOGKEY, 0xFFFF);
-+    g_assert(0 == readl(WDOG_BASE + WDOGKEY));
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    g_assert(1 == readl(WDOG_BASE + WDOGKEY));
-+
-+    writel(WDOG_BASE + WDOGFEED, 0xAAAAAAAA);
-+    g_assert(0 == readl(WDOG_BASE + WDOGKEY));
-+}
-+
-+static void test_wdogfeed(void)
-+{
-+    test_init();
-+
-+    g_assert(0 == readl(WDOG_BASE + WDOGFEED));
-+
-+    writel(WDOG_BASE + WDOGFEED, 0xFFFF);
-+    g_assert(0 == readl(WDOG_BASE + WDOGFEED));
-+}
-+
-+static void test_scaled_wdogs(void)
-+{
-+    test_init();
-+
-+    wdogcfg_s cfg;
-+    uint32_t fake_count = 0x12345678;
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCOUNT, fake_count);
-+    g_assert(readl(WDOG_BASE + WDOGCOUNT) == fake_count);
-+    g_assert((uint16_t)readl(WDOG_BASE + WDOGS) ==
-+             (uint16_t)fake_count);
-+
-+    for (int i = 0; i < 16; i++) {
-+        cfg.value = readl(WDOG_BASE + WDOGCFG);
-+        cfg.wdogscale = i;
-+        writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+        writel(WDOG_BASE + WDOGCFG, cfg.value);
-+        g_assert((uint16_t)readl(WDOG_BASE + WDOGS) ==
-+                 (uint16_t)(fake_count >> cfg.wdogscale));
++    if (cpu->host_phys_bits) {
++        fw_cfg_add_file(fw_cfg, "etc/phys-bits",
++                        g_memdup2(&phys_bits, sizeof(phys_bits)),
++                        sizeof(phys_bits));
 +    }
 +}
-+
-+static void test_watchdog(void)
-+{
-+    test_init();
-+
-+    wdogcfg_s cfg;
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCMP0, SIFIVE_E_LFCLK_DEFAULT_FREQ);
-+
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    cfg.wdogscale = 0;
-+    cfg.wdogenalways = 1;
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, cfg.value);
-+
-+    clock_step(NANOSECONDS_PER_SECOND);
-+
-+    g_assert(readl(WDOG_BASE + WDOGCOUNT) ==
-+             SIFIVE_E_LFCLK_DEFAULT_FREQ);
-+
-+    g_assert(readl(WDOG_BASE + WDOGS) ==
-+             SIFIVE_E_LFCLK_DEFAULT_FREQ);
-+
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(0 == cfg.wdogscale);
-+    g_assert(0 == cfg.wdogrsten);
-+    g_assert(0 == cfg.wdogzerocmp);
-+    g_assert(1 == cfg.wdogenalways);
-+    g_assert(0 == cfg.wdogencoreawake);
-+    g_assert(1 == cfg.wdogip0);
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCOUNT, 0);
-+    cfg.wdogip0 = 0;
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, cfg.value);
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(0 == cfg.wdogip0);
-+}
-+
-+static void test_scaled_watchdog(void)
-+{
-+    test_init();
-+
-+    wdogcfg_s cfg;
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCMP0, 10);
-+
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    cfg.wdogscale = 15;
-+    cfg.wdogenalways = 1;
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, cfg.value);
-+
-+    clock_step(NANOSECONDS_PER_SECOND * 10);
-+
-+    g_assert(readl(WDOG_BASE + WDOGCOUNT) ==
-+             SIFIVE_E_LFCLK_DEFAULT_FREQ * 10);
-+
-+    g_assert(10 == readl(WDOG_BASE + WDOGS));
-+
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(15 == cfg.wdogscale);
-+    g_assert(0 == cfg.wdogrsten);
-+    g_assert(0 == cfg.wdogzerocmp);
-+    g_assert(1 == cfg.wdogenalways);
-+    g_assert(0 == cfg.wdogencoreawake);
-+    g_assert(1 == cfg.wdogip0);
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCOUNT, 0);
-+    cfg.wdogip0 = 0;
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, cfg.value);
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(0 == cfg.wdogip0);
-+}
-+
-+static void test_periodic_int(void)
-+{
-+    test_init();
-+
-+    wdogcfg_s cfg;
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCMP0, SIFIVE_E_LFCLK_DEFAULT_FREQ);
-+
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    cfg.wdogscale = 0;
-+    cfg.wdogzerocmp = 1;
-+    cfg.wdogenalways = 1;
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, cfg.value);
-+
-+    clock_step(NANOSECONDS_PER_SECOND);
-+
-+    g_assert(0 == readl(WDOG_BASE + WDOGCOUNT));
-+
-+    g_assert(0 == readl(WDOG_BASE + WDOGS));
-+
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(0 == cfg.wdogscale);
-+    g_assert(0 == cfg.wdogrsten);
-+    g_assert(1 == cfg.wdogzerocmp);
-+    g_assert(1 == cfg.wdogenalways);
-+    g_assert(0 == cfg.wdogencoreawake);
-+    g_assert(1 == cfg.wdogip0);
-+
-+    cfg.wdogip0 = 0;
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, cfg.value);
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(0 == cfg.wdogip0);
-+
-+    clock_step(NANOSECONDS_PER_SECOND);
-+
-+    g_assert(0 == readl(WDOG_BASE + WDOGCOUNT));
-+
-+    g_assert(0 == readl(WDOG_BASE + WDOGS));
-+
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(0 == cfg.wdogscale);
-+    g_assert(0 == cfg.wdogrsten);
-+    g_assert(1 == cfg.wdogzerocmp);
-+    g_assert(1 == cfg.wdogenalways);
-+    g_assert(0 == cfg.wdogencoreawake);
-+    g_assert(1 == cfg.wdogip0);
-+
-+    cfg.wdogip0 = 0;
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, cfg.value);
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(0 == cfg.wdogip0);
-+}
-+
-+static void test_enable_disable(void)
-+{
-+    test_init();
-+
-+    wdogcfg_s cfg;
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCMP0, 10);
-+
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    cfg.wdogscale = 15;
-+    cfg.wdogenalways = 1;
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, cfg.value);
-+
-+    clock_step(NANOSECONDS_PER_SECOND * 2);
-+
-+    g_assert(readl(WDOG_BASE + WDOGCOUNT) ==
-+             SIFIVE_E_LFCLK_DEFAULT_FREQ * 2);
-+
-+    g_assert(2 == readl(WDOG_BASE + WDOGS));
-+
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(15 == cfg.wdogscale);
-+    g_assert(0 == cfg.wdogrsten);
-+    g_assert(0 == cfg.wdogzerocmp);
-+    g_assert(1 == cfg.wdogenalways);
-+    g_assert(0 == cfg.wdogencoreawake);
-+    g_assert(0 == cfg.wdogip0);
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    cfg.wdogenalways = 0;
-+    writel(WDOG_BASE + WDOGCFG, cfg.value);
-+
-+    clock_step(NANOSECONDS_PER_SECOND * 8);
-+
-+    g_assert(readl(WDOG_BASE + WDOGCOUNT) ==
-+             SIFIVE_E_LFCLK_DEFAULT_FREQ * 2);
-+
-+    g_assert(2 == readl(WDOG_BASE + WDOGS));
-+
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(15 == cfg.wdogscale);
-+    g_assert(0 == cfg.wdogrsten);
-+    g_assert(0 == cfg.wdogzerocmp);
-+    g_assert(0 == cfg.wdogenalways);
-+    g_assert(0 == cfg.wdogencoreawake);
-+    g_assert(0 == cfg.wdogip0);
-+
-+    cfg.wdogenalways = 1;
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, cfg.value);
-+
-+    clock_step(NANOSECONDS_PER_SECOND * 8);
-+
-+    g_assert(readl(WDOG_BASE + WDOGCOUNT) ==
-+             SIFIVE_E_LFCLK_DEFAULT_FREQ * 10);
-+
-+    g_assert(10 == readl(WDOG_BASE + WDOGS));
-+
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(15 == cfg.wdogscale);
-+    g_assert(0 == cfg.wdogrsten);
-+    g_assert(0 == cfg.wdogzerocmp);
-+    g_assert(1 == cfg.wdogenalways);
-+    g_assert(0 == cfg.wdogencoreawake);
-+    g_assert(1 == cfg.wdogip0);
-+
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCOUNT, 0);
-+    cfg.wdogip0 = 0;
-+    writel(WDOG_BASE + WDOGKEY, SIFIVE_E_AON_WDOGKEY);
-+    writel(WDOG_BASE + WDOGCFG, cfg.value);
-+    cfg.value = readl(WDOG_BASE + WDOGCFG);
-+    g_assert(0 == cfg.wdogip0);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    int r;
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_start("-machine sifive_e");
-+
-+    qtest_add_func("/sifive-e-aon-watchdog-test/wdogcount",
-+                   test_wdogcount);
-+    qtest_add_func("/sifive-e-aon-watchdog-test/wdogcfg",
-+                   test_wdogcfg);
-+    qtest_add_func("/sifive-e-aon-watchdog-test/wdogcmp0",
-+                   test_wdogcmp0);
-+    qtest_add_func("/sifive-e-aon-watchdog-test/wdogkey",
-+                   test_wdogkey);
-+    qtest_add_func("/sifive-e-aon-watchdog-test/wdogfeed",
-+                   test_wdogfeed);
-+    qtest_add_func("/sifive-e-aon-watchdog-test/scaled_wdogs",
-+                   test_scaled_wdogs);
-+    qtest_add_func("/sifive-e-aon-watchdog-test/watchdog",
-+                   test_watchdog);
-+    qtest_add_func("/sifive-e-aon-watchdog-test/scaled_watchdog",
-+                   test_scaled_watchdog);
-+    qtest_add_func("/sifive-e-aon-watchdog-test/periodic_int",
-+                   test_periodic_int);
-+    qtest_add_func("/sifive-e-aon-watchdog-test/enable_disable",
-+                   test_enable_disable);
-+
-+    r = g_test_run();
-+
-+    qtest_end();
-+
-+    return r;
-+}
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 566accf7e60a..17ecc7fe4331 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -744,6 +744,7 @@ void pc_machine_done(Notifier *notifier, void *data)
+ {
+     PCMachineState *pcms = container_of(notifier,
+                                         PCMachineState, machine_done);
++    PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+     X86MachineState *x86ms = X86_MACHINE(pcms);
+ 
+     cxl_hook_up_pxb_registers(pcms->bus, &pcms->cxl_devices_state,
+@@ -764,6 +765,9 @@ void pc_machine_done(Notifier *notifier, void *data)
+         fw_cfg_build_feature_control(MACHINE(pcms), x86ms->fw_cfg);
+         /* update FW_CFG_NB_CPUS to account for -device added CPUs */
+         fw_cfg_modify_i16(x86ms->fw_cfg, FW_CFG_NB_CPUS, x86ms->boot_cpus);
++        if (pcmc->phys_bits_in_fw_cfg) {
++            fw_cfg_phys_bits(x86ms->fw_cfg);
++        }
+     }
+ }
+ 
+@@ -1907,6 +1911,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     pcmc->kvmclock_enabled = true;
+     pcmc->enforce_aligned_dimm = true;
+     pcmc->enforce_amd_1tb_hole = true;
++    pcmc->phys_bits_in_fw_cfg = true;
+     /* BIOS ACPI tables: 128K. Other BIOS datastructures: less than 4K reported
+      * to be used at the moment, 32K should be enough for a while.  */
+     pcmc->acpi_data_size = 0x20000 + 0x8000;
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 8043a250adf3..c6a4dbd5c0b0 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -447,9 +447,11 @@ DEFINE_I440FX_MACHINE(v7_2, "pc-i440fx-7.2", NULL,
+ 
+ static void pc_i440fx_7_1_machine_options(MachineClass *m)
+ {
++    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_i440fx_7_2_machine_options(m);
+     m->alias = NULL;
+     m->is_default = false;
++    pcmc->phys_bits_in_fw_cfg = false;
+     compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+     compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
+ }
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 53eda50e818c..c2b56daa1550 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -384,8 +384,10 @@ DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
+ 
+ static void pc_q35_7_1_machine_options(MachineClass *m)
+ {
++    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_q35_7_2_machine_options(m);
+     m->alias = NULL;
++    pcmc->phys_bits_in_fw_cfg = false;
+     compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+     compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
+ }
 -- 
-2.27.0
+2.37.3
 
 
