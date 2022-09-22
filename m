@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 183C35E6988
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:22:10 +0200 (CEST)
-Received: from localhost ([::1]:49230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9125E699F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:28:52 +0200 (CEST)
+Received: from localhost ([::1]:39958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obPtp-0002RA-5t
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:22:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39234)
+	id 1obQ0J-0005ap-50
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:28:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1obP8N-0000Bk-8N
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:33:12 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33493)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1obPAu-00029y-42
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:35:47 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1obP8G-00043G-9f
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:33:07 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id s14so14430653wro.0
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:32:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1obPAr-0005Nr-9e
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:35:42 -0400
+Received: by mail-wr1-x432.google.com with SMTP id g3so16366022wrq.13
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=Egw+F4b5XqwXUj1DHLWLGXtI934CxqB3FFawFUEXh/A=;
- b=Ty7ftzXk7uALAssstRiapIq5KTRBYHRXCVtULpOrYfk/6dwCP6QPQpgbH/o7movvnR
- sSsAsLc+4Fc+hBDJVL7ikoUpCXrjBpbxGNmi2kfTd0Fysxempi05ErAF8UMkbnCH0WJF
- FjykMXtxeW2DYvSkTiC6ufswQPrY9N0EAtZ4iTr8dpT0GyMjfzwdKxG8Y0v/I7keX10l
- BX2GNjMJ0B6J8OY7AWS8EjpC5klLBV5d6jHZBNfhrso+vUbVcxm0feLBDZp9L2paFe9p
- 7VyqcWs1zTsUYWridktdK23VDMb/cbHybAjl3vxIVrckQ5jGk733sX87R9thu1h/4JMX
- Y7Iw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date;
+ bh=WMTybDGJFpIIsx2/QiH+5Roxvq0KadU/gkG/e5cvyQc=;
+ b=yKcIDV0QAeEV328ZjxOTTVxv7Qku8ukwc2S8ZbybWBYqo+9LJaDoYbpAbyW3tNvk6o
+ wAeBWGluEfUVM/LDV8SWtk7zhfqdY2zm8RIr4GTJt4JbuOcrhOU+YItFdueWIoN/1bpu
+ 8mvtce9e5mW5AYPYHTmDFqF3J5oeaNhw3ZbGDx0Pb+h3Lgx2rg0LPcZufFwp00YGnM2C
+ 2IviZvmxgXlQE+1C0x3iFHc9OMdBD1NbDTlyn3mLoDNvQAJ9/kFK8BgK5/D3fdlQQEBC
+ S48KIdEnMV7U0gEzoHrKxO2KC88H9+ba7A7eb+U5AINUxccC0kvt44nY6Be4PTD+ZWWL
+ cUYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=Egw+F4b5XqwXUj1DHLWLGXtI934CxqB3FFawFUEXh/A=;
- b=2YK7wIVf48RIhjEzpAIUeMmeU9ZlSU+PXKUfBG5I7dVjdidB7og4iI2PhY6+rGWyow
- Tik+2A/LIL4DrAhp+SqZl5O7lwKJ+bKmxO1wLz3+bSQDH94vkTzEBiTRGdgXTDSeZtra
- viK9j6De9rJahoIMlSzRRp6QVSKA+TQqT+o0BgnJ4maUCaMTJ8Rx7Ydr2WaEEAt5d2+Z
- flck6xhEPkX5cruM1/W29Mp0uvttXnzlABCuwv3NUztA3Nzsm948DNnTXT1RE/bYhXRr
- t6s5DIAHZZBUB/clQ1DFJR7C5zFYANw4DqdVrtCAFa1Nvhwqj6YalSTobpgy3GmT30Lp
- NgYw==
-X-Gm-Message-State: ACrzQf1tdIBiD/ApkSo8LwweWi2V73mfVc54Q50w7K/iH/o4s5nEiBUq
- FKPytc0wRIZjTOBxUsIitTchtw==
-X-Google-Smtp-Source: AMsMyM7XamZEydSyHfw6FUBt0oaXl2jToy5u9J3Mujcfyj6Z5A544hNfCuwl6T9gpNA5aMg5zTabxw==
-X-Received: by 2002:a05:6000:15ce:b0:226:f2ab:516d with SMTP id
- y14-20020a05600015ce00b00226f2ab516dmr2638081wry.264.1663864378138; 
- Thu, 22 Sep 2022 09:32:58 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=WMTybDGJFpIIsx2/QiH+5Roxvq0KadU/gkG/e5cvyQc=;
+ b=pcBvFePfxNBPyQQddIAyrYp5PEJXlQ2IC2UxQ3Ekyx3r6V21Q/ydL74kJJZv/I2oGa
+ jri/X0Zi3WjCMUbSCDAEHwA6RZKi7o3ut6rjm3QkIqgy0z3YGY8oWkphykHpukdItfFr
+ pSXmJysRXHn10xqpwbhGAZUnyeCwYOgeEkIDivA1vytrcmtaXrfq1RErdN0F89qr5l+H
+ kHbQ/4BGjLBTGGYVg1G7cT352qQKQWy5BQjG+3lkwKyK6j5xNsB+iU+44n/wpV8hCDCG
+ l1kwG9GJ34BbaKESkUkxthTInlXLGxTRvFCRp/uhALcs7Ks1qM3Vjstd+6+f05gVmh+W
+ I47A==
+X-Gm-Message-State: ACrzQf057nb1oYfqpWmuF+6dF9C5LvcBeKGqCMFlv4ZJlpIVE0QvQ3sM
+ zAlA+8w/PD8LXeowRl2RjZIO5zUU1dxoWA==
+X-Google-Smtp-Source: AMsMyM7ub6JhuJ8A11oXagb3hXRkLkcmwN1oUDOHMaOYL7ZMHUP18RX0qF6GYqOMLjqAyc/L03MjjQ==
+X-Received: by 2002:adf:e0c3:0:b0:226:d598:85ee with SMTP id
+ m3-20020adfe0c3000000b00226d59885eemr2535169wri.589.1663864538783; 
+ Thu, 22 Sep 2022 09:35:38 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- z2-20020a056000110200b00223b8168b15sm5225491wrw.66.2022.09.22.09.32.57
+ iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.35.38
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 09:32:57 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B0D891FFB7;
- Thu, 22 Sep 2022 17:32:56 +0100 (BST)
-References: <20220922135516.33627-1-lucas.araujo@eldorado.org.br>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, =?utf-8?Q?Daniel_P_=2E_Ber?=
- =?utf-8?Q?rang=C3=A9?=
- <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>, Daniel Henrique
- Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 0/4] Patch series to set up a ppc64le CI
-Date: Thu, 22 Sep 2022 17:32:24 +0100
-In-reply-to: <20220922135516.33627-1-lucas.araujo@eldorado.org.br>
-Message-ID: <874jwz4bev.fsf@linaro.org>
+ Thu, 22 Sep 2022 09:35:38 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 01/39] hw/net/can: fix Xilinx ZynqMP CAN RX FIFO logic
+Date: Thu, 22 Sep 2022 17:34:58 +0100
+Message-Id: <20220922163536.1096175-2-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220922163536.1096175-1-peter.maydell@linaro.org>
+References: <20220922163536.1096175-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,34 +89,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Anton Kochkov <anton.kochkov@proton.me>
 
-"Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br> writes:
+For consistency, function "update_rx_fifo()" should use the RX FIFO
+register field names, not the TX FIFO ones, even if they refer to the
+same bit positions in the register.
 
-> This patch series aim to make easier to set up a compilation and CI
-> environment on PPC64 and PPC64LE machines.
+Signed-off-by: Anton Kochkov <anton.kochkov@proton.me>
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Message-id: 20220817141754.2105981-1-anton.kochkov@proton.me
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1123
+[PMM: tweaked commit message]
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/net/can/xlnx-zynqmp-can.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-Queued to testing/next, thanks.
+diff --git a/hw/net/can/xlnx-zynqmp-can.c b/hw/net/can/xlnx-zynqmp-can.c
+index 82ac48cee24..e93e6c5e194 100644
+--- a/hw/net/can/xlnx-zynqmp-can.c
++++ b/hw/net/can/xlnx-zynqmp-can.c
+@@ -696,30 +696,30 @@ static void update_rx_fifo(XlnxZynqMPCANState *s, const qemu_can_frame *frame)
+                                                timestamp));
+ 
+             /* First 32 bit of the data. */
+-            fifo32_push(&s->rx_fifo, deposit32(0, R_TXFIFO_DATA1_DB3_SHIFT,
+-                                               R_TXFIFO_DATA1_DB3_LENGTH,
++            fifo32_push(&s->rx_fifo, deposit32(0, R_RXFIFO_DATA1_DB3_SHIFT,
++                                               R_RXFIFO_DATA1_DB3_LENGTH,
+                                                frame->data[0]) |
+-                                     deposit32(0, R_TXFIFO_DATA1_DB2_SHIFT,
+-                                               R_TXFIFO_DATA1_DB2_LENGTH,
++                                     deposit32(0, R_RXFIFO_DATA1_DB2_SHIFT,
++                                               R_RXFIFO_DATA1_DB2_LENGTH,
+                                                frame->data[1]) |
+-                                     deposit32(0, R_TXFIFO_DATA1_DB1_SHIFT,
+-                                               R_TXFIFO_DATA1_DB1_LENGTH,
++                                     deposit32(0, R_RXFIFO_DATA1_DB1_SHIFT,
++                                               R_RXFIFO_DATA1_DB1_LENGTH,
+                                                frame->data[2]) |
+-                                     deposit32(0, R_TXFIFO_DATA1_DB0_SHIFT,
+-                                               R_TXFIFO_DATA1_DB0_LENGTH,
++                                     deposit32(0, R_RXFIFO_DATA1_DB0_SHIFT,
++                                               R_RXFIFO_DATA1_DB0_LENGTH,
+                                                frame->data[3]));
+             /* Last 32 bit of the data. */
+-            fifo32_push(&s->rx_fifo, deposit32(0, R_TXFIFO_DATA2_DB7_SHIFT,
+-                                               R_TXFIFO_DATA2_DB7_LENGTH,
++            fifo32_push(&s->rx_fifo, deposit32(0, R_RXFIFO_DATA2_DB7_SHIFT,
++                                               R_RXFIFO_DATA2_DB7_LENGTH,
+                                                frame->data[4]) |
+-                                     deposit32(0, R_TXFIFO_DATA2_DB6_SHIFT,
+-                                               R_TXFIFO_DATA2_DB6_LENGTH,
++                                     deposit32(0, R_RXFIFO_DATA2_DB6_SHIFT,
++                                               R_RXFIFO_DATA2_DB6_LENGTH,
+                                                frame->data[5]) |
+-                                     deposit32(0, R_TXFIFO_DATA2_DB5_SHIFT,
+-                                               R_TXFIFO_DATA2_DB5_LENGTH,
++                                     deposit32(0, R_RXFIFO_DATA2_DB5_SHIFT,
++                                               R_RXFIFO_DATA2_DB5_LENGTH,
+                                                frame->data[6]) |
+-                                     deposit32(0, R_TXFIFO_DATA2_DB4_SHIFT,
+-                                               R_TXFIFO_DATA2_DB4_LENGTH,
++                                     deposit32(0, R_RXFIFO_DATA2_DB4_SHIFT,
++                                               R_RXFIFO_DATA2_DB4_LENGTH,
+                                                frame->data[7]));
+ 
+             ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, RXOK, 1);
+-- 
+2.25.1
 
-Do we have a donated ppc64 machine to add to the custom runners?
-
-> v3:
-> Changed patch 1 to respect alphabetical order
->
-> v2:
-> This patch series are only patches 2-4 of v1 and an alternative to patch 1
-> suggested by Daniel.
->
-> Lucas Mateus Castro (alqotel) (4):
->   scripts/ci/setup: ninja missing from build-environment
->   scripts/ci/setup: Fix libxen requirements
->   scripts/ci/setup: spice-server only on x86 aarch64
->   tests/docker: run script use realpath instead of readlink
->
->  scripts/ci/setup/build-environment.yml | 15 +++++++++++++--
->  tests/docker/run                       |  2 +-
->  2 files changed, 14 insertions(+), 3 deletions(-)
-
-
---=20
-Alex Benn=C3=A9e
 
