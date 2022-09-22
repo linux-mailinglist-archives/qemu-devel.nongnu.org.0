@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F26465E6B0B
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:33:41 +0200 (CEST)
-Received: from localhost ([::1]:33094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8EC5E6B3B
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:47:56 +0200 (CEST)
+Received: from localhost ([::1]:60450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obR13-00027j-1B
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:33:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41210)
+	id 1obREp-0003Vr-2W
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:47:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPBG-0002Df-J0
+ id 1obPBG-0002Dg-JV
  for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:10 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40482)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPB9-0005S9-QH
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:03 -0400
-Received: by mail-wr1-x434.google.com with SMTP id x18so10415941wrm.7
+ id 1obPB9-0005SG-Ht
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:02 -0400
+Received: by mail-wr1-x434.google.com with SMTP id c11so16386207wrp.11
  for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:35:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=HVLDjT4fU1zPU/nL/+pXZz3AlOxWu0cbWVrJuViFf8w=;
- b=mT1icSoH9npd9mB/Lk4fzf68OXGKXKmlPueey7qtiS5WQ78MmrO5olF5+05uk5z8DH
- 8ZS2p4pCXssQAOHaM32y45kLZ1vAgX1l3ro1gd3dEdBTfnzhX+QxhslOr/92yX9/zO7Z
- AuYvIZNrYhJs2Xa3tS/WxnzdbRarYqumuK75hFZO5h+vBTBie77t22FSU9GGIjoaWqzw
- L9BoVavWbZDR5+GwLzEGKc2BF3BOunH1aJHnaOSoxbqtZsSd/1mPXw5wb4O5HqNOIQ8Q
- oqcNaobfFyWKjy5SKa7k6SRR4DVGyFUjdTLsrtv+xnrNBpm5nP/GxDNJXLd2aDJlgC1Z
- bLbg==
+ bh=UoIEVd6qFvT+Ln9sMhn/rS//C5+/7lw2UA59aXrFoHY=;
+ b=iBqZAQdapWw+yOXckE21PCWw0K6EQmPoWx5Y8IMKOQNWu60pzzI3nPOmpo6JXyTcGR
+ mYlYPal3za3wH2a/slU3/yyScMhH0sTHSz8aU7lxk21ZKauYAxhiu2y5lg4RXsjW+A0T
+ z08VpzH3SMJKQrZkbnNNZlQOWSAIprxw0UiCFTOtRV0A1aP6myvDXKFqdyVQ5Bqx3jNG
+ gWP6FQjEKfS1+eOVjOm3bUWEx0+ziOUP3B0lS4nBjWf1l572aRPVQkWGTbdoVEEFlGEE
+ b8WnLdVSGJ1r8ztNbmolUUF9VtMgx33tG2LX/ZzFY6JDSnfk80dE0ZWShh11+2HwV9xN
+ e/ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=HVLDjT4fU1zPU/nL/+pXZz3AlOxWu0cbWVrJuViFf8w=;
- b=o0ZRPIrvJ3tlPmCC+Mqgw49FkjHsOOSle+tG3mRG6L7x8NXTh6lNeSHAwoM/K2sB4e
- S6dJqFt2aK9yzIJnT6hgycsJ124ht3IzD6m1trUer6hCPNWN7g/htrxu71OOMpSOhAsE
- JtH0VlyvoA/TWSWHd6CjOFsCigZ41JGtNMmkAnqbJjqlfzEhVWzKVVKcWw7HJBDs+DFn
- hzxYtopPoJ2QM+uV2vzLkFPnKZfIR4ZDXt4gtl4+9yTjR88TtTtaaIUph620cvr4FciS
- yLvX0+WX9ziEewzPBuw6MtnUzgMiPbaiUh+2KPxQbVk9h2Vqb6zIgaUQxtuekivxOtgH
- 1s3Q==
-X-Gm-Message-State: ACrzQf340BSll2K71/UGbQLlwf08xeBew93Y+xB4lwdmE8MTCeWVeu/Z
- eL5v5UWr8os2W1HzhjHtaiNgdjh5dN/dHA==
-X-Google-Smtp-Source: AMsMyM48P/uJl7fnOvREGWfEg0PRQJMUxCtC8V5bbVNJD42Rw3X2t1Fmyd3qzPZp7guhiIDT3txJ0A==
-X-Received: by 2002:a5d:6088:0:b0:228:e0c5:da5f with SMTP id
- w8-20020a5d6088000000b00228e0c5da5fmr2549947wrt.221.1663864557290; 
+ bh=UoIEVd6qFvT+Ln9sMhn/rS//C5+/7lw2UA59aXrFoHY=;
+ b=3BNzLrQSIxj26WbCRV1ubPSj5fHsFyBWS8xhV+Kegrhq0R5Jo0f5ICHmzbOOLBkqmO
+ 6o8iv5ONJvopVkgs3oiTKxDHt4gqmlw2zAQik3/Vqin9I/TQmE1zOZ1KFPscLtkEuEZJ
+ 02t3ksM20EqD6D8AgFHO7HkCucU2OSTWnebE+sVQEGkKZYvMe8FB8VYzAVfUlvBALX/d
+ lCjVFdLb4y9OV+QhjdV7vkD2cIn4IHDpMo4uoxJWyiOhbIois13CxQcq+hipv66+FhFy
+ u/unU9vewqB/WoeYRbRler7/oMnUFy9Ivc5joEfKG1unO/a7BBKrtBjl8JE6TTMYZt4m
+ IY9g==
+X-Gm-Message-State: ACrzQf2ouyEBnyMumNbyb7oAGYIpXRVeddIQbuYfqknDQ4Q/BkCSguPm
+ EF8Gfm73j8RO+0LusI1s4qta84UPo+HgAQ==
+X-Google-Smtp-Source: AMsMyM5E/jHh7623L0fsi52aRCWz5hUkCLOzaxpQWrfW6HAp+kGBA0JWjV4dUW46MZJqSstge/4iAw==
+X-Received: by 2002:a5d:528a:0:b0:225:4a8e:221e with SMTP id
+ c10-20020a5d528a000000b002254a8e221emr2550970wrv.145.1663864557845; 
  Thu, 22 Sep 2022 09:35:57 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.35.56
+ iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.35.57
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 22 Sep 2022 09:35:57 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/39] hw/i386/multiboot: Avoid dynamic stack allocation
-Date: Thu, 22 Sep 2022 17:35:26 +0100
-Message-Id: <20220922163536.1096175-30-peter.maydell@linaro.org>
+Subject: [PULL 30/39] hw/usb/hcd-ohci: Use definition to avoid dynamic stack
+ allocation
+Date: Thu, 22 Sep 2022 17:35:27 +0100
+Message-Id: <20220922163536.1096175-31-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220922163536.1096175-1-peter.maydell@linaro.org>
 References: <20220922163536.1096175-1-peter.maydell@linaro.org>
@@ -92,40 +93,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Use autofree heap allocation instead of variable-length array on
-the stack. Replace the snprintf() call by g_strdup_printf().
+The compiler isn't clever enough to figure 'width' is a constant,
+so help it by using a definitions instead.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20220819153931.3147384-9-peter.maydell@linaro.org
+Message-id: 20220819153931.3147384-10-peter.maydell@linaro.org
 ---
- hw/i386/multiboot.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/usb/hcd-ohci.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c
-index 0a10089f14b..963e29362e4 100644
---- a/hw/i386/multiboot.c
-+++ b/hw/i386/multiboot.c
-@@ -163,6 +163,7 @@ int load_multiboot(X86MachineState *x86ms,
-     uint8_t *mb_bootinfo_data;
-     uint32_t cmdline_len;
-     GList *mods = NULL;
-+    g_autofree char *kcmdline = NULL;
+diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
+index 895b29fb865..5585fd32ccf 100644
+--- a/hw/usb/hcd-ohci.c
++++ b/hw/usb/hcd-ohci.c
+@@ -805,13 +805,14 @@ static int ohci_service_iso_td(OHCIState *ohci, struct ohci_ed *ed)
+     return 1;
+ }
  
-     /* Ok, let's see if it is a multiboot image.
-        The header is 12x32bit long, so the latest entry may be 8192 - 48. */
-@@ -362,9 +363,7 @@ int load_multiboot(X86MachineState *x86ms,
++#define HEX_CHAR_PER_LINE 16
++
+ static void ohci_td_pkt(const char *msg, const uint8_t *buf, size_t len)
+ {
+     bool print16;
+     bool printall;
+-    const int width = 16;
+     int i;
+-    char tmp[3 * width + 1];
++    char tmp[3 * HEX_CHAR_PER_LINE + 1];
+     char *p = tmp;
+ 
+     print16 = !!trace_event_get_state_backends(TRACE_USB_OHCI_TD_PKT_SHORT);
+@@ -822,7 +823,7 @@ static void ohci_td_pkt(const char *msg, const uint8_t *buf, size_t len)
      }
  
-     /* Commandline support */
--    char kcmdline[strlen(kernel_filename) + strlen(kernel_cmdline) + 2];
--    snprintf(kcmdline, sizeof(kcmdline), "%s %s",
--             kernel_filename, kernel_cmdline);
-+    kcmdline = g_strdup_printf("%s %s", kernel_filename, kernel_cmdline);
-     stl_p(bootinfo + MBI_CMDLINE, mb_add_cmdline(&mbs, kcmdline));
- 
-     stl_p(bootinfo + MBI_BOOTLOADER, mb_add_bootloader(&mbs, bootloader_name));
+     for (i = 0; ; i++) {
+-        if (i && (!(i % width) || (i == len))) {
++        if (i && (!(i % HEX_CHAR_PER_LINE) || (i == len))) {
+             if (!printall) {
+                 trace_usb_ohci_td_pkt_short(msg, tmp);
+                 break;
 -- 
 2.25.1
 
