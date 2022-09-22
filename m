@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127B35E5FF8
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 12:32:44 +0200 (CEST)
-Received: from localhost ([::1]:54802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E855E602F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 12:50:34 +0200 (CEST)
+Received: from localhost ([::1]:33086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obJVa-0004Vp-Cs
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 06:32:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33234)
+	id 1obJmq-0001OC-NH
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 06:50:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1obIYf-0006UE-9R
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:31:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1obIYb-00005i-6t
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:31:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663839090;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4YvTboMpeqRgORQVns/62HzVvw2BndKmIssR2jT6Li4=;
- b=eFGUwF3PCYj2sw5U0XVMkHWsLHEo1hcm1aSLmM0zyqPMOrsWFdVHo3EykFnRmp5gz0GP/4
- G9kXxiqECJLA1BAW9jChUYsEDStd74Po+ll+fMQbRCStlthfJlaxb+qb3FFdCTzz2B+cBT
- 5QOwS9s+S3xYXOw1BcjJcS4ocKXarK0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-348-er8O860IOR-qBZHmK1ALbg-1; Thu, 22 Sep 2022 05:31:27 -0400
-X-MC-Unique: er8O860IOR-qBZHmK1ALbg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2976386C043;
- Thu, 22 Sep 2022 09:31:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 76E1B2166B4A;
- Thu, 22 Sep 2022 09:31:24 +0000 (UTC)
-Date: Thu, 22 Sep 2022 10:31:21 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one
- and module_load_qom_one
-Message-ID: <YywraWlVnJoy6ypN@redhat.com>
-References: <20220908183012.17667-1-cfontana@suse.de>
- <20220908183012.17667-3-cfontana@suse.de>
- <877d23ekj0.fsf@pond.sub.org>
- <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
- <87y1ucdirx.fsf@pond.sub.org>
- <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
- <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
- <5e6d958d-3b69-1472-b1b8-3a63186f0c5b@suse.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1obIeK-0002Rn-Ee
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:37:43 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:39441)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1obIeH-0001cs-Rd
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:37:39 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id z13so509060ejp.6
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 02:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=9EJgjTjQHr9gJd2Z559ii+KOyNn0xMGlqYrv4wqFgos=;
+ b=Qt//F2z3uJZ0vvdToJykTlo1hNfABQ+cdD8OKaUa0e0MirUNQdjZE+qAEmUQbV0otS
+ pKFVUlSW7f+F5qxacHv/OJ/9J0wMuYlj+JKpUk5Xkie6eEngaokoTTwXFYEj1qHNBU8i
+ zdqiJ1nDAMOSMsnBbQVcWZsChXNbdB6hseA5nIxPdmvzFzT4wbQ6oC4s3WWgSLMVhBHA
+ 7dMYGwpx8SBOyACOKExydbCiSf4PZ5l4myLLIbridibyZK2MMUqghV/YnK6LGQNJUWi/
+ 4DtWGmZ/RSUJ84m0OhfAsH1mX/+/U0mgEsTYk057XTRQ5rh2dhIGhRROZRQoKaDXXXHC
+ KxFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=9EJgjTjQHr9gJd2Z559ii+KOyNn0xMGlqYrv4wqFgos=;
+ b=Q6gK1WLb8Hw1ucKOqDLZ6BGmTfHvTwmupsIDtu1qCqLgb+u9YNOfdd5H8n/9PlqYxu
+ NsBZFjVjthxE/l8K2o3wHO+peWzgPapMIK6lryBDjRqWTwTIOhETMR+hgcLQ+D8mJG8H
+ //66TLIi65FoGvPkbJn/FLSBSWSpxanqrT785ZbXK7I25kmjl/Opb7roXUrvx1vVRbE6
+ Rj4V8SQMRdtyHhDOfoCOVg5tcN8NBYVPuoJrt8d/uFk3VHnbE+M1ibypz4vRZ1S+Ft60
+ vMj/2k4Mj2pfM4svvuoYluEdNEtVqtuf0n5YCny7UG59ku3w71Kw4o7XbpbtJCX2o9KY
+ r9oA==
+X-Gm-Message-State: ACrzQf3brpE5QNg9n6Qtz27CgRLGSHhp2sr6NWWmhc5y2fllWD0ISGjm
+ mupOVjnqcWbSotd5c0JMoYfJrm+jnvWevEwyxl/GOg==
+X-Google-Smtp-Source: AMsMyM4BnzMSQF//PhtXLa9VfvsKJ/AY3D51inbCN1hO6EJ+iPTqfuFCpyii6M7VyVv+wMUfcqavrQAEQyfHXvflWtc=
+X-Received: by 2002:a17:906:db05:b0:741:5730:270e with SMTP id
+ xj5-20020a170906db0500b007415730270emr1933616ejb.609.1663839455510; Thu, 22
+ Sep 2022 02:37:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5e6d958d-3b69-1472-b1b8-3a63186f0c5b@suse.de>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220920173152.199359-1-deller@gmx.de>
+In-Reply-To: <20220920173152.199359-1-deller@gmx.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 22 Sep 2022 10:37:24 +0100
+Message-ID: <CAFEAcA8cwqSeYooqFSE4Xa1_4XCC8+gTSU9oLfNXHKE+YkDZKA@mail.gmail.com>
+Subject: Re: [PULL 00/12] Publish1 patches
+To: Helge Deller <deller@gmx.de>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,44 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 11:20:07AM +0200, Claudio Fontana wrote:
-> On 9/22/22 10:28, Daniel P. Berrangé wrote:
-> > 
-> >> Another interface that does: return -1 for error, 0 for module not found
-> >> (no error), and 1 for loaded.
-> > 
-> > IMHO this pattern is generally easier to understand when looking at
-> > the callers, as the fatal error scenario is always clear.
-> > 
-> > That said I would suggest neither approach as the public facing
-> > API. Rather stop trying to overload 3 states onto an error reporting
-> > pattern that inherantly wants to be 2 states. Instead just have
-> > distinct methods
-> > 
-> >   bool module_load_one(const char *prefix, const char *name, Error *errp)
-> >   bool module_try_load_one(const char *prefix, const char *name, Error *errp)
-> 
-> 
-> Here we are murking again the normal behavior and the error path.
-> 
-> What is the meaning of try? It's not as though we would error out inside the function module_load_one,
-> it's the _caller_ that needs to decide how to treat a return value of found/not found, and the exception (Error).
+On Wed, 21 Sept 2022 at 00:00, Helge Deller <deller@gmx.de> wrote:
+>
+> The following changes since commit 621da7789083b80d6f1ff1c0fb499334007b4f51:
+>
+>   Update version for v7.1.0 release (2022-08-30 09:40:11 -0700)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/hdeller/qemu-hppa.git tags/publish1-pull-request
+>
+> for you to fetch changes up to 7f8674a61a908592bb4e8e698f5bef84d0eeb8cc:
+>
+>   linux-user: Add parameters of getrandom() syscall for strace (2022-09-18 21:35:27 +0200)
+>
+> ----------------------------------------------------------------
+> linux-user: Add more syscalls, enhance tracing & logging enhancements
+>
+> Here is a bunch of patches for linux-user.
+>
+> Most of them add missing syscalls and enhance the tracing/logging.
+> Some of the patches are target-hppa specific.
+> I've tested those on productive hppa debian buildd servers (running qemu-user).
 
-I suggested "try" as in the  g_malloc vs g_try_malloc API naming pattern,
-where the latter ignores the OOM error condition.
+Maybe I've missed some context in previous mailing list threads,
+but I think overall it would be better for linux-user patches to
+go through the linux-user tree; most of these don't seem hppa
+specific.
 
-So in this case 'try' means try to load the module, but don't fail if
-the module is missing on disk.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
