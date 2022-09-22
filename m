@@ -2,112 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0523A5E6C23
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 21:53:57 +0200 (CEST)
-Received: from localhost ([::1]:47338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D275E6C3F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 21:56:22 +0200 (CEST)
+Received: from localhost ([::1]:58170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obSGh-0002Ve-Sj
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 15:53:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57544)
+	id 1obSJ3-0005Y3-40
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 15:56:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1obSCN-0005fv-3b
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:49:28 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:43539)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1obSCL-0001S9-0i
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:49:26 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- g1-20020a17090a708100b00203c1c66ae3so3261248pjk.2
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 12:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=AOIMXA4PI9BYXrk6/Ja2mOKlrFIROrj5K/ieUQQwXS4=;
- b=h1quGJbzNcYbvksztMmJbAj4021+BcmdngI9oVLKqryAXjZOZrGY+bZOFcLzMWlozZ
- LAcA23Adi1Jic4pRnJCptlWTG4EcoRJkXHfvedp0K1HaJOCXyEXxuhzgdof/jPIDOZEe
- ebqjyLF5ANcpzYiinKi6eaQnqth3W4n2V8+InjN4EWNaK7npJ/bYc7FhRS+iyNb4HHPb
- Efk7QXZ7wTcSNyFHTH7NWGDPMQ4YLD125sVU1j3HVB2TkIAvgthLngw1wMrAfORH5ZfR
- U8+tmRxUsuSWAVFhBHQcUHbhvue7DyoPTDpJKMkc7xktoeaZV8RiJlYUMocHTDHlXZyf
- XJ3w==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1obSD2-0006Dk-Ms
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:50:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55493)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1obSCv-0001Y4-56
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:50:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663876200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7ZXRmhPwX9gChpCINfr2PtClLxFqm5t+8Ejuiulypl8=;
+ b=RNGuDYqeN0ftIY4WqMsP5fyw//atg3JuuvRN0iiE4E+v/TF9s92vAoBefxTph+gxI3uHrI
+ KvUk6BdxvyanAI9mLz2pd/v6MeFzabjOAnlHRQDyu3oZtjM3yjE9ai8lMeA79zqr+c8yyL
+ 7kxyj14jsuRNsPV+gTCTCYY+jcsyFok=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-640-UiWNJoApMkuF0R7KR5Id0w-1; Thu, 22 Sep 2022 15:49:58 -0400
+X-MC-Unique: UiWNJoApMkuF0R7KR5Id0w-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ e8-20020ac85988000000b0035c39dd5eb9so7150542qte.16
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 12:49:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=AOIMXA4PI9BYXrk6/Ja2mOKlrFIROrj5K/ieUQQwXS4=;
- b=INPcTCaYI4JGmZeInwaVRRivHFHFbO6Ip/T8xwSBoA/O0TONxfhlaLGWmBJMHryx9A
- 8u6tVp8JNbexjPpAtgx9SJKeuDzbfyi4CRSfPw3irA8qgh26OoKB5LX7MEpWdOZnwZqk
- KPIwR4QihFvWPkmPvU20pEcUP1uLD4kfNFFX806MqtiLxlPi2vnI2e2jUENW8DASmS4J
- oRnDogow7bmuzxiv8q0yVKyFno6VNP2EHvoVXDrAakVeYk3Km+mm/YSlM/rEUdgfsL95
- s/JnsOVdEs66V4cjZ0KZSbpoREn+9mQZnYNSbiyeDJsHygF+qkHJkxDIcUqYpjBcIWPq
- 42Rg==
-X-Gm-Message-State: ACrzQf0j3I+NVMvsMgptTs6JT80WNDMUCknmt8oGrNdP1J6DbBxygoOz
- QitVuQgvbTXYesorkkylGt0KuA==
-X-Google-Smtp-Source: AMsMyM7xkIpUg/GEtYg3CdJDso/M2NS+vljJqn+Iz/Og0ecRlPYRkH7bufKUsfNRGuIjAMJq7OVhXg==
-X-Received: by 2002:a17:90a:644e:b0:200:422c:6b1 with SMTP id
- y14-20020a17090a644e00b00200422c06b1mr5394594pjm.183.1663876162098; 
- Thu, 22 Sep 2022 12:49:22 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- a10-20020a170902ecca00b00172897952a0sm4576315plh.283.2022.09.22.12.49.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 12:49:21 -0700 (PDT)
-Date: Thu, 22 Sep 2022 19:49:18 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: "Wang, Wei W" <wei.w.wang@intel.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- "x86@kernel.org" <x86@kernel.org>,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- "Lutomirski, Andy" <luto@kernel.org>,
- "Nakajima, Jun" <jun.nakajima@intel.com>,
- "Hansen, Dave" <dave.hansen@intel.com>,
- "ak@linux.intel.com" <ak@linux.intel.com>,
- "david@redhat.com" <david@redhat.com>,
- "aarcange@redhat.com" <aarcange@redhat.com>,
- "ddutile@redhat.com" <ddutile@redhat.com>,
- "dhildenb@redhat.com" <dhildenb@redhat.com>,
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- "Hocko, Michal" <mhocko@suse.com>, Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <Yyy8Pp0Y4NRzIzNw@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <DS0PR11MB63734D4DF4C4F368805EC97DDC4E9@DS0PR11MB6373.namprd11.prod.outlook.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=7ZXRmhPwX9gChpCINfr2PtClLxFqm5t+8Ejuiulypl8=;
+ b=S8d4BFqeaAaspYMQaaY2s2bjTQdvDUWvV/+Nxl6qv38BQIvVmLlMm3+8XVYSMwZNql
+ txoltdkbWybbrWBEzkLa1G24vU1scxYcoxwUqWPPRiToaB2/aezNpxEg5Dvasax9P9Kn
+ xZbs5hZ3gs6wkrbk8lh0S7B5L8jjpI2XUSlu8l2WT1INRDLbFBZnUSKlewKlps4WaTW3
+ a168M+Ezr6hFk1z16/dYDT7tRqf26dODihvhmU/IudSS/QWkRujifroiZhH2mVf096Xe
+ m/MVV9uUW9sJKHLlievF44BUoba91JhIAyNRJjWXywqALYUDqsyH+2ntU4ghPgYHvY6v
+ J7MA==
+X-Gm-Message-State: ACrzQf1j/JQl7ahWGLJQ8eDV0AEPSuq8B720AoQMxgPiekuiwImcdycG
+ tPd9f1wnaWlSmXSd9DzIGv7vxpETKnjzave3FT7TX2IKAuqf/JOjBmHiT5hLUWALq5qkllx0p8s
+ YHepq8z5folReftCqtbubIS0Eo1G/5EM=
+X-Received: by 2002:a37:503:0:b0:6ce:8a8e:7625 with SMTP id
+ 3-20020a370503000000b006ce8a8e7625mr3444851qkf.288.1663876198193; 
+ Thu, 22 Sep 2022 12:49:58 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6d65F7z9P/VgdBAGCLBW1PBf+X0H6uAmc4XjUsUvh1VO6n1cVpAlv7NIWL0eCtsPfiPMdwdIImX+4sAHU+gYQ=
+X-Received: by 2002:a37:503:0:b0:6ce:8a8e:7625 with SMTP id
+ 3-20020a370503000000b006ce8a8e7625mr3444843qkf.288.1663876197974; Thu, 22 Sep
+ 2022 12:49:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DS0PR11MB63734D4DF4C4F368805EC97DDC4E9@DS0PR11MB6373.namprd11.prod.outlook.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=seanjc@google.com; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+References: <20220922101454.1069462-1-kraxel@redhat.com>
+ <YyxF2TNwnXaefT6u@redhat.com>
+ <20220922122058.vesh352623uaon6e@sirius.home.kraxel.org>
+ <CABgObfavcPLUbMzaLQS2Rj2=r5eAhuBuKdiHQ4wJGfgPm_=XsQ@mail.gmail.com>
+ <20220922141633.t2dk2jviw2f3i26x@sirius.home.kraxel.org>
+ <CALMp9eSEDEit0PEAt_qUwGhBRBPZNsyjasiuJhcrFKT9Zm4K=A@mail.gmail.com>
+In-Reply-To: <CALMp9eSEDEit0PEAt_qUwGhBRBPZNsyjasiuJhcrFKT9Zm4K=A@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 22 Sep 2022 21:49:46 +0200
+Message-ID: <CABgObfZApegzv_4AxMRf0p0LvGWoqnBL289vBXL3g-F-tpL8SA@mail.gmail.com>
+Subject: Re: [PATCH v4] x86: add etc/phys-bits fw_cfg file
+To: Jim Mattson <jmattson@google.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, kvm@vger.kernel.org, 
+ Marcelo Tosatti <mtosatti@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,25 +102,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022, Wang, Wei W wrote:
-> On Thursday, September 15, 2022 10:29 PM, Chao Peng wrote:
-> > +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-> > +			 int *order)
-> 
-> Better to remove "order" from this interface?
+On Thu, Sep 22, 2022 at 7:13 PM Jim Mattson <jmattson@google.com> wrote:
+> > Treating 40 as invalid and continue to use the current conservative
+> > heuristic, otherwise treat phys-bits as valid might work.  Obvious
+> > corner case is that it'll not catch broken manual configurations
+> > (host-phys-bits=off,phys-bits=<larger-than-host>), only the broken
+> > default.  Not sure how much of a problem that is in practice, maybe
+> > it isn't.
+> >
+> > I think I still prefer to explicitly communicate a reliable phys-bits
+> > value to the guest somehow.
+>
+> On x86 hardware, KVM is incapable of emulating a guest physical width
+> that differs from the host physical width. There isn't support in the
+> hardware for it.
 
-Hard 'no'.
+Indeed, everything else is a userspace bug. Especially since here
+we're talking of host_maxphyaddr < guest_maxphyaddr, which is
+completely impossible.
 
-> Some callers only need to get pfn, and no need to bother with
-> defining and inputting something unused. For callers who need the "order",
-> can easily get it via thp_order(pfn_to_page(pfn)) on their own.
+Paolo
 
-That requires (a) assuming the pfn is backed by struct page, and (b) assuming the
-struct page is a transparent huge page.  That might be true for the current
-implementation, but it most certainly will not always be true.
-
-KVM originally did things like this, where there was dedicated code for THP vs.
-HugeTLB, and it was a mess.  The goal here is very much to avoid repeating those
-mistakes.  Have the backing store _tell_ KVM how big the mapping is, don't force
-KVM to rediscover the info on its own.
 
