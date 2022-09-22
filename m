@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50815E6AAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:22:41 +0200 (CEST)
-Received: from localhost ([::1]:59080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EEFF5E6AE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:29:23 +0200 (CEST)
+Received: from localhost ([::1]:47658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obQqO-0000fD-HF
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:22:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32834)
+	id 1obQws-0006RE-9w
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:29:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1obPGi-0008Et-Cn
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:41:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21671)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obPNz-0000VX-Q9
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:49:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1obPGf-0006NM-OX
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:41:43 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obPNx-0007a5-FT
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:49:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663864896;
+ s=mimecast20190719; t=1663865352;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tN7sBJ022mVZi2q3q3OyaCWGqikXhV0cVNvUgbyZpAI=;
- b=AtdgjNqFIjB5dH5471Ad6Dd4N/2cq6+7nAEIJuebLdneexGeuAz0aCdzUVZwKll5SSb2R/
- PHE/fzn5cfBKECZLH6il7fdz4LJeFFzncuQGMu5YxhQf5d3nMP+c5Exa6wjaRAikicHu8f
- +17I7/YB7PjfG2VX6pB6GVfZ9SVecZk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=V3WpuN4eo2LH9P3K7gbAjYoj/oAkp3bsU3soi+9jEOs=;
+ b=ZU2Hj3zpnZfADzJPaeAHP8EdAGayjJVh+Axip7drrjuCdzFMDM630aNxjW4flZR1swoXlS
+ Xjb3e26dB96mHOuyJf349gbIpgndoLuMj9la/O3IJV4+dEzIGGmQ1AYps41FPku1XSCZd+
+ /jAxfEmCxqk7ZO+GmdEYvVx+E5WNeps=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-529-m69l1drZPDGsv-rcxMHPXg-1; Thu, 22 Sep 2022 12:41:35 -0400
-X-MC-Unique: m69l1drZPDGsv-rcxMHPXg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q17-20020adfab11000000b0022a44f0c5d9so3407772wrc.2
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:41:35 -0700 (PDT)
+ us-mta-534-LGTwrZ6WPoCyvNHFnpPMYQ-1; Thu, 22 Sep 2022 12:49:11 -0400
+X-MC-Unique: LGTwrZ6WPoCyvNHFnpPMYQ-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ c1-20020a0cfb01000000b00495ad218c74so6866690qvp.20
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:49:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=tN7sBJ022mVZi2q3q3OyaCWGqikXhV0cVNvUgbyZpAI=;
- b=EbTgChkWQ57A+MO0ZUYi1/9fiPZa+dPMvT8wIlPpdfxUtMYdElR9H+fLoENb8HxHRS
- wkC5oQ+RUoWrOEydzSZT5UmqbAKTWvAP/7KLLwGFCBzFYyv5OebWsEW1LlSuV7r5ZAmC
- iiFNRgI+5tZyvWBuFQsgVfFuzaf23vDtNvAtFcWbK7sX5a+AxL0LaWbjPUdb9hnCadFb
- KLgw4/48Y+bK6DNyoUvqB9WXaY6KE+/p+tpI1JhszbMRzFaU1pFI7j5ECN9ofIApmNOJ
- gcmOJWZ2gEQ8KZEidRnqFh4UgJdPJsfAP6MXcQ8wcOLk7HWopVbGQEVZ7+EQ5WfIu8u+
- XGvw==
-X-Gm-Message-State: ACrzQf2BLrG9mcABkyPQdh2CqA1aNle/hteGEbdlgyBrB/wT9Y7nm3xz
- Eh7BhSTum/1BfX46pGWJlQEWDE3KkFJX6Mx9W1QpAaDt3dJNxeGjcvNoNr7LPqXNEmCvYMH3d8z
- xUrjblC2LhgQGkPQ=
-X-Received: by 2002:a05:6000:110e:b0:228:c336:b1db with SMTP id
- z14-20020a056000110e00b00228c336b1dbmr2782957wrw.194.1663864892932; 
- Thu, 22 Sep 2022 09:41:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7qt4aBFukThu+6TaK2xJ20K7RjCxg+NQXLnJPbBa5CzgXhBm6IYY9WqCwCN5QGGHHEUG7zLA==
-X-Received: by 2002:a05:6000:110e:b0:228:c336:b1db with SMTP id
- z14-20020a056000110e00b00228c336b1dbmr2782936wrw.194.1663864892696; 
- Thu, 22 Sep 2022 09:41:32 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- a8-20020a05600c348800b003a62400724bsm108458wmq.0.2022.09.22.09.41.31
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=V3WpuN4eo2LH9P3K7gbAjYoj/oAkp3bsU3soi+9jEOs=;
+ b=UFpWcMpJFHGNCY11085raxCNWm5ntlrIif8+GDqkau7VlkvTrq6ynf7vQX4qSx/h95
+ 3BovSMIYNIma2abhQlqZz6Z4w9QCi+IdV+EXXUIXMBN6f9OqBnO62xr4xT/mODd7u9ba
+ mzT0QrG4YX3+v8kQ+MeZ6xfy4vDB8s6+WYOtaVnmJc2CJYidDikIy49k7r29/TOKe4J/
+ pGgolQOdpf69Y7T2xBOqetTc4LVPxRg/TiesC3iyzNWMV8nckS2kVzzuJDFhDJzgMBHZ
+ MR8J0utDTDBUO5eEKtziOwWxdIOxU8/xHVa+ZQ0/MewK1QwWqxF1DvweAtrXqM7sdgiN
+ XruA==
+X-Gm-Message-State: ACrzQf2XxRnNZmsehptAZ3+A1EY1JpOl7X9ZJ0UbJ3lwpy2QYTHQoNXf
+ N9Je/OcKJqB3e5Hc5pBCvSxLlEHwIXsLSQY2+UHA4duhkIBuNoROhIE0mxMUvzHryqiONh4KK13
+ cmubqE5aK42FnFsA=
+X-Received: by 2002:a37:f701:0:b0:6ce:f09b:9065 with SMTP id
+ q1-20020a37f701000000b006cef09b9065mr2823034qkj.268.1663865350593; 
+ Thu, 22 Sep 2022 09:49:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5Q9cWpJ2yE6ck4TnPcy9jqOVLCi3QyD1DpxeU3I/5avoC7aPaFUjnbiZOR3Kyk3m6ZEkssCg==
+X-Received: by 2002:a37:f701:0:b0:6ce:f09b:9065 with SMTP id
+ q1-20020a37f701000000b006cef09b9065mr2823016qkj.268.1663865350369; 
+ Thu, 22 Sep 2022 09:49:10 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+ by smtp.gmail.com with ESMTPSA id
+ bw17-20020a05622a099100b0033a5048464fsm3721793qtb.11.2022.09.22.09.49.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 09:41:32 -0700 (PDT)
-Date: Thu, 22 Sep 2022 17:41:30 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH 1/5] migration: Fix possible deadloop of ram save process
-Message-ID: <YyyQOlxaSHRbZIK6@work-vm>
-References: <20220920223800.47467-1-peterx@redhat.com>
- <20220920223800.47467-2-peterx@redhat.com>
- <Yyx2An+YcgYCbsDx@work-vm> <Yyx+cs9ihNx+WE6G@xz-m1.local>
+ Thu, 22 Sep 2022 09:49:09 -0700 (PDT)
+Date: Thu, 22 Sep 2022 12:49:08 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ David Woodhouse <dwmw2@infradead.org>, Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH] Revert "intel_iommu: Fix irqchip / X2APIC configuration
+ checks"
+Message-ID: <YyySBD4Iv7CMKGkS@xz-m1.local>
+References: <20220921161227.57259-1-peterx@redhat.com>
+ <CACGkMEux0zSD01s+vVceEkEmvsQ7dZpU8wnPVXjLNxNMFJKEJg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Yyx+cs9ihNx+WE6G@xz-m1.local>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+In-Reply-To: <CACGkMEux0zSD01s+vVceEkEmvsQ7dZpU8wnPVXjLNxNMFJKEJg@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -103,60 +100,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> On Thu, Sep 22, 2022 at 03:49:38PM +0100, Dr. David Alan Gilbert wrote:
-> > * Peter Xu (peterx@redhat.com) wrote:
-> > > When starting ram saving procedure (especially at the completion phase),
-> > > always set last_seen_block to non-NULL to make sure we can always correctly
-> > > detect the case where "we've migrated all the dirty pages".
-> > > 
-> > > Then we'll guarantee both last_seen_block and pss.block will be valid
-> > > always before the loop starts.
-> > > 
-> > > See the comment in the code for some details.
-> > > 
-> > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > 
-> > Yeh I guess it can currently only happen during restart?
+On Thu, Sep 22, 2022 at 09:32:54AM +0800, Jason Wang wrote:
+> > +        if (!kvm_enable_x2apic()) {
+> > +            error_setg(errp, "eim=on requires support on the KVM side"
+> > +                             "(X2APIC_API, first shipped in v4.7)");
+> > +            return false;
+> > +        }
 > 
-> There're only two places to clear last_seen_block:
-> 
-> ram_state_reset[2683]          rs->last_seen_block = NULL;
-> ram_postcopy_send_discard_bitmap[2876] rs->last_seen_block = NULL;
-> 
-> Where for the reset case:
-> 
-> ram_state_init[2994]           ram_state_reset(*rsp);
-> ram_state_resume_prepare[3110] ram_state_reset(rs);
-> ram_save_iterate[3271]         ram_state_reset(rs);
-> 
-> So I think it can at least happen in two places, either (1) postcopy just
-> started (assume when postcopy starts accidentally when all dirty pages were
-> migrated?), or (2) postcopy recover from failure.
+> I wonder if we need some work on the migration compatibility here
+> (though it could be tricky).
 
-Oh, (1) is a more general problem then; yeh.
+Right, as I replied to Igor, it's just challenging and debateable whether
+keeping the old behavior helps in any cases..  Thanks,
 
-> In my case I triggered this deadloop when I was debugging the other bug
-> fixed by the next patch where it was postcopy recovery (on tls), but only
-> once..  So currently I'm still not 100% sure whether this is the same
-> problem, but logically it could trigger.
-> 
-> I also remember I used to hit very rare deadloops before too, maybe they're
-> the same thing because I did test recovery a lot.
-
-Note; 'deadlock' not 'deadloop'.
-
-Dave
-
-> > 
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> Thanks!
-> 
-> -- 
-> Peter Xu
-> 
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Peter Xu
 
 
