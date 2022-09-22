@@ -2,69 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71905E6717
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:30:01 +0200 (CEST)
-Received: from localhost ([::1]:34482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70455E6756
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:42:19 +0200 (CEST)
+Received: from localhost ([::1]:48848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obO9I-00037Q-Uk
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52910)
+	id 1obOLC-0001No-6B
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:42:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1obNnP-0000RW-Sk
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:07:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43245)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1obNoV-0001o8-0V
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:08:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1obNnL-0003qd-9H
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:07:21 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1obNoT-0005C6-Fh
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:08:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663859238;
+ s=mimecast20190719; t=1663859308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tR0KpXaj2ef64UQw3Z7P5UhC0EeZuF1SGk6mruSZ2EM=;
- b=QU727PMAmz7i5ui7w4loTTS9JvJdl+UJQEO3QkmLrWOW9hgXLW01uleVA/C9dZRuRq7WZi
- TSSF8IJUV1Y37eb3lbmgEtwHN+TVkdEmsMWOAZP3MmC1JSbgxaQIiuTtBpo2VdHsMQS3Nt
- iisPwLLs14i2ORDGbX8xDsAhNdGSwR4=
+ bh=A2j/EVkoBuIAU3n2Wupmc5t/C6S+ltyuPLWnsmQzx9M=;
+ b=WXS3FPOgf5QjU+OUZ4kDXeFtHUkKwmN8nT5otz7xNxs0s6V+GiNjJeW4dIpLrP8IeNCTg1
+ IkAmjWe8yOaO/jEmjf3Cq5vyrZPTOcOWmcCmX/KULHxxxhED7Vu5/sk7mHmLTkbHwlYCfQ
+ vYhOB41C5T+oQ0RocuA0XUF2UOY51mU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-326-7L0GrLf4MyeomqkamKmukw-1; Thu, 22 Sep 2022 11:07:16 -0400
-X-MC-Unique: 7L0GrLf4MyeomqkamKmukw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-352-n9u1mILmMVm_i6pxvXCb2g-1; Thu, 22 Sep 2022 11:08:27 -0400
+X-MC-Unique: n9u1mILmMVm_i6pxvXCb2g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 954E18ADCA9;
- Thu, 22 Sep 2022 15:06:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91D2C800B30;
+ Thu, 22 Sep 2022 15:08:26 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.193.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 337692028E8F;
- Thu, 22 Sep 2022 15:06:32 +0000 (UTC)
-Date: Thu, 22 Sep 2022 17:06:30 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 014B72166B2C;
+ Thu, 22 Sep 2022 15:08:25 +0000 (UTC)
+Date: Thu, 22 Sep 2022 17:08:24 +0200
 From: Kevin Wolf <kwolf@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, minyihh@uci.edu, ma.mandourr@gmail.com,
- Luke.Craig@ll.mit.edu, cota@braap.org, aaron@os.amperecomputing.com,
- kuhn.chenqun@huawei.com, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com,
- Richard Henderson <richard.henderson@linaro.org>,
- Hanna Reitz <hreitz@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- "open list:New World (mac99)" <qemu-ppc@nongnu.org>
-Subject: Re: [PATCH  v1 01/10] monitor: expose monitor_puts to rest of code
-Message-ID: <Yyx57qpXTAnYc0ho@redhat.com>
-References: <20220921160801.1490125-1-alex.bennee@linaro.org>
- <20220921160801.1490125-2-alex.bennee@linaro.org>
+To: luzhipeng <luzhipeng@cestc.cn>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH] qcow2: fix memory leak in qcow2_read_extensions
+Message-ID: <Yyx6aB6MoQ1QWQbh@redhat.com>
+References: <20220921144515.1166-1-luzhipeng@cestc.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220921160801.1490125-2-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+In-Reply-To: <20220921144515.1166-1-luzhipeng@cestc.cn>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -89,18 +76,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 21.09.2022 um 18:07 hat Alex Bennée geschrieben:
-> This helps us construct strings elsewhere before echoing to the
-> monitor. It avoids having to jump through hoops like:
+Am 21.09.2022 um 16:45 hat luzhipeng geschrieben:
+> From: lu zhipeng <luzhipeng@cestc.cn>
 > 
->   monitor_printf(mon, "%s", s->str);
+> Free feature_table if it is failed in bdrv_pread.
 > 
-> It will be useful in following patches but for now convert all
-> existing plain "%s" printfs to use the _puts api.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Thanks, applied to the block branch.
+
+Kevin
 
 
