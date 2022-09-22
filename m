@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772AF5E6B16
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:38:48 +0200 (CEST)
-Received: from localhost ([::1]:56382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 140455E6B20
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:41:54 +0200 (CEST)
+Received: from localhost ([::1]:48588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obR5z-0000rQ-JN
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:38:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41192)
+	id 1obR8z-0004FX-68
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:41:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPB9-0002CF-1S
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:10 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38707)
+ id 1obPBC-0002CL-6n
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:11 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPB2-0005Qb-45
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:35:53 -0400
-Received: by mail-wr1-x432.google.com with SMTP id n15so9518379wrq.5
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:35:51 -0700 (PDT)
+ id 1obPB8-0005R3-P4
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:01 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id s14so14443237wro.0
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:35:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=1rDY2/LSnTUCTndHvs7H1iIVK1L+jcasQz21+xSz1h0=;
- b=a/+ZIOel66wrCbEc8p5P3CfiCUfnDlH6dgl330A94JAxbs+f1gdYVjI/vE1SOJY3vZ
- 3Q9wE8KU85h8PJPdNRlej3+wWozVZKhYoDuvQHQNM4Naxx+DItNnD6bg3RJ+nRfypmlN
- HopO+eYecWGVuYrscNgyD5aErMlOK1nmt2j6GR4YOeHXqe1HZM93jsBfAIhvQyYes5AB
- 5SwAHsHXYt0lRW1m0Wud9aTTQ/vrII6h9eCj9GN5xZ9SbnffCZCVrn47bcNLcxC7Wfcd
- 4fmhwit+gJkcIVzQYDNwvdWusvHaTBeRVmKZA1Bfcs4IyNK3FQYg9Ygdx45B8VjOq5AH
- 1D4g==
+ bh=VGATNFAYBw8EtHTqtsDKOUj2+4XhHnTvCj4CQXtJ0zM=;
+ b=mWnuW4St7g/bjSRCTI9iDoZj5+nYKO/E7xrvPq7H0VEwb/kTxF4K1bk2WjdiJPgrV4
+ H7wsLC9hUFi1shIeIeYQz0XmM0GnMVo56EoAMv4CSDk2R1aEBD+45SCoFxgtCIOXlWt7
+ L1qeYH6XPA1Ok2yIPT/TPU1Cf38uRbBNUAFmUuMHtAZasm5TAn4X+8YNGAjAT9ds+SVd
+ iOiJag2k4P0txkwJZ/+hsxfJ5zCYvTSndaAwAXmkBe4oFe1tDGXTxG0HR7bK492RRqPZ
+ OMJ+moL/Gp6fHaNF8zdYQtxPzXX+yQGGHt0aMjpAgvyn/hBnma1iCic6jFjgXzXT5X+0
+ BfMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=1rDY2/LSnTUCTndHvs7H1iIVK1L+jcasQz21+xSz1h0=;
- b=NdQAY+ULghI8xEz4u8sJJbA1OSSrO8xfKyy9PUD9HapuJ7nWWeXMBpaKTzYId4zlTN
- i5TnQfKwmHEo7eExi58T+gnDPw8lk3sF5AKdxbiHXuhtdhnMuo780e6jqv6Pq2axthDG
- FfJT+o2sLiiEkOeJmOPwgzH/pTlthCVF3GxhtNGma8gfDKWIabTOqiqAzLYT6ndIHbcd
- xrjAbIXxS4M+AacLyELlOjfHSNlc8w0/pR5QEXbLf9mF/lwE+YQjpJEWkB4nLozhsveC
- f8vXHl7GF+zsRz8aBrnPiLC9ilN79lXEMiCVq2eGRpJisD87+o8xuveEpYQkCOqy7SMN
- tUaA==
-X-Gm-Message-State: ACrzQf0amay8ltyO1RNJyKt/Ufd2BVcruU6Id0KEyb+hMBPdVXlQtBUd
- oKIs7GnLgP9YYiU9elF3QO3lyC82GnxelQ==
-X-Google-Smtp-Source: AMsMyM4RD8Amj0S3dw30K+oGr5yuLh4QY88JTyV98J8oVctvRc90XerHPh/hrhlTGRjtyJyfG6wbkw==
-X-Received: by 2002:adf:d84f:0:b0:226:d37a:b2c4 with SMTP id
- k15-20020adfd84f000000b00226d37ab2c4mr2705460wrl.42.1663864550518; 
- Thu, 22 Sep 2022 09:35:50 -0700 (PDT)
+ bh=VGATNFAYBw8EtHTqtsDKOUj2+4XhHnTvCj4CQXtJ0zM=;
+ b=fEB1i5JFjbEyCOd5Kw/bH4+IfzyZHBoLB6O4V3Aauerfg2/mc8Xd8N6jCAm7SV12W0
+ E2uJu+2YtDRW0p4gigfckpeynfRXLPepmFGoNSvENglbIIQ3nwaIfIH9hHipO72vMtp/
+ wXOEN+qZv2EXdEHpaJn/mTQ2WLam0TEEDH+AT3AgHQyLYum1414jBvvmCYIyK0AW4Slk
+ eiwHH5lGVwq0fZsBCUPb+gSTS13qxWowHDJAKl6nRWvquooGt3iTLV3Q6dt1kHwb9dmk
+ XmAwGNFUOAaZU2m2F8Xfagni211B39aE1pIkB5F/W82PW82NegIooUrDF75+6Z6jXZct
+ 5wtA==
+X-Gm-Message-State: ACrzQf1317hsZNG05QwaArpOqI2qUnqRq+DTXglNk6ij4/WZXNh9Tj1R
+ DAGa+qAVvuTYxkUg3dKwlOIm83mg3rvLLA==
+X-Google-Smtp-Source: AMsMyM6ohn80sFLQTeoK4BR6Ri5PlrcxYU2FPI34OeYbVNwhQNtCNtN6+qWqWmTTWnKq8yfkIF7wtw==
+X-Received: by 2002:a05:6000:1081:b0:22a:2ecf:9cf8 with SMTP id
+ y1-20020a056000108100b0022a2ecf9cf8mr2540664wrw.205.1663864551727; 
+ Thu, 22 Sep 2022 09:35:51 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.35.50
+ iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.35.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 09:35:50 -0700 (PDT)
+ Thu, 22 Sep 2022 09:35:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/39] target/arm: Add secure parameter to get_phys_addr_pmsav7
-Date: Thu, 22 Sep 2022 17:35:15 +0100
-Message-Id: <20220922163536.1096175-19-peter.maydell@linaro.org>
+Subject: [PULL 20/39] hw/acpi: Add ospm_status hook implementation for acpi-ged
+Date: Thu, 22 Sep 2022 17:35:17 +0100
+Message-Id: <20220922163536.1096175-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220922163536.1096175-1-peter.maydell@linaro.org>
 References: <20220922163536.1096175-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,47 +89,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Keqian Zhu <zhukeqian1@huawei.com>
 
-Remove the use of regime_is_secure from get_phys_addr_pmsav7,
-using the new parameter instead.
+Setup an ARM virtual machine of machine virt and execute qmp "query-acpi-ospm-status"
+causes segmentation fault with following dumpstack:
+ #1  0x0000aaaaab64235c in qmp_query_acpi_ospm_status (errp=errp@entry=0xfffffffff030) at ../monitor/qmp-cmds.c:312
+ #2  0x0000aaaaabfc4e20 in qmp_marshal_query_acpi_ospm_status (args=<optimized out>, ret=0xffffea4ffe90, errp=0xffffea4ffe88) at qapi/qapi-commands-acpi.c:63
+ #3  0x0000aaaaabff8ba0 in do_qmp_dispatch_bh (opaque=0xffffea4ffe98) at ../qapi/qmp-dispatch.c:128
+ #4  0x0000aaaaac02e594 in aio_bh_call (bh=0xffffe0004d80) at ../util/async.c:150
+ #5  aio_bh_poll (ctx=ctx@entry=0xaaaaad0f6040) at ../util/async.c:178
+ #6  0x0000aaaaac00bd40 in aio_dispatch (ctx=ctx@entry=0xaaaaad0f6040) at ../util/aio-posix.c:421
+ #7  0x0000aaaaac02e010 in aio_ctx_dispatch (source=0xaaaaad0f6040, callback=<optimized out>, user_data=<optimized out>) at ../util/async.c:320
+ #8  0x0000fffff76f6884 in g_main_context_dispatch () at /usr/lib64/libglib-2.0.so.0
+ #9  0x0000aaaaac0452d4 in glib_pollfds_poll () at ../util/main-loop.c:297
+ #10 os_host_main_loop_wait (timeout=0) at ../util/main-loop.c:320
+ #11 main_loop_wait (nonblocking=nonblocking@entry=0) at ../util/main-loop.c:596
+ #12 0x0000aaaaab5c9e50 in qemu_main_loop () at ../softmmu/runstate.c:734
+ #13 0x0000aaaaab185370 in qemu_main (argc=argc@entry=47, argv=argv@entry=0xfffffffff518, envp=envp@entry=0x0) at ../softmmu/main.c:38
+ #14 0x0000aaaaab16f99c in main (argc=47, argv=0xfffffffff518) at ../softmmu/main.c:47
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220822152741.1617527-19-richard.henderson@linaro.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: ebb62075021a ("hw/acpi: Add ACPI Generic Event Device Support")
+Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-id: 20220816094957.31700-1-zhukeqian1@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/ptw.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/acpi/generic_event_device.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 9e1f60d10b4..1e81eefa47a 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -1510,12 +1510,11 @@ static bool pmsav7_use_background_region(ARMCPU *cpu, ARMMMUIdx mmu_idx,
+diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
+index e28457a7d10..a3d31631fe0 100644
+--- a/hw/acpi/generic_event_device.c
++++ b/hw/acpi/generic_event_device.c
+@@ -267,6 +267,13 @@ static void acpi_ged_unplug_cb(HotplugHandler *hotplug_dev,
+     }
+ }
  
- static bool get_phys_addr_pmsav7(CPUARMState *env, uint32_t address,
-                                  MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                                 GetPhysAddrResult *result,
-+                                 bool secure, GetPhysAddrResult *result,
-                                  ARMMMUFaultInfo *fi)
++static void acpi_ged_ospm_status(AcpiDeviceIf *adev, ACPIOSTInfoList ***list)
++{
++    AcpiGedState *s = ACPI_GED(adev);
++
++    acpi_memory_ospm_status(&s->memhp_state, list);
++}
++
+ static void acpi_ged_send_event(AcpiDeviceIf *adev, AcpiEventStatusBits ev)
  {
-     ARMCPU *cpu = env_archcpu(env);
-     int n;
--    bool secure = regime_is_secure(env, mmu_idx);
-     bool is_user = regime_is_user(env, mmu_idx);
+     AcpiGedState *s = ACPI_GED(adev);
+@@ -409,6 +416,7 @@ static void acpi_ged_class_init(ObjectClass *class, void *data)
+     hc->unplug_request = acpi_ged_unplug_request_cb;
+     hc->unplug = acpi_ged_unplug_cb;
  
-     result->phys = address;
-@@ -2418,7 +2417,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-         } else if (arm_feature(env, ARM_FEATURE_V7)) {
-             /* PMSAv7 */
-             ret = get_phys_addr_pmsav7(env, address, access_type, mmu_idx,
--                                       result, fi);
-+                                       is_secure, result, fi);
-         } else {
-             /* Pre-v7 MPU */
-             ret = get_phys_addr_pmsav5(env, address, access_type, mmu_idx,
++    adevc->ospm_status = acpi_ged_ospm_status;
+     adevc->send_event = acpi_ged_send_event;
+ }
+ 
 -- 
 2.25.1
 
