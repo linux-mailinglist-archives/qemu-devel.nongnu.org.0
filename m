@@ -2,126 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C385E6469
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 15:57:20 +0200 (CEST)
-Received: from localhost ([::1]:58266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 827AE5E64BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:10:37 +0200 (CEST)
+Received: from localhost ([::1]:44836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obMha-0002l6-W8
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 09:57:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51626)
+	id 1obMuS-0007UB-Ie
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:10:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1obM8g-0001Y9-6G
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:21:26 -0400
-Received: from mail-eopbgr60136.outbound.protection.outlook.com
- ([40.107.6.136]:7326 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1obLP9-0002cp-Bn
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:34:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1obM8O-0004pt-0V
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:21:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LhFClolz/QjvEFWbPNLl+6sgV9kgu8VE2B2PonCa/kqRxlr9W9QDp41XLAYXQWifFx3+XQKkx47W0FacbfmtL4fzlUuwinud+K6UU6vnv5UnGHNlgdDlXlNCWMBvj7etAaPtPgjQ7wwZcZnhwH0x7XIcK1y/qdivJCDhFho+D8gq0WOyW4OvPWX3/o8cplkcEthYt5QCYGROKeIChbglmKVBg2FK4+g/i0O9cNSQjPeOKTOnLW9jGO2RSe02W5QgNjMcg1DWHwuSGSss/W2dMDMaLs1X5oFltLHivyOhwWy9VqAC+HrnwHbGH93q9J4sI8DvXKXr6lIrqWdZe1AUJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NEdr7wxFSVRIJNKjBaI3l1HwfauaFWtlEsxfhrZpjH0=;
- b=KGWkNFswSpqqBTtwDfYz4DxbM+tQ/wju3B3IvgxDz528szpBr+mHu4Y56oIDM2pOtMnjPgFyBDsueH+bNK7DcFTjX3VcEvaMkNW4lcQgNvS5gZo2W1OxFTqjE5ULg47G61u+AI5K/sou7QF3KWfXjJE0QyoLC6ftBXLDH0ZfoJsPfHYCdU54fVGDoLTg69sqJYqYjBwtRc+f+Lpbcsa0FYhL1mSnorwt8bYMMKy30QfJw+2P6qrvq/mCZPmekH3NosMo4Ld9YFMwqm0J5IiUITyAUVU/Dp2APIokqOP4J6n6gpYKCys5aGCOy165xvjvk74CGY/1Ddk3DB8a0g2Yeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NEdr7wxFSVRIJNKjBaI3l1HwfauaFWtlEsxfhrZpjH0=;
- b=Wtyc61xbypG583C+g5T74KfYMHtE28R2EYO/p522WHVj77dEIyNp1tClSXxdH8WFxcZ7YEFeh1+awat7Gi7yalkufaQpg4SrGleJt817O/CXEcLoPGWyxM6r9HJGOcFnS89hXPddGRFhR5nOgclMdRmcX0LuJPJpyzVsjcWm8agEG/ffZNOuzI0+Uk7AImEj6WGlOD9LXxxMEzpcZZ3THVYiEkQHxOBgUY6NdmMwUFKhx6MYA0JPhYxiK4YkDgrfEAzaAxEN9brryBh0s7OwVqfLegfauBFkoFzwFPQuH4vw8G8MP7N7EXLbpK2o//JDIdQi7uTRAlH9z69PHGje2Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
- by PAXPR08MB6480.eurprd08.prod.outlook.com (2603:10a6:102:155::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.16; Thu, 22 Sep
- 2022 13:20:15 +0000
-Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
- ([fe80::5174:25c7:6df8:741b]) by AS8PR08MB7095.eurprd08.prod.outlook.com
- ([fe80::5174:25c7:6df8:741b%8]) with mapi id 15.20.5654.016; Thu, 22 Sep 2022
- 13:20:15 +0000
-From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Cc: den@virtuozzo.com,
-	michael.roth@amd.com,
-	kkostiuk@redhat.com
-Subject: [PATCH 4/5] qga: Add shutdown/halt/reboot support for FreeBSD
-Date: Thu, 22 Sep 2022 15:20:00 +0200
-Message-Id: <20220922132001.940334-5-alexander.ivanov@virtuozzo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220922132001.940334-1-alexander.ivanov@virtuozzo.com>
-References: <20220922132001.940334-1-alexander.ivanov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR0P281CA0083.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1e::18) To AS8PR08MB7095.eurprd08.prod.outlook.com
- (2603:10a6:20b:402::11)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1obLP3-0005ZE-GO
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:34:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663850043;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=miozMwN/J7cE2aaLTL36FxjQi9+9LQ0YEYFi2dRqjgk=;
+ b=idX3/zFxWRFKW8C2r9A1AlbX4aih9jAAN1jU8gaMVjU7N9T6cuhxrC/L6ZQbjqnx9y/cBW
+ 5/ACIqDwIlKcOXsZL4snEd7ZVbYQoHCyB2G9bLbSAD9jcJCCOtVGFh61Enrqka3/ZSPcVY
+ yFUQb5LqT+chY8iz7utwE/n+J9bR6ck=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-306-5Cjkto_lOpeVtyGUa4W6vA-1; Thu, 22 Sep 2022 08:34:02 -0400
+X-MC-Unique: 5Cjkto_lOpeVtyGUa4W6vA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6A8CC299E77E;
+ Thu, 22 Sep 2022 12:34:02 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E4AC40C83AD;
+ Thu, 22 Sep 2022 12:33:59 +0000 (UTC)
+Date: Thu, 22 Sep 2022 13:33:57 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one
+ and module_load_qom_one
+Message-ID: <YyxWNVFP3cdxoGnW@redhat.com>
+References: <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
+ <87y1ucdirx.fsf@pond.sub.org>
+ <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
+ <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
+ <5e6d958d-3b69-1472-b1b8-3a63186f0c5b@suse.de>
+ <YywraWlVnJoy6ypN@redhat.com>
+ <df4c09e9-addf-c643-6da0-62a6cf94b349@suse.de>
+ <Yyw61MdawM2wkfiQ@redhat.com>
+ <40d9103b-0a7e-5f3a-dfa0-50e42aba6868@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|PAXPR08MB6480:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c7fe1a6-8a33-4763-38e1-08da9c9d2f84
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HuFhhZDiQjl9pvIQrTQjdHsXCq2SvCl+ZGTJyknalB/r7rNPCa/4GHJfkAorKwUOAdoCVEFUnvUK/UyBCfmuqTFd197qrRgXFbw8e+jlyrV0LcDp7e3mb7sTlLgyCevK5esOLNKj08x4wTXrE+KJZcZ9Sv7XC8ySivYVGren5Ghtnn50Lvg1QxHBIgIDVk/CpQtjiRbaQPSfaySYviwFRQBRNsPzrxwrIqiOg9E1Rtvsesmc4Er/vbzxfxRtY+VbRFRzCvV4VrgPbnTLcV2otTD08JzJIbfl+gXA+gShXbjFbxn17TUn5ttoSDDmh0xO/nWyuMay46lc/xqTFfWmggLj2RCXM28Y53IlmOMYTHFp43yudIOJczhpKTIBNbBBkEjH2d+XuazFhzvJvZr0cnLnvBZl1XQNWzLpuGODUDtaOjgLep4mTEEA9GvmF2Zxxq6uRUa7Yx2ovtCWseiee3T6uGJqMNIRyap5AmQsvkN+r5tLe7hJD4SqpdpDRU6gmEXA77lRqm/p/3yRyJPmJZjRHSMoNKABmcStWo7JlMSNorfNqFOgyu/1sVW+ML4Bel/L90BP6YVh3yTGtrI3U+MNosxgE6Z2gDoF92l50sB2pS5E3r84YoYNtQN1wDi9hQIc/sXiYXhQcZZPbjKe4e+E4C8ITc3CkFBBObp4hHqEAjRW3rSxKmeI1zF63B88uxy2xXb15zmWGvuY/ZS56RoDdbOpUuJVhycNgA6/zwv/KUDsSPp9ZEc/BhRr5StK8EBRXOwdMrNt6ZUe/2rWyQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(366004)(376002)(136003)(396003)(39850400004)(451199015)(41300700001)(6486002)(478600001)(6666004)(52116002)(36756003)(66476007)(66556008)(316002)(186003)(66946007)(1076003)(5660300002)(2616005)(8936002)(26005)(6506007)(6916009)(86362001)(8676002)(44832011)(4326008)(2906002)(6512007)(38350700002)(38100700002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vU61dC9zTf3XJFMaewPnDZ6wjCS3loWhi22NpaPQxpc+mHv97Iuu78jZLCOb?=
- =?us-ascii?Q?4XELsJXZ81LKwHJidvagQRwXp61AkCnQnuEkmlrYDp+KdIJXkpt1nswx2cNZ?=
- =?us-ascii?Q?ucBNK7qQFtl/2CvI+7qhxM5dB9Sf9pGXWArkZqrG1c0CVdIIKrbY3biHSALm?=
- =?us-ascii?Q?CbE6R3Rcnrckeac5weduYSN7jJaUjS8dInO4hSMhCXhEFqW4NsTWMop8JB7E?=
- =?us-ascii?Q?U5YXqKeFMYkIMcTCuWnMjoeoSdSfXT7bIrxcHW4kQ8KG9n2QyR5YC5Q85xR3?=
- =?us-ascii?Q?MLp1dq9oqbu3g6bcP4M0OraNyYKa0MnbI3El+QyhDbKN0/cBSGXjBMnyxHPc?=
- =?us-ascii?Q?0JeT97V/s362m1dtRt50+GFmT5JC80R2/p1GPA1xYwq2/s2N8wWpPfsq0465?=
- =?us-ascii?Q?83qt4U24ZzKBhRP/RzkmiB3DSq8YKxRRMY4KkdWqmVtqZE5LYdC+bdtC5P0J?=
- =?us-ascii?Q?AmT8pCyt1bg5r/amRpvU3bZBbHEKwfyR4x6DebG5+x0PyRlmIRQTDtJwdE74?=
- =?us-ascii?Q?XLRayJDUeTTaxjTviG7PGLkSTjuo/ZoF4Pui+FCDSbIY0+kF+gvmZtqArEL3?=
- =?us-ascii?Q?X7lyaFQxxYHb/ZrUDzqAWtK6yAwnP74vVRtIfJQPd516a/01ReX4qI/rwHRE?=
- =?us-ascii?Q?c61lgZmo1f4tI76PAfTAkSALRpeyNyQVtwo0dRwzCyeqmGY64pYqBuqpiOzr?=
- =?us-ascii?Q?0pmXgGm+vQcqsHjDVhHfDtAYqoKCkHL+JTEJXbEnhGINnRu6qvfUGiqt/IQR?=
- =?us-ascii?Q?Q5K3TuJ0KL/ozeReHn+EZmFMyn8dJud/uiQE49rYDuiK1w/ZIHDIIOKkpC9Y?=
- =?us-ascii?Q?0vldjxNHbYKt9WEbewbN3d4mbXMBSIbt4w5Il3fCvwbbhqtVg5K2n+Tew7/H?=
- =?us-ascii?Q?o7D3+Sko3CDV56uL3LF1vYJI38reLsdlPlnttxyILRYyohbZdtHhqkcrdIa1?=
- =?us-ascii?Q?pNCiTUiJcyIl6eI9+X7DCZqPug4VLd7hSxFVisG8V2Jo+LW2OdawtS7e3P+U?=
- =?us-ascii?Q?o2hmzZtBO44SXVHG1HFDBXMKr4Gr4h2BBjx7UF40mtyhEeTvYlb83mKX8Lbj?=
- =?us-ascii?Q?hDTOUsg4pX6Hy5ro1Vzdrpa2m+5HtFoRLYVqyvLGZ8l9Ozqq1bhKN+7CKEgk?=
- =?us-ascii?Q?OMR/ffmly5nDU2XyljSA6q17METZpk7gtmuTwfeqfhGwsb0WymIoR09eK0qC?=
- =?us-ascii?Q?vrjODZfKiUnsRPoiaf6rj6o2+ITuJ+ZNXdDaXnrjcRe4i4iAW+eooSJTvp+9?=
- =?us-ascii?Q?wxsu/XwU2eafM2o4OYn41t2p432xIDlXKGojEVRN4RechOjm7gsjawk1l01h?=
- =?us-ascii?Q?x+3osbAfXyLTBs18DlEH+FyN/sdIcd5I9jfthm6f75h17xPRxuWQbD6VqfzS?=
- =?us-ascii?Q?0XjNHdVIAkZiPAat8tlJrPc90HoWnc1tA8+uullBOsBl7WiLdnlVCLH6AOzj?=
- =?us-ascii?Q?EVQ0eAekvjk+L3JVyhV0v/M66HDNucaCWEUoRq/kEsaJQ0HKQANQ4dRkaiF/?=
- =?us-ascii?Q?i5/XSy5mePDq4tzFVpZ7onQ2ZwJCUgJ/ZR8PVZLhkiom+bxawPJMH4QdRaA3?=
- =?us-ascii?Q?XVdFllsUZTy4sZs6VJVHX0t1bKpI+4IjXTP1MOGOP5AydljymMDHmrfkgFXX?=
- =?us-ascii?Q?Bg=3D=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c7fe1a6-8a33-4763-38e1-08da9c9d2f84
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 13:20:15.0307 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gZcmoJPr8ZCZFWgaSXXS6CtsqrPLr+xCsKICvQJ/l4pj5YJx1X8TrtB2G4GvMTw/PhF/AN/vp5zuXI0itH3ACrOAlz7tL0b11mnFRk0hOF8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6480
-Received-SPF: pass client-ip=40.107.6.136;
- envelope-from=alexander.ivanov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <40d9103b-0a7e-5f3a-dfa0-50e42aba6868@suse.de>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -135,43 +94,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add appropriate shutdown command arguments in qmp_guest_shutdown()
-for FreeBSD.
+On Thu, Sep 22, 2022 at 02:30:35PM +0200, Claudio Fontana wrote:
+> On 9/22/22 12:37, Daniel P. Berrangé wrote:
+> > On Thu, Sep 22, 2022 at 11:34:22AM +0200, Claudio Fontana wrote:
+> >> On 9/22/22 11:31, Daniel P. Berrangé wrote:
+> >>> On Thu, Sep 22, 2022 at 11:20:07AM +0200, Claudio Fontana wrote:
+> >>>> On 9/22/22 10:28, Daniel P. Berrangé wrote:
+> >>>>>
+> >>>>>> Another interface that does: return -1 for error, 0 for module not found
+> >>>>>> (no error), and 1 for loaded.
+> >>>>>
+> >>>>> IMHO this pattern is generally easier to understand when looking at
+> >>>>> the callers, as the fatal error scenario is always clear.
+> >>>>>
+> >>>>> That said I would suggest neither approach as the public facing
+> >>>>> API. Rather stop trying to overload 3 states onto an error reporting
+> >>>>> pattern that inherantly wants to be 2 states. Instead just have
+> >>>>> distinct methods
+> >>>>>
+> >>>>>   bool module_load_one(const char *prefix, const char *name, Error *errp)
+> >>>>>   bool module_try_load_one(const char *prefix, const char *name, Error *errp)
+> >>>>
+> >>>>
+> >>>> Here we are murking again the normal behavior and the error path.
+> >>>>
+> >>>> What is the meaning of try? It's not as though we would error out inside the function module_load_one,
+> >>>> it's the _caller_ that needs to decide how to treat a return value of found/not found, and the exception (Error).
+> >>>
+> >>> I suggested "try" as in the  g_malloc vs g_try_malloc API naming pattern,
+> >>> where the latter ignores the OOM error condition.
+> >>>
+> >>> So in this case 'try' means try to load the module, but don't fail if
+> >>> the module is missing on disk.
+> >>
+> >> I understand what you mean, but this is wrong in this case.
+> >>
+> >> We _do not fail_ in module_load_one, whether an error is present
+> >> or not, whether a module is found or not.
+> > 
+> > Looking at the callers though, AFAIK there are only two patterns
+> > that we need. All callers should report a fatal error if the module
+> > exists and loading it failed eg module is from mis-matched build.
+> > 
+> > Some callers also want a failure if the module doesn't exist on
+> 
+> Some callers also want to behave differently if the module is not installed.
+> It is not a "failure" in the same sense that what an Error returns.
+> 
+> For example, the block dmg module tries to also load other submodules for decompression.
+> 
+> If dmg does not find any such submodules, it will be able to support basic dmg just fine,
+> but won't be able to open compressed dmg.
 
-Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
----
- qga/commands-posix.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+The dmg case looks like it works fine with module_try_load_one(). I
+know your patch does a "warn" when the module is missing currently,
+but IMHO that's the wrong place todo this. Any problems with use
+of compressed dmg should be reported at the time the feature is
+actually used, rather than when trying to load the module.
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 3a1055d5c3..60cc673f25 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -242,6 +242,10 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
-     const char *powerdown_flag = "-i5";
-     const char *halt_flag = "-i0";
-     const char *reboot_flag = "-i6";
-+#elifdef CONFIG_BSD
-+    const char *powerdown_flag = "-p";
-+    const char *halt_flag = "-h";
-+    const char *reboot_flag = "-r";
- #else
-     const char *powerdown_flag = "-P";
-     const char *halt_flag = "-H";
-@@ -272,6 +276,9 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
- #ifdef CONFIG_SOLARIS
-         execl("/sbin/shutdown", "shutdown", shutdown_flag, "-g0", "-y",
-               "hypervisor initiated shutdown", (char *)NULL);
-+#elifdef CONFIG_BSD
-+        execl("/sbin/shutdown", "shutdown", shutdown_flag, "+0",
-+               "hypervisor initiated shutdown", (char *)NULL);
- #else
-         execl("/sbin/shutdown", "shutdown", "-h", shutdown_flag, "+0",
-                "hypervisor initiated shutdown", (char *)NULL);
+
+With regards,
+Daniel
 -- 
-2.34.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
