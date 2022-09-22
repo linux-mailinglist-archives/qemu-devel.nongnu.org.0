@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4817E5E643A
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 15:51:49 +0200 (CEST)
-Received: from localhost ([::1]:44584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1AE5E631C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 15:04:50 +0200 (CEST)
+Received: from localhost ([::1]:32788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obMcG-00062v-2N
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 09:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47194)
+	id 1obLsn-0007bp-9s
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 09:04:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1obLV1-0006cF-J5
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:40:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39472)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obLXO-00087F-Ck
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:42:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1obLUy-0007T6-Pw
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:40:14 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obLXK-0008FC-R8
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:42:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663850408;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1663850555;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rffUmGkQ0R53oibE6n5ZIJgcPQc3qQQc7jhg4mZ/byc=;
- b=JKvJ5MNforj5JnubH1fNWgrDCwElqsJezXf0NjzP7LLv13nQH1LyI1UXoVF+g7vV9SCeX6
- FjC6bMOsHOzwP6bjwwiMYkEiBTjxX9UiDsaUyUzy8OslyVR5JeRZJYtyuNfOXUA7mJRFOH
- lKlUU+0PrxRTuy74vFB2mxNn+8wmCGs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UDTAZdvpItgJ9ui7UP2S0rwgUJEyQZLEGuYGGwttXl0=;
+ b=AQ1Xm10XH0kbJK+/T4HOtyh2n+alpmLsu6TUZ6h7XlLIW0HO+bqSLzUTPlAKO+lPJOyeT4
+ Vd7fgyrzUXRhx95uM5KmxzhxuYRF8Qz11ZZEQAuq77FeFyjPcdqMCbgOUQf9dhgzkCDNDZ
+ +z20czqQw/iD0tigFdoy5uJaC52L0x8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-iQfS3naRMeyBtKqvz5Zjug-1; Thu, 22 Sep 2022 08:40:07 -0400
-X-MC-Unique: iQfS3naRMeyBtKqvz5Zjug-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-91-U6LlkQb5MmGFRFJTtDxJUQ-1; Thu, 22 Sep 2022 08:42:31 -0400
+X-MC-Unique: U6LlkQb5MmGFRFJTtDxJUQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 42DA6382578B;
- Thu, 22 Sep 2022 12:40:07 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E3E2F47505E;
- Thu, 22 Sep 2022 12:40:05 +0000 (UTC)
-Date: Thu, 22 Sep 2022 13:40:02 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH 14/27] qapi migration: Elide redundant has_FOO in
- generated C
-Message-ID: <YyxXouuYkwKKbO+w@redhat.com>
-References: <20220915204317.3766007-1-armbru@redhat.com>
- <20220915204317.3766007-15-armbru@redhat.com>
- <YyxG9xCpldunJJTw@work-vm>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6C4B8185A7A4;
+ Thu, 22 Sep 2022 12:42:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3520E492B13;
+ Thu, 22 Sep 2022 12:42:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4417E21E6900; Thu, 22 Sep 2022 14:42:28 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Richard
+ Henderson <richard.henderson@linaro.org>,  Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org,  dinechin@redhat.com,  Gerd Hoffmann
+ <kraxel@redhat.com>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one
+ and module_load_qom_one
+References: <20220908183012.17667-1-cfontana@suse.de>
+ <20220908183012.17667-3-cfontana@suse.de>
+ <877d23ekj0.fsf@pond.sub.org>
+ <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
+ <87y1ucdirx.fsf@pond.sub.org>
+ <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
+ <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
+ <87leqb4ul9.fsf@pond.sub.org>
+ <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de>
+Date: Thu, 22 Sep 2022 14:42:28 +0200
+In-Reply-To: <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de> (Claudio Fontana's
+ message of "Thu, 22 Sep 2022 11:43:15 +0200")
+Message-ID: <87bkr7mvgr.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YyxG9xCpldunJJTw@work-vm>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,41 +93,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 12:28:55PM +0100, Dr. David Alan Gilbert wrote:
-> * Markus Armbruster (armbru@redhat.com) wrote:
-> > The has_FOO for pointer-valued FOO are redundant, except for arrays.
-> > They are also a nuisance to work with.  Recent commit "qapi: Start to
-> > elide redundant has_FOO in generated C" provided the means to elide
-> > them step by step.  This is the step for qapi/migration.json.
-> > 
-> > Said commit explains the transformation in more detail.  The invariant
-> > violations mentioned there do not occur here.
-> > 
-> > Cc: Juan Quintela <quintela@redhat.com>
-> > Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> 
-> Yeh I'm OK with that, I do hate the has_'s:
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> Just cc'd in Dan though, wasn't there something special about the TLS
-> options?
+Claudio Fontana <cfontana@suse.de> writes:
 
-Yes, some of them use StrOrNull rather than just 'str', but I think
-the change is OK
+> On 9/22/22 11:38, Markus Armbruster wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>>> On Thu, Sep 22, 2022 at 08:07:43AM +0200, Markus Armbruster wrote:
+>>>> Ease of use matters, too.  When sticking to the rule leads to awkward
+>>>> code, we should stop and think.  Should we deviate from the rule?  Or
+>>>> can we avoid that by tweaking the interface?
+>>>>
+>>>> Philippe's proposed interface sticks to the rule.
+>>>
+>>> The cost is that when you see a  function   dosomething(true|false) as
+>>> a reader you often have no idea what the effect of true vs false is
+>>> on the behaviour of that function. You resort to looking at the
+>>> API docs and/or code.  This is where C would really benefit from
+>>> having named parameters like as  dosomething(ignore_errors=3Dtrue|false)
+>>> is totally obvious. Anyway, I digress.
+>>=20
+>> Right.  Quoting myself: "If having to pass a flag turns out to to be a
+>> legibility issue, we can have wrapper functions."  :)
+>
+> There is something more fundamental that seems to be missed by most in th=
+is conversation,
+> ie the distinction between the normal execution path and the error path.
+>
+>
+>>=20
+>>>> Another interface that does: return -1 for error, 0 for module not fou=
+nd
+>>>> (no error), and 1 for loaded.
+>>>
+>>> IMHO this pattern is generally easier to understand when looking at
+>>> the callers, as the fatal error scenario is always clear.
+>>>
+>>> That said I would suggest neither approach as the public facing
+>>> API. Rather stop trying to overload 3 states onto an error reporting
+>>> pattern that inherantly wants to be 2 states. Instead just have
+>>> distinct methods
+>>=20
+>> Like these:
+>>=20
+>>>   bool module_load_one(const char *prefix, const char *name, Error *err=
+p)
+>>>   bool module_try_load_one(const char *prefix, const char *name, Error =
+*errp)
+>>>
+>>> other names are available for the second, eg module_load_one_optional()
+>>=20
+>> module_load_one_if_there()?
+>
+> And what do you do with the caller that needs to _know_ whether the modul=
+e was "there" or not?
+>
+> This is losing this information along the way, and the callers NEED it.
+>
+> I really invite, with no offense intended,
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+None taken!
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>                                            to read the hunks of my patch =
+and the callers,
+> there are occasions where we need to _know_ if the module was there or no=
+t, and act depending on the context.
+>
+> The information about "bool is_there" needs to be passed to the caller.
+
+If you have callers that need to distinguish between not found, found
+but bad, found and good, then return three distinct values.
+
+I proposed to return -1 for found but bad (error), 0 for not found (no
+error), and 1 for loaded (no error).
+
+>> By the way, the "one" in "module_load_one" & friends feels redundant.
+>> When I see "module_load", I assume it loads one module.
+>
+> there is a module_load_all.
+
+Libc has fcloseall() and fclose().  Clear enough, isn't it?
+
+[...]
 
 
