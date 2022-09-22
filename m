@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0BC95E666D
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:06:04 +0200 (CEST)
-Received: from localhost ([::1]:43300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 529EE5E6683
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:11:46 +0200 (CEST)
+Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obNm7-0007N1-RM
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:06:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54676)
+	id 1obNrd-0007Bk-DQ
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:11:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1obMg2-0001oq-Dz; Thu, 22 Sep 2022 09:55:44 -0400
+ id 1obMg6-0001pv-CG; Thu, 22 Sep 2022 09:55:49 -0400
 Received: from [200.168.210.66] (port=55804 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1obMg0-0008Vq-Sn; Thu, 22 Sep 2022 09:55:42 -0400
+ id 1obMg3-0008Vq-Gj; Thu, 22 Sep 2022 09:55:44 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 22 Sep 2022 10:55:25 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 771208005D2;
+ by p9ibm (Postfix) with ESMTP id 9B35580012C;
  Thu, 22 Sep 2022 10:55:25 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -34,17 +34,18 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v3 3/4] scripts/ci/setup: spice-server only on x86 aarch64
-Date: Thu, 22 Sep 2022 10:55:15 -0300
-Message-Id: <20220922135516.33627-4-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v3 4/4] tests/docker: run script use realpath instead of
+ readlink
+Date: Thu, 22 Sep 2022 10:55:16 -0300
+Message-Id: <20220922135516.33627-5-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220922135516.33627-1-lucas.araujo@eldorado.org.br>
 References: <20220922135516.33627-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 22 Sep 2022 13:55:25.0712 (UTC)
- FILETIME=[F74AE900:01D8CE8A]
+X-OriginalArrivalTime: 22 Sep 2022 13:55:25.0853 (UTC)
+ FILETIME=[F7606CD0:01D8CE8A]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -70,42 +71,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-Changed build-environment.yml to only install spice-server on x86_64 and
-aarch64 as this package is only available on those architectures.
+The alpine docker image only comes with busybox, which doesn't have the
+'-e' option on its readlink, so change it to 'realpath' to avoid that
+problem.
 
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- scripts/ci/setup/build-environment.yml | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ tests/docker/run | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
-index 49292715d3..b04c2b7cee 100644
---- a/scripts/ci/setup/build-environment.yml
-+++ b/scripts/ci/setup/build-environment.yml
-@@ -160,7 +160,6 @@
-           - python36
-           - rdma-core-devel
-           - spice-glib-devel
--          - spice-server
-           - systemtap-sdt-devel
-           - tar
-           - zlib-devel
-@@ -168,3 +167,14 @@
-       when:
-         - ansible_facts['distribution_file_variety'] == 'RedHat'
-         - ansible_facts['distribution_version'] == '8'
-+
-+    - name: Install packages only available on x86 and aarch64
-+      dnf:
-+        # Spice server not available in ppc64le
-+        name:
-+          - spice-server
-+        state: present
-+      when:
-+        - ansible_facts['distribution_file_variety'] == 'RedHat'
-+        - ansible_facts['distribution_version'] == '8'
-+        - ansible_facts['architecture'] == 'aarch64' or ansible_facts['architecture'] == 'x86_64'
+diff --git a/tests/docker/run b/tests/docker/run
+index 421393046b..9eb96129da 100755
+--- a/tests/docker/run
++++ b/tests/docker/run
+@@ -15,7 +15,7 @@ if test -n "$V"; then
+     set -x
+ fi
+ 
+-BASE="$(dirname $(readlink -e $0))"
++BASE="$(dirname $(realpath $0))"
+ 
+ # Prepare the environment
+ export PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
 -- 
 2.25.1
 
