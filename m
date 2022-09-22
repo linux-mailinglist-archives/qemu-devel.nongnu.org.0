@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E545E6294
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 14:38:52 +0200 (CEST)
-Received: from localhost ([::1]:40732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3A55E62F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 14:56:15 +0200 (CEST)
+Received: from localhost ([::1]:38536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obLTf-0005gu-5L
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 08:38:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41002)
+	id 1obLkN-0001tv-5p
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 08:56:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obK41-00074D-Rx; Thu, 22 Sep 2022 07:08:25 -0400
-Received: from mail-oo1-xc34.google.com ([2607:f8b0:4864:20::c34]:43569)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obK3z-0005rV-BE; Thu, 22 Sep 2022 07:08:17 -0400
-Received: by mail-oo1-xc34.google.com with SMTP id
- a1-20020a4ab101000000b0044acf001f83so1344251ooo.10; 
- Thu, 22 Sep 2022 04:08:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=w+XXOLaHxHOxpz0JARs4PKfqxrDsKmIdsfyADw94ul0=;
- b=pdAJRTEjZ2fCo0VfOvyXvOSjMebwDkkm6+3YMkmBzvU5cyT5nEmeLxTHNzZOXqlsWu
- nSx4cHuVITjl7mJM98tdRhnGSEo/gRIg8teGTxEV0LdtOJskMSC/ZIGwQwXDMjlfzuNF
- 3JXxwWfowkxhBvFdz5LKJ9nifSk7mQUtU+GFY54Km37i0kPoL5qau2pBF64KBcIjCMLN
- CSjzMvajDFAu4Xdz5MqmstC0/qchIERQTl6D320ndY+kr8Dq9J95k1shkEEWR+dQjLyO
- /hXn9ovis0/uKTPtsAASYxegiBOgCmkfN9JGV3X8M4tq7hwMaEXMzcQuSA8pz8XRa4zM
- Af6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=w+XXOLaHxHOxpz0JARs4PKfqxrDsKmIdsfyADw94ul0=;
- b=pb8OWyUjCJ2ql4elqdZq4v+OM6nsvnkSs0dGAOxgqfej5/NZelvFx7V0TFvxdNQH9d
- bu1wDe1qAWQkrX18L4vqxdJvFf7Cj6J4vSRotbcQQb32EQGWnBCwmECJt+O6ZBBXlaiZ
- bQA6t13XvA6rCAGTHp7cjJBD6WhCAUU+XYykaLonFOlh/0M4V6s8OUO8eaSHf6OtbE/P
- q9I16xihwY89gCIAQ91C0SGBXPmh1PYV3q6b5KDF8xyjzxRMQVU9ae2ZEx2YlSo4cdxg
- KDjbtpEEUoQBfZuqZzaZlwMxp3M7qY2p81/CG8XzcfDd1+1vzLMT2uzXx7bp5JjY69DF
- 7PhA==
-X-Gm-Message-State: ACrzQf3w2zzymhaq9N4+8uLCwk5Yoh1Jy7Ink12K/HHRg7cz8QQ9syhs
- Fh4T/FfW2EDd6MHYClPIbYo=
-X-Google-Smtp-Source: AMsMyM6f3Htl1d5pLOUkPgacXFCzZhWTDbfA4+RJM4m5uDGriH7jTTSKvg3LfQqShV4XItZlHSoG9A==
-X-Received: by 2002:a4a:1ac1:0:b0:475:f7da:ab98 with SMTP id
- 184-20020a4a1ac1000000b00475f7daab98mr1086859oof.88.1663844893323; 
- Thu, 22 Sep 2022 04:08:13 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- c36-20020a05687047a400b0011dca1bd2cdsm3386924oaq.0.2022.09.22.04.08.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 04:08:12 -0700 (PDT)
-Message-ID: <d9ac460f-ccb1-c03b-ad8d-71c79dd6e65b@amsat.org>
-Date: Thu, 22 Sep 2022 13:08:08 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1obKJa-0002aH-12
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 07:24:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22052)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1obKJW-0003FB-O7
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 07:24:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663845857;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ekyat6wE5O8YWrL8KdK7RsMTtyGDEoPpZ9rWPegYGrs=;
+ b=JvxOQjhwIpBbltG9f9nPg/qxOo+DtUZut+t5YS+dVeVXWH5oan8QpkzPjec/nqYskqBSWH
+ 12D53fufJ7c08C9bxErMYzOfEhKEJaTuINkzaqoSUngfjtrjdYabpSq6DdQJ0a52yCxjgE
+ XBwHUuslCl5mtouFN8oxtAFPw7Q+SOc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-195-7TV2T3G2NUevHd_AnjKOxA-1; Thu, 22 Sep 2022 07:24:14 -0400
+X-MC-Unique: 7TV2T3G2NUevHd_AnjKOxA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF6118828C3;
+ Thu, 22 Sep 2022 11:24:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 015682027061;
+ Thu, 22 Sep 2022 11:24:11 +0000 (UTC)
+Date: Thu, 22 Sep 2022 12:24:09 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v4] x86: add etc/phys-bits fw_cfg file
+Message-ID: <YyxF2TNwnXaefT6u@redhat.com>
+References: <20220922101454.1069462-1-kraxel@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.0
-Subject: Re: [PATCH v7 00/14] QMP/HMP: introduce 'dumpdtb'
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org
-References: <20220908194040.518400-1-danielhb413@gmail.com>
-In-Reply-To: <20220908194040.518400-1-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c34;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-oo1-xc34.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.893,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220922101454.1069462-1-kraxel@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,48 +81,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Hi Daniel,
-
-On 8/9/22 21:40, Daniel Henrique Barboza wrote:
-> Hi,
+On Thu, Sep 22, 2022 at 12:14:54PM +0200, Gerd Hoffmann wrote:
+> In case phys bits are functional and can be used by the guest (aka
+> host-phys-bits=on) add a fw_cfg file carrying the value.  This can
+> be used by the guest firmware for address space configuration.
 > 
-> This new version implements all change requests from the v6.
+> The value in the etc/phys-bits fw_cfg file should be identical to
+> the phys bits value published via cpuid leaf 0x80000008.
 > 
-> - patch 5:
->    - change bamboo_load_device_tree() to use a MachineState pointer
-> - patch 7:
->    - change xilinx_load_device_tree() to use a MachineState pointer
-> - patch 14:
->    - placed SRST/ERST below the { }'s
->    - removed the '/tmp' reference in the command example
->    - removed all 'Requires libfdt' references
->    - changed qmp_dumpdtb() missing FDT error message to "This machine
->      doesn't have a FDT"
-> - v6 link: https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00534.html
+> This is only enabled for 7.2+ machine types for live migration
+> compatibility reasons.
+
+Is this going to have any implications for what mgmt apps must
+take into account when selecting valid migration target hosts ?
+
+Historically, apps have tended to ignore any checks for phys
+bits between src/dst migration hosts and hoped for the best.
+
+Will this new behaviour introduce / change any failure scenarios
+where the target host has fewer phys bits than the src host, that
+mgmt apps need to be made aware of ?
+
 > 
-> Daniel Henrique Barboza (14):
->    hw/arm: do not free machine->fdt in arm_load_dtb()
->    hw/microblaze: set machine->fdt in microblaze_load_dtb()
->    hw/nios2: set machine->fdt in nios2_load_dtb()
->    hw/ppc: set machine->fdt in ppce500_load_device_tree()
->    hw/ppc: set machine->fdt in bamboo_load_device_tree()
->    hw/ppc: set machine->fdt in sam460ex_load_device_tree()
->    hw/ppc: set machine->fdt in xilinx_load_device_tree()
->    hw/ppc: set machine->fdt in pegasos2_machine_reset()
->    hw/ppc: set machine->fdt in pnv_reset()
->    hw/ppc: set machine->fdt in spapr machine
->    hw/riscv: set machine->fdt in sifive_u_machine_init()
->    hw/riscv: set machine->fdt in spike_board_init()
->    hw/xtensa: set machine->fdt in xtfpga_init()
->    qmp/hmp, device_tree.c: introduce dumpdtb
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  hw/i386/fw_cfg.h     |  1 +
+>  include/hw/i386/pc.h |  1 +
+>  hw/i386/fw_cfg.c     | 12 ++++++++++++
+>  hw/i386/pc.c         |  5 +++++
+>  hw/i386/pc_piix.c    |  2 ++
+>  hw/i386/pc_q35.c     |  2 ++
+>  6 files changed, 23 insertions(+)
+> 
+> diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
+> index 275f15c1c5e8..6ff198a6cb85 100644
+> --- a/hw/i386/fw_cfg.h
+> +++ b/hw/i386/fw_cfg.h
+> @@ -26,5 +26,6 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
+>  void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg);
+>  void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg);
+>  void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg);
+> +void fw_cfg_phys_bits(FWCfgState *fw_cfg);
+>  
+>  #endif
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index c95333514ed3..bedef1ee13c1 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -119,6 +119,7 @@ struct PCMachineClass {
+>      bool enforce_aligned_dimm;
+>      bool broken_reserved_end;
+>      bool enforce_amd_1tb_hole;
+> +    bool phys_bits_in_fw_cfg;
+>  
+>      /* generate legacy CPU hotplug AML */
+>      bool legacy_cpu_hotplug;
+> diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+> index a283785a8de4..6a1f18925725 100644
+> --- a/hw/i386/fw_cfg.c
+> +++ b/hw/i386/fw_cfg.c
+> @@ -219,3 +219,15 @@ void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg)
+>      aml_append(dev, aml_name_decl("_CRS", crs));
+>      aml_append(scope, dev);
+>  }
+> +
+> +void fw_cfg_phys_bits(FWCfgState *fw_cfg)
+> +{
+> +    X86CPU *cpu = X86_CPU(first_cpu);
+> +    uint64_t phys_bits = cpu->phys_bits;
+> +
+> +    if (cpu->host_phys_bits) {
+> +        fw_cfg_add_file(fw_cfg, "etc/phys-bits",
+> +                        g_memdup2(&phys_bits, sizeof(phys_bits)),
+> +                        sizeof(phys_bits));
+> +    }
+> +}
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 566accf7e60a..17ecc7fe4331 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -744,6 +744,7 @@ void pc_machine_done(Notifier *notifier, void *data)
+>  {
+>      PCMachineState *pcms = container_of(notifier,
+>                                          PCMachineState, machine_done);
+> +    PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+>      X86MachineState *x86ms = X86_MACHINE(pcms);
+>  
+>      cxl_hook_up_pxb_registers(pcms->bus, &pcms->cxl_devices_state,
+> @@ -764,6 +765,9 @@ void pc_machine_done(Notifier *notifier, void *data)
+>          fw_cfg_build_feature_control(MACHINE(pcms), x86ms->fw_cfg);
+>          /* update FW_CFG_NB_CPUS to account for -device added CPUs */
+>          fw_cfg_modify_i16(x86ms->fw_cfg, FW_CFG_NB_CPUS, x86ms->boot_cpus);
+> +        if (pcmc->phys_bits_in_fw_cfg) {
+> +            fw_cfg_phys_bits(x86ms->fw_cfg);
+> +        }
+>      }
+>  }
+>  
+> @@ -1907,6 +1911,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+>      pcmc->kvmclock_enabled = true;
+>      pcmc->enforce_aligned_dimm = true;
+>      pcmc->enforce_amd_1tb_hole = true;
+> +    pcmc->phys_bits_in_fw_cfg = true;
+>      /* BIOS ACPI tables: 128K. Other BIOS datastructures: less than 4K reported
+>       * to be used at the moment, 32K should be enough for a while.  */
+>      pcmc->acpi_data_size = 0x20000 + 0x8000;
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 8043a250adf3..c6a4dbd5c0b0 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -447,9 +447,11 @@ DEFINE_I440FX_MACHINE(v7_2, "pc-i440fx-7.2", NULL,
+>  
+>  static void pc_i440fx_7_1_machine_options(MachineClass *m)
+>  {
+> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pc_i440fx_7_2_machine_options(m);
+>      m->alias = NULL;
+>      m->is_default = false;
+> +    pcmc->phys_bits_in_fw_cfg = false;
+>      compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+>      compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
+>  }
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 53eda50e818c..c2b56daa1550 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -384,8 +384,10 @@ DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
+>  
+>  static void pc_q35_7_1_machine_options(MachineClass *m)
+>  {
+> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pc_q35_7_2_machine_options(m);
+>      m->alias = NULL;
+> +    pcmc->phys_bits_in_fw_cfg = false;
+>      compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+>      compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
+>  }
+> -- 
+> 2.37.3
+> 
+> 
 
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-- What about the MIPS Boston machine?
-
-- We need to free ms->fdt in machine_finalize().
 
