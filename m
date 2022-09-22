@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1AE5E631C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 15:04:50 +0200 (CEST)
-Received: from localhost ([::1]:32788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9008B5E6371
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 15:18:43 +0200 (CEST)
+Received: from localhost ([::1]:54028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obLsn-0007bp-9s
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 09:04:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34936)
+	id 1obM6E-0000QL-04
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 09:18:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obLXO-00087F-Ck
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:42:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49720)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obLXK-0008FC-R8
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:42:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663850555;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obLaQ-0003ZA-B0
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:45:55 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:42842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obLaI-0000pQ-VD
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:45:46 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 906041F8F7;
+ Thu, 22 Sep 2022 12:45:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663850741; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UDTAZdvpItgJ9ui7UP2S0rwgUJEyQZLEGuYGGwttXl0=;
- b=AQ1Xm10XH0kbJK+/T4HOtyh2n+alpmLsu6TUZ6h7XlLIW0HO+bqSLzUTPlAKO+lPJOyeT4
- Vd7fgyrzUXRhx95uM5KmxzhxuYRF8Qz11ZZEQAuq77FeFyjPcdqMCbgOUQf9dhgzkCDNDZ
- +z20czqQw/iD0tigFdoy5uJaC52L0x8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-91-U6LlkQb5MmGFRFJTtDxJUQ-1; Thu, 22 Sep 2022 08:42:31 -0400
-X-MC-Unique: U6LlkQb5MmGFRFJTtDxJUQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ bh=KDThP5Re//40pAyXN+jutQ3eRR12YdoQInb7FbgTzZA=;
+ b=d31PyTHp2vWGMijWrKfzRJk44nFF3xmHrIWObtygIftqE2piRWaXXec+nQjuqaixNDwY0m
+ J7ga1S5pVgVJM6EIfztY0d2oPH/D9QFV92VAZHt+EYKxGFJSVCYKpqeQfBAoMdl7pODDiR
+ y+YXEDYFf2SpGrYfPA5UBzokB3CdaQo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663850741;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KDThP5Re//40pAyXN+jutQ3eRR12YdoQInb7FbgTzZA=;
+ b=gRLnf3S4c/M5CHX+FseSTure9FIFoQjuxpX9x45cLDFdvJO60mrfHp+tG0B3Mt1Luk0mj9
+ NRevMWVoY5ydZMDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6C4B8185A7A4;
- Thu, 22 Sep 2022 12:42:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3520E492B13;
- Thu, 22 Sep 2022 12:42:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4417E21E6900; Thu, 22 Sep 2022 14:42:28 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Richard
- Henderson <richard.henderson@linaro.org>,  Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org,  dinechin@redhat.com,  Gerd Hoffmann
- <kraxel@redhat.com>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one
- and module_load_qom_one
-References: <20220908183012.17667-1-cfontana@suse.de>
- <20220908183012.17667-3-cfontana@suse.de>
- <877d23ekj0.fsf@pond.sub.org>
- <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
- <87y1ucdirx.fsf@pond.sub.org>
- <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
- <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
- <87leqb4ul9.fsf@pond.sub.org>
- <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de>
-Date: Thu, 22 Sep 2022 14:42:28 +0200
-In-Reply-To: <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de> (Claudio Fontana's
- message of "Thu, 22 Sep 2022 11:43:15 +0200")
-Message-ID: <87bkr7mvgr.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3A5D01346B;
+ Thu, 22 Sep 2022 12:45:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id RAfLDPVYLGOOYQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 22 Sep 2022 12:45:41 +0000
+Message-ID: <4a656f0f-1497-5569-e562-f537b115daf3@suse.de>
+Date: Thu, 22 Sep 2022 14:45:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20220908183012.17667-1-cfontana@suse.de>
+ <20220908183012.17667-3-cfontana@suse.de> <877d23ekj0.fsf@pond.sub.org>
+ <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
+ <87y1ucdirx.fsf@pond.sub.org> <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
+ <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
+ <87leqb4ul9.fsf@pond.sub.org> <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de>
+ <87bkr7mvgr.fsf@pond.sub.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <87bkr7mvgr.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.893,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,86 +101,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Claudio Fontana <cfontana@suse.de> writes:
-
-> On 9/22/22 11:38, Markus Armbruster wrote:
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->>=20
->>> On Thu, Sep 22, 2022 at 08:07:43AM +0200, Markus Armbruster wrote:
->>>> Ease of use matters, too.  When sticking to the rule leads to awkward
->>>> code, we should stop and think.  Should we deviate from the rule?  Or
->>>> can we avoid that by tweaking the interface?
+On 9/22/22 14:42, Markus Armbruster wrote:
+> Claudio Fontana <cfontana@suse.de> writes:
+> 
+>> On 9/22/22 11:38, Markus Armbruster wrote:
+>>> Daniel P. Berrangé <berrange@redhat.com> writes:
+>>>
+>>>> On Thu, Sep 22, 2022 at 08:07:43AM +0200, Markus Armbruster wrote:
+>>>>> Ease of use matters, too.  When sticking to the rule leads to awkward
+>>>>> code, we should stop and think.  Should we deviate from the rule?  Or
+>>>>> can we avoid that by tweaking the interface?
+>>>>>
+>>>>> Philippe's proposed interface sticks to the rule.
 >>>>
->>>> Philippe's proposed interface sticks to the rule.
+>>>> The cost is that when you see a  function   dosomething(true|false) as
+>>>> a reader you often have no idea what the effect of true vs false is
+>>>> on the behaviour of that function. You resort to looking at the
+>>>> API docs and/or code.  This is where C would really benefit from
+>>>> having named parameters like as  dosomething(ignore_errors=true|false)
+>>>> is totally obvious. Anyway, I digress.
 >>>
->>> The cost is that when you see a  function   dosomething(true|false) as
->>> a reader you often have no idea what the effect of true vs false is
->>> on the behaviour of that function. You resort to looking at the
->>> API docs and/or code.  This is where C would really benefit from
->>> having named parameters like as  dosomething(ignore_errors=3Dtrue|false)
->>> is totally obvious. Anyway, I digress.
->>=20
->> Right.  Quoting myself: "If having to pass a flag turns out to to be a
->> legibility issue, we can have wrapper functions."  :)
->
-> There is something more fundamental that seems to be missed by most in th=
-is conversation,
-> ie the distinction between the normal execution path and the error path.
->
->
->>=20
->>>> Another interface that does: return -1 for error, 0 for module not fou=
-nd
->>>> (no error), and 1 for loaded.
+>>> Right.  Quoting myself: "If having to pass a flag turns out to to be a
+>>> legibility issue, we can have wrapper functions."  :)
+>>
+>> There is something more fundamental that seems to be missed by most in this conversation,
+>> ie the distinction between the normal execution path and the error path.
+>>
+>>
 >>>
->>> IMHO this pattern is generally easier to understand when looking at
->>> the callers, as the fatal error scenario is always clear.
+>>>>> Another interface that does: return -1 for error, 0 for module not found
+>>>>> (no error), and 1 for loaded.
+>>>>
+>>>> IMHO this pattern is generally easier to understand when looking at
+>>>> the callers, as the fatal error scenario is always clear.
+>>>>
+>>>> That said I would suggest neither approach as the public facing
+>>>> API. Rather stop trying to overload 3 states onto an error reporting
+>>>> pattern that inherantly wants to be 2 states. Instead just have
+>>>> distinct methods
 >>>
->>> That said I would suggest neither approach as the public facing
->>> API. Rather stop trying to overload 3 states onto an error reporting
->>> pattern that inherantly wants to be 2 states. Instead just have
->>> distinct methods
->>=20
->> Like these:
->>=20
->>>   bool module_load_one(const char *prefix, const char *name, Error *err=
-p)
->>>   bool module_try_load_one(const char *prefix, const char *name, Error =
-*errp)
+>>> Like these:
 >>>
->>> other names are available for the second, eg module_load_one_optional()
->>=20
->> module_load_one_if_there()?
->
-> And what do you do with the caller that needs to _know_ whether the modul=
-e was "there" or not?
->
-> This is losing this information along the way, and the callers NEED it.
->
-> I really invite, with no offense intended,
+>>>>   bool module_load_one(const char *prefix, const char *name, Error *errp)
+>>>>   bool module_try_load_one(const char *prefix, const char *name, Error *errp)
+>>>>
+>>>> other names are available for the second, eg module_load_one_optional()
+>>>
+>>> module_load_one_if_there()?
+>>
+>> And what do you do with the caller that needs to _know_ whether the module was "there" or not?
+>>
+>> This is losing this information along the way, and the callers NEED it.
+>>
+>> I really invite, with no offense intended,
+> 
+> None taken!
+> 
+>>                                            to read the hunks of my patch and the callers,
+>> there are occasions where we need to _know_ if the module was there or not, and act depending on the context.
+>>
+>> The information about "bool is_there" needs to be passed to the caller.
+> 
+> If you have callers that need to distinguish between not found, found
+> but bad, found and good, then return three distinct values.
+> 
+> I proposed to return -1 for found but bad (error), 0 for not found (no
+> error), and 1 for loaded (no error).
 
-None taken!
+That is fine too.
 
->                                            to read the hunks of my patch =
-and the callers,
-> there are occasions where we need to _know_ if the module was there or no=
-t, and act depending on the context.
->
-> The information about "bool is_there" needs to be passed to the caller.
+I think it would be better to completely make the return value separate from the Error,
+and really treat Error as an exception and not mix it up with the regular execution,
 
-If you have callers that need to distinguish between not found, found
-but bad, found and good, then return three distinct values.
+but if it is the general consensus that I am the only one seeing this conflation problem we can model it this way too.
 
-I proposed to return -1 for found but bad (error), 0 for not found (no
-error), and 1 for loaded (no error).
-
->> By the way, the "one" in "module_load_one" & friends feels redundant.
->> When I see "module_load", I assume it loads one module.
->
-> there is a module_load_all.
-
-Libc has fcloseall() and fclose().  Clear enough, isn't it?
-
-[...]
+> 
+>>> By the way, the "one" in "module_load_one" & friends feels redundant.
+>>> When I see "module_load", I assume it loads one module.
+>>
+>> there is a module_load_all.
+> 
+> Libc has fcloseall() and fclose().  Clear enough, isn't it?
+> 
+> [...]
+> 
 
 
