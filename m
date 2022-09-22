@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340CA5E581C
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 03:36:54 +0200 (CEST)
-Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B25E05E5848
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 03:53:30 +0200 (CEST)
+Received: from localhost ([::1]:60218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obB93-00069Y-2F
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 21:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57018)
+	id 1obBP7-0002gW-CI
+	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 21:53:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1obB7C-0004Qh-NO
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 21:34:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50659)
+ (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
+ id 1obBMi-00012b-Ii
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 21:51:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1obB79-0007LQ-8y
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 21:34:56 -0400
+ (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
+ id 1obBMe-0003Rf-JJ
+ for qemu-devel@nongnu.org; Wed, 21 Sep 2022 21:50:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663810494;
+ s=mimecast20190719; t=1663811445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DPmxR+tpq4G4DNMWORFkQbyWROnalkIjB1cSdNrqBmM=;
- b=GLaXTGLeJy48u1z+0GCFGFu5dpuC6FHBVNYdcMxv02srC4V3ZmQ1nnuxSFVNUGjLINstXY
- x/SCMG9mn0llMstZ7BMNqSxVsc8ajqdTA2i04VX+hiubYUN+f1bZPlYgxwM5BaMzBMjHzI
- bxWl1YDsW16lXkD8YZgjjYC3e70QgE4=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1um9klPdk3CcEerjvvH7WZmMwhJGzjlCdLbZamzUYtg=;
+ b=fEPPekq47m7qupbQlDPysslTiZrK68tQilmyf3rd2uN4E6DJCotumsu2TF++EzwiH40O3B
+ 7VWAbmX/T4M/+JOXCq0KOmm0hoc99CEbDpXR/CVPe9w4Wg1EOqplLwUzfaaOqEOgTRjt9N
+ lUrlw4dVnVytFacUYZ9U3yKmvGvPWGY=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-301-8C8GTObEMOGLV159VcYsJA-1; Wed, 21 Sep 2022 21:34:53 -0400
-X-MC-Unique: 8C8GTObEMOGLV159VcYsJA-1
-Received: by mail-oi1-f200.google.com with SMTP id
- r9-20020a056808210900b003502cbdfd87so3945152oiw.5
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 18:34:53 -0700 (PDT)
+ us-mta-611-56vhf-dYNle1iTuz_yBfNg-1; Wed, 21 Sep 2022 21:50:44 -0400
+X-MC-Unique: 56vhf-dYNle1iTuz_yBfNg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ sa15-20020a1709076d0f00b00781d793f51fso984328ejc.18
+ for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 18:50:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=DPmxR+tpq4G4DNMWORFkQbyWROnalkIjB1cSdNrqBmM=;
- b=M6unUgs0hHe+ysn2xVHmMn9fwRBNJQWv0h8/r0KQMLRmgI1o+JaIE0D9E51N5oJvdu
- 6usMjKourLDU5G6J1ln01PIg8WfJ4dlv9Q24rMKVva8A0YPggzou6QkPhCy6iLqcFS5r
- gnNnrrMBzGOxjv0I1GjOJYSEqu9iD1m0sTZDDBt53B9SwTGV2GBJFMly9qtcnos1yahC
- Mhzzv4iSgyhX0QNMWbYxVL/JR5R+Fub5RVl0eqDvnFWurwi+RYgyJVlmwckUzZTy2Xoi
- ZnGhGhL6Lgoq9BaIRHMnMSmreMxm94CgNQuHhhNk472r7TY1rYtN4ORVnSYFIGeNYxuh
- kCNQ==
-X-Gm-Message-State: ACrzQf1nnoJpoj/BKdnrFKzc7LRTFNVOez/now+gFIeKeDaXLgiG/LpG
- 11dwl6MGsmulTKCzHgdVJp8LHPk37mCkev7Q229Do0CgUsFC5ojHiha7GWWEv+bUeGYlybc3HNW
- 3f23DLoWHu4PrNypFLSQIVyQysgHZymw=
-X-Received: by 2002:a05:6870:e409:b0:127:d330:c941 with SMTP id
- n9-20020a056870e40900b00127d330c941mr545084oag.280.1663810492388; 
- Wed, 21 Sep 2022 18:34:52 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM71t6fDc1Y389I6O5VT6OdBVULBLYY+xn/atSk8a0uVxr2D69MkM64YN5PnQEkEiNX0jpI3Tub8miiaWwJdAW8=
-X-Received: by 2002:a05:6870:e409:b0:127:d330:c941 with SMTP id
- n9-20020a056870e40900b00127d330c941mr545073oag.280.1663810492180; Wed, 21 Sep
- 2022 18:34:52 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=1um9klPdk3CcEerjvvH7WZmMwhJGzjlCdLbZamzUYtg=;
+ b=6NYc45x/PzSQX+hxm5KaQ4ki7pj2t+L0UgjvL2NMeWO+ARoGSwMP58fqULBYEx/22H
+ Ksbw3hvzg0LvVwvblnk2wy2nIkKhILhzT9dSDrcopRbrkwr/SWLPVn+nOgBAme4T8cpQ
+ vf6ZFZAcBM7/XAoJiSR+frCKe4NdBsDqoKDjm7b7wWyER3WOd4hCjmklbiJfQ7qQxxdQ
+ Tg2pVIJB9CVeezbH83PMKxSsLhXca2xvZ2UHEZKjz9G2whEtUBbscYeHN9WP/Ez2nLUC
+ TZIkTketDcmjOmHZ0XxPN/v5XIn+5F2atwBwr5HRxByuMu6A5/sxNHSGkKYKk2Y0fa6B
+ UfYw==
+X-Gm-Message-State: ACrzQf27LgNv2m/dQOWF2vmG2SMajncvPrKmuEf/MWwz2fDdN2xSrM/K
+ 2Zw20ib+3IN0a3ic+cjWopjoVE3fuAaA/4Iwg9WkTUgCvuzMsswF/RbY0dtAxslXYvN6YqacpGU
+ lFmgXTdpbUz3YhCVxt1OV0Z3idmfBBfY=
+X-Received: by 2002:a17:906:fd8b:b0:779:dcbe:3a9d with SMTP id
+ xa11-20020a170906fd8b00b00779dcbe3a9dmr867352ejb.235.1663811441061; 
+ Wed, 21 Sep 2022 18:50:41 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7idB2rWUb8OsOqpvjSW7KC9rszjyEjmvRYJb27RKkv0TZSscnvj+EXbQ+pLTUclc7a+CusGQQ1wILm0rujrwM=
+X-Received: by 2002:a17:906:fd8b:b0:779:dcbe:3a9d with SMTP id
+ xa11-20020a170906fd8b00b00779dcbe3a9dmr867330ejb.235.1663811440670; Wed, 21
+ Sep 2022 18:50:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220921060026.392164-1-chenh@yusur.tech>
- <BL3PR02MB79380882D0B877C2D5A754FFEA4F9@BL3PR02MB7938.namprd02.prod.outlook.com>
-In-Reply-To: <BL3PR02MB79380882D0B877C2D5A754FFEA4F9@BL3PR02MB7938.namprd02.prod.outlook.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 22 Sep 2022 09:34:41 +0800
-Message-ID: <CACGkMEttGsDrFo_U7AKHEof0HwVfHaRTeQSRE+QTiRPPtnU3hQ@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/virtio/vhost-user: support obtain vdpa device's mac
- address automatically
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Cc: "mst@redhat.com" <mst@redhat.com>, "kwolf@redhat.com" <kwolf@redhat.com>, 
- "hreitz@redhat.com" <hreitz@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "houyl@yusur.tech" <houyl@yusur.tech>, 
- "zy@yusur.tech" <zy@yusur.tech>, "lulu@redhat.com" <lulu@redhat.com>,
- Hao Chen <chenh@yusur.tech>
+References: <20220921231349.274049-1-gshan@redhat.com>
+In-Reply-To: <20220921231349.274049-1-gshan@redhat.com>
+From: Zhenyu Zhang <zhenyzha@redhat.com>
+Date: Thu, 22 Sep 2022 09:50:04 +0800
+Message-ID: <CAJFLiBKDY8TRRXMkoUcA0nT0MTb2K_U24iTUQm0AExczuCXtnw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] hw/arm/virt: Improve address assignment for high
+ memory regions
+To: Gavin Shan <gshan@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, maz@kernel.org, 
+ eric.auger@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org, 
+ peter.maydell@linaro.org, shan.gavin@gmail.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=zhenyzha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -102,240 +94,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 1:58 AM Raphael Norwitz
-<raphael.norwitz@nutanix.com> wrote:
->
-> If I read your response on the other thread correctly, this change is int=
-ended
->
-> to prioritize the MAC address exposed by DPDK over the one provided by th=
-e
->
-> QEMU command line? Sounds reasonable in principle, but I would get confir=
-mation
->
-> from vDPA/vhost-net maintainers.
+[PATCH v3 0/5] hw/arm/virt: Improve address assignment for high memory regions
+Author: Gavin Shan <gshan@redhat.com>
+Date:   Thu Sep 22 07:13:45 2022 +0800
 
-I think the best way is to (and it seems easier)
+    PATCH[1-3] preparatory work for the improvment
+    PATCH[4]   improve high memory region address assignment
+    PATCH[5]   adds 'highmem-compact' to enable or disable the optimization
 
-1) have the management layer to make sure the mac came from cli
-matches the underlayer vDPA
-2) having a sanity check and fail the device initialization if they don't m=
-atch
+    Signed-off-by: Gavin Shan <gshan@redhat.com>
 
-Thanks
+The patchs works well on "IPA Size Limit: 40" FUJITSU machine.
+I added some debug code to show high memory region address.
+The test results are as expected.
 
->
->
->
-> That said the way you=E2=80=99re hacking the vhost-user code breaks a val=
-uable check for
->
-> bad vhost-user-blk backends. I would suggest finding another implementati=
-on which
->
-> does not regress functionality for other device types.
->
->
->
->
->
-> >From: Hao Chen <chenh@yusur.tech>
->
-> >
->
-> >When use dpdk-vdpa tests vdpa device. You need to specify the mac addres=
-s to
->
-> >start the virtual machine through libvirt or qemu, but now, the libvirt =
-or
->
-> >qemu can call dpdk vdpa vendor driver's ops .get_config through vhost_ne=
-t_get_config
->
-> >to get the mac address of the vdpa hardware without manual configuration=
-.
->
-> >
->
-> >v1->v2:
->
-> >Only copy ETH_ALEN data of netcfg for some vdpa device such as
->
-> >NVIDIA BLUEFIELD DPU(BF2)'s netcfg->status is not right.
->
-> >We only need the mac address and don't care about the status field.
->
-> >
->
-> >Signed-off-by: Hao Chen <chenh@yusur.tech>
->
-> >---
->
-> > hw/block/vhost-user-blk.c |  1 -
->
-> > hw/net/virtio-net.c       |  7 +++++++
->
-> > hw/virtio/vhost-user.c    | 19 -------------------
->
-> > 3 files changed, 7 insertions(+), 20 deletions(-)
->
-> >
->
-> >diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
->
-> >index 9117222456..5dca4eab09 100644
->
-> >--- a/hw/block/vhost-user-blk.c
->
-> >+++ b/hw/block/vhost-user-blk.c
->
-> >@@ -337,7 +337,6 @@ static int vhost_user_blk_connect(DeviceState *dev, =
-Error **errp)
->
-> >
->
-> >     vhost_dev_set_config_notifier(&s->dev, &blk_ops);
->
-> >
->
-> >-    s->vhost_user.supports_config =3D true;
->
-> >     ret =3D vhost_dev_init(&s->dev, &s->vhost_user, VHOST_BACKEND_TYPE_=
-USER, 0,
->
-> >                          errp);
->
-> >     if (ret < 0) {
->
-> >diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->
-> >index dd0d056fde..90405083b1 100644
->
-> >--- a/hw/net/virtio-net.c
->
-> >+++ b/hw/net/virtio-net.c
->
-> >@@ -166,6 +166,13 @@ static void virtio_net_get_config(VirtIODevice *vde=
-v, uint8_t *config)
->
-> >             }
->
-> >             memcpy(config, &netcfg, n->config_size);
->
-> >         }
->
-> >+    } else if (nc->peer && nc->peer->info->type =3D=3D NET_CLIENT_DRIVE=
-R_VHOST_USER) {
->
-> >+        ret =3D vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t =
-*)&netcfg,
->
-> >+                                   n->config_size);
->
-> >+        if (ret !=3D -1) {
->
-> >+               /* Automatically obtain the mac address of the vdpa devi=
-ce
->
-> >+                * when using the dpdk vdpa */
->
-> >+                memcpy(config, &netcfg, ETH_ALEN);
->
-> >     }
->
-> > }
->
-> >
->
-> >diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
->
-> >index bd24741be8..8b01078249 100644
->
-> >--- a/hw/virtio/vhost-user.c
->
-> >+++ b/hw/virtio/vhost-user.c
->
-> >@@ -2013,8 +2013,6 @@ static int vhost_user_backend_init(struct vhost_de=
-v *dev, void *opaque,
->
-> >     }
->
-> >
->
-> >     if (virtio_has_feature(features, VHOST_USER_F_PROTOCOL_FEATURES)) {
->
-> >-        bool supports_f_config =3D vus->supports_config ||
->
-> >-            (dev->config_ops && dev->config_ops->vhost_dev_config_notif=
-ier);
->
-> >         uint64_t protocol_features;
->
-> >
->
-> >         dev->backend_features |=3D 1ULL << VHOST_USER_F_PROTOCOL_FEATUR=
-ES;
->
-> >@@ -2033,23 +2031,6 @@ static int vhost_user_backend_init(struct vhost_d=
-ev *dev, void *opaque,
->
-> >          */
->
-> >         protocol_features &=3D VHOST_USER_PROTOCOL_FEATURE_MASK;
->
-> >
->
-> >-        if (supports_f_config) {
->
-> >-            if (!virtio_has_feature(protocol_features,
->
-> >-                                    VHOST_USER_PROTOCOL_F_CONFIG)) {
->
-> >-                error_setg(errp, "vhost-user device expecting "
->
-> >-                           "VHOST_USER_PROTOCOL_F_CONFIG but the vhost-=
-user backend does "
->
-> >-                           "not support it.");
->
-> >-                return -EPROTO;
->
-> >-            }
->
-> >-        } else {
->
-> >-            if (virtio_has_feature(protocol_features,
->
-> >-                                   VHOST_USER_PROTOCOL_F_CONFIG)) {
->
-> >-                warn_reportf_err(*errp, "vhost-user backend supports "
->
-> >-                                 "VHOST_USER_PROTOCOL_F_CONFIG but QEMU=
- does not.");
->
-> >-                protocol_features &=3D ~(1ULL << VHOST_USER_PROTOCOL_F_=
-CONFIG);
->
-> >-            }
->
-> >-        }
->
-> >-
->
-> >         /* final set of protocol features */
->
-> >         dev->protocol_features =3D protocol_features;
->
-> >         err =3D vhost_user_set_protocol_features(dev, dev->protocol_fea=
-tures);
->
-> >--
->
-> >2.27.0
->
-> >
->
+1. virt-7.2 default
+# /home/qemu/build/qemu-system-aarch64 -accel kvm -cpu host -machine
+virt-7.2 -m 4G,maxmem=511G -monitor stdio
+=====> virt_set_high_memmap: pa_bits=40, base=0x8000000000
+[HIGH_GIC_REDIST2]: disabled, highest_gpa=0x7fffffffff    [no] [yes]
+[HIGH_PCIE_ECAM]: disabled, highest_gpa=0x7fffffffff    [no] [yes]
+[HIGH_PCIE_MMIO] enabled, highest_gpa=0xffffffffff
+
+2. When virt-7.2,highmem-compact=off
+# /home/qemu/build/qemu-system-aarch64 -accel kvm -cpu host -machine
+virt-7.2,highmem-compact=off -m 4G,maxmem=511G -monitor stdio
+=====> virt_set_high_memmap: pa_bits=40, base=0x8000000000
+[HIGH_GIC_REDIST2]: disabled, highest_gpa=0x8003ffffff    [no] [yes]
+[HIGH_PCIE_ECAM]: disabled, highest_gpa=0x801fffffff    [no] [yes]
+[HIGH_PCIE_MMIO]: disabled, highest_gpa=0x801fffffff    [no] [no]
+
+3. virt-7.1 default
+# /home/qemu/build/qemu-system-aarch64 -accel kvm -cpu host -machine
+virt-7.1 -m 4G,maxmem=511G -monitor stdio
+=====> virt_set_high_memmap: pa_bits=40, base=0x8000000000
+[HIGH_GIC_REDIST2]: disabled, highest_gpa=0x8003ffffff    [no] [yes]
+[HIGH_PCIE_ECAM]: disabled, highest_gpa=0x801fffffff    [no] [yes]
+[HIGH_PCIE_MMIO]: disabled, highest_gpa=0x801fffffff    [no] [no]
+
+2. When virt-7.1,highmem-compact=on
+# /home/qemu/build/qemu-system-aarch64 -accel kvm -cpu host -machine
+virt-7.1,highmem-compact=on -m 4G,maxmem=511G -monitor stdio
+=====> virt_set_high_memmap: pa_bits=40, base=0x8000000000
+[HIGH_GIC_REDIST2]: disabled, highest_gpa=0x7fffffffff    [no] [yes]
+[HIGH_PCIE_ECAM]: disabled, highest_gpa=0x7fffffffff    [no] [yes]
+[HIGH_PCIE_MMIO] enabled, highest_gpa=0xffffffffff
+
+
+Tested-by: Zhenyu Zhang<zhenyzha@redhat.com>
+
+On Thu, Sep 22, 2022 at 7:13 AM Gavin Shan <gshan@redhat.com> wrote:
+>
+> There are three high memory regions, which are VIRT_HIGH_REDIST2,
+> VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
+> are floating on highest RAM address. However, they can be disabled
+> in several cases.
+>
+> (1) One specific high memory region is disabled by developer by
+>     toggling vms->highmem_{redists, ecam, mmio}.
+>
+> (2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
+>     'virt-2.12' or ealier than it.
+>
+> (3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
+>     on 32-bits system.
+>
+> (4) One specific high memory region is disabled when it breaks the
+>     PA space limit.
+>
+> The current implementation of virt_set_memmap() isn't comprehensive
+> because the space for one specific high memory region is always
+> reserved from the PA space for case (1), (2) and (3). In the code,
+> 'base' and 'vms->highest_gpa' are always increased for those three
+> cases. It's unnecessary since the assigned space of the disabled
+> high memory region won't be used afterwards.
+>
+> The series intends to improve the address assignment for these
+> high memory regions.
+>
+> PATCH[1-3] preparatory work for the improvment
+> PATCH[4]   improve high memory region address assignment
+> PATCH[5]   adds 'highmem-compact' to enable or disable the optimization
+>
+> History
+> =======
+> v2: https://lore.kernel.org/all/20220815062958.100366-1-gshan@redhat.com/T/
+> v1: https://lists.nongnu.org/archive/html/qemu-arm/2022-08/msg00013.html
+>
+> Changelog
+> ==========
+> v3:
+>   * Reorder the patches                                        (Gavin)
+>   * Add 'highmem-compact' property for backwards compatibility (Eric)
+> v2:
+>   * Split the patches for easier review                        (Gavin)
+>   * Improved changelog                                         (Marc)
+>   * Use 'bool fits' in virt_set_high_memmap()                  (Eric)
+>
+> Gavin Shan (5):
+>   hw/arm/virt: Introduce virt_set_high_memmap() helper
+>   hw/arm/virt: Rename variable size to region_size in
+>     virt_set_high_memmap()
+>   hw/arm/virt: Introduce variable region_base in virt_set_high_memmap()
+>   hw/arm/virt: Improve high memory region address assignment
+>   hw/arm/virt: Add 'highmem-compact' property
+>
+>  docs/system/arm/virt.rst |   4 ++
+>  hw/arm/virt.c            | 116 ++++++++++++++++++++++++++++-----------
+>  include/hw/arm/virt.h    |   2 +
+>  3 files changed, 89 insertions(+), 33 deletions(-)
+>
+> --
+> 2.23.0
 >
 
 
