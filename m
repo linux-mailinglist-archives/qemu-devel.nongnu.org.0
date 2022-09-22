@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7B95E67B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:56:39 +0200 (CEST)
-Received: from localhost ([::1]:60042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D005E67DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:59:08 +0200 (CEST)
+Received: from localhost ([::1]:52990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obOZ4-0002U6-5B
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:56:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
+	id 1obObT-00082x-JA
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:59:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obN4e-00042e-3S
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:21:13 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36590)
+ id 1obN5G-0004AP-09
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:21:49 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:40913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obN4Z-0003wH-O7
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:21:07 -0400
-Received: by mail-ej1-x630.google.com with SMTP id 13so21440766ejn.3
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 07:21:03 -0700 (PDT)
+ id 1obN5D-0003zt-9X
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:21:44 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id l14so21416770eja.7
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 07:21:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=/Wc0mgLFRHUmFhl7MpUsY0s+PYtOfdXYF77TOXT470E=;
- b=SAUy/LIFBFt4SP/cN/CjThiLiKsNk0fX46jSwd6etGZn0N6+76SJokvOevHHkg8ugF
- QGU98UeWBNu7fcoJKUFzenkgbK4NfKhbgvpnmA9g9NfPVbzv3Iwfj3qXdZwxgPqNvyPD
- 5HobpkvaULYtA7Pan81Dgz+y5F40aOxKz5nzmtbrK5oYdUnOn3VHRDdbO1rYBvlfNwLZ
- zBvFXhRCorvUOSjlaP+KOAaubhAsTBOnIsVR/sbn2g/oD6TEzfGZCWA6fNfT8M/0/8GC
- P7dae5eIa5VwjqPAzKW7nv2aea4Xndblf0hZG5LO5EaOZv+NJp2SKdIVCgDiYtrDsMEE
- /MAQ==
+ bh=SKGDx92+n7z7e47qDXW9i9QmOYs3PQ4ULvPe75LIW+8=;
+ b=SnTUzhOm/opDsYZef0NNG/6GGjOxQiWxDDWZiwSsQJL+4KaueQvnGJgHqPLq/78wrX
+ 7dUhvTAFF10mSsrx09Fc9Mt6wqutL4JH7i2YZyo5ECAEhhZroT50LB6EnhJzb69zUfc5
+ fmpjN5DuIG0EeJTTQYWdydAhxFYp9FaP5qsTDYIDaSen1nsgwuE0LeRpjjHbvjT4upHM
+ zhH4zLk8e7fTk5YggoRhY/iZjOUcUbk9uxhp/b5E1FOiuxRsaVu+fQg+msJTq7AZiU1c
+ bvQaEt8kbLK4nNkI9oDon4/BDRJJTmjJQOMj2N8hs8EJNXobclKmnGi1zZGM6zmDnJ7w
+ 4Atg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=/Wc0mgLFRHUmFhl7MpUsY0s+PYtOfdXYF77TOXT470E=;
- b=Iwg1wwHj8qCbkWNfMF7gcKLC3huXVRG0NSzeXWxgk47HHIu1a+SEHtFOaDeSAuo/tQ
- bcFVub/VdribLw+1uSY+C+jvD0yc9Bk1d+WH0Qk4XTlpEutRzdO2iWEjaB2YpfSIAy2Z
- aQb8OD8cF6NG3cWFuMtS7JYjtNE2jH/Rl2/iu+NjoxOeMedOPYBktkPCo27lrJnpKLXZ
- 5dD1G7yO/noQHibrAYBvt/E5878FVpssI1OZ4zSGLCos5qq3MOUZLd4FpNe5gBQ/Vj8p
- ZQSJvrmofB6+pTSrFRc/nVUVq0aykLq5GOceWh2KlXENJJI7/nAQd7x2KE9KCxT5vMYc
- U+MQ==
-X-Gm-Message-State: ACrzQf3BwYwW/qmALSfbm8PB591amPKr09rTFk9UATFgjterDastWje6
- ernlNX5pfh9s8x5jO4ixaXmg8QUWUdOxYi/a3IzBbg==
-X-Google-Smtp-Source: AMsMyM6uYFz2RyUBPQgFSIzOCwETzpdyOZUCyfkpTVeK0CbK06v1G+ZaqgUJpaVYJP6mQ/AQE7EhlTiJP19meY4aAUg=
-X-Received: by 2002:a17:906:730f:b0:781:6a70:ea4 with SMTP id
- di15-20020a170906730f00b007816a700ea4mr3102320ejc.36.1663856462094; Thu, 22
- Sep 2022 07:21:02 -0700 (PDT)
+ bh=SKGDx92+n7z7e47qDXW9i9QmOYs3PQ4ULvPe75LIW+8=;
+ b=uwAeeQ6ZWDpeTRPwpT7K1G3pr/Frblp0gCV8tHznytdwcxHwTfDRXff6NZeT/f63sQ
+ nn/vxqmJMw0jZfmhGOV1hpf08zWOUpFx+W/xiW51AT4N2qVjKCOEoyt67A20Il8lNhEP
+ hAaqMhWG+JDYo3OLgTLE4p1v1pSSBK+BjKxRrnfr4l5yuNArMYybaWPKj98c+4818g1q
+ xf0pz8POQvF4t/x+Cxt0IZykRckz6G99cZcBbQTmHVMTUrlKEKIfXkWYYfQc6+vIJnJk
+ zQW+f2M3ltuHwnGaldLKNwj5y/ZK3MgxFlxwrOcaEWldjW1iHMdv9NCDJOXTVfzQ2uP9
+ MSHw==
+X-Gm-Message-State: ACrzQf3Q2D+eftXurPDZq0IbdYQ0ikatOxByUlNY9+Xc3HV3EqMrEsfK
+ gfzAHlewNdnWoguovxqgzmtqEENPsyDWbtdYDkSDBw==
+X-Google-Smtp-Source: AMsMyM7IlI8At1uxNApjsXbtqW5U5FjafPyPOIyRZn1yaENa13WZEHpD6oLCJly8Q0uELRI2tXxdlxy7JA7BpNoHtp8=
+X-Received: by 2002:a17:907:86a5:b0:780:156d:e842 with SMTP id
+ qa37-20020a17090786a500b00780156de842mr3048158ejc.555.1663856501486; Thu, 22
+ Sep 2022 07:21:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220910061209.2559-1-vikram.garhwal@amd.com>
-In-Reply-To: <20220910061209.2559-1-vikram.garhwal@amd.com>
+References: <20220910061252.2614-1-vikram.garhwal@amd.com>
+ <20220910061252.2614-5-vikram.garhwal@amd.com>
+In-Reply-To: <20220910061252.2614-5-vikram.garhwal@amd.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 22 Sep 2022 15:20:50 +0100
-Message-ID: <CAFEAcA-KKNwCn0aJqZgXLM5XMH0WFYqC3i-Eyqomda=m2KfqCw@mail.gmail.com>
-Subject: Re: [QEMU][PATCH 0/5] Introduce Xilinx Versal CANFD
+Date: Thu, 22 Sep 2022 15:21:30 +0100
+Message-ID: <CAFEAcA-T3e407ML7Y-x2gm3N97xk+6RLXpotn+ytdEtWcCNGEg@mail.gmail.com>
+Subject: Re: [QEMU][PATCH 5/5] MAINTAINERS: Include canfd tests under Xilinx
+ CAN
 To: Vikram Garhwal <vikram.garhwal@amd.com>
 Cc: qemu-devel@nongnu.org, edgar.iglesias@amd.com, francisco.iglesias@amd.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,38 +84,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 10 Sept 2022 at 09:15, Vikram Garhwal <vikram.garhwal@amd.com> wrote:
+On Sat, 10 Sept 2022 at 09:12, Vikram Garhwal <vikram.garhwal@amd.com> wrote:
 >
-> Hi,
-> This patch implements CANFD controller for xlnx-versal-virt machine. There are
-> two controllers CANFD0@0xFF06_0000 and CANFD1@0xFF07_0000 are connected to the
-> machine.
->
-> Also, added basic qtests for data exchange between both the controllers in
-> various supported configs.
->
-> Regards,
-> Vikram
->
-> Vikram Garhwal (5):
->   MAINTAINERS: Update maintainer's email for Xilinx CAN
->   hw/net/can: Introduce Xilinx Versal CANFD controller
->   xlnx-zynqmp: Connect Xilinx VERSAL CANFD controllers
->   tests/qtest: Introduce tests for Xilinx VERSAL CANFD controller
->   MAINTAINERS: Include canfd tests under Xilinx CAN
+> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
 
-Hi -- something odd seems to have happened with the cover letter for this
-series: the patches haven't ended up as followups to the cover letter.
-You can see this in the lore archive where the cover letter ends up
-here on its own:
-https://lore.kernel.org/qemu-devel/20220910061209.2559-1-vikram.garhwal@amd.com/
-but the actual patches are here, with 2,3,4,5 showing up as replies to 1:
-https://lore.kernel.org/qemu-devel/20220910061252.2614-1-vikram.garhwal@amd.com/
-This means that patchew couldn't find the patches:
-https://patchew.org/QEMU/20220910061209.2559-1-vikram.garhwal@amd.com/
-
-If you could look at what went wrong in your config for next time it
-will make the tooling happier.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
