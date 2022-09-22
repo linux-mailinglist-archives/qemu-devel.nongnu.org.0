@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565565E6942
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:11:40 +0200 (CEST)
-Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692505E6A1B
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:58:54 +0200 (CEST)
+Received: from localhost ([::1]:44780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obPje-0006ln-UH
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:11:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50840)
+	id 1obQTM-0001hb-H3
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1obP3r-00037t-Up; Thu, 22 Sep 2022 12:28:28 -0400
-Received: from mailgw.felk.cvut.cz ([147.32.82.15]:60726)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1obP4Y-0004Yq-1M
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:29:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pisa@cmp.felk.cvut.cz>)
- id 1obP3W-00076T-Ij; Thu, 22 Sep 2022 12:28:10 -0400
-Received: from mailgw.felk.cvut.cz (localhost.localdomain [127.0.0.1])
- by mailgw.felk.cvut.cz (Proxmox) with ESMTP id 218A630B295D;
- Thu, 22 Sep 2022 18:27:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- cmp.felk.cvut.cz; h=cc:cc:content-transfer-encoding:content-type
- :content-type:date:from:from:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=felkmail; bh=ytavG
- Ik2vUrDag3f1RUiXx3JEyloTlyJk99yARd8hXU=; b=qUgPQJxBI9wgFGAxtmTew
- 8yS0uJaHY4wRjEGYgrFeLGMW2B2S/GjNuSX2vBo1eAkluQkcj6vGwZPrhD5ac8IU
- EwRFcl5vHIDwoEB7Km28X18CzQx1VslNcK2rL4wJdelcXTOaaBcmvY6jeg7Xmb56
- 0hCP04v5jwwxeaEhPWPkrgS3qmnseuyeNzwmiq9FFFmVBG5a2/d2H8wZyBM5T23t
- ZUDzC+v2SWnYtEnLXtlzvmrPj6SR9uE9QqaYf7qbp4vlzzV7lPPwyx2zPiV3Swdd
- 8xou46VAEGWbzxRgrUDNS6KGRz+4La9HEZnqqeBB9O9f81OHEj7C/Cqz11KVg5gB
- A==
-Received: from cmp.felk.cvut.cz (haar.felk.cvut.cz [147.32.84.19])
- by mailgw.felk.cvut.cz (Proxmox) with ESMTPS id B5EB730AE005;
- Thu, 22 Sep 2022 18:27:21 +0200 (CEST)
-Received: from haar.felk.cvut.cz (localhost [127.0.0.1])
- by cmp.felk.cvut.cz (8.14.0/8.12.3/SuSE Linux 0.6) with ESMTP id
- 28MGRLg9011775; Thu, 22 Sep 2022 18:27:21 +0200
-Received: (from pisa@localhost)
- by haar.felk.cvut.cz (8.14.0/8.13.7/Submit) id 28MGRLnw011774;
- Thu, 22 Sep 2022 18:27:21 +0200
-X-Authentication-Warning: haar.felk.cvut.cz: pisa set sender to
- pisa@cmp.felk.cvut.cz using -f
-From: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [QEMU][PATCH 2/5] hw/net/can: Introduce Xilinx Versal CANFD
- controller
-Date: Thu, 22 Sep 2022 18:27:09 +0200
-User-Agent: KMail/1.9.10
-Cc: Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org,
- edgar.iglesias@amd.com, francisco.iglesias@amd.com,
- Vikram Garhwal <fnu.vikram@xilinx.com>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>
-References: <20220910061252.2614-1-vikram.garhwal@amd.com>
- <20220910061252.2614-2-vikram.garhwal@amd.com>
- <CAFEAcA9=O6yPo9RdFWgq6eJZ=7vX4bQFuaoV6y+JCoM-=+TSTg@mail.gmail.com>
-In-Reply-To: <CAFEAcA9=O6yPo9RdFWgq6eJZ=7vX4bQFuaoV6y+JCoM-=+TSTg@mail.gmail.com>
-X-KMail-QuotePrefix: > 
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1obP4U-00006n-QY
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:29:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663864145;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k12gsWGwrNBFPSSZ6XW1GKyOrXQ8qE7eXyN/jLntquQ=;
+ b=X5S0jJiNkkKrkNKNCWd5IjxBfxWEVhE/Wbv9lFNucJUuIRa4Z5Zy+dt5FHPYVjN/BZ0Atf
+ CEV1NB13FhxNbmhM2gjW9fCGX870i21plOyxdl9oSdYIz/6O3Q6bKQBRjda59dP99QAiVJ
+ rUb53eCXWoxDMLuyvOZHj0sl1Y3+iCs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-526-TaNY5FbwNoueBvD4oBtaZQ-1; Thu, 22 Sep 2022 12:29:04 -0400
+X-MC-Unique: TaNY5FbwNoueBvD4oBtaZQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ t12-20020adfa2cc000000b0022adcbb248bso3415652wra.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:29:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=k12gsWGwrNBFPSSZ6XW1GKyOrXQ8qE7eXyN/jLntquQ=;
+ b=KyUJQnAjjT84srTFsb7fRdUqwRKjOwCi5w1b55v24V2juDSpxYhL1z4w6NwHIb0Joa
+ FXyQoSA/vvHwNwn5IIX20Mxl1YxmUviPXptS5jhr7vpht45Jfwg3/2pdaTsYna91daky
+ 9Yh7khvPEhe7KBWvm/sFxgngNDHIQL4ocP+5QUEtakIPFZ6K3mRMBJUbLnnOANqdCibM
+ Gp846mNVjLOLk03Zv7G/pU3Un9jFeI9Mg/JkCDRsUDyJYqi1bp08U7EzO25WBD1ZfbdV
+ S0RV2dRkq60VMNYsEOg2PI4/bLD1gGCl0i+EhjAW2n3rp5WdjgaPkzLSB7zhSbq1HNmY
+ xPYg==
+X-Gm-Message-State: ACrzQf1nTUiMLil/nP3pbHKveWTrsSy6Gq8JWxqD+stycguz+gDMX8Kh
+ 904ExclLDESUXvZfKxOzwAQ8I1uQjmb3scxFxyFrP/mF+DCOOscHm7sjlX92Wov8GZaesVoWRDR
+ vfxZs7OWzkgUO1vs=
+X-Received: by 2002:a05:6000:184:b0:22a:cb6f:bb52 with SMTP id
+ p4-20020a056000018400b0022acb6fbb52mr2562622wrx.500.1663864143653; 
+ Thu, 22 Sep 2022 09:29:03 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5W9cS0WLMNE2LNIipaMi72sgTDbTDUIUQ8z+6FiscuMkl+mZ3EPT6z9lPDBSnbPrmf0CXDkg==
+X-Received: by 2002:a05:6000:184:b0:22a:cb6f:bb52 with SMTP id
+ p4-20020a056000018400b0022acb6fbb52mr2562613wrx.500.1663864143423; 
+ Thu, 22 Sep 2022 09:29:03 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ x13-20020adff0cd000000b002205cbc1c74sm5225480wro.101.2022.09.22.09.29.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Sep 2022 09:29:02 -0700 (PDT)
+Date: Thu, 22 Sep 2022 17:29:00 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH 4/5] migration: Disallow postcopy preempt to be used with
+ compress
+Message-ID: <YyyNTHPgEZaG/UJW@work-vm>
+References: <20220920223800.47467-1-peterx@redhat.com>
+ <20220920223800.47467-5-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Message-Id: <202209221827.09886.pisa@cmp.felk.cvut.cz>
-Received-SPF: none client-ip=147.32.82.15; envelope-from=pisa@cmp.felk.cvut.cz;
- helo=mailgw.felk.cvut.cz
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, NICE_REPLY_A=-1.893, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20220920223800.47467-5-peterx@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,60 +103,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Peter,
+* Peter Xu (peterx@redhat.com) wrote:
+> The preempt mode requires the capability to assign channel for each of the
+> page, while the compression logic will currently assign pages to different
+> compress thread/local-channel so potentially they're incompatible.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-thanks for the review and Vikram for his work, I do not know
-much about Xilinx emulation nor Xilixn CAN controllers so I cannot
-comment much on this part.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-On Thursday 22 of September 2022 16:46:48 Peter Maydell wrote:
-> On Sat, 10 Sept 2022 at 07:13, Vikram Garhwal <vikram.garhwal@amd.com> > > To create virtual CAN on the host machine, please check the QEMU CAN
-> > docs: https://github.com/qemu/qemu/blob/master/docs/can.txt
->
-> That link is a 404. You could just give the relative path to the
-> docs in the repo, which is docs/system/devices/can.rst
-
-The actual generated documentation is located at
-
-  https://www.qemu.org/docs/master/system/devices/can.html
-
-I think that that URL is stable for some time... Could it
-be used directly in source to provide path to formated version?
-
-> For the machine specifics, you should include (either in the patch 4
-> where you add this to the xlnx-versal-virt board, or in a separate patch
-> if it seems too big) updates to docs/system/arm/xlnx-versal-virt.rst
-> which document the new functionality, including, if it's useful to users,
-> some documentation of how to use it.
-
-Some short example how to use emulation even with Xilinx Zynq and Ultra Scale
-would be nice if added into the document. If the document length expands
-too much, then probably division into individual documents per controllers
-would be nice.
-
-By the way, CAN in Automation publishes our overview article about our CAN
-activities including some short netion of QEMU integration
-
-  https://can-newsletter.org/uploads/media/raw/a9abe317ae034be55d99fee4410ad70e.pdf   
-
-I hope I wind some time for CAN in QEMU, RTEMS and Linux ongoing projects,
-but I need to finish some promissed project for ESA the first.
-
-Best wishes,
-
-                Pavel
+> ---
+>  migration/migration.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index fb4066dfb4..07c74a79a2 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1341,6 +1341,17 @@ static bool migrate_caps_check(bool *cap_list,
+>              error_setg(errp, "Postcopy preempt requires postcopy-ram");
+>              return false;
+>          }
+> +
+> +        /*
+> +         * Preempt mode requires urgent pages to be sent in separate
+> +         * channel, OTOH compression logic will disorder all pages into
+> +         * different compression channels, which is not compatible with the
+> +         * preempt assumptions on channel assignments.
+> +         */
+> +        if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
+> +            error_setg(errp, "Postcopy preempt not compatible with compress");
+> +            return false;
+> +        }
+>      }
+>  
+>      return true;
+> -- 
+> 2.32.0
+> 
 -- 
-                Pavel Pisa
-    phone:      +420 603531357
-    e-mail:     pisa@cmp.felk.cvut.cz
-    Department of Control Engineering FEE CVUT
-    Karlovo namesti 13, 121 35, Prague 2
-    university: http://control.fel.cvut.cz/
-    personal:   http://cmp.felk.cvut.cz/~pisa
-    projects:   https://www.openhub.net/accounts/ppisa
-    CAN related:http://canbus.pages.fel.cvut.cz/
-    RISC-V education: https://comparch.edu.cvut.cz/
-    Open Technologies Research Education and Exchange Services
-    https://gitlab.fel.cvut.cz/otrees/org/-/wikis/home
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
