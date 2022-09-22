@@ -2,73 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9235E672B
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:32:25 +0200 (CEST)
-Received: from localhost ([::1]:49072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66AD5E6638
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:54:32 +0200 (CEST)
+Received: from localhost ([::1]:51500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obOBc-0005ot-5n
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50736)
+	id 1obNax-0006EU-Mo
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:54:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obMm2-0007td-2I
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:01:55 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:39474)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obMlt-0007s0-BH
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:01:45 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:58246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obMlz-00038n-5p
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:01:53 -0400
-Received: by mail-ej1-x631.google.com with SMTP id z13so2092642ejp.6
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 07:01:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=fsV7eS4USxpKc1nQ54y7IcHgkqrSV3V3QPYg29FrWp4=;
- b=AfiRIwP1LJykPq6SCBloKSGoS/gcMNRPP0XJdZXjjATXsunOMIye/gTQTrEC8STOd6
- l2OkG2tRQDkbztAU/UMazpcIcIjeGBK6/gPHOhooZOrOmA2UQfNPRcPQpJp6y29lnMlf
- u4P+6DSMOe8CgLUQ7L/Lm5Dgndxw2+N+/Q1DnIT+RhiTDmixToA2zU21tbFSDsgOHB6t
- GHiRf1RI0975UXug3F+JgbhP21BAyuEjQvNIvWMLYEOjDdoTYrg0YyohCsfn1kmgUlXC
- Np5iTCbf16c3t0a0yT01NZLtq5es2pIFHN65H3wxpG6vGEacoAs251htiFHUBQNQBgDM
- jEoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=fsV7eS4USxpKc1nQ54y7IcHgkqrSV3V3QPYg29FrWp4=;
- b=6MJUdHcEOgPg6wAxZ77YOA59j3fsCHSoS1yJiSNTCzBU2oNvEoo1iKcz/xKTFXl6+L
- F4c3tu2bUaHX6tzEw8M7RFE+x7f7k+CdpnVPuxorB0GCiq7SXcur+cul0AeSk/zjJwam
- xZmoTvA+ZM2Xke2Pw4hO4dOjpqFRCqJ7C8uGxwfk7jcnpfbHjUa6ssGewvJhUi2PtoUM
- 59O+pM2h42yZwDbpZU1+Jte7Wi1NyuPoLOLVvx5yVuhAUyk+vgPb8P2J9fpabu6OTL9t
- KoQSlN+guQ95yXndWGs6EKOJICe0kF0UApmHW0UQlh8cMf5XlndQ8LdeTQrMt4rHoiph
- vfGQ==
-X-Gm-Message-State: ACrzQf3zlaUxAJ33g6p10Cf0kHUSRjggkEjFZdm0CB/Pj6VnR29H5QK3
- 7wTZowoc3062pXfsbiKZ7X6kluzmV0wjVMo0llSsLQ==
-X-Google-Smtp-Source: AMsMyM6n8MfqRvyfucDz1aiV2Bt2nyvp3kU7S00g/K1ZRGGmCjUVOSabnw1UHR6iMpeAZ7jKPLMU/SFWEO7CChNZLMM=
-X-Received: by 2002:a17:906:730f:b0:781:6a70:ea4 with SMTP id
- di15-20020a170906730f00b007816a700ea4mr3017559ejc.36.1663855308756; Thu, 22
- Sep 2022 07:01:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obMlr-00033o-Ia
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:01:45 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 17611219E4;
+ Thu, 22 Sep 2022 14:01:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663855302; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Fhjn6bvXl0yINdkQ9VVsDfgNuESaKBLl6hSceW5gP9c=;
+ b=bheAqrcKHYGrAadiNpaRYgDTGvY0GtnxECd29nG4IHCKM8ZJGZzRQRLuEl+UNavHwW8HG1
+ dlUaIhCiYevCiCBPbEwKk3Qf44T/UeCrPHIERZ8SxSuVkSAHrwXPDzlAnl0iKHlAaWOEl1
+ +xmsbrpi5sK5bXuhKBhzbo/ADvBWQrE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663855302;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Fhjn6bvXl0yINdkQ9VVsDfgNuESaKBLl6hSceW5gP9c=;
+ b=GVIVNxYj272phdpNFpMon6ymSnU5mTzWJSytxzuqUAf5thL3dASJvxy5iuACpAgYMZYLRB
+ IMcbDxaxXNF1XLBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A5ED913AA5;
+ Thu, 22 Sep 2022 14:01:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id d+A5JsVqLGPtBwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 22 Sep 2022 14:01:41 +0000
+Message-ID: <d02287f6-0f71-1af4-3bab-99f6df6542eb@suse.de>
+Date: Thu, 22 Sep 2022 16:01:41 +0200
 MIME-Version: 1.0
-References: <20220906100528.343244-1-richard.henderson@linaro.org>
- <20220906100528.343244-3-richard.henderson@linaro.org>
-In-Reply-To: <20220906100528.343244-3-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 22 Sep 2022 15:01:37 +0100
-Message-ID: <CAFEAcA9WHFT8imd7-3bZCkBuXtq_Kh0Tuqsri35yAHFF_kvQRQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/9] target/arm: Change gen_goto_tb to work on
- displacements
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <87y1ucdirx.fsf@pond.sub.org>
+ <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de> <878rmc54cw.fsf@pond.sub.org>
+ <Yywcs7CpKDxahOSM@redhat.com> <87leqb4ul9.fsf@pond.sub.org>
+ <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de> <87bkr7mvgr.fsf@pond.sub.org>
+ <4a656f0f-1497-5569-e562-f537b115daf3@suse.de> <87r103lf4y.fsf@pond.sub.org>
+ <CAAdtpL7=6YN+jh30xB_PB5aAxaWoFf4-3nLsWiAMGK6ZvWnLww@mail.gmail.com>
+ <YyxmrTnpziXGxRMm@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <YyxmrTnpziXGxRMm@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1c;
+ envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.893,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,31 +101,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Sept 2022 at 11:12, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate-a64.c | 40 ++++++++++++++++++++------------------
->  target/arm/translate.c     | 10 ++++++----
->  2 files changed, 27 insertions(+), 23 deletions(-)
->
+On 9/22/22 15:44, Daniel P. Berrangé wrote:
+> On Thu, Sep 22, 2022 at 03:34:42PM +0200, Philippe Mathieu-Daudé wrote:
+>> On Thu, Sep 22, 2022 at 3:20 PM Markus Armbruster <armbru@redhat.com> wrote:
+>>>
+>>> Claudio Fontana <cfontana@suse.de> writes:
+>>>
+>>> [...]
+>>>
+>>>> I think it would be better to completely make the return value separate from the Error,
+>>>> and really treat Error as an exception and not mix it up with the regular execution,
+>>>>
+>>>> but if it is the general consensus that I am the only one seeing this conflation problem we can model it this way too.
+>>>
+>>> It's a matter of language pragmatics.  In Java, you throw an exception
+>>> on error.  In C, you return an error value.
+>>>
+>>> Trying to emulate exceptions in C might be even more unadvisable than
+>>> trying to avoid them in Java.  Best to work with the language, not
+>>> against it.
+>>>
+>>> Trouble is the error values we can conveniently return in C can't convey
+>>> enough information.  So we use Error for that.  Just like GLib uses
+>>> GError.
+>>>
+>>> More modern languages do "return error value" much better than C can.  C
+>>> is what it is.
+>>>
+>>> We could certainly argue how to do better than we do now in QEMU's C
+>>> code.  However, the Error API is used all over the place, which makes
+>>> changing it expensive.  "Rethinking the whole Error API" (your words)
+>>> would have to generate benefits worth this expense.  Which seems
+>>> unlikely.
+>>
+>> QEMU Error* and GLib GError are designed to report recoverable runtime *errors*.
+>>
+>> There is or is no error. A boolean return value seems appropriate.
+>>
+>> We are bikeshedding about the API because we are abusing it in a non-error case.
+>>
+>> If we want to try to load an optional module, the Error* argument is
+>> not the proper way to return the information regarding why we couldn't
+>> load.
+>>
+>> In both cases we want to know if the module was loaded. If this is an
+>> optional module, we don't care why it couldn't be loaded.
+> 
+> No, that's wrong. If the module exists on disk but is incompatible
+> with the current QEMU, then we need to be reporting that as an
+> error to the caller, so they can propagate this problem back up
+> the stack to the QMP command or CLI arg that started the code path.
 
-> @@ -14965,7 +14967,7 @@ static void aarch64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
->          switch (dc->base.is_jmp) {
->          case DISAS_NEXT:
->          case DISAS_TOO_MANY:
-> -            gen_goto_tb(dc, 1, dc->base.pc_next);
-> +            gen_goto_tb(dc, 1, curr_insn_len(dc));
+Agree.
 
-Why does this one need to be curr_insn_len() when all the others
-in translate-a64.c used a hardcoded 4 ?
+> 
+> We don't need to be using the return status to tell the caller if
+> the module was loaded or not. We only should be telling thue caller
+> is there was a reportable error or not.
+> 
+> Consider, there is a call to load block drivers. We don't need
+> to know whether each block driver was loaded or not. eg if the
+> 'curl' code is a module and we fail to load it, then when code
+> tries to create a curl based block device the missing curl
+> support will be reported at that time.  The callers that load
+> modules should only need to express whether their load attempt
+> is mandatory or optional, in terms of the module existing on
+> disk.  If the modules exists on disk, any further errors
+> encountered when loading it should be propagated.
+> 
+> 
+> 
+>> So trying to make everybody happy:
+>>
+>>   // Return true if the module could be loaded, otherwise return false
+>> and errp contains the error.
+>>  bool module_load_one(const char *prefix, const char *name, Error *errp);
+>>
+>>   // Return true if the module could be loaded, false otherwise.
+>>   bool module_try_load_one(const char *prefix, const char *name);
+> 
+> Nope, this latter doesn't work as it throws away important errors
+> when loading an incompatible/broken module.
+> 
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Agree.
 
-thanks
--- PMM
+Claudio
+
 
