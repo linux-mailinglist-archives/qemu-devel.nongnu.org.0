@@ -2,76 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665215E6666
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:04:21 +0200 (CEST)
-Received: from localhost ([::1]:35526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CCE5E6547
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:27:11 +0200 (CEST)
+Received: from localhost ([::1]:50072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obNkS-0006ID-0h
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:04:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37270)
+	id 1obNAU-0002Go-I5
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:27:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obMNK-00056E-TI
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:36:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obMNH-00025i-1n
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:36:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663853777;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obMTm-0006AE-My
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:43:02 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:59650)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obMTl-0003M4-0K
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:43:02 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id AD9E3219ED;
+ Thu, 22 Sep 2022 13:42:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663854177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FvAtRdJjpPnccagKO5QQhUTuoT1OMUt4JHgJayUEgFE=;
- b=YOdleoRPDCINNrMiGrGJ1vtr3nwZrrFWipQ6qpSQy3rX4kKx+QUsV55yFG0UrIbdvx7zgM
- ca1bQ8zp0x1ey+XiS7L95qMnG9WQVaSsAaSmt4RdO2UURWvM9Km6ZHPfNk7n3/A9kWhnvO
- sHOY1HeWfqz2El9n8MsqZSCqImEUoYE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-xRAJzkjpONK4pNiRbpCPRQ-1; Thu, 22 Sep 2022 09:36:13 -0400
-X-MC-Unique: xRAJzkjpONK4pNiRbpCPRQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ bh=O7Kasv43rzdOZfTe7vT4wIb6dOEkVz51eREsz9bFzn4=;
+ b=n98kniFwl+CfDFd4xieq1EtAZWKsBVt9MQzYs4BheA1ITrh+oDeASGtYuHuMq4ZSe7kHUy
+ BB4P/EgRUYRqEAyM6eFwOa9dnFT7MN8v98FnsgdRFcepyMRcXflt1bc9wIyX4XgHwCxgPZ
+ m7byOL8/kP4wCae1AIuKjmIXXYkasTE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663854177;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O7Kasv43rzdOZfTe7vT4wIb6dOEkVz51eREsz9bFzn4=;
+ b=1URniXtu6KM9qyRbUwU+3s2mxJuAcBWLDipAmRlBCo9/pOM10NNp7uru/8ts7vAPGxCC3Q
+ 5vBESjmKk510ScBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69AC63806702;
- Thu, 22 Sep 2022 13:36:13 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41E97140EBF5;
- Thu, 22 Sep 2022 13:36:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0963821E6900; Thu, 22 Sep 2022 15:36:12 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,  Michael
- Roth <michael.roth@amd.com>,  John Snow <jsnow@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Juan Quintela <quintela@redhat.com>,  "Dr . David
- Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 14/27] qapi migration: Elide redundant has_FOO in
- generated C
-References: <20220915204317.3766007-1-armbru@redhat.com>
- <20220915204317.3766007-15-armbru@redhat.com>
- <CAAdtpL5RoFEzEJFXZT44oi9YQr9N84sSoy5xPKLkkdxWRiwMjw@mail.gmail.com>
-Date: Thu, 22 Sep 2022 15:36:12 +0200
-In-Reply-To: <CAAdtpL5RoFEzEJFXZT44oi9YQr9N84sSoy5xPKLkkdxWRiwMjw@mail.gmail.com>
- ("Philippe =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 22 Sep 2022
- 15:15:48 +0200")
-Message-ID: <877d1vleer.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4465413AA5;
+ Thu, 22 Sep 2022 13:42:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 2sCbDmFmLGPJfQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 22 Sep 2022 13:42:57 +0000
+Message-ID: <9344f595-5d0e-727f-5802-17b2cc6c822c@suse.de>
+Date: Thu, 22 Sep 2022 15:42:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20220908183012.17667-1-cfontana@suse.de>
+ <20220908183012.17667-3-cfontana@suse.de> <877d23ekj0.fsf@pond.sub.org>
+ <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
+ <87y1ucdirx.fsf@pond.sub.org> <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
+ <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
+ <87leqb4ul9.fsf@pond.sub.org> <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de>
+ <87bkr7mvgr.fsf@pond.sub.org> <4a656f0f-1497-5569-e562-f537b115daf3@suse.de>
+ <87r103lf4y.fsf@pond.sub.org>
+ <CAAdtpL7=6YN+jh30xB_PB5aAxaWoFf4-3nLsWiAMGK6ZvWnLww@mail.gmail.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <CAAdtpL7=6YN+jh30xB_PB5aAxaWoFf4-3nLsWiAMGK6ZvWnLww@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -62
+X-Spam_score: -6.3
+X-Spam_bar: ------
+X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.893,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,50 +104,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
-
-> On Thu, Sep 15, 2022 at 10:52 PM Markus Armbruster <armbru@redhat.com> wr=
-ote:
+On 9/22/22 15:34, Philippe Mathieu-Daudé wrote:
+> On Thu, Sep 22, 2022 at 3:20 PM Markus Armbruster <armbru@redhat.com> wrote:
 >>
->> The has_FOO for pointer-valued FOO are redundant, except for arrays.
->> They are also a nuisance to work with.  Recent commit "qapi: Start to
->> elide redundant has_FOO in generated C" provided the means to elide
->> them step by step.  This is the step for qapi/migration.json.
+>> Claudio Fontana <cfontana@suse.de> writes:
 >>
->> Said commit explains the transformation in more detail.  The invariant
->> violations mentioned there do not occur here.
+>> [...]
 >>
->> Cc: Juan Quintela <quintela@redhat.com>
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  migration/block-dirty-bitmap.c |  4 ++--
->>  migration/colo.c               |  1 -
->>  migration/migration.c          | 27 ++++++++-------------------
->>  monitor/hmp-cmds.c             | 26 +++++++++++---------------
->>  monitor/misc.c                 |  2 +-
->>  scripts/qapi/schema.py         |  1 -
->>  6 files changed, 22 insertions(+), 39 deletions(-)
->
->> @@ -1556,7 +1548,7 @@ static bool migrate_params_check(MigrationParamete=
-rs *params, Error **errp)
->>  #ifdef CONFIG_LINUX
->>      if (migrate_use_zero_copy_send() &&
->>          ((params->has_multifd_compression && params->multifd_compressio=
-n) ||
->> -         (params->has_tls_creds && params->tls_creds && *params->tls_cr=
-eds))) {
->> +         (params->tls_creds && params->tls_creds && *params->tls_creds)=
-)) {
->>          error_setg(errp,
->>                     "Zero copy only available for non-compressed non-TLS=
- multifd migration");
->>          return false;
->
-> Checking params->tls_creds once should be enough ;)
+>>> I think it would be better to completely make the return value separate from the Error,
+>>> and really treat Error as an exception and not mix it up with the regular execution,
+>>>
+>>> but if it is the general consensus that I am the only one seeing this conflation problem we can model it this way too.
+>>
+>> It's a matter of language pragmatics.  In Java, you throw an exception
+>> on error.  In C, you return an error value.
+>>
+>> Trying to emulate exceptions in C might be even more unadvisable than
+>> trying to avoid them in Java.  Best to work with the language, not
+>> against it.
+>>
+>> Trouble is the error values we can conveniently return in C can't convey
+>> enough information.  So we use Error for that.  Just like GLib uses
+>> GError.
+>>
+>> More modern languages do "return error value" much better than C can.  C
+>> is what it is.
+>>
+>> We could certainly argue how to do better than we do now in QEMU's C
+>> code.  However, the Error API is used all over the place, which makes
+>> changing it expensive.  "Rethinking the whole Error API" (your words)
+>> would have to generate benefits worth this expense.  Which seems
+>> unlikely.
+> 
+> QEMU Error* and GLib GError are designed to report recoverable runtime *errors*.
+> 
+> There is or is no error. A boolean return value seems appropriate.
+> 
+> We are bikeshedding about the API because we are abusing it in a non-error case.
 
-Can't deny that!
+Agreed.
 
-Will tidy up, thanks!
+> 
+> If we want to try to load an optional module, the Error* argument is
+> not the proper way to return the information regarding why we couldn't
+> load.
+
+Mostly agree. If an _actual_ terrible Error happens when loading an optional module (I/O error, multiple module exist for the same QOM type, module architecture incompatible etc, module directory permissions are wrong, etc) I'd argue we have to provide this information too,
+
+ie in the case of a catastrophic error when loading the optional module, we should at least provide the information to the caller and let it decide what to do with it,
+maybe even just warn and continue, maybe do nothing, caller choice.
+
+> 
+> In both cases we want to know if the module was loaded. If this is an
+> optional module, we don't care why it couldn't be loaded.
+
+We don't care if the module is not present, but the caller _may_ care to at least report if the module is present (and thus the user expects the functionality to be available),
+but it could not be loaded because of a catastrophic I/O error. I am deliberately exaggerating for the benefit of clarity.
+
+> 
+> So trying to make everybody happy:
+> 
+>   // Return true if the module could be loaded, otherwise return false
+> and errp contains the error.
+>  bool module_load_one(const char *prefix, const char *name, Error *errp);
+> 
+>   // Return true if the module could be loaded, false otherwise.
+>   bool module_try_load_one(const char *prefix, const char *name);
 
 
