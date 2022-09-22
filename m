@@ -2,100 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086FB5E5BA5
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 08:50:32 +0200 (CEST)
-Received: from localhost ([::1]:57878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C0E5E5C6B
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 09:29:53 +0200 (CEST)
+Received: from localhost ([::1]:37938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obG2X-000232-6e
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 02:50:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45298)
+	id 1obGee-0000IN-5M
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 03:29:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1obFxQ-0000Uv-5E
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 02:45:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26040)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1obGbY-0007BV-DV
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 03:26:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1obFxL-0006eU-Tz
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 02:45:09 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1obGbU-0008O5-N0
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 03:26:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663829105;
+ s=mimecast20190719; t=1663831593;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=imMNN1JaK6dp8YnVmo84o4Tf7jUOebxUTcSDt3GgW/E=;
- b=dFCKZFKGjS59jBlKrMM0TqYTcxskzQ8sV15DzTMq6w3a/gOBLs+FD1XScqpu00vtMlQkJK
- tKW5bwZqknV3u1JBAuL4OJnMgWMn6raf73hJl4XYc/mL7pa8C+Ul23NEwJgMC7OwlVK8W1
- C/xkK8HtMg7jbpcS54foqDdXbClNmyc=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pvyOWmFuoJpedb1eywvf8x8W29MWS65UvdoTpcUXswA=;
+ b=E7go3udbybcTxvwuqVKfqZy6KWZTeM9PAfNoCNmCI86BVHw1j88idyiiJzKk688vzLx49K
+ 2Rr9rvn9yu5ou8Qq/fzpEdjT1/+otwhPXptnTRYW1orGat9LTv9xM5QuQ4dK+eTd5ZXXXY
+ 1vm2VLzVmiGOYkbNJC6nIF5RPMwNDqM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-524-ysWk7_jPMvuvR_2tzeI1fQ-1; Thu, 22 Sep 2022 02:45:04 -0400
-X-MC-Unique: ysWk7_jPMvuvR_2tzeI1fQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- e15-20020a056402190f00b0044f41e776a0so5956953edz.0
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 23:45:04 -0700 (PDT)
+ us-mta-310-T5CCvoqhOFSuFLLTF3BMEA-1; Thu, 22 Sep 2022 03:26:32 -0400
+X-MC-Unique: T5CCvoqhOFSuFLLTF3BMEA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ y9-20020a056402270900b00451dfbbc9b2so6011258edd.12
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 00:26:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=imMNN1JaK6dp8YnVmo84o4Tf7jUOebxUTcSDt3GgW/E=;
- b=aHf2WFF+DbpNi0z4CFkjlwoXJvelmKOlf6nFPhHl66dhXSw39qS15ih2B92avC9/dD
- 2Jmnx0imhjpRSXmwNnhKQ8gpvcfggK2sAC92OxiIjf/vdiDnLISbqLi9RQx4/4NWytfE
- 6jItAJ+QvntE7Br4kdDhoc1Li7lGbqoZpput2cc+/i+CqPrZV8fTFVPO4wcIO9l9Kta7
- 8mo4RUf+ow9bot0dHLj7WPwqG8f2Ivk44TnWKJ0OB7eY0NSGP9WmjSOjj2dL2GhRtsbH
- lswTIxA2vUwkLyDw9qhTiS1wZcyuvR4GZe83hST+a3WaSXCs5QDYi8UbSEHSv1nsh2WN
- yg4A==
-X-Gm-Message-State: ACrzQf326vhERqBFBJEGII8lZ7GqYi1cDT5dNsjPzkdrwOcMNHM68THz
- yggR0PCfVi/lKdOSu0kL5Oo5UWUvamQTZkrg4Tcw4/nfOeDUPVng+7ze/5D2YIHIlzpfxVx+683
- rpERRZRC8deWZGAI=
-X-Received: by 2002:a05:6402:28b:b0:454:3be1:a6de with SMTP id
- l11-20020a056402028b00b004543be1a6demr1673547edv.211.1663829103360; 
- Wed, 21 Sep 2022 23:45:03 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4v2RHLLjW60JK4B/KfdRixOoFV3o86ODDVKDsr9yIH9gcrT6KJykdvuTYTUkNT+vlOrWknaQ==
-X-Received: by 2002:a05:6402:28b:b0:454:3be1:a6de with SMTP id
- l11-20020a056402028b00b004543be1a6demr1673523edv.211.1663829103171; 
- Wed, 21 Sep 2022 23:45:03 -0700 (PDT)
-Received: from [10.43.2.39] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=pvyOWmFuoJpedb1eywvf8x8W29MWS65UvdoTpcUXswA=;
+ b=5UK5rUpQ7MYyLvXSh1qA55CiAASHfFjamo/pibXBEA+zA0Bq/UxrPhSe8FxtqxF89G
+ e/KOyDuqmf6j28kZp0LA/Blg07N2oId2RgX9TV/+nDhfl5rSLMhgzxHrG/iFjdH0iBaV
+ /LqQwnNNBV+FA9X/Tu92rTXwYcH5JGvUO7aEh3RgVXjbhTPRA5hNUuOH0F9qnxwrKMG/
+ /1WEbdXqqIZ9PHdUvRPHMOXHgEce+K3d7yYyahMg8cPW9BH1Vi76g7h8Ui0yIPptpDZj
+ XauIQHblkZLqVPok9tYJmklLp2rEhhsupa5VYpTDmIgOZmAFARApzwZTHYvdUfSQzzqx
+ goFQ==
+X-Gm-Message-State: ACrzQf0l+YfC6ZdsqJiTT0kslDMhAFZKM4Di6BFeM9r2+opOCqPg+hoE
+ gg+TCc+GwsFWLV1rFBvOsK00QtQsoUEK8+wd+MNMeCgeoLqD+GtYPYnSi+TcPYtFPoUuRMdqK00
+ Pd6FJX9OHjMD5tLRqgRjBzhqLhKP+061AvLC+rWZiJ5BEpSe2zhF5mHqMhAlJ1YakwqY=
+X-Received: by 2002:a17:907:6ea3:b0:77c:4e23:9b2d with SMTP id
+ sh35-20020a1709076ea300b0077c4e239b2dmr1642303ejc.6.1663831590969; 
+ Thu, 22 Sep 2022 00:26:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7Omd9rfPXvnDPflpMieaeBAif7RC3z7EuWBGBQiVMviZOZTSz/Q5KQLBh3gr0q5GaxNvcX5A==
+X-Received: by 2002:a17:907:6ea3:b0:77c:4e23:9b2d with SMTP id
+ sh35-20020a1709076ea300b0077c4e239b2dmr1642280ejc.6.1663831590616; 
+ Thu, 22 Sep 2022 00:26:30 -0700 (PDT)
+Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- op7-20020a170906bce700b00781be3e7badsm2214440ejb.53.2022.09.21.23.45.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Sep 2022 23:45:02 -0700 (PDT)
-Message-ID: <3b5ccd36-238a-f853-e877-04759f2a706a@redhat.com>
-Date: Thu, 22 Sep 2022 08:45:02 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH RFC 0/7] hostmem: NUMA-aware memory preallocation using
- ThreadContext
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ t17-20020aa7db11000000b00453a49ea65bsm3100052eds.86.2022.09.22.00.26.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Sep 2022 00:26:30 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-References: <20220721120732.118133-1-david@redhat.com>
- <d17620c7-5d52-c41b-66f2-3055a2dc572a@redhat.com>
- <b587ca18-945e-1f1d-519f-7f3f75ce32b6@redhat.com>
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-In-Reply-To: <b587ca18-945e-1f1d-519f-7f3f75ce32b6@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+ Ard Biesheuvel <ardb@kernel.org>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v5 1/4] x86: return modified setup_data only if read as
+ memory, not as file
+Date: Thu, 22 Sep 2022 09:26:28 +0200
+Message-Id: <166383158063.107920.1563965268305325639.b4-ty@redhat.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220921093134.2936487-1-Jason@zx2c4.com>
+References: <20220921093134.2936487-1-Jason@zx2c4.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mprivozn@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -64
-X-Spam_score: -6.5
-X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.702, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,30 +107,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/22 16:54, David Hildenbrand wrote:
-> On 21.09.22 16:44, Michal Prívozník wrote:
->> On 7/21/22 14:07, David Hildenbrand wrote:
->>>
->>
->> Ping? Is there any plan how to move forward? I have libvirt patches
->> ready to consume this and I'd like to prune my old local branches :-)
+On Wed, 21 Sep 2022 11:31:31 +0200, Jason A. Donenfeld wrote:
+> If setup_data is being read into a specific memory location, then
+> generally the setup_data address parameter is read first, so that the
+> caller knows where to read it into. In that case, we should return
+> setup_data containing the absolute addresses that are hard coded and
+> determined a priori. This is the case when kernels are loaded by BIOS,
+> for example. In contrast, when setup_data is read as a file, then we
+> shouldn't modify setup_data, since the absolute address will be wrong by
+> definition. This is the case when OVMF loads the image.
 > 
-> Heh, I was thinking about this series just today. I was distracted with
-> all other kind of stuff.
-> 
-> I'll move forward with this series later this week/early next week.
+> [...]
 
-No rush, it's only that I don't want this to fall into void. Let me know
-if I can help somehow. Meanwhile, here's my aforementioned branch:
+Applied, thanks!
 
-https://gitlab.com/MichalPrivoznik/libvirt/-/tree/qemu_thread_context
+[1/4] x86: return modified setup_data only if read as memory, not as file
+      commit: 7e660efb4d2af17582588bcdc4af7d28040feda6
+[2/4] x86: use typedef for SetupData struct
+      commit: 1127a29a33f975943d89fc36ab934ad37810e4b7
+[3/4] x86: reinitialize RNG seed on system reboot
+      commit: e997fc36def502dc3e9da915816083f086dff8f2
+[4/4] x86: re-enable rng seeding via SetupData
+      commit: a731bae726f2b3168dea9d5137cb7e47444448eb
 
-I've made it so that ThreadContext is generated whenever
-.prealloc-threads AND .host-nodes are used (i.e. no XML visible config
-knob). And I'm generating ThreadContext objects for each memory backend
-separately even though they can be reused, but IMO that's optimization
-that can be done later.
-
-Michal
+Best regards,
+-- 
+Paolo Bonzini <pbonzini@redhat.com>
 
 
