@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1235E6933
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:09:25 +0200 (CEST)
-Received: from localhost ([::1]:49250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A595E6979
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:18:43 +0200 (CEST)
+Received: from localhost ([::1]:51510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obPhV-0004Nf-2n
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:09:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55524)
+	id 1obPqT-0006x4-7Z
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:18:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obO7E-00081S-IZ
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:27:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42896)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1obOGe-00022Q-Eo
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:37:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obO7D-00038a-1m
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:27:52 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1obOGa-00018T-V8
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:37:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663860470;
+ s=mimecast20190719; t=1663861052;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mrCP19LB4SryCR63MOFI8bydcwc9GeCZfEg3tdi5P8s=;
- b=h5Ac6vBIA4NKhtJT6nm8n1o+0woqBdlM/Csg5W0EI4RD6mpC3bHe0/SDmJt0ohxDVy+g7c
- JVXOZsDv6JEfNy7eZrLuQKyktRaU/JfV5t0ypRi7IOjCUE2hcIYDdu773Dh16cr8TwLxBr
- gJwK/mjzDJ/Ctx1OUU7nQio2cWAfKWw=
+ bh=ITKm2bQwYtn3Eacqn/yPvepVgtjVsnnfD/bbbRmj20M=;
+ b=WUne2QCFIse08PRR/nExvFCpguuI29vgVooWvRewcRC4UeOj1epdJcaGC6CJ9BJjtNU7Yt
+ 3sD7DmBYu11OhTRUuaxHEH/sOA7+PoLt9x5hlLJuDxyZDFd8GZjTDRAP+8ebRwWnydEKZA
+ Sh29MnqQ5ZPiM68vNcpWDjl7tgNuLRc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-12-uXlFpvs7MT-uAtI7S9GFxw-1; Thu, 22 Sep 2022 11:27:46 -0400
-X-MC-Unique: uXlFpvs7MT-uAtI7S9GFxw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-139-optX-UEaMhaWk8ZZjlj9LQ-1; Thu, 22 Sep 2022 11:37:29 -0400
+X-MC-Unique: optX-UEaMhaWk8ZZjlj9LQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B525872844;
- Thu, 22 Sep 2022 15:27:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4540D492B1B;
- Thu, 22 Sep 2022 15:27:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5368E21E6900; Thu, 22 Sep 2022 17:27:43 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Claudio Fontana <cfontana@suse.de>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Richard Henderson
- <richard.henderson@linaro.org>,  qemu-devel@nongnu.org,
- dinechin@redhat.com,  Gerd Hoffmann <kraxel@redhat.com>,  =?utf-8?Q?Marc?=
- =?utf-8?Q?-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one
- and module_load_qom_one
-References: <20220908183012.17667-3-cfontana@suse.de>
- <877d23ekj0.fsf@pond.sub.org>
- <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
- <87y1ucdirx.fsf@pond.sub.org>
- <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
- <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
- <87leqb4ul9.fsf@pond.sub.org>
- <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de>
- <87bkr7mvgr.fsf@pond.sub.org> <Yyx3Pc89tbqBliM0@redhat.com>
-Date: Thu, 22 Sep 2022 17:27:43 +0200
-In-Reply-To: <Yyx3Pc89tbqBliM0@redhat.com> (Kevin Wolf's message of "Thu, 22
- Sep 2022 16:54:53 +0200")
-Message-ID: <87wn9vig40.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7D08B185A792;
+ Thu, 22 Sep 2022 15:37:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33F6F47505E;
+ Thu, 22 Sep 2022 15:37:23 +0000 (UTC)
+Date: Thu, 22 Sep 2022 17:37:21 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-trivial@nongnu.org, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH] block/qcow2-bitmap: Add missing cast to silent GCC error
+Message-ID: <YyyBMe72wjTK3l0x@redhat.com>
+References: <20220919182755.51967-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220919182755.51967-1-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -93,55 +84,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+Am 19.09.2022 um 20:27 hat Philippe Mathieu-Daudé geschrieben:
+> Commit d1258dd0c8 ("qcow2: autoloading dirty bitmaps") added the
+> set_readonly_helper() GFunc handler, correctly casting the gpointer
+> user_data in both the g_slist_foreach() caller and the handler.
+> Few commits later (commit 1b6b0562db), the handler is reused in
+> qcow2_reopen_bitmaps_rw() but missing the gpointer cast, resulting
+> in the following error when using Homebrew GCC 12.2.0:
+> 
+>   [2/658] Compiling C object libblock.fa.p/block_qcow2-bitmap.c.o
+>   ../../block/qcow2-bitmap.c: In function 'qcow2_reopen_bitmaps_rw':
+>   ../../block/qcow2-bitmap.c:1211:60: error: incompatible type for argument 3 of 'g_slist_foreach'
+>    1211 |     g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
+>         |                                                            ^~~~~
+>         |                                                            |
+>         |                                                            _Bool
+>   In file included from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/gmain.h:26,
+>                    from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/giochannel.h:33,
+>                    from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib.h:54,
+>                    from /Users/philmd/source/qemu/include/glib-compat.h:32,
+>                    from /Users/philmd/source/qemu/include/qemu/osdep.h:144,
+>                    from ../../block/qcow2-bitmap.c:28:
+>   /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/gslist.h:127:61: note: expected 'gpointer' {aka 'void *'} but argument is of type '_Bool'
+>     127 |                                           gpointer          user_data);
+>         |                                           ~~~~~~~~~~~~~~~~~~^~~~~~~~~
+>   At top level:
+>   FAILED: libblock.fa.p/block_qcow2-bitmap.c.o
+> 
+> Fix by adding the missing gpointer cast.
+> 
+> Fixes: 1b6b0562db ("qcow2: support .bdrv_reopen_bitmaps_rw")
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-> Am 22.09.2022 um 14:42 hat Markus Armbruster geschrieben:
+Thanks, applied to the block branch. And in case qemu-trivial picks it
+up anyway:
 
-[...]
-
->> If you have callers that need to distinguish between not found, found
->> but bad, found and good, then return three distinct values.
->> 
->> I proposed to return -1 for found but bad (error), 0 for not found (no
->> error), and 1 for loaded (no error).
->
-> My intuition with this one was that "not found" is still an error case,
-> but it's an error case that we need to distinguish from other error
-> cases.
->
-> Is this one of the rare use cases for error classes?
-
-If I remember correctly, "not found" is not actually an error for most
-callers.  If we make it one, these callers have to error_free().  Minor
-annoyance, especially when you have to add an else just for that.
-
-Even if we decide to make it an error, I would not create an error class
-for it.  I like
-
-    rc = module_load_one(..., errp);
-    if (rc == -ENOENT) {
-        error_free(*errp);
-    } else if (rc < 0) {
-        return;
-    }
-
-better than
-
-    Error *err = NULL;
-
-    module_load_one(..., &err);
-    if (err && err->class == ERROR_CLASS_NOT_FOUND) {
-        error_free(err);
-    } else if (err) {
-        error_propagate(errp, err);
-        return;
-    }
-
-I respect your intuition.  Would it still say "error case" when the
-function is called module_load_if_exists()?
-
-Hmm, another thought... a need to distinguish error cases can be a
-symptom of trying to do too much in one function.  We could split this
-into "look up module" and "actually load it".
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
 
