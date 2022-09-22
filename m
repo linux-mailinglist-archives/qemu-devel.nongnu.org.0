@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639075E66B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:18:46 +0200 (CEST)
-Received: from localhost ([::1]:41436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D41AA5E661F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:46:10 +0200 (CEST)
+Received: from localhost ([::1]:60394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obNyP-0007tb-B6
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39738)
+	id 1obNSr-0007nq-7E
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:46:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1obMfs-0001ku-RW; Thu, 22 Sep 2022 09:55:32 -0400
+ id 1obMfw-0001mx-CL; Thu, 22 Sep 2022 09:55:36 -0400
 Received: from [200.168.210.66] (port=55804 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1obMfq-0008Vq-Uq; Thu, 22 Sep 2022 09:55:32 -0400
+ id 1obMfu-0008Vq-S8; Thu, 22 Sep 2022 09:55:36 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 22 Sep 2022 10:55:25 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id D351F80012C;
- Thu, 22 Sep 2022 10:55:24 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 139AF8005D2;
+ Thu, 22 Sep 2022 10:55:25 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
@@ -30,16 +30,20 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: [PATCH v3 0/4] Patch series to set up a ppc64le CI
-Date: Thu, 22 Sep 2022 10:55:12 -0300
-Message-Id: <20220922135516.33627-1-lucas.araujo@eldorado.org.br>
+ "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH v3 1/4] scripts/ci/setup: ninja missing from build-environment
+Date: Thu, 22 Sep 2022 10:55:13 -0300
+Message-Id: <20220922135516.33627-2-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220922135516.33627-1-lucas.araujo@eldorado.org.br>
+References: <20220922135516.33627-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 22 Sep 2022 13:55:25.0149 (UTC)
- FILETIME=[F6F500D0:01D8CE8A]
+X-OriginalArrivalTime: 22 Sep 2022 13:55:25.0384 (UTC)
+ FILETIME=[F718DC80:01D8CE8A]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,26 +67,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series aim to make easier to set up a compilation and CI
-environment on PPC64 and PPC64LE machines.
+From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-v3:
-Changed patch 1 to respect alphabetical order
+ninja-build is missing from the RHEL environment, so a system prepared
+with that script would still fail to compile QEMU.
+Tested on a Fedora 36
 
-v2:
-This patch series are only patches 2-4 of v1 and an alternative to patch 1
-suggested by Daniel.
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+---
+ scripts/ci/setup/build-environment.yml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Lucas Mateus Castro (alqotel) (4):
-  scripts/ci/setup: ninja missing from build-environment
-  scripts/ci/setup: Fix libxen requirements
-  scripts/ci/setup: spice-server only on x86 aarch64
-  tests/docker: run script use realpath instead of readlink
-
- scripts/ci/setup/build-environment.yml | 15 +++++++++++++--
- tests/docker/run                       |  2 +-
- 2 files changed, 14 insertions(+), 3 deletions(-)
-
+diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
+index 232525b91d..b5acaf9118 100644
+--- a/scripts/ci/setup/build-environment.yml
++++ b/scripts/ci/setup/build-environment.yml
+@@ -153,6 +153,7 @@
+           - make
+           - mesa-libEGL-devel
+           - nettle-devel
++          - ninja-build
+           - nmap-ncat
+           - perl-Test-Harness
+           - pixman-devel
 -- 
 2.25.1
 
