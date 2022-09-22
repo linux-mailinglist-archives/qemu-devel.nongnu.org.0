@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322FE5E64BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:10:26 +0200 (CEST)
-Received: from localhost ([::1]:43598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7695E6507
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:22:16 +0200 (CEST)
+Received: from localhost ([::1]:41940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obMuH-0006zK-6M
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:10:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60054)
+	id 1obN5j-0004WV-Al
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:22:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obMKp-0003tW-Tm
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:33:48 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:60766)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1obMLx-0004dY-D7
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:34:59 -0400
+Received: from mail-vs1-f41.google.com ([209.85.217.41]:35728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obMKo-0001OT-3e
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:33:47 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EA95C1F8F2;
- Thu, 22 Sep 2022 13:33:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663853622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mKACm+xlREAt8y+GGHI0B0WAII9c1kSFpzXJKHPHrzs=;
- b=cYFxYeCPBsiwMqJEluiGHNnDkkmE10HJFJFtf1heZst45Us7fjwcH0vArrmTYA8pVC/oJq
- QRnFDJsFfQI0HQ28/XAdZ8F4k98An2wldoIr93f7hE4Umw1F5TnFh4B5otr6n9ozlzEAlU
- rrZJCU03LFZRqlYdKg48xGwqfn5b/Ac=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663853622;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mKACm+xlREAt8y+GGHI0B0WAII9c1kSFpzXJKHPHrzs=;
- b=NG3YocvlXce25jBTT/zyweBhNH8n6P9niY/Ch59HEWf0K15bh22uQTA2ClPNPYo8McSYMO
- ul3fivuwQqWafTAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8BD8713AA5;
- Thu, 22 Sep 2022 13:33:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2r3bHzZkLGNReQAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 22 Sep 2022 13:33:42 +0000
-Message-ID: <f7650e0c-1e18-31ac-4ed5-49777a69ba64@suse.de>
-Date: Thu, 22 Sep 2022 15:33:41 +0200
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1obMLv-0001Ul-Au
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:34:56 -0400
+Received: by mail-vs1-f41.google.com with SMTP id 63so9018122vse.2
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 06:34:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=phzwqKcQjZLI3N1WlA52eHuFuLlRVITevGe0tOSHyz4=;
+ b=4GboyQum6OQh3GCfrtNPc2TzHa8Rz7AzLliukmBwaZpIg/5yDRzlmWUZPDHzBjc1D9
+ +QhZzniuFAEMjo3+Gx9ZXbP2skk7xB0ks71B8PspZQ2Zox54QCEONTywqAPgUNGaSwcN
+ hTFjvIZ+EQbtYElHiiEzoOJW5mejo9rdcfH22yuy3KEqaGCiiGuagrEb0eP2KcKDJy5+
+ fWI+N4ZnyEjg1gm7XYJgoHpGVBr6JAOp88IWnIsjWTV8eRV2L1T9WKOQrAUn2NqkxSc3
+ d4X4CIjlshQ8bEQLwDKAKgr8Pd4kLRODd7K7K5gOtu8yOPza9rbJjPmN9zogcDoPFSTs
+ Sycg==
+X-Gm-Message-State: ACrzQf0X7sDnJj+o7D0AZywOde0jcR+zC/O9i+EEksPjQDo9f3ZRjYgt
+ SzshqL7ygUW0Z9WofgkYMIrPAlzef/0KY5jQjOk=
+X-Google-Smtp-Source: AMsMyM45iVMYWlIIL7HcYuxJCa3aj3dT6OzAoZuvKFK9Ff5h8PFIL0mGpoHKjcyHBwh5qEMljgs0hB7s7tUX3xR4tNs=
+X-Received: by 2002:a67:ab0a:0:b0:39a:c8e4:fde9 with SMTP id
+ u10-20020a67ab0a000000b0039ac8e4fde9mr1312195vse.23.1663853694052; Thu, 22
+ Sep 2022 06:34:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
- module_load_qom_one
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 References: <20220908183012.17667-1-cfontana@suse.de>
- <20220908183012.17667-3-cfontana@suse.de> <877d23ekj0.fsf@pond.sub.org>
- <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
+ <20220908183012.17667-3-cfontana@suse.de>
+ <877d23ekj0.fsf@pond.sub.org> <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
  <87y1ucdirx.fsf@pond.sub.org> <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
  <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
  <87leqb4ul9.fsf@pond.sub.org> <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de>
  <87bkr7mvgr.fsf@pond.sub.org> <4a656f0f-1497-5569-e562-f537b115daf3@suse.de>
  <87r103lf4y.fsf@pond.sub.org>
-From: Claudio Fontana <cfontana@suse.de>
 In-Reply-To: <87r103lf4y.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.893,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Thu, 22 Sep 2022 15:34:42 +0200
+Message-ID: <CAAdtpL7=6YN+jh30xB_PB5aAxaWoFf4-3nLsWiAMGK6ZvWnLww@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Kevin Wolf <kwolf@redhat.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.217.41;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-vs1-f41.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,89 +85,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-On 9/22/22 15:20, Markus Armbruster wrote:
+On Thu, Sep 22, 2022 at 3:20 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
 > Claudio Fontana <cfontana@suse.de> writes:
-> 
+>
 > [...]
-> 
->> I think it would be better to completely make the return value separate from the Error,
->> and really treat Error as an exception and not mix it up with the regular execution,
->>
->> but if it is the general consensus that I am the only one seeing this conflation problem we can model it this way too.
-> 
+>
+> > I think it would be better to completely make the return value separate from the Error,
+> > and really treat Error as an exception and not mix it up with the regular execution,
+> >
+> > but if it is the general consensus that I am the only one seeing this conflation problem we can model it this way too.
+>
 > It's a matter of language pragmatics.  In Java, you throw an exception
 > on error.  In C, you return an error value.
-> 
+>
 > Trying to emulate exceptions in C might be even more unadvisable than
 > trying to avoid them in Java.  Best to work with the language, not
 > against it.
-> 
+>
 > Trouble is the error values we can conveniently return in C can't convey
 > enough information.  So we use Error for that.  Just like GLib uses
-
-Right, we use Error for that and that's fine, but we should use it _only Error_ for that.
-
-Ie map the Exceptions directly to Error.
-
-So:
-
-try {
-
-  rv = function_call(...);
-
-  use_return_value(rv);
-
-} catch (Exception e) {
-
-  /* handle exceptional case */
-
-}
-
-becomes
-
-rv = function_call(..., Error **errp);
-
-if (errp) {
-  /* handle exceptional case */
-}
-
-use_return_value(rv);
-
-
-Instead we mix up the Exception code path and the regular code path, by having rv carry a mix of the Exception and regular return value,
-and this creates problems and confusion.
-
-If we put a hard line between the two, I think more clarity emerges.
-
-
 > GError.
-> 
+>
 > More modern languages do "return error value" much better than C can.  C
 > is what it is.
-> 
+>
 > We could certainly argue how to do better than we do now in QEMU's C
 > code.  However, the Error API is used all over the place, which makes
 > changing it expensive.  "Rethinking the whole Error API" (your words)
 > would have to generate benefits worth this expense.  Which seems
 > unlikely.
-> 
-> [...]
-> 
 
-This is all fine, the problem is how we remodel this in C.
+QEMU Error* and GLib GError are designed to report recoverable runtime *errors*.
 
-This is how I see the next steps to clarify my position:
+There is or is no error. A boolean return value seems appropriate.
 
-short term:
+We are bikeshedding about the API because we are abusing it in a non-error case.
 
-- keep the existing API with the existing assumptions, use a separate argument to carry the pointer to the actual return value (where the function return value as provided by the language is used to return if an exception was generated or not, as we assume today).
+If we want to try to load an optional module, the Error* argument is
+not the proper way to return the information regarding why we couldn't
+load.
 
-- long term (maybe): fix the existing API by detaching completely the return value from the exception.
+In both cases we want to know if the module was loaded. If this is an
+optional module, we don't care why it couldn't be loaded.
 
+So trying to make everybody happy:
 
-Wdyt?
+  // Return true if the module could be loaded, otherwise return false
+and errp contains the error.
+ bool module_load_one(const char *prefix, const char *name, Error *errp);
 
-C
-
+  // Return true if the module could be loaded, false otherwise.
+  bool module_try_load_one(const char *prefix, const char *name);
 
