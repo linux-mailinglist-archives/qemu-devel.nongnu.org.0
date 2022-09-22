@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB14B5E6790
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:51:19 +0200 (CEST)
-Received: from localhost ([::1]:51622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CCB5E67A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:54:49 +0200 (CEST)
+Received: from localhost ([::1]:35834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obOTu-000326-Rq
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:51:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40302)
+	id 1obOXJ-0000ZN-0A
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:54:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=dGS3=ZZ=zx2c4.com=Jason@kernel.org>)
- id 1obNJD-00045x-9d; Thu, 22 Sep 2022 10:36:18 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:44452)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obNJQ-0004BG-Da
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:36:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=dGS3=ZZ=zx2c4.com=Jason@kernel.org>)
- id 1obNJ8-0000eD-0r; Thu, 22 Sep 2022 10:36:10 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 74A20B8231D;
- Thu, 22 Sep 2022 14:35:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39CB4C433D6;
- Thu, 22 Sep 2022 14:35:54 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="OsmLJQAx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1663857352;
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obNJO-0000gt-Dp
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:36:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663857381;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=hvyomB6566Uv4Ym3LQ/XBV23wDrmT/EVwcymKdAg4gw=;
- b=OsmLJQAxLqzc+z2FKkh1QxO9XAInHquNzpdVqvBFCD+OcLb1/Jxm04awqhpKWdIonmoy2s
- Jez61dhoTFA7Y6Yzr0426hupGaPiFNZqrguo9oZlyF2acBq+7egwVsWNdmtSO31QoK915y
- mfXUqoLJFIkIo8Zr2Wk5MCpL/JvdY+s=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 253e67f6
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Thu, 22 Sep 2022 14:35:52 +0000 (UTC)
-Date: Thu, 22 Sep 2022 16:35:48 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>
-Subject: Re: [PATCH v8 1/2] target/s390x: support SHA-512 extensions
-Message-ID: <YyxyxCZH4X5n7Rdy@zx2c4.com>
-References: <20220921100729.2942008-1-Jason@zx2c4.com>
- <793e6018-da21-2247-1348-ad0e62030e25@redhat.com>
+ bh=Q0h9RW7Amo2/J36yKyimmaCd/i4ochaJJwlP5NSF/nY=;
+ b=FPP6DCTWsh+7nRDmy3Yjx7EjWOUEgLZZW+yptL03ItMP6fToAmDD5iku729rn3HnuD7Nrs
+ eXlV4LgkTI+I+/bVdNzLUJBVuGHmG3h92h5J+mGhSk/EwauG/+wxz+J06jANrCmP4NubKk
+ PMySOFe16rJQMdBQdOf0/orgvsIaTl4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-278-JHbUvUbYPYmPhKpxGOccZg-1; Thu, 22 Sep 2022 10:36:19 -0400
+X-MC-Unique: JHbUvUbYPYmPhKpxGOccZg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8844E3C0D86F;
+ Thu, 22 Sep 2022 14:36:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2024640C2066;
+ Thu, 22 Sep 2022 14:36:18 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7DFBD21E6900; Thu, 22 Sep 2022 16:36:15 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>,  Paolo Bonzini <pbonzini@redhat.com>,  Richard
+ Henderson <richard.henderson@linaro.org>,  Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org,  dinechin@redhat.com,  Gerd Hoffmann
+ <kraxel@redhat.com>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one
+ and module_load_qom_one
+References: <20220908183012.17667-1-cfontana@suse.de>
+ <20220908183012.17667-3-cfontana@suse.de>
+ <877d23ekj0.fsf@pond.sub.org>
+ <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
+ <87y1ucdirx.fsf@pond.sub.org>
+ <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
+ <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
+ <87leqb4ul9.fsf@pond.sub.org>
+ <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de>
+ <87bkr7mvgr.fsf@pond.sub.org>
+ <4a656f0f-1497-5569-e562-f537b115daf3@suse.de>
+ <87r103lf4y.fsf@pond.sub.org>
+ <f7650e0c-1e18-31ac-4ed5-49777a69ba64@suse.de>
+Date: Thu, 22 Sep 2022 16:36:15 +0200
+In-Reply-To: <f7650e0c-1e18-31ac-4ed5-49777a69ba64@suse.de> (Claudio Fontana's
+ message of "Thu, 22 Sep 2022 15:33:41 +0200")
+Message-ID: <87leqbjx28.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <793e6018-da21-2247-1348-ad0e62030e25@redhat.com>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=dGS3=ZZ=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,29 +98,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 03:07:13PM +0200, David Hildenbrand wrote:
-> +        if (processed >= MAX_BLOCKS_PER_RUN * 128) {
-> +            break;
+Claudio Fontana <cfontana@suse.de> writes:
 
-If you make this a `goto out` or similar instead of a break, then you
-can
+> On 9/22/22 15:20, Markus Armbruster wrote:
+>> Claudio Fontana <cfontana@suse.de> writes:
+>> 
+>> [...]
+>> 
+>>> I think it would be better to completely make the return value separate from the Error,
+>>> and really treat Error as an exception and not mix it up with the regular execution,
+>>>
+>>> but if it is the general consensus that I am the only one seeing this conflation problem we can model it this way too.
+>> 
+>> It's a matter of language pragmatics.  In Java, you throw an exception
+>> on error.  In C, you return an error value.
+>> 
+>> Trying to emulate exceptions in C might be even more unadvisable than
+>> trying to avoid them in Java.  Best to work with the language, not
+>> against it.
+>> 
+>> Trouble is the error values we can conveniently return in C can't convey
+>> enough information.  So we use Error for that.  Just like GLib uses
+>
+> Right, we use Error for that and that's fine, but we should use it _only Error_ for that.
+>
+> Ie map the Exceptions directly to Error.
+>
+> So:
+>
+> try {
+>
+>   rv = function_call(...);
+>
+>   use_return_value(rv);
+>
+> } catch (Exception e) {
+>
+>   /* handle exceptional case */
+>
+> }
+>
+> becomes
+>
+> rv = function_call(..., Error **errp);
+>
+> if (errp) {
+>   /* handle exceptional case */
+> }
+>
+> use_return_value(rv);
 
-> +    if (type == S390_FEAT_TYPE_KLMD && len < 128) {
+This is simply not the intended use of Error.
 
-change that to `if (len)`.
+Also, "trying to emulate exceptions in C might be even more unadvisable
+than trying to avoid them in Java."
 
-> +        /*
-> +         * Pad the remainder with zero and place magic value 128 after the
-> +         * message.
-> +         */
-> +        memset(x + len, 0, 128 - len);
-> +        x[len] = 128;
+> Instead we mix up the Exception code path and the regular code path, by having rv carry a mix of the Exception and regular return value,
+> and this creates problems and confusion.
 
-"magic value 128" ==> "set the top bit"
+"In C, you return an error value."
 
-Aside from these nits, this refactoring looks fine. I haven't tested
-this or checked the crypto carefully, but if it passes all the Linux
-test vectors, hopefully things are still fine.
+> If we put a hard line between the two, I think more clarity emerges.
 
-Jason
+Maybe, but consistency matters.  Clarity doesn't emerge in isolation.  
+Deviating from prevailing usage tends to confuse.
+
+>> GError.
+>> 
+>> More modern languages do "return error value" much better than C can.  C
+>> is what it is.
+>> 
+>> We could certainly argue how to do better than we do now in QEMU's C
+>> code.  However, the Error API is used all over the place, which makes
+>> changing it expensive.  "Rethinking the whole Error API" (your words)
+>> would have to generate benefits worth this expense.  Which seems
+>> unlikely.
+>> 
+>> [...]
+>> 
+>
+> This is all fine, the problem is how we remodel this in C.
+>
+> This is how I see the next steps to clarify my position:
+>
+> short term:
+>
+> - keep the existing API with the existing assumptions, use a separate argument to carry the pointer to the actual return value (where the function return value as provided by the language is used to return if an exception was generated or not, as we assume today).
+
+We don't actually need separate values for "actual return value" and
+"success vs. failure" here.  We can easily encode them in a single
+return value.  This is *common* in C, for better or worse.
+
+For instance, read() returns -1 on error, 0 on EOF (which is not an
+error), and a positive value on actual read.  On error, @errno is set,
+which is a bit awkward (we wouldn't design that way today, I hope).
+
+The interface I proposed is similar: return -1 on error, 0 on not found
+(which is not an error), and 1 on successful load.  On error, an Error
+is set via @errp.  With a name that makes it obvious that "not found" is
+not an error, there's nothing that should surprise someone
+passingly familiar with QEMU code.
+
+> - long term (maybe): fix the existing API by detaching completely the return value from the exception.
+
+As I wrote, this seems unlikely to be worth its considerable expense.
+
+> Wdyt?
+>
+> C
+
 
