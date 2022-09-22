@@ -2,88 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25775E5FD4
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 12:26:53 +0200 (CEST)
-Received: from localhost ([::1]:37384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 175EF5E5F7F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 12:12:20 +0200 (CEST)
+Received: from localhost ([::1]:38774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obJPw-0000jv-H3
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 06:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41522)
+	id 1obJBk-00039I-HF
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 06:12:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1obHzX-0008DE-LD
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:55:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59013)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1obIGg-0005AR-KF
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:13:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1obHzQ-0004O2-QP
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:55:30 -0400
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1obIGc-000576-VS
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:13:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663836923;
+ s=mimecast20190719; t=1663837989;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BQUZH0l2McBt181klcXtt0pGPwD2K1dPTxk16J/dKt0=;
- b=FRx3UI3d1eOhDxq/0EuIQJx9pvzdbB6TjwHKu5cZxk7E4NGLsI4IzbbPWmsG50D/aHK3eg
- w7F6BPCEpPnh43EvOh6G9FsRbbOs9/714gqblSvllJtR1mi0M5/138XUJ0XET8UqKZ8/og
- nkEnCyWiDmdBGXsuy2UHF3Dp2b7eaMA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZCHaqdSf2in4H08eTHdQtq8LMHqIviUAgesSjaxcROI=;
+ b=hFSRRKZIPRqFQO7f3vhlhHx2qHWXhFpfX16+kNNa2TMAvc14rAG0fD2y+so4Vyv8A0Vvrh
+ 213Z7CxWrXjEZkOMQvQuTAnDjFjFrUhoa2GAzmQls5xXsa6ihLtLAM0sKZ1IPDU4zJ7s15
+ 2gJtIno+5nKLZLbKJWexvP8YEDZ93+c=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-32--qWj7w5dPOmIYOLgdZDqUg-1; Thu, 22 Sep 2022 04:55:22 -0400
-X-MC-Unique: -qWj7w5dPOmIYOLgdZDqUg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 7-20020a05600c020700b003b4ce6e6b12so510739wmi.0
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 01:55:22 -0700 (PDT)
+ us-mta-210-17xELTGPPJyUPiCdLrVCCA-1; Thu, 22 Sep 2022 05:13:08 -0400
+X-MC-Unique: 17xELTGPPJyUPiCdLrVCCA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ t12-20020adfa2cc000000b0022adcbb248bso3059168wra.1
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 02:13:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=BQUZH0l2McBt181klcXtt0pGPwD2K1dPTxk16J/dKt0=;
- b=n0MvAcKPDnrP1S4DRXBghNcH5uq/D5h+bqyZJmyASSWDDP3prEgcaIAeigfXqE7Sd1
- dAzzPK/nIBHmvM19Q8C4KDn7r5A+2iVXTIuHw0lFqjxXERChKGBumvTirgQ4vX6xNFfl
- 3rvK5oBJs6mIWxilXf3CutiFOLMdQgxo5c5e1VzkstQ7Nxb7g3Zh/EOouT5lB8drz0bF
- qT+e0S/zhhFEDnjwAgo5QNbeAjFpmWQ9MGYkTMmFHyPhLUlG6LXYFl/U3wgnqF1xajoO
- xMD6YnrI5Ips/p4qqQ08dItdKFwvHQ5A+PPrtVvWWClXbdpayBxXn0ppJC5w1NksGgUq
- /3oQ==
-X-Gm-Message-State: ACrzQf1hl6CU4VIXpbEb+gmPTH6dONmdrldxVzvXYOVxL9cUV4QRHdkj
- YvvBZkAdZ6QqaDl7B1UECloCHslQgVxRx8Ld14HIp5Y71c9Az0Gjfhvuj/1DqGR+/38U0tVoWtP
- RopFIcUaTwxrI95k=
-X-Received: by 2002:a05:600c:2050:b0:3b4:a51a:a1f5 with SMTP id
- p16-20020a05600c205000b003b4a51aa1f5mr1463334wmg.177.1663836920806; 
- Thu, 22 Sep 2022 01:55:20 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5xvz/kDCcXO3k/Qqm9fQ74sw9y3TIylqcmtcYP4XUWuSa2S1vrfGP3+Py49BTcJljmOZX+2g==
-X-Received: by 2002:a05:600c:2050:b0:3b4:a51a:a1f5 with SMTP id
- p16-20020a05600c205000b003b4a51aa1f5mr1463312wmg.177.1663836920533; 
- Thu, 22 Sep 2022 01:55:20 -0700 (PDT)
-Received: from redhat.com ([2.55.47.213]) by smtp.gmail.com with ESMTPSA id
- x12-20020a5d650c000000b00228cbac7a25sm4555579wru.64.2022.09.22.01.55.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 01:55:20 -0700 (PDT)
-Date: Thu, 22 Sep 2022 04:55:16 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, kvm@vger.kernel.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3] x86: add etc/phys-bits fw_cfg file
-Message-ID: <20220922044906-mutt-send-email-mst@kernel.org>
-References: <20220922084356.878907-1-kraxel@redhat.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=ZCHaqdSf2in4H08eTHdQtq8LMHqIviUAgesSjaxcROI=;
+ b=EwSgP28a2e/5n9Wu+QMS8+Wd/xKEfDTzh55LbqhcFfJKMRN9HJzn+DxOT9AHsLaWeg
+ +O8EiVyUpUo5CF5ivRH6eA316oGRtpuaMSzSNAjSjqF/d6uFdVmsOLJ7yzV62OP197Xg
+ TYpx8hTvCVllWRgHb11XwCoPYlfc3hgugLqKa82dX0XgxUYxLbkYV6Xu04oWUtKAbFCy
+ SZsGj1nNXJl/iS9FwoVE1bJNUx52xqCFfz3lffgkKggx6+6yeWGBAGX7rk2k9fybF+yp
+ /OE52aVPthBtgung7WyJ3UoWo6QFXpSS7PpxWAoO8s/KaZ85zXp98lxAbiDAV5erznjg
+ dJ/A==
+X-Gm-Message-State: ACrzQf1YymmUjr4Ifk1mTO4oaPCA5y/ji6Qxp86zNZtM6QOzV5GZm8GR
+ 1RGVI9PKbAmIPYnA0H96SgEqhtN89pzDEzs+gpNDv83DxKMp67f85NVoBAgKpTv6/k4B40qFqiV
+ 0R+wVEYIGQkTqHqY=
+X-Received: by 2002:a5d:6c62:0:b0:22a:2f91:b99f with SMTP id
+ r2-20020a5d6c62000000b0022a2f91b99fmr1296199wrz.124.1663837987194; 
+ Thu, 22 Sep 2022 02:13:07 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6htw6J860hoPm1NyV/SSsrtVCbQYiC/iC2PHyKl4r2nf1fH5cDNDVFt55166P+1QCSshH6NA==
+X-Received: by 2002:a5d:6c62:0:b0:22a:2f91:b99f with SMTP id
+ r2-20020a5d6c62000000b0022a2f91b99fmr1296177wrz.124.1663837986954; 
+ Thu, 22 Sep 2022 02:13:06 -0700 (PDT)
+Received: from [192.168.100.30] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ j27-20020a05600c1c1b00b003a5c999cd1asm7231580wms.14.2022.09.22.02.13.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 22 Sep 2022 02:13:06 -0700 (PDT)
+Message-ID: <68a362a2-33e0-c41c-1871-d22338b5a4a0@redhat.com>
+Date: Thu, 22 Sep 2022 11:13:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220922084356.878907-1-kraxel@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v8 13/14] net: stream: move to QIO
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gregory Kurz <gregory.kurz@free.fr>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20220913064000.79353-1-lvivier@redhat.com>
+ <20220913064000.79353-14-lvivier@redhat.com> <87mtasai57.fsf@pond.sub.org>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <87mtasai57.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.702, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,142 +108,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 10:43:56AM +0200, Gerd Hoffmann wrote:
-> In case phys bits are functional and can be used by the guest (aka
-> host-phys-bits=on) add a fw_cfg file carrying the value.  This can
-> be used by the guest firmware for address space configuration.
+On 9/21/22 16:58, Markus Armbruster wrote:
+> Laurent Vivier <lvivier@redhat.com> writes:
 > 
-> This is only enabled for 7.2+ machine types for live migration
-> compatibility reasons.
+>> Use QIOChannel, QIOChannelSocket and QIONetListener.
+>>
+>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>> ---
 > 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-
-I'm curious why you decided to switch from a cpuid flag to fw cfg.  I
-guess firmware reads fw cfg anyway. But would the guest kernel then need
-to load a fw cfg driver very early to detect this, too?
-
-> ---
->  hw/i386/fw_cfg.h     |  1 +
->  include/hw/i386/pc.h |  1 +
->  hw/i386/fw_cfg.c     | 12 ++++++++++++
->  hw/i386/pc.c         |  5 +++++
->  hw/i386/pc_piix.c    |  2 ++
->  hw/i386/pc_q35.c     |  2 ++
->  6 files changed, 23 insertions(+)
+> [...]
 > 
-> diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
-> index 275f15c1c5e8..6ff198a6cb85 100644
-> --- a/hw/i386/fw_cfg.h
-> +++ b/hw/i386/fw_cfg.h
-> @@ -26,5 +26,6 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
->  void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg);
->  void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg);
->  void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg);
-> +void fw_cfg_phys_bits(FWCfgState *fw_cfg);
->  
->  #endif
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index c95333514ed3..bedef1ee13c1 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -119,6 +119,7 @@ struct PCMachineClass {
->      bool enforce_aligned_dimm;
->      bool broken_reserved_end;
->      bool enforce_amd_1tb_hole;
-> +    bool phys_bits_in_fw_cfg;
->  
->      /* generate legacy CPU hotplug AML */
->      bool legacy_cpu_hotplug;
-> diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-> index a283785a8de4..6a1f18925725 100644
-> --- a/hw/i386/fw_cfg.c
-> +++ b/hw/i386/fw_cfg.c
-> @@ -219,3 +219,15 @@ void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg)
->      aml_append(dev, aml_name_decl("_CRS", crs));
->      aml_append(scope, dev);
->  }
-> +
-> +void fw_cfg_phys_bits(FWCfgState *fw_cfg)
-> +{
-> +    X86CPU *cpu = X86_CPU(first_cpu);
-> +    uint64_t phys_bits = cpu->phys_bits;
-> +
-> +    if (cpu->host_phys_bits) {
-> +        fw_cfg_add_file(fw_cfg, "etc/phys-bits",
-> +                        g_memdup2(&phys_bits, sizeof(phys_bits)),
-> +                        sizeof(phys_bits));
-> +    }
-> +}
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index ee2436ae14a7..a0b5b70c80cb 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -2732,8 +2732,8 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+>>       "-netdev socket,id=str[,fd=h][,udp=host:port][,localaddr=host:port]\n"
+>>       "                configure a network backend to connect to another network\n"
+>>       "                using an UDP tunnel\n"
+>> -    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port\n"
+>> -    "-netdev stream,id=str[,server=on|off],addr.type=unix,addr.path=path\n"
+>> +    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port[,to=maxport][,numeric=on|off][,keep-alive=on|off][,mptcp=on|off][,addr.ipv4=on|off][,addr.ipv6=on|off]\n"
+>> +    "-netdev stream,id=str[,server=on|off],addr.type=unix,addr.path=path[,abstract=on|off][,tight=on|off]\n"
+>>       "-netdev stream,id=str[,server=on|off],addr.type=fd,addr.str=h\n"
+>>       "                configure a network backend to connect to another network\n"
+>>       "                using a socket connection in stream mode.\n"
+> 
+> The commit message didn't prepare me for this change.  Could you
+> explain?
+> 
 
-So, this allows a lot of flexibility, any phys_bits value at all can now
-be used. Do you expect a use-case for such a flexible mechanism?  If
-this ends up merely repeating CPUID at all times then we are just
-creating confusion.
-Could you add the motivation to the commit log pls?
+You're right, I should explain:
 
+moving to QIOChannel allows net/stream to use the all the available parameters provided by 
+SocketAddress. They were not listed here before because they were not supported, and as 
+they are supported now I have added them in the list.
 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 566accf7e60a..17ecc7fe4331 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -744,6 +744,7 @@ void pc_machine_done(Notifier *notifier, void *data)
->  {
->      PCMachineState *pcms = container_of(notifier,
->                                          PCMachineState, machine_done);
-> +    PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
->      X86MachineState *x86ms = X86_MACHINE(pcms);
->  
->      cxl_hook_up_pxb_registers(pcms->bus, &pcms->cxl_devices_state,
-> @@ -764,6 +765,9 @@ void pc_machine_done(Notifier *notifier, void *data)
->          fw_cfg_build_feature_control(MACHINE(pcms), x86ms->fw_cfg);
->          /* update FW_CFG_NB_CPUS to account for -device added CPUs */
->          fw_cfg_modify_i16(x86ms->fw_cfg, FW_CFG_NB_CPUS, x86ms->boot_cpus);
-> +        if (pcmc->phys_bits_in_fw_cfg) {
-> +            fw_cfg_phys_bits(x86ms->fw_cfg);
-> +        }
->      }
->  }
->  
-> @@ -1907,6 +1911,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->      pcmc->kvmclock_enabled = true;
->      pcmc->enforce_aligned_dimm = true;
->      pcmc->enforce_amd_1tb_hole = true;
-> +    pcmc->phys_bits_in_fw_cfg = true;
->      /* BIOS ACPI tables: 128K. Other BIOS datastructures: less than 4K reported
->       * to be used at the moment, 32K should be enough for a while.  */
->      pcmc->acpi_data_size = 0x20000 + 0x8000;
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 8043a250adf3..c6a4dbd5c0b0 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -447,9 +447,11 @@ DEFINE_I440FX_MACHINE(v7_2, "pc-i440fx-7.2", NULL,
->  
->  static void pc_i440fx_7_1_machine_options(MachineClass *m)
->  {
-> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pc_i440fx_7_2_machine_options(m);
->      m->alias = NULL;
->      m->is_default = false;
-> +    pcmc->phys_bits_in_fw_cfg = false;
->      compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
->      compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
->  }
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 53eda50e818c..c2b56daa1550 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -384,8 +384,10 @@ DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
->  
->  static void pc_q35_7_1_machine_options(MachineClass *m)
->  {
-> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pc_q35_7_2_machine_options(m);
->      m->alias = NULL;
-> +    pcmc->phys_bits_in_fw_cfg = false;
->      compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
->      compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
->  }
-> -- 
-> 2.37.3
+Thanks,
+Laurent
 
 
