@@ -2,80 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79DE55E5F55
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 12:07:03 +0200 (CEST)
-Received: from localhost ([::1]:40568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 772B55E5F8F
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 12:13:47 +0200 (CEST)
+Received: from localhost ([::1]:41738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obJ6j-00076M-To
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 06:07:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46540)
+	id 1obJDF-0004zr-Ip
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 06:13:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1obIhI-0004lF-Sa; Thu, 22 Sep 2022 05:40:45 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:33491)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obIjr-0007Rd-2M
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:43:28 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:34182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1obIhG-0002Iw-79; Thu, 22 Sep 2022 05:40:44 -0400
-Received: by mail-oi1-x229.google.com with SMTP id j188so11709481oih.0;
- Thu, 22 Sep 2022 02:40:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=7i42X+iTR+coSw+6qVyASJQU122NLoL3hYbJcw8rL/Q=;
- b=BOx1c6+4NNmPorZ9654YvC+PIXzICQUFsoJonTD5ZqBO4UIqNX8buDDKfDVNTDpY1E
- lihwMkIU0hp7T5LNvYT45uBNQZFOJESE3ZftZxMB7bU4eO7IALYoa2PjFc02Jzc9zmnq
- MnBXrCiF6jua7Fau0xLInpNuQ0UCvvqW5i9Ypj7QPuavC7Zd9Zl1nRNK5d087t3wuLOY
- QkzQwDB0Mmm1qCOvzjXxPZCNWAqOGUzrPowj8vkqQ0Y7SGnHFa/LCvvthCTtU3PXmf5N
- YmItWRUvlaosLHjEmG6GPW3zl5KpBA1XVb8gpkjU8mvwqzwy2BZVZKLhRQJEurb5F8ZL
- h6Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=7i42X+iTR+coSw+6qVyASJQU122NLoL3hYbJcw8rL/Q=;
- b=r81UWOceQWkrUQB2Z0vjdzrPGqkpEvkv9ElyRxG2lYNBgae4mTRIZYWPwd54S1KcMH
- 0GsSo2OFLubGQcWUL2mR+ZonDQu89Yxtr/JtIJaDgQLd60MNQLYPGLbZ22L0AF+g5L6A
- WjGGVvYPbZVkwHqlpjuip77a+l4AJpBiE0R9NbOj3nUMwpVt7rK740Yci+mpyXp6Khed
- pF7EqMm55+29DCYRSfVBlbvwJe5aqOkMwACim8u+dcu6ulfBdNlHgY2MfjGfQ+1A1NSV
- uKvCnr0sCdA6FAd0FjWrCmt2n803W8G3U4iG21WZLenSgWZIidFSdgNgpuZZ/cL943ez
- RXHw==
-X-Gm-Message-State: ACrzQf38E3s5Ieuq7u9i2rZ9dRxELzjziVQ2UUoo3IW08YWOO1fHGQFq
- 5qAzCpzdwqTSu07CJ84GuRIiGjvebJ4=
-X-Google-Smtp-Source: AMsMyM6wcz7wSsfb7sA00FyHcFV/k8tQ76/NdVwn9F38SHLpf3WVXORNtD/mYg7HlIvST4Q4z/2H0A==
-X-Received: by 2002:a05:6808:15a2:b0:350:4f5c:1440 with SMTP id
- t34-20020a05680815a200b003504f5c1440mr6154421oiw.129.1663839639779; 
- Thu, 22 Sep 2022 02:40:39 -0700 (PDT)
-Received: from [192.168.10.102] ([191.193.2.69])
- by smtp.gmail.com with ESMTPSA id
- q128-20020acad986000000b003458d346a60sm2208050oig.25.2022.09.22.02.40.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 02:40:39 -0700 (PDT)
-Message-ID: <b1d5de4f-ce23-33af-573d-5cce960e7c13@gmail.com>
-Date: Thu, 22 Sep 2022 06:40:36 -0300
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obIjp-0002d8-97
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 05:43:22 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6A663219A3;
+ Thu, 22 Sep 2022 09:43:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663839796; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=axI4xCpo4jXeFfNKNfEl9wKZ1+ozzW2BOtFyTBA5gSo=;
+ b=CYVOFfHP8sV2faUpOhE7o6u790u616msvglFHG/ys2TCIITCWcii3oD6XAe+Qjaudo94tq
+ qoRSAMkot3fNzuVzWqIZi2dem5U0x5BqTgSq0pRU9wqs3kynQcYBfO5UuueF11jGTzTNBV
+ 6jDxB7+M7OHWBnDgGjOh0A4kmD+7uoI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663839796;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=axI4xCpo4jXeFfNKNfEl9wKZ1+ozzW2BOtFyTBA5gSo=;
+ b=HEmfj5dftlbHNcD9LdzcoYGb8X2ZXhLtMv5hJRI/DHATVXkZWUaz+LfsNs49qMh96MWcgl
+ K2P47TBkm5Bou2Bg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1ABC21346B;
+ Thu, 22 Sep 2022 09:43:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id n48jBTQuLGPMBwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 22 Sep 2022 09:43:16 +0000
+Message-ID: <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de>
+Date: Thu, 22 Sep 2022 11:43:15 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v7 00/14] QMP/HMP: introduce 'dumpdtb'
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org
-References: <20220908194040.518400-1-danielhb413@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
 Content-Language: en-US
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220908194040.518400-1-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x229.google.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.702,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20220908183012.17667-1-cfontana@suse.de>
+ <20220908183012.17667-3-cfontana@suse.de> <877d23ekj0.fsf@pond.sub.org>
+ <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
+ <87y1ucdirx.fsf@pond.sub.org> <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
+ <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
+ <87leqb4ul9.fsf@pond.sub.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <87leqb4ul9.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -80
+X-Spam_score: -8.1
+X-Spam_bar: --------
+X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.702,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,75 +100,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping
-
-We're missing just patch 14/14. I'll leave non-acked patches behind and, if
-no one is strongly against it, I'll push both the dumpdtb implementation and
-the ppc parts via the ppc tree.
-
-Alistair, I can also push the riscv bits through the ppc tree if it's easier
-for you.
-
-
-Thanks,
-
-Daniel
-
-On 9/8/22 16:40, Daniel Henrique Barboza wrote:
-> Hi,
+On 9/22/22 11:38, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> This new version implements all change requests from the v6.
+>> On Thu, Sep 22, 2022 at 08:07:43AM +0200, Markus Armbruster wrote:
+>>> Ease of use matters, too.  When sticking to the rule leads to awkward
+>>> code, we should stop and think.  Should we deviate from the rule?  Or
+>>> can we avoid that by tweaking the interface?
+>>>
+>>> Philippe's proposed interface sticks to the rule.
+>>
+>> The cost is that when you see a  function   dosomething(true|false) as
+>> a reader you often have no idea what the effect of true vs false is
+>> on the behaviour of that function. You resort to looking at the
+>> API docs and/or code.  This is where C would really benefit from
+>> having named parameters like as  dosomething(ignore_errors=true|false)
+>> is totally obvious. Anyway, I digress.
 > 
-> - patch 5:
->    - change bamboo_load_device_tree() to use a MachineState pointer
-> - patch 7:
->    - change xilinx_load_device_tree() to use a MachineState pointer
-> - patch 14:
->    - placed SRST/ERST below the { }'s
->    - removed the '/tmp' reference in the command example
->    - removed all 'Requires libfdt' references
->    - changed qmp_dumpdtb() missing FDT error message to "This machine
->      doesn't have a FDT"
-> - v6 link: https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg00534.html
+> Right.  Quoting myself: "If having to pass a flag turns out to to be a
+> legibility issue, we can have wrapper functions."  :)
+
+There is something more fundamental that seems to be missed by most in this conversation,
+ie the distinction between the normal execution path and the error path.
+
+
 > 
-> Daniel Henrique Barboza (14):
->    hw/arm: do not free machine->fdt in arm_load_dtb()
->    hw/microblaze: set machine->fdt in microblaze_load_dtb()
->    hw/nios2: set machine->fdt in nios2_load_dtb()
->    hw/ppc: set machine->fdt in ppce500_load_device_tree()
->    hw/ppc: set machine->fdt in bamboo_load_device_tree()
->    hw/ppc: set machine->fdt in sam460ex_load_device_tree()
->    hw/ppc: set machine->fdt in xilinx_load_device_tree()
->    hw/ppc: set machine->fdt in pegasos2_machine_reset()
->    hw/ppc: set machine->fdt in pnv_reset()
->    hw/ppc: set machine->fdt in spapr machine
->    hw/riscv: set machine->fdt in sifive_u_machine_init()
->    hw/riscv: set machine->fdt in spike_board_init()
->    hw/xtensa: set machine->fdt in xtfpga_init()
->    qmp/hmp, device_tree.c: introduce dumpdtb
+>>> Another interface that does: return -1 for error, 0 for module not found
+>>> (no error), and 1 for loaded.
+>>
+>> IMHO this pattern is generally easier to understand when looking at
+>> the callers, as the fatal error scenario is always clear.
+>>
+>> That said I would suggest neither approach as the public facing
+>> API. Rather stop trying to overload 3 states onto an error reporting
+>> pattern that inherantly wants to be 2 states. Instead just have
+>> distinct methods
 > 
->   hmp-commands.hx              | 15 +++++++++++++++
->   hw/arm/boot.c                |  3 ++-
->   hw/microblaze/boot.c         |  8 +++++++-
->   hw/microblaze/meson.build    |  2 +-
->   hw/nios2/boot.c              |  8 +++++++-
->   hw/nios2/meson.build         |  2 +-
->   hw/ppc/e500.c                | 13 ++++++++++++-
->   hw/ppc/pegasos2.c            |  4 ++++
->   hw/ppc/pnv.c                 |  8 +++++++-
->   hw/ppc/ppc440_bamboo.c       | 25 ++++++++++++++-----------
->   hw/ppc/sam460ex.c            | 21 +++++++++++----------
->   hw/ppc/spapr.c               |  3 +++
->   hw/ppc/spapr_hcall.c         |  8 ++++++++
->   hw/ppc/virtex_ml507.c        | 25 ++++++++++++++-----------
->   hw/riscv/sifive_u.c          |  3 +++
->   hw/riscv/spike.c             |  6 ++++++
->   hw/xtensa/meson.build        |  2 +-
->   hw/xtensa/xtfpga.c           |  6 +++++-
->   include/sysemu/device_tree.h |  1 +
->   monitor/misc.c               |  1 +
->   qapi/machine.json            | 18 ++++++++++++++++++
->   softmmu/device_tree.c        | 31 +++++++++++++++++++++++++++++++
->   22 files changed, 172 insertions(+), 41 deletions(-)
+> Like these:
 > 
+>>   bool module_load_one(const char *prefix, const char *name, Error *errp)
+>>   bool module_try_load_one(const char *prefix, const char *name, Error *errp)
+>>
+>> other names are available for the second, eg module_load_one_optional()
+> 
+> module_load_one_if_there()?
+
+And what do you do with the caller that needs to _know_ whether the module was "there" or not?
+
+This is losing this information along the way, and the callers NEED it.
+
+I really invite, with no offense intended, to read the hunks of my patch and the callers,
+there are occasions where we need to _know_ if the module was there or not, and act depending on the context.
+
+The information about "bool is_there" needs to be passed to the caller.
+
+> 
+> By the way, the "one" in "module_load_one" & friends feels redundant.
+> When I see "module_load", I assume it loads one module.
+
+there is a module_load_all.
+
+> 
+>> Internally, both would call into a common helper following either
+>> Philippe's idea, or the -1/0/1 int return value. Either is fine,
+>> as they won't be exposed to any caller.
+> 
+> Yup.
+> 
+
+C
 
