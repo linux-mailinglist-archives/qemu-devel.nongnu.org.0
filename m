@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF05F5E6A8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:19:49 +0200 (CEST)
-Received: from localhost ([::1]:53186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 772AF5E6B16
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:38:48 +0200 (CEST)
+Received: from localhost ([::1]:56382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obQnc-0005DE-Oy
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:19:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59048)
+	id 1obR5z-0000rQ-JN
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:38:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPAy-0002Ak-VP
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:35:49 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46895)
+ id 1obPB9-0002CF-1S
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:10 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPAx-0005Nr-6Q
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:35:48 -0400
-Received: by mail-wr1-x432.google.com with SMTP id g3so16366499wrq.13
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:35:46 -0700 (PDT)
+ id 1obPB2-0005Qb-45
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:35:53 -0400
+Received: by mail-wr1-x432.google.com with SMTP id n15so9518379wrq.5
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:35:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=SNRGCqngHXuTKJa6F6FQoKgAN+UbaO3r3THYthr1idQ=;
- b=Lzs6ulw0bcOQ4VInqi9YoNw3PIoeYWmHYjQ6xpo8m/DaHeU5zOr7kDAMhBJqj3lVvh
- p7W9WD0zwOKBswwjpKsmbEDobYAIB2IsuxYyPOvsTfOGeWPI8YKguxNpD3zMbs5aKGYp
- S94iQ1sWM2NUw978crdLw5Yf7E/G8fwXrkQLo7qPzjOFeNaOVRqpSWyx8v+7Rm1HX+dx
- 9Wn13xa1i8CCoyvD/5s4cqQBScm6LeY5wX8nYq0+v5BCJ1S28LMSDxNyyhiwx6wNGanj
- bNjrxT1lSArfUgzXUdm6Sm2eUZBtECLQW6YRa4zxgCCF3UxjXuDnkrsshDFfDWkTLjXe
- QTxA==
+ bh=1rDY2/LSnTUCTndHvs7H1iIVK1L+jcasQz21+xSz1h0=;
+ b=a/+ZIOel66wrCbEc8p5P3CfiCUfnDlH6dgl330A94JAxbs+f1gdYVjI/vE1SOJY3vZ
+ 3Q9wE8KU85h8PJPdNRlej3+wWozVZKhYoDuvQHQNM4Naxx+DItNnD6bg3RJ+nRfypmlN
+ HopO+eYecWGVuYrscNgyD5aErMlOK1nmt2j6GR4YOeHXqe1HZM93jsBfAIhvQyYes5AB
+ 5SwAHsHXYt0lRW1m0Wud9aTTQ/vrII6h9eCj9GN5xZ9SbnffCZCVrn47bcNLcxC7Wfcd
+ 4fmhwit+gJkcIVzQYDNwvdWusvHaTBeRVmKZA1Bfcs4IyNK3FQYg9Ygdx45B8VjOq5AH
+ 1D4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=SNRGCqngHXuTKJa6F6FQoKgAN+UbaO3r3THYthr1idQ=;
- b=ECoFbgCIhitxwo289TD30XWOex5p9bpcqDU1GVVL3oWA3xV3DU9+NAJCuEJAdtxq7H
- 64q1FF84HbXkwA31WslaawolUiGP3OjyqJbw16dvtZz+pKd9Qcy33IdtY06wHxJweCQh
- 54neCgnrGKi5mU31olIia6UMkIExCfz4IXs57Lll7oN753xU3zTzKqdX4Ra74XPMoGg7
- Lu/hTnU6WeZRq3SXktYy565al568XMXrLkvkMiYFre0HF/MrzahfzSZAPYpzeoA0/+Bu
- o5XZdNIfLC2dBCjZgYPFxJLsS5iyBevl4ULPvf0b27IPOfnpBoSORhmHhtFKFuS3ardK
- zKfg==
-X-Gm-Message-State: ACrzQf1rdYWG9Zl+Wjl+zjkwfDae/K2mtaPpNbofLPAblPMBc2t+aznG
- WlmXoip69JtZ+9gVDVfAAaVshjaXc26nzg==
-X-Google-Smtp-Source: AMsMyM70BPB+PBfE/3itWPttzyS6Yxrnn3JncYCJEQ7tO9VuNRNK1JbuoL06y1m4hg8MwH8Aeci3sA==
-X-Received: by 2002:a5d:598f:0:b0:22a:f74d:ae24 with SMTP id
- n15-20020a5d598f000000b0022af74dae24mr2684061wri.544.1663864546380; 
- Thu, 22 Sep 2022 09:35:46 -0700 (PDT)
+ bh=1rDY2/LSnTUCTndHvs7H1iIVK1L+jcasQz21+xSz1h0=;
+ b=NdQAY+ULghI8xEz4u8sJJbA1OSSrO8xfKyy9PUD9HapuJ7nWWeXMBpaKTzYId4zlTN
+ i5TnQfKwmHEo7eExi58T+gnDPw8lk3sF5AKdxbiHXuhtdhnMuo780e6jqv6Pq2axthDG
+ FfJT+o2sLiiEkOeJmOPwgzH/pTlthCVF3GxhtNGma8gfDKWIabTOqiqAzLYT6ndIHbcd
+ xrjAbIXxS4M+AacLyELlOjfHSNlc8w0/pR5QEXbLf9mF/lwE+YQjpJEWkB4nLozhsveC
+ f8vXHl7GF+zsRz8aBrnPiLC9ilN79lXEMiCVq2eGRpJisD87+o8xuveEpYQkCOqy7SMN
+ tUaA==
+X-Gm-Message-State: ACrzQf0amay8ltyO1RNJyKt/Ufd2BVcruU6Id0KEyb+hMBPdVXlQtBUd
+ oKIs7GnLgP9YYiU9elF3QO3lyC82GnxelQ==
+X-Google-Smtp-Source: AMsMyM4RD8Amj0S3dw30K+oGr5yuLh4QY88JTyV98J8oVctvRc90XerHPh/hrhlTGRjtyJyfG6wbkw==
+X-Received: by 2002:adf:d84f:0:b0:226:d37a:b2c4 with SMTP id
+ k15-20020adfd84f000000b00226d37ab2c4mr2705460wrl.42.1663864550518; 
+ Thu, 22 Sep 2022 09:35:50 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.35.45
+ iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.35.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 09:35:46 -0700 (PDT)
+ Thu, 22 Sep 2022 09:35:50 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/39] target/arm: Remove is_subpage argument to
- pmsav8_mpu_lookup
-Date: Thu, 22 Sep 2022 17:35:08 +0100
-Message-Id: <20220922163536.1096175-12-peter.maydell@linaro.org>
+Subject: [PULL 18/39] target/arm: Add secure parameter to get_phys_addr_pmsav7
+Date: Thu, 22 Sep 2022 17:35:15 +0100
+Message-Id: <20220922163536.1096175-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220922163536.1096175-1-peter.maydell@linaro.org>
 References: <20220922163536.1096175-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::432;
  envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
@@ -92,127 +92,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This can be made redundant with result->page_size, by moving the basic
-set of page_size from get_phys_addr_pmsav8.  We still need to overwrite
-page_size when v8m_security_lookup signals a subpage.
+Remove the use of regime_is_secure from get_phys_addr_pmsav7,
+using the new parameter instead.
 
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220822152741.1617527-11-richard.henderson@linaro.org
-[PMM: Update a comment that used to refer to is_subpage]
+Message-id: 20220822152741.1617527-19-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/internals.h |  4 ++--
- target/arm/m_helper.c  |  3 +--
- target/arm/ptw.c       | 23 ++++++++++++-----------
- 3 files changed, 15 insertions(+), 15 deletions(-)
+ target/arm/ptw.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 103ae743a75..f8b22d3ab0b 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1152,8 +1152,8 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
- 
- bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-                        MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                       GetPhysAddrResult *result, bool *is_subpage,
--                       ARMMMUFaultInfo *fi, uint32_t *mregion);
-+                       GetPhysAddrResult *result, ARMMMUFaultInfo *fi,
-+                       uint32_t *mregion);
- 
- void arm_log_exception(CPUState *cs);
- 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 69d4a63fa6d..01263990dc3 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -2806,11 +2806,10 @@ uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
-     if (arm_current_el(env) != 0 || alt) {
-         GetPhysAddrResult res = {};
-         ARMMMUFaultInfo fi = {};
--        bool is_subpage;
- 
-         /* We can ignore the return value as prot is always set */
-         pmsav8_mpu_lookup(env, addr, MMU_DATA_LOAD, mmu_idx,
--                          &res, &is_subpage, &fi, &mregion);
-+                          &res, &fi, &mregion);
-         if (mregion == -1) {
-             mrvalid = false;
-             mregion = 0;
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index d6890048f13..bb3c709f8f5 100644
+index 9e1f60d10b4..1e81eefa47a 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -1701,8 +1701,8 @@ static bool get_phys_addr_pmsav7(CPUARMState *env, uint32_t address,
+@@ -1510,12 +1510,11 @@ static bool pmsav7_use_background_region(ARMCPU *cpu, ARMMMUIdx mmu_idx,
  
- bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-                        MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                       GetPhysAddrResult *result, bool *is_subpage,
--                       ARMMMUFaultInfo *fi, uint32_t *mregion)
-+                       GetPhysAddrResult *result, ARMMMUFaultInfo *fi,
-+                       uint32_t *mregion)
+ static bool get_phys_addr_pmsav7(CPUARMState *env, uint32_t address,
+                                  MMUAccessType access_type, ARMMMUIdx mmu_idx,
+-                                 GetPhysAddrResult *result,
++                                 bool secure, GetPhysAddrResult *result,
+                                  ARMMMUFaultInfo *fi)
  {
-     /*
-      * Perform a PMSAv8 MPU lookup (without also doing the SAU check
-@@ -1710,8 +1710,9 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-      * mregion is (if not NULL) set to the region number which matched,
-      * or -1 if no region number is returned (MPU off, address did not
-      * hit a region, address hit in multiple regions).
--     * We set is_subpage to true if the region hit doesn't cover the
--     * entire TARGET_PAGE the address is within.
-+     * If the region hit doesn't cover the entire TARGET_PAGE the address
-+     * is within, then we set the result page_size to 1 to force the
-+     * memory system to use a subpage.
-      */
      ARMCPU *cpu = env_archcpu(env);
+     int n;
+-    bool secure = regime_is_secure(env, mmu_idx);
      bool is_user = regime_is_user(env, mmu_idx);
-@@ -1722,7 +1723,7 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-     uint32_t addr_page_base = address & TARGET_PAGE_MASK;
-     uint32_t addr_page_limit = addr_page_base + (TARGET_PAGE_SIZE - 1);
  
--    *is_subpage = false;
-+    result->page_size = TARGET_PAGE_SIZE;
      result->phys = address;
-     result->prot = 0;
-     if (mregion) {
-@@ -1774,13 +1775,13 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-                     ranges_overlap(base, limit - base + 1,
-                                    addr_page_base,
-                                    TARGET_PAGE_SIZE)) {
--                    *is_subpage = true;
-+                    result->page_size = 1;
-                 }
-                 continue;
-             }
- 
-             if (base > addr_page_base || limit < addr_page_limit) {
--                *is_subpage = true;
-+                result->page_size = 1;
-             }
- 
-             if (matchregion != -1) {
-@@ -1972,7 +1973,6 @@ static bool get_phys_addr_pmsav8(CPUARMState *env, uint32_t address,
-     uint32_t secure = regime_is_secure(env, mmu_idx);
-     V8M_SAttributes sattrs = {};
-     bool ret;
--    bool mpu_is_subpage;
- 
-     if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-         v8m_security_lookup(env, address, access_type, mmu_idx, &sattrs);
-@@ -2035,9 +2035,10 @@ static bool get_phys_addr_pmsav8(CPUARMState *env, uint32_t address,
-     }
- 
-     ret = pmsav8_mpu_lookup(env, address, access_type, mmu_idx,
--                            result, &mpu_is_subpage, fi, NULL);
--    result->page_size =
--        sattrs.subpage || mpu_is_subpage ? 1 : TARGET_PAGE_SIZE;
-+                            result, fi, NULL);
-+    if (sattrs.subpage) {
-+        result->page_size = 1;
-+    }
-     return ret;
- }
- 
+@@ -2418,7 +2417,7 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+         } else if (arm_feature(env, ARM_FEATURE_V7)) {
+             /* PMSAv7 */
+             ret = get_phys_addr_pmsav7(env, address, access_type, mmu_idx,
+-                                       result, fi);
++                                       is_secure, result, fi);
+         } else {
+             /* Pre-v7 MPU */
+             ret = get_phys_addr_pmsav5(env, address, access_type, mmu_idx,
 -- 
 2.25.1
 
