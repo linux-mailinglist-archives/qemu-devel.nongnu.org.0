@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87D85E6986
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:21:26 +0200 (CEST)
-Received: from localhost ([::1]:55200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5625E6991
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:24:15 +0200 (CEST)
+Received: from localhost ([::1]:52252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obPt7-0001Dd-N7
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:21:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49100)
+	id 1obPvq-000633-Hk
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:24:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1obOMP-0003Vd-Fa
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:43:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1obOMN-0002BM-6i
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:43:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663861410;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obOTk-0003Fq-Lk
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:51:16 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:45894)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obOTi-0003fz-4W
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 11:51:08 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B0F2F1F912;
+ Thu, 22 Sep 2022 15:51:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663861862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v5GAtNRjWobwGwne/JBz92LvrItu0xF4HNFiS/yv9ao=;
- b=jMxACCEfWb8Ph75renJjs/6kBft+RvbpNdCsZzqgMLWSj6eZFdPqYpz9m7MCTQc/z5m2BG
- MMqzOSZMEsroQmlHUp4qexof3yQxcSzZTTCFJRer4YE717IHAk/qwe9xsGlREbpcQWjwvo
- 2rZB5FQpPAdmboydlmxaOWZsl12XlWg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-100-RrB7SAufNIarf4Nd1-95Kw-1; Thu, 22 Sep 2022 11:43:29 -0400
-X-MC-Unique: RrB7SAufNIarf4Nd1-95Kw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d30-20020adfa41e000000b00228c0e80c49so3409515wra.21
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 08:43:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=v5GAtNRjWobwGwne/JBz92LvrItu0xF4HNFiS/yv9ao=;
- b=1oYKwVUVUYaYCaRUYP7eHR/gIQbL0R6uj8MaWZxMBPcEtaEru7m7xKKH9AAqy8DMdd
- S9lpS7Qm1l9NlxsUgLQ4D9YjTGMtNcSPG227ZaXixsZwTGMRGAYSNYIpWlImPjjVui/9
- JbffcVnWRM5pcUlanwf2+H11AeIpuHk81b1yo2mQgpzNGZ15GjIvitOl0sbEzMAP4Nky
- XiQB6S/6/nAS2rRhCaV6H2OIE21S7sG3gn19u0VLbXUaHlJjUcC6KtLb4l4SqoCoHLto
- H2/rKwoEFNhGg8n9nOY78T9n5SSyyuEUlsiv3VIKY9GlxfLHSZUnKchNDB2cKBNvezme
- 5XhA==
-X-Gm-Message-State: ACrzQf1vGO9t4ZIVuk0Rz7dOF9hX0AJgPogjlb8utv9Mp988HqKyb282
- jQnuRvy3BYQRxPURrtokb4o1b3UYdn0cjXABe+3Dda2ewO71nf00zYCmLssB0moKTyeMz1HloWh
- cnnq/k9F0o7Ox3c4=
-X-Received: by 2002:a05:6000:61d:b0:22a:f5c6:696d with SMTP id
- bn29-20020a056000061d00b0022af5c6696dmr2572802wrb.214.1663861406682; 
- Thu, 22 Sep 2022 08:43:26 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7mqTnhaVJPF+BngVlMOe22PwPYFl6m4KOced//fosBrrDa79Zt/XF7SVrHynYLsLexP4RH3A==
-X-Received: by 2002:a05:6000:61d:b0:22a:f5c6:696d with SMTP id
- bn29-20020a056000061d00b0022af5c6696dmr2572784wrb.214.1663861406361; 
- Thu, 22 Sep 2022 08:43:26 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- h3-20020a1ccc03000000b003a5bd5ea215sm6143559wmb.37.2022.09.22.08.43.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 08:43:25 -0700 (PDT)
-Date: Thu, 22 Sep 2022 16:43:23 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH 2/5] migration: Fix race on qemu_file_shutdown()
-Message-ID: <YyyCm4rpTPZA4ykp@work-vm>
-References: <20220920223800.47467-1-peterx@redhat.com>
- <20220920223800.47467-3-peterx@redhat.com>
+ bh=BVJWGuSLYW9vJUPakVuLaVANRBjylDQcHEEPgstEYBY=;
+ b=p/HP6CcscwThau1pd25MHWhecYS5e3HhGWwAL9J2nd6mqx+c/+tcc8t6eB7fw8Bvk1dSEf
+ cmCt1rNzleiA2g3uiiprGcwxbKSEwMpCNNVtufJzVjsGnZiD3vaPRetvKx4TLdAGi0zJvg
+ Xl+lE3rAMz8pwlZ0H+F0rGZuna/o7y0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663861862;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BVJWGuSLYW9vJUPakVuLaVANRBjylDQcHEEPgstEYBY=;
+ b=3R2prFpjZP4TgKWMfSMwJTsA3HjKv0NT72yQpdRECu4eHvjE+f1e8zPyEMdRY2e8M8W8Ih
+ 1C/tmLr+jlpSRqCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 532C613AA5;
+ Thu, 22 Sep 2022 15:51:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id WMWvEmaELGPzOQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 22 Sep 2022 15:51:02 +0000
+Message-ID: <c613c592-9b69-65b3-36e9-9ea1cc53d76b@suse.de>
+Date: Thu, 22 Sep 2022 17:51:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220920223800.47467-3-peterx@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20220908183012.17667-3-cfontana@suse.de>
+ <877d23ekj0.fsf@pond.sub.org>
+ <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
+ <87y1ucdirx.fsf@pond.sub.org> <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
+ <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
+ <87leqb4ul9.fsf@pond.sub.org> <5f5921fe-6d4f-490b-4328-702a45973bbc@suse.de>
+ <87bkr7mvgr.fsf@pond.sub.org> <Yyx3Pc89tbqBliM0@redhat.com>
+ <87wn9vig40.fsf@pond.sub.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <87wn9vig40.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.893,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,99 +101,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> In qemu_file_shutdown(), there's a possible race if with current order of
-> operation.  There're two major things to do:
+On 9/22/22 17:27, Markus Armbruster wrote:
+> Kevin Wolf <kwolf@redhat.com> writes:
 > 
->   (1) Do real shutdown() (e.g. shutdown() syscall on socket)
->   (2) Update qemufile's last_error
+>> Am 22.09.2022 um 14:42 hat Markus Armbruster geschrieben:
 > 
-> We must do (2) before (1) otherwise there can be a race condition like:
+> [...]
 > 
->       page receiver                     other thread
->       -------------                     ------------
->       qemu_get_buffer()
->                                         do shutdown()
->         returns 0 (buffer all zero)
->         (meanwhile we didn't check this retcode)
->       try to detect IO error
->         last_error==NULL, IO okay
->       install ALL-ZERO page
->                                         set last_error
->       --> guest crash!
+>>> If you have callers that need to distinguish between not found, found
+>>> but bad, found and good, then return three distinct values.
+>>>
+>>> I proposed to return -1 for found but bad (error), 0 for not found (no
+>>> error), and 1 for loaded (no error).
+>>
+>> My intuition with this one was that "not found" is still an error case,
+>> but it's an error case that we need to distinguish from other error
+>> cases.
+>>
+>> Is this one of the rare use cases for error classes?
 > 
-> To fix this, we can also check retval of qemu_get_buffer(), but not all
-> APIs can be properly checked and ultimately we still need to go back to
-> qemu_file_get_error().  E.g. qemu_get_byte() doesn't return error.
-> 
-> Maybe some day a rework of qemufile API is really needed, but for now keep
-> using qemu_file_get_error() and fix it by not allowing that race condition
-> to happen.  Here shutdown() is indeed special because the last_error was
-> emulated.  For real -EIO errors it'll always be set when e.g. sendmsg()
-> error triggers so we won't miss those ones, only shutdown() is a bit tricky
-> here.
-> 
-> Cc: Daniel P. Berrange <berrange@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+> If I remember correctly, "not found" is not actually an error for most
+> callers.  If we make it one, these callers have to error_free().  Minor
+> annoyance, especially when you have to add an else just for that.
 
-Oh that's kind of fun,
+That's because the "Error" class, as implemented in QEMU, (and possibly in Glib..) seems to be closer to an Exception than an Error,
+just like in C++.
 
+And like in C++, the Exception is a more costly code path, that should not carry the regular runtime behavior,
+it should really be representing only the "Exceptional" runtime case.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+And this matches this specific instance perfectly.
 
-> ---
->  migration/qemu-file.c | 27 ++++++++++++++++++++++++---
->  1 file changed, 24 insertions(+), 3 deletions(-)
+Not finding the module should not raise an exception, because depending on the packaging the "module not present" is not an exceptional runtime behavior at all.
+
 > 
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 4f400c2e52..2d5f74ffc2 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -79,6 +79,30 @@ int qemu_file_shutdown(QEMUFile *f)
->      int ret = 0;
->  
->      f->shutdown = true;
-> +
-> +    /*
-> +     * We must set qemufile error before the real shutdown(), otherwise
-> +     * there can be a race window where we thought IO all went though
-> +     * (because last_error==NULL) but actually IO has already stopped.
-> +     *
-> +     * If without correct ordering, the race can happen like this:
-> +     *
-> +     *      page receiver                     other thread
-> +     *      -------------                     ------------
-> +     *      qemu_get_buffer()
-> +     *                                        do shutdown()
-> +     *        returns 0 (buffer all zero)
-> +     *        (we didn't check this retcode)
-> +     *      try to detect IO error
-> +     *        last_error==NULL, IO okay
-> +     *      install ALL-ZERO page
-> +     *                                        set last_error
-> +     *      --> guest crash!
-> +     */
-> +    if (!f->last_error) {
-> +        qemu_file_set_error(f, -EIO);
-> +    }
-> +
->      if (!qio_channel_has_feature(f->ioc,
->                                   QIO_CHANNEL_FEATURE_SHUTDOWN)) {
->          return -ENOSYS;
-> @@ -88,9 +112,6 @@ int qemu_file_shutdown(QEMUFile *f)
->          ret = -EIO;
->      }
->  
-> -    if (!f->last_error) {
-> -        qemu_file_set_error(f, -EIO);
-> -    }
->      return ret;
->  }
->  
-> -- 
-> 2.32.0
+> Even if we decide to make it an error, I would not create an error class
+> for it.  I like
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>     rc = module_load_one(..., errp);
+>     if (rc == -ENOENT) {
+>         error_free(*errp);
+>     } else if (rc < 0) {
+>         return;
+>     }
+> 
+> better than
+> 
+>     Error *err = NULL;
+> 
+>     module_load_one(..., &err);
+>     if (err && err->class == ERROR_CLASS_NOT_FOUND) {
+>         error_free(err);
+>     } else if (err) {
+>         error_propagate(errp, err);
+>         return;
+>     }
+> 
+> I respect your intuition.  Would it still say "error case" when the
+> function is called module_load_if_exists()?
+> 
+> Hmm, another thought... a need to distinguish error cases can be a
+> symptom of trying to do too much in one function.  We could split this
+> into "look up module" and "actually load it".
+> 
 
 
