@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1935E5E85
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 11:26:35 +0200 (CEST)
-Received: from localhost ([::1]:44770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E695E5E40
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 11:16:58 +0200 (CEST)
+Received: from localhost ([::1]:39074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obITa-0000aB-Mr
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 05:26:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37308)
+	id 1obIKI-00012R-1b
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 05:16:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1obHu6-0004Rq-Iq
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:49:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47650)
+ id 1obHtz-0004MM-SX
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:49:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1obHu4-0003De-1S
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:49:54 -0400
+ id 1obHty-0003Bh-1H
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 04:49:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663836591;
+ s=mimecast20190719; t=1663836585;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y70IF9zLzzuGZH6c3R4J73YdmxCLis2lJBd3y27tBwU=;
- b=FC143fycPaXgoG/E5kUO6hutiodyaSD4QWSCdlhAQIBbFF0uZ4mby6lPf2HYwfy4XkvxF4
- NSwglsj9Og2PeWgw2FF211NXXeH1CiiT8V0YUzU5ohzk17NBvw30xuEyy1yo8877UTMQlk
- gqZYmzwPbXO42RgXRoJIeii0Qq40K68=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=W3MW9mE1BsL5Mv0gGMFT3yEiQ6jzCGv4PL3FWaPSfgc=;
+ b=g73EZTINMp1CeoYWkiO6rn6WwkBvWrIhMs1CikNsDVRNVpWuE2EUpR3wKJrekPD54jjlQS
+ 9TwuN3l6RIKEvnv3WylO3I3JzGaUQebgN/rH1TOgNLVLLZuxjGiJaIOiH/He+hTAlodB60
+ frJbwP3ID532FbA5pEe7EXfgj/nz6JY=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-651-eHjPYJbcMZKXHT1_LS83DQ-1; Thu, 22 Sep 2022 04:49:42 -0400
-X-MC-Unique: eHjPYJbcMZKXHT1_LS83DQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- w17-20020a056402269100b0045249bc17a9so6161657edd.9
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 01:49:42 -0700 (PDT)
+ us-mta-661-SJQnTElhMRK9OYElqSJZyA-1; Thu, 22 Sep 2022 04:49:44 -0400
+X-MC-Unique: SJQnTElhMRK9OYElqSJZyA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ w17-20020a056402269100b0045249bc17a9so6161709edd.9
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 01:49:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=y70IF9zLzzuGZH6c3R4J73YdmxCLis2lJBd3y27tBwU=;
- b=jurVEagAL26zxd12FD/9amK4Kq/zLOg9CmmW6E2FMOlXtES+uKBhFiBCM3Tw0kbPfN
- 8S+zv7Qmx53y55szSpCh+rETbfDWQxpQLDTP9bHp2rawEUhU31qb0DijnZyE/tqaAu5n
- G+dS0s5hNnUiSQucnyxMC3j9shFkUssV9zpEksAmO29JA6+96x/h7v5bl6LJW+bnAst9
- Pa1PDcfIJdZ7/SpX6GRn+DumFnY1mR9ZQSeLEoMzR6N4qrkDtxhDNr0L+K1Qj77rm04s
- UMRBKK2LTJvaehZLrP6FMpH+RYHMZ+DRRehXuHxzMVpfZUniRqy9OhJQNjdf2R6anOlu
- XmJw==
-X-Gm-Message-State: ACrzQf0WL5eh7865XyO7o1a6h42cs7yqsU2XSHQUwUI8kDl9veGPe9gt
- YMTsg/0Irbe9hk6cvMkWUJ7YnZHxNXRu8kRLSCsrNKfl8uzbFJoJIyE7Ed815idUw72aJQeQ2ae
- FPeAX9SY26hiTmWh8XkwBcTEvfwQoknIacWU5kKhrkAqMeBJ91zZVIU45Tq8P2RuemYs=
-X-Received: by 2002:aa7:d054:0:b0:450:f6b9:bc2e with SMTP id
- n20-20020aa7d054000000b00450f6b9bc2emr2081750edo.413.1663836581433; 
- Thu, 22 Sep 2022 01:49:41 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4oDkiaTM/8Y7Ykdxo68g/7KEbaW3RG3IVvewCTa+0eAcVz1ZLn/0anMDGjewZQr7GhPP5Ahw==
-X-Received: by 2002:aa7:d054:0:b0:450:f6b9:bc2e with SMTP id
- n20-20020aa7d054000000b00450f6b9bc2emr2081732edo.413.1663836581168; 
- Thu, 22 Sep 2022 01:49:41 -0700 (PDT)
+ bh=W3MW9mE1BsL5Mv0gGMFT3yEiQ6jzCGv4PL3FWaPSfgc=;
+ b=g+7Y8pfVAKoQ1UDgcN78VBcI8pWYSMqAT+LCn7Wc2F4jlEeZ0WiIU03A+6Sb6mCJjd
+ 8F3pqfMvlUYVBkc78y48VVYY+cs8y7WmuqxHXciUz6ICtGjeSfJq0QifotHRhUZ4Q33U
+ icacpfWm+nqYey6GMVjm0bVLHnxi2SDEr5uedpbBzkInMFKZiP2KMpH01BHBMix1dT2i
+ C/VTEj83zjhJn1cruEgodOKLK/gtAz0OzJFQgq813RG6UbGkdN6P9Wm0QNQ/EQDvXWcT
+ 1kDGX7HaH53POW2gAhjUEvPzX+3NVzOIdL9jU/5Sv3c4GVmCTg1ZgBl++8C6Thda3i1w
+ EJXw==
+X-Gm-Message-State: ACrzQf3J08nKFc6N+zbqQ9Vr7MnUco6CNpLfxaZrWhTCjWzWOXuDVVo+
+ 197FEpm4sI/64+b8LmS6OyMdRgSK2CrVdactNd9wrzOXFmIiuQOeGPGhcwKFq8vk0GnJqsz+Ga8
+ OVYFSWRMcOAN/RxHWZajmjBcRxeHwqYNuoX4of0vTsbnnpr0ep1gHHdcBFZw3/1762BQ=
+X-Received: by 2002:a17:907:5c5:b0:77d:ea1:44c with SMTP id
+ wg5-20020a17090705c500b0077d0ea1044cmr1841987ejb.305.1663836582982; 
+ Thu, 22 Sep 2022 01:49:42 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7DgKX8CxTLbRutSjzj29qCiCti05pgQ74vQokN5is5cNGoB9K7wDFDnXOQzRRyWJvN15F+bQ==
+X-Received: by 2002:a17:907:5c5:b0:77d:ea1:44c with SMTP id
+ wg5-20020a17090705c500b0077d0ea1044cmr1841974ejb.305.1663836582700; 
+ Thu, 22 Sep 2022 01:49:42 -0700 (PDT)
 Received: from [192.168.10.118] ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- ay21-20020a056402203500b0044e9601e53fsm3244928edb.19.2022.09.22.01.49.40
+ jt2-20020a170906dfc200b007417041fb2bsm2296185ejc.116.2022.09.22.01.49.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 01:49:40 -0700 (PDT)
+ Thu, 22 Sep 2022 01:49:42 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, afaria@redhat.com,
- Eric Blake <eblake@redhat.com>
-Subject: [PATCH 10/26] nbd: add missing coroutine_fn annotations
-Date: Thu, 22 Sep 2022 10:49:08 +0200
-Message-Id: <20220922084924.201610-11-pbonzini@redhat.com>
+Cc: kwolf@redhat.com,
+	qemu-block@nongnu.org,
+	afaria@redhat.com
+Subject: [PATCH 11/26] nfs: add missing coroutine_fn annotations
+Date: Thu, 22 Sep 2022 10:49:09 +0200
+Message-Id: <20220922084924.201610-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220922084924.201610-1-pbonzini@redhat.com>
 References: <20220922084924.201610-1-pbonzini@redhat.com>
@@ -106,33 +107,24 @@ must be within "if (qemu_in_coroutine())".  Apply coroutine_fn to
 functions where this holds.
 
 Reviewed-by: Alberto Faria <afaria@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/nbd.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ block/nfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index 97683cce27..786ee79013 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -983,11 +983,11 @@ static void nbd_iter_request_error(NBDReplyChunkIter *iter, int ret)
-  * nbd_reply_chunk_iter_receive
-  * The pointer stored in @payload requires g_free() to free it.
-  */
--static bool nbd_reply_chunk_iter_receive(BDRVNBDState *s,
--                                         NBDReplyChunkIter *iter,
--                                         uint64_t handle,
--                                         QEMUIOVector *qiov, NBDReply *reply,
--                                         void **payload)
-+static bool coroutine_fn nbd_reply_chunk_iter_receive(BDRVNBDState *s,
-+                                                      NBDReplyChunkIter *iter,
-+                                                      uint64_t handle,
-+                                                      QEMUIOVector *qiov, NBDReply *reply,
-+                                                      void **payload)
+diff --git a/block/nfs.c b/block/nfs.c
+index 444c40b458..596ebe98cb 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -223,7 +223,7 @@ static void nfs_process_write(void *arg)
+     qemu_mutex_unlock(&client->mutex);
+ }
+ 
+-static void nfs_co_init_task(BlockDriverState *bs, NFSRPC *task)
++static void coroutine_fn nfs_co_init_task(BlockDriverState *bs, NFSRPC *task)
  {
-     int ret, request_ret;
-     NBDReply local_reply;
+     *task = (NFSRPC) {
+         .co             = qemu_coroutine_self(),
 -- 
 2.37.3
 
