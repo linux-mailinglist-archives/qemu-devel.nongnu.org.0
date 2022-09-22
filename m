@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C200F5E6851
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 18:24:06 +0200 (CEST)
-Received: from localhost ([::1]:33338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F595E685E
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 18:29:02 +0200 (CEST)
+Received: from localhost ([::1]:41060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obOzc-0005LX-Qz
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 12:24:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45062)
+	id 1obP4O-0003qR-Re
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 12:29:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1obNf3-0001Kd-MI
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:58:45 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45770)
+ id 1obNf5-0001Qt-Hk
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:58:47 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1obNex-0000wE-U1
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:58:42 -0400
-Received: by mail-wr1-x433.google.com with SMTP id n10so15930632wrw.12
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 07:58:39 -0700 (PDT)
+ id 1obNf3-0000wj-G9
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:58:47 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ r133-20020a1c448b000000b003b494ffc00bso1549776wma.0
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 07:58:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=z9o2xyA00hgdatFEtcmjPjjMM0wNvRNVxGVmWKD34T8=;
- b=tYIpNMvEPjH8GymyGLT7vp2pAfSalT2BUmseu6X/CHNP5Qj5CCgFTVGWyJ4ftMqieR
- t+rnE8NiPSwmggLzKwGlq3CFN9Js645Wj8tXPOs675maMKZUxNABZyEdCK568dEETbJz
- eONJ8lo2HX2czK8ipgWOSf8NfEaynBdYZG8wVhiuY0MPJPEzqta7FYsvaYEDpREvhH1Z
- kU2Sgyou1aZWvoVc3Q3J9wsGCBq//s5df3AqCrRe+N02B9PtqQtAXI+WqEMyFwLPiQK9
- GVXNwPVQAXgoN8CmaqOBBH7wRSQqA0sOX97tNVd3fo4OmXWt4ZWfzhA0RHgaCaR0/hed
- KwMA==
+ bh=vf2JT23xeGsCRGs8MEIgnpxzuvmtp2MAFHcV2vIxUmo=;
+ b=OIPAjkGfv+BSxLpUX5VVw4Yj1sQ6Ou+Dtm/aHfbQYheY8ASV/F3bu+dgCfR/PnPdmh
+ QGX4g3yQ2uJa565xwksKo+fCuAY7qWPFW96lg7wqlYqcumd/kCw9qjJqzNKnQ/W+WhQQ
+ v9iE6xMD7iGpLtFOD2BAgTJfpSSLY5Ifa0sE/5HjIODKVVUVIvObkcuLPXtIuFLLeYGA
+ Cpw0lNPElHWK0zolMSIuNme8IvhenELF+/Ja+9ppvgYIR7qtIlwLW5GtTWX8Zajrnd4s
+ LRESLX5cFeN1ynIQBIEam4HhK/PUdIz1stxFibJ+VCU/c9+OW/UAYmojxSI9RvVdH86G
+ Qt+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=z9o2xyA00hgdatFEtcmjPjjMM0wNvRNVxGVmWKD34T8=;
- b=sYas17rPlpS7ecFEOf51UflbMHDR4QDHr7oHoO9wP9p8Tk974/4bTtAHqd96ivIITt
- 9OLjmmRmBOSua/F6rslj9RsavZ1RsB7C4EP01zQVfkzQh7+tfo7Ol+mmrb3LI1F/MTKK
- BFRP7nsy/1wYAzcOejL8O++wY9JMWYVtypU3JY9mqThmapIWB9WVTf721Cz5AYnicNpR
- 5Tjnc8b/cU+ZQwQchqQwNcnpx/z/erUq5zc0TReWuE19Gw7ehK3eCbRbuJdD+LsGs+Kh
- i8oa7sxbBFstBLQTJ9teil0dXNEQN2uKMqtV0lDnKFJIjy1HamvwOiS+IfKWmd2fFML+
- 3zaA==
-X-Gm-Message-State: ACrzQf3/duBRNVoPY1ML9mFpnMPoI/L/DvRmcyHJlVMhlFPyEyzBQUEm
- ObD4Bvw80ZO+x3t0kiI1PBysYv2vs78PRQ==
-X-Google-Smtp-Source: AMsMyM6DwW77LquQEwS9jyy7TLyD0aniZVNOK/sF3vtbzyVoqrCTi6JCgIHu4J/fvB7aYng83ZsMfw==
-X-Received: by 2002:a05:6000:124f:b0:228:8713:ced9 with SMTP id
- j15-20020a056000124f00b002288713ced9mr2401617wrx.198.1663858718263; 
- Thu, 22 Sep 2022 07:58:38 -0700 (PDT)
+ bh=vf2JT23xeGsCRGs8MEIgnpxzuvmtp2MAFHcV2vIxUmo=;
+ b=tluYMhQIOqoD9vosSy4l/O1vwlMpU7uAyOwVTi0OCBnmO/IodcY9wd95+erAutYb4H
+ 8ZFqsOkFF3iNu8vYXt/BRcBad74Q5OCkp9UPwvSOzNiTlGLweVwkmnHQ8BKzwSHUAc0h
+ dU2X8vqpNP50yWeTlG+Mw5FgkHbtfvOQlOzs4v87HlyqY3Rc6otARfKj8/mkcGoSdb3i
+ clC+v1gV+kkVn33BRTgIK5qMHn8aCiqWXQN0PxrFj8WsuE/7fsyKhqLvMhlh+1VFsvGq
+ jzevOpJhOR6J8mfakaqsM6dXBTMHxQ8Qslxp8fDy/IzMhjywAyixYxl5ig1UN4n6EkER
+ S/nQ==
+X-Gm-Message-State: ACrzQf3ibYIrLNwxtiPcwyNoRvap6TzztpBaSJ6VFk22heF2aTXayqbn
+ bznOa/q7i1M/63oSDum6cg+dxciMCXd6PA==
+X-Google-Smtp-Source: AMsMyM5kYA3SJI/ciBhJaAByPZrAOgT3FDpwtsdFUhMbDmSfphRtnOOHs3OOup8wf9Rt46EaxjJnzw==
+X-Received: by 2002:a05:600c:898:b0:3b4:8110:7fab with SMTP id
+ l24-20020a05600c089800b003b481107fabmr9388934wmp.19.1663858719786; 
+ Thu, 22 Sep 2022 07:58:39 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m16-20020a5d6250000000b0022ae59d472esm5161211wrv.112.2022.09.22.07.58.33
+ bj4-20020a0560001e0400b0022a403954c3sm5604531wrb.42.2022.09.22.07.58.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 07:58:35 -0700 (PDT)
+ Thu, 22 Sep 2022 07:58:36 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EC0431FFBE;
- Thu, 22 Sep 2022 15:58:32 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 1C3ED1FFBF;
+ Thu, 22 Sep 2022 15:58:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: f4bug@amsat.org, mads@ynddal.dk,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH  v1 6/9] gdbstub: move into its own sub directory
-Date: Thu, 22 Sep 2022 15:58:29 +0100
-Message-Id: <20220922145832.1934429-7-alex.bennee@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ kvm@vger.kernel.org (open list:Overall KVM CPUs)
+Subject: [PATCH  v1 7/9] gdbstub: move sstep flags probing into AccelClass
+Date: Thu, 22 Sep 2022 15:58:30 +0100
+Message-Id: <20220922145832.1934429-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220922145832.1934429-1-alex.bennee@linaro.org>
 References: <20220922145832.1934429-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,171 +98,220 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is in preparation of future refactoring as well as cleaning up
-the source tree. Aside from the minor tweaks to meson and trace.h this
-is pure code motion.
+The support of single-stepping is very much dependent on support from
+the accelerator we are using. To avoid special casing in gdbstub move
+the probing out to an AccelClass function so future accelerators can
+put their code there.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Mads Ynddal <mads@ynddal.dk>
 ---
- meson.build                    |  4 +++-
- gdbstub/trace.h                |  1 +
- gdbstub.c => gdbstub/gdbstub.c |  2 +-
- MAINTAINERS                    |  2 +-
- gdbstub/meson.build            |  1 +
- gdbstub/trace-events           | 29 +++++++++++++++++++++++++++++
- trace-events                   | 28 ----------------------------
- 7 files changed, 36 insertions(+), 31 deletions(-)
- create mode 100644 gdbstub/trace.h
- rename gdbstub.c => gdbstub/gdbstub.c (99%)
- create mode 100644 gdbstub/meson.build
- create mode 100644 gdbstub/trace-events
+ include/qemu/accel.h | 12 ++++++++++++
+ include/sysemu/kvm.h |  8 --------
+ accel/accel-common.c | 10 ++++++++++
+ accel/kvm/kvm-all.c  | 14 +++++++++++++-
+ accel/tcg/tcg-all.c  | 17 +++++++++++++++++
+ gdbstub/gdbstub.c    | 22 ++++------------------
+ 6 files changed, 56 insertions(+), 27 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index 3885fc1076..2c9209c2b8 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2914,6 +2914,7 @@ trace_events_subdirs = [
-   'qom',
-   'monitor',
-   'util',
-+  'gdbstub',
- ]
- if have_linux_user
-   trace_events_subdirs += [ 'linux-user' ]
-@@ -3037,6 +3038,7 @@ subdir('authz')
- subdir('crypto')
- subdir('ui')
- subdir('hw')
-+subdir('gdbstub')
- 
- 
- if enable_modules
-@@ -3114,7 +3116,7 @@ common_ss.add(files('cpus-common.c'))
- subdir('softmmu')
- 
- common_ss.add(capstone)
--specific_ss.add(files('cpu.c', 'disas.c', 'gdbstub.c'), capstone)
-+specific_ss.add(files('cpu.c', 'disas.c'), capstone)
- 
- # Work around a gcc bug/misfeature wherein constant propagation looks
- # through an alias:
-diff --git a/gdbstub/trace.h b/gdbstub/trace.h
-new file mode 100644
-index 0000000000..dee87b1238
---- /dev/null
-+++ b/gdbstub/trace.h
-@@ -0,0 +1 @@
-+#include "trace/trace-gdbstub.h"
-diff --git a/gdbstub.c b/gdbstub/gdbstub.c
-similarity index 99%
-rename from gdbstub.c
-rename to gdbstub/gdbstub.c
-index cf869b10e3..7d8fe475b3 100644
---- a/gdbstub.c
-+++ b/gdbstub/gdbstub.c
-@@ -29,7 +29,7 @@
- #include "qemu/ctype.h"
- #include "qemu/cutils.h"
- #include "qemu/module.h"
--#include "trace/trace-root.h"
-+#include "trace.h"
- #include "exec/gdbstub.h"
- #ifdef CONFIG_USER_ONLY
- #include "qemu.h"
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 738c4eb647..82575b2486 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2670,7 +2670,7 @@ GDB stub
- M: Alex Bennée <alex.bennee@linaro.org>
- R: Philippe Mathieu-Daudé <f4bug@amsat.org>
- S: Maintained
--F: gdbstub*
-+F: gdbstub/*
- F: include/exec/gdbstub.h
- F: gdb-xml/
- F: tests/tcg/multiarch/gdbstub/
-diff --git a/gdbstub/meson.build b/gdbstub/meson.build
-new file mode 100644
-index 0000000000..6d4ae2d03c
---- /dev/null
-+++ b/gdbstub/meson.build
-@@ -0,0 +1 @@
-+specific_ss.add(files('gdbstub.c'))
-diff --git a/gdbstub/trace-events b/gdbstub/trace-events
-new file mode 100644
-index 0000000000..03f0c303bf
---- /dev/null
-+++ b/gdbstub/trace-events
-@@ -0,0 +1,29 @@
-+# See docs/devel/tracing.rst for syntax documentation.
+diff --git a/include/qemu/accel.h b/include/qemu/accel.h
+index be56da1b99..ce4747634a 100644
+--- a/include/qemu/accel.h
++++ b/include/qemu/accel.h
+@@ -43,6 +43,10 @@ typedef struct AccelClass {
+     bool (*has_memory)(MachineState *ms, AddressSpace *as,
+                        hwaddr start_addr, hwaddr size);
+ #endif
 +
-+# gdbstub.c
-+gdbstub_op_start(const char *device) "Starting gdbstub using device %s"
-+gdbstub_op_exiting(uint8_t code) "notifying exit with code=0x%02x"
-+gdbstub_op_continue(void) "Continuing all CPUs"
-+gdbstub_op_continue_cpu(int cpu_index) "Continuing CPU %d"
-+gdbstub_op_stepping(int cpu_index) "Stepping CPU %d"
-+gdbstub_op_extra_info(const char *info) "Thread extra info: %s"
-+gdbstub_hit_watchpoint(const char *type, int cpu_gdb_index, uint64_t vaddr) "Watchpoint hit, type=\"%s\" cpu=%d, vaddr=0x%" PRIx64 ""
-+gdbstub_hit_internal_error(void) "RUN_STATE_INTERNAL_ERROR"
-+gdbstub_hit_break(void) "RUN_STATE_DEBUG"
-+gdbstub_hit_paused(void) "RUN_STATE_PAUSED"
-+gdbstub_hit_shutdown(void) "RUN_STATE_SHUTDOWN"
-+gdbstub_hit_io_error(void) "RUN_STATE_IO_ERROR"
-+gdbstub_hit_watchdog(void) "RUN_STATE_WATCHDOG"
-+gdbstub_hit_unknown(int state) "Unknown run state=0x%x"
-+gdbstub_io_reply(const char *message) "Sent: %s"
-+gdbstub_io_binaryreply(size_t ofs, const char *line) "0x%04zx: %s"
-+gdbstub_io_command(const char *command) "Received: %s"
-+gdbstub_io_got_ack(void) "Got ACK"
-+gdbstub_io_got_unexpected(uint8_t ch) "Got 0x%02x when expecting ACK/NACK"
-+gdbstub_err_got_nack(void) "Got NACK, retransmitting"
-+gdbstub_err_garbage(uint8_t ch) "received garbage between packets: 0x%02x"
-+gdbstub_err_overrun(void) "command buffer overrun, dropping command"
-+gdbstub_err_invalid_repeat(uint8_t ch) "got invalid RLE count: 0x%02x"
-+gdbstub_err_invalid_rle(void) "got invalid RLE sequence"
-+gdbstub_err_checksum_invalid(uint8_t ch) "got invalid command checksum digit: 0x%02x"
-+gdbstub_err_checksum_incorrect(uint8_t expected, uint8_t got) "got command packet with incorrect checksum, expected=0x%02x, received=0x%02x"
-diff --git a/trace-events b/trace-events
-index bc71006675..035f3d570d 100644
---- a/trace-events
-+++ b/trace-events
-@@ -46,34 +46,6 @@ ram_block_discard_range(const char *rbname, void *hva, size_t length, bool need_
- memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
- memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
++    /* gdbstub related hooks */
++    int (*gdbstub_supported_sstep_flags)(void);
++
+     bool *allowed;
+     /*
+      * Array of global properties that would be applied when specific
+@@ -92,4 +96,12 @@ void accel_cpu_instance_init(CPUState *cpu);
+  */
+ bool accel_cpu_realizefn(CPUState *cpu, Error **errp);
  
--# gdbstub.c
--gdbstub_op_start(const char *device) "Starting gdbstub using device %s"
--gdbstub_op_exiting(uint8_t code) "notifying exit with code=0x%02x"
--gdbstub_op_continue(void) "Continuing all CPUs"
--gdbstub_op_continue_cpu(int cpu_index) "Continuing CPU %d"
--gdbstub_op_stepping(int cpu_index) "Stepping CPU %d"
--gdbstub_op_extra_info(const char *info) "Thread extra info: %s"
--gdbstub_hit_watchpoint(const char *type, int cpu_gdb_index, uint64_t vaddr) "Watchpoint hit, type=\"%s\" cpu=%d, vaddr=0x%" PRIx64 ""
--gdbstub_hit_internal_error(void) "RUN_STATE_INTERNAL_ERROR"
--gdbstub_hit_break(void) "RUN_STATE_DEBUG"
--gdbstub_hit_paused(void) "RUN_STATE_PAUSED"
--gdbstub_hit_shutdown(void) "RUN_STATE_SHUTDOWN"
--gdbstub_hit_io_error(void) "RUN_STATE_IO_ERROR"
--gdbstub_hit_watchdog(void) "RUN_STATE_WATCHDOG"
--gdbstub_hit_unknown(int state) "Unknown run state=0x%x"
--gdbstub_io_reply(const char *message) "Sent: %s"
--gdbstub_io_binaryreply(size_t ofs, const char *line) "0x%04zx: %s"
--gdbstub_io_command(const char *command) "Received: %s"
--gdbstub_io_got_ack(void) "Got ACK"
--gdbstub_io_got_unexpected(uint8_t ch) "Got 0x%02x when expecting ACK/NACK"
--gdbstub_err_got_nack(void) "Got NACK, retransmitting"
--gdbstub_err_garbage(uint8_t ch) "received garbage between packets: 0x%02x"
--gdbstub_err_overrun(void) "command buffer overrun, dropping command"
--gdbstub_err_invalid_repeat(uint8_t ch) "got invalid RLE count: 0x%02x"
--gdbstub_err_invalid_rle(void) "got invalid RLE sequence"
--gdbstub_err_checksum_invalid(uint8_t ch) "got invalid command checksum digit: 0x%02x"
--gdbstub_err_checksum_incorrect(uint8_t expected, uint8_t got) "got command packet with incorrect checksum, expected=0x%02x, received=0x%02x"
++/**
++ * accel_supported_gdbstub_sstep_flags:
++ *
++ * Returns the supported single step modes for the configured
++ * accelerator.
++ */
++int accel_supported_gdbstub_sstep_flags(void);
++
+ #endif /* QEMU_ACCEL_H */
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index efd6dee818..a20ad51aad 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -47,7 +47,6 @@ extern bool kvm_direct_msi_allowed;
+ extern bool kvm_ioeventfd_any_length_allowed;
+ extern bool kvm_msi_use_devid;
+ extern bool kvm_has_guest_debug;
+-extern int kvm_sstep_flags;
+ 
+ #define kvm_enabled()           (kvm_allowed)
+ /**
+@@ -174,12 +173,6 @@ extern int kvm_sstep_flags;
+  */
+ #define kvm_supports_guest_debug() (kvm_has_guest_debug)
+ 
+-/*
+- * kvm_supported_sstep_flags
+- * Returns: SSTEP_* flags that KVM supports for guest debug
+- */
+-#define kvm_get_supported_sstep_flags() (kvm_sstep_flags)
 -
- # job.c
- job_state_transition(void *job,  int ret, const char *legal, const char *s0, const char *s1) "job %p (ret: %d) attempting %s transition (%s-->%s)"
- job_apply_verb(void *job, const char *state, const char *verb, const char *legal) "job %p in state %s; applying verb %s (%s)"
+ #else
+ 
+ #define kvm_enabled()           (0)
+@@ -198,7 +191,6 @@ extern int kvm_sstep_flags;
+ #define kvm_ioeventfd_any_length_enabled() (false)
+ #define kvm_msi_devid_required() (false)
+ #define kvm_supports_guest_debug() (false)
+-#define kvm_get_supported_sstep_flags() (0)
+ 
+ #endif  /* CONFIG_KVM_IS_POSSIBLE */
+ 
+diff --git a/accel/accel-common.c b/accel/accel-common.c
+index 50035bda55..df72cc989a 100644
+--- a/accel/accel-common.c
++++ b/accel/accel-common.c
+@@ -129,6 +129,16 @@ bool accel_cpu_realizefn(CPUState *cpu, Error **errp)
+     return true;
+ }
+ 
++int accel_supported_gdbstub_sstep_flags(void)
++{
++    AccelState *accel = current_accel();
++    AccelClass *acc = ACCEL_GET_CLASS(accel);
++    if (acc->gdbstub_supported_sstep_flags) {
++        return acc->gdbstub_supported_sstep_flags();
++    }
++    return 0;
++}
++
+ static const TypeInfo accel_cpu_type = {
+     .name = TYPE_ACCEL_CPU,
+     .parent = TYPE_OBJECT,
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 5acab1767f..c55938453a 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -175,7 +175,7 @@ bool kvm_direct_msi_allowed;
+ bool kvm_ioeventfd_any_length_allowed;
+ bool kvm_msi_use_devid;
+ bool kvm_has_guest_debug;
+-int kvm_sstep_flags;
++static int kvm_sstep_flags;
+ static bool kvm_immediate_exit;
+ static hwaddr kvm_max_slot_size = ~0;
+ 
+@@ -3712,6 +3712,17 @@ static void kvm_accel_instance_init(Object *obj)
+     s->kvm_dirty_ring_size = 0;
+ }
+ 
++/**
++ * kvm_gdbstub_sstep_flags():
++ *
++ * Returns: SSTEP_* flags that KVM supports for guest debug. The
++ * support is probed during kvm_init()
++ */
++static int kvm_gdbstub_sstep_flags(void)
++{
++    return kvm_sstep_flags;
++}
++
+ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+ {
+     AccelClass *ac = ACCEL_CLASS(oc);
+@@ -3719,6 +3730,7 @@ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+     ac->init_machine = kvm_init;
+     ac->has_memory = kvm_accel_has_memory;
+     ac->allowed = &kvm_allowed;
++    ac->gdbstub_supported_sstep_flags = kvm_gdbstub_sstep_flags;
+ 
+     object_class_property_add(oc, "kernel-irqchip", "on|off|split",
+         NULL, kvm_set_kernel_irqchip,
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index 47952eecd7..30b503fb22 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -25,6 +25,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "sysemu/tcg.h"
++#include "sysemu/replay.h"
+ #include "sysemu/cpu-timers.h"
+ #include "tcg/tcg.h"
+ #include "qapi/error.h"
+@@ -207,12 +208,28 @@ static void tcg_set_splitwx(Object *obj, bool value, Error **errp)
+     s->splitwx_enabled = value;
+ }
+ 
++static int tcg_gdbstub_supported_sstep_flags(void)
++{
++    /*
++     * In replay mode all events will come from the log and can't be
++     * suppressed otherwise we would break determinism. However as those
++     * events are tied to the number of executed instructions we won't see
++     * them occurring every time we single step.
++     */
++    if (replay_mode != REPLAY_MODE_NONE) {
++        return SSTEP_ENABLE;
++    } else {
++        return SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
++    }
++}
++
+ static void tcg_accel_class_init(ObjectClass *oc, void *data)
+ {
+     AccelClass *ac = ACCEL_CLASS(oc);
+     ac->name = "tcg";
+     ac->init_machine = tcg_init_machine;
+     ac->allowed = &tcg_allowed;
++    ac->gdbstub_supported_sstep_flags = tcg_gdbstub_supported_sstep_flags;
+ 
+     object_class_property_add_str(oc, "thread",
+                                   tcg_get_thread,
+diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
+index 7d8fe475b3..a0755e6505 100644
+--- a/gdbstub/gdbstub.c
++++ b/gdbstub/gdbstub.c
+@@ -383,27 +383,13 @@ static void init_gdbserver_state(void)
+     gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
+ 
+     /*
+-     * In replay mode all events will come from the log and can't be
+-     * suppressed otherwise we would break determinism. However as those
+-     * events are tied to the number of executed instructions we won't see
+-     * them occurring every time we single step.
+-     */
+-    if (replay_mode != REPLAY_MODE_NONE) {
+-        gdbserver_state.supported_sstep_flags = SSTEP_ENABLE;
+-    } else if (kvm_enabled()) {
+-        gdbserver_state.supported_sstep_flags = kvm_get_supported_sstep_flags();
+-    } else {
+-        gdbserver_state.supported_sstep_flags =
+-            SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
+-    }
+-
+-    /*
+-     * By default use no IRQs and no timers while single stepping so as to
+-     * make single stepping like an ICE HW step.
++     * What single-step modes are supported is accelerator dependent.
++     * By default try to use no IRQs and no timers while single
++     * stepping so as to make single stepping like a typical ICE HW step.
+      */
++    gdbserver_state.supported_sstep_flags = accel_supported_gdbstub_sstep_flags();
+     gdbserver_state.sstep_flags = SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
+     gdbserver_state.sstep_flags &= gdbserver_state.supported_sstep_flags;
+-
+ }
+ 
+ #ifndef CONFIG_USER_ONLY
 -- 
 2.34.1
 
