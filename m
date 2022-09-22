@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB765E6804
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 18:04:03 +0200 (CEST)
-Received: from localhost ([::1]:45752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E3C5E6868
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 18:30:18 +0200 (CEST)
+Received: from localhost ([::1]:54256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obOgE-0004mM-4Y
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 12:04:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42974)
+	id 1obP5d-0004yL-NC
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 12:30:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obNTv-0000uh-AH
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:47:15 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:35700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obNTh-0004iJ-98
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:47:15 -0400
-Received: by mail-ej1-x633.google.com with SMTP id sd10so13214428ejc.2
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 07:47:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=GkWxW+owXfuzmLHw4aDN3rkB+vhpc7rTMfWkm6p4Ht0=;
- b=HGJhBSuoBz/2YcsTW61tzR/ejIxlVsvOf+MWUp/n0pqebANc+VHEx2X4J6e4Vg9K9Z
- BqDZHk8J3K3T83N4oGvWitB+0MUSKugulSfWZ6eWrBzs8Uggrle2MR+vcLN+pxFTDpFf
- PdKD3a2DxAEVIbaKC7QfGvfcN2dSSwm0j0Sm6/yOEz1yNQQE5IW0CGZ5+jSE5uXnpE/l
- TxrAqR9gdMF2uyoV7z6IEBaPcP5tPCDbMDE4LBqQoz7WdWi+PqehRi8iP7zoPXUe6Q76
- /4Pw/2N6yUnH8VIdoxQB1Auv9h+B/5ht47KoAy3VdaC0xwh0Q9jtAPJJm0ki8GGU8+J4
- iqDg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1obNWY-000213-5E
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:50:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41161)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1obNWV-0005o7-3z
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:49:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663858185;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3L5Lv4obmq2cVExEfeYxyUgws3dfK8VZfDgn2S+TNaI=;
+ b=VNHf0neY7ymNJlOcpB8fpQ3U101MxuO3AylZJVBxA/9TsrWTC3w9h+MuhrLNZWAZizGe2P
+ vroIvMp56PU+x8J5iD/FClztUaYJBbmAaQ9VaN53ivjl4WE/3qi7Vlx/2zBdVa5A+dARd4
+ AfYeqwYhB80TRTUPswzHmnPz+JFsduA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-29-wKdfUaiOOOWoy0jlJ_AVUw-1; Thu, 22 Sep 2022 10:49:44 -0400
+X-MC-Unique: wKdfUaiOOOWoy0jlJ_AVUw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r23-20020adfb1d7000000b002286358a916so3327993wra.3
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 07:49:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=GkWxW+owXfuzmLHw4aDN3rkB+vhpc7rTMfWkm6p4Ht0=;
- b=rmz4Ci9dKzUBo3q+O6nSCbbSPaFaDEVwePeUr9dqg+eaPxessNsTTdX5zRjXI3ykJ6
- NCU7/8ouPzFW6lA4E6okCxRTZnEArXflnjkpCxNIxki7cmcf1sXLOS4UP0zI9/aAfNGL
- tobj9grnl06Seflb3mge0aGMN+9yP70XQ7nhDs9IkU+FxVbynt/Z3/Jbcgyv24ye7B19
- OknNj9hMX8Hujxl2+BK6Ebqa7Hbrow1o/wYuuxd/Xb+yDAQCtmbuqNpKXveyf2p08i+/
- wKTKOzV8uURorWwy/PV5sOUyKl1zW5+AL05ViFHmflCQg2Sec5/KrTxzOim4qARDRn6q
- 61Kw==
-X-Gm-Message-State: ACrzQf0yBaqHbOj9udy30xVziS8Bq3DHyswZOyczWZG8JkeenmF5OM5L
- Z3MscM0JNwYf9J+Y4+QLHm/shb9SxlDcJFXwzgMLgQ==
-X-Google-Smtp-Source: AMsMyM73I+7MvQWIMCpziNRESqsmVCXjb7JxkhZZYOlI7QI6Sr9N3Luz3a3WOsJpbei5ZqJw6T2wIIa3AKfXPoZXU9Y=
-X-Received: by 2002:a17:906:db05:b0:741:5730:270e with SMTP id
- xj5-20020a170906db0500b007415730270emr3031555ejb.609.1663858019363; Thu, 22
- Sep 2022 07:46:59 -0700 (PDT)
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=3L5Lv4obmq2cVExEfeYxyUgws3dfK8VZfDgn2S+TNaI=;
+ b=su2+iMgbV0y/MmZyU/+VnSeccPHBGm+2Hajm0czuyRVSdAQzWSPMvumHmSJuDHK/FF
+ 2X1OWv3UAnDSVcUuPjnnDrdUsKym2ufS032bQpWr0w2QA74g4T1qdDe8qbUr5LpQo1bd
+ QYEU5n3+Bwjsc5rOtKRaMD4UpolXBn4BGRasXVDKVdurUIkUyaowi0H5jgqSR5iiM8Ej
+ 75ANmxCuvOt/1X8673Yta+jKH2EkV58qZfsM0vOSgfRt2DQqCailV/k05ijG351IggFk
+ 9ujyFa7MTCfza13aLE46VGGH27vKV9u0oVqEoFGQoNtaN4EddU48/NNVH1EjJtw2KzeC
+ RUJQ==
+X-Gm-Message-State: ACrzQf3U7IHYK5jobbD+5CmTPlY6UhGtvbGbkMlh41wciltXwW4/iT2d
+ WNMIfZ3SIzpBDPd4Rk/TCMDMWwvGkLJX+2xdoh57l9t8+avjCT8b77C5UFwzHTWyknSa2FaNSo2
+ mFZUn94AngDiNiAs=
+X-Received: by 2002:a1c:f002:0:b0:3b4:dda4:b58f with SMTP id
+ a2-20020a1cf002000000b003b4dda4b58fmr9555543wmb.184.1663858181917; 
+ Thu, 22 Sep 2022 07:49:41 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM57R42ACAgXxvLMd1IeWs2PPTKwiRfJvpqhF0WRLtdyhLIMLNAs7E8rHto89V9dGXHVneBdIw==
+X-Received: by 2002:a1c:f002:0:b0:3b4:dda4:b58f with SMTP id
+ a2-20020a1cf002000000b003b4dda4b58fmr9555520wmb.184.1663858181520; 
+ Thu, 22 Sep 2022 07:49:41 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ bv3-20020a0560001f0300b0022b014fb0b7sm5508259wrb.110.2022.09.22.07.49.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Sep 2022 07:49:40 -0700 (PDT)
+Date: Thu, 22 Sep 2022 15:49:38 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH 1/5] migration: Fix possible deadloop of ram save process
+Message-ID: <Yyx2An+YcgYCbsDx@work-vm>
+References: <20220920223800.47467-1-peterx@redhat.com>
+ <20220920223800.47467-2-peterx@redhat.com>
 MIME-Version: 1.0
-References: <20220910061252.2614-1-vikram.garhwal@amd.com>
- <20220910061252.2614-2-vikram.garhwal@amd.com>
-In-Reply-To: <20220910061252.2614-2-vikram.garhwal@amd.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 22 Sep 2022 15:46:48 +0100
-Message-ID: <CAFEAcA9=O6yPo9RdFWgq6eJZ=7vX4bQFuaoV6y+JCoM-=+TSTg@mail.gmail.com>
-Subject: Re: [QEMU][PATCH 2/5] hw/net/can: Introduce Xilinx Versal CANFD
- controller
-To: Vikram Garhwal <vikram.garhwal@amd.com>
-Cc: qemu-devel@nongnu.org, edgar.iglesias@amd.com, francisco.iglesias@amd.com, 
- Pavel Pisa <pisa@cmp.felk.cvut.cz>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>, 
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, 
- "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220920223800.47467-2-peterx@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,109 +102,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 10 Sept 2022 at 07:13, Vikram Garhwal <vikram.garhwal@amd.com> wrote:
->
-> The Xilinx Versal CANFD controller is developed based on SocketCAN, QEMU CAN bus
-> implementation. Bus connection and socketCAN connection for each CAN module
-> can be set through command lines.
->
-> Example for using connecting CANFD0 and CANFD1 to same bus:
->     -machine xlnx-versal-virt
->     -object can-bus,id=canbus
->     -machine canbus0=canbus
->     -machine canbus1=canbus
->
-> To create virtual CAN on the host machine, please check the QEMU CAN docs:
-> https://github.com/qemu/qemu/blob/master/docs/can.txt
+* Peter Xu (peterx@redhat.com) wrote:
+> When starting ram saving procedure (especially at the completion phase),
+> always set last_seen_block to non-NULL to make sure we can always correctly
+> detect the case where "we've migrated all the dirty pages".
+> 
+> Then we'll guarantee both last_seen_block and pss.block will be valid
+> always before the loop starts.
+> 
+> See the comment in the code for some details.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-That link is a 404. You could just give the relative path to the
-docs in the repo, which is docs/system/devices/can.rst
+Yeh I guess it can currently only happen during restart?
 
-For the machine specifics, you should include (either in the patch 4
-where you add this to the xlnx-versal-virt board, or in a separate patch
-if it seems too big) updates to docs/system/arm/xlnx-versal-virt.rst
-which document the new functionality, including, if it's useful to users,
-some documentation of how to use it.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-
-> +/* To avoid the build issues on Windows machines. */
-> +#undef ERROR
-
-What ?
-
-> +static void canfd_config_mode(XlnxVersalCANFDState *s)
-> +{
-> +    register_reset(&s->reg_info[R_ERROR_COUNTER_REGISTER]);
-> +    register_reset(&s->reg_info[R_ERROR_STATUS_REGISTER]);
-> +    register_reset(&s->reg_info[R_STATUS_REGISTER]);
+> ---
+>  migration/ram.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index dc1de9ddbc..1d42414ecc 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2546,14 +2546,22 @@ static int ram_find_and_save_block(RAMState *rs)
+>          return pages;
+>      }
+>  
+> +    /*
+> +     * Always keep last_seen_block/last_page valid during this procedure,
+> +     * because find_dirty_block() relies on these values (e.g., we compare
+> +     * last_seen_block with pss.block to see whether we searched all the
+> +     * ramblocks) to detect the completion of migration.  Having NULL value
+> +     * of last_seen_block can conditionally cause below loop to run forever.
+> +     */
+> +    if (!rs->last_seen_block) {
+> +        rs->last_seen_block = QLIST_FIRST_RCU(&ram_list.blocks);
+> +        rs->last_page = 0;
+> +    }
 > +
-> +    /* Put XlnxVersalCANFDState in configuration mode. */
-> +    ARRAY_FIELD_DP32(s->regs, STATUS_REGISTER, CONFIG, 1);
-> +    ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, WKUP, 0);
-> +    ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, SLP, 0);
-> +    ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, BSOFF, 0);
-> +    ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, ERROR, 0);
-> +    ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, RXFOFLW, 0);
-> +    ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, RXFOFLW_1, 0);
-> +    ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, RXOK, 0);
-> +    ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, TXOK, 0);
-> +    ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, ARBLST, 0);
-> +
-> +    /* Clear the time stamp. */
-> +    ptimer_transaction_begin(s->canfd_timer);
-> +    ptimer_set_count(s->canfd_timer, 0);
-> +    ptimer_transaction_commit(s->canfd_timer);
-> +
-> +    canfd_update_irq(s);
-> +}
-> +
+>      pss.block = rs->last_seen_block;
+>      pss.page = rs->last_page;
+>      pss.complete_round = false;
+>  
+> -    if (!pss.block) {
+> -        pss.block = QLIST_FIRST_RCU(&ram_list.blocks);
+> -    }
+> -
+>      do {
+>          again = true;
+>          found = get_queued_page(rs, &pss);
+> -- 
+> 2.32.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-A lot of this looks like it's just copy-and-pasted code from
-the existing hw/net/can/xlnx-zynqmp-can.c. Is this just an
-updated/extra-features version of that device? Is there some
-way we can share the code rather than duplicating 2000-odd lines ?
-
-> +#ifndef HW_CANFD_XILINX_H
-> +#define HW_CANFD_XILINX_H
-> +
-> +#include "hw/register.h"
-> +#include "hw/ptimer.h"
-> +#include "net/can_emu.h"
-> +#include "hw/qdev-clock.h"
-> +
-> +#define TYPE_XILINX_CANFD "xlnx.versal-canfd"
-
-Should this be a dot or a comma? The codebase has examples of
-both for xlnx devices :-(
-
-> +
-> +#define XILINX_CANFD(obj) \
-> +     OBJECT_CHECK(XlnxVersalCANFDState, (obj), TYPE_XILINX_CANFD)
-
-Please use OBJECT_DECLARE_SIMPLE_TYPE() rather than defining the
-cast macro by hand.
-
-> +
-> +#define NUM_REGS_PER_MSG_SPACE 18
-> +#define MAX_NUM_RX             64
-> +#define CANFD_TIMER_MAX        0XFFFFUL
-
-Don't use capital X in the 0x hex prefix, please.
-
-> +#define CANFD_DEFAULT_CLOCK    (24 * 1000 * 1000)
-> +
-> +/* 0x4144/4 + 1 + (64 - 1) * 18 + 1. */
-
-This comment isn't very informative. The #define itself is much
-better because it uses symbolic constants.
-
-What is the magic number 0x4144. It should either be defined via
-some kind of symbolic constant, or if that's not possible at least
-explained in a comment.
-
-> +#define XLNX_VERSAL_CANFD_R_MAX (0x4144 / 4  + \
-> +                    ((MAX_NUM_RX - 1) * NUM_REGS_PER_MSG_SPACE) + 1)
-
-thanks
--- PMM
 
