@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2720F5E6BB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 21:30:34 +0200 (CEST)
-Received: from localhost ([::1]:44564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855A75E6BCB
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 21:36:59 +0200 (CEST)
+Received: from localhost ([::1]:48116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obRu4-0004dI-Lt
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 15:30:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34478)
+	id 1obS0I-00018P-Lr
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 15:36:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1obRYC-0004Oi-07
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:07:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59683)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obRsD-0001rw-Ex
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:28:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1obRY8-0003b4-DD
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:07:53 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obRsA-0001AS-BX
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 15:28:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663873671;
+ s=mimecast20190719; t=1663874912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=i3lpII403H32nAicFnMpJGNc4TfdG2I+nwmaY8ont9A=;
- b=BHu0jq1CSiCJpWqik0O+5GrDVN1yQKtZJIhzXwP0QfDl4MVMWVeiBjQzS0OjayB/4Rn+wV
- ed3A8ama+MWHK1FSey1ht2/gexMQLNTinYl2wJEqTW4RWa0uaLhUiRryJZ4p/MNlxaZZ1J
- I8jIf+tNgpHSj1yImnH+GkQIp7OgUa8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-203-RcWty-tqOLqJk6xQHd0PSw-1; Thu, 22 Sep 2022 15:07:49 -0400
-X-MC-Unique: RcWty-tqOLqJk6xQHd0PSw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D9BB882821;
- Thu, 22 Sep 2022 19:07:49 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BDC91121314;
- Thu, 22 Sep 2022 19:07:48 +0000 (UTC)
-Date: Thu, 22 Sep 2022 15:07:47 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: qemu-devel@nongnu.org, tsimpson@quicinc.com,
- richard.henderson@linaro.org, f4bug@amsat.org,
- peter.maydell@linaro.org, bcain@quicinc.com, quic_mathbern@quicinc.com
-Subject: Re: [PULL 0/2] Hexagon target update
-Message-ID: <Yyyyg0DRqnfugZMs@fedora>
-References: <20220919201159.31838-1-tsimpson@quicinc.com>
+ bh=o7hSlWcWqOuFCDSrNay5Msjj5tXwpsHjQE7ro58YNsc=;
+ b=J7oyx2QvcTdsHeiJ5CxuIMFL7MSJdQumfMst3P2aPpjU1UZcTUU0bUwkFU5N4F2tXL/+c5
+ fG5LbGUW+hOsOBI0JgK9zObbWLfUEdQAcwSJ0oshBgXwEa1EKdXSvIPCqLiBM2/e9rLPOW
+ 1OXpep81sMBHJGEIoXMKEd2/2FCx+7A=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-169-nYieGeUFO02ocu4PXcYCVQ-1; Thu, 22 Sep 2022 15:28:30 -0400
+X-MC-Unique: nYieGeUFO02ocu4PXcYCVQ-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ w10-20020a05620a444a00b006ce9917ea1fso7354952qkp.16
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 12:28:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=o7hSlWcWqOuFCDSrNay5Msjj5tXwpsHjQE7ro58YNsc=;
+ b=6/wICEoYftnq/JwofVNC8d6D0msxcV0Qj7lKFjZoe48fBSR+vbqZaPVlyS+X8gEgY8
+ Kj0h9fgiae7vDbR77Nn1KGssf3+AA2TtU4rKNbO+w2QerhAxvQGgty+VhThEMqwIA82C
+ bNovJRWiWlwVgUopx9DGeB6jg/FQgHx7mBhXALlpfcK+1KrVcJzz1YNdXBkXjHmG5ASQ
+ uUFg1yG5qXJYFKBGthDNoRV8XIdOdJ4kxiZq+peUW6R/XelFX0U4rYG3b9Ri6XnBfRP1
+ 58TCnI52FCKZXTMcFVTvMEzHH6mZTmmLA9LlZaE24IJFiwxP0sXMjsWZbfRWCsyGlHIz
+ t5SA==
+X-Gm-Message-State: ACrzQf2F4v97srve75Xx+h76yz5NjsTd72yvwNNUDf+0dgaxflTuAQPF
+ dCbB5vH4i+LF7NWeML6ygfOsat5N2/3EmsL/i13bw2yNwlcx1T2L6fqkknAdP+xu5jDW52TyrHL
+ rwKJuZSQxjvKdbj0=
+X-Received: by 2002:a05:620a:158d:b0:6cd:efb1:8eb6 with SMTP id
+ d13-20020a05620a158d00b006cdefb18eb6mr3257764qkk.185.1663874910484; 
+ Thu, 22 Sep 2022 12:28:30 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6fJjer4kfJQ1lmHq9sDViVMqca9zqobVc0J3mN9N0mNoZ4ms1S3mr7DNU277Gsk5XbOg4VYw==
+X-Received: by 2002:a05:620a:158d:b0:6cd:efb1:8eb6 with SMTP id
+ d13-20020a05620a158d00b006cdefb18eb6mr3257755qkk.185.1663874910285; 
+ Thu, 22 Sep 2022 12:28:30 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
+ by smtp.gmail.com with ESMTPSA id
+ t6-20020a37ea06000000b006cf38fd659asm4276823qkj.103.2022.09.22.12.28.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Sep 2022 12:28:29 -0700 (PDT)
+Date: Thu, 22 Sep 2022 15:28:28 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH 3/5] migration: Disallow xbzrle with postcopy
+Message-ID: <Yyy3XN0dh/tfDWX6@xz-m1.local>
+References: <20220920223800.47467-1-peterx@redhat.com>
+ <20220920223800.47467-4-peterx@redhat.com>
+ <YyyFpTpuI03kdutm@work-vm>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9J8vapgXlzS9yCDx"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220919201159.31838-1-tsimpson@quicinc.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <YyyFpTpuI03kdutm@work-vm>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,35 +100,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Sep 22, 2022 at 04:56:21PM +0100, Dr. David Alan Gilbert wrote:
+> * Peter Xu (peterx@redhat.com) wrote:
+> > It's not supported since the 1st day, as ram_load_postcopy does not handle
+> > RAM_SAVE_FLAG_XBZRLE.  Mark it disabled explicitly.
+> 
+> We've already got a check in ram_save_page:
+> 
+>     if (rs->xbzrle_enabled && !migration_in_postcopy()) {
+>         pages = save_xbzrle_page(rs, &p, current_addr, block,
+>                                  offset);
+> 
+> so that's supposed to allow you to enable xbzrle with postcopy and take
+> advantage of xbzrle during the precopy phase.
 
---9J8vapgXlzS9yCDx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Ah!  Makes sense.  I'll drop this one.
 
-Applied, thanks.
-
-This pull request did not show up in the patches tool
-(https://github.com/stefanha/patches) that I use. If I miss a pull
-request from you in the future, please feel free to ping me after 48
-hours.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---9J8vapgXlzS9yCDx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMssoMACgkQnKSrs4Gr
-c8jF7wf/WuARlJ6kvGO4BrykT8hADrTL0NrAgW0Jv/anfp7JkZlbuoWgE5x985P2
-TNY7RDYorCj1I9rx47LhCI4Wx+WaWU1p8kt6DnDe9557jmR6GbdqKg8ZeLemEd59
-3o6iYXMZqJqYZO9rvq0OdBiVj480mdEZi4kCd9sS0MN+zUo3h7pT57WHDEd3YZ0j
-iE+T+ddDLITFz/Of6ZxzaFLWAuCXjtXzbI5rKiK5glFUSJwG6kWI0dhtKkJlEPVI
-iYe5iX/ycHyaq7uQblQ+Qn/wjHVfHDOKHI+W45BiGXfTBeuTW0KUGGB/5GoofvJs
-SR+H3LbeHizKynxa2pfisUxcesd3dg==
-=SaKP
------END PGP SIGNATURE-----
-
---9J8vapgXlzS9yCDx--
+-- 
+Peter Xu
 
 
