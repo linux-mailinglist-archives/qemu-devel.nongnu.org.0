@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99FA5E59A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 05:34:54 +0200 (CEST)
-Received: from localhost ([::1]:53484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B735E5A3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 06:35:52 +0200 (CEST)
+Received: from localhost ([::1]:51526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obCzF-0006Zk-9U
-	for lists+qemu-devel@lfdr.de; Wed, 21 Sep 2022 23:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57894)
+	id 1obDwE-0002IZ-Tw
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 00:35:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1obCug-0003Vk-7M
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 23:30:10 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:46904)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1obCue-00028J-DU
- for qemu-devel@nongnu.org; Wed, 21 Sep 2022 23:30:09 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id d17so5349680qko.13
- for <qemu-devel@nongnu.org>; Wed, 21 Sep 2022 20:30:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=6MSI5m82lFC9gmKE4o6cUZ/QH7Lf6bpPlJHEkGtu5QQ=;
- b=UY/IQ0Guh8dL4+ct16B1pK9z11EUYMfTtQ0oYAVggLWnKPwgul1KaEL/ISK9IayF+B
- rJTFV593lWu2JjNmIWRaw3kRUciPGNPlVSCwSNXoeIlv43jVT1JCLEe5BN/1juSBSFl9
- UbOs/cPS5qDhdL8hM/wyulIeTyMXeP4b5+WheSXaYBuz226p9FF4UFjGwItVhncc5xPL
- a2kbU27Z3xgXOM7TnqoOcmClKAlngIJlbpBcETnkcVSb/4LFXthoscKZqh68GAcBH++c
- hj7pcWfgwdZFxpmwxq+YBj5hxw/esiR7a0Qz/lbJRkfbeNQdvC+RaKPBg+Dvytteludb
- K0AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=6MSI5m82lFC9gmKE4o6cUZ/QH7Lf6bpPlJHEkGtu5QQ=;
- b=K6fJm2KISVRVu3z1LkFmnRQYlV9CG+fk8uSY4E4hKVl9Q9l2xJ2nfwhDa8lySyqNN0
- G3yjLgYXoB2/ze06M7jaWum6ra9G4mmp4s/X0JIwJQCETTKfu2dTCLU8axghZxgpwVhc
- 7CmGPSoVXUusAUte1UoMys2QZAe1a/1K0kNcEp27a+iPsQv3sFIr6aVuQssIgd4nSXus
- 7YDwFp30HuErDRuq66DUd80Trj1J9Dcm/Dg+TjNZUYolXsv7nICtV3biwDEXbj4P3MV7
- R9hJBxwAoBOYrZV9G5yPWm4OARsAwNMNxsLjFI97ABzRmnsfNNan5xx0iyoQJYZ4/seI
- CcxA==
-X-Gm-Message-State: ACrzQf2yhMbx8uZKLq2Np7mOgrntrZK+R0hzdPeUla+1CmV2wF6XbBpY
- Ob2nWx+fSQTGrjdsayA9uZOaCqryR+NfLvkYkaA=
-X-Google-Smtp-Source: AMsMyM6qwvDKKfVTdS/KYH87VkYN5jB4xRT+CMzYNdbsZZPLQNKZUd+Iy3tlpObjfZNBmv1RDaD1aQD9DW4iWnskk90=
-X-Received: by 2002:ae9:dd42:0:b0:6cc:ead5:14b4 with SMTP id
- r63-20020ae9dd42000000b006ccead514b4mr853694qkf.94.1663817406267; Wed, 21 Sep
- 2022 20:30:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obDrn-00080a-Rh
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 00:31:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obDrl-0007HK-UZ
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 00:31:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663821072;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5lSkV1x7IQKjVpP6UtZdbIbDYwioU5Owum2gI/99hFI=;
+ b=aR0oR9ZP7rXuwSxQQmR6cmMaMUPbOcmPSB4kklZUb1U3rhm2ge73mJOnoICKnhzja8vjIi
+ W4PjZSMxuIpwYClelrOw1bX//4pFV+ouJCNfTb/yAuvT5+IPqrTRRv8UfoSuXVLZ4mIdLY
+ HQurXDW2AXyzmXUOdGqr5sxXC5Pt/40=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-296-o0ljLAFqP26aC-3NpNhwSQ-1; Thu, 22 Sep 2022 00:30:57 -0400
+X-MC-Unique: o0ljLAFqP26aC-3NpNhwSQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D575811E81;
+ Thu, 22 Sep 2022 04:30:56 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EBF6E2024CB7;
+ Thu, 22 Sep 2022 04:30:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EC75821E6900; Thu, 22 Sep 2022 06:30:50 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org,  minyihh@uci.edu,  ma.mandourr@gmail.com,
+ Luke.Craig@ll.mit.edu,  cota@braap.org,  aaron@os.amperecomputing.com,
+ kuhn.chenqun@huawei.com,  robhenry@microsoft.com,
+ mahmoudabdalghany@outlook.com,  Richard Henderson
+ <richard.henderson@linaro.org>,  Kevin Wolf <kwolf@redhat.com>,  Hanna
+ Reitz <hreitz@redhat.com>,  Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Markus Armbruster <armbru@redhat.com>,
+ qemu-block@nongnu.org (open list:Block layer core),  qemu-ppc@nongnu.org
+ (open list:New World (mac99))
+Subject: Re: [PATCH  v1 01/10] monitor: expose monitor_puts to rest of code
+References: <20220921160801.1490125-1-alex.bennee@linaro.org>
+ <20220921160801.1490125-2-alex.bennee@linaro.org>
+Date: Thu, 22 Sep 2022 06:30:50 +0200
+In-Reply-To: <20220921160801.1490125-2-alex.bennee@linaro.org> ("Alex
+ =?utf-8?Q?Benn=C3=A9e=22's?= message of "Wed, 21 Sep 2022 17:07:52 +0100")
+Message-ID: <87leqc6net.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
- <20220920103159.1865256-27-bmeng.cn@gmail.com>
- <CAJ+F1CLupcHMUSm2rfC5YPGX_JW0O+uG=UfQCdu5VCGRyma+CA@mail.gmail.com>
-In-Reply-To: <CAJ+F1CLupcHMUSm2rfC5YPGX_JW0O+uG=UfQCdu5VCGRyma+CA@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 22 Sep 2022 11:29:56 +0800
-Message-ID: <CAEUhbmWH6sYPr8PGQmP7daZwYm3Jt_V0kanU+UcAEGO0NDNgJw@mail.gmail.com>
-Subject: Re: [PATCH v2 26/39] tests/qtest: migration-test: Make sure QEMU
- process "to" exited after migration is canceled
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
- Bin Meng <bin.meng@windriver.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x72d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,31 +91,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 5:54 AM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Tue, Sep 20, 2022 at 3:18 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->>
->> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
->>
->> Make sure QEMU process "to" exited before launching another target
->> for migration in the test_multifd_tcp_cancel case.
->>
->> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
->
-> fwiw, I didn't r-b the version with a busy wait
-> (https://patchew.org/QEMU/20220824094029.1634519-1-bmeng.cn@gmail.com/202=
-20824094029.1634519-42-bmeng.cn@gmail.com/)
->
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-My mistake. The R-B tag was added before I changed the implementation
-and I forgot to remove the tag.
+> This helps us construct strings elsewhere before echoing to the
+> monitor. It avoids having to jump through hoops like:
+>
+>   monitor_printf(mon, "%s", s->str);
+>
+> It will be useful in following patches but for now convert all
+> existing plain "%s" printfs to use the _puts api.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Regards,
-Bin
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
 
