@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D005E67DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:59:08 +0200 (CEST)
-Received: from localhost ([::1]:52990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD2C5E6687
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 17:12:35 +0200 (CEST)
+Received: from localhost ([::1]:43574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obObT-00082x-JA
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:59:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45592)
+	id 1obNsP-0008Le-Uj
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 11:12:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obN5G-0004AP-09
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:21:49 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:40913)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obN5D-0003zt-9X
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:21:44 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id l14so21416770eja.7
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 07:21:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=SKGDx92+n7z7e47qDXW9i9QmOYs3PQ4ULvPe75LIW+8=;
- b=SnTUzhOm/opDsYZef0NNG/6GGjOxQiWxDDWZiwSsQJL+4KaueQvnGJgHqPLq/78wrX
- 7dUhvTAFF10mSsrx09Fc9Mt6wqutL4JH7i2YZyo5ECAEhhZroT50LB6EnhJzb69zUfc5
- fmpjN5DuIG0EeJTTQYWdydAhxFYp9FaP5qsTDYIDaSen1nsgwuE0LeRpjjHbvjT4upHM
- zhH4zLk8e7fTk5YggoRhY/iZjOUcUbk9uxhp/b5E1FOiuxRsaVu+fQg+msJTq7AZiU1c
- bvQaEt8kbLK4nNkI9oDon4/BDRJJTmjJQOMj2N8hs8EJNXobclKmnGi1zZGM6zmDnJ7w
- 4Atg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=SKGDx92+n7z7e47qDXW9i9QmOYs3PQ4ULvPe75LIW+8=;
- b=uwAeeQ6ZWDpeTRPwpT7K1G3pr/Frblp0gCV8tHznytdwcxHwTfDRXff6NZeT/f63sQ
- nn/vxqmJMw0jZfmhGOV1hpf08zWOUpFx+W/xiW51AT4N2qVjKCOEoyt67A20Il8lNhEP
- hAaqMhWG+JDYo3OLgTLE4p1v1pSSBK+BjKxRrnfr4l5yuNArMYybaWPKj98c+4818g1q
- xf0pz8POQvF4t/x+Cxt0IZykRckz6G99cZcBbQTmHVMTUrlKEKIfXkWYYfQc6+vIJnJk
- zQW+f2M3ltuHwnGaldLKNwj5y/ZK3MgxFlxwrOcaEWldjW1iHMdv9NCDJOXTVfzQ2uP9
- MSHw==
-X-Gm-Message-State: ACrzQf3Q2D+eftXurPDZq0IbdYQ0ikatOxByUlNY9+Xc3HV3EqMrEsfK
- gfzAHlewNdnWoguovxqgzmtqEENPsyDWbtdYDkSDBw==
-X-Google-Smtp-Source: AMsMyM7IlI8At1uxNApjsXbtqW5U5FjafPyPOIyRZn1yaENa13WZEHpD6oLCJly8Q0uELRI2tXxdlxy7JA7BpNoHtp8=
-X-Received: by 2002:a17:907:86a5:b0:780:156d:e842 with SMTP id
- qa37-20020a17090786a500b00780156de842mr3048158ejc.555.1663856501486; Thu, 22
- Sep 2022 07:21:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1obNEu-0007gV-AC
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:31:45 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1obNEr-0007Eu-9Q
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 10:31:43 -0400
+Received: from fraeml738-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MYHfD1Crpz685ZG;
+ Thu, 22 Sep 2022 22:26:44 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml738-chm.china.huawei.com (10.206.15.219) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 22 Sep 2022 16:31:31 +0200
+Received: from localhost (10.81.208.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 22 Sep
+ 2022 15:31:30 +0100
+Date: Thu, 22 Sep 2022 15:31:28 +0100
+To: Yicong Yang <yangyicong@huawei.com>
+CC: <mst@redhat.com>, <imammedo@redhat.com>, <ani@anisinha.ca>,
+ <eduardo@habkost.net>, <marcel.apfelbaum@gmail.com>, <f4bug@amsat.org>,
+ <wangyanan55@huawei.com>, <qemu-devel@nongnu.org>, <linuxarm@huawei.com>,
+ <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
+ <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
+ <darren@os.amperecomputing.com>
+Subject: Re: [PATCH 0/4] Only generate cluster node in PPTT when specified
+Message-ID: <20220922153128.000035a4@huawei.com>
+In-Reply-To: <20220922131143.58003-1-yangyicong@huawei.com>
+References: <20220922131143.58003-1-yangyicong@huawei.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 MIME-Version: 1.0
-References: <20220910061252.2614-1-vikram.garhwal@amd.com>
- <20220910061252.2614-5-vikram.garhwal@amd.com>
-In-Reply-To: <20220910061252.2614-5-vikram.garhwal@amd.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 22 Sep 2022 15:21:30 +0100
-Message-ID: <CAFEAcA-T3e407ML7Y-x2gm3N97xk+6RLXpotn+ytdEtWcCNGEg@mail.gmail.com>
-Subject: Re: [QEMU][PATCH 5/5] MAINTAINERS: Include canfd tests under Xilinx
- CAN
-To: Vikram Garhwal <vikram.garhwal@amd.com>
-Cc: qemu-devel@nongnu.org, edgar.iglesias@amd.com, francisco.iglesias@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.81.208.231]
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,13 +72,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Sat, 10 Sept 2022 at 09:12, Vikram Garhwal <vikram.garhwal@amd.com> wrote:
->
-> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+On Thu, 22 Sep 2022 21:11:39 +0800
+Yicong Yang <yangyicong@huawei.com> wrote:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> From: Yicong Yang <yangyicong@hisilicon.com>
+> 
+> This series mainly change the policy for building a cluster topology node
+> in PPTT. Previously we'll always build a cluster node in PPTT without
+> asking the user, after this set the cluster node will be built only the
+> the user specify through "-smp clusters=X".
+> 
+> Update the tests and test tables accordingly.
+Hi Yicong,
 
-thanks
--- PMM
+Does this bring an issue with backwards compatibility?
+I'm assuming we need to make this something controlled in
+virt_machine_7_1_options()?
+
+One of those things we probably should have noticed originally but now
+we are stuck with the slightly messy backwards compatibility problem.
+
+Also, looks like you picked up a bunch of tables that are unrelated
+to the change.
+
+Jonathan
+
+
+> 
+> Yicong Yang (4):
+>   hw/acpi/aml-build: Only generate cluster node in PPTT when specified
+>   tests: virt: update expected ACPI tables for virt test
+>   tests: acpi: aarch64: add topology test for aarch64
+>   tests: acpi: aarch64: add *.topology tables
+> 
+>  hw/acpi/aml-build.c                |   2 +-
+>  hw/core/machine-smp.c              |   3 +++
+>  include/hw/boards.h                |   2 ++
+>  tests/data/acpi/virt/APIC.pxb      | Bin 0 -> 168 bytes
+>  tests/data/acpi/virt/APIC.topology | Bin 0 -> 700 bytes
+>  tests/data/acpi/virt/DBG2.memhp    | Bin 0 -> 87 bytes
+>  tests/data/acpi/virt/DBG2.numamem  | Bin 0 -> 87 bytes
+>  tests/data/acpi/virt/DBG2.pxb      | Bin 0 -> 87 bytes
+>  tests/data/acpi/virt/DBG2.topology | Bin 0 -> 87 bytes
+>  tests/data/acpi/virt/DSDT.topology | Bin 0 -> 5398 bytes
+>  tests/data/acpi/virt/FACP.pxb      | Bin 0 -> 268 bytes
+>  tests/data/acpi/virt/FACP.topology | Bin 0 -> 268 bytes
+>  tests/data/acpi/virt/GTDT.pxb      | Bin 0 -> 96 bytes
+>  tests/data/acpi/virt/GTDT.topology | Bin 0 -> 96 bytes
+>  tests/data/acpi/virt/IORT.topology | Bin 0 -> 128 bytes
+>  tests/data/acpi/virt/MCFG.pxb      | Bin 0 -> 60 bytes
+>  tests/data/acpi/virt/MCFG.topology | Bin 0 -> 60 bytes
+>  tests/data/acpi/virt/PPTT          | Bin 96 -> 76 bytes
+>  tests/data/acpi/virt/PPTT.memhp    | Bin 0 -> 76 bytes
+>  tests/data/acpi/virt/PPTT.numamem  | Bin 0 -> 76 bytes
+>  tests/data/acpi/virt/PPTT.pxb      | Bin 0 -> 76 bytes
+>  tests/data/acpi/virt/PPTT.topology | Bin 0 -> 336 bytes
+>  tests/data/acpi/virt/SPCR.pxb      | Bin 0 -> 80 bytes
+>  tests/data/acpi/virt/SPCR.topology | Bin 0 -> 80 bytes
+
+>  tests/qtest/bios-tables-test.c     |  22 ++++++++++++++++++++++
+>  25 files changed, 28 insertions(+), 1 deletion(-)
+>  create mode 100644 tests/data/acpi/virt/APIC.pxb
+>  create mode 100644 tests/data/acpi/virt/APIC.topology
+>  create mode 100644 tests/data/acpi/virt/DBG2.memhp
+>  create mode 100644 tests/data/acpi/virt/DBG2.numamem
+>  create mode 100644 tests/data/acpi/virt/DBG2.pxb
+>  create mode 100644 tests/data/acpi/virt/DBG2.topology
+>  create mode 100644 tests/data/acpi/virt/DSDT.topology
+>  create mode 100644 tests/data/acpi/virt/FACP.pxb
+>  create mode 100644 tests/data/acpi/virt/FACP.topology
+>  create mode 100644 tests/data/acpi/virt/GTDT.pxb
+>  create mode 100644 tests/data/acpi/virt/GTDT.topology
+>  create mode 100644 tests/data/acpi/virt/IORT.topology
+>  create mode 100644 tests/data/acpi/virt/MCFG.pxb
+>  create mode 100644 tests/data/acpi/virt/MCFG.topology
+>  create mode 100644 tests/data/acpi/virt/PPTT.memhp
+>  create mode 100644 tests/data/acpi/virt/PPTT.numamem
+>  create mode 100644 tests/data/acpi/virt/PPTT.pxb
+>  create mode 100644 tests/data/acpi/virt/PPTT.topology
+>  create mode 100644 tests/data/acpi/virt/SPCR.pxb
+>  create mode 100644 tests/data/acpi/virt/SPCR.topology
+> 
+
 
