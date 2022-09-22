@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCF25E6CB3
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 22:08:12 +0200 (CEST)
-Received: from localhost ([::1]:58302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A725E5E6CD1
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 22:11:17 +0200 (CEST)
+Received: from localhost ([::1]:42116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obSUV-0008Vr-Ln
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 16:08:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57252)
+	id 1obSXU-0003xS-QT
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 16:11:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obSPW-0003uO-CB; Thu, 22 Sep 2022 16:03:02 -0400
-Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:34760)
+ id 1obSRs-0005XR-DO
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 16:05:36 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:43958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obSPU-0005Xb-BO; Thu, 22 Sep 2022 16:03:02 -0400
-Received: by mail-lj1-x22f.google.com with SMTP id h3so12332855lja.1;
- Thu, 22 Sep 2022 13:02:59 -0700 (PDT)
+ id 1obSRb-00060J-Bt
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 16:05:27 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id o2so16460395lfc.10
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 13:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=tBoZpW8vBjIUBlFVj7owvoMZqn6AqeCHW+4bEjOdvvI=;
- b=E9McbJP0FMixCBEPr6SXho3stf86J81CY/UW0gGRvYf0k+vMLJN5Ykr0186qqiTSjC
- TfBXDNX/lmEYcDLP8fd0nzhNILm/mE+BB12RmY2gaiHD19wk05lSH7XKtgt/IY4vqxQP
- /2BNYG6L1ewDLnPzgMX8iwOp7YTIEYSGB/fCqLFDrdmdQO6S5krBvdeLOzr003kuVHBn
- btXcxQst4E/QWaQNr4rXTnH9uSpt+PgsemGkU4PqgmwpaGjD1ByGZBeUr0XsoBFWiRbY
- aN8xpojGLyiPUSe0CtnMAvye8RPO7etqYIfPWxxRBMmKhAR5dkm118GR8TOD2jnOmSVv
- MUUw==
+ bh=91hBZiX1FQF6cFm1ysrPeWyRgtWdJHK2KsTG+6jLNFo=;
+ b=jbK9fmTTymSFb5RtC1nn2uTTwXVTMx8GyOWMf26S9IzNg171W4DSgyJKHz6WlTzSvX
+ lLm7fhDUXUTlUWV5i6f/PgBE4IIXtPMLpAh1JgjQObsaiCuSkb8VFZMeYUtMlEimbcVS
+ cLPCuDySHYvytMIUP3RH12rJ2mSq3GeV1fAVEaRdeIDyhpttba4++Y+8C6MWkxvwuANN
+ Vl+pzWtdpv1BWuck4PrBnpe+4bq01snXmr5pfqH7Cmn5d0ER+PH7m+8qndJ41INU3hKY
+ Sdzm37fvbay3AmCgZbs5vBTEvpl5xTVMm5tevmusMZcfrnMznFybLrR0aWgEy7Elsgwd
+ DbKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=tBoZpW8vBjIUBlFVj7owvoMZqn6AqeCHW+4bEjOdvvI=;
- b=MF2tlDENs+d4Vgmce3OIaImx/pyva/fQqoanFYqnlMJQHhoaapUFYh4VqAgtksSgje
- bBWnIlbh5BsFthXCHEln7EIl4fnwlvK7G6HwkkrjRYnWONAtYMLpNVVmsA6en2jFXoZR
- 0cMD1TA7wdkeevfQsXKAoUT6c8UwaT3KHs1otS877p/CplaaTq+6lGldBOmSW9g7IKSX
- PdRlXEipb0n4QQrXFwtB0b/hUUMyQlVNHG5d3Ideb1+cQ65GzqwVbhaiBQybR1Xx/wEo
- q0+mk5TD5rmuCSmcuNKU2nyPgquQ230C70MiGrXEJ+hfXavpVQvJv1SprFOacSwaXI7T
- /7/Q==
-X-Gm-Message-State: ACrzQf2bOgPXSKq1nalyaj7XL1vY7mM3Dj6z1LVkasbG6bAjLBwbT4Z3
- hxOkRdhSfDkO0Wk4fzNlvKLZfHuGnrR21DyhEng=
-X-Google-Smtp-Source: AMsMyM6QHbNyu+Ypdjx9M73xW3INxsdLV7norRlj1dXmXpE5jytSQCLLUNckVkqecMJbQwssLRBNKGGhj2ZO8ioofqI=
-X-Received: by 2002:a2e:a607:0:b0:26c:42c8:13af with SMTP id
- v7-20020a2ea607000000b0026c42c813afmr1611578ljp.267.1663876978195; Thu, 22
- Sep 2022 13:02:58 -0700 (PDT)
+ bh=91hBZiX1FQF6cFm1ysrPeWyRgtWdJHK2KsTG+6jLNFo=;
+ b=vqoTQwVMtHDcTzA+X49am5e5JHxLkpKWzpeLxLIndNyHnBHfAR/vXeqSwiUma28PbS
+ bTRyfQvY803bV1j8RRdFUV+TiDV8I9E1373SaVMeHlK6RNQL2Idt4zbM0i4klXgtRT8/
+ ZMl3VryKkkPgIpWnYmc9UWCTppIibZ08e0eTdGRQs8e+PEj1NAk+uXGjAkoU9e/+qG6s
+ 3LtkJkgt7eowG6T/vplkRSHnZ8ZsA5dK3BQmvv60QkYZZGzHtL1vgH9S8yBhlTZk8lr3
+ ULb5/Oi+0qURUbkF+RnZoAdWvnNtSbb3HQhCIicRlF7FHFwUEoCISjd/3khPRS7xgCaA
+ Uc0Q==
+X-Gm-Message-State: ACrzQf3zD4rOLrDXOve8eYjaIdDg40N0lMIZ3ke45cg2bUCsEqTroazn
+ vYjYHuED5OyPDAwiU8WQep9qTODfiSYxutz/kYM=
+X-Google-Smtp-Source: AMsMyM5ZVoHG6+Iuo8fK7NCvB5NpcpxzSeCuCs3sF+i8BN4BOFUG0eiZBtXF6mGt61A/5HWqgOKsg8Ry9jrGfom1m0E=
+X-Received: by 2002:a05:6512:280d:b0:498:fd40:51d4 with SMTP id
+ cf13-20020a056512280d00b00498fd4051d4mr2128108lfb.167.1663877107705; Thu, 22
+ Sep 2022 13:05:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
- <20220920103159.1865256-21-bmeng.cn@gmail.com>
-In-Reply-To: <20220920103159.1865256-21-bmeng.cn@gmail.com>
+ <20220920103159.1865256-23-bmeng.cn@gmail.com>
+In-Reply-To: <20220920103159.1865256-23-bmeng.cn@gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 22 Sep 2022 22:02:46 +0200
-Message-ID: <CAJ+F1CJADsVjhEyLZUkU5HaNma13xOo7Fy8MUtesmRxMsWgK3A@mail.gmail.com>
-Subject: Re: [PATCH v2 20/39] tests/qtest: {ahci, ide}-test: Use relative path
- for temporary files for win32
+Date: Thu, 22 Sep 2022 22:04:56 +0200
+Message-ID: <CAJ+F1CKQ+nKVOqeTicaU_0bgNBeHQnooj1VuX2=DxofbGmwW8g@mail.gmail.com>
+Subject: Re: [PATCH v2 22/39] tests/qtest: migration-test: Disable IO
+ redirection for win32
 To: Bin Meng <bmeng.cn@gmail.com>
 Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000003c41c205e9498cca"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22f.google.com
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f46a4b05e949932a"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,123 +88,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003c41c205e9498cca
+--000000000000f46a4b05e949932a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
-
-On Tue, Sep 20, 2022 at 1:50 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Tue, Sep 20, 2022 at 3:04 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
 > From: Bin Meng <bin.meng@windriver.com>
 >
-> These test cases uses "blkdebug:path/to/config:path/to/image" for
-> testing. On Windows, absolute file paths contain the delimiter ':'
-> which causes the blkdebug filename parser fail to parse filenames.
+> On Windows the QEMU executable is created via CreateProcess() and
+> IO redirection does not work, so don't bother adding IO redirection
+> to the command line.
 >
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+>
+> Changes in v2:
+> - Change the place that sets IO redirection in the command line
 >
 
-I don't have a much better solution to propose at this point (to actually
-use a temp directory), so:
+hmm ok,
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
-> ---
+>  tests/qtest/migration-test.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
-> (no changes since v1)
->
->  tests/qtest/ahci-test.c | 21 ++++++++++++++++++---
->  tests/qtest/ide-test.c  | 20 ++++++++++++++++++--
->  2 files changed, 36 insertions(+), 5 deletions(-)
->
-> diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
-> index 00524f14c6..c57576b08c 100644
-> --- a/tests/qtest/ahci-test.c
-> +++ b/tests/qtest/ahci-test.c
-> @@ -1833,7 +1833,7 @@ static void create_ahci_io_test(enum IOMode type,
-> enum AddrMode addr,
->
->  int main(int argc, char **argv)
->  {
-> -    const char *arch;
-> +    const char *arch, *base;
->      int ret;
->      int fd;
->      int c;
-> @@ -1871,8 +1871,22 @@ int main(int argc, char **argv)
->          return 0;
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 9925691ead..c87afad9e8 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -648,7 +648,16 @@ static int test_migrate_start(QTestState **from,
+> QTestState **to,
 >      }
 >
-> +    /*
-> +     * "base" stores the starting point where we create temporary files.
-> +     *
-> +     * On Windows, this is set to the relative path of current working
-> +     * directory, because the absolute path causes the blkdebug filename
-> +     * parser fail to parse "blkdebug:path/to/config:path/to/image".
-> +     */
+>      if (!getenv("QTEST_LOG") && args->hide_stderr) {
 > +#ifndef _WIN32
-> +    base =3D g_get_tmp_dir();
+>          ignore_stderr =3D "2>/dev/null";
 > +#else
-> +    base =3D ".";
+> +        /*
+> +         * On Windows the QEMU executable is created via CreateProcess()
+> and
+> +         * IO redirection does not work, so don't bother adding IO
+> redirection
+> +         * to the command line.
+> +         */
+> +        ignore_stderr =3D "";
 > +#endif
-> +
->      /* Create a temporary image */
-> -    fd =3D g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
-> +    tmp_path =3D g_strdup_printf("%s/qtest.XXXXXX", base);
-> +    fd =3D g_mkstemp(tmp_path);
->      g_assert(fd >=3D 0);
->      if (have_qemu_img()) {
->          imgfmt =3D "qcow2";
-> @@ -1889,7 +1903,8 @@ int main(int argc, char **argv)
->      close(fd);
->
->      /* Create temporary blkdebug instructions */
-> -    fd =3D g_file_open_tmp("qtest-blkdebug.XXXXXX", &debug_path, NULL);
-> +    debug_path =3D g_strdup_printf("%s/qtest-blkdebug.XXXXXX", base);
-> +    fd =3D g_mkstemp(debug_path);
->      g_assert(fd >=3D 0);
->      close(fd);
->
-> diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-> index 25302be6dc..5e3e28aea2 100644
-> --- a/tests/qtest/ide-test.c
-> +++ b/tests/qtest/ide-test.c
-> @@ -1011,16 +1011,32 @@ static void test_cdrom_dma(void)
->
->  int main(int argc, char **argv)
->  {
-> +    const char *base;
->      int fd;
->      int ret;
->
-> +    /*
-> +     * "base" stores the starting point where we create temporary files.
-> +     *
-> +     * On Windows, this is set to the relative path of current working
-> +     * directory, because the absolute path causes the blkdebug filename
-> +     * parser fail to parse "blkdebug:path/to/config:path/to/image".
-> +     */
-> +#ifndef _WIN32
-> +    base =3D g_get_tmp_dir();
-> +#else
-> +    base =3D ".";
-> +#endif
-> +
->      /* Create temporary blkdebug instructions */
-> -    fd =3D g_file_open_tmp("qtest-blkdebug.XXXXXX", &debug_path, NULL);
-> +    debug_path =3D g_strdup_printf("%s/qtest-blkdebug.XXXXXX", base);
-> +    fd =3D g_mkstemp(debug_path);
->      g_assert(fd >=3D 0);
->      close(fd);
->
->      /* Create a temporary raw image */
-> -    fd =3D g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
-> +    tmp_path =3D g_strdup_printf("%s/qtest.XXXXXX", base);
-> +    fd =3D g_mkstemp(tmp_path);
->      g_assert(fd >=3D 0);
->      ret =3D ftruncate(fd, TEST_IMAGE_SIZE);
->      g_assert(ret =3D=3D 0);
+>      } else {
+>          ignore_stderr =3D "";
+>      }
 > --
 > 2.34.1
 >
@@ -211,143 +147,64 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---0000000000003c41c205e9498cca
+--000000000000f46a4b05e949932a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 20, 2022 at 1:50 PM Bin=
- Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin=
- Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.m=
-eng@windriver.com</a>&gt;<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 20, 2022 at 3:04 PM Bin M=
+eng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin M=
+eng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.men=
+g@windriver.com</a>&gt;<br>
 <br>
-These test cases uses &quot;blkdebug:path/to/config:path/to/image&quot; for=
-<br>
-testing. On Windows, absolute file paths contain the delimiter &#39;:&#39;<=
-br>
-which causes the blkdebug filename parser fail to parse filenames.<br>
+On Windows the QEMU executable is created via CreateProcess() and<br>
+IO redirection does not work, so don&#39;t bother adding IO redirection<br>
+to the command line.<br>
 <br>
 Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br></blockquote><div><br></div>=
-<div>I don&#39;t have a much better solution to propose at this point (to a=
-ctually use a temp directory), so:<br></div><div>Reviewed-by: Marc-Andr=C3=
-=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lur=
-eau@redhat.com</a>&gt;</div><div>=C2=A0<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
 ---<br>
 <br>
-(no changes since v1)<br>
+Changes in v2:<br>
+- Change the place that sets IO redirection in the command line<br></blockq=
+uote><div><br></div><div>hmm ok,</div><div>Reviewed-by: Marc-Andr=C3=A9 Lur=
+eau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@red=
+hat.com</a>&gt;<br></div><div><br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
 <br>
-=C2=A0tests/qtest/ahci-test.c | 21 ++++++++++++++++++---<br>
-=C2=A0tests/qtest/ide-test.c=C2=A0 | 20 ++++++++++++++++++--<br>
-=C2=A02 files changed, 36 insertions(+), 5 deletions(-)<br>
+=C2=A0tests/qtest/migration-test.c | 9 +++++++++<br>
+=C2=A01 file changed, 9 insertions(+)<br>
 <br>
-diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c<br>
-index 00524f14c6..c57576b08c 100644<br>
---- a/tests/qtest/ahci-test.c<br>
-+++ b/tests/qtest/ahci-test.c<br>
-@@ -1833,7 +1833,7 @@ static void create_ahci_io_test(enum IOMode type, enu=
-m AddrMode addr,<br>
-<br>
-=C2=A0int main(int argc, char **argv)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 const char *arch;<br>
-+=C2=A0 =C2=A0 const char *arch, *base;<br>
-=C2=A0 =C2=A0 =C2=A0int ret;<br>
-=C2=A0 =C2=A0 =C2=A0int fd;<br>
-=C2=A0 =C2=A0 =C2=A0int c;<br>
-@@ -1871,8 +1871,22 @@ int main(int argc, char **argv)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c<br=
+>
+index 9925691ead..c87afad9e8 100644<br>
+--- a/tests/qtest/migration-test.c<br>
++++ b/tests/qtest/migration-test.c<br>
+@@ -648,7 +648,16 @@ static int test_migrate_start(QTestState **from, QTest=
+State **to,<br>
 =C2=A0 =C2=A0 =C2=A0}<br>
 <br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* &quot;base&quot; stores the starting point where we =
-create temporary files.<br>
-+=C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0* On Windows, this is set to the relative path of curr=
-ent working<br>
-+=C2=A0 =C2=A0 =C2=A0* directory, because the absolute path causes the blkd=
-ebug filename<br>
-+=C2=A0 =C2=A0 =C2=A0* parser fail to parse &quot;blkdebug:path/to/config:p=
-ath/to/image&quot;.<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
+=C2=A0 =C2=A0 =C2=A0if (!getenv(&quot;QTEST_LOG&quot;) &amp;&amp; args-&gt;=
+hide_stderr) {<br>
 +#ifndef _WIN32<br>
-+=C2=A0 =C2=A0 base =3D g_get_tmp_dir();<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ignore_stderr =3D &quot;2&gt;/dev/null&qu=
+ot;;<br>
 +#else<br>
-+=C2=A0 =C2=A0 base =3D &quot;.&quot;;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* On Windows the QEMU executable is crea=
+ted via CreateProcess() and<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* IO redirection does not work, so don&#=
+39;t bother adding IO redirection<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* to the command line.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ignore_stderr =3D &quot;&quot;;<br>
 +#endif<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0/* Create a temporary image */<br>
--=C2=A0 =C2=A0 fd =3D g_file_open_tmp(&quot;qtest.XXXXXX&quot;, &amp;tmp_pa=
-th, NULL);<br>
-+=C2=A0 =C2=A0 tmp_path =3D g_strdup_printf(&quot;%s/qtest.XXXXXX&quot;, ba=
-se);<br>
-+=C2=A0 =C2=A0 fd =3D g_mkstemp(tmp_path);<br>
-=C2=A0 =C2=A0 =C2=A0g_assert(fd &gt;=3D 0);<br>
-=C2=A0 =C2=A0 =C2=A0if (have_qemu_img()) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0imgfmt =3D &quot;qcow2&quot;;<br>
-@@ -1889,7 +1903,8 @@ int main(int argc, char **argv)<br>
-=C2=A0 =C2=A0 =C2=A0close(fd);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Create temporary blkdebug instructions */<br>
--=C2=A0 =C2=A0 fd =3D g_file_open_tmp(&quot;qtest-blkdebug.XXXXXX&quot;, &a=
-mp;debug_path, NULL);<br>
-+=C2=A0 =C2=A0 debug_path =3D g_strdup_printf(&quot;%s/qtest-blkdebug.XXXXX=
-X&quot;, base);<br>
-+=C2=A0 =C2=A0 fd =3D g_mkstemp(debug_path);<br>
-=C2=A0 =C2=A0 =C2=A0g_assert(fd &gt;=3D 0);<br>
-=C2=A0 =C2=A0 =C2=A0close(fd);<br>
-<br>
-diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c<br>
-index 25302be6dc..5e3e28aea2 100644<br>
---- a/tests/qtest/ide-test.c<br>
-+++ b/tests/qtest/ide-test.c<br>
-@@ -1011,16 +1011,32 @@ static void test_cdrom_dma(void)<br>
-<br>
-=C2=A0int main(int argc, char **argv)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 const char *base;<br>
-=C2=A0 =C2=A0 =C2=A0int fd;<br>
-=C2=A0 =C2=A0 =C2=A0int ret;<br>
-<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* &quot;base&quot; stores the starting point where we =
-create temporary files.<br>
-+=C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0* On Windows, this is set to the relative path of curr=
-ent working<br>
-+=C2=A0 =C2=A0 =C2=A0* directory, because the absolute path causes the blkd=
-ebug filename<br>
-+=C2=A0 =C2=A0 =C2=A0* parser fail to parse &quot;blkdebug:path/to/config:p=
-ath/to/image&quot;.<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+#ifndef _WIN32<br>
-+=C2=A0 =C2=A0 base =3D g_get_tmp_dir();<br>
-+#else<br>
-+=C2=A0 =C2=A0 base =3D &quot;.&quot;;<br>
-+#endif<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0/* Create temporary blkdebug instructions */<br>
--=C2=A0 =C2=A0 fd =3D g_file_open_tmp(&quot;qtest-blkdebug.XXXXXX&quot;, &a=
-mp;debug_path, NULL);<br>
-+=C2=A0 =C2=A0 debug_path =3D g_strdup_printf(&quot;%s/qtest-blkdebug.XXXXX=
-X&quot;, base);<br>
-+=C2=A0 =C2=A0 fd =3D g_mkstemp(debug_path);<br>
-=C2=A0 =C2=A0 =C2=A0g_assert(fd &gt;=3D 0);<br>
-=C2=A0 =C2=A0 =C2=A0close(fd);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Create a temporary raw image */<br>
--=C2=A0 =C2=A0 fd =3D g_file_open_tmp(&quot;qtest.XXXXXX&quot;, &amp;tmp_pa=
-th, NULL);<br>
-+=C2=A0 =C2=A0 tmp_path =3D g_strdup_printf(&quot;%s/qtest.XXXXXX&quot;, ba=
-se);<br>
-+=C2=A0 =C2=A0 fd =3D g_mkstemp(tmp_path);<br>
-=C2=A0 =C2=A0 =C2=A0g_assert(fd &gt;=3D 0);<br>
-=C2=A0 =C2=A0 =C2=A0ret =3D ftruncate(fd, TEST_IMAGE_SIZE);<br>
-=C2=A0 =C2=A0 =C2=A0g_assert(ret =3D=3D 0);<br>
+=C2=A0 =C2=A0 =C2=A0} else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ignore_stderr =3D &quot;&quot;;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
 -- <br>
 2.34.1<br>
 <br>
@@ -355,5 +212,5 @@ se);<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---0000000000003c41c205e9498cca--
+--000000000000f46a4b05e949932a--
 
