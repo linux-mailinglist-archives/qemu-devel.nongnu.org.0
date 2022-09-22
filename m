@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5785E6A6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:10:18 +0200 (CEST)
-Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9BE5E6AE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 20:28:37 +0200 (CEST)
+Received: from localhost ([::1]:60784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obQeO-0005A9-LN
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:10:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41184)
+	id 1obQw8-00062Q-H2
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 14:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPBG-0002Db-Io
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:11 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35834)
+ id 1obPBG-0002Dc-J0
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:10 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPB7-0005RN-8L
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:03 -0400
-Received: by mail-wr1-x431.google.com with SMTP id r7so16471511wrm.2
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:35:53 -0700 (PDT)
+ id 1obPB8-0005RV-Nr
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:02 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id t14so16402957wrx.8
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:35:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=FWYlNaO7g+0N0S2l/ScS3UFVLAbgPMCsy0Gh9IEfsf0=;
- b=zRxJntQCbPrjm3O51eIwYarHIbJemNdXUxwqpQFuuuFyN0Dv+5uKQwy8cjHpd+XB72
- 6zKj/HgP5De5jlyDtPSWiZiDwHBl9pTNyaE0y8aGykU5rBcmAEAO6SN6y1TM+EAn9gdD
- vuqLZiqDBGOalWX2OlK4P6wFKftRHmRMEehgLvB3daaNYAycvU8VxLcp7GfObbTJ6qPw
- ktjStNmpv+GEIT0d6Jwq9clr8crWa/sJ+WeePqmKx+dJuBkgSJU4HUqfZLFSeHYUw0Qv
- SF4sl3yjfyaxwdQ7eJ7WSu6Cm9GkFlxQO7EbX8EbLnvbGWvUl2iX8M51Rx4whGRoo9Q8
- hX7A==
+ bh=ceS53dBC44zXtToPxcVfNPKGDYvq9xpEKY2mO0aTDyM=;
+ b=sZ54Rn3RUNXs1jYBeLTnqj6bRjbb+6Ic31Ug/F5+PBP8+IY9a9d029FSzRrVDvz/OK
+ VqfCc3pu14Z0wJIjTGgZ3WJSLJc+7xRHCK5JktdGG381x9Rru2TUIHelPEf41Mlsi3Zy
+ BwuhDl3BNHlreW+qTRSyrZGS5KQ8BRzhQRcEBc5qDwlY3S8w2qkNf2eDCdeHNnw3kNYy
+ HiGyvEKwoOCtvePDnlgM5t98CMHgu51NP0mdsDOUZG1f2jwjN8Xi2O6jo2Ed7MzqsVrD
+ bqF248Hx/WHTPTmY3gekem8q6hP5/SNlb/jpwdy9ISJ/Z/gqV/O6978CAWLK6JbYsygQ
+ TDEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=FWYlNaO7g+0N0S2l/ScS3UFVLAbgPMCsy0Gh9IEfsf0=;
- b=wZ2B+8IJCr0ON+Pp3i/SwQUy0J4E2kzVDIkJy5zhm6DSw8am7Dp6rClhCFYXX/AvDv
- TLbZm+OgLA3T6Uro47vNBfqaa4wpE8PlTQACDZwAKth8FukhQ/FYQnow6i9fRYS0x0S4
- hv74fQnks/NDrmQZ/tJv07qA/S68P4lc7nzqKi6aDSz/yEKltKDGb2C1Feq8WGxXAUHs
- UUqkvcv5bAa7VgYAQDcYQ75ioqLCBSLpnnmtdBaIGpsCcLnQ/z9Y8kyCUuJeXaATUW8P
- d1Tj9uDy7VkCI13RzhduFL/rRg0eIqTWDG3Wd14XN8oQFewzNQMCSI67CMNXFU3/nCGh
- Zh/A==
-X-Gm-Message-State: ACrzQf3wZu4oFUyvUL4t0jsiifohb1m/JoGAZc/U5+D/y5droF78I8Vv
- BQ8rNVikWJA/obI+bVqyYL/QOT4gGByyrw==
-X-Google-Smtp-Source: AMsMyM4hoJYTFuC/TOlM9NKFL6xtUQeJg8CrVBHKaBnPHO3m/Yo0rO0XHCPZFllbvs6l6fjeCmlopA==
-X-Received: by 2002:a5d:5c0a:0:b0:228:db53:22cc with SMTP id
- cc10-20020a5d5c0a000000b00228db5322ccmr2476689wrb.126.1663864552267; 
- Thu, 22 Sep 2022 09:35:52 -0700 (PDT)
+ bh=ceS53dBC44zXtToPxcVfNPKGDYvq9xpEKY2mO0aTDyM=;
+ b=6jm3gVBj0TxTPYr4RU+uvbhQGIl49NZjROubd2G6CT6nj/fRSht6jML3on6Q1nhSp0
+ KgMlMz+UdsOmPjLILPUCrn6w5W9ZDmB6jA2AVltv2o8iV38eZz42IQpyrbv3M6lH0T3U
+ NG7EVQ6co1pI5BGED9+7WWdWyqyXCVmIJYD/RUJEyfzTI0zA/navlTFrnQYD0NpBGP95
+ uh0VWw1xHEmR53NlAsDUi+iSMK6Xoas1DH5qb2Nd+GNTeWXf/KtQeDbk045edVsEF3Bt
+ gdLKGx6Vi/TVUDyk8eLef1H3fVTZa1K/o1julmkIFkdOD1tKGLfWN6Pdtt5zEMMFGtHc
+ GguA==
+X-Gm-Message-State: ACrzQf1lAxa7jyRZcRqxWLbeKnmC2Df1BXf7SCquxnafYxoerZK6FZF9
+ j22ZEwYWFFF0KVHWsC1UjnjDbIjrHUZvKw==
+X-Google-Smtp-Source: AMsMyM4UQU4R7Qwdbp9zdtzTL+qCUnMXN/fpTILWDE4UWExnXI6JP2EsiSGsmhpADh2q2WCPQPK5+Q==
+X-Received: by 2002:a5d:5b19:0:b0:22b:237c:3de8 with SMTP id
+ bx25-20020a5d5b19000000b0022b237c3de8mr2542401wrb.285.1663864553008; 
+ Thu, 22 Sep 2022 09:35:53 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.35.51
+ iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.35.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 22 Sep 2022 09:35:52 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/39] hw/net/lan9118: Signal TSFL_INT flag when TX FIFO
- reaches specified level
-Date: Thu, 22 Sep 2022 17:35:18 +0100
-Message-Id: <20220922163536.1096175-22-peter.maydell@linaro.org>
+Subject: [PULL 22/39] chardev/baum: Replace magic values by X_MAX / Y_MAX
+ definitions
+Date: Thu, 22 Sep 2022 17:35:19 +0100
+Message-Id: <20220922163536.1096175-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220922163536.1096175-1-peter.maydell@linaro.org>
 References: <20220922163536.1096175-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,43 +91,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lucas Dietrich <ld.adecy@gmail.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The LAN9118 allows the guest to specify a level for both the TX and
-RX FIFOs at which an interrupt will be generated.  We implement the
-RSFL_INT interrupt for the RX FIFO but are missing the handling of
-the equivalent TSFL_INT for the TX FIFO.  Add the missing test to set
-the interrupt if the TX FIFO has exceeded the guest-specified level.
+Replace '84' magic value by the X_MAX definition, and '1' by Y_MAX.
 
-This flag is required for Micrium lan911x ethernet driver to work.
-
-Signed-off-by: Lucas Dietrich <ld.adecy@gmail.com>
-[PMM: Tweaked commit message and comment]
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20220819153931.3147384-2-peter.maydell@linaro.org
 ---
- hw/net/lan9118.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ chardev/baum.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
-index 456ae38107b..f1cba559672 100644
---- a/hw/net/lan9118.c
-+++ b/hw/net/lan9118.c
-@@ -696,6 +696,14 @@ static void do_tx_packet(lan9118_state *s)
-     n = (s->tx_status_fifo_head + s->tx_status_fifo_used) & 511;
-     s->tx_status_fifo[n] = status;
-     s->tx_status_fifo_used++;
+diff --git a/chardev/baum.c b/chardev/baum.c
+index 79d618e3504..6d538808a0f 100644
+--- a/chardev/baum.c
++++ b/chardev/baum.c
+@@ -87,6 +87,9 @@
+ 
+ #define BUF_SIZE 256
+ 
++#define X_MAX   84
++#define Y_MAX   1
 +
-+    /*
-+     * Generate TSFL interrupt if TX FIFO level exceeds the level
-+     * specified in the FIFO_INT TX Status Level field.
-+     */
-+    if (s->tx_status_fifo_used > ((s->fifo_int >> 16) & 0xff)) {
-+        s->int_sts |= TSFL_INT;
-+    }
-     if (s->tx_status_fifo_used == 512) {
-         s->int_sts |= TSFF_INT;
-         /* TODO: Stop transmission.  */
+ struct BaumChardev {
+     Chardev parent;
+ 
+@@ -244,11 +247,11 @@ static int baum_deferred_init(BaumChardev *baum)
+         brlapi_perror("baum: brlapi__getDisplaySize");
+         return 0;
+     }
+-    if (baum->y > 1) {
+-        baum->y = 1;
++    if (baum->y > Y_MAX) {
++        baum->y = Y_MAX;
+     }
+-    if (baum->x > 84) {
+-        baum->x = 84;
++    if (baum->x > X_MAX) {
++        baum->x = X_MAX;
+     }
+ 
+     con = qemu_console_lookup_by_index(0);
 -- 
 2.25.1
 
