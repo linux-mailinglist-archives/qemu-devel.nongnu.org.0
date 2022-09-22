@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D0B5E63CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 15:38:15 +0200 (CEST)
-Received: from localhost ([::1]:45344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D015E63EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 15:42:53 +0200 (CEST)
+Received: from localhost ([::1]:42328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obMP8-0007F4-Sy
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 09:38:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53302)
+	id 1obMTb-0005Xc-V4
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 09:42:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obLKd-0006u5-Oe
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:29:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obLKZ-0003e5-V8
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:29:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663849765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obLLj-0007wB-Dr
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:30:39 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:43806)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obLLh-0004yr-LQ
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 08:30:39 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 24FA221A5B;
+ Thu, 22 Sep 2022 12:30:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663849836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qZynXZ9X1l0vHJMTZ8KBD8n0C1u0hTimPOrD+PMdh38=;
- b=UV7lcXs9D1SALV5zageUYDJJ7knqV/RfK/xb39JpC+rD5kpeKIJBN0XdH1OOTWtXONTLlb
- kAZFvy2u/D34UXMNBl1WyyHI3XjgSWbnwreR599L4vxd9OBIpLwbyctizEWXuQUcsXG9Bv
- +Xm1jVX5W43a3Wp1uBJT1HrKpG5QSNU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-312-o4Usw2KGMzWhjzg_KQaQ4g-1; Thu, 22 Sep 2022 08:29:20 -0400
-X-MC-Unique: o4Usw2KGMzWhjzg_KQaQ4g-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ bh=yATDd8S4Wq/09ZDx6h7kV7dpwIOyEoL9IcjFK09WoY0=;
+ b=QeeBwEa4C/dhzVVc8088tNP9gyQpUPItDJztayy7z0U3LeDXBgi3w5NDq6T99IW40Ll6H7
+ geimmGvlhxBRk8JKILdZY9NM5RTgAlco1mS5zi+oa/s+dc5d3ACR8nrP50jmOAPpTwAJs/
+ yVRCgWgs0XnkISHsrZ+GbhJpQ+24UMA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663849836;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yATDd8S4Wq/09ZDx6h7kV7dpwIOyEoL9IcjFK09WoY0=;
+ b=oAaZ8YKRsm9OHXhkPlPoFgr+YNxXr2wybJU6zE2DuM0HdQXiEAZ0J9ivtdq3JwMQMGz2m+
+ Wav/IDJxSBs+hsAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFDCD1C0512D;
- Thu, 22 Sep 2022 12:29:19 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48E134B3FC6;
- Thu, 22 Sep 2022 12:29:19 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E60C621E6900; Thu, 22 Sep 2022 14:29:17 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,  qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org,  clg@kaod.org,  "Dr . David Alan Gilbert"
- <dgilbert@redhat.com>,  Alistair Francis <alistair.francis@wdc.com>,
- David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v7 14/14] qmp/hmp, device_tree.c: introduce dumpdtb
-References: <20220908194040.518400-1-danielhb413@gmail.com>
- <20220908194040.518400-15-danielhb413@gmail.com>
- <0d4f5caf-6005-779d-8e37-5d26ba3a0856@amsat.org>
-Date: Thu, 22 Sep 2022 14:29:17 +0200
-In-Reply-To: <0d4f5caf-6005-779d-8e37-5d26ba3a0856@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 22 Sep 2022 12:47:12
- +0200")
-Message-ID: <87r103mw2q.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C1CEB1346B;
+ Thu, 22 Sep 2022 12:30:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /MTYLGtVLGM2WgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 22 Sep 2022 12:30:35 +0000
+Message-ID: <40d9103b-0a7e-5f3a-dfa0-50e42aba6868@suse.de>
+Date: Thu, 22 Sep 2022 14:30:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v4 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20220908183012.17667-3-cfontana@suse.de>
+ <877d23ekj0.fsf@pond.sub.org>
+ <76775f64-e49a-1c3c-0d73-10d93eff34e4@amsat.org>
+ <87y1ucdirx.fsf@pond.sub.org> <cc2c5e14-f0a0-4415-9fe1-d7811ee27850@suse.de>
+ <878rmc54cw.fsf@pond.sub.org> <Yywcs7CpKDxahOSM@redhat.com>
+ <5e6d958d-3b69-1472-b1b8-3a63186f0c5b@suse.de> <YywraWlVnJoy6ypN@redhat.com>
+ <df4c09e9-addf-c643-6da0-62a6cf94b349@suse.de> <Yyw61MdawM2wkfiQ@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <Yyw61MdawM2wkfiQ@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1c;
+ envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.893,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,213 +101,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
-
-> On 8/9/22 21:40, Daniel Henrique Barboza wrote:
->> To save the FDT blob we have the '-machine dumpdtb=3D<file>' property.
->> With this property set, the machine saves the FDT in <file> and exit.
->> The created file can then be converted to plain text dts format using
->> 'dtc'.
+On 9/22/22 12:37, Daniel P. Berrangé wrote:
+> On Thu, Sep 22, 2022 at 11:34:22AM +0200, Claudio Fontana wrote:
+>> On 9/22/22 11:31, Daniel P. Berrangé wrote:
+>>> On Thu, Sep 22, 2022 at 11:20:07AM +0200, Claudio Fontana wrote:
+>>>> On 9/22/22 10:28, Daniel P. Berrangé wrote:
+>>>>>
+>>>>>> Another interface that does: return -1 for error, 0 for module not found
+>>>>>> (no error), and 1 for loaded.
+>>>>>
+>>>>> IMHO this pattern is generally easier to understand when looking at
+>>>>> the callers, as the fatal error scenario is always clear.
+>>>>>
+>>>>> That said I would suggest neither approach as the public facing
+>>>>> API. Rather stop trying to overload 3 states onto an error reporting
+>>>>> pattern that inherantly wants to be 2 states. Instead just have
+>>>>> distinct methods
+>>>>>
+>>>>>   bool module_load_one(const char *prefix, const char *name, Error *errp)
+>>>>>   bool module_try_load_one(const char *prefix, const char *name, Error *errp)
+>>>>
+>>>>
+>>>> Here we are murking again the normal behavior and the error path.
+>>>>
+>>>> What is the meaning of try? It's not as though we would error out inside the function module_load_one,
+>>>> it's the _caller_ that needs to decide how to treat a return value of found/not found, and the exception (Error).
+>>>
+>>> I suggested "try" as in the  g_malloc vs g_try_malloc API naming pattern,
+>>> where the latter ignores the OOM error condition.
+>>>
+>>> So in this case 'try' means try to load the module, but don't fail if
+>>> the module is missing on disk.
 >>
->> There's nothing particularly sophisticated into saving the FDT that
->> can't be done with the machine at any state, as long as the machine has
->> a valid FDT to be saved.
+>> I understand what you mean, but this is wrong in this case.
 >>
->> The 'dumpdtb' command receives a 'filename' paramenter and, if a valid
->
-> Typo "parameter".
->
->> FDT is available, it'll save it in a file 'filename'. In short, this is
->> a '-machine dumpdtb' that can be fired on demand via QMP/HMP.
->>
->> A valid FDT consists of a FDT that was created using libfdt being
->> retrieved via 'current_machine->fdt' in device_tree.c.
->
-> This sentence is odd.
+>> We _do not fail_ in module_load_one, whether an error is present
+>> or not, whether a module is found or not.
+> 
+> Looking at the callers though, AFAIK there are only two patterns
+> that we need. All callers should report a fatal error if the module
+> exists and loading it failed eg module is from mis-matched build.
+> 
+> Some callers also want a failure if the module doesn't exist on
 
-Seconded.
+Some callers also want to behave differently if the module is not installed.
+It is not a "failure" in the same sense that what an Error returns.
 
->> This condition is
->> met by most FDT users in QEMU.
->>
->> This command will always be executed in-band (i.e. holding BQL),
->> avoiding potential race conditions with machines that might change the
->> FDT during runtime (e.g. PowerPC 'pseries' machine).
->>
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Cc: Markus Armbruster <armbru@redhat.com>
->> Cc: Alistair Francis <alistair.francis@wdc.com>
->> Cc: David Gibson <david@gibson.dropbear.id.au>
->> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hmp-commands.hx              | 15 +++++++++++++++
->>   include/sysemu/device_tree.h |  1 +
->>   monitor/misc.c               |  1 +
->>   qapi/machine.json            | 18 ++++++++++++++++++
->>   softmmu/device_tree.c        | 31 +++++++++++++++++++++++++++++++
->>   5 files changed, 66 insertions(+)
->> diff --git a/hmp-commands.hx b/hmp-commands.hx
->> index 182e639d14..753669a2eb 100644
->> --- a/hmp-commands.hx
->> +++ b/hmp-commands.hx
->> @@ -1800,3 +1800,18 @@ ERST
->>                         "\n\t\t\t\t\t limit on a specified virtual cpu",
->>           .cmd        =3D hmp_cancel_vcpu_dirty_limit,
->>       },
->> +
->> +#if defined(CONFIG_FDT)
->> +    {
->> +        .name       =3D "dumpdtb",
->> +        .args_type  =3D "filename:F",
->> +        .params     =3D "filename",
->> +        .help       =3D "save the FDT in the 'filename' file to be deco=
-ded using dtc",
+For example, the block dmg module tries to also load other submodules for decompression.
 
-Here, you document the format as "to be decoded using dtc".  In the QAPI
-schema below, you document it as "dtb format" and "FDT file".  Pick one
-and stick to it, please.
+If dmg does not find any such submodules, it will be able to support basic dmg just fine,
+but won't be able to open compressed dmg.
 
-"the 'filename' file" feels a bit awkward.  Suggest something "dump the
-FDT in dtb format to 'filename'", similar to your phrasing in the QAPI
-schema.
+I really think we should see "Error" in this context as an exception like in C++, with the caller stack deciding where to catch it and what to do with it.
+
+The "is_found" or "is_loaded", or whatever we want to model as the real return value is the result of the normal module_load_one execution.
 
 
->> +        .cmd        =3D hmp_dumpdtb,
->> +    },
->> +
->> +SRST
->> +``dumpdtb`` *filename*
->> +  Save the FDT in the 'filename' file to be decoded using dtc.
+> disk (module_load_one can be made todo this), but most callers
+> are happy to carry on if the module doesn't exist (module_try_load_one
+> can simply return success status if it doesn't exist).
 
-*filename*, not 'filename'.
+Yes, that is I think also a legitimate way to model the return value of the function, agreed.
 
->> +ERST
->> +#endif
->> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
->> index ef060a9759..e7c5441f56 100644
->> --- a/include/sysemu/device_tree.h
->> +++ b/include/sysemu/device_tree.h
->> @@ -136,6 +136,7 @@ int qemu_fdt_add_path(void *fdt, const char *path);
->>       } while (0)
->>     void qemu_fdt_dumpdtb(void *fdt, int size);
->> +void hmp_dumpdtb(Monitor *mon, const QDict *qdict);
->>     /**
->>    * qemu_fdt_setprop_sized_cells_from_array:
->> diff --git a/monitor/misc.c b/monitor/misc.c
->> index 3d2312ba8d..e7dd63030b 100644
->> --- a/monitor/misc.c
->> +++ b/monitor/misc.c
->> @@ -49,6 +49,7 @@
->>   #include "sysemu/blockdev.h"
->>   #include "sysemu/sysemu.h"
->>   #include "sysemu/tpm.h"
->> +#include "sysemu/device_tree.h"
->>   #include "qapi/qmp/qdict.h"
->>   #include "qapi/qmp/qerror.h"
->>   #include "qapi/qmp/qstring.h"
->> diff --git a/qapi/machine.json b/qapi/machine.json
->> index abb2f48808..9f0c8c8374 100644
->> --- a/qapi/machine.json
->> +++ b/qapi/machine.json
->> @@ -1664,3 +1664,21 @@
->>        '*size': 'size',
->>        '*max-size': 'size',
->>        '*slots': 'uint64' } }
->> +
->> +##
->> +# @dumpdtb:
->> +#
->> +# Save the FDT in dtb format.
->> +#
->> +# @filename: name of the FDT file to be created
->
-> "name of the binary FDT ..."?
->
->> +#
->> +# Since: 7.2
->> +#
->> +# Example:
->> +#   {"execute": "dumpdtb"}
->> +#    "arguments": { "filename": "fdt.dtb" } }
->> +#
->> +##
->> +{ 'command': 'dumpdtb',
->> +  'data': { 'filename': 'str' },
->> +  'if': 'CONFIG_FDT' }
->> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
->> index 6ca3fad285..7031dcf89d 100644
->> --- a/softmmu/device_tree.c
->> +++ b/softmmu/device_tree.c
->> @@ -26,6 +26,9 @@
->>   #include "hw/loader.h"
->>   #include "hw/boards.h"
->>   #include "qemu/config-file.h"
->> +#include "qapi/qapi-commands-machine.h"
->> +#include "qapi/qmp/qdict.h"
->> +#include "monitor/hmp.h"
->>     #include <libfdt.h>
->>   @@ -643,3 +646,31 @@ out:
->>       g_free(propcells);
->>       return ret;
->>   }
->> +
->> +void qmp_dumpdtb(const char *filename, Error **errp)
->> +{
->> +    g_autoptr(GError) err =3D NULL;
->> +    int size;
->
-> fdt_totalsize() returns an uint32_t. Maybe use "unsigned" if you
-> don't want to use uint32_t?
 
-Best to avoid unnecessary conversions between signed and unsigned.
+> 
+> With regards,
+> Daniel
 
-The value is passed to g_file_set_contents() below, which takes a
-gssize.  uint32_t should be narrower than gssize on anything capable of
-running QEMU.  So let's use that.
 
->> +
->> +    if (!current_machine->fdt) {
->> +        error_setg(errp, "This machine doesn't have a FDT");
->> +        return;
->> +    }
->> +
->> +    size =3D fdt_totalsize(current_machine->fdt);
->
->        assert(size > 0); ?
->
->> +
->> +    if (!g_file_set_contents(filename, current_machine->fdt, size, &err=
-)) {
->> +        error_setg(errp, "Error saving FDT to file %s: %s",
->> +                   filename, err->message);
->> +    }
->
-> Eventually:
->
->        info_report("Dumped %u bytes of FDT to %s\n", size, filename);
->
-> To have a feedback in HMP.
-
-If feedback is desired, it needs to be done in hmp_dumpdtb().
-info_report() here would make the QMP command spam stderr.
-
->> +}
->> +
->> +void hmp_dumpdtb(Monitor *mon, const QDict *qdict)
->> +{
->> +    const char *filename =3D qdict_get_str(qdict, "filename");
->> +    Error *local_err =3D NULL;
->> +
->> +    qmp_dumpdtb(filename, &local_err);
->> +
->> +    hmp_handle_error(mon, local_err);
->> +}
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
-With the commit message, the documentation, and the integer conversions
-tidied up:
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
+Claudio
 
