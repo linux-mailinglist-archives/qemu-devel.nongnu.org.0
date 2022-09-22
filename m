@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635E65E6505
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:22:02 +0200 (CEST)
-Received: from localhost ([::1]:36664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 499F55E653A
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 16:26:52 +0200 (CEST)
+Received: from localhost ([::1]:38312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obN5U-0003xp-VK
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:22:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51624)
+	id 1obNAB-0001e6-BB
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 10:26:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1obM8O-0001WE-3L
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:21:06 -0400
+ id 1obM8h-0001YS-NB
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:21:26 -0400
 Received: from mail-eopbgr60136.outbound.protection.outlook.com
  ([40.107.6.136]:7326 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1obM8K-0004pt-Fz
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:20:54 -0400
+ id 1obM8e-0004pt-6d
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 09:21:15 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dCVllDXvaxpU0HbAUSfJpJw9DV0surNFT6cREElYw3y6ri8LmjWCinzC+STdwTRRNfm5MkceC13hZbCXdHHqIVMXjRD0O77ZhAI/8/TSyEJaolncclEwIdyCXzvAJ2QRCqa58+wu5M7K1h0fHlam3BIQO/qQtc1SuN0FQkigofdcIqeE7950IGvzCFV+et2EtStxoWEmlx++B6kPxvIZvIRQvsAkWU++GAXytmInuz35OKIsUEYDErev5UU9IWcotBhegTdVDKKw71Ijm2Q6gDmiwf9EjISW1TU8ZD5ocnzBkF0Or9bv/PY15pgyQWDCHc5e9xBPzn3EsVePSsVdTg==
+ b=QGmWOUubNGQ/hlCB5AiDztVYD94tf2rm9oGTQfGBGYQMv4WSgH0P3JawA0L728vn0vHXzIg8dgiOHy33PgaDm2GHUeihhZSi6gjqaEJGLGhAgsrfwPwi/ALZjuIiCJHtDWcDEkQIk/iz6VR7juEPFhoii75fI0jO0frkx5aL7dcWisOjWheuDfxlOBpaZHZVio1jPiH6pHdGwlKHU41S9Mm6G4H1wKLKcKmanVXg0+IoB9qx0fPw9Odl8M3hCfHxtGKm3Ah9lgzK/TgSYeCDXXdNNJbDVrLyv4rLkMWk14w4w/cQYxFgqDylSEgH32E8MpIWmlKwGld4rDlbkhvQXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KnWNATV3S86omQsc/eiTIbd24tH6lGlT3gh9+O1nfU0=;
- b=goh+2g/FxAixKvxaStwOySFxLFZ0NSmJyV2rbs879QrP+t30IAHqsasK8L+AnSAQoFu3W3UZWzd8iPMcF01Kd6TzHD5hVlc8NtRdg880SKl55G0V/zs84JVghx8nkB/1jqf1gnzp118qLK+EZExpKVZBwpsJhRc4XqW1Z6RlmMwaOKn1Ts26zL4tLPnWEcbON2tf0qUy3QJmTj//2tCCCqtlX0lbVHrvlrWhEvyZVKYG5RZA3CeQ5MRGDO2BswBytpMZpl1I2Y/RNPF8ap/A3upYky3eZuXT/mvCwwNGcaAnw7GBLCVfq0cEgt3Z6VQHgcAhK3HK3Z1C+G9HHEXuRQ==
+ bh=qnO7doIdUC9xNB7+sP10/LMdPtsJPq+NbTdQrvdFWAA=;
+ b=QV25mLHHkJY9ADAGaCXymq0VMnNPLJ6lovR/7Q8orzb2v0j6JfQMvwnJc3YZUR9z91nA3zdc9pXEhsWHpvMej17cIF10ORgUecynM0CmEu8zSL+a+yzrPSa1drxDiC6uPqaILsZXBu7zQTermasE4oKQiMST8+3JMStVnHAp3P9xxgudpEXfv70beUNAijjzh4gnaqd+ARqPCUjvaTP53HoOlD8zsBA3O/uhCGWACivsGM09zQ+TjGsJ1yJ4i0sf7Yhp+elaQXJ8qleQ5dHvaHGkY+cbwqzecGDTerVHzrxb6J+j9TWvZLxpx3yHLoUIEtP/MA8QdvdznrVm7UI+vA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KnWNATV3S86omQsc/eiTIbd24tH6lGlT3gh9+O1nfU0=;
- b=yZ1Xd16D/Pn2vIUNL+WwVzMgQnsKZ8YaLox5cY+RYy1PvMMq8hzv+Lmtv7DgrulSROqwrVoLJ5xnq69ePsZbePmK0Zs2QAZDaQ1QujavK8zxv84LD19g4TuEe1BxJaYs2Pjmm/SwOoKQLfxKhphCZMCXAwUkGe4PxCAav28PXcf897xqqHk3vfh6QFWJGdMyxsSiZ10drZ7SUS1J+TohfDiMn27V5I1DLqio0UttlfWgKLHjqAufDirrDH1j1ZzLDfIlKsyqi2t6Y/yYGbyyz8LNRrG54wVVQ5REz9rNyesx8AEEKEi8GchDIQ+iyzGZm47926UbT0TFhKSoj0CXVQ==
+ bh=qnO7doIdUC9xNB7+sP10/LMdPtsJPq+NbTdQrvdFWAA=;
+ b=ISnIRoR39DbdbJIrQI0yuZ7plQ2laS8YiV23tfanpHNJpdzyv6hGnQ6e/bSrbX28R2j9YnNB8o+Br++da7t+bCXXpss38jSqWBZliEgWQ/A2a8IOrsLT0LRLgnKuKU7T1RXgskIG0DLaOs76LYAagt2QSoA1fHXEIEkRYtk7HC46p/WxbUZjth8WmAQWNVAxqyJyYw58c2gtVFieIxVe6NOvHsbZOHZGybx65jt0nqzAlZ/tLAT2zety3eUza8ejOJlCGMhN/ofapUeXM9oZ9ok+fj1S4kgyHkTR5XIj1Lnysw+5Bm3Iwmx/D7/PAyJ7e2lDga74bygnlNbais32+Q==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
  by PAXPR08MB6480.eurprd08.prod.outlook.com (2603:10a6:102:155::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.16; Thu, 22 Sep
- 2022 13:20:14 +0000
+ 2022 13:20:15 +0000
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b]) by AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b%8]) with mapi id 15.20.5654.016; Thu, 22 Sep 2022
- 13:20:14 +0000
+ 13:20:15 +0000
 From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com,
 	michael.roth@amd.com,
 	kkostiuk@redhat.com
-Subject: [PATCH 3/5] qga: Add UFS freeze/thaw support for FreeBSD
-Date: Thu, 22 Sep 2022 15:19:59 +0200
-Message-Id: <20220922132001.940334-4-alexander.ivanov@virtuozzo.com>
+Subject: [PATCH 5/5] qga: Add support for user password settinng in FreeeBSD
+Date: Thu, 22 Sep 2022 15:20:01 +0200
+Message-Id: <20220922132001.940334-6-alexander.ivanov@virtuozzo.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220922132001.940334-1-alexander.ivanov@virtuozzo.com>
 References: <20220922132001.940334-1-alexander.ivanov@virtuozzo.com>
@@ -65,53 +65,53 @@ X-ClientProxiedBy: FR0P281CA0083.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|PAXPR08MB6480:EE_
-X-MS-Office365-Filtering-Correlation-Id: cdbb2e8b-0181-4085-1906-08da9c9d2ee7
+X-MS-Office365-Filtering-Correlation-Id: 6ad83f21-9034-4b18-68c0-08da9c9d2ffb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: N4BJ/Fku7bd6XLfLRA9/AEOETjN9DREI8IVPDsxBJbJo1kYDGEhjxs4OI+zryd7k+GAMYYgf2G0pLN/A1iy/DCAAAy1MQGTLoehgZxRwNcPfOtMxi/W1gsW/ZFr0P2tJzRs+bkDtGdxQtNNa0GlA2PxyHDnDiSZUjAe8WXmLil2W1B8T3MKX+cZE3r8SXmufca8sjPT8ZYVivyzgybOlCDs+YGURonkcYyatf/E1zCmAWk4p/Yb2mtANGqQ56OTwat8s+I6GhXVyDCP9fk+3Fk2D0t3eUH03y49lBpQ+ZeKZ/CVzO1NaQ9lxA+srBcnGSHFGBRdT3RsBjoMhMkVtEyBFGjOZz0ElMzsDnp2oaV26DcwsfCbdGHssWwM6uI2nFRmc78FCnsdZsQSlfZWT9yfRr7/8ro/6bLmdd6Xi2EnWllvmtwidlq2cLSit+eMxvhTljRR5N2JDz7qyKEq3TnebsclGk9wQJcNdtS6cFBq7H99Gy3eMR9pdWeDeVbrCk0+rHR2ZBKzs9lFOSml3grW5n1ecVjV4Mfi1p+gbw3c1if9hZBZRFrxJOlNU8rMtzIL53f7WOkADjCcEBwD+4rQEoGWlL8QeyV2VhETIiTNvWLr3ziviKISbA8yAOXsbX8rA6TKCzUR11ilVR7K7XebM8EaTbqFnTGo759pqUKlHtw4QWnYCaOhh+BnpYZ7p/Zj4PzPOauTjRBc6zbJ16W17ePB3qGC1EhI8UwQ7d66KjXv+p10oKA4S0HbwWWCzZ+1boC08Dzxmd58A6cEcAw==
+X-Microsoft-Antispam-Message-Info: ZINIkIFbQIhnOgDQT7ACjtTVXKUpR7IU37sqJB2qUaEphjCb54kTkqlkjrTXZLmfgrgFI4Zd2aqHimK7u/Sp3YEWL6gZ0MTIcLPRr4sWm+gxbSPyAtX8x/NfX1/HSX/s4g6Rc53eDSxIs6c0YKWKqF5ltTz7gAxkcN0pULTcDVXlyPG56vXqfv6IIlA3tPOfNDV5SKiE5/9F6MvJlBY1LNy3F0nYFtMREQkYwTJZ4Ovt0KHsq0EXTheSyMx5nGEBwpYiUGolcpyVSKjpIZmJ4yRaDEfjK1YBUuv05LCtQ1rExJy9QF5x3z/LRNwPKOsVTAp+VpaX5XHLWxQxanIzQKZvfQwsMoPGXTMcDaPh1U6BZhRablHcZepzKW6+CvDGyFLtb3WpzUB3zkbJGRpNqjax1hAaeFpJeFQrQ70aDJ1q+kyj2KogGZ8V6cSYH+iNzrM3Q5KWYeQbsRlboJkCiz7EHdX7iqZwBeaJ9uQAIgYDQ31X677YCRKXdOtxxyR4ZMIeT/yU8CaFhXJNAF6OZpSISeZxP2Q2GdEbUWj5lLCd3ecbZy/l/rvGTUwYDV7I/IHqaMRQOauFt4lOzhE7aXphy0cHfI251NOQkotht8hZQ2y7sYBfB+eG/VFp2r2Dm+1QdtlKXCX9v3TQr2VkmDFaJHz1yykEVqc8w4AyFDlZzo2IgSa595LdwVw0+FoNCCEt+L/FLkYewV8g+9IahK4P82YQ/NAphYRV2zW34qlf0nMyxUoYw8DFvO4OlEhGAhW7LbDue/bEpCwMWmJQIw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230022)(4636009)(346002)(366004)(376002)(136003)(396003)(39850400004)(451199015)(41300700001)(6486002)(478600001)(6666004)(52116002)(36756003)(66476007)(66556008)(316002)(186003)(66946007)(83380400001)(1076003)(5660300002)(2616005)(8936002)(26005)(6506007)(6916009)(86362001)(8676002)(44832011)(4326008)(2906002)(6512007)(38350700002)(38100700002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sYVNB6nGz3MJaJJ7rtAeQ9hNC1xelifFRaQ4ocTSaMvHGKsoCFldVw0Brfp1?=
- =?us-ascii?Q?F21ZTF2PMyNIfbbGBCe7gJjw0sp4XTeAP2HLxi4q9jS3g41qW5BHr7WPPL+Z?=
- =?us-ascii?Q?fBfE06LQeoT9F4FOrE1fzomsLUwiRB+OsCHCPYCFoq6bU2aZ8L3cmo5C2Hvb?=
- =?us-ascii?Q?t/JnStGNVb4GtBRxYXXjIknVkSwBMx6WI7Iw1wEdz47H59x2FxofJaUL0GXj?=
- =?us-ascii?Q?OnzDwik/NAPAypn1PNAjkWUUxqhzUvCtpGJhkd3wjXsD7RCZ91WnrNpEErgK?=
- =?us-ascii?Q?Qd8vfvARjAWWnvSbHextcuQzVTdcRCBOfN1Bo/2ukF9775YdBy+cLH3GfWaS?=
- =?us-ascii?Q?oQRlM11wcVxVT+2iabLe/h7v4Y2a2gg5gx9uWQSuT4eLs+z/fhVuwMibAFZ2?=
- =?us-ascii?Q?S+cfab7rp4EYbMP12qsm13GVrkb9BVLPy40+p1RlTJc4YJp+kmhAWZnqF9Rr?=
- =?us-ascii?Q?2nugtemorDkwGm+LfvB/lC3JP0P8UIJnmPK0h1Ax6wybnfhpQ7dlnutKd2yJ?=
- =?us-ascii?Q?WlSeJ3luKi2zo7OOW0Ve04iEQove/fNk0ZAQvuuhnWvbvn18cFKgro6nlDAR?=
- =?us-ascii?Q?8FqlnCs1sYpjNOiD/Mh7nQ47JZykq7sTCkMhnpCLAh//RLa/5i8vBmeGOl69?=
- =?us-ascii?Q?CTrX8BlWZI7LEx7eUnLw8AmrAjiekas4zBpf2Ppb9R7sJIEAX155bf/Xkwku?=
- =?us-ascii?Q?tJ+Lm/V8jHDKTFFHOM7pTx2c4gPgmNyycVAGvZfsFzVndxMQlNqXhStItPsN?=
- =?us-ascii?Q?aoYTKK7ptJaDQv97YpO1e9V6BKxzkuut6ey27cXBMpVBQF+wG2hbSlcHTOHE?=
- =?us-ascii?Q?vABuQiZ2C7JBRx9g5yMYJv7fD92aUfTDouHSpYEJwIqJulYSlEJ/USmfT0hU?=
- =?us-ascii?Q?chww0GPMv3S7FB1e13k4ai3+h5xDKV4A9qMcE7dJitC0WY61IT7bGDtG6H9P?=
- =?us-ascii?Q?4N2A4ArY0/bGqVaUTR0UUDjM02YSHdzvmh5MdWeQ5BUL1tQPUmUiNVPqLMWo?=
- =?us-ascii?Q?dOikYlKT/0V2arV68KjWNsPaHkQ9cBhjSOhH5A6CPcdiAIdeUmAduQ0NwT+T?=
- =?us-ascii?Q?8g4R3uIccz0UPToIaMU0UzS5njHwl17nTc0UYNN3Txwbgrbbu71XikhKJHqQ?=
- =?us-ascii?Q?wxZvu5SICtysMMotS79rHc1ODTR30N3Fuyh7LnrysngHBiMmThEgW24ygxqp?=
- =?us-ascii?Q?Qa4pITcw0s2u12fIp0CzVAurDVuACd3tBbh5rSyyWVaE6zYVQfc9/ujZr10X?=
- =?us-ascii?Q?l27R98pWKCNDivsYPnm5YQV5H1FW8Xh9mun8WT/yie3wYT1NClsDu4Wipf7M?=
- =?us-ascii?Q?GEsYEPGOMKnNMrCne3Ia6nH6ou7YP6nejYUKrH9NRXFCv0OLKvoE95jBW84W?=
- =?us-ascii?Q?QQSHr8XqA24gex8hs94115+RYuX/Vpa0afO1xfGiv2oc5e8zPoX/zvZYlIAx?=
- =?us-ascii?Q?ibu396F92Y4Hifm0GYwqAQ6V4AfEdRlpbekKJnZnFr/dUfUTYkRR76HJmdR8?=
- =?us-ascii?Q?Z3lF2990/m33DRMrysN5maA8q6ks2IyjbvJlD2z39dxXrtjzyvDXH+Kjd9y5?=
- =?us-ascii?Q?Zg5FrM6Z9Qc7Es7OTjadvLq10aAz7PIu8RiDXwTI7hLCu8QVb2Zlqb+HJUrB?=
- =?us-ascii?Q?mQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hQYoJRhWRIA0xTqXZCnan0cUcwZqANkGicxN9Yp+D6BgbDM6p2tIWh4S04gM?=
+ =?us-ascii?Q?+y6/RwaaDhZUEqp3xH7lArRG7OVgNuC52/n9LqjFagBD3NPu4iAZqgi3SYMY?=
+ =?us-ascii?Q?grgNKms+cp3crWMAFCNbdZDOGomJwEhAmj7u8rQYDlftbZNW+K3mIsrqY+If?=
+ =?us-ascii?Q?MB1frsTlAcgZK1U04m+/P+EVmzJ51udfiIjEFBy7ReYyALFDhD3uk851a9OW?=
+ =?us-ascii?Q?TH1C534yZH315syi1vraQCdscrKmkl0H95euqrVvalAjU88jnc7R1qPOXADu?=
+ =?us-ascii?Q?itht7+Xp9JXP8HaHf1BO2UyL5CAIIPQ2EQk8MG/3OzEBfDe8j+iLosRb6Nm5?=
+ =?us-ascii?Q?5YdthT78lZSXUO1yQrby3Zqx7u6TgZL3d88n6pvtatf22hCk3zJ9lOgqQEmJ?=
+ =?us-ascii?Q?Go2HduERVuftGxUqcW7fKd+i+H/5Sv72Ss+CDj+nt8NHpr+JbfejWvSGVY6X?=
+ =?us-ascii?Q?6UagdfHM5EFE12DrvbX3AWdKrmcYsxUrUGjvAljCFPAw3HRemF8OH81HFVev?=
+ =?us-ascii?Q?BDB7tJ+ypw5G1iv70kvQDkuHEaNU+waB1GL8CFpAwjU/LOtbUf/J4bfUEthd?=
+ =?us-ascii?Q?mS8sdwzc8lNFNI4A8rZYA8kmrI4EBliQNdv5ERMWkqMenbr4lO1cES1FwA56?=
+ =?us-ascii?Q?nSYp1epqvKvFgSXe2KE75CxLXiQkudf9Rr/tcT2mWx+gtVc7eNgs/DqVY+Y1?=
+ =?us-ascii?Q?o3cKeQxm87Ua6usX2ZeFCvXKgSTrOiJBTUOfUcF06MGhI9HpPk1CeSMEHtEE?=
+ =?us-ascii?Q?S8hHdUsR2YzuKbOhMsG+q4FP0gU69C8j8xk3g7pFqxY1AOKJI7vkcfOkgyI2?=
+ =?us-ascii?Q?eBcBCD+ox05IjVVFCqog7xbluCneHHuTt2ULoj2dndcjj9FA2KuwcVfiS/kl?=
+ =?us-ascii?Q?WaPnw//4B9He0xOpT5Kji+3PiNHR3P0Y6mBoKZ11RGmRooSgBaNq5Kp6zpPt?=
+ =?us-ascii?Q?JmXMQvUdYcAiblE2kROX//T3l6yz4UGBUAYul0GY8BTWjgAnNb5sCpSp34op?=
+ =?us-ascii?Q?Qpyh0MESCdAVCli+9Wsm++ynwBNkHieR0WjM7z7HG+3cIRnvPNQN9wpAKvCu?=
+ =?us-ascii?Q?C0VRDoWCB9eQDylM8WVx/MPX9QKulO+N8Zpnqauukiu36abIrswHJZ6O31hQ?=
+ =?us-ascii?Q?ylCccJlk5qEXpiwhPRsABeSbXMbNTzZKBFZWdmgcEJCqulq+ryN92q5Wa9jY?=
+ =?us-ascii?Q?pxtP2WJfLDPTGY+yeGbZPS5UDOoWfnvsmWaV8Ec6ubCr7HZvEI3iY600w68f?=
+ =?us-ascii?Q?wLmdX7fQZHBU3UkJ0ODJ/h6qdZ7nsarL1PkwZ3jUwsz4HEn8YP9CUyGd8uhn?=
+ =?us-ascii?Q?4qFgYKAwTbcY93Ei1c1z/PFr15lcNCpLB7zTvfiExCAhranUm/1lWOT8XcmE?=
+ =?us-ascii?Q?RTC40/W/c6EBOILKtVkRlWUteVB3e6x5MQYW7Ecmn/eSXpKOckXEnorQxStf?=
+ =?us-ascii?Q?9qDhlclilvcDMF0Kcifw8iHlWutZbhTp+xv2QmarM4n9upX5aadmxuQBB9F4?=
+ =?us-ascii?Q?uZ86oKJjrjg6rkLHwuRjw4DMNMzV6xo5h0are/p/4o4S4nbjwBM5K5N9NTit?=
+ =?us-ascii?Q?xPIKtXmuzSmbvbmwVm0W//0SvJBVMeoy03oU6SWbMSSiAuBQEK5lXqLNijxN?=
+ =?us-ascii?Q?5w=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cdbb2e8b-0181-4085-1906-08da9c9d2ee7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ad83f21-9034-4b18-68c0-08da9c9d2ffb
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 13:20:14.1260 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2022 13:20:15.6868 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GY5A6xHA2QImCatCKULwKZvv9lLqDk1gCV7HwmSDXKPZuh719c57LoBR5kjMcqSTZ9eSRidBfsJ+njodkzi4mQ/e6J1Ek/vUBnLkejOLULM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: BJVNcvKeBpo+2ca/RU0jGoOhV73Gm5E7/PnqoaYgHst0qTqwfie3r3870s2lgl5Hma2/1uO+oOm+NgSAez5arGe+OOlvVF/5hI+rP/yh5E4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6480
 Received-SPF: pass client-ip=40.107.6.136;
  envelope-from=alexander.ivanov@virtuozzo.com;
@@ -138,198 +138,281 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UFS supports FS freezing through ioctl UFSSUSPEND on /dev/ufssuspend.
-Freezed FS can be thawed by closing /dev/ufssuspend file descriptior.
-
-Use getmntinfo to get a list of mounted FS.
+Move qmp_guest_set_user_password() to commands-posix.c under (__linux__ or
+__FreeBSD) condition. Add command and arguments for password setting in
+FreeBSD.
 
 Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 ---
- qga/commands-bsd.c    | 109 +++++++++++++++++++++++++++++++++++++++---
- qga/commands-common.h |  11 +++++
- qga/main.c            |   6 +++
- 3 files changed, 120 insertions(+), 6 deletions(-)
+ qga/commands-bsd.c   |   8 ---
+ qga/commands-linux.c | 105 --------------------------------------
+ qga/commands-posix.c | 117 ++++++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 116 insertions(+), 114 deletions(-)
 
 diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
-index c1e3ed13e9..5d3f46804a 100644
+index 5d3f46804a..fa3933f2f4 100644
 --- a/qga/commands-bsd.c
 +++ b/qga/commands-bsd.c
-@@ -17,28 +17,125 @@
- #include "qemu/queue.h"
- #include "commands-common.h"
- 
-+#include <sys/ioctl.h>
-+#include <sys/param.h>
-+#include <sys/ucred.h>
-+#include <sys/mount.h>
-+#include <paths.h>
-+
- #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
- bool build_fs_mount_list(FsMountList *mounts, Error **errp)
- {
--    error_setg(errp, QERR_UNSUPPORTED);
--    return false;
-+    FsMount *mount;
-+    struct statfs *mntbuf, *mntp;
-+    struct stat statbuf;
-+    int i, count, ret;
-+
-+    count = getmntinfo(&mntbuf, MNT_NOWAIT);
-+    if (count == 0) {
-+        error_setg_errno(errp, errno, "getmntinfo failed");
-+        return false;
-+    }
-+
-+    for (i = 0; i < count; i++) {
-+        mntp = &mntbuf[i];
-+        ret = stat(mntp->f_mntonname, &statbuf);
-+        if (ret != 0) {
-+            continue;
-+        }
-+
-+        mount = g_new0(FsMount, 1);
-+
-+        mount->dirname = g_strdup(mntp->f_mntonname);
-+        mount->devtype = g_strdup(mntp->f_fstypename);
-+        mount->devmajor = major(mount->dev);
-+        mount->devminor = minor(mount->dev);
-+        mount->fsid = mntp->f_fsid;
-+        mount->dev = statbuf.st_dev;
-+
-+        QTAILQ_INSERT_TAIL(mounts, mount, next);
-+    }
-+    return true;
- }
- #endif
- 
- #if defined(CONFIG_FSFREEZE)
-+static int ufssuspend_fd = -1;
-+static int ufssuspend_cnt;
-+
- int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,
-                                           strList *mountpoints,
-                                           FsMountList mounts,
-                                           Error **errp)
- {
--    error_setg(errp, QERR_UNSUPPORTED);
--    return 0;
-+    int ret;
-+    strList *list;
-+    struct FsMount *mount;
-+
-+    if (ufssuspend_fd != -1) {
-+        error_setg(errp, "filesystems have already frozen");
-+        return -1;
-+    }
-+
-+    ufssuspend_cnt = 0;
-+    ufssuspend_fd = qemu_open(_PATH_UFSSUSPEND, O_RDWR, errp);
-+    if (ufssuspend_fd == -1) {
-+        return -1;
-+    }
-+
-+    QTAILQ_FOREACH_REVERSE(mount, &mounts, next) {
-+        /*
-+         * To issue fsfreeze in the reverse order of mounts, check if the
-+         * mount is listed in the list here
-+         */
-+        if (has_mountpoints) {
-+            for (list = mountpoints; list; list = list->next) {
-+                if (strcmp(list->value, mount->dirname) == 0) {
-+                    break;
-+                }
-+            }
-+            if (!list) {
-+                continue;
-+            }
-+        }
-+
-+        /* Only UFS supports suspend */
-+        if (strcmp(mount->devtype, "ufs") != 0) {
-+            continue;
-+        }
-+
-+        ret = ioctl(ufssuspend_fd, UFSSUSPEND, &mount->fsid);
-+        if (ret == -1) {
-+            /*
-+             * ioctl returns EBUSY for all the FS except the first one
-+             * that was suspended
-+             */
-+            if (errno == EBUSY) {
-+                continue;
-+            }
-+            error_setg_errno(errp, errno, "failed to freeze %s",
-+                             mount->dirname);
-+            goto error;
-+        }
-+        ufssuspend_cnt++;
-+    }
-+    return ufssuspend_cnt;
-+error:
-+    close(ufssuspend_fd);
-+    ufssuspend_fd = -1;
-+    return -1;
-+
+@@ -190,14 +190,6 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+     return -1;
  }
  
- int qmp_guest_fsfreeze_do_thaw(Error **errp)
- {
+-void qmp_guest_set_user_password(const char *username,
+-                                 const char *password,
+-                                 bool crypted,
+-                                 Error **errp)
+-{
 -    error_setg(errp, QERR_UNSUPPORTED);
--    return 0;
-+    int ret = ufssuspend_cnt;
-+    ufssuspend_cnt = 0;
-+    if (ufssuspend_fd != -1) {
-+        close(ufssuspend_fd);
-+        ufssuspend_fd = -1;
-+    }
-+    return ret;
+-}
+-
+ GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
+ {
+     error_setg(errp, QERR_UNSUPPORTED);
+diff --git a/qga/commands-linux.c b/qga/commands-linux.c
+index 615e9a0027..1f25c80482 100644
+--- a/qga/commands-linux.c
++++ b/qga/commands-linux.c
+@@ -1629,111 +1629,6 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+     return processed;
  }
- #endif
  
-diff --git a/qga/commands-common.h b/qga/commands-common.h
-index aa0472ea4c..c3be6db3a9 100644
---- a/qga/commands-common.h
-+++ b/qga/commands-common.h
-@@ -41,11 +41,22 @@ void ga_wait_child(pid_t pid, int *status, Error **errp);
- #endif
- #endif /* __linux__*/
+-void qmp_guest_set_user_password(const char *username,
+-                                 const char *password,
+-                                 bool crypted,
+-                                 Error **errp)
+-{
+-    Error *local_err = NULL;
+-    char *passwd_path = NULL;
+-    pid_t pid;
+-    int status;
+-    int datafd[2] = { -1, -1 };
+-    char *rawpasswddata = NULL;
+-    size_t rawpasswdlen;
+-    char *chpasswddata = NULL;
+-    size_t chpasswdlen;
+-
+-    rawpasswddata = (char *)qbase64_decode(password, -1, &rawpasswdlen, errp);
+-    if (!rawpasswddata) {
+-        return;
+-    }
+-    rawpasswddata = g_renew(char, rawpasswddata, rawpasswdlen + 1);
+-    rawpasswddata[rawpasswdlen] = '\0';
+-
+-    if (strchr(rawpasswddata, '\n')) {
+-        error_setg(errp, "forbidden characters in raw password");
+-        goto out;
+-    }
+-
+-    if (strchr(username, '\n') ||
+-        strchr(username, ':')) {
+-        error_setg(errp, "forbidden characters in username");
+-        goto out;
+-    }
+-
+-    chpasswddata = g_strdup_printf("%s:%s\n", username, rawpasswddata);
+-    chpasswdlen = strlen(chpasswddata);
+-
+-    passwd_path = g_find_program_in_path("chpasswd");
+-
+-    if (!passwd_path) {
+-        error_setg(errp, "cannot find 'passwd' program in PATH");
+-        goto out;
+-    }
+-
+-    if (!g_unix_open_pipe(datafd, FD_CLOEXEC, NULL)) {
+-        error_setg(errp, "cannot create pipe FDs");
+-        goto out;
+-    }
+-
+-    pid = fork();
+-    if (pid == 0) {
+-        close(datafd[1]);
+-        /* child */
+-        setsid();
+-        dup2(datafd[0], 0);
+-        reopen_fd_to_null(1);
+-        reopen_fd_to_null(2);
+-
+-        if (crypted) {
+-            execl(passwd_path, "chpasswd", "-e", NULL);
+-        } else {
+-            execl(passwd_path, "chpasswd", NULL);
+-        }
+-        _exit(EXIT_FAILURE);
+-    } else if (pid < 0) {
+-        error_setg_errno(errp, errno, "failed to create child process");
+-        goto out;
+-    }
+-    close(datafd[0]);
+-    datafd[0] = -1;
+-
+-    if (qemu_write_full(datafd[1], chpasswddata, chpasswdlen) != chpasswdlen) {
+-        error_setg_errno(errp, errno, "cannot write new account password");
+-        goto out;
+-    }
+-    close(datafd[1]);
+-    datafd[1] = -1;
+-
+-    ga_wait_child(pid, &status, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        goto out;
+-    }
+-
+-    if (!WIFEXITED(status)) {
+-        error_setg(errp, "child process has terminated abnormally");
+-        goto out;
+-    }
+-
+-    if (WEXITSTATUS(status)) {
+-        error_setg(errp, "child process has failed to set user password");
+-        goto out;
+-    }
+-
+-out:
+-    g_free(chpasswddata);
+-    g_free(rawpasswddata);
+-    g_free(passwd_path);
+-    if (datafd[0] != -1) {
+-        close(datafd[0]);
+-    }
+-    if (datafd[1] != -1) {
+-        close(datafd[1]);
+-    }
+-}
+-
+ static void ga_read_sysfs_file(int dirfd, const char *pathname, char *buf,
+                                int size, Error **errp)
+ {
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 60cc673f25..e8fc7bd516 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -774,8 +774,123 @@ void qmp_guest_file_flush(int64_t handle, Error **errp)
+     }
+ }
  
+-#if !(defined(__linux__) || defined(__FreeBSD__))
++#if defined(__linux__) || defined(__FreeBSD__)
++void qmp_guest_set_user_password(const char *username,
++                                 const char *password,
++                                 bool crypted,
++                                 Error **errp)
++{
++    Error *local_err = NULL;
++    char *passwd_path = NULL;
++    pid_t pid;
++    int status;
++    int datafd[2] = { -1, -1 };
++    char *rawpasswddata = NULL;
++    size_t rawpasswdlen;
++    char *chpasswddata = NULL;
++    size_t chpasswdlen;
+ 
++    rawpasswddata = (char *)qbase64_decode(password, -1, &rawpasswdlen, errp);
++    if (!rawpasswddata) {
++        return;
++    }
++    rawpasswddata = g_renew(char, rawpasswddata, rawpasswdlen + 1);
++    rawpasswddata[rawpasswdlen] = '\0';
++
++    if (strchr(rawpasswddata, '\n')) {
++        error_setg(errp, "forbidden characters in raw password");
++        goto out;
++    }
++
++    if (strchr(username, '\n') ||
++        strchr(username, ':')) {
++        error_setg(errp, "forbidden characters in username");
++        goto out;
++    }
++
 +#ifdef __FreeBSD__
-+#include <ufs/ffs/fs.h>
-+#ifdef UFSSUSPEND
-+#define CONFIG_FSFREEZE
++    chpasswddata = g_strdup(rawpasswddata);
++    passwd_path = g_find_program_in_path("pw");
++#else
++    chpasswddata = g_strdup_printf("%s:%s\n", username, rawpasswddata);
++    passwd_path = g_find_program_in_path("chpasswd");
 +#endif
-+#endif /* __FreeBSD__ */
 +
- #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
- typedef struct FsMount {
-     char *dirname;
-     char *devtype;
-     unsigned int devmajor, devminor;
-+#if defined(__FreeBSD__)
-+    dev_t dev;
-+    fsid_t fsid;
-+#endif
-     QTAILQ_ENTRY(FsMount) next;
- } FsMount;
- 
-diff --git a/qga/main.c b/qga/main.c
-index 22b3c0df11..ab420051fb 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -43,6 +43,12 @@
- #define CONFIG_FSFREEZE
- #endif
- #endif
++    chpasswdlen = strlen(chpasswddata);
++
++    if (!passwd_path) {
++        error_setg(errp, "cannot find 'passwd' program in PATH");
++        goto out;
++    }
++
++    if (!g_unix_open_pipe(datafd, FD_CLOEXEC, NULL)) {
++        error_setg(errp, "cannot create pipe FDs");
++        goto out;
++    }
++
++    pid = fork();
++    if (pid == 0) {
++        close(datafd[1]);
++        /* child */
++        setsid();
++        dup2(datafd[0], 0);
++        reopen_fd_to_null(1);
++        reopen_fd_to_null(2);
++
 +#ifdef __FreeBSD__
-+#include <ufs/ffs/fs.h>
-+#ifdef UFSSUSPEND
-+#define CONFIG_FSFREEZE
++        const char *h_arg;
++        h_arg = (crypted) ? "-H" : "-h";
++        execl(passwd_path, "pw", "usermod", "-n", username, h_arg, "0", NULL);
++#else
++        if (crypted) {
++            execl(passwd_path, "chpasswd", "-e", NULL);
++        } else {
++            execl(passwd_path, "chpasswd", NULL);
++        }
 +#endif
-+#endif
- 
- #ifndef _WIN32
- #ifdef __FreeBSD__
++        _exit(EXIT_FAILURE);
++    } else if (pid < 0) {
++        error_setg_errno(errp, errno, "failed to create child process");
++        goto out;
++    }
++    close(datafd[0]);
++    datafd[0] = -1;
++
++    if (qemu_write_full(datafd[1], chpasswddata, chpasswdlen) != chpasswdlen) {
++        error_setg_errno(errp, errno, "cannot write new account password");
++        goto out;
++    }
++    close(datafd[1]);
++    datafd[1] = -1;
++
++    ga_wait_child(pid, &status, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        goto out;
++    }
++
++    if (!WIFEXITED(status)) {
++        error_setg(errp, "child process has terminated abnormally");
++        goto out;
++    }
++
++    if (WEXITSTATUS(status)) {
++        error_setg(errp, "child process has failed to set user password");
++        goto out;
++    }
++
++out:
++    g_free(chpasswddata);
++    g_free(rawpasswddata);
++    g_free(passwd_path);
++    if (datafd[0] != -1) {
++        close(datafd[0]);
++    }
++    if (datafd[1] != -1) {
++        close(datafd[1]);
++    }
++}
++#else
+ void qmp_guest_suspend_disk(Error **errp)
+ {
+     error_setg(errp, QERR_UNSUPPORTED);
 -- 
 2.34.1
 
