@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BD65E6977
-	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:18:15 +0200 (CEST)
-Received: from localhost ([::1]:50798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E095E698C
+	for <lists+qemu-devel@lfdr.de>; Thu, 22 Sep 2022 19:23:42 +0200 (CEST)
+Received: from localhost ([::1]:46808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obPq1-0006em-SK
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:18:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41226)
+	id 1obPvJ-0004kY-Mg
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 13:23:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPBL-0002GI-FE
+ id 1obPBK-0002GA-Ff
  for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:14 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42609)
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:45998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obPBB-0005TD-Uo
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:08 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id n12so16405411wrx.9
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:36:01 -0700 (PDT)
+ id 1obPBG-0005Tj-Bl
+ for qemu-devel@nongnu.org; Thu, 22 Sep 2022 12:36:09 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id n10so16378685wrw.12
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 09:36:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=V+573S55AipTOAMAMMsIfcmoZJ0maiQeMsyNXIQuG+w=;
- b=WWj59uYvN2dNie+l5waxl37IkA4r6yBWqErmSCb0KRzV56Lg7geYoGpHWIbwGTErGo
- zWG5okIaZsTVkjT6OHTZK9WTt+y0zxksyTyhD2nxp1ZviuaLfrf+pxjQUg0A2Hr/fVKK
- /J0QNPIsroPkf0TVfsZmdnITDbratA1mXzB9T99/kCFjynzF+31AfyONxqgb2aJfhpDV
- hD5f8EmqOMwoP1R3nmvpuCn2V697i5DUOkktg0SRbO/aZR0D/pq7JgpGLZXiKEHYlL8Q
- AkIZmnJemQgdfhBYcbezDvtO/9wRGmA1CSw+vr8lTUZwGUCANY7j5mZl4KATkGw2xIuJ
- 9KEA==
+ bh=TG32nrt188N9s066qYdYkNxMuVya1mUQYmfslcHcgmc=;
+ b=QmtySLhlRbGNGvpxUadMsLHRBIidix0PPha4fE4FoxK4T4RIbL4Y5lU0ALh4wjegcs
+ JuZFkW1MG8BHnWZzP4OtGOmDUx9Ed+2/GvqlHdFrgw0fiATaFSOEYoYgPA0XOPq82UGd
+ 530WNCNqH/6slyue/ZdGzi/d+xXTt6t9ypfbBDZjLGIZS4jVGYIee+JiRqVlNxXMtrfP
+ 2sboC/85Nnj5IrXpDbig7h8M/PbanZhNhlgHwqutE/DEFNM4fRX6wwDCJcyIdTSpi0bM
+ 8fBVgHrFKFwliWSH9Ic2BlFEseqosWS3pH7SA74iCZX+jf+ijhDsMe8EanHFxL88IqoR
+ oylw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=V+573S55AipTOAMAMMsIfcmoZJ0maiQeMsyNXIQuG+w=;
- b=SDsmTzvskULx5jgU6gqEEtkUwjciFfjmTn5dO46LwMyzv7Rrd07oUE8jXYQVg0HLuG
- i5kFEYfoz9DibTbx7KNGAPzy3M6vUheCL7rhtSYtYmXd23he51/EzE6LByYBWzsJIqua
- lMyIjIg6cZxKSUEB29jJFwxSzvl7kTXEkndBLEEKnptLnO7fP40B8NP3FQvHFWO1BTqA
- Ao3j0+pUC6JdYvPjNZ+ZMvEm8WYMtlGpCAW1C+cclaQZ2Wiex1log9na1hHABmtpfxnS
- iDD9llnAGFntffZ00M4QN1dOtpb+n9MO+Hf/YeKyY1FVx4mRoNUTlfsKtJbBt+ooakVT
- boOw==
-X-Gm-Message-State: ACrzQf2VTTo1VCCZDPpzHiieynS1MkbKWLE3AX7Oow+pcfEavlgbxIxc
- KfNzChhHTJbj4Di/KyOXC98ZC0qLhb2/8Q==
-X-Google-Smtp-Source: AMsMyM5MspWAmHVGSa7qlgVHBSIwYMMapGfiS8cxb68TVYVdG4G/68Z+c3BadTV7MxmcmVuUtMREZg==
-X-Received: by 2002:a5d:47c5:0:b0:22a:6c7a:10f3 with SMTP id
- o5-20020a5d47c5000000b0022a6c7a10f3mr2514204wrc.523.1663864560068; 
- Thu, 22 Sep 2022 09:36:00 -0700 (PDT)
+ bh=TG32nrt188N9s066qYdYkNxMuVya1mUQYmfslcHcgmc=;
+ b=W4G0/7o5pWLbJg++UtAt1zzOUUx03EaDaueAONdEpVKJKBNiwrXD+j++GYl4HSeViR
+ kulyIWozI/61EC3iWgTaupwFDawjWw7zQREb0fg6fYaka1IR2nhi57HIm0EPUVLCuIeT
+ SBCuehPPj++4OCKXkfZugpfYtoD5B1yTz2v78xELq6I37EmPd2zwT5QM5tt3PSqOdvbq
+ xG6XTxoMF4gLCQNX5BjTQnEqMDq5OGtnrx8Kg+zIuTNvercNhiSVqQWEUx+fA6wszQXD
+ Sx7vp80Hln2taXZX4YrtGJ+LIPtRIICmEqjrkN+Y8ODYkDHoDIANWsdVoZU//6znJSof
+ FKcQ==
+X-Gm-Message-State: ACrzQf3fyNXQvjQ596xk+GPH7FjPcp3RJwLIoa4XCPT2m9JixEpT/l2v
+ mtW57wjHYXjW6FVrGUIr8jCfcI/Bt/xzSQ==
+X-Google-Smtp-Source: AMsMyM4um5cZCbNrvxxShuhFx4q0JN7gtPZtSkWhcqIx36Z/AnMmkJGhqcza6XQ4yKieJaC39eR9Tg==
+X-Received: by 2002:a5d:6050:0:b0:228:6128:b0fb with SMTP id
+ j16-20020a5d6050000000b002286128b0fbmr2536181wrt.424.1663864561897; 
+ Thu, 22 Sep 2022 09:36:01 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.35.59
+ iw1-20020a05600c54c100b003b3401f1e24sm6452599wmb.28.2022.09.22.09.36.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 22 Sep 2022 09:35:59 -0700 (PDT)
+ Thu, 22 Sep 2022 09:36:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/39] configure: Remove unused meson_args variable
-Date: Thu, 22 Sep 2022 17:35:31 +0100
-Message-Id: <20220922163536.1096175-35-peter.maydell@linaro.org>
+Subject: [PULL 37/39] configure: Remove use of backtick `...` syntax
+Date: Thu, 22 Sep 2022 17:35:34 +0100
+Message-Id: <20220922163536.1096175-38-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220922163536.1096175-1-peter.maydell@linaro.org>
 References: <20220922163536.1096175-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,30 +90,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The meson_args variable was added in commit 3b4da13293482134b, but
-was not used in that commit and isn't used today.  Delete the
-unnecessary assignment.
+There's only one place in configure where we use `...` to execute a
+command and capture the result.  Switch to $() to match the rest of
+the script. This silences a shellcheck warning.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20220825150703.4074125-3-peter.maydell@linaro.org
+Message-id: 20220825150703.4074125-6-peter.maydell@linaro.org
 ---
- configure | 1 -
- 1 file changed, 1 deletion(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index b5ace4cb49e..e42d43d6a50 100755
+index 482497e9743..8b48e72a135 100755
 --- a/configure
 +++ b/configure
-@@ -311,7 +311,6 @@ pie=""
- coroutine=""
- plugins="$default_feature"
- meson=""
--meson_args=""
- ninja=""
- bindir="bin"
- skip_meson=no
+@@ -2311,7 +2311,7 @@ LINKS="$LINKS python"
+ LINKS="$LINKS contrib/plugins/Makefile "
+ for f in $LINKS ; do
+     if [ -e "$source_path/$f" ]; then
+-        mkdir -p `dirname ./$f`
++        mkdir -p "$(dirname ./"$f")"
+         symlink "$source_path/$f" "$f"
+     fi
+ done
 -- 
 2.25.1
 
