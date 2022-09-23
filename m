@@ -2,91 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0915E7D89
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 16:49:47 +0200 (CEST)
-Received: from localhost ([::1]:48170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3295E7DA1
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 16:53:01 +0200 (CEST)
+Received: from localhost ([::1]:35536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1objzu-00033n-Is
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 10:49:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40046)
+	id 1obk32-0005mE-7F
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 10:53:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1objwU-0001Um-0r
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 10:46:14 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39850)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1objxA-0001Xc-P1
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 10:46:56 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:54802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1objwR-0006jP-Ft
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 10:46:12 -0400
-Received: by mail-wr1-x434.google.com with SMTP id cc5so349451wrb.6
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 07:46:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:from:to:cc:subject:date;
- bh=5dKyLNAFPtIfqdPRxJaoTYKZE22uPEk/oKvtZ7XZNlw=;
- b=aHUmLESOnd6l5fs1LbJ7b58jWIGTGrZl1zlxag2mItvwsAPmb2fI82iPWXjJssLr5x
- DFeqNib4sBFuDCdHwnwzYPM/ih4K4da1t7mRHYOstLV4GzuLchrsbcx5jaU+lESyWkX8
- GuisRZErGcTLprnN9X1svgif8XRgaVRaek+sOySR7PABgDBVLzxBc/UhGxRjNiqvm7k5
- JyDGSgi0Al6X1EswaPKjGFHbD5qYen4TNBGxHaeiWmV+oATxlKGyI6nppJBK0SEGNq1F
- ZjbgAbef9oEI4ifu3yEemaEo3muQhmFjz4cHUt9EIqo7+jNVbonThkJ0hjwdKNkWG8Sr
- daNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:x-gm-message-state:from:to:cc:subject:date;
- bh=5dKyLNAFPtIfqdPRxJaoTYKZE22uPEk/oKvtZ7XZNlw=;
- b=ymV+gKxcr/S0t2DPGd/mYWrgSms4GJm7AHv6eauNb0a37kB3X00sEmQtfBi08RJW1F
- ftiqQdnXHBwDm7lShe3tnhh2843b+ooypw37rGMraig85mo8iZ9NIC0hr/P6i2/EsP8d
- VkVAFRZv7X3DRBtIrv04qTGp9j6WJkLD5vmGs500WFoJlz6sPZHheYnsdpnZVcn3viMZ
- lErmTgj/+MM7CovBgQEzDJ/aTPjjzUGtkefprL7fgNLTn89zxHJfij20j8VamVOWOLcB
- fagViu1XvMJohGj8/++5p/QHJ7U/NRWeD6ytG3izOLj3g096x/Pll/MTkEQ6qA5Xp0La
- letQ==
-X-Gm-Message-State: ACrzQf14idF8paqv5hmtKinB4dW7/B4yxVbEMwQ/0KqSUUJlcPB8rHdQ
- 2QvjovSUmjyqWVyt5ItTPXs=
-X-Google-Smtp-Source: AMsMyM644IWpNcCUyKNNjeR1BeZbOK+8PjEujJrEDKRnHF6/c7RyzMJjqy6Btsawj0Q+mEyuBilvoA==
-X-Received: by 2002:a5d:5591:0:b0:22a:e401:2052 with SMTP id
- i17-20020a5d5591000000b0022ae4012052mr5586519wrv.435.1663944367742; 
- Fri, 23 Sep 2022 07:46:07 -0700 (PDT)
-Received: from [192.168.18.134] (54-240-197-239.amazon.com. [54.240.197.239])
- by smtp.gmail.com with ESMTPSA id
- bn20-20020a056000061400b00228d7078c4esm7802940wrb.4.2022.09.23.07.46.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Sep 2022 07:46:07 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <b500092c-a711-9ff3-b752-ce4a0b114727@xen.org>
-Date: Fri, 23 Sep 2022 15:46:05 +0100
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1objwg-0006n5-Fw
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 10:46:28 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9E9B81F45B;
+ Fri, 23 Sep 2022 14:46:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663944384; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GRM3T5VfD/yCjQ1jldSoqpEuAJrRIhkySR9emqL/gp0=;
+ b=BeC36J1TlS/XaTLIqZaRbN1Gvp4OZMg2QDmOsYAQLkDmZDTWoDb1vr9D2wg6JM56CAoDUI
+ yGTxnW/A6mehaiLL1jJ8v9XEUdEgzNoeP/fK4tjr7Im6DHWZH0bGbuIjvx2XhQWWTXgdiW
+ y5u6r0RI9TI+LLAlUnoI3nBumqDx19U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663944384;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GRM3T5VfD/yCjQ1jldSoqpEuAJrRIhkySR9emqL/gp0=;
+ b=0RdNrMm7bu32XvSTFSQx+Z6S8M8A+/AjpYh5WepIIXPKhIEym1hONuEEQCrxtSPNV0XeQm
+ s8D1a4xdOR2h1pAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4E85B13A00;
+ Fri, 23 Sep 2022 14:46:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4OakEcDGLWMKLQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 23 Sep 2022 14:46:24 +0000
+Message-ID: <e80d239b-6b57-f699-4f4d-8cadba941c3e@suse.de>
+Date: Fri, 23 Sep 2022 16:46:23 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] hw/xen: set pci Atomic Ops requests for passthrough device
-To: "Ji, Ruili" <Ruili.Ji@amd.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "anthony.perard@citrix.com" <anthony.perard@citrix.com>
-Cc: "Liu, Aaron" <Aaron.Liu@amd.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
-References: <BL1PR12MB599341DC55BA53FE588DE14E9B7E9@BL1PR12MB5993.namprd12.prod.outlook.com>
- <BL1PR12MB5993C52DD9A881FACE6FA28D9B419@BL1PR12MB5993.namprd12.prod.outlook.com>
- <BL1PR12MB5993DC46EDF5D01ED20E2E179B479@BL1PR12MB5993.namprd12.prod.outlook.com>
- <8be84a25-c31d-fd88-f913-c03c15046a55@xen.org>
- <BL1PR12MB59937394D936EE7EDF5E3F809B469@BL1PR12MB5993.namprd12.prod.outlook.com>
- <DS7PR12MB60068137A02E32BE77526E439B4F9@DS7PR12MB6006.namprd12.prod.outlook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
 Content-Language: en-US
-Organization: Xen Project
-In-Reply-To: <DS7PR12MB60068137A02E32BE77526E439B4F9@DS7PR12MB6006.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x434.google.com
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, dinechin@redhat.com, Gerd Hoffmann
+ <kraxel@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>
+References: <20220908145308.30282-1-cfontana@suse.de>
+ <20220908145308.30282-3-cfontana@suse.de>
+ <062faaa8-064c-f68a-e316-aaacb80efa5a@linaro.org>
+ <3c6cb3ee-2470-654f-c2c4-3449861f9781@suse.de>
+ <8682ad9f-aea8-0419-5ff6-c14493e4e980@suse.de> <YynvR49aIK2AzbJ3@redhat.com>
+ <eda3f2ce-a828-8c84-60bd-684844eb25b6@suse.de> <Yyr72+YyYrhG2zTo@redhat.com>
+ <b37405a8-2315-5390-1ae6-5f1cd7ef0001@suse.de> <Yy3F2JkSeB30jqfh@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <Yy3F2JkSeB30jqfh@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,21 +101,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/09/2022 02:19, Ji, Ruili wrote:
-> [AMD Official Use Only - General]
+On 9/23/22 16:42, Kevin Wolf wrote:
+> Am 23.09.2022 um 16:10 hat Claudio Fontana geschrieben:
+>> On 9/21/22 13:56, Kevin Wolf wrote:
+>>> Am 21.09.2022 um 09:50 hat Claudio Fontana geschrieben:
+>>>> On 9/20/22 18:50, Kevin Wolf wrote:
+>>>>> Am 08.09.2022 um 19:36 hat Claudio Fontana geschrieben:
+>>>>>> On 9/8/22 19:10, Claudio Fontana wrote:
+>>>>>>> On 9/8/22 18:03, Richard Henderson wrote:
+>>>>>>>> On 9/8/22 15:53, Claudio Fontana wrote:
+>>>>>>>>> @@ -446,8 +447,13 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+>>>>>>>>>           return -EINVAL;
+>>>>>>>>>       }
+>>>>>>>>>   
+>>>>>>>>> -    block_module_load_one("dmg-bz2");
+>>>>>>>>> -    block_module_load_one("dmg-lzfse");
+>>>>>>>>> +    if (!block_module_load_one("dmg-bz2", &local_err) && local_err) {
+>>>>>>>>> +        error_report_err(local_err);
+>>>>>>>>> +    }
+>>>>>>>>> +    local_err = NULL;
+>>>>>>>>> +    if (!block_module_load_one("dmg-lzfse", &local_err) && local_err) {
+>>>>>>>>> +        error_report_err(local_err);
+>>>>>>>>> +    }
+>>>>>>>>>   
+>>>>>>>>>       s->n_chunks = 0;
+>>>>>>>>>       s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
+>>>>>>>>
+>>>>>>>> I wonder if these shouldn't fail hard if the modules don't exist?
+>>>>>>>> Or at least pass back the error.
+>>>>>>>>
+>>>>>>>> Kevin?
+>>>>>>
+>>>>>> is "dmg-bz" _required_ for dmg open to work? I suspect if the dmg
+>>>>>> image is not compressed, "dmg" can function even if the extra dmg-bz
+>>>>>> module is not loaded right?
+>>>>>
+>>>>> Indeed. The code seems to consider that the modules may not be present.
+>>>>> The behaviour in these cases is questionable (it seems to silently leave
+>>>>> the buffers as they are and return success)
+>>>
+>>> I think I misunderstood the code here actually. dmg_read_mish_block()
+>>> skips chunks of unknown type, so later trying to find them fails and
+>>> dmg_co_preadv() returns -EIO. Which is a reasonable return value for
+>>> this.
+>>>
+>>>>> , but the modules are clearly
+>>>>> optional.
+>>>>>
+>>>>>> I'd suspect we should then do:
+>>>>>>
+>>>>>> if (!block_module_load_one("dmg-bz2", &local_err)) {
+>>>>>>   if (local_err) {
+>>>>>>      error_report_err(local_err);
+>>>>>>      return -EINVAL;
+>>>>>>   }
+>>>>>>   warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks */
+>>>>>> }
+>>>>>>
+>>>>>> and same for dmg-lzfse...?
+>>>>>
+>>>>> Actually, I think during initialisation, we should just pass NULL as
+>>>>> errp and ignore any errors.
+>>>>
+>>>> Hmm really? I'd think that if there is an actual error loading the
+>>>> module (module is installed, but the loading itself fails due to
+>>>> broken module, wrong permissions, I/O errors etc) we would want to
+>>>> report that fact as it happens?
+>>>
+>>> Can we distinguish the two error cases?
+>>>
+>>> Oooh... Reading the code again carefully, are you returning false
+>>> without setting errp if the module just couldn't be found? This is a
+>>> surprising interface.
+>>>
+>>> Yes, I guess then your proposed code is fine (modulo moving
+>>> warn_report() somewhere else so that it doesn't complain when the image
+>>> doesn't even contain compressed chunks).
+>>>
+>>>>> When a request would access a block that can't be uncompressed because
+>>>>> of the missing module, that's where we can have a warn_report_once() and
+>>>>> arguably should fail the I/O request.
+>>>>>
+>>>>> Kevin
+>>>>>
+>>>>
+>>>> That would mean, moving the
+>>>>
+>>>> warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks")
+>>>>
+>>>> to the uncompression code and change it to a warn_report_once() right?
+>>>
+>>> Yeah, though I think this doesn't actually work because we never even
+>>> stored the metadata for chunks of unknown type (see above), so we never
+>>> reach the uncompression code.
+>>>
+>>> What misled me initially is this code in dmg_read_chunk():
+>>>
+>>>         case UDBZ: /* bzip2 compressed */
+>>>             if (!dmg_uncompress_bz2) {
+>>>                 break;
+>>>             }
+>>>
+>>> I believe this is dead code, it could actually be an assertion. So
+>>> if I'm not missing anything, adding the warning there would be useless.
+>>>
+>>> The other option is moving it into dmg_is_known_block_type() or its
+>>> caller dmg_read_mish_block(), then we would detect it during open, which
+>>> is probably nicer anyway.
+>>>
+>>> Kevin
+>>>
+>>>
+>>
+>> Hi Kevin, I got a bit lost on whether we have some agreement on where
+>> if anywhere to move the check/warning about missing decompression
+>> submodules.
+>>
+>> If that's ok I'd post a V5, and we can rediscuss from the new starting
+>> point?
 > 
-> Hi Paul and AFAIK:
-
-^^^ you mean Anthony :-)
-
+> Sure, feel free, though I don't think the code will otherwise change for
+> dmg, so we could as well continue here.
 > 
-> Thanks for your help.
-> When could we see this patch on the master branch? 😊
-> Our project urgently needs this solution.
+> My conclusion was that only dmg_read_mish_block() or something called by
+> it can know whether compressed blocks exist in the image when the
+> modules aren't present. So if we want to make the warning conditional on
+> that (and my understanding is correct), this is where a
+> warn_report_once() would have to live.
+> 
+> Kevin
 > 
 
-Anthony? Ping?
+I took a look, but I feel a bit too ignorant of the code there, maybe you could move the warning as a patch to the right place after the series?
 
-   Paul
+Or give me the extra commit needed to move into the right place?
+
+Ciao,
+
+Claudio
 
 
