@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD01F5E7662
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 11:00:51 +0200 (CEST)
-Received: from localhost ([::1]:36552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2B65E7663
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 11:02:50 +0200 (CEST)
+Received: from localhost ([::1]:43788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obeYF-0006rt-1I
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 05:00:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56506)
+	id 1obea9-0000M0-9l
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 05:02:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=gbDQ=Z2=kaod.org=clg@ozlabs.org>)
- id 1obeMK-00059P-S0; Fri, 23 Sep 2022 04:48:35 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:39371
- helo=gandalf.ozlabs.org)
+ id 1obeMQ-0005Ac-4M; Fri, 23 Sep 2022 04:48:41 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:49141)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=gbDQ=Z2=kaod.org=clg@ozlabs.org>)
- id 1obeMD-0005J2-0Y; Fri, 23 Sep 2022 04:48:30 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4MYm5B6BZGz4x1L;
- Fri, 23 Sep 2022 18:48:14 +1000 (AEST)
+ id 1obeMB-0005J7-F8; Fri, 23 Sep 2022 04:48:33 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4MYm5F6b6Qz4xGG;
+ Fri, 23 Sep 2022 18:48:17 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4MYm582Kdgz4xGR;
- Fri, 23 Sep 2022 18:48:12 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4MYm5C2j1zz4xGN;
+ Fri, 23 Sep 2022 18:48:15 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -35,23 +35,23 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 1/6] tests/avocado/machine_aspeed.py: Fix typos on buildroot
-Date: Fri, 23 Sep 2022 10:47:58 +0200
-Message-Id: <20220923084803.498337-2-clg@kaod.org>
+Subject: [PATCH 2/6] cpu: cache CPUClass in CPUState for hot code paths
+Date: Fri, 23 Sep 2022 10:47:59 +0200
+Message-Id: <20220923084803.498337-3-clg@kaod.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220923084803.498337-1-clg@kaod.org>
 References: <20220923084803.498337-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=SRS0=gbDQ=Z2=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,80 +67,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace 'buidroot' and 'builroot' by 'buildroot'.
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Fixes: f7bc7da0724f ("test/avocado/machine_aspeed.py: Add tests using buildroot images")
+The class cast checkers are quite expensive and always on (unlike the
+dynamic case who's checks are gated by CONFIG_QOM_CAST_DEBUG). To
+avoid the overhead of repeatedly checking something which should never
+change we cache the CPUClass reference for use in the hot code paths.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220811151413.3350684-3-alex.bennee@linaro.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- tests/avocado/machine_aspeed.py | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ include/hw/core/cpu.h | 9 +++++++++
+ cpu.c                 | 9 ++++-----
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-index 0f64eb636c28..c703be99a6f7 100644
---- a/tests/avocado/machine_aspeed.py
-+++ b/tests/avocado/machine_aspeed.py
-@@ -92,7 +92,7 @@ def test_arm_ast2500_romulus_openbmc_v2_9_0(self):
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 500503da1316..1a7e1a93804a 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -51,6 +51,13 @@ typedef int (*WriteCoreDumpFunction)(const void *buf, size_t size,
+  */
+ #define CPU(obj) ((CPUState *)(obj))
  
-         self.do_test_arm_aspeed(image_path)
++/*
++ * The class checkers bring in CPU_GET_CLASS() which is potentially
++ * expensive given the eventual call to
++ * object_class_dynamic_cast_assert(). Because of this the CPUState
++ * has a cached value for the class in cs->cc which is set up in
++ * cpu_exec_realizefn() for use in hot code paths.
++ */
+ typedef struct CPUClass CPUClass;
+ DECLARE_CLASS_CHECKERS(CPUClass, CPU,
+                        TYPE_CPU)
+@@ -317,6 +324,8 @@ struct qemu_work_item;
+ struct CPUState {
+     /*< private >*/
+     DeviceState parent_obj;
++    /* cache to avoid expensive CPU_GET_CLASS */
++    CPUClass *cc;
+     /*< public >*/
  
--    def do_test_arm_aspeed_buidroot_start(self, image, cpu_id):
-+    def do_test_arm_aspeed_buildroot_start(self, image, cpu_id):
-         self.vm.set_console()
-         self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
-                          '-net', 'nic', '-net', 'user')
-@@ -109,11 +109,11 @@ def do_test_arm_aspeed_buidroot_start(self, image, cpu_id):
-         exec_command(self, 'root')
-         time.sleep(0.1)
+     int nr_cores;
+diff --git a/cpu.c b/cpu.c
+index 584ac78baf96..14365e36f3a1 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -131,9 +131,8 @@ const VMStateDescription vmstate_cpu_common = {
  
--    def do_test_arm_aspeed_buidroot_poweroff(self):
-+    def do_test_arm_aspeed_buildroot_poweroff(self):
-         exec_command_and_wait_for_pattern(self, 'poweroff',
-                                           'reboot: System halted');
+ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+ {
+-#ifndef CONFIG_USER_ONLY
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
+-#endif
++    /* cache the cpu class for the hotpath */
++    cpu->cc = CPU_GET_CLASS(cpu);
  
--    def test_arm_ast2500_evb_builroot(self):
-+    def test_arm_ast2500_evb_buildroot(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:ast2500-evb
-@@ -127,7 +127,7 @@ def test_arm_ast2500_evb_builroot(self):
- 
-         self.vm.add_args('-device',
-                          'tmp105,bus=aspeed.i2c.bus.3,address=0x4d,id=tmp-test');
--        self.do_test_arm_aspeed_buidroot_start(image_path, '0x0')
-+        self.do_test_arm_aspeed_buildroot_start(image_path, '0x0')
- 
-         exec_command_and_wait_for_pattern(self,
-              'echo lm75 0x4d > /sys/class/i2c-dev/i2c-3/device/new_device',
-@@ -139,9 +139,9 @@ def test_arm_ast2500_evb_builroot(self):
-         exec_command_and_wait_for_pattern(self,
-                              'cat /sys/class/hwmon/hwmon1/temp1_input', '18000')
- 
--        self.do_test_arm_aspeed_buidroot_poweroff()
-+        self.do_test_arm_aspeed_buildroot_poweroff()
- 
--    def test_arm_ast2600_evb_builroot(self):
-+    def test_arm_ast2600_evb_buildroot(self):
-         """
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:ast2600-evb
-@@ -157,7 +157,7 @@ def test_arm_ast2600_evb_builroot(self):
-                          'tmp105,bus=aspeed.i2c.bus.3,address=0x4d,id=tmp-test');
-         self.vm.add_args('-device',
-                          'ds1338,bus=aspeed.i2c.bus.3,address=0x32');
--        self.do_test_arm_aspeed_buidroot_start(image_path, '0xf00')
-+        self.do_test_arm_aspeed_buildroot_start(image_path, '0xf00')
- 
-         exec_command_and_wait_for_pattern(self,
-              'echo lm75 0x4d > /sys/class/i2c-dev/i2c-3/device/new_device',
-@@ -175,7 +175,7 @@ def test_arm_ast2600_evb_builroot(self):
-         year = time.strftime("%Y")
-         exec_command_and_wait_for_pattern(self, 'hwclock -f /dev/rtc1', year);
- 
--        self.do_test_arm_aspeed_buidroot_poweroff()
-+        self.do_test_arm_aspeed_buildroot_poweroff()
- 
- 
- class AST2x00MachineSDK(QemuSystemTest):
+     cpu_list_add(cpu);
+     if (!accel_cpu_realizefn(cpu, errp)) {
+@@ -151,8 +150,8 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
+         vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
+     }
+-    if (cc->sysemu_ops->legacy_vmsd != NULL) {
+-        vmstate_register(NULL, cpu->cpu_index, cc->sysemu_ops->legacy_vmsd, cpu);
++    if (cpu->cc->sysemu_ops->legacy_vmsd != NULL) {
++        vmstate_register(NULL, cpu->cpu_index, cpu->cc->sysemu_ops->legacy_vmsd, cpu);
+     }
+ #endif /* CONFIG_USER_ONLY */
+ }
 -- 
 2.37.3
 
