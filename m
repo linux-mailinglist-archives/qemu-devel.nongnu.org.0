@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04EFD5E7C35
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 15:48:02 +0200 (CEST)
-Received: from localhost ([::1]:52070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059305E7C36
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 15:48:06 +0200 (CEST)
+Received: from localhost ([::1]:52072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obj27-0007jV-T0
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 09:47:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46658)
+	id 1obj29-0007jf-3b
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 09:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1obiyK-0003J1-LZ
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 09:44:04 -0400
-Received: from madras.collabora.co.uk ([46.235.227.172]:51288)
+ id 1obiyJ-0003H0-Iz
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 09:44:03 -0400
+Received: from madras.collabora.co.uk ([46.235.227.172]:51300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1obiyH-0001ZQ-GN
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 09:44:04 -0400
+ id 1obiyH-0001ZX-Ib
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 09:44:03 -0400
 Received: from dellino.fritz.box (host-79-27-165-192.retail.telecomitalia.it
  [79.27.165.192])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: fahien)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8F0E16602249;
- Fri, 23 Sep 2022 14:43:58 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 2C79F660224A;
+ Fri, 23 Sep 2022 14:43:59 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1663940638;
- bh=eH8FQd+aNxSvn7jw39RMwXieOu3FtgSPJYS4kD0AOkc=;
+ s=mail; t=1663940639;
+ bh=F2YymFS4fuk33hLcXrm2wbzwXWZsfZQPWg/+4bknAaU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=drB8kcwUrgklcvNADN/s0XhUjXp9xUbF5eBUxopexhGN9EiI4jTEbsBUI2ybkBMd2
- 1gvolaPGHxvdk6TZ4ZQtkCYYzEGq0+R00FqvnQ+I8wcZgTHgdIlOPJFfqGxE5BOM58
- mhvfS0jo5D9WEr+jD+D6r6L7z6++JAEhihZR83oxbZiyiGVVlASq6qUoHiR62iAlnq
- SZQazZ41CCcjYuNMbofVrShxRhloPjJKJYTmWLxc0LBf+47RehdbgWUIqI33Og9F6Y
- eztiTZw53SfebsXREInRj7+4aZAPFIb+c66y21eQk7gwgfk8bkjxcoXD8Qjch1KZds
- A/vBQBCGozeoA==
+ b=XA6Q+Ag2Fo8Ifxigv1pNRfyW/axzgJto55hRblssiiXQL3FCd/DR+jWqablju0Pnu
+ Pw4Zy+lAWAjsUahvb0BbkZIta45+2Lzvz4DGwFRdOZGcAmshf6aSnKwFhWz9chSqRp
+ Z+6zmQ+1qqnxXwJ/VkfZoXN58LBIL60HM9wNglDWSZ+kLw5Zpx1QmVjRD1nMWOSW3K
+ VhDo+IvMkOSh4FC1Vem+enufKhQMdOiR961gWE8oxvOlUZ6Nx3U97G5hit86yBx4By
+ bIWJMBQuRNeU+ohyOOd2IkYbwYEflb2n5qLCmkungYB5DNtNbFyMVBnk7F0dKSJIZ7
+ 3KYqw5T3DBd0w==
 From: Antonio Caggiano <antonio.caggiano@collabora.com>
 To: qemu-devel@nongnu.org
 Cc: gert.wollny@collabora.com, dmitry.osipenko@collabora.com,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 1/2] virtio-gpu: Unrealize
-Date: Fri, 23 Sep 2022 15:43:49 +0200
-Message-Id: <20220923134350.324402-2-antonio.caggiano@collabora.com>
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH v2 2/2] virtio-gpu: Resource UUID
+Date: Fri, 23 Sep 2022 15:43:50 +0200
+Message-Id: <20220923134350.324402-3-antonio.caggiano@collabora.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220923134350.324402-1-antonio.caggiano@collabora.com>
 References: <20220923134350.324402-1-antonio.caggiano@collabora.com>
@@ -71,41 +71,184 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement an unrealize function for virtio gpu device.
+Enable resource UUID feature and implement command resource assign UUID.
+This is done by introducing a hash table to map resource IDs to their
+UUIDs.
 
 Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
 ---
- hw/display/virtio-gpu.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+v2: Destroy the hash table in the unrealize function
 
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 20cc703dcc..412f0fb7ec 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -1345,6 +1345,15 @@ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
-     QTAILQ_INIT(&g->fenceq);
+ hw/display/trace-events        |  1 +
+ hw/display/virtio-gpu-base.c   |  2 ++
+ hw/display/virtio-gpu-virgl.c  | 11 +++++++++
+ hw/display/virtio-gpu.c        | 41 ++++++++++++++++++++++++++++++++++
+ include/hw/virtio/virtio-gpu.h |  4 ++++
+ 5 files changed, 59 insertions(+)
+
+diff --git a/hw/display/trace-events b/hw/display/trace-events
+index 0c0ffcbe42..6632344322 100644
+--- a/hw/display/trace-events
++++ b/hw/display/trace-events
+@@ -41,6 +41,7 @@ virtio_gpu_cmd_res_create_blob(uint32_t res, uint64_t size) "res 0x%x, size %" P
+ virtio_gpu_cmd_res_unref(uint32_t res) "res 0x%x"
+ virtio_gpu_cmd_res_back_attach(uint32_t res) "res 0x%x"
+ virtio_gpu_cmd_res_back_detach(uint32_t res) "res 0x%x"
++virtio_gpu_cmd_res_assign_uuid(uint32_t res) "res 0x%x"
+ virtio_gpu_cmd_res_xfer_toh_2d(uint32_t res) "res 0x%x"
+ virtio_gpu_cmd_res_xfer_toh_3d(uint32_t res) "res 0x%x"
+ virtio_gpu_cmd_res_xfer_fromh_3d(uint32_t res) "res 0x%x"
+diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
+index a29f191aa8..157d280b14 100644
+--- a/hw/display/virtio-gpu-base.c
++++ b/hw/display/virtio-gpu-base.c
+@@ -216,6 +216,8 @@ virtio_gpu_base_get_features(VirtIODevice *vdev, uint64_t features,
+         features |= (1 << VIRTIO_GPU_F_RESOURCE_BLOB);
+     }
+ 
++    features |= (1 << VIRTIO_GPU_F_RESOURCE_UUID);
++
+     return features;
  }
  
-+void virtio_gpu_device_unrealize(DeviceState *qdev)
-+{
-+    VirtIODevice *vdev = VIRTIO_DEVICE(qdev);
-+    VirtIOGPU *g = VIRTIO_GPU(qdev);
+diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
+index 73cb92c8d5..7adb6be993 100644
+--- a/hw/display/virtio-gpu-virgl.c
++++ b/hw/display/virtio-gpu-virgl.c
+@@ -43,6 +43,10 @@ static void virgl_cmd_create_resource_2d(VirtIOGPU *g,
+     args.nr_samples = 0;
+     args.flags = VIRTIO_GPU_RESOURCE_FLAG_Y_0_TOP;
+     virgl_renderer_resource_create(&args, NULL, 0);
 +
-+    qemu_bh_delete(g->cursor_bh);
-+    qemu_bh_delete(g->ctrl_bh);
++    struct virtio_gpu_simple_resource *res = g_new0(struct virtio_gpu_simple_resource, 1);
++    res->resource_id = c2d.resource_id;
++    QTAILQ_INSERT_HEAD(&g->reslist, res, next);
+ }
+ 
+ static void virgl_cmd_create_resource_3d(VirtIOGPU *g,
+@@ -67,6 +71,10 @@ static void virgl_cmd_create_resource_3d(VirtIOGPU *g,
+     args.nr_samples = c3d.nr_samples;
+     args.flags = c3d.flags;
+     virgl_renderer_resource_create(&args, NULL, 0);
++
++    struct virtio_gpu_simple_resource *res = g_new0(struct virtio_gpu_simple_resource, 1);
++    res->resource_id = c3d.resource_id;
++    QTAILQ_INSERT_HEAD(&g->reslist, res, next);
+ }
+ 
+ static void virgl_cmd_resource_unref(VirtIOGPU *g,
+@@ -452,6 +460,9 @@ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+         /* TODO add security */
+         virgl_cmd_ctx_detach_resource(g, cmd);
+         break;
++    case VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID:
++        virtio_gpu_resource_assign_uuid(g, cmd);
++        break;
+     case VIRTIO_GPU_CMD_GET_CAPSET_INFO:
+         virgl_cmd_get_capset_info(g, cmd);
+         break;
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 412f0fb7ec..61a8f8f54f 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -937,6 +937,37 @@ virtio_gpu_resource_detach_backing(VirtIOGPU *g,
+     virtio_gpu_cleanup_mapping(g, res);
+ }
+ 
++void virtio_gpu_resource_assign_uuid(VirtIOGPU *g,
++                                     struct virtio_gpu_ctrl_command *cmd)
++{
++    struct virtio_gpu_simple_resource *res;
++    struct virtio_gpu_resource_assign_uuid assign;
++    struct virtio_gpu_resp_resource_uuid resp;
++    QemuUUID *uuid = NULL;
++
++    VIRTIO_GPU_FILL_CMD(assign);
++    virtio_gpu_bswap_32(&assign, sizeof(assign));
++    trace_virtio_gpu_cmd_res_assign_uuid(assign.resource_id);
++
++    res = virtio_gpu_find_check_resource(g, assign.resource_id, false, __func__, &cmd->error);
++    if (!res) {
++        return;
++    }
++
++    memset(&resp, 0, sizeof(resp));
++    resp.hdr.type = VIRTIO_GPU_RESP_OK_RESOURCE_UUID;
++
++    uuid = g_hash_table_lookup(g->resource_uuids, GUINT_TO_POINTER(assign.resource_id));
++    if (!uuid) {
++        uuid = g_new(QemuUUID, 1);
++        qemu_uuid_generate(uuid);
++        g_hash_table_insert(g->resource_uuids, GUINT_TO_POINTER(assign.resource_id), uuid);
++    }
++
++    memcpy(resp.uuid, uuid, sizeof(QemuUUID));
++    virtio_gpu_ctrl_response(g, cmd, &resp.hdr, sizeof(resp));
 +}
 +
- void virtio_gpu_reset(VirtIODevice *vdev)
+ void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
+                                    struct virtio_gpu_ctrl_command *cmd)
  {
-     VirtIOGPU *g = VIRTIO_GPU(vdev);
-@@ -1440,6 +1449,7 @@ static void virtio_gpu_class_init(ObjectClass *klass, void *data)
-     vgbc->gl_flushed = virtio_gpu_handle_gl_flushed;
+@@ -985,6 +1016,9 @@ void virtio_gpu_simple_process_cmd(VirtIOGPU *g,
+     case VIRTIO_GPU_CMD_RESOURCE_DETACH_BACKING:
+         virtio_gpu_resource_detach_backing(g, cmd);
+         break;
++    case VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID:
++        virtio_gpu_resource_assign_uuid(g, cmd);
++        break;
+     default:
+         cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
+         break;
+@@ -1343,6 +1377,8 @@ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
+     QTAILQ_INIT(&g->reslist);
+     QTAILQ_INIT(&g->cmdq);
+     QTAILQ_INIT(&g->fenceq);
++
++    g->resource_uuids = g_hash_table_new_full(NULL, NULL, NULL, g_free);
+ }
  
-     vdc->realize = virtio_gpu_device_realize;
-+    vdc->unrealize = virtio_gpu_device_unrealize;
-     vdc->reset = virtio_gpu_reset;
-     vdc->get_config = virtio_gpu_get_config;
-     vdc->set_config = virtio_gpu_set_config;
+ void virtio_gpu_device_unrealize(DeviceState *qdev)
+@@ -1350,6 +1386,7 @@ void virtio_gpu_device_unrealize(DeviceState *qdev)
+     VirtIODevice *vdev = VIRTIO_DEVICE(qdev);
+     VirtIOGPU *g = VIRTIO_GPU(qdev);
+ 
++    g_hash_table_destroy(g->resource_uuids);
+     qemu_bh_delete(g->cursor_bh);
+     qemu_bh_delete(g->ctrl_bh);
+ }
+@@ -1377,6 +1414,10 @@ void virtio_gpu_reset(VirtIODevice *vdev)
+         g_free(cmd);
+     }
+ 
++    if (g->resource_uuids) {
++        g_hash_table_remove_all(g->resource_uuids);
++    }
++
+     virtio_gpu_base_reset(VIRTIO_GPU_BASE(vdev));
+ }
+ 
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index 2e28507efe..41aed312f5 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -189,6 +189,8 @@ struct VirtIOGPU {
+         QTAILQ_HEAD(, VGPUDMABuf) bufs;
+         VGPUDMABuf *primary[VIRTIO_GPU_MAX_SCANOUTS];
+     } dmabuf;
++
++    GHashTable *resource_uuids;
+ };
+ 
+ struct VirtIOGPUClass {
+@@ -258,6 +260,8 @@ int virtio_gpu_create_mapping_iov(VirtIOGPU *g,
+                                   uint32_t *niov);
+ void virtio_gpu_cleanup_mapping_iov(VirtIOGPU *g,
+                                     struct iovec *iov, uint32_t count);
++void virtio_gpu_resource_assign_uuid(VirtIOGPU *g,
++                                     struct virtio_gpu_ctrl_command *cmd);
+ void virtio_gpu_process_cmdq(VirtIOGPU *g);
+ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp);
+ void virtio_gpu_reset(VirtIODevice *vdev);
 -- 
 2.34.1
 
