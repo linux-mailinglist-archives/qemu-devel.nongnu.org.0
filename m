@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088D55E759F
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 10:23:40 +0200 (CEST)
-Received: from localhost ([::1]:34138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E75D5E7590
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 10:18:59 +0200 (CEST)
+Received: from localhost ([::1]:47748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obdyE-000874-IO
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 04:23:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58130)
+	id 1obdth-0006VJ-KO
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 04:18:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obdkb-00019l-Cw
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 04:09:35 -0400
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:39549)
+ id 1obdoI-0002lx-PM
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 04:13:22 -0400
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:46606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obdkZ-0004At-1C
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 04:09:33 -0400
-Received: by mail-lf1-x12c.google.com with SMTP id a2so18575361lfb.6
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 01:09:30 -0700 (PDT)
+ id 1obdoD-0004o0-KJ
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 04:13:19 -0400
+Received: by mail-lj1-x22f.google.com with SMTP id p5so13714894ljc.13
+ for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 01:13:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=yDqWD2az4EB+cgT85ODv5JPoQ5/ChlIAgJiw47e6/Os=;
- b=GjZ/hcqXcTHtS1EdvOGl+pc7+gMS1PY7AdRR3gBEUO/nBNt2as8BQmuYrFXkLVdxYK
- dqpwkEV9uuI7wUFcoK+eDwk/hOZckm7mPu6WiDjCPjVcD++CV8BPWqhDC5oxR57ssiEW
- v5k0zs0Tw1VEibdiQwTTMa8nIBiTkix5NHCZZ+UsrcOfqyvE4YDYAkxeClTctPSTUHII
- kdRX57vhGQncAjYLW35oszCOPxDf6Uw32KymCuvvJ/IbdxPXJ+zLZ3vcDyrc77mEX84j
- 3hufnjW0SCJRzTU6mOMGuGjVrgbBaIb/XTrCVY/Y03zAnzRakuE6XDWzjNUd/FAcjzku
- dCyw==
+ bh=BG/lcjgO0B0XtqLMX/BMhExNhK8+BcMKYENvj6MFrGc=;
+ b=SQaqIlfHo4ZdGil5Qo8ZmQ7dzh6HLORSy30fO1wrU053XZtM6KPIKL2y0P5czr0LD9
+ 9LphrJpbqphBHL/nNKpAPFJQzrex4sNJ3lDhpvvYXga1yu3y2FBZhmuPJXdlQo7dlkUi
+ 4XVfvZMPyU4QV2lFEymoc9Jx8xvdolXXuJaqeQLjl0RNYXmAdY2UsTje9yBNeIfpD6v7
+ 8D2PdIx5WEMBAemzVdC8PLF0fFc2CEOyn18BRCXPFmY07gISUkhRC8dOj2SIfp8Jot8O
+ UtQNnbfsPkT6/qinLHcJ1j7pdgWZc+xq0h1dcfx2PMF33XA3ZtBVi/JKkcHmU3tqbply
+ a7Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=yDqWD2az4EB+cgT85ODv5JPoQ5/ChlIAgJiw47e6/Os=;
- b=Vs3zkAHgLzHTPKDh+uk24SWAwRazblZJ1VbXiET5HH1q2L8RxcGsEPNNMbmV8JubyN
- oA3/9dnWudaf3AlZrs8jdg1y1nUudc8txb3esKujXk9Pt83h3Okf9j3oeGFP7sNXH7Ry
- ltZygvtMt0uAiaeDMOFNnwW2vbiavY6nXq+N9VKaK+p1f23Ic4ewjiXAuQTSEp/K56rh
- ApYqjCom1eZQtcpSj8I+6CM5xSZ3qOOIt5c/hLWSvu6TZnMZUvg3XoyaFGF3k1N4OEWN
- ucLG4p1c3gV2tFu34I9tHcvdDcYUtr60a8zyamytK23jXYBxlP06q8gKdXV/QgpOb+1p
- l9mw==
-X-Gm-Message-State: ACrzQf05fa1oGBrNu535YZt7Vo0FVO+hgLYG3uMFPzKOjx/8BXujGeAs
- EThWO4O/pxLi9ucsDBuxErXqC4nsFV2/72drvGU=
-X-Google-Smtp-Source: AMsMyM58/hTfRfFUW43QTl08T7cwCLHricNMv0Fi1u+/Q3fTheshbFahXYvZHg9hSD9W1h4o8vUpRdMVnIvsBQ0k9YI=
-X-Received: by 2002:a05:6512:3ca0:b0:49f:f620:b826 with SMTP id
- h32-20020a0565123ca000b0049ff620b826mr3081212lfv.375.1663920569208; Fri, 23
- Sep 2022 01:09:29 -0700 (PDT)
+ bh=BG/lcjgO0B0XtqLMX/BMhExNhK8+BcMKYENvj6MFrGc=;
+ b=lXiSDi2tUpQ27bxuGxiWj7d7PW54KhSdN06RPf3uYGiUnCYsD1DaTqa+RCfDSRvEH1
+ DbRXRUVhQWfnRA7KPrqYSM1HJ6obFPGG0nms8ikpLuFT8NevgaFEwWpRuIenpRD2nd32
+ IMdt//wNBy48m6XLfetqbv+zBUuEBPq5JX/mF7E7Q3dxTuQHwuNv2hRvQQOnawmq6WFu
+ Knzt00QSeFfycUvrvOnaEJLja5kSn7XqSvWGfTeCJIQcqgX4Mut8TFLGrOI34P1iN1Av
+ 6lUSXs1Oe8DGBi0U1vn51d0YlWATqREnQeO3cxmeEjsgs8Mb0mKO9Jdqij2VOCtHW5pR
+ 7upw==
+X-Gm-Message-State: ACrzQf1UAzgR8LbiXz3wz/nRAI7z2oj51rcdKVbfpP01U6Ye4UkgrRQe
+ nkJcyQqrclSXQSAHNmaEArzHFMublw3JWMnaiu0=
+X-Google-Smtp-Source: AMsMyM7uMCNrLvT3nAejPplDXBrAn6FDXykXe0XLC/16xqsY21SJnCuMqH7Q2B3sz1xWSwMKFDRVrCM4cMZtvKY8EHs=
+X-Received: by 2002:a2e:9b17:0:b0:26c:4ede:512c with SMTP id
+ u23-20020a2e9b17000000b0026c4ede512cmr2381469lji.529.1663920795764; Fri, 23
+ Sep 2022 01:13:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220922132001.940334-1-alexander.ivanov@virtuozzo.com>
- <20220922132001.940334-4-alexander.ivanov@virtuozzo.com>
-In-Reply-To: <20220922132001.940334-4-alexander.ivanov@virtuozzo.com>
+ <20220922132001.940334-5-alexander.ivanov@virtuozzo.com>
+In-Reply-To: <20220922132001.940334-5-alexander.ivanov@virtuozzo.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 23 Sep 2022 10:09:17 +0200
-Message-ID: <CAJ+F1C+LsQj9MXfMmDihg16wyzzyW_UgTCZa5Y0ig-9zZ99XpA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] qga: Add UFS freeze/thaw support for FreeBSD
+Date: Fri, 23 Sep 2022 10:13:04 +0200
+Message-ID: <CAJ+F1C+mnADMfejJPuqr04F5J+Gh4h-A=LpneS=_e+G5OQ2TdQ@mail.gmail.com>
+Subject: Re: [PATCH 4/5] qga: Add shutdown/halt/reboot support for FreeBSD
 To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 Cc: qemu-devel@nongnu.org, den@virtuozzo.com, michael.roth@amd.com, 
  kkostiuk@redhat.com
-Content-Type: multipart/alternative; boundary="0000000000007654c105e953b256"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12c.google.com
+Content-Type: multipart/alternative; boundary="000000000000f74df605e953bfcb"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,486 +84,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007654c105e953b256
+--000000000000f74df605e953bfcb
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-On Thu, Sep 22, 2022 at 4:15 PM Alexander Ivanov <
+On Thu, Sep 22, 2022 at 3:51 PM Alexander Ivanov <
 alexander.ivanov@virtuozzo.com> wrote:
 
-> UFS supports FS freezing through ioctl UFSSUSPEND on /dev/ufssuspend.
-> Freezed FS can be thawed by closing /dev/ufssuspend file descriptior.
->
-> Use getmntinfo to get a list of mounted FS.
+> Add appropriate shutdown command arguments in qmp_guest_shutdown()
+> for FreeBSD.
 >
 > Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 > ---
->  qga/commands-bsd.c    | 109 +++++++++++++++++++++++++++++++++++++++---
->  qga/commands-common.h |  11 +++++
->  qga/main.c            |   6 +++
->  3 files changed, 120 insertions(+), 6 deletions(-)
+>  qga/commands-posix.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >
-> diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
-> index c1e3ed13e9..5d3f46804a 100644
-> --- a/qga/commands-bsd.c
-> +++ b/qga/commands-bsd.c
-> @@ -17,28 +17,125 @@
->  #include "qemu/queue.h"
->  #include "commands-common.h"
->
-> +#include <sys/ioctl.h>
-> +#include <sys/param.h>
-> +#include <sys/ucred.h>
-> +#include <sys/mount.h>
-> +#include <paths.h>
-> +
->  #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
->  bool build_fs_mount_list(FsMountList *mounts, Error **errp)
->  {
-> -    error_setg(errp, QERR_UNSUPPORTED);
-> -    return false;
-> +    FsMount *mount;
-> +    struct statfs *mntbuf, *mntp;
-> +    struct stat statbuf;
-> +    int i, count, ret;
-> +
-> +    count =3D getmntinfo(&mntbuf, MNT_NOWAIT);
-> +    if (count =3D=3D 0) {
-> +        error_setg_errno(errp, errno, "getmntinfo failed");
-> +        return false;
-> +    }
-> +
-> +    for (i =3D 0; i < count; i++) {
-> +        mntp =3D &mntbuf[i];
-> +        ret =3D stat(mntp->f_mntonname, &statbuf);
-> +        if (ret !=3D 0) {
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index 3a1055d5c3..60cc673f25 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -242,6 +242,10 @@ void qmp_guest_shutdown(bool has_mode, const char
+> *mode, Error **errp)
+>      const char *powerdown_flag =3D "-i5";
+>      const char *halt_flag =3D "-i0";
+>      const char *reboot_flag =3D "-i6";
+> +#elifdef CONFIG_BSD
 >
 
-I am not sure we can simply ignore an error here. At least, there should be
-a warning logged, no?
+It might be the first time I see a patch with "#elifdef" :) this is C2X, so
+please use "#elif defined(..)" instead
 
 
-> +            continue;
-> +        }
-> +
-> +        mount =3D g_new0(FsMount, 1);
-> +
-> +        mount->dirname =3D g_strdup(mntp->f_mntonname);
-> +        mount->devtype =3D g_strdup(mntp->f_fstypename);
-> +        mount->devmajor =3D major(mount->dev);
-> +        mount->devminor =3D minor(mount->dev);
-> +        mount->fsid =3D mntp->f_fsid;
-> +        mount->dev =3D statbuf.st_dev;
-> +
-> +        QTAILQ_INSERT_TAIL(mounts, mount, next);
-> +    }
-> +    return true;
->  }
->  #endif
->
->  #if defined(CONFIG_FSFREEZE)
-> +static int ufssuspend_fd =3D -1;
-> +static int ufssuspend_cnt;
-> +
->  int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,
->                                            strList *mountpoints,
->                                            FsMountList mounts,
->                                            Error **errp)
->  {
-> -    error_setg(errp, QERR_UNSUPPORTED);
-> -    return 0;
-> +    int ret;
-> +    strList *list;
-> +    struct FsMount *mount;
-> +
-> +    if (ufssuspend_fd !=3D -1) {
-> +        error_setg(errp, "filesystems have already frozen");
-> +        return -1;
-> +    }
-> +
-> +    ufssuspend_cnt =3D 0;
-> +    ufssuspend_fd =3D qemu_open(_PATH_UFSSUSPEND, O_RDWR, errp);
-> +    if (ufssuspend_fd =3D=3D -1) {
-> +        return -1;
-> +    }
-> +
-> +    QTAILQ_FOREACH_REVERSE(mount, &mounts, next) {
-> +        /*
-> +         * To issue fsfreeze in the reverse order of mounts, check if th=
-e
-> +         * mount is listed in the list here
-> +         */
-> +        if (has_mountpoints) {
-> +            for (list =3D mountpoints; list; list =3D list->next) {
-> +                if (strcmp(list->value, mount->dirname) =3D=3D 0) {
->
-
-nit: I prefer g_str_equal()
-
-
-> +                    break;
-> +                }
-> +            }
-> +            if (!list) {
-> +                continue;
-> +            }
-> +        }
-> +
-> +        /* Only UFS supports suspend */
-> +        if (strcmp(mount->devtype, "ufs") !=3D 0) {
->
-
-!g_str_equal()
-
-
-> +            continue;
-> +        }
-> +
-> +        ret =3D ioctl(ufssuspend_fd, UFSSUSPEND, &mount->fsid);
-> +        if (ret =3D=3D -1) {
-> +            /*
-> +             * ioctl returns EBUSY for all the FS except the first one
-> +             * that was suspended
-> +             */
-> +            if (errno =3D=3D EBUSY) {
-> +                continue;
-> +            }
-> +            error_setg_errno(errp, errno, "failed to freeze %s",
-> +                             mount->dirname);
-> +            goto error;
-> +        }
-> +        ufssuspend_cnt++;
-> +    }
-> +    return ufssuspend_cnt;
-> +error:
-> +    close(ufssuspend_fd);
-> +    ufssuspend_fd =3D -1;
-> +    return -1;
-> +
->  }
->
->  int qmp_guest_fsfreeze_do_thaw(Error **errp)
->  {
-> -    error_setg(errp, QERR_UNSUPPORTED);
-> -    return 0;
-> +    int ret =3D ufssuspend_cnt;
-> +    ufssuspend_cnt =3D 0;
-> +    if (ufssuspend_fd !=3D -1) {
-> +        close(ufssuspend_fd);
-> +        ufssuspend_fd =3D -1;
-> +    }
->
-
-Maybe leave a comment that UFSRESUME isn't necessary?
-
-
-> +    return ret;
->  }
->  #endif
->
-> diff --git a/qga/commands-common.h b/qga/commands-common.h
-> index aa0472ea4c..c3be6db3a9 100644
-> --- a/qga/commands-common.h
-> +++ b/qga/commands-common.h
-> @@ -41,11 +41,22 @@ void ga_wait_child(pid_t pid, int *status, Error
-> **errp);
->  #endif
->  #endif /* __linux__*/
->
-> +#ifdef __FreeBSD__
-> +#include <ufs/ffs/fs.h>
-> +#ifdef UFSSUSPEND
-> +#define CONFIG_FSFREEZE
-> +#endif
-> +#endif /* __FreeBSD__ */
-> +
->  #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
->  typedef struct FsMount {
->      char *dirname;
->      char *devtype;
->      unsigned int devmajor, devminor;
-> +#if defined(__FreeBSD__)
-> +    dev_t dev;
-> +    fsid_t fsid;
-> +#endif
->      QTAILQ_ENTRY(FsMount) next;
->  } FsMount;
->
-> diff --git a/qga/main.c b/qga/main.c
-> index 22b3c0df11..ab420051fb 100644
-> --- a/qga/main.c
-> +++ b/qga/main.c
-> @@ -43,6 +43,12 @@
->  #define CONFIG_FSFREEZE
->  #endif
->  #endif
-> +#ifdef __FreeBSD__
-> +#include <ufs/ffs/fs.h>
-> +#ifdef UFSSUSPEND
-> +#define CONFIG_FSFREEZE
-> +#endif
-> +#endif
->
->  #ifndef _WIN32
->  #ifdef __FreeBSD__
+> +    const char *powerdown_flag =3D "-p";
+> +    const char *halt_flag =3D "-h";
+> +    const char *reboot_flag =3D "-r";
+>  #else
+>      const char *powerdown_flag =3D "-P";
+>      const char *halt_flag =3D "-H";
+> @@ -272,6 +276,9 @@ void qmp_guest_shutdown(bool has_mode, const char
+> *mode, Error **errp)
+>  #ifdef CONFIG_SOLARIS
+>          execl("/sbin/shutdown", "shutdown", shutdown_flag, "-g0", "-y",
+>                "hypervisor initiated shutdown", (char *)NULL);
+> +#elifdef CONFIG_BSD
+> +        execl("/sbin/shutdown", "shutdown", shutdown_flag, "+0",
+> +               "hypervisor initiated shutdown", (char *)NULL);
+>  #else
+>          execl("/sbin/shutdown", "shutdown", "-h", shutdown_flag, "+0",
+>                 "hypervisor initiated shutdown", (char *)NULL);
 > --
 > 2.34.1
 >
 >
 >
+lgtm otherwise
 
 --=20
 Marc-Andr=C3=A9 Lureau
 
---0000000000007654c105e953b256
+--000000000000f74df605e953bfcb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 22, 2022 at 4:15 PM Ale=
-xander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@virtuozzo.com">alexand=
-er.ivanov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">UFS supports FS freezing through ioctl UFSSUSPEND on=
- /dev/ufssuspend.<br>
-Freezed FS can be thawed by closing /dev/ufssuspend file descriptior.<br>
-<br>
-Use getmntinfo to get a list of mounted FS.<br>
+<div dir=3D"ltr"><div><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_=
+quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 22, 2022 at 3:51 P=
+M Alexander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@virtuozzo.com">al=
+exander.ivanov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">Add appropriate shutdown command arguments in q=
+mp_guest_shutdown()<br>
+for FreeBSD.<br>
 <br>
 Signed-off-by: Alexander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@virt=
 uozzo.com" target=3D"_blank">alexander.ivanov@virtuozzo.com</a>&gt;<br>
 ---<br>
-=C2=A0qga/commands-bsd.c=C2=A0 =C2=A0 | 109 +++++++++++++++++++++++++++++++=
-++++++++---<br>
-=C2=A0qga/commands-common.h |=C2=A0 11 +++++<br>
-=C2=A0qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A06 +=
-++<br>
-=C2=A03 files changed, 120 insertions(+), 6 deletions(-)<br>
+=C2=A0qga/commands-posix.c | 7 +++++++<br>
+=C2=A01 file changed, 7 insertions(+)<br>
 <br>
-diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c<br>
-index c1e3ed13e9..5d3f46804a 100644<br>
---- a/qga/commands-bsd.c<br>
-+++ b/qga/commands-bsd.c<br>
-@@ -17,28 +17,125 @@<br>
-=C2=A0#include &quot;qemu/queue.h&quot;<br>
-=C2=A0#include &quot;commands-common.h&quot;<br>
-<br>
-+#include &lt;sys/ioctl.h&gt;<br>
-+#include &lt;sys/param.h&gt;<br>
-+#include &lt;sys/ucred.h&gt;<br>
-+#include &lt;sys/mount.h&gt;<br>
-+#include &lt;paths.h&gt;<br>
-+<br>
-=C2=A0#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)<br>
-=C2=A0bool build_fs_mount_list(FsMountList *mounts, Error **errp)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
--=C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 FsMount *mount;<br>
-+=C2=A0 =C2=A0 struct statfs *mntbuf, *mntp;<br>
-+=C2=A0 =C2=A0 struct stat statbuf;<br>
-+=C2=A0 =C2=A0 int i, count, ret;<br>
-+<br>
-+=C2=A0 =C2=A0 count =3D getmntinfo(&amp;mntbuf, MNT_NOWAIT);<br>
-+=C2=A0 =C2=A0 if (count =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;getmntinfo=
- failed&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 for (i =3D 0; i &lt; count; i++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mntp =3D &amp;mntbuf[i];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D stat(mntp-&gt;f_mntonname, &amp;statbu=
-f);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret !=3D 0) {<br></blockquote><div><br></d=
-iv><div>I am not sure we can simply ignore an error here. At least, there s=
-hould be a warning logged, no?<br></div><div>=C2=A0<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount =3D g_new0(FsMount, 1);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;dirname =3D g_strdup(mntp-&gt;f_mnto=
-nname);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devtype =3D g_strdup(mntp-&gt;f_fsty=
-pename);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devmajor =3D major(mount-&gt;dev);<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devminor =3D minor(mount-&gt;dev);<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;fsid =3D mntp-&gt;f_fsid;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;dev =3D statbuf.st_dev;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 QTAILQ_INSERT_TAIL(mounts, mount, next);<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 return true;<br>
-=C2=A0}<br>
-=C2=A0#endif<br>
-<br>
-=C2=A0#if defined(CONFIG_FSFREEZE)<br>
-+static int ufssuspend_fd =3D -1;<br>
-+static int ufssuspend_cnt;<br>
-+<br>
-=C2=A0int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0strList *mountpoints,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0FsMountList mounts,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0Error **errp)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
--=C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 =C2=A0 int ret;<br>
-+=C2=A0 =C2=A0 strList *list;<br>
-+=C2=A0 =C2=A0 struct FsMount *mount;<br>
-+<br>
-+=C2=A0 =C2=A0 if (ufssuspend_fd !=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;filesystems have alread=
-y frozen&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 ufssuspend_cnt =3D 0;<br>
-+=C2=A0 =C2=A0 ufssuspend_fd =3D qemu_open(_PATH_UFSSUSPEND, O_RDWR, errp);=
-<br>
-+=C2=A0 =C2=A0 if (ufssuspend_fd =3D=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 QTAILQ_FOREACH_REVERSE(mount, &amp;mounts, next) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* To issue fsfreeze in the reverse order=
- of mounts, check if the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* mount is listed in the list here<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (has_mountpoints) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (list =3D mountpoints; list;=
- list =3D list-&gt;next) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(list-&g=
-t;value, mount-&gt;dirname) =3D=3D 0) {<br></blockquote><div><br></div><div=
->nit: I prefer g_str_equal()</div><div>=C2=A0<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
-k;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!list) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Only UFS supports suspend */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(mount-&gt;devtype, &quot;ufs&quot;)=
- !=3D 0) {<br></blockquote><div><br></div><div>!g_str_equal()</div><div>=C2=
-=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ioctl(ufssuspend_fd, UFSSUSPEND, &amp;=
-mount-&gt;fsid);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* ioctl returns EBUSY for =
-all the FS except the first one<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* that was suspended<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno =3D=3D EBUSY) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
-uot;failed to freeze %s&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mount-&gt;dirname);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto error;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ufssuspend_cnt++;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 return ufssuspend_cnt;<br>
-+error:<br>
-+=C2=A0 =C2=A0 close(ufssuspend_fd);<br>
-+=C2=A0 =C2=A0 ufssuspend_fd =3D -1;<br>
-+=C2=A0 =C2=A0 return -1;<br>
-+<br>
-=C2=A0}<br>
-<br>
-=C2=A0int qmp_guest_fsfreeze_do_thaw(Error **errp)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
--=C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 =C2=A0 int ret =3D ufssuspend_cnt;<br>
-+=C2=A0 =C2=A0 ufssuspend_cnt =3D 0;<br>
-+=C2=A0 =C2=A0 if (ufssuspend_fd !=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(ufssuspend_fd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ufssuspend_fd =3D -1;<br>
-+=C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>Maybe leave a comment =
-that UFSRESUME isn&#39;t necessary?</div><div>=C2=A0<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-=C2=A0#endif<br>
-<br>
-diff --git a/qga/commands-common.h b/qga/commands-common.h<br>
-index aa0472ea4c..c3be6db3a9 100644<br>
---- a/qga/commands-common.h<br>
-+++ b/qga/commands-common.h<br>
-@@ -41,11 +41,22 @@ void ga_wait_child(pid_t pid, int *status, Error **errp=
-);<br>
-=C2=A0#endif<br>
-=C2=A0#endif /* __linux__*/<br>
-<br>
-+#ifdef __FreeBSD__<br>
-+#include &lt;ufs/ffs/fs.h&gt;<br>
-+#ifdef UFSSUSPEND<br>
-+#define CONFIG_FSFREEZE<br>
-+#endif<br>
-+#endif /* __FreeBSD__ */<br>
-+<br>
-=C2=A0#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)<br>
-=C2=A0typedef struct FsMount {<br>
-=C2=A0 =C2=A0 =C2=A0char *dirname;<br>
-=C2=A0 =C2=A0 =C2=A0char *devtype;<br>
-=C2=A0 =C2=A0 =C2=A0unsigned int devmajor, devminor;<br>
-+#if defined(__FreeBSD__)<br>
-+=C2=A0 =C2=A0 dev_t dev;<br>
-+=C2=A0 =C2=A0 fsid_t fsid;<br>
-+#endif<br>
-=C2=A0 =C2=A0 =C2=A0QTAILQ_ENTRY(FsMount) next;<br>
-=C2=A0} FsMount;<br>
-<br>
-diff --git a/qga/main.c b/qga/main.c<br>
-index 22b3c0df11..ab420051fb 100644<br>
---- a/qga/main.c<br>
-+++ b/qga/main.c<br>
-@@ -43,6 +43,12 @@<br>
-=C2=A0#define CONFIG_FSFREEZE<br>
-=C2=A0#endif<br>
-=C2=A0#endif<br>
-+#ifdef __FreeBSD__<br>
-+#include &lt;ufs/ffs/fs.h&gt;<br>
-+#ifdef UFSSUSPEND<br>
-+#define CONFIG_FSFREEZE<br>
-+#endif<br>
-+#endif<br>
-<br>
-=C2=A0#ifndef _WIN32<br>
-=C2=A0#ifdef __FreeBSD__<br>
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
+index 3a1055d5c3..60cc673f25 100644<br>
+--- a/qga/commands-posix.c<br>
++++ b/qga/commands-posix.c<br>
+@@ -242,6 +242,10 @@ void qmp_guest_shutdown(bool has_mode, const char *mod=
+e, Error **errp)<br>
+=C2=A0 =C2=A0 =C2=A0const char *powerdown_flag =3D &quot;-i5&quot;;<br>
+=C2=A0 =C2=A0 =C2=A0const char *halt_flag =3D &quot;-i0&quot;;<br>
+=C2=A0 =C2=A0 =C2=A0const char *reboot_flag =3D &quot;-i6&quot;;<br>
++#elifdef CONFIG_BSD<br></blockquote><div><br></div><div>It might be the fi=
+rst time I see a patch with &quot;#elifdef&quot; :) this is C2X, so please =
+use &quot;#elif defined(..)&quot; instead<br></div><div>=C2=A0 <br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 const char *powerdown_flag =3D &quot;-p&quot;;<br>
++=C2=A0 =C2=A0 const char *halt_flag =3D &quot;-h&quot;;<br>
++=C2=A0 =C2=A0 const char *reboot_flag =3D &quot;-r&quot;;<br>
+=C2=A0#else<br>
+=C2=A0 =C2=A0 =C2=A0const char *powerdown_flag =3D &quot;-P&quot;;<br>
+=C2=A0 =C2=A0 =C2=A0const char *halt_flag =3D &quot;-H&quot;;<br>
+@@ -272,6 +276,9 @@ void qmp_guest_shutdown(bool has_mode, const char *mode=
+, Error **errp)<br>
+=C2=A0#ifdef CONFIG_SOLARIS<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0execl(&quot;/sbin/shutdown&quot;, &quot;s=
+hutdown&quot;, shutdown_flag, &quot;-g0&quot;, &quot;-y&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;hypervisor ini=
+tiated shutdown&quot;, (char *)NULL);<br>
++#elifdef CONFIG_BSD<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 execl(&quot;/sbin/shutdown&quot;, &quot;shutdo=
+wn&quot;, shutdown_flag, &quot;+0&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;hypervisor in=
+itiated shutdown&quot;, (char *)NULL);<br>
+=C2=A0#else<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0execl(&quot;/sbin/shutdown&quot;, &quot;s=
+hutdown&quot;, &quot;-h&quot;, shutdown_flag, &quot;+0&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;hypervisor in=
+itiated shutdown&quot;, (char *)NULL);<br>
 -- <br>
 2.34.1<br>
 <br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+</blockquote></div><br clear=3D"all"></div><div>lgtm otherwise</div><div><b=
+r></div><div>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=
+=A9 Lureau<br></div></div></div>
 
---0000000000007654c105e953b256--
+--000000000000f74df605e953bfcb--
 
