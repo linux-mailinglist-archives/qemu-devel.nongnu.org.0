@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744295E7443
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 08:41:01 +0200 (CEST)
-Received: from localhost ([::1]:39076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4A75E7454
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 08:46:24 +0200 (CEST)
+Received: from localhost ([::1]:35368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obcMt-0003s6-8C
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 02:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55470)
+	id 1obcS7-0006zy-TN
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 02:46:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obc5x-0002SA-T3
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 02:23:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27738)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obc7p-00031j-NH
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 02:25:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obc5v-0008N5-K5
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 02:23:29 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obc7n-0000Ik-Eo
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 02:25:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663914206;
+ s=mimecast20190719; t=1663914321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mgg1LGHqq0ofENBuQ3agnpH4qrDDmdNtgSXLWvlPvW0=;
- b=JARqbAojmjXUvGSHwpwbwsdd+ghvTYh5iJ7Bn2kkCyu0VfzZEvF0SKItWBrzribU4txA35
- Kd7Wm/6RrqMXYAQ6i1V3KTFzQZeRdsPDabeuvWvRh93e4MKVNjmiHjYHRnr0byYBEX3IeW
- An4FAhOrPHWn0XIzLkkEOHzyzkjM51s=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/n4tA9XOXcYu0IlRYb3Rdzjr42YERRodUravZx6X5U0=;
+ b=AFNxsU6sTjrHqlLTqTVsv8loTqEYsVWB+eYrHlsFdrxXx4HsEaeKU0KMGx/HDoIgsoc2xx
+ JdRK2r6u+6yRjviNHDBkFnAaXj4Ol4nzv/GFLUdDXFvJ9Ij4xpOLRT9x2fiEIqW8OVeApz
+ TaTH7iSFpjf9uRus5KEgJVDkqP8SrgE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-623-xGPDfRuyNBWzMmOA-moi6w-1; Fri, 23 Sep 2022 02:23:19 -0400
-X-MC-Unique: xGPDfRuyNBWzMmOA-moi6w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- y15-20020a1c4b0f000000b003b47578405aso1473336wma.5
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 23:23:19 -0700 (PDT)
+ us-mta-163-XwL3-BKmOkyRp6PUrahC7A-1; Fri, 23 Sep 2022 02:25:20 -0400
+X-MC-Unique: XwL3-BKmOkyRp6PUrahC7A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ h133-20020a1c218b000000b003b3263d477eso5103173wmh.8
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 23:25:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=mgg1LGHqq0ofENBuQ3agnpH4qrDDmdNtgSXLWvlPvW0=;
- b=bDci4wlfDDdyfn7crS/n8+CxK6CNUM6mEdu+ZLGdXoytIu8DCZjJbBIjC8GOxt6r75
- JTm5ANjVtrHOnmJvWExyKiuoJ+26Oo3+7pq6cGU7R53lwGxhrr9bPGEgceEDYP80o+sp
- ke69z+XDM0U/TxwBkHxYb+wKRk81aPFxGvjP73lUmWYLKAqkadNFNLrhuOkkl7NQctYz
- 3i5JQhL7nrvHSxYpOOF1kLC0Ob47OPvAiW9HiATRrhQGc3CGMqAjb0NzrWPzCkxK+h/b
- SiNrBQUgYDsax5eJtRZB1nMaLJkQHtMLg3DN95ZdTLGu/cSTneyxHmsVoWUf0ri5/dcy
- meow==
-X-Gm-Message-State: ACrzQf0IBFW2hHxnr615vV+L9fW6rfiNe0St7txk+zDcbVbZA6gTehmg
- Qrwio9C8eeX3MWnVP+0GsnAccEG+kU13jp70C9tmj1XcXwUbKVTGTgrROc3ILgh67TlFB1Rv5YT
- 9R3pupvUnioPPGWE=
-X-Received: by 2002:adf:e4ca:0:b0:228:d8b7:48a7 with SMTP id
- v10-20020adfe4ca000000b00228d8b748a7mr3944616wrm.300.1663914198522; 
- Thu, 22 Sep 2022 23:23:18 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6qVfLf+Qna7S1g9jdY2S8J6pa7hGwog4PmqJdMr985nMSuOw+RLM+Q9gqynDCOjXGiOhALuA==
-X-Received: by 2002:adf:e4ca:0:b0:228:d8b7:48a7 with SMTP id
- v10-20020adfe4ca000000b00228d8b748a7mr3944599wrm.300.1663914198230; 
- Thu, 22 Sep 2022 23:23:18 -0700 (PDT)
+ bh=/n4tA9XOXcYu0IlRYb3Rdzjr42YERRodUravZx6X5U0=;
+ b=fRj2Dj2cUQVf+3H9Jdd5cTsMWGSe2fbdvh+UfyhpupsjfM4TYEZdI8FdPzoexA7rSC
+ +Em/zRdmXOeeZctGskK6Vg0jP7pi1AZCig3iFxDfNou/naUsQncmLc2KLZuuFiUCZq/E
+ JrF0VSA4wN/c1rvpmk53e2Pae7E38mEaq5i3p0nNPX2MEfOmSKF6x/NxCzpu3S8uwIuL
+ q4DLZPSYYG2oPXS4n2Pekt6Bh90/+C0mA4ZJJq+dkreZhsermNif2Z4z2tvlzWxnvaiG
+ 0yLD01kQffZjRvvUsFrxzieBOy2snuc6ZKHMkNL2Fh8jRYaG5zI6b1Dy+cHQWxgeSEiy
+ DDyA==
+X-Gm-Message-State: ACrzQf3zvrx/vwCqiKlECYKFceevVDsceeTZr6uvcvlR8Q57EJ0bWlcI
+ vjBrmo9sdpGg2+2aaza3NmvpBDBbtAuQSUYVhy4tTsrotuLfasqMac+oEtX90euTXBfr9c9Q773
+ YJA1PUiJuQ+cJKoE=
+X-Received: by 2002:a05:6000:1048:b0:228:6898:aa50 with SMTP id
+ c8-20020a056000104800b002286898aa50mr4027089wrx.233.1663914319800; 
+ Thu, 22 Sep 2022 23:25:19 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM63jwQqJg/NMpxH+tq1FcLt8GvjVZoousOhY34nzY7oTGRCHClDAvaL+Achy4xRQQtDyKlMYQ==
+X-Received: by 2002:a05:6000:1048:b0:228:6898:aa50 with SMTP id
+ c8-20020a056000104800b002286898aa50mr4027077wrx.233.1663914319625; 
+ Thu, 22 Sep 2022 23:25:19 -0700 (PDT)
 Received: from [192.168.0.5] (ip-109-43-179-37.web.vodafone.de.
  [109.43.179.37]) by smtp.gmail.com with ESMTPSA id
- p21-20020a1c5455000000b003b27f644488sm1505270wmi.29.2022.09.22.23.23.17
+ h9-20020a05600c350900b003b492338f45sm1627903wmq.39.2022.09.22.23.25.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 23:23:17 -0700 (PDT)
-Message-ID: <e8041184-cfdd-d429-0377-db6b46d4d0ef@redhat.com>
-Date: Fri, 23 Sep 2022 08:23:16 +0200
+ Thu, 22 Sep 2022 23:25:19 -0700 (PDT)
+Message-ID: <fd5e8081-5144-2b7e-de0e-1ce0f6cb11a3@redhat.com>
+Date: Fri, 23 Sep 2022 08:25:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
 Subject: Re: [PATCH v8.1 1/2] target/s390x: support SHA-512 extensions
 Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Cornelia Huck <cohuck@redhat.com>,
  Harald Freudenberger <freude@linux.ibm.com>,
@@ -79,11 +79,11 @@ Cc: qemu-s390x@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
 References: <20220921100729.2942008-1-Jason@zx2c4.com>
  <20220922153820.221811-1-david@redhat.com>
  <abf6fbb6-14f4-8c65-f5ac-a75b9c8931dd@redhat.com>
- <98dcb657-8862-5868-3979-55fc49864904@redhat.com>
+ <CAHmME9pqFvYfat1yki86_x1k0A7x4eA0f9q=UeLaf+AOGV=Taw@mail.gmail.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <98dcb657-8862-5868-3979-55fc49864904@redhat.com>
+In-Reply-To: <CAHmME9pqFvYfat1yki86_x1k0A7x4eA0f9q=UeLaf+AOGV=Taw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -46
@@ -108,8 +108,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/09/2022 19.18, David Hildenbrand wrote:
-> On 22.09.22 17:55, Thomas Huth wrote:
+On 22/09/2022 18.35, Jason A. Donenfeld wrote:
+> On Thu, Sep 22, 2022 at 5:55 PM Thomas Huth <thuth@redhat.com> wrote:
+>>
 >> On 22/09/2022 17.38, David Hildenbrand wrote:
 >>> From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 >>>
@@ -120,14 +121,13 @@ On 22/09/2022 19.18, David Hildenbrand wrote:
 >>> adjusted to be useful here. It's not very beautiful, but it is quite
 >>> short and compact, which is what we're going for.
 >> ...
->>> @@ -52,6 +278,9 @@ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, 
->>> uint32_t r2, uint32_t r3,
->>>                cpu_stb_data_ra(env, param_addr, subfunc[i], ra);
->>>            }
->>>            break;
->>> +    case 3: /* CPACF_*_SHA_512 */
->>> +        return cpacf_sha512(env, ra, env->regs[1], &env->regs[r2],
->>> +                            &env->regs[r2 + 1], type);
+>>> @@ -52,6 +278,9 @@ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
+>>>                cpu_stb_data_ra(env, param_addr, subfunc[i], ra);
+>>>            }
+>>>            break;
+>>> +    case 3: /* CPACF_*_SHA_512 */
+>>> +        return cpacf_sha512(env, ra, env->regs[1], &env->regs[r2],
+>>> +                            &env->regs[r2 + 1], type);
 >>
 >> I have to say that I liked Jason's v8 better here. Code 3 is also used for
 >> other instructions with completely different meaning, e.g. PCKMO uses 3 for
@@ -136,17 +136,12 @@ On 22/09/2022 19.18, David Hildenbrand wrote:
 >> one function for all crypto/rng related instructions? ... but that's of
 >> course something for a different patch series)
 > 
-> It kind-f made sense in v8 where we actually had different functions. We no 
-> longer have that here.
+> Maybe just commit my v8, and then David's changes can layer on top as
+> follow ups? Checking len alignment, for example, is a separate patch
+> from the rest.
 
-But the point is that the "msa" helper is also called for other instructions 
-like PCKMO which can also be called with code 3. And there it means 
-something completely different. ... unless I completely misunderstood the 
-code, of course.
-
-I think I'll go with Jason's v8 (+ compat machine handling on top) for now, 
-so that we better record his state of the patch, and then we can do cleanup 
-patches on top later.
+Yes, let's do that now - that will also later help to distinguish who did 
+what part of the code.
 
   Thomas
 
