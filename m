@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440455E74F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 09:38:17 +0200 (CEST)
-Received: from localhost ([::1]:53588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422A75E74E3
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 09:33:48 +0200 (CEST)
+Received: from localhost ([::1]:39392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obdGK-0003YY-7g
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 03:38:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35004)
+	id 1obdBy-0000oc-Q6
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 03:33:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1obd6p-0005ew-0m
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:28:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29560)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1obd5A-0004Lg-Sh
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:26:45 -0400
+Received: from mga02.intel.com ([134.134.136.20]:10884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1obd6m-0001cH-9J
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:28:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663918102;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=l0wekk1+ebSio5rhJ9Mt6N9CUsZSIPbz++yFrhxnFHk=;
- b=HSgLZKHhD9d5E1EU5TX8imiFmNyv7HgS6UfKpCkXGyrCQp/O31hbuO2NwOB/T0oRTa4QA+
- wqIbrbr5d8Q6inIh8e/mcVGWQWViAY9hFA/N3qB1c8jabvafoYcsDIH+12ukToBmVsMlSs
- hWeoTLFW6UnTF2j3YKhmfOpDfuk2eEE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-HN4ndzAbObGPDln1pDoXNQ-1; Fri, 23 Sep 2022 03:28:21 -0400
-X-MC-Unique: HN4ndzAbObGPDln1pDoXNQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA8CE29324A8;
- Fri, 23 Sep 2022 07:28:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F43540C2066;
- Fri, 23 Sep 2022 07:28:09 +0000 (UTC)
-Date: Fri, 23 Sep 2022 08:28:07 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: thuth@redhat.com,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: Inscrutable CI jobs (avocado & Travis s390 check-tcg)
-Message-ID: <Yy1gB1KB3YSIUcoC@redhat.com>
-References: <YyyxrNp+5XrmLi1Y@fedora>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YyyxrNp+5XrmLi1Y@fedora>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1obd57-0000Im-0h
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:26:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1663918001; x=1695454001;
+ h=from:to:cc:subject:date:message-id;
+ bh=eJE+V/zd8eDJl9FgeFYELSaFkFMlAz8LS3Mil0zjLFo=;
+ b=KrMBqWuLtuGUsbjyQVTrNRu09qI5KynuopJv2yvOYu78ueh7s1Y45Avo
+ gkURqp92qXzXw+X8RntPq6PsxtGdzlqhN79zXxrsZBqldJWJeV9bge3Yo
+ OLpjYEVYhiyCcmktw7ShQbxgBkvdxOCMvjINS6G8Sg/7M3Krl0kBSbvAP
+ Tc/DjWB/cUUOUAdqdp5Ehe9lLdYEALiF5S83OblHLalHpEzSbCkUiae2j
+ mD2Tw2mHelEycZCkshbvFN0JFcR1vUHHIpLJDb9+SI1KkkAJwSrETBmjb
+ JS33Vn9H1yOTAEq2JAfdKYTD/ha7RhhMkk0qrwUl/tnleMYYjeyE8bejo w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="287646912"
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="287646912"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 00:26:37 -0700
+X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="620121665"
+Received: from chenyi-pc.sh.intel.com ([10.239.159.53])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2022 00:26:35 -0700
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
+ Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Chenyi Qiang <chenyi.qiang@intel.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+Subject: [PATCH v7 0/2] Enable notify VM exit
+Date: Fri, 23 Sep 2022 15:33:31 +0800
+Message-Id: <20220923073333.23381-1-chenyi.qiang@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=134.134.136.20;
+ envelope-from=chenyi.qiang@intel.com; helo=mga02.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,88 +71,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 03:04:12PM -0400, Stefan Hajnoczi wrote:
-> QEMU's avocado and Travis s390x check-tcg CI jobs fail often and I don't
-> know why. I think it's due to timeouts but maybe there is something
-> buried in the logs that I missed.
-> 
-> I waste time skimming through logs when merging qemu.git pull requests
-> and electricity is wasted on tests that don't produce useful pass/fail
-> output.
-> 
-> Here are two recent examples:
-> https://gitlab.com/qemu-project/qemu/-/jobs/3070754718
-> https://app.travis-ci.com/gitlab/qemu-project/qemu/jobs/583629583
-> 
-> If there are real test failures then the test output needs to be
-> improved so people can identify failures.
-> 
-> If the tests are timing out then they need to be split up and/or reduced
-> in duration. BTW, if it's a timeout, why are we using an internal
-> timeout instead of letting CI mark the job as timed out?
-> 
-> Any other ideas for improving these CI jobs?
+Notify VM exit is introduced to mitigate the potential DOS attach from
+malicious VM. This series is the userspace part to enable this feature
+through a new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT. The detailed
+info can be seen in Patch 2.
 
-The avocado job there does show the errors, but the summary at the
-end leaves something to be desired. At first glance it looked like
-everything passed because it says "ERROR 0" and that's what caught
-my eye. Took a long time to notice the 'INTERRUPT 5' bit is actually
-just an error state too.  I don't understand why it has to have so
-many different ways of saying the same thing:
+The corresponding KVM support can be found in linux 6.0-rc:
+(2f4073e08f4c KVM: VMX: Enable Notify VM exit)
 
-  RESULTS    : PASS 14 | ERROR 0 | FAIL 0 | SKIP 37 | WARN 0 | INTERRUPT 5 | CANCEL 136
+This patch set depends on some definition which can be updated from
+scripts/update-linux-headers.sh. The corresponding separate patch set is
+available at:
+https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg02102.html
 
+---
+Change logs:
+v6 -> v7
+- Add a warning message when exiting to userspace (Peter Xu)
+- v6: https://lore.kernel.org/all/20220915092839.5518-1-chenyi.qiang@intel.com/
 
-  "ERROR", "FAIL" and "INTERRUPT" are all just the same thing
+v5 -> v6
+- Add some info related to the valid range of notify_window in patch 2. (Peter Xu)
+- Add the doc in qemu-options.hx. (Peter Xu)
+- v5: https://lore.kernel.org/qemu-devel/20220817020845.21855-1-chenyi.qiang@intel.com/
 
-  "SKIP" and "CANCEL" are just the same thing
+v4 -> v5
+- Remove the assert check to avoid the nop in NDEBUG case. (Yuan)
+- v4: https://lore.kernel.org/qemu-devel/20220524140302.23272-1-chenyi.qiang@intel.com/
 
-I'm sure there was some reason for these different terms, but IMHO they
-are actively unhelpful.
+v3 -> v4
+- Add a new KVM cap KVM_CAP_TRIPLE_FAULT_EVENT to guard the extension of triple fault
+  event save&restore.
+- v3: https://lore.kernel.org/qemu-devel/20220421074028.18196-1-chenyi.qiang@intel.com/
 
-For example I see no justiable reason for the choice of SKIP vs CANCEL
-in these two messages:
+---
 
- (173/192) tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_pre_launch_set_up:  SKIP: sudo -n required, but "sudo -n true" failed: [Errno 2] No such file or directory: 'sudo'
+Chenyi Qiang (2):
+  i386: kvm: extend kvm_{get, put}_vcpu_events to support pending triple
+    fault
+  i386: Add notify VM exit support
 
- (183/192) tests/avocado/x86_cpu_model_versions.py:X86CPUModelAliases.test_4_1_alias:  CANCEL: No QEMU binary defined or found in the build tree (0.00 s)
+ hw/i386/x86.c         | 45 ++++++++++++++++++++++++++++++++++++
+ include/hw/i386/x86.h |  5 ++++
+ qemu-options.hx       | 10 +++++++-
+ target/i386/cpu.c     |  1 +
+ target/i386/cpu.h     |  1 +
+ target/i386/kvm/kvm.c | 54 +++++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 115 insertions(+), 1 deletion(-)
 
-It would be clearer to understand the summary as:
-
- RESULTS: PASS 14 | ERROR 5 | SKIP 173 | WARN 0
-
-I'd also like to see it repeat the error messages for the failed
-tests at the end, so you don't have to search back up through the
-huge log to find them.
-
-
-On the TCG tests we see
-
-imeout --foreground 90  /home/travis/build/qemu-project/qemu/build/qemu-s390x  noexec >  noexec.out
-
-make[1]: *** [../Makefile.target:158: run-noexec] Error 1
-
-make[1]: Leaving directory '/home/travis/build/qemu-project/qemu/build/tests/tcg/s390x-linux-user'
-
-make: *** [/home/travis/build/qemu-project/qemu/tests/Makefile.include:60: run-tcg-tests-s390x-linux-user] Error 2
-
-
-I presume that indicates the 'noexec' test failed, but we have zero
-info. Perhaps noexec.out contains the useful info ? We don't know as
-we can't access the file.  If a test system is storing results in a
-file that needs to be cat'd to stderr on failure, for it to be
-visible in CI.
-
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.17.1
 
 
