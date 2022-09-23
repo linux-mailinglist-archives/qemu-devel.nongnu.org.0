@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B9E5E8132
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 19:59:14 +0200 (CEST)
-Received: from localhost ([::1]:37732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AE35E812F
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 19:55:26 +0200 (CEST)
+Received: from localhost ([::1]:42788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obmxF-0007On-Kn
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 13:59:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55912)
+	id 1obmtZ-0001q3-VZ
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 13:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdW-0002q5-HO
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:38:50 -0400
-Received: from rev.ng ([5.9.113.41]:44649)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdv-0003NE-5z
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:39:15 -0400
+Received: from rev.ng ([5.9.113.41]:48145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdS-0000Aw-8I
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:38:49 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdg-0000BU-7q
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:39:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=We9r8KHIC20vuIywQkHiau5JALT3ah4gZm2ZBEif9Vs=; b=YPTffiJEzwq6wN6WCrled96i+M
- F4mgOgBmx1bv5Rn7zVt9GUgLjS4MjDH4GiJvBh5arlD6htUpKPVlEQbD6LLRGnu73jsxxPbAD6urH
- r+V3DHYmWBTmXzV/fFg3hA7kJYSb75uvyYYQYwybSMS1tmTESUCs+ZPPHIR6rt+7NmjQ=;
+ bh=93VX/eYYL1smvZ9skenSseUwA0z5XzSbSQJ8vE5C3Tc=; b=H2Q98uEBJHArLCZEE6GoEOIIxj
+ jgMe0kv3s46mmslXxqSTRgkY69MZF369JdcyXWYgN/Z6UsdS0cvNj2K4rAeO7gCHZPeUuUtQ6BUTD
+ xaHl85gS9Us4Lh3xiqYyZLRW8gB84Kng3twoCZgrMqR4g9t2XuizJU35vVarhtqg1TvU=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com, mlambert@quicinc.com,
  babush@rev.ng, nizzo@rev.ng, richard.henderson@linaro.org,
  alex.bennee@linaro.org
-Subject: [PATCH v12 07/11] target/hexagon: prepare input for the idef-parser
-Date: Fri, 23 Sep 2022 19:38:27 +0200
-Message-Id: <20220923173831.227551-8-anjo@rev.ng>
+Subject: [PATCH v12 10/11] target/hexagon: call idef-parser functions
+Date: Fri, 23 Sep 2022 19:38:30 +0200
+Message-Id: <20220923173831.227551-11-anjo@rev.ng>
 In-Reply-To: <20220923173831.227551-1-anjo@rev.ng>
 References: <20220923173831.227551-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -63,379 +63,335 @@ From:  Anton Johansson via <qemu-devel@nongnu.org>
 
 From: Alessandro Di Federico <ale@rev.ng>
 
-Introduce infrastructure necessary to produce a file suitable for being
-parsed by the idef-parser. A build option is also added to fully disable
-the output of idef-parser, which is useful for debugging.
+Extend gen_tcg_funcs.py in order to emit calls to the functions emitted
+by the idef-parser, if available.
 
 Signed-off-by: Alessandro Di Federico <ale@rev.ng>
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- meson_options.txt                       |   3 +
- target/hexagon/gen_idef_parser_funcs.py | 128 ++++++++++++++++++++++
- target/hexagon/idef-parser/macros.inc   | 140 ++++++++++++++++++++++++
- target/hexagon/idef-parser/prepare      |  24 ++++
- target/hexagon/meson.build              |  20 ++++
- 5 files changed, 315 insertions(+)
- create mode 100644 target/hexagon/gen_idef_parser_funcs.py
- create mode 100644 target/hexagon/idef-parser/macros.inc
- create mode 100755 target/hexagon/idef-parser/prepare
+ target/hexagon/gen_helper_funcs.py  |  17 ++++-
+ target/hexagon/gen_helper_protos.py |  17 ++++-
+ target/hexagon/gen_tcg_funcs.py     |  41 ++++++++++-
+ target/hexagon/hex_common.py        |  10 +++
+ target/hexagon/meson.build          | 103 ++++++++++++++++++++--------
+ 5 files changed, 154 insertions(+), 34 deletions(-)
 
-diff --git a/meson_options.txt b/meson_options.txt
-index 63f0725174..345479ead1 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -311,3 +311,6 @@ option('profiler', type: 'boolean', value: false,
-        description: 'profiler support')
- option('slirp_smbd', type : 'feature', value : 'auto',
-        description: 'use smbd (at path --smbd=*) in slirp networking')
-+
-+option('hexagon_idef_parser', type : 'boolean', value : true,
-+       description: 'use idef-parser to automatically generate TCG code for the Hexagon frontend')
-diff --git a/target/hexagon/gen_idef_parser_funcs.py b/target/hexagon/gen_idef_parser_funcs.py
-new file mode 100644
-index 0000000000..178648b287
---- /dev/null
-+++ b/target/hexagon/gen_idef_parser_funcs.py
-@@ -0,0 +1,128 @@
-+#!/usr/bin/env python3
-+
-+##
-+##  Copyright(c) 2019-2022 rev.ng Labs Srl. All Rights Reserved.
-+##
-+##  This program is free software; you can redistribute it and/or modify
-+##  it under the terms of the GNU General Public License as published by
-+##  the Free Software Foundation; either version 2 of the License, or
-+##  (at your option) any later version.
-+##
-+##  This program is distributed in the hope that it will be useful,
-+##  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+##  GNU General Public License for more details.
-+##
-+##  You should have received a copy of the GNU General Public License
-+##  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+##
-+
-+import sys
-+import re
-+import string
-+from io import StringIO
-+
-+import hex_common
-+
-+##
-+## Generate code to be fed to the idef_parser
-+##
-+## Consider A2_add:
-+##
-+##     Rd32=add(Rs32,Rt32), { RdV=RsV+RtV;}
-+##
-+## We produce:
-+##
-+##     A2_add(RdV, in RsV, in RtV) {
-+##       { RdV=RsV+RtV;}
-+##     }
-+##
-+## A2_add represents the instruction tag. Then we have a list of TCGv
-+## that the code generated by the parser can expect in input. Some of
-+## them are inputs ("in" prefix), while some others are outputs.
-+##
-+def main():
-+    hex_common.read_semantics_file(sys.argv[1])
-+    hex_common.read_attribs_file(sys.argv[2])
-+    hex_common.calculate_attribs()
-+    tagregs = hex_common.get_tagregs()
-+    tagimms = hex_common.get_tagimms()
-+
-+    with open(sys.argv[3], 'w') as f:
-+        f.write('#include "macros.inc"\n\n')
-+
-+        for tag in hex_common.tags:
-+            ## Skip the priv instructions
-+            if ( "A_PRIV" in hex_common.attribdict[tag] ) :
+diff --git a/target/hexagon/gen_helper_funcs.py b/target/hexagon/gen_helper_funcs.py
+index a446c45384..71d611283a 100755
+--- a/target/hexagon/gen_helper_funcs.py
++++ b/target/hexagon/gen_helper_funcs.py
+@@ -287,11 +287,24 @@ def main():
+     hex_common.read_attribs_file(sys.argv[2])
+     hex_common.read_overrides_file(sys.argv[3])
+     hex_common.read_overrides_file(sys.argv[4])
++    ## Whether or not idef-parser is enabled is
++    ## determined by the number of arguments to
++    ## this script:
++    ##
++    ##   5 args. -> not enabled,
++    ##   6 args. -> idef-parser enabled.
++    ##
++    ## The 6:th arg. then holds a list of the successfully
++    ## parsed instructions.
++    is_idef_parser_enabled = len(sys.argv) > 6
++    if is_idef_parser_enabled:
++        hex_common.read_idef_parser_enabled_file(sys.argv[5])
+     hex_common.calculate_attribs()
+     tagregs = hex_common.get_tagregs()
+     tagimms = hex_common.get_tagimms()
+ 
+-    with open(sys.argv[5], 'w') as f:
++    output_file = sys.argv[-1]
++    with open(output_file, 'w') as f:
+         for tag in hex_common.tags:
+             ## Skip the priv instructions
+             if ( "A_PRIV" in hex_common.attribdict[tag] ) :
+@@ -308,6 +321,8 @@ def main():
+                 continue
+             if ( hex_common.skip_qemu_helper(tag) ):
+                 continue
++            if ( hex_common.is_idef_parser_enabled(tag) ):
 +                continue
-+            ## Skip the guest instructions
-+            if ( "A_GUEST" in hex_common.attribdict[tag] ) :
+ 
+             gen_helper_function(f, tag, tagregs, tagimms)
+ 
+diff --git a/target/hexagon/gen_helper_protos.py b/target/hexagon/gen_helper_protos.py
+index 3b4e993fd1..74eff457a6 100755
+--- a/target/hexagon/gen_helper_protos.py
++++ b/target/hexagon/gen_helper_protos.py
+@@ -136,11 +136,24 @@ def main():
+     hex_common.read_attribs_file(sys.argv[2])
+     hex_common.read_overrides_file(sys.argv[3])
+     hex_common.read_overrides_file(sys.argv[4])
++    ## Whether or not idef-parser is enabled is
++    ## determined by the number of arguments to
++    ## this script:
++    ##
++    ##   5 args. -> not enabled,
++    ##   6 args. -> idef-parser enabled.
++    ##
++    ## The 6:th arg. then holds a list of the successfully
++    ## parsed instructions.
++    is_idef_parser_enabled = len(sys.argv) > 6
++    if is_idef_parser_enabled:
++        hex_common.read_idef_parser_enabled_file(sys.argv[5])
+     hex_common.calculate_attribs()
+     tagregs = hex_common.get_tagregs()
+     tagimms = hex_common.get_tagimms()
+ 
+-    with open(sys.argv[5], 'w') as f:
++    output_file = sys.argv[-1]
++    with open(output_file, 'w') as f:
+         for tag in hex_common.tags:
+             ## Skip the priv instructions
+             if ( "A_PRIV" in hex_common.attribdict[tag] ) :
+@@ -158,6 +171,8 @@ def main():
+ 
+             if ( hex_common.skip_qemu_helper(tag) ):
+                 continue
++            if ( hex_common.is_idef_parser_enabled(tag) ):
 +                continue
-+            ## Skip instructions that saturate in a ternary expression
-+            if ( tag in {'S2_asr_r_r_sat', 'S2_asl_r_r_sat'} ) :
-+                continue
-+            ## Skip instructions using switch
-+            if ( tag in {'S4_vrcrotate_acc', 'S4_vrcrotate'} ) :
-+                continue
-+            ## Skip trap instructions
-+            if ( tag in {'J2_trap0', 'J2_trap1'} ) :
-+                continue
-+            ## Skip 128-bit instructions
-+            if ( tag in {'A7_croundd_ri', 'A7_croundd_rr'} ) :
-+                continue
-+            if ( tag in {'M7_wcmpyrw', 'M7_wcmpyrwc',
-+                         'M7_wcmpyiw', 'M7_wcmpyiwc',
-+                         'M7_wcmpyrw_rnd', 'M7_wcmpyrwc_rnd',
-+                         'M7_wcmpyiw_rnd', 'M7_wcmpyiwc_rnd'} ) :
-+                continue
-+            ## Skip interleave/deinterleave instructions
-+            if ( tag in {'S2_interleave', 'S2_deinterleave'} ) :
-+                continue
-+            ## Skip instructions using bit reverse
-+            if ( tag in {'S2_brev', 'S2_brevp', 'S2_ct0', 'S2_ct1',
-+                         'S2_ct0p', 'S2_ct1p', 'A4_tlbmatch'} ) :
-+                continue
-+            ## Skip other unsupported instructions
-+            if ( tag == 'S2_cabacdecbin' or tag == 'A5_ACS' ) :
-+                continue
-+            if ( tag.startswith('Y') ) :
-+                continue
-+            if ( tag.startswith('V6_') ) :
-+                continue
-+            if ( tag.startswith('F') ) :
-+                continue
-+            if ( tag.endswith('_locked') ) :
-+                continue
+ 
+             gen_helper_prototype(f, tag, tagregs, tagimms)
+ 
+diff --git a/target/hexagon/gen_tcg_funcs.py b/target/hexagon/gen_tcg_funcs.py
+index d72c689ad7..537be73260 100755
+--- a/target/hexagon/gen_tcg_funcs.py
++++ b/target/hexagon/gen_tcg_funcs.py
+@@ -609,7 +609,29 @@ def gen_tcg_func(f, tag, regs, imms):
+         if (hex_common.is_read(regid)):
+             genptr_src_read_opn(f,regtype,regid,tag)
+ 
+-    if ( hex_common.skip_qemu_helper(tag) ):
++    if hex_common.is_idef_parser_enabled(tag):
++        declared = []
++        ## Handle registers
++        for regtype,regid,toss,numregs in regs:
++            if (hex_common.is_pair(regid)
++                or (hex_common.is_single(regid)
++                    and hex_common.is_old_val(regtype, regid, tag))):
++                declared.append("%s%sV" % (regtype, regid))
++                if regtype == "M":
++                    declared.append("%s%sN" % (regtype, regid))
++            elif hex_common.is_new_val(regtype, regid, tag):
++                declared.append("%s%sN" % (regtype,regid))
++            else:
++                print("Bad register parse: ",regtype,regid,toss,numregs)
 +
-+            regs = tagregs[tag]
-+            imms = tagimms[tag]
++        ## Handle immediates
++        for immlett,bits,immshift in imms:
++            declared.append(hex_common.imm_name(immlett))
 +
-+            arguments = []
-+            for regtype,regid,toss,numregs in regs:
-+                prefix = "in " if hex_common.is_read(regid) else ""
++        arguments = ", ".join(["ctx", "insn", "pkt"] + declared)
++        f.write("    emit_%s(%s);\n" % (tag, arguments))
 +
-+                is_pair = hex_common.is_pair(regid)
-+                is_single_old = (hex_common.is_single(regid)
-+                                 and hex_common.is_old_val(regtype, regid, tag))
-+                is_single_new = (hex_common.is_single(regid)
-+                                 and hex_common.is_new_val(regtype, regid, tag))
++    elif ( hex_common.skip_qemu_helper(tag) ):
+         f.write("    fGEN_TCG_%s(%s);\n" % (tag, hex_common.semdict[tag]))
+     else:
+         ## Generate the call to the helper
+@@ -676,12 +698,27 @@ def main():
+     hex_common.read_overrides_file(sys.argv[3])
+     hex_common.read_overrides_file(sys.argv[4])
+     hex_common.calculate_attribs()
++    ## Whether or not idef-parser is enabled is
++    ## determined by the number of arguments to
++    ## this script:
++    ##
++    ##   5 args. -> not enabled,
++    ##   6 args. -> idef-parser enabled.
++    ##
++    ## The 6:th arg. then holds a list of the successfully
++    ## parsed instructions.
++    is_idef_parser_enabled = len(sys.argv) > 6
++    if is_idef_parser_enabled:
++        hex_common.read_idef_parser_enabled_file(sys.argv[5])
+     tagregs = hex_common.get_tagregs()
+     tagimms = hex_common.get_tagimms()
+ 
+-    with open(sys.argv[5], 'w') as f:
++    output_file = sys.argv[-1]
++    with open(output_file, 'w') as f:
+         f.write("#ifndef HEXAGON_TCG_FUNCS_H\n")
+         f.write("#define HEXAGON_TCG_FUNCS_H\n\n")
++        if is_idef_parser_enabled:
++            f.write("#include \"idef-generated-emitter.h.inc\"\n\n")
+ 
+         for tag in hex_common.tags:
+             ## Skip the priv instructions
+diff --git a/target/hexagon/hex_common.py b/target/hexagon/hex_common.py
+index c81aca8d2a..901041d557 100755
+--- a/target/hexagon/hex_common.py
++++ b/target/hexagon/hex_common.py
+@@ -28,6 +28,7 @@
+ attribinfo = {}       # Register information and misc
+ tags = []             # list of all tags
+ overrides = {}        # tags with helper overrides
++idef_parser_enabled = {} # tags enabled for idef-parser
+ 
+ # We should do this as a hash for performance,
+ # but to keep order let's keep it as a list.
+@@ -216,6 +217,9 @@ def is_tmp_result(tag):
+ def is_new_result(tag):
+     return ('A_CVI_NEW' in attribdict[tag])
+ 
++def is_idef_parser_enabled(tag):
++    return tag in idef_parser_enabled
 +
-+                if is_pair or is_single_old:
-+                    arguments.append("%s%s%sV" % (prefix, regtype, regid))
-+                elif is_single_new:
-+                    arguments.append("%s%s%sN" % (prefix, regtype, regid))
-+                else:
-+                    print("Bad register parse: ",regtype,regid,toss,numregs)
+ def imm_name(immlett):
+     return "%siV" % immlett
+ 
+@@ -247,3 +251,9 @@ def read_overrides_file(name):
+             continue
+         tag = overridere.findall(line)[0]
+         overrides[tag] = True
 +
-+            for immlett,bits,immshift in imms:
-+                arguments.append(hex_common.imm_name(immlett))
-+
-+            f.write("%s(%s) {\n" % (tag, ", ".join(arguments)))
-+            f.write("    ");
-+            if hex_common.need_ea(tag):
-+                f.write("size4u_t EA; ");
-+            f.write("%s\n" % hex_common.semdict[tag])
-+            f.write("}\n\n")
-+
-+if __name__ == "__main__":
-+    main()
-diff --git a/target/hexagon/idef-parser/macros.inc b/target/hexagon/idef-parser/macros.inc
-new file mode 100644
-index 0000000000..6b697da87a
---- /dev/null
-+++ b/target/hexagon/idef-parser/macros.inc
-@@ -0,0 +1,140 @@
-+/*
-+ *  Copyright(c) 2019-2022 rev.ng Labs Srl. All Rights Reserved.
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+/* Copy rules */
-+#define fLSBOLD(VAL) (fGETBIT(0, VAL))
-+#define fSATH(VAL) fSATN(16, VAL)
-+#define fSATUH(VAL) fSATUN(16, VAL)
-+#define fVSATH(VAL) fVSATN(16, VAL)
-+#define fVSATUH(VAL) fVSATUN(16, VAL)
-+#define fSATUB(VAL) fSATUN(8, VAL)
-+#define fSATB(VAL) fSATN(8, VAL)
-+#define fVSATUB(VAL) fVSATUN(8, VAL)
-+#define fVSATB(VAL) fVSATN(8, VAL)
-+#define fCALL(A) fWRITE_LR(fREAD_NPC()); fWRITE_NPC(A);
-+#define fCALLR(A) fWRITE_LR(fREAD_NPC()); fWRITE_NPC(A);
-+#define fCAST2_8s(A) fSXTN(16, 64, A)
-+#define fCAST2_8u(A) fZXTN(16, 64, A)
-+#define fVSATW(A) fVSATN(32, fCAST8_8s(A))
-+#define fSATW(A) fSATN(32, fCAST8_8s(A))
-+#define fVSAT(A) fVSATN(32, A)
-+#define fSAT(A) fSATN(32, A)
-+
-+/* Ease parsing */
-+#define f8BITSOF(VAL) ((VAL) ? 0xff : 0x00)
-+#define fREAD_GP() (Constant_extended ? (0) : GP)
-+#define fCLIP(DST, SRC, U) (DST = fMIN((1 << U) - 1, fMAX(SRC, -(1 << U))))
-+#define fBIDIR_ASHIFTL(SRC, SHAMT, REGSTYPE)                            \
-+    ((SHAMT > 0) ?                                                      \
-+     (fCAST##REGSTYPE##s(SRC) << SHAMT) :                               \
-+     (fCAST##REGSTYPE##s(SRC) >> -SHAMT))
-+
-+#define fBIDIR_LSHIFTL(SRC, SHAMT, REGSTYPE)    \
-+    ((SHAMT > 0) ?                              \
-+     (fCAST##REGSTYPE##u(SRC) << SHAMT) :       \
-+     (fCAST##REGSTYPE##u(SRC) >>> -SHAMT))
-+
-+#define fBIDIR_ASHIFTR(SRC, SHAMT, REGSTYPE)    \
-+    ((SHAMT > 0) ?                              \
-+     (fCAST##REGSTYPE##s(SRC) >> SHAMT) :       \
-+     (fCAST##REGSTYPE##s(SRC) << -SHAMT))
-+
-+#define fBIDIR_SHIFTR(SRC, SHAMT, REGSTYPE) \
-+    (((SHAMT) < 0) ? ((fCAST##REGSTYPE(SRC) << ((-(SHAMT)) - 1)) << 1)  \
-+                   : (fCAST##REGSTYPE(SRC) >> (SHAMT)))
-+
-+#define fBIDIR_LSHIFTR(SRC, SHAMT, REGSTYPE)                            \
-+    fBIDIR_SHIFTR(SRC, SHAMT, REGSTYPE##u)
-+
-+#define fSATVALN(N, VAL)                                                \
-+    fSET_OVERFLOW(                                                      \
-+        ((VAL) < 0) ? (-(1LL << ((N) - 1))) : ((1LL << ((N) - 1)) - 1)  \
-+    )
-+
-+#define fSAT_ORIG_SHL(A, ORIG_REG)                                      \
-+    (((fCAST4s((fSAT(A)) ^ (fCAST4s(ORIG_REG)))) < 0)                   \
-+        ? fSATVALN(32, (fCAST4s(ORIG_REG)))                             \
-+        : ((((ORIG_REG) > 0) && ((A) == 0)) ? fSATVALN(32, (ORIG_REG))  \
-+                                            : fSAT(A)))
-+
-+#define fBIDIR_ASHIFTR_SAT(SRC, SHAMT, REGSTYPE)                        \
-+    (((SHAMT) < 0) ? fSAT_ORIG_SHL((fCAST##REGSTYPE##s(SRC)             \
-+                        << ((-(SHAMT)) - 1)) << 1, (SRC))               \
-+                   : (fCAST##REGSTYPE##s(SRC) >> (SHAMT)))
-+
-+#define fBIDIR_ASHIFTL_SAT(SRC, SHAMT, REGSTYPE)                        \
-+    (((SHAMT) < 0)                                                      \
-+     ? ((fCAST##REGSTYPE##s(SRC) >> ((-(SHAMT)) - 1)) >> 1)             \
-+     : fSAT_ORIG_SHL(fCAST##REGSTYPE##s(SRC) << (SHAMT), (SRC)))
-+
-+#define fEXTRACTU_BIDIR(INREG, WIDTH, OFFSET)                           \
-+    (fZXTN(WIDTH, 32, fBIDIR_LSHIFTR((INREG), (OFFSET), 4_8)))
-+
-+/* Least significant bit operations */
-+#define fLSBNEW0 fLSBNEW(P0N)
-+#define fLSBNEW1 fLSBNEW(P1N)
-+#define fLSBOLDNOT(VAL) fGETBIT(0, ~VAL)
-+#define fLSBNEWNOT(PRED) (fLSBNEW(~PRED))
-+#define fLSBNEW0NOT fLSBNEW(~P0N)
-+#define fLSBNEW1NOT fLSBNEW(~P1N)
-+
-+/* Assignments */
-+#define fPCALIGN(IMM) (IMM = IMM & ~3)
-+#define fWRITE_LR(A) (LR = A)
-+#define fWRITE_FP(A) (FP = A)
-+#define fWRITE_SP(A) (SP = A)
-+/*
-+ * Note: There is a rule in the parser that matches `PC = ...` and emits
-+ * a call to `gen_write_new_pc`. We need to call `gen_write_new_pc` to
-+ * get the correct semantics when there are multiple stores in a packet.
-+ */
-+#define fBRANCH(LOC, TYPE) (PC = LOC)
-+#define fJUMPR(REGNO, TARGET, TYPE) (PC = TARGET)
-+#define fWRITE_LOOP_REGS0(START, COUNT) SA0 = START; (LC0 = COUNT)
-+#define fWRITE_LOOP_REGS1(START, COUNT) SA1 = START; (LC1 = COUNT)
-+#define fWRITE_LC0(VAL) (LC0 = VAL)
-+#define fWRITE_LC1(VAL) (LC1 = VAL)
-+#define fSET_LPCFG(VAL) (USR.LPCFG = VAL)
-+#define fWRITE_P0(VAL) P0 = VAL;
-+#define fWRITE_P1(VAL) P1 = VAL;
-+#define fWRITE_P3(VAL) P3 = VAL;
-+#define fEA_RI(REG, IMM) (EA = REG + IMM)
-+#define fEA_RRs(REG, REG2, SCALE) (EA = REG + (REG2 << SCALE))
-+#define fEA_IRs(IMM, REG, SCALE) (EA = IMM + (REG << SCALE))
-+#define fEA_IMM(IMM) (EA = IMM)
-+#define fEA_REG(REG) (EA = REG)
-+#define fEA_BREVR(REG) (EA = fbrev(REG))
-+#define fEA_GPI(IMM) (EA = fREAD_GP() + IMM)
-+#define fPM_I(REG, IMM) (REG = REG + IMM)
-+#define fPM_M(REG, MVAL) (REG = REG + MVAL)
-+#define fWRITE_NPC(VAL) (PC = VAL)
-+
-+/* Unary operators */
-+#define fROUND(A) (A + 0x8000)
-+
-+/* Binary operators */
-+#define fSCALE(N, A) (A << N)
-+#define fASHIFTR(SRC, SHAMT, REGSTYPE) (fCAST##REGSTYPE##s(SRC) >> SHAMT)
-+#define fLSHIFTR(SRC, SHAMT, REGSTYPE) (SRC >>> SHAMT)
-+#define fROTL(SRC, SHAMT, REGSTYPE) fROTL(SRC, SHAMT)
-+#define fASHIFTL(SRC, SHAMT, REGSTYPE) (fCAST##REGSTYPE##s(SRC) << SHAMT)
-+
-+/* Include fHIDE macros which hide type declarations */
-+#define fHIDE(A) A
-+
-+/* Purge non-relavant parts */
-+#define fBRANCH_SPECULATE_STALL(A, B, C, D, E)
-diff --git a/target/hexagon/idef-parser/prepare b/target/hexagon/idef-parser/prepare
-new file mode 100755
-index 0000000000..72d6fcbd21
---- /dev/null
-+++ b/target/hexagon/idef-parser/prepare
-@@ -0,0 +1,24 @@
-+#!/bin/bash
-+
-+#
-+#  Copyright(c) 2019-2021 rev.ng Labs Srl. All Rights Reserved.
-+#
-+#  This program is free software; you can redistribute it and/or modify
-+#  it under the terms of the GNU General Public License as published by
-+#  the Free Software Foundation; either version 2 of the License, or
-+#  (at your option) any later version.
-+#
-+#  This program is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+#  GNU General Public License for more details.
-+#
-+#  You should have received a copy of the GNU General Public License
-+#  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+set -e
-+set -o pipefail
-+
-+# Run the preprocessor and drop comments
-+cpp "$@"
++def read_idef_parser_enabled_file(name):
++    global idef_parser_enabled
++    with open(name, "r") as idef_parser_enabled_file:
++        lines = idef_parser_enabled_file.read().strip().split("\n")
++        idef_parser_enabled = set(lines)
 diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index b61243103f..b9bc8a8a12 100644
+index dc2aed65b3..029f1d6990 100644
 --- a/target/hexagon/meson.build
 +++ b/target/hexagon/meson.build
-@@ -21,6 +21,7 @@ hex_common_py = 'hex_common.py'
- attribs_def = meson.current_source_dir() / 'attribs_def.h.inc'
- gen_tcg_h = meson.current_source_dir() / 'gen_tcg.h'
- gen_tcg_hvx_h = meson.current_source_dir() / 'gen_tcg_hvx.h'
-+idef_parser_dir = meson.current_source_dir() / 'idef-parser'
+@@ -43,10 +43,7 @@ hexagon_ss.add(semantics_generated)
+ # Step 2
+ # We use Python scripts to generate the following files
+ #     shortcode_generated.h.inc
+-#     helper_protos_generated.h.inc
+-#     tcg_funcs_generated.c.inc
+ #     tcg_func_table_generated.c.inc
+-#     helper_funcs_generated.c.inc
+ #     printinsn_generated.h.inc
+ #     op_regs_generated.h.inc
+ #     op_attribs_generated.h.inc
+@@ -61,24 +58,6 @@ shortcode_generated = custom_target(
+ )
+ hexagon_ss.add(shortcode_generated)
  
- #
- #  Step 1
-@@ -179,4 +180,23 @@ hexagon_ss.add(files(
+-helper_protos_generated = custom_target(
+-    'helper_protos_generated.h.inc',
+-    output: 'helper_protos_generated.h.inc',
+-    depends: [semantics_generated],
+-    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
+-    command: [python, files('gen_helper_protos.py'), semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h, '@OUTPUT@'],
+-)
+-hexagon_ss.add(helper_protos_generated)
+-
+-tcg_funcs_generated = custom_target(
+-    'tcg_funcs_generated.c.inc',
+-    output: 'tcg_funcs_generated.c.inc',
+-    depends: [semantics_generated],
+-    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
+-    command: [python, files('gen_tcg_funcs.py'), semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h, '@OUTPUT@'],
+-)
+-hexagon_ss.add(tcg_funcs_generated)
+-
+ tcg_func_table_generated = custom_target(
+     'tcg_func_table_generated.c.inc',
+     output: 'tcg_func_table_generated.c.inc',
+@@ -88,15 +67,6 @@ tcg_func_table_generated = custom_target(
+ )
+ hexagon_ss.add(tcg_func_table_generated)
+ 
+-helper_funcs_generated = custom_target(
+-    'helper_funcs_generated.c.inc',
+-    output: 'helper_funcs_generated.c.inc',
+-    depends: [semantics_generated],
+-    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
+-    command: [python, files('gen_helper_funcs.py'), semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h, '@OUTPUT@'],
+-)
+-hexagon_ss.add(helper_funcs_generated)
+-
+ printinsn_generated = custom_target(
+     'printinsn_generated.h.inc',
+     output: 'printinsn_generated.h.inc',
+@@ -180,6 +150,14 @@ hexagon_ss.add(files(
      'mmvec/system_ext_mmvec.c',
  ))
  
-+idef_parser_enabled = get_option('hexagon_idef_parser')
-+if idef_parser_enabled
-+    idef_parser_input_generated = custom_target(
-+        'idef_parser_input.h.inc',
-+        output: 'idef_parser_input.h.inc',
-+        depends: [semantics_generated],
-+        depend_files: [hex_common_py],
-+        command: [python, files('gen_idef_parser_funcs.py'), semantics_generated, attribs_def, '@OUTPUT@'],
-+    )
++#
++# Step 4.5
++# We use flex/bison based idef-parser to generate TCG code for a lot
++# of instructions. idef-parser outputs
++#     idef-generated-emitter.c
++#     idef-generated-emitter.h.inc
++#     idef-generated-enabled-instructions
++#
+ idef_parser_enabled = get_option('hexagon_idef_parser')
+ if idef_parser_enabled
+     idef_parser_input_generated = custom_target(
+@@ -232,6 +210,71 @@ if idef_parser_enabled
+         depend_files: [hex_common_py],
+         command: [idef_parser, '@INPUT@', '@OUTPUT0@', '@OUTPUT1@', '@OUTPUT2@']
+     )
 +
-+    preprocessed_idef_parser_input_generated = custom_target(
-+        'idef_parser_input.preprocessed.h.inc',
-+        output: 'idef_parser_input.preprocessed.h.inc',
-+        input: idef_parser_input_generated,
-+        depend_files: [idef_parser_dir / 'macros.inc'],
-+        command: [idef_parser_dir / 'prepare', '@INPUT@', '-I' + idef_parser_dir, '-o', '@OUTPUT@'],
-+    )
-+endif
++    indent = find_program('indent', required: false)
++    if indent.found()
++        idef_generated_tcg_c = custom_target(
++            'indent',
++            input: idef_generated_tcg[0],
++            output: 'idef-generated-emitter.indented.c',
++            command: [indent, '-linux', '@INPUT@', '-o', '@OUTPUT@']
++        )
++    else
++        idef_generated_tcg_c = custom_target(
++            'copy',
++            input: idef_generated_tcg[0],
++            output: 'idef-generated-emitter.indented.c',
++            command: ['cp', '@INPUT@', '@OUTPUT@']
++        )
++    endif
++
++    idef_generated_list = idef_generated_tcg[2].full_path()
++
++    hexagon_ss.add(idef_generated_tcg_c)
++
++    # Setup input and dependencies for the next step, this depends on whether or
++    # not idef-parser is enabled
++    helper_dep = [semantics_generated, idef_generated_tcg_c, idef_generated_tcg]
++    helper_in = [semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h, idef_generated_list]
++else
++    # Setup input and dependencies for the next step, this depends on whether or
++    # not idef-parser is enabled
++    helper_dep = [semantics_generated]
++    helper_in = [semantics_generated, attribs_def, gen_tcg_h, gen_tcg_hvx_h]
+ endif
+ 
++#
++# Step 5
++# We use Python scripts to generate the following files
++#     helper_protos_generated.h.inc
++#     helper_funcs_generated.c.inc
++#     tcg_funcs_generated.c.inc
++#
++helper_protos_generated = custom_target(
++    'helper_protos_generated.h.inc',
++    output: 'helper_protos_generated.h.inc',
++    depends: helper_dep,
++    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
++    command: [python, files('gen_helper_protos.py'), helper_in, '@OUTPUT@'],
++)
++hexagon_ss.add(helper_protos_generated)
++
++helper_funcs_generated = custom_target(
++    'helper_funcs_generated.c.inc',
++    output: 'helper_funcs_generated.c.inc',
++    depends: helper_dep,
++    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
++    command: [python, files('gen_helper_funcs.py'), helper_in, '@OUTPUT@'],
++)
++hexagon_ss.add(helper_funcs_generated)
++
++tcg_funcs_generated = custom_target(
++    'tcg_funcs_generated.c.inc',
++    output: 'tcg_funcs_generated.c.inc',
++    depends: helper_dep,
++    depend_files: [hex_common_py, attribs_def, gen_tcg_h, gen_tcg_hvx_h],
++    command: [python, files('gen_tcg_funcs.py'), helper_in, '@OUTPUT@'],
++)
++hexagon_ss.add(tcg_funcs_generated)
 +
  target_arch += {'hexagon': hexagon_ss}
 -- 
