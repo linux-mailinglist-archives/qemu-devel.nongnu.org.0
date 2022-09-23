@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8885E818B
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 20:09:40 +0200 (CEST)
-Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CD85E817E
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 20:08:10 +0200 (CEST)
+Received: from localhost ([::1]:38870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obn7L-0007eh-7W
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 14:09:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55908)
+	id 1obn5s-0005eo-Ps
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 14:08:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdW-0002q3-If
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:38:50 -0400
-Received: from rev.ng ([5.9.113.41]:54633)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdY-0002qG-0D
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:38:53 -0400
+Received: from rev.ng ([5.9.113.41]:44111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdP-0000AH-5e
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:38:47 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdS-0000B1-9c
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:38:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=0NL2z04ZIDDn+JoZYSURTmZfeqfSPSaEKKLcp4fYdWo=; b=idZDh1gr7nLF2fya+psYF9AAVF
- DzRXmhAV1bVgF6m42PNzZ7cEMrxHSeasuSfCnFSTSeT+aPx/Lv1aJLc/TJ/iKmQ8zeNb5UJ5WE8Gr
- XpOInk7PalFRcACCFxpjDmciwwb6Z+y50+nK/5vnZ8zJLISQmeKXOB5ejkxMRm6NtsQg=;
+ bh=s9+CEsuGO4p0CMTmeyqrrBNq1x2CnT501hLlvuvN8kw=; b=wSG+RSLkaGk6z/ofgSLJ2lgTYb
+ rVyvvHW//47PVllsK1V5mMndBoDDUgAUQUtZ9nEDjBHRSsICLHEpKtpiL/vLx0uWr0Yfx/2oX6fKo
+ VkCv6alTUSWiM4VqUepjvdSEY+668lDbWvjsn5U/DX6zOq3XZJHIhaynef+jnZ9LJCvI=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com, mlambert@quicinc.com,
  babush@rev.ng, nizzo@rev.ng, richard.henderson@linaro.org,
  alex.bennee@linaro.org
-Subject: [PATCH v12 02/11] target/hexagon: import README for idef-parser
-Date: Fri, 23 Sep 2022 19:38:22 +0200
-Message-Id: <20220923173831.227551-3-anjo@rev.ng>
+Subject: [PATCH v12 08/11] target/hexagon: import lexer for idef-parser
+Date: Fri, 23 Sep 2022 19:38:28 +0200
+Message-Id: <20220923173831.227551-9-anjo@rev.ng>
 In-Reply-To: <20220923173831.227551-1-anjo@rev.ng>
 References: <20220923173831.227551-1-anjo@rev.ng>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
 X-Spam_score_int: -20
@@ -62,768 +61,773 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Anton Johansson <anjo@rev.ng>
 From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-From: Alessandro Di Federico <ale@rev.ng>
+From: Paolo Montesel <babush@rev.ng>
 
 Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+Signed-off-by: Paolo Montesel <babush@rev.ng>
 Signed-off-by: Anton Johansson <anjo@rev.ng>
 Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- target/hexagon/README                 |   5 +
- target/hexagon/idef-parser/README.rst | 722 ++++++++++++++++++++++++++
- 2 files changed, 727 insertions(+)
- create mode 100644 target/hexagon/idef-parser/README.rst
+ target/hexagon/idef-parser/idef-parser.h   | 253 +++++++++++
+ target/hexagon/idef-parser/idef-parser.lex | 471 +++++++++++++++++++++
+ target/hexagon/meson.build                 |   6 +
+ 3 files changed, 730 insertions(+)
+ create mode 100644 target/hexagon/idef-parser/idef-parser.h
+ create mode 100644 target/hexagon/idef-parser/idef-parser.lex
 
-diff --git a/target/hexagon/README b/target/hexagon/README
-index 372e24747c..6cb5affddb 100644
---- a/target/hexagon/README
-+++ b/target/hexagon/README
-@@ -27,6 +27,10 @@ Hexagon-specific code are
-         encode*.def             Encoding patterns for each instruction
-         iclass.def              Instruction class definitions used to determine
-                                 legal VLIW slots for each instruction
-+    qemu/target/hexagon/idef-parser
-+        Parser that, given the high-level definitions of an instruction,
-+        produces a C function generating equivalent tiny code instructions.
-+        See README.rst.
-     qemu/linux-user/hexagon
-         Helpers for loading the ELF file and making Linux system calls,
-         signals, etc
-@@ -47,6 +51,7 @@ header files in <BUILD_DIR>/target/hexagon
-         gen_tcg_funcs.py                -> tcg_funcs_generated.c.inc
-         gen_tcg_func_table.py           -> tcg_func_table_generated.c.inc
-         gen_helper_funcs.py             -> helper_funcs_generated.c.inc
-+        gen_idef_parser_funcs.py        -> idef_parser_input.h
- 
- Qemu helper functions have 3 parts
-     DEF_HELPER declaration indicates the signature of the helper
-diff --git a/target/hexagon/idef-parser/README.rst b/target/hexagon/idef-parser/README.rst
+diff --git a/target/hexagon/idef-parser/idef-parser.h b/target/hexagon/idef-parser/idef-parser.h
 new file mode 100644
-index 0000000000..65e6bf4ee5
+index 0000000000..5c49d4da3e
 --- /dev/null
-+++ b/target/hexagon/idef-parser/README.rst
-@@ -0,0 +1,722 @@
-+Hexagon ISA instruction definitions to tinycode generator compiler
-+------------------------------------------------------------------
++++ b/target/hexagon/idef-parser/idef-parser.h
+@@ -0,0 +1,253 @@
++/*
++ *  Copyright(c) 2019-2022 rev.ng Labs Srl. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+idef-parser is a small compiler able to translate the Hexagon ISA description
-+language into tinycode generator code, that can be easily integrated into QEMU.
++#ifndef IDEF_PARSER_H
++#define IDEF_PARSER_H
 +
-+Compilation Example
-+-------------------
++#include <inttypes.h>
++#include <stdio.h>
++#include <stdbool.h>
++#include <glib.h>
 +
-+To better understand the scope of the idef-parser, we'll explore an applicative
-+example. Let's start by one of the simplest Hexagon instruction: the ``add``.
++#define TCGV_NAME_SIZE 7
++#define MAX_WRITTEN_REGS 32
++#define OFFSET_STR_LEN 32
++#define ALLOC_LIST_LEN 32
++#define ALLOC_NAME_SIZE 32
++#define INIT_LIST_LEN 32
++#define OUT_BUF_LEN (1024 * 1024)
++#define SIGNATURE_BUF_LEN (128 * 1024)
++#define HEADER_BUF_LEN (128 * 1024)
 +
-+The ISA description language represents the ``add`` instruction as
-+follows:
++/* Variadic macros to wrap the buffer printing functions */
++#define EMIT(c, ...)                                                           \
++    do {                                                                       \
++        g_string_append_printf((c)->out_str, __VA_ARGS__);                     \
++    } while (0)
 +
-+.. code:: c
++#define EMIT_SIG(c, ...)                                                       \
++    do {                                                                       \
++        g_string_append_printf((c)->signature_str, __VA_ARGS__);               \
++    } while (0)
 +
-+   A2_add(RdV, in RsV, in RtV) {
-+       { RdV=RsV+RtV;}
-+   }
++#define EMIT_HEAD(c, ...)                                                      \
++    do {                                                                       \
++        g_string_append_printf((c)->header_str, __VA_ARGS__);                  \
++    } while (0)
 +
-+idef-parser will compile the above code into the following code:
++/**
++ * Type of register, assigned to the HexReg.type field
++ */
++typedef enum { GENERAL_PURPOSE, CONTROL, MODIFIER, DOTNEW } HexRegType;
 +
-+.. code:: c
++typedef enum { UNKNOWN_SIGNEDNESS, SIGNED, UNSIGNED } HexSignedness;
 +
-+   /* A2_add */
-+   void emit_A2_add(DisasContext *ctx, Insn *insn, Packet *pkt, TCGv_i32 RdV,
-+                    TCGv_i32 RsV, TCGv_i32 RtV)
-+   /*  { RdV=RsV+RtV;} */
-+   {
-+       TCGv_i32 tmp_0 = tcg_temp_new_i32();
-+       tcg_gen_add_i32(tmp_0, RsV, RtV);
-+       tcg_gen_mov_i32(RdV, tmp_0);
-+       tcg_temp_free_i32(tmp_0);
-+   }
++/**
++ * Semantic record of the REG tokens, identifying registers
++ */
++typedef struct HexReg {
++    uint8_t id;                 /**< Identifier of the register               */
++    HexRegType type;            /**< Type of the register                     */
++    unsigned bit_width;         /**< Bit width of the reg, 32 or 64 bits      */
++} HexReg;
 +
-+The output of the compilation process will be a function, containing the
-+tinycode generator code, implementing the correct semantics. That function will
-+not access any global variable, because all the accessed data structures will be
-+passed explicitly as function parameters. Among the passed parameters we will
-+have TCGv (tinycode variables) representing the input and output registers of
-+the architecture, integers representing the immediates that come from the code,
-+and other data structures which hold information about the disassemblation
-+context (``DisasContext`` struct).
++/**
++ * Data structure, identifying a TCGv temporary value
++ */
++typedef struct HexTmp {
++    unsigned index;             /**< Index of the TCGv temporary value        */
++} HexTmp;
 +
-+Let's begin by describing the input code. The ``add`` instruction is associated
-+with a unique identifier, in this case ``A2_add``, which allows to distinguish
-+variants of the same instruction, and expresses the class to which the
-+instruction belongs, in this case ``A2`` corresponds to the Hexagon
-+``ALU32/ALU`` instruction subclass.
++/**
++ * Enum of the possible immediated, an immediate is a value which is known
++ * at tinycode generation time, e.g. an integer value, not a TCGv
++ */
++enum ImmUnionTag {
++    I,
++    VARIABLE,
++    VALUE,
++    QEMU_TMP,
++    IMM_PC,
++    IMM_NPC,
++    IMM_CONSTEXT,
++};
 +
-+After the instruction identifier, we have a series of parameters that represents
-+TCG variables that will be passed to the generated function. Parameters marked
-+with ``in`` are already initialized, while the others are output parameters.
++/**
++ * Semantic record of the IMM token, identifying an immediate constant
++ */
++typedef struct HexImm {
++    union {
++        char id;                /**< Identifier, used when type is VARIABLE   */
++        uint64_t value;         /**< Immediate value, used when type is VALUE */
++        uint64_t index;         /**< Index, used when type is QEMU_TMP        */
++    };
++    enum ImmUnionTag type;      /**< Type of the immediate                    */
++} HexImm;
 +
-+We will leverage this information to infer several information:
++/**
++ * Semantic record of the PRED token, identifying a predicate
++ */
++typedef struct HexPred {
++    char id;                    /**< Identifier of the predicate              */
++} HexPred;
 +
-+-  Fill in the output function signature with the correct TCGv registers
-+-  Fill in the output function signature with the immediate integers
-+-  Keep track of which registers, among the declared one, have been
-+   initialized
++/**
++ * Semantic record of the SAT token, identifying the saturate operator
++ * Note: All saturates are assumed to implicitly set overflow.
++ */
++typedef struct HexSat {
++    HexSignedness signedness;   /**< Signedness of the sat. op.               */
++} HexSat;
 +
-+Let's now observe the actual instruction description code, in this case:
++/**
++ * Semantic record of the CAST token, identifying the cast operator
++ */
++typedef struct HexCast {
++    unsigned bit_width;         /**< Bit width of the cast operator           */
++    HexSignedness signedness;   /**< Unsigned flag for the cast operator      */
++} HexCast;
 +
-+.. code:: c
++/**
++ * Semantic record of the EXTRACT token, identifying the cast operator
++ */
++typedef struct HexExtract {
++    unsigned bit_width;         /**< Bit width of the extract operator        */
++    unsigned storage_bit_width; /**< Actual bit width of the extract operator */
++    HexSignedness signedness;   /**< Unsigned flag for the extract operator   */
++} HexExtract;
 +
-+   { RdV=RsV+RtV;}
++/**
++ * Semantic record of the MPY token, identifying the fMPY multiplication
++ * operator
++ */
++typedef struct HexMpy {
++    unsigned first_bit_width;        /**< Bit width of 1st operand of fMPY    */
++    unsigned second_bit_width;       /**< Bit width of 2nd operand of fMPY    */
++    HexSignedness first_signedness;  /**< Signedness of 1st operand of fMPY   */
++    HexSignedness second_signedness; /**< Signedness of 2nd operand of fMPY   */
++} HexMpy;
 +
-+This code is composed by a subset of the C syntax, and is the result of the
-+application of some macro definitions contained in the ``macros.h`` file.
++/**
++ * Semantic record of the VARID token, identifying declared variables
++ * of the input language
++ */
++typedef struct HexVar {
++    GString *name;              /**< Name of the VARID variable               */
++} HexVar;
 +
-+This file is used to reduce the complexity of the input language where complex
-+variants of similar constructs can be mapped to a unique primitive, so that the
-+idef-parser has to handle a lower number of computation primitives.
++/**
++ * Data structure uniquely identifying a declared VARID variable, used for
++ * keeping track of declared variable, so that any variable is declared only
++ * once, and its properties are propagated through all the subsequent instances
++ * of that variable
++ */
++typedef struct Var {
++    GString *name;              /**< Name of the VARID variable               */
++    uint8_t bit_width;          /**< Bit width of the VARID variable          */
++    HexSignedness signedness;   /**< Unsigned flag for the VARID var          */
++} Var;
 +
-+As you may notice, the description code modifies the registers which have been
-+declared by the declaration statements. In this case all the three registers
-+will be declared, ``RsV`` and ``RtV`` will also be read and ``RdV`` will be
-+written.
++/**
++ * Enum of the possible rvalue types, used in the HexValue.type field
++ */
++typedef enum RvalueUnionTag {
++    REGISTER, REGISTER_ARG, TEMP, IMMEDIATE, PREDICATE, VARID
++} RvalueUnionTag;
 +
-+Now let's have a quick look at the generated code, line by line.
++/**
++ * Semantic record of the rvalue token, identifying any numeric value,
++ * immediate or register based. The rvalue tokens are combined together
++ * through the use of several operators, to encode expressions
++ */
++typedef struct HexValue {
++    union {
++        HexReg reg;             /**< rvalue of register type                  */
++        HexTmp tmp;             /**< rvalue of temporary type                 */
++        HexImm imm;             /**< rvalue of immediate type                 */
++        HexPred pred;           /**< rvalue of predicate type                 */
++        HexVar var;             /**< rvalue of declared variable type         */
++    };
++    RvalueUnionTag type;        /**< Type of the rvalue                       */
++    unsigned bit_width;         /**< Bit width of the rvalue                  */
++    HexSignedness signedness;   /**< Unsigned flag for the rvalue             */
++    bool is_dotnew;             /**< rvalue of predicate type is dotnew?      */
++    bool is_manual;             /**< Opt out of automatic freeing of params   */
++} HexValue;
 +
-+::
++/**
++ * State of ternary operator
++ */
++typedef enum TernaryState { IN_LEFT, IN_RIGHT } TernaryState;
 +
-+   TCGv_i32 tmp_0 = tcg_temp_new_i32();
++/**
++ * Data structure used to handle side effects inside ternary operators
++ */
++typedef struct Ternary {
++    TernaryState state;
++    HexValue cond;
++} Ternary;
 +
-+This code starts by declaring a temporary TCGv to hold the result from the sum
-+operation.
++/**
++ * Operator type, used for referencing the correct operator when calling the
++ * gen_bin_op() function, which in turn will generate the correct code to
++ * execute the operation between the two rvalues
++ */
++typedef enum OpType {
++    ADD_OP, SUB_OP, MUL_OP, ASL_OP, ASR_OP, LSR_OP, ANDB_OP, ORB_OP,
++    XORB_OP, ANDL_OP, MINI_OP, MAXI_OP
++} OpType;
 +
-+::
++/**
++ * Data structure including instruction specific information, to be cleared
++ * out after the compilation of each instruction
++ */
++typedef struct Inst {
++    GString *name;              /**< Name of the compiled instruction         */
++    char *code_begin;           /**< Beginning of instruction input code      */
++    char *code_end;             /**< End of instruction input code            */
++    unsigned tmp_count;         /**< Index of the last declared TCGv temp     */
++    unsigned qemu_tmp_count;    /**< Index of the last declared int temp      */
++    unsigned if_count;          /**< Index of the last declared if label      */
++    unsigned error_count;       /**< Number of generated errors               */
++    GArray *allocated;          /**< Allocated declaredVARID vars             */
++    GArray *init_list;          /**< List of initialized registers            */
++    GArray *strings;            /**< Strings allocated by the instruction     */
++} Inst;
 +
-+   tcg_gen_add_i32(tmp_0, RsV, RtV);
++/**
++ * Data structure representing the whole translation context, which in a
++ * reentrant flex/bison parser just like ours is passed between the scanner
++ * and the parser, holding all the necessary information to perform the
++ * parsing, this data structure survives between the compilation of different
++ * instructions
++ */
++typedef struct Context {
++    void *scanner;              /**< Reentrant parser state pointer           */
++    char *input_buffer;         /**< Buffer containing the input code         */
++    GString *out_str;           /**< String containing the output code        */
++    GString *signature_str;     /**< String containing the signatures code    */
++    GString *header_str;        /**< String containing the header code        */
++    FILE *defines_file;         /**< FILE * of the generated header           */
++    FILE *output_file;          /**< FILE * of the C output file              */
++    FILE *enabled_file;         /**< FILE * of the list of enabled inst       */
++    GArray *ternary;            /**< Array to track nesting of ternary ops    */
++    unsigned total_insn;        /**< Number of instructions in input file     */
++    unsigned implemented_insn;  /**< Instruction compiled without errors      */
++    Inst inst;                  /**< Parsing data of the current inst         */
++} Context;
 +
-+Then, we are generating the sum tinycode operator between the selected
-+registers, storing the result in the just declared temporary.
++#endif /* IDEF_PARSER_H */
+diff --git a/target/hexagon/idef-parser/idef-parser.lex b/target/hexagon/idef-parser/idef-parser.lex
+new file mode 100644
+index 0000000000..ff87a02c3a
+--- /dev/null
++++ b/target/hexagon/idef-parser/idef-parser.lex
+@@ -0,0 +1,471 @@
++%option noyywrap noinput nounput
++%option 8bit reentrant bison-bridge
++%option warn nodefault
++%option bison-locations
 +
-+::
++%{
++/*
++ *  Copyright(c) 2019-2022 rev.ng Labs Srl. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+   tcg_gen_mov_i32(RdV, tmp_0);
++#include <string.h>
++#include <stdbool.h>
 +
-+The result of the addition is now stored in the temporary, we move it into the
-+correct destination register. This code may seem inefficient, but QEMU will
-+perform some optimizations on the tinycode, reducing the unnecessary copy.
++#include "hex_regs.h"
 +
-+::
++#include "idef-parser.h"
++#include "idef-parser.tab.h"
 +
-+   tcg_temp_free_i32(tmp_0);
++/* Keep track of scanner position for error message printout */
++#define YY_USER_ACTION yylloc->first_column = yylloc->last_column; \
++    for (int i = 0; yytext[i] != '\0'; i++) {   \
++        yylloc->last_column++;                  \
++    }
 +
-+Finally, we free the temporary we used to hold the addition result.
++/* Global Error Counter */
++int error_count;
 +
-+Parser Input
-+------------
++%}
 +
-+Before moving on to the structure of idef-parser itself, let us spend some words
-+on its' input. There are two preprocessing steps applied to the generated
-+instruction semantics in ``semantics_generated.pyinc`` that we need to consider.
-+Firstly,
++/* Definitions */
++DIGIT                    [0-9]
++LOWER_ID                 [a-z]
++UPPER_ID                 [A-Z]
++ID                       LOWER_ID|UPPER_ID
++INST_NAME                [A-Z]+[0-9]_([A-Za-z]|[0-9]|_)+
++HEX_DIGIT                [0-9a-fA-F]
++REG_ID_32                e|s|d|t|u|v|x|y
++REG_ID_64                ee|ss|dd|tt|uu|vv|xx|yy
++SYS_ID_32                s|d
++SYS_ID_64                ss|dd
++PRED_ID                  d|s|t|u|v|e|x|x
++IMM_ID                   r|s|S|u|U
++VAR_ID                   [a-zA-Z_][a-zA-Z0-9_]*
++SIGN_ID                  s|u
++STRING_LIT               \"(\\.|[^"\\])*\"
 +
-+::
++/* Tokens */
++%%
 +
-+    gen_idef_parser_funcs.py
++[ \t\f\v]+                { /* Ignore whitespaces. */ }
++[\n\r]+                   { /* Ignore newlines. */ }
++^#.*$                     { /* Ignore linemarkers. */ }
 +
-+which takes instruction semantics in ``semantics_generated.pyinc`` to C-like
-+pseudo code, output into ``idef_parser_input.h.inc``. For instance, the
-+``J2_jumpr`` instruction which jumps to an address stored in a register
-+argument. This is instruction is defined as
++{INST_NAME}               { yylval->string = g_string_new(yytext);
++                            return INAME; }
++"fFLOAT"                 |
++"fUNFLOAT"               |
++"fDOUBLE"                |
++"fUNDOUBLE"              |
++"0.0"                    |
++"0x1.0p52"               |
++"0x1.0p-52"              { return FAIL; }
++"in"                     { return IN; }
++"R"{REG_ID_32}"V" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++"R"{REG_ID_64}"V" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 64;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_dotnew = false;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++"MuV" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = MODIFIER;
++                           yylval->rvalue.reg.id = 'u';
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++"C"{REG_ID_32}"V" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++"C"{REG_ID_64}"V" {
++                           yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 64;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.is_dotnew = false;
++                           yylval->rvalue.signedness = SIGNED;
++                           return REG; }
++{IMM_ID}"iV" {
++                           yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.signedness = SIGNED;
++                           yylval->rvalue.imm.type = VARIABLE;
++                           yylval->rvalue.imm.id = yytext[0];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           return IMM; }
++"P"{PRED_ID}"V" {
++                           yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pred.id = yytext[1];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           yylval->rvalue.signedness = SIGNED;
++                           return PRED; }
++"P"{PRED_ID}"N" {
++                           yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pred.id = yytext[1];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           yylval->rvalue.signedness = SIGNED;
++                           return PRED; }
++"IV1DEAD()"              |
++"fPAUSE(uiV);"           { return ';'; }
++"+="                     { return INC; }
++"-="                     { return DEC; }
++"++"                     { return PLUSPLUS; }
++"&="                     { return ANDA; }
++"|="                     { return ORA; }
++"^="                     { return XORA; }
++"<<"                     { return ASL; }
++">>"                     { return ASR; }
++">>>"                    { return LSR; }
++"=="                     { return EQ; }
++"!="                     { return NEQ; }
++"<="                     { return LTE; }
++">="                     { return GTE; }
++"&&"                     { return ANDL; }
++"else"                   { return ELSE; }
++"for"                    { return FOR; }
++"fREAD_IREG"             { return ICIRC; }
++"fPART1"                 { return PART1; }
++"if"                     { return IF; }
++"fFRAME_SCRAMBLE"        { return FSCR; }
++"fFRAME_UNSCRAMBLE"      { return FSCR; }
++"fFRAMECHECK"            { return FCHK; }
++"Constant_extended"      { return CONSTEXT; }
++"fCL1_"{DIGIT}           { return LOCNT; }
++"fbrev"                  { return BREV; }
++"fSXTN"                  { return SXT; }
++"fZXTN"                  { return ZXT; }
++"fDF_MAX"                |
++"fSF_MAX"                |
++"fMAX"                   { return MAX; }
++"fDF_MIN"                |
++"fSF_MIN"                |
++"fMIN"                   { return MIN; }
++"fABS"                   { return ABS; }
++"fRNDN"                  { return ROUND; }
++"fCRND"                  { return CROUND; }
++"fCRNDN"                 { return CROUND; }
++"fPM_CIRI"               { return CIRCADD; }
++"fPM_CIRR"               { return CIRCADD; }
++"fCOUNTONES_"{DIGIT}     { return COUNTONES; }
++"fSATN"                  { yylval->sat.signedness = SIGNED;
++                           return SAT; }
++"fSATUN"                 { yylval->sat.signedness = UNSIGNED;
++                           return SAT; }
++"fCONSTLL"               { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = SIGNED;
++                           return CAST; }
++"fSE32_64"               { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = SIGNED;
++                           return CAST; }
++"fCAST4_4u"              { yylval->cast.bit_width = 32;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"fCAST4_8s"              { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = SIGNED;
++                           return CAST; }
++"fCAST4_8u"              { return CAST4_8U; }
++"fCAST4u"                { yylval->cast.bit_width = 32;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"fNEWREG"                |
++"fCAST4_4s"              |
++"fCAST4s"                { yylval->cast.bit_width = 32;
++                           yylval->cast.signedness = SIGNED;
++                           return CAST; }
++"fCAST8_8u"              { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"fCAST8u"                { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"fCAST8_8s"              |
++"fCAST8s"                { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = SIGNED;
++                           return CAST; }
++"fGETBIT"                { yylval->extract.bit_width = 1;
++                           yylval->extract.storage_bit_width = 1;
++                           yylval->extract.signedness = UNSIGNED;
++                           return EXTRACT; }
++"fGETBYTE"               { yylval->extract.bit_width = 8;
++                           yylval->extract.storage_bit_width = 8;
++                           yylval->extract.signedness = SIGNED;
++                           return EXTRACT; }
++"fGETUBYTE"              { yylval->extract.bit_width = 8;
++                           yylval->extract.storage_bit_width = 8;
++                           yylval->extract.signedness = UNSIGNED;
++                           return EXTRACT; }
++"fGETHALF"               { yylval->extract.bit_width = 16;
++                           yylval->extract.storage_bit_width = 16;
++                           yylval->extract.signedness = SIGNED;
++                           return EXTRACT; }
++"fGETUHALF"              { yylval->extract.bit_width = 16;
++                           yylval->extract.storage_bit_width = 16;
++                           yylval->extract.signedness = UNSIGNED;
++                           return EXTRACT; }
++"fGETWORD"               { yylval->extract.bit_width = 32;
++                           yylval->extract.storage_bit_width = 64;
++                           yylval->extract.signedness = SIGNED;
++                           return EXTRACT; }
++"fGETUWORD"              { yylval->extract.bit_width = 32;
++                           yylval->extract.storage_bit_width = 64;
++                           yylval->extract.signedness = UNSIGNED;
++                           return EXTRACT; }
++"fEXTRACTU_RANGE"        { return EXTRANGE; }
++"fSETBIT"                { yylval->cast.bit_width = 1;
++                           yylval->cast.signedness = SIGNED;
++                           return DEPOSIT; }
++"fSETBYTE"               { yylval->cast.bit_width = 8;
++                           yylval->cast.signedness = SIGNED;
++                           return DEPOSIT; }
++"fSETHALF"               { yylval->cast.bit_width = 16;
++                           yylval->cast.signedness = SIGNED;
++                           return SETHALF; }
++"fSETWORD"               { yylval->cast.bit_width = 32;
++                           yylval->cast.signedness = SIGNED;
++                           return DEPOSIT; }
++"fINSERT_BITS"           { return INSBITS; }
++"fSETBITS"               { return SETBITS; }
++"fMPY16UU"               { yylval->mpy.first_bit_width = 16;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_signedness = UNSIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fMPY16SU"               { yylval->mpy.first_bit_width = 16;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fMPY16SS"               { yylval->mpy.first_bit_width = 16;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = SIGNED;
++                           return MPY; }
++"fMPY32UU"               { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 32;
++                           yylval->mpy.first_signedness = UNSIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fMPY32SU"               { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 32;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fSFMPY"                 |
++"fMPY32SS"               { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 32;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = SIGNED;
++                           return MPY; }
++"fMPY3216SS"             { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = SIGNED;
++                           return MPY; }
++"fMPY3216SU"             { yylval->mpy.first_bit_width = 32;
++                           yylval->mpy.second_bit_width = 16;
++                           yylval->mpy.first_signedness = SIGNED;
++                           yylval->mpy.second_signedness = UNSIGNED;
++                           return MPY; }
++"fNEWREG_ST"             |
++"fIMMEXT"                |
++"fMUST_IMMEXT"           |
++"fPASS"                  |
++"fECHO"                  { return IDENTITY; }
++"(size8u_t)"             { yylval->cast.bit_width = 64;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"(unsigned int)"         { yylval->cast.bit_width = 32;
++                           yylval->cast.signedness = UNSIGNED;
++                           return CAST; }
++"fREAD_PC()"             |
++"PC"                     { return PC; }
++"fREAD_NPC()"            |
++"NPC"                    { return NPC; }
++"fGET_LPCFG"             |
++"USR.LPCFG"              { return LPCFG; }
++"LOAD_CANCEL(EA)"        { return LOAD_CANCEL; }
++"STORE_CANCEL(EA)"       |
++"CANCEL"                 { return CANCEL; }
++"N"{LOWER_ID}"N"         { yylval->rvalue.type = REGISTER_ARG;
++                           yylval->rvalue.reg.type = DOTNEW;
++                           yylval->rvalue.reg.id = yytext[1];
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_SP()"             |
++"SP"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = HEX_REG_SP;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_FP()"             |
++"FP"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = HEX_REG_FP;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_LR()"             |
++"LR"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = GENERAL_PURPOSE;
++                           yylval->rvalue.reg.id = HEX_REG_LR;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_GP()"             |
++"GP"                     { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = HEX_REG_GP;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_LC"[01]           { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = HEX_REG_LC0
++                                                 + (yytext[8] - '0') * 2;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"LC"[01]                 { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = HEX_REG_LC0
++                                                 + (yytext[2] - '0') * 2;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_SA"[01]           { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = HEX_REG_SA0
++                                                 + (yytext[8] - '0') * 2;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"SA"[01]                 { yylval->rvalue.type = REGISTER;
++                           yylval->rvalue.reg.type = CONTROL;
++                           yylval->rvalue.reg.id = HEX_REG_SA0
++                                                 + (yytext[2] - '0') * 2;
++                           yylval->rvalue.reg.bit_width = 32;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           return REG; }
++"fREAD_P0()"             { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pred.id = '0';
++                           yylval->rvalue.bit_width = 32;
++                           return PRED; }
++[pP]{DIGIT}              { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pred.id = yytext[1];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = false;
++                           return PRED; }
++[pP]{DIGIT}[nN]          { yylval->rvalue.type = PREDICATE;
++                           yylval->rvalue.pred.id = yytext[1];
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.is_dotnew = true;
++                           return PRED; }
++"fLSBNEW"                { return LSBNEW; }
++"N"                      { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.imm.type = VARIABLE;
++                           yylval->rvalue.imm.id = 'N';
++                           return IMM; }
++"i"                      { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = SIGNED;
++                           yylval->rvalue.imm.type = I;
++                           return IMM; }
++{SIGN_ID}                { if (yytext[0] == 'u') {
++                               yylval->signedness = UNSIGNED;
++                           } else {
++                               yylval->signedness = SIGNED;
++                           }
++                           return SIGN;
++                         }
++"0x"{HEX_DIGIT}+         |
++{DIGIT}+                 { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 32;
++                           yylval->rvalue.signedness = SIGNED;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = strtoull(yytext, NULL, 0);
++                           return IMM; }
++"0x"{HEX_DIGIT}+"ULL"    |
++{DIGIT}+"ULL"            { yylval->rvalue.type = IMMEDIATE;
++                           yylval->rvalue.bit_width = 64;
++                           yylval->rvalue.signedness = UNSIGNED;
++                           yylval->rvalue.imm.type = VALUE;
++                           yylval->rvalue.imm.value = strtoull(yytext, NULL, 0);
++                           return IMM; }
++"fLOAD"                  { return LOAD; }
++"fSTORE"                 { return STORE; }
++"fROTL"                  { return ROTL; }
++"fCARRY_FROM_ADD"        { return CARRY_FROM_ADD; }
++"fADDSAT64"              { return ADDSAT64; }
++"size"[1248][us]"_t"     { /* Handles "size_t" variants of int types */
++                           const unsigned int bits_per_byte = 8;
++                           const unsigned int bytes = yytext[4] - '0';
++                           yylval->rvalue.bit_width = bits_per_byte * bytes;
++                           if (yytext[5] == 'u') {
++                               yylval->rvalue.signedness = UNSIGNED;
++                           } else {
++                               yylval->rvalue.signedness = SIGNED;
++                           }
++                           return TYPE_SIZE_T; }
++"unsigned"               { return TYPE_UNSIGNED; }
++"long"                   { return TYPE_LONG; }
++"int"                    { return TYPE_INT; }
++"const"                  { /* Emit no token */ }
++{VAR_ID}                 { /* Variable name, we adopt the C names convention */
++                           yylval->rvalue.type = VARID;
++                           yylval->rvalue.var.name = g_string_new(yytext);
++                           /* Default to an unknown signedness and 0 width. */
++                           yylval->rvalue.bit_width = 0;
++                           yylval->rvalue.signedness = UNKNOWN_SIGNEDNESS;
++                           return VAR; }
++"fatal("{STRING_LIT}")"  { /* Emit no token */ }
++"fHINTJR(RsV)"           { /* Emit no token */ }
++.                        { return yytext[0]; }
 +
-+::
++%%
+diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
+index b9bc8a8a12..ceb858bfab 100644
+--- a/target/hexagon/meson.build
++++ b/target/hexagon/meson.build
+@@ -197,6 +197,12 @@ if idef_parser_enabled
+         depend_files: [idef_parser_dir / 'macros.inc'],
+         command: [idef_parser_dir / 'prepare', '@INPUT@', '-I' + idef_parser_dir, '-o', '@OUTPUT@'],
+     )
 +
-+    SEMANTICS( \
-+        "J2_jumpr", \
-+        "jumpr Rs32", \
-+        """{fJUMPR(RsN,RsV,COF_TYPE_JUMPR);}""" \
++    flex = generator(
++        find_program('flex'),
++        output: ['@BASENAME@.yy.c', '@BASENAME@.yy.h'],
++        arguments: ['-o', '@OUTPUT0@', '--header-file=@OUTPUT1@', '@INPUT@']
 +    )
-+
-+in ``semantics_generated.pyinc``. Running ``gen_idef_parser_funcs.py``
-+we obtain the pseudo code
-+
-+::
-+
-+    J2_jumpr(in RsV) {
-+        {fJUMPR(RsN,RsV,COF_TYPE_JUMPR);}
-+    }
-+
-+with macros such as ``fJUMPR`` intact.
-+
-+The second step is to expand macros into a form suitable for our parser.
-+These macros are defined in ``idef-parser/macros.inc`` and the step is
-+carried out by the ``prepare`` script which runs the C preprocessor on
-+``idef_parser_input.h.inc`` to produce
-+``idef_parser_input.preprocessed.h.inc``.
-+
-+To finish the above example, after preprocessing ``J2_jumpr`` we obtain
-+
-+::
-+
-+    J2_jumpr(in RsV) {
-+        {(PC = RsV);}
-+    }
-+
-+where ``fJUMPR(RsN,RsV,COF_TYPE_JUMPR);`` was expanded to ``(PC = RsV)``,
-+signifying a write to the Program Counter ``PC``.  Note, that ``PC`` in
-+this expression is not a variable in the strict C sense since it is not
-+declared anywhere, but rather a symbol which is easy to match in
-+idef-parser later on.
-+
-+Parser Structure
-+----------------
-+
-+The idef-parser is built using the ``flex`` and ``bison``.
-+
-+``flex`` is used to split the input string into tokens, each described using a
-+regular expression. The token description is contained in the
-+``idef-parser.lex`` source file. The flex-generated scanner takes care also to
-+extract from the input text other meaningful information, e.g., the numerical
-+value in case of an immediate constant, and decorates the token with the
-+extracted information.
-+
-+``bison`` is used to generate the actual parser, starting from the parsing
-+description contained in the ``idef-parser.y`` file. The generated parser
-+executes the ``main`` function at the end of the ``idef-parser.y`` file, which
-+opens input and output files, creates the parsing context, and eventually calls
-+the ``yyparse()`` function, which starts the execution of the LALR(1) parser
-+(see `Wikipedia <https://en.wikipedia.org/wiki/LALR_parser>`__ for more
-+information about LALR parsing techniques). The LALR(1) parser, whenever it has
-+to shift a token, calls the ``yylex()`` function, which is defined by the
-+flex-generated code, and reads the input file returning the next scanned token.
-+
-+The tokens are mapped on the source language grammar, defined in the
-+``idef-parser.y`` file to build a unique syntactic tree, according to the
-+specified operator precedences and associativity rules.
-+
-+The grammar describes the whole file which contains the Hexagon instruction
-+descriptions, therefore it starts from the ``input`` nonterminal, which is a
-+list of instructions, each instruction is represented by the following grammar
-+rule, representing the structure of the input file shown above:
-+
-+::
-+
-+   instruction : INAME arguments code
-+               | error
-+
-+   arguments : '(' ')'
-+             | '(' argument_list ')';
-+
-+   argument_list : argument_decl ',' argument_list
-+                 | argument_decl
-+
-+   argument_decl : REG
-+                 | PRED
-+                 | IN REG
-+                 | IN PRED
-+                 | IMM
-+                 | var
-+                 ;
-+
-+   code        : '{' statements '}'
-+
-+   statements  : statements statement
-+               | statement
-+
-+   statement   : control_statement
-+               | var_decl ';'
-+               | rvalue ';'
-+               | code_block
-+               | ';'
-+
-+   code_block  : '{' statements '}'
-+               | '{' '}'
-+
-+With this initial portion of the grammar we are defining the instruction, its'
-+arguments, and its' statements. Each argument is defined by the
-+``argument_decl`` rule, and can be either
-+
-+::
-+
-+    Description                  Example
-+    ----------------------------------------
-+    output register              RsV
-+    output predicate register    P0
-+    input register               in RsV
-+    input predicate register     in P0
-+    immediate value              1234
-+    local variable               EA
-+
-+Note, the only local variable allowed to be used as an argument is the effective
-+address ``EA``. Similarly, each statement can be a ``control_statement``, a
-+variable declaration such as ``int a;``, a code block, which is just a
-+bracket-enclosed list of statements, a ``';'``, which is a ``nop`` instruction,
-+and an ``rvalue ';'``.
-+
-+Expressions
-+~~~~~~~~~~~
-+
-+Allowed in the input code are C language expressions with a few exceptions
-+to simplify parsing. For instance, variable names such as ``RdV``, ``RssV``,
-+``PdV``, ``CsV``, and other idiomatic register names from Hexagon, are
-+reserved specifically for register arguments. These arguments then map to
-+``TCGv_i32`` or ``TCGv_i64`` depending on the register size. Similarly, ``UiV``,
-+``riV``, etc. refer to immediate arguments and will map to C integers.
-+
-+Also, as mentioned earlier, the names ``PC``, ``SP``, ``FP``, etc. are used to
-+refer to Hexagon registers such as the program counter, stack pointer, and frame
-+pointer seen here. Writes to these registers then correspond to assignments
-+``PC = ...``, and reads correspond to uses of the variable ``PC``.
-+
-+Moreover, another example of one such exception is the selective expansion of
-+macros present in ``macros.h``. As an example, consider the ``fABS`` macro which
-+in plain C is defined as
-+
-+::
-+
-+    #define fABS(A) (((A) < 0) ? (-(A)) : (A))
-+
-+and returns the absolute value of the argument ``A``. This macro is not included
-+in ``idef-parser/macros.inc`` and as such is not expanded and kept as a "call"
-+``fABS(...)``. Reason being, that ``fABS`` is easier to match and map to
-+``tcg_gen_abs_<width>``, compared to the full ternary expression above. Loads of
-+macros in ``macros.h`` are kept unexpanded to aid in parsing, as seen in the
-+example above, for more information see ``idef-parser/idef-parser.lex``.
-+
-+Finally, in mapping these input expressions to tinycode generators, idef-parser
-+tries to perform as much as possible in plain C. Such as, performing binary
-+operations in C instead of tinycode generators, thus effectively constant
-+folding the expression.
-+
-+Variables and Variable Declarations
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Similarly to C, variables in the input code must be explicitly declared, such as
-+``int var1;`` which declares an uninitialized variable ``var1``. Initialization
-+``int var2 = 0;`` is also allowed and behaves as expected. In tinycode
-+generators the previous declarations are mapped to
-+
-+::
-+
-+    int var1;           ->      TCGv_i32 var1 = tcg_temp_local_new_i32();
-+
-+    int var2 = 0;       ->      TCGv_i32 var1 = tcg_temp_local_new_i32();
-+                                tcg_gen_movi_i32(j, ((int64_t) 0ULL));
-+
-+which are later automatically freed at the end of the function they're declared
-+in. Contrary to C, we only allow variables to be declared with an integer type
-+specified in the following table (without permutation of keywords)
-+
-+::
-+
-+    type                        bit-width    signedness
-+    ----------------------------------------------------------
-+    int                         32           signed
-+    signed
-+    signed int
-+
-+    unsigned                    32           unsigned
-+    unsigned int
-+
-+    long                        64           signed
-+    long int
-+    signed long
-+    signed long int
-+
-+    unsigned long               64           unsigned
-+    unsigned long int
-+
-+    long long                   64           signed
-+    long long int
-+    signed long long
-+    signed long long int
-+
-+    unsigned long long          64           unsigned
-+    unsigned long long int
-+
-+    size[1,2,4,8][s,u]_t        8-64         signed or unsigned
-+
-+In idef-parser, variable names are matched by a generic ``VARID`` token,
-+which will feature the variable name as a decoration. For a variable declaration
-+idef-parser calls ``gen_varid_allocate`` with the ``VARID`` token to save the
-+name, size, and bit width of the newly declared variable. In addition, this
-+function also ensures that variables aren't declared multiple times, and prints
-+and error message if that is the case. Upon use of a variable, the ``VARID``
-+token is used to lookup the size and bit width of the variable.
-+
-+Type System
-+~~~~~~~~~~~
-+
-+idef-parser features a simple type system which is used to correctly implement
-+the signedness and bit width of the operations.
-+
-+The type of each ``rvalue`` is determined by two attributes: its bit width
-+(``unsigned bit_width``) and its signedness (``HexSignedness signedness``).
-+
-+For each operation, the type of ``rvalue``\ s influence the way in which the
-+operands are handled and emitted. For example a right shift between signed
-+operators will be an arithmetic shift, while one between unsigned operators
-+will be a logical shift. If one of the two operands is signed, and the other
-+is unsigned, the operation will be signed.
-+
-+The bit width also influences the outcome of the operations, in particular while
-+the input languages features a fine granularity type system, with types of 8,
-+16, 32, 64 (and more for vectorial instructions) bits, the tinycode only
-+features 32 and 64 bit widths. We propagate as much as possible the fine
-+granularity type, until the value has to be used inside an operation between
-+``rvalue``\ s; in that case if one of the two operands is greater than 32 bits
-+we promote the whole operation to 64 bit, taking care of properly extending the
-+two operands. Fortunately, the most critical instructions already feature
-+explicit casts and zero/sign extensions which are properly propagated down to
-+our parser.
-+
-+The combination of ``rvalue``\ s are handled through the use of the
-+``gen_bin_op`` and ``gen_bin_cmp`` helper functions. These two functions handle
-+the appropriate compile-time or run-time emission of operations to perform the
-+required computation.
-+
-+Control Statements
-+~~~~~~~~~~~~~~~~~~
-+
-+``control_statement``\ s are all the statements which modify the order of
-+execution of the generated code according to input parameters. They are expanded
-+by the following grammar rule:
-+
-+::
-+
-+   control_statement : frame_check
-+                     | cancel_statement
-+                     | if_statement
-+                     | for_statement
-+                     | fpart1_statement
-+
-+``if_statement``\ s require the emission of labels and branch instructions which
-+effectively perform conditional jumps (``tcg_gen_brcondi``) according to the
-+value of an expression. Note, the tinycode generators we produce for conditional
-+statements do not perfectly mirror what would be expected in C, for instance we
-+do not reproduce short-circuiting of the ``&&`` operator, and use of the ``||``
-+operator is disallowed. All the predicated instructions, and in general all the
-+instructions where there could be alternative values assigned to an ``lvalue``,
-+like C-style ternary expressions:
-+
-+::
-+
-+   rvalue            : rvalue QMARK rvalue COLON rvalue
-+
-+are handled using the conditional move tinycode instruction
-+(``tcg_gen_movcond``), which avoids the additional complexity of managing labels
-+and jumps.
-+
-+Instead, regarding the ``for`` loops, exploiting the fact that they always
-+iterate on immediate values, therefore their iteration ranges are always known
-+at compile time, we implemented those emitting plain C ``for`` loops. This is
-+possible because the loops will be executed in the QEMU code, leading to the
-+consequential unrolling of the for loop, since the tinycode generator
-+instructions will be executed multiple times, and the respective generated
-+tinycode will represent the unrolled execution of the loop.
-+
-+Parsing Context
-+~~~~~~~~~~~~~~~
-+
-+All the helper functions in ``idef-parser.y`` carry two fixed parameters, which
-+are the parsing context ``c`` and the ``YYLLOC`` location information. The
-+context is explicitly passed to all the functions because the parser we generate
-+is a reentrant one, meaning that it does not have any global variable, and
-+therefore the instruction compilation could easily be parallelized in the
-+future. Finally for each rule we propagate information about the location of the
-+involved tokens to generate pretty error reporting, able to highlight the
-+portion of the input code which generated each error.
-+
-+Debugging
-+---------
-+
-+Developing the idef-parser can lead to two types of errors: compile-time errors
-+and parsing errors.
-+
-+Compile-time errors in Bison-generated parsers are usually due to conflicts in
-+the described grammar. Conflicts forbid the grammar to produce a unique
-+derivation tree, thus must be solved (except for the dangling else problem,
-+which is marked as expected through the ``%expect 1`` Bison option).
-+
-+For solving conflicts you need a basic understanding of `shift-reduce conflicts
-+<https://www.gnu.org/software/Bison/manual/html_node/Shift_002fReduce.html>`__
-+and `reduce-reduce conflicts
-+<https://www.gnu.org/software/Bison/manual/html_node/Reduce_002fReduce.html>`__,
-+then, if you are using a Bison version > 3.7.1 you can ask Bison to generate
-+some counterexamples which highlight ambiguous derivations, passing the
-+``-Wcex`` option to Bison. In general shift/reduce conflicts are solved by
-+redesigning the grammar in an unambiguous way or by setting the token priority
-+correctly, while reduce/reduce conflicts are solved by redesigning the
-+interested part of the grammar.
-+
-+Run-time errors can be divided between lexing and parsing errors, lexing errors
-+are hard to detect, since the ``var`` token will catch everything which is not
-+catched by other tokens, but easy to fix, because most of the time a simple
-+regex editing will be enough.
-+
-+idef-parser features a fancy parsing error reporting scheme, which for each
-+parsing error reports the fragment of the input text which was involved in the
-+parsing rule that generated an error.
-+
-+Implementing an instruction goes through several sequential steps, here are some
-+suggestions to make each instruction proceed to the next step.
-+
-+-  not-emitted
-+
-+   Means that the parsing of the input code relative to that instruction failed,
-+   this could be due to a lexical error or to some mismatch between the order of
-+   valid tokens and a parser rule. You should check that tokens are correctly
-+   identified and mapped, and that there is a rule matching the token sequence
-+   that you need to parse.
-+
-+-  emitted
-+
-+   This instruction class contains all the instructions which are emitted but
-+   fail to compile when included in QEMU. The compilation errors are shown by
-+   the QEMU building process and will lead to fixing the bug.  Most common
-+   errors regard the mismatch of parameters for tinycode generator functions,
-+   which boil down to errors in the idef-parser type system.
-+
-+-  compiled
-+
-+   These instruction generate valid tinycode generator code, which however fail
-+   the QEMU or the harness tests, these cases must be handled manually by
-+   looking into the failing tests and looking at the generated tinycode
-+   generator instruction and at the generated tinycode itself. Tip: handle the
-+   failing harness tests first, because they usually feature only a single
-+   instruction, thus will require less execution trace navigation. If a
-+   multi-threaded test fail, fixing all the other tests will be the easier
-+   option, hoping that the multi-threaded one will be indirectly fixed.
-+
-+   An example of debugging this type of failure is provided in the following
-+   section.
-+
-+-  tests-passed
-+
-+   This is the final goal for each instruction, meaning that the instruction
-+   passes the test suite.
-+
-+Another approach to fix QEMU system test, where many instructions might fail, is
-+to compare the execution trace of your implementation with the reference
-+implementations already present in QEMU. To do so you should obtain a QEMU build
-+where the instruction pass the test, and run it with the following command:
-+
-+::
-+
-+   sudo unshare -p sudo -u <USER> bash -c \
-+   'env -i <qemu-hexagon full path> -d cpu <TEST>'
-+
-+And do the same for your implementation, the generated execution traces will be
-+inherently aligned and can be inspected for behavioral differences using the
-+``diff`` tool.
-+
-+Example of debugging erroneous tinycode generator code
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The goal of this section is to provide a complete example of debugging
-+incorrectly emitted tinycode generator for a single instruction.
-+
-+Let's first introduce a bug in the tinycode generator of the ``A2_add``
-+instruction,
-+
-+::
-+
-+    void emit_A2_add(DisasContext *ctx, Insn *insn, Packet *pkt, TCGv_i32 RdV,
-+                     TCGv_i32 RsV, TCGv_i32 RtV)
-+    /*  RdV=RsV+RtV;} */
-+    {
-+        TCGv_i32 tmp_0 = tcg_temp_new_i32();
-+        tcg_gen_add_i32(tmp_0, RsV, RsV);
-+        tcg_gen_mov_i32(RdV, tmp_0);
-+        tcg_temp_free_i32(tmp_0);
-+    }
-+
-+Here the bug, albeit hard to spot, is in ``tcg_gen_add_i32(tmp_0, RsV, RsV);``
-+where we compute ``RsV + RsV`` instead of ``RsV + RtV``, as would be expected.
-+This particular bug is a bit tricky to pinpoint when debugging, since the
-+``A2_add`` instruction is so ubiquitous. As a result, pretty much all tests will
-+fail and therefore not provide a lot of information about the bug.
-+
-+For example, let's run the ``check-tcg`` tests
-+
-+::
-+
-+    make check-tcg TIMEOUT=1200 \
-+                   DOCKER_IMAGE=debian-hexagon-cross \
-+                   ENGINE=podman V=1 \
-+                   DOCKER_CROSS_CC_GUEST=hexagon-unknown-linux-musl-clang
-+
-+In the output, we find a failure in the very first test case ``float_convs``
-+due to a segmentation fault. Similarly, all harness and libc tests will fail as
-+well. At this point we have no clue where the actual bug lies, and need to start
-+ruling out instructions. As such a good starting point is to utilize the debug
-+options ``-d in_asm,cpu`` of QEMU to inspect the Hexagon instructions being run,
-+alongside the CPU state. We additionally need a working version of the emulator
-+to compare our buggy CPU state against, running
-+
-+::
-+
-+    meson configure -Dhexagon_idef_parser_enabled=false
-+
-+will disable the idef-parser for all instructions and fallback on manual
-+tinycode generator overrides, or on helper function implementations. Recompiling
-+gives us ``qemu-hexagon`` which passes all tests. If ``qemu-heaxgon-buggy`` is
-+our binary with the incorrect tinycode generators, we can compare the CPU state
-+between the two versions
-+
-+::
-+
-+    ./qemu-hexagon-buggy -d in_asm,cpu float_convs &> out_buggy
-+    ./qemu-hexagon       -d in_asm,cpu float_convs &> out_working
-+
-+Looking at ``diff -u out_buggy out_working`` shows us that the CPU state begins
-+to diverge on line 141, with an incorrect value in the ``R1`` register
-+
-+::
-+
-+    @@ -138,7 +138,7 @@
-+
-+     General Purpose Registers = {
-+       r0 = 0x4100f9c0
-+    -  r1 = 0x00042108
-+    +  r1 = 0x00000000
-+       r2 = 0x00021084
-+       r3 = 0x00000000
-+       r4 = 0x00000000
-+
-+If we also look into ``out_buggy`` directly we can inspect the input assembly
-+which the caused the incorrect CPU state, around line 141 we find
-+
-+::
-+
-+    116 |  ----------------
-+    117 |  IN: _start_c
-+    118 |  0x000210b0:  0xa09dc002	{	allocframe(R29,#0x10):raw }
-+    ... |  ...
-+    137 |  0x000210fc:  0x5a00c4aa	{	call PC+2388 }
-+    138 |
-+    139 |  General Purpose Registers = {
-+    140 |    r0 = 0x4100fa70
-+    141 |    r1 = 0x00042108
-+    142 |    r2 = 0x00021084
-+    143 |    r3 = 0x00000000
-+
-+Importantly, we see some Hexagon assembly followed by a dump of the CPU state,
-+now the CPU state is actually dumped before the input assembly above is ran.
-+As such, we are actually interested in the instructions ran before this.
-+
-+Scrolling up a bit, we find
-+
-+::
-+
-+    54 |  ----------------
-+    55 |  IN: _start
-+    56 |  0x00021088:  0x6a09c002	{	R2 = C9/pc }
-+    57 |  0x0002108c:  0xbfe2ff82	{	R2 = add(R2,#0xfffffffc) }
-+    58 |  0x00021090:  0x9182c001	{	R1 = memw(R2+#0x0) }
-+    59 |  0x00021094:  0xf302c101	{	R1 = add(R2,R1) }
-+    60 |  0x00021098:  0x7800c01e	{	R30 = #0x0 }
-+    61 |  0x0002109c:  0x707dc000	{	R0 = R29 }
-+    62 |  0x000210a0:  0x763dfe1d	{	R29 = and(R29,#0xfffffff0) }
-+    63 |  0x000210a4:  0xa79dfdfe	{	memw(R29+#0xfffffff8) = R29 }
-+    64 |  0x000210a8:  0xbffdff1d	{	R29 = add(R29,#0xfffffff8) }
-+    65 |  0x000210ac:  0x5a00c002	{	call PC+4 }
-+    66 |
-+    67 |  General Purpose Registers = {
-+    68 |    r0 = 0x00000000
-+    69 |    r1 = 0x00000000
-+    70 |    r2 = 0x00000000
-+    71 |    r3 = 0x00000000
-+
-+Remember, the instructions on lines 56-65 are ran on the CPU state shown below
-+instructions, and as the CPU state has not diverged at this point, we know the
-+starting state is accurate. The bug must then lie within the instructions shown
-+here. Next we may notice that ``R1`` is only touched by lines 57 and 58, that is
-+by
-+
-+::
-+
-+    58 |  0x00021090:  0x9182c001	{	R1 = memw(R2+#0x0) }
-+    59 |  0x00021094:  0xf302c101	{	R1 = add(R2,R1) }
-+
-+Therefore, we are either dealing with an correct load instruction
-+``R1 = memw(R2+#0x0)`` or with an incorrect add ``R1 = add(R2,R1)``. At this
-+point it might be easy enough to go directly to the emitted code for the
-+instructions mentioned and look for bugs, but we could also run
-+``./qemu-heaxgon -d op,in_asm float_conv`` where we find for the following
-+tinycode for the Hexagon ``add`` instruction
-+
-+::
-+
-+   ---- 00021094
-+   mov_i32 pkt_has_store_s1,$0x0
-+   add_i32 tmp0,r2,r2
-+   mov_i32 loc2,tmp0
-+   mov_i32 new_r1,loc2
-+   mov_i32 r1,new_r1
-+
-+Here we have finally located our bug ``add_i32 tmp0,r2,r2``.
-+
-+Limitations and Future Development
-+----------------------------------
-+
-+The main limitation of the current parser is given by the syntax-driven nature
-+of the Bison-generated parsers. This has the severe implication of only being
-+able to generate code in the order of evaluation of the various rules, without,
-+in any case, being able to backtrack and alter the generated code.
-+
-+An example limitation is highlighted by this statement of the input language:
-+
-+::
-+
-+   { (PsV==0xff) ? (PdV=0xff) : (PdV=0x00); }
-+
-+This ternary assignment, when written in this form requires us to emit some
-+proper control flow statements, which emit a jump to the first or to the second
-+code block, whose implementation is extremely convoluted, because when matching
-+the ternary assignment, the code evaluating the two assignments will be already
-+generated.
-+
-+Instead we pre-process that statement, making it become:
-+
-+::
-+
-+   { PdV = ((PsV==0xff)) ? 0xff : 0x00; }
-+
-+Which can be easily matched by the following parser rules:
-+
-+::
-+
-+   statement             | rvalue ';'
-+
-+   rvalue                : rvalue QMARK rvalue COLON rvalue
-+                         | rvalue EQ rvalue
-+                         | LPAR rvalue RPAR
-+                         | assign_statement
-+                         | IMM
-+
-+   assign_statement      : pred ASSIGN rvalue
-+
-+Another example that highlight the limitation of the flex/bison parser can be
-+found even in the add operation we already saw:
-+
-+::
-+
-+   TCGv_i32 tmp_0 = tcg_temp_new_i32();
-+   tcg_gen_add_i32(tmp_0, RsV, RtV);
-+   tcg_gen_mov_i32(RdV, tmp_0);
-+
-+The fact that we cannot directly use ``RdV`` as the destination of the sum is a
-+consequence of the syntax-driven nature of the parser. In fact when we parse the
-+assignment, the ``rvalue`` token, representing the sum has already been reduced,
-+and thus its code emitted and unchangeable. We rely on the fact that QEMU will
-+optimize our code reducing the useless move operations and the relative
-+temporaries.
-+
-+A possible improvement of the parser regards the support for vectorial
-+instructions and floating point instructions, which will require the extension
-+of the scanner, the parser, and a partial re-design of the type system, allowing
-+to build the vectorial semantics over the available vectorial tinycode generator
-+primitives.
-+
-+A more radical improvement will use the parser, not to generate directly the
-+tinycode generator code, but to generate an intermediate representation like the
-+LLVM IR, which in turn could be compiled using the clang TCG backend. That code
-+could be furtherly optimized, overcoming the limitations of the syntax-driven
-+parsing and could lead to a more optimized generated code.
+ endif
+ 
+ target_arch += {'hexagon': hexagon_ss}
 -- 
 2.37.3
 
