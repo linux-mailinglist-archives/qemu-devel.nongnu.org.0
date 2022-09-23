@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529485E713C
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 03:12:31 +0200 (CEST)
-Received: from localhost ([::1]:41200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AEB5E71E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 04:31:30 +0200 (CEST)
+Received: from localhost ([::1]:38180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obXF0-0005ei-0D
-	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 21:12:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55794)
+	id 1obYTL-00016n-0U
+	for lists+qemu-devel@lfdr.de; Thu, 22 Sep 2022 22:31:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1obXCZ-0003Q3-N1
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 21:09:59 -0400
-Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:36809)
+ id 1obYQO-0007Ir-Ps; Thu, 22 Sep 2022 22:28:20 -0400
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:39430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1obXCT-0006pj-TZ
- for qemu-devel@nongnu.org; Thu, 22 Sep 2022 21:09:59 -0400
-Received: by mail-qv1-xf31.google.com with SMTP id g4so8103482qvo.3
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 18:09:52 -0700 (PDT)
+ id 1obYQN-0005Pa-8s; Thu, 22 Sep 2022 22:28:20 -0400
+Received: by mail-qk1-x733.google.com with SMTP id x18so7480130qkn.6;
+ Thu, 22 Sep 2022 19:28:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=tskRT081hWH3d3xDE1iHxsa1gdCEQL1vSAq4Y2wlpQU=;
- b=Bi8TVTZ6t2w1MUduJpZIJHgTtTBJADm5dRzsC5V+S+2Z2/QD96HkZVWhHq2prwHgoP
- YYjTeuOMXBji/nZjJs+4Jq7eaMp6zvOU1mfkWkWOKE1sfy1ILuDWBExcaV40Tpti4cUP
- 0VC8XeOR654hjs4EVAfmy6RGJgyqIDBCoOy1bzDueRZskjwTojNPGDkIY1/ZJlPFWzp6
- wojZF7/dyjiVgw7D1IjzdL/yNyCTpqP+qIyHMl8jcnNcNb2CUYoxuraz9munAm7UZDFc
- uCW03PsCAoJCnGsCSu8i5f7PfXd3alfX2Y1qSwyofbbImTm6wfKMByyJMMCKG7QWDIj3
- MmZQ==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=xhAGNljccR4/qBcdqYr6uFSo6gdJUSN/553Y11TMVAY=;
+ b=GcC9I8ZsjeEpFIPM1lpiGyPV/5p6VVrCCOUbzW/mXXiU21EsMcbVdmyhmGoyb+zOZ5
+ fMvtGuD4QMSSrWC/DRRdS8xfpcjwHYmNIKdVm8TwgZWiGdeQA5viID1MoAJ7NkR9F/Ns
+ zVIP3bVsPL7qpeQdiG6KQCS/HRHZlDXZixKu9jFVoHo5qCr8HwqCc4RYJ90aD5cxW/m6
+ RYZqEtimDi/IHvoTLWtSF29mxQMKn3jPcc1HeSAt8qhpApTZxQT91Tk9DUbWwFwRH99y
+ rkANUO5ld22i5Rs28jEEZ/YW9g7cWI/Gvi/1VPsIeKiZPoYRt++GztIRAIOiG/Y24zvY
+ 03Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=tskRT081hWH3d3xDE1iHxsa1gdCEQL1vSAq4Y2wlpQU=;
- b=ExvdS3NNYbTPLlv9xyVjGtyL3o0LLVusTIy5fytOQPNPFjetTytSGELA6GuSm6Oph6
- cwhcOrbtw6esje+VsPKj8S+0j1UyaQ0IziCayMnZPhpWzlD2F3iQqFGkDKH9O3nn+/e3
- 9xBYePvTJJ1FJCprcNdQvyJiIShGXJYzUnal6b4dqEAL39AhOIGLBG51YE99Q3eOU5dK
- sHURNcrQjLH3rUB9BlJnwbbpJKGGI6ol2HhlM0x6+nEbyi/IB5BbdI+f53OcG0brmB9p
- PWTzVWQvO9nsy8ZtIgxiJtukz++tQ0wQBlCwZojNbaIZCjMf5jhW0Y4cEnlvxSmX44ed
- Xdzw==
-X-Gm-Message-State: ACrzQf2ZFhTfhoLC0b3gNhpTqEkv4Q17a0eBZJc1Wi4K+zwGyFpae8sL
- aRuDks4xTkdlQ12aocm87Hm7W2Gu8euPAbEHEa8=
-X-Google-Smtp-Source: AMsMyM50c4huSwtVus6ujMwl6Ne1tYBtD2/zv7vw/1+vm9crWeW8oMEo2rDV5VugtcD5S1x58ZHXq+mtQtCe7uY8Lqw=
-X-Received: by 2002:a05:6214:1947:b0:4aa:9e87:d032 with SMTP id
- q7-20020a056214194700b004aa9e87d032mr4950519qvk.114.1663895391975; Thu, 22
- Sep 2022 18:09:51 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=xhAGNljccR4/qBcdqYr6uFSo6gdJUSN/553Y11TMVAY=;
+ b=uPAY8uaVEO+1gQUnmIOSBHTsYGHVCjpjjpNep/p0yVC3pa4YmRtxDIqcn5Uk/i6WMY
+ wK5LJ2BWum6/M9FSIO2chryd/zEtL95sxHfaM0rfotADYQu3lpp0Q07EDIuDqLhxEsmX
+ VBSAf57b730ypjgTZz5fiVDyVEVke5HCdu+78tEGMZr5LooljuRq95DinvC0XtjoxUu2
+ vGNHoux0Cw3Rmf4i0P2AcqcUnOhqCsT12j5rHW37Xzi0Gcg35wEn6oHpVEu3qgP0H5GH
+ JmtUGjYMvXFxmM9nfjMu/sI7nJ7k9Tbv+W2nU2Egki5kIxRrD5Wr3b681iDksCWdjAEG
+ OGBQ==
+X-Gm-Message-State: ACrzQf0vd24zDP5c6dztbE9+2Vp9X1Nbr68xJcKeHYMdBqZFWkkosdk9
+ xZq+vDZ0mYrm1N1ZkAryu1fb9lcIGI4MoJ9DvDU=
+X-Google-Smtp-Source: AMsMyM5qaY2HC0mz7PNv8LS2P8vAYoleQOKZOH/A8lODDLHn74pmAVrfwKx1H+cvp6AUi9rRpbhDe3WISDdFhDzMDUg=
+X-Received: by 2002:ae9:e410:0:b0:6cb:e230:8df8 with SMTP id
+ q16-20020ae9e410000000b006cbe2308df8mr4202967qkc.132.1663900097926; Thu, 22
+ Sep 2022 19:28:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
- <20220920103159.1865256-2-bmeng.cn@gmail.com>
- <CAJ+F1CKiCiWBwr5CGAODZukJ8eYoJerhQ01AQYqWMLktsVDM2Q@mail.gmail.com>
-In-Reply-To: <CAJ+F1CKiCiWBwr5CGAODZukJ8eYoJerhQ01AQYqWMLktsVDM2Q@mail.gmail.com>
+References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
+ <CAEUhbmVvxoZD7dJbMGud5LLp3fmZTyovgXUvEEdyuneg=K_LUg@mail.gmail.com>
+ <1013abdd-1e46-1121-21f5-522cb9bb5cd1@redhat.com>
+In-Reply-To: <1013abdd-1e46-1121-21f5-522cb9bb5cd1@redhat.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 23 Sep 2022 09:09:41 +0800
-Message-ID: <CAEUhbmXV8SBNfW3teZw+A-EKxbjv-UwJZrND4mWOdxUKQT_MCw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/39] tests: Change to use g_mkdir()
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 23 Sep 2022 10:28:07 +0800
+Message-ID: <CAEUhbmVbOmiEVGvGU+hWvnUJ775kXJFERoSTNB8G6Boswbxz_Q@mail.gmail.com>
+Subject: Re: [PATCH 0/7] nsis: gitlab-ci: Improve QEMU Windows installer
+ packaging
+To: Thomas Huth <thuth@redhat.com>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
+ Stefan Weil <sw@weilnetz.de>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, 
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Peter Lieven <pl@kamp.de>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x733.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,37 +92,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 23, 2022 at 3:32 AM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Tue, Sep 20, 2022 at 1:48 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->>
->> From: Bin Meng <bin.meng@windriver.com>
->>
->> Commit 413bebc04603 ("tests: Use g_mkdir_with_parents()") replaces
->> the mkdir() call in the test codes with glib's g_mkdir_with_parents(),
->> but the exact portable replacement for mkdir() should be g_mkdir().
->>
->> I probably was misled by the GTK glib doc [1] before, thinking that
->> g_mkdir() is not a supported API from glib. But the glib sources do
->> not support this statement. It is probably that the GTK documentation
->> was not built to include all APIs.
->>
->> [1] https://docs.gtk.org/glib/?q=3Dmkdir
->>
->> Fixes: 413bebc04603 ("tests: Use g_mkdir_with_parents()")
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->
->
-> I wouldn't bother anymore, I'd keep mkdir_with_parents for now. YMMV
->
+Hi Stefan,
 
-Yep but some maintainers pointed out in other patches in v1 that
-g_mkdir() is the strict replacement for mkdir() :)
+On Wed, Sep 21, 2022 at 8:24 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 21/09/2022 14.18, Bin Meng wrote:
+> > Hi,
+> >
+> > On Thu, Sep 8, 2022 at 9:28 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >>
+> >> At present packaging the required DLLs of QEMU executables is a
+> >> manual process, and error prone.
+> >>
+> >> Improve scripts/nsis.py by adding a logic to automatically package
+> >> required DLLs of QEMU executables.
+> >>
+> >> 'make installer' is tested in the cross-build on Linux in CI, but
+> >> not in the Windows native build. Update CI to test the installer
+> >> generation on Windows too.
+> >>
+> >> During testing a 32-bit build issue was exposed in block/nfs.c and
+> >> the fix is included in this series.
+> >>
+> >>
+> >> Bin Meng (7):
+> >>    scripts/nsis.py: Drop the unnecessary path separator
+> >>    scripts/nsis.py: Fix destination directory name when invoked on
+> >>      Windows
+> >>    scripts/nsis.py: Automatically package required DLLs of QEMU
+> >>      executables
+> >>    .gitlab-ci.d/windows.yml: Drop the sed processing in the 64-bit build
+> >>    block/nfs: Fix 32-bit Windows build
+> >>    .gitlab-ci.d/windows.yml: Unify the prerequisite packages
+> >>    .gitlab-ci.d/windows.yml: Test 'make installer' in the CI
+> >>
+> >>   meson.build              |  1 +
+> >>   block/nfs.c              |  8 ++++++
+> >>   .gitlab-ci.d/windows.yml | 40 ++++++++++++++++++++-------
+> >>   scripts/nsis.py          | 60 +++++++++++++++++++++++++++++++++-------
+> >>   4 files changed, 89 insertions(+), 20 deletions(-)
+> >>
+> >
+> > I see Thomas only queued patch #4 (".gitlab-ci.d/windows.yml: Drop the
+> > sed processing in the 64-bit build")
+> >
+> > What about other patches?
+>
+> I hope that Stefan Weil (our W32 maintainer) could have a look at these first...
 
-@Thomas Huth Would you share your thoughts?
+Would you please comment this series? Thanks!
 
 Regards,
 Bin
