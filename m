@@ -2,65 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B29D5E7A46
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 14:12:44 +0200 (CEST)
-Received: from localhost ([::1]:37784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CD95E7A49
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 14:15:17 +0200 (CEST)
+Received: from localhost ([::1]:52858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obhXu-0008WE-JT
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 08:12:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33554)
+	id 1obhaN-00047h-VV
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 08:15:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1obhLy-0001dK-ME
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 08:00:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43970)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obhM8-0001e8-Tw
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 08:00:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1obhLw-0008IZ-IP
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 08:00:22 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obhM5-0000A6-PI
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 08:00:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663934399;
+ s=mimecast20190719; t=1663934429;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/vp+xlXETIC9s7StE8kDbMTLJMFSgVa6cPHNSupGhjY=;
- b=ASPl6LcSo6QCDHMM5APbmOnWVZF4PkUfxfHvM1OUjv7ymvqhFSnViYyU+XXklH0EfdA4sk
- /xeW1cuA/ZjOpb/d4uoNqbNgUKQEDkZGVyEgXsiWKjOUjkZyY11NspIdlQxhCqfv4rp6Nv
- TMuZooBbpxc45wQF6pAq1vmjrxEXqoE=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=g0vSaJhK5RRfnpXTQoX4uwBWUTPfhXjK1+TW7tzf6U0=;
+ b=CE40bpNcC0a3PscFq+Pyf3SK7cX6mZk3wHGw772mdyiNz/L4tjlFcCBg7hr3AzVuOHfM9H
+ hjvzpC6A/iuXKLJCu8iTOjHGThq/KCnY5hWjRMEhTFkJWmTs9H3fczDcw9SK87HYtB7KVe
+ T/ACz79m5xVHFVvsdq6xffgdCeUOgUo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-MpoJv_CvN_euBtlIxbhk1w-1; Fri, 23 Sep 2022 07:59:56 -0400
-X-MC-Unique: MpoJv_CvN_euBtlIxbhk1w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-631-SEX_1i-wPnybZu9ORrZP6g-1; Fri, 23 Sep 2022 08:00:27 -0400
+X-MC-Unique: SEX_1i-wPnybZu9ORrZP6g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B380882820;
- Fri, 23 Sep 2022 11:59:55 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C9594B3FCD;
- Fri, 23 Sep 2022 11:59:55 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 767E218000A3; Fri, 23 Sep 2022 13:59:53 +0200 (CEST)
-Date: Fri, 23 Sep 2022 13:59:53 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v5 0/3] ui/cocoa: Run qemu_init in the main thread
-Message-ID: <20220923115953.r3nxyoealq37jvz6@sirius.home.kraxel.org>
-References: <20220819132756.74641-1-akihiko.odaki@gmail.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 84845185A794;
+ Fri, 23 Sep 2022 12:00:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5875140C6E13;
+ Fri, 23 Sep 2022 12:00:27 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2365721E6900; Fri, 23 Sep 2022 14:00:25 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org
+Subject: [PATCH 0/3] Drop useless casts from void * to pointer
+Date: Fri, 23 Sep 2022 14:00:22 +0200
+Message-Id: <20220923120025.448759-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220819132756.74641-1-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,44 +76,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 19, 2022 at 10:27:53PM +0900, Akihiko Odaki wrote:
-> This work is based on:
-> https://patchew.org/QEMU/20220317125534.38706-1-philippe.mathieu.daude@gmail.com/
-> 
-> Simplify the initialization dance by running qemu_init() in the main
-> thread before the Cocoa event loop starts. The secondary thread only
-> runs only qemu_main_loop() and qemu_cleanup().
-> 
-> This fixes a case where addRemovableDevicesMenuItems() calls
-> qmp_query_block() while expecting the main thread to still hold
-> the BQL.
-> 
-> Overriding the code after calling qemu_init() is done by dynamically
-> replacing a function pointer variable, qemu_main when initializing
-> ui/cocoa, which unifies the static implementation of main() for
-> builds with ui/cocoa and ones without ui/cocoa.
-> 
-> v5: Rebased to 4d65d4ba57372c57a1236fb5cb789dbcc100645c, restoring the
->     exit() call in call_qemu_main() and dropping Reviewed-by from
->     "ui/cocoa: Run qemu_init in the main thread".
-> 
-> v4: Asynchronously call -[NSApplication terminate:] to avoid potential
->     deadlock with qemu_thread_join(). (Paolo Bonzini)
-> 
-> v3: Document functions involved in startup. (Peter Maydell)
-> 
-> v2: Restore allow_events flag to fix the crash reported by
->     Philippe Mathieu-Daudé.
-> 
-> Akihiko Odaki (3):
->   ui/cocoa: Run qemu_init in the main thread
->   Revert "main-loop: Disable block backend global state assertion on
->     Cocoa"
->   meson: Allow to enable gtk and sdl while cocoa is enabled
+Markus Armbruster (3):
+  hw/core: Tidy up unnecessary casting away of const
+  Drop useless casts from g_malloc() & friends to pointer
+  Drop more useless casts from void * to pointer
 
-Patches added to queue.
+ bsd-user/elfload.c                      | 2 +-
+ contrib/plugins/cache.c                 | 8 ++++----
+ contrib/vhost-user-blk/vhost-user-blk.c | 2 +-
+ hw/arm/nseries.c                        | 4 ++--
+ hw/char/exynos4210_uart.c               | 2 +-
+ hw/core/qdev-clock.c                    | 2 +-
+ hw/core/sysbus-fdt.c                    | 5 +++--
+ hw/display/blizzard.c                   | 2 +-
+ hw/hyperv/vmbus.c                       | 2 +-
+ hw/misc/cbus.c                          | 6 +++---
+ hw/net/cadence_gem.c                    | 2 +-
+ hw/net/virtio-net.c                     | 2 +-
+ hw/nvme/ctrl.c                          | 4 ++--
+ hw/nvram/eeprom93xx.c                   | 2 +-
+ hw/rdma/vmw/pvrdma_cmd.c                | 9 +++------
+ hw/rdma/vmw/pvrdma_qp_ops.c             | 6 +++---
+ hw/usb/ccid-card-emulated.c             | 2 +-
+ hw/virtio/virtio-iommu.c                | 3 +--
+ linux-user/syscall.c                    | 2 +-
+ target/i386/hax/hax-all.c               | 2 +-
+ target/i386/kvm/kvm.c                   | 3 +--
+ target/i386/whpx/whpx-all.c             | 5 ++---
+ target/s390x/kvm/kvm.c                  | 2 +-
+ tests/tcg/aarch64/system/semiheap.c     | 4 ++--
+ ui/vnc-enc-hextile.c                    | 4 ++--
+ util/coroutine-ucontext.c               | 2 +-
+ util/vfio-helpers.c                     | 2 +-
+ 27 files changed, 43 insertions(+), 48 deletions(-)
 
-thanks,
-  Gerd
+-- 
+2.37.2
 
 
