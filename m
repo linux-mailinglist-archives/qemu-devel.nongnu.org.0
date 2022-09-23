@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D2C5E7B1E
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 14:49:14 +0200 (CEST)
-Received: from localhost ([::1]:40428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE71D5E7B39
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 14:58:24 +0200 (CEST)
+Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obi7C-0001Mm-Oc
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 08:49:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33558)
+	id 1obiG7-00073h-HL
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 08:58:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obhso-0006PC-LK
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 08:34:18 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34530)
+ id 1obhsq-0006QI-4Y
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 08:34:24 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1obhsm-0007VM-Ve
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 08:34:18 -0400
-Received: by mail-wr1-x432.google.com with SMTP id z6so20293160wrq.1
+ id 1obhsn-0007VT-AM
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 08:34:19 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id t7so20173896wrm.10
  for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 05:34:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=upwhR+H0cqGHMXItgFLczOGILoh98UbA8+O2Ym4ZDr0=;
- b=htRyQynVFtqiGymzb4mkKfkdBGA7wRIQd3DdKLL5rEba61OptGOqEJMW3Uq/cS8THC
- ad7r/yzvrwnsKtzVBs0xMexSUPk6YLmCF7CpILuq/qbyZuhX8zy5m38k1N9xV+voqFZQ
- otm7zTnjvsYfTHsVi+hdaglRqKpTMuT6tmyNLUs9zQSB/eA/dNzYT5cpfDYtY1MK+Shn
- khJpeca1+GpNU5H4B+t6cwf+TvW0QWpo+qDkGDgrEcTHeNDHS6NIxYHFMsLYtXwBpPSW
- gOx53KqjtSHnnR1m0u71U2eXIMd8IGiqkPkZzhFgCHPK4glttfU68aXcpT7+IO1qJV81
- nEbg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=9bX1U7fCCWCM+RDd/fzqQav05Uxy455tmNKKT/hfAUQ=;
+ b=rWEgCWnUdgamXStSyyzCw0RZPP/GBIXNbLE2tfhMqzjfhtI7L1aC0NQ/7Xj4kV/zbI
+ dFugSZKhhBYQZyPeaOzMR+tcnQu0J7JnQ6QM+cijrBCjHIYURZPdtr6vYxqQ7aV7NZT4
+ cSNi75VYK2qZ7B61anc2O32zV1ijU/WPVI/luNzP8KwXwIXvzdAwewZIxedLFuQ6ggJG
+ 44lr5gjkvGCfGmPsoImiAc6jmbrZ5gr8+wE6+5dzjkgreMLrP90+Z3gIyi6hvfqk/3mo
+ a9np/YKtVH6dqdYRRCbJhaCG+Gevj4AYKQ1YG4o/8xBU5oE446lNBJjl3+g6GN5PrLB0
+ xo8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=upwhR+H0cqGHMXItgFLczOGILoh98UbA8+O2Ym4ZDr0=;
- b=SxZvfyr8Kltztcyl+psjIbkTwjiXcYUGXXUYkfxwDE5GdgipLozxbktbRMGGQHyGIV
- SzjuFDtx0R2gOoJmoQKZk2rIKIEQty++Pbc7Ijw17qPpsQ3l6uS7wuL8IFoTFetTJCIB
- ovg3jDmy3I32ylJhgcDK0cAIK+zp64OvE/L6xwpdG7QAPg/r4URAaq/6AmIw/GI/lxuG
- p8sUcod8Sj+UERtI21sUs3BoB8H1jA8gjnp+oekEkASvxGrPXE6PJWoDBOWx3hSTQ91x
- OEauYWa8P9s5wkE9fCQURNyPWGPYoqwfKfkQxwfsTteNNEKCqdTcwy6mcKx2P3QlCo1S
- XSuA==
-X-Gm-Message-State: ACrzQf2ikuvuZJHA64g6t2LcXL5F5xIUpplNdMtbSsndWDLFq7blOR/4
- WZ7MTDjFlpyKb0pmQrTibzix7g==
-X-Google-Smtp-Source: AMsMyM77KtFb5kSHSz0gDy2Ds3Q3mvPLbeC4OQl0B1RqkpTNYtIsifsihrNQGIxLl6N9taoQllw7Vw==
-X-Received: by 2002:a5d:59a5:0:b0:22b:52:1c9f with SMTP id
- p5-20020a5d59a5000000b0022b00521c9fmr5209684wrr.576.1663936455108; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=9bX1U7fCCWCM+RDd/fzqQav05Uxy455tmNKKT/hfAUQ=;
+ b=VzHbJqA57fAgSNVWgVopRRwYR4jXe9iCp2hypMw1lzqbnI2zEUmlECDjkOnxDFQ76U
+ a1yk4bh9rSQUaxuY45Mw899L+NfWvx0+1yGNIIkN336n13fSqqT3QTm6eESjJYfoXhBm
+ 4EiO1spSnK1URBNXgvcyRUgaBkMx45AJxRiJcGiD4rNhlvQo7Gd10R/2R23NX7n/i8Ss
+ RwfY+Ho4Sa1cXy3GhQEo3xOoF9ALTVhZpqIwlhGjhALMJF/af0cy+mKfMp4+3xpiAh3H
+ IPhUqDWyPzixWw2uuMTvYs8gwWdNBGZ6QuvevGrNfyRQiWkt/g5h+FRf1gkkJixJYvbo
+ JHHQ==
+X-Gm-Message-State: ACrzQf0I+LxFpT/K8IwGxTyL6tRqdn+dcHhnAqVTLI7k/Pvd/LqfQFMY
+ /tNHyKQc/c5Fqurb5xFngqo2HI9nEjbb4g==
+X-Google-Smtp-Source: AMsMyM52L4HLXMAxKJOLO4QxENItqfX7QEeWqusWCB4cxbKsmjhyZVHykt5AbazPwlKdfNdbeCG0Yg==
+X-Received: by 2002:adf:fa81:0:b0:224:f260:2523 with SMTP id
+ h1-20020adffa81000000b00224f2602523mr5057563wrr.26.1663936455843; 
  Fri, 23 Sep 2022 05:34:15 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- n43-20020a05600c502b00b003b486027c8asm2504555wmr.20.2022.09.23.05.34.14
+ n43-20020a05600c502b00b003b486027c8asm2504555wmr.20.2022.09.23.05.34.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Sep 2022 05:34:14 -0700 (PDT)
+ Fri, 23 Sep 2022 05:34:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 0/3] target/arm: Fix bugs in recent PMU changes
-Date: Fri, 23 Sep 2022 13:34:09 +0100
-Message-Id: <20220923123412.1214041-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/3] target/arm: Mark registers which call pmu_op_start() as
+ ARM_CP_IO
+Date: Fri, 23 Sep 2022 13:34:10 +0100
+Message-Id: <20220923123412.1214041-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220923123412.1214041-1-peter.maydell@linaro.org>
+References: <20220923123412.1214041-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,26 +91,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset fixes some bugs in the recent changes I made
-to the Arm PMU emualtion as part of implementing FEAT_PMUv3p5.
+In commit 01765386a888 we made some system register write functions
+call pmu_op_start()/pmu_op_finish(). This means that they now touch
+timers, so for icount to work these registers must have the ARM_CP_IO
+flag set.
 
-The important patch here is the first one, which fixes a crash
-when in icount mode if the guest touched MDCR_EL3, MDCR_EL2,
-PMCNTENSET_EL0 or PMCNTENCLR_EL0. The other two are more minor,
-things which I noticed while I was looking at the code.
+This fixes a bug where when icount is enabled a guest that touches
+MDCR_EL3, MDCR_EL2, PMCNTENSET_EL0 or PMCNTENCLR_EL0 would cause
+QEMU to print an error message and exit, for example:
 
-thanks
--- PMM
+[    2.495971] TCP: Hash tables configured (established 1024 bind 1024)
+[    2.496213] UDP hash table entries: 256 (order: 1, 8192 bytes)
+[    2.496386] UDP-Lite hash table entries: 256 (order: 1, 8192 bytes)
+[    2.496917] NET: Registered protocol family 1
+qemu-system-aarch64: Bad icount read
 
-Peter Maydell (3):
-  target/arm: Mark registers which call pmu_op_start() as ARM_CP_IO
-  target/arm: Make writes to MDCR_EL3 use PMU start/finish calls
-  target/arm: Update SDCR_VALID_MASK to include SCCD
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/helper.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
- target/arm/cpu.h    |  8 +++++++-
- target/arm/helper.c | 30 ++++++++++++++++++++----------
- 2 files changed, 27 insertions(+), 11 deletions(-)
-
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 1a57d2e1d60..7c7ba328d6d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1927,12 +1927,12 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
+      * or PL0_RO as appropriate and then check PMUSERENR in the helper fn.
+      */
+     { .name = "PMCNTENSET", .cp = 15, .crn = 9, .crm = 12, .opc1 = 0, .opc2 = 1,
+-      .access = PL0_RW, .type = ARM_CP_ALIAS,
++      .access = PL0_RW, .type = ARM_CP_ALIAS | ARM_CP_IO,
+       .fieldoffset = offsetoflow32(CPUARMState, cp15.c9_pmcnten),
+       .writefn = pmcntenset_write,
+       .accessfn = pmreg_access,
+       .raw_writefn = raw_write },
+-    { .name = "PMCNTENSET_EL0", .state = ARM_CP_STATE_AA64,
++    { .name = "PMCNTENSET_EL0", .state = ARM_CP_STATE_AA64, .type = ARM_CP_IO,
+       .opc0 = 3, .opc1 = 3, .crn = 9, .crm = 12, .opc2 = 1,
+       .access = PL0_RW, .accessfn = pmreg_access,
+       .fieldoffset = offsetof(CPUARMState, cp15.c9_pmcnten), .resetvalue = 0,
+@@ -1942,11 +1942,11 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
+       .fieldoffset = offsetoflow32(CPUARMState, cp15.c9_pmcnten),
+       .accessfn = pmreg_access,
+       .writefn = pmcntenclr_write,
+-      .type = ARM_CP_ALIAS },
++      .type = ARM_CP_ALIAS | ARM_CP_IO },
+     { .name = "PMCNTENCLR_EL0", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 3, .crn = 9, .crm = 12, .opc2 = 2,
+       .access = PL0_RW, .accessfn = pmreg_access,
+-      .type = ARM_CP_ALIAS,
++      .type = ARM_CP_ALIAS | ARM_CP_IO,
+       .fieldoffset = offsetof(CPUARMState, cp15.c9_pmcnten),
+       .writefn = pmcntenclr_write },
+     { .name = "PMOVSR", .cp = 15, .crn = 9, .crm = 12, .opc1 = 0, .opc2 = 3,
+@@ -5130,7 +5130,7 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
+       .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 3, .opc2 = 1,
+       .resetvalue = 0,
+       .access = PL3_RW, .fieldoffset = offsetof(CPUARMState, cp15.mdcr_el3) },
+-    { .name = "SDCR", .type = ARM_CP_ALIAS,
++    { .name = "SDCR", .type = ARM_CP_ALIAS | ARM_CP_IO,
+       .cp = 15, .opc1 = 0, .crn = 1, .crm = 3, .opc2 = 1,
+       .access = PL1_RW, .accessfn = access_trap_aa32s_el1,
+       .writefn = sdcr_write,
+@@ -7837,7 +7837,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+          * value is MDCR_EL2.HPMN which should reset to the value of PMCR_EL0.N.
+          */
+         ARMCPRegInfo mdcr_el2 = {
+-            .name = "MDCR_EL2", .state = ARM_CP_STATE_BOTH,
++            .name = "MDCR_EL2", .state = ARM_CP_STATE_BOTH, .type = ARM_CP_IO,
+             .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 1,
+             .writefn = mdcr_el2_write,
+             .access = PL2_RW, .resetvalue = pmu_num_counters(env),
 -- 
 2.25.1
 
