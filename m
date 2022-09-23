@@ -2,86 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FCD95E789F
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 12:46:52 +0200 (CEST)
-Received: from localhost ([::1]:57880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8815E78CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 12:53:44 +0200 (CEST)
+Received: from localhost ([::1]:42740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obgCp-00046l-0R
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 06:46:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56052)
+	id 1obgJT-0008M4-Hq
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 06:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1obg80-0001HX-36
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 06:41:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43573)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1obgDG-0004GE-3r
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 06:47:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1obg7w-0003MK-Jt
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 06:41:50 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1obgDB-0004V3-RF
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 06:47:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663929707;
+ s=mimecast20190719; t=1663930032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pLx155w8BDoTqc6QRal5/+onAcSfuDPOYdgLujAM65A=;
- b=bYoelj+ztvwAoaXmnU6toJcSwLDXzAIL3AaizW5T8E1PBHtOpm3UTkI7931a2writNNxB1
- TZcVJQIdNC711j+Qw9HoJGog5vYJseDM4hAXV0PXfJfhXUZzFXZxebLv4yxGNnTy2Jsv+1
- qUEwMwe9//ZEk6r7d6zDDXFMoJr11cI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=o+CTC0BQhVnSMTvBtg2pJ6gj5J6eW0w4UyCFIo1XCms=;
+ b=FKbokIePzLY8n9nlgz9GQ9HUgM0ifSDFxSVEFX0YpcYvff5GsP7JoWsxSjScnUrYmCMBtr
+ 1yt+UP9amDz/HKy11cXCDjLae2Rums7Xyv7d3nHxDuOuEFP//eFDkQItVv82glaXzblK6u
+ 7Du8Hw0FtsUmEnNalTBPzDn3UXxeNwQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-240-S8P-pycbOiOU3Zz3KkYDJg-1; Fri, 23 Sep 2022 06:41:46 -0400
-X-MC-Unique: S8P-pycbOiOU3Zz3KkYDJg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c128-20020a1c3586000000b003b5152ebeb7so345350wma.0
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 03:41:45 -0700 (PDT)
+ us-mta-359-GZT8hKSzNlKU91y9zGokDQ-1; Fri, 23 Sep 2022 06:47:11 -0400
+X-MC-Unique: GZT8hKSzNlKU91y9zGokDQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ d5-20020a05600c34c500b003b4fb42ccdeso2527112wmq.8
+ for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 03:47:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=pLx155w8BDoTqc6QRal5/+onAcSfuDPOYdgLujAM65A=;
- b=HUuh27H3a10wDZurm1G0XYBKAboVCZjHLhXtg3y+qDzd25lmML7uTDSl9b6YALmsV8
- +c+jOxyQphlJRHx25FV5cF3itSCRuuwlWAsyFw92+lu1SMNSBHwnAkA62GL4GozQmFsI
- 0h4daB289+en6/54ajUteFXm+q/b16Ro8Vm7dgDs19fT8r1bB5nlXjvHRWfH2m+kUNKS
- 2aZ7lbj91Ky2kvgxLIuyWNOu2YJWtbbC1AOf9i96W+fQu85lnPp4dLZI7dDnN1Cz+ruE
- UttGRz2Ce8FccV5456mLO48igyd/g7VrdNnSrnc3aM50hrpprfEJbYpH84BULwwHal+O
- kJtA==
-X-Gm-Message-State: ACrzQf3XcznkgOy3aAd1vXOL3L9i/FzUqdNrl8o2fVr33xXUEtBDWLtj
- 1b+cILxvyl924/M4yBD1jNR5/UoVlK4ZvZOML6L1hveTngl1eTm6iqYgwrgr+gFLo3e7Dmf7p+U
- 0PQrBwj8OJHKUlnc=
-X-Received: by 2002:a5d:64e8:0:b0:22a:bbb0:fa with SMTP id
- g8-20020a5d64e8000000b0022abbb000famr4945429wri.372.1663929704965; 
- Fri, 23 Sep 2022 03:41:44 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM71iGCiHT1nISlB1kQv525RGZtQuVBJ5zIsrEw0J78y/UbsiUtjxmFhR3TkrCVz30GapLn48w==
-X-Received: by 2002:a5d:64e8:0:b0:22a:bbb0:fa with SMTP id
- g8-20020a5d64e8000000b0022abbb000famr4945409wri.372.1663929704699; 
- Fri, 23 Sep 2022 03:41:44 -0700 (PDT)
-Received: from redhat.com ([2.55.47.213]) by smtp.gmail.com with ESMTPSA id
- p8-20020a05600c1d8800b003a342933727sm2301380wms.3.2022.09.23.03.41.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Sep 2022 03:41:44 -0700 (PDT)
-Date: Fri, 23 Sep 2022 06:41:40 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, elena.ufimtseva@oracle.com, jag.raman@oracle.com,
- john.g.johnson@oracle.com, pizhenwei@bytedance.com,
- arei.gonglei@huawei.com, huangy81@chinatelecom.cn,
- quintela@redhat.com, dgilbert@redhat.com, qemu-trivial@nongnu.org
-Subject: Re: [PATCH] Use g_new() & friends where that makes obvious sense
-Message-ID: <20220923064130-mutt-send-email-mst@kernel.org>
-References: <20220923084254.4173111-1-armbru@redhat.com>
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=o+CTC0BQhVnSMTvBtg2pJ6gj5J6eW0w4UyCFIo1XCms=;
+ b=eTiJL9nqfN6d2N0DnwFeEGtmSqBtfYu3Yb8ZHVbWkN8FPTqVSohYYjXPJeO9NE2wVk
+ jeTd2K1jhdnx8nsKsHbvY3H8bt7zaK9yLj2FepB7sVwl6lOTQjO9VrZMiAQ9iSALXtgJ
+ 9k2xTKHOzYSW6U8mP4+iPkOkPb5swKf5LR+zTWPVtYcfUGPUWWPxnLNWwZq7JdrL5ChA
+ YVky4Kh0pOr/TFmZG3VvMVUuJG728QMonLFctv/fRZG7v+ErQMmAUzO344Kp+txZ+g2U
+ ZwYJZcWdGABVD/9//EcHRN2ZcutAe3tGCbiiL9qQP7L2BjCoFtMmPz4773OQ6r6HLDIn
+ URAg==
+X-Gm-Message-State: ACrzQf16qI5c8pbfjTMTExORbqe2zarFuaEYX5u4zWZHTwLdSsm0jd2X
+ krcEFkDv9a/tIC5ZDX/TPFniAPuD3oXa8qBaGO4P/FiXKfbPuquvZ4/Xxx2TuD0Slf12fEgIV5t
+ l451OziTEvnYsR+Y=
+X-Received: by 2002:a05:6000:2c8:b0:22a:efdf:ecc0 with SMTP id
+ o8-20020a05600002c800b0022aefdfecc0mr4946047wry.57.1663930030494; 
+ Fri, 23 Sep 2022 03:47:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6V+btGs3urL0Or/D7ah/HbYWMUowtdE/3lknK/389ILJ52R2bodcvgNWIkXGnF1E2iDOqgHw==
+X-Received: by 2002:a05:6000:2c8:b0:22a:efdf:ecc0 with SMTP id
+ o8-20020a05600002c800b0022aefdfecc0mr4946029wry.57.1663930030188; 
+ Fri, 23 Sep 2022 03:47:10 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c704:cc00:4585:a83b:64f2:ad21?
+ (p200300cbc704cc004585a83b64f2ad21.dip0.t-ipconnect.de.
+ [2003:cb:c704:cc00:4585:a83b:64f2:ad21])
+ by smtp.gmail.com with ESMTPSA id
+ fc9-20020a05600c524900b003b435c41103sm3248508wmb.0.2022.09.23.03.47.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Sep 2022 03:47:09 -0700 (PDT)
+Message-ID: <e6fad3bc-66e9-faea-194c-30277c0aa90f@redhat.com>
+Date: Fri, 23 Sep 2022 12:47:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220923084254.4173111-1-armbru@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Content-Language: en-US
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>
+References: <20220921100729.2942008-1-Jason@zx2c4.com>
+ <20220922153820.221811-1-david@redhat.com>
+ <abf6fbb6-14f4-8c65-f5ac-a75b9c8931dd@redhat.com>
+ <98dcb657-8862-5868-3979-55fc49864904@redhat.com>
+ <e8041184-cfdd-d429-0377-db6b46d4d0ef@redhat.com>
+ <6bf799d5-18a1-f01c-b227-a7dc98c2c8cf@redhat.com>
+ <Yy16Mz7+yLCV5jH8@zx2c4.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v8.1 1/2] target/s390x: support SHA-512 extensions
+In-Reply-To: <Yy16Mz7+yLCV5jH8@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,98 +114,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 23, 2022 at 10:42:54AM +0200, Markus Armbruster wrote:
-> g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
-> for two reasons.  One, it catches multiplication overflowing size_t.
-> Two, it returns T * rather than void *, which lets the compiler catch
-> more type errors.
+>> 3) I won't follow up with additional cleanup patches because I already
+>> spent more time on this than I originally planned.
 > 
-> This commit only touches allocations with size arguments of the form
-> sizeof(T).
-> 
-> Patch created mechanically with:
-> 
->     $ spatch --in-place --sp-file scripts/coccinelle/use-g_new-etc.cocci \
-> 	     --macro-file scripts/cocci-macro-file.h FILES...
-> 
-> The previous iteration was commit a95942b50c.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> What is this B.S.?
+> I spent months on this code and had to poke you a
+> bunch to review it. You spend one afternoon with it and you're already
+> burnt out, apparently. Sorry to hear that. But also, something is amiss
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+There is a big difference between "burnt out" and "having to 
+prioritize". No need to feel sorry.
 
-> ---
->  hw/remote/iommu.c         | 2 +-
->  hw/virtio/virtio-crypto.c | 2 +-
->  migration/dirtyrate.c     | 4 ++--
->  softmmu/dirtylimit.c      | 4 ++--
->  4 files changed, 6 insertions(+), 6 deletions(-)
+You must be fortunate if "one afternoon" is not a significant time 
+investment. For me it is a significant investment.
+
+> when the volunteer completely outside his realm of expertise has a
+> greater commitment than the professional maintainer. Regardless, seeing > that kind of thing here doesn't make me enthusiastic about contributing
+> to s390 stuff in the future, in the sense that hearing "I won't work
+> more on this" from a maintainer is a contagious sentiment; leaders are
+> emulated.
+
+Let's recap:
+
+1. This is very complicated code and a complicated instruction to
+    emulate. It's not easy to review. It's not easy code to write for
+    someone new to s390x / TCG -- especially to get memory
+    accesses right and work around the lack of memory transactions.
+
+2. We provided early feedback fast, but I expressed that there are
+    certain things that need improvements and that might be coded in a
+    way that make it easier to understand/review. I had to play myself
+    with that code to figure out what it even does and how we can improve
+    it. As I was overloaded lately (including vacation, conferences),
+    that time was not hard to find because other projects were of higher
+    priority on my end.
+
+3. You really pushed me hard offline to look into it. I did it
+    ASAP because it fell through the cracks and I expressed that I am
+    sorry. I proposed to get it ready for upstream and you agreed. Thomas
+    was aware of that communication.
+
+
+I sent out something ASAP to get your stuff finally merged. I really 
+tried my best yesterday. Apparently I failed.
+
+In an ideal world I would have *never* sent out that code. I would have 
+provided review feedback and guidance to make that code easier to grasp 
+and sort out the remaining issues. I thought we (Thomas included) had an 
+agreement that that's the way we are going to do it. Apparently I was wrong.
+
+
+Most probably I lived in the kernel space too long such that we don't 
+rush something upstream. For that reason *I* sent out a patch with 
+fixups included instead of requesting more changes after you clearly 
+expressed that you don't want to wait any longer.
+
+
+Here I am, getting told by Thomas that we now do it differently now. 
+What I really tried to express here is: if Thomas wants to commit things 
+differently now, maybe he can just separate the cleanup parts. I really 
+*don't want* to send out a multi-patch series to cleanup individual 
+parts -- that takes significantly more time. Especially not if something 
+is not committed yet.
+
+
+Yes, such upstream experiences are discouraging to new contributors. But 
+such upstream experiences discourage maintainer like me as well. This 
+morning I honestly asked myself if I should still be listed as a 
+maintainer under s390x/tcg.
+
+Not sure if s390x/tcg would be better without me, but then I get to 
+disappoint less people.
+
 > 
-> diff --git a/hw/remote/iommu.c b/hw/remote/iommu.c
-> index fd723d91f3..1391dd712c 100644
-> --- a/hw/remote/iommu.c
-> +++ b/hw/remote/iommu.c
-> @@ -47,7 +47,7 @@ static AddressSpace *remote_iommu_find_add_as(PCIBus *pci_bus,
->      elem = g_hash_table_lookup(iommu->elem_by_devfn, INT2VOIDP(devfn));
->  
->      if (!elem) {
-> -        elem = g_malloc0(sizeof(RemoteIommuElem));
-> +        elem = g_new0(RemoteIommuElem, 1);
->          g_hash_table_insert(iommu->elem_by_devfn, INT2VOIDP(devfn), elem);
->      }
->  
-> diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-> index c1243c3f93..df4bde210b 100644
-> --- a/hw/virtio/virtio-crypto.c
-> +++ b/hw/virtio/virtio-crypto.c
-> @@ -710,7 +710,7 @@ virtio_crypto_handle_asym_req(VirtIOCrypto *vcrypto,
->      uint8_t *src = NULL;
->      uint8_t *dst = NULL;
->  
-> -    asym_op_info = g_malloc0(sizeof(CryptoDevBackendAsymOpInfo));
-> +    asym_op_info = g_new0(CryptoDevBackendAsymOpInfo, 1);
->      src_len = ldl_le_p(&req->para.src_data_len);
->      dst_len = ldl_le_p(&req->para.dst_data_len);
->  
-> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index 795fab5c37..d6f1e01a70 100644
-> --- a/migration/dirtyrate.c
-> +++ b/migration/dirtyrate.c
-> @@ -119,9 +119,9 @@ static DirtyPageRecord *vcpu_dirty_stat_alloc(VcpuStat *stat)
->      }
->  
->      stat->nvcpu = nvcpu;
-> -    stat->rates = g_malloc0(sizeof(DirtyRateVcpu) * nvcpu);
-> +    stat->rates = g_new0(DirtyRateVcpu, nvcpu);
->  
-> -    records = g_malloc0(sizeof(DirtyPageRecord) * nvcpu);
-> +    records = g_new0(DirtyPageRecord, nvcpu);
->  
->      return records;
->  }
-> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-> index 8d98cb7f2c..12668555f2 100644
-> --- a/softmmu/dirtylimit.c
-> +++ b/softmmu/dirtylimit.c
-> @@ -154,7 +154,7 @@ void vcpu_dirty_rate_stat_initialize(void)
->  
->      vcpu_dirty_rate_stat->stat.nvcpu = max_cpus;
->      vcpu_dirty_rate_stat->stat.rates =
-> -        g_malloc0(sizeof(DirtyRateVcpu) * max_cpus);
-> +        g_new0(DirtyRateVcpu, max_cpus);
->  
->      vcpu_dirty_rate_stat->running = false;
->  }
-> @@ -198,7 +198,7 @@ void dirtylimit_state_initialize(void)
->      dirtylimit_state = g_malloc0(sizeof(*dirtylimit_state));
->  
->      dirtylimit_state->states =
-> -            g_malloc0(sizeof(VcpuDirtyLimitState) * max_cpus);
-> +            g_new0(VcpuDirtyLimitState, max_cpus);
->  
->      for (i = 0; i < max_cpus; i++) {
->          dirtylimit_state->states[i].cpu_index = i;
-> -- 
-> 2.37.2
+> The 2/2 patch doesn't even apply on top of your "v8.1 1/2", so your
+> submission isn't even easily apply-able.
+
+Sorry, but that's a piece of cake for Thomas. And he could always 
+request a complete resend from me anytime.
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
