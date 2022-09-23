@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B47F5E779F
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 11:49:18 +0200 (CEST)
-Received: from localhost ([::1]:37986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8088F5E77DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 12:02:59 +0200 (CEST)
+Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obfJ7-0003Hu-2V
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 05:49:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40264)
+	id 1obfWL-0002it-U4
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 06:02:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obfCf-0004kY-FT
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:42:37 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:34342)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obfEV-0007N3-I1
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:44:32 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:41976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obfCa-0004ll-UD
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:42:34 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obfEP-0005RO-8e
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:44:30 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3797621A47;
- Fri, 23 Sep 2022 09:42:31 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 31D7221A47;
+ Fri, 23 Sep 2022 09:44:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663926151; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1663926264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aQv4PMQ4biapYmZWh0IdH2KnCHFTq3N/Mq25FlLsR9g=;
- b=vg3DI/k03tGlsyAi6MN78qxB5t4QgSkRTOfZg7euafpjUw9ULa9HGrTqs2K6drmrkzeCRI
- WmBGrMNIJLI/Oj2acN26qbX1QAJ6HL4J07yKfoDocoZGDAMctge7nEUt1EjAyB2vKB8sFM
- 3IaIUTm17FATkpMmGqkDchdah49f2mQ=
+ bh=EoRJq4U3rhll1jnnHSpCKE6vugiYhyKLFyCiEGhZRto=;
+ b=HywZsRfHb8Us4b6pXWPMXXTAbLwVPQPw95LBw2a9OSBlJEMgTl7FzcFOpsSDAACUeav1Kl
+ 5a9V2yFiZrVDpIhnK1jaxJ22OoikmcvDs1VHee34YaWCNrfYL5JhN2NuHna9DbQfv6w2Ca
+ svSNM+tQMG1B/oDNfIC1T6XehPzhsSQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663926151;
+ s=susede2_ed25519; t=1663926264;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aQv4PMQ4biapYmZWh0IdH2KnCHFTq3N/Mq25FlLsR9g=;
- b=izxnrp7p5GK2M73TH54a15+TlWplaut/iNayFO9bUI5bx6blvhW7P5TwxJcJuAIBP3J1Gn
- X/IAtE7dDHh/hiDQ==
+ bh=EoRJq4U3rhll1jnnHSpCKE6vugiYhyKLFyCiEGhZRto=;
+ b=VLNQva9pMA08dFKU/YmFg1zRdAq1r1N3cHl6SE7yYCcBZxHhRjwjNaYGDKsst1t56Sn40d
+ voW7oyPy+6jk2aAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DB93513A00;
- Fri, 23 Sep 2022 09:42:30 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C06DA13A00;
+ Fri, 23 Sep 2022 09:44:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id x+UXNIZ/LWP+KgAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 23 Sep 2022 09:42:30 +0000
-Message-ID: <776b6a69-5339-a8f7-1be7-839aa05e5eaf@suse.de>
-Date: Fri, 23 Sep 2022 11:42:30 +0200
+ by imap2.suse-dmz.suse.de with ESMTPSA id SnewLPd/LWO3KwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 23 Sep 2022 09:44:23 +0000
+Message-ID: <7ebed330-2e71-b393-7a75-c6e91a85549b@suse.de>
+Date: Fri, 23 Sep 2022 11:44:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
@@ -124,6 +124,13 @@ On 9/22/22 19:05, Kevin Wolf wrote:
 >> annoyance, especially when you have to add an else just for that.
 > 
 > AIUI most callers don't actually need the three way distinction, but
+
+Right, this is why I initially modeled this as:
+
+return value true -> found and loaded
+return value false -> not found or error: (check *errp != NULL) to distinguish between the two.
+
+
 > just success (may or may not be loaded now) and error.
 > 
 > The example for a caller that needs it was dmg. But with the changes
@@ -164,15 +171,10 @@ On 9/22/22 19:05, Kevin Wolf wrote:
 >> into "look up module" and "actually load it".
 > 
 > Might become slightly inconvenient. On the other hand, we can still have
-
-It is inconventient, and does not solve the problem, because of the race condition between
-when the first function is called and then the second one is called.
-
 > a simpler wrapper function that works for the majority of cases where a
 > boolean result for the combined operation is enough.
 > 
 > Kevin
-> 
 > 
 
 
