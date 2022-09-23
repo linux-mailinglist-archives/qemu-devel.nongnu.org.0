@@ -2,67 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760385E85DE
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 00:27:16 +0200 (CEST)
-Received: from localhost ([::1]:33306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF675E8598
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 00:10:33 +0200 (CEST)
+Received: from localhost ([::1]:55732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obr8d-0005Yn-4v
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 18:27:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40858)
+	id 1obqsT-0001Xp-31
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 18:10:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqaq-0000qa-CP
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:52:21 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:35135)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obqm0-0007jE-Q2
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 18:03:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqan-0007GD-Aq
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:52:19 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N8G6I-1pOQuk1NuC-014FED; Fri, 23 Sep 2022 23:52:06 +0200
-Message-ID: <8e41dc36-569d-2a62-f678-51e6c154e9e9@vivier.eu>
-Date: Fri, 23 Sep 2022 23:52:04 +0200
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obqlx-0001Vl-DS
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 18:03:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663970628;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wrwbenxX2DAiwSdC5uoXGCVWUtN43yJHBYHLAF7d1Zw=;
+ b=hBB5w7GI0+JrOAcw4fwJnSzx/pk8W/d6Wvc6DBFClwyoekVokm19bIsLM8DjFpawsZO1zi
+ 8z0rlcCREa2DgI47TXa0C3rCm041cXla2Nh9FYNFycd/XFFMmCoJwhI5GAVT8Emm9JgXkB
+ KEq22jhVz7wPVM0+LTUxCZ7V85gI2bM=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-607-r5FTGKcHMDKiu2XMfJGpGw-1; Fri, 23 Sep 2022 18:03:46 -0400
+X-MC-Unique: r5FTGKcHMDKiu2XMfJGpGw-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ bi3-20020a05620a318300b006cf2d389cdaso966088qkb.8
+ for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 15:03:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=wrwbenxX2DAiwSdC5uoXGCVWUtN43yJHBYHLAF7d1Zw=;
+ b=MnZ6KP7kLiWxu9SxYnC1HXj2ZnIK54DqQiiJEbt7hcDxBfCq0Z7DOlSEyIA4xaacWq
+ wkSD69Sd8/NTjXW2X9EUqOB9m2rOhlxmxOpJ7XLJNMs9uedF5WHRhOugtajd7M8YgpcP
+ anAmObK/NllASneOafeHAgBd2BJdD5eeiNPnWodFS3ckc2/3YnlPHKt0QmKkAK93vLrW
+ Rrgc02VyaHMpxjt6+meIWekN4SiDnyA0LrR7213iwk/O9P8fuWq6qFPeJAGFPXORlOUE
+ MyuEFtnjoTeEJ8/XMevwev4jhSQj4Canfer2UoE5py1IZn/7CLE0tkxPh/kHZdZCeN3I
+ U/dg==
+X-Gm-Message-State: ACrzQf2g+pENXNz5FGlF2oO5euAlL4k4cnHx4Ke5Ti0HJ2SNFsJow8wB
+ r7nRsEJiQcrc4pmCp5rrD6pvZ5hvgfT0tkVuL8C6X17hNPQ46vmUdhP361eDpkzC6uQ7Wst/Mc0
+ X9EiHFYyyo4jr39Q=
+X-Received: by 2002:a37:9a51:0:b0:6cf:427b:c180 with SMTP id
+ c78-20020a379a51000000b006cf427bc180mr6967141qke.767.1663970626480; 
+ Fri, 23 Sep 2022 15:03:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4VO7ikKfaa5MJlgqd6EhxzHxOfeq6TWAGeafKwTwUj+N2zy3X8JjxCOc1tf7273EksZzpE2g==
+X-Received: by 2002:a37:9a51:0:b0:6cf:427b:c180 with SMTP id
+ c78-20020a379a51000000b006cf427bc180mr6967129qke.767.1663970626279; 
+ Fri, 23 Sep 2022 15:03:46 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ bv12-20020a05622a0a0c00b0035d0daff6fasm5125593qtb.91.2022.09.23.15.03.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Sep 2022 15:03:45 -0700 (PDT)
+Date: Fri, 23 Sep 2022 18:03:44 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
+ Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH] Revert "intel_iommu: Fix irqchip / X2APIC configuration
+ checks"
+Message-ID: <Yy4tQAeOUd49DpX6@x1n>
+References: <20220921161227.57259-1-peterx@redhat.com>
+ <20220922154617.57d1a1fb@redhat.com> <YyyP4b2uKghi1EHL@xz-m1.local>
+ <20220923102034.6579b66c@redhat.com>
+ <20220923104159.39576159@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v3 5/5] tests/tcg/linux-test: Add linux-madvise test
-Content-Language: fr
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20220906000839.1672934-1-iii@linux.ibm.com>
- <20220906000839.1672934-6-iii@linux.ibm.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220906000839.1672934-6-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:eNSjyQ8eMH+9TDWNX33JB9OxnS2CA67K8yFQEePiUPi5JauHfy6
- JTLB9alIs/uitxIAUa745eqMVJBZc37/s4DAUMOiIpsi+nLdhQNPmBOziCiljXaHSOkTcrv
- XG3PPnHU91efOMSFQHMUa+mRwDhXSXdjKCGO9M/eTXuHewpPtFDQpsvo+Kn4+H9NzOjb2+0
- 6scMJsm6hPo1515wBdo1A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LeVeFLeVvuA=:x5K/gFUgGTzu68Lqk5idpw
- 2IuO7hhBXi43iRnqEOsz+o3imiRiNBvgTCUKsVFcq4JWVfK3ccnStMOUvlHgx/1twsGo9nIuH
- c8Td3JvPGviOe2dHrH6wOHaquQ2tUvScg1uOLysv6guuqIAT06qd0+hvbkY4SdfgsXLrzY5nD
- mTgRskJjvVWLndqqzn+0W3+SilRKRYbbwp5R2fXvEwUnupneKgTrVlQeRUzhzyA0oC9khK147
- K7R4aRuAbeUbflgt2+mQLtftZte9aVb/dbtZRC+7RcchKAFFyyI5m9876P98zCt3pt7PE2jH/
- 85a66EK+ycP2LXBKDsDoFA8i9Zb6FnC7XQDS84H7fzgbRf+VX2Euin4MfEbvgx+2Gm5hGJc3w
- 3XsOdvrNMAydZCcrUKkhOCNHwYz1QXXY/C0KoeBi5siR3Me22iqjHtOvIP6g2u6mU36fWf2Kl
- DGZ74yu5usjR4dne8WCu2IUL+djwZZ/Hyem1+HfN/wraCNR+1LKVXvZXo4FaQ6jIRlRXxgN8B
- eHzjlk1WtI7jHUhGJle+t1ZBvp4XqC4AyXcQ7Ox7xIMZFei5xO+A9JpDzuFffBfOBzTHZ7svy
- GMGM6puitgZZOp8IrcHQwJDl6Tcr0QBP4Gr6+jJCss0mUzbg6dQJRpE0s/dxh387j1qagWbS4
- pxTGxetrGVVggVhMNHi1126dxjnPxLQYHCyM++3CcyxPSqx2csBv6/waqkBswo0fVyxKW1ee6
- HvhrRhDINQyBrS+yR2Zbpvphdt/Fcig2ke8dOeTmhMhWFvWh/e13n2KAEm6IkAQoJpjREOcO6
- pqQp1EA
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220923104159.39576159@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,95 +102,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/09/2022 à 02:08, Ilya Leoshkevich a écrit :
-> Add a test that checks madvise(MADV_DONTNEED) behavior with anonymous
-> and file mappings in order to prevent regressions.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   tests/tcg/multiarch/linux/linux-madvise.c | 70 +++++++++++++++++++++++
->   1 file changed, 70 insertions(+)
->   create mode 100644 tests/tcg/multiarch/linux/linux-madvise.c
-> 
-> diff --git a/tests/tcg/multiarch/linux/linux-madvise.c b/tests/tcg/multiarch/linux/linux-madvise.c
-> new file mode 100644
-> index 0000000000..29d0997e68
-> --- /dev/null
-> +++ b/tests/tcg/multiarch/linux/linux-madvise.c
-> @@ -0,0 +1,70 @@
-> +#include <assert.h>
-> +#include <stdlib.h>
-> +#include <sys/mman.h>
-> +#include <unistd.h>
-> +
-> +static void test_anonymous(void)
-> +{
-> +    int pagesize = getpagesize();
-> +    char *page;
-> +    int ret;
-> +
-> +    page = mmap(NULL, pagesize, PROT_READ, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-> +    assert(page != MAP_FAILED);
-> +
-> +    /* Check that mprotect() does not interfere with MADV_DONTNEED. */
-> +    ret = mprotect(page, pagesize, PROT_READ | PROT_WRITE);
-> +    assert(ret == 0);
-> +
-> +    /* Check that MADV_DONTNEED clears the page. */
-> +    *page = 42;
-> +    ret = madvise(page, pagesize, MADV_DONTNEED);
-> +    assert(ret == 0);
-> +    assert(*page == 0);
-> +
-> +    ret = munmap(page, pagesize);
-> +    assert(ret == 0);
-> +}
-> +
-> +static void test_file(void)
-> +{
-> +    char tempname[] = "/tmp/.cmadviseXXXXXX";
-> +    int pagesize = getpagesize();
-> +    ssize_t written;
-> +    char c = 42;
-> +    char *page;
-> +    int ret;
-> +    int fd;
-> +
-> +    fd = mkstemp(tempname);
-> +    assert(fd != -1);
-> +    ret = unlink(tempname);
-> +    assert(ret == 0);
-> +    written = write(fd, &c, sizeof(c));
-> +    assert(written == sizeof(c));
-> +    page = mmap(NULL, pagesize, PROT_READ, MAP_PRIVATE, fd, 0);
-> +    assert(page != MAP_FAILED);
-> +
-> +    /* Check that mprotect() does not interfere with MADV_DONTNEED. */
-> +    ret = mprotect(page, pagesize, PROT_READ | PROT_WRITE);
-> +    assert(ret == 0);
-> +
-> +    /* Check that MADV_DONTNEED resets the page. */
-> +    *page = 0;
-> +    ret = madvise(page, pagesize, MADV_DONTNEED);
-> +    assert(ret == 0);
-> +    assert(*page == c);
-> +
-> +    ret = munmap(page, pagesize);
-> +    assert(ret == 0);
-> +    ret = close(fd);
-> +    assert(ret == 0);
-> +}
-> +
-> +int main(void)
-> +{
-> +    test_anonymous();
-> +    test_file();
-> +
-> +    return EXIT_SUCCESS;
-> +}
-Applied to my linux-user-for-7.2 branch.
+On Fri, Sep 23, 2022 at 10:41:59AM +0200, Igor Mammedov wrote:
+> It's worth putting history excavation with explanation what is broken and why
+> compat stuff is being ignored in the patch.
 
-Thanks,
-Laurent
+Makes sense, I'll amend the commit message and repost.  Thanks,
+
+-- 
+Peter Xu
 
 
