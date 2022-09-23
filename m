@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD385E8265
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 21:12:29 +0200 (CEST)
-Received: from localhost ([::1]:33430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926165E825D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 21:07:38 +0200 (CEST)
+Received: from localhost ([::1]:43210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obo67-0000Rk-Of
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 15:12:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50932)
+	id 1obo1R-0003cY-D3
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 15:07:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obnmw-0004nh-Lu
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 14:52:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60457)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obntt-000531-BP
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 14:59:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obnmu-000223-5L
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 14:52:37 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obntr-0003Vw-Dh
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 14:59:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663959154;
+ s=mimecast20190719; t=1663959586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PwEuQBLi537kQdUZzr3rjI1uvJzPmgfNaZEmLsxs2Tg=;
- b=UpQS0YeJZW30FlWR4gTYZyWF4LfSL7FAWOV/9W+VmNTLl2vD9e0fpjaGUjxidqDdpm/Jxk
- QqCzORkp2aUsvRcbsdz/8Kp25mbzXCfY0hCBISyzkQb6B+qwj0aeM0CeufD/BQK/w/TwPD
- 5JfX9nukHnvqEvHMx8FyNfbmhxTCCYU=
+ bh=jkp9uIojDcvTz1WAjdwqm+62cYEBiOSYUQ5dsx6Xy3c=;
+ b=XPhuzPbKLWwRy6Ul7iyMPJSmqzftxDTe0lTJE2W87AgZVPr3fBwk9rYg8YyGFLup/ZOoFI
+ 2n9HVQ5wzPqT+NZ+spDBfE4DcSHJewHSGKGgtP80bSwIwRP31YIBZGbo8a+HI1l+P0UQVF
+ 2JZ8ajlZyuBRJXpId0FdTElIIXUWeq8=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-171-eiQ223D-OGGKWDJCuluy_Q-1; Fri, 23 Sep 2022 14:52:32 -0400
-X-MC-Unique: eiQ223D-OGGKWDJCuluy_Q-1
+ us-mta-286-DkAxxuODMmGXZJd1bvTrMA-1; Fri, 23 Sep 2022 14:59:45 -0400
+X-MC-Unique: DkAxxuODMmGXZJd1bvTrMA-1
 Received: by mail-wr1-f71.google.com with SMTP id
- v22-20020adf8b56000000b0022af189148bso196203wra.22
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 11:52:32 -0700 (PDT)
+ e18-20020adfa452000000b00228a420c389so202995wra.16
+ for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 11:59:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=PwEuQBLi537kQdUZzr3rjI1uvJzPmgfNaZEmLsxs2Tg=;
- b=Fh3Xe//1SRmcloUVQe2Se7tHflYAHfdnvKfExTqxDn8Wo3CDVDbTat6lmIZNDyxEla
- 7G7XJDey9wBru48dLJw9PvUZ+hxJtmxoWhM3g2SY0YYF1gowwQ0rcZkXYQIG8WN5r3o7
- /jBbbTdcUqM+d0sDZDlUmYPY8q+3miJp5B+vKr/VQrdZ/LThziV4+QxVhlKGVI9tvPKB
- 2nv9E2Mk2ISnCYuS83uumVlxR9rrH6RKxeWnhDFE6+DFk2jojESEFpZQMn8C/YGm7cuL
- 8T2aM+mSSDdceYws4huXi4qoFe0eRDLw7dCKH/5h4hMnApR7+qWUzXF1b1QRp3MaXvGC
- v0Cw==
-X-Gm-Message-State: ACrzQf07kQHrm85R1Ae0yvstQllxsYrKy+oXy55mC1FWssDd8FA6FGWZ
- 6gCEJ+DjBuMZ8pLB/wN31/+7kvBbkFmE1d4YBS967bR9bwNN4RVqrl9T6FvUE6f49ECEUxoJxkm
- bIeUQhmG8Pn8MLVw=
-X-Received: by 2002:a05:600c:5124:b0:3b4:faef:87be with SMTP id
- o36-20020a05600c512400b003b4faef87bemr7232419wms.68.1663959149597; 
- Fri, 23 Sep 2022 11:52:29 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4YxpwK/kZZ2rKKmU0xYSHyUVcBkpC7nualkqDg1Us/X/9uNGeB20SLdeJhnxmdRvEWPOmu3Q==
-X-Received: by 2002:a05:600c:5124:b0:3b4:faef:87be with SMTP id
- o36-20020a05600c512400b003b4faef87bemr7232400wms.68.1663959149362; 
- Fri, 23 Sep 2022 11:52:29 -0700 (PDT)
+ bh=jkp9uIojDcvTz1WAjdwqm+62cYEBiOSYUQ5dsx6Xy3c=;
+ b=Lk2Aib38LZmwo5Fp2R7gEVsSNP6vkYmJ1tyjxCSqTRKGdzzqYyBqVszXnkWIt4OK+3
+ VQ6xtq50EZwkKh1AxosTuD4gwnXVbDBxN5MP0c1E7WAhvxbnsagQenqfGWG1G/1+3CSL
+ 0vnnoKE3NBVQxMxDZAL3KQfiUdbdrkDXYjeqFs91Zhfs8HY0OwRe5Xy2HYZeMpNjMSE1
+ WORIDlvkVAJIM8eqJB8G4v1irzgwk6siUpeRWWcoSNlaRzXdyKIhcirX2a+Gzmy57N1l
+ BNozUGXwMuExBBQ9adZ22vp2INFYybu0MOD3idCBkzM10WrY1wnJZKfRUZV28pUDjlPB
+ /jag==
+X-Gm-Message-State: ACrzQf2HqwzcH98pbfLVWn0kEJDMLoqYgP/nOpZvT48JaYdm25Afo/xk
+ wWW9HOjRgckWGEe/g1/3YyFisWY8zNFna5u1HUTZushUTLT0jceD+eZDA1uw88MsVOCwyPpZhYe
+ qSqPiFStOAoHOrko=
+X-Received: by 2002:a5d:550c:0:b0:22b:1942:4bf6 with SMTP id
+ b12-20020a5d550c000000b0022b19424bf6mr5901936wrv.520.1663959583274; 
+ Fri, 23 Sep 2022 11:59:43 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4CXt1Gmz2l63VsV0kLrMAmo+b3zf+Ph2eH6nv8EPj6XWnMUJUXHIU039mANC4WKldL8KEvYQ==
+X-Received: by 2002:a5d:550c:0:b0:22b:1942:4bf6 with SMTP id
+ b12-20020a5d550c000000b0022b19424bf6mr5901917wrv.520.1663959583071; 
+ Fri, 23 Sep 2022 11:59:43 -0700 (PDT)
 Received: from [192.168.8.103] (tmo-097-189.customers.d1-online.com.
  [80.187.97.189]) by smtp.gmail.com with ESMTPSA id
- e2-20020a5d5302000000b00225239d9265sm8061515wrv.74.2022.09.23.11.52.27
+ g16-20020adfe410000000b0022ac13aa98fsm7849175wrm.97.2022.09.23.11.59.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Sep 2022 11:52:28 -0700 (PDT)
-Message-ID: <26a30e36-755a-8c77-316d-6dc4999c50e4@redhat.com>
-Date: Fri, 23 Sep 2022 20:52:26 +0200
+ Fri, 23 Sep 2022 11:59:42 -0700 (PDT)
+Message-ID: <c783fe07-4f4c-a52b-0445-0a4df057ffa6@redhat.com>
+Date: Fri, 23 Sep 2022 20:59:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v8 8/8] s390x/s390-virtio-ccw: add zpcii-disable machine
- property
+Subject: Re: [PATCH v8 0/8] s390x/pci: zPCI interpretation support
 Content-Language: en-US
 To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
 Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
@@ -77,12 +76,11 @@ Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
  mst@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
  kvm@vger.kernel.org
 References: <20220902172737.170349-1-mjrosato@linux.ibm.com>
- <20220902172737.170349-9-mjrosato@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220902172737.170349-9-mjrosato@linux.ibm.com>
+In-Reply-To: <20220902172737.170349-1-mjrosato@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -107,140 +105,63 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 02/09/2022 19.27, Matthew Rosato wrote:
-> The zpcii-disable machine property can be used to force-disable the use
-> of zPCI interpretation facilities for a VM.  By default, this setting
-> will be off for machine 7.2 and newer.
+> Now that the kernel series [1] is merged and the freeze is over, here is a
+> refresh of the zPCI interpretation series.
+>                                                             
+> For QEMU, the majority of the work in enabling instruction interpretation
+> is handled via SHM bit settings (to indicate to firmware whether or not
+> interpretive execution facilities are to be used) + a new KVM ioctl is
+> used to setup firmware-interpreted forwarding of Adapter Event
+> Notifications.
 > 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->   hw/s390x/s390-pci-kvm.c            |  4 +++-
->   hw/s390x/s390-virtio-ccw.c         | 25 +++++++++++++++++++++++++
->   include/hw/s390x/s390-virtio-ccw.h |  1 +
->   qemu-options.hx                    |  8 +++++++-
->   util/qemu-config.c                 |  4 ++++
->   5 files changed, 40 insertions(+), 2 deletions(-)
+> This series also adds a new, optional 'interpret' parameter to zpci which
+> can be used to disable interpretation support (interpret=off) as well as
+> an 'forwarding_assist' parameter to determine whether or not the firmware
+> assist will be used for adapter event delivery (default when
+> interpretation is in use) or whether the host will be responsible for
+> delivering all adapter event notifications (forwarding_assist=off).
 > 
-> diff --git a/hw/s390x/s390-pci-kvm.c b/hw/s390x/s390-pci-kvm.c
-> index 9134fe185f..5eb7fd12e2 100644
-> --- a/hw/s390x/s390-pci-kvm.c
-> +++ b/hw/s390x/s390-pci-kvm.c
-> @@ -22,7 +22,9 @@
->   
->   bool s390_pci_kvm_interp_allowed(void)
->   {
-> -    return kvm_s390_get_zpci_op() && !s390_is_pv();
-> +    return (kvm_s390_get_zpci_op() && !s390_is_pv() &&
-> +            !object_property_get_bool(OBJECT(qdev_get_machine()),
-> +                                      "zpcii-disable", NULL));
->   }
->   
->   int s390_pci_kvm_aif_enable(S390PCIBusDevice *pbdev, ZpciFib *fib, bool assist)
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 9a2467c889..f8ecb6172c 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -645,6 +645,21 @@ static inline void machine_set_dea_key_wrap(Object *obj, bool value,
->       ms->dea_key_wrap = value;
->   }
->   
-> +static inline bool machine_get_zpcii_disable(Object *obj, Error **errp)
-> +{
-> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-> +
-> +    return ms->zpcii_disable;
-> +}
-> +
-> +static inline void machine_set_zpcii_disable(Object *obj, bool value,
-> +                                             Error **errp)
-> +{
-> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-> +
-> +    ms->zpcii_disable = value;
-> +}
-> +
->   static S390CcwMachineClass *current_mc;
->   
->   /*
-> @@ -740,6 +755,13 @@ static inline void s390_machine_initfn(Object *obj)
->               "Up to 8 chars in set of [A-Za-z0-9. ] (lower case chars converted"
->               " to upper case) to pass to machine loader, boot manager,"
->               " and guest kernel");
-> +
-> +    object_property_add_bool(obj, "zpcii-disable",
-> +                             machine_get_zpcii_disable,
-> +                             machine_set_zpcii_disable);
-> +    object_property_set_description(obj, "zpcii-disable",
-> +            "disable zPCI interpretation facilties");
-> +    object_property_set_bool(obj, "zpcii-disable", false, NULL);
->   }
->   
->   static const TypeInfo ccw_machine_info = {
-> @@ -803,8 +825,11 @@ DEFINE_CCW_MACHINE(7_2, "7.2", true);
->   
->   static void ccw_machine_7_1_instance_options(MachineState *machine)
->   {
-> +    S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
-> +
->       ccw_machine_7_2_instance_options(machine);
->       s390_cpudef_featoff_greater(16, 1, S390_FEAT_PAIE);
-> +    ms->zpcii_disable = true;
->   }
->   
->   static void ccw_machine_7_1_class_options(MachineClass *mc)
-> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-> index 3331990e02..8a0090a071 100644
-> --- a/include/hw/s390x/s390-virtio-ccw.h
-> +++ b/include/hw/s390x/s390-virtio-ccw.h
-> @@ -27,6 +27,7 @@ struct S390CcwMachineState {
->       bool aes_key_wrap;
->       bool dea_key_wrap;
->       bool pv;
-> +    bool zpcii_disable;
->       uint8_t loadparm[8];
->   };
->   
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 31c04f7eea..7427dd1ed5 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -37,7 +37,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
->       "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
->       "                hmat=on|off controls ACPI HMAT support (default=off)\n"
->       "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
-> -    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
-> +    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
-> +    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n",
->       QEMU_ARCH_ALL)
->   SRST
->   ``-machine [type=]name[,prop=value[,...]]``
-> @@ -157,6 +158,11 @@ SRST
->           ::
->   
->               -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
-> +
-> +    ``zpcii-disable=on|off``
-> +        Disables zPCI interpretation facilties on s390-ccw hosts.
-> +        This feature can be used to disable hardware virtual assists
-> +        related to zPCI devices. The default is off.
->   ERST
->   
->   DEF("M", HAS_ARG, QEMU_OPTION_M,
-> diff --git a/util/qemu-config.c b/util/qemu-config.c
-> index 433488aa56..5325f6bf80 100644
-> --- a/util/qemu-config.c
-> +++ b/util/qemu-config.c
-> @@ -236,6 +236,10 @@ static QemuOptsList machine_opts = {
->               .help = "Up to 8 chars in set of [A-Za-z0-9. ](lower case chars"
->                       " converted to upper case) to pass to machine"
->                       " loader, boot manager, and guest kernel",
-> +        },{
-> +            .name = "zpcii-disable",
-> +            .type = QEMU_OPT_BOOL,
-> +            .help = "disable zPCI interpretation facilities",
->           },
->           { /* End of list */ }
->       }
+> The zpcii-disable machine property is added to allow disabling use of
+> zPCI interpretation facilities for a guest. This property is set to on
+> for older (pre-7.2 compat machines), but defaults to off for 7.2 and
+> newer. This allows newer machines to use interpretation by default if
+> the necessary kernel interfaces and hardware facilities are available,
+> but also provides a mechanism for disabling interpretation completely
+> for debug purposes.
+> 
+> As a consequence of implementing zPCI interpretation, ISM devices now
+> become eligible for passthrough (but only when zPCI interpretation is
+> available).
+> 
+>  From the perspective of guest configuration, you passthrough zPCI devices
+> in the same manner as before, with intepretation support being used by
+> default if available in kernel+qemu.
+> 
+> Changelog v7->v8:
+> - Rebase onto 7.1.0
+> - Move compat machine changes for patch 8
+> - Refresh kernel header sync to 6.0-rc3
+> 
+> [1] https://lore.kernel.org/kvm/20220606203325.110625-1-mjrosato@linux.ibm.com/
+> 
+> Matthew Rosato (8):
+>    linux-headers: update to 6.0-rc3
+>    s390x/pci: add routine to get host function handle from CLP info
+>    s390x/pci: enable for load/store intepretation
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Typo in that subject, should be "interpretation" instead of "intepretation".
+
+>    s390x/pci: don't fence interpreted devices without MSI-X
+>    s390x/pci: enable adapter event notification for interpreted devices
+>    s390x/pci: let intercept devices have separate PCI groups
+>    s390x/pci: reflect proper maxstbl for groups of interpreted devices
+>    s390x/s390-virtio-ccw: add zpcii-disable machine property
+
+Thanks, patch series looks basically fine to me now. Some nits here and 
+there, so if you could still fix those up and send a v9, that would be 
+great! (If you are completely out of spare time for that, let me know, then 
+I can also try to fix those up on my own when picking up the patches)
+
+  Thomas
 
 
