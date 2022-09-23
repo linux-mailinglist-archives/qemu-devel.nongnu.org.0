@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564565E7B4B
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 15:06:08 +0200 (CEST)
-Received: from localhost ([::1]:49008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2287D5E7B46
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 15:03:45 +0200 (CEST)
+Received: from localhost ([::1]:41750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obiNb-00073n-23
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 09:06:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59954)
+	id 1obiLH-0004Ol-TW
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 09:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1obiBy-00040O-7t
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1obiBy-00040P-7t
  for qemu-devel@nongnu.org; Fri, 23 Sep 2022 08:54:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45738)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1obiBu-0004J6-JE
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1obiBv-0004JS-92
  for qemu-devel@nongnu.org; Fri, 23 Sep 2022 08:54:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663937640;
+ s=mimecast20190719; t=1663937641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oqaBaOGdyy1YdBdUubG5/n0xrm29DW3Coz1MbYetgXc=;
- b=RhlD3zm6lffVnns7Cd01UHh+AQNjsqruxOB0sMjOkScDQuksskkKo6YZ+I6OCNefyynD51
- 3/UWvG24jv6NoVyNR4iwrNgnyOV78FNM8Bt6U7kNw4dfrgtdUab9MUx2vG14WTVe6l828n
- c6tG7otgFFWuP4HU0iaA3Tv6lE7BHek=
+ bh=EkKRskXPzBwMCLI1Mo41jU9e8hcxjqJ8DUdjfKH7+PU=;
+ b=YQBSUFjLeV0wC5HQY4l+aI/mjECkICO/RMh3Fp8+1y9n5ZWD6/1fGOUDhS6YCwI9RelxM9
+ 79wfoyYDA0Pqw6smHEO0Tp+tVs2SKd5N6oTBJtLND6382HzsE2UvfWPSrEaiFIvcqjRvG7
+ FefFPRVHVlraHy2DD4lyIaoq1vsoZPc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-131-MmKbIhnXPvexlQUSdfb-og-1; Fri, 23 Sep 2022 08:52:32 -0400
-X-MC-Unique: MmKbIhnXPvexlQUSdfb-og-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-594-lRDh_vWmNsizgx1uk0v6bw-1; Fri, 23 Sep 2022 08:52:39 -0400
+X-MC-Unique: lRDh_vWmNsizgx1uk0v6bw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C736185A7AE;
- Fri, 23 Sep 2022 12:52:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC737882829;
+ Fri, 23 Sep 2022 12:52:38 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.96])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B2B2492B08;
- Fri, 23 Sep 2022 12:52:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA4CB111F3BB;
+ Fri, 23 Sep 2022 12:52:33 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 2/3] block-backend: Update ctx immediately after root
-Date: Fri, 23 Sep 2022 14:52:26 +0200
-Message-Id: <20220923125227.300202-3-hreitz@redhat.com>
+Subject: [PATCH 3/3] block: Start/end drain on correct AioContext
+Date: Fri, 23 Sep 2022 14:52:27 +0200
+Message-Id: <20220923125227.300202-4-hreitz@redhat.com>
 In-Reply-To: <20220923125227.300202-1-hreitz@redhat.com>
 References: <20220923125227.300202-1-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -78,45 +78,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-blk_get_aio_context() asserts that blk->ctx is always equal to the root
-BDS's context (if there is a root BDS).  Therefore,
-blk_do_set_aio_context() must update blk->ctx immediately after the root
-BDS's context has changed.
+bdrv_parent_drained_{begin,end}_single() are supposed to operate on the
+parent, not on the child, so they should not attempt to get the context
+to poll from the child but the parent instead.  BDRV_POLL_WHILE(c->bs)
+does get the context from the child, so we should replace it with
+AIO_WAIT_WHILE() on the parent's context instead.
 
-Without this patch, the next patch would break iotest 238, because
-bdrv_drained_begin() (called by blk_do_set_aio_context()) may then
-invoke bdrv_child_get_parent_aio_context() on the root child, i.e.
-blk_get_aio_context().  However, by this point, blk->ctx would not have
-been updated and thus differ from the root node's context.  This patch
-fixes that.
+This problem becomes apparent when bdrv_replace_child_noperm() invokes
+bdrv_parent_drained_end_single() after removing a child from a subgraph
+that is in an I/O thread.  By the time bdrv_parent_drained_end_single()
+is called, child->bs is NULL, and so BDRV_POLL_WHILE(c->bs, ...) will
+poll the main loop instead of the I/O thread; but anything that
+bdrv_parent_drained_end_single_no_poll() may have scheduled is going to
+want to run in the I/O thread, but because we poll the main loop, the
+I/O thread is never unpaused, and nothing is run, resulting in a
+deadlock.
 
+Closes: https://gitlab.com/qemu-project/qemu/-/issues/1215
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block/block-backend.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ block/io.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index d4a5df2ac2..abdb5ff5af 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2156,6 +2156,7 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
-                 return ret;
-             }
-         }
-+        blk->ctx = new_context;
-         if (tgm->throttle_state) {
-             bdrv_drained_begin(bs);
-             throttle_group_detach_aio_context(tgm);
-@@ -2164,9 +2165,10 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
-         }
+diff --git a/block/io.c b/block/io.c
+index 0a8cbefe86..7df1129b3b 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -71,9 +71,10 @@ static void bdrv_parent_drained_end_single_no_poll(BdrvChild *c,
+ void bdrv_parent_drained_end_single(BdrvChild *c)
+ {
+     int drained_end_counter = 0;
++    AioContext *ctx = bdrv_child_get_parent_aio_context(c);
+     IO_OR_GS_CODE();
+     bdrv_parent_drained_end_single_no_poll(c, &drained_end_counter);
+-    BDRV_POLL_WHILE(c->bs, qatomic_read(&drained_end_counter) > 0);
++    AIO_WAIT_WHILE(ctx, qatomic_read(&drained_end_counter) > 0);
+ }
  
-         bdrv_unref(bs);
-+    } else {
-+        blk->ctx = new_context;
+ static void bdrv_parent_drained_end(BlockDriverState *bs, BdrvChild *ignore,
+@@ -116,13 +117,14 @@ static bool bdrv_parent_drained_poll(BlockDriverState *bs, BdrvChild *ignore,
+ 
+ void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll)
+ {
++    AioContext *ctx = bdrv_child_get_parent_aio_context(c);
+     IO_OR_GS_CODE();
+     c->parent_quiesce_counter++;
+     if (c->klass->drained_begin) {
+         c->klass->drained_begin(c);
      }
- 
--    blk->ctx = new_context;
-     return 0;
+     if (poll) {
+-        BDRV_POLL_WHILE(c->bs, bdrv_parent_drained_poll_single(c));
++        AIO_WAIT_WHILE(ctx, bdrv_parent_drained_poll_single(c));
+     }
  }
  
 -- 
