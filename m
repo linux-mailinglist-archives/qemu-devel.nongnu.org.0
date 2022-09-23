@@ -2,100 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C595E7471
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 08:57:17 +0200 (CEST)
-Received: from localhost ([::1]:56942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACAB5E74C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 09:22:37 +0200 (CEST)
+Received: from localhost ([::1]:44418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obccd-0004N2-MB
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 02:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54966)
+	id 1obd17-00022Y-6Y
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 03:22:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1obcJy-0002MS-OP
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 02:37:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57798)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obctI-00074T-5C
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:14:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1obcJv-0003Xw-Fs
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 02:37:56 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obctE-0006m1-F4
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:14:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663915074;
+ s=mimecast20190719; t=1663917263;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7nI+LE14NrqgyXe1inSjtRev4+6ezkyPUB8DOJvEXhY=;
- b=Htt0dtFhWW0TTMBXAmcNeug6TFm/IbHX8tPHGVRlu8xm0Orpp1eTSHbv8ZsAuPaUS//MLB
- BgtdeIRT7EI5EaI14nW/cU653mQmrtgUfPLkEhjObusn0eO6K5UCCVObkWKaXWL/OuMvsL
- FzbsiZOX7faxtMtiQnXWvdMTasJrOmc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-624-qWbKXanRO1WQe4IKxmyF5g-1; Fri, 23 Sep 2022 02:37:53 -0400
-X-MC-Unique: qWbKXanRO1WQe4IKxmyF5g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 5-20020a05600c028500b003b4d2247d3eso3334044wmk.0
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 23:37:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date;
- bh=7nI+LE14NrqgyXe1inSjtRev4+6ezkyPUB8DOJvEXhY=;
- b=lHMnlt0VYjr+6LGHiYxbpBY5afBWpFjlZ4osqSrPIgorX4P7M0QiV/PHGmmKlZnkXC
- jrYfysg58yMSpLJQPYpdo4Po3EAW5UL3c8UTw835ND6X44fGryPQ6uVeKTGwTLPLE4DG
- T9h5xhpYbA01k9O8YI4y2olNeY7bJrDQopz0NwWGZyL9byD8z8Wtt7Kt7acBXHQCXiHl
- LTt6RbDYckoOsWytgN1qvbiye9tk0g5AbH2ZDXH+YZFmAJlgxaURj+4L3RT5TeO+NEOQ
- rIbDESmSNJiHUHTfj2Z8tSrtTd4zSVxBk7HH1P5Uon31E8hdH7mMax4KA85ARyCqdRsR
- JUsg==
-X-Gm-Message-State: ACrzQf3+q9d0kL0KE9tZ1gDzT6pUTFWi3s/Y2JVwfFhh7b2ZNVifRvfe
- KIa76V+jPn5bJAvgyxmF1AyB4K8UzbHnbZDtOlCgbVmtvJprLdRyRxA1mVcj5mpsDxSOkv8i0f1
- PfA9Qdk7Bghuj2jc=
-X-Received: by 2002:a05:600c:1f06:b0:3b4:86e8:bd21 with SMTP id
- bd6-20020a05600c1f0600b003b486e8bd21mr4815376wmb.7.1663915072139; 
- Thu, 22 Sep 2022 23:37:52 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6jiJ2GDNHyNRZFVNY6PZUr20GIA9lqEVPFtSMOrOwp56QHS2Mw/H3cx0pfAxHgJEVbsccU1g==
-X-Received: by 2002:a05:600c:1f06:b0:3b4:86e8:bd21 with SMTP id
- bd6-20020a05600c1f0600b003b486e8bd21mr4815360wmb.7.1663915071815; 
- Thu, 22 Sep 2022 23:37:51 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c704:cc00:4585:a83b:64f2:ad21?
- (p200300cbc704cc004585a83b64f2ad21.dip0.t-ipconnect.de.
- [2003:cb:c704:cc00:4585:a83b:64f2:ad21])
- by smtp.gmail.com with ESMTPSA id
- c7-20020adffb47000000b00226dfac0149sm6648942wrs.114.2022.09.22.23.37.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 22 Sep 2022 23:37:51 -0700 (PDT)
-Message-ID: <6bf799d5-18a1-f01c-b227-a7dc98c2c8cf@redhat.com>
-Date: Fri, 23 Sep 2022 08:37:50 +0200
+ bh=PoULoq8U+IwvURAHJ53HBSIRN4UVqjnw5zl4X4OHKCs=;
+ b=fIFdLR18VTYpJ0cvFyvEgIXMM03TzbxEBl4OxNuDimj1+8ZHJg1GtWgMwKkjbwruwLAJVj
+ JKRpDD/dIwiO9OqstBEVRCsf+u7sfn5aRZzQu+ZG7FxP90AEw2/WiUl6aErke/tLJnBqDB
+ eNXeUdKN2esf4pnwdz4l0oCOmlmQJeA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-500-5uRDr54tOgK5rvhe-zQLtQ-1; Fri, 23 Sep 2022 03:14:20 -0400
+X-MC-Unique: 5uRDr54tOgK5rvhe-zQLtQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA449185A792;
+ Fri, 23 Sep 2022 07:14:19 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E305C15BA5;
+ Fri, 23 Sep 2022 07:14:19 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2FFE121E6900; Fri, 23 Sep 2022 09:14:16 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Cc: Wang Liang <wangliangzz@126.com>,  qemu-devel@nongnu.org,
+ qemu-block@nongnu.org,  pbonzini@redhat.com,  stefanha@redhat.com,
+ silbe@linux.vnet.ibm.com,  Wang Liang <wangliangzz@inspur.com>
+Subject: Re: [PATCH] ratelimit: restrict the delay time to a non-negative value
+References: <20220920123350.205391-1-wangliangzz@126.com>
+ <w51h712i3pd.fsf@igalia.com>
+ <f4b8e638285a7cfd2bd2e94c0bf9a1176cca0cb7.camel@126.com>
+ <w511qs5w38j.fsf@igalia.com>
+Date: Fri, 23 Sep 2022 09:14:16 +0200
+In-Reply-To: <w511qs5w38j.fsf@igalia.com> (Alberto Garcia's message of "Wed,
+ 21 Sep 2022 08:17:32 +0000")
+Message-ID: <878rmah8af.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v8.1 1/2] target/s390x: support SHA-512 extensions
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>
-References: <20220921100729.2942008-1-Jason@zx2c4.com>
- <20220922153820.221811-1-david@redhat.com>
- <abf6fbb6-14f4-8c65-f5ac-a75b9c8931dd@redhat.com>
- <98dcb657-8862-5868-3979-55fc49864904@redhat.com>
- <e8041184-cfdd-d429-0377-db6b46d4d0ef@redhat.com>
-Content-Language: en-US
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <e8041184-cfdd-d429-0377-db6b46d4d0ef@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.893, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,62 +84,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.09.22 08:23, Thomas Huth wrote:
-> On 22/09/2022 19.18, David Hildenbrand wrote:
->> On 22.09.22 17:55, Thomas Huth wrote:
->>> On 22/09/2022 17.38, David Hildenbrand wrote:
->>>> From: "Jason A. Donenfeld" <Jason@zx2c4.com>
->>>>
->>>> In order to fully support MSA_EXT_5, we have to support the SHA-512
->>>> special instructions. So implement those.
->>>>
->>>> The implementation began as something TweetNacl-like, and then was
->>>> adjusted to be useful here. It's not very beautiful, but it is quite
->>>> short and compact, which is what we're going for.
->>> ...
->>>> @@ -52,6 +278,9 @@ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1,
->>>> uint32_t r2, uint32_t r3,
->>>>                 cpu_stb_data_ra(env, param_addr, subfunc[i], ra);
->>>>             }
->>>>             break;
->>>> +    case 3: /* CPACF_*_SHA_512 */
->>>> +        return cpacf_sha512(env, ra, env->regs[1], &env->regs[r2],
->>>> +                            &env->regs[r2 + 1], type);
->>>
->>> I have to say that I liked Jason's v8 better here. Code 3 is also used for
->>> other instructions with completely different meaning, e.g. PCKMO uses 3 for
->>> TDEA-192 ... so having the "type" check here made more sense.
->>> (meta comment: maybe we should split up the msa function and stop using just
->>> one function for all crypto/rng related instructions? ... but that's of
->>> course something for a different patch series)
+Alberto Garcia <berto@igalia.com> writes:
+
+> On Wed 21 Sep 2022 09:47:32 AM +08, Wang Liang wrote:
+>>> > -    return limit->slice_end_time - now;
+>>> > +    return MAX(limit->slice_end_time - now, 0);
+>>> 
+>>> How can this be negative? slice_end_time is guaranteed to be larger
+>>> than
+>>> now:
+>>> 
+>>>     if (limit->slice_end_time < now) {
+>>>         /* Previous, possibly extended, time slice finished; reset
+>>> the
+>>>          * accounting. */
+>>>         limit->slice_start_time = now;
+>>>         limit->slice_end_time = now + limit->slice_ns;
+>>>         limit->dispatched = 0;
+>>>     }
+>>> 
+>> This is just a guarantee. 
 >>
->> It kind-f made sense in v8 where we actually had different functions. We no
->> longer have that here.
-> 
-> But the point is that the "msa" helper is also called for other instructions
-> like PCKMO which can also be called with code 3. And there it means
-> something completely different. ... unless I completely misunderstood the
-> code, of course.
+>> If slice_end_time is assigned later by
+>>     limit->slice_end_time = limit->slice_start_time +
+>>         (uint64_t)(delay_slices * limit->slice_ns);
+>> There may be precision issues at that time.
+>
+> Ok, on a closer look, if at the start of the function
+>
+>    limit->slice_start_time < now, and
+>    limit->slice_end_time >= now
+>
+> it seems that in principle what you say can happen.
 
-test_be_bit() fences everything off we don't support. Simply falling 
-through here and returning 0 at the end doesn't make any sense either.
+How?  Let's see.
 
-> 
-> I think I'll go with Jason's v8 (+ compat machine handling on top) for now,
-> so that we better record his state of the patch, and then we can do cleanup
-> patches on top later.
+    static inline int64_t ratelimit_calculate_delay(RateLimit *limit, uint64_t n)
+    {
+        int64_t now = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
 
-Feel free to commit what you want (I'll be happy to see Jason's work 
-upstream for good), but note that
+What kind of clock is QEMU_CLOCK_REALTIME?  See below.
 
-1) I don't feel confident to give the original patch my ack/rb
-2) I am not a supporter of committing code that has known issues
-3) I won't follow up with additional cleanup patches because I already 
-spent more time on this than I originally planned.
+        double delay_slices;
 
--- 
-Thanks,
+        QEMU_LOCK_GUARD(&limit->lock);
+        if (!limit->slice_quota) {
+            /* Throttling disabled.  */
+            return 0;
+        }
+        assert(limit->slice_ns);
 
-David / dhildenb
+        if (limit->slice_end_time < now) {
+
+This is false.
+
+            /* Previous, possibly extended, time slice finished; reset the
+             * accounting. */
+            limit->slice_start_time = now;
+            limit->slice_end_time = now + limit->slice_ns;
+            limit->dispatched = 0;
+        }
+
+        limit->dispatched += n;
+
+This is in theory vulnerable to wrap-around.
+
+        if (limit->dispatched < limit->slice_quota) {
+
+This must be false (or else we return 0, which isn't negative).
+
+            /* We may send further data within the current time slice, no
+             * need to delay the next request. */
+            return 0;
+        }
+
+        /* Quota exceeded. Wait based on the excess amount and then start a new
+         * slice. */
+        delay_slices = (double)limit->dispatched / limit->slice_quota;
+
+Both @dispatched and @slice_quota are uint64_t.  Conversion to double
+may lose precision, but cant't change the sign.  Therefore,
+@delay_slices is non-negative.
+
+        limit->slice_end_time = limit->slice_start_time +
+            (uint64_t)(delay_slices * limit->slice_ns);
+
+Conversion from double to uint64_t has undefined behavior when the value
+is not representable after truncation towards zero.  So, if the
+multiplication's result truncated towards zero exceeds UINT_MAX, we're
+theoretically toast.
+
+To return a negative value, @slice_end_time must become less than @now
+here.
+
+        return limit->slice_end_time - now;
+    }
+
+This is how far I get without (laboriously!) reconstructing what the
+members of struct RateLimit actually mean, and what its invariants are,
+if any.  We could write down such things in comments, but we prefer to
+keep things fresh and spicy, and developers confused.
+
+Can you elaborate on the "precision issues"?
+
+> If it's so, it would be good to know under what conditions this happens,
+> because this hasn't changed in years.
+>
+> Berto
 
 
