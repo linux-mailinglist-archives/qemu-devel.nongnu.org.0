@@ -2,88 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768855E7E4D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 17:24:22 +0200 (CEST)
-Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60BC45E7E4E
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 17:24:34 +0200 (CEST)
+Received: from localhost ([::1]:51580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obkXM-000658-P1
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 11:24:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33324)
+	id 1obkXZ-0006WP-8L
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 11:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obkSp-0002OA-VU
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 11:19:42 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:52196)
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1obkTc-0002cC-3g
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 11:20:29 -0400
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:46605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obkSh-0007JK-3v
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 11:19:38 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id rt12so355393pjb.1
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 08:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=C53a88ilPMMq8FH6gkmHjUB/f/adhTK42oyuIQJx8Oc=;
- b=HgY80YzjC3p9fPdhLy2d591W1XzGU+8R9C0SeyXLwf4SvdaY6x1eEs9G0ZqAv7goQu
- HZ9gNHNlYt8hUcb7vUiivHaFjXWhnAQdFpFCXAH142+b5tLWRK0f1tWYPnqlkOEaLIIm
- wlV6qLgX6e8UEXW+HaK8KVVhKi8lsP69TUsBzpmd8X9Vz7rsBfxoi8/6/S9VKr5I9TSS
- KDKRL5QSfFa3fhH42J2d4VHugbTdJJYJVg52L6x1WIaZS9+El/e2nY/JtgDQAppzG4U6
- JIl1G9haNb9EK8KqM7zRJadj30s1O8hqljeVOquLOZq47d435QT6vmVSBWHUYuPi46/v
- HP3w==
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1obkTZ-0007YN-UE
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 11:20:27 -0400
+Received: by mail-lf1-x131.google.com with SMTP id a8so751149lff.13
+ for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 08:20:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=Zow8yFZS7DL+sQi+dFI8ktR+CVObD/Cj7M/2zMgZrcE=;
+ b=OwesCIlz00EUn7DRsMx0DjzCHBk8S/+Xi2g5fPxGQhSRVaCPRjRDdaU3EoxDGBycWF
+ WjeJOwauK+2vsuvUb0vjkRCZ4RMivueV3nfN+bQNkdWetxD6j+QKSjPsuee2Tp2n38Jz
+ /iJsK25fqBHvk1flzzUqT6xcaD2Kcry+CP91ebbpRaH+7JaO7k+DDGbA80azTpePJHUo
+ C9mi6Q2+k5+aqh7plurR6pEpUr9EvDPbLxCLDRinQNGibIiinnoVBg84EnbuaBKnPpUT
+ cKT++hkuZ7OScqK5B4U9F14Zu14fLK/+p4hCg8Uwqh1UdA/pssHQoaFSPvqyG9cck4Rn
+ GTYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=C53a88ilPMMq8FH6gkmHjUB/f/adhTK42oyuIQJx8Oc=;
- b=MRhOgdW4ONmc1Inloz9mibgnnp801VFLjVnrDb/flCdsxqCaRTbDU7RNqy2mlH57hU
- NDJNX56Fe96wR51N/+nBBWTy1wZbvTiy9GuuuExAda+tmyPGEsQLCWozAHY91+IHbek0
- YFqMQlnQVfGp/yA/iL6rnh++FxtbZqJEQ/YWtvsPBlNIxm39a/i7CY2ZU0Xkhy4u376N
- 7g6RQTyv0oEb4zC7X3mrpRaOpRSaIBcHbdSFDseF4m5u2YbcKVZtxrBMaQdCwkv4nz1O
- UzEJNIpTepcYlFtKu2kfb2FJ8ybGGXx4reyIef5eIHAdXriHAFFz0OwSoilBHXP5+Jju
- XZRg==
-X-Gm-Message-State: ACrzQf1kK2sLE6yCr8NPsz+Jd3satpg96P1toca87mqP+XyoKXFMOHXg
- m2esRx1w2STFeSfyGn8NA2k=
-X-Google-Smtp-Source: AMsMyM6gcvD6yWQbaS1lDXnRGMSSpBmjxZx96sSeRxjtlP/Whz08lhhcnqX5UqfCN+lcxvPqC0yhsQ==
-X-Received: by 2002:a17:902:904b:b0:172:cd04:a3d3 with SMTP id
- w11-20020a170902904b00b00172cd04a3d3mr9204759plz.173.1663946369526; 
- Fri, 23 Sep 2022 08:19:29 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- u12-20020a17090abb0c00b001fba4716f11sm1741861pjr.22.2022.09.23.08.19.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Sep 2022 08:19:29 -0700 (PDT)
-Message-ID: <51a886ff-56ad-39a5-ed78-270e96209a77@amsat.org>
-Date: Fri, 23 Sep 2022 17:19:22 +0200
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=Zow8yFZS7DL+sQi+dFI8ktR+CVObD/Cj7M/2zMgZrcE=;
+ b=yMewgbtuXNRaqVqtDgvxKhn8KS9g12Rhe8BRr4KpmFPQOP7bVSnUhjxtZury6Fn/4o
+ GIjDeBkdfKg1gUzWYFeJnzVyT9tjXBikLlKwObAXjmODUGRnHXpBBChkNXRP541V7xx2
+ OquZFrkUf3U0MJK0/sm1rinId9dFjHRrnUmcl3ETT2OdRmlHeC9KM0JO2J6pwb/rm3D5
+ jvMDYTDAC9uk72Z+bmiB4lcPI2Cambi9tKNpilmae65ISeym0jqZAOyefck2uXCNZnpm
+ AqbfKweNiOdPIVi5/wLToL7vqbHPss1r1gSNZwKv7x9I//FPVPr0U9wVPbPxmFiGj4Mz
+ d7OQ==
+X-Gm-Message-State: ACrzQf3EBDhWk0Ooi12FbLwFBBGc1RmANicA/BMcoJLZOdGahSJGDLAa
+ IdmG4cXNDzOChhOK5f4pAVo53hhCazLQo6/yo8QilA==
+X-Google-Smtp-Source: AMsMyM78W2SpygRyWA6BwLCi+G+Q9AwHIlqubh16dKOB9mvu+zIZ03puXTWepUQ7h9eMZBQnICvUmLJxtqa9A8Z7/3M=
+X-Received: by 2002:a05:6512:3612:b0:499:aea7:8bed with SMTP id
+ f18-20020a056512361200b00499aea78bedmr3269322lfs.26.1663946423216; Fri, 23
+ Sep 2022 08:20:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v5 2/4] module: rename module_load_one to module_load
-Content-Language: en-US
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220923145131.21282-1-cfontana@suse.de>
- <20220923145131.21282-3-cfontana@suse.de>
-In-Reply-To: <20220923145131.21282-3-cfontana@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
+ <Yyi+l3+p9lbBAC4M@google.com>
+In-Reply-To: <Yyi+l3+p9lbBAC4M@google.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Fri, 23 Sep 2022 16:19:46 +0100
+Message-ID: <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To: Sean Christopherson <seanjc@google.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, aarcange@redhat.com, 
+ ddutile@redhat.com, dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, 
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com, 
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
+ envelope-from=tabba@google.com; helo=mail-lf1-x131.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,22 +110,216 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 23/9/22 16:51, Claudio Fontana wrote:
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->   audio/audio.c         |  2 +-
->   block.c               |  4 ++--
->   block/dmg.c           |  4 ++--
->   hw/core/qdev.c        |  2 +-
->   include/qemu/module.h | 10 +++++-----
->   qom/object.c          |  4 ++--
->   softmmu/qtest.c       |  2 +-
->   ui/console.c          |  6 +++---
->   util/module.c         | 14 +++++++-------
->   9 files changed, 24 insertions(+), 24 deletions(-)
+Hi,
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Mon, Sep 19, 2022 at 8:10 PM Sean Christopherson <seanjc@google.com> wro=
+te:
+>
+> +Will, Marc and Fuad (apologies if I missed other pKVM folks)
+>
+> On Mon, Sep 19, 2022, David Hildenbrand wrote:
+> > On 15.09.22 16:29, Chao Peng wrote:
+> > > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > >
+> > > KVM can use memfd-provided memory for guest memory. For normal usersp=
+ace
+> > > accessible memory, KVM userspace (e.g. QEMU) mmaps the memfd into its
+> > > virtual address space and then tells KVM to use the virtual address t=
+o
+> > > setup the mapping in the secondary page table (e.g. EPT).
+> > >
+> > > With confidential computing technologies like Intel TDX, the
+> > > memfd-provided memory may be encrypted with special key for special
+> > > software domain (e.g. KVM guest) and is not expected to be directly
+> > > accessed by userspace. Precisely, userspace access to such encrypted
+> > > memory may lead to host crash so it should be prevented.
+> >
+> > Initially my thaught was that this whole inaccessible thing is TDX spec=
+ific
+> > and there is no need to force that on other mechanisms. That's why I
+> > suggested to not expose this to user space but handle the notifier
+> > requirements internally.
+> >
+> > IIUC now, protected KVM has similar demands. Either access (read/write)=
+ of
+> > guest RAM would result in a fault and possibly crash the hypervisor (at
+> > least not the whole machine IIUC).
+>
+> Yep.  The missing piece for pKVM is the ability to convert from shared to=
+ private
+> while preserving the contents, e.g. to hand off a large buffer (hundreds =
+of MiB)
+> for processing in the protected VM.  Thoughts on this at the bottom.
+
+Just wanted to mention that for pKVM (arm64), this wouldn't crash the
+hypervisor. A userspace access would crash the userspace process since
+the hypervisor would inject a fault back. Because of that making it
+inaccessible from userspace is good to have, but not really vital for
+pKVM. What is important for pKVM is that the guest private memory is
+not GUP'able by the host. This is because if it were, it might be
+possible for a malicious userspace process (e.g., a malicious vmm) to
+trick the host kernel into accessing guest private memory in a context
+where it isn=E2=80=99t prepared to handle the fault injected by the
+hypervisor. This of course might crash the host.
+
+> > > This patch introduces userspace inaccessible memfd (created with
+> > > MFD_INACCESSIBLE). Its memory is inaccessible from userspace through
+> > > ordinary MMU access (e.g. read/write/mmap) but can be accessed via
+> > > in-kernel interface so KVM can directly interact with core-mm without
+> > > the need to map the memory into KVM userspace.
+> >
+> > With secretmem we decided to not add such "concept switch" flags and in=
+stead
+> > use a dedicated syscall.
+> >
+>
+> I have no personal preference whatsoever between a flag and a dedicated s=
+yscall,
+> but a dedicated syscall does seem like it would give the kernel a bit mor=
+e
+> flexibility.
+>
+> > What about memfd_inaccessible()? Especially, sealing and hugetlb are no=
+t
+> > even supported and it might take a while to support either.
+>
+> Don't know about sealing, but hugetlb support for "inaccessible" memory n=
+eeds to
+> come sooner than later.  "inaccessible" in quotes because we might want t=
+o choose
+> a less binary name, e.g. "restricted"?.
+>
+> Regarding pKVM's use case, with the shim approach I believe this can be d=
+one by
+> allowing userspace mmap() the "hidden" memfd, but with a ton of restricti=
+ons
+> piled on top.
+>
+> My first thought was to make the uAPI a set of KVM ioctls so that KVM cou=
+ld tightly
+> tightly control usage without taking on too much complexity in the kernel=
+, but
+> working through things, routing the behavior through the shim itself migh=
+t not be
+> all that horrific.
+>
+> IIRC, we discarded the idea of allowing userspace to map the "private" fd=
+ because
+> things got too complex, but with the shim it doesn't seem _that_ bad.
+>
+> E.g. on the memfd side:
+>
+>   1. The entire memfd must be mapped, and at most one mapping is allowed,=
+ i.e.
+>      mapping is all or nothing.
+>
+>   2. Acquiring a reference via get_pfn() is disallowed if there's a mappi=
+ng for
+>      the restricted memfd.
+>
+>   3. Add notifier hooks to allow downstream users to further restrict thi=
+ngs.
+>
+>   4. Disallow splitting VMAs, e.g. to force userspace to munmap() everyth=
+ing in
+>      one shot.
+>
+>   5. Require that there are no outstanding references at munmap().  Or if=
+ this
+>      can't be guaranteed by userspace, maybe add some way for userspace t=
+o wait
+>      until it's ok to convert to private?  E.g. so that get_pfn() doesn't=
+ need
+>      to do an expensive check every time.
+>
+>   static int memfd_restricted_mmap(struct file *file, struct vm_area_stru=
+ct *vma)
+>   {
+>         if (vma->vm_pgoff)
+>                 return -EINVAL;
+>
+>         if ((vma->vm_end - vma->vm_start) !=3D <file size>)
+>                 return -EINVAL;
+>
+>         mutex_lock(&data->lock);
+>
+>         if (data->has_mapping) {
+>                 r =3D -EINVAL;
+>                 goto err;
+>         }
+>         list_for_each_entry(notifier, &data->notifiers, list) {
+>                 r =3D notifier->ops->mmap_start(notifier, ...);
+>                 if (r)
+>                         goto abort;
+>         }
+>
+>         notifier->ops->mmap_end(notifier, ...);
+>         mutex_unlock(&data->lock);
+>         return 0;
+>
+>   abort:
+>         list_for_each_entry_continue_reverse(notifier &data->notifiers, l=
+ist)
+>                 notifier->ops->mmap_abort(notifier, ...);
+>   err:
+>         mutex_unlock(&data->lock);
+>         return r;
+>   }
+>
+>   static void memfd_restricted_close(struct vm_area_struct *vma)
+>   {
+>         mutex_lock(...);
+>
+>         /*
+>          * Destroy the memfd and disable all future accesses if there are
+>          * outstanding refcounts (or other unsatisfied restrictions?).
+>          */
+>         if (<outstanding references> || ???)
+>                 memfd_restricted_destroy(...);
+>         else
+>                 data->has_mapping =3D false;
+>
+>         mutex_unlock(...);
+>   }
+>
+>   static int memfd_restricted_may_split(struct vm_area_struct *area, unsi=
+gned long addr)
+>   {
+>         return -EINVAL;
+>   }
+>
+>   static int memfd_restricted_mapping_mremap(struct vm_area_struct *new_v=
+ma)
+>   {
+>         return -EINVAL;
+>   }
+>
+> Then on the KVM side, its mmap_start() + mmap_end() sequence would:
+>
+>   1. Not be supported for TDX or SEV-SNP because they don't allow adding =
+non-zero
+>      memory into the guest (after pre-boot phase).
+>
+>   2. Be mutually exclusive with shared<=3D>private conversions, and is al=
+lowed if
+>      and only if the entire gfn range of the associated memslot is shared=
+.
+
+In general I think that this would work with pKVM. However, limiting
+private<->shared conversions to the granularity of a whole memslot
+might be difficult to handle in pKVM, since the guest doesn't have the
+concept of memslots. For example, in pKVM right now, when a guest
+shares back its restricted DMA pool with the host it does so at the
+page-level. pKVM would also need a way to make an fd accessible again
+when shared back, which I think isn't possible with this patch.
+
+You were initially considering a KVM ioctl for mapping, which might be
+better suited for this since KVM knows which pages are shared and
+which ones are private. So routing things through KVM might simplify
+things and allow it to enforce all the necessary restrictions (e.g.,
+private memory cannot be mapped). What do you think?
+
+Thanks,
+/fuad
 
