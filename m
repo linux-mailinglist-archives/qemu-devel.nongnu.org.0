@@ -2,73 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C517D5E7C68
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 15:57:40 +0200 (CEST)
-Received: from localhost ([::1]:46448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3D25E7CB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 16:17:03 +0200 (CEST)
+Received: from localhost ([::1]:38746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1objBT-0007K4-UB
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 09:57:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38456)
+	id 1objUB-0006BE-Vw
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 10:17:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obj8O-0004LR-Qz
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 09:54:28 -0400
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:41740)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1objOD-0002Go-J1
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 10:10:49 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:55584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obj8M-00037S-TL
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 09:54:28 -0400
-Received: by mail-lf1-x133.google.com with SMTP id u18so376346lfo.8
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 06:54:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=W4O7Lq5+tCcoKXrVTfnwUP6DQmdvbWG7Zo4lkcRjHiY=;
- b=JAhfDnLN2o+vA2pE3RQk4kt6hii5zF3fjHtOWE0bngZH7Xz4YTaOJ465oO6bFyw29I
- ulruyh9lGWLFGkyVLbAQVwFD0fjiJA4CF6tV/PCqGEvKPzQYb6TjnlcxWbDtciL12Ck5
- i9aNVcMbJjNh49LbSO3pNmMU7j+klJtlyYrwlsAkRySwp8wCq2b2wTFB4XMzj5Jj+jsM
- 0x64ZTK8IKXO8a16xpBo49AMCV0Ae30sGSyYGSw6fP/eUSjQ7J5jAo/lYtEvaUe8TWUu
- 0b0RALPnLY41IjjZqxcNeN7vd7UqhFBNOrx6iVCRFCgYqUMHYdjhVGWO58h5GPqKHPq8
- qV0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=W4O7Lq5+tCcoKXrVTfnwUP6DQmdvbWG7Zo4lkcRjHiY=;
- b=1IYk+2LREJQZHogWf+UjGQH1OX9GjRZ9qgPmRmSe1d43G8JeA9p3wKik+nis0njyBY
- JFQkKNLM6QnLmxvJ3v8WYf2ItUtt0CQUjmLwzrx1jHDve3vDexNVnK4axivAy5NFdCf7
- uLF2oXcyxKzhuEtdQJ4lQXhEeciK7oocYOycdBkDq/G+WsS/o1ogvT8anZ1t5AXmbCeu
- y0Y1xoO/R/e7i7x6egCE6Cid6Dl+622f0KB8XuYMi6kilCw3uPzxuRDpwRpe//t/ZbZG
- AfQpcMWpXwdJ0yQIGsloOOGSrjy0Py2fJOVLli5KG9ygTtZ1DHHiPLvcPnPsANW6vHPd
- CQLw==
-X-Gm-Message-State: ACrzQf1bkzcS8GnwRTxUkqQyHsu6J8Ddf/TFNOcWkkBPY50HgjJfMIq1
- V2hjAiawUrhFF+ioaIRx1jJ5dXrrm78j7p5hrdM=
-X-Google-Smtp-Source: AMsMyM5GhD56EKn187FYbH67vvvHy9R8mK4vElAh8+PVFSvUHxG8+p6WSD8qKqxiO+RX5edWApvQoiC+cW4B/N2ubBM=
-X-Received: by 2002:a05:6512:6c9:b0:49a:51d4:d517 with SMTP id
- u9-20020a05651206c900b0049a51d4d517mr3427787lff.329.1663941265090; Fri, 23
- Sep 2022 06:54:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1objOA-0007Ij-O7
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 10:10:48 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 17292219DB;
+ Fri, 23 Sep 2022 14:10:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663942245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zRpJ6iOxyyj8cBw/ONOIZHzq/Idh3kTKnbvu9DK3UuE=;
+ b=IIAY/vNUtx09/R2/xVMLbN7WfL8vl6wEomNwBSgLtmwlwiY7oS9YTqf/Pl9a8kV5FEkT9e
+ h2kB2GT+A5uVPwaHH2NP4TXEtAUowMqMiMca5lFkyNKH6XR6ws/QrIAIYg2vzapGhUE+Ow
+ 1nZEyJ55/F0ruA7KD7IpXFTm+KFJLXw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663942245;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zRpJ6iOxyyj8cBw/ONOIZHzq/Idh3kTKnbvu9DK3UuE=;
+ b=bITto/uqM/jQiPOuFBJsBcjBsGaQ8CGvUmm25bT5+gY972uSQHnnAmb9fHexUO4ZJuIOQH
+ KJF33SoE4YeMT3Cw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9C9B513A00;
+ Fri, 23 Sep 2022 14:10:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ug/uI2S+LWMmIAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 23 Sep 2022 14:10:44 +0000
+Message-ID: <b37405a8-2315-5390-1ae6-5f1cd7ef0001@suse.de>
+Date: Fri, 23 Sep 2022 16:10:44 +0200
 MIME-Version: 1.0
-References: <20220923134350.324402-1-antonio.caggiano@collabora.com>
- <20220923134350.324402-2-antonio.caggiano@collabora.com>
-In-Reply-To: <20220923134350.324402-2-antonio.caggiano@collabora.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 23 Sep 2022 15:54:13 +0200
-Message-ID: <CAJ+F1CJGvOw3M4Ss73JStPTg+CH0n-ngmV0gqpstZUUzL-gP5A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] virtio-gpu: Unrealize
-To: Antonio Caggiano <antonio.caggiano@collabora.com>
-Cc: qemu-devel@nongnu.org, gert.wollny@collabora.com, 
- dmitry.osipenko@collabora.com, "Michael S. Tsirkin" <mst@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000086fb505e95884e4"
-Received-SPF: pass client-ip=2a00:1450:4864:20::133;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x133.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 2/3] module: add Error arguments to module_load_one and
+ module_load_qom_one
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, dinechin@redhat.com, Gerd Hoffmann
+ <kraxel@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>
+References: <20220908145308.30282-1-cfontana@suse.de>
+ <20220908145308.30282-3-cfontana@suse.de>
+ <062faaa8-064c-f68a-e316-aaacb80efa5a@linaro.org>
+ <3c6cb3ee-2470-654f-c2c4-3449861f9781@suse.de>
+ <8682ad9f-aea8-0419-5ff6-c14493e4e980@suse.de> <YynvR49aIK2AzbJ3@redhat.com>
+ <eda3f2ce-a828-8c84-60bd-684844eb25b6@suse.de> <Yyr72+YyYrhG2zTo@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <Yyr72+YyYrhG2zTo@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1c;
+ envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,133 +100,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000086fb505e95884e4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 9/21/22 13:56, Kevin Wolf wrote:
+> Am 21.09.2022 um 09:50 hat Claudio Fontana geschrieben:
+>> On 9/20/22 18:50, Kevin Wolf wrote:
+>>> Am 08.09.2022 um 19:36 hat Claudio Fontana geschrieben:
+>>>> On 9/8/22 19:10, Claudio Fontana wrote:
+>>>>> On 9/8/22 18:03, Richard Henderson wrote:
+>>>>>> On 9/8/22 15:53, Claudio Fontana wrote:
+>>>>>>> @@ -446,8 +447,13 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+>>>>>>>           return -EINVAL;
+>>>>>>>       }
+>>>>>>>   
+>>>>>>> -    block_module_load_one("dmg-bz2");
+>>>>>>> -    block_module_load_one("dmg-lzfse");
+>>>>>>> +    if (!block_module_load_one("dmg-bz2", &local_err) && local_err) {
+>>>>>>> +        error_report_err(local_err);
+>>>>>>> +    }
+>>>>>>> +    local_err = NULL;
+>>>>>>> +    if (!block_module_load_one("dmg-lzfse", &local_err) && local_err) {
+>>>>>>> +        error_report_err(local_err);
+>>>>>>> +    }
+>>>>>>>   
+>>>>>>>       s->n_chunks = 0;
+>>>>>>>       s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
+>>>>>>
+>>>>>> I wonder if these shouldn't fail hard if the modules don't exist?
+>>>>>> Or at least pass back the error.
+>>>>>>
+>>>>>> Kevin?
+>>>>
+>>>> is "dmg-bz" _required_ for dmg open to work? I suspect if the dmg
+>>>> image is not compressed, "dmg" can function even if the extra dmg-bz
+>>>> module is not loaded right?
+>>>
+>>> Indeed. The code seems to consider that the modules may not be present.
+>>> The behaviour in these cases is questionable (it seems to silently leave
+>>> the buffers as they are and return success)
+> 
+> I think I misunderstood the code here actually. dmg_read_mish_block()
+> skips chunks of unknown type, so later trying to find them fails and
+> dmg_co_preadv() returns -EIO. Which is a reasonable return value for
+> this.
+> 
+>>> , but the modules are clearly
+>>> optional.
+>>>
+>>>> I'd suspect we should then do:
+>>>>
+>>>> if (!block_module_load_one("dmg-bz2", &local_err)) {
+>>>>   if (local_err) {
+>>>>      error_report_err(local_err);
+>>>>      return -EINVAL;
+>>>>   }
+>>>>   warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks */
+>>>> }
+>>>>
+>>>> and same for dmg-lzfse...?
+>>>
+>>> Actually, I think during initialisation, we should just pass NULL as
+>>> errp and ignore any errors.
+>>
+>> Hmm really? I'd think that if there is an actual error loading the
+>> module (module is installed, but the loading itself fails due to
+>> broken module, wrong permissions, I/O errors etc) we would want to
+>> report that fact as it happens?
+> 
+> Can we distinguish the two error cases?
+> 
+> Oooh... Reading the code again carefully, are you returning false
+> without setting errp if the module just couldn't be found? This is a
+> surprising interface.
+> 
+> Yes, I guess then your proposed code is fine (modulo moving
+> warn_report() somewhere else so that it doesn't complain when the image
+> doesn't even contain compressed chunks).
+> 
+>>> When a request would access a block that can't be uncompressed because
+>>> of the missing module, that's where we can have a warn_report_once() and
+>>> arguably should fail the I/O request.
+>>>
+>>> Kevin
+>>>
+>>
+>> That would mean, moving the
+>>
+>> warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks")
+>>
+>> to the uncompression code and change it to a warn_report_once() right?
+> 
+> Yeah, though I think this doesn't actually work because we never even
+> stored the metadata for chunks of unknown type (see above), so we never
+> reach the uncompression code.
+> 
+> What misled me initially is this code in dmg_read_chunk():
+> 
+>         case UDBZ: /* bzip2 compressed */
+>             if (!dmg_uncompress_bz2) {
+>                 break;
+>             }
+> 
+> I believe this is dead code, it could actually be an assertion. So
+> if I'm not missing anything, adding the warning there would be useless.
+> 
+> The other option is moving it into dmg_is_known_block_type() or its
+> caller dmg_read_mish_block(), then we would detect it during open, which
+> is probably nicer anyway.
+> 
+> Kevin
+> 
+> 
 
-Hi
+Hi Kevin, I got a bit lost on whether we have some agreement on where if anywhere to move the check/warning about missing decompression submodules.
 
-On Fri, Sep 23, 2022 at 3:45 PM Antonio Caggiano <
-antonio.caggiano@collabora.com> wrote:
+If that's ok I'd post a V5, and we can rediscuss from the new starting point?
 
-> Implement an unrealize function for virtio gpu device.
->
-> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-> ---
->  hw/display/virtio-gpu.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-> index 20cc703dcc..412f0fb7ec 100644
-> --- a/hw/display/virtio-gpu.c
-> +++ b/hw/display/virtio-gpu.c
-> @@ -1345,6 +1345,15 @@ void virtio_gpu_device_realize(DeviceState *qdev,
-> Error **errp)
->      QTAILQ_INIT(&g->fenceq);
->  }
->
-> +void virtio_gpu_device_unrealize(DeviceState *qdev)
-> +{
-> +    VirtIODevice *vdev =3D VIRTIO_DEVICE(qdev);
-> +    VirtIOGPU *g =3D VIRTIO_GPU(qdev);
-> +
-> +    qemu_bh_delete(g->cursor_bh);
-> +    qemu_bh_delete(g->ctrl_bh);
->
+Thanks,
 
-It also needs to call virtio_gpu_base_device_unrealize() (or save the
-function in class_init, as shown in
-https://www.qemu.org/docs/master/devel/qom.html?highlight=3Dparent_do_somet=
-hing#id5
-- although I find it cumbersome)
-
-Otherwise, lgtm
-
-+}
-> +
->  void virtio_gpu_reset(VirtIODevice *vdev)
->  {
->      VirtIOGPU *g =3D VIRTIO_GPU(vdev);
-> @@ -1440,6 +1449,7 @@ static void virtio_gpu_class_init(ObjectClass
-> *klass, void *data)
->      vgbc->gl_flushed =3D virtio_gpu_handle_gl_flushed;
->
->      vdc->realize =3D virtio_gpu_device_realize;
-> +    vdc->unrealize =3D virtio_gpu_device_unrealize;
->      vdc->reset =3D virtio_gpu_reset;
->      vdc->get_config =3D virtio_gpu_get_config;
->      vdc->set_config =3D virtio_gpu_set_config;
-> --
-> 2.34.1
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000086fb505e95884e4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 23, 2022 at 3:45 PM Ant=
-onio Caggiano &lt;<a href=3D"mailto:antonio.caggiano@collabora.com">antonio=
-.caggiano@collabora.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">Implement an unrealize function for virtio gpu devic=
-e.<br>
-<br>
-Signed-off-by: Antonio Caggiano &lt;<a href=3D"mailto:antonio.caggiano@coll=
-abora.com" target=3D"_blank">antonio.caggiano@collabora.com</a>&gt;<br>
----<br>
-=C2=A0hw/display/virtio-gpu.c | 10 ++++++++++<br>
-=C2=A01 file changed, 10 insertions(+)<br>
-<br>
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c<br>
-index 20cc703dcc..412f0fb7ec 100644<br>
---- a/hw/display/virtio-gpu.c<br>
-+++ b/hw/display/virtio-gpu.c<br>
-@@ -1345,6 +1345,15 @@ void virtio_gpu_device_realize(DeviceState *qdev, Er=
-ror **errp)<br>
-=C2=A0 =C2=A0 =C2=A0QTAILQ_INIT(&amp;g-&gt;fenceq);<br>
-=C2=A0}<br>
-<br>
-+void virtio_gpu_device_unrealize(DeviceState *qdev)<br>
-+{<br>
-+=C2=A0 =C2=A0 VirtIODevice *vdev =3D VIRTIO_DEVICE(qdev);<br>
-+=C2=A0 =C2=A0 VirtIOGPU *g =3D VIRTIO_GPU(qdev);<br>
-+<br>
-+=C2=A0 =C2=A0 qemu_bh_delete(g-&gt;cursor_bh);<br>
-+=C2=A0 =C2=A0 qemu_bh_delete(g-&gt;ctrl_bh);<br></blockquote><div><br></di=
-v><div>It also needs to call virtio_gpu_base_device_unrealize() (or save th=
-e function in class_init, as shown in <a href=3D"https://www.qemu.org/docs/=
-master/devel/qom.html?highlight=3Dparent_do_something#id5">https://www.qemu=
-.org/docs/master/devel/qom.html?highlight=3Dparent_do_something#id5</a> - a=
-lthough I find it cumbersome)</div><div><br></div><div>Otherwise, lgtm<br><=
-/div><div><br> </div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+}<br>
-+<br>
-=C2=A0void virtio_gpu_reset(VirtIODevice *vdev)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0VirtIOGPU *g =3D VIRTIO_GPU(vdev);<br>
-@@ -1440,6 +1449,7 @@ static void virtio_gpu_class_init(ObjectClass *klass,=
- void *data)<br>
-=C2=A0 =C2=A0 =C2=A0vgbc-&gt;gl_flushed =3D virtio_gpu_handle_gl_flushed;<b=
-r>
-<br>
-=C2=A0 =C2=A0 =C2=A0vdc-&gt;realize =3D virtio_gpu_device_realize;<br>
-+=C2=A0 =C2=A0 vdc-&gt;unrealize =3D virtio_gpu_device_unrealize;<br>
-=C2=A0 =C2=A0 =C2=A0vdc-&gt;reset =3D virtio_gpu_reset;<br>
-=C2=A0 =C2=A0 =C2=A0vdc-&gt;get_config =3D virtio_gpu_get_config;<br>
-=C2=A0 =C2=A0 =C2=A0vdc-&gt;set_config =3D virtio_gpu_set_config;<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000086fb505e95884e4--
+Claudio
 
