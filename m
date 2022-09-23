@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ACAB5E74C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 09:22:37 +0200 (CEST)
-Received: from localhost ([::1]:44418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFBC5E74D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 09:28:07 +0200 (CEST)
+Received: from localhost ([::1]:33882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obd17-00022Y-6Y
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 03:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
+	id 1obd6U-000565-D8
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 03:28:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obctI-00074T-5C
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:14:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56484)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1obctP-0007Hb-G9
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:14:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obctE-0006m1-F4
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:14:26 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1obctN-0006nG-Fj
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:14:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663917263;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1663917272;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PoULoq8U+IwvURAHJ53HBSIRN4UVqjnw5zl4X4OHKCs=;
- b=fIFdLR18VTYpJ0cvFyvEgIXMM03TzbxEBl4OxNuDimj1+8ZHJg1GtWgMwKkjbwruwLAJVj
- JKRpDD/dIwiO9OqstBEVRCsf+u7sfn5aRZzQu+ZG7FxP90AEw2/WiUl6aErke/tLJnBqDB
- eNXeUdKN2esf4pnwdz4l0oCOmlmQJeA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=w9Utm4p3cueEbo2W+RKuLlmPdH2ChoRW9/3f9Y/fqng=;
+ b=IufMurxHr/EkcU7j+/aRm/TTW0GsmGz5Nc/uTLXCaNUn8NfgsFkzT28pEe5K9XN9092G+G
+ zYRAiId4hvMg/XnOrtMjs/PkKQ6I/Msrpuqfxm/1z5hwBq94Sm/05mZ8UfJtgPgZy3EAup
+ JnOCOkYHzcEYdrZKXo+V/ZiEWLpLwxI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-500-5uRDr54tOgK5rvhe-zQLtQ-1; Fri, 23 Sep 2022 03:14:20 -0400
-X-MC-Unique: 5uRDr54tOgK5rvhe-zQLtQ-1
+ us-mta-278-MMcBEX0AMJWX25CFbnHxvA-1; Fri, 23 Sep 2022 03:14:29 -0400
+X-MC-Unique: MMcBEX0AMJWX25CFbnHxvA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA449185A792;
- Fri, 23 Sep 2022 07:14:19 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E305C15BA5;
- Fri, 23 Sep 2022 07:14:19 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2FFE121E6900; Fri, 23 Sep 2022 09:14:16 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Cc: Wang Liang <wangliangzz@126.com>,  qemu-devel@nongnu.org,
- qemu-block@nongnu.org,  pbonzini@redhat.com,  stefanha@redhat.com,
- silbe@linux.vnet.ibm.com,  Wang Liang <wangliangzz@inspur.com>
-Subject: Re: [PATCH] ratelimit: restrict the delay time to a non-negative value
-References: <20220920123350.205391-1-wangliangzz@126.com>
- <w51h712i3pd.fsf@igalia.com>
- <f4b8e638285a7cfd2bd2e94c0bf9a1176cca0cb7.camel@126.com>
- <w511qs5w38j.fsf@igalia.com>
-Date: Fri, 23 Sep 2022 09:14:16 +0200
-In-Reply-To: <w511qs5w38j.fsf@igalia.com> (Alberto Garcia's message of "Wed,
- 21 Sep 2022 08:17:32 +0000")
-Message-ID: <878rmah8af.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E2F13802B8E
+ for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 07:14:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 370D2C15BA8;
+ Fri, 23 Sep 2022 07:14:27 +0000 (UTC)
+Date: Fri, 23 Sep 2022 08:14:25 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH 2/5] migration: Fix race on qemu_file_shutdown()
+Message-ID: <Yy1c0Xed15lzcAtl@redhat.com>
+References: <20220920223800.47467-1-peterx@redhat.com>
+ <20220920223800.47467-3-peterx@redhat.com>
+ <YyyUMYfLxs0/QY41@redhat.com> <Yyy5Z0lZ6oTnBp8g@xz-m1.local>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yyy5Z0lZ6oTnBp8g@xz-m1.local>
+User-Agent: Mutt/2.2.6 (2022-06-05)
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,115 +83,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alberto Garcia <berto@igalia.com> writes:
+On Thu, Sep 22, 2022 at 03:37:11PM -0400, Peter Xu wrote:
+> On Thu, Sep 22, 2022 at 05:58:25PM +0100, Daniel P. Berrangé wrote:
+> > On Tue, Sep 20, 2022 at 06:37:57PM -0400, Peter Xu wrote:
+> > > In qemu_file_shutdown(), there's a possible race if with current order of
+> > > operation.  There're two major things to do:
+> > > 
+> > >   (1) Do real shutdown() (e.g. shutdown() syscall on socket)
+> > >   (2) Update qemufile's last_error
+> > > 
+> > > We must do (2) before (1) otherwise there can be a race condition like:
+> > > 
+> > >       page receiver                     other thread
+> > >       -------------                     ------------
+> > >       qemu_get_buffer()
+> > >                                         do shutdown()
+> > >         returns 0 (buffer all zero)
+> > >         (meanwhile we didn't check this retcode)
+> > >       try to detect IO error
+> > >         last_error==NULL, IO okay
+> > >       install ALL-ZERO page
+> > >                                         set last_error
+> > >       --> guest crash!
+> > > 
+> > > To fix this, we can also check retval of qemu_get_buffer(), but not all
+> > > APIs can be properly checked and ultimately we still need to go back to
+> > > qemu_file_get_error().  E.g. qemu_get_byte() doesn't return error.
+> > > 
+> > > Maybe some day a rework of qemufile API is really needed, but for now keep
+> > > using qemu_file_get_error() and fix it by not allowing that race condition
+> > > to happen.  Here shutdown() is indeed special because the last_error was
+> > > emulated.  For real -EIO errors it'll always be set when e.g. sendmsg()
+> > > error triggers so we won't miss those ones, only shutdown() is a bit tricky
+> > > here.
+> > 
+> > The ultimate answer really is to stop using QEMUFile entirely and just
+> > do migration with the QIOChannel objects directly. The work I did in the
+> > last cycle to remove the QEMUFileOps callbacks was another piece of the
+> > puzzle in moving in that direction, by ensuring that every QEMUFile is
+> > now backed by a QIOChannel. All QEMUFile is doing now is adding the I/O
+> > caching layer and some convenience APIs for I/O operations.
+> > 
+> > So the next step would be to add a  QIOChannelCached class that can wrap
+> > over another QIOChannel, to add the I/O buffering functionality that
+> > currently exists in QEMUFile. Once that's done, it'd be at the stage
+> > where we could look at how to use QIOChannel APIs for VMstate. It would
+> > likely involve wiring up an Error **errp  parameter into a great many
+> > places so we get synchronous error propagation instead of out-of-band
+> > error checking, so a phased transition would need to be figured out.
+> 
+> Yes, Error** sounds very good to have.
+> 
+> So far I'm not satisfied with qemufile api majorly because of that error
+> handling, especially on *get() interfaces.
+> 
+> Besides that, do you have anything else in mind that would make
+> QIOChannelCached better than qemufile (e.g. on how we do caching)?
 
-> On Wed 21 Sep 2022 09:47:32 AM +08, Wang Liang wrote:
->>> > -    return limit->slice_end_time - now;
->>> > +    return MAX(limit->slice_end_time - now, 0);
->>> 
->>> How can this be negative? slice_end_time is guaranteed to be larger
->>> than
->>> now:
->>> 
->>>     if (limit->slice_end_time < now) {
->>>         /* Previous, possibly extended, time slice finished; reset
->>> the
->>>          * accounting. */
->>>         limit->slice_start_time = now;
->>>         limit->slice_end_time = now + limit->slice_ns;
->>>         limit->dispatched = 0;
->>>     }
->>> 
->> This is just a guarantee. 
->>
->> If slice_end_time is assigned later by
->>     limit->slice_end_time = limit->slice_start_time +
->>         (uint64_t)(delay_slices * limit->slice_ns);
->> There may be precision issues at that time.
->
-> Ok, on a closer look, if at the start of the function
->
->    limit->slice_start_time < now, and
->    limit->slice_end_time >= now
->
-> it seems that in principle what you say can happen.
+Depends what you mean by better ? I think the caching code would be
+a bit easier to understand, because QEMUFile gets a bit confusing
+about which logic is used for read side and which is used for the
+write side.
 
-How?  Let's see.
-
-    static inline int64_t ratelimit_calculate_delay(RateLimit *limit, uint64_t n)
-    {
-        int64_t now = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-
-What kind of clock is QEMU_CLOCK_REALTIME?  See below.
-
-        double delay_slices;
-
-        QEMU_LOCK_GUARD(&limit->lock);
-        if (!limit->slice_quota) {
-            /* Throttling disabled.  */
-            return 0;
-        }
-        assert(limit->slice_ns);
-
-        if (limit->slice_end_time < now) {
-
-This is false.
-
-            /* Previous, possibly extended, time slice finished; reset the
-             * accounting. */
-            limit->slice_start_time = now;
-            limit->slice_end_time = now + limit->slice_ns;
-            limit->dispatched = 0;
-        }
-
-        limit->dispatched += n;
-
-This is in theory vulnerable to wrap-around.
-
-        if (limit->dispatched < limit->slice_quota) {
-
-This must be false (or else we return 0, which isn't negative).
-
-            /* We may send further data within the current time slice, no
-             * need to delay the next request. */
-            return 0;
-        }
-
-        /* Quota exceeded. Wait based on the excess amount and then start a new
-         * slice. */
-        delay_slices = (double)limit->dispatched / limit->slice_quota;
-
-Both @dispatched and @slice_quota are uint64_t.  Conversion to double
-may lose precision, but cant't change the sign.  Therefore,
-@delay_slices is non-negative.
-
-        limit->slice_end_time = limit->slice_start_time +
-            (uint64_t)(delay_slices * limit->slice_ns);
-
-Conversion from double to uint64_t has undefined behavior when the value
-is not representable after truncation towards zero.  So, if the
-multiplication's result truncated towards zero exceeds UINT_MAX, we're
-theoretically toast.
-
-To return a negative value, @slice_end_time must become less than @now
-here.
-
-        return limit->slice_end_time - now;
-    }
-
-This is how far I get without (laboriously!) reconstructing what the
-members of struct RateLimit actually mean, and what its invariants are,
-if any.  We could write down such things in comments, but we prefer to
-keep things fresh and spicy, and developers confused.
-
-Can you elaborate on the "precision issues"?
-
-> If it's so, it would be good to know under what conditions this happens,
-> because this hasn't changed in years.
->
-> Berto
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
