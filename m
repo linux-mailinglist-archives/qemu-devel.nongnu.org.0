@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD8D5E7FA0
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 18:23:21 +0200 (CEST)
-Received: from localhost ([::1]:59992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04AFA5E7F8B
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 18:18:33 +0200 (CEST)
+Received: from localhost ([::1]:53628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oblSS-0005uD-16
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 12:23:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35448)
+	id 1oblNn-0000u5-GH
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 12:18:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1obl7S-0002nd-48
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 12:01:41 -0400
-Received: from mga17.intel.com ([192.55.52.151]:29374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1obl7P-0001K1-3V
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 12:01:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663948895; x=1695484895;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=sJ2DSmydkKQTvr55SPm68vrM1cqha/06Gku1h1HMiiY=;
- b=dY8vzbbHQB4ivEbA3zt9fWlrU1XiJBpoM3nWT5rNklhYtqFy2C5VvRty
- 0Q/X5dd52Gp5KLZ5P7Nuxdx3GpBVg1nHF61M//FoVr7WT2b2y5EURGcbV
- gLEOa4HJTExDjX1MoxQ5tnqVsJkupQCr3kC/W19uSzuZVqY9acCSWO8h3
- CqW6hoPQBlB312xuLnn5ZBHT4E/yYoJzWHvvbG45Y8HQpESUJLV8ycGAk
- JMDwSmRu11hL01d5cJc8KDBFqite4lTGCAitdf22v2R4IHu72hxiT+0DM
- LQUNDDDiaoPOGW1YPXhJLJkoZY6EAAckW9M0GqAPbQTr0WWxVkzDNTOJW Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10479"; a="280985879"
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="280985879"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 09:01:24 -0700
-X-IronPort-AV: E=Sophos;i="5.93,339,1654585200"; d="scan'208";a="795545703"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.255.29.238])
- ([10.255.29.238])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 09:01:20 -0700
-Message-ID: <b1f238c6-ab3d-eb8f-d1b4-dbdf342c002c@intel.com>
-Date: Sat, 24 Sep 2022 00:01:16 +0800
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oblGe-0002J2-Mv
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 12:11:09 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:44390)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oblGc-0003uW-Ic
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 12:11:08 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EEFB41F88D;
+ Fri, 23 Sep 2022 16:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1663949463; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dtv+ItMnRBZEdTKUU2Yaz7H4XPS0TB0rQ3VKdkBGQQA=;
+ b=eJNC2VxNkFkH9mb5Q77lqA9Zt/5brDpuvyuhvIU9QP5XtyD+CdhcPQ3Dzmy9CzzXcvuC3A
+ FfOQ0fU0lqAMH6VyGHwOpj4NVwwSplzSZoKFuRo4DSg7p21IJp0rDCTr9CEa+p3RiYTxfN
+ uyBY0zYemRfsLBD0AYkicUma8E0ROUc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1663949463;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dtv+ItMnRBZEdTKUU2Yaz7H4XPS0TB0rQ3VKdkBGQQA=;
+ b=QjdG7762U4MjxID6YclvkedxnIufXu0pzakzbAYUAeEwaKK6d0D0E1HloGxy4VhxHZqwUW
+ LsQ/mB+h9BISc4DQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 89E3613A00;
+ Fri, 23 Sep 2022 16:11:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id nP+ZH5faLWO4SwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 23 Sep 2022 16:11:03 +0000
+Message-ID: <5da95c13-c2e3-c5a2-c194-dcfc9ee3d875@suse.de>
+Date: Fri, 23 Sep 2022 18:11:03 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.2.2
-Subject: Re: [PATCH] i386: Add new CPU model SapphireRapids
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v5 3/4] module: add Error arguments to module_load and
+ module_load_qom
 Content-Language: en-US
-To: Yang Zhong <yang.zhong@linux.intel.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: "Wang, Lei" <lei4.wang@intel.com>, paul.c.lai@intel.com,
- pbonzini@redhat.com, qemu-devel@nongnu.org, robert.hu@intel.com,
- chenyi.qiang@intel.com
-References: <20220812055751.14553-1-lei4.wang@intel.com>
- <Yysk/taT/eKR0Bp3@work-vm> <Yy21A2CWzrS3SIzH@yangzhon>
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <Yy21A2CWzrS3SIzH@yangzhon>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=xiaoyao.li@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, dinechin@redhat.com, Gerd Hoffmann
+ <kraxel@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>
+References: <20220923145131.21282-1-cfontana@suse.de>
+ <20220923145131.21282-4-cfontana@suse.de> <Yy3V95eCse+PP2bA@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <Yy3V95eCse+PP2bA@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,81 +96,256 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/2022 9:30 PM, Yang Zhong wrote:
-> On Wed, Sep 21, 2022 at 03:51:42PM +0100, Dr. David Alan Gilbert wrote:
->> * Wang, Lei (lei4.wang@intel.com) wrote:
->>> The new CPU model mostly inherits features from Icelake-Server, while
->>> adding new features:
->>>   - AMX (Advance Matrix eXtensions)
->>>   - Bus Lock Debug Exception
->>> and new instructions:
->>>   - AVX VNNI (Vector Neural Network Instruction):
->>>      - VPDPBUS: Multiply and Add Unsigned and Signed Bytes
->>>      - VPDPBUSDS: Multiply and Add Unsigned and Signed Bytes with Saturation
->>>      - VPDPWSSD: Multiply and Add Signed Word Integers
->>>      - VPDPWSSDS: Multiply and Add Signed Integers with Saturation
->>>   - FP16: Replicates existing AVX512 computational SP (FP32) instructions
->>>     using FP16 instead of FP32 for ~2X performance gain
->>>   - SERIALIZE: Provide software with a simple way to force the processor to
->>>     complete all modifications, faster, allowed in all privilege levels and
->>>     not causing an unconditional VM exit
->>>   - TSX Suspend Load Address Tracking: Allows programmers to choose which
->>>     memory accesses do not need to be tracked in the TSX read set
->>>   - AVX512_BF16: Vector Neural Network Instructions supporting BFLOAT16
->>>     inputs and conversion instructions from IEEE single precision
->>>
->>> Features may be added in future versions:
->>>   - CET (virtualization support hasn't been merged)
->>> Instructions may be added in future versions:
->>>   - fast zero-length MOVSB (KVM doesn't support yet)
->>>   - fast short STOSB (KVM doesn't support yet)
->>>   - fast short CMPSB, SCASB (KVM doesn't support yet)
->>>
->>> Signed-off-by: Wang, Lei <lei4.wang@intel.com>
->>> Reviewed-by: Robert Hoo <robert.hu@linux.intel.com>
+On 9/23/22 17:51, Daniel P. Berrangé wrote:
+> On Fri, Sep 23, 2022 at 04:51:30PM +0200, Claudio Fontana wrote:
+>> improve error handling during module load, by changing:
 >>
->> Hi,
->>     What fills in the AMX tile and tmul information leafs
->> (0x1D, 0x1E)?
->     
->>    In particular, how would we make sure when we migrate between two
->> generations of AMX/Tile/Tmul capable devices with different
->> register/palette/tmul limits that the migration is tied to the CPU type
->> correctly?
->>    Would you expect all devices called a 'SappireRapids' to have the same
->> sizes?
+>> bool module_load(const char *prefix, const char *lib_name);
+>> void module_load_qom(const char *type);
 >>
+>> to:
+>>
+>> int module_load(const char *prefix, const char *name, Error **errp);
+>> int module_load_qom(const char *type, Error **errp);
+>>
+>> where the return value is:
+>>
+>>  -1 on module load error, and errp is set with the error
+>>   0 on module or one of its dependencies are not installed
+>>   1 on module load success
+>>   2 on module load success (module already loaded or built-in)
 > 
->     There is only one palette in current design. This palette include 8
->     tiles.  Those two CPUID leafs defined bytes_per_tile, total_tile_bytes,
->     max_rows and etc, the AMX tool will configure those values into TILECFG with
->     ldtilecfg instrcutions. Once tiles are configured, we can use
->     tileload instruction to load data into those tiles.
 > 
->     We did migration between two SappireRapids with amx self test tool
->     (tools/testing/selftests/x86/amx.c)started in two sides, the migration
->     work well.
 > 
->     As for SappireRapids and more newer cpu types, those two CPUID leafs
->     definitions are all same on AMX.
+> 
+>> diff --git a/audio/audio.c b/audio/audio.c
+>> index 0a682336a0..ea51793843 100644
+>> --- a/audio/audio.c
+>> +++ b/audio/audio.c
+>> @@ -72,20 +72,24 @@ void audio_driver_register(audio_driver *drv)
+>>  audio_driver *audio_driver_lookup(const char *name)
+>>  {
+>>      struct audio_driver *d;
+>> +    Error *local_err = NULL;
+>> +    int rv;
+>>  
+>>      QLIST_FOREACH(d, &audio_drivers, next) {
+>>          if (strcmp(name, d->name) == 0) {
+>>              return d;
+>>          }
+>>      }
+>> -
+>> -    audio_module_load(name);
+>> -    QLIST_FOREACH(d, &audio_drivers, next) {
+>> -        if (strcmp(name, d->name) == 0) {
+>> -            return d;
+>> +    rv = audio_module_load(name, &local_err);
+>> +    if (rv > 0) {
+>> +        QLIST_FOREACH(d, &audio_drivers, next) {
+>> +            if (strcmp(name, d->name) == 0) {
+>> +                return d;
+>> +            }
+>>          }
+>> +    } else if (rv < 0) {
+>> +        error_report_err(local_err);
+>>      }
+> 
+> The rv == 0 case could be treated the same as rv > 0
 
-I'm not sure what definitions mean here. Are you saying the CPUID values 
-of leaf 0x1D and 0x1E won't change for any future Intel Silicion?
+Not really, there is no need to do the loop again if rv == 0.
+I mean it doesn't hurt, but Richard explicitly asked to remove redundant execution in these cases.
 
-Personally, I doubt it. And we shouldn't take such assumption unless 
-Intel states it SDM.
+> meaning the diff merely needs to be
+> 
+>    audio_module_load(name, &local_err)
+>    if (rv < 0) {
+>      error_report_err(local_err);
+>      return NULL;.
+>    }
+> 
+>>      return NULL;
+>>  }
+>>  
+>> diff --git a/block.c b/block.c
+>> index 72c7f6d47d..0390ece056 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -464,12 +464,18 @@ BlockDriver *bdrv_find_format(const char *format_name)
+>>      /* The driver isn't registered, maybe we need to load a module */
+>>      for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
+>>          if (!strcmp(block_driver_modules[i].format_name, format_name)) {
+>> -            block_module_load(block_driver_modules[i].library_name);
+>> +            Error *local_err = NULL;
+>> +            int rv = block_module_load(block_driver_modules[i].library_name,
+>> +                                       &local_err);
+>> +            if (rv > 0) {
+>> +                return bdrv_do_find_format(format_name);
+>> +            } else if (rv < 0) {
+>> +                error_report_err(local_err);
+>> +            }
+> 
+> Again,  rv ==0 can be handled the same as rv > 0
+> 
+> 
+>> @@ -976,12 +982,17 @@ BlockDriver *bdrv_find_protocol(const char *filename,
+>>      for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
+>>          if (block_driver_modules[i].protocol_name &&
+>>              !strcmp(block_driver_modules[i].protocol_name, protocol)) {
+>> -            block_module_load(block_driver_modules[i].library_name);
+>> +            Error *local_err = NULL;
+>> +            int rv = block_module_load(block_driver_modules[i].library_name, &local_err);
+>> +            if (rv > 0) {
+>> +                drv1 = bdrv_do_find_protocol(protocol);
+>> +            } else if (rv < 0) {
+>> +                error_report_err(local_err);
+>> +            }
+> 
+> Likewise rv == 0 vs rv > 0
 
-> So, on AMX perspective, the migration
->     should be workable on subsequent cpu types. thanks!
+same here, this approach was there around v2, but I changed this, to avoid calling bdrv_do_find_protocol() again
+if we did not load the module successfully, as we already know it will fail.
+> 
+> 
+> 
+>> diff --git a/block/dmg.c b/block/dmg.c
+>> index 007b8d9996..e84a7a44a3 100644
+>> --- a/block/dmg.c
+>> +++ b/block/dmg.c
+>> @@ -434,6 +434,8 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+>>      uint64_t plist_xml_offset, plist_xml_length;
+>>      int64_t offset;
+>>      int ret;
+>> +    int module_rv;
+>> +    Error *local_err = NULL;
+>>  
+>>      ret = bdrv_apply_auto_read_only(bs, NULL, errp);
+>>      if (ret < 0) {
+>> @@ -446,8 +448,21 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+>>          return -EINVAL;
+>>      }
+>>  
+>> -    block_module_load("dmg-bz2");
+>> -    block_module_load("dmg-lzfse");
+>> +    module_rv = block_module_load("dmg-bz2", &local_err);
+>> +    if (module_rv < 0) {
+>> +        error_report_err(local_err);
+>> +        return -EINVAL;
+>> +    } else if (module_rv == 0) {
+>> +        warn_report("dmg-bz2 module not present, bz2 decomp unavailable");
+>> +    }
+>> +    local_err = NULL;
+>> +    module_rv = block_module_load("dmg-lzfse", &local_err);
+>> +    if (module_rv < 0) {
+>> +        error_report_err(local_err);
+>> +        return -EINVAL;
+>> +    } else if (module_rv == 0) {
+>> +        warn_report("dmg-lzfse module not present, lzfse decomp unavailable");
+>> +    }
+> 
+> THis is the wrong place for these warnings, it'll spam
+> stdout, even if the file opened doesn't use bz2/lzfse.
+> 
+> The real problem is the later code which appears to
+> silently ignore data blocks if the lzfse/bz2 modules
+> are not loaded, instead of using error_report.
 
-I think what Dave worried is that when migrating one VM created with 
-"SapphireRapids" model on SPR machine to some newer platform in the 
-future, where the newer platform reports different value on CPUID leaves 
-0x1D and 0x1E than SPR platform.
+Yes, the right place for the warning is a bit unknown to me though in the block code
+as I mentioned elsewhere in the thread, Kevin seems to understand what the right handling should be,
+maybe he can do an after-patch I could attach or merge in the series..
 
-I think we need to contain CPUID leaves 0x1D and 0x1E into CPU model as 
-well. Otherwise we will hit the same as Intel PT that SPR reports less 
-capabilities that ICX.
+> 
+> 
+>> diff --git a/qom/object.c b/qom/object.c
+>> index 4f834f3bf6..35ced55282 100644
+>> --- a/qom/object.c
+>> +++ b/qom/object.c
+>> @@ -526,8 +526,13 @@ void object_initialize(void *data, size_t size, const char *typename)
+>>  
+>>  #ifdef CONFIG_MODULES
+>>      if (!type) {
+>> -        module_load_qom(typename);
+>> -        type = type_get_by_name(typename);
+>> +        Error *local_err = NULL;
+>> +        int rv = module_load_qom(typename, &local_err);
+>> +        if (rv > 0) {
+>> +            type = type_get_by_name(typename);
+>> +        } else if (rv < 0) {
+>> +            error_report_err(local_err);
+>> +        }
+> 
+> Again no need to distinguish rv == 0 from rv > 0
 
+same answer here. I don't feel strongly, just saying, I changed this as a result of the review process.
+
+> 
+>> @@ -1033,8 +1038,13 @@ ObjectClass *module_object_class_by_name(const char *typename)
+>>      oc = object_class_by_name(typename);
+>>  #ifdef CONFIG_MODULES
+>>      if (!oc) {
+>> -        module_load_qom(typename);
+>> -        oc = object_class_by_name(typename);
+>> +        Error *local_err = NULL;
+>> +        int rv = module_load_qom(typename, &local_err);
+>> +        if (rv > 0) {
+>> +            oc = object_class_by_name(typename);
+>> +        } else if (rv < 0) {
+>> +            error_report_err(local_err);
+>> +        }
+> 
+> Same comment
+
+same
+
+> 
+>> diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+>> index fc5b733c63..36e28609ff 100644
+>> --- a/softmmu/qtest.c
+>> +++ b/softmmu/qtest.c
+>> @@ -753,12 +753,18 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+>>          qtest_sendf(chr, "OK %"PRIi64"\n",
+>>                      (int64_t)qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+>>      } else if (strcmp(words[0], "module_load") == 0) {
+>> +        Error *local_err = NULL;
+>> +        int rv;
+>>          g_assert(words[1] && words[2]);
+>>  
+>>          qtest_send_prefix(chr);
+>> -        if (module_load(words[1], words[2])) {
+>> +        rv = module_load(words[1], words[2], &local_err);
+>> +        if (rv > 0) {
+>>              qtest_sendf(chr, "OK\n");
+>>          } else {
+>> +            if (rv < 0) {
+>> +                error_report_err(local_err);
+>> +            }
+>>              qtest_sendf(chr, "FAIL\n");
+>>          }
+> 
+> This change means the 'module_load' command is totally silent
+
+If rv == 0, qtest will do
+
+qtest_sendf(chr, "FAIL\n");
+
+but will not report an error message.
+
+Should we?
+
+
+> if  'rv == 0', but the code appears to try to read a response
+> line which will now never arrive AFAICT.
+> 
+> In the context of 'modules-test.c' I think it is fine to treat
+> rv == 0 the same as rv > 0 and thus print 'OK'.
+> 
+> 
+> 
+> Perhaps I've overlooked something, but I'm not seeing a reason
+> we need module_load() to return 4 different return values. It
+> looks like every caller would work with a boolean success/fail
+> 
+> 
+> With regards,
+> Daniel
 
 
