@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A465E75BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 10:28:02 +0200 (CEST)
-Received: from localhost ([::1]:35272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E3F5E75CA
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 10:28:37 +0200 (CEST)
+Received: from localhost ([::1]:56464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obe2T-0002G9-ET
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 04:28:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
+	id 1obe32-0002j7-7t
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 04:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obdu5-0006nX-Sl
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 04:19:23 -0400
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:40786)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1obdu2-00065V-6u
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 04:19:20 -0400
-Received: by mail-lf1-x135.google.com with SMTP id s6so18614620lfo.7
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 01:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=Pwk84a2+TjfhUDZhp3J97VoXALdc66NCdIG/RlOoF9w=;
- b=c4Pi1OJUoFFIZaokiAhzmtgDpT3bsMdP+zp8pamzT0SRWsf5B7K/nM5aejJrrwBz/C
- R4hJGzJcyFYHnyRE4GqIgpOod2J00xiDQ8oDbCXFMWcGltrUj4FTcrj+1wgGp+D4IvbF
- M/jV8GsNzadvUyAPI7XN9WvthllHZypauTJnT4m81P6FWiWlM8L+ungYNyNA+z9jRMuZ
- 6X/1HLuHKVyVB3x8X4d500pDy5XJ2rF008V0vIh3LfPXgMZ8XzTDIstlZDj6U3pUcGdC
- q0T47XYYIP5621Qb8Z3UGrBS7eGeeJnjHxpwncroCXlQtp40WYIsy753RDGrVuZeK6hA
- YeBQ==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1obdvs-0007Oz-CR
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 04:21:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1obdvL-0006VT-PV
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 04:20:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663921239;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=830W5O659JJ6xlS1hwQ/d9CTgXauzf7qo4WR6sH+LJc=;
+ b=VgvWmJePaH94nBy6DA98qAy62eVKQyoMpEyZ/PaR6cQhLw/2d+dF3fflh5cB44YrynE7gf
+ aPtkAaaXKCG4x8SSCkI8GA9hmlDYgULq2Uypo3GwF/jYJD4rftRkzxF4kamJs34bc38HKy
+ zsqzMiIzobbTBcpxAs1D5Hlj9BBI6DU=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-583-ipzpi7zbOiOsmzE5claejw-1; Fri, 23 Sep 2022 04:20:37 -0400
+X-MC-Unique: ipzpi7zbOiOsmzE5claejw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ w20-20020a05640234d400b00450f24c8ca6so8264759edc.13
+ for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 01:20:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=Pwk84a2+TjfhUDZhp3J97VoXALdc66NCdIG/RlOoF9w=;
- b=vyiSsnfQ4jcqoUA36ClVkbtfXjQxDo6PcnNgErFbQ6w3xm5Hi6MHkhYzMFalRRE+sJ
- ok9z097lfFlNQ6Xe08lM4yPjyz+1nYlilRczyZ5NtfqiDryDxaTSd0V0NfnWcltmzSqN
- G6HRBDhmsfSgcQXjagyzVyeuK5/8reVeegVVRZNKJg4LvWvd341hi31pWGhch9I3rls+
- yTq7D+Ko8RmwAqBOk5+ROFVmISUn68JoZe7RHFTB6DH4kLoFZryQ3cU410FTCm/37BaC
- dgRXpUu4sRl+a0Kzp02II2SvGHcNx4V3MU4kGMs7szQnBO6/Iy1BE/Z1iNq5qPbkAk/V
- l2bQ==
-X-Gm-Message-State: ACrzQf3SCKz3qye9WVEA/Bcz/vrjzWjD8vbfFenShvfpj839IaLQRkLW
- v/5rz7OIhEuqWfNt4X0I5uD00R4fWXxFHUlCOsQ=
-X-Google-Smtp-Source: AMsMyM7BJRLwaBoT+U9TlKTxhgPGptTVJkD3Y3wB1J2g/1pmS1hGGH+UWABfLJWv++6z5IVkwWuOpYcGSFxwkNdA4s8=
-X-Received: by 2002:a05:6512:3ca0:b0:49f:f620:b826 with SMTP id
- h32-20020a0565123ca000b0049ff620b826mr3094609lfv.375.1663921156100; Fri, 23
- Sep 2022 01:19:16 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=830W5O659JJ6xlS1hwQ/d9CTgXauzf7qo4WR6sH+LJc=;
+ b=TBj5dZnrBhDz1HYy9L5TZGOwL6wJdPHMKl+FuKp2KqKgn2ws8963B/vEgydmeQ5Drl
+ pFES2dNbnhyDsevQ1bbHTSCmSoCw1GR2lZRv9Z5lOadN9kRAo9Wums1oLPNqlsYfijWS
+ GtyDW4s8Vh/RxCa9bZSSBX5fYdwcYK6PChyM7Qy3UwbhZgRW3w1xWvkwdxGzXx9pbm3L
+ gnYRE9nUXYrnc5zBldnqRiGxRmVnKpzN3gBTT0HfuPpVgqDTNOaRtPJ8KJk2+yUUjcok
+ oDNHEuz+TUl/47SoRQFn9JK45j7AYTd0TqOB3UuUBXQo0jxFtGK7e+i5h5PWtWQml3Yn
+ 51mg==
+X-Gm-Message-State: ACrzQf1Ubs2pxeGAuXOLL1M5fA+9wkdSIoq4+x6XQk/lHpa8q2ce6Rrf
+ LpBT60HGNj29gjcjvZWpVBZnWQLWW4t3/mD5Xudah4D1oztXCWvDponE8LpWhk7oEz/gsladO/t
+ ITSS8y8HmHYlH/XA=
+X-Received: by 2002:a17:907:7ea3:b0:782:8c54:259 with SMTP id
+ qb35-20020a1709077ea300b007828c540259mr2597178ejc.217.1663921236579; 
+ Fri, 23 Sep 2022 01:20:36 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM65PRmK7IiuGLgKYq7ysQnEszfeF0RA1PGifIPdGW4WtvK4F5duFS/0pFT0zF74wouTUJquUQ==
+X-Received: by 2002:a17:907:7ea3:b0:782:8c54:259 with SMTP id
+ qb35-20020a1709077ea300b007828c540259mr2597165ejc.217.1663921236284; 
+ Fri, 23 Sep 2022 01:20:36 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ p1-20020a17090653c100b0077fde38993asm3589571ejo.152.2022.09.23.01.20.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Sep 2022 01:20:35 -0700 (PDT)
+Date: Fri, 23 Sep 2022 10:20:34 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>, "Michael S .
+ Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, David
+ Woodhouse <dwmw2@infradead.org>, Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH] Revert "intel_iommu: Fix irqchip / X2APIC configuration
+ checks"
+Message-ID: <20220923102034.6579b66c@redhat.com>
+In-Reply-To: <YyyP4b2uKghi1EHL@xz-m1.local>
+References: <20220921161227.57259-1-peterx@redhat.com>
+ <20220922154617.57d1a1fb@redhat.com> <YyyP4b2uKghi1EHL@xz-m1.local>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220922132001.940334-1-alexander.ivanov@virtuozzo.com>
- <20220922132001.940334-6-alexander.ivanov@virtuozzo.com>
-In-Reply-To: <20220922132001.940334-6-alexander.ivanov@virtuozzo.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 23 Sep 2022 10:19:03 +0200
-Message-ID: <CAJ+F1C+XmamVevibzAGSFWVGmsc-Wg0br8b1Mj=gDVO5SbyEEQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] qga: Add support for user password settinng in
- FreeeBSD
-To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-Cc: qemu-devel@nongnu.org, den@virtuozzo.com, michael.roth@amd.com, 
- kkostiuk@redhat.com
-Content-Type: multipart/alternative; boundary="00000000000071974605e953d5ce"
-Received-SPF: pass client-ip=2a00:1450:4864:20::135;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x135.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,667 +104,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000071974605e953d5ce
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, 22 Sep 2022 12:40:01 -0400
+Peter Xu <peterx@redhat.com> wrote:
 
-Hi
+> On Thu, Sep 22, 2022 at 03:46:17PM +0200, Igor Mammedov wrote:
+> > On Wed, 21 Sep 2022 12:12:27 -0400
+> > Peter Xu <peterx@redhat.com> wrote:
+> >   
+> > > It's true that when vcpus<=255 we don't require the length of 32bit APIC
+> > > IDs.  However here since we already have EIM=ON it means the hypervisor
+> > > will declare the VM as x2apic supported (e.g. VT-d ECAP register will have
+> > > EIM bit 4 set), so the guest should assume the APIC IDs are 32bits width
+> > > even if vcpus<=255.  In short, commit 77250171bdc breaks any simple cmdline
+> > > that wants to boot a VM with >=9 but <=255 vcpus with:
+> > > 
+> > >   -device intel-iommu,intremap=on
+> > > 
+> > > For anyone who does not want to enable x2apic, we can use eim=off in the
+> > > intel-iommu parameters to skip enabling KVM x2apic.
+> > > 
+> > > This partly reverts commit 77250171bdc02aee106083fd2a068147befa1a38, while
+> > > keeping the valid bit on checking split irqchip, but revert the other change.
+> > > 
+> > > Cc: David Woodhouse <dwmw2@infradead.org>
+> > > Cc: Claudio Fontana <cfontana@suse.de>
+> > > Cc: Igor Mammedov <imammedo@redhat.com>
+> > > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > > ---
+> > >  hw/i386/intel_iommu.c | 5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > > 
+> > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > > index 05d53a1aa9..6524c2ee32 100644
+> > > --- a/hw/i386/intel_iommu.c
+> > > +++ b/hw/i386/intel_iommu.c
+> > > @@ -3818,6 +3818,11 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
+> > >              error_setg(errp, "eim=on requires accel=kvm,kernel-irqchip=split");
+> > >              return false;
+> > >          }
+> > > +        if (!kvm_enable_x2apic()) {  
+> > 
+> > above 'check' has side-effects
+> > if it's supposed to be a check it would be better to use kvm_has_x2apic_api()
+> > instead.  
+> 
+> A check is not what I wanted.
+> 
+> As stated in the commit message, since for some reason EIM is enabled on
+> the VT-d device already, we need to enable x2apic for the whole guest
+> (including KVM) to match with EIM=on being declared even if vcpus<255.
+> 
+> > 
+> > Also 77250171bdc says:
+> > "
+> >     The check on kvm_enable_x2apic() needs to happen *anyway* in order to
+> >     allow CPUs above 254 even without an IOMMU, so allow that to happen
+> >     elsewhere.
+> > "
+> > 
+> > Looking for that elsewhere, it looks like commit dc89f32d92b was supposed
+> > to take care of removed chunk, but that is not reachable because of > 255 vCPUs"
+> > 
+> > Likely 77250171bdc just exposed a bug in dc89f32d92b, where
+> > the later removed kvm_enable_x2apic() always called (with split irqchip)
+> > and made it called only when > 255 vCPUs.
+> > 
+> > So migration wise it looks like all version with it and less than 255 cpus
+> > are broken.
+> > 
+> > Wait earlier c1bb5418e3, introduced that
+> >    kvm_irqchip_is_split() && kvm_enable_x2apic()
+> > 'condition', also without any compat machinery to keep old behavior.  
+> 
+> There's actually some attempt to be compatible, with:
+> 
+>  GlobalProperty pc_compat_5_1[] = {
+>      { "ICH9-LPC", "x-smi-cpu-hotplug", "off" },
+> +    { TYPE_X86_CPU, "kvm-msi-ext-dest-id", "off" },
+>  };
+> 
+> But I don't think that's strictly correct, because afaict that only
+> controls whether guest enables it or not (I can only see Linux does it that
+> way; no idea whether that's detected to other OSes from the PV interfaces).
+> The KVM x2apic will still be enabled even on old machines I think, as you
+> mentioned.
 
-On Thu, Sep 22, 2022 at 4:25 PM Alexander Ivanov <
-alexander.ivanov@virtuozzo.com> wrote:
+yep, that compat affects only kvm-msi-ext-dest-id, the kvm_enable_x2apic()
+was still called regardless of that.
 
-> Move qmp_guest_set_user_password() to commands-posix.c under (__linux__ o=
-r
-> __FreeBSD) condition. Add command and arguments for password setting in
-> FreeBSD.
->
-> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
->
+> > And before that kvm_enable_x2apic() was affecting only configuration
+> > with intel_iommu (fb506e701e9b).  
+> 
+> Right, afaict that's what we "officially" support.
+> 
+> > 
+> > I'm not sure if anything could be salvaged here migration wise  
+> 
+> This whole thing is indeed very unfortunate.  For easier reference of
+> future, here are the list of commits that are relevant in time order:
+> 
+> fb506e701e ("intel_iommu: reject broken EIM", 2016-10-17)
+> c1bb5418e3 ("target/i386: Support up to 32768 CPUs without IRQ remapping", 2020-12-10)
+> 77250171bd ("intel_iommu: Fix irqchip / X2APIC configuration checks", 2022-05-16)
+> dc89f32d92 ("target/i386: Fix sanity check on max APIC ID / X2APIC enablement", 2022-05-16)
+> 
+> So regarding compatibility I'm wondering whether we should loose it for
+> this case, depending on whether vendors (like RH, or QEMU community in
+> general) should support "allowing 32K vcpu without vIOMMU" as an "official"
+> feature, or treat it as "experimental only".
 
-If you avoid the code move, the patch is much smaller and easier to review
-and lgtm.
+If I recall correctly that's PV only feature that also requires special
+tailored guest. i.e. it's possible to deliver IPIs in such configuration
+but devices could interact only with a fraction of CPUs (irq-wise) or
+something else should take care of IRQ remapping.
+I don't think mainstream distributions care about this case much.
+
+> IMO it's more important to always make the officially supported bits
+> compatible and work as expected.  Here IIUC the (only) official way to
+> support >255 vcpus should still be using vIOMMU with EIM enabled so far.
+> But I'm happy to be corrected..
+> 
+> If so, I would still suggest having such a patch because it should fix one
+> of the basic use cases with vIOMMU and currently upstream is broken on it.
+> This patch will definitely change the behavior again, but the old was
+> simply broken and we don't really have much choice out of it, IMHO.
+
+The thing I worry about is calling kvm_enable_x2apic() from multiple places.
+It would be better to fix x86_cpus_init() part of dc89f32d92 and have a check
+in IOMMU. But if that's impossible/too ugly, I won't object to this patch.
 
 
-> ---
->  qga/commands-bsd.c   |   8 ---
->  qga/commands-linux.c | 105 --------------------------------------
->  qga/commands-posix.c | 117 ++++++++++++++++++++++++++++++++++++++++++-
->  3 files changed, 116 insertions(+), 114 deletions(-)
->
-> diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
-> index 5d3f46804a..fa3933f2f4 100644
-> --- a/qga/commands-bsd.c
-> +++ b/qga/commands-bsd.c
-> @@ -190,14 +190,6 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorLis=
-t
-> *vcpus, Error **errp)
->      return -1;
->  }
->
-> -void qmp_guest_set_user_password(const char *username,
-> -                                 const char *password,
-> -                                 bool crypted,
-> -                                 Error **errp)
-> -{
-> -    error_setg(errp, QERR_UNSUPPORTED);
-> -}
-> -
->  GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
->  {
->      error_setg(errp, QERR_UNSUPPORTED);
-> diff --git a/qga/commands-linux.c b/qga/commands-linux.c
-> index 615e9a0027..1f25c80482 100644
-> --- a/qga/commands-linux.c
-> +++ b/qga/commands-linux.c
-> @@ -1629,111 +1629,6 @@ int64_t
-> qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
->      return processed;
->  }
->
-> -void qmp_guest_set_user_password(const char *username,
-> -                                 const char *password,
-> -                                 bool crypted,
-> -                                 Error **errp)
-> -{
-> -    Error *local_err =3D NULL;
-> -    char *passwd_path =3D NULL;
-> -    pid_t pid;
-> -    int status;
-> -    int datafd[2] =3D { -1, -1 };
-> -    char *rawpasswddata =3D NULL;
-> -    size_t rawpasswdlen;
-> -    char *chpasswddata =3D NULL;
-> -    size_t chpasswdlen;
-> -
-> -    rawpasswddata =3D (char *)qbase64_decode(password, -1, &rawpasswdlen=
-,
-> errp);
-> -    if (!rawpasswddata) {
-> -        return;
-> -    }
-> -    rawpasswddata =3D g_renew(char, rawpasswddata, rawpasswdlen + 1);
-> -    rawpasswddata[rawpasswdlen] =3D '\0';
-> -
-> -    if (strchr(rawpasswddata, '\n')) {
-> -        error_setg(errp, "forbidden characters in raw password");
-> -        goto out;
-> -    }
-> -
-> -    if (strchr(username, '\n') ||
-> -        strchr(username, ':')) {
-> -        error_setg(errp, "forbidden characters in username");
-> -        goto out;
-> -    }
-> -
-> -    chpasswddata =3D g_strdup_printf("%s:%s\n", username, rawpasswddata)=
-;
-> -    chpasswdlen =3D strlen(chpasswddata);
-> -
-> -    passwd_path =3D g_find_program_in_path("chpasswd");
-> -
-> -    if (!passwd_path) {
-> -        error_setg(errp, "cannot find 'passwd' program in PATH");
-> -        goto out;
-> -    }
-> -
-> -    if (!g_unix_open_pipe(datafd, FD_CLOEXEC, NULL)) {
-> -        error_setg(errp, "cannot create pipe FDs");
-> -        goto out;
-> -    }
-> -
-> -    pid =3D fork();
-> -    if (pid =3D=3D 0) {
-> -        close(datafd[1]);
-> -        /* child */
-> -        setsid();
-> -        dup2(datafd[0], 0);
-> -        reopen_fd_to_null(1);
-> -        reopen_fd_to_null(2);
-> -
-> -        if (crypted) {
-> -            execl(passwd_path, "chpasswd", "-e", NULL);
-> -        } else {
-> -            execl(passwd_path, "chpasswd", NULL);
-> -        }
-> -        _exit(EXIT_FAILURE);
-> -    } else if (pid < 0) {
-> -        error_setg_errno(errp, errno, "failed to create child process");
-> -        goto out;
-> -    }
-> -    close(datafd[0]);
-> -    datafd[0] =3D -1;
-> -
-> -    if (qemu_write_full(datafd[1], chpasswddata, chpasswdlen) !=3D
-> chpasswdlen) {
-> -        error_setg_errno(errp, errno, "cannot write new account
-> password");
-> -        goto out;
-> -    }
-> -    close(datafd[1]);
-> -    datafd[1] =3D -1;
-> -
-> -    ga_wait_child(pid, &status, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        goto out;
-> -    }
-> -
-> -    if (!WIFEXITED(status)) {
-> -        error_setg(errp, "child process has terminated abnormally");
-> -        goto out;
-> -    }
-> -
-> -    if (WEXITSTATUS(status)) {
-> -        error_setg(errp, "child process has failed to set user password"=
-);
-> -        goto out;
-> -    }
-> -
-> -out:
-> -    g_free(chpasswddata);
-> -    g_free(rawpasswddata);
-> -    g_free(passwd_path);
-> -    if (datafd[0] !=3D -1) {
-> -        close(datafd[0]);
-> -    }
-> -    if (datafd[1] !=3D -1) {
-> -        close(datafd[1]);
-> -    }
-> -}
-> -
->  static void ga_read_sysfs_file(int dirfd, const char *pathname, char *bu=
-f,
->                                 int size, Error **errp)
->  {
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 60cc673f25..e8fc7bd516 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -774,8 +774,123 @@ void qmp_guest_file_flush(int64_t handle, Error
-> **errp)
->      }
->  }
->
-> -#if !(defined(__linux__) || defined(__FreeBSD__))
-> +#if defined(__linux__) || defined(__FreeBSD__)
-> +void qmp_guest_set_user_password(const char *username,
-> +                                 const char *password,
-> +                                 bool crypted,
-> +                                 Error **errp)
-> +{
-> +    Error *local_err =3D NULL;
-> +    char *passwd_path =3D NULL;
-> +    pid_t pid;
-> +    int status;
-> +    int datafd[2] =3D { -1, -1 };
-> +    char *rawpasswddata =3D NULL;
-> +    size_t rawpasswdlen;
-> +    char *chpasswddata =3D NULL;
-> +    size_t chpasswdlen;
->
-> +    rawpasswddata =3D (char *)qbase64_decode(password, -1, &rawpasswdlen=
-,
-> errp);
-> +    if (!rawpasswddata) {
-> +        return;
-> +    }
-> +    rawpasswddata =3D g_renew(char, rawpasswddata, rawpasswdlen + 1);
-> +    rawpasswddata[rawpasswdlen] =3D '\0';
-> +
-> +    if (strchr(rawpasswddata, '\n')) {
-> +        error_setg(errp, "forbidden characters in raw password");
-> +        goto out;
-> +    }
-> +
-> +    if (strchr(username, '\n') ||
-> +        strchr(username, ':')) {
-> +        error_setg(errp, "forbidden characters in username");
-> +        goto out;
-> +    }
-> +
-> +#ifdef __FreeBSD__
-> +    chpasswddata =3D g_strdup(rawpasswddata);
-> +    passwd_path =3D g_find_program_in_path("pw");
-> +#else
-> +    chpasswddata =3D g_strdup_printf("%s:%s\n", username, rawpasswddata)=
-;
-> +    passwd_path =3D g_find_program_in_path("chpasswd");
-> +#endif
-> +
-> +    chpasswdlen =3D strlen(chpasswddata);
-> +
-> +    if (!passwd_path) {
-> +        error_setg(errp, "cannot find 'passwd' program in PATH");
-> +        goto out;
-> +    }
-> +
-> +    if (!g_unix_open_pipe(datafd, FD_CLOEXEC, NULL)) {
-> +        error_setg(errp, "cannot create pipe FDs");
-> +        goto out;
-> +    }
-> +
-> +    pid =3D fork();
-> +    if (pid =3D=3D 0) {
-> +        close(datafd[1]);
-> +        /* child */
-> +        setsid();
-> +        dup2(datafd[0], 0);
-> +        reopen_fd_to_null(1);
-> +        reopen_fd_to_null(2);
-> +
-> +#ifdef __FreeBSD__
-> +        const char *h_arg;
-> +        h_arg =3D (crypted) ? "-H" : "-h";
-> +        execl(passwd_path, "pw", "usermod", "-n", username, h_arg, "0",
-> NULL);
-> +#else
-> +        if (crypted) {
-> +            execl(passwd_path, "chpasswd", "-e", NULL);
-> +        } else {
-> +            execl(passwd_path, "chpasswd", NULL);
-> +        }
-> +#endif
-> +        _exit(EXIT_FAILURE);
-> +    } else if (pid < 0) {
-> +        error_setg_errno(errp, errno, "failed to create child process");
-> +        goto out;
-> +    }
-> +    close(datafd[0]);
-> +    datafd[0] =3D -1;
-> +
-> +    if (qemu_write_full(datafd[1], chpasswddata, chpasswdlen) !=3D
-> chpasswdlen) {
-> +        error_setg_errno(errp, errno, "cannot write new account
-> password");
-> +        goto out;
-> +    }
-> +    close(datafd[1]);
-> +    datafd[1] =3D -1;
-> +
-> +    ga_wait_child(pid, &status, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        goto out;
-> +    }
-> +
-> +    if (!WIFEXITED(status)) {
-> +        error_setg(errp, "child process has terminated abnormally");
-> +        goto out;
-> +    }
-> +
-> +    if (WEXITSTATUS(status)) {
-> +        error_setg(errp, "child process has failed to set user password"=
-);
-> +        goto out;
-> +    }
-> +
-> +out:
-> +    g_free(chpasswddata);
-> +    g_free(rawpasswddata);
-> +    g_free(passwd_path);
-> +    if (datafd[0] !=3D -1) {
-> +        close(datafd[0]);
-> +    }
-> +    if (datafd[1] !=3D -1) {
-> +        close(datafd[1]);
-> +    }
-> +}
-> +#else
->  void qmp_guest_suspend_disk(Error **errp)
->  {
->      error_setg(errp, QERR_UNSUPPORTED);
-> --
-> 2.34.1
->
->
->
+> Thanks,
+> 
+> > 
+> > PS:
+> > I'd keep kvm_enable_x2apic() only in corrected x86_cpus_init()
+> > and use kvm_has_x2apic_api() elsewhere for checks and bailing out.
+> > 
+> >   
+> > > +            error_setg(errp, "eim=on requires support on the KVM side"
+> > > +                             "(X2APIC_API, first shipped in v4.7)");
+> > > +            return false;
+> > > +        }  
+> > 
+> > 
+> >   
+> > >      }
+> > >  
+> > >      /* Currently only address widths supported are 39 and 48 bits */  
+> >   
+> 
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000071974605e953d5ce
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 22, 2022 at 4:25 PM Ale=
-xander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@virtuozzo.com">alexand=
-er.ivanov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">Move qmp_guest_set_user_password() to commands-posix=
-.c under (__linux__ or<br>
-__FreeBSD) condition. Add command and arguments for password setting in<br>
-FreeBSD.<br>
-<br>
-Signed-off-by: Alexander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@virt=
-uozzo.com" target=3D"_blank">alexander.ivanov@virtuozzo.com</a>&gt;<br></bl=
-ockquote><div><br></div><div>If you avoid the code move, the patch is much =
-smaller and easier to review and lgtm.</div><div>=C2=A0<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0qga/commands-bsd.c=C2=A0 =C2=A0|=C2=A0 =C2=A08 ---<br>
-=C2=A0qga/commands-linux.c | 105 --------------------------------------<br>
-=C2=A0qga/commands-posix.c | 117 ++++++++++++++++++++++++++++++++++++++++++=
--<br>
-=C2=A03 files changed, 116 insertions(+), 114 deletions(-)<br>
-<br>
-diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c<br>
-index 5d3f46804a..fa3933f2f4 100644<br>
---- a/qga/commands-bsd.c<br>
-+++ b/qga/commands-bsd.c<br>
-@@ -190,14 +190,6 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList =
-*vcpus, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0return -1;<br>
-=C2=A0}<br>
-<br>
--void qmp_guest_set_user_password(const char *username,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *password,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool crypted,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp)<br>
--{<br>
--=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
--}<br>
--<br>
-=C2=A0GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0error_setg(errp, QERR_UNSUPPORTED);<br>
-diff --git a/qga/commands-linux.c b/qga/commands-linux.c<br>
-index 615e9a0027..1f25c80482 100644<br>
---- a/qga/commands-linux.c<br>
-+++ b/qga/commands-linux.c<br>
-@@ -1629,111 +1629,6 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorLi=
-st *vcpus, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0return processed;<br>
-=C2=A0}<br>
-<br>
--void qmp_guest_set_user_password(const char *username,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *password,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool crypted,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp)<br>
--{<br>
--=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
--=C2=A0 =C2=A0 char *passwd_path =3D NULL;<br>
--=C2=A0 =C2=A0 pid_t pid;<br>
--=C2=A0 =C2=A0 int status;<br>
--=C2=A0 =C2=A0 int datafd[2] =3D { -1, -1 };<br>
--=C2=A0 =C2=A0 char *rawpasswddata =3D NULL;<br>
--=C2=A0 =C2=A0 size_t rawpasswdlen;<br>
--=C2=A0 =C2=A0 char *chpasswddata =3D NULL;<br>
--=C2=A0 =C2=A0 size_t chpasswdlen;<br>
--<br>
--=C2=A0 =C2=A0 rawpasswddata =3D (char *)qbase64_decode(password, -1, &amp;=
-rawpasswdlen, errp);<br>
--=C2=A0 =C2=A0 if (!rawpasswddata) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 rawpasswddata =3D g_renew(char, rawpasswddata, rawpasswdlen =
-+ 1);<br>
--=C2=A0 =C2=A0 rawpasswddata[rawpasswdlen] =3D &#39;\0&#39;;<br>
--<br>
--=C2=A0 =C2=A0 if (strchr(rawpasswddata, &#39;\n&#39;)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;forbidden characters in=
- raw password&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 if (strchr(username, &#39;\n&#39;) ||<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 strchr(username, &#39;:&#39;)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;forbidden characters in=
- username&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 chpasswddata =3D g_strdup_printf(&quot;%s:%s\n&quot;, userna=
-me, rawpasswddata);<br>
--=C2=A0 =C2=A0 chpasswdlen =3D strlen(chpasswddata);<br>
--<br>
--=C2=A0 =C2=A0 passwd_path =3D g_find_program_in_path(&quot;chpasswd&quot;)=
-;<br>
--<br>
--=C2=A0 =C2=A0 if (!passwd_path) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;cannot find &#39;passwd=
-&#39; program in PATH&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 if (!g_unix_open_pipe(datafd, FD_CLOEXEC, NULL)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;cannot create pipe FDs&=
-quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 pid =3D fork();<br>
--=C2=A0 =C2=A0 if (pid =3D=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(datafd[1]);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* child */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 setsid();<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 dup2(datafd[0], 0);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 reopen_fd_to_null(1);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 reopen_fd_to_null(2);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (crypted) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 execl(passwd_path, &quot;chpassw=
-d&quot;, &quot;-e&quot;, NULL);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 execl(passwd_path, &quot;chpassw=
-d&quot;, NULL);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 _exit(EXIT_FAILURE);<br>
--=C2=A0 =C2=A0 } else if (pid &lt; 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;failed to =
-create child process&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 close(datafd[0]);<br>
--=C2=A0 =C2=A0 datafd[0] =3D -1;<br>
--<br>
--=C2=A0 =C2=A0 if (qemu_write_full(datafd[1], chpasswddata, chpasswdlen) !=
-=3D chpasswdlen) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;cannot wri=
-te new account password&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 close(datafd[1]);<br>
--=C2=A0 =C2=A0 datafd[1] =3D -1;<br>
--<br>
--=C2=A0 =C2=A0 ga_wait_child(pid, &amp;status, &amp;local_err);<br>
--=C2=A0 =C2=A0 if (local_err) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 if (!WIFEXITED(status)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;child process has termi=
-nated abnormally&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 if (WEXITSTATUS(status)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;child process has faile=
-d to set user password&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--out:<br>
--=C2=A0 =C2=A0 g_free(chpasswddata);<br>
--=C2=A0 =C2=A0 g_free(rawpasswddata);<br>
--=C2=A0 =C2=A0 g_free(passwd_path);<br>
--=C2=A0 =C2=A0 if (datafd[0] !=3D -1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(datafd[0]);<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 if (datafd[1] !=3D -1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(datafd[1]);<br>
--=C2=A0 =C2=A0 }<br>
--}<br>
--<br>
-=C2=A0static void ga_read_sysfs_file(int dirfd, const char *pathname, char =
-*buf,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int size, Error **errp)<br>
-=C2=A0{<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index 60cc673f25..e8fc7bd516 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -774,8 +774,123 @@ void qmp_guest_file_flush(int64_t handle, Error **err=
-p)<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
--#if !(defined(__linux__) || defined(__FreeBSD__))<br>
-+#if defined(__linux__) || defined(__FreeBSD__)<br>
-+void qmp_guest_set_user_password(const char *username,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *password,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool crypted,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
-+=C2=A0 =C2=A0 char *passwd_path =3D NULL;<br>
-+=C2=A0 =C2=A0 pid_t pid;<br>
-+=C2=A0 =C2=A0 int status;<br>
-+=C2=A0 =C2=A0 int datafd[2] =3D { -1, -1 };<br>
-+=C2=A0 =C2=A0 char *rawpasswddata =3D NULL;<br>
-+=C2=A0 =C2=A0 size_t rawpasswdlen;<br>
-+=C2=A0 =C2=A0 char *chpasswddata =3D NULL;<br>
-+=C2=A0 =C2=A0 size_t chpasswdlen;<br>
-<br>
-+=C2=A0 =C2=A0 rawpasswddata =3D (char *)qbase64_decode(password, -1, &amp;=
-rawpasswdlen, errp);<br>
-+=C2=A0 =C2=A0 if (!rawpasswddata) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 rawpasswddata =3D g_renew(char, rawpasswddata, rawpasswdlen =
-+ 1);<br>
-+=C2=A0 =C2=A0 rawpasswddata[rawpasswdlen] =3D &#39;\0&#39;;<br>
-+<br>
-+=C2=A0 =C2=A0 if (strchr(rawpasswddata, &#39;\n&#39;)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;forbidden characters in=
- raw password&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (strchr(username, &#39;\n&#39;) ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 strchr(username, &#39;:&#39;)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;forbidden characters in=
- username&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+#ifdef __FreeBSD__<br>
-+=C2=A0 =C2=A0 chpasswddata =3D g_strdup(rawpasswddata);<br>
-+=C2=A0 =C2=A0 passwd_path =3D g_find_program_in_path(&quot;pw&quot;);<br>
-+#else<br>
-+=C2=A0 =C2=A0 chpasswddata =3D g_strdup_printf(&quot;%s:%s\n&quot;, userna=
-me, rawpasswddata);<br>
-+=C2=A0 =C2=A0 passwd_path =3D g_find_program_in_path(&quot;chpasswd&quot;)=
-;<br>
-+#endif<br>
-+<br>
-+=C2=A0 =C2=A0 chpasswdlen =3D strlen(chpasswddata);<br>
-+<br>
-+=C2=A0 =C2=A0 if (!passwd_path) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;cannot find &#39;passwd=
-&#39; program in PATH&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (!g_unix_open_pipe(datafd, FD_CLOEXEC, NULL)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;cannot create pipe FDs&=
-quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 pid =3D fork();<br>
-+=C2=A0 =C2=A0 if (pid =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(datafd[1]);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* child */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 setsid();<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 dup2(datafd[0], 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 reopen_fd_to_null(1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 reopen_fd_to_null(2);<br>
-+<br>
-+#ifdef __FreeBSD__<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *h_arg;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 h_arg =3D (crypted) ? &quot;-H&quot; : &quot;-=
-h&quot;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 execl(passwd_path, &quot;pw&quot;, &quot;userm=
-od&quot;, &quot;-n&quot;, username, h_arg, &quot;0&quot;, NULL);<br>
-+#else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (crypted) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 execl(passwd_path, &quot;chpassw=
-d&quot;, &quot;-e&quot;, NULL);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 execl(passwd_path, &quot;chpassw=
-d&quot;, NULL);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+#endif<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 _exit(EXIT_FAILURE);<br>
-+=C2=A0 =C2=A0 } else if (pid &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;failed to =
-create child process&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 close(datafd[0]);<br>
-+=C2=A0 =C2=A0 datafd[0] =3D -1;<br>
-+<br>
-+=C2=A0 =C2=A0 if (qemu_write_full(datafd[1], chpasswddata, chpasswdlen) !=
-=3D chpasswdlen) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;cannot wri=
-te new account password&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 close(datafd[1]);<br>
-+=C2=A0 =C2=A0 datafd[1] =3D -1;<br>
-+<br>
-+=C2=A0 =C2=A0 ga_wait_child(pid, &amp;status, &amp;local_err);<br>
-+=C2=A0 =C2=A0 if (local_err) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (!WIFEXITED(status)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;child process has termi=
-nated abnormally&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (WEXITSTATUS(status)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;child process has faile=
-d to set user password&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+out:<br>
-+=C2=A0 =C2=A0 g_free(chpasswddata);<br>
-+=C2=A0 =C2=A0 g_free(rawpasswddata);<br>
-+=C2=A0 =C2=A0 g_free(passwd_path);<br>
-+=C2=A0 =C2=A0 if (datafd[0] !=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(datafd[0]);<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 if (datafd[1] !=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(datafd[1]);<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+#else<br>
-=C2=A0void qmp_guest_suspend_disk(Error **errp)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0error_setg(errp, QERR_UNSUPPORTED);<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000071974605e953d5ce--
 
