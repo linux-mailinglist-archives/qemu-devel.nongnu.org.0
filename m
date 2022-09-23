@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648155E8512
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 23:43:15 +0200 (CEST)
-Received: from localhost ([::1]:49922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBE65E8519
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 23:45:17 +0200 (CEST)
+Received: from localhost ([::1]:57004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obqS1-000247-PP
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 17:43:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54322)
+	id 1obqTy-00048Z-8i
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 17:45:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqQb-0000UI-Hr
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:41:45 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:36777)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqSr-0002Ld-7G
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:44:05 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:56401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqQZ-0005aW-Q5
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:41:45 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqSp-0005pk-JU
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:44:04 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MpDVx-1p3BhU2Htv-00qfoD; Fri, 23 Sep 2022 23:41:39 +0200
-Message-ID: <28764f7e-a5c2-93c7-47b2-834493475672@vivier.eu>
-Date: Fri, 23 Sep 2022 23:41:38 +0200
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MVvCl-1ojrM40SGL-00RmtW; Fri, 23 Sep 2022 23:44:01 +0200
+Message-ID: <fd15dad2-6371-9de2-c769-5d0eb580b5e4@vivier.eu>
+Date: Fri, 23 Sep 2022 23:43:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
@@ -33,31 +33,30 @@ From: Laurent Vivier <laurent@vivier.eu>
 In-Reply-To: <20220808190727.875155-1-vtjnash@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:/Djchh2/35UyU+rSq1MDY1yin6Yv8SH/59wuoN/sjEKlJBdbR4R
- xIVSHtdtXE0xmLY5Db6gEKxMWe/QxLV8sKUPgKHhGvC1HgpGMwzfCpfjsOduDbvwK8EnoQm
- L5woSC0CwHhfFpSaXakNLOc1/WMh/Ms1v09EDTfUIiLDrY8mgv1rxiOhlNuYRfwA+KFiu/Y
- d6/YP81ZHG5gOCGknbBOQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LdET97F30Js=:vShL/dJI4nmTgn46XqhhJl
- apFU4KVmoofIrGTaxOT0O0R0UYmh6wTasSPixSjU35gbe3oZBn4O1kgM+EY8e5PgNnesBHh3l
- kvviiGuwbfIO5rhiRXt2GOsY953cFv3K7T2t/5wF+Rlj+6m4dIAFqJ6l4Nw4XOkKoTB2FMCfl
- KkMu6pKIMsyfk/9jNhapK1kZDe7tvoZI2V26mfiyCTQuyfAB4Ho0dqJVmi8pMBV3VvDfxaUXQ
- dZQLC8ZFdVTiA7sEyEJqzGewBD1Tpz/1ieHK24mUBn6pAEF+Y/FP/j4R7BhFIQGgWSOK78i8i
- tAHCh6FdvH+t9J8JXEmGE0F6VnYOPPoUcjLARuhf1C3BNZ7Am3vxbe+g0tw7Y3mZE6rLMFlbu
- xEqmsIsPg0EYtdqb8aS/V30mjnyPCmwhirURxp5PXsIEocWfcDYSEk3pENfo6dBs5Tx0dtHnc
- yv8/PO1fl+L24yT3MEU5dAHGLd9WuwxyFWvqsO4GMKZWxtdu5SUhAo/jzSCGceWIp57SfKNPK
- 6FIiO5ybnPFCQChtrTB3QfRs9z0Uy9PGOB9IvXA5/BVoX0YJrQYRb5jK93askja9WNv4Z47nb
- jclMBzeKwqIxhST+wEFx44Ef2U1jE9+NDAnUWG56pcDmYrqwlT1laCGrWZbea4C4qBNdHLHvk
- +Q1Oy2ZtVBXsl18s0RRhpq1sGOAOwT4E2h6Xbz5/D12aci86IyBoZai1zbJy6BWKKgDHS3t0P
- eHAbZrwNHowQjBRINwrAPlYCyadCq7mvoTUnJbM67E5r901IlxOHnbw15shluyvfYs0qSw32E
- vhoNQoj
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:2wJyI+3EJh+3u07f/dTltz0Njd/HJBmdXxB4t8c+0NmqdH8ifEZ
+ 8mKX5Kg6f3grDkZaqeBPt8dJjxGHeBq7+M2i520AxKSjBr0tH+KzI+QHMDEnnM06q9pNnRf
+ gOtiaC9947sygzV89FDhMNg26syMwwtvQ5EUPY0MMWt41iwtVmFLGoU6RyBYeDjq7pO38h+
+ h9QZBSZchCm18dAHFF8Jw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GwRbllIa6m4=:3d6oyQHweLe+PCOZwcE0s0
+ WlyItuwl7muYe8y5Vf9htaG9rPQoDWNqwYGstsHEHq6L6cG6Xhtof5z8sOgWcKUh5MoB9iR45
+ eXnPba7uQ0p/AEDUe/+PJdm2VbhualMXWzeoQ/Dnk+1D5AagZWjzAl0ihMyIjm90shqBHITEW
+ +8Jsc0Ky1SZ1GPnmzyQcup5xIXXPuxhA04FcYrAot1IV7F29jdhvtlcQfUEfRYbW8z0vxPxrL
+ 3Jh0tDrkL2FucdEJKA35A2SxWoMiW02GxwWGwf7eelVWPrLAWSCefdc+eBjwsWQdwoiHxnBwv
+ urT9OeBFzAsnGpBw8eC5J+ajLMYc/aeWvELzSn/of88ZoY8KpXP033vFiOaDZoBJyAxpuFALM
+ CMoXkqi3ABqbWJgncU9sAVOydaVumuo9KKRg+S5kBn+bj3/ACTUP2JGquhPf0GWnRNUwrD8EM
+ LHzOu/257/slCoNsgoFsHfcXtmtl17BxTr3XJk9ws2CTFDhtlG0jO1a4hOpYBX5FzXhDm4kxd
+ RoCQK/Oihn21MN7Pe2dxhEiFFXbRPNKpfz/yHbwUs3ZY/97ca8rHbLxiPQi3/AtSL2C8vvliM
+ fBifXwMcmbFZq3j1KRAMQRhmEYWDB+V3ovFu77CVADvWswszhwXRYZCfKt0ge/cQeTzxn5nJC
+ uN43I5VyoD6Eczln2O82UAcR2dGsA5uAoK2gasat8tKGEDZno2Q+HYnXDIVnF13ER3NUiWCwe
+ leP1rlaYdSqHnmusfnUup6EK+cJtYfA3JXlCJKsNPaPa9dY+pVZLFW4zTSymCMnRBa7kiUJCi
+ Ubj6vwU
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,5 +111,9 @@ Le 08/08/2022 à 21:07, Jameson Nash a écrit :
 >                   ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
 >               }
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my linux-user-for-7.2 branch.
+
+Thanks,
+Laurent
+
 
