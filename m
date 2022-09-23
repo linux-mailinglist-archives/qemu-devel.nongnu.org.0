@@ -2,68 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57FF5E7634
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 10:51:28 +0200 (CEST)
-Received: from localhost ([::1]:44840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D075E7651
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 10:58:01 +0200 (CEST)
+Received: from localhost ([::1]:34538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obeP9-0006PT-FX
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 04:51:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57632)
+	id 1obeVU-0003kE-M3
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 04:58:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obeHR-0002V8-Bb
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 04:43:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43458)
+ (Exim 4.90_1) (envelope-from <SRS0=gbDQ=Z2=kaod.org=clg@ozlabs.org>)
+ id 1obeMK-00059M-E9; Fri, 23 Sep 2022 04:48:35 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:42971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obeHJ-0004Md-9E
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 04:43:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663922600;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PFHPEzHNF61DftEcR9zBqqihkts4uB5LJG2Nv+G0PMw=;
- b=U+xBV/ssg9FEnmlQNJaQsA6W9jEIUowtWJO3QKInMmsdRDS9KPXYn+5mvt3oYOqrcQPavr
- TllCXX6whW+lgoVPYkkvMsOuCToPfO9+EUadvmyyj9di/9JP8MuaPsIVwwv/mKZVvZdBY+
- Z+RVZN8LwyPgxioJ3iJN45e1C2wjfXY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-135-c2W0F9O8Nm2TV0NzDbnipA-1; Fri, 23 Sep 2022 04:43:15 -0400
-X-MC-Unique: c2W0F9O8Nm2TV0NzDbnipA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <SRS0=gbDQ=Z2=kaod.org=clg@ozlabs.org>)
+ id 1obeMB-0005Ho-Dk; Fri, 23 Sep 2022 04:48:28 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4MYm575q84z4xGQ;
+ Fri, 23 Sep 2022 18:48:11 +1000 (AEST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9FEAF3806659;
- Fri, 23 Sep 2022 08:43:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ECCF71402BDC;
- Fri, 23 Sep 2022 08:42:56 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6932521E6900; Fri, 23 Sep 2022 10:42:54 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: elena.ufimtseva@oracle.com, jag.raman@oracle.com,
- john.g.johnson@oracle.com, pizhenwei@bytedance.com,
- arei.gonglei@huawei.com, mst@redhat.com, huangy81@chinatelecom.cn,
- quintela@redhat.com, dgilbert@redhat.com, qemu-trivial@nongnu.org
-Subject: [PATCH] Use g_new() & friends where that makes obvious sense
-Date: Fri, 23 Sep 2022 10:42:54 +0200
-Message-Id: <20220923084254.4173111-1-armbru@redhat.com>
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4MYm543SyDz4x1L;
+ Fri, 23 Sep 2022 18:48:08 +1000 (AEST)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH 0/6] aspeed: avocado test boosts
+Date: Fri, 23 Sep 2022 10:47:57 +0200
+Message-Id: <20220923084803.498337-1-clg@kaod.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=SRS0=gbDQ=Z2=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,94 +64,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
-for two reasons.  One, it catches multiplication overflowing size_t.
-Two, it returns T * rather than void *, which lets the compiler catch
-more type errors.
+Hello,
 
-This commit only touches allocations with size arguments of the form
-sizeof(T).
+Alex's patchset [1] showed that by avoiding the class cast checkers in
+hot code paths, performance is greatly improved. See results below.
 
-Patch created mechanically with:
+This is a partial resend of [1] plus an extra caching a reference on
+the AspeedSMC class, which adds an extra 10% boost.
 
-    $ spatch --in-place --sp-file scripts/coccinelle/use-g_new-etc.cocci \
-	     --macro-file scripts/cocci-macro-file.h FILES...
+Thanks ,
 
-The previous iteration was commit a95942b50c.
+C.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- hw/remote/iommu.c         | 2 +-
- hw/virtio/virtio-crypto.c | 2 +-
- migration/dirtyrate.c     | 4 ++--
- softmmu/dirtylimit.c      | 4 ++--
- 4 files changed, 6 insertions(+), 6 deletions(-)
+[1] http://patchwork.ozlabs.org/project/qemu-devel/list/?series=313458
 
-diff --git a/hw/remote/iommu.c b/hw/remote/iommu.c
-index fd723d91f3..1391dd712c 100644
---- a/hw/remote/iommu.c
-+++ b/hw/remote/iommu.c
-@@ -47,7 +47,7 @@ static AddressSpace *remote_iommu_find_add_as(PCIBus *pci_bus,
-     elem = g_hash_table_lookup(iommu->elem_by_devfn, INT2VOIDP(devfn));
- 
-     if (!elem) {
--        elem = g_malloc0(sizeof(RemoteIommuElem));
-+        elem = g_new0(RemoteIommuElem, 1);
-         g_hash_table_insert(iommu->elem_by_devfn, INT2VOIDP(devfn), elem);
-     }
- 
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index c1243c3f93..df4bde210b 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -710,7 +710,7 @@ virtio_crypto_handle_asym_req(VirtIOCrypto *vcrypto,
-     uint8_t *src = NULL;
-     uint8_t *dst = NULL;
- 
--    asym_op_info = g_malloc0(sizeof(CryptoDevBackendAsymOpInfo));
-+    asym_op_info = g_new0(CryptoDevBackendAsymOpInfo, 1);
-     src_len = ldl_le_p(&req->para.src_data_len);
-     dst_len = ldl_le_p(&req->para.dst_data_len);
- 
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 795fab5c37..d6f1e01a70 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -119,9 +119,9 @@ static DirtyPageRecord *vcpu_dirty_stat_alloc(VcpuStat *stat)
-     }
- 
-     stat->nvcpu = nvcpu;
--    stat->rates = g_malloc0(sizeof(DirtyRateVcpu) * nvcpu);
-+    stat->rates = g_new0(DirtyRateVcpu, nvcpu);
- 
--    records = g_malloc0(sizeof(DirtyPageRecord) * nvcpu);
-+    records = g_new0(DirtyPageRecord, nvcpu);
- 
-     return records;
- }
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 8d98cb7f2c..12668555f2 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -154,7 +154,7 @@ void vcpu_dirty_rate_stat_initialize(void)
- 
-     vcpu_dirty_rate_stat->stat.nvcpu = max_cpus;
-     vcpu_dirty_rate_stat->stat.rates =
--        g_malloc0(sizeof(DirtyRateVcpu) * max_cpus);
-+        g_new0(DirtyRateVcpu, max_cpus);
- 
-     vcpu_dirty_rate_stat->running = false;
- }
-@@ -198,7 +198,7 @@ void dirtylimit_state_initialize(void)
-     dirtylimit_state = g_malloc0(sizeof(*dirtylimit_state));
- 
-     dirtylimit_state->states =
--            g_malloc0(sizeof(VcpuDirtyLimitState) * max_cpus);
-+            g_new0(VcpuDirtyLimitState, max_cpus);
- 
-     for (i = 0; i < max_cpus; i++) {
-         dirtylimit_state->states[i].cpu_index = i;
+
+On a ThinkPad T480 i7-8650U, 
+
+Before :
+
+$ build/tests/venv/bin/avocado --show=app run build/tests/avocado/machine_aspeed.py
+    ...
+   (1/7) AST1030Machine.test_ast1030_zephyros: PASS (0.21 s)
+   (2/7) AST2x00Machine.test_arm_ast2400_palmetto_openbmc_v2_9_0: PASS (23.51 s)
+   (3/7) AST2x00Machine.test_arm_ast2500_romulus_openbmc_v2_9_0: PASS (39.59 s)
+   (4/7) AST2x00Machine.test_arm_ast2500_evb_buildroot: PASS (23.74 s)
+   (5/7) AST2x00Machine.test_arm_ast2600_evb_buildroot: PASS (34.44 s)
+   (6/7) AST2x00MachineSDK.test_arm_ast2500_evb_sdk: PASS (91.13 s)
+   (7/7) AST2x00MachineSDK.test_arm_ast2600_evb_sdk: PASS (112.27 s)
+  RESULTS    : PASS 7 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 325.72 s
+
+After :
+
+  $ build/tests/venv/bin/avocado --show=app run build/tests/avocado/machine_aspeed.py
+    ...
+   (1/7) AST1030Machine.test_ast1030_zephyros: PASS (0.22 s)
+   (2/7) AST2x00Machine.test_arm_ast2400_palmetto_openbmc_v2_9_0: PASS (12.44 s)
+   (3/7) AST2x00Machine.test_arm_ast2500_romulus_openbmc_v2_9_0: PASS (13.98 s)
+   (4/7) AST2x00Machine.test_arm_ast2500_evb_buildroot: PASS (11.74 s)
+   (5/7) AST2x00Machine.test_arm_ast2600_evb_buildroot: PASS (15.90 s)
+   (6/7) AST2x00MachineSDK.test_arm_ast2500_evb_sdk: PASS (66.75 s)
+   (7/7) AST2x00MachineSDK.test_arm_ast2600_evb_sdk: PASS (82.34 s)
+  RESULTS    : PASS 7 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 204.33 s
+  
+  
+
+
+Alex Bennée (4):
+  cpu: cache CPUClass in CPUState for hot code paths
+  hw/core/cpu-sysemu: used cached class in cpu_asidx_from_attrs
+  cputlb: used cached CPUClass in our hot-paths
+  ssi: cache SSIPeripheralClass to avoid GET_CLASS()
+
+Cédric Le Goater (2):
+  tests/avocado/machine_aspeed.py: Fix typos on buildroot
+  aspeed/smc: Cache AspeedSMCClass
+
+ include/hw/core/cpu.h           |  9 +++++++++
+ include/hw/ssi/aspeed_smc.h     |  2 ++
+ include/hw/ssi/ssi.h            |  3 +++
+ accel/tcg/cputlb.c              | 15 ++++++---------
+ cpu.c                           |  9 ++++-----
+ hw/core/cpu-sysemu.c            |  5 ++---
+ hw/ssi/aspeed_smc.c             |  9 ++++-----
+ hw/ssi/ssi.c                    | 18 ++++++++----------
+ tests/avocado/machine_aspeed.py | 16 ++++++++--------
+ 9 files changed, 46 insertions(+), 40 deletions(-)
+
 -- 
-2.37.2
+2.37.3
 
 
