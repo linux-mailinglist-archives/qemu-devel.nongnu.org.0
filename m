@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7ACB5E772F
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 11:31:51 +0200 (CEST)
-Received: from localhost ([::1]:52204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F775E77AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 11:54:20 +0200 (CEST)
+Received: from localhost ([::1]:47416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obf2E-0008TS-Om
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 05:31:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35358)
+	id 1obfNz-0005oD-Jl
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 05:54:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obeyZ-0004nl-Tk; Fri, 23 Sep 2022 05:28:10 -0400
-Received: from mail-vs1-f50.google.com ([209.85.217.50]:44656)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1obeyW-0000RI-Rp; Fri, 23 Sep 2022 05:28:03 -0400
-Received: by mail-vs1-f50.google.com with SMTP id h1so13015751vsr.11;
- Fri, 23 Sep 2022 02:28:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=1fZ3phByiX51M1NegfUMUajhFEsY8uvOlYPU9nf0HiM=;
- b=rTThUFo+AFyoPlynALsOPq412N9aCqEpCOs+48VFoWfYWTmJYarpprdpv/BN3NTBfc
- gXnY1KwreRxcqR18rLyhxvXA4y6rhTWXpsYRR/mb4HFAs0zw0Sb/sdkZvQP4n9xcWJB6
- SPTB4AsPht+dET0ZzhRR3AYW1EdHDDiIsjGk1C7b0tbdc3/dn0ZECZQYbbws7Y7t0+d3
- sCJaE8TSMaA3tdPD/gxRJ9zqyml/R0xIq5yPGZiiKip0QlG1KVDd3SP9wCku+sV8h4TV
- UxgeddQP1W+zhgmUzRjAwuiSxrHWZmx4iggktEOLEXdvTnK0WovUxmn1t4b4oTwt1XPQ
- njbg==
-X-Gm-Message-State: ACrzQf1zNjP+5sNbGjmC34TFjdwLXfORB8/EWuxo8UcBBh27ItmeiscX
- Wq5MPmCTnJzi2S2MuWpYlxT6Fgf+VXUEvAE7cig=
-X-Google-Smtp-Source: AMsMyM72lGAexl+jkPy8PUzKfA3I5iFzpNrn1G8D2QBFS58jZud80mzkWyDx8WMBw0NT8xavRkM3EUOK/VNBH03dcdE=
-X-Received: by 2002:a67:ab0a:0:b0:39a:c8e4:fde9 with SMTP id
- u10-20020a67ab0a000000b0039ac8e4fde9mr3180706vse.23.1663925279325; Fri, 23
- Sep 2022 02:27:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1obf27-0008PU-Uu
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:31:43 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:42798 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1obf25-00033y-GW
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:31:43 -0400
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bxnmv0fC1jLZogAA--.42824S3; 
+ Fri, 23 Sep 2022 17:31:32 +0800 (CST)
+Subject: Re: [PATCH v1 1/3] hw/loongarch: Add memmap for LoongArch virt machine
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, maobibo@loongson.cn
+References: <20220923032907.1728700-1-yangxiaojuan@loongson.cn>
+ <20220923032907.1728700-2-yangxiaojuan@loongson.cn>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <88601911-01e5-dce4-c88b-2c57512ed40a@loongson.cn>
+Date: Fri, 23 Sep 2022 17:31:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20220923090428.93529-1-armbru@redhat.com>
-In-Reply-To: <20220923090428.93529-1-armbru@redhat.com>
-Date: Fri, 23 Sep 2022 11:27:47 +0200
-Message-ID: <CAAdtpL7TikHLMEtYhZ1NbXcKwiRswpi0qjWevaN3kkkE3tja_w@mail.gmail.com>
-Subject: Re: [PATCH] Drop superfluous conditionals around g_free()
-To: Markus Armbruster <armbru@redhat.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, 
- Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>, 
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.217.50;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-vs1-f50.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+In-Reply-To: <20220923032907.1728700-2-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8Bxnmv0fC1jLZogAA--.42824S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7XF1ftw4UKFWkCF1fXw1kZrb_yoWftwb_Cr
+ y8Gr93Kw4UJryUta4kAr48ZFyUua9ruw47Ka17Ca1fZ34xJr15Xw1jkw48X3Wfur1jvFn5
+ A3WYqr1DAa95KjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbVxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280
+ aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07
+ x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18
+ McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7
+ I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK6svPMxAI
+ w28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFVCjc4AY6r
+ 1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+ b7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+ vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+ cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa
+ 73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-1.893, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,20 +77,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-On Fri, Sep 23, 2022 at 11:13 AM Markus Armbruster <armbru@redhat.com> wrot=
-e:
->
-> There is no need to guard g_free(P) with if (P): g_free(NULL) is safe.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  replay/replay.c             |  6 ++----
->  target/i386/kvm/kvm.c       | 12 ++++--------
->  target/i386/whpx/whpx-all.c | 14 ++++++--------
->  3 files changed, 12 insertions(+), 20 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+ÔÚ 2022/9/23 ÉÏÎç11:29, Xiaojuan Yang Ð´µÀ:
+> +#define VIRT_PCI_IO_OFFSET       0x4000
+> +static MemMapEntry virt_memmap[] = {
+> +    [VIRT_LOWDDR] =       {        0x0,    0x10000000 },
+> +    [VIRT_PCH] =          { 0x10000000,        0x1000 },
+> +    [VIRT_PM] =           { 0x10080000,         0x100 },
+> +    [VIRT_RTC] =          { 0x100D0100,         0x100 },
+> +    [VIRT_ACPI_GED] =     { 0x100E0000,         0x100 },
+> +    [VIRT_ISA_IO] =       { 0x18000000,        0x4000 },
+> +    [VIRT_PCI_IO] =       { 0x18004000,        0xC000 },
+> +    [VIRT_BIOS]   =       { 0x1C000000,      0x400000 },
+> +    [VIRT_FDT]    =       { 0x1C400000,      0x100000 },
+> +    [VIRT_FW_CFG] =       { 0x1E020000,          0x18 },
+> +    [VIRT_UART]   =       { 0x1FE001E0,         0x100 },
+> +    [VIRT_PCI_CFG] =      { 0x20000000,     0x8000000 },
+> +    [VIRT_MSI]     =      { 0x2FF00000,        0x1000 },
+> +    [VIRT_PCI_MEM] =      { 0x40000000,    0x40000000 },
+> +    [VIRT_HIGHDDR] =      { 0x90000000,           0x0 },
+> +    [VIRT_PLATFORM_BUS] = { 0x16000000,     0x2000000 },
+> +};
+> +
+
+put VIRT_PLATFORM_BUS after VIRT_ACPI_GED.
+
+Otherwise.
+Reviewed-by: Song Gao <gaosong@loongson.cn>
+
+Thanks.
+Song Gao
+
 
