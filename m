@@ -2,89 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5275E73B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 08:10:33 +0200 (CEST)
-Received: from localhost ([::1]:54624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAEC5E7448
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 08:42:52 +0200 (CEST)
+Received: from localhost ([::1]:57730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obbtP-0003r8-I2
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 02:10:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33336)
+	id 1obcOh-0004As-Lu
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 02:42:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1obbkc-0000kL-FH
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 02:01:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44407)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1obc2F-0001eN-ML
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 02:19:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1obbkY-0007XC-7r
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 02:01:24 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1obc2A-0007gg-4L
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 02:19:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663912881;
+ s=mimecast20190719; t=1663913969;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yCkznym/nyEvF39G73yPqSebR3JLDsOfXIYgyVMJobQ=;
- b=dVcnRJ8CLYJbq92nrhvY0gsdKk/oz1hGry2mYsARNhmY0+vi6oPP/3OM85/b1lLj6h7KF/
- m2yEhQWQmc7/RGxHnT9wDrKHdMcPwt2yslnFwt7J5c2sCqJUp+5mWr9/Qcx9y3N4G5fOb1
- VEISBZPIiHhm6gblJyYU5UMYsbfaows=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MCzb7c+tyTlkHkLa4TGmfweIIl8/TjIZuUgOftkCKh0=;
+ b=cR8NXf9QrUVPg2e/7sr5xV5l/CkyrLNNJjaEa2lOHghsBXXXFz+eyioGGNXRN+nTV5FEjM
+ pk2+NIgRHjA/1Z9xzJVvgMm7P54tKKUDClW6rx+hA1pS9LCO9BMqskEjhr7Be5ZbF6Sj/5
+ rOV7+PRcFiyEPgY8ehlq3Dz5yHUAMX8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-126-kd3Tnnx1MfaY6zdPU-_Sog-1; Fri, 23 Sep 2022 02:01:18 -0400
-X-MC-Unique: kd3Tnnx1MfaY6zdPU-_Sog-1
-Received: by mail-qk1-f199.google.com with SMTP id
- w10-20020a05620a444a00b006ce9917ea1fso8139146qkp.16
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 23:01:18 -0700 (PDT)
+ us-mta-10-AUfGTBmfOwa1HmUfA_jkyw-1; Fri, 23 Sep 2022 02:19:28 -0400
+X-MC-Unique: AUfGTBmfOwa1HmUfA_jkyw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ y9-20020a056402270900b00451dfbbc9b2so8082279edd.12
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 23:19:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=yCkznym/nyEvF39G73yPqSebR3JLDsOfXIYgyVMJobQ=;
- b=QRSocrdOujVAL9f+fkOJH1Ae88CPhuQFDT15T2ajVmNdzUlFusBN33OI25sce3MLjh
- q1vwT0agzFUMograVg9tOvx5SIvdTP0ka7kSu2g0R1VdfRvOa8BUBB6/XPldrqCqSPj/
- rVP6Z0mS+2hgBrc5bDJNldRKk/RbefwvpuYtEtEBe1G6hcufkYLJmbdqeun2EKIk1apx
- 31CWks4B5MHMGvZJYKbBkGsRUzd/nyHKjJjh7ETyJKueWGQ8HViabdgj6ghDgISMkPkx
- JMA8yJ23/xRzLmr5SIGyFUmCvsWSuZaO1mo/ce+kPBDXnOl9xkkkV4MfCz0Tz3xbGHFU
- WFZw==
-X-Gm-Message-State: ACrzQf0h6VrIUoLUviLirwJszWbYIxeWcwXkAvthnssRTu5zBGnm9jq/
- Lt64ejqfn3j4MhLGDFGeku0en1qsTPISXHqEVATAT+4M/RNc5Fr2UiBjSqbrzrj1nnUL/2ERbY/
- zIHlDoHEuPy7PWgF5QTitFOiaXiOwQoA=
-X-Received: by 2002:a05:622a:174b:b0:35d:1be5:c65e with SMTP id
- l11-20020a05622a174b00b0035d1be5c65emr3159420qtk.422.1663912878044; 
- Thu, 22 Sep 2022 23:01:18 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4fNlqJUer44AIzxad3X4/rC6qV4PGXUR05dBSD36Ot91yhOFqJcZgk5+8WDQCfeNwk3dbbhCEyUdqwAaNl/Ls=
-X-Received: by 2002:a05:622a:174b:b0:35d:1be5:c65e with SMTP id
- l11-20020a05622a174b00b0035d1be5c65emr3159400qtk.422.1663912877817; Thu, 22
- Sep 2022 23:01:17 -0700 (PDT)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=MCzb7c+tyTlkHkLa4TGmfweIIl8/TjIZuUgOftkCKh0=;
+ b=yU/r48lW1WtNCGp6sKHC3A/gabEIlq8IVynU3NjV6GU4aRSwpn34G99xOa/z4wa3Al
+ NRCS/zrXKqF+fl9AhOOhyliSPT0d4JRrJx1p9bIVmZT4VWzqaNhB67oRQn2fEAW9Q0D/
+ agid09KjcuFZNnsG/DbsQZiJnFKaYTKq0ilCH5Mkf/g+aZdBvDEN0OH2/rXnqdRsY2Hu
+ yji5wFkVCEzvf8WNmtZEnPMkXr+Lz5eySFu1WP61JDmsuvujIuRukfyrj8Eb7Qndw1us
+ wawtDLYWEg3GKPEeqItiUHuKEMjq2/cz/NuY8W+0HTQ1rGuDdyWHuqLCV1UjJUTdBJhv
+ BuTw==
+X-Gm-Message-State: ACrzQf1TK3G6LfqEOpc+/zOm2p9s5lDXp2zt2aS3a2rhMwQu3/A2N5Zn
+ PosRnr9H2Dc7SNIKU16EbJAJKH2y37+hvPT/r5STW9sXYFI6fpZjidwR8az47purwxoAzLlc1uR
+ c7FeMI3WlQR0N/tc=
+X-Received: by 2002:a17:906:9bce:b0:770:2600:2cef with SMTP id
+ de14-20020a1709069bce00b0077026002cefmr5463903ejc.611.1663913966580; 
+ Thu, 22 Sep 2022 23:19:26 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5AYzGXbnoHGySeHW+poTud1qoybIfDgNJdZ6TLrqCn0u8whzIEQm9xdNdkeofAVB3pRoMeSg==
+X-Received: by 2002:a17:906:9bce:b0:770:2600:2cef with SMTP id
+ de14-20020a1709069bce00b0077026002cefmr5463888ejc.611.1663913966242; 
+ Thu, 22 Sep 2022 23:19:26 -0700 (PDT)
+Received: from redhat.com ([2.55.16.18]) by smtp.gmail.com with ESMTPSA id
+ p13-20020a056402044d00b00456d2721d93sm95421edw.64.2022.09.22.23.19.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Sep 2022 23:19:25 -0700 (PDT)
+Date: Fri, 23 Sep 2022 02:19:21 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: "houyl@yusur.tech" <houyl@yusur.tech>,
+ "raphael.norwitz" <raphael.norwitz@nutanix.com>,
+ kwolf <kwolf@redhat.com>, hreitz <hreitz@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>,
+ qemu-devel <qemu-devel@nongnu.org>, zy <zy@yusur.tech>,
+ "lulu@redhat.com" <lulu@redhat.com>,
+ =?utf-8?B?6ZmI5rWp?= <chenh@yusur.tech>
+Subject: Re: Re: [PATCH v2] hw/virtio/vhost-user: support obtain vdpa
+ device's mac address automatically
+Message-ID: <20220923020312-mutt-send-email-mst@kernel.org>
+References: <20220921060026.392164-1-chenh@yusur.tech>
+ <BL3PR02MB79380882D0B877C2D5A754FFEA4F9@BL3PR02MB7938.namprd02.prod.outlook.com>
+ <CACGkMEttGsDrFo_U7AKHEof0HwVfHaRTeQSRE+QTiRPPtnU3hQ@mail.gmail.com>
+ <2022092311532239888519@yusur.tech>
+ <CACGkMEvbwrRWYxDpxYYmU3u9E-Z4TSnRdsuD4XUB_ft4+2=Nqg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220922101454.1069462-1-kraxel@redhat.com>
- <YyxF2TNwnXaefT6u@redhat.com>
- <20220922122058.vesh352623uaon6e@sirius.home.kraxel.org>
- <CABgObfavcPLUbMzaLQS2Rj2=r5eAhuBuKdiHQ4wJGfgPm_=XsQ@mail.gmail.com>
- <20220922203345.3r7jteg7l75vcysv@sirius.home.kraxel.org>
-In-Reply-To: <20220922203345.3r7jteg7l75vcysv@sirius.home.kraxel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 23 Sep 2022 08:00:00 +0200
-Message-ID: <CABgObfZS+xW9dTKNy34d0ew1VbxzH8EKtEZO3MwGsX+DUPzWqw@mail.gmail.com>
-Subject: Re: [PATCH v4] x86: add etc/phys-bits fw_cfg file
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>, Sergio Lopez <slp@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- Richard Henderson <richard.henderson@linaro.org>, kvm <kvm@vger.kernel.org>, 
- Marcelo Tosatti <mtosatti@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000005174c05e951e80f"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACGkMEvbwrRWYxDpxYYmU3u9E-Z4TSnRdsuD4XUB_ft4+2=Nqg@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,118 +108,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000005174c05e951e80f
-Content-Type: text/plain; charset="UTF-8"
-
-Il gio 22 set 2022, 22:33 Gerd Hoffmann <kraxel@redhat.com> ha scritto:
-
-> On Thu, Sep 22, 2022 at 02:38:02PM +0200, Paolo Bonzini wrote:
-> > On Thu, Sep 22, 2022 at 2:21 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > > No.  This will basically inform the guest that host-phys-bits has been
-> > > enabled (and pass the number of bits).  So the firmware can make use of
-> > > the available address space instead of trying to be as conservative as
-> > > possible to avoid going beyond the (unknown) limit.
+On Fri, Sep 23, 2022 at 12:05:40PM +0800, Jason Wang wrote:
+> On Fri, Sep 23, 2022 at 11:55 AM houyl@yusur.tech <houyl@yusur.tech> wrote:
 > >
-> > Intel processors that are not extremely old have host-phys-bits equal
-> > to 39, 46 or 52. Older processors that had 36, in all likelihood,
-> > didn't have IOMMUs (so no big 64-bit BARs).
+> > On Thu, 22 Sep 2022 09:34:41 +0800 Jason Wang<jasowang@redhat.com>  wrote:
 > >
-> > AMD processors have had 48 for a while, though older consumer processors
-> had 40.
->
-> How reliable is the vendorid?
->
+> >
+> > >On Thu, Sep 22, 2022 at 1:58 AM Raphael Norwitz
+> > ><raphael.norwitz@nutanix.com> wrote:
+> > >>
+> > >> If I read your response on the other thread correctly, this change is intended
+> > >>
+> > >> to prioritize the MAC address exposed by DPDK over the one provided by the
+> > >>
+> > >> QEMU command line? Sounds reasonable in principle, but I would get confirmation
+> > >>
+> > >> from vDPA/vhost-net maintainers.
+> >
+> > >I think the best way is to (and it seems easier)
+> >
+> > >1) have the management layer to make sure the mac came from cli
+> > >matches the underlayer vDPA
+> >
+> >  Agreed, that's no problem.
 
-Pretty reliable. In principle it can be changed, but there's no good reason
-to do it (especially in a long lived VM) and it requires manual command
-line intervention.
+Actually, if we start failing here, won't it break working designs
+in which vhost user does not really have a valid mac?
 
-
-> Given newer processors have more than 40 and for older ones we know
-> the possible values for the two relevant x86 vendors we could do
-> something along the lines of:
->
->    phys-bits >= 41                   -> valid
->    phys-bits == 40    + AuthenticAMD -> valid
->    phys-bits == 36,39 + GenuineIntel -> valid
->    everything else                   -> invalid
->
-> Does that look sensible to you?
->
-
-Yes, it does! Is phys-bits == 36 the same as invalid? If so that's even one
-fewer special case to handle.
-
-Paolo
+I am not sure we can start changing things so easily.
+Let's add a protocol feature?
 
 
-> take care,
->   Gerd
->
->
-
---00000000000005174c05e951e80f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il gio 22 set 2022, 22:33 Gerd Hoffmann &lt;<a href=3D=
-"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; ha scritto:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">On Thu, Sep 22, 2022 at 02:38:02PM +0200, Pao=
-lo Bonzini wrote:<br>
-&gt; On Thu, Sep 22, 2022 at 2:21 PM Gerd Hoffmann &lt;<a href=3D"mailto:kr=
-axel@redhat.com" target=3D"_blank" rel=3D"noreferrer">kraxel@redhat.com</a>=
-&gt; wrote:<br>
-&gt; &gt; No.=C2=A0 This will basically inform the guest that host-phys-bit=
-s has been<br>
-&gt; &gt; enabled (and pass the number of bits).=C2=A0 So the firmware can =
-make use of<br>
-&gt; &gt; the available address space instead of trying to be as conservati=
-ve as<br>
-&gt; &gt; possible to avoid going beyond the (unknown) limit.<br>
-&gt; <br>
-&gt; Intel processors that are not extremely old have host-phys-bits equal<=
-br>
-&gt; to 39, 46 or 52. Older processors that had 36, in all likelihood,<br>
-&gt; didn&#39;t have IOMMUs (so no big 64-bit BARs).<br>
-&gt; <br>
-&gt; AMD processors have had 48 for a while, though older consumer processo=
-rs had 40.<br>
-<br>
-How reliable is the vendorid?<br></blockquote></div></div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">Pretty reliable. In principle it can be change=
-d, but there&#39;s no good reason to do it (especially in a long lived VM) =
-and it requires manual command line intervention.</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">
-<br>
-Given newer processors have more than 40 and for older ones we know<br>
-the possible values for the two relevant x86 vendors we could do<br>
-something along the lines of:<br>
-<br>
-=C2=A0 =C2=A0phys-bits &gt;=3D 41=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0-&gt; valid<br>
-=C2=A0 =C2=A0phys-bits =3D=3D 40=C2=A0 =C2=A0 + AuthenticAMD -&gt; valid<br=
->
-=C2=A0 =C2=A0phys-bits =3D=3D 36,39 + GenuineIntel -&gt; valid<br>
-=C2=A0 =C2=A0everything else=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0-&gt; invalid<br>
-<br>
-Does that look sensible to you?<br></blockquote></div></div><div dir=3D"aut=
-o"><br></div><div dir=3D"auto">Yes, it does! Is phys-bits =3D=3D 36 the sam=
-e as invalid? If so that&#39;s even one fewer special case to handle.</div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex">
-<br>
-take care,<br>
-=C2=A0 Gerd<br>
-<br>
-</blockquote></div></div></div>
-
---00000000000005174c05e951e80f--
+> > >2) having a sanity check and fail the device initialization if they don't match
+> >
+> > However, one MAC address for integrity check is from the cli, and the other MAC address is from the vDPA device,
+> > How to get it?
+> 
+> VHOST_USER_GET_CONFIG?
+> 
+> Thanks
+> 
+> >
+> > The current situation is if MAC came from cli don't match the underlayer vDPA, the virtual machine can still start without any hints.
+> >
+> > Thanks
+> >
+> >
+> > >Thanks
+> >
+> > >>
+> > >>
+> > >>
+> > >> That said the way you’re hacking the vhost-user code breaks a valuable check for
+> > >>
+> > >> bad vhost-user-blk backends. I would suggest finding another implementation which
+> > >>
+> > >> does not regress functionality for other device types.
+> > >>
+> > >>
+> > >>
+> > >>
+> > >>
+> > >> >From: Hao Chen <chenh@yusur.tech>
+> > >>
+> > >> >
+> > >>
+> > >> >When use dpdk-vdpa tests vdpa device. You need to specify the mac address to
+> > >>
+> > >> >start the virtual machine through libvirt or qemu, but now, the libvirt or
+> > >>
+> > >> >qemu can call dpdk vdpa vendor driver's ops .get_config through vhost_net_get_config
+> > >>
+> > >> >to get the mac address of the vdpa hardware without manual configuration.
+> > >>
+> > >> >
+> > >>
+> > >> >v1->v2:
+> > >>
+> > >> >Only copy ETH_ALEN data of netcfg for some vdpa device such as
+> > >>
+> > >> >NVIDIA BLUEFIELD DPU(BF2)'s netcfg->status is not right.
+> > >>
+> > >> >We only need the mac address and don't care about the status field.
+> > >>
+> > >> >
+> > >>
+> > >> >Signed-off-by: Hao Chen <chenh@yusur.tech>
+> > >>
+> > >> >---
+> > >>
+> > >> > hw/block/vhost-user-blk.c |  1 -
+> > >>
+> > >> > hw/net/virtio-net.c       |  7 +++++++
+> > >>
+> > >> > hw/virtio/vhost-user.c    | 19 -------------------
+> > >>
+> > >> > 3 files changed, 7 insertions(+), 20 deletions(-)
+> > >>
+> > >> >
+> > >>
+> > >> >diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> > >>
+> > >> >index 9117222456..5dca4eab09 100644
+> > >>
+> > >> >--- a/hw/block/vhost-user-blk.c
+> > >>
+> > >> >+++ b/hw/block/vhost-user-blk.c
+> > >>
+> > >> >@@ -337,7 +337,6 @@ static int vhost_user_blk_connect(DeviceState *dev, Error **errp)
+> > >>
+> > >> >
+> > >>
+> > >> >     vhost_dev_set_config_notifier(&s->dev, &blk_ops);
+> > >>
+> > >> >
+> > >>
+> > >> >-    s->vhost_user.supports_config = true;
+> > >>
+> > >> >     ret = vhost_dev_init(&s->dev, &s->vhost_user, VHOST_BACKEND_TYPE_USER, 0,
+> > >>
+> > >> >                          errp);
+> > >>
+> > >> >     if (ret < 0) {
+> > >>
+> > >> >diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > >>
+> > >> >index dd0d056fde..90405083b1 100644
+> > >>
+> > >> >--- a/hw/net/virtio-net.c
+> > >>
+> > >> >+++ b/hw/net/virtio-net.c
+> > >>
+> > >> >@@ -166,6 +166,13 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+> > >>
+> > >> >             }
+> > >>
+> > >> >             memcpy(config, &netcfg, n->config_size);
+> > >>
+> > >> >         }
+> > >>
+> > >> >+    } else if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
+> > >>
+> > >> >+        ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
+> > >>
+> > >> >+                                   n->config_size);
+> > >>
+> > >> >+        if (ret != -1) {
+> > >>
+> > >> >+               /* Automatically obtain the mac address of the vdpa device
+> > >>
+> > >> >+                * when using the dpdk vdpa */
+> > >>
+> > >> >+                memcpy(config, &netcfg, ETH_ALEN);
+> > >>
+> > >> >     }
+> > >>
+> > >> > }
+> > >>
+> > >> >
+> > >>
+> > >> >diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> > >>
+> > >> >index bd24741be8..8b01078249 100644
+> > >>
+> > >> >--- a/hw/virtio/vhost-user.c
+> > >>
+> > >> >+++ b/hw/virtio/vhost-user.c
+> > >>
+> > >> >@@ -2013,8 +2013,6 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+> > >>
+> > >> >     }
+> > >>
+> > >> >
+> > >>
+> > >> >     if (virtio_has_feature(features, VHOST_USER_F_PROTOCOL_FEATURES)) {
+> > >>
+> > >> >-        bool supports_f_config = vus->supports_config ||
+> > >>
+> > >> >-            (dev->config_ops && dev->config_ops->vhost_dev_config_notifier);
+> > >>
+> > >> >         uint64_t protocol_features;
+> > >>
+> > >> >
+> > >>
+> > >> >         dev->backend_features |= 1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
+> > >>
+> > >> >@@ -2033,23 +2031,6 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+> > >>
+> > >> >          */
+> > >>
+> > >> >         protocol_features &= VHOST_USER_PROTOCOL_FEATURE_MASK;
+> > >>
+> > >> >
+> > >>
+> > >> >-        if (supports_f_config) {
+> > >>
+> > >> >-            if (!virtio_has_feature(protocol_features,
+> > >>
+> > >> >-                                    VHOST_USER_PROTOCOL_F_CONFIG)) {
+> > >>
+> > >> >-                error_setg(errp, "vhost-user device expecting "
+> > >>
+> > >> >-                           "VHOST_USER_PROTOCOL_F_CONFIG but the vhost-user backend does "
+> > >>
+> > >> >-                           "not support it.");
+> > >>
+> > >> >-                return -EPROTO;
+> > >>
+> > >> >-            }
+> > >>
+> > >> >-        } else {
+> > >>
+> > >> >-            if (virtio_has_feature(protocol_features,
+> > >>
+> > >> >-                                   VHOST_USER_PROTOCOL_F_CONFIG)) {
+> > >>
+> > >> >-                warn_reportf_err(*errp, "vhost-user backend supports "
+> > >>
+> > >> >-                                 "VHOST_USER_PROTOCOL_F_CONFIG but QEMU does not.");
+> > >>
+> > >> >-                protocol_features &= ~(1ULL << VHOST_USER_PROTOCOL_F_CONFIG);
+> > >>
+> > >> >-            }
+> > >>
+> > >> >-        }
+> > >>
+> > >> >-
+> > >>
+> > >> >         /* final set of protocol features */
+> > >>
+> > >> >         dev->protocol_features = protocol_features;
+> > >>
+> > >> >         err = vhost_user_set_protocol_features(dev, dev->protocol_features);
+> > >>
+> > >> >--
+> > >>
+> > >> >2.27.0
+> > >>
+> > >> >
+> > >>
+> > >>
+> >
 
 
