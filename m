@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553B55E81DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 20:40:21 +0200 (CEST)
-Received: from localhost ([::1]:58308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BD85E81EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 20:44:35 +0200 (CEST)
+Received: from localhost ([::1]:59466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obnb0-0006oV-Vg
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 14:40:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53860)
+	id 1obnf8-00065l-Ib
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 14:44:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1obnWA-0001Jk-CI
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 14:35:20 -0400
-Received: from mailout04.t-online.de ([194.25.134.18]:45230)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1obnXg-0002h8-GL
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 14:36:53 -0400
+Received: from mailout02.t-online.de ([194.25.134.17]:43182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1obnW5-0004oa-13
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 14:35:16 -0400
-Received: from fwd78.dcpf.telekom.de (fwd78.aul.t-online.de [10.223.144.104])
- by mailout04.t-online.de (Postfix) with SMTP id 9FEF53E84;
- Fri, 23 Sep 2022 20:35:05 +0200 (CEST)
-Received: from [192.168.211.200] ([84.175.228.229]) by fwd78.t-online.de
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1obnXd-0005EF-Lv
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 14:36:52 -0400
+Received: from fwd85.dcpf.telekom.de (fwd85.aul.t-online.de [10.223.144.111])
+ by mailout02.t-online.de (Postfix) with SMTP id D06593B17;
+ Fri, 23 Sep 2022 20:36:44 +0200 (CEST)
+Received: from linpower.localnet ([84.175.228.229]) by fwd85.t-online.de
  with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1obnVq-40vw1Z0; Fri, 23 Sep 2022 20:34:58 +0200
-Message-ID: <38d7417a-fc26-be39-6a63-99c79ee15fc9@t-online.de>
-Date: Fri, 23 Sep 2022 20:34:58 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: [PATCH 00/12] audio: misc. improvements and bug fixes
+ esmtp id 1obnXU-2nz0XR0; Fri, 23 Sep 2022 20:36:40 +0200
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id 93BEE200456; Fri, 23 Sep 2022 20:36:40 +0200 (CEST)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Geoffrey McRae <geoff@hostfission.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Cc: qemu-devel@nongnu.org
+Subject: [PATCH 01/12] audio: refactor code in audio_run_out()
+Date: Fri, 23 Sep 2022 20:36:29 +0200
+Message-Id: <20220923183640.8314-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <38d7417a-fc26-be39-6a63-99c79ee15fc9@t-online.de>
+References: <38d7417a-fc26-be39-6a63-99c79ee15fc9@t-online.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1663958098-79BAA9DD-ED716B3B/0/0 CLEAN NORMAL
-X-TOI-MSGID: c7163aba-5485-4e1a-846f-6aff184f785d
-Received-SPF: none client-ip=194.25.134.18; envelope-from=vr_qemu@t-online.de;
- helo=mailout04.t-online.de
+X-TOI-EXPURGATEID: 150726::1663958200-2E0B6EA1-2A5C596E/0/0 CLEAN NORMAL
+X-TOI-MSGID: fabe07bd-971c-43da-bc89-60b380a8f7c1
+Received-SPF: none client-ip=194.25.134.17;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout02.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -65,41 +64,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A series of audio improvements and fixes.
+Refactoring the code in audio_run_out() avoids code duplication
+in the next patch. There's no functional change.
 
-One note:
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ audio/audio.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-Patch 11/12 "audio: fix sw->buf size for audio recording":
-If this patch is applied without the patch series "[PATCH 0/2] audio: 
-prevent a class of guest-triggered aborts" at 
-https://lists.nongnu.org/archive/html/qemu-devel/2022-09/msg02347.html, 
-issue #71 triggers a QEMU abort. Patch 11/12 is nevertheless correct.
-
-Volker Rümelin (12):
-   audio: refactor code in audio_run_out()
-   audio: fix GUS audio playback with out.mixing-engine=off
-   audio: run downstream playback queue unconditionally
-   alsaaudio: reduce playback latency
-   audio: add more audio rate control functions
-   spiceaudio: add a pcm_ops buffer_get_free function
-   spiceaudio: update comment
-   audio: swap audio_rate_get_bytes() function parameters
-   audio: rename audio_sw_bytes_free()
-   audio: refactor audio_get_avail()
-   audio: fix sw->buf size for audio recording
-   audio: prevent an integer overflow in resampling code
-
-  audio/alsaaudio.c      |  38 ++++++++++++++-
-  audio/audio.c          | 107 +++++++++++++++++++++++++++--------------
-  audio/audio_int.h      |   4 +-
-  audio/audio_template.h |   4 ++
-  audio/dbusaudio.c      |   4 +-
-  audio/noaudio.c        |   4 +-
-  audio/rate_template.h  |  11 +++--
-  audio/spiceaudio.c     |  19 ++++++--
-  audio/wavaudio.c       |   2 +-
-  9 files changed, 141 insertions(+), 52 deletions(-)
-
+diff --git a/audio/audio.c b/audio/audio.c
+index cfa4119c05..04f685fe24 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1121,8 +1121,12 @@ static void audio_run_out (AudioState *s)
+     HWVoiceOut *hw = NULL;
+     SWVoiceOut *sw;
+ 
+-    if (!audio_get_pdo_out(s->dev)->mixing_engine) {
+-        while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
++    while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
++        size_t played, live, prev_rpos;
++        size_t hw_free = audio_pcm_hw_get_free(hw);
++        int nb_live;
++
++        if (!audio_get_pdo_out(s->dev)->mixing_engine) {
+             /* there is exactly 1 sw for each hw with no mixeng */
+             sw = hw->sw_head.lh_first;
+ 
+@@ -1137,14 +1141,9 @@ static void audio_run_out (AudioState *s)
+             if (sw->active) {
+                 sw->callback.fn(sw->callback.opaque, INT_MAX);
+             }
+-        }
+-        return;
+-    }
+ 
+-    while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
+-        size_t played, live, prev_rpos;
+-        size_t hw_free = audio_pcm_hw_get_free(hw);
+-        int nb_live;
++            continue;
++        }
+ 
+         for (sw = hw->sw_head.lh_first; sw; sw = sw->entries.le_next) {
+             if (sw->active) {
 -- 
 2.35.3
+
 
