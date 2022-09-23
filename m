@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 914C15E7C69
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 15:57:43 +0200 (CEST)
-Received: from localhost ([::1]:46450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BEA5E7C53
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 15:53:00 +0200 (CEST)
+Received: from localhost ([::1]:50552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1objBV-0007Lt-HC
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 09:57:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40250)
+	id 1obj6x-0002SQ-Sz
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 09:52:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1obj0R-0006iB-51
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 09:46:16 -0400
-Received: from madras.collabora.co.uk
- ([2a00:1098:0:82:1000:25:2eeb:e5ab]:58018)
+ id 1obj1n-0007Rl-8b
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 09:47:39 -0400
+Received: from madras.collabora.co.uk ([46.235.227.172]:52348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
- id 1obj0P-000213-3o
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 09:46:14 -0400
+ id 1obj1h-0002DH-TZ
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 09:47:39 -0400
 Received: from [192.168.178.42] (host-79-27-165-192.retail.telecomitalia.it
  [79.27.165.192])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: fahien)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 39F366601E58
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 14:46:10 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C2B06660223B;
+ Fri, 23 Sep 2022 14:47:31 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1663940770;
+ s=mail; t=1663940852;
  bh=KiWEqvnP2VOR/TvxGuJMZP+kQYTU0mS3sVNpCs8YcEU=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=QLN11rJPOJfERlUmBpr7gGGiDPeHUyPYOD1mQUAYZPTqS/daCpEBSAGZ8Vnzu3gf/
- pCWz7hNB0FliL43MBMNvPu5FPGnvkB4VuLNau+UP21hOMDFrqpYB5YhcMkwgl8hp9b
- wTCJUXepg+rPGnrDky73edowRWIIEK8y8Nd624H8vBSQTiZKsEKNX9K/QVaA/HrsH3
- C+9n/tr8pb034iqJBslPC5kT09ftEN5fLUuOutDcWsdl07iswHYqKQkTntgmU+5/od
- 5dXHcvSXeF1vdxUlU5tyreflxC4kGm/kmExRXgiSTGgjfVyzmXkoB52ih6hghnGvC4
- Nc8rI2b33QFdw==
-Message-ID: <09845b08-e6bc-5817-60e8-d51c27968e9c@collabora.com>
-Date: Fri, 23 Sep 2022 15:46:08 +0200
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Oau52RUFT1UG7afBFIMZBi/IouRE1ke+VyjMRMmJlcR7hq8hVrELtcqBV2MsCX+h3
+ XsiwFJnGAhhLj8sRxSUFo7pAaChZkxoj++A5sHS3UPkKaVnzF5qMBOi17aN2jiQn2n
+ cpStIeydimQNYFKVZivc550SN3Z2VYKCtTn7uu1QdDiM9mJNj6mh3Qr6ZDyFu/SYgU
+ 3lX2ypG+6Bbv/DJtdaoRB1iD7LmlueUJLmcmxD6ol/Vvnj1I0zFvrL289nSdchHZF+
+ gdpmdGedjQaZJzBEHY0LdihdjX6PL4/YxpDtkwK86+7X0hZOJ/XEfrmHrvKjTNlKnj
+ QUftab2kfvGLw==
+Message-ID: <5957857a-6fa0-423b-d5e8-64b22c74ef32@collabora.com>
+Date: Fri, 23 Sep 2022 15:47:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
 Subject: Re: [PATCH] virtio-gpu: Resource UUID
-To: qemu-devel@nongnu.org
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org, gert.wollny@collabora.com,
+ dmitry.osipenko@collabora.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 References: <20220921110326.226981-1-antonio.caggiano@collabora.com>
  <CAJ+F1C+0Q5Q70gktghLUMcxYzXM0f+jFkdG7EPET9OohqpAuwA@mail.gmail.com>
-Content-Language: en-US
 From: Antonio Caggiano <antonio.caggiano@collabora.com>
 In-Reply-To: <CAJ+F1C+0Q5Q70gktghLUMcxYzXM0f+jFkdG7EPET9OohqpAuwA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1098:0:82:1000:25:2eeb:e5ab;
+Received-SPF: pass client-ip=46.235.227.172;
  envelope-from=antonio.caggiano@collabora.com; helo=madras.collabora.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
