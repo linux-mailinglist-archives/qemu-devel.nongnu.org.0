@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0505E72C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 06:18:59 +0200 (CEST)
-Received: from localhost ([::1]:33130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB0E5E72C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 06:18:34 +0200 (CEST)
+Received: from localhost ([::1]:40642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oba9S-0001YG-MA
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 00:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34730)
+	id 1oba93-0001Ky-M2
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 00:18:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=2580c328f=alistair.francis@opensource.wdc.com>)
- id 1obZyJ-0001ZV-VA
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:27 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:63926)
+ id 1obZyN-0001ek-56
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:31 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:63924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=2580c328f=alistair.francis@opensource.wdc.com>)
- id 1obZyI-0005d0-Ag
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:27 -0400
+ id 1obZyL-0005cr-92
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1663906046; x=1695442046;
+ t=1663906049; x=1695442049;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=DHQzmPIeQnXV7uw2Rg+3jXi+Skw1XkHJaFatBF3mOvA=;
- b=bMRdr+oFFgiUCT9y7H+uArDvaFNDkYNszYVHlX5Wib+aglfAWGl01hOL
- +uGctp0zYHKCMMvj3BTfUVXiNxFnemzPcAchcdmdbbJjbqGsPg/PGAK9v
- nYwEOCpdqH8ySCrfQbtkH2lGArtpalnJ01/VsKPWztSQkbdSATmnqb0xG
- 5iqk1VdWjIW9adP+v36uFVJ6cF2rvkL8rRhQFG6kAmbD1SxKzb8JQJS98
- 3a/gAS82JYmmMpMy3oiykx6UCktDNQmWM3dz38Cuoor27C96LQg3OJET1
- 3RXol2/ozHkVSyHGvBgi7hsgxAT46Hju6Rc0fpQTwGbg6gA/puCNPncCD A==;
-X-IronPort-AV: E=Sophos;i="5.93,337,1654531200"; d="scan'208";a="212510462"
+ bh=LTxemXnZbcn8GfTEOjD2bvRM5CcWr0Uc+73Is0/SJyo=;
+ b=n6A2gubvsouLqbDpYixhIJrCZp/7MZqJIxeLqLa0aQuMyPoZ/Nj8fVOS
+ dWlZpnsWur7mYZiovZjGVMbdotV2ex6uNXwH2sxdBtE1PTcr02Rb2aSrn
+ FcHw1KvA+OuucJDIyRxOeOtRHTdTzpLJuJy2S+1DOBsgOhTj482cukqsC
+ QkyVNExY6Gs21F1xSzSG0CwVJJL/d75SU90cpnFno6ne5hhJ4mS5Is2Q5
+ 9CFNTaWNgp18JvsOcxp2vkFi4vEm20Lxz6X6Q+glrwcO5Ks63eVrbeeUl
+ WE2qANPh+16bTOPrgRxccq5nliosZ7myobF5OHFXJZisj2q/vI5FW/DjM A==;
+X-IronPort-AV: E=Sophos;i="5.93,337,1654531200"; d="scan'208";a="212510468"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Sep 2022 12:07:24 +0800
-IronPort-SDR: JH2//NmUS2YEwKqvTOe7zFzjOfWpxBVrnsKvJNj2qnR9uGwCxttVDdQ+us5bVCNZBu4XV1YyyW
- Vn8uQ7t5SpjLAmnq0h6q5Vou1WyJojTGB2ik2LZfH6o6qAfY4Uk5mHCtH1F2WcvDSE2RlkmfoK
- Rp94tY5z/2L1OFd6s87Lpt3tUyPnlQq2mPAtqkw3hLei9TLAofrfyeQZAwDyju2B3rIvhVgR0a
- vmKcKrTJzVfx0Vfs6vqo4pdNYx01//j+jY83Gf1XHmIlT3g/CcOMVoValg17KMSYp/TSeAwYt4
- tc0q7vs1wiV8sV6bN0YWNUdA
+ by ob1.hgst.iphmx.com with ESMTP; 23 Sep 2022 12:07:28 +0800
+IronPort-SDR: P4KY7srVABo/E2k9a8+O36WviIE7kSChk23JXdwbu+QhQ4bRfUwCbNLXd2AuswE5frP7WZBiPZ
+ EMkbPedmjP+0ProTa5N/cQRTzCGSEaRQvar/Ow0JJGYkZ9V+uyoVM5hLj/KcMXmiCwqSOOdO58
+ JTJrZV2yOORo9hliPZlFRTJ0aPJ5FeR1YwUd4uihb/KIiC4+ZaPos5/Sibg5yud/Zt3xURPr3X
+ rpG0Qdj4bu7EyzQI5kuKB3KIjeK3oAlWwE8Gi0JcAGk54mqwf1d7jevgsbXTxnBBo2qnyqOATw
+ 0ls3EPEIHw5qjolxCk1vDt/n
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 22 Sep 2022 20:27:27 -0700
-IronPort-SDR: 3JxdYAkzdnojaSjWCjYyXWIeMYU5XZjPerMM/9pZRGn0ufUc+3gutxH6rzLmP+3eQ+riroE9hN
- MsfwuxsCguEQcsp5tR4iNqEt3+AXmxUYX0Dw9u41fn+nYI4uQbK5GwdoOHV94gS0gWr9sQmXz2
- g2ZGYYEL8f+EHQaYmXdr77oTkiOWLNhUptdDVayJedUhwtZR1drNRTaiB4/OlYAVQKfu162lZs
- dwwGN4nRRW0XitdjbZZZH38KL5bCwpsuShswS8/SaO4e6/PFRZVnHAhUuo7qbdA12emhi0h8ta
- 7LM=
+ 22 Sep 2022 20:27:30 -0700
+IronPort-SDR: B84CXyIYKVPBjBR3B7YkMyWC1JQFMpIQEAFCPnks/Wnqu9Nvzqe6BlvTFwCwJKIw0Yt2X4gqw9
+ 4TlHZeE9BCuysKHa9g3LLqaDu2+ug007TzZVvNFdfQ/C3apRqXhiWOxQDF/wIgDahIuM9FYi0O
+ J8v3jAVYedUIVH16LtcZqHJbo2MO7ItA4P2y2BftaNtRynAMmbsFEPCMpVBcvg4mlhzYEJkZXN
+ MKLpHQykoRrd8PRUNQtMv+8ti3DKZTRkJLsByJ75YYZp5uLKBAvSZMi8NXFWhbejTlCPYDamzH
+ lzY=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 22 Sep 2022 21:07:24 -0700
+ 22 Sep 2022 21:07:27 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MYds82Bdjz1RwqL
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 21:07:24 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MYdsC4nF6z1RwqL
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 21:07:27 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1663906043; x=1666498044; bh=DHQzmPIeQnXV7uw2Rg
- +3jXi+Skw1XkHJaFatBF3mOvA=; b=cvrpB6XJ7ECatoYHxhgGkaIca5Ib6515tQ
- ytS9Os963F1jebJIIpn+pqHknyxZGoccXwRH1PU6hoqXfWoWt9BEKtgJRO8vlKNA
- sIwxJQ0zOlj9Ao6L7pXJ9eJuPkUEHr9zB0cpZC4t4DB3lYipVXO8z47rQELPsCxD
- MFvELzj20LF9bkug4MmOY9qoLJ4UFHEcDQH2GI2i26idLEckXxgsmLLM4uYAFrMi
- 8RwnrTjQr/7HyAxOJZkKYbBlSNpSlUSw/zPcNLtZflWYzDmPmlDf/UVMAQMNuJdy
- oIYfludotH1IQCAlV9yawbigYXT20s73+za3N8PJk4PPcHXrbUhA==
+ :from; s=dkim; t=1663906047; x=1666498048; bh=LTxemXnZbcn8GfTEOj
+ D2bvRM5CcWr0Uc+73Is0/SJyo=; b=RNDlINbh5fDbupNFDobRw2oG+xgBGyfNfl
+ a2nX+QVXrASPkgVHyoBxZOZx0ioVf5HVLdHa8xy3cqB3cbPat4Mm7jlxS3qMExj5
+ QzbpjAa3rVRSZDcbTu9BA2sxBQNiL/aK9XckMd1H34iBGDwxQGCvVsJJnzDjHUOI
+ 2ruQ2hNTfu1MYcaMablA/XxS3457oW7ne/v7U/87+SRnTfxbqiQL4t6QCdezEFMQ
+ VHDr92V99aAD9DQDocPMYIJaZtNc6ZCLIrQoorps5+BMVYBZYNQgW+KLMKnvuZi2
+ gEhjky6ruJlVy/gBewQ31vUEUq31+Z6cIEknWQc2kTxKweKJitjA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id z3iUVmJZnTz9 for <qemu-devel@nongnu.org>;
- Thu, 22 Sep 2022 21:07:23 -0700 (PDT)
+ port 10026) with ESMTP id lqUlvRXibcvv for <qemu-devel@nongnu.org>;
+ Thu, 22 Sep 2022 21:07:27 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.167.114])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MYds616W6z1RvTr;
- Thu, 22 Sep 2022 21:07:21 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MYds84g9Qz1RvLy;
+ Thu, 22 Sep 2022 21:07:24 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Weiwei Li <liweiwei@iscas.ac.cn>,
- Junqiang Wang <wangjunqiang@iscas.ac.cn>,
+Cc: alistair23@gmail.com, Andrew Burgess <aburgess@redhat.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 05/12] target/riscv: fix csr check for cycle{h}, instret{h},
- time{h}, hpmcounter3-31{h}
-Date: Fri, 23 Sep 2022 14:06:57 +1000
-Message-Id: <20220923040704.428285-6-alistair.francis@opensource.wdc.com>
+Subject: [PULL 06/12] target/riscv: remove fflags, frm,
+ and fcsr from riscv-*-fpu.xml
+Date: Fri, 23 Sep 2022 14:06:58 +1000
+Message-Id: <20220923040704.428285-7-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220923040704.428285-1-alistair.francis@opensource.wdc.com>
 References: <20220923040704.428285-1-alistair.francis@opensource.wdc.com>
@@ -117,57 +116,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Weiwei Li <liweiwei@iscas.ac.cn>
+From: Andrew Burgess <aburgess@redhat.com>
 
-- modify check for mcounteren to work in all less-privilege mode
-- modify check for scounteren to work only when S mode is enabled
-- distinguish the exception type raised by check for scounteren between U
-and VU mode
+While testing some changes to GDB's handling for the RISC-V registers
+fcsr, fflags, and frm, I spotted that QEMU includes these registers
+twice in the target description it sends to GDB, once in the fpu
+feature, and once in the csr feature.
 
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+Right now things basically work OK, QEMU maps these registers onto two
+different register numbers, e.g. fcsr maps to both 68 and 73, and GDB
+can use either of these to access the register.
+
+However, GDB's target descriptions don't really work this way, each
+register should appear just once in a target description, mapping the
+register name onto the number GDB should use when accessing the
+register on the target.  Duplicate register names actually result in
+duplicate registers on the GDB side, however, as the registers have
+the same name, the user can only access one of these registers.
+
+Currently GDB has a hack in place, specifically for RISC-V, to spot
+the duplicate copies of these three registers, and hide them from the
+user, ensuring the user only ever sees a single copy of each.
+
+In this commit I propose fixing this issue on the QEMU side, and in
+the process, simplify the fpu register handling a little.
+
+I think we should, remove fflags, frm, and fcsr from the two (32-bit
+and 64-bit) fpu feature xml files.  These files will only contain the
+32 core floating point register f0 to f31.  The fflags, frm, and fcsr
+registers will continue to be advertised in the csr feature as they
+currently are.
+
+With that change made, I will simplify riscv_gdb_get_fpu and
+riscv_gdb_set_fpu, removing the extra handling for the 3 status
+registers.
+
+Signed-off-by: Andrew Burgess <aburgess@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220817083756.12471-1-liweiwei@iscas.ac.cn>
+Message-Id: <0fbf2a5b12e3210ff3867d5cf7022b3f3462c9c8.1661934573.git.abur=
+gess@redhat.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/csr.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ target/riscv/gdbstub.c      | 32 ++------------------------------
+ gdb-xml/riscv-32bit-fpu.xml |  4 ----
+ gdb-xml/riscv-64bit-fpu.xml |  4 ----
+ 3 files changed, 2 insertions(+), 38 deletions(-)
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index b96db1b62b..092b425196 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -98,17 +98,22 @@ static RISCVException ctr(CPURISCVState *env, int csr=
-no)
-=20
- skip_ext_pmu_check:
-=20
--    if (((env->priv =3D=3D PRV_S) && (!get_field(env->mcounteren, ctr_ma=
-sk))) ||
--        ((env->priv =3D=3D PRV_U) && (!get_field(env->scounteren, ctr_ma=
-sk)))) {
-+    if (env->priv < PRV_M && !get_field(env->mcounteren, ctr_mask)) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
-=20
-     if (riscv_cpu_virt_enabled(env)) {
--        if (!get_field(env->hcounteren, ctr_mask) &&
--            get_field(env->mcounteren, ctr_mask)) {
-+        if (!get_field(env->hcounteren, ctr_mask) ||
-+            (env->priv =3D=3D PRV_U && !get_field(env->scounteren, ctr_m=
-ask))) {
-             return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+index 9ed049c29e..9974b7aac6 100644
+--- a/target/riscv/gdbstub.c
++++ b/target/riscv/gdbstub.c
+@@ -114,20 +114,6 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GBy=
+teArray *buf, int n)
+         if (env->misa_ext & RVF) {
+             return gdb_get_reg32(buf, env->fpr[n]);
          }
+-    /* there is hole between ft11 and fflags in fpu.xml */
+-    } else if (n < 36 && n > 32) {
+-        target_ulong val =3D 0;
+-        int result;
+-        /*
+-         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is =
+FP
+-         * register 33, so we recalculate the map index.
+-         * This also works for CSR_FRM and CSR_FCSR.
+-         */
+-        result =3D riscv_csrrw_debug(env, n - 32, &val,
+-                                   0, 0);
+-        if (result =3D=3D RISCV_EXCP_NONE) {
+-            return gdb_get_regl(buf, val);
+-        }
      }
-+
-+    if (riscv_has_ext(env, RVS) && env->priv =3D=3D PRV_U &&
-+        !get_field(env->scounteren, ctr_mask)) {
-+        return RISCV_EXCP_ILLEGAL_INST;
-+    }
-+
- #endif
-     return RISCV_EXCP_NONE;
+     return 0;
  }
+@@ -137,20 +123,6 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uin=
+t8_t *mem_buf, int n)
+     if (n < 32) {
+         env->fpr[n] =3D ldq_p(mem_buf); /* always 64-bit */
+         return sizeof(uint64_t);
+-    /* there is hole between ft11 and fflags in fpu.xml */
+-    } else if (n < 36 && n > 32) {
+-        target_ulong val =3D ldtul_p(mem_buf);
+-        int result;
+-        /*
+-         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is =
+FP
+-         * register 33, so we recalculate the map index.
+-         * This also works for CSR_FRM and CSR_FCSR.
+-         */
+-        result =3D riscv_csrrw_debug(env, n - 32, NULL,
+-                                   val, -1);
+-        if (result =3D=3D RISCV_EXCP_NONE) {
+-            return sizeof(target_ulong);
+-        }
+     }
+     return 0;
+ }
+@@ -404,10 +376,10 @@ void riscv_cpu_register_gdb_regs_for_features(CPUSt=
+ate *cs)
+     CPURISCVState *env =3D &cpu->env;
+     if (env->misa_ext & RVD) {
+         gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fp=
+u,
+-                                 36, "riscv-64bit-fpu.xml", 0);
++                                 32, "riscv-64bit-fpu.xml", 0);
+     } else if (env->misa_ext & RVF) {
+         gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fp=
+u,
+-                                 36, "riscv-32bit-fpu.xml", 0);
++                                 32, "riscv-32bit-fpu.xml", 0);
+     }
+     if (env->misa_ext & RVV) {
+         gdb_register_coprocessor(cs, riscv_gdb_get_vector, riscv_gdb_set=
+_vector,
+diff --git a/gdb-xml/riscv-32bit-fpu.xml b/gdb-xml/riscv-32bit-fpu.xml
+index 1eaae9119e..84a44ba8df 100644
+--- a/gdb-xml/riscv-32bit-fpu.xml
++++ b/gdb-xml/riscv-32bit-fpu.xml
+@@ -43,8 +43,4 @@
+   <reg name=3D"ft9" bitsize=3D"32" type=3D"ieee_single"/>
+   <reg name=3D"ft10" bitsize=3D"32" type=3D"ieee_single"/>
+   <reg name=3D"ft11" bitsize=3D"32" type=3D"ieee_single"/>
+-
+-  <reg name=3D"fflags" bitsize=3D"32" type=3D"int" regnum=3D"66"/>
+-  <reg name=3D"frm" bitsize=3D"32" type=3D"int" regnum=3D"67"/>
+-  <reg name=3D"fcsr" bitsize=3D"32" type=3D"int" regnum=3D"68"/>
+ </feature>
+diff --git a/gdb-xml/riscv-64bit-fpu.xml b/gdb-xml/riscv-64bit-fpu.xml
+index 794854cc01..9856a9d1d3 100644
+--- a/gdb-xml/riscv-64bit-fpu.xml
++++ b/gdb-xml/riscv-64bit-fpu.xml
+@@ -49,8 +49,4 @@
+   <reg name=3D"ft9" bitsize=3D"64" type=3D"riscv_double"/>
+   <reg name=3D"ft10" bitsize=3D"64" type=3D"riscv_double"/>
+   <reg name=3D"ft11" bitsize=3D"64" type=3D"riscv_double"/>
+-
+-  <reg name=3D"fflags" bitsize=3D"32" type=3D"int" regnum=3D"66"/>
+-  <reg name=3D"frm" bitsize=3D"32" type=3D"int" regnum=3D"67"/>
+-  <reg name=3D"fcsr" bitsize=3D"32" type=3D"int" regnum=3D"68"/>
+ </feature>
 --=20
 2.37.3
 
