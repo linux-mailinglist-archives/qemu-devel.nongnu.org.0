@@ -2,93 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0255E72DC
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 06:24:53 +0200 (CEST)
-Received: from localhost ([::1]:47430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A535E72EC
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 06:28:41 +0200 (CEST)
+Received: from localhost ([::1]:40054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obaFA-0008Gd-FK
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 00:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41162)
+	id 1obaIq-0002jK-3v
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 00:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=2580c328f=alistair.francis@opensource.wdc.com>)
- id 1obZyV-0001j4-Qh
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:44 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:63953)
+ id 1obZyY-0001jz-PH
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:45 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:63969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=2580c328f=alistair.francis@opensource.wdc.com>)
- id 1obZyR-0005dr-Af
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:37 -0400
+ id 1obZyU-0005ek-Jf
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1663906055; x=1695442055;
+ t=1663906058; x=1695442058;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rGwlR4H3pAHbNK6RHizCRzWAmLwAdBJ0/NRbGNOIiKc=;
- b=KGRnBQ2SRx+jqiiedH+UW1PiBXzQjccsTLXsiC6aKhjD213g8sOVIoW6
- n91W5CNcTVldxMtOmJ+4s1YwWsCZEX3MuagrGnUQIUX/2EYpW3uyQiNc+
- YvRobeLWvNg6/VZPefCzHI/01TdzNesFYly6Bez3g2FNaqc/8ZTVL+789
- bxQrHmxAOJgGd9hcBzKJXpHfqNlejsuAVBHyFGuikHSEBHRgHzF3mU4Ki
- 70+7zpbBE8yZPVpF8PGRvm8CAhbdOwWOYpcP6pgI3SK8KE9PQ/djkOsSO
- 2oLd2UvEpUag4naSs67n/L3nkJujihAnLNZglQG73k0ym54PYtOsPlQr6 Q==;
-X-IronPort-AV: E=Sophos;i="5.93,337,1654531200"; d="scan'208";a="212510479"
+ bh=vZU/43lRY2chLbAeJzOxBBpvBmMQMwxjZ66GSqjz1/4=;
+ b=Gdtgsl4rmPztP0/+GM1NBvS3uRFcwjCBjpL0q9AmdpbUImx67yN/AUJV
+ 2c8R6lmnLJevjNe5EPw1XhbYl04o2YpRWweVZbxQsunCzyMbkLRFVRWIW
+ oebBgOfTyIXu1plwZXqjcNINuRYSWDLWjNPfYd7QGvJkReNvL6kR7DpME
+ IPw4RvrhPHMByX0DxZhnSN56uHuHy7DE65KAlrcSrUvfwgtQs7fe0wFQL
+ S9Teii+YeV3tkjI/mvgxm6+8ErY0UXfkr4bVnmmoxslBson4uBhp4Y1hf
+ xgkLmekV+uiq+S0ddp2JhPeICgpZDtk4mnGTMuBWY2W/WqJxamPLs6afY Q==;
+X-IronPort-AV: E=Sophos;i="5.93,337,1654531200"; d="scan'208";a="212510482"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Sep 2022 12:07:34 +0800
-IronPort-SDR: qi0TL8xBdYgcnWOPjragi3POUmIaXo7tLqivICmlmj240GqfxcgziH5TiyksoRt1A+ULNGiiM3
- MdQx9p0e173xLDjtW7dX1gXddnq28b1Y8VTLsgi+JBOEuxtFkUssymAXUPTSe9SOVTHznem2x1
- LVmYeZjPMI9b0Ac+lALViL5g3Jb4iVeqiW5lOTzMTxpxXpi75nmAGwtE/vFt5RvhpJnN/ifpX7
- o6kLornX0CUNiTY5hXwPo/dyCW1kuSQeseHJz5O0sSq8/Qh/WzqNWhuoFuo91/xhPCnVvjFg37
- ZC/bfoObIwPVvtO9HetOaOeI
+ by ob1.hgst.iphmx.com with ESMTP; 23 Sep 2022 12:07:36 +0800
+IronPort-SDR: Ytw1ckH8qcjD7+tyc4rOEV2z49l/9g9YJOULlha+lAIGwdpwdwVIcLEKVwWDZ/cfHL0NyQz4DU
+ ZjLHbz189BoDhjldZTvkG6F7rNFZwXstRstGHbcjmmCB89re8lmqg3MK5CcyD+8wQ3Igh4SeG4
+ ugX84heOD5ety/v2Le0X8qiBfsh2TZN7grEmLserglUaqEH3+H7eGq1NGa2KeQj1ST04I9PVTI
+ 4Wu39O7BtICs0Ly0itoL4mB/4HZbUTz2sOzKqYOoO4etRHieUnwCzjYoH5M4ibh/6fX8tv19NZ
+ 9J7FpJrQiDXVyOmCHMs1CB0y
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 22 Sep 2022 20:27:36 -0700
-IronPort-SDR: Lv9BLiLKDD0hY6xxvwRn3FOhaTQmVoaPK2p9GClZOLf+vXyRph/4olrFRsyfmOh28ShbVGhOXf
- YCa9eUwy+8p4z2P1sASCio2jmcGLYi2X9IYo8MIdCqj0c9Pb5jgyp2qCwOW/kUAAY9LTP0N5RD
- 4KcbEmyV1F8KIJo1gfZ8M7nvY/Oe2J53sHPYsmCDLT/fY/8L9YwMdBQqBrRpZtYS90Zr7Hhene
- mBdF26P/4eSJuGEshHgwqcDSS1KR3qoSUFIv7gu8D9+sns2qGaMICutibvf3POCbrYCsmn/dtE
- x/8=
+ 22 Sep 2022 20:27:39 -0700
+IronPort-SDR: Z9dFel/Csf9OWGuhyIGhJC5sWuXHSZi/YrRnbP6tClm00ChmZuEDVNdzC7+1mF80JW2lsY2r0g
+ 0s0yq9ygDXAhg6eXoodYqw5RKQcw+xHwFGkZR79xW9IiVArKaMrfhPPtX4DtTHdsz3tnENICjO
+ BNHX8G/qlhiw9KaWp8wIDXlGOj1xbChWQodg0wd/+VxHkVTtzQJzrQLHMeWbwqITARxJ0C++0l
+ w46Ip25TIPfAJfAiDueTekBiQ+SpkeiUmfMeD5tYE6fnh0w/MuvPCyFzgQF+0IRqY83VzbHwhI
+ tQg=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 22 Sep 2022 21:07:34 -0700
+ 22 Sep 2022 21:07:36 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MYdsK73JRz1RwqL
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 21:07:33 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MYdsN2NjYz1RvTp
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 21:07:36 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1663906053; x=1666498054; bh=rGwlR4H3pAHbNK6RHi
- zCRzWAmLwAdBJ0/NRbGNOIiKc=; b=THY/Q2VSWBQn6ej5USVcbKBG+QfWiqXjT5
- GtM4p1mZ2a/8TFbmXuMv2sOuIIODjmxe2xEMqAoYXtsVll9hpKIge1SSzMOp2XSP
- gjm1t2j1owbxmOQekIROC0M+zLXj1/O6tZydQ8d34ehEuXOyTZAVC89zXPLue+9b
- 5QKbDaO9fn3YT2704O/haCD04HIy2MaggVeKgx8s7QYi7F77TESBHl/QLc7O8hU5
- JQBQXj2+AA1HoUItvxtX9TOx1CRYE7QNHqveosbFgw+ckKeePjQX9TKFzWj+Iah/
- 2SsO4N1+zUXN2b+zQ+sHBs0fTML031+01y2hYWQsVkE4YxG3BYvg==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1663906056; x=1666498057; bh=vZU/43l
+ RY2chLbAeJzOxBBpvBmMQMwxjZ66GSqjz1/4=; b=cKfueAyXvm1D5N7YepF4tXQ
+ DVZbTZOiniDYQ85XktxhD0RJ+WhuXI02an6qalakkBy3tff/xsLq16EAAa5yFuEn
+ 6ALU0lgdLq4xJdd7XQ6Tzenlg8HjnHpxqu3U6wltvQIsnxuueCHGyhoiSzdSsL0v
+ PAdQy0hOJFYZxzS5zOjIp88Ap9Y8VeNFr7n9TW9oDjSZqTxkYtgZVHBHTnD1Zw6K
+ bg6Egawfe87Xqk61R8IKp8flslBdXIyD059fScVtEQccuJkVXPeXFg4IjRDCjPlf
+ aPUMaC5wg1jVTeUpvVzwkb+PYnyUT+bhsrlJ4CLTFmxrinZGa1wFmpZl8WGQJCA=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id HI2eTicwN9uT for <qemu-devel@nongnu.org>;
- Thu, 22 Sep 2022 21:07:33 -0700 (PDT)
+ port 10026) with ESMTP id pOlSn0zcz5JY for <qemu-devel@nongnu.org>;
+ Thu, 22 Sep 2022 21:07:36 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.167.114])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MYdsJ2rRPz1RvLy;
- Thu, 22 Sep 2022 21:07:31 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MYdsL1cmPz1RvLy;
+ Thu, 22 Sep 2022 21:07:33 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 09/12] hw/riscv: opentitan: Fixup resetvec
-Date: Fri, 23 Sep 2022 14:07:01 +1000
-Message-Id: <20220923040704.428285-10-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 10/12] hw/riscv: opentitan: Expose the resetvec as a SoC
+ property
+Date: Fri, 23 Sep 2022 14:07:02 +1000
+Message-Id: <20220923040704.428285-11-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220923040704.428285-1-alistair.francis@opensource.wdc.com>
 References: <20220923040704.428285-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.154.45;
  envelope-from=prvs=2580c328f=alistair.francis@opensource.wdc.com;
@@ -117,20 +120,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-The resetvec for the OpenTitan machine ended up being set to an out of
-date value, so let's fix that and bump it to the correct start address
-(after the boot ROM)
+On the OpenTitan hardware the resetvec is fixed at the start of ROM. In
+QEMU we don't run the ROM code and instead just jump to the next stage.
+This means we need to be a little more flexible about what the resetvec
+is.
 
-Fixes: bf8803c64d75 "hw/riscv: opentitan: bump opentitan version"
+This patch allows us to set the resetvec from the command line with
+something like this:
+    -global driver=3Driscv.lowrisc.ibex.soc,property=3Dresetvec,value=3D0=
+x20000400
+
+This way as the next stage changes we can update the resetvec.
+
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220914101108.82571-3-alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Message-Id: <20220914101108.82571-4-alistair.francis@wdc.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/opentitan.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/riscv/opentitan.h | 2 ++
+ hw/riscv/opentitan.c         | 8 +++++++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
+diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+index 26d960f288..6665cd5794 100644
+--- a/include/hw/riscv/opentitan.h
++++ b/include/hw/riscv/opentitan.h
+@@ -46,6 +46,8 @@ struct LowRISCIbexSoCState {
+     IbexTimerState timer;
+     IbexSPIHostState spi_host[OPENTITAN_NUM_SPI_HOSTS];
+=20
++    uint32_t resetvec;
++
+     MemoryRegion flash_mem;
+     MemoryRegion rom;
+     MemoryRegion flash_alias;
 diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index af13dbe3b1..45c92c9bbc 100644
+index 45c92c9bbc..be7ff1eea0 100644
 --- a/hw/riscv/opentitan.c
 +++ b/hw/riscv/opentitan.c
 @@ -142,7 +142,7 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
@@ -138,11 +163,31 @@ _soc, Error **errp)
                              &error_abort);
      object_property_set_int(OBJECT(&s->cpus), "num-harts", ms->smp.cpus,
                              &error_abort);
--    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x20000490,
-+    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x20000400,
+-    object_property_set_int(OBJECT(&s->cpus), "resetvec", 0x20000400,
++    object_property_set_int(OBJECT(&s->cpus), "resetvec", s->resetvec,
                              &error_abort);
      sysbus_realize(SYS_BUS_DEVICE(&s->cpus), &error_fatal);
 =20
+@@ -297,10 +297,16 @@ static void lowrisc_ibex_soc_realize(DeviceState *d=
+ev_soc, Error **errp)
+         memmap[IBEX_DEV_PERI].base, memmap[IBEX_DEV_PERI].size);
+ }
+=20
++static Property lowrisc_ibex_soc_props[] =3D {
++    DEFINE_PROP_UINT32("resetvec", LowRISCIbexSoCState, resetvec, 0x2000=
+0400),
++    DEFINE_PROP_END_OF_LIST()
++};
++
+ static void lowrisc_ibex_soc_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(oc);
+=20
++    device_class_set_props(dc, lowrisc_ibex_soc_props);
+     dc->realize =3D lowrisc_ibex_soc_realize;
+     /* Reason: Uses serial_hds in realize function, thus can't be used t=
+wice */
+     dc->user_creatable =3D false;
 --=20
 2.37.3
 
