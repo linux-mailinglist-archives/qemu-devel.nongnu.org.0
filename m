@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3954C5E8021
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 18:46:38 +0200 (CEST)
-Received: from localhost ([::1]:48768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB6A5E8063
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 19:09:05 +0200 (CEST)
+Received: from localhost ([::1]:55468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obloy-0001fj-OV
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 12:46:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51126)
+	id 1obmAi-0006io-B6
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 13:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oblYf-0005n6-1P
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 12:29:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48185)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Y8ci=Z2=zx2c4.com=Jason@kernel.org>)
+ id 1obm8g-0004KQ-Mj
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:07:00 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:55708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oblYa-0000nd-IG
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 12:29:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663950577;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=w+ECCMYmeFrCUa8e9O0tlrIDYq73ueRYyJYgxpDzdBE=;
- b=jDFj44af/M9M48Tex+U6efSI0TqGwIy0bNGbeuNclZiucUQhn/xgWiZopeeD+TQkdJSUgo
- zMOwX6jF0Kzxrj2hCW8tsyyeTVbp1hMjJI2xZYnWiEhyWxIlMrPo7ebChGXchZSwF8vge6
- ZnhkohyKUlN+qoOXDglGpnE8l1phQs4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-398-p8cidLZYMQu54NS8zgiXQA-1; Fri, 23 Sep 2022 12:29:26 -0400
-X-MC-Unique: p8cidLZYMQu54NS8zgiXQA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Y8ci=Z2=zx2c4.com=Jason@kernel.org>)
+ id 1obm8a-0001Pn-1S
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:06:58 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86D90101A528;
- Fri, 23 Sep 2022 16:29:26 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C19140C2064;
- Fri, 23 Sep 2022 16:29:24 +0000 (UTC)
-Date: Fri, 23 Sep 2022 18:29:23 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 2/3] module: add Error arguments to module_load_one
- and module_load_qom_one
-Message-ID: <Yy3e45R4qcLKRh0q@redhat.com>
-References: <20220908145308.30282-3-cfontana@suse.de>
- <062faaa8-064c-f68a-e316-aaacb80efa5a@linaro.org>
- <3c6cb3ee-2470-654f-c2c4-3449861f9781@suse.de>
- <8682ad9f-aea8-0419-5ff6-c14493e4e980@suse.de>
- <YynvR49aIK2AzbJ3@redhat.com>
- <eda3f2ce-a828-8c84-60bd-684844eb25b6@suse.de>
- <Yyr72+YyYrhG2zTo@redhat.com>
- <b37405a8-2315-5390-1ae6-5f1cd7ef0001@suse.de>
- <Yy3F2JkSeB30jqfh@redhat.com>
- <e80d239b-6b57-f699-4f4d-8cadba941c3e@suse.de>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9115F61255;
+ Fri, 23 Sep 2022 17:06:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70768C433D6;
+ Fri, 23 Sep 2022 17:06:46 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="kaVVDv6C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1663952804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HZ8Xuism+ZD9RfR4qK53DXRIZW6DQs7QWF1+hirJEOQ=;
+ b=kaVVDv6C/FMWfhDOnPYoj+2es8iB9Rut0l4ljq0B+L+YpYyz+lWybmGge7Hyd3kuV4rPAm
+ V0FpGdPFo1spwp5CpXSj+0GPnERiZIkek6I3AwBe8o+9uvekSzVnTrfwgE1adOnsyI1nJx
+ 4Blsti3PjZ92wFWhwz2iGVVn7ZN8kbI=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id bbc662ab
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Fri, 23 Sep 2022 17:06:44 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: linux-m68k@lists.linux-m68k.org,
+	qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH qemu] m68k: rework BI_VIRT_RNG_SEED as BI_RNG_SEED
+Date: Fri, 23 Sep 2022 19:06:37 +0200
+Message-Id: <20220923170637.4099736-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e80d239b-6b57-f699-4f4d-8cadba941c3e@suse.de>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=Y8ci=Z2=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,178 +79,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.09.2022 um 16:46 hat Claudio Fontana geschrieben:
-> On 9/23/22 16:42, Kevin Wolf wrote:
-> > Am 23.09.2022 um 16:10 hat Claudio Fontana geschrieben:
-> >> On 9/21/22 13:56, Kevin Wolf wrote:
-> >>> Am 21.09.2022 um 09:50 hat Claudio Fontana geschrieben:
-> >>>> On 9/20/22 18:50, Kevin Wolf wrote:
-> >>>>> Am 08.09.2022 um 19:36 hat Claudio Fontana geschrieben:
-> >>>>>> On 9/8/22 19:10, Claudio Fontana wrote:
-> >>>>>>> On 9/8/22 18:03, Richard Henderson wrote:
-> >>>>>>>> On 9/8/22 15:53, Claudio Fontana wrote:
-> >>>>>>>>> @@ -446,8 +447,13 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
-> >>>>>>>>>           return -EINVAL;
-> >>>>>>>>>       }
-> >>>>>>>>>   
-> >>>>>>>>> -    block_module_load_one("dmg-bz2");
-> >>>>>>>>> -    block_module_load_one("dmg-lzfse");
-> >>>>>>>>> +    if (!block_module_load_one("dmg-bz2", &local_err) && local_err) {
-> >>>>>>>>> +        error_report_err(local_err);
-> >>>>>>>>> +    }
-> >>>>>>>>> +    local_err = NULL;
-> >>>>>>>>> +    if (!block_module_load_one("dmg-lzfse", &local_err) && local_err) {
-> >>>>>>>>> +        error_report_err(local_err);
-> >>>>>>>>> +    }
-> >>>>>>>>>   
-> >>>>>>>>>       s->n_chunks = 0;
-> >>>>>>>>>       s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
-> >>>>>>>>
-> >>>>>>>> I wonder if these shouldn't fail hard if the modules don't exist?
-> >>>>>>>> Or at least pass back the error.
-> >>>>>>>>
-> >>>>>>>> Kevin?
-> >>>>>>
-> >>>>>> is "dmg-bz" _required_ for dmg open to work? I suspect if the dmg
-> >>>>>> image is not compressed, "dmg" can function even if the extra dmg-bz
-> >>>>>> module is not loaded right?
-> >>>>>
-> >>>>> Indeed. The code seems to consider that the modules may not be present.
-> >>>>> The behaviour in these cases is questionable (it seems to silently leave
-> >>>>> the buffers as they are and return success)
-> >>>
-> >>> I think I misunderstood the code here actually. dmg_read_mish_block()
-> >>> skips chunks of unknown type, so later trying to find them fails and
-> >>> dmg_co_preadv() returns -EIO. Which is a reasonable return value for
-> >>> this.
-> >>>
-> >>>>> , but the modules are clearly
-> >>>>> optional.
-> >>>>>
-> >>>>>> I'd suspect we should then do:
-> >>>>>>
-> >>>>>> if (!block_module_load_one("dmg-bz2", &local_err)) {
-> >>>>>>   if (local_err) {
-> >>>>>>      error_report_err(local_err);
-> >>>>>>      return -EINVAL;
-> >>>>>>   }
-> >>>>>>   warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks */
-> >>>>>> }
-> >>>>>>
-> >>>>>> and same for dmg-lzfse...?
-> >>>>>
-> >>>>> Actually, I think during initialisation, we should just pass NULL as
-> >>>>> errp and ignore any errors.
-> >>>>
-> >>>> Hmm really? I'd think that if there is an actual error loading the
-> >>>> module (module is installed, but the loading itself fails due to
-> >>>> broken module, wrong permissions, I/O errors etc) we would want to
-> >>>> report that fact as it happens?
-> >>>
-> >>> Can we distinguish the two error cases?
-> >>>
-> >>> Oooh... Reading the code again carefully, are you returning false
-> >>> without setting errp if the module just couldn't be found? This is a
-> >>> surprising interface.
-> >>>
-> >>> Yes, I guess then your proposed code is fine (modulo moving
-> >>> warn_report() somewhere else so that it doesn't complain when the image
-> >>> doesn't even contain compressed chunks).
-> >>>
-> >>>>> When a request would access a block that can't be uncompressed because
-> >>>>> of the missing module, that's where we can have a warn_report_once() and
-> >>>>> arguably should fail the I/O request.
-> >>>>>
-> >>>>> Kevin
-> >>>>>
-> >>>>
-> >>>> That would mean, moving the
-> >>>>
-> >>>> warn_report("dmg-bz2 is not present, dmg will skip bz2-compressed chunks")
-> >>>>
-> >>>> to the uncompression code and change it to a warn_report_once() right?
-> >>>
-> >>> Yeah, though I think this doesn't actually work because we never even
-> >>> stored the metadata for chunks of unknown type (see above), so we never
-> >>> reach the uncompression code.
-> >>>
-> >>> What misled me initially is this code in dmg_read_chunk():
-> >>>
-> >>>         case UDBZ: /* bzip2 compressed */
-> >>>             if (!dmg_uncompress_bz2) {
-> >>>                 break;
-> >>>             }
-> >>>
-> >>> I believe this is dead code, it could actually be an assertion. So
-> >>> if I'm not missing anything, adding the warning there would be useless.
-> >>>
-> >>> The other option is moving it into dmg_is_known_block_type() or its
-> >>> caller dmg_read_mish_block(), then we would detect it during open, which
-> >>> is probably nicer anyway.
-> >>>
-> >>> Kevin
-> >>>
-> >>>
-> >>
-> >> Hi Kevin, I got a bit lost on whether we have some agreement on where
-> >> if anywhere to move the check/warning about missing decompression
-> >> submodules.
-> >>
-> >> If that's ok I'd post a V5, and we can rediscuss from the new starting
-> >> point?
-> > 
-> > Sure, feel free, though I don't think the code will otherwise change for
-> > dmg, so we could as well continue here.
-> > 
-> > My conclusion was that only dmg_read_mish_block() or something called by
-> > it can know whether compressed blocks exist in the image when the
-> > modules aren't present. So if we want to make the warning conditional on
-> > that (and my understanding is correct), this is where a
-> > warn_report_once() would have to live.
-> > 
-> > Kevin
-> > 
-> 
-> I took a look, but I feel a bit too ignorant of the code there, maybe you could move the warning as a patch to the right place after the series?
-> 
-> Or give me the extra commit needed to move into the right place?
+Following a change on the kernel side (see link), pass BI_RNG_SEED
+instead of BI_VIRT_RNG_SEED. This should have no impact on
+compatibility, as there will simply be no effect if it's an old kernel,
+which is how things have always been. We then use this as an opportunity
+to add this to q800, since now we can, which is a nice improvement.
 
-Only built and tested with an uncompressed image, so this could use
-testing with an actual compressed dmg image and the module present or
-missing, but something like the following should do the trick.
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Link: https://lore.kernel.org/lkml/20220923170340.4099226-3-Jason@zx2c4.com/
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ hw/m68k/q800.c                                    | 7 +++++++
+ hw/m68k/virt.c                                    | 2 +-
+ include/standard-headers/asm-m68k/bootinfo-virt.h | 4 +++-
+ include/standard-headers/asm-m68k/bootinfo.h      | 8 +++++++-
+ 4 files changed, 18 insertions(+), 3 deletions(-)
 
-Kevin
-
-
-diff --git a/block/dmg.c b/block/dmg.c
-index 98db18d82a..630cde3416 100644
---- a/block/dmg.c
-+++ b/block/dmg.c
-@@ -254,6 +254,25 @@ static int dmg_read_mish_block(BDRVDMGState *s, DmgHeaderState *ds,
-     for (i = s->n_chunks; i < s->n_chunks + chunk_count; i++) {
-         s->types[i] = buff_read_uint32(buffer, offset);
-         if (!dmg_is_known_block_type(s->types[i])) {
-+            switch (s->types[i]) {
-+            case UDBZ:
-+                warn_report_once("dmg-bzip2 module is missing, accessing bzip2 "
-+                                 "compressed blocks will result in I/O errors");
-+                break;
-+            case ULFO:
-+                warn_report_once("dmg-lzfse module is missing, accessing lzfse "
-+                                 "compressed blocks will result in I/O errors");
-+                break;
-+            case UDCM:
-+            case UDLE:
-+                /* Comments and last entry can be ignored without problems */
-+                break;
-+            default:
-+                warn_report_once("Image contains chunks of unknown type %x, "
-+                                 "accessing them will result in I/O errors",
-+                                 s->types[i]);
-+                break;
-+            }
-             chunk_count--;
-             i--;
-             offset += 40;
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 101ab0f803..9106382066 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -23,6 +23,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "qemu/datadir.h"
++#include "qemu/guest-random.h"
+ #include "sysemu/sysemu.h"
+ #include "cpu.h"
+ #include "hw/boards.h"
+@@ -385,6 +386,7 @@ static void q800_init(MachineState *machine)
+     NubusBus *nubus;
+     DeviceState *glue;
+     DriveInfo *dinfo;
++    uint8_t rng_seed[32];
+ 
+     linux_boot = (kernel_filename != NULL);
+ 
+@@ -634,6 +636,11 @@ static void q800_init(MachineState *machine)
+                         kernel_cmdline);
+         }
+ 
++	/* Pass seed to RNG. */
++	qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++	BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
++		     rng_seed, sizeof(rng_seed));
++
+         /* load initrd */
+         if (initrd_filename) {
+             initrd_size = get_image_size(initrd_filename);
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index 2f3ffc0de6..7180325e54 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -250,7 +250,7 @@ static void virt_init(MachineState *machine)
+ 
+ 	/* Pass seed to RNG. */
+ 	qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+-	BOOTINFODATA(cs->as, parameters_base, BI_VIRT_RNG_SEED,
++	BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
+ 		     rng_seed, sizeof(rng_seed));
+ 
+         /* load initrd */
+diff --git a/include/standard-headers/asm-m68k/bootinfo-virt.h b/include/standard-headers/asm-m68k/bootinfo-virt.h
+index 1b1ffd4705..36697a52b8 100644
+--- a/include/standard-headers/asm-m68k/bootinfo-virt.h
++++ b/include/standard-headers/asm-m68k/bootinfo-virt.h
+@@ -12,7 +12,9 @@
+ #define BI_VIRT_GF_TTY_BASE	0x8003
+ #define BI_VIRT_VIRTIO_BASE	0x8004
+ #define BI_VIRT_CTRL_BASE	0x8005
+-#define BI_VIRT_RNG_SEED	0x8006
++
++/* No longer used -- replaced with BI_RNG_SEED -- but don't reuse this index:
++ * 	#define BI_VIRT_RNG_SEED	0x8006 */
+ 
+ #define VIRT_BOOTI_VERSION	MK_BI_VERSION(2, 0)
+ 
+diff --git a/include/standard-headers/asm-m68k/bootinfo.h b/include/standard-headers/asm-m68k/bootinfo.h
+index 7b790e8ec8..68a91cdfc5 100644
+--- a/include/standard-headers/asm-m68k/bootinfo.h
++++ b/include/standard-headers/asm-m68k/bootinfo.h
+@@ -57,7 +57,13 @@ struct mem_info {
+ 					/* (struct mem_info) */
+ #define BI_COMMAND_LINE		0x0007	/* kernel command line parameters */
+ 					/* (string) */
+-
++/*
++ * A random seed used to initialize the RNG. Record format:
++ *
++ *   - length       [ 2 bytes, 16-bit big endian ]
++ *   - seed data    [ `length` bytes, padded to preserve 2-byte alignment ]
++ */
++#define BI_RNG_SEED		0x0008
+ 
+     /*
+      *  Linux/m68k Architectures (BI_MACHTYPE)
+-- 
+2.37.3
 
 
