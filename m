@@ -2,65 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680265E74E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 09:34:03 +0200 (CEST)
-Received: from localhost ([::1]:44690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3055E7541
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 09:54:55 +0200 (CEST)
+Received: from localhost ([::1]:48362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obdCE-0001DM-Dg
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 03:34:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34298)
+	id 1obdWQ-0003kA-IG
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 03:54:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1obd5C-0004Nf-Az
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:26:48 -0400
-Received: from mga02.intel.com ([134.134.136.20]:10884)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obdP8-0000FV-KG
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:47:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1obd5A-0000Im-6V
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:26:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1663918004; x=1695454004;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=oEgUJNBfIo70UxSyxdVVvTcjz5zSLYBTt/Z3hcPx8OQ=;
- b=LsJgEK/YdP9+6SKJu+YtdoFP4ZsKT9Y8ToYD7LQikoX/A70EDUChxq+7
- QSJjlJ7hi5RlfQb65qQA8nM1dqwTGFa8sK+gTUYwSNQBW71K6T0XVZcj/
- i9kreqK7tpbXUtB/ygOdqqWMudEkDBUxLqRnhv5Ehm9hCupaUqYWtL9WF
- ewwXYGAFlOUtNTMZgm6Mil0/pPOr7PrZpOCq79l2ihwCbTgnOO73mrQo3
- e2C5pMYCZP4bOMuSaUyI3USG02PpJ5RXIDfY+wZYBB/dH0o/5GD7tX621
- swNSzqTaQQMY5mwWOWN3G+llRyvsgfOlyc2DBmNZ1DJ6eivf7cJEBYoGP A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10478"; a="287646933"
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="287646933"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 00:26:42 -0700
-X-IronPort-AV: E=Sophos;i="5.93,337,1654585200"; d="scan'208";a="620121678"
-Received: from chenyi-pc.sh.intel.com ([10.239.159.53])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2022 00:26:40 -0700
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Chenyi Qiang <chenyi.qiang@intel.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-Subject: [PATCH v7 2/2] i386: Add notify VM exit support
-Date: Fri, 23 Sep 2022 15:33:33 +0800
-Message-Id: <20220923073333.23381-3-chenyi.qiang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220923073333.23381-1-chenyi.qiang@intel.com>
-References: <20220923073333.23381-1-chenyi.qiang@intel.com>
-Received-SPF: pass client-ip=134.134.136.20;
- envelope-from=chenyi.qiang@intel.com; helo=mga02.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obdP4-0007Kn-8h
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:47:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663919236;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rMAMpIiWQgqqinSvZ0H+H8YfhDBhHvehGAK0k2Z+eBM=;
+ b=NSkkqF37+cc9Lno4n3BmzdT2L+n1Hg6QtdVcTfvTtK3KqSbby+6xuiE++mTepA5jLgvLhj
+ Cv5pXDX68Mm7LZ0oNk1BJzHAyTPj2yjNy7u3OerQDMAQjPhKAPgdjJAlhMD5DZZjDo9wEZ
+ d8pBzI3e7GX7bdqSOkiHK9pWgdq7sK4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-591-xLX6TTLEOzq9aBvVqTrpnQ-1; Fri, 23 Sep 2022 03:47:04 -0400
+X-MC-Unique: xLX6TTLEOzq9aBvVqTrpnQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p36-20020a05600c1da400b003b4faefa2b9so3363623wms.6
+ for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 00:47:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=rMAMpIiWQgqqinSvZ0H+H8YfhDBhHvehGAK0k2Z+eBM=;
+ b=Beu+xT+NvVMKfkygUTdzmLaaICdy56MRcYK8oqOzditraHQY4JYOrxt0Xl1wguAL6h
+ vFYpN+sOshX3DMcqm0nRd13Th18c4+VAyNApA0Lk9JJ5I9EjX9Xs6qkubmRI9QkjH0vZ
+ 5bI2OkLRD8Ap6TggbtKZZhSjO2E4SypB7flwm3I2oKrGcV5kb766OKXnuDuGI/0j04/L
+ ct7tPXyXilXFdEaOawbIB4DPWsYXWbaSOMVTAJ8ru91VWlNT1+WQhJKbSPzDCP2taoLY
+ 2ZaHjYmF4qIqDnGx2qHNG9ZBiKqpHFKpH3MKt9hqBkPk0G/WeeD7aQ7lmkkENZNi+2yG
+ HWMg==
+X-Gm-Message-State: ACrzQf0dM4O8aJSjqJOoQRrTXU7OhDruTmYfMm1b20XmBKA6QsW2Bk+f
+ BZABVO3aCQ/pPEPK4Nzih5G7HjzAS3G44k3AMqZSLx9tF9INr0er+8XQavtldw0T6z5XUxf4Iyq
+ WkyBtZBNC4qwC6C4=
+X-Received: by 2002:a05:600c:1c22:b0:3b4:b2bc:15e4 with SMTP id
+ j34-20020a05600c1c2200b003b4b2bc15e4mr4995086wms.69.1663919223627; 
+ Fri, 23 Sep 2022 00:47:03 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7vs6NuPMQnXECliuI28LpyFF05+m8fSFiePSVC+75eppfjoBD430IGwzW5QO5T93BQ1WqIpQ==
+X-Received: by 2002:a05:600c:1c22:b0:3b4:b2bc:15e4 with SMTP id
+ j34-20020a05600c1c2200b003b4b2bc15e4mr4995063wms.69.1663919223281; 
+ Fri, 23 Sep 2022 00:47:03 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-179-37.web.vodafone.de.
+ [109.43.179.37]) by smtp.gmail.com with ESMTPSA id
+ bj1-20020a0560001e0100b0022b0214cfa6sm8267365wrb.45.2022.09.23.00.47.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Sep 2022 00:47:02 -0700 (PDT)
+Message-ID: <6a52db60-0ec8-ca7c-795a-b62743b1383f@redhat.com>
+Date: Fri, 23 Sep 2022 09:47:01 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+References: <YyyxrNp+5XrmLi1Y@fedora> <Yy1gB1KB3YSIUcoC@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: Inscrutable CI jobs (avocado & Travis s390 check-tcg)
+In-Reply-To: <Yy1gB1KB3YSIUcoC@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.893, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,231 +106,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are cases that malicious virtual machine can cause CPU stuck (due
-to event windows don't open up), e.g., infinite loop in microcode when
-nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
-IRQ) can be delivered. It leads the CPU to be unavailable to host or
-other VMs. Notify VM exit is introduced to mitigate such kind of
-attacks, which will generate a VM exit if no event window occurs in VM
-non-root mode for a specified amount of time (notify window).
+On 23/09/2022 09.28, Daniel P. Berrangé wrote:
+> On Thu, Sep 22, 2022 at 03:04:12PM -0400, Stefan Hajnoczi wrote:
+>> QEMU's avocado and Travis s390x check-tcg CI jobs fail often and I don't
+>> know why. I think it's due to timeouts but maybe there is something
+>> buried in the logs that I missed.
+>>
+>> I waste time skimming through logs when merging qemu.git pull requests
+>> and electricity is wasted on tests that don't produce useful pass/fail
+>> output.
+>>
+>> Here are two recent examples:
+>> https://gitlab.com/qemu-project/qemu/-/jobs/3070754718
+>> https://app.travis-ci.com/gitlab/qemu-project/qemu/jobs/583629583
+>>
+>> If there are real test failures then the test output needs to be
+>> improved so people can identify failures.
+>>
+>> If the tests are timing out then they need to be split up and/or reduced
+>> in duration. BTW, if it's a timeout, why are we using an internal
+>> timeout instead of letting CI mark the job as timed out?
+>>
+>> Any other ideas for improving these CI jobs?
+> 
+> The avocado job there does show the errors, but the summary at the
+> end leaves something to be desired. At first glance it looked like
+> everything passed because it says "ERROR 0" and that's what caught
+> my eye. Took a long time to notice the 'INTERRUPT 5' bit is actually
+> just an error state too.  I don't understand why it has to have so
+> many different ways of saying the same thing:
+> 
+>    RESULTS    : PASS 14 | ERROR 0 | FAIL 0 | SKIP 37 | WARN 0 | INTERRUPT 5 | CANCEL 136
+> 
+> 
+>    "ERROR", "FAIL" and "INTERRUPT" are all just the same thing
+> 
+>    "SKIP" and "CANCEL" are just the same thing
+> 
+> I'm sure there was some reason for these different terms, but IMHO they
+> are actively unhelpful.
+> 
+> For example I see no justiable reason for the choice of SKIP vs CANCEL
+> in these two messages:
+> 
+>   (173/192) tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_pre_launch_set_up:  SKIP: sudo -n required, but "sudo -n true" failed: [Errno 2] No such file or directory: 'sudo'
+> 
+>   (183/192) tests/avocado/x86_cpu_model_versions.py:X86CPUModelAliases.test_4_1_alias:  CANCEL: No QEMU binary defined or found in the build tree (0.00 s)
+> 
+> It would be clearer to understand the summary as:
+> 
+>   RESULTS: PASS 14 | ERROR 5 | SKIP 173 | WARN 0
+> 
+> I'd also like to see it repeat the error messages for the failed
+> tests at the end, so you don't have to search back up through the
+> huge log to find them.
+> 
+> 
+> On the TCG tests we see
+> 
+> imeout --foreground 90  /home/travis/build/qemu-project/qemu/build/qemu-s390x  noexec >  noexec.out
+> 
+> make[1]: *** [../Makefile.target:158: run-noexec] Error 1
+> 
+> make[1]: Leaving directory '/home/travis/build/qemu-project/qemu/build/tests/tcg/s390x-linux-user'
+> 
+> make: *** [/home/travis/build/qemu-project/qemu/tests/Makefile.include:60: run-tcg-tests-s390x-linux-user] Error 2
+> 
+> 
+> I presume that indicates the 'noexec' test failed, but we have zero
+> info.
 
-A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
-so that the user can query the capability and set the expected notify
-window when creating VMs. The format of the argument when enabling this
-capability is as follows:
-  Bit 63:32 - notify window specified in qemu command
-  Bit 31:0  - some flags (e.g. KVM_X86_NOTIFY_VMEXIT_ENABLED is set to
-              enable the feature.)
+I think this is the bug that will be fixed by Ilya's patch here:
 
-Because there are some concerns, e.g. a notify VM exit may happen with
-VM_CONTEXT_INVALID set in exit qualification (no cases are anticipated
-that would set this bit), which means VM context is corrupted. To avoid
-the false positive and a well-behaved guest gets killed, make this
-feature disabled by default. Users can enable the feature by a new
-machine property:
-    qemu -machine notify_vmexit=on,notify_window=0 ...
+  https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg02756.html
 
-Note that notify_window is only valid when notify_vmexit is on. The valid
-range of notify_window is non-negative. It is even safe to set it to zero
-since there's an internal hardware threshold to be added to ensure no false
-positive.
+But I agree, it is unfortunate that the output is not available. Looking at 
+this on my s390x box:
 
-A new KVM exit reason KVM_EXIT_NOTIFY is defined for notify VM exit. If
-it happens with VM_INVALID_CONTEXT, hypervisor exits to user space to
-inform the fatal case. Then user space can inject a SHUTDOWN event to
-the target vcpu. This is implemented by injecting a sythesized triple
-fault event.
+$ cat tests/tcg/s390x-linux-user/noexec.out
+[ RUN      ] fallthrough
+[       OK ]
+[ RUN      ] jump
+[  FAILED  ] unexpected SEGV
 
-Acked-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
----
- hw/i386/x86.c         | 45 +++++++++++++++++++++++++++++++++++++++++++
- include/hw/i386/x86.h |  5 +++++
- qemu-options.hx       | 10 +++++++++-
- target/i386/kvm/kvm.c | 34 ++++++++++++++++++++++++++++++++
- 4 files changed, 93 insertions(+), 1 deletion(-)
+so there is an indication of what's going wrong in there indeed.
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 050eedc0c8..1eccbd3deb 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1379,6 +1379,37 @@ static void machine_set_sgx_epc(Object *obj, Visitor *v, const char *name,
-     qapi_free_SgxEPCList(list);
- }
- 
-+static bool x86_machine_get_notify_vmexit(Object *obj, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+
-+    return x86ms->notify_vmexit;
-+}
-+
-+static void x86_machine_set_notify_vmexit(Object *obj, bool value, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+
-+    x86ms->notify_vmexit = value;
-+}
-+
-+static void x86_machine_get_notify_window(Object *obj, Visitor *v,
-+                                const char *name, void *opaque, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+    uint32_t notify_window = x86ms->notify_window;
-+
-+    visit_type_uint32(v, name, &notify_window, errp);
-+}
-+
-+static void x86_machine_set_notify_window(Object *obj, Visitor *v,
-+                               const char *name, void *opaque, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+
-+    visit_type_uint32(v, name, &x86ms->notify_window, errp);
-+}
-+
- static void x86_machine_initfn(Object *obj)
- {
-     X86MachineState *x86ms = X86_MACHINE(obj);
-@@ -1392,6 +1423,8 @@ static void x86_machine_initfn(Object *obj)
-     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-     x86ms->bus_lock_ratelimit = 0;
-     x86ms->above_4g_mem_start = 4 * GiB;
-+    x86ms->notify_vmexit = false;
-+    x86ms->notify_window = 0;
- }
- 
- static void x86_machine_class_init(ObjectClass *oc, void *data)
-@@ -1461,6 +1494,18 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, "sgx-epc",
-         "SGX EPC device");
-+
-+    object_class_property_add(oc, X86_MACHINE_NOTIFY_WINDOW, "uint32_t",
-+                              x86_machine_get_notify_window,
-+                              x86_machine_set_notify_window, NULL, NULL);
-+    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_WINDOW,
-+            "Set the notify window required by notify VM exit");
-+
-+    object_class_property_add_bool(oc, X86_MACHINE_NOTIFY_VMEXIT,
-+                                   x86_machine_get_notify_vmexit,
-+                                   x86_machine_set_notify_vmexit);
-+    object_class_property_set_description(oc, X86_MACHINE_NOTIFY_VMEXIT,
-+            "Enable notify VM exit");
- }
- 
- static const TypeInfo x86_machine_info = {
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 62fa5774f8..5707329fa7 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -85,6 +85,9 @@ struct X86MachineState {
-      * which means no limitation on the guest's bus locks.
-      */
-     uint64_t bus_lock_ratelimit;
-+
-+    bool notify_vmexit;
-+    uint32_t notify_window;
- };
- 
- #define X86_MACHINE_SMM              "smm"
-@@ -94,6 +97,8 @@ struct X86MachineState {
- #define X86_MACHINE_OEM_ID           "x-oem-id"
- #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
- #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
-+#define X86_MACHINE_NOTIFY_VMEXIT     "notify-vmexit"
-+#define X86_MACHINE_NOTIFY_WINDOW     "notify-window"
- 
- #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
- OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
-diff --git a/qemu-options.hx b/qemu-options.hx
-index d8b5ce5b43..1fa0fd8f1a 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -37,7 +37,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
-     "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
-     "                hmat=on|off controls ACPI HMAT support (default=off)\n"
-     "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
--    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
-+    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
-+    "                notify_vmexit=on|off,notify_window=n controls notify VM exit support (default=off) and specifies the notify window size (default=0)\n",
-     QEMU_ARCH_ALL)
- SRST
- ``-machine [type=]name[,prop=value[,...]]``
-@@ -157,6 +158,13 @@ SRST
-         ::
- 
-             -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
-+
-+    ``notify_vmexit=on|off,notify_window=n``
-+        Enables or disables Notify VM exit support on x86 host and specify
-+        the corresponding notify window to trigger the VM exit if enabled.
-+        This feature can mitigate the CPU stuck issue due to event windows
-+        don't open up for a specified of time (notify window).
-+        The default is off.
- ERST
- 
- DEF("M", HAS_ARG, QEMU_OPTION_M,
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 3838827134..dd2d33f994 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -2597,6 +2597,21 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-             ratelimit_set_speed(&bus_lock_ratelimit_ctrl,
-                                 x86ms->bus_lock_ratelimit, BUS_LOCK_SLICE_TIME);
-         }
-+
-+        if (x86ms->notify_vmexit &&
-+            kvm_check_extension(s, KVM_CAP_X86_NOTIFY_VMEXIT)) {
-+            uint64_t notify_window_flags =
-+                ((uint64_t)x86ms->notify_window << 32) |
-+                KVM_X86_NOTIFY_VMEXIT_ENABLED |
-+                KVM_X86_NOTIFY_VMEXIT_USER;
-+            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_NOTIFY_VMEXIT, 0,
-+                                    notify_window_flags);
-+            if (ret < 0) {
-+                error_report("kvm: Failed to enable notify vmexit cap: %s",
-+                             strerror(-ret));
-+                return ret;
-+            }
-+        }
-     }
- 
-     return 0;
-@@ -5141,6 +5156,8 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-     X86CPU *cpu = X86_CPU(cs);
-     uint64_t code;
-     int ret;
-+    struct kvm_vcpu_events events = {};
-+    bool ctx_invalid;
- 
-     switch (run->exit_reason) {
-     case KVM_EXIT_HLT:
-@@ -5196,6 +5213,23 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-         /* already handled in kvm_arch_post_run */
-         ret = 0;
-         break;
-+    case KVM_EXIT_NOTIFY:
-+        ctx_invalid = !!(run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID);
-+        ret = 0;
-+        warn_report_once("KVM: encounter a notify exit with %svalid context in"
-+                         " guest. It means there can be possible misbehaves in"
-+                         " guest, please have a look.",
-+                         ctx_invalid ? "in" : "");
-+        if (ctx_invalid) {
-+            if (has_triple_fault_event) {
-+                events.flags |= KVM_VCPUEVENT_VALID_TRIPLE_FAULT;
-+                events.triple_fault.pending = true;
-+                ret = kvm_vcpu_ioctl(cs, KVM_SET_VCPU_EVENTS, &events);
-+            } else {
-+                ret = -1;
-+            }
-+        }
-+        break;
-     default:
-         fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
-         ret = -1;
--- 
-2.17.1
+Alex, would it be possible to change the tcg test harness to dump the .out 
+file of failing tests?
+
+  Thomas
 
 
