@@ -2,87 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C759B5E82E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 22:06:36 +0200 (CEST)
-Received: from localhost ([::1]:58368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 648155E8512
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 23:43:15 +0200 (CEST)
+Received: from localhost ([::1]:49922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obowV-0007c8-Fx
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 16:06:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46324)
+	id 1obqS1-000247-PP
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 17:43:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oboqm-0004oj-5w
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 16:00:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48953)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqQb-0000UI-Hr
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:41:45 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:36777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oboqi-0001WO-SC
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 16:00:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663963236;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ikMRM2K7Gn40D1E5wdiVhtUJd2AViCY90UWnlhTZHHg=;
- b=exusXI6+7J7u07z1RJXw6sbrxp8fD24+oK1Xj1wzGASHEe9ogzM/MIMuk2IdcgdpLSo1n5
- avNyj2BOzt4UGWVLbAlyov7BsYNk5OKXH6ZCl0w/EkvoPqizEO82Sx2+SpRU9bnmSvuUZR
- XJ6NLoEqRLKYkEiAWfyY+o+Aiv8mKks=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-240-6gXqwdPvPwK6xb-thO1hVQ-1; Fri, 23 Sep 2022 16:00:32 -0400
-X-MC-Unique: 6gXqwdPvPwK6xb-thO1hVQ-1
-Received: by mail-lj1-f199.google.com with SMTP id
- by40-20020a05651c1a2800b0026c4246ce71so319115ljb.0
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 13:00:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=ikMRM2K7Gn40D1E5wdiVhtUJd2AViCY90UWnlhTZHHg=;
- b=u5r/cxjY1669IRfacTxJfGyKpLxuiViS5kLZAs/fXXcgtMYasuuu4HqM4miMr/1Ifl
- CqsesXlAylJoAK61XBef6QI3YqIl8eoMGP8JvHDVSI4aS8ba5CLP4Z79Xm6XWh7zQsnU
- jw+knp9Cs5FoJEm2LXGweXbm1Vu4Oprx2HilRZKepVhyQQn4owU/yDUtcw4NNXdVO4HX
- 5dR97en6KFDWr8sElQCj/41HMjBnZf7JUZER6TxnnWwB9bfPLqmnQFY3vSbFI4SoyYfV
- qQxu+8qlrsMohVgFsIX3I7f0YRmsznMlGUNP2Eb2i82f30zbMDfevJ0gxAVqru3z8S6C
- 9iPg==
-X-Gm-Message-State: ACrzQf0L6GeGdgD0FQMCUk9A5tlRzjeAoT6Gas+NQwYzMqWrrSys6IPH
- exboj9PHvsDuUJGYRzc2ZUOoJw7AqV3yJMAmyBaZOAmLPhqwBsf7l/7hYEH87oq4a7tHDbii6gQ
- exnbVUaepMg3FWmEfUWiyqajGWAFrpVw=
-X-Received: by 2002:ac2:4114:0:b0:4a0:6357:c362 with SMTP id
- b20-20020ac24114000000b004a06357c362mr302564lfi.140.1663963231258; 
- Fri, 23 Sep 2022 13:00:31 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5Snru5tUvcihcV6uoMuPtecqK4+guzsCbvXAvmTbWgC0hVIX6FI9UoUSbrivjoZczNN++//cDCM/ihDqM/p2U=
-X-Received: by 2002:ac2:4114:0:b0:4a0:6357:c362 with SMTP id
- b20-20020ac24114000000b004a06357c362mr302540lfi.140.1663963230857; Fri, 23
- Sep 2022 13:00:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqQZ-0005aW-Q5
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:41:45 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MpDVx-1p3BhU2Htv-00qfoD; Fri, 23 Sep 2022 23:41:39 +0200
+Message-ID: <28764f7e-a5c2-93c7-47b2-834493475672@vivier.eu>
+Date: Fri, 23 Sep 2022 23:41:38 +0200
 MIME-Version: 1.0
-References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
- <20220920103159.1865256-21-bmeng.cn@gmail.com>
- <CAJ+F1CJADsVjhEyLZUkU5HaNma13xOo7Fy8MUtesmRxMsWgK3A@mail.gmail.com>
-In-Reply-To: <CAJ+F1CJADsVjhEyLZUkU5HaNma13xOo7Fy8MUtesmRxMsWgK3A@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 23 Sep 2022 16:00:18 -0400
-Message-ID: <CAFn=p-btHX=fR_caj7JwswtgKZeLNEzFAU-O_gRtzRKMgfUYAg@mail.gmail.com>
-Subject: Re: [PATCH v2 20/39] tests/qtest: {ahci, ide}-test: Use relative path
- for temporary files for win32
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org, 
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH] linux-user: fix readlinkat handling with magic exe symlink
+Content-Language: fr
+To: Jameson Nash <vtjnash@gmail.com>, qemu-devel@nongnu.org
+References: <20220808190727.875155-1-vtjnash@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220808190727.875155-1-vtjnash@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:/Djchh2/35UyU+rSq1MDY1yin6Yv8SH/59wuoN/sjEKlJBdbR4R
+ xIVSHtdtXE0xmLY5Db6gEKxMWe/QxLV8sKUPgKHhGvC1HgpGMwzfCpfjsOduDbvwK8EnoQm
+ L5woSC0CwHhfFpSaXakNLOc1/WMh/Ms1v09EDTfUIiLDrY8mgv1rxiOhlNuYRfwA+KFiu/Y
+ d6/YP81ZHG5gOCGknbBOQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LdET97F30Js=:vShL/dJI4nmTgn46XqhhJl
+ apFU4KVmoofIrGTaxOT0O0R0UYmh6wTasSPixSjU35gbe3oZBn4O1kgM+EY8e5PgNnesBHh3l
+ kvviiGuwbfIO5rhiRXt2GOsY953cFv3K7T2t/5wF+Rlj+6m4dIAFqJ6l4Nw4XOkKoTB2FMCfl
+ KkMu6pKIMsyfk/9jNhapK1kZDe7tvoZI2V26mfiyCTQuyfAB4Ho0dqJVmi8pMBV3VvDfxaUXQ
+ dZQLC8ZFdVTiA7sEyEJqzGewBD1Tpz/1ieHK24mUBn6pAEF+Y/FP/j4R7BhFIQGgWSOK78i8i
+ tAHCh6FdvH+t9J8JXEmGE0F6VnYOPPoUcjLARuhf1C3BNZ7Am3vxbe+g0tw7Y3mZE6rLMFlbu
+ xEqmsIsPg0EYtdqb8aS/V30mjnyPCmwhirURxp5PXsIEocWfcDYSEk3pENfo6dBs5Tx0dtHnc
+ yv8/PO1fl+L24yT3MEU5dAHGLd9WuwxyFWvqsO4GMKZWxtdu5SUhAo/jzSCGceWIp57SfKNPK
+ 6FIiO5ybnPFCQChtrTB3QfRs9z0Uy9PGOB9IvXA5/BVoX0YJrQYRb5jK93askja9WNv4Z47nb
+ jclMBzeKwqIxhST+wEFx44Ef2U1jE9+NDAnUWG56pcDmYrqwlT1laCGrWZbea4C4qBNdHLHvk
+ +Q1Oy2ZtVBXsl18s0RRhpq1sGOAOwT4E2h6Xbz5/D12aci86IyBoZai1zbJy6BWKKgDHS3t0P
+ eHAbZrwNHowQjBRINwrAPlYCyadCq7mvoTUnJbM67E5r901IlxOHnbw15shluyvfYs0qSw32E
+ vhoNQoj
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,31 +73,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 4:03 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Tue, Sep 20, 2022 at 1:50 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->>
->> From: Bin Meng <bin.meng@windriver.com>
->>
->> These test cases uses "blkdebug:path/to/config:path/to/image" for
->> testing. On Windows, absolute file paths contain the delimiter ':'
->> which causes the blkdebug filename parser fail to parse filenames.
->>
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->
->
-> I don't have a much better solution to propose at this point (to actually=
- use a temp directory), so:
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Le 08/08/2022 à 21:07, Jameson Nash a écrit :
+> Exactly the same as f17f4989fa193fa8279474c5462289a3cfe69aea before was
+> for readlink. I suppose this was simply missed at the time.
+> 
+> Signed-off-by: Jameson Nash <vtjnash@gmail.com>
+> ---
+>   linux-user/syscall.c | 15 +++++++++++++--
+>   1 file changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index ef53feb5ab..6ef4e42b21 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -9894,11 +9894,22 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>               p2 = lock_user(VERIFY_WRITE, arg3, arg4, 0);
+>               if (!p || !p2) {
+>                   ret = -TARGET_EFAULT;
+> +            } else if (!arg4) {
+> +                /* Short circuit this for the magic exe check. */
+> +                ret = -TARGET_EINVAL;
+>               } else if (is_proc_myself((const char *)p, "exe")) {
+>                   char real[PATH_MAX], *temp;
+>                   temp = realpath(exec_path, real);
+> -                ret = temp == NULL ? get_errno(-1) : strlen(real) ;
+> -                snprintf((char *)p2, arg4, "%s", real);
+> +                /* Return value is # of bytes that we wrote to the buffer. */
+> +                if (temp == NULL) {
+> +                    ret = get_errno(-1);
+> +                } else {
+> +                    /* Don't worry about sign mismatch as earlier mapping
+> +                     * logic would have thrown a bad address error. */
+> +                    ret = MIN(strlen(real), arg4);
+> +                    /* We cannot NUL terminate the string. */
+> +                    memcpy(p2, real, ret);
+> +                }
+>               } else {
+>                   ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
+>               }
 
-I assume we can switch to using the node-based specifications instead
-of -file=3Dblkdebug:%s and just spell out the tree more meticulously,
-either on the CLI or by switching to using QMP for the test. These
-tests were written a long time ago.
-
---js
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
