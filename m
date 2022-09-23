@@ -2,53 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5DE5E8533
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 23:57:11 +0200 (CEST)
-Received: from localhost ([::1]:39438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017505E8538
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 23:59:58 +0200 (CEST)
+Received: from localhost ([::1]:39720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obqfW-0007BN-Jg
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 17:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53020)
+	id 1obqiD-0003fT-41
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 17:59:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1obqYD-0006vj-OC; Fri, 23 Sep 2022 17:49:38 -0400
-Received: from [200.168.210.66] (port=12827 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1obqYB-0006ea-Kp; Fri, 23 Sep 2022 17:49:37 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 23 Sep 2022 18:47:58 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 3FCE0800491;
- Fri, 23 Sep 2022 18:47:58 -0300 (-03)
-From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: richard.henderson@linaro.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-Subject: [PATCH 09/12] target/ppc: Use gvec to decode XVCPSGN[SD]P
-Date: Fri, 23 Sep 2022 18:47:51 -0300
-Message-Id: <20220923214754.217819-10-lucas.araujo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220923214754.217819-1-lucas.araujo@eldorado.org.br>
-References: <20220923214754.217819-1-lucas.araujo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqa1-0008FD-Rv
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:51:29 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:34909)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqZz-0007CX-J8
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:51:29 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M8QFi-1ogGQ72LBY-004SMM; Fri, 23 Sep 2022 23:51:15 +0200
+Message-ID: <4a4034e5-b944-ca22-0cd7-3cbc5a3f120a@vivier.eu>
+Date: Fri, 23 Sep 2022 23:51:11 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v3 1/5] linux-user: Provide MADV_* definitions
+Content-Language: fr
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20220906000839.1672934-1-iii@linux.ibm.com>
+ <20220906000839.1672934-2-iii@linux.ibm.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220906000839.1672934-2-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 23 Sep 2022 21:47:58.0500 (UTC)
- FILETIME=[2548C640:01D8CF96]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+X-Provags-ID: V03:K1:HR58y32JQGtxDBuuU7Ql12EX8x4cbUzs0A2rxxquThI4Qovu9mP
+ qClrNhGaJzvJ3+sIiI0a31yV2/iz1uSiQ4qhJR2SXT54I1DADI54rIS1YidzMEVUwkH6MGs
+ syPcbPtIe5BDwjCVwbUKkBYBrAiVX65IsD9J2fPabGyNd4PTXgR0+5IhyirlRZcRERvyVd8
+ aaxgJjkuDx046QND46J7A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EWFkZ+tHqg0=:lbSxYw4qR2q//4MeWkB4Eq
+ LPPUBaEZ5ZLxt9Wxio/0F5gViV3kP0Dp9/mlLUz/SIyiOXmCnkaHuvy4uLNOzg1ajci036b3Q
+ AVt2IA/a4kw0xmE4qlYCB9jjzupewbm66f9mi7+bfpcvxybMRSgTFtDfSlNTGgumfKPyTGu+o
+ wMhPkaYUWnKj/CqVQhdhh0alPbNFtqzwA/76Pm71Ac6dlJCH1T+miEKAPQrcaWYcyxIDt0zU9
+ ZOOAd82Onn0CXCN4G7V6y2w3tf33aT9rFoyMohhbpVmu/7sXa9zVPb7V3XnCM8IGJbnmz/Dw9
+ QLOH23kyKBVQCQ54GUM8ItpyLOhbrPMWqyIRks4fiNj/0t9b6sU4IswhVe8u6UaS3LdI/knAN
+ hojlJpOZjmJkDQLnRWGnNdegwFaJusgZr3jXYRmwVq6VZxNcwhW+mk1r1ovHdu+ZQLRjxhCoY
+ qartE0jTCSSU78VH4NRO5DB6uCUwnk4xqxfVXy5EbdkKI/i+NGo+UWbtiFK8dnh2xG+uExyxM
+ m/HWa+rVxC2nbwTuNEIR5xFcwBDNsHqjZwMxr9BRILzl6fjJx9iz0kvaM6dkoPD733R1/iQB1
+ ifKod7bafW6IVu8f/u+/ehhn9XIGmzd2U5a7xCCMDwG+JHHMqUj4wurK+uV1HTkrUKuJgh3Ps
+ IPwWb6Qu1i4AwXX8GVymigSlS0SGCuu5YQWK0MeaBfwxa9HdlvUZjrX93+cBwj9pgTummNiJN
+ EvaGLrdLwRQ5n+pwc5G74MElJGqV4E3Kuh5aYxqOIvmJTHu9u9d0Itz0qOlQwkOyM0xYw08JX
+ 071i4sq
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,199 +78,329 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+Le 06/09/2022 à 02:08, Ilya Leoshkevich a écrit :
+> Provide MADV_* definitions using target_mman.h header, similar to what
+> kernel does. Most architectures use the same values, with the exception
+> of alpha and hppa.
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>   linux-user/aarch64/target_mman.h     |  1 +
+>   linux-user/alpha/target_mman.h       |  8 +++
+>   linux-user/arm/target_mman.h         |  1 +
+>   linux-user/cris/target_mman.h        |  1 +
+>   linux-user/generic/target_mman.h     | 92 ++++++++++++++++++++++++++++
+>   linux-user/hexagon/target_mman.h     |  1 +
+>   linux-user/hppa/target_mman.h        | 15 +++++
+>   linux-user/i386/target_mman.h        |  1 +
+>   linux-user/loongarch64/target_mman.h |  1 +
+>   linux-user/m68k/target_mman.h        |  1 +
+>   linux-user/microblaze/target_mman.h  |  1 +
+>   linux-user/mips/target_mman.h        |  1 +
+>   linux-user/mips64/target_mman.h      |  1 +
+>   linux-user/nios2/target_mman.h       |  1 +
+>   linux-user/openrisc/target_mman.h    |  1 +
+>   linux-user/ppc/target_mman.h         |  1 +
+>   linux-user/riscv/target_mman.h       |  1 +
+>   linux-user/s390x/target_mman.h       |  1 +
+>   linux-user/sh4/target_mman.h         |  1 +
+>   linux-user/sparc/target_mman.h       |  1 +
+>   linux-user/x86_64/target_mman.h      |  1 +
+>   linux-user/xtensa/target_mman.h      |  1 +
+>   22 files changed, 134 insertions(+)
+>   create mode 100644 linux-user/aarch64/target_mman.h
+>   create mode 100644 linux-user/alpha/target_mman.h
+>   create mode 100644 linux-user/arm/target_mman.h
+>   create mode 100644 linux-user/cris/target_mman.h
+>   create mode 100644 linux-user/generic/target_mman.h
+>   create mode 100644 linux-user/hexagon/target_mman.h
+>   create mode 100644 linux-user/hppa/target_mman.h
+>   create mode 100644 linux-user/i386/target_mman.h
+>   create mode 100644 linux-user/loongarch64/target_mman.h
+>   create mode 100644 linux-user/m68k/target_mman.h
+>   create mode 100644 linux-user/microblaze/target_mman.h
+>   create mode 100644 linux-user/mips/target_mman.h
+>   create mode 100644 linux-user/mips64/target_mman.h
+>   create mode 100644 linux-user/nios2/target_mman.h
+>   create mode 100644 linux-user/openrisc/target_mman.h
+>   create mode 100644 linux-user/ppc/target_mman.h
+>   create mode 100644 linux-user/riscv/target_mman.h
+>   create mode 100644 linux-user/s390x/target_mman.h
+>   create mode 100644 linux-user/sh4/target_mman.h
+>   create mode 100644 linux-user/sparc/target_mman.h
+>   create mode 100644 linux-user/x86_64/target_mman.h
+>   create mode 100644 linux-user/xtensa/target_mman.h
+> 
+> diff --git a/linux-user/aarch64/target_mman.h b/linux-user/aarch64/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/aarch64/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/alpha/target_mman.h b/linux-user/alpha/target_mman.h
+> new file mode 100644
+> index 0000000000..cd6e3d70a6
+> --- /dev/null
+> +++ b/linux-user/alpha/target_mman.h
+> @@ -0,0 +1,8 @@
+> +#ifndef ALPHA_TARGET_MMAN_H
+> +#define ALPHA_TARGET_MMAN_H
+> +
+> +#define TARGET_MADV_DONTNEED 6
+> +
+> +#include "../generic/target_mman.h"
+> +
+> +#endif
+> diff --git a/linux-user/arm/target_mman.h b/linux-user/arm/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/arm/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/cris/target_mman.h b/linux-user/cris/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/cris/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/generic/target_mman.h b/linux-user/generic/target_mman.h
+> new file mode 100644
+> index 0000000000..1436a3c543
+> --- /dev/null
+> +++ b/linux-user/generic/target_mman.h
+> @@ -0,0 +1,92 @@
+> +#ifndef LINUX_USER_TARGET_MMAN_H
+> +#define LINUX_USER_TARGET_MMAN_H
+> +
+> +#ifndef TARGET_MADV_NORMAL
+> +#define TARGET_MADV_NORMAL 0
+> +#endif
+> +
+> +#ifndef TARGET_MADV_RANDOM
+> +#define TARGET_MADV_RANDOM 1
+> +#endif
+> +
+> +#ifndef TARGET_MADV_SEQUENTIAL
+> +#define TARGET_MADV_SEQUENTIAL 2
+> +#endif
+> +
+> +#ifndef TARGET_MADV_WILLNEED
+> +#define TARGET_MADV_WILLNEED 3
+> +#endif
+> +
+> +#ifndef TARGET_MADV_DONTNEED
+> +#define TARGET_MADV_DONTNEED 4
+> +#endif
+> +
+> +#ifndef TARGET_MADV_FREE
+> +#define TARGET_MADV_FREE 8
+> +#endif
+> +
+> +#ifndef TARGET_MADV_REMOVE
+> +#define TARGET_MADV_REMOVE 9
+> +#endif
+> +
+> +#ifndef TARGET_MADV_DONTFORK
+> +#define TARGET_MADV_DONTFORK 10
+> +#endif
+> +
+> +#ifndef TARGET_MADV_DOFORK
+> +#define TARGET_MADV_DOFORK 11
+> +#endif
+> +
+> +#ifndef TARGET_MADV_MERGEABLE
+> +#define TARGET_MADV_MERGEABLE 12
+> +#endif
+> +
+> +#ifndef TARGET_MADV_UNMERGEABLE
+> +#define TARGET_MADV_UNMERGEABLE 13
+> +#endif
+> +
+> +#ifndef TARGET_MADV_HUGEPAGE
+> +#define TARGET_MADV_HUGEPAGE 14
+> +#endif
+> +
+> +#ifndef TARGET_MADV_NOHUGEPAGE
+> +#define TARGET_MADV_NOHUGEPAGE 15
+> +#endif
+> +
+> +#ifndef TARGET_MADV_DONTDUMP
+> +#define TARGET_MADV_DONTDUMP 16
+> +#endif
+> +
+> +#ifndef TARGET_MADV_DODUMP
+> +#define TARGET_MADV_DODUMP 17
+> +#endif
+> +
+> +#ifndef TARGET_MADV_WIPEONFORK
+> +#define TARGET_MADV_WIPEONFORK 18
+> +#endif
+> +
+> +#ifndef TARGET_MADV_KEEPONFORK
+> +#define TARGET_MADV_KEEPONFORK 19
+> +#endif
+> +
+> +#ifndef TARGET_MADV_COLD
+> +#define TARGET_MADV_COLD 20
+> +#endif
+> +
+> +#ifndef TARGET_MADV_PAGEOUT
+> +#define TARGET_MADV_PAGEOUT 21
+> +#endif
+> +
+> +#ifndef TARGET_MADV_POPULATE_READ
+> +#define TARGET_MADV_POPULATE_READ 22
+> +#endif
+> +
+> +#ifndef TARGET_MADV_POPULATE_WRITE
+> +#define TARGET_MADV_POPULATE_WRITE 23
+> +#endif
+> +
+> +#ifndef TARGET_MADV_DONTNEED_LOCKED
+> +#define TARGET_MADV_DONTNEED_LOCKED 24
+> +#endif
+> +
+> +#endif
+> diff --git a/linux-user/hexagon/target_mman.h b/linux-user/hexagon/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/hexagon/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/hppa/target_mman.h b/linux-user/hppa/target_mman.h
+> new file mode 100644
+> index 0000000000..66dd9f7941
+> --- /dev/null
+> +++ b/linux-user/hppa/target_mman.h
+> @@ -0,0 +1,15 @@
+> +#ifndef HPPA_TARGET_MMAN_H
+> +#define HPPA_TARGET_MMAN_H
+> +
+> +#define TARGET_MADV_MERGEABLE 65
+> +#define TARGET_MADV_UNMERGEABLE 66
+> +#define TARGET_MADV_HUGEPAGE 67
+> +#define TARGET_MADV_NOHUGEPAGE 68
+> +#define TARGET_MADV_DONTDUMP 69
+> +#define TARGET_MADV_DODUMP 70
+> +#define TARGET_MADV_WIPEONFORK 71
+> +#define TARGET_MADV_KEEPONFORK 72
+> +
+> +#include "../generic/target_mman.h"
+> +
+> +#endif
+> diff --git a/linux-user/i386/target_mman.h b/linux-user/i386/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/i386/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/loongarch64/target_mman.h b/linux-user/loongarch64/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/loongarch64/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/m68k/target_mman.h b/linux-user/m68k/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/m68k/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/microblaze/target_mman.h b/linux-user/microblaze/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/microblaze/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/mips/target_mman.h b/linux-user/mips/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/mips/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/mips64/target_mman.h b/linux-user/mips64/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/mips64/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/nios2/target_mman.h b/linux-user/nios2/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/nios2/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/openrisc/target_mman.h b/linux-user/openrisc/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/openrisc/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/ppc/target_mman.h b/linux-user/ppc/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/ppc/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/riscv/target_mman.h b/linux-user/riscv/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/riscv/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/s390x/target_mman.h b/linux-user/s390x/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/s390x/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/sh4/target_mman.h b/linux-user/sh4/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/sh4/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/sparc/target_mman.h b/linux-user/sparc/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/sparc/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/x86_64/target_mman.h b/linux-user/x86_64/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/x86_64/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
+> diff --git a/linux-user/xtensa/target_mman.h b/linux-user/xtensa/target_mman.h
+> new file mode 100644
+> index 0000000000..e7ba6070fe
+> --- /dev/null
+> +++ b/linux-user/xtensa/target_mman.h
+> @@ -0,0 +1 @@
+> +#include "../generic/target_mman.h"
 
-Moved XVCPSGNSP and XVCPSGNDP to decodetree and used gvec to translate
-them.
+Applied to my linux-user-for-7.2 branch.
 
-xvcpsgnsp:
-rept    loop    master             patch
-8       12500   0,00722000         0,00587700 (-18.6%)
-25      4000    0,00604300         0,00521500 (-13.7%)
-100     1000    0,00815600         0,00508500 (-37.7%)
-500     200     0,02376600         0,01222600 (-48.6%)
-2500    40      0,07709200         0,04158300 (-46.1%)
-8000    12      0,27922100         0,12394400 (-55.6%)
-
-xvcpsgndp:
-rept    loop    master             patch
-8       12500   0,00557900         0,00584900 (+4.8%)
-25      4000    0,00518700         0,00502900 (-3.0%)
-100     1000    0,00655900         0,00569600 (-13.2%)
-500     200     0,01560900         0,01260500 (-19.2%)
-2500    40      0,05899200         0,03989400 (-32.4%)
-8000    12      0,20046000         0,12417700 (-38.1%)
-
-Like the previous instructions there seemed to be a improvement on
-translation time.
-
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
----
- target/ppc/insn32.decode            |   2 +
- target/ppc/translate/vsx-impl.c.inc | 114 ++++++++++++++--------------
- target/ppc/translate/vsx-ops.c.inc  |   3 -
- 3 files changed, 60 insertions(+), 59 deletions(-)
-
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 5b687078be..6549c4040e 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -762,6 +762,8 @@ XVNABSDP        111100 ..... 00000 ..... 111101001 ..   @XX2
- XVNABSSP        111100 ..... 00000 ..... 110101001 ..   @XX2
- XVNEGDP         111100 ..... 00000 ..... 111111001 ..   @XX2
- XVNEGSP         111100 ..... 00000 ..... 110111001 ..   @XX2
-+XVCPSGNDP       111100 ..... ..... ..... 11110000 ...   @XX3
-+XVCPSGNSP       111100 ..... ..... ..... 11010000 ...   @XX3
- 
- ## VSX Scalar Multiply-Add Instructions
- 
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 426a9a3926..3e4509cb41 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -729,62 +729,6 @@ VSX_SCALAR_MOVE_QP(xsnabsqp, OP_NABS, SGN_MASK_DP)
- VSX_SCALAR_MOVE_QP(xsnegqp, OP_NEG, SGN_MASK_DP)
- VSX_SCALAR_MOVE_QP(xscpsgnqp, OP_CPSGN, SGN_MASK_DP)
- 
--#define VSX_VECTOR_MOVE(name, op, sgn_mask)                      \
--static void glue(gen_, name)(DisasContext *ctx)                  \
--    {                                                            \
--        TCGv_i64 xbh, xbl, sgm;                                  \
--        if (unlikely(!ctx->vsx_enabled)) {                       \
--            gen_exception(ctx, POWERPC_EXCP_VSXU);               \
--            return;                                              \
--        }                                                        \
--        xbh = tcg_temp_new_i64();                                \
--        xbl = tcg_temp_new_i64();                                \
--        sgm = tcg_temp_new_i64();                                \
--        get_cpu_vsr(xbh, xB(ctx->opcode), true);                 \
--        get_cpu_vsr(xbl, xB(ctx->opcode), false);                \
--        tcg_gen_movi_i64(sgm, sgn_mask);                         \
--        switch (op) {                                            \
--            case OP_ABS: {                                       \
--                tcg_gen_andc_i64(xbh, xbh, sgm);                 \
--                tcg_gen_andc_i64(xbl, xbl, sgm);                 \
--                break;                                           \
--            }                                                    \
--            case OP_NABS: {                                      \
--                tcg_gen_or_i64(xbh, xbh, sgm);                   \
--                tcg_gen_or_i64(xbl, xbl, sgm);                   \
--                break;                                           \
--            }                                                    \
--            case OP_NEG: {                                       \
--                tcg_gen_xor_i64(xbh, xbh, sgm);                  \
--                tcg_gen_xor_i64(xbl, xbl, sgm);                  \
--                break;                                           \
--            }                                                    \
--            case OP_CPSGN: {                                     \
--                TCGv_i64 xah = tcg_temp_new_i64();               \
--                TCGv_i64 xal = tcg_temp_new_i64();               \
--                get_cpu_vsr(xah, xA(ctx->opcode), true);         \
--                get_cpu_vsr(xal, xA(ctx->opcode), false);        \
--                tcg_gen_and_i64(xah, xah, sgm);                  \
--                tcg_gen_and_i64(xal, xal, sgm);                  \
--                tcg_gen_andc_i64(xbh, xbh, sgm);                 \
--                tcg_gen_andc_i64(xbl, xbl, sgm);                 \
--                tcg_gen_or_i64(xbh, xbh, xah);                   \
--                tcg_gen_or_i64(xbl, xbl, xal);                   \
--                tcg_temp_free_i64(xah);                          \
--                tcg_temp_free_i64(xal);                          \
--                break;                                           \
--            }                                                    \
--        }                                                        \
--        set_cpu_vsr(xT(ctx->opcode), xbh, true);                 \
--        set_cpu_vsr(xT(ctx->opcode), xbl, false);                \
--        tcg_temp_free_i64(xbh);                                  \
--        tcg_temp_free_i64(xbl);                                  \
--        tcg_temp_free_i64(sgm);                                  \
--    }
--
--VSX_VECTOR_MOVE(xvcpsgndp, OP_CPSGN, SGN_MASK_DP)
--VSX_VECTOR_MOVE(xvcpsgnsp, OP_CPSGN, SGN_MASK_SP)
--
- #define TCG_OP_IMM_i64(FUNC, OP, IMM)                           \
-     static void FUNC(TCGv_i64 t, TCGv_i64 b)                    \
-     {                                                           \
-@@ -855,6 +799,64 @@ TRANS(XVABSSP, do_vsx_msb_op, MO_32, do_xvabs_vec, do_xvabssp_i64)
- TRANS(XVNABSSP, do_vsx_msb_op, MO_32, do_xvnabs_vec, do_xvnabssp_i64)
- TRANS(XVNEGSP, do_vsx_msb_op, MO_32, do_xvneg_vec, do_xvnegsp_i64)
- 
-+static void do_xvcpsgndp_i64(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)
-+{
-+    tcg_gen_andi_i64(a, a, SGN_MASK_DP);
-+    tcg_gen_andi_i64(b, b, ~SGN_MASK_DP);
-+    tcg_gen_or_i64(t, a, b);
-+}
-+
-+static void do_xvcpsgnsp_i64(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)
-+{
-+    tcg_gen_andi_i64(a, a, SGN_MASK_SP);
-+    tcg_gen_andi_i64(b, b, ~SGN_MASK_SP);
-+    tcg_gen_or_i64(t, a, b);
-+}
-+
-+static void do_xvcpsgn_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
-+{
-+    TCGv_vec most_significant_bit = tcg_temp_new_vec_matching(t);
-+    uint64_t msb = (vece == MO_32) ? SGN_MASK_SP : SGN_MASK_DP;
-+    tcg_gen_dupi_vec(vece, most_significant_bit, msb);
-+    tcg_gen_and_vec(vece, a, a, most_significant_bit);
-+    tcg_gen_andc_vec(vece, b, b, most_significant_bit);
-+    tcg_gen_or_vec(vece, t, a, b);
-+    tcg_temp_free_vec(most_significant_bit);
-+}
-+
-+static bool do_xvcpsgn(DisasContext *ctx, arg_XX3 *a, unsigned vece)
-+{
-+    static const TCGOpcode vecop_list[] = {
-+        0
-+    };
-+
-+    static const GVecGen3 op[] = {
-+        {
-+            .fni8 = do_xvcpsgnsp_i64,
-+            .fniv = do_xvcpsgn_vec,
-+            .opt_opc = vecop_list,
-+            .vece = MO_32
-+        },
-+        {
-+            .fni8 = do_xvcpsgndp_i64,
-+            .fniv = do_xvcpsgn_vec,
-+            .opt_opc = vecop_list,
-+            .vece = MO_64
-+        },
-+    };
-+
-+    REQUIRE_INSNS_FLAGS2(ctx, VSX);
-+    REQUIRE_VSX(ctx);
-+
-+    tcg_gen_gvec_3(vsr_full_offset(a->xt), vsr_full_offset(a->xa),
-+                   vsr_full_offset(a->xb), 16, 16, &op[vece - MO_32]);
-+
-+    return true;
-+}
-+
-+TRANS(XVCPSGNSP, do_xvcpsgn, MO_32)
-+TRANS(XVCPSGNDP, do_xvcpsgn, MO_64)
-+
- #define VSX_CMP(name, op1, op2, inval, type)                                  \
- static void gen_##name(DisasContext *ctx)                                     \
- {                                                                             \
-diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
-index b77324e0a8..f7d7377379 100644
---- a/target/ppc/translate/vsx-ops.c.inc
-+++ b/target/ppc/translate/vsx-ops.c.inc
-@@ -165,9 +165,6 @@ GEN_XX3FORM(name, opc2, opc3 | 1, fl2)
- GEN_XX2FORM_DCMX(xvtstdcdp, 0x14, 0x1E, PPC2_ISA300),
- GEN_XX2FORM_DCMX(xvtstdcsp, 0x14, 0x1A, PPC2_ISA300),
- 
--GEN_XX3FORM(xvcpsgndp, 0x00, 0x1E, PPC2_VSX),
--GEN_XX3FORM(xvcpsgnsp, 0x00, 0x1A, PPC2_VSX),
--
- GEN_XX3FORM(xsadddp, 0x00, 0x04, PPC2_VSX),
- GEN_VSX_XFORM_300(xsaddqp, 0x04, 0x00, 0x0),
- GEN_XX3FORM(xssubdp, 0x00, 0x05, PPC2_VSX),
--- 
-2.31.1
+Thanks,
+Laurent
 
 
