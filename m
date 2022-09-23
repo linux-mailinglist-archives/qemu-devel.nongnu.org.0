@@ -2,93 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926165E825D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 21:07:38 +0200 (CEST)
-Received: from localhost ([::1]:43210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 106145E82BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 21:53:57 +0200 (CEST)
+Received: from localhost ([::1]:55118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obo1R-0003cY-D3
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 15:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46916)
+	id 1obokF-0002Pj-Ib
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 15:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obntt-000531-BP
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 14:59:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32669)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oboiW-00012Z-2J
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 15:52:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obntr-0003Vw-Dh
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 14:59:48 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oboiS-0007Mq-HM
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 15:52:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663959586;
+ s=mimecast20190719; t=1663962722;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jkp9uIojDcvTz1WAjdwqm+62cYEBiOSYUQ5dsx6Xy3c=;
- b=XPhuzPbKLWwRy6Ul7iyMPJSmqzftxDTe0lTJE2W87AgZVPr3fBwk9rYg8YyGFLup/ZOoFI
- 2n9HVQ5wzPqT+NZ+spDBfE4DcSHJewHSGKGgtP80bSwIwRP31YIBZGbo8a+HI1l+P0UQVF
- 2JZ8ajlZyuBRJXpId0FdTElIIXUWeq8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XQkSbJgU5XN3zM47Yjnkme9L+LmisekC1RORPvL6yuw=;
+ b=EsiY5j8PjlbdDC4EhNE5Iamb5W16wSALkU/L2usuA6oFVWFLbajOKu7KNUPMhhIpAEMsq6
+ 6sFLfZHz2Lh5ho2+Wrp3MgxV3dD/YirRHmLkUWC5qQBhhbR6XhoGPVGG5u5ggxT1WtPnb0
+ S+lNG/Vi6sObZ7xEg2bukp/EUkkyZLg=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-286-DkAxxuODMmGXZJd1bvTrMA-1; Fri, 23 Sep 2022 14:59:45 -0400
-X-MC-Unique: DkAxxuODMmGXZJd1bvTrMA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- e18-20020adfa452000000b00228a420c389so202995wra.16
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 11:59:45 -0700 (PDT)
+ us-mta-479-uIAxjiQJPcqG-StbQp5HJA-1; Fri, 23 Sep 2022 15:52:01 -0400
+X-MC-Unique: uIAxjiQJPcqG-StbQp5HJA-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ j17-20020a2e8511000000b0026c75c907c0so298044lji.7
+ for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 12:52:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=jkp9uIojDcvTz1WAjdwqm+62cYEBiOSYUQ5dsx6Xy3c=;
- b=Lk2Aib38LZmwo5Fp2R7gEVsSNP6vkYmJ1tyjxCSqTRKGdzzqYyBqVszXnkWIt4OK+3
- VQ6xtq50EZwkKh1AxosTuD4gwnXVbDBxN5MP0c1E7WAhvxbnsagQenqfGWG1G/1+3CSL
- 0vnnoKE3NBVQxMxDZAL3KQfiUdbdrkDXYjeqFs91Zhfs8HY0OwRe5Xy2HYZeMpNjMSE1
- WORIDlvkVAJIM8eqJB8G4v1irzgwk6siUpeRWWcoSNlaRzXdyKIhcirX2a+Gzmy57N1l
- BNozUGXwMuExBBQ9adZ22vp2INFYybu0MOD3idCBkzM10WrY1wnJZKfRUZV28pUDjlPB
- /jag==
-X-Gm-Message-State: ACrzQf2HqwzcH98pbfLVWn0kEJDMLoqYgP/nOpZvT48JaYdm25Afo/xk
- wWW9HOjRgckWGEe/g1/3YyFisWY8zNFna5u1HUTZushUTLT0jceD+eZDA1uw88MsVOCwyPpZhYe
- qSqPiFStOAoHOrko=
-X-Received: by 2002:a5d:550c:0:b0:22b:1942:4bf6 with SMTP id
- b12-20020a5d550c000000b0022b19424bf6mr5901936wrv.520.1663959583274; 
- Fri, 23 Sep 2022 11:59:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4CXt1Gmz2l63VsV0kLrMAmo+b3zf+Ph2eH6nv8EPj6XWnMUJUXHIU039mANC4WKldL8KEvYQ==
-X-Received: by 2002:a5d:550c:0:b0:22b:1942:4bf6 with SMTP id
- b12-20020a5d550c000000b0022b19424bf6mr5901917wrv.520.1663959583071; 
- Fri, 23 Sep 2022 11:59:43 -0700 (PDT)
-Received: from [192.168.8.103] (tmo-097-189.customers.d1-online.com.
- [80.187.97.189]) by smtp.gmail.com with ESMTPSA id
- g16-20020adfe410000000b0022ac13aa98fsm7849175wrm.97.2022.09.23.11.59.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Sep 2022 11:59:42 -0700 (PDT)
-Message-ID: <c783fe07-4f4c-a52b-0445-0a4df057ffa6@redhat.com>
-Date: Fri, 23 Sep 2022 20:59:40 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=XQkSbJgU5XN3zM47Yjnkme9L+LmisekC1RORPvL6yuw=;
+ b=vcSvJB8wkti3naGlKdUIxuQ5c7cYqKY/N6xHSjYx5reM4i6NV37ZTuCgua+C8sesTe
+ XihvhfdIgQGlngSgISZW9MUznmBSIOVVZDd489/wn/mIwMleuwzIn8s4Fih8FM9809/+
+ Zds03mXgJ7kpIICdt+jvkaWwRzPmHVzPmjELAxSjNhIlTwtvHoAUab/U5/V1hl5f4KGi
+ 207CmIiWJgr9SI8vWFYW5DktDePtsvb9s+0ob/agEV3vzVyZA1G8FT7LL/sFwYdgVb+Y
+ vQXJVrmUnLI/f1D7Gr1ZclgyJ/dQYOkMybxGuz347pmtFL867kHACkiAxKQeUBDn+PIw
+ pkQQ==
+X-Gm-Message-State: ACrzQf18XFy4xlRS0XnCdDIdPM/eaAsz40SSLZ9zFcQHae2KpyuJneY+
+ iy6H1FWwtsw4FSr4zNU4TlWQ3vP8qdfZ+Fau5GEOMybw5kCsAJ8u2USOea5MAliFr9MuLA/PwqG
+ FpmT9juZoCOHYJzZuvKpwAqyjZ+HY7Bw=
+X-Received: by 2002:a05:6512:3b9d:b0:498:fc06:320b with SMTP id
+ g29-20020a0565123b9d00b00498fc06320bmr3666874lfv.21.1663962720223; 
+ Fri, 23 Sep 2022 12:52:00 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4gMH2J4hH6lI3qaFXejHjDxGYv7GvUMVDcPH7CfE+sxO3G8EslpqCfoT90/9T4N9MaIa84gZCpLNxLm/MPKow=
+X-Received: by 2002:a05:6512:3b9d:b0:498:fc06:320b with SMTP id
+ g29-20020a0565123b9d00b00498fc06320bmr3666857lfv.21.1663962719933; Fri, 23
+ Sep 2022 12:51:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v8 0/8] s390x/pci: zPCI interpretation support
-Content-Language: en-US
-To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
- farman@linux.ibm.com, pmorel@linux.ibm.com, richard.henderson@linaro.org,
- david@redhat.com, pasic@linux.ibm.com, borntraeger@linux.ibm.com,
- mst@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-References: <20220902172737.170349-1-mjrosato@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220902172737.170349-1-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+References: <CAFn=p-ZkKLQtYAwzkQb7srFf_fF8ij+g5wkZiRofx4U+kSZ7Rw@mail.gmail.com>
+ <87v8pzwgbm.fsf@pond.sub.org>
+In-Reply-To: <87v8pzwgbm.fsf@pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 23 Sep 2022 15:51:48 -0400
+Message-ID: <CAFn=p-bR8BZ_7D+GiLAqO83ACxKNDg6+pZC0smZjYVFc_Y7viw@mail.gmail.com>
+Subject: Re: Maximum QMP reply size
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,64 +92,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/09/2022 19.27, Matthew Rosato wrote:
-> Now that the kernel series [1] is merged and the freeze is over, here is a
-> refresh of the zPCI interpretation series.
->                                                             
-> For QEMU, the majority of the work in enabling instruction interpretation
-> is handled via SHM bit settings (to indicate to firmware whether or not
-> interpretive execution facilities are to be used) + a new KVM ioctl is
-> used to setup firmware-interpreted forwarding of Adapter Event
-> Notifications.
-> 
-> This series also adds a new, optional 'interpret' parameter to zpci which
-> can be used to disable interpretation support (interpret=off) as well as
-> an 'forwarding_assist' parameter to determine whether or not the firmware
-> assist will be used for adapter event delivery (default when
-> interpretation is in use) or whether the host will be responsible for
-> delivering all adapter event notifications (forwarding_assist=off).
-> 
-> The zpcii-disable machine property is added to allow disabling use of
-> zPCI interpretation facilities for a guest. This property is set to on
-> for older (pre-7.2 compat machines), but defaults to off for 7.2 and
-> newer. This allows newer machines to use interpretation by default if
-> the necessary kernel interfaces and hardware facilities are available,
-> but also provides a mechanism for disabling interpretation completely
-> for debug purposes.
-> 
-> As a consequence of implementing zPCI interpretation, ISM devices now
-> become eligible for passthrough (but only when zPCI interpretation is
-> available).
-> 
->  From the perspective of guest configuration, you passthrough zPCI devices
-> in the same manner as before, with intepretation support being used by
-> default if available in kernel+qemu.
-> 
-> Changelog v7->v8:
-> - Rebase onto 7.1.0
-> - Move compat machine changes for patch 8
-> - Refresh kernel header sync to 6.0-rc3
-> 
-> [1] https://lore.kernel.org/kvm/20220606203325.110625-1-mjrosato@linux.ibm.com/
-> 
-> Matthew Rosato (8):
->    linux-headers: update to 6.0-rc3
->    s390x/pci: add routine to get host function handle from CLP info
->    s390x/pci: enable for load/store intepretation
+On Wed, Sep 7, 2022 at 7:54 AM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> John Snow <jsnow@redhat.com> writes:
+>
+> > Hi, I suspect I have asked this before, but I didn't write it down in
+> > a comment, so I forget my justification...
+> >
+> > In the QMP lib, we need to set a buffering limit for how big a QMP
+> > message can be -- In practice, I found that the largest possible
+> > response was the QAPI schema reply, and I set the code to this:
+> >
+> >     # Maximum allowable size of read buffer
+> >     _limit = (64 * 1024)
+> >
+> > However, I didn't document if this was a reasonable limit or just a
+> > "worksforme" one. I assume that there's no hard limit for the protocol
+> > or the implementation thereof in QEMU. Is there any kind of value here
+> > that would be more sensible than another?
+> >
+> > I'm worried that if replies get bigger in the future (possibly in some
+> > degenerate case I am presently unaware of) that the library default
+> > will become nonsensical.
+> >
+> > Any pointers/tips?
+>
+> Peter and Daniel already provided some.  I can add a bit of insight into
+> how QMP output works in QEMU, which may or may not help you.
+>
+> QEMU executes one command after the other.  A command's response
+> (success or failure) is a QDict.  Which is then formatted as JSON and
+> appended to the monitor's output buffer.
+>
+> Events work similarly.
+>
+> The conversion to JSON does not limit the resulting string's size.  If
+> it runs out of memory, QEMU dies.
+>
+> The output buffer is also unbounded.  It drains into the monitor's
+> character device.
+>
+> If the QMP client sends enough commands without reading their responses,
+> QEMU can run out of memory and die.
+>
+> Now I'm ready to go back to your question, which is about a *single*
+> message (QMP command response or event): nothing in QEMU limits the size
+> of the QMP output message text.
+>
+> Weak consolation: I guess QEMU is somewhat likely to run out of memory
+> and die before your client software does.  That's because QDict is a
+> pig: an empty one eats 4120 Bytes on my system.  Compares unfavourable
+> to its text representation "{}".
+>
 
-Typo in that subject, should be "interpretation" instead of "intepretation".
+(Oops, I realize that my response was never sent, sending that now:)
 
->    s390x/pci: don't fence interpreted devices without MSI-X
->    s390x/pci: enable adapter event notification for interpreted devices
->    s390x/pci: let intercept devices have separate PCI groups
->    s390x/pci: reflect proper maxstbl for groups of interpreted devices
->    s390x/s390-virtio-ccw: add zpcii-disable machine property
+Thanks for the responses, everyone.
 
-Thanks, patch series looks basically fine to me now. Some nits here and 
-there, so if you could still fix those up and send a v9, that would be 
-great! (If you are completely out of spare time for that, let me know, then 
-I can also try to fix those up on my own when picking up the patches)
+I think I will leave it at 64KB for now, but the limit is absolutely
+configurable; I will just document what the limit is and document how
+to change it in the case you want to use QMP to do some really heavy
+lifting. In practice, there's no unit test in our tree currently that
+seems to blow through the 64KB, but I'll just make sure to pay some
+attention to it in the docs.
 
-  Thomas
+... Or, maybe I'll set it to 10MB to match libvirt ("Well, it's good
+enough for this other project" is always a fantastic justification),
+but I need to profile how Python actually behaves in this case. If
+it's just an upper-bound, I think that's no problem at all.
+
+Thanks!
+
+--js
+
+PS: After reading further discussion that has happened since: The
+problem is the readline buffer size in Python; since we don't have a
+"streaming" JSON parser, we rely on readline to get "the next chunk of
+data", and that buffer has a limit it adheres to. It is possible that
+in the future if we switch to a different parsing method that this
+limit would "go away", but it's not clear that this is a great idea.
+In practice, it's probably reasonable that the client dies on input of
+a certain size. Probably.
 
 
