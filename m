@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D3F5E76DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 11:24:53 +0200 (CEST)
-Received: from localhost ([::1]:54348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8D15E7726
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 11:30:08 +0200 (CEST)
+Received: from localhost ([::1]:51974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obevU-0001ab-Ix
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 05:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35606)
+	id 1obf0Y-0006zn-Tm
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 05:30:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obecI-0002a9-Ia
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:05:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38266)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obecG-0004q2-RF
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:05:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663923894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1obepA-0004tL-6Q
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:18:20 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:39738)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1obep1-00072m-HB
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:18:18 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AE3451FA40;
+ Fri, 23 Sep 2022 09:18:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1663924687; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P113dUnmBNcW1h/LbSN17jo5EC/bcD+PMO654jIvy4g=;
- b=ONfQitPoBtQRBcN8SbOlEY2Rd14hxTZxdYeGr8UEI7xQ/ifS4NVjd1c0Yn1RN7BMEjzAFD
- L9AVhuLTERtbnbXFKOILvsLoYXA6E74YYQdbhVf7a/jaPDTxdz0PFJihQKWF4JAhQZOkdt
- U4vmA9xKoTEZPDGUQ0d8LqcqyqM+ex4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-452-fhgwet3KPH-HTLLlZ1SOxA-1; Fri, 23 Sep 2022 05:04:53 -0400
-X-MC-Unique: fhgwet3KPH-HTLLlZ1SOxA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- y15-20020a1c4b0f000000b003b47578405aso1607274wma.5
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 02:04:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=P113dUnmBNcW1h/LbSN17jo5EC/bcD+PMO654jIvy4g=;
- b=R9CU6NfXLshh+JN9RKwOdfN2qFXGrRpIOjKK4e5rGCfo5O8B7+TG7OWWjajGE70wF/
- lRtemFa5RhyiKwEq8v+G2WzlIgjvkfMgvbIsTbEpDPkRe+Cy+Me7uOTwSQEfrFnADeuq
- EVKjsF0EA0pe6WDSyBWUDRI/k8ScGrDaD3S6E5oQWQEHy6lTsXmeXGb1lzLu+UwN6dE8
- llEDa2mUoz/kDKLAbHmjpTxcCPeyVSHIUgS+8PRCgOlifyxvUOjlK91Z5Ott+NlG6b6W
- ybDwyvooecaAJ4DkZMEUTWSv0dYPHjo3bpHkkTqRTeQ99Ju7lh3IOEbMjBCHASgFmvLt
- Flfg==
-X-Gm-Message-State: ACrzQf1QVuRStdmgMXPx9I9ywl6CZxeePxuIV73T3Fe17wV2aTRzYPky
- KgdY0Q95OAizHt6BiWe0BD61uUEyDeCETIVw1frDa/WiCcR02ddO/wk0Dw8jmbeepe7tKBPgja6
- ngyWEEMFhwAju2Kk=
-X-Received: by 2002:adf:fb8d:0:b0:225:4d57:17a6 with SMTP id
- a13-20020adffb8d000000b002254d5717a6mr4521634wrr.251.1663923892242; 
- Fri, 23 Sep 2022 02:04:52 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6jZ8McGdTLHNES5pBdYamv7kiEgZlwXZu4Mo4RgaybyczPgAE++EcDY5AgiCLhzGcMLRt3VQ==
-X-Received: by 2002:adf:fb8d:0:b0:225:4d57:17a6 with SMTP id
- a13-20020adffb8d000000b002254d5717a6mr4521622wrr.251.1663923892059; 
- Fri, 23 Sep 2022 02:04:52 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-179-37.web.vodafone.de.
- [109.43.179.37]) by smtp.gmail.com with ESMTPSA id
- t25-20020a7bc3d9000000b003b47575d304sm2225815wmj.32.2022.09.23.02.04.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Sep 2022 02:04:51 -0700 (PDT)
-Message-ID: <95d924c5-c55a-3514-2e35-a2b1074ee198@redhat.com>
-Date: Fri, 23 Sep 2022 11:04:49 +0200
+ bh=SrCvS1iVNHYn2vPi2S2Foc0/rX0naTrRNLoHaKr2cJk=;
+ b=cbD3ZzhTwtq7MKmmd515av1PWvxqTXGYWL13/bWV7U5pe/SdBnsbVm543D+nCO5+sMxGg/
+ IzX+CnDiVKTboQklu/KNlq6WFbxNiFwnJNGLgcfIRaBpfmR9kNl2nZpCm7gAAARh24RUOi
+ DG0GEZWopIcdFEhSQS8wDO//vp8eP/8=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7C45B13A00;
+ Fri, 23 Sep 2022 09:18:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 5w6VG895LWOkIAAAMHmgww
+ (envelope-from <nborisov@suse.com>); Fri, 23 Sep 2022 09:18:07 +0000
+Message-ID: <b0d7d304-5da5-d8c4-f9bf-e27fef882918@suse.com>
+Date: Fri, 23 Sep 2022 12:18:06 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] linux-user/host/s390: Add vector instructions to
- host_signal_write()
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] migration/ram: Fix memory leak when using x-ignore-shared
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, Laurent Vivier <laurent@vivier.eu>, 
- Richard Henderson <richard.henderson@linaro.org>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20220920113907.334144-1-iii@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220920113907.334144-1-iii@linux.ibm.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
+References: <20220916084442.1349996-1-nborisov@suse.com>
+ <Yyyenk4Qu6nWMsJD@work-vm>
+From: Nikolay Borisov <nborisov@suse.com>
+In-Reply-To: <Yyyenk4Qu6nWMsJD@work-vm>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.893, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=nborisov@suse.com;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -62
+X-Spam_score: -6.3
+X-Spam_bar: ------
+X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.893,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,24 +80,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/09/2022 13.39, Ilya Leoshkevich wrote:
-> The new noexec test fails on s390x with "unexpected SEGV". This test
-> overwrites code using libc's memcpy(), which uses VSTL instruction.
-> host_signal_write() does not recognize it, which causes SEGV to be
-> incorrectly forwarded to the test.
+
+
+On 22.09.22 г. 20:42 ч., Dr. David Alan Gilbert wrote:
+> * Nikolay Borisov (nborisov@suse.com) wrote:
+>> During ram initialization for migration dirty/clear bitmaps are
+>> allocated for all migratable blocks, irrespective of their shared
+>> status. However, during ram migration cleanup those bitmaps are freed
+>> only for those blocks which aren't shared, in case x-ignore-shared
+>> capability is used. This leads to a situation where the bitmaps aren't
+>> freed for such blocks.
 > 
-> Add all vector instructions that write to memory to
-> host_signal_write().
+> Can you show me where you're seeing the allocation based on MIGRATABLE?
+> I'm looking at ram_list_init_bitmaps:
 > 
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Fixes: ab12c95d3f19 ("target/s390x: Make translator stop before the end of a page")
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   linux-user/include/host/s390/host-signal.h | 25 ++++++++++++++++++++++
->   1 file changed, 25 insertions(+)
+> 
+>          RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+>              block->bmap = bitmap_new(pages);
+> ....
+>              block->clear_bmap = bitmap_new(clear_bmap_size(pages, shift));
+> 
+> 
+> So that's based on NOT_IGNORED.
 
-Thanks, this fixes the segfault for me, indeed!
+Huhz, you are perfectly right and I assume I got confused by the 
+RAMBLOCK_FOREACH_MIGRATABLE in ram_save_setup as opposed to the code in 
+ram_list_init_bitmaps. Apologies for the noise...
 
-Tested-by: Thomas Huth <thuth@redhat.com>
-
+> 
+> Dave
+> 
+>> Fix this by switching the cleanup code to also free bitmaps for all
+>> migratable blocks.
+>>
+>> Signed-off-by: Nikolay Borisov <nborisov@suse.com>
+>> ---
+>>   migration/ram.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index dc1de9ddbc68..2e40166d2f9e 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -2678,7 +2678,7 @@ static void ram_save_cleanup(void *opaque)
+>>           }
+>>       }
+>>   
+>> -    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+>> +    RAMBLOCK_FOREACH_MIGRATABLE(block) {
+>>           g_free(block->clear_bmap);
+>>           block->clear_bmap = NULL;
+>>           g_free(block->bmap);
+>> -- 
+>> 2.34.1
+>>
 
