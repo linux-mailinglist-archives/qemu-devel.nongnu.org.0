@@ -2,67 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017505E8538
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 23:59:58 +0200 (CEST)
-Received: from localhost ([::1]:39720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7114F5E858D
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 00:06:32 +0200 (CEST)
+Received: from localhost ([::1]:57480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obqiD-0003fT-41
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 17:59:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41192)
+	id 1obqoZ-0002ds-Bh
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 18:06:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqa1-0008FD-Rv
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:51:29 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:34909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1obqZz-0007CX-J8
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 17:51:29 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M8QFi-1ogGQ72LBY-004SMM; Fri, 23 Sep 2022 23:51:15 +0200
-Message-ID: <4a4034e5-b944-ca22-0cd7-3cbc5a3f120a@vivier.eu>
-Date: Fri, 23 Sep 2022 23:51:11 +0200
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1obqY0-0006ad-TS; Fri, 23 Sep 2022 17:49:24 -0400
+Received: from [200.168.210.66] (port=12827 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1obqXy-0006ea-VG; Fri, 23 Sep 2022 17:49:24 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 23 Sep 2022 18:47:57 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 73447800491;
+ Fri, 23 Sep 2022 18:47:57 -0300 (-03)
+From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: richard.henderson@linaro.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH 05/12] target/ppc: Move VPRTYB[WDQ] to decodetree and use gvec
+Date: Fri, 23 Sep 2022 18:47:47 -0300
+Message-Id: <20220923214754.217819-6-lucas.araujo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220923214754.217819-1-lucas.araujo@eldorado.org.br>
+References: <20220923214754.217819-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v3 1/5] linux-user: Provide MADV_* definitions
-Content-Language: fr
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Taylor Simpson <tsimpson@quicinc.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20220906000839.1672934-1-iii@linux.ibm.com>
- <20220906000839.1672934-2-iii@linux.ibm.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220906000839.1672934-2-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:HR58y32JQGtxDBuuU7Ql12EX8x4cbUzs0A2rxxquThI4Qovu9mP
- qClrNhGaJzvJ3+sIiI0a31yV2/iz1uSiQ4qhJR2SXT54I1DADI54rIS1YidzMEVUwkH6MGs
- syPcbPtIe5BDwjCVwbUKkBYBrAiVX65IsD9J2fPabGyNd4PTXgR0+5IhyirlRZcRERvyVd8
- aaxgJjkuDx046QND46J7A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EWFkZ+tHqg0=:lbSxYw4qR2q//4MeWkB4Eq
- LPPUBaEZ5ZLxt9Wxio/0F5gViV3kP0Dp9/mlLUz/SIyiOXmCnkaHuvy4uLNOzg1ajci036b3Q
- AVt2IA/a4kw0xmE4qlYCB9jjzupewbm66f9mi7+bfpcvxybMRSgTFtDfSlNTGgumfKPyTGu+o
- wMhPkaYUWnKj/CqVQhdhh0alPbNFtqzwA/76Pm71Ac6dlJCH1T+miEKAPQrcaWYcyxIDt0zU9
- ZOOAd82Onn0CXCN4G7V6y2w3tf33aT9rFoyMohhbpVmu/7sXa9zVPb7V3XnCM8IGJbnmz/Dw9
- QLOH23kyKBVQCQ54GUM8ItpyLOhbrPMWqyIRks4fiNj/0t9b6sU4IswhVe8u6UaS3LdI/knAN
- hojlJpOZjmJkDQLnRWGnNdegwFaJusgZr3jXYRmwVq6VZxNcwhW+mk1r1ovHdu+ZQLRjxhCoY
- qartE0jTCSSU78VH4NRO5DB6uCUwnk4xqxfVXy5EbdkKI/i+NGo+UWbtiFK8dnh2xG+uExyxM
- m/HWa+rVxC2nbwTuNEIR5xFcwBDNsHqjZwMxr9BRILzl6fjJx9iz0kvaM6dkoPD733R1/iQB1
- ifKod7bafW6IVu8f/u+/ehhn9XIGmzd2U5a7xCCMDwG+JHHMqUj4wurK+uV1HTkrUKuJgh3Ps
- IPwWb6Qu1i4AwXX8GVymigSlS0SGCuu5YQWK0MeaBfwxa9HdlvUZjrX93+cBwj9pgTummNiJN
- EvaGLrdLwRQ5n+pwc5G74MElJGqV4E3Kuh5aYxqOIvmJTHu9u9d0Itz0qOlQwkOyM0xYw08JX
- 071i4sq
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-OriginalArrivalTime: 23 Sep 2022 21:47:57.0718 (UTC)
+ FILETIME=[24D17360:01D8CF96]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,329 +64,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/09/2022 à 02:08, Ilya Leoshkevich a écrit :
-> Provide MADV_* definitions using target_mman.h header, similar to what
-> kernel does. Most architectures use the same values, with the exception
-> of alpha and hppa.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   linux-user/aarch64/target_mman.h     |  1 +
->   linux-user/alpha/target_mman.h       |  8 +++
->   linux-user/arm/target_mman.h         |  1 +
->   linux-user/cris/target_mman.h        |  1 +
->   linux-user/generic/target_mman.h     | 92 ++++++++++++++++++++++++++++
->   linux-user/hexagon/target_mman.h     |  1 +
->   linux-user/hppa/target_mman.h        | 15 +++++
->   linux-user/i386/target_mman.h        |  1 +
->   linux-user/loongarch64/target_mman.h |  1 +
->   linux-user/m68k/target_mman.h        |  1 +
->   linux-user/microblaze/target_mman.h  |  1 +
->   linux-user/mips/target_mman.h        |  1 +
->   linux-user/mips64/target_mman.h      |  1 +
->   linux-user/nios2/target_mman.h       |  1 +
->   linux-user/openrisc/target_mman.h    |  1 +
->   linux-user/ppc/target_mman.h         |  1 +
->   linux-user/riscv/target_mman.h       |  1 +
->   linux-user/s390x/target_mman.h       |  1 +
->   linux-user/sh4/target_mman.h         |  1 +
->   linux-user/sparc/target_mman.h       |  1 +
->   linux-user/x86_64/target_mman.h      |  1 +
->   linux-user/xtensa/target_mman.h      |  1 +
->   22 files changed, 134 insertions(+)
->   create mode 100644 linux-user/aarch64/target_mman.h
->   create mode 100644 linux-user/alpha/target_mman.h
->   create mode 100644 linux-user/arm/target_mman.h
->   create mode 100644 linux-user/cris/target_mman.h
->   create mode 100644 linux-user/generic/target_mman.h
->   create mode 100644 linux-user/hexagon/target_mman.h
->   create mode 100644 linux-user/hppa/target_mman.h
->   create mode 100644 linux-user/i386/target_mman.h
->   create mode 100644 linux-user/loongarch64/target_mman.h
->   create mode 100644 linux-user/m68k/target_mman.h
->   create mode 100644 linux-user/microblaze/target_mman.h
->   create mode 100644 linux-user/mips/target_mman.h
->   create mode 100644 linux-user/mips64/target_mman.h
->   create mode 100644 linux-user/nios2/target_mman.h
->   create mode 100644 linux-user/openrisc/target_mman.h
->   create mode 100644 linux-user/ppc/target_mman.h
->   create mode 100644 linux-user/riscv/target_mman.h
->   create mode 100644 linux-user/s390x/target_mman.h
->   create mode 100644 linux-user/sh4/target_mman.h
->   create mode 100644 linux-user/sparc/target_mman.h
->   create mode 100644 linux-user/x86_64/target_mman.h
->   create mode 100644 linux-user/xtensa/target_mman.h
-> 
-> diff --git a/linux-user/aarch64/target_mman.h b/linux-user/aarch64/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/aarch64/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/alpha/target_mman.h b/linux-user/alpha/target_mman.h
-> new file mode 100644
-> index 0000000000..cd6e3d70a6
-> --- /dev/null
-> +++ b/linux-user/alpha/target_mman.h
-> @@ -0,0 +1,8 @@
-> +#ifndef ALPHA_TARGET_MMAN_H
-> +#define ALPHA_TARGET_MMAN_H
-> +
-> +#define TARGET_MADV_DONTNEED 6
-> +
-> +#include "../generic/target_mman.h"
-> +
-> +#endif
-> diff --git a/linux-user/arm/target_mman.h b/linux-user/arm/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/arm/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/cris/target_mman.h b/linux-user/cris/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/cris/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/generic/target_mman.h b/linux-user/generic/target_mman.h
-> new file mode 100644
-> index 0000000000..1436a3c543
-> --- /dev/null
-> +++ b/linux-user/generic/target_mman.h
-> @@ -0,0 +1,92 @@
-> +#ifndef LINUX_USER_TARGET_MMAN_H
-> +#define LINUX_USER_TARGET_MMAN_H
-> +
-> +#ifndef TARGET_MADV_NORMAL
-> +#define TARGET_MADV_NORMAL 0
-> +#endif
-> +
-> +#ifndef TARGET_MADV_RANDOM
-> +#define TARGET_MADV_RANDOM 1
-> +#endif
-> +
-> +#ifndef TARGET_MADV_SEQUENTIAL
-> +#define TARGET_MADV_SEQUENTIAL 2
-> +#endif
-> +
-> +#ifndef TARGET_MADV_WILLNEED
-> +#define TARGET_MADV_WILLNEED 3
-> +#endif
-> +
-> +#ifndef TARGET_MADV_DONTNEED
-> +#define TARGET_MADV_DONTNEED 4
-> +#endif
-> +
-> +#ifndef TARGET_MADV_FREE
-> +#define TARGET_MADV_FREE 8
-> +#endif
-> +
-> +#ifndef TARGET_MADV_REMOVE
-> +#define TARGET_MADV_REMOVE 9
-> +#endif
-> +
-> +#ifndef TARGET_MADV_DONTFORK
-> +#define TARGET_MADV_DONTFORK 10
-> +#endif
-> +
-> +#ifndef TARGET_MADV_DOFORK
-> +#define TARGET_MADV_DOFORK 11
-> +#endif
-> +
-> +#ifndef TARGET_MADV_MERGEABLE
-> +#define TARGET_MADV_MERGEABLE 12
-> +#endif
-> +
-> +#ifndef TARGET_MADV_UNMERGEABLE
-> +#define TARGET_MADV_UNMERGEABLE 13
-> +#endif
-> +
-> +#ifndef TARGET_MADV_HUGEPAGE
-> +#define TARGET_MADV_HUGEPAGE 14
-> +#endif
-> +
-> +#ifndef TARGET_MADV_NOHUGEPAGE
-> +#define TARGET_MADV_NOHUGEPAGE 15
-> +#endif
-> +
-> +#ifndef TARGET_MADV_DONTDUMP
-> +#define TARGET_MADV_DONTDUMP 16
-> +#endif
-> +
-> +#ifndef TARGET_MADV_DODUMP
-> +#define TARGET_MADV_DODUMP 17
-> +#endif
-> +
-> +#ifndef TARGET_MADV_WIPEONFORK
-> +#define TARGET_MADV_WIPEONFORK 18
-> +#endif
-> +
-> +#ifndef TARGET_MADV_KEEPONFORK
-> +#define TARGET_MADV_KEEPONFORK 19
-> +#endif
-> +
-> +#ifndef TARGET_MADV_COLD
-> +#define TARGET_MADV_COLD 20
-> +#endif
-> +
-> +#ifndef TARGET_MADV_PAGEOUT
-> +#define TARGET_MADV_PAGEOUT 21
-> +#endif
-> +
-> +#ifndef TARGET_MADV_POPULATE_READ
-> +#define TARGET_MADV_POPULATE_READ 22
-> +#endif
-> +
-> +#ifndef TARGET_MADV_POPULATE_WRITE
-> +#define TARGET_MADV_POPULATE_WRITE 23
-> +#endif
-> +
-> +#ifndef TARGET_MADV_DONTNEED_LOCKED
-> +#define TARGET_MADV_DONTNEED_LOCKED 24
-> +#endif
-> +
-> +#endif
-> diff --git a/linux-user/hexagon/target_mman.h b/linux-user/hexagon/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/hexagon/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/hppa/target_mman.h b/linux-user/hppa/target_mman.h
-> new file mode 100644
-> index 0000000000..66dd9f7941
-> --- /dev/null
-> +++ b/linux-user/hppa/target_mman.h
-> @@ -0,0 +1,15 @@
-> +#ifndef HPPA_TARGET_MMAN_H
-> +#define HPPA_TARGET_MMAN_H
-> +
-> +#define TARGET_MADV_MERGEABLE 65
-> +#define TARGET_MADV_UNMERGEABLE 66
-> +#define TARGET_MADV_HUGEPAGE 67
-> +#define TARGET_MADV_NOHUGEPAGE 68
-> +#define TARGET_MADV_DONTDUMP 69
-> +#define TARGET_MADV_DODUMP 70
-> +#define TARGET_MADV_WIPEONFORK 71
-> +#define TARGET_MADV_KEEPONFORK 72
-> +
-> +#include "../generic/target_mman.h"
-> +
-> +#endif
-> diff --git a/linux-user/i386/target_mman.h b/linux-user/i386/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/i386/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/loongarch64/target_mman.h b/linux-user/loongarch64/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/loongarch64/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/m68k/target_mman.h b/linux-user/m68k/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/m68k/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/microblaze/target_mman.h b/linux-user/microblaze/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/microblaze/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/mips/target_mman.h b/linux-user/mips/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/mips/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/mips64/target_mman.h b/linux-user/mips64/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/mips64/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/nios2/target_mman.h b/linux-user/nios2/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/nios2/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/openrisc/target_mman.h b/linux-user/openrisc/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/openrisc/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/ppc/target_mman.h b/linux-user/ppc/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/ppc/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/riscv/target_mman.h b/linux-user/riscv/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/riscv/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/s390x/target_mman.h b/linux-user/s390x/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/s390x/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/sh4/target_mman.h b/linux-user/sh4/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/sh4/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/sparc/target_mman.h b/linux-user/sparc/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/sparc/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/x86_64/target_mman.h b/linux-user/x86_64/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/x86_64/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
-> diff --git a/linux-user/xtensa/target_mman.h b/linux-user/xtensa/target_mman.h
-> new file mode 100644
-> index 0000000000..e7ba6070fe
-> --- /dev/null
-> +++ b/linux-user/xtensa/target_mman.h
-> @@ -0,0 +1 @@
-> +#include "../generic/target_mman.h"
+From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-Applied to my linux-user-for-7.2 branch.
+Moved VPRTYBW and VPRTYBD to use gvec and both of them and VPRTYBQ to
+decodetree.
 
-Thanks,
-Laurent
+vprtybw:
+rept    loop    master             patch
+8       12500   0,01215900         0,00705600 (-42.0%)
+25      4000    0,01198700         0,00574400 (-52.1%)
+100     1000    0,01307800         0,00692200 (-47.1%)
+500     200     0,01794800         0,01558800 (-13.1%)
+2500    40      0,04028200         0,05400800 (+34.1%)
+8000    12      0,10127300         0,16744700 (+65.3%)
+
+vprtybd:
+rept    loop    master             patch
+8       12500   0,00757400         0,00791600 (+4.5%)
+25      4000    0,00651300         0,00673700 (+3.4%)
+100     1000    0,00713400         0,00837700 (+17.4%)
+500     200     0,01195400         0,01937400 (+62.1%)
+2500    40      0,03478600         0,07005500 (+101.4%)
+8000    12      0,09539600         0,21013500 (+120.3%)
+
+vprtybq:
+rept    loop    master             patch
+8       12500   0,00065540         0,00066440 (+1.4%)
+25      4000    0,00057720         0,00059850 (+3.7%)
+100     1000    0,00066400         0,00069360 (+4.5%)
+500     200     0,00115170         0,00127360 (+10.6%)
+2500    40      0,00341890         0,00391550 (+14.5%)
+8000    12      0,00951220         0,01111480 (+16.8%)
+
+I wasn't expecting such a performance lost in both VPRTYBD and VPRTYBQ,
+I'm not sure if it's worth to move those instructions. Comparing the 
+assembly of the helper with the TCGop they are pretty similar, so
+I'm not sure why vprtybd took so much more time.
+
+Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
+---
+ target/ppc/helper.h                 |  6 ++--
+ target/ppc/insn32.decode            |  4 +++
+ target/ppc/int_helper.c             |  6 ++--
+ target/ppc/translate/vmx-impl.c.inc | 55 +++++++++++++++++++++++++++--
+ target/ppc/translate/vmx-ops.c.inc  |  3 --
+ 5 files changed, 62 insertions(+), 12 deletions(-)
+
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index feccf30bcb..6a43e32ad3 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -194,9 +194,9 @@ DEF_HELPER_FLAGS_3(vsro, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(vsrv, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(vslv, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_4(VADDCUW, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
+-DEF_HELPER_FLAGS_2(vprtybw, TCG_CALL_NO_RWG, void, avr, avr)
+-DEF_HELPER_FLAGS_2(vprtybd, TCG_CALL_NO_RWG, void, avr, avr)
+-DEF_HELPER_FLAGS_2(vprtybq, TCG_CALL_NO_RWG, void, avr, avr)
++DEF_HELPER_FLAGS_3(VPRTYBW, TCG_CALL_NO_RWG, void, avr, avr, i32)
++DEF_HELPER_FLAGS_3(VPRTYBD, TCG_CALL_NO_RWG, void, avr, avr, i32)
++DEF_HELPER_FLAGS_3(VPRTYBQ, TCG_CALL_NO_RWG, void, avr, avr, i32)
+ DEF_HELPER_FLAGS_4(VSUBCUW, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
+ DEF_HELPER_FLAGS_5(vaddsbs, TCG_CALL_NO_RWG, void, avr, avr, avr, avr, i32)
+ DEF_HELPER_FLAGS_5(vaddshs, TCG_CALL_NO_RWG, void, avr, avr, avr, avr, i32)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index 2658dd3395..aa4968e6b9 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -529,6 +529,10 @@ VCTZDM          000100 ..... ..... ..... 11111000100    @VX
+ VPDEPD          000100 ..... ..... ..... 10111001101    @VX
+ VPEXTD          000100 ..... ..... ..... 10110001101    @VX
+ 
++VPRTYBD         000100 ..... 01001 ..... 11000000010    @VX_tb
++VPRTYBQ         000100 ..... 01010 ..... 11000000010    @VX_tb
++VPRTYBW         000100 ..... 01000 ..... 11000000010    @VX_tb
++
+ ## Vector Permute and Formatting Instruction
+ 
+ VEXTDUBVLX      000100 ..... ..... ..... ..... 011000   @VA
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 338ebced22..64b2d44a66 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -502,7 +502,7 @@ void helper_VADDCUW(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, uint32_t v)
+ }
+ 
+ /* vprtybw */
+-void helper_vprtybw(ppc_avr_t *r, ppc_avr_t *b)
++void helper_VPRTYBW(ppc_avr_t *r, ppc_avr_t *b, uint32_t v)
+ {
+     int i;
+     for (i = 0; i < ARRAY_SIZE(r->u32); i++) {
+@@ -513,7 +513,7 @@ void helper_vprtybw(ppc_avr_t *r, ppc_avr_t *b)
+ }
+ 
+ /* vprtybd */
+-void helper_vprtybd(ppc_avr_t *r, ppc_avr_t *b)
++void helper_VPRTYBD(ppc_avr_t *r, ppc_avr_t *b, uint32_t v)
+ {
+     int i;
+     for (i = 0; i < ARRAY_SIZE(r->u64); i++) {
+@@ -525,7 +525,7 @@ void helper_vprtybd(ppc_avr_t *r, ppc_avr_t *b)
+ }
+ 
+ /* vprtybq */
+-void helper_vprtybq(ppc_avr_t *r, ppc_avr_t *b)
++void helper_VPRTYBQ(ppc_avr_t *r, ppc_avr_t *b, uint32_t v)
+ {
+     uint64_t res = b->u64[0] ^ b->u64[1];
+     res ^= res >> 32;
+diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
+index 3f614097ac..06d91d1304 100644
+--- a/target/ppc/translate/vmx-impl.c.inc
++++ b/target/ppc/translate/vmx-impl.c.inc
+@@ -1659,9 +1659,58 @@ GEN_VXFORM_NOA_ENV(vrfim, 5, 11);
+ GEN_VXFORM_NOA_ENV(vrfin, 5, 8);
+ GEN_VXFORM_NOA_ENV(vrfip, 5, 10);
+ GEN_VXFORM_NOA_ENV(vrfiz, 5, 9);
+-GEN_VXFORM_NOA(vprtybw, 1, 24);
+-GEN_VXFORM_NOA(vprtybd, 1, 24);
+-GEN_VXFORM_NOA(vprtybq, 1, 24);
++
++static void gen_vprtyb(unsigned vece, TCGv_vec t, TCGv_vec b)
++{
++    int i;
++    TCGv_vec tmp = tcg_temp_new_vec_matching(b);
++    /* MO_32 is 2, so 2 iteractions for MO_32 and 3 for MO_64 */
++    for (i = 0; i < vece; i++) {
++        tcg_gen_shri_vec(vece, tmp, b, (4 << (vece - i)));
++        tcg_gen_xor_vec(vece, b, tmp, b);
++    }
++    tcg_gen_dupi_vec(vece, tmp, 1);
++    tcg_gen_and_vec(vece, t, b, tmp);
++    tcg_temp_free_vec(tmp);
++}
++
++static bool do_vx_vprtyb(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
++{
++    static const TCGOpcode vecop_list[] = {
++        INDEX_op_shri_vec, 0
++    };
++
++    static const GVecGen2 op[] = {
++        {
++            .fniv = gen_vprtyb,
++            .fno = gen_helper_VPRTYBW,
++            .opt_opc = vecop_list,
++            .vece = MO_32
++        },
++        {
++            .fniv = gen_vprtyb,
++            .fno = gen_helper_VPRTYBD,
++            .opt_opc = vecop_list,
++            .vece = MO_64
++        },
++        {
++            .fno = gen_helper_VPRTYBQ,
++            .vece = MO_128
++        },
++    };
++
++    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
++    REQUIRE_VECTOR(ctx);
++
++    tcg_gen_gvec_2(avr_full_offset(a->vrt), avr_full_offset(a->vrb),
++                   16, 16, &op[vece - MO_32]);
++
++    return true;
++}
++
++TRANS(VPRTYBW, do_vx_vprtyb, MO_32)
++TRANS(VPRTYBD, do_vx_vprtyb, MO_64)
++TRANS(VPRTYBQ, do_vx_vprtyb, MO_128)
+ 
+ static void gen_vsplt(DisasContext *ctx, int vece)
+ {
+diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
+index 27908533dd..46a620a232 100644
+--- a/target/ppc/translate/vmx-ops.c.inc
++++ b/target/ppc/translate/vmx-ops.c.inc
+@@ -106,9 +106,6 @@ GEN_VXFORM_300(vsrv, 2, 28),
+ GEN_VXFORM_300(vslv, 2, 29),
+ GEN_VXFORM(vslo, 6, 16),
+ GEN_VXFORM(vsro, 6, 17),
+-GEN_HANDLER_E_2(vprtybw, 0x4, 0x1, 0x18, 8, 0, PPC_NONE, PPC2_ISA300),
+-GEN_HANDLER_E_2(vprtybd, 0x4, 0x1, 0x18, 9, 0, PPC_NONE, PPC2_ISA300),
+-GEN_HANDLER_E_2(vprtybq, 0x4, 0x1, 0x18, 10, 0, PPC_NONE, PPC2_ISA300),
+ 
+ GEN_VXFORM(xpnd04_1, 0, 22),
+ GEN_VXFORM_300(bcdsr, 0, 23),
+-- 
+2.31.1
 
 
