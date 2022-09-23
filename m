@@ -2,94 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3055E7541
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 09:54:55 +0200 (CEST)
-Received: from localhost ([::1]:48362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB945E7544
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 09:56:51 +0200 (CEST)
+Received: from localhost ([::1]:32916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obdWQ-0003kA-IG
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 03:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53152)
+	id 1obdYI-0004fE-8G
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 03:56:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obdP8-0000FV-KG
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:47:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37616)
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1obdSR-000293-Du
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:50:49 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obdP4-0007Kn-8h
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:47:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663919236;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rMAMpIiWQgqqinSvZ0H+H8YfhDBhHvehGAK0k2Z+eBM=;
- b=NSkkqF37+cc9Lno4n3BmzdT2L+n1Hg6QtdVcTfvTtK3KqSbby+6xuiE++mTepA5jLgvLhj
- Cv5pXDX68Mm7LZ0oNk1BJzHAyTPj2yjNy7u3OerQDMAQjPhKAPgdjJAlhMD5DZZjDo9wEZ
- d8pBzI3e7GX7bdqSOkiHK9pWgdq7sK4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-591-xLX6TTLEOzq9aBvVqTrpnQ-1; Fri, 23 Sep 2022 03:47:04 -0400
-X-MC-Unique: xLX6TTLEOzq9aBvVqTrpnQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- p36-20020a05600c1da400b003b4faefa2b9so3363623wms.6
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 00:47:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=rMAMpIiWQgqqinSvZ0H+H8YfhDBhHvehGAK0k2Z+eBM=;
- b=Beu+xT+NvVMKfkygUTdzmLaaICdy56MRcYK8oqOzditraHQY4JYOrxt0Xl1wguAL6h
- vFYpN+sOshX3DMcqm0nRd13Th18c4+VAyNApA0Lk9JJ5I9EjX9Xs6qkubmRI9QkjH0vZ
- 5bI2OkLRD8Ap6TggbtKZZhSjO2E4SypB7flwm3I2oKrGcV5kb766OKXnuDuGI/0j04/L
- ct7tPXyXilXFdEaOawbIB4DPWsYXWbaSOMVTAJ8ru91VWlNT1+WQhJKbSPzDCP2taoLY
- 2ZaHjYmF4qIqDnGx2qHNG9ZBiKqpHFKpH3MKt9hqBkPk0G/WeeD7aQ7lmkkENZNi+2yG
- HWMg==
-X-Gm-Message-State: ACrzQf0dM4O8aJSjqJOoQRrTXU7OhDruTmYfMm1b20XmBKA6QsW2Bk+f
- BZABVO3aCQ/pPEPK4Nzih5G7HjzAS3G44k3AMqZSLx9tF9INr0er+8XQavtldw0T6z5XUxf4Iyq
- WkyBtZBNC4qwC6C4=
-X-Received: by 2002:a05:600c:1c22:b0:3b4:b2bc:15e4 with SMTP id
- j34-20020a05600c1c2200b003b4b2bc15e4mr4995086wms.69.1663919223627; 
- Fri, 23 Sep 2022 00:47:03 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7vs6NuPMQnXECliuI28LpyFF05+m8fSFiePSVC+75eppfjoBD430IGwzW5QO5T93BQ1WqIpQ==
-X-Received: by 2002:a05:600c:1c22:b0:3b4:b2bc:15e4 with SMTP id
- j34-20020a05600c1c2200b003b4b2bc15e4mr4995063wms.69.1663919223281; 
- Fri, 23 Sep 2022 00:47:03 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-179-37.web.vodafone.de.
- [109.43.179.37]) by smtp.gmail.com with ESMTPSA id
- bj1-20020a0560001e0100b0022b0214cfa6sm8267365wrb.45.2022.09.23.00.47.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Sep 2022 00:47:02 -0700 (PDT)
-Message-ID: <6a52db60-0ec8-ca7c-795a-b62743b1383f@redhat.com>
-Date: Fri, 23 Sep 2022 09:47:01 +0200
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1obdSN-00088z-1G
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 03:50:46 -0400
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MYklN2gpVzpStk;
+ Fri, 23 Sep 2022 15:47:44 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 23 Sep 2022 15:50:34 +0800
+CC: <yangyicong@hisilicon.com>, <mst@redhat.com>, <imammedo@redhat.com>,
+ <ani@anisinha.ca>, <eduardo@habkost.net>, <marcel.apfelbaum@gmail.com>,
+ <f4bug@amsat.org>, <qemu-devel@nongnu.org>, <linuxarm@huawei.com>,
+ <prime.zeng@huawei.com>, <hesham.almatary@huawei.com>,
+ <ionela.voinescu@arm.com>, <darren@os.amperecomputing.com>
+Subject: Re: [PATCH 0/4] Only generate cluster node in PPTT when specified
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, <wangyanan55@huawei.com>
+References: <20220922131143.58003-1-yangyicong@huawei.com>
+ <20220922153128.000035a4@huawei.com>
+Message-ID: <680df724-0a1c-f744-1a70-feff27ed660a@huawei.com>
+Date: Fri, 23 Sep 2022 15:50:34 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
- Ilya Leoshkevich <iii@linux.ibm.com>
-References: <YyyxrNp+5XrmLi1Y@fedora> <Yy1gB1KB3YSIUcoC@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: Inscrutable CI jobs (avocado & Travis s390 check-tcg)
-In-Reply-To: <Yy1gB1KB3YSIUcoC@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.893, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+In-Reply-To: <20220922153128.000035a4@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=yangyicong@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.893,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,95 +69,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Yicong Yang <yangyicong@huawei.com>
+From:  Yicong Yang via <qemu-devel@nongnu.org>
 
-On 23/09/2022 09.28, Daniel P. Berrangé wrote:
-> On Thu, Sep 22, 2022 at 03:04:12PM -0400, Stefan Hajnoczi wrote:
->> QEMU's avocado and Travis s390x check-tcg CI jobs fail often and I don't
->> know why. I think it's due to timeouts but maybe there is something
->> buried in the logs that I missed.
+On 2022/9/22 22:31, Jonathan Cameron wrote:
+> On Thu, 22 Sep 2022 21:11:39 +0800
+> Yicong Yang <yangyicong@huawei.com> wrote:
+> 
+>> From: Yicong Yang <yangyicong@hisilicon.com>
 >>
->> I waste time skimming through logs when merging qemu.git pull requests
->> and electricity is wasted on tests that don't produce useful pass/fail
->> output.
+>> This series mainly change the policy for building a cluster topology node
+>> in PPTT. Previously we'll always build a cluster node in PPTT without
+>> asking the user, after this set the cluster node will be built only the
+>> the user specify through "-smp clusters=X".
 >>
->> Here are two recent examples:
->> https://gitlab.com/qemu-project/qemu/-/jobs/3070754718
->> https://app.travis-ci.com/gitlab/qemu-project/qemu/jobs/583629583
+>> Update the tests and test tables accordingly.
+> Hi Yicong,
+
+Hi Jonathan,
+
+Thanks for the comments!
+
+> 
+> Does this bring an issue with backwards compatibility?
+> I'm assuming we need to make this something controlled in
+> virt_machine_7_1_options()?
+> 
+
+I'm not sure but I cannot come up with one for now. Any hints for this?
+Maybe Yanan can shed some light on this since they are using this cluster
+feature.
+
+> One of those things we probably should have noticed originally but now
+> we are stuck with the slightly messy backwards compatibility problem.
+> 
+> Also, looks like you picked up a bunch of tables that are unrelated
+> to the change.
+> 
+
+The tables are updated by tests/data/acpi/rebuild-expected-aml.sh so I think
+it's doing the proper thing. These tables are introduced due to:
+
+Patch 1 - Don't build the cluster node by default, so the "virt" test is influenced
+Patch 2 - Update the expected PPTT table to get rid of the cluster node
+Patch 3 - Since the cluster is not tested, add a new test for topology test of all
+          level for aarch64, with command "-smp sockets=1,clusters=2,cores=2,threads=2"
+Patch 4 - Update the expected tables for the topology test introduced in Patch 3
+
+
+> Jonathan
+> 
+> 
 >>
->> If there are real test failures then the test output needs to be
->> improved so people can identify failures.
+>> Yicong Yang (4):
+>>   hw/acpi/aml-build: Only generate cluster node in PPTT when specified
+>>   tests: virt: update expected ACPI tables for virt test
+>>   tests: acpi: aarch64: add topology test for aarch64
+>>   tests: acpi: aarch64: add *.topology tables
 >>
->> If the tests are timing out then they need to be split up and/or reduced
->> in duration. BTW, if it's a timeout, why are we using an internal
->> timeout instead of letting CI mark the job as timed out?
+>>  hw/acpi/aml-build.c                |   2 +-
+>>  hw/core/machine-smp.c              |   3 +++
+>>  include/hw/boards.h                |   2 ++
+>>  tests/data/acpi/virt/APIC.pxb      | Bin 0 -> 168 bytes
+>>  tests/data/acpi/virt/APIC.topology | Bin 0 -> 700 bytes
+>>  tests/data/acpi/virt/DBG2.memhp    | Bin 0 -> 87 bytes
+>>  tests/data/acpi/virt/DBG2.numamem  | Bin 0 -> 87 bytes
+>>  tests/data/acpi/virt/DBG2.pxb      | Bin 0 -> 87 bytes
+>>  tests/data/acpi/virt/DBG2.topology | Bin 0 -> 87 bytes
+>>  tests/data/acpi/virt/DSDT.topology | Bin 0 -> 5398 bytes
+>>  tests/data/acpi/virt/FACP.pxb      | Bin 0 -> 268 bytes
+>>  tests/data/acpi/virt/FACP.topology | Bin 0 -> 268 bytes
+>>  tests/data/acpi/virt/GTDT.pxb      | Bin 0 -> 96 bytes
+>>  tests/data/acpi/virt/GTDT.topology | Bin 0 -> 96 bytes
+>>  tests/data/acpi/virt/IORT.topology | Bin 0 -> 128 bytes
+>>  tests/data/acpi/virt/MCFG.pxb      | Bin 0 -> 60 bytes
+>>  tests/data/acpi/virt/MCFG.topology | Bin 0 -> 60 bytes
+>>  tests/data/acpi/virt/PPTT          | Bin 96 -> 76 bytes
+>>  tests/data/acpi/virt/PPTT.memhp    | Bin 0 -> 76 bytes
+>>  tests/data/acpi/virt/PPTT.numamem  | Bin 0 -> 76 bytes
+>>  tests/data/acpi/virt/PPTT.pxb      | Bin 0 -> 76 bytes
+>>  tests/data/acpi/virt/PPTT.topology | Bin 0 -> 336 bytes
+>>  tests/data/acpi/virt/SPCR.pxb      | Bin 0 -> 80 bytes
+>>  tests/data/acpi/virt/SPCR.topology | Bin 0 -> 80 bytes
+> 
+>>  tests/qtest/bios-tables-test.c     |  22 ++++++++++++++++++++++
+>>  25 files changed, 28 insertions(+), 1 deletion(-)
+>>  create mode 100644 tests/data/acpi/virt/APIC.pxb
+>>  create mode 100644 tests/data/acpi/virt/APIC.topology
+>>  create mode 100644 tests/data/acpi/virt/DBG2.memhp
+>>  create mode 100644 tests/data/acpi/virt/DBG2.numamem
+>>  create mode 100644 tests/data/acpi/virt/DBG2.pxb
+>>  create mode 100644 tests/data/acpi/virt/DBG2.topology
+>>  create mode 100644 tests/data/acpi/virt/DSDT.topology
+>>  create mode 100644 tests/data/acpi/virt/FACP.pxb
+>>  create mode 100644 tests/data/acpi/virt/FACP.topology
+>>  create mode 100644 tests/data/acpi/virt/GTDT.pxb
+>>  create mode 100644 tests/data/acpi/virt/GTDT.topology
+>>  create mode 100644 tests/data/acpi/virt/IORT.topology
+>>  create mode 100644 tests/data/acpi/virt/MCFG.pxb
+>>  create mode 100644 tests/data/acpi/virt/MCFG.topology
+>>  create mode 100644 tests/data/acpi/virt/PPTT.memhp
+>>  create mode 100644 tests/data/acpi/virt/PPTT.numamem
+>>  create mode 100644 tests/data/acpi/virt/PPTT.pxb
+>>  create mode 100644 tests/data/acpi/virt/PPTT.topology
+>>  create mode 100644 tests/data/acpi/virt/SPCR.pxb
+>>  create mode 100644 tests/data/acpi/virt/SPCR.topology
 >>
->> Any other ideas for improving these CI jobs?
 > 
-> The avocado job there does show the errors, but the summary at the
-> end leaves something to be desired. At first glance it looked like
-> everything passed because it says "ERROR 0" and that's what caught
-> my eye. Took a long time to notice the 'INTERRUPT 5' bit is actually
-> just an error state too.  I don't understand why it has to have so
-> many different ways of saying the same thing:
+> .
 > 
->    RESULTS    : PASS 14 | ERROR 0 | FAIL 0 | SKIP 37 | WARN 0 | INTERRUPT 5 | CANCEL 136
-> 
-> 
->    "ERROR", "FAIL" and "INTERRUPT" are all just the same thing
-> 
->    "SKIP" and "CANCEL" are just the same thing
-> 
-> I'm sure there was some reason for these different terms, but IMHO they
-> are actively unhelpful.
-> 
-> For example I see no justiable reason for the choice of SKIP vs CANCEL
-> in these two messages:
-> 
->   (173/192) tests/avocado/virtiofs_submounts.py:VirtiofsSubmountsTest.test_pre_launch_set_up:  SKIP: sudo -n required, but "sudo -n true" failed: [Errno 2] No such file or directory: 'sudo'
-> 
->   (183/192) tests/avocado/x86_cpu_model_versions.py:X86CPUModelAliases.test_4_1_alias:  CANCEL: No QEMU binary defined or found in the build tree (0.00 s)
-> 
-> It would be clearer to understand the summary as:
-> 
->   RESULTS: PASS 14 | ERROR 5 | SKIP 173 | WARN 0
-> 
-> I'd also like to see it repeat the error messages for the failed
-> tests at the end, so you don't have to search back up through the
-> huge log to find them.
-> 
-> 
-> On the TCG tests we see
-> 
-> imeout --foreground 90  /home/travis/build/qemu-project/qemu/build/qemu-s390x  noexec >  noexec.out
-> 
-> make[1]: *** [../Makefile.target:158: run-noexec] Error 1
-> 
-> make[1]: Leaving directory '/home/travis/build/qemu-project/qemu/build/tests/tcg/s390x-linux-user'
-> 
-> make: *** [/home/travis/build/qemu-project/qemu/tests/Makefile.include:60: run-tcg-tests-s390x-linux-user] Error 2
-> 
-> 
-> I presume that indicates the 'noexec' test failed, but we have zero
-> info.
-
-I think this is the bug that will be fixed by Ilya's patch here:
-
-  https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg02756.html
-
-But I agree, it is unfortunate that the output is not available. Looking at 
-this on my s390x box:
-
-$ cat tests/tcg/s390x-linux-user/noexec.out
-[ RUN      ] fallthrough
-[       OK ]
-[ RUN      ] jump
-[  FAILED  ] unexpected SEGV
-
-so there is an indication of what's going wrong in there indeed.
-
-Alex, would it be possible to change the tcg test harness to dump the .out 
-file of failing tests?
-
-  Thomas
-
 
