@@ -2,90 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB0E5E72C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 06:18:34 +0200 (CEST)
-Received: from localhost ([::1]:40642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE465E72D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 06:22:14 +0200 (CEST)
+Received: from localhost ([::1]:51326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oba93-0001Ky-M2
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 00:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34734)
+	id 1obaCa-0004zB-DT
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 00:22:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=2580c328f=alistair.francis@opensource.wdc.com>)
- id 1obZyN-0001ek-56
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:31 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:63924)
+ id 1obZyR-0001hq-1C
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:38 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:63953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=2580c328f=alistair.francis@opensource.wdc.com>)
- id 1obZyL-0005cr-92
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:30 -0400
+ id 1obZyM-0005dr-VC
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 00:07:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1663906049; x=1695442049;
+ t=1663906050; x=1695442050;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=LTxemXnZbcn8GfTEOjD2bvRM5CcWr0Uc+73Is0/SJyo=;
- b=n6A2gubvsouLqbDpYixhIJrCZp/7MZqJIxeLqLa0aQuMyPoZ/Nj8fVOS
- dWlZpnsWur7mYZiovZjGVMbdotV2ex6uNXwH2sxdBtE1PTcr02Rb2aSrn
- FcHw1KvA+OuucJDIyRxOeOtRHTdTzpLJuJy2S+1DOBsgOhTj482cukqsC
- QkyVNExY6Gs21F1xSzSG0CwVJJL/d75SU90cpnFno6ne5hhJ4mS5Is2Q5
- 9CFNTaWNgp18JvsOcxp2vkFi4vEm20Lxz6X6Q+glrwcO5Ks63eVrbeeUl
- WE2qANPh+16bTOPrgRxccq5nliosZ7myobF5OHFXJZisj2q/vI5FW/DjM A==;
-X-IronPort-AV: E=Sophos;i="5.93,337,1654531200"; d="scan'208";a="212510468"
+ bh=NSdLJUes/A5o/LxxgY5E+Ys07xPrASvSUN2mRI+b+Tw=;
+ b=Gx8qyD6tzDp5gh6e3nO4/2ktK1Vngu3s267brVZ84CrbyPFE7zU8YggQ
+ fweKKXx9N/eJ23vGRu6Dw+IJymELXFDV1kV5LhbjCFxsLnTJ7pYwW/d0f
+ SpUw+LgKJzRpFKCA2lNSVAiav8Qjwca8mJcThASikMutyWnOB1mNGPFEQ
+ zSwA1efbyoifVTrclhVxtuqwOh9Mg/jskLYjHtpRKVxvQozhT3IMqBVkH
+ 9La8x631EB9vtp1/3aCb4XMiuAukYEW48oKtEFvVX5gmkFsX1GXAj7mB4
+ nO+guW1ijMA5Q6c7Uxjl9wgE4PTwQ4FgD7HI2E8arckvgK+HZWRlVKZmB A==;
+X-IronPort-AV: E=Sophos;i="5.93,337,1654531200"; 
+ d="scan'208,217";a="212510473"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Sep 2022 12:07:28 +0800
-IronPort-SDR: P4KY7srVABo/E2k9a8+O36WviIE7kSChk23JXdwbu+QhQ4bRfUwCbNLXd2AuswE5frP7WZBiPZ
- EMkbPedmjP+0ProTa5N/cQRTzCGSEaRQvar/Ow0JJGYkZ9V+uyoVM5hLj/KcMXmiCwqSOOdO58
- JTJrZV2yOORo9hliPZlFRTJ0aPJ5FeR1YwUd4uihb/KIiC4+ZaPos5/Sibg5yud/Zt3xURPr3X
- rpG0Qdj4bu7EyzQI5kuKB3KIjeK3oAlWwE8Gi0JcAGk54mqwf1d7jevgsbXTxnBBo2qnyqOATw
- 0ls3EPEIHw5qjolxCk1vDt/n
+ by ob1.hgst.iphmx.com with ESMTP; 23 Sep 2022 12:07:30 +0800
+IronPort-SDR: I+dJy7LTbnkRebHsd/B9KBQFiNkPcjhak+9IcaWj3Xj+B+8J/xr6BnO0VRPJ4nXBcEdaLasazJ
+ zfeb+powIVQ0oXn+eDGSarI5rvcb2nGfjQdNGQobP3Blf/QITJM09RPKP7YdyY0n5DVvrVz4oq
+ FDcmJkr18R8MwZxBmT7iFcsAkvjTxJNnhnuNY3JGlya/7IMDWX/+XNfFpZKoJF84oi46EF/r7S
+ uKHXpBUKBXW1aPM8n/Q2rz9eAXunXqHon5QGuE/+xgusj6DGTW/F/1LdmBkgEUQQmi25QR3t+q
+ iGGxFXM98X6D6cm5D3qnCbFX
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 22 Sep 2022 20:27:30 -0700
-IronPort-SDR: B84CXyIYKVPBjBR3B7YkMyWC1JQFMpIQEAFCPnks/Wnqu9Nvzqe6BlvTFwCwJKIw0Yt2X4gqw9
- 4TlHZeE9BCuysKHa9g3LLqaDu2+ug007TzZVvNFdfQ/C3apRqXhiWOxQDF/wIgDahIuM9FYi0O
- J8v3jAVYedUIVH16LtcZqHJbo2MO7ItA4P2y2BftaNtRynAMmbsFEPCMpVBcvg4mlhzYEJkZXN
- MKLpHQykoRrd8PRUNQtMv+8ti3DKZTRkJLsByJ75YYZp5uLKBAvSZMi8NXFWhbejTlCPYDamzH
- lzY=
+ 22 Sep 2022 20:27:32 -0700
+IronPort-SDR: veny4s3IpDrzjcSeyZ+Q5iumWORpXq7OHXWTqrPAmPegdWS2GDxY4JotMndIzFquBBS9dPUtk5
+ 6CnpNF4f1pD0EKSQn0xmwaSg4CfgFG/YNSji5NnBwYkzfUJoHX+ZPew/rwbxuovCTNdFoLF3j2
+ HmZu7CTGzGwlQ1GpK1fp8v3f5TCgYsCEvZIQHL83KgknzTsYQezNZMwKg9hPPeESToUQLw/8db
+ ZTDTbabxJNpYzJGalXf1dl5aHO47gp0zOiEaq1Vi/sxn/NZ/DcR6UqWpYdI1siHPJYBuNLniLO
+ clE=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 22 Sep 2022 21:07:27 -0700
+ 22 Sep 2022 21:07:30 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MYdsC4nF6z1RwqL
- for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 21:07:27 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4MYdsG0C6Sz1RvLy
+ for <qemu-devel@nongnu.org>; Thu, 22 Sep 2022 21:07:30 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1663906047; x=1666498048; bh=LTxemXnZbcn8GfTEOj
- D2bvRM5CcWr0Uc+73Is0/SJyo=; b=RNDlINbh5fDbupNFDobRw2oG+xgBGyfNfl
- a2nX+QVXrASPkgVHyoBxZOZx0ioVf5HVLdHa8xy3cqB3cbPat4Mm7jlxS3qMExj5
- QzbpjAa3rVRSZDcbTu9BA2sxBQNiL/aK9XckMd1H34iBGDwxQGCvVsJJnzDjHUOI
- 2ruQ2hNTfu1MYcaMablA/XxS3457oW7ne/v7U/87+SRnTfxbqiQL4t6QCdezEFMQ
- VHDr92V99aAD9DQDocPMYIJaZtNc6ZCLIrQoorps5+BMVYBZYNQgW+KLMKnvuZi2
- gEhjky6ruJlVy/gBewQ31vUEUq31+Z6cIEknWQc2kTxKweKJitjA==
+ :from; s=dkim; t=1663906049; x=1666498050; bh=NSdLJUes/A5o/LxxgY
+ 5E+Ys07xPrASvSUN2mRI+b+Tw=; b=JaSr8/Je9Gdjor2x6Cy01mnJ7+zkolIHxK
+ ogBnrOo05FO/uRnm6zrZKsjMxgugBU1GCYV3RMffQtghBainJhDRtbXpbiwnq2vb
+ L0GLWtm8RJEoDLg052Q6+pIbc+NaREBWYrx7OEYAzdTROZgLTkMN2POB+b25aV3u
+ i5zLXvSXqEm36jPJWPCoG42gXMcp8zrHqxlMalJlRbdaMYbmgfRxqLG9vAcGk7ZJ
+ mj91QVXrtG/UKOIuaiTRpvenpYk9TeXD0DwveghvPmxtVwXgbiMI5j6mNSBwTJQK
+ kFgx8y9YqmQcxNQBBLeEOiV4FtNRGfQ3aGJxaBqVHv0QTJtwhWjQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id lqUlvRXibcvv for <qemu-devel@nongnu.org>;
- Thu, 22 Sep 2022 21:07:27 -0700 (PDT)
+ port 10026) with ESMTP id iFIDyVTXZOnO for <qemu-devel@nongnu.org>;
+ Thu, 22 Sep 2022 21:07:29 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.167.114])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MYds84g9Qz1RvLy;
- Thu, 22 Sep 2022 21:07:24 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4MYdsC4cN8z1RvTr;
+ Thu, 22 Sep 2022 21:07:27 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Andrew Burgess <aburgess@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 06/12] target/riscv: remove fflags, frm,
- and fcsr from riscv-*-fpu.xml
-Date: Fri, 23 Sep 2022 14:06:58 +1000
-Message-Id: <20220923040704.428285-7-alistair.francis@opensource.wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@rivosinc.com>
+Subject: [PULL 07/12] target/riscv: remove fixed numbering from GDB xml
+ feature files
+Date: Fri, 23 Sep 2022 14:06:59 +1000
+Message-Id: <20220923040704.428285-8-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220923040704.428285-1-alistair.francis@opensource.wdc.com>
 References: <20220923040704.428285-1-alistair.francis@opensource.wdc.com>
@@ -118,143 +120,119 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew Burgess <aburgess@redhat.com>
 
-While testing some changes to GDB's handling for the RISC-V registers
-fcsr, fflags, and frm, I spotted that QEMU includes these registers
-twice in the target description it sends to GDB, once in the fpu
-feature, and once in the csr feature.
+The fixed register numbering in the various GDB feature files for
+RISC-V only exists because these files were originally copied from the
+GDB source tree.
 
-Right now things basically work OK, QEMU maps these registers onto two
-different register numbers, e.g. fcsr maps to both 68 and 73, and GDB
-can use either of these to access the register.
+However, the fixed numbering only exists in the GDB source tree so
+that GDB, when it connects to a target that doesn't provide a target
+description, will use a specific numbering scheme.
 
-However, GDB's target descriptions don't really work this way, each
-register should appear just once in a target description, mapping the
-register name onto the number GDB should use when accessing the
-register on the target.  Duplicate register names actually result in
-duplicate registers on the GDB side, however, as the registers have
-the same name, the user can only access one of these registers.
+That numbering scheme is designed to be compatible with the first
+versions of QEMU (for RISC-V), that didn't send a target description,
+and relied on a fixed numbering scheme.
 
-Currently GDB has a hack in place, specifically for RISC-V, to spot
-the duplicate copies of these three registers, and hide them from the
-user, ensuring the user only ever sees a single copy of each.
-
-In this commit I propose fixing this issue on the QEMU side, and in
-the process, simplify the fpu register handling a little.
-
-I think we should, remove fflags, frm, and fcsr from the two (32-bit
-and 64-bit) fpu feature xml files.  These files will only contain the
-32 core floating point register f0 to f31.  The fflags, frm, and fcsr
-registers will continue to be advertised in the csr feature as they
-currently are.
-
-With that change made, I will simplify riscv_gdb_get_fpu and
-riscv_gdb_set_fpu, removing the extra handling for the 3 status
-registers.
+Because of the way that QEMU manages its target descriptions,
+recording the number of registers in each feature, and just relying on
+GDB's numbering starting from 0, then I propose that we remove all the
+fixed numbering from the RISC-V feature xml files, and just rely on
+the standard numbering scheme.  Plenty of other targets manage their
+xml files this way, e.g. ARM, AArch64, Loongarch, m68k, rx, and s390.
 
 Signed-off-by: Andrew Burgess <aburgess@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <0fbf2a5b12e3210ff3867d5cf7022b3f3462c9c8.1661934573.git.abur=
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
+Message-Id: <6069395f90e6fc24dac92197be815fedf42f5974.1661934573.git.abur=
 gess@redhat.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/gdbstub.c      | 32 ++------------------------------
- gdb-xml/riscv-32bit-fpu.xml |  4 ----
- gdb-xml/riscv-64bit-fpu.xml |  4 ----
- 3 files changed, 2 insertions(+), 38 deletions(-)
+ gdb-xml/riscv-32bit-cpu.xml | 6 +-----
+ gdb-xml/riscv-32bit-fpu.xml | 6 +-----
+ gdb-xml/riscv-64bit-cpu.xml | 6 +-----
+ gdb-xml/riscv-64bit-fpu.xml | 6 +-----
+ 4 files changed, 4 insertions(+), 20 deletions(-)
 
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index 9ed049c29e..9974b7aac6 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -114,20 +114,6 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GBy=
-teArray *buf, int n)
-         if (env->misa_ext & RVF) {
-             return gdb_get_reg32(buf, env->fpr[n]);
-         }
--    /* there is hole between ft11 and fflags in fpu.xml */
--    } else if (n < 36 && n > 32) {
--        target_ulong val =3D 0;
--        int result;
--        /*
--         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is =
-FP
--         * register 33, so we recalculate the map index.
--         * This also works for CSR_FRM and CSR_FCSR.
--         */
--        result =3D riscv_csrrw_debug(env, n - 32, &val,
--                                   0, 0);
--        if (result =3D=3D RISCV_EXCP_NONE) {
--            return gdb_get_regl(buf, val);
--        }
-     }
-     return 0;
- }
-@@ -137,20 +123,6 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uin=
-t8_t *mem_buf, int n)
-     if (n < 32) {
-         env->fpr[n] =3D ldq_p(mem_buf); /* always 64-bit */
-         return sizeof(uint64_t);
--    /* there is hole between ft11 and fflags in fpu.xml */
--    } else if (n < 36 && n > 32) {
--        target_ulong val =3D ldtul_p(mem_buf);
--        int result;
--        /*
--         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is =
-FP
--         * register 33, so we recalculate the map index.
--         * This also works for CSR_FRM and CSR_FCSR.
--         */
--        result =3D riscv_csrrw_debug(env, n - 32, NULL,
--                                   val, -1);
--        if (result =3D=3D RISCV_EXCP_NONE) {
--            return sizeof(target_ulong);
--        }
-     }
-     return 0;
- }
-@@ -404,10 +376,10 @@ void riscv_cpu_register_gdb_regs_for_features(CPUSt=
-ate *cs)
-     CPURISCVState *env =3D &cpu->env;
-     if (env->misa_ext & RVD) {
-         gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fp=
-u,
--                                 36, "riscv-64bit-fpu.xml", 0);
-+                                 32, "riscv-64bit-fpu.xml", 0);
-     } else if (env->misa_ext & RVF) {
-         gdb_register_coprocessor(cs, riscv_gdb_get_fpu, riscv_gdb_set_fp=
-u,
--                                 36, "riscv-32bit-fpu.xml", 0);
-+                                 32, "riscv-32bit-fpu.xml", 0);
-     }
-     if (env->misa_ext & RVV) {
-         gdb_register_coprocessor(cs, riscv_gdb_get_vector, riscv_gdb_set=
-_vector,
+diff --git a/gdb-xml/riscv-32bit-cpu.xml b/gdb-xml/riscv-32bit-cpu.xml
+index 0d07aaec85..466f2c0648 100644
+--- a/gdb-xml/riscv-32bit-cpu.xml
++++ b/gdb-xml/riscv-32bit-cpu.xml
+@@ -5,13 +5,9 @@
+      are permitted in any medium without royalty provided the copyright
+      notice and this notice are preserved.  -->
+=20
+-<!-- Register numbers are hard-coded in order to maintain backward
+-     compatibility with older versions of tools that didn't use xml
+-     register descriptions.  -->
+-
+ <!DOCTYPE feature SYSTEM "gdb-target.dtd">
+ <feature name=3D"org.gnu.gdb.riscv.cpu">
+-  <reg name=3D"zero" bitsize=3D"32" type=3D"int" regnum=3D"0"/>
++  <reg name=3D"zero" bitsize=3D"32" type=3D"int"/>
+   <reg name=3D"ra" bitsize=3D"32" type=3D"code_ptr"/>
+   <reg name=3D"sp" bitsize=3D"32" type=3D"data_ptr"/>
+   <reg name=3D"gp" bitsize=3D"32" type=3D"data_ptr"/>
 diff --git a/gdb-xml/riscv-32bit-fpu.xml b/gdb-xml/riscv-32bit-fpu.xml
-index 1eaae9119e..84a44ba8df 100644
+index 84a44ba8df..24aa087031 100644
 --- a/gdb-xml/riscv-32bit-fpu.xml
 +++ b/gdb-xml/riscv-32bit-fpu.xml
-@@ -43,8 +43,4 @@
-   <reg name=3D"ft9" bitsize=3D"32" type=3D"ieee_single"/>
-   <reg name=3D"ft10" bitsize=3D"32" type=3D"ieee_single"/>
-   <reg name=3D"ft11" bitsize=3D"32" type=3D"ieee_single"/>
+@@ -5,13 +5,9 @@
+      are permitted in any medium without royalty provided the copyright
+      notice and this notice are preserved.  -->
+=20
+-<!-- Register numbers are hard-coded in order to maintain backward
+-     compatibility with older versions of tools that didn't use xml
+-     register descriptions.  -->
 -
--  <reg name=3D"fflags" bitsize=3D"32" type=3D"int" regnum=3D"66"/>
--  <reg name=3D"frm" bitsize=3D"32" type=3D"int" regnum=3D"67"/>
--  <reg name=3D"fcsr" bitsize=3D"32" type=3D"int" regnum=3D"68"/>
- </feature>
+ <!DOCTYPE feature SYSTEM "gdb-target.dtd">
+ <feature name=3D"org.gnu.gdb.riscv.fpu">
+-  <reg name=3D"ft0" bitsize=3D"32" type=3D"ieee_single" regnum=3D"33"/>
++  <reg name=3D"ft0" bitsize=3D"32" type=3D"ieee_single"/>
+   <reg name=3D"ft1" bitsize=3D"32" type=3D"ieee_single"/>
+   <reg name=3D"ft2" bitsize=3D"32" type=3D"ieee_single"/>
+   <reg name=3D"ft3" bitsize=3D"32" type=3D"ieee_single"/>
+diff --git a/gdb-xml/riscv-64bit-cpu.xml b/gdb-xml/riscv-64bit-cpu.xml
+index b8aa424ae4..c4d83de09b 100644
+--- a/gdb-xml/riscv-64bit-cpu.xml
++++ b/gdb-xml/riscv-64bit-cpu.xml
+@@ -5,13 +5,9 @@
+      are permitted in any medium without royalty provided the copyright
+      notice and this notice are preserved.  -->
+=20
+-<!-- Register numbers are hard-coded in order to maintain backward
+-     compatibility with older versions of tools that didn't use xml
+-     register descriptions.  -->
+-
+ <!DOCTYPE feature SYSTEM "gdb-target.dtd">
+ <feature name=3D"org.gnu.gdb.riscv.cpu">
+-  <reg name=3D"zero" bitsize=3D"64" type=3D"int" regnum=3D"0"/>
++  <reg name=3D"zero" bitsize=3D"64" type=3D"int"/>
+   <reg name=3D"ra" bitsize=3D"64" type=3D"code_ptr"/>
+   <reg name=3D"sp" bitsize=3D"64" type=3D"data_ptr"/>
+   <reg name=3D"gp" bitsize=3D"64" type=3D"data_ptr"/>
 diff --git a/gdb-xml/riscv-64bit-fpu.xml b/gdb-xml/riscv-64bit-fpu.xml
-index 794854cc01..9856a9d1d3 100644
+index 9856a9d1d3..d0f17f9984 100644
 --- a/gdb-xml/riscv-64bit-fpu.xml
 +++ b/gdb-xml/riscv-64bit-fpu.xml
-@@ -49,8 +49,4 @@
-   <reg name=3D"ft9" bitsize=3D"64" type=3D"riscv_double"/>
-   <reg name=3D"ft10" bitsize=3D"64" type=3D"riscv_double"/>
-   <reg name=3D"ft11" bitsize=3D"64" type=3D"riscv_double"/>
+@@ -5,10 +5,6 @@
+      are permitted in any medium without royalty provided the copyright
+      notice and this notice are preserved.  -->
+=20
+-<!-- Register numbers are hard-coded in order to maintain backward
+-     compatibility with older versions of tools that didn't use xml
+-     register descriptions.  -->
 -
--  <reg name=3D"fflags" bitsize=3D"32" type=3D"int" regnum=3D"66"/>
--  <reg name=3D"frm" bitsize=3D"32" type=3D"int" regnum=3D"67"/>
--  <reg name=3D"fcsr" bitsize=3D"32" type=3D"int" regnum=3D"68"/>
- </feature>
+ <!DOCTYPE feature SYSTEM "gdb-target.dtd">
+ <feature name=3D"org.gnu.gdb.riscv.fpu">
+=20
+@@ -17,7 +13,7 @@
+     <field name=3D"double" type=3D"ieee_double"/>
+   </union>
+=20
+-  <reg name=3D"ft0" bitsize=3D"64" type=3D"riscv_double" regnum=3D"33"/>
++  <reg name=3D"ft0" bitsize=3D"64" type=3D"riscv_double"/>
+   <reg name=3D"ft1" bitsize=3D"64" type=3D"riscv_double"/>
+   <reg name=3D"ft2" bitsize=3D"64" type=3D"riscv_double"/>
+   <reg name=3D"ft3" bitsize=3D"64" type=3D"riscv_double"/>
 --=20
 2.37.3
 
