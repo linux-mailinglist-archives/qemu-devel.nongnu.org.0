@@ -2,95 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C375E770D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 11:27:51 +0200 (CEST)
-Received: from localhost ([::1]:56502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE07D5E768C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 11:13:50 +0200 (CEST)
+Received: from localhost ([::1]:45982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obeyM-0004ML-GY
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 05:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43872)
+	id 1obekn-0001Xh-Ks
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 05:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obeZY-00086m-Hv
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:02:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56626)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obebt-0002EJ-AP
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:04:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39252)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1obeZV-0004V6-IL
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:02:11 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1obebr-0004oL-N9
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 05:04:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663923728;
+ s=mimecast20190719; t=1663923875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Mtg7wIJVP3tDp/hmYXraAcpbKfaq+ogDJgtY9EHsnE4=;
- b=SMKGD+DGO3I1Ke2Ey9VHPvHPyUZIm7G9nfllF+7xgwI1yNZs97WQ4PCwez8D+rTSCfuyfS
- q3JzFbefWiq7uZ4JHRKpMU69xYhG3mfJq523EedmKEr/m/H+HwPdMS+OJWBHGLDMPUYvPX
- +POUKeWYIUNEDbQSzPF19oAE3MsEMWI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-271-YvXNJhtCPwi93FJM7ZITuQ-1; Fri, 23 Sep 2022 05:02:07 -0400
-X-MC-Unique: YvXNJhtCPwi93FJM7ZITuQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d25-20020adf9b99000000b0022adb03aee6so3763297wrc.6
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 02:02:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=Mtg7wIJVP3tDp/hmYXraAcpbKfaq+ogDJgtY9EHsnE4=;
- b=vQfGKo1l5EJzQ3XFhxJypzxPu7WgXChliWz5VLsGeKQMqF8I4mI8UaCQktB0D67NU9
- w+nTHLvRgqbPpgN6ZoLC7s7VL9LLYBPvGLG6afy2XarEVBiyDlT2Xqt/VbYBBOS+0eB2
- +vbn7WlMadAKKTnA5DeJL3Vmz1jQzcrVp2tzxZJt83p7psP2fR5BvDMgIAXuHt0331J8
- IfS78F7j8oi2VSCnl5y4eAcxoyjHdfFOKe61zv9TXH2NRi7SHtfoy5Od+XkkzDLlldVM
- sf9ujl8qYOvZqX27sU19tjaFiIe3cd0FrWO/adtoaJmsThapsnx/H5vGksKj6JfxOGMY
- 9Crg==
-X-Gm-Message-State: ACrzQf2TSw/ZqRc/ltznQ4mYjk58M76OFKWMhuLWaUMMkUkMM/I9tytc
- HIPMXQqcvgGZDfq6PhCE+fmEcJmkNZRmzcMomR0nk/xuxlV0MZW7BgdNWdtK8EVBMros4sv70b3
- GASdNmgnYcRCuKsU=
-X-Received: by 2002:a05:600c:2181:b0:3b4:74e4:16f8 with SMTP id
- e1-20020a05600c218100b003b474e416f8mr4911306wme.174.1663923726187; 
- Fri, 23 Sep 2022 02:02:06 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM74Ow6DCsG/inzGSnENmUuD0prfkF4bo9xKqvWzoVInGfZr8im1v0ziqSP1YJQ9GX/hT9pbig==
-X-Received: by 2002:a05:600c:2181:b0:3b4:74e4:16f8 with SMTP id
- e1-20020a05600c218100b003b474e416f8mr4911262wme.174.1663923725840; 
- Fri, 23 Sep 2022 02:02:05 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-179-37.web.vodafone.de.
- [109.43.179.37]) by smtp.gmail.com with ESMTPSA id
- z10-20020adfec8a000000b0022afe4fb459sm6888963wrn.51.2022.09.23.02.02.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Sep 2022 02:02:05 -0700 (PDT)
-Message-ID: <4c0cbccf-0c1c-3ce3-04dd-534b11d9b62f@redhat.com>
-Date: Fri, 23 Sep 2022 11:02:03 +0200
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1gpuiKCs1ELi0jnftapN38Fc+t+M2ss2J/W/XR1Ol3g=;
+ b=JdyLauckC8c9kEsPhoGJuzYG/zCr5StBMSiDgUjM8bhqDjExCyVRsMD0Vn8Us06SdfR55D
+ E9wp3xR2jAjS94ARiGWoYCrH5Y6iGNXcbgdTOjd/zvjaTSKNjzjyPEvc4d7zLgpoRGlzjV
+ CsdCRCsWFp8LlFrSnuZclvhANnburN8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-488-ccbGTkkqPaiuPwm1g4kUlQ-1; Fri, 23 Sep 2022 05:04:31 -0400
+X-MC-Unique: ccbGTkkqPaiuPwm1g4kUlQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A35A3C1023D;
+ Fri, 23 Sep 2022 09:04:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C50349BB60;
+ Fri, 23 Sep 2022 09:04:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DDA1921E6900; Fri, 23 Sep 2022 11:04:28 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: pavel.dovgaluk@ispras.ru, pbonzini@redhat.com, mtosatti@redhat.com,
+ sunilmut@microsoft.com, qemu-trivial@nongnu.org
+Subject: [PATCH] Drop superfluous conditionals around g_free()
+Date: Fri, 23 Sep 2022 11:04:28 +0200
+Message-Id: <20220923090428.93529-1-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 1/6] tests/avocado/machine_aspeed.py: Fix typos on
- buildroot
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20220923084803.498337-1-clg@kaod.org>
- <20220923084803.498337-2-clg@kaod.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220923084803.498337-2-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.893, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,15 +77,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/09/2022 10.47, Cédric Le Goater wrote:
-> Replace 'buidroot' and 'builroot' by 'buildroot'.
-> 
-> Fixes: f7bc7da0724f ("test/avocado/machine_aspeed.py: Add tests using buildroot images")
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   tests/avocado/machine_aspeed.py | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+There is no need to guard g_free(P) with if (P): g_free(NULL) is safe.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ replay/replay.c             |  6 ++----
+ target/i386/kvm/kvm.c       | 12 ++++--------
+ target/i386/whpx/whpx-all.c | 14 ++++++--------
+ 3 files changed, 12 insertions(+), 20 deletions(-)
+
+diff --git a/replay/replay.c b/replay/replay.c
+index 4c396bb376..9a0dc1cf44 100644
+--- a/replay/replay.c
++++ b/replay/replay.c
+@@ -366,10 +366,8 @@ void replay_finish(void)
+         fclose(replay_file);
+         replay_file = NULL;
+     }
+-    if (replay_filename) {
+-        g_free(replay_filename);
+-        replay_filename = NULL;
+-    }
++    g_free(replay_filename);
++    replay_filename = NULL;
+ 
+     g_free(replay_snapshot);
+     replay_snapshot = NULL;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index a1fd1f5379..9603bf265a 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -2176,15 +2176,11 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
+ 
+     g_free(env->xsave_buf);
+ 
+-    if (cpu->kvm_msr_buf) {
+-        g_free(cpu->kvm_msr_buf);
+-        cpu->kvm_msr_buf = NULL;
+-    }
++    g_free(cpu->kvm_msr_buf);
++    cpu->kvm_msr_buf = NULL;
+ 
+-    if (env->nested_state) {
+-        g_free(env->nested_state);
+-        env->nested_state = NULL;
+-    }
++    g_free(env->nested_state);
++    env->nested_state = NULL;
+ 
+     qemu_del_vm_change_state_handler(cpu->vmsentry);
+ 
+diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+index b22a3314b4..8e4969edeb 100644
+--- a/target/i386/whpx/whpx-all.c
++++ b/target/i386/whpx/whpx-all.c
+@@ -1225,14 +1225,12 @@ static void whpx_translate_cpu_breakpoints(
+         }
+     }
+ 
+-    if (breakpoints->breakpoints) {
+-        /*
+-         * Free the previous breakpoint list. This can be optimized by keeping
+-         * it as shadow buffer for the next computation instead of freeing
+-         * it immediately.
+-         */
+-        g_free(breakpoints->breakpoints);
+-    }
++    /*
++     * Free the previous breakpoint list. This can be optimized by keeping
++     * it as shadow buffer for the next computation instead of freeing
++     * it immediately.
++     */
++    g_free(breakpoints->breakpoints);
+ 
+     breakpoints->breakpoints = new_breakpoints;
+ }
+-- 
+2.37.2
 
 
