@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3AEC5E812C
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 19:55:05 +0200 (CEST)
-Received: from localhost ([::1]:55546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE305E812A
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 19:54:07 +0200 (CEST)
+Received: from localhost ([::1]:55390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obmtE-0001RY-Dd
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 13:55:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55900)
+	id 1obmsI-0007i7-Dk
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 13:54:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdS-0002pT-Vt
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdS-0002pS-4W
  for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:38:49 -0400
-Received: from rev.ng ([5.9.113.41]:46103)
+Received: from rev.ng ([5.9.113.41]:57567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdP-0000AG-6A
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:38:46 -0400
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1obmdP-0000AI-6A
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 13:38:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=UxjXSHryCrd7DUa5y1X5VrxSCgejqragDf+pUdpiFqI=; b=I7lN6LZ80wWIgC9y6LT/YhLinB
- TLEaSjBlD3alwICvuy4c77Nf6fWCbWkDFdSj6K9f4Zs3F1M9lj6W02nJhjJ1wbR3IDRZIfziHXRAp
- qxlaQFm66Hi5dWb7ojCUZCC/3T+iI+iR1aQZybj9DeMb9sohpFjwsBq9UuxSaSZYYeXw=;
+ bh=DCOx+l98nJNtwoHEx8D/xQXAPR6XfM2AYkIfOSAwfrQ=; b=iHRj9Qp4KbYUNNwJR4A0kxrDe7
+ Vt2/AYqEcw/g2EWC0GTb8hzIKs60tqcbZOzS3JEAIfVbzvd9N2oNuAB2XcV8MRBMMZEirxB1oLzYl
+ DFonUj/DinnLBdRbRV2ugNvfgpRQzmG6ZWm2JBEvEI/sM1XQHopTO8jqek5emGGQ+pck=;
 To: qemu-devel@nongnu.org
 Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com, mlambert@quicinc.com,
  babush@rev.ng, nizzo@rev.ng, richard.henderson@linaro.org,
  alex.bennee@linaro.org
-Subject: [PATCH v12 01/11] target/hexagon: update MAINTAINERS for idef-parser
-Date: Fri, 23 Sep 2022 19:38:21 +0200
-Message-Id: <20220923173831.227551-2-anjo@rev.ng>
+Subject: [PATCH v12 03/11] target/hexagon: make slot number an unsigned
+Date: Fri, 23 Sep 2022 19:38:23 +0200
+Message-Id: <20220923173831.227551-4-anjo@rev.ng>
 In-Reply-To: <20220923173831.227551-1-anjo@rev.ng>
 References: <20220923173831.227551-1-anjo@rev.ng>
 MIME-Version: 1.0
@@ -61,43 +61,129 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Anton Johansson <anjo@rev.ng>
 From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-From: Alessandro Di Federico <ale@rev.ng>
+From: Paolo Montesel <babush@rev.ng>
 
 Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-Signed-off-by: Anton Johansson <anjo@rev.ng>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Paolo Montesel <babush@rev.ng>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 ---
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ target/hexagon/genptr.c | 24 +++++++++++++-----------
+ target/hexagon/macros.h |  2 +-
+ 2 files changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 738c4eb647..395233061a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -197,6 +197,8 @@ Hexagon TCG CPUs
- M: Taylor Simpson <tsimpson@quicinc.com>
- S: Supported
- F: target/hexagon/
-+X: target/hexagon/idef-parser/
-+X: target/hexagon/gen_idef_parser_funcs.py
- F: linux-user/hexagon/
- F: tests/tcg/hexagon/
- F: disas/hexagon.c
-@@ -204,6 +206,13 @@ F: configs/targets/hexagon-linux-user/default.mak
- F: docker/dockerfiles/debian-hexagon-cross.docker
- F: docker/dockerfiles/debian-hexagon-cross.docker.d/build-toolchain.sh
+diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
+index 8a334ba07b..6741278ada 100644
+--- a/target/hexagon/genptr.c
++++ b/target/hexagon/genptr.c
+@@ -30,7 +30,8 @@
+ #include "gen_tcg.h"
+ #include "gen_tcg_hvx.h"
  
-+Hexagon idef-parser
-+M: Alessandro Di Federico <ale@rev.ng>
-+M: Anton Johansson <anjo@rev.ng>
-+S: Supported
-+F: target/hexagon/idef-parser/
-+F: target/hexagon/gen_idef_parser_funcs.py
-+
- HPPA (PA-RISC) TCG CPUs
- M: Richard Henderson <richard.henderson@linaro.org>
- S: Maintained
+-static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
++static inline void gen_log_predicated_reg_write(int rnum, TCGv val,
++                                                uint32_t slot)
+ {
+     TCGv zero = tcg_constant_tl(0);
+     TCGv slot_mask = tcg_temp_new();
+@@ -62,7 +63,8 @@ static inline void gen_log_reg_write(int rnum, TCGv val)
+     }
+ }
+ 
+-static void gen_log_predicated_reg_write_pair(int rnum, TCGv_i64 val, int slot)
++static void gen_log_predicated_reg_write_pair(int rnum, TCGv_i64 val,
++                                              uint32_t slot)
+ {
+     TCGv val32 = tcg_temp_new();
+     TCGv zero = tcg_constant_tl(0);
+@@ -394,7 +396,7 @@ static inline void gen_store_conditional8(DisasContext *ctx,
+     tcg_gen_movi_tl(hex_llsc_addr, ~0);
+ }
+ 
+-static inline void gen_store32(TCGv vaddr, TCGv src, int width, int slot)
++static inline void gen_store32(TCGv vaddr, TCGv src, int width, uint32_t slot)
+ {
+     tcg_gen_mov_tl(hex_store_addr[slot], vaddr);
+     tcg_gen_movi_tl(hex_store_width[slot], width);
+@@ -402,49 +404,49 @@ static inline void gen_store32(TCGv vaddr, TCGv src, int width, int slot)
+ }
+ 
+ static inline void gen_store1(TCGv_env cpu_env, TCGv vaddr, TCGv src,
+-                              DisasContext *ctx, int slot)
++                              DisasContext *ctx, uint32_t slot)
+ {
+     gen_store32(vaddr, src, 1, slot);
+     ctx->store_width[slot] = 1;
+ }
+ 
+ static inline void gen_store1i(TCGv_env cpu_env, TCGv vaddr, int32_t src,
+-                               DisasContext *ctx, int slot)
++                               DisasContext *ctx, uint32_t slot)
+ {
+     TCGv tmp = tcg_constant_tl(src);
+     gen_store1(cpu_env, vaddr, tmp, ctx, slot);
+ }
+ 
+ static inline void gen_store2(TCGv_env cpu_env, TCGv vaddr, TCGv src,
+-                              DisasContext *ctx, int slot)
++                              DisasContext *ctx, uint32_t slot)
+ {
+     gen_store32(vaddr, src, 2, slot);
+     ctx->store_width[slot] = 2;
+ }
+ 
+ static inline void gen_store2i(TCGv_env cpu_env, TCGv vaddr, int32_t src,
+-                               DisasContext *ctx, int slot)
++                               DisasContext *ctx, uint32_t slot)
+ {
+     TCGv tmp = tcg_constant_tl(src);
+     gen_store2(cpu_env, vaddr, tmp, ctx, slot);
+ }
+ 
+ static inline void gen_store4(TCGv_env cpu_env, TCGv vaddr, TCGv src,
+-                              DisasContext *ctx, int slot)
++                              DisasContext *ctx, uint32_t slot)
+ {
+     gen_store32(vaddr, src, 4, slot);
+     ctx->store_width[slot] = 4;
+ }
+ 
+ static inline void gen_store4i(TCGv_env cpu_env, TCGv vaddr, int32_t src,
+-                               DisasContext *ctx, int slot)
++                               DisasContext *ctx, uint32_t slot)
+ {
+     TCGv tmp = tcg_constant_tl(src);
+     gen_store4(cpu_env, vaddr, tmp, ctx, slot);
+ }
+ 
+ static inline void gen_store8(TCGv_env cpu_env, TCGv vaddr, TCGv_i64 src,
+-                              DisasContext *ctx, int slot)
++                              DisasContext *ctx, uint32_t slot)
+ {
+     tcg_gen_mov_tl(hex_store_addr[slot], vaddr);
+     tcg_gen_movi_tl(hex_store_width[slot], 8);
+@@ -453,7 +455,7 @@ static inline void gen_store8(TCGv_env cpu_env, TCGv vaddr, TCGv_i64 src,
+ }
+ 
+ static inline void gen_store8i(TCGv_env cpu_env, TCGv vaddr, int64_t src,
+-                               DisasContext *ctx, int slot)
++                               DisasContext *ctx, uint32_t slot)
+ {
+     TCGv_i64 tmp = tcg_constant_i64(src);
+     gen_store8(cpu_env, vaddr, tmp, ctx, slot);
+diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
+index 92eb8bbf05..4529af107a 100644
+--- a/target/hexagon/macros.h
++++ b/target/hexagon/macros.h
+@@ -202,7 +202,7 @@
+ #define LOAD_CANCEL(EA) do { CANCEL; } while (0)
+ 
+ #ifdef QEMU_GENERATE
+-static inline void gen_pred_cancel(TCGv pred, int slot_num)
++static inline void gen_pred_cancel(TCGv pred, uint32_t slot_num)
+  {
+     TCGv slot_mask = tcg_temp_new();
+     TCGv tmp = tcg_temp_new();
 -- 
 2.37.3
 
