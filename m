@@ -2,86 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75C035E7F22
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 17:58:46 +0200 (CEST)
-Received: from localhost ([::1]:34242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D915B5E7F1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 17:57:26 +0200 (CEST)
+Received: from localhost ([::1]:42002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obl4e-0000OK-R7
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 11:58:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51308)
+	id 1obl3N-0006aB-Eq
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 11:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obkwW-0004pw-JZ
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 11:50:21 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:38718)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obkwV-0007PJ-3b
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 11:50:20 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D744F219EF;
- Fri, 23 Sep 2022 15:50:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663948215; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vQIOgj03F+VS6pRQQkmhpi6Syh0kadNrBBHsEdATo+4=;
- b=Xty5wU1Z0S4CR8yLmmYrkDNNswMrR3NV7OOmfxIn0sTVnaUZFIgtdkh+pC1rNmEI5bOODu
- B9DxCrnoWyFhjeJwtXEdEhNRRySWLXVfx0EUg1BbM0krQo2imZvH3J+wWYEDYQd5NRVBSf
- QHYaIrdoD4LK1pTZfecWlMFdkhDQsfQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663948215;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vQIOgj03F+VS6pRQQkmhpi6Syh0kadNrBBHsEdATo+4=;
- b=GlfJuaXC18Sp2RpfvL+PdyFHnkYuEyUhCfWZVyB3Oggl+HJasB7LMwVuqViIoZoSf4RVK7
- vMHyLFsibp4x5kAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6F50E13AA5;
- Fri, 23 Sep 2022 15:50:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id bU1QGbfVLWN9RAAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 23 Sep 2022 15:50:15 +0000
-Message-ID: <555d01d8-ba66-5dca-3ddf-fe831a2b7bf6@suse.de>
-Date: Fri, 23 Sep 2022 17:50:14 +0200
+ (Exim 4.90_1) (envelope-from <luzhipeng@cestc.cn>)
+ id 1obkxf-0006CG-KK
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 11:51:31 -0400
+Received: from [106.39.185.57] (port=43656 helo=smtp.cecloud.com)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luzhipeng@cestc.cn>) id 1obkxS-0007UZ-NL
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 11:51:31 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by smtp.cecloud.com (Postfix) with ESMTP id 92B6CFC0204;
+ Fri, 23 Sep 2022 23:51:09 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain
+ (1.39.88.218.broad.cd.sc.dynamic.163data.com.cn [218.88.39.1])
+ by smtp.cecloud.com (postfix) whith ESMTP id
+ P51403T281470656377200S1663948267784997_; 
+ Fri, 23 Sep 2022 23:51:09 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <f5d8f998e56f3699ee147e95c76895a7>
+X-RL-SENDER: luzhipeng@cestc.cn
+X-SENDER: luzhipeng@cestc.cn
+X-LOGIN-NAME: luzhipeng@cestc.cn
+X-FST-TO: qemu-devel@nongnu.org
+X-RCPT-COUNT: 3
+X-SENDER-IP: 218.88.39.1
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+From: luzhipeng <luzhipeng@cestc.cn>
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Jason Wang <jasowang@redhat.com>,
+	lu zhipeng <luzhipeng@cestc.cn>
+Subject: [PATCH] virtio: del net client if net_init_tap_one failed
+Date: Fri, 23 Sep 2022 23:50:46 +0800
+Message-Id: <20220923155046.1571-1-luzhipeng@cestc.cn>
+X-Mailer: git-send-email 2.34.0.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v5 4/4] accel: abort if we fail to load the accelerator
- plugin
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220923145131.21282-1-cfontana@suse.de>
- <20220923145131.21282-5-cfontana@suse.de>
- <8d1123e8-334b-136f-1315-35448c094e6b@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <8d1123e8-334b-136f-1315-35448c094e6b@amsat.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c;
- envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 106.39.185.57 (failed)
+Received-SPF: pass client-ip=106.39.185.57; envelope-from=luzhipeng@cestc.cn;
+ helo=smtp.cecloud.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,63 +73,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/22 17:28, Philippe Mathieu-Daudé via wrote:
-> On 23/9/22 16:51, Claudio Fontana wrote:
->> if QEMU is configured with modules enabled, it is possible that the
->> load of an accelerator module will fail.
->> Abort in this case, relying on module_object_class_by_name to report
->> the specific load error if any.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   accel/accel-softmmu.c | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
->> index 67276e4f52..9fa4849f2c 100644
->> --- a/accel/accel-softmmu.c
->> +++ b/accel/accel-softmmu.c
->> @@ -66,6 +66,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
->>   {
->>       const char *ac_name;
->>       char *ops_name;
->> +    ObjectClass *oc;
->>       AccelOpsClass *ops;
->>   
->>       ac_name = object_class_get_name(OBJECT_CLASS(ac));
->> @@ -73,8 +74,13 @@ void accel_init_ops_interfaces(AccelClass *ac)
->>   
->>       ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
->>       ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
->> +    oc = module_object_class_by_name(ops_name);
->> +    if (!oc) {
->> +        error_report("fatal: could not load module for type '%s'", ops_name);
->> +        abort();
-> 
-> I'm not sure aborting is helpful here: QEMU process state is alright,
-> we only miss a module...
-> 
-> Aren't we good with a simple 'exit(1);'?
+From: lu zhipeng <luzhipeng@cestc.cn>
 
-we are I think...
+If the net tap initializes successful, but failed during
+network card hot-plugging, the net-tap will remains,
+so cleanup.
 
-Thanks,
+Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
+---
+ net/tap.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-C
+diff --git a/net/tap.c b/net/tap.c
+index b3ddfd4a74..e203d07a12 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -686,7 +686,7 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+     tap_set_sndbuf(s->fd, tap, &err);
+     if (err) {
+         error_propagate(errp, err);
+-        return;
++        goto failed;
+     }
+ 
+     if (tap->has_fd || tap->has_fds) {
+@@ -726,12 +726,12 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+                 } else {
+                     warn_report_err(err);
+                 }
+-                return;
++                goto failed;
+             }
+             if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
+                 error_setg_errno(errp, errno, "%s: Can't use file descriptor %d",
+                                  name, fd);
+-                return;
++                goto failed;
+             }
+         } else {
+             vhostfd = open("/dev/vhost-net", O_RDWR);
+@@ -743,11 +743,11 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+                     warn_report("tap: open vhost char device failed: %s",
+                                 strerror(errno));
+                 }
+-                return;
++                goto failed;
+             }
+             if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
+                 error_setg_errno(errp, errno, "Failed to set FD nonblocking");
+-                return;
++                goto failed;
+             }
+         }
+         options.opaque = (void *)(uintptr_t)vhostfd;
+@@ -760,11 +760,17 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+             } else {
+                 warn_report(VHOST_NET_INIT_FAILED);
+             }
+-            return;
++            goto failed;
+         }
+     } else if (vhostfdname) {
+         error_setg(errp, "vhostfd(s)= is not valid without vhost");
++        goto failed;
+     }
++
++    return;
++
++failed:
++    qemu_del_net_client(&s->nc);
+ }
+ 
+ static int get_fds(char *str, char *fds[], int max)
+-- 
+2.31.1
 
-> 
->> +    }
->>       g_free(ops_name);
->> -
->> +    ops = ACCEL_OPS_CLASS(oc);
->>       /*
->>        * all accelerators need to define ops, providing at least a mandatory
->>        * non-NULL create_vcpu_thread operation.
-> 
-> Preferably calling exit():
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
+
 
 
