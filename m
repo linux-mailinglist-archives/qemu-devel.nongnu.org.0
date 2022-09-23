@@ -2,80 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75CED5E7DC5
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 16:58:48 +0200 (CEST)
-Received: from localhost ([::1]:38474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3135E7DEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Sep 2022 17:07:14 +0200 (CEST)
+Received: from localhost ([::1]:54382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obk8d-0003dd-JW
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 10:58:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46590)
+	id 1obkGm-00028T-Is
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 11:07:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obk1m-0004Vh-7z
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 10:51:42 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:38308)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1obk1k-00086V-HV
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 10:51:41 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 637131F8B3;
- Fri, 23 Sep 2022 14:51:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1663944698; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1obk8N-0003Ig-Ha
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 10:58:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48770)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1obk8K-0000lW-1w
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 10:58:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663945106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3GnPO9oPplYtfCXf/s+TDMotIuBgv8MnpOwbdzvmLeQ=;
- b=1j6DZAl2AsIuKqIwhxFPj8wosv2Kzyh6o5jmHshQiNY2NlaEg0p1WKb0i/iciOiYnSNyTq
- JUT6RIv3y2UJrI1WvvXAoenSOea8T3nEA0Bca34AHwbnlxuSWgSfvhRxW1ope6779h7kwq
- O9fFT3FhRR6LnFfITSz9Nv/qWEZd740=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1663944698;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3GnPO9oPplYtfCXf/s+TDMotIuBgv8MnpOwbdzvmLeQ=;
- b=Eq3DxSLqZwEgOgFM0cLkqz7mpwgrrKkOUVqM6MeItUq4WSoGYJuvDTTOCbXvGNO7qHXF90
- 3DjtOFSnYPrxteAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1109D13A00;
- Fri, 23 Sep 2022 14:51:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gOzRAvrHLWMOLwAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 23 Sep 2022 14:51:38 +0000
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Claudio Fontana <cfontana@suse.de>
-Subject: [PATCH v5 4/4] accel: abort if we fail to load the accelerator plugin
-Date: Fri, 23 Sep 2022 16:51:31 +0200
-Message-Id: <20220923145131.21282-5-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20220923145131.21282-1-cfontana@suse.de>
-References: <20220923145131.21282-1-cfontana@suse.de>
+ bh=hiCbuBsIMBFlgz7KVtIQd9s0odDCbTcYY7QnDQt4HYU=;
+ b=QBwmlok5Xa2ll7W0aMCmuuSzqE308rWWaiBLSLR78uWb071GMzVHBpVB832mtVfE47sNl+
+ XaDCMyhXSyQVLkKP/E9pExTS4bx0KNNNLlrogtx0VBdIKjsF35Rb26IDdVsqRiSoD6uHnH
+ szxpQ/mntPH3tUPt9Pcn5kTdDPJJ+vs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-39-otfJuB81NhaCzqDJuIYPYg-1; Fri, 23 Sep 2022 10:58:25 -0400
+X-MC-Unique: otfJuB81NhaCzqDJuIYPYg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ b5-20020a05600c4e0500b003b499f99aceso2854511wmq.1
+ for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 07:58:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=hiCbuBsIMBFlgz7KVtIQd9s0odDCbTcYY7QnDQt4HYU=;
+ b=qP6k/3EvEDnvf86nObhfIM2YxzqASyt7IXyG/Axw9wMQDVKHaNAgtgy5Gjj9VBHYYB
+ u1xsM/BXw4iy6f87KGqEEEdCp63XDhXSfHBxap81P77ebIyxMU1q1Ck+nqAoz2msTyw/
+ JnE8Bwu1SzSd7yUNOrjl20hn/f0z4C0qHFu7KGYF31z985mhoj3gz+gwR/CuxSlZ2xZK
+ 7IIcjzQyQVMdr5ftc/utMvrvPE0tJw/2inzFvQYb3Dt8OxWSQfSEwdhnhdvmLam+ZjQj
+ q+L6PuWLKzy+pXHb10ZYRChqqB+CmI9v6F9zUAWRxMZZpvHsCwTF8/UtrVdcdxtBP1x0
+ tUMA==
+X-Gm-Message-State: ACrzQf0Qhqv+P1zNCiSm2fh3LtRT1sYZhlXolhURxKAqX0AYPtfRlqjY
+ p/Q1wIkpTQAUtBWkH1BOMWwDyXg5nG0Y4BXSeZXTRM9ZwUgbOUQ54jo376Fhwl7uU7WNu+4qYFq
+ LsqM0C2l9BSbXFvY=
+X-Received: by 2002:adf:d84f:0:b0:226:d37a:b2c4 with SMTP id
+ k15-20020adfd84f000000b00226d37ab2c4mr5658122wrl.42.1663945103847; 
+ Fri, 23 Sep 2022 07:58:23 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM68KwO+72FuLyF1PGsNLbRNS7kO6TZ1H9ikGFz5ivAR4tyNNrCJdmRIDesuN4DhJe1syrUbjw==
+X-Received: by 2002:adf:d84f:0:b0:226:d37a:b2c4 with SMTP id
+ k15-20020adfd84f000000b00226d37ab2c4mr5658102wrl.42.1663945103620; 
+ Fri, 23 Sep 2022 07:58:23 -0700 (PDT)
+Received: from [192.168.100.30] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ r1-20020a05600c434100b003b3401f1e24sm2543098wme.28.2022.09.23.07.58.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Sep 2022 07:58:23 -0700 (PDT)
+Message-ID: <4326b13b-807b-a5c3-cd27-6913ba89bdd1@redhat.com>
+Date: Fri, 23 Sep 2022 16:58:21 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v8 06/14] net: stream: Don't ignore EINVAL on netdev
+ socket connection
+Content-Language: en-US
+To: David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gregory Kurz <gregory.kurz@free.fr>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, Stefano Brivio <sbrivio@redhat.com>
+References: <20220913064000.79353-1-lvivier@redhat.com>
+ <20220913064000.79353-7-lvivier@redhat.com> <YyFhADVRPSB4ZT4p@yekko>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <YyFhADVRPSB4ZT4p@yekko>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,45 +109,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-if QEMU is configured with modules enabled, it is possible that the
-load of an accelerator module will fail.
-Abort in this case, relying on module_object_class_by_name to report
-the specific load error if any.
+On 9/14/22 07:05, David Gibson wrote:
+> On Tue, Sep 13, 2022 at 08:39:52AM +0200, Laurent Vivier wrote:
+>> From: Stefano Brivio <sbrivio@redhat.com>
+>>
+>> Other errors are treated as failure by net_stream_client_init(),
+>> but if connect() returns EINVAL, we'll fail silently. Remove the
+>> related exception.
+> 
+> Is this also a bug in net_socket_connect_init()?  Is there an
+> equivalent bug in dgram.c?
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/accel-softmmu.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Yes, the bug has been found by Stefano in socket.c, I'm adding his patch to the series.
+There is no equivalent bug in dgram.c
 
-diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
-index 67276e4f52..9fa4849f2c 100644
---- a/accel/accel-softmmu.c
-+++ b/accel/accel-softmmu.c
-@@ -66,6 +66,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
- {
-     const char *ac_name;
-     char *ops_name;
-+    ObjectClass *oc;
-     AccelOpsClass *ops;
- 
-     ac_name = object_class_get_name(OBJECT_CLASS(ac));
-@@ -73,8 +74,13 @@ void accel_init_ops_interfaces(AccelClass *ac)
- 
-     ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
-     ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
-+    oc = module_object_class_by_name(ops_name);
-+    if (!oc) {
-+        error_report("fatal: could not load module for type '%s'", ops_name);
-+        abort();
-+    }
-     g_free(ops_name);
--
-+    ops = ACCEL_OPS_CLASS(oc);
-     /*
-      * all accelerators need to define ops, providing at least a mandatory
-      * non-NULL create_vcpu_thread operation.
--- 
-2.26.2
+Thanks,
+Laurent
 
 
