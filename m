@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B844B5E8FA0
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 22:24:30 +0200 (CEST)
-Received: from localhost ([::1]:39762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5935E8FAF
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 22:34:06 +0200 (CEST)
+Received: from localhost ([::1]:44604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocBhN-0002KN-Sd
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 16:24:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44098)
+	id 1ocBqe-0006PT-Nf
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 16:34:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocBgA-0000yv-HA
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 16:23:14 -0400
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:42966)
+ id 1ocBo9-0004Li-Ev
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 16:31:29 -0400
+Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:35616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocBg8-0001up-U4
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 16:23:14 -0400
-Received: by mail-qk1-x72a.google.com with SMTP id d15so2048528qka.9
- for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 13:23:12 -0700 (PDT)
+ id 1ocBo8-0003V5-0G
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 16:31:29 -0400
+Received: by mail-qk1-x732.google.com with SMTP id u28so2078906qku.2
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 13:31:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=Ui7CoBarowYfhqHlXyGmpNtcRfmNMKB6LCcYHda8WsA=;
- b=glSNPZfjZYCBITPhPY6+FJlkymdJnhYJSKbR0GoK6t1GpXZt3xsJ0R0FNCOxOEi1B1
- Q7wdMSbHK6D88H/E9wVz0Upei+Oasl0Bqhjk6d80k2zQO5IpU62Do47Z/aaumYLPYvQ6
- Dfj+ivUIgQpqv0i4kpZ3c9EUy6OS4uT0U2YYX66pnwHIoVZrwpj8NcCOumtuBH/+ACHc
- bXmbN7Kh7N/+93Bz/LSuqG2Re2VYBKNFOsqDef6CVHLDpPARr2We0SuNB6IyD0tsmnta
- TNwrCixdu6A2tEpQ1jtiYdbJu8fC9G57Hs54VsqhWLpaD9R556G7pce81MjrXl0qIrNZ
- bizA==
+ bh=WuS5zzpqrxVN5w5hBro+GfNvAG/FZRPXtoQtqXXwVk4=;
+ b=xKltF00wkvLIKrODwT9Wv6HKlz2p0iGj3/2wKpa26LHj1AispdtYKU2Rk4QdUXmegK
+ BTOmgTRfxSUaBsROZteEF2K3852NbysCEHbuUdmIVOaAqHLCvjHHXaaCuP6QSFVkQNnw
+ f/vr7FBjb3wCpqJoe5MRldzkIkfgGx3rs/ly1jRh0MsBW/zH4Dl+66hSLw6x3wunLC6F
+ DX51KpbJzEQcUa5051SKuYryJ0WspybVKuvJHh2ob5KYGOhxIfwGNpNv3vS2+Qp3gt+4
+ M9v/wdZ8Dlfnc4gaMV7ck6bfGs/cY9nXnCsfW+lOUOSAbGRiv+boeLZU6m6akoaymw9i
+ pr0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=Ui7CoBarowYfhqHlXyGmpNtcRfmNMKB6LCcYHda8WsA=;
- b=cx0a6uveDyIh5pR90C1LdkXhTxgcTxFrIQzUiI8QR6s7bCu+aj7lJrgoyWbNig7qIK
- 0pSo5YHO6PaZWYmtlDBlKD8mU29nm9rMjXdvl8CIop7rsB9UX99RwuWtMUy8Ov5PEACN
- cp18RSmMjLKohpuNtYtqUmSBYEUrZnuME6RVtEuLayIe6oba+PgAm53yDHaYrm5iDAxp
- k4j1s5W3QLHEZXsjcnTNLDFlMgOV4Cu1gP+h01pa1myg5MXW9uo6ewrn7RVObEQrjsZS
- /RC1Dh0uPPtP2E6OsSosSNjQXXtkJErv4UZh/U4XaGpwteIVzfML9dSiNqMRTdX/FfRs
- 3NdA==
-X-Gm-Message-State: ACrzQf1HNCvBrGYwc6isg9HJFQtQoeRaZvEozXvJERdBKzORWYEjzb0h
- 6JjaYq5wcwI0H3tuqutOriXPTw==
-X-Google-Smtp-Source: AMsMyM4o8s+hiLiaZ4u1ni+Uf0AWf4lR+cyVEaZ2YkIepq4NQH1p0SkH+PNNfjziecoGaS9M015roA==
-X-Received: by 2002:a05:620a:44cb:b0:6ce:b918:2ed3 with SMTP id
- y11-20020a05620a44cb00b006ceb9182ed3mr9887420qkp.117.1664050991874; 
- Sat, 24 Sep 2022 13:23:11 -0700 (PDT)
+ bh=WuS5zzpqrxVN5w5hBro+GfNvAG/FZRPXtoQtqXXwVk4=;
+ b=qTk00X7s63e/1cBMkzw0uU1HpN4K59cfTyUPhRZQ3XVNW8AwMorppeWRkU9ZWN/HjE
+ aOJM9kNIEIXXmrIK7f0YhuScobsCyLHQy0/cW1OWe0nER2hiVq2T+S8gfwTVg20GQ1Dj
+ q67X42ZstlsHoIdKULw3TY7yBAJ9b08Qfkwt6GAJwj62WlvXdtXBGkkX3b0xy61nTPTN
+ O2l6Zt81i2EBBzw56DYGvDWvOSZQt06/PWGDU+4gIGHxDLlgNRXxaI0V0mgSlPzGslRC
+ NP3S7ufYaO4DbhhBzxvOjp2xmeimmLnzx0kwMqPXAxaBMQygB3IhihxRr3qQpwwGiwL7
+ CLJQ==
+X-Gm-Message-State: ACrzQf17qLdb1EeSJmiyDqEmpf7ofBUF93G1YtBJz14Y4V4zacWMIIZJ
+ Yj0/Do5VzmX8xpqufRNYbc3Gkg==
+X-Google-Smtp-Source: AMsMyM4dzwIBtg6DkVuEBQWe+658EE9z0nM0EAwECQkuHFK8L41D4BWx6fTt2cG/oUrkClhhuGKF9w==
+X-Received: by 2002:a37:348:0:b0:6cf:f30:9f0b with SMTP id
+ 69-20020a370348000000b006cf0f309f0bmr9999753qkd.735.1664051487004; 
+ Sat, 24 Sep 2022 13:31:27 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80b4:2f4d:42e1:8e60:a726:78e3?
  ([2605:ef80:80b4:2f4d:42e1:8e60:a726:78e3])
  by smtp.gmail.com with ESMTPSA id
- q20-20020a05620a0d9400b006b919c6749esm8734710qkl.91.2022.09.24.13.23.08
+ g22-20020ac87d16000000b00342f844e30fsm8678466qtb.31.2022.09.24.13.31.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Sep 2022 13:23:11 -0700 (PDT)
-Message-ID: <35640cfd-f853-1fbc-7898-78d63e3bdd22@linaro.org>
-Date: Sat, 24 Sep 2022 20:23:02 +0000
+ Sat, 24 Sep 2022 13:31:25 -0700 (PDT)
+Message-ID: <b7d97b55-2823-29d2-8a05-29eaba1e0636@linaro.org>
+Date: Sat, 24 Sep 2022 20:31:16 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 11/37] target/i386: validate SSE prefixes directly in
- the decoding table
+Subject: Re: [PATCH v2 19/37] target/i386: reimplement 0x0f 0x60-0x6f, add AVX
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: paul@nowt.org
 References: <20220920172507.95568-1-pbonzini@redhat.com>
- <20220920172507.95568-12-pbonzini@redhat.com>
+ <20220920172507.95568-20-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220920172507.95568-12-pbonzini@redhat.com>
+In-Reply-To: <20220920172507.95568-20-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x732.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -97,17 +96,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/20/22 17:24, Paolo Bonzini wrote:
-> Many SSE and AVX instructions are only valid with specific prefixes
-> (none, 66, F3, F2).  Introduce a direct way to encode this in the
-> decoding table to avoid using decode groups too much.
-> 
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> ---
->   target/i386/tcg/decode-new.c.inc | 37 ++++++++++++++++++++++++++++++++
->   target/i386/tcg/decode-new.h     |  1 +
->   2 files changed, 38 insertions(+)
+> +static void gen_MOVD_to(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+> +{
+> +    MemOp ot = decode->op[2].ot;
+> +    int vec_len = vector_len(s, decode);
+> +    int lo_ofs = vector_elem_offset(&decode->op[0], ot, 0);
+> +
+> +    tcg_gen_gvec_dup_imm(MO_64, decode->op[0].offset, vec_len, vec_len, 0);
+> +
+> +    switch (ot) {
+> +    case MO_32:
+> +#ifdef TARGET_X86_64
+> +        tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
+> +        tcg_gen_st_i32(s->tmp3_i32, cpu_env, lo_ofs);
+
+As before, tcg_gen_st32_tl and no need for truncate.  Otherwise,
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
