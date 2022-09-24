@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1660A5E8FCE
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 23:26:33 +0200 (CEST)
-Received: from localhost ([::1]:33624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB8D5E9048
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 00:17:01 +0200 (CEST)
+Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocCfP-0002oV-BS
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 17:26:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32976)
+	id 1ocDSF-0006W4-Sm
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 18:16:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocCdy-0001TS-63
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 17:25:02 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:42979)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocCdw-0001oi-Dg
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 17:25:01 -0400
-Received: by mail-qt1-x834.google.com with SMTP id w2so2053592qtv.9
- for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 14:24:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=xSIJIj9kNj6XMCKmx4OXMC2UNMXSfrecRNkS7Nmz+PI=;
- b=u5kPDK4eHRgZHYvIgvRRIJirVGwCIL5qDnsqGGdNvzIePAFXk+OP+JMRUOz8j8C2En
- nMdPQ/S06kDPdIzbyOXlCLVdMkxovf1AteIqNN7L/VQFZbLmq4wcvoQ2yUeVOov94aCH
- TjrcuIE+EZRMnnMqAyY+tpgfnj2hMuN/SA0I2K99Fl+9Kz5NpqHMurNUo+73/0JPnzo8
- ltaWgVPRoHhkJRmb1P0/Ax8k1X2gTQjQrKVkzHx6oM7jprck8jAVjKi+MVV7JV2nScGA
- r6yVFuVvYjAYnh7b+8bUSZ9X0PZf/XVgUxlGpPez2bhTHjxdED5MwouAM1809h0KZF+u
- 3yuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=xSIJIj9kNj6XMCKmx4OXMC2UNMXSfrecRNkS7Nmz+PI=;
- b=d2iw6JsZTyvRaakBxe00kVsKTP6ceFnI1fKnzzuUY13rboy3+6G7uY2gPMz7CNee/b
- CmkIhB5Z9J0GAfMn14q5daxq4FM9O+bwVAs2n2Vw8w2Aq6MqG/tWr4TTOUBsSFF3p2cw
- mnpwr48/ouWTjX44ee8IrU78x3MJ0vNvhlM3AOw/vd/CqtCOy4yivZ5cprcQkjE9g4R0
- /kBOY6LBKW0IW8L9adPb8L1kkhzTYfPcxIky6aRe7WlEdXUyRhIxxzYhUhP/psppYY1s
- +h8av0ChhUlahYhwG2vMtU7jGUhcQ3OwfAEYhqVSZW2ODAdHfdeJGLyC4DUEwIyzCVX+
- qt0Q==
-X-Gm-Message-State: ACrzQf3m1cAWks9RQkoS8YLyVh7zVWtK4Nhj65Bu/28U+0OinOylqorz
- GhVX79GtodQ3Xes4aEtq2d5Jow==
-X-Google-Smtp-Source: AMsMyM6SFgP3lJ0ZcHavUlmbxBEwnZaDF+H4Y/IgnrSSjPCVwUsbF/x9HETYEqmNKP8X8v2oai0oUQ==
-X-Received: by 2002:ac8:7c49:0:b0:35d:ac1:66ca with SMTP id
- o9-20020ac87c49000000b0035d0ac166camr12384463qtv.405.1664054699053; 
- Sat, 24 Sep 2022 14:24:59 -0700 (PDT)
-Received: from ?IPV6:2605:ef80:80b4:2f4d:42e1:8e60:a726:78e3?
- ([2605:ef80:80b4:2f4d:42e1:8e60:a726:78e3])
- by smtp.gmail.com with ESMTPSA id
- 203-20020a3706d4000000b006cf36d46902sm8466578qkg.66.2022.09.24.14.24.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Sep 2022 14:24:58 -0700 (PDT)
-Message-ID: <90479d59-e63c-3330-fa3f-e45e013c3d8b@linaro.org>
-Date: Sat, 24 Sep 2022 21:24:49 +0000
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1ocDPJ-0004Z6-Qy
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 18:13:57 -0400
+Received: from mout.gmx.net ([212.227.17.22]:46055)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1ocDPE-0008OU-V4
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 18:13:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1664057630;
+ bh=glL2oKbyCalCbQdc6Ns11sOFkCFrYp5s1DYoXdmGg5k=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=Sjs/BiQPkOAP9WcoTMXy+eIgPYK9SiM6kKQ6dQmzkVYi6dJ5S47uJxcui+ENmOa2R
+ FjGTmHWxsbNnlFmbY+heA0RFzBJsrvMx8uH8PW5iLUYQrRjIp4nkpYHQTp58Ph4mOg
+ FpbmDxY84U6yzaXt+GbSq7GaoeGMXR+DmGarBHZk=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100 ([92.116.155.187]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MJVHU-1orgxB3kuO-00JuKO; Sun, 25
+ Sep 2022 00:13:49 +0200
+Date: Sun, 25 Sep 2022 00:13:48 +0200
+From: Helge Deller <deller@gmx.de>
+To: richard.henderson@linaro.org, qemu-devel@nongnu.org
+Subject: [PATCH] target/hppa: Generate illegal instruction exception for
+ 64-bit instructions
+Message-ID: <Yy+BHMfYE3fYVq6k@p100>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 36/37] target/i386: move 3DNow to the new decoder
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: paul@nowt.org
-References: <20220920172507.95568-1-pbonzini@redhat.com>
- <20220920172507.95568-37-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220920172507.95568-37-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x834.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.118,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:fnULbI002Rf4n4x3z76/wa9cO3LHf2S9MmLstxTsZQJCAzs29TF
+ vVVFql4xZDZTz8n0eOT79wse4geWnSDIsUBkpZDiw3KIBMmg4abat7wgV+tHz1tPvwqcPJX
+ sXBt2cQ3q6Rvk8JFSmIWPzCM58R6AWsZTz20QBOdIy/PE9xJEGS2Ni54zhSosHy1ZfEPijC
+ KKEyNSWITX0BGFUbl1wHQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GcMc6AhAaq8=:RypzgO5kWoLdh1sjy8aTuk
+ s6MouGbU3nNEL2I/xo5HaH8uBxMiLwjU2gZQrV/gQ/UuA1cxmkfgmjJOoR2SCbva4jT1exq0Y
+ nvRYSJ01TP/pFCPGu3pnWP6D1jvYqZ74Dcblnm3xSEUr07Ff9c9Iwn9nDmW2aCTdwIrZelfcV
+ ILSsgWyKD8t7GTYWzkagGNgNRAikBAPoCzUOUFfPy4z7ISOvOI66mGH/2lkh8kdreUb+04P2j
+ Or7ocB3/ZNOzz4gYr/DwvvzHZ68XWbM+ZM+1So8N46v/mHTT+42oJxl58MZ4Je3DxNSqBvcib
+ xebPjrP1FKwsIjmHyFnQlGcrLp8h5nCWHWjcq0Fik/sItH2g8lOMQCj2k6EuOJm9yfUx2vRQa
+ MhfsEpbpJYLdHzRcgperwoPNcPpZwI3cX4FCMODNSpSLdY2P7t1wMXaLRTOMjNpp1n5v8tv34
+ xv0MBSPJjoQ7tzwH/L7gRQtFOieL8N/+vzLI1MmWkXuReGAQlKymE8QatPmt3sd8XXWmNSOdT
+ OTY3TeUCrO9cWoLKiWG01OSNbZ8CCLcebqangnEbvF7IVl4af9tmolwShCrNp7AjjQwAA6Kfd
+ p3m9LijMIbyu61icYY79+ImicCzo6cx+M6uj3h8gFP+OEKisaS7jvR9x0j41yRxR0qt9Rkr52
+ us2gkQC3lkFK81u+VlgdK19X8ReExY2CFaBbpyALcTRC7X4XRRgdLRtF4tTExsZOw6G8l0rsk
+ WPqJx/xMKrEYjINxxEDtgULU+6fr07JvtWN8ygqxOrtDpQCd5SbCaNOTKt8WMlPTrKM5Q7v0x
+ APgJE03VC91XDgZ+h6RxWZCIxqpC3sXyQDVc5afkjmt/WObqhnZ78Nv4OJ0MEVkKvVKsNZn1u
+ knUMybjlO2J8JEx0jqc7n4e4bsQQkw4fjwBopgCWhMdrgV7YqXDMMR5sbUCI/t0zxFU2n9LDT
+ OtSWts7yWCyCs0Vr7cyv00npu+dAcW5olY5L6H9X2klQsMT3zABh/jpCbl99gW2mJdRJgEfVR
+ 5SmD2JC6LytJ5tx5SCtoeaxmRWlF8GbGNB0FhCVMuLZk5XqRVGdlmo0bMCDHm1XvFcYSrW9J+
+ 9myc4lwEetWTLTx3GWC/KecDsH1y/I0eKbvYEaX96PdhYWjSIjsc59kr1Y5td49ICFbMcg7ps
+ pxPNm53vCm0xrBOPGzEqbguhCy
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,27 +84,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/20/22 17:25, Paolo Bonzini wrote:
-> This adds another kind of weirdness when you thought you had seen it all:
-> an opcode byte that comes_after_  the address, not before.  It's not
-> worth adding a new X86_SPECIAL_* constant for it, but it's actually
-> not unlike VCMP; so, forgive me for exploiting the similarity and just
-> deciding to dispatch to the right gen_helper_* call in a single code
-> generation function.
-> 
-> In fact, the old decoder had a bug where s->rip_offset should have
-> been set to 1 for 3DNow! instructions, and it's fixed now.
-> 
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> ---
->   target/i386/tcg/decode-new.c.inc | 10 +++++
->   target/i386/tcg/decode-new.h     |  1 +
->   target/i386/tcg/emit.c.inc       | 61 +++++++++++++++++++++++++++
->   target/i386/tcg/translate.c      | 71 +-------------------------------
->   4 files changed, 74 insertions(+), 69 deletions(-)
+Qemu currently emulates a 32-bit CPU only, and crashes with this error
+when it faces a 64-bit load (e.g.  "ldd 0(r26),r0") or 64-bit store
+(e.g. "std r26,0(r26)") instruction in the guest:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+ERROR:../qemu/tcg/tcg-op.c:2822:tcg_canonicalize_memop: code should not be=
+ reached
 
+Fix this by adding checks for 64-bit sizes and generate an illegal
+instruction exception if necessary.
 
-r~
+Signed-off-by: Helge Deller <deller@gmx.de>
+
+diff --git a/target/hppa/translate.c b/target/hppa/translate.c
+index b8dbfee5e9..287cc410cd 100644
+=2D-- a/target/hppa/translate.c
++++ b/target/hppa/translate.c
+@@ -1568,7 +1568,12 @@ static bool do_load(DisasContext *ctx, unsigned rt,=
+ unsigned rb,
+         /* Make sure if RT =3D=3D RB, we see the result of the load.  */
+         dest =3D get_temp(ctx);
+     }
+-    do_load_reg(ctx, dest, rb, rx, scale, disp, sp, modify, mop);
++    if (unlikely(TARGET_REGISTER_BITS =3D=3D 32 && (mop & MO_SIZE) > MO_3=
+2)) {
++        gen_illegal(ctx);
++        dest =3D tcg_constant_reg(0);
++    } else {
++        do_load_reg(ctx, dest, rb, rx, scale, disp, sp, modify, mop);
++    }
+     save_gpr(ctx, rt, dest);
+
+     return nullify_end(ctx);
+@@ -1631,7 +1636,11 @@ static bool do_store(DisasContext *ctx, unsigned rt=
+, unsigned rb,
+                      int modify, MemOp mop)
+ {
+     nullify_over(ctx);
+-    do_store_reg(ctx, load_gpr(ctx, rt), rb, 0, 0, disp, sp, modify, mop)=
+;
++    if (unlikely(TARGET_REGISTER_BITS =3D=3D 32 && (mop & MO_SIZE) > MO_3=
+2)) {
++        gen_illegal(ctx);
++    } else {
++        do_store_reg(ctx, load_gpr(ctx, rt), rb, 0, 0, disp, sp, modify, =
+mop);
++    }
+     return nullify_end(ctx);
+ }
+
 
