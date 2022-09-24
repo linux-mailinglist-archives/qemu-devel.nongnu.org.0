@@ -2,90 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98A45E86FF
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 03:28:39 +0200 (CEST)
-Received: from localhost ([::1]:45712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69C05E89E9
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 10:12:45 +0200 (CEST)
+Received: from localhost ([::1]:41146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obty9-0004Sm-Sx
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 21:28:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55216)
+	id 1oc0HE-0007rk-77
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 04:12:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obtwz-00032t-5V
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 21:27:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50601)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obtwv-0005LA-NZ
- for qemu-devel@nongnu.org; Fri, 23 Sep 2022 21:27:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1663982840;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wl3Q4ir2RBmi2owavOGOvuTCfqNyZTq9RTvNXsRZtqE=;
- b=A/ugd2puG+u+XxtcXJeK+gZrUBeRIx+5ZHZSn6CBm0UXh9pyoP3Y52E+C5gGKj6jztu/O6
- UNVG4GfXY10fcTz3yD/ZF1VAM4jUhtAlCFLFeCWMh6RSdoY8/Z13WJBl/MylsyoywnUMen
- NKVJpKOPEE+Vcj4ewP5yGHhkH61pxEw=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-215-4HzyYzsmOzSFsPjPqTTD1w-1; Fri, 23 Sep 2022 21:27:10 -0400
-X-MC-Unique: 4HzyYzsmOzSFsPjPqTTD1w-1
-Received: by mail-qv1-f69.google.com with SMTP id
- f9-20020ad442c9000000b004ac7f4fde18so974704qvr.14
- for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 18:27:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oc05c-00011e-Bk; Sat, 24 Sep 2022 04:00:44 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:33425)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oc05a-0003gW-Ht; Sat, 24 Sep 2022 04:00:44 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id f193so2268480pgc.0;
+ Sat, 24 Sep 2022 01:00:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=7uKLjBUKFmVaBKRve04BDLmlODIRey/sNtYmixYNJSM=;
+ b=FTH+sd3eLt/w3yVmTXPQxtgZ6eUVPcdNCcqIY4TcPqYIVeeA/K0ei8I3ESRc50LMEz
+ l08timAGOLNQU7ZNLhcJFQvJQ4uxReXbDwIxcbTeisA7fmFfok1p2p7Ju3upyh+DVctK
+ lvsOL0sDsQTdvaJYdt3KlWZLe5i1tcqRhAHtZ67HkQB8ud/5dKTwICC7VP1z/lLwlkoB
+ ogYe2r7siGHX22tJPDquRC8zaCb8qPONLpduhW1SHJMUUSNTuwtZr4cMRdlbWCbf5yPu
+ ee5Kq+Uy1oRdOVO+qwn6IBXDyiIJrJBi0lRgS23Izcs9rHx3C/avSMnPBtlilDGYzJ+Q
+ sB4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=wl3Q4ir2RBmi2owavOGOvuTCfqNyZTq9RTvNXsRZtqE=;
- b=a0sknPnGh7PJJJMmeXFECZU7BeIVEUnPBXWmpUd6CU/PHa1QucB09qrC+LDIewvNwx
- Jzb/Yv06HPQwlRywiRjTPg+/tdsgaNSt6q7tpfL3HvIPD6KF9fsIS6mBUryz8L0Vzrl+
- N66nelDNP6+UwNAu4tRMLO38Y7JNFNIssFUL+QfQ+mqMv++7GzbaG70bRqNYWgSITC+T
- ng6ZI627hOW8nPcdu9SYbghZx9BBslNSBZBi5ZfMiDmxKNswuZB7Xb9mI853h8bN6bOY
- 8UKsIKyM9cUvWUY4fYJgMrCOpZQtg/QCZoGRxqcki6b6h8C0a8E9GpVG4PaO4s+G/SVh
- 7/tw==
-X-Gm-Message-State: ACrzQf2ORO0WN0j77mTDFYP7JDaRWDTN/QgFIyx0EPcc9WnIe9yn6vgk
- me0HvDEXPiUvQp2j3ODZYV+Ztw0fgn6kmF95+8m/23XE2WarDMpucRJX5rTgsSbZ6q0oMPmtnoJ
- KolaxO49hiD3etjc=
-X-Received: by 2002:a05:620a:4726:b0:6ce:9ea8:4c23 with SMTP id
- bs38-20020a05620a472600b006ce9ea84c23mr7415860qkb.127.1663982830503; 
- Fri, 23 Sep 2022 18:27:10 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6NT5fYvEA+2OjsO5KD+vsyByz5EcLKOO97yiDRSU80Vr+/EUUxmylkcBOsTT0rnhxD0htjKA==
-X-Received: by 2002:a05:620a:4726:b0:6ce:9ea8:4c23 with SMTP id
- bs38-20020a05620a472600b006ce9ea84c23mr7415847qkb.127.1663982830306; 
- Fri, 23 Sep 2022 18:27:10 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- cm21-20020a05622a251500b0035bb6298526sm6506588qtb.17.2022.09.23.18.27.09
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=7uKLjBUKFmVaBKRve04BDLmlODIRey/sNtYmixYNJSM=;
+ b=emmxgnIfZfN4iFUvvQzsgVgpPt1mj4QbEod2HRMe2UFcqBXpRTUbvGFFIaVCXA8V6x
+ brtMQhjfe8grJWYDU2m0LEUh4UC7DzSyNNptBeF9gXXLrK+Tj8vE0fnWYzz+Rbp8fGn+
+ 61KtkyF/+szyo532mykqF1bGDq/VNDIg/+GpInBDJdmm6UoYAjzfa8tDd2NJxHBdU0fA
+ NMd/VysdqcVGnNB2gn7Yg0w1hBWX8jDujz6LdfkRBTV8uVxvXSoVKs5S56Y+32W4L/Fk
+ sOn1ofZXkMSrqTKMKUvgY9hQPQI3SwuFE3uqex14iYBbFQaYmOYHGTr2o1wYeMJ2aHfE
+ unbA==
+X-Gm-Message-State: ACrzQf2k1Xzzf1wYwOkm+DrHCDE4mI893pizuhjclDmO+zOFJlYFTHgk
+ LjZ2zWKMzJrsZJfwmxHuhGo=
+X-Google-Smtp-Source: AMsMyM5sG550zuwdLPGoUsDOY1J1XX0tyT7XeQSqJI78EA00cG5VbLGVkqJquLRkI28aes38NYOOpA==
+X-Received: by 2002:a63:de4c:0:b0:439:2032:d581 with SMTP id
+ y12-20020a63de4c000000b004392032d581mr10715413pgi.164.1664006440481; 
+ Sat, 24 Sep 2022 01:00:40 -0700 (PDT)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id
+ l17-20020a170902f69100b0016d773aae60sm7273936plg.19.2022.09.24.01.00.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Sep 2022 18:27:09 -0700 (PDT)
-Date: Fri, 23 Sep 2022 21:27:08 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
- Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH] Revert "intel_iommu: Fix irqchip / X2APIC configuration
- checks"
-Message-ID: <Yy5c7M10df3OINwH@x1n>
-References: <20220921161227.57259-1-peterx@redhat.com>
- <20220922154617.57d1a1fb@redhat.com> <YyyP4b2uKghi1EHL@xz-m1.local>
- <20220923102034.6579b66c@redhat.com>
- <20220923104159.39576159@redhat.com> <Yy4tQAeOUd49DpX6@x1n>
+ Sat, 24 Sep 2022 01:00:39 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH] block: Refactor get_tmp_filename()
+Date: Sat, 24 Sep 2022 16:00:34 +0800
+Message-Id: <20220924080034.1899724-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yy4tQAeOUd49DpX6@x1n>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,23 +87,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 23, 2022 at 06:03:44PM -0400, Peter Xu wrote:
-> On Fri, Sep 23, 2022 at 10:41:59AM +0200, Igor Mammedov wrote:
-> > It's worth putting history excavation with explanation what is broken and why
-> > compat stuff is being ignored in the patch.
-> 
-> Makes sense, I'll amend the commit message and repost.  Thanks,
+From: Bin Meng <bin.meng@windriver.com>
 
-There's actually one way to slightly remedy this single case, mostly for
-any QEMU 7.1.0 user with -smp <=8 and the intel iommu (as 77250171bdc02 is
-merged only in 7.1.0).
+At present there are two callers of get_tmp_filename() and they are
+inconsistent.
 
-We can have one compact parameter x-eim-enable-kvm-x2apic, setting it "on"
-by default, "off" for 7.1, and "on" for 7.0-.
+One does:
 
-I'm not very sure whether that'll worth it.  Any thoughts?
+    /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+    char *tmp_filename = g_malloc0(PATH_MAX + 1);
+    ...
+    ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
 
+while the other does:
+
+    s->qcow_filename = g_malloc(PATH_MAX);
+    ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
+
+As we can see different 'size' arguments are passed. There are also
+platform specific implementations inside the function, and this use
+of snprintf is really undesirable.
+
+Refactor this routine by changing its signature to:
+
+    char *get_tmp_filename(void)
+
+and use g_file_open_tmp() for a consistent implementation.
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
+
+ include/block/block_int-common.h |  2 +-
+ block.c                          | 42 ++++++++++----------------------
+ block/vvfat.c                    |  8 +++---
+ 3 files changed, 18 insertions(+), 34 deletions(-)
+
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 8947abab76..ea69a9349c 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
+ }
+ 
+ int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
+-int get_tmp_filename(char *filename, int size);
++char *get_tmp_filename(void);
+ void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+                                       QDict *options);
+ 
+diff --git a/block.c b/block.c
+index bc85f46eed..0f6c460199 100644
+--- a/block.c
++++ b/block.c
+@@ -860,38 +860,23 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
+ 
+ /*
+  * Create a uniquely-named empty temporary file.
+- * Return 0 upon success, otherwise a negative errno value.
++ * Return the actual name used upon success, otherwise NULL.
++ * The called function is responsible for freeing it.
+  */
+-int get_tmp_filename(char *filename, int size)
++char *get_tmp_filename(void)
+ {
+-#ifdef _WIN32
+-    char temp_dir[MAX_PATH];
+-    /* GetTempFileName requires that its output buffer (4th param)
+-       have length MAX_PATH or greater.  */
+-    assert(size >= MAX_PATH);
+-    return (GetTempPath(MAX_PATH, temp_dir)
+-            && GetTempFileName(temp_dir, "qem", 0, filename)
+-            ? 0 : -GetLastError());
+-#else
++    char *filename;
+     int fd;
+-    const char *tmpdir;
+-    tmpdir = getenv("TMPDIR");
+-    if (!tmpdir) {
+-        tmpdir = "/var/tmp";
+-    }
+-    if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
+-        return -EOVERFLOW;
+-    }
+-    fd = mkstemp(filename);
++
++    fd = g_file_open_tmp("vl.XXXXXX", &filename, NULL);
+     if (fd < 0) {
+-        return -errno;
++        return NULL;
+     }
+     if (close(fd) != 0) {
+         unlink(filename);
+-        return -errno;
++        return NULL;
+     }
+-    return 0;
+-#endif
++    return filename;
+ }
+ 
+ /*
+@@ -3717,8 +3702,7 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
+                                                    QDict *snapshot_options,
+                                                    Error **errp)
+ {
+-    /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+-    char *tmp_filename = g_malloc0(PATH_MAX + 1);
++    char *tmp_filename = NULL;
+     int64_t total_size;
+     QemuOpts *opts = NULL;
+     BlockDriverState *bs_snapshot = NULL;
+@@ -3737,9 +3721,9 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
+     }
+ 
+     /* Create the temporary image */
+-    ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "Could not get temporary filename");
++    tmp_filename = get_tmp_filename();
++    if (!tmp_filename) {
++        error_setg_errno(errp, errno, "Could not get temporary filename");
+         goto out;
+     }
+ 
+diff --git a/block/vvfat.c b/block/vvfat.c
+index d6dd919683..135fafb166 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -3146,10 +3146,10 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
+ 
+     array_init(&(s->commits), sizeof(commit_t));
+ 
+-    s->qcow_filename = g_malloc(PATH_MAX);
+-    ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "can't create temporary file");
++    s->qcow_filename = get_tmp_filename();
++    if (!s->qcow_filename) {
++        error_setg_errno(errp, errno, "can't create temporary file");
++        ret = -errno;
+         goto err;
+     }
+ 
 -- 
-Peter Xu
+2.34.1
 
 
