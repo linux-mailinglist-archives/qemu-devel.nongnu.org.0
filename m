@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8155C5E8D39
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 16:13:39 +0200 (CEST)
-Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00CF5E8D3B
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 16:15:01 +0200 (CEST)
+Received: from localhost ([::1]:42548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc5uU-0002mX-4W
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 10:13:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40822)
+	id 1oc5vo-0004LC-VV
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 10:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oc5rt-0001Ci-2I
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:10:58 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:37737)
+ id 1oc5uF-0002j6-Ka
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:13:23 -0400
+Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:45819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oc5rq-00087V-Tf
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:10:56 -0400
-Received: by mail-qt1-x829.google.com with SMTP id j10so1685027qtv.4
- for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 07:10:50 -0700 (PDT)
+ id 1oc5uD-0008LA-Ts
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:13:23 -0400
+Received: by mail-qv1-xf32.google.com with SMTP id mi14so1695345qvb.12
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 07:13:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=zW9qkHoq+NRwUygyy0sniiSLWznpixkjX5LZFUdAvIs=;
- b=KQ+ZKRr2HQFCtZRTPVjYAd5oJS5ObKP75Ku2zMFg35hPlSJI8ly2YEa2P08Y3ZoICH
- Ky6orklA/CnVEsv5+4F2TPH84SrxVe5+h8ldW6gGR/gaUixudCKMEbNobQkHV5css9Ip
- LAITcZGEvjOf/2rVNkn6yCFUM21fXSsqjEsUnsSY9mq+foEW0IbSRLmEKsovfWT+YdU6
- BFc7DCXxHmAUZaRDKarJQ6VZuLxzdDb0By+xEqGrKwICbjIe5nEUUWrjxKAaohrHqRm4
- FCo/slQzGQ+IkK1y3FlQMgBc6Q5skX512BpqJxVK+6rmoDJbLhzKpYSP5gNutcoW7AUz
- AhGA==
+ bh=i9DCxgYmvFrMnc6M5feg2o8yi/L5IXyztJzrpU017po=;
+ b=ur5PI/1Ec+2mwjkWteaM+90R2jeAjA+kKqJ0xEqFHcE0EZMrq28LbOCygX4yNKxRAb
+ gISmSGW2/jcPOIFH+5i3tnY0WVmqTQrpOIzDNw4uihbn9hvHkWJH09KvOIu3/co57hJV
+ MwEzly5EeqCjsZigLFXBk+jGRwuUne4P9vy4tC8VDkbR4fZ3N57H1kUBN7tlNXDd/XZJ
+ GAzAxuL4EPbvrc6WSt/175cGEfBrpKDYC9QKTZ01TvK6c1VhspXC5a+gIpqXrWWCn0iI
+ iKE3LjTE1kdThV7KELf8MAnZmLVdrprX72MUFl2EwAOismctXDpkl9Hd0zBO43cGDY97
+ AhhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=zW9qkHoq+NRwUygyy0sniiSLWznpixkjX5LZFUdAvIs=;
- b=RN8er+7+7pbvtXp/hOTnWiRRlZscf3NIzvz9Im0RdOHTTcqdZ+CQjwp+Rh4bv8Yvn2
- J0zMCzn/pFPm2v/h02g0wpfuN5UhFHVhby2UC4ihW3GOgHQgdRRUeZgusMMDqxzcw8GM
- +UqdEdB52J0ELt4ECcP32Yr6u74L5/IsHDsqVkju68HCHr/AfwAHKg+0KTaujrA6igVE
- iOGxu4LbFZLy4DOPpmeIt4Lw/V/yrP5Gy3TFxRd14nt+i8Do1y1cj9qbraiNwi+/hlYs
- gSPX6/6SyCW/TKNgAYQBDNrlTim6no+p2k2IDywZv4Rz+r0sMg9577rorRS1KiEiMXZx
- YR+Q==
-X-Gm-Message-State: ACrzQf3ubgxFxRAkmknm33U/8yk/VsgL9wX09Pqp5QuJtmuEIRqS0xxz
- PMTMT2wm/mHBkp3MANxl2ZqULQ==
-X-Google-Smtp-Source: AMsMyM67EOcF3SGbBjnn5cH5TEmaZDPuF/mAO6Nd8JpgOeW3QeUOWmZ1iTAFkvPtEab378Rg1mBnxQ==
-X-Received: by 2002:a05:622a:1652:b0:35b:a2dd:f0ad with SMTP id
- y18-20020a05622a165200b0035ba2ddf0admr11480381qtj.302.1664028649558; 
- Sat, 24 Sep 2022 07:10:49 -0700 (PDT)
+ bh=i9DCxgYmvFrMnc6M5feg2o8yi/L5IXyztJzrpU017po=;
+ b=k0FctOq6PQm/mgxJgMYxdnbg1dgyv+sga7x6zaA3Mu3WCI+0UISw2onErFdiyhKEPv
+ w1JyST0RcEdSLktjI98d1bmNupeGicUNG8otaVCX6spBJ2WCBf+KpLn9mP+/Qp1xAdLO
+ epgBB/c7wNiDKF/PeWlQajty7b5kl+OfK/63ARnFsBAtkL/byQrTY4ER3tVCcQOcE7Ow
+ fZKxeOycl5DxuDaZgHrVMFxY6pnWvllhD71qdgPw0DvJpderDDltQPrFl/2skHNdb8Mi
+ UdaKG6M82OuZiKJ7H2PIPRMtzAwa7gEAdQCCJQuVw8gyRMQGjIlZwBAlbjCvPl25pDcb
+ MhRA==
+X-Gm-Message-State: ACrzQf2bTUZC2+QraGwjIqmHYk5DYnrcYS+Wwu4B2NGPceWZzIXXXaGb
+ qmw84XUEWSiKrEc2z7fDCSVvHQ==
+X-Google-Smtp-Source: AMsMyM6fX7Ocs/psOHMSkj1YN3oRDosUF7h4zGEcQa32Jr+AIYi0lU1NcYerqY2xbDwwC6pQY4crpQ==
+X-Received: by 2002:ad4:5966:0:b0:4ad:7832:a8ec with SMTP id
+ eq6-20020ad45966000000b004ad7832a8ecmr11046529qvb.82.1664028800929; 
+ Sat, 24 Sep 2022 07:13:20 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80b2:880d:1e7d:befa:a019:1dbe?
  ([2605:ef80:80b2:880d:1e7d:befa:a019:1dbe])
  by smtp.gmail.com with ESMTPSA id
- k12-20020a05620a414c00b006ce1bfbd603sm2489946qko.124.2022.09.24.07.10.43
+ de4-20020a05620a370400b006bbb07ebd83sm8158497qkb.108.2022.09.24.07.13.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Sep 2022 07:10:48 -0700 (PDT)
-Message-ID: <6c86d225-29a9-a9bf-dbe2-c1e5164be3cb@linaro.org>
-Date: Sat, 24 Sep 2022 14:10:35 +0000
+ Sat, 24 Sep 2022 07:13:20 -0700 (PDT)
+Message-ID: <6b476837-fb61-6883-aeaf-d9a3c2ae5ee7@linaro.org>
+Date: Sat, 24 Sep 2022 14:13:08 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 01/12] target/ppc: Moved VMLADDUHM to decodetree and use
- gvec
+Subject: Re: [PATCH 02/12] target/ppc: Move VMH[R]ADDSHS instruction to
+ decodetree
 Content-Language: en-US
 To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
  qemu-devel@nongnu.org, qemu-ppc@nongnu.org
@@ -70,13 +70,13 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
  =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
 References: <20220923214754.217819-1-lucas.araujo@eldorado.org.br>
- <20220923214754.217819-2-lucas.araujo@eldorado.org.br>
+ <20220923214754.217819-3-lucas.araujo@eldorado.org.br>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220923214754.217819-2-lucas.araujo@eldorado.org.br>
+In-Reply-To: <20220923214754.217819-3-lucas.araujo@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf32.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -102,32 +102,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 9/23/22 21:47, Lucas Mateus Castro(alqotel) wrote:
 > From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
 > 
-> This patch moves VMLADDUHM to decodetree a creates a gvec implementation
-> using mul_vec and add_vec.
+> This patch moves VMHADDSHS and VMHRADDSHS to decodetree I couldn't find
+> a satisfactory implementation with TCG inline.
 > 
+> vmhaddshs:
 > rept    loop    master             patch
-> 8       12500   0,01810500         0,00903100 (-50.1%)
-> 25      4000    0,01739400         0,00747700 (-57.0%)
-> 100     1000    0,01843600         0,00901400 (-51.1%)
-> 500     200     0,02574600         0,01971000 (-23.4%)
-> 2500    40      0,05921600         0,07121800 (+20.3%)
-> 8000    12      0,15326700         0,21725200 (+41.7%)
+> 8       12500   0,02983400         0,02648500 (-11.2%)
+> 25      4000    0,02946000         0,02518000 (-14.5%)
+> 100     1000    0,03104300         0,02638000 (-15.0%)
+> 500     200     0,04002000         0,03502500 (-12.5%)
+> 2500    40      0,08090100         0,07562200 (-6.5%)
+> 8000    12      0,19242600         0,18626800 (-3.2%)
 > 
-> The significant difference in performance when REPT is low and LOOP is
-> high I think is due to the fact that the new implementation has a higher
-> translation time, as when using a helper only 5 TCGop are used but with
-> the patch a total of 10 TCGop are needed (Power lacks a direct mul_vec
-> equivalent so this instruction is implemented with the help of 5 others,
-> vmuleu, vmulou, vmrgh, vmrgl and vpkum).
+> vmhraddshs:
+> rept    loop    master             patch
+> 8       12500   0,03078600         0,02851000 (-7.4%)
+> 25      4000    0,02793200         0,02746900 (-1.7%)
+> 100     1000    0,02886000         0,02839900 (-1.6%)
+> 500     200     0,03714700         0,03799200 (+2.3%)
+> 2500    40      0,07948000         0,07852200 (-1.2%)
+> 8000    12      0,19049800         0,18813900 (-1.2%)
 > 
 > Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
 > ---
->   target/ppc/helper.h                 |  2 +-
->   target/ppc/insn32.decode            |  2 ++
->   target/ppc/int_helper.c             |  3 +-
->   target/ppc/translate.c              |  1 -
->   target/ppc/translate/vmx-impl.c.inc | 48 ++++++++++++++++++-----------
->   5 files changed, 35 insertions(+), 21 deletions(-)
+>   target/ppc/helper.h                 | 4 ++--
+>   target/ppc/insn32.decode            | 2 ++
+>   target/ppc/int_helper.c             | 4 ++--
+>   target/ppc/translate/vmx-impl.c.inc | 5 +++--
+>   target/ppc/translate/vmx-ops.c.inc  | 1 -
+>   5 files changed, 9 insertions(+), 7 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
