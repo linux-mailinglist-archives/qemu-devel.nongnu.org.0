@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00CF5E8D3B
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 16:15:01 +0200 (CEST)
-Received: from localhost ([::1]:42548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A11545E8D46
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 16:22:58 +0200 (CEST)
+Received: from localhost ([::1]:33610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc5vo-0004LC-VV
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 10:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39986)
+	id 1oc63V-00025s-8Y
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 10:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oc5uF-0002j6-Ka
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:13:23 -0400
-Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:45819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oc5uD-0008LA-Ts
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:13:23 -0400
-Received: by mail-qv1-xf32.google.com with SMTP id mi14so1695345qvb.12
- for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 07:13:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=i9DCxgYmvFrMnc6M5feg2o8yi/L5IXyztJzrpU017po=;
- b=ur5PI/1Ec+2mwjkWteaM+90R2jeAjA+kKqJ0xEqFHcE0EZMrq28LbOCygX4yNKxRAb
- gISmSGW2/jcPOIFH+5i3tnY0WVmqTQrpOIzDNw4uihbn9hvHkWJH09KvOIu3/co57hJV
- MwEzly5EeqCjsZigLFXBk+jGRwuUne4P9vy4tC8VDkbR4fZ3N57H1kUBN7tlNXDd/XZJ
- GAzAxuL4EPbvrc6WSt/175cGEfBrpKDYC9QKTZ01TvK6c1VhspXC5a+gIpqXrWWCn0iI
- iKE3LjTE1kdThV7KELf8MAnZmLVdrprX72MUFl2EwAOismctXDpkl9Hd0zBO43cGDY97
- AhhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=i9DCxgYmvFrMnc6M5feg2o8yi/L5IXyztJzrpU017po=;
- b=k0FctOq6PQm/mgxJgMYxdnbg1dgyv+sga7x6zaA3Mu3WCI+0UISw2onErFdiyhKEPv
- w1JyST0RcEdSLktjI98d1bmNupeGicUNG8otaVCX6spBJ2WCBf+KpLn9mP+/Qp1xAdLO
- epgBB/c7wNiDKF/PeWlQajty7b5kl+OfK/63ARnFsBAtkL/byQrTY4ER3tVCcQOcE7Ow
- fZKxeOycl5DxuDaZgHrVMFxY6pnWvllhD71qdgPw0DvJpderDDltQPrFl/2skHNdb8Mi
- UdaKG6M82OuZiKJ7H2PIPRMtzAwa7gEAdQCCJQuVw8gyRMQGjIlZwBAlbjCvPl25pDcb
- MhRA==
-X-Gm-Message-State: ACrzQf2bTUZC2+QraGwjIqmHYk5DYnrcYS+Wwu4B2NGPceWZzIXXXaGb
- qmw84XUEWSiKrEc2z7fDCSVvHQ==
-X-Google-Smtp-Source: AMsMyM6fX7Ocs/psOHMSkj1YN3oRDosUF7h4zGEcQa32Jr+AIYi0lU1NcYerqY2xbDwwC6pQY4crpQ==
-X-Received: by 2002:ad4:5966:0:b0:4ad:7832:a8ec with SMTP id
- eq6-20020ad45966000000b004ad7832a8ecmr11046529qvb.82.1664028800929; 
- Sat, 24 Sep 2022 07:13:20 -0700 (PDT)
-Received: from ?IPV6:2605:ef80:80b2:880d:1e7d:befa:a019:1dbe?
- ([2605:ef80:80b2:880d:1e7d:befa:a019:1dbe])
- by smtp.gmail.com with ESMTPSA id
- de4-20020a05620a370400b006bbb07ebd83sm8158497qkb.108.2022.09.24.07.13.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Sep 2022 07:13:20 -0700 (PDT)
-Message-ID: <6b476837-fb61-6883-aeaf-d9a3c2ae5ee7@linaro.org>
-Date: Sat, 24 Sep 2022 14:13:08 +0000
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oc5z1-0004nb-6C
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:18:19 -0400
+Received: from mout.gmx.net ([212.227.15.19]:55851)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oc5yz-0000XA-Bx
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:18:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1664029095;
+ bh=OYML1eP6cdxRexl6JHswEdPWO+yQdYanHxQOR+3La1Q=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=HTMEJRx7JGeYwhFaBc5E4MwNUxeRnFSDyN6+bMHYBF5JhZxDA1IsI7jW8tNMDoM8E
+ Zq2PVTPDwbz317z2gbf3SLF+8t4CaUFBA74sfyIq2tQCt4K9GohQVLNgiP2YIoHBlJ
+ HaYiMzQ5lxsTuDS+aBG8WgNgu4GHm/p8KOiRSuBU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100 ([92.116.155.187]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M2f5Z-1oXz7B3kMR-004BOP; Sat, 24
+ Sep 2022 16:18:14 +0200
+Date: Sat, 24 Sep 2022 16:18:13 +0200
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: Helge Deller <deller@gmx.de>
+Subject: [RFC][PATCH] linux-user: Add guest memory layout to exception dump
+Message-ID: <Yy8RpXdKvTjKMPzx@p100>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 02/12] target/ppc: Move VMH[R]ADDSHS instruction to
- decodetree
-Content-Language: en-US
-To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <20220923214754.217819-1-lucas.araujo@eldorado.org.br>
- <20220923214754.217819-3-lucas.araujo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220923214754.217819-3-lucas.araujo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf32.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.118,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:ws4LOL8m+dUs/Jx/Oe8JvjrnPcE2Ca63kb2pf28fjsXEYu3fYuF
+ DhaJdo3NMHD3yGZ5QarAYxk4I6pRQ6BUpHhjvBEv0dwskC1EDQ/HrkPKGDp1TOynY8evd1Z
+ 4sF5L3QexOFUe+1Fv9FGz9c/AVKjf1siQ5E7qiOMImdjlSKJ6Z16unsPOHeHg61l5zbdif9
+ VG+MrOLG7CtvtJuLmYk0A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qR5UbZ/Rk7E=:PIOKWEU1Q7JggjF60wU5sQ
+ s9JZvIhPZmiXELmlN6eRUXy1RQvnPtU20yJT3NBdDjcKtRO5wGNZ1S6CybcoJopPp6I2/DEqH
+ BPQf+EnWDiyUOeHBmntnyvgwhlqun0pP4t+0kE9PzANZ+a99HkQO98K5YlN2x0ww0KTuK8cxu
+ UXxGXSSJjISVUAxGqfGFWQZMAjjAdLXbBoQMPmj3ry4UsGW6JuIL34ziTh7CRkkTEVBU0bw7Z
+ mi7R+hMnrWSVpuwxfr4NdN0DTsqFhhkcGQdPeaKmZQA4dv+Jwna8uj1W7vVQdFOI5BAlv8GhH
+ ncInPNLhX9vwzb+erSxxn2jrNvfGSkzgGZ8U887aP92FeYC4UrsMsZ7990hPo0CDwSm/2xbbZ
+ iGDVUpKbImWHTMA6M8QHvBbD+ZmAA8F3fMvwvdzYCmyCiA0U4bPy2EnHfDPFXgBA4WZciJqvE
+ bM7cUrC6+5CSAU95o4hbvbi/ZWcxpn/+9JbtgbgUnsM+AZVhvKrk5GxlmprCUUYEhTisd9RyZ
+ ODoISd2zRdf2XPiOsygM6MOryvBWjNWGzlE6pb+zqMzQ7gMdtnjEEp1vvMiyKElFubSnm/iy3
+ EKup4k8zZWxd65IALe+qTFw4JoBRBInx8CcwIME9aTLoVQGmWr9BTQXVo/xY2JmZ8inmZtnxL
+ DpYHWMVnTXTyCFdV5/REwVHeBlfXib0NjfemIgINFWDijg8CC3GiKEAdomgjSxQzCrdiH2M3k
+ GvWi95X1aGhDK1oKS6m4qc+QHkiY9GPqHVdoQ7553/X3s9G+d7qRjw7KDyI7EH1ARc99LPMKr
+ 7pQfrrj/YdzImgK78DAR33+edmZ7S9Uv07d6e9RqTvufBtPi/4i23sS9IOaTreiOaA1nxEWDk
+ kcjpw+uggmMeTRubbvVdkfDNZtrYP5gFWQEllTlfP3mlVyvmdyAXsT2BVODPcarSpopyQaKN/
+ pngZdsNwcJL8214yrHEvMNeyTdCK32KpZqQFEo6AxKiSxr8oQO123ikulkuSq5QGdG6qphv6p
+ oTgtGJCL0NVrhBDv2bMIfGGgBI49/i8NyNAQ5rkOH1D7OhBZApJI0IJBRCeJ2wAdIMpdbiThN
+ OFWgyVE3J1s5wVo209E7iTYKhuikireWp8IT9ZLMBGHDqTB2yTk1HpvrqUAKjYU/z4h9zB+Tr
+ bil+awIhlZPEYFIpmKlDpv0ACL
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,40 +84,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/22 21:47, Lucas Mateus Castro(alqotel) wrote:
-> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
-> 
-> This patch moves VMHADDSHS and VMHRADDSHS to decodetree I couldn't find
-> a satisfactory implementation with TCG inline.
-> 
-> vmhaddshs:
-> rept    loop    master             patch
-> 8       12500   0,02983400         0,02648500 (-11.2%)
-> 25      4000    0,02946000         0,02518000 (-14.5%)
-> 100     1000    0,03104300         0,02638000 (-15.0%)
-> 500     200     0,04002000         0,03502500 (-12.5%)
-> 2500    40      0,08090100         0,07562200 (-6.5%)
-> 8000    12      0,19242600         0,18626800 (-3.2%)
-> 
-> vmhraddshs:
-> rept    loop    master             patch
-> 8       12500   0,03078600         0,02851000 (-7.4%)
-> 25      4000    0,02793200         0,02746900 (-1.7%)
-> 100     1000    0,02886000         0,02839900 (-1.6%)
-> 500     200     0,03714700         0,03799200 (+2.3%)
-> 2500    40      0,07948000         0,07852200 (-1.2%)
-> 8000    12      0,19049800         0,18813900 (-1.2%)
-> 
-> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
-> ---
->   target/ppc/helper.h                 | 4 ++--
->   target/ppc/insn32.decode            | 2 ++
->   target/ppc/int_helper.c             | 4 ++--
->   target/ppc/translate/vmx-impl.c.inc | 5 +++--
->   target/ppc/translate/vmx-ops.c.inc  | 1 -
->   5 files changed, 9 insertions(+), 7 deletions(-)
+When the emulation stops with a hard exception it's very useful for
+debugging purposes to dump the current guest memory layout (like
+/proc/self/maps) beside the CPU registers.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The open_self_maps() function provides such a memory dump, but since
+it's located in the syscall.c file various changes (add #includes, make
+this function externally visible) are needed to call it from the
+existing EXCP_DUMP() macro.
 
-r~
+This patch takes another approach by un-macronizing EXCP_DUMP() and turn
+it into a function inside syscall.c.
+Beside a reduced code footprint this approach allows to use the same
+functions to print to console and log file.
+
+This patch applies on top of my previous patch series.
+
+Signed-off-by: Helge Deller <deller@gmx.de>
+
+diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
+index 36ff5b14f2..0b26b56915 100644
+=2D-- a/linux-user/cpu_loop-common.h
++++ b/linux-user/cpu_loop-common.h
+@@ -23,18 +23,7 @@
+ #include "exec/log.h"
+ #include "special-errno.h"
+
+-#define EXCP_DUMP(env, fmt, ...)                                        \
+-do {                                                                    \
+-    CPUState *cs =3D env_cpu(env);                                       =
+ \
+-    fprintf(stderr, fmt , ## __VA_ARGS__);                              \
+-    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
+-    cpu_dump_state(cs, stderr, 0);                                      \
+-    if (qemu_log_separate()) {                                          \
+-        qemu_log(fmt, ## __VA_ARGS__);                                  \
+-        qemu_log("Failing executable: %s\n", exec_path);                \
+-        log_cpu_state(cs, 0);                                           \
+-    }                                                                   \
+-} while (0)
++void EXCP_DUMP(CPUArchState *env, const char *fmt, int code);
+
+ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)=
+;
+ #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index d17f5d1c66..00861e9351 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -158,6 +158,7 @@
+ #include "qapi/error.h"
+ #include "fd-trans.h"
+ #include "tcg/tcg.h"
++#include "cpu_loop-common.h"
+
+ #ifndef CLONE_IO
+ #define CLONE_IO                0x80000000      /* Clone io context */
+@@ -8177,6 +8178,33 @@ static int is_proc_myself(const char *filename, con=
+st char *entry)
+     return 0;
+ }
+
++static void excp_dump(FILE *logfile, CPUArchState *env,
++                      const char *fmt, int code)
++{
++    if (logfile) {
++        CPUState *cs =3D env_cpu(env);
++
++        fprintf(logfile, fmt, code);
++        fprintf(logfile, "Failing executable: %s\n", exec_path);
++        cpu_dump_state(cs, logfile, 0);
++        open_self_maps(env, fileno(logfile));
++    }
++}
++
++void EXCP_DUMP(CPUArchState *env, const char *fmt, int code)
++{
++    /* dump to console */
++    excp_dump(stderr, env, fmt, code);
++
++    /* dump to log file */
++    if (qemu_log_separate()) {
++        FILE *logfile =3D qemu_log_trylock();
++
++        excp_dump(logfile, env, fmt, code);
++        qemu_log_unlock(logfile);
++    }
++}
++
+ #if HOST_BIG_ENDIAN !=3D TARGET_BIG_ENDIAN || \
+     defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+ static int is_proc(const char *filename, const char *entry)
 
