@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F8F45E8BFE
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 13:58:35 +0200 (CEST)
-Received: from localhost ([::1]:46544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3D45E8C08
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 14:03:05 +0200 (CEST)
+Received: from localhost ([::1]:53848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc3nm-0007LY-69
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 07:58:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57582)
+	id 1oc3s7-0004Am-QT
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 08:03:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oc3at-0004Lf-LS
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 07:45:15 -0400
-Received: from mout.gmx.net ([212.227.15.18]:36477)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oc3an-0003Qa-1L
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 07:45:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1664019905;
- bh=9mDTRgDgEAEQ9XZte8gnccGZQae4pGNUlPhIB0AT4eA=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=kuB4TPaqfuPOBqJh49K53pu5yhdJyKTaAhoCMktLTq1mTFGcCy+5h+y9M2vqQJjkU
- 1b3KeYSoBsom17xqpFmLNAiEnrLnPAtVuTb97qHTutkV3UrvjXx6Kxvl0mQ9xovmj4
- 96XcsTB9lUvgLL7MNxsmBh2fGYZqOSLGVUO5xgYs=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100.fritz.box ([92.116.155.187]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MVN6j-1ojNJO0lNP-00SQ4n; Sat, 24
- Sep 2022 13:45:05 +0200
-From: Helge Deller <deller@gmx.de>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-Cc: Helge Deller <deller@gmx.de>
-Subject: [PATCH 7/7] linux-user/hppa: Fix setup_sigcontext()
-Date: Sat, 24 Sep 2022 13:45:01 +0200
-Message-Id: <20220924114501.21767-8-deller@gmx.de>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220924114501.21767-1-deller@gmx.de>
-References: <20220924114501.21767-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oc3bU-0004zE-07; Sat, 24 Sep 2022 07:45:52 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:45713)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oc3bS-0003ka-9P; Sat, 24 Sep 2022 07:45:51 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id e67so2501574pgc.12;
+ Sat, 24 Sep 2022 04:45:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=CSJpyFiQfhsfNodb4hdYZGfoHLbFXB1eKMyoXO2bJv4=;
+ b=ENzLyiJHRCclrCSxtMZAIVbhNCO3PXN8yX7UBzVbZb5mbvWwm5r5dUJNlFzKNiKWFr
+ 8iCvFTvA2VaiqCnLQE5eBABrtJ8B7dETEOAp5LIJlx8u0+8FwDkrl/ztnQ9uERqA1vRD
+ IWvs2nsCZjaEvDq9c8UY9QCR12t+HOprRQYHRs+bRwWk6nFcg9FdoiKgSvdUdfBSyNPf
+ /SwmoCEyyLBJK8s29vZnPBNJoMS6spxCoYZjf5pPe/9dWOwFuLS8ybc2uip+zn7kEfLE
+ 5lupUZayJe9HLMrF4YEx6Ypqgmrp7qfVo7UZ2OxAUIdjmrNc0oBjawzFylizqtH8sECh
+ j/qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=CSJpyFiQfhsfNodb4hdYZGfoHLbFXB1eKMyoXO2bJv4=;
+ b=poGqaajl4rF72mcXp3cLL9m4L7JtbURt9mWv025lK3TSoxfz0TzL7+BvAMLmdtLsWL
+ TyReBs6Ry2b5y3sKkhbHWU7zCZfCYPpVEX9VqTI0r+owF65X+QBdzA82eAWag7HazFOV
+ TgxtIkEMoHaW/3PrmEFpyWC+bXrB8GM3anLp3In2ErnP6e3/7zux7MwfPUEpAQ0H+lpI
+ TDmoAskXzIS+fn3A2c+NkP3au/R1bcWpENv8nbnEgZBbqEBYppJAhtNUu0tYylJtOpxF
+ 5gvR1b5v791AB66OqBNwdOdHqwwhSGoEcVzR0msT1M0rkb9w2I1IR+gud7qmwNh0RrGI
+ g//g==
+X-Gm-Message-State: ACrzQf0amZ7hF2AcDvaM+N7Vhtle+XYBpucjc4vqMDcip7Z1RRP7Q671
+ KFMs7q8Tovxxj+IGc1VEFP6OMrhflO4=
+X-Google-Smtp-Source: AMsMyM5cSCQUd9PpwT+BPB0YmYL/wUoU/cAgcd6Et7KvszJEmspHmVxSg6r9GS5PsSd2xtVvsDGS6Q==
+X-Received: by 2002:a63:188:0:b0:43c:22e9:2d10 with SMTP id
+ 130-20020a630188000000b0043c22e92d10mr9596208pgb.12.1664019948644; 
+ Sat, 24 Sep 2022 04:45:48 -0700 (PDT)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id
+ s1-20020aa78bc1000000b0054a15345162sm8018963pfd.207.2022.09.24.04.45.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Sep 2022 04:45:48 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v2] block: Refactor get_tmp_filename()
+Date: Sat, 24 Sep 2022 19:45:44 +0800
+Message-Id: <20220924114544.1906498-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:pS6DMUcVFMXlepHN36lejGvPreFxCnsY8hfyHCUS7AEyKUQ3Awu
- FniAQX3iOMDoyTUyLueHlyVzI5z3e46Z1y10YFPrEA5Xty+gNzsqeXWMjsrwPij6YrRTsWS
- uvNXgcAdxhr0lKPEcFGb0WZozvY1gevYl6tbjv6z7InwpuIKiKUbFiQGl4Mg+l3HpFRKRyF
- E2zk7n/dfUcQBThbsXLwQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DC2QMtI5b0A=:m04t+ZRThI1zcFcd6AwtUr
- R6dmPcMn9nxiuaWbK8p1ouoXliL68O+a8Yvh8qiOMftqaTRket7/pznBVLGV8G9SIiJP9v3GN
- WNn6AMuEimBO/KMXUqwj+UrorMvdGHQD3Zr0nKVPneG6isR0Y6Uw9/Ra8yEQY0UKyufcAilQ+
- S2Y0PcRV2sUwMUCIFYU+2Lw4dXF5MFKKltEhW7SKvfl9mpWESF/vavTqCcXH+f2HENlLg3WjR
- ieU1JrtTpXsa1UUDML10kybJFZ1gKPDNgvPWoQZG7UdSPaB+Uc6Udl3NfN041CycJdZuhP6T1
- 2JcFaYkkwXtt47kVfL3ALIpMX+xvNoSjmnbue3wPdbxWFA05wJ2RP8/E/EmxHAmNeuf2Yz/TG
- WdrCiagHVJWmSA+2m7W1gh0Zy3JxmK3EV2SCNlHOjPD2R/Lwxqdi7d4Rr+RizE/hKcqFdhKqF
- xJzWR5wDhnFgFfryGWBVJRAej+iKdIcrJmO4gTLKyo+Qef5uCPdf4MnjNmTTBUeqSelGb+aK9
- 89CvV6B3fYu43enr5ZU6HAm2nm1AGlSYclZ1VeofHBbIM8QZC21r6rD/COqfOACxGfitNZMFc
- nfKOzVsHQKx1LPxlllCH2uxLA+FDTTgmp3Bwr6PqZfGzEqQ+VjuZ/I39oNX0ZLx+PD9WS8XYb
- y2WS4HF++EPFLh4g0ievwEdEVzeOSrpxredgTKbFePS3cPnjsvtWs4p/8wSL5e8s9H9PKJaSF
- SrcmJG0CiSt/EK0PkBoquAibCARRYTmNp+4zOcj8K+wZhyF33P/8QnAS4iCKK5CSd46DWtRnI
- IMlVQwVxcHei6U0xQnoLZDe80hfKqhl4NWrazSM2fWtQy0R9xCgJ5Np+epjEubmLzDnEjJCZU
- wuhXBdjWWCnZsxvvcT5/akpctCO2XQXd8dGr7eKIWPtJMVLWTy2X9+ba16e296R5+WIgJ1ZG/
- 2DDgMrO8VupHEGN0hbHKrZiMj6vbmC1ffXZruJ3wOxqqYkeQLd8U8KYchgnS4jcPdXMd5+WUm
- nOVeBLnB8k1gpPPnoSWuos3Sj1mtJDJlmvguRFAJoU4SVarOHWqC2A63YedKa517qLDmprxAX
- HhKUoblKFWNmVypkIzCn9czYao4dj5IsL3CXfBu6SlTopYQGZ9q0mylGsjQY7PDOOUSLyTek2
- 20H2Zk1i/JbxTH7Y8PO5NTNiyQ
-Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,51 +87,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't emulate a preemptive kernel on this level, and the hppa architect=
-ure
-doesn't allow context switches on the gateway page. So we always have to r=
-eturn
-to sc_iaoq[] and not to gr[31].
-This fixes the remaining random segfaults which still occured.
+From: Bin Meng <bin.meng@windriver.com>
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- linux-user/hppa/signal.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+At present there are two callers of get_tmp_filename() and they are
+inconsistent.
 
-diff --git a/linux-user/hppa/signal.c b/linux-user/hppa/signal.c
-index 396e310dc9..f253a15864 100644
-=2D-- a/linux-user/hppa/signal.c
-+++ b/linux-user/hppa/signal.c
-@@ -49,23 +49,13 @@ struct target_rt_sigframe {
+One does:
 
- static void setup_sigcontext(struct target_sigcontext *sc, CPUArchState *=
-env)
+    /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+    char *tmp_filename = g_malloc0(PATH_MAX + 1);
+    ...
+    ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+
+while the other does:
+
+    s->qcow_filename = g_malloc(PATH_MAX);
+    ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
+
+As we can see different 'size' arguments are passed. There are also
+platform specific implementations inside the function, and this use
+of snprintf is really undesirable.
+
+Refactor this routine by changing its signature to:
+
+    char *get_tmp_filename(void)
+
+and use g_file_open_tmp() for a consistent implementation.
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
+
+Changes in v2:
+- Use g_autofree and g_steal_pointer
+
+ include/block/block_int-common.h |  2 +-
+ block.c                          | 42 ++++++++++----------------------
+ block/vvfat.c                    |  8 +++---
+ 3 files changed, 18 insertions(+), 34 deletions(-)
+
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 8947abab76..ea69a9349c 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
+ }
+ 
+ int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
+-int get_tmp_filename(char *filename, int size);
++char *get_tmp_filename(void);
+ void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+                                       QDict *options);
+ 
+diff --git a/block.c b/block.c
+index bc85f46eed..4e7a795566 100644
+--- a/block.c
++++ b/block.c
+@@ -860,38 +860,23 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
+ 
+ /*
+  * Create a uniquely-named empty temporary file.
+- * Return 0 upon success, otherwise a negative errno value.
++ * Return the actual name used upon success, otherwise NULL.
++ * The called function is responsible for freeing it.
+  */
+-int get_tmp_filename(char *filename, int size)
++char *get_tmp_filename(void)
  {
--    int flags =3D 0;
-     int i;
-
--    /* ??? if on_sig_stack, flags |=3D 1 (PARISC_SC_FLAG_ONSTACK).  */
--
--    if (env->iaoq_f < TARGET_PAGE_SIZE) {
--        /* In the gateway page, executing a syscall.  */
--        flags |=3D 2; /* PARISC_SC_FLAG_IN_SYSCALL */
--        __put_user(env->gr[31], &sc->sc_iaoq[0]);
--        __put_user(env->gr[31] + 4, &sc->sc_iaoq[1]);
--    } else {
--        __put_user(env->iaoq_f, &sc->sc_iaoq[0]);
--        __put_user(env->iaoq_b, &sc->sc_iaoq[1]);
+-#ifdef _WIN32
+-    char temp_dir[MAX_PATH];
+-    /* GetTempFileName requires that its output buffer (4th param)
+-       have length MAX_PATH or greater.  */
+-    assert(size >= MAX_PATH);
+-    return (GetTempPath(MAX_PATH, temp_dir)
+-            && GetTempFileName(temp_dir, "qem", 0, filename)
+-            ? 0 : -GetLastError());
+-#else
++    g_autofree char *filename = NULL;
+     int fd;
+-    const char *tmpdir;
+-    tmpdir = getenv("TMPDIR");
+-    if (!tmpdir) {
+-        tmpdir = "/var/tmp";
 -    }
-+    __put_user(env->iaoq_f, &sc->sc_iaoq[0]);
-+    __put_user(env->iaoq_b, &sc->sc_iaoq[1]);
-     __put_user(0, &sc->sc_iasq[0]);
-     __put_user(0, &sc->sc_iasq[1]);
--    __put_user(flags, &sc->sc_flags);
-+    __put_user(0, &sc->sc_flags);
-
-     __put_user(cpu_hppa_get_psw(env), &sc->sc_gr[0]);
-     for (i =3D 1; i < 32; ++i) {
-=2D-
-2.37.3
+-    if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
+-        return -EOVERFLOW;
+-    }
+-    fd = mkstemp(filename);
++
++    fd = g_file_open_tmp("vl.XXXXXX", &filename, NULL);
+     if (fd < 0) {
+-        return -errno;
++        return NULL;
+     }
+     if (close(fd) != 0) {
+         unlink(filename);
+-        return -errno;
++        return NULL;
+     }
+-    return 0;
+-#endif
++    return g_steal_pointer(&filename);
+ }
+ 
+ /*
+@@ -3717,8 +3702,7 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
+                                                    QDict *snapshot_options,
+                                                    Error **errp)
+ {
+-    /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+-    char *tmp_filename = g_malloc0(PATH_MAX + 1);
++    char *tmp_filename = NULL;
+     int64_t total_size;
+     QemuOpts *opts = NULL;
+     BlockDriverState *bs_snapshot = NULL;
+@@ -3737,9 +3721,9 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
+     }
+ 
+     /* Create the temporary image */
+-    ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "Could not get temporary filename");
++    tmp_filename = get_tmp_filename();
++    if (!tmp_filename) {
++        error_setg_errno(errp, errno, "Could not get temporary filename");
+         goto out;
+     }
+ 
+diff --git a/block/vvfat.c b/block/vvfat.c
+index d6dd919683..135fafb166 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -3146,10 +3146,10 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
+ 
+     array_init(&(s->commits), sizeof(commit_t));
+ 
+-    s->qcow_filename = g_malloc(PATH_MAX);
+-    ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "can't create temporary file");
++    s->qcow_filename = get_tmp_filename();
++    if (!s->qcow_filename) {
++        error_setg_errno(errp, errno, "can't create temporary file");
++        ret = -errno;
+         goto err;
+     }
+ 
+-- 
+2.34.1
 
 
