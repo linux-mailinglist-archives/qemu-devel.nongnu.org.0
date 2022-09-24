@@ -2,77 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8245E86F9
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 03:22:04 +0200 (CEST)
-Received: from localhost ([::1]:50938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98A45E86FF
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 03:28:39 +0200 (CEST)
+Received: from localhost ([::1]:45712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1obtrn-0002lQ-1Z
-	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 21:22:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
+	id 1obty9-0004Sm-Sx
+	for lists+qemu-devel@lfdr.de; Fri, 23 Sep 2022 21:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1obtps-0001A9-1Z; Fri, 23 Sep 2022 21:20:04 -0400
-Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:43708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1obtpq-0003xI-4K; Fri, 23 Sep 2022 21:20:03 -0400
-Received: by mail-qk1-x732.google.com with SMTP id o7so1138229qkj.10;
- Fri, 23 Sep 2022 18:20:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=uf0eFiJURcD/dkvKGLBCma7KAT+Cw8m/gGurmrJkQLg=;
- b=jkfc8vDR/sS+L/SJUFLX6IqOJ66pKv7QIizXpn9/aQ/TxtS/uzP2OEtgd+ZkA4YEA4
- YTzuM1/Ck10pNOHHZjMGDBpSwVib1+gJPOi+Z23s4KgJrU5ac92kSi9EzbwENNmJXJQk
- Y3Gz5NRVyxkyBg1ayAM55jRp9t2A2uzFC6zhbRszsz9kFUjIcTHhuBFmfJTEilHKWkOg
- mruCl3uNHxL9xnSKMKzzwrDQIGndsutCMObIq9+wlXwZe034g/xXX0V1lDa2duQhCL8i
- GLDlYd/StDbgRjv0T92loBbv4Z3YZOBbG7kMnVLUj6VL9oGBekaF/kOyC8hKDMMfdKmM
- jTHA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obtwz-00032t-5V
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 21:27:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50601)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1obtwv-0005LA-NZ
+ for qemu-devel@nongnu.org; Fri, 23 Sep 2022 21:27:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1663982840;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wl3Q4ir2RBmi2owavOGOvuTCfqNyZTq9RTvNXsRZtqE=;
+ b=A/ugd2puG+u+XxtcXJeK+gZrUBeRIx+5ZHZSn6CBm0UXh9pyoP3Y52E+C5gGKj6jztu/O6
+ UNVG4GfXY10fcTz3yD/ZF1VAM4jUhtAlCFLFeCWMh6RSdoY8/Z13WJBl/MylsyoywnUMen
+ NKVJpKOPEE+Vcj4ewP5yGHhkH61pxEw=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-215-4HzyYzsmOzSFsPjPqTTD1w-1; Fri, 23 Sep 2022 21:27:10 -0400
+X-MC-Unique: 4HzyYzsmOzSFsPjPqTTD1w-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ f9-20020ad442c9000000b004ac7f4fde18so974704qvr.14
+ for <qemu-devel@nongnu.org>; Fri, 23 Sep 2022 18:27:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=uf0eFiJURcD/dkvKGLBCma7KAT+Cw8m/gGurmrJkQLg=;
- b=wzqN0UPbkMmc9wtv4QZErK8HOKwJ6mXKmN6EnWUDld5u5/eZyU0Gdku8uPxDa9wc+G
- njDBUxGWb/QLrWoQiMMn3Z1YiuAE/LKQdhgB3+YyWYGfAxIEyV1bQc3HkqYkDsDD68DK
- lssgyx11A2d1ZGiV1kO9OYy4fOoKDwBOLnG6iBOxMJ791shnYxhQ8ZwSCo6D0oyeiIpe
- y9zX7iXwZdgmDW0yz+VSA+e8+ngA/ityR6Iv8P/tY6L9fHS8qdUwczLs9vjQtCOHgtMi
- pwi0a/s65K8FNdhUug5izFP/K8f+xxe3dCJhP0Nh+n1sMtV2aqeALL7cQZabuT2z48QK
- ziEQ==
-X-Gm-Message-State: ACrzQf24byPOSHlSBV95oA8b9mTQtQX/ptwtU+kxjn+K5vWIlrVTTnU1
- XMqQIhxVnxWlwLUDAaZu3rxnkdPTbpmtf9oH1q8=
-X-Google-Smtp-Source: AMsMyM6AtCt5YkkcW6RQ0Thqavae82zJJdR1rzVGEgeDUB6otNhHRF02w87FPuYCBh3X5fP5FG/CIlFZNJ3ZtU94hf8=
-X-Received: by 2002:ae9:dd42:0:b0:6cc:ead5:14b4 with SMTP id
- r63-20020ae9dd42000000b006ccead514b4mr7540649qkf.94.1663982400826; Fri, 23
- Sep 2022 18:20:00 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=wl3Q4ir2RBmi2owavOGOvuTCfqNyZTq9RTvNXsRZtqE=;
+ b=a0sknPnGh7PJJJMmeXFECZU7BeIVEUnPBXWmpUd6CU/PHa1QucB09qrC+LDIewvNwx
+ Jzb/Yv06HPQwlRywiRjTPg+/tdsgaNSt6q7tpfL3HvIPD6KF9fsIS6mBUryz8L0Vzrl+
+ N66nelDNP6+UwNAu4tRMLO38Y7JNFNIssFUL+QfQ+mqMv++7GzbaG70bRqNYWgSITC+T
+ ng6ZI627hOW8nPcdu9SYbghZx9BBslNSBZBi5ZfMiDmxKNswuZB7Xb9mI853h8bN6bOY
+ 8UKsIKyM9cUvWUY4fYJgMrCOpZQtg/QCZoGRxqcki6b6h8C0a8E9GpVG4PaO4s+G/SVh
+ 7/tw==
+X-Gm-Message-State: ACrzQf2ORO0WN0j77mTDFYP7JDaRWDTN/QgFIyx0EPcc9WnIe9yn6vgk
+ me0HvDEXPiUvQp2j3ODZYV+Ztw0fgn6kmF95+8m/23XE2WarDMpucRJX5rTgsSbZ6q0oMPmtnoJ
+ KolaxO49hiD3etjc=
+X-Received: by 2002:a05:620a:4726:b0:6ce:9ea8:4c23 with SMTP id
+ bs38-20020a05620a472600b006ce9ea84c23mr7415860qkb.127.1663982830503; 
+ Fri, 23 Sep 2022 18:27:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6NT5fYvEA+2OjsO5KD+vsyByz5EcLKOO97yiDRSU80Vr+/EUUxmylkcBOsTT0rnhxD0htjKA==
+X-Received: by 2002:a05:620a:4726:b0:6ce:9ea8:4c23 with SMTP id
+ bs38-20020a05620a472600b006ce9ea84c23mr7415847qkb.127.1663982830306; 
+ Fri, 23 Sep 2022 18:27:10 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ cm21-20020a05622a251500b0035bb6298526sm6506588qtb.17.2022.09.23.18.27.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Sep 2022 18:27:09 -0700 (PDT)
+Date: Fri, 23 Sep 2022 21:27:08 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Woodhouse <dwmw2@infradead.org>,
+ Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH] Revert "intel_iommu: Fix irqchip / X2APIC configuration
+ checks"
+Message-ID: <Yy5c7M10df3OINwH@x1n>
+References: <20220921161227.57259-1-peterx@redhat.com>
+ <20220922154617.57d1a1fb@redhat.com> <YyyP4b2uKghi1EHL@xz-m1.local>
+ <20220923102034.6579b66c@redhat.com>
+ <20220923104159.39576159@redhat.com> <Yy4tQAeOUd49DpX6@x1n>
 MIME-Version: 1.0
-References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <20220908132817.1831008-6-bmeng.cn@gmail.com>
- <f3447651-dadb-c0ed-f1f8-4ad80b551acf@amsat.org>
- <DM4PR11MB53589BB8CFF45CE67683E762914F9@DM4PR11MB5358.namprd11.prod.outlook.com>
-In-Reply-To: <DM4PR11MB53589BB8CFF45CE67683E762914F9@DM4PR11MB5358.namprd11.prod.outlook.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 24 Sep 2022 09:19:50 +0800
-Message-ID: <CAEUhbmWv3F-5rPnE37XbmdSyfuKAXb7JOwywqVPnzA7dq361Og@mail.gmail.com>
-Subject: Re: [PATCH 5/7] block/nfs: Fix 32-bit Windows build
-To: "Meng, Bin" <Bin.Meng@windriver.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
- Peter Lieven <pl@kamp.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x732.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Yy4tQAeOUd49DpX6@x1n>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,84 +102,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Fri, Sep 23, 2022 at 06:03:44PM -0400, Peter Xu wrote:
+> On Fri, Sep 23, 2022 at 10:41:59AM +0200, Igor Mammedov wrote:
+> > It's worth putting history excavation with explanation what is broken and why
+> > compat stuff is being ignored in the patch.
+> 
+> Makes sense, I'll amend the commit message and repost.  Thanks,
 
-On Wed, Sep 21, 2022 at 8:10 PM Meng, Bin <Bin.Meng@windriver.com> wrote:
->
-> -----Original Message-----
-> From: Philippe Mathieu-Daud=C3=A9 <philippe.mathieu.daude@gmail.com> On B=
-ehalf Of Philippe Mathieu-Daud=C3=A9
-> Sent: Sunday, September 18, 2022 5:32 AM
-> To: Bin Meng <bmeng.cn@gmail.com>; qemu-devel@nongnu.org
-> Cc: Meng, Bin <Bin.Meng@windriver.com>; Hanna Reitz <hreitz@redhat.com>; =
-Kevin Wolf <kwolf@redhat.com>; Peter Lieven <pl@kamp.de>; qemu-block@nongnu=
-.org
-> Subject: Re: [PATCH 5/7] block/nfs: Fix 32-bit Windows build
->
-> [Please note: This e-mail is from an EXTERNAL e-mail address]
->
-> On 8/9/22 15:28, Bin Meng wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > libnfs.h declares nfs_fstat() as the following for win32:
-> >
-> >    int nfs_fstat(struct nfs_context *nfs, struct nfsfh *nfsfh,
-> >                  struct __stat64 *st);
-> >
-> > The 'st' parameter should be of type 'struct __stat64'. The codes
-> > happen to build successfully for 64-bit Windows, but it does not build
-> > for 32-bit Windows.
-> >
-> > Fixes: 6542aa9c75bc ("block: add native support for NFS")
-> > Fixes: 18a8056e0bc7 ("block/nfs: cache allocated filesize for
-> > read-only files")
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > ---
-> >
-> >   block/nfs.c | 8 ++++++++
-> >   1 file changed, 8 insertions(+)
-> >
-> > diff --git a/block/nfs.c b/block/nfs.c index 444c40b458..d5d67937dd
-> > 100644
-> > --- a/block/nfs.c
-> > +++ b/block/nfs.c
-> > @@ -418,7 +418,11 @@ static int64_t nfs_client_open(NFSClient *client, =
-BlockdevOptionsNfs *opts,
-> >                                  int flags, int open_flags, Error **err=
-p)
-> >   {
-> >       int64_t ret =3D -EINVAL;
-> > +#ifdef _WIN32
-> > +    struct __stat64 st;
-> > +#else
-> >       struct stat st;
-> > +#endif
-> >       char *file =3D NULL, *strp =3D NULL;
-> >
-> >       qemu_mutex_init(&client->mutex); @@ -781,7 +785,11 @@ static int
-> > nfs_reopen_prepare(BDRVReopenState *state,
-> >                                 BlockReopenQueue *queue, Error **errp)
-> >   {
-> >       NFSClient *client =3D state->bs->opaque;
-> > +#ifdef _WIN32
-> > +    struct __stat64 st;
-> > +#else
-> >       struct stat st;
-> > +#endif
-> >       int ret =3D 0;
-> >
-> >       if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs))
-> > {
->
-> What about the field in struct NFSRPC?
->
-> NFSRPC::struct stat is used in nfs_get_allocated_file_size_cb() and nfs_g=
-et_allocated_file_size() that are not built on win32, so there is no proble=
-m.
->
+There's actually one way to slightly remedy this single case, mostly for
+any QEMU 7.1.0 user with -smp <=8 and the intel iommu (as 77250171bdc02 is
+merged only in 7.1.0).
 
-Any further comments?
+We can have one compact parameter x-eim-enable-kvm-x2apic, setting it "on"
+by default, "off" for 7.1, and "on" for 7.0-.
 
-Regards,
-Bin
+I'm not very sure whether that'll worth it.  Any thoughts?
+
+-- 
+Peter Xu
+
 
