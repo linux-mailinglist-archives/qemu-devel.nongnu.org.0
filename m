@@ -2,64 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A415E8CFC
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 15:13:28 +0200 (CEST)
-Received: from localhost ([::1]:60456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1A05E8D0D
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 15:20:42 +0200 (CEST)
+Received: from localhost ([::1]:46272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc4yF-0006ti-NX
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 09:13:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41070)
+	id 1oc55E-00059P-MC
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 09:20:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oc4uU-0001at-P6
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 09:09:34 -0400
-Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:35341)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oc4uh-0001yT-2J; Sat, 24 Sep 2022 09:09:47 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:64458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oc4uS-0006tK-Nj
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 09:09:34 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.163])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id D759C20F92;
- Sat, 24 Sep 2022 13:09:18 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Sat, 24 Sep
- 2022 15:09:18 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006da63f5e6-b819-4cf1-8c2e-9c38e1acb334,
- 81A8F35BB926CC183C4AAFAE2266FFD260055B7E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <65c462fb-3206-c0bd-d452-221a6b5f4c97@kaod.org>
-Date: Sat, 24 Sep 2022 15:09:16 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oc4ub-0006vL-Qi; Sat, 24 Sep 2022 09:09:46 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id BF786759B50;
+ Sat, 24 Sep 2022 15:09:38 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 89392746E06; Sat, 24 Sep 2022 15:09:38 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 863F0746307;
+ Sat, 24 Sep 2022 15:09:38 +0200 (CEST)
+Date: Sat, 24 Sep 2022 15:09:38 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH 00/10] Misc ppc/mac machines clean up
+In-Reply-To: <cover.1663368422.git.balaton@eik.bme.hu>
+Message-ID: <9c9cf132-bc4f-2e21-8956-a99ec66f4a3@eik.bme.hu>
+References: <cover.1663368422.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] target/ppc: restore powerpc_excp_booke doorbell interrupts
-Content-Language: en-US
-To: Nicholas Piggin <npiggin@gmail.com>, Daniel Henrique Barboza
- <danielhb413@gmail.com>
-CC: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-ppc@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20220924114436.1422786-1-npiggin@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220924114436.1422786-1-npiggin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 312894ad-041d-4a99-be60-dbc9e44350c8
-X-Ovh-Tracer-Id: 107523444662373283
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeefkedgiedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehgeek
-Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
- helo=10.mo548.mail-out.ovh.net
-X-Spam_score_int: -39
-X-Spam_score: -4.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.118,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,42 +58,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/22 13:44, Nicholas Piggin wrote:
-> This partially reverts commit 9dc20cc37db9 ("target/ppc: Simplify
-> powerpc_excp_booke"), which removed DOORI and DOORCI interrupts.
-> Without this patch, a -cpu e5500 -smp 2 machine booting Linux
-> crashes with:
-> 
->    qemu: fatal: Invalid PowerPC exception 36. Aborting
-> 
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+On Sat, 17 Sep 2022, BALATON Zoltan wrote:
+> This series includes some clean ups to mac_newworld and mac_oldworld
+> to make them a bit simpler and more readable, It also removes the
+> shared mac.h file that turns out was more of a random collection of
+> unrelated things. Getting rid of this mac.h improves the locality of
+> device models and reduces unnecessary interdependency.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Ping? Patches still needing review: 3, 4, 6, 8, 10
 
-Thanks,
+Regards,
+BALATON Zoltan
 
-C.
-
-> ---
->   target/ppc/excp_helper.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 214acf5ac4..43f2480e94 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -1247,6 +1247,12 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int excp)
->       case POWERPC_EXCP_SPEU:   /* SPE/embedded floating-point unavailable/VPU  */
->           env->spr[SPR_BOOKE_ESR] = ESR_SPV;
->           break;
-> +    case POWERPC_EXCP_DOORI:     /* Embedded doorbell interrupt              */
-> +        break;
-> +    case POWERPC_EXCP_DOORCI:    /* Embedded doorbell critical interrupt     */
-> +        srr0 = SPR_BOOKE_CSRR0;
-> +        srr1 = SPR_BOOKE_CSRR1;
-> +        break;
->       case POWERPC_EXCP_RESET:     /* System reset exception                   */
->           if (FIELD_EX64(env->msr, MSR, POW)) {
->               cpu_abort(cs, "Trying to deliver power-saving system reset "
-
+> BALATON Zoltan (10):
+>  mac_newworld: Drop some variables
+>  mac_oldworld: Drop some more variables
+>  mac_{old|new}world: Set default values for some local variables
+>  mac_newworld: Simplify creation of Uninorth devices
+>  mac_{old|new}world: Reduce number of QOM casts
+>  hw/ppc/mac.h: Move newworld specific atuff out from shared header
+>  hw/ppc/mac.h: Move macio specific atuff out from shared header
+>  hw/ppc/mac.h: Move grackle-pcihost declaration out from shared header
+>  hw/ppc/mac.h: Move PROM and KERNEL defines to board code
+>  hw/ppc/mac.h: Rename to include/hw/nvram/mac_nvram.h
+>
+> MAINTAINERS                   |   1 +
+> hw/ide/macio.c                |   1 -
+> hw/intc/heathrow_pic.c        |   1 -
+> hw/intc/openpic.c             |   1 -
+> hw/misc/macio/cuda.c          |   1 -
+> hw/misc/macio/gpio.c          |   1 -
+> hw/misc/macio/macio.c         |  27 ++++-
+> hw/misc/macio/pmu.c           |   1 -
+> hw/nvram/mac_nvram.c          |   2 +-
+> hw/pci-host/grackle.c         |   2 +-
+> hw/pci-host/uninorth.c        |   1 -
+> hw/ppc/mac.h                  | 105 ----------------
+> hw/ppc/mac_newworld.c         | 220 ++++++++++++++++------------------
+> hw/ppc/mac_oldworld.c         | 105 +++++++---------
+> include/hw/misc/macio/macio.h |   2 +-
+> include/hw/nvram/mac_nvram.h  |  49 ++++++++
+> 16 files changed, 222 insertions(+), 298 deletions(-)
+> delete mode 100644 hw/ppc/mac.h
+> create mode 100644 include/hw/nvram/mac_nvram.h
+>
+>
 
