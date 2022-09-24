@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C225E89FF
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 10:17:48 +0200 (CEST)
-Received: from localhost ([::1]:37518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45ED55E8A93
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 11:13:10 +0200 (CEST)
+Received: from localhost ([::1]:38368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc0M6-0003i3-Oq
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 04:17:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39032)
+	id 1oc1Dg-0002B1-U9
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 05:13:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oc0IZ-0000VW-0Y
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 04:14:07 -0400
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:41743)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oc1BV-0008Dv-2T
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 05:10:53 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:39566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oc0IW-0005bx-B2
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 04:14:05 -0400
-Received: by mail-qk1-x72c.google.com with SMTP id k12so1421724qkj.8
- for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 01:14:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=SxWAIv9JMLCbvTFlw0GI+T+lWYZUXb6MAPOcbMs2oY8=;
- b=OBcmWuoupg3tf7E4fF8rdCkKdvBHEMr7B2h99GdWFgFf8mZNlwj+xXOErWGWUjPP9p
- 3kjcALRgSArQCkSZq0nWnD/WxMXGGJKplLyZHIp7lwNujfaSrcHT5b/xgKm6hWA5IDut
- kBWMIXrgio06bRo6jh9lwU199QrgaQZObzg1Oa4G51vCDlz/8Ud6kZ2phcVs6zV37dGC
- 0R03y/WtJnF5Fbfet4nAr3lfJYjq2+xLy+5D2iqaJO88ec2CbLwvYZjKtkJCGRZ7M3hA
- BK2zTF8ocz6/q4b0gKYv5Hlfw3pELsPe/EdVVr9yNVk/DRLMpXs1bGD++Qr0NBfO3wtn
- 8DDg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oc1BS-0005uK-Pl
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 05:10:52 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id f20so2998809edf.6
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 02:10:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=Yq2diIusuO1Sjn6Er52SaSUiU3/pPgt/CwGzIP3Y3zY=;
+ b=hh+9WHL9qZxT/6IynQEUfmi7bDD4oG+vABunBbAUrv542Ok20erkAVZ1PvW6T07RHz
+ uAzminIXPiTD48ihJaVTjGFXetDhlX54Jsgr8oVaPdjzAPIf1lbUzZsPvwnpT40Zz2qx
+ vs30NsGUP17gVLOHt+JpZYSCUXxm37JWqVCH755DeBtLvEbLeGWU7FCTEWApnXDXcab0
+ AKt8vjF7nThr+w8u9Xj9UuoXfOopXfyqonOqZH4fu66uCw2+0qi/89kzVtDOmjMv8/Au
+ g37aX03T7Lh7rpItUaGUjjib1Ws9IXYcEqAxH8ajckMBQfJjJeRWin2/VGslE+duoQW4
+ yIWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=SxWAIv9JMLCbvTFlw0GI+T+lWYZUXb6MAPOcbMs2oY8=;
- b=36NTxmhoPsDmhxxongaspty/l0uvK9TAZOCWmHesHSF41Nw3m6vijuEUN6tbfxnwnl
- ELUZn9ZxnKhLY7bV+BQEU+tnBcchrS5Fh+39FaSLBNT9WTd53RKU+5ZhirMfA4VIHPSP
- jBoc9T7CNB3MTXfyLp+l3lG0fdXJiMIKtMPeIHKbHKz6dd15HasOLilKZjf0LWJPhI8V
- 5uCqHYTP7nvXggqYxU/OMULwOR8GvPLOzTxdxPJCUVEXLDdOv2IHpWUzKq9qS+Lm28vD
- hmqWaj3tG1QAXy8FMk7IgyABCl/rB5v5lTrM7NyqFBT7IKQ3T1Z4/lYq7qHIi4JPWMnm
- ksfg==
-X-Gm-Message-State: ACrzQf228PmlYK6d1/avhFBhhRRvmxli9Q9oThHyzHzQqRjeg6+ZDVPS
- kzCLB5RATQL/A6DS3k4p6UmXGxCCV3U8KuYQTlm+hU+W
-X-Google-Smtp-Source: AMsMyM4pQZz0zsylLgHWyyz2zhLvy9rTWQUniK5WOMzMUznHJHhEZZ/8LWfMJF99ZpNQmzsokA7nblwO4s+dSzI7xEM=
-X-Received: by 2002:ae9:dd42:0:b0:6cc:ead5:14b4 with SMTP id
- r63-20020ae9dd42000000b006ccead514b4mr8065553qkf.94.1664007243133; Sat, 24
- Sep 2022 01:14:03 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=Yq2diIusuO1Sjn6Er52SaSUiU3/pPgt/CwGzIP3Y3zY=;
+ b=PYah9ajVzI+9ymWBIfUWWUChFO9SPff8PvW6UX0DaEdityaNQg3VUvD+QNPQx45PSC
+ A8Ls3OC67dYH2/UzkEtE9Ksl+8lUQB40SwNK4rkrBooS1+XXPHMjgq6ahXZUKyAVPeZE
+ pnKrGTk9LEBc55EJVGRSIrMdn2LW9gRvxIb/7HTRw4vyeDjIXHcbOnG50zg/vuk5IRgD
+ ZtEH+/SY3FqdjpvsG7R4mcHJNu5T8VX8enArill3BbTr4h4nBloutuK2Ft3v8d3MFBkN
+ A2zU/fUmFsSUEpMxwAp1gBlX7L2dyyPtIgnlS2Li/Ujqh6LKY+nc5aPVZqqN4/1aIpTk
+ hw+A==
+X-Gm-Message-State: ACrzQf3/UM7tkvQjdSx0nAvgbm5mex+GU+OlRKR5PFbap51tlWO8zfL7
+ oqyTZj63nMw543+mWM92cUv4QkINCcLPiBvWQ8PnVA==
+X-Google-Smtp-Source: AMsMyM5BJDZoFkojrtO5KOkLRtoWDkl6PuSon2UA9rL2nHBJXNUqCuSPzuUQ8SHvNDbWIvdsr5KxURmgNRp4n++N6Eg=
+X-Received: by 2002:a05:6402:1d86:b0:457:e84:f0e with SMTP id
+ dk6-20020a0564021d8600b004570e840f0emr436343edb.241.1664010646563; Sat, 24
+ Sep 2022 02:10:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220920103159.1865256-1-bmeng.cn@gmail.com>
- <20220920103159.1865256-39-bmeng.cn@gmail.com>
- <CAJ+F1CK5A1K=YgOxzXg2fbc+GOC-FmgxwDDnD=TgSKsDt6rDHw@mail.gmail.com>
-In-Reply-To: <CAJ+F1CK5A1K=YgOxzXg2fbc+GOC-FmgxwDDnD=TgSKsDt6rDHw@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 24 Sep 2022 16:13:52 +0800
-Message-ID: <CAEUhbmV+eat4_m6=meS0e5x75k+X2R9u=pG9PHPAass98uf7Rg@mail.gmail.com>
-Subject: Re: [PATCH v2 38/39] tests/qtest: Enable qtest build on Windows
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
+References: <20220921234646.949273-1-venture@google.com>
+ <CAFEAcA8f+JA4WKMwGFNxg7tRxTwL=RzDLgdJLrP8Dw_jB4XoRA@mail.gmail.com>
+ <CACGkMEvMtAjGQVzwUgjD20Hb=Za8KmRanmp-FWrUQD8xS+7Pkw@mail.gmail.com>
+ <CAO=notwnOKMd=n2qQC=iFX-cofeKP=ZUKX2VNXobMgXO64Y+sw@mail.gmail.com>
+In-Reply-To: <CAO=notwnOKMd=n2qQC=iFX-cofeKP=ZUKX2VNXobMgXO64Y+sw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 24 Sep 2022 10:10:35 +0100
+Message-ID: <CAFEAcA97oHsQdk2fSq=umiUv8nNue0xCLtboRR2yPt_Gxh_zEg@mail.gmail.com>
+Subject: Re: [PATCH] hw/net: npcm7xx_emc: set MAC in register space
+To: Patrick Venture <venture@google.com>
+Cc: Jason Wang <jasowang@redhat.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, 
+ CS20 KFTing <kfting@nuvoton.com>, qemu-arm <qemu-arm@nongnu.org>, 
+ qemu-devel <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x72c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,46 +88,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 23, 2022 at 4:18 AM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Tue, Sep 20, 2022 at 3:37 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Sat, 24 Sept 2022 at 00:42, Patrick Venture <venture@google.com> wrote:
+> On Thu, Sep 22, 2022 at 8:21 PM Jason Wang <jasowang@redhat.com> wrote:
 >>
->> From: Bin Meng <bin.meng@windriver.com>
+>> On Thu, Sep 22, 2022 at 8:35 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>> > A question to which I don't know the answer: if the guest writes to
+>> > the device to change the MAC address, should that persist across
+>> > reset, or should reset revert the device to the original MAC address
+>> > as specified by the user on the command line or whatever ? At the
+>> > moment you have the former behaviour (and end up storing the MAC
+>> > address in two places as a result -- it would be neater to either
+>> > keep it in only one place, or else have emc->regs[] be the current
+>> > programmed MAC address and emc->conf.macaddr the value to reset to).
+>> >
+>> > I'm not sure we're consistent between device models about that,
+>> > eg the e1000 seems to reset to the initial MAC addr, but the
+>> > imx_fec keeps the guest-set value over resets. Jason, is there
+>> > a recommended "right way" to handle guest-programmable MAC addresses
+>> > over device reset ?
 >>
->> Now that we have fixed various test case issues as seen when running
->> on Windows, let's enable the qtest build on Windows.
+>> I think it depends on the NIC.
 >>
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->> ---
+>> E1000 has a EEPROM interface for providing the MAC address for the
+>> ethernet controller before it can be accessed by the driver during
+>> reset. For modern Intel NICs like E810, it has similar semantics but
+>> using NVM instead of EEPROM. So the current e1000 behaviour seems to
+>> be correct (treat the initiali MAC as the one stored in the EEPROM).
 >>
->> Changes in v2:
->> - new patch: "tests/qtest: Enable qtest build on Windows"
->>
->>  tests/qtest/meson.build | 5 ++---
->>  1 file changed, 2 insertions(+), 3 deletions(-)
->>
->> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
->> index 455f1bbb7e..ceab141824 100644
->> --- a/tests/qtest/meson.build
->> +++ b/tests/qtest/meson.build
->> @@ -1,6 +1,5 @@
->> -# All QTests for now are POSIX-only, but the dependencies are
->> -# really in libqtest, not in the testcases themselves.
->> -if not config_host.has_key('CONFIG_POSIX')
->> +# Build all QTests for POSIX and Windows
->> +if not config_host.has_key('CONFIG_POSIX') and not config_host.has_key(=
-'CONFIG_WIN32')
->>    subdir_done()
->>  endif
->
->
-> I wonder, but I suppose we can just remove the conditions. No?
+>> I guess most NIC should behave the same as having a persistent storage
+>> for MAC for the controller during reset, but I'm not sure this is the
+>> case for imx_fec.
 
-Yes, I think so.
+> So the first time the NIC is realized, it should take the value from
+> the command line.  Then later if the guest OS updates it, it should
+> always on reset use that provided value?
 
-Regards,
-Bin
+I think what Jason is suggesting is that that should depend on what
+the real hardware does. On a physical board, if the guest sets the
+MAC address, and then you power-cycle the hardware, does the MAC
+that it set still persist after powercycle ? Does the guest writing
+to these MAC registers correspond to writing to an EEPROM ?
+
+thanks
+-- PMM
 
