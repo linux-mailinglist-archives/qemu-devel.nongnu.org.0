@@ -2,31 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1C15E8CB0
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 14:45:10 +0200 (CEST)
-Received: from localhost ([::1]:50436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 857475E8CBB
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 14:54:20 +0200 (CEST)
+Received: from localhost ([::1]:55386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc4Wr-0002pO-OP
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 08:45:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56382)
+	id 1oc4fj-00061S-Ke
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 08:54:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oc4GO-0008Qt-8h; Sat, 24 Sep 2022 08:28:08 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:62688)
+ id 1oc4GQ-0008Rl-2H; Sat, 24 Sep 2022 08:28:11 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:62693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oc4GL-0001By-99; Sat, 24 Sep 2022 08:28:08 -0400
+ id 1oc4GM-0001CD-3U; Sat, 24 Sep 2022 08:28:08 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BF26A75A16B;
- Sat, 24 Sep 2022 14:27:57 +0200 (CEST)
+ by localhost (Postfix) with SMTP id C4A4075A16D;
+ Sat, 24 Sep 2022 14:27:58 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9A56A75A163; Sat, 24 Sep 2022 14:27:57 +0200 (CEST)
-Message-Id: <93974622c3d398c7d3a3488b678b74c3807849de.1664021647.git.balaton@eik.bme.hu>
+ id A359E75A16C; Sat, 24 Sep 2022 14:27:58 +0200 (CEST)
+Message-Id: <23560b6a71682d513f3dd8e9ed3852f51d5eb309.1664021647.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1664021647.git.balaton@eik.bme.hu>
 References: <cover.1664021647.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 08/25] ppc4xx_sdram: Drop extra zeros for readability
+Subject: [PATCH v6 09/25] ppc440_sdram: Split off map/unmap of sdram banks for
+ later reuse
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -34,7 +35,7 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 24 Sep 2022 14:27:57 +0200 (CEST)
+Date: Sat, 24 Sep 2022 14:27:58 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -58,120 +59,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Constants that are written zero padded for no good reason are hard to
-read, it's easier to see what is meant if it's just 0 or 1 instead.
-
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ppc/ppc4xx_devs.c | 40 ++++++++++++++++++++--------------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ hw/ppc/ppc440_uc.c | 33 +++++++++++++++++++++------------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
-diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-index 3d700e5c85..02ac8ff335 100644
---- a/hw/ppc/ppc4xx_devs.c
-+++ b/hw/ppc/ppc4xx_devs.c
-@@ -54,31 +54,31 @@ static uint32_t sdram_ddr_bcr(hwaddr ram_base, hwaddr ram_size)
+diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+index 8eae4ad9f0..900b7ab998 100644
+--- a/hw/ppc/ppc440_uc.c
++++ b/hw/ppc/ppc440_uc.c
+@@ -23,6 +23,7 @@
+ #include "sysemu/reset.h"
+ #include "ppc440.h"
+ #include "qom/object.h"
++#include "trace.h"
  
-     switch (ram_size) {
-     case 4 * MiB:
--        bcr = 0x00000000;
-+        bcr = 0;
-         break;
-     case 8 * MiB:
--        bcr = 0x00020000;
-+        bcr = 0x20000;
-         break;
-     case 16 * MiB:
--        bcr = 0x00040000;
-+        bcr = 0x40000;
-         break;
-     case 32 * MiB:
--        bcr = 0x00060000;
-+        bcr = 0x60000;
-         break;
-     case 64 * MiB:
--        bcr = 0x00080000;
-+        bcr = 0x80000;
-         break;
-     case 128 * MiB:
--        bcr = 0x000A0000;
-+        bcr = 0xA0000;
-         break;
-     case 256 * MiB:
--        bcr = 0x000C0000;
-+        bcr = 0xC0000;
-         break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: invalid RAM size 0x%" HWADDR_PRIx "\n", __func__,
-                       ram_size);
--        return 0x00000000;
-+        return 0;
-     }
-     bcr |= ram_base & 0xFF800000;
-     bcr |= 1;
-@@ -109,7 +109,7 @@ static target_ulong sdram_size(uint32_t bcr)
- static void sdram_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
+ /*****************************************************************************/
+ /* L2 Cache as SRAM */
+@@ -563,26 +564,34 @@ static uint64_t sdram_size(uint32_t bcr)
+     return size;
+ }
+ 
++static void sdram_bank_map(Ppc4xxSdramBank *bank)
++{
++    memory_region_init(&bank->container, NULL, "sdram-container", bank->size);
++    memory_region_add_subregion(&bank->container, 0, &bank->ram);
++    memory_region_add_subregion(get_system_memory(), bank->base,
++                                &bank->container);
++}
++
++static void sdram_bank_unmap(Ppc4xxSdramBank *bank)
++{
++    memory_region_del_subregion(get_system_memory(), &bank->container);
++    memory_region_del_subregion(&bank->container, &bank->ram);
++    object_unparent(OBJECT(&bank->container));
++}
++
+ static void sdram_set_bcr(ppc440_sdram_t *sdram, int i,
                            uint32_t bcr, int enabled)
  {
--    if (sdram->bank[i].bcr & 0x00000001) {
-+    if (sdram->bank[i].bcr & 1) {
-         /* Unmap RAM */
-         trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
-                                  sdram_size(sdram->bank[i].bcr));
-@@ -120,7 +120,7 @@ static void sdram_set_bcr(Ppc4xxSdramDdrState *sdram, int i,
-         object_unparent(OBJECT(&sdram->bank[i].container));
+     if (sdram->bank[i].bcr & 1) {
+         /* First unmap RAM if enabled */
+-        memory_region_del_subregion(get_system_memory(),
+-                                    &sdram->bank[i].container);
+-        memory_region_del_subregion(&sdram->bank[i].container,
+-                                    &sdram->bank[i].ram);
+-        object_unparent(OBJECT(&sdram->bank[i].container));
++        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bank[i].bcr),
++                                 sdram_size(sdram->bank[i].bcr));
++        sdram_bank_unmap(&sdram->bank[i]);
      }
-     sdram->bank[i].bcr = bcr & 0xFFDEE001;
--    if (enabled && (bcr & 0x00000001)) {
-+    if (enabled && (bcr & 1)) {
-         trace_ppc4xx_sdram_map(sdram_base(bcr), sdram_size(bcr));
-         memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
-                            sdram_size(bcr));
-@@ -141,7 +141,7 @@ static void sdram_map_bcr(Ppc4xxSdramDdrState *sdram)
-             sdram_set_bcr(sdram, i, sdram_ddr_bcr(sdram->bank[i].base,
-                                                   sdram->bank[i].size), 1);
-         } else {
--            sdram_set_bcr(sdram, i, 0x00000000, 0);
-+            sdram_set_bcr(sdram, i, 0, 0);
-         }
+     sdram->bank[i].bcr = bcr & 0xffe0ffc1;
+     if (enabled && (bcr & 1)) {
+-        memory_region_init(&sdram->bank[i].container, NULL, "sdram-container",
+-                           sdram_size(bcr));
+-        memory_region_add_subregion(&sdram->bank[i].container, 0,
+-                                    &sdram->bank[i].ram);
+-        memory_region_add_subregion(get_system_memory(),
+-                                    sdram_base(bcr),
+-                                    &sdram->bank[i].container);
++        trace_ppc4xx_sdram_map(sdram_base(bcr), sdram_size(bcr));
++        sdram_bank_map(&sdram->bank[i]);
      }
- }
-@@ -218,7 +218,7 @@ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
-         break;
-     default:
-         /* Avoid gcc warning */
--        ret = 0x00000000;
-+        ret = 0;
-         break;
-     }
- 
-@@ -311,18 +311,18 @@ static void ppc4xx_sdram_ddr_reset(DeviceState *dev)
- {
-     Ppc4xxSdramDdrState *sdram = PPC4xx_SDRAM_DDR(dev);
- 
--    sdram->addr = 0x00000000;
--    sdram->bear = 0x00000000;
--    sdram->besr0 = 0x00000000; /* No error */
--    sdram->besr1 = 0x00000000; /* No error */
--    sdram->cfg = 0x00000000;
--    sdram->ecccfg = 0x00000000; /* No ECC */
--    sdram->eccesr = 0x00000000; /* No error */
-+    sdram->addr = 0;
-+    sdram->bear = 0;
-+    sdram->besr0 = 0; /* No error */
-+    sdram->besr1 = 0; /* No error */
-+    sdram->cfg = 0;
-+    sdram->ecccfg = 0; /* No ECC */
-+    sdram->eccesr = 0; /* No error */
-     sdram->pmit = 0x07C00000;
-     sdram->rtr = 0x05F00000;
-     sdram->tr = 0x00854009;
-     /* We pre-initialize RAM banks */
--    sdram->status = 0x00000000;
-+    sdram->status = 0;
-     sdram->cfg = 0x00800000;
  }
  
 -- 
