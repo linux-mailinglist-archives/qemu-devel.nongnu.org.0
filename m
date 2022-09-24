@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6A95E8C1B
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 14:13:11 +0200 (CEST)
-Received: from localhost ([::1]:39956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE785E8C1F
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 14:14:59 +0200 (CEST)
+Received: from localhost ([::1]:58872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc41t-0001om-UB
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 08:13:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38586)
+	id 1oc43e-0003qV-Mo
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 08:14:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oc3z4-00076v-CZ
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 08:10:14 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43524)
+ id 1oc40t-0000nc-23
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 08:12:07 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oc3z2-0007Jb-N3
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 08:10:14 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id t7so3621927wrm.10
- for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 05:10:11 -0700 (PDT)
+ id 1oc40q-0007as-8I
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 08:12:05 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ z13-20020a7bc7cd000000b003b5054c6f9bso4249200wmk.2
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 05:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=fWoApuiA4TYSy6H8gfY1hZbp3SM8uRptP0lQf38gXYY=;
- b=LGJ/n0K2/A88ci8MeRIEHPYYYltG/CU2UWfi7l8FiLx8X+62fO7G1wqkRO9IYj7OsJ
- gPCp57rvnvRsX3/ODZm72xjQJAY1qk2I2bkUbJIK+uQQNFyueh2PUH4f0S64wtuhMQN2
- kCtGA+hVvXyfSNFHEzUJAjbp/NBxLy/6gB7qjHQGdbw1YWeAdcZ3fsDNA0ee8A09ihYr
- BYyIArFDU0x8NPGG9j2eVtQohq4s9AZdrvA8JvXkVIpnA8il7T6hP8+q3oHLX5peofNT
- pYebketaS+c+RTU71JFMfTxGXaCgY5tJkdvW0TovrV8d0i5gDf3srLLrWPEjlZAC/mEv
- kkBA==
+ bh=Y1yK+OOlaOwOV8eKHwlNXCmlPi63Iea3i2wdKu99C/s=;
+ b=mekTmklOYRhgeD2X2D1eITZxYNB/BOwi3pDjOxraXvoxpWm/X2xBsIOsGlbQWBfurC
+ IQQy42rxvDA6hPozHsCE4Pui+pAPHpFdm/AByIkfsYxpKOLZ2NATbnU5e8IfSrFx3tXr
+ TlTeyoXVWO69s9pGzXzzIl+Fy+LZmIsT2Wn8ECo/PVU62JEmSCDMjNajE4F1N+tiCL3b
+ U/Bumf/X6jhfB/jG8BjDtG1pVBiySxXqvIv4pYhqIcxml+kYv8YJCgwGFkFGkNS2Khb7
+ A1XUh8UGeV5Ycl+5apXYNWC5cs7GUUBHA24JRuhkajEvHiTpJqI+BsA4T0+ZycHLc5q3
+ +CKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=fWoApuiA4TYSy6H8gfY1hZbp3SM8uRptP0lQf38gXYY=;
- b=5IsyRx0pCwrmjT6VSG4hMdAZHeYwlIl62t0ORZwvok9qHzIapOnpQgur+qNZ4L4vQ/
- 3sxY3gn2ujNYpU5qJMgR78PVF8u+TiziaEYK2SL0PYJTLcDf4evdfDWPuaPOqEBHqt8p
- w+BUn769kFH5w9bX7MK+4x7VAouGnU3rYArcjdmWDsV0YAfZvwM3nAK7F9PEgS9IaxuV
- 0vQHqjG2/76Uo8EHVxJ+f/17Jaru0+tv6SGwropgIkPbhDhU/k1dxlzCIZSmHNN6vP2M
- ZI7dv6ABskyYHeg80kytq4y2a+nVSuPcFvCvWFlHDTzpQ/3lHOB1Q5DBBvmNIXdxczLT
- LQFA==
-X-Gm-Message-State: ACrzQf2dnx63oYqFwcGtOXXEZQdfioGwaFlPXvHRnX3dIufXrfy0hwCw
- x7P2nr/m4Enihh3Kw/Pivro=
-X-Google-Smtp-Source: AMsMyM4Asmo16+FoBX4C8Tx85Ps/eFk+50hf8QKoaXq4nuYIdnHG85XaUm8vHNPNWVTFIMTQG1gMzg==
-X-Received: by 2002:a5d:47c5:0:b0:22a:6c7a:10f3 with SMTP id
- o5-20020a5d47c5000000b0022a6c7a10f3mr7651485wrc.523.1664021409079; 
- Sat, 24 Sep 2022 05:10:09 -0700 (PDT)
+ bh=Y1yK+OOlaOwOV8eKHwlNXCmlPi63Iea3i2wdKu99C/s=;
+ b=F9B0g78lqblY/lZu+p3s9sfxi0ZljHbovuG3yNYVbm3S8Ffn31riqCe8HFI0bIWBhd
+ Utru0z5WG/xDvxRAG2aycxcrmCAMUOzSJmjHq4ZtG7/H3rjqPIZrN8iPdwsho/TDm8lw
+ jhi1pV6wUXbIziufvchTQdstx8auTbT5Obt3dfYH5Rv7gG6Zb6vBBRvv+zOlMHme36Ia
+ 3SbIw4v8qtLHEPXMDFQArAWabZRuDR84CUs9BBxQrSA+w6NAxeBc7/A3goSsfhSUpCM6
+ mG9/Z1/rddjuTwZBZ0cgv9fc4P4fHCTIRH8sU+x2m0PrIkvRRBj8fCI69ejHoDViE18+
+ YVWA==
+X-Gm-Message-State: ACrzQf2BimOGDjrjmCyB16/Kly7IX5mYuPkIVGhuO7QkdaYymvrPr3mY
+ zxwh8lbez0iHaU0W/soom3Y=
+X-Google-Smtp-Source: AMsMyM7Nn11bx8pyre1LORaHbpcBOoOjANdUwF5BSWqGnZ4+gYkfD32VUkcJJqpgoXlf8SN/hdNWoA==
+X-Received: by 2002:a05:600c:1910:b0:3b4:bb80:c951 with SMTP id
+ j16-20020a05600c191000b003b4bb80c951mr16354064wmq.81.1664021522427; 
+ Sat, 24 Sep 2022 05:12:02 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- bv4-20020a0560001f0400b00228d6bc8450sm10349555wrb.108.2022.09.24.05.10.07
+ p37-20020a05600c1da500b003a3170a7af9sm5269504wms.4.2022.09.24.05.11.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Sep 2022 05:10:08 -0700 (PDT)
-Message-ID: <bd0bf334-f374-6a28-fa57-4b2521bb4a02@amsat.org>
-Date: Sat, 24 Sep 2022 14:10:06 +0200
+ Sat, 24 Sep 2022 05:11:59 -0700 (PDT)
+Message-ID: <627bbd08-d6b8-3570-9b77-14e25fdfdd33@amsat.org>
+Date: Sat, 24 Sep 2022 14:11:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v11 03/15] target/hexagon: make slot number an unsigned
+Subject: Re: [PATCH v11 04/15] target/hexagon: make helper functions non-static
 Content-Language: en-US
 To: Anton Johansson <anjo@rev.ng>, qemu-devel@nongnu.org
 Cc: ale@rev.ng, babush@rev.ng, nizzo@rev.ng, tsimpson@quicinc.com,
  bcain@quicinc.com, mlambert@quicinc.com, richard.henderson@linaro.org,
  alex.bennee@linaro.org
 References: <20220804115548.13024-1-anjo@rev.ng>
- <20220804115548.13024-4-anjo@rev.ng>
-In-Reply-To: <20220804115548.13024-4-anjo@rev.ng>
+ <20220804115548.13024-5-anjo@rev.ng>
+In-Reply-To: <20220804115548.13024-5-anjo@rev.ng>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -101,29 +102,78 @@ From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 On 4/8/22 13:55, Anton Johansson via wrote:
 > From: Paolo Montesel <babush@rev.ng>
 > 
+> Make certain helper functions non-static, making them available outside
+> genptr.c. These functions are required by code generated by the
+> idef-parser.
+> 
+> This commit also makes some functions in op_helper.c non-static in order
+> to avoid having them marked as unused when using the idef-parser
+> generated code.
+> 
 > Signed-off-by: Alessandro Di Federico <ale@rev.ng>
 > Signed-off-by: Paolo Montesel <babush@rev.ng>
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 > ---
->   target/hexagon/genptr.c | 24 +++++++++++++-----------
->   target/hexagon/macros.h |  2 +-
->   2 files changed, 14 insertions(+), 12 deletions(-)
-> 
-> diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
-> index 8a334ba07b..6741278ada 100644
-> --- a/target/hexagon/genptr.c
-> +++ b/target/hexagon/genptr.c
-> @@ -30,7 +30,8 @@
->   #include "gen_tcg.h"
->   #include "gen_tcg_hvx.h"
->   
-> -static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
-> +static inline void gen_log_predicated_reg_write(int rnum, TCGv val,
-> +                                                uint32_t slot)
+>   target/hexagon/genptr.c    | 61 +++++++++++++++++++++-----------------
+>   target/hexagon/genptr.h    | 31 +++++++++++++++++++
+>   target/hexagon/op_helper.c | 29 ++++++++----------
+>   target/hexagon/op_helper.h | 37 +++++++++++++++++++++++
+>   4 files changed, 115 insertions(+), 43 deletions(-)
+>   create mode 100644 target/hexagon/op_helper.h
 
-Using 'unsigned' would keep consistency with the rest of the codebase.
+> diff --git a/target/hexagon/op_helper.h b/target/hexagon/op_helper.h
+> new file mode 100644
+> index 0000000000..9fbebf11c3
+> --- /dev/null
+> +++ b/target/hexagon/op_helper.h
+> @@ -0,0 +1,37 @@
+> +/*
+> + *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
+> + *
+> + *  This program is free software; you can redistribute it and/or modify
+> + *  it under the terms of the GNU General Public License as published by
+> + *  the Free Software Foundation; either version 2 of the License, or
+> + *  (at your option) any later version.
+> + *
+> + *  This program is distributed in the hope that it will be useful,
+> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + *  GNU General Public License for more details.
+> + *
+> + *  You should have received a copy of the GNU General Public License
+> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef HEXAGON_OP_HELPER_H
+> +#define HEXAGON_OP_HELPER_H
+> +
+> +/* Misc functions */
+> +void cancel_slot(CPUHexagonState *env, uint32_t slot);
 
-Otherwise,
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+'unsigned slot'
+
+> +void write_new_pc(CPUHexagonState *env, target_ulong addr);
+> +
+> +uint8_t mem_load1(CPUHexagonState *env, uint32_t slot, target_ulong vaddr);
+> +uint16_t mem_load2(CPUHexagonState *env, uint32_t slot, target_ulong vaddr);
+> +uint32_t mem_load4(CPUHexagonState *env, uint32_t slot, target_ulong vaddr);
+> +uint64_t mem_load8(CPUHexagonState *env, uint32_t slot, target_ulong vaddr);
+
+Ditto.
+
+> +void log_reg_write(CPUHexagonState *env, int rnum,
+> +                   target_ulong val, uint32_t slot);
+
+Ditto.
+
+> +void log_store64(CPUHexagonState *env, target_ulong addr,
+> +                 int64_t val, int width, int slot);
+'unsigned' :)
+
+> +void log_store32(CPUHexagonState *env, target_ulong addr,
+> +                 target_ulong val, int width, int slot);
+
+Ditto.
+
 
