@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33BD25E8CCB
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 14:57:57 +0200 (CEST)
-Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2C35E8CAB
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 14:41:59 +0200 (CEST)
+Received: from localhost ([::1]:46322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc4jE-0003CD-AD
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 08:57:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56398)
+	id 1oc4Tm-0006rR-KM
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 08:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oc4GR-0008TF-OO; Sat, 24 Sep 2022 08:28:11 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:62714)
+ id 1oc4GR-0008TE-OL; Sat, 24 Sep 2022 08:28:11 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:62715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oc4GQ-0001EM-6R; Sat, 24 Sep 2022 08:28:11 -0400
+ id 1oc4GQ-0001EO-5T; Sat, 24 Sep 2022 08:28:11 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 348E375A167;
- Sat, 24 Sep 2022 14:28:06 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 3F67875A166;
+ Sat, 24 Sep 2022 14:28:07 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 15E1A75A166; Sat, 24 Sep 2022 14:28:06 +0200 (CEST)
-Message-Id: <74d9bf4891e2ccceb52bb6ca6b54fd3f37a9fb04.1664021647.git.balaton@eik.bme.hu>
+ id 21E2775A15D; Sat, 24 Sep 2022 14:28:07 +0200 (CEST)
+Message-Id: <19db326bea989c03e08f2853f789315bbe806fe9.1664021647.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1664021647.git.balaton@eik.bme.hu>
 References: <cover.1664021647.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 16/25] ppc440_uc.c: Move some macros to ppc4xx.h
+Subject: [PATCH v6 17/25] ppc440_uc.c: Remove unneeded parenthesis
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -34,7 +34,7 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 24 Sep 2022 14:28:06 +0200 (CEST)
+Date: Sat, 24 Sep 2022 14:28:07 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
@@ -58,46 +58,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are used by both the SDRAM controller model and system DCRs. In
-preparation to move SDRAM controller in its own file move these macros
-to the ppc4xx.h header.
+Remove unneeded parenthesis around case labels.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/ppc440_uc.c      | 4 ----
- include/hw/ppc/ppc4xx.h | 4 ++++
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/ppc/ppc440_uc.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
-index 46daecab19..0a41274d63 100644
+index 0a41274d63..24623ebe0c 100644
 --- a/hw/ppc/ppc440_uc.c
 +++ b/hw/ppc/ppc440_uc.c
-@@ -380,10 +380,6 @@ enum {
-     PESDR1_RSTSTA = 0x365,
- };
+@@ -499,34 +499,34 @@ static uint32_t sdram_ddr2_bcr(hwaddr ram_base, hwaddr ram_size)
+     uint32_t bcr;
  
--#define SDR0_DDR0_DDRM_ENCODE(n)  ((((unsigned long)(n)) & 0x03) << 29)
--#define SDR0_DDR0_DDRM_DDR1       0x20000000
--#define SDR0_DDR0_DDRM_DDR2       0x40000000
--
- static uint32_t dcr_read_sdr(void *opaque, int dcrn)
- {
-     ppc4xx_sdr_t *sdr = opaque;
-diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-index ff88385ac0..10c6dd535f 100644
---- a/include/hw/ppc/ppc4xx.h
-+++ b/include/hw/ppc/ppc4xx.h
-@@ -111,6 +111,10 @@ struct Ppc4xxEbcState {
- };
- 
- /* SDRAM DDR controller */
-+#define SDR0_DDR0_DDRM_ENCODE(n)  ((((unsigned long)(n)) & 0x03) << 29)
-+#define SDR0_DDR0_DDRM_DDR1       0x20000000
-+#define SDR0_DDR0_DDRM_DDR2       0x40000000
-+
- #define TYPE_PPC4xx_SDRAM_DDR "ppc4xx-sdram-ddr"
- OBJECT_DECLARE_SIMPLE_TYPE(Ppc4xxSdramDdrState, PPC4xx_SDRAM_DDR);
- struct Ppc4xxSdramDdrState {
+     switch (ram_size) {
+-    case (8 * MiB):
++    case 8 * MiB:
+         bcr = 0xffc0;
+         break;
+-    case (16 * MiB):
++    case 16 * MiB:
+         bcr = 0xff80;
+         break;
+-    case (32 * MiB):
++    case 32 * MiB:
+         bcr = 0xff00;
+         break;
+-    case (64 * MiB):
++    case 64 * MiB:
+         bcr = 0xfe00;
+         break;
+-    case (128 * MiB):
++    case 128 * MiB:
+         bcr = 0xfc00;
+         break;
+-    case (256 * MiB):
++    case 256 * MiB:
+         bcr = 0xf800;
+         break;
+-    case (512 * MiB):
++    case 512 * MiB:
+         bcr = 0xf000;
+         break;
+-    case (1 * GiB):
++    case 1 * GiB:
+         bcr = 0xe000;
+         break;
+-    case (2 * GiB):
++    case 2 * GiB:
+         bcr = 0xc000;
+         break;
+-    case (4 * GiB):
++    case 4 * GiB:
+         bcr = 0x8000;
+         break;
+     default:
 -- 
 2.30.4
 
