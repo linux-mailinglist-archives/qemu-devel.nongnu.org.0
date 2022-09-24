@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A35435E8D92
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 16:52:36 +0200 (CEST)
-Received: from localhost ([::1]:58476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9805D5E8DAC
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 17:04:53 +0200 (CEST)
+Received: from localhost ([::1]:42604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc6WB-0006oF-If
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 10:52:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41926)
+	id 1oc6i4-0006ul-7U
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 11:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oc6SK-0002YS-8H; Sat, 24 Sep 2022 10:48:37 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:39615)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oc6eG-0003F7-BC
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 11:00:58 -0400
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:44614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oc6SF-0004r4-Dr; Sat, 24 Sep 2022 10:48:33 -0400
-Received: by mail-pg1-x533.google.com with SMTP id b5so2784683pgb.6;
- Sat, 24 Sep 2022 07:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=QCqFAp51VAgZdd1W3Nyc28rA1Oj191ulWzVZjEEzsFY=;
- b=ewQZdQv51ccxtdplDREYxUzuGuk6KMwtpjnps/Tw7tLu0ImgZOWxQb2u8lAQa6d6bR
- 00R5aXPbd7fV9ysATvyt8f4vAWy68Sj1KaX3i9UOb4e0b0PVRrpNbYMmbGzhyfJigJVd
- +vrnth6Ead1ZClkW/uMxx67qSJJp6VSWFippgeNVhmGOHuHLk6GBsYFG6hp07EAgfvVK
- ZJsIGdlFUehDl46z/Go1rKPvTHOeMrRzvuHbECOWQkT/mPiHDyG6X5aG83+dsyps/gTi
- Hgki/Fe43ZoQ8W3yNu5zqqEQkh22Yy/GeeuAEIQRVdC0PZKFrBV7YsJ3mYdxON6kMTme
- yh2g==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oc6eD-0006zR-Iw
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 11:00:55 -0400
+Received: by mail-qv1-xf2b.google.com with SMTP id l1so1752024qvu.11
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 08:00:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=YDcdhPxO9VeFIp634C6kQTyfDCYn22eTAOsBNQOFDYA=;
+ b=j/0ja04DteR9YlaMHZteb+Vf4XiJb2OLF6MOxYCtEqvg/hTJH76Y0xak+/uKSzCigO
+ anfeHUETL5jq3OuR+1tZeiVJJsELyMgXIOhdGqXyBtIPs4ZfL11bPOZlq6JaDnQBp0Xh
+ irsH7l/Mjh1fce/O0EJ4XylovKZeJYVLcD5I0aAiUSqFu2MUaf9W/Qabu3csHHbUmqGg
+ regCg1ptHc2GT9fZ/9mZy4U6qf7Q1iW/pF13gOND8razgequPA6dXmdee2oOZEscGgT6
+ bf3JJ/of/5Fsx95wz/K4gvXDVB2ZAZjRp49/GU40mNx3unjiN2DE0+wbINCNh7283WjC
+ 06pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=QCqFAp51VAgZdd1W3Nyc28rA1Oj191ulWzVZjEEzsFY=;
- b=f4nWAUyJulZO4hgDOcwLwKFVJPvdiaK6Xd1zkI3pF6tHEcCETzzns6GrjWx/6htjvB
- XPPpOE+472t7rIbZOFZk8G3J6NIhTNmOwwlN2T5x6BuZbhVbgAFbrpV48rKl6It2SBR0
- A7y/2Hz2wu/nBgE/8Zn59DwXvjOZX8+qXxxGZxpj7ZOuM4Eo8kMWUB1orLGNp1PCU9x5
- BFh/tGV23TGnqnptkXJlIN+4O1iD7ssq9yWSblBivOB4NrCnswRlkrPtCGlMh3cypWmb
- ysQGxBDHuVKM6aoYVt/l1t/PqdHpW2rbZr0yMxbIix15bIE2kQo6Gaz1VPJwVut4i4Us
- AUUg==
-X-Gm-Message-State: ACrzQf3S6woj1ZK8VlZW8yvjPO741UyXsq6uKZtvTzCaMzgIcabsyz6R
- 42R6Tn0o6JqJrwVQ+19ZcKYPKnjgqe247oVX/ZU=
-X-Google-Smtp-Source: AMsMyM4/DwiGisVy0ZgrGxWpll92w1g3TVUNgZ75hbfT9MW3ljDEDgHc09tHzT4RSYTlUxE9kEzr3A==
-X-Received: by 2002:a63:a51e:0:b0:439:857:2758 with SMTP id
- n30-20020a63a51e000000b0043908572758mr12086523pgf.105.1664030909037; 
- Sat, 24 Sep 2022 07:48:29 -0700 (PDT)
-Received: from roots.. ([112.44.202.252]) by smtp.gmail.com with ESMTPSA id
- jc6-20020a17090325c600b00176b63535adsm7839024plb.260.2022.09.24.07.48.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Sep 2022 07:48:28 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Julia Suvorova <jusual@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>,
- qemu-block@nongnu.org, Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH] block/io_uring: revert "Use io_uring_register_ring_fd() to
- skip fd operations"
-Date: Sat, 24 Sep 2022 22:48:15 +0800
-Message-Id: <20220924144815.5591-1-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.37.3
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=YDcdhPxO9VeFIp634C6kQTyfDCYn22eTAOsBNQOFDYA=;
+ b=1h4qx5QAALkb/prnYB7ET9gv5l7pX02Vb1gKZ16BEysNNl28HgaC2my/VMrzRAyn4R
+ T17rlyF9GzQ0ltp8pAeQxMVtQVk4FAaQdC5or/6awbACxu8EDHnEnmRQWdAfDZ21dy2+
+ N2TFGMS9OpGXCruvUwYwybWoiWLhXkXRVQZ2LdEeZFpypUTRPyOzlU3u4czAHXgBkO9z
+ 1leLSveDXNtpCFbYZg4Hvo2LWPFisAkUNbvzVuyK1dz/68v7d1siCgWbkXWz4R0mlT51
+ Q6dmTn8iucjYpBSnAhZdQfHXkRbJD7HbomM8Tgi2irjz83uvqanzDyMqXzKwq3MjfyBN
+ TdPA==
+X-Gm-Message-State: ACrzQf2x3X998Oo1F9x7/xOMu7vFRUmy8To7QZMYYQzF0x3mezX880UU
+ W3q8gRDG5a3ljAw9aHqv2mhnflNNDabMpKO1
+X-Google-Smtp-Source: AMsMyM625UAFF8FEoHKFZlqkvhKgidvZ3QK8Ku02WFvddUG3S6IOi5BDxfxDpZD++NG4QkPGZIlCww==
+X-Received: by 2002:ad4:4ea7:0:b0:4ad:656a:260c with SMTP id
+ ed7-20020ad44ea7000000b004ad656a260cmr11231683qvb.51.1664031652052; 
+ Sat, 24 Sep 2022 08:00:52 -0700 (PDT)
+Received: from ?IPV6:2605:ef80:80b2:1f12:b4b:2dff:20:54a0?
+ ([2605:ef80:80b2:1f12:b4b:2dff:20:54a0])
+ by smtp.gmail.com with ESMTPSA id
+ s2-20020a05620a0bc200b006ce7d9dea7asm7835307qki.13.2022.09.24.08.00.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 24 Sep 2022 08:00:51 -0700 (PDT)
+Message-ID: <4983f700-2e6f-cbfa-c80c-9a30308634c8@linaro.org>
+Date: Sat, 24 Sep 2022 15:00:41 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 02/37] target/i386: make ldo/sto operations consistent
+ with ldq
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: paul@nowt.org
+References: <20220920172507.95568-1-pbonzini@redhat.com>
+ <20220920172507.95568-3-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220920172507.95568-3-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2b.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.118,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,77 +96,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1193
+On 9/20/22 17:24, Paolo Bonzini wrote:
+> ldq takes a pointer to the first byte to load the 64-bit word in;
+> ldo takes a pointer to the first byte of the ZMMReg.  Make them
+> consistent, which will be useful in the new SSE decoder's
+> load/writeback routines.
+> 
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> ---
+>   target/i386/tcg/translate.c | 43 +++++++++++++++++++------------------
+>   1 file changed, 22 insertions(+), 21 deletions(-)
 
-The commit "Use io_uring_register_ring_fd() to skip fd operations" broke
-when booting a guest with iothread and io_uring. That is because the
-io_uring_register_ring_fd() call is made from the main thread instead of
-IOThread where io_uring_submit() is called. It can not be guaranteed
-to register the ring fd in the correct thread or unregister the same ring
-fd if the IOThread is disabled. This optimization is not critical so we
-will revert previous commit.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-This reverts commit e2848bc574fe2715c694bf8fe9a1ba7f78a1125a
-and 77e3f038af1764983087e3551a0fde9951952c4d.
-
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
----
- block/io_uring.c | 13 +------------
- meson.build      |  1 -
- 2 files changed, 1 insertion(+), 13 deletions(-)
-
-diff --git a/block/io_uring.c b/block/io_uring.c
-index a1760152e0..973e15d876 100644
---- a/block/io_uring.c
-+++ b/block/io_uring.c
-@@ -11,7 +11,6 @@
- #include "qemu/osdep.h"
- #include <liburing.h>
- #include "block/aio.h"
--#include "qemu/error-report.h"
- #include "qemu/queue.h"
- #include "block/block.h"
- #include "block/raw-aio.h"
-@@ -19,7 +18,6 @@
- #include "qapi/error.h"
- #include "trace.h"
- 
--
- /* io_uring ring size */
- #define MAX_ENTRIES 128
- 
-@@ -432,17 +430,8 @@ LuringState *luring_init(Error **errp)
-     }
- 
-     ioq_init(&s->io_q);
--#ifdef CONFIG_LIBURING_REGISTER_RING_FD
--    if (io_uring_register_ring_fd(&s->ring) < 0) {
--        /*
--         * Only warn about this error: we will fallback to the non-optimized
--         * io_uring operations.
--         */
--        warn_report("failed to register linux io_uring ring file descriptor");
--    }
--#endif
--
-     return s;
-+
- }
- 
- void luring_cleanup(LuringState *s)
-diff --git a/meson.build b/meson.build
-index 3885fc1076..63cfb844cf 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1793,7 +1793,6 @@ config_host_data.set('CONFIG_LIBNFS', libnfs.found())
- config_host_data.set('CONFIG_LIBSSH', libssh.found())
- config_host_data.set('CONFIG_LINUX_AIO', libaio.found())
- config_host_data.set('CONFIG_LINUX_IO_URING', linux_io_uring.found())
--config_host_data.set('CONFIG_LIBURING_REGISTER_RING_FD', cc.has_function('io_uring_register_ring_fd', prefix: '#include <liburing.h>', dependencies:linux_io_uring))
- config_host_data.set('CONFIG_LIBPMEM', libpmem.found())
- config_host_data.set('CONFIG_NUMA', numa.found())
- config_host_data.set('CONFIG_OPENGL', opengl.found())
--- 
-2.37.3
-
+r~
 
