@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EBE25E8BED
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 13:53:32 +0200 (CEST)
-Received: from localhost ([::1]:52058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F8F45E8BFE
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 13:58:35 +0200 (CEST)
+Received: from localhost ([::1]:46544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc3it-0002As-Fn
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 07:53:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57586)
+	id 1oc3nm-0007LY-69
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 07:58:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oc3at-0004Lh-Ng
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oc3at-0004Lf-LS
  for qemu-devel@nongnu.org; Sat, 24 Sep 2022 07:45:15 -0400
-Received: from mout.gmx.net ([212.227.15.19]:58593)
+Received: from mout.gmx.net ([212.227.15.18]:36477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oc3an-0003Qx-2A
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oc3an-0003Qa-1L
  for qemu-devel@nongnu.org; Sat, 24 Sep 2022 07:45:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
  s=badeba3b8450; t=1664019905;
- bh=iBQTvRWn/tCi0bI0VQceSHERcxvx6dX6scs3iCTZovE=;
+ bh=9mDTRgDgEAEQ9XZte8gnccGZQae4pGNUlPhIB0AT4eA=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=YhR/yQ/zu5oKFc9t9CYtioejfU5cQYmXcjz0MLAUnYHpnh1/8eRM4yDMEOmGN4Rff
- BRSPDlPZDzYlt61EqV2zPvRuPfSjikSinCP9nD5RwQgP2CYVTNlNE3enp57hRjJ5Mq
- kfsqjvVqk60sqqLgwCaIqNyQkalGi4OaTS0XLkh0=
+ b=kuB4TPaqfuPOBqJh49K53pu5yhdJyKTaAhoCMktLTq1mTFGcCy+5h+y9M2vqQJjkU
+ 1b3KeYSoBsom17xqpFmLNAiEnrLnPAtVuTb97qHTutkV3UrvjXx6Kxvl0mQ9xovmj4
+ 96XcsTB9lUvgLL7MNxsmBh2fGYZqOSLGVUO5xgYs=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.155.187]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MYeMj-1ootco0FDH-00VhrR; Sat, 24
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MVN6j-1ojNJO0lNP-00SQ4n; Sat, 24
  Sep 2022 13:45:05 +0200
 From: Helge Deller <deller@gmx.de>
 To: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>
-Subject: [PATCH 6/7] linux-user/hppa: Allow PROT_GROWSUP and PROT_GROWSDOWN in
- mprotect()
-Date: Sat, 24 Sep 2022 13:45:00 +0200
-Message-Id: <20220924114501.21767-7-deller@gmx.de>
+Subject: [PATCH 7/7] linux-user/hppa: Fix setup_sigcontext()
+Date: Sat, 24 Sep 2022 13:45:01 +0200
+Message-Id: <20220924114501.21767-8-deller@gmx.de>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220924114501.21767-1-deller@gmx.de>
 References: <20220924114501.21767-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:eiwKm/IQDzRHmIlm4FfbWTu4y8kDkpq5MA84r66KZ1Pc3xdBf1Y
- xVhpEcP8H7WQHBfJPCTriQJ6ruGiS1OXeRxXp2ZcAIPBhG8RUAWAWg1yh8dn1kpbiNkh2my
- 4vZ3HvVC3CPLDPV95hxvBGqYcgKFTwhzr7mN4+FzYXgfo6KLLdOMTN7yDhtniRePa1wudJI
- 6K8bBFZqglT5LhTGPXwQg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/aH2kct9kuc=:HCNiVWbBXvUmdGWS4kRb1U
- 4hATUkC5THIJ5AmPvevnA6UZDuG/b3YmKoE+jaMompbfl2wbu73vN7m91u42wMl/PB865d7p1
- MijirJa2AFi8ZvWx5fKn7lpzHyx0zJr+LX/UHhiEEEqZen7lb+pEpIfMyt6+J+ZHgbSLNZTLH
- 6qnjH5ZDYTRFk2vhlhrrXsKwXp3lh/T9gqVjqvwhOufweHXo2xAK1TGJRS1a3u11m/I/AcvIv
- SPngzItg1ZtlcJqfyJ2B55f5TCa4hWwvgPwrECVbQjnMoCUgjICB798YouVJj97swrGGPFmGJ
- cFxey7T6o2kpfuyRGp1Nw1Gyp92ZNNib1d1rY9Kdqhemq0pBfCOOUahgrQVKRd4VHYhfx/lrZ
- dDF3Ttnh1ckNOfINJ36XQLEunoXY/qLYGcUfEVYCkz/WGkLM1UyqeFPce/zVr48u5beVfXvzY
- E8mPgdWondjUhJe01hMsmuWfAT44o8L7lc/t85SCvcqZsLl/Y0r2K6auDj38ppu1eJCbB/WNa
- C3N1YD6mb9RCj/f0Jv+K+H0zqZKHI1ZpX5xzSM55WVu2v4h2FfpvPJRDDZM6UEL9Wtx48AgVL
- Tdfk5vtT3luQPSxFVrLQen/8t5ivbsYaZo6slHYMAd2XtegmhFXh6xEoq9C7XL41LTQ+Yetdu
- k237Moe9SUCFn8O4zjoiJtaDbEClQDhFk2Aq3jL2BZ9QyCXhG5CfLf44AySrn/L64ZBzBHnUh
- 6VwJo7KtlbjiwgJk27ZU9zeEyZ8H1Q/Zzfew1uRCGwEyFCV9lcyEkBnyYTPBDUUZxRzmUgz6/
- bsB9pTqipT+lq2ovVNIdVxGRAqkfbKI07seQ53t9uIl2+9jis+dnvKzIXkZM7HNfNEn9GTvfu
- /GYlC3vbCg4vQszi9UIH4GSY975BMLlgQtueuP28D2COj10pIhO3ESNLIwtviiMFk9TuRNntI
- vC/mSTHF5ZDI93qBxYA3jh39whPGPruhhzlYPtyhjn8ltfjrpHb0jG6vHH9EvcQgmupMBA/ON
- BzHkgR48mQsW8hMA3WF43GDL7B0Yz1eiDNLtsDgOSNZ1bPWXsX+XdHdqLfGXlmYqn7YA3bTpe
- 4HmBr0U2uEdHF7yH9JDBDUsZRo9UUX8lpHLs6AGe4Nmc+mOF61ogWbCTpm40pog9vZhUcSVzq
- 1bK+60hiyBgnwJ12E7pc0VaB5X
-Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:pS6DMUcVFMXlepHN36lejGvPreFxCnsY8hfyHCUS7AEyKUQ3Awu
+ FniAQX3iOMDoyTUyLueHlyVzI5z3e46Z1y10YFPrEA5Xty+gNzsqeXWMjsrwPij6YrRTsWS
+ uvNXgcAdxhr0lKPEcFGb0WZozvY1gevYl6tbjv6z7InwpuIKiKUbFiQGl4Mg+l3HpFRKRyF
+ E2zk7n/dfUcQBThbsXLwQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DC2QMtI5b0A=:m04t+ZRThI1zcFcd6AwtUr
+ R6dmPcMn9nxiuaWbK8p1ouoXliL68O+a8Yvh8qiOMftqaTRket7/pznBVLGV8G9SIiJP9v3GN
+ WNn6AMuEimBO/KMXUqwj+UrorMvdGHQD3Zr0nKVPneG6isR0Y6Uw9/Ra8yEQY0UKyufcAilQ+
+ S2Y0PcRV2sUwMUCIFYU+2Lw4dXF5MFKKltEhW7SKvfl9mpWESF/vavTqCcXH+f2HENlLg3WjR
+ ieU1JrtTpXsa1UUDML10kybJFZ1gKPDNgvPWoQZG7UdSPaB+Uc6Udl3NfN041CycJdZuhP6T1
+ 2JcFaYkkwXtt47kVfL3ALIpMX+xvNoSjmnbue3wPdbxWFA05wJ2RP8/E/EmxHAmNeuf2Yz/TG
+ WdrCiagHVJWmSA+2m7W1gh0Zy3JxmK3EV2SCNlHOjPD2R/Lwxqdi7d4Rr+RizE/hKcqFdhKqF
+ xJzWR5wDhnFgFfryGWBVJRAej+iKdIcrJmO4gTLKyo+Qef5uCPdf4MnjNmTTBUeqSelGb+aK9
+ 89CvV6B3fYu43enr5ZU6HAm2nm1AGlSYclZ1VeofHBbIM8QZC21r6rD/COqfOACxGfitNZMFc
+ nfKOzVsHQKx1LPxlllCH2uxLA+FDTTgmp3Bwr6PqZfGzEqQ+VjuZ/I39oNX0ZLx+PD9WS8XYb
+ y2WS4HF++EPFLh4g0ievwEdEVzeOSrpxredgTKbFePS3cPnjsvtWs4p/8wSL5e8s9H9PKJaSF
+ SrcmJG0CiSt/EK0PkBoquAibCARRYTmNp+4zOcj8K+wZhyF33P/8QnAS4iCKK5CSd46DWtRnI
+ IMlVQwVxcHei6U0xQnoLZDe80hfKqhl4NWrazSM2fWtQy0R9xCgJ5Np+epjEubmLzDnEjJCZU
+ wuhXBdjWWCnZsxvvcT5/akpctCO2XQXd8dGr7eKIWPtJMVLWTy2X9+ba16e296R5+WIgJ1ZG/
+ 2DDgMrO8VupHEGN0hbHKrZiMj6vbmC1ffXZruJ3wOxqqYkeQLd8U8KYchgnS4jcPdXMd5+WUm
+ nOVeBLnB8k1gpPPnoSWuos3Sj1mtJDJlmvguRFAJoU4SVarOHWqC2A63YedKa517qLDmprxAX
+ HhKUoblKFWNmVypkIzCn9czYao4dj5IsL3CXfBu6SlTopYQGZ9q0mylGsjQY7PDOOUSLyTek2
+ 20H2Zk1i/JbxTH7Y8PO5NTNiyQ
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -87,41 +86,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The hppa platform uses an upwards-growing stack and required in Linux
-kernels < 5.18 an executable stack for signal processing.  For that some
-executables and libraries are marked to have an executable stack, for
-which glibc uses the mprotect() syscall to mark the stack like this:
- mprotect(xfa000000,4096,PROT_EXEC|PROT_READ|PROT_WRITE|PROT_GROWSUP).
-
-Currently qemu will return -TARGET_EINVAL for this syscall because of the
-checks in validate_prot_to_pageflags(), which doesn't allow the
-PROT_GROWSUP or PROT_GROWSDOWN flags and thus triggers this error in the
-guest:
- error while loading shared libraries: libc.so.6: cannot enable executable=
- stack as shared object requires: Invalid argument
-
-Allow mprotect() to handle both flags and thus fix the guest.
-The glibc tst-execstack testcase can be used to reproduce the issue.
+We don't emulate a preemptive kernel on this level, and the hppa architect=
+ure
+doesn't allow context switches on the gateway page. So we always have to r=
+eturn
+to sc_iaoq[] and not to gr[31].
+This fixes the remaining random segfaults which still occured.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 =2D--
- linux-user/mmap.c | 2 ++
- 1 file changed, 2 insertions(+)
+ linux-user/hppa/signal.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index dba6823668..b7478ad0fa 100644
-=2D-- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -105,6 +105,8 @@ static int validate_prot_to_pageflags(int *host_prot, =
-int prot)
-             page_flags |=3D PAGE_MTE;
-         }
-     }
-+#elif TARGET_HPPA
-+    valid |=3D PROT_GROWSDOWN | PROT_GROWSUP;
- #endif
+diff --git a/linux-user/hppa/signal.c b/linux-user/hppa/signal.c
+index 396e310dc9..f253a15864 100644
+=2D-- a/linux-user/hppa/signal.c
++++ b/linux-user/hppa/signal.c
+@@ -49,23 +49,13 @@ struct target_rt_sigframe {
 
-     return prot & ~valid ? 0 : page_flags;
+ static void setup_sigcontext(struct target_sigcontext *sc, CPUArchState *=
+env)
+ {
+-    int flags =3D 0;
+     int i;
+
+-    /* ??? if on_sig_stack, flags |=3D 1 (PARISC_SC_FLAG_ONSTACK).  */
+-
+-    if (env->iaoq_f < TARGET_PAGE_SIZE) {
+-        /* In the gateway page, executing a syscall.  */
+-        flags |=3D 2; /* PARISC_SC_FLAG_IN_SYSCALL */
+-        __put_user(env->gr[31], &sc->sc_iaoq[0]);
+-        __put_user(env->gr[31] + 4, &sc->sc_iaoq[1]);
+-    } else {
+-        __put_user(env->iaoq_f, &sc->sc_iaoq[0]);
+-        __put_user(env->iaoq_b, &sc->sc_iaoq[1]);
+-    }
++    __put_user(env->iaoq_f, &sc->sc_iaoq[0]);
++    __put_user(env->iaoq_b, &sc->sc_iaoq[1]);
+     __put_user(0, &sc->sc_iasq[0]);
+     __put_user(0, &sc->sc_iasq[1]);
+-    __put_user(flags, &sc->sc_flags);
++    __put_user(0, &sc->sc_flags);
+
+     __put_user(cpu_hppa_get_psw(env), &sc->sc_gr[0]);
+     for (i =3D 1; i < 32; ++i) {
 =2D-
 2.37.3
 
