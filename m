@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA085E8D8E
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 16:52:05 +0200 (CEST)
-Received: from localhost ([::1]:59952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35435E8D92
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 16:52:36 +0200 (CEST)
+Received: from localhost ([::1]:58476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc6Vg-00067Y-VR
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 10:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50628)
+	id 1oc6WB-0006oF-If
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 10:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oc6RB-00020P-KO
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:47:30 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:40592)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oc6SK-0002YS-8H; Sat, 24 Sep 2022 10:48:37 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:39615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oc6R9-0004hh-IB
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:47:24 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id c19so1756748qkm.7
- for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 07:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=4bzdVO4Qs7hm9Ap3nB5RLw9zVh+Mws3oPJDheBuHWhE=;
- b=KV9TfC6jbQSuJvuZXJHFGEtT9VOnL/GOdKVBqfkLcOpuQJfpc3aQ5KlI2k6gE4/V3E
- CCxbI229C4x/en04iGAANJunZhxLdcwnC8F2YYv5HWAQc87HcPiK+HoqRlfB9mNf6WqP
- CvR/Ig9AnRUaHTzBTC7RGsswtOA8Q/0hYHJXC/684kvQBganUMINl4x3YgH8zStvObVh
- JGDYiqLHD4UoAMZjeROr3FtZWeWruFPaF7EjkZHZ9W7BkTGf545ESjzUmKXG8EwfItqo
- T4qjS+NrMbCUxHk2rc/LBx6CQQ2o6yzd01/ibT6dlyd906N4OLA8c4wbkKeItU14cTq8
- pLgw==
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oc6SF-0004r4-Dr; Sat, 24 Sep 2022 10:48:33 -0400
+Received: by mail-pg1-x533.google.com with SMTP id b5so2784683pgb.6;
+ Sat, 24 Sep 2022 07:48:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=QCqFAp51VAgZdd1W3Nyc28rA1Oj191ulWzVZjEEzsFY=;
+ b=ewQZdQv51ccxtdplDREYxUzuGuk6KMwtpjnps/Tw7tLu0ImgZOWxQb2u8lAQa6d6bR
+ 00R5aXPbd7fV9ysATvyt8f4vAWy68Sj1KaX3i9UOb4e0b0PVRrpNbYMmbGzhyfJigJVd
+ +vrnth6Ead1ZClkW/uMxx67qSJJp6VSWFippgeNVhmGOHuHLk6GBsYFG6hp07EAgfvVK
+ ZJsIGdlFUehDl46z/Go1rKPvTHOeMrRzvuHbECOWQkT/mPiHDyG6X5aG83+dsyps/gTi
+ Hgki/Fe43ZoQ8W3yNu5zqqEQkh22Yy/GeeuAEIQRVdC0PZKFrBV7YsJ3mYdxON6kMTme
+ yh2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=4bzdVO4Qs7hm9Ap3nB5RLw9zVh+Mws3oPJDheBuHWhE=;
- b=aQUjMNvOjDtFi2dLqz3FJNPIp+ltqTyaL2IQOH1zoUJhOsXeOIhWVEZZRNFo/xm8Fc
- aTyHEx1xxGnsY/n5Nd5DZIdtuX/2yjyLcFVSk1d6FNRtvxSL2CYAk2Si1/Qi/FOTtVt3
- ynYiLuY1YJgQtM0LFxk8kDWNKE9gCX2ueFpa1W7U4DdGzwJZZVaGPGZuO4IpMgkFWi4w
- SOR0lKSwHWxuvZQ032rc76LHAfWLTBD+HsLo7SB4RIHG0IyrYmnz9SMVZ09//uh4HvkN
- 8SfA60bxqKC/Xr82t09FTlLOfa/tQITOtFQzbIrjOweLk3jvnjWyBNl9YySS1c99Zwi6
- Ukmw==
-X-Gm-Message-State: ACrzQf2Z1mmBRjhC4B/VWGaq4oSfN094xW2Ocg1BXtAlhZaW+3YlIEs+
- tJN6UAKndP4bicLnRbKKqaAWNg==
-X-Google-Smtp-Source: AMsMyM69ljZt3pY5+2FlufspGOXCHrmDOVAPd31Ip98V140/2sHapagwqKkCiv+MKQ+pWCL0yxfiKg==
-X-Received: by 2002:a05:620a:290d:b0:6b6:1a92:d88a with SMTP id
- m13-20020a05620a290d00b006b61a92d88amr9126788qkp.58.1664030841944; 
- Sat, 24 Sep 2022 07:47:21 -0700 (PDT)
-Received: from ?IPV6:2605:ef80:80b2:1f12:b4b:2dff:20:54a0?
- ([2605:ef80:80b2:1f12:b4b:2dff:20:54a0])
- by smtp.gmail.com with ESMTPSA id
- l3-20020a05620a28c300b006b872b606b1sm8327185qkp.128.2022.09.24.07.47.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Sep 2022 07:47:21 -0700 (PDT)
-Message-ID: <1cb4af78-f70c-eff9-bddd-6f678c23972a@linaro.org>
-Date: Sat, 24 Sep 2022 14:47:12 +0000
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=QCqFAp51VAgZdd1W3Nyc28rA1Oj191ulWzVZjEEzsFY=;
+ b=f4nWAUyJulZO4hgDOcwLwKFVJPvdiaK6Xd1zkI3pF6tHEcCETzzns6GrjWx/6htjvB
+ XPPpOE+472t7rIbZOFZk8G3J6NIhTNmOwwlN2T5x6BuZbhVbgAFbrpV48rKl6It2SBR0
+ A7y/2Hz2wu/nBgE/8Zn59DwXvjOZX8+qXxxGZxpj7ZOuM4Eo8kMWUB1orLGNp1PCU9x5
+ BFh/tGV23TGnqnptkXJlIN+4O1iD7ssq9yWSblBivOB4NrCnswRlkrPtCGlMh3cypWmb
+ ysQGxBDHuVKM6aoYVt/l1t/PqdHpW2rbZr0yMxbIix15bIE2kQo6Gaz1VPJwVut4i4Us
+ AUUg==
+X-Gm-Message-State: ACrzQf3S6woj1ZK8VlZW8yvjPO741UyXsq6uKZtvTzCaMzgIcabsyz6R
+ 42R6Tn0o6JqJrwVQ+19ZcKYPKnjgqe247oVX/ZU=
+X-Google-Smtp-Source: AMsMyM4/DwiGisVy0ZgrGxWpll92w1g3TVUNgZ75hbfT9MW3ljDEDgHc09tHzT4RSYTlUxE9kEzr3A==
+X-Received: by 2002:a63:a51e:0:b0:439:857:2758 with SMTP id
+ n30-20020a63a51e000000b0043908572758mr12086523pgf.105.1664030909037; 
+ Sat, 24 Sep 2022 07:48:29 -0700 (PDT)
+Received: from roots.. ([112.44.202.252]) by smtp.gmail.com with ESMTPSA id
+ jc6-20020a17090325c600b00176b63535adsm7839024plb.260.2022.09.24.07.48.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Sep 2022 07:48:28 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Julia Suvorova <jusual@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>,
+ qemu-block@nongnu.org, Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH] block/io_uring: revert "Use io_uring_register_ring_fd() to
+ skip fd operations"
+Date: Sat, 24 Sep 2022 22:48:15 +0800
+Message-Id: <20220924144815.5591-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 10/12] target/ppc: Moved XVTSTDC[DS]P to decodetree
-Content-Language: en-US
-To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <20220923214754.217819-1-lucas.araujo@eldorado.org.br>
- <20220923214754.217819-11-lucas.araujo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220923214754.217819-11-lucas.araujo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72d.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.118,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,12 +87,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/22 21:47, Lucas Mateus Castro(alqotel) wrote:
-> +    return (match != 0) ? 1 : 0;                            \
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1193
 
-?: operator is redundant.  Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The commit "Use io_uring_register_ring_fd() to skip fd operations" broke
+when booting a guest with iothread and io_uring. That is because the
+io_uring_register_ring_fd() call is made from the main thread instead of
+IOThread where io_uring_submit() is called. It can not be guaranteed
+to register the ring fd in the correct thread or unregister the same ring
+fd if the IOThread is disabled. This optimization is not critical so we
+will revert previous commit.
 
+This reverts commit e2848bc574fe2715c694bf8fe9a1ba7f78a1125a
+and 77e3f038af1764983087e3551a0fde9951952c4d.
 
-r~
+Signed-off-by: Sam Li <faithilikerun@gmail.com>
+---
+ block/io_uring.c | 13 +------------
+ meson.build      |  1 -
+ 2 files changed, 1 insertion(+), 13 deletions(-)
+
+diff --git a/block/io_uring.c b/block/io_uring.c
+index a1760152e0..973e15d876 100644
+--- a/block/io_uring.c
++++ b/block/io_uring.c
+@@ -11,7 +11,6 @@
+ #include "qemu/osdep.h"
+ #include <liburing.h>
+ #include "block/aio.h"
+-#include "qemu/error-report.h"
+ #include "qemu/queue.h"
+ #include "block/block.h"
+ #include "block/raw-aio.h"
+@@ -19,7 +18,6 @@
+ #include "qapi/error.h"
+ #include "trace.h"
+ 
+-
+ /* io_uring ring size */
+ #define MAX_ENTRIES 128
+ 
+@@ -432,17 +430,8 @@ LuringState *luring_init(Error **errp)
+     }
+ 
+     ioq_init(&s->io_q);
+-#ifdef CONFIG_LIBURING_REGISTER_RING_FD
+-    if (io_uring_register_ring_fd(&s->ring) < 0) {
+-        /*
+-         * Only warn about this error: we will fallback to the non-optimized
+-         * io_uring operations.
+-         */
+-        warn_report("failed to register linux io_uring ring file descriptor");
+-    }
+-#endif
+-
+     return s;
++
+ }
+ 
+ void luring_cleanup(LuringState *s)
+diff --git a/meson.build b/meson.build
+index 3885fc1076..63cfb844cf 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1793,7 +1793,6 @@ config_host_data.set('CONFIG_LIBNFS', libnfs.found())
+ config_host_data.set('CONFIG_LIBSSH', libssh.found())
+ config_host_data.set('CONFIG_LINUX_AIO', libaio.found())
+ config_host_data.set('CONFIG_LINUX_IO_URING', linux_io_uring.found())
+-config_host_data.set('CONFIG_LIBURING_REGISTER_RING_FD', cc.has_function('io_uring_register_ring_fd', prefix: '#include <liburing.h>', dependencies:linux_io_uring))
+ config_host_data.set('CONFIG_LIBPMEM', libpmem.found())
+ config_host_data.set('CONFIG_NUMA', numa.found())
+ config_host_data.set('CONFIG_OPENGL', opengl.found())
+-- 
+2.37.3
+
 
