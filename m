@@ -2,82 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217425E8D2D
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 15:43:56 +0200 (CEST)
-Received: from localhost ([::1]:35520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8155C5E8D39
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 16:13:39 +0200 (CEST)
+Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc5Rj-0007Ug-8r
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 09:43:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51536)
+	id 1oc5uU-0002mX-4W
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 10:13:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oc5Q3-0004sJ-4r
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 09:42:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39217)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oc5Pz-0003r0-6F
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 09:42:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664026926;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gzK/M1NQFyyGxYJ3kMyIdXXdv+I0S914nhZVGzMt424=;
- b=c2XSiV5uppyGjxhz7S8JvcLPOexH0ahYUcfZy24KtihcQEcWZkY5FZMsqUkBkxBLsAEez5
- BcKvDbGL0rtGiF7ZgF4AFbbq4B+I5CTp5oR6dlfLBfT21DPnaNXxXcr48tabG83GkHYUUC
- vJRvzRFvNvWMzOMF/GN/4ZG4fzc+A8Y=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-380-CYJDnbSaNGKoBH4jmwwnig-1; Sat, 24 Sep 2022 09:42:05 -0400
-X-MC-Unique: CYJDnbSaNGKoBH4jmwwnig-1
-Received: by mail-ua1-f72.google.com with SMTP id
- y10-20020ab0560a000000b003af33bfa8c4so629335uaa.21
- for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 06:42:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oc5rt-0001Ci-2I
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:10:58 -0400
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:37737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oc5rq-00087V-Tf
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 10:10:56 -0400
+Received: by mail-qt1-x829.google.com with SMTP id j10so1685027qtv.4
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 07:10:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=zW9qkHoq+NRwUygyy0sniiSLWznpixkjX5LZFUdAvIs=;
+ b=KQ+ZKRr2HQFCtZRTPVjYAd5oJS5ObKP75Ku2zMFg35hPlSJI8ly2YEa2P08Y3ZoICH
+ Ky6orklA/CnVEsv5+4F2TPH84SrxVe5+h8ldW6gGR/gaUixudCKMEbNobQkHV5css9Ip
+ LAITcZGEvjOf/2rVNkn6yCFUM21fXSsqjEsUnsSY9mq+foEW0IbSRLmEKsovfWT+YdU6
+ BFc7DCXxHmAUZaRDKarJQ6VZuLxzdDb0By+xEqGrKwICbjIe5nEUUWrjxKAaohrHqRm4
+ FCo/slQzGQ+IkK1y3FlQMgBc6Q5skX512BpqJxVK+6rmoDJbLhzKpYSP5gNutcoW7AUz
+ AhGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=gzK/M1NQFyyGxYJ3kMyIdXXdv+I0S914nhZVGzMt424=;
- b=ceMKF4+9E4vrUsm6BzfUffz6iYoiqkM6smfXFQCl3Yt9Sw1LuRuBBuf71GgO34sQIH
- /PUrqYaASpNS3gtj+KARds3JBQ324UbTuckgjMaZ4md5UoLI/tvgxmpZi+xFUgNA5q1q
- Y/7FQv3kNNhweeDD1cmpusVh0eZeXZcGKlqgqR1m7gRGPHlSjlVPSw3PDxH4OPMgfRKR
- MjWWHJpFGR439QfdDYaVtFvUHe4XHCiIRW6LvvGRyFcoW51dsGlARngaxMiFBne48l2Q
- OQvhkpVQT5eoYFuLW+fe/TommkyAkjDlhNWI1MPAqELybwT0vQvYOKNvoe0cAXFkpELK
- 24Dg==
-X-Gm-Message-State: ACrzQf0Wmx58gjVfksEFejRTsjAUlobwOGBwlpCfNDasmICdZI71Y12/
- pH6hFQ2rvPkLmElSZlu2wMQ5JyXpA79EHe01Bo0lLfigtZAoVzf8AVGtxmCkeyKGNI69Ug0mmJc
- AgO3dORCzEP3HEwvUrZGaNMx06f0JEIs=
-X-Received: by 2002:a05:6102:22f8:b0:398:d463:cd0 with SMTP id
- b24-20020a05610222f800b00398d4630cd0mr5300579vsh.54.1664026924688; 
- Sat, 24 Sep 2022 06:42:04 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6a1vHzWgjEIFsHZr8S1RFZK7TfUS/RmMqtAzOKdYJjk0l6AHLLNMlCbDGoJxDfnEYCKHriBoT+/cJHnTQMQ7k=
-X-Received: by 2002:a05:6102:22f8:b0:398:d463:cd0 with SMTP id
- b24-20020a05610222f800b00398d4630cd0mr5300568vsh.54.1664026924395; Sat, 24
- Sep 2022 06:42:04 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=zW9qkHoq+NRwUygyy0sniiSLWznpixkjX5LZFUdAvIs=;
+ b=RN8er+7+7pbvtXp/hOTnWiRRlZscf3NIzvz9Im0RdOHTTcqdZ+CQjwp+Rh4bv8Yvn2
+ J0zMCzn/pFPm2v/h02g0wpfuN5UhFHVhby2UC4ihW3GOgHQgdRRUeZgusMMDqxzcw8GM
+ +UqdEdB52J0ELt4ECcP32Yr6u74L5/IsHDsqVkju68HCHr/AfwAHKg+0KTaujrA6igVE
+ iOGxu4LbFZLy4DOPpmeIt4Lw/V/yrP5Gy3TFxRd14nt+i8Do1y1cj9qbraiNwi+/hlYs
+ gSPX6/6SyCW/TKNgAYQBDNrlTim6no+p2k2IDywZv4Rz+r0sMg9577rorRS1KiEiMXZx
+ YR+Q==
+X-Gm-Message-State: ACrzQf3ubgxFxRAkmknm33U/8yk/VsgL9wX09Pqp5QuJtmuEIRqS0xxz
+ PMTMT2wm/mHBkp3MANxl2ZqULQ==
+X-Google-Smtp-Source: AMsMyM67EOcF3SGbBjnn5cH5TEmaZDPuF/mAO6Nd8JpgOeW3QeUOWmZ1iTAFkvPtEab378Rg1mBnxQ==
+X-Received: by 2002:a05:622a:1652:b0:35b:a2dd:f0ad with SMTP id
+ y18-20020a05622a165200b0035ba2ddf0admr11480381qtj.302.1664028649558; 
+ Sat, 24 Sep 2022 07:10:49 -0700 (PDT)
+Received: from ?IPV6:2605:ef80:80b2:880d:1e7d:befa:a019:1dbe?
+ ([2605:ef80:80b2:880d:1e7d:befa:a019:1dbe])
+ by smtp.gmail.com with ESMTPSA id
+ k12-20020a05620a414c00b006ce1bfbd603sm2489946qko.124.2022.09.24.07.10.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 24 Sep 2022 07:10:48 -0700 (PDT)
+Message-ID: <6c86d225-29a9-a9bf-dbe2-c1e5164be3cb@linaro.org>
+Date: Sat, 24 Sep 2022 14:10:35 +0000
 MIME-Version: 1.0
-References: <20220922084924.201610-1-pbonzini@redhat.com>
- <20220922084924.201610-3-pbonzini@redhat.com>
- <CAELaAXwqcWz4uh0OroLOm7F1Jx7Z9MvQCh_+QjxEgKPf11Xp7g@mail.gmail.com>
-In-Reply-To: <CAELaAXwqcWz4uh0OroLOm7F1Jx7Z9MvQCh_+QjxEgKPf11Xp7g@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Sat, 24 Sep 2022 15:41:53 +0200
-Message-ID: <CABgObfa-p-LNqRgG8PPago3-V+ygz3m8jjmq8Ub8egUD6O5LvA@mail.gmail.com>
-Subject: Re: [PATCH 02/26] block: add missing coroutine_fn annotations
-To: Alberto Campinho Faria <afaria@redhat.com>
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 01/12] target/ppc: Moved VMLADDUHM to decodetree and use
+ gvec
+Content-Language: en-US
+To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+References: <20220923214754.217819-1-lucas.araujo@eldorado.org.br>
+ <20220923214754.217819-2-lucas.araujo@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220923214754.217819-2-lucas.araujo@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x829.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.118,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,53 +99,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 22, 2022 at 5:12 PM Alberto Campinho Faria
-<afaria@redhat.com> wrote:
->
-> On Thu, Sep 22, 2022 at 9:49 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > Callers of coroutine_fn must be coroutine_fn themselves, or the call
-> > must be within "if (qemu_in_coroutine())".  Apply coroutine_fn to
-> > functions where this holds.
-> >
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  block.c               |  6 +++---
-> >  block/block-backend.c | 10 +++++-----
-> >  block/io.c            | 22 +++++++++++-----------
-> >  3 files changed, 19 insertions(+), 19 deletions(-)
-> >
-> > diff --git a/block.c b/block.c
-> > index bc85f46eed..5c34ada53f 100644
-> > --- a/block.c
-> > +++ b/block.c
-> > @@ -631,9 +631,9 @@ static int64_t create_file_fallback_truncate(BlockBackend *blk,
-> >   * Helper function for bdrv_create_file_fallback(): Zero the first
-> >   * sector to remove any potentially pre-existing image header.
-> >   */
-> > -static int create_file_fallback_zero_first_sector(BlockBackend *blk,
-> > -                                                  int64_t current_size,
-> > -                                                  Error **errp)
-> > +static int coroutine_fn create_file_fallback_zero_first_sector(BlockBackend *blk,
-> > +                                                               int64_t current_size,
-> > +                                                               Error **errp)
->
-> Why mark this coroutine_fn? Maybe the intention was to also replace
-> the call to blk_pwrite_zeroes() with blk_co_pwrite_zeroes()?
+On 9/23/22 21:47, Lucas Mateus Castro(alqotel) wrote:
+> From: "Lucas Mateus Castro (alqotel)"<lucas.araujo@eldorado.org.br>
+> 
+> This patch moves VMLADDUHM to decodetree a creates a gvec implementation
+> using mul_vec and add_vec.
+> 
+> rept    loop    master             patch
+> 8       12500   0,01810500         0,00903100 (-50.1%)
+> 25      4000    0,01739400         0,00747700 (-57.0%)
+> 100     1000    0,01843600         0,00901400 (-51.1%)
+> 500     200     0,02574600         0,01971000 (-23.4%)
+> 2500    40      0,05921600         0,07121800 (+20.3%)
+> 8000    12      0,15326700         0,21725200 (+41.7%)
+> 
+> The significant difference in performance when REPT is low and LOOP is
+> high I think is due to the fact that the new implementation has a higher
+> translation time, as when using a helper only 5 TCGop are used but with
+> the patch a total of 10 TCGop are needed (Power lacks a direct mul_vec
+> equivalent so this instruction is implemented with the help of 5 others,
+> vmuleu, vmulou, vmrgh, vmrgl and vpkum).
+> 
+> Signed-off-by: Lucas Mateus Castro (alqotel)<lucas.araujo@eldorado.org.br>
+> ---
+>   target/ppc/helper.h                 |  2 +-
+>   target/ppc/insn32.decode            |  2 ++
+>   target/ppc/int_helper.c             |  3 +-
+>   target/ppc/translate.c              |  1 -
+>   target/ppc/translate/vmx-impl.c.inc | 48 ++++++++++++++++++-----------
+>   5 files changed, 35 insertions(+), 21 deletions(-)
 
-Because at the time I wrote the patch, blk_pwrite_zeroes() was a
-coroutine_fn. :)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-It is called from bdrv_co_create_opts_simple which is coroutine_fn and
-performs I/O, so it should be a coroutine_fn. I have a few more patches
-to not go through the generated_co_wrappers, but I was curious to see
-if we could automate those changes through your tool.
-
-Paolo
-
->
-> Regardless:
->
-> Reviewed-by: Alberto Faria <afaria@redhat.com>
->
-
+r~
 
