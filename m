@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A3D45E8C08
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 14:03:05 +0200 (CEST)
-Received: from localhost ([::1]:53848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6A95E8C1B
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 14:13:11 +0200 (CEST)
+Received: from localhost ([::1]:39956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc3s7-0004Am-QT
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 08:03:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36036)
+	id 1oc41t-0001om-UB
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 08:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oc3bU-0004zE-07; Sat, 24 Sep 2022 07:45:52 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:45713)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oc3z4-00076v-CZ
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 08:10:14 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oc3bS-0003ka-9P; Sat, 24 Sep 2022 07:45:51 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id e67so2501574pgc.12;
- Sat, 24 Sep 2022 04:45:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oc3z2-0007Jb-N3
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 08:10:14 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id t7so3621927wrm.10
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 05:10:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=CSJpyFiQfhsfNodb4hdYZGfoHLbFXB1eKMyoXO2bJv4=;
- b=ENzLyiJHRCclrCSxtMZAIVbhNCO3PXN8yX7UBzVbZb5mbvWwm5r5dUJNlFzKNiKWFr
- 8iCvFTvA2VaiqCnLQE5eBABrtJ8B7dETEOAp5LIJlx8u0+8FwDkrl/ztnQ9uERqA1vRD
- IWvs2nsCZjaEvDq9c8UY9QCR12t+HOprRQYHRs+bRwWk6nFcg9FdoiKgSvdUdfBSyNPf
- /SwmoCEyyLBJK8s29vZnPBNJoMS6spxCoYZjf5pPe/9dWOwFuLS8ybc2uip+zn7kEfLE
- 5lupUZayJe9HLMrF4YEx6Ypqgmrp7qfVo7UZ2OxAUIdjmrNc0oBjawzFylizqtH8sECh
- j/qQ==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=fWoApuiA4TYSy6H8gfY1hZbp3SM8uRptP0lQf38gXYY=;
+ b=LGJ/n0K2/A88ci8MeRIEHPYYYltG/CU2UWfi7l8FiLx8X+62fO7G1wqkRO9IYj7OsJ
+ gPCp57rvnvRsX3/ODZm72xjQJAY1qk2I2bkUbJIK+uQQNFyueh2PUH4f0S64wtuhMQN2
+ kCtGA+hVvXyfSNFHEzUJAjbp/NBxLy/6gB7qjHQGdbw1YWeAdcZ3fsDNA0ee8A09ihYr
+ BYyIArFDU0x8NPGG9j2eVtQohq4s9AZdrvA8JvXkVIpnA8il7T6hP8+q3oHLX5peofNT
+ pYebketaS+c+RTU71JFMfTxGXaCgY5tJkdvW0TovrV8d0i5gDf3srLLrWPEjlZAC/mEv
+ kkBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=CSJpyFiQfhsfNodb4hdYZGfoHLbFXB1eKMyoXO2bJv4=;
- b=poGqaajl4rF72mcXp3cLL9m4L7JtbURt9mWv025lK3TSoxfz0TzL7+BvAMLmdtLsWL
- TyReBs6Ry2b5y3sKkhbHWU7zCZfCYPpVEX9VqTI0r+owF65X+QBdzA82eAWag7HazFOV
- TgxtIkEMoHaW/3PrmEFpyWC+bXrB8GM3anLp3In2ErnP6e3/7zux7MwfPUEpAQ0H+lpI
- TDmoAskXzIS+fn3A2c+NkP3au/R1bcWpENv8nbnEgZBbqEBYppJAhtNUu0tYylJtOpxF
- 5gvR1b5v791AB66OqBNwdOdHqwwhSGoEcVzR0msT1M0rkb9w2I1IR+gud7qmwNh0RrGI
- g//g==
-X-Gm-Message-State: ACrzQf0amZ7hF2AcDvaM+N7Vhtle+XYBpucjc4vqMDcip7Z1RRP7Q671
- KFMs7q8Tovxxj+IGc1VEFP6OMrhflO4=
-X-Google-Smtp-Source: AMsMyM5cSCQUd9PpwT+BPB0YmYL/wUoU/cAgcd6Et7KvszJEmspHmVxSg6r9GS5PsSd2xtVvsDGS6Q==
-X-Received: by 2002:a63:188:0:b0:43c:22e9:2d10 with SMTP id
- 130-20020a630188000000b0043c22e92d10mr9596208pgb.12.1664019948644; 
- Sat, 24 Sep 2022 04:45:48 -0700 (PDT)
-Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=fWoApuiA4TYSy6H8gfY1hZbp3SM8uRptP0lQf38gXYY=;
+ b=5IsyRx0pCwrmjT6VSG4hMdAZHeYwlIl62t0ORZwvok9qHzIapOnpQgur+qNZ4L4vQ/
+ 3sxY3gn2ujNYpU5qJMgR78PVF8u+TiziaEYK2SL0PYJTLcDf4evdfDWPuaPOqEBHqt8p
+ w+BUn769kFH5w9bX7MK+4x7VAouGnU3rYArcjdmWDsV0YAfZvwM3nAK7F9PEgS9IaxuV
+ 0vQHqjG2/76Uo8EHVxJ+f/17Jaru0+tv6SGwropgIkPbhDhU/k1dxlzCIZSmHNN6vP2M
+ ZI7dv6ABskyYHeg80kytq4y2a+nVSuPcFvCvWFlHDTzpQ/3lHOB1Q5DBBvmNIXdxczLT
+ LQFA==
+X-Gm-Message-State: ACrzQf2dnx63oYqFwcGtOXXEZQdfioGwaFlPXvHRnX3dIufXrfy0hwCw
+ x7P2nr/m4Enihh3Kw/Pivro=
+X-Google-Smtp-Source: AMsMyM4Asmo16+FoBX4C8Tx85Ps/eFk+50hf8QKoaXq4nuYIdnHG85XaUm8vHNPNWVTFIMTQG1gMzg==
+X-Received: by 2002:a5d:47c5:0:b0:22a:6c7a:10f3 with SMTP id
+ o5-20020a5d47c5000000b0022a6c7a10f3mr7651485wrc.523.1664021409079; 
+ Sat, 24 Sep 2022 05:10:09 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- s1-20020aa78bc1000000b0054a15345162sm8018963pfd.207.2022.09.24.04.45.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Sep 2022 04:45:48 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2] block: Refactor get_tmp_filename()
-Date: Sat, 24 Sep 2022 19:45:44 +0800
-Message-Id: <20220924114544.1906498-1-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ bv4-20020a0560001f0400b00228d6bc8450sm10349555wrb.108.2022.09.24.05.10.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 24 Sep 2022 05:10:08 -0700 (PDT)
+Message-ID: <bd0bf334-f374-6a28-fa57-4b2521bb4a02@amsat.org>
+Date: Sat, 24 Sep 2022 14:10:06 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH v11 03/15] target/hexagon: make slot number an unsigned
+Content-Language: en-US
+To: Anton Johansson <anjo@rev.ng>, qemu-devel@nongnu.org
+Cc: ale@rev.ng, babush@rev.ng, nizzo@rev.ng, tsimpson@quicinc.com,
+ bcain@quicinc.com, mlambert@quicinc.com, richard.henderson@linaro.org,
+ alex.bennee@linaro.org
+References: <20220804115548.13024-1-anjo@rev.ng>
+ <20220804115548.13024-4-anjo@rev.ng>
+In-Reply-To: <20220804115548.13024-4-anjo@rev.ng>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.118,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,153 +95,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On 4/8/22 13:55, Anton Johansson via wrote:
+> From: Paolo Montesel <babush@rev.ng>
+> 
+> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+> Signed-off-by: Paolo Montesel <babush@rev.ng>
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>   target/hexagon/genptr.c | 24 +++++++++++++-----------
+>   target/hexagon/macros.h |  2 +-
+>   2 files changed, 14 insertions(+), 12 deletions(-)
+> 
+> diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
+> index 8a334ba07b..6741278ada 100644
+> --- a/target/hexagon/genptr.c
+> +++ b/target/hexagon/genptr.c
+> @@ -30,7 +30,8 @@
+>   #include "gen_tcg.h"
+>   #include "gen_tcg_hvx.h"
+>   
+> -static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
+> +static inline void gen_log_predicated_reg_write(int rnum, TCGv val,
+> +                                                uint32_t slot)
 
-At present there are two callers of get_tmp_filename() and they are
-inconsistent.
+Using 'unsigned' would keep consistency with the rest of the codebase.
 
-One does:
-
-    /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
-    char *tmp_filename = g_malloc0(PATH_MAX + 1);
-    ...
-    ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
-
-while the other does:
-
-    s->qcow_filename = g_malloc(PATH_MAX);
-    ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
-
-As we can see different 'size' arguments are passed. There are also
-platform specific implementations inside the function, and this use
-of snprintf is really undesirable.
-
-Refactor this routine by changing its signature to:
-
-    char *get_tmp_filename(void)
-
-and use g_file_open_tmp() for a consistent implementation.
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
----
-
-Changes in v2:
-- Use g_autofree and g_steal_pointer
-
- include/block/block_int-common.h |  2 +-
- block.c                          | 42 ++++++++++----------------------
- block/vvfat.c                    |  8 +++---
- 3 files changed, 18 insertions(+), 34 deletions(-)
-
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index 8947abab76..ea69a9349c 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
- }
- 
- int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
--int get_tmp_filename(char *filename, int size);
-+char *get_tmp_filename(void);
- void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
-                                       QDict *options);
- 
-diff --git a/block.c b/block.c
-index bc85f46eed..4e7a795566 100644
---- a/block.c
-+++ b/block.c
-@@ -860,38 +860,23 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
- 
- /*
-  * Create a uniquely-named empty temporary file.
-- * Return 0 upon success, otherwise a negative errno value.
-+ * Return the actual name used upon success, otherwise NULL.
-+ * The called function is responsible for freeing it.
-  */
--int get_tmp_filename(char *filename, int size)
-+char *get_tmp_filename(void)
- {
--#ifdef _WIN32
--    char temp_dir[MAX_PATH];
--    /* GetTempFileName requires that its output buffer (4th param)
--       have length MAX_PATH or greater.  */
--    assert(size >= MAX_PATH);
--    return (GetTempPath(MAX_PATH, temp_dir)
--            && GetTempFileName(temp_dir, "qem", 0, filename)
--            ? 0 : -GetLastError());
--#else
-+    g_autofree char *filename = NULL;
-     int fd;
--    const char *tmpdir;
--    tmpdir = getenv("TMPDIR");
--    if (!tmpdir) {
--        tmpdir = "/var/tmp";
--    }
--    if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
--        return -EOVERFLOW;
--    }
--    fd = mkstemp(filename);
-+
-+    fd = g_file_open_tmp("vl.XXXXXX", &filename, NULL);
-     if (fd < 0) {
--        return -errno;
-+        return NULL;
-     }
-     if (close(fd) != 0) {
-         unlink(filename);
--        return -errno;
-+        return NULL;
-     }
--    return 0;
--#endif
-+    return g_steal_pointer(&filename);
- }
- 
- /*
-@@ -3717,8 +3702,7 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
-                                                    QDict *snapshot_options,
-                                                    Error **errp)
- {
--    /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
--    char *tmp_filename = g_malloc0(PATH_MAX + 1);
-+    char *tmp_filename = NULL;
-     int64_t total_size;
-     QemuOpts *opts = NULL;
-     BlockDriverState *bs_snapshot = NULL;
-@@ -3737,9 +3721,9 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
-     }
- 
-     /* Create the temporary image */
--    ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
--    if (ret < 0) {
--        error_setg_errno(errp, -ret, "Could not get temporary filename");
-+    tmp_filename = get_tmp_filename();
-+    if (!tmp_filename) {
-+        error_setg_errno(errp, errno, "Could not get temporary filename");
-         goto out;
-     }
- 
-diff --git a/block/vvfat.c b/block/vvfat.c
-index d6dd919683..135fafb166 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -3146,10 +3146,10 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
- 
-     array_init(&(s->commits), sizeof(commit_t));
- 
--    s->qcow_filename = g_malloc(PATH_MAX);
--    ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
--    if (ret < 0) {
--        error_setg_errno(errp, -ret, "can't create temporary file");
-+    s->qcow_filename = get_tmp_filename();
-+    if (!s->qcow_filename) {
-+        error_setg_errno(errp, errno, "can't create temporary file");
-+        ret = -errno;
-         goto err;
-     }
- 
--- 
-2.34.1
-
+Otherwise,
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
