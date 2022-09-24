@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E505E8FC1
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 22:59:15 +0200 (CEST)
-Received: from localhost ([::1]:46034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4405E8FC2
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 23:04:53 +0200 (CEST)
+Received: from localhost ([::1]:44248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocCF0-0002xY-LJ
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 16:59:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49244)
+	id 1ocCKS-0005L5-AQ
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 17:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocCDk-0001Xx-Fm
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 16:57:56 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:37535)
+ id 1ocCIH-0003Pb-Tx
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 17:02:37 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:36560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocCDi-0006mR-WC
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 16:57:56 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id s9so2091237qkg.4
- for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 13:57:54 -0700 (PDT)
+ id 1ocCIG-0007b7-Bt
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 17:02:37 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id i3so2099840qkl.3
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 14:02:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=nh2+VbsAk+ezKErt7Nt3xzL8cfWKVPPieBCEHCjmZTs=;
- b=z8ZPfFsy7hVa/qGt3MIPeEVn0/8m6i8VFPGRJWm3r1fTfXX8uaNQFW+Z6ipWR3p2Ep
- UBQ5nMHfaie1bbeiUQkmSQkU78dNNV1fUluJzXM3KE/b0D/S58kEUFDga67KmYThkIPC
- SiRSHQiWf+oC0alDgC8V11UTDbPGXJ2PqBiU0YREQah7k/QOvAOxATRyNvBCT7OIn6Fy
- YRuwWWLUCESUJdqOF/NyttJknNlAZ2/HNtdzJ1saZb2AOLCxIlLU/6JCsrKcxGn9GZLt
- LH4SfxpAHWno6PXqoWa0fBNRUEMtTDwQTDLP+s0iK27mm7GQW3l0nLBcc1vM1oiF8Upm
- CXFQ==
+ bh=kBueCumzOf2fLU9AyGNA0BmXn2vaYCmlNPQulRznmfg=;
+ b=Q+c5KqvIholeh3AYraIh1ApJ1CXlSJS0VxXr+9+rOgMig4BExjGFJ/MENTX36MytXv
+ 3jjhWzU2NN7/tCVs2v2dXV991kKOJQQQHYK8rUXLYsgP5v7VNF2xJsPzRbj9QUW5fXu3
+ p05aQFvWnUn1wI5RcYV/n1KnE4VOHQU8p3iZ5YsWB+trrv1fhzu3Gno7GLDHp13IZ9hv
+ oXZSKW5cK9OGgHdtH8azskroyLQhhwnwBbfXU6kEPC1JTjxnVEMB2wxflbMScwlmgbCg
+ UCz20G5UYLJZd8uqg7ySDf30nx8VljKFyzyAG2ggXqp0Ro7uNbWqL3qYdt0BRAoI6d4f
+ WghA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=nh2+VbsAk+ezKErt7Nt3xzL8cfWKVPPieBCEHCjmZTs=;
- b=2QhgVQPwVBeNOo1CHadbHRoBbe/7kxYg2FzEeJXR6Wf/zkXMjaszPad4Z6yOSDg+1x
- 1q8bDBAu09o1z+AOtFv5CNrmGuX9nJN6mhVOt1Ia/FGAQzz/SARwomd1npNuQk+U2DGC
- vMrE3uBwEDR6zMsOcMCIwkN9hI7W1BAm8EwSnzdZNuQxMx9uDUp+5JlFGTvOp5BHSw6k
- FTbfVO3fOMxZTB8fk6RbNEaG7lq53BKL/S7arr4CSwonQRb37RAGU7abrWnUuFlzvrZZ
- Mvr08ggC/+tLk3CYn+TSqRW/wb97ar0K3d9bg1tlaKf/gkw/hDZZi6ApXeXlSD/nX3xA
- jcaA==
-X-Gm-Message-State: ACrzQf1WeAKvq4K35hWu1nuIQm6JlXzEoynUl5fwphYq6MFEO4amCS45
- jryP8xq7pscfI6DHHJ76G2MiLA==
-X-Google-Smtp-Source: AMsMyM5fTfPF9BVub1BgnbSGcpqSzFb99OBrrOqG5Lyu4RXXeeijJwOFF7pEbVko2PASzwoTV7PTSw==
-X-Received: by 2002:a05:620a:800d:b0:6ce:6f69:d629 with SMTP id
- ee13-20020a05620a800d00b006ce6f69d629mr9710240qkb.594.1664053073933; 
- Sat, 24 Sep 2022 13:57:53 -0700 (PDT)
+ bh=kBueCumzOf2fLU9AyGNA0BmXn2vaYCmlNPQulRznmfg=;
+ b=EVFBWEDdhEu8yC+EbSVjCCKn2yn2QMPcRUPFJBnG0CfZSHFgQkA68PAhzdjFy2ug80
+ lMMgPIjec5ni6ePl6LNrVdGex78GsFmuu2dG0f+w9lPEzZYZawNXPQPwkF0529XBSZmE
+ ViMLclLxGy4V2zSdKru3e1uIHaycyXYo5tCC4va9MptL9DpyfxJbrGwBqk957mWgj6bB
+ MAgg0Gde/P5K+aLWSNipuiYJdOa5z6ZTS0xDz4P8QrbzTTQRRx1nVApzJii2MiVBLT62
+ CE77qTFSvUwUxNPa2HZJ+sYTdvHBnYclPElSaTsFIzflJqFyXMg3ME8Aiw8RzItU6AKz
+ 1cMg==
+X-Gm-Message-State: ACrzQf0T1U/JFtUkKeZIg59Nfy44tM6FMzVx+Svn0JyUPbX4w73JCAPB
+ z2FR5cjRqjI8PNLNi38HDRswLw==
+X-Google-Smtp-Source: AMsMyM6O+3lvsBbNJPuSsTCuECtNliER99OZ924UVJVt0uJGDp1IJGOkf6pX6+lpOcxkZgo9tSjTWw==
+X-Received: by 2002:a05:620a:4306:b0:6cf:6c17:a93f with SMTP id
+ u6-20020a05620a430600b006cf6c17a93fmr8553980qko.88.1664053355357; 
+ Sat, 24 Sep 2022 14:02:35 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80b4:2f4d:42e1:8e60:a726:78e3?
  ([2605:ef80:80b4:2f4d:42e1:8e60:a726:78e3])
  by smtp.gmail.com with ESMTPSA id
- l27-20020a37f91b000000b006ce580c2663sm8522864qkj.35.2022.09.24.13.57.51
+ y2-20020a05622a004200b0035a79e18410sm8888714qtw.48.2022.09.24.14.02.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Sep 2022 13:57:53 -0700 (PDT)
-Message-ID: <ac2bfe74-45fa-a528-00d8-5de67fff41e5@linaro.org>
-Date: Sat, 24 Sep 2022 20:57:46 +0000
+ Sat, 24 Sep 2022 14:02:34 -0700 (PDT)
+Message-ID: <805d6b73-aae1-7df1-2567-6efed592a76d@linaro.org>
+Date: Sat, 24 Sep 2022 21:02:25 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 25/37] target/i386: clarify (un)signedness of
- immediates from 0F3Ah opcodes
+Subject: Re: [PATCH v2 26/37] target/i386: reimplement 0x0f 0x3a, add AVX
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: paul@nowt.org
 References: <20220920172507.95568-1-pbonzini@redhat.com>
- <20220920172507.95568-26-pbonzini@redhat.com>
+ <20220920172507.95568-27-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220920172507.95568-26-pbonzini@redhat.com>
+In-Reply-To: <20220920172507.95568-27-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
@@ -97,17 +96,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/20/22 17:24, Paolo Bonzini wrote:
-> Three-byte opcodes from the 0F3Ah area all have an immediate byte which
-> is usually unsigned.  Clarify in the helper code that it is unsigned;
-> the new decoder treats immediates as signed by default, and seeing
-> an intN_t in the prototype might give the wrong impression that one
-> can use decode->immediate directly.
+> The more complicated operations here are insertions and extractions.
+> Otherwise, there are just more entries than usual because the PS/PD/SS/SD
+> variations are encoded in the opcode rater than in the prefixes.
+> 
+> These three-byte opcodes also include AVX new instructions, whose
+> implementation in the helpers was originally done by Paul Brook
+> <paul@nowt.org>.
 > 
 > Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
 > ---
->   target/i386/ops_sse.h        | 8 ++++----
->   target/i386/ops_sse_header.h | 2 +-
->   2 files changed, 5 insertions(+), 5 deletions(-)
+>   target/i386/ops_sse.h            |  95 ++++++++++
+>   target/i386/ops_sse_header.h     |  10 +
+>   target/i386/tcg/decode-new.c.inc |  75 ++++++++
+>   target/i386/tcg/emit.c.inc       | 309 +++++++++++++++++++++++++++++++
+>   target/i386/tcg/translate.c      |   3 +-
+>   5 files changed, 491 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
