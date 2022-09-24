@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251D55E8CF4
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 15:06:43 +0200 (CEST)
-Received: from localhost ([::1]:38152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D084C5E8CBA
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 14:54:18 +0200 (CEST)
+Received: from localhost ([::1]:55384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc4ri-00051c-7u
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 09:06:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57640)
+	id 1oc4fh-0005ts-Uq
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 08:54:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oc4Go-00010a-P4; Sat, 24 Sep 2022 08:28:34 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:62727)
+ id 1oc4Go-00010n-QT; Sat, 24 Sep 2022 08:28:34 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:62732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oc4Gm-0001Gv-3D; Sat, 24 Sep 2022 08:28:34 -0400
+ id 1oc4Gn-0001Hi-1U; Sat, 24 Sep 2022 08:28:34 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8AC3275A165;
- Sat, 24 Sep 2022 14:28:10 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 78F9A75A16C;
+ Sat, 24 Sep 2022 14:28:11 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 510E475A15D; Sat, 24 Sep 2022 14:28:10 +0200 (CEST)
-Message-Id: <78e9b940fdc6dd0ff671158ca6fa7acefe96d16e.1664021647.git.balaton@eik.bme.hu>
+ id 5977975A16B; Sat, 24 Sep 2022 14:28:11 +0200 (CEST)
+Message-Id: <3517bc5774e741457ef9840ba44f5ad2355bada6.1664021647.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1664021647.git.balaton@eik.bme.hu>
 References: <cover.1664021647.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 20/25] ppc4xx_sdram: Move ppc4xx_sdram_banks() to
- ppc4xx_sdram.c
+Subject: [PATCH v6 21/25] ppc4xx_sdram: Use hwaddr for memory bank size
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -35,7 +34,7 @@ To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 24 Sep 2022 14:28:10 +0200 (CEST)
+Date: Sat, 24 Sep 2022 14:28:11 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -59,204 +58,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function is only used by the ppc4xx memory controller models so
-it can be made static.
+This resolves the target_ulong dependency that's clearly wrong and was
+also noted in a fixme comment.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ppc/ppc4xx_devs.c    | 62 -----------------------------------------
- hw/ppc/ppc4xx_sdram.c   | 61 ++++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/ppc4xx.h | 20 ++++++-------
- 3 files changed, 69 insertions(+), 74 deletions(-)
+ hw/ppc/ppc4xx_sdram.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-index f737dbb3d6..c1d111465d 100644
---- a/hw/ppc/ppc4xx_devs.c
-+++ b/hw/ppc/ppc4xx_devs.c
-@@ -23,73 +23,11 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/units.h"
- #include "cpu.h"
- #include "hw/ppc/ppc4xx.h"
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
- 
--/*
-- * Split RAM between SDRAM banks.
-- *
-- * sdram_bank_sizes[] must be in descending order, that is sizes[i] > sizes[i+1]
-- * and must be 0-terminated.
-- *
-- * The 4xx SDRAM controller supports a small number of banks, and each bank
-- * must be one of a small set of sizes. The number of banks and the supported
-- * sizes varies by SoC.
-- */
--void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
--                        Ppc4xxSdramBank ram_banks[],
--                        const ram_addr_t sdram_bank_sizes[])
--{
--    ram_addr_t size_left = memory_region_size(ram);
--    ram_addr_t base = 0;
--    ram_addr_t bank_size;
--    int i;
--    int j;
--
--    for (i = 0; i < nr_banks; i++) {
--        for (j = 0; sdram_bank_sizes[j] != 0; j++) {
--            bank_size = sdram_bank_sizes[j];
--            if (bank_size <= size_left) {
--                char name[32];
--
--                ram_banks[i].base = base;
--                ram_banks[i].size = bank_size;
--                base += bank_size;
--                size_left -= bank_size;
--                snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
--                memory_region_init_alias(&ram_banks[i].ram, NULL, name, ram,
--                                         ram_banks[i].base, ram_banks[i].size);
--                break;
--            }
--        }
--        if (!size_left) {
--            /* No need to use the remaining banks. */
--            break;
--        }
--    }
--
--    if (size_left) {
--        ram_addr_t used_size = memory_region_size(ram) - size_left;
--        GString *s = g_string_new(NULL);
--
--        for (i = 0; sdram_bank_sizes[i]; i++) {
--            g_string_append_printf(s, "%" PRIi64 "%s",
--                                   sdram_bank_sizes[i] / MiB,
--                                   sdram_bank_sizes[i + 1] ? ", " : "");
--        }
--        error_report("at most %d bank%s of %s MiB each supported",
--                     nr_banks, nr_banks == 1 ? "" : "s", s->str);
--        error_printf("Possible valid RAM size: %" PRIi64 " MiB\n",
--            used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
--
--        g_string_free(s, true);
--        exit(EXIT_FAILURE);
--    }
--}
--
- /*****************************************************************************/
- /* MAL */
- 
 diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
-index cec8fd1978..48f099a4dc 100644
+index 48f099a4dc..be319ecd02 100644
 --- a/hw/ppc/ppc4xx_sdram.c
 +++ b/hw/ppc/ppc4xx_sdram.c
-@@ -43,6 +43,67 @@
+@@ -34,7 +34,6 @@
+ #include "qapi/error.h"
+ #include "qemu/log.h"
+ #include "exec/address-spaces.h" /* get_system_memory() */
+-#include "exec/cpu-defs.h" /* target_ulong */
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/ppc/ppc4xx.h"
+@@ -126,11 +125,6 @@ enum {
+ 
  /*****************************************************************************/
- /* Shared functions */
- 
-+/*
-+ * Split RAM between SDRAM banks.
-+ *
-+ * sdram_bank_sizes[] must be in descending order, that is sizes[i] > sizes[i+1]
-+ * and must be 0-terminated.
-+ *
-+ * The 4xx SDRAM controller supports a small number of banks, and each bank
-+ * must be one of a small set of sizes. The number of banks and the supported
-+ * sizes varies by SoC.
-+ */
-+static void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-+                               Ppc4xxSdramBank ram_banks[],
-+                               const ram_addr_t sdram_bank_sizes[])
-+{
-+    ram_addr_t size_left = memory_region_size(ram);
-+    ram_addr_t base = 0;
-+    ram_addr_t bank_size;
-+    int i;
-+    int j;
-+
-+    for (i = 0; i < nr_banks; i++) {
-+        for (j = 0; sdram_bank_sizes[j] != 0; j++) {
-+            bank_size = sdram_bank_sizes[j];
-+            if (bank_size <= size_left) {
-+                char name[32];
-+
-+                ram_banks[i].base = base;
-+                ram_banks[i].size = bank_size;
-+                base += bank_size;
-+                size_left -= bank_size;
-+                snprintf(name, sizeof(name), "ppc4xx.sdram%d", i);
-+                memory_region_init_alias(&ram_banks[i].ram, NULL, name, ram,
-+                                         ram_banks[i].base, ram_banks[i].size);
-+                break;
-+            }
-+        }
-+        if (!size_left) {
-+            /* No need to use the remaining banks. */
-+            break;
-+        }
-+    }
-+
-+    if (size_left) {
-+        ram_addr_t used_size = memory_region_size(ram) - size_left;
-+        GString *s = g_string_new(NULL);
-+
-+        for (i = 0; sdram_bank_sizes[i]; i++) {
-+            g_string_append_printf(s, "%" PRIi64 "%s",
-+                                   sdram_bank_sizes[i] / MiB,
-+                                   sdram_bank_sizes[i + 1] ? ", " : "");
-+        }
-+        error_report("at most %d bank%s of %s MiB each supported",
-+                     nr_banks, nr_banks == 1 ? "" : "s", s->str);
-+        error_printf("Possible valid RAM size: %" PRIi64 " MiB\n",
-+            used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
-+
-+        g_string_free(s, true);
-+        exit(EXIT_FAILURE);
-+    }
-+}
-+
- static void sdram_bank_map(Ppc4xxSdramBank *bank)
+ /* DDR SDRAM controller */
+-/*
+- * XXX: TOFIX: some patches have made this code become inconsistent:
+- *      there are type inconsistencies, mixing hwaddr, target_ulong
+- *      and uint32_t
+- */
+ static uint32_t sdram_ddr_bcr(hwaddr ram_base, hwaddr ram_size)
  {
-     memory_region_init(&bank->container, NULL, "sdram-container", bank->size);
-diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-index 10c6dd535f..f8c86e09ec 100644
---- a/include/hw/ppc/ppc4xx.h
-+++ b/include/hw/ppc/ppc4xx.h
-@@ -29,18 +29,6 @@
- #include "exec/memory.h"
- #include "hw/sysbus.h"
+     uint32_t bcr;
+@@ -174,9 +168,9 @@ static inline hwaddr sdram_ddr_base(uint32_t bcr)
+     return bcr & 0xFF800000;
+ }
  
--typedef struct {
--    MemoryRegion ram;
--    MemoryRegion container; /* used for clipping */
--    hwaddr base;
--    hwaddr size;
--    uint32_t bcr;
--} Ppc4xxSdramBank;
--
--void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
--                        Ppc4xxSdramBank ram_banks[],
--                        const ram_addr_t sdram_bank_sizes[]);
--
- #define TYPE_PPC4xx_PCI_HOST_BRIDGE "ppc4xx-pcihost"
- 
- /*
-@@ -111,6 +99,14 @@ struct Ppc4xxEbcState {
- };
- 
- /* SDRAM DDR controller */
-+typedef struct {
-+    MemoryRegion ram;
-+    MemoryRegion container; /* used for clipping */
-+    hwaddr base;
+-static target_ulong sdram_ddr_size(uint32_t bcr)
++static hwaddr sdram_ddr_size(uint32_t bcr)
+ {
+-    target_ulong size;
 +    hwaddr size;
-+    uint32_t bcr;
-+} Ppc4xxSdramBank;
-+
- #define SDR0_DDR0_DDRM_ENCODE(n)  ((((unsigned long)(n)) & 0x03) << 29)
- #define SDR0_DDR0_DDRM_DDR1       0x20000000
- #define SDR0_DDR0_DDRM_DDR2       0x40000000
+     int sh;
+ 
+     sh = (bcr >> 17) & 0x7;
+@@ -523,9 +517,9 @@ static inline hwaddr sdram_ddr2_base(uint32_t bcr)
+     return (bcr & 0xffe00000) << 2;
+ }
+ 
+-static uint64_t sdram_ddr2_size(uint32_t bcr)
++static hwaddr sdram_ddr2_size(uint32_t bcr)
+ {
+-    uint64_t size;
++    hwaddr size;
+     int sh;
+ 
+     sh = 1024 - ((bcr >> 6) & 0x3ff);
 -- 
 2.30.4
 
