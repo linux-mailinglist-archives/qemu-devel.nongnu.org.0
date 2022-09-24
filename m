@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CAB5E8FCB
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 23:22:22 +0200 (CEST)
-Received: from localhost ([::1]:39376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E145E8FCD
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 23:23:17 +0200 (CEST)
+Received: from localhost ([::1]:50556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocCbN-00081B-8R
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 17:22:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50596)
+	id 1ocCcG-0001KL-7Y
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 17:23:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocCXz-0004El-7A
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 17:18:51 -0400
-Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:47011)
+ id 1ocCYw-0004qP-6y
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 17:19:55 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:39644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocCXx-0001DE-Ne
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 17:18:50 -0400
-Received: by mail-qk1-x733.google.com with SMTP id d17so2078917qko.13
- for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 14:18:49 -0700 (PDT)
+ id 1ocCYu-0001Ff-53
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 17:19:49 -0400
+Received: by mail-qt1-x833.google.com with SMTP id s18so2056424qtx.6
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 14:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=gX1vlkzCvl9jfnHxTN5KbGoIXxEMeDdtZ/J8eAOLshc=;
- b=KBEVVWf8h1FSH4Cch1japacwl33rNaIeiBke60IrKjNyh8RHEOaiPDHPNaZUSPokY+
- +lt6Spe0HeRD1o7iY+dSwrb60yn5FYf/kM9M85gMXxAU+FRauqz2sKF0GLlSs+fantX9
- oPBPaISHabnp215DjfB4GIiyvvZSPBTzvcgq1lmJoq9vyXVeK638tJlOkZTaF38YjrPn
- X74kdgRAznzixvh0+IBWl5BQBnvP3qgKb76M6e10d7+pEKWSLG93rHW+iZeM7dPDTVvs
- lrJ4DxK1msgoIoRz+IX8Q8Fl1ISJJlfws4Yf0BecGxqUc4PvVf2NtfCZYsxofFQVY491
- dQqQ==
+ bh=XOrWf7e3wjc74UTWibLkWf9+WZkKjTy6gTN1aSAXINQ=;
+ b=MIfUaJBwpkUvy8ChyywPTFx7ui8b1s90yNYdxsAwKpaESvpPXkZeE15joTWzKA76oz
+ JS3f1Yz6NNBsXeemHmFxwcuwqn5SV40GxXY+0urpxblbMcScS/8G/+qVwLdfmgeBFihl
+ 1komRjOxXPiFPavPmtKVJTXf/1GWG9ibE70MvnjK2wRK3jBEjWJRYNRXIcmiKpc0ITXG
+ 5V5x9dtwk+hC4oRpkd6NxZyARKgOocju1mOg3pS4f6sD7Q1a5cZuVgpVzcRy51So7Frs
+ /ddIp0PfueKAQyg88y7Y5K4ywxfAV5yTAme7ggfwK68cuq8X+U/gR9YLbQ3q7c0R+3yL
+ YsgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=gX1vlkzCvl9jfnHxTN5KbGoIXxEMeDdtZ/J8eAOLshc=;
- b=huS0pSfqT3OlB6zlHIGqIV8rI71uGvfnZSVHTGel1LjySqoj2bGGduqycti0kYS5pu
- 7+bsceuT5tuu/a2VMghN+nOHt78QSxsFDBemw1YExzF2WxsEATOB/gAD8CPHFh3cVV2q
- 55jfPBOVhxugf5wKqxQq5T/qgiMMFvGIEP1euHTkgjULT4vfz8lK2sLtmegen9hHjZjx
- x+U1boVV8T0Fv2/8s+znGrhNKqvHHF/tqH3+3dw65WWd/WjzuaBL9rMYwmaDwSqxS9fU
- xN+uggBHA5nHdq3ftA86Qpp9mkB3O+13Dssgm0PhCPs3ug90Q0KOo5wTLmZ2m6HhD8wN
- NfdQ==
-X-Gm-Message-State: ACrzQf3okN7mg+q2jMSQaLLMRCdcTuMDOYu/3MHcOfgzapcKGEhB0y5n
- 9MWdsJVEwcYkiPrQhO7Aoi9KUQ==
-X-Google-Smtp-Source: AMsMyM7MqngR0Il0ZuapCWJ5JvCw7QwaJwzDVVlUVoVtyyQYrAVkea6i/+gnNo5lSNLZxG7DkG1k4A==
-X-Received: by 2002:a37:aa51:0:b0:6cb:cdcd:5953 with SMTP id
- t78-20020a37aa51000000b006cbcdcd5953mr9760617qke.613.1664054328743; 
- Sat, 24 Sep 2022 14:18:48 -0700 (PDT)
+ bh=XOrWf7e3wjc74UTWibLkWf9+WZkKjTy6gTN1aSAXINQ=;
+ b=dhOGjhHvL92M728SS/yqKbpQ2eP/zFY7MS7Zs5UVonzoBSjEQvjgOZk1T7OSeP+04+
+ q/WEJXI4utqiI20akKWMdKy9c+YsXy//UXfO91HCcW5MvtH0v1suuaeANhfkl5trovIh
+ 0YkdvRZES6LlpxXfmb2XZCxtVVWWrECNQY7HIYf2h+uiChwSs83WMncPXEmZ+ayDJ1Me
+ LeM8bmH8V2S+4CBF2O7Wzdn286JrtgOfWILi/1JFxY3AUwlnoCz9ZvFzZsc1ERP4O9Bn
+ 7bxwd2WBcRYWrb0IZHVXoF5wrZ1aSpFFM0Z/2u2TSekXZm/1XM1/CGoxUpwAXSKEbvbi
+ k1Eg==
+X-Gm-Message-State: ACrzQf2UDtoZeB3rZnTVgXzMdNLi/f5Bh7pL/Mp3rdtIvC5j+LFanCuI
+ WUY9AL5AbqN5fEzA/K0kB80Yng==
+X-Google-Smtp-Source: AMsMyM7t3nHgJD2deScf+Pnp4hW8COnTVxcbnd+qmdgTDF3d0ZDha6ZdotQYATXLcxCZ6AfpEgkGRQ==
+X-Received: by 2002:a05:622a:54d:b0:35c:f693:d754 with SMTP id
+ m13-20020a05622a054d00b0035cf693d754mr12742239qtx.181.1664054386437; 
+ Sat, 24 Sep 2022 14:19:46 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80b4:2f4d:42e1:8e60:a726:78e3?
  ([2605:ef80:80b4:2f4d:42e1:8e60:a726:78e3])
  by smtp.gmail.com with ESMTPSA id
- bj36-20020a05620a192400b006ceb8f36302sm8669378qkb.71.2022.09.24.14.18.44
+ g3-20020ac81243000000b00342f8984348sm7903333qtj.87.2022.09.24.14.19.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Sep 2022 14:18:47 -0700 (PDT)
-Message-ID: <2d2b8a3b-1caa-ae63-d30d-952eaa58e539@linaro.org>
-Date: Sat, 24 Sep 2022 21:18:40 +0000
+ Sat, 24 Sep 2022 14:19:45 -0700 (PDT)
+Message-ID: <e06def60-db11-203f-8481-0ffa9570f14c@linaro.org>
+Date: Sat, 24 Sep 2022 21:19:39 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 31/37] target/i386: reimplement 0x0f 0x28-0x2f, add AVX
+Subject: Re: [PATCH v2 32/37] target/i386: implement XSAVE and XRSTOR of AVX
+ registers
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: paul@nowt.org
 References: <20220920172507.95568-1-pbonzini@redhat.com>
- <20220920172507.95568-32-pbonzini@redhat.com>
+ <20220920172507.95568-33-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220920172507.95568-32-pbonzini@redhat.com>
+In-Reply-To: <20220920172507.95568-33-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x733.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x833.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -96,17 +97,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/20/22 17:25, Paolo Bonzini wrote:
-> Here the code is a bit uglier due to the truncation and extension
-> of registers to and from 32-bit.  There is also a mistake in the
-> manual with respect to the size of the memory operand of CVTPS2PI
-> and CVTTPS2PI, reported by Ricky Zhou.
-> 
 > Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
 > ---
->   target/i386/tcg/decode-new.c.inc |  56 +++++++++++++++
->   target/i386/tcg/emit.c.inc       | 120 +++++++++++++++++++++++++++++++
->   target/i386/tcg/translate.c      |   1 +
->   3 files changed, 177 insertions(+)
+>   target/i386/tcg/fpu_helper.c | 78 ++++++++++++++++++++++++++++++++++--
+>   1 file changed, 75 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
