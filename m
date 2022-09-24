@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F5E95E8FB8
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 22:45:28 +0200 (CEST)
-Received: from localhost ([::1]:53190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B3E5E8FBE
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 22:55:27 +0200 (CEST)
+Received: from localhost ([::1]:54954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocC1f-0005sp-Lw
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 16:45:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44946)
+	id 1ocCBK-0008Ld-8l
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 16:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocC02-0003PA-RL
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 16:43:46 -0400
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:34700)
+ id 1ocC9V-0006sy-Kh
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 16:53:34 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:34716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocC01-0004xq-4c
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 16:43:46 -0400
-Received: by mail-qk1-x735.google.com with SMTP id g2so2093370qkk.1
- for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 13:43:44 -0700 (PDT)
+ id 1ocC9R-00068n-Co
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 16:53:33 -0400
+Received: by mail-qk1-x731.google.com with SMTP id g2so2100793qkk.1
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 13:53:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=FlRTO0R8D/30i8IY9uwcQSEag684lykjkRugsADkBhw=;
- b=rWlUhaA2e80k3YIO6SF0Ya5gqjAuU9k7mG62mfBcQybOdnxbvRnqRRBWJBP297l7KZ
- OIRnZqu6bbUEVgyYMltVWJ0gNL/noQ/2dF9CfqYjP7GS/Pu6B4909HxKjS44kHBkHKD3
- 3ulVulp/sNUmCie8PkRLpcc2cwaBeUwE2OeNvRg+3RnM12ugWsdO7pLKyfCKJflPQoA7
- DIYeC//1KSc5Gf87R2NrHy1Ht9EcB+lb5e9pLJWfmfGt3yxYnYg6Sx/yadADXf4wK5Pw
- UQOlChe7DAtl3oHqo7NioruT93+fQ0Uf8cWFU5IqmiFoz3a7elFGmdhdDnNuDmfhuXGM
- UuRQ==
+ bh=kNvDpK4JNbEziFejJMBwH5QHqJate6wtymOmHvJan78=;
+ b=qhhjNDUbXpSaBX8f24Un/DsouAc4C363i85w8fjzY4a1rD8r7u159m3DQcJSX5cBcw
+ d3lrsSPxSpz+K9LAPQN+U8ri0/GCGh41+REZKf0SCgELe+oOGwcfV6r84O1v2z5wZ7Fs
+ 9NiwX6xC2sphwTElFsFY97udZL+b3N4lV7lCG48WZqfX/r8FHII93ymThWxsyUwEqDyx
+ tv5OLRoM8LIdo0KlTPhcViJdFFypoJy0QQvuzTIgYFf0K4KuhyNKOVN4SIhshlxMPrSz
+ IgfpQ3eD1eUEhQRqoFNvN4hRREFIxBHd4/Kn66Oy4fNxOyhhipr88/GeAT9xxUZWKnsG
+ 5JTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=FlRTO0R8D/30i8IY9uwcQSEag684lykjkRugsADkBhw=;
- b=WQzi65QrxjrZ5I7p/4DXe1+bKzb9Z4uHqhi2xqAIiVZN4gX2FKr14kMjB9siP43BI4
- 4J/rMGKnY8V9+xKoWi4Eg5xzDxkHtImxZjY7njAU9h2XEi2EIQ2psMmE71W0fwNvDRAm
- CofQI1h6HFxA/fPdLZFu1rR2ZK6uddD1cE6GdB4cZx9c3KsXmwAyqX2L54VpEIeaX2O3
- 72p2NiCuH6Svb56APT57nb1V4F+gQuHsbjhuLLgkkg/H8M9ETpAhMrVij+XGDSDUr0Nh
- zrc1hqwFXfg8A3Qi8l/MCdoU4QfjL1REzC2BzT78DZQ+fOdxl93x6Fs5RK/thBZqVg/9
- bFDA==
-X-Gm-Message-State: ACrzQf2r04xpulNI9leRKyRnDoTZr6zCch3T1rZVW6bUzWPJcQmiNrVv
- VLjcomcblWvQ473sWeNNCADdNA==
-X-Google-Smtp-Source: AMsMyM5vOwoPcHPHwCfhAV35n8JyB356oleYGOqfqyZMjgUMhXyk8ACvuLbjKu7WCPBH17vuIMdfrg==
-X-Received: by 2002:a05:620a:957:b0:6cd:ed32:ed2e with SMTP id
- w23-20020a05620a095700b006cded32ed2emr9857436qkw.48.1664052224042; 
- Sat, 24 Sep 2022 13:43:44 -0700 (PDT)
+ bh=kNvDpK4JNbEziFejJMBwH5QHqJate6wtymOmHvJan78=;
+ b=ELMrw2IRWZ1gQgHTeaaPmWm5zGy9OFvjXRgcEizSbcGVYMVhAAIfo/kMVngfR55i0g
+ v96I6CqE67OKNzYuiIqEJ+casJIiMR6r9JTM5rGFzZJUUZE6E1usORE5tfzHdgG+keyj
+ 2mOLmBSsWui4FsQ/hSUXKYugb0WWZOYuPrrLFvSuhRtPehGe2RP4hDtNWYGt8122PpN0
+ gysnwSiQIPzy5hi6dqc8Nz3UQsQs3f1Ozn/MoHpbgaB3MS29AWcmn9K+de4UYRA+3zW9
+ SVn5lEgmlHHi6IJDToqqFaGJut5JAKsHR61o43ln3NDT4eyEWJ7CcgELGqpbj5yuXHyz
+ nrLg==
+X-Gm-Message-State: ACrzQf0C6amkBODBAXkQkgTVU7JtCt1G9XKevNf2hCP4VTaFe5PUl1ai
+ Bzcn0l0HfqVqINi9uu297XjpEw==
+X-Google-Smtp-Source: AMsMyM6boi3b2xx/dc5VJ6AxjEspLSHYd1a2kYmJ5wWmB595LKjyNDiWggU9spSiJn/usBehSETcvw==
+X-Received: by 2002:a05:620a:4450:b0:6ce:968b:d43f with SMTP id
+ w16-20020a05620a445000b006ce968bd43fmr9523199qkp.570.1664052808130; 
+ Sat, 24 Sep 2022 13:53:28 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80b4:2f4d:42e1:8e60:a726:78e3?
  ([2605:ef80:80b4:2f4d:42e1:8e60:a726:78e3])
  by smtp.gmail.com with ESMTPSA id
- s2-20020a05620a0bc200b006ce7d9dea7asm8285045qki.13.2022.09.24.13.43.40
+ x22-20020a05620a259600b006bac157ec19sm8395774qko.123.2022.09.24.13.53.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Sep 2022 13:43:43 -0700 (PDT)
-Message-ID: <dae44515-adf2-78fb-fd91-dd310849b6a7@linaro.org>
-Date: Sat, 24 Sep 2022 20:43:34 +0000
+ Sat, 24 Sep 2022 13:53:27 -0700 (PDT)
+Message-ID: <cca89a61-2a58-a0ef-66d8-513e2d171700@linaro.org>
+Date: Sat, 24 Sep 2022 20:53:18 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 22/37] target/i386: reimplement 0x0f 0x78-0x7f, add AVX
+Subject: Re: [PATCH v2 23/37] target/i386: reimplement 0x0f 0x70-0x77, add AVX
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Cc: paul@nowt.org
 References: <20220920172507.95568-1-pbonzini@redhat.com>
- <20220920172507.95568-23-pbonzini@redhat.com>
+ <20220920172507.95568-24-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220920172507.95568-23-pbonzini@redhat.com>
+In-Reply-To: <20220920172507.95568-24-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x735.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x731.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -96,36 +96,37 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/20/22 17:24, Paolo Bonzini wrote:
-> +static void decode_0F78(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
+> +static TCGv_ptr make_imm8u_xmm_vec(uint8_t imm, int vec_len)
 > +{
-> +    static const X86OpEntry opcodes_0F78[4] = {
-> +        {},
-> +        X86_OP_ENTRY3(EXTRQ_i,       V,x, None,None, I,w,  cpuid(SSE4A)),
-> +        {},
-> +        X86_OP_ENTRY3(INSERTQ_i,     V,x, U,x, I,w,        cpuid(SSE4A)),
-> +    };
-> +    *entry = *decode_by_prefix(s, opcodes_0F78);
+> +    MemOp ot = vec_len == 16 ? MO_128 : MO_256;
+> +    TCGv_i32 imm_v = tcg_constant8u_i32(imm);
+> +    TCGv_ptr ptr = tcg_temp_new_ptr();
+> +
+> +    tcg_gen_gvec_dup_imm(MO_64, offsetof(CPUX86State, xmm_t0) + xmm_offset(ot),
+> +                         vec_len, vec_len, 0);
+> +
+> +    tcg_gen_addi_ptr(ptr, cpu_env, offsetof(CPUX86State, xmm_t0));
+> +    tcg_gen_st_i32(imm_v, ptr, offsetof(ZMMReg, ZMM_L(0)));
+
+tcg_gen_st_i32(imm, cpu_env, offsetof(CPUX86State, xmm_t0.ZMM_L(0)));
+
+> +static void gen_VZEROUPPER(DisasContext *s, CPUX86State *env, X86DecodedInsn *decode)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < CPU_NB_REGS; i++) {
+> +        int offset = ZMM_OFFSET(i) + offsetof(ZMMReg, ZMM_X(0));
+> +        tcg_gen_gvec_mov(MO_64, offset, offset, 16, 32);
+> +    }
 > +}
 
-These are sse4a.
+This has the same big-endian problem as MOVQ, wrt which end is cleared?
 
-> +static void decode_0F79(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
-> +{
-> +    if (s->prefix & PREFIX_REPNZ) {
-> +        entry->gen = gen_INSERTQ_r;
-> +    } else if (s->prefix & PREFIX_DATA) {
-> +        entry->gen = gen_EXTRQ_r;
-> +    } else {
-> +        entry->gen = NULL;
-> +    };
-> +}
-...
-> +    [0x79] = X86_OP_GROUP2(0F79,       V,x, U,x,       cpuid(SSE4A)),
+Perhaps better for now as
 
-These are not -- they're AMD New Media.
+   offset = ZMM_OFFSET(i) + offsetof(ZMMReg, ZMM_X(0));
+   tcg_gen_gvec_dupi(MO_64, offset, 16, 16, 0)
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
