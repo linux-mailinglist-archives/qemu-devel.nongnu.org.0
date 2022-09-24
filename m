@@ -2,47 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1A05E8D0D
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 15:20:42 +0200 (CEST)
-Received: from localhost ([::1]:46272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E70A65E8D28
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Sep 2022 15:41:55 +0200 (CEST)
+Received: from localhost ([::1]:48568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oc55E-00059P-MC
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 09:20:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53010)
+	id 1oc5Pm-0004Pg-K8
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 09:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oc4uh-0001yT-2J; Sat, 24 Sep 2022 09:09:47 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:64458)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oc5NJ-0002AC-CY
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 09:39:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oc4ub-0006vL-Qi; Sat, 24 Sep 2022 09:09:46 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BF786759B50;
- Sat, 24 Sep 2022 15:09:38 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 89392746E06; Sat, 24 Sep 2022 15:09:38 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 863F0746307;
- Sat, 24 Sep 2022 15:09:38 +0200 (CEST)
-Date: Sat, 24 Sep 2022 15:09:38 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 00/10] Misc ppc/mac machines clean up
-In-Reply-To: <cover.1663368422.git.balaton@eik.bme.hu>
-Message-ID: <9c9cf132-bc4f-2e21-8956-a99ec66f4a3@eik.bme.hu>
-References: <cover.1663368422.git.balaton@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oc5NG-0003Px-4R
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 09:39:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664026754;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=Hg9ceNHPMf4pPw8510EWjxndUNdlBUU3CIpKMAcFtpe1BIOnVAK88j/ObusVr0dJ6DZdcO
+ ytDGGr3fixCOX6Wp0uc+R74rM7IDleEKiRHNv6wCjSq+wntE5HCf7Ib/GXnuoWuzra5zOq
+ /qrw4+PrjXzMNjZvbk9qWrq5yykGSyU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-166-Ggv4EMlLOIiZg5RCOedW5w-1; Sat, 24 Sep 2022 09:39:09 -0400
+X-MC-Unique: Ggv4EMlLOIiZg5RCOedW5w-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ y9-20020a056402270900b00451dfbbc9b2so1916645edd.12
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 06:39:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=GPEQXQWqG8+lEIrLKSxmU1odA2V2rVsK1QBlYGMk4KQlS7GWLddkz0hb237vscnHXz
+ fIZetKPPzRo4Xr/rQkEPldIu6wVQnzQHtCJjlTf6wOoUmiZoED8/ugBk4j165IeNCInZ
+ eRvExBd1UtySIPdB71o78op5mMc9xwMuU73ehWc/MaedXcmQrblfMvXTT7X0ARtgmxt1
+ bEO3vPkMsMHVqSHTEgqbsx56wvLmor8ovXurHPHjMb3rb/p9ZNgSNp7ddfmsgSDxOxWc
+ R1UvZ7qZ+QQ6+piPaKflOUfcWW+kS8QfrOXOtRW3j9dpKYSv5AnyyhjW7sg2Xggt/tkE
+ LLwA==
+X-Gm-Message-State: ACrzQf13TBmUq7DOeccqeQSzTJ0oSlQbBu/7T6TNwRD6oSXttdvmBmFT
+ ryP92fTD44JfBUYNrqhPNUkFege+txnTTUTqwGzDcn2OFARG3pbL1aK1w43iAueyAYnokN2QHzI
+ TFkW8MVeEVwquxqI=
+X-Received: by 2002:a17:907:3f28:b0:781:e093:d0db with SMTP id
+ hq40-20020a1709073f2800b00781e093d0dbmr11045263ejc.295.1664026748848; 
+ Sat, 24 Sep 2022 06:39:08 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6afPuGX4erJnVQebSMS8jtI9LpYS/pFWCCedK9lgp3SCaLxnQXIFiwJ/ruZer9MxfatSQRdA==
+X-Received: by 2002:a17:907:3f28:b0:781:e093:d0db with SMTP id
+ hq40-20020a1709073f2800b00781e093d0dbmr11045255ejc.295.1664026748642; 
+ Sat, 24 Sep 2022 06:39:08 -0700 (PDT)
+Received: from avogadro.local ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
+ by smtp.gmail.com with ESMTPSA id
+ a11-20020aa7d74b000000b00456e4ba149esm2016217eds.23.2022.09.24.06.39.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 24 Sep 2022 06:39:08 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Ray Zhang <zhanglei002@gmail.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] target/i386/kvm: fix kvmclock_current_nsec: Assertion
+ `time.tsc_timestamp <= migration_tsc' failed
+Date: Sat, 24 Sep 2022 15:39:05 +0200
+Message-Id: <20220924133905.54088-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220922100523.2362205-1-zhanglei002@gmail.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ TVD_SPACE_RATIO=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,49 +100,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 17 Sep 2022, BALATON Zoltan wrote:
-> This series includes some clean ups to mac_newworld and mac_oldworld
-> to make them a bit simpler and more readable, It also removes the
-> shared mac.h file that turns out was more of a random collection of
-> unrelated things. Getting rid of this mac.h improves the locality of
-> device models and reduces unnecessary interdependency.
+Queued, thanks.
 
-Ping? Patches still needing review: 3, 4, 6, 8, 10
+Paolo
 
-Regards,
-BALATON Zoltan
-
-> BALATON Zoltan (10):
->  mac_newworld: Drop some variables
->  mac_oldworld: Drop some more variables
->  mac_{old|new}world: Set default values for some local variables
->  mac_newworld: Simplify creation of Uninorth devices
->  mac_{old|new}world: Reduce number of QOM casts
->  hw/ppc/mac.h: Move newworld specific atuff out from shared header
->  hw/ppc/mac.h: Move macio specific atuff out from shared header
->  hw/ppc/mac.h: Move grackle-pcihost declaration out from shared header
->  hw/ppc/mac.h: Move PROM and KERNEL defines to board code
->  hw/ppc/mac.h: Rename to include/hw/nvram/mac_nvram.h
->
-> MAINTAINERS                   |   1 +
-> hw/ide/macio.c                |   1 -
-> hw/intc/heathrow_pic.c        |   1 -
-> hw/intc/openpic.c             |   1 -
-> hw/misc/macio/cuda.c          |   1 -
-> hw/misc/macio/gpio.c          |   1 -
-> hw/misc/macio/macio.c         |  27 ++++-
-> hw/misc/macio/pmu.c           |   1 -
-> hw/nvram/mac_nvram.c          |   2 +-
-> hw/pci-host/grackle.c         |   2 +-
-> hw/pci-host/uninorth.c        |   1 -
-> hw/ppc/mac.h                  | 105 ----------------
-> hw/ppc/mac_newworld.c         | 220 ++++++++++++++++------------------
-> hw/ppc/mac_oldworld.c         | 105 +++++++---------
-> include/hw/misc/macio/macio.h |   2 +-
-> include/hw/nvram/mac_nvram.h  |  49 ++++++++
-> 16 files changed, 222 insertions(+), 298 deletions(-)
-> delete mode 100644 hw/ppc/mac.h
-> create mode 100644 include/hw/nvram/mac_nvram.h
->
->
 
