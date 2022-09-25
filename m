@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 371F75E9206
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 12:19:25 +0200 (CEST)
-Received: from localhost ([::1]:58218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536775E9212
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 12:22:53 +0200 (CEST)
+Received: from localhost ([::1]:58264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocOjM-000254-Ay
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 06:19:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55892)
+	id 1ocOmi-00041K-Ev
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 06:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocOcN-0003Se-Mc
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 06:12:11 -0400
-Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:45657)
+ id 1ocOdp-0004gT-7w
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 06:13:41 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:36687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocOcM-0003I7-3e
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 06:12:11 -0400
-Received: by mail-qv1-xf2c.google.com with SMTP id mi14so2728787qvb.12
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 03:12:09 -0700 (PDT)
+ id 1ocOdm-0003Tf-Lz
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 06:13:40 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id h21so2584825qta.3
+ for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 03:13:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=gzQKjbR5GmyA7CW4/I00rYihmZIfR24Zm9zAQFZBsyg=;
- b=tazHoA4xI4s4VZSIhnpBqqLxGMAA4oBZ6PnHfMLAJwSnwxd05/KKT2B0P6U6A5eDuM
- q9TKGApVxOQ/iAnsJO7MRg3BMPwlIc4xutbrC+oUJ0UHJj67/XowZA9ucX1oAB+kCwcJ
- aan32ww7l2unSMF/p4cbvRvbn+383YRH3Xno6cTbhSv91E9vuGB6b6Ql3RwK3WCo8b0a
- xOGfvKp3FXtQ3kkru5Li2+5SFZ1QZrKoTXO6GdovOpvSiUwe9NuAjDbRM/mqIHfv9cSF
- bLc73pQ6+RRC8XogeD2E8Uezad33DLMmwxGGvjSR3zACp0ZpSmO9h9v6oEocjb213NP3
- ltcw==
+ bh=HAkWEPB3QTD4uU/wGZIiOD55OtY0XtC+4BLlyHw3x30=;
+ b=CyYHFsTyMjHhnI8ZDHh/2/nGv2F9NS1PybsDcjjvZ9I+hVHMx7ttn5SKpWH8p1SIC0
+ klUKcP4K87/jt8CvUxc2bnCLDU25vj3RdVqAAGRx5/N9MDD+Ta5pXMTDVGQFjGVnjawH
+ NjMn4SmQRieG1Huw96DqdHuDRhWZxMel1irW0CM8lIeoYAn87t+M+F9IkQE+zmPlVLDy
+ 12YJKR/oKXf8jVDK0K5ulYKoxMY2T61TaFm7EY3uBcsz36IRjmLfQjUhdTKkboCtZluB
+ P0/ArdR30ktjzIUi7VmiZKb2Sl1ivI5y2XmvUVyrZvOssDh8DwOvuQ9btbhBIEgBQ9EI
+ mfeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=gzQKjbR5GmyA7CW4/I00rYihmZIfR24Zm9zAQFZBsyg=;
- b=fo9XQ9SYHGRKZi81dce2rmUZBj90+7AvdpajatQWYXTrn54/Fq8prBzlo6R4kPuyh9
- 4orkfFDRRhvYW1IE3g6TJqjb2YqLgMMk6ezPz3oCF1BwOsFo1VXxXK5S/SrHgKBreKSH
- 3wJdj8PChGIppQsA8R7sohGm2iNdZsZA30eo3bsMC5HOr2mBEsl8lw2nWX53zH+6F2BA
- sz33fe/Qph1OvxwrO5bKwXEdtOb++GXfjFm7fdWmEygKpGUrjA9tthKzTWTUX0SYHhZ1
- 30WIQcsFULHr4o6EhIioR+sg1ShbSttgsbG7b4Jv/IBGZhq5qhfw6c0XqDJLMHeJnGNe
- PdYA==
-X-Gm-Message-State: ACrzQf15Uste7L043krA/D/qIubiY1K3RfLNg83OGrqFAzafOcKaMBJd
- wijmHgM/Te4Ih1yvnShz2iUfXA==
-X-Google-Smtp-Source: AMsMyM6v2HsGWhBhdeq2GAhnUQNAvU+720tZa3CUH5yZZDHMRd9Vh/lLf0JS1+XqsLk/ni7Ufc9FOg==
-X-Received: by 2002:ad4:5def:0:b0:4ac:b5b9:333 with SMTP id
- jn15-20020ad45def000000b004acb5b90333mr13364372qvb.121.1664100728950; 
- Sun, 25 Sep 2022 03:12:08 -0700 (PDT)
+ bh=HAkWEPB3QTD4uU/wGZIiOD55OtY0XtC+4BLlyHw3x30=;
+ b=pow0feQ70G80u5SiG1YLpUSF73cHbtAwSixusJRV8N5QUTZK7g8K9SISBI/+A/9ne9
+ uVQl7DdSCtuR23sxd6M4kg/ymAZ3SoQ8VBtEFhuUU4SPpAWLEb+Vb5P5mUWTaN4IoEez
+ eqNWdcnoNBdQn2XpEjU9cSuXz+BX+5tDya6sVcJkcZw2bGdV7eNKi/yLWd+1VCFjU/IS
+ +VXXqdCCRnERiPbezP2bQhaVG1g5UnaASpjyVkO4fPP6zFiBo+ANyWAn0OfY7G9dC/+l
+ TQUHe9SfwL3a4+EUS1vLy1hvk/UE6JP9/T4qLzpnQglKwoYemUIVVMOtruMjw9YMLRtV
+ REfg==
+X-Gm-Message-State: ACrzQf3zPxTA0cWRyS60HZq5jxQaTKOcVatJIbYbGRrQLTp709kMvUG3
+ BM0alWdwMmTDXkf9z7yfFILNOA==
+X-Google-Smtp-Source: AMsMyM5QP5LSng8Zl1tBrn7gTr7rATgPBWC8hCiTbcDIl8kPnMnAQzirsAGhHHcrRSBsdLDjxQWoXA==
+X-Received: by 2002:ac8:5705:0:b0:35c:d722:175d with SMTP id
+ 5-20020ac85705000000b0035cd722175dmr13530306qtw.192.1664100817001; 
+ Sun, 25 Sep 2022 03:13:37 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:80b2:413a:430d:cdd2:88af:d4b3?
  ([2605:ef80:80b2:413a:430d:cdd2:88af:d4b3])
  by smtp.gmail.com with ESMTPSA id
- v6-20020a05620a0f0600b006bc0980db76sm10019736qkl.126.2022.09.25.03.12.05
+ r1-20020ae9d601000000b006cbbc3daaacsm9525794qkk.113.2022.09.25.03.13.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 25 Sep 2022 03:12:08 -0700 (PDT)
-Message-ID: <4b2f9900-b936-f069-9808-9b539ec587d0@linaro.org>
-Date: Sun, 25 Sep 2022 10:11:58 +0000
+ Sun, 25 Sep 2022 03:13:36 -0700 (PDT)
+Message-ID: <f02628e5-40d8-5016-4f29-0acf78309739@linaro.org>
+Date: Sun, 25 Sep 2022 10:13:26 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v1 5/9] configure: move detected gdb to TCG's
- config-host.mak
+Subject: Re: [PATCH v1 6/9] gdbstub: move into its own sub directory
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, mads@ynddal.dk
+Cc: f4bug@amsat.org, mads@ynddal.dk, Stefan Hajnoczi <stefanha@redhat.com>
 References: <20220922145832.1934429-1-alex.bennee@linaro.org>
- <20220922145832.1934429-6-alex.bennee@linaro.org>
+ <20220922145832.1934429-7-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220922145832.1934429-6-alex.bennee@linaro.org>
+In-Reply-To: <20220922145832.1934429-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82c.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -98,14 +97,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/22/22 14:58, Alex Bennée wrote:
-> When tests/tcg gained it's own config-host.mak we forgot to move the
-> GDB detection.
+> This is in preparation of future refactoring as well as cleaning up
+> the source tree. Aside from the minor tweaks to meson and trace.h this
+> is pure code motion.
 > 
-> Fixes: 544f4a2578 (tests/tcg: isolate from QEMU's config-host.mak)
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   configure | 7 +++++++
->   1 file changed, 7 insertions(+)
+>   meson.build                    |  4 +++-
+>   gdbstub/trace.h                |  1 +
+>   gdbstub.c => gdbstub/gdbstub.c |  2 +-
+>   MAINTAINERS                    |  2 +-
+>   gdbstub/meson.build            |  1 +
+>   gdbstub/trace-events           | 29 +++++++++++++++++++++++++++++
+>   trace-events                   | 28 ----------------------------
+>   7 files changed, 36 insertions(+), 31 deletions(-)
+>   create mode 100644 gdbstub/trace.h
+>   rename gdbstub.c => gdbstub/gdbstub.c (99%)
+>   create mode 100644 gdbstub/meson.build
+>   create mode 100644 gdbstub/trace-events
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
