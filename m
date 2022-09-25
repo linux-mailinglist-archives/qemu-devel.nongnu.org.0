@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C685E917A
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 09:39:00 +0200 (CEST)
-Received: from localhost ([::1]:35436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887D15E91B3
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 10:44:16 +0200 (CEST)
+Received: from localhost ([::1]:46020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocME7-0003x7-8m
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 03:38:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60312)
+	id 1ocNFH-0004lT-55
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 04:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1ocMAz-00016z-6y
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 03:36:02 -0400
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:46843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1ocMAu-00072m-MY
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 03:35:44 -0400
-Received: by mail-lf1-x135.google.com with SMTP id a8so6353774lff.13
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 00:35:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=hEv8LaCI1ERsaT2FEs1BJi5p6Ezc92QKj93WcZTbdPk=;
- b=OECwu5upX9d1LHxmMyHdz3ndu2Zi801w3/N2aHyFpfo/oV9hKxm3wWbuwDN7/XjEcH
- hDZCmN7VLFekmTm3HK5fBHDt9ZhDM0y0DePtnSOIqdEGex8YOFywt7UnMV/o9fBxjtJH
- tJu3IbBC08xsCtMJfv8OkKNNtQtRnlCFDYPKTQgo9wGMkyO08Ib3IYbjFFhIz+8cdCLd
- 1AyrxyLJoTOjkNi5IKGs8xW64dGvSiyXSWHO8jT0iHGyw/Fu6YWiza1/wctdcCtqL025
- 5ZvNZePSSw4/hYzb6ppHmquNhNyYkxe5P26Kmn/NnNr808gkRJrhBgMj61TcYEIBolpZ
- j3BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=hEv8LaCI1ERsaT2FEs1BJi5p6Ezc92QKj93WcZTbdPk=;
- b=5PJFDb5kOa5Hzj2rcCkBbBMm1I3iAf7yirj2Br2FMUuH9BN6waHBCnLO2UDIBNARxS
- IIP7DF/qcvUMQwMC/2EF/KPDDZbKUM6qA5hGIjJ/aB5kKtV3himpf1kD6T8DlmVQIDbj
- 97r3funcjh+B43RwYweWOxKy6lPE6PAHePjo9cCzAfGShDPw/gsEgRZSWqDMFibBi+AG
- TWvd9JF4SGvJuMQ2mDrLm4pfoQcstPAL8cuoWjMJyT1SDz+COVh29i+IZ6ACaNOp0Y3b
- mcO0ilVOrUcWWNMYk1/BzIZCV/L3MD14thGFZHjiyFvTMpmWlPoMVnPGKsJ2TyVLF5HE
- AjOw==
-X-Gm-Message-State: ACrzQf0tEWkY6JNBvTckh3608TFg7SGuCf8VqQQsOdH+bzgMJPEfynos
- JIfheRL7jSK/F/UagmxrnATPN6yyGVbJHW5H
-X-Google-Smtp-Source: AMsMyM7Zssp8Uay07qS1osX0OGkxqeOYnPLh3GvseB5k1/IYukfDijfz/mYvIm32rEgGvWfzfeIxxw==
-X-Received: by 2002:a05:6512:2242:b0:49d:7f0e:eb4b with SMTP id
- i2-20020a056512224200b0049d7f0eeb4bmr6184912lfu.128.1664091338191; 
- Sun, 25 Sep 2022 00:35:38 -0700 (PDT)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com.
- [209.85.208.179]) by smtp.gmail.com with ESMTPSA id
- j27-20020a056512029b00b004977e865220sm2131562lfp.55.2022.09.25.00.35.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 25 Sep 2022 00:35:37 -0700 (PDT)
-Received: by mail-lj1-f179.google.com with SMTP id q17so4285737lji.11;
- Sun, 25 Sep 2022 00:35:37 -0700 (PDT)
-X-Received: by 2002:a05:651c:103c:b0:26c:5d79:63bf with SMTP id
- w28-20020a05651c103c00b0026c5d7963bfmr5388620ljm.412.1664091336827; Sun, 25
- Sep 2022 00:35:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ocNCV-0001y8-BK; Sun, 25 Sep 2022 04:41:24 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ocNCT-0007kU-3J; Sun, 25 Sep 2022 04:41:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=e2yi+QVI2r85pVFw7rx3EE40kQEJN8jPnYzxne2fQXk=; b=Uq7TNSMiIpSt/8rOXyUUZNT6m9
+ 1JApOeA2b5q2Ge9DCUxyx0zYnFtJoNhkOEWGYdmYtBHGWqxK/e2MdW4dNXHzjJmJLt+dEMUtXdiJd
+ xTBbf9qawjVAiCS+S7iApLIRvC4v+v3Bi1qbOurlYcKpXNkWF6iRuLpJKjui1CjF3wkqG5EPtsRfG
+ UlWiyAotXMznsB0TcOSc9uDLCV0OCBL3F/ZVs+ejvvhZdXtpZBr4AthzTon7kIfe5IM1ozGMG6Xgo
+ kSu/81Zw/ZFmGX4mzSZmzIMBD3nas50j3YEXNjh+tOgX1BF3oUh8pJl6vOnKCsnjHDETRi0bfqJrO
+ n66A/YA974hiiRk09NoRbqjFrODTVc+8/QLmrGlz+d/+l7EqosmeGLvo+MRgKzCLYAq09Onw/M2u/
+ OLVLIAp3u1Sze4oJ6Tol2rwoGjeX9lp4nOb+KgCilzRhsdpmurwJIhs/bEl0m5jmYS0SAGFUUGX1T
+ D7Qw46IA2rMlTfHXiXaJbnDa4WUCx7hGMOutLtg3YlsVc5CdS7NZfgYM5bhug2iJT9V2DdL1uI7Mm
+ uSXc7cqh0T0phqA4r8S/tiogpJay9TnTIluxKinJfTPiK3LoHJoYrFAhLn20WIhmUV82tAxPyY8gJ
+ jjvw5Mt+e7m/Tziwl69pTI8n0fpIpi01mlV1lgXKM=;
+Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ocNAg-0006ld-VC; Sun, 25 Sep 2022 09:39:35 +0100
+Message-ID: <5ddd79bb-7a54-750e-8ca4-a928ee98b185@ilande.co.uk>
+Date: Sun, 25 Sep 2022 09:41:08 +0100
 MIME-Version: 1.0
-References: <20220817074802.20765-1-liuyang22@iscas.ac.cn>
- <20220817074802.20765-2-liuyang22@iscas.ac.cn>
-In-Reply-To: <20220817074802.20765-2-liuyang22@iscas.ac.cn>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Sun, 25 Sep 2022 15:35:25 +0800
-X-Gmail-Original-Message-ID: <CANzO1D1CtQ9nNRDuoU7xvjy1fU_9=a=ddeePR-HuQWeAG8uc=w@mail.gmail.com>
-Message-ID: <CANzO1D1CtQ9nNRDuoU7xvjy1fU_9=a=ddeePR-HuQWeAG8uc=w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] target/riscv: rvv-1.0: vf[w]redsum distinguish
- between ordered/unordered
-To: Yang Liu <liuyang22@iscas.ac.cn>
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com, 
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn, 
- lazyparser@gmail.com, liweiwei@iscas.ac.cn
-Content-Type: multipart/alternative; boundary="000000000000016b5405e97b7596"
-Received-SPF: pass client-ip=2a00:1450:4864:20::135;
- envelope-from=frank.chang@sifive.com; helo=mail-lf1-x135.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1663368422.git.balaton@eik.bme.hu>
+ <2f35db85d9f817a2e7c9d994bd8906bc8ec16945.1663368422.git.balaton@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <2f35db85d9f817a2e7c9d994bd8906bc8ec16945.1663368422.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 01/10] mac_newworld: Drop some variables
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.118,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,322 +79,180 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000016b5405e97b7596
-Content-Type: text/plain; charset="UTF-8"
+On 17/09/2022 00:07, BALATON Zoltan wrote:
 
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-
-On Wed, Aug 17, 2022 at 11:45 PM Yang Liu <liuyang22@iscas.ac.cn> wrote:
-
-> Starting with RVV1.0, the original vf[w]redsum_vs instruction was renamed
-> to vf[w]redusum_vs. The distinction between ordered and unordered is also
-> more consistent with other instructions, although there is no difference
-> in implementation between the two for QEMU.
->
-> Signed-off-by: Yang Liu <liuyang22@iscas.ac.cn>
+> Values not used frequently enough may not worth putting in a local
+> variable, especially with names almost as long as the original value
+> because that does not improve readability, to the contrary it makes it
+> harder to see what value is used. Drop a few such variables. This is
+> the same clean up that was done for mac_oldworld in commit b8df32555ce5.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  target/riscv/helper.h                   | 15 ++++++++++-----
->  target/riscv/insn32.decode              |  6 ++++--
->  target/riscv/insn_trans/trans_rvv.c.inc |  6 ++++--
->  target/riscv/vector_helper.c            | 19 +++++++++++++------
->  4 files changed, 31 insertions(+), 15 deletions(-)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index 4ef3b2251d..a03014fe67 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -1009,9 +1009,12 @@ DEF_HELPER_6(vwredsum_vs_b, void, ptr, ptr, ptr,
-> ptr, env, i32)
->  DEF_HELPER_6(vwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_6(vwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
->
-> -DEF_HELPER_6(vfredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-> -DEF_HELPER_6(vfredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-> -DEF_HELPER_6(vfredsum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfredusum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfredusum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfredusum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfredosum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_6(vfredmax_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_6(vfredmax_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_6(vfredmax_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
-> @@ -1019,8 +1022,10 @@ DEF_HELPER_6(vfredmin_vs_h, void, ptr, ptr, ptr,
-> ptr, env, i32)
->  DEF_HELPER_6(vfredmin_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_6(vfredmin_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
->
-> -DEF_HELPER_6(vfwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-> -DEF_HELPER_6(vfwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfwredusum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfwredusum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfwredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_6(vfwredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
->
->  DEF_HELPER_6(vmand_mm, void, ptr, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_6(vmnand_mm, void, ptr, ptr, ptr, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 4033565393..2873a7ae04 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -659,11 +659,13 @@ vredmax_vs      000111 . ..... ..... 010 .....
-> 1010111 @r_vm
->  vwredsumu_vs    110000 . ..... ..... 000 ..... 1010111 @r_vm
->  vwredsum_vs     110001 . ..... ..... 000 ..... 1010111 @r_vm
->  # Vector ordered and unordered reduction sum
-> -vfredsum_vs     0000-1 . ..... ..... 001 ..... 1010111 @r_vm
-> +vfredusum_vs    000001 . ..... ..... 001 ..... 1010111 @r_vm
-> +vfredosum_vs    000011 . ..... ..... 001 ..... 1010111 @r_vm
->  vfredmin_vs     000101 . ..... ..... 001 ..... 1010111 @r_vm
->  vfredmax_vs     000111 . ..... ..... 001 ..... 1010111 @r_vm
->  # Vector widening ordered and unordered float reduction sum
-> -vfwredsum_vs    1100-1 . ..... ..... 001 ..... 1010111 @r_vm
-> +vfwredusum_vs   110001 . ..... ..... 001 ..... 1010111 @r_vm
-> +vfwredosum_vs   110011 . ..... ..... 001 ..... 1010111 @r_vm
->  vmand_mm        011001 - ..... ..... 010 ..... 1010111 @r
->  vmnand_mm       011101 - ..... ..... 010 ..... 1010111 @r
->  vmandn_mm       011000 - ..... ..... 010 ..... 1010111 @r
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc
-> b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 6c091824b6..9c9de17f8a 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -3112,7 +3112,8 @@ static bool freduction_check(DisasContext *s,
-> arg_rmrr *a)
->             require_zve64f(s);
->  }
->
-> -GEN_OPFVV_TRANS(vfredsum_vs, freduction_check)
-> +GEN_OPFVV_TRANS(vfredusum_vs, freduction_check)
-> +GEN_OPFVV_TRANS(vfredosum_vs, freduction_check)
->  GEN_OPFVV_TRANS(vfredmax_vs, freduction_check)
->  GEN_OPFVV_TRANS(vfredmin_vs, freduction_check)
->
-> @@ -3124,7 +3125,8 @@ static bool freduction_widen_check(DisasContext *s,
-> arg_rmrr *a)
->             (s->sew != MO_8);
->  }
->
-> -GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, freduction_widen_check)
-> +GEN_OPFVV_WIDEN_TRANS(vfwredusum_vs, freduction_widen_check)
-> +GEN_OPFVV_WIDEN_TRANS(vfwredosum_vs, freduction_widen_check)
->
->  /*
->   *** Vector Mask Operations
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index fd83c0b20b..d87f79ad82 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -4641,9 +4641,14 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,
->        \
->  }
->
->  /* Unordered sum */
-> -GEN_VEXT_FRED(vfredsum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
-> -GEN_VEXT_FRED(vfredsum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
-> -GEN_VEXT_FRED(vfredsum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
-> +GEN_VEXT_FRED(vfredusum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
-> +GEN_VEXT_FRED(vfredusum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
-> +GEN_VEXT_FRED(vfredusum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
-> +
-> +/* Ordered sum */
-> +GEN_VEXT_FRED(vfredosum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
-> +GEN_VEXT_FRED(vfredosum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
-> +GEN_VEXT_FRED(vfredosum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
->
->  /* Maximum value */
->  GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2,
-> float16_maximum_number)
-> @@ -4667,9 +4672,11 @@ static uint64_t fwadd32(uint64_t a, uint32_t b,
-> float_status *s)
->  }
->
->  /* Vector Widening Floating-Point Reduction Instructions */
-> -/* Unordered reduce 2*SEW = 2*SEW + sum(promote(SEW)) */
-> -GEN_VEXT_FRED(vfwredsum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
-> -GEN_VEXT_FRED(vfwredsum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
-> +/* Ordered/unordered reduce 2*SEW = 2*SEW + sum(promote(SEW)) */
-> +GEN_VEXT_FRED(vfwredusum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
-> +GEN_VEXT_FRED(vfwredusum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
-> +GEN_VEXT_FRED(vfwredosum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
-> +GEN_VEXT_FRED(vfwredosum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
->
->  /*
->   *** Vector Mask Operations
-> --
-> 2.30.1 (Apple Git-130)
->
->
->
+>   hw/ppc/mac_newworld.c | 65 +++++++++++++++++++------------------------
+>   1 file changed, 29 insertions(+), 36 deletions(-)
+> 
+> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+> index cf7eb72391..27e4e8d136 100644
+> --- a/hw/ppc/mac_newworld.c
+> +++ b/hw/ppc/mac_newworld.c
+> @@ -106,18 +106,13 @@ static void ppc_core99_reset(void *opaque)
+>   /* PowerPC Mac99 hardware initialisation */
+>   static void ppc_core99_init(MachineState *machine)
+>   {
+> -    ram_addr_t ram_size = machine->ram_size;
+> -    const char *bios_name = machine->firmware ?: PROM_FILENAME;
+> -    const char *kernel_filename = machine->kernel_filename;
+> -    const char *kernel_cmdline = machine->kernel_cmdline;
+> -    const char *initrd_filename = machine->initrd_filename;
+> -    const char *boot_device = machine->boot_config.order;
+>       Core99MachineState *core99_machine = CORE99_MACHINE(machine);
+>       PowerPCCPU *cpu = NULL;
+>       CPUPPCState *env = NULL;
+>       char *filename;
+>       IrqLines *openpic_irqs;
+> -    int linux_boot, i, j, k;
+> +    int i, j, k, ppc_boot_device, machine_arch, bios_size;
+> +    const char *bios_name = machine->firmware ?: PROM_FILENAME;
+>       MemoryRegion *bios = g_new(MemoryRegion, 1);
+>       hwaddr kernel_base, initrd_base, cmdline_base = 0;
+>       long kernel_size, initrd_size;
+> @@ -129,22 +124,16 @@ static void ppc_core99_init(MachineState *machine)
+>       MACIOIDEState *macio_ide;
+>       BusState *adb_bus;
+>       MacIONVRAMState *nvr;
+> -    int bios_size;
+> -    int ppc_boot_device;
+>       DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
+>       void *fw_cfg;
+> -    int machine_arch;
+>       SysBusDevice *s;
+>       DeviceState *dev, *pic_dev;
+>       DeviceState *uninorth_internal_dev = NULL, *uninorth_agp_dev = NULL;
+>       hwaddr nvram_addr = 0xFFF04000;
+>       uint64_t tbfreq;
+> -    unsigned int smp_cpus = machine->smp.cpus;
+> -
+> -    linux_boot = (kernel_filename != NULL);
+>   
+>       /* init CPUs */
+> -    for (i = 0; i < smp_cpus; i++) {
+> +    for (i = 0; i < machine->smp.cpus; i++) {
+>           cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
+>           env = &cpu->env;
+>   
+> @@ -184,7 +173,7 @@ static void ppc_core99_init(MachineState *machine)
+>           exit(1);
+>       }
+>   
+> -    if (linux_boot) {
+> +    if (machine->kernel_filename) {
+>           int bswap_needed;
+>   
+>   #ifdef BSWAP_NEEDED
+> @@ -194,29 +183,31 @@ static void ppc_core99_init(MachineState *machine)
+>   #endif
+>           kernel_base = KERNEL_LOAD_ADDR;
+>   
+> -        kernel_size = load_elf(kernel_filename, NULL,
+> +        kernel_size = load_elf(machine->kernel_filename, NULL,
+>                                  translate_kernel_address, NULL, NULL, NULL,
+>                                  NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+>           if (kernel_size < 0)
+> -            kernel_size = load_aout(kernel_filename, kernel_base,
+> -                                    ram_size - kernel_base, bswap_needed,
+> -                                    TARGET_PAGE_SIZE);
+> +            kernel_size = load_aout(machine->kernel_filename, kernel_base,
+> +                                    machine->ram_size - kernel_base,
+> +                                    bswap_needed, TARGET_PAGE_SIZE);
+>           if (kernel_size < 0)
+> -            kernel_size = load_image_targphys(kernel_filename,
+> +            kernel_size = load_image_targphys(machine->kernel_filename,
+>                                                 kernel_base,
+> -                                              ram_size - kernel_base);
+> +                                              machine->ram_size - kernel_base);
+>           if (kernel_size < 0) {
+> -            error_report("could not load kernel '%s'", kernel_filename);
+> +            error_report("could not load kernel '%s'",
+> +                         machine->kernel_filename);
+>               exit(1);
+>           }
+>           /* load initrd */
+> -        if (initrd_filename) {
+> +        if (machine->initrd_filename) {
+>               initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
+> -            initrd_size = load_image_targphys(initrd_filename, initrd_base,
+> -                                              ram_size - initrd_base);
+> +            initrd_size = load_image_targphys(machine->initrd_filename,
+> +                                              initrd_base,
+> +                                              machine->ram_size - initrd_base);
+>               if (initrd_size < 0) {
+>                   error_report("could not load initial ram disk '%s'",
+> -                             initrd_filename);
+> +                             machine->initrd_filename);
+>                   exit(1);
+>               }
+>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
+> @@ -235,9 +226,10 @@ static void ppc_core99_init(MachineState *machine)
+>           /* We consider that NewWorld PowerMac never have any floppy drive
+>            * For now, OHW cannot boot from the network.
+>            */
+> -        for (i = 0; boot_device[i] != '\0'; i++) {
+> -            if (boot_device[i] >= 'c' && boot_device[i] <= 'f') {
+> -                ppc_boot_device = boot_device[i];
+> +        for (i = 0; machine->boot_config.order[i] != '\0'; i++) {
+> +            if (machine->boot_config.order[i] >= 'c' &&
+> +                machine->boot_config.order[i] <= 'f') {
+> +                ppc_boot_device = machine->boot_config.order[i];
+>                   break;
+>               }
+>           }
+> @@ -254,8 +246,8 @@ static void ppc_core99_init(MachineState *machine)
+>       memory_region_add_subregion(get_system_memory(), 0xf8000000,
+>                                   sysbus_mmio_get_region(s, 0));
+>   
+> -    openpic_irqs = g_new0(IrqLines, smp_cpus);
+> -    for (i = 0; i < smp_cpus; i++) {
+> +    openpic_irqs = g_new0(IrqLines, machine->smp.cpus);
+> +    for (i = 0; i < machine->smp.cpus; i++) {
+>           /* Mac99 IRQ connection between OpenPIC outputs pins
+>            * and PowerPC input pins
+>            */
+> @@ -398,7 +390,7 @@ static void ppc_core99_init(MachineState *machine)
+>       /* OpenPIC */
+>       s = SYS_BUS_DEVICE(pic_dev);
+>       k = 0;
+> -    for (i = 0; i < smp_cpus; i++) {
+> +    for (i = 0; i < machine->smp.cpus; i++) {
+>           for (j = 0; j < OPENPIC_OUTPUT_NB; j++) {
+>               sysbus_connect_irq(s, k++, openpic_irqs[i].irq[j]);
+>           }
+> @@ -480,15 +472,16 @@ static void ppc_core99_init(MachineState *machine)
+>       sysbus_mmio_map(s, 0, CFG_ADDR);
+>       sysbus_mmio_map(s, 1, CFG_ADDR + 2);
+>   
+> -    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)smp_cpus);
+> +    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)machine->smp.cpus);
+>       fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)machine->smp.max_cpus);
+> -    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
+> +    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)machine->ram_size);
+>       fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, machine_arch);
+>       fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, kernel_base);
+>       fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
+> -    if (kernel_cmdline) {
+> +    if (machine->kernel_cmdline) {
+>           fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_CMDLINE, cmdline_base);
+> -        pstrcpy_targphys("cmdline", cmdline_base, TARGET_PAGE_SIZE, kernel_cmdline);
+> +        pstrcpy_targphys("cmdline", cmdline_base, TARGET_PAGE_SIZE,
+> +                         machine->kernel_cmdline);
+>       } else {
+>           fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_CMDLINE, 0);
+>       }
 
---000000000000016b5405e97b7596
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-<div dir=3D"ltr">Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang=
-@sifive.com">frank.chang@sifive.com</a>&gt;</div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 17, 2022 at 11:45 PM=
- Yang Liu &lt;<a href=3D"mailto:liuyang22@iscas.ac.cn">liuyang22@iscas.ac.c=
-n</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->Starting with RVV1.0, the original vf[w]redsum_vs instruction was renamed<=
-br>
-to vf[w]redusum_vs. The distinction between ordered and unordered is also<b=
-r>
-more consistent with other instructions, although there is no difference<br=
->
-in implementation between the two for QEMU.<br>
-<br>
-Signed-off-by: Yang Liu &lt;<a href=3D"mailto:liuyang22@iscas.ac.cn" target=
-=3D"_blank">liuyang22@iscas.ac.cn</a>&gt;<br>
----<br>
-=C2=A0target/riscv/helper.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0| 15 ++++++++++-----<br>
-=C2=A0target/riscv/insn32.decode=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 6 ++++--<br>
-=C2=A0target/riscv/insn_trans/trans_rvv.c.inc |=C2=A0 6 ++++--<br>
-=C2=A0target/riscv/vector_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- | 19 +++++++++++++------<br>
-=C2=A04 files changed, 31 insertions(+), 15 deletions(-)<br>
-<br>
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h<br>
-index 4ef3b2251d..a03014fe67 100644<br>
---- a/target/riscv/helper.h<br>
-+++ b/target/riscv/helper.h<br>
-@@ -1009,9 +1009,12 @@ DEF_HELPER_6(vwredsum_vs_b, void, ptr, ptr, ptr, ptr=
-, env, i32)<br>
-=C2=A0DEF_HELPER_6(vwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)<br>
-=C2=A0DEF_HELPER_6(vwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)<br>
-<br>
--DEF_HELPER_6(vfredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)<br>
--DEF_HELPER_6(vfredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)<br>
--DEF_HELPER_6(vfredsum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)<br>
-+DEF_HELPER_6(vfredusum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)<br>
-+DEF_HELPER_6(vfredusum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)<br>
-+DEF_HELPER_6(vfredusum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)<br>
-+DEF_HELPER_6(vfredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)<br>
-+DEF_HELPER_6(vfredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)<br>
-+DEF_HELPER_6(vfredosum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)<br>
-=C2=A0DEF_HELPER_6(vfredmax_vs_h, void, ptr, ptr, ptr, ptr, env, i32)<br>
-=C2=A0DEF_HELPER_6(vfredmax_vs_w, void, ptr, ptr, ptr, ptr, env, i32)<br>
-=C2=A0DEF_HELPER_6(vfredmax_vs_d, void, ptr, ptr, ptr, ptr, env, i32)<br>
-@@ -1019,8 +1022,10 @@ DEF_HELPER_6(vfredmin_vs_h, void, ptr, ptr, ptr, ptr=
-, env, i32)<br>
-=C2=A0DEF_HELPER_6(vfredmin_vs_w, void, ptr, ptr, ptr, ptr, env, i32)<br>
-=C2=A0DEF_HELPER_6(vfredmin_vs_d, void, ptr, ptr, ptr, ptr, env, i32)<br>
-<br>
--DEF_HELPER_6(vfwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)<br>
--DEF_HELPER_6(vfwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)<br>
-+DEF_HELPER_6(vfwredusum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)<br>
-+DEF_HELPER_6(vfwredusum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)<br>
-+DEF_HELPER_6(vfwredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)<br>
-+DEF_HELPER_6(vfwredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)<br>
-<br>
-=C2=A0DEF_HELPER_6(vmand_mm, void, ptr, ptr, ptr, ptr, env, i32)<br>
-=C2=A0DEF_HELPER_6(vmnand_mm, void, ptr, ptr, ptr, ptr, env, i32)<br>
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode<br>
-index 4033565393..2873a7ae04 100644<br>
---- a/target/riscv/insn32.decode<br>
-+++ b/target/riscv/insn32.decode<br>
-@@ -659,11 +659,13 @@ vredmax_vs=C2=A0 =C2=A0 =C2=A0 000111 . ..... ..... 0=
-10 ..... 1010111 @r_vm<br>
-=C2=A0vwredsumu_vs=C2=A0 =C2=A0 110000 . ..... ..... 000 ..... 1010111 @r_v=
-m<br>
-=C2=A0vwredsum_vs=C2=A0 =C2=A0 =C2=A0110001 . ..... ..... 000 ..... 1010111=
- @r_vm<br>
-=C2=A0# Vector ordered and unordered reduction sum<br>
--vfredsum_vs=C2=A0 =C2=A0 =C2=A00000-1 . ..... ..... 001 ..... 1010111 @r_v=
-m<br>
-+vfredusum_vs=C2=A0 =C2=A0 000001 . ..... ..... 001 ..... 1010111 @r_vm<br>
-+vfredosum_vs=C2=A0 =C2=A0 000011 . ..... ..... 001 ..... 1010111 @r_vm<br>
-=C2=A0vfredmin_vs=C2=A0 =C2=A0 =C2=A0000101 . ..... ..... 001 ..... 1010111=
- @r_vm<br>
-=C2=A0vfredmax_vs=C2=A0 =C2=A0 =C2=A0000111 . ..... ..... 001 ..... 1010111=
- @r_vm<br>
-=C2=A0# Vector widening ordered and unordered float reduction sum<br>
--vfwredsum_vs=C2=A0 =C2=A0 1100-1 . ..... ..... 001 ..... 1010111 @r_vm<br>
-+vfwredusum_vs=C2=A0 =C2=A0110001 . ..... ..... 001 ..... 1010111 @r_vm<br>
-+vfwredosum_vs=C2=A0 =C2=A0110011 . ..... ..... 001 ..... 1010111 @r_vm<br>
-=C2=A0vmand_mm=C2=A0 =C2=A0 =C2=A0 =C2=A0 011001 - ..... ..... 010 ..... 10=
-10111 @r<br>
-=C2=A0vmnand_mm=C2=A0 =C2=A0 =C2=A0 =C2=A0011101 - ..... ..... 010 ..... 10=
-10111 @r<br>
-=C2=A0vmandn_mm=C2=A0 =C2=A0 =C2=A0 =C2=A0011000 - ..... ..... 010 ..... 10=
-10111 @r<br>
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_tr=
-ans/trans_rvv.c.inc<br>
-index 6c091824b6..9c9de17f8a 100644<br>
---- a/target/riscv/insn_trans/trans_rvv.c.inc<br>
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc<br>
-@@ -3112,7 +3112,8 @@ static bool freduction_check(DisasContext *s, arg_rmr=
-r *a)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 require_zve64f(s);<br>
-=C2=A0}<br>
-<br>
--GEN_OPFVV_TRANS(vfredsum_vs, freduction_check)<br>
-+GEN_OPFVV_TRANS(vfredusum_vs, freduction_check)<br>
-+GEN_OPFVV_TRANS(vfredosum_vs, freduction_check)<br>
-=C2=A0GEN_OPFVV_TRANS(vfredmax_vs, freduction_check)<br>
-=C2=A0GEN_OPFVV_TRANS(vfredmin_vs, freduction_check)<br>
-<br>
-@@ -3124,7 +3125,8 @@ static bool freduction_widen_check(DisasContext *s, a=
-rg_rmrr *a)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (s-&gt;sew !=3D MO_8);<br>
-=C2=A0}<br>
-<br>
--GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, freduction_widen_check)<br>
-+GEN_OPFVV_WIDEN_TRANS(vfwredusum_vs, freduction_widen_check)<br>
-+GEN_OPFVV_WIDEN_TRANS(vfwredosum_vs, freduction_widen_check)<br>
-<br>
-=C2=A0/*<br>
-=C2=A0 *** Vector Mask Operations<br>
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c<br=
->
-index fd83c0b20b..d87f79ad82 100644<br>
---- a/target/riscv/vector_helper.c<br>
-+++ b/target/riscv/vector_helper.c<br>
-@@ -4641,9 +4641,14 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-=C2=A0}<br>
-<br>
-=C2=A0/* Unordered sum */<br>
--GEN_VEXT_FRED(vfredsum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)<br>
--GEN_VEXT_FRED(vfredsum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)<br>
--GEN_VEXT_FRED(vfredsum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)<br>
-+GEN_VEXT_FRED(vfredusum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)<br>
-+GEN_VEXT_FRED(vfredusum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)<br>
-+GEN_VEXT_FRED(vfredusum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)<br>
-+<br>
-+/* Ordered sum */<br>
-+GEN_VEXT_FRED(vfredosum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)<br>
-+GEN_VEXT_FRED(vfredosum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)<br>
-+GEN_VEXT_FRED(vfredosum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)<br>
-<br>
-=C2=A0/* Maximum value */<br>
-=C2=A0GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, float16_maxi=
-mum_number)<br>
-@@ -4667,9 +4672,11 @@ static uint64_t fwadd32(uint64_t a, uint32_t b, floa=
-t_status *s)<br>
-=C2=A0}<br>
-<br>
-=C2=A0/* Vector Widening Floating-Point Reduction Instructions */<br>
--/* Unordered reduce 2*SEW =3D 2*SEW + sum(promote(SEW)) */<br>
--GEN_VEXT_FRED(vfwredsum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)<br>
--GEN_VEXT_FRED(vfwredsum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)<br>
-+/* Ordered/unordered reduce 2*SEW =3D 2*SEW + sum(promote(SEW)) */<br>
-+GEN_VEXT_FRED(vfwredusum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)<br>
-+GEN_VEXT_FRED(vfwredusum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)<br>
-+GEN_VEXT_FRED(vfwredosum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)<br>
-+GEN_VEXT_FRED(vfwredosum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)<br>
-<br>
-=C2=A0/*<br>
-=C2=A0 *** Vector Mask Operations<br>
--- <br>
-2.30.1 (Apple Git-130)<br>
-<br>
-<br>
-</blockquote></div>
 
---000000000000016b5405e97b7596--
+ATB,
+
+Mark.
 
