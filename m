@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887D15E91B3
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 10:44:16 +0200 (CEST)
-Received: from localhost ([::1]:46020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E01F55E91B4
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 10:44:55 +0200 (CEST)
+Received: from localhost ([::1]:46412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocNFH-0004lT-55
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 04:44:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41700)
+	id 1ocNFu-0005e8-Rd
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 04:44:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocNCV-0001y8-BK; Sun, 25 Sep 2022 04:41:24 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59300)
+ id 1ocNDL-0002zn-6M; Sun, 25 Sep 2022 04:42:18 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocNCT-0007kU-3J; Sun, 25 Sep 2022 04:41:22 -0400
+ id 1ocNDJ-0007nv-BN; Sun, 25 Sep 2022 04:42:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=e2yi+QVI2r85pVFw7rx3EE40kQEJN8jPnYzxne2fQXk=; b=Uq7TNSMiIpSt/8rOXyUUZNT6m9
- 1JApOeA2b5q2Ge9DCUxyx0zYnFtJoNhkOEWGYdmYtBHGWqxK/e2MdW4dNXHzjJmJLt+dEMUtXdiJd
- xTBbf9qawjVAiCS+S7iApLIRvC4v+v3Bi1qbOurlYcKpXNkWF6iRuLpJKjui1CjF3wkqG5EPtsRfG
- UlWiyAotXMznsB0TcOSc9uDLCV0OCBL3F/ZVs+ejvvhZdXtpZBr4AthzTon7kIfe5IM1ozGMG6Xgo
- kSu/81Zw/ZFmGX4mzSZmzIMBD3nas50j3YEXNjh+tOgX1BF3oUh8pJl6vOnKCsnjHDETRi0bfqJrO
- n66A/YA974hiiRk09NoRbqjFrODTVc+8/QLmrGlz+d/+l7EqosmeGLvo+MRgKzCLYAq09Onw/M2u/
- OLVLIAp3u1Sze4oJ6Tol2rwoGjeX9lp4nOb+KgCilzRhsdpmurwJIhs/bEl0m5jmYS0SAGFUUGX1T
- D7Qw46IA2rMlTfHXiXaJbnDa4WUCx7hGMOutLtg3YlsVc5CdS7NZfgYM5bhug2iJT9V2DdL1uI7Mm
- uSXc7cqh0T0phqA4r8S/tiogpJay9TnTIluxKinJfTPiK3LoHJoYrFAhLn20WIhmUV82tAxPyY8gJ
- jjvw5Mt+e7m/Tziwl69pTI8n0fpIpi01mlV1lgXKM=;
+ bh=VOSgqEfnDgcqvFOK7ZcKwNQHyv5XBq5Ah4sAUJ1AhdI=; b=fHzzjpmDTLOp5uJIb4UbWzZB5b
+ sSBuDJRVdGLeY14qHUynHaN4DZYSqf/E7auQAC/6K/jYxkLfIZgo/2+bDpBpsVsnFB75woPb52D7p
+ rH13I9DBEJ+C8Izitwg/Qr2Bf4IMgtMFUB6c4HvxIiXLphWzp1F7nlmVxtDOmy7y2c8eXM4hR2Wgf
+ EMKvgf9/FzQDw3KoUpgHwhEPRDNFUa2WwehXcCv8QOwbCJBsCsmJsW+9DPKg1z4Z77t+I2Uwyhe0S
+ eboKbKPn3ViIJuKnHa07NNLPC1h7U30QyJnMlIboC2k1WSOMxnTPVF79EsCI54yQ0RAZHHe9+ur7l
+ VxfP1c9z5ASzrVPGnmdBQZLMivb2BwdBWj0YyYVlBDMC9rO5Gbk5x+VhaNWfXlFAa36rJ4r2MLMt6
+ 4CyplKGbfdRzhDoM21GJ29R8jIy5BwFsEQHixNfxceEo6ug3dKEA7XRO5388OBuyWiFPPgzXBtwbv
+ roLTWx9mAdUAuG346A98ec7IuxCLmzM+7YNlftnYNwn57dQhWhZNaLOO3R/mbiAwtYQsU/AlkLSxl
+ Se09RfzsA0MCX4XpZl1oHIGcxHY10BwPeqdByaR++aisNPmZ3QjeVzzCuusXd96l8emxLNowcz9yJ
+ yt/VcQKN5Xtgj6i46+8R3WqtZd9pGWqLr8/QCwpMU=;
 Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocNAg-0006ld-VC; Sun, 25 Sep 2022 09:39:35 +0100
-Message-ID: <5ddd79bb-7a54-750e-8ca4-a928ee98b185@ilande.co.uk>
-Date: Sun, 25 Sep 2022 09:41:08 +0100
+ id 1ocNBZ-0006ly-Ia; Sun, 25 Sep 2022 09:40:29 +0100
+Message-ID: <f7ae1b53-bbee-52e3-2a99-58f612b66ed1@ilande.co.uk>
+Date: Sun, 25 Sep 2022 09:42:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -46,14 +46,14 @@ Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 References: <cover.1663368422.git.balaton@eik.bme.hu>
- <2f35db85d9f817a2e7c9d994bd8906bc8ec16945.1663368422.git.balaton@eik.bme.hu>
+ <e58a3c14ae73d40629a3dd8b9b542a69fe86b07f.1663368422.git.balaton@eik.bme.hu>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <2f35db85d9f817a2e7c9d994bd8906bc8ec16945.1663368422.git.balaton@eik.bme.hu>
+In-Reply-To: <e58a3c14ae73d40629a3dd8b9b542a69fe86b07f.1663368422.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 01/10] mac_newworld: Drop some variables
+Subject: Re: [PATCH 02/10] mac_oldworld: Drop some more variables
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -81,59 +81,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 17/09/2022 00:07, BALATON Zoltan wrote:
 
-> Values not used frequently enough may not worth putting in a local
-> variable, especially with names almost as long as the original value
-> because that does not improve readability, to the contrary it makes it
-> harder to see what value is used. Drop a few such variables. This is
-> the same clean up that was done for mac_oldworld in commit b8df32555ce5.
+> Drop some more local variables additionally to commit b8df32555ce5 to
+> match clean ups done to mac_newwold in previous patch.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   hw/ppc/mac_newworld.c | 65 +++++++++++++++++++------------------------
->   1 file changed, 29 insertions(+), 36 deletions(-)
+>   hw/ppc/mac_oldworld.c | 43 +++++++++++++++++++++----------------------
+>   1 file changed, 21 insertions(+), 22 deletions(-)
 > 
-> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-> index cf7eb72391..27e4e8d136 100644
-> --- a/hw/ppc/mac_newworld.c
-> +++ b/hw/ppc/mac_newworld.c
-> @@ -106,18 +106,13 @@ static void ppc_core99_reset(void *opaque)
->   /* PowerPC Mac99 hardware initialisation */
->   static void ppc_core99_init(MachineState *machine)
+> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+> index 03732ca7ed..86512d31ad 100644
+> --- a/hw/ppc/mac_oldworld.c
+> +++ b/hw/ppc/mac_oldworld.c
+> @@ -80,14 +80,13 @@ static void ppc_heathrow_reset(void *opaque)
+>   
+>   static void ppc_heathrow_init(MachineState *machine)
 >   {
 > -    ram_addr_t ram_size = machine->ram_size;
-> -    const char *bios_name = machine->firmware ?: PROM_FILENAME;
-> -    const char *kernel_filename = machine->kernel_filename;
-> -    const char *kernel_cmdline = machine->kernel_cmdline;
-> -    const char *initrd_filename = machine->initrd_filename;
+>       const char *bios_name = machine->firmware ?: PROM_FILENAME;
 > -    const char *boot_device = machine->boot_config.order;
->       Core99MachineState *core99_machine = CORE99_MACHINE(machine);
 >       PowerPCCPU *cpu = NULL;
 >       CPUPPCState *env = NULL;
 >       char *filename;
->       IrqLines *openpic_irqs;
-> -    int linux_boot, i, j, k;
-> +    int i, j, k, ppc_boot_device, machine_arch, bios_size;
-> +    const char *bios_name = machine->firmware ?: PROM_FILENAME;
+> -    int i;
+> +    int i, bios_size;
 >       MemoryRegion *bios = g_new(MemoryRegion, 1);
->       hwaddr kernel_base, initrd_base, cmdline_base = 0;
->       long kernel_size, initrd_size;
-> @@ -129,22 +124,16 @@ static void ppc_core99_init(MachineState *machine)
->       MACIOIDEState *macio_ide;
+> +    uint64_t bios_addr;
+>       uint32_t kernel_base, initrd_base, cmdline_base = 0;
+>       int32_t kernel_size, initrd_size;
+>       PCIBus *pci_bus;
+> @@ -97,16 +96,13 @@ static void ppc_heathrow_init(MachineState *machine)
+>       SysBusDevice *s;
+>       DeviceState *dev, *pic_dev, *grackle_dev;
 >       BusState *adb_bus;
->       MacIONVRAMState *nvr;
+> -    uint64_t bios_addr;
 > -    int bios_size;
-> -    int ppc_boot_device;
+> -    unsigned int smp_cpus = machine->smp.cpus;
+>       uint16_t ppc_boot_device;
 >       DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
 >       void *fw_cfg;
-> -    int machine_arch;
->       SysBusDevice *s;
->       DeviceState *dev, *pic_dev;
->       DeviceState *uninorth_internal_dev = NULL, *uninorth_agp_dev = NULL;
->       hwaddr nvram_addr = 0xFFF04000;
 >       uint64_t tbfreq;
-> -    unsigned int smp_cpus = machine->smp.cpus;
-> -
-> -    linux_boot = (kernel_filename != NULL);
 >   
 >       /* init CPUs */
 > -    for (i = 0; i < smp_cpus; i++) {
@@ -141,93 +128,82 @@ On 17/09/2022 00:07, BALATON Zoltan wrote:
 >           cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
 >           env = &cpu->env;
 >   
-> @@ -184,7 +173,7 @@ static void ppc_core99_init(MachineState *machine)
+> @@ -116,9 +112,9 @@ static void ppc_heathrow_init(MachineState *machine)
+>       }
+>   
+>       /* allocate RAM */
+> -    if (ram_size > 2047 * MiB) {
+> +    if (machine->ram_size > 2047 * MiB) {
+>           error_report("Too much memory for this machine: %" PRId64 " MB, "
+> -                     "maximum 2047 MB", ram_size / MiB);
+> +                     "maximum 2047 MB", machine->ram_size / MiB);
 >           exit(1);
 >       }
 >   
-> -    if (linux_boot) {
-> +    if (machine->kernel_filename) {
->           int bswap_needed;
->   
->   #ifdef BSWAP_NEEDED
-> @@ -194,29 +183,31 @@ static void ppc_core99_init(MachineState *machine)
->   #endif
->           kernel_base = KERNEL_LOAD_ADDR;
->   
-> -        kernel_size = load_elf(kernel_filename, NULL,
-> +        kernel_size = load_elf(machine->kernel_filename, NULL,
->                                  translate_kernel_address, NULL, NULL, NULL,
+> @@ -165,12 +161,12 @@ static void ppc_heathrow_init(MachineState *machine)
 >                                  NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
 >           if (kernel_size < 0)
-> -            kernel_size = load_aout(kernel_filename, kernel_base,
+>               kernel_size = load_aout(machine->kernel_filename, kernel_base,
 > -                                    ram_size - kernel_base, bswap_needed,
 > -                                    TARGET_PAGE_SIZE);
-> +            kernel_size = load_aout(machine->kernel_filename, kernel_base,
 > +                                    machine->ram_size - kernel_base,
 > +                                    bswap_needed, TARGET_PAGE_SIZE);
 >           if (kernel_size < 0)
-> -            kernel_size = load_image_targphys(kernel_filename,
-> +            kernel_size = load_image_targphys(machine->kernel_filename,
+>               kernel_size = load_image_targphys(machine->kernel_filename,
 >                                                 kernel_base,
 > -                                              ram_size - kernel_base);
 > +                                              machine->ram_size - kernel_base);
 >           if (kernel_size < 0) {
-> -            error_report("could not load kernel '%s'", kernel_filename);
-> +            error_report("could not load kernel '%s'",
-> +                         machine->kernel_filename);
->               exit(1);
->           }
->           /* load initrd */
-> -        if (initrd_filename) {
-> +        if (machine->initrd_filename) {
->               initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
-> -            initrd_size = load_image_targphys(initrd_filename, initrd_base,
+>               error_report("could not load kernel '%s'",
+>                            machine->kernel_filename);
+> @@ -182,7 +178,7 @@ static void ppc_heathrow_init(MachineState *machine)
+>                                               KERNEL_GAP);
+>               initrd_size = load_image_targphys(machine->initrd_filename,
+>                                                 initrd_base,
 > -                                              ram_size - initrd_base);
-> +            initrd_size = load_image_targphys(machine->initrd_filename,
-> +                                              initrd_base,
 > +                                              machine->ram_size - initrd_base);
 >               if (initrd_size < 0) {
 >                   error_report("could not load initial ram disk '%s'",
-> -                             initrd_filename);
-> +                             machine->initrd_filename);
->                   exit(1);
->               }
->               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
-> @@ -235,9 +226,10 @@ static void ppc_core99_init(MachineState *machine)
->           /* We consider that NewWorld PowerMac never have any floppy drive
->            * For now, OHW cannot boot from the network.
->            */
+>                                machine->initrd_filename);
+> @@ -201,19 +197,22 @@ static void ppc_heathrow_init(MachineState *machine)
+>           initrd_base = 0;
+>           initrd_size = 0;
+>           ppc_boot_device = '\0';
 > -        for (i = 0; boot_device[i] != '\0'; i++) {
-> -            if (boot_device[i] >= 'c' && boot_device[i] <= 'f') {
-> -                ppc_boot_device = boot_device[i];
+> -            /* TOFIX: for now, the second IDE channel is not properly
 > +        for (i = 0; machine->boot_config.order[i] != '\0'; i++) {
-> +            if (machine->boot_config.order[i] >= 'c' &&
+> +            /*
+> +             * TOFIX: for now, the second IDE channel is not properly
+>                *        used by OHW. The Mac floppy disk are not emulated.
+>                *        For now, OHW cannot boot from the network.
+>                */
+>   #if 0
+> -            if (boot_device[i] >= 'a' && boot_device[i] <= 'f') {
+> -                ppc_boot_device = boot_device[i];
+> +            if (machine->boot_config.order[i] >= 'a' &&
 > +                machine->boot_config.order[i] <= 'f') {
 > +                ppc_boot_device = machine->boot_config.order[i];
 >                   break;
 >               }
->           }
-> @@ -254,8 +246,8 @@ static void ppc_core99_init(MachineState *machine)
->       memory_region_add_subregion(get_system_memory(), 0xf8000000,
->                                   sysbus_mmio_get_region(s, 0));
+>   #else
+> -            if (boot_device[i] >= 'c' && boot_device[i] <= 'd') {
+> -                ppc_boot_device = boot_device[i];
+> +            if (machine->boot_config.order[i] >= 'c' &&
+> +                machine->boot_config.order[i] <= 'd') {
+> +                ppc_boot_device = machine->boot_config.order[i];
+>                   break;
+>               }
+>   #endif
+> @@ -266,7 +265,7 @@ static void ppc_heathrow_init(MachineState *machine)
+>       }
 >   
-> -    openpic_irqs = g_new0(IrqLines, smp_cpus);
-> -    for (i = 0; i < smp_cpus; i++) {
-> +    openpic_irqs = g_new0(IrqLines, machine->smp.cpus);
-> +    for (i = 0; i < machine->smp.cpus; i++) {
->           /* Mac99 IRQ connection between OpenPIC outputs pins
->            * and PowerPC input pins
->            */
-> @@ -398,7 +390,7 @@ static void ppc_core99_init(MachineState *machine)
->       /* OpenPIC */
->       s = SYS_BUS_DEVICE(pic_dev);
->       k = 0;
+>       /* Connect the heathrow PIC outputs to the 6xx bus */
 > -    for (i = 0; i < smp_cpus; i++) {
 > +    for (i = 0; i < machine->smp.cpus; i++) {
->           for (j = 0; j < OPENPIC_OUTPUT_NB; j++) {
->               sysbus_connect_irq(s, k++, openpic_irqs[i].irq[j]);
->           }
-> @@ -480,15 +472,16 @@ static void ppc_core99_init(MachineState *machine)
+>           switch (PPC_INPUT(env)) {
+>           case PPC_FLAGS_INPUT_6xx:
+>               /* XXX: we register only 1 output pin for heathrow PIC */
+> @@ -323,9 +322,9 @@ static void ppc_heathrow_init(MachineState *machine)
 >       sysbus_mmio_map(s, 0, CFG_ADDR);
 >       sysbus_mmio_map(s, 1, CFG_ADDR + 2);
 >   
@@ -236,18 +212,9 @@ On 17/09/2022 00:07, BALATON Zoltan wrote:
 >       fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)machine->smp.max_cpus);
 > -    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
 > +    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)machine->ram_size);
->       fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, machine_arch);
+>       fw_cfg_add_i16(fw_cfg, FW_CFG_MACHINE_ID, ARCH_HEATHROW);
 >       fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, kernel_base);
 >       fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
-> -    if (kernel_cmdline) {
-> +    if (machine->kernel_cmdline) {
->           fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_CMDLINE, cmdline_base);
-> -        pstrcpy_targphys("cmdline", cmdline_base, TARGET_PAGE_SIZE, kernel_cmdline);
-> +        pstrcpy_targphys("cmdline", cmdline_base, TARGET_PAGE_SIZE,
-> +                         machine->kernel_cmdline);
->       } else {
->           fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_CMDLINE, 0);
->       }
 
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
