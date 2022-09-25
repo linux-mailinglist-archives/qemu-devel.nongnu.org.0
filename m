@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6CBE5E9307
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:21:38 +0200 (CEST)
-Received: from localhost ([::1]:35454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6453C5E92F9
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:12:00 +0200 (CEST)
+Received: from localhost ([::1]:51410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocQdZ-0002Hh-7p
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:21:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55886)
+	id 1ocQUJ-00071L-GO
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:11:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPrz-0003Ju-GE
+ id 1ocPs2-0003KB-W7
  for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:28 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:46712)
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:36439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPrw-0006RL-QQ
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:22 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id 78so4188343pgb.13
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:32:20 -0700 (PDT)
+ id 1ocPs0-0006Rg-5v
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:25 -0400
+Received: by mail-pg1-x535.google.com with SMTP id s206so4233888pgs.3
+ for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=tuLrhiLQdAPzFXDphS6mjumk8PaBwG5Yc1g/mTPgSBs=;
- b=dJIRoFIJ4EOGsN8OWRhXMf99HMJ2b9qhCkeGNFtAkN9K/uNsWEPY0cquyHqCVi1fA0
- wH0F4R8Kl/pcGK6eYCNbDsWnshcW/BqO2mpII52ZoBnANMizapJR1J8EHTVNI50zW1NH
- XcDxaolap9pyjBlUcX8+PLYm20M8rhQymWrT/C6WaCC/YFF5aqfX/O/3oOn3PL03m40T
- 1guY1lPgna9haGI9OxQvAFjW9Z63IQd0XpB3y1Yfb/HW9N8Aa7g5O4L+plxCpzLqf7lV
- qtfSF6VK528QOkP5NVXLSNHPwNCvxj0VuXW+klkIV9gI1p49Q0DMwn4osUPvEXjf4rkI
- lFbg==
+ bh=5kKZaIAKRf3+/+NyY6g6OcFI9UiTTHHGJ90OxnS38Zw=;
+ b=m26TbFMjIlzTSYajRBhcg/LSYervDzHNUo2oBh7F+VV0SSy3Dvb+ibvpc7jgqgOw3s
+ IM7zSTwvy4tNJDXWJyqLi8XO46Q9p0AGu0FRz7lW8F/D2iUm9Y0qvRX0j0szVm0HK9Bo
+ x22EQyS8vfjx8o11rSSxCbAsLkRqVBIST1BmvJ/bLVhSqANTc4NY2aON8Nej/hQuTSv9
+ ZFgeoF8Wd/w1rxYTPO2mjTGKrT9cvL+mEYVRVSDz53oTdNUeBZSKqLAuNeWFof40Aj5P
+ uf/0II55nBtU6zy1RLBIsqgWKilReqc8385RT3UZxNLOQeZVHtzKgFna+mQOORiSrN+Q
+ 0ZDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=tuLrhiLQdAPzFXDphS6mjumk8PaBwG5Yc1g/mTPgSBs=;
- b=nL7EmtIL0WdUG7RVzDzLbm7nsP3BysHbrW4sdYJ85k4OO1wG5AZhiq556PERWN/4vJ
- cSXxkRZsYV1ebz5zoDB9zcz34HgMt0SAM83ae4sOk0FjAfGbsGlU4SuQ4nLWzjTb0tK2
- yEFh4KAZ6J+1FR9Sm9OFT1KpOq6fGE4h9tYR9v+yn+O6w1lAzxQxgypqi+60I7zAQeZI
- zDzGVdffNcFz3Ylar7WMnAa+JEnwwKZBk3ypmFh37I//jjYmE8H+t+qWPihywz1W0Tvs
- jBw1tOqAGlwKQlYZJpqjkm1bjNqaUsce4RjmG6M/5YhQX7ZIMrSmnDGJd10rJr4xy5hQ
- B4vg==
-X-Gm-Message-State: ACrzQf1l23PFNG/i8qZvQVuDlzWkAhrn8B0DEjWSdl+82Eb83LagLUyG
- DXGUI9WnIGiJdSrXU5+1Z/CViA/nhLw=
-X-Google-Smtp-Source: AMsMyM6uFxo35m8NUr6OcY63TgxDBpyqTKGMpHivCNvX/Brdnl2e55f9l1vVZ7ckt68xpvo9/wQhEg==
-X-Received: by 2002:a63:9141:0:b0:43b:d645:e057 with SMTP id
- l62-20020a639141000000b0043bd645e057mr15243846pge.225.1664105539148; 
- Sun, 25 Sep 2022 04:32:19 -0700 (PDT)
+ bh=5kKZaIAKRf3+/+NyY6g6OcFI9UiTTHHGJ90OxnS38Zw=;
+ b=EeklUez5D56yWYApBf0WhCKAzLWKZkgNe8hUQGaGEJAuYKDNGAP0Rx2aGUglmFJji0
+ UmlT4c4eGTX79tYN6VIGvKnXXptV54qBYmx/SR7rC/0RBPD4ia++E1D7QIbDtzgJI9l8
+ qev/Mz2zEVkuyRXwli0w3NrafMjVz4PKUpHk48aVJQ6nC+qgLRUiOBNAPvx4ZxpI8Mx9
+ VWWBp5AyCAvxEHE/vmTd1AQ2okz6/Tff3xzgx7DjhLHxy8L2I+DOu6kXYnBN4hW39OJG
+ CvbiDv1uFxfGDu30Ropj6ImGtAoqd1uy6ZxOknZvkdLRaGsYpGhnwEzEAfM0/74z9syZ
+ CVqQ==
+X-Gm-Message-State: ACrzQf2VB3nV35Txkjc+CyqbWvkCDOIjPNHVpTJCEp2w/mdXVTWYGcpk
+ voioy1WsOloj838ltICNVqslw7j5pwc=
+X-Google-Smtp-Source: AMsMyM4Lm4+tJNAcUytsW6fPp/qL7u3n4dOsB6iOTWW3G36DRk8kOn+J6If4ry9Qx1EG2RIJYmBB/A==
+X-Received: by 2002:a62:4c2:0:b0:52e:bd4d:50e1 with SMTP id
+ 185-20020a6204c2000000b0052ebd4d50e1mr18689505pfe.8.1664105541844; 
+ Sun, 25 Sep 2022 04:32:21 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.17
+ z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 04:32:18 -0700 (PDT)
+ Sun, 25 Sep 2022 04:32:21 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v3 38/54] tests/qtest: bios-tables-test: Adapt the case for
- win32
-Date: Sun, 25 Sep 2022 19:30:16 +0800
-Message-Id: <20220925113032.1949844-39-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v3 39/54] tests/qtest: migration-test: Disable IO redirection
+ for win32
+Date: Sun, 25 Sep 2022 19:30:17 +0800
+Message-Id: <20220925113032.1949844-40-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,56 +97,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Single quotes in the arguments (oem_id='CRASH ') are not removed in
-the Windows environment before it is passed to the QEMU executable.
-The space in the argument causes the "-acpitable" option parser to
-think that all of its parameters are done, hence it complains:
-
-  '-acpitable' requires one of 'data' or 'file'
-
-Change to use double quotes which works fine on all platforms.
-
-Also /dev/null does not work on win32, and nul should be used.
+On Windows the QEMU executable is created via CreateProcess() and
+IO redirection does not work, so don't bother adding IO redirection
+to the command line.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-(no changes since v1)
+(no changes since v2)
 
- tests/qtest/bios-tables-test.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Changes in v2:
+- Change the place that sets IO redirection in the command line
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 46a46fe0aa..2ebeb530b2 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1615,6 +1615,12 @@ static void test_acpi_virt_viot(void)
-     free_test_data(&data);
- }
+ tests/qtest/migration-test.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 029c4f3a6a..a1dd342739 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -647,7 +647,16 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+     }
  
+     if (!getenv("QTEST_LOG") && args->hide_stderr) {
 +#ifndef _WIN32
-+# define DEV_NULL "/dev/null"
+         ignore_stderr = "2>/dev/null";
 +#else
-+# define DEV_NULL "nul"
++        /*
++         * On Windows the QEMU executable is created via CreateProcess() and
++         * IO redirection does not work, so don't bother adding IO redirection
++         * to the command line.
++         */
++        ignore_stderr = "";
 +#endif
-+
- static void test_acpi_q35_slic(void)
- {
-     test_data data = {
-@@ -1622,9 +1628,9 @@ static void test_acpi_q35_slic(void)
-         .variant = ".slic",
-     };
- 
--    test_acpi_one("-acpitable sig=SLIC,oem_id='CRASH ',oem_table_id='ME',"
--                  "oem_rev=00002210,asl_compiler_id='qemu',"
--                  "asl_compiler_rev=00000000,data=/dev/null",
-+    test_acpi_one("-acpitable sig=SLIC,oem_id=\"CRASH \",oem_table_id=ME,"
-+                  "oem_rev=00002210,asl_compiler_id=qemu,"
-+                  "asl_compiler_rev=00000000,data=" DEV_NULL,
-                   &data);
-     free_test_data(&data);
- }
+     } else {
+         ignore_stderr = "";
+     }
 -- 
 2.34.1
 
