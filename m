@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 916B05E92E9
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:03:22 +0200 (CEST)
-Received: from localhost ([::1]:40372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5C45E92F6
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:09:19 +0200 (CEST)
+Received: from localhost ([::1]:32862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocQLx-0007Zg-Kx
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:03:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46176)
+	id 1ocQRi-0001fM-TD
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:09:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPrl-00036A-5M
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:09 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:47071)
+ id 1ocPrm-0003AZ-Lk
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:10 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:36390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPrh-0006Q7-Cp
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:08 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- j6-20020a17090a694600b00200bba67dadso4287893pjm.5
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:32:04 -0700 (PDT)
+ id 1ocPrk-0006QI-UH
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:10 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id c24so3943363plo.3
+ for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=HHmHosbI1UH5JFaYMLGsioCy3QztSrpxpXb6IzEKUQo=;
- b=qLFQ3sHXskR5B9tl/idxnNA1zpDCypNl3tIv7EP5aZO2Bp/akPl/1KXfX9z64CuAfU
- PFINAf9ti1QO9rb7NsdUgZGNDwW6T+F1Vzz1wKOlcXEYzxoZqnvsmz5PRz/WBNQNib8J
- dQmRgeNyzPyjeWcxpyiUS5DYopc86WF1IyBoNQrXahuRzAG+Ncgx/25RwP8wmJuvp27U
- z6yruD1hD1XqMkrIux/2Btp9+y80ATx08kFNEeFBBc0kN0/VR2VeRreslDUg0AFLKM1p
- z7x3XaHGSjug3SnX9lycgLXRSO+Zz/HIo+KgeOj/SxVb1j+rolXw28dlzBjhY69SOJ7H
- 56Dg==
+ bh=csOaISwTSwLoJpsFvuVDUfystuDYu8jpDcj/GRjEV6A=;
+ b=ogKSeqs7uhfc2bi395QMh0UBP807IHIoaQK0YCku8bUDzwN2slpX4Szl/rs7/cXq54
+ 0NtotQm++GTcKQMC4bFuinImfVSKYAysbe3r9jyaO8uDlLMoBtpBpKp774Ar41xpo1LK
+ y5PrAEQH2Pu7ojNdFCS63GhpvJIppO95UY5LIyxRnzjgQAiTDc0S9Y43riLwL5qEAbs6
+ CrRPorj4nSa2OQyK2nuFfqf3WiXfxlXRRHIC0SEO54e9uRD6i9lcFVU5ciqVuErrUbF5
+ nlqf8K+YfkYbAQfvenxLQFFDakptR2CE5eMLT+JW0RbEieMkdSBkinW5erFYzt4YVofD
+ 4oBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=HHmHosbI1UH5JFaYMLGsioCy3QztSrpxpXb6IzEKUQo=;
- b=Ihz/INeIK9CU6/Rxp+cgUXhkE6H0YvtAY++texGMkCGMC5n6/HigGxVK6pufvg86Yi
- xTLeF0/V3kiFq2c7+T/cal2Hd1t467hIZlwJa2K8Oo3zNqIHPvD01wJSTavOjICySJeG
- Qv8F6lh72wrL6K86iY2vDb0j/G1i1bXE4WImoeG8T3mdalCCEp0EDIR7PJSrv8vZsQ9c
- tIMriGSCL+/nRXLmWJrrDq/MfZsV9JXqTrrVBoDne34+XQen83KDRhmsZ7PbCh6BjjBV
- mHOqjBXYKDQORQG4qEcX1qAV2DjQoZNgpqAtIV5UqS/oDILXmQCN1k7J3XOwM8HvLd7a
- t0oQ==
-X-Gm-Message-State: ACrzQf18JeTbi4tDpIWqhnDibu47BCdukGB9Y0Wnmj5lUOUTW8oioKbC
- hOlzQCbzX2grydF3h8lkudDZVE2JiaA=
-X-Google-Smtp-Source: AMsMyM6dTmGCBh6m/dzWze3nAQ4PaIFObuO1BK1qirUlu1E/Yn2frQsCUGgHHG4TO1EN1TAsnEfPYw==
-X-Received: by 2002:a17:90a:e552:b0:203:627b:6c6e with SMTP id
- ei18-20020a17090ae55200b00203627b6c6emr19053956pjb.59.1664105523560; 
- Sun, 25 Sep 2022 04:32:03 -0700 (PDT)
+ bh=csOaISwTSwLoJpsFvuVDUfystuDYu8jpDcj/GRjEV6A=;
+ b=INo1vrl1jIxafM1IHM91mxZAh6TuOQX40iaOKJlX/mmKS4clkmM3QrAnRgPGdSTQJM
+ 7ZOVGyC8Mu3rW3mFYS7LvIzljJ1JA9tY87GGOgYF0rQgWZMIrt79UY5lbUtOyP0YTqBD
+ BQdKUYf75nehimv3bZ6FgAOCwFx44WbavHDK1CvMXjCgRvhx5fpunF+xerfq6/W1Y8xM
+ Vhurke3I4n7EjL7bqMdvPKbPlB1ZPMde5MAZa+Ievb/muICgAerSgCvKIBbu48Gwkm+c
+ DVpGUykT3gwmzU+i1VC8QD/IixF7BuYVyCYFlcnrmNe4nDT+lpPyVFPcBChnnGMvQQLK
+ QWpQ==
+X-Gm-Message-State: ACrzQf0BbJUTL9GKfrRMccMS2IMT8qCBb9oOYnNkiIZ6ebbY6LHw1487
+ EZ8mUGQZfZ4KLqxuoPolFeaL7KLMerU=
+X-Google-Smtp-Source: AMsMyM5zX/blaCS4kbMNEAwt6fghIeWgCAAo0A026D7p1JnlDPfThdGX+g+Icsyt1DOIfdIJGCQM1A==
+X-Received: by 2002:a17:902:e14c:b0:177:e7be:2ab6 with SMTP id
+ d12-20020a170902e14c00b00177e7be2ab6mr17017869pla.25.1664105526496; 
+ Sun, 25 Sep 2022 04:32:06 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.01
+ z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 04:32:03 -0700 (PDT)
+ Sun, 25 Sep 2022 04:32:05 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 32/54] tests/qtest: libqtest: Adapt global_qtest
- declaration for win32
-Date: Sun, 25 Sep 2022 19:30:10 +0800
-Message-Id: <20220925113032.1949844-33-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v3 33/54] tests/qtest: Use send/recv for socket communication
+Date: Sun, 25 Sep 2022 19:30:11 +0800
+Message-Id: <20220925113032.1949844-34-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,50 +97,140 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-Commit dd2107497275 ("tests/libqtest: Use libqtest-single.h in tests that require global_qtest")
-moved global_qtest to libqtest-single.h, by declaring global_qtest
-attribute to be common and weak.
+Socket communication in the libqtest and libqmp codes uses read()
+and write() which work on any file descriptor on *nix, and sockets
+in *nix are an example of a file descriptor.
 
-This trick unfortunately does not work on Windows, and building
-qtest test cases results in multiple definition errors of the weak
-symbol global_qtest, as Windows PE does not have the concept of
-the so-called weak symbol like ELF in the *nix world.
-
-However Windows does provide a trick to declare a variable to be
-a common symbol, via __declspec(selectany) [1]. It does not provide
-the "strong override weak" effect but we don't need it in our use
-case anyway. So let's use it for win32.
-
-[1] https://docs.microsoft.com/en-us/cpp/cpp/selectany
+However sockets on Windows do not use *nix-style file descriptors,
+so read() and write() cannot be used on sockets on Windows.
+Switch over to use send() and recv() instead which work on both
+Windows and *nix.
 
 Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
 (no changes since v2)
 
 Changes in v2:
-- Use __declspec(selectany) for the common weak symbol on Windows
+- Introduce qemu_send_full() and use it
 
- tests/qtest/libqtest-single.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/qemu/sockets.h |  2 ++
+ tests/qtest/libqmp.c   |  5 +++--
+ tests/qtest/libqtest.c |  4 ++--
+ util/osdep.c           | 33 +++++++++++++++++++++++++++++++++
+ 4 files changed, 40 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/libqtest-single.h b/tests/qtest/libqtest-single.h
-index 4e7d0ae1dc..851724cbcb 100644
---- a/tests/qtest/libqtest-single.h
-+++ b/tests/qtest/libqtest-single.h
-@@ -13,7 +13,11 @@
+diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+index 038faa157f..8ff7832eba 100644
+--- a/include/qemu/sockets.h
++++ b/include/qemu/sockets.h
+@@ -15,6 +15,8 @@ int inet_aton(const char *cp, struct in_addr *ia);
+ bool fd_is_socket(int fd);
+ int qemu_socket(int domain, int type, int protocol);
+ int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
++ssize_t qemu_send_full(int s, const void *buf, size_t count)
++    G_GNUC_WARN_UNUSED_RESULT;
+ int socket_set_cork(int fd, int v);
+ int socket_set_nodelay(int fd);
+ void qemu_socket_set_block(int fd);
+diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
+index ade26c15f0..2b08382e5d 100644
+--- a/tests/qtest/libqmp.c
++++ b/tests/qtest/libqmp.c
+@@ -23,6 +23,7 @@
+ #endif
  
- #include "libqtest.h"
+ #include "qemu/cutils.h"
++#include "qemu/sockets.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/json-parser.h"
+ #include "qapi/qmp/qjson.h"
+@@ -36,7 +37,7 @@ typedef struct {
  
-+#ifndef _WIN32
- QTestState *global_qtest __attribute__((common, weak));
-+#else
-+__declspec(selectany) QTestState *global_qtest;
-+#endif
+ static void socket_send(int fd, const char *buf, size_t size)
+ {
+-    size_t res = qemu_write_full(fd, buf, size);
++    ssize_t res = qemu_send_full(fd, buf, size);
  
- /**
-  * qtest_start:
+     assert(res == size);
+ }
+@@ -69,7 +70,7 @@ QDict *qmp_fd_receive(int fd)
+         ssize_t len;
+         char c;
+ 
+-        len = read(fd, &c, 1);
++        len = recv(fd, &c, 1, 0);
+         if (len == -1 && errno == EINTR) {
+             continue;
+         }
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index d8ffa0e7b1..0dfe630373 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -436,7 +436,7 @@ void qtest_quit(QTestState *s)
+ 
+ static void socket_send(int fd, const char *buf, size_t size)
+ {
+-    size_t res = qemu_write_full(fd, buf, size);
++    ssize_t res = qemu_send_full(fd, buf, size);
+ 
+     assert(res == size);
+ }
+@@ -468,7 +468,7 @@ static GString *qtest_client_socket_recv_line(QTestState *s)
+         ssize_t len;
+         char buffer[1024];
+ 
+-        len = read(s->fd, buffer, sizeof(buffer));
++        len = recv(s->fd, buffer, sizeof(buffer), 0);
+         if (len == -1 && errno == EINTR) {
+             continue;
+         }
+diff --git a/util/osdep.c b/util/osdep.c
+index 60fcbbaebe..0342e754e1 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -502,6 +502,39 @@ int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen)
+     return ret;
+ }
+ 
++/*
++ * A variant of send(2) which handles partial send.
++ *
++ * Return the number of bytes transferred over the socket.
++ * Set errno if fewer than `count' bytes are sent.
++ *
++ * This function don't work with non-blocking socket's.
++ * Any of the possibilities with non-blocking socket's is bad:
++ *   - return a short write (then name is wrong)
++ *   - busy wait adding (errno == EAGAIN) to the loop
++ */
++ssize_t qemu_send_full(int s, const void *buf, size_t count)
++{
++    ssize_t ret = 0;
++    ssize_t total = 0;
++
++    while (count) {
++        ret = send(s, buf, count, 0);
++        if (ret < 0) {
++            if (errno == EINTR) {
++                continue;
++            }
++            break;
++        }
++
++        count -= ret;
++        buf += ret;
++        total += ret;
++    }
++
++    return total;
++}
++
+ void qemu_set_hw_version(const char *version)
+ {
+     hw_version = version;
 -- 
 2.34.1
 
