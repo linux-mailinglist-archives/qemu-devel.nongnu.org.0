@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D305E9348
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 15:09:30 +0200 (CEST)
-Received: from localhost ([::1]:54176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD0B5E933B
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:57:14 +0200 (CEST)
+Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocRNy-0006q1-2f
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 09:09:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
+	id 1ocRC5-0007Da-FC
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:57:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ocQtn-0006KH-VR; Sun, 25 Sep 2022 08:38:20 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:61367)
+ id 1ocQto-0006NK-T5; Sun, 25 Sep 2022 08:38:21 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:61369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ocQtm-0007O0-5t; Sun, 25 Sep 2022 08:38:19 -0400
+ id 1ocQtn-0007P7-BS; Sun, 25 Sep 2022 08:38:20 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8FD1C75A167;
- Sun, 25 Sep 2022 14:38:16 +0200 (CEST)
+ by localhost (Postfix) with SMTP id ACC8575A16E;
+ Sun, 25 Sep 2022 14:38:17 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6A6AB75A163; Sun, 25 Sep 2022 14:38:16 +0200 (CEST)
-Message-Id: <d9cecc9724c75f723572d67a0fd33adec3f44228.1664108862.git.balaton@eik.bme.hu>
+ id 79DD075A163; Sun, 25 Sep 2022 14:38:17 +0200 (CEST)
+Message-Id: <2ff9b0ca151cab09512b37d855d03eee4a62812a.1664108862.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1664108862.git.balaton@eik.bme.hu>
 References: <cover.1664108862.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 09/13] hw/ppc/mac.h: Move macio specific parts out from
- shared header
+Subject: [PATCH v2 10/13] hw/ppc/mac.h: Move grackle-pcihost declaration out
+ from shared header
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Sun, 25 Sep 2022 14:38:16 +0200 (CEST)
+Date: Sun, 25 Sep 2022 14:38:17 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, PP_MIME_FAKE_ASCII_TEXT=0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,99 +55,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the parts specific to and only used by macio out from the shared
-mac.h into macio.c where they better belong.
+It is only used by mac_oldworld anyway and it already instantiates
+a few devices by name so this allows reducing the shared header further.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/misc/macio/macio.c         |  5 +++--
- hw/ppc/mac.h                  | 23 -----------------------
- include/hw/misc/macio/macio.h | 21 +++++++++++++++++++++
- 3 files changed, 24 insertions(+), 25 deletions(-)
+ hw/pci-host/grackle.c | 1 +
+ hw/ppc/mac.h          | 3 ---
+ hw/ppc/mac_oldworld.c | 2 +-
+ 3 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index c1fad43f6c..f9f0758b03 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -37,8 +37,9 @@
- #include "hw/intc/heathrow_pic.h"
+diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
+index b05facf463..5282123004 100644
+--- a/hw/pci-host/grackle.c
++++ b/hw/pci-host/grackle.c
+@@ -34,6 +34,7 @@
  #include "trace.h"
+ #include "qom/object.h"
  
--/* Note: this code is strongly inspirated from the corresponding code
-- * in PearPC */
-+#define ESCC_CLOCK 3686400
-+
-+/* Note: this code is strongly inspired by the corresponding code in PearPC */
++#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
+ OBJECT_DECLARE_SIMPLE_TYPE(GrackleState, GRACKLE_PCI_HOST_BRIDGE)
  
- /*
-  * The mac-io has two interfaces to the ESCC. One is called "escc-legacy",
+ struct GrackleState {
 diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
-index e97087c7e7..55cb02c990 100644
+index 55cb02c990..fe77a6c6db 100644
 --- a/hw/ppc/mac.h
 +++ b/hw/ppc/mac.h
-@@ -35,29 +35,6 @@
+@@ -35,9 +35,6 @@
  #define KERNEL_LOAD_ADDR 0x01000000
  #define KERNEL_GAP       0x00100000
  
--#define ESCC_CLOCK 3686400
+-/* Grackle PCI */
+-#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
 -
--/* Old World IRQs */
--#define OLDWORLD_CUDA_IRQ      0x12
--#define OLDWORLD_ESCCB_IRQ     0x10
--#define OLDWORLD_ESCCA_IRQ     0xf
--#define OLDWORLD_IDE0_IRQ      0xd
--#define OLDWORLD_IDE0_DMA_IRQ  0x2
--#define OLDWORLD_IDE1_IRQ      0xe
--#define OLDWORLD_IDE1_DMA_IRQ  0x3
--
--/* New World IRQs */
--#define NEWWORLD_CUDA_IRQ      0x19
--#define NEWWORLD_PMU_IRQ       0x19
--#define NEWWORLD_ESCCB_IRQ     0x24
--#define NEWWORLD_ESCCA_IRQ     0x25
--#define NEWWORLD_IDE0_IRQ      0xd
--#define NEWWORLD_IDE0_DMA_IRQ  0x2
--#define NEWWORLD_IDE1_IRQ      0xe
--#define NEWWORLD_IDE1_DMA_IRQ  0x3
--#define NEWWORLD_EXTING_GPIO1  0x2f
--#define NEWWORLD_EXTING_GPIO9  0x37
--
- /* Grackle PCI */
- #define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
+ /* Mac NVRAM */
+ #define TYPE_MACIO_NVRAM "macio-nvram"
+ OBJECT_DECLARE_SIMPLE_TYPE(MacIONVRAMState, MACIO_NVRAM)
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 1fa7b770b7..1355d032ff 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -214,7 +214,7 @@ static void ppc_heathrow_init(MachineState *machine)
+     }
  
-diff --git a/include/hw/misc/macio/macio.h b/include/hw/misc/macio/macio.h
-index 6c05f3bfd2..26cf15b1ce 100644
---- a/include/hw/misc/macio/macio.h
-+++ b/include/hw/misc/macio/macio.h
-@@ -38,6 +38,27 @@
- #include "hw/ppc/openpic.h"
- #include "qom/object.h"
- 
-+/* Old World IRQs */
-+#define OLDWORLD_CUDA_IRQ      0x12
-+#define OLDWORLD_ESCCB_IRQ     0x10
-+#define OLDWORLD_ESCCA_IRQ     0xf
-+#define OLDWORLD_IDE0_IRQ      0xd
-+#define OLDWORLD_IDE0_DMA_IRQ  0x2
-+#define OLDWORLD_IDE1_IRQ      0xe
-+#define OLDWORLD_IDE1_DMA_IRQ  0x3
-+
-+/* New World IRQs */
-+#define NEWWORLD_CUDA_IRQ      0x19
-+#define NEWWORLD_PMU_IRQ       0x19
-+#define NEWWORLD_ESCCB_IRQ     0x24
-+#define NEWWORLD_ESCCA_IRQ     0x25
-+#define NEWWORLD_IDE0_IRQ      0xd
-+#define NEWWORLD_IDE0_DMA_IRQ  0x2
-+#define NEWWORLD_IDE1_IRQ      0xe
-+#define NEWWORLD_IDE1_DMA_IRQ  0x3
-+#define NEWWORLD_EXTING_GPIO1  0x2f
-+#define NEWWORLD_EXTING_GPIO9  0x37
-+
- /* MacIO virtual bus */
- #define TYPE_MACIO_BUS "macio-bus"
- OBJECT_DECLARE_SIMPLE_TYPE(MacIOBusState, MACIO_BUS)
+     /* Grackle PCI host bridge */
+-    grackle_dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
++    grackle_dev = qdev_new("grackle-pcihost");
+     qdev_prop_set_uint32(grackle_dev, "ofw-addr", 0x80000000);
+     s = SYS_BUS_DEVICE(grackle_dev);
+     sysbus_realize_and_unref(s, &error_fatal);
 -- 
 2.30.4
 
