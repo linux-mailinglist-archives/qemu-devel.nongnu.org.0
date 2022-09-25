@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E745E944E
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 18:19:19 +0200 (CEST)
-Received: from localhost ([::1]:48394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CC95E9454
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 18:22:02 +0200 (CEST)
+Received: from localhost ([::1]:48456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocULf-0002tZ-0p
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 12:19:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38148)
+	id 1ocUOH-0005DA-7h
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 12:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocUI4-0008K4-Bh
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 12:15:36 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:38817)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocUI5-0008KG-2w
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 12:15:37 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:35615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocUI2-0005Yn-Pt
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocUI3-0005Yq-DD
  for qemu-devel@nongnu.org; Sun, 25 Sep 2022 12:15:36 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MEmAX-1oSFgN1POF-00GJJX; Sun, 25
- Sep 2022 18:15:32 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MHG4c-1oPEk048sS-00DINQ; Sun, 25
+ Sep 2022 18:15:33 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 0/2] linux-user: handle /proc/self/exe with execve() syscall
-Date: Sun, 25 Sep 2022 18:15:25 +0200
-Message-Id: <20220925161527.374593-1-laurent@vivier.eu>
+Subject: [PATCH 1/2] linux-user: handle /proc/self/exe with execve() syscall
+Date: Sun, 25 Sep 2022 18:15:26 +0200
+Message-Id: <20220925161527.374593-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220925161527.374593-1-laurent@vivier.eu>
+References: <20220925161527.374593-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:uKOoK0E6eG57E3eFp5qsaJjcvtBCLpLiJ9LZpqKOM06QVGUZ3pG
- iwlXKbW+ukOKnmLN9OgxKd3krn+MVwr9haa/rTAlsZCfSPHsgmfVMhsYxtbwgXOgDrh/o+S
- WOg2fLSwcmVKiYrBas0X1Apba88mGL/QVsijxWJOLxoyLNCponz/0X3pVHwdjv0UrQRjs/d
- CEj6H8MinmzcuasE9YH0g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XeWKFJLXxDA=:j9rsNoef4/C0VGApRi65Rz
- llZegSrBn9tQSldp6MQvTgufmoafOszv84+PK50fSDVH4AQxxVBThsVuoTUdO49165d3j3PpY
- 9/co7YyFyMlr6HbleixqR+HzDQeyt3qECyGyqGUIgj9JXJ1Mrj47WbYu8yRTJKYSUMhoMI8z1
- RKtGfxKqHd+1j+Me1k8kV/0yXHk4oOUakoW4t8ue/kOd0jA8PO7HKLV3KhTs0wZQTd6j3/Cu4
- QG54RPxuAE3fS2aqreNWJPExRviWQsof4OoPzm+JazsaOzmzDac2uL+8q72hE1ML7FxsdbYOS
- qabw2e3S0haxZMR19gz+67BDGY7xtQdBcgdRS7i06ZauvkSCKCHv056G0KtnT2+Ogeh5M59nf
- hwpOGFppVTxOnq2jKGcSQ2DfEtbfWz+rtQq0ZZx1RLqMZB/20KqsZ0BYxD5srdfpv4YaEJg4b
- sX1AmA5VqGumx3rM5o2Qb7+mIATQKlkRIjX0yOOevPo3T8JMQKRqs+LxaeBWZkr8q/wRkrcZp
- QD8wpPmsC10YBACZeTQx/eLTsjwkIgdKsfhWYnB+y00Fc3mVg9fdbVY0VQD15kPe4l1gv2w25
- Ce7JqyGrYTJ6JIFEIqJI7GGDLnspC2o1M8rNopWe+hhGBIk0lKXNNJZrmmFoIGuNXNizmAf+9
- ZQEUF/zciO8p926Y7d7NAzzm+MQH+hdZlNsf+eSOmbOvn0WPoQh2mr+ae1APm7xrCFHic+c7w
- vDDWkMISQlV2eeIGG9V6ZjJ0FuZTTK8J1DBCL0isNrm65MnG0tg8jy/Lpmn7y84yU3MNj1FYO
- wiTYRxd
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:r10wQjcsMwnRBGXgrEWmNOITrQypMreVTVzIzf1rAfE0Jum2K74
+ +ZmzcOekypPPsE7fgJpTg4lznblKUIOZ2ohrAT+1qO/o0g9odqVSnJK9AwgmKCTG55zXzz4
+ qB0rGNO8xXZyBAdcVgULiJGCoxpoebEgyH09qFTpyCMvPqm5gde1wiHx+g5OZCmjZ90CqYm
+ itnAF92ONj5GaaTe7QgeQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VwkIOfZ5FsY=:8wIhXCI1eTAEDpPvudyqAu
+ ap+bHgHJDF105B5tG2vuE96PFvuCE5rheySSOWAa0yAsHoeo9m6iFMMDle8aVfGCadN6GFubS
+ lh8QYGC+/476Pf0/Rhc58QLMVhlIuWho8vc+039eaIZbFY8405wQ26mssVXMspdr2CyMcRvrx
+ drGk+VVTsj9wMZwsAnySgaslxcyw+YAWFhEJGJnN4tqe3c3UsznlTUX5v50DjgplSGxqzRZKM
+ 0MlibdxID2vQ3bs3/3Sue2nLq6D8hGWa8z/1qRBESEgpwguJbJiR8lbXTd7yGGlbcp9zbnorW
+ PNJySgApUQ4C8hbWp6JBkLPPYd2g8hXm/ioBFyJR1oApDY5ig5rf1LgjxPbR/DS+oRzPis1ox
+ vd1R+iVDNXtOKr6xn8msUdLWFrUgWjwRfiR24LXeQ6Ohpn+7Nc7WTmrKpAJXLxwX/+0VJ9hmT
+ qE5gPfPfDWl3om7gIjnOUBIVMUBumvtpcTFsSDTGNwUmRbg0j1H+pScIQGehCt0rHGbLEtJ1A
+ qsfbl5ntLLDxR+iIjdzUUXRyP/1qD2xEPJdmaazIUFoT6N6ivK5IlGhfxM+ydztxy2iHi5JdJ
+ xfRYf1pT0p77MIxf3WYtL4aFgXnRap1EoRdfQJZE6g0qeY0xw8g7bEIafFje5jxwEufQasrlT
+ d5FVMphBaE3n6zmQnXIYsfAB+ECyolhrQmyxqGvKcTZEX9N5znrD5BFcnsVBfjRZu3YuEzI4h
+ kYi9PP4yE5fefONI/mXQ2D29AIzLrzWLWHOMm+HlRjzBDyL3I14VRPqeOqslw3pJUIzS8o56i
+ N9o519V
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,19 +71,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use execfd to re-exectute the binary from /proc/self/exe
+If path is /proc/self/exe, use the executable file descriptor
+provided by binfmt_misc (or opened by main()) with execveat().
 
-Fix do_openat() that should not use execfd.
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/main.c           | 9 +++++++--
+ linux-user/syscall.c        | 9 ++++++++-
+ linux-user/user-internals.h | 1 +
+ 3 files changed, 16 insertions(+), 3 deletions(-)
 
-Laurent Vivier (2):
-  linux-user: handle /proc/self/exe with execve() syscall
-  linux-user: don't use AT_EXECFD in do_openat()
-
- linux-user/main.c           |  9 +++++++--
- linux-user/syscall.c        | 12 +++++++++---
- linux-user/user-internals.h |  1 +
- 3 files changed, 17 insertions(+), 5 deletions(-)
-
+diff --git a/linux-user/main.c b/linux-user/main.c
+index e44bdb17b853..f915bdd7cef7 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -64,6 +64,7 @@
+ #endif
+ 
+ char *exec_path;
++int execfd;
+ 
+ int singlestep;
+ static const char *argv0;
+@@ -646,7 +647,6 @@ int main(int argc, char **argv, char **envp)
+     int target_argc;
+     int i;
+     int ret;
+-    int execfd;
+     unsigned long max_reserved_va;
+     bool preserve_argv0;
+ 
+@@ -845,7 +845,12 @@ int main(int argc, char **argv, char **envp)
+ 
+     fd_trans_init();
+ 
+-    ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
++    /*
++     * loader_exec() closes the file descriptor provided by the caller.
++     * As we need to keep it available for execve("/proc/self/exe")
++     * we provide a copy to loader_exec().
++     */
++    ret = loader_exec(dup(execfd), exec_path, target_argv, target_environ, regs,
+         info, &bprm);
+     if (ret != 0) {
+         printf("Error while loading %s: %s\n", exec_path, strerror(-ret));
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f4091212027c..6642652b7644 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -649,6 +649,8 @@ safe_syscall4(pid_t, wait4, pid_t, pid, int *, status, int, options, \
+ safe_syscall5(int, waitid, idtype_t, idtype, id_t, id, siginfo_t *, infop, \
+               int, options, struct rusage *, rusage)
+ safe_syscall3(int, execve, const char *, filename, char **, argv, char **, envp)
++safe_syscall5(int, execveat, int, dirfd, const char *, pathname, char **, \
++              argv, char **, envp, int, flags)
+ #if defined(TARGET_NR_select) || defined(TARGET_NR__newselect) || \
+     defined(TARGET_NR_pselect6) || defined(TARGET_NR_pselect6_time64)
+ safe_syscall6(int, pselect6, int, nfds, fd_set *, readfds, fd_set *, writefds, \
+@@ -8843,7 +8845,12 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+              * before the execve completes and makes it the other
+              * program's problem.
+              */
+-            ret = get_errno(safe_execve(p, argp, envp));
++            if (is_proc_myself(p, "exe")) {
++                ret = get_errno(safe_execveat(execfd, "", argp, envp,
++                                AT_EMPTY_PATH));
++            } else {
++                ret = get_errno(safe_execve(p, argp, envp));
++            }
+             unlock_user(p, arg1, 0);
+ 
+             goto execve_end;
+diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
+index 0280e76addda..84f29a1e2990 100644
+--- a/linux-user/user-internals.h
++++ b/linux-user/user-internals.h
+@@ -23,6 +23,7 @@
+ #include "qemu/log.h"
+ 
+ extern char *exec_path;
++extern int execfd;
+ void init_task_state(TaskState *ts);
+ void task_settid(TaskState *);
+ void stop_all_tasks(void);
 -- 
 2.37.3
 
