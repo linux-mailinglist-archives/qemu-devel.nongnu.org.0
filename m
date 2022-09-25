@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07CFE5E931A
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:32:08 +0200 (CEST)
-Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6CBE5E9307
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:21:38 +0200 (CEST)
+Received: from localhost ([::1]:35454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocQnm-00075E-RD
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:32:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55884)
+	id 1ocQdZ-0002Hh-7p
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:21:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPrx-0003Js-0r; Sun, 25 Sep 2022 07:32:27 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:36601)
+ id 1ocPrz-0003Ju-GE
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:28 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:46712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPrv-0006R1-4x; Sun, 25 Sep 2022 07:32:20 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- s14-20020a17090a6e4e00b0020057c70943so9958581pjm.1; 
- Sun, 25 Sep 2022 04:32:17 -0700 (PDT)
+ id 1ocPrw-0006RL-QQ
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:22 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id 78so4188343pgb.13
+ for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:32:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=Ys9PZej6Jr5Eh4o88j9BYOYlVXd3vSbqdt82ya5TQNo=;
- b=fl2pimBvUzMN51z5bGZhplbgYzfXG/TQLSWrOhNspA7XArF4mGSJLVIGDH2APkdQBc
- lvGhUmPQYccO3X7WoC8Ru86J2C65W317XAFg+jk8d9U5YD07r2wlfqH962aAIIjRK4TS
- k3tSye2jyM7QRw2YyXPf4w4pl0DV0el5akZ5T4vzPU803ZzUbVuyJ7grZRK6zpdlSyH+
- zOzo/HBByqMDUPthJTEiyzo9vY3Y7zSW0Vew2XnlPY5ZjXKpKb/Z8mO02I5ukc3Zy9xF
- GkZCm+qodIBF6n5tbqShacyFhZqrnasMzazVVhIzGMTe8jGVlYHlgb50y5BwzdVXuW8c
- Mshg==
+ bh=tuLrhiLQdAPzFXDphS6mjumk8PaBwG5Yc1g/mTPgSBs=;
+ b=dJIRoFIJ4EOGsN8OWRhXMf99HMJ2b9qhCkeGNFtAkN9K/uNsWEPY0cquyHqCVi1fA0
+ wH0F4R8Kl/pcGK6eYCNbDsWnshcW/BqO2mpII52ZoBnANMizapJR1J8EHTVNI50zW1NH
+ XcDxaolap9pyjBlUcX8+PLYm20M8rhQymWrT/C6WaCC/YFF5aqfX/O/3oOn3PL03m40T
+ 1guY1lPgna9haGI9OxQvAFjW9Z63IQd0XpB3y1Yfb/HW9N8Aa7g5O4L+plxCpzLqf7lV
+ qtfSF6VK528QOkP5NVXLSNHPwNCvxj0VuXW+klkIV9gI1p49Q0DMwn4osUPvEXjf4rkI
+ lFbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=Ys9PZej6Jr5Eh4o88j9BYOYlVXd3vSbqdt82ya5TQNo=;
- b=f6K9KTlvaaFt8BaFD3TCFziG+OjnAyrVo1VV2S4lx3hyBNMyr7iGv4Claze1Ylffqj
- Zc3Hy1r0aOhRuLveyecSieyQd9MrBEPEio82EXZRwxaRZeTnF0qtHm4STRp0zNpvc0+k
- +/jZD2R61cajMM9PuFSiOWtw9KFQfKSsiW4Bf7SZYvT8qggsTP621uYTAk7vHZ/0JD/i
- vfz/SfXLljaQPoH5Ya8Uk+rjQSet4xvuJ/8bDk4PXhm3rvv5r1yMsMnmNl7vOkugCrem
- trXfIVaITP6+Jpazk9bq4lt+Zy8F9pJkFTHF74Ai3vNZ1OUVIpEtKdO+vcUdlr/rwHqH
- jnvQ==
-X-Gm-Message-State: ACrzQf0G9tAOq5NAMiQTA4Kn9q+bVdWgottDUhvD3kv2OiEL6xe+QnKL
- DBVityBRjZDd/o+EtLWjz+thqtZmpYk=
-X-Google-Smtp-Source: AMsMyM6h7pPSfpnYYRBqI4Ogv8wPLIdXbBnNEXC/rMDx2Z1UpmQDK6G3zR46q9G+KmzGIpMLUy+6KQ==
-X-Received: by 2002:a17:90a:8909:b0:203:ab27:a41 with SMTP id
- u9-20020a17090a890900b00203ab270a41mr19918230pjn.163.1664105536721; 
- Sun, 25 Sep 2022 04:32:16 -0700 (PDT)
+ bh=tuLrhiLQdAPzFXDphS6mjumk8PaBwG5Yc1g/mTPgSBs=;
+ b=nL7EmtIL0WdUG7RVzDzLbm7nsP3BysHbrW4sdYJ85k4OO1wG5AZhiq556PERWN/4vJ
+ cSXxkRZsYV1ebz5zoDB9zcz34HgMt0SAM83ae4sOk0FjAfGbsGlU4SuQ4nLWzjTb0tK2
+ yEFh4KAZ6J+1FR9Sm9OFT1KpOq6fGE4h9tYR9v+yn+O6w1lAzxQxgypqi+60I7zAQeZI
+ zDzGVdffNcFz3Ylar7WMnAa+JEnwwKZBk3ypmFh37I//jjYmE8H+t+qWPihywz1W0Tvs
+ jBw1tOqAGlwKQlYZJpqjkm1bjNqaUsce4RjmG6M/5YhQX7ZIMrSmnDGJd10rJr4xy5hQ
+ B4vg==
+X-Gm-Message-State: ACrzQf1l23PFNG/i8qZvQVuDlzWkAhrn8B0DEjWSdl+82Eb83LagLUyG
+ DXGUI9WnIGiJdSrXU5+1Z/CViA/nhLw=
+X-Google-Smtp-Source: AMsMyM6uFxo35m8NUr6OcY63TgxDBpyqTKGMpHivCNvX/Brdnl2e55f9l1vVZ7ckt68xpvo9/wQhEg==
+X-Received: by 2002:a63:9141:0:b0:43b:d645:e057 with SMTP id
+ l62-20020a639141000000b0043bd645e057mr15243846pge.225.1664105539148; 
+ Sun, 25 Sep 2022 04:32:19 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.14
+ z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 04:32:16 -0700 (PDT)
+ Sun, 25 Sep 2022 04:32:18 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, John Snow <jsnow@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
-Subject: [PATCH v3 37/54] tests/qtest: {ahci,
- ide}-test: Use relative path for temporary files for win32
-Date: Sun, 25 Sep 2022 19:30:15 +0800
-Message-Id: <20220925113032.1949844-38-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH v3 38/54] tests/qtest: bios-tables-test: Adapt the case for
+ win32
+Date: Sun, 25 Sep 2022 19:30:16 +0800
+Message-Id: <20220925113032.1949844-39-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,9 +95,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-These test cases uses "blkdebug:path/to/config:path/to/image" for
-testing. On Windows, absolute file paths contain the delimiter ':'
-which causes the blkdebug filename parser fail to parse filenames.
+Single quotes in the arguments (oem_id='CRASH ') are not removed in
+the Windows environment before it is passed to the QEMU executable.
+The space in the argument causes the "-acpitable" option parser to
+think that all of its parameters are done, hence it complains:
+
+  '-acpitable' requires one of 'data' or 'file'
+
+Change to use double quotes which works fine on all platforms.
+
+Also /dev/null does not work on win32, and nul should be used.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
@@ -105,96 +112,39 @@ Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 (no changes since v1)
 
- tests/qtest/ahci-test.c | 21 ++++++++++++++++++---
- tests/qtest/ide-test.c  | 20 ++++++++++++++++++--
- 2 files changed, 36 insertions(+), 5 deletions(-)
+ tests/qtest/bios-tables-test.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
-index 1d5929d8c3..66652fed04 100644
---- a/tests/qtest/ahci-test.c
-+++ b/tests/qtest/ahci-test.c
-@@ -1833,7 +1833,7 @@ static void create_ahci_io_test(enum IOMode type, enum AddrMode addr,
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 46a46fe0aa..2ebeb530b2 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1615,6 +1615,12 @@ static void test_acpi_virt_viot(void)
+     free_test_data(&data);
+ }
  
- int main(int argc, char **argv)
- {
--    const char *arch;
-+    const char *arch, *base;
-     int ret;
-     int fd;
-     int c;
-@@ -1871,8 +1871,22 @@ int main(int argc, char **argv)
-         return 0;
-     }
- 
-+    /*
-+     * "base" stores the starting point where we create temporary files.
-+     *
-+     * On Windows, this is set to the relative path of current working
-+     * directory, because the absolute path causes the blkdebug filename
-+     * parser fail to parse "blkdebug:path/to/config:path/to/image".
-+     */
 +#ifndef _WIN32
-+    base = g_get_tmp_dir();
++# define DEV_NULL "/dev/null"
 +#else
-+    base = ".";
++# define DEV_NULL "nul"
 +#endif
 +
-     /* Create a temporary image */
--    fd = g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
-+    tmp_path = g_strdup_printf("%s/qtest.XXXXXX", base);
-+    fd = g_mkstemp(tmp_path);
-     g_assert(fd >= 0);
-     if (have_qemu_img()) {
-         imgfmt = "qcow2";
-@@ -1889,7 +1903,8 @@ int main(int argc, char **argv)
-     close(fd);
- 
-     /* Create temporary blkdebug instructions */
--    fd = g_file_open_tmp("qtest-blkdebug.XXXXXX", &debug_path, NULL);
-+    debug_path = g_strdup_printf("%s/qtest-blkdebug.XXXXXX", base);
-+    fd = g_mkstemp(debug_path);
-     g_assert(fd >= 0);
-     close(fd);
- 
-diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-index 25302be6dc..5e3e28aea2 100644
---- a/tests/qtest/ide-test.c
-+++ b/tests/qtest/ide-test.c
-@@ -1011,16 +1011,32 @@ static void test_cdrom_dma(void)
- 
- int main(int argc, char **argv)
+ static void test_acpi_q35_slic(void)
  {
-+    const char *base;
-     int fd;
-     int ret;
+     test_data data = {
+@@ -1622,9 +1628,9 @@ static void test_acpi_q35_slic(void)
+         .variant = ".slic",
+     };
  
-+    /*
-+     * "base" stores the starting point where we create temporary files.
-+     *
-+     * On Windows, this is set to the relative path of current working
-+     * directory, because the absolute path causes the blkdebug filename
-+     * parser fail to parse "blkdebug:path/to/config:path/to/image".
-+     */
-+#ifndef _WIN32
-+    base = g_get_tmp_dir();
-+#else
-+    base = ".";
-+#endif
-+
-     /* Create temporary blkdebug instructions */
--    fd = g_file_open_tmp("qtest-blkdebug.XXXXXX", &debug_path, NULL);
-+    debug_path = g_strdup_printf("%s/qtest-blkdebug.XXXXXX", base);
-+    fd = g_mkstemp(debug_path);
-     g_assert(fd >= 0);
-     close(fd);
- 
-     /* Create a temporary raw image */
--    fd = g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
-+    tmp_path = g_strdup_printf("%s/qtest.XXXXXX", base);
-+    fd = g_mkstemp(tmp_path);
-     g_assert(fd >= 0);
-     ret = ftruncate(fd, TEST_IMAGE_SIZE);
-     g_assert(ret == 0);
+-    test_acpi_one("-acpitable sig=SLIC,oem_id='CRASH ',oem_table_id='ME',"
+-                  "oem_rev=00002210,asl_compiler_id='qemu',"
+-                  "asl_compiler_rev=00000000,data=/dev/null",
++    test_acpi_one("-acpitable sig=SLIC,oem_id=\"CRASH \",oem_table_id=ME,"
++                  "oem_rev=00002210,asl_compiler_id=qemu,"
++                  "asl_compiler_rev=00000000,data=" DEV_NULL,
+                   &data);
+     free_test_data(&data);
+ }
 -- 
 2.34.1
 
