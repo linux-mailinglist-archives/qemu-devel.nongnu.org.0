@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB8D5E9048
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 00:17:01 +0200 (CEST)
-Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C905E9099
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 03:09:01 +0200 (CEST)
+Received: from localhost ([::1]:34306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocDSF-0006W4-Sm
-	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 18:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58842)
+	id 1ocG8h-0003na-4N
+	for lists+qemu-devel@lfdr.de; Sat, 24 Sep 2022 21:08:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1ocDPJ-0004Z6-Qy
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 18:13:57 -0400
-Received: from mout.gmx.net ([212.227.17.22]:46055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1ocDPE-0008OU-V4
- for qemu-devel@nongnu.org; Sat, 24 Sep 2022 18:13:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1664057630;
- bh=glL2oKbyCalCbQdc6Ns11sOFkCFrYp5s1DYoXdmGg5k=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=Sjs/BiQPkOAP9WcoTMXy+eIgPYK9SiM6kKQ6dQmzkVYi6dJ5S47uJxcui+ENmOa2R
- FjGTmHWxsbNnlFmbY+heA0RFzBJsrvMx8uH8PW5iLUYQrRjIp4nkpYHQTp58Ph4mOg
- FpbmDxY84U6yzaXt+GbSq7GaoeGMXR+DmGarBHZk=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100 ([92.116.155.187]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MJVHU-1orgxB3kuO-00JuKO; Sun, 25
- Sep 2022 00:13:49 +0200
-Date: Sun, 25 Sep 2022 00:13:48 +0200
-From: Helge Deller <deller@gmx.de>
-To: richard.henderson@linaro.org, qemu-devel@nongnu.org
-Subject: [PATCH] target/hppa: Generate illegal instruction exception for
- 64-bit instructions
-Message-ID: <Yy+BHMfYE3fYVq6k@p100>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ocG7F-0002MO-Lw
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 21:07:29 -0400
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:33402)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ocG7D-0006bA-QV
+ for qemu-devel@nongnu.org; Sat, 24 Sep 2022 21:07:29 -0400
+Received: by mail-qk1-x736.google.com with SMTP id h28so2316810qka.0
+ for <qemu-devel@nongnu.org>; Sat, 24 Sep 2022 18:07:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=fRNdUpBL5Q1cDRMryaw2cZt94+H11yaT2Rood7S+WIY=;
+ b=d1Y696eJGWwrcE6KCYcQrMT3isMeP8OZ5mrTB05VY2U3vPJ/cEfsexKmLp6uGNO0z7
+ J66GBYCcnkwmpVQ/kB8HaSVdoYvkPnjCSpWexs9xRHyq47XNarkMmJX/6ZeARNWpOIuV
+ jBqwn4Wo5gk688LBf5z2CsgdsJMUE3nUwqv1J5vagbps8sBGcNnGXLtheQDoDnOSrbRx
+ gFRh2wcNTnLF7zoX6SofAGC3v8wFfaAH2on/yusDpedgZOKL1hTzthVpc6H7xLcCOl6V
+ 8DwpaA0rQ2NF0iAKc7woq/p6eb31aTlKTbRX+clgeQ9tZWL4aP1Z3xet4oFTEsVUjJwq
+ bMWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=fRNdUpBL5Q1cDRMryaw2cZt94+H11yaT2Rood7S+WIY=;
+ b=qWHcTfldDcdkkpTByDnFfnLNbsPfHjPtDxhexs1x4ynNOp40QTeJ2+lOxpK7TQArr/
+ Qpt5mG5A8WgQQuyz3XQ9sxMvUzJmyFaXjNdoa9A6P7uxHn8H6eGW2JsvtFnTOL/Vg0le
+ HKE+038mP4MLG5Eo+N83JD36KZHco/PvPjO9KVkBS0yEF1zVwaQXGM8ZUcClzelQZbrx
+ BlYlim7JpLHRRkcgEv8yV6lLoU4XKmA92WytVHyc4zRShY2/SnVYo+vf1k6iubPzFcyH
+ STS8mLzPrpDdsuwGPL/RZlRJ4gY3soHyLDrqgAAtmCArYjsk2+2ifmRUEfcMXEX+xduv
+ sC0A==
+X-Gm-Message-State: ACrzQf3T7yk4CaA/3J2gMpHsjU+02fKtrStYhF+IriPtA+QsXlhKEPyC
+ 07kH7XQOVno6+qCAsHLb1t/EgBij40Mc0fvEXhU=
+X-Google-Smtp-Source: AMsMyM6rC9AzfEeAsv1BAduSAm6ECvHdR/K+lX/hxfY8p/X+FSlX2+QhUDnS9IjAwDvpjtw9RpjXgO8hRhyCkSAQ1Sc=
+X-Received: by 2002:ae9:e410:0:b0:6cb:e230:8df8 with SMTP id
+ q16-20020ae9e410000000b006cbe2308df8mr9944621qkc.132.1664068046850; Sat, 24
+ Sep 2022 18:07:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Provags-ID: V03:K1:fnULbI002Rf4n4x3z76/wa9cO3LHf2S9MmLstxTsZQJCAzs29TF
- vVVFql4xZDZTz8n0eOT79wse4geWnSDIsUBkpZDiw3KIBMmg4abat7wgV+tHz1tPvwqcPJX
- sXBt2cQ3q6Rvk8JFSmIWPzCM58R6AWsZTz20QBOdIy/PE9xJEGS2Ni54zhSosHy1ZfEPijC
- KKEyNSWITX0BGFUbl1wHQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GcMc6AhAaq8=:RypzgO5kWoLdh1sjy8aTuk
- s6MouGbU3nNEL2I/xo5HaH8uBxMiLwjU2gZQrV/gQ/UuA1cxmkfgmjJOoR2SCbva4jT1exq0Y
- nvRYSJ01TP/pFCPGu3pnWP6D1jvYqZ74Dcblnm3xSEUr07Ff9c9Iwn9nDmW2aCTdwIrZelfcV
- ILSsgWyKD8t7GTYWzkagGNgNRAikBAPoCzUOUFfPy4z7ISOvOI66mGH/2lkh8kdreUb+04P2j
- Or7ocB3/ZNOzz4gYr/DwvvzHZ68XWbM+ZM+1So8N46v/mHTT+42oJxl58MZ4Je3DxNSqBvcib
- xebPjrP1FKwsIjmHyFnQlGcrLp8h5nCWHWjcq0Fik/sItH2g8lOMQCj2k6EuOJm9yfUx2vRQa
- MhfsEpbpJYLdHzRcgperwoPNcPpZwI3cX4FCMODNSpSLdY2P7t1wMXaLRTOMjNpp1n5v8tv34
- xv0MBSPJjoQ7tzwH/L7gRQtFOieL8N/+vzLI1MmWkXuReGAQlKymE8QatPmt3sd8XXWmNSOdT
- OTY3TeUCrO9cWoLKiWG01OSNbZ8CCLcebqangnEbvF7IVl4af9tmolwShCrNp7AjjQwAA6Kfd
- p3m9LijMIbyu61icYY79+ImicCzo6cx+M6uj3h8gFP+OEKisaS7jvR9x0j41yRxR0qt9Rkr52
- us2gkQC3lkFK81u+VlgdK19X8ReExY2CFaBbpyALcTRC7X4XRRgdLRtF4tTExsZOw6G8l0rsk
- WPqJx/xMKrEYjINxxEDtgULU+6fr07JvtWN8ygqxOrtDpQCd5SbCaNOTKt8WMlPTrKM5Q7v0x
- APgJE03VC91XDgZ+h6RxWZCIxqpC3sXyQDVc5afkjmt/WObqhnZ78Nv4OJ0MEVkKvVKsNZn1u
- knUMybjlO2J8JEx0jqc7n4e4bsQQkw4fjwBopgCWhMdrgV7YqXDMMR5sbUCI/t0zxFU2n9LDT
- OtSWts7yWCyCs0Vr7cyv00npu+dAcW5olY5L6H9X2klQsMT3zABh/jpCbl99gW2mJdRJgEfVR
- 5SmD2JC6LytJ5tx5SCtoeaxmRWlF8GbGNB0FhCVMuLZk5XqRVGdlmo0bMCDHm1XvFcYSrW9J+
- 9myc4lwEetWTLTx3GWC/KecDsH1y/I0eKbvYEaX96PdhYWjSIjsc59kr1Y5td49ICFbMcg7ps
- pxPNm53vCm0xrBOPGzEqbguhCy
+References: <20220824085231.1630804-1-bmeng.cn@gmail.com>
+ <CAJ+F1CKjLyV4HJKQ7fWXgzHq6t9yFMA+s6Afwk-tv1Nq806V2Q@mail.gmail.com>
+In-Reply-To: <CAJ+F1CKjLyV4HJKQ7fWXgzHq6t9yFMA+s6Afwk-tv1Nq806V2Q@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sun, 25 Sep 2022 09:07:15 +0800
+Message-ID: <CAEUhbmUh+PfqhbXT=tdTd7i2kr3KLA14JjsnPkw5BKBS0A-gqw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] util/main-loop: Fix maximum number of wait objects
+ for win32
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x736.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,53 +88,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Qemu currently emulates a 32-bit CPU only, and crashes with this error
-when it faces a 64-bit load (e.g.  "ldd 0(r26),r0") or 64-bit store
-(e.g. "std r26,0(r26)") instruction in the guest:
+Hi Paolo,
 
-ERROR:../qemu/tcg/tcg-op.c:2822:tcg_canonicalize_memop: code should not be=
- reached
+On Tue, Sep 13, 2022 at 5:52 PM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi
+>
+> On Wed, Aug 24, 2022 at 12:52 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>
+>> From: Bin Meng <bin.meng@windriver.com>
+>>
+>> The maximum number of wait objects for win32 should be
+>> MAXIMUM_WAIT_OBJECTS, not MAXIMUM_WAIT_OBJECTS + 1.
+>>
+>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>> ---
+>>
+>> Changes in v3:
+>> - move the check of adding the same HANDLE twice to a separete patch
+>>
+>> Changes in v2:
+>> - fix the logic in qemu_add_wait_object() to avoid adding
+>>   the same HANDLE twice
+>>
+>>  util/main-loop.c | 11 +++++++----
+>>  1 file changed, 7 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/util/main-loop.c b/util/main-loop.c
+>> index f00a25451b..cb018dc33c 100644
+>> --- a/util/main-loop.c
+>> +++ b/util/main-loop.c
+>> @@ -363,10 +363,10 @@ void qemu_del_polling_cb(PollingFunc *func, void *=
+opaque)
+>>  /* Wait objects support */
+>>  typedef struct WaitObjects {
+>>      int num;
+>> -    int revents[MAXIMUM_WAIT_OBJECTS + 1];
+>> -    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
+>> -    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS + 1];
+>> -    void *opaque[MAXIMUM_WAIT_OBJECTS + 1];
+>> +    int revents[MAXIMUM_WAIT_OBJECTS];
+>> +    HANDLE events[MAXIMUM_WAIT_OBJECTS];
+>> +    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS];
+>> +    void *opaque[MAXIMUM_WAIT_OBJECTS];
+>>  } WaitObjects;
+>>
+>>  static WaitObjects wait_objects =3D {0};
+>> @@ -395,6 +395,9 @@ void qemu_del_wait_object(HANDLE handle, WaitObjectF=
+unc *func, void *opaque)
+>>          if (w->events[i] =3D=3D handle) {
+>>              found =3D 1;
+>>          }
+>> +        if (i =3D=3D MAXIMUM_WAIT_OBJECTS - 1) {
+>> +            break;
+>> +        }
+>
+>
+> hmm
+>
+>>
+>>          if (found) {
+>>              w->events[i] =3D w->events[i + 1];
+>>              w->func[i] =3D w->func[i + 1];
+>
+>
+> The way deletion works is by moving the i+1 element (which is always zero=
+ed for i =3D=3D MAXIMUM_WAIT_OBJECTS) to i.
+>
+> After your patch, for i =3D=3D MAXIMUM_WAIT_OBJECTS, we no longer clear t=
+he last value, and instead rely simply on updated w->num:
+>
+>     if (found) {
+>         w->num--;
+>     }
+>
+>  So your patch looks ok to me, but I prefer the current code.
+>
+> Paolo, what do you say?
 
-Fix this by adding checks for 64-bit sizes and generate an illegal
-instruction exception if necessary.
+Ping?
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index b8dbfee5e9..287cc410cd 100644
-=2D-- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -1568,7 +1568,12 @@ static bool do_load(DisasContext *ctx, unsigned rt,=
- unsigned rb,
-         /* Make sure if RT =3D=3D RB, we see the result of the load.  */
-         dest =3D get_temp(ctx);
-     }
--    do_load_reg(ctx, dest, rb, rx, scale, disp, sp, modify, mop);
-+    if (unlikely(TARGET_REGISTER_BITS =3D=3D 32 && (mop & MO_SIZE) > MO_3=
-2)) {
-+        gen_illegal(ctx);
-+        dest =3D tcg_constant_reg(0);
-+    } else {
-+        do_load_reg(ctx, dest, rb, rx, scale, disp, sp, modify, mop);
-+    }
-     save_gpr(ctx, rt, dest);
-
-     return nullify_end(ctx);
-@@ -1631,7 +1636,11 @@ static bool do_store(DisasContext *ctx, unsigned rt=
-, unsigned rb,
-                      int modify, MemOp mop)
- {
-     nullify_over(ctx);
--    do_store_reg(ctx, load_gpr(ctx, rt), rb, 0, 0, disp, sp, modify, mop)=
-;
-+    if (unlikely(TARGET_REGISTER_BITS =3D=3D 32 && (mop & MO_SIZE) > MO_3=
-2)) {
-+        gen_illegal(ctx);
-+    } else {
-+        do_store_reg(ctx, load_gpr(ctx, rt), rb, 0, 0, disp, sp, modify, =
-mop);
-+    }
-     return nullify_end(ctx);
- }
-
+Regards,
+Bin
 
