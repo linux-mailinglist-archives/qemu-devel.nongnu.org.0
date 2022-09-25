@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E0E5E92CB
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 13:44:38 +0200 (CEST)
-Received: from localhost ([::1]:56138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038675E92CF
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 13:48:52 +0200 (CEST)
+Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocQ3p-0006c9-2j
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 07:44:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48504)
+	id 1ocQ7v-00023E-29
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 07:48:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPqV-0002WR-Jn
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:30:51 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:35711)
+ id 1ocPqX-0002Z1-8u
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:30:54 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:38845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPqT-0006IE-UZ
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:30:51 -0400
-Received: by mail-pf1-x436.google.com with SMTP id e5so4188220pfl.2
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:30:49 -0700 (PDT)
+ id 1ocPqV-0006IN-RT
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:30:53 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id 129so2788464pgc.5
+ for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=NHZEwyZe4QvDxYFPPW8rgMjXXwZjWrApXq6jqgxMbHA=;
- b=eSxFd8QWEz63E3jXfmNOFHJMU6CbKHFE9mQJuc8c7HkViaTjcHS1GWWK0kIUJ8oVna
- vIg7nmaQasrGqnqCKqdIvH+fF1Jwb1HbphGpaL+ePuhAh4MX/hr9WA7AnOBuODavFfjy
- xdeaqsTnqhG7AI8DGbUEvcpp53LeBbP/Z8wWQGeM0ySZ0KdiWgNfyrzKsgfcHc7sqrxM
- yZ1qm+Y3b/qV32JSNLUHRnVtRcDRqHbkFcOtLx1SCogSsKo0QELAd2TWReQaFD51gS9E
- qN5AAEpU5wXSzOsksrUAUeGJt2nyCyxZtdCVVgfVrhnhFkAIz7kpnv8mQorkOAT6BcRU
- krBg==
+ bh=x1b0DAXqWLfiXhIrelVULtyJQz5QogyXKHVADLX3USo=;
+ b=iA6vrJKoZVzb5mhtTIoFaWpmlKmn9U+D8y7LSFOh9NQ6lgS9oRR10DQkxFr4K3mYxS
+ ZCuPGux3bKDDgSp/75rFlnSwIzoQNIxbeX5wL0wqKssG8fbepzlT0h5YQ+/eHvvaJUm8
+ 4z1+M122Qnm4aQMnkjXJYidsQhc62xbdKvYCI4fnMvGD824X/aVBsQckB1kJ57GDIP+t
+ LV2fAaBJsKV/ivN7NCucQLiR4U8EngEQSsayXnDTDUFIa/hkn4xpZo72gdfSji4U6k4Y
+ oXcr0InPZQj23H685BE+W/+w3fmeTy9oysDR97JMl+4X6ruSn1fjfFP0GgoYp3fraQRf
+ tWSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=NHZEwyZe4QvDxYFPPW8rgMjXXwZjWrApXq6jqgxMbHA=;
- b=19VdIYN3qf55N7zNvRzjet+imEG4X7hDY7MI5OecNVGbP1JctB2ZLeQPme3pYRI7tV
- c3y4KIBeQRRYjCy7Dzptfof5zo/F3wekD9v3AHORmCcXl8y6Y0RIfLjnJqlJvP9Ajxdd
- okG8dz68cmaAPFgPT3F5eP88Qd3PM6WaPy25CY9csd1zTdHsMI9wh+7j4OUnqYiKTtDp
- NEag24HmTLnIgoZDjliWsczN3erHxJ9yrMBh98A2Zu+pQkuVL1bnL+P+4BYlauJ04HAP
- Nj92KLbzX3A+NHKTdfGnFwuLY+++X7SkFtarcZTPBDkT87dgXsd7Vmw4lOYtkJLECpcZ
- 3kNA==
-X-Gm-Message-State: ACrzQf10eprMnU7d+nM9twLYGZ5EHxmDR7eNo0mbO95M88IPhzSbq6C9
- U8uwt2zf8WGHiq3vOWQChrm/iSi8Jo0=
-X-Google-Smtp-Source: AMsMyM5RAKdwNBeBVXvr2q+yVqdKkYr4+6Qiq9nco+paeNd2ZRNzLy+xIg3gISwQUtNHA2WwtcjZIQ==
-X-Received: by 2002:aa7:9e0d:0:b0:540:94a7:9051 with SMTP id
- y13-20020aa79e0d000000b0054094a79051mr18380275pfq.59.1664105448328; 
- Sun, 25 Sep 2022 04:30:48 -0700 (PDT)
+ bh=x1b0DAXqWLfiXhIrelVULtyJQz5QogyXKHVADLX3USo=;
+ b=qCX4uo0QxHxtix/eNr4Skd4FHvEr5bVrTlrn+Va0Bwqi+gH+YSSKTA3ylpMKJeCdSq
+ 1gAa2HHYavN7Z071p3cgBlO0iNiTHarTVnN1N5Z4kPxNoXlBKowFY5oLeQWA3NrcyRcA
+ FkRT2vZFX86XORNw7fRa1qD+sgIWtjVGwFTs8nnnkyWRkJX71ShqpPXO+YjOVxUwJBNC
+ tPixJtIrna2vUuw71AU9GYzSox1aDlznm9Xe6dObFrrtUogKxQfBKFemx2iD3kDhDMCf
+ J4GcetIjiP+FRdHdQIR6GFjIpagdqOAn8OaMJpYUyx9E4j9Jc74V9U5aw9MCGSuO/JCb
+ Eauw==
+X-Gm-Message-State: ACrzQf3vcg7WOVCQhhXcDq+kx1YIyW/0ealXCuD3CmjRrOzLvS//TfvG
+ zgSkgjzmpXyiQxOPYYphdQVV6H3BMPg=
+X-Google-Smtp-Source: AMsMyM43PM8miWusED9cJMfV4AqxZyczvi+AcnGhfm3v0KlBNH/lfe1f/kM3aC+52GvWsdLv+Tf2rQ==
+X-Received: by 2002:a63:5fd6:0:b0:434:96fe:f508 with SMTP id
+ t205-20020a635fd6000000b0043496fef508mr15312985pgb.306.1664105450400; 
+ Sun, 25 Sep 2022 04:30:50 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.30.46
+ z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.30.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 04:30:48 -0700 (PDT)
+ Sun, 25 Sep 2022 04:30:50 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v3 02/54] semihosting/arm-compat-semi: Avoid using hardcoded
- /tmp
-Date: Sun, 25 Sep 2022 19:29:40 +0800
-Message-Id: <20220925113032.1949844-3-bmeng.cn@gmail.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v3 03/54] tcg: Avoid using hardcoded /tmp
+Date: Sun, 25 Sep 2022 19:29:41 +0800
+Message-Id: <20220925113032.1949844-4-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,28 +98,32 @@ From: Bin Meng <bin.meng@windriver.com>
 Use g_get_tmp_dir() to get the directory to use for temporary files.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
 
-(no changes since v1)
+(no changes since v2)
 
- semihosting/arm-compat-semi.c | 3 ++-
+Changes in v2:
+- Use g_autofree to declare the variable
+
+ tcg/tcg.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index e741674238..d5e66cc298 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -503,7 +503,8 @@ void do_common_semihosting(CPUState *cs)
-         GET_ARG(0);
-         GET_ARG(1);
-         GET_ARG(2);
--        len = asprintf(&s, "/tmp/qemu-%x%02x", getpid(), (int)arg1 & 0xff);
-+        len = asprintf(&s, "%s/qemu-%x%02x", g_get_tmp_dir(),
-+                       getpid(), (int)arg1 & 0xff);
-         if (len < 0) {
-             common_semi_set_ret(cs, -1);
-             break;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 0f9cfe96f2..8847053176 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -4729,7 +4729,8 @@ static void tcg_register_jit_int(const void *buf_ptr, size_t buf_size,
+     /* Enable this block to be able to debug the ELF image file creation.
+        One can use readelf, objdump, or other inspection utilities.  */
+     {
+-        FILE *f = fopen("/tmp/qemu.jit", "w+b");
++        g_autofree char *jit = g_strdup_printf("%s/qemu.jit", g_get_tmp_dir());
++        FILE *f = fopen(jit, "w+b");
+         if (f) {
+             if (fwrite(img, img_size, 1, f) != img_size) {
+                 /* Avoid stupid unused return value warning for fwrite.  */
 -- 
 2.34.1
 
