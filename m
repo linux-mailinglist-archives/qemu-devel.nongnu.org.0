@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9D85E91DA
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 11:25:42 +0200 (CEST)
-Received: from localhost ([::1]:42822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1065E91E1
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 11:29:37 +0200 (CEST)
+Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocNtN-00028J-Qj
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 05:25:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45034)
+	id 1ocNxA-0005T5-2o
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 05:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocNpF-000670-4c; Sun, 25 Sep 2022 05:21:25 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59402)
+ id 1ocNqu-0008F8-7L; Sun, 25 Sep 2022 05:23:08 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59410)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocNpC-0004mN-Uk; Sun, 25 Sep 2022 05:21:24 -0400
+ id 1ocNqs-0004vU-ED; Sun, 25 Sep 2022 05:23:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ewjn8XQ6EyslsksR91eqrD3ZRexJQio5S8wG0QKQdYY=; b=Q9TNLofJQqvTPAzCLZwh32Fi85
- iMy4FZiOH/pKuh+gq0d5nisOxTbfbqC0ewXP9pJn4536SbTCBSflZ8ZXAMXn8pgi2gGMhKycK31vR
- HAnZypcFrbxsAmfIvM+bYHr5Xp4r+3/VLoN2HXsesnxqDNgTy2jSUgOBBRdSGStGIGmybhuI/afpp
- EBGasCxG4e5hnz5mvLyaeOftlIvSWdOfY5hXho62SpzD02XBuHnkE3QDqjCl4GGjArsx9D4J3EB3m
- xgukJU0P9k3RGUddbL4IWxA37fpv+JCcFlewGBPTvKLBQZSrtNh8XKv9VCei5hsVyCFzPNgp5pZjb
- AIoPRdVZeCYefSTK3Ure9iG8UgG7V3xChCANNkfvGb4leJHl3lym+O8eyDsDc37GS8dZf0/HhRa7U
- yosI6fGEc5cjvBUQGOmOnkkxEar2hSvhICO3Fv41BZKRLng3nce+db2PsqEaFz92W67zYTEsBYqdx
- nYE78/A5DonMIhCi3DxBKWErDPowNfKDzUoIHSqFDkkXE/wNdrYFIttgHRTglHIihcr3X8WGUR6Av
- EvodcK2v73lypnS9Aw6VUs3s11Xig5P+To3toWoAlZiyC+o8CymTyzhVny7jgf8fAzkn++SC9xcJH
- 18t2ppLF8zFYR8Tygw2ReDzJ6xXY9Y4qK3XTftehU=;
+ bh=t472SNhxv6uKViDBMDvDTyED/2bBz4I0uGCqMVl8xlg=; b=pdw9k5+EYJTIBqTGlb9znbbyNW
+ SMNT2PRFZe01T+M0ZudWeowZFKWt7mCADirKwc4/qrcd194+x+RS2Lc/C1fP6ndcb+5lMRr3TiRt+
+ AoC9WJq5x8K/ElGsq5l/Sos9z8k2Z9DdqO6Gb0jWPIhLtynaGt1gKxh7z+NPfbON0ZMpuu8NTWi5K
+ cT+Y2bv1drppEuKk8NmHv9ytt+Bd6fgQEG8htd/xd9l+07ldk+VmZBLfqTMMgHSFCjos8m84Madvp
+ Qa/oqlg3PPaeW2GczQYIeY4t1wfxnryzSGeGe/QguW5vceY9lflOZVqqt5h/62HjAxpLeNJ9U6OoV
+ 6j/dpB7w0npSRl6M0Nx8h1HqN4erh1u+OLdfB7gA6VQz55EdTzDCi+F9Ns0lAJ5pC23T8Db968UvC
+ Gq+TPbw2k56K558qAOpv6mnaypkOKGbbRicO4dkAhs6uU251DwCDiSJP3BlsfUXCMaIjAomXHwPSn
+ Pp46f1LhkqkWCZz+FYmYtgvML1HSLp1XOxkDSaWpjM9fnLBFpDtat4VFfuFsX97IeeXJhMu1/KSa+
+ vgEgpyZkqMIRvhpSylin07+LmgdJalH9gPEhpJuPC+jXiT/nCRgqYd/3tq84oa8wKq+cZ3svo0bPf
+ u4yCUmRihjHxpjv8rFjjEpgi/1nRnQwvGTXNEeGlA=;
 Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocNnT-0006wA-1A; Sun, 25 Sep 2022 10:19:39 +0100
-Message-ID: <4e54027f-b74b-6ed0-9c5d-f655e4784630@ilande.co.uk>
-Date: Sun, 25 Sep 2022 10:21:15 +0100
+ id 1ocNp8-0006wd-81; Sun, 25 Sep 2022 10:21:22 +0100
+Message-ID: <08563903-eaf6-4ea2-9543-10c1fdca541c@ilande.co.uk>
+Date: Sun, 25 Sep 2022 10:22:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -46,15 +46,15 @@ Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 References: <cover.1663368422.git.balaton@eik.bme.hu>
- <e10a8d11ea424aa8fa727936b2ad6c2fe439b3ad.1663368422.git.balaton@eik.bme.hu>
+ <f8554a36947fc60caf104deffc6cfa5c4f244ae5.1663368422.git.balaton@eik.bme.hu>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <e10a8d11ea424aa8fa727936b2ad6c2fe439b3ad.1663368422.git.balaton@eik.bme.hu>
+In-Reply-To: <f8554a36947fc60caf104deffc6cfa5c4f244ae5.1663368422.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 08/10] hw/ppc/mac.h: Move grackle-pcihost declaration out
- from shared header
+Subject: Re: [PATCH 09/10] hw/ppc/mac.h: Move PROM and KERNEL defines to board
+ code
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -82,62 +82,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 17/09/2022 00:07, BALATON Zoltan wrote:
 
-> It is only used by mac_oldworld anyway and it already instantiates
-> a few devices by name so this allows reducing the shared header further.
+> The PROM_FILENAME and KERNEL_* defines are used by mac_oldworld and
+> mac_newworld but they don't have to be identical so these could be
+> moved to the individual boards. The NVRAM_SIZE define is not used so
+> it can be dropped. This further reduces the mac.h header.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   hw/pci-host/grackle.c | 1 +
->   hw/ppc/mac.h          | 3 ---
->   hw/ppc/mac_oldworld.c | 2 +-
->   3 files changed, 2 insertions(+), 4 deletions(-)
+>   hw/ppc/mac.h          | 6 ------
+>   hw/ppc/mac_newworld.c | 4 ++++
+>   hw/ppc/mac_oldworld.c | 7 ++++++-
+>   3 files changed, 10 insertions(+), 7 deletions(-)
 > 
-> diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
-> index b05facf463..5282123004 100644
-> --- a/hw/pci-host/grackle.c
-> +++ b/hw/pci-host/grackle.c
-> @@ -34,6 +34,7 @@
->   #include "trace.h"
->   #include "qom/object.h"
->   
-> +#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
->   OBJECT_DECLARE_SIMPLE_TYPE(GrackleState, GRACKLE_PCI_HOST_BRIDGE)
->   
->   struct GrackleState {
 > diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
-> index 55cb02c990..fe77a6c6db 100644
+> index fe77a6c6db..3c0c3cc43d 100644
 > --- a/hw/ppc/mac.h
 > +++ b/hw/ppc/mac.h
-> @@ -35,9 +35,6 @@
->   #define KERNEL_LOAD_ADDR 0x01000000
->   #define KERNEL_GAP       0x00100000
+> @@ -29,12 +29,6 @@
+>   #include "exec/memory.h"
+>   #include "hw/sysbus.h"
 >   
-> -/* Grackle PCI */
-> -#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
+> -#define NVRAM_SIZE        0x2000
+> -#define PROM_FILENAME    "openbios-ppc"
+> -
+> -#define KERNEL_LOAD_ADDR 0x01000000
+> -#define KERNEL_GAP       0x00100000
 > -
 >   /* Mac NVRAM */
 >   #define TYPE_MACIO_NVRAM "macio-nvram"
 >   OBJECT_DECLARE_SIMPLE_TYPE(MacIONVRAMState, MACIO_NVRAM)
+> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+> index 14cc8cd6ea..1cb10726d3 100644
+> --- a/hw/ppc/mac_newworld.c
+> +++ b/hw/ppc/mac_newworld.c
+> @@ -83,9 +83,13 @@
+>   
+>   #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
+>   
+> +#define PROM_FILENAME "openbios-ppc"
+>   #define PROM_BASE 0xfff00000
+>   #define PROM_SIZE (1 * MiB)
+>   
+> +#define KERNEL_LOAD_ADDR 0x01000000
+> +#define KERNEL_GAP       0x00100000
+> +
+>   #define TYPE_CORE99_MACHINE MACHINE_TYPE_NAME("mac99")
+>   typedef struct Core99MachineState Core99MachineState;
+>   DECLARE_INSTANCE_CHECKER(Core99MachineState, CORE99_MACHINE,
 > diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-> index f323a49d7a..a4094226bc 100644
+> index a4094226bc..e196090f49 100644
 > --- a/hw/ppc/mac_oldworld.c
 > +++ b/hw/ppc/mac_oldworld.c
-> @@ -214,7 +214,7 @@ static void ppc_heathrow_init(MachineState *machine)
->       }
+> @@ -57,10 +57,15 @@
 >   
->       /* Grackle PCI host bridge */
-> -    grackle_dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
-> +    grackle_dev = qdev_new("grackle-pcihost");
->       qdev_prop_set_uint32(grackle_dev, "ofw-addr", 0x80000000);
->       s = SYS_BUS_DEVICE(grackle_dev);
->       sysbus_realize_and_unref(s, &error_fatal);
+>   #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
+>   
+> -#define GRACKLE_BASE 0xfec00000
+> +#define PROM_FILENAME "openbios-ppc"
+>   #define PROM_BASE 0xffc00000
+>   #define PROM_SIZE (4 * MiB)
+>   
+> +#define KERNEL_LOAD_ADDR 0x01000000
+> +#define KERNEL_GAP       0x00100000
+> +
+> +#define GRACKLE_BASE 0xfec00000
+> +
+>   static void fw_cfg_boot_set(void *opaque, const char *boot_device,
+>                               Error **errp)
+>   {
 
-This is the wrong way around - we want to move towards using TYPE_ macros everywhere 
-for device instantiation instead of hardcoded strings.
-
-What's really missing here is that the QOM structs and definitions for grackle.c 
-should be moved to a new include/hw/pci-host/grackle.h file from mac.h and included 
-where necessary.
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
 ATB,
