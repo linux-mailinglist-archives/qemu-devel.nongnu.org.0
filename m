@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7465E9345
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 15:03:29 +0200 (CEST)
-Received: from localhost ([::1]:40432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D1C5E9338
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:53:47 +0200 (CEST)
+Received: from localhost ([::1]:43864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocRI8-0007MQ-4i
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 09:03:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46378)
+	id 1ocR8j-0000yF-UN
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:53:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ocQtl-0006Cf-UT; Sun, 25 Sep 2022 08:38:17 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:61358)
+ id 1ocQtn-0006J0-JI; Sun, 25 Sep 2022 08:38:19 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:61362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ocQtk-0007L1-55; Sun, 25 Sep 2022 08:38:17 -0400
+ id 1ocQtl-0007LY-4T; Sun, 25 Sep 2022 08:38:19 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 699C575A16A;
- Sun, 25 Sep 2022 14:38:13 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 8943875A16C;
+ Sun, 25 Sep 2022 14:38:14 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4787475A164; Sun, 25 Sep 2022 14:38:13 +0200 (CEST)
-Message-Id: <4a039abeeddcc6c987065ca526c6fa0457784615.1664108862.git.balaton@eik.bme.hu>
+ id 55FC475A164; Sun, 25 Sep 2022 14:38:14 +0200 (CEST)
+Message-Id: <a806a81377ce7789af79004fe26d11da8ebc3fab.1664108862.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1664108862.git.balaton@eik.bme.hu>
 References: <cover.1664108862.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 06/13] mac_newworld: Simplify creation of Uninorth devices
+Subject: [PATCH v2 07/13] mac_{old|new}world: Reduce number of QOM casts
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Sun, 25 Sep 2022 14:38:13 +0200 (CEST)
+Date: Sun, 25 Sep 2022 14:38:14 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, PP_MIME_FAKE_ASCII_TEXT=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,94 +54,233 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid open coding sysbus_mmio_map() and map regions in ascending
-otder. Reorganise code a bit to avoid some casts.
+By storing the device pointers in a variable with the right type the
+number of QOM casts can be reduced which also makes the code more
+readable.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/ppc/mac_newworld.c | 42 +++++++++++++++++-------------------------
- 1 file changed, 17 insertions(+), 25 deletions(-)
+ hw/ppc/mac_newworld.c | 61 ++++++++++++++++++++-----------------------
+ hw/ppc/mac_oldworld.c | 26 ++++++++----------
+ 2 files changed, 39 insertions(+), 48 deletions(-)
 
 diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 6bc3bd19be..b4ad43cc05 100644
+index b4ad43cc05..2acd103dd3 100644
 --- a/hw/ppc/mac_newworld.c
 +++ b/hw/ppc/mac_newworld.c
-@@ -228,13 +228,6 @@ static void ppc_core99_init(MachineState *machine)
-         }
+@@ -116,18 +116,16 @@ static void ppc_core99_init(MachineState *machine)
+     MemoryRegion *bios = g_new(MemoryRegion, 1);
+     hwaddr kernel_base = 0, initrd_base = 0, cmdline_base = 0;
+     long kernel_size = 0, initrd_size = 0;
+-    UNINHostState *uninorth_pci;
+     PCIBus *pci_bus;
+-    PCIDevice *macio;
+-    ESCCState *escc;
+     bool has_pmu, has_adb;
++    Object *macio;
+     MACIOIDEState *macio_ide;
+     BusState *adb_bus;
+     MacIONVRAMState *nvr;
+     DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
+     void *fw_cfg;
+     SysBusDevice *s;
+-    DeviceState *dev, *pic_dev;
++    DeviceState *dev, *pic_dev, *uninorth_pci_dev;
+     DeviceState *uninorth_internal_dev = NULL, *uninorth_agp_dev = NULL;
+     hwaddr nvram_addr = 0xFFF04000;
+     uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
+@@ -229,6 +227,7 @@ static void ppc_core99_init(MachineState *machine)
      }
  
--    /* UniN init */
--    dev = qdev_new(TYPE_UNI_NORTH);
--    s = SYS_BUS_DEVICE(dev);
--    sysbus_realize_and_unref(s, &error_fatal);
--    memory_region_add_subregion(get_system_memory(), 0xf8000000,
--                                sysbus_mmio_get_region(s, 0));
--
      openpic_irqs = g_new0(IrqLines, machine->smp.cpus);
++    dev = DEVICE(cpu);
      for (i = 0; i < machine->smp.cpus; i++) {
          /* Mac99 IRQ connection between OpenPIC outputs pins
-@@ -275,24 +268,27 @@ static void ppc_core99_init(MachineState *machine)
-         }
-     }
- 
-+    /* UniN init */
-+    s = SYS_BUS_DEVICE(qdev_new(TYPE_UNI_NORTH));
-+    sysbus_realize_and_unref(s, &error_fatal);
-+    sysbus_mmio_map(s, 0, 0xf8000000);
-+
-     if (PPC_INPUT(env) == PPC_FLAGS_INPUT_970) {
-+        machine_arch = ARCH_MAC99_U3;
+          * and PowerPC input pins
+@@ -236,30 +235,30 @@ static void ppc_core99_init(MachineState *machine)
+         switch (PPC_INPUT(env)) {
+         case PPC_FLAGS_INPUT_6xx:
+             openpic_irqs[i].irq[OPENPIC_OUTPUT_INT] =
+-                qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_INT);
++                qdev_get_gpio_in(dev, PPC6xx_INPUT_INT);
+             openpic_irqs[i].irq[OPENPIC_OUTPUT_CINT] =
+-                 qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_INT);
++                 qdev_get_gpio_in(dev, PPC6xx_INPUT_INT);
+             openpic_irqs[i].irq[OPENPIC_OUTPUT_MCK] =
+-                qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_MCP);
++                qdev_get_gpio_in(dev, PPC6xx_INPUT_MCP);
+             /* Not connected ? */
+             openpic_irqs[i].irq[OPENPIC_OUTPUT_DEBUG] = NULL;
+             /* Check this */
+             openpic_irqs[i].irq[OPENPIC_OUTPUT_RESET] =
+-                qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_HRESET);
++                qdev_get_gpio_in(dev, PPC6xx_INPUT_HRESET);
+             break;
+ #if defined(TARGET_PPC64)
+         case PPC_FLAGS_INPUT_970:
+             openpic_irqs[i].irq[OPENPIC_OUTPUT_INT] =
+-                qdev_get_gpio_in(DEVICE(cpu), PPC970_INPUT_INT);
++                qdev_get_gpio_in(dev, PPC970_INPUT_INT);
+             openpic_irqs[i].irq[OPENPIC_OUTPUT_CINT] =
+-                qdev_get_gpio_in(DEVICE(cpu), PPC970_INPUT_INT);
++                qdev_get_gpio_in(dev, PPC970_INPUT_INT);
+             openpic_irqs[i].irq[OPENPIC_OUTPUT_MCK] =
+-                qdev_get_gpio_in(DEVICE(cpu), PPC970_INPUT_MCP);
++                qdev_get_gpio_in(dev, PPC970_INPUT_MCP);
+             /* Not connected ? */
+             openpic_irqs[i].irq[OPENPIC_OUTPUT_DEBUG] = NULL;
+             /* Check this */
+             openpic_irqs[i].irq[OPENPIC_OUTPUT_RESET] =
+-                qdev_get_gpio_in(DEVICE(cpu), PPC970_INPUT_HRESET);
++                qdev_get_gpio_in(dev, PPC970_INPUT_HRESET);
+             break;
+ #endif /* defined(TARGET_PPC64) */
+         default:
+@@ -277,9 +276,8 @@ static void ppc_core99_init(MachineState *machine)
+         machine_arch = ARCH_MAC99_U3;
          /* 970 gets a U3 bus */
          /* Uninorth AGP bus */
-         dev = qdev_new(TYPE_U3_AGP_HOST_BRIDGE);
--        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-         uninorth_pci = U3_AGP_HOST_BRIDGE(dev);
-         s = SYS_BUS_DEVICE(dev);
--        /* PCI hole */
--        memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
--                                    sysbus_mmio_get_region(s, 2));
--        /* Register 8 MB of ISA IO space */
--        memory_region_add_subregion(get_system_memory(), 0xf2000000,
--                                    sysbus_mmio_get_region(s, 3));
-+        sysbus_realize_and_unref(s, &error_fatal);
+-        dev = qdev_new(TYPE_U3_AGP_HOST_BRIDGE);
+-        uninorth_pci = U3_AGP_HOST_BRIDGE(dev);
+-        s = SYS_BUS_DEVICE(dev);
++        uninorth_pci_dev = qdev_new(TYPE_U3_AGP_HOST_BRIDGE);
++        s = SYS_BUS_DEVICE(uninorth_pci_dev);
+         sysbus_realize_and_unref(s, &error_fatal);
          sysbus_mmio_map(s, 0, 0xf0800000);
          sysbus_mmio_map(s, 1, 0xf0c00000);
--
--        machine_arch = ARCH_MAC99_U3;
-+        /* PCI hole */
-+        sysbus_mmio_map(s, 2, 0x80000000);
-+        /* Register 8 MB of ISA IO space */
-+        sysbus_mmio_map(s, 3, 0xf2000000);
-     } else {
-+        machine_arch = ARCH_MAC99;
-         /* Use values found on a real PowerMac */
-         /* Uninorth AGP bus */
-         uninorth_agp_dev = qdev_new(TYPE_UNI_NORTH_AGP_HOST_BRIDGE);
-@@ -312,19 +308,15 @@ static void ppc_core99_init(MachineState *machine)
+@@ -306,10 +304,9 @@ static void ppc_core99_init(MachineState *machine)
+         sysbus_mmio_map(s, 1, 0xf4c00000);
+ 
          /* Uninorth main bus */
-         dev = qdev_new(TYPE_UNI_NORTH_PCI_HOST_BRIDGE);
-         qdev_prop_set_uint32(dev, "ofw-addr", 0xf2000000);
--        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-         uninorth_pci = UNI_NORTH_PCI_HOST_BRIDGE(dev);
-         s = SYS_BUS_DEVICE(dev);
--        /* PCI hole */
--        memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
--                                    sysbus_mmio_get_region(s, 2));
--        /* Register 8 MB of ISA IO space */
--        memory_region_add_subregion(get_system_memory(), 0xf2000000,
--                                    sysbus_mmio_get_region(s, 3));
-+        sysbus_realize_and_unref(s, &error_fatal);
+-        dev = qdev_new(TYPE_UNI_NORTH_PCI_HOST_BRIDGE);
+-        qdev_prop_set_uint32(dev, "ofw-addr", 0xf2000000);
+-        uninorth_pci = UNI_NORTH_PCI_HOST_BRIDGE(dev);
+-        s = SYS_BUS_DEVICE(dev);
++        uninorth_pci_dev = qdev_new(TYPE_UNI_NORTH_PCI_HOST_BRIDGE);
++        qdev_prop_set_uint32(uninorth_pci_dev, "ofw-addr", 0xf2000000);
++        s = SYS_BUS_DEVICE(uninorth_pci_dev);
+         sysbus_realize_and_unref(s, &error_fatal);
          sysbus_mmio_map(s, 0, 0xf2800000);
          sysbus_mmio_map(s, 1, 0xf2c00000);
--
--        machine_arch = ARCH_MAC99;
-+        /* PCI hole */
-+        sysbus_mmio_map(s, 2, 0x80000000);
-+        /* Register 8 MB of ISA IO space */
-+        sysbus_mmio_map(s, 3, 0xf2000000);
+@@ -325,24 +322,24 @@ static void ppc_core99_init(MachineState *machine)
+                core99_machine->via_config == CORE99_VIA_CONFIG_PMU_ADB);
+ 
+     /* init basic PC hardware */
+-    pci_bus = PCI_HOST_BRIDGE(uninorth_pci)->bus;
++    pci_bus = PCI_HOST_BRIDGE(uninorth_pci_dev)->bus;
+ 
+     /* MacIO */
+-    macio = pci_new(-1, TYPE_NEWWORLD_MACIO);
++    macio = OBJECT(pci_new(-1, TYPE_NEWWORLD_MACIO));
+     dev = DEVICE(macio);
+     qdev_prop_set_uint64(dev, "frequency", tbfreq);
+     qdev_prop_set_bit(dev, "has-pmu", has_pmu);
+     qdev_prop_set_bit(dev, "has-adb", has_adb);
+ 
+-    escc = ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
+-    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
+-    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
++    dev = DEVICE(object_resolve_path_component(macio, "escc"));
++    qdev_prop_set_chr(dev, "chrA", serial_hd(0));
++    qdev_prop_set_chr(dev, "chrB", serial_hd(1));
+ 
+-    pci_realize_and_unref(macio, pci_bus, &error_fatal);
++    pci_realize_and_unref(PCI_DEVICE(macio), pci_bus, &error_fatal);
+ 
+-    pic_dev = DEVICE(object_resolve_path_component(OBJECT(macio), "pic"));
++    pic_dev = DEVICE(object_resolve_path_component(macio, "pic"));
+     for (i = 0; i < 4; i++) {
+-        qdev_connect_gpio_out(DEVICE(uninorth_pci), i,
++        qdev_connect_gpio_out(uninorth_pci_dev, i,
+                               qdev_get_gpio_in(pic_dev, 0x1b + i));
      }
  
-     machine->usb |= defaults_enabled() && !machine->usb_disabled;
+@@ -374,19 +371,17 @@ static void ppc_core99_init(MachineState *machine)
+     /* We only emulate 2 out of 3 IDE controllers for now */
+     ide_drive_get(hd, ARRAY_SIZE(hd));
+ 
+-    macio_ide = MACIO_IDE(object_resolve_path_component(OBJECT(macio),
+-                                                        "ide[0]"));
++    macio_ide = MACIO_IDE(object_resolve_path_component(macio, "ide[0]"));
+     macio_ide_init_drives(macio_ide, hd);
+ 
+-    macio_ide = MACIO_IDE(object_resolve_path_component(OBJECT(macio),
+-                                                        "ide[1]"));
++    macio_ide = MACIO_IDE(object_resolve_path_component(macio, "ide[1]"));
+     macio_ide_init_drives(macio_ide, &hd[MAX_IDE_DEVS]);
+ 
+     if (has_adb) {
+         if (has_pmu) {
+-            dev = DEVICE(object_resolve_path_component(OBJECT(macio), "pmu"));
++            dev = DEVICE(object_resolve_path_component(macio, "pmu"));
+         } else {
+-            dev = DEVICE(object_resolve_path_component(OBJECT(macio), "cuda"));
++            dev = DEVICE(object_resolve_path_component(macio, "cuda"));
+         }
+ 
+         adb_bus = qdev_get_child_bus(dev, "adb.0");
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 75fbd2a7df..9d651cf482 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -90,9 +90,8 @@ static void ppc_heathrow_init(MachineState *machine)
+     uint32_t kernel_base = 0, initrd_base = 0, cmdline_base = 0;
+     int32_t kernel_size = 0, initrd_size = 0;
+     PCIBus *pci_bus;
+-    PCIDevice *macio;
++    Object *macio;
+     MACIOIDEState *macio_ide;
+-    ESCCState *escc;
+     SysBusDevice *s;
+     DeviceState *dev, *pic_dev, *grackle_dev;
+     BusState *adb_bus;
+@@ -227,17 +226,16 @@ static void ppc_heathrow_init(MachineState *machine)
+     pci_bus = PCI_HOST_BRIDGE(grackle_dev)->bus;
+ 
+     /* MacIO */
+-    macio = pci_new(PCI_DEVFN(16, 0), TYPE_OLDWORLD_MACIO);
+-    dev = DEVICE(macio);
+-    qdev_prop_set_uint64(dev, "frequency", tbfreq);
++    macio = OBJECT(pci_new(PCI_DEVFN(16, 0), TYPE_OLDWORLD_MACIO));
++    qdev_prop_set_uint64(DEVICE(macio), "frequency", tbfreq);
+ 
+-    escc = ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
+-    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
+-    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
++    dev = DEVICE(object_resolve_path_component(macio, "escc"));
++    qdev_prop_set_chr(dev, "chrA", serial_hd(0));
++    qdev_prop_set_chr(dev, "chrB", serial_hd(1));
+ 
+-    pci_realize_and_unref(macio, pci_bus, &error_fatal);
++    pci_realize_and_unref(PCI_DEVICE(macio), pci_bus, &error_fatal);
+ 
+-    pic_dev = DEVICE(object_resolve_path_component(OBJECT(macio), "pic"));
++    pic_dev = DEVICE(object_resolve_path_component(macio, "pic"));
+     for (i = 0; i < 4; i++) {
+         qdev_connect_gpio_out(grackle_dev, i,
+                               qdev_get_gpio_in(pic_dev, 0x15 + i));
+@@ -265,16 +263,14 @@ static void ppc_heathrow_init(MachineState *machine)
+ 
+     /* MacIO IDE */
+     ide_drive_get(hd, ARRAY_SIZE(hd));
+-    macio_ide = MACIO_IDE(object_resolve_path_component(OBJECT(macio),
+-                                                        "ide[0]"));
++    macio_ide = MACIO_IDE(object_resolve_path_component(macio, "ide[0]"));
+     macio_ide_init_drives(macio_ide, hd);
+ 
+-    macio_ide = MACIO_IDE(object_resolve_path_component(OBJECT(macio),
+-                                                        "ide[1]"));
++    macio_ide = MACIO_IDE(object_resolve_path_component(macio, "ide[1]"));
+     macio_ide_init_drives(macio_ide, &hd[MAX_IDE_DEVS]);
+ 
+     /* MacIO CUDA/ADB */
+-    dev = DEVICE(object_resolve_path_component(OBJECT(macio), "cuda"));
++    dev = DEVICE(object_resolve_path_component(macio, "cuda"));
+     adb_bus = qdev_get_child_bus(dev, "adb.0");
+     dev = qdev_new(TYPE_ADB_KEYBOARD);
+     qdev_realize_and_unref(dev, adb_bus, &error_fatal);
 -- 
 2.30.4
 
