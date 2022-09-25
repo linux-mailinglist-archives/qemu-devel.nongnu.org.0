@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2555E9459
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 18:23:03 +0200 (CEST)
-Received: from localhost ([::1]:33350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579665E960E
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 22:51:14 +0200 (CEST)
+Received: from localhost ([::1]:59432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocUPG-0006SR-Le
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 12:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37486)
+	id 1ocYam-0002sl-Ll
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 16:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ocUNQ-0004Oz-B4
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 12:21:10 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:51409)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1ocYVL-0000MU-Aw
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 16:45:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ocUNL-0006CX-1m
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 12:21:07 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.114])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0D69312BE0160;
- Sun, 25 Sep 2022 18:20:51 +0200 (CEST)
-Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Sun, 25 Sep
- 2022 18:20:50 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0029cf5d7cb-dd61-4561-8765-c1aa0b1aba99,
- F2BAAC272AACDAE9383B0CB74E4F720F3B7CB042) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <5ebb56ed-d570-e69e-7406-f7f1d6218d05@kaod.org>
-Date: Sun, 25 Sep 2022 18:20:49 +0200
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1ocYVG-0000gf-P6
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 16:45:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664138728;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=G85a1UWkiVHMpqTYuu2+R25oSBYe4UWW84jebp9crDg=;
+ b=DF+YUzDpwvWohuSXA0J7bWPYHHvpikYDHDIBBP2jNVsDB4wt5A4cSrwsiqFpZ0sXn5Yn5v
+ BCtEb3G4kgi4wYXajl7tm840sEyTXCsiVjQThX4ttaBiyEKEq1zt7/sUmEZg6FAcJPkfib
+ IrOm87YtWT0SUPkaMwO38An0ckiFLv0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-158-i9aEtF1yN72_YCnosbxozA-1; Sun, 25 Sep 2022 16:45:24 -0400
+X-MC-Unique: i9aEtF1yN72_YCnosbxozA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4FF55101A528;
+ Sun, 25 Sep 2022 20:45:24 +0000 (UTC)
+Received: from f36-work.redhat.com (unknown [10.39.192.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F9CE40C6EC2;
+ Sun, 25 Sep 2022 20:45:21 +0000 (UTC)
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: mcascell@redhat.com,
+	kraxel@redhat.com,
+	tangpeng@qianxin.com
+Subject: [PATCH] ui/vnc-clipboard: fix integer underflow in
+ vnc_client_cut_text_ext
+Date: Sun, 25 Sep 2022 22:45:11 +0200
+Message-Id: <20220925204511.1103214-1-mcascell@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v3 06/54] tests/qtest: aspeed_smc-test: Avoid using
- hardcoded /tmp
-To: Bin Meng <bmeng.cn@gmail.com>, <qemu-devel@nongnu.org>
-CC: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>, Bin Meng
- <bin.meng@windriver.com>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
- <joel@jms.id.au>, Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, Thomas Huth
- <thuth@redhat.com>, <qemu-arm@nongnu.org>
-References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
- <20220925113032.1949844-7-bmeng.cn@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220925113032.1949844-7-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 16583110-3dfb-4a6d-b8e7-c997661aa31d
-X-Ovh-Tracer-Id: 9214927790472334325
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegtddguddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdel
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.766,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,51 +78,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/25/22 13:29, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> This case was written to use hardcoded /tmp directory for temporary
-> files. Update to use g_file_open_tmp() for a portable implementation.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Extended ClientCutText messages start with a 4-byte header. If len < 4,
+an integer underflow occurs in vnc_client_cut_text_ext. The result is
+used to decompress data in a while loop in inflate_buffer, leading to
+CPU consumption and denial of service. Prevent this by checking dlen in
+protocol_client_msg.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Fixes: CVE-2022-3165
+Fixes: 0bf41cab93e5 ("ui/vnc: clipboard support")
+Reported-by: TangPeng <tangpeng@qianxin.com>
+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+---
+Extended Clipboard Pseudo-Encoding:
+https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst#extended-clipboard-pseudo-encoding
 
-Thanks,
+ ui/vnc.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-C.
-
-> ---
-> 
-> Changes in v3:
-> - Split to a separate patch
-> - Ensure g_autofree variable is initialized
-> 
->   tests/qtest/aspeed_smc-test.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
-> index 05ce941566..c713a3700b 100644
-> --- a/tests/qtest/aspeed_smc-test.c
-> +++ b/tests/qtest/aspeed_smc-test.c
-> @@ -608,16 +608,15 @@ static void test_write_block_protect_bottom_bit(void)
->       flash_reset();
->   }
->   
-> -static char tmp_path[] = "/tmp/qtest.m25p80.XXXXXX";
-> -
->   int main(int argc, char **argv)
->   {
-> +    g_autofree char *tmp_path = NULL;
->       int ret;
->       int fd;
->   
->       g_test_init(&argc, &argv, NULL);
->   
-> -    fd = mkstemp(tmp_path);
-> +    fd = g_file_open_tmp("qtest.m25p80.XXXXXX", &tmp_path, NULL);
->       g_assert(fd >= 0);
->       ret = ftruncate(fd, FLASH_SIZE);
->       g_assert(ret == 0);
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 6a05d06147..acb3629cd8 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -2442,8 +2442,8 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
+         if (len == 1) {
+             return 8;
+         }
++        uint32_t dlen = abs(read_s32(data, 4));
+         if (len == 8) {
+-            uint32_t dlen = abs(read_s32(data, 4));
+             if (dlen > (1 << 20)) {
+                 error_report("vnc: client_cut_text msg payload has %u bytes"
+                              " which exceeds our limit of 1MB.", dlen);
+@@ -2456,8 +2456,13 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
+         }
+ 
+         if (read_s32(data, 4) < 0) {
+-            vnc_client_cut_text_ext(vs, abs(read_s32(data, 4)),
+-                                    read_u32(data, 8), data + 12);
++            if (dlen < 4) {
++                error_report("vnc: malformed payload (header less than 4 bytes)"
++                             " in extended clipboard pseudo-encoding.");
++                vnc_client_error(vs);
++                break;
++            }
++            vnc_client_cut_text_ext(vs, dlen, read_u32(data, 8), data + 12);
+             break;
+         }
+         vnc_client_cut_text(vs, read_u32(data, 4), data + 8);
+-- 
+2.37.3
 
 
