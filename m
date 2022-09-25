@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8FEB5E92E1
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 13:58:03 +0200 (CEST)
-Received: from localhost ([::1]:39594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40B25E92E6
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:02:10 +0200 (CEST)
+Received: from localhost ([::1]:50066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocQGo-00009o-RH
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 07:58:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55944)
+	id 1ocQKn-0005bE-Tl
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:02:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPrN-0002re-Aw
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:31:45 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:35483)
+ id 1ocPrO-0002ur-JR
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:31:50 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPrK-0006Nc-Pi
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:31:45 -0400
-Received: by mail-pl1-x631.google.com with SMTP id t3so3950840ply.2
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:31:42 -0700 (PDT)
+ id 1ocPrN-0006O1-3D
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:31:46 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id rt12so3963500pjb.1
+ for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:31:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=OJRDzQX/DMg/UmxTVGA3PP9Zj/iY4BqjzFCS4YP7c5A=;
- b=clST+9dxP/LsJWnC3czzJqKlnsT4x+wDqYhY+nRknlfzoNTvxmLY9tfa8gbnfQDJw/
- 2kBdWsvC86dsq83LMwiL/XVrhPEjg1oAlANFSBzKmI6YAC1q4iQlcs1JI/LJMgLdrZlH
- c2ACasq3N9lB3TifUuu7bsqMfU6/CrgbUvsEoC+yyNRCVbjLiT8v6JFAtXb3Wh7FI2DD
- JkefAQybAdwteMOuUd63gTKZRVj2ErnDMy8fyPrtkE7/lG7wzA6h7lS1KKAOcmKdUKX/
- v2N9CTAB5dJI0rvf0zkDzj2+HjTgrtjJFP9DvnGew9yUrkxp89y6C3DgtJuf2Jg2KKMH
- X3jw==
+ bh=1YLw5d0z7vrk2yTXPwCxIPgCJCukpGZvEFJhnHR42Jk=;
+ b=kG4FEvn7Mnpo8pO9WVbI9tYYETb4riRHgLSdi6UUVvlcN6W3Y6IgXTPVAb2VXQrVLF
+ I1dA3S3MBQTBKQBdcGiy3Hbu0+CkywDYC7jr1OcXXbzVeg5u9EUvQBV5FhdhsUA/+hzt
+ I6tVQS1JEGaxFWVfTj9NG/TM1A7OP4PPMpHHMxgJrKTNxm3KdT4RRbXhhBAPsZ2twW0Y
+ Zsprrkv1hR0TiP2Y4eGGBa7Qg0QCE21m+AtmivWt3RnozCgHpVoAX6EfQJFeFV/nruVM
+ 185FXfNJRKmEwtWsX1Q/01XrD9X8tFbxXOQUeyjj4GFqy6unj0uWKA453qPXy/PB78bm
+ JK/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=OJRDzQX/DMg/UmxTVGA3PP9Zj/iY4BqjzFCS4YP7c5A=;
- b=UZf/JxnVtdfiq1ZDe3r2Bn/9dj2rQrB0Qt5mO6DQCEbJg0RHfyQY/Matm423G7LWHw
- /4+CNN1gZJljvKZOCG+PeVCJHRV+yMuU8eZNCfS6w3KYFS2VYuZ454uujnVZMfHOQzcq
- I8N4VTsXspaSYqfOPs0Cv+d3p8p2WFwF2vn5ysNKOuPPD/QZUOSUcWRrPFmOnvi6OMIT
- o+CLNSR5uFZwlcvqz/l22klAJkzLCZWpUiqB/h/8nMuj8TU6NxyOxgsEBipqsmliQ8FT
- hSYp7xdd7CQjuHIdDNS+w01GUXZX39lY9Mrv6nky7OZwTFaYLuWAfShd3RxLKlDOhwjA
- +ipA==
-X-Gm-Message-State: ACrzQf2P6ZCx441F/tBw42W8ufYpdO5EXCXy+Mo8Xrisu4L1w91Gj75c
- gnDuTCg60I8jbJhXoSBShJU+XX9t2iI=
-X-Google-Smtp-Source: AMsMyM6N4i1QZwOy7KiuQRPfv3pOnIJhcxoGZoYKOk7pPnWmb+X/VRIhz96HY/HfMMf4MRR2CUE1pw==
-X-Received: by 2002:a17:902:6907:b0:179:c9bc:dd73 with SMTP id
- j7-20020a170902690700b00179c9bcdd73mr9041939plk.159.1664105501489; 
- Sun, 25 Sep 2022 04:31:41 -0700 (PDT)
+ bh=1YLw5d0z7vrk2yTXPwCxIPgCJCukpGZvEFJhnHR42Jk=;
+ b=GVlU4gJN/2qo0NdX6Vpj2GRmNWiCeFMGLvfWyjwAioBQULbF7vLLp4DmArwnz5Jv/J
+ VX0TTPOMjkXMbrvS4UFt4wCAyOuyr2btcP2ti1HtIAY+LUlK0DmM/dRY5s5DN+aNJjw+
+ cN8qCnOpX0+1njlI4NcLkzf8OcV4gnED/lXaPye1BrWii/ChGCcfG5i3udr56n3sxzUi
+ STbazJyojnynmHEvtcQ3RGkFwyoihKtRlzQ8uBoIWRdlY7kYvq37giCUTzT2MPbFK3l0
+ V+M0RQXnraZ7iIR9ms0VmvDWqHRrsaXvWa4zlKchFAtTINiorBKHUfWuoiHQ5uRm38v6
+ L0Vw==
+X-Gm-Message-State: ACrzQf3v8FtZZoC+aIGi8lwp0Ywyn3BQi8TKNzdL71+OfxauZznD3bJm
+ HSe9Uapj5kUXTa24HnklJxyKuZvKytA=
+X-Google-Smtp-Source: AMsMyM4DTZEQHKDkQtneJ4tKwnFxY33CIZd8Xd132Kbh18Eo/ltb660VIk8l8k11KvpyFSdaFhEw4g==
+X-Received: by 2002:a17:902:efd2:b0:176:b888:2481 with SMTP id
+ ja18-20020a170902efd200b00176b8882481mr16768109plb.144.1664105503371; 
+ Sun, 25 Sep 2022 04:31:43 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.31.39
+ z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.31.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 04:31:41 -0700 (PDT)
+ Sun, 25 Sep 2022 04:31:43 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>,
- Michael Roth <michael.roth@amd.com>
-Subject: [PATCH v3 23/54] tests/unit: test-qga: Avoid using hardcoded /tmp
-Date: Sun, 25 Sep 2022 19:30:01 +0800
-Message-Id: <20220925113032.1949844-24-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v3 24/54] tests: vhost-user-bridge: Avoid using hardcoded /tmp
+Date: Sun, 25 Sep 2022 19:30:02 +0800
+Message-Id: <20220925113032.1949844-25-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,7 +93,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Bin Meng <bin.meng@windriver.com>
 
 This case was written to use hardcoded /tmp directory for temporary
-files. Update to use g_get_tmp_dir() for a portable implementation.
+files. Update to use g_file_open_tmp() for a portable implementation.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
@@ -103,22 +101,30 @@ Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Changes in v3:
 - Split to a separate patch
 
- tests/unit/test-qga.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/vhost-user-bridge.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index b6ea7c7304..b4e0a14573 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -60,7 +60,7 @@ fixture_setup(TestFixture *fixture, gconstpointer data, gchar **envp)
+diff --git a/tests/vhost-user-bridge.c b/tests/vhost-user-bridge.c
+index 9b1dab2f28..fecdf915e7 100644
+--- a/tests/vhost-user-bridge.c
++++ b/tests/vhost-user-bridge.c
+@@ -631,7 +631,6 @@ static void *notifier_thread(void *arg)
+ static void
+ vubr_host_notifier_setup(VubrDev *dev)
+ {
+-    char template[] = "/tmp/vubr-XXXXXX";
+     pthread_t thread;
+     size_t length;
+     void *addr;
+@@ -639,7 +638,7 @@ vubr_host_notifier_setup(VubrDev *dev)
  
-     fixture->loop = g_main_loop_new(NULL, FALSE);
+     length = qemu_real_host_page_size() * VHOST_USER_BRIDGE_MAX_QUEUES;
  
--    fixture->test_dir = g_strdup("/tmp/qgatest.XXXXXX");
-+    fixture->test_dir = g_strdup_printf("%s/qgatest.XXXXXX", g_get_tmp_dir());
-     g_assert_nonnull(g_mkdtemp(fixture->test_dir));
- 
-     path = g_build_filename(fixture->test_dir, "sock", NULL);
+-    fd = mkstemp(template);
++    fd = g_file_open_tmp("vubr-XXXXXX", NULL, NULL);
+     if (fd < 0) {
+         vubr_die("mkstemp()");
+     }
 -- 
 2.34.1
 
