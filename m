@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2285E9321
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:37:10 +0200 (CEST)
-Received: from localhost ([::1]:46604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1FD5E9329
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:40:06 +0200 (CEST)
+Received: from localhost ([::1]:43980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocQsf-00037G-So
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35386)
+	id 1ocQvV-0000vR-2K
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:40:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPsV-0003pq-H1
+ id 1ocPsX-0003pt-O2
  for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:33:05 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:33587)
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:41571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPsT-0006VW-BP
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:54 -0400
-Received: by mail-pl1-x635.google.com with SMTP id iw17so3974364plb.0
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:32:52 -0700 (PDT)
+ id 1ocPsW-0006Vn-8Q
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:57 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ q15-20020a17090a304f00b002002ac83485so4371303pjl.0
+ for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:32:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=WijaFh1+3eGNmoiPADdFaEnlm/n1XUXqlNMKiv/+vQo=;
- b=Ip0L8/OFM69Vaxz/SdSSAF3O4mqnqYTXLZ+plCQMRST7JBNtMGcD4wpVtn9d1Iot8r
- F4SYOwKOQ8v6FqRjh/h+8uzXCg+PRxy6GwlrIVIte6SDfrPYvjD/japAfmehh6t8H9IO
- xfqDJ+sll0+mpAfCDJ5GYKxM77N7YaBJOcjdxiBDyS6bnFboPEEawKZJoVp5fsB+fTOW
- axFyOhaYLxkOlMwwbfipBgvD293uA9+F62hlI2yyKM7eawKETIkBMR8vnh1MDlgnteod
- bBqXWvWFMrBtQJlnLmxwkigbtW0IRoAwlL6xTo3DMIDW1qUtDdEyDPhQgOcFMe3L+/yY
- tpDg==
+ bh=zI8S+RBT1OKVz18s8MzM0BknkzeLLfGnw9ZmAFPh81s=;
+ b=XinJF7eikkeRLkkgoN1DbgEItZCiLlysGWElcYqEZ+nDWvssF5YNSBr7cZgJuBLvsz
+ n5gb4BgPrMLK9hI5FccuGHC30isNv9jphDbHdOTmQ6YoTR0Vj9bwkeotGbCb2UCEFFnf
+ Umd5avZc2fzFw0WArqL1Azev0VsVy22fG7tArqL57p/2e0DPIi+ZCqjYUOClA2XiJKXA
+ QbwFPH0JMRKxoTfPyaii6/NilcSUWOaNnp4/gFfebTM4RBRQeNvtsO4+pRpIi/irgXVv
+ DEfiGevhKLfS6lsSkqVevf+Fcx0nszr6EkPpJyjejSzTFr3crrEdwAFiy6WsVJcjuWKi
+ Pezw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=WijaFh1+3eGNmoiPADdFaEnlm/n1XUXqlNMKiv/+vQo=;
- b=jaRv+5I+vrswIv9SYYF+BoknCg+iCQSDyTpOLKWUV3wHNNqPHVE5FXPLkwsFkIJlDV
- QOaMg2dLOBdQUSZSb3vK1O63OaC5/HJq95rqKKGPwnot9cS59/SOnxIVlWWZwZrkRnpC
- M67LyMy8SwL6MHw1siYBCgBOR7zm1EeZA8/Xzxdf4LNCeH0r9QvTDLN2AFAf0T1buaOO
- 6Qwnoao0kA1ojH5qF7f04tjjBnX+S+xQOPBwpOZkESZ8nGhUdYd4C49SpKOxEG7HITc5
- aAiBy1DswOuIw04YxXofYyozLHEb7kbTXkWHkZGadEAa5oESfb5k5m31ingLSNGK8bZ6
- mqrw==
-X-Gm-Message-State: ACrzQf2E0S5NtDtvCAa5FHxbhKYCsW6mVhUXnP8jtNcH3Tw+86J48r9G
- qZD60Y7lpaIqyGiaR5anIOYzjDt6cSo=
-X-Google-Smtp-Source: AMsMyM4SXgadq0LC79zGE/h1Eow7+GYslY5YeCln3VZ2PSdh6luLSaBEV+YPDrshPmpG6N4rGpKvDA==
-X-Received: by 2002:a17:90b:4b05:b0:202:b76e:a274 with SMTP id
- lx5-20020a17090b4b0500b00202b76ea274mr30914320pjb.59.1664105571857; 
- Sun, 25 Sep 2022 04:32:51 -0700 (PDT)
+ bh=zI8S+RBT1OKVz18s8MzM0BknkzeLLfGnw9ZmAFPh81s=;
+ b=kO6eiRUXpZQu2EBJDw8pTnc+O9WAVWWnzaeQYfud7HH9C0shLdfAuVQB5TwOb4eTq8
+ DgmwQFkYnB/do6BhxeszMxyVGhx+quw05qTeS6F+sRcmKWdBVpa0CWcQMyxHyJ9G4rSQ
+ dlnyXjhxoLrtmbJpcitNcmJbflajrW9LMT+gi9QIM4n2bbbikQKRQsWMJj3O7s4S5nug
+ PGNbjuA6izhvp7RkSN7H3nw3JErKWHuXzbJhsC3011+XlqcvXhE1jnAloXHXlH3FceEC
+ CE6cpG9ZmPfBcI3CyaNTG6e3VtpEVX25L+6GfZ45tJzzTEuJTD+reyEeLxNGlRJsOeyQ
+ SN0g==
+X-Gm-Message-State: ACrzQf1iRIn1kF4lgtXhX8vP2tt2PiygfaUB/WVdwLDAjsnZy0NFOWCG
+ lC7C6YjsnZiJY3soJ+kSzde6HrOXnxE=
+X-Google-Smtp-Source: AMsMyM4ifsv+4XUtmrnBkP6Z/G1PFcRRA26xEkXPE5UUdcKpRE4mPUCBCkOAekvew5//BccjV1CoKw==
+X-Received: by 2002:a17:902:b710:b0:178:3128:b593 with SMTP id
+ d16-20020a170902b71000b001783128b593mr17029118pls.50.1664105574646; 
+ Sun, 25 Sep 2022 04:32:54 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.49
+ z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 04:32:51 -0700 (PDT)
+ Sun, 25 Sep 2022 04:32:54 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -63,17 +64,16 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH v3 51/54] .gitlab-ci.d/windows.yml: Increase the timeout to 90
- minutes
-Date: Sun, 25 Sep 2022 19:30:29 +0800
-Message-Id: <20220925113032.1949844-52-bmeng.cn@gmail.com>
+Subject: [PATCH v3 52/54] .gitlab-ci.d/windows.yml: Display meson test logs
+Date: Sun, 25 Sep 2022 19:30:30 +0800
+Message-Id: <20220925113032.1949844-53-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,16 +98,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-commit 9f8e6cad65a6 ("gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices"
-changed to compile QEMU with the --without-default-devices switch for
-the msys2-64bit job, due to the build could not complete within the
-project timeout (1h), and also mentioned that a bigger timeout was
-getting ignored on the shared Gitlab-CI Windows runners.
-
-However as of today it seems the shared Gitlab-CI Windows runners does
-honor the job timeout, and the runner has the timeout limit of 2h, so
-let's increase the timeout to 90 minutes and drop the configure switch
-"--without-default-devices" to get a larger build coverage.
+When CI fails we don't know what causes the failure. Displaying the
+meson test logs can be helpful.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
@@ -115,33 +107,30 @@ Signed-off-by: Bin Meng <bin.meng@windriver.com>
 (no changes since v2)
 
 Changes in v2:
-- Change the timeout limit to 90 minutes
+- new patch: Display meson test logs in the Windows CI
 
  .gitlab-ci.d/windows.yml | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index 86a4339c48..9ef4667317 100644
+index 9ef4667317..29a3ba04a4 100644
 --- a/.gitlab-ci.d/windows.yml
 +++ b/.gitlab-ci.d/windows.yml
-@@ -10,7 +10,7 @@
-       - ${CI_PROJECT_DIR}/msys64/var/cache
-   needs: []
-   stage: build
--  timeout: 70m
-+  timeout: 90m
-   before_script:
-   - If ( !(Test-Path -Path msys64\var\cache ) ) {
-       mkdir msys64\var\cache
-@@ -59,7 +59,7 @@ msys2-64bit:
-   - $env:MSYSTEM = 'MINGW64'     # Start a 64 bit Mingw environment
-   - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+@@ -61,7 +61,7 @@ msys2-64bit:
    - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
--      --enable-capstone --without-default-devices'
-+      --enable-capstone'
+       --enable-capstone'
    - .\msys64\usr\bin\bash -lc 'make'
-   - .\msys64\usr\bin\bash -lc 'make check'
+-  - .\msys64\usr\bin\bash -lc 'make check'
++  - .\msys64\usr\bin\bash -lc 'make check || { cat build/meson-logs/testlog.txt; exit 1; } ;'
  
+ msys2-32bit:
+   extends: .shared_msys2_builder
+@@ -94,4 +94,4 @@ msys2-32bit:
+   - cd output
+   - ..\msys64\usr\bin\bash -lc "../configure --target-list=ppc64-softmmu"
+   - ..\msys64\usr\bin\bash -lc 'make'
+-  - ..\msys64\usr\bin\bash -lc 'make check'
++  - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.txt; exit 1; } ;'
 -- 
 2.34.1
 
