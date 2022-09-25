@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0C85E938C
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 16:00:14 +0200 (CEST)
-Received: from localhost ([::1]:59506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42EC65E938D
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 16:00:41 +0200 (CEST)
+Received: from localhost ([::1]:52832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocSB2-0007kz-E9
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 10:00:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42934)
+	id 1ocSBU-00081M-3P
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 10:00:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocRzf-0002ZK-8D
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 09:48:28 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocRza-0001Fd-Vi
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 09:48:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=zztYg6x3Bs72i/QAzx8FyrQ606it2GE2m2edgf/2bUc=; b=kXdwdUSJ3ISMADrqCMgmD4L4ci
- 7E6U0ancZJ59CZJCiFp0TDagtk9lMp3axu+7vzrYvCNkpdPREcNTdcLuX4IC+5hIPXEM40N9PHJId
- FVFTFtyXBjRxjHy0EhJi4UfeVO3caMkE3lR6AfTY/j2AlLxKYbb45FqXnYcXoUc6Gs82E0eFEU/kq
- K5u9Q46ZWhxuTN+LU4SRp7jv/vW2UExNWkazVxQvaEuiCtRRQqFFJRv6e/2u25EofbJyDLA0z0TpM
- 10fFHGZ+8nQ/ap6WRNFqxvz6gS5e1yGzuZiw8nqaVc4GFqj4d2mI+79YTcN7H9Ic/zRHlVRpHR1YZ
- RZsCMcQjDxLNFEXGmQePCQyDGqbXcQVU1PnS3uFTUtR6MJCJPpdPP0itL746QyGObxbEd86iAreFv
- 7Glu9yFBgRKWR8OsnKHaORtgnxPZcLbRJasjAalUmpz6pw+ujnMfCqDREimDxDBRVaFj28q0X3uWE
- pdNp84VqrQS5TqZlpsYd8wX+vdbCZoI6yC+hJAFyWtbQRbkAzW3qSWvoEFBCFzVXssMTwiXfquIIY
- XuU4WnF65dAS8oikPMQMN6ZO3WpFJ0y6brbLe4/hl6BbXw0G9KVFSQEFN4X5H5n50wT1ndIAjuHLw
- Ue+hZ0N8vzlgCye1bIhY4fBbrtVGsqV/Bmp4kpUkw=;
-Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915] (helo=kentang.home)
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocRxq-0008Ik-V5; Sun, 25 Sep 2022 14:46:39 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: laurent@vivier.eu, richard.henderson@linaro.org, lucienmp.qemu@gmail.com,
- qemu-devel@nongnu.org
-Date: Sun, 25 Sep 2022 14:48:04 +0100
-Message-Id: <20220925134804.139706-3-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220925134804.139706-1-mark.cave-ayland@ilande.co.uk>
-References: <20220925134804.139706-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <luzhipeng@cestc.cn>)
+ id 1ocS55-00079r-4y; Sun, 25 Sep 2022 09:54:03 -0400
+Received: from [106.39.185.57] (port=35804 helo=smtp.cecloud.com)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luzhipeng@cestc.cn>)
+ id 1ocS51-0001tu-Cj; Sun, 25 Sep 2022 09:54:02 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by smtp.cecloud.com (Postfix) with ESMTP id CC607FC0203;
+ Sun, 25 Sep 2022 21:53:34 +0800 (CST)
+X-MAIL-GRAY: 0
+X-MAIL-DELIVERY: 1
+X-ANTISPAM-LEVEL: 2
+X-ABS-CHECKED: 0
+Received: from localhost.localdomain (unknown [171.217.49.64])
+ by smtp.cecloud.com (postfix) whith ESMTP id
+ P51403T281470639468912S1664114012785511_; 
+ Sun, 25 Sep 2022 21:53:34 +0800 (CST)
+X-UNIQUE-TAG: <fb0e24e127f161e2f63175c7a4484060>
+X-RL-SENDER: luzhipeng@cestc.cn
+X-SENDER: luzhipeng@cestc.cn
+X-LOGIN-NAME: luzhipeng@cestc.cn
+X-FST-TO: qemu-devel@nongnu.org
+X-RCPT-COUNT: 5
+X-SENDER-IP: 171.217.49.64
+X-ATTACHMENT-NUM: 0
+X-System-Flag: 0
+From: luzhipeng <luzhipeng@cestc.cn>
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org, lu zhipeng <luzhipeng@cestc.cn>
+Subject: [PATCH] qemu-nbd: set timeout to qemu-nbd socket
+Date: Sun, 25 Sep 2022 21:53:08 +0800
+Message-Id: <20220925135308.481-1-luzhipeng@cestc.cn>
+X-Mailer: git-send-email 2.34.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 2/2] target/m68k: use M68K_FEATURE_MOVEFROMSR_PRIV feature for
- move_from_sr privilege check
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 106.39.185.57 (failed)
+Received-SPF: pass client-ip=106.39.185.57; envelope-from=luzhipeng@cestc.cn;
+ helo=smtp.cecloud.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,95 +71,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that M68K_FEATURE_M68000 has been renamed to M68K_FEATURE_M68K it is easier
-to see that the privilege exception check is wrong: it is currently only generated
-for ColdFire CPUs when in fact it should also be generated for Motorola CPUs from
-the 68010 onwards.
+From: lu zhipeng <luzhipeng@cestc.cn>
 
-Introduce a new M68K_FEATURE_MOVEFROMSR_PRIV feature which is set for all non-
-Motorola CPUs, and for all Motorola CPUs from the 68010 onwards and use it to
-determine whether a privilege exception should be generated for the MOVE-from-SR
-instruction.
+Prevent the NBD socket stuck all the time, So
+set timeout.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
 ---
- target/m68k/cpu.c       | 5 +++++
- target/m68k/cpu.h       | 2 ++
- target/m68k/translate.c | 2 +-
- 3 files changed, 8 insertions(+), 1 deletion(-)
+ nbd/client.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 8d23c72056..25d610db21 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -102,6 +102,7 @@ static void m5206_cpu_initfn(Object *obj)
-     CPUM68KState *env = &cpu->env;
+diff --git a/nbd/client.c b/nbd/client.c
+index 30d5383cb1..89dde53a0f 100644
+--- a/nbd/client.c
++++ b/nbd/client.c
+@@ -24,6 +24,8 @@
+ #include "nbd-internal.h"
+ #include "qemu/cutils.h"
  
-     m68k_set_feature(env, M68K_FEATURE_CF_ISA_A);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
++#define NBD_DEFAULT_TIMEOUT 30
++
+ /* Definitions for opaque data types */
  
- /* Base feature set, including isns. for m68k family */
-@@ -129,6 +130,7 @@ static void m68010_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_RTD);
-     m68k_set_feature(env, M68K_FEATURE_BKPT);
-     m68k_set_feature(env, M68K_FEATURE_MOVEC);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- /*
-@@ -241,6 +243,7 @@ static void m5208_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_BRAL);
-     m68k_set_feature(env, M68K_FEATURE_CF_EMAC);
-     m68k_set_feature(env, M68K_FEATURE_USP);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- static void cfv4e_cpu_initfn(Object *obj)
-@@ -254,6 +257,7 @@ static void cfv4e_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_CF_FPU);
-     m68k_set_feature(env, M68K_FEATURE_CF_EMAC);
-     m68k_set_feature(env, M68K_FEATURE_USP);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- static void any_cpu_initfn(Object *obj)
-@@ -275,6 +279,7 @@ static void any_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_USP);
-     m68k_set_feature(env, M68K_FEATURE_EXT_FULL);
-     m68k_set_feature(env, M68K_FEATURE_WORD_INDEX);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- static void m68k_cpu_realizefn(DeviceState *dev, Error **errp)
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index f5c6e95cb4..3a9cfe2f33 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -537,6 +537,8 @@ enum m68k_features {
-     M68K_FEATURE_UNALIGNED_DATA,
-     /* TRAPcc insn. (680[2346]0, and CPU32) */
-     M68K_FEATURE_TRAPCC,
-+    /* MOVE from SR privileged (from 68010) */
-+    M68K_FEATURE_MOVEFROMSR_PRIV,
- };
- 
- static inline bool m68k_feature(CPUM68KState *env, int feature)
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 233b9d8e57..9df17aa4b2 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -4624,7 +4624,7 @@ DISAS_INSN(move_from_sr)
- {
-     TCGv sr;
- 
--    if (IS_USER(s) && !m68k_feature(env, M68K_FEATURE_M68K)) {
-+    if (IS_USER(s) && m68k_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV)) {
-         gen_exception(s, s->base.pc_next, EXCP_PRIVILEGE);
-         return;
+ static QTAILQ_HEAD(, NBDExport) exports = QTAILQ_HEAD_INITIALIZER(exports);
+@@ -1301,6 +1303,12 @@ int nbd_init(int fd, QIOChannelSocket *sioc, NBDExportInfo *info,
+         }
      }
+ 
++    if (ioctl(fd, NBD_SET_TIMEOUT, NBD_DEFAULT_TIMEOUT) < 0) {
++        int serrno = errno;
++        error_setg(errp, "Failed setting timeout");
++        return -serrno;
++    }
++
+     trace_nbd_init_finish();
+ 
+     return 0;
 -- 
-2.30.2
+2.31.1
+
+
 
 
