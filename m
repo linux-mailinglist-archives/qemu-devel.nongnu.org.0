@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA715E92A2
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 13:15:47 +0200 (CEST)
-Received: from localhost ([::1]:36552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F44F5E92A1
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 13:15:42 +0200 (CEST)
+Received: from localhost ([::1]:38966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocPbu-0006TG-C8
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 07:15:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40566)
+	id 1ocPbp-0006Ch-CO
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 07:15:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocPFE-0003HR-Ig
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 06:52:22 -0400
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:37779)
+ id 1ocPFG-0003HZ-9l
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 06:52:24 -0400
+Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:46988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocPFC-0000Oj-5U
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 06:52:20 -0400
-Received: by mail-qv1-xf36.google.com with SMTP id y9so2792249qvo.4
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 03:52:17 -0700 (PDT)
+ id 1ocPFE-0000Op-BO
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 06:52:22 -0400
+Received: by mail-qv1-xf2a.google.com with SMTP id j8so2758558qvt.13
+ for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 03:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=KB9glXnnhhAET5bmEeUvuuht0Ek+6+kegqoKeK/c24g=;
- b=aYaPcA2N7qpd1r+y0YPWfpRgrI0he0rkg8CUV7EIxKgDdCF1zM1e07tBV4styzMJho
- uLU9R9KZWsOz5CA9uoXTyoOSrNGei0AGvy/enYKmTichuk9bLe4QHpmszgktxBqEecYe
- bYj2+dGUQNk8Yoc0DjPjumt2UWaAwCvQ3MCyNz+mOuP0u0jq6tHWd9CISaFEaXKfOrfS
- WVX0BMVe4WSDZwp2DTmXT7YkrtIVP5NT/6Mq6ciS+SkTWg35dOL8FTLcikNNFMYbZQS7
- RSOUz99tZZwyl5ddPHAt6WZ07nWb5NAWYjxk/vltDFp9pvK0GD0hRaJL1wxU8v3NvIaQ
- d7Cg==
+ bh=zYxvXg+5qtiPsP21ZAvgN0xZuB4M7ZF4gFQTeGc6wD0=;
+ b=E5u8VlnEX6N2Ed5VZJS+IEGOIcubX9zNxB/qY0bGaBztV72KOgXbwUqbvMuUQpWmHW
+ De0AI35aw+yiiUuPpFfy/l2UbtdMC+ZNdyr+RjU9ZkSO+BIm8ZDivZ7oR3X7zWCh7Svo
+ fd5Ui6ZTTc6kAJQomkvhNrwzHH+ogHbpMlggIdYiEhq1yFmNNDpRdLika0EnczosbjMI
+ 088SnulAKOkmKG+/xu3a1tIH/S1vExd9GnrhWKl33+7E/iQ3dQiliAorFN5xCvvYe+Ia
+ /z9tdQ9+UbW3b5Iu5DNQLGKP+u7/U1/POtPtfBAp3ST42vDyfM1alLp0yl7Bm+ufCBlK
+ N/qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=KB9glXnnhhAET5bmEeUvuuht0Ek+6+kegqoKeK/c24g=;
- b=qaRUCcXVk4cSqyLVqC89UG66hXhy3cm4v+Lkn9hFcKt2ECZxWKxHlpaXpxF2BAZ9Nw
- 9KKu38A4KOE82zLJ9347QeVtD56zBQetuhJymPuWCiVo4e7HFYrJwt3mDRYVX68i4+eI
- 0mCV7YkicvAZXlBLqgKPYI3151aux2s249AMU7iz9q7zxDCjN7Szhk8XJW/w4dlYecTL
- vsCTI4q2IKLJbFsj4zoJw5nlSpAT5e6GQmGsTJx3xaGfwz3Tqbz4dlIoT/1ZA5dmmH5y
- /o1lpHp3wjU+m9RRLy7f3+vnGcMcVfM1P6Vp2rEbuWAfCMrI/dW4MAH+k56IfUqktQLc
- 3c6g==
-X-Gm-Message-State: ACrzQf0S+GgUxpKEKAZXabRGHTeca76G1DuxAo77HZXgcV7wTjPsDNTz
- lgPpBJE6A9jExYQ6NtIf3PmyGX+V9W6ECA==
-X-Google-Smtp-Source: AMsMyM7cWRnVUAjAoNsEVLVboubWBYyFBYtvYMibHKzmH/wnPppN0ACarWVkEkSjkSPfzKEPK5yq5g==
-X-Received: by 2002:a05:6214:b6a:b0:4ad:68bf:1b8b with SMTP id
- ey10-20020a0562140b6a00b004ad68bf1b8bmr14028554qvb.2.1664103136742; 
- Sun, 25 Sep 2022 03:52:16 -0700 (PDT)
+ bh=zYxvXg+5qtiPsP21ZAvgN0xZuB4M7ZF4gFQTeGc6wD0=;
+ b=N80t3pDJZOjPvw3QVUkh/XLKzf00FkYMdQ0dodSVVXywKYjfAuur/ndOLkLthKew+s
+ j3sdvCU3a72/7nGSLmDluJA6KqlSdXsuIWpDEMHIp0t7dfmXDeJOF0W2F/74Vb5XjmzJ
+ /44uGADd55xxhIsqAjdkm7vZcEh35job2VPoJF8DXIjm3nZILmc9YuSCw1cj0/hMEiH/
+ ba1zQa9nXwNCbxwz4ZJOtKI0gZMXWJ/P0ylCbbDLF2on2u+CdyS4Xj+kpi1OZfjiBdsN
+ Vw9JwforefN6GHqUpj7/aVjJDqaS8pi7BbIkvvE04cA1Hy3dFfqOueRMHiveD9Q6udYL
+ ohcA==
+X-Gm-Message-State: ACrzQf211OVjYJaGosFuucxrGCukj1yq9eRkrcNavye9Bqp/ifdz7JTT
+ ruPi0ZC2015rnwnB2smpd+5KY0JA/pbS4g==
+X-Google-Smtp-Source: AMsMyM4lD0G5sgNByBu45bVyv0wFzBcLWXV+aqBDxRNjIaW+yLBJNhKGHiU7FOSzy4mO5/GJ59M6UA==
+X-Received: by 2002:a05:6214:29e3:b0:4ad:5de4:accd with SMTP id
+ jv3-20020a05621429e300b004ad5de4accdmr13376294qvb.60.1664103139266; 
+ Sun, 25 Sep 2022 03:52:19 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:80a9:5c0e:1ec2:d482:4986:8538])
  by smtp.gmail.com with ESMTPSA id
- u15-20020a05620a0c4f00b006cf19068261sm10061132qki.116.2022.09.25.03.52.14
+ u15-20020a05620a0c4f00b006cf19068261sm10061132qki.116.2022.09.25.03.52.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 03:52:16 -0700 (PDT)
+ Sun, 25 Sep 2022 03:52:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 15/17] accel/tcg: Introduce tb_pc and tb_pc_log
-Date: Sun, 25 Sep 2022 10:51:22 +0000
-Message-Id: <20220925105124.82033-16-richard.henderson@linaro.org>
+Subject: [PATCH v5 16/17] accel/tcg: Introduce TARGET_TB_PCREL
+Date: Sun, 25 Sep 2022 10:51:23 +0000
+Message-Id: <20220925105124.82033-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925105124.82033-1-richard.henderson@linaro.org>
 References: <20220925105124.82033-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,132 +89,218 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The availability of tb->pc will shortly be conditional.
-Introduce accessor functions to minimize ifdefs.
+Prepare for targets to be able to produce TBs that can
+run in more than one virtual context.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/exec-all.h                 | 12 ++++++++++
- accel/tcg/cpu-exec.c                    | 20 ++++++++---------
- accel/tcg/translate-all.c               | 29 +++++++++++++------------
- target/arm/cpu.c                        |  4 ++--
- target/avr/cpu.c                        |  2 +-
- target/hexagon/cpu.c                    |  2 +-
- target/hppa/cpu.c                       |  4 ++--
- target/i386/tcg/tcg-cpu.c               |  2 +-
- target/loongarch/cpu.c                  |  2 +-
- target/microblaze/cpu.c                 |  2 +-
- target/mips/tcg/exception.c             |  2 +-
- target/mips/tcg/sysemu/special_helper.c |  2 +-
- target/openrisc/cpu.c                   |  2 +-
- target/riscv/cpu.c                      |  4 ++--
- target/rx/cpu.c                         |  2 +-
- target/sh4/cpu.c                        |  4 ++--
- target/sparc/cpu.c                      |  2 +-
- target/tricore/cpu.c                    |  2 +-
- tcg/tcg.c                               |  6 ++---
- 19 files changed, 59 insertions(+), 46 deletions(-)
+ include/exec/cpu-defs.h   |  3 +++
+ include/exec/exec-all.h   | 41 ++++++++++++++++++++++++++---
+ include/hw/core/cpu.h     |  1 +
+ accel/tcg/cpu-exec.c      | 55 ++++++++++++++++++++++++++++++---------
+ accel/tcg/translate-all.c | 48 ++++++++++++++++++++++------------
+ 5 files changed, 115 insertions(+), 33 deletions(-)
 
+diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
+index d0acbb4d35..ef950b05c4 100644
+--- a/include/exec/cpu-defs.h
++++ b/include/exec/cpu-defs.h
+@@ -54,6 +54,9 @@
+ #  error TARGET_PAGE_BITS must be defined in cpu-param.h
+ # endif
+ #endif
++#ifndef TARGET_TB_PCREL
++# define TARGET_TB_PCREL 0
++#endif
+ 
+ #define TARGET_LONG_SIZE (TARGET_LONG_BITS / 8)
+ 
 diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 0f25a1ba85..dc72615ad4 100644
+index dc72615ad4..0edd1b1ab4 100644
 --- a/include/exec/exec-all.h
 +++ b/include/exec/exec-all.h
-@@ -566,6 +566,18 @@ struct TranslationBlock {
-     uintptr_t jmp_dest[2];
+@@ -492,8 +492,32 @@ struct tb_tc {
  };
  
-+/* Hide the read to avoid ifdefs for TARGET_TB_PCREL. */
-+static inline target_ulong tb_pc(const TranslationBlock *tb)
-+{
-+    return tb->pc;
-+}
+ struct TranslationBlock {
+-    target_ulong pc;   /* simulated PC corresponding to this block (EIP + CS base) */
+-    target_ulong cs_base; /* CS base for this block */
++#if !TARGET_TB_PCREL
++    /*
++     * Guest PC corresponding to this block.  This must be the true
++     * virtual address.  Therefore e.g. x86 stores EIP + CS_BASE, and
++     * targets like Arm, MIPS, HP-PA, which reuse low bits for ISA or
++     * privilege, must store those bits elsewhere.
++     *
++     * If TARGET_TB_PCREL, the opcodes for the TranslationBlock are
++     * written such that the TB is associated only with the physical
++     * page and may be run in any virtual address context.  In this case,
++     * PC must always be taken from ENV in a target-specific manner.
++     * Unwind information is taken as offsets from the page, to be
++     * deposited into the "current" PC.
++     */
++    target_ulong pc;
++#endif
 +
-+/* Similarly, but for logs. */
-+static inline target_ulong tb_pc_log(const TranslationBlock *tb)
-+{
-+    return tb->pc;
-+}
++    /*
++     * Target-specific data associated with the TranslationBlock, e.g.:
++     * x86: the original user, the Code Segment virtual base,
++     * arm: an extension of tb->flags,
++     * s390x: instruction data for EXECUTE,
++     * sparc: the next pc of the instruction queue (for delay slots).
++     */
++    target_ulong cs_base;
 +
- /* Hide the qatomic_read to make code a little easier on the eyes */
- static inline uint32_t tb_cflags(const TranslationBlock *tb)
+     uint32_t flags; /* flags defining in which context the code was generated */
+     uint32_t cflags;    /* compile flags */
+ 
+@@ -569,13 +593,24 @@ struct TranslationBlock {
+ /* Hide the read to avoid ifdefs for TARGET_TB_PCREL. */
+ static inline target_ulong tb_pc(const TranslationBlock *tb)
  {
++#if TARGET_TB_PCREL
++    qemu_build_not_reached();
++#else
+     return tb->pc;
++#endif
+ }
+ 
+-/* Similarly, but for logs. */
++/*
++ * Similarly, but for logs. In this case, when the virtual pc
++ * is not available, use the physical address.
++ */
+ static inline target_ulong tb_pc_log(const TranslationBlock *tb)
+ {
++#if TARGET_TB_PCREL
++    return tb->page_addr[0];
++#else
+     return tb->pc;
++#endif
+ }
+ 
+ /* Hide the qatomic_read to make code a little easier on the eyes */
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index ee5b75dea0..b73dd31495 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -234,6 +234,7 @@ struct hvf_vcpu_state;
+ 
+ typedef struct {
+     TranslationBlock *tb;
++    vaddr pc;
+ } CPUJumpCache;
+ 
+ /* work queue */
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index c6283d5798..2cf84952e1 100644
+index 2cf84952e1..7fe42269ea 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
 @@ -185,7 +185,7 @@ static bool tb_lookup_cmp(const void *p, const void *d)
      const TranslationBlock *tb = p;
      const struct tb_desc *desc = d;
  
--    if (tb->pc == desc->pc &&
-+    if (tb_pc(tb) == desc->pc &&
+-    if (tb_pc(tb) == desc->pc &&
++    if ((TARGET_TB_PCREL || tb_pc(tb) == desc->pc) &&
          tb->page_addr[0] == desc->page_addr0 &&
          tb->cs_base == desc->cs_base &&
          tb->flags == desc->flags &&
-@@ -422,7 +422,7 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
-     TranslationBlock *last_tb;
-     const void *tb_ptr = itb->tc.ptr;
+@@ -236,7 +236,8 @@ static TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+         return NULL;
+     }
+     desc.page_addr0 = phys_pc;
+-    h = tb_hash_func(phys_pc, pc, flags, cflags, *cpu->trace_dstate);
++    h = tb_hash_func(phys_pc, (TARGET_TB_PCREL ? 0 : pc),
++                     flags, cflags, *cpu->trace_dstate);
+     return qht_lookup_custom(&tb_ctx.htable, &desc, h, tb_lookup_cmp);
+ }
  
--    log_cpu_exec(itb->pc, cpu, itb);
-+    log_cpu_exec(tb_pc_log(itb), cpu, itb);
+@@ -252,21 +253,42 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+     tcg_debug_assert(!(cflags & CF_INVALID));
  
-     qemu_thread_jit_execute();
-     ret = tcg_qemu_tb_exec(env, tb_ptr);
-@@ -446,16 +446,16 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
-          * of the start of the TB.
-          */
-         CPUClass *cc = CPU_GET_CLASS(cpu);
--        qemu_log_mask_and_addr(CPU_LOG_EXEC, last_tb->pc,
-+        qemu_log_mask_and_addr(CPU_LOG_EXEC, tb_pc_log(last_tb),
-                                "Stopped execution of TB chain before %p ["
-                                TARGET_FMT_lx "] %s\n",
--                               last_tb->tc.ptr, last_tb->pc,
--                               lookup_symbol(last_tb->pc));
-+                               last_tb->tc.ptr, tb_pc_log(last_tb),
-+                               lookup_symbol(tb_pc_log(last_tb)));
+     hash = tb_jmp_cache_hash_func(pc);
+-    tb = qatomic_rcu_read(&cpu->tb_jmp_cache[hash].tb);
+-
+-    if (likely(tb &&
+-               tb->pc == pc &&
+-               tb->cs_base == cs_base &&
+-               tb->flags == flags &&
+-               tb->trace_vcpu_dstate == *cpu->trace_dstate &&
+-               tb_cflags(tb) == cflags)) {
+-        return tb;
++    if (TARGET_TB_PCREL) {
++        /* Use acquire to ensure current load of pc from tb_jmp_cache[]. */
++        tb = qatomic_load_acquire(&cpu->tb_jmp_cache[hash].tb);
++    } else {
++        /* Use rcu_read to ensure current load of pc from *tb. */
++        tb = qatomic_rcu_read(&cpu->tb_jmp_cache[hash].tb);
+     }
++    if (likely(tb)) {
++        target_ulong jmp_pc;
++
++        if (TARGET_TB_PCREL) {
++            jmp_pc = cpu->tb_jmp_cache[hash].pc;
++        } else {
++            jmp_pc = tb_pc(tb);
++        }
++        if (jmp_pc == pc &&
++            tb->cs_base == cs_base &&
++            tb->flags == flags &&
++            tb->trace_vcpu_dstate == *cpu->trace_dstate &&
++            tb_cflags(tb) == cflags) {
++            return tb;
++        }
++    }
++
+     tb = tb_htable_lookup(cpu, pc, cs_base, flags, cflags);
+     if (tb == NULL) {
+         return NULL;
+     }
+-    qatomic_set(&cpu->tb_jmp_cache[hash].tb, tb);
++
++    if (TARGET_TB_PCREL) {
++        cpu->tb_jmp_cache[hash].pc = pc;
++        /* Use store_release on tb to ensure pc is current. */
++        qatomic_store_release(&cpu->tb_jmp_cache[hash].tb, tb);
++    } else {
++        qatomic_set(&cpu->tb_jmp_cache[hash].tb, tb);
++    }
+     return tb;
+ }
+ 
+@@ -454,6 +476,7 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
          if (cc->tcg_ops->synchronize_from_tb) {
              cc->tcg_ops->synchronize_from_tb(cpu, last_tb);
          } else {
++            assert(!TARGET_TB_PCREL);
              assert(cc->set_pc);
--            cc->set_pc(cpu, last_tb->pc);
-+            cc->set_pc(cpu, tb_pc(last_tb));
+             cc->set_pc(cpu, tb_pc(last_tb));
          }
-     }
+@@ -997,7 +1020,13 @@ int cpu_exec(CPUState *cpu)
+                  * for the fast lookup
+                  */
+                 h = tb_jmp_cache_hash_func(pc);
+-                qatomic_set(&cpu->tb_jmp_cache[h].tb, tb);
++                if (TARGET_TB_PCREL) {
++                    cpu->tb_jmp_cache[h].pc = pc;
++                    /* Use store_release on tb to ensure pc is current. */
++                    qatomic_store_release(&cpu->tb_jmp_cache[h].tb, tb);
++                } else {
++                    qatomic_set(&cpu->tb_jmp_cache[h].tb, tb);
++                }
+             }
  
-@@ -597,11 +597,11 @@ static inline void tb_add_jump(TranslationBlock *tb, int n,
- 
-     qemu_spin_unlock(&tb_next->jmp_lock);
- 
--    qemu_log_mask_and_addr(CPU_LOG_EXEC, tb->pc,
-+    qemu_log_mask_and_addr(CPU_LOG_EXEC, tb_pc_log(tb),
-                            "Linking TBs %p [" TARGET_FMT_lx
-                            "] index %d -> %p [" TARGET_FMT_lx "]\n",
--                           tb->tc.ptr, tb->pc, n,
--                           tb_next->tc.ptr, tb_next->pc);
-+                           tb->tc.ptr, tb_pc_log(tb), n,
-+                           tb_next->tc.ptr, tb_pc_log(tb_next));
-     return;
- 
-  out_unlock_next:
-@@ -851,7 +851,7 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
- {
-     int32_t insns_left;
- 
--    trace_exec_tb(tb, tb->pc);
-+    trace_exec_tb(tb, tb_pc_log(tb));
-     tb = cpu_tb_exec(cpu, tb, tb_exit);
-     if (*tb_exit != TB_EXIT_REQUESTED) {
-         *last_tb = tb;
+ #ifndef CONFIG_USER_ONLY
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index efa479ccf3..9e57822b44 100644
+index 9e57822b44..42e897b285 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
 @@ -298,7 +298,7 @@ static int encode_search(TranslationBlock *tb, uint8_t *block)
  
          for (j = 0; j < TARGET_INSN_START_WORDS; ++j) {
              if (i == 0) {
--                prev = (j == 0 ? tb->pc : 0);
-+                prev = (j == 0 ? tb_pc(tb) : 0);
+-                prev = (j == 0 ? tb_pc(tb) : 0);
++                prev = (!TARGET_TB_PCREL && j == 0 ? tb_pc(tb) : 0);
              } else {
                  prev = tcg_ctx->gen_insn_data[i - 1][j];
              }
@@ -222,346 +308,98 @@ index efa479ccf3..9e57822b44 100644
  static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
                                       uintptr_t searched_pc, bool reset_icount)
  {
--    target_ulong data[TARGET_INSN_START_WORDS] = { tb->pc };
-+    target_ulong data[TARGET_INSN_START_WORDS] = { tb_pc(tb) };
+-    target_ulong data[TARGET_INSN_START_WORDS] = { tb_pc(tb) };
++    target_ulong data[TARGET_INSN_START_WORDS];
      uintptr_t host_pc = (uintptr_t)tb->tc.ptr;
      CPUArchState *env = cpu->env_ptr;
      const uint8_t *p = tb->tc.ptr + tb->tc.size;
-@@ -884,7 +884,7 @@ static bool tb_cmp(const void *ap, const void *bp)
+@@ -342,6 +342,11 @@ static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+         return -1;
+     }
+ 
++    memset(data, 0, sizeof(data));
++    if (!TARGET_TB_PCREL) {
++        data[0] = tb_pc(tb);
++    }
++
+     /* Reconstruct the stored insn data while looking for the point at
+        which the end of the insn exceeds the searched_pc.  */
+     for (i = 0; i < num_insns; ++i) {
+@@ -884,13 +889,13 @@ static bool tb_cmp(const void *ap, const void *bp)
      const TranslationBlock *a = ap;
      const TranslationBlock *b = bp;
  
--    return a->pc == b->pc &&
-+    return tb_pc(a) == tb_pc(b) &&
-         a->cs_base == b->cs_base &&
-         a->flags == b->flags &&
-         (tb_cflags(a) & ~CF_INVALID) == (tb_cflags(b) & ~CF_INVALID) &&
-@@ -1012,9 +1012,10 @@ static void do_tb_invalidate_check(void *p, uint32_t hash, void *userp)
-     TranslationBlock *tb = p;
-     target_ulong addr = *(target_ulong *)userp;
- 
--    if (!(addr + TARGET_PAGE_SIZE <= tb->pc || addr >= tb->pc + tb->size)) {
-+    if (!(addr + TARGET_PAGE_SIZE <= tb_pc(tb) ||
-+          addr >= tb_pc(tb) + tb->size)) {
-         printf("ERROR invalidate: address=" TARGET_FMT_lx
--               " PC=%08lx size=%04x\n", addr, (long)tb->pc, tb->size);
-+               " PC=%08lx size=%04x\n", addr, (long)tb_pc(tb), tb->size);
-     }
+-    return tb_pc(a) == tb_pc(b) &&
+-        a->cs_base == b->cs_base &&
+-        a->flags == b->flags &&
+-        (tb_cflags(a) & ~CF_INVALID) == (tb_cflags(b) & ~CF_INVALID) &&
+-        a->trace_vcpu_dstate == b->trace_vcpu_dstate &&
+-        a->page_addr[0] == b->page_addr[0] &&
+-        a->page_addr[1] == b->page_addr[1];
++    return ((TARGET_TB_PCREL || tb_pc(a) == tb_pc(b)) &&
++            a->cs_base == b->cs_base &&
++            a->flags == b->flags &&
++            (tb_cflags(a) & ~CF_INVALID) == (tb_cflags(b) & ~CF_INVALID) &&
++            a->trace_vcpu_dstate == b->trace_vcpu_dstate &&
++            a->page_addr[0] == b->page_addr[0] &&
++            a->page_addr[1] == b->page_addr[1]);
  }
  
-@@ -1033,11 +1034,11 @@ static void do_tb_page_check(void *p, uint32_t hash, void *userp)
-     TranslationBlock *tb = p;
-     int flags1, flags2;
- 
--    flags1 = page_get_flags(tb->pc);
--    flags2 = page_get_flags(tb->pc + tb->size - 1);
-+    flags1 = page_get_flags(tb_pc(tb));
-+    flags2 = page_get_flags(tb_pc(tb) + tb->size - 1);
-     if ((flags1 & PAGE_WRITE) || (flags2 & PAGE_WRITE)) {
-         printf("ERROR page flags: PC=%08lx size=%04x f1=%x f2=%x\n",
--               (long)tb->pc, tb->size, flags1, flags2);
-+               (long)tb_pc(tb), tb->size, flags1, flags2);
-     }
- }
- 
-@@ -1168,7 +1169,7 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+ void tb_htable_init(void)
+@@ -1169,8 +1174,8 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
  
      /* remove the TB from the hash list */
      phys_pc = tb->page_addr[0];
--    h = tb_hash_func(phys_pc, tb->pc, tb->flags, orig_cflags,
-+    h = tb_hash_func(phys_pc, tb_pc(tb), tb->flags, orig_cflags,
-                      tb->trace_vcpu_dstate);
+-    h = tb_hash_func(phys_pc, tb_pc(tb), tb->flags, orig_cflags,
+-                     tb->trace_vcpu_dstate);
++    h = tb_hash_func(phys_pc, (TARGET_TB_PCREL ? 0 : tb_pc(tb)),
++                     tb->flags, orig_cflags, tb->trace_vcpu_dstate);
      if (!qht_remove(&tb_ctx.htable, tb, h)) {
          return;
-@@ -1299,7 +1300,7 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+     }
+@@ -1186,10 +1191,17 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+     }
+ 
+     /* remove the TB from the hash list */
+-    h = tb_jmp_cache_hash_func(tb->pc);
+-    CPU_FOREACH(cpu) {
+-        if (qatomic_read(&cpu->tb_jmp_cache[h].tb) == tb) {
+-            qatomic_set(&cpu->tb_jmp_cache[h].tb, NULL);
++    if (TARGET_TB_PCREL) {
++        /* Any TB may be at any virtual address */
++        CPU_FOREACH(cpu) {
++            cpu_tb_jmp_cache_clear(cpu);
++        }
++    } else {
++        h = tb_jmp_cache_hash_func(tb_pc(tb));
++        CPU_FOREACH(cpu) {
++            if (qatomic_read(&cpu->tb_jmp_cache[h].tb) == tb) {
++                qatomic_set(&cpu->tb_jmp_cache[h].tb, NULL);
++            }
+         }
+     }
+ 
+@@ -1300,8 +1312,8 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
      }
  
      /* add in the hash table */
--    h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb->cflags,
-+    h = tb_hash_func(phys_pc, tb_pc(tb), tb->flags, tb->cflags,
-                      tb->trace_vcpu_dstate);
+-    h = tb_hash_func(phys_pc, tb_pc(tb), tb->flags, tb->cflags,
+-                     tb->trace_vcpu_dstate);
++    h = tb_hash_func(phys_pc, (TARGET_TB_PCREL ? 0 : tb_pc(tb)),
++                     tb->flags, tb->cflags, tb->trace_vcpu_dstate);
      qht_insert(&tb_ctx.htable, tb, h, &existing_tb);
  
-@@ -1399,7 +1400,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     tcg_ctx->cpu = NULL;
-     max_insns = tb->icount;
+     /* remove TB from the page(s) if we couldn't insert it */
+@@ -1371,7 +1383,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
  
--    trace_translate_block(tb, tb->pc, tb->tc.ptr);
-+    trace_translate_block(tb, tb_pc_log(tb), tb->tc.ptr);
- 
-     /* generate machine code */
-     tb->jmp_reset_offset[0] = TB_JMP_RESET_OFFSET_INVALID;
-@@ -1476,7 +1477,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
- 
- #ifdef DEBUG_DISAS
-     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM) &&
--        qemu_log_in_addr_range(tb->pc)) {
-+        qemu_log_in_addr_range(tb_pc_log(tb))) {
-         FILE *logfile = qemu_log_trylock();
-         if (logfile) {
-             int code_size, data_size;
-@@ -1916,9 +1917,9 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
-      */
-     cpu->cflags_next_tb = curr_cflags(cpu) | CF_MEMI_ONLY | CF_LAST_IO | n;
- 
--    qemu_log_mask_and_addr(CPU_LOG_EXEC, tb->pc,
-+    qemu_log_mask_and_addr(CPU_LOG_EXEC, tb_pc_log(tb),
-                            "cpu_io_recompile: rewound execution of TB to "
--                           TARGET_FMT_lx "\n", tb->pc);
-+                           TARGET_FMT_lx "\n", tb_pc_log(tb));
- 
-     cpu_loop_exit_noexc(cpu);
- }
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 7ec3281da9..047bf3f4ab 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -72,9 +72,9 @@ void arm_cpu_synchronize_from_tb(CPUState *cs,
-      * never possible for an AArch64 TB to chain to an AArch32 TB.
-      */
-     if (is_a64(env)) {
--        env->pc = tb->pc;
-+        env->pc = tb_pc(tb);
-     } else {
--        env->regs[15] = tb->pc;
-+        env->regs[15] = tb_pc(tb);
-     }
- }
- #endif /* CONFIG_TCG */
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 05b992ff73..6ebef62b4c 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -47,7 +47,7 @@ static void avr_cpu_synchronize_from_tb(CPUState *cs,
-     AVRCPU *cpu = AVR_CPU(cs);
-     CPUAVRState *env = &cpu->env;
- 
--    env->pc_w = tb->pc / 2; /* internally PC points to words */
-+    env->pc_w = tb_pc(tb) / 2; /* internally PC points to words */
- }
- 
- static void avr_cpu_reset(DeviceState *ds)
-diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
-index fa9bd702d6..6289a6e64a 100644
---- a/target/hexagon/cpu.c
-+++ b/target/hexagon/cpu.c
-@@ -256,7 +256,7 @@ static void hexagon_cpu_synchronize_from_tb(CPUState *cs,
- {
-     HexagonCPU *cpu = HEXAGON_CPU(cs);
-     CPUHexagonState *env = &cpu->env;
--    env->gpr[HEX_REG_PC] = tb->pc;
-+    env->gpr[HEX_REG_PC] = tb_pc(tb);
- }
- 
- static bool hexagon_cpu_has_work(CPUState *cs)
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index a6f52caf14..fc9d43f620 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -42,7 +42,7 @@ static void hppa_cpu_synchronize_from_tb(CPUState *cs,
-     HPPACPU *cpu = HPPA_CPU(cs);
- 
- #ifdef CONFIG_USER_ONLY
--    cpu->env.iaoq_f = tb->pc;
-+    cpu->env.iaoq_f = tb_pc(tb);
-     cpu->env.iaoq_b = tb->cs_base;
- #else
-     /* Recover the IAOQ values from the GVA + PRIV.  */
-@@ -52,7 +52,7 @@ static void hppa_cpu_synchronize_from_tb(CPUState *cs,
-     int32_t diff = cs_base;
- 
-     cpu->env.iasq_f = iasq_f;
--    cpu->env.iaoq_f = (tb->pc & ~iasq_f) + priv;
-+    cpu->env.iaoq_f = (tb_pc(tb) & ~iasq_f) + priv;
-     if (diff) {
-         cpu->env.iaoq_b = cpu->env.iaoq_f + diff;
-     }
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index d3c2b8fb49..6cf14c83ff 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -51,7 +51,7 @@ static void x86_cpu_synchronize_from_tb(CPUState *cs,
- {
-     X86CPU *cpu = X86_CPU(cs);
- 
--    cpu->env.eip = tb->pc - tb->cs_base;
-+    cpu->env.eip = tb_pc(tb) - tb->cs_base;
- }
- 
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index 941e2772bc..262ddfb51c 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -309,7 +309,7 @@ static void loongarch_cpu_synchronize_from_tb(CPUState *cs,
-     LoongArchCPU *cpu = LOONGARCH_CPU(cs);
-     CPULoongArchState *env = &cpu->env;
- 
--    env->pc = tb->pc;
-+    env->pc = tb_pc(tb);
- }
- #endif /* CONFIG_TCG */
- 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index aed200dcff..5a642db285 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -89,7 +89,7 @@ static void mb_cpu_synchronize_from_tb(CPUState *cs,
- {
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
- 
--    cpu->env.pc = tb->pc;
-+    cpu->env.pc = tb_pc(tb);
-     cpu->env.iflags = tb->flags & IFLAGS_TB_MASK;
- }
- 
-diff --git a/target/mips/tcg/exception.c b/target/mips/tcg/exception.c
-index 2bd77a61de..96e61170e6 100644
---- a/target/mips/tcg/exception.c
-+++ b/target/mips/tcg/exception.c
-@@ -82,7 +82,7 @@ void mips_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb)
-     MIPSCPU *cpu = MIPS_CPU(cs);
-     CPUMIPSState *env = &cpu->env;
- 
--    env->active_tc.PC = tb->pc;
-+    env->active_tc.PC = tb_pc(tb);
-     env->hflags &= ~MIPS_HFLAG_BMASK;
-     env->hflags |= tb->flags & MIPS_HFLAG_BMASK;
- }
-diff --git a/target/mips/tcg/sysemu/special_helper.c b/target/mips/tcg/sysemu/special_helper.c
-index f4f8fe8afc..3c5f35c759 100644
---- a/target/mips/tcg/sysemu/special_helper.c
-+++ b/target/mips/tcg/sysemu/special_helper.c
-@@ -94,7 +94,7 @@ bool mips_io_recompile_replay_branch(CPUState *cs, const TranslationBlock *tb)
-     CPUMIPSState *env = &cpu->env;
- 
-     if ((env->hflags & MIPS_HFLAG_BMASK) != 0
--        && env->active_tc.PC != tb->pc) {
-+        && env->active_tc.PC != tb_pc(tb)) {
-         env->active_tc.PC -= (env->hflags & MIPS_HFLAG_B16 ? 2 : 4);
-         env->hflags &= ~MIPS_HFLAG_BMASK;
-         return true;
-diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index cb9f35f408..7bba181420 100644
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -36,7 +36,7 @@ static void openrisc_cpu_synchronize_from_tb(CPUState *cs,
- {
-     OpenRISCCPU *cpu = OPENRISC_CPU(cs);
- 
--    cpu->env.pc = tb->pc;
-+    cpu->env.pc = tb_pc(tb);
- }
- 
- 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index aee14a239a..103aedefcd 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -478,9 +478,9 @@ static void riscv_cpu_synchronize_from_tb(CPUState *cs,
-     RISCVMXL xl = FIELD_EX32(tb->flags, TB_FLAGS, XL);
- 
-     if (xl == MXL_RV32) {
--        env->pc = (int32_t)tb->pc;
-+        env->pc = (int32_t)tb_pc(tb);
-     } else {
--        env->pc = tb->pc;
-+        env->pc = tb_pc(tb);
-     }
- }
- 
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index fb30080ac4..f1e0008e04 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -37,7 +37,7 @@ static void rx_cpu_synchronize_from_tb(CPUState *cs,
- {
-     RXCPU *cpu = RX_CPU(cs);
- 
--    cpu->env.pc = tb->pc;
-+    cpu->env.pc = tb_pc(tb);
- }
- 
- static bool rx_cpu_has_work(CPUState *cs)
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 06b2691dc4..6948c8fa33 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -39,7 +39,7 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
- {
-     SuperHCPU *cpu = SUPERH_CPU(cs);
- 
--    cpu->env.pc = tb->pc;
-+    cpu->env.pc = tb_pc(tb);
-     cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
- }
- 
-@@ -51,7 +51,7 @@ static bool superh_io_recompile_replay_branch(CPUState *cs,
-     CPUSH4State *env = &cpu->env;
- 
-     if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
--        && env->pc != tb->pc) {
-+        && env->pc != tb_pc(tb)) {
-         env->pc -= 2;
-         env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
-         return true;
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 55268ed2a1..0471c2fe5a 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -698,7 +698,7 @@ static void sparc_cpu_synchronize_from_tb(CPUState *cs,
- {
-     SPARCCPU *cpu = SPARC_CPU(cs);
- 
--    cpu->env.pc = tb->pc;
-+    cpu->env.pc = tb_pc(tb);
-     cpu->env.npc = tb->cs_base;
- }
- 
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index b95682b7f0..35f3347add 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -47,7 +47,7 @@ static void tricore_cpu_synchronize_from_tb(CPUState *cs,
-     TriCoreCPU *cpu = TRICORE_CPU(cs);
-     CPUTriCoreState *env = &cpu->env;
- 
--    env->PC = tb->pc;
-+    env->PC = tb_pc(tb);
- }
- 
- static void tricore_cpu_reset(DeviceState *dev)
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 0f9cfe96f2..11bdb96dd1 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -4218,7 +4218,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
- 
- #ifdef DEBUG_DISAS
-     if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_OP)
--                 && qemu_log_in_addr_range(tb->pc))) {
-+                 && qemu_log_in_addr_range(tb_pc_log(tb)))) {
-         FILE *logfile = qemu_log_trylock();
-         if (logfile) {
-             fprintf(logfile, "OP:\n");
-@@ -4265,7 +4265,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
-     if (s->nb_indirects > 0) {
- #ifdef DEBUG_DISAS
-         if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_OP_IND)
--                     && qemu_log_in_addr_range(tb->pc))) {
-+                     && qemu_log_in_addr_range(tb_pc_log(tb)))) {
-             FILE *logfile = qemu_log_trylock();
-             if (logfile) {
-                 fprintf(logfile, "OP before indirect lowering:\n");
-@@ -4288,7 +4288,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
- 
- #ifdef DEBUG_DISAS
-     if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_OP_OPT)
--                 && qemu_log_in_addr_range(tb->pc))) {
-+                 && qemu_log_in_addr_range(tb_pc_log(tb)))) {
-         FILE *logfile = qemu_log_trylock();
-         if (logfile) {
-             fprintf(logfile, "OP after optimization and liveness analysis:\n");
+     gen_code_buf = tcg_ctx->code_gen_ptr;
+     tb->tc.ptr = tcg_splitwx_to_rx(gen_code_buf);
++#if !TARGET_TB_PCREL
+     tb->pc = pc;
++#endif
+     tb->cs_base = cs_base;
+     tb->flags = flags;
+     tb->cflags = cflags;
 -- 
 2.34.1
 
