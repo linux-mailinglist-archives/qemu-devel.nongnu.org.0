@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A505E92FE
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:12:25 +0200 (CEST)
-Received: from localhost ([::1]:50370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310225E932C
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:43:03 +0200 (CEST)
+Received: from localhost ([::1]:58622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocQUi-000817-Eh
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60076)
+	id 1ocQyJ-0005Tr-1l
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:42:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPsB-0003On-Bb
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:37 -0400
+ id 1ocPsE-0003Ph-6J; Sun, 25 Sep 2022 07:32:38 -0400
 Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:45704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPs9-0006SV-K3
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:34 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id r62so390332pgr.12
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:32:33 -0700 (PDT)
+ id 1ocPsC-0006SV-Iz; Sun, 25 Sep 2022 07:32:37 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id r62so390384pgr.12;
+ Sun, 25 Sep 2022 04:32:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=YsVoae9ivi9Cg+kCdP1PRZfFksunz3gscATDK4L4ZUA=;
- b=cNxpQ7jSHDfY68Cqg/xlvB6wyba2e1lDf/2BVtZb5AuhvkuR9C3GhMF/R5kKUlc7du
- habTHdHW9uSMqw36KQ4e28GWl4UswDrgf/pViczPQbsueHogqxwUsv+Y3ONrIRvdfGzT
- whauQR6V76i/yG95qlxnKWlue0DkWqmn0pb+8QN69Lin/QIOPU9DIpSgJNP3NUdrvivU
- h+n9PpGDmrTzcu2adZAdZJjTaShJ8d6RxMeD1ZApXHQRuUV6bDfm4gf7SvOl1yfwOuDw
- Dg7sUPuat9m+6g6PR6a8wlmPoBjO1aTtuxmoVOA7nZbCWGZl3D5bqX6UkOP3WNzVfWbK
- JQqQ==
+ bh=cdOM1RV7vfdzIOgDlIpgFRBOhfRCBARffZGNXtbDMOw=;
+ b=ckQm1fbAl9t6B4cGBfQxqm7V7vseIckI5swjAOXzsBs5s2ph+lRuq6Yk6bxqFM/8nl
+ MeX9A0d8aMxtMyWQWjez1bup8rizgea+bBdYMvZA8xcPrK/EVLFAq56e69ZJ+CvRz6Ta
+ uaZmHeKf5NZa0Mdjkpdc/iWIkTEdLPZTCVlK5xX9RMQmpCHJII+4ngNn2NFN82VVL5zp
+ QevNsje6x9Rhhx8woqENCMndCI0WpWWKIjcghKO6xgdXSuEQiOnmoHjsEqGf6nTXP1j6
+ 6NQ7XjH3b8hmXNnfU4vOPipGbvbYG4IZaVkTUl3d9FRgxs5BH1uMhBR2p4VuFcSOYNV6
+ Cbzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=YsVoae9ivi9Cg+kCdP1PRZfFksunz3gscATDK4L4ZUA=;
- b=48RoMIfKk2RSbpkN2+2WpqaKIZRUqTug/3TUDaRrTboViDZIPBD9nyyXhRoKyWK+3j
- CDP8tH3LrcGND02tNQ9kwb7ODjf+fbTHXamLTjkpYk7w6wYFBU4hRR+CUURoJd+XRsZp
- +iqC8qoMISHE/7md5p8pkeos5Uig+FijZvcdvGLUMkkSjKf+H+pgLwH0wmqwA3AaTUh5
- BZi/N85+RjI/TtLswyI860E3UXjMcVmJfigyaGAuE+EXYEhe+rC5iiTp7EyLJ/z+s0eE
- xjz7DKr2sxJcWMUDUG6RVFKVlEyEzCt4h2IdUEP9XXDsFj7ZJt3v2nYeZFJ/IwgNpQjD
- d+UA==
-X-Gm-Message-State: ACrzQf0acWatcsr+F383WcUMj/MhmOR2q+TbvKS8y8BnhTYpWBSNdbzy
- ++tZeV+A3bDysNPqOln3qYCXV6Xbs5w=
-X-Google-Smtp-Source: AMsMyM4kJ8GIssnDjNjwmzdNK7nTimeh1EXZXcfv/6dw4DGF8DGNmjcUkakEq2EaS/Y7wAWoqqlbMQ==
-X-Received: by 2002:a05:6a00:1a44:b0:528:6af7:ff4a with SMTP id
- h4-20020a056a001a4400b005286af7ff4amr18381770pfv.78.1664105552193; 
- Sun, 25 Sep 2022 04:32:32 -0700 (PDT)
+ bh=cdOM1RV7vfdzIOgDlIpgFRBOhfRCBARffZGNXtbDMOw=;
+ b=haUwKDLqAD+Sa0JbXHBovarSdK87o7kjCvQK49Fq0R0uOH6Ldi9WfHXj/iRtrqJqTD
+ ymfCItcNGMeV5k5sL+Cn3ao3z7vEeoLb1Obu3Xl7niwEkMjZ9jLQTU7F2wL5hpTvgYon
+ QR+mlXk/ZciloPNPYt3pVvtMc3BxoMSeE0mg5GU1BbcvA5kyRvHKAyvBd6grYPuuRPpE
+ LUNcQH5AUewaaJE64Gk7nhDn/PmamC/Olk/W3sR2SM1DSW4E5vhxb70GHAv/rm4DlSQz
+ FdcnFeFB9ZEjqR68Wz5fdKsGjM7EGgcqpsYm8XOftCAcWfSmV1kxcDUexBSDHbrj3LZZ
+ M1Eg==
+X-Gm-Message-State: ACrzQf27LuULOV6w430v1YrLnDXGPvJ1Iw/5q+8b2sVN/GF7MJBGjWB1
+ MNAKHYmgMCzrkYO5OkLAxciZYu+Oi3w=
+X-Google-Smtp-Source: AMsMyM4oL0h8hnl2A8YK4HFYPQRMitc7/hF9PEg9p+IEuijli9f6v69p/RHyauZtbZWczZ3M2VGW7w==
+X-Received: by 2002:a63:31d6:0:b0:43a:1129:e485 with SMTP id
+ x205-20020a6331d6000000b0043a1129e485mr15393067pgx.177.1664105555146; 
+ Sun, 25 Sep 2022 04:32:35 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.29
+ z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 04:32:31 -0700 (PDT)
+ Sun, 25 Sep 2022 04:32:34 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 43/54] tests/qtest: migration-test: Make sure QEMU process
- "to" exited after migration is canceled
-Date: Sun, 25 Sep 2022 19:30:21 +0800
-Message-Id: <20220925113032.1949844-44-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-arm@nongnu.org
+Subject: [PATCH v3 44/54] tests/qtest: microbit-test: Fix socket access for
+ win32
+Date: Sun, 25 Sep 2022 19:30:22 +0800
+Message-Id: <20220925113032.1949844-45-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
  envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52d.google.com
@@ -95,39 +93,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-Make sure QEMU process "to" exited before launching another target
-for migration in the test_multifd_tcp_cancel case.
+Sockets on Windows do not use *nix-style file descriptors, so
+write()/read()/close() do not work on Windows.
 
-Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+Switch over to use send()/recv()/closesocket() which work with
+sockets on all platforms.
+
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-Changes in v3:
-- Add a usleep(1) in the busy wait loop
+(no changes since v1)
 
-Changes in v2:
-- Change to a busy wait after migration is canceled
+ tests/qtest/microbit-test.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
- tests/qtest/migration-test.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index a1dd342739..9ec501d1eb 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)
-     wait_for_migration_pass(from);
+diff --git a/tests/qtest/microbit-test.c b/tests/qtest/microbit-test.c
+index b71daae9a9..4bc267020b 100644
+--- a/tests/qtest/microbit-test.c
++++ b/tests/qtest/microbit-test.c
+@@ -51,7 +51,7 @@ static void uart_rw_to_rxd(QTestState *qts, int sock_fd, const char *in,
+ {
+     int i, in_len = strlen(in);
  
-     migrate_cancel(from);
-+    /* Make sure QEMU process "to" exited */
-+    while (qtest_probe_child(to)) {
-+        usleep(1);
-+    }
+-    g_assert_true(write(sock_fd, in, in_len) == in_len);
++    g_assert_true(send(sock_fd, in, in_len, 0) == in_len);
+     for (i = 0; i < in_len; i++) {
+         g_assert_true(uart_wait_for_event(qts, NRF51_UART_BASE +
+                                                A_UART_RXDRDY));
+@@ -77,7 +77,7 @@ static void test_nrf51_uart(void)
+     char s[10];
+     QTestState *qts = qtest_init_with_serial("-M microbit", &sock_fd);
  
-     args = (MigrateStart){
-         .only_target = true,
+-    g_assert_true(write(sock_fd, "c", 1) == 1);
++    g_assert_true(send(sock_fd, "c", 1, 0) == 1);
+     g_assert_cmphex(qtest_readl(qts, NRF51_UART_BASE + A_UART_RXD), ==, 0x00);
+ 
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_ENABLE, 0x04);
+@@ -97,17 +97,17 @@ static void test_nrf51_uart(void)
+ 
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_STARTTX, 0x01);
+     uart_w_to_txd(qts, "d");
+-    g_assert_true(read(sock_fd, s, 10) == 1);
++    g_assert_true(recv(sock_fd, s, 10, 0) == 1);
+     g_assert_cmphex(s[0], ==, 'd');
+ 
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_SUSPEND, 0x01);
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_TXD, 'h');
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_STARTTX, 0x01);
+     uart_w_to_txd(qts, "world");
+-    g_assert_true(read(sock_fd, s, 10) == 5);
++    g_assert_true(recv(sock_fd, s, 10, 0) == 5);
+     g_assert_true(memcmp(s, "world", 5) == 0);
+ 
+-    close(sock_fd);
++    closesocket(sock_fd);
+ 
+     qtest_quit(qts);
+ }
 -- 
 2.34.1
 
