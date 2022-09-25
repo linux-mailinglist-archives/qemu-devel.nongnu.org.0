@@ -2,69 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1065E91E1
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 11:29:37 +0200 (CEST)
-Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E435E91E4
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 11:33:14 +0200 (CEST)
+Received: from localhost ([::1]:60946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocNxA-0005T5-2o
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 05:29:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45776)
+	id 1ocO0f-0007zb-7e
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 05:33:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocNqu-0008F8-7L; Sun, 25 Sep 2022 05:23:08 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59410)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ocNrh-0000u5-BP; Sun, 25 Sep 2022 05:23:57 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:27135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocNqs-0004vU-ED; Sun, 25 Sep 2022 05:23:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=t472SNhxv6uKViDBMDvDTyED/2bBz4I0uGCqMVl8xlg=; b=pdw9k5+EYJTIBqTGlb9znbbyNW
- SMNT2PRFZe01T+M0ZudWeowZFKWt7mCADirKwc4/qrcd194+x+RS2Lc/C1fP6ndcb+5lMRr3TiRt+
- AoC9WJq5x8K/ElGsq5l/Sos9z8k2Z9DdqO6Gb0jWPIhLtynaGt1gKxh7z+NPfbON0ZMpuu8NTWi5K
- cT+Y2bv1drppEuKk8NmHv9ytt+Bd6fgQEG8htd/xd9l+07ldk+VmZBLfqTMMgHSFCjos8m84Madvp
- Qa/oqlg3PPaeW2GczQYIeY4t1wfxnryzSGeGe/QguW5vceY9lflOZVqqt5h/62HjAxpLeNJ9U6OoV
- 6j/dpB7w0npSRl6M0Nx8h1HqN4erh1u+OLdfB7gA6VQz55EdTzDCi+F9Ns0lAJ5pC23T8Db968UvC
- Gq+TPbw2k56K558qAOpv6mnaypkOKGbbRicO4dkAhs6uU251DwCDiSJP3BlsfUXCMaIjAomXHwPSn
- Pp46f1LhkqkWCZz+FYmYtgvML1HSLp1XOxkDSaWpjM9fnLBFpDtat4VFfuFsX97IeeXJhMu1/KSa+
- vgEgpyZkqMIRvhpSylin07+LmgdJalH9gPEhpJuPC+jXiT/nCRgqYd/3tq84oa8wKq+cZ3svo0bPf
- u4yCUmRihjHxpjv8rFjjEpgi/1nRnQwvGTXNEeGlA=;
-Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ocNp8-0006wd-81; Sun, 25 Sep 2022 10:21:22 +0100
-Message-ID: <08563903-eaf6-4ea2-9543-10c1fdca541c@ilande.co.uk>
-Date: Sun, 25 Sep 2022 10:22:59 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ocNrY-0004zV-QF; Sun, 25 Sep 2022 05:23:56 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 0398F75A166;
+ Sun, 25 Sep 2022 11:23:47 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id BD84A75A165; Sun, 25 Sep 2022 11:23:46 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id BBD8E75A164;
+ Sun, 25 Sep 2022 11:23:46 +0200 (CEST)
+Date: Sun, 25 Sep 2022 11:23:46 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH 07/10] hw/ppc/mac.h: Move macio specific atuff out from
+ shared header
+In-Reply-To: <c4b2659e-fece-87c4-dba9-83c90d9b7a8e@ilande.co.uk>
+Message-ID: <8f173f3-6e4-a919-36c2-e74340e32046@eik.bme.hu>
 References: <cover.1663368422.git.balaton@eik.bme.hu>
- <f8554a36947fc60caf104deffc6cfa5c4f244ae5.1663368422.git.balaton@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <f8554a36947fc60caf104deffc6cfa5c4f244ae5.1663368422.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 09/10] hw/ppc/mac.h: Move PROM and KERNEL defines to board
- code
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.118,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <3fd567b3162f70414fcbb7d074e3a7731360f6e4.1663368422.git.balaton@eik.bme.hu>
+ <c4b2659e-fece-87c4-dba9-83c90d9b7a8e@ilande.co.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,81 +61,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/09/2022 00:07, BALATON Zoltan wrote:
+On Sun, 25 Sep 2022, Mark Cave-Ayland wrote:
+> On 17/09/2022 00:07, BALATON Zoltan wrote:
+> Typo in subject: s/atuff/stuff/
+>> Move the parts specific to and only used by macio out from the shared
+>> mac.h into macio.c where they better belong.
+>> 
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>   hw/misc/macio/macio.c | 26 ++++++++++++++++++++++++--
+>>   hw/ppc/mac.h          | 23 -----------------------
+>>   2 files changed, 24 insertions(+), 25 deletions(-)
+>> 
+>> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+>> index c1fad43f6c..eca5983a4d 100644
+>> --- a/hw/misc/macio/macio.c
+>> +++ b/hw/misc/macio/macio.c
+>> @@ -37,8 +37,30 @@
+>>   #include "hw/intc/heathrow_pic.h"
+>>   #include "trace.h"
+>>   -/* Note: this code is strongly inspirated from the corresponding code
+>> - * in PearPC */
+>> +#define ESCC_CLOCK 3686400
+>> +
+>> +/* Old World IRQs */
+>> +#define OLDWORLD_CUDA_IRQ      0x12
+>> +#define OLDWORLD_ESCCB_IRQ     0x10
+>> +#define OLDWORLD_ESCCA_IRQ     0xf
+>> +#define OLDWORLD_IDE0_IRQ      0xd
+>> +#define OLDWORLD_IDE0_DMA_IRQ  0x2
+>> +#define OLDWORLD_IDE1_IRQ      0xe
+>> +#define OLDWORLD_IDE1_DMA_IRQ  0x3
+>> +
+>> +/* New World IRQs */
+>> +#define NEWWORLD_CUDA_IRQ      0x19
+>> +#define NEWWORLD_PMU_IRQ       0x19
+>> +#define NEWWORLD_ESCCB_IRQ     0x24
+>> +#define NEWWORLD_ESCCA_IRQ     0x25
+>> +#define NEWWORLD_IDE0_IRQ      0xd
+>> +#define NEWWORLD_IDE0_DMA_IRQ  0x2
+>> +#define NEWWORLD_IDE1_IRQ      0xe
+>> +#define NEWWORLD_IDE1_DMA_IRQ  0x3
+>> +#define NEWWORLD_EXTING_GPIO1  0x2f
+>> +#define NEWWORLD_EXTING_GPIO9  0x37
+>> +
+>> +/* Note: this code is strongly inspired by the corresponding code in 
+>> PearPC */
+>
+> These IRQ numbers are effectively hardcoded because of the board layout (and 
+> at some point some of this wiring may move to the board), so I think macio.h 
+> is the best place for these to allow for use in multiple places if needed.
 
-> The PROM_FILENAME and KERNEL_* defines are used by mac_oldworld and
-> mac_newworld but they don't have to be identical so these could be
-> moved to the individual boards. The NVRAM_SIZE define is not used so
-> it can be dropped. This further reduces the mac.h header.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/ppc/mac.h          | 6 ------
->   hw/ppc/mac_newworld.c | 4 ++++
->   hw/ppc/mac_oldworld.c | 7 ++++++-
->   3 files changed, 10 insertions(+), 7 deletions(-)
-> 
-> diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
-> index fe77a6c6db..3c0c3cc43d 100644
-> --- a/hw/ppc/mac.h
-> +++ b/hw/ppc/mac.h
-> @@ -29,12 +29,6 @@
->   #include "exec/memory.h"
->   #include "hw/sysbus.h"
->   
-> -#define NVRAM_SIZE        0x2000
-> -#define PROM_FILENAME    "openbios-ppc"
-> -
-> -#define KERNEL_LOAD_ADDR 0x01000000
-> -#define KERNEL_GAP       0x00100000
-> -
->   /* Mac NVRAM */
->   #define TYPE_MACIO_NVRAM "macio-nvram"
->   OBJECT_DECLARE_SIMPLE_TYPE(MacIONVRAMState, MACIO_NVRAM)
-> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-> index 14cc8cd6ea..1cb10726d3 100644
-> --- a/hw/ppc/mac_newworld.c
-> +++ b/hw/ppc/mac_newworld.c
-> @@ -83,9 +83,13 @@
->   
->   #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
->   
-> +#define PROM_FILENAME "openbios-ppc"
->   #define PROM_BASE 0xfff00000
->   #define PROM_SIZE (1 * MiB)
->   
-> +#define KERNEL_LOAD_ADDR 0x01000000
-> +#define KERNEL_GAP       0x00100000
-> +
->   #define TYPE_CORE99_MACHINE MACHINE_TYPE_NAME("mac99")
->   typedef struct Core99MachineState Core99MachineState;
->   DECLARE_INSTANCE_CHECKER(Core99MachineState, CORE99_MACHINE,
-> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-> index a4094226bc..e196090f49 100644
-> --- a/hw/ppc/mac_oldworld.c
-> +++ b/hw/ppc/mac_oldworld.c
-> @@ -57,10 +57,15 @@
->   
->   #define NDRV_VGA_FILENAME "qemu_vga.ndrv"
->   
-> -#define GRACKLE_BASE 0xfec00000
-> +#define PROM_FILENAME "openbios-ppc"
->   #define PROM_BASE 0xffc00000
->   #define PROM_SIZE (4 * MiB)
->   
-> +#define KERNEL_LOAD_ADDR 0x01000000
-> +#define KERNEL_GAP       0x00100000
-> +
-> +#define GRACKLE_BASE 0xfec00000
-> +
->   static void fw_cfg_boot_set(void *opaque, const char *boot_device,
->                               Error **errp)
->   {
+They aren't needed anywhere else currently that's what I've moved them 
+here and they could be moved elsewhere when needed but I can put it in the 
+header too if you like just don't see the need for that.
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Regards,
+BALATON Zoltan
 
-
-ATB,
-
-Mark.
+>>   /*
+>>    * The mac-io has two interfaces to the ESCC. One is called 
+>> "escc-legacy",
+>> diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+>> index e97087c7e7..55cb02c990 100644
+>> --- a/hw/ppc/mac.h
+>> +++ b/hw/ppc/mac.h
+>> @@ -35,29 +35,6 @@
+>>   #define KERNEL_LOAD_ADDR 0x01000000
+>>   #define KERNEL_GAP       0x00100000
+>>   -#define ESCC_CLOCK 3686400
+>> -
+>> -/* Old World IRQs */
+>> -#define OLDWORLD_CUDA_IRQ      0x12
+>> -#define OLDWORLD_ESCCB_IRQ     0x10
+>> -#define OLDWORLD_ESCCA_IRQ     0xf
+>> -#define OLDWORLD_IDE0_IRQ      0xd
+>> -#define OLDWORLD_IDE0_DMA_IRQ  0x2
+>> -#define OLDWORLD_IDE1_IRQ      0xe
+>> -#define OLDWORLD_IDE1_DMA_IRQ  0x3
+>> -
+>> -/* New World IRQs */
+>> -#define NEWWORLD_CUDA_IRQ      0x19
+>> -#define NEWWORLD_PMU_IRQ       0x19
+>> -#define NEWWORLD_ESCCB_IRQ     0x24
+>> -#define NEWWORLD_ESCCA_IRQ     0x25
+>> -#define NEWWORLD_IDE0_IRQ      0xd
+>> -#define NEWWORLD_IDE0_DMA_IRQ  0x2
+>> -#define NEWWORLD_IDE1_IRQ      0xe
+>> -#define NEWWORLD_IDE1_DMA_IRQ  0x3
+>> -#define NEWWORLD_EXTING_GPIO1  0x2f
+>> -#define NEWWORLD_EXTING_GPIO9  0x37
+>> -
+>>   /* Grackle PCI */
+>>   #define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
+>
+>
+> ATB,
+>
+> Mark.
+>
+>
 
