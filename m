@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521FC5E9424
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 17:59:11 +0200 (CEST)
-Received: from localhost ([::1]:44144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D725E9428
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 18:00:07 +0200 (CEST)
+Received: from localhost ([::1]:56180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocU2A-0007kK-FR
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 11:59:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37996)
+	id 1ocU34-0000Ve-1i
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 12:00:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocTzZ-0005YX-A9
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 11:56:29 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:56623)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocU1G-0006lz-MY
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 11:58:17 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:58905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocTzX-0002Z7-Mb
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 11:56:29 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocU1E-0002xn-UL
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 11:58:14 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MIxBc-1owkhR1xIA-00KO58; Sun, 25 Sep 2022 17:56:23 +0200
-Message-ID: <ec489f39-2cb3-9690-89bb-62d6d42c8daa@vivier.eu>
-Date: Sun, 25 Sep 2022 17:56:22 +0200
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M7rxE-1oYc8B41D8-004wxC; Sun, 25 Sep 2022 17:58:10 +0200
+Message-ID: <d413f69d-f374-aaaf-c43d-78f91ad10d73@vivier.eu>
+Date: Sun, 25 Sep 2022 17:58:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH 2/7] linux-user: Add proper strace format strings for
- getdents()/getdents64()
+Subject: Re: [PATCH v3 02/12] linux-user: Add missing clock_gettime64()
+ syscall strace
 Content-Language: fr
-To: Helge Deller <deller@gmx.de>,
+To: Helge Deller <deller@gmx.de>, Stefan Hajnoczi <stefanha@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220924114501.21767-1-deller@gmx.de>
- <20220924114501.21767-3-deller@gmx.de>
+References: <20220918194555.83535-1-deller@gmx.de>
+ <20220918194555.83535-3-deller@gmx.de>
+ <5499dddd-4e60-ae0c-eaf4-ad56561f3585@vivier.eu>
+ <2ccd28da-552b-722e-0534-df41c1962432@gmx.de>
+ <12696e40-af64-4dd2-bd47-eb270285edce@vivier.eu>
+ <da104054-6d2c-60f1-2098-f5f44d3c83b0@gmx.de>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220924114501.21767-3-deller@gmx.de>
+In-Reply-To: <da104054-6d2c-60f1-2098-f5f44d3c83b0@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1grdgBDejd7iA5zU+RMVZiiIUUod16s2uR0PBAhEdC/DCKQTQ4W
- glIZTBATy0Se/hPGB3lqQuioGHodR3LNnTgrmnWsrW4i6hnTMdoLpDgpLY688q70Yv6IWSf
- LecFEiPhbGyqUx2J4bhIYa4MIX5XZ+74XPP+qKi//igHhs5UpEn8AQFKWOZadxiaGdprD3u
- 3B2PsYARDldsysrHUI2QQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZjyXS2DLq58=:STWmgoxQHWejYFUPqfubXT
- MojtklBntm5oEFEF48YdcfwiekBJGlFtCL7rneU2Vy78RuscAgXuoISYPyVlZKddvPSeF55vz
- CUvoYtuoYfQT6tm/l+gJrhazTZD0V7x4kV9FDzA7Qd8EkwBIGvUIFXNZmdngfxrxhGPVtlYBa
- pN31kbxzlPpLSnHbmKXDey4pUXriIhF/jVnTzyXZ6Eo7O7Dg2skwutJQmiU89FkyuicbqRHjG
- o8RLhfCiEkud5gbsbE4GKyvLFyCbV7Wz00tMiqxrXxD/pjUOuMOYUNXLzvWd7mCDzpYmIyyzK
- ZzVwyFbAxSkf77Cl8bQdLmMzzf4KVWlRfG0Kg2P1w+JBfToz/Rhk16DkFlLDKYx1IaZMGs3tm
- KP0AURFbqT9trOxKhtxTlyO1NV1dtUXU5edyknQLQHPma6CQ3+BQybuAauRbfwHXVN87PYca0
- DjXkEBOx78vdN9wGqkZ8UWxLCcmQx8WnaQGZxpIvK3MZRN+2ODIO2j4lGvzg0G0I3GduIlKt/
- ixlw1pA1/VPNwZdBDtBtrv7cvwrLUT1VbAY56L671JqJY4TsJ/p/rywo6ph8pRwcVO3JOu5JW
- YzwMV7Y4NuxlT7T/cl1ej/944rnhzWFMTBKmwCINZ6CdeglExLW79PRgIFEi41rryn52tuMjh
- TiVyXMjF6DoH6ge5GxOsETIhtcbZPC0mO8cFUopFrFiJpp9EIu3hmt9IQHvWgeMrVsldcalAK
- oIilmWC9C685cIfHclT6S3w8lHj4l+dQUQDTo2EgMdw0niKlPNkFRTg/Ti2tFesthTRuvJslZ
- Q437A4L
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:yJdbJ9hqNuW4QjYpjCjWRIqxYc6p6BS+bReB6mYCPrCPrfJy1nP
+ tVWqsjHVtVOGsFXMKpTkKtBroIUhF3YAyeKZE6S6OTWz5O1yh5/tZMSf5piEG7yk8olwGKP
+ DOHj9Dj6GXlQVhuMwHkQc7cbsl36YOGbqH2pZflD/pJmAcY85z67cIzX22xkbB5Pq1GhpNR
+ IFAFFrtPF+HWoGy1bOIYQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ehsj9p1e2Pw=:D0RIvu7oDCBiP64vEWDkFl
+ u+e37xMgUenniHypvIrJSKsZRBXHaVXebuVXIojW6vR38dDtkrBX5eBVYulqP0hqdXtidVqKw
+ CfB8nvxxDHctR/CU6FBbU5rJTrV5r1e2pP9j9dbobDgJnk7XU7nBHiOhB7hCBVzLe2Md+58i3
+ Gk9utJlfjIj1TyOHHGc+m9ECpBBqcBFfmN9iZqU6fNmWenA+kQCnywwtubbGV4CE6ZqyezsJf
+ /mhSvQyjQzD7aHFQrdhqEy513cN+I7TE7IdMp9emKBZbsFQ4TfB8hbH+XVAYMigEbsDxX2n1E
+ 0UKbug+Rsdi5ULNqupFnIdXxyuPJw/f3dnMIWG22Bnw1CS1pSBSoyHDm3C8wnh1Y3v85vz+xD
+ CUBPVEl/W9790EFbMGqgZ5cVfhpcjJaFgFKC4rOfOpxe3oeZkss5XTYTakZwLVVxjrYc5Pd16
+ N8m45M82/KASiF0Jv7Vk2r5nHrPEaX0nTdYvGb3XAZl8OBBeo6F+XagKJSF9XGbEj6s/Pfcoz
+ Plq13vmwbOsNwx+kvzDICks5Ruafb/TDG9xUuE+G4O3XS12l+6TWl/0QVZeE23oJDeZMF1Rlr
+ +KgAIbKHaZHThKj5NYJGyY4wf11cLvvZ+/RG5v77FWXW5JX7HY3Rg3QJCPPjPkxG6oIFsgaJj
+ NQ8+gND2A2yzukPmPUHq7Q+GhVEp6pmb+7jbK3pn2z+tt9MlAUEPg0LwT9lqb6y9pxlYXvX11
+ o77fLBiJhUstHQJctjrjnCGofYaN/goCwskUmqgPIgs80dOhg8WbPtWLm26NR5WsB3IePvTxt
+ 9ejoccy
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -56
 X-Spam_score: -5.7
 X-Spam_bar: -----
 X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.766,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,38 +80,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 24/09/2022 à 13:44, Helge Deller a écrit :
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> ---
->   linux-user/strace.list | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+Le 25/09/2022 à 17:53, Helge Deller a écrit :
+> On 9/25/22 17:47, Laurent Vivier wrote:
+>> Le 25/09/2022 à 17:27, Helge Deller a écrit :
+>>> On 9/25/22 17:09, Laurent Vivier wrote:
+>>>> Le 18/09/2022 à 21:45, Helge Deller a écrit :
+>>>>> Allow linux-user to strace the clock_gettime64() syscall.
+>>>>> This syscall is used a lot on 32-bit guest architectures which use newer
+>>>>> glibc versions.
+>>>>>
+>>>>> Signed-off-by: Helge Deller <deller@gmx.de>
+>>>>> ---
+>>>>>   linux-user/strace.c    | 53 ++++++++++++++++++++++++++++++++++++++++++
+>>>>>   linux-user/strace.list |  4 ++++
+>>>>>   2 files changed, 57 insertions(+)
+>>>>>
+>>>>> diff --git a/linux-user/strace.c b/linux-user/strace.c
+>>>>> index a4eeef7ae1..816e679995 100644
+>>>>> --- a/linux-user/strace.c
+>>>>> +++ b/linux-user/strace.c
+>>>>> @@ -82,6 +82,7 @@ UNUSED static void print_buf(abi_long addr, abi_long len, int last);
+>>>>>   UNUSED static void print_raw_param(const char *, abi_long, int);
+>>>>>   UNUSED static void print_timeval(abi_ulong, int);
+>>>>>   UNUSED static void print_timespec(abi_ulong, int);
+>>>>> +UNUSED static void print_timespec64(abi_ulong, int);
+>>>>>   UNUSED static void print_timezone(abi_ulong, int);
+>>>>>   UNUSED static void print_itimerval(abi_ulong, int);
+>>>>>   UNUSED static void print_number(abi_long, int);
+>>>>> @@ -795,6 +796,24 @@ print_syscall_ret_clock_gettime(CPUArchState *cpu_env, const struct 
+>>>>> syscallname
+>>>>>   #define print_syscall_ret_clock_getres     print_syscall_ret_clock_gettime
+>>>>>   #endif
+>>>>>
+>>>>> +#if defined(TARGET_NR_clock_gettime64)
+>>>>> +static void
+>>>>> +print_syscall_ret_clock_gettime64(CPUArchState *cpu_env, const struct syscallname *name,
+>>>>> +                                abi_long ret, abi_long arg0, abi_long arg1,
+>>>>> +                                abi_long arg2, abi_long arg3, abi_long arg4,
+>>>>> +                                abi_long arg5)
+>>>>> +{
+>>>>> +    if (!print_syscall_err(ret)) {
+>>>>> +        qemu_log(TARGET_ABI_FMT_ld, ret);
+>>>>> +        qemu_log(" (");
+>>>>> +        print_timespec64(arg1, 1);
+>>>>> +        qemu_log(")");
+>>>>> +    }
+>>>>> +
+>>>>> +    qemu_log("\n");
+>>>>> +}
+>>>>> +#endif
+>>>>> +
+>>>>>   #ifdef TARGET_NR_gettimeofday
+>>>>>   static void
+>>>>>   print_syscall_ret_gettimeofday(CPUArchState *cpu_env, const struct syscallname *name,
+>>>>> @@ -1652,6 +1671,27 @@ print_timespec(abi_ulong ts_addr, int last)
+>>>>>       }
+>>>>>   }
+>>>>>
+>>>>> +static void
+>>>>> +print_timespec64(abi_ulong ts_addr, int last)
+>>>>> +{
+>>>>> +    if (ts_addr) {
+>>>>> +        struct target__kernel_timespec *ts;
+>>>>> +
+>>>>> +        ts = lock_user(VERIFY_READ, ts_addr, sizeof(*ts), 1);
+>>>>> +        if (!ts) {
+>>>>> +            print_pointer(ts_addr, last);
+>>>>> +            return;
+>>>>> +        }
+>>>>> +        qemu_log("{tv_sec = %lld"
+>>>>> +                 ",tv_nsec = %lld}%s",
+>>>>> +                 (long long)tswap64(ts->tv_sec), (long long)tswap64(ts->tv_nsec),
+>>>>> +                 get_comma(last));
+>>>>> +        unlock_user(ts, ts_addr, 0);
+>>>>> +    } else {
+>>>>> +        qemu_log("NULL%s", get_comma(last));
+>>>>> +    }
+>>>>> +}
+>>>>> +
+>>>>>   static void
+>>>>>   print_timezone(abi_ulong tz_addr, int last)
+>>>>>   {
+>>>>> @@ -2267,6 +2307,19 @@ print_clock_gettime(CPUArchState *cpu_env, const struct syscallname *name,
+>>>>>   #define print_clock_getres     print_clock_gettime
+>>>>>   #endif
+>>>>>
+>>>>> +#if defined(TARGET_NR_clock_gettime64)
+>>>>> +static void
+>>>>> +print_clock_gettime64(CPUArchState *cpu_env, const struct syscallname *name,
+>>>>> +                    abi_long arg0, abi_long arg1, abi_long arg2,
+>>>>> +                    abi_long arg3, abi_long arg4, abi_long arg5)
+>>>>> +{
+>>>>> +    print_syscall_prologue(name);
+>>>>> +    print_enums(clockids, arg0, 0);
+>>>>> +    print_pointer(arg1, 1);
+>>>>> +    print_syscall_epilogue(name);
+>>>>> +}
+>>>>> +#endif
+>>>>
+>>>> I think it could be simply:
+>>>>
+>>>> #define print_clock_gettime64 print_clock_gettime where print_clock_gettime() is defined.
+>>>
+>>> Unfortunately not, because one uses print_timespec() while the other uses print_timespec64().
+>>
+>> The syscall_ret part cannot be shared, but the prefix function can, they are identical.
 > 
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index da8c1bf34e..bfef568d18 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -285,10 +285,10 @@
->   { TARGET_NR_getcwd, "getcwd" , "%s(%p,%d)", NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_getdents
-> -{ TARGET_NR_getdents, "getdents" , NULL, NULL, NULL },
-> +{ TARGET_NR_getdents, "getdents" , "%s(%d,%p,%u)", NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_getdents64
-> -{ TARGET_NR_getdents64, "getdents64" , NULL, NULL, NULL },
-> +{ TARGET_NR_getdents64, "getdents64" , "%s(%d,%p,%u)", NULL, NULL },
+> Ah.. right. I don't know any longer why I didn't that.
+> Maybe because of too much #ifdeffery or to keep the patch simple.
+> Will we leave as-is, will you clean up, or shall I resend that patch?
 
-3rd argument is a size_t.
-I think it should be TARGET_ABI_FMT_lu.
+As you prefer...
 
 Thanks,
 Laurent
->   #endif
->   #ifdef TARGET_NR_getdomainname
->   { TARGET_NR_getdomainname, "getdomainname" , NULL, NULL, NULL },
-> --
-> 2.37.3
-> 
-> 
 
 
