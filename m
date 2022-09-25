@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5245E9300
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:13:08 +0200 (CEST)
-Received: from localhost ([::1]:57418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C725E92E7
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:02:19 +0200 (CEST)
+Received: from localhost ([::1]:54574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocQVQ-0000il-0l
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:13:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55936)
+	id 1ocQKw-000607-WF
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:02:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPrM-0002q5-1Q
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:31:44 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:36432)
+ id 1ocPrQ-0002v5-RZ; Sun, 25 Sep 2022 07:31:52 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:34676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPrG-0006LO-6e
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:31:43 -0400
-Received: by mail-pg1-x531.google.com with SMTP id s206so4232887pgs.3
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:31:36 -0700 (PDT)
+ id 1ocPrP-0006OR-EY; Sun, 25 Sep 2022 07:31:48 -0400
+Received: by mail-pf1-x434.google.com with SMTP id e68so4194425pfe.1;
+ Sun, 25 Sep 2022 04:31:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=5zDG7Ny3LkxdeNWaqDhYiABIowN2pKfIq67zjjwVq/4=;
- b=QgnCuO3NhvxclXmeyb6qshj+/m4KyRrISJAyLt8H5kLyvy6nA2nGFrquGY5hay6flJ
- iUVmWBjAskcDGR9ZK0Ez5erbt28/PQeP1vzlBTasdNmRI8MnnJ0bFwMdKGZMqyicMeNq
- fN5zT8hdR6a6qNdcKRJkTQdC+u55P7yIpTQ3Qrf+PKCVIFJe7Ek4vdkyKKJaK7drhGrh
- AGMJhSgZ07mLaw0uJ38v8gqZN0+sYL3FEakxUnxk85oZJg2lkfaZE9mRNUNyJddZ2Yi8
- zDrf4HWZ57S1Lw1YgYkDoSapMvr7WFAY7dz1rtwRhnnto5jpjVrE2LGcva3oWRFUfcFn
- VOCQ==
+ bh=mASgTbgC1fZZDNGRrUnVCNQGIWuAR0DCWfyrQC7EGTU=;
+ b=T/c1Ie4xiK/itSGbdjFWp79DpP8SzIdHZMBx2ABtzib0ylNv07zcy7xXU3NaAu1TAQ
+ P8HbIKai/6nAp3WrbaKBzofCq+ru0/pK8Lnbtmt55F3SJ8aiPH6nMvY9iVU6siVD31N6
+ 1PWEDcmPD4gx+f7KhtpuwBcL4F3w/th5CTP+WYSYzK+dfSx5yUx8KOnPGzI18B27n0pr
+ ZUlGxr9ZODAIR6+kOi9a9tGt+ZMoRnIKwQ1J/KGEqsTB3WlW2F6A5ItEkQPMCLPqKVXL
+ e+pXpd8lL7POEy3Quo+T3y9Xi3vFfuDgkKO3lRkoB0hsNrc9c4U04lNSnEi5xZuk+aKi
+ vUrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=5zDG7Ny3LkxdeNWaqDhYiABIowN2pKfIq67zjjwVq/4=;
- b=g0G8vnZ5ETkoViM1vU6kp+RJ2ilF0Xj7lBZWU3zVXGn32v78EbsPnlLzpIw734PT5g
- 96EKwfvTARApdApP+8NtFosQEvWOiRomwHUKsbblz6Y8pMMj11otLTYqx9EQc+qCcxRI
- +3UZaEY0mw8wPoYxv6MtGfEGnGD6j2fvY+a+j5fnv1gbR0EfeAzNm18xAaaWVGwv3kHI
- 2zdXbqEaVRvtQhL2nokGunH+eatB0g4jGtO9JbyTtUL08KE3xPbpzyYv4jY6K09bWVkX
- shdwlN6Cz+TE8T2qWV9emDmwnVASW0inOTz0nOnfAd9ylUUHFVq7c1PFR8XDA8wMQUjn
- MShA==
-X-Gm-Message-State: ACrzQf21gGC7qezZNqkDKoxpQzgkkmLgqaPmFcOtVvdxC053BsoLrMuA
- YOftLMz/LV/3bcsgoAh9M11eh5TrKM0=
-X-Google-Smtp-Source: AMsMyM5029PkTWax31JH3MZ4vBK7E2iARxalIjXN2NXOremvq0evtswLuDjhMuOVpVXSvoyjQHPgYA==
-X-Received: by 2002:a63:d652:0:b0:43c:9566:5394 with SMTP id
- d18-20020a63d652000000b0043c95665394mr4561925pgj.536.1664105494933; 
- Sun, 25 Sep 2022 04:31:34 -0700 (PDT)
+ bh=mASgTbgC1fZZDNGRrUnVCNQGIWuAR0DCWfyrQC7EGTU=;
+ b=dm2YfQpe1fLpwHgQJFgqxLlzAoyy/WLU9T+BMfWFEyD/Tpja2QI4VzsxI1dFqlq+Id
+ mNYFvnIsdbKd8o/pBQPVWXqONgdpCj73owqUNeM9+zUJFHMWk9C+rBOioxAjUk0zl4kj
+ JvE37UxilppBFqOshd5eq22BeOZU07lQBxulqa5JSlOIY8sTgWX8W4mSFLUHR//fjxiz
+ pdUZXmgsvRwkiiEA4q233eWmo/jK4P/l7YWI9SAVsPxHDxj1L1Ul9xZUmt4HjEEOFsKp
+ FeAtYYWUVj/PNDfa5S1R/krnFk7vgqBwcvoUV59VclQ7w6LAoqHPpA/Qo0za0ZS2+ZlD
+ ynaQ==
+X-Gm-Message-State: ACrzQf03yiMivoyzIjYj+V/jJx0iFh/+8G0fI0bHdd2j9/XLJri6VXpW
+ 4Ju2Er0/I5xEkNI7WALQC6UAM1BZi3g=
+X-Google-Smtp-Source: AMsMyM71GS+dydzBR6N5JwYed3msH3GIGN5545/yaH05bI6sJEFAlBcdXBF32X1dnP8LzdjShEGzCg==
+X-Received: by 2002:a63:1546:0:b0:42c:50dc:2115 with SMTP id
+ 6-20020a631546000000b0042c50dc2115mr15522845pgv.613.1664105505711; 
+ Sun, 25 Sep 2022 04:31:45 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.31.32
+ z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.31.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 04:31:34 -0700 (PDT)
+ Sun, 25 Sep 2022 04:31:45 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Fam Zheng <fam@euphon.net>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 20/54] tests/qtest: virtio-scsi-test: Avoid using hardcoded
- /tmp
-Date: Sun, 25 Sep 2022 19:29:58 +0800
-Message-Id: <20220925113032.1949844-21-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Subject: [PATCH v3 25/54] block/vvfat: Unify the mkdir() call
+Date: Sun, 25 Sep 2022 19:30:03 +0800
+Message-Id: <20220925113032.1949844-26-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,41 +92,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-This case was written to use hardcoded /tmp directory for temporary
-files. Update to use g_file_open_tmp() for a portable implementation.
+There is a difference in the mkdir() call for win32 and non-win32
+platforms, and currently is handled in the codes with #ifdefs.
+
+glib provides a portable g_mkdir() API and we can use it to unify
+the codes without #ifdefs.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-Changes in v3:
-- Split to a separate patch
-- Ensure g_autofree variable is initialized
+(no changes since v2)
 
- tests/qtest/virtio-scsi-test.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in v2:
+- Change to use g_mkdir()
 
-diff --git a/tests/qtest/virtio-scsi-test.c b/tests/qtest/virtio-scsi-test.c
-index 8ceb12aacd..ceaa7f2415 100644
---- a/tests/qtest/virtio-scsi-test.c
-+++ b/tests/qtest/virtio-scsi-test.c
-@@ -268,7 +268,7 @@ static void test_iothread_attach_node(void *obj, void *data,
-     QVirtioSCSIPCI *scsi_pci = obj;
-     QVirtioSCSI *scsi = &scsi_pci->scsi;
-     QVirtioSCSIQueues *vs;
--    char tmp_path[] = "/tmp/qtest.XXXXXX";
-+    g_autofree char *tmp_path = NULL;
-     int fd;
-     int ret;
+ block/vvfat.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/block/vvfat.c b/block/vvfat.c
+index d6dd919683..723beef025 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -25,6 +25,7 @@
  
-@@ -282,7 +282,7 @@ static void test_iothread_attach_node(void *obj, void *data,
-     vs = qvirtio_scsi_init(scsi->vdev);
+ #include "qemu/osdep.h"
+ #include <dirent.h>
++#include <glib/gstdio.h>
+ #include "qapi/error.h"
+ #include "block/block_int.h"
+ #include "block/qdict.h"
+@@ -2726,13 +2727,9 @@ static int handle_renames_and_mkdirs(BDRVVVFATState* s)
+             mapping_t* mapping;
+             int j, parent_path_len;
  
-     /* Create a temporary qcow2 overlay*/
--    fd = mkstemp(tmp_path);
-+    fd = g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
-     g_assert(fd >= 0);
-     close(fd);
+-#ifdef __MINGW32__
+-            if (mkdir(commit->path))
++            if (g_mkdir(commit->path, 0755)) {
+                 return -5;
+-#else
+-            if (mkdir(commit->path, 0755))
+-                return -5;
+-#endif
++            }
  
+             mapping = insert_mapping(s, commit->param.mkdir.cluster,
+                     commit->param.mkdir.cluster + 1);
 -- 
 2.34.1
 
