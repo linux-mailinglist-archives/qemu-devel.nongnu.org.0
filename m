@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9176A5E944F
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 18:19:25 +0200 (CEST)
-Received: from localhost ([::1]:48396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2555E9459
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 18:23:03 +0200 (CEST)
+Received: from localhost ([::1]:33350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocULi-0002vD-U8
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 12:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38152)
+	id 1ocUPG-0006SR-Le
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 12:23:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocUI5-0008KN-DS
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 12:15:37 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:39761)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ocUNQ-0004Oz-B4
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 12:21:10 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:51409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocUI3-0005Yt-Qc
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 12:15:37 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MmDAc-1p2zKv2GpM-00iDHg; Sun, 25
- Sep 2022 18:15:33 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 2/2] linux-user: don't use AT_EXECFD in do_openat()
-Date: Sun, 25 Sep 2022 18:15:27 +0200
-Message-Id: <20220925161527.374593-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220925161527.374593-1-laurent@vivier.eu>
-References: <20220925161527.374593-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ocUNL-0006CX-1m
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 12:21:07 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.114])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0D69312BE0160;
+ Sun, 25 Sep 2022 18:20:51 +0200 (CEST)
+Received: from kaod.org (37.59.142.97) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Sun, 25 Sep
+ 2022 18:20:50 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0029cf5d7cb-dd61-4561-8765-c1aa0b1aba99,
+ F2BAAC272AACDAE9383B0CB74E4F720F3B7CB042) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <5ebb56ed-d570-e69e-7406-f7f1d6218d05@kaod.org>
+Date: Sun, 25 Sep 2022 18:20:49 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v3 06/54] tests/qtest: aspeed_smc-test: Avoid using
+ hardcoded /tmp
+To: Bin Meng <bmeng.cn@gmail.com>, <qemu-devel@nongnu.org>
+CC: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>, Bin Meng
+ <bin.meng@windriver.com>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley
+ <joel@jms.id.au>, Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, Thomas Huth
+ <thuth@redhat.com>, <qemu-arm@nongnu.org>
+References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
+ <20220925113032.1949844-7-bmeng.cn@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220925113032.1949844-7-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:heDivYGpA7kVL/ZoD8ZNwfk2WHmNl+61vu8j9Z8m/bB8PZCkqE4
- QiLB+yeFadOInI/ZKjxVctIdr8k9caBYbrrjpfkegMBOhqs6OHXOwOCmihuorUTYWkegU3d
- BzHDJu8q5C972aO2+VKxKf60rU196jb/72CHLtIYNVOj13ad/qvx/iXm872I7LB9Qq0ci1Q
- BEKycMHhq4t7Nyup1/7xg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XpHW6CjWTmY=:yqsAqAEDxyMgYhiiRQVXc1
- FMoIiTq4jXnTvl/BwNQInMk7MIBI4O9SMzLgnBYO6qGh3guRfj4d1/PJmEWSZH8bPyvrE88Hz
- 9EhrnyoCbf5j3DKp0Br7EP0lfljW2TspRMqRFMxYmRLHvx4KhghrxhiijeM6SM1w/ujTQW4l8
- 2YLbT3k8D0sxR1O3JeJ4uXpwe6R+19K/zOHtSQ9KJPfjU9evg6ompalWNe36uBV9ahVASiEa+
- Odt/9pO32zWAzcKUa+wj0W4g2VKVg0G16lEGGh4UlrpWniaEmUMrKEwlpQhfc3wwZqD4Q3NMi
- +GE3kRI1fFlqjIHtCMxKaCWesRUKIV3GXVB5pWJnEiys0/gxYhqVtQNt0vI/HDdoxdQVYd7z2
- HWBo59WZWU6uFj1pcyVOrKY/DWeWI5zotZOIe4q0zpMKQurxjtO3xtnIp5wrKXoeIVydpwppA
- OvQ3PorITeRTBEv/g8MHAV2r89++P3Ope1Ux5Z9SoBcSuNl4nfaiXjA2Fd29rH1d+LmvEOZNH
- fjOllbB74AdlPE4dwCjYBueq9wn5buds1OYVRVS69N1mNJpzVfd8tb/FbGbvqO5z/bPJ+RJKH
- dYu4cfQeebUS5mVmOulMQe4LpiX1MwISB/D96VQlCcGwWxGPNriNyK7/GaQVGV1ebyILl4SSe
- Kwfvh32vN3mYVkTS9o7Sglg/ufaglCI5Ukd5UZKP1vnpYOFTmmaeH60SkTKq+rsN04EWsPMwF
- ozqsMxClg7LB2bYBjoPLDrGotq/a0bFkg6vh/hoDSi0B5OIWy5eaBmWJS+0z4CVYEQCk+V+3g
- 3yMet2J
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 16583110-3dfb-4a6d-b8e7-c997661aa31d
+X-Ovh-Tracer-Id: 9214927790472334325
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegtddguddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.766,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,37 +79,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AT_EXECFD gives access to the binary file even if
-it is not readable (only executable).
+On 9/25/22 13:29, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> This case was written to use hardcoded /tmp directory for temporary
+> files. Update to use g_file_open_tmp() for a portable implementation.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Moreover it can be opened with flags and mode that are not the ones
-provided by do_openat() caller.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-And finally the caller can close the file descriptor whereas
-we can need it with execveat().
+Thanks,
 
-To avoid that, use only safe_openat() with the exec_path.
+C.
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/syscall.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 6642652b7644..01f03535fe64 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8265,8 +8265,7 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
-     };
- 
-     if (is_proc_myself(pathname, "exe")) {
--        int execfd = qemu_getauxval(AT_EXECFD);
--        return execfd ? execfd : safe_openat(dirfd, exec_path, flags, mode);
-+        return safe_openat(dirfd, exec_path, flags, mode);
-     }
- 
-     for (fake_open = fakes; fake_open->filename; fake_open++) {
--- 
-2.37.3
+> ---
+> 
+> Changes in v3:
+> - Split to a separate patch
+> - Ensure g_autofree variable is initialized
+> 
+>   tests/qtest/aspeed_smc-test.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
+> index 05ce941566..c713a3700b 100644
+> --- a/tests/qtest/aspeed_smc-test.c
+> +++ b/tests/qtest/aspeed_smc-test.c
+> @@ -608,16 +608,15 @@ static void test_write_block_protect_bottom_bit(void)
+>       flash_reset();
+>   }
+>   
+> -static char tmp_path[] = "/tmp/qtest.m25p80.XXXXXX";
+> -
+>   int main(int argc, char **argv)
+>   {
+> +    g_autofree char *tmp_path = NULL;
+>       int ret;
+>       int fd;
+>   
+>       g_test_init(&argc, &argv, NULL);
+>   
+> -    fd = mkstemp(tmp_path);
+> +    fd = g_file_open_tmp("qtest.m25p80.XXXXXX", &tmp_path, NULL);
+>       g_assert(fd >= 0);
+>       ret = ftruncate(fd, FLASH_SIZE);
+>       g_assert(ret == 0);
 
 
