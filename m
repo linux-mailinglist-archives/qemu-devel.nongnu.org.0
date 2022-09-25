@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236345E93BC
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 16:45:34 +0200 (CEST)
-Received: from localhost ([::1]:45046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C6F5E93D1
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 17:04:13 +0200 (CEST)
+Received: from localhost ([::1]:57330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocSsu-0005QU-Oc
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 10:45:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42314)
+	id 1ocTAx-0000DB-Gz
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 11:04:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ocSr5-0003vW-70
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 10:43:39 -0400
-Received: from mail-vk1-f170.google.com ([209.85.221.170]:38767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ocSr3-0000vJ-8X
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 10:43:38 -0400
-Received: by mail-vk1-f170.google.com with SMTP id h5so2330725vkc.5
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 07:43:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Pi9pV4k/eQwp2KGosxP9aAKslUmfRiJqYuFLER9Yh9I=;
- b=1tOdzpIV6hV/Lbw4eC5qDxSNUGTnGzGgXxum0+6RC6fe5QD5/kt0DGMn1//4Oj9KaK
- x3zbjReHTj1WyrLkovyfprVAjjlS3emGEnXhiXA9tdAjzK3No/XQxo5my0McVPJvW/mA
- xEI2bWds7MxjiqA79fB/IwoSn+vg/yqwq2qdvmzaOoYCMIxACBECCKVSdIC+dJWOEbqL
- CwJ4kmSI3R/gx2tjNgO4NJ7QjvbzYnfJV2mGt1VqIzThBoBo6oHMYJbeABhWx0/oXv8/
- pJosFMMwYFkxXIPzHw3UTlYjqX/yKGZGkMRKjsmAJ24k4fiuRgDvuph4HQGX4f7vOyev
- wfzA==
-X-Gm-Message-State: ACrzQf0wdWLo/tA65fZqQukA2PH+rnhzMN3xArtk3JQ5Ni90Z0d3Vu2n
- PR2x2hJKJnHBGFaVjXu7Lm0MVkNkZZagGc95V0s=
-X-Google-Smtp-Source: AMsMyM7P3XOhZAV0FG2GdYw8n7sp4AmL9hQJsQZh2LIUkISQ1+1TChs+mo7lUmuHMCSFPluxyRhI0GQ27CwEt2Vh5Ag=
-X-Received: by 2002:a05:6122:10dc:b0:3a3:4904:2941 with SMTP id
- l28-20020a05612210dc00b003a349042941mr6895904vko.24.1664117015801; Sun, 25
- Sep 2022 07:43:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocT7e-0007EY-Nu
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 11:00:46 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:52671)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocT7d-00032o-1u
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 11:00:46 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MrhLu-1ozgSR192S-00njGh; Sun, 25 Sep 2022 17:00:39 +0200
+Message-ID: <81d87bcc-1878-513d-90ca-d690dc88e835@vivier.eu>
+Date: Sun, 25 Sep 2022 17:00:38 +0200
 MIME-Version: 1.0
-References: <20220925134804.139706-1-mark.cave-ayland@ilande.co.uk>
- <20220925134804.139706-2-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220925134804.139706-2-mark.cave-ayland@ilande.co.uk>
-Date: Sun, 25 Sep 2022 16:43:24 +0200
-Message-ID: <CAAdtpL6ACE=YgZoMa5XSiKiwR4TXiRtJ9MMtpAwyehL3ev7sGw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] target/m68k: increase size of m68k CPU features from
- uint32_t to uint64_t
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Lucien Murray-Pitts <lucienmp.qemu@gmail.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.221.170;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-vk1-f170.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v3 01/12] linux-user: Add missing signals in strace output
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220918194555.83535-1-deller@gmx.de>
+ <20220918194555.83535-2-deller@gmx.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220918194555.83535-2-deller@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:1/FfhQohDNJUNU4zuqMPnTanGe+wOFkzVDbpqPL914SdPolyAX/
+ qgSzqpWLUExqkJ2pIxeN7P5Plj5o9gjU11K2Whde8iDv4vwyFMC1mnWfk4EFb53ZoKB1Y9h
+ AvFvrQt3g79dDCVywKVEbHtijDTtsBLoC0eirgSILXWd9rYSSHZ9N7fyr3Ew4M+6C1l+fXF
+ k9OJw1dwd4aVNv2Ond5Vw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eYwFesA3eoY=:stovdBKe2KJaFzS+XCrt1E
+ vQwW7YGnWFZWNQNKlysvMjIBKFcLjlsqYlZGqZJzhSzi2KIRaO1gSUjgzCefncMskdiHC6mtH
+ sFwDnW5n4qn1xwdGiTifr65kDj8UJO4e98OMxrIlrg9qtJH5gqpfciaQ2ulOIqt4rScL5TgsY
+ cbl81G7+9FfSn6JPpG82kiNN/GfQaT0bQ8W43A+p5mFeixYmFhJNm747GXy/8Eq3Yz/1fF+J/
+ fVcEWWUFObh5+46bGXN96rugDwGEFMGDkpmQamfio2kDB4iDKbCnqlob14C5SHO+srUFRxsiX
+ 6rZz4g5Mq54AfnhdaOi9syCHHUXl3BVToXbqqHY0IteCYFxQPLc/pZpMRSBHgOGEFOQjsLLbj
+ XQosYm+VMYmguZXNHU4GVTEoCJUo9/0uEqWvm4SXmIyal/Z97Iw9aWZPFSC46Tjmq2gPY07JD
+ Rtiqy2YU411Thk6lhcaVGoc4Brq1y3oq2lYkxHibtZYyvbpTaVbqIUbsZVVZvjP7HNgHxMYRB
+ qTXNFoJcCWt7KzwH1QodBlAQ+zvkFUnREIQwibMWXs3DKkhulHw3M/hnVqdWEGEy1mwrWsPqt
+ SsxlgsWe7l9irzsLomkxSJCda2ciQmwnJ4eRpzzmsaDfX/eULEDkIGZKFCERH55evCXEgFbN9
+ 1Unaa0LJjufaJEuYqMqKRH0f0bppMrmPQQ90qBl6bbgGSvc3YlOmQ9HX4XGRYMLEOL4eH6Nb2
+ 5XVqtS60w30xyOQf/tqNvWCdz7377+sOZZl4H0l4FWQG54RE0IAwZiI+Wy77nIZMMoKbZR+on
+ VO3us8O
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.766,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,26 +74,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-On Sun, Sep 25, 2022 at 3:53 PM Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> There are already 32 feature bits in use, so change the size of the m68k
-> CPU features to uint64_t (along with the associated m68k_feature()
-> functions) to allow up to 64 feature bits to be used.
->
-> At the same time make use of the BIT_ULL() macro when reading/writing
-> the CPU feature bits to improve readability, and also update m68k_feature=
-()
-> to return a bool rather than an int.
->
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Le 18/09/2022 à 21:45, Helge Deller a écrit :
+> Some of the guest signal numbers are currently not converted to
+> their representative names in the strace output, e.g. SIGVTALRM.
+> 
+> This patch introduces a smart way to generate and keep in sync the
+> host-to-guest and guest-to-host signal conversion tables for usage in
+> the qemu signal and strace code. This ensures that any signals
+> will now show up in both tables.
+> 
+> There is no functional change in this patch - with the exception that yet
+> missing signal names now show up in the strace code too.
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
 > ---
->  target/m68k/cpu.c | 4 ++--
->  target/m68k/cpu.h | 6 +++---
->  2 files changed, 5 insertions(+), 5 deletions(-)
+>   linux-user/signal-common.h | 46 ++++++++++++++++++++++++++++++++++++++
+>   linux-user/signal.c        | 37 +++---------------------------
+>   linux-user/strace.c        | 30 +++++++++----------------
+>   3 files changed, 60 insertions(+), 53 deletions(-)
+> 
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+
 
