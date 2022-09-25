@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227C25E92D0
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 13:50:29 +0200 (CEST)
-Received: from localhost ([::1]:51342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF66C5E92C3
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 13:38:46 +0200 (CEST)
+Received: from localhost ([::1]:38306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocQ9U-00045Z-4h
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 07:50:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48508)
+	id 1ocPy9-0000Tn-QW
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 07:38:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPqZ-0002aW-H8
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:30:56 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:34444)
+ id 1ocPqe-0002cs-HK; Sun, 25 Sep 2022 07:31:00 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:38743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPqX-0006Ic-MR
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:30:55 -0400
-Received: by mail-pg1-x529.google.com with SMTP id 3so4237734pga.1
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:30:53 -0700 (PDT)
+ id 1ocPqc-0006Iv-7Y; Sun, 25 Sep 2022 07:31:00 -0400
+Received: by mail-pf1-x431.google.com with SMTP id a29so4178779pfk.5;
+ Sun, 25 Sep 2022 04:30:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=ptPSCcbuG++AcglR+Ify0H9lkcBvjcAqRFsbcccQhHg=;
- b=JRrGE8zCoW8iODFwX8r6CjMN9/8Qjd0GMphUuuvu13la6TH5AxF6ETefFqMvMTFcOG
- 5A3BHJhEA+hig3nmiwA6xGceVL4GHMgh5+HSkHD58licsBJf6Vbxy/Nq5IDhPjfF3GSb
- hzpEOAUKwUQAtCRDCMrSAcza6ZsvNon0x0ANhFWD8zV/0ZCyw+/Gv0+Op6JNJXZKsUfR
- OWbsAtD9T5gddexVbw1Pk4WcWfHG96osqWDjmfMb8C61Y+rvopf4VzBXO7zakTBdHV2S
- QKSpiuCl0i0Nx5xvaj3kzMD6B1ZMNdBe3AFNotRBXrTAPQWgCf9AVZ6drPwCIhw2XnV5
- ObrA==
+ bh=D3VuKooJ4UjKkQ3haTWxtVaNZNqddm2jJatcFkZLIyw=;
+ b=Bsrhixs7M5N+gFRyjPlEPb6cOLd5VotPkQxGklGu3O0ykrIrdiOGEqGEc9Vf8nWOc/
+ FmtRRCb26BG45sVYhj9C13y81YiB+ZShUdodNFjhT+MmnPgy9ZNasqKk9Tc6/UQkjFkj
+ 1uRyjkIxTJBe3PBPtupfvCKTvgd9etSbxlKW1JkVH7yUjZk4v0Z1nkD0V3pz1+63hTgL
+ P399Rhne/VGom+m1f8nDRKG97oOg1opWShZNMLgEhcxB4W2tojpUafDm3swi+vgF2KfA
+ BcKH5TrPsKewWDimNrFEvJU40m8zWt0I0K5vVq/WVqJmxQ+s31QKgALZP+6cWw+k2jAM
+ P4iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=ptPSCcbuG++AcglR+Ify0H9lkcBvjcAqRFsbcccQhHg=;
- b=GaBErD8LdT/zhzOzTLOkjeEQf276Ep1KUVtkzaAKpQqiPWkZiuzKlGfym2w+NCGRLB
- A4/9qyqFmtA67VnRT3LiH6Ruuj1yn76eNbuo5WPX3qymB1VRugrrwZGt+HxIpxw2pVTB
- sqQBpgp00GAmD1K3TOpwiESniOM9JBRB3RcMD52pI4fr6PTWtlkD6JSI+EAdgSKJUCjb
- CCGd8HHQoRXzMyaKXMLvnKO8wbZ3/pl/uOPCoEja7UpquQD+Q1B842xU8KpNT9N+leOh
- 0NWXHxRe4PIa5svqj9F99ED34aP8lSzVc0oDQoOGrbZyvWQiKeBpIDy7Xeeg7CMmwaVP
- UUoA==
-X-Gm-Message-State: ACrzQf0oadxq/VqzpLHKUU1zbQ0/EUBhelwmCcXvJCAEvDGjXWGrXCBk
- Z5jxJ1c5PrXySeqCnY6x8CsMzadcRBs=
-X-Google-Smtp-Source: AMsMyM7I7SNO8WRhF+QSPJwJBxRWG1cI/y5rV1S8CCA+Gnc6+Xisom0lvo00TakuplLJ03ukwfmVlA==
-X-Received: by 2002:a63:188:0:b0:43c:22e9:2d10 with SMTP id
- 130-20020a630188000000b0043c22e92d10mr13362459pgb.12.1664105452324; 
- Sun, 25 Sep 2022 04:30:52 -0700 (PDT)
+ bh=D3VuKooJ4UjKkQ3haTWxtVaNZNqddm2jJatcFkZLIyw=;
+ b=yQY5zBo5EKvLdU32LZMpyciFMa6LIHqWjjlkElpd5qKfY+OMi1cV31O1910+3ePXbt
+ sD7dQ80z69omz2F/5wtWy8Lzi2ZXdWxVOmOVV8i6aV/cm0FWogtF/nbexRie8T1KgOxY
+ Jn+mwUKTD5E7viLwh7A5HeqGnVKtsjbZny+aPeHH9fdbXyJxE6bgsPfMSzqyD+ZtXmLv
+ z27D8F4ytZfiHKqtu3nfzHWbqgc0kdN+cNhX/aJgHDP+lYSwnYRLPnL8T3MH+DHwOZXG
+ L4NxNEaNZhNIjVuyM5gY6NjqGHtlyKIap7LA3xbTTQtApZW3ZJ87pzu9Cc7XuXyNJ9nI
+ PpSg==
+X-Gm-Message-State: ACrzQf3lrnN6LmWhT0cesFqZc+eaKftlaeGcHA4tSJ3OaEZK1fiP3roL
+ 8KZqyOKeCkGI4iKHRcBp16kc2wyKwmk=
+X-Google-Smtp-Source: AMsMyM5ePHUXeP23k1ejSBAYg4EjYazAQbFudw3/cFXjoAkjLBVY4zJ1noJnjhgk8Y4MyLKu/cNB5g==
+X-Received: by 2002:a63:20f:0:b0:439:c92f:e6d1 with SMTP id
+ 15-20020a63020f000000b00439c92fe6d1mr15319770pgc.334.1664105455051; 
+ Sun, 25 Sep 2022 04:30:55 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.30.50
+ z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.30.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 04:30:52 -0700 (PDT)
+ Sun, 25 Sep 2022 04:30:54 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v3 04/54] util/qemu-sockets: Use g_get_tmp_dir() to get the
- directory for temporary files
-Date: Sun, 25 Sep 2022 19:29:42 +0800
-Message-Id: <20220925113032.1949844-5-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
+Subject: [PATCH v3 05/54] tests/qtest: ahci-test: Avoid using hardcoded /tmp
+Date: Sun, 25 Sep 2022 19:29:43 +0800
+Message-Id: <20220925113032.1949844-6-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,34 +92,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Replace the existing logic to get the directory for temporary files
-with g_get_tmp_dir(), which works for win32 too.
+This case was written to use hardcoded /tmp directory for temporary
+files. Update to use g_file_open_tmp() for a portable implementation.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-(no changes since v1)
+Changes in v3:
+- Split to a separate patch
+- Ensure g_autofree variable is initialized
 
- util/qemu-sockets.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ tests/qtest/ahci-test.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 83f4bd6fd2..0c41ca9e42 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -919,9 +919,8 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,
-     if (saddr->path[0] || abstract) {
-         path = saddr->path;
-     } else {
--        const char *tmpdir = getenv("TMPDIR");
--        tmpdir = tmpdir ? tmpdir : "/tmp";
--        path = pathbuf = g_strdup_printf("%s/qemu-socket-XXXXXX", tmpdir);
-+        path = pathbuf = g_strdup_printf("%s/qemu-socket-XXXXXX",
-+                                         g_get_tmp_dir());
+diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
+index f1e510b0ac..1d5929d8c3 100644
+--- a/tests/qtest/ahci-test.c
++++ b/tests/qtest/ahci-test.c
+@@ -44,9 +44,9 @@
+ #define TEST_IMAGE_SIZE_MB_SMALL 64
+ 
+ /*** Globals ***/
+-static char tmp_path[] = "/tmp/qtest.XXXXXX";
+-static char debug_path[] = "/tmp/qtest-blkdebug.XXXXXX";
+-static char mig_socket[] = "/tmp/qtest-migration.XXXXXX";
++static char *tmp_path;
++static char *debug_path;
++static char *mig_socket;
+ static bool ahci_pedantic;
+ static const char *imgfmt;
+ static unsigned test_image_size_mb;
+@@ -1437,10 +1437,10 @@ static void test_ncq_simple(void)
+ 
+ static int prepare_iso(size_t size, unsigned char **buf, char **name)
+ {
+-    char cdrom_path[] = "/tmp/qtest.iso.XXXXXX";
++    g_autofree char *cdrom_path = NULL;
+     unsigned char *patt;
+     ssize_t ret;
+-    int fd = mkstemp(cdrom_path);
++    int fd = g_file_open_tmp("qtest.iso.XXXXXX", &cdrom_path, NULL);
+ 
+     g_assert(fd != -1);
+     g_assert(buf);
+@@ -1872,7 +1872,7 @@ int main(int argc, char **argv)
      }
  
-     pathlen = strlen(path);
+     /* Create a temporary image */
+-    fd = mkstemp(tmp_path);
++    fd = g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
+     g_assert(fd >= 0);
+     if (have_qemu_img()) {
+         imgfmt = "qcow2";
+@@ -1889,12 +1889,12 @@ int main(int argc, char **argv)
+     close(fd);
+ 
+     /* Create temporary blkdebug instructions */
+-    fd = mkstemp(debug_path);
++    fd = g_file_open_tmp("qtest-blkdebug.XXXXXX", &debug_path, NULL);
+     g_assert(fd >= 0);
+     close(fd);
+ 
+     /* Reserve a hollow file to use as a socket for migration tests */
+-    fd = mkstemp(mig_socket);
++    fd = g_file_open_tmp("qtest-migration.XXXXXX", &mig_socket, NULL);
+     g_assert(fd >= 0);
+     close(fd);
+ 
+@@ -1947,8 +1947,11 @@ int main(int argc, char **argv)
+ 
+     /* Cleanup */
+     unlink(tmp_path);
++    g_free(tmp_path);
+     unlink(debug_path);
++    g_free(debug_path);
+     unlink(mig_socket);
++    g_free(mig_socket);
+ 
+     return ret;
+ }
 -- 
 2.34.1
 
