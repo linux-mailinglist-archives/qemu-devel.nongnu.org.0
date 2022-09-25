@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6453C5E92F9
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:12:00 +0200 (CEST)
-Received: from localhost ([::1]:51410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 876CE5E9301
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 14:16:32 +0200 (CEST)
+Received: from localhost ([::1]:39146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocQUJ-00071L-GO
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:11:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60068)
+	id 1ocQYh-0004Od-Iu
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 08:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPs2-0003KB-W7
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:28 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:36439)
+ id 1ocPs8-0003Nb-Fb; Sun, 25 Sep 2022 07:32:33 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:46660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPs0-0006Rg-5v
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:32:25 -0400
-Received: by mail-pg1-x535.google.com with SMTP id s206so4233888pgs.3
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:32:22 -0700 (PDT)
+ id 1ocPs3-0006Rt-7N; Sun, 25 Sep 2022 07:32:28 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id c198so4138848pfc.13;
+ Sun, 25 Sep 2022 04:32:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=5kKZaIAKRf3+/+NyY6g6OcFI9UiTTHHGJ90OxnS38Zw=;
- b=m26TbFMjIlzTSYajRBhcg/LSYervDzHNUo2oBh7F+VV0SSy3Dvb+ibvpc7jgqgOw3s
- IM7zSTwvy4tNJDXWJyqLi8XO46Q9p0AGu0FRz7lW8F/D2iUm9Y0qvRX0j0szVm0HK9Bo
- x22EQyS8vfjx8o11rSSxCbAsLkRqVBIST1BmvJ/bLVhSqANTc4NY2aON8Nej/hQuTSv9
- ZFgeoF8Wd/w1rxYTPO2mjTGKrT9cvL+mEYVRVSDz53oTdNUeBZSKqLAuNeWFof40Aj5P
- uf/0II55nBtU6zy1RLBIsqgWKilReqc8385RT3UZxNLOQeZVHtzKgFna+mQOORiSrN+Q
- 0ZDg==
+ bh=OBfXa3xFVi4lbcy7vm7XKQ/MxZiXQOmmQuqalNwWIA4=;
+ b=dCsDknvWnfotQeY7AC9SontTAI7/UX8fr/91Hfq9NBI4f91dl3DmCkLjGFcfdu8u+L
+ CArNlDYUIrvqe72Wl9hSFAYLgb4C2ykB31jcboIUwmjxJzAcp26HTdalE0WepR7Yi87N
+ rBTL6y3gqcmquY0hibe0L/jq7PC2JBQpKRnGbTOtSkDZXtq8V9zISe/dtkwpTbK+sB6p
+ Ar+AixcHICI/8sx5foVDEWM2uVt7bZWyGNcxz6E1pA6SgYmMrE0zxtC0xLptEn8qRCWg
+ 2LU/CqEEO9tCyQj1gxVuhRPM8+L4lbiyGRtlXFoxBpgJUPLLCGnqTP6L9MPWpzk4h9N/
+ 171A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=5kKZaIAKRf3+/+NyY6g6OcFI9UiTTHHGJ90OxnS38Zw=;
- b=EeklUez5D56yWYApBf0WhCKAzLWKZkgNe8hUQGaGEJAuYKDNGAP0Rx2aGUglmFJji0
- UmlT4c4eGTX79tYN6VIGvKnXXptV54qBYmx/SR7rC/0RBPD4ia++E1D7QIbDtzgJI9l8
- qev/Mz2zEVkuyRXwli0w3NrafMjVz4PKUpHk48aVJQ6nC+qgLRUiOBNAPvx4ZxpI8Mx9
- VWWBp5AyCAvxEHE/vmTd1AQ2okz6/Tff3xzgx7DjhLHxy8L2I+DOu6kXYnBN4hW39OJG
- CvbiDv1uFxfGDu30Ropj6ImGtAoqd1uy6ZxOknZvkdLRaGsYpGhnwEzEAfM0/74z9syZ
- CVqQ==
-X-Gm-Message-State: ACrzQf2VB3nV35Txkjc+CyqbWvkCDOIjPNHVpTJCEp2w/mdXVTWYGcpk
- voioy1WsOloj838ltICNVqslw7j5pwc=
-X-Google-Smtp-Source: AMsMyM4Lm4+tJNAcUytsW6fPp/qL7u3n4dOsB6iOTWW3G36DRk8kOn+J6If4ry9Qx1EG2RIJYmBB/A==
-X-Received: by 2002:a62:4c2:0:b0:52e:bd4d:50e1 with SMTP id
- 185-20020a6204c2000000b0052ebd4d50e1mr18689505pfe.8.1664105541844; 
- Sun, 25 Sep 2022 04:32:21 -0700 (PDT)
+ bh=OBfXa3xFVi4lbcy7vm7XKQ/MxZiXQOmmQuqalNwWIA4=;
+ b=Mf1FTmsUkGQRBaJuxTvjkPmfHUw/GWFgDjfFc2YP3DLAOoxarokI2Sd3AaD2R8nRjT
+ vzuBqM084gMY56nVlhv3asnKCLMmgKWOK3puNWjZ4n4XBmUO5Ln+ocQdEsBISVGnqRfW
+ 2QG2PYY7mQ+NhFJpGYEYSBWXZ8qx+nElARSHqJmzv/MwHGsEVWWpcCz/WnoLWDlq3lBv
+ mtgYFb8BPuPzjqff0Xiz45L5Hf+acx7RvW0lSURafnFEdeL6Lhbty0KvSyDU6xIxnAYl
+ lW0GSeF8TqfR9I0tyWwSBp7TfBT8kHvbJsl9JZLQuhFwZ0vlZftbvB0iSOnsXoKlDv94
+ 9JJg==
+X-Gm-Message-State: ACrzQf3JOSx4tRsNXu5DX9JrZ7juUuFehQyzAubQKOHrO4XciWVsNJph
+ vt9eQ28PnYqZONqp9QF/3zxuRIWfNK8=
+X-Google-Smtp-Source: AMsMyM62rQF2HCdx52L2ETTIilN+MAkxuVk8L/p1GhZGWYqDye0ZHnw+4ZI23tvKFcj+MdFfMbiAJA==
+X-Received: by 2002:a63:698a:0:b0:41c:8dfa:e622 with SMTP id
+ e132-20020a63698a000000b0041c8dfae622mr15084465pgc.465.1664105544646; 
+ Sun, 25 Sep 2022 04:32:24 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.19
+ z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.32.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 04:32:21 -0700 (PDT)
+ Sun, 25 Sep 2022 04:32:24 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 39/54] tests/qtest: migration-test: Disable IO redirection
- for win32
-Date: Sun, 25 Sep 2022 19:30:17 +0800
-Message-Id: <20220925113032.1949844-40-bmeng.cn@gmail.com>
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
+Subject: [PATCH v3 40/54] tests/qtest: ide-test: Open file in binary mode
+Date: Sun, 25 Sep 2022 19:30:18 +0800
+Message-Id: <20220925113032.1949844-41-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,12 +92,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-On Windows the QEMU executable is created via CreateProcess() and
-IO redirection does not work, so don't bother adding IO redirection
-to the command line.
+By default Windows opens file in text mode, while a POSIX compliant
+implementation treats text files and binary files the same.
 
+The fopen() 'mode' string can include the letter 'b' to indicate
+binary mode shall be used. POSIX spec says the character 'b' shall
+have no effect, but is allowed for ISO C standard conformance.
+Let's add the letter 'b' which works on both POSIX and Windows.
+
+Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
@@ -108,32 +110,33 @@ Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 (no changes since v2)
 
 Changes in v2:
-- Change the place that sets IO redirection in the command line
+- Drop ahci-test.c changes that are no longer needed
 
- tests/qtest/migration-test.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ tests/qtest/ide-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 029c4f3a6a..a1dd342739 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -647,7 +647,16 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-     }
+diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
+index 5e3e28aea2..4ea89c26c9 100644
+--- a/tests/qtest/ide-test.c
++++ b/tests/qtest/ide-test.c
+@@ -892,7 +892,7 @@ static void cdrom_pio_impl(int nblocks)
  
-     if (!getenv("QTEST_LOG") && args->hide_stderr) {
-+#ifndef _WIN32
-         ignore_stderr = "2>/dev/null";
-+#else
-+        /*
-+         * On Windows the QEMU executable is created via CreateProcess() and
-+         * IO redirection does not work, so don't bother adding IO redirection
-+         * to the command line.
-+         */
-+        ignore_stderr = "";
-+#endif
-     } else {
-         ignore_stderr = "";
-     }
+     /* Prepopulate the CDROM with an interesting pattern */
+     generate_pattern(pattern, patt_len, ATAPI_BLOCK_SIZE);
+-    fh = fopen(tmp_path, "w+");
++    fh = fopen(tmp_path, "wb+");
+     ret = fwrite(pattern, ATAPI_BLOCK_SIZE, patt_blocks, fh);
+     g_assert_cmpint(ret, ==, patt_blocks);
+     fclose(fh);
+@@ -993,7 +993,7 @@ static void test_cdrom_dma(void)
+     prdt[0].size = cpu_to_le32(len | PRDT_EOT);
+ 
+     generate_pattern(pattern, ATAPI_BLOCK_SIZE * 16, ATAPI_BLOCK_SIZE);
+-    fh = fopen(tmp_path, "w+");
++    fh = fopen(tmp_path, "wb+");
+     ret = fwrite(pattern, ATAPI_BLOCK_SIZE, 16, fh);
+     g_assert_cmpint(ret, ==, 16);
+     fclose(fh);
 -- 
 2.34.1
 
