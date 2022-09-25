@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579665E960E
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 22:51:14 +0200 (CEST)
-Received: from localhost ([::1]:59432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 549C65E962A
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 23:20:02 +0200 (CEST)
+Received: from localhost ([::1]:50224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocYam-0002sl-Ll
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 16:51:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43016)
+	id 1ocZ2e-0004aV-TX
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 17:20:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1ocYVL-0000MU-Aw
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 16:45:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1ocYVG-0000gf-P6
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 16:45:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664138728;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=G85a1UWkiVHMpqTYuu2+R25oSBYe4UWW84jebp9crDg=;
- b=DF+YUzDpwvWohuSXA0J7bWPYHHvpikYDHDIBBP2jNVsDB4wt5A4cSrwsiqFpZ0sXn5Yn5v
- BCtEb3G4kgi4wYXajl7tm840sEyTXCsiVjQThX4ttaBiyEKEq1zt7/sUmEZg6FAcJPkfib
- IrOm87YtWT0SUPkaMwO38An0ckiFLv0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-158-i9aEtF1yN72_YCnosbxozA-1; Sun, 25 Sep 2022 16:45:24 -0400
-X-MC-Unique: i9aEtF1yN72_YCnosbxozA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4FF55101A528;
- Sun, 25 Sep 2022 20:45:24 +0000 (UTC)
-Received: from f36-work.redhat.com (unknown [10.39.192.52])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F9CE40C6EC2;
- Sun, 25 Sep 2022 20:45:21 +0000 (UTC)
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mcascell@redhat.com,
-	kraxel@redhat.com,
-	tangpeng@qianxin.com
-Subject: [PATCH] ui/vnc-clipboard: fix integer underflow in
- vnc_client_cut_text_ext
-Date: Sun, 25 Sep 2022 22:45:11 +0200
-Message-Id: <20220925204511.1103214-1-mcascell@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ocZ0g-0002PN-5a; Sun, 25 Sep 2022 17:17:58 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:42941)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ocZ0e-0005ip-1L; Sun, 25 Sep 2022 17:17:57 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id t190so4914830pgd.9;
+ Sun, 25 Sep 2022 14:17:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=cZFkj9U9HTiuKfZKwI8IMmICHNGXB5KA5vY0fa+UIk0=;
+ b=J7PVXE4jJKxOStrKV9hdSw7y9K3RW14hhdZkceyfJPqenrsWXd+Bn2O3+UHlXdk8iU
+ KQbTsVqyLW6MHpNKY4JLcM/kvp1usp8z12XXm1fZ8lTDd9g5uUvn5TkL8nPxHvKjDxLB
+ ck1XXEs94oF7eMD+8vyrWMnAbtlPlvoCc3aP7gjHn4d3EgQ/Ch9DtP/s/+8++3pRRJKz
+ 5/yPytr/N/HLdk+PgC3mQAxowpoZZYLEeO7t9+IBm4mwF4cBNXnAVomHMKkNHfEKPqbl
+ MpDh+1kV9I9FGSlif22jVhMmAFZRwo5QnaxXFSWFrpW22BnHebNe0jW4bST14RtBPoeL
+ ZMAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=cZFkj9U9HTiuKfZKwI8IMmICHNGXB5KA5vY0fa+UIk0=;
+ b=jgSWPoUvTy9YcdVjc0Oyn13vw8BQd1WVIQTF70Nhm83CreC+V8h7JJic4P8f9LRBBS
+ 0HP2dBKSspUHSPIJQROKs+pXhqYv5lPidn7X2oa5ajFc8yBnW9ptPmnb7JIog/cqjOWW
+ tNrD65TQ1jJ9xHzMUH0IFCgIu8/0Mxe7UWmXgmwf1qune/IPuBGsFVLvd4erfGSB4X8+
+ Jj21XufyhIHafZMN57AbmO9JOlxPdipbG3V9lOYqbBUDBr0hDk6XcgcJcbbtIjDMB3eK
+ CIv3xdLGOw8AleTeT9JUDvcgODylRIvZwX4mPL+CiBwCFMbAY1Tx6CUBsuOna1SERTU6
+ palg==
+X-Gm-Message-State: ACrzQf1gt83cHd2EOKWHRx++F7OAyHV/MW/hwBNQxjLUIwKuu9Kt0Hhb
+ 5FZ8iB4BZL++WVwpvCORjmxdzDRcP83IfIStzFs=
+X-Google-Smtp-Source: AMsMyM5T8fIYvyT8gK35Cu8fsDoPN3rbQawU/Bqy0GSO64G7+l3Kfh3fqbMRZH3sg74lR8BTBEJ/uVQSzV6gfrUdJFs=
+X-Received: by 2002:a63:db07:0:b0:439:2e24:df01 with SMTP id
+ e7-20020a63db07000000b004392e24df01mr17126476pgg.221.1664140672012; Sun, 25
+ Sep 2022 14:17:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+References: <20220817074802.20765-1-liuyang22@iscas.ac.cn>
+ <20220817074802.20765-2-liuyang22@iscas.ac.cn>
+In-Reply-To: <20220817074802.20765-2-liuyang22@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 26 Sep 2022 07:17:25 +1000
+Message-ID: <CAKmqyKN3Drh9iduHyaJWsiHY69rSR8Od6ST2YCzA+E62662ALA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] target/riscv: rvv-1.0: vf[w]redsum distinguish
+ between ordered/unordered
+To: Yang Liu <liuyang22@iscas.ac.cn>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, 
+ =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, 
+ liweiwei <liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,54 +89,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extended ClientCutText messages start with a 4-byte header. If len < 4,
-an integer underflow occurs in vnc_client_cut_text_ext. The result is
-used to decompress data in a while loop in inflate_buffer, leading to
-CPU consumption and denial of service. Prevent this by checking dlen in
-protocol_client_msg.
+On Thu, Aug 18, 2022 at 1:43 AM Yang Liu <liuyang22@iscas.ac.cn> wrote:
+>
+> Starting with RVV1.0, the original vf[w]redsum_vs instruction was renamed
+> to vf[w]redusum_vs. The distinction between ordered and unordered is also
+> more consistent with other instructions, although there is no difference
+> in implementation between the two for QEMU.
+>
+> Signed-off-by: Yang Liu <liuyang22@iscas.ac.cn>
 
-Fixes: CVE-2022-3165
-Fixes: 0bf41cab93e5 ("ui/vnc: clipboard support")
-Reported-by: TangPeng <tangpeng@qianxin.com>
-Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
----
-Extended Clipboard Pseudo-Encoding:
-https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst#extended-clipboard-pseudo-encoding
+Thanks!
 
- ui/vnc.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+Applied to riscv-to-apply.next
 
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 6a05d06147..acb3629cd8 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -2442,8 +2442,8 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
-         if (len == 1) {
-             return 8;
-         }
-+        uint32_t dlen = abs(read_s32(data, 4));
-         if (len == 8) {
--            uint32_t dlen = abs(read_s32(data, 4));
-             if (dlen > (1 << 20)) {
-                 error_report("vnc: client_cut_text msg payload has %u bytes"
-                              " which exceeds our limit of 1MB.", dlen);
-@@ -2456,8 +2456,13 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
-         }
- 
-         if (read_s32(data, 4) < 0) {
--            vnc_client_cut_text_ext(vs, abs(read_s32(data, 4)),
--                                    read_u32(data, 8), data + 12);
-+            if (dlen < 4) {
-+                error_report("vnc: malformed payload (header less than 4 bytes)"
-+                             " in extended clipboard pseudo-encoding.");
-+                vnc_client_error(vs);
-+                break;
-+            }
-+            vnc_client_cut_text_ext(vs, dlen, read_u32(data, 8), data + 12);
-             break;
-         }
-         vnc_client_cut_text(vs, read_u32(data, 4), data + 8);
--- 
-2.37.3
+Alistair
 
+> ---
+>  target/riscv/helper.h                   | 15 ++++++++++-----
+>  target/riscv/insn32.decode              |  6 ++++--
+>  target/riscv/insn_trans/trans_rvv.c.inc |  6 ++++--
+>  target/riscv/vector_helper.c            | 19 +++++++++++++------
+>  4 files changed, 31 insertions(+), 15 deletions(-)
+>
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 4ef3b2251d..a03014fe67 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -1009,9 +1009,12 @@ DEF_HELPER_6(vwredsum_vs_b, void, ptr, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_6(vwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_6(vwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
+>
+> -DEF_HELPER_6(vfredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
+> -DEF_HELPER_6(vfredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
+> -DEF_HELPER_6(vfredsum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vfredusum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vfredusum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vfredusum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vfredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vfredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vfredosum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_6(vfredmax_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_6(vfredmax_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_6(vfredmax_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
+> @@ -1019,8 +1022,10 @@ DEF_HELPER_6(vfredmin_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_6(vfredmin_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_6(vfredmin_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
+>
+> -DEF_HELPER_6(vfwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
+> -DEF_HELPER_6(vfwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vfwredusum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vfwredusum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vfwredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
+> +DEF_HELPER_6(vfwredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
+>
+>  DEF_HELPER_6(vmand_mm, void, ptr, ptr, ptr, ptr, env, i32)
+>  DEF_HELPER_6(vmnand_mm, void, ptr, ptr, ptr, ptr, env, i32)
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index 4033565393..2873a7ae04 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -659,11 +659,13 @@ vredmax_vs      000111 . ..... ..... 010 ..... 1010111 @r_vm
+>  vwredsumu_vs    110000 . ..... ..... 000 ..... 1010111 @r_vm
+>  vwredsum_vs     110001 . ..... ..... 000 ..... 1010111 @r_vm
+>  # Vector ordered and unordered reduction sum
+> -vfredsum_vs     0000-1 . ..... ..... 001 ..... 1010111 @r_vm
+> +vfredusum_vs    000001 . ..... ..... 001 ..... 1010111 @r_vm
+> +vfredosum_vs    000011 . ..... ..... 001 ..... 1010111 @r_vm
+>  vfredmin_vs     000101 . ..... ..... 001 ..... 1010111 @r_vm
+>  vfredmax_vs     000111 . ..... ..... 001 ..... 1010111 @r_vm
+>  # Vector widening ordered and unordered float reduction sum
+> -vfwredsum_vs    1100-1 . ..... ..... 001 ..... 1010111 @r_vm
+> +vfwredusum_vs   110001 . ..... ..... 001 ..... 1010111 @r_vm
+> +vfwredosum_vs   110011 . ..... ..... 001 ..... 1010111 @r_vm
+>  vmand_mm        011001 - ..... ..... 010 ..... 1010111 @r
+>  vmnand_mm       011101 - ..... ..... 010 ..... 1010111 @r
+>  vmandn_mm       011000 - ..... ..... 010 ..... 1010111 @r
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 6c091824b6..9c9de17f8a 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -3112,7 +3112,8 @@ static bool freduction_check(DisasContext *s, arg_rmrr *a)
+>             require_zve64f(s);
+>  }
+>
+> -GEN_OPFVV_TRANS(vfredsum_vs, freduction_check)
+> +GEN_OPFVV_TRANS(vfredusum_vs, freduction_check)
+> +GEN_OPFVV_TRANS(vfredosum_vs, freduction_check)
+>  GEN_OPFVV_TRANS(vfredmax_vs, freduction_check)
+>  GEN_OPFVV_TRANS(vfredmin_vs, freduction_check)
+>
+> @@ -3124,7 +3125,8 @@ static bool freduction_widen_check(DisasContext *s, arg_rmrr *a)
+>             (s->sew != MO_8);
+>  }
+>
+> -GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, freduction_widen_check)
+> +GEN_OPFVV_WIDEN_TRANS(vfwredusum_vs, freduction_widen_check)
+> +GEN_OPFVV_WIDEN_TRANS(vfwredosum_vs, freduction_widen_check)
+>
+>  /*
+>   *** Vector Mask Operations
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index fd83c0b20b..d87f79ad82 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -4641,9 +4641,14 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,           \
+>  }
+>
+>  /* Unordered sum */
+> -GEN_VEXT_FRED(vfredsum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
+> -GEN_VEXT_FRED(vfredsum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
+> -GEN_VEXT_FRED(vfredsum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
+> +GEN_VEXT_FRED(vfredusum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
+> +GEN_VEXT_FRED(vfredusum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
+> +GEN_VEXT_FRED(vfredusum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
+> +
+> +/* Ordered sum */
+> +GEN_VEXT_FRED(vfredosum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
+> +GEN_VEXT_FRED(vfredosum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
+> +GEN_VEXT_FRED(vfredosum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
+>
+>  /* Maximum value */
+>  GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, float16_maximum_number)
+> @@ -4667,9 +4672,11 @@ static uint64_t fwadd32(uint64_t a, uint32_t b, float_status *s)
+>  }
+>
+>  /* Vector Widening Floating-Point Reduction Instructions */
+> -/* Unordered reduce 2*SEW = 2*SEW + sum(promote(SEW)) */
+> -GEN_VEXT_FRED(vfwredsum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
+> -GEN_VEXT_FRED(vfwredsum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
+> +/* Ordered/unordered reduce 2*SEW = 2*SEW + sum(promote(SEW)) */
+> +GEN_VEXT_FRED(vfwredusum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
+> +GEN_VEXT_FRED(vfwredusum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
+> +GEN_VEXT_FRED(vfwredosum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
+> +GEN_VEXT_FRED(vfwredosum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
+>
+>  /*
+>   *** Vector Mask Operations
+> --
+> 2.30.1 (Apple Git-130)
+>
+>
 
