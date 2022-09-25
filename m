@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ABDF5E92E3
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 13:59:14 +0200 (CEST)
-Received: from localhost ([::1]:42326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0475E92DE
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 13:57:34 +0200 (CEST)
+Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocQHx-0002Lb-AJ
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 07:59:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55922)
+	id 1ocQGL-0007p7-RO
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 07:57:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPrD-0002ia-Tv
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:31:36 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:42593)
+ id 1ocPrG-0002ja-F3; Sun, 25 Sep 2022 07:31:41 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:44841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocPr3-0006KO-RT
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 07:31:28 -0400
-Received: by mail-pg1-x531.google.com with SMTP id t190so4208012pgd.9
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 04:31:15 -0700 (PDT)
+ id 1ocPr5-0006KX-6R; Sun, 25 Sep 2022 07:31:36 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ i15-20020a17090a4b8f00b0020073b4ac27so4300374pjh.3; 
+ Sun, 25 Sep 2022 04:31:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=wj7NFE4UEqf1bXdPeQ070iFkhBShBJOjWt5P85H+XeI=;
- b=G9koeUdrjJZrYH2/Ca1dkiSWRbpTJqAwlZb30pYM6dopeGaOMDCUEPs124Ui/H6ii4
- L+Q2YWqhlUOUtlTdtd+apOOzeFgmPU+irSPwCVINPPj9wv8t27yKHeYh+b/HptVt7s9T
- 9vEwaCjYaEy51JNpOyWZx/+2dQkBfMbAAlyTRc0FxTVThrx+jEVhu2D9bwZTbJzh8zSj
- 2FAmeorrbeUAe1fsM59Wz6t91JQ0fhjPAbjz0OWJW/RGdPPsqHgeKrYruISWJ2q9Lngm
- +l/Iz7jCgmc/mgC3qWQwwEuwFTCAsSsHGa5Qe7088U2BgF/46oSWgvIu79IdNtpbOpQi
- CVYg==
+ bh=9nzx3zjt1kod4XqM/j/+23LNx+kI/TyLGdD65qxmPHA=;
+ b=qh9+xWZTZsahhWsuw+fAzNxkydMBkRpxxRNuQ84c9UiAs+MyYXBYF7Dn+2X/ZjujbB
+ zaoxtb03v631ZXIgQUon6Z4p+FGTfGuaYzYsWzSgPr2La54FiHjQ/+zFw9QWOCpUX/xw
+ 9q1iXa9ikB+45HGQ5/3H78WJ4fWTd2qgPJnDL26vr3fHA85YhlGOuwPqHxECO7Io6xkO
+ SvikYaWHq+MylsU/H7dayyn+TQ7CBlrspTaZ14czlWJ9xhFyiaD9fma0RQ9J2gCo+ibb
+ J4Jj3y6F9AoAjUsL2s40HlOHJnU3yMke0sX2WcEqz34XUnmJBwLCmDx5c6ntMztm7nxy
+ Gq8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=wj7NFE4UEqf1bXdPeQ070iFkhBShBJOjWt5P85H+XeI=;
- b=AGw7jP+O6tNe1rkY6pByW3It9leb/M9nBrQl6iMlVN8nMbTnkqqk1gS6GjNn7jyqSh
- pXt4EG2vMN9T/BWRjcjCJCXcIjL2M7s9UkKW/RfK/6XnL5qaTxQLz0VV5RGUy2+IJcsk
- 4ym/FwpxxQGw4CbBEhUoiQPnYMTr9MiVrdMlAoiwRANV4EZMMZzSQ7psWqF8sf76qHO0
- l60AFU9BmO3GBmKvMy05Hyf2Hijx5rLbaMTHEcU/+sDPOTAYNR4AZaHgHxtUPlAzKtUL
- I737EWooN0szoR/uuMgtvKHTnsiLqblhB5Fu53vATxqqKU/BeqYNY9NNqIWEv3TNRGeR
- Sycw==
-X-Gm-Message-State: ACrzQf3cvLfQuILST/jvOaIOgfYKEskneGdg+p7QMQZkc9TgonRJz9iv
- ge1jyA5oyQfMiQAKcP4EzuvaMiRM2Ds=
-X-Google-Smtp-Source: AMsMyM47LSROCIetAPTVF/+L8i72Uf/hK9p7yfvfyMuct7Trnop1goAV/gPyjOJ9UoU1Cv4Rd+Rb5Q==
-X-Received: by 2002:a63:1508:0:b0:438:eb90:52d1 with SMTP id
- v8-20020a631508000000b00438eb9052d1mr15639271pgl.252.1664105474639; 
- Sun, 25 Sep 2022 04:31:14 -0700 (PDT)
+ bh=9nzx3zjt1kod4XqM/j/+23LNx+kI/TyLGdD65qxmPHA=;
+ b=AJPrumFqFJ1AV0S6ZNakFenW8uSpoJEEkBTzoDTNA8v3Hu6YAufZaWf3SZOSjlVbiD
+ JJiuVNqYydGPNFSZ4h6O2FVmDTiLBx8VBAW1EIIqw2jEzuniXdiK2TVS+XiykMlc4M8F
+ A5vlt5Gz6DLz4i7ifoEhie3h+notQe5iHSfeJ4rnGMt8Q1/w1SpuWRBsPxvWodn8NIT3
+ iK1B2CykxEQn4dXlr2/1x143thzDnjZ2NtUoQn8WUD888YEfjYap0nDoiHfj6F08DKm6
+ gkydJj8f8X7YEt4MiBa61W5l0jjVPoxK6dCshcI8V8/mplnMoFGoL+CTzzm1+32/sdzp
+ zFZQ==
+X-Gm-Message-State: ACrzQf2rsX0gFss8AXJpBoXtgp6WnAsMAhJIj+RObGfTc/Di5djK3aMB
+ VlfSKeMeQPRwOaHEgNnfPBeWq/bJHP8=
+X-Google-Smtp-Source: AMsMyM4eB8CwrjEmFjARLBF0NWCyIWEQDuAwxQiZXkDem69G+xcUDez/LNxuLWzwNTCym5jVYWx7OA==
+X-Received: by 2002:a17:90b:1e0d:b0:202:91ec:e167 with SMTP id
+ pg13-20020a17090b1e0d00b0020291ece167mr19014437pjb.174.1664105477259; 
+ Sun, 25 Sep 2022 04:31:17 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.31.12
+ z4-20020a1709027e8400b00176c6738d13sm9187760pla.169.2022.09.25.04.31.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 04:31:14 -0700 (PDT)
+ Sun, 25 Sep 2022 04:31:17 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v3 12/54] tests/qtest: hd-geo-test: Avoid using hardcoded /tmp
-Date: Sun, 25 Sep 2022 19:29:50 +0800
-Message-Id: <20220925113032.1949844-13-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org
+Subject: [PATCH v3 13/54] tests/qtest: ide-test: Avoid using hardcoded /tmp
+Date: Sun, 25 Sep 2022 19:29:51 +0800
+Message-Id: <20220925113032.1949844-14-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,114 +101,50 @@ Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
 Changes in v3:
 - Split to a separate patch
-- Ensure g_autofree variable is initialized
-- Use g_steal_pointer() in create_test_img()
 
- tests/qtest/hd-geo-test.c | 25 +++++++++++--------------
- 1 file changed, 11 insertions(+), 14 deletions(-)
+ tests/qtest/ide-test.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
-index 413cf964c0..455bc5db5c 100644
---- a/tests/qtest/hd-geo-test.c
-+++ b/tests/qtest/hd-geo-test.c
-@@ -27,20 +27,19 @@
+diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
+index 5bcb75a7e5..25302be6dc 100644
+--- a/tests/qtest/ide-test.c
++++ b/tests/qtest/ide-test.c
+@@ -121,8 +121,8 @@ enum {
+ static QPCIBus *pcibus = NULL;
+ static QGuestAllocator guest_malloc;
  
- static char *create_test_img(int secs)
+-static char tmp_path[] = "/tmp/qtest.XXXXXX";
+-static char debug_path[] = "/tmp/qtest-blkdebug.XXXXXX";
++static char *tmp_path;
++static char *debug_path;
+ 
+ static QTestState *ide_test_start(const char *cmdline_fmt, ...)
  {
--    char *template = strdup("/tmp/qtest.XXXXXX");
-+    g_autofree char *template = NULL;
-     int fd, ret;
+@@ -1015,12 +1015,12 @@ int main(int argc, char **argv)
+     int ret;
  
--    fd = mkstemp(template);
-+    fd = g_file_open_tmp("qtest.XXXXXX", &template, NULL);
+     /* Create temporary blkdebug instructions */
+-    fd = mkstemp(debug_path);
++    fd = g_file_open_tmp("qtest-blkdebug.XXXXXX", &debug_path, NULL);
      g_assert(fd >= 0);
-     ret = ftruncate(fd, (off_t)secs * 512);
      close(fd);
  
-     if (ret) {
--        free(template);
-         template = NULL;
-     }
+     /* Create a temporary raw image */
+-    fd = mkstemp(tmp_path);
++    fd = g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
+     g_assert(fd >= 0);
+     ret = ftruncate(fd, TEST_IMAGE_SIZE);
+     g_assert(ret == 0);
+@@ -1049,7 +1049,9 @@ int main(int argc, char **argv)
  
--    return template;
-+    return g_steal_pointer(&template);
+     /* Cleanup */
+     unlink(tmp_path);
++    g_free(tmp_path);
+     unlink(debug_path);
++    g_free(debug_path);
+ 
+     return ret;
  }
- 
- typedef struct {
-@@ -422,9 +421,8 @@ static MBRpartitions empty_mbr = { {false, 0, 0, 0, 0, 0, 0, 0, 0},
- 
- static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
- {
--    const char *template = "/tmp/qtest.XXXXXX";
--    char *raw_path = strdup(template);
--    char *qcow2_path = strdup(template);
-+    g_autofree char *raw_path = NULL;
-+    char *qcow2_path;
-     char cmd[100 + 2 * PATH_MAX];
-     uint8_t buf[512] = {};
-     int i, ret, fd, offset;
-@@ -468,7 +466,7 @@ static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
-         offset += 0x10;
-     }
- 
--    fd = mkstemp(raw_path);
-+    fd = g_file_open_tmp("qtest.XXXXXX", &raw_path, NULL);
-     g_assert(fd >= 0);
-     close(fd);
- 
-@@ -478,7 +476,7 @@ static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
-     g_assert(ret == sizeof(buf));
-     close(fd);
- 
--    fd = mkstemp(qcow2_path);
-+    fd = g_file_open_tmp("qtest.XXXXXX", &qcow2_path, NULL);
-     g_assert(fd >= 0);
-     close(fd);
- 
-@@ -506,7 +504,6 @@ static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
-     free(qemu_img_abs_path);
- 
-     unlink(raw_path);
--    free(raw_path);
- 
-     return qcow2_path;
- }
-@@ -714,7 +711,7 @@ static void test_override(TestArgs *args, CHSResult expected[])
- 
-     for (i = 0; i < args->n_drives; i++) {
-         unlink(args->drives[i]);
--        free(args->drives[i]);
-+        g_free(args->drives[i]);
-     }
-     g_free(args->drives);
-     g_strfreev(args->argv);
-@@ -867,7 +864,7 @@ static void test_override_scsi_hot_unplug(void)
- 
-     for (i = 0; i < args->n_drives; i++) {
-         unlink(args->drives[i]);
--        free(args->drives[i]);
-+        g_free(args->drives[i]);
-     }
-     g_free(args->drives);
-     g_strfreev(args->argv);
-@@ -927,7 +924,7 @@ static void test_override_virtio_hot_unplug(void)
- 
-     for (i = 0; i < args->n_drives; i++) {
-         unlink(args->drives[i]);
--        free(args->drives[i]);
-+        g_free(args->drives[i]);
-     }
-     g_free(args->drives);
-     g_strfreev(args->argv);
-@@ -987,7 +984,7 @@ test_add_done:
-     for (i = 0; i < backend_last; i++) {
-         if (img_file_name[i]) {
-             unlink(img_file_name[i]);
--            free(img_file_name[i]);
-+            g_free(img_file_name[i]);
-         }
-     }
- 
 -- 
 2.34.1
 
