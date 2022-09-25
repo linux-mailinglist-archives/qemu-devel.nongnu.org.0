@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C0C45E9346
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 15:05:38 +0200 (CEST)
-Received: from localhost ([::1]:55912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D305E9348
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Sep 2022 15:09:30 +0200 (CEST)
+Received: from localhost ([::1]:54176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocRKC-0000V6-Je
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 09:05:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46380)
+	id 1ocRNy-0006q1-2f
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 09:09:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ocQtn-0006HO-8S; Sun, 25 Sep 2022 08:38:19 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:61365)
+ id 1ocQtn-0006KH-VR; Sun, 25 Sep 2022 08:38:20 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:61367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ocQtl-0007MM-4s; Sun, 25 Sep 2022 08:38:18 -0400
+ id 1ocQtm-0007O0-5t; Sun, 25 Sep 2022 08:38:19 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 88C1175A16D;
- Sun, 25 Sep 2022 14:38:15 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 8FD1C75A167;
+ Sun, 25 Sep 2022 14:38:16 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 62E9475A163; Sun, 25 Sep 2022 14:38:15 +0200 (CEST)
-Message-Id: <3034e01e58a6b477d28c5b1b0eb1f327171cb700.1664108862.git.balaton@eik.bme.hu>
+ id 6A6AB75A163; Sun, 25 Sep 2022 14:38:16 +0200 (CEST)
+Message-Id: <d9cecc9724c75f723572d67a0fd33adec3f44228.1664108862.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1664108862.git.balaton@eik.bme.hu>
 References: <cover.1664108862.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 08/13] hw/ppc/mac.h: Move newworld specific parts out from
+Subject: [PATCH v2 09/13] hw/ppc/mac.h: Move macio specific parts out from
  shared header
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Sun, 25 Sep 2022 14:38:15 +0200 (CEST)
+Date: Sun, 25 Sep 2022 14:38:16 +0200 (CEST)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, PP_MIME_FAKE_ASCII_TEXT=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -55,114 +56,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the parts specific to and only used by mac99 out from the shared
-mac.h into mac_newworld.c where they better belong.
+Move the parts specific to and only used by macio out from the shared
+mac.h into macio.c where they better belong.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ppc/mac.h          | 24 ------------------------
- hw/ppc/mac_newworld.c | 19 +++++++++++++++++++
- hw/ppc/mac_oldworld.c |  1 +
- 3 files changed, 20 insertions(+), 24 deletions(-)
+ hw/misc/macio/macio.c         |  5 +++--
+ hw/ppc/mac.h                  | 23 -----------------------
+ include/hw/misc/macio/macio.h | 21 +++++++++++++++++++++
+ 3 files changed, 24 insertions(+), 25 deletions(-)
 
+diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+index c1fad43f6c..f9f0758b03 100644
+--- a/hw/misc/macio/macio.c
++++ b/hw/misc/macio/macio.c
+@@ -37,8 +37,9 @@
+ #include "hw/intc/heathrow_pic.h"
+ #include "trace.h"
+ 
+-/* Note: this code is strongly inspirated from the corresponding code
+- * in PearPC */
++#define ESCC_CLOCK 3686400
++
++/* Note: this code is strongly inspired by the corresponding code in PearPC */
+ 
+ /*
+  * The mac-io has two interfaces to the ESCC. One is called "escc-legacy",
 diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
-index a1fa8f8e41..e97087c7e7 100644
+index e97087c7e7..55cb02c990 100644
 --- a/hw/ppc/mac.h
 +++ b/hw/ppc/mac.h
-@@ -26,15 +26,8 @@
- #ifndef PPC_MAC_H
- #define PPC_MAC_H
+@@ -35,29 +35,6 @@
+ #define KERNEL_LOAD_ADDR 0x01000000
+ #define KERNEL_GAP       0x00100000
  
--#include "qemu/units.h"
- #include "exec/memory.h"
--#include "hw/boards.h"
- #include "hw/sysbus.h"
--#include "hw/input/adb.h"
--#include "hw/misc/mos6522.h"
--#include "hw/pci/pci_host.h"
--#include "hw/pci-host/uninorth.h"
--#include "qom/object.h"
- 
- #define NVRAM_SIZE        0x2000
- #define PROM_FILENAME    "openbios-ppc"
-@@ -65,23 +58,6 @@
- #define NEWWORLD_EXTING_GPIO1  0x2f
- #define NEWWORLD_EXTING_GPIO9  0x37
- 
--/* Core99 machine */
--#define TYPE_CORE99_MACHINE MACHINE_TYPE_NAME("mac99")
--typedef struct Core99MachineState Core99MachineState;
--DECLARE_INSTANCE_CHECKER(Core99MachineState, CORE99_MACHINE,
--                         TYPE_CORE99_MACHINE)
+-#define ESCC_CLOCK 3686400
 -
--#define CORE99_VIA_CONFIG_CUDA     0x0
--#define CORE99_VIA_CONFIG_PMU      0x1
--#define CORE99_VIA_CONFIG_PMU_ADB  0x2
+-/* Old World IRQs */
+-#define OLDWORLD_CUDA_IRQ      0x12
+-#define OLDWORLD_ESCCB_IRQ     0x10
+-#define OLDWORLD_ESCCA_IRQ     0xf
+-#define OLDWORLD_IDE0_IRQ      0xd
+-#define OLDWORLD_IDE0_DMA_IRQ  0x2
+-#define OLDWORLD_IDE1_IRQ      0xe
+-#define OLDWORLD_IDE1_DMA_IRQ  0x3
 -
--struct Core99MachineState {
--    /*< private >*/
--    MachineState parent;
--
--    uint8_t via_config;
--};
+-/* New World IRQs */
+-#define NEWWORLD_CUDA_IRQ      0x19
+-#define NEWWORLD_PMU_IRQ       0x19
+-#define NEWWORLD_ESCCB_IRQ     0x24
+-#define NEWWORLD_ESCCA_IRQ     0x25
+-#define NEWWORLD_IDE0_IRQ      0xd
+-#define NEWWORLD_IDE0_DMA_IRQ  0x2
+-#define NEWWORLD_IDE1_IRQ      0xe
+-#define NEWWORLD_IDE1_DMA_IRQ  0x3
+-#define NEWWORLD_EXTING_GPIO1  0x2f
+-#define NEWWORLD_EXTING_GPIO9  0x37
 -
  /* Grackle PCI */
  #define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
  
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 2acd103dd3..32ab730600 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -48,10 +48,13 @@
+diff --git a/include/hw/misc/macio/macio.h b/include/hw/misc/macio/macio.h
+index 6c05f3bfd2..26cf15b1ce 100644
+--- a/include/hw/misc/macio/macio.h
++++ b/include/hw/misc/macio/macio.h
+@@ -38,6 +38,27 @@
+ #include "hw/ppc/openpic.h"
+ #include "qom/object.h"
  
- #include "qemu/osdep.h"
- #include "qemu/datadir.h"
-+#include "qemu/units.h"
- #include "qapi/error.h"
- #include "hw/ppc/ppc.h"
- #include "hw/qdev-properties.h"
- #include "hw/ppc/mac.h"
-+#include "hw/boards.h"
-+#include "hw/pci-host/uninorth.h"
- #include "hw/input/adb.h"
- #include "hw/ppc/mac_dbdma.h"
- #include "hw/pci/pci.h"
-@@ -83,6 +86,22 @@
- #define PROM_BASE 0xfff00000
- #define PROM_SIZE (1 * MiB)
- 
-+#define TYPE_CORE99_MACHINE MACHINE_TYPE_NAME("mac99")
-+typedef struct Core99MachineState Core99MachineState;
-+DECLARE_INSTANCE_CHECKER(Core99MachineState, CORE99_MACHINE,
-+                         TYPE_CORE99_MACHINE)
++/* Old World IRQs */
++#define OLDWORLD_CUDA_IRQ      0x12
++#define OLDWORLD_ESCCB_IRQ     0x10
++#define OLDWORLD_ESCCA_IRQ     0xf
++#define OLDWORLD_IDE0_IRQ      0xd
++#define OLDWORLD_IDE0_DMA_IRQ  0x2
++#define OLDWORLD_IDE1_IRQ      0xe
++#define OLDWORLD_IDE1_DMA_IRQ  0x3
 +
-+#define CORE99_VIA_CONFIG_CUDA     0x0
-+#define CORE99_VIA_CONFIG_PMU      0x1
-+#define CORE99_VIA_CONFIG_PMU_ADB  0x2
++/* New World IRQs */
++#define NEWWORLD_CUDA_IRQ      0x19
++#define NEWWORLD_PMU_IRQ       0x19
++#define NEWWORLD_ESCCB_IRQ     0x24
++#define NEWWORLD_ESCCA_IRQ     0x25
++#define NEWWORLD_IDE0_IRQ      0xd
++#define NEWWORLD_IDE0_DMA_IRQ  0x2
++#define NEWWORLD_IDE1_IRQ      0xe
++#define NEWWORLD_IDE1_DMA_IRQ  0x3
++#define NEWWORLD_EXTING_GPIO1  0x2f
++#define NEWWORLD_EXTING_GPIO9  0x37
 +
-+struct Core99MachineState {
-+    /*< private >*/
-+    MachineState parent;
-+
-+    uint8_t via_config;
-+};
-+
- static void fw_cfg_boot_set(void *opaque, const char *boot_device,
-                             Error **errp)
- {
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 9d651cf482..1fa7b770b7 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -31,6 +31,7 @@
- #include "hw/ppc/ppc.h"
- #include "hw/qdev-properties.h"
- #include "mac.h"
-+#include "hw/boards.h"
- #include "hw/input/adb.h"
- #include "sysemu/sysemu.h"
- #include "net/net.h"
+ /* MacIO virtual bus */
+ #define TYPE_MACIO_BUS "macio-bus"
+ OBJECT_DECLARE_SIMPLE_TYPE(MacIOBusState, MACIO_BUS)
 -- 
 2.30.4
 
