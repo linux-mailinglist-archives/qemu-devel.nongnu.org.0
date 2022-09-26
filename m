@@ -2,75 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A385EAB41
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 17:38:20 +0200 (CEST)
-Received: from localhost ([::1]:43890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95EE95EA8F4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:49:42 +0200 (CEST)
+Received: from localhost ([::1]:49562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocqBX-0003bD-St
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 11:38:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45680)
+	id 1ocpQT-0001aH-LT
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:49:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ocpBn-0008Qi-UK
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:34:31 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:39685)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ocpBm-0005lZ-8g
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:34:31 -0400
-Received: by mail-ej1-x634.google.com with SMTP id z13so14519169ejp.6
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 07:34:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=Wx1S3Igs58VzDESNamzMgnXVPNzPs5LzlY97a7v4iaU=;
- b=cNudQFDBeHyKYeum50rnmY+j28kDvHVU8oIJO4mOFuRckrTig5g7NNSJ3qfwt5035a
- 15UPaUSkfdCQE0mgg7Z87psK6W25hKJbr9521TjSTm7mQ02+fb4Q5wZCIxKezT9muvve
- OxefeHCEI8NuDnYSF2B19uHq242vzwiJMIB6FOlCXLbyiNtbexk3D947MSGA7p43AAoe
- x+hV6E42itXFAcBp+s4IrPDSZ3Sxz+MPnnNmZNmiHUTcq7RE8rm8qxPBKgxo/vGFJRlj
- geojtOPRLqpa2HCNrnD/8oHilQAk6I23z16DmE09C3GSL0C77H5hL0kbH9rPm0YT1DH3
- /ZpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Wx1S3Igs58VzDESNamzMgnXVPNzPs5LzlY97a7v4iaU=;
- b=kqOzdoEE5ASqTPNv9F1YumoAo1nnhoN/rTENn5dHIHdi13Tk073HatIVYqELlcZuSZ
- fg6JEeWC4LrS2Q0pIOJI60KeAxqgZRfJNb9EQ/a08fP8M3XRm7YMQ/AP00FEXdQuU/ob
- XKbpuA92bk+s3BWfCU1DvmsOWGK/MRYgpFcegPSQiBh3vmhS2oqLIUcdLScEobjivSxx
- 2J3thMji3TY5Jp/YKpg4I1VzRU/WSffJfHyYo2WXxpenQhR554Zs3jpZR7SeYiIor3vK
- JZAJk6yte4bhC4o9tKQibm02naCD9A5d69jHBE5+aZ9HLRukYosGHCBM1ybP19clTazf
- haoQ==
-X-Gm-Message-State: ACrzQf0QmqAr81o9xZCzpBQmuf+T9uu//3XjFP3jvnUFoy3F9L8ry83d
- dJFhTBGv6B0n+dc9050AXZpjv/7EsMfVPGZjDg/zpg==
-X-Google-Smtp-Source: AMsMyM7JBsaLr4cL7H0UZiQk5j20JuRrBKzsbkQLqY4PC8A3wPGhoyPc4zdgaUgnVXslRLpH5U5UfgtLsPXWrGA+3oY=
-X-Received: by 2002:a17:907:728e:b0:782:8e91:64c8 with SMTP id
- dt14-20020a170907728e00b007828e9164c8mr15471198ejc.36.1664202867490; Mon, 26
- Sep 2022 07:34:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220926133904.3297263-1-alex.bennee@linaro.org>
- <20220926133904.3297263-2-alex.bennee@linaro.org>
-In-Reply-To: <20220926133904.3297263-2-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Sep 2022 15:34:16 +0100
-Message-ID: <CAFEAcA_QS8ODmQqHY=rFEMom_PoGL3eTdaLUyki4_0D5jFKaQw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/11] hw: encode accessing CPU index in MemTxAttrs
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, mads@ynddal.dk, 
- qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1ocpLZ-0004F6-P4
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:44:42 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:53545)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1ocpLX-00077B-G1
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:44:37 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id C8EF85C00AF;
+ Mon, 26 Sep 2022 10:44:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Mon, 26 Sep 2022 10:44:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1664203471; x=
+ 1664289871; bh=YT0xN66NX+uFrq6gV3VK3hHffNGVNNucVDgZW/WIaTc=; b=w
+ OEXQcbzKyV4yxWcFaDlqCY9UaxL/aVGCJ0pboBbYIz41IPx6lI9hcFIxns2sOHjz
+ 9m7/6vwV/BvD+MAPI2tWQWR1nH4mxhPcqUPJk+ctZhNwsQcU+k6I5VQcWY2mprxu
+ /z7+JW4EsFWNVKHMBHHYYk3aM0krE25pVnjvTq/H5ZsWDfIOyRRKuGjOiLvVm7jU
+ cyA4FbWOpD9gARYB/LwJofYx2CMw47sTX6ogrMC7/ovz7gJM/PAqHosSLCuF/UHp
+ RaTBsTHT4l0QIIGKmlP6uo/a882EZvq+HOeD9KZSkFO3ZeOyuuaEn7++4cdgJgjo
+ SQDobsLrUn9FE6xukB1Rw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1664203471; x=
+ 1664289871; bh=YT0xN66NX+uFrq6gV3VK3hHffNGVNNucVDgZW/WIaTc=; b=w
+ v9RvWGS/jQgykmK/xswJu0p9jO2N/jy58dmBr1+E84q8ORXpNu3hrTU8WtupOFsb
+ rexsd9X04bE4HRVGE1XLJ+s0IPJ99R7whQXu6q3F1f/JtmZx+kRyeOUlfzdo5Gjw
+ K80f1LPEM3WVtrYYH07n2/QrH/ASW84l2Ye5/zmk/UT1/3IhhPhyTnFwFSdiTL0b
+ D1D1ZHYCvitL9O4W/VdMs4LAEpp7omh6vJblvNDbVpVhDx1hkAABxsfqBqafh1zo
+ QdoK7Me4psEY3Ct1njf1dvIp9OwzFw09AMhAmB29wOJjhk07ixtzORWTYbf8zyg9
+ HiKwhz7OF+LFzehwLwjkQ==
+X-ME-Sender: <xms:z7oxYz-hPt8Qoh432Q8HSbaw8Ag6ZY4etCCFLB6T93rsYPpGsHlZ8g>
+ <xme:z7oxY_tdk-LJh_ejaRm6iKTsxj-BIsYE5GwflcpSsncUNRL0YTCIUA3vmzlgwqWgK
+ U2uLP0cI8Hj3BxSNIM>
+X-ME-Received: <xmr:z7oxYxDe8iMVYvOkw_2EdpNM0ze_441PTNeU5TPHoFq11mvrlUwggO1rGJWTGfszpuBX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegvddgkedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpegtggfuhfgjffevgffkfhfvofesth
+ hqmhdthhdtjeenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigr
+ nhhgsehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpedutdejffetteefke
+ ejieehfeeuieeguedtveeijeeviefhffelvdfgudeihfdvtdenucevlhhushhtvghrufhi
+ iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflh
+ ihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:z7oxY_dYjl0oKg_6GpbViOkHqGbSsDeJBWw1E_BEA_gHc0tC6-hPXQ>
+ <xmx:z7oxY4OPgSs6Ha3PhHRQqQOH-ZCalg_jTMBsmnOuNnLs-7NmlKPnOA>
+ <xmx:z7oxYxlpxFT4MzCp-HyF3ll-Yvj8zF-JYiOk16bmryvV9WM5bn9umg>
+ <xmx:z7oxYy3spNhcA9UtI9f3EYEbedQvMFTc6I6DjIJnW8GhY-_d2dbBng>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 26 Sep 2022 10:44:30 -0400 (EDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.74\))
+Subject: Re: [RFC PATCH 0/3] MIPS decodetree conversion attempt
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <20220921124105.3824962-1-jiaxun.yang@flygoat.com>
+Date: Mon, 26 Sep 2022 15:44:18 +0100
+Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ richard.henderson@linaro.org
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Message-Id: <E9443B6B-D245-4F31-B3BF-85011CB6B9FD@flygoat.com>
+References: <20220921124105.3824962-1-jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+X-Mailer: Apple Mail (2.3731.200.74)
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,57 +105,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Sept 2022 at 15:13, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->
-> We currently have hacks across the hw/ to reference current_cpu to
-> work out what the current accessing CPU is. This breaks in some cases
-> including using gdbstub to access HW state. As we have MemTxAttrs to
-> describe details about the access lets extend it to mention if this is
-> a CPU access and which one it is.
->
-> There are a number of places we need to fix up including:
->
->   CPU helpers directly calling address_space_*() fns
->   models in hw/ fishing the data out of current_cpu
->   hypervisors offloading device emulation to QEMU
->
-> I'll start addressing some of these in following patches.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> ---
-> v2
->   - use separate field cpu_index
->   - bool for requester_is_cpu
-> v3
->   - switch to enum MemTxRequesterType
->   - move helper #define to patch
->   - revert to overloading requester_id
->   - mention hypervisors in commit message
->   - drop cputlb tweaks, they will move to target specific code
 
-I still don't see anything in this patchset that updates
-the code which currently assumes requester_id to be a PCI
-index to check that it hasn't been handed a MemTxAttrs
-that uses requester_id as a CPU number.
 
-I also still need to go and look up how hardware does this,
-so please don't queue this patchset yet. In particular, we
-should think about whether we want this to be:
- * a CPU number, but only set opt-in by some target archs
- * a CPU number, valid for all target archs
- * a unique-within-the-machine identifier of the transaction
-   master (i.e. which can be set by DMA controllers, etc,
-   not just CPUs)
+> 2022=E5=B9=B49=E6=9C=8821=E6=97=A5 13:41=EF=BC=8CJiaxun Yang =
+<jiaxun.yang@flygoat.com> =E5=86=99=E9=81=93=EF=BC=9A
+>=20
+> Hi,
+>=20
+> This is my attempt of converting MIPS translation code into =
+decodetree.
+>=20
+> Currently only MIPS I to MIPS Release 5 arithmatic functions are =
+converted.
+> Old decoding functions are perserved in codebase for now due to =
+dependencies
+> from microMIPS/nanoMIPS translation code. Will remove them after =
+dealing with
+> release 6.
+>=20
+> Both instruction encoding and test cases are generated form MIPS's =
+internal
+> architecture validation tools so they are gureented to be correct.
 
-I would also like some input from Edgar since I know Xilinx
-have some more extensive out-of-tree uses of requester_id.
-We aren't obligated to not break out-of-tree code, but that
-seems like a bunch of experience and knowledge about how
-real hardware works that would be useful for informing
-how we design this.
+A kindly ping :-)
 
-thanks
--- PMM
+Will send v1 tomorrow if no objection.
+
+Thanks
+- Jiaxun
+
+>=20
+> Thanks.
+>=20
+> - Jiaxun
+>=20
+> Jiaxun Yang (3):
+>  target/mips: Introduce register access helper functions
+>  target/mips: Convert legacy arithmatic instructions to decodetree
+>  tests/tcg/mips: Add mips32 arithmatic instruction test cases
+>=20
+> target/mips/tcg/insn_trans/trans_arith.c.inc  | 352 ++++++++++++++++++
+> target/mips/tcg/legacy.decode                 |  62 +++
+> target/mips/tcg/meson.build                   |   1 +
+> target/mips/tcg/translate.c                   | 143 ++++++-
+> target/mips/tcg/translate.h                   |  54 +++
+> tests/tcg/mips/include/test_utils_32.h        |  75 ++++
+> .../tcg/mips/user/isa/mips32/arithmatic/add.c |  99 +++++
+> .../mips/user/isa/mips32/arithmatic/addi.c    |  70 ++++
+> .../mips/user/isa/mips32/arithmatic/addiu.c   |  90 +++++
+> .../mips/user/isa/mips32/arithmatic/addu.c    | 125 +++++++
+> .../tcg/mips/user/isa/mips32/arithmatic/div.c |  81 ++++
+> .../mips/user/isa/mips32/arithmatic/divu.c    |  78 ++++
+> .../mips/user/isa/mips32/arithmatic/madd.c    |  79 ++++
+> .../mips/user/isa/mips32/arithmatic/maddu.c   |  78 ++++
+> .../mips/user/isa/mips32/arithmatic/msub.c    |  78 ++++
+> .../mips/user/isa/mips32/arithmatic/msubu.c   |  78 ++++
+> .../tcg/mips/user/isa/mips32/arithmatic/mul.c |  78 ++++
+> .../mips/user/isa/mips32/arithmatic/mult.c    |  78 ++++
+> .../mips/user/isa/mips32/arithmatic/multu.c   |  78 ++++
+> .../tcg/mips/user/isa/mips32/arithmatic/slt.c |  61 +++
+> .../mips/user/isa/mips32/arithmatic/slti.c    |  48 +++
+> .../mips/user/isa/mips32/arithmatic/sltiu.c   |  48 +++
+> .../mips/user/isa/mips32/arithmatic/sltu.c    |  61 +++
+> .../tcg/mips/user/isa/mips32/arithmatic/sub.c | 104 ++++++
+> .../mips/user/isa/mips32/arithmatic/subu.c    | 108 ++++++
+> 25 files changed, 2206 insertions(+), 1 deletion(-)
+> create mode 100644 target/mips/tcg/insn_trans/trans_arith.c.inc
+> create mode 100644 target/mips/tcg/legacy.decode
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/add.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addi.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addiu.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addu.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/div.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/divu.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/madd.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/maddu.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/msub.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/msubu.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/mul.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/mult.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/multu.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/slt.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/slti.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sltiu.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sltu.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sub.c
+> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/subu.c
+>=20
+> --=20
+> 2.34.1
+>=20
+
+---
+Jiaxun Yang
+
 
