@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C884F5EA661
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 14:43:07 +0200 (CEST)
-Received: from localhost ([::1]:55808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3255EA617
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 14:29:19 +0200 (CEST)
+Received: from localhost ([::1]:55540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocnRy-0004qq-Km
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 08:43:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43384)
+	id 1ocnEc-0002bJ-PV
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 08:29:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocn84-0003cp-Uy
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 08:22:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36570)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ocn9x-0005L5-9k; Mon, 26 Sep 2022 08:24:29 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:58970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocn83-0001oa-CB
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 08:22:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664194950;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5TkmCeT63K365L8D+LWfrxM8X3N4jRSTFiaCtgj7nUU=;
- b=DK9ILwvrCbnbJfsu+xH35DCvhSz46LzSpvyPABwVx5bRtMzJL9XgTYQHrnJwxHxv9Zo2fS
- IDZQBFMAw9oIXHLMwFFf0Po9R4DtSvGtHn0ZbxIh3gqGCfWZBAfePs4afx4jdCiOXxIfNG
- Hchi1sRgFlWsPHqoY09xjdy+ziCYKGs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-135-CNdk6OO7PQyJHYiDgBOLmA-1; Mon, 26 Sep 2022 08:22:29 -0400
-X-MC-Unique: CNdk6OO7PQyJHYiDgBOLmA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5-20020a05600c028500b003b4d2247d3eso6176865wmk.0
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 05:22:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=5TkmCeT63K365L8D+LWfrxM8X3N4jRSTFiaCtgj7nUU=;
- b=3xzrBI2oOeAV36u8g967hQUxcRfrT3bCtjhZu27R6nssorMneVjqnUuu+7kLh+DmRb
- e9wVkOrvuGRGPTeVLpVzoZxcJDgeGXL2tGGuK1yHDo7M3zTkNC3cpW5QPLkNNFxRblF3
- N7hP0QVc0DkeH+rRFVnkJX4QBSfgbLUfHRyDUnK6xbDIGgfGWyjDoPBylkchtSxAOo5T
- D0GcOFpYPafm92SnE7lyj7JEbjbyrwnImoNR8c8s40JgWVjruW8utCC4NBNTeiZVOZki
- zo9NsJHhag9GuXYlkKbwseHgITkR6uYB0iGZankIEm1kZIZPABHt9Bmj69JL/DEfOXpz
- qTug==
-X-Gm-Message-State: ACrzQf3VdS6AoFgwWb3gbCffYcq6FZiUge+PFAJ1leBwFwKkUnkrxIga
- o+SAiWJ2MA+IMW4QBUKmrq7orkcEFN+sXpWH/a1cV067TZJjaSqqcfUmRssr90HveaToiM8CXkR
- Q9PZnaYgIjHxiZZM=
-X-Received: by 2002:a05:600c:474c:b0:3b4:cbca:5677 with SMTP id
- w12-20020a05600c474c00b003b4cbca5677mr14477179wmo.76.1664194948302; 
- Mon, 26 Sep 2022 05:22:28 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7bjJZQlh2sW5zthWER2YvvXnQaOiZn1Gyt86XUarDeRXuCELQFhx9IAw6FOIhcj3KbxLwDxw==
-X-Received: by 2002:a05:600c:474c:b0:3b4:cbca:5677 with SMTP id
- w12-20020a05600c474c00b003b4cbca5677mr14477169wmo.76.1664194948074; 
- Mon, 26 Sep 2022 05:22:28 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-177-251.web.vodafone.de.
- [109.43.177.251]) by smtp.gmail.com with ESMTPSA id
- v3-20020adfebc3000000b0022adf321d22sm14103353wrn.92.2022.09.26.05.22.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Sep 2022 05:22:27 -0700 (PDT)
-Message-ID: <0ab15e90-b5f1-75f1-4f64-bf3610efad20@redhat.com>
-Date: Mon, 26 Sep 2022 14:22:26 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ocn9u-000280-De; Mon, 26 Sep 2022 08:24:28 -0400
+Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ (myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id BFFE52E0443;
+ Mon, 26 Sep 2022 15:24:15 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b683::1:39] (unknown
+ [2a02:6b8:b081:b683::1:39])
+ by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ q6b0F6tSTp-OEOeIAjB; Mon, 26 Sep 2022 15:24:15 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1664195055; bh=D2MPj24NzR+ngVD6V+5lAaWshLgw0s6gn/xO71s1APM=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=kc8F6TnIcvOWA0wIfBU3pHdEsYgyRbiZfqveBm78DrSXflTQFdCaUgTL5LH6kf/qN
+ 9Q1sIeO8w2QhCTF7LjHQFC68Z5dokPYcXcJOi0KlDg6P79qSllMdaY+YnCDx7W/nSC
+ hZCSc5BKSTcL7rnkj6GjcMP2zztiiiQK+fBXj/8o=
+Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <7522ffac-6300-2e4d-f082-9a63982f5c0a@yandex-team.ru>
+Date: Mon, 26 Sep 2022 15:24:13 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 07/54] tests/qtest: boot-serial-test: Avoid using
- hardcoded /tmp
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v12 18/21] job.c: enable job lock/unlock and remove
+ Aiocontext locks
 Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
- <20220925113032.1949844-8-bmeng.cn@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220925113032.1949844-8-bmeng.cn@gmail.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220926093214.506243-1-eesposit@redhat.com>
+ <20220926093214.506243-19-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220926093214.506243-19-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -50
+X-Spam_score: -5.1
 X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,22 +84,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/09/2022 13.29, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
+On 9/26/22 12:32, Emanuele Giuseppe Esposito wrote:
+> Change the job_{lock/unlock} and macros to use job_mutex.
 > 
-> This case was written to use hardcoded /tmp directory for temporary
-> files. Update to use g_file_open_tmp() for a portable implementation.
+> Now that they are not nop anymore, remove the aiocontext
+> to avoid deadlocks.
 > 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
+> Therefore:
+> - when possible, remove completely the aiocontext lock/unlock pair
+> - if it is used by some other function too, reduce the locking
+>    section as much as possible, leaving the job API outside.
+> - change AIO_WAIT_WHILE in AIO_WAIT_WHILE_UNLOCKED, since we
+>    are not using the aiocontext lock anymore
 > 
-> Changes in v3:
-> - Split to a separate patch
-> - Ensure g_autofree variable is initialized
+> The only functions that still need the aiocontext lock are:
+> - the JobDriver callbacks, already documented in job.h
+> - job_cancel_sync() in replication.c is called with aio_context_lock
+>    taken, but now job is using AIO_WAIT_WHILE_UNLOCKED so we need to
+>    release the lock.
 > 
->   tests/qtest/boot-serial-test.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+> Reduce the locking section to only cover the callback invocation
+> and document the functions that take the AioContext lock,
+> to avoid taking it twice.
+> 
+> Also remove real_job_{lock/unlock}, as they are replaced by the
+> public functions.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
+I'm still not sure about aio_poll() call inside dropped aio-context acquire/release pair in run_block_job(), so that's up to other maintainers. Anyway I don't expect some real locking/racing problems in qemu-img.
+
+-- 
+Best regards,
+Vladimir
 
