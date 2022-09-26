@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 785E95EAAD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 17:25:36 +0200 (CEST)
-Received: from localhost ([::1]:57850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87CD5EAB7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 17:45:35 +0200 (CEST)
+Received: from localhost ([::1]:42724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocpzC-0007Lz-NB
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 11:25:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34320)
+	id 1ocqIW-0002Mu-RU
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 11:45:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org>)
- id 1ocpuD-0001jm-Ne; Mon, 26 Sep 2022 11:20:25 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:44378)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org>)
- id 1ocpu4-0004CU-9K; Mon, 26 Sep 2022 11:20:18 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E529360E84;
- Mon, 26 Sep 2022 15:20:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB816C433D7;
- Mon, 26 Sep 2022 15:20:11 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="NlpnAiPN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664205609;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dh8DSIdIOgSmP7moI8yhN+L1d6Frg38PahXDEEb87Ao=;
- b=NlpnAiPNmXT+o6V9KwL8F5PzhNXliqexV3XyAcinxYGSEGB00Sl8GYq6SqZpwGQQLhOwOD
- Jf2bg+jRVVBXmGyhQxLfToLxrnOZVIpZWXulwSKhYC7E1bgcLAoNf+853KgmvC2TnJE5vw
- BCIE47Bku8x/pGX4oujzbz3WDq0m3p4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 7b61e4de
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Mon, 26 Sep 2022 15:20:09 +0000 (UTC)
-Received: by mail-vs1-f42.google.com with SMTP id q26so6890791vsr.7;
- Mon, 26 Sep 2022 08:20:09 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2L1u7mw2QK0ONmvUU+K979E4+yBvHSdnJY0ngFxo1aa3+mm+qR
- jSTKkIdmeeSYCaAnyOlmuXJY5gr6llXtpfieiVA=
-X-Google-Smtp-Source: AMsMyM7I4mih1yjOwKIvvC3SpBgjnNwquNXkgfjn+t2WTl+pjI0jfYfRpyHaogEyJXSv1Ma8OA+Lnm2zX0ltjGULOQ8=
-X-Received: by 2002:a67:c289:0:b0:398:cdc:c3ef with SMTP id
- k9-20020a67c289000000b003980cdcc3efmr9182373vsj.76.1664205608060; Mon, 26 Sep
- 2022 08:20:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ocq1R-0002EK-Br
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:27:54 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36359)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ocq1P-0005Da-Mb
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:27:52 -0400
+Received: by mail-wr1-x430.google.com with SMTP id y5so10801553wrh.3
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 08:27:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=1SdpDugj/Pzf4rd9A2zZ0DQAEx+nCDh6IBBF1crszag=;
+ b=mkqxQiwQQff6OWx5vNPYXJU9RXiL4jRByJH9hs6pCdCQyY20asSl7XR3TJYqB2IAdF
+ f5RAIszBAqMXYCsPQotHSB9l8cUVYDP6bt2jM8B0m+WF8OacE/lW5xb0+H/lmpfepIyU
+ qHKdbXyekHdb3Bjm9xuqGS9qIwxZdHb7Vw8H9lZC79wvys6rGkf90puMbTl+16tZnbUg
+ 8PZlo0N1u5c8edmpmqicDsBSEL0oQlm6F/wk4xu+UwTM/Vxxx+xIlaTlXpDcWj9Wo1k0
+ 9/0C4YNURXsD0w81T1XPnhkP+TcClhbrVGtvXhmnOfw4W59gh3557GmP0gJBT9LRPLBV
+ 67Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=1SdpDugj/Pzf4rd9A2zZ0DQAEx+nCDh6IBBF1crszag=;
+ b=vuyZbS/OA7WNx7V5LrsBN0IpTUTG5az/CXFfNOnVQJkuq26hl43gcXGj1sc/AgDKFG
+ tYwbSf2cHXPYKe8W54a/wL511QSnm+OoFZiAzfRNAJ5x+c1d2B5eXAij6OB+VEyIsqlR
+ aryp74hniIaDFt+HVEVyOoiS+ArpttfTa9hfiThPSb7cg5i3qwgI7YNPEMxtNReDEA1M
+ qQ8RhiX4K0JYxg3AHq/GnS113GjhLqSB9qm9pexGePStuoFp6pOT6nOYUS8cJXb85sUb
+ Mofqd1q0DPD3XSY+W/D5ohhuwyBaUgwstrW3ZoFe0GDLnuKfvSghbpzol125TZvdpuuv
+ GMhQ==
+X-Gm-Message-State: ACrzQf3kSMM5VIOluW0g9vWxeycBQ/cYUisYBdKFM6Ntn5ybTxXMXxoE
+ N8rHRiee4DYnBpDabrIol9K0XJtxzBt6gQ==
+X-Google-Smtp-Source: AMsMyM7ZoGC2AXc97KAQzSmKichhbeBQro+SxQ1a+RnwPVajQy8bameltBBgJ4AUNVXAbO0z+9gDtg==
+X-Received: by 2002:a5d:4a48:0:b0:22a:e55d:535d with SMTP id
+ v8-20020a5d4a48000000b0022ae55d535dmr13774074wrs.308.1664206069694; 
+ Mon, 26 Sep 2022 08:27:49 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ e6-20020adff346000000b0022a53fe201fsm6782423wrp.68.2022.09.26.08.27.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Sep 2022 08:27:49 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 95BD91FFB7;
+ Mon, 26 Sep 2022 16:27:48 +0100 (BST)
+References: <20220825222745.38779-1-pbonzini@redhat.com>
+ <20220825222745.38779-3-pbonzini@redhat.com>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 02/20] pc-bios/optionrom: detect CC options just once
+Date: Mon, 26 Sep 2022 16:27:44 +0100
+In-reply-to: <20220825222745.38779-3-pbonzini@redhat.com>
+Message-ID: <878rm640ln.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220921100729.2942008-1-Jason@zx2c4.com>
- <20220921100729.2942008-2-Jason@zx2c4.com>
- <1ab81fe3-07d6-28f6-0f34-61eda592e1d8@redhat.com>
-In-Reply-To: <1ab81fe3-07d6-28f6-0f34-61eda592e1d8@redhat.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Mon, 26 Sep 2022 17:19:56 +0200
-X-Gmail-Original-Message-ID: <CAHmME9pDy+9pL=Qdxda8WqX3ZEGud7RDd=3z6gop1B0EJpBWOw@mail.gmail.com>
-Message-ID: <CAHmME9pDy+9pL=Qdxda8WqX3ZEGud7RDd=3z6gop1B0EJpBWOw@mail.gmail.com>
-Subject: Re: [PATCH v8 2/2] target/s390x: support PRNO_TRNG instruction
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, 
- David Hildenbrand <david@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, 
- Harald Freudenberger <freude@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,21 +94,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 26, 2022 at 5:11 PM Thomas Huth <thuth@redhat.com> wrote:
-> Seems like this is even working fine with older Linux kernels ...
 
-Oh good!
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-
- your patch accidentally broke test_s390x_devices in
-tests/avocado/machine_s390_ccw_virtio.py: This test adds two
-virtio-rng devices to the guest, then ejects them to see whether
-/dev/hwrng will be gone ... which does not happen anymore with the
-prno-trng feature enabled :-)
+> In preparation for adding Docker container support, detect compiler optio=
+ns
+> just once rather than once per Make run; container startup overhead is
+> substantial and doing the detection just once makes things faster.
 >
-> I'm going to squash this one-liner to fix this issue:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Seems reasonable. Thanks.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Jason
+--=20
+Alex Benn=C3=A9e
 
