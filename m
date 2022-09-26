@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638CE5E97D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 04:07:53 +0200 (CEST)
-Received: from localhost ([::1]:58896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B485E9825
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 05:06:19 +0200 (CEST)
+Received: from localhost ([::1]:50022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocdXD-0003g4-UE
-	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 22:07:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53516)
+	id 1oceRl-0005ep-Kw
+	for lists+qemu-devel@lfdr.de; Sun, 25 Sep 2022 23:06:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
- id 1ocdUq-0002Cz-2a
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 22:05:24 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:33295)
+ (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
+ id 1ocePi-00042c-PE
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 23:04:10 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:40802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
- id 1ocdUo-0002jW-GF
- for qemu-devel@nongnu.org; Sun, 25 Sep 2022 22:05:23 -0400
-Received: by mail-pl1-x632.google.com with SMTP id iw17so4966114plb.0
- for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 19:05:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
+ id 1ocePc-0001wo-OI
+ for qemu-devel@nongnu.org; Sun, 25 Sep 2022 23:04:07 -0400
+Received: by mail-pf1-x433.google.com with SMTP id b75so5350689pfb.7
+ for <qemu-devel@nongnu.org>; Sun, 25 Sep 2022 20:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=john-millikin.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=0pIJb30YTBijZODyDpWztW1XMx1m/O2fwgYsTQ3r7Kc=;
- b=TXzbn7OCuUN9jUgMsvTuY+6Ts/GCUIui59ZXOawZ4FDCn/sDO2DOW+hs4Rs8JlCsn7
- Ck83jRKr/V1eeSMGgPc+s0YL8K8hL19skAeb51/k9LOMQFZhfcQ1N8bab4+jwhU0EpA4
- Byyf5m9bzVMAYhq+euWxtAz3h/gyQeX5fG8Ay46PNh+C3gUKo9StVimmYq0BnEPrjD38
- q9UpPC6AVwkEMwRdHt/LFB7Hpj6/RN0c64W6JwyEmuPGiIhasIN/jffaRoNVsuESSCIg
- Mkcyd6yGvgKdjvrkwlxeHPUnh06tftuLoNgaE0mFIiT1FDXCcAcHHsWCCjbA7lcHtF9a
- tWWQ==
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to:subject:cc
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date;
+ bh=yOzUTV+fDqQ5+LFmYZo90E5qrlh0/QJZlz+yc5r2lWY=;
+ b=sjHSA3Rh5Qej9vz0Xw1GSMZPID84cNS1PlxuiN7Sv6sRN4vd/bhqfhp2YqTN1OSiRt
+ Y+NOIQoVgkLXZb3is1uOboTgsWo7SNtNpDwXDp/mlp3InRa5h5Vy68BujchoDAdGqZf6
+ AcH+W/SKGv+N68wytioO0QdyFy+/yMADVQfbNDOWfEF3/vcMgz8LibMyEicP3EIPG5K3
+ DNfITzFcbdcA36OFqG9oNkEnER/c4FWHa0ljA+ZMDUHpDdqgXLmg5iMxe9R8oHiVdBiR
+ DYflE9lKl8d6LFrTmT7wvUEMME5NyGNVtnUnMt0K6XtzPAfyYA5RK3d8MAGaJnCTs+ut
+ 1aSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=0pIJb30YTBijZODyDpWztW1XMx1m/O2fwgYsTQ3r7Kc=;
- b=rsJ50WVhAbtaNhlWWtkNgREcxLnXj12ZeZGOvUvXuIdqtGT8tDFL4TdBmayDEzmRwD
- mcKeoofQP+Jcove78L2JiLuY7Cf9YFBfoRXIcfDvBYSHKZT1HAkSGac7jaypu8wKUgvI
- rlZz4vo8DBMVdJpZftLH7OcQ8hZAu8nrLbyoikX9IyCjkSIdvBl6QHHxb0MYpvbtzIDA
- Ti/mYSwQICVNfV4J+XEwKS2hDYdOcMJFhT2U1JpCoB7Ffje1eVVpFBqjYHjwqFbAuGxy
- 2t7eKwtX3ArgiD04v7n9olHTD5UJHGVflPZxUTI/15ViN9c4DwiaYy8iLbv2doZcsQXk
- u0og==
-X-Gm-Message-State: ACrzQf0R4dn/EwVliHISUyJ2RzngaZvGLzyv6l/IOnf08bmHjQLA1XFv
- 2mXTQ4vRWk9hprTEeb91GEFWqA==
-X-Google-Smtp-Source: AMsMyM5a7KRo8Y0ijuttBRUtXKCAcqe40YguJzQf1dwrEVhCsFmBK10r2e+EfcW1LtLvjjaj3W94NQ==
-X-Received: by 2002:a17:90a:6902:b0:202:a300:44b2 with SMTP id
- r2-20020a17090a690200b00202a30044b2mr33146695pjj.20.1664157920438; 
- Sun, 25 Sep 2022 19:05:20 -0700 (PDT)
-Received: from john-millikin.com (aq206251.dynamic.ppp.asahi-net.or.jp.
- [220.146.206.251]) by smtp.gmail.com with ESMTPSA id
- r26-20020a63441a000000b0042b5095b7b4sm9593648pga.5.2022.09.25.19.05.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 25 Sep 2022 19:05:19 -0700 (PDT)
-Date: Mon, 26 Sep 2022 11:05:15 +0900
-From: John Millikin <john@john-millikin.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Fam Zheng <fam@euphon.net>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v2] scsi-disk: support setting CD-ROM block size via
- device options
-Message-ID: <YzEI27nhVg741tJN@john-millikin.com>
-References: <20220804122950.1577012-1-john@john-millikin.com>
- <CABgObfbKXjXUhNffdcKNTKxHcVcJS2W_nAh=nQeMvb-FPQ7rQw@mail.gmail.com>
- <YxVtWkzEJP7WotRe@john-millikin.com>
- <CABgObfb=nS0MEG2WWA3mu=LqiqJKSFxr0A53fPkYKvT+k10cZg@mail.gmail.com>
- <Yx7lx8I6BQdLYWZM@john-millikin.com>
+ h=content-transfer-encoding:in-reply-to:from:references:to:subject:cc
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=yOzUTV+fDqQ5+LFmYZo90E5qrlh0/QJZlz+yc5r2lWY=;
+ b=Y3C6b/KFi9p+xC8/tnQ5HXUYZV80P2hX00CpIZph2UUHCcRAtaUmz2fn92XqUfDHCU
+ XEvCbsvuIJ4xKQSCIBMR4buL9B3KExU/Z/WEEuoGx74m0DwrJ4mzwnW9BRF8ThePAbKr
+ L/jifyUnV0HFBrEkI+9G61rLs5uAw7FYYQhpyl+wxySnXomDhL5Ez1SY7+YK7idlwsbd
+ Cgsg6Tv5QBy9Q7kEJ8V9nPgJEoTeq3nTeWbZKQsLd+mkfwFtvlx1mBmrRAxjyocjPDwC
+ tCUIjqw5Mvj2hWOz7bTaJnZ7H2IsqiSr+ROPOXwUqUJ+lv+cWfoyi72s/qtsvoaD7yz/
+ 7zPg==
+X-Gm-Message-State: ACrzQf1RaLQiweG68PGi8MY4YjytMAuVAXJEf2mIDKuL64Q5hZx53HZQ
+ y64D0i1+m3prhVGoNreB0L6Zo+9ibJVVsg==
+X-Google-Smtp-Source: AMsMyM4GFB6adRRjq3+wKjeogANtrHaUl8HjlRwdN2qOazqtHvuutaqlh2or/Mu4YHi4HmlgcdHT1g==
+X-Received: by 2002:a63:8bc3:0:b0:43c:a42d:e363 with SMTP id
+ j186-20020a638bc3000000b0043ca42de363mr4665465pge.301.1664161440899; 
+ Sun, 25 Sep 2022 20:04:00 -0700 (PDT)
+Received: from [10.254.92.165] ([139.177.225.253])
+ by smtp.gmail.com with ESMTPSA id
+ w62-20020a623041000000b0053e156e9475sm10730534pfw.182.2022.09.25.20.03.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 25 Sep 2022 20:04:00 -0700 (PDT)
+Message-ID: <8790edcf-c38d-5855-e8b9-ef4725c52fdf@bytedance.com>
+Date: Mon, 26 Sep 2022 11:03:54 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yx7lx8I6BQdLYWZM@john-millikin.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=john@john-millikin.com; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.0
+Cc: helei.sig11@bytedance.com, berrange@redhat.com, arei.gonglei@huawei.com,
+ mst@redhat.com, pizhenwei@bytedance.com
+Subject: PING: [PATCH 0/4] Add a new backend for cryptodev
+To: qemu-devel@nongnu.org
+References: <20220919035320.84467-1-helei.sig11@bytedance.com>
+From: Lei He <helei.sig11@bytedance.com>
+In-Reply-To: <20220919035320.84467-1-helei.sig11@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=helei.sig11@bytedance.com; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,38 +92,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gentle ping again.
+On 2022/9/19 11:53, Lei He wrote:
+> This patch adds a new backend called LKCF to cryptodev, LKCF stands
+> for Linux Kernel Cryptography Framework. If a cryptographic
+> accelerator that supports LKCF is installed on the the host (you can
+> see which algorithms are supported in host's LKCF by executing
+> 'cat /proc/crypto'), then RSA operations can be offloaded.
+> More background info can refer to: https://lwn.net/Articles/895399/,
+> 'keyctl[5]' in the picture.
+> 
+> This patch:
+> 1. Modified some interfaces of cryptodev and cryptodev-backend to
+> support asynchronous requests.
+> 2. Extended the DER encoder in crypto, so that we can export the
+> RSA private key into PKCS#8 format and upload it to host kernel.
+> 3. Added a new backend for cryptodev.
+> 
+> I tested the backend with a QAT card, the qps of RSA-2048-decryption
+> is about 25k/s, and the main-loop becomes the bottleneck. The qps
+> using OpenSSL directly is about 6k/s (with 6 vCPUs). We will support
+> IO-thread for cryptodev in another series later.
 
-I'd really like to get this ~6 line patch into mainline so I can pop it
-off my TODO list.
+PING, sorry if it made noise, can anyone help take a look at this patch,
+thanks.
 
-On Mon, Sep 12, 2022 at 04:54:52PM +0900, John Millikin wrote:
-> Gentle ping -- is there anything blocking this patch from going in?
-> 
-> It's been about a month now since I sent it, and it's not very big, so I
-> was hoping it would merge without much difficulty.
-> 
-> If it's breaking a test or something then I'd be happy to take a look
-> and send a new revision.
-> 
-> On Mon, Sep 05, 2022 at 09:43:20AM +0200, Paolo Bonzini wrote:
-> > Probably just my screw up, or it broke something when testing... let me
-> > check.
-> > 
-> > Paolo
-> > 
-> > Il lun 5 set 2022, 05:30 John Millikin <john@john-millikin.com> ha scritto:
-> > 
-> > > I notice this patch wasn't included in the [PULL] series last week, and
-> > > it isn't present in the `master` branch.
-> > >
-> > > Is there anything else I should be doing to get it merged in? Sorry if
-> > > this isn't a good question, I'm not used to QEMU's email-based change
-> > > management workflow.
-> > >
-> > > On Sat, Aug 20, 2022 at 09:42:25AM +0200, Paolo Bonzini wrote:
-> > > > No, I had not seen it indeed. Queued now, thanks.
-> > > >
-> > > > Paolo
-> > > >
+Best regards,
+Lei He
+--
+helei.sig11@bytedance.com
+
 
