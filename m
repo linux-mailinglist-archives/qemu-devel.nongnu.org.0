@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783545EA7AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 15:53:36 +0200 (CEST)
-Received: from localhost ([::1]:35994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE4C5EA7AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 15:53:18 +0200 (CEST)
+Received: from localhost ([::1]:58198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocoYA-0003yA-Dl
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 09:53:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
+	id 1ocoXt-0003Ej-Mg
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 09:53:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocoKK-00023d-OS
+ id 1ocoKJ-00022K-Cn
  for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:39:17 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:44581)
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocoKH-0005f6-5u
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:39:16 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- k3-20020a05600c1c8300b003b4fa1a85f8so3735682wms.3
+ id 1ocoKH-0005es-0Z
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:39:14 -0400
+Received: by mail-wr1-x432.google.com with SMTP id t7so10241126wrm.10
  for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:39:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=aG890OAM4la1STKlhUzUAHk//B/vPqbxIBEMPlxySJs=;
- b=Y9kyFXT2Uq22TnF+aX55a7s+xxPR+k8s0XRTkOgZVwXXHE4Jsqmf3VbGd/M6Cwpmdo
- imDE17hiMZhPscidbf8SbXi+yXzkklCT8eEGD4Y6nMEuNQZp89ZEdaRglpzj/m8Llv2Z
- VYHWuovZlFIog9fPK8RElB42zIYHvsywEUJluGItpm8qVcawDGSAoK1tG9jfRBT4m+Hl
- UvcgQMCIN3UzUBJB79yl7kLPIeqvUl3fXRQJWcMnIikckKHj0gZ44saiZMw1h5uURbVi
- mIb6Gqfgx+Ynyw34kyUPi7oKddZUilcfGAcxlJa4nUJHUau8UWrxhyR0gGGbIty55Beh
- UjSg==
+ bh=IRUW2pm7zwTwXKyvk91nrv12NDMnIiyMSqxZ62fe2xY=;
+ b=hbNZb0HiWW46FdJzuX55kN0jAW/OLv8ouYLybLOZ39gZzE3KyDakHvV+iZdv9V5HTZ
+ 2uJ8uf3tNLs1mKnHvFW/zkp9HZpKWJE0apKrrFYivkN1Jh3XH8zJ2GA3wxOeZgizwe0T
+ Y9uV8GmxVUuieo2ByTsA9cve7eGf0he/yTZ5OKGs81+ckS69ZrqKNViVydSvQfWDCZDH
+ zNgNy9gn009UfkyoziRnoiFY6FbvRfvm675kbKYQBSiq2K4on4ml0jRpwfCgNAvpi8i6
+ VrtWh3esXaeT0D6M4k9V6Sy0ewq331ipf8qZoMdpriRWrSXhyTDP1t+nXMyS/IRKmbau
+ jcYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=aG890OAM4la1STKlhUzUAHk//B/vPqbxIBEMPlxySJs=;
- b=5XYJ/680WBd/o+x6j/pQz8B/0i7MtJb8TdfPfAIASgwEh1Unpo4jbip6eO/pfiNYXR
- wPU3Otydsz0350t7Zc4dlnEKHBSkDEmYJg9ZyVDkDQBI4ro+wr2vk3DQ+h4tHWdlW4aY
- Xnf2bIEW7ex4/r/lSG8Y2l5gHk/KHco8xqx0xODAkhoIr0yPai4IWHsvHhcS8oGRCfMq
- yoM7tB7E8Rvryg+Szf+eFxC4ysQga0RKxraixUc+DSt39fwwELmhgy/DQGzrmqt5/oz1
- /ie0TfPqsyjy0ELEdF7jOO3mg9EpCEwLufBPxFrhOu66/mIa75AhCdF6D2lIhs5sMXK6
- 6NcA==
-X-Gm-Message-State: ACrzQf19JhZvMDcMFydlsekUK1vGQmoQ8BYda5OU7NTVhzii+KN0VrLp
- U+pQIsBgKQL3oLNFPke+t6AitQ==
-X-Google-Smtp-Source: AMsMyM6HMsb2So53PMM4q1+im3U82oKZ0K82Wcfrg/tCZbVIxWfZE/Q+GQ3t+qa78Op81t0ChmSPbw==
-X-Received: by 2002:a05:600c:a49:b0:3a6:673a:2a9b with SMTP id
- c9-20020a05600c0a4900b003a6673a2a9bmr21643143wmq.3.1664199550606; 
+ bh=IRUW2pm7zwTwXKyvk91nrv12NDMnIiyMSqxZ62fe2xY=;
+ b=eaMEOOTxWheHHsA4TLFhoLIEbsnbxGovjrfy/AR8CTfe9fsUGVUJd0luvPZg5BhpyQ
+ QYDICFO4bw/MZ0BXcyNhFyrkAz3hXIPTNsM5n8VcjnocpfzRmsHEaP7WhfhHFnFMAml7
+ CgZhpHzCc/2zaPkmSZXu9qLgpkz8dVi4SQGegG5hZmhrIZsEaxBuRnPiGFgVGjE7TBXD
+ 8RxJFp6ypT+uxtmcC92u4pQFK5yDebriSLknLHi8Gva9DmKLP0UqbSwoSNPXjCbzU/j4
+ 42xfo85MedYPJ8A8lHhTFtZvyl62oAsN9OaC1mcbPeYZt7dGlSizN1hfYPTz+vYqo5uz
+ N4BQ==
+X-Gm-Message-State: ACrzQf0cv6hoclgRqLyqWcIKzLXxAfbAIW68pm5UYKPJDOGbJMjo7x9O
+ cGTxhhNlSdAsJRgR3ZtKPaOUPg==
+X-Google-Smtp-Source: AMsMyM7RG+0gf6wFDkSbzwjh9308vWIvbs+8IzTQaBdLcDTq4gFKQZEQagAoGIKYVV4ITqnVMDBJTA==
+X-Received: by 2002:a5d:6987:0:b0:228:623e:2dc5 with SMTP id
+ g7-20020a5d6987000000b00228623e2dc5mr13924955wru.574.1664199550137; 
  Mon, 26 Sep 2022 06:39:10 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- p8-20020a05600c1d8800b003a342933727sm11844696wms.3.2022.09.26.06.39.06
+ fc17-20020a05600c525100b003b435c41103sm12046538wmb.0.2022.09.26.06.39.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 26 Sep 2022 06:39:08 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2E1041FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id 46AC61FFBE;
  Mon, 26 Sep 2022 14:39:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,17 +63,18 @@ Cc: f4bug@amsat.org, mads@ynddal.dk, qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH  v2 05/11] hw/intc/gic: use MxTxAttrs to divine accessing CPU
-Date: Mon, 26 Sep 2022 14:38:58 +0100
-Message-Id: <20220926133904.3297263-6-alex.bennee@linaro.org>
+Subject: [PATCH v2 06/11] hw/timer: convert mptimer access to attrs to derive
+ cpu index
+Date: Mon, 26 Sep 2022 14:38:59 +0100
+Message-Id: <20220926133904.3297263-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220926133904.3297263-1-alex.bennee@linaro.org>
 References: <20220926133904.3297263-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,145 +97,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that MxTxAttrs encodes a CPU we should use that to figure it out.
-This solves edge cases like accessing via gdbstub or qtest.
+This removes the hacks to deal with empty current_cpu.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/124
 
 ---
 v2
-  - update for new field
+  - update for new fields
   - bool asserts
 ---
- hw/intc/arm_gic.c | 39 ++++++++++++++++++++++-----------------
- 1 file changed, 22 insertions(+), 17 deletions(-)
+ hw/timer/arm_mptimer.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
-index 492b2421ab..d907df3884 100644
---- a/hw/intc/arm_gic.c
-+++ b/hw/intc/arm_gic.c
-@@ -56,17 +56,22 @@ static const uint8_t gic_id_gicv2[] = {
-     0x04, 0x00, 0x00, 0x00, 0x90, 0xb4, 0x2b, 0x00, 0x0d, 0xf0, 0x05, 0xb1
- };
+diff --git a/hw/timer/arm_mptimer.c b/hw/timer/arm_mptimer.c
+index cdfca3000b..813ba3b7e8 100644
+--- a/hw/timer/arm_mptimer.c
++++ b/hw/timer/arm_mptimer.c
+@@ -41,9 +41,10 @@
+  * which is used in both the ARM11MPCore and Cortex-A9MP.
+  */
  
--static inline int gic_get_current_cpu(GICState *s)
-+static inline int gic_get_current_cpu(GICState *s, MemTxAttrs attrs)
+-static inline int get_current_cpu(ARMMPTimerState *s)
++static inline int get_current_cpu(ARMMPTimerState *s, MemTxAttrs attrs)
  {
--    if (!qtest_enabled() && s->num_cpu > 1) {
--        return current_cpu->cpu_index;
--    }
--    return 0;
-+    /*
-+     * Something other than a CPU accessing the GIC would be a bug as
-+     * would a CPU index higher than the GICState expects to be
-+     * handling
-+     */
+-    int cpu_id = current_cpu ? current_cpu->cpu_index : 0;
++    int cpu_id = attrs.requester_id;
 +    g_assert(attrs.requester_type == MEMTXATTRS_CPU);
-+    g_assert(attrs.requester_id < s->num_cpu);
-+
-+    return attrs.requester_id;
+ 
+     if (cpu_id >= s->num_cpu) {
+         hw_error("arm_mptimer: num-cpu %d but this cpu is %d!\n",
+@@ -178,25 +179,27 @@ static void timerblock_write(void *opaque, hwaddr addr,
+ /* Wrapper functions to implement the "read timer/watchdog for
+  * the current CPU" memory regions.
+  */
+-static uint64_t arm_thistimer_read(void *opaque, hwaddr addr,
+-                                   unsigned size)
++static MemTxResult arm_thistimer_read(void *opaque, hwaddr addr, uint64_t *data,
++                                      unsigned size, MemTxAttrs attrs)
+ {
+     ARMMPTimerState *s = (ARMMPTimerState *)opaque;
+-    int id = get_current_cpu(s);
+-    return timerblock_read(&s->timerblock[id], addr, size);
++    int id = get_current_cpu(s, attrs);
++    *data = timerblock_read(&s->timerblock[id], addr, size);
++    return MEMTX_OK;
  }
  
--static inline int gic_get_current_vcpu(GICState *s)
-+static inline int gic_get_current_vcpu(GICState *s, MemTxAttrs attrs)
+-static void arm_thistimer_write(void *opaque, hwaddr addr,
+-                                uint64_t value, unsigned size)
++static MemTxResult arm_thistimer_write(void *opaque, hwaddr addr,
++                                uint64_t value, unsigned size, MemTxAttrs attrs)
  {
--    return gic_get_current_cpu(s) + GIC_NCPU;
-+    return gic_get_current_cpu(s, attrs) + GIC_NCPU;
+     ARMMPTimerState *s = (ARMMPTimerState *)opaque;
+-    int id = get_current_cpu(s);
++    int id = get_current_cpu(s, attrs);
+     timerblock_write(&s->timerblock[id], addr, value, size);
++    return MEMTX_OK;
  }
  
- /* Return true if this GIC config has interrupt groups, which is
-@@ -951,7 +956,7 @@ static uint32_t gic_dist_readb(void *opaque, hwaddr offset, MemTxAttrs attrs)
-     int cm;
-     int mask;
- 
--    cpu = gic_get_current_cpu(s);
-+    cpu = gic_get_current_cpu(s, attrs);
-     cm = 1 << cpu;
-     if (offset < 0x100) {
-         if (offset == 0) {      /* GICD_CTLR */
-@@ -1182,7 +1187,7 @@ static void gic_dist_writeb(void *opaque, hwaddr offset,
-     int i;
-     int cpu;
- 
--    cpu = gic_get_current_cpu(s);
-+    cpu = gic_get_current_cpu(s, attrs);
-     if (offset < 0x100) {
-         if (offset == 0) {
-             if (s->security_extn && !attrs.secure) {
-@@ -1476,7 +1481,7 @@ static void gic_dist_writel(void *opaque, hwaddr offset,
-         int mask;
-         int target_cpu;
- 
--        cpu = gic_get_current_cpu(s);
-+        cpu = gic_get_current_cpu(s, attrs);
-         irq = value & 0xf;
-         switch ((value >> 24) & 3) {
-         case 0:
-@@ -1780,7 +1785,7 @@ static MemTxResult gic_thiscpu_read(void *opaque, hwaddr addr, uint64_t *data,
-                                     unsigned size, MemTxAttrs attrs)
- {
-     GICState *s = (GICState *)opaque;
--    return gic_cpu_read(s, gic_get_current_cpu(s), addr, data, attrs);
-+    return gic_cpu_read(s, gic_get_current_cpu(s, attrs), addr, data, attrs);
- }
- 
- static MemTxResult gic_thiscpu_write(void *opaque, hwaddr addr,
-@@ -1788,7 +1793,7 @@ static MemTxResult gic_thiscpu_write(void *opaque, hwaddr addr,
-                                      MemTxAttrs attrs)
- {
-     GICState *s = (GICState *)opaque;
--    return gic_cpu_write(s, gic_get_current_cpu(s), addr, value, attrs);
-+    return gic_cpu_write(s, gic_get_current_cpu(s, attrs), addr, value, attrs);
- }
- 
- /* Wrappers to read/write the GIC CPU interface for a specific CPU.
-@@ -1818,7 +1823,7 @@ static MemTxResult gic_thisvcpu_read(void *opaque, hwaddr addr, uint64_t *data,
- {
-     GICState *s = (GICState *)opaque;
- 
--    return gic_cpu_read(s, gic_get_current_vcpu(s), addr, data, attrs);
-+    return gic_cpu_read(s, gic_get_current_vcpu(s, attrs), addr, data, attrs);
- }
- 
- static MemTxResult gic_thisvcpu_write(void *opaque, hwaddr addr,
-@@ -1827,7 +1832,7 @@ static MemTxResult gic_thisvcpu_write(void *opaque, hwaddr addr,
- {
-     GICState *s = (GICState *)opaque;
- 
--    return gic_cpu_write(s, gic_get_current_vcpu(s), addr, value, attrs);
-+    return gic_cpu_write(s, gic_get_current_vcpu(s, attrs), addr, value, attrs);
- }
- 
- static uint32_t gic_compute_eisr(GICState *s, int cpu, int lr_start)
-@@ -1860,7 +1865,7 @@ static uint32_t gic_compute_elrsr(GICState *s, int cpu, int lr_start)
- 
- static void gic_vmcr_write(GICState *s, uint32_t value, MemTxAttrs attrs)
- {
--    int vcpu = gic_get_current_vcpu(s);
-+    int vcpu = gic_get_current_vcpu(s, attrs);
-     uint32_t ctlr;
-     uint32_t abpr;
-     uint32_t bpr;
-@@ -1995,7 +2000,7 @@ static MemTxResult gic_thiscpu_hyp_read(void *opaque, hwaddr addr, uint64_t *dat
- {
-     GICState *s = (GICState *)opaque;
- 
--    return gic_hyp_read(s, gic_get_current_cpu(s), addr, data, attrs);
-+    return gic_hyp_read(s, gic_get_current_cpu(s, attrs), addr, data, attrs);
- }
- 
- static MemTxResult gic_thiscpu_hyp_write(void *opaque, hwaddr addr,
-@@ -2004,7 +2009,7 @@ static MemTxResult gic_thiscpu_hyp_write(void *opaque, hwaddr addr,
- {
-     GICState *s = (GICState *)opaque;
- 
--    return gic_hyp_write(s, gic_get_current_cpu(s), addr, value, attrs);
-+    return gic_hyp_write(s, gic_get_current_cpu(s, attrs), addr, value, attrs);
- }
- 
- static MemTxResult gic_do_hyp_read(void *opaque, hwaddr addr, uint64_t *data,
+ static const MemoryRegionOps arm_thistimer_ops = {
+-    .read = arm_thistimer_read,
+-    .write = arm_thistimer_write,
++    .read_with_attrs = arm_thistimer_read,
++    .write_with_attrs = arm_thistimer_write,
+     .valid = {
+         .min_access_size = 4,
+         .max_access_size = 4,
 -- 
 2.34.1
 
