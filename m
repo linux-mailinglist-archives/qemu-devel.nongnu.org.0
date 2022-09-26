@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469615EAFE3
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 20:29:10 +0200 (CEST)
-Received: from localhost ([::1]:45704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86E65EB0A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 21:00:25 +0200 (CEST)
+Received: from localhost ([::1]:57056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocsqr-0000iK-D3
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 14:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44362)
+	id 1octL6-0007tb-Bh
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 15:00:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ocs4f-0008D1-Kx
+ id 1ocs4j-0008DC-6k
  for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:39:30 -0400
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36]:35829)
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36]:33680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ocs4d-00027V-Vq
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:39:21 -0400
+ id 1ocs4h-00027p-Kp
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:39:24 -0400
 Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-130af056397so10189211fac.2
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 10:39:19 -0700 (PDT)
+ 586e51a60fabf-1274ec87ad5so10247841fac.0
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 10:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=PQwNaAWzRAki7GfolZmwjwDqddgZMgGlGNagZSKFwBQ=;
- b=E5L65JdL+i1LM1HvvXd46zY30Oot+WAfHOa4qgOXZbHalqovhhuBeyeAB7OnEH1Co9
- YruJ0g+X2HvJ3nEW7du7rihc/dUmTfxfehbxXG35zZiZnF036wkzyurnCA4FldgqRqJI
- dfraewAjyS2oMWMtcesOOjlc8cDamSqoWuxAtAvrtve1PFkqiVQYVsRHdG5heidT/VJ4
- Cd1L5peu9o5ANQkDXY6z92NWgVaZ3xFmlpnX3mrDwBBwm5WLWAjP7BiS95IS8bNUG0gj
- RR1sFMmqaww24H53BINW/PEdbdnQsZ44UBsmtlXw3n6ZRSbem9tZZdtgwUhiND0xBRT4
- J/Iw==
+ bh=yf6ffLPC8i9eGCLE6mj5B79jg8nmXu5Z8K8DzV7zV2I=;
+ b=O5puEa5Mcf2Kl8IpuaRjpKdHlUVhVu0YrsA627Eyd8mn1of7+qfJMlxPnAftcHbNli
+ e/uaqj9p9cDqPhHWtT0lX/91QjybFrOUb5mxnCcLU0muF3iYImEXhtnnpjCJq1NW1uZj
+ KaAm35e8KYY29VDpdANuC1ohvSyWecIwTLns6otn8R1HhfMhZZeFQzDKIqyje4y07rWY
+ jrd9bJudnZLi/eoWYxSektITIoZstbsVRGrgi5I433hsxRTMO/28XPZFYomvrN48reQV
+ Hhzk5hQklQ06TB5oBOUog1h13aMG5+knat8E9R6orOuffuuPVMAQeUzo9pv9kH+S/elb
+ SKYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=PQwNaAWzRAki7GfolZmwjwDqddgZMgGlGNagZSKFwBQ=;
- b=TDOYRa1sEPp9MFIENaNhp8nsmbZlLoOBHAKf9KXZ7lMlWKNSLxhDUbt8E/pKl7svNl
- 7WUmNTQYWbLI/U7HqhpoKdEGNvbWoPeuZIRyZvZDKQDCUPkHgq+igFEIQCYOLI6JhFi3
- sjElmxhKRT+4AD8dSORV3ekd6F+UtwGUVoybBnfGyTSAjrJ5uS73vdV2T1Uo/EBp4mQe
- QgxtzCY7ANGGn3VMCe8n1KN1FS2TihwgVNfqNAhuZ2N6sqrveygocniPlkGD6m0AlTQ2
- WVYh3UzjlzdrBPWG1s+W8pkpNtFqqKqDhrtsxl/hcpJfNlxaXhyndVDVGLrnUzoHBMFL
- UooA==
-X-Gm-Message-State: ACrzQf1Mof7gZe4wBqtqL1HZS3ldH76LI8cgDyWk0tAvPhnEuA9JDk1A
- Opo0erev8RlIzJerOAxuUG/3d4JCmI4=
-X-Google-Smtp-Source: AMsMyM7NhsRBSpQDTw1cJdsr3WizN9zcQlsEw0UOhqncaeTRqQ1lCj5kpLx1smJtaSBMPN0HEbqXAw==
-X-Received: by 2002:a05:6870:3392:b0:128:828:5ec4 with SMTP id
- w18-20020a056870339200b0012808285ec4mr19145243oae.99.1664213958317; 
- Mon, 26 Sep 2022 10:39:18 -0700 (PDT)
+ bh=yf6ffLPC8i9eGCLE6mj5B79jg8nmXu5Z8K8DzV7zV2I=;
+ b=GTr53IvC7pglP5LaoFLspONgYy2cVZaDqz9YvntbviRtu7cc/9joLsNBVnp6zHCcAI
+ jZ2BgCwr31B3uKyd1EQaZDPbsB+mxWpABrQMlfiHpU16z2XemMBV3HSRlnu63ODjx1Vm
+ ZfJWKhdB5sNL1bHww3bljDEbjp4EdRFjaj0DigTNCXV88L+9K39qh1z/FncV7uZNJFq+
+ Awu76fWaMEE85EeDYj46oj0OpkPltcfjDuuyPGwoNq+a9/3kqg2hyIw+BcUgLLVt+RDF
+ MqRmkCt4oy4koqnAYLOa8xonL3p0d8SEqJWYWITJJewAsgHysc/wRgujxsrZDwcvqned
+ J4/A==
+X-Gm-Message-State: ACrzQf2pYj89vsOXfjvB2V6ZDHaQLJHVbAjvr8iMRHKdyKkAmIeIU/bH
+ jW/HGg99UKfDl0U1lPyfs/FDIpXFHgo=
+X-Google-Smtp-Source: AMsMyM7TM0CbWAeIcLM2yle8TJx6AL3FiGOTzoK7xt8VhKSXlBjGh921/rZXH0gxc4DNP1i8F1SBSQ==
+X-Received: by 2002:a05:6870:2382:b0:12d:4848:fbcc with SMTP id
+ e2-20020a056870238200b0012d4848fbccmr12908415oap.111.1664213960449; 
+ Mon, 26 Sep 2022 10:39:20 -0700 (PDT)
 Received: from balboa.COMFAST (189-68-154-15.dsl.telesp.net.br.
  [189.68.154.15]) by smtp.gmail.com with ESMTPSA id
- m12-20020a0568301e6c00b0061c9ab1032dsm7947165otr.18.2022.09.26.10.39.16
+ m12-20020a0568301e6c00b0061c9ab1032dsm7947165otr.18.2022.09.26.10.39.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 10:39:17 -0700 (PDT)
+ Mon, 26 Sep 2022 10:39:20 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v8 08/16] hw/ppc: set machine->fdt in bamboo_load_device_tree()
-Date: Mon, 26 Sep 2022 14:38:47 -0300
-Message-Id: <20220926173855.1159396-9-danielhb413@gmail.com>
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH v8 09/16] hw/ppc: set machine->fdt in
+ sam460ex_load_device_tree()
+Date: Mon, 26 Sep 2022 14:38:48 -0300
+Message-Id: <20220926173855.1159396-10-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220926173855.1159396-1-danielhb413@gmail.com>
 References: <20220926173855.1159396-1-danielhb413@gmail.com>
@@ -94,94 +95,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will enable support for 'dumpdtb' QMP/HMP command for the bamboo
+This will enable support for 'dumpdtb' QMP/HMP command for the sam460ex
 machine.
 
 Setting machine->fdt requires a MachineState pointer to be used inside
-bamboo_load_device_tree(). Let's change the function to receive this
+sam460ex_load_device_tree(). Let's change the function to receive this
 pointer from the caller. 'ramsize' and 'kernel_cmdline' can be retrieved
 directly from the 'machine' pointer.
 
-Cc: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc440_bamboo.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ hw/ppc/sam460ex.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index ea945a1c99..9cc58fccf9 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -34,6 +34,8 @@
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index 850bb3b817..5d09d3c6ab 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -131,13 +131,12 @@ static int sam460ex_load_uboot(void)
+     return 0;
+ }
  
-+#include <libfdt.h>
-+
- #define BINARY_DEVICE_TREE_FILE "bamboo.dtb"
- 
- /* from u-boot */
-@@ -56,14 +58,13 @@ static const ram_addr_t ppc440ep_sdram_bank_sizes[] = {
- 
- static hwaddr entry;
- 
--static int bamboo_load_device_tree(hwaddr addr,
+-static int sam460ex_load_device_tree(hwaddr addr,
 -                                     uint32_t ramsize,
--                                     hwaddr initrd_base,
++static int sam460ex_load_device_tree(MachineState *machine,
++                                     hwaddr addr,
+                                      hwaddr initrd_base,
 -                                     hwaddr initrd_size,
 -                                     const char *kernel_cmdline)
-+static int bamboo_load_device_tree(MachineState *machine,
-+                                   hwaddr addr,
-+                                   hwaddr initrd_base,
-+                                   hwaddr initrd_size)
++                                     hwaddr initrd_size)
  {
-     int ret = -1;
 -    uint32_t mem_reg_property[] = { 0, 0, cpu_to_be32(ramsize) };
 +    uint32_t mem_reg_property[] = { 0, 0, cpu_to_be32(machine->ram_size) };
      char *filename;
      int fdt_size;
      void *fdt;
-@@ -98,7 +99,7 @@ static int bamboo_load_device_tree(hwaddr addr,
-         fprintf(stderr, "couldn't set /chosen/linux,initrd-end\n");
-     }
-     ret = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
--                                  kernel_cmdline);
-+                                  machine->kernel_cmdline);
-     if (ret < 0) {
-         fprintf(stderr, "couldn't set /chosen/bootargs\n");
-     }
-@@ -119,7 +120,10 @@ static int bamboo_load_device_tree(hwaddr addr,
-                           tb_freq);
+@@ -171,7 +170,8 @@ static int sam460ex_load_device_tree(hwaddr addr,
+     qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end",
+                           (initrd_base + initrd_size));
+ 
+-    qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", kernel_cmdline);
++    qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
++                            machine->kernel_cmdline);
+ 
+     /* Copy data from the host device tree into the guest. Since the guest can
+      * directly access the timebase without host involvement, we must expose
+@@ -208,7 +208,9 @@ static int sam460ex_load_device_tree(hwaddr addr,
+                               EBC_FREQ);
  
      rom_add_blob_fixed(BINARY_DEVICE_TREE_FILE, fdt, fdt_size, addr);
 -    g_free(fdt);
 +
-+    /* Set ms->fdt for 'dumpdtb' QMP/HMP command */
++    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
 +    machine->fdt = fdt;
-+
-     return 0;
+ 
+     return fdt_size;
  }
+@@ -496,9 +498,8 @@ static void sam460ex_init(MachineState *machine)
+     if (machine->kernel_filename) {
+         int dt_size;
  
-@@ -163,7 +167,6 @@ static void main_cpu_reset(void *opaque)
- static void bamboo_init(MachineState *machine)
- {
-     const char *kernel_filename = machine->kernel_filename;
--    const char *kernel_cmdline = machine->kernel_cmdline;
-     const char *initrd_filename = machine->initrd_filename;
-     unsigned int pci_irq_nrs[4] = { 28, 27, 26, 25 };
-     MemoryRegion *address_space_mem = get_system_memory();
-@@ -289,8 +292,8 @@ static void bamboo_init(MachineState *machine)
+-        dt_size = sam460ex_load_device_tree(FDT_ADDR, machine->ram_size,
+-                                    RAMDISK_ADDR, initrd_size,
+-                                    machine->kernel_cmdline);
++        dt_size = sam460ex_load_device_tree(machine, FDT_ADDR,
++                                            RAMDISK_ADDR, initrd_size);
  
-     /* If we're loading a kernel directly, we must load the device tree too. */
-     if (kernel_filename) {
--        if (bamboo_load_device_tree(FDT_ADDR, machine->ram_size, RAMDISK_ADDR,
--                                    initrd_size, kernel_cmdline) < 0) {
-+        if (bamboo_load_device_tree(machine, FDT_ADDR,
-+                                    RAMDISK_ADDR, initrd_size) < 0) {
-             error_report("couldn't load device tree");
-             exit(1);
-         }
+         boot_info->dt_base = FDT_ADDR;
+         boot_info->dt_size = dt_size;
 -- 
 2.37.3
 
