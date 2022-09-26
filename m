@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8274C5EB0C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 21:04:17 +0200 (CEST)
-Received: from localhost ([::1]:50420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44E45EAFFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 20:35:16 +0200 (CEST)
+Received: from localhost ([::1]:35684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1octOp-0002eY-AH
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 15:04:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40204)
+	id 1ocswl-0006bE-H2
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 14:35:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ocs4k-0008DD-8z
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:39:30 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:43886)
+ id 1ocs4n-0008Ec-BZ; Mon, 26 Sep 2022 13:39:31 -0400
+Received: from mail-oa1-x35.google.com ([2001:4860:4864:20::35]:38652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ocs4i-000282-9x
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:39:25 -0400
-Received: by mail-oi1-x232.google.com with SMTP id t62so9091599oie.10
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 10:39:23 -0700 (PDT)
+ id 1ocs4k-00028P-F0; Mon, 26 Sep 2022 13:39:29 -0400
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-1278624b7c4so10183344fac.5; 
+ Mon, 26 Sep 2022 10:39:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=w8c//muqcTEKcBCgpj24TLMklLW+HqPlgSGVutxb0Hk=;
- b=MvbVeqjratIsIgxocqq2IW3jUtw5bnHi6Q2W6l31wmFMqA38PPDbSLwIIzR3f9XogA
- wpJkcLcsLl71OGaF4/4lNmKWtMrGW0SDkuYONBmQUbFD0l/2t5R0oV3IZdcJWw8dPG0b
- 9ytk3nd1DJlwfmtm7Itb4aRKc90IchU+asvr9xtYkJLTbCYvd5miKKL8sAmTm1Dv2x/8
- vdagwyAYAHPxSZG+ElUihJjSjx88SW4dYtsn66GuhdYaR2jeUh+hsoCXMQzWjK6mJsdM
- tYsgtSSbRtaJUG8Di0C66rqaBsfHXkksbT6cySjyA9PDeIk/lg8Ks0AcALfX1+e6iIWH
- A98g==
+ bh=3W5wihXh5/uTB6ZcQHXv1GIO5L/PO6INFau93sPuEXE=;
+ b=pTwlwLQEU0gzILCJ3zoXp6fJyzqc42RVJUelbix8g/sAxDq7oRFZa+16xM5YHeNQE4
+ IGmmDcNmxXcpNqHOQVmvAzyukbmV82OI7HAe4bsKjMNTt+9kvpJVipcC2mFGd9qz4SGd
+ V0tfeE5oNyBSzzs4hnx/MU354CPdB7TAofuCb2IGJQFw0wDDvA2y9EYKYnjgo5KgDhkq
+ I0eVL1OgmifYgHvVkqF/MOczxHNtecWMB4pPs2/GXrcWYMM0tc1lIxkLdPBoBBPeHMMa
+ TfPMjFEdUgQUjAR76BhjEwa5mk/80IKDENthEwPXHn+fwXTDeF2m+NjBB+gll+Z61v/y
+ IbCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=w8c//muqcTEKcBCgpj24TLMklLW+HqPlgSGVutxb0Hk=;
- b=QOanAiOEtwQrw+zAiPXSDtzRF4X36YAR/1VZiEu8IRPrhmDHvLtj+5hpD50n96ipSL
- +FKpMdAZeTfAv3LW8eqJM8yGiKdFjkDjmeupp2m33viNXxRyBh84CAySuAEcz3ZH0H8k
- qz1Fdv87YIDGwZ9nUAwSH+H523nlvxKuE3xuMaVnYz5i0yqGdpu8bzmKpP4DnAg8Wp3/
- ew14upaXwz7zmSAwYy0w4QeEAQ2KazfsWPq5XH9lMQ78xFuYOJV+iMeG65RT8usT0Dgf
- mmyz0slaO78WpZZte2TVJYnyPZ/7l1pDueq18F29eIzpkzPih+5T64d9oBAPswQFaGdH
- DGUA==
-X-Gm-Message-State: ACrzQf3+rtdJQi7a8TOtuILtfKARUHwuf9y2cBQ2MO6LXhEJ/tXljIf8
- extcMgWz2IkGwjCsrbLLc8G/c5GT/ho=
-X-Google-Smtp-Source: AMsMyM55ADsJYevpmzn49jKt1GA47XSWmevtV4zXspmN8Ra2C4GBxgS59Dq4UQfCMaA6c/4kmlYWyA==
-X-Received: by 2002:a05:6808:17a6:b0:350:92a3:1547 with SMTP id
- bg38-20020a05680817a600b0035092a31547mr10915637oib.177.1664213962305; 
- Mon, 26 Sep 2022 10:39:22 -0700 (PDT)
+ bh=3W5wihXh5/uTB6ZcQHXv1GIO5L/PO6INFau93sPuEXE=;
+ b=BY1YdxnnimtX9XBH5nL/hs+T7HPEy9TLINX4kQcKJtkaMl1jqp1gm1vNIAulg/UCyD
+ hrNmWL4lz5ovz71WXw16JW6pJB+G8eyhLgS5hP5wadWZye30gYFCkcmkCHjKk4xlX4nv
+ 4B+lVPXbvCtLg0kDjZrnsbGr1/nzqx2yR9q+HyjNXi7BXYpdU6fQ5I+NN6XwA1awdtu1
+ zu715E55NBowYSbHVTCh5jin+wtCTwsocKCyTMj/othz38VeTM1r+au4iqxL6zRuHJFv
+ TdelMch1hsfZJvMhZkN4Fz+BxAW0Z54LbMaRvSArPQuR3SDT73C5bFzou3UOj+Udu5Hf
+ zUYA==
+X-Gm-Message-State: ACrzQf1nHBACGPVq35DtHxmpsk50N+WsdXHtvdxJdaC+dBq34yXxk28D
+ eBSc48b4srrfiHKFrCMdMPqI6qTnq70=
+X-Google-Smtp-Source: AMsMyM7K6HtwWJMY36Jde7BOVbY1iNmUQs5bLTu9VenrA6HLO9TIG4A4QrxVdU5u5v/83LtvSKDoRQ==
+X-Received: by 2002:a05:6870:e2d1:b0:125:f220:750e with SMTP id
+ w17-20020a056870e2d100b00125f220750emr12272203oad.74.1664213964537; 
+ Mon, 26 Sep 2022 10:39:24 -0700 (PDT)
 Received: from balboa.COMFAST (189-68-154-15.dsl.telesp.net.br.
  [189.68.154.15]) by smtp.gmail.com with ESMTPSA id
- m12-20020a0568301e6c00b0061c9ab1032dsm7947165otr.18.2022.09.26.10.39.20
+ m12-20020a0568301e6c00b0061c9ab1032dsm7947165otr.18.2022.09.26.10.39.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 10:39:21 -0700 (PDT)
+ Mon, 26 Sep 2022 10:39:24 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v8 10/16] hw/ppc: set machine->fdt in xilinx_load_device_tree()
-Date: Mon, 26 Sep 2022 14:38:49 -0300
-Message-Id: <20220926173855.1159396-11-danielhb413@gmail.com>
+Subject: [PATCH v8 11/16] hw/ppc: set machine->fdt in pegasos2_machine_reset()
+Date: Mon, 26 Sep 2022 14:38:50 -0300
+Message-Id: <20220926173855.1159396-12-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220926173855.1159396-1-danielhb413@gmail.com>
 References: <20220926173855.1159396-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::35;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x35.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -93,87 +92,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will enable support for 'dumpdtb' QMP/HMP command for the
-virtex_ml507 machine.
+We'll introduce a QMP/HMP command that requires machine->fdt to be set
+properly.
 
-Setting machine->fdt requires a MachineState pointer to be used inside
-xilinx_load_device_tree(). Let's change the function to receive this
-pointer from the caller. kernel_cmdline' can be retrieved directly from
-the 'machine' pointer. 'ramsize' wasn't being used so can be removed.
-
-Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+Cc: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-ppc@nongnu.org
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/virtex_ml507.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ hw/ppc/pegasos2.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-index 493ea0c19f..13cace229b 100644
---- a/hw/ppc/virtex_ml507.c
-+++ b/hw/ppc/virtex_ml507.c
-@@ -45,6 +45,8 @@
- #include "hw/qdev-properties.h"
- #include "ppc405.h"
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index 61f4263953..ecf682b148 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -331,6 +331,10 @@ static void pegasos2_machine_reset(MachineState *machine)
  
-+#include <libfdt.h>
-+
- #define EPAPR_MAGIC    (0x45504150)
- #define FLASH_SIZE     (16 * MiB)
- 
-@@ -144,11 +146,10 @@ static void main_cpu_reset(void *opaque)
- }
- 
- #define BINARY_DEVICE_TREE_FILE "virtex-ml507.dtb"
--static int xilinx_load_device_tree(hwaddr addr,
--                                      uint32_t ramsize,
--                                      hwaddr initrd_base,
--                                      hwaddr initrd_size,
--                                      const char *kernel_cmdline)
-+static int xilinx_load_device_tree(MachineState *machine,
-+                                   hwaddr addr,
-+                                   hwaddr initrd_base,
-+                                   hwaddr initrd_size)
- {
-     char *path;
-     int fdt_size;
-@@ -190,18 +191,21 @@ static int xilinx_load_device_tree(hwaddr addr,
-         error_report("couldn't set /chosen/linux,initrd-end");
-     }
- 
--    r = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", kernel_cmdline);
-+    r = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
-+                                machine->kernel_cmdline);
-     if (r < 0)
-         fprintf(stderr, "couldn't set /chosen/bootargs\n");
-     cpu_physical_memory_write(addr, fdt, fdt_size);
--    g_free(fdt);
+     vof_build_dt(fdt, pm->vof);
+     vof_client_open_store(fdt, pm->vof, "/chosen", "stdout", "/failsafe");
 +
 +    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
 +    machine->fdt = fdt;
 +
-     return fdt_size;
+     pm->cpu->vhyp = PPC_VIRTUAL_HYPERVISOR(machine);
  }
  
- static void virtex_init(MachineState *machine)
- {
-     const char *kernel_filename = machine->kernel_filename;
--    const char *kernel_cmdline = machine->kernel_cmdline;
-     hwaddr initrd_base = 0;
-     int initrd_size = 0;
-     MemoryRegion *address_space_mem = get_system_memory();
-@@ -294,9 +298,8 @@ static void virtex_init(MachineState *machine)
-         boot_info.fdt = high + (8192 * 2);
-         boot_info.fdt &= ~8191;
- 
--        xilinx_load_device_tree(boot_info.fdt, machine->ram_size,
--                                initrd_base, initrd_size,
--                                kernel_cmdline);
-+        xilinx_load_device_tree(machine, boot_info.fdt,
-+                                initrd_base, initrd_size);
-     }
-     env->load_info = &boot_info;
- }
 -- 
 2.37.3
 
