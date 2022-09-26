@@ -2,67 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2D25EA679
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 14:48:00 +0200 (CEST)
-Received: from localhost ([::1]:55574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746DC5EA69D
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 14:56:50 +0200 (CEST)
+Received: from localhost ([::1]:48366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocnWi-0001qq-0C
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 08:48:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45674)
+	id 1ocnfE-0005XG-Oi
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 08:56:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ocnTF-0007GI-Cn; Mon, 26 Sep 2022 08:44:25 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:57018)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocnbp-0003fN-9g
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 08:53:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1ocnTB-0005gA-I1; Mon, 26 Sep 2022 08:44:24 -0400
-Received: from sas1-7470331623bb.qloud-c.yandex.net
- (sas1-7470331623bb.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:bd1e:0:640:7470:3316])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 46A062E1BE2;
- Mon, 26 Sep 2022 15:44:10 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b683::1:39] (unknown
- [2a02:6b8:b081:b683::1:39])
- by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- mo9Sk3CNEX-i9PCvq2V; Mon, 26 Sep 2022 15:44:09 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1664196249; bh=wOzHnk9PRS17iTHuilZjLD+NmGpn255DrF/IJ+xxwyE=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=DjRpPbtaEoCHLGry4PA4KtbCOG8OREgw3tyDdhuxhi+8RLtQCt5AhSpwhANM5WDTB
- 6jG4R1UaZL7JuCdbANWnbMw50lYqxayl5z1/vBe0lxb7zZDZpt2xJQ72W5j1uYzKD1
- i04cpCvgMr9Cj+S7t+rFFh+MGbjCne4p/rZklX5Y=
-Authentication-Results: sas1-7470331623bb.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <50b3e1ee-8bba-ae28-ca0e-4cb489a65ad5@yandex-team.ru>
-Date: Mon, 26 Sep 2022 15:44:08 +0300
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocnbl-0007A0-9E
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 08:53:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664196792;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dZnzkSPkrJhMkyrPYaJDC4tJIosUyBPmaHd/A+YN8Ro=;
+ b=BPygqRJd6MmuKpJgrgecIzWd4YOBVhN1ULwrL+8U8qvBO4AWsTP6qz/yyy7A9aWdF9QmfU
+ MomvMfIl7MbiH06zpomHsDgpgxSC9uG3FQtmXVnFgjgyzCMMOYmKgv7hCDorXhwLcfKNaR
+ aqmzLeP6lC46KvmGqhy8tC6dikbqE9c=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-481-NBwHbGjGPcmjiyYIQ3vYJQ-1; Mon, 26 Sep 2022 08:53:10 -0400
+X-MC-Unique: NBwHbGjGPcmjiyYIQ3vYJQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ c21-20020adfa315000000b0022adc2a2edaso1141933wrb.0
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 05:53:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=dZnzkSPkrJhMkyrPYaJDC4tJIosUyBPmaHd/A+YN8Ro=;
+ b=NAmAY0ItutyPIGgd001IGGKdWn+vd7BNsHYKnUN5+DZXsog8x26gEcUb5qYLerOhn/
+ oHQqNxBkTDI4xNnFS9COqk3tcbajWPra+378tuM/yBquZd2xuAFAVnmNB20gjkiVLshi
+ 5qr9G8Ta+h0Pr2nBL5vn8r41atWfho3txm5ut9NErBwucUD7gtU7o7q8TRF9x7mpk8Vk
+ E/Q0s+zHnN6eIhq9LnqTG0NLTivSD4XU8xmeyftegqmHCxvC4GIJd38mZ9avHsh8ABpg
+ xQxsGimNBDeM7t/OE85oMcPwVL5Z7+1s27w40AtGhLI949MYDW8ayDjD5dfEgm/yzXII
+ pc9Q==
+X-Gm-Message-State: ACrzQf1XMBRXSrsbaKLuEPjyjNo4m8rvSZJK5Jb1Rs1ykQJgU3SMDOkb
+ VMadAzRz4EFVa9h+pxEflsAr3CKo9zT+Iv8JLpnMMOlMhoXB3spbMpGfeqc4LyXktWNuCJOHVpB
+ JLFEbe/PT8hUEyWg=
+X-Received: by 2002:a5d:584d:0:b0:22b:229:7582 with SMTP id
+ i13-20020a5d584d000000b0022b02297582mr13692763wrf.211.1664196789908; 
+ Mon, 26 Sep 2022 05:53:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6OQZe0Iibwn3qepP2lrKsEYROWRa0JJtctdj+1K8JGXD02l/2/KS+bqh9+e3+0Hw1xBDWGaQ==
+X-Received: by 2002:a5d:584d:0:b0:22b:229:7582 with SMTP id
+ i13-20020a5d584d000000b0022b02297582mr13692725wrf.211.1664196789608; 
+ Mon, 26 Sep 2022 05:53:09 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-251.web.vodafone.de.
+ [109.43.177.251]) by smtp.gmail.com with ESMTPSA id
+ l39-20020a05600c1d2700b003b50428cf66sm12102270wms.33.2022.09.26.05.53.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Sep 2022 05:53:09 -0700 (PDT)
+Message-ID: <597a2761-f718-4a2c-c012-a0d25bf3c7fb@redhat.com>
+Date: Mon, 26 Sep 2022 14:53:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] qemu-nbd: set timeout to qemu-nbd socket
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v8 1/8] linux-headers: update to 6.0-rc3
 Content-Language: en-US
-To: "Denis V. Lunev" <den@virtuozzo.com>, luzhipeng <luzhipeng@cestc.cn>,
- qemu-devel <qemu-devel@nongnu.org>
-Cc: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
-References: <20220925135308.481-1-luzhipeng@cestc.cn>
- <2718426c-dd89-5b50-29c4-63f0d6c9b25f@yandex-team.ru>
- <02a2279b-fcb2-c90d-7598-af029ea8261a@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <02a2279b-fcb2-c90d-7598-af029ea8261a@virtuozzo.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org,
+ richard.henderson@linaro.org, Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>
+Cc: alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com,
+ farman@linux.ibm.com, pmorel@linux.ibm.com, david@redhat.com,
+ pasic@linux.ibm.com, borntraeger@linux.ibm.com, mst@redhat.com,
+ pbonzini@redhat.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220902172737.170349-1-mjrosato@linux.ibm.com>
+ <20220902172737.170349-2-mjrosato@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220902172737.170349-2-mjrosato@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,59 +106,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/26/22 14:34, Denis V. Lunev wrote:
-> On 9/26/22 12:05, Vladimir Sementsov-Ogievskiy wrote:
->> [+ Den]
->>
->> On 9/25/22 16:53, luzhipeng wrote:
->>> From: lu zhipeng <luzhipeng@cestc.cn>
->>>
->>> Prevent the NBD socket stuck all the time, So
->>> set timeout.
->>>
->>> Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
->>> ---
->>>   nbd/client.c | 8 ++++++++
->>>   1 file changed, 8 insertions(+)
->>>
->>> diff --git a/nbd/client.c b/nbd/client.c
->>> index 30d5383cb1..89dde53a0f 100644
->>> --- a/nbd/client.c
->>> +++ b/nbd/client.c
->>> @@ -24,6 +24,8 @@
->>>   #include "nbd-internal.h"
->>>   #include "qemu/cutils.h"
->>>   +#define NBD_DEFAULT_TIMEOUT 30
->>> +
->>>   /* Definitions for opaque data types */
->>>     static QTAILQ_HEAD(, NBDExport) exports = QTAILQ_HEAD_INITIALIZER(exports);
->>> @@ -1301,6 +1303,12 @@ int nbd_init(int fd, QIOChannelSocket *sioc, NBDExportInfo *info,
->>>           }
->>>       }
->>>   +    if (ioctl(fd, NBD_SET_TIMEOUT, NBD_DEFAULT_TIMEOUT) < 0) {
->>> +        int serrno = errno;
->>> +        error_setg(errp, "Failed setting timeout");
->>> +        return -serrno;
->>> +    }
->>> +
->>>       trace_nbd_init_finish();
->>>         return 0;
->>
->>
->> Personally, I don't see a problem in enabling timeout by default.. But probably we need a new option instead?
->>
->>
-> I believe that this should be the same story as we have had with
-> KEEPALIVE. This should be set as an option and downstream
-> will change its default when necessary.
-> 
+On 02/09/2022 19.27, Matthew Rosato wrote:
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+...
+> diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+> index bf6e96011d..46de10a809 100644
+> --- a/linux-headers/asm-x86/kvm.h
+> +++ b/linux-headers/asm-x86/kvm.h
+> @@ -198,13 +198,13 @@ struct kvm_msrs {
+>   	__u32 nmsrs; /* number of msrs in entries */
+>   	__u32 pad;
+>   
+> -	struct kvm_msr_entry entries[0];
+> +	struct kvm_msr_entry entries[];
+>   };
 
-It's also interesting, how NBD_SET_TIMEOUT would interfere with keep-alive options set on the socket. Isn't existing keep-alive option already enough, do we need both timeouts?
+Yuck, this fails to compile with Clang:
 
-(and yes, if we need both ways for different cases, we definitely should keep a possibility for the user to enable only one timeout, so now I agree, that we need an option for this new feature)
+  https://gitlab.com/thuth/qemu/-/jobs/3084427423#L2206
 
+  ../target/i386/kvm/kvm.c:470:25: error: field 'info' with variable sized 
+type 'struct kvm_msrs' not at the end of a struct or class is a GNU 
+extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+         struct kvm_msrs info;
+                         ^
 
--- 
-Best regards,
-Vladimir
+Anybody any ideas how to fix this best? Simply disable the compiler warning 
+in QEMU?
+
+  Thomas
+
 
