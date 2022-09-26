@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63565EA523
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 13:58:59 +0200 (CEST)
-Received: from localhost ([::1]:47014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5825A5EA4D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 13:54:56 +0200 (CEST)
+Received: from localhost ([::1]:56382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocmlG-0004up-I4
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 07:58:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59854)
+	id 1ocmhL-0001Lb-0t
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 07:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org>)
- id 1ocmSL-0006Jj-4y
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1ocmSG-0006Jd-Sl
  for qemu-devel@nongnu.org; Mon, 26 Sep 2022 07:39:31 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:42332)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org>)
- id 1ocmSI-0003Ch-Hv
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 07:39:24 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6BE1BB80757;
- Mon, 26 Sep 2022 11:39:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABF6FC433D7;
- Mon, 26 Sep 2022 11:39:10 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="ocwElm7B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664192349;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/OaZBhlRIR9fYa/RVTcT+Hf8OTMyveUC57VEgu/MCqE=;
- b=ocwElm7B7cHETLZnQ5X+HgTtoeHMD4++KVVWDg1ouR2VJrCDxFlPD4Pn9Um2ZLnaKkMLEn
- e+yKSZB2OMCOe9Q1txasGQrxchFxfxL2zlpHxIxEhb5gz0o11vjOkVjaIG83/kFKv720GL
- JvcPXbkn1p5DQqweqD6suqXzEpfa0hc=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a3e50d8a
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Mon, 26 Sep 2022 11:39:09 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: linux-m68k@lists.linux-m68k.org,
-	qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH qemu v2 2/2] m68k: align bootinfo strings and data to 4 bytes
-Date: Mon, 26 Sep 2022 13:39:00 +0200
-Message-Id: <20220926113900.1256630-2-Jason@zx2c4.com>
-In-Reply-To: <20220926113900.1256630-1-Jason@zx2c4.com>
-References: <20220926113900.1256630-1-Jason@zx2c4.com>
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:39751)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1ocmSF-0003DN-AA
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 07:39:20 -0400
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-11e9a7135easo8822244fac.6
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 04:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=S2KB3y02tOP4q9BohGafizDNNtvW+ZyxBZVu85TjLlk=;
+ b=CAJy+Fyc6xMjWqGVTL2R0wV+eC/ajGV2IQo+cQxmEUnSQKHEPuNy2hQhwGSw04WkEv
+ e9Ffyx+fahqk+1QFjF01+qB2KN+oZNoCr1KCZfTAOQU0cEiu7NJmiixE+inSaLzDHSQt
+ FCYnbsmfW2MQLhZytKtj6i3oYuF2KUnU6YuIxm3lg9ToyjCeJG+Bvdy3d/zHwJSHgqfK
+ C7tVmO330UqCi6GMn5pTGE8j45RkBNfM9z7TNm7hPYXxG6Vkh/hjPdCDyU8owtQJIFby
+ Uv3Wh3zuLnoAAfeas1mvmUe01Se12RItu/oPhG549Lgmc+zmdkYbW6T8bR4ukQMSCb2P
+ 2vFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=S2KB3y02tOP4q9BohGafizDNNtvW+ZyxBZVu85TjLlk=;
+ b=fMI47+EDlgAjX8sGX7k2aoJP2T2zh5+lxJtEBs2kcDa0rxAcyZKni3+NVJNJTcG72A
+ F+GWgExsTm4xD/NaZe19tpxhDALdmST8GfOkjKCZdzsNL69Ao5ekwEeStcx5a3n023gA
+ SmudenbNcrSmyKP0fORQt0z/J/4hvvJjtaglzvdAsrek7KRHvrpEfHtCfOQLRzppE/Nl
+ iIqD1PUqF1y46t1j2gDLmuqYk3FbClWVV3r1nW2Adctmp1GCnKE8lKEx5X+2hI952zXU
+ GDuB9csByiGs1zILS94SME/EbFxaYivDprsHiNwtMrWivwI7bHxeH3HAJCOQb8kcDSXl
+ lcqg==
+X-Gm-Message-State: ACrzQf2yn+Bxt08itcL8YYiRnXufwPpve+WuhXnlicge+eG3fAAeeHd8
+ Feb+hrCYDgD08W7m9U2N027MH0oub3F0lqyUSbM=
+X-Google-Smtp-Source: AMsMyM4NhHZmOgDhCAVyDWfv/d33yCPVXaLMPiW3tmiSP7FImbQ0qeVZOKicUSrDUk+bwSAlMOYJYKvAz7J909kfguk=
+X-Received: by 2002:a05:6870:b39e:b0:10d:8d5d:a9b with SMTP id
+ w30-20020a056870b39e00b0010d8d5d0a9bmr17849957oap.144.1664192356990; Mon, 26
+ Sep 2022 04:39:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+References: <mvmczbzty5j.fsf@suse.de>
+ <c16ba95c-6a97-92cd-ee01-67f5fd0a65ff@linaro.org>
+In-Reply-To: <c16ba95c-6a97-92cd-ee01-67f5fd0a65ff@linaro.org>
+From: Li Zhang <zhlcindy@gmail.com>
+Date: Mon, 26 Sep 2022 13:39:05 +0200
+Message-ID: <CAD8of+obqqP2ifS98FDu0qNUR-1CL2bbJFfp50f9pEkLPzh5Vw@mail.gmail.com>
+Subject: Re: qemu-x86_64 runs out of memory
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Andreas Schwab <schwab@suse.de>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=zhlcindy@gmail.com; helo=mail-oa1-x32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,60 +84,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Various tools, such as kexec-tools and m68k-bootinfo, expect each
-bootinfo entry to be aligned to 4 bytes, not 2 bytes. So adjust the
-padding to fill this out as such.
+I did some investigation and when I mmap 2TB memory, the PageDesc is
+allocated with 12GB.
+The count of PageDesc is about  0x80000 and the size of PageDesc is 24Bytes.
+So memory costs about 12GB.  If the size of PageDesc data is reduced,
+the memory should be reduced significantly.
 
-Also, break apart the padding additions from the other field length
-additions, so that it's more clear why these magic numbers are being
-added, and comment them too.
+If more and more memory is mapped, and the page table entrieds is very
+huge. So it still causes OOM if the host memory is not big enough.
 
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/m68k/bootinfo.h | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
-index bd8b212fd3..897162b818 100644
---- a/hw/m68k/bootinfo.h
-+++ b/hw/m68k/bootinfo.h
-@@ -48,13 +48,14 @@
-         stw_phys(as, base, id); \
-         base += 2; \
-         stw_phys(as, base, \
--                 (sizeof(struct bi_record) + strlen(string) + 2) & ~1); \
-+                 (sizeof(struct bi_record) + strlen(string) + \
-+                  1 /* null termination */ + 3 /* padding */) & ~3); \
-         base += 2; \
-         for (i = 0; string[i]; i++) { \
-             stb_phys(as, base++, string[i]); \
-         } \
-         stb_phys(as, base++, 0); \
--        base = (base + 1) & ~1; \
-+        base = (base + 3) & ~3; \
-     } while (0)
- 
- #define BOOTINFODATA(as, base, id, data, len) \
-@@ -63,13 +64,14 @@
-         stw_phys(as, base, id); \
-         base += 2; \
-         stw_phys(as, base, \
--                 (sizeof(struct bi_record) + len + 3) & ~1); \
-+                 (sizeof(struct bi_record) + len + \
-+                  2 /* length field */ + 3 /* padding */) & ~3); \
-         base += 2; \
-         stw_phys(as, base, len); \
-         base += 2; \
-         for (i = 0; i < len; ++i) { \
-             stb_phys(as, base++, data[i]); \
-         } \
--        base = (base + 1) & ~1; \
-+        base = (base + 3) & ~3; \
-     } while (0)
- #endif
+On Tue, Sep 13, 2022 at 12:59 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 9/13/22 10:35, Andreas Schwab wrote:
+> > $ cat mmap.c
+> > #include <stdio.h>
+> > #include <sys/mman.h>
+> >
+> > int
+> > main (void)
+> > {
+> >    void *A;
+> >    size_t L = 0, U, Max = 0;
+> >    for (U = 1; ; U *= 2)
+> >      {
+> >        A = mmap (0, U, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORESERVE, -1, 0);
+> >        if (A == (void *) -1)
+> >       break;
+> >        else
+> >       munmap (A, U);
+> >      }
+> >    while (L + 1 < U)
+> >      {
+> >        size_t M = L + (U - L) / 2;
+> >        A = mmap (0, M, PROT_NONE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_NORESERVE, -1, 0);
+> >        if (A == (void *) -1)
+> >       U = M;
+> >        else
+> >       {
+> >         Max = M;
+> >         munmap(A, M);
+> >         L = M;
+> >       }
+> >      }
+> >    printf ("%zx\n", Max);
+> > }
+> > $ cc -O2 -g -Wall -std=gnu11 -g     mmap.c   -o mmap
+> > $ ./mmap
+> > 7f672e5ff000
+> > $ qemu-x86_64 ./mmap
+> > Killed
+> >
+>
+> I suspect this is the same as
+>
+>    https://gitlab.com/qemu-project/qemu/-/issues/290
+>
+> Needs a reorg of memory region tracking for {linux,bsd}-user.
+>
+>
+> r~
+>
+
+
 -- 
-2.37.3
 
+Best Regards
+-Li
 
