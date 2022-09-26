@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ADCF5EA70A
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 15:24:13 +0200 (CEST)
-Received: from localhost ([::1]:52840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A70B5EA76E
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 15:37:46 +0200 (CEST)
+Received: from localhost ([::1]:44262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oco5k-0003uK-GM
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 09:24:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59790)
+	id 1ocoIr-0008Kj-3q
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 09:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oco0K-0006Z2-FR
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:18:37 -0400
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:45827)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oco0I-0002Sg-H3
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:18:36 -0400
-Received: by mail-lj1-x235.google.com with SMTP id c7so7370190ljm.12
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:18:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=rKCLYPN1VzqT/ukBe6ibPaK0oYYHEOYr010fTo+bWZk=;
- b=U4/VY/dWV8FMFGJPWFRjXBMY6enZhj09UMhqBcvCLo05R5WhwI6WiL9imfarNwz+5I
- 1EDvg8AHdGtTqxAyj+ieHQwlLPnrRenIDdjbTzvdKK1SyKkrQ8Y45rUWytgvGEmFMX8Y
- wFwa4Gf3F2rcl1rTtZ4gRidVQDnMEn+onaz61wyv6gp2+s8V0nZLLvtfNHxgF5/o0VRX
- Tma6NSrsa5Rak9yfgktR72gRxwzbfYregbtsv1WFEFWCUsjvHJwDQuQXAknq72eZu/bA
- 4E+qJtdFhgAc5biTEA9/I9n7PZpl/mbmD1++2k/xDTUcua+7kQtwEiWe8tGPUlZqiinD
- xMbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=rKCLYPN1VzqT/ukBe6ibPaK0oYYHEOYr010fTo+bWZk=;
- b=qIvAKCC/DaMaDr91BJ4a1OabfFFRGNOHC55ZPiw5d6u0k/ywPa5XyZw/PNy5f8evMF
- v0lqJ7x6hjVYr9UpWoDP3Wccupk6+IyrJjnn9jmq4y3e/zuJADObAgF3o9SnFby699th
- htR5CYsOmHQpAlkpGz9A11OV/6v3+fr0olu2Uh4DQL3PNEjLDHwJDhPuBx5eHonSP+1P
- XaODHuHw4yM3+kth7KuND8xE7fJQEjLT5I+FsjCiOeXgOp66eOpwq9QRnOnn/vCrlhZv
- tXNwBHdzoN8EGO8KTtd4CsxKuz2awJ+YLEHI2bWeOWEB18f1hlTr5LKKXSvNcI8hYARW
- zbEw==
-X-Gm-Message-State: ACrzQf281sdMkba59q3PCQn25n68rvk5E+xFXPeMmPQG++EaA3Fl5zjf
- h4zSe94H3M96jDOy68iVx1nuHxHaHpodlJGW7LE=
-X-Google-Smtp-Source: AMsMyM7pKbnjZDGdbZcat3THwhWvvKEOTAujNVQgjQJKcM/Kan6bx5XxiG5peTQLvaTQnnSRjJdbtbJTljVibeIrbmY=
-X-Received: by 2002:a2e:95cd:0:b0:26c:3bb0:289f with SMTP id
- y13-20020a2e95cd000000b0026c3bb0289fmr7550624ljh.449.1664198312812; Mon, 26
- Sep 2022 06:18:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oco0W-0006ek-8y
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:18:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oco0I-0002Sj-HB
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:18:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664198313;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=42+HAylpIWsTu2cmr7T4obTHHo515fXKf8D6MBJnZCE=;
+ b=MoREK60o8XevbG1cZBXC8EvKFT8g5kK7suMWgvfLxNDmxTuYg2foPNNIH0yr0OotcXDPVF
+ zBhespUEebOMPmKXXsKtUqfPZ30LdQPZOuNSLkyl0bfV8JUcgtezZkJ+1Rsiw3crZygveG
+ dWlhx8x7+ilLjNdjI9wZymIAKQy+v9w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-553-YgFRtt-oO8e-yRlJw3m4cA-1; Mon, 26 Sep 2022 09:18:30 -0400
+X-MC-Unique: YgFRtt-oO8e-yRlJw3m4cA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ABF78862FE1;
+ Mon, 26 Sep 2022 13:18:29 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.136])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 981CF1121314;
+ Mon, 26 Sep 2022 13:18:28 +0000 (UTC)
+Date: Mon, 26 Sep 2022 14:18:25 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru, armbru@redhat.com,
+ michael.roth@amd.com
+Subject: Re: [patch v0] qapi/qmp: Add timestamps to qmp command responses.
+Message-ID: <YzGmoWQPhR27VWX7@redhat.com>
+References: <20220926095940.283094-1-den-plotnikov@yandex-team.ru>
 MIME-Version: 1.0
-References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
- <20220925113032.1949844-16-bmeng.cn@gmail.com>
-In-Reply-To: <20220925113032.1949844-16-bmeng.cn@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 26 Sep 2022 17:18:21 +0400
-Message-ID: <CAJ+F1CKHvCZQFgUC=VRisfLPdif3r4h6BxpXQWq4GeZmAorsmA@mail.gmail.com>
-Subject: Re: [PATCH v3 15/54] tests/qtest: pflash-cfi02-test: Avoid using
- hardcoded /tmp
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000045648305e9945d69"
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x235.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220926095940.283094-1-den-plotnikov@yandex-team.ru>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ T_SPF_HELO_TEMPERROR=0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,192 +77,325 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000045648305e9945d69
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Sep 26, 2022 at 12:59:40PM +0300, Denis Plotnikov wrote:
+> Add "start" & "end" timestamps to qmp command responses.
+> It's disabled by default, but can be enabled with 'timestamp=on'
+> monitor's parameter, e.g.:
+>     -chardev  socket,id=mon1,path=/tmp/qmp.socket,server=on,wait=off
+>     -mon chardev=mon1,mode=control,timestamp=on
 
-On Sun, Sep 25, 2022 at 4:04 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+I'm not convinced a cmdline flag is the right approach here.
 
-> From: Bin Meng <bin.meng@windriver.com>
->
-> This case was written to use hardcoded /tmp directory for temporary
-> files. Update to use g_file_open_tmp() for a portable implementation.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->
+I think it ought be something defined by the QMP spec.
+
+The "QMP" greeting should report "timestamp" capabilities.
+
+The 'qmp_capabilities' command can be used to turn on this
+capability for all commands henceforth.
+
+As an option extra, the 'execute' command could gain a
+parameter to allow this to be requested for only an
+individual command.
 
 
+Alternatively we could say the overhead of adding the timestmaps
+is small enough that we just add this unconditionally for
+everything hence, with no opt-in/opt-out.
 
+> Example of result:
+> 
+>     ./qemu/scripts/qmp/qmp-shell /tmp/qmp.socket
+> 
+>     (QEMU) query-status
+>     {"end": {"seconds": 1650367305, "microseconds": 831032},
+>      "start": {"seconds": 1650367305, "microseconds": 831012},
+>      "return": {"status": "running", "singlestep": false, "running": true}}
+> 
+> The responce of the qmp command contains the start & end time of
+> the qmp command processing.
+> 
+> These times may be helpful for the management layer in understanding of
+> the actual timeline of a qmp command processing.
 
+Can you explain the problem scenario in more detail.
+
+The mgmt app already knows when it send the QMP command and knows
+when it gets the QMP reply.  This covers the time the QMP was
+queued before processing (might be large if QMP is blocked on
+another slow command) , the processing time, and the time any
+reply was queued before sending (ought to be small).
+
+So IIUC, the value these fields add is that they let the mgmt
+app extract only the command processing time, eliminating
+any variance do to queue before/after.
+
+> Suggested-by: Andrey Ryabinin <arbn@yandex-team.ru>
+> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
 > ---
->
-> Changes in v3:
-> - Split to a separate patch
->
->  tests/qtest/pflash-cfi02-test.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/tests/qtest/pflash-cfi02-test.c
-> b/tests/qtest/pflash-cfi02-test.c
-> index 7fce614b64..55890b7d95 100644
-> --- a/tests/qtest/pflash-cfi02-test.c
-> +++ b/tests/qtest/pflash-cfi02-test.c
-> @@ -56,7 +56,7 @@ typedef struct {
->      QTestState *qtest;
->  } FlashConfig;
->
-> -static char image_path[] =3D "/tmp/qtest.XXXXXX";
-> +static char *image_path;
->
->  /*
->   * The pflash implementation allows some parameters to be unspecified. W=
-e
-> want
-> @@ -608,6 +608,7 @@ static void test_cfi_in_autoselect(const void *opaque=
-)
->  static void cleanup(void *opaque)
->  {
->      unlink(image_path);
-> +    g_free(image_path);
+>  include/monitor/monitor.h   |  2 +-
+>  include/qapi/qmp/dispatch.h |  2 +-
+>  monitor/monitor-internal.h  |  1 +
+>  monitor/monitor.c           |  9 ++++++++-
+>  monitor/qmp.c               |  5 +++--
+>  qapi/control.json           |  3 +++
+>  qapi/qmp-dispatch.c         | 28 +++++++++++++++++++++++++++-
+>  qga/main.c                  |  2 +-
+>  stubs/monitor-core.c        |  2 +-
+>  tests/unit/test-qmp-cmds.c  |  6 +++---
+>  10 files changed, 49 insertions(+), 11 deletions(-)
+> 
+> diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+> index a4b40e8391db4..2a18e9ee34bc2 100644
+> --- a/include/monitor/monitor.h
+> +++ b/include/monitor/monitor.h
+> @@ -19,7 +19,7 @@ bool monitor_cur_is_qmp(void);
+>  
+>  void monitor_init_globals(void);
+>  void monitor_init_globals_core(void);
+> -void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp);
+> +void monitor_init_qmp(Chardev *chr, bool pretty, bool timestamp, Error **errp);
+>  void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp);
+>  int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp);
+>  int monitor_init_opts(QemuOpts *opts, Error **errp);
+> diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
+> index 1e4240fd0dbc0..d07f5764271be 100644
+> --- a/include/qapi/qmp/dispatch.h
+> +++ b/include/qapi/qmp/dispatch.h
+> @@ -56,7 +56,7 @@ const char *qmp_command_name(const QmpCommand *cmd);
+>  bool qmp_has_success_response(const QmpCommand *cmd);
+>  QDict *qmp_error_response(Error *err);
+>  QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+> -                    bool allow_oob, Monitor *cur_mon);
+> +                    bool allow_oob, bool timestamp, Monitor *cur_mon);
+>  bool qmp_is_oob(const QDict *dict);
+>  
+>  typedef void (*qmp_cmd_callback_fn)(const QmpCommand *cmd, void *opaque);
+> diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+> index caa2e90ef22a4..69425a7bc8152 100644
+> --- a/monitor/monitor-internal.h
+> +++ b/monitor/monitor-internal.h
+> @@ -136,6 +136,7 @@ typedef struct {
+>      Monitor common;
+>      JSONMessageParser parser;
+>      bool pretty;
+> +    bool timestamp;
+>      /*
+>       * When a client connects, we're in capabilities negotiation mode.
+>       * @commands is &qmp_cap_negotiation_commands then.  When command
+> diff --git a/monitor/monitor.c b/monitor/monitor.c
+> index 86949024f643a..85a0b6498dbc1 100644
+> --- a/monitor/monitor.c
+> +++ b/monitor/monitor.c
+> @@ -726,7 +726,7 @@ int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp)
+>  
+>      switch (opts->mode) {
+>      case MONITOR_MODE_CONTROL:
+> -        monitor_init_qmp(chr, opts->pretty, &local_err);
+> +        monitor_init_qmp(chr, opts->pretty, opts->timestamp, &local_err);
+>          break;
+>      case MONITOR_MODE_READLINE:
+>          if (!allow_hmp) {
+> @@ -737,6 +737,10 @@ int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp)
+>              error_setg(errp, "'pretty' is not compatible with HMP monitors");
+>              return -1;
+>          }
+> +        if (opts->timestamp) {
+> +            error_setg(errp, "'timestamp' is not compatible with HMP monitors");
+> +            return -1;
+> +        }
+>          monitor_init_hmp(chr, true, &local_err);
+>          break;
+>      default:
+> @@ -782,6 +786,9 @@ QemuOptsList qemu_mon_opts = {
+>          },{
+>              .name = "pretty",
+>              .type = QEMU_OPT_BOOL,
+> +        },{
+> +            .name = "timestamp",
+> +            .type = QEMU_OPT_BOOL,
+>          },
+>          { /* end of list */ }
+>      },
+> diff --git a/monitor/qmp.c b/monitor/qmp.c
+> index 092c527b6fc9c..fd487fee9f850 100644
+> --- a/monitor/qmp.c
+> +++ b/monitor/qmp.c
+> @@ -142,7 +142,7 @@ static void monitor_qmp_dispatch(MonitorQMP *mon, QObject *req)
+>      QDict *error;
+>  
+>      rsp = qmp_dispatch(mon->commands, req, qmp_oob_enabled(mon),
+> -                       &mon->common);
+> +                       mon->timestamp, &mon->common);
+>  
+>      if (mon->commands == &qmp_cap_negotiation_commands) {
+>          error = qdict_get_qdict(rsp, "error");
+> @@ -495,7 +495,7 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
+>      monitor_list_append(&mon->common);
 >  }
->
->  /*
-> @@ -635,16 +636,17 @@ static const FlashConfig configuration[] =3D {
->
->  int main(int argc, char **argv)
+>  
+> -void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+> +void monitor_init_qmp(Chardev *chr, bool pretty, bool timestamp, Error **errp)
 >  {
-> -    int fd =3D mkstemp(image_path);
-> +    int fd =3D g_file_open_tmp("qtest.XXXXXX", &image_path, NULL);
->      if (fd =3D=3D -1) {
->          g_printerr("Failed to create temporary file %s: %s\n", image_pat=
-h,
->                     strerror(errno));
->
-
-You need to update error reporting using GError error argument.
-
-> +        g_free(image_path);
->
-
-No, image_path is likely still uninitialized here.
-
-The easiest is probably to replace the whole block with a
-g_assert_no_error(err).
-
-         exit(EXIT_FAILURE);
+>      MonitorQMP *mon = g_new0(MonitorQMP, 1);
+>  
+> @@ -510,6 +510,7 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+>                        qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
+>  
+>      mon->pretty = pretty;
+> +    mon->timestamp = timestamp;
+>  
+>      qemu_mutex_init(&mon->qmp_queue_lock);
+>      mon->qmp_requests = g_queue_new();
+> diff --git a/qapi/control.json b/qapi/control.json
+> index afca2043af2fd..f4a4aef4be7f0 100644
+> --- a/qapi/control.json
+> +++ b/qapi/control.json
+> @@ -199,6 +199,8 @@
+>  #
+>  # @pretty: Enables pretty printing (QMP only)
+>  #
+> +# @timestamp: Enables qmp command start and end timestamps printing (QMP only)
+> +#
+>  # @chardev: Name of a character device to expose the monitor on
+>  #
+>  # Since: 5.0
+> @@ -208,5 +210,6 @@
+>        '*id': 'str',
+>        '*mode': 'MonitorMode',
+>        '*pretty': 'bool',
+> +      '*timestamp': 'bool',
+>        'chardev': 'str'
+>    } }
+> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+> index 0990873ec8ec1..79885db7417ac 100644
+> --- a/qapi/qmp-dispatch.c
+> +++ b/qapi/qmp-dispatch.c
+> @@ -110,6 +110,22 @@ bool qmp_is_oob(const QDict *dict)
+>          && !qdict_haskey(dict, "execute");
+>  }
+>  
+> +static void add_timestamps(QDict *qdict, uint64_t start_ms, uint64_t end_ms)
+> +{
+> +    QDict *start_dict, *end_dict;
+> +
+> +    start_dict = qdict_new();
+> +    qdict_put_int(start_dict, "seconds", start_ms / G_USEC_PER_SEC);
+> +    qdict_put_int(start_dict, "microseconds", start_ms % G_USEC_PER_SEC);
+> +
+> +    end_dict = qdict_new();
+> +    qdict_put_int(end_dict, "seconds", end_ms / G_USEC_PER_SEC);
+> +    qdict_put_int(end_dict, "microseconds", end_ms % G_USEC_PER_SEC);
+> +
+> +    qdict_put_obj(qdict, "start", QOBJECT(start_dict));
+> +    qdict_put_obj(qdict, "end", QOBJECT(end_dict));
+> +}
+> +
+>  typedef struct QmpDispatchBH {
+>      const QmpCommand *cmd;
+>      Monitor *cur_mon;
+> @@ -135,7 +151,7 @@ static void do_qmp_dispatch_bh(void *opaque)
+>   * context for everything else.
+>   */
+>  QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+> -                    bool allow_oob, Monitor *cur_mon)
+> +                    bool allow_oob, bool timestamp, Monitor *cur_mon)
+>  {
+>      Error *err = NULL;
+>      bool oob;
+> @@ -146,6 +162,11 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+>      QObject *id;
+>      QObject *ret = NULL;
+>      QDict *rsp = NULL;
+> +    uint64_t ts_start = -1;
+> +
+> +    if (timestamp) {
+> +        ts_start = g_get_real_time();
+> +    }
+>  
+>      dict = qobject_to(QDict, request);
+>      if (!dict) {
+> @@ -270,5 +291,10 @@ out:
+>          qdict_put_obj(rsp, "id", qobject_ref(id));
 >      }
->      if (ftruncate(fd, UNIFORM_FLASH_SIZE) < 0) {
->          int error_code =3D errno;
->          close(fd);
-> -        unlink(image_path);
-> +        cleanup(NULL);
->          g_printerr("Failed to truncate file %s to %u MB: %s\n",
-> image_path,
->                     UNIFORM_FLASH_SIZE, strerror(error_code));
->          exit(EXIT_FAILURE);
-> --
-> 2.34.1
->
->
->
+>  
+> +    if (timestamp) {
+> +        uint64_t ts_end = g_get_real_time();
+> +        add_timestamps(rsp, ts_start, ts_end);
+> +    }
+> +
+>      return rsp;
+>  }
+> diff --git a/qga/main.c b/qga/main.c
+> index 5a9d8252e0755..c6650e4d69ffd 100644
+> --- a/qga/main.c
+> +++ b/qga/main.c
+> @@ -573,7 +573,7 @@ static void process_event(void *opaque, QObject *obj, Error *err)
+>      }
+>  
+>      g_debug("processing command");
+> -    rsp = qmp_dispatch(&ga_commands, obj, false, NULL);
+> +    rsp = qmp_dispatch(&ga_commands, obj, false, false, NULL);
+>  
+>  end:
+>      ret = send_response(s, rsp);
+> diff --git a/stubs/monitor-core.c b/stubs/monitor-core.c
+> index afa477aae656a..dcd9643da7f4c 100644
+> --- a/stubs/monitor-core.c
+> +++ b/stubs/monitor-core.c
+> @@ -12,7 +12,7 @@ Monitor *monitor_set_cur(Coroutine *co, Monitor *mon)
+>      return NULL;
+>  }
+>  
+> -void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+> +void monitor_init_qmp(Chardev *chr, bool pretty, bool timestamp, Error **errp)
+>  {
+>  }
+>  
+> diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
+> index 6085c099950b5..778146ec96c18 100644
+> --- a/tests/unit/test-qmp-cmds.c
+> +++ b/tests/unit/test-qmp-cmds.c
+> @@ -150,7 +150,7 @@ static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
+>      req = qdict_from_vjsonf_nofail(template, ap);
+>      va_end(ap);
+>  
+> -    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, NULL);
+> +    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, false, NULL);
+>      g_assert(resp);
+>      ret = qdict_get(resp, "return");
+>      g_assert(ret);
+> @@ -173,7 +173,7 @@ static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
+>      req = qdict_from_vjsonf_nofail(template, ap);
+>      va_end(ap);
+>  
+> -    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, NULL);
+> +    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, false,  NULL);
+>      g_assert(resp);
+>      error = qdict_get_qdict(resp, "error");
+>      g_assert(error);
+> @@ -229,7 +229,7 @@ static void test_dispatch_cmd_success_response(void)
+>      QDict *resp;
+>  
+>      qdict_put_str(req, "execute", "cmd-success-response");
+> -    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), false, NULL);
+> +    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), false, false, NULL);
+>      g_assert_null(resp);
+>      qobject_unref(req);
+>  }
+> -- 
+> 2.25.1
+> 
+> 
 
---=20
-Marc-Andr=C3=A9 Lureau
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---00000000000045648305e9945d69
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Sep 25, 2022 at 4:04 PM Bin M=
-eng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin M=
-eng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.men=
-g@windriver.com</a>&gt;<br>
-<br>
-This case was written to use hardcoded /tmp directory for temporary<br>
-files. Update to use g_file_open_tmp() for a portable implementation.<br>
-<br>
-Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br></blockquote><div><br></div>=
-<div><br></div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
----<br>
-<br>
-Changes in v3:<br>
-- Split to a separate patch<br>
-<br>
-=C2=A0tests/qtest/pflash-cfi02-test.c | 8 +++++---<br>
-=C2=A01 file changed, 5 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/tests/qtest/pflash-cfi02-test.c b/tests/qtest/pflash-cfi02-tes=
-t.c<br>
-index 7fce614b64..55890b7d95 100644<br>
---- a/tests/qtest/pflash-cfi02-test.c<br>
-+++ b/tests/qtest/pflash-cfi02-test.c<br>
-@@ -56,7 +56,7 @@ typedef struct {<br>
-=C2=A0 =C2=A0 =C2=A0QTestState *qtest;<br>
-=C2=A0} FlashConfig;<br>
-<br>
--static char image_path[] =3D &quot;/tmp/qtest.XXXXXX&quot;;<br>
-+static char *image_path;<br>
-<br>
-=C2=A0/*<br>
-=C2=A0 * The pflash implementation allows some parameters to be unspecified=
-. We want<br>
-@@ -608,6 +608,7 @@ static void test_cfi_in_autoselect(const void *opaque)<=
-br>
-=C2=A0static void cleanup(void *opaque)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0unlink(image_path);<br>
-+=C2=A0 =C2=A0 g_free(image_path);<br>
-=C2=A0}<br>
-<br>
-=C2=A0/*<br>
-@@ -635,16 +636,17 @@ static const FlashConfig configuration[] =3D {<br>
-<br>
-=C2=A0int main(int argc, char **argv)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 int fd =3D mkstemp(image_path);<br>
-+=C2=A0 =C2=A0 int fd =3D g_file_open_tmp(&quot;qtest.XXXXXX&quot;, &amp;im=
-age_path, NULL);<br>
-=C2=A0 =C2=A0 =C2=A0if (fd =3D=3D -1) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_printerr(&quot;Failed to create tempora=
-ry file %s: %s\n&quot;, image_path,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 strer=
-ror(errno));<br></blockquote><div><br></div><div>You need to update error r=
-eporting using GError error argument. <br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(image_path);<br></blockquote><div><br><=
-/div><div>No, image_path is likely still uninitialized here.</div><div><br>=
-</div><div>The easiest is probably to replace the whole block with a g_asse=
-rt_no_error(err).<br></div><div><br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(EXIT_FAILURE);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0if (ftruncate(fd, UNIFORM_FLASH_SIZE) &lt; 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int error_code =3D errno;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0close(fd);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 unlink(image_path);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cleanup(NULL);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_printerr(&quot;Failed to truncate file =
-%s to %u MB: %s\n&quot;, image_path,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 UNIFO=
-RM_FLASH_SIZE, strerror(error_code));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(EXIT_FAILURE);<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000045648305e9945d69--
 
