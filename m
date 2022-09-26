@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279C65EA600
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 14:27:01 +0200 (CEST)
-Received: from localhost ([::1]:36898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3955EA627
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 14:31:49 +0200 (CEST)
+Received: from localhost ([::1]:54990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocnCN-0000Kc-Hy
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 08:26:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33512)
+	id 1ocnH2-0004rR-Ma
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 08:31:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1ocn13-0008Rm-Hb
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 08:15:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24789)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocn3j-0001XS-2o
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 08:18:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1ocn0z-0000kX-TX
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 08:15:16 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocn3h-000148-8M
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 08:18:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664194510;
+ s=mimecast20190719; t=1664194679;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZeSBnUdsayoeIP4a6y8ExXNhR8+XRAtSmmDICg50b54=;
- b=EOH5rF7ZRWdTOTQV11HS4A6ATfUbDlFB0K+QbsGhZ9CEmOESIiIs/q2GiNKhc8oEufr9i4
- 5e4pk2JZM6FqPexr+/a+3AaU5fQLMeRHjceD6X25JCsxs5VB3kDINmZptUYXB5O4/FSkly
- tg+/a+SZ8ladmAnqr2U9uQeEzEXjqSE=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kU/e/nfS65j/GIIe63Jhr9/yaN+WC38Xdvn360RfRbs=;
+ b=cfZ2fjqtZsd0pv+cCiYC9CUjV5mHZyavTDWYw3Q6IqIq4C44c58UqAG+JHgVB2NsJaKC/3
+ vd+6RJOKY+cIBWSwlzJx3zMp6wMSsG+5BmBZSfHl0zkDg+OGkvWJ78fVHLwz4Z/vU4sSUG
+ u9nC14zSnMfwoulFLttTlaF3pP+NgXE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-592-r0vkDnjTNauWemRPBJlFXw-1; Mon, 26 Sep 2022 08:15:09 -0400
-X-MC-Unique: r0vkDnjTNauWemRPBJlFXw-1
-Received: by mail-qt1-f199.google.com with SMTP id
- ew15-20020a05622a514f00b0035cb76e35e5so4571322qtb.7
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 05:15:09 -0700 (PDT)
+ us-mta-612-Xk9SrPpJOhW1kxPfcBK4jw-1; Mon, 26 Sep 2022 08:17:57 -0400
+X-MC-Unique: Xk9SrPpJOhW1kxPfcBK4jw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n7-20020a1c2707000000b003a638356355so4083454wmn.2
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 05:17:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=ZeSBnUdsayoeIP4a6y8ExXNhR8+XRAtSmmDICg50b54=;
- b=4BjTD8czI8wlFPYGYoQ84vtTWpadrUOO5usPkSilhk2pZP+jSFXVLMVyad8gh8qZwm
- PeKqCrtbzS7bcOJBqaaAbXKvkP2U1MuSs9smA1HwpygKC+KrtXLf88nrYqJPwwdntSTZ
- nqRuwz+y2YIO0t8X/BwvBumDn8A/y+JvPECCbi4lqu/HH9e+CtIDZnIANij6yAFh4E/b
- 7F6aty6ylgriEfsWGEumttUQP9Od0wvyQCHepxmVaFAeKNZMKo6rGxAa+DsueRZYrXHX
- pJfmYccM5YCSv3eymLiCKkkFMy89Z1GGMgI2SO5QJjN8KiMRrXrfcw9vaZaXPVMpwwHq
- mkyw==
-X-Gm-Message-State: ACrzQf2HDUbQc5qpq3VPfer/G9z6PUFSkq3tzl8C+VkZld5j+M042SpK
- wfAV6nzI2Uq/i3jj4IwsOsuXzVlFKjIH3ZDUySNqx8AR+nAz3IfFPveoQrnB0okR8QeLaIVfxXM
- P8dOjoHGojYv4ttY=
-X-Received: by 2002:ad4:5bc1:0:b0:4ad:34b2:d29c with SMTP id
- t1-20020ad45bc1000000b004ad34b2d29cmr16770381qvt.21.1664194509151; 
- Mon, 26 Sep 2022 05:15:09 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4GbiebAtCEHq3iCDR1TdV3cYgY5e9yBcGP/cJjxS1Ly9OvZAE5HDHtAMYXveWT5tF5rMDEAw==
-X-Received: by 2002:ad4:5bc1:0:b0:4ad:34b2:d29c with SMTP id
- t1-20020ad45bc1000000b004ad34b2d29cmr16770359qvt.21.1664194508914; 
- Mon, 26 Sep 2022 05:15:08 -0700 (PDT)
-Received: from [192.168.100.30] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- w12-20020a05620a444c00b006af1f0af045sm11791598qkp.107.2022.09.26.05.15.06
+ bh=kU/e/nfS65j/GIIe63Jhr9/yaN+WC38Xdvn360RfRbs=;
+ b=yciwRazPVLIXH1HjW9ryXT8BiSeNOb8MehtoGi2MhoEsaY/eq+nRY+zDHa/BP7kPaH
+ lXUUbnlZbgAzITw5XQJs1NE3KYvzs6Y+k+kApS/wexBlGWRtKlGgs2+au4Sq3KT07osx
+ fEQeJWgCzs04RhhXC9JQmGgQJz99i5hZg+mQ1SEL0CdrG6OZzzSqRzu38U0UhGyT1HAk
+ U1/jWWWESVUDzwUnOrNieu2FEeBnKKXOIPz2VNlTWzD8HlCUUPPfsJUOYtHb15kUSfRQ
+ yNZNDdY9wOtYOAWLEflhE3k+3HQhivkuvAAIpYBW5jYL/wNiFdnMfbJysuLlEFDUgqbZ
+ ZWgQ==
+X-Gm-Message-State: ACrzQf3QTzPEhiXB+KGT/PEzWtN5NUXeewwWWHtxR6cskf+WtEkZbcHd
+ eYseD1n8PpG9ob41h0XtKewOj97h+2qR6L4vhJjbBzsXgz57IN47Iahg9rLDxD8IgMYjIZR0E31
+ Pdkr4B0viaI9nJMg=
+X-Received: by 2002:a5d:58da:0:b0:22a:c3cb:e3cb with SMTP id
+ o26-20020a5d58da000000b0022ac3cbe3cbmr13355698wrf.34.1664194676364; 
+ Mon, 26 Sep 2022 05:17:56 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4V1fml12QmsTeM5sw1xl62xAmub7aHti+1BRIUpMemh3SEkfQCLaHXYEekN9v9M/HzQKmhXg==
+X-Received: by 2002:a5d:58da:0:b0:22a:c3cb:e3cb with SMTP id
+ o26-20020a5d58da000000b0022ac3cbe3cbmr13355684wrf.34.1664194676147; 
+ Mon, 26 Sep 2022 05:17:56 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-251.web.vodafone.de.
+ [109.43.177.251]) by smtp.gmail.com with ESMTPSA id
+ b4-20020a5d4b84000000b00228a6ce17b4sm14352553wrt.37.2022.09.26.05.17.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Sep 2022 05:15:08 -0700 (PDT)
-Message-ID: <7d2124a0-af80-c3e0-8e74-206507cd69ce@redhat.com>
-Date: Mon, 26 Sep 2022 14:15:05 +0200
+ Mon, 26 Sep 2022 05:17:55 -0700 (PDT)
+Message-ID: <e665e63b-748f-5218-2158-88ee245d4df0@redhat.com>
+Date: Mon, 26 Sep 2022 14:17:54 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v8 07/14] net: stream: add unix socket
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 05/54] tests/qtest: ahci-test: Avoid using hardcoded
+ /tmp
 Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gregory Kurz <gregory.kurz@free.fr>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Stefano Brivio <sbrivio@redhat.com>
-References: <20220913064000.79353-1-lvivier@redhat.com>
- <20220913064000.79353-8-lvivier@redhat.com> <YyFjmtyNd5mAlm9b@yekko>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <YyFjmtyNd5mAlm9b@yekko>
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org
+References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
+ <20220925113032.1949844-6-bmeng.cn@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220925113032.1949844-6-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
@@ -108,71 +105,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/22 07:16, David Gibson wrote:
-> On Tue, Sep 13, 2022 at 08:39:53AM +0200, Laurent Vivier wrote:
->> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
->> ---
->>   net/stream.c    | 108 +++++++++++++++++++++++++++++++++++++++++++++---
->>   qapi/net.json   |   2 +-
->>   qemu-options.hx |   1 +
->>   3 files changed, 105 insertions(+), 6 deletions(-)
->>
->> diff --git a/net/stream.c b/net/stream.c
->> index e8afbaca50b6..0f91ff20df61 100644
->> --- a/net/stream.c
->> +++ b/net/stream.c
->> @@ -235,7 +235,7 @@ static NetStreamState *net_stream_fd_init_stream(NetClientState *peer,
->>   static void net_stream_accept(void *opaque)
->>   {
->>       NetStreamState *s = opaque;
->> -    struct sockaddr_in saddr;
->> +    struct sockaddr_storage saddr;
->>       socklen_t len;
->>       int fd;
->>   
->> @@ -253,9 +253,27 @@ static void net_stream_accept(void *opaque)
->>       s->fd = fd;
->>       s->nc.link_down = false;
->>       net_stream_connect(s);
->> -    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
->> -             "connection from %s:%d",
->> -             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
->> +    switch (saddr.ss_family) {
->> +    case AF_INET: {
->> +        struct sockaddr_in *saddr_in = (struct sockaddr_in *)&saddr;
->> +
->> +        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
->> +                 "connection from %s:%d",
->> +                 inet_ntoa(saddr_in->sin_addr), ntohs(saddr_in->sin_port));
->> +        break;
->> +    }
->> +    case AF_UNIX: {
->> +        struct sockaddr_un saddr_un;
->> +
->> +        len = sizeof(saddr_un);
->> +        getsockname(s->listen_fd, (struct sockaddr *)&saddr_un, &len);
+On 25/09/2022 13.29, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
-> It seems like there's an asymmetry here in that we've gotten the
-> connection address outside the switch for inet sockets, but we need an
-> additional getsockname() for unix sockets.  Am I missing something?
+> This case was written to use hardcoded /tmp directory for temporary
+> files. Update to use g_file_open_tmp() for a portable implementation.
 > 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+> Changes in v3:
+> - Split to a separate patch
+> - Ensure g_autofree variable is initialized
+> 
+>   tests/qtest/ahci-test.c | 19 +++++++++++--------
+>   1 file changed, 11 insertions(+), 8 deletions(-)
 
-This is because unix socket are not symmetric.
-
-connect() returns the peer socket address.
-
-With inet, server is waiting on, for instance, 127.0.0.1:1234 and peer address will appear 
-to be something like 127.0.0.1:33946. So info_str will be set with "127.0.0.1:33946".
-
-In case of unix, server is waiting on, for instance, /tmp/qemu0 and there is no peer 
-address as the client connect to this same file. So the sun_path is empty when it returns 
-from accept(). So to set the path of the socket (sun_path) in info_str I use the 
-getsockname() to retrieve the server sun_path.
-
-Thanks,
-Laurent
-
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
