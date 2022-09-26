@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA3E5E9BB4
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 10:11:39 +0200 (CEST)
-Received: from localhost ([::1]:37574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA5E5E9B88
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 10:04:00 +0200 (CEST)
+Received: from localhost ([::1]:48118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocjDF-0007Gh-QD
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 04:11:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
+	id 1ocj5r-0003E2-Vd
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 04:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1ocj2l-0001HB-93
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:00:47 -0400
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:57959)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ociyr-0005YV-Gp
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:56:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1ocj2c-0002cB-6G
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:00:40 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046060;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=6; SR=0;
- TI=SMTPD_---0VQie.5G_1664178919; 
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VQie.5G_1664178919) by smtp.aliyun-inc.com;
- Mon, 26 Sep 2022 15:55:20 +0800
-Message-ID: <1664178718.9829688-1-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH v2 3/6] vhost-net: vhost-user: update
- vhost_net_virtqueue_reset()
-Date: Mon, 26 Sep 2022 15:51:58 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: mst <mst@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Heng Qi <hengqi@linux.alibaba.com>,
- Kangjie Xu <kangjie.xu@linux.alibaba.com>,
- "qemu-devel" <qemu-devel@nongnu.org>
-References: <cover.1662949366.git.kangjie.xu@linux.alibaba.com>
- <a14f5ebdefb82d7679841c1d5ddab54ec9406ea1.1662949366.git.kangjie.xu@linux.alibaba.com>
- <ac7dacaf-ea85-b608-4047-27254aefd97a@redhat.com>
- <1663136320.6336615-1-xuanzhuo@linux.alibaba.com>
- <CACGkMEvSt0etgoVyPVTk1axV+mx30CigR6bhbNYt8oYTTC2=Dw@mail.gmail.com>
-In-Reply-To: <CACGkMEvSt0etgoVyPVTk1axV+mx30CigR6bhbNYt8oYTTC2=Dw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ociyn-00023O-Ki
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:56:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664179000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nHwsUi+eANhnam4gzb/TjkVvpj3SE/u6axdLiMX85zo=;
+ b=RHcDv9wKUv23CCnAStGd26s93WVJDbAn2N3cazd7vgQF7Mwmd2sWi4pyY3ZgoRGXPzcT2N
+ V2j4TRVfWnroPpJK0rJoQkuFx+iL9GF9uii1vudqFwH4DUa0x+wepltS1a7p/BjdiqSFIV
+ VcFGpnvf9jjM5xcjpGyrIr0ZEqwr8gM=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-6-4n_JAweZNOWrTbHbIA9Vzg-1; Mon, 26 Sep 2022 03:56:36 -0400
+X-MC-Unique: 4n_JAweZNOWrTbHbIA9Vzg-1
+Received: by mail-ua1-f71.google.com with SMTP id
+ a26-20020ab0081a000000b003b752547aadso1321894uaf.22
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 00:56:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=nHwsUi+eANhnam4gzb/TjkVvpj3SE/u6axdLiMX85zo=;
+ b=wG0zTpWKgg3yKK11JN+AviR6rFR92hwzh6MZmCqMCUxBA/rMNQMMqh3tVBAmFDkY08
+ BJUkfpNeiU8ioI5WEy14WGNDs+2apHI6F87WOi+m5IGoGmn+YGudCitkdwi25UtqnqLn
+ EXo+pWJ2EPfUj4UE3W3I6Mr9TDfPLS1ib/dSFazKdTdZr/4Jy4uCA6umaVeSKVYPL+TT
+ IRbalDOtCLJLz3zq69LtL/J//DSjo8dIz+dB4hoRzmN8uzWO0mmhv34zsNV+RY6NJ4iB
+ APq0oBICq6cEctM3pbGKGdpG/eApkLXiRMg9eCHYqMcJ9GPvk5QPHDBey08gm+VY3R/H
+ OhaA==
+X-Gm-Message-State: ACrzQf0r12nZqL9KNlwWI8jSU/g0CXMhDuy9IGPr0MNLEWXUCxB+4AUJ
+ L3IsuJ3rZGMe/fF1YiX/7m1j1nizIvdZ02axwrCT2HjZeQTkuVuIPKIJ3+2FsOXCNSFpTQoL6wO
+ FrveM+zH+n/4jcI8Zl6rhP9wcwHmNM0o=
+X-Received: by 2002:a05:6102:22f8:b0:398:d463:cd0 with SMTP id
+ b24-20020a05610222f800b00398d4630cd0mr7699631vsh.54.1664178995057; 
+ Mon, 26 Sep 2022 00:56:35 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5dq1vsqzcCQGBH5P3391dxg7TeLyDbssZjRsSTkh3Uhe2aVxxIFbPd2cmuYZ9TLBzaXx/QaFgo1xV9lGRTiSE=
+X-Received: by 2002:a05:6102:22f8:b0:398:d463:cd0 with SMTP id
+ b24-20020a05610222f800b00398d4630cd0mr7699629vsh.54.1664178994848; Mon, 26
+ Sep 2022 00:56:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220920172507.95568-1-pbonzini@redhat.com>
+ <20220920172507.95568-25-pbonzini@redhat.com>
+ <447b5045-b437-028f-8813-b229dcff6bf9@linaro.org>
+In-Reply-To: <447b5045-b437-028f-8813-b229dcff6bf9@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Mon, 26 Sep 2022 09:56:22 +0200
+Message-ID: <CABgObfZ-nRhvpd94FUT7wW0Mc75BPLJE+O=o+FL8ND9OaS1nwQ@mail.gmail.com>
+Subject: Re: [PATCH v2 24/37] target/i386: reimplement 0x0f 0xd0-0xd7,
+ 0xe0-0xe7, 0xf0-0xf7, add AVX
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, paul@nowt.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=115.124.30.133;
- envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-133.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,105 +94,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 15 Sep 2022 10:12:11 +0800, Jason Wang <jasowang@redhat.com> wrote:
-> On Wed, Sep 14, 2022 at 2:21 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wr=
-ote:
-> >
-> > On Wed, 14 Sep 2022 11:13:29 +0800, Jason Wang <jasowang@redhat.com> wr=
-ote:
-> > >
-> > > =E5=9C=A8 2022/9/12 11:10, Kangjie Xu =E5=86=99=E9=81=93:
-> > > > Update vhost_net_virtqueue_reset() for vhost-user scenario.
-> > > >
-> > > > In order to reuse some functions, we process the idx for
-> > > > vhost-user scenario because vhost_get_vq_index behave
-> > > > differently for vhost-user.
-> > > >
-> > > > Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > > > ---
-> > > >   hw/net/vhost_net.c | 3 +++
-> > > >   1 file changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > > > index ea896ea75b..25e5665489 100644
-> > > > --- a/hw/net/vhost_net.c
-> > > > +++ b/hw/net/vhost_net.c
-> > > > @@ -545,6 +545,9 @@ void vhost_net_virtqueue_reset(VirtIODevice *vd=
-ev, NetClientState *nc,
-> > > >       assert(vhost_ops);
-> > > >
-> > > >       idx =3D vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
-> > > > +    if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_USER) {
-> > > > +        idx -=3D net->dev.vq_index;
-> > > > +    }
-> > >
-> > >
-> > > This looks tricky. Any reason we can't simply use vq_index for both
-> > > vhost-user and vhost-net?
-> >
-> >
-> > static int vhost_user_get_vq_index(struct vhost_dev *dev, int idx)
-> > {
-> >     assert(idx >=3D dev->vq_index && idx < dev->vq_index + dev->nvqs);
-> >
-> >     return idx;
-> > }
-> >
-> >
-> > static int vhost_kernel_get_vq_index(struct vhost_dev *dev, int idx)
-> > {
-> >     assert(idx >=3D dev->vq_index && idx < dev->vq_index + dev->nvqs);
-> >
-> >     return idx - dev->vq_index;
-> > }
-> >
-> > The implementation of these two callbacks is different. The structure o=
-f the two
-> > scenarios is different. We may need to do some optimizations in the fut=
-ure.
+On Sat, Sep 24, 2022 at 10:56 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Yes, but what I meant is, you do
+> On 9/20/22 17:24, Paolo Bonzini wrote:
+> > For LDDQU, using gen_load_sse directly might corrupt the register if
+> > the second part of the load fails.
 >
-> idx -=3D net->dev.vq_index;
->
-> and then
->
-> net->dev.vq_index + idx
->
-> This is a hint that we should have a better organization of the code.
+> Surely LDDQU is not unique in this?  I would think ldo/ldy both need fixing to load to
+> temps first.
 
-Rethink about this.
+The only other case with an M operand is MOVNTDQA, which is aligned
+and therefore in principle should not fail due to a page fault on the
+second half. However, it is still possible to have a race so I'll
+change it.
 
-If I don't do this "idx -=3D net->dev.vq_index".
+Other loads use a W operand, for which the gen_load_sse() is always
+performed by the generic code in gen_load(). In that case the
+gen_load_sse() is always directed at xmm_t0.
 
-Then, it is necessary to call vhost_virtqueue_stop() separately and once ag=
-ain
-"net->dev.vqs + idx - net->dev.vq_index"
+Paolo
 
-    vhost_virtqueue_stop(&net->dev,
-                         vdev,
-                         net->dev.vqs + idx - net->dev.vq_index,
-                         idx);
-
-Thanks.
-
-
->
-> Thanks
->
-> >
-> > Thanks.
-> >
-> >
-> > >
-> > > Thanks
-> > >
-> > >
-> > > >
-> > > >       if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_TAP) {
-> > > >           file.index =3D idx;
-> > >
-> >
->
 
