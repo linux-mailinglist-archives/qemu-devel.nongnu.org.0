@@ -2,78 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8FC5EB22A
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 22:34:56 +0200 (CEST)
-Received: from localhost ([::1]:59260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E135EB20C
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 22:27:16 +0200 (CEST)
+Received: from localhost ([::1]:35450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocuoY-0002f4-2r
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 16:34:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48858)
+	id 1ocuh9-0004GG-CR
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 16:27:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1ocuKk-0003nT-VK
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 16:04:09 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:42997)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1ocuKi-0007k6-Ee
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 16:04:06 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id b23so7745347pfp.9
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 13:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=x1Jivqm2LhOQAUXUW+/Q4KxscvZ0HVsPF2edJcT2p6I=;
- b=rotjd1+0LIl8apjGalPgnBLdt5B5T/C4CWnZvehPBde6FBAHZa8igWM+lWoNf/HQq6
- wPIwAbZzyvH+h090zxjm06HTZmiDecKYLYbJwil/IdHvxg9MgjFC8uiG+47xD0MVXbM9
- vv2Odu5g2qGyyqQbly233TsUGBepkmPBhJG+AX2Nzf/Q+qx1/SzKxAEe3ymrPvSw/nDu
- B4FRlg1ia9sGQmFYh9vt+WJs6rUQlJUF0SV1Kl+Y63Ss/NcwEVJ2ARzYUuunRNGr/lEv
- KbsqI60L0kWzEZ/rsEitEz9gpfUI1bC0U9ZDkfYY3eAfpZtXi2vZjfJWGkKoVFO21SAF
- R7cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=x1Jivqm2LhOQAUXUW+/Q4KxscvZ0HVsPF2edJcT2p6I=;
- b=6d1jJFT0w+FARmmM3weQII7IpTdHrZRJVB3l6iac+9CIvQLBsDQyn6BYUSZjnRaLqX
- IrHkiCLTbbYmXU/DW2skqTDraVIU4ag/oxKPnhP08i7dsnKOvAenZEKs7zlMisaj/oHH
- heiLeAPKDHKr4qlbZR83ODe49gu6FfelQUQqBFgVRXmB0nL5MpB9wICejQ8uh38C27YE
- VTtF8lPOO9bFhTIf9BCn59ixSfW8jBMchLsttNiDMMlHc6sngJzm/10RSp+hnKEV5ga2
- mvgRt/e4ZV53OFOrlhwEpdHuab/Aw2V6n/z+md1Iy/2hVm8ZaX8WdpWtZqsLNE14Q4ST
- WxOQ==
-X-Gm-Message-State: ACrzQf0ZUgfL2TydufNs1xuchHtg/dL3nLhvPCImiCjLhCT1oUkED2G7
- oIWtWBTLIJn3dLzZQERbesmaIzbqkqLsEv7har3o6g==
-X-Google-Smtp-Source: AMsMyM7mxVJw0OGEu3TVmDOOXbFUuIm6KiD6FABGOvPMdE39/zm3diH+Doop0ZyvZHfrWSwiVZl54lOPxtL1zQ2n+x8=
-X-Received: by 2002:a63:a505:0:b0:438:675d:caee with SMTP id
- n5-20020a63a505000000b00438675dcaeemr22080937pgf.576.1664222641622; Mon, 26
- Sep 2022 13:04:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1ocuWV-0001Tg-In; Mon, 26 Sep 2022 16:16:20 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:33924 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1ocuWQ-00013J-8F; Mon, 26 Sep 2022 16:16:14 -0400
+Received: from [10.95.79.201]
+ (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
+ by csgraf.de (Postfix) with ESMTPSA id A543D608061F;
+ Mon, 26 Sep 2022 22:15:59 +0200 (CEST)
+Message-ID: <91ee005f-d9a9-eb77-43a8-96365b088ee0@csgraf.de>
+Date: Mon, 26 Sep 2022 22:15:59 +0200
 MIME-Version: 1.0
-References: <CAB88-qPD2OAxeg4WA65utUmFj4Y=SceeFTuStpZS4pPWevdBXA@mail.gmail.com>
- <20220905131544.2xlaycrcyviufo5y@kamzik>
- <CAB88-qPOGVksP1ekqTjcGHbi2_iVzsW-b9wokgREEQJ8LgfU=Q@mail.gmail.com>
- <CALw707oeRt4+C9HTbzzt0RcP-FtYeh1vTh7meGY99vKQQnsktA@mail.gmail.com>
-In-Reply-To: <CALw707oeRt4+C9HTbzzt0RcP-FtYeh1vTh7meGY99vKQQnsktA@mail.gmail.com>
-From: Tyler Ng <tkng@rivosinc.com>
-Date: Mon, 26 Sep 2022 13:03:50 -0700
-Message-ID: <CAB88-qPeGqcPHhCccxgTO__gh_spbzrbVNQ4Z-340E7T4mRBCw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] hw/intc: sifive_plic.c: Fix interrupt priority index.
-To: Jim Shu <jim.shu@sifive.com>
-Cc: Andrew Jones <ajones@ventanamicro.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000061a6d905e99a07bb"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=tkng@rivosinc.com; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.3.0
+Subject: Re: [PATCH v2 01/11] hw: encode accessing CPU index in MemTxAttrs
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, mads@ynddal.dk, qemu-arm@nongnu.org
+References: <20220926133904.3297263-1-alex.bennee@linaro.org>
+ <20220926133904.3297263-2-alex.bennee@linaro.org>
+From: Alexander Graf <agraf@csgraf.de>
+In-Reply-To: <20220926133904.3297263-2-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,183 +59,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000061a6d905e99a07bb
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Jim,
+On 26.09.22 15:38, Alex Bennée wrote:
+> We currently have hacks across the hw/ to reference current_cpu to
+> work out what the current accessing CPU is. This breaks in some cases
+> including using gdbstub to access HW state. As we have MemTxAttrs to
+> describe details about the access lets extend it to mention if this is
+> a CPU access and which one it is.
+>
+> There are a number of places we need to fix up including:
+>
+>    CPU helpers directly calling address_space_*() fns
+>    models in hw/ fishing the data out of current_cpu
+>    hypervisors offloading device emulation to QEMU
+>
+> I'll start addressing some of these in following patches.
+>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>
+> ---
+> v2
+>    - use separate field cpu_index
+>    - bool for requester_is_cpu
+> v3
+>    - switch to enum MemTxRequesterType
+>    - move helper #define to patch
+>    - revert to overloading requester_id
+>    - mention hypervisors in commit message
+>    - drop cputlb tweaks, they will move to target specific code
+> ---
+>   include/exec/memattrs.h | 17 ++++++++++++++++-
+>   1 file changed, 16 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
+> index 9fb98bc1ef..0fb5f29d25 100644
+> --- a/include/exec/memattrs.h
+> +++ b/include/exec/memattrs.h
+> @@ -14,6 +14,15 @@
+>   #ifndef MEMATTRS_H
+>   #define MEMATTRS_H
+>   
+> +/*
+> + * Where the memory transaction comes from
+> + */
+> +typedef enum MemTxRequesterType {
+> +    MEMTXATTRS_CPU,
+> +    MEMTXATTRS_MSI,
 
-Thanks for raising this comment. I think I understand where the confusion
-happens and it's because in the OpenTitan machine (which uses the sifive
-plic), it uses 0x00 as the priority base by default, which was the source
-of the problems. I'll drop this commit in the next version.
 
--Tyler
+I don't think MSI is any sensible identifier here. What you actually are 
+trying to describe are bus messages that may carry additional source 
+information - and what you describe as "MSI" here most likely means "no 
+further information".
 
-On Sun, Sep 25, 2022 at 6:47 AM Jim Shu <jim.shu@sifive.com> wrote:
+How about you just call it "BUS", "DMA" or literally "UNSPECIFIED" for 
+now? Also, why is unspecified not part of the requester type enum?
 
-> Hi Tyler,
->
-> This fix is incorrect.
->
-> In PLIC spec, Interrupt Source Priority Memory Map is
-> 0x000000: Reserved (interrupt source 0 does not exist)
-> 0x000004: Interrupt source 1 priority
-> 0x000008: Interrupt source 2 priority
->
-> Current RISC-V machines (virt, sifive_u) use 0x4 as priority_base, so
-> current formula "irq = ((addr - plic->priority_base) >> 2) + 1" will
-> take offset 0x4 as IRQ source 1, which is correct.
-> Your fix will cause the bug in existing machines.
->
-> Thanks,
-> Jim Shu
->
->
->
->
-> On Tue, Sep 6, 2022 at 11:21 PM Tyler Ng <tkng@rivosinc.com> wrote:
-> >
-> > Here's the patch SHA that introduced the offset:
-> 0feb4a7129eb4f120c75849ddc9e50495c50cb63
-> >
-> > -Tyler
-> >
-> > On Mon, Sep 5, 2022 at 6:15 AM Andrew Jones <ajones@ventanamicro.com>
-> wrote:
-> >>
-> >> On Thu, Sep 01, 2022 at 03:50:06PM -0700, Tyler Ng wrote:
-> >> > Fixes a bug in which the index of the interrupt priority is off by 1.
-> >> > For example, using an IRQ number of 3 with a priority of 1 is
-> supposed to set
-> >> > plic->source_priority[2] = 1, but instead it sets
-> >> > plic->source_priority[3] = 1. When an interrupt is claimed to be
-> >> > serviced, it checks the index 2 instead of 3.
-> >> >
-> >> > Signed-off-by: Tyler Ng <tkng@rivosinc.com>
-> >>
-> >> Fixes tag?
-> >>
-> >> Thanks,
-> >> drew
-> >>
-> >> > ---
-> >> >  hw/intc/sifive_plic.c | 2 +-
-> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >> >
-> >> > diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> >> > index af4ae3630e..e75c47300a 100644
-> >> > --- a/hw/intc/sifive_plic.c
-> >> > +++ b/hw/intc/sifive_plic.c
-> >> > @@ -178,7 +178,7 @@ static void sifive_plic_write(void *opaque, hwaddr
-> >> > addr, uint64_t value,
-> >> >      SiFivePLICState *plic = opaque;
-> >> >
-> >> >      if (addr_between(addr, plic->priority_base, plic->num_sources <<
-> 2)) {
-> >> > -        uint32_t irq = ((addr - plic->priority_base) >> 2) + 1;
-> >> > +        uint32_t irq = ((addr - plic->priority_base) >> 2) + 0;
-> >> >
-> >> >          plic->source_priority[irq] = value & 7;
-> >> >          sifive_plic_update(plic);
-> >> > --
-> >> > 2.30.2
-> >> >
->
 
---00000000000061a6d905e99a07bb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-<div dir=3D"ltr"><div>Hi Jim,</div><div><br></div><div>Thanks for raising t=
-his comment. I think I understand where the confusion happens and it&#39;s =
-because in the OpenTitan machine (which uses the sifive plic), it uses 0x00=
- as the priority base by default, which was the source of the problems. I&#=
-39;ll drop this commit in the next version.<br></div><div><div><br></div><d=
-iv>-Tyler<br></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Sun, Sep 25, 2022 at 6:47 AM Jim Shu &lt;<a hre=
-f=3D"mailto:jim.shu@sifive.com" target=3D"_blank">jim.shu@sifive.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Tyle=
-r,<br>
-<br>
-This fix is incorrect.<br>
-<br>
-In PLIC spec, Interrupt Source Priority Memory Map is<br>
-0x000000: Reserved (interrupt source 0 does not exist)<br>
-0x000004: Interrupt source 1 priority<br>
-0x000008: Interrupt source 2 priority<br>
-<br>
-Current RISC-V machines (virt, sifive_u) use 0x4 as priority_base, so<br>
-current formula &quot;irq =3D ((addr - plic-&gt;priority_base) &gt;&gt; 2) =
-+ 1&quot; will<br>
-take offset 0x4 as IRQ source 1, which is correct.<br>
-Your fix will cause the bug in existing machines.<br>
-<br>
-Thanks,<br>
-Jim Shu<br>
-<br>
-<br>
-<br>
-<br>
-On Tue, Sep 6, 2022 at 11:21 PM Tyler Ng &lt;<a href=3D"mailto:tkng@rivosin=
-c.com" target=3D"_blank">tkng@rivosinc.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Here&#39;s the patch SHA that introduced the offset: 0feb4a7129eb4f120=
-c75849ddc9e50495c50cb63<br>
-&gt;<br>
-&gt; -Tyler<br>
-&gt;<br>
-&gt; On Mon, Sep 5, 2022 at 6:15 AM Andrew Jones &lt;<a href=3D"mailto:ajon=
-es@ventanamicro.com" target=3D"_blank">ajones@ventanamicro.com</a>&gt; wrot=
-e:<br>
-&gt;&gt;<br>
-&gt;&gt; On Thu, Sep 01, 2022 at 03:50:06PM -0700, Tyler Ng wrote:<br>
-&gt;&gt; &gt; Fixes a bug in which the index of the interrupt priority is o=
-ff by 1.<br>
-&gt;&gt; &gt; For example, using an IRQ number of 3 with a priority of 1 is=
- supposed to set<br>
-&gt;&gt; &gt; plic-&gt;source_priority[2] =3D 1, but instead it sets<br>
-&gt;&gt; &gt; plic-&gt;source_priority[3] =3D 1. When an interrupt is claim=
-ed to be<br>
-&gt;&gt; &gt; serviced, it checks the index 2 instead of 3.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Signed-off-by: Tyler Ng &lt;<a href=3D"mailto:tkng@rivosinc.c=
-om" target=3D"_blank">tkng@rivosinc.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Fixes tag?<br>
-&gt;&gt;<br>
-&gt;&gt; Thanks,<br>
-&gt;&gt; drew<br>
-&gt;&gt;<br>
-&gt;&gt; &gt; ---<br>
-&gt;&gt; &gt;=C2=A0 hw/intc/sifive_plic.c | 2 +-<br>
-&gt;&gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c<br=
->
-&gt;&gt; &gt; index af4ae3630e..e75c47300a 100644<br>
-&gt;&gt; &gt; --- a/hw/intc/sifive_plic.c<br>
-&gt;&gt; &gt; +++ b/hw/intc/sifive_plic.c<br>
-&gt;&gt; &gt; @@ -178,7 +178,7 @@ static void sifive_plic_write(void *opaqu=
-e, hwaddr<br>
-&gt;&gt; &gt; addr, uint64_t value,<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 SiFivePLICState *plic =3D opaque;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 if (addr_between(addr, plic-&gt;priority_=
-base, plic-&gt;num_sources &lt;&lt; 2)) {<br>
-&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t irq =3D ((addr - plic-&=
-gt;priority_base) &gt;&gt; 2) + 1;<br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t irq =3D ((addr - plic-&=
-gt;priority_base) &gt;&gt; 2) + 0;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 plic-&gt;source_priority[ir=
-q] =3D value &amp; 7;<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sifive_plic_update(plic);<b=
-r>
-&gt;&gt; &gt; --<br>
-&gt;&gt; &gt; 2.30.2<br>
-&gt;&gt; &gt;<br>
-</blockquote></div>
-
---00000000000061a6d905e99a07bb--
+> +} MemTxRequesterType;
+> +
+> +
+>   /* Every memory transaction has associated with it a set of
+>    * attributes. Some of these are generic (such as the ID of
+>    * the bus master); some are specific to a particular kind of
+> @@ -43,7 +52,9 @@ typedef struct MemTxAttrs {
+>        * (see MEMTX_ACCESS_ERROR).
+>        */
+>       unsigned int memory:1;
+> -    /* Requester ID (for MSI for example) */
+> +    /* Requester type (e.g. CPU or PCI MSI) */
+> +    MemTxRequesterType requester_type:2;
+> +    /* Requester ID */
+>       unsigned int requester_id:16;
+>       /* Invert endianness for this page */
+>       unsigned int byte_swap:1;
+> @@ -66,6 +77,10 @@ typedef struct MemTxAttrs {
+>    */
+>   #define MEMTXATTRS_UNSPECIFIED ((MemTxAttrs) { .unspecified = 1 })
+>   
+> +/* Helper for setting a basic CPU sourced transaction */
+> +#define MEMTXATTRS_CPU(id) ((MemTxAttrs) \
+> +                            {.requester_type = MEMTXATTRS_CPU, .requester_id = id})
+> +
+>   /* New-style MMIO accessors can indicate that the transaction failed.
+>    * A zero (MEMTX_OK) response means success; anything else is a failure
+>    * of some kind. The memory subsystem will bitwise-OR together results
 
