@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B475EB1BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 21:58:10 +0200 (CEST)
-Received: from localhost ([::1]:55842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B89675EB1BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 21:58:32 +0200 (CEST)
+Received: from localhost ([::1]:48200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocuF0-0005mJ-1i
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 15:58:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34266)
+	id 1ocuFK-00064C-Fw
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 15:58:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1ocu8D-0008L0-HP
+ id 1ocu8D-0008L5-I9
  for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:51:11 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:39399)
+Received: from mout.kundenserver.de ([212.227.126.187]:53411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1ocu87-0005w1-3n
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:51:07 -0400
+ id 1ocu89-0005wA-0u
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:51:09 -0400
 Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N3omW-1pL8rX1tnk-00zqRb; Mon, 26 Sep 2022 21:50:55 +0200
+ id 1MT7ip-1ooqMx1xR1-00UdIG; Mon, 26 Sep 2022 21:50:57 +0200
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Jason Wang <jasowang@redhat.com>, Greg Kurz <groug@kaod.org>,
@@ -30,34 +30,33 @@ Cc: Jason Wang <jasowang@redhat.com>, Greg Kurz <groug@kaod.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v9 04/16] qapi: net: introduce a way to bypass
- qemu_opts_parse_noisily()
-Date: Mon, 26 Sep 2022 21:50:36 +0200
-Message-Id: <20220926195048.487915-5-lvivier@redhat.com>
+ Markus Armbruster <armbru@redhat.com>, Stefano Brivio <sbrivio@redhat.com>
+Subject: [PATCH v9 05/16] qapi: net: add stream and dgram netdevs
+Date: Mon, 26 Sep 2022 21:50:37 +0200
+Message-Id: <20220926195048.487915-6-lvivier@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220926195048.487915-1-lvivier@redhat.com>
 References: <20220926195048.487915-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:sLG6fJdcYfv3Zol1Ufk86YC1Hm5zly8svwEX0OQwSlumT3JLoqv
- 6JZSLVBcQPYdzGFARW2UeeSeyaJUeq2JGTvS4DzmpOMgXfikgWNHq/mNwBp4eOl7x3+p2Hr
- t2EcIG9MLOZMd3QEY0wCGNpR8fmAPP/u+t8n3A4K8+y0OPqffmo9FRyV+qFNyCq0urcI9VF
- 9zWMTjE+Au0rVz+NUaovw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4iNoLifF9GA=:CfcBMXBRlooMwFK7ZjTG92
- CRr9yV8YfqQMAAaP6uysb0ubzawIMzQbl2tdiW0j7KD6NdFWLoPbZB5KSUfia9lLIPnZkU1BJ
- nps4b/NxnsA85Vn5zefE4uip3S9tv7cld6STwRMSwjWkKoBHEZiPlnJm6lRaE4CHuzOAL3y7w
- ftoj3wf/NZdp1kNmihXZDc/dmhb2KK/sIQGfaAxXaDvT4TYsyrZBYTE3ugErFpi+dy7sa7nju
- Vt/TPmun/YvYJENoEDE2+2joBQadRwsS50ttR7fy14Dw/etE5/RyDu26ad4a5l2C9I1EVQiuB
- vlUPejv6byM831fAl0Qj3kjqfLHF4NqjStxSgGvkmCvhLBhT6ON7Pd/acGSk5qpycP8qViq3O
- KVbEGn3qi4/yjEvq/hn3raAy3x4STMkHCA56L1gs1JYMAcB16NsX3Wsv4WpHOV7MT24fcfP3q
- JyuJAbg5/ifV64P+xBwK/eivF+j4tXOaL2okNn7h96ELeU88h0pemWAF1/G2QehWMK3SiLyBb
- tltdZpeHkVrN1N5zl52CO6o5ECSMaSQk+CmXNOUiu077BGX9kSLNrF7DBaYVv/+gHWo35GfB7
- tI+zPy8QJlp/IKZRVbosIrPxa2fIQ3SJHWGTbT6fMkBfbPfd7iGDYOFtsSBTAnBodm3ptb3th
- PYvOjZhDaMYyy6ADPEi+fTadX0Nk1/wIhAjT9gWirCzBhI6DIpvQrn/Wx7E1sC4OB5luOz8ia
- ndSb6s9jStySLG9Ziyou08ZOm/yA1ttYGG6zbcd13GNpQtPu5DpE/CRCVDgY6cVm2KqdUU+kz
- yiBqfsg
-Received-SPF: permerror client-ip=212.227.126.133;
+X-Provags-ID: V03:K1:AwgL1AcjgeeIYJe45WURrOaCVI1t+vcAeAlh13BHzXLLmtCpGSB
+ AcDkg45BK8FoLs0t6T5G/gHetsuwEZld7XfSebJ21ykj1gFaHNshSDq1Ad/vV0CYArxBk5R
+ Cya7GBI/lZpws5NHs5WRLGlStAUm44Qfmzrhp3TqyE4H09Mq1yWdxM1Wcb7e3Tht0qQ+k81
+ yX9h5jWjvVY6PHLpU2Nvg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:E8AV+uIWGuc=:rEiwFKW1RN4HDehx8PUs2d
+ VDMLWjl07FelVYgW9lQ4sbczBN/sexhCqvXsrDJ46P7Fnt3CMf/J/XjNlop6ZtyfU7WHJjJpk
+ 7xRa2IjHpXOH+vXAZzOC4tmCkpSlIjwyLFjNcXqu2nKPB8QJ7a4tDqPDrvFHUUF8ZTU9wRetB
+ hJxFRct2aVhrKLAIZQ0mOBSFiegBm/Fh91gsonBekr/imcbRCbEY6XHlb4aUfLUD3qhWw/CrJ
+ zxQn1gKzxy4c2/4hUn8w6HFta+KuVEys/sVOqkAjTTe4KSQyrAh2sN5yM/w8dG7VCnpBGbo2Z
+ WRXaXIztVL6+0uVZyui+NudXhcBBR8BCP23SkAth0kZA3dyYD1a+Nlns28LV1Jt07cmyhsPk7
+ 3F9GfjjRrnak/EoFlthwnmgtONUuZDR224H0wsOj/yZZJzI1M+aJVIpyJjCdooiQFwEkQjoNd
+ mrrb6s1NOcBaXZj4exXAMGk9aTYR+u/apRhopL5fl1j2lKBhJOjzpgmJHqVNB7tnQd6mx2lUk
+ 2E3WWc9tEwZBtnF8CkIQWx7bwRnS+m/p6sicc1fYUOOJWwrkPLfT/kLopNXa81Xh2lOoFecMf
+ P078a4RAjnmT/f3IOXU4ax8qm7t+jKS08iL3y2CW2laYkbekIQRaVt21mLCDTxGdzPz26VKmt
+ 5S5x1CPjjalsWr6In2visJsDA8qoofbtYMNl35o5QDdPvAXohpHQRfS23V8UyFwowaoV4+FBm
+ RKS6/dVIG4i+t47+2f6lmsCnY+AWvcvq2OUOE3UNSgw1xyPT3Oj0wUGHQsOMvtLStP5XWTHJt
+ LcrC5hf
+Received-SPF: permerror client-ip=212.227.126.187;
  envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -80,180 +79,1268 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As qemu_opts_parse_noisily() flattens the QAPI structures ("type" field
-of Netdev structure can collides with "type" field of SocketAddress),
-we introduce a way to bypass qemu_opts_parse_noisily() and use directly
-visit_type_Netdev() to parse the backend parameters.
+Copied from socket netdev file and modified to use SocketAddress
+to be able to introduce new features like unix socket.
 
-More details from Markus:
+"udp" and "mcast" are squashed into dgram netdev, multicast is detected
+according to the IP address type.
+"listen" and "connect" modes are managed by stream netdev. An optional
+parameter "server" defines the mode (server by default)
 
-qemu_init() passes the argument of -netdev, -nic, and -net to
-net_client_parse().
+The two new types need to be parsed the modern way with -netdev, because
+with the traditional way, the "type" field of netdev structure collides with
+the "type" field of SocketAddress and prevents the correct evaluation of the
+command line option. Moreover the traditional way doesn't allow to use
+the same type (SocketAddress) several times with the -netdev option
+(needed to specify "local" and "remote" addresses).
 
-net_client_parse() parses with qemu_opts_parse_noisily(), passing
-QemuOptsList qemu_netdev_opts for -netdev, qemu_nic_opts for -nic, and
-qemu_net_opts for -net.  Their desc[] are all empty, which means any
-keys are accepted.  The result of the parse (a QemuOpts) is stored in
-the QemuOptsList.
+The previous commit paved the way for parsing the modern way, but
+omitted one detail: how to pick modern vs. traditional, in
+netdev_is_modern().
 
-Note that QemuOpts is flat by design.  In some places, we layer non-flat
-on top using dotted keys convention, but not here.
+We want to pick based on the value of parameter "type".  But how to
+extract it from the option argument?
 
-net_init_clients() iterates over the stored QemuOpts, and passes them to
-net_init_netdev(), net_param_nic(), or net_init_client(), respectively.
+Parsing the option argument, either the modern or the traditional way,
+extracts it for us, but only if parsing succeeds.
 
-These functions pass the QemuOpts to net_client_init().  They also do
-other things with the QemuOpts, which we can ignore here.
+If parsing fails, there is no good option.  No matter which parser we
+pick, it'll be the wrong one for some arguments, and the error
+reporting will be confusing.
 
-net_client_init() uses the opts visitor to convert the (flat) QemOpts to
-a (non-flat) QAPI object Netdev.  Netdev is also the argument of QMP
-command netdev_add.
-
-The opts visitor was an early attempt to support QAPI in
-(QemuOpts-based) CLI.  It restricts QAPI types to a certain shape; see
-commit eb7ee2cbeb "qapi: introduce OptsVisitor".
-
-A more modern way to support QAPI is qobject_input_visitor_new_str().
-It uses keyval_parse() instead of QemuOpts for KEY=VALUE,... syntax, and
-it also supports JSON syntax.  The former isn't quite as expressive as
-JSON, but it's a lot closer than QemuOpts + opts visitor.
-
-This commit paves the way to use of the modern way instead.
+Fortunately, the traditional parser accepts *anything* when called in
+a certain way.  This maximizes our chance to extract the value of
+"type", and in turn minimizes the risk of confusing error reporting.
 
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
 ---
- include/net/net.h |  2 ++
- net/net.c         | 57 +++++++++++++++++++++++++++++++++++++++++++++++
- softmmu/vl.c      |  6 ++++-
- 3 files changed, 64 insertions(+), 1 deletion(-)
+ hmp-commands.hx |   2 +-
+ net/clients.h   |   6 +
+ net/dgram.c     | 542 ++++++++++++++++++++++++++++++++++++++++++++++++
+ net/hub.c       |   2 +
+ net/meson.build |   2 +
+ net/net.c       |  30 ++-
+ net/stream.c    | 423 +++++++++++++++++++++++++++++++++++++
+ qapi/net.json   |  63 +++++-
+ qemu-options.hx |  12 ++
+ 9 files changed, 1078 insertions(+), 4 deletions(-)
+ create mode 100644 net/dgram.c
+ create mode 100644 net/stream.c
 
-diff --git a/include/net/net.h b/include/net/net.h
-index 55023e7e9fa9..025dbf1e143b 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -220,6 +220,8 @@ extern NICInfo nd_table[MAX_NICS];
- extern const char *host_net_devices[];
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 8ab8000acd9e..da40a7eb04ed 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1276,7 +1276,7 @@ ERST
+     {
+         .name       = "netdev_add",
+         .args_type  = "netdev:O",
+-        .params     = "[user|tap|socket|vde|bridge|hubport|netmap|vhost-user"
++        .params     = "[user|tap|socket|stream|dgram|vde|bridge|hubport|netmap|vhost-user"
+ #ifdef CONFIG_VMNET
+                       "|vmnet-host|vmnet-shared|vmnet-bridged"
+ #endif
+diff --git a/net/clients.h b/net/clients.h
+index c9157789f2ce..ed8bdfff1e7c 100644
+--- a/net/clients.h
++++ b/net/clients.h
+@@ -40,6 +40,12 @@ int net_init_hubport(const Netdev *netdev, const char *name,
+ int net_init_socket(const Netdev *netdev, const char *name,
+                     NetClientState *peer, Error **errp);
  
- /* from net.c */
-+bool netdev_is_modern(const char *optarg);
-+void netdev_parse_modern(const char *optarg);
- void net_client_parse(QemuOptsList *opts_list, const char *str);
- void show_netdevs(void);
- void net_init_clients(void);
-diff --git a/net/net.c b/net/net.c
-index f056e8aebfb2..ffe3e5a2cf1d 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -54,6 +54,7 @@
- #include "net/colo-compare.h"
- #include "net/filter.h"
- #include "qapi/string-output-visitor.h"
-+#include "qapi/qobject-input-visitor.h"
- 
- /* Net bridge is currently not supported for W32. */
- #if !defined(_WIN32)
-@@ -63,6 +64,16 @@
- static VMChangeStateEntry *net_change_state_entry;
- static QTAILQ_HEAD(, NetClientState) net_clients;
- 
-+typedef struct NetdevQueueEntry {
-+    Netdev *nd;
-+    Location loc;
-+    QSIMPLEQ_ENTRY(NetdevQueueEntry) entry;
-+} NetdevQueueEntry;
++int net_init_stream(const Netdev *netdev, const char *name,
++                    NetClientState *peer, Error **errp);
 +
-+typedef QSIMPLEQ_HEAD(, NetdevQueueEntry) NetdevQueue;
++int net_init_dgram(const Netdev *netdev, const char *name,
++                   NetClientState *peer, Error **errp);
 +
-+static NetdevQueue nd_queue = QSIMPLEQ_HEAD_INITIALIZER(nd_queue);
+ int net_init_tap(const Netdev *netdev, const char *name,
+                  NetClientState *peer, Error **errp);
+ 
+diff --git a/net/dgram.c b/net/dgram.c
+new file mode 100644
+index 000000000000..45d869efc844
+--- /dev/null
++++ b/net/dgram.c
+@@ -0,0 +1,542 @@
++/*
++ * QEMU System Emulator
++ *
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
 +
- /***********************************************************/
- /* network device redirectors */
- 
-@@ -1562,6 +1573,20 @@ out:
-     return ret;
- }
- 
-+static void netdev_init_modern(void)
++#include "qemu/osdep.h"
++
++#include "net/net.h"
++#include "clients.h"
++#include "monitor/monitor.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
++#include "qemu/option.h"
++#include "qemu/sockets.h"
++#include "qemu/iov.h"
++#include "qemu/main-loop.h"
++#include "qemu/cutils.h"
++
++typedef struct NetDgramState {
++    NetClientState nc;
++    int fd;
++    SocketReadState rs;
++    struct sockaddr_in dgram_dst; /* contains destination iff connectionless */
++    bool read_poll;               /* waiting to receive data? */
++    bool write_poll;              /* waiting to transmit data? */
++} NetDgramState;
++
++static void net_dgram_send_dgram(void *opaque);
++static void net_dgram_writable(void *opaque);
++
++static void net_dgram_update_fd_handler(NetDgramState *s)
 +{
-+    while (!QSIMPLEQ_EMPTY(&nd_queue)) {
-+        NetdevQueueEntry *nd = QSIMPLEQ_FIRST(&nd_queue);
++    qemu_set_fd_handler(s->fd,
++                        s->read_poll ? net_dgram_send_dgram : NULL,
++                        s->write_poll ? net_dgram_writable : NULL,
++                        s);
++}
 +
-+        QSIMPLEQ_REMOVE_HEAD(&nd_queue, entry);
-+        loc_push_restore(&nd->loc);
-+        net_client_init1(nd->nd, true, &error_fatal);
-+        loc_pop(&nd->loc);
-+        qapi_free_Netdev(nd->nd);
-+        g_free(nd);
++static void net_dgram_read_poll(NetDgramState *s, bool enable)
++{
++    s->read_poll = enable;
++    net_dgram_update_fd_handler(s);
++}
++
++static void net_dgram_write_poll(NetDgramState *s, bool enable)
++{
++    s->write_poll = enable;
++    net_dgram_update_fd_handler(s);
++}
++
++static void net_dgram_writable(void *opaque)
++{
++    NetDgramState *s = opaque;
++
++    net_dgram_write_poll(s, false);
++
++    qemu_flush_queued_packets(&s->nc);
++}
++
++static ssize_t net_dgram_receive_dgram(NetClientState *nc,
++                                       const uint8_t *buf, size_t size)
++{
++    NetDgramState *s = DO_UPCAST(NetDgramState, nc, nc);
++    ssize_t ret;
++
++    do {
++        if (s->dgram_dst.sin_family != AF_UNIX) {
++            ret = sendto(s->fd, buf, size, 0,
++                         (struct sockaddr *)&s->dgram_dst,
++                         sizeof(s->dgram_dst));
++        } else {
++            ret = send(s->fd, buf, size, 0);
++        }
++    } while (ret == -1 && errno == EINTR);
++
++    if (ret == -1 && errno == EAGAIN) {
++        net_dgram_write_poll(s, true);
++        return 0;
++    }
++    return ret;
++}
++
++static void net_dgram_send_completed(NetClientState *nc, ssize_t len)
++{
++    NetDgramState *s = DO_UPCAST(NetDgramState, nc, nc);
++
++    if (!s->read_poll) {
++        net_dgram_read_poll(s, true);
 +    }
 +}
 +
- void net_init_clients(void)
- {
-     net_change_state_entry =
-@@ -1569,6 +1594,8 @@ void net_init_clients(void)
- 
-     QTAILQ_INIT(&net_clients);
- 
-+    netdev_init_modern();
++static void net_dgram_rs_finalize(SocketReadState *rs)
++{
++    NetDgramState *s = container_of(rs, NetDgramState, rs);
 +
-     qemu_opts_foreach(qemu_find_opts("netdev"), net_init_netdev, NULL,
-                       &error_fatal);
++    if (qemu_send_packet_async(&s->nc, rs->buf,
++                               rs->packet_len,
++                               net_dgram_send_completed) == 0) {
++        net_dgram_read_poll(s, false);
++    }
++}
++
++static void net_dgram_send_dgram(void *opaque)
++{
++    NetDgramState *s = opaque;
++    int size;
++
++    size = recv(s->fd, s->rs.buf, sizeof(s->rs.buf), 0);
++    if (size < 0) {
++        return;
++    }
++    if (size == 0) {
++        /* end of connection */
++        net_dgram_read_poll(s, false);
++        net_dgram_write_poll(s, false);
++        return;
++    }
++    if (qemu_send_packet_async(&s->nc, s->rs.buf, size,
++                               net_dgram_send_completed) == 0) {
++        net_dgram_read_poll(s, false);
++    }
++}
++
++static int net_dgram_mcast_create(struct sockaddr_in *mcastaddr,
++                                  struct in_addr *localaddr,
++                                  Error **errp)
++{
++    struct ip_mreq imr;
++    int fd;
++    int val, ret;
++#ifdef __OpenBSD__
++    unsigned char loop;
++#else
++    int loop;
++#endif
++
++    if (!IN_MULTICAST(ntohl(mcastaddr->sin_addr.s_addr))) {
++        error_setg(errp, "specified mcastaddr %s (0x%08x) "
++                   "does not contain a multicast address",
++                   inet_ntoa(mcastaddr->sin_addr),
++                   (int)ntohl(mcastaddr->sin_addr.s_addr));
++        return -1;
++    }
++
++    fd = qemu_socket(PF_INET, SOCK_DGRAM, 0);
++    if (fd < 0) {
++        error_setg_errno(errp, errno, "can't create datagram socket");
++        return -1;
++    }
++
++    /*
++     * Allow multiple sockets to bind the same multicast ip and port by setting
++     * SO_REUSEADDR. This is the only situation where SO_REUSEADDR should be set
++     * on windows. Use socket_set_fast_reuse otherwise as it sets SO_REUSEADDR
++     * only on posix systems.
++     */
++    val = 1;
++    ret = setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(val));
++    if (ret < 0) {
++        error_setg_errno(errp, errno, "can't set socket option SO_REUSEADDR");
++        goto fail;
++    }
++
++    ret = bind(fd, (struct sockaddr *)mcastaddr, sizeof(*mcastaddr));
++    if (ret < 0) {
++        error_setg_errno(errp, errno, "can't bind ip=%s to socket",
++                         inet_ntoa(mcastaddr->sin_addr));
++        goto fail;
++    }
++
++    /* Add host to multicast group */
++    imr.imr_multiaddr = mcastaddr->sin_addr;
++    if (localaddr) {
++        imr.imr_interface = *localaddr;
++    } else {
++        imr.imr_interface.s_addr = htonl(INADDR_ANY);
++    }
++
++    ret = setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP,
++                     &imr, sizeof(struct ip_mreq));
++    if (ret < 0) {
++        error_setg_errno(errp, errno,
++                         "can't add socket to multicast group %s",
++                         inet_ntoa(imr.imr_multiaddr));
++        goto fail;
++    }
++
++    /* Force mcast msgs to loopback (eg. several QEMUs in same host */
++    loop = 1;
++    ret = setsockopt(fd, IPPROTO_IP, IP_MULTICAST_LOOP,
++                     &loop, sizeof(loop));
++    if (ret < 0) {
++        error_setg_errno(errp, errno,
++                         "can't force multicast message to loopback");
++        goto fail;
++    }
++
++    /* If a bind address is given, only send packets from that address */
++    if (localaddr != NULL) {
++        ret = setsockopt(fd, IPPROTO_IP, IP_MULTICAST_IF,
++                         localaddr, sizeof(*localaddr));
++        if (ret < 0) {
++            error_setg_errno(errp, errno,
++                             "can't set the default network send interface");
++            goto fail;
++        }
++    }
++
++    qemu_socket_set_nonblock(fd);
++    return fd;
++fail:
++    if (fd >= 0) {
++        closesocket(fd);
++    }
++    return -1;
++}
++
++static void net_dgram_cleanup(NetClientState *nc)
++{
++    NetDgramState *s = DO_UPCAST(NetDgramState, nc, nc);
++    if (s->fd != -1) {
++        net_dgram_read_poll(s, false);
++        net_dgram_write_poll(s, false);
++        close(s->fd);
++        s->fd = -1;
++    }
++}
++
++static NetClientInfo net_dgram_socket_info = {
++    .type = NET_CLIENT_DRIVER_DGRAM,
++    .size = sizeof(NetDgramState),
++    .receive = net_dgram_receive_dgram,
++    .cleanup = net_dgram_cleanup,
++};
++
++static NetDgramState *net_dgram_fd_init_dgram(NetClientState *peer,
++                                              const char *model,
++                                              const char *name,
++                                              int fd, int is_fd,
++                                              SocketAddress *mcast,
++                                              Error **errp)
++{
++    struct sockaddr_in saddr;
++    int newfd;
++    NetClientState *nc;
++    NetDgramState *s;
++    SocketAddress *sa;
++    SocketAddressType sa_type;
++
++    sa = socket_local_address(fd, errp);
++    if (!sa) {
++        return NULL;
++    }
++    sa_type = sa->type;
++    qapi_free_SocketAddress(sa);
++
++    /*
++     * fd passed: multicast: "learn" dgram_dst address from bound address and
++     * save it. Because this may be "shared" socket from a "master" process,
++     * datagrams would be recv() by ONLY ONE process: we must "clone" this
++     * dgram socket --jjo
++     */
++
++    if (is_fd && mcast != NULL) {
++            if (convert_host_port(&saddr, mcast->u.inet.host,
++                                  mcast->u.inet.port, errp) < 0) {
++                goto err;
++            }
++            /* must be bound */
++            if (saddr.sin_addr.s_addr == 0) {
++                error_setg(errp, "can't setup multicast destination address");
++                goto err;
++            }
++            /* clone dgram socket */
++            newfd = net_dgram_mcast_create(&saddr, NULL, errp);
++            if (newfd < 0) {
++                goto err;
++            }
++            /* clone newfd to fd, close newfd */
++            dup2(newfd, fd);
++            close(newfd);
++
++    }
++
++    nc = qemu_new_net_client(&net_dgram_socket_info, peer, model, name);
++
++    s = DO_UPCAST(NetDgramState, nc, nc);
++
++    s->fd = fd;
++    net_socket_rs_init(&s->rs, net_dgram_rs_finalize, false);
++    net_dgram_read_poll(s, true);
++
++    /* mcast: save bound address as dst */
++    if (is_fd && mcast != NULL) {
++        s->dgram_dst = saddr;
++        snprintf(nc->info_str, sizeof(nc->info_str),
++                 "fd=%d (cloned mcast=%s:%d)",
++                 fd, inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
++    } else {
++        if (sa_type == SOCKET_ADDRESS_TYPE_UNIX) {
++            s->dgram_dst.sin_family = AF_UNIX;
++        }
++
++        snprintf(nc->info_str, sizeof(nc->info_str), "fd=%d %s", fd,
++                 SocketAddressType_str(sa_type));
++    }
++
++    return s;
++
++err:
++    closesocket(fd);
++    return NULL;
++}
++
++static int net_dgram_mcast_init(NetClientState *peer,
++                                const char *model,
++                                const char *name,
++                                SocketAddress *remote,
++                                SocketAddress *local,
++                                Error **errp)
++{
++    NetDgramState *s;
++    int fd, ret;
++    struct sockaddr_in saddr;
++
++    if (remote->type != SOCKET_ADDRESS_TYPE_INET) {
++        error_setg(errp, "multicast only support inet type");
++        return -1;
++    }
++
++    if (convert_host_port(&saddr, remote->u.inet.host, remote->u.inet.port,
++                          errp) < 0) {
++        return -1;
++    }
++
++    if (!local) {
++        fd = net_dgram_mcast_create(&saddr, NULL, errp);
++        if (fd < 0) {
++            return -1;
++        }
++    } else {
++        switch (local->type) {
++        case SOCKET_ADDRESS_TYPE_INET: {
++            struct in_addr localaddr;
++
++            if (inet_aton(local->u.inet.host, &localaddr) == 0) {
++                error_setg(errp, "localaddr '%s' is not a valid IPv4 address",
++                           local->u.inet.host);
++                return -1;
++            }
++
++            fd = net_dgram_mcast_create(&saddr, &localaddr, errp);
++            if (fd < 0) {
++                return -1;
++            }
++            break;
++        }
++        case SOCKET_ADDRESS_TYPE_FD:
++            fd = monitor_fd_param(monitor_cur(), local->u.fd.str, errp);
++            if (fd == -1) {
++                return -1;
++            }
++            ret = qemu_socket_try_set_nonblock(fd);
++            if (ret < 0) {
++                error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
++                                 name, fd);
++                return -1;
++            }
++            break;
++        default:
++            error_setg(errp, "only support inet or fd type for local");
++            return -1;
++        }
++    }
++
++    s = net_dgram_fd_init_dgram(peer, model, name, fd,
++                                 local->type == SOCKET_ADDRESS_TYPE_FD,
++                                 remote, errp);
++    if (!s) {
++        return -1;
++    }
++
++    s->dgram_dst = saddr;
++
++    snprintf(s->nc.info_str, sizeof(s->nc.info_str), "mcast=%s:%d",
++             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
++    return 0;
++
++}
++
++static int net_dgram_init(NetClientState *peer,
++                          const char *model,
++                          const char *name,
++                          SocketAddress *remote,
++                          SocketAddress *local,
++                          Error **errp)
++{
++    NetDgramState *s;
++    int fd, ret;
++    struct sockaddr_in raddr_in;
++    gchar *info_str;
++
++    /* detect multicast address */
++    if (remote && remote->type == SOCKET_ADDRESS_TYPE_INET) {
++        struct sockaddr_in mcastaddr;
++
++        if (convert_host_port(&mcastaddr, remote->u.inet.host,
++                              remote->u.inet.port, errp) < 0) {
++            return -1;
++        }
++
++        if (IN_MULTICAST(ntohl(mcastaddr.sin_addr.s_addr))) {
++            return net_dgram_mcast_init(peer, model, name, remote, local,
++                                           errp);
++        }
++    }
++
++    /* unicast address */
++    if (!local) {
++        error_setg(errp, "dgram requires local= parameter");
++        return -1;
++    }
++
++    if (remote) {
++        if (local->type == SOCKET_ADDRESS_TYPE_FD) {
++            error_setg(errp, "don't set remote with local.fd");
++            return -1;
++        }
++        if (remote->type != local->type) {
++            error_setg(errp, "remote and local types must be the same");
++            return -1;
++        }
++    } else {
++        if (local->type != SOCKET_ADDRESS_TYPE_FD) {
++            error_setg(errp, "type=inet requires remote parameter");
++            return -1;
++        }
++    }
++
++    switch (local->type) {
++    case SOCKET_ADDRESS_TYPE_INET: {
++        struct sockaddr_in laddr_in;
++
++        if (convert_host_port(&laddr_in, local->u.inet.host, local->u.inet.port,
++                              errp) < 0) {
++            return -1;
++        }
++
++        if (convert_host_port(&raddr_in, remote->u.inet.host,
++                              remote->u.inet.port, errp) < 0) {
++            return -1;
++        }
++
++        fd = qemu_socket(PF_INET, SOCK_DGRAM, 0);
++        if (fd < 0) {
++            error_setg_errno(errp, errno, "can't create datagram socket");
++            return -1;
++        }
++
++        ret = socket_set_fast_reuse(fd);
++        if (ret < 0) {
++            error_setg_errno(errp, errno,
++                             "can't set socket option SO_REUSEADDR");
++            closesocket(fd);
++            return -1;
++        }
++        ret = bind(fd, (struct sockaddr *)&laddr_in, sizeof(laddr_in));
++        if (ret < 0) {
++            error_setg_errno(errp, errno, "can't bind ip=%s to socket",
++                             inet_ntoa(laddr_in.sin_addr));
++            closesocket(fd);
++            return -1;
++        }
++        qemu_socket_set_nonblock(fd);
++
++        info_str = g_strdup_printf("udp=%s:%d/%s:%d",
++                 inet_ntoa(laddr_in.sin_addr), ntohs(laddr_in.sin_port),
++                 inet_ntoa(raddr_in.sin_addr), ntohs(raddr_in.sin_port));
++
++        break;
++    }
++    case SOCKET_ADDRESS_TYPE_FD:
++        fd = monitor_fd_param(monitor_cur(), local->u.fd.str, errp);
++        if (fd == -1) {
++            return -1;
++        }
++        ret = qemu_socket_try_set_nonblock(fd);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
++                             name, fd);
++            return -1;
++        }
++        break;
++    default:
++        error_setg(errp, "only support inet or fd type for local");
++        return -1;
++    }
++
++    s = net_dgram_fd_init_dgram(peer, model, name, fd, 0, NULL, errp);
++    if (!s) {
++        return -1;
++    }
++
++    if (remote) {
++        s->dgram_dst = raddr_in;
++
++        pstrcpy(s->nc.info_str, sizeof(s->nc.info_str), info_str);
++        g_free(info_str);
++    }
++    return 0;
++}
++
++int net_init_dgram(const Netdev *netdev, const char *name,
++                   NetClientState *peer, Error **errp)
++{
++    const NetdevDgramOptions *sock;
++
++    assert(netdev->type == NET_CLIENT_DRIVER_DGRAM);
++    sock = &netdev->u.dgram;
++
++    return net_dgram_init(peer, "dgram", name, sock->remote, sock->local,
++                          errp);
++}
+diff --git a/net/hub.c b/net/hub.c
+index 1375738bf121..67ca53485638 100644
+--- a/net/hub.c
++++ b/net/hub.c
+@@ -313,6 +313,8 @@ void net_hub_check_clients(void)
+             case NET_CLIENT_DRIVER_USER:
+             case NET_CLIENT_DRIVER_TAP:
+             case NET_CLIENT_DRIVER_SOCKET:
++            case NET_CLIENT_DRIVER_STREAM:
++            case NET_CLIENT_DRIVER_DGRAM:
+             case NET_CLIENT_DRIVER_VDE:
+             case NET_CLIENT_DRIVER_VHOST_USER:
+                 has_host_dev = 1;
+diff --git a/net/meson.build b/net/meson.build
+index d1be76daf361..6cd1e3dab3a6 100644
+--- a/net/meson.build
++++ b/net/meson.build
+@@ -13,6 +13,8 @@ softmmu_ss.add(files(
+   'net.c',
+   'queue.c',
+   'socket.c',
++  'stream.c',
++  'dgram.c',
+   'util.c',
+ ))
  
-@@ -1579,6 +1606,36 @@ void net_init_clients(void)
-                       &error_fatal);
+diff --git a/net/net.c b/net/net.c
+index ffe3e5a2cf1d..79e54e6228e8 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -48,6 +48,7 @@
+ #include "qemu/qemu-print.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/option.h"
++#include "qemu/keyval.h"
+ #include "qapi/error.h"
+ #include "qapi/opts-visitor.h"
+ #include "sysemu/runstate.h"
+@@ -1014,6 +1015,8 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+ #endif
+         [NET_CLIENT_DRIVER_TAP]       = net_init_tap,
+         [NET_CLIENT_DRIVER_SOCKET]    = net_init_socket,
++        [NET_CLIENT_DRIVER_STREAM]    = net_init_stream,
++        [NET_CLIENT_DRIVER_DGRAM]     = net_init_dgram,
+ #ifdef CONFIG_VDE
+         [NET_CLIENT_DRIVER_VDE]       = net_init_vde,
+ #endif
+@@ -1101,6 +1104,8 @@ void show_netdevs(void)
+     int idx;
+     const char *available_netdevs[] = {
+         "socket",
++        "stream",
++        "dgram",
+         "hubport",
+         "tap",
+ #ifdef CONFIG_SLIRP
+@@ -1613,7 +1618,30 @@ void net_init_clients(void)
+  */
+ bool netdev_is_modern(const char *optarg)
+ {
+-    return false;
++    QemuOpts *opts;
++    bool is_modern;
++    const char *type;
++    static QemuOptsList dummy_opts = {
++        .name = "netdev",
++        .implied_opt_name = "type",
++        .head = QTAILQ_HEAD_INITIALIZER(dummy_opts.head),
++        .desc = { { } },
++    };
++
++    if (optarg[0] == '{') {
++        /* This is JSON, which means it's modern syntax */
++        return true;
++    }
++
++    opts = qemu_opts_create(&dummy_opts, NULL, false, &error_abort);
++    qemu_opts_do_parse(opts, optarg, dummy_opts.implied_opt_name,
++                       &error_abort);
++    type = qemu_opt_get(opts, "type");
++    is_modern = !g_strcmp0(type, "stream") || !g_strcmp0(type, "dgram");
++
++    qemu_opts_reset(&dummy_opts);
++
++    return is_modern;
  }
  
+ /*
+diff --git a/net/stream.c b/net/stream.c
+new file mode 100644
+index 000000000000..e71c120ac379
+--- /dev/null
++++ b/net/stream.c
+@@ -0,0 +1,423 @@
 +/*
-+ * Does this -netdev argument use modern rather than traditional syntax?
-+ * Modern syntax is to be parsed with netdev_parse_modern().
-+ * Traditional syntax is to be parsed with net_client_parse().
++ * QEMU System Emulator
++ *
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
 + */
-+bool netdev_is_modern(const char *optarg)
++
++#include "qemu/osdep.h"
++
++#include "net/net.h"
++#include "clients.h"
++#include "monitor/monitor.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
++#include "qemu/option.h"
++#include "qemu/sockets.h"
++#include "qemu/iov.h"
++#include "qemu/main-loop.h"
++#include "qemu/cutils.h"
++
++typedef struct NetStreamState {
++    NetClientState nc;
++    int listen_fd;
++    int fd;
++    SocketReadState rs;
++    unsigned int send_index;      /* number of bytes sent*/
++    bool read_poll;               /* waiting to receive data? */
++    bool write_poll;              /* waiting to transmit data? */
++} NetStreamState;
++
++static void net_stream_send(void *opaque);
++static void net_stream_accept(void *opaque);
++static void net_stream_writable(void *opaque);
++
++static void net_stream_update_fd_handler(NetStreamState *s)
 +{
-+    return false;
++    qemu_set_fd_handler(s->fd,
++                        s->read_poll ? net_stream_send : NULL,
++                        s->write_poll ? net_stream_writable : NULL,
++                        s);
 +}
 +
-+/*
-+ * netdev_parse_modern() uses modern, more expressive syntax than
-+ * net_client_parse(), but supports only the -netdev option.
-+ * netdev_parse_modern() appends to @nd_queue, whereas net_client_parse()
-+ * appends to @qemu_netdev_opts.
-+ */
-+void netdev_parse_modern(const char *optarg)
++static void net_stream_read_poll(NetStreamState *s, bool enable)
 +{
-+    Visitor *v;
-+    NetdevQueueEntry *nd;
-+
-+    v = qobject_input_visitor_new_str(optarg, "type", &error_fatal);
-+    nd = g_new(NetdevQueueEntry, 1);
-+    visit_type_Netdev(v, NULL, &nd->nd, &error_fatal);
-+    visit_free(v);
-+    loc_save(&nd->loc);
-+
-+    QSIMPLEQ_INSERT_TAIL(&nd_queue, nd, entry);
++    s->read_poll = enable;
++    net_stream_update_fd_handler(s);
 +}
 +
- void net_client_parse(QemuOptsList *opts_list, const char *optarg)
- {
-     if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index f71fca2a9f73..d4da3e879f61 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2809,7 +2809,11 @@ void qemu_init(int argc, char **argv, char **envp)
-                 break;
-             case QEMU_OPTION_netdev:
-                 default_net = 0;
--                net_client_parse(qemu_find_opts("netdev"), optarg);
-+                if (netdev_is_modern(optarg)) {
-+                    netdev_parse_modern(optarg);
++static void net_stream_write_poll(NetStreamState *s, bool enable)
++{
++    s->write_poll = enable;
++    net_stream_update_fd_handler(s);
++}
++
++static void net_stream_writable(void *opaque)
++{
++    NetStreamState *s = opaque;
++
++    net_stream_write_poll(s, false);
++
++    qemu_flush_queued_packets(&s->nc);
++}
++
++static ssize_t net_stream_receive(NetClientState *nc, const uint8_t *buf,
++                                  size_t size)
++{
++    NetStreamState *s = DO_UPCAST(NetStreamState, nc, nc);
++    uint32_t len = htonl(size);
++    struct iovec iov[] = {
++        {
++            .iov_base = &len,
++            .iov_len  = sizeof(len),
++        }, {
++            .iov_base = (void *)buf,
++            .iov_len  = size,
++        },
++    };
++    size_t remaining;
++    ssize_t ret;
++
++    remaining = iov_size(iov, 2) - s->send_index;
++    ret = iov_send(s->fd, iov, 2, s->send_index, remaining);
++
++    if (ret == -1 && errno == EAGAIN) {
++        ret = 0; /* handled further down */
++    }
++    if (ret == -1) {
++        s->send_index = 0;
++        return -errno;
++    }
++    if (ret < (ssize_t)remaining) {
++        s->send_index += ret;
++        net_stream_write_poll(s, true);
++        return 0;
++    }
++    s->send_index = 0;
++    return size;
++}
++
++static void net_stream_send_completed(NetClientState *nc, ssize_t len)
++{
++    NetStreamState *s = DO_UPCAST(NetStreamState, nc, nc);
++
++    if (!s->read_poll) {
++        net_stream_read_poll(s, true);
++    }
++}
++
++static void net_stream_rs_finalize(SocketReadState *rs)
++{
++    NetStreamState *s = container_of(rs, NetStreamState, rs);
++
++    if (qemu_send_packet_async(&s->nc, rs->buf,
++                               rs->packet_len,
++                               net_stream_send_completed) == 0) {
++        net_stream_read_poll(s, false);
++    }
++}
++
++static void net_stream_send(void *opaque)
++{
++    NetStreamState *s = opaque;
++    int size;
++    int ret;
++    uint8_t buf1[NET_BUFSIZE];
++    const uint8_t *buf;
++
++    size = recv(s->fd, buf1, sizeof(buf1), 0);
++    if (size < 0) {
++        if (errno != EWOULDBLOCK) {
++            goto eoc;
++        }
++    } else if (size == 0) {
++        /* end of connection */
++    eoc:
++        net_stream_read_poll(s, false);
++        net_stream_write_poll(s, false);
++        if (s->listen_fd != -1) {
++            qemu_set_fd_handler(s->listen_fd, net_stream_accept, NULL, s);
++        }
++        closesocket(s->fd);
++
++        s->fd = -1;
++        net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
++        s->nc.link_down = true;
++        memset(s->nc.info_str, 0, sizeof(s->nc.info_str));
++
++        return;
++    }
++    buf = buf1;
++
++    ret = net_fill_rstate(&s->rs, buf, size);
++
++    if (ret == -1) {
++        goto eoc;
++    }
++}
++
++static void net_stream_cleanup(NetClientState *nc)
++{
++    NetStreamState *s = DO_UPCAST(NetStreamState, nc, nc);
++    if (s->fd != -1) {
++        net_stream_read_poll(s, false);
++        net_stream_write_poll(s, false);
++        close(s->fd);
++        s->fd = -1;
++    }
++    if (s->listen_fd != -1) {
++        qemu_set_fd_handler(s->listen_fd, NULL, NULL, NULL);
++        closesocket(s->listen_fd);
++        s->listen_fd = -1;
++    }
++}
++
++static void net_stream_connect(void *opaque)
++{
++    NetStreamState *s = opaque;
++    net_stream_read_poll(s, true);
++}
++
++static NetClientInfo net_stream_info = {
++    .type = NET_CLIENT_DRIVER_STREAM,
++    .size = sizeof(NetStreamState),
++    .receive = net_stream_receive,
++    .cleanup = net_stream_cleanup,
++};
++
++static NetStreamState *net_stream_fd_init_stream(NetClientState *peer,
++                                                 const char *model,
++                                                 const char *name,
++                                                 int fd, int is_connected)
++{
++    NetClientState *nc;
++    NetStreamState *s;
++
++    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
++
++    snprintf(nc->info_str, sizeof(nc->info_str), "fd=%d", fd);
++
++    s = DO_UPCAST(NetStreamState, nc, nc);
++
++    s->fd = fd;
++    s->listen_fd = -1;
++    net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
++
++    /* Disable Nagle algorithm on TCP sockets to reduce latency */
++    socket_set_nodelay(fd);
++
++    if (is_connected) {
++        net_stream_connect(s);
++    } else {
++        qemu_set_fd_handler(s->fd, NULL, net_stream_connect, s);
++    }
++    return s;
++}
++
++static void net_stream_accept(void *opaque)
++{
++    NetStreamState *s = opaque;
++    struct sockaddr_in saddr;
++    socklen_t len;
++    int fd;
++
++    for (;;) {
++        len = sizeof(saddr);
++        fd = qemu_accept(s->listen_fd, (struct sockaddr *)&saddr, &len);
++        if (fd < 0 && errno != EINTR) {
++            return;
++        } else if (fd >= 0) {
++            qemu_set_fd_handler(s->listen_fd, NULL, NULL, NULL);
++            break;
++        }
++    }
++
++    s->fd = fd;
++    s->nc.link_down = false;
++    net_stream_connect(s);
++    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
++             "connection from %s:%d",
++             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
++}
++
++static int net_stream_server_init(NetClientState *peer,
++                                  const char *model,
++                                  const char *name,
++                                  SocketAddress *addr,
++                                  Error **errp)
++{
++    NetClientState *nc;
++    NetStreamState *s;
++    int fd, ret;
++
++    switch (addr->type) {
++    case SOCKET_ADDRESS_TYPE_INET: {
++        struct sockaddr_in saddr_in;
++
++        if (convert_host_port(&saddr_in, addr->u.inet.host, addr->u.inet.port,
++                              errp) < 0) {
++            return -1;
++        }
++
++        fd = qemu_socket(PF_INET, SOCK_STREAM, 0);
++        if (fd < 0) {
++            error_setg_errno(errp, errno, "can't create stream socket");
++            return -1;
++        }
++        qemu_socket_set_nonblock(fd);
++
++        socket_set_fast_reuse(fd);
++
++        ret = bind(fd, (struct sockaddr *)&saddr_in, sizeof(saddr_in));
++        if (ret < 0) {
++            error_setg_errno(errp, errno, "can't bind ip=%s to socket",
++                             inet_ntoa(saddr_in.sin_addr));
++            closesocket(fd);
++            return -1;
++        }
++        break;
++    }
++    case SOCKET_ADDRESS_TYPE_FD:
++        fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
++        if (fd == -1) {
++            return -1;
++        }
++        ret = qemu_socket_try_set_nonblock(fd);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
++                             name, fd);
++            return -1;
++        }
++        break;
++    default:
++        error_setg(errp, "only support inet or fd type");
++        return -1;
++    }
++
++    ret = listen(fd, 0);
++    if (ret < 0) {
++        error_setg_errno(errp, errno, "can't listen on socket");
++        closesocket(fd);
++        return -1;
++    }
++
++    nc = qemu_new_net_client(&net_stream_info, peer, model, name);
++    s = DO_UPCAST(NetStreamState, nc, nc);
++    s->fd = -1;
++    s->listen_fd = fd;
++    s->nc.link_down = true;
++    net_socket_rs_init(&s->rs, net_stream_rs_finalize, false);
++
++    qemu_set_fd_handler(s->listen_fd, net_stream_accept, NULL, s);
++    return 0;
++}
++
++static int net_stream_client_init(NetClientState *peer,
++                                  const char *model,
++                                  const char *name,
++                                  SocketAddress *addr,
++                                  Error **errp)
++{
++    NetStreamState *s;
++    int fd, connected, ret;
++    gchar *info_str;
++
++    switch (addr->type) {
++    case SOCKET_ADDRESS_TYPE_INET: {
++        struct sockaddr_in saddr_in;
++
++        if (convert_host_port(&saddr_in, addr->u.inet.host, addr->u.inet.port,
++                              errp) < 0) {
++            return -1;
++        }
++
++        fd = qemu_socket(PF_INET, SOCK_STREAM, 0);
++        if (fd < 0) {
++            error_setg_errno(errp, errno, "can't create stream socket");
++            return -1;
++        }
++        qemu_socket_set_nonblock(fd);
++
++        connected = 0;
++        for (;;) {
++            ret = connect(fd, (struct sockaddr *)&saddr_in, sizeof(saddr_in));
++            if (ret < 0) {
++                if (errno == EINTR || errno == EWOULDBLOCK) {
++                    /* continue */
++                } else if (errno == EINPROGRESS ||
++                           errno == EALREADY ||
++                           errno == EINVAL) {
++                    break;
 +                } else {
-+                    net_client_parse(qemu_find_opts("netdev"), optarg);
++                    error_setg_errno(errp, errno, "can't connect socket");
++                    closesocket(fd);
++                    return -1;
 +                }
-                 break;
-             case QEMU_OPTION_nic:
-                 default_net = 0;
++            } else {
++                connected = 1;
++                break;
++            }
++        }
++        info_str = g_strdup_printf("connect to %s:%d",
++                                   inet_ntoa(saddr_in.sin_addr),
++                                   ntohs(saddr_in.sin_port));
++        break;
++    }
++    case SOCKET_ADDRESS_TYPE_FD:
++        fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
++        if (fd == -1) {
++            return -1;
++        }
++        ret = qemu_socket_try_set_nonblock(fd);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
++                             name, fd);
++            return -1;
++        }
++        connected = 1;
++        info_str = g_strdup_printf("connect to fd %d", fd);
++        break;
++    default:
++        error_setg(errp, "only support inet or fd type");
++        return -1;
++    }
++
++    s = net_stream_fd_init_stream(peer, model, name, fd, connected);
++
++    pstrcpy(s->nc.info_str, sizeof(s->nc.info_str), info_str);
++    g_free(info_str);
++
++    return 0;
++}
++
++int net_init_stream(const Netdev *netdev, const char *name,
++                    NetClientState *peer, Error **errp)
++{
++    const NetdevStreamOptions *sock;
++
++    assert(netdev->type == NET_CLIENT_DRIVER_STREAM);
++    sock = &netdev->u.stream;
++
++    if (!sock->has_server || sock->server) {
++        return net_stream_server_init(peer, "stream", name, sock->addr, errp);
++    }
++    return net_stream_client_init(peer, "stream", name, sock->addr, errp);
++}
+diff --git a/qapi/net.json b/qapi/net.json
+index dd088c09c509..e02e8001a000 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -7,6 +7,7 @@
+ ##
+ 
+ { 'include': 'common.json' }
++{ 'include': 'sockets.json' }
+ 
+ ##
+ # @set_link:
+@@ -573,6 +574,61 @@
+     '*isolated':  'bool' },
+   'if': 'CONFIG_VMNET' }
+ 
++##
++# @NetdevStreamOptions:
++#
++# Configuration info for stream socket netdev
++#
++# @addr: socket address to listen on (server=true)
++#        or connect to (server=false)
++# @server: create server socket (default: true)
++#
++# Only SocketAddress types 'inet' and 'fd' are supported.
++#
++# Since: 7.1
++##
++{ 'struct': 'NetdevStreamOptions',
++  'data': {
++    'addr':   'SocketAddress',
++    '*server': 'bool' } }
++
++##
++# @NetdevDgramOptions:
++#
++# Configuration info for datagram socket netdev.
++#
++# @remote: remote address
++# @local: local address
++#
++# Only SocketAddress types 'inet' and 'fd' are supported.
++#
++# The code checks there is at least one of these options and reports an error
++# if not. If remote address is present and it's a multicast address, local
++# address is optional. Otherwise local address is required and remote address
++# is optional.
++#
++# .. table:: Valid parameters combination table
++#    :widths: auto
++#
++#    =============  ========  =====
++#    remote         local     okay?
++#    =============  ========  =====
++#    absent         absent    no
++#    absent         not fd    no
++#    absent         fd        yes
++#    multicast      absent    yes
++#    multicast      present   yes
++#    not multicast  absent    no
++#    not multicast  present   yes
++#    =============  ========  =====
++#
++# Since: 7.1
++##
++{ 'struct': 'NetdevDgramOptions',
++  'data': {
++    '*local':  'SocketAddress',
++    '*remote': 'SocketAddress' } }
++
+ ##
+ # @NetClientDriver:
+ #
+@@ -586,8 +642,9 @@
+ #        @vmnet-bridged since 7.1
+ ##
+ { 'enum': 'NetClientDriver',
+-  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+-            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
++  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'stream',
++            'dgram', 'vde', 'bridge', 'hubport', 'netmap', 'vhost-user',
++            'vhost-vdpa',
+             { 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' },
+             { 'name': 'vmnet-shared', 'if': 'CONFIG_VMNET' },
+             { 'name': 'vmnet-bridged', 'if': 'CONFIG_VMNET' }] }
+@@ -617,6 +674,8 @@
+     'tap':      'NetdevTapOptions',
+     'l2tpv3':   'NetdevL2TPv3Options',
+     'socket':   'NetdevSocketOptions',
++    'stream':   'NetdevStreamOptions',
++    'dgram':    'NetdevDgramOptions',
+     'vde':      'NetdevVdeOptions',
+     'bridge':   'NetdevBridgeOptions',
+     'hubport':  'NetdevHubPortOptions',
+diff --git a/qemu-options.hx b/qemu-options.hx
+index d8b5ce5b4354..8c765f345da8 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2734,6 +2734,18 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+     "-netdev socket,id=str[,fd=h][,udp=host:port][,localaddr=host:port]\n"
+     "                configure a network backend to connect to another network\n"
+     "                using an UDP tunnel\n"
++    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port\n"
++    "-netdev stream,id=str[,server=on|off],addr.type=fd,addr.str=h\n"
++    "                configure a network backend to connect to another network\n"
++    "                using a socket connection in stream mode.\n"
++    "-netdev dgram,id=str,remote.type=inet,remote.host=maddr,remote.port=port[,local.type=inet,local.host=addr]\n"
++    "-netdev dgram,id=str,remote.type=inet,remote.host=maddr,remote.port=port[,local.type=fd,local.str=h]\n"
++    "                configure a network backend to connect to a multicast maddr and port\n"
++    "                use ``local.host=addr`` to specify the host address to send packets from\n"
++    "-netdev dgram,id=str,local.type=inet,local.host=addr,local.port=port[,remote.type=inet,remote.host=addr,remote.port=port]\n"
++    "-netdev dgram,id=str,local.type=fd,local.str=h\n"
++    "                configure a network backend to connect to another network\n"
++    "                using an UDP tunnel\n"
+ #ifdef CONFIG_VDE
+     "-netdev vde,id=str[,sock=socketpath][,port=n][,group=groupname][,mode=octalmode]\n"
+     "                configure a network backend to connect to port 'n' of a vde switch\n"
 -- 
 2.37.3
 
