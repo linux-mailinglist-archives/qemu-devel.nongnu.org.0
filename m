@@ -2,92 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640995EA80D
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:12:20 +0200 (CEST)
-Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A6A5EA865
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:29:33 +0200 (CEST)
+Received: from localhost ([::1]:33090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocoqI-0005SW-4r
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:12:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34382)
+	id 1ocp6x-0002Gy-LI
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1ococE-0001YS-75
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:57:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40607)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oconw-0001iH-7I
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:09:52 -0400
+Received: from mga07.intel.com ([134.134.136.100]:18822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1ococA-0008Q5-Hn
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:57:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664200656;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZIwKOnLf/14p190vkBty8EvpLDOlGfw7DGdO7oz3Zag=;
- b=irycZu0b4zhUDT2gV1FY1x1c7vscRTq20ndJ7tktfY/uB4+eJ3Z6L+SCZGNxoS76i/2Q+u
- p5pRvaF7hY03e5nN+aMbFgjNDhETXGaInaUfKnJKdgRJGpNagctZ2e1E2VsjTNWwKLoSha
- nUOH7frBama7q9KaSn+zTD1/Slvhb9s=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-373-P03DUbeWMxODEEApSj_Dww-1; Mon, 26 Sep 2022 09:57:28 -0400
-X-MC-Unique: P03DUbeWMxODEEApSj_Dww-1
-Received: by mail-ed1-f69.google.com with SMTP id
- v11-20020a056402348b00b004516e0b7eedso5478678edc.8
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:57:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=ZIwKOnLf/14p190vkBty8EvpLDOlGfw7DGdO7oz3Zag=;
- b=x2jKTtHSRk3baL1Ji/D+6WglkMrS0v1ldVJROXw1xrpdQPw2tcbvm5nMuCJ26O4mSg
- bg2yr33dFd+VRvuMY6hkBnDvKFC1v7r8lxAfq/kbCzmxhv0fLsnMRJpdbUcurJmpYITT
- v2ZH57OL8uq1sW/nu/nRZChH4cGzGo3oMwGldQ+Jlsact043H3AFQu5bLSn6XAbHElQL
- 9cNbE4NhLks5xKy8ygCab29muX8grYwrxIBGvXVmvDl3z48ApCpElbEHNfDA/wsLVlek
- QN7QJekxEnrHcWTVQ41Hp0pptzx/SVTVhLLzyOnSeQIgT6fSyFR84W8Qv0Tz3LOIm5vX
- GAdQ==
-X-Gm-Message-State: ACrzQf1MlxJ1gm7E/HsJWGG8MZgbVh5rI8AOyeTiCZiVeZYFI8qDB8uT
- AgdbFJ5OwM40IB4+O71BOwjrMznnEWNWaF1C4xsylcrfhmr1TvBCrrlIX9HrOD2cA8pqIbrPU+s
- gPpklYr2w0TaT+kA=
-X-Received: by 2002:a05:6402:3509:b0:452:20c7:5a95 with SMTP id
- b9-20020a056402350900b0045220c75a95mr22720218edd.427.1664200644370; 
- Mon, 26 Sep 2022 06:57:24 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM64I//nuBP+S7jnoxvFEhmI7ojQ3cqEFlkjWavkKK44xi0SXoDJfqXTFahxKd5PuWcD+Qw10g==
-X-Received: by 2002:a05:6402:3509:b0:452:20c7:5a95 with SMTP id
- b9-20020a056402350900b0045220c75a95mr22720189edd.427.1664200644164; 
- Mon, 26 Sep 2022 06:57:24 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- s14-20020aa7cb0e000000b0044e7862ab3fsm11532741edt.7.2022.09.26.06.57.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Sep 2022 06:57:23 -0700 (PDT)
-Message-ID: <8cc743b6-757c-bb25-d153-0f86b28e1f86@redhat.com>
-Date: Mon, 26 Sep 2022 15:57:21 +0200
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1ocons-0001ru-KO
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:09:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664201388; x=1695737388;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=kLBWR5qEV1U14bOBHrdj86S+fx8bShjKVx0oSvRe47k=;
+ b=DpBfsZrInNXbQPqbhyL332mH2Hrylub3+fxKsjkKs0CRavKPmnEAHRx9
+ IdR+kY415kviHdEYc6baOO9EIHTLrImjTWPqnVBBMWkHDjpfWV8Q7lRM0
+ i0AzdiiXNGjoJgWaH19+La7pMoFX7VlCtMJNqXyQ3qKsvwjsWi9HTrFyM
+ zmKcBPpQ7YG9FNZ82tniTb5IHYAgRjPHukKAwVUuhopQhNSOKYGO7ht2+
+ T/a5+1gpWDD2lHaU+hTJfmQfb3Qq3zJQFALhTgVKQF0VN4jZSWvrjN/KV
+ pzEbLf7XpyJIADHH9hOVL656jRRaE2kEPKb3A7lbtpc2/wDjsX72FNFV2 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="365068853"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="365068853"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 07:09:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="651840417"
+X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="651840417"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga008.jf.intel.com with ESMTP; 26 Sep 2022 07:09:28 -0700
+Date: Mon, 26 Sep 2022 22:04:51 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Fuad Tabba <tabba@google.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20220926140451.GA2658254@chaop.bj.intel.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <CA+EHjTzHTaDaAKEMjFHzXLBgUS4bMfnppzO==KeDGpyUKO0fCw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] target/arm/kvm: Retry KVM_CREATE_VM call if it fails EINTR
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Vitaly Chikunov <vt@altlinux.org>, Marc Zyngier <maz@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220926133644.1345269-1-peter.maydell@linaro.org>
-From: Eric Auger <eauger@redhat.com>
-In-Reply-To: <20220926133644.1345269-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eauger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTzHTaDaAKEMjFHzXLBgUS4bMfnppzO==KeDGpyUKO0fCw@mail.gmail.com>
+Received-SPF: none client-ip=134.134.136.100;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga07.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,55 +99,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Sep 26, 2022 at 11:26:45AM +0100, Fuad Tabba wrote:
+...
 
-
-Hi Peter,
-On 9/26/22 15:36, Peter Maydell wrote:
-> Occasionally the KVM_CREATE_VM ioctl can return EINTR, even though
-> there is no pending signal to be taken. In commit 94ccff13382055
-> we added a retry-on-EINTR loop to the KVM_CREATE_VM call in the
-> generic KVM code. Adopt the same approach for the use of the
-> ioctl in the Arm-specific KVM code (where we use it to create a
-> scratch VM for probing for various things).
+> > +
+> > +- KVM_MEM_PRIVATE can be set to indicate a new slot has private memory backed by
+> > +  a file descirptor(fd) and the content of the private memory is invisible to
 > 
-> For more information, see the mailing list thread:
-> https://lore.kernel.org/qemu-devel/8735e0s1zw.wl-maz@kernel.org/
+> s/descirptor/descriptor
+
+Thanks.
+
+...
+
+>  static long kvm_vm_ioctl(struct file *filp,
+> >                            unsigned int ioctl, unsigned long arg)
+> >  {
+> > @@ -4645,14 +4672,20 @@ static long kvm_vm_ioctl(struct file *filp,
+> >                 break;
+> >         }
+> >         case KVM_SET_USER_MEMORY_REGION: {
+> > -               struct kvm_userspace_memory_region kvm_userspace_mem;
+> > +               struct kvm_user_mem_region mem;
+> > +               unsigned long size = sizeof(struct kvm_userspace_memory_region);
 > 
-> Reported-by: Vitaly Chikunov <vt@altlinux.org>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> The view in the thread seems to be that this is a kernel bug (because
-> in QEMU's case there shouldn't be a signal to be delivered at this
-> point because of our signal handling strategy); so I've adopted the
-> same "just retry-on-EINTR for this specific ioctl" approach that
-> commit 94ccff13 did, rather than, for instance, something wider like
-> "make kvm_ioctl() and friends always retry on EINTR".
-> ---
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> nit: should this be sizeof(struct mem)? That's more similar to the
+> existing code and makes it dependent on the size of mem regardless of
+> possible changes to its type in the future.
 
-Thanks
+Unluckily no, the size we need copy_from_user() depends on the flags,
+e.g. without KVM_MEM_PRIVATE, we can't safely copy that big size since
+the 'extended' part may not even exist.
 
-Eric
->  target/arm/kvm.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index e5c1bd50d29..2982d216176 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -79,7 +79,9 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
->      if (max_vm_pa_size < 0) {
->          max_vm_pa_size = 0;
->      }
-> -    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-> +    do {
-> +        vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-> +    } while (vmfd == -EINTR);
->      if (vmfd < 0) {
->          goto err;
->      }
+> > +
+> > +               kvm_sanity_check_user_mem_region_alias();
+> >
+> >                 r = -EFAULT;
+> > -               if (copy_from_user(&kvm_userspace_mem, argp,
+> > -                                               sizeof(kvm_userspace_mem)))
+> > +               if (copy_from_user(&mem, argp, size);
+> 
+> It gets fixed in a future patch, but the ; should be a ).
 
+Good catch, thanks!
+
+Chao
+> 
+> Cheers,
+> /fuad
 
