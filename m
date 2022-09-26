@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC19F5EA792
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 15:45:16 +0200 (CEST)
-Received: from localhost ([::1]:50438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A155EA796
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 15:47:19 +0200 (CEST)
+Received: from localhost ([::1]:54736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocoQ7-00043M-Py
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 09:45:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39152)
+	id 1ocoS6-0005Wm-BQ
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 09:47:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ocoI0-0007QP-G6
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:36:53 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:38792)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ocoKF-0001y5-0n
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:39:11 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ocoHx-0005HN-Af
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:36:51 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- c192-20020a1c35c9000000b003b51339d350so5105235wma.3
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:36:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ocoKD-0005e7-0A
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:39:10 -0400
+Received: by mail-wr1-x435.google.com with SMTP id z6so10315991wrq.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:39:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date;
- bh=32Qjyb7u8FfjYe0CuySFLQoFDnmi7EIBx8CauNR3+IQ=;
- b=MFc0hMZ5VBGWRTwknGOwpuzKeR3pmdTsEoGaU5R9iz7v2ZaRGogWZp3knqcvDUV8d2
- TYI0V1O9UuDYbsXli38qNubRy8m8wu15pcDRr5gnhV8RKpfKjP53RCFG54zyFD7jWi/5
- b0wySMl8YFWuZzIj040vab61fYk08BgflF8ZIOGoy+R0kTjmIlXZClNQ4JkiT6Ws5mhp
- L3V7gSg1tmMbiz4ugZe2JSuvGcVdeIZ/wCeUuYSbgseFz+qHxacZvCx1aaVMdoMWgm8l
- O3LKLHiCMk64ZeY/bJIExZMpVLDErfq2s2wb6A5A3UC1Du1qtsKpvOUQx2VI0TsVDTaE
- wh9w==
+ bh=gCnfusu3BjpQePbKlJglN1S0tmOGdGMgTpCQYlDZ79M=;
+ b=caSO6LcpzkdF8a+WkvEoytWnJTiux13XyafD2GYGFicK0xjFrC4ayQeu+9KkiAhj6E
+ 8dZaLsi5KPTIsoaDDfP7a/1b+K94Z5hgY/Qvti5op89xCjNSyYY2Y3ortVziTqFJXaIa
+ ZsZp01UNSaA3cwSyiGqP+H1uAYtsq9LM3HHKvuYO9m6fUuUUJyPtoVSnP5z4l4UnfXu9
+ gaAWVES2C9LL5i3SU6KqM8IkLPhZXzw8H2EiG0Ss4DeGM0peifnL+B5yJ7OAl9DEBL7k
+ bAo5lPqMwIF2BWy00VFU5GCknnE5UYuQtX4tdD8bfI+l+dTXW8Q65WExnRKjyW0Nt8gI
+ cixw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=32Qjyb7u8FfjYe0CuySFLQoFDnmi7EIBx8CauNR3+IQ=;
- b=RjEBPiGPCLETfxmug297wHKZsjrrNSmN7Y3YjOmI73gIq9kBBooLbCoKw3vQ+AQdRC
- rF97g8K1D8Heua6vGrc3ITsPkH4IPUgc4zi0yPXMJfKJaVY1aFjNQDnukso1rORCTumP
- tbeqAnow0vuS7P5hQXsgQTjimS5oZBphgePLB6rdpiO4TJsCf+/LObQWVCrlr6CmVbu+
- h0Lf5nE85RjbDZ+7BFrt748gN5kINnPsETuF0r4Xbj3NAjKHIDAZxQbygD9GpBQUxDUX
- jRo5pHVyBb9JV78MtIaMF3Dmue5eh0jK8zdtOqfygUbxoE/iGcM1b2x3Ezfh8g1MmIXZ
- Wrrg==
-X-Gm-Message-State: ACrzQf0IQbHjRGP9O1vnaMm/2a3A34WyCPCB6+8Y5bHm04CZw+3FbMF/
- evNBSCUPY5udUZHY/yqBOnmvCQ==
-X-Google-Smtp-Source: AMsMyM4O6LrGO1FVjjr7/IFpS1Dru0Gz+OSlX30FIZbrxkvPkHL3/KbfzgML8sujRt8mGTv0P3sYdA==
-X-Received: by 2002:a05:600c:1d2a:b0:3b4:6e31:92da with SMTP id
- l42-20020a05600c1d2a00b003b46e3192damr21315738wms.103.1664199407021; 
- Mon, 26 Sep 2022 06:36:47 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ bh=gCnfusu3BjpQePbKlJglN1S0tmOGdGMgTpCQYlDZ79M=;
+ b=UKxtwtu02G00V60OXJez/9F1clh+9L6F2gOBpnIuc3rzRA53y5EecH2B9xrAH/sRb8
+ p6vFkjalLXlBQmiWyUEUKG1s/6zP+HNe+/RZATHNSbsWrSwtMIZd2B4Lsau1Ah9eP8Jo
+ ashtIpw//HI3+Ehed58OQ24KKOhDJear4SpO98xIt+XiQ/0b1/vWZn0SuNSPx99UmsUv
+ VtF1yl719YfXMzT+daaqVBVYYS4s/tOb3mLvW9xAiukkDqSbNL3ZApIXliuXdWOI7KmJ
+ 6p+Iup1kFoSxGsL129W2sY/oITFasjKLpfPIMW0+g/4UBFU14PWIuG19MDMlSyXAxnrh
+ 8g8A==
+X-Gm-Message-State: ACrzQf0ox6pk5ZItO0GjszsfuRFzlaWyGKmvZU/MV4K3gOpqxvD0uHnk
+ i4HTRdih3knpjmsIWT62I0nyrQ==
+X-Google-Smtp-Source: AMsMyM5zQyuilv88Ud/qRz3FgTD/fw3f59MHHVHGa58TJ9KoanPAubfp7NorPLK9fGTuuqzvC0E6yA==
+X-Received: by 2002:a5d:64e5:0:b0:22a:3cae:93bf with SMTP id
+ g5-20020a5d64e5000000b0022a3cae93bfmr13786257wri.323.1664199546728; 
+ Mon, 26 Sep 2022 06:39:06 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- b15-20020a5d40cf000000b00228fa832b7asm14206102wrq.52.2022.09.26.06.36.46
+ x12-20020adfffcc000000b0022ac672654dsm14103341wrs.58.2022.09.26.06.39.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 06:36:46 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Vitaly Chikunov <vt@altlinux.org>, Marc Zyngier <maz@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH] target/arm/kvm: Retry KVM_CREATE_VM call if it fails EINTR
-Date: Mon, 26 Sep 2022 14:36:44 +0100
-Message-Id: <20220926133644.1345269-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ Mon, 26 Sep 2022 06:39:05 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AD0D41FFB7;
+ Mon, 26 Sep 2022 14:39:04 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, mads@ynddal.dk, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v2 00/11] gdbstub/next (MemTxAttrs and re-factoring)
+Date: Mon, 26 Sep 2022 14:38:53 +0100
+Message-Id: <20220926133904.3297263-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,45 +91,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Occasionally the KVM_CREATE_VM ioctl can return EINTR, even though
-there is no pending signal to be taken. In commit 94ccff13382055
-we added a retry-on-EINTR loop to the KVM_CREATE_VM call in the
-generic KVM code. Adopt the same approach for the use of the
-ioctl in the Arm-specific KVM code (where we use it to create a
-scratch VM for probing for various things).
+Hi,
 
-For more information, see the mailing list thread:
-https://lore.kernel.org/qemu-devel/8735e0s1zw.wl-maz@kernel.org/
+This is v3 of the MexTxAttrs update alongside the current state of
+gdbstub/next (as fixing current_cpu from gdbstub was the original
+motivation).
 
-Reported-by: Vitaly Chikunov <vt@altlinux.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-The view in the thread seems to be that this is a kernel bug (because
-in QEMU's case there shouldn't be a signal to be delivered at this
-point because of our signal handling strategy); so I've adopted the
-same "just retry-on-EINTR for this specific ioctl" approach that
-commit 94ccff13 did, rather than, for instance, something wider like
-"make kvm_ioctl() and friends always retry on EINTR".
----
- target/arm/kvm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Following feedback I've drastically simplified the first patch and
+push the all the setting of requester_id to the per-arch tlb_fill and
+get_phys_page_attrs_debug helpers to fill in correctly. There is also
+a new patch to fix up HVF on Aarch64 which rely mostly on software
+modelled devices.
 
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index e5c1bd50d29..2982d216176 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -79,7 +79,9 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
-     if (max_vm_pa_size < 0) {
-         max_vm_pa_size = 0;
-     }
--    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-+    do {
-+        vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-+    } while (vmfd == -EINTR);
-     if (vmfd < 0) {
-         goto err;
-     }
+The later re-factoring is unchanged having sailed through review
+without any comments.
+
+The following are left for review:
+
+ - qtest: make read/write operation appear to be from CPU
+ - target/arm: ensure HVF traps set appropriate MemTxAttrs
+ - target/arm: enable tracking of CPU index in MemTxAttrs
+ - hw: encode accessing CPU index in MemTxAttrs
+
+Alex Bennée (11):
+  hw: encode accessing CPU index in MemTxAttrs
+  target/arm: enable tracking of CPU index in MemTxAttrs
+  target/arm: ensure HVF traps set appropriate MemTxAttrs
+  qtest: make read/write operation appear to be from CPU
+  hw/intc/gic: use MxTxAttrs to divine accessing CPU
+  hw/timer: convert mptimer access to attrs to derive cpu index
+  configure: move detected gdb to TCG's config-host.mak
+  gdbstub: move into its own sub directory
+  gdbstub: move sstep flags probing into AccelClass
+  gdbstub: move breakpoint logic to accel ops
+  gdbstub: move guest debug support check to ops
+
+ configure                      |   7 ++
+ meson.build                    |   4 +-
+ accel/kvm/kvm-cpus.h           |   4 +
+ gdbstub/internals.h            |  17 ++++
+ gdbstub/trace.h                |   1 +
+ include/exec/memattrs.h        |  17 +++-
+ include/qemu/accel.h           |  12 +++
+ include/sysemu/accel-ops.h     |   7 ++
+ include/sysemu/cpus.h          |   3 +
+ include/sysemu/kvm.h           |  20 -----
+ accel/accel-common.c           |  10 +++
+ accel/kvm/kvm-accel-ops.c      |   9 ++
+ accel/kvm/kvm-all.c            |  44 +++++-----
+ accel/stubs/kvm-stub.c         |  16 ----
+ accel/tcg/tcg-accel-ops.c      |  98 +++++++++++++++++++++
+ accel/tcg/tcg-all.c            |  17 ++++
+ gdbstub.c => gdbstub/gdbstub.c | 156 ++++-----------------------------
+ gdbstub/softmmu.c              |  51 +++++++++++
+ gdbstub/user.c                 |  68 ++++++++++++++
+ hw/intc/arm_gic.c              |  39 +++++----
+ hw/timer/arm_mptimer.c         |  25 +++---
+ softmmu/cpus.c                 |   7 ++
+ softmmu/qtest.c                |  26 +++---
+ target/arm/hvf/hvf.c           |   4 +-
+ target/arm/ptw.c               |   3 +
+ MAINTAINERS                    |   2 +-
+ gdbstub/meson.build            |   9 ++
+ gdbstub/trace-events           |  29 ++++++
+ trace-events                   |  28 ------
+ 29 files changed, 461 insertions(+), 272 deletions(-)
+ create mode 100644 gdbstub/internals.h
+ create mode 100644 gdbstub/trace.h
+ rename gdbstub.c => gdbstub/gdbstub.c (95%)
+ create mode 100644 gdbstub/softmmu.c
+ create mode 100644 gdbstub/user.c
+ create mode 100644 gdbstub/meson.build
+ create mode 100644 gdbstub/trace-events
+
 -- 
-2.25.1
+2.34.1
 
 
