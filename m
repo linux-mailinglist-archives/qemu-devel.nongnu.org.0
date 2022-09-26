@@ -2,73 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A3C5EA07E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:39:27 +0200 (CEST)
-Received: from localhost ([::1]:54298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A66E5EA10F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:45:22 +0200 (CEST)
+Received: from localhost ([::1]:60698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oclWI-0002to-7v
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:39:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37390)
+	id 1oclc1-00018m-Js
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:45:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockq0-0005oR-2A
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34478)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1ocl1H-0002jC-4Q
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 06:07:23 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:55336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpv-0003pO-BX
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664186138;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wap4bE3M153XlNUESFRpL6QFaSZ1Y/NXM6sOa6Kq+is=;
- b=CSj1H82LVn5KSUDQLbH23QpvR5FHkMHOYI4nW1uu6/DWO8Mimi95Oh2EScRCORPWdmTwdd
- aKCBO937Gzp6mSqRS65k3At+Hw5cVIaBUMWQCeU/5IpEW0bfezrGSrmE4/P7Uk16nik1bl
- wbJDQPO/PEGMa311phRKPiy2Q4Qa5O8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-e1sCCUMRMBae7bM_-G8l9g-1; Mon, 26 Sep 2022 05:55:34 -0400
-X-MC-Unique: e1sCCUMRMBae7bM_-G8l9g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE2F3101CC62;
- Mon, 26 Sep 2022 09:55:33 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F63A2084836;
- Mon, 26 Sep 2022 09:55:33 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 760C8180A408; Mon, 26 Sep 2022 11:55:11 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1ocl1D-0005fu-JW
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 06:07:21 -0400
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id B96D52E0898;
+ Mon, 26 Sep 2022 12:59:55 +0300 (MSK)
+Received: from den-plotnikov-w.yandex-team.ru (unknown [2a02:6b8:b081:13::1:8])
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ a7t6TLLmY5-xqPi3v2g; Mon, 26 Sep 2022 12:59:53 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1664186394; bh=VKmN4ygxkz3h34JmPzcVqEFJSTlsncPKTQIgbAvHhOE=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=k8sRBMWV0kadnYMOO/zADmPxpYeL/7X+pHkW+y9aqphXeOSOWY4kOqWwHf5mHWHbe
+ J88rFo4tn7r3qn7nxqIUi4v93Z4ukpYF3bPINvN5vJTgt+s5JFbqetNEMoR8WrtWFH
+ ErRZGuasLuAa3c4jc7j5Zx9VcIdlzLc6DSJgpNlc=
+Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Bandan Das <bsd@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Laurent Vivier <lvivier@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Alexandre Ratchov <alex@caoua.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Dongwon Kim <dongwon.kim@intel.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 25/25] virtio-gpu: update scanout if there is any area covered
- by the rect
-Date: Mon, 26 Sep 2022 11:55:09 +0200
-Message-Id: <20220926095509.3759409-26-kraxel@redhat.com>
-In-Reply-To: <20220926095509.3759409-1-kraxel@redhat.com>
-References: <20220926095509.3759409-1-kraxel@redhat.com>
+Cc: yc-core@yandex-team.ru,
+	armbru@redhat.com,
+	michael.roth@amd.com
+Subject: [patch v0] qapi/qmp: Add timestamps to qmp command responses.
+Date: Mon, 26 Sep 2022 12:59:40 +0300
+Message-Id: <20220926095940.283094-1-den-plotnikov@yandex-team.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=5.45.199.163;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -79,7 +63,6 @@ X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,40 +74,281 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dongwon Kim <dongwon.kim@intel.com>
+Add "start" & "end" timestamps to qmp command responses.
+It's disabled by default, but can be enabled with 'timestamp=on'
+monitor's parameter, e.g.:
+    -chardev  socket,id=mon1,path=/tmp/qmp.socket,server=on,wait=off
+    -mon chardev=mon1,mode=control,timestamp=on
 
-The scanout is currently updated only if the whole rect is inside the
-scanout space. This is not a correct condition because the scanout should
-be updated even a small area in the scanout space is covered by the rect.
+Example of result:
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220909014052.7297-1-dongwon.kim@intel.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+    ./qemu/scripts/qmp/qmp-shell /tmp/qmp.socket
+
+    (QEMU) query-status
+    {"end": {"seconds": 1650367305, "microseconds": 831032},
+     "start": {"seconds": 1650367305, "microseconds": 831012},
+     "return": {"status": "running", "singlestep": false, "running": true}}
+
+The responce of the qmp command contains the start & end time of
+the qmp command processing.
+
+These times may be helpful for the management layer in understanding of
+the actual timeline of a qmp command processing.
+
+Suggested-by: Andrey Ryabinin <arbn@yandex-team.ru>
+Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
 ---
- hw/display/virtio-gpu.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ include/monitor/monitor.h   |  2 +-
+ include/qapi/qmp/dispatch.h |  2 +-
+ monitor/monitor-internal.h  |  1 +
+ monitor/monitor.c           |  9 ++++++++-
+ monitor/qmp.c               |  5 +++--
+ qapi/control.json           |  3 +++
+ qapi/qmp-dispatch.c         | 28 +++++++++++++++++++++++++++-
+ qga/main.c                  |  2 +-
+ stubs/monitor-core.c        |  2 +-
+ tests/unit/test-qmp-cmds.c  |  6 +++---
+ 10 files changed, 49 insertions(+), 11 deletions(-)
 
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 20cc703dcc6e..5e15c79b94a5 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -515,9 +515,10 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
-         for (i = 0; i < g->parent_obj.conf.max_outputs; i++) {
-             scanout = &g->parent_obj.scanout[i];
-             if (scanout->resource_id == res->resource_id &&
--                rf.r.x >= scanout->x && rf.r.y >= scanout->y &&
--                rf.r.x + rf.r.width <= scanout->x + scanout->width &&
--                rf.r.y + rf.r.height <= scanout->y + scanout->height &&
-+                rf.r.x < scanout->x + scanout->width &&
-+                rf.r.x + rf.r.width >= scanout->x &&
-+                rf.r.y < scanout->y + scanout->height &&
-+                rf.r.y + rf.r.height >= scanout->y &&
-                 console_has_gl(scanout->con)) {
-                 dpy_gl_update(scanout->con, 0, 0, scanout->width,
-                               scanout->height);
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index a4b40e8391db4..2a18e9ee34bc2 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -19,7 +19,7 @@ bool monitor_cur_is_qmp(void);
+ 
+ void monitor_init_globals(void);
+ void monitor_init_globals_core(void);
+-void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp);
++void monitor_init_qmp(Chardev *chr, bool pretty, bool timestamp, Error **errp);
+ void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp);
+ int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp);
+ int monitor_init_opts(QemuOpts *opts, Error **errp);
+diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
+index 1e4240fd0dbc0..d07f5764271be 100644
+--- a/include/qapi/qmp/dispatch.h
++++ b/include/qapi/qmp/dispatch.h
+@@ -56,7 +56,7 @@ const char *qmp_command_name(const QmpCommand *cmd);
+ bool qmp_has_success_response(const QmpCommand *cmd);
+ QDict *qmp_error_response(Error *err);
+ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+-                    bool allow_oob, Monitor *cur_mon);
++                    bool allow_oob, bool timestamp, Monitor *cur_mon);
+ bool qmp_is_oob(const QDict *dict);
+ 
+ typedef void (*qmp_cmd_callback_fn)(const QmpCommand *cmd, void *opaque);
+diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+index caa2e90ef22a4..69425a7bc8152 100644
+--- a/monitor/monitor-internal.h
++++ b/monitor/monitor-internal.h
+@@ -136,6 +136,7 @@ typedef struct {
+     Monitor common;
+     JSONMessageParser parser;
+     bool pretty;
++    bool timestamp;
+     /*
+      * When a client connects, we're in capabilities negotiation mode.
+      * @commands is &qmp_cap_negotiation_commands then.  When command
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 86949024f643a..85a0b6498dbc1 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -726,7 +726,7 @@ int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp)
+ 
+     switch (opts->mode) {
+     case MONITOR_MODE_CONTROL:
+-        monitor_init_qmp(chr, opts->pretty, &local_err);
++        monitor_init_qmp(chr, opts->pretty, opts->timestamp, &local_err);
+         break;
+     case MONITOR_MODE_READLINE:
+         if (!allow_hmp) {
+@@ -737,6 +737,10 @@ int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp)
+             error_setg(errp, "'pretty' is not compatible with HMP monitors");
+             return -1;
+         }
++        if (opts->timestamp) {
++            error_setg(errp, "'timestamp' is not compatible with HMP monitors");
++            return -1;
++        }
+         monitor_init_hmp(chr, true, &local_err);
+         break;
+     default:
+@@ -782,6 +786,9 @@ QemuOptsList qemu_mon_opts = {
+         },{
+             .name = "pretty",
+             .type = QEMU_OPT_BOOL,
++        },{
++            .name = "timestamp",
++            .type = QEMU_OPT_BOOL,
+         },
+         { /* end of list */ }
+     },
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index 092c527b6fc9c..fd487fee9f850 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -142,7 +142,7 @@ static void monitor_qmp_dispatch(MonitorQMP *mon, QObject *req)
+     QDict *error;
+ 
+     rsp = qmp_dispatch(mon->commands, req, qmp_oob_enabled(mon),
+-                       &mon->common);
++                       mon->timestamp, &mon->common);
+ 
+     if (mon->commands == &qmp_cap_negotiation_commands) {
+         error = qdict_get_qdict(rsp, "error");
+@@ -495,7 +495,7 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
+     monitor_list_append(&mon->common);
+ }
+ 
+-void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
++void monitor_init_qmp(Chardev *chr, bool pretty, bool timestamp, Error **errp)
+ {
+     MonitorQMP *mon = g_new0(MonitorQMP, 1);
+ 
+@@ -510,6 +510,7 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+                       qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
+ 
+     mon->pretty = pretty;
++    mon->timestamp = timestamp;
+ 
+     qemu_mutex_init(&mon->qmp_queue_lock);
+     mon->qmp_requests = g_queue_new();
+diff --git a/qapi/control.json b/qapi/control.json
+index afca2043af2fd..f4a4aef4be7f0 100644
+--- a/qapi/control.json
++++ b/qapi/control.json
+@@ -199,6 +199,8 @@
+ #
+ # @pretty: Enables pretty printing (QMP only)
+ #
++# @timestamp: Enables qmp command start and end timestamps printing (QMP only)
++#
+ # @chardev: Name of a character device to expose the monitor on
+ #
+ # Since: 5.0
+@@ -208,5 +210,6 @@
+       '*id': 'str',
+       '*mode': 'MonitorMode',
+       '*pretty': 'bool',
++      '*timestamp': 'bool',
+       'chardev': 'str'
+   } }
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index 0990873ec8ec1..79885db7417ac 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -110,6 +110,22 @@ bool qmp_is_oob(const QDict *dict)
+         && !qdict_haskey(dict, "execute");
+ }
+ 
++static void add_timestamps(QDict *qdict, uint64_t start_ms, uint64_t end_ms)
++{
++    QDict *start_dict, *end_dict;
++
++    start_dict = qdict_new();
++    qdict_put_int(start_dict, "seconds", start_ms / G_USEC_PER_SEC);
++    qdict_put_int(start_dict, "microseconds", start_ms % G_USEC_PER_SEC);
++
++    end_dict = qdict_new();
++    qdict_put_int(end_dict, "seconds", end_ms / G_USEC_PER_SEC);
++    qdict_put_int(end_dict, "microseconds", end_ms % G_USEC_PER_SEC);
++
++    qdict_put_obj(qdict, "start", QOBJECT(start_dict));
++    qdict_put_obj(qdict, "end", QOBJECT(end_dict));
++}
++
+ typedef struct QmpDispatchBH {
+     const QmpCommand *cmd;
+     Monitor *cur_mon;
+@@ -135,7 +151,7 @@ static void do_qmp_dispatch_bh(void *opaque)
+  * context for everything else.
+  */
+ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+-                    bool allow_oob, Monitor *cur_mon)
++                    bool allow_oob, bool timestamp, Monitor *cur_mon)
+ {
+     Error *err = NULL;
+     bool oob;
+@@ -146,6 +162,11 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+     QObject *id;
+     QObject *ret = NULL;
+     QDict *rsp = NULL;
++    uint64_t ts_start = -1;
++
++    if (timestamp) {
++        ts_start = g_get_real_time();
++    }
+ 
+     dict = qobject_to(QDict, request);
+     if (!dict) {
+@@ -270,5 +291,10 @@ out:
+         qdict_put_obj(rsp, "id", qobject_ref(id));
+     }
+ 
++    if (timestamp) {
++        uint64_t ts_end = g_get_real_time();
++        add_timestamps(rsp, ts_start, ts_end);
++    }
++
+     return rsp;
+ }
+diff --git a/qga/main.c b/qga/main.c
+index 5a9d8252e0755..c6650e4d69ffd 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -573,7 +573,7 @@ static void process_event(void *opaque, QObject *obj, Error *err)
+     }
+ 
+     g_debug("processing command");
+-    rsp = qmp_dispatch(&ga_commands, obj, false, NULL);
++    rsp = qmp_dispatch(&ga_commands, obj, false, false, NULL);
+ 
+ end:
+     ret = send_response(s, rsp);
+diff --git a/stubs/monitor-core.c b/stubs/monitor-core.c
+index afa477aae656a..dcd9643da7f4c 100644
+--- a/stubs/monitor-core.c
++++ b/stubs/monitor-core.c
+@@ -12,7 +12,7 @@ Monitor *monitor_set_cur(Coroutine *co, Monitor *mon)
+     return NULL;
+ }
+ 
+-void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
++void monitor_init_qmp(Chardev *chr, bool pretty, bool timestamp, Error **errp)
+ {
+ }
+ 
+diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
+index 6085c099950b5..778146ec96c18 100644
+--- a/tests/unit/test-qmp-cmds.c
++++ b/tests/unit/test-qmp-cmds.c
+@@ -150,7 +150,7 @@ static QObject *do_qmp_dispatch(bool allow_oob, const char *template, ...)
+     req = qdict_from_vjsonf_nofail(template, ap);
+     va_end(ap);
+ 
+-    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, NULL);
++    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, false, NULL);
+     g_assert(resp);
+     ret = qdict_get(resp, "return");
+     g_assert(ret);
+@@ -173,7 +173,7 @@ static void do_qmp_dispatch_error(bool allow_oob, ErrorClass cls,
+     req = qdict_from_vjsonf_nofail(template, ap);
+     va_end(ap);
+ 
+-    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, NULL);
++    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), allow_oob, false,  NULL);
+     g_assert(resp);
+     error = qdict_get_qdict(resp, "error");
+     g_assert(error);
+@@ -229,7 +229,7 @@ static void test_dispatch_cmd_success_response(void)
+     QDict *resp;
+ 
+     qdict_put_str(req, "execute", "cmd-success-response");
+-    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), false, NULL);
++    resp = qmp_dispatch(&qmp_commands, QOBJECT(req), false, false, NULL);
+     g_assert_null(resp);
+     qobject_unref(req);
+ }
 -- 
-2.37.3
+2.25.1
 
 
