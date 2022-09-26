@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A325E9EBE
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:12:43 +0200 (CEST)
-Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76445E9ED2
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:14:52 +0200 (CEST)
+Received: from localhost ([::1]:49934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocl6Q-0003QX-5g
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:12:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57196)
+	id 1ocl8V-0006lg-RC
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:14:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpg-0004uI-CQ
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43450)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpj-00054N-Io
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpe-0003iT-QT
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:24 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpi-0003lV-41
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664186121;
+ s=mimecast20190719; t=1664186125;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y0j2Aqtnv13FSXqrmRMEFPQ/3l4+enM7Zc2eriMcTAk=;
- b=C4OgMLfAk/8Qp6IME3QnznWiE9ztcTcnza0SRIPI1yM0q10YLD3dcGDZ+P0BwUgOnoD9LX
- oPac7sm2t2VSBHRM5FZeKlb+TF0AWnHOw59pHnNEcLaNzW6Q+SxJSZA0u0SM/y/dn5KwPh
- 3RmtPk6CmiXkBX5T94FZVEkeANT+3Rk=
+ bh=8FOzTXJOVlAuEoG61vZulT59fd8k9A6AOrx8I9fMOQc=;
+ b=ODVboMZIXre1fUtmxku3kLLjWj3/jIPAmGx0+lxy4rg8fd3jlTxO3D8YGmnAvS/dkERC/T
+ Bx/+U3PkaE1MT2tCkuCJ3p1s9HWNSVxjpjBAjWYzj5UK+Ev8IPVuvPtrpTVgL86xCVNi8I
+ Ttxisg1P9CRljppb9mqdMDVeZetbPHs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-237-zFnF1XXxPLmhJriejEAmzw-1; Mon, 26 Sep 2022 05:55:18 -0400
-X-MC-Unique: zFnF1XXxPLmhJriejEAmzw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-313-Y8gJYKBZM42qqBYs3g3r_Q-1; Mon, 26 Sep 2022 05:55:20 -0400
+X-MC-Unique: Y8gJYKBZM42qqBYs3g3r_Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BF68185A583;
- Mon, 26 Sep 2022 09:55:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C615101CC67;
+ Mon, 26 Sep 2022 09:55:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 718612166B26;
- Mon, 26 Sep 2022 09:55:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3084840C6EC2;
+ Mon, 26 Sep 2022 09:55:19 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5A33618030AF; Mon, 26 Sep 2022 11:55:10 +0200 (CEST)
+ id 6773E18030B0; Mon, 26 Sep 2022 11:55:10 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
@@ -56,15 +56,15 @@ Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 07/25] ui/vdagent: always reset the clipboard serial on caps
-Date: Mon, 26 Sep 2022 11:54:51 +0200
-Message-Id: <20220926095509.3759409-8-kraxel@redhat.com>
+Subject: [PULL 08/25] ui/clipboard: reset the serial state on reset
+Date: Mon, 26 Sep 2022 11:54:52 +0200
+Message-Id: <20220926095509.3759409-9-kraxel@redhat.com>
 In-Reply-To: <20220926095509.3759409-1-kraxel@redhat.com>
 References: <20220926095509.3759409-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -91,35 +91,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The guest agent doesn't know what is the current serial state. Reset the
-serial value whenever a new agent connection is established.
-
-Fixes:
-https://bugzilla.redhat.com/show_bug.cgi?id=2124446
+Not only we have to reset the vdagent clipboards serial state, but also
+the current QEMU clipboards info serial (the value is currently used by
+qemu_clipboard_check_serial, only used by -display dbus).
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220912102455.111765-4-marcandre.lureau@redhat.com>
+Message-Id: <20220912102455.111765-5-marcandre.lureau@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/vdagent.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ ui/clipboard.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/ui/vdagent.c b/ui/vdagent.c
-index 58ce7507fddc..819e0dc1435b 100644
---- a/ui/vdagent.c
-+++ b/ui/vdagent.c
-@@ -719,8 +719,10 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *msg)
-     if (have_mouse(vd) && vd->mouse_hs) {
-         qemu_input_handler_activate(vd->mouse_hs);
-     }
-+
-+    memset(vd->last_serial, 0, sizeof(vd->last_serial));
-+
-     if (have_clipboard(vd) && vd->cbpeer.notifier.notify == NULL) {
--        memset(vd->last_serial, 0, sizeof(vd->last_serial));
-         vd->cbpeer.name = "vdagent";
-         vd->cbpeer.notifier.notify = vdagent_clipboard_notify;
-         vd->cbpeer.request = vdagent_clipboard_request;
+diff --git a/ui/clipboard.c b/ui/clipboard.c
+index 3e2d02d5490c..3d14bffaf80f 100644
+--- a/ui/clipboard.c
++++ b/ui/clipboard.c
+@@ -139,7 +139,14 @@ void qemu_clipboard_request(QemuClipboardInfo *info,
+ void qemu_clipboard_reset_serial(void)
+ {
+     QemuClipboardNotify notify = { .type = QEMU_CLIPBOARD_RESET_SERIAL };
++    int i;
+ 
++    for (i = 0; i < QEMU_CLIPBOARD_SELECTION__COUNT; i++) {
++        QemuClipboardInfo *info = qemu_clipboard_info(i);
++        if (info) {
++            info->serial = 0;
++        }
++    }
+     notifier_list_notify(&clipboard_notifiers, &notify);
+ }
+ 
 -- 
 2.37.3
 
