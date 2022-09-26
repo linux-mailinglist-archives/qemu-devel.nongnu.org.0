@@ -2,93 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A9D5EAB0C
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 17:30:13 +0200 (CEST)
-Received: from localhost ([::1]:33742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7885EA863
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:28:40 +0200 (CEST)
+Received: from localhost ([::1]:56230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocq3g-0006Vl-8S
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 11:30:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54990)
+	id 1ocp67-0000sr-MU
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:28:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ocp5s-00015W-U7
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:28:25 -0400
-Received: from mga11.intel.com ([192.55.52.93]:35143)
+ (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
+ id 1ocp2C-0003j6-Ig
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:24:36 -0400
+Received: from madras.collabora.co.uk ([46.235.227.172]:55420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ocp5o-0004ik-NI
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:28:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664202500; x=1695738500;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=popbE19nKyEVwEGLpuPjkB9hubnGI4/mt3D2DsIdq20=;
- b=T6x+bOm0tO0FO1ao3EFXdwiXfQ9wNErg4h0afX4wkJUq06EV3AWUKdBX
- st/ZfhMvxPTAgUPJbmzycMhK9yrNUGVyEMuyhE5d2srclHFW3xiTPCWqy
- G+ETIeD3CenvQiiEOSOIARzpdhGEVJ0H2mpTxmjWrdLKqeBaKfOcHwoIs
- DMpsuInLI5fXoOf1xA3iPtab53xrVPL1/lGlmmYJUtanNGv67E528aA9t
- Yyh3rMw7WWeoWKOm43mzAXHq3imG8h1wJ089kMMxCCZ0RLCNMyUcAM0mj
- mDClZa+AZJyCU7uXrKJZwzsikaS6YuDa19sgsXDtWcCYtKcFvBE0UY/vs A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="298640371"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="298640371"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 07:28:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="598755672"
-X-IronPort-AV: E=Sophos;i="5.93,346,1654585200"; d="scan'208";a="598755672"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga006.jf.intel.com with ESMTP; 26 Sep 2022 07:28:07 -0700
-Date: Mon, 26 Sep 2022 22:23:30 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Fuad Tabba <tabba@google.com>
-Cc: Sean Christopherson <seanjc@google.com>,
- David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
- Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20220926142330.GC2658254@chaop.bj.intel.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <Yyi+l3+p9lbBAC4M@google.com>
- <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
+ id 1ocp2A-00043W-Ot
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:24:36 -0400
+Received: from dellino.fritz.box (host-79-27-165-192.retail.telecomitalia.it
+ [79.27.165.192])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: fahien)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C70A2660224E;
+ Mon, 26 Sep 2022 15:24:30 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1664202271;
+ bh=3uGFGBzWzvN33h3LBYd189EgPydbg5z27fZa2/W/HHo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=QOQwb95rke/oXMlWtcZ8L8sFJ2CTPge/0gNsxomwRoK2LX0JUh8IwD+SPG3BAZoDw
+ a/TmDhfMrP25eTebPKKnVS+0nXQTkz15K/q9Tj9voFmKUzdazEOTPkwS2vYh/npqvI
+ G12nwGG1k+pip0w/8c2dRIRDWDlxTphcfFk41JKnAcAs2g6tpnoeT1dU0vbzZGpqTW
+ 8ZgHoRzcnEl4YnXqJTGLGmw/qpi2GvzwUr3WmZ9mtvMVHvSIBjoQEZGdMrQCsSPOaV
+ CEnA3zHL/V+OtnuSNpUJjRlEPsR8j5pSuLBjyTl0CRqZdhYibv6P/kIluKbPSNcPo1
+ Rz4jK+B4/NqUg==
+From: Antonio Caggiano <antonio.caggiano@collabora.com>
+To: qemu-devel@nongnu.org
+Cc: gert.wollny@collabora.com,
+	dmitry.osipenko@collabora.com
+Subject: [PATCH v3 0/9] virtio-gpu: Support Venus Vulkan driver
+Date: Mon, 26 Sep 2022 16:24:13 +0200
+Message-Id: <20220926142422.22325-1-antonio.caggiano@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTzy4iOxLF=5UX=s5v6HSB3Nb1LkwmGqoKhp_PAnFeVPSQ@mail.gmail.com>
-Received-SPF: none client-ip=192.55.52.93;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga11.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=46.235.227.172;
+ envelope-from=antonio.caggiano@collabora.com; helo=madras.collabora.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,127 +67,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 23, 2022 at 04:19:46PM +0100, Fuad Tabba wrote:
-> > Regarding pKVM's use case, with the shim approach I believe this can be done by
-> > allowing userspace mmap() the "hidden" memfd, but with a ton of restrictions
-> > piled on top.
-> >
-> > My first thought was to make the uAPI a set of KVM ioctls so that KVM could tightly
-> > tightly control usage without taking on too much complexity in the kernel, but
-> > working through things, routing the behavior through the shim itself might not be
-> > all that horrific.
-> >
-> > IIRC, we discarded the idea of allowing userspace to map the "private" fd because
-> > things got too complex, but with the shim it doesn't seem _that_ bad.
-> >
-> > E.g. on the memfd side:
-> >
-> >   1. The entire memfd must be mapped, and at most one mapping is allowed, i.e.
-> >      mapping is all or nothing.
-> >
-> >   2. Acquiring a reference via get_pfn() is disallowed if there's a mapping for
-> >      the restricted memfd.
-> >
-> >   3. Add notifier hooks to allow downstream users to further restrict things.
-> >
-> >   4. Disallow splitting VMAs, e.g. to force userspace to munmap() everything in
-> >      one shot.
-> >
-> >   5. Require that there are no outstanding references at munmap().  Or if this
-> >      can't be guaranteed by userspace, maybe add some way for userspace to wait
-> >      until it's ok to convert to private?  E.g. so that get_pfn() doesn't need
-> >      to do an expensive check every time.
-> >
-> >   static int memfd_restricted_mmap(struct file *file, struct vm_area_struct *vma)
-> >   {
-> >         if (vma->vm_pgoff)
-> >                 return -EINVAL;
-> >
-> >         if ((vma->vm_end - vma->vm_start) != <file size>)
-> >                 return -EINVAL;
-> >
-> >         mutex_lock(&data->lock);
-> >
-> >         if (data->has_mapping) {
-> >                 r = -EINVAL;
-> >                 goto err;
-> >         }
-> >         list_for_each_entry(notifier, &data->notifiers, list) {
-> >                 r = notifier->ops->mmap_start(notifier, ...);
-> >                 if (r)
-> >                         goto abort;
-> >         }
-> >
-> >         notifier->ops->mmap_end(notifier, ...);
-> >         mutex_unlock(&data->lock);
-> >         return 0;
-> >
-> >   abort:
-> >         list_for_each_entry_continue_reverse(notifier &data->notifiers, list)
-> >                 notifier->ops->mmap_abort(notifier, ...);
-> >   err:
-> >         mutex_unlock(&data->lock);
-> >         return r;
-> >   }
-> >
-> >   static void memfd_restricted_close(struct vm_area_struct *vma)
-> >   {
-> >         mutex_lock(...);
-> >
-> >         /*
-> >          * Destroy the memfd and disable all future accesses if there are
-> >          * outstanding refcounts (or other unsatisfied restrictions?).
-> >          */
-> >         if (<outstanding references> || ???)
-> >                 memfd_restricted_destroy(...);
-> >         else
-> >                 data->has_mapping = false;
-> >
-> >         mutex_unlock(...);
-> >   }
-> >
-> >   static int memfd_restricted_may_split(struct vm_area_struct *area, unsigned long addr)
-> >   {
-> >         return -EINVAL;
-> >   }
-> >
-> >   static int memfd_restricted_mapping_mremap(struct vm_area_struct *new_vma)
-> >   {
-> >         return -EINVAL;
-> >   }
-> >
-> > Then on the KVM side, its mmap_start() + mmap_end() sequence would:
-> >
-> >   1. Not be supported for TDX or SEV-SNP because they don't allow adding non-zero
-> >      memory into the guest (after pre-boot phase).
-> >
-> >   2. Be mutually exclusive with shared<=>private conversions, and is allowed if
-> >      and only if the entire gfn range of the associated memslot is shared.
-> 
-> In general I think that this would work with pKVM. However, limiting
-> private<->shared conversions to the granularity of a whole memslot
-> might be difficult to handle in pKVM, since the guest doesn't have the
-> concept of memslots. For example, in pKVM right now, when a guest
-> shares back its restricted DMA pool with the host it does so at the
-> page-level. pKVM would also need a way to make an fd accessible again
-> when shared back, which I think isn't possible with this patch.
+This series of patches enables support for the Venus VirtIO-GPU Vulkan
+driver by adding some features required by the driver:
 
-But does pKVM really want to mmap/munmap a new region at the page-level,
-that can cause VMA fragmentation if the conversion is frequent as I see.
-Even with a KVM ioctl for mapping as mentioned below, I think there will
-be the same issue.
+- CONTEXT_INIT
+- HOSTMEM
+- RESOURCE_UUID
+- BLOB_RESOURCES
 
-> 
-> You were initially considering a KVM ioctl for mapping, which might be
-> better suited for this since KVM knows which pages are shared and
-> which ones are private. So routing things through KVM might simplify
-> things and allow it to enforce all the necessary restrictions (e.g.,
-> private memory cannot be mapped). What do you think?
-> 
-> Thanks,
-> /fuad
+In addition to these features, Venus capset support was required
+together with the implementation for Virgl blob resource commands.
+
+Antonio Caggiano (7):
+  virtio-gpu: Handle resource blob commands
+  virtio-gpu: CONTEXT_INIT feature
+  virtio-gpu: Unrealize
+  virtio-gpu: Resource UUID
+  virtio-gpu: Support Venus capset
+  virtio-gpu: Initialize Venus
+  virtio-gpu: Get EGL Display callback
+
+Dr. David Alan Gilbert (1):
+  virtio: Add shared memory capability
+
+Gerd Hoffmann (1):
+  virtio-gpu: hostmem
+
+ hw/display/trace-events                     |   1 +
+ hw/display/virtio-gpu-base.c                |   7 +-
+ hw/display/virtio-gpu-pci.c                 |  15 ++
+ hw/display/virtio-gpu-virgl.c               | 230 +++++++++++++++++++-
+ hw/display/virtio-gpu.c                     |  67 +++++-
+ hw/display/virtio-vga.c                     |  33 ++-
+ hw/virtio/virtio-pci.c                      |  18 ++
+ include/hw/virtio/virtio-gpu-bswap.h        |  18 ++
+ include/hw/virtio/virtio-gpu.h              |  21 ++
+ include/hw/virtio/virtio-pci.h              |   4 +
+ include/standard-headers/linux/virtio_gpu.h |   2 +
+ meson.build                                 |   9 +
+ 12 files changed, 403 insertions(+), 22 deletions(-)
+
+-- 
+2.34.1
+
 
