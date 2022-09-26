@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2815EA806
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:10:12 +0200 (CEST)
-Received: from localhost ([::1]:43924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1215EA82F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:17:37 +0200 (CEST)
+Received: from localhost ([::1]:48396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocooD-0001kB-Qv
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:10:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56002)
+	id 1ocovQ-0004nP-LU
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:17:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oco9x-00009V-HN
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:28:35 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:46678)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ocoKH-00021R-Fr
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:39:14 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oco9u-0003s3-9e
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:28:31 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id BF0111F9B0;
- Mon, 26 Sep 2022 13:28:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664198908; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2RCgVD1rw2w1fL3zSLjcrhxkxZNRvZ/nkZBIEEojrwI=;
- b=rGZ0UJmTt97xmleMMU4z+VV2sdyHVp6aB5Dy1fTsTMsEfL7K6Hae2qcQSQQlifFgqjZ476
- pyCR8RIxqQnyhTWmdPKMv6LRxUSaLNyPdAaADtmv2E3ccnblM4EZbHFkapUDeRdtsUBLvV
- bEqjOhx0jTO2vdgLPMj4GIeTACNZ+AA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664198908;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2RCgVD1rw2w1fL3zSLjcrhxkxZNRvZ/nkZBIEEojrwI=;
- b=55QjWUx5ZSqbPTgS0OmbR9JU/i9WjGXnfGdv8wPUZT4c3ayuWei9ccrY9nSt/LYjP/oJ1L
- tG3pR7UuD2DOKRDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6A50E13486;
- Mon, 26 Sep 2022 13:28:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Nr1CGPyoMWPMbQAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 26 Sep 2022 13:28:28 +0000
-Message-ID: <52682bbd-b884-3b7e-4a02-212f7d9b782b@suse.de>
-Date: Mon, 26 Sep 2022 15:28:27 +0200
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ocoKD-0005e4-3Y
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:39:12 -0400
+Received: by mail-wr1-x436.google.com with SMTP id y5so10293546wrh.3
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:39:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=OSHuYNoeAhBgevG45a7IfEUr6E+OClE/MaFvqiZpjFY=;
+ b=hB8QKccFUs+W/rKK6Q9jpjwcCxw+IyK3ZF+NUg9Rf6v8tdHgjuKJ35F0ehmBOdb3bx
+ 0It0KSv1mP4RgvXQ6ueAEyeVnJVP1Ck9E8dDvikFJiiILAuWvkCEBSjFVLFIhU59AtMf
+ yQ/FBwFSK6a0bxLsuagHLQx0unb9mtj6ghoctxw4uAAQp1cU1tvIWRu7esZ6/SFeQP4V
+ 9jqLmnU/N/bSzOrOQQI3qb48hT/Xs/EZzYCO9nAFQIsnX9k9SUi1Gn8yvnRH2Z65Q2uc
+ hN9pcQrGlGJJXonqfyMy7RTdpmoRV4aMsYyRCQauSBerXEIw9/5r8urU1eM8jOrTi0lg
+ Wnig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=OSHuYNoeAhBgevG45a7IfEUr6E+OClE/MaFvqiZpjFY=;
+ b=EM/xWKVFkM2lZyWVS988akIEZcYvS383KjemlB/Zfg9s9EhnnrfEFqV8Y8NtDZ8oq8
+ 5y77l9u2IIKr2TXM9JXvqhPrZY0oPT5ebCx+ViHTAquZUQEF0pIMrg2DUQ/X5cCXsY/4
+ 5EX0XroLBgzQZchoigKD+U3UxkdKd3TX+I8qmMFtkTATTs3zA2mX78AAYRzTHNN5c63G
+ ji2jbD7DVTqzb3sAOkcSiKc2GHtgnHdvqYwFb2AMXhQBjTkpFCZLTwqWfTGZDEV5Bj+3
+ xvb3FXB4svUJU7z2cIb0hBiz+NvBZWLwl+oXLWyaH/u2OfKVLwH673hXOGhSO21c/Y14
+ Nh8Q==
+X-Gm-Message-State: ACrzQf23RKYuehM6BN0DaCgL38XolOc2gt2IkE1rTCnAyTSWiPJeYd28
+ lzamGV34ziVg2UMvhbiCmjbEFg==
+X-Google-Smtp-Source: AMsMyM526HhkvuUamx8nwjtwJoEWXYouczVNiAO/HNiW44eGKaw335K92/QCxcvc2RnrSh9yOs2SKA==
+X-Received: by 2002:a05:6000:124f:b0:228:8713:ced9 with SMTP id
+ j15-20020a056000124f00b002288713ced9mr13755413wrx.198.1664199546384; 
+ Mon, 26 Sep 2022 06:39:06 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ z10-20020adfec8a000000b0022afe4fb459sm14283990wrn.51.2022.09.26.06.39.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Sep 2022 06:39:05 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C3A0A1FFB8;
+ Mon, 26 Sep 2022 14:39:04 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, mads@ynddal.dk, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v2 01/11] hw: encode accessing CPU index in MemTxAttrs
+Date: Mon, 26 Sep 2022 14:38:54 +0100
+Message-Id: <20220926133904.3297263-2-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220926133904.3297263-1-alex.bennee@linaro.org>
+References: <20220926133904.3297263-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v6 3/5] module: add Error arguments to module_load and
- module_load_qom
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220923232104.28420-1-cfontana@suse.de>
- <20220923232104.28420-4-cfontana@suse.de> <YzGBOwBQucv1F2NL@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <YzGBOwBQucv1F2NL@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,89 +94,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/26/22 12:38, Kevin Wolf wrote:
-> Am 24.09.2022 um 01:21 hat Claudio Fontana geschrieben:
->> improve error handling during module load, by changing:
->>
->> bool module_load(const char *prefix, const char *lib_name);
->> void module_load_qom(const char *type);
->>
->> to:
->>
->> int module_load(const char *prefix, const char *name, Error **errp);
->> int module_load_qom(const char *type, Error **errp);
->>
->> where the return value is:
->>
->>  -1 on module load error, and errp is set with the error
->>   0 on module or one of its dependencies are not installed
->>   1 on module load success
->>   2 on module load success (module already loaded or built-in)
->>
->> module_load_qom_one has been introduced in:
->>
->> commit 28457744c345 ("module: qom module support"), which built on top of
->> module_load_one, but discarded the bool return value. Restore it.
->>
->> Adapt all callers to emit errors, or ignore them, or fail hard,
->> as appropriate in each context.
->>
->> Some memory leaks also fixed as part of the module_load changes.
->>
->> audio: when attempting to load an audio module, report module load errors.
->> block: when attempting to load a block module, report module load errors.
->> console: when attempting to load a display module, report module load errors.
->>
->> qdev: when creating a new qdev Device object (DeviceState), report load errors.
->>       If a module cannot be loaded to create that device, now abort execution.
->>
->> qom/object.c: when initializing a QOM object, or looking up class_by_name,
->>               report module load errors.
->>
->> qtest: when processing the "module_load" qtest command, report errors
->>        in the load of the module.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> 
->> diff --git a/block/dmg.c b/block/dmg.c
->> index 007b8d9996..a422cf8d5b 100644
->> --- a/block/dmg.c
->> +++ b/block/dmg.c
->> @@ -434,6 +434,7 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
->>      uint64_t plist_xml_offset, plist_xml_length;
->>      int64_t offset;
->>      int ret;
->> +    Error *local_err = NULL;
->>  
->>      ret = bdrv_apply_auto_read_only(bs, NULL, errp);
->>      if (ret < 0) {
->> @@ -446,8 +447,15 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
->>          return -EINVAL;
->>      }
->>  
->> -    block_module_load("dmg-bz2");
->> -    block_module_load("dmg-lzfse");
->> +    if (block_module_load("dmg-bz2", &local_err) < 0) {
->> +        error_report_err(local_err);
->> +        return -EINVAL;
->> +    }
->> +    local_err = NULL;
->> +    if (block_module_load("dmg-lzfse", &local_err) < 0) {
->> +        error_report_err(local_err);
->> +        return -EINVAL;
->> +    }
-> 
-> Why don't we pass the existing errp instead of adding a new local_err
-> and printing it locally? If we use error_report_err(local_err) and leave
-> errp untouched, the caller will print another less specific error
-> message, which is generally not what we want.
-> 
-> Kevin
-> 
+We currently have hacks across the hw/ to reference current_cpu to
+work out what the current accessing CPU is. This breaks in some cases
+including using gdbstub to access HW state. As we have MemTxAttrs to
+describe details about the access lets extend it to mention if this is
+a CPU access and which one it is.
 
-Ok, you know that code best, will merge the two.
+There are a number of places we need to fix up including:
 
-Thanks,
+  CPU helpers directly calling address_space_*() fns
+  models in hw/ fishing the data out of current_cpu
+  hypervisors offloading device emulation to QEMU
 
-Claudio 
+I'll start addressing some of these in following patches.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+
+---
+v2
+  - use separate field cpu_index
+  - bool for requester_is_cpu
+v3
+  - switch to enum MemTxRequesterType
+  - move helper #define to patch
+  - revert to overloading requester_id
+  - mention hypervisors in commit message
+  - drop cputlb tweaks, they will move to target specific code
+---
+ include/exec/memattrs.h | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
+index 9fb98bc1ef..0fb5f29d25 100644
+--- a/include/exec/memattrs.h
++++ b/include/exec/memattrs.h
+@@ -14,6 +14,15 @@
+ #ifndef MEMATTRS_H
+ #define MEMATTRS_H
+ 
++/*
++ * Where the memory transaction comes from
++ */
++typedef enum MemTxRequesterType {
++    MEMTXATTRS_CPU,
++    MEMTXATTRS_MSI,
++} MemTxRequesterType;
++
++
+ /* Every memory transaction has associated with it a set of
+  * attributes. Some of these are generic (such as the ID of
+  * the bus master); some are specific to a particular kind of
+@@ -43,7 +52,9 @@ typedef struct MemTxAttrs {
+      * (see MEMTX_ACCESS_ERROR).
+      */
+     unsigned int memory:1;
+-    /* Requester ID (for MSI for example) */
++    /* Requester type (e.g. CPU or PCI MSI) */
++    MemTxRequesterType requester_type:2;
++    /* Requester ID */
+     unsigned int requester_id:16;
+     /* Invert endianness for this page */
+     unsigned int byte_swap:1;
+@@ -66,6 +77,10 @@ typedef struct MemTxAttrs {
+  */
+ #define MEMTXATTRS_UNSPECIFIED ((MemTxAttrs) { .unspecified = 1 })
+ 
++/* Helper for setting a basic CPU sourced transaction */
++#define MEMTXATTRS_CPU(id) ((MemTxAttrs) \
++                            {.requester_type = MEMTXATTRS_CPU, .requester_id = id})
++
+ /* New-style MMIO accessors can indicate that the transaction failed.
+  * A zero (MEMTX_OK) response means success; anything else is a failure
+  * of some kind. The memory subsystem will bitwise-OR together results
+-- 
+2.34.1
+
 
