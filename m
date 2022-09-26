@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66FA5EAEB7
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 19:54:54 +0200 (CEST)
-Received: from localhost ([::1]:48940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23EA45EAEE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 19:59:40 +0200 (CEST)
+Received: from localhost ([::1]:57124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocsJh-0005Ee-OH
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 13:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40216)
+	id 1ocsOH-0002tf-De
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 13:59:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ocs4o-0008Ep-Jq
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:39:33 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:37443)
+ id 1ocs4s-0008FS-DG
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:39:39 -0400
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:34325)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ocs4m-00029m-0M
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:39:30 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- w22-20020a056830061600b006546deda3f9so4922292oti.4
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 10:39:27 -0700 (PDT)
+ id 1ocs4q-0002AH-VE
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:39:34 -0400
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-1280590722dso10212093fac.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 10:39:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=ozDC9a04ZCGETBJqu69PyFI6JbnzTsgup1wMXc7FuEY=;
- b=Hhs77T4W9Wwzc6GJny1Dg9LtqI7mTNqF5jwJKsevBEzo2sbvfW3WlOr+ha4Ko9wV/F
- xRLJFxC2u8NqzITGkm5NNuufDN+iSQMsk0GcwbJma7Gbmr3SFBVKOkX+rtbJ+c+ZhQFo
- kARcRQVdZb1IIu6R88NTLDVPbVO0VRkjyiNNPVBitT2muwIT7qiKdN/SXPuDLoS3ruGs
- BQatYkhSak2Mvu3MZO9zQj7GU057cJQM4orJ5ewstm+yuxPx1kU/ITey0ZSw4We5a8hI
- gSoQ8MoOmxMe5u/GPkPt5x8FwpU66fW8ARBJmc/V9ugfPTUScG+hp02uK9WFrqe+GC49
- B0xA==
+ bh=8k8m7tTIRsONuhUtiiTz4lsaFZ+v66z/dHGJZRmH4R4=;
+ b=aMUze2F0FHOTqkPdQtsBjBlE7RYQ0kPjouz3EHBrkyiZhifCSo0JRjGPEQpOq26pNd
+ 6PQ0kkDNwrQUc+W6dFhJ8fV2qu3S6unXQTEBxgI2/PdXS/EDfNhOPOV5mY1ZxccmSH7u
+ GCmQikVVUjlsdkqTqjBrKfRh5vzpysWNKT+D9sYhBO7rlROALLueCuYoIRPcLrlthct6
+ 5WNlymqTgDi3jIbXwYWkEqXJtAXaWUenYQpdxF3aKWG6MOwrbUBDv/xUp1qWauvJHTO7
+ hHrWn/VjPOxR0TJnqItYjGLO7apSeaxgeIfcpvu/OfaipkmUEGINLrm8bebRYOXO/w9q
+ juvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=ozDC9a04ZCGETBJqu69PyFI6JbnzTsgup1wMXc7FuEY=;
- b=FD9LjpDnC3BATD3yhL68ScnvaGSbczFzNzFoRF788czdbdKKeTVVJRW9Z88/rYtEAq
- B8zAVD/MWV+rLgN74X83SNf66e+HR3qLVwuvq8M3q0COkHKZap28QtBgxjuJWPA6+BMS
- vplEnsvgEN1IgjoFdP24DNuej2KBvAebzGz6cxSlGqikr0OKvn5pjc5zPK2GJB1PESI2
- 2Sddp6TaLEesGXJdcRHOzQoA3WAXoPvGD8PhvdNS1qcO7BWJQO7w8vVvmaQEeIvFYWgA
- KqpmrzV3T5hg910xKII2GCJfC60qrITgyJDtV/hF1eKNFlgYmAP7wVpQr+pRdqBg2MPo
- JnqA==
-X-Gm-Message-State: ACrzQf0fZUg2agH9duw76DbhRSNYSjsJQRQLDDIgSWvHbx4HciXEmD5X
- L83//0XtTOPe91QLkGX/NL1DeWYBqYY=
-X-Google-Smtp-Source: AMsMyM5HKeQrdAhu1C817AAcXgnclc0eDeRQ87epjdnDhp/brEJZmq/Iv4s+Gag/S3xjDdxfR01K9A==
-X-Received: by 2002:a05:6830:2706:b0:659:de15:2cae with SMTP id
- j6-20020a056830270600b00659de152caemr11005705otu.4.1664213966468; 
- Mon, 26 Sep 2022 10:39:26 -0700 (PDT)
+ bh=8k8m7tTIRsONuhUtiiTz4lsaFZ+v66z/dHGJZRmH4R4=;
+ b=KjDhTqWzuop4B58oNbe/ATUkB6zGA8NxZZ7G1sN0TZuNgFZcJgCTiESB9+K8/veseM
+ lmaiOY2uclSgwqLCH/I7rbymwER0mO3dQKa5ee+7utqk9rHrrS9Yvc1glmO18/PS0zyi
+ 6567oHFrKaZdSnmtsK8v+JT5JzrMZf5hEtUrSzutxoiC2n9h5AFW5azGbKteu1Zv+Z83
+ RAgLW9ziZynUVFkTFXslsYYw1FdTWc6JAnSGjqY7nZam6x5x2qv0+j90dlSGBwgMktbE
+ aWN89cpLjcwK23XRi0UJDVw+PiC8VZ0nbRJQHJVQVgqH0MuDDbQ92cd5riBsDSqvpBA8
+ sC2w==
+X-Gm-Message-State: ACrzQf3uj7avZZ2ifQknW+/gZCJD9qxXuObw3mQJW9sEsbfqKOPAG1Q2
+ 8qA1wJxVaA10CczaU5eg/grl3kQkwyo=
+X-Google-Smtp-Source: AMsMyM65ReA/+PzOglZmVv5rpPWqcofLsQS/pHR7LWoV+FUhGN3wg8FFAhbJc03ogL1+gkPXv261jw==
+X-Received: by 2002:a05:6870:d299:b0:131:6b65:b010 with SMTP id
+ d25-20020a056870d29900b001316b65b010mr988250oae.234.1664213971088; 
+ Mon, 26 Sep 2022 10:39:31 -0700 (PDT)
 Received: from balboa.COMFAST (189-68-154-15.dsl.telesp.net.br.
  [189.68.154.15]) by smtp.gmail.com with ESMTPSA id
- m12-20020a0568301e6c00b0061c9ab1032dsm7947165otr.18.2022.09.26.10.39.24
+ m12-20020a0568301e6c00b0061c9ab1032dsm7947165otr.18.2022.09.26.10.39.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 10:39:26 -0700 (PDT)
+ Mon, 26 Sep 2022 10:39:30 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Frederic Barrat <fbarrat@linux.ibm.com>
-Subject: [PATCH v8 12/16] hw/ppc: set machine->fdt in pnv_reset()
-Date: Mon, 26 Sep 2022 14:38:51 -0300
-Message-Id: <20220926173855.1159396-13-danielhb413@gmail.com>
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH v8 14/16] hw/riscv: set machine->fdt in sifive_u_machine_init()
+Date: Mon, 26 Sep 2022 14:38:53 -0300
+Message-Id: <20220926173855.1159396-15-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220926173855.1159396-1-danielhb413@gmail.com>
 References: <20220926173855.1159396-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x332.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,35 +96,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will enable support for the 'dumpdtb' QMP/HMP command for
-all powernv machines.
+This will enable support for 'dumpdtb' QMP/HMP command for the sifive_u
+machine.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/pnv.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ hw/riscv/sifive_u.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 354aa289d1..6a20c4811f 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -678,7 +678,13 @@ static void pnv_reset(MachineState *machine)
-     qemu_fdt_dumpdtb(fdt, fdt_totalsize(fdt));
-     cpu_physical_memory_write(PNV_FDT_ADDR, fdt, fdt_totalsize(fdt));
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index e4c814a3ea..b139824aab 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -634,6 +634,9 @@ static void sifive_u_machine_init(MachineState *machine)
+         start_addr_hi32 = (uint64_t)start_addr >> 32;
+     }
  
--    g_free(fdt);
-+    /*
-+     * Set machine->fdt for 'dumpdtb' QMP/HMP command. Free
-+     * the existing machine->fdt to avoid leaking it during
-+     * a reset.
-+     */
-+    g_free(machine->fdt);
-+    machine->fdt = fdt;
- }
- 
- static ISABus *pnv_chip_power8_isa_create(PnvChip *chip, Error **errp)
++    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
++    machine->fdt = s->fdt;
++
+     /* reset vector */
+     uint32_t reset_vec[12] = {
+         s->msel,                       /* MSEL pin state */
 -- 
 2.37.3
 
