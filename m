@@ -2,94 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95EE95EA8F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:49:42 +0200 (CEST)
-Received: from localhost ([::1]:49562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADB85EA953
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:57:23 +0200 (CEST)
+Received: from localhost ([::1]:40630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocpQT-0001aH-LT
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:49:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49654)
+	id 1ocpXt-0000eW-Nw
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ocpLZ-0004F6-P4
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:44:42 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:53545)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1ocpPb-00009H-V9; Mon, 26 Sep 2022 10:48:47 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ocpLX-00077B-G1
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 10:44:37 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id C8EF85C00AF;
- Mon, 26 Sep 2022 10:44:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 26 Sep 2022 10:44:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1664203471; x=
- 1664289871; bh=YT0xN66NX+uFrq6gV3VK3hHffNGVNNucVDgZW/WIaTc=; b=w
- OEXQcbzKyV4yxWcFaDlqCY9UaxL/aVGCJ0pboBbYIz41IPx6lI9hcFIxns2sOHjz
- 9m7/6vwV/BvD+MAPI2tWQWR1nH4mxhPcqUPJk+ctZhNwsQcU+k6I5VQcWY2mprxu
- /z7+JW4EsFWNVKHMBHHYYk3aM0krE25pVnjvTq/H5ZsWDfIOyRRKuGjOiLvVm7jU
- cyA4FbWOpD9gARYB/LwJofYx2CMw47sTX6ogrMC7/ovz7gJM/PAqHosSLCuF/UHp
- RaTBsTHT4l0QIIGKmlP6uo/a882EZvq+HOeD9KZSkFO3ZeOyuuaEn7++4cdgJgjo
- SQDobsLrUn9FE6xukB1Rw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1664203471; x=
- 1664289871; bh=YT0xN66NX+uFrq6gV3VK3hHffNGVNNucVDgZW/WIaTc=; b=w
- v9RvWGS/jQgykmK/xswJu0p9jO2N/jy58dmBr1+E84q8ORXpNu3hrTU8WtupOFsb
- rexsd9X04bE4HRVGE1XLJ+s0IPJ99R7whQXu6q3F1f/JtmZx+kRyeOUlfzdo5Gjw
- K80f1LPEM3WVtrYYH07n2/QrH/ASW84l2Ye5/zmk/UT1/3IhhPhyTnFwFSdiTL0b
- D1D1ZHYCvitL9O4W/VdMs4LAEpp7omh6vJblvNDbVpVhDx1hkAABxsfqBqafh1zo
- QdoK7Me4psEY3Ct1njf1dvIp9OwzFw09AMhAmB29wOJjhk07ixtzORWTYbf8zyg9
- HiKwhz7OF+LFzehwLwjkQ==
-X-ME-Sender: <xms:z7oxYz-hPt8Qoh432Q8HSbaw8Ag6ZY4etCCFLB6T93rsYPpGsHlZ8g>
- <xme:z7oxY_tdk-LJh_ejaRm6iKTsxj-BIsYE5GwflcpSsncUNRL0YTCIUA3vmzlgwqWgK
- U2uLP0cI8Hj3BxSNIM>
-X-ME-Received: <xmr:z7oxYxDe8iMVYvOkw_2EdpNM0ze_441PTNeU5TPHoFq11mvrlUwggO1rGJWTGfszpuBX>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegvddgkedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpegtggfuhfgjffevgffkfhfvofesth
- hqmhdthhdtjeenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigr
- nhhgsehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpedutdejffetteefke
- ejieehfeeuieeguedtveeijeeviefhffelvdfgudeihfdvtdenucevlhhushhtvghrufhi
- iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflh
- ihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:z7oxY_dYjl0oKg_6GpbViOkHqGbSsDeJBWw1E_BEA_gHc0tC6-hPXQ>
- <xmx:z7oxY4OPgSs6Ha3PhHRQqQOH-ZCalg_jTMBsmnOuNnLs-7NmlKPnOA>
- <xmx:z7oxYxlpxFT4MzCp-HyF3ll-Yvj8zF-JYiOk16bmryvV9WM5bn9umg>
- <xmx:z7oxYy3spNhcA9UtI9f3EYEbedQvMFTc6I6DjIJnW8GhY-_d2dbBng>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Sep 2022 10:44:30 -0400 (EDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.74\))
-Subject: Re: [RFC PATCH 0/3] MIPS decodetree conversion attempt
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <20220921124105.3824962-1-jiaxun.yang@flygoat.com>
-Date: Mon, 26 Sep 2022 15:44:18 +0100
-Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- richard.henderson@linaro.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E9443B6B-D245-4F31-B3BF-85011CB6B9FD@flygoat.com>
-References: <20220921124105.3824962-1-jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-X-Mailer: Apple Mail (2.3731.200.74)
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=jiaxun.yang@flygoat.com;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1ocpPa-0007kY-09; Mon, 26 Sep 2022 10:48:47 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28QEgFck026256;
+ Mon, 26 Sep 2022 14:48:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : to : cc : references : from : subject : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=lYpO2yxHps2Db7/kLiQ66m8hoAtqqYBcLyrSbDwdcNA=;
+ b=anxp1NgqyE/bR5BIzx9e6ppOaqCb0siaZGs3U0YZDtG1S7WMlQkEV2Fk3MSZ5cNeeCn5
+ 4M4FJqZmukZt9PnYjRdHrHP4G02Eyszs5aldAQNpzY7roxhX9W+as9mYdLr8PkJWodOm
+ 9qirbzRCKKpibWOckuJFZMQYKl9Vm5Vy9VRC+qpuvsiPXuV1Fkm/jm8q7ZTXt4G3DSC4
+ 5oQ9rIhkgUHoZayQJ6RaFcQuiLJFWe5YY9LG5tNWXdxwkTW3maxfCh1sWhufMWvggTjT
+ gr4Yzq5s1jrBFW32K9WlStg8MCKDQ1Mzhf8n0lgcLlt93SLV6uDoFOeluFaUpTqdkgzP dQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jue2s06ty-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Sep 2022 14:48:42 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28QEh3IU028493;
+ Mon, 26 Sep 2022 14:48:41 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jue2s06sr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Sep 2022 14:48:41 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28QEZe6F009677;
+ Mon, 26 Sep 2022 14:48:39 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3jss5j2k8s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Sep 2022 14:48:39 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 28QEn3xI53346586
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 26 Sep 2022 14:49:03 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F369CAE055;
+ Mon, 26 Sep 2022 14:48:35 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 74E8FAE045;
+ Mon, 26 Sep 2022 14:48:35 +0000 (GMT)
+Received: from [9.171.72.93] (unknown [9.171.72.93])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 26 Sep 2022 14:48:35 +0000 (GMT)
+Message-ID: <8fffaf2e-e074-bd74-0376-db577d174b35@linux.ibm.com>
+Date: Mon, 26 Sep 2022 16:48:35 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Content-Language: en-US
+To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
+ borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
+ cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
+ seiden@linux.ibm.com
+References: <20220811121111.9878-1-frankja@linux.ibm.com>
+ <20220811121111.9878-5-frankja@linux.ibm.com>
+ <47bc40f30c49a6e55f435e25ec4fd0386deb798b.camel@linux.ibm.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v5 04/18] dump: Rework get_start_block
+In-Reply-To: <47bc40f30c49a6e55f435e25ec4fd0386deb798b.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: qUZFfmhl3uNO8vuVE6zWHaXwjAIMoMAN
+X-Proofpoint-ORIG-GUID: qclCYfOH7A2VnYCF7xvhOpfKbLyClPGn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-26_08,2022-09-22_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ priorityscore=1501 spamscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209260092
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,98 +120,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 8/29/22 22:17, Janis Schoetterl-Glausch wrote:
+> On Thu, 2022-08-11 at 12:10 +0000, Janosch Frank wrote:
+>> get_start_block() returns the start address of the first memory block
+>> or -1.
+>>
+>> With the GuestPhysBlock iterator conversion we don't need to set the
+>> start address and can therefore remove that code and the "start"
+>> DumpState struct member. The only functionality left is the validation
+>> of the start block so it only makes sense to re-name the function to
+>> validate_start_block()
+> 
+> Nit, since you don't return an address anymore, I find retaining the -
+> 1/0 return value instead of true/false weird.
+
+I'm trying to wrap up fixing things for a new version.
+My fix for this is calling it is_start_block_valid() and making the 
+return bool. That being said, having int for true/false is not uncommon 
+in C but explicitly checking -1 makes it look weird.
 
 
-> 2022=E5=B9=B49=E6=9C=8821=E6=97=A5 13:41=EF=BC=8CJiaxun Yang =
-<jiaxun.yang@flygoat.com> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> Hi,
->=20
-> This is my attempt of converting MIPS translation code into =
-decodetree.
->=20
-> Currently only MIPS I to MIPS Release 5 arithmatic functions are =
-converted.
-> Old decoding functions are perserved in codebase for now due to =
-dependencies
-> from microMIPS/nanoMIPS translation code. Will remove them after =
-dealing with
-> release 6.
->=20
-> Both instruction encoding and test cases are generated form MIPS's =
-internal
-> architecture validation tools so they are gureented to be correct.
 
-A kindly ping :-)
+diff --git i/dump/dump.c w/dump/dump.c
+index e204912a89..2239bd324e 100644
+--- i/dump/dump.c
++++ w/dump/dump.c
+@@ -1500,12 +1500,12 @@ static void create_kdump_vmcore(DumpState *s, 
+Error **errp)
+      }
+  }
 
-Will send v1 tomorrow if no objection.
+-static int validate_start_block(DumpState *s)
++static bool is_start_block_valid(DumpState *s)
+  {
+      GuestPhysBlock *block;
 
-Thanks
-- Jiaxun
+      if (!s->has_filter) {
+-        return 0;
++        return true;
+      }
 
->=20
-> Thanks.
->=20
-> - Jiaxun
->=20
-> Jiaxun Yang (3):
->  target/mips: Introduce register access helper functions
->  target/mips: Convert legacy arithmatic instructions to decodetree
->  tests/tcg/mips: Add mips32 arithmatic instruction test cases
->=20
-> target/mips/tcg/insn_trans/trans_arith.c.inc  | 352 ++++++++++++++++++
-> target/mips/tcg/legacy.decode                 |  62 +++
-> target/mips/tcg/meson.build                   |   1 +
-> target/mips/tcg/translate.c                   | 143 ++++++-
-> target/mips/tcg/translate.h                   |  54 +++
-> tests/tcg/mips/include/test_utils_32.h        |  75 ++++
-> .../tcg/mips/user/isa/mips32/arithmatic/add.c |  99 +++++
-> .../mips/user/isa/mips32/arithmatic/addi.c    |  70 ++++
-> .../mips/user/isa/mips32/arithmatic/addiu.c   |  90 +++++
-> .../mips/user/isa/mips32/arithmatic/addu.c    | 125 +++++++
-> .../tcg/mips/user/isa/mips32/arithmatic/div.c |  81 ++++
-> .../mips/user/isa/mips32/arithmatic/divu.c    |  78 ++++
-> .../mips/user/isa/mips32/arithmatic/madd.c    |  79 ++++
-> .../mips/user/isa/mips32/arithmatic/maddu.c   |  78 ++++
-> .../mips/user/isa/mips32/arithmatic/msub.c    |  78 ++++
-> .../mips/user/isa/mips32/arithmatic/msubu.c   |  78 ++++
-> .../tcg/mips/user/isa/mips32/arithmatic/mul.c |  78 ++++
-> .../mips/user/isa/mips32/arithmatic/mult.c    |  78 ++++
-> .../mips/user/isa/mips32/arithmatic/multu.c   |  78 ++++
-> .../tcg/mips/user/isa/mips32/arithmatic/slt.c |  61 +++
-> .../mips/user/isa/mips32/arithmatic/slti.c    |  48 +++
-> .../mips/user/isa/mips32/arithmatic/sltiu.c   |  48 +++
-> .../mips/user/isa/mips32/arithmatic/sltu.c    |  61 +++
-> .../tcg/mips/user/isa/mips32/arithmatic/sub.c | 104 ++++++
-> .../mips/user/isa/mips32/arithmatic/subu.c    | 108 ++++++
-> 25 files changed, 2206 insertions(+), 1 deletion(-)
-> create mode 100644 target/mips/tcg/insn_trans/trans_arith.c.inc
-> create mode 100644 target/mips/tcg/legacy.decode
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/add.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addi.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addiu.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/addu.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/div.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/divu.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/madd.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/maddu.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/msub.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/msubu.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/mul.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/mult.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/multu.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/slt.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/slti.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sltiu.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sltu.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/sub.c
-> create mode 100644 tests/tcg/mips/user/isa/mips32/arithmatic/subu.c
->=20
-> --=20
-> 2.34.1
->=20
+      QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
+@@ -1514,10 +1514,10 @@ static int validate_start_block(DumpState *s)
+              block->target_end <= s->begin) {
+              continue;
+          }
+-        return 0;
++        return true;
+     }
 
----
-Jiaxun Yang
+-    return -1;
++    return false;
+  }
+
+  static void get_max_mapnr(DumpState *s)
+@@ -1663,7 +1663,7 @@ static void dump_init(DumpState *s, int fd, bool 
+has_format,
+      }
+
+      /* Is the filter filtering everything? */
+-    if (validate_start_block(s) == -1) {
++    if (!is_start_block_valid(s)) {
+          error_setg(errp, QERR_INVALID_PARAMETER, "begin");
+          goto cleanup;
+      }
 
 
