@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6936C5E9A6D
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 09:28:40 +0200 (CEST)
-Received: from localhost ([::1]:56084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 994135E9A88
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 09:35:59 +0200 (CEST)
+Received: from localhost ([::1]:59954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ociXf-0001y4-0Q
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 03:28:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60096)
+	id 1ociek-0004f3-4y
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 03:35:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ociU8-0000JW-2E
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:25:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27179)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ociZM-0002TV-Oj
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:30:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ociU4-0005SJ-Fl
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:24:58 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ociZK-0006SI-LS
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:30:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664177093;
+ s=mimecast20190719; t=1664177421;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NYx4d0MxanG198H/BLFFamozz7fZQnYYNp+AMpK1oNw=;
- b=B9tSMHPWr+Krl7tgdAIkhV/2f0pB3DlMpYkjGrWZhRc5xI1AjVvP1I5ukb7mEeehvDY4fP
- Hf0fzzzI0BN6l3YfHmVF/OLJvuxfjO2W4s+Ww4KdgqvD2lstRegxHOTqvfuj/gtK3ctAv3
- y1ZWxixDol2q8xqf44uAGs319UYIbss=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HkT8at2+psywQJNd6qRyHQyIlvGpoI1IFxyV5tTV4PU=;
+ b=dOF7SNveQcE8hS3+2zBCdGoIogQKsGk4kSEJUtoj9W9bIqz+QAaU3KyJOSWyU1ddud9U2U
+ HK7GA+br0r1u5wwnOVMrlt+yZ7p8H6gWG5ug1fNwOJQ/VkjTP3JoKmcdHiKqMbsoFXe7VQ
+ 6wBAjdpPSxD4PnnV3DhaOP4EG/0z3ZM=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-247-SWO_uNMpP_Kz8KxZmqMS1w-1; Mon, 26 Sep 2022 03:24:51 -0400
-X-MC-Unique: SWO_uNMpP_Kz8KxZmqMS1w-1
-Received: by mail-ua1-f69.google.com with SMTP id
- y44-20020ab048ef000000b003cd69b6e479so726993uac.9
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 00:24:51 -0700 (PDT)
+ us-mta-77--rLfxjHoMvuJElMopyx_1Q-1; Mon, 26 Sep 2022 03:30:20 -0400
+X-MC-Unique: -rLfxjHoMvuJElMopyx_1Q-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ y25-20020a9d6359000000b00655ffb2ca00so3051652otk.4
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 00:30:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=NYx4d0MxanG198H/BLFFamozz7fZQnYYNp+AMpK1oNw=;
- b=FIeEzqvm4zH2/mUmk48tfQBkyllpWI3daxT2jL4jPNUECH6g6zpa2hi4ICVpGhqK+H
- weGO/1Q+BXhD1jLW49BtrwMSAOilA03gkshWrzFARgK1389a2kss3EBe8gIiPQmXVOC+
- j/t+fQMYUjO0ZahpaqTaowSlum7qYjup94aeodQhWQoGmWmaV0jQzoBol/WZlFjPmXPk
- DBCk99omcbPNK/cMNuiUsPgJnpgGoGEBFSBQZFLshIi79KOnHksISXhez7nF5vLDdr6b
- 1NwIW8NJed3sWMBOXtR5pvKmz6fA0K2XW/z7LxEHLA296nYe4oKN/ZGcEWplAkYgB+jS
- 4g3A==
-X-Gm-Message-State: ACrzQf0qqLB1gbhqX4oV/65qeb3s7Kr62QpZau4vhpXTrhf+rx+SKnYV
- A6DAu2cjuUxEQriYnqbDwfHiz/zKz60tMYi2d0UCPkmNTGwxxwf8Xyc0L1ntan55tb2S/c5Y30s
- 0TkJbDT7U2fQo12mG+WU5CBa2vR5BHyo=
-X-Received: by 2002:ab0:60c9:0:b0:3c3:b626:6f4 with SMTP id
- g9-20020ab060c9000000b003c3b62606f4mr7730935uam.57.1664177090733; 
- Mon, 26 Sep 2022 00:24:50 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5zxcklMa7rqYGWC5njsjhdMVriXrJYiXL+d5q1e4Wc0c02uly6lxFRdJqyCReHaDNJ/k3ionHKfYs5CKS+mFg=
-X-Received: by 2002:ab0:60c9:0:b0:3c3:b626:6f4 with SMTP id
- g9-20020ab060c9000000b003c3b62606f4mr7730925uam.57.1664177090511; Mon, 26 Sep
- 2022 00:24:50 -0700 (PDT)
+ bh=HkT8at2+psywQJNd6qRyHQyIlvGpoI1IFxyV5tTV4PU=;
+ b=xzqqegWexjdwiafeHc2wotSlTdH9XX+xnIZ9XNVbwsTTc4ToYK7LPtd8d4HTGFXaZv
+ H8Dj6RWCxy8idgr1n2nI6AcvgKoTxOyb6cig+2qHSVqreqixUs32+PuBkERLu7jx6GSK
+ r6P+O+7H/g/1A9L0PyN4jLe8kDL1FjX+he4cmzUU6Z0dPUOc76BZ1+iU7hl8JiZO84Ga
+ ono3rbOXAhdaQ5wclAEeEon00+WWkMeHJMJVElTk6SscAHNJ+rfDu/lHb/xClGFHy8A0
+ 0xHT7j8YhGviL1yLbfnrTqaIIKfLLo0KLaJTpdC7q8AsiKf/+XdmWPWHsW43TZhF6HLi
+ cuPQ==
+X-Gm-Message-State: ACrzQf0LtcP1trp43I3kPbQwOppqpVZYThAUYrQvnVeN/okNHV5cc44B
+ f1no+Z5k+btvnRIZVL/8hODrCtX525+MowYEqUn0hsw9uAQDavVAIRXtK6ivA4H5nahqkZk3rVL
+ P+Fvpj6eMAoubqqRoQSe/Ms4bQgGy+Oo=
+X-Received: by 2002:a05:6870:e409:b0:127:d330:c941 with SMTP id
+ n9-20020a056870e40900b00127d330c941mr11069020oag.280.1664177419141; 
+ Mon, 26 Sep 2022 00:30:19 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5o1/nLZWqeoa+fxHti9WTDQbFE6+/mKJo8siq2rg0XUhLqdIB11KMxmAp05DYsKO76O8VtuDJirlcy85SbcVM=
+X-Received: by 2002:a05:6870:e409:b0:127:d330:c941 with SMTP id
+ n9-20020a056870e40900b00127d330c941mr11069015oag.280.1664177418941; Mon, 26
+ Sep 2022 00:30:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220920172507.95568-1-pbonzini@redhat.com>
- <20220920172507.95568-23-pbonzini@redhat.com>
- <dae44515-adf2-78fb-fd91-dd310849b6a7@linaro.org>
-In-Reply-To: <dae44515-adf2-78fb-fd91-dd310849b6a7@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 26 Sep 2022 09:24:39 +0200
-Message-ID: <CABgObfYEtHGkJN9q=xg1oMUcBWOqoy0wQCfuV5ye_m2hhf8YOA@mail.gmail.com>
-Subject: Re: [PATCH v2 22/37] target/i386: reimplement 0x0f 0x78-0x7f, add AVX
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, paul@nowt.org
+References: <20220923155046.1571-1-luzhipeng@cestc.cn>
+In-Reply-To: <20220923155046.1571-1-luzhipeng@cestc.cn>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 26 Sep 2022 15:30:08 +0800
+Message-ID: <CACGkMEtPgUgmMxHhRUkz3nuOa6BwZ47b3NBRWQCQG8-SE_SSrg@mail.gmail.com>
+Subject: Re: [PATCH] virtio: del net client if net_init_tap_one failed
+To: luzhipeng <luzhipeng@cestc.cn>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -93,29 +91,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Sep 24, 2022 at 10:43 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
-> > +static void decode_0F79(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
-> > +{
-> > +    if (s->prefix & PREFIX_REPNZ) {
-> > +        entry->gen = gen_INSERTQ_r;
-> > +    } else if (s->prefix & PREFIX_DATA) {
-> > +        entry->gen = gen_EXTRQ_r;
-> > +    } else {
-> > +        entry->gen = NULL;
-> > +    };
-> > +}
-> ...
-> > +    [0x79] = X86_OP_GROUP2(0F79,       V,x, U,x,       cpuid(SSE4A)),
+On Fri, Sep 23, 2022 at 11:56 PM luzhipeng <luzhipeng@cestc.cn> wrote:
 >
-> These are not -- they're AMD New Media.
+> From: lu zhipeng <luzhipeng@cestc.cn>
+>
+> If the net tap initializes successful, but failed during
+> network card hot-plugging, the net-tap will remains,
+> so cleanup.
+>
+> Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
 
-What's the CPUID bit for these? Neither
-https://github.com/intelxed/xed/blob/main/datafiles/amd/xed-amd-sse4a.txt
-nor the AMD programmer's manual makes any distinction between
-EXTRQ/INSERTQ with register operand and the same instruction with
-immediate operands.
+Applied.
 
-Paolo
+Thanks
+
+> ---
+>  net/tap.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+>
+> diff --git a/net/tap.c b/net/tap.c
+> index b3ddfd4a74..e203d07a12 100644
+> --- a/net/tap.c
+> +++ b/net/tap.c
+> @@ -686,7 +686,7 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+>      tap_set_sndbuf(s->fd, tap, &err);
+>      if (err) {
+>          error_propagate(errp, err);
+> -        return;
+> +        goto failed;
+>      }
+>
+>      if (tap->has_fd || tap->has_fds) {
+> @@ -726,12 +726,12 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+>                  } else {
+>                      warn_report_err(err);
+>                  }
+> -                return;
+> +                goto failed;
+>              }
+>              if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
+>                  error_setg_errno(errp, errno, "%s: Can't use file descriptor %d",
+>                                   name, fd);
+> -                return;
+> +                goto failed;
+>              }
+>          } else {
+>              vhostfd = open("/dev/vhost-net", O_RDWR);
+> @@ -743,11 +743,11 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+>                      warn_report("tap: open vhost char device failed: %s",
+>                                  strerror(errno));
+>                  }
+> -                return;
+> +                goto failed;
+>              }
+>              if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
+>                  error_setg_errno(errp, errno, "Failed to set FD nonblocking");
+> -                return;
+> +                goto failed;
+>              }
+>          }
+>          options.opaque = (void *)(uintptr_t)vhostfd;
+> @@ -760,11 +760,17 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+>              } else {
+>                  warn_report(VHOST_NET_INIT_FAILED);
+>              }
+> -            return;
+> +            goto failed;
+>          }
+>      } else if (vhostfdname) {
+>          error_setg(errp, "vhostfd(s)= is not valid without vhost");
+> +        goto failed;
+>      }
+> +
+> +    return;
+> +
+> +failed:
+> +    qemu_del_net_client(&s->nc);
+>  }
+>
+>  static int get_fds(char *str, char *fds[], int max)
+> --
+> 2.31.1
+>
+>
+>
+>
 
 
