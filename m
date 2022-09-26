@@ -2,83 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A3F5EAD3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 18:52:53 +0200 (CEST)
-Received: from localhost ([::1]:58860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0750A5EAD7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 19:03:27 +0200 (CEST)
+Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocrLf-0006HG-V7
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 12:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35358)
+	id 1ocrVu-0002P1-1t
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 13:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ocrFx-0000Ci-5o; Mon, 26 Sep 2022 12:46:57 -0400
-Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:42821)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ocrFu-0001g8-GP; Mon, 26 Sep 2022 12:46:56 -0400
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-130bd20fae6so9960914fac.9; 
- Mon, 26 Sep 2022 09:46:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=LyhrTSANeQPYwmQhF2u+DhJ7UmQHtjq3CAe/J1Q1cs8=;
- b=X1q0aSjyhbmramU7aKqbxTPiIKuA/ktZ9PxGObrutGWWNBfJvJWwdR2Jj8V6LBmEff
- nzVqFW8Jd9spI67kdYTTZ1zxNmaxvvJK+QeuB86H9Tme7Zl0H6SOz8Obo9vD2pCoakba
- WfLziOHP7wqmAFT7lTBMw85BAubzCXQESvu11I+Qkh3qiwvWMlOpntIZM0Tcq3mcPr+J
- 5B07Q+RHuDoRgBAVx+5feLepQuhzlLLYK/IoLb/iSnDq7SavelmwrFUWig9nbAUO3tE0
- YjCB1wi9JDRHgOq1vbhtsl+2CoBhJ4+QmAJnkL21PIrNfwkE4r/wecPaOpVxGOtGUDnh
- RFuw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocrGA-0000OO-07
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 12:47:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48587)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocrG3-0001gs-UJ
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 12:47:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664210821;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GGDtSSz2z8l9/HlNEmfX0BpW9xJ4Msp1jFdAzIDWRuQ=;
+ b=EsKand2CsWCJvk9RGV//EDed7z0xWfJ9pJFG+4t+yAUQqP+sHCit76WC3XGFWYR804SWQp
+ kSwHxONi9xdtFGCD1506i8vsjHACSxyCv5D4pV/Nm7DVAl02mh806TLEr6Fx77SE0PozGt
+ Vp/zYJ6In61Q8qZIlhJ6vrP0fKOpef4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-80-5OmblGSeMSCTBJi146eQwg-1; Mon, 26 Sep 2022 12:47:00 -0400
+X-MC-Unique: 5OmblGSeMSCTBJi146eQwg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ b5-20020a05600c4e0500b003b499f99aceso7312366wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 09:47:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=LyhrTSANeQPYwmQhF2u+DhJ7UmQHtjq3CAe/J1Q1cs8=;
- b=SQ1mm7NQuCbO+qi7V1pY1luZoIsRrNQfHX9ytoUjlX7rp2vSckIKxzWLK+2NKdjeOm
- yDhyeyDro+V5kXHcjrKAJuq2Twl/JVACJIqQ6W8zA/48/SWzbMGFBLeBHjJvCQJ6Idv7
- xWplNxDAqq5ocbXJXHAOc/tZQE1BMfExQ7RUcUyudjXBm2j87hnrAq/rZYxhg5dlAG4t
- FNhvqpxev+4SKz7rpxdONg2wRilr7c0X0qwfTyTaWXib+ulZxTfPWqxFrxdpoPg1cvk1
- kT/6aAIZIpD0AiXoNDqpWHgHhiHc5o9uWHGjM0XFW8tsl8T9YhDQnG87kEQJLiHKM6FW
- gMLQ==
-X-Gm-Message-State: ACrzQf2jGEYm1mJHtVLPX/cgA30qsd3u9zTFaMaHGQlXPRck4ReEPB26
- aCEvg+EgRpMAxJlQgxun998=
-X-Google-Smtp-Source: AMsMyM7GB5KGDqyfOSy6217fF9Lmxh3ShivmkOJ6Cay9FFvi7CwiWdijzVRnR0zQkMdNMmtbD751Eg==
-X-Received: by 2002:a05:6870:d114:b0:127:611d:dcb9 with SMTP id
- e20-20020a056870d11400b00127611ddcb9mr18841147oac.286.1664210811817; 
- Mon, 26 Sep 2022 09:46:51 -0700 (PDT)
-Received: from [192.168.10.102] (189-68-154-15.dsl.telesp.net.br.
- [189.68.154.15]) by smtp.gmail.com with ESMTPSA id
- cg11-20020a056830630b00b0063715f7eef8sm7995932otb.38.2022.09.26.09.46.49
+ bh=GGDtSSz2z8l9/HlNEmfX0BpW9xJ4Msp1jFdAzIDWRuQ=;
+ b=5DE3G9Yo8xro631hCmV6V5GhWTkIEaA197iNmQ6SY1hUf/fIC8/EEg+3nFOovLddTu
+ al5uL0Hw6gHE+lHaafTUOaYVviRQ8u/L7aPVx5XElw39h5wrDkxMWF8/Pq5N/glX0tNc
+ 3ExborEg8WBTFSYagaMlysiHSNfrGzTWP4zeHJxZtxmEx3II4jq1wajb6P/B+wi9oZWn
+ uAHlMNZs0UQdsYru7nU95GlbteEeLZSYVWMjQUAzHAw7FpYiBH+HZmHDt7PpUKDZWoyt
+ HUxvIIumUi2k9jukSMPgC5SJPuTA95HU2pQh8hHvn1qaVkwMfGR8fp9UqUl06u418OLu
+ kN6A==
+X-Gm-Message-State: ACrzQf0o3fBGM1gYQTJKkyjA8Elz5r5Fcbeo2lnFekN45nDf9u2wXZQG
+ QaSpQ7tC/jm7jpXjot0OJXddXwSwu98rzdHpnrL0Pczc9myNUg2Jf9IFe0cOSURotFdHJtDDQ+Q
+ cgZhZxAt/wEk1O6E=
+X-Received: by 2002:a05:600c:2c47:b0:3b4:fcdf:d783 with SMTP id
+ r7-20020a05600c2c4700b003b4fcdfd783mr15563259wmg.157.1664210819161; 
+ Mon, 26 Sep 2022 09:46:59 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7rXiFwLlxD4Bj9yfemioAdUsAJwSi69UuudhaXj8UaQpB/+PPHz5cK+vOCePxOqQGpAn0WAw==
+X-Received: by 2002:a05:600c:2c47:b0:3b4:fcdf:d783 with SMTP id
+ r7-20020a05600c2c4700b003b4fcdfd783mr15563245wmg.157.1664210818915; 
+ Mon, 26 Sep 2022 09:46:58 -0700 (PDT)
+Received: from [192.168.8.103] (tmo-064-141.customers.d1-online.com.
+ [80.187.64.141]) by smtp.gmail.com with ESMTPSA id
+ u7-20020a056000038700b002258235bda3sm15557291wrf.61.2022.09.26.09.46.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Sep 2022 09:46:51 -0700 (PDT)
-Message-ID: <90d3c544-25ce-a3ce-ace4-69085c97a88e@gmail.com>
-Date: Mon, 26 Sep 2022 13:46:47 -0300
+ Mon, 26 Sep 2022 09:46:58 -0700 (PDT)
+Message-ID: <c2b99e1f-7204-a556-d177-039365878453@redhat.com>
+Date: Mon, 26 Sep 2022 18:46:56 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v6 01/25] ppc440_bamboo: Remove unnecessary memsets
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 52/54] .gitlab-ci.d/windows.yml: Display meson test logs
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, Peter Maydell <peter.maydell@linaro.org>
-References: <cover.1664021647.git.balaton@eik.bme.hu>
- <529adc7705fb3e3e777439895bdaa136bacb9403.1664021647.git.balaton@eik.bme.hu>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <529adc7705fb3e3e777439895bdaa136bacb9403.1664021647.git.balaton@eik.bme.hu>
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
+ <20220925113032.1949844-53-bmeng.cn@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220925113032.1949844-53-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::31;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,63 +105,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 9/24/22 09:27, BALATON Zoltan wrote:
-> In ppc4xx_sdram_init() the struct is allocated with g_new0() so no
-> need to clear its elements. In the bamboo machine init memset can be
-> replaced with array initialiser which is shorter.
+On 25/09/2022 13.30, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> When CI fails we don't know what causes the failure. Displaying the
+> meson test logs can be helpful.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   hw/ppc/ppc440_bamboo.c | 6 ++----
->   hw/ppc/ppc4xx_devs.c   | 8 ++------
->   2 files changed, 4 insertions(+), 10 deletions(-)
 > 
-> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-> index ea945a1c99..5ec82fa8c2 100644
-> --- a/hw/ppc/ppc440_bamboo.c
-> +++ b/hw/ppc/ppc440_bamboo.c
-> @@ -169,8 +169,8 @@ static void bamboo_init(MachineState *machine)
->       MemoryRegion *address_space_mem = get_system_memory();
->       MemoryRegion *isa = g_new(MemoryRegion, 1);
->       MemoryRegion *ram_memories = g_new(MemoryRegion, PPC440EP_SDRAM_NR_BANKS);
-> -    hwaddr ram_bases[PPC440EP_SDRAM_NR_BANKS];
-> -    hwaddr ram_sizes[PPC440EP_SDRAM_NR_BANKS];
-> +    hwaddr ram_bases[PPC440EP_SDRAM_NR_BANKS] = {0};
-> +    hwaddr ram_sizes[PPC440EP_SDRAM_NR_BANKS] = {0};
->       PCIBus *pcibus;
->       PowerPCCPU *cpu;
->       CPUPPCState *env;
-> @@ -205,8 +205,6 @@ static void bamboo_init(MachineState *machine)
->                          qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_CINT));
+> (no changes since v2)
+> 
+> Changes in v2:
+> - new patch: Display meson test logs in the Windows CI
+> 
+>   .gitlab-ci.d/windows.yml | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+> index 9ef4667317..29a3ba04a4 100644
+> --- a/.gitlab-ci.d/windows.yml
+> +++ b/.gitlab-ci.d/windows.yml
+> @@ -61,7 +61,7 @@ msys2-64bit:
+>     - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
+>         --enable-capstone'
+>     - .\msys64\usr\bin\bash -lc 'make'
+> -  - .\msys64\usr\bin\bash -lc 'make check'
+> +  - .\msys64\usr\bin\bash -lc 'make check || { cat build/meson-logs/testlog.txt; exit 1; } ;'
 >   
->       /* SDRAM controller */
-> -    memset(ram_bases, 0, sizeof(ram_bases));
-> -    memset(ram_sizes, 0, sizeof(ram_sizes));
->       ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, ram_memories,
->                          ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
->       /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UIC0. */
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index ce38ae65e6..b4cd10f735 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -363,12 +363,8 @@ void ppc4xx_sdram_init(CPUPPCState *env, qemu_irq irq, int nbanks,
->       sdram->irq = irq;
->       sdram->nbanks = nbanks;
->       sdram->ram_memories = ram_memories;
-> -    memset(sdram->ram_bases, 0, 4 * sizeof(hwaddr));
-> -    memcpy(sdram->ram_bases, ram_bases,
-> -           nbanks * sizeof(hwaddr));
-> -    memset(sdram->ram_sizes, 0, 4 * sizeof(hwaddr));
-> -    memcpy(sdram->ram_sizes, ram_sizes,
-> -           nbanks * sizeof(hwaddr));
-> +    memcpy(sdram->ram_bases, ram_bases, nbanks * sizeof(hwaddr));
-> +    memcpy(sdram->ram_sizes, ram_sizes, nbanks * sizeof(hwaddr));
->       qemu_register_reset(&sdram_reset, sdram);
->       ppc_dcr_register(env, SDRAM0_CFGADDR,
->                        sdram, &dcr_read_sdram, &dcr_write_sdram);
+>   msys2-32bit:
+>     extends: .shared_msys2_builder
+> @@ -94,4 +94,4 @@ msys2-32bit:
+>     - cd output
+>     - ..\msys64\usr\bin\bash -lc "../configure --target-list=ppc64-softmmu"
+>     - ..\msys64\usr\bin\bash -lc 'make'
+> -  - ..\msys64\usr\bin\bash -lc 'make check'
+> +  - ..\msys64\usr\bin\bash -lc 'make check || { cat meson-logs/testlog.txt; exit 1; } ;'
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
