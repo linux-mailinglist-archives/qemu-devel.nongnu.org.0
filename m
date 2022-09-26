@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76445E9ED2
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:14:52 +0200 (CEST)
-Received: from localhost ([::1]:49934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 653D15E9EF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:17:27 +0200 (CEST)
+Received: from localhost ([::1]:55348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocl8V-0006lg-RC
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:14:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56336)
+	id 1oclB0-0000vL-Fr
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:17:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpj-00054N-Io
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48771)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpq-0005Sv-Si
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpi-0003lV-41
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:27 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpo-0003nF-3G
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664186125;
+ s=mimecast20190719; t=1664186131;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8FOzTXJOVlAuEoG61vZulT59fd8k9A6AOrx8I9fMOQc=;
- b=ODVboMZIXre1fUtmxku3kLLjWj3/jIPAmGx0+lxy4rg8fd3jlTxO3D8YGmnAvS/dkERC/T
- Bx/+U3PkaE1MT2tCkuCJ3p1s9HWNSVxjpjBAjWYzj5UK+Ev8IPVuvPtrpTVgL86xCVNi8I
- Ttxisg1P9CRljppb9mqdMDVeZetbPHs=
+ bh=L5PZAgDZ0Zk8jlRJBwRHM6yfmEwxC0P3PBdvK/bzC34=;
+ b=SuRD+Agckaq6Llna6RQZpOoFUNnJVtiW3ikpkyJq+8rbOWVdnqaHoV25b6Cv/KxcL4tcoX
+ 7JKq5adTaQOy+qb12yQrVPDlYNfB512ec3Ed8QNyRaIzlk+bDaUn3PO5bfZIheoXOcAL1P
+ Vdb1ReiUpbMqPjmlrP7twB9ExyqCVeg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-313-Y8gJYKBZM42qqBYs3g3r_Q-1; Mon, 26 Sep 2022 05:55:20 -0400
-X-MC-Unique: Y8gJYKBZM42qqBYs3g3r_Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-310-0wiUAdGiNIKKDHc1EdkYZQ-1; Mon, 26 Sep 2022 05:55:20 -0400
+X-MC-Unique: 0wiUAdGiNIKKDHc1EdkYZQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C615101CC67;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82767185A7A4;
  Mon, 26 Sep 2022 09:55:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3084840C6EC2;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 32E7B40C2064;
  Mon, 26 Sep 2022 09:55:19 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6773E18030B0; Mon, 26 Sep 2022 11:55:10 +0200 (CEST)
+ id 742D018030B1; Mon, 26 Sep 2022 11:55:10 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
@@ -56,23 +56,23 @@ Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 08/25] ui/clipboard: reset the serial state on reset
-Date: Mon, 26 Sep 2022 11:54:52 +0200
-Message-Id: <20220926095509.3759409-9-kraxel@redhat.com>
+Subject: [PULL 09/25] ui/vdagent: fix serial reset of guest agent
+Date: Mon, 26 Sep 2022 11:54:53 +0200
+Message-Id: <20220926095509.3759409-10-kraxel@redhat.com>
 In-Reply-To: <20220926095509.3759409-1-kraxel@redhat.com>
 References: <20220926095509.3759409-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,35 +91,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Not only we have to reset the vdagent clipboards serial state, but also
-the current QEMU clipboards info serial (the value is currently used by
-qemu_clipboard_check_serial, only used by -display dbus).
+In order to reset the guest agent, we send CLOSED & OPENED events.
+
+They are correctly received by the guest kernel. However, they might not
+be noticed by the guest agent process, as the IO task (poll() for
+example) might be wake up after both CLOSED & OPENED have been
+processed.
+
+Wait until the guest agent is disconnected to re-open our side.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220912102455.111765-5-marcandre.lureau@redhat.com>
+Message-Id: <20220912102455.111765-6-marcandre.lureau@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/clipboard.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ ui/vdagent.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/ui/clipboard.c b/ui/clipboard.c
-index 3e2d02d5490c..3d14bffaf80f 100644
---- a/ui/clipboard.c
-+++ b/ui/clipboard.c
-@@ -139,7 +139,14 @@ void qemu_clipboard_request(QemuClipboardInfo *info,
- void qemu_clipboard_reset_serial(void)
- {
-     QemuClipboardNotify notify = { .type = QEMU_CLIPBOARD_RESET_SERIAL };
-+    int i;
+diff --git a/ui/vdagent.c b/ui/vdagent.c
+index 819e0dc1435b..4bf50f0c4d88 100644
+--- a/ui/vdagent.c
++++ b/ui/vdagent.c
+@@ -471,7 +471,7 @@ static void vdagent_clipboard_reset_serial(VDAgentChardev *vd)
  
-+    for (i = 0; i < QEMU_CLIPBOARD_SELECTION__COUNT; i++) {
-+        QemuClipboardInfo *info = qemu_clipboard_info(i);
-+        if (info) {
-+            info->serial = 0;
-+        }
-+    }
-     notifier_list_notify(&clipboard_notifiers, &notify);
+     /* reopen the agent connection to reset the serial state */
+     qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
+-    qemu_chr_be_event(chr, CHR_EVENT_OPENED);
++    /* OPENED again after the guest disconnected, see set_fe_open */
  }
+ 
+ static void vdagent_clipboard_notify(Notifier *notifier, void *data)
+@@ -875,6 +875,9 @@ static void vdagent_chr_set_fe_open(struct Chardev *chr, int fe_open)
+ {
+     if (!fe_open) {
+         trace_vdagent_close();
++        /* To reset_serial, we CLOSED our side. Make sure the other end knows we
++         * are ready again. */
++        qemu_chr_be_event(chr, CHR_EVENT_OPENED);
+         return;
+     }
  
 -- 
 2.37.3
