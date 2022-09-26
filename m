@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DDA5EB139
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 21:24:55 +0200 (CEST)
-Received: from localhost ([::1]:59226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22B85EB163
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 21:33:45 +0200 (CEST)
+Received: from localhost ([::1]:36830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1octin-0001G5-Jn
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 15:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47112)
+	id 1octrM-0004Gd-C2
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 15:33:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1octgz-000868-6l
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:23:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1octgv-0001bt-7S
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:22:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664220175;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Lxc/J9GWJ2Jeq43NRk69x24s7v3+rMTmhZj1Qj4kkCE=;
- b=AYSjGKEqLiee2H/x9PyIz88wOOyIoE+dgAmdvvXnfchLSqa4e18Gg6l9e71U53t9K/rTI7
- IPPwi0syVQlgdZyNhVWP1xuPoD/adOPrQFt7n8j6e4FaaVMUgosRtRsKoCQWakIF6hP5ms
- TMnaTiKqVbFjLV++XRmKjzWBcnenLD8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-1pUNmR2BOWqzDGyfwEaKbQ-1; Mon, 26 Sep 2022 15:22:53 -0400
-X-MC-Unique: 1pUNmR2BOWqzDGyfwEaKbQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 546F8185A7A3;
- Mon, 26 Sep 2022 19:22:53 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6CA840C6EC2;
- Mon, 26 Sep 2022 19:22:52 +0000 (UTC)
-Date: Mon, 26 Sep 2022 15:22:50 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PULL 00/39] target-arm queue
-Message-ID: <YzH8CosdmbjxpeSo@fedora>
-References: <20220922163536.1096175-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1octmu-000275-QD
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:29:08 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:38580)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1octms-0002Oq-Au
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:29:07 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id c9so9703893ybf.5
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 12:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=a5spTz0sIiDMUUUzzTv7OMfXqC8UuO0VxfLomTVhgCo=;
+ b=aruxVNRRwKBxeGWqDf/GQ6I+pByDlGZH7xICL13HY7k5zcP1CSdmPhbATtoKsEpMzx
+ eC75qBZUgc43j8GiZAUKkdT+suL1wd97TyFJb0AbCpXV8mjqugIJwVKPUk0dHG/IA2MI
+ 1epHLfsqCKPUgIBlBJwFayaxXB59qx34sS1t9t3qbssOmsNOUhT9Ej0+xBBU4D1EufSS
+ t1UZMUTFZXZCyApd2trZOSXZZeafC/18nLG221PdqzrxB2cenj7acuvZdRlyKfBLu96V
+ aI2xg8OKLCg1oKef9EDvjOa87yz28dPgR4b6D3e5NEc0tqti22y0Reux47IPwFCgGX0e
+ ynhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=a5spTz0sIiDMUUUzzTv7OMfXqC8UuO0VxfLomTVhgCo=;
+ b=quDDWfB4z5YnkJPZNb9IBxQj1CSid286yoKT2sM5ypJGapx0N/9mxFRHGKgkWGfjKm
+ Fk1ril/zjLKLhe8ZXTu2Zx36l7+Q6RS1O9gj37wTiSufjdRTNqbVMw4nBOi8D6VVZMAv
+ QfE8ijUwpLs1Lp3NTPq0kcTpsRrjsfV6lMHe4BTCGZ1SWe2XhusUjM02p7mTBN6UwXnz
+ ozVhd8hvi2Hrr8tPXS5N8cfB+RJAozGb0nc0DUIiwhGvG5kmRj7nes7pzldPTsKn3K2w
+ sIgfNAgZlFcW1NpHhqGRejc8BDh8Cv1G8gVc7tIil7/+wX3fDZ4kgK1pNizfRbFw/dHr
+ MBwg==
+X-Gm-Message-State: ACrzQf2L13JxNmqgscUfIR/QpL2K6ORv33oycWYBaWDkQEcSAnT8bhmp
+ 7PZRX7MSi3m9GuOjh9ADSvzk+TgsDSeRQfgLL9U=
+X-Google-Smtp-Source: AMsMyM5cSkA+8nM2vParNSLY7bhLMkR2tEWb7K8W5I2pNghJiD9wamyf4vP8n1KdzRtGPt9ljfycLLoCSs7M2GmhJtc=
+X-Received: by 2002:a05:6902:1142:b0:6af:61be:ab53 with SMTP id
+ p2-20020a056902114200b006af61beab53mr24462870ybu.118.1664220544630; Mon, 26
+ Sep 2022 12:29:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bRwyClUZXBXig4Sc"
-Content-Disposition: inline
-In-Reply-To: <20220922163536.1096175-1-peter.maydell@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220923040704.428285-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20220923040704.428285-1-alistair.francis@opensource.wdc.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 26 Sep 2022 15:28:52 -0400
+Message-ID: <CAJSP0QWi_xpNynSKsxH5gdK8gqt1jOjZqEsJ=eiJkypVShuc4g@mail.gmail.com>
+Subject: Re: [PULL 00/12] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc: qemu-devel@nongnu.org, alistair23@gmail.com, 
+ Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,30 +83,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 23 Sept 2022 at 00:08, Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git pull-riscv-to-apply-20220923-2
 
---bRwyClUZXBXig4Sc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi Alistair,
+Please use the HTTPS GitHub repo URL in pull requests. Setting
+separate "url" (HTTPS) and "pushUrl" (ssh) settings for your remote in
+git-config(1) should solve this problem.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---bRwyClUZXBXig4Sc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMx/AoACgkQnKSrs4Gr
-c8gMgQf/dIUAXHjfb1qpC4c8xacI34pubd5PCKgOPCoLDYJtOTFd3P5eAl0fIlKP
-s+UvnBYMoHUQwKYxXUi1KPmDXezjv4ddSlup1ifRg3fFETLmbU1xjdN0XBLzNLun
-/dh8JyyAY3XFQwyOkEaKrPuDy9Od3mJkTdTz1l98jdYUbRAfAD072hg/oxm5vIfj
-4FI8928srITguJBZSUd6DnS6iHulrEqVHX9UON32rP+Xft36UrZRFEmxcYuJX577
-4L80oBXisLyXNHv30IpOf35vQnO47jgZrnOPd43vuqalrF6mXmP1ByDKcbPHjPMK
-BI2vOfUsbbjYzR6RuKoErhSZshLIeg==
-=bogY
------END PGP SIGNATURE-----
-
---bRwyClUZXBXig4Sc--
-
+Stefan
 
