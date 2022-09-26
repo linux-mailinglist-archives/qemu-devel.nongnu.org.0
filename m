@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBD05EAA08
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 17:16:22 +0200 (CEST)
-Received: from localhost ([::1]:43202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8785EA9D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 17:12:00 +0200 (CEST)
+Received: from localhost ([::1]:38444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocpqH-0007us-9Z
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 11:16:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36168)
+	id 1ocpm2-0003Wx-3l
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 11:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocpiQ-0007aj-OL
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:08:15 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:53769)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ocpiF-0007S5-Kv
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:08:09 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocpiO-0002Nf-V5
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:08:14 -0400
-Received: by mail-wm1-x334.google.com with SMTP id e18so4725518wmq.3
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 08:08:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ocpiC-0002Mq-4O
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:08:02 -0400
+Received: by mail-ed1-x532.google.com with SMTP id y8so9433558edc.10
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 08:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=MKk/DYY54wfv2Kbe4P8PnaHG/KcQ6lyY4r+vgbgeQTE=;
- b=OzKjsb91LJYmnfLQSkLV8sNMg0dhfMWfLOexFsX/AM38oEIEncLTxtkaRtQ+ZYy6/m
- 3Yf4OdKUq0sbx1Wx+RlqVBm2k+M9gBWK4kj8qvpK832Cw3U0iozf/HmcV2VR4ExqPfKR
- gbb6g+XHTysiOpveIyBCyQpQ91LmBZYcwtH85LfJMDKfK+8Mu5qMqkcGkCzusxEE6bCY
- 2qTaVG0puoUtIgXyVAPDRMj+VyzlPDJE3vhfhpLarsM2ecHTUsjPM3m2oOqbuGZx27f9
- s0eU5eaKygT0j4r647tmvgGkzIMutCdPI+2dIk/0DyEVKVepi3aEk3NS0o/lMnBHdssx
- XD2g==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=zeul5dHZDsmNx5pH0BAXKE2LMYBR5Stn64G6TJC2FLk=;
+ b=CUV5OeVWHRrX5wO+PaTLLiU47Oq1OoVT1ULoFUBMl6AlZ2ijugpMeClHj7iABiWiW3
+ 2cyT0ulqaO09vEA2e/yAupy1+ubxbELDmD5sOh9bsLjnt1JdhFIb2iGZZY9RJp5f8zRX
+ 51eIl0Pf+3D4t6TJkAhJFgZZgJiFrpa9BYvSnXWPUSkoB9jjxHhcGC+vfd1lO5E5tG7/
+ KhiFQqYshlTeW2dThgINnFj+nMekgRowcQaDemnra9z1GBbzTYHVHaWTV9gu/qKgu7sH
+ 0qhz0+8B6ipPAIL9rEhEw0y83kHxEKKnizc81MBfGugB01Xb6pNnHWubN+VjMX3TmGZ6
+ SKHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=MKk/DYY54wfv2Kbe4P8PnaHG/KcQ6lyY4r+vgbgeQTE=;
- b=C7sRQhvZFBZN80Cc1WJDTkRqS++GBh2SFoImn5ggL8GRw/YUv/T687h/dg7hBw2qCB
- fYHrt0Z/2iM9tShxzZEweo7Ydl90rQx2f3KRir9L2YH3i0SCqCPJZXSCIZGPcwiIpeAB
- UZUe1uJKSTaPRwMWbxP1rc95b3QRxGxbAR8V4ryTuFE6M1xsWo06YHBCWvMgHGj9J8QW
- EtsaYXO5B2G589zaPaISoHGREMqY26Lu0M294THHfC99ur5n7l/9Rp/3l0ds47rl3ypH
- 149o5Qz1wm0K33qrqu1xbYppqlb6QdRwFMvCC/WOzSiyt6P3Oxag5S/9vn6k2PsFAOBm
- soxA==
-X-Gm-Message-State: ACrzQf0lIb8Z+QE20ZQ5iwvwKKNuP/kYZEDtHlSqBpB51zFdd1y8zgOk
- ZytqeS/dBOCUVMIYmgkIbkwAUw==
-X-Google-Smtp-Source: AMsMyM7m08CU5HuTUNm3N7eNAwOQiWRTAYXe+UNvhot0rLHqi1DPku/8SrXd3XK1Nf3WcOUwEGcmlg==
-X-Received: by 2002:a05:600c:3483:b0:3b4:99f4:1191 with SMTP id
- a3-20020a05600c348300b003b499f41191mr15078117wmq.147.1664204891454; 
- Mon, 26 Sep 2022 08:08:11 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c27d200b003b4868eb6bbsm13450608wmb.23.2022.09.26.08.08.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 08:08:10 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3939E1FFB7;
- Mon, 26 Sep 2022 16:08:10 +0100 (BST)
-References: <20220926133904.3297263-1-alex.bennee@linaro.org>
- <20220926133904.3297263-6-alex.bennee@linaro.org>
- <CAFEAcA_u8TQW5EoX5bBZGKhhaS6PYaYZGyqMrhB1Tsa6eTXCyQ@mail.gmail.com>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, mads@ynddal.dk,
- qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 05/11] hw/intc/gic: use MxTxAttrs to divine accessing
- CPU
-Date: Mon, 26 Sep 2022 16:06:34 +0100
-In-reply-to: <CAFEAcA_u8TQW5EoX5bBZGKhhaS6PYaYZGyqMrhB1Tsa6eTXCyQ@mail.gmail.com>
-Message-ID: <87leq641id.fsf@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=zeul5dHZDsmNx5pH0BAXKE2LMYBR5Stn64G6TJC2FLk=;
+ b=Sv2fWwtVIb0BNioyNWe4OvUChAJNBeGOggb/01U5+RJHHvzdw2ETeOGOjNnAVngQsI
+ 0vE8+/tqe0Kgj6uA29otVHmEb4bcekkgPDt4zH0bmbjKfwrN6wcnX45X9btwEeh98TYh
+ kFFWzWdECbP9VeEc6lyndkGfjmQhGlcyA5qy0bCF7Fair7R6ujvphfx0wyPFq+PYDFWv
+ VGk59gClNxOxpd0dy3/flPQbIL5TAfi4o/xzDWv4a/KXrov9Q17FIIId1Reqzkp8X/qJ
+ SqPWX4+tTfTFCDKpI6ztuO5WG9WLGvTGVOkzNxDkd5Gq/fziHW/PWFxp+I/Zoo1/KQEj
+ g72g==
+X-Gm-Message-State: ACrzQf1MYS05G0cq/VSHqDwREhC3ro4ic/rahN26F1FF3G28LJ9zKoqo
+ YGEuOCUgGVb1JshlGwnrOai+/myx7ge86wz5L/GLFQ==
+X-Google-Smtp-Source: AMsMyM4NUPY+edKXsvc/IktCmrMuVOxWZCt1hEBWG7fzT+SLbrnJyCgfC41Lysfi2hrC9jrqwinC8x6XwjGN2LzokjY=
+X-Received: by 2002:a05:6402:1d86:b0:457:e84:f0e with SMTP id
+ dk6-20020a0564021d8600b004570e840f0emr11127041edb.241.1664204877246; Mon, 26
+ Sep 2022 08:07:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220926133904.3297263-1-alex.bennee@linaro.org>
+ <20220926133904.3297263-3-alex.bennee@linaro.org>
+ <CAFEAcA-gpE6XYbiacSAso1_66RXYEJD04z4+HW4fFpqeCvpdQw@mail.gmail.com>
+ <87pmfi41lp.fsf@linaro.org>
+In-Reply-To: <87pmfi41lp.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Sep 2022 16:07:45 +0100
+Message-ID: <CAFEAcA9EQVExnhmYDNOtpptHYrnrSHEO5Baw4z96FNuadysP3w@mail.gmail.com>
+Subject: Re: [PATCH v2 02/11] target/arm: enable tracking of CPU index in
+ MemTxAttrs
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, f4bug@amsat.org, mads@ynddal.dk, 
+ qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,64 +89,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Mon, 26 Sept 2022 at 14:39, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
->>
->> Now that MxTxAttrs encodes a CPU we should use that to figure it out.
->> This solves edge cases like accessing via gdbstub or qtest.
->>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/124
->>
->> ---
->> v2
->>   - update for new field
->>   - bool asserts
->> ---
->>  hw/intc/arm_gic.c | 39 ++++++++++++++++++++++-----------------
->>  1 file changed, 22 insertions(+), 17 deletions(-)
->>
->> diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
->> index 492b2421ab..d907df3884 100644
->> --- a/hw/intc/arm_gic.c
->> +++ b/hw/intc/arm_gic.c
->> @@ -56,17 +56,22 @@ static const uint8_t gic_id_gicv2[] =3D {
->>      0x04, 0x00, 0x00, 0x00, 0x90, 0xb4, 0x2b, 0x00, 0x0d, 0xf0, 0x05, 0=
-xb1
->>  };
->>
->> -static inline int gic_get_current_cpu(GICState *s)
->> +static inline int gic_get_current_cpu(GICState *s, MemTxAttrs attrs)
->>  {
->> -    if (!qtest_enabled() && s->num_cpu > 1) {
->> -        return current_cpu->cpu_index;
->> -    }
->> -    return 0;
->> +    /*
->> +     * Something other than a CPU accessing the GIC would be a bug as
->> +     * would a CPU index higher than the GICState expects to be
->> +     * handling
->> +     */
->> +    g_assert(attrs.requester_type =3D=3D MEMTXATTRS_CPU);
->> +    g_assert(attrs.requester_id < s->num_cpu);
+On Mon, 26 Sept 2022 at 16:06, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
 >
-> Would it be a QEMU bug, or a guest code bug ? If it's possible
-> for the guest to mis-program a DMA controller to do a read that
-> goes through this function, we shouldn't assert. (Whether that
-> can happen will depend on how the board/SoC code puts together
-> the MemoryRegion hierarchy, I think.)
-
-Most likely a QEMU bug - how would a DMA master even access the GIC?
-
 >
-> thanks
-> -- PMM
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > On Mon, 26 Sept 2022 at 14:39, Alex Benn=C3=A9e <alex.bennee@linaro.org=
+> wrote:
+> > This only catches the case where the memory access is
+> > done via something that does a virtual-to-physical translation.
+> > It misses memory accesses done directly on physical addresses,
+> > such as those in arm_ldl_ptw() and arm_ldq_ptw(), plus various
+> > M-profile specific ones.
+>
+> I thought they were just used for the page table walk. Can you place
+> your page tables aliases with a piece of HW?
 
+They are just used for the page table walk, but they are
+nonetheless still memory transactions initiated by the CPU,
+so if we're saying those should be marked up in the
+transaction-attributes struct then they should count.
 
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
