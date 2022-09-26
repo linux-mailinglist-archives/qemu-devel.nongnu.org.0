@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749A05EABCE
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 17:57:52 +0200 (CEST)
-Received: from localhost ([::1]:41074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD66D5EAC18
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 18:11:14 +0200 (CEST)
+Received: from localhost ([::1]:54966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocqUQ-0001JR-Uf
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 11:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46150)
+	id 1ocqhM-0003sP-VZ
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 12:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocqJk-0003bM-Nl
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:46:49 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:51079)
+ id 1ocpzn-0007zh-7D
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:26:12 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocqJi-0008Dm-Ap
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:46:47 -0400
-Received: by mail-wm1-x333.google.com with SMTP id ay36so4834827wmb.0
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 08:46:45 -0700 (PDT)
+ id 1ocpze-00051r-8n
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:26:10 -0400
+Received: by mail-wm1-x329.google.com with SMTP id t4so4763442wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 08:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=HLJ6CvfnZnNKY7RJIVqKr+WI201l9WGFgF471JMUjOQ=;
- b=ppZIv8+6qrJUWcEpssNzKPdYbbCHjuoeqSnWiOa8hBrrWZs3T2P5h2WnlZVPAPK0C+
- FMlQv03Ocq3B6q5LVWxznR4wTClWDtgTexk1l2yCDipPWDVQDTHuFMUKDdpidJVVnkKk
- YcES/Bc3rIanW11pezPLwp8coO9SGs52gnwl2wD0WAT1ecoo7z7OvVJEOWUae+1FFGki
- B9bxAaQkRKTS6bs1yn6/Gm9bzRogZ/t7mBRuGDRPb7vvnDQXJxnkQdF5Q1bKgfPUDrR9
- m0E8D2mAd8ld5kgsI2t+jChLIu3piTAyQPNeuNDCjUxZqQvqjLh/QJWUDETs+cpiBdvE
- 9VjQ==
+ bh=CYplaB+rw01Xxte4Fbgb6VvUNHtO3jaeY7GnZiX0s1g=;
+ b=hTSNkp1X7bLCZBRZ3PPra2z8zyLjrb6x1LTRsj4M2Nx6Jo6lyan93EHCyTwUQDtn83
+ EzJ/OkXv5M3p83+Tph8cKeB5FBZLFHj+++DIxMrUIGIi/eoNaBzjuAw3sYyEHA26Iy6M
+ SEl3DXVW79aiHnj6ZtWq78w+rhrhXx/oRFItomqknSgHJO7V4b3iwSlN3cG/OuzgGspR
+ lMxNTLBsk00bUwOlcMfKR3QTLKKSglUqpUfh26dJAx/4/upj69AXhtG9bvxnGHkCGYBv
+ B8n52gDLYzrsS3rtGGz8EXaZXy59jwqnKLK/CoqvX6QmJmyBKNMgRC8kvMxRe6i1iD5T
+ cFYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date;
- bh=HLJ6CvfnZnNKY7RJIVqKr+WI201l9WGFgF471JMUjOQ=;
- b=ky73EPWPQlRqgu04QVFWo6HCzPTZ32nzsLTcpuE0Jb60GnYfYi2evGR/IQCQJkdmwn
- dsGOg0JF8PFi3ZZ5IDNt6KAKZLNSQm4JXwzYfhXCHKwuB5dr6FLtGuMtCyFmPiyHpRLH
- elm2RHFExarnKYqoRoOO9oXUElCTmXQNPbof+nbfEhuft57fXTyoxynKN1NSKHlHu8wy
- xTIRGrDbcJaHil2puqtfxMfABytcbqy1VPoMYRjAO6Z9uAejfeS6suNHwfPZ0ty0SsOD
- W0IxTZot2Z0imNQK2QYBEP/i4sL6Tfx/b4vVrRxgm6ss25OnyVpNiVP0e5fRsAmC0S37
- eeqA==
-X-Gm-Message-State: ACrzQf2l/CT0RVgg/wmaW//zUB4q9OcqHAEtN18p8FcEAl45owRnyTi6
- jmJonQfVTFo4+xtMUT6LgSR2Nw==
-X-Google-Smtp-Source: AMsMyM5+a5J+tIhwOP1b5XuwLZFmmfbGl+F2IFh8CTZICf4zcPSmBV0KCmtP4QQuOSdImZBwxz4P7w==
-X-Received: by 2002:a05:600c:19cc:b0:3b4:b15a:7df with SMTP id
- u12-20020a05600c19cc00b003b4b15a07dfmr15648225wmq.185.1664207204985; 
- Mon, 26 Sep 2022 08:46:44 -0700 (PDT)
+ bh=CYplaB+rw01Xxte4Fbgb6VvUNHtO3jaeY7GnZiX0s1g=;
+ b=VxBBH4B7xNZcHMKVPJkv8wkGej+1NWB4YqKY1D9zOlH1iXZQ5UBW8nE5uUOM5Np5sG
+ w9szw3EwJw73/Zz1jOp6Ag6i/sYoRRvb+uwBsNam31f5KlXHAzCw8qEz8GhiRVui+Fle
+ e4v+/DfvMtxOE67jIxKXSypRAU4FWwhnVUNQUFr5+7lbb6PGHs7dlmDRWF3dSzCoB9fn
+ U9YOSfoPNaD5gIolDD4D4t+okOJAvDzk6SpapeTDWJS8Gl6se3R8EV4REFQWhlY7v0sL
+ OnP6pMIe0/PFDqTaO9L+B0Gatb5zLauERvJgV1MNvh9NzYxzHWR6nAHIFNQikwLL5WJ6
+ ibyA==
+X-Gm-Message-State: ACrzQf3FAhOsQXWWvFFi9Nksqp1CCp5x9dCnmkTjifzF1C1UgjVm4oy3
+ QZr8smO7KKm1dAX8mT5Ty6xkTMGa3ZwFPw==
+X-Google-Smtp-Source: AMsMyM6VVcgcvIVfxX5lOXYXDIR16mlmS4cSdFXK4Jlan5W5JrFPbTvT0A9P4zkwACHxHOBVpare0A==
+X-Received: by 2002:a05:600c:3b94:b0:3b4:9cdc:dbd4 with SMTP id
+ n20-20020a05600c3b9400b003b49cdcdbd4mr22853531wms.159.1664205960333; 
+ Mon, 26 Sep 2022 08:26:00 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m10-20020a05600c3b0a00b003b47b913901sm25864734wms.1.2022.09.26.08.46.44
+ c9-20020adffb09000000b0022a3517d3besm14972452wrr.5.2022.09.26.08.25.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 08:46:44 -0700 (PDT)
+ Mon, 26 Sep 2022 08:25:59 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BD0A51FFB7;
- Mon, 26 Sep 2022 16:46:43 +0100 (BST)
-References: <20220926133904.3297263-1-alex.bennee@linaro.org>
- <20220926133904.3297263-4-alex.bennee@linaro.org>
- <CAFEAcA9OF4DOvYcfLJ6msAVNe9t_Ufxu9gHWUiuZFj-9qq9epQ@mail.gmail.com>
+ by zen.linaroharston (Postfix) with ESMTP id 064EA1FFB7;
+ Mon, 26 Sep 2022 16:25:59 +0100 (BST)
+References: <20220825222745.38779-1-pbonzini@redhat.com>
+ <20220825222745.38779-2-pbonzini@redhat.com>
 User-agent: mu4e 1.9.0; emacs 28.2.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, mads@ynddal.dk,
- qemu-arm@nongnu.org, Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v2 03/11] target/arm: ensure HVF traps set appropriate
- MemTxAttrs
-Date: Mon, 26 Sep 2022 16:46:14 +0100
-In-reply-to: <CAFEAcA9OF4DOvYcfLJ6msAVNe9t_Ufxu9gHWUiuZFj-9qq9epQ@mail.gmail.com>
-Message-ID: <87zgem2l5o.fsf@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 01/20] configure: do not invoke as/ld directly for
+ pc-bios/optionrom
+Date: Mon, 26 Sep 2022 16:25:55 +0100
+In-reply-to: <20220825222745.38779-2-pbonzini@redhat.com>
+Message-ID: <87czbi40oo.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,54 +96,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On Mon, 26 Sept 2022 at 14:39, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
->>
->> As most HVF devices are done purely in software we need to make sure
->> we properly encode the source CPU in MemTxAttrs. This will allow the
->> device emulations to use those attributes rather than relying on
->> current_cpu (although current_cpu will still be correct in this case).
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Cc: Mads Ynddal <mads@ynddal.dk>
->> Cc: Alexander Graf <agraf@csgraf.de>
->> ---
->>  target/arm/hvf/hvf.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
->> index 060aa0ccf4..13b7971560 100644
->> --- a/target/arm/hvf/hvf.c
->> +++ b/target/arm/hvf/hvf.c
->> @@ -1233,11 +1233,11 @@ int hvf_vcpu_exec(CPUState *cpu)
->>              val =3D hvf_get_reg(cpu, srt);
->>              address_space_write(&address_space_memory,
->>                                  hvf_exit->exception.physical_address,
->> -                                MEMTXATTRS_UNSPECIFIED, &val, len);
->> +                                MEMTXATTRS_CPU(cpu->cpu_index), &val, l=
-en);
->>          } else {
->>              address_space_read(&address_space_memory,
->>                                 hvf_exit->exception.physical_address,
->> -                               MEMTXATTRS_UNSPECIFIED, &val, len);
->> +                               MEMTXATTRS_CPU(cpu->cpu_index), &val, le=
-n);
->>              hvf_set_reg(cpu, srt, val);
->>          }
+> Just use using the compiler binary, with -nostdlib in the case of the
+> linker; the compiler driver (whether i686-*-gcc, or x86_64-*-gcc with
+> the -m32 option) will then pick the right magic option to as and ld.
 >
-> Don't we need a similar thing for KVM ? (In that case it's in
-> the generic code in accel/kvm/kvm-all.c, for the KVM_EXIT_MMIO
-> handling.)
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Added to MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
-which at least anticipates an out-of-kernel GIC.
-
-
->
-> -- PMM
-
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
