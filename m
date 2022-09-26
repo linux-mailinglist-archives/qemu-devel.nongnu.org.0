@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EFE5EA36E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 13:25:14 +0200 (CEST)
-Received: from localhost ([::1]:35524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C962E5EA382
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 13:26:50 +0200 (CEST)
+Received: from localhost ([::1]:58514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocmEa-00074x-Pt
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 07:25:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37266)
+	id 1ocmG9-0008Lf-Mf
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 07:26:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ocmBG-0003c6-H3
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 07:21:46 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:39554)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ocmBE-0000d3-PD
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 07:21:46 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D33AD21ED0;
- Mon, 26 Sep 2022 11:21:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664191302; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ocmC3-0004NT-LW
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 07:22:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39092)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ocmBz-0000hZ-EX
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 07:22:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664191350;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xFnSEL8upZ1ph0a92XhnecCMs9p2hPoEU+gYfRTmmHQ=;
- b=TZJbUDfFkVi+w7Hk0xOxxeCbzlbHC2gUXt5p+/KIleSRP1cbNbsoMcSqnpoipaDUoYpunr
- nzCthcqUUMwlrLNUikL23noDBvD21hic2vO3nISByIiY8ezeO+vvY9MUxOpT5nCMwUG3qq
- p1Lit0vLFUFr0qAO55gUhbYb6cXJxUA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664191302;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xFnSEL8upZ1ph0a92XhnecCMs9p2hPoEU+gYfRTmmHQ=;
- b=NG8A5TgMetxZRs0Jlibw9LgxpValHBljskjtGuizkrEweIRZvECAISKyMQfr7PPAZZKua2
- fiB8ATHdCbCNCfAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 597CB13486;
- Mon, 26 Sep 2022 11:21:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id s2YGE0aLMWPvLwAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 26 Sep 2022 11:21:42 +0000
-Message-ID: <06c9beec-5c36-7675-b09b-151f7e8e6df6@suse.de>
-Date: Mon, 26 Sep 2022 13:21:41 +0200
+ bh=hGCCClB10ORsufua/OplM2FwtcSG9xbe3WCO+dfovUo=;
+ b=ciRvABE95MkFoKw+qJMBFwR7C4Oiy8fsS28n6cDlPN8GLadw+JphW7KD7Nyd7Y/v+vZ3gD
+ JGtc44PQs2QefjWBEbuBzT+Kn76gCAqq+mY6182G2iVWKqL7CThK5ScTUvg57REyPSpuZA
+ f67or+H2hlgkVYMOVQGP2P78JFraIYQ=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-475-GuQzM_TrPmeMaYyqlj-RKg-1; Mon, 26 Sep 2022 07:22:29 -0400
+X-MC-Unique: GuQzM_TrPmeMaYyqlj-RKg-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ 95-20020a9f23e8000000b0038caa7cd5c1so1431384uao.8
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 04:22:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=hGCCClB10ORsufua/OplM2FwtcSG9xbe3WCO+dfovUo=;
+ b=GgmMjreXwu93DyjiCqepIOmYeQbiUs28XuPtbdX/OaawxoHc3WrGrNAAl9xYbeWddm
+ cJ8mvxxA+XEsbMLDXG7g5oDZ1Zo1KNSyf0zF7VsIYjdoaAWcpExEo6jG9Slb6yA+i8h1
+ DuWLNGDHd4+Ia506Y9awm9UNHAU96QXlacx/uzJUW4g2BsempENx8gZx2EPITkFo6YDl
+ QUkiGGRs/KvtS1mFH9DelWGKMJsIzNEJq1lgphgJVjUv1qgLIRKY6oKrewiiNRruZ5Im
+ hRF1BXRfQJ/qqs6p6ersp+XZAYNcYQnXIk1B71C/H9hx0GDJ2oTgOzJ6yF9PsAzDTorX
+ PP6A==
+X-Gm-Message-State: ACrzQf2Ssan6RpJbyBlNS7uH0NilTUhXiDBp05B5NU0LSwFf5LuMcp2G
+ FDkMw5AqvRmBpv8TZ6gCgOdyCSHIJOW6ovJHvZddWwPBG3BMpg44ImoOzvzu+9TOxujKmr3AmA3
+ 9KKGvGndU6QDhxtYD37aEj/hEvecEwfI=
+X-Received: by 2002:a1f:1f85:0:b0:3a7:f248:ee56 with SMTP id
+ f127-20020a1f1f85000000b003a7f248ee56mr592298vkf.3.1664191348413; 
+ Mon, 26 Sep 2022 04:22:28 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4Pwg+VyUU8ha6/iYckLyX7WUh48zdZqDPvuK1Vz3yeT+aPd0Z9sRHwA42w1XVSC5t3ezIleUTw/3A04uN/Zd0=
+X-Received: by 2002:a1f:1f85:0:b0:3a7:f248:ee56 with SMTP id
+ f127-20020a1f1f85000000b003a7f248ee56mr592287vkf.3.1664191348178; Mon, 26 Sep
+ 2022 04:22:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v6 5/5] accel: abort if we fail to load the accelerator
- plugin
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220923232104.28420-1-cfontana@suse.de>
- <20220923232104.28420-6-cfontana@suse.de>
- <989f2606-fa87-0a2e-c49e-00442c8c618c@amsat.org>
- <0e32098d-4f76-8a40-3214-98fb58dd4192@suse.de> <YzGFZ8A1InmPkNb/@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <YzGFZ8A1InmPkNb/@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c;
- envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20220825222745.38779-1-pbonzini@redhat.com>
+In-Reply-To: <20220825222745.38779-1-pbonzini@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Mon, 26 Sep 2022 13:22:16 +0200
+Message-ID: <CABgObfZ+ba8BzchoF_gehMtJJzwTv8xt5iemHg8PvFreQ=KGNw@mail.gmail.com>
+Subject: Re: [PATCH 00/20] Cross compilation changes for 7.2
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,155 +91,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/26/22 12:56, Kevin Wolf wrote:
-> Am 26.09.2022 um 09:58 hat Claudio Fontana geschrieben:
->> On 9/24/22 14:35, Philippe Mathieu-Daudé via wrote:
->>> On 24/9/22 01:21, Claudio Fontana wrote:
->>>> if QEMU is configured with modules enabled, it is possible that the
->>>> load of an accelerator module will fail.
->>>> Abort in this case, relying on module_object_class_by_name to report
->>>> the specific load error if any.
->>>>
->>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>>> ---
->>>>   accel/accel-softmmu.c | 8 +++++++-
->>>>   1 file changed, 7 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
->>>> index 67276e4f52..9fa4849f2c 100644
->>>> --- a/accel/accel-softmmu.c
->>>> +++ b/accel/accel-softmmu.c
->>>> @@ -66,6 +66,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
->>>>   {
->>>>       const char *ac_name;
->>>>       char *ops_name;
->>>> +    ObjectClass *oc;
->>>>       AccelOpsClass *ops;
->>>>   
->>>>       ac_name = object_class_get_name(OBJECT_CLASS(ac));
->>>> @@ -73,8 +74,13 @@ void accel_init_ops_interfaces(AccelClass *ac)
->>>>   
->>>>       ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
->>>>       ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
->>>> +    oc = module_object_class_by_name(ops_name);
->>>> +    if (!oc) {
->>>> +        error_report("fatal: could not load module for type '%s'", ops_name);
->>>> +        abort();
->>>
->>> I still think a coredump won't help at all to figure the problem here: a 
->>
->> I can change this from abort to exit(1), the issue I am seeing is, usually when we fail to create or initialize objects
->> we seem to be using abort(), the most prominent examples are in qom/object.c:
->>
->> static TypeImpl *type_new(const TypeInfo *info)
->> {
->>     TypeImpl *ti = g_malloc0(sizeof(*ti));
->>     int i;
->>
->>     g_assert(info->name != NULL);
->>
->>     if (type_table_lookup(info->name) != NULL) {
->>         fprintf(stderr, "Registering `%s' which already exists\n", info->name);
->>         abort();
->>     }
->>
->> ...
->>
->> void object_initialize(void *data, size_t size, const char *typename)
->> {
->>     TypeImpl *type = type_get_by_name(typename);
->>
->> #ifdef CONFIG_MODULES
->>     if (!type) {
->>         Error *local_err = NULL;
->>         int rv = module_load_qom(typename, &local_err);
->>         if (rv > 0) {
->>             type = type_get_by_name(typename);
->>         } else if (rv < 0) {
->>             error_report_err(local_err);
->>         }
->>     }
->> #endif
->>     if (!type) {
->>         error_report("missing object type '%s'", typename);
->>         abort();
->>     }
->>
->>     object_initialize_with_type(data, size, type);
->> }
->>
->>
->> Do you propose to change only the assert in accel_init_ops_interfaces
->> to exit(1)?
->>
->> Or the other case as well in the series? (ie hw/core/qdev.c qdev_new()
->> ?)
->>
->> Do you propose to change this consistently through the codebase
->> including the object.c snippets above?
-> 
-> The difference with the snippets above (in the non-module case) is that
-> calling object_new() with a type that doesn't exist is a bug, it's an
-I see where you are going, however in the object initialization case,
-we still have the possibility that the type is available only after module load.
+Ping (I can also include it in my next pull request if desirable).
 
-So according to your differentiation, we would have to exit() in the module case, and abort() if modules are disabled.
+Paolo
 
+On Fri, Aug 26, 2022 at 12:27 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> This is a bunch of related changes leading up to building ROMs
+> with container-based cross compilers:
+>
+> - detect pc-bios/ CC options just once instead of using make's $(shell)
+>   function
+>
+> - move CC option detection to tests/tcg Makefiles from QEMU's root
+>   configure
+>
+> - put all configuration of tests/tcg in config files instead of using
+>   $(MAKE) VAR=value
+>
+> - mostly unrelated, change pc-bios/ Make output to look like Meson's
+>   "Compiling foo.o".
+>
+> Paolo Bonzini (20):
+>   configure: do not invoke as/ld directly for pc-bios/optionrom
+>   pc-bios/optionrom: detect CC options just once
+>   pc-bios/s390-ccw: detect CC options just once
+>   vof: add distclean target
+>   build: add recursive distclean rules
+>   configure: return status code from probe_target_compiler
+>   configure: store container engine in config-host.mak
+>   tests: simplify Makefile invocation for tests/tcg
+>   tests/tcg: remove -f from Makefile invocation
+>   tests/tcg: add distclean rule
+>   tests/tcg: unify ppc64 and ppc64le Makefiles
+>   tests/tcg: clean up calls to run-test
+>   tests/tcg: move compiler tests to Makefiles
+>   configure: move tests/tcg/Makefile.prereqs to root build directory
+>   configure: unify creation of cross-compilation Makefiles
+>   configure: cleanup creation of tests/tcg target config
+>   configure: build ROMs with container-based cross compilers
+>   pc-bios/optionrom: Adopt meson style Make output
+>   pc-bios/s390-ccw: Adopt meson style Make output
+>   pc-bios/vof: Adopt meson style Make output
+>
+>  Makefile                                      |  12 +-
+>  configure                                     | 251 +++++++-----------
+>  meson.build                                   |   2 +-
+>  pc-bios/optionrom/Makefile                    |  51 ++--
+>  pc-bios/s390-ccw/Makefile                     |  43 ++-
+>  pc-bios/s390-ccw/netboot.mak                  |  27 +-
+>  pc-bios/vof/Makefile                          |  19 +-
+>  tests/Makefile.include                        |  24 +-
+>  tests/docker/Makefile.include                 |   2 +-
+>  tests/tcg/Makefile.target                     |  34 ++-
+>  tests/tcg/aarch64/Makefile.softmmu-target     |  11 +-
+>  tests/tcg/aarch64/Makefile.target             |  15 +-
+>  tests/tcg/arm/Makefile.target                 |   9 +-
+>  tests/tcg/cris/Makefile.target                |   2 +-
+>  tests/tcg/i386/Makefile.softmmu-target        |   3 +-
+>  tests/tcg/i386/Makefile.target                |  11 +-
+>  tests/tcg/multiarch/Makefile.target           |  18 +-
+>  .../multiarch/system/Makefile.softmmu-target  |   2 +-
+>  tests/tcg/ppc64/Makefile.target               |   8 +-
+>  tests/tcg/{ppc64le => ppc64}/bcdsub.c         |   0
+>  tests/tcg/{ppc64le => ppc64}/byte_reverse.c   |   0
+>  tests/tcg/{ppc64le => ppc64}/mffsce.c         |   0
+>  tests/tcg/{ppc64le => ppc64}/mtfsf.c          |   0
+>  .../{ppc64le => ppc64}/non_signalling_xscv.c  |   0
+>  .../signal_save_restore_xer.c                 |   0
+>  tests/tcg/{ppc64le => ppc64}/xxspltw.c        |   0
+>  tests/tcg/ppc64le/Makefile.target             |  26 +-
+>  tests/tcg/s390x/Makefile.target               |   2 +-
+>  tests/tcg/x86_64/Makefile.softmmu-target      |   3 +-
+>  29 files changed, 275 insertions(+), 300 deletions(-)
+>  rename tests/tcg/{ppc64le => ppc64}/bcdsub.c (100%)
+>  rename tests/tcg/{ppc64le => ppc64}/byte_reverse.c (100%)
+>  rename tests/tcg/{ppc64le => ppc64}/mffsce.c (100%)
+>  rename tests/tcg/{ppc64le => ppc64}/mtfsf.c (100%)
+>  rename tests/tcg/{ppc64le => ppc64}/non_signalling_xscv.c (100%)
+>  rename tests/tcg/{ppc64le => ppc64}/signal_save_restore_xer.c (100%)
+>  rename tests/tcg/{ppc64le => ppc64}/xxspltw.c (100%)
+>
+> --
+> 2.37.1
+>
 
-> programming error. Calling type_new() twice for the same TypeInfo or for
-> two TypeInfos with the same name is a programming error, too. abort() is
-> correct for situations that should never happen in a bug free QEMU.
-> 
-> Not being able to load a module is generally not a bug in QEMU, it's an
-> error of external origin. So here abort() is not appropriate.
-> 
-> The CONFIG_MODULES code in object_initialize() is problematic because it
-> doesn't have a way to deal with an error case that can happen without a
-> bug in QEMU. Without changing the prototype of the function to actually
-> allow error returns (which I suspect might be a very invasive change),
-> maybe the best approach is to just make it a fatal error and leave the
-> code mostly as it is in current master:
-> 
-> #ifdef CONFIG_MODULES
->     if (!type) {
->         /* Assuming that module_load_qom_one() returns an error if the
->          * module doesn't exist */
->         module_load_qom_one(typename, &error_fatal);
->         type = type_get_by_name(typename);
->     }
-> #endif
->     if (!type) {
->         error_report("missing object type '%s'", typename);
->         abort();
->     }
-> 
->     object_initialize_with_type(data, size, type);
-> 
-> This makes it print an error message and exit(). Which is honestly not
-> great during runtime because it doesn't properly shut down QEMU, let
-> alone just fail the operation and keep running, but at least slightly
-> better than abort().
-
-Ok so the core of the issue is, if CONFIG_MODULES we want to exit() and not abort() if the type is not available.
-
-> 
->>> module is missing, we know its name. Anyhow I don't mind much, and this
->>> can be cleaned later, so:
->>
->> Sure this could be fixed later with a series that tries to use exit()
->> vs abort() consistently throughout the codebase when initializing and
->> creating objects.
-> 
-> This should mean consistently distinguishing programming errors (i.e.
-> QEMU bugs) from errors of external origin.
-> 
-> Kevin
-> 
-
-Thanks,
-
-I'll have a new pass with this in mind.
-
-Claudio
 
