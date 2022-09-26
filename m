@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 994135E9A88
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 09:35:59 +0200 (CEST)
-Received: from localhost ([::1]:59954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B4C5E9B37
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 09:50:32 +0200 (CEST)
+Received: from localhost ([::1]:53000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ociek-0004f3-4y
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 03:35:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43336)
+	id 1ocisp-0001hQ-0R
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 03:50:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ociZM-0002TV-Oj
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:30:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54332)
+ (Exim 4.90_1) (envelope-from <yang.zhong@linux.intel.com>)
+ id 1ocinS-0006zU-KR
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:44:59 -0400
+Received: from mga04.intel.com ([192.55.52.120]:27635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ociZK-0006SI-LS
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:30:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664177421;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HkT8at2+psywQJNd6qRyHQyIlvGpoI1IFxyV5tTV4PU=;
- b=dOF7SNveQcE8hS3+2zBCdGoIogQKsGk4kSEJUtoj9W9bIqz+QAaU3KyJOSWyU1ddud9U2U
- HK7GA+br0r1u5wwnOVMrlt+yZ7p8H6gWG5ug1fNwOJQ/VkjTP3JoKmcdHiKqMbsoFXe7VQ
- 6wBAjdpPSxD4PnnV3DhaOP4EG/0z3ZM=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-77--rLfxjHoMvuJElMopyx_1Q-1; Mon, 26 Sep 2022 03:30:20 -0400
-X-MC-Unique: -rLfxjHoMvuJElMopyx_1Q-1
-Received: by mail-ot1-f72.google.com with SMTP id
- y25-20020a9d6359000000b00655ffb2ca00so3051652otk.4
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 00:30:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=HkT8at2+psywQJNd6qRyHQyIlvGpoI1IFxyV5tTV4PU=;
- b=xzqqegWexjdwiafeHc2wotSlTdH9XX+xnIZ9XNVbwsTTc4ToYK7LPtd8d4HTGFXaZv
- H8Dj6RWCxy8idgr1n2nI6AcvgKoTxOyb6cig+2qHSVqreqixUs32+PuBkERLu7jx6GSK
- r6P+O+7H/g/1A9L0PyN4jLe8kDL1FjX+he4cmzUU6Z0dPUOc76BZ1+iU7hl8JiZO84Ga
- ono3rbOXAhdaQ5wclAEeEon00+WWkMeHJMJVElTk6SscAHNJ+rfDu/lHb/xClGFHy8A0
- 0xHT7j8YhGviL1yLbfnrTqaIIKfLLo0KLaJTpdC7q8AsiKf/+XdmWPWHsW43TZhF6HLi
- cuPQ==
-X-Gm-Message-State: ACrzQf0LtcP1trp43I3kPbQwOppqpVZYThAUYrQvnVeN/okNHV5cc44B
- f1no+Z5k+btvnRIZVL/8hODrCtX525+MowYEqUn0hsw9uAQDavVAIRXtK6ivA4H5nahqkZk3rVL
- P+Fvpj6eMAoubqqRoQSe/Ms4bQgGy+Oo=
-X-Received: by 2002:a05:6870:e409:b0:127:d330:c941 with SMTP id
- n9-20020a056870e40900b00127d330c941mr11069020oag.280.1664177419141; 
- Mon, 26 Sep 2022 00:30:19 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5o1/nLZWqeoa+fxHti9WTDQbFE6+/mKJo8siq2rg0XUhLqdIB11KMxmAp05DYsKO76O8VtuDJirlcy85SbcVM=
-X-Received: by 2002:a05:6870:e409:b0:127:d330:c941 with SMTP id
- n9-20020a056870e40900b00127d330c941mr11069015oag.280.1664177418941; Mon, 26
- Sep 2022 00:30:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yang.zhong@linux.intel.com>)
+ id 1ocinP-0000AZ-Oq
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:44:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664178295; x=1695714295;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=OXrQ1s25mxjuSiHq5XrGHAGUgXt/l+/qrDgZMNBAKiU=;
+ b=mVYx320JFKtQCK+0Mek/5DntQDfWdOumjkoFveGfR9yR+zhbyn+rHAUE
+ 7DVRgW2P5xbtIem14+HYdGtEvSk89wNPpA5chQIFJgyOD67OiKB70kyCz
+ nyMpi8m4lBXEJS+P/HmpkhC+uOrd4j3TkGrribNXusyJqIc6MtBYLmRaE
+ XgT78+1Y4J/bwcylHy3Tlmd7MeYiqYuFLp1+AkmNPll0AQoKGjXPiiOCQ
+ HIp40QfsMknPKcvVtrz7tSscD1n+vzyrs1HCFGgoZs4EvwfwQeXwc3uEv
+ +5IpZP8K6HPp6TuSJdDEa3ctjggS+jybgnKMOVrnfpEhMRWT+796ILeag A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10481"; a="299689430"
+X-IronPort-AV: E=Sophos;i="5.93,345,1654585200"; d="scan'208";a="299689430"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 00:44:52 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10481"; a="572115814"
+X-IronPort-AV: E=Sophos;i="5.93,345,1654585200"; d="scan'208";a="572115814"
+Received: from yangzhon.bj.intel.com (HELO yangzhon) ([10.238.157.60])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 00:44:49 -0700
+Date: Mon, 26 Sep 2022 03:42:11 -0400
+From: Yang Zhong <yang.zhong@linux.intel.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Wang, Lei" <lei4.wang@intel.com>, paul.c.lai@intel.com,
+ pbonzini@redhat.com, qemu-devel@nongnu.org, robert.hu@intel.com,
+ chenyi.qiang@intel.com, yang.zhong@linux.intel.com
+Subject: Re: [PATCH] i386: Add new CPU model SapphireRapids
+Message-ID: <YzFX04164F6KfZdY@yangzhon>
+References: <20220812055751.14553-1-lei4.wang@intel.com>
+ <Yysk/taT/eKR0Bp3@work-vm> <Yy21A2CWzrS3SIzH@yangzhon>
+ <b1f238c6-ab3d-eb8f-d1b4-dbdf342c002c@intel.com>
 MIME-Version: 1.0
-References: <20220923155046.1571-1-luzhipeng@cestc.cn>
-In-Reply-To: <20220923155046.1571-1-luzhipeng@cestc.cn>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 26 Sep 2022 15:30:08 +0800
-Message-ID: <CACGkMEtPgUgmMxHhRUkz3nuOa6BwZ47b3NBRWQCQG8-SE_SSrg@mail.gmail.com>
-Subject: Re: [PATCH] virtio: del net client if net_init_tap_one failed
-To: luzhipeng <luzhipeng@cestc.cn>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b1f238c6-ab3d-eb8f-d1b4-dbdf342c002c@intel.com>
+Received-SPF: none client-ip=192.55.52.120;
+ envelope-from=yang.zhong@linux.intel.com; helo=mga04.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,90 +80,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 23, 2022 at 11:56 PM luzhipeng <luzhipeng@cestc.cn> wrote:
->
-> From: lu zhipeng <luzhipeng@cestc.cn>
->
-> If the net tap initializes successful, but failed during
-> network card hot-plugging, the net-tap will remains,
-> so cleanup.
->
-> Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
+On Sat, Sep 24, 2022 at 12:01:16AM +0800, Xiaoyao Li wrote:
+> On 9/23/2022 9:30 PM, Yang Zhong wrote:
+> > On Wed, Sep 21, 2022 at 03:51:42PM +0100, Dr. David Alan Gilbert wrote:
+> > > * Wang, Lei (lei4.wang@intel.com) wrote:
+> > > > The new CPU model mostly inherits features from Icelake-Server, while
+> > > > adding new features:
+> > > >   - AMX (Advance Matrix eXtensions)
+> > > >   - Bus Lock Debug Exception
+> > > > and new instructions:
+> > > >   - AVX VNNI (Vector Neural Network Instruction):
+> > > >      - VPDPBUS: Multiply and Add Unsigned and Signed Bytes
+> > > >      - VPDPBUSDS: Multiply and Add Unsigned and Signed Bytes with Saturation
+> > > >      - VPDPWSSD: Multiply and Add Signed Word Integers
+> > > >      - VPDPWSSDS: Multiply and Add Signed Integers with Saturation
+> > > >   - FP16: Replicates existing AVX512 computational SP (FP32) instructions
+> > > >     using FP16 instead of FP32 for ~2X performance gain
+> > > >   - SERIALIZE: Provide software with a simple way to force the processor to
+> > > >     complete all modifications, faster, allowed in all privilege levels and
+> > > >     not causing an unconditional VM exit
+> > > >   - TSX Suspend Load Address Tracking: Allows programmers to choose which
+> > > >     memory accesses do not need to be tracked in the TSX read set
+> > > >   - AVX512_BF16: Vector Neural Network Instructions supporting BFLOAT16
+> > > >     inputs and conversion instructions from IEEE single precision
+> > > > 
+> > > > Features may be added in future versions:
+> > > >   - CET (virtualization support hasn't been merged)
+> > > > Instructions may be added in future versions:
+> > > >   - fast zero-length MOVSB (KVM doesn't support yet)
+> > > >   - fast short STOSB (KVM doesn't support yet)
+> > > >   - fast short CMPSB, SCASB (KVM doesn't support yet)
+> > > > 
+> > > > Signed-off-by: Wang, Lei <lei4.wang@intel.com>
+> > > > Reviewed-by: Robert Hoo <robert.hu@linux.intel.com>
+> > > 
+> > > Hi,
+> > >     What fills in the AMX tile and tmul information leafs
+> > > (0x1D, 0x1E)?
+> > >    In particular, how would we make sure when we migrate between two
+> > > generations of AMX/Tile/Tmul capable devices with different
+> > > register/palette/tmul limits that the migration is tied to the CPU type
+> > > correctly?
+> > >    Would you expect all devices called a 'SappireRapids' to have the same
+> > > sizes?
+> > > 
+> > 
+> >     There is only one palette in current design. This palette include 8
+> >     tiles.  Those two CPUID leafs defined bytes_per_tile, total_tile_bytes,
+> >     max_rows and etc, the AMX tool will configure those values into TILECFG with
+> >     ldtilecfg instrcutions. Once tiles are configured, we can use
+> >     tileload instruction to load data into those tiles.
+> > 
+> >     We did migration between two SappireRapids with amx self test tool
+> >     (tools/testing/selftests/x86/amx.c)started in two sides, the migration
+> >     work well.
+> > 
+> >     As for SappireRapids and more newer cpu types, those two CPUID leafs
+> >     definitions are all same on AMX.
+> 
+> I'm not sure what definitions mean here. Are you saying the CPUID values of
+> leaf 0x1D and 0x1E won't change for any future Intel Silicion?
+> 
+> Personally, I doubt it. And we shouldn't take such assumption unless Intel
+> states it SDM.
 
-Applied.
+  The current 0x1D and 0x1E definitions as below:
 
-Thanks
+  /* CPUID Leaf 0x1D constants: */
+  #define INTEL_AMX_TILE_MAX_SUBLEAF     0x1
+  #define INTEL_AMX_TOTAL_TILE_BYTES     0x2000
+  #define INTEL_AMX_BYTES_PER_TILE       0x400
+  #define INTEL_AMX_BYTES_PER_ROW        0x40
+  #define INTEL_AMX_TILE_MAX_NAMES       0x8
+  #define INTEL_AMX_TILE_MAX_ROWS        0x10
 
-> ---
->  net/tap.c | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
->
-> diff --git a/net/tap.c b/net/tap.c
-> index b3ddfd4a74..e203d07a12 100644
-> --- a/net/tap.c
-> +++ b/net/tap.c
-> @@ -686,7 +686,7 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
->      tap_set_sndbuf(s->fd, tap, &err);
->      if (err) {
->          error_propagate(errp, err);
-> -        return;
-> +        goto failed;
->      }
->
->      if (tap->has_fd || tap->has_fds) {
-> @@ -726,12 +726,12 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
->                  } else {
->                      warn_report_err(err);
->                  }
-> -                return;
-> +                goto failed;
->              }
->              if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
->                  error_setg_errno(errp, errno, "%s: Can't use file descriptor %d",
->                                   name, fd);
-> -                return;
-> +                goto failed;
->              }
->          } else {
->              vhostfd = open("/dev/vhost-net", O_RDWR);
-> @@ -743,11 +743,11 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
->                      warn_report("tap: open vhost char device failed: %s",
->                                  strerror(errno));
->                  }
-> -                return;
-> +                goto failed;
->              }
->              if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
->                  error_setg_errno(errp, errno, "Failed to set FD nonblocking");
-> -                return;
-> +                goto failed;
->              }
->          }
->          options.opaque = (void *)(uintptr_t)vhostfd;
-> @@ -760,11 +760,17 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
->              } else {
->                  warn_report(VHOST_NET_INIT_FAILED);
->              }
-> -            return;
-> +            goto failed;
->          }
->      } else if (vhostfdname) {
->          error_setg(errp, "vhostfd(s)= is not valid without vhost");
-> +        goto failed;
->      }
-> +
-> +    return;
-> +
-> +failed:
-> +    qemu_del_net_client(&s->nc);
->  }
->
->  static int get_fds(char *str, char *fds[], int max)
-> --
-> 2.31.1
->
->
->
->
+  /* CPUID Leaf 0x1E constants: */
+  #define INTEL_AMX_TMUL_MAX_K           0x10
+  #define INTEL_AMX_TMUL_MAX_N           0x40
 
+  These values are defined from SDM, and from the new developping CPU,
+  these values are still same with SappireRapids. thanks!
+
+  Yang
+> 
+> > So, on AMX perspective, the migration
+> >     should be workable on subsequent cpu types. thanks!
+> 
+> I think what Dave worried is that when migrating one VM created with
+> "SapphireRapids" model on SPR machine to some newer platform in the future,
+> where the newer platform reports different value on CPUID leaves 0x1D and
+> 0x1E than SPR platform.
+> 
+> I think we need to contain CPUID leaves 0x1D and 0x1E into CPU model as
+> well. Otherwise we will hit the same as Intel PT that SPR reports less
+> capabilities that ICX.
+> 
 
