@@ -2,50 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF43B5EB4CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 00:52:06 +0200 (CEST)
-Received: from localhost ([::1]:40946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8475EB516
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 01:06:43 +0200 (CEST)
+Received: from localhost ([::1]:54860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocwxJ-0003FX-C1
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 18:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48534)
+	id 1ocxBS-0005t9-Gs
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 19:06:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ocwsw-0007rp-Af; Mon, 26 Sep 2022 18:47:34 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:45172)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ocwsr-0006ll-Qn; Mon, 26 Sep 2022 18:47:33 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0B7FF74633D;
- Tue, 27 Sep 2022 00:47:27 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id BDFFD74632C; Tue, 27 Sep 2022 00:47:26 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id BC0C0746307;
- Tue, 27 Sep 2022 00:47:26 +0200 (CEST)
-Date: Tue, 27 Sep 2022 00:47:26 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v6 00/25] ppc4xx_sdram QOMify and clean ups
-In-Reply-To: <692bbaaf-2e34-8827-f2a6-73bf5c599099@gmail.com>
-Message-ID: <a7c2a640-504d-c93e-a27d-5730364aaaa7@eik.bme.hu>
-References: <cover.1664021647.git.balaton@eik.bme.hu>
- <6ad5fa00-ac5c-3fd9-48fd-c2cb93daeb21@gmail.com>
- <692bbaaf-2e34-8827-f2a6-73bf5c599099@gmail.com>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1ocx82-00049S-Si
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 19:03:14 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.226]:44062
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ocx7z-0000bb-MA
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 19:03:10 -0400
+HMM_SOURCE_IP: 172.18.0.48:58648.1905193933
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-118.116.19.183 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 5089B28008F;
+ Tue, 27 Sep 2022 07:02:53 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([118.116.19.183])
+ by app0024 with ESMTP id f3fd35004d724349abb3e1f6e6c4ff34 for
+ alex.bennee@linaro.org; Tue, 27 Sep 2022 07:02:56 CST
+X-Transaction-ID: f3fd35004d724349abb3e1f6e6c4ff34
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 118.116.19.183
+X-MEDUSA-Status: 0
+Message-ID: <f3fd35004d724349abb3e1f6e6c4ff34>
+Date: Tue, 27 Sep 2022 07:02:49 +0800
+Subject: =?UTF-8?Q?=E5=9B=9E=E5=A4=8D=EF=BC=9A_[PATCH__v1_7?=
+ =?UTF-8?Q?/7]_contrib/gitdm:?=
+ =?UTF-8?Q?_add_China_Telecom_to_the_domain_map?=
+From: "huangy81@chinatelecom.cn" <huangy81@chinatelecom.cn>
+To: =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-1050-1664232446=:76646"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=42.123.76.226;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ HTML_MIME_NO_HTML_TAG=0.377, INVALID_MSGID=0.568, MIME_HTML_ONLY=0.1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,105 +67,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+PHA+WWVzLCZuYnNwOyB0aGlzIGlzIG15IGNvbnRyaWJ1dGlvbiBhY2NvdW50LiAmIzEwOzxicj4m
+IzEwOzxicj5UaGFua3MuJiMxMDs8YnI+PC9wPjxkaXYgY2xhc3M9InF1b3RlIj48YmxvY2txdW90
+ZSBjbGFzcz0icXVvdGUiIHN0eWxlPSJtYXJnaW46MCAwIDAgMDtib3JkZXItbGVmdDoxcHggI2Nj
+YyBzb2xpZDtwYWRkaW5nLWxlZnQ6IDEycHgiPuWPkeS7tuS6uu+8mkFsZXggQmVubsOpZSAmbHQ7
+YWxleC5iZW5uZWVAbGluYXJvLm9yZyZndDs8YnI+5pel5pyf77yaMjAyMuW5tDnmnIgyNuaXpSAy
+MTo0Njxicj7kuLvpopjvvJpbUEFUQ0ggIHYxIDcvN10gY29udHJpYi9naXRkbTogYWRkIENoaW5h
+IFRlbGVjb20gdG8gdGhlIGRvbWFpbiBtYXA8YnI+5pS25Lu25Lq677yacWVtdS1kZXZlbEBub25n
+bnUub3JnPGJyPjxiciB0eXBlPSdhdHRyaWJ1dGlvbic+PHAgZGlyPSJsdHIiPlBsZWFzZSBjb25m
+aXJtIGlmIHRoaXMgaXMgYSBjb3Jwb3JhdGUgY29udHJpYnV0aW9uIGFjY291bnQuJiMxMzs8YnI+
+CiYjMTM7PGJyPgpTaWduZWQtb2ZmLWJ5OiBBbGV4IEJlbm4mIzIzMztlICZsdDthbGV4LmJlbm5l
+ZUBsaW5hcm8ub3JnJmd0OyYjMTM7PGJyPgpDYzogSHltYW4gSHVhbmcoJiM0MDY0NDsmIzIxMTkx
+OykgJmx0O2h1YW5neTgxQGNoaW5hdGVsZWNvbS5jbiZndDsmIzEzOzxicj4KLS0tJiMxMzs8YnI+
+CiBjb250cmliL2dpdGRtL2RvbWFpbi1tYXAgfCAxICsmIzEzOzxicj4KIDEgZmlsZSBjaGFuZ2Vk
+LCAxIGluc2VydGlvbigrKSYjMTM7PGJyPgomIzEzOzxicj4KZGlmZiAtLWdpdCBhL2NvbnRyaWIv
+Z2l0ZG0vZG9tYWluLW1hcCBiL2NvbnRyaWIvZ2l0ZG0vZG9tYWluLW1hcCYjMTM7PGJyPgppbmRl
+eCA0MzRlZjUzYWZjLi4zNzI3OTE4NjQxIDEwMDY0NCYjMTM7PGJyPgotLS0gYS9jb250cmliL2dp
+dGRtL2RvbWFpbi1tYXAmIzEzOzxicj4KKysrIGIvY29udHJpYi9naXRkbS9kb21haW4tbWFwJiMx
+Mzs8YnI+CkBAIC0xMCw2ICsxMCw3IEBAIGJ5dGVkYW5jZS5jb20mbmJzcDsmbmJzcDsgQnl0ZURh
+bmNlJiMxMzs8YnI+CiBjbXNzLmNoaW5hbW9iaWxlLmNvbSBDaGluYSBNb2JpbGUmIzEzOzxicj4K
+IGNpdHJpeC5jb20mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgQ2l0cml4JiMxMzs8YnI+
+CiBjcnVkZWJ5dGUuY29tJm5ic3A7Jm5ic3A7IENydWRlYnl0ZSYjMTM7PGJyPgorY2hpbmF0ZWxl
+Y29tLmNuIENoaW5hIFRlbGVjb20mIzEzOzxicj4KIGVsZG9yYWRvLm9yZy5iciBJbnN0aXR1dG8g
+ZGUgUGVzcXVpc2FzIEVsZG9yYWRvJiMxMzs8YnI+CiBmdWppdHN1LmNvbSZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyBGdWppdHN1JiMxMzs8YnI+CiBnb29nbGUuY29tJm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7IEdvb2dsZSYjMTM7PGJyPgotLSAmIzEzOzxicj4KMi4zNC4xJiMxMzs8YnI+
+CiYjMTM7PGJyPgo8L3A+CjwvYmxvY2txdW90ZT48L2Rpdj4=
 
---3866299591-1050-1664232446=:76646
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Mon, 26 Sep 2022, Daniel Henrique Barboza wrote:
-> On 9/26/22 14:09, Daniel Henrique Barboza wrote:
->> Zoltan,
->> 
->> I've started to push some patches to ppc-next. Patches 1-13 are already 
->> pushed
->> and I'm running tests on patches 14-17. Assuming everything is ok we'll be
->> left with patches 18-25 to work on.
->
-> Patches 01-17 queued in ppc-next.
->
-> If a next version is needed you can resend just 18-25.
-
-Thanks. Hope somebody can review the remaining ones too. Patches 18-20 are 
-just moving stuff to ppc4xx_sdram.c which are now in 3 patches for easier 
-review with --color-moved, 21-22 and 25 are already reviewed by Philippe 
-so only 23-24 need more attention.
-
-Regards,
-BALATON Zoltan
-
->
-> Thanks,
->
->
-> Daniel
->
->> 
->> 
->> Thanks,
->> 
->> 
->> Daniel
->> 
->> On 9/24/22 09:27, BALATON Zoltan wrote:
->>> This is the end of the QOMify series started by Cédric. This series
->>> handles the SDRAM controller models to clean them up, QOMify and unify
->>> them and at least partially clean up the mess that has accumulated
->>> around these in the past. This includes the not yet merged patches
->>> from the last series and new ones that change the DDR2 version used by
->>> sam460ex.
->>> 
->>> v6: Split patch moving sdram controller models together into smaller steps
->>> v5: Add functions the enable sdram controller and call it from boards
->>> v4: address more review comments
->>> v3: Fix patches that got squashed during rebase
->>> v2: address some review comments and try to avoid compile problem with
->>> gcc 12.2 (untested)
->>> 
->>> BALATON Zoltan (25):
->>>    ppc440_bamboo: Remove unnecessary memsets
->>>    ppc4xx: Introduce Ppc4xxSdramBank struct
->>>    ppc4xx_sdram: Get rid of the init RAM hack
->>>    ppc4xx: Use Ppc4xxSdramBank in ppc4xx_sdram_banks()
->>>    ppc440_bamboo: Add missing 4 MiB valid memory size
->>>    ppc4xx_sdram: Move size check to ppc4xx_sdram_init()
->>>    ppc4xx_sdram: QOM'ify
->>>    ppc4xx_sdram: Drop extra zeros for readability
->>>    ppc440_sdram: Split off map/unmap of sdram banks for later reuse
->>>    ppc440_sdram: Implement enable bit in the DDR2 SDRAM controller
->>>    ppc440_sdram: Get rid of the init RAM hack
->>>    ppc440_sdram: Rename local variable for readability
->>>    ppc4xx_sdram: Rename functions to prevent name clashes
->>>    ppc440_sdram: Move RAM size check to ppc440_sdram_init
->>>    ppc440_sdram: QOM'ify
->>>    ppc440_uc.c: Move some macros to ppc4xx.h
->>>    ppc440_uc.c: Remove unneeded parenthesis
->>>    ppc440_uc.c: Move DDR2 SDRAM controller model to ppc4xx_sdram.c
->>>    ppc4xx_devs.c: Move DDR SDRAM controller model to ppc4xx_sdram.c
->>>    ppc4xx_sdram: Move ppc4xx_sdram_banks() to ppc4xx_sdram.c
->>>    ppc4xx_sdram: Use hwaddr for memory bank size
->>>    ppc4xx_sdram: Rename local state variable for brevity
->>>    ppc4xx_sdram: Generalise bank setup
->>>    ppc4xx_sdram: Convert DDR SDRAM controller to new bank handling
->>>    ppc4xx_sdram: Add errp parameter to ppc4xx_sdram_banks()
->>> 
->>>   hw/ppc/meson.build      |   3 +-
->>>   hw/ppc/ppc405.h         |   8 +-
->>>   hw/ppc/ppc405_boards.c  |  13 +-
->>>   hw/ppc/ppc405_uc.c      |  33 +-
->>>   hw/ppc/ppc440.h         |   4 -
->>>   hw/ppc/ppc440_bamboo.c  |  25 +-
->>>   hw/ppc/ppc440_uc.c      | 267 +-------------
->>>   hw/ppc/ppc4xx_devs.c    | 413 ----------------------
->>>   hw/ppc/ppc4xx_sdram.c   | 753 ++++++++++++++++++++++++++++++++++++++++
->>>   hw/ppc/sam460ex.c       |  44 +--
->>>   hw/ppc/trace-events     |   1 +
->>>   include/hw/ppc/ppc4xx.h |  65 +++-
->>>   12 files changed, 859 insertions(+), 770 deletions(-)
->>>   create mode 100644 hw/ppc/ppc4xx_sdram.c
->>> 
->
->
---3866299591-1050-1664232446=:76646--
 
