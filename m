@@ -2,62 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3BE45E9C4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 10:45:23 +0200 (CEST)
-Received: from localhost ([::1]:33436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CC35E9C97
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 10:56:06 +0200 (CEST)
+Received: from localhost ([::1]:55936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocjju-0004Mk-Aq
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 04:45:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37830)
+	id 1ocjuH-0001k7-JW
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 04:56:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ocjgY-0001iJ-8s
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:41:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39599)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ocjpk-0006Bd-Iy
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:51:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ocjgT-0000yX-Q2
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:41:52 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ocjpi-0002G0-RM
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:51:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664181707;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=eksslIK9miwMn2EC8/ulD5CMtixif7z0CMKfgUkojac=;
- b=CYcuxpc2Im/eVA8F91p4A/S0r+XYSytj1AaJ9YvVRm+vRa2D54aiQ2mNNFacMHx4bcftb+
- nY+zJq2ocdXUNsI/4ttu5kPoTZC21VRYmMcYoQPaI0HG4p2cREoWmM9QjbKOQE2MPQWdBE
- M7O6B39ULWP+6uThqf6IecNrNGD+RBA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-z1JpxI4yOrucYsDh5ALkcg-1; Mon, 26 Sep 2022 04:41:44 -0400
-X-MC-Unique: z1JpxI4yOrucYsDh5ALkcg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9EC22855305;
- Mon, 26 Sep 2022 08:41:43 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.136])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6568A1121314;
- Mon, 26 Sep 2022 08:41:42 +0000 (UTC)
-Date: Mon, 26 Sep 2022 09:41:40 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v3] block: Refactor get_tmp_filename()
-Message-ID: <YzFlxNs5fLeL+Um4@redhat.com>
-References: <20220924163200.1910807-1-bmeng.cn@gmail.com>
+ s=mimecast20190719; t=1664182278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9khF7HtdEw1lIqHQJnQwM+tQ7swsOFx5voia+tsmqxU=;
+ b=CmrdBEFK01W1JEamf0c5Bi5GRuUd0eTc64Tpwdy7kmq/sLC6hZHDDNazZ/Q3nZeh+Y6x+r
+ OxVZiPZ3EX++u9wRU8xJaJk4hUTIAY+jbr740jEzP7hRVUkgVaux3hoLHQqNCVKJqIxhpV
+ i/oO0epOfKT5eT68mJuhoCDbpiW0S4g=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-622-irTcw-lKNTGV6HXlccdGvw-1; Mon, 26 Sep 2022 04:51:16 -0400
+X-MC-Unique: irTcw-lKNTGV6HXlccdGvw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ ay21-20020a05600c1e1500b003b45fd14b53so5924949wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 01:51:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=9khF7HtdEw1lIqHQJnQwM+tQ7swsOFx5voia+tsmqxU=;
+ b=MM/djXHPx150pr9NuTqYVOCwXVNbKrrDclA0+m+1hVEfnNU68lUaa3kmL0vCqgQ38D
+ ozg/lNTNNsOGBaT8xocS0x6YXyQ/fY2XWrLaminyXZX6ZXEFyJm0bbwBK4anq7nZlc2g
+ hcHRzm1RO+F0tnQrCsSp74xTipzlqY7R7n+Xiu0kSfIe3N35wkJgxwgWnGU0jPz6MFVg
+ nBLSEIP2gf/a2RSetN9kyqEj3dfpKrqBjh9pWFIvWdqWjPnYk9MAXr37NVhkd+E9QUxM
+ CGLvMkp0cJTYWSy5LUw/+5vLipzPM7DkFSjJ79dnh5r8er5OFO6gEM5noExsLjlEkbA6
+ Hwdg==
+X-Gm-Message-State: ACrzQf2S8aj5gGkHCKsqCtpE0jKglFubMflSfyBHycuXpFunYNMlDV8F
+ dPzj1qs8Ek/uyZ177SFOGP3TILMPOp3idFTvAgkckNMcP+S66A6zLtSI6n+GGeqwzR++M2JUukd
+ gHeCPhmAaWLCYFd0=
+X-Received: by 2002:adf:dccf:0:b0:228:635f:90b8 with SMTP id
+ x15-20020adfdccf000000b00228635f90b8mr12431382wrm.703.1664182275753; 
+ Mon, 26 Sep 2022 01:51:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6RM5DAd5t0eQcennRgov7zPM4/+zD9SpwZdK421FNXnMj8gItWMKppLjo5QLjMn/R6Gq6OTQ==
+X-Received: by 2002:adf:dccf:0:b0:228:635f:90b8 with SMTP id
+ x15-20020adfdccf000000b00228635f90b8mr12431368wrm.703.1664182275545; 
+ Mon, 26 Sep 2022 01:51:15 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ q18-20020adfdfd2000000b0022ad393ba3csm13800727wrn.107.2022.09.26.01.51.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Sep 2022 01:51:15 -0700 (PDT)
+Date: Mon, 26 Sep 2022 09:51:13 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Yang Zhong <yang.zhong@linux.intel.com>
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, "Wang, Lei" <lei4.wang@intel.com>,
+ paul.c.lai@intel.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ robert.hu@intel.com, chenyi.qiang@intel.com
+Subject: Re: [PATCH] i386: Add new CPU model SapphireRapids
+Message-ID: <YzFoAWTHZZUE3CkW@work-vm>
+References: <20220812055751.14553-1-lei4.wang@intel.com>
+ <Yysk/taT/eKR0Bp3@work-vm> <Yy21A2CWzrS3SIzH@yangzhon>
+ <b1f238c6-ab3d-eb8f-d1b4-dbdf342c002c@intel.com>
+ <YzFX04164F6KfZdY@yangzhon>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220924163200.1910807-1-bmeng.cn@gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <YzFX04164F6KfZdY@yangzhon>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -78,110 +101,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 25, 2022 at 12:32:00AM +0800, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
+* Yang Zhong (yang.zhong@linux.intel.com) wrote:
+> On Sat, Sep 24, 2022 at 12:01:16AM +0800, Xiaoyao Li wrote:
+> > On 9/23/2022 9:30 PM, Yang Zhong wrote:
+> > > On Wed, Sep 21, 2022 at 03:51:42PM +0100, Dr. David Alan Gilbert wrote:
+> > > > * Wang, Lei (lei4.wang@intel.com) wrote:
+> > > > > The new CPU model mostly inherits features from Icelake-Server, while
+> > > > > adding new features:
+> > > > >   - AMX (Advance Matrix eXtensions)
+> > > > >   - Bus Lock Debug Exception
+> > > > > and new instructions:
+> > > > >   - AVX VNNI (Vector Neural Network Instruction):
+> > > > >      - VPDPBUS: Multiply and Add Unsigned and Signed Bytes
+> > > > >      - VPDPBUSDS: Multiply and Add Unsigned and Signed Bytes with Saturation
+> > > > >      - VPDPWSSD: Multiply and Add Signed Word Integers
+> > > > >      - VPDPWSSDS: Multiply and Add Signed Integers with Saturation
+> > > > >   - FP16: Replicates existing AVX512 computational SP (FP32) instructions
+> > > > >     using FP16 instead of FP32 for ~2X performance gain
+> > > > >   - SERIALIZE: Provide software with a simple way to force the processor to
+> > > > >     complete all modifications, faster, allowed in all privilege levels and
+> > > > >     not causing an unconditional VM exit
+> > > > >   - TSX Suspend Load Address Tracking: Allows programmers to choose which
+> > > > >     memory accesses do not need to be tracked in the TSX read set
+> > > > >   - AVX512_BF16: Vector Neural Network Instructions supporting BFLOAT16
+> > > > >     inputs and conversion instructions from IEEE single precision
+> > > > > 
+> > > > > Features may be added in future versions:
+> > > > >   - CET (virtualization support hasn't been merged)
+> > > > > Instructions may be added in future versions:
+> > > > >   - fast zero-length MOVSB (KVM doesn't support yet)
+> > > > >   - fast short STOSB (KVM doesn't support yet)
+> > > > >   - fast short CMPSB, SCASB (KVM doesn't support yet)
+> > > > > 
+> > > > > Signed-off-by: Wang, Lei <lei4.wang@intel.com>
+> > > > > Reviewed-by: Robert Hoo <robert.hu@linux.intel.com>
+> > > > 
+> > > > Hi,
+> > > >     What fills in the AMX tile and tmul information leafs
+> > > > (0x1D, 0x1E)?
+> > > >    In particular, how would we make sure when we migrate between two
+> > > > generations of AMX/Tile/Tmul capable devices with different
+> > > > register/palette/tmul limits that the migration is tied to the CPU type
+> > > > correctly?
+> > > >    Would you expect all devices called a 'SappireRapids' to have the same
+> > > > sizes?
+> > > > 
+> > > 
+> > >     There is only one palette in current design. This palette include 8
+> > >     tiles.  Those two CPUID leafs defined bytes_per_tile, total_tile_bytes,
+> > >     max_rows and etc, the AMX tool will configure those values into TILECFG with
+> > >     ldtilecfg instrcutions. Once tiles are configured, we can use
+> > >     tileload instruction to load data into those tiles.
+> > > 
+> > >     We did migration between two SappireRapids with amx self test tool
+> > >     (tools/testing/selftests/x86/amx.c)started in two sides, the migration
+> > >     work well.
+> > > 
+> > >     As for SappireRapids and more newer cpu types, those two CPUID leafs
+> > >     definitions are all same on AMX.
+> > 
+> > I'm not sure what definitions mean here. Are you saying the CPUID values of
+> > leaf 0x1D and 0x1E won't change for any future Intel Silicion?
+> > 
+> > Personally, I doubt it. And we shouldn't take such assumption unless Intel
+> > states it SDM.
 > 
-> At present there are two callers of get_tmp_filename() and they are
-> inconsistent.
+>   The current 0x1D and 0x1E definitions as below:
 > 
-> One does:
+>   /* CPUID Leaf 0x1D constants: */
+>   #define INTEL_AMX_TILE_MAX_SUBLEAF     0x1
+>   #define INTEL_AMX_TOTAL_TILE_BYTES     0x2000
+>   #define INTEL_AMX_BYTES_PER_TILE       0x400
+>   #define INTEL_AMX_BYTES_PER_ROW        0x40
+>   #define INTEL_AMX_TILE_MAX_NAMES       0x8
+>   #define INTEL_AMX_TILE_MAX_ROWS        0x10
 > 
->     /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
->     char *tmp_filename = g_malloc0(PATH_MAX + 1);
->     ...
->     ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+>   /* CPUID Leaf 0x1E constants: */
+>   #define INTEL_AMX_TMUL_MAX_K           0x10
+>   #define INTEL_AMX_TMUL_MAX_N           0x40
 > 
-> while the other does:
-> 
->     s->qcow_filename = g_malloc(PATH_MAX);
->     ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
-> 
-> As we can see different 'size' arguments are passed. There are also
-> platform specific implementations inside the function, and this use
-> of snprintf is really undesirable.
-> 
-> Refactor this routine by changing its signature to:
-> 
->     int get_tmp_filename(char **filename)
-> 
-> and use g_file_open_tmp() for a consistent implementation.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
-> Changes in v3:
-> - Do not use errno directly, instead still let get_tmp_filename() return
->   a negative number to indicate error
-> 
-> Changes in v2:
-> - Use g_autofree and g_steal_pointer
-> 
->  include/block/block_int-common.h |  2 +-
->  block.c                          | 36 ++++++++++----------------------
->  block/vvfat.c                    |  3 +--
->  3 files changed, 13 insertions(+), 28 deletions(-)
-> 
-> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-> index 8947abab76..eb30193198 100644
-> --- a/include/block/block_int-common.h
-> +++ b/include/block/block_int-common.h
-> @@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
->  }
->  
->  int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
-> -int get_tmp_filename(char *filename, int size);
-> +int get_tmp_filename(char **filename);
+>   These values are defined from SDM, and from the new developping CPU,
+>   these values are still same with SappireRapids. thanks!
 
-Change it to:
+But there's nothing stopping them increasing in future versions ?
 
-   char *get_tmp_filename(Error **errp);
+Dave
 
-
-> @@ -3737,7 +3723,7 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
->      }
->  
->      /* Create the temporary image */
-> -    ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
-> +    ret = get_tmp_filename(&tmp_filename);
->      if (ret < 0) {
->          error_setg_errno(errp, -ret, "Could not get temporary filename");
-
-And pass 'errp' straight into get_tmp_filename, thus avoid the
-different error message text here vs below
-
-eg
-
-     tmp_filename = get_tmp_filename(errp);
-     if (!tmp_filename) {
-         goto out;
-     }
-
-
->          goto out;
-> diff --git a/block/vvfat.c b/block/vvfat.c
-> index d6dd919683..43f42fd1ea 100644
-> --- a/block/vvfat.c
-> +++ b/block/vvfat.c
-> @@ -3146,8 +3146,7 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
->  
->      array_init(&(s->commits), sizeof(commit_t));
->  
-> -    s->qcow_filename = g_malloc(PATH_MAX);
-> -    ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
-> +    ret = get_tmp_filename(&s->qcow_filename);
->      if (ret < 0) {
->          error_setg_errno(errp, -ret, "can't create temporary file");
->          goto err;
-
-With regards,
-Daniel
+>   Yang
+> > 
+> > > So, on AMX perspective, the migration
+> > >     should be workable on subsequent cpu types. thanks!
+> > 
+> > I think what Dave worried is that when migrating one VM created with
+> > "SapphireRapids" model on SPR machine to some newer platform in the future,
+> > where the newer platform reports different value on CPUID leaves 0x1D and
+> > 0x1E than SPR platform.
+> > 
+> > I think we need to contain CPUID leaves 0x1D and 0x1E into CPU model as
+> > well. Otherwise we will hit the same as Intel PT that SPR reports less
+> > capabilities that ICX.
+> > 
+> 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
