@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD0B25EA790
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 15:44:41 +0200 (CEST)
-Received: from localhost ([::1]:36506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E36A5EA77A
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 15:39:37 +0200 (CEST)
+Received: from localhost ([::1]:43426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocoPY-00038h-VM
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 09:44:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48826)
+	id 1ocoKd-0002N3-Jg
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 09:39:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oco3z-0001q0-0D
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:22:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oco3w-00037Z-86
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:22:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664198539;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rN7oHVGcRNCFvSh7JZNhMK2LBVjf11su2RcHsnmhWfk=;
- b=hbhptYv/8G6HNS/UaGqnylkeUCvGbsFduRqiLygs42L+feAOzr66LnjnETNT32DYs2Xc61
- 6VkmY5fqkKC1aZCgR1pi/dtMehtII578KOacW3p54qcjiQ05G0oZE24sVQ7a96XxmQ/8nN
- yvJZ3UH464gqfMn/CAdukWn3U+Rfdec=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-208-vAqSe0HyOxqSokFrJy4vNQ-1; Mon, 26 Sep 2022 09:22:18 -0400
-X-MC-Unique: vAqSe0HyOxqSokFrJy4vNQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- xh12-20020a170906da8c00b007413144e87fso2114747ejb.14
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:22:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oco4n-0002cZ-Kq
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:23:15 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:43614)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oco4g-00039p-Hx
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:23:13 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id o2so10778280lfc.10
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:23:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=KkMNqeejyfIoKo9ezFJ6KkXf5g5JMlEu5igo07FHaGU=;
+ b=PD40itcEtcOMvyqUVIB7zXIED/uH+nhofMZ2Z43Gea2BwdH6PRWvhYgoDorYoYg32V
+ ao74zRShOQCvAoRgyqgFPcEp5L4JuPiRKSzj+0UDXucAzuq+oTkLE/lX1sSS/LPihQXT
+ 8FpX6fIPcxR1OrMLpXY4JvQtpu30+RjtGO0cKyNPCL12S7O6MxmmRGFlALg7JAOhcppH
+ 4e0BS4gWnB+1zVp6+MkPINxE2gNauDupWAGqK3dchxgruNIbiu07qNvy/y14HVg2XV0S
+ JeOYJIUKmnm71EHudsQ0olW6wIUs1d/zbibXSRRad2Q0hILiky4w+2f1tKIsrgUB+GkA
+ zBvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=rN7oHVGcRNCFvSh7JZNhMK2LBVjf11su2RcHsnmhWfk=;
- b=WOyqHnOXHY3htzzBymZZyTB5y3MJdMZASkqiP5Wcdxg7x3uSQnxMTI3bKwqV8xyGYd
- 89NcWQgY2s/0+YmEUNWxE3TgkB3JT9p8T76WCb+6OU6jKLi5v6mMToNC6TDQM64Xh+QQ
- hzS6WAfcR2qkJtXOa9t6dpV/6RJhj6wnV1HCCcSe/V3pUUz+wB0RkK1YdzUNejUbgq2R
- 5xQksT9Z2jat6wCeLkh/mztyF/qUydJLK8W9205Pkk5YEYVmNh00m3qK6HGkntIR8jd5
- ewW/5JiSHKm7IIcHaf1NnrZW1T1fHIrevm28VHxUMpM7XKWQf73AYfgj0R4S1f05W/3b
- PuiQ==
-X-Gm-Message-State: ACrzQf2vMd/pWb0dStH4N0TnoO1OJ3/HIfE9wBDZ/WFqy357p3e6Rn0v
- EAO/+U1aKq+R+4nS+mvo53USkP4aDB9egoo//Feab79DF5LE2YIKNp5ME0Wz6gLaIDC0Izml1fv
- 229v1sOEyjwFlBnc=
-X-Received: by 2002:a05:6402:1287:b0:456:ea04:efe5 with SMTP id
- w7-20020a056402128700b00456ea04efe5mr13477559edv.41.1664198536112; 
- Mon, 26 Sep 2022 06:22:16 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4DtWAVGg3wW2pbzCcz7qS6S0H4fFrjfoWZfwE3A3A0vN3daseNSzIDP2YLvMkx6enoKWiD9g==
-X-Received: by 2002:a05:6402:1287:b0:456:ea04:efe5 with SMTP id
- w7-20020a056402128700b00456ea04efe5mr13477538edv.41.1664198535888; 
- Mon, 26 Sep 2022 06:22:15 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- f14-20020a17090631ce00b0073d7ab84375sm8282702ejf.92.2022.09.26.06.22.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 06:22:15 -0700 (PDT)
-Date: Mon, 26 Sep 2022 15:22:14 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Robert Hoo <robert.hu@linux.intel.com>
-Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca,
- jingqi.liu@intel.com, qemu-devel@nongnu.org, robert.hu@intel.com
-Subject: Re: [PATCH v4 5/5] test/acpi/bios-tables-test: SSDT: update golden
- master binaries
-Message-ID: <20220926152214.05255edf@redhat.com>
-In-Reply-To: <783af0cd89700c2c3ae9c6b2b1e49dab0a2d3f70.camel@linux.intel.com>
-References: <20220922122155.1326543-1-robert.hu@linux.intel.com>
- <20220922122155.1326543-6-robert.hu@linux.intel.com>
- <783af0cd89700c2c3ae9c6b2b1e49dab0a2d3f70.camel@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=KkMNqeejyfIoKo9ezFJ6KkXf5g5JMlEu5igo07FHaGU=;
+ b=yohArL6WZC/MbjStaBNVYx2LHj8KtLL1Iw+ZYUSBY9HvxwAIhXQW6FzjNc0W9qRgz2
+ 6kYxVMwRy3jXHcvmzxS81QcTM0VIGTyThaWOgxcx+DzNlElSbDe6w1Ag6cx3IS0YhCzv
+ rpPGHcDwLrUydVljm9eJVamLeygesueeIyzFJOzHJPnbdtJIYpfxms3VGJE6lIvTwlfz
+ cMlsdaxdV+RIBQvHa8Czlh0e719Rzo6UiG18ABErl/Ph+7CZrYN6u1sXDRj3ah2sWBIa
+ 0l8BxJAAl0w/SjxX9jf0PcI9ecgySJYSJRYh//rHtG1QQPgspQOi+AbWHdTea75/XM0W
+ exRA==
+X-Gm-Message-State: ACrzQf0rzj/jThdydWPz0e50c61WfIfMdwj802c+fBcI/25O5ZoDgM/B
+ p6NzyHWByWJMx/wWgv/2Olpk4tZ9PQOGSNcVg3xV7K5Jfk5bvbEP
+X-Google-Smtp-Source: AMsMyM5ZtpDpq4MyvTTi/ugSZ+Dk6xbjBvPO7/5h9c5GeHvqt6TftJCJK2mBwKEUmY7LRqVTXIrXT5HpLkgdW8TuYQc=
+X-Received: by 2002:a05:6512:201b:b0:497:a29d:25c1 with SMTP id
+ a27-20020a056512201b00b00497a29d25c1mr9415653lfb.276.1664198584533; Mon, 26
+ Sep 2022 06:23:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
+ <20220925113032.1949844-23-bmeng.cn@gmail.com>
+In-Reply-To: <20220925113032.1949844-23-bmeng.cn@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 26 Sep 2022 17:22:53 +0400
+Message-ID: <CAJ+F1CJMjgQv4=P10qY6s7ASzaAo-wBp8HtSczaFisMK-Qw0+w@mail.gmail.com>
+Subject: Re: [PATCH v3 22/54] tests/unit: test-image-locking: Avoid using
+ hardcoded /tmp
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>
+Content-Type: multipart/alternative; boundary="00000000000077867a05e9946d53"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,303 +84,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Sep 2022 20:29:12 +0800
-Robert Hoo <robert.hu@linux.intel.com> wrote:
+--00000000000077867a05e9946d53
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Thu, 2022-09-22 at 20:21 +0800, Robert Hoo wrote:
-> > And empty bios-tables-test-allowed-diff.h.
-> > 
-> > Diff of ASL form, from qtest testlog.txt:
-> > 
-> > --- /tmp/asl-RFWZS1.dsl	2022-09-22 18:25:06.191519589 +0800
-> > +++ /tmp/asl-B1ZZS1.dsl	2022-09-22 18:25:06.187519182 +0800
-> > @@ -1,30 +1,30 @@
-> >  /*
-> >   * Intel ACPI Component Architecture
-> >   * AML/ASL+ Disassembler version 20180629 (64-bit version)
-> >   * Copyright (c) 2000 - 2018 Intel Corporation
-> >   *
-> >   * Disassembling to symbolic ASL+ operators
-> >   *
-> > - * Disassembly of tests/data/acpi/pc/SSDT.dimmpxm, Thu Sep 22
-> > 18:25:06 2022
-> > + * Disassembly of /tmp/aml-YYZZS1, Thu Sep 22 18:25:06 2022
-> >   *
-> >   * Original Table Header:
-> >   *     Signature        "SSDT"
-> > - *     Length           0x000002DE (734)
-> > + *     Length           0x00000717 (1815)
-> >   *     Revision         0x01
-> > - *     Checksum         0x56
-> > + *     Checksum         0xBC
-> >   *     OEM ID           "BOCHS "
-> >   *     OEM Table ID     "NVDIMM"
-> >   *     OEM Revision     0x00000001 (1)
-> >   *     Compiler ID      "BXPC"
-> >   *     Compiler Version 0x00000001 (1)
-> >   */
-> >  DefinitionBlock ("", "SSDT", 1, "BOCHS ", "NVDIMM", 0x00000001)
-> >  {
-> >      Scope (\_SB)
-> >      {
-> >          Device (NVDR)
-> >          {
-> >              Name (_HID, "ACPI0012" /* NVDIMM Root Device */)  //
-> > _HID: Hardware ID
-> >              Method (NCAL, 5, Serialized)
-> >              {
-> >                  Local6 = MEMA /* \MEMA */
-> > @@ -49,52 +49,52 @@
-> >                      ODAT,   32736
-> >                  }
-> > 
-> >                  If ((Arg4 == Zero))
-> >                  {
-> >                      Local0 = ToUUID ("2f10e7a4-9e91-11e4-89d3-
-> > 123b93f75cba")
-> >                  }
-> >                  ElseIf ((Arg4 == 0x00010000))
-> >                  {
-> >                      Local0 = ToUUID ("648b9cf2-cda1-4312-8ad9-
-> > 49c4af32bd62")
-> >                  }
-> >                  Else
-> >                  {
-> >                      Local0 = ToUUID ("4309ac30-0d11-11e4-9191-
-> > 0800200c9a66")
-> >                  }
-> > 
-> > -                If (((Local6 == Zero) | (Arg0 != Local0)))
-> > +                If (((Local6 == Zero) || (Arg0 != Local0)))
-> >                  {
-> >                      If ((Arg2 == Zero))
-> >                      {
-> >                          Return (Buffer (One)
-> >                          {
-> >                               0x00                                   
-> >           // .
-> >                          })
-> >                      }
-> > 
-> >                      Return (Buffer (One)
-> >                      {
-> >                           0x01                                       
-> >       // .
-> >                      })
-> >                  }
-> > 
-> >                  HDLE = Arg4
-> >                  REVS = Arg1
-> >                  FUNC = Arg2
-> > -                If (((ObjectType (Arg3) == 0x04) & (SizeOf (Arg3) ==
-> > One)))
-> > +                If (((ObjectType (Arg3) == 0x04) && (SizeOf (Arg3)
-> > == One)))
-> >                  {
-> >                      Local2 = Arg3 [Zero]
-> >                      Local3 = DerefOf (Local2)
-> >                      FARG = Local3
-> >                  }
-> > 
-> >                  NTFI = Local6
-> >                  Local1 = (RLEN - 0x04)
-> >                  If ((Local1 < 0x08))
-> >                  {
-> >                      Local2 = Zero
-> >                      Name (TBUF, Buffer (One)
-> >                      {
-> >                           0x00                                       
-> >       // .
-> >                      })
-> >                      Local7 = Buffer (Zero){}
-> > @@ -161,45 +161,234 @@
-> >                      Else
-> >                      {
-> >                          If ((Local1 == Zero))
-> >                          {
-> >                              Return (Local2)
-> >                          }
-> > 
-> >                          Local3 += Local1
-> >                          Concatenate (Local2, Local0, Local2)
-> >                      }
-> >                  }
-> >              }
-> > 
-> >              Device (NV00)
-> >              {
-> >                  Name (_ADR, One)  // _ADR: Address
-> > +                Method (_LSI, 0, Serialized)  // _LSI: Label Storage
-> > Information
-> > +                {
-> > +                    Local0 = NCAL (ToUUID ("4309ac30-0d11-11e4-9191-
-> > 0800200c9a66"), One, 0x04, Zero, One)
-> > +                    CreateDWordField (Local0, Zero, STTS)
-> > +                    CreateDWordField (Local0, 0x04, SLSA)
-> > +                    CreateDWordField (Local0, 0x08, MAXT)
-> > +                    Local1 = Package (0x03)
-> > +                        {
-> > +                            STTS,
-> > +                            SLSA,
-> > +                            MAXT
-> > +                        }
-> > +                    Return (Local1)
-> > +                }
-> > +
-> > +                Method (_LSR, 2, Serialized)  // _LSR: Label Storage
-> > Read
-> > +                {
-> > +                    Name (INPT, Buffer (0x08)
-> > +                    {
-> > +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> > 0x00   // ........
-> > +                    })
-> > +                    CreateDWordField (INPT, Zero, OFST)
-> > +                    CreateDWordField (INPT, 0x04, LEN)
-> > +                    OFST = Arg0
-> > +                    LEN = Arg1
-> > +                    Local0 = Package (0x01)
-> > +                        {
-> > +                            INPT
-> > +                        }
-> > +                    Local3 = NCAL (ToUUID ("4309ac30-0d11-11e4-9191-
-> > 0800200c9a66"), One, 0x05, Local0, One)
-> > +                    CreateDWordField (Local3, Zero, STTS)
-> > +                    CreateField (Local3, 0x20, (LEN << 0x03), LDAT)
-> > +                    Name (LSA, Buffer (Zero){})
-> > +                    ToBuffer (LDAT, LSA) /*
-> > \_SB_.NVDR.NV00._LSR.LSA_ */
-> > +                    Local1 = Package (0x02)
-> > +                        {
-> > +                            STTS,
-> > +                            LSA
-> > +                        }  
-> Hi Igor,
-> 
-> Here is a little different from original proposal 
-> https://lore.kernel.org/qemu-devel/80b09055416c790922c7c3db60d2ba865792d1b0.camel@linux.intel.com/
-> 
->    Local1 = Package (0x2) {STTS, toBuffer(LDAT)}
-> 
-> Because in my test, Linux guest complains:
-> 
-> [    3.884656] ACPI Error: AE_SUPPORT, Expressions within package
-> elements are not supported (20220331/dspkginit-172)
-> [    3.887104] ACPI Error: Aborting method \_SB.NVDR.NV00._LSR due to
-> previous error (AE_SUPPORT) (20220331/psparse-531)
-> 
-> 
-> So I have to move toBuffer() out of Package{} and name LSA to hold the
-> buffer. If you have better idea, pls. let me know.
+On Sun, Sep 25, 2022 at 3:49 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
-Would something like following work?
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> This case was written to use hardcoded /tmp directory for temporary
+> files. Update to use g_file_open_tmp() for a portable implementation.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>
 
-LocalX =  Buffer (Zero){}
-LocalY = Package (0x01) { LocalX }
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-> 
-> > +                    Return (Local1)
-> > +                }
-> > +
-> > +                Method (_LSW, 3, Serialized)  // _LSW: Label Storage
-> > Write
-> > +                {
-> > +                    Local2 = Arg2
-> > +                    Name (INPT, Buffer (0x08)
-> > +                    {
-> > +                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> > 0x00   // ........
-> > +                    })
-> > +                    CreateDWordField (INPT, Zero, OFST)
-> > +                    CreateDWordField (INPT, 0x04, TLEN)
-> > +                    OFST = Arg0
-> > +                    TLEN = Arg1
-> > +                    Concatenate (INPT, Local2, INPT) /*
-> > \_SB_.NVDR.NV00._LSW.INPT */
-> > +                    Local0 = Package (0x01)
-> > +                        {
-> > +                            INPT
-> > +                        }
-> > +                    Local3 = NCAL (ToUUID ("4309ac30-0d11-11e4-9191-
-> > 0800200c9a66"), One, 0x06, Local0, One)
-> > +                    CreateDWordField (Local3, Zero, STTS)
-> > +                    Return (STTS) /* \_SB_.NVDR.NV00._LSW.STTS */
-> > +                }
-> > +
-> > (iterates in each NV)
-> > 
-> > Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-> > ---
-> >  tests/data/acpi/pc/SSDT.dimmpxm             | Bin 734 -> 1815 bytes
-> >  tests/data/acpi/q35/SSDT.dimmpxm            | Bin 734 -> 1815 bytes
-> >  tests/qtest/bios-tables-test-allowed-diff.h |   2 --
-> >  3 files changed, 2 deletions(-)
-> > 
-> > diff --git a/tests/data/acpi/pc/SSDT.dimmpxm
-> > b/tests/data/acpi/pc/SSDT.dimmpxm
-> > index
-> > ac55387d57e48adb99eb738a102308688a262fb8..70f133412f5e0aa128ab210245a
-> > 8de7304eeb843 100644
-> > GIT binary patch
-> > literal 1815
-> > zcmdUwyKmD_6vnUPv~g}y6emHgc**|(X$OSF0FILox3Lr1ZmHx-examI3c8|YVC!RO  
-> > z2@)c;%774ZDvwC)2sTzGCN_pj>?}wOz&%bMqC!xRK#<|wbI(0K`Q7hx6kRVFqX~qV  
-> > z7sa|%)dh8?Br6KtBZP{x4GGpv_2!(V7cFzGeuJKCoK=-eBcjxh3x)9sl%G1ON@8t<
-> > zC}l-#nk#BUt~04IjN>%dL<KcdC}Xaspw6mBMHbA}GjPCGOSQ6~m1lIJGObENMbxgY
-> > zd`g(B+2~ZOl~ti$5{;G5iQtsKhzOs<nect)eDBFFfA>xHlK*k;x!u1QobwmcfE+b^
-> > zczo}A|8-XCzLj4+n|SHk{n4mic$$>>kzKym<B*Vk)U<=Kp5H`U{=6L|{Wc1DmWcvG
-> > z76FVb02yfmT5$S-f4_s{{ziu(n;nE)vhI4s17gyIJ1qk(jyu7HZ3lA%xtvj)uE0pb
-> > z$53nM?6&KW^-Z{ri#Fj5p`{kAt=n$cB6l3jBFD@@19IxL9zw`xtdg$8LlAg=q1{28
-> > zrW+#4D+#S48%eHS(G5iAVIj~13LO=IVY0&vbVM52T^rF6(*yzx3({MDR0%04*|42u  
-> > z2kyc74pk$D%$$vdh>qe^LJ0ZG7X5M#F6I*C?GzXSG@cDl2fPncQ;69=?`MKx80Oyc  
-> > z9B;|BU2{zuQ)dbV&Js%+lfN=#)pVIV;6G{<gX4%9U>kbZ#&Nx-i*)4_an>N&6Rd6+
-> > zI@DnAgic;g(t#T0WVK=NDa_GVIQn#<fIx{T!*ObvwI|*}lvAOg$NmA!kj;2qj|yh!
-> > zX3nG1z=PDg8a0li5EfPCA#5NgSsa5-$boD!LCLPANZb86oIwZg!$H0TWG)1949wv}
-> > z%n%5UzDSI@Rs|ErBNK2eFCN1M9Qzd;CjYDrIQIKKO#MY44mk%#@ZbKTacs|tiGdUB  
-> > c@tk1)B`4Vb#EApW?>oVA@DG+o@4h6y0>WY85C8xG  
-> > 
-> > delta 135  
-> > zcmbQvcaN1TIM^lR9uortW7tG4X>Nb5nD}6)_~<4#t%(LAjJ^|Hw{uC>PEKQ(G&v)I  
-> > zVKOVD5|2#v<i2b!mdWkej0~HN7+n~(Wc<Pm3^?K)U4j@z1mazSeOZ?HIXn7fWM*YE
-> > dMmNa;WevfyTuhS-Sw(n20!9!4=E=X=WB}s5Bn$um
-> > 
-> > diff --git a/tests/data/acpi/q35/SSDT.dimmpxm
-> > b/tests/data/acpi/q35/SSDT.dimmpxm
-> > index
-> > 98e6f0e3f3bb02dd419e36bdd1db9b94c728c406..9ea4e0d0ceaa8a5cbd706afb6d4
-> > 9de853fafe654 100644
-> > GIT binary patch
-> > literal 1815
-> > zcmdUw%WD%+6vppl(q?j#N+yZ4_+tJ8(=J4Cp_55srp-*k%rq9JFfU2kq{_wCg}Xi$  
-> > ztr5g@s0$I9lvx(s3+~*ya^=3@R@?|K)O)5cETUCVG>dc3J@?GX?|$Ee=z7T*O(4YV  
-> > z6zft|7u04+RusBN2o+}<60Di(?O97NTIOo~7CqNEt16d9M5!Sc3gZ(fKXqD_#M%f^
-> > z%8J-Bm(_+`XHsJr$7!yK3TmZL##~83omGvBESM|j;DD``YGpwyH+7*htx7^g)UGdo
-> > zN|-Cz=v1qfRiR!IjpfgY;Ecb32%p25@LlF&|Jg2o|4sIa|8e$(J-8fP@E6j695sA+
-> > z`rzi^byn)Vm0vxdc<I`M(WqY7NlN_4F5mBSNJu|v*}+)fZ=p?p&JL1(2ZcP#M1dg-
-> > z07mA4jC24kIQz(d*u`;wy~~h|E<!F@b3Nh#F=@e_mVg$=o#4`zgE@j+&L~b-U?kyV  
-> > zsJ(rD%XP@w23*HQ8*qluVjI@>T{mo#dk$uiW9Fa%IdxhOA>=bwNmt?_2s}66=^{?k  
-> > z4H4y)gjSJ_Bv-HK1|oB?5a<Dgjtjsr*<l7cB8}{xjp&GJ0s)2v=}kYXgcOvl+s={$
-> > z_uzbosu4qG&c;GSM{z14g#1;DemMsha|!ac3k(4o&xWT1-iN6v#2lOtGQltmbMJVL  
-> > zx9HlgxhjpR%|d~*#FED3uMJr>UFHt?j~m6{IAZp&4ZUaMxL(smx^jv*W034ARyPbC  
-> > zYOr@gCod=IKn-)U+A#PO=IARNeR@zpphT46IJL~$7jHhwsZh{k|A1x4X1tz91v7Lr  
-> > z=TT|kLF!$N8plxxi>mS%HjtAnjzK5nKsK46WH(Zz<Nh4Zpo0(KAYTMB7Xmo}=I{|_  
-> > z2n5GpB*t8=f(hf12{@J)Pv8QM{fZ5ff7S*Z`+Xm#{-O^@oO?#_-~OU;Y~P8AJtx?c
-> > bIl=x*PO$%p6NjANcY@{MA1saDe@T1=QL*6=
-> > 
-> > delta 135
-> > zcmbQvcaN1TIM^lR9uortquWF-X>Nb5nD}6)_~<4#t%(LAjJ^|Hw{uC>PEKQ(G&v)I
-> > zVKOVD5|2#v<i2b!mdWkej0~HN7+n~(Wc<Pm3^?K)U4j@z1mazSeOZ?HIXn7fWM*YE
-> > dMmNa;WevfyTuhS-Sw(n20!9!4=E=X=WB}VOBm4jW
-> > 
-> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h
-> > b/tests/qtest/bios-tables-test-allowed-diff.h
-> > index eb8bae1407..dfb8523c8b 100644
-> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> > @@ -1,3 +1 @@
-> >  /* List of comma-separated changed AML files to ignore */
-> > -"tests/data/acpi/pc/SSDT.dimmpxm",
-> > -"tests/data/acpi/q35/SSDT.dimmpxm",  
-> 
 
+> ---
+>
+> Changes in v3:
+> - Split to a separate patch
+> - Ensure g_autofree variable is initialized
+>
+>  tests/unit/test-image-locking.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/tests/unit/test-image-locking.c
+> b/tests/unit/test-image-locking.c
+> index ba057bd66c..a47299c247 100644
+> --- a/tests/unit/test-image-locking.c
+> +++ b/tests/unit/test-image-locking.c
+> @@ -76,10 +76,10 @@ static void check_locked_bytes(int fd, uint64_t
+> perm_locks,
+>  static void test_image_locking_basic(void)
+>  {
+>      BlockBackend *blk1, *blk2, *blk3;
+> -    char img_path[] =3D "/tmp/qtest.XXXXXX";
+> +    g_autofree char *img_path =3D NULL;
+>      uint64_t perm, shared_perm;
+>
+> -    int fd =3D mkstemp(img_path);
+> +    int fd =3D g_file_open_tmp("qtest.XXXXXX", &img_path, NULL);
+>      assert(fd >=3D 0);
+>
+>      perm =3D BLK_PERM_WRITE | BLK_PERM_CONSISTENT_READ;
+> @@ -117,10 +117,10 @@ static void test_image_locking_basic(void)
+>  static void test_set_perm_abort(void)
+>  {
+>      BlockBackend *blk1, *blk2;
+> -    char img_path[] =3D "/tmp/qtest.XXXXXX";
+> +    g_autofree char *img_path =3D NULL;
+>      uint64_t perm, shared_perm;
+>      int r;
+> -    int fd =3D mkstemp(img_path);
+> +    int fd =3D g_file_open_tmp("qtest.XXXXXX", &img_path, NULL);
+>      assert(fd >=3D 0);
+>
+>      perm =3D BLK_PERM_WRITE | BLK_PERM_CONSISTENT_READ;
+> --
+> 2.34.1
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000077867a05e9946d53
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Sep 25, 2022 at 3:49 PM Bin M=
+eng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin M=
+eng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.men=
+g@windriver.com</a>&gt;<br>
+<br>
+This case was written to use hardcoded /tmp directory for temporary<br>
+files. Update to use g_file_open_tmp() for a portable implementation.<br>
+<br>
+Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br></blockquote><div><br></div>=
+<div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcand=
+re.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div>=C2=A0</div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+<br>
+Changes in v3:<br>
+- Split to a separate patch<br>
+- Ensure g_autofree variable is initialized<br>
+<br>
+=C2=A0tests/unit/test-image-locking.c | 8 ++++----<br>
+=C2=A01 file changed, 4 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/tests/unit/test-image-locking.c b/tests/unit/test-image-lockin=
+g.c<br>
+index ba057bd66c..a47299c247 100644<br>
+--- a/tests/unit/test-image-locking.c<br>
++++ b/tests/unit/test-image-locking.c<br>
+@@ -76,10 +76,10 @@ static void check_locked_bytes(int fd, uint64_t perm_lo=
+cks,<br>
+=C2=A0static void test_image_locking_basic(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0BlockBackend *blk1, *blk2, *blk3;<br>
+-=C2=A0 =C2=A0 char img_path[] =3D &quot;/tmp/qtest.XXXXXX&quot;;<br>
++=C2=A0 =C2=A0 g_autofree char *img_path =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0uint64_t perm, shared_perm;<br>
+<br>
+-=C2=A0 =C2=A0 int fd =3D mkstemp(img_path);<br>
++=C2=A0 =C2=A0 int fd =3D g_file_open_tmp(&quot;qtest.XXXXXX&quot;, &amp;im=
+g_path, NULL);<br>
+=C2=A0 =C2=A0 =C2=A0assert(fd &gt;=3D 0);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0perm =3D BLK_PERM_WRITE | BLK_PERM_CONSISTENT_READ;<br>
+@@ -117,10 +117,10 @@ static void test_image_locking_basic(void)<br>
+=C2=A0static void test_set_perm_abort(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0BlockBackend *blk1, *blk2;<br>
+-=C2=A0 =C2=A0 char img_path[] =3D &quot;/tmp/qtest.XXXXXX&quot;;<br>
++=C2=A0 =C2=A0 g_autofree char *img_path =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0uint64_t perm, shared_perm;<br>
+=C2=A0 =C2=A0 =C2=A0int r;<br>
+-=C2=A0 =C2=A0 int fd =3D mkstemp(img_path);<br>
++=C2=A0 =C2=A0 int fd =3D g_file_open_tmp(&quot;qtest.XXXXXX&quot;, &amp;im=
+g_path, NULL);<br>
+=C2=A0 =C2=A0 =C2=A0assert(fd &gt;=3D 0);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0perm =3D BLK_PERM_WRITE | BLK_PERM_CONSISTENT_READ;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000077867a05e9946d53--
 
