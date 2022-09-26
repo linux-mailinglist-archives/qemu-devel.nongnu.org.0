@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D20935E9D61
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 11:21:40 +0200 (CEST)
-Received: from localhost ([::1]:52604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC045E9DEF
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 11:38:12 +0200 (CEST)
+Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ockJ1-00019z-De
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 05:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38426)
+	id 1ockZ0-0002Ds-UV
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 05:38:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hesham.almatary@huawei.com>)
- id 1ockGr-0007RC-LF; Mon, 26 Sep 2022 05:19:25 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2698)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ockTa-0004gz-3M
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:32:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hesham.almatary@huawei.com>)
- id 1ockGp-0006hQ-5K; Mon, 26 Sep 2022 05:19:25 -0400
-Received: from fraeml706-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MbcWl3lKgz688yr;
- Mon, 26 Sep 2022 17:14:11 +0800 (CST)
-Received: from lhrpeml500004.china.huawei.com (7.191.163.9) by
- fraeml706-chm.china.huawei.com (10.206.15.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.31; Mon, 26 Sep 2022 11:19:09 +0200
-Received: from [10.202.227.118] (10.202.227.118) by
- lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 26 Sep 2022 10:19:08 +0100
-Message-ID: <14850f3d-30c5-2e3f-437d-853001cb0f3e@huawei.com>
-Date: Mon, 26 Sep 2022 10:19:07 +0100
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ockTS-0000Gi-A5
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:32:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664184742;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7UlpgShmH2TpkpbU7hS9VCw4YVPMKmPcs+d9ZjqEUPk=;
+ b=B9yensTTTfFPoAw3H1c/LPYxKw+zP7ijgUYc90V8saeMEzxRDIFqCOLjUTLLsKW3MzscAm
+ ZREM6LwOImkg9JHd6pYHhigqM4+MysijWvwR09DnhXvF4rbcVXdDABg6I44vJZmIsUx/dn
+ MLAvr2gbBt/ieaIQHsR5bFgDVu595gY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-653-9h_tKsOlOD6YiPRJHzjGHg-1; Mon, 26 Sep 2022 05:32:17 -0400
+X-MC-Unique: 9h_tKsOlOD6YiPRJHzjGHg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 738CD1012460;
+ Mon, 26 Sep 2022 09:32:17 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C36D7492CA2;
+ Mon, 26 Sep 2022 09:32:16 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH v12 00/21] job: replace AioContext lock with job_mutex
+Date: Mon, 26 Sep 2022 05:31:53 -0400
+Message-Id: <20220926093214.506243-1-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 0/8] AArch64/HMAT support and tests
-To: "Michael S. Tsirkin" <mst@redhat.com>, Hesham Almatary
- <Hesham.Almatary@cl.cam.ac.uk>
-CC: <jonathan.cameron@huawei.com>, <qemu-devel@nongnu.org>,
- <yangyicong@huawei.com>, <chenxiang66@hisilicon.com>, <linuxarm@huawei.com>,
- <qemu-arm@nongnu.org>, <peter.maydell@linaro.org>, <imammedo@redhat.com>,
- <wangyanan55@huawei.com>, <marcel.apfelbaum@gmail.com>,
- <eduardo@habkost.net>, <Brice.Goglin@inria.fr>, <jingqi.liu@intel.com>
-References: <20220719094950.1049516-1-hesham.almatary@huawei.com>
- <20220726110406-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220726110406-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.118]
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- lhrpeml500004.china.huawei.com (7.191.163.9)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=hesham.almatary@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -79
-X-Spam_score: -8.0
-X-Spam_bar: --------
-X-Spam_report: (-8.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.766,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,73 +82,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Hesham Almatary <hesham.almatary@huawei.com>
-From:  Hesham Almatary via <qemu-devel@nongnu.org>
 
-Hello Michael,
+In this series, we want to remove the AioContext lock and instead
+use the already existent job_mutex to protect the job structures
+and list. This is part of the work to get rid of AioContext lock
+usage in favour of smaller granularity locks.
 
-On 7/26/2022 4:04 PM, Michael S. Tsirkin wrote:
-> On Tue, Jul 19, 2022 at 10:49:42AM +0100, Hesham Almatary wrote:
->> This patchset adds support for AArch64/HMAT including a test.
->> It relies on other two patch sets from:
->>
->> Brice Goglin: to support -numa without initiators on q35/x86.
->>    https://lore.kernel.org/all/ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr/
->> Xiang Chen: to enable/support HMAT on AArch64.
->>    https://lore.kernel.org/all/1643102134-15506-1-git-send-email-chenxiang66@hisilicon.com/
-> Thanks!
-> I think it's best to merge this all after the release.
-> I've tagged this but please ping me after the release
-> just to make sure. Thanks everyone!
-Ping
->> I further add a test with ACPI/HMAT tables that uses the two
->> patch sets.
->>
->> Changes from v1:
->> - Generate APIC and PPTT ACPI tables for AArch64/virt
->> - Avoid using legacy syntax in numa/bios tests
->> - Delete unchanged FACP tables
->>
->> Brice Goglin (4):
->>    hmat acpi: Don't require initiator value in -numa
->>    tests: acpi: add and whitelist *.hmat-noinitiator expected blobs
->>    tests: acpi: q35: add test for hmat nodes without initiators
->>    tests: acpi: q35: update expected blobs *.hmat-noinitiators expected
->>      HMAT:
->>
->> Hesham Almatary (3):
->>    tests: Add HMAT AArch64/virt empty table files
->>    tests: acpi: aarch64/virt: add a test for hmat nodes with no initiators
->>    tests: virt: Update expected *.acpihmatvirt tables
->>
->> Xiang Chen (1):
->>    hw/arm/virt: Enable HMAT on arm virt machine
->>
->>   hw/arm/Kconfig                                |   1 +
->>   hw/arm/virt-acpi-build.c                      |   7 ++
->>   hw/core/machine.c                             |   4 +-
->>   tests/data/acpi/q35/APIC.acpihmat-noinitiator | Bin 0 -> 144 bytes
->>   tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 0 -> 8553 bytes
->>   tests/data/acpi/q35/HMAT.acpihmat-noinitiator | Bin 0 -> 288 bytes
->>   tests/data/acpi/q35/SRAT.acpihmat-noinitiator | Bin 0 -> 312 bytes
->>   tests/data/acpi/virt/APIC.acpihmatvirt        | Bin 0 -> 396 bytes
->>   tests/data/acpi/virt/DSDT.acpihmatvirt        | Bin 0 -> 5282 bytes
->>   tests/data/acpi/virt/HMAT.acpihmatvirt        | Bin 0 -> 288 bytes
->>   tests/data/acpi/virt/PPTT.acpihmatvirt        | Bin 0 -> 196 bytes
->>   tests/data/acpi/virt/SRAT.acpihmatvirt        | Bin 0 -> 240 bytes
->>   tests/qtest/bios-tables-test.c                | 109 ++++++++++++++++++
->>   13 files changed, 118 insertions(+), 3 deletions(-)
->>   create mode 100644 tests/data/acpi/q35/APIC.acpihmat-noinitiator
->>   create mode 100644 tests/data/acpi/q35/DSDT.acpihmat-noinitiator
->>   create mode 100644 tests/data/acpi/q35/HMAT.acpihmat-noinitiator
->>   create mode 100644 tests/data/acpi/q35/SRAT.acpihmat-noinitiator
->>   create mode 100644 tests/data/acpi/virt/APIC.acpihmatvirt
->>   create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
->>   create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
->>   create mode 100644 tests/data/acpi/virt/PPTT.acpihmatvirt
->>   create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
->>
->> -- 
->> 2.25.1
->
+In order to simplify reviewer's job, job lock/unlock functions and
+macros are added as empty prototypes (nop) in patch 1.
+They are converted to use the actual job mutex only in the last
+patch. In this way we can freely create locking sections
+without worrying about deadlocks with the aiocontext lock.
+
+Patch 2 defines what fields in the job structure need protection.
+Patches 3-6 are in preparation to the job locks, moving functions
+from global to static and introducing helpers.
+
+Patch 7-9 introduce the (nop) job lock into the job API and
+its users, and patches 10-13 categorize respectively locked and
+unlocked functions in the job API.
+
+Patches 14-17 take care of protecting job->aio_context, and
+finally patch 18 makes the prototypes in patch 1 use the
+job_mutex and removes all aiocontext lock at the same time.
+
+Tested this series by running unit tests, qemu-iotests and qtests
+(x86_64).
+
+---
+v12:
+* Apply Vladimir feedbacks (minor comment adjustments)
+* Add aiocontext release + acquire in block/replication.c
+
+v11:
+* Apply Kevin and Vladimir feedbacks
+* job_set_aio_context: check coroutine is quiescent if job_is_completed
+* Rephrased commit message in patch 13
+
+v10:
+* protect job->status in unit tests
+* patch 11: change commit description and avoid using lock guard for a single
+function call
+* move patch 19 before patch 15
+
+v9:
+* merge patch 6 and 7 to 5.
+* additional "taken with job lock/unlock" added and propagated in callers
+* protect iostatus field of BlockJobs
+* move all blockjob patches torward the end of the serie
+
+v8:
+* reorganize patch ordering according with Vladimir proposal
+* minor nitpicks
+
+v7:
+* s/temporary/temporarly
+* double identical locking comment to the same function
+* patch 2: add "Protected by AioContext lock" to better categorize fields in
+  job.h
+* use same comment style in all function headers ("Just like {funct}, but
+  called between job_lock and job_unlock")
+
+v6:
+* patch 4 and 6 squashed with patch 19 (enable job lock and
+  reduce/remove AioContext lock)
+* patch 19: job_unref_locked read the aiocontext inside the
+  job lock.
+
+v5:
+* just restructured patches a little bit better, as there were
+  functions used before they were defined.
+* rebased on kwolf/block branch and API split serie
+
+v4:
+* move "protected by job_mutex" from patch 2 to 15, where the job_mutex is
+  actually added.
+* s/aio_co_enter/aio_co_schedule in job.c, and adjust tests accordingly.
+* remove job_get_aio_context, add job_set_aio_context. Use "fake rwlock"
+  to protect job->aiocontext.
+* get rid of useless getters method, namely:
+  job_get_status
+  job_get_pause_count
+  job_get_paused
+  job_get_busy
+  They are all used only by tests, and such getter is pretty useless.
+  Replace with job_lock(); assert(); job_unlock();
+* use job lock macros instead of job lock/unlock in unit tests.
+* convert also blockjob functions to have _locked
+* put the job_lock/unlock patches before the _locked ones
+* replace aio_co_enter in job.c and detect change of context
+
+v3:
+* add "_locked" suffix to the functions called under job_mutex lock
+* rename _job_lock in real_job_lock
+* job_mutex is now public, and drivers like monitor use it directly
+* introduce and protect job_get_aio_context
+* remove mirror-specific APIs and just use WITH_JOB_GUARD
+* more extensive use of WITH_JOB_GUARD and JOB_LOCK_GUARD
+
+RFC v2:
+* use JOB_LOCK_GUARD and WITH_JOB_LOCK_GUARD
+* mu(u)ltiple typos in commit messages
+* job API split patches are sent separately in another series
+* use of empty job_{lock/unlock} and JOB_LOCK_GUARD/WITH_JOB_LOCK_GUARD
+  to avoid deadlocks and simplify the reviewer job
+* move patch 11 (block_job_query: remove atomic read) as last
+
+Emanuele Giuseppe Esposito (20):
+  job.c: make job_mutex and job_lock/unlock() public
+  job.h: categorize fields in struct Job
+  job.c: API functions not used outside should be static
+  aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
+  job.c: add job_lock/unlock while keeping job.h intact
+  job: move and update comments from blockjob.c
+  blockjob: introduce block_job  _locked() APIs
+  jobs: add job lock in find_* functions
+  jobs: use job locks also in the unit tests
+  block/mirror.c: use of job helpers in drivers
+  jobs: group together API calls under the same job lock
+  jobs: protect job.aio_context with BQL and job_mutex
+  blockjob.h: categorize fields in struct BlockJob
+  blockjob: rename notifier callbacks as _locked
+  blockjob: protect iostatus field in BlockJob struct
+  job.h: categorize JobDriver callbacks that need the AioContext lock
+  job.c: enable job lock/unlock and remove Aiocontext locks
+  block_job_query: remove atomic read
+  blockjob: remove unused functions
+  job: remove unused functions
+
+Paolo Bonzini (1):
+  job: detect change of aiocontext within job coroutine
+
+ block.c                          |  17 +-
+ block/mirror.c                   |  20 +-
+ block/replication.c              |   3 +
+ blockdev.c                       | 129 +++---
+ blockjob.c                       | 132 +++---
+ include/block/aio-wait.h         |  17 +-
+ include/block/blockjob.h         |  59 ++-
+ include/qemu/job.h               | 304 ++++++++++----
+ job-qmp.c                        |  92 ++---
+ job.c                            | 672 +++++++++++++++++++------------
+ monitor/qmp-cmds.c               |   7 +-
+ qemu-img.c                       |  17 +-
+ tests/unit/test-bdrv-drain.c     |  80 ++--
+ tests/unit/test-block-iothread.c |   8 +-
+ tests/unit/test-blockjob-txn.c   |  24 +-
+ tests/unit/test-blockjob.c       | 136 ++++---
+ 16 files changed, 1074 insertions(+), 643 deletions(-)
+
+-- 
+2.31.1
+
 
