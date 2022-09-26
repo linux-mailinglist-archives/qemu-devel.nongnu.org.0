@@ -2,84 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1305C5EB45E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 00:13:20 +0200 (CEST)
-Received: from localhost ([::1]:36702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE345EB4A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 00:40:51 +0200 (CEST)
+Received: from localhost ([::1]:46988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocwLn-0001es-0j
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 18:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34522)
+	id 1ocwmP-0006bW-HF
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 18:40:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocwG8-0002c8-1y
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 18:07:28 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:46908)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocwG6-0001Em-AJ
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 18:07:27 -0400
-Received: by mail-ej1-x635.google.com with SMTP id bj12so16948133ejb.13
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 15:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=V2NaqWqTWERW8QWjllM1Xv601/uEFNufNhrG5S8QsY4=;
- b=ERfRbQ08SCyY3scdS+S2b8IGIPBuiAm5XNJr5TtHJu9ryzZpnskpM9if/HP5rhcuBC
- Wapd3zQn30NDjcSFX8kG91ovvBhvCeVTN2IhTeRsVS0youWSubr701TcpV1CbqPbQ5qZ
- 3tKuoJ4FMgD9/FpCLdwMI7FzQvlY45AHmqNsghBymmETKyUil6+jA05AV5tlf+bf/KuO
- Z6Me6F6FM4AJ1j0vtoRTP93cmTBusoHY8h9wA+NhVWZXmbCr1X3Y0qVWzPtPf9RqOXvl
- dhLtlvSFCoSJT50CfR/BQsME+YvxYj91w4HyQizlXxaumbyb+2wcOtt7F3lLVVfh2PEm
- csFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=V2NaqWqTWERW8QWjllM1Xv601/uEFNufNhrG5S8QsY4=;
- b=tIKHXi4m1CSe0rVgAw6Ijm6hkraDFAcAYg3RuadebMcN/mx7YHHAW0OPZGB5cTHWQw
- lpsZqPeclzK8mj6A0QzbnY25tQF3SRF8ESD6czFiZ6F4hczBaYGN+O2PHVKCUOG5d3MR
- xmLQfV+7geQGYe+g0+kz2BPKqhQMj4Zt9do9atk8bJJ6gzUOy20PaG9EVjo452w+BKDq
- XUZLmXW28+8TpbHprhrEo0Mt2FZnoP5kYDZhm2/u75v0H/ZqEpVll3oLVmkLY9EAL7PY
- Z18aGI7UH7Z4eyVWBCMiU2L7H55P1yRAegY+ET1Y4uBNsNgyE/NYDuVO0mf9hV6XbXn8
- vuug==
-X-Gm-Message-State: ACrzQf36Z/tOGpTNLJOzGMUO/zPiocpztocqw9GQM/3CWhBcr98jCEij
- 9DWUeBGltJSgHFArUpgopCgRrQ==
-X-Google-Smtp-Source: AMsMyM4sNe1euQoPXLK63y7hNLHEYMoaS++A+DAfFoXtTlyvtne3pln3NM49BHSukXLsaXpSpODJNA==
-X-Received: by 2002:a17:907:a46:b0:782:1c1c:8141 with SMTP id
- be6-20020a1709070a4600b007821c1c8141mr20259906ejc.549.1664230044716; 
- Mon, 26 Sep 2022 15:07:24 -0700 (PDT)
-Received: from [192.168.190.227] ([31.209.146.210])
- by smtp.gmail.com with ESMTPSA id
- w21-20020a17090633d500b0073c0b87ba34sm8750943eja.198.2022.09.26.15.07.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Sep 2022 15:07:24 -0700 (PDT)
-Message-ID: <75bb40e3-cebf-690d-cc91-64b637056bfb@linaro.org>
-Date: Mon, 26 Sep 2022 07:46:25 +0000
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ocwlG-000500-Kb; Mon, 26 Sep 2022 18:39:38 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:32305)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ocwlD-0005hY-IM; Mon, 26 Sep 2022 18:39:38 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 389BE746335;
+ Tue, 27 Sep 2022 00:39:28 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id A222474632C; Tue, 27 Sep 2022 00:39:27 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 9E9D2746307;
+ Tue, 27 Sep 2022 00:39:27 +0200 (CEST)
+Date: Tue, 27 Sep 2022 00:39:27 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v6 00/25] ppc4xx_sdram QOMify and clean ups
+In-Reply-To: <cc7ed0de-327c-e2ea-e209-9cf951cfc8bd@kaod.org>
+Message-ID: <a789ee55-b419-8db8-f27a-718b479244da@eik.bme.hu>
+References: <cover.1664021647.git.balaton@eik.bme.hu>
+ <cc7ed0de-327c-e2ea-e209-9cf951cfc8bd@kaod.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 22/37] target/i386: reimplement 0x0f 0x78-0x7f, add AVX
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, paul@nowt.org
-References: <20220920172507.95568-1-pbonzini@redhat.com>
- <20220920172507.95568-23-pbonzini@redhat.com>
- <dae44515-adf2-78fb-fd91-dd310849b6a7@linaro.org>
- <CABgObfYEtHGkJN9q=xg1oMUcBWOqoy0wQCfuV5ye_m2hhf8YOA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CABgObfYEtHGkJN9q=xg1oMUcBWOqoy0wQCfuV5ye_m2hhf8YOA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-345135325-1664231967=:76646"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,33 +62,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/26/22 07:24, Paolo Bonzini wrote:
-> On Sat, Sep 24, 2022 at 10:43 PM Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>> +static void decode_0F79(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
->>> +{
->>> +    if (s->prefix & PREFIX_REPNZ) {
->>> +        entry->gen = gen_INSERTQ_r;
->>> +    } else if (s->prefix & PREFIX_DATA) {
->>> +        entry->gen = gen_EXTRQ_r;
->>> +    } else {
->>> +        entry->gen = NULL;
->>> +    };
->>> +}
->> ...
->>> +    [0x79] = X86_OP_GROUP2(0F79,       V,x, U,x,       cpuid(SSE4A)),
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-345135325-1664231967=:76646
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Mon, 26 Sep 2022, Cédric Le Goater wrote:
+> On 9/24/22 14:27, BALATON Zoltan wrote:
+>> This is the end of the QOMify series started by Cédric. This series
+>> handles the SDRAM controller models to clean them up, QOMify and unify
+>> them and at least partially clean up the mess that has accumulated
+>> around these in the past. This includes the not yet merged patches
+>> from the last series and new ones that change the DDR2 version used by
+>> sam460ex.
+>> 
+>> v6: Split patch moving sdram controller models together into smaller steps
+>> v5: Add functions the enable sdram controller and call it from boards
+>> v4: address more review comments
+>> v3: Fix patches that got squashed during rebase
+>> v2: address some review comments and try to avoid compile problem with
+>> gcc 12.2 (untested)
+>> 
+>> BALATON Zoltan (25):
+>>    ppc440_bamboo: Remove unnecessary memsets
+>>    ppc4xx: Introduce Ppc4xxSdramBank struct
+>>    ppc4xx_sdram: Get rid of the init RAM hack
+>>    ppc4xx: Use Ppc4xxSdramBank in ppc4xx_sdram_banks()
+>>    ppc440_bamboo: Add missing 4 MiB valid memory size
+>>    ppc4xx_sdram: Move size check to ppc4xx_sdram_init()
+>>    ppc4xx_sdram: QOM'ify
+>>    ppc4xx_sdram: Drop extra zeros for readability
+>>    ppc440_sdram: Split off map/unmap of sdram banks for later reuse
+>>    ppc440_sdram: Implement enable bit in the DDR2 SDRAM controller
+>>    ppc440_sdram: Get rid of the init RAM hack
+>>    ppc440_sdram: Rename local variable for readability
+>>    ppc4xx_sdram: Rename functions to prevent name clashes
+>>    ppc440_sdram: Move RAM size check to ppc440_sdram_init
+>>    ppc440_sdram: QOM'ify
+>>    ppc440_uc.c: Move some macros to ppc4xx.h
+>>    ppc440_uc.c: Remove unneeded parenthesis
+>>    ppc440_uc.c: Move DDR2 SDRAM controller model to ppc4xx_sdram.c
+>>    ppc4xx_devs.c: Move DDR SDRAM controller model to ppc4xx_sdram.c
+>>    ppc4xx_sdram: Move ppc4xx_sdram_banks() to ppc4xx_sdram.c
+>>    ppc4xx_sdram: Use hwaddr for memory bank size
+>>    ppc4xx_sdram: Rename local state variable for brevity
+>>    ppc4xx_sdram: Generalise bank setup
+>>    ppc4xx_sdram: Convert DDR SDRAM controller to new bank handling
+>>    ppc4xx_sdram: Add errp parameter to ppc4xx_sdram_banks()
 >>
->> These are not -- they're AMD New Media.
-> 
-> What's the CPUID bit for these? Neither
-> https://github.com/intelxed/xed/blob/main/datafiles/amd/xed-amd-sse4a.txt
-> nor the AMD programmer's manual makes any distinction between
-> EXTRQ/INSERTQ with register operand and the same instruction with
-> immediate operands.
+>>   hw/ppc/meson.build      |   3 +-
+>>   hw/ppc/ppc405.h         |   8 +-
+>>   hw/ppc/ppc405_boards.c  |  13 +-
+>>   hw/ppc/ppc405_uc.c      |  33 +-
+>>   hw/ppc/ppc440.h         |   4 -
+>>   hw/ppc/ppc440_bamboo.c  |  25 +-
+>>   hw/ppc/ppc440_uc.c      | 267 +-------------
+>>   hw/ppc/ppc4xx_devs.c    | 413 ----------------------
+>>   hw/ppc/ppc4xx_sdram.c   | 753 ++++++++++++++++++++++++++++++++++++++++
+>>   hw/ppc/sam460ex.c       |  44 +--
+>>   hw/ppc/trace-events     |   1 +
+>>   include/hw/ppc/ppc4xx.h |  65 +++-
+>>   12 files changed, 859 insertions(+), 770 deletions(-)
+>>   create mode 100644 hw/ppc/ppc4xx_sdram.c
+>
+> Zoltan,
+>
+> Could we add you as a MAINTAINER of these files ? You know them well now.
+> At least the ppc44* ones.
 
-Ah, a bit of confusion on my part, mixing up SSE4[12A] and the Intel SSE41 instructions of 
-a similar names but not identical function or encoding.  You patch is correct.
+I may know some things now but I forget quickly :-) I already maintain the 
+files I've written but don't really want to get cc-d on others. I read the 
+list though and if I see something I can help with I'll try to do so like 
+with this series. That's all I can commit to now, not taking other orphan 
+files, so no thanks but I'll try to review what I can informally.
 
-
-r~
+Regards,
+BALATON Zoltan
+--3866299591-345135325-1664231967=:76646--
 
