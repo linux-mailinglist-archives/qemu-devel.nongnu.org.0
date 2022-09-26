@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B685E9EA9
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:09:12 +0200 (CEST)
-Received: from localhost ([::1]:55524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B196A5E9E8D
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:03:57 +0200 (CEST)
+Received: from localhost ([::1]:45796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocl31-00062z-FX
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:09:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57194)
+	id 1ockxw-0007eN-Ew
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:03:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpg-0004to-86
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47446)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpe-0004pq-7o
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpd-0003hu-JR
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:23 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpc-0003g6-GT
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664186121;
+ s=mimecast20190719; t=1664186119;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1lkEzdjW1YeSTjXm2o8kRYkVOAn224fd2T365fiA4EU=;
- b=AeI0wEjirnfrZCGBVuc9FarJxsRXfs4AkPNMEvjISrmGAGYI88MDou2nodrZ8iEA9Pir9j
- wLjahtNLHWgOhjhgbH/cK2ZSGNg6gYZ2wdZlgGCg5DDmgTgeQ8QlWOo8/2dlvKgJKcOVZY
- nZ9HyxpZv0pwfN0B5S5v3wjDmeEAf8g=
+ bh=X8MB6qewQt3dNDFWmIT6gK9a8vJJkApS1O6Zso0beBQ=;
+ b=UeCbsG1+AAd9n/gouw9UOu+JQjFQY4qlOWYIheUaVXMkAdnYmE2KcWyD1TzxeTGv3VaP8N
+ JuMg4mh7ppkBKXH694S+1brl5F5Cv897wr6gC1gVQkfEvGazQQH1Fpp38T6pH5grKlNk5l
+ sqV5vjUXXVnJvTG0pY472dPwrIU5B8E=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-261-z_LGiagyN62BQTwTBW6i4g-1; Mon, 26 Sep 2022 05:55:16 -0400
-X-MC-Unique: z_LGiagyN62BQTwTBW6i4g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-318-bD0SU6DZMBybMALOrt9L3A-1; Mon, 26 Sep 2022 05:55:18 -0400
+X-MC-Unique: bD0SU6DZMBybMALOrt9L3A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2515F3810785;
- Mon, 26 Sep 2022 09:55:16 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BAFC03C11040;
+ Mon, 26 Sep 2022 09:55:17 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B28C717583;
- Mon, 26 Sep 2022 09:55:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6EFBE49BB60;
+ Mon, 26 Sep 2022 09:55:17 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3FEAB18030AC; Mon, 26 Sep 2022 11:55:10 +0200 (CEST)
+ id 4D0E618030AD; Mon, 26 Sep 2022 11:55:10 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
@@ -56,23 +56,23 @@ Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 05/25] ui: add some vdagent related traces
-Date: Mon, 26 Sep 2022 11:54:49 +0200
-Message-Id: <20220926095509.3759409-6-kraxel@redhat.com>
+Subject: [PULL 06/25] ui/clipboard: fix serial priority
+Date: Mon, 26 Sep 2022 11:54:50 +0200
+Message-Id: <20220926095509.3759409-7-kraxel@redhat.com>
 In-Reply-To: <20220926095509.3759409-1-kraxel@redhat.com>
 References: <20220926095509.3759409-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,104 +91,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This helps debugging clipboard serial sync issues.
+The incoming grab event should have a higher serial.
+See also "vdagent: introduce VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL":
+https://gitlab.freedesktop.org/spice/spice-protocol/-/commit/045a6978d6dbbf7046affc5c321fa8177c8cce56
+
+This is only a relevant fix for the -display dbus, only user of that
+function.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220912102455.111765-2-marcandre.lureau@redhat.com>
-
-[ kraxel: code style fix ]
-
+Message-Id: <20220912102455.111765-3-marcandre.lureau@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/clipboard.c  | 11 +++++++++--
- ui/vdagent.c    |  4 ++++
- ui/trace-events |  5 +++++
- 3 files changed, 18 insertions(+), 2 deletions(-)
+ ui/clipboard.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/ui/clipboard.c b/ui/clipboard.c
-index 9079ef829b51..cd5382fcb0c1 100644
+index cd5382fcb0c1..3e2d02d5490c 100644
 --- a/ui/clipboard.c
 +++ b/ui/clipboard.c
-@@ -1,5 +1,6 @@
- #include "qemu/osdep.h"
- #include "ui/clipboard.h"
-+#include "trace.h"
- 
- static NotifierList clipboard_notifiers =
-     NOTIFIER_LIST_INITIALIZER(clipboard_notifiers);
-@@ -43,17 +44,23 @@ void qemu_clipboard_peer_release(QemuClipboardPeer *peer,
- 
- bool qemu_clipboard_check_serial(QemuClipboardInfo *info, bool client)
- {
-+    bool ok;
-+
-     if (!info->has_serial ||
-         !cbinfo[info->selection] ||
-         !cbinfo[info->selection]->has_serial) {
-+        trace_clipboard_check_serial(-1, -1, true);
-         return true;
+@@ -54,9 +54,9 @@ bool qemu_clipboard_check_serial(QemuClipboardInfo *info, bool client)
      }
  
      if (client) {
--        return cbinfo[info->selection]->serial >= info->serial;
-+        ok = cbinfo[info->selection]->serial >= info->serial;
+-        ok = cbinfo[info->selection]->serial >= info->serial;
++        ok = info->serial >= cbinfo[info->selection]->serial;
      } else {
--        return cbinfo[info->selection]->serial > info->serial;
-+        ok = cbinfo[info->selection]->serial > info->serial;
+-        ok = cbinfo[info->selection]->serial > info->serial;
++        ok = info->serial > cbinfo[info->selection]->serial;
      }
-+
-+    trace_clipboard_check_serial(cbinfo[info->selection]->serial, info->serial, ok);
-+    return ok;
- }
  
- void qemu_clipboard_update(QemuClipboardInfo *info)
-diff --git a/ui/vdagent.c b/ui/vdagent.c
-index a899eed195d3..58ce7507fddc 100644
---- a/ui/vdagent.c
-+++ b/ui/vdagent.c
-@@ -533,6 +533,8 @@ static void vdagent_clipboard_recv_grab(VDAgentChardev *vd, uint8_t s, uint32_t
-         info->has_serial = true;
-         info->serial = *(uint32_t *)data;
-         if (info->serial < vd->last_serial[s]) {
-+            trace_vdagent_cb_grab_discard(GET_NAME(sel_name, s),
-+                                          vd->last_serial[s], info->serial);
-             /* discard lower-ordering guest grab */
-             return;
-         }
-@@ -853,6 +855,8 @@ static void vdagent_chr_accept_input(Chardev *chr)
- 
- static void vdagent_disconnect(VDAgentChardev *vd)
- {
-+    trace_vdagent_disconnect();
-+
-     buffer_reset(&vd->outbuf);
-     vdagent_reset_bufs(vd);
-     vd->caps = 0;
-diff --git a/ui/trace-events b/ui/trace-events
-index a922f00e10b4..977577fbba58 100644
---- a/ui/trace-events
-+++ b/ui/trace-events
-@@ -127,15 +127,20 @@ xkeymap_vendor(const char *name) "vendor '%s'"
- xkeymap_keycodes(const char *name) "keycodes '%s'"
- xkeymap_keymap(const char *name) "keymap '%s'"
- 
-+# clipboard.c
-+clipboard_check_serial(int cur, int recv, bool ok) "cur:%d recv:%d %d"
-+
- # vdagent.c
- vdagent_open(void) ""
- vdagent_close(void) ""
-+vdagent_disconnect(void) ""
- vdagent_send(const char *name) "msg %s"
- vdagent_send_empty_clipboard(void) ""
- vdagent_recv_chunk(uint32_t size) "size %d"
- vdagent_recv_msg(const char *name, uint32_t size) "msg %s, size %d"
- vdagent_peer_cap(const char *name) "cap %s"
- vdagent_cb_grab_selection(const char *name) "selection %s"
-+vdagent_cb_grab_discard(const char *name, int cur, int recv) "selection %s, cur:%d recv:%d"
- vdagent_cb_grab_type(const char *name) "type %s"
- vdagent_cb_serial_discard(uint32_t current, uint32_t received) "current=%u, received=%u"
- 
+     trace_clipboard_check_serial(cbinfo[info->selection]->serial, info->serial, ok);
 -- 
 2.37.3
 
