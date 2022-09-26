@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E255EB107
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 21:14:20 +0200 (CEST)
-Received: from localhost ([::1]:41244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DDA5EB139
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 21:24:55 +0200 (CEST)
+Received: from localhost ([::1]:59226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1octYZ-00032x-AY
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 15:14:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37888)
+	id 1octin-0001G5-Jn
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 15:24:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1octRy-0004mT-RF
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:07:30 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:45626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1octRv-0007Yu-BI
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:07:29 -0400
-Received: by mail-ej1-x633.google.com with SMTP id dv25so16120758ejb.12
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 12:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=cW6SI3svECFkjaNcx7SDd/YGDU30luCGFo7onpRuRkk=;
- b=nX6T8DmolD0Bj2Vx+7MyC/iFTrawki3IN8Wu6M0EZVa//1zZK8Wd8xKl4GF4qnOVp8
- 2zx+nqNMABUod37zvCWbEGHH6UlFZQRtJwix4wFNIXb3LHPXX2vMEN2/eichMIwhUyBM
- 6d8irypnYesOn3BdkebVmONo05yKI1yJXVHpqS8mj913UElSmL7Rb0h4C6LIEVTGvK0r
- gGcq1nZ2N2xtt6TxTYCuBv6WmlvI1xbP/nC3QAcypKCu7aLTW/8z1K7P0VIzY5JDxOmE
- lf7FHjburwI1No+fozQnQ0jDEj0m5RTJskj0Gek05sejzoSfw3Bb5Bxq0KG8DUc77wJW
- gYTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=cW6SI3svECFkjaNcx7SDd/YGDU30luCGFo7onpRuRkk=;
- b=HNZkn0D43ySrzGTK7gD66l2jtyOWSQuvlzD7aYRSErYLi3ksxuah7Ue6IZBRlbKtAI
- BEfmOWdHoN4D4o3X/iZCCkYiOIPYC6IdEK2xs4qJqaIXfSjzqO+4yDmVgzOMb4EQBQbE
- mennzLbE4LKJBygE8trXtZ1uodSKTfsEWGepPI0hDheR7hCPhFNn2WnuRe+WW3GO78jt
- 3SRjutP2tan+Xx7asarm1jWxa0VuAQ+j7E3KmcwcFyfE27nSxVQJfsUWgw5TUftlfM0z
- pmtQhpL22eN4ezg00mjDn/u8VQdK5Jj4k67is6XjZTTcibOEv3oQDeASkWpMHAISbCdz
- uZ3g==
-X-Gm-Message-State: ACrzQf0aOdPm3DX7GTOkAUfCdWsmprlaMLRVi50411xA8KoUMZLJ0Pom
- FVbnFzjRLLa8shIotBlAo4hRqdGz3vhNb8EEOdwv7Q==
-X-Google-Smtp-Source: AMsMyM4/VfW8wuB5VQsHq+cAI6TYy5rAoEiRwxbbx44NRLXJZKIXoW1nzkbNJsEpuhSorugaeuRC4NVluyejdtEfG3Y=
-X-Received: by 2002:a17:906:8a6b:b0:780:ab37:b63 with SMTP id
- hy11-20020a1709068a6b00b00780ab370b63mr19190242ejc.365.1664219244633; Mon, 26
- Sep 2022 12:07:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1octgz-000868-6l
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:23:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36797)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1octgv-0001bt-7S
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:22:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664220175;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lxc/J9GWJ2Jeq43NRk69x24s7v3+rMTmhZj1Qj4kkCE=;
+ b=AYSjGKEqLiee2H/x9PyIz88wOOyIoE+dgAmdvvXnfchLSqa4e18Gg6l9e71U53t9K/rTI7
+ IPPwi0syVQlgdZyNhVWP1xuPoD/adOPrQFt7n8j6e4FaaVMUgosRtRsKoCQWakIF6hP5ms
+ TMnaTiKqVbFjLV++XRmKjzWBcnenLD8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-515-1pUNmR2BOWqzDGyfwEaKbQ-1; Mon, 26 Sep 2022 15:22:53 -0400
+X-MC-Unique: 1pUNmR2BOWqzDGyfwEaKbQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 546F8185A7A3;
+ Mon, 26 Sep 2022 19:22:53 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6CA840C6EC2;
+ Mon, 26 Sep 2022 19:22:52 +0000 (UTC)
+Date: Mon, 26 Sep 2022 15:22:50 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL 00/39] target-arm queue
+Message-ID: <YzH8CosdmbjxpeSo@fedora>
+References: <20220922163536.1096175-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-References: <20220926133644.1345269-1-peter.maydell@linaro.org>
- <20220926180812.oojocmldqsf7kl2o@altlinux.org>
-In-Reply-To: <20220926180812.oojocmldqsf7kl2o@altlinux.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Sep 2022 20:07:13 +0100
-Message-ID: <CAFEAcA8tfam1tENE+O9Ae=69mbb=k=XOuJ0AsM9ErqURSnsuXQ@mail.gmail.com>
-Subject: Re: [PATCH] target/arm/kvm: Retry KVM_CREATE_VM call if it fails EINTR
-To: Vitaly Chikunov <vt@altlinux.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- "Dmitry V. Levin" <ldv@altlinux.org>, Marc Zyngier <maz@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bRwyClUZXBXig4Sc"
+Content-Disposition: inline
+In-Reply-To: <20220922163536.1096175-1-peter.maydell@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,56 +79,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Sept 2022 at 19:08, Vitaly Chikunov <vt@altlinux.org> wrote:
->
-> Peter,
->
-> On Mon, Sep 26, 2022 at 02:36:44PM +0100, Peter Maydell wrote:
-> > Occasionally the KVM_CREATE_VM ioctl can return EINTR, even though
-> > there is no pending signal to be taken. In commit 94ccff13382055
-> > we added a retry-on-EINTR loop to the KVM_CREATE_VM call in the
-> > generic KVM code. Adopt the same approach for the use of the
-> > ioctl in the Arm-specific KVM code (where we use it to create a
-> > scratch VM for probing for various things).
-> >
-> > For more information, see the mailing list thread:
-> > https://lore.kernel.org/qemu-devel/8735e0s1zw.wl-maz@kernel.org/
-> >
-> > Reported-by: Vitaly Chikunov <vt@altlinux.org>
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > The view in the thread seems to be that this is a kernel bug (because
-> > in QEMU's case there shouldn't be a signal to be delivered at this
-> > point because of our signal handling strategy); so I've adopted the
-> > same "just retry-on-EINTR for this specific ioctl" approach that
-> > commit 94ccff13 did, rather than, for instance, something wider like
-> > "make kvm_ioctl() and friends always retry on EINTR".
-> > ---
-> >  target/arm/kvm.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> > index e5c1bd50d29..2982d216176 100644
-> > --- a/target/arm/kvm.c
-> > +++ b/target/arm/kvm.c
-> > @@ -79,7 +79,9 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
-> >      if (max_vm_pa_size < 0) {
-> >          max_vm_pa_size = 0;
-> >      }
-> > -    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-> > +    do {
-> > +        vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-> > +    } while (vmfd == -EINTR);
->
-> This does not seem correct. ioctl(2) returns -1 on error and will set errno
-> to EINTR (in this case).
 
-Oops, thanks for the catch. I was copying the pattern from kvm-all.c,
-but there we are calling kvm_ioctl(), which does "if ioctl
-returns -1, return -errno", and here we are calling ioctl() directly.
-(We can't use kvm_ioctl() here because this stunt VM doesn't have
-a KVMState.) I'll respin the patch with the obvious fix.
+--bRwyClUZXBXig4Sc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-thanks
--- PMM
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--bRwyClUZXBXig4Sc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMx/AoACgkQnKSrs4Gr
+c8gMgQf/dIUAXHjfb1qpC4c8xacI34pubd5PCKgOPCoLDYJtOTFd3P5eAl0fIlKP
+s+UvnBYMoHUQwKYxXUi1KPmDXezjv4ddSlup1ifRg3fFETLmbU1xjdN0XBLzNLun
+/dh8JyyAY3XFQwyOkEaKrPuDy9Od3mJkTdTz1l98jdYUbRAfAD072hg/oxm5vIfj
+4FI8928srITguJBZSUd6DnS6iHulrEqVHX9UON32rP+Xft36UrZRFEmxcYuJX577
+4L80oBXisLyXNHv30IpOf35vQnO47jgZrnOPd43vuqalrF6mXmP1ByDKcbPHjPMK
+BI2vOfUsbbjYzR6RuKoErhSZshLIeg==
+=bogY
+-----END PGP SIGNATURE-----
+
+--bRwyClUZXBXig4Sc--
+
 
