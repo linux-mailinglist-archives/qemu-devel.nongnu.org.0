@@ -2,47 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3785EB08C
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 20:53:00 +0200 (CEST)
-Received: from localhost ([::1]:45130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB5D5EB028
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 20:38:35 +0200 (CEST)
+Received: from localhost ([::1]:35694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1octDv-0007T0-32
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 14:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41304)
+	id 1ocszy-0003Vp-6k
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 14:38:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vt@altlinux.org>)
- id 1ocsWg-0005B4-Mz; Mon, 26 Sep 2022 14:08:18 -0400
-Received: from vmicros1.altlinux.org ([194.107.17.57]:50142)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vt@altlinux.org>)
- id 1ocsWe-0006dI-H5; Mon, 26 Sep 2022 14:08:18 -0400
-Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
- by vmicros1.altlinux.org (Postfix) with ESMTP id 2FCB972C90B;
- Mon, 26 Sep 2022 21:08:13 +0300 (MSK)
-Received: from altlinux.org (sole.flsd.net [185.75.180.6])
- by imap.altlinux.org (Postfix) with ESMTPSA id DCDE44A46EE;
- Mon, 26 Sep 2022 21:08:12 +0300 (MSK)
-Date: Mon, 26 Sep 2022 21:08:12 +0300
-From: Vitaly Chikunov <vt@altlinux.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- "Dmitry V. Levin" <ldv@altlinux.org>, Marc Zyngier <maz@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] target/arm/kvm: Retry KVM_CREATE_VM call if it fails EINTR
-Message-ID: <20220926180812.oojocmldqsf7kl2o@altlinux.org>
-References: <20220926133644.1345269-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <dmitry.osipenko@collabora.com>)
+ id 1ocsuR-0003v2-BF
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 14:32:51 -0400
+Received: from madras.collabora.co.uk ([46.235.227.172]:43120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dmitry.osipenko@collabora.com>)
+ id 1ocsuO-00023A-BO
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 14:32:50 -0400
+Received: from [192.168.2.145] (unknown [109.252.124.206])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B47D9660036F;
+ Mon, 26 Sep 2022 19:32:43 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1664217164;
+ bh=COIlK3XoxMzL90X5+Jk69G+Q1JKus93OW9r9uLntouo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=RIQY4kIifcE97352IFCJM5zV1Cr6HsyBKtjPJF42YyZdPeBONu+QN2LzopjcydRsA
+ TWLbWs0Jw7pDToRP8haWZlE4b80IA82Ph5bUYhMfCQn/fq0EPLXckqFpnM89aRk6j5
+ mpEtCj9z8xhUXlPNzhY33jeZdizeo4+MrqECffYq3xgCoSlBKbBHYxHZFW12UqWIh5
+ GeOyQNQQZgcFH1pQXKkLOAxhkWxgowOmdsJaNBhdHd7fstEriP2lXWsQMaPifrXG09
+ F/t1A7rOyjrtWqq86eZVvjhZES04GYV3dAOCYq86wiX6bIZ2HOz9GuBCC962eIP3Py
+ GrakcISqWewsg==
+Message-ID: <6fe0d770-1a95-3d8f-6a75-a596f26aad54@collabora.com>
+Date: Mon, 26 Sep 2022 21:32:40 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=koi8-r
-Content-Disposition: inline
-In-Reply-To: <20220926133644.1345269-1-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=194.107.17.57; envelope-from=vt@altlinux.org;
- helo=vmicros1.altlinux.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v2 4/4] virtio-gpu: Don't require udmabuf when blob
+ support is enabled
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ Antonio Caggiano <antonio.caggiano@collabora.com>
+Cc: qemu-devel@nongnu.org, gert.wollny@collabora.com,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220913105022.81953-1-antonio.caggiano@collabora.com>
+ <20220913105022.81953-5-antonio.caggiano@collabora.com>
+ <20220923123219.ofn2ygm4knljo6w2@sirius.home.kraxel.org>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220923123219.ofn2ygm4knljo6w2@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=46.235.227.172;
+ envelope-from=dmitry.osipenko@collabora.com; helo=madras.collabora.co.uk
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,53 +78,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter,
-
-On Mon, Sep 26, 2022 at 02:36:44PM +0100, Peter Maydell wrote:
-> Occasionally the KVM_CREATE_VM ioctl can return EINTR, even though
-> there is no pending signal to be taken. In commit 94ccff13382055
-> we added a retry-on-EINTR loop to the KVM_CREATE_VM call in the
-> generic KVM code. Adopt the same approach for the use of the
-> ioctl in the Arm-specific KVM code (where we use it to create a
-> scratch VM for probing for various things).
+On 9/23/22 15:32, Gerd Hoffmann wrote:
+> On Tue, Sep 13, 2022 at 12:50:22PM +0200, Antonio Caggiano wrote:
+>> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>
+>> Host blobs don't need udmabuf, it's only needed by guest blobs. The host
+>> blobs are utilized by the Mesa virgl driver when persistent memory mapping
+>> is needed by a GL buffer, otherwise virgl driver doesn't use blobs.
+>> Persistent mapping support bumps GL version from 4.3 to 4.5 in guest.
+>> Relax the udmabuf requirement.
 > 
-> For more information, see the mailing list thread:
-> https://lore.kernel.org/qemu-devel/8735e0s1zw.wl-maz@kernel.org/
+> What about blob=on,virgl=off?
 > 
-> Reported-by: Vitaly Chikunov <vt@altlinux.org>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> The view in the thread seems to be that this is a kernel bug (because
-> in QEMU's case there shouldn't be a signal to be delivered at this
-> point because of our signal handling strategy); so I've adopted the
-> same "just retry-on-EINTR for this specific ioctl" approach that
-> commit 94ccff13 did, rather than, for instance, something wider like
-> "make kvm_ioctl() and friends always retry on EINTR".
-> ---
->  target/arm/kvm.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index e5c1bd50d29..2982d216176 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -79,7 +79,9 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
->      if (max_vm_pa_size < 0) {
->          max_vm_pa_size = 0;
->      }
-> -    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-> +    do {
-> +        vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-> +    } while (vmfd == -EINTR);
+> In that case qemu manages the resources and continued to require
+> udmabuf.
 
-This does not seem correct. ioctl(2) returns -1 on error and will set errno
-to EINTR (in this case).
+The udmabuf is used only by the blob resource-creation command in Qemu.
+I couldn't find when we could hit that udmabuf code path in Qemu because
+BLOB_MEM_GUEST resource type is used only by crosvm+Venus when crosvm
+uses a dedicated render-server for virglrenderer.
 
-Thanks,
+Summarizing:
 
->      if (vmfd < 0) {
->          goto err;
->      }
-> -- 
-> 2.25.1
+  - only BLOB_MEM_GUEST resources require udmabuf
+  - /dev/udmabuf isn't accessible by normal user
+  - udmabuf driver isn't shipped by all of the popular Linux distros,
+for example Debian doesn't ship it
+
+Because of all of the above, I don't think it makes sense to
+hard-require udmabuf at the start of Qemu. It's much better to fail
+resource creation dynamically.
+
+-- 
+Best regards,
+Dmitry
+
 
