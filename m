@@ -2,66 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CFC5EAC78
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 18:28:07 +0200 (CEST)
-Received: from localhost ([::1]:44502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002F15EACA0
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 18:34:13 +0200 (CEST)
+Received: from localhost ([::1]:34198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocqxi-00038q-EO
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 12:28:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58028)
+	id 1ocr3d-0007tE-1c
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 12:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ocqA3-00027W-KB
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:36:47 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:55624 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>) id 1ocqA0-0006nC-F8
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:36:47 -0400
-Received: from [192.168.124.8] (unknown [139.227.114.201])
- by APP-01 (Coremail) with SMTP id qwCowAC3Vmj0xjFjQdhHAg--.12510S2;
- Mon, 26 Sep 2022 23:36:22 +0800 (CST)
-Message-ID: <2fc159f1-f2f8-ddca-35f9-d4fc33f0559d@iscas.ac.cn>
-Date: Mon, 26 Sep 2022 23:36:20 +0800
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocqBl-0003w0-NI
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:38:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24246)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocqBh-0006v0-Lr
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:38:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664206708;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=d2lWr7fEt+0f0VMlH+BoasfY/eri8mN5KyeIVQS8SpA=;
+ b=V3YEAt1n4YR0hiRiWkV4rqtPH2IJqr2k6Qg7xTmzboqGT3YQYg1nuo6DIVw8zbLEqmuC6t
+ eOPJ7/Qz+m8+5Mm8kss7xGWP8wT5XJPZB/iCaNUlcTE7sCmARPrtLAspjMtbFVozS6RGjJ
+ fDOz8yXHhDhedeY8scbUUaNHB3S1c6Q=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-262-QeoZ11WcOIOysHSGTF-vSQ-1; Mon, 26 Sep 2022 11:38:24 -0400
+X-MC-Unique: QeoZ11WcOIOysHSGTF-vSQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ i27-20020adfaadb000000b0022a48b6436dso1311574wrc.23
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 08:38:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=d2lWr7fEt+0f0VMlH+BoasfY/eri8mN5KyeIVQS8SpA=;
+ b=q+exBilEKIMeJkh1ih9EgpueiUdYBgCWfbsOOFq3NrpXT6VTg+7G7oq2Lvw83ZsNdu
+ dIqb18zOWWwmzeZ40smDkKssy4De3MenlF5vS5CFXcFO/M3z898bALevEUPL8MhE9dWF
+ wR/plA5IlL9ZZ76d0dCbUWdKjTG0KnqidCIGycqvADxQS8g9XvWfMHyPhNGW8Sw8G+6/
+ v3z6Djp1/I0dN/SffWTiC0tgFgfDc/qa4j33t0xG5ieZmGO2R3mk77nAJ9wfzlg1sY7V
+ 4Hsq0xybtyAaSuffQ14WPN5LxQJHxaNq/sFIuNtdmgF/AejeAxVMFKGDqKn9Jy30tZXS
+ BSYw==
+X-Gm-Message-State: ACrzQf1F6ZQpj4qTsyd+w8hYBdCO+RpoVj+b+nzL++NIjXfcC+pjNKLB
+ kUzh5c7e7d/Q+ox8klQnxc8Uq3VvRg3PD1KUtkO8Co+d4B0jQKxAIw/mjOcphKon+E8yD6Qpz/t
+ FpOsFkvahlur2oEs=
+X-Received: by 2002:adf:f706:0:b0:22b:1942:4be6 with SMTP id
+ r6-20020adff706000000b0022b19424be6mr13727697wrp.640.1664206703181; 
+ Mon, 26 Sep 2022 08:38:23 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7yDR5TUVxrCG3UaeqwpCSKklFx5WoDuENGiuVPWSQKXdBP6/AmUko0tXeomL2wvzztLpHU3g==
+X-Received: by 2002:adf:f706:0:b0:22b:1942:4be6 with SMTP id
+ r6-20020adff706000000b0022b19424be6mr13727681wrp.640.1664206702934; 
+ Mon, 26 Sep 2022 08:38:22 -0700 (PDT)
+Received: from [192.168.8.103] (tmo-064-141.customers.d1-online.com.
+ [80.187.64.141]) by smtp.gmail.com with ESMTPSA id
+ bg42-20020a05600c3caa00b003a5f4fccd4asm12116200wmb.35.2022.09.26.08.38.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Sep 2022 08:38:22 -0700 (PDT)
+Message-ID: <48c4ee16-5559-cb9d-0b0c-e11bb6f95241@redhat.com>
+Date: Mon, 26 Sep 2022 17:38:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Cc: liweiwei@iscas.ac.cn
-Subject: Re: [PATCH v1 5/7] contrib/gitdm: add ISCAS to the academics group
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20220926134609.3301945-1-alex.bennee@linaro.org>
- <20220926134609.3301945-6-alex.bennee@linaro.org>
-From: weiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20220926134609.3301945-6-alex.bennee@linaro.org>
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
+ <20220925113032.1949844-13-bmeng.cn@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3 12/54] tests/qtest: hd-geo-test: Avoid using hardcoded
+ /tmp
+In-Reply-To: <20220925113032.1949844-13-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAC3Vmj0xjFjQdhHAg--.12510S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtF18Jr4xKr17WF18Zr18Xwb_yoWfJFb_W3
- 4kJrs5Ar4qgF9akr1rA3ZxuaykZrWvyr1rZrn8Kr45X3WDJanxAa4jk34DGF43uF45uanx
- Aa4SvFy7Kws3ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbcxFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
- Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
- 1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
- cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
- ACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAYIcxG
- 8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r
- 1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij
- 64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr
- 0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
- 0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbrMaUUUUUU==
-X-Originating-IP: [139.227.114.201]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -64
-X-Spam_score: -6.5
-X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,35 +104,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2022/9/26 21:46, Alex Bennée wrote:
-> The English website (http://english.is.cas.cn/) in on a slightly
-> different domain but has the same logo as http://www.iscas.ac.cn/.
->
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Weiwei Li <liweiwei@iscas.ac.cn>
+On 25/09/2022 13.29, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> This case was written to use hardcoded /tmp directory for temporary
+> files. Update to use g_file_open_tmp() for a portable implementation.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->   contrib/gitdm/group-map-academics | 3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/contrib/gitdm/group-map-academics b/contrib/gitdm/group-map-academics
-> index 44745ca85b..877a11e69b 100644
-> --- a/contrib/gitdm/group-map-academics
-> +++ b/contrib/gitdm/group-map-academics
-> @@ -19,3 +19,6 @@ edu.cn
+> 
+> Changes in v3:
+> - Split to a separate patch
+> - Ensure g_autofree variable is initialized
+> - Use g_steal_pointer() in create_test_img()
+> 
+>   tests/qtest/hd-geo-test.c | 25 +++++++++++--------------
+>   1 file changed, 11 insertions(+), 14 deletions(-)
+> 
+> diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
+> index 413cf964c0..455bc5db5c 100644
+> --- a/tests/qtest/hd-geo-test.c
+> +++ b/tests/qtest/hd-geo-test.c
+> @@ -27,20 +27,19 @@
 >   
->   # Boston University
->   bu.edu
-> +
-> +# Institute of Software Chinese Academy of Sciences
-> +iscas.ac.cn
+>   static char *create_test_img(int secs)
+>   {
+> -    char *template = strdup("/tmp/qtest.XXXXXX");
+> +    g_autofree char *template = NULL;
+>       int fd, ret;
+>   
+> -    fd = mkstemp(template);
+> +    fd = g_file_open_tmp("qtest.XXXXXX", &template, NULL);
+>       g_assert(fd >= 0);
+>       ret = ftruncate(fd, (off_t)secs * 512);
+>       close(fd);
+>   
+>       if (ret) {
+> -        free(template);
+>           template = NULL;
+>       }
+>   
+> -    return template;
+> +    return g_steal_pointer(&template);
 
-Thanks for your update.  It looks good to me.
+Just a matter of taste, but in this case, I'd rather prefer to not use 
+g_autofree + g_steal_pointer and simply replace the "free" with a "g_free" 
+instead.
 
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
-
-Regards,
-
-Weiwei Li
+  Thomas
 
 
