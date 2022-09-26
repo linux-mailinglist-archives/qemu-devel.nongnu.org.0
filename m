@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E135EB20C
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 22:27:16 +0200 (CEST)
-Received: from localhost ([::1]:35450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4275EB219
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 22:30:47 +0200 (CEST)
+Received: from localhost ([::1]:57866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocuh9-0004GG-CR
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 16:27:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40898)
+	id 1ocukY-0000Ll-D7
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 16:30:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1ocuWV-0001Tg-In; Mon, 26 Sep 2022 16:16:20 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:33924 helo=zulu616.server4you.de)
+ id 1ocuaA-0004us-5D; Mon, 26 Sep 2022 16:20:02 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:56728 helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1ocuWQ-00013J-8F; Mon, 26 Sep 2022 16:16:14 -0400
+ id 1ocua8-0001SQ-Hp; Mon, 26 Sep 2022 16:20:01 -0400
 Received: from [10.95.79.201]
  (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with ESMTPSA id A543D608061F;
- Mon, 26 Sep 2022 22:15:59 +0200 (CEST)
-Message-ID: <91ee005f-d9a9-eb77-43a8-96365b088ee0@csgraf.de>
-Date: Mon, 26 Sep 2022 22:15:59 +0200
+ by csgraf.de (Postfix) with ESMTPSA id C1A3E608061F;
+ Mon, 26 Sep 2022 22:19:57 +0200 (CEST)
+Message-ID: <a4461fc5-bfb4-9be8-459b-4f469e19d25a@csgraf.de>
+Date: Mon, 26 Sep 2022 22:19:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.3.0
-Subject: Re: [PATCH v2 01/11] hw: encode accessing CPU index in MemTxAttrs
+Subject: Re: [PATCH v2 03/11] target/arm: ensure HVF traps set appropriate
+ MemTxAttrs
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, mads@ynddal.dk, qemu-arm@nongnu.org
+Cc: f4bug@amsat.org, mads@ynddal.dk, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 References: <20220926133904.3297263-1-alex.bennee@linaro.org>
- <20220926133904.3297263-2-alex.bennee@linaro.org>
+ <20220926133904.3297263-4-alex.bennee@linaro.org>
 From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <20220926133904.3297263-2-alex.bennee@linaro.org>
+In-Reply-To: <20220926133904.3297263-4-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
@@ -61,89 +63,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 26.09.22 15:38, Alex Bennée wrote:
-> We currently have hacks across the hw/ to reference current_cpu to
-> work out what the current accessing CPU is. This breaks in some cases
-> including using gdbstub to access HW state. As we have MemTxAttrs to
-> describe details about the access lets extend it to mention if this is
-> a CPU access and which one it is.
->
-> There are a number of places we need to fix up including:
->
->    CPU helpers directly calling address_space_*() fns
->    models in hw/ fishing the data out of current_cpu
->    hypervisors offloading device emulation to QEMU
->
-> I'll start addressing some of these in following patches.
+> As most HVF devices are done purely in software we need to make sure
+> we properly encode the source CPU in MemTxAttrs. This will allow the
+> device emulations to use those attributes rather than relying on
+> current_cpu (although current_cpu will still be correct in this case).
 >
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->
+> Cc: Mads Ynddal <mads@ynddal.dk>
+> Cc: Alexander Graf <agraf@csgraf.de>
 > ---
-> v2
->    - use separate field cpu_index
->    - bool for requester_is_cpu
-> v3
->    - switch to enum MemTxRequesterType
->    - move helper #define to patch
->    - revert to overloading requester_id
->    - mention hypervisors in commit message
->    - drop cputlb tweaks, they will move to target specific code
-> ---
->   include/exec/memattrs.h | 17 ++++++++++++++++-
->   1 file changed, 16 insertions(+), 1 deletion(-)
+>   target/arm/hvf/hvf.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
-> index 9fb98bc1ef..0fb5f29d25 100644
-> --- a/include/exec/memattrs.h
-> +++ b/include/exec/memattrs.h
-> @@ -14,6 +14,15 @@
->   #ifndef MEMATTRS_H
->   #define MEMATTRS_H
->   
-> +/*
-> + * Where the memory transaction comes from
-> + */
-> +typedef enum MemTxRequesterType {
-> +    MEMTXATTRS_CPU,
-> +    MEMTXATTRS_MSI,
+> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+> index 060aa0ccf4..13b7971560 100644
+> --- a/target/arm/hvf/hvf.c
+> +++ b/target/arm/hvf/hvf.c
+> @@ -1233,11 +1233,11 @@ int hvf_vcpu_exec(CPUState *cpu)
+>               val = hvf_get_reg(cpu, srt);
+>               address_space_write(&address_space_memory,
+>                                   hvf_exit->exception.physical_address,
+> -                                MEMTXATTRS_UNSPECIFIED, &val, len);
+> +                                MEMTXATTRS_CPU(cpu->cpu_index), &val, len);
 
 
-I don't think MSI is any sensible identifier here. What you actually are 
-trying to describe are bus messages that may carry additional source 
-information - and what you describe as "MSI" here most likely means "no 
-further information".
+I think it would make a safer API if MEMTXATTRS_CPU() would take 
+CPUState * as argument so you can just pass in cpu here.
 
-How about you just call it "BUS", "DMA" or literally "UNSPECIFIED" for 
-now? Also, why is unspecified not part of the requester type enum?
+For the HVF part however,
+
+Acked-by: Alexander Graf <agraf@csgraf.de>
 
 
 Alex
 
-> +} MemTxRequesterType;
-> +
-> +
->   /* Every memory transaction has associated with it a set of
->    * attributes. Some of these are generic (such as the ID of
->    * the bus master); some are specific to a particular kind of
-> @@ -43,7 +52,9 @@ typedef struct MemTxAttrs {
->        * (see MEMTX_ACCESS_ERROR).
->        */
->       unsigned int memory:1;
-> -    /* Requester ID (for MSI for example) */
-> +    /* Requester type (e.g. CPU or PCI MSI) */
-> +    MemTxRequesterType requester_type:2;
-> +    /* Requester ID */
->       unsigned int requester_id:16;
->       /* Invert endianness for this page */
->       unsigned int byte_swap:1;
-> @@ -66,6 +77,10 @@ typedef struct MemTxAttrs {
->    */
->   #define MEMTXATTRS_UNSPECIFIED ((MemTxAttrs) { .unspecified = 1 })
->   
-> +/* Helper for setting a basic CPU sourced transaction */
-> +#define MEMTXATTRS_CPU(id) ((MemTxAttrs) \
-> +                            {.requester_type = MEMTXATTRS_CPU, .requester_id = id})
-> +
->   /* New-style MMIO accessors can indicate that the transaction failed.
->    * A zero (MEMTX_OK) response means success; anything else is a failure
->    * of some kind. The memory subsystem will bitwise-OR together results
+
 
