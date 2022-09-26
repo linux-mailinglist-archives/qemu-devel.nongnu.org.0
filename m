@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC045EAE33
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 19:29:46 +0200 (CEST)
-Received: from localhost ([::1]:57812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A97B5EADD8
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 19:15:19 +0200 (CEST)
+Received: from localhost ([::1]:46148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocrvN-00071u-4C
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 13:29:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35970)
+	id 1ocrhO-0003hk-8F
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 13:15:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocrOL-0002JK-VE
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 12:55:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25301)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocrOG-0002yQ-Ou
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 12:55:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664211331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9CCLlK6yfQFDnmvZnH4wWwP5c+biyWIshje7VO079U8=;
- b=gFsx4fbSNbaLvXwDUwCJOPAA4117F7w3HCaU0RNpiaUxDdjeH788F7BusuVrd5n87jNN4Z
- MMSzN5sNyRtJYIG3TLQCoqNl+VPV9cWddu8bfrcvwL1BEodOZiBCHrbnmkIfUKb3gG1hu8
- c1Ga+NGumyuhz1nxybap25FKxAB2OYE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-594-z0IGaJ8-NmuwXLdlh8HFDw-1; Mon, 26 Sep 2022 12:55:30 -0400
-X-MC-Unique: z0IGaJ8-NmuwXLdlh8HFDw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c3-20020a7bc843000000b003b486fc6a40so2068960wml.7
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 09:55:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ocrQ4-0003vz-0r; Mon, 26 Sep 2022 12:57:25 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:39628)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ocrQ2-0003Hf-04; Mon, 26 Sep 2022 12:57:23 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-11e9a7135easo10027743fac.6; 
+ Mon, 26 Sep 2022 09:57:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=KxZ15RBHAzrUsgMWveO6AT1sAHZiffkzp6pUb830jvo=;
+ b=jHKxSuCyvu6xebTLsWQIIWmGcEItC5Gdgeykm1WQTaLxCgTkJD6SRaQvWxyISJq68h
+ BT12xyaN+v/8UGyAE3D71vowalrV4K0qbkEcG1u7z5tpU3WyZjXmbQCtt5Fubqw4XC//
+ lWNN4p2qu+4dpg+/0o2llqNBOy4KDWcLR9xo09eRimirk8bqxbtAOvy/o1YTx9vthcF1
+ GXBjXPWmgYdCv55XTqlKZihxYtYwvueJNFeAnynXsXbuytW+G8uwY+4NVX2wcwxdwcGN
+ qZ1U8iWNzYRdxsYQVsZMJ4+1huxIJmGFUAZjqmTd8uxssEc8k0AKIcOlY9J0cI31RXqJ
+ Ddwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=9CCLlK6yfQFDnmvZnH4wWwP5c+biyWIshje7VO079U8=;
- b=SNH7YMPqVaoqm6m/dWq1TyWX4/d2QjKyVcA+g+M4ESJ3HuzSVQdl6yJKcZdQsN10Ny
- kVdWKx0IApUXjc3VmGOsCeRxEI7arDAt0AKe1MsP8LJs9R+Zef+zLzpLSHRd24P75dsO
- hASKPX2STeyjNow7cCqQZNYcbDBy6CIcQ2uh3cms29LpfJeGk/ZX4O3/D6mZAGa634qs
- PIYNry7SL4jA5d60G2rHIy9odWOnlSFKy7SEoSbEhhecTmEUtEQQ5f72SX1DySya4kjz
- r4+lTGr+voWjlAQJYNeKUHb3drvepwuUNVoBe+LytFsvYw1rGD3Cib/HE5j4fCsH5mok
- 8n4w==
-X-Gm-Message-State: ACrzQf1fQxP4W2hG1oiC5IETJH30lwSvdVF0lPRbSwtqAwqvSyU8edCU
- qeFK+Tv00dFVGFGw68j3iVNHLYOAiXjDj6ZmWcpayQjG4tS/04yfDgjC+wsZQPj5cf1HwyCLSZ2
- fR66MN9XJfNqd+nY=
-X-Received: by 2002:a05:600c:1c22:b0:3b4:b2bc:15e4 with SMTP id
- j34-20020a05600c1c2200b003b4b2bc15e4mr16310872wms.69.1664211329718; 
- Mon, 26 Sep 2022 09:55:29 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4SzHqb6aOjgtiIcLaJ0F0UQBkJ2EbqfkY/jzqvD0VfEMPI5QK70/7pbmZ0ZkncNYXbKi2JXw==
-X-Received: by 2002:a05:600c:1c22:b0:3b4:b2bc:15e4 with SMTP id
- j34-20020a05600c1c2200b003b4b2bc15e4mr16310862wms.69.1664211329462; 
- Mon, 26 Sep 2022 09:55:29 -0700 (PDT)
-Received: from [192.168.8.103] (tmo-064-141.customers.d1-online.com.
- [80.187.64.141]) by smtp.gmail.com with ESMTPSA id
- c126-20020a1c3584000000b003b4a699ce8esm11499229wma.6.2022.09.26.09.55.27
+ bh=KxZ15RBHAzrUsgMWveO6AT1sAHZiffkzp6pUb830jvo=;
+ b=kDV2+e9zh2z+1VyNKXEAWXvl6LzzLGlm+2F+bz6yupq9esXo3gZVkolsILWjwmMAA7
+ ycJyHI02M1Xy3qP77SVYg0kRl9JNo53JfitS1YG1vuwxuvNmeBD4BxsRrCVgeracFXs9
+ oqA3fiJt81muOr0pFdTAG7XKGi1Df7u6G3zdzvp3bYj4AJjhNgxng1eFHUXbpXkOYTXL
+ FITeSN+loz9+yJoalJRRo4v18MX+eWwnRFGlc7R2uyNVQHCVB69depDXhV1irIp8+ssA
+ T7Jg+PH3QB0k63j9Ga0F6balfxrE/KaPIXYM6MlE7F8zfl4sS6KFmmnMm8c46GmxgiKG
+ d2oQ==
+X-Gm-Message-State: ACrzQf29SEshkPzD56gtCLgZ/DKXguLKfM7vQSfODc7FO+eVAfGUCzYj
+ 8yVWkJZL+IjYu2nuknTE3rk=
+X-Google-Smtp-Source: AMsMyM7ou03qp9rxUHV97SQXc2HkmILxQQ879t77mWZncJnHXVQ1Vm3JYewrqxAkmeSH2XkaBCeA8Q==
+X-Received: by 2002:a05:6870:3450:b0:11e:b695:c13f with SMTP id
+ i16-20020a056870345000b0011eb695c13fmr13087753oah.130.1664211439646; 
+ Mon, 26 Sep 2022 09:57:19 -0700 (PDT)
+Received: from [192.168.10.102] (189-68-154-15.dsl.telesp.net.br.
+ [189.68.154.15]) by smtp.gmail.com with ESMTPSA id
+ t11-20020a056808158b00b00350a8b0637asm7522933oiw.47.2022.09.26.09.57.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Sep 2022 09:55:28 -0700 (PDT)
-Message-ID: <268199c7-8866-6818-76ee-8174db0ffc99@redhat.com>
-Date: Mon, 26 Sep 2022 18:55:27 +0200
+ Mon, 26 Sep 2022 09:57:19 -0700 (PDT)
+Message-ID: <e550debd-4f7c-37c8-dd32-2b8bdee890ec@gmail.com>
+Date: Mon, 26 Sep 2022 13:57:16 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v6 10/25] ppc440_sdram: Implement enable bit in the DDR2
+ SDRAM controller
 Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>
-References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
- <20220925113032.1949844-55-bmeng.cn@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3 54/54] docs/devel: testing: Document writing portable
- test cases
-In-Reply-To: <20220925113032.1949844-55-bmeng.cn@gmail.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, Peter Maydell <peter.maydell@linaro.org>
+References: <cover.1664021647.git.balaton@eik.bme.hu>
+ <f8900aadb1a4426a6444741e6876c898b3b77f7b.1664021647.git.balaton@eik.bme.hu>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <f8900aadb1a4426a6444741e6876c898b3b77f7b.1664021647.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,82 +96,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/09/2022 13.30, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
+
+
+On 9/24/22 09:27, BALATON Zoltan wrote:
+> To allow removing the do_init hack we need to improve the DDR2 SDRAM
+> controller model to handle the enable/disable bit that it ignored so
+> far.
 > 
-> Update the best practices of how to write portable test cases that
-> can be built and run successfully on both Linux and Windows hosts.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   hw/ppc/ppc440_uc.c | 34 ++++++++++++++++++++++++++++++++--
+>   1 file changed, 32 insertions(+), 2 deletions(-)
 > 
-> (no changes since v3)
-> 
-> Changes in v2:
-> - Minor wording changes
-> - Drop patches that were already applied in the mainline
-> - Drop patch: "qga/commands-posix-ssh: Use g_mkdir_with_parents()"
-> - Drop patch: "tests: Skip iotests and qtest when '--without-default-devices'"
-> - Drop patch: "tests/qtest: Fix ERROR_SHARING_VIOLATION for win32"
-> 
->   docs/devel/testing.rst | 30 ++++++++++++++++++++++++++++++
->   1 file changed, 30 insertions(+)
-> 
-> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-> index aea5b42356..0eae9c4654 100644
-> --- a/docs/devel/testing.rst
-> +++ b/docs/devel/testing.rst
-> @@ -115,6 +115,36 @@ check-block
->   are in the "auto" group).
->   See the "QEMU iotests" section below for more information.
-
-Looks like you've added the new text after the "check-block" section ... 
-could you please add it after the "QTest" section instead?
-
-> +Writing portable test cases
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +Both unit tests and qtests can run on POSIX hosts as well as a Windows host.
-
-Nit: better use plural in both cases: "on POSIX hosts as well as Windows hosts".
-
-> +Care must be taken when writing portable test cases that can be built and run
-> +successfully on various hosts. The following are some best practices:
-
-Maybe better (but I'm not a native speaker either): "The following list 
-shows some best practices"
-
-> +* Use portable APIs from glib whenever necessary, e.g.: g_setenv(),
-> +  g_mkdtemp(), g_mkdir().
-> +* Avoid using hardcoded /tmp for temporary file directory.
-> +  Use g_get_tmp_dir() instead.
-> +* Bear in mind that Windows has different special string representation for
-> +  stdin/stdout/stderr and null devices. For example if your test case uses
-> +  "/dev/fd/2" and "/dev/null" on Linux, remember to use "2" and "nul" on
-> +  Windows instead. Also IO redirection does not work on Windows, so avoid
-> +  using "2>nul" whenever necessary.
-> +* If your test cases uses the blkdebug feature, use relative path to pass
-> +  the config and image file paths in the command line as Windows absolute
-> +  path contains the delimeter ":" which will confuse the blkdebug parser.
-
-s/delimeter/delimiter/
-
-> +* Use double quotes in your extra QEMU commmand line in your test cases
-> +  instead of single quotes, as Windows does not drop single quotes when
-> +  passing the command line to QEMU.
-> +* Windows opens a file in text mode by default, while a POSIX compliant
-> +  implementation treats text files and binary files the same. So if your
-> +  test cases opens a file to write some data and later wants to compare the
-> +  written data with the original one, be sure to pass the letter 'b' as
-> +  part of the mode string to fopen(), or O_BINARY flag for the open() call.
-> +* If a certain test case can only run on POSIX or Linux hosts, use a proper
-> +  #ifdef in the codes. If the whole test suite cannot run on Windows, disable
-> +  the build in the meson.build file.
-> +
->   QEMU iotests
->   ------------
+> diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+> index 900b7ab998..3fbfe4ad13 100644
+> --- a/hw/ppc/ppc440_uc.c
+> +++ b/hw/ppc/ppc440_uc.c
+> @@ -485,6 +485,7 @@ void ppc4xx_sdr_init(CPUPPCState *env)
+>   /* SDRAM controller */
+>   typedef struct ppc440_sdram_t {
+>       uint32_t addr;
+> +    uint32_t mcopt2;
+>       int nbanks;
+>       Ppc4xxSdramBank bank[4];
+>   } ppc440_sdram_t;
+> @@ -600,7 +601,7 @@ static void sdram_map_bcr(ppc440_sdram_t *sdram)
+>       int i;
 >   
-
-  Thomas
-
+>       for (i = 0; i < sdram->nbanks; i++) {
+> -        if (sdram->bank[i].size != 0) {
+> +        if (sdram->bank[i].size) {
+>               sdram_set_bcr(sdram, i, sdram_bcr(sdram->bank[i].base,
+>                                                 sdram->bank[i].size), 1);
+>           } else {
+> @@ -609,6 +610,17 @@ static void sdram_map_bcr(ppc440_sdram_t *sdram)
+>       }
+>   }
+>   
+> +static void sdram_unmap_bcr(ppc440_sdram_t *sdram)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < sdram->nbanks; i++) {
+> +        if (sdram->bank[i].size) {
+> +            sdram_set_bcr(sdram, i, sdram->bank[i].bcr & ~1, 0);
+> +        }
+> +    }
+> +}
+> +
+>   static uint32_t dcr_read_sdram(void *opaque, int dcrn)
+>   {
+>       ppc440_sdram_t *sdram = opaque;
+> @@ -640,7 +652,7 @@ static uint32_t dcr_read_sdram(void *opaque, int dcrn)
+>               ret = 0x80000000;
+>               break;
+>           case 0x21: /* SDRAM_MCOPT2 */
+> -            ret = 0x08000000;
+> +            ret = sdram->mcopt2;
+>               break;
+>           case 0x40: /* SDRAM_MB0CF */
+>               ret = 0x00008001;
+> @@ -662,6 +674,8 @@ static uint32_t dcr_read_sdram(void *opaque, int dcrn)
+>       return ret;
+>   }
+>   
+> +#define SDRAM_DDR2_MCOPT2_DCEN BIT(27)
+> +
+>   static void dcr_write_sdram(void *opaque, int dcrn, uint32_t val)
+>   {
+>       ppc440_sdram_t *sdram = opaque;
+> @@ -684,6 +698,21 @@ static void dcr_write_sdram(void *opaque, int dcrn, uint32_t val)
+>           switch (sdram->addr) {
+>           case 0x00: /* B0CR */
+>               break;
+> +        case 0x21: /* SDRAM_MCOPT2 */
+> +            if (!(sdram->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
+> +                (val & SDRAM_DDR2_MCOPT2_DCEN)) {
+> +                trace_ppc4xx_sdram_enable("enable");
+> +                /* validate all RAM mappings */
+> +                sdram_map_bcr(sdram);
+> +                sdram->mcopt2 |= SDRAM_DDR2_MCOPT2_DCEN;
+> +            } else if ((sdram->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
+> +                       !(val & SDRAM_DDR2_MCOPT2_DCEN)) {
+> +                trace_ppc4xx_sdram_enable("disable");
+> +                /* invalidate all RAM mappings */
+> +                sdram_unmap_bcr(sdram);
+> +                sdram->mcopt2 &= ~SDRAM_DDR2_MCOPT2_DCEN;
+> +            }
+> +            break;
+>           default:
+>               break;
+>           }
+> @@ -698,6 +727,7 @@ static void sdram_reset(void *opaque)
+>       ppc440_sdram_t *sdram = opaque;
+>   
+>       sdram->addr = 0;
+> +    sdram->mcopt2 = SDRAM_DDR2_MCOPT2_DCEN;
+>   }
+>   
+>   void ppc440_sdram_init(CPUPPCState *env, int nbanks,
 
