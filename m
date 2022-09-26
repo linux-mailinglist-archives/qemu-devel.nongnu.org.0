@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF525EAC99
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 18:33:33 +0200 (CEST)
-Received: from localhost ([::1]:59138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A76595EAC44
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 18:17:22 +0200 (CEST)
+Received: from localhost ([::1]:42122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocr2x-00074B-PO
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 12:33:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60824)
+	id 1ocqnJ-0001Wu-IG
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 12:17:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ocqIJ-0002Wn-Kg
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:45:25 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:40670)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1ocqIQ-0002YG-Bh
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:45:27 -0400
+Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:41476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ocqIH-00081Q-II
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:45:18 -0400
-Received: by mail-ej1-x632.google.com with SMTP id l14so14973070eja.7
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 08:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=+vNYGgenJsuZ/wV50s5UXKcM8Ou+iERgQnCiO2C40SQ=;
- b=y9oRn0x4rmKT1czXiU5qrSvqIUudCclgW5rMywGmCdRg4RPbLqIhTq/RtqZSzZ321O
- xhAGKJ5HP49/b6LVHCiEZNlCAj1ea56yiLWSkb0nJoEzJbETmn8dGD7ClvNauicNWFy0
- 3NgUefG9rbJzCK9IvgjIkuL6ceDC8DCDDWLQRaVuGxyodWEiMG92YVdzFFr6NIsI9dsX
- u8Cvisa7jZ6oGk87sz9zFu8QVG0kM1XAP7pwbtjkRIL3OMYUYxKFLQURKAzRGNtqE6pz
- 1z8NH7rHkVlqq0/MRCvq9QxGpv3wU96OncK3d+AFlfNlYR8eqKIw5rRPooP1ngATVOJx
- 3ggw==
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1ocqIN-00081w-UX
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:45:26 -0400
+Received: by mail-vs1-xe34.google.com with SMTP id k2so6944811vsk.8
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 08:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=z9hthYSe+yoODZ1V/tbObtGfRjEOLofQ0JAQm/bI11g=;
+ b=fHIBvfSoUh6JOflwtnkgJOQ6lurVwVtavIDmqgmNnljVfVBvKEVOcWCV0DgSRbS43Z
+ eo7M8rNMqR5+r7ek/u8PZEifkQvugTClDO501U99Yqa+vFRi2b1oZARiBYgnXy4EUthP
+ 3X+D3Kz5OJmoKOiS4mwFKGRBN7AzEbmK4f6WlfXgUfjzTl8CKbmMpg2yIjDQ987SA+bS
+ 1V0wLnvYFd9t1OMxzK10/U9HOkQ2WFBPf+9lycOvt52t91tU5QHXRuKcubg3YhgZWqhV
+ 2IXHq8wT48esXE3DgEF3pne0zDZoW8TIHcMIQwYOzVtDYHOr1S+ZBI4XJ4iGRqUZqNHP
+ iIMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=+vNYGgenJsuZ/wV50s5UXKcM8Ou+iERgQnCiO2C40SQ=;
- b=PQ+7+Z+GkhfVJeTz95OrgO9QHgCEG7ixvnYRgV5/9a/BCiWSCKWurtDW8xLuhjp9ws
- ucxpeVZVBpMP3I1VtLc4vZOLwBxKldL5fFYcXD019PgpSteeYxX544uFWaIDcz/H48d+
- sWxLSMfyVBM4ukM6/Xq1G64IyAJyzR6fSDY320xIRYwiLf3y1ZbfGrWWi5txS+JcPCXd
- inpfC87rWa/HpLy75qInBSUEPaPwIETZTHJThteos3PTZBkEzxhRURV72wZOhsNqfDCD
- j/imgzF7JnhYbxnYcUfEUnBuo/5WNuqvK/HVXjz6TzuNh1phtK4dZwGUO7l2P7Wn5TRp
- Ra+Q==
-X-Gm-Message-State: ACrzQf1y76A6YnN0orAsBrjpNed6V7j5Sp0k8K6ANch3MME5Z13/aSHU
- kx8A6sfQFOSQhaUMQrFE/q5KgYI0cC9u6S8Il/TwVA==
-X-Google-Smtp-Source: AMsMyM4zlT1rFw0ahT72yH4tYlRuB2ktmveb8ICcp/oZPtHEsBL/oUrnAhuHY0CXbaJBreqpGRg2kBma6amvs0CI2FQ=
-X-Received: by 2002:a17:907:724b:b0:782:f2bb:24d3 with SMTP id
- ds11-20020a170907724b00b00782f2bb24d3mr10696682ejc.555.1664207115961; Mon, 26
- Sep 2022 08:45:15 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=z9hthYSe+yoODZ1V/tbObtGfRjEOLofQ0JAQm/bI11g=;
+ b=vrsa2+g5ef+U5gFWHXQ8vpcnbtAPk6/+ulS8MvlDwhHZF1JbZd+DD/nBq4JDwcj3a9
+ TeRTg9Bb4Hu95hQ9YFPCWPiunDwWE7JdFFmv2U5osZslIwfg3OdYZ2A2Ut1HUV33j/Ah
+ JlDUDI7uDntAol9ouFfeeA6q4a/xhJJjLIBxpzzPI4QpIyVpcfRtqOAzYfU0pSEzGBjn
+ egPLj3moaK5l16e+iF3AegGRG4LchdYZOkNEAr/63wp+71A5OwJRoi9mYgCnsA7GESeR
+ 3xGo0Q91QyBiRR7Gu7VjWgp/US+f9V3AaLtampgJH95jeWSAJVk/RH+YyMwN6dAqvllq
+ GFqQ==
+X-Gm-Message-State: ACrzQf0o58+WsiUnEkAmJp5uqaKBtTFiU89kk+pkn8kwmLBxH6XB+xT1
+ 4IGKgODcZ7Rj8FoaE9LrDhR3Xn2ragC0BKkE3FPv+Q==
+X-Google-Smtp-Source: AMsMyM7uFwCRMP+9a6O4vh3huTlJjOyOEmVmDmBB/w5Bl516CESzKcG4OiUDPIHhKQbG7Pt/VGArShJtOnog06vLJpg=
+X-Received: by 2002:a05:6102:3e13:b0:398:9d87:93a2 with SMTP id
+ j19-20020a0561023e1300b003989d8793a2mr7426409vsv.57.1664207119831; Mon, 26
+ Sep 2022 08:45:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220926133904.3297263-1-alex.bennee@linaro.org>
- <20220926133904.3297263-6-alex.bennee@linaro.org>
- <CAFEAcA_u8TQW5EoX5bBZGKhhaS6PYaYZGyqMrhB1Tsa6eTXCyQ@mail.gmail.com>
- <87leq641id.fsf@linaro.org>
- <CAFEAcA8D_SzU35DB-RvaegYkwkJHD0Y3stx7P=Jh=QC6LOqDZA@mail.gmail.com>
- <874jwu3zwr.fsf@linaro.org>
-In-Reply-To: <874jwu3zwr.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Sep 2022 16:45:04 +0100
-Message-ID: <CAFEAcA-SGDR0mFZzBoCXHthf00PemTCafETd-VfQijXhifBqzQ@mail.gmail.com>
-Subject: Re: [PATCH v2 05/11] hw/intc/gic: use MxTxAttrs to divine accessing
- CPU
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, mads@ynddal.dk, 
- qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220921234646.949273-1-venture@google.com>
+ <CAFEAcA8f+JA4WKMwGFNxg7tRxTwL=RzDLgdJLrP8Dw_jB4XoRA@mail.gmail.com>
+ <CACGkMEvMtAjGQVzwUgjD20Hb=Za8KmRanmp-FWrUQD8xS+7Pkw@mail.gmail.com>
+ <CAO=notwnOKMd=n2qQC=iFX-cofeKP=ZUKX2VNXobMgXO64Y+sw@mail.gmail.com>
+ <CAFEAcA97oHsQdk2fSq=umiUv8nNue0xCLtboRR2yPt_Gxh_zEg@mail.gmail.com>
+In-Reply-To: <CAFEAcA97oHsQdk2fSq=umiUv8nNue0xCLtboRR2yPt_Gxh_zEg@mail.gmail.com>
+From: Patrick Venture <venture@google.com>
+Date: Mon, 26 Sep 2022 08:45:08 -0700
+Message-ID: <CAO=notwsgvtZBLyWGu+PSnmHTrm6anakwFwoq3oBEJ-8nqPFaQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/net: npcm7xx_emc: set MAC in register space
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Jason Wang <jasowang@redhat.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, 
+ CS20 KFTing <kfting@nuvoton.com>, qemu-arm <qemu-arm@nongnu.org>, 
+ qemu-devel <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>
+Content-Type: multipart/alternative; boundary="000000000000362af405e9966a5e"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e34;
+ envelope-from=venture@google.com; helo=mail-vs1-xe34.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,63 +90,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Sept 2022 at 16:42, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Mon, 26 Sept 2022 at 16:08, Alex Benn=C3=A9e <alex.bennee@linaro.org=
-> wrote:
-> >> Peter Maydell <peter.maydell@linaro.org> writes:
-> >> > On Mon, 26 Sept 2022 at 14:39, Alex Benn=C3=A9e <alex.bennee@linaro.=
-org> wrote:
-> >> >> -static inline int gic_get_current_cpu(GICState *s)
-> >> >> +static inline int gic_get_current_cpu(GICState *s, MemTxAttrs attr=
-s)
-> >> >>  {
-> >> >> -    if (!qtest_enabled() && s->num_cpu > 1) {
-> >> >> -        return current_cpu->cpu_index;
-> >> >> -    }
-> >> >> -    return 0;
-> >> >> +    /*
-> >> >> +     * Something other than a CPU accessing the GIC would be a bug=
- as
-> >> >> +     * would a CPU index higher than the GICState expects to be
-> >> >> +     * handling
-> >> >> +     */
-> >> >> +    g_assert(attrs.requester_type =3D=3D MEMTXATTRS_CPU);
-> >> >> +    g_assert(attrs.requester_id < s->num_cpu);
-> >> >
-> >> > Would it be a QEMU bug, or a guest code bug ? If it's possible
-> >> > for the guest to mis-program a DMA controller to do a read that
-> >> > goes through this function, we shouldn't assert. (Whether that
-> >> > can happen will depend on how the board/SoC code puts together
-> >> > the MemoryRegion hierarchy, I think.)
+--000000000000362af405e9966a5e
+Content-Type: text/plain; charset="UTF-8"
+
+On Sat, Sep 24, 2022 at 2:10 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Sat, 24 Sept 2022 at 00:42, Patrick Venture <venture@google.com> wrote:
+> > On Thu, Sep 22, 2022 at 8:21 PM Jason Wang <jasowang@redhat.com> wrote:
 > >>
-> >> Most likely a QEMU bug - how would a DMA master even access the GIC?
-> >
-> > If it's mapped into the system address space, the same way
-> > as it does any memory access. For instance on the virt board
-> > we just map the distributor MemoryRegion straight into the
-> > system address space, and any DMA master can talk to it.
-> > This is of course not how the hardware really works (where
-> > the GIC is part of the CPU itself), but, as noted in previous
-> > threads, up-ending the MemoryRegion handling in order to be
-> > able to put the GIC only in the address space(s) that the CPU
-> > sees would be a lot of work, which is why we didn't try to
-> > solve the "how do you figure out which CPU is writing to the
-> > GIC" problem that way.
+> >> On Thu, Sep 22, 2022 at 8:35 PM Peter Maydell <peter.maydell@linaro.org>
+> wrote:
+> >> > A question to which I don't know the answer: if the guest writes to
+> >> > the device to change the MAC address, should that persist across
+> >> > reset, or should reset revert the device to the original MAC address
+> >> > as specified by the user on the command line or whatever ? At the
+> >> > moment you have the former behaviour (and end up storing the MAC
+> >> > address in two places as a result -- it would be neater to either
+> >> > keep it in only one place, or else have emc->regs[] be the current
+> >> > programmed MAC address and emc->conf.macaddr the value to reset to).
+> >> >
+> >> > I'm not sure we're consistent between device models about that,
+> >> > eg the e1000 seems to reset to the initial MAC addr, but the
+> >> > imx_fec keeps the guest-set value over resets. Jason, is there
+> >> > a recommended "right way" to handle guest-programmable MAC addresses
+> >> > over device reset ?
+> >>
+> >> I think it depends on the NIC.
+> >>
+> >> E1000 has a EEPROM interface for providing the MAC address for the
+> >> ethernet controller before it can be accessed by the driver during
+> >> reset. For modern Intel NICs like E810, it has similar semantics but
+> >> using NVM instead of EEPROM. So the current e1000 behaviour seems to
+> >> be correct (treat the initiali MAC as the one stored in the EEPROM).
+> >>
+> >> I guess most NIC should behave the same as having a persistent storage
+> >> for MAC for the controller during reset, but I'm not sure this is the
+> >> case for imx_fec.
 >
-> So hw_error?
+> > So the first time the NIC is realized, it should take the value from
+> > the command line.  Then later if the guest OS updates it, it should
+> > always on reset use that provided value?
+>
+> I think what Jason is suggesting is that that should depend on what
+> the real hardware does. On a physical board, if the guest sets the
+> MAC address, and then you power-cycle the hardware, does the MAC
+> that it set still persist after powercycle ? Does the guest writing
+> to these MAC registers correspond to writing to an EEPROM ?
+>
 
-That's just an assert by another name, and isn't any better.
+Thanks, Peter - we've reached out to the vendor off-list to seek out some
+details, I'll update this with a v2 when I get an answer.
 
-> I don't think there is a way we can safely continue unless we just want
-> to fallback to "it was vCPU 0 what did it".
 
-You can do that, or just make the whole memory transaction
-return 0, or return a suitable memtx error.
+>
+> thanks
+> -- PMM
+>
 
--- PMM
+--000000000000362af405e9966a5e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Sep 24, 2022 at 2:10 AM Peter=
+ Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
+ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Sat, 24 Sept 2022 at 00:42, Patrick Venture &lt;<a href=3D"mailto:=
+venture@google.com" target=3D"_blank">venture@google.com</a>&gt; wrote:<br>
+&gt; On Thu, Sep 22, 2022 at 8:21 PM Jason Wang &lt;<a href=3D"mailto:jasow=
+ang@redhat.com" target=3D"_blank">jasowang@redhat.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Thu, Sep 22, 2022 at 8:35 PM Peter Maydell &lt;<a href=3D"mailt=
+o:peter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&=
+gt; wrote:<br>
+&gt;&gt; &gt; A question to which I don&#39;t know the answer: if the guest=
+ writes to<br>
+&gt;&gt; &gt; the device to change the MAC address, should that persist acr=
+oss<br>
+&gt;&gt; &gt; reset, or should reset revert the device to the original MAC =
+address<br>
+&gt;&gt; &gt; as specified by the user on the command line or whatever ? At=
+ the<br>
+&gt;&gt; &gt; moment you have the former behaviour (and end up storing the =
+MAC<br>
+&gt;&gt; &gt; address in two places as a result -- it would be neater to ei=
+ther<br>
+&gt;&gt; &gt; keep it in only one place, or else have emc-&gt;regs[] be the=
+ current<br>
+&gt;&gt; &gt; programmed MAC address and emc-&gt;conf.macaddr the value to =
+reset to).<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; I&#39;m not sure we&#39;re consistent between device models a=
+bout that,<br>
+&gt;&gt; &gt; eg the e1000 seems to reset to the initial MAC addr, but the<=
+br>
+&gt;&gt; &gt; imx_fec keeps the guest-set value over resets. Jason, is ther=
+e<br>
+&gt;&gt; &gt; a recommended &quot;right way&quot; to handle guest-programma=
+ble MAC addresses<br>
+&gt;&gt; &gt; over device reset ?<br>
+&gt;&gt;<br>
+&gt;&gt; I think it depends on the NIC.<br>
+&gt;&gt;<br>
+&gt;&gt; E1000 has a EEPROM interface for providing the MAC address for the=
+<br>
+&gt;&gt; ethernet controller before it can be accessed by the driver during=
+<br>
+&gt;&gt; reset. For modern Intel NICs like E810, it has similar semantics b=
+ut<br>
+&gt;&gt; using NVM instead of EEPROM. So the current e1000 behaviour seems =
+to<br>
+&gt;&gt; be correct (treat the initiali MAC as the one stored in the EEPROM=
+).<br>
+&gt;&gt;<br>
+&gt;&gt; I guess most NIC should behave the same as having a persistent sto=
+rage<br>
+&gt;&gt; for MAC for the controller during reset, but I&#39;m not sure this=
+ is the<br>
+&gt;&gt; case for imx_fec.<br>
+<br>
+&gt; So the first time the NIC is realized, it should take the value from<b=
+r>
+&gt; the command line.=C2=A0 Then later if the guest OS updates it, it shou=
+ld<br>
+&gt; always on reset use that provided value?<br>
+<br>
+I think what Jason is suggesting is that that should depend on what<br>
+the real hardware does. On a physical board, if the guest sets the<br>
+MAC address, and then you power-cycle the hardware, does the MAC<br>
+that it set still persist after powercycle ? Does the guest writing<br>
+to these MAC registers correspond to writing to an EEPROM ?<br></blockquote=
+><div><br></div><div>Thanks, Peter - we&#39;ve reached out to the vendor of=
+f-list to seek out some details, I&#39;ll update this with a v2 when I get =
+an answer.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div></div>
+
+--000000000000362af405e9966a5e--
 
