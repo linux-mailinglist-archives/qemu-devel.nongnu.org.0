@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63125E9BB8
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 10:13:45 +0200 (CEST)
-Received: from localhost ([::1]:54568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECB45E9BE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 10:22:33 +0200 (CEST)
+Received: from localhost ([::1]:60776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocjFI-0001xK-Se
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 04:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56978)
+	id 1ocjNn-0006Nq-Qb
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 04:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ocjA2-0005QM-PK
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:08:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21170)
+ id 1ocjJI-0003Gj-M6
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:17:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ocj9u-0003qO-UP
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:08:16 -0400
+ id 1ocjJA-0005TS-C1
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:17:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664179688;
+ s=mimecast20190719; t=1664180261;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=vkbt7Z1pi2n7ZjJkQ1uj+VoJgme4DlixzPMjkHs48vQ=;
- b=idDsf3iClgXK6D2A3RW61p3MxJfK9l94Zq1FPOEWbqvtznIFPj5FtjZu/l0vTvshsAPxhJ
- nGth6FBSp1TMhzTTw/VQBw3R0QDPIbzf99KGv8F6aob7zNzx+8GML5tc0vnVWURdcx/g17
- 8E9rtUAyjRj+Mn0eYmosDhBPhEKVABA=
+ bh=OB5IGlS133L4OkQQ8dFyesfex3bEBrtmEj2WcixXX2k=;
+ b=GC4WcVV+ZiqPApJRfs0fdNDMFVz2rPYRfZJ4Gjd57LexsKVO10s1sWAUMkIb2/H+uXszlj
+ KrhP36/XzajWiqp2IlBATf/JtlD4FfkJ3YQkGumovph4LE1PHV58jJ+HxBqLUsxzYZwEro
+ 9hPfp4kX1npcdqZDizF1+BlF7SEYlsM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-QctuRKFGPemi0vgaDSIwAQ-1; Mon, 26 Sep 2022 04:08:07 -0400
-X-MC-Unique: QctuRKFGPemi0vgaDSIwAQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-668-AoPAzbGhMSSPXyETjDfADg-1; Mon, 26 Sep 2022 04:17:37 -0400
+X-MC-Unique: AoPAzbGhMSSPXyETjDfADg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CED88185A794;
- Mon, 26 Sep 2022 08:08:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 142F8101A528;
+ Mon, 26 Sep 2022 08:17:37 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.136])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E74CC40C6EC2;
- Mon, 26 Sep 2022 08:08:05 +0000 (UTC)
-Date: Mon, 26 Sep 2022 09:08:03 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CA14492CA2;
+ Mon, 26 Sep 2022 08:17:36 +0000 (UTC)
+Date: Mon, 26 Sep 2022 09:17:33 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+To: John Snow <jsnow@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
  qemu-devel <qemu-devel@nongnu.org>,
  Peter Maydell <peter.maydell@linaro.org>
 Subject: Re: Maximum QMP reply size
-Message-ID: <YzFd44GS6Ad0DNis@redhat.com>
+Message-ID: <YzFgHRkaTymb9NnR@redhat.com>
 References: <CAFn=p-ZkKLQtYAwzkQb7srFf_fF8ij+g5wkZiRofx4U+kSZ7Rw@mail.gmail.com>
  <87v8pzwgbm.fsf@pond.sub.org>
+ <CAFn=p-bR8BZ_7D+GiLAqO83ACxKNDg6+pZC0smZjYVFc_Y7viw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87v8pzwgbm.fsf@pond.sub.org>
+In-Reply-To: <CAFn=p-bR8BZ_7D+GiLAqO83ACxKNDg6+pZC0smZjYVFc_Y7viw@mail.gmail.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -65,8 +66,8 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,64 +84,102 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 07, 2022 at 01:54:05PM +0200, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
-> > Hi, I suspect I have asked this before, but I didn't write it down in
-> > a comment, so I forget my justification...
+On Fri, Sep 23, 2022 at 03:51:48PM -0400, John Snow wrote:
+> On Wed, Sep 7, 2022 at 7:54 AM Markus Armbruster <armbru@redhat.com> wrote:
 > >
-> > In the QMP lib, we need to set a buffering limit for how big a QMP
-> > message can be -- In practice, I found that the largest possible
-> > response was the QAPI schema reply, and I set the code to this:
+> > John Snow <jsnow@redhat.com> writes:
 > >
-> >     # Maximum allowable size of read buffer
-> >     _limit = (64 * 1024)
+> > > Hi, I suspect I have asked this before, but I didn't write it down in
+> > > a comment, so I forget my justification...
+> > >
+> > > In the QMP lib, we need to set a buffering limit for how big a QMP
+> > > message can be -- In practice, I found that the largest possible
+> > > response was the QAPI schema reply, and I set the code to this:
+> > >
+> > >     # Maximum allowable size of read buffer
+> > >     _limit = (64 * 1024)
+> > >
+> > > However, I didn't document if this was a reasonable limit or just a
+> > > "worksforme" one. I assume that there's no hard limit for the protocol
+> > > or the implementation thereof in QEMU. Is there any kind of value here
+> > > that would be more sensible than another?
+> > >
+> > > I'm worried that if replies get bigger in the future (possibly in some
+> > > degenerate case I am presently unaware of) that the library default
+> > > will become nonsensical.
+> > >
+> > > Any pointers/tips?
 > >
-> > However, I didn't document if this was a reasonable limit or just a
-> > "worksforme" one. I assume that there's no hard limit for the protocol
-> > or the implementation thereof in QEMU. Is there any kind of value here
-> > that would be more sensible than another?
+> > Peter and Daniel already provided some.  I can add a bit of insight into
+> > how QMP output works in QEMU, which may or may not help you.
 > >
-> > I'm worried that if replies get bigger in the future (possibly in some
-> > degenerate case I am presently unaware of) that the library default
-> > will become nonsensical.
+> > QEMU executes one command after the other.  A command's response
+> > (success or failure) is a QDict.  Which is then formatted as JSON and
+> > appended to the monitor's output buffer.
 > >
-> > Any pointers/tips?
+> > Events work similarly.
+> >
+> > The conversion to JSON does not limit the resulting string's size.  If
+> > it runs out of memory, QEMU dies.
+> >
+> > The output buffer is also unbounded.  It drains into the monitor's
+> > character device.
+> >
+> > If the QMP client sends enough commands without reading their responses,
+> > QEMU can run out of memory and die.
+> >
+> > Now I'm ready to go back to your question, which is about a *single*
+> > message (QMP command response or event): nothing in QEMU limits the size
+> > of the QMP output message text.
+> >
+> > Weak consolation: I guess QEMU is somewhat likely to run out of memory
+> > and die before your client software does.  That's because QDict is a
+> > pig: an empty one eats 4120 Bytes on my system.  Compares unfavourable
+> > to its text representation "{}".
+> >
 > 
-> Peter and Daniel already provided some.  I can add a bit of insight into
-> how QMP output works in QEMU, which may or may not help you.
+> (Oops, I realize that my response was never sent, sending that now:)
 > 
-> QEMU executes one command after the other.  A command's response
-> (success or failure) is a QDict.  Which is then formatted as JSON and
-> appended to the monitor's output buffer.
+> Thanks for the responses, everyone.
 > 
-> Events work similarly.
-> 
-> The conversion to JSON does not limit the resulting string's size.  If
-> it runs out of memory, QEMU dies.
-> 
-> The output buffer is also unbounded.  It drains into the monitor's
-> character device.
-> 
-> If the QMP client sends enough commands without reading their responses,
-> QEMU can run out of memory and die.
-> 
-> Now I'm ready to go back to your question, which is about a *single*
-> message (QMP command response or event): nothing in QEMU limits the size
-> of the QMP output message text.
-> 
-> Weak consolation: I guess QEMU is somewhat likely to run out of memory
-> and die before your client software does.  That's because QDict is a
-> pig: an empty one eats 4120 Bytes on my system.  Compares unfavourable
-> to its text representation "{}".
+> I think I will leave it at 64KB for now, but the limit is absolutely
+> configurable; I will just document what the limit is and document how
+> to change it in the case you want to use QMP to do some really heavy
+> lifting. In practice, there's no unit test in our tree currently that
+> seems to blow through the 64KB, but I'll just make sure to pay some
+> attention to it in the docs.
+>
+> ... Or, maybe I'll set it to 10MB to match libvirt ("Well, it's good
+> enough for this other project" is always a fantastic justification),
+> but I need to profile how Python actually behaves in this case. If
+> it's just an upper-bound, I think that's no problem at all.
 
-A malicious QEMU that's trying to attack the mgmt software client
-wouldn't need to use QDict, so that's only consolation against
-accidents. An evil QEMU would just write JSON directly onto the
-monitor chardev. It wouldn't even have to be well formed JSON,
-as it could just start a string and never end it.
+I feel like we should have a spec update that gives some guidance for
+conforming impls in a few areas now. The current spec as written is
+quite flexible, but in practice impls have made some assumptions to
+simplify life, and we ought to try to include those as recomendations
+to keep alignment. I feel this is especially valuable now that we're
+talking about providing many official QEMU language bindings. On my
+list so far I see
 
- {"blah..repeated for 1 TB for data...."
+  1. Maximum message size
+  2. Maximum structure nesting
+  2. Messages terminated by a newline
+
+
+> PS: After reading further discussion that has happened since: The
+> problem is the readline buffer size in Python; since we don't have a
+> "streaming" JSON parser, we rely on readline to get "the next chunk of
+> data", and that buffer has a limit it adheres to. It is possible that
+> in the future if we switch to a different parsing method that this
+> limit would "go away", but it's not clear that this is a great idea.
+> In practice, it's probably reasonable that the client dies on input of
+> a certain size. Probably.
+
+AFAIK, the readline method does not limit itself by default, it will
+just read until newline. It is unsafe to use readline on untrusted
+input sources unless you pass the 'limit' parameter to set an upper
+limit for line length.
 
 With regards,
 Daniel
