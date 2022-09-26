@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A9F5EA84A
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:23:11 +0200 (CEST)
-Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B25BF5EA867
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:30:20 +0200 (CEST)
+Received: from localhost ([::1]:35814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocp0o-0001md-80
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:23:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48182)
+	id 1ocp7j-0004KB-Ns
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:30:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocoKH-00021V-Ht
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:39:14 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50833)
+ id 1ocoKH-00021Z-R4
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:39:15 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocoKD-0005eR-Kx
+ id 1ocoKE-0005eg-Q8
  for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:39:13 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id ay36so4546363wmb.0
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:39:09 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id cc5so10284043wrb.6
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:39:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=8kZr1rxByNkxMPVyKr7Y5lFL0hfWuti5PLDqMUepXx8=;
- b=ndwy5+eZkVYESsES7LBxBD3/B8G371rAOcNuqnAtAQ9nxRsUWFxCrTizlD0qkJKV3Q
- a51WtnaAehNkkWxwddzKW06t24i0AFDJSspiXJn3Y9pH1KB/OtLzdntSC+QKPeccGRAo
- vKpuh5zotD58D2Qr0t0AS1Nh5iXGql8mBF2/7ZjPZf2+7z/i4f/WcmXlqVkoQFqkZt9j
- AprIBjCtmAc/LxlXFD4tX58lYFU7zZxzKgFpNWdL6ehav4fcfCzgYCF8KdIOPeKO4K1q
- HFZvtTb0i7+tEkLianYZuy8x0+x9A/FMAdZ/Vi9eqLti5aToR6huOu0shV0jXGm787TH
- PCXw==
+ bh=Wq3HlctCe78yvKE2dJl/lmSv5/GtdmA9RfU6fehuz/0=;
+ b=nbf0JDLCbS7Mk6WEjkuhwiaJen9kjRaVw/QmaQWthNEq2ISdDRy1Lmux/vPiJYTJg7
+ 6LYrpPpF/f9fmLjyPIXdPWKROZJgCUc9QrtSGCMgM2euWeSObgjcKM7morAdA7WDPRPE
+ w94t9OPUO856dscvookhz0waI/JRSkWOQNImLJshWvSDkOSzQ13VpRUhwexIEJ80dHAv
+ cOYDlrdLGr37Ci+NhQTvcrQ1FVVz1t5H22H+U/chzE3FTKt2FdbljQPnL3auWx4z2ip4
+ Q+c/c2GvYPS4rbBTzU4Jyaxv0zp4LC2HcejtsifBhxJhse/oUUl30JHoanGqbEX2+nX8
+ 877w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=8kZr1rxByNkxMPVyKr7Y5lFL0hfWuti5PLDqMUepXx8=;
- b=vajlz7lOWUyDiEtOJ+a4y9YG//Hx+njwJa2fc3/29VJ7o3tW9XqGpXgkp3AR123G5R
- obA/+eyj71YY69dtvdfUGMthcab8bHyucsqwB/KGOvSAxn8K7ouPKsbLwfQypEgJTDnz
- yiMQRHC3azYgsagiD8Yz4XgsMsfPicJF/8v9PGdcNibuE50pNubgv/0xVNmP4PzedtzZ
- pLkyn56d2WvuqIgUuoFmHXZnHgvshhkrUBNiWLoDi5esevwG2YBA7OfFqTyytkNw7HYx
- aEVh98udeZcn3mmOZm9YhDf/SCtq6GehhYrIYXGZpRfDQPSZ8k5GkzIma4eqezf7VLct
- oSMA==
-X-Gm-Message-State: ACrzQf00E/QQFVkDC5pBLO09gPezNKjbaRrE40WYQb/tr0H7HnljxpY8
- yX3KpIKd6HBiGtdpvVsI7N0egA==
-X-Google-Smtp-Source: AMsMyM7dbdCYkaWmwzivaS0FEb0uVnCL4AEq6KBg94oPwEGSVT61+6CpLFep3cfcDxzRw15czzjYgw==
-X-Received: by 2002:a05:600c:a07:b0:3ab:945:77c4 with SMTP id
- z7-20020a05600c0a0700b003ab094577c4mr22167987wmp.97.1664199548086; 
- Mon, 26 Sep 2022 06:39:08 -0700 (PDT)
+ bh=Wq3HlctCe78yvKE2dJl/lmSv5/GtdmA9RfU6fehuz/0=;
+ b=NjOg9cr5eur5LaE6oS7FLzJbgY57Ec/ZZu5BaN9QDR79N0A5rYpi0JpdMxanBOS+mQ
+ oYiuqjAcy5EWdUdoOzOU7kkWoFNutrxyVgyH659rYvEcPYZr3TJ+dBicutzC6y2oAOgp
+ n5J6DiYaPPF+F7RAd1IqBI9HS/WfhDdawHsXWZ89OnHTQzT7eZMk5sPBSJd+nrLbLSNL
+ GItQ/el2emIeczXNWT5yPZY8zAeDuV3td2uZYKn4tThrfxRMOYlF9HyZp0phrN8i1FNf
+ Md0mzx8LPJo1AP2LNXjBDqlIyCgA426+gww8BjOhCxXTBAGwpiqqZicXZT48oXraCbS9
+ BIiw==
+X-Gm-Message-State: ACrzQf0gSeBRqQ4jaMF53kuxvWxxLds+81rls3LEMy/67SbR9n0LZg+R
+ BsWpLRbc63xbedEGWCVTawMJRQ==
+X-Google-Smtp-Source: AMsMyM4647eYqlDR8NdhuI7BA2qKtUTOe3rg4rPtEs5cpAgxgmiReIjpar002Qum1RL6mhxHCgGwTw==
+X-Received: by 2002:a05:6000:15c2:b0:228:dc85:d1b0 with SMTP id
+ y2-20020a05600015c200b00228dc85d1b0mr13467958wry.9.1664199549054; 
+ Mon, 26 Sep 2022 06:39:09 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- i6-20020a05600c354600b003b47b80cec3sm11918658wmq.42.2022.09.26.06.39.05
+ h6-20020a05600c2ca600b003b4c40378casm11773005wmc.39.2022.09.26.06.39.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 06:39:05 -0700 (PDT)
+ Mon, 26 Sep 2022 06:39:07 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F34651FFBB;
- Mon, 26 Sep 2022 14:39:04 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 16B9E1FFBC;
+ Mon, 26 Sep 2022 14:39:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: f4bug@amsat.org, mads@ynddal.dk, qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Alexander Graf <agraf@csgraf.de>, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 03/11] target/arm: ensure HVF traps set appropriate
- MemTxAttrs
-Date: Mon, 26 Sep 2022 14:38:56 +0100
-Message-Id: <20220926133904.3297263-4-alex.bennee@linaro.org>
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2 04/11] qtest: make read/write operation appear to be from
+ CPU
+Date: Mon, 26 Sep 2022 14:38:57 +0100
+Message-Id: <20220926133904.3297263-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220926133904.3297263-1-alex.bennee@linaro.org>
 References: <20220926133904.3297263-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,36 +97,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As most HVF devices are done purely in software we need to make sure
-we properly encode the source CPU in MemTxAttrs. This will allow the
-device emulations to use those attributes rather than relying on
-current_cpu (although current_cpu will still be correct in this case).
+The point of qtest is to simulate how running code might interact with
+the system. However because it's not a real system we have places in
+the code which especially handle check qtest_enabled() before
+referencing current_cpu. Now we can encode these details in the
+MemTxAttrs lets do that so we can start removing them.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Mads Ynddal <mads@ynddal.dk>
-Cc: Alexander Graf <agraf@csgraf.de>
----
- target/arm/hvf/hvf.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index 060aa0ccf4..13b7971560 100644
---- a/target/arm/hvf/hvf.c
-+++ b/target/arm/hvf/hvf.c
-@@ -1233,11 +1233,11 @@ int hvf_vcpu_exec(CPUState *cpu)
-             val = hvf_get_reg(cpu, srt);
-             address_space_write(&address_space_memory,
-                                 hvf_exit->exception.physical_address,
--                                MEMTXATTRS_UNSPECIFIED, &val, len);
-+                                MEMTXATTRS_CPU(cpu->cpu_index), &val, len);
-         } else {
-             address_space_read(&address_space_memory,
-                                hvf_exit->exception.physical_address,
--                               MEMTXATTRS_UNSPECIFIED, &val, len);
-+                               MEMTXATTRS_CPU(cpu->cpu_index), &val, len);
-             hvf_set_reg(cpu, srt, val);
+---
+v2
+  - use a common macro instead of specific MEMTXATTRS_QTEST
+v3
+  - macro moved to earlier
+---
+ softmmu/qtest.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+index f8acef2628..3aa2218b95 100644
+--- a/softmmu/qtest.c
++++ b/softmmu/qtest.c
+@@ -520,22 +520,22 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+ 
+         if (words[0][5] == 'b') {
+             uint8_t data = value;
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index),
+                                 &data, 1);
+         } else if (words[0][5] == 'w') {
+             uint16_t data = value;
+             tswap16s(&data);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index),
+                                 &data, 2);
+         } else if (words[0][5] == 'l') {
+             uint32_t data = value;
+             tswap32s(&data);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index),
+                                 &data, 4);
+         } else if (words[0][5] == 'q') {
+             uint64_t data = value;
+             tswap64s(&data);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index),
+                                 &data, 8);
+         }
+         qtest_send_prefix(chr);
+@@ -554,21 +554,21 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+ 
+         if (words[0][4] == 'b') {
+             uint8_t data;
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index),
+                                &data, 1);
+             value = data;
+         } else if (words[0][4] == 'w') {
+             uint16_t data;
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index),
+                                &data, 2);
+             value = tswap16(data);
+         } else if (words[0][4] == 'l') {
+             uint32_t data;
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index),
+                                &data, 4);
+             value = tswap32(data);
+         } else if (words[0][4] == 'q') {
+-            address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_read(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index),
+                                &value, 8);
+             tswap64s(&value);
+         }
+@@ -589,7 +589,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         g_assert(len);
+ 
+         data = g_malloc(len);
+-        address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_read(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index), data,
+                            len);
+ 
+         enc = g_malloc(2 * len + 1);
+@@ -615,7 +615,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         g_assert(ret == 0);
+ 
+         data = g_malloc(len);
+-        address_space_read(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_read(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index), data,
+                            len);
+         b64_data = g_base64_encode(data, len);
+         qtest_send_prefix(chr);
+@@ -650,7 +650,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+                 data[i] = 0;
+             }
+         }
+-        address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_write(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index), data,
+                             len);
+         g_free(data);
+ 
+@@ -673,7 +673,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         if (len) {
+             data = g_malloc(len);
+             memset(data, pattern, len);
+-            address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED,
++            address_space_write(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index),
+                                 data, len);
+             g_free(data);
+         }
+@@ -707,7 +707,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+             out_len = MIN(out_len, len);
          }
  
+-        address_space_write(first_cpu->as, addr, MEMTXATTRS_UNSPECIFIED, data,
++        address_space_write(first_cpu->as, addr, MEMTXATTRS_CPU(first_cpu->cpu_index), data,
+                             len);
+ 
+         qtest_send_prefix(chr);
 -- 
 2.34.1
 
