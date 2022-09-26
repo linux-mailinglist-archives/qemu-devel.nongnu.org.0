@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38F25EAF4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 20:11:42 +0200 (CEST)
-Received: from localhost ([::1]:38456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ECDD5EAF6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 20:17:43 +0200 (CEST)
+Received: from localhost ([::1]:38062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocsZw-0001v5-UU
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 14:11:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49792)
+	id 1ocsfm-0007Pp-4I
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 14:17:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org>)
- id 1ocrbV-0006Mi-Lw
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:09:13 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:45922)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org>)
- id 1ocrbT-0005eL-7K
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:09:13 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B72B1B80AD9
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 17:09:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3002AC433C1
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 17:09:06 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="a9/BtV31"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664212144;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mMILdeMHxEpKlFchIgasxuEW8ZX4KifeK31b7eN5JZk=;
- b=a9/BtV31Sbf2IODg8eu00HAYtnzYNhHhmWf2BBKcvZx/YDnyhHnP5rNFgOc7MPQogXsKK7
- kQkQWLXMpGsmyBuAmTxFvgXFm5xdC5kr0tBmVE0IJfW+x5zUQ8BGsEPWpUcSyqJ48tw/q7
- JdElYWNytXCSsWjAwzPqk1GuUAy+x1s=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 766aeaf5
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Mon, 26 Sep 2022 17:09:04 +0000 (UTC)
-Received: by mail-vs1-f45.google.com with SMTP id o123so7250166vsc.3
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 10:09:04 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3j8ttUvxQJCEOCKrdcQ7oUT+fHsPVKUe5YcCkdumb/NS7qnocY
- uM0slyQxDbilsuB/P87RjDX72ONXpKn92FakQz4=
-X-Google-Smtp-Source: AMsMyM5L0PVUjSyF6RE40bTkvdlht524RYcFzQxqjHcwTudCraGcRyTCTFVtUEl6x81e6iW4NqVlp5bKqnLt37OWHW4=
-X-Received: by 2002:a05:6102:2908:b0:398:ac40:d352 with SMTP id
- cz8-20020a056102290800b00398ac40d352mr7487910vsb.55.1664212143339; Mon, 26
- Sep 2022 10:09:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ocrbu-0006dU-IP; Mon, 26 Sep 2022 13:09:38 -0400
+Received: from mail-oo1-xc2a.google.com ([2607:f8b0:4864:20::c2a]:37498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1ocrbs-0005ge-PO; Mon, 26 Sep 2022 13:09:38 -0400
+Received: by mail-oo1-xc2a.google.com with SMTP id
+ h1-20020a4aa741000000b004756c611188so1212974oom.4; 
+ Mon, 26 Sep 2022 10:09:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=eM7P3GHw0+Z3glCjhmaeRMrAfz8YMLy4SrjY5kGnkoY=;
+ b=TQQ35FRYo+Ki0oE0V4Lt94i8B1ViExUhCJlvPsen7R3eqNFJAGbeZGbRoZQW2UMkB3
+ BfAPSyS6cCXrcr+7Z8iKl/rNibRyDYPoWMdd3kddmMjK0fhotqhbibV/6py/H+ZpjLY1
+ n/3ONXkU1yiWpADr7SPAep/Sm0zyr0MzyQXB3AYXnHD5SdsX5Ea2Oce5XoFRo+ACQW6P
+ 31PIewzt7tiH1GymQ8vaAEmyDgEuSLE6Y44P7JumMrq8Z1fd+9kFbt2qDw5gXUpPoPr3
+ 1UCVSXiJUIyxMyqdkgZD2IOsm/sm1AxrMokAvVVssHUGYNtQ4mjem1ia/mFeqhcjkR0W
+ mZ0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=eM7P3GHw0+Z3glCjhmaeRMrAfz8YMLy4SrjY5kGnkoY=;
+ b=tFY/F7agW5XIcL6CdvDr2zy5o5HTdgBE/GDaVFF85Kw64VEz+PJnt7W33YtsB6g1dE
+ xpjkvH9yapxDTxyklBgN/G+C7KHYcXuRNv2KKjJGfdumF2q3IrG7zB3nUV9Uy9wjdMjO
+ VURS9Aft8TZzC/7Ovh2Zd23Rt4/8ej0nkczIlWc61qF2NKqFsUphqZhX4FYimr01DBML
+ I0y666sd9A0P1b/h/zjjBi5Upb5uEz+AHZ1OchdioS6yEjSlScDSzmzQBMEoi6gg63rh
+ 4TN2e5B6V0MVyD0iPT87YBs6N5rTFVKci9nAsY4aZW4YkBOsd2T169t0JcKVoOOypctu
+ JE2Q==
+X-Gm-Message-State: ACrzQf1jux6ELrrchUG6b18GdeQJADSjxNy2lA9RNbRXY0ehPZthQca3
+ qpC/Nl2zPrefHs7ZVBIiOcY=
+X-Google-Smtp-Source: AMsMyM5qNnOB4zAzmp+5eL3N7JyEv/w06BeUdh1xgSg7joZ2amlhbSKkzaoA+0konPxAjwjmT0TOiA==
+X-Received: by 2002:a4a:1507:0:b0:475:ec9f:aae9 with SMTP id
+ 7-20020a4a1507000000b00475ec9faae9mr9252600oon.8.1664212174013; 
+ Mon, 26 Sep 2022 10:09:34 -0700 (PDT)
+Received: from [192.168.10.102] (189-68-154-15.dsl.telesp.net.br.
+ [189.68.154.15]) by smtp.gmail.com with ESMTPSA id
+ g20-20020a544f94000000b00344f28a7a4csm5263489oiy.22.2022.09.26.10.09.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Sep 2022 10:09:33 -0700 (PDT)
+Message-ID: <6ad5fa00-ac5c-3fd9-48fd-c2cb93daeb21@gmail.com>
+Date: Mon, 26 Sep 2022 14:09:30 -0300
 MIME-Version: 1.0
-References: <20220922152847.3670513-1-Jason@zx2c4.com>
- <CAHmME9oOSwx5hJBap-rbgxJrXZ7vfpPnzCymKfDt69RsNrBJyw@mail.gmail.com>
- <CABgObfbBMVnn29uwQETFUSCKQybzzHKRsL6EEq=-sK663dwxew@mail.gmail.com>
- <YzHQ8PnBS/FM3aEh@zx2c4.com>
- <CAFEAcA-Tg-mTqe4BwGxuETOkO0ntnUwqvda+-CQ2hjdZqHJ4aw@mail.gmail.com>
-In-Reply-To: <CAFEAcA-Tg-mTqe4BwGxuETOkO0ntnUwqvda+-CQ2hjdZqHJ4aw@mail.gmail.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Mon, 26 Sep 2022 19:08:52 +0200
-X-Gmail-Original-Message-ID: <CAHmME9pLfE0wcFcaT=wOWAnX8GgJW=L4tqixkz0AbBVoCfWttQ@mail.gmail.com>
-Message-ID: <CAHmME9pLfE0wcFcaT=wOWAnX8GgJW=L4tqixkz0AbBVoCfWttQ@mail.gmail.com>
-Subject: Re: [PATCH] x86: re-initialize RNG seed when selecting kernel
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=WzR3=Z5=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v6 00/25] ppc4xx_sdram QOMify and clean ups
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, Peter Maydell <peter.maydell@linaro.org>
+References: <cover.1664021647.git.balaton@eik.bme.hu>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <cover.1664021647.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2a.google.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,44 +94,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Zoltan,
 
-On Mon, Sep 26, 2022 at 7:05 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Mon, 26 Sept 2022 at 17:53, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> > On both x86 and dtb-based archs, the seed in memory is zeroed out by the
-> > kernel after reading. So, as far as the guest is concerned, there's
-> > forward secrecy. Except! Except if the guest has someway of
-> > re-requesting that seed from the host. This patch prevents that from
-> > happening through fw_cfg on x86. Somebody told me last week that device
-> > tree archs don't use fw_cfg, so this won't be a problem there. I haven't
-> > yet looked to verify that yet, though, or looked if there are other
-> > mechanisms.
->
-> I am leaping in here with no context, so I may well have
-> the wrong end of the stick, but:
->
-> "does this system have a fw_cfg device" and "does this system
-> pass a device tree to the kernel" are orthogonal questions:
->
->  fw_cfg, no device tree: classic x86 pc; arm virt board when
->    booting UEFI firmware in the guest
->  fw_cfg, device tree: arm virt board booting a kernel directly
->  no fw_cfg, device tree: arm vexpress-a15 board (or any other
->    just-emulating-hardware machine type)
->  no fw_cfg, no device tree: arm sbsa-ref board (and probably
->    lots of non-arm architecture machines too)
+I've started to push some patches to ppc-next. Patches 1-13 are already pushed
+and I'm running tests on patches 14-17. Assuming everything is ok we'll be
+left with patches 18-25 to work on.
 
-Okay it sounds like I've got to look into this indeed (as my "yet" in
-the previous message suggested). Specifically, the case relevant to
-this discussion is device tree that goes through fw_cfg. I've got a
-few other investigations I'd like to do over there anyway (looking
-into how reboots work), so I'll send a series for that when I've got
-things worked out.
 
-For the time being, though, this x86 work here is independent of that.
-But I suppose you can expect to hear from me not before long about
-device tree things.
+Thanks,
 
-Jason
+
+Daniel
+
+On 9/24/22 09:27, BALATON Zoltan wrote:
+> This is the end of the QOMify series started by Cédric. This series
+> handles the SDRAM controller models to clean them up, QOMify and unify
+> them and at least partially clean up the mess that has accumulated
+> around these in the past. This includes the not yet merged patches
+> from the last series and new ones that change the DDR2 version used by
+> sam460ex.
+> 
+> v6: Split patch moving sdram controller models together into smaller steps
+> v5: Add functions the enable sdram controller and call it from boards
+> v4: address more review comments
+> v3: Fix patches that got squashed during rebase
+> v2: address some review comments and try to avoid compile problem with
+> gcc 12.2 (untested)
+> 
+> BALATON Zoltan (25):
+>    ppc440_bamboo: Remove unnecessary memsets
+>    ppc4xx: Introduce Ppc4xxSdramBank struct
+>    ppc4xx_sdram: Get rid of the init RAM hack
+>    ppc4xx: Use Ppc4xxSdramBank in ppc4xx_sdram_banks()
+>    ppc440_bamboo: Add missing 4 MiB valid memory size
+>    ppc4xx_sdram: Move size check to ppc4xx_sdram_init()
+>    ppc4xx_sdram: QOM'ify
+>    ppc4xx_sdram: Drop extra zeros for readability
+>    ppc440_sdram: Split off map/unmap of sdram banks for later reuse
+>    ppc440_sdram: Implement enable bit in the DDR2 SDRAM controller
+>    ppc440_sdram: Get rid of the init RAM hack
+>    ppc440_sdram: Rename local variable for readability
+>    ppc4xx_sdram: Rename functions to prevent name clashes
+>    ppc440_sdram: Move RAM size check to ppc440_sdram_init
+>    ppc440_sdram: QOM'ify
+>    ppc440_uc.c: Move some macros to ppc4xx.h
+>    ppc440_uc.c: Remove unneeded parenthesis
+>    ppc440_uc.c: Move DDR2 SDRAM controller model to ppc4xx_sdram.c
+>    ppc4xx_devs.c: Move DDR SDRAM controller model to ppc4xx_sdram.c
+>    ppc4xx_sdram: Move ppc4xx_sdram_banks() to ppc4xx_sdram.c
+>    ppc4xx_sdram: Use hwaddr for memory bank size
+>    ppc4xx_sdram: Rename local state variable for brevity
+>    ppc4xx_sdram: Generalise bank setup
+>    ppc4xx_sdram: Convert DDR SDRAM controller to new bank handling
+>    ppc4xx_sdram: Add errp parameter to ppc4xx_sdram_banks()
+> 
+>   hw/ppc/meson.build      |   3 +-
+>   hw/ppc/ppc405.h         |   8 +-
+>   hw/ppc/ppc405_boards.c  |  13 +-
+>   hw/ppc/ppc405_uc.c      |  33 +-
+>   hw/ppc/ppc440.h         |   4 -
+>   hw/ppc/ppc440_bamboo.c  |  25 +-
+>   hw/ppc/ppc440_uc.c      | 267 +-------------
+>   hw/ppc/ppc4xx_devs.c    | 413 ----------------------
+>   hw/ppc/ppc4xx_sdram.c   | 753 ++++++++++++++++++++++++++++++++++++++++
+>   hw/ppc/sam460ex.c       |  44 +--
+>   hw/ppc/trace-events     |   1 +
+>   include/hw/ppc/ppc4xx.h |  65 +++-
+>   12 files changed, 859 insertions(+), 770 deletions(-)
+>   create mode 100644 hw/ppc/ppc4xx_sdram.c
+> 
 
