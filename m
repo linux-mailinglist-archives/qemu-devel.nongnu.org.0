@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F4CC5EB444
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 00:11:19 +0200 (CEST)
-Received: from localhost ([::1]:33068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1305C5EB45E
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 00:13:20 +0200 (CEST)
+Received: from localhost ([::1]:36702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocwJq-0000Ee-CE
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 18:11:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34520)
+	id 1ocwLn-0001es-0j
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 18:13:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocwG6-0002b8-FE
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 18:07:26 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:36712)
+ id 1ocwG8-0002c8-1y
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 18:07:28 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:46908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ocwG4-0001Ei-GM
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 18:07:25 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id e18so10911818edj.3
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 15:07:24 -0700 (PDT)
+ id 1ocwG6-0001Em-AJ
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 18:07:27 -0400
+Received: by mail-ej1-x635.google.com with SMTP id bj12so16948133ejb.13
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 15:07:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=gAhjFF9CTG++Ni0LFTwz2boqz9kxh59OlZWhEiSUIjM=;
- b=UJbODnvf7zbCgFYr+xZtpblJ/FBUWkaVGHGjyxSKuaSz5ZpOEwllsecZj8WlVNgErD
- galNE8uUscBaveVCEhex8H5nVjQeGrZxEtQ4wm/q8Tq7VxaGziCZDb9+BiXefuKv5qrB
- BKLwAeLE3l1X16bLvri7WsFT2utDkXsSj6HJvQU85YFXjO7cuVwDJaI58s8Sgbf9+TIB
- TU56DzR5LooUqIHFWiuFGzmciMiYmepyba5LRkKmcB8m6BeZDhN2uHvbngVxOBZnK3Fp
- Lgec+ukZcbpvj3sAeoUJaGAurReT9WJoW6NXZdN86zw/Lqujt6xREHn01uUh4dP52MSX
- 5FFA==
+ bh=V2NaqWqTWERW8QWjllM1Xv601/uEFNufNhrG5S8QsY4=;
+ b=ERfRbQ08SCyY3scdS+S2b8IGIPBuiAm5XNJr5TtHJu9ryzZpnskpM9if/HP5rhcuBC
+ Wapd3zQn30NDjcSFX8kG91ovvBhvCeVTN2IhTeRsVS0youWSubr701TcpV1CbqPbQ5qZ
+ 3tKuoJ4FMgD9/FpCLdwMI7FzQvlY45AHmqNsghBymmETKyUil6+jA05AV5tlf+bf/KuO
+ Z6Me6F6FM4AJ1j0vtoRTP93cmTBusoHY8h9wA+NhVWZXmbCr1X3Y0qVWzPtPf9RqOXvl
+ dhLtlvSFCoSJT50CfR/BQsME+YvxYj91w4HyQizlXxaumbyb+2wcOtt7F3lLVVfh2PEm
+ csFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=gAhjFF9CTG++Ni0LFTwz2boqz9kxh59OlZWhEiSUIjM=;
- b=c7caUb665aFB0NMR4EqvEQZ+3jB5sWBeMO9yifFPWcH0U6TxrrZSSTxaIJd+rTmDbQ
- yfyLDwvld+wDJC95POnZidxdtsCUcUJYOAFs3q0lizJ0jad5yxcVbj+VhYrjGNQdDSha
- t4ljdmQTdWMPcJiwO2aGihndkH06iy9xKpgN+2dYRmBTTV+jZi5RijU0QR22nOfbEANY
- mWjNJldRVkFcfomGLDuoho+9oUvKZSDs1xd+/1BnGOnuggXjFPqdrMdc8GWXXAIp/JME
- 4+8g/ZuVqAPM7o0FIQ7th6Ovtwu90rWSr/E6MkY5QuUyjPnPXQfPlF4mFKlzDDwyMxsP
- N5Jg==
-X-Gm-Message-State: ACrzQf2LPUmK4wo9gxvILL7sdgaH5AroFtvfm/ikzii1xKjH29MqnHZw
- psf79pagVP/L9ndSDCqXGXh4JA==
-X-Google-Smtp-Source: AMsMyM7BOKTWI4KI0T/vGMSZ6ESezuIJJQagxkTQpSCY0y15EHpCb0zeQv8cgYJoC134a2gAg+xoOA==
-X-Received: by 2002:a05:6402:847:b0:453:944a:ba8e with SMTP id
- b7-20020a056402084700b00453944aba8emr24246519edz.326.1664230041682; 
- Mon, 26 Sep 2022 15:07:21 -0700 (PDT)
+ bh=V2NaqWqTWERW8QWjllM1Xv601/uEFNufNhrG5S8QsY4=;
+ b=tIKHXi4m1CSe0rVgAw6Ijm6hkraDFAcAYg3RuadebMcN/mx7YHHAW0OPZGB5cTHWQw
+ lpsZqPeclzK8mj6A0QzbnY25tQF3SRF8ESD6czFiZ6F4hczBaYGN+O2PHVKCUOG5d3MR
+ xmLQfV+7geQGYe+g0+kz2BPKqhQMj4Zt9do9atk8bJJ6gzUOy20PaG9EVjo452w+BKDq
+ XUZLmXW28+8TpbHprhrEo0Mt2FZnoP5kYDZhm2/u75v0H/ZqEpVll3oLVmkLY9EAL7PY
+ Z18aGI7UH7Z4eyVWBCMiU2L7H55P1yRAegY+ET1Y4uBNsNgyE/NYDuVO0mf9hV6XbXn8
+ vuug==
+X-Gm-Message-State: ACrzQf36Z/tOGpTNLJOzGMUO/zPiocpztocqw9GQM/3CWhBcr98jCEij
+ 9DWUeBGltJSgHFArUpgopCgRrQ==
+X-Google-Smtp-Source: AMsMyM4sNe1euQoPXLK63y7hNLHEYMoaS++A+DAfFoXtTlyvtne3pln3NM49BHSukXLsaXpSpODJNA==
+X-Received: by 2002:a17:907:a46:b0:782:1c1c:8141 with SMTP id
+ be6-20020a1709070a4600b007821c1c8141mr20259906ejc.549.1664230044716; 
+ Mon, 26 Sep 2022 15:07:24 -0700 (PDT)
 Received: from [192.168.190.227] ([31.209.146.210])
  by smtp.gmail.com with ESMTPSA id
- s14-20020aa7cb0e000000b0044e7862ab3fsm12165257edt.7.2022.09.26.15.07.20
+ w21-20020a17090633d500b0073c0b87ba34sm8750943eja.198.2022.09.26.15.07.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Sep 2022 15:07:21 -0700 (PDT)
-Message-ID: <45cbdafb-d3ad-dd58-c76c-d6268b581570@linaro.org>
-Date: Mon, 26 Sep 2022 07:33:13 +0000
+ Mon, 26 Sep 2022 15:07:24 -0700 (PDT)
+Message-ID: <75bb40e3-cebf-690d-cc91-64b637056bfb@linaro.org>
+Date: Mon, 26 Sep 2022 07:46:25 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v1 1/9] hw: encode accessing CPU index in MemTxAttrs
+Subject: Re: [PATCH v2 22/37] target/i386: reimplement 0x0f 0x78-0x7f, add AVX
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, mads@ynddal.dk,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220922145832.1934429-1-alex.bennee@linaro.org>
- <20220922145832.1934429-2-alex.bennee@linaro.org>
- <15a379bf-39f2-5fc5-7a6f-3bdd39e5a2c3@linaro.org> <87h70vha2d.fsf@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, paul@nowt.org
+References: <20220920172507.95568-1-pbonzini@redhat.com>
+ <20220920172507.95568-23-pbonzini@redhat.com>
+ <dae44515-adf2-78fb-fd91-dd310849b6a7@linaro.org>
+ <CABgObfYEtHGkJN9q=xg1oMUcBWOqoy0wQCfuV5ye_m2hhf8YOA@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87h70vha2d.fsf@linaro.org>
+In-Reply-To: <CABgObfYEtHGkJN9q=xg1oMUcBWOqoy0wQCfuV5ye_m2hhf8YOA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x52c.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -96,61 +96,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/25/22 13:02, Alex Bennée wrote:
->> I'm not keen on adding another field like this.
+On 9/26/22 07:24, Paolo Bonzini wrote:
+> On Sat, Sep 24, 2022 at 10:43 PM Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>> +static void decode_0F79(DisasContext *s, CPUX86State *env, X86OpEntry *entry, uint8_t *b)
+>>> +{
+>>> +    if (s->prefix & PREFIX_REPNZ) {
+>>> +        entry->gen = gen_INSERTQ_r;
+>>> +    } else if (s->prefix & PREFIX_DATA) {
+>>> +        entry->gen = gen_EXTRQ_r;
+>>> +    } else {
+>>> +        entry->gen = NULL;
+>>> +    };
+>>> +}
+>> ...
+>>> +    [0x79] = X86_OP_GROUP2(0F79,       V,x, U,x,       cpuid(SSE4A)),
+>>
+>> These are not -- they're AMD New Media.
 > 
-> Hmm I thought it was unavoidable from Edgar's comment:
-> 
->    "CPU's can also have a Master-IDs (Requester IDs) which are unrelated to
->    the Clusters CPU index. This is used for example in the Xilinx ZynqMP
->    and Xilinx Versal and the XMPU (Memory Protection Units).
-> 
->    Anyway, I think this approach is an improvement from the current state
->    but would rather see a new separate field from requester_id. Overloading
->    requester_id will break some of our use-cases (in the Xilinx tree)..."
-> 
-> Of course we don't have to care about external use cases but it seemed
-> to indicate we might need both.
+> What's the CPUID bit for these? Neither
+> https://github.com/intelxed/xed/blob/main/datafiles/amd/xed-amd-sse4a.txt
+> nor the AMD programmer's manual makes any distinction between
+> EXTRQ/INSERTQ with register operand and the same instruction with
+> immediate operands.
 
-I missed that one.
-
->> What bounds our max number of cpus at the moment?  We use "int" in
->> struct CPUCore, but that's almost certainly for convenience.
->>
->> target/s390x/cpu.h:#define S390_MAX_CPUS 248
->> hw/i386/pc_piix.c:    m->max_cpus = HVM_MAX_VCPUS;
->>
->> hw/i386/pc_q35.c:    m->max_cpus = 288;
->>
->> hw/arm/virt.c:    mc->max_cpus = 512;
->>
->> hw/arm/sbsa-ref.c:    mc->max_cpus = 512;
->>
->> hw/i386/microvm.c:    mc->max_cpus = 288;
->>
->> hw/ppc/spapr.c:    mc->max_cpus = INT32_MAX;
->>
->>
->> Most of these are nicely bounded, but HVM_MAX_VCPUS is a magic number
->> from Xen, and ppc appears to be prepared for 31 bits worth of cpus.
-> 
->  From 5642e4513e (spapr.c: do not use MachineClass::max_cpus to limit
-> CPUs) I think it is being a little optimistic. Even with the beefiest
-> hosts you start to see diminishing returns by ~12 vCPUs and it won't
-> take long before each extra vCPU just slows you down.
-
-Ok, I guess.  If we decided to add an assert that the cpuid fit in this field, we'd want 
-to revisit this, I think.  Not an issue for the moment.
-
-> I was confused by the last comment because I forgot the TLBs are not
-> shared between cores. So I can just bang:
-> 
->      MemTxAttrs attrs = { .cpu_index = cs->cpu_index };
-> 
-> into arm_cpu_tlb_fill and be done with it?
-
-Yes, it looks like it.  I don't see any bulk overwrite of attrs in get_phys_addr and 
-subroutines.  Mostly modifications of attrs->secure, as expected.
+Ah, a bit of confusion on my part, mixing up SSE4[12A] and the Intel SSE41 instructions of 
+a similar names but not identical function or encoding.  You patch is correct.
 
 
 r~
