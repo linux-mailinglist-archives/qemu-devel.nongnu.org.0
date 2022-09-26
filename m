@@ -2,76 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583285E9B54
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 09:59:08 +0200 (CEST)
-Received: from localhost ([::1]:52284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA3E5E9BB4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 10:11:39 +0200 (CEST)
+Received: from localhost ([::1]:37574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocj17-0007y2-Mt
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 03:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38694)
+	id 1ocjDF-0007Gh-QD
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 04:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1ociv8-0002y2-S5
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:53:02 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:42787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1ociv6-0001ML-Iv
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:52:54 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id 135so7280340ybl.9
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 00:52:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=EGB7+yjzj15PYb2o1+bxGEGrruR/uJhwcRRBQRBNkKs=;
- b=izo9hBKMrhHlXLE/RYKjOoj6FyESH8ne7N9S8rbLI1YkFQ1ShBu9hWdrDCdu9IJ+RE
- H1UZ5c3Znc1k1UI9VdGGVWyCW8eTA0QLiGy8rGDE9XuUQEbXyc38zeDkl+shkCZTaUMN
- b1uXY/9OK2enHccdApgipYVPD2b+UW6kMUWZy+tR4YAvoo3LAypNF5c4d3yo7ziRqZyf
- BdoyQPZ7KeWDslfdL4ylcbwhWxX4yDt6jhUJGBzzJLkdmu+CVPTJyc7W6JVLAjxEjalD
- neYAPTWARk9JyQfcQEAgl4BJTO65Kix+VaI88MBCdMgOfkAS1z0MkevfqXcFs+hdzqSA
- i+FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=EGB7+yjzj15PYb2o1+bxGEGrruR/uJhwcRRBQRBNkKs=;
- b=ZpDubxe2BKt5qQMnYtePgJP0KZ+YnkTf63Vri65fJrHODPI3SGTd3uLxwSqiWf1tsz
- yFIHF2fkogQNIeQ5ugC3y/ooWrs874/+x3IXu9p1+5uyATBcaErqQO2OhxT8+78uiz9n
- bn5pB415oqpxpnAADeDXaqkYfHQn9AHJLByvQ+Bel95XZH/LV7GhjiGUAKPFbjEX7KYe
- 8WpELsHlE6Ur+/VDaOq2GHrhIKv0GHkUzehHb8UlHKTHFL0MDhsqr1XJWuL8NXO4F0+W
- orSitm9MaDh6AX1MV0AnMYJdFynwRu4to4uh6JffsssapiPZ90cIU5d5TDLhU9vEBM6Q
- aQag==
-X-Gm-Message-State: ACrzQf2NJFDl0HENRLqp6QqCH+6mOq1OM/ytpIi61/6+lJJGgWNI3icW
- gIBg6c8svmzPk1tolWtxllVuBnvWiIlk0SMfLqQCTQ==
-X-Google-Smtp-Source: AMsMyM6s5uCAGzIda0dfhDosF2DPTnohVheNoVXMe9fvp7IwUrpQHBQZCKtObVtyxWnUCzyUI1OiW+/TRAmxayk57tU=
-X-Received: by 2002:a05:6902:692:b0:6b0:4102:3600 with SMTP id
- i18-20020a056902069200b006b041023600mr21046974ybt.450.1664178771136; Mon, 26
- Sep 2022 00:52:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220925132010.5336-1-jim.shu@sifive.com>
-In-Reply-To: <20220925132010.5336-1-jim.shu@sifive.com>
-From: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
-Date: Mon, 26 Sep 2022 09:52:40 +0200
-Message-ID: <CAJ307Eg7xYVKY3Yr_+BDedX0gzuCAm2RdcS5rFMv0N44+J++sw@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc: sifive_plic: fix hard-coded max priority level
-To: Jim Shu <jim.shu@sifive.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-riscv@nongnu.org, Emmanuel Blot <emmanuel.blot@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1ocj2l-0001HB-93
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:00:47 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:57959)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1ocj2c-0002cB-6G
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:00:40 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046060;
+ MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=6; SR=0;
+ TI=SMTPD_---0VQie.5G_1664178919; 
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
+ fp:SMTPD_---0VQie.5G_1664178919) by smtp.aliyun-inc.com;
+ Mon, 26 Sep 2022 15:55:20 +0800
+Message-ID: <1664178718.9829688-1-xuanzhuo@linux.alibaba.com>
+Subject: Re: [PATCH v2 3/6] vhost-net: vhost-user: update
+ vhost_net_virtqueue_reset()
+Date: Mon, 26 Sep 2022 15:51:58 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: mst <mst@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Heng Qi <hengqi@linux.alibaba.com>,
+ Kangjie Xu <kangjie.xu@linux.alibaba.com>,
+ "qemu-devel" <qemu-devel@nongnu.org>
+References: <cover.1662949366.git.kangjie.xu@linux.alibaba.com>
+ <a14f5ebdefb82d7679841c1d5ddab54ec9406ea1.1662949366.git.kangjie.xu@linux.alibaba.com>
+ <ac7dacaf-ea85-b608-4047-27254aefd97a@redhat.com>
+ <1663136320.6336615-1-xuanzhuo@linux.alibaba.com>
+ <CACGkMEvSt0etgoVyPVTk1axV+mx30CigR6bhbNYt8oYTTC2=Dw@mail.gmail.com>
+In-Reply-To: <CACGkMEvSt0etgoVyPVTk1axV+mx30CigR6bhbNYt8oYTTC2=Dw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=chigot@adacore.com; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.133;
+ envelope-from=xuanzhuo@linux.alibaba.com;
+ helo=out30-133.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,71 +69,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jim,
-
-On Sun, Sep 25, 2022 at 3:26 PM Jim Shu <jim.shu@sifive.com> wrote:
+On Thu, 15 Sep 2022 10:12:11 +0800, Jason Wang <jasowang@redhat.com> wrote:
+> On Wed, Sep 14, 2022 at 2:21 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wr=
+ote:
+> >
+> > On Wed, 14 Sep 2022 11:13:29 +0800, Jason Wang <jasowang@redhat.com> wr=
+ote:
+> > >
+> > > =E5=9C=A8 2022/9/12 11:10, Kangjie Xu =E5=86=99=E9=81=93:
+> > > > Update vhost_net_virtqueue_reset() for vhost-user scenario.
+> > > >
+> > > > In order to reuse some functions, we process the idx for
+> > > > vhost-user scenario because vhost_get_vq_index behave
+> > > > differently for vhost-user.
+> > > >
+> > > > Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> > > > ---
+> > > >   hw/net/vhost_net.c | 3 +++
+> > > >   1 file changed, 3 insertions(+)
+> > > >
+> > > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > > > index ea896ea75b..25e5665489 100644
+> > > > --- a/hw/net/vhost_net.c
+> > > > +++ b/hw/net/vhost_net.c
+> > > > @@ -545,6 +545,9 @@ void vhost_net_virtqueue_reset(VirtIODevice *vd=
+ev, NetClientState *nc,
+> > > >       assert(vhost_ops);
+> > > >
+> > > >       idx =3D vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
+> > > > +    if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_USER) {
+> > > > +        idx -=3D net->dev.vq_index;
+> > > > +    }
+> > >
+> > >
+> > > This looks tricky. Any reason we can't simply use vq_index for both
+> > > vhost-user and vhost-net?
+> >
+> >
+> > static int vhost_user_get_vq_index(struct vhost_dev *dev, int idx)
+> > {
+> >     assert(idx >=3D dev->vq_index && idx < dev->vq_index + dev->nvqs);
+> >
+> >     return idx;
+> > }
+> >
+> >
+> > static int vhost_kernel_get_vq_index(struct vhost_dev *dev, int idx)
+> > {
+> >     assert(idx >=3D dev->vq_index && idx < dev->vq_index + dev->nvqs);
+> >
+> >     return idx - dev->vq_index;
+> > }
+> >
+> > The implementation of these two callbacks is different. The structure o=
+f the two
+> > scenarios is different. We may need to do some optimizations in the fut=
+ure.
 >
-> The maximum priority level is hard-coded when writing to interrupt
-> priority register. However, when writing to priority threshold register,
-> the maximum priority level is from num_priorities Property which is
-> configured by platform.
+> Yes, but what I meant is, you do
 >
-> Also change interrupt priority register to use num_priorities Property
-> in maximum priority level.
+> idx -=3D net->dev.vq_index;
 >
-> Signed-off-by: Emmanuel Blot <emmanuel.blot@sifive.com>
-> Signed-off-by: Jim Shu <jim.shu@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> ---
->  hw/intc/sifive_plic.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> and then
 >
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index af4ae3630e..f864efa761 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -180,8 +180,10 @@ static void sifive_plic_write(void *opaque, hwaddr a=
-ddr, uint64_t value,
->      if (addr_between(addr, plic->priority_base, plic->num_sources << 2))=
- {
->          uint32_t irq =3D ((addr - plic->priority_base) >> 2) + 1;
+> net->dev.vq_index + idx
 >
-> -        plic->source_priority[irq] =3D value & 7;
-> -        sifive_plic_update(plic);
-> +        if (value <=3D plic->num_priorities) {
-> +            plic->source_priority[irq] =3D value;
-> +            sifive_plic_update(plic);
-> +        }
+> This is a hint that we should have a better organization of the code.
 
-If I'm not mistaking the documentation [1], these registers are WARL
-(Write-Any-Read-Legal). However, in your case, any value above
-"num_priorities" will be ignored.
+Rethink about this.
 
-We had an issue related to that and ended up making a local patch.
-However, we are assuming that "num_priorities+1" is a power of 2
-(which is currently the case)
+If I don't do this "idx -=3D net->dev.vq_index".
 
--        plic->source_priority[irq] =3D value & 7;
-+        /* Interrupt Priority registers are Write-Any Read-Legal. Cleanup
-+         * incoming values before storing them.
-+         */
-+        plic->source_priority[irq] =3D value % (plic->num_priorities + 1);
+Then, it is necessary to call vhost_virtqueue_stop() separately and once ag=
+ain
+"net->dev.vqs + idx - net->dev.vq_index"
 
-Note that it should also be done for target_priority a bit below.
--            if (value <=3D plic->num_priorities) {
--                plic->target_priority[addrid] =3D value;
--                sifive_plic_update(plic);
--            }
-+            /* Priority Thresholds registers are Write-Any Read-Legal. Cle=
-anup
-+             * incoming values before storing them.
-+             */
-+            plic->target_priority[addrid] =3D value % (plic->num_prioritie=
-s + 1);
-+            sifive_plic_update(plic);
+    vhost_virtqueue_stop(&net->dev,
+                         vdev,
+                         net->dev.vqs + idx - net->dev.vq_index,
+                         idx);
 
-[1] https://static.dev.sifive.com/FE310-G000.pdf
+Thanks.
 
-Thanks,
-Cl=C3=A9ment
+
+>
+> Thanks
+>
+> >
+> > Thanks.
+> >
+> >
+> > >
+> > > Thanks
+> > >
+> > >
+> > > >
+> > > >       if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_TAP) {
+> > > >           file.index =3D idx;
+> > >
+> >
+>
 
