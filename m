@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF745EA6B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 14:58:54 +0200 (CEST)
-Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052C25EA6D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 15:05:20 +0200 (CEST)
+Received: from localhost ([::1]:53358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocnhG-00078B-1H
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 08:58:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37500)
+	id 1ocnnS-0001LS-G6
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 09:05:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ocnf3-0005ND-O5
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 08:56:37 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:38598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ocnf1-0007c6-Oz
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 08:56:37 -0400
-Received: by mail-ej1-x636.google.com with SMTP id nb11so13874499ejc.5
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 05:56:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=rz3mlN4KbQjImCM3wC+X2Jb9p/lxfW4IHRyyTjdAQXE=;
- b=MMoyS0pHXmUTBqpuFERSTIQXL+fMgIz3LnDzhbqDMbLxfuuuggs/e3Ywr/g/uqfVms
- ShdH1N0tM2D7xliAYRg3PFqEKUKByrlFEoVdfWdiAaGMTSsr3DqOgYfPi5J2EgNy3SQZ
- EgT/u2TC6/7H2CQEMfphl/bSVKpiXS7CfMcQx7XH1fYYVUgesA8q8i0FO+AQkzBVUbxu
- HZSJIToH96Ua/xfWc/QXLBt5nK0BSOUNKAvbrcQRFJOxhLUXy5SOxzAicIqNmYe6Kc75
- 7aViVYLkQt72HVq9GNqxF7+yH94vHfSo2NWeCJVsubtDG8hxsT0lKZU7Shu2+EVGkgvF
- 2b6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=rz3mlN4KbQjImCM3wC+X2Jb9p/lxfW4IHRyyTjdAQXE=;
- b=DDAgfkf+Z8DcHuH206ETnXrCWcvOg8dhtLbVV55PTL2vMWHqtd7UukfGDioG+Oad0j
- 7H5GiF5nKKvJpc5HR7zyTpzSsKsdrKUPrMyhWDFSBSU/CH096wLJzXEloU6f6x3J6qqM
- D2V0/9Qt46yupIzcPDiazoO4BFFR/GzhkkqzYggku4yFwO37HnYdU/syCjT2046ufgiB
- 5aGgZYyWt5J2WFIZREgb8uTvw1oOdv584ULra7JmbxAELLl1Fz6Gn6HTDEd7QubKqCRx
- 0Ho45WoINT1XpbZWZ1OvHms1Qzsyk1aMTzMzjUCdKPS9veB+PlMwaRah7rnneuT88T2v
- vVpg==
-X-Gm-Message-State: ACrzQf0towISQZYgbDAWQTnKELJdB1950HsXnTvxfAwT2F6U1aodpHcc
- M7Rx5HTuW4dOCP9QUhyp518q7qXBsIQggqCIidqy/g==
-X-Google-Smtp-Source: AMsMyM6rAl/HCo4G1FcZNnsCazKAx7CoRu+Sy0E+RdwAgd/vxPaeIqwqU/A20MFL9vXBDGJ+QRoVpwqBURqiBDt+YCE=
-X-Received: by 2002:a17:906:8a6b:b0:780:ab37:b63 with SMTP id
- hy11-20020a1709068a6b00b00780ab370b63mr17676870ejc.365.1664196993426; Mon, 26
- Sep 2022 05:56:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocnjB-0007a8-FZ
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:01:04 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:60591)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ocnj9-0008QJ-5t
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:00:53 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MLyzP-1ouC7O3im9-00Hxnb; Mon, 26 Sep 2022 15:00:44 +0200
+Message-ID: <2a8cee1f-2d80-68fc-0ea9-be370a941ede@vivier.eu>
+Date: Mon, 26 Sep 2022 15:00:42 +0200
 MIME-Version: 1.0
-References: <20220902172737.170349-1-mjrosato@linux.ibm.com>
- <20220902172737.170349-2-mjrosato@linux.ibm.com>
- <597a2761-f718-4a2c-c012-a0d25bf3c7fb@redhat.com>
-In-Reply-To: <597a2761-f718-4a2c-c012-a0d25bf3c7fb@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Sep 2022 13:56:22 +0100
-Message-ID: <CAFEAcA-8zWssi4TVF5TvHet9gxNkRvNreW6-hmTR0DgOu53Msw@mail.gmail.com>
-Subject: Re: [PATCH v8 1/8] linux-headers: update to 6.0-rc3
-To: Thomas Huth <thuth@redhat.com>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org, 
- richard.henderson@linaro.org, "Daniel P. Berrange" <berrange@redhat.com>, 
- alex.williamson@redhat.com, schnelle@linux.ibm.com, cohuck@redhat.com, 
- farman@linux.ibm.com, pmorel@linux.ibm.com, david@redhat.com, 
- pasic@linux.ibm.com, borntraeger@linux.ibm.com, mst@redhat.com, 
- pbonzini@redhat.com, qemu-devel@nongnu.org, kvm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Content-Language: fr
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-m68k@lists.linux-m68k.org,
+ qemu-devel@nongnu.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220926113900.1256630-1-Jason@zx2c4.com>
+ <20220926113900.1256630-2-Jason@zx2c4.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH qemu v2 2/2] m68k: align bootinfo strings and data to 4
+ bytes
+In-Reply-To: <20220926113900.1256630-2-Jason@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Ktqx4pVnXEaPHBKuTmykj3MP9987MeqkfOg9WcCzD2bbsluqOLu
+ yjIhiC5FN+W4T2txfaec9+gn/R1ZHzuk5vtRzxLPMDqbbpVr+0TLx54gnphZpuKap0SfxNo
+ cR/Z+gSX5v8hkLkZj6tHGk+U1RRvMRyBSaXg1LUXXY1lC1G7Yt3NK2l4XHCzPRSxqfSA/gF
+ rAIADTj+ab4/htxrJSAHg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kp0vmBPYg94=:zBL0yvNQYCcmWHOhOYjMB4
+ PseQjbZHYgXYnFzk/vJP9CeUCtLvuk9GKAZ1A875rJZ6Kv6DjEufWHQ/h16rBLWHPdou5h4rx
+ QPMCldnkopw+rV4Tc9mO/0PnHlxXvw69Bvr5kyFXLlIOV4F8GJRibKggAlxnM4SGrlkhQ7gMA
+ cpVhF4I1Bh4uOLfrD3GPO1WIPVyOQff8r+0obuIP1kPI5dvSqg4jg9lKMa0fi31DVkGMPGiCv
+ JOzQ1wXPJB/Zf6uyU+JWPt66Hdi2sTXvck4lsBpWGnpU/XuCLXLIdf47nLfkE8MbndK6cPrWG
+ ykrCMv/CTE5IkFFOHsYzOT7w3MDgMWh1B2eY8InM8XBhDaGthkewFOXjPcUgfCU1sMysUxDAy
+ lpbpcMiDaGnqcHksCPaVBmd9JCdQk7PDob7oZmdereO62YGmecyt3wldalWakjNS7A52hmVnX
+ C76E1rrZU1e5I3uVscsXo7vRf4kbeOaYKl8kmDRWjrjlafaVHfCJNBuYTRPIHreUuvspyduYX
+ CiO1P5VIqHvmNsb9PkNnI9kk9CRXKCMralqmf9BuDdf0p+WfDx0JKMzw7kdCC93EMKhhnZ3lc
+ 1caCHYPD8fb8vA+gDCUNnyK863wV5sbzILeGTNLfFKTz1etC2xoTBbZRhvMVAM2RELz9H12j4
+ 7kQl+9+4ZDRg2+MiYQAR4vXtVg77pfbaa7Eq/A2SbE3Er1mfWDNbw/16FJIUwfviupCi+0cZ0
+ epyWPAfmkaJ3oSJZWgdIts1D/vPa4Jc5snZLCRQ2luaZfKJJcqttNn17Bxwy8BkHA85ykERup
+ gLUZ7LY
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,40 +77,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Sept 2022 at 13:53, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 02/09/2022 19.27, Matthew Rosato wrote:
-> > Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> > ---
-> ...
-> > diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
-> > index bf6e96011d..46de10a809 100644
-> > --- a/linux-headers/asm-x86/kvm.h
-> > +++ b/linux-headers/asm-x86/kvm.h
-> > @@ -198,13 +198,13 @@ struct kvm_msrs {
-> >       __u32 nmsrs; /* number of msrs in entries */
-> >       __u32 pad;
-> >
-> > -     struct kvm_msr_entry entries[0];
-> > +     struct kvm_msr_entry entries[];
-> >   };
->
-> Yuck, this fails to compile with Clang:
->
->   https://gitlab.com/thuth/qemu/-/jobs/3084427423#L2206
->
->   ../target/i386/kvm/kvm.c:470:25: error: field 'info' with variable sized
-> type 'struct kvm_msrs' not at the end of a struct or class is a GNU
-> extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
->          struct kvm_msrs info;
->                          ^
->
-> Anybody any ideas how to fix this best? Simply disable the compiler warning
-> in QEMU?
+Le 26/09/2022 à 13:39, Jason A. Donenfeld a écrit :
+> Various tools, such as kexec-tools and m68k-bootinfo, expect each
+> bootinfo entry to be aligned to 4 bytes, not 2 bytes. So adjust the
+> padding to fill this out as such.
 
-There's already a patchset on list that does that:
-https://patchew.org/QEMU/20220915091035.3897-1-chenyi.qiang@intel.com/
+Agree, I found the same problem using petitboot as a ROM for the virt machine [1].
+(I didn't update BOOTINFOSTR() but I think I should).
 
-thanks
--- PMM
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+
+[1] https://github.com/vivier/qemu-m68k/commits/m68k-virt
+> 
+> Also, break apart the padding additions from the other field length
+> additions, so that it's more clear why these magic numbers are being
+> added, and comment them too.
+> 
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>   hw/m68k/bootinfo.h | 10 ++++++----
+>   1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
+> index bd8b212fd3..897162b818 100644
+> --- a/hw/m68k/bootinfo.h
+> +++ b/hw/m68k/bootinfo.h
+> @@ -48,13 +48,14 @@
+>           stw_phys(as, base, id); \
+>           base += 2; \
+>           stw_phys(as, base, \
+> -                 (sizeof(struct bi_record) + strlen(string) + 2) & ~1); \
+> +                 (sizeof(struct bi_record) + strlen(string) + \
+> +                  1 /* null termination */ + 3 /* padding */) & ~3); \
+>           base += 2; \
+>           for (i = 0; string[i]; i++) { \
+>               stb_phys(as, base++, string[i]); \
+>           } \
+>           stb_phys(as, base++, 0); \
+> -        base = (base + 1) & ~1; \
+> +        base = (base + 3) & ~3; \
+>       } while (0)
+>   
+>   #define BOOTINFODATA(as, base, id, data, len) \
+> @@ -63,13 +64,14 @@
+>           stw_phys(as, base, id); \
+>           base += 2; \
+>           stw_phys(as, base, \
+> -                 (sizeof(struct bi_record) + len + 3) & ~1); \
+> +                 (sizeof(struct bi_record) + len + \
+> +                  2 /* length field */ + 3 /* padding */) & ~3); \
+>           base += 2; \
+>           stw_phys(as, base, len); \
+>           base += 2; \
+>           for (i = 0; i < len; ++i) { \
+>               stb_phys(as, base++, data[i]); \
+>           } \
+> -        base = (base + 1) & ~1; \
+> +        base = (base + 3) & ~3; \
+>       } while (0)
+>   #endif
+
 
