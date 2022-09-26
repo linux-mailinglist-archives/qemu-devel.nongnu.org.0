@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A9B5E9979
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 08:32:14 +0200 (CEST)
-Received: from localhost ([::1]:45598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22195E99F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 08:59:34 +0200 (CEST)
+Received: from localhost ([::1]:47120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ochf1-00079m-GH
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 02:32:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45044)
+	id 1oci5W-0003QK-0Z
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 02:59:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=8Ijc=Z5=kaod.org=clg@ozlabs.org>)
- id 1ochZV-0004Ax-SQ; Mon, 26 Sep 2022 02:26:30 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:56293
- helo=gandalf.ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=8Ijc=Z5=kaod.org=clg@ozlabs.org>)
- id 1ochZT-000614-91; Mon, 26 Sep 2022 02:26:29 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4MbXp00Y9sz4xFt;
- Mon, 26 Sep 2022 16:26:16 +1000 (AEST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4MbXnx0MDfz4x1K;
- Mon, 26 Sep 2022 16:26:12 +1000 (AEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [RFC PATCH] ast2600: Fix CPU features
-Date: Mon, 26 Sep 2022 08:26:08 +0200
-Message-Id: <20220926062608.3930789-1-clg@kaod.org>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1ochlR-0001Sx-Oz
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 02:38:49 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:45521
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ochlJ-0007ai-QH
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 02:38:46 -0400
+HMM_SOURCE_IP: 172.18.0.188:40300.940860629
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-36.111.64.85 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id 552DB2800C3;
+ Mon, 26 Sep 2022 14:38:26 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([36.111.64.85])
+ by app0023 with ESMTP id a665283192ee429eb937e7dea58028ce for
+ qemu-devel@nongnu.org; Mon, 26 Sep 2022 14:38:29 CST
+X-Transaction-ID: a665283192ee429eb937e7dea58028ce
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 36.111.64.85
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ tugy@chinatelecom.cn, baiyw2@chinatelecom.cn, dengpc12@chinatelecom.cn,
+ liuym16@chinatelecom.cn, yangchg@chinatelecom.cn, yuanmh12@chinatelecom.cn,
+ zhoupx@chinatelecom.cn, huangy81@chinatelecom.cn, lic121@chinatelecom.cn
+Subject: [PATCH 0/2] Fix the virito features negotiation flaw 
+Date: Mon, 26 Sep 2022 14:36:39 +0800
+Message-Id: <20220926063641.25038-1-huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
- envelope-from=SRS0=8Ijc=Z5=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=42.123.76.220;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,69 +67,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, the CPU features exposed to the AST2600 QEMU machines are :
+From: "Hyman Huang(黄勇)" <huangy81@chinatelecom.cn>
 
-  half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt
-  vfpd32 lpae evtstrm
+This patchset aim to fix the unexpected negotiation features for
+vhost-user netdev interface. 
 
-But, the features of the Cortex A7 CPU on the Aspeed AST2600 A3 SoC
-are :
+Steps to reproduce the issue:
+Prepare a vm (CentOS 8 in my work scenario) with vhost-user
+backend interface and configure qemu as server mode. So dpdk
+would connect qemu's unix socket periodically.
 
-  half thumb fastmult vfp edsp vfpv3 vfpv3d16 tls vfpv4 idiva idivt
-  lpae evtstrm
+1. start vm in background and restart openvswitch service 
+   concurrently and repeatedly in the process of vm start. 
 
-The vfpv3d16 feature bit is common to both vfpv3 and vfpv4, and for
-this SoC, QEMU should advertise a VFPv4 unit with 16 double-precision
-registers, and not 32 registers.
+2. check if negotiated virtio features of port is "0x40000000" at
+   dpdk side by executing:
+   ovs-vsctl list interface | grep features | grep {port_socket_path}
+       
+3. if features equals "0x40000000", go to the vm and check if sending 
+   arp package works, executing:
+   arping {IP_ADDR}
+   if vm interface is configured to boot with dhcp protocol, it
+   would get no ip. 
 
-Drop neon support and hack the default mvfr0 register value of the
-cortex A7 to advertise 16 registers.
+After doing above steps, we'll find the arping not work, the ovs on
+host side has forwarded unexpected arp packages, which be added 0x0000
+in the head of ethenet frame.  Though qemu report some error when
+read/write cmd of vhost protocol during the process of vm start,
+like the following:
 
-How can that be done cleanly ? Should we :
+"Failed to set msg fds"
+"vhost VQ 0 ring restore failed: -22: Invalid argument (22)"
 
- * introduce a new A7 CPU with its own _initfn routine ?
- * introduce a new CPU property to set the number of "Advanced SIMD
-   and floating-point" registers in arm_cpu_realizefn() ?
+The vm does not stop or report more suggestive error message, it
+seems that everthing is ok. 
 
-This problem was raised by a buildroot rootfs compiled with vfpv4.
-Boot went fine under QEMU but on real HW, user space binaries had
-issues with output. Compiling buildroot with vfpv4d16 fixed it and
-I didn't dig further. Nevertheless, it would be nice to catch such
-issues with QEMU.
+The root cause is that dpdk port negotiated nothing but only one
+VHOST_USER_F_PROTOCOL_FEATURES feature with vhost-user interface at
+qemu side, which is an unexpected behavior. qemu only load the
+VHOST_USER_F_PROTOCOL_FEATURES when VHOST_USER_SET_FEATURES and loss
+the guest features configured by front-end virtio driver using the
+VIRTIO_PCI_COMMON_GF addr, which is stored in acked_features field
+of struct vhost_dev.
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- hw/arm/aspeed_ast2600.c | 2 ++
- target/arm/cpu_tcg.c    | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+To explain how the acked_features disappear, we may need to know the
+lifecyle of acked_features in vhost_dev during feature negotiation. 
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index dcdc9bc54456..af987fd418ec 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -330,6 +330,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
- 
-         object_property_set_int(OBJECT(&s->cpu[i]), "cntfrq", 1125000000,
-                                 &error_abort);
-+        object_property_set_bool(OBJECT(&s->cpu[i]), "neon", false,
-+                                &error_abort);
-         object_property_set_link(OBJECT(&s->cpu[i]), "memory",
-                                  OBJECT(s->memory), &error_abort);
- 
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 98b5ba216041..b3f93783a061 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -545,7 +545,7 @@ static void cortex_a7_initfn(Object *obj)
-     cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A7;
-     cpu->midr = 0x410fc075;
-     cpu->reset_fpsid = 0x41023075;
--    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr0 = 0x10110221; /* SIMDREG == 0x1 -> 16 registers */
-     cpu->isar.mvfr1 = 0x11111111;
-     cpu->ctr = 0x84448003;
-     cpu->reset_sctlr = 0x00c50078;
+1. qemu init acked_features field of struct vhost_dev in vhost_net_init()
+   by calling vhost_net_ack_features(), the init value fetched from
+   acked_features field of struct NetVhostUserState, which is the backup
+   role after vhost stopping or unix socket closed.
+   In the first time, the acked_features of struct NetVhostUserState is 0
+   so the init value of vhost_dev's acked_features also 0. 
+
+2. when guest virtio driver set features, qemu accept the features and
+   call virtio_set_features to store the features as acked_features in
+   vhost_dev.
+
+3. when unix socket closed or vhost_dev device doesn't work and be
+   stopped unexpectedly, qemu will call chr_closed_bh or vhost_user_stop,
+   which will copy acked_features from vhost_dev to NetVhostUserState and
+   cleanup the vhost_dev. Since virtio driver not allowed to set features
+   once status of virtio device changes to VIRTIO_CONFIG_S_FEATURE_OK,
+   qemu need to backup it in case of loss. 
+    
+4. once unix socket return to normal and get connected, qemu will
+   call vhost_user_start to restore the vhost_dev and fetch the
+   acked_features stored in NetVhostUserState previously. 
+
+The above flow works fine in the normal scenarios, but it doesn't cover
+the scenario that openvswitch service restart in the same time of
+virtio features negotiation.
+
+Let's analyze such scenario: 
+       qemu                                 dpdk
+
+   vhost_net_init()                          
+         |                      systemctl stop openvswitch.service
+   virtio_set_features()                     | 
+         |                      systemctl start openvswitch.service
+   virtio_set_status()                      
+
+Ovs stop service before guset setting virtio features, chr_closed_bh()
+be called and fetch acked_features in vhost_dev, if may store the
+incomplete features to NetVhostUserState since it doesn't include
+guest features, eg "0x40000000". 
+
+Guest set virtio features with another features, eg "0x7060a782",
+this value will store in acked_features of vhost_dev, which is the
+right and up-to-date features.
+
+After ovs service show up, qemu unix socket get connected and call
+vhost_user_start(), which will restore acked_features of vhost_dev
+using NetVhostUserState and "0x40000000" be loaded, which is obsolete.
+
+Guest set virtio device status and therefore qemu call 
+virtio_net_vhost_status finally, checking if vhost-net device has
+started, start it if not, consequently the obsolete acked_features
+"0x40000000" be negotiated after calling vhost_dev_set_features(). 
+
+So the key point of solving this issue making the acked_features 
+in NetVhostUserState up-to-date, these patchset provide this
+solution.  
+
+[PATCH 1/2]: Abstract the existing code of saving acked_features
+             into vhost_user_save_acked_features so the next
+             patch seems clean. 
+
+[PATCH 2/2]: Save the acked_features to NetVhostUserState once
+             Guest virtio driver configured. This step makes
+             acked_features in NetVhostUserState up-to-date. 
+
+Please review, any comments and suggestions are welcome. 
+
+Best regard.
+
+Yong
+
+Hyman Huang (2):
+  vhost-user: Refactor vhost acked features saving
+  vhost-net: Fix the virito features negotiation flaw
+
+ hw/net/vhost_net.c       |  9 +++++++++
+ hw/net/virtio-net.c      |  5 +++++
+ include/net/vhost-user.h |  2 ++
+ include/net/vhost_net.h  |  2 ++
+ net/vhost-user.c         | 35 +++++++++++++++++++----------------
+ 5 files changed, 37 insertions(+), 16 deletions(-)
+
 -- 
-2.37.3
+2.27.0
 
 
