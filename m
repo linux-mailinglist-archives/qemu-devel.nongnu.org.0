@@ -2,85 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8478F5EA846
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:21:45 +0200 (CEST)
-Received: from localhost ([::1]:39572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640995EA80D
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:12:20 +0200 (CEST)
+Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocozQ-0000FN-Ld
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:21:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40612)
+	id 1ocoqI-0005SW-4r
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:12:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ocoZL-0006Sr-LA
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:54:47 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:38652)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ocoZJ-0007vZ-Rf
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:54:47 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B5ED121DD9;
- Mon, 26 Sep 2022 13:54:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664200482; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1ococE-0001YS-75
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:57:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40607)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1ococA-0008Q5-Hn
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:57:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664200656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z+Lt96mFxbMbfFnXjcNl1AUMLZ66tD2ALBbrEIS8lUI=;
- b=UUBgH5YEDlbI8GiDWtWM4/CkxVa3z2AGwy3vummhUyaC2Emb+KDp0wyC3stDQHpVuv1zdc
- FKGYw/VZBnmRNEn3MnGVLSqGE456TdKVJC776XpjdvSen3SRBT21xXIKXO7ekLaazOqIRh
- d9draZfKzLKiEDSAAEqjyAeR/W2sb/I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664200482;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z+Lt96mFxbMbfFnXjcNl1AUMLZ66tD2ALBbrEIS8lUI=;
- b=+o8sMVAlAfaYcSRd1ruzivRMB9OIJn/QRb/OiAHx/URYsYdFwYp0zArfnjI7vQtr10DFgc
- aXposBT7N5wxppAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 36246139BD;
- Mon, 26 Sep 2022 13:54:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id rRXvCiKvMWNmegAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 26 Sep 2022 13:54:42 +0000
-Message-ID: <3dc4a54e-7d04-36db-0931-2fb8d068b5f2@suse.de>
-Date: Mon, 26 Sep 2022 15:54:41 +0200
+ bh=ZIwKOnLf/14p190vkBty8EvpLDOlGfw7DGdO7oz3Zag=;
+ b=irycZu0b4zhUDT2gV1FY1x1c7vscRTq20ndJ7tktfY/uB4+eJ3Z6L+SCZGNxoS76i/2Q+u
+ p5pRvaF7hY03e5nN+aMbFgjNDhETXGaInaUfKnJKdgRJGpNagctZ2e1E2VsjTNWwKLoSha
+ nUOH7frBama7q9KaSn+zTD1/Slvhb9s=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-373-P03DUbeWMxODEEApSj_Dww-1; Mon, 26 Sep 2022 09:57:28 -0400
+X-MC-Unique: P03DUbeWMxODEEApSj_Dww-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ v11-20020a056402348b00b004516e0b7eedso5478678edc.8
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:57:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=ZIwKOnLf/14p190vkBty8EvpLDOlGfw7DGdO7oz3Zag=;
+ b=x2jKTtHSRk3baL1Ji/D+6WglkMrS0v1ldVJROXw1xrpdQPw2tcbvm5nMuCJ26O4mSg
+ bg2yr33dFd+VRvuMY6hkBnDvKFC1v7r8lxAfq/kbCzmxhv0fLsnMRJpdbUcurJmpYITT
+ v2ZH57OL8uq1sW/nu/nRZChH4cGzGo3oMwGldQ+Jlsact043H3AFQu5bLSn6XAbHElQL
+ 9cNbE4NhLks5xKy8ygCab29muX8grYwrxIBGvXVmvDl3z48ApCpElbEHNfDA/wsLVlek
+ QN7QJekxEnrHcWTVQ41Hp0pptzx/SVTVhLLzyOnSeQIgT6fSyFR84W8Qv0Tz3LOIm5vX
+ GAdQ==
+X-Gm-Message-State: ACrzQf1MlxJ1gm7E/HsJWGG8MZgbVh5rI8AOyeTiCZiVeZYFI8qDB8uT
+ AgdbFJ5OwM40IB4+O71BOwjrMznnEWNWaF1C4xsylcrfhmr1TvBCrrlIX9HrOD2cA8pqIbrPU+s
+ gPpklYr2w0TaT+kA=
+X-Received: by 2002:a05:6402:3509:b0:452:20c7:5a95 with SMTP id
+ b9-20020a056402350900b0045220c75a95mr22720218edd.427.1664200644370; 
+ Mon, 26 Sep 2022 06:57:24 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM64I//nuBP+S7jnoxvFEhmI7ojQ3cqEFlkjWavkKK44xi0SXoDJfqXTFahxKd5PuWcD+Qw10g==
+X-Received: by 2002:a05:6402:3509:b0:452:20c7:5a95 with SMTP id
+ b9-20020a056402350900b0045220c75a95mr22720189edd.427.1664200644164; 
+ Mon, 26 Sep 2022 06:57:24 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ s14-20020aa7cb0e000000b0044e7862ab3fsm11532741edt.7.2022.09.26.06.57.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Sep 2022 06:57:23 -0700 (PDT)
+Message-ID: <8cc743b6-757c-bb25-d153-0f86b28e1f86@redhat.com>
+Date: Mon, 26 Sep 2022 15:57:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v6 3/5] module: add Error arguments to module_load and
- module_load_qom
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] target/arm/kvm: Retry KVM_CREATE_VM call if it fails EINTR
 Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220923232104.28420-1-cfontana@suse.de>
- <20220923232104.28420-4-cfontana@suse.de> <YzGBOwBQucv1F2NL@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <YzGBOwBQucv1F2NL@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Vitaly Chikunov <vt@altlinux.org>, Marc Zyngier <maz@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220926133644.1345269-1-peter.maydell@linaro.org>
+From: Eric Auger <eauger@redhat.com>
+In-Reply-To: <20220926133644.1345269-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c;
- envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eauger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,113 +103,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/26/22 12:38, Kevin Wolf wrote:
-> Am 24.09.2022 um 01:21 hat Claudio Fontana geschrieben:
->> improve error handling during module load, by changing:
->>
->> bool module_load(const char *prefix, const char *lib_name);
->> void module_load_qom(const char *type);
->>
->> to:
->>
->> int module_load(const char *prefix, const char *name, Error **errp);
->> int module_load_qom(const char *type, Error **errp);
->>
->> where the return value is:
->>
->>  -1 on module load error, and errp is set with the error
->>   0 on module or one of its dependencies are not installed
->>   1 on module load success
->>   2 on module load success (module already loaded or built-in)
->>
->> module_load_qom_one has been introduced in:
->>
->> commit 28457744c345 ("module: qom module support"), which built on top of
->> module_load_one, but discarded the bool return value. Restore it.
->>
->> Adapt all callers to emit errors, or ignore them, or fail hard,
->> as appropriate in each context.
->>
->> Some memory leaks also fixed as part of the module_load changes.
->>
->> audio: when attempting to load an audio module, report module load errors.
->> block: when attempting to load a block module, report module load errors.
->> console: when attempting to load a display module, report module load errors.
->>
->> qdev: when creating a new qdev Device object (DeviceState), report load errors.
->>       If a module cannot be loaded to create that device, now abort execution.
->>
->> qom/object.c: when initializing a QOM object, or looking up class_by_name,
->>               report module load errors.
->>
->> qtest: when processing the "module_load" qtest command, report errors
->>        in the load of the module.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+
+
+Hi Peter,
+On 9/26/22 15:36, Peter Maydell wrote:
+> Occasionally the KVM_CREATE_VM ioctl can return EINTR, even though
+> there is no pending signal to be taken. In commit 94ccff13382055
+> we added a retry-on-EINTR loop to the KVM_CREATE_VM call in the
+> generic KVM code. Adopt the same approach for the use of the
+> ioctl in the Arm-specific KVM code (where we use it to create a
+> scratch VM for probing for various things).
 > 
->> diff --git a/block/dmg.c b/block/dmg.c
->> index 007b8d9996..a422cf8d5b 100644
->> --- a/block/dmg.c
->> +++ b/block/dmg.c
->> @@ -434,6 +434,7 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
->>      uint64_t plist_xml_offset, plist_xml_length;
->>      int64_t offset;
->>      int ret;
->> +    Error *local_err = NULL;
->>  
->>      ret = bdrv_apply_auto_read_only(bs, NULL, errp);
->>      if (ret < 0) {
->> @@ -446,8 +447,15 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
->>          return -EINVAL;
->>      }
->>  
->> -    block_module_load("dmg-bz2");
->> -    block_module_load("dmg-lzfse");
->> +    if (block_module_load("dmg-bz2", &local_err) < 0) {
->> +        error_report_err(local_err);
->> +        return -EINVAL;
->> +    }
->> +    local_err = NULL;
->> +    if (block_module_load("dmg-lzfse", &local_err) < 0) {
->> +        error_report_err(local_err);
->> +        return -EINVAL;
-
-I am concerned about the resources allocation here though,
-is returning EINVAL here right, vs using "goto fail"?
-
-I matched the behavior of the preceding call:
-
-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-                               BDRV_CHILD_IMAGE, false, errp);
-    if (!bs->file) {
-        return -EINVAL;
-    }
-
-But afterwards the code goes:
-.
-    /* locate the UDIF trailer */
-    offset = dmg_find_koly_offset(bs->file, errp);
-    if (offset < 0) {
-        ret = offset;
-        goto fail;
-    }
-
-Should the resources be freed or not in your view?
-
-Thanks,
-
-Claudio
-
-
-
->> +    }
+> For more information, see the mailing list thread:
+> https://lore.kernel.org/qemu-devel/8735e0s1zw.wl-maz@kernel.org/
 > 
-> Why don't we pass the existing errp instead of adding a new local_err
-> and printing it locally? If we use error_report_err(local_err) and leave
-> errp untouched, the caller will print another less specific error
-> message, which is generally not what we want.
+> Reported-by: Vitaly Chikunov <vt@altlinux.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> The view in the thread seems to be that this is a kernel bug (because
+> in QEMU's case there shouldn't be a signal to be delivered at this
+> point because of our signal handling strategy); so I've adopted the
+> same "just retry-on-EINTR for this specific ioctl" approach that
+> commit 94ccff13 did, rather than, for instance, something wider like
+> "make kvm_ioctl() and friends always retry on EINTR".
+> ---
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+Thanks
+
+Eric
+>  target/arm/kvm.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> Kevin
-> 
+> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+> index e5c1bd50d29..2982d216176 100644
+> --- a/target/arm/kvm.c
+> +++ b/target/arm/kvm.c
+> @@ -79,7 +79,9 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
+>      if (max_vm_pa_size < 0) {
+>          max_vm_pa_size = 0;
+>      }
+> -    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
+> +    do {
+> +        vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
+> +    } while (vmfd == -EINTR);
+>      if (vmfd < 0) {
+>          goto err;
+>      }
 
 
