@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776D65E9F40
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:22:39 +0200 (CEST)
-Received: from localhost ([::1]:46406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7CA75E9EBB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:11:58 +0200 (CEST)
+Received: from localhost ([::1]:36506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oclG2-0005Mf-II
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:22:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56352)
+	id 1ocl5h-00022U-PN
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:11:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpr-0005UE-69
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60457)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpo-0005N6-HK
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpo-0003nK-Gd
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:34 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ockpm-0003mx-QG
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 05:55:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664186131;
+ s=mimecast20190719; t=1664186130;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0m00e7GaD8cqnM2csAfgTfw2hXblEpsI8UlNCemk+ag=;
- b=Wf+op7UGTc1kOqG4W3ChJfB/ITnM6W0AqbNZuH6X5eDtcwhzZ3TY8kHDaOgJ3miCfv84LT
- a8QuGhejkNsm7FYCuD1FeSD2mRfEA/RVYWHAC/Hcr96D551XzNJyvSmnO160DTnBkizici
- pgqdzKGvThQSKeTV1KnGMz922AAvfWI=
+ bh=1/bz0ZvfMImJCS6WH5kQCYHFBHl/aO5fDf5KXRDm0YE=;
+ b=UrMVqfkDaCP/Lv+Y/7EONUzkR8i0kipA00fvQthJZMGPbvchrWs8kBftVDZoy9gLuIMu0U
+ /P8rTsGs6Bsiu/+C+xyVvfEU/T/TObLESIqhbErJH4BqQzcQB15umEA4lU3mc4jZ35MMdB
+ 5dTvVzzaB5QJ4BvdMjKm5eCCGyG+H2s=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-7mTSscTjOAmwuz9ehVwhAw-1; Mon, 26 Sep 2022 05:55:25 -0400
-X-MC-Unique: 7mTSscTjOAmwuz9ehVwhAw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-20-pWDCk7-RNJCHJs6XoSUbRg-1; Mon, 26 Sep 2022 05:55:26 -0400
+X-MC-Unique: pWDCk7-RNJCHJs6XoSUbRg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 43CA61C13941;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7D1BE3C11049;
  Mon, 26 Sep 2022 09:55:25 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 863BC49BB60;
- Mon, 26 Sep 2022 09:55:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CFC72166B26;
+ Mon, 26 Sep 2022 09:55:25 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B639518030B8; Mon, 26 Sep 2022 11:55:10 +0200 (CEST)
+ id C7DC418030BA; Mon, 26 Sep 2022 11:55:10 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
@@ -54,23 +54,25 @@ Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Alexandre Ratchov <alex@caoua.org>,
  Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PULL 14/25] usb/msd: move usb_msd_packet_complete()
-Date: Mon, 26 Sep 2022 11:54:58 +0200
-Message-Id: <20220926095509.3759409-15-kraxel@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Qiang Liu <cyruscyliu@gmail.com>
+Subject: [PULL 15/25] usb/msd: add usb_msd_fatal_error() and fix
+ guest-triggerable assert
+Date: Mon, 26 Sep 2022 11:54:59 +0200
+Message-Id: <20220926095509.3759409-16-kraxel@redhat.com>
 In-Reply-To: <20220926095509.3759409-1-kraxel@redhat.com>
 References: <20220926095509.3759409-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,60 +89,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change ordering to avoid adding forward declarations in
-following patches.  Fix comment code style while being
-at it.  No functional change.
+Add handler for fatal errors.  Moves device into error state where it
+stops responding until the guest resets it.
 
+Guest can send illegal requests where scsi command and usb packet
+transfer directions are inconsistent.  Use the new usb_msd_fatal_error()
+function instead of assert() in that case.
+
+Reported-by: Qiang Liu <cyruscyliu@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20220830063827.813053-2-kraxel@redhat.com>
+Tested-by: Qiang Liu <cyruscyliu@gmail.com>
+Message-Id: <20220830063827.813053-3-kraxel@redhat.com>
 ---
- hw/usb/dev-storage.c | 26 ++++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+ include/hw/usb/msd.h |  1 +
+ hw/usb/dev-storage.c | 30 +++++++++++++++++++++++++++++-
+ hw/usb/trace-events  |  1 +
+ 3 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
-index 98639696e6d8..140ef2aeaa80 100644
---- a/hw/usb/dev-storage.c
-+++ b/hw/usb/dev-storage.c
-@@ -177,6 +177,20 @@ static const USBDesc desc = {
-     .str   = desc_strings,
+diff --git a/include/hw/usb/msd.h b/include/hw/usb/msd.h
+index 54e9f38bda46..f9fd862b529a 100644
+--- a/include/hw/usb/msd.h
++++ b/include/hw/usb/msd.h
+@@ -40,6 +40,7 @@ struct MSDState {
+     bool removable;
+     bool commandlog;
+     SCSIDevice *scsi_dev;
++    bool needs_reset;
  };
  
-+static void usb_msd_packet_complete(MSDState *s)
+ typedef struct MSDState MSDState;
+diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
+index 140ef2aeaa80..e3bcffb3e0d7 100644
+--- a/hw/usb/dev-storage.c
++++ b/hw/usb/dev-storage.c
+@@ -191,6 +191,23 @@ static void usb_msd_packet_complete(MSDState *s)
+     usb_packet_complete(&s->dev, p);
+ }
+ 
++static void usb_msd_fatal_error(MSDState *s)
 +{
-+    USBPacket *p = s->packet;
++    trace_usb_msd_fatal_error();
++
++    if (s->packet) {
++        s->packet->status = USB_RET_STALL;
++        usb_msd_packet_complete(s);
++    }
 +
 +    /*
-+     * Set s->packet to NULL before calling usb_packet_complete
-+     * because another request may be issued before
-+     * usb_packet_complete returns.
++     * Guest messed up up device state with illegal requests.  Go
++     * ignore any requests until the guests resets the device (and
++     * brings it into a known state that way).
 +     */
-+    trace_usb_msd_packet_complete();
-+    s->packet = NULL;
-+    usb_packet_complete(&s->dev, p);
++    s->needs_reset = true;
 +}
 +
  static void usb_msd_copy_data(MSDState *s, USBPacket *p)
  {
      uint32_t len;
-@@ -208,18 +222,6 @@ static void usb_msd_send_status(MSDState *s, USBPacket *p)
+@@ -227,7 +244,11 @@ void usb_msd_transfer_data(SCSIRequest *req, uint32_t len)
+     MSDState *s = DO_UPCAST(MSDState, dev.qdev, req->bus->qbus.parent);
+     USBPacket *p = s->packet;
+ 
+-    assert((s->mode == USB_MSDM_DATAOUT) == (req->cmd.mode == SCSI_XFER_TO_DEV));
++    if ((s->mode == USB_MSDM_DATAOUT) != (req->cmd.mode == SCSI_XFER_TO_DEV)) {
++        usb_msd_fatal_error(s);
++        return;
++    }
++
+     s->scsi_len = len;
+     s->scsi_off = 0;
+     if (p) {
+@@ -317,6 +338,8 @@ void usb_msd_handle_reset(USBDevice *dev)
+ 
      memset(&s->csw, 0, sizeof(s->csw));
+     s->mode = USB_MSDM_CBW;
++
++    s->needs_reset = false;
  }
  
--static void usb_msd_packet_complete(MSDState *s)
--{
--    USBPacket *p = s->packet;
--
--    /* Set s->packet to NULL before calling usb_packet_complete
--       because another request may be issued before
--       usb_packet_complete returns.  */
--    trace_usb_msd_packet_complete();
--    s->packet = NULL;
--    usb_packet_complete(&s->dev, p);
--}
--
- void usb_msd_transfer_data(SCSIRequest *req, uint32_t len)
- {
-     MSDState *s = DO_UPCAST(MSDState, dev.qdev, req->bus->qbus.parent);
+ static void usb_msd_handle_control(USBDevice *dev, USBPacket *p,
+@@ -382,6 +405,11 @@ static void usb_msd_handle_data(USBDevice *dev, USBPacket *p)
+     SCSIDevice *scsi_dev;
+     uint32_t len;
+ 
++    if (s->needs_reset) {
++        p->status = USB_RET_STALL;
++        return;
++    }
++
+     switch (p->pid) {
+     case USB_TOKEN_OUT:
+         if (devep != 2)
+diff --git a/hw/usb/trace-events b/hw/usb/trace-events
+index 914ca7166829..b65269892c5e 100644
+--- a/hw/usb/trace-events
++++ b/hw/usb/trace-events
+@@ -263,6 +263,7 @@ usb_msd_packet_complete(void) ""
+ usb_msd_cmd_submit(unsigned lun, unsigned tag, unsigned flags, unsigned len, unsigned data_len) "lun %u, tag 0x%x, flags 0x%08x, len %d, data-len %d"
+ usb_msd_cmd_complete(unsigned status, unsigned tag) "status %d, tag 0x%x"
+ usb_msd_cmd_cancel(unsigned tag) "tag 0x%x"
++usb_msd_fatal_error(void) ""
+ 
+ # dev-uas.c
+ usb_uas_reset(int addr) "dev %d"
 -- 
 2.37.3
 
