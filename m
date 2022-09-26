@@ -2,86 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0D85E9BA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 10:07:54 +0200 (CEST)
-Received: from localhost ([::1]:54052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63125E9BB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 10:13:45 +0200 (CEST)
+Received: from localhost ([::1]:54568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocj9d-0004XP-DM
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 04:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38366)
+	id 1ocjFI-0001xK-Se
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 04:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ocj0G-0007BG-Me
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:58:12 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:47582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ocj0E-0002Cz-VZ
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 03:58:12 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ocjA2-0005QM-PK
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:08:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21170)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ocj9u-0003qO-UP
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 04:08:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664179688;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=vkbt7Z1pi2n7ZjJkQ1uj+VoJgme4DlixzPMjkHs48vQ=;
+ b=idDsf3iClgXK6D2A3RW61p3MxJfK9l94Zq1FPOEWbqvtznIFPj5FtjZu/l0vTvshsAPxhJ
+ nGth6FBSp1TMhzTTw/VQBw3R0QDPIbzf99KGv8F6aob7zNzx+8GML5tc0vnVWURdcx/g17
+ 8E9rtUAyjRj+Mn0eYmosDhBPhEKVABA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-460-QctuRKFGPemi0vgaDSIwAQ-1; Mon, 26 Sep 2022 04:08:07 -0400
+X-MC-Unique: QctuRKFGPemi0vgaDSIwAQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 157C621885;
- Mon, 26 Sep 2022 07:58:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664179087; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yCG2dJ75XY2te7wGxAuc5fqwvwOzN5i9qWbzoVmAUEU=;
- b=UiY1ugzxjveG5cC+83QRvvywtWE4rgM2PeYoUelWUzR2mh0RE9Nhb54UHoexWiEEdxEHhh
- lr606gxRgsXqmfEPq1W5iTQlwno6qVmQ04FQB2TRF6NfJh5IR1YNm/S/0A9vMoWnl6y8qN
- bWFm186y6OuAYQ3QD2zj2LZOUA9ccCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664179087;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yCG2dJ75XY2te7wGxAuc5fqwvwOzN5i9qWbzoVmAUEU=;
- b=crPy2//Ts3nQ/F1V5i4HZu017+gGS7i2MFojXQuElHJ0PR6pFFsdk4McGU7zgE52LByBQQ
- 0RGwaRJ4+Vio5ZBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B733B139BD;
- Mon, 26 Sep 2022 07:58:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cstFK45bMWOkSAAAMHmgww
- (envelope-from <cfontana@suse.de>); Mon, 26 Sep 2022 07:58:06 +0000
-Message-ID: <0e32098d-4f76-8a40-3214-98fb58dd4192@suse.de>
-Date: Mon, 26 Sep 2022 09:58:06 +0200
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CED88185A794;
+ Mon, 26 Sep 2022 08:08:06 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.136])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E74CC40C6EC2;
+ Mon, 26 Sep 2022 08:08:05 +0000 (UTC)
+Date: Mon, 26 Sep 2022 09:08:03 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Maximum QMP reply size
+Message-ID: <YzFd44GS6Ad0DNis@redhat.com>
+References: <CAFn=p-ZkKLQtYAwzkQb7srFf_fF8ij+g5wkZiRofx4U+kSZ7Rw@mail.gmail.com>
+ <87v8pzwgbm.fsf@pond.sub.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v6 5/5] accel: abort if we fail to load the accelerator
- plugin
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20220923232104.28420-1-cfontana@suse.de>
- <20220923232104.28420-6-cfontana@suse.de>
- <989f2606-fa87-0a2e-c49e-00442c8c618c@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <989f2606-fa87-0a2e-c49e-00442c8c618c@amsat.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -81
-X-Spam_score: -8.2
-X-Spam_bar: --------
-X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.766,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87v8pzwgbm.fsf@pond.sub.org>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,114 +79,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/24/22 14:35, Philippe Mathieu-Daudé via wrote:
-> On 24/9/22 01:21, Claudio Fontana wrote:
->> if QEMU is configured with modules enabled, it is possible that the
->> load of an accelerator module will fail.
->> Abort in this case, relying on module_object_class_by_name to report
->> the specific load error if any.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   accel/accel-softmmu.c | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
->> index 67276e4f52..9fa4849f2c 100644
->> --- a/accel/accel-softmmu.c
->> +++ b/accel/accel-softmmu.c
->> @@ -66,6 +66,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
->>   {
->>       const char *ac_name;
->>       char *ops_name;
->> +    ObjectClass *oc;
->>       AccelOpsClass *ops;
->>   
->>       ac_name = object_class_get_name(OBJECT_CLASS(ac));
->> @@ -73,8 +74,13 @@ void accel_init_ops_interfaces(AccelClass *ac)
->>   
->>       ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
->>       ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
->> +    oc = module_object_class_by_name(ops_name);
->> +    if (!oc) {
->> +        error_report("fatal: could not load module for type '%s'", ops_name);
->> +        abort();
+On Wed, Sep 07, 2022 at 01:54:05PM +0200, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
 > 
-> I still think a coredump won't help at all to figure the problem here: a 
-
-I can change this from abort to exit(1), the issue I am seeing is, usually when we fail to create or initialize objects
-we seem to be using abort(), the most prominent examples are in qom/object.c:
-
-static TypeImpl *type_new(const TypeInfo *info)
-{
-    TypeImpl *ti = g_malloc0(sizeof(*ti));
-    int i;
-
-    g_assert(info->name != NULL);
-
-    if (type_table_lookup(info->name) != NULL) {
-        fprintf(stderr, "Registering `%s' which already exists\n", info->name);
-        abort();
-    }
-
-...
-
-void object_initialize(void *data, size_t size, const char *typename)
-{
-    TypeImpl *type = type_get_by_name(typename);
-
-#ifdef CONFIG_MODULES
-    if (!type) {
-        Error *local_err = NULL;
-        int rv = module_load_qom(typename, &local_err);
-        if (rv > 0) {
-            type = type_get_by_name(typename);
-        } else if (rv < 0) {
-            error_report_err(local_err);
-        }
-    }
-#endif
-    if (!type) {
-        error_report("missing object type '%s'", typename);
-        abort();
-    }
-
-    object_initialize_with_type(data, size, type);
-}
-
-
-Do you propose to change only the assert in accel_init_ops_interfaces to exit(1)?
-
-Or the other case as well in the series? (ie hw/core/qdev.c qdev_new() ?)
-
-Do you propose to change this consistently through the codebase including the object.c snippets above?
-
-
-> module is missing, we know its name. Anyhow I don't mind much, and this
-> can be cleaned later, so:
-
-Sure this could be fixed later with a series that tries to use exit() vs abort() consistently throughout the codebase when initializing and creating objects.
-
+> > Hi, I suspect I have asked this before, but I didn't write it down in
+> > a comment, so I forget my justification...
+> >
+> > In the QMP lib, we need to set a buffering limit for how big a QMP
+> > message can be -- In practice, I found that the largest possible
+> > response was the QAPI schema reply, and I set the code to this:
+> >
+> >     # Maximum allowable size of read buffer
+> >     _limit = (64 * 1024)
+> >
+> > However, I didn't document if this was a reasonable limit or just a
+> > "worksforme" one. I assume that there's no hard limit for the protocol
+> > or the implementation thereof in QEMU. Is there any kind of value here
+> > that would be more sensible than another?
+> >
+> > I'm worried that if replies get bigger in the future (possibly in some
+> > degenerate case I am presently unaware of) that the library default
+> > will become nonsensical.
+> >
+> > Any pointers/tips?
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Peter and Daniel already provided some.  I can add a bit of insight into
+> how QMP output works in QEMU, which may or may not help you.
 > 
-
-Thanks!
-
-Claudio
-
->> +    }
->>       g_free(ops_name);
->> -
->> +    ops = ACCEL_OPS_CLASS(oc);
->>       /*
->>        * all accelerators need to define ops, providing at least a mandatory
->>        * non-NULL create_vcpu_thread operation.
+> QEMU executes one command after the other.  A command's response
+> (success or failure) is a QDict.  Which is then formatted as JSON and
+> appended to the monitor's output buffer.
 > 
+> Events work similarly.
 > 
+> The conversion to JSON does not limit the resulting string's size.  If
+> it runs out of memory, QEMU dies.
+> 
+> The output buffer is also unbounded.  It drains into the monitor's
+> character device.
+> 
+> If the QMP client sends enough commands without reading their responses,
+> QEMU can run out of memory and die.
+> 
+> Now I'm ready to go back to your question, which is about a *single*
+> message (QMP command response or event): nothing in QEMU limits the size
+> of the QMP output message text.
+> 
+> Weak consolation: I guess QEMU is somewhat likely to run out of memory
+> and die before your client software does.  That's because QDict is a
+> pig: an empty one eats 4120 Bytes on my system.  Compares unfavourable
+> to its text representation "{}".
+
+A malicious QEMU that's trying to attack the mgmt software client
+wouldn't need to use QDict, so that's only consolation against
+accidents. An evil QEMU would just write JSON directly onto the
+monitor chardev. It wouldn't even have to be well formed JSON,
+as it could just start a string and never end it.
+
+ {"blah..repeated for 1 TB for data...."
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
