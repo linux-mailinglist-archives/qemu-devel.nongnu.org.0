@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F175EA9CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 17:11:22 +0200 (CEST)
-Received: from localhost ([::1]:41840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086775EABA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 17:52:08 +0200 (CEST)
+Received: from localhost ([::1]:59746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocplR-0002MX-3c
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 11:11:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56576)
+	id 1ocqOq-00066N-0L
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 11:52:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocpgW-0006aO-8D
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:06:19 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37785)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ocpgD-0006W7-WA
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:06:02 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:43888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocpgT-0002HD-VD
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:06:15 -0400
-Received: by mail-wr1-x429.google.com with SMTP id bq9so10709947wrb.4
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 08:06:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=ndzCbFVE+gYkvd7JbsgHyS2C4TcpX8OOkmzMSDAbtcw=;
- b=HEC6kpu83MfggJUxSfRWUStqjKOSY6PJCFXDR7iV459rG+mwL2b/jcdJQBPxB6xP/8
- LxA9OTKCgHlqgXYmIaYD2jdb8JXJ0Q/AVuXgojLCZI88wCtV9PBrkm+9vwGjnTV3Cngo
- YNdkb0CrbGy+N8RV+exlO74Wog+kAhJekwSszQed7ohghjCqWpzstEjVGFk/kX/ZFJYN
- csAwRe1qGPHmNJtq7/DmXJjgc/6YSOtTQ+HF731pP9XNHi4+fYknlVbV/FOdW1A5BMSP
- iPSGoaxcx6mMuXSSysvV+zBkMhpCvfz7v27vsyTv8VV3m46LzuW/3O17tGhk71Xom/Eo
- nbbw==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ocpg9-0002Bq-UM
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 11:05:56 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id e187so8713742ybh.10
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 08:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=3uK2KJUZoGDkUriMiVcq2KAVP53JvGGeI9iPHy8w5AU=;
+ b=mj1eTyot4rpFx9HmZW95mrDO1UEpmk5yVRHcuC9FGfFCc/wWhVWE3pGN7ElklwHCx9
+ CWkjlygxIRNmGlxdZO4TOQ0gDCjzE/jEtHr/915LilCAPOgVbsZayBx68ifiUMkGH5Ct
+ WzGJoc571QvDjcmGE/faqSHQjLRoYY/3wiExXTdTaD5rmjpzX1C31Rkg/3w2sNc2z23D
+ YYP7HUnpUvOHumijrwePihTrxXMvCwPsDhYEDlEvTeGDDDHqz0/g48oMqrfEJg9uo0KU
+ lwGl1wcqemVtERjo7OJlCtdDFtc3RAeG+jrdQWu3LjBb1jtH+FkX3wWc7lTOmBrfCmfI
+ 2wCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=ndzCbFVE+gYkvd7JbsgHyS2C4TcpX8OOkmzMSDAbtcw=;
- b=xeJ5/xl00QyrdbHhkEffMO0F2+N1Iiay8fbQYBNqlFn/OCs8hfLeDYTVCJxYNXx0GE
- eCBTT6YJDYN6330khtXekbnPvibXYf0l9KucZU1E7LA/VxhvK+zrkZZXwrRzqVLIebL/
- 7IgUJj08VWXgc397CL0tdp9d4YVErskKZH/iwccxBiPwwbN7Z5lSDZEP1Tt/+pMGJsgV
- IVD9O5spBJ89/TCmkktucbfxNpliYbtqnB7f+S4kobhdruW6le8RJd/cnq1D9yvcNU8f
- 8vSh+3J15J6FbgEtZcM/xATPZbj22KBZuExK7HD/9+w1RY05yi3mAWAsFexJzxV1LgTo
- p3pQ==
-X-Gm-Message-State: ACrzQf2f6mpKFjb4wB6sAXtj/6PL3elBd/LPj/ix70Gk4FhTBz+bRtB7
- kUX0kZc4VrtgPuieInGnav+KVw==
-X-Google-Smtp-Source: AMsMyM4dDwhRz09lvFJ6BYUXL/MdvqttJt+RkGwQorM5Zmqef2UtQGDKAOSMSJI3qovFpg3QxQVDMg==
-X-Received: by 2002:adf:de0b:0:b0:22a:c7f7:8eb4 with SMTP id
- b11-20020adfde0b000000b0022ac7f78eb4mr13795006wrm.195.1664204772303; 
- Mon, 26 Sep 2022 08:06:12 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- q12-20020a7bce8c000000b003b5054c6cd2sm13191139wmj.36.2022.09.26.08.06.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Sep 2022 08:06:11 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0F8041FFB7;
- Mon, 26 Sep 2022 16:06:11 +0100 (BST)
-References: <20220926133904.3297263-1-alex.bennee@linaro.org>
- <20220926133904.3297263-3-alex.bennee@linaro.org>
- <CAFEAcA-gpE6XYbiacSAso1_66RXYEJD04z4+HW4fFpqeCvpdQw@mail.gmail.com>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, mads@ynddal.dk, qemu-arm@nongnu.org
-Subject: Re: [PATCH v2 02/11] target/arm: enable tracking of CPU index in
- MemTxAttrs
-Date: Mon, 26 Sep 2022 16:05:34 +0100
-In-reply-to: <CAFEAcA-gpE6XYbiacSAso1_66RXYEJD04z4+HW4fFpqeCvpdQw@mail.gmail.com>
-Message-ID: <87pmfi41lp.fsf@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=3uK2KJUZoGDkUriMiVcq2KAVP53JvGGeI9iPHy8w5AU=;
+ b=5cLY0zaEJZWABESj7qGYbmN7pRVevEE16qxH+I3rnUBFVafA/bkOjkO4zEfvysztwi
+ p1nDQnzwvWFcgM5PZYHZwi37DpXRwECu+I6btnXHJu54FG0dTw1AL3PUpylnJqz8riRA
+ BYTiJ1T+6CDKK08G5SLA9PKHIiVbj1fq6CBiDRCeXYVhbtSkQbXGU9xp6TRU+LX4AeFq
+ 2i09h5g2G1++lCDt1FJ1Yx0QW0wMSnp1o0JxJNkt3hVZoSGn3k1Nr4Nvwy/Itu+5ktNw
+ +bGCnCJUfWbb4pRS/IIdiqP+guOpPF1VwdG7X0mXNV+fa5Nqsw/zoyC994+4iUaMQhdZ
+ htyw==
+X-Gm-Message-State: ACrzQf0hfrXjK/1PBtvodNq2UKtt+j8JpiI3HALZaeR7ASdUdNlh0br6
+ kaTk84rruHSPwpv1/2o55Geho4ikULIFcFfn3A8=
+X-Google-Smtp-Source: AMsMyM5FpUs2CAXldeJ77fD4453PT8fKCD26CI8Rtmp8iP5n8fhGxG3x7sQkMGcOUNq+DYPrtCLQpXvShHfUOOke94E=
+X-Received: by 2002:a05:6902:42:b0:695:9d03:f138 with SMTP id
+ m2-20020a056902004200b006959d03f138mr19976302ybh.503.1664204752213; Mon, 26
+ Sep 2022 08:05:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
+ <20220925113032.1949844-43-bmeng.cn@gmail.com>
+ <CAJ+F1CLh=GzJ4gxQ+dEriC2nMzn5nUM-JBdhRpzai-z-RcPmxA@mail.gmail.com>
+In-Reply-To: <CAJ+F1CLh=GzJ4gxQ+dEriC2nMzn5nUM-JBdhRpzai-z-RcPmxA@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 26 Sep 2022 23:05:41 +0800
+Message-ID: <CAEUhbmX+Nsyf9dFb3D1TT0DaiUGZ4Z_G-ojnJmDXZXngyhqdRg@mail.gmail.com>
+Subject: Re: [PATCH v3 42/54] chardev/char-file: Add FILE_SHARE_WRITE when
+ opening the file for win32
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,50 +89,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Mon, 26 Sept 2022 at 14:39, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
+On Mon, Sep 26, 2022 at 9:27 PM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi
+>
+> On Sun, Sep 25, 2022 at 4:35 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >>
->> Both arm_cpu_tlb_fill (for normal IO) and
->> arm_cpu_get_phys_page_attrs_debug (for debug access) come through
->> get_phys_addr which is setting the other memory attributes for the
->> transaction. As these are all by definition CPU accesses we can also
->> set the requested_type/index as appropriate.
+>> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 >>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> The combination of GENERIC_WRITE and FILE_SHARE_READ options does not
+>> allow the same file to be opened again by CreateFile() from another
+>> QEMU process with the same options when the previous QEMU process
+>> still holds the file handle opened.
+>>
+>> This was triggered by running the test_multifd_tcp_cancel() case on
+>> Windows, which cancels the migration, and launches another QEMU
+>> process to migrate with the same file opened for write. Chances are
+>> that the previous QEMU process does not quit before the new QEMU
+>> process runs hence the old one still holds the file handle that does
+>> not allow shared write permission then the new QEMU process will fail.
+>>
+>> There is another test case boot-serial-test that triggers the same
+>> issue. The qtest executable created a serial chardev file to be
+>> passed to the QEMU executable. The serial file was created by
+>> g_file_open_tmp(), which internally opens the file with
+>> FILE_SHARE_WRITE security attribute, and based on [1], there is
+>> only one case that allows the first call to CreateFile() with
+>> GENERIC_READ & FILE_SHARE_WRITE, and second call to CreateFile()
+>> with GENERIC_WRITE & FILE_SHARE_READ. All other combinations
+>> require FILE_SHARE_WRITE in the second call. But there is no way
+>> for the second call (in this case the QEMU executable) to know
+>> what combination was passed to the first call, so we will have to
+>> add FILE_SHARE_WRITE to the second call.
+>>
+>> For both scenarios we should add FILE_SHARE_WRITE in the chardev
+>> file backend driver. This change also makes the behavior to be
+>> consistent with the POSIX platforms.
+>
+>
+> It seems to me the tests should be fixed instead. I thought you fixed the=
+ first case. For the second case, why not close the file before starting qe=
+mu? If you have issues, I will take a deeper look.
+
+Indeed, the following test case change can "fix" this issue:
+
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.=
+c
+index 72310ba30e..f192fbc181 100644
+--- a/tests/qtest/boot-serial-test.c
++++ b/tests/qtest/boot-serial-test.c
+@@ -233,6 +233,7 @@ static void test_machine(const void *data)
+ser_fd =3D g_file_open_tmp("qtest-boot-serial-sXXXXXX", &serialtmp, NULL);
+g_assert(ser_fd !=3D -1);
++ close(ser_fd);
+if (test->kernel) {
+code =3D test->kernel;
+@@ -266,6 +267,7 @@ static void test_machine(const void *data)
+unlink(codetmp);
+}
++ ser_fd =3D open(serialtmp, O_RDONLY);
+if (!check_guest_output(qts, test, ser_fd)) {
+g_error("Failed to find expected string. Please check '%s'",
+serialtmp);
+
+But I think it just workarounds the problem. The original test case
+looks reasonable to me. If we update the case like above, we cannot
+guarantee users will do like the updated test case does.
+
+>
+>>
+>>
+>> [1] https://docs.microsoft.com/en-us/windows/win32/fileio/creating-and-o=
+pening-files
+>>
+>> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 >> ---
->>  target/arm/ptw.c | 3 +++
->>  1 file changed, 3 insertions(+)
 >>
->> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
->> index 3261039d93..644d450662 100644
->> --- a/target/arm/ptw.c
->> +++ b/target/arm/ptw.c
->> @@ -2315,6 +2315,9 @@ bool get_phys_addr(CPUARMState *env, target_ulong =
-address,
->>  {
->>      ARMMMUIdx s1_mmu_idx =3D stage_1_mmu_idx(mmu_idx);
+>> Changes in v3:
+>> - Add another case "boot-serial-test" to justify the change
 >>
->> +    attrs->requester_type =3D MEMTXATTRS_CPU;
->> +    attrs->requester_id =3D env_cpu(env)->cpu_index;
->> +
->
-> This only catches the case where the memory access is
-> done via something that does a virtual-to-physical translation.
-> It misses memory accesses done directly on physical addresses,
-> such as those in arm_ldl_ptw() and arm_ldq_ptw(), plus various
-> M-profile specific ones.
+>> Changes in v2:
+>> - Update commit message to include the use case why we should set
+>>   FILE_SHARE_WRITE when opening the file for win32
+>>
+>>  chardev/char-file.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
 
-I thought they were just used for the page table walk. Can you place
-your page tables aliases with a piece of HW?
-
->
-> thanks
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
+Regards,
+Bin
 
