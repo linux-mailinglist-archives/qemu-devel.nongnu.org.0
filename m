@@ -2,96 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 540A85EA1C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:56:50 +0200 (CEST)
-Received: from localhost ([::1]:34126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD77D5EA1D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 12:58:02 +0200 (CEST)
+Received: from localhost ([::1]:36234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocln7-0002cx-FG
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:56:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36574)
+	id 1ocloH-00046O-Mh
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 06:58:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1oclUA-0000FV-V7
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 06:37:14 -0400
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:37377)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1oclU8-0001gv-LI
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 06:37:14 -0400
-Received: by mail-lf1-x132.google.com with SMTP id k10so10139062lfm.4
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 03:37:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=VSRxnrCbVF28HW7HDzSHYANx4W5JSEkYy5d9bsMeIUg=;
- b=c3VTw1it52SU6I0Q9Dm7OfQVQcfasToSNc10L8FEKnjtfEGqYivYnTIi9ds6eF0I+J
- 6CmDrQFB8/ziU6Kz2cIHWkZEWqBZpyU/zvvPOwYtHoYSMgURkQlbwho8LZyMYqTZ95XW
- gzBgswvWJviOgfV8JHinvnewPvNoEltLsXOGeV+2LAbx0lLUUXJjIY6Q5AahL9sp3Vp7
- J4FJcdpwC9DDMVB6RpZChlI1WZExdmCXYzQn59903HkcyaoieMwNaFMQMQROtG06Ezwu
- DFElTvR07hF6p+mDCDO66bv4pnLSJLaur3eamKb8LqlZS7s94pZGpYe9kc31Rh/q2bOI
- 2EzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=VSRxnrCbVF28HW7HDzSHYANx4W5JSEkYy5d9bsMeIUg=;
- b=e2rBrE8HP7pmT4O2cyFac2fN9KjnVRIe+NBUgCOjDw0Fuh9z6ZuXfCVe5+kJFbN5Yo
- gxs+5cDvSSqRnlVXwNO3VkJ6r3szxTLuNlsNkvYVVuWni584/A7mDBO5R1g/W7fGKnGW
- 6UAXt1iD2IJS1c2pVL2Zwfb4JxkoJYJ3s/iS0UK0zVmIUKAK83y64D4MVge9uQ/9FTst
- GnstiYUanDuCB8rilGOmsX+lSmBkSm34hfrxQQ/2KoSz7VuxkJD6uh42GxBAlBlYmNP1
- BcDm75G2HQMa8YHz8PX5g/BH9DPyIh6BSgVMOH5zoEcyjZI5TcsDnK7z79eKDa1VrFZz
- dTJA==
-X-Gm-Message-State: ACrzQf0rf5rvZl4dAw6R9MjXLhmqOOhX01sR/Ia7xwHomWWhiXUEDkmW
- kRoStuLCCJ9QLAdQsJy/h0WIIMpd0FgsnvQaX8e/8Q==
-X-Google-Smtp-Source: AMsMyM6Q8l0A5MuwZSVIzPcWIYURsnFVWGoUOcavJ74gG1CPVoFSw1t+QBjeS52diB2dX2SnR0f9C7wbecPu5v4mwXA=
-X-Received: by 2002:a05:6512:3f8b:b0:492:d1ed:5587 with SMTP id
- x11-20020a0565123f8b00b00492d1ed5587mr9073370lfa.355.1664188630397; Mon, 26
- Sep 2022 03:37:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oclW3-0002b5-7R
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 06:39:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oclVz-0001md-G6
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 06:39:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664188746;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uAP4WMEn0YiOJKriA8IGYoZ4o07A/SCMXcZ8ltyZB5Y=;
+ b=c8NfaWdjvcrVBop4Jao4fk+GHfzL3FrfcDwh9EshH4zyV4pLGIbv7ju5dOGR568V0LtH6F
+ Z6fFmROazJI87tZqjEwWVTYEN3QZrCbDanOqu+FzRu4xu7ulog9sJpvHXUpuFoN7WZn8n6
+ iLQTLPTcOwjHaBkytguTjJBUhfNp/08=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-380-fzHTzy4RN1y9vQc9Kun7Nw-1; Mon, 26 Sep 2022 06:38:57 -0400
+X-MC-Unique: fzHTzy4RN1y9vQc9Kun7Nw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02312185A79C;
+ Mon, 26 Sep 2022 10:38:57 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91269492B04;
+ Mon, 26 Sep 2022 10:38:52 +0000 (UTC)
+Date: Mon, 26 Sep 2022 12:38:51 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v6 3/5] module: add Error arguments to module_load and
+ module_load_qom
+Message-ID: <YzGBOwBQucv1F2NL@redhat.com>
+References: <20220923232104.28420-1-cfontana@suse.de>
+ <20220923232104.28420-4-cfontana@suse.de>
 MIME-Version: 1.0
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-6-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220915142913.2213336-6-chao.p.peng@linux.intel.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Mon, 26 Sep 2022 11:36:34 +0100
-Message-ID: <CA+EHjTx+GVpGavzMQQOispT-oUk5cSyssedYJ00=GdnCtEQO6A@mail.gmail.com>
-Subject: Re: [PATCH v8 5/8] KVM: Register/unregister the guest private memory
- regions
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, 
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, 
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::132;
- envelope-from=tabba@google.com; helo=mail-lf1-x132.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220923232104.28420-4-cfontana@suse.de>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,251 +84,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Chao,
+Am 24.09.2022 um 01:21 hat Claudio Fontana geschrieben:
+> improve error handling during module load, by changing:
+> 
+> bool module_load(const char *prefix, const char *lib_name);
+> void module_load_qom(const char *type);
+> 
+> to:
+> 
+> int module_load(const char *prefix, const char *name, Error **errp);
+> int module_load_qom(const char *type, Error **errp);
+> 
+> where the return value is:
+> 
+>  -1 on module load error, and errp is set with the error
+>   0 on module or one of its dependencies are not installed
+>   1 on module load success
+>   2 on module load success (module already loaded or built-in)
+> 
+> module_load_qom_one has been introduced in:
+> 
+> commit 28457744c345 ("module: qom module support"), which built on top of
+> module_load_one, but discarded the bool return value. Restore it.
+> 
+> Adapt all callers to emit errors, or ignore them, or fail hard,
+> as appropriate in each context.
+> 
+> Some memory leaks also fixed as part of the module_load changes.
+> 
+> audio: when attempting to load an audio module, report module load errors.
+> block: when attempting to load a block module, report module load errors.
+> console: when attempting to load a display module, report module load errors.
+> 
+> qdev: when creating a new qdev Device object (DeviceState), report load errors.
+>       If a module cannot be loaded to create that device, now abort execution.
+> 
+> qom/object.c: when initializing a QOM object, or looking up class_by_name,
+>               report module load errors.
+> 
+> qtest: when processing the "module_load" qtest command, report errors
+>        in the load of the module.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 
-On Thu, Sep 15, 2022 at 3:38 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> If CONFIG_HAVE_KVM_PRIVATE_MEM=y, userspace can register/unregister the
-> guest private memory regions through KVM_MEMORY_ENCRYPT_{UN,}REG_REGION
-> ioctls. The patch reuses existing SEV ioctl number but differs that the
-> address in the region for KVM_PRIVATE_MEM case is gpa while for SEV case
-> it's hva. Which usages should the ioctls go is determined by the newly
-> added kvm_arch_has_private_mem(). Architecture which supports
-> KVM_PRIVATE_MEM should override this function.
->
-> The current implementation defaults all memory to private. The shared
-> memory regions are stored in a xarray variable for memory efficiency and
-> zapping existing memory mappings is also a side effect of these two
-> ioctls when defined.
->
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  Documentation/virt/kvm/api.rst  | 17 ++++++--
->  arch/x86/include/asm/kvm_host.h |  1 +
->  arch/x86/kvm/mmu.h              |  2 -
->  include/linux/kvm_host.h        | 13 ++++++
->  virt/kvm/kvm_main.c             | 73 +++++++++++++++++++++++++++++++++
->  5 files changed, 100 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 1a6c003b2a0b..c0f800d04ffc 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -4715,10 +4715,19 @@ Documentation/virt/kvm/x86/amd-memory-encryption.rst.
->  This ioctl can be used to register a guest memory region which may
->  contain encrypted data (e.g. guest RAM, SMRAM etc).
->
-> -It is used in the SEV-enabled guest. When encryption is enabled, a guest
-> -memory region may contain encrypted data. The SEV memory encryption
-> -engine uses a tweak such that two identical plaintext pages, each at
-> -different locations will have differing ciphertexts. So swapping or
-> +Currently this ioctl supports registering memory regions for two usages:
-> +private memory and SEV-encrypted memory.
-> +
-> +When private memory is enabled, this ioctl is used to register guest private
-> +memory region and the addr/size of kvm_enc_region represents guest physical
-> +address (GPA). In this usage, this ioctl zaps the existing guest memory
-> +mappings in KVM that fallen into the region.
-> +
-> +When SEV-encrypted memory is enabled, this ioctl is used to register guest
-> +memory region which may contain encrypted data for a SEV-enabled guest. The
-> +addr/size of kvm_enc_region represents userspace address (HVA). The SEV
-> +memory encryption engine uses a tweak such that two identical plaintext pages,
-> +each at different locations will have differing ciphertexts. So swapping or
->  moving ciphertext of those pages will not result in plaintext being
->  swapped. So relocating (or migrating) physical backing pages for the SEV
->  guest will require some additional steps.
-> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-> index 2c96c43c313a..cfad6ba1a70a 100644
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -37,6 +37,7 @@
->  #include <asm/hyperv-tlfs.h>
->
->  #define __KVM_HAVE_ARCH_VCPU_DEBUGFS
-> +#define __KVM_HAVE_ZAP_GFN_RANGE
->
->  #define KVM_MAX_VCPUS 1024
->
-> diff --git a/arch/x86/kvm/mmu.h b/arch/x86/kvm/mmu.h
-> index 6bdaacb6faa0..c94b620bf94b 100644
-> --- a/arch/x86/kvm/mmu.h
-> +++ b/arch/x86/kvm/mmu.h
-> @@ -211,8 +211,6 @@ static inline u8 permission_fault(struct kvm_vcpu *vcpu, struct kvm_mmu *mmu,
->         return -(u32)fault & errcode;
->  }
->
-> -void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end);
-> -
->  int kvm_arch_write_log_dirty(struct kvm_vcpu *vcpu);
->
->  int kvm_mmu_post_init_vm(struct kvm *kvm);
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 2125b50f6345..d65690cae80b 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -260,6 +260,15 @@ bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
->  bool kvm_set_spte_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
->  #endif
->
-> +#ifdef __KVM_HAVE_ZAP_GFN_RANGE
-> +void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end);
-> +#else
-> +static inline void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start
-> +                                                     gfn_t gfn_end)
+> diff --git a/block/dmg.c b/block/dmg.c
+> index 007b8d9996..a422cf8d5b 100644
+> --- a/block/dmg.c
+> +++ b/block/dmg.c
+> @@ -434,6 +434,7 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+>      uint64_t plist_xml_offset, plist_xml_length;
+>      int64_t offset;
+>      int ret;
+> +    Error *local_err = NULL;
+>  
+>      ret = bdrv_apply_auto_read_only(bs, NULL, errp);
+>      if (ret < 0) {
+> @@ -446,8 +447,15 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+>          return -EINVAL;
+>      }
+>  
+> -    block_module_load("dmg-bz2");
+> -    block_module_load("dmg-lzfse");
+> +    if (block_module_load("dmg-bz2", &local_err) < 0) {
+> +        error_report_err(local_err);
+> +        return -EINVAL;
+> +    }
+> +    local_err = NULL;
+> +    if (block_module_load("dmg-lzfse", &local_err) < 0) {
+> +        error_report_err(local_err);
+> +        return -EINVAL;
+> +    }
 
-Missing a comma after gfn_start.
+Why don't we pass the existing errp instead of adding a new local_err
+and printing it locally? If we use error_report_err(local_err) and leave
+errp untouched, the caller will print another less specific error
+message, which is generally not what we want.
 
-Cheers,
-/fuad
+Kevin
 
-
-
-> +{
-> +}
-> +#endif
-> +
->  enum {
->         OUTSIDE_GUEST_MODE,
->         IN_GUEST_MODE,
-> @@ -795,6 +804,9 @@ struct kvm {
->         struct notifier_block pm_notifier;
->  #endif
->         char stats_id[KVM_STATS_NAME_SIZE];
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +       struct xarray mem_attr_array;
-> +#endif
->  };
->
->  #define kvm_err(fmt, ...) \
-> @@ -1454,6 +1466,7 @@ bool kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu);
->  int kvm_arch_post_init_vm(struct kvm *kvm);
->  void kvm_arch_pre_destroy_vm(struct kvm *kvm);
->  int kvm_arch_create_vm_debugfs(struct kvm *kvm);
-> +bool kvm_arch_has_private_mem(struct kvm *kvm);
->
->  #ifndef __KVM_HAVE_ARCH_VM_ALLOC
->  /*
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index fa9dd2d2c001..de5cce8c82c7 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -937,6 +937,47 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
->
->  #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
->
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +#define KVM_MEM_ATTR_SHARED    0x0001
-> +static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
-> +                                    bool is_private)
-> +{
-> +       gfn_t start, end;
-> +       unsigned long index;
-> +       void *entry;
-> +       int r;
-> +
-> +       if (size == 0 || gpa + size < gpa)
-> +               return -EINVAL;
-> +       if (gpa & (PAGE_SIZE - 1) || size & (PAGE_SIZE - 1))
-> +               return -EINVAL;
-> +
-> +       start = gpa >> PAGE_SHIFT;
-> +       end = (gpa + size - 1 + PAGE_SIZE) >> PAGE_SHIFT;
-> +
-> +       /*
-> +        * Guest memory defaults to private, kvm->mem_attr_array only stores
-> +        * shared memory.
-> +        */
-> +       entry = is_private ? NULL : xa_mk_value(KVM_MEM_ATTR_SHARED);
-> +
-> +       for (index = start; index < end; index++) {
-> +               r = xa_err(xa_store(&kvm->mem_attr_array, index, entry,
-> +                                   GFP_KERNEL_ACCOUNT));
-> +               if (r)
-> +                       goto err;
-> +       }
-> +
-> +       kvm_zap_gfn_range(kvm, start, end);
-> +
-> +       return r;
-> +err:
-> +       for (; index > start; index--)
-> +               xa_erase(&kvm->mem_attr_array, index);
-> +       return r;
-> +}
-> +#endif /* CONFIG_HAVE_KVM_PRIVATE_MEM */
-> +
->  #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
->  static int kvm_pm_notifier_call(struct notifier_block *bl,
->                                 unsigned long state,
-> @@ -1165,6 +1206,9 @@ static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
->         spin_lock_init(&kvm->mn_invalidate_lock);
->         rcuwait_init(&kvm->mn_memslots_update_rcuwait);
->         xa_init(&kvm->vcpu_array);
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +       xa_init(&kvm->mem_attr_array);
-> +#endif
->
->         INIT_LIST_HEAD(&kvm->gpc_list);
->         spin_lock_init(&kvm->gpc_lock);
-> @@ -1338,6 +1382,9 @@ static void kvm_destroy_vm(struct kvm *kvm)
->                 kvm_free_memslots(kvm, &kvm->__memslots[i][0]);
->                 kvm_free_memslots(kvm, &kvm->__memslots[i][1]);
->         }
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +       xa_destroy(&kvm->mem_attr_array);
-> +#endif
->         cleanup_srcu_struct(&kvm->irq_srcu);
->         cleanup_srcu_struct(&kvm->srcu);
->         kvm_arch_free_vm(kvm);
-> @@ -1541,6 +1588,11 @@ static void kvm_replace_memslot(struct kvm *kvm,
->         }
->  }
->
-> +bool __weak kvm_arch_has_private_mem(struct kvm *kvm)
-> +{
-> +       return false;
-> +}
-> +
->  static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
->  {
->         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
-> @@ -4703,6 +4755,24 @@ static long kvm_vm_ioctl(struct file *filp,
->                 r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
->                 break;
->         }
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +       case KVM_MEMORY_ENCRYPT_REG_REGION:
-> +       case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
-> +               struct kvm_enc_region region;
-> +               bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
-> +
-> +               if (!kvm_arch_has_private_mem(kvm))
-> +                       goto arch_vm_ioctl;
-> +
-> +               r = -EFAULT;
-> +               if (copy_from_user(&region, argp, sizeof(region)))
-> +                       goto out;
-> +
-> +               r = kvm_vm_ioctl_set_mem_attr(kvm, region.addr,
-> +                                             region.size, set);
-> +               break;
-> +       }
-> +#endif
->         case KVM_GET_DIRTY_LOG: {
->                 struct kvm_dirty_log log;
->
-> @@ -4856,6 +4926,9 @@ static long kvm_vm_ioctl(struct file *filp,
->                 r = kvm_vm_ioctl_get_stats_fd(kvm);
->                 break;
->         default:
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +arch_vm_ioctl:
-> +#endif
->                 r = kvm_arch_vm_ioctl(filp, ioctl, arg);
->         }
->  out:
-> --
-> 2.25.1
->
 
