@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE445EAE05
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 19:20:12 +0200 (CEST)
-Received: from localhost ([::1]:59676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 917A95EAE36
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 19:31:55 +0200 (CEST)
+Received: from localhost ([::1]:41354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocrm7-0006bV-Qj
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 13:20:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46970)
+	id 1ocrxS-0000Ml-Es
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 13:31:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ocrUD-0000SO-Db; Mon, 26 Sep 2022 13:01:41 -0400
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a]:47039)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ocrU4-0004Ce-J6; Mon, 26 Sep 2022 13:01:41 -0400
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-12b542cb1d3so9996626fac.13; 
- Mon, 26 Sep 2022 10:01:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=1Y/035a3Fx59JoSlTShhRSg92lYufJJaGWRxf9xq138=;
- b=jaeLmOGsL+73EPXobduTCZHa7VxfgU/DEsIlmDi8zduU7diTX0lqPA7fTXOSwrPTms
- LHHkFPU9cJAYj2G35WZmKKPWvYv+wKgFPlxPime1MUBNKlo+FGFsvDglYJWY5SrHjde9
- WZr94Yt4UQ3P4St927pgtILrfDA3o30fREplZKCfBNNNonQ8ZuCn/fcY5/f3J7Kjh5fY
- 1kIHZGZfferm6CfCDHWv02PFLaXgyC56t23blfJy8ZMAc71Kci+RmnbtHZBLlJaiO5wY
- j+2uJOQiPInjvNp4qqgtyRYaKbjoj53cdS/LmrkbJanAo5y2HiKz45a0w/7SAeEc43Zf
- 3wNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=1Y/035a3Fx59JoSlTShhRSg92lYufJJaGWRxf9xq138=;
- b=Dqa2XFFc5Z15DPFA1IRbeoLex7jdOIWkkc4tl6htvRty59qXcf9gsLQRoC6l7DZq5S
- tpFlb4/FVYpgg3dx2gQGi27KiAxoGgpYzBoEJfhUHXR5+5LKvpqW0rqlyjk6GMAJxfwZ
- 3Zg5Ky4x9WLwpUqzNpPzZFZaoYCmeE4EGFXzmvQ2xxkj6OrMoeKJJC3S1++E7SUHkGVh
- 3T0qpgtReW28VR5uHGqGPRbhgKSyzTTVAes+5As23Ty80AYODcEt77ig7QaUtGNX8X3V
- rmUXXak2Rb62eAfWX5VuDyosSYNcIvqkAXEBvMaur+Jg6vhLUTzgLa4kawuNVxuRZMsa
- Ml2w==
-X-Gm-Message-State: ACrzQf3hRThZP8NnEmV/5ssne/ia6MvmwVdpSqKJyi0rT8VLbr9ggSYh
- 8963u5urEMUcBpEAUCrfr/gcr8uTkco=
-X-Google-Smtp-Source: AMsMyM7gzrRMfMziWq2ixtPkNWlWjU9bseAxdejUqpHYbQUwdBopV6o/y3e0L1h4QBOUM4aB/dWGBw==
-X-Received: by 2002:a05:6870:1490:b0:126:e07:2a4a with SMTP id
- k16-20020a056870149000b001260e072a4amr12382986oab.2.1664211690123; 
- Mon, 26 Sep 2022 10:01:30 -0700 (PDT)
-Received: from [192.168.10.102] (189-68-154-15.dsl.telesp.net.br.
- [189.68.154.15]) by smtp.gmail.com with ESMTPSA id
- y17-20020a056870419100b0010d7242b623sm9407682oac.21.2022.09.26.10.01.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Sep 2022 10:01:29 -0700 (PDT)
-Message-ID: <3b5fa719-ec05-3088-c502-d4afc9aecce8@gmail.com>
-Date: Mon, 26 Sep 2022 14:01:26 -0300
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocrac-0005ef-O7
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:08:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59168)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ocraa-0005L3-DR
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 13:08:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664212094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XWLDEjpESEgHVRY3YW3LdWNx205RAnX3WZY+o2JTKaE=;
+ b=Nwp730Yz4A21+iZGHCTux3fwtEgOElc2t6j3c6NmkuwnUmxMkY9/EGCvoo+Oz/vhTGaHaZ
+ MweRiaSXz8T5m/fjVWFXGZszY9jxh+KsgxAE+6G947bHBSQnhIi+H/xa2gdNqyFW+Iu1xG
+ RnDuRInkVh0Id+qZie5HmF/j8eHdtHk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-39-lmS6sHK1MiSfrO4UhpR4Ng-1; Mon, 26 Sep 2022 13:08:12 -0400
+X-MC-Unique: lmS6sHK1MiSfrO4UhpR4Ng-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 283828027F5;
+ Mon, 26 Sep 2022 17:08:12 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB577140EBF4;
+ Mon, 26 Sep 2022 17:08:09 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+	qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Nathan Chancellor <nathan@kernel.org>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-stable@nongnu.org
+Subject: [PULL 01/14] s390x/tcg: Fix opcode for lzrf
+Date: Mon, 26 Sep 2022 19:07:51 +0200
+Message-Id: <20220926170804.453855-2-thuth@redhat.com>
+In-Reply-To: <20220926170804.453855-1-thuth@redhat.com>
+References: <20220926170804.453855-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] target/ppc: restore powerpc_excp_booke doorbell interrupts
-Content-Language: en-US
-To: Nicholas Piggin <npiggin@gmail.com>
-Cc: Fabiano Rosas <farosas@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220924114436.1422786-1-npiggin@gmail.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220924114436.1422786-1-npiggin@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,39 +79,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
 
+Fix the opcode for Load and Zero Rightmost Byte (32).
 
-Daniel
+Fixes: c2a5c1d718ea ("target/s390x: Implement load-and-zero-rightmost-byte insns")
+Reported-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+Tested-by: Nathan Chancellor <nathan@kernel.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Cc: qemu-stable@nongnu.org
+Message-Id: <20220914105750.767697-1-borntraeger@linux.ibm.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ target/s390x/tcg/insn-data.def | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 9/24/22 08:44, Nicholas Piggin wrote:
-> This partially reverts commit 9dc20cc37db9 ("target/ppc: Simplify
-> powerpc_excp_booke"), which removed DOORI and DOORCI interrupts.
-> Without this patch, a -cpu e5500 -smp 2 machine booting Linux
-> crashes with:
-> 
->    qemu: fatal: Invalid PowerPC exception 36. Aborting
-> 
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> ---
->   target/ppc/excp_helper.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 214acf5ac4..43f2480e94 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -1247,6 +1247,12 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int excp)
->       case POWERPC_EXCP_SPEU:   /* SPE/embedded floating-point unavailable/VPU  */
->           env->spr[SPR_BOOKE_ESR] = ESR_SPV;
->           break;
-> +    case POWERPC_EXCP_DOORI:     /* Embedded doorbell interrupt              */
-> +        break;
-> +    case POWERPC_EXCP_DOORCI:    /* Embedded doorbell critical interrupt     */
-> +        srr0 = SPR_BOOKE_CSRR0;
-> +        srr1 = SPR_BOOKE_CSRR1;
-> +        break;
->       case POWERPC_EXCP_RESET:     /* System reset exception                   */
->           if (FIELD_EX64(env->msr, MSR, POW)) {
->               cpu_abort(cs, "Trying to deliver power-saving system reset "
+diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
+index 6d2cfe5fa2..6382ceabfc 100644
+--- a/target/s390x/tcg/insn-data.def
++++ b/target/s390x/tcg/insn-data.def
+@@ -466,7 +466,7 @@
+     C(0xe39f, LAT,     RXY_a, LAT, 0, m2_32u, r1, 0, lat, 0)
+     C(0xe385, LGAT,    RXY_a, LAT, 0, a2, r1, 0, lgat, 0)
+ /* LOAD AND ZERO RIGHTMOST BYTE */
+-    C(0xe3eb, LZRF,    RXY_a, LZRB, 0, m2_32u, new, r1_32, lzrb, 0)
++    C(0xe33b, LZRF,    RXY_a, LZRB, 0, m2_32u, new, r1_32, lzrb, 0)
+     C(0xe32a, LZRG,    RXY_a, LZRB, 0, m2_64, r1, 0, lzrb, 0)
+ /* LOAD LOGICAL AND ZERO RIGHTMOST BYTE */
+     C(0xe33a, LLZRGF,  RXY_a, LZRB, 0, m2_32u, r1, 0, lzrb, 0)
+-- 
+2.31.1
+
 
