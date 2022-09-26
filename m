@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919875EB20B
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 22:25:05 +0200 (CEST)
-Received: from localhost ([::1]:36946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8FC5EB22A
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 22:34:56 +0200 (CEST)
+Received: from localhost ([::1]:59260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocuf1-0000OY-V6
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 16:25:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49368)
+	id 1ocuoY-0002f4-2r
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 16:34:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1ocu8K-0008O4-1o
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:51:17 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:59429)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1ocu8I-0005yv-6t
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 15:51:15 -0400
-Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MeDYt-1pD4EF0ZSp-00bHBg; Mon, 26 Sep 2022 21:51:08 +0200
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Thomas Huth <thuth@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v9 16/16] net: stream: add QAPI events to report connection
- state
-Date: Mon, 26 Sep 2022 21:50:48 +0200
-Message-Id: <20220926195048.487915-17-lvivier@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220926195048.487915-1-lvivier@redhat.com>
-References: <20220926195048.487915-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1ocuKk-0003nT-VK
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 16:04:09 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:42997)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1ocuKi-0007k6-Ee
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 16:04:06 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id b23so7745347pfp.9
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 13:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=x1Jivqm2LhOQAUXUW+/Q4KxscvZ0HVsPF2edJcT2p6I=;
+ b=rotjd1+0LIl8apjGalPgnBLdt5B5T/C4CWnZvehPBde6FBAHZa8igWM+lWoNf/HQq6
+ wPIwAbZzyvH+h090zxjm06HTZmiDecKYLYbJwil/IdHvxg9MgjFC8uiG+47xD0MVXbM9
+ vv2Odu5g2qGyyqQbly233TsUGBepkmPBhJG+AX2Nzf/Q+qx1/SzKxAEe3ymrPvSw/nDu
+ B4FRlg1ia9sGQmFYh9vt+WJs6rUQlJUF0SV1Kl+Y63Ss/NcwEVJ2ARzYUuunRNGr/lEv
+ KbsqI60L0kWzEZ/rsEitEz9gpfUI1bC0U9ZDkfYY3eAfpZtXi2vZjfJWGkKoVFO21SAF
+ R7cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=x1Jivqm2LhOQAUXUW+/Q4KxscvZ0HVsPF2edJcT2p6I=;
+ b=6d1jJFT0w+FARmmM3weQII7IpTdHrZRJVB3l6iac+9CIvQLBsDQyn6BYUSZjnRaLqX
+ IrHkiCLTbbYmXU/DW2skqTDraVIU4ag/oxKPnhP08i7dsnKOvAenZEKs7zlMisaj/oHH
+ heiLeAPKDHKr4qlbZR83ODe49gu6FfelQUQqBFgVRXmB0nL5MpB9wICejQ8uh38C27YE
+ VTtF8lPOO9bFhTIf9BCn59ixSfW8jBMchLsttNiDMMlHc6sngJzm/10RSp+hnKEV5ga2
+ mvgRt/e4ZV53OFOrlhwEpdHuab/Aw2V6n/z+md1Iy/2hVm8ZaX8WdpWtZqsLNE14Q4ST
+ WxOQ==
+X-Gm-Message-State: ACrzQf0ZUgfL2TydufNs1xuchHtg/dL3nLhvPCImiCjLhCT1oUkED2G7
+ oIWtWBTLIJn3dLzZQERbesmaIzbqkqLsEv7har3o6g==
+X-Google-Smtp-Source: AMsMyM7mxVJw0OGEu3TVmDOOXbFUuIm6KiD6FABGOvPMdE39/zm3diH+Doop0ZyvZHfrWSwiVZl54lOPxtL1zQ2n+x8=
+X-Received: by 2002:a63:a505:0:b0:438:675d:caee with SMTP id
+ n5-20020a63a505000000b00438675dcaeemr22080937pgf.576.1664222641622; Mon, 26
+ Sep 2022 13:04:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8xIdsAiIgrEIaVZte9hpYUldYf52KSCrOn3k0R2QwlOqhMfDu4d
- 8Q0G2nUGYFM9bWeyY5IzyV6EXcee+pj2tfJ2r9/oo1iavqRF2c3AfGBj/EZJ05I29pOxotD
- 3fa64/Ip3MpKVrGxGUhSjNMpPP6328WKfaLBL3bLU5MY9JuauwRrJEymjo/oc+qhnTFUVZF
- +wqFA+lbE1iUAnQn5Drxg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+wJ2aaT51X8=:A26wBue5T5ot5TzFoQ65i8
- DVM5hQGu/8lypQRSRHwZ1i59JsHGbz3QzopHJnRLO4f3rSrhC5ApyvxGEc4DHS7IzsjSIUqjY
- 7YLN/nyTXk7Ab7zlxr9DDLSiHxW3XaV9Z6n5KWqpxNXyktzsF/NV6WFkJwypAhPayw8x1k6m0
- mzqyKzInoQexSkmfd0dZV+1GznLynFPVfrlhA7a3sE20zWDq6uPvX9EAmmEcieCrODsOkumKs
- jj5HgdmOuYmHgYeC+WyHA1J8oI1nzJVuUUeAq8SLlctilXML4/meUNt4lLVX3THPvXYGdwQVi
- 4srRP4D+s21fsheqeT399+EoiaegQa01nxKZgXgCHtsdwH7lzDdPpQEQceWO4FTOw58XevMpq
- i2N/jVK9ol4sCY+oeLQxfDh5bwjELNhjrPW23+tKnqVG2Phgv5MtwmFi1VRl5CY09UzheNX51
- OrOvPkwFBsW5AkwWWv+g25x1RpRs53JqggSFnR4yhLU2tu3emu6hG4FiA2pZL6EK6K0jLQWb1
- Z33G1afKlJTfQEvvO6WaRi65TzCv1zWXbjIfgJMzU3DknaTq/eocm5Juq94X0fRrWgQvkbyq7
- LbvtIbIJ47OncNJolSS+5WrBYjDbaz6f/guZ+xi2gFVQxmzlD0E7pRRRjTjNSwJn4hPup1Fy5
- NOB9R7vy+ogvJniFjcyl0rtapah3vNyXmDEDtHNzgQiTO2dEUO25V+uZRGPLPCt5L+9EVQCe5
- 6nojILXdsRXtpWZSC3W83TWqMwE0zyn5bmDoX1Dgww+m9zBVE0SDeKwX6vRaXip8I9gwEa4Q4
- pHTDTqQ
-Received-SPF: permerror client-ip=212.227.126.131;
- envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
+References: <CAB88-qPD2OAxeg4WA65utUmFj4Y=SceeFTuStpZS4pPWevdBXA@mail.gmail.com>
+ <20220905131544.2xlaycrcyviufo5y@kamzik>
+ <CAB88-qPOGVksP1ekqTjcGHbi2_iVzsW-b9wokgREEQJ8LgfU=Q@mail.gmail.com>
+ <CALw707oeRt4+C9HTbzzt0RcP-FtYeh1vTh7meGY99vKQQnsktA@mail.gmail.com>
+In-Reply-To: <CALw707oeRt4+C9HTbzzt0RcP-FtYeh1vTh7meGY99vKQQnsktA@mail.gmail.com>
+From: Tyler Ng <tkng@rivosinc.com>
+Date: Mon, 26 Sep 2022 13:03:50 -0700
+Message-ID: <CAB88-qPeGqcPHhCccxgTO__gh_spbzrbVNQ4Z-340E7T4mRBCw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] hw/intc: sifive_plic.c: Fix interrupt priority index.
+To: Jim Shu <jim.shu@sifive.com>
+Cc: Andrew Jones <ajones@ventanamicro.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000061a6d905e99a07bb"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=tkng@rivosinc.com; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
- SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,131 +89,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The netdev reports NETDEV_STREAM_CONNECTED event when the backend
-is connected, and NETDEV_STREAM_EOC when it is disconnected.
+--00000000000061a6d905e99a07bb
+Content-Type: text/plain; charset="UTF-8"
 
-The NETDEV_STREAM_CONNECTED event includes the URI of the destination
-address.
+Hi Jim,
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- net/stream.c  | 11 +++++++++--
- qapi/net.json | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 55 insertions(+), 2 deletions(-)
+Thanks for raising this comment. I think I understand where the confusion
+happens and it's because in the OpenTitan machine (which uses the sifive
+plic), it uses 0x00 as the priority base by default, which was the source
+of the problems. I'll drop this commit in the next version.
 
-diff --git a/net/stream.c b/net/stream.c
-index 9b50a32531a9..745967c3608d 100644
---- a/net/stream.c
-+++ b/net/stream.c
-@@ -38,6 +38,7 @@
- #include "io/channel.h"
- #include "io/channel-socket.h"
- #include "io/net-listener.h"
-+#include "qapi/qapi-events-net.h"
- 
- typedef struct NetStreamState {
-     NetClientState nc;
-@@ -169,6 +170,8 @@ static gboolean net_stream_send(QIOChannel *ioc,
-         s->nc.link_down = true;
-         memset(s->nc.info_str, 0, sizeof(s->nc.info_str));
- 
-+        qapi_event_send_netdev_stream_eoc(s->nc.name);
-+
-         return G_SOURCE_REMOVE;
-     }
-     buf = buf1;
-@@ -244,9 +247,10 @@ static void net_stream_listen(QIONetListener *listener,
-     g_assert(addr != NULL);
-     uri = socket_uri(addr);
-     pstrcpy(s->nc.info_str, sizeof(s->nc.info_str), uri);
--    g_free(uri);
-     qapi_free_SocketAddress(addr);
- 
-+    qapi_event_send_netdev_stream_connected(s->nc.name, uri);
-+    g_free(uri);
- }
- 
- static void net_stream_server_listening(QIOTask *task, gpointer opaque)
-@@ -319,13 +323,13 @@ static void net_stream_client_connected(QIOTask *task, gpointer opaque)
-     g_assert(addr != NULL);
-     uri = socket_uri(addr);
-     pstrcpy(s->nc.info_str, sizeof(s->nc.info_str), uri);
--    g_free(uri);
- 
-     ret = qemu_socket_try_set_nonblock(sioc->fd);
-     if (addr->type == SOCKET_ADDRESS_TYPE_FD && ret < 0) {
-         snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-                  "can't use file descriptor %s (errno %d)",
-                  addr->u.fd.str, -ret);
-+        g_free(uri);
-         return;
-     }
-     g_assert(ret == 0);
-@@ -338,6 +342,9 @@ static void net_stream_client_connected(QIOTask *task, gpointer opaque)
- 
-     s->ioc_read_tag = qio_channel_add_watch(s->ioc, G_IO_IN, net_stream_send,
-                                             s, NULL);
-+
-+    qapi_event_send_netdev_stream_connected(s->nc.name, uri);
-+    g_free(uri);
- }
- 
- static int net_stream_client_init(NetClientState *peer,
-diff --git a/qapi/net.json b/qapi/net.json
-index 9cc4be7535bb..6bf919afc26a 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -892,3 +892,49 @@
- ##
- { 'event': 'FAILOVER_NEGOTIATED',
-   'data': {'device-id': 'str'} }
-+
-+##
-+# @NETDEV_STREAM_CONNECTED:
-+#
-+# Emitted when the netdev stream backend is connected
-+#
-+# @netdev-id: QEMU netdev id that is connected
-+# @uri: The Uniform Resource Identifier identifying the destination address
-+#
-+# Since: 7.2
-+#
-+# Example:
-+#
-+# <- { 'event': 'NETDEV_STREAM_CONNECTED',
-+#      'data': {'uri': 'tcp:::1:1234', 'netdev-id': 'netdev0'},
-+#      'timestamp': {'seconds': 1663330564, 'microseconds': 804317} }
-+#
-+# or
-+#
-+# <- { 'event': 'NETDEV_STREAM_CONNECTED',
-+#      'data': {'uri': ''unix:/tmp/qemu0', 'netdev-id': 'netdev0'},
-+#      'timestamp': {'seconds': 1663330564, 'microseconds': 804317} }
-+#
-+##
-+{ 'event': 'NETDEV_STREAM_CONNECTED',
-+  'data': { 'netdev-id': 'str',
-+            'uri': 'str' } }
-+
-+##
-+# @NETDEV_STREAM_EOC:
-+#
-+# Emitted when the netdev stream backend is disconnected
-+#
-+# @netdev-id: QEMU netdev id that is disconnected
-+#
-+# Since: 7.2
-+#
-+# Example:
-+#
-+# <- { 'event': 'NETDEV_STREAM_EOC',
-+#      'data': {'netdev-id': 'netdev0'},
-+#      'timestamp': {'seconds': 1663330937, 'microseconds': 526695} }
-+#
-+##
-+{ 'event': 'NETDEV_STREAM_EOC',
-+  'data': { 'netdev-id': 'str' } }
--- 
-2.37.3
+-Tyler
 
+On Sun, Sep 25, 2022 at 6:47 AM Jim Shu <jim.shu@sifive.com> wrote:
+
+> Hi Tyler,
+>
+> This fix is incorrect.
+>
+> In PLIC spec, Interrupt Source Priority Memory Map is
+> 0x000000: Reserved (interrupt source 0 does not exist)
+> 0x000004: Interrupt source 1 priority
+> 0x000008: Interrupt source 2 priority
+>
+> Current RISC-V machines (virt, sifive_u) use 0x4 as priority_base, so
+> current formula "irq = ((addr - plic->priority_base) >> 2) + 1" will
+> take offset 0x4 as IRQ source 1, which is correct.
+> Your fix will cause the bug in existing machines.
+>
+> Thanks,
+> Jim Shu
+>
+>
+>
+>
+> On Tue, Sep 6, 2022 at 11:21 PM Tyler Ng <tkng@rivosinc.com> wrote:
+> >
+> > Here's the patch SHA that introduced the offset:
+> 0feb4a7129eb4f120c75849ddc9e50495c50cb63
+> >
+> > -Tyler
+> >
+> > On Mon, Sep 5, 2022 at 6:15 AM Andrew Jones <ajones@ventanamicro.com>
+> wrote:
+> >>
+> >> On Thu, Sep 01, 2022 at 03:50:06PM -0700, Tyler Ng wrote:
+> >> > Fixes a bug in which the index of the interrupt priority is off by 1.
+> >> > For example, using an IRQ number of 3 with a priority of 1 is
+> supposed to set
+> >> > plic->source_priority[2] = 1, but instead it sets
+> >> > plic->source_priority[3] = 1. When an interrupt is claimed to be
+> >> > serviced, it checks the index 2 instead of 3.
+> >> >
+> >> > Signed-off-by: Tyler Ng <tkng@rivosinc.com>
+> >>
+> >> Fixes tag?
+> >>
+> >> Thanks,
+> >> drew
+> >>
+> >> > ---
+> >> >  hw/intc/sifive_plic.c | 2 +-
+> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >> >
+> >> > diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> >> > index af4ae3630e..e75c47300a 100644
+> >> > --- a/hw/intc/sifive_plic.c
+> >> > +++ b/hw/intc/sifive_plic.c
+> >> > @@ -178,7 +178,7 @@ static void sifive_plic_write(void *opaque, hwaddr
+> >> > addr, uint64_t value,
+> >> >      SiFivePLICState *plic = opaque;
+> >> >
+> >> >      if (addr_between(addr, plic->priority_base, plic->num_sources <<
+> 2)) {
+> >> > -        uint32_t irq = ((addr - plic->priority_base) >> 2) + 1;
+> >> > +        uint32_t irq = ((addr - plic->priority_base) >> 2) + 0;
+> >> >
+> >> >          plic->source_priority[irq] = value & 7;
+> >> >          sifive_plic_update(plic);
+> >> > --
+> >> > 2.30.2
+> >> >
+>
+
+--00000000000061a6d905e99a07bb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Jim,</div><div><br></div><div>Thanks for raising t=
+his comment. I think I understand where the confusion happens and it&#39;s =
+because in the OpenTitan machine (which uses the sifive plic), it uses 0x00=
+ as the priority base by default, which was the source of the problems. I&#=
+39;ll drop this commit in the next version.<br></div><div><div><br></div><d=
+iv>-Tyler<br></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">On Sun, Sep 25, 2022 at 6:47 AM Jim Shu &lt;<a hre=
+f=3D"mailto:jim.shu@sifive.com" target=3D"_blank">jim.shu@sifive.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Tyle=
+r,<br>
+<br>
+This fix is incorrect.<br>
+<br>
+In PLIC spec, Interrupt Source Priority Memory Map is<br>
+0x000000: Reserved (interrupt source 0 does not exist)<br>
+0x000004: Interrupt source 1 priority<br>
+0x000008: Interrupt source 2 priority<br>
+<br>
+Current RISC-V machines (virt, sifive_u) use 0x4 as priority_base, so<br>
+current formula &quot;irq =3D ((addr - plic-&gt;priority_base) &gt;&gt; 2) =
++ 1&quot; will<br>
+take offset 0x4 as IRQ source 1, which is correct.<br>
+Your fix will cause the bug in existing machines.<br>
+<br>
+Thanks,<br>
+Jim Shu<br>
+<br>
+<br>
+<br>
+<br>
+On Tue, Sep 6, 2022 at 11:21 PM Tyler Ng &lt;<a href=3D"mailto:tkng@rivosin=
+c.com" target=3D"_blank">tkng@rivosinc.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Here&#39;s the patch SHA that introduced the offset: 0feb4a7129eb4f120=
+c75849ddc9e50495c50cb63<br>
+&gt;<br>
+&gt; -Tyler<br>
+&gt;<br>
+&gt; On Mon, Sep 5, 2022 at 6:15 AM Andrew Jones &lt;<a href=3D"mailto:ajon=
+es@ventanamicro.com" target=3D"_blank">ajones@ventanamicro.com</a>&gt; wrot=
+e:<br>
+&gt;&gt;<br>
+&gt;&gt; On Thu, Sep 01, 2022 at 03:50:06PM -0700, Tyler Ng wrote:<br>
+&gt;&gt; &gt; Fixes a bug in which the index of the interrupt priority is o=
+ff by 1.<br>
+&gt;&gt; &gt; For example, using an IRQ number of 3 with a priority of 1 is=
+ supposed to set<br>
+&gt;&gt; &gt; plic-&gt;source_priority[2] =3D 1, but instead it sets<br>
+&gt;&gt; &gt; plic-&gt;source_priority[3] =3D 1. When an interrupt is claim=
+ed to be<br>
+&gt;&gt; &gt; serviced, it checks the index 2 instead of 3.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Signed-off-by: Tyler Ng &lt;<a href=3D"mailto:tkng@rivosinc.c=
+om" target=3D"_blank">tkng@rivosinc.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Fixes tag?<br>
+&gt;&gt;<br>
+&gt;&gt; Thanks,<br>
+&gt;&gt; drew<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; ---<br>
+&gt;&gt; &gt;=C2=A0 hw/intc/sifive_plic.c | 2 +-<br>
+&gt;&gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c<br=
+>
+&gt;&gt; &gt; index af4ae3630e..e75c47300a 100644<br>
+&gt;&gt; &gt; --- a/hw/intc/sifive_plic.c<br>
+&gt;&gt; &gt; +++ b/hw/intc/sifive_plic.c<br>
+&gt;&gt; &gt; @@ -178,7 +178,7 @@ static void sifive_plic_write(void *opaqu=
+e, hwaddr<br>
+&gt;&gt; &gt; addr, uint64_t value,<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 SiFivePLICState *plic =3D opaque;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 if (addr_between(addr, plic-&gt;priority_=
+base, plic-&gt;num_sources &lt;&lt; 2)) {<br>
+&gt;&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t irq =3D ((addr - plic-&=
+gt;priority_base) &gt;&gt; 2) + 1;<br>
+&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t irq =3D ((addr - plic-&=
+gt;priority_base) &gt;&gt; 2) + 0;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 plic-&gt;source_priority[ir=
+q] =3D value &amp; 7;<br>
+&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sifive_plic_update(plic);<b=
+r>
+&gt;&gt; &gt; --<br>
+&gt;&gt; &gt; 2.30.2<br>
+&gt;&gt; &gt;<br>
+</blockquote></div>
+
+--00000000000061a6d905e99a07bb--
 
