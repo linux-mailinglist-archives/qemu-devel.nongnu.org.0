@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D008E5EA823
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:15:19 +0200 (CEST)
-Received: from localhost ([::1]:34666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9FA5EA80B
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 16:12:01 +0200 (CEST)
+Received: from localhost ([::1]:36916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocotC-0001pf-GQ
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:15:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33232)
+	id 1ocoq0-0004XP-TE
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 10:12:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocoRB-00052p-Lg
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:46:21 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55073)
+ id 1ocoR9-0004zX-RD
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:46:19 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ocoR7-00071b-W9
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:46:21 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id iv17so4532556wmb.4
+ id 1ocoR7-000718-U2
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 09:46:19 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ r133-20020a1c448b000000b003b494ffc00bso7566403wma.0
  for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 06:46:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=0V+KZsCCESnUWUU0eYzHN1+b3vhEj98V7+Dm8NfcqyU=;
- b=MtU5+bVV+DBJ5tNYcAvuw5JNEcoAvjkIV2PZp7hqirjSQl2XifwAsrkDZtj1TlzKf2
- k4IcyPptfcoMxaSwd8OWLTzFap1LGW44LEx4xwbCnQscNITldRsNqArNE9xTXX8wVVB8
- g4xk2mEvVBkyPPDAIOx1o8txD4DLgAzDVtFWvRuY5KLiarORgE69OuJkQljm2XmpUxn9
- I787Q2dbdCbc1qn1m5uEmtKT7CpMqbyPQKZgm7UFbkSBD+koR+JyDC6y3VPSfRBbdiVR
- 7lyTtIM40NOM482IQndXAUVzNvJWlU946210MrgObrWKaRKpFb2SB111H0Xon89wnTrc
- EbAA==
+ bh=jAtsRWHClbBcl4QfmGwx5Q+/sTundP2Bdpl7GO4sfLo=;
+ b=ehpEI5eHr8YapkvfhPaxg+ndCp7hB5mNBJL/IGjBza1MeMuh+eON3gqaWFCJgSFd9L
+ vTHby0HzS7kPVK2o0afO8209xhzj6YcpGrXQGss/IGF5ngFwe4AOAdv+9V1J5A0vbV37
+ 4w4IYr+9usZ0Vzu0kgS8xdvmqijirAVdUj54FejiUbaJX6/KGCwyrQO5FX7ZQIxrL6kI
+ FmC/pZ+EzBCF0sckgHVngsjOVse8YIvY+qbEVSKVxhZVQceZcU7X6R2Y8NrHE6AqBkk4
+ S5NeEZMeYTRpWWEeGisAPJ7SY8rVZuaKqCuIRXy4MX2qOTTXHLwzYDcBiUrUmFiyopsz
+ Fp9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=0V+KZsCCESnUWUU0eYzHN1+b3vhEj98V7+Dm8NfcqyU=;
- b=U+Wi5wPv2P6N1vUF9py6W/8U3rmUwZeEttUf5xInni+sxeQL5+7OWiU5z7IxOXV7qN
- qO0gVVRTFh5OeMGkDVB2SnyTIOmbFg6K72toVYE1MngiZ42NhtKDtmibzFzLVEvKvG4r
- /PCWpPIxWQ8fbH7htDFCxRdeCUBcpy/yE7svpzViLzCqb8puezHDrSZhMUcxVIwS2NG6
- 4mxH4VOIDfWK9S8eC5QcR+VVRZGGJaofsiD9HDCWdpqWdV4/l2rTn3SEAYfybxYjpwM1
- U8c7kKNDaClf+zN9tsY0pM3Ux0de+cwm/eZOf3lA8FY4PSo1MKJPqhyD8oAAvcnlKX6n
- LzGg==
-X-Gm-Message-State: ACrzQf076HyUJy1Fyew6p28YGWGRayYi3rfJ9pcaMw4jCWOAh35i6nUx
- MbYYySYdg8tdyactUb2af9AIFA==
-X-Google-Smtp-Source: AMsMyM7emwUkkeSul0ydX39Sb8IqQNyhs+eNmxu2k0Ud9FA2jHUd5Na3o9NWlu2vv1ajpqiZX+wPzA==
-X-Received: by 2002:a05:600c:1910:b0:3b4:bb80:c951 with SMTP id
- j16-20020a05600c191000b003b4bb80c951mr22665171wmq.81.1664199976602; 
- Mon, 26 Sep 2022 06:46:16 -0700 (PDT)
+ bh=jAtsRWHClbBcl4QfmGwx5Q+/sTundP2Bdpl7GO4sfLo=;
+ b=s5yjE25Ob8QiSTPTyPvF7lc9FYL9dDfr/QWdzxfAx5kcaUx8j6pCORc67cgmcDQWID
+ mKtnb0Pj6vm2nZ6qz/g+Dx7J5j+JsvoFcOJERp7pX3PM8kJSyM+5C7xQ1FK5/WLSiPHM
+ 0fKtMxNmre5B+ad2hS5PX3gOYCzdsXviwje1HqyB6BNwTMWMLg7wrEtKev8u1T1RC4Ez
+ QO8HHEsCeOkd6Pm0JvvPj8LB5LRv8Yg/gwM0DGoMpjvi8wL3cP4Lysh9URYsKU+5NSE3
+ 4AJ6RUlt4xrsBJWlcglYTPa3Coi51Bf3CNDtZiXBDHvLZTJG5CDqSnH/YGrtqNEDTG5e
+ vXmg==
+X-Gm-Message-State: ACrzQf0Pv3TToM4Whvr+Ynr94qAKyeOa8NSvI30q227Vs4gA9INBNgmV
+ mA0/hNyQHbVrYTlLH0vZFsSySu73CLSSpw==
+X-Google-Smtp-Source: AMsMyM4VfCn7kaVhOTugVBYTvvZsTmpwuSriNpeQ49DFPWzTZScEoY0+43h4J1YCkhB5e85ptW5Bvg==
+X-Received: by 2002:a05:600c:4f07:b0:3b4:a5d1:1fea with SMTP id
+ l7-20020a05600c4f0700b003b4a5d11feamr15470804wmq.103.1664199977224; 
+ Mon, 26 Sep 2022 06:46:17 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- i6-20020a05600c354600b003b47b80cec3sm11941446wmq.42.2022.09.26.06.46.10
+ i10-20020a05600c050a00b003b4a68645e9sm11047665wmc.34.2022.09.26.06.46.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 26 Sep 2022 06:46:13 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9B4D11FFBE;
+ by zen.linaroharston (Postfix) with ESMTP id B0B431FFBF;
  Mon, 26 Sep 2022 14:46:09 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Subject: [PATCH v1 6/7] =?UTF-8?q?contrib/gitdm:=20add=20Universit=C3=A9?=
- =?UTF-8?q?=20Grenoble=20Alpes?=
-Date: Mon, 26 Sep 2022 14:46:08 +0100
-Message-Id: <20220926134609.3301945-7-alex.bennee@linaro.org>
+ Hyman Huang <huangy81@chinatelecom.cn>
+Subject: [PATCH  v1 7/7] contrib/gitdm: add China Telecom to the domain map
+Date: Mon, 26 Sep 2022 14:46:09 +0100
+Message-Id: <20220926134609.3301945-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220926134609.3301945-1-alex.bennee@linaro.org>
 References: <20220926134609.3301945-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,25 +95,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-again to the academic group map.
+Please confirm if this is a corporate contribution account.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+Cc: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- contrib/gitdm/group-map-academics | 3 +++
- 1 file changed, 3 insertions(+)
+ contrib/gitdm/domain-map | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/contrib/gitdm/group-map-academics b/contrib/gitdm/group-map-academics
-index 877a11e69b..082458e1bd 100644
---- a/contrib/gitdm/group-map-academics
-+++ b/contrib/gitdm/group-map-academics
-@@ -22,3 +22,6 @@ bu.edu
- 
- # Institute of Software Chinese Academy of Sciences
- iscas.ac.cn
-+
-+# Université Grenoble Alpes
-+univ-grenoble-alpes.fr
+diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+index 434ef53afc..3727918641 100644
+--- a/contrib/gitdm/domain-map
++++ b/contrib/gitdm/domain-map
+@@ -10,6 +10,7 @@ bytedance.com   ByteDance
+ cmss.chinamobile.com China Mobile
+ citrix.com      Citrix
+ crudebyte.com   Crudebyte
++chinatelecom.cn China Telecom
+ eldorado.org.br Instituto de Pesquisas Eldorado
+ fujitsu.com     Fujitsu
+ google.com      Google
 -- 
 2.34.1
 
