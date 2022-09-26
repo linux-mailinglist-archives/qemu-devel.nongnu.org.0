@@ -2,96 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80FA75EA488
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 13:47:27 +0200 (CEST)
-Received: from localhost ([::1]:59430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EFE5EA36E
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Sep 2022 13:25:14 +0200 (CEST)
+Received: from localhost ([::1]:35524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocma6-0003ui-Dg
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 07:47:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53500)
+	id 1ocmEa-00074x-Pt
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 07:25:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ocmS2-0006GD-8n; Mon, 26 Sep 2022 07:39:08 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1ocmRw-00039y-0d; Mon, 26 Sep 2022 07:39:02 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28QBLhV2001485;
- Mon, 26 Sep 2022 11:38:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=tfIBb3fsW1l1UO32OFoyCoJFg8m5H9Vu4iJhsEpeqVE=;
- b=V5VDOpAynmd6OBlvZtcmp9XZhElJdnLcwDxTlfbH9xlUCcoxuC6Rz7E/sIdfHIwCi5Gr
- /4iTUJ1Zcfz3+jtOwWdqjifWIG+em7VxiXxGuXIn/C2C7ajT727gNfbB86Kg7WHoCk+V
- l4pC/BDSzmljaL2bk3xlWl82ZQM0V4boZd3qs2jpPBaLGLKvfi5+4itA46yMpzLzn5Ol
- heB5zKg4S7ZWYgrVKsmamQ0bRKWvr8pV+IGFIPMb7K9eSqXM4fE/fDUYw4sCh7Im8xiI
- 5SWZ8zlLKpVq5TPm3+RtAK78WAupHx83iUeRITWzfOYEL9di/1Fb7/WDlpUIBkiDEvav hA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jub508d5f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Sep 2022 11:38:55 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28QBZPcT005289;
- Mon, 26 Sep 2022 11:38:54 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jub508d4j-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Sep 2022 11:38:54 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28QB5LxI005264;
- Mon, 26 Sep 2022 11:07:51 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma02dal.us.ibm.com with ESMTP id 3jssha0s0p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Sep 2022 11:07:51 +0000
-Received: from smtpav04.dal12v.mail.ibm.com ([9.208.128.131])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 28QB7nhh35783002
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 26 Sep 2022 11:07:49 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4C05658052;
- Mon, 26 Sep 2022 11:07:50 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ED5065804E;
- Mon, 26 Sep 2022 11:07:49 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 26 Sep 2022 11:07:49 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: qemu-trivial@nongnu.org, marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PATCH] docs: Add --tpm2 option to swtpm command line
-Date: Mon, 26 Sep 2022 07:07:46 -0400
-Message-Id: <20220926110746.2769518-1-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.37.2
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ocmBG-0003c6-H3
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 07:21:46 -0400
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:39554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ocmBE-0000d3-PD
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 07:21:46 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D33AD21ED0;
+ Mon, 26 Sep 2022 11:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1664191302; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xFnSEL8upZ1ph0a92XhnecCMs9p2hPoEU+gYfRTmmHQ=;
+ b=TZJbUDfFkVi+w7Hk0xOxxeCbzlbHC2gUXt5p+/KIleSRP1cbNbsoMcSqnpoipaDUoYpunr
+ nzCthcqUUMwlrLNUikL23noDBvD21hic2vO3nISByIiY8ezeO+vvY9MUxOpT5nCMwUG3qq
+ p1Lit0vLFUFr0qAO55gUhbYb6cXJxUA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1664191302;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xFnSEL8upZ1ph0a92XhnecCMs9p2hPoEU+gYfRTmmHQ=;
+ b=NG8A5TgMetxZRs0Jlibw9LgxpValHBljskjtGuizkrEweIRZvECAISKyMQfr7PPAZZKua2
+ fiB8ATHdCbCNCfAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 597CB13486;
+ Mon, 26 Sep 2022 11:21:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id s2YGE0aLMWPvLwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 26 Sep 2022 11:21:42 +0000
+Message-ID: <06c9beec-5c36-7675-b09b-151f7e8e6df6@suse.de>
+Date: Mon, 26 Sep 2022 13:21:41 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v6 5/5] accel: abort if we fail to load the accelerator
+ plugin
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220923232104.28420-1-cfontana@suse.de>
+ <20220923232104.28420-6-cfontana@suse.de>
+ <989f2606-fa87-0a2e-c49e-00442c8c618c@amsat.org>
+ <0e32098d-4f76-8a40-3214-98fb58dd4192@suse.de> <YzGFZ8A1InmPkNb/@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <YzGFZ8A1InmPkNb/@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: u6oqGZjRgCvujMUlds03zHBU19txpoy3
-X-Proofpoint-GUID: Fmt33Lp92PYnnY1cCPXQGv_WleignEOT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-26_08,2022-09-22_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1011
- malwarescore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
- spamscore=0 adultscore=0 priorityscore=1501 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209260073
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:67c:2178:6::1c;
+ envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,26 +98,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the --tpm2 option to the swtpm command line to run a TPM 2.
+On 9/26/22 12:56, Kevin Wolf wrote:
+> Am 26.09.2022 um 09:58 hat Claudio Fontana geschrieben:
+>> On 9/24/22 14:35, Philippe Mathieu-Daudé via wrote:
+>>> On 24/9/22 01:21, Claudio Fontana wrote:
+>>>> if QEMU is configured with modules enabled, it is possible that the
+>>>> load of an accelerator module will fail.
+>>>> Abort in this case, relying on module_object_class_by_name to report
+>>>> the specific load error if any.
+>>>>
+>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>>> ---
+>>>>   accel/accel-softmmu.c | 8 +++++++-
+>>>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
+>>>> index 67276e4f52..9fa4849f2c 100644
+>>>> --- a/accel/accel-softmmu.c
+>>>> +++ b/accel/accel-softmmu.c
+>>>> @@ -66,6 +66,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
+>>>>   {
+>>>>       const char *ac_name;
+>>>>       char *ops_name;
+>>>> +    ObjectClass *oc;
+>>>>       AccelOpsClass *ops;
+>>>>   
+>>>>       ac_name = object_class_get_name(OBJECT_CLASS(ac));
+>>>> @@ -73,8 +74,13 @@ void accel_init_ops_interfaces(AccelClass *ac)
+>>>>   
+>>>>       ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
+>>>>       ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
+>>>> +    oc = module_object_class_by_name(ops_name);
+>>>> +    if (!oc) {
+>>>> +        error_report("fatal: could not load module for type '%s'", ops_name);
+>>>> +        abort();
+>>>
+>>> I still think a coredump won't help at all to figure the problem here: a 
+>>
+>> I can change this from abort to exit(1), the issue I am seeing is, usually when we fail to create or initialize objects
+>> we seem to be using abort(), the most prominent examples are in qom/object.c:
+>>
+>> static TypeImpl *type_new(const TypeInfo *info)
+>> {
+>>     TypeImpl *ti = g_malloc0(sizeof(*ti));
+>>     int i;
+>>
+>>     g_assert(info->name != NULL);
+>>
+>>     if (type_table_lookup(info->name) != NULL) {
+>>         fprintf(stderr, "Registering `%s' which already exists\n", info->name);
+>>         abort();
+>>     }
+>>
+>> ...
+>>
+>> void object_initialize(void *data, size_t size, const char *typename)
+>> {
+>>     TypeImpl *type = type_get_by_name(typename);
+>>
+>> #ifdef CONFIG_MODULES
+>>     if (!type) {
+>>         Error *local_err = NULL;
+>>         int rv = module_load_qom(typename, &local_err);
+>>         if (rv > 0) {
+>>             type = type_get_by_name(typename);
+>>         } else if (rv < 0) {
+>>             error_report_err(local_err);
+>>         }
+>>     }
+>> #endif
+>>     if (!type) {
+>>         error_report("missing object type '%s'", typename);
+>>         abort();
+>>     }
+>>
+>>     object_initialize_with_type(data, size, type);
+>> }
+>>
+>>
+>> Do you propose to change only the assert in accel_init_ops_interfaces
+>> to exit(1)?
+>>
+>> Or the other case as well in the series? (ie hw/core/qdev.c qdev_new()
+>> ?)
+>>
+>> Do you propose to change this consistently through the codebase
+>> including the object.c snippets above?
+> 
+> The difference with the snippets above (in the non-module case) is that
+> calling object_new() with a type that doesn't exist is a bug, it's an
+I see where you are going, however in the object initialization case,
+we still have the possibility that the type is available only after module load.
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
----
- docs/specs/tpm.rst | 1 +
- 1 file changed, 1 insertion(+)
+So according to your differentiation, we would have to exit() in the module case, and abort() if modules are disabled.
 
-diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-index 3be190343a..243e24b692 100644
---- a/docs/specs/tpm.rst
-+++ b/docs/specs/tpm.rst
-@@ -304,6 +304,7 @@ a socket interface. They do not need to be run as root.
-   mkdir /tmp/mytpm1
-   swtpm socket --tpmstate dir=/tmp/mytpm1 \
-     --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock \
-+    --tpm2 \
-     --log level=20
- 
- Command line to start QEMU with the TPM emulator device communicating
--- 
-2.37.2
 
+> programming error. Calling type_new() twice for the same TypeInfo or for
+> two TypeInfos with the same name is a programming error, too. abort() is
+> correct for situations that should never happen in a bug free QEMU.
+> 
+> Not being able to load a module is generally not a bug in QEMU, it's an
+> error of external origin. So here abort() is not appropriate.
+> 
+> The CONFIG_MODULES code in object_initialize() is problematic because it
+> doesn't have a way to deal with an error case that can happen without a
+> bug in QEMU. Without changing the prototype of the function to actually
+> allow error returns (which I suspect might be a very invasive change),
+> maybe the best approach is to just make it a fatal error and leave the
+> code mostly as it is in current master:
+> 
+> #ifdef CONFIG_MODULES
+>     if (!type) {
+>         /* Assuming that module_load_qom_one() returns an error if the
+>          * module doesn't exist */
+>         module_load_qom_one(typename, &error_fatal);
+>         type = type_get_by_name(typename);
+>     }
+> #endif
+>     if (!type) {
+>         error_report("missing object type '%s'", typename);
+>         abort();
+>     }
+> 
+>     object_initialize_with_type(data, size, type);
+> 
+> This makes it print an error message and exit(). Which is honestly not
+> great during runtime because it doesn't properly shut down QEMU, let
+> alone just fail the operation and keep running, but at least slightly
+> better than abort().
+
+Ok so the core of the issue is, if CONFIG_MODULES we want to exit() and not abort() if the type is not available.
+
+> 
+>>> module is missing, we know its name. Anyhow I don't mind much, and this
+>>> can be cleaned later, so:
+>>
+>> Sure this could be fixed later with a series that tries to use exit()
+>> vs abort() consistently throughout the codebase when initializing and
+>> creating objects.
+> 
+> This should mean consistently distinguishing programming errors (i.e.
+> QEMU bugs) from errors of external origin.
+> 
+> Kevin
+> 
+
+Thanks,
+
+I'll have a new pass with this in mind.
+
+Claudio
 
