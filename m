@@ -2,97 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5A55EC706
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:57:15 +0200 (CEST)
-Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0EA5EC70A
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:58:10 +0200 (CEST)
+Received: from localhost ([::1]:58930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odC1H-00056v-5Y
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:57:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32858)
+	id 1odC2D-0006Zs-Ez
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odAQ6-0008Mu-Or
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:14:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22434)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odAQ5-000424-7S
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:14:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664284479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9rXxLIQnWrMqUt+pmfF/ecM0Ncb+G5tyNjeW9seWiqs=;
- b=bHUg6JA7GfUMQ0D1XoEpwxeXXo173Q4cvUruk36Ab3eqcAP8S0fTBIEzZVCPU99kPx7qTo
- 3U3WZ5O0DgsZKpusW4Bblzz97kU1abrvDf0+ud8JfDANknLDcknO5Faj+GdgJND53R+8JB
- 7MkD/gqxhm39OKZiXyA9n893Qo6SRUg=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-516-pYqL63qQO7-UPNvqC1Z3Eg-1; Tue, 27 Sep 2022 09:14:37 -0400
-X-MC-Unique: pYqL63qQO7-UPNvqC1Z3Eg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- dm10-20020a170907948a00b00781fa5e140fso3893461ejc.21
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 06:14:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1odARP-000149-7l
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:16:03 -0400
+Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:34568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1odARN-0004OR-DA
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:16:02 -0400
+Received: by mail-lj1-x22a.google.com with SMTP id h3so10921231lja.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 06:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=6P9z585XlPqUTaQjRAEFU/6zH8pMI4ZPYcXKwIGPI5w=;
+ b=pKFWCR2iRw4OsHR4713o6/rNMsNbM3y0yxVW5Rn8VzvYUwB48ampgchRhMpJwIDfOS
+ IZczZ+eJjvTY86Gp9DdmRTPmgNX+NKXcpARqyOhs8fDnz0sY3Pa1b9Y5Z1W7Wv+K/vSW
+ FnKLFL6NvOUV+9CtEmtpdL/dkiO0xBR3/r+mWjZIGyEWD1iuYJyaEKXy14NPHUXUzz3s
+ gLVYomoTZg4tZy74uuanDIxbzukYW+HQNj8FbELhG7qI0n3/NE2zxfstt8BsymYJTGSy
+ rMv0WGsAMybnQRhtpjmm2OlxcMihgp8c2UbLpt7mpVoq/gciTacZvDWnF5fqy8a02w+V
+ EqYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=9rXxLIQnWrMqUt+pmfF/ecM0Ncb+G5tyNjeW9seWiqs=;
- b=itZLgjvurEEDZlRlbJdgpLykdS4UbYzY6j/QFDOiWwJRTvNLzUZhv8ixWznS7Ultwm
- YNgKDTMooSjeeH80ns7xHbAHzNtG5AxDVPdGDwisNb2Qnqu0HGJjWqtoLho7gGwGFrRs
- Obv/puC8fRVNRQpmIXYSCVFf2bMzm4gJfoVpmzHbolUmCA39OJXS8tR8Dp+guMf39pyr
- IYAXyCS3seuTR4M3kNC3/BMB/HuUiBeaOEC/kbgjoGhXUdUPBL43ZRj8PvOANy2r76N1
- TXhqAtaZsuQqS5bi6+6pTF885pKRmqK/voZTmCVyK5ewrtvALXxevmCrI8IB7Fv/JZi1
- 5SWg==
-X-Gm-Message-State: ACrzQf3aznts9JqPVgduAAdS7IAm0cHOEP3LbTC75ctNykC/HG/GaK7I
- C690D4xKYcyf1JmXJo3ECcmBA8FCUFxSxTglGYDo1oVFhSWQQ9GQIJ3wDBCDdDB0rYpacX5wwrk
- srh5S6VMFK+YkU7A=
-X-Received: by 2002:a17:907:868c:b0:782:d6b3:33bc with SMTP id
- qa12-20020a170907868c00b00782d6b333bcmr15867026ejc.134.1664284476082; 
- Tue, 27 Sep 2022 06:14:36 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5fFe8Bs1L7keuFtSr+WCTkDKpB3RdTwfJQJSn6gB6nIRYHX3+H22gzBbraORNQ2KD+c1aIdg==
-X-Received: by 2002:a17:907:868c:b0:782:d6b3:33bc with SMTP id
- qa12-20020a170907868c00b00782d6b333bcmr15866946ejc.134.1664284475054; 
- Tue, 27 Sep 2022 06:14:35 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- p24-20020a170906141800b0077ab3ca93efsm747188ejc.223.2022.09.27.06.14.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Sep 2022 06:14:34 -0700 (PDT)
-Message-ID: <c773b5aa-19b0-20de-5818-67360307abd9@redhat.com>
-Date: Tue, 27 Sep 2022 15:14:32 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=6P9z585XlPqUTaQjRAEFU/6zH8pMI4ZPYcXKwIGPI5w=;
+ b=Yw0PAhy97uF36uA+cZhO2fCSm7gPKzCW5ZbhekrNirR/t3CSEFupt8KZ6zmXxL5hvb
+ 3WpeVk1hOmnBks1PM2677VtQ8nqkeDOkWAALId761Fzd5rfIY/q1qxApcGB0K44hsNaW
+ mdy6sK/6k8a+vs3/mJJ2ti97OL//Lnv5+1pG1T1tlkdKlHebgzLhs5bmRssDx3idSJvF
+ ZnPhenH1e3HXg+XIKH9oI4profXO+SUF2tBiPI0YqTK4lL+mkmMNVkzA4UnCm6iuTGig
+ UuaNhFo4UQ/E5EEUZRAD3Jsoup2XQxwvVmqSaYa53ht77d7J0c6JeTw623W6Mzc7Zvj/
+ vCMA==
+X-Gm-Message-State: ACrzQf23cF5WkLThzqty2HsrmJ5jjbGIzk2dAXCqLVYFUhRX8WvuWlQj
+ 9owSaaWlunI/Z+WA7oVcmFLVPEQFVlgGaqlNfT4=
+X-Google-Smtp-Source: AMsMyM6u6hiLRXW1kYSIzct0+OHLWVbxLT1N3Ui+fhQCSZi2tVuZK6jax82q3rmpzP7lK4DU9GmazBQPx6fhkTCO1No=
+X-Received: by 2002:a2e:a44c:0:b0:26b:e70f:a026 with SMTP id
+ v12-20020a2ea44c000000b0026be70fa026mr9373998ljn.94.1664284557884; Tue, 27
+ Sep 2022 06:15:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v7 1/2] i386: kvm: extend kvm_{get, put}_vcpu_events to
- support pending triple fault
-Content-Language: en-US
-To: Chenyi Qiang <chenyi.qiang@intel.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <20220923073333.23381-1-chenyi.qiang@intel.com>
- <20220923073333.23381-2-chenyi.qiang@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220923073333.23381-2-chenyi.qiang@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
+ <20220927110632.1973965-44-bmeng.cn@gmail.com>
+In-Reply-To: <20220927110632.1973965-44-bmeng.cn@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 27 Sep 2022 17:15:46 +0400
+Message-ID: <CAJ+F1C+BsM16peLANydiBtRamWada6S8Hg5hLYD=Z274AbN_3A@mail.gmail.com>
+Subject: Re: [PATCH v4 43/54] tests/qtest: migration-test: Make sure QEMU
+ process "to" exited after migration is canceled
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000e0c3e605e9a87199"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,69 +88,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/22 09:33, Chenyi Qiang wrote:
-> For the direct triple faults, i.e. hardware detected and KVM morphed
-> to VM-Exit, KVM will never lose them. But for triple faults sythesized
-> by KVM, e.g. the RSM path, if KVM exits to userspace before the request
-> is serviced, userspace could migrate the VM and lose the triple fault.
-> 
-> A new flag KVM_VCPUEVENT_VALID_TRIPLE_FAULT is defined to signal that
-> the event.triple_fault_pending field contains a valid state if the
-> KVM_CAP_X86_TRIPLE_FAULT_EVENT capability is enabled.
+--000000000000e0c3e605e9a87199
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Note that you are not transmitting the field on migration.  You need
-this on top:
+Hi
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index b97d182e28..d4124973ce 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1739,7 +1739,7 @@ typedef struct CPUArchState {
-      uint8_t has_error_code;
-      uint8_t exception_has_payload;
-      uint64_t exception_payload;
--    bool triple_fault_pending;
-+    uint8_t triple_fault_pending;
-      uint32_t ins_len;
-      uint32_t sipi_vector;
-      bool tsc_valid;
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index cecd476e98..310b125235 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -1562,6 +1562,25 @@ static const VMStateDescription vmstate_arch_lbr = {
-      }
-  };
-  
-+static bool triple_fault_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->triple_fault_pending;
-+}
-+
-+static const VMStateDescription vmstate_triple_fault = {
-+    .name = "cpu/triple_fault",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = triple_fault_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(env.triple_fault_pending, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-  const VMStateDescription vmstate_x86_cpu = {
-      .name = "cpu",
-      .version_id = 12,
-@@ -1706,6 +1725,7 @@ const VMStateDescription vmstate_x86_cpu = {
-          &vmstate_amx_xtile,
-  #endif
-          &vmstate_arch_lbr,
-+        &vmstate_triple_fault,
-          NULL
-      }
-  };
+On Tue, Sep 27, 2022 at 5:02 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
+> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>
+> Make sure QEMU process "to" exited before launching another target
+> for migration in the test_multifd_tcp_cancel case.
+>
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+>
+> (no changes since v3)
+>
+> Changes in v3:
+> - Add a usleep(1) in the busy wait loop
+>
+> Changes in v2:
+> - Change to a busy wait after migration is canceled
+>
+>  tests/qtest/migration-test.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 45c5f5761b..6f9fe13488 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)
+>      wait_for_migration_pass(from);
+>
+>      migrate_cancel(from);
+> +    /* Make sure QEMU process "to" exited */
+> +    while (qtest_probe_child(to)) {
+> +        usleep(1);
+>
+
+Why not add a qtest_wait_qemu() ? (I think qtest_probe_child() should also
+be renamed)
+
+
+> +    }
+>
+>      args =3D (MigrateStart){
+>          .only_target =3D true,
+> --
+> 2.34.1
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000e0c3e605e9a87199
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 27, 2022 at 5:02 PM Bin=
+ Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Xuz=
+hou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.com" target=3D"_blan=
+k">xuzhou.cheng@windriver.com</a>&gt;<br>
+<br>
+Make sure QEMU process &quot;to&quot; exited before launching another targe=
+t<br>
+for migration in the test_multifd_tcp_cancel case.<br>
+<br>
+Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.co=
+m" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
+Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+---<br>
+<br>
+(no changes since v3)<br>
+<br>
+Changes in v3:<br>
+- Add a usleep(1) in the busy wait loop<br>
+<br>
+Changes in v2:<br>
+- Change to a busy wait after migration is canceled<br>
+<br>
+=C2=A0tests/qtest/migration-test.c | 4 ++++<br>
+=C2=A01 file changed, 4 insertions(+)<br>
+<br>
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c<br=
+>
+index 45c5f5761b..6f9fe13488 100644<br>
+--- a/tests/qtest/migration-test.c<br>
++++ b/tests/qtest/migration-test.c<br>
+@@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)<br>
+=C2=A0 =C2=A0 =C2=A0wait_for_migration_pass(from);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0migrate_cancel(from);<br>
++=C2=A0 =C2=A0 /* Make sure QEMU process &quot;to&quot; exited */<br>
++=C2=A0 =C2=A0 while (qtest_probe_child(to)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 usleep(1);<br></blockquote><div><br></div><div=
+>Why not add a qtest_wait_qemu() ? (I think qtest_probe_child() should also=
+ be renamed)<br></div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">
++=C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0args =3D (MigrateStart){<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.only_target =3D true,<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000e0c3e605e9a87199--
 
