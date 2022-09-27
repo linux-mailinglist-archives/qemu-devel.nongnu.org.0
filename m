@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74205ECEEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 22:47:38 +0200 (CEST)
-Received: from localhost ([::1]:51380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5959B5ECEBB
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 22:38:08 +0200 (CEST)
+Received: from localhost ([::1]:56494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odHUP-0006Ue-IJ
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 16:47:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41232)
+	id 1odHLD-0004Ts-F2
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 16:38:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1odH2H-0002Fh-87; Tue, 27 Sep 2022 16:18:42 -0400
+ id 1odH2K-0002Fq-7k; Tue, 27 Sep 2022 16:18:42 -0400
 Received: from [200.168.210.66] (port=34649 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1odH2F-000305-Ix; Tue, 27 Sep 2022 16:18:33 -0400
+ id 1odH2I-000305-Kn; Tue, 27 Sep 2022 16:18:35 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Tue, 27 Sep 2022 17:15:59 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 8C4FB800026;
+ by p9ibm (Postfix) with ESMTP id A8FE58003B3;
  Tue, 27 Sep 2022 17:15:59 -0300 (-03)
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -29,17 +29,17 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org,
  farosas@linux.ibm.com, Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [RFC PATCH v2 15/29] target/ppc: remove unused interrupts from
- p8_deliver_interrupt
-Date: Tue, 27 Sep 2022 17:15:30 -0300
-Message-Id: <20220927201544.4088567-16-matheus.ferst@eldorado.org.br>
+Subject: [RFC PATCH v2 16/29] target/ppc: remove generic architecture checks
+ from p8_deliver_interrupt
+Date: Tue, 27 Sep 2022 17:15:31 -0300
+Message-Id: <20220927201544.4088567-17-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220927201544.4088567-1-matheus.ferst@eldorado.org.br>
 References: <20220927201544.4088567-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Sep 2022 20:15:59.0859 (UTC)
- FILETIME=[F591FC30:01D8D2AD]
+X-OriginalArrivalTime: 27 Sep 2022 20:15:59.0984 (UTC)
+ FILETIME=[F5A50F00:01D8D2AD]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,110 +63,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the following unused interrupts from the POWER8 interrupt
-processing method:
-- PPC_INTERRUPT_RESET: only raised for 6xx, 7xx, 970, and POWER5p;
-- Debug Interrupt: removed in Power ISA v2.07;
-- Hypervisor Virtualization: introduced in Power ISA v3.0;
-- Critical Input, Watchdog Timer, and Fixed Interval Timer: only defined
-  for embedded CPUs;
-- Hypervisor Doorbell, Doorbell, and Critical Doorbell: processor does
-  not implement the "Embedded.Processor Control" category;
-- Programmable Interval Timer: 40x-only;
-- PPC_INTERRUPT_THERM: only raised for 970 and POWER5p;
+No functional change intended.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/excp_helper.c | 48 ----------------------------------------
- 1 file changed, 48 deletions(-)
+ target/ppc/excp_helper.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 0405fc8eee..4cbf6b29fc 100644
+index 4cbf6b29fc..2e8d4699a9 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -1979,29 +1979,16 @@ static void p8_deliver_interrupt(CPUPPCState *env, int interrupt)
-     CPUState *cs = env_cpu(env);
- 
-     switch (interrupt) {
--    case PPC_INTERRUPT_RESET: /* External reset */
--        env->pending_interrupts &= ~PPC_INTERRUPT_RESET;
--        powerpc_excp(cpu, POWERPC_EXCP_RESET);
--        break;
-     case PPC_INTERRUPT_MCK: /* Machine check exception */
-         env->pending_interrupts &= ~PPC_INTERRUPT_MCK;
-         powerpc_excp(cpu, POWERPC_EXCP_MCHECK);
+@@ -1999,9 +1999,6 @@ static void p8_deliver_interrupt(CPUPPCState *env, int interrupt)
          break;
--#if 0 /* TODO */
--    case PPC_INTERRUPT_DEBUG: /* External debug exception */
--        env->pending_interrupts &= ~PPC_INTERRUPT_DEBUG;
--        powerpc_excp(cpu, POWERPC_EXCP_DEBUG);
--        break;
--#endif
  
-     case PPC_INTERRUPT_HDECR: /* Hypervisor decrementer exception */
-         /* HDEC clears on delivery */
-         env->pending_interrupts &= ~PPC_INTERRUPT_HDECR;
-         powerpc_excp(cpu, POWERPC_EXCP_HDECR);
-         break;
--    case PPC_INTERRUPT_HVIRT: /* Hypervisor virtualization interrupt */
--        powerpc_excp(cpu, POWERPC_EXCP_HVIRT);
--        break;
- 
-     case PPC_INTERRUPT_EXT:
-         if (books_vhyp_promotes_external_to_hvirt(cpu)) {
-@@ -2010,52 +1997,17 @@ static void p8_deliver_interrupt(CPUPPCState *env, int interrupt)
-             powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL);
-         }
-         break;
--    case PPC_INTERRUPT_CEXT: /* External critical interrupt */
--        powerpc_excp(cpu, POWERPC_EXCP_CRITICAL);
--        break;
- 
--    case PPC_INTERRUPT_WDT: /* Watchdog timer on embedded PowerPC */
--        env->pending_interrupts &= ~PPC_INTERRUPT_WDT;
--        powerpc_excp(cpu, POWERPC_EXCP_WDT);
--        break;
--    case PPC_INTERRUPT_CDOORBELL:
--        env->pending_interrupts &= ~PPC_INTERRUPT_CDOORBELL;
--        powerpc_excp(cpu, POWERPC_EXCP_DOORCI);
--        break;
--    case PPC_INTERRUPT_FIT: /* Fixed interval timer on embedded PowerPC */
--        env->pending_interrupts &= ~PPC_INTERRUPT_FIT;
--        powerpc_excp(cpu, POWERPC_EXCP_FIT);
--        break;
--    case PPC_INTERRUPT_PIT: /* Programmable interval timer on embedded PowerPC */
--        env->pending_interrupts &= ~PPC_INTERRUPT_PIT;
--        powerpc_excp(cpu, POWERPC_EXCP_PIT);
--        break;
      case PPC_INTERRUPT_DECR: /* Decrementer exception */
-         if (ppc_decr_clear_on_delivery(env)) {
-             env->pending_interrupts &= ~PPC_INTERRUPT_DECR;
-         }
+-        if (ppc_decr_clear_on_delivery(env)) {
+-            env->pending_interrupts &= ~PPC_INTERRUPT_DECR;
+-        }
          powerpc_excp(cpu, POWERPC_EXCP_DECR);
          break;
--    case PPC_INTERRUPT_DOORBELL:
--        env->pending_interrupts &= ~PPC_INTERRUPT_DOORBELL;
--        if (is_book3s_arch2x(env)) {
--            powerpc_excp(cpu, POWERPC_EXCP_SDOOR);
--        } else {
--            powerpc_excp(cpu, POWERPC_EXCP_DOORI);
--        }
--        break;
--    case PPC_INTERRUPT_HDOORBELL:
--        env->pending_interrupts &= ~PPC_INTERRUPT_HDOORBELL;
--        powerpc_excp(cpu, POWERPC_EXCP_SDOOR_HV);
--        break;
      case PPC_INTERRUPT_PERFM:
-         env->pending_interrupts &= ~PPC_INTERRUPT_PERFM;
-         powerpc_excp(cpu, POWERPC_EXCP_PERFM);
-         break;
--    case PPC_INTERRUPT_THERM:  /* Thermal interrupt */
--        env->pending_interrupts &= ~PPC_INTERRUPT_THERM;
--        powerpc_excp(cpu, POWERPC_EXCP_THERM);
--        break;
-     case PPC_INTERRUPT_EBB: /* EBB exception */
-         env->pending_interrupts &= ~PPC_INTERRUPT_EBB;
-         if (env->spr[SPR_BESCR] & BESCR_PMEO) {
 -- 
 2.25.1
 
