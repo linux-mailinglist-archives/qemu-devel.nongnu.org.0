@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1FE05ECA74
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 19:06:23 +0200 (CEST)
-Received: from localhost ([::1]:34700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A675EC904
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 18:07:57 +0200 (CEST)
+Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odE2I-0000tE-Mr
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 13:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34384)
+	id 1odD7k-0002LF-9a
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 12:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1odClf-0002sU-4O
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 11:45:08 -0400
-Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:41971)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1odClX-0007Xq-Dh
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 11:45:06 -0400
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-346cd4c3d7aso104181777b3.8
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 08:44:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=e+w+HqdWFfWmF3C9WbjQjics6dA7q3fEVM4Nn/4Id+k=;
- b=L3eLFdEpUl+psCNO2WXQHtHJ/zxktgq3LQ2eoRIAql8nrAP827+YXhuqV/F28npDt9
- HSmzYKcMoVzKQMaqTNEYPGCPmW8E/ZBNzT8wp7KS2iU9p+CdT+pTCnehsLAHPph5N0o+
- WwMw7285Cr7Wc/EDFmIXsWrJGJknUq1Ju2EXEUapljCkB5AAmIgw1qzteHy53q/PzouV
- 3rQ9aRWZGlzP68tepL2kVGSzsF0jqnXjK/Y4ol8WDSfzedPJv1RZFjI5MAQlF8Qks7Pn
- J+YWZDpUeOMQvyYUvpUn3eoBvdZdOBP5nAGzDvDDQh8lxH63/gM5fQXh1xis53TReQW4
- Cszg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=e+w+HqdWFfWmF3C9WbjQjics6dA7q3fEVM4Nn/4Id+k=;
- b=TTnS3UASxk/zp3gBmKXkgQ0gTAm5/PXHgayEoexu/9XLqFjimJUNTSpw0KDdpCBTTh
- cxL7YMKNpdXh7p9O46fSq0EiOgJoKS1Pdp/EHJ0TtlhjlmQVZARIWCTmsrqtUlNm/fQZ
- oI40kMkW0wSdgJk73EfbFhyWUiPsbCE7J0UMl8n81SlyaS7NNTXCQyqX7xk9tD6tEI56
- 0bPGvNYuOGQv8oga7E9yWOkAliIqOOLy4PcnPbwFRmJ9/ZMf0UJowKhcWJB2tO7SA3bd
- EdYPPtSQn4byN77gHIDhpTV73Cu/td+2hLoZt+M7H9VM4f6pKrH1zi/d7Zlutzw4Q6do
- Gz1Q==
-X-Gm-Message-State: ACrzQf30JQugA4OectacTmqVrRPYV5Hj7CNangNuOSWWMyoOG+9m3SXd
- 8BTTPhHuAVdErCf6/IKA4LqQR2fka3Xe9BoS4W8=
-X-Google-Smtp-Source: AMsMyM7+0r+kKvl0f5Cb6xQHpuuCtTtK+xld5jbyY1phB4aVcvF/2EsHo51hSs/OJu+Mwh8BmNEvzbryMCEtJJ3gDao=
-X-Received: by 2002:a81:6a54:0:b0:345:4292:4dfe with SMTP id
- f81-20020a816a54000000b0034542924dfemr26074285ywc.62.1664293497054; Tue, 27
- Sep 2022 08:44:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1odClu-0002uI-F3
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 11:45:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51235)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1odClq-0007me-8p
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 11:45:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664293517;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pnU/nmJSY6AYxri7fygiuAn7sBox+V0YKLPmkrJPyPw=;
+ b=ObKX+WjO8TfL+jaUlHdV2sTILZwmQMkezMrkLnkq7OdINqHF9jejP94VlkSrs9sZF1jGnF
+ oehMETskurau4EF6KBzURfuMDb3gj2eHF5ZeRMHI0AJV9PwXnbDXkJsg4qM5MNe2SD+ics
+ fIFjrbWQz/bB49AXOy3XZOdhcbFAnDI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-53-FycC9Tv5Pi-OB6faUpxHUw-1; Tue, 27 Sep 2022 11:45:13 -0400
+X-MC-Unique: FycC9Tv5Pi-OB6faUpxHUw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 732DD811728;
+ Tue, 27 Sep 2022 15:45:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EFB540C6EC3;
+ Tue, 27 Sep 2022 15:45:12 +0000 (UTC)
+Date: Tue, 27 Sep 2022 16:45:09 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, imammedo@redhat.com,
+ jsnow@redhat.com, pbonzini@redhat.com, peter.maydell@linaro.org,
+ qemu-devel@nongnu.org, thuth@redhat.com
+Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
+ QEMU bios tables using biosbits
+Message-ID: <YzMahUpNtsas18rN@redhat.com>
+References: <alpine.DEB.2.22.394.2207251100590.87138@anisinha-lenovo>
+ <alpine.DEB.2.22.394.2207271137210.130455@anisinha-lenovo>
+ <CAARzgwwpy6yUJfuxxfM2vAUDqh+RyxjLqd+1xARiazqwTLbN9A@mail.gmail.com>
+ <20220917162606-mutt-send-email-mst@kernel.org>
+ <CAARzgwxoy_E-vkwo-mKo0tbG31Y3E3r9FB6v3H3hgPYW4fb6sA@mail.gmail.com>
+ <YzK1VzoU05vnlxY4@redhat.com>
+ <CAARzgwxpm-tF3OwK95gHe+9_6qBebiqPFLug-59RUt85aCnuZQ@mail.gmail.com>
+ <YzLN3Y1pNO8SVn9M@redhat.com>
+ <CAARzgwx+ZitnYKvmkDGA1+Aq3_yPQFSs5GfTvGaAeNmHxUSNOQ@mail.gmail.com>
+ <CAARzgwwLXp9rDkQ4OTW2TUgnp_XDyMTXf6OhsKE9qAL1HTuMRQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <285e1375-82c4-556d-54fa-abba6b8e8e77@redhat.com>
-In-Reply-To: <285e1375-82c4-556d-54fa-abba6b8e8e77@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 27 Sep 2022 11:44:45 -0400
-Message-ID: <CAJSP0QX13hF2_qSvO0Hfh=DtyurhkXyJKnrzWTSsTtURueTV6A@mail.gmail.com>
-Subject: Re: Should we maybe move Cirrus-CI jobs away from Gitlab again?
-To: Thomas Huth <thuth@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- "Daniel P. Berrange" <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, 
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1134.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAARzgwwLXp9rDkQ4OTW2TUgnp_XDyMTXf6OhsKE9qAL1HTuMRQ@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,36 +91,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Sept 2022 at 05:02, Thomas Huth <thuth@redhat.com> wrote:
-> now that Gitlab is giving us pressure on the amount of free CI minutes, I
-> wonder whether we should maybe move the Cirrus-CI jobs out of the gitlab-CI
-> dashboard again? We could add the jobs to our .cirrus-ci.yml file instead,
-> like we did it in former times...
->
-> Big advantage would be of course that the time for those jobs would not
-> count in the Gitlab-CI minutes anymore. Disadvantage is of course that they
-> do not show up in the gitlab-CI dashboard anymore, so there is no more
-> e-mail notification about failed jobs, and you have to push to github, too,
-> and finally check the results manually on cirrus-ci.com ...
+On Tue, Sep 27, 2022 at 07:35:13PM +0530, Ani Sinha wrote:
+> On Tue, Sep 27, 2022 at 5:12 PM Ani Sinha <ani@anisinha.ca> wrote:
+> >
+> > On Tue, Sep 27, 2022 at 3:48 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > >
+> > > On Tue, Sep 27, 2022 at 03:37:39PM +0530, Ani Sinha wrote:
+> > > > > > > > > >
+> > > > > > > > > > OK fine. Lets figuire out how to push bits somewhere in git.qemu.org and
+> > > > > > > > > > the binaries in some other repo first. Everything else hinges on that. We
+> > > > > > > > > > can fix the rest of the bits later incrementally.
+> > > > > > > > >
+> > > > > > > > > DanPB, any thoughts on putting bits on git.qemu.org or where and how to
+> > > > > > > > > keep the binaries?
+> > > > > > > >
+> > > > > > > > Can we please conclude on this?
+> > > > > > > > Peter, can you please fork the repo? I have tried many times to reach
+> > > > > > > > you on IRC but failed.
+> > > > > > >
+> > > > > > > Probably because of travel around KVM forum.
+> > > > > > >
+> > > > > > > I think given our CI is under pressure again due to gitlab free tier
+> > > > > > > limits, tying binaries to CI isn't a great idea at this stage.
+> > > > > > > Can Ani just upload binaies to qemu.org for now?
+> > > > > >
+> > > > > > I agree with Michael here. Having a full ci/cd job for this is
+> > > > > > overkill IMHO. We should create a repo just for the binaries, have a
+> > > > > > README there to explain how we generate them and check in new versions
+> > > > > > as and when needed (it won't be frequent).
+> > > > > > How about biosbits-bin repo?
+> > > > >
+> > > > > If QEMU is hosting binaries, where any part contains GPL code, then we
+> > > > > need to be providing the full and corresponding source and the build
+> > > > > scripts needed to re-create the binary. Once we have such scripts it
+> > > > > should be trivial to trigger that from a CI job. If it isn't then
+> > > > > we're doing something wrong.
+> > > >
+> > > > I was thinking of commiting the build scripts in a branch of
+> > > > https://gitlab.com/qemu-project/biosbits-bits.
+> > > > This would separate them from the main source. The scripts would build
+> > > > a version of qemu-bits based on the version information passed to it
+> > > > from the environment.
+> > > > Before I committed the scripts, I wanted to check whether we would
+> > > > want to do that or have a separate repo containing the binaries and
+> > > > the build scripts.
+> > > > Seems we want the former.
+> > > >
+> > > > As for the gitlab-ci, I looked at the yaml file and the qemu ones
+> > > > looks quite complicated. Can someone help me generate one based on the
+> > > > build script here?
+> > > > https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifacts.sh
+> > >
+> > > Yes, QEMU's rules aren't a good place to start if you're trying
+> > > to learn gitlab CI, as they're very advanced.
+> > >
+> > > The simple case though is quite simple.
+> > >
+> > >   * You need a container image to act as the build env
+> > >   * In 'before_script'  install any packages you need on top of the
+> > >     base container image for build deps
+> > >   * In 'script'  run whatever shell commands you need in order
+> > >     to build the project
+> > >   * Add an 'artifacts' section to publish one (or more) files/dirs
+> > >     as output
+> > >
+> > > The simplest example would be something like
+> > >
+> > >    mybuild:
+> > >      image: fedora:36
+> > >      before_script:
+> > >        - dnf install -y gcc
+> > >      script:
+> > >        - gcc -o myapp myapp.c
+> > >      artifacts
+> > >        paths:
+> > >          - myapp
+> > >
+> >
+> > How does this look?
+> > https://pastebin.com/0YyLFmi3
+> 
+> Alright, .gitlab-ci.yml is produced and the pipeline succeeds.
+> However, the question still remains, where do we keep the generated
+> artifacts?
 
-My understanding is that .gitlab-ci.d/cirrus.yml uses a GitLab CI job
-to run the cirrus-run container image that forwards jobs to Cirrus-CI.
-So GitLab CI resources are consumed waiting for Cirrus-CI to finish.
+The following link will always reflect the published artifacts from
+the most recently fully successful CI pipeline, on the 'qemu-bits'
+branch, and 'qemu-bits-build' CI job:
 
-This shouldn't affect gitlab.com/qemu-project where there are private
-runners that do not consume GitLab CI minutes.
+https://gitlab.com/qemu-project/biosbits-bits/-/jobs/artifacts/qemu-bits/download?job=qemu-bits-build
 
-Individual developers are affected though because they most likely
-rely on the GitLab shared runner minutes quota.
+Tweak as needed if you push the CI to master branch instead. This
+link can be considered the permanent home of the artifact. I'd just
+suggest that the QEMU job automatically skip if it fails to download
+the artifact, as occassionally transient infra errors can impact
+it.
 
-Does GitLab CI support some kind of async job so a container doesn't
-have to monitor Cirrus-CI for the duration of the tests? I guess it
-would require a job like the cirrus-run job, except a webhook signals
-completion and therefore the GitLab CI container doesn't need to wait
-around.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Stefan
 
