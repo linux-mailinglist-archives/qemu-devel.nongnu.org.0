@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322095ECECE
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 22:41:08 +0200 (CEST)
-Received: from localhost ([::1]:50702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41005ECEE9
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 22:47:15 +0200 (CEST)
+Received: from localhost ([::1]:52002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odHO5-0001R8-3y
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 16:41:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60742)
+	id 1odHU2-0005wV-QT
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 16:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1odH3d-00049C-2M; Tue, 27 Sep 2022 16:19:57 -0400
+ id 1odH3g-0004LC-TJ; Tue, 27 Sep 2022 16:20:00 -0400
 Received: from [200.168.210.66] (port=2929 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1odH3b-00039l-7d; Tue, 27 Sep 2022 16:19:56 -0400
+ id 1odH3f-00039l-5l; Tue, 27 Sep 2022 16:20:00 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Tue, 27 Sep 2022 17:16:00 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 3179B800026;
+ by p9ibm (Postfix) with ESMTP id 4E6A78003B3;
  Tue, 27 Sep 2022 17:16:00 -0300 (-03)
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -29,17 +29,17 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org,
  farosas@linux.ibm.com, Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [RFC PATCH v2 21/29] target/ppc: create an interrupt delivery method
- for POWER7
-Date: Tue, 27 Sep 2022 17:15:36 -0300
-Message-Id: <20220927201544.4088567-22-matheus.ferst@eldorado.org.br>
+Subject: [RFC PATCH v2 22/29] target/ppc: remove unused interrupts from
+ p7_deliver_interrupt
+Date: Tue, 27 Sep 2022 17:15:37 -0300
+Message-Id: <20220927201544.4088567-23-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220927201544.4088567-1-matheus.ferst@eldorado.org.br>
 References: <20220927201544.4088567-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Sep 2022 20:16:00.0531 (UTC)
- FILETIME=[F5F88630:01D8D2AD]
+X-OriginalArrivalTime: 27 Sep 2022 20:16:00.0578 (UTC)
+ FILETIME=[F5FFB220:01D8D2AD]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,146 +63,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The new method is identical to ppc_deliver_interrupt, processor-specific
-code will be added/removed in the following patches. No functional
-change intended.
+Remove the following unused interrupts from the POWER7 interrupt
+processing method:
+- PPC_INTERRUPT_RESET: only raised for 6xx, 7xx, 970, and POWER5p;
+- Hypervisor Virtualization: introduced in Power ISA v3.0;
+- Hypervisor Doorbell and Event-Based Branch: introduced in
+  Power ISA v2.07;
+- Critical Input, Watchdog Timer, and Fixed Interval Timer: only defined
+  for embedded CPUs;
+- Doorbell and Critical Doorbell Interrupt: processor does not implement
+  the "Embedded.Processor Control" category;
+- Programmable Interval Timer: 40x-only;
+- PPC_INTERRUPT_THERM: only raised for 970 and POWER5p;
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/excp_helper.c | 113 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 113 insertions(+)
+ target/ppc/excp_helper.c | 50 ----------------------------------------
+ 1 file changed, 50 deletions(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index d8522d0b17..f32472fb43 100644
+index f32472fb43..de6972d002 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -2040,6 +2040,116 @@ static int ppc_next_unmasked_interrupt(CPUPPCState *env)
- }
+@@ -2046,10 +2046,6 @@ static void p7_deliver_interrupt(CPUPPCState *env, int interrupt)
+     CPUState *cs = env_cpu(env);
  
- #if defined(TARGET_PPC64)
-+static void p7_deliver_interrupt(CPUPPCState *env, int interrupt)
-+{
-+    PowerPCCPU *cpu = env_archcpu(env);
-+    CPUState *cs = env_cpu(env);
-+
-+    switch (interrupt) {
-+    case PPC_INTERRUPT_RESET: /* External reset */
-+        env->pending_interrupts &= ~PPC_INTERRUPT_RESET;
-+        powerpc_excp(cpu, POWERPC_EXCP_RESET);
-+        break;
-+    case PPC_INTERRUPT_MCK: /* Machine check exception */
-+        env->pending_interrupts &= ~PPC_INTERRUPT_MCK;
-+        powerpc_excp(cpu, POWERPC_EXCP_MCHECK);
-+        break;
-+#if 0 /* TODO */
-+    case PPC_INTERRUPT_DEBUG: /* External debug exception */
-+        env->pending_interrupts &= ~PPC_INTERRUPT_DEBUG;
-+        powerpc_excp(cpu, POWERPC_EXCP_DEBUG);
-+        break;
-+#endif
-+
-+    case PPC_INTERRUPT_HDECR: /* Hypervisor decrementer exception */
-+        /* HDEC clears on delivery */
-+        env->pending_interrupts &= ~PPC_INTERRUPT_HDECR;
-+        powerpc_excp(cpu, POWERPC_EXCP_HDECR);
-+        break;
-+    case PPC_INTERRUPT_HVIRT: /* Hypervisor virtualization interrupt */
-+        powerpc_excp(cpu, POWERPC_EXCP_HVIRT);
-+        break;
-+
-+    case PPC_INTERRUPT_EXT:
-+        if (books_vhyp_promotes_external_to_hvirt(cpu)) {
-+            powerpc_excp(cpu, POWERPC_EXCP_HVIRT);
-+        } else {
-+            powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL);
-+        }
-+        break;
-+    case PPC_INTERRUPT_CEXT: /* External critical interrupt */
-+        powerpc_excp(cpu, POWERPC_EXCP_CRITICAL);
-+        break;
-+
-+    case PPC_INTERRUPT_WDT: /* Watchdog timer on embedded PowerPC */
-+        env->pending_interrupts &= ~PPC_INTERRUPT_WDT;
-+        powerpc_excp(cpu, POWERPC_EXCP_WDT);
-+        break;
-+    case PPC_INTERRUPT_CDOORBELL:
-+        env->pending_interrupts &= ~PPC_INTERRUPT_CDOORBELL;
-+        powerpc_excp(cpu, POWERPC_EXCP_DOORCI);
-+        break;
-+    case PPC_INTERRUPT_FIT: /* Fixed interval timer on embedded PowerPC */
-+        env->pending_interrupts &= ~PPC_INTERRUPT_FIT;
-+        powerpc_excp(cpu, POWERPC_EXCP_FIT);
-+        break;
-+    case PPC_INTERRUPT_PIT: /* Programmable interval timer on embedded PowerPC */
-+        env->pending_interrupts &= ~PPC_INTERRUPT_PIT;
-+        powerpc_excp(cpu, POWERPC_EXCP_PIT);
-+        break;
-+    case PPC_INTERRUPT_DECR: /* Decrementer exception */
-+        if (ppc_decr_clear_on_delivery(env)) {
-+            env->pending_interrupts &= ~PPC_INTERRUPT_DECR;
-+        }
-+        powerpc_excp(cpu, POWERPC_EXCP_DECR);
-+        break;
-+    case PPC_INTERRUPT_DOORBELL:
-+        env->pending_interrupts &= ~PPC_INTERRUPT_DOORBELL;
-+        if (is_book3s_arch2x(env)) {
-+            powerpc_excp(cpu, POWERPC_EXCP_SDOOR);
-+        } else {
-+            powerpc_excp(cpu, POWERPC_EXCP_DOORI);
-+        }
-+        break;
-+    case PPC_INTERRUPT_HDOORBELL:
-+        env->pending_interrupts &= ~PPC_INTERRUPT_HDOORBELL;
-+        powerpc_excp(cpu, POWERPC_EXCP_SDOOR_HV);
-+        break;
-+    case PPC_INTERRUPT_PERFM:
-+        env->pending_interrupts &= ~PPC_INTERRUPT_PERFM;
-+        powerpc_excp(cpu, POWERPC_EXCP_PERFM);
-+        break;
-+    case PPC_INTERRUPT_THERM:  /* Thermal interrupt */
-+        env->pending_interrupts &= ~PPC_INTERRUPT_THERM;
-+        powerpc_excp(cpu, POWERPC_EXCP_THERM);
-+        break;
-+    case PPC_INTERRUPT_EBB: /* EBB exception */
-+        env->pending_interrupts &= ~PPC_INTERRUPT_EBB;
-+        if (env->spr[SPR_BESCR] & BESCR_PMEO) {
-+            powerpc_excp(cpu, POWERPC_EXCP_PERFM_EBB);
-+        } else if (env->spr[SPR_BESCR] & BESCR_EEO) {
-+            powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL_EBB);
-+        }
-+        break;
-+    case 0:
-+        /*
-+         * This is a bug ! It means that has_work took us out of halt without
-+         * anything to deliver while in a PM state that requires getting
-+         * out via a 0x100
-+         *
-+         * This means we will incorrectly execute past the power management
-+         * instruction instead of triggering a reset.
-+         *
-+         * It generally means a discrepancy between the wakeup conditions in the
-+         * processor has_work implementation and the logic in this function.
-+         */
-+        assert(env->resume_as_sreset != 0);
-+        break;
-+    default:
-+        cpu_abort(cs, "Invalid PowerPC interrupt %d. Aborting\n", interrupt);
-+    }
-+}
-+
- static void p8_deliver_interrupt(CPUPPCState *env, int interrupt)
- {
-     PowerPCCPU *cpu = env_archcpu(env);
-@@ -2293,6 +2403,9 @@ static void ppc_deliver_interrupt(CPUPPCState *env, int interrupt)
- {
-     switch (env->excp_model) {
- #if defined(TARGET_PPC64)
-+    case POWERPC_EXCP_POWER7:
-+        p7_deliver_interrupt(env, interrupt);
-+        break;
-     case POWERPC_EXCP_POWER8:
-         p8_deliver_interrupt(env, interrupt);
+     switch (interrupt) {
+-    case PPC_INTERRUPT_RESET: /* External reset */
+-        env->pending_interrupts &= ~PPC_INTERRUPT_RESET;
+-        powerpc_excp(cpu, POWERPC_EXCP_RESET);
+-        break;
+     case PPC_INTERRUPT_MCK: /* Machine check exception */
+         env->pending_interrupts &= ~PPC_INTERRUPT_MCK;
+         powerpc_excp(cpu, POWERPC_EXCP_MCHECK);
+@@ -2066,9 +2062,6 @@ static void p7_deliver_interrupt(CPUPPCState *env, int interrupt)
+         env->pending_interrupts &= ~PPC_INTERRUPT_HDECR;
+         powerpc_excp(cpu, POWERPC_EXCP_HDECR);
          break;
+-    case PPC_INTERRUPT_HVIRT: /* Hypervisor virtualization interrupt */
+-        powerpc_excp(cpu, POWERPC_EXCP_HVIRT);
+-        break;
+ 
+     case PPC_INTERRUPT_EXT:
+         if (books_vhyp_promotes_external_to_hvirt(cpu)) {
+@@ -2077,60 +2070,17 @@ static void p7_deliver_interrupt(CPUPPCState *env, int interrupt)
+             powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL);
+         }
+         break;
+-    case PPC_INTERRUPT_CEXT: /* External critical interrupt */
+-        powerpc_excp(cpu, POWERPC_EXCP_CRITICAL);
+-        break;
+ 
+-    case PPC_INTERRUPT_WDT: /* Watchdog timer on embedded PowerPC */
+-        env->pending_interrupts &= ~PPC_INTERRUPT_WDT;
+-        powerpc_excp(cpu, POWERPC_EXCP_WDT);
+-        break;
+-    case PPC_INTERRUPT_CDOORBELL:
+-        env->pending_interrupts &= ~PPC_INTERRUPT_CDOORBELL;
+-        powerpc_excp(cpu, POWERPC_EXCP_DOORCI);
+-        break;
+-    case PPC_INTERRUPT_FIT: /* Fixed interval timer on embedded PowerPC */
+-        env->pending_interrupts &= ~PPC_INTERRUPT_FIT;
+-        powerpc_excp(cpu, POWERPC_EXCP_FIT);
+-        break;
+-    case PPC_INTERRUPT_PIT: /* Programmable interval timer on embedded PowerPC */
+-        env->pending_interrupts &= ~PPC_INTERRUPT_PIT;
+-        powerpc_excp(cpu, POWERPC_EXCP_PIT);
+-        break;
+     case PPC_INTERRUPT_DECR: /* Decrementer exception */
+         if (ppc_decr_clear_on_delivery(env)) {
+             env->pending_interrupts &= ~PPC_INTERRUPT_DECR;
+         }
+         powerpc_excp(cpu, POWERPC_EXCP_DECR);
+         break;
+-    case PPC_INTERRUPT_DOORBELL:
+-        env->pending_interrupts &= ~PPC_INTERRUPT_DOORBELL;
+-        if (is_book3s_arch2x(env)) {
+-            powerpc_excp(cpu, POWERPC_EXCP_SDOOR);
+-        } else {
+-            powerpc_excp(cpu, POWERPC_EXCP_DOORI);
+-        }
+-        break;
+-    case PPC_INTERRUPT_HDOORBELL:
+-        env->pending_interrupts &= ~PPC_INTERRUPT_HDOORBELL;
+-        powerpc_excp(cpu, POWERPC_EXCP_SDOOR_HV);
+-        break;
+     case PPC_INTERRUPT_PERFM:
+         env->pending_interrupts &= ~PPC_INTERRUPT_PERFM;
+         powerpc_excp(cpu, POWERPC_EXCP_PERFM);
+         break;
+-    case PPC_INTERRUPT_THERM:  /* Thermal interrupt */
+-        env->pending_interrupts &= ~PPC_INTERRUPT_THERM;
+-        powerpc_excp(cpu, POWERPC_EXCP_THERM);
+-        break;
+-    case PPC_INTERRUPT_EBB: /* EBB exception */
+-        env->pending_interrupts &= ~PPC_INTERRUPT_EBB;
+-        if (env->spr[SPR_BESCR] & BESCR_PMEO) {
+-            powerpc_excp(cpu, POWERPC_EXCP_PERFM_EBB);
+-        } else if (env->spr[SPR_BESCR] & BESCR_EEO) {
+-            powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL_EBB);
+-        }
+-        break;
+     case 0:
+         /*
+          * This is a bug ! It means that has_work took us out of halt without
 -- 
 2.25.1
 
