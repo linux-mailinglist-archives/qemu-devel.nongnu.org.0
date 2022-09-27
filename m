@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9E05EBADF
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 08:43:33 +0200 (CEST)
-Received: from localhost ([::1]:57918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B785EBAEF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 08:47:47 +0200 (CEST)
+Received: from localhost ([::1]:48672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od4JY-00069x-6B
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 02:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52920)
+	id 1od4Ne-0002BQ-IA
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 02:47:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1od3zN-0000DN-1o
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:22:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30133)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od43D-0001uF-An
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:26:40 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:36127)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1od3zK-0008Sw-AA
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:22:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664259757;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=da7TfaJTwlv6KJkJn5exId0yDWWlgAimMGibg24a5eA=;
- b=fngy8dA0bbn0Ow4UnztQ2KdmpKWTWpiK70+IeA5sESyRdEX3b0u+kmAXYCFUp8OAGXUrGu
- yRlAsVmcfLFpPouJgP/L046SPDrKJVbBJUSUg/kmNGcF5Ckn0jAiO2UvgFAizExFGR5XDn
- RADyk46WkZM1UTZE/eHronzFxZiRMZY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662--PAF9RJdPYW5itdvyRS3jQ-1; Tue, 27 Sep 2022 02:22:34 -0400
-X-MC-Unique: -PAF9RJdPYW5itdvyRS3jQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7AC3862FDC;
- Tue, 27 Sep 2022 06:22:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3303D1121314;
- Tue, 27 Sep 2022 06:22:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id F1D6D21E691D; Tue, 27 Sep 2022 08:22:30 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Daniel P . =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  Bin Meng <bin.meng@windriver.com>,  Hanna Reitz
- <hreitz@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,  Qemu-block
- <qemu-block@nongnu.org>,  "qemu-devel@nongnu.org Developers"
- <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v2] block: Refactor get_tmp_filename()
-References: <20220924114544.1906498-1-bmeng.cn@gmail.com>
- <87edvya1ez.fsf@pond.sub.org>
- <CAEUhbmX61MEXRv0XMXAVnuuVmq841i1_z2U5bR8hS39-cS7cKg@mail.gmail.com>
-Date: Tue, 27 Sep 2022 08:22:30 +0200
-In-Reply-To: <CAEUhbmX61MEXRv0XMXAVnuuVmq841i1_z2U5bR8hS39-cS7cKg@mail.gmail.com>
- (Bin Meng's message of "Mon, 26 Sep 2022 23:28:08 +0800")
-Message-ID: <87o7v1mj4p.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od43B-0000ZJ-0t
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:26:38 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N7hrw-1pG3eS1tTO-014msx; Tue, 27
+ Sep 2022 08:26:34 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 0/3] M68k for 7.2 patches
+Date: Tue, 27 Sep 2022 08:26:30 +0200
+Message-Id: <20220927062633.618677-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:gE0yCjTVJLD/EzgYbts+L/u7a4R4kgMFfyx4ZW8MCw14wIsGdN4
+ Lr0WJeAbZJGt9X7K/1DsIqm+SJ0/e7TQfBwEDQQk7XaxQSMT8d5A+9lQwtt0kkr1aeSpGsH
+ fqYwC4OFcb5pu4wc3lJpB2EkElNm9VS8WYLN+j3w5tCeUq+tgRFDEpdKiFfZ+oYLfjS/NLf
+ Alazi0nt+TmGS+5z5+zKA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Lrg+3eyp0FY=:kPs0IjqLF57TDZYs4Df+t9
+ 6v72I5lhc+N4lvmzWgTnw53ZrzKjAHuxtLcL8wTdSrr50Ii7xB+ru9WPxMJuRcakG4vUnjXpr
+ beuwZBCKCtqHGc1YbDw2OknXgCcrMVbMPe3c8Bs9ftquT344xOGZCt6rrEZXdOT/llZQi+MYz
+ 2uxYx7E+u7LFJUqzg0arxaAJZQZuFRP4lT5pLD+dhuL16Y0QzWrnjK7D16Mhulo6VwA1F6T9y
+ PnK7o0VnlYoD2nJu6Ggyejfy1F84KNUYqSQnRwwC/h//qQ2++bgWyxJ5Q+GxarMW2m+BrAHId
+ rw3c4tu3cas57706Pv9SL+J6s52zJ4OC7n8CenB+2jCjfRsrTgLDf2u08G8M4Jm2qPZoNgVrO
+ +njpv6AdinCpOdYtJ2kSulOkm/TOHn77vSTehDtp2DoqARWpqt0ypw5tUI+wJqYaadiQo9VnG
+ 33FO3ngr6xtVGiPQNoh9dv4MT6I3u8yrqPuECC+bR3CviaMx+LjH+J3NNT36M9d7Udhs7aTP+
+ KaGOMnTVIJl/8WlypU/q/LNSH0xGg1V0lqaP6fq4xRRMXaBnZnjzZcK9Wl7yUs5MbvS+yBvj0
+ XwACaHecsxVe0e40ovguNTlr+geKPHcIBoTUMGy2QO0+V2mDv1HzuphXborA43CRI++p8wdgC
+ j+8bINT4sKryH9Zr/FfCIHMXdRokV+OvkOI6yCfTkN74N3lWbZWFsjevsKo/vt3NXdgFcd0Qg
+ oodkCURExcaLUHoDc6vE4R8X9ueFjgQe1IlI68MXZA9HaTDgZpWSxsLWaFoWukDHUkJ7gl5Hq
+ RrdMBtd
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,137 +69,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bin Meng <bmeng.cn@gmail.com> writes:
+The following changes since commit 99d6b11b5b44d7dd64f4cb1973184e40a4a174f8:
 
-> On Mon, Sep 26, 2022 at 6:13 PM Markus Armbruster <armbru@redhat.com> wrote:
->>
->> Bin Meng <bmeng.cn@gmail.com> writes:
->>
->> > From: Bin Meng <bin.meng@windriver.com>
->> >
->> > At present there are two callers of get_tmp_filename() and they are
->> > inconsistent.
->> >
->> > One does:
->> >
->> >     /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
->> >     char *tmp_filename = g_malloc0(PATH_MAX + 1);
->> >     ...
->> >     ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
->> >
->> > while the other does:
->> >
->> >     s->qcow_filename = g_malloc(PATH_MAX);
->> >     ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
->> >
->> > As we can see different 'size' arguments are passed. There are also
->> > platform specific implementations inside the function, and this use
->> > of snprintf is really undesirable.
->> >
->> > Refactor this routine by changing its signature to:
->> >
->> >     char *get_tmp_filename(void)
->> >
->> > and use g_file_open_tmp() for a consistent implementation.
->> >
->> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
->> > ---
->> >
->> > Changes in v2:
->> > - Use g_autofree and g_steal_pointer
->> >
->> >  include/block/block_int-common.h |  2 +-
->> >  block.c                          | 42 ++++++++++----------------------
->> >  block/vvfat.c                    |  8 +++---
->> >  3 files changed, 18 insertions(+), 34 deletions(-)
->> >
->> > diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
->> > index 8947abab76..ea69a9349c 100644
->> > --- a/include/block/block_int-common.h
->> > +++ b/include/block/block_int-common.h
->> > @@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
->> >  }
->> >
->> >  int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
->> > -int get_tmp_filename(char *filename, int size);
->> > +char *get_tmp_filename(void);
->> >  void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
->> >                                        QDict *options);
->> >
->> > diff --git a/block.c b/block.c
->> > index bc85f46eed..4e7a795566 100644
->> > --- a/block.c
->> > +++ b/block.c
->> > @@ -860,38 +860,23 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
->> >
->> >  /*
->> >   * Create a uniquely-named empty temporary file.
->> > - * Return 0 upon success, otherwise a negative errno value.
->> > + * Return the actual name used upon success, otherwise NULL.
->> > + * The called function is responsible for freeing it.
->> >   */
->> > -int get_tmp_filename(char *filename, int size)
->> > +char *get_tmp_filename(void)
->> >  {
->> > -#ifdef _WIN32
->> > -    char temp_dir[MAX_PATH];
->> > -    /* GetTempFileName requires that its output buffer (4th param)
->> > -       have length MAX_PATH or greater.  */
->> > -    assert(size >= MAX_PATH);
->> > -    return (GetTempPath(MAX_PATH, temp_dir)
->> > -            && GetTempFileName(temp_dir, "qem", 0, filename)
->> > -            ? 0 : -GetLastError());
->> > -#else
->> > +    g_autofree char *filename = NULL;
->> >      int fd;
->> > -    const char *tmpdir;
->> > -    tmpdir = getenv("TMPDIR");
->> > -    if (!tmpdir) {
->> > -        tmpdir = "/var/tmp";
->> > -    }
->> > -    if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
->> > -        return -EOVERFLOW;
->> > -    }
->> > -    fd = mkstemp(filename);
->> > +
->> > +    fd = g_file_open_tmp("vl.XXXXXX", &filename, NULL);
->> >      if (fd < 0) {
->> > -        return -errno;
->> > +        return NULL;
->> >      }
->> >      if (close(fd) != 0) {
->> >          unlink(filename);
->> > -        return -errno;
->> > +        return NULL;
->> >      }
->> > -    return 0;
->> > -#endif
->> > +    return g_steal_pointer(&filename);
->> >  }
->>
->> Oh my, what a lovely mess you're messing with!
->>
->> The function creates a temporary *file*, not just a filename.  Makes
->> sense, as creating a unique filename is inherently racy.  The contract
->> is clear enough ("Create a uniquely-named empty temporary file"), but
->> the function name is actively misleading.
->
-> Agreed that the name is misleading.
+  Merge tag 'pull-target-arm-20220922' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-09-26 13:38:26 -0400)
 
-Care to fix that?
+are available in the Git repository at:
 
->> Of course, creating a temporary file for the caller to (re)open is also
->> racy.  By the time the caller gets around to it, the filename could name
->> anything.  Return an open file file descriptor is a better idea.  It's
->> basically g_file_open_tmp().  Could we rework the two users of
->> get_tmp_filename() accept a file descriptor?
->
-> I looked at the 2 callers, and it looks like we need to do more than
-> these 2 callers to teach them to accept a file descriptor. :(
+  https://github.com/vivier/qemu-m68k.git tags/m68k-for-7.2-pull-request
 
-Looks like it requires surgery to bdrv_create() at least.  I'm not
-demanding you do that now.
+for you to fetch changes up to 2cfa963126fe77fac034a43f986b2bf3e8fe6a4f:
 
-[...]
+  m68k: align bootinfo strings and data to 4 bytes (2022-09-26 23:37:22 +0200)
+
+----------------------------------------------------------------
+M68k pull request 20220927
+
+Align bootinfo tags
+fix move from sr
+
+----------------------------------------------------------------
+
+Jason A. Donenfeld (1):
+  m68k: align bootinfo strings and data to 4 bytes
+
+Mark Cave-Ayland (2):
+  target/m68k: increase size of m68k CPU features from uint32_t to
+    uint64_t
+  target/m68k: use M68K_FEATURE_MOVEFROMSR_PRIV feature for move_from_sr
+    privilege check
+
+ hw/m68k/bootinfo.h      | 10 ++++++----
+ target/m68k/cpu.h       |  8 +++++---
+ target/m68k/cpu.c       |  9 +++++++--
+ target/m68k/translate.c |  2 +-
+ 4 files changed, 19 insertions(+), 10 deletions(-)
+
+-- 
+2.37.3
 
 
