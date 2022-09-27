@@ -2,60 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79325EBB09
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 08:56:55 +0200 (CEST)
-Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410F55EBAE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 08:44:16 +0200 (CEST)
+Received: from localhost ([::1]:40068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od4WU-000899-Qz
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 02:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49564)
+	id 1od4KF-0007nk-A8
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 02:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od43L-0001w5-33
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:26:47 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:54375)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od43J-0000Zp-Az
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:26:46 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MsIbU-1pVRqr40C2-00tmNj; Tue, 27
- Sep 2022 08:26:36 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PULL 3/3] m68k: align bootinfo strings and data to 4 bytes
-Date: Tue, 27 Sep 2022 08:26:33 +0200
-Message-Id: <20220927062633.618677-4-laurent@vivier.eu>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220927062633.618677-1-laurent@vivier.eu>
-References: <20220927062633.618677-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1od46c-0004OO-7y; Tue, 27 Sep 2022 02:30:11 -0400
+Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33]:42757)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1od46a-0000zp-1E; Tue, 27 Sep 2022 02:30:09 -0400
+Received: by mail-qv1-xf33.google.com with SMTP id u8so68535qvv.9;
+ Mon, 26 Sep 2022 23:30:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=elvhhA4W5JGc27dibtf0cvtt45hqhOKHTd+8YZUXbGc=;
+ b=pcoJErS+TrPtG5s7C7V4/do3/aR/5FBEisPSsUXAAeTVpePhRDUVQnyDz7nPxV2QxA
+ Tmoun73iQnFr1UlIc+cpI1b8ePGdkE/0zY7+CXiPgg+/YIqPVlw1SJQdPYNSOTWaO2/V
+ ZczSQZ/VtHxEXewR2xR2fKo8zK5BqqM2hOO7Am1o4bCnyj59KmDFti4CBU8IY3hR1Be8
+ qfFQ06EXeCARu3fSa9vFzUXDsqCUBYhkC/TL2LlpZYHziaIIowTUX8ktcj1RyJZ39B5O
+ MMx5afkSYGfFRoEMurN9AffeffhLWG4S9BUChWfM99ZEm5dgjT2V979dyNo8Ex4C2L03
+ fM6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=elvhhA4W5JGc27dibtf0cvtt45hqhOKHTd+8YZUXbGc=;
+ b=JPG7UBaRIxAWuaM5iqSBBijmrm4Ui259EKnc7HykOfqW6jVM+JwL1L6+C+W00fpVh1
+ QhknyiBl97eWAZKZn1jOIduh5AOBhD1WD9J3KbPuqNWxoAci0RzBCe1BuMP4SMeu9lx5
+ ldMz/KFSE4ENvprFPu/r31BS8jeEP2afNwpxd0NQA6SJfHyWOjr+5CRvmzrxu0rNLaQO
+ O4dq1oyd41n5ZsrcRxJz/5T7njarcBUk3QoBlFv5AI5TaGycYByHKU1pgEwIjFBHcDZz
+ RFUf9tGa3sD/svfyG0ZYPyyZ2S9hKb6DZ3YY+TWK6HtDB1pe6WbFI+SQ0wm2KZGdue+5
+ Jr8g==
+X-Gm-Message-State: ACrzQf2AfMn3QWNgOb4Isk/21RGdPJLX7jaFzoww8iybjYoCvSAfTCDP
+ LuWhh7jmh8cOEvJ6+baWuNbY31+wp/Vj4NZTod0=
+X-Google-Smtp-Source: AMsMyM4TZbb+ZDqhVzZAMDiA8RnRXtztMNqpka7mITaHqBmv2kI14gEx7Fz1G5ENtc3PXKrl37t6eucmZ06VraA1DpY=
+X-Received: by 2002:a05:6214:1947:b0:4aa:9e87:d032 with SMTP id
+ q7-20020a056214194700b004aa9e87d032mr19766554qvk.114.1664260206068; Mon, 26
+ Sep 2022 23:30:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3ErU7WZ+VCtw2Nrh78zJjF00pjkF9lhcFj3/H4Nt5gHwv5PmokS
- HcKLJwiIRFLLIqSsHugL0WaR/ML3oZYGrmVDWiocSJohbTJkjG+Y/SWEqBL5Xh5XZzEg+zk
- GdT9eiM7JIpRk//HmZjYOebbPpsqGFOw5XjzjV5MvjoZ3iInFhCXJJ7MI+euipo6nXE8BHJ
- w68YeW81I4csB01pCyDEw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zepAkP3MoQ8=:t7v1204TtVkQ7ZLEXIi6uO
- NGz6IosjTP0ObSMMg/hGRLH8cCUiWDwUf0YkiH9GJxXMiML1XqmFCFdYFeN080HrH4NmjDEZc
- 0kP3x2cCRN1n0Io45FxGutrwms3Z7qGOyuYv9Tcmth/LknOyJaFml59MexX5js78jva1io7BZ
- 8kgawUpCAylXhe+kov/UWUHjUSzcqIAyllllA/MPac9KwVNqsn55/WH5Z3KKjMJa59Ng1tfBs
- WLEioOJLRH8XVFmRGslfMPeuLruUXu5r2S939cBTmrUD2cz5Qgvg+dMwMhl5+5Ag8B20Eoszb
- 139hgL18kiZS/LRp0Ye8eF43uooA8WQ7OWvfW0SyVn4cje46Vq6y1erWe6x0qxlNEDuonOLl2
- zwD5aG78k598OMfiGX3A5pjPgd31bFuJlSBgG2+oR4dyuv8B1ptVVTK7HyzBEFEnIv85MYjq7
- YdmWCZIjEObEDO3HXtsseBgRwTH2Wnxsyj8I9msJKFQ8QKDDfbI8KVT5TxlxiUZG2NMzTp6AD
- 5c4mxnwnyhxdz25pqJcJw3JPmnuqDyRjjLUjpHDo79TxNMAA6cTrR98ZEt2z9JBpNiPppNB3C
- 9Oeb+T2sxvMejZ0kmX9PzXDk8nkCNtWJfv8ry3QOAcZi+e+tjySwCzxhr45PRMv7oR5zdilb3
- /6L907ka3VYMiIg2mKwnoDG+3FonFqmSDs3cVH10TXu60X2y7UcyGQNFU4UYLR5Vtv0Srf7he
- 4lmhTIEC3DKnlyCEo2XZlApHE/jOU5rALHCTO5+WYRM6FiA4mnjXyAJ2Sk34t9A50SZ4sWQ7o
- qwuLXyI
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20220924114544.1906498-1-bmeng.cn@gmail.com>
+ <87edvya1ez.fsf@pond.sub.org>
+ <CAEUhbmX61MEXRv0XMXAVnuuVmq841i1_z2U5bR8hS39-cS7cKg@mail.gmail.com>
+ <87o7v1mj4p.fsf@pond.sub.org>
+In-Reply-To: <87o7v1mj4p.fsf@pond.sub.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 27 Sep 2022 14:29:55 +0800
+Message-ID: <CAEUhbmWk64pyujUDGFCJ=5MqwWSWy4XNb=M7QB5L1FiKHb2Q=g@mail.gmail.com>
+Subject: Re: [PATCH v2] block: Refactor get_tmp_filename()
+To: Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,65 +87,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Hi Markus,
 
-Various tools, such as kexec-tools and m68k-bootinfo, expect each
-bootinfo entry to be aligned to 4 bytes, not 2 bytes. So adjust the
-padding to fill this out as such.
+On Tue, Sep 27, 2022 at 2:22 PM Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Bin Meng <bmeng.cn@gmail.com> writes:
+>
+> > On Mon, Sep 26, 2022 at 6:13 PM Markus Armbruster <armbru@redhat.com> wrote:
+> >>
+> >> Bin Meng <bmeng.cn@gmail.com> writes:
+> >>
+> >> > From: Bin Meng <bin.meng@windriver.com>
+> >> >
+> >> > At present there are two callers of get_tmp_filename() and they are
+> >> > inconsistent.
+> >> >
+> >> > One does:
+> >> >
+> >> >     /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+> >> >     char *tmp_filename = g_malloc0(PATH_MAX + 1);
+> >> >     ...
+> >> >     ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+> >> >
+> >> > while the other does:
+> >> >
+> >> >     s->qcow_filename = g_malloc(PATH_MAX);
+> >> >     ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
+> >> >
+> >> > As we can see different 'size' arguments are passed. There are also
+> >> > platform specific implementations inside the function, and this use
+> >> > of snprintf is really undesirable.
+> >> >
+> >> > Refactor this routine by changing its signature to:
+> >> >
+> >> >     char *get_tmp_filename(void)
+> >> >
+> >> > and use g_file_open_tmp() for a consistent implementation.
+> >> >
+> >> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >> > ---
+> >> >
+> >> > Changes in v2:
+> >> > - Use g_autofree and g_steal_pointer
+> >> >
+> >> >  include/block/block_int-common.h |  2 +-
+> >> >  block.c                          | 42 ++++++++++----------------------
+> >> >  block/vvfat.c                    |  8 +++---
+> >> >  3 files changed, 18 insertions(+), 34 deletions(-)
+> >> >
+> >> > diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+> >> > index 8947abab76..ea69a9349c 100644
+> >> > --- a/include/block/block_int-common.h
+> >> > +++ b/include/block/block_int-common.h
+> >> > @@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
+> >> >  }
+> >> >
+> >> >  int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
+> >> > -int get_tmp_filename(char *filename, int size);
+> >> > +char *get_tmp_filename(void);
+> >> >  void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+> >> >                                        QDict *options);
+> >> >
+> >> > diff --git a/block.c b/block.c
+> >> > index bc85f46eed..4e7a795566 100644
+> >> > --- a/block.c
+> >> > +++ b/block.c
+> >> > @@ -860,38 +860,23 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
+> >> >
+> >> >  /*
+> >> >   * Create a uniquely-named empty temporary file.
+> >> > - * Return 0 upon success, otherwise a negative errno value.
+> >> > + * Return the actual name used upon success, otherwise NULL.
+> >> > + * The called function is responsible for freeing it.
+> >> >   */
+> >> > -int get_tmp_filename(char *filename, int size)
+> >> > +char *get_tmp_filename(void)
+> >> >  {
+> >> > -#ifdef _WIN32
+> >> > -    char temp_dir[MAX_PATH];
+> >> > -    /* GetTempFileName requires that its output buffer (4th param)
+> >> > -       have length MAX_PATH or greater.  */
+> >> > -    assert(size >= MAX_PATH);
+> >> > -    return (GetTempPath(MAX_PATH, temp_dir)
+> >> > -            && GetTempFileName(temp_dir, "qem", 0, filename)
+> >> > -            ? 0 : -GetLastError());
+> >> > -#else
+> >> > +    g_autofree char *filename = NULL;
+> >> >      int fd;
+> >> > -    const char *tmpdir;
+> >> > -    tmpdir = getenv("TMPDIR");
+> >> > -    if (!tmpdir) {
+> >> > -        tmpdir = "/var/tmp";
+> >> > -    }
+> >> > -    if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
+> >> > -        return -EOVERFLOW;
+> >> > -    }
+> >> > -    fd = mkstemp(filename);
+> >> > +
+> >> > +    fd = g_file_open_tmp("vl.XXXXXX", &filename, NULL);
+> >> >      if (fd < 0) {
+> >> > -        return -errno;
+> >> > +        return NULL;
+> >> >      }
+> >> >      if (close(fd) != 0) {
+> >> >          unlink(filename);
+> >> > -        return -errno;
+> >> > +        return NULL;
+> >> >      }
+> >> > -    return 0;
+> >> > -#endif
+> >> > +    return g_steal_pointer(&filename);
+> >> >  }
+> >>
+> >> Oh my, what a lovely mess you're messing with!
+> >>
+> >> The function creates a temporary *file*, not just a filename.  Makes
+> >> sense, as creating a unique filename is inherently racy.  The contract
+> >> is clear enough ("Create a uniquely-named empty temporary file"), but
+> >> the function name is actively misleading.
+> >
+> > Agreed that the name is misleading.
+>
+> Care to fix that?
 
-Also, break apart the padding additions from the other field length
-additions, so that it's more clear why these magic numbers are being
-added, and comment them too.
+How about create_tmp_file()?
 
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220926113900.1256630-2-Jason@zx2c4.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/m68k/bootinfo.h | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+>
+> >> Of course, creating a temporary file for the caller to (re)open is also
+> >> racy.  By the time the caller gets around to it, the filename could name
+> >> anything.  Return an open file file descriptor is a better idea.  It's
+> >> basically g_file_open_tmp().  Could we rework the two users of
+> >> get_tmp_filename() accept a file descriptor?
+> >
+> > I looked at the 2 callers, and it looks like we need to do more than
+> > these 2 callers to teach them to accept a file descriptor. :(
+>
+> Looks like it requires surgery to bdrv_create() at least.  I'm not
+> demanding you do that now.
+>
 
-diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
-index bd8b212fd35c..897162b8189c 100644
---- a/hw/m68k/bootinfo.h
-+++ b/hw/m68k/bootinfo.h
-@@ -48,13 +48,14 @@
-         stw_phys(as, base, id); \
-         base += 2; \
-         stw_phys(as, base, \
--                 (sizeof(struct bi_record) + strlen(string) + 2) & ~1); \
-+                 (sizeof(struct bi_record) + strlen(string) + \
-+                  1 /* null termination */ + 3 /* padding */) & ~3); \
-         base += 2; \
-         for (i = 0; string[i]; i++) { \
-             stb_phys(as, base++, string[i]); \
-         } \
-         stb_phys(as, base++, 0); \
--        base = (base + 1) & ~1; \
-+        base = (base + 3) & ~3; \
-     } while (0)
- 
- #define BOOTINFODATA(as, base, id, data, len) \
-@@ -63,13 +64,14 @@
-         stw_phys(as, base, id); \
-         base += 2; \
-         stw_phys(as, base, \
--                 (sizeof(struct bi_record) + len + 3) & ~1); \
-+                 (sizeof(struct bi_record) + len + \
-+                  2 /* length field */ + 3 /* padding */) & ~3); \
-         base += 2; \
-         stw_phys(as, base, len); \
-         base += 2; \
-         for (i = 0; i < len; ++i) { \
-             stb_phys(as, base++, data[i]); \
-         } \
--        base = (base + 1) & ~1; \
-+        base = (base + 3) & ~3; \
-     } while (0)
- #endif
--- 
-2.37.3
+Yes, big surgery to struct CreateCo::filename, and various ops in
+struct CreateCo::drv that takes the filename as an argument :(
 
+Regards,
+Bin
 
