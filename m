@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0EA5EC70A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:58:10 +0200 (CEST)
-Received: from localhost ([::1]:58930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD645EC727
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:03:16 +0200 (CEST)
+Received: from localhost ([::1]:47404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odC2D-0006Zs-Ez
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:58:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46202)
+	id 1odC77-0004jv-4k
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:03:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1odARP-000149-7l
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:16:03 -0400
-Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:34568)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odAWB-0005BU-Mf
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:21:00 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1odARN-0004OR-DA
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:16:02 -0400
-Received: by mail-lj1-x22a.google.com with SMTP id h3so10921231lja.1
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 06:16:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=6P9z585XlPqUTaQjRAEFU/6zH8pMI4ZPYcXKwIGPI5w=;
- b=pKFWCR2iRw4OsHR4713o6/rNMsNbM3y0yxVW5Rn8VzvYUwB48ampgchRhMpJwIDfOS
- IZczZ+eJjvTY86Gp9DdmRTPmgNX+NKXcpARqyOhs8fDnz0sY3Pa1b9Y5Z1W7Wv+K/vSW
- FnKLFL6NvOUV+9CtEmtpdL/dkiO0xBR3/r+mWjZIGyEWD1iuYJyaEKXy14NPHUXUzz3s
- gLVYomoTZg4tZy74uuanDIxbzukYW+HQNj8FbELhG7qI0n3/NE2zxfstt8BsymYJTGSy
- rMv0WGsAMybnQRhtpjmm2OlxcMihgp8c2UbLpt7mpVoq/gciTacZvDWnF5fqy8a02w+V
- EqYQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odAW8-0005Oh-T0
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:20:58 -0400
+Received: by mail-ed1-x532.google.com with SMTP id y8so13166734edc.10
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 06:20:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=DLGWnTVTFvxUfemaN9J52EFGjl49/8KYzb2zJJQVPC0=;
+ b=UHqZNL53KczBTgCti13zB/iv4+PT3XvgFSMuhM7vgrvKjELNpWmT3dtfnKiF2REVk0
+ 4YeOCgc1aifu+2X7ufjExoErAjUnv20PbC1/f1R83hDLPUonwSOkOtH84uLHUd5+FChF
+ QZjgZ8cfYVDVD3cZb/0Mkv6KLOtnZDFHmcOLMLp7dO2BKrJTOnhtA5kXwvxeFClnd7Xl
+ /fl618OCZcdCb2v0hvzz7SOcui5Zafnkk14RQnHyP3Dc4dG+8YsrOmV1iZYuY6bdUrl4
+ ipi1vuNHsDuPhfRbaf8EF9GMNS1FnMOc9XwZmJXHUFvsk0gPsMa5wBkbSlcDAqJTjg3c
+ rd2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=6P9z585XlPqUTaQjRAEFU/6zH8pMI4ZPYcXKwIGPI5w=;
- b=Yw0PAhy97uF36uA+cZhO2fCSm7gPKzCW5ZbhekrNirR/t3CSEFupt8KZ6zmXxL5hvb
- 3WpeVk1hOmnBks1PM2677VtQ8nqkeDOkWAALId761Fzd5rfIY/q1qxApcGB0K44hsNaW
- mdy6sK/6k8a+vs3/mJJ2ti97OL//Lnv5+1pG1T1tlkdKlHebgzLhs5bmRssDx3idSJvF
- ZnPhenH1e3HXg+XIKH9oI4profXO+SUF2tBiPI0YqTK4lL+mkmMNVkzA4UnCm6iuTGig
- UuaNhFo4UQ/E5EEUZRAD3Jsoup2XQxwvVmqSaYa53ht77d7J0c6JeTw623W6Mzc7Zvj/
- vCMA==
-X-Gm-Message-State: ACrzQf23cF5WkLThzqty2HsrmJ5jjbGIzk2dAXCqLVYFUhRX8WvuWlQj
- 9owSaaWlunI/Z+WA7oVcmFLVPEQFVlgGaqlNfT4=
-X-Google-Smtp-Source: AMsMyM6u6hiLRXW1kYSIzct0+OHLWVbxLT1N3Ui+fhQCSZi2tVuZK6jax82q3rmpzP7lK4DU9GmazBQPx6fhkTCO1No=
-X-Received: by 2002:a2e:a44c:0:b0:26b:e70f:a026 with SMTP id
- v12-20020a2ea44c000000b0026be70fa026mr9373998ljn.94.1664284557884; Tue, 27
- Sep 2022 06:15:57 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=DLGWnTVTFvxUfemaN9J52EFGjl49/8KYzb2zJJQVPC0=;
+ b=AfkGeBX2T626l/b3XPQadq4VLpBGPnxBn+jeTB26m7pApZLQMES9lTjehRnRzDoiLG
+ QCCqlKNSF6l8+khQa1tnCW/hi3nU0WtTtEbGyaseVh0QogF8bdIDZmHcB2X2kETyG18F
+ TI2hmv+gvvtDUUl2UaK/NVp8/BClIgksXXtmgh2kj2SKtrJ/INg5jvumrq7ZcxmBQHPw
+ 3DzKFDYmCNiNG8fst89AAUn24Q3og9yABrQXkU9S0xF0KUBA9B7zuccLNEDKhz0OMDpn
+ LKrwfzUWpPIF/1LG/TZa9sSLbU2QLuOLSI6QxQsfVY24LL8/wstKKHzYx3qZYEYwpfHk
+ lR3g==
+X-Gm-Message-State: ACrzQf0ayhfq2c2fJurctznJFER60TwINDtx/89xq/M0z2OX+yM6ojht
+ ObzjL0oROSj8NcIlLr+MoxOUmCdvoLfw10JgNGwddA==
+X-Google-Smtp-Source: AMsMyM65gW+CQFzu9XOKmUdZcyMjcShFPoKM5cGcLpndd/V+LfQpPuf1PiSH3BbSTXM+1Te2d01NJvfs17IauhN7zwU=
+X-Received: by 2002:a05:6402:2787:b0:451:d655:9269 with SMTP id
+ b7-20020a056402278700b00451d6559269mr27837452ede.375.1664284853607; Tue, 27
+ Sep 2022 06:20:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
- <20220927110632.1973965-44-bmeng.cn@gmail.com>
-In-Reply-To: <20220927110632.1973965-44-bmeng.cn@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 27 Sep 2022 17:15:46 +0400
-Message-ID: <CAJ+F1C+BsM16peLANydiBtRamWada6S8Hg5hLYD=Z274AbN_3A@mail.gmail.com>
-Subject: Re: [PATCH v4 43/54] tests/qtest: migration-test: Make sure QEMU
- process "to" exited after migration is canceled
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e0c3e605e9a87199"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22a.google.com
+References: <20220820141914.217399-1-tobias.roehmel@rwth-aachen.de>
+ <20220820141914.217399-7-tobias.roehmel@rwth-aachen.de>
+In-Reply-To: <20220820141914.217399-7-tobias.roehmel@rwth-aachen.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 27 Sep 2022 14:20:42 +0100
+Message-ID: <CAFEAcA9B32y-7-wmPr9LT34gqrZRfK0ygZ_iuy0LDa4VmrEgnw@mail.gmail.com>
+Subject: Re: [PATCH v3 6/9] target/arm: Enable TTBCR_EAE for ARMv8-R AArch32
+To: tobias.roehmel@rwth-aachen.de
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,123 +85,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e0c3e605e9a87199
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Tue, Sep 27, 2022 at 5:02 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+On Sat, 20 Aug 2022 at 15:19, <tobias.roehmel@rwth-aachen.de> wrote:
 >
-> Make sure QEMU process "to" exited before launching another target
-> for migration in the test_multifd_tcp_cancel case.
+> From: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
 >
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ARMv8-R AArch32 CPUs behave as if TTBCR.EAE is always 1 even
+> tough they don't have the TTBCR register.
+> See ARM Architecture Reference Manual Supplement - ARMv8, for the ARMv8-R
+> AArch32 architecture profile Version:A.c section C1.2.
+>
+> Signed-off-by: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
 > ---
+>  target/arm/debug_helper.c | 3 ++-
+>  target/arm/internals.h    | 3 ++-
+>  target/arm/tlb_helper.c   | 3 ++-
+>  3 files changed, 6 insertions(+), 3 deletions(-)
 >
-> (no changes since v3)
+> diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
+> index b18a6bd3a2..44b1e32974 100644
+> --- a/target/arm/debug_helper.c
+> +++ b/target/arm/debug_helper.c
+> @@ -434,7 +434,8 @@ static uint32_t arm_debug_exception_fsr(CPUARMState *=
+env)
+>          using_lpae =3D true;
+>      } else {
+>          if (arm_feature(env, ARM_FEATURE_LPAE) &&
+> -            (env->cp15.tcr_el[target_el].raw_tcr & TTBCR_EAE)) {
+> +            ((env->cp15.tcr_el[target_el].raw_tcr & TTBCR_EAE)
+> +            || arm_feature(env, ARM_FEATURE_V8_R))) {
+>              using_lpae =3D true;
+>          }
+>      }
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index b03049d920..e2a2b03d41 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -254,7 +254,8 @@ static inline bool extended_addresses_enabled(CPUARMS=
+tate *env)
+>  {
+>      TCR *tcr =3D &env->cp15.tcr_el[arm_is_secure(env) ? 3 : 1];
+>      return arm_el_is_aa64(env, 1) ||
+> -           (arm_feature(env, ARM_FEATURE_LPAE) && (tcr->raw_tcr & TTBCR_=
+EAE));
+> +           (arm_feature(env, ARM_FEATURE_LPAE) && ((tcr->raw_tcr & TTBCR=
+_EAE)
+> +           || arm_feature(env, ARM_FEATURE_V8_R)));
+>  }
 >
-> Changes in v3:
-> - Add a usleep(1) in the busy wait loop
->
-> Changes in v2:
-> - Change to a busy wait after migration is canceled
->
->  tests/qtest/migration-test.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 45c5f5761b..6f9fe13488 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)
->      wait_for_migration_pass(from);
->
->      migrate_cancel(from);
-> +    /* Make sure QEMU process "to" exited */
-> +    while (qtest_probe_child(to)) {
-> +        usleep(1);
->
+>  /* Update a QEMU watchpoint based on the information the guest has set i=
+n the
+> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+> index 7d8a86b3c4..891326edb8 100644
+> --- a/target/arm/tlb_helper.c
+> +++ b/target/arm/tlb_helper.c
+> @@ -20,7 +20,8 @@ bool regime_using_lpae_format(CPUARMState *env, ARMMMUI=
+dx mmu_idx)
+>          return true;
+>      }
+>      if (arm_feature(env, ARM_FEATURE_LPAE)
+> -        && (regime_tcr(env, mmu_idx)->raw_tcr & TTBCR_EAE)) {
+> +        && ((regime_tcr(env, mmu_idx)->raw_tcr & TTBCR_EAE)
+> +        || arm_feature(env, ARM_FEATURE_V8_R))) {
+>          return true;
+>      }
+>      return false;
 
-Why not add a qtest_wait_qemu() ? (I think qtest_probe_child() should also
-be renamed)
+In all of these I think you've put the "is this v8R?" condition
+in a weird place in the existing conditional structure. v8R
+always uses the extended-address format, so we should have
+the test at the same kind of level we have the "is this AArch64?"
+test, not buried inside the "if LPAE" test.
 
+Also, you can write the check
+  (arm_feature(env, ARM_FEATURE_V8) && arm_feature(ARM_FEATURE_PMSA))
+-- I still don't think there is any need for a separate V8_R
+feature bit.
 
-> +    }
->
->      args =3D (MigrateStart){
->          .only_target =3D true,
-> --
-> 2.34.1
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000e0c3e605e9a87199
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 27, 2022 at 5:02 PM Bin=
- Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Xuz=
-hou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.com" target=3D"_blan=
-k">xuzhou.cheng@windriver.com</a>&gt;<br>
-<br>
-Make sure QEMU process &quot;to&quot; exited before launching another targe=
-t<br>
-for migration in the test_multifd_tcp_cancel case.<br>
-<br>
-Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.co=
-m" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
-Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
----<br>
-<br>
-(no changes since v3)<br>
-<br>
-Changes in v3:<br>
-- Add a usleep(1) in the busy wait loop<br>
-<br>
-Changes in v2:<br>
-- Change to a busy wait after migration is canceled<br>
-<br>
-=C2=A0tests/qtest/migration-test.c | 4 ++++<br>
-=C2=A01 file changed, 4 insertions(+)<br>
-<br>
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c<br=
->
-index 45c5f5761b..6f9fe13488 100644<br>
---- a/tests/qtest/migration-test.c<br>
-+++ b/tests/qtest/migration-test.c<br>
-@@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)<br>
-=C2=A0 =C2=A0 =C2=A0wait_for_migration_pass(from);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0migrate_cancel(from);<br>
-+=C2=A0 =C2=A0 /* Make sure QEMU process &quot;to&quot; exited */<br>
-+=C2=A0 =C2=A0 while (qtest_probe_child(to)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 usleep(1);<br></blockquote><div><br></div><div=
->Why not add a qtest_wait_qemu() ? (I think qtest_probe_child() should also=
- be renamed)<br></div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">
-+=C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0args =3D (MigrateStart){<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.only_target =3D true,<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000e0c3e605e9a87199--
+thanks
+-- PMM
 
