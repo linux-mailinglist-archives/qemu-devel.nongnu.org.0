@@ -2,70 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AEE5EBE66
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:21:43 +0200 (CEST)
-Received: from localhost ([::1]:49178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D795EBE87
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:26:00 +0200 (CEST)
+Received: from localhost ([::1]:55918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od6mc-000519-It
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:21:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51100)
+	id 1od6ql-00028S-Rh
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:25:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1od6hw-0007na-QG; Tue, 27 Sep 2022 05:16:55 -0400
-Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:35713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1od6hu-0001QP-CG; Tue, 27 Sep 2022 05:16:52 -0400
-Received: by mail-lj1-x230.google.com with SMTP id x29so10248572ljq.2;
- Tue, 27 Sep 2022 02:16:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=igP0c0sJaDfZh4aw8ZzkZmNyM+z7emPPLiXKyNQm1fU=;
- b=B+C4A+REohi/2wz8ra5/U0YPZT6t/3Dfb5+XQpIp1gdrm4RRyY0CBYfg0eiiwDEl5z
- r9676v6UbgFngDyMnKsz4EMg8Py1kRT5ZRxNLxGfHe2+bfbk2LE/u4Ips8GSocIaRdo3
- NZQBOZzALnrDg8xOJf28WxoPcxm8pmP0dTAx2ePvMrIvUF7rv2u6P3kRdPE+DSThPnei
- IUdtYixYrXoyf2xqvmgLweApS4WYoA2gFAnqbnEJDxDR8wYkIxF0B7lmMSIYdQU/fJ/S
- E/CZNiqtomjYg+yiUzEMyQ8o9V46A35oesPY38p8/uHjzv81g7iz+jrAyKhTMA95hTrJ
- XE3g==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1od6iO-0008V5-4c
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:17:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56987)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1od6iK-0001U1-Ud
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:17:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664270235;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UQfYJYe+f1ZJlWxPO/NC+mL/f6ey5vMPSNmzbvnp1aM=;
+ b=bgcDGqxzbCOX+0vK4WP3iHdBQ2C8IICfAMWjH4gGzuL4pREOKiXQUku7jKRSEXeipurKCT
+ 2tHgUlE8ErPvoBjf9yChyuoyY+zoXJHHd7qYsag/Xte4QWkH+NnVR+IbCfmjhx/yxMsanS
+ KXfpDUgqr3FtZNefH8q6SSUTkQrI19k=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-569-A4xhARgyPB-OZckkPDFr6Q-1; Tue, 27 Sep 2022 05:17:14 -0400
+X-MC-Unique: A4xhARgyPB-OZckkPDFr6Q-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ qb16-20020a1709077e9000b007827e5f3e2dso3486926ejc.3
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 02:17:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=igP0c0sJaDfZh4aw8ZzkZmNyM+z7emPPLiXKyNQm1fU=;
- b=slOJdtWMY/kGHeKpumqHPcvm5lAqVp/i9rmvk5gAlWLB/BuDPAJeJsoehBULTnFPhP
- j037NiK6l7DYdYCdJR/OKO+ulJAnr59eFsbjc7E2JWjHlc3wYpwFsOCmbAJ9fLjoAlEk
- u4wywQoQjfMG6vj73LJaLkyGQP/DydOwuM4iL6JgxdNmq4ZnqFLE/iB+d1OTywEfLwrQ
- S8WzZTChMcEiJRXR9QcLlt1a9u0CU7mtYeI/mDhG7lHMv3wLoSm2ZGiwp8z3qhwjWED9
- zELYi7U7YrfDohNCIqh5nrMrN4tlAm3m+Fm2GM4HWFiaIh1M4GWd/TQpFwVC3G50Eimo
- 5egA==
-X-Gm-Message-State: ACrzQf358wILRr1DlbBHw1m3bnjaz8R+2ukgNBygkrpi9g0Wi7x7P+0E
- RM3p7faXRL/AGwRtV8xyUJKOoHlFMyI23FzQReg=
-X-Google-Smtp-Source: AMsMyM4aDviZM3NlNLnfrZIkZJfCZi2DBQEbh75kOUBOPgLYrnRsmuQyS5MRnv9K8LMTZbbQzX9iKKwCi/lOLv+BOa4=
-X-Received: by 2002:a2e:a607:0:b0:26c:42c8:13af with SMTP id
- v7-20020a2ea607000000b0026c42c813afmr8849623ljp.267.1664270207611; Tue, 27
- Sep 2022 02:16:47 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=UQfYJYe+f1ZJlWxPO/NC+mL/f6ey5vMPSNmzbvnp1aM=;
+ b=vwh8PDncuRuKulVIXwVCvsOdsRTHbruDhiRYWeM/TKDd1YHgjr2szKdFv+spn0s2NJ
+ 8oMNhJq6fiFI7HZO9XpwvFFpCwEbzRU0ck2UxDJ5WmMMQRMn5snCK64rfi5vipW8KCEf
+ 01q2Y/26Fc8dygHugW1PzFaLhLU3zB545q2UP4toWxBYxoicJPF2WaFUN05VWne6MS9M
+ twXWYXMyv9aGLSQgT4kGaExqklEwFA7Z7bahBxXpPjvw6a9b7IeN9Q+XG+G16qBJ5RYh
+ oxfHm1vzmI30mNTMEnWnyeGX/UqSWRMsxrG9RPUSAwyVYT0oQYMHJGeVJx2tXhkWc/Ti
+ VR9w==
+X-Gm-Message-State: ACrzQf0kLrtJbqKghjW1UO5KEPK6oTdS0eBOFNdThfvMbfNlKOWDuM3F
+ b55zp/RoDZB/i2YUr0PvOzp2xPjoNDTKrU4tSTydNFxo6YbQtK8VTE8oO3Rf9i53CbIhgLDKFUX
+ pizxvVubRjXvGQEM=
+X-Received: by 2002:a17:907:9602:b0:780:8c9f:f99a with SMTP id
+ gb2-20020a170907960200b007808c9ff99amr22252313ejc.465.1664270233544; 
+ Tue, 27 Sep 2022 02:17:13 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6g8t5m4YRfQR/npIYXd/ywm5HV9j7exnNbjnnIKbVQDEv5U5hq3ZAKZzG+MwgsmbJ77UfoRA==
+X-Received: by 2002:a17:907:9602:b0:780:8c9f:f99a with SMTP id
+ gb2-20020a170907960200b007808c9ff99amr22252300ejc.465.1664270233337; 
+ Tue, 27 Sep 2022 02:17:13 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ kz22-20020a17090777d600b00730979f568fsm488578ejc.150.2022.09.27.02.17.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Sep 2022 02:17:12 -0700 (PDT)
+Date: Tue, 27 Sep 2022 11:17:11 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>, David
+ Woodhouse <dwmw2@infradead.org>, Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH v2] Revert "intel_iommu: Fix irqchip / X2APIC
+ configuration checks"
+Message-ID: <20220927111711.4307af92@redhat.com>
+In-Reply-To: <20220926153206.10881-1-peterx@redhat.com>
+References: <20220926153206.10881-1-peterx@redhat.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220911181840.8933-1-arwed.meyer@gmx.de>
- <20220911181840.8933-6-arwed.meyer@gmx.de>
-In-Reply-To: <20220911181840.8933-6-arwed.meyer@gmx.de>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 27 Sep 2022 13:16:35 +0400
-Message-ID: <CAJ+F1C+qQy2QUCqeiNJGzOCpvF+a_TKC0eQcSDe_aqL=94mb7A@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] serial: Allow unaligned i/o access
-To: Arwed Meyer <arwed.meyer@gmx.de>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000088f99605e9a51a7c"
-Received-SPF: pass client-ip=2a00:1450:4864:20::230;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x230.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,102 +103,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000088f99605e9a51a7c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, 26 Sep 2022 11:32:06 -0400
+Peter Xu <peterx@redhat.com> wrote:
 
-On Sun, Sep 11, 2022 at 10:46 PM Arwed Meyer <arwed.meyer@gmx.de> wrote:
+> It's true that when vcpus<=255 we don't require the length of 32bit APIC
+> IDs.  However here since we already have EIM=ON it means the hypervisor
+> will declare the VM as x2apic supported (e.g. VT-d ECAP register will have
+> EIM bit 4 set), so the guest should assume the APIC IDs are 32bits width
+> even if vcpus<=255.  In short, commit 77250171bdc breaks any simple cmdline
+> that wants to boot a VM with >=9 but <=255 vcpus with:
+> 
+>   -device intel-iommu,intremap=on
+> 
+> For anyone who does not want to enable x2apic, we can use eim=off in the
+> intel-iommu parameters to skip enabling KVM x2apic.
+> 
+> This partly reverts commit 77250171bdc02aee106083fd2a068147befa1a38, while
+> keeping the valid bit on checking split irqchip, but revert the other change.
+> 
+> One thing to mention is that this patch may break migration compatibility
+> of such VM, however that's probably the best thing we can do, because the
+> old behavior was simply wrong and not working for >8 vcpus.  For <=8 vcpus,
+> there could be a light guest ABI change (by enabling KVM x2apic after this
+> patch), but logically it shouldn't affect the migration from working.
+> 
+> Also, this is not the 1st commit to change x2apic behavior.  Igor provided
+> a full history of how this evolved for the past few years:
+> 
+> https://lore.kernel.org/qemu-devel/20220922154617.57d1a1fb@redhat.com/
+> 
+> Relevant commits for reference:
+> 
+>   fb506e701e ("intel_iommu: reject broken EIM", 2016-10-17)
+>   c1bb5418e3 ("target/i386: Support up to 32768 CPUs without IRQ remapping", 2020-12-10)
+>   77250171bd ("intel_iommu: Fix irqchip / X2APIC configuration checks", 2022-05-16)
+>   dc89f32d92 ("target/i386: Fix sanity check on max APIC ID / X2APIC enablement", 2022-05-16)
+> 
+> We may want to have this for stable too (mostly for 7.1.0 only).  Adding a
+> fixes tag.
+> 
+> Cc: David Woodhouse <dwmw2@infradead.org>
+> Cc: Claudio Fontana <cfontana@suse.de>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Fixes: 77250171bd ("intel_iommu: Fix irqchip / X2APIC configuration checks")
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-> Unaligned i/o access on serial UART works on real PCs.
-> This is used for example by FreeDOS CTMouse driver. Without this it
-> can't reset and detect serial mice.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/77
-> Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de>
->
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-Michael, can you r-b too?
-
-
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
 > ---
->  hw/char/serial.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/hw/char/serial.c b/hw/char/serial.c
-> index 7061aacbce..41b5e61977 100644
-> --- a/hw/char/serial.c
-> +++ b/hw/char/serial.c
-> @@ -961,6 +961,9 @@ void serial_set_frequency(SerialState *s, uint32_t
-> frequency)
->  const MemoryRegionOps serial_io_ops =3D {
->      .read =3D serial_ioport_read,
->      .write =3D serial_ioport_write,
-> +    .valid =3D {
-> +        .unaligned =3D 1,
-> +    },
->      .impl =3D {
->          .min_access_size =3D 1,
->          .max_access_size =3D 1,
-> --
-> 2.34.1
->
->
->
+> v2:
+> - Added some more information into commit message [Igor]
+> ---
+>  hw/i386/intel_iommu.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index 05d53a1aa9..6524c2ee32 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3818,6 +3818,11 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
+>              error_setg(errp, "eim=on requires accel=kvm,kernel-irqchip=split");
+>              return false;
+>          }
+> +        if (!kvm_enable_x2apic()) {
+> +            error_setg(errp, "eim=on requires support on the KVM side"
+> +                             "(X2APIC_API, first shipped in v4.7)");
+> +            return false;
+> +        }
+>      }
+>  
+>      /* Currently only address widths supported are 39 and 48 bits */
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000088f99605e9a51a7c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Sep 11, 2022 at 10:46 PM Arwe=
-d Meyer &lt;<a href=3D"mailto:arwed.meyer@gmx.de">arwed.meyer@gmx.de</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Unalign=
-ed i/o access on serial UART works on real PCs.<br>
-This is used for example by FreeDOS CTMouse driver. Without this it<br>
-can&#39;t reset and detect serial mice.<br>
-<br>
-Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/77" rel=
-=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/is=
-sues/77</a><br>
-Signed-off-by: Arwed Meyer &lt;<a href=3D"mailto:arwed.meyer@gmx.de" target=
-=3D"_blank">arwed.meyer@gmx.de</a>&gt;<br></blockquote><div><br></div><div>=
-Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div><br></div><div>Mi=
-chael, can you r-b too?</div><div><br></div><div>=C2=A0<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0hw/char/serial.c | 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
-<br>
-diff --git a/hw/char/serial.c b/hw/char/serial.c<br>
-index 7061aacbce..41b5e61977 100644<br>
---- a/hw/char/serial.c<br>
-+++ b/hw/char/serial.c<br>
-@@ -961,6 +961,9 @@ void serial_set_frequency(SerialState *s, uint32_t freq=
-uency)<br>
-=C2=A0const MemoryRegionOps serial_io_ops =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.read =3D serial_ioport_read,<br>
-=C2=A0 =C2=A0 =C2=A0.write =3D serial_ioport_write,<br>
-+=C2=A0 =C2=A0 .valid =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .unaligned =3D 1,<br>
-+=C2=A0 =C2=A0 },<br>
-=C2=A0 =C2=A0 =C2=A0.impl =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.min_access_size =3D 1,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.max_access_size =3D 1,<br>
---<br>
-2.34.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000088f99605e9a51a7c--
 
