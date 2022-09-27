@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEF35EC527
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:58:31 +0200 (CEST)
-Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2053F5EC467
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:27:58 +0200 (CEST)
+Received: from localhost ([::1]:50574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odB6U-0001TZ-PP
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:58:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52222)
+	id 1odAcu-00059l-4V
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od91F-0004Qg-ON
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:44:58 -0400
-Received: from mout.gmx.net ([212.227.17.21]:37877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od91D-0005Jx-3q
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:44:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1664279088;
- bh=PyFyrawjUr3o4Ycn4S0wrXnbdSRZ5ibH1nKe6MuES7U=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=NOAVJ6P9iACRdrpgjvezQ4FBwLfOU8oQLymzS7wshOSaxYl22FmBKPefEeh09j371
- G3Axp4waeQTh7s6G1W3uCCAIsnL6Ct7fbBd2NOQPkenU6f7vDp7etI05WmVAGNmdb0
- Q6Sc4jBGdBxj+QVMwhO8lzb7VrWLgiz/QjEIrtpE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.138.255]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Ma24y-1oiYwG16l2-00VyGN; Tue, 27
- Sep 2022 13:44:48 +0200
-Message-ID: <9981e929-c68b-9e2c-edab-2e97ddefd348@gmx.de>
-Date: Tue, 27 Sep 2022 13:44:47 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1od93T-0006pl-Dm
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:47:23 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36459)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1od93Q-0005qm-GE
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:47:14 -0400
+Received: by mail-ej1-x630.google.com with SMTP id 13so20120047ejn.3
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:47:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=4rW0xzQSF2NcmC9VW8G5ihjG3KxSEvNbxRcfWvoPUFE=;
+ b=aBZ9vaHodLO8UOY75z8GROo6zMRPArLUlzswjvhhU9xm0phjWQppdRRv4jbOcU3T3P
+ fe/HXZr6l47I7WSMSx6YyZ1oW3CUTlInpBzI0HKl+kLJZPTMCxW2jP/K7rUzuxcjfgEq
+ qeVDUazlVKpMBJwx6cCdMVZJ5lefdjWkhH3j2e2ny/WUIw+p0yZo/HVAGtpF1TmaGmLb
+ mVK3WJeIpqoBsrHOnuDVsJCJ7ykQnQcxVirv5IOonP1IiB+8ED2szzGlqpqqFlg2g6hO
+ u56Cy8+/Q1ro5wqDVkV+rUQY/URCsld1rs3Lpm0KPW3n4L+nYCmnKxLiSOMO4jNSYwqu
+ shBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=4rW0xzQSF2NcmC9VW8G5ihjG3KxSEvNbxRcfWvoPUFE=;
+ b=8EiQaeGmWDgr96nJ2qwrrF/vmJDj7KPRWnwLxDnCNGLy0ruP9bx1VViJk97Ft69Bpm
+ 5RCj3lPW+BD3kZSASzZ8EUI+Xx1iHWFx7Z1fRXz8wTMTsfja7FChBycJVycOCTshre7o
+ ilRn8m4TjpC9kIH+s7I3tb5ftv5FSgM6KBXICvN52bsGQ728LQPNQW1lJaclYqDirc3/
+ /RleXmmlA41WaRA8B3q311gg3P5sEqDg1PDU+CQWLqGNma3nvWGIuglmac5gAAUShHLv
+ XsOPXp1/gmafv/hSGUb0OwuYp/tBwH1aeiwh6+KHOWKjM02EUztH7q3rRXQfr9SqMdcY
+ 8vxA==
+X-Gm-Message-State: ACrzQf0HQiIiJqtdERFkdjulHLA2meAxxIJSiptmbz++JAgVhGQpKBDU
+ QqtxG8j/rz+sFSc3TveMOuvkWtJzIAOQwREMFf646Q==
+X-Google-Smtp-Source: AMsMyM6hwOktXtCE1D+mudXCFnLOp8jMnUOy2AwATh9aisxJdMMdymQALLRH4UIUuRLIDiUTh99nEx6j2hUQY5lj1nk=
+X-Received: by 2002:a17:907:728e:b0:782:8e91:64c8 with SMTP id
+ dt14-20020a170907728e00b007828e9164c8mr19425852ejc.36.1664279230020; Tue, 27
+ Sep 2022 04:47:10 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH] linux-user: Add guest memory layout to exception dump
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Cc: Laurent Vivier <laurent@vivier.eu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-References: <YzLJlENCtqx87DIs@p100>
- <CAAdtpL5CvS_3aMgYhpc+okqSYA+WLQ=DfW0TvH04rYPXSJ9ggw@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <CAAdtpL5CvS_3aMgYhpc+okqSYA+WLQ=DfW0TvH04rYPXSJ9ggw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:t6ofYAbPOp7a5IemMoozEAh0RY2N/e2Z68QTlx5J6z3OplS9bgI
- uink6/UqkjYvICTLMoSxtiFNHb+yrzYX87APc73F9uuG3VvWXDM5Q/BgobAqHHKJbrQyHlt
- iqWn9E74D9tcvd6gtgts5uc62iIgIxa6mJc937KDZrtSaR2XjHhq/VBhpYse6/R8kPJz+rX
- W/IycyPJR1BEgfen0bsRQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mFb22pD52WU=:es3Fev8T13xOJm7xYY/+P2
- nwYU9SorLKzOKjNIpTT2M6x6IFqLJM9vtqLI59oPp5UY9Zi9l+3vT8CNXgNEA9aMEQkVz/qOs
- g93Y4QiLwaZmqAKXbm1HkPTRpISLDxBlfAyVY9dwZvqia8OhJrgkQ2hB+umV61gFyYEKYFNAx
- IFccyEgmO9vsU+CABV0tDN1DJ6RD5K27Ix11luk2/RmHqsbJGXoqj6/Wav1gi98ngmlM2g/Yh
- 2nCHOXlk5biMNPJ6DSo63ZYbZdAXmK8yjveCDwlGZsEE3anOqsbunbRcoc/9Kd/Dq3fT0xr8q
- W3+WTlOQCz+Api8kNgbmzO68ITHpZan3LqvtROAD6F1Cr/engIBNSkGF603+6i7nOwEl1CtDc
- nmphnBZDRQ8nRTB/PNlD1KZdNWSmoKPEHnWDR7j+TZkIf0Y23ooXoxs9cSGrNTpl1xNbgPOPi
- +7T0bkHQhITFjKAar8mSW7AGX36+LM18OsGz2PpuuXVnItGuQ/Me0LHxVrBTDPsJfZz/x18fR
- 6h9PF4m4k3FCOFrkgG6svQxVM75wfObT+TR7bPwYbUPIKpAbcsjG+W8IlUo+0Sndue7PGoyMM
- pqyRxYv9smcjMRuiscn0lzASS6QysSb+phK2tdRLnibt57zE0qKtyNosM0Yk6/N7M1IVabPsz
- v9wz77l51FkIv6UONrD/GPfEL+J/fKg9+r3KVwsZB1lVbdQ0ohI7I9l2Hd/Jvkc8oyErOCDah
- 0C9p0yIuZe+h9s6Rh03+tea6D0If0GnxN0Rej3M3pJxzIn92Kw2hgf9ytdMUUMSSsFucT+Vpv
- FEzlnvKKXbh+pmieYzCzbnxNpobIopyBpfNXDUBiUhtIEYDA6ZEfYBYKINDD+S6E+fqC+GJyW
- kHSAzzJUUGdfHeKVERGa6RZi06F62HkudymPBZK6ZVtbWB7occr/6rCXNd6t7ocktG9xY6YY5
- NPfzBFC4MmYO0QXQVreLKwo7uXtt9kw3xJq2L17+6Nz6Sf6W2YN2sRVSANQtfhvAx2u1VLqBQ
- a1H8J3BviVpTUW7MzboUcKWVKPMzPCaYT9VjTilB5topstPFz8kS3PLKjP6qLhAzbo5YDi5sO
- 2378QT4htVGa+rbY6+3Fh63O4I59zfgJQYE5K97Sg49fl04kieqFdIylHsn4B/xvfNqg39iQP
- go06HAxx8/v5kn4mycPf9BQXai
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_MSPIKE_ZBI=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220927100347.176606-1-jean-philippe@linaro.org>
+ <20220927100347.176606-8-jean-philippe@linaro.org>
+In-Reply-To: <20220927100347.176606-8-jean-philippe@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 27 Sep 2022 12:46:58 +0100
+Message-ID: <CAFEAcA8_mLVgvorF12qBMAW5NoZT2mXAzjfavCbDtcZjzcprow@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] hw/arm/virt: Fix devicetree warnings about the
+ virtio-iommu node
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, robh+dt@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,146 +84,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
-
-On 9/27/22 13:13, Philippe Mathieu-Daud=C3=A9 wrote:
-> On Tue, Sep 27, 2022 at 12:09 PM Helge Deller <deller@gmx.de> wrote:
->>
->> When the emulation stops with a hard exception it's very useful for
->> debugging purposes to dump the current guest memory layout (for an
->> example see /proc/self/maps) beside the CPU registers.
->>
->> The open_self_maps() function provides such a memory dump, but since
->> it's located in the syscall.c file, various changes (add #includes, mak=
-e
->> this function externally visible, ...) are needed to be able to call it
->> from the existing EXCP_DUMP() macro.
->>
->> This patch takes another approach by un-macronizing EXCP_DUMP() and tur=
-n
->> it into a function located in syscall.c.
->> Beside a reduced code footprint, this approach allows to add the memory
->> dump and simplify the code to print to console and log file.
->>
->> Signed-off-by: Helge Deller <deller@gmx.de>
->>
->> diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.=
-h
->> index 36ff5b14f2..0b26b56915 100644
->> --- a/linux-user/cpu_loop-common.h
->> +++ b/linux-user/cpu_loop-common.h
->> @@ -23,18 +23,7 @@
->>   #include "exec/log.h"
->>   #include "special-errno.h"
->>
->> -#define EXCP_DUMP(env, fmt, ...)                                      =
-  \
->> -do {                                                                  =
-  \
->> -    CPUState *cs =3D env_cpu(env);                                    =
-    \
->> -    fprintf(stderr, fmt , ## __VA_ARGS__);                            =
-  \
->> -    fprintf(stderr, "Failing executable: %s\n", exec_path);           =
-  \
->> -    cpu_dump_state(cs, stderr, 0);                                    =
-  \
->> -    if (qemu_log_separate()) {                                        =
-  \
->> -        qemu_log(fmt, ## __VA_ARGS__);                                =
-  \
->> -        qemu_log("Failing executable: %s\n", exec_path);              =
-  \
->> -        log_cpu_state(cs, 0);                                         =
-  \
->> -    }                                                                 =
-  \
->> -} while (0)
->> +void EXCP_DUMP(CPUArchState *env, const char *fmt, int code);
+On Tue, 27 Sept 2022 at 11:12, Jean-Philippe Brucker
+<jean-philippe@linaro.org> wrote:
 >
-> s/EXCP_DUMP/target_cpu_dump_exception/
-> Worth split as a preliminary patch updating all targets.
-
-Sure.
-The idea was to get feedback first before touching that many files.
-If people think this approach is right, I'll send a v2 with the targets
-updated accordingly.
-Maybe better: s/EXCP_DUMP/target_exception_dump/
-
->>   void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *r=
-egs);
->>   #endif
->> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> index d17f5d1c66..00861e9351 100644
->> --- a/linux-user/syscall.c
->> +++ b/linux-user/syscall.c
->> @@ -158,6 +158,7 @@
->>   #include "qapi/error.h"
->>   #include "fd-trans.h"
->>   #include "tcg/tcg.h"
->> +#include "cpu_loop-common.h"
->>
->>   #ifndef CLONE_IO
->>   #define CLONE_IO                0x80000000      /* Clone io context *=
-/
->> @@ -8177,6 +8178,33 @@ static int is_proc_myself(const char *filename, =
-const char *entry)
->>       return 0;
->>   }
->>
->> +static void excp_dump(FILE *logfile, CPUArchState *env,
->> +                      const char *fmt, int code)
+> The "PCI Bus Binding to: IEEE Std 1275-1994" defines the compatible
+> string for a PCIe bus or endpoint as "pci<vendorid>,<deviceid>" or
+> similar. Since the initial binding for PCI virtio-iommu didn't follow
+> this rule, it was modified to accept both strings and ensure backward
+> compatibility. Also, the unit-name for the node should be
+> "device,function".
 >
-> s/excp_dump/dump_excp_file/
-
-Ok.
-Maybe: s/excp_dump/excp_dump_file/ ?
-
-
->> +{
->> +    if (logfile) {
+> Fix corresponding dt-validate and dtc warnings:
 >
-> Rather:
+>   pcie@10000000: virtio_iommu@16:compatible: ['virtio,pci-iommu'] does not contain items matching the given schema
+>   pcie@10000000: Unevaluated properties are not allowed (... 'virtio_iommu@16' were unexpected)
+>   From schema: linux/Documentation/devicetree/bindings/pci/host-generic-pci.yaml
+>   virtio_iommu@16: compatible: 'oneOf' conditional failed, one must be fixed:
+>         ['virtio,pci-iommu'] is too short
+>         'pci1af4,1057' was expected
+>   From schema: dtschema/schemas/pci/pci-bus.yaml
 >
->      assert(logfile);
+>   Warning (pci_device_reg): /pcie@10000000/virtio_iommu@16: PCI unit address format error, expected "2,0"
 >
-> (programming error).
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> ---
+>  hw/arm/virt.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 2de16f6324..5e16d54bbb 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1372,14 +1372,15 @@ static void create_smmu(const VirtMachineState *vms,
+>
+>  static void create_virtio_iommu_dt_bindings(VirtMachineState *vms)
+>  {
+> -    const char compat[] = "virtio,pci-iommu";
+> +    const char compat[] = "virtio,pci-iommu\0pci1af4,1057";
+>      uint16_t bdf = vms->virtio_iommu_bdf;
 
-I don't think this is a good idea here.
-The logfile comes from qemu_log_trylock() which can return 0 and
-this is ignored in many other places too.
-The application will stop anyway, so aborting - just because we can't
-write to the log file - doesn't seem appropriate for me.
+PCI_DEVICE_ID_VIRTIO_IOMMU is listed in include/hw/pci/pci.h
+as 0x1014, so where does 1057 come from? (This is a hex value,
+right?)
 
->> +        CPUState *cs =3D env_cpu(env);
->> +
->> +        fprintf(logfile, fmt, code);
->> +        fprintf(logfile, "Failing executable: %s\n", exec_path);
->> +        cpu_dump_state(cs, logfile, 0);
->> +        open_self_maps(env, fileno(logfile));
->> +    }
->> +}
->> +
->> +void EXCP_DUMP(CPUArchState *env, const char *fmt, int code)
->
-> s/EXCP_DUMP/target_cpu_dump_exception/
->
->> +{
->> +    /* dump to console */
->> +    excp_dump(stderr, env, fmt, code);
->> +
->> +    /* dump to log file */
->> +    if (qemu_log_separate()) {
->> +        FILE *logfile =3D qemu_log_trylock();
->> +
->> +        excp_dump(logfile, env, fmt, code);
->> +        qemu_log_unlock(logfile);
->> +    }
->> +}
->
-> Nitpicking a bit, otherwise LGTM.
+docs/specs/pci-ids.txt doesn't list either 1014 or 1057, so
+I guess we forgot to update that...
 
-Thanks!
-Helge
-
+thanks
+-- PMM
 
