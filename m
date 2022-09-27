@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E358D5EC3EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:14:25 +0200 (CEST)
-Received: from localhost ([::1]:34146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DD5E5EC37B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:02:36 +0200 (CEST)
+Received: from localhost ([::1]:59974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odAPo-0007nU-Su
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:14:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54072)
+	id 1odAEN-0006kV-JI
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:02:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od8eb-0000om-LQ
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:21:35 -0400
-Received: from mout.gmx.net ([212.227.17.20]:58433)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od8hd-0005Ly-5m
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:24:47 -0400
+Received: from mout.gmx.net ([212.227.15.19]:50071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od8eZ-0000Yo-K8
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:21:33 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od8ha-00014T-K2
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:24:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1664277687;
- bh=+fCikU8oGewwV5fb2gZaw3RxXW570qCENzy9my8B3ZY=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=Z3uI4yvp0ugIVc32YEQYaO3gXHChbZuRcQ9V4iNbBBgV9BafKYep73wa4r6sd2cL9
- Vg3woN+3wQjCwjJU2Nkdvb4mk51rZzYKinS3DG5Si34AdormMh8AwPhO+JNGpIUiqp
- nvhSg7DS22YdimMNsXHXRLs2tC9u5RdKmIiSznUE=
+ s=badeba3b8450; t=1664277876;
+ bh=o77wLiAl8rcyGvv305VZCD/qEl9Bp6TA36qD0AMC4h8=;
+ h=X-UI-Sender-Class:Date:From:To:Subject:References:In-Reply-To;
+ b=Vf/4QncZQuBonbkF1azf3aktrukyKr6sZQcH6KkEZpYNPMZ6xIfEUSCZkXHwtMuo6
+ Q3gJ8Dv6nckJSJle2ZrdaxAiUqbzRM8VWKFgJzdFEC+DcHOYA1GQSxjxEpA6ooyA+D
+ dVgsl62GaXAdJ18iVZRxnIXNEUCLMZejx8Kw5D40=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100 ([92.116.138.255]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MGz1f-1oPgVY3Fw3-00E1hI; Tue, 27
- Sep 2022 13:21:27 +0200
-Date: Tue, 27 Sep 2022 13:21:24 +0200
+Received: from p100 ([92.116.138.255]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MHG8g-1oPxPI0Xi4-00DDGZ; Tue, 27
+ Sep 2022 13:24:36 +0200
+Date: Tue, 27 Sep 2022 13:24:34 +0200
 From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: ddd
-Message-ID: <YzLctFYiBG/JkNuH@p100>
+To: Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: [PATCH v2] linux-user: Add faccessat2() syscall
+Message-ID: <YzLdcnL6x646T61W@p100>
+References: <YzLctFYiBG/JkNuH@p100>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Provags-ID: V03:K1:gg/pa041vPkrDBSWx+lg1bJ0vxAALOt7vnU6b1008aj6t0NQ9OS
- 04dn8VvGpP1fGtT4R+cQzZkJ7eG5+ad++boqc3tcAcYG+AOIAaMeSeGk8WknfeWWQrcGzo2
- nDmvzLdH97QTts5RK/qAdmcpEramvyiIhN2PcP2D4pHvfHnPjVdJmdkKpl9tKtXMUcyo8/1
- 2gx+Gp5uF6ynlYuXz4geQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HeP3RMO7vzs=:TZbhUnCR5bXOgYFmCNUxQ/
- I3MDekmQUrYdZphhzMftJqoB92K0OqtX4OLE5IdwysEjMqW1NoWngx8HrHkYU26qjG0UTKWTW
- yRumIUXxde2O1Qgn8Pb/2apmzGk5mrnszRXcqelu3LlSEXwajAoGTrUwm3u9KC/McFfp7wWUs
- wiIcjnnJMAgDvtwF6xPahfq1z30WdPAYBQixZHEX4uPrz+Eg1zdNAIZczMy/ZUOJ+0ywcJOwe
- yJeLHlQkNZ7eAbEgVNuRlSFtGvmFOYn4ySqIay7Uf4Q3XdLUlktv0pH2uAcfib3xKYnnEbto0
- v3rfwIw/Bgndf/D7//E4OMT895zqtIJBx4axxMqY8RVHvtvA3qipn5METrVip4twmomtjBSjS
- qpE1crDKBCZr63kFusaJvEWjUsUVjDnydQSDl9hlEh1VWD2qXnxJYFBPgCkjs+g5LSQ6Xz5L1
- cuGescpXBc0/zgiuykSzDXg7m8HQfdPIkHn+ZZKMMaTahwXxD9v8l2j/SFkwa45JHkJdxyWZK
- T6N/4NT9fW0AJqk8vNMRzs3IuyUhg09ROWKr3WQHmM5Dcj4e7R9PMruUU12tPjY5S+EpyD/Wq
- 83/zyQ0Cydg4PIE4yNGFc9BmPesHUiaO66xt1CPWqLJb7ugiBvYczORepMnbAkaiYvMox+4EJ
- +rRvl17Apnk8ammQeMT1SkQBkTbm5qYC3/ZSx66i2JL6bNju5CaKwdo4tPvjmAekqyP1/f9xY
- 2Pq5AgLIyCLsS027m91GvCT314//4hroWlg2FP7Kz2jAhp9uyGJNn/FpDFtp5P2o5EXq3wQPy
- QG6bQX2T+h8FXjCCyfMtzpUhu4PB3eZjofaoU9Fjxlt9+o5rc2vfWOOf2sDgz5jd6Ac8iQg0K
- 0ciXFY4NIAujkA1ggMNwp6igA3xg6BT9iuTfRgbdFE2xEdFNo/Z+2NXZj3SayntE4FxCJF1Do
- 5wKe41zPURXJbUz9aMgTnqGP87FTkIIG37tD3Brp/JpLviLSwjPEX+gemEa21xy5jeq3ypPr8
- BYfh8CffbjZEc+vX8nfY1BvlVtExGXZaWngc4o4Np04Qx0mXpf1/q343OEH1Ho0P+ZcqXAuH9
- vCIUFpp6D2D7J3rWLXt5S8Gc9yB5F2F80r/3rO0yPXl1hIxW2Ge3rEi5FoUGUlp/NiDkdrfeJ
- L60neZYtNO7WG71FhiZ9K3VMgi
+In-Reply-To: <YzLctFYiBG/JkNuH@p100>
+X-Provags-ID: V03:K1:IgxcX9ZtHntSFfOBoc9UAgWatrvTsir5jVS0rCGOmJfmGxEhkmG
+ uYyco9L/B6SBv80FkAcYwO0p+lCOEDKI38ARu+2yPdMU6rMuG6j78+/tjQjwCvHRnBuVORE
+ vbJmAIRHhY2ONLVG9AjyDSSWpaiZwN8pq6rYJ3flskAcqUqrHTTGxGDzN6nc/GuT3lRtNy9
+ CxTcnY8I9g1dJOt116IJA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:s8ItTnVDdwo=:INetV3qaH0YkpghJZAQg8e
+ cutvdPpccI7GAEIBfaRwIRj8cZik8dcpKldWYEajD6O4p2X7mtlwLwWsBDYIu3veys9cxOJgA
+ MSF7fD5lGPGMTpRJlhu4hbtnxq2JC+JJNnhvQpNGKi74ehu/g19U55VjGVqnomqLPokYxdWRW
+ /fcXwUGqArSV5HtlKCIs1DZLxjBcFwrwwlOcKKAjsx27hJb9soW8B25dAnoCJtsNWo8Pl+uLw
+ dAMIUN70DJb0F3PzBpg7zAUHt0ncKKsjdt3lMGv9Axs0Z8uPyLfMzqRgpK2qry9YQzJFrR97U
+ 921dxL6hSfU5a61fEKz+Y3jiqVq2GJSLqaR08YuWWW61DtiQR65nQ2voffQoS/sgKbrJ2W7Vc
+ AGhvrgsqrWYuqfzE2xmtWY+mwP6605mgWKuX1aOWFq6IPsi6CH5khExJyKSry8awolrfwaGFT
+ fZdZpxdrZl9bsrNLdCHw1xXLpQdERPPqANDe0F94mjXSRwxJJ7u4z04aAX9MWV5seQN6sqf9w
+ BjkWLHvI+PjDuK7a5xtykiBIu84JLHFJ6u4DdT1bXFvJTTNXSQpgQYa01ACbiEFUrXtv3EEXq
+ wqEUBOFYwSoMQDLB5q5IOjN4PKoo0tz81t3P97kVVi8xhstJrCLlFi4U4euCw4E5/scbaiKvu
+ bDvLwOr1NHRlfzv8eD5VfT8WGCmKC0Wl9Cg2QfEVATef1U/NdPGo43R4D0NkvrJ6MvFZq2Vnu
+ pIFF3tYDSkTu/CqsxGk7sCcI8L/UzuTRHOOyqkpM86pootUiiyUCniULrPcnDihlNniUTh/ue
+ X3rRblg/wr5AHyhDqN672lPRAGUJ5AND+lBCDoDmvnNBl3xMo9h79rfYfQ987EZCRZq4puRjV
+ I6I6p8pU/3CKtpry5ltkr6GhzqboCh8/rjk+V88NNstgFR+llwNf/hDKll+hcUqTAVaGEcJSG
+ wQliUG2bQ2rdXWs0bVnFS5k+5cKcUMzM1gvUY/0idrVJ+CkSNN9aHZcHbummhtpadC3sGoKDC
+ 3NoNXSgXLINjb7bkQfrId7GuV5O8mK8b8pAaB55eAIKnL3R1+VKAZflHB8OtgiyYl2044201A
+ OzC12E32lu2t67CfFLfPUHuY1Ia5IsMNv2OCRa4yGLRH5JOZmfuSnz44DZKDWK96MWVj7K1Km
+ rYsNo858HY98VSsMDJ8V920qup
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_MSPIKE_ZBI=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,7 +89,6 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Add faccessat2() with strace output.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
-
 =2D--
 v2: Resending with minor commit message changes.
 
