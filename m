@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C096F5EC2CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:34:20 +0200 (CEST)
-Received: from localhost ([::1]:50400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76AF5EC30F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:41:36 +0200 (CEST)
+Received: from localhost ([::1]:52684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od9n1-00011L-On
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:34:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60802)
+	id 1od9u3-0007YQ-RX
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:41:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8Rv-0003Hx-AI
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:27 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:39914)
+ id 1od8Rw-0003J7-R7
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:34 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:53198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8Rs-0005GZ-IA
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:25 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id f23so8758663plr.6
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:08:24 -0700 (PDT)
+ id 1od8Rv-0005Gk-2s
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:28 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id cp18so219211pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:08:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=DqdUa4ktVoNWFMpBiRKryhldwdqBntUYFZpWemso0qs=;
- b=C14AyI8HmvE0YgObz2Zw62T9HjGzs3zZUP6EXhhNWG8ZeJbre3AVwQV0OxlVqueXO1
- csP4dLBWN6ewNz3RfXzv+ouMXjq+NcR99YrdzipYG2sOGZbglppCkSn1zfPpaAKQWto2
- h1HGhkWaFp7kOh4PkD7B6hwGPalhlWztIpjIX0Y6/2Pq9Jew1jEcpFHgl85AZnwXPlho
- HSw3hogtfQzFxAQKRYu9LHF73FzjbLv7dVr+UdF+CS4lrXL+ezU0ujSspy2iqlYakUbL
- 6L+U3ih7MmW6wqQjP3l0JFe5GYdM9pZ4Yf2HWNpFjwEdTN+TR/dqMJNkAmxbOeLMVlZq
- HhHA==
+ bh=teWUKK+iPqgAl9S+lVS0e68MivpBqlPL4Km9qM05Zkg=;
+ b=m8ROKyVG27Yh9vSMPDmTjCxznSgc3NGM0eybi8bQ6DWXhVCjxelZnFMzi0CDhSZPd0
+ sHoOfP7s4bDMmWb/8jecdJmcxgdMAEU5iVUUZtml7fafc2NSWyHlrCF6GJlKI8QYfpaV
+ nhVaIT6ZJ/8W0PVNd3TDp8EJgl4/4i6ZLGrSfIhmP23WPZHdx5mPpT20GT9rFrQ5Xvb6
+ Ap+vJhNdM9vGEI+5gUDAhCPqjTcpRfBzjRAhoyrbler2wXOIjTheD5uxpr1gbGH6RpXg
+ SSneTGin3+9UxzV7UhWUPcJYlp7XlZJ9/XAQE7feyhKYRCDqJKqeeE91bRiyQ8qqeEqJ
+ 8r7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=DqdUa4ktVoNWFMpBiRKryhldwdqBntUYFZpWemso0qs=;
- b=uEdDW8ddvvuGqBvvX6mqqHMNOOP1DgPKX0vSYN9sPe0dMR+eLQ+gFnmrqff4ncNCmc
- n9HA4XQ7Sjul/286al5/p62l7lAdbDvJ/6VE7MGqeWK5R3dEGRLVVdOLTDyiWtrdjbdS
- Yx+I7WwRldQ6nLQCph1PlhiE5hSMkgrEGlsMX6MzSXaGFMq+P0Ge7bYl21KLN8vx+r6R
- r4p4vrMuD03iKh/Lg94ilKsvUUwoyCFcr5xTd+yH4NIXRyZdIdhvo7rpZJdTOzSj+OcH
- yZFdJzCUt7prlDypUU+K0xL470WV7ImdVsg4aMGk8wedq9UPNIxJj1l544i0cPDzNb9N
- Gu9Q==
-X-Gm-Message-State: ACrzQf2eQkCYvllhg/aJYtGmY6hhpkrKKm07giz31FYrgd+SuHFHontX
- ee97ofTw+zmf34kT9h9SibVh0A6wPVw=
-X-Google-Smtp-Source: AMsMyM5DRkhHFJOoGcYXs6+DTPBwdbpG4JnLbkthCwpx4UA4VQoyp0NuqtEgyBDWHXqZ4aVVqlZ5ow==
-X-Received: by 2002:a17:90a:d14a:b0:203:7b4b:6010 with SMTP id
- t10-20020a17090ad14a00b002037b4b6010mr3972462pjw.237.1664276903261; 
- Tue, 27 Sep 2022 04:08:23 -0700 (PDT)
+ bh=teWUKK+iPqgAl9S+lVS0e68MivpBqlPL4Km9qM05Zkg=;
+ b=iEFmFmgzm/mfIjCF5W27YPkqPJ3968tdeBdjY0wmPrB4S4CAMBNPJBwVAQWVljr5kG
+ QAW9WHmrHM2NX2oOrwcPx6yMWTs3BS9eBGcNIKPlVqCy+1KWw8cPKUuDkdzPqDN+rwiK
+ w/wlmET9eC7qRhTUuWqWLxb6mgt4gim2HI1KaiDCra3KoVuxzvVj18qmUxUMigH9GtRJ
+ oKzVrar7ZPfyn46rfDRmXBcfbc6rYlXfMhvpYjaGakmZcxmslPtcc/8sRQVub6eELJCb
+ djjQu57d1q1mZJZXgfBeh7OalnkgBA8RPiAMrlpLOALRrHUnyLQ3uT4HItZucboKnmHb
+ UN4A==
+X-Gm-Message-State: ACrzQf0cit4hD792vzjjHcanjbEyJn5px8nkj6r1UvN8ldt62GrvdM7L
+ HkvUNfq+9WKlEwagHKztjF9AsRVS3u8=
+X-Google-Smtp-Source: AMsMyM6xYdWpiJdoAfrxaNvrTLkjm5qCr3W83EYvprlDSfCvSneMtw5oTTy/alWDZPavK5fDrjal1Q==
+X-Received: by 2002:a17:902:d58a:b0:179:ec1d:9ead with SMTP id
+ k10-20020a170902d58a00b00179ec1d9eadmr2559920plh.158.1664276905557; 
+ Tue, 27 Sep 2022 04:08:25 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.08.20
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.08.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:08:22 -0700 (PDT)
+ Tue, 27 Sep 2022 04:08:25 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
-Subject: [PATCH v4 38/54] tests/qtest: bios-tables-test: Adapt the case for
- win32
-Date: Tue, 27 Sep 2022 19:06:16 +0800
-Message-Id: <20220927110632.1973965-39-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v4 39/54] tests/qtest: boot-serial-test: Close the serial file
+ before starting QEMU
+Date: Tue, 27 Sep 2022 19:06:17 +0800
+Message-Id: <20220927110632.1973965-40-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,57 +95,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Single quotes in the arguments (oem_id='CRASH ') are not removed in
-the Windows environment before it is passed to the QEMU executable.
-The space in the argument causes the "-acpitable" option parser to
-think that all of its parameters are done, hence it complains:
+This qtest executable created a serial chardev file to be passed to
+the QEMU executable. The serial file was created by g_file_open_tmp(),
+which internally opens the file with FILE_SHARE_WRITE security attribute
+on Windows. Based on [1], there is only one case that allows the first
+call to CreateFile() with GENERIC_READ & FILE_SHARE_WRITE, and second
+call to CreateFile() with GENERIC_WRITE & FILE_SHARE_READ. All other
+combinations require FILE_SHARE_WRITE in the second call. But there is
+no way for the second call (in this case the QEMU executable) to know
+what combination was passed to the first call, unless FILE_SHARE_WRITE
+is passed to the second call.
 
-  '-acpitable' requires one of 'data' or 'file'
+Two processes shouldn't share the same file for writing with a chardev.
+Let's close the serial file before starting QEMU.
 
-Change to use double quotes which works fine on all platforms.
-
-Also /dev/null does not work on win32, and nul should be used.
+[1] https://docs.microsoft.com/en-us/windows/win32/fileio/creating-and-opening-files
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
 
-(no changes since v1)
+Changes in v4:
+- New patch: "tests/qtest: boot-serial-test: Close the serial file before starting QEMU"
 
- tests/qtest/bios-tables-test.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ tests/qtest/boot-serial-test.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 46a46fe0aa..2ebeb530b2 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1615,6 +1615,12 @@ static void test_acpi_virt_viot(void)
-     free_test_data(&data);
- }
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
+index 72310ba30e..b216519b62 100644
+--- a/tests/qtest/boot-serial-test.c
++++ b/tests/qtest/boot-serial-test.c
+@@ -233,6 +233,7 @@ static void test_machine(const void *data)
  
-+#ifndef _WIN32
-+# define DEV_NULL "/dev/null"
-+#else
-+# define DEV_NULL "nul"
-+#endif
-+
- static void test_acpi_q35_slic(void)
- {
-     test_data data = {
-@@ -1622,9 +1628,9 @@ static void test_acpi_q35_slic(void)
-         .variant = ".slic",
-     };
+     ser_fd = g_file_open_tmp("qtest-boot-serial-sXXXXXX", &serialtmp, NULL);
+     g_assert(ser_fd != -1);
++    close(ser_fd);
  
--    test_acpi_one("-acpitable sig=SLIC,oem_id='CRASH ',oem_table_id='ME',"
--                  "oem_rev=00002210,asl_compiler_id='qemu',"
--                  "asl_compiler_rev=00000000,data=/dev/null",
-+    test_acpi_one("-acpitable sig=SLIC,oem_id=\"CRASH \",oem_table_id=ME,"
-+                  "oem_rev=00002210,asl_compiler_id=qemu,"
-+                  "asl_compiler_rev=00000000,data=" DEV_NULL,
-                   &data);
-     free_test_data(&data);
- }
+     if (test->kernel) {
+         code = test->kernel;
+@@ -266,6 +267,8 @@ static void test_machine(const void *data)
+         unlink(codetmp);
+     }
+ 
++    ser_fd = open(serialtmp, O_RDONLY);
++    g_assert(ser_fd != -1);
+     if (!check_guest_output(qts, test, ser_fd)) {
+         g_error("Failed to find expected string. Please check '%s'",
+                 serialtmp);
 -- 
 2.34.1
 
