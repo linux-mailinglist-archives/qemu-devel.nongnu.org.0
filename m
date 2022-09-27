@@ -2,70 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169665EC504
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:54:55 +0200 (CEST)
-Received: from localhost ([::1]:35742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E0315EC528
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:58:34 +0200 (CEST)
+Received: from localhost ([::1]:56572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odB2y-0003of-Ns
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:54:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59986)
+	id 1odB6X-0001dU-FR
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jerome.forissier@linaro.org>)
- id 1od9HH-0006m0-OL
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:01:33 -0400
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:37500)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1od9LT-00085t-8X
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:05:59 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:43934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jerome.forissier@linaro.org>)
- id 1od9HG-00085c-37
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:01:31 -0400
-Received: by mail-lf1-x134.google.com with SMTP id k10so15353558lfm.4
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 05:01:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1od9LR-0000Fm-Oo
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:05:50 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id lh5so20177440ejb.10
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 05:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=wu5NZw4GYTu2UuCzrqMkUw7w/wvt4rVM3nGtb/ZJPO4=;
- b=QWjsVpYvu+sho+Q8PA4NRW9U8HBvcYREfJ8eK10Zll3cqUGlgojPIHgJZid148ak3H
- M58OMlPHknCdvZB1+1GhCOq2vq618vhy3gVm/6zXc70s8i2XqPwrzymKu5Aa630ThR2J
- nak1LpNHYawvP5xHfNIDqopTkDk37lj7Hc80oTgGPznxE/0TRqlugyMS+NlIEGvQ8qXO
- WQiKMGjYaoE8H8TAO9KCu5BsuVpaD9xhtJ4cMV/0MLqQJlgt23F+Dx787FoOenhogZLB
- JuJGL9ZfIfyI7IKtadxfBgQNPNgjDmSdUAJQFqXcMqiZJjEjmdADL78rTtLQZb1Triuo
- eQDQ==
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date; bh=Rz4kMLLz42YPqUOuRBmQh7Nj8cYzXnrKuPJCGwNeb5I=;
+ b=qTQiHp40o1Srjuc+S3W1bq9/Pvg5K+F4HBeiUmnXmcmkbaOxhbYRjBpZOPpA+FaH1b
+ vmakaAYDwcW7XMWSMjirUVn112b5E2xScleRF0BECfd4TJNqRvhgmL0qNkROl8G8cKfZ
+ ks42w1u3pM+4qwbpOcU+dsp63VI9Ww7NliMs5UfFkiOQVYne2mEiPkJkmSCLnHHtQBaM
+ bPRqSKINtJFJGa5vdsKgVobvgJtJGFXh0un5LpZ2h1mUHVJ/yrHPhAdHwxMLFeV3LH5X
+ XnomAVcg8drJlBx7mzDZaGF7rQ80AE/q37jQfzazss0tjZOxeKeS2SUQk9cGcPTPcK7l
+ JXtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=wu5NZw4GYTu2UuCzrqMkUw7w/wvt4rVM3nGtb/ZJPO4=;
- b=jhYH95bgqBHK7XgpmoT8yCY9P8ZSp/WJdm8tPaUrFVwh4k7Od9l71jam/1scmXnPLr
- F5ck5c9gLULEWEl9Bw2CTTqSk9wrfuS/6wFsrBcmj4ec96NdbqfUBBfhX36z0DhcVeRQ
- VCWSB8mvTzyNQUTzRt9OFoDp8hJqYnOU/yKQTdm4ayBWyE4NewvyVkRPuk+YJzgD8997
- L7KZeZWOmB3I89QKNotL3caQI8YWBulOuv3ht/mycZv932ur2zuugiA97Ek7W14KC45y
- aGv1x5v95SlKI6AFxfnfMe452XgooYrHGGO3GdzdpKQylruE+WfRmqeFepM+ndnpAaTM
- 0bYA==
-X-Gm-Message-State: ACrzQf2xotL+uBqawq+XBz8tIeBmd8mZf+YRXUu0X8RzWZdpJ8S6xibM
- pVzHlSIK/q7Oy3AnUYfbm8abBA==
-X-Google-Smtp-Source: AMsMyM6t+ojzIR0J22p3kUBdKi6FxBZsovgdFXkdzH2B+AawN42jTcAYCd5zj9kc/HJWrE9SuABA8Q==
-X-Received: by 2002:a05:6512:39d1:b0:49f:6084:4414 with SMTP id
- k17-20020a05651239d100b0049f60844414mr11744973lfu.195.1664280086220; 
- Tue, 27 Sep 2022 05:01:26 -0700 (PDT)
-Received: from jerome-XPS-13-9310.localdomain (82-64-249-211.subs.proxad.net.
- [82.64.249.211]) by smtp.gmail.com with ESMTPSA id
- t18-20020a192d52000000b004917a30c82bsm143543lft.153.2022.09.27.05.01.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 05:01:25 -0700 (PDT)
-From: Jerome Forissier <jerome.forissier@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org,
-	Jerome Forissier <jerome.forissier@linaro.org>
-Subject: [PATCH] target/arm: mark SP_EL1 with ARM_CP_EL3_NO_EL2_KEEP
-Date: Tue, 27 Sep 2022 14:00:58 +0200
-Message-Id: <20220927120058.670901-1-jerome.forissier@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date;
+ bh=Rz4kMLLz42YPqUOuRBmQh7Nj8cYzXnrKuPJCGwNeb5I=;
+ b=tT3N+5zjt/vMKYtLbUHDsI/LU07ehjrswdNMtq6sy28etNzMnSxQov9J7RwwiaxsX8
+ cIEK04RDS66AFWasY2yNYGOyyeFKhEYoeIcQ5B8ahxoVJCOZdoO5i4AY97yjhlq7m6xj
+ Gd8U1JzAnoRllY9uHWc+WjLe1GuTeIHdlg/IFQsCYzRUVMNyO/hCwh7x5N1rCkvm/fF5
+ OJmP9nGynUvAZ2VHLAnfP0PBLtwxH9aVB1Px3phmxS1uLLcQKvSBc4DA6grt3NSGCvjy
+ NW9/hVSXfy6q/6sjUWwlzOXJUDRv9yklkrsYL6f5y1kXxrAprpHrq0AFo6PtQNJt5tGi
+ g8FA==
+X-Gm-Message-State: ACrzQf1qgURI8L/LnmBA6Zw/9VkfNPNGLbABfSsc+w47Mmu/EqGEHXg5
+ TiWuLbEZDFGr9FEjpWfT6py209X8inuuK+yyDLkeFXxXPcM=
+X-Google-Smtp-Source: AMsMyM69NNSxmFeHTP36eX0qZfSV6eOk9Ma8SvPwk0XbO9+8+zLXSXH6O8Ww7qbuyXVQ/i+7DP/25T6mdk+F61snerM=
+X-Received: by 2002:a17:906:db05:b0:741:5730:270e with SMTP id
+ xj5-20020a170906db0500b007415730270emr21762211ejb.609.1664280346966; Tue, 27
+ Sep 2022 05:05:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=jerome.forissier@linaro.org; helo=mail-lf1-x134.google.com
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 27 Sep 2022 13:05:36 +0100
+Message-ID: <CAFEAcA9dcDNw6QvKSs8BZgjzueEPi0v6R5LAPpsiJU3J_p=AXw@mail.gmail.com>
+Subject: missing entries from docs/specs/pci-ids.txt ?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,29 +79,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SP_EL1 must be kept when EL3 is present but EL2 is not. Therefore mark
-it with ARM_CP_EL3_NO_EL2_KEEP.
+I noticed today that docs/specs/pci-ids.txt doesn't have
+an entry for the virtio-iommu, which is defined in pci.h as
 
-Fixes: 696ba3771894 ("target/arm: Handle cpreg registration for missing EL")
-Signed-off-by: Jerome Forissier <jerome.forissier@linaro.org>
----
- target/arm/helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+#define PCI_DEVICE_ID_VIRTIO_IOMMU       0x1014
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d7bc467a2a..328d252a84 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -4971,7 +4971,7 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
-       .fieldoffset = offsetof(CPUARMState, sp_el[0]) },
-     { .name = "SP_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 4, .crn = 4, .crm = 1, .opc2 = 0,
--      .access = PL2_RW, .type = ARM_CP_ALIAS,
-+      .access = PL2_RW, .type = ARM_CP_ALIAS | ARM_CP_EL3_NO_EL2_KEEP,
-       .fieldoffset = offsetof(CPUARMState, sp_el[1]) },
-     { .name = "SPSel", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 4, .crm = 2, .opc2 = 0,
--- 
-2.34.1
+There seem to be a few other virtio ID values defined in the
+header but not in the txt file too -- do we need to update it?
 
+Conversely, none of the "modern" ID values in the txt file seem
+to have a #define. I suspect I'm missing something about how
+this works.
+
+thanks
+-- PMM
 
