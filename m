@@ -2,101 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172655EB69A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 02:59:52 +0200 (CEST)
-Received: from localhost ([::1]:53902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B3C5EB6AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 03:12:34 +0200 (CEST)
+Received: from localhost ([::1]:57494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocyww-0000R7-W7
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 20:59:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50388)
+	id 1ocz9F-0003Li-0C
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 21:12:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=26253d5f9=wilfred.mallawa@opensource.wdc.com>)
- id 1ocyvB-0007RV-Vm
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 20:58:02 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:61239)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=26253d5f9=wilfred.mallawa@opensource.wdc.com>)
- id 1ocyv8-0007wJ-DD
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 20:58:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1664240278; x=1695776278;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Zkuza5YoW1bBRMz8l5OoICr1gdHHVOvq9V8RqOY35fs=;
- b=F2Aaj4lfqaztoFFzcyhAOp6LgXiV7Q4Iw1pXwWOINpafBEL+sdQMYZtE
- XOjYJl5syeSXymtZZTaQjJmOqdQHJQ9Ql/xY6mAmjQOlDdKqPXkxmYVSE
- T8b/SZ27oeToTxnT+uXWtjki+5FP4KmEzNeqJH+fdsH5O0jOssCYOjWQa
- bQZ/mGg4fGRFMHINDRDs7SFpfdScKLJ68MBXT92BuDLDhhezHMn9u2L6g
- zMO67dqTPemY0fYnF6tve8ezrFyHRvyKxZ48cxNkWLbnm0p2UVR1Uo9t3
- VnnANO8q42v8p52LaQG0vi3/0wGf3+WI+luhas+t+oeOBFbwcVKzqjI1u A==;
-X-IronPort-AV: E=Sophos;i="5.93,347,1654531200"; d="scan'208";a="316614277"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 27 Sep 2022 08:57:52 +0800
-IronPort-SDR: IOEOGM5a6xVbfeXd080+vI+xOfmV5ZiSDSDqL3S5Uj4Ax9Hn6H+viJ5F8plERba+kh15TpsZdi
- ApcAI+LePwsSMi5Lxc2/WyC6y9hrwZpHaSrR9eeFtmDNUXldJcm/GJHh1OVrOP+t8QHbRGvJW+
- Pf5h8wsat4zLBmTBZB7zA8B/GcMRgLMr+vkyt4qnhzafTJDecxFRdivEAMyz0L8v5pDWYAnVLU
- uCaPNkWDnJ9PDaLLEUHaMUGOPdNPG9dTezkgriZPfTUyH8BIJ6oijgsEHsaeDM+LkcwVfTqRLY
- P4tZa0mFk5YzSS8FRz70zW32
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 26 Sep 2022 17:12:18 -0700
-IronPort-SDR: 0uBkB8zZXQG1CwVTQwfmbUMx8SkMep7WYMWovZlovOPc0YVijBB1oQlGGOhwY+uMB7x7WkYvga
- uCdlD/fOR3v+w85/1htTSA5HWxSJJn8n66C/IFKF+Ri/CUWlh98cb/yXKEj5OEAIx7/C6vjyKI
- Ve6Yss0s/oaRkZRMwgOE7kR6M46NYIcUiSkpRQMc3m1wyCnUUhjKfAwQsOUJ4MoJNTnboBs6jJ
- Jd5aFXRwWSlc2IRCY96dtW9sIAF/msmS5gbBu/a/n2QwW6ACYX4v04IwBGvJJAS0eSaw/uM96T
- qt4=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 26 Sep 2022 17:57:53 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Mc1Sc1tsYz1RvTp
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 17:57:52 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :x-mailer:message-id:date:subject:to:from; s=dkim; t=1664240271;
- x=1666832272; bh=Zkuza5YoW1bBRMz8l5OoICr1gdHHVOvq9V8RqOY35fs=; b=
- DCtq9w7WJxsdABtRFe3iuOWcnqQnHyDOR4sJNhOf9D8ROiHcjye6DbmmU9emq3uI
- acxz1Hs0E4EvNzY83CGXRy/dW6BuLdOkZcA5myznzznJwsVRAI7ACh/Gusa19OQS
- ocAoY1JwgP/tcbQxlaSgld89s7CXEqxe6b7TNGSzQFAHVkS610aEIMkYoBbvWobk
- ZPk2YZGFDkyzoj6SgI1+ZpI07pdDwfbGNGG0guaJK51+oKwzCMuLdz5nEFewdL+7
- IZEDjAH315lbD71gfzlWo9z+mpG7EmfYzAvNaj7U6yS7pzoNWZSPbNmcpndHvIgt
- HUvJOLw3bd4g2Hyp7bj76A==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id JPCcYGpSzujC for <qemu-devel@nongnu.org>;
- Mon, 26 Sep 2022 17:57:51 -0700 (PDT)
-Received: from localhost.localdomain (unknown [10.225.165.53])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Mc1SY6FWPz1RvLy;
- Mon, 26 Sep 2022 17:57:49 -0700 (PDT)
-From: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
-To: alistair@alistair23.me
-Cc: qemu-devel@nongnu.org,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: [RFC v2] hw/registerfields: add `FIELDx_1CLEAR()` macro
-Date: Tue, 27 Sep 2022 10:54:31 +1000
-Message-Id: <20220927005429.146974-1-wilfred.mallawa@opensource.wdc.com>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ocz8A-0001g1-Mg
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 21:11:26 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:42593)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ocz88-0001RX-UA
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 21:11:26 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-350cb1c0abaso48910407b3.9
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 18:11:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=5gVe8SJq8JL36oMgYLBV8PFKXJZWEcjx3FIoVsrNI6M=;
+ b=GhsVwXMExezyV+YD9siZ5CQHfWkJEVsXRi8ecs4S8L5ojQzNaBuxXUgnM93GN2EcfV
+ L8A0PmSx7nqFh3beLl210ReuWGW+Laqu5nDP7q9i0BfZNkm1TuZffc04yYdGAzC79A/Y
+ tKp+0dBbN2ZSeja4rGY0FUVAm+h+OPpyKmajNAeg2KBn3sTG5sVDc8d/9LbEh/chiD8C
+ pd+ltdinT5X+SlHrvs+NbHT9y/xDqRtnjEetnb894kXFA2Zrh/ht1vCJIQRcv9jhCXYe
+ fJ+vVghTttbtWLk4+mPqO/2DMWbdDS/l2TstDli1k8QRZo7MZ+QlQvyuhyRmBYshgnJC
+ wKqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=5gVe8SJq8JL36oMgYLBV8PFKXJZWEcjx3FIoVsrNI6M=;
+ b=ndDbXdbFYGUd6JE6wfU1dno9rMJT/g+m/eRLC1kfT+Pr6sbb+6TuLzZWRxKRotKlPm
+ 3yONJbbcN6QzDBSHqv/SHwErUjC0ZYac0hbG2P7cstvdcoomM1utgi5IqefsDLhTuiHB
+ cCv8Mln5QcTp+KARX6IUyir++t4C0EHNrPOh1K+p+vJI60c/MtyWz8EntQ0fq9XNsMiy
+ U8ljtuRgo9IjK00Y0UXJ+YUyNKygoHHEitGfLu+9lPjl//HFwjtlr+RmnlGSywIiLq3d
+ H0vBtGkXRWUIMCydA/vC8HiMwm7wSwRiKBbhotQzhbTMXSut1zI1rh62JjbaPAUdiAjr
+ +RGA==
+X-Gm-Message-State: ACrzQf2/vsHiAhqExBOsjfC746+qVVfSDw+neAO1GEL10vcQftXuxVYh
+ gSNcjeSWYxkG7pUMZLsJM3Z5bS86Vi/LAsAo0zk=
+X-Google-Smtp-Source: AMsMyM5XoCRaPdTYgCNNSRU8KczJXBCFxrEM6ihXoL1prKOFtAqUk3wYKTf6xVmwiOGHaXETQ2svXO613wA34JL14FY=
+X-Received: by 2002:a81:6a54:0:b0:345:4292:4dfe with SMTP id
+ f81-20020a816a54000000b0034542924dfemr23405463ywc.62.1664241083593; Mon, 26
+ Sep 2022 18:11:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=68.232.143.124;
- envelope-from=prvs=26253d5f9=wilfred.mallawa@opensource.wdc.com;
- helo=esa2.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+References: <20220926095509.3759409-1-kraxel@redhat.com>
+ <20220926095509.3759409-14-kraxel@redhat.com>
+In-Reply-To: <20220926095509.3759409-14-kraxel@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 26 Sep 2022 21:11:11 -0400
+Message-ID: <CAJSP0QVoLf_v2xP6GwDzbFg_RDnP5ppM3UZwTN3XAWPcv6cFCQ@mail.gmail.com>
+Subject: Re: [PULL 13/25] hcd-ohci: Fix inconsistency when resetting ohci root
+ hubs
+To: Gerd Hoffmann <kraxel@redhat.com>, cyruscyliu@gmail.com
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, 
+ Laurent Vivier <lvivier@redhat.com>, Darren Kenny <darren.kenny@oracle.com>, 
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Akihiko Odaki <akihiko.odaki@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Alexandre Ratchov <alex@caoua.org>, Peter Maydell <peter.maydell@linaro.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,76 +93,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+On Mon, 26 Sept 2022 at 06:29, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> From: Qiang Liu <cyruscyliu@gmail.com>
+>
+> I found an assertion failure in usb_cancel_packet() and posted my analysis in
+> https://gitlab.com/qemu-project/qemu/-/issues/1180. I think this issue is
+> because the inconsistency when resetting ohci root hubs.
+>
+> There are two ways to reset ohci root hubs: 1) through HcRhPortStatus, 2)
+> through HcControl. However, when the packet's status is USB_PACKET_ASYNC,
+> resetting through HcRhPortStatus will complete the packet and thus resetting
+> through HcControl will fail. That is because IMO resetting through
+> HcRhPortStatus should first detach the port and then invoked usb_device_reset()
+> just like through HcControl. Therefore, I change usb_device_reset() to
+> usb_port_reset() where usb_detach() and usb_device_reset() are invoked
+> consequently.
+>
+> Fixes: d28f4e2d8631 ("usb: kill USB_MSG_RESET")
+> Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1180
+> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
+> Message-Id: <20220830033022.1164961-1-cyruscyliu@gmail.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/usb/hcd-ohci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes from V1:
-	* Instead of needing all field bits to be set
-	  we clear the field if any are set. If the field is
-	  0/clear then no change.=20
+This commit breaks boot-serial-test on ppc64-softmmu.
 
-Adds a helper macro that implements the register `w1c`
-functionality.
+  $ ./configure --enable-tcg-interpreter
+'--target-list=aarch64-softmmu alpha-softmmu arm-softmmu hppa-softmmu
+m68k-softmmu microblaze-softmmu ppc64-softmmu s390x-softmmu
+x86_64-softmmu'
+  $ make && cd build && QTEST_QEMU_BINARY=./qemu-system-ppc64
+./tests/qtest/boot-serial-test; cd -
 
-Ex:
-  uint32_t data =3D FIELD32_1CLEAR(val, REG, FIELD);
+(Yes, the full --target-list is needed because boot-serial-test isn't
+built when only ppc64-softmmu is selected.)
 
-If ANY bits of the specified `FIELD` is set
-then the respective field is cleared and returned to `data`.
+Here is the CI failure:
+https://gitlab.com/qemu-project/qemu/-/jobs/3087540972#L22
 
-If the field is cleared (0), then no change and
-val is returned.
+Stefan
 
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
----
- include/hw/registerfields.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
-index 1330ca77de..4a6a228339 100644
---- a/include/hw/registerfields.h
-+++ b/include/hw/registerfields.h
-@@ -115,6 +115,28 @@
-                   R_ ## reg ## _ ## field ## _LENGTH, _v.v);            =
-  \
-     _d; })
-=20
-+/*
-+ * Clear the specified field in reg_val if
-+ * any field bits are set, else no changes made. Implements
-+ * single/multi-bit `w1c`
-+ *
-+ */
-+#define FIELD8_1CLEAR(reg_val, reg, field)                              =
-  \
-+    (FIELD_EX8(reg_val, reg, field) ?                                   =
-  \
-+    FIELD_DP8(reg_val, reg, field, 0x00) : reg_val)
-+
-+#define FIELD16_1CLEAR(reg_val, reg, field)                             =
-  \
-+    (FIELD_EX16(reg_val, reg, field) ?                                  =
-  \
-+    FIELD_DP16(reg_val, reg, field, 0x00) : reg_val)
-+
-+#define FIELD32_1CLEAR(reg_val, reg, field)                             =
-  \
-+    (FIELD_EX32(reg_val, reg, field) ?                                  =
-  \
-+    FIELD_DP32(reg_val, reg, field, 0x00) : reg_val)
-+
-+#define FIELD64_1CLEAR(reg_val, reg, field)                             =
-  \
-+    (FIELD_EX64(reg_val, reg, field) ?                                  =
-  \
-+    FIELD_DP64(reg_val, reg, field, 0x00) : reg_val)
-+
- #define FIELD_SDP8(storage, reg, field, val) ({                         =
-  \
-     struct {                                                            =
-  \
-         signed int v:R_ ## reg ## _ ## field ## _LENGTH;                =
-  \
---=20
-2.37.3
-
+>
+> diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
+> index 72bdde92617c..28d703481515 100644
+> --- a/hw/usb/hcd-ohci.c
+> +++ b/hw/usb/hcd-ohci.c
+> @@ -1436,7 +1436,7 @@ static void ohci_port_set_status(OHCIState *ohci, int portnum, uint32_t val)
+>
+>      if (ohci_port_set_if_connected(ohci, portnum, val & OHCI_PORT_PRS)) {
+>          trace_usb_ohci_port_reset(portnum);
+> -        usb_device_reset(port->port.dev);
+> +        usb_port_reset(&port->port);
+>          port->ctrl &= ~OHCI_PORT_PRS;
+>          /* ??? Should this also set OHCI_PORT_PESC.  */
+>          port->ctrl |= OHCI_PORT_PES | OHCI_PORT_PRSC;
+> --
+> 2.37.3
+>
+>
 
