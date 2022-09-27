@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88AA5EC024
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:52:28 +0200 (CEST)
-Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008C15EC013
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:48:00 +0200 (CEST)
+Received: from localhost ([::1]:35050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od8CR-00036r-RZ
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32922)
+	id 1od887-0006lO-Rz
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:47:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od81c-000511-9S
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:41:16 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:46577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od81a-00080k-NB
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:41:15 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N7iOw-1pFz910M6c-014gyC; Tue, 27 Sep 2022 12:41:13 +0200
-Message-ID: <0b71dffb-73e9-9bde-64ec-0eb027763ca6@vivier.eu>
-Date: Tue, 27 Sep 2022 12:41:12 +0200
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1od84T-0001Xb-TS
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:44:13 -0400
+Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:41709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1od84S-0008RF-7N
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:44:13 -0400
+Received: by mail-qv1-xf32.google.com with SMTP id l14so5947776qvq.8
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 03:44:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=sIxSo3P0RymD65TZj92gVCM1CsN4heuUYSR5I5KzSFc=;
+ b=aHKSsmFXjtVU5ELc91QIsQn0tHswaWiwkzITECgPq/FL6i1Njy2lJTiC8uPd+FV2H6
+ xLF98jBBCWZSV1bWCcr+DGb+rLfLX93DFmf/qHTGCdE3sDdDNoRAFqNK1yiLhwO0lzyg
+ tJxKreRIkHthCcG8RSz8yle4PssXRRChd/3IPCntSHMpyGhbE67OhihwGYA35a5e6N7f
+ v/ESlS5fopUoDOty9xiw3xJ7PL/DzSg17Xy5lzrCETz81Ya4QdZmY59Gqq3MyG1mJ+fZ
+ BoRDY51k9h7xG5zIq6Pe41PJ+1pEM5LGDpvEpvHwQAJZnL3lCeQEKdRxZG0nrguz2sDl
+ lV5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=sIxSo3P0RymD65TZj92gVCM1CsN4heuUYSR5I5KzSFc=;
+ b=D7WPeN7cV3xmmjjaTjmsCazyVa5+ZmdeWPpyg5dkdwq5nU/RCvCIXSLvF+mfP/8s1w
+ X87EsiO72wWYs/mt0Q1RkH2RD6FgV/FsDlQQdSKIK/SWS9Vj3jxCAygW9Me8Wi+vPvNP
+ f1nLF3um1LBSrvFHN1PB8XbHfh4aeq80eWhuB/H9o+rxXn+M8vN6doEOh0yUEhxfshnX
+ aOa7GrecJpumHEFh0yxvIcnYobz1F19Fa98nVtBdSX9cejrpNKij8xOJzZbLR9uRG2U9
+ BW6fNIJs9iSNhQtUKlGzkRCrRjPy0i9ju5Jf5EvEXUhhbyi8hLXHqu19QlAdEHHJfQua
+ We4A==
+X-Gm-Message-State: ACrzQf3J2E806K21am9BBT3m9AU8iSztq6f4qlO1PGCW182EIot0+O73
+ veq7IxYExT77ZGbwE3XglNHOdXHZPd0N1WVf4oQ=
+X-Google-Smtp-Source: AMsMyM5fMQnxyIkY+XVAK8mZQBEImkWajBCiSt36wHHhblaQSZIW2cKBG6zVeFLuQci3Mhrc/i6O3iWlgb4HMBfrfwY=
+X-Received: by 2002:a0c:e511:0:b0:4aa:73d9:f4c3 with SMTP id
+ l17-20020a0ce511000000b004aa73d9f4c3mr20591727qvm.51.1664275451093; Tue, 27
+ Sep 2022 03:44:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 2/2] linux-user: Add parameters of getrandom() syscall for
- strace
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-References: <20220927093538.8954-1-deller@gmx.de>
- <20220927093538.8954-2-deller@gmx.de>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220927093538.8954-2-deller@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jTvNxIzqZ4J0aQAYFpedZym/OP74iAowBg5KGBH7/buDkpjklYc
- Un2qYvrR+xCfm72FGs4qWYW1VXM40SxBbQTAH2aViS9ZygDyRgDnAGNqPDo8SrMrN5yiP0W
- kjaxTBpGbq9jDEJJTPDt/Jb0MA692U5cL5wNDXoVCkni1DuNmI5zEJjAPrA/hf3GgSQHk2o
- zlT5KnNdiNJieHKoiuogg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8g20wtSJf0k=:UtpvpteTF+XbKsnPX7js5k
- Fyy1+zAISHXow5y/0wb2J1Caub2xuGtLaA0kTax5vbOpOca0oRtrlkDVfLxlRGyySLyDdmjbs
- aLd50Bhs0S5CsPiiZ4nFXM7wy57jz1mVOP+sc/G7jcQ5Po2JW9yVSByScuECn1c4d1KAtsm8D
- PvNxLvcpv5j2rFb1r0Ymu5wDDf7u7HH7l46iafgQogBYjDDIuqeJLp1iY01LhqFbrUqfVkjGc
- AIFryzmkJI3fnEUI4adHZDZZbscW+PLrPVRlfZnKWkThVKzsUa2FBgM71i4jSiXJ7zUjEVsKN
- KGrrGws1BRMlBgApA2P02wYYEJoLrGyFqFsA2a/Ca72tY08vJtk0Jw/JRxTf5utO8FY9rgcFb
- eKfXv+dLKIy8proJT863Uzy5j4+RGIrwUsr/4upGWQdHhFfEfVdhqtvo/zuLkAydVnbva0tiT
- 2+e0ERs7IGMbmpQ9BbHweN4JT75EK7wKqQMndP4CVu5tnorWfiFnTKQ7x7uzITW10J80tv8Ro
- 8dlbsYrZhy56qoPtehXqqMqvIBOrCspG9QzLFeNAbf/0eRsncFfw2AZoZlXIgCpDzH9JZEQsP
- avyhtdlGtwI4Z/JPpisM7yGQvFOlO2chkMS8OjgfKsgoV7w/C9SLFzvjwV4FjUXRcHgI+T6on
- GcUgRaaYw7tjogM0hywbYWnA5km7cCYUuMVnWx8tKBgesCtxlx8/BrmvRHKf4AlAMbCPtyR8M
- q5OibfvQtODWC8MowgrPmgyH8tt931bffzO5BiRFSH/dyEpG95xk9KOF6quxWiIlEhpKWDdxR
- KAnqQMe
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
+ <20220925113032.1949844-43-bmeng.cn@gmail.com>
+ <CAJ+F1CLh=GzJ4gxQ+dEriC2nMzn5nUM-JBdhRpzai-z-RcPmxA@mail.gmail.com>
+ <CAEUhbmX+Nsyf9dFb3D1TT0DaiUGZ4Z_G-ojnJmDXZXngyhqdRg@mail.gmail.com>
+ <CAJ+F1CJjtspCoyH0=hhhRa=J9824sKbnOhcpJh_i9CFQMNuDHQ@mail.gmail.com>
+In-Reply-To: <CAJ+F1CJjtspCoyH0=hhhRa=J9824sKbnOhcpJh_i9CFQMNuDHQ@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 27 Sep 2022 18:44:01 +0800
+Message-ID: <CAEUhbmVRK4nOvsDA-mvuMs1r9Ag-zWRfpoxzxSA4s3B+GgP0=w@mail.gmail.com>
+Subject: Re: [PATCH v3 42/54] chardev/char-file: Add FILE_SHARE_WRITE when
+ opening the file for win32
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,30 +91,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/09/2022 à 11:35, Helge Deller a écrit :
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> ---
->   linux-user/strace.list | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index 31a2ccd76d..9bb234a584 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -358,7 +358,7 @@
->   { TARGET_NR_getpriority, "getpriority", "%s(%#x,%#x)", NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_getrandom
-> -{ TARGET_NR_getrandom, "getrandom", NULL, NULL, NULL },
-> +{ TARGET_NR_getrandom, "getrandom", "%s(%p,%u,%u)", NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_getresgid
->   { TARGET_NR_getresgid, "getresgid" , NULL, NULL, NULL },
-> --
-> 2.37.3
-> 
-> 
+On Tue, Sep 27, 2022 at 5:00 PM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi
+>
+> On Mon, Sep 26, 2022 at 7:05 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>
+>> On Mon, Sep 26, 2022 at 9:27 PM Marc-Andr=C3=A9 Lureau
+>> <marcandre.lureau@gmail.com> wrote:
+>> >
+>> > Hi
+>> >
+>> > On Sun, Sep 25, 2022 at 4:35 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>> >>
+>> >> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>> >>
+>> >> The combination of GENERIC_WRITE and FILE_SHARE_READ options does not
+>> >> allow the same file to be opened again by CreateFile() from another
+>> >> QEMU process with the same options when the previous QEMU process
+>> >> still holds the file handle opened.
+>> >>
+>> >> This was triggered by running the test_multifd_tcp_cancel() case on
+>> >> Windows, which cancels the migration, and launches another QEMU
+>> >> process to migrate with the same file opened for write. Chances are
+>> >> that the previous QEMU process does not quit before the new QEMU
+>> >> process runs hence the old one still holds the file handle that does
+>> >> not allow shared write permission then the new QEMU process will fail=
+.
+>> >>
+>> >> There is another test case boot-serial-test that triggers the same
+>> >> issue. The qtest executable created a serial chardev file to be
+>> >> passed to the QEMU executable. The serial file was created by
+>> >> g_file_open_tmp(), which internally opens the file with
+>> >> FILE_SHARE_WRITE security attribute, and based on [1], there is
+>> >> only one case that allows the first call to CreateFile() with
+>> >> GENERIC_READ & FILE_SHARE_WRITE, and second call to CreateFile()
+>> >> with GENERIC_WRITE & FILE_SHARE_READ. All other combinations
+>> >> require FILE_SHARE_WRITE in the second call. But there is no way
+>> >> for the second call (in this case the QEMU executable) to know
+>> >> what combination was passed to the first call, so we will have to
+>> >> add FILE_SHARE_WRITE to the second call.
+>> >>
+>> >> For both scenarios we should add FILE_SHARE_WRITE in the chardev
+>> >> file backend driver. This change also makes the behavior to be
+>> >> consistent with the POSIX platforms.
+>> >
+>> >
+>> > It seems to me the tests should be fixed instead. I thought you fixed =
+the first case. For the second case, why not close the file before starting=
+ qemu? If you have issues, I will take a deeper look.
+>>
+>> Indeed, the following test case change can "fix" this issue:
+>>
+>> diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-te=
+st.c
+>> index 72310ba30e..f192fbc181 100644
+>> --- a/tests/qtest/boot-serial-test.c
+>> +++ b/tests/qtest/boot-serial-test.c
+>> @@ -233,6 +233,7 @@ static void test_machine(const void *data)
+>> ser_fd =3D g_file_open_tmp("qtest-boot-serial-sXXXXXX", &serialtmp, NULL=
+);
+>> g_assert(ser_fd !=3D -1);
+>> + close(ser_fd);
+>> if (test->kernel) {
+>> code =3D test->kernel;
+>> @@ -266,6 +267,7 @@ static void test_machine(const void *data)
+>> unlink(codetmp);
+>> }
+>> + ser_fd =3D open(serialtmp, O_RDONLY);
+>> if (!check_guest_output(qts, test, ser_fd)) {
+>> g_error("Failed to find expected string. Please check '%s'",
+>> serialtmp);
+>>
+>
+> Please send this fix as a new patch in the series.
+>
+>>
+>> But I think it just workarounds the problem. The original test case
+>> looks reasonable to me. If we update the case like above, we cannot
+>> guarantee users will do like the updated test case does.
+>
+>
+> If the test is enabled, it will fail, and the reasons are reasonably vali=
+d: two processes shouldn't share the same file for writing with a chardev.
+>
+> I still think the windows file chardev behavior is superior and we should=
+ instead teach the posix implementation of exclusive write access, rather t=
+han downgrading the windows implementation. I'd drop this patch from the se=
+ries for now.
+>
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Okay, will drop this patch, and add the test case fix as a new patch in v4.
 
+Regards,
+Bin
 
