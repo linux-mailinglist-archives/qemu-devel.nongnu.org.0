@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A355EC241
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:17:06 +0200 (CEST)
-Received: from localhost ([::1]:46830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8F35EC2C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:32:46 +0200 (CEST)
+Received: from localhost ([::1]:39186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od9WK-0006yD-R8
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:17:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34726)
+	id 1od9lV-00078m-7e
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:32:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8RQ-0002qZ-UX
+ id 1od8RT-0002ri-9f
  for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:00 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:41644)
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:36600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8RO-0004xW-Cn
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:55 -0400
-Received: by mail-pf1-x433.google.com with SMTP id l65so9352340pfl.8
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:54 -0700 (PDT)
+ id 1od8RR-00051Q-LO
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:59 -0400
+Received: by mail-pg1-x535.google.com with SMTP id s206so9108794pgs.3
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=gBbYIR+cYUeZZvc5gKxNpLwekX68RaD7k9jxuyBt2nM=;
- b=ZH2vmD1Wf5G3PqqtZJ2ie7tTclMP8rHBkHWGAV1ZIlIpzobWKcktUQAH0F6EXI4asP
- FKplnaqBFk3Q2ZN6pkcTDmUpVcjnY3B4AO6TAFhIc5EY32ThRZmDxja9laZeJ2l2Ocst
- A3DRK68DqBkFx0SWrBICHlcuusTIDS6J+mUJrR7W7WeWJVehC92GeJ51IZI4fmqRHpzW
- cuKbv+EoCzQ6/mQtFnHKVFeSTI6Y/+IbYxWjLRuRqIRwfrF1xIcwREe+BMu66HjlNUrb
- OXZJQeyYd9nqsNoF/BCNuyR9S3t8kA30HMBNSwtS9Lt8l1TXi/vYSPU+OtTDbwCsGwzl
- 7u6Q==
+ bh=SZXLVRmmnhtpF37sbXWA0CFlA2zznYKmR2V+rAyp5Mc=;
+ b=EtDxCs+YapOObKwqMS1MBUW4qZb/JqqfPIMmZl3wnyI/9vUS3ey1loyvEObS8iAlLo
+ gw2hd1v71uP48sEn/HD4pgHBS/7uavahEOk+pk62N/MpFyJJSmig6zj8cjYKKilv6K7u
+ A6B/ctv73d7GyGsT7FhMly7cSCkG59hAoGG32yGPK0ThBHugIdIFrPbKx4WEhyh6NiTu
+ WYpVxU89QEse9AXWbcdekogk/KXi3p1RmWeE3+D9fPsOhW9gMCumtMdsFUqI+lM0/hD6
+ caMTHbRUedVm+slle6pdSxn3sHQU2Zuc6yBzW2CdWfrwkC4O0/5PpsU7SJEucX7b4d5D
+ XvLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=gBbYIR+cYUeZZvc5gKxNpLwekX68RaD7k9jxuyBt2nM=;
- b=msfvwBd+eXA/2P1oMqJUiLtIafetdkrPVkA3p5G4ykXWkkBiedgbEzak8B8GUq69rr
- YV4MIS9FsI8wiJVJ4tKeQb1cuGJmwEBugITDmDkDcboWa3i/4j3heqV8cVkx/vz8gE9g
- OOUBCSSRRdAPtXreGJllQ5C8FjyUtenQjtnI0N1lrvAfmjpTLStKBVUpaQuwJMGlVlSD
- OqHvln0tAFziHuXwJx809tWhX+6C8bBaknuBSlbFnKxjYK4rP9aW39XWjO/1rPRkA6DA
- sc9Nj/0lMa74HATFx1WjDx0y8pumYcxGIgUiLvdGMBkVkLPghwI1CAQ6tZp6U3kCoewg
- YQkg==
-X-Gm-Message-State: ACrzQf0MvXzlHluuh5DFcs32iMExOlHr2smKUzQiI+U1A2/apgsJ3noy
- p2N8zC0Od9eJYByXd38dKqjHOZk2njc=
-X-Google-Smtp-Source: AMsMyM7ootSD71GeBb73+8dniz07/PXoyp5mjwIXqXPFnCBD01r9EH6VF2eDPeoAPsLOdv/XsK7OGw==
-X-Received: by 2002:a05:6a00:1d82:b0:541:1ea2:e7e with SMTP id
- z2-20020a056a001d8200b005411ea20e7emr28909637pfw.71.1664276873457; 
- Tue, 27 Sep 2022 04:07:53 -0700 (PDT)
+ bh=SZXLVRmmnhtpF37sbXWA0CFlA2zznYKmR2V+rAyp5Mc=;
+ b=xb8ukLs9w6B2OTbVAcER8150o56FaAuz0i18/UnBf5yLC6xk0fQ5yIYZYh6550Q+ec
+ sRkXUfAotzKcFXBB/Ppl8wFd8zq/ZgDDoKLIHlRlDFkoCVlPyprGf3PwsG63VbrSGSA5
+ DRpzxkc4OXdQXANeSx7gq6BifV2SRL74kMpjDdmrdRirGWJvEBwOOCLWDetRwDvKQOBd
+ LE1EXGDkbZqmkyIKYkTqBjAW2q3HVLOXtDfrXuJq1Pme05VjvcVeFGfo+WSHkaL+KyjG
+ nLu1xqaP8A94Ca0iQOL61mBpA5k1T/HbqpWMuJlQYEKU0/oqE25gt16j1yaowDimQJWL
+ NXMg==
+X-Gm-Message-State: ACrzQf16Kzagx4xT89UQgL0CkDA3BR2E/y3saxpEipqh56DtpsXFYrMt
+ jXotCjIi6Sud02kSh6AARz5+Wb3PbZw=
+X-Google-Smtp-Source: AMsMyM6VpIthGnf60bTjTLaWIytQeBrurWklPUk320H4Zph4dJZODW0qgMNqdYCblhn9+Io1AXqR+w==
+X-Received: by 2002:a62:a512:0:b0:536:e2bd:e15e with SMTP id
+ v18-20020a62a512000000b00536e2bde15emr29324870pfm.1.1664276876062; 
+ Tue, 27 Sep 2022 04:07:56 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.51
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:07:53 -0700 (PDT)
+ Tue, 27 Sep 2022 04:07:55 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v4 27/54] hw/usb: dev-mtp: Use g_mkdir()
-Date: Tue, 27 Sep 2022 19:06:05 +0800
-Message-Id: <20220927110632.1973965-28-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Jason Wang <jasowang@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v4 28/54] tests/qtest: Skip running virtio-net-test cases that
+ require socketpair() for win32
+Date: Tue, 27 Sep 2022 19:06:06 +0800
+Message-Id: <20220927110632.1973965-29-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,42 +96,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Use g_mkdir() to create a directory on all platforms.
+Some of the virtio-net-test test cases require socketpair() to do the
+test setup. Skip them for win32.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
 (no changes since v2)
 
 Changes in v2:
-- Change to use g_mkdir()
+- Change to skip only part of the virtio-net-test cases that require
+  socketpair() intead of disabling all of them
 
- hw/usb/dev-mtp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/virtio-net-test.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-index 5831395cef..1cac1cd435 100644
---- a/hw/usb/dev-mtp.c
-+++ b/hw/usb/dev-mtp.c
-@@ -14,7 +14,7 @@
- #include "qemu/error-report.h"
- #include <wchar.h>
- #include <dirent.h>
+diff --git a/tests/qtest/virtio-net-test.c b/tests/qtest/virtio-net-test.c
+index 6ded252901..dff43f0f60 100644
+--- a/tests/qtest/virtio-net-test.c
++++ b/tests/qtest/virtio-net-test.c
+@@ -165,8 +165,6 @@ static void stop_cont_test(void *obj, void *data, QGuestAllocator *t_alloc)
+     rx_stop_cont_test(dev, t_alloc, rx, sv[0]);
+ }
+ 
+-#endif
 -
-+#include <glib/gstdio.h>
- #include <sys/statvfs.h>
+ static void hotplug(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtioPCIDevice *dev = obj;
+@@ -286,6 +284,8 @@ static void *virtio_net_test_setup(GString *cmd_line, void *arg)
+     return sv;
+ }
  
++#endif /* _WIN32 */
++
+ static void large_tx(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtioNet *dev = obj;
+@@ -319,16 +319,15 @@ static void *virtio_net_test_setup_nosocket(GString *cmd_line, void *arg)
  
-@@ -1622,7 +1622,7 @@ static void usb_mtp_write_data(MTPState *s, uint32_t handle)
-         if (s->dataset.filename) {
-             path = g_strdup_printf("%s/%s", parent->path, s->dataset.filename);
-             if (s->dataset.format == FMT_ASSOCIATION) {
--                ret = mkdir(path, mask);
-+                ret = g_mkdir(path, mask);
-                 if (!ret) {
-                     usb_mtp_queue_result(s, RES_OK, d->trans, 3,
-                                          QEMU_STORAGE_ID,
+ static void register_virtio_net_test(void)
+ {
+-    QOSGraphTestOptions opts = {
+-        .before = virtio_net_test_setup,
+-    };
++    QOSGraphTestOptions opts = { 0 };
+ 
+-    qos_add_test("hotplug", "virtio-net-pci", hotplug, &opts);
+ #ifndef _WIN32
++    opts.before = virtio_net_test_setup;
++    qos_add_test("hotplug", "virtio-net-pci", hotplug, &opts);
+     qos_add_test("basic", "virtio-net", send_recv_test, &opts);
+     qos_add_test("rx_stop_cont", "virtio-net", stop_cont_test, &opts);
+-#endif
+     qos_add_test("announce-self", "virtio-net", announce_self, &opts);
++#endif
+ 
+     /* These tests do not need a loopback backend.  */
+     opts.before = virtio_net_test_setup_nosocket;
 -- 
 2.34.1
 
