@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2EB5EBD30
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:24:52 +0200 (CEST)
-Received: from localhost ([::1]:42844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65FA75EBCE1
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:12:50 +0200 (CEST)
+Received: from localhost ([::1]:47982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od5tb-0005Xb-S6
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:24:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34710)
+	id 1od5hx-0005xF-B8
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:12:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1od53V-000440-LR
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:31:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45400)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od54i-0005B3-Kx
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:32:17 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:55057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1od53T-0001l7-2M
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:31:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664263858;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=72fe6pmcOVLG6dRHQG+0/KXd+hhvMVZPBOsQRMmfl+g=;
- b=XB6kmKls72jRjA9FKIhV8GF04sn3rgiw7ULrkYUmloV4jJZWvZW5CUNAz+lyd3nH7uk0qZ
- Qbrr8TnHUwC9Usp4jr0YSbAv5kVvsdgsN8P/zi36svpw0+PG2LWh4V+bY3Q1wRj9o/2KWR
- bmPhXxhZ02Uq8NsuzOiv1qgs+OwNcaI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-269-VUBc3d7jMxqVjuPrVf7U7w-1; Tue, 27 Sep 2022 03:30:54 -0400
-X-MC-Unique: VUBc3d7jMxqVjuPrVf7U7w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 789431C0BDE8;
- Tue, 27 Sep 2022 07:30:54 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-13-192.pek2.redhat.com
- [10.72.13.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 661A52166B26;
- Tue, 27 Sep 2022 07:30:51 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org,
-	stefanha@redhat.com
-Cc: lu zhipeng <luzhipeng@cestc.cn>,
-	Jason Wang <jasowang@redhat.com>
-Subject: [PULL 8/8] virtio: del net client if net_init_tap_one failed
-Date: Tue, 27 Sep 2022 15:30:22 +0800
-Message-Id: <20220927073022.28378-9-jasowang@redhat.com>
-In-Reply-To: <20220927073022.28378-1-jasowang@redhat.com>
-References: <20220927073022.28378-1-jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od54d-0001up-3e
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:32:16 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MSZDt-1ooOmk31pZ-00SyYK; Tue, 27 Sep 2022 09:32:07 +0200
+Message-ID: <3fe34e9b-d82d-7d30-b477-f870bdb3e88d@vivier.eu>
+Date: Tue, 27 Sep 2022 09:32:06 +0200
 MIME-Version: 1.0
-Content-type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v3 00/12] linux-user: Add more syscalls, enhance tracing &
+ logging enhancements
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220918194555.83535-1-deller@gmx.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220918194555.83535-1-deller@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:nh7yAwzotQ4Y9WyWGz6+gmCIMSGpknx8488WSsyJMEnOCRUZYYt
+ hONYOBiB7U6SWXfltUua823k/yKq0ZJSJJMyQVIxP8dzzDjVQPxii7cS5//cUAgYrWqYhjg
+ ZUXrdsxZU01c4qxiQQCgLcmlhUMkSwSaF/Ssd4P2wz6FPrcLeFvRRSN35RGdFl1bxOtotwP
+ 88Xim63tfI81JoLzjiItg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:t/BFGtQYsEM=:o76qJE0YDya0zqcTB4PWHs
+ jryjv2Rd2GtBuZX71NFhQouWxRhctblYnV44lzxTLnSNyN8ebmZ87kx8C8iFYh1AUHPv/7/Af
+ 8GdJgxRZXDfWuQZMHFp+pHN9jov4pGCbcQ9A7PBCDw6g3jc2U9cf3DeoWIIJqQkOxLfyRXJsZ
+ JdyVKB2+JMHXtpW38LEvKMjBXNmWoqHAFnR2Ui+kXu7Vyp3os7YBRFRNp4YGPmY8l1k96c7TP
+ p8nP18bEhgQQxRTJkMdCFLvgEwiafnIGAhlzjAAaOiBlBxX3ImPcrCMYaCEJaGlkOWieymCcj
+ 9Ukwge/VSvP/oRZnMSpU0unEVBDcrBU2nw0LhOZaQtTzzL9fvQILbiVP72oNQiXhyL0/lCWX3
+ Ly6Xfi8LpTjlc3fEOZ94/E0FuG2GY4VzzTywa+TSRfQ5OXqJuUuzJ4KY3UktPFeNL31vNcVvd
+ y4F1HOfKRPsmGuiUsVcONHhwiVVmBkNirL+pMvnseLUiBQomd34NGoqxWD/Mh4aJjYrRsmOu8
+ x+S8uCwnECNovOFtQ7tPYb3d0p4jv2Ro4SQdw5cIrRNdfHmI2X8TBjMQdzD++rUCe64niSmzX
+ bcBOhiH+2BTqW8yNeyCxeU8WkrDhXc/IpvFV8X2g0/OZtzsds03LfP48XCtIiJyVDHqJiOPCa
+ IafV1v0N9rLGUnC7rL2aZ60lc1Ey081O0+7GykTlCZ8bAW/RLVFdXa66idqddaBdTj8JITPT1
+ DU74QBCvpCm2M1fijXadw+s7yyaIVpfqP/+ywdtGniRtB9zG4pey4Ma17sSTaBZLt7of0wyjM
+ p3W/Mn3
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,80 +75,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: lu zhipeng <luzhipeng@cestc.cn>
+Le 18/09/2022 à 21:45, Helge Deller a écrit :
+> Here is a bunch of patches for linux-user.
+> 
+> Most of them add missing syscalls and enhance the tracing/logging.
+> Some of the patches are target-hppa specific.
+> I've tested those on productive hppa debian buildd servers (running qemu-user).
+> 
+> Thanks!
+> Helge
+> 
+> Changes to v2:
+> - Fix build of close_range() and pidfd_*() patches on older Linux
+>    distributions (noticed by Stefan Hajnoczi)
+> 
+> Changes to v1:
+> - Dropped the faccessat2() syscall patch in favour of Richard's patch
+> - Various changes to the "missing signals in strace output" patch based on
+>    Richard's feedback, e.g. static arrays, fixed usage of _NSIG, fix build when
+>    TARGET_SIGIOT does not exist
+> - Use FUTEX_CMD_MASK in "Show timespec on strace for futex" patch
+>    unconditionally and turn into a switch statement - as suggested by Richard
+> 
+> Helge Deller (12):
+>    linux-user: Add missing signals in strace output
+>    linux-user: Add missing clock_gettime64() syscall strace
+>    linux-user: Add pidfd_open(), pidfd_send_signal() and pidfd_getfd()
+>      syscalls
+>    linux-user: Log failing executable in EXCP_DUMP()
+>    linux-user/hppa: Use EXCP_DUMP() to show enhanced debug info
+>    linux-user/hppa: Dump IIR on register dump
+>    linux-user: Fix strace of chmod() if mode == 0
+>    linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000 for hppa arch
+>    linux-user: Add strace for clock_nanosleep()
+>    linux-user: Show timespec on strace for futex()
+>    linux-user: Add close_range() syscall
+>    linux-user: Add parameters of getrandom() syscall for strace
+> 
+>   linux-user/cpu_loop-common.h |   2 +
+>   linux-user/hppa/cpu_loop.c   |   6 +-
+>   linux-user/mmap.c            |   4 +
+>   linux-user/signal-common.h   |  46 ++++++++++++
+>   linux-user/signal.c          |  37 +--------
+>   linux-user/strace.c          | 142 ++++++++++++++++++++++++++++++-----
+>   linux-user/strace.list       |  21 +++++-
+>   linux-user/syscall.c         |  50 ++++++++++++
+>   target/hppa/helper.c         |   6 +-
+>   9 files changed, 255 insertions(+), 59 deletions(-)
+> 
+> --
+> 2.37.3
+> 
 
-If the net tap initializes successful, but failed during
-network card hot-plugging, the net-tap will remains,
-so cleanup.
+Series applied to my linux-user-for-7.2 branch,
+except PATCH 11 and 12 that have comments.
 
-Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- net/tap.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/net/tap.c b/net/tap.c
-index b3ddfd4..e203d07 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -686,7 +686,7 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-     tap_set_sndbuf(s->fd, tap, &err);
-     if (err) {
-         error_propagate(errp, err);
--        return;
-+        goto failed;
-     }
- 
-     if (tap->has_fd || tap->has_fds) {
-@@ -726,12 +726,12 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-                 } else {
-                     warn_report_err(err);
-                 }
--                return;
-+                goto failed;
-             }
-             if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
-                 error_setg_errno(errp, errno, "%s: Can't use file descriptor %d",
-                                  name, fd);
--                return;
-+                goto failed;
-             }
-         } else {
-             vhostfd = open("/dev/vhost-net", O_RDWR);
-@@ -743,11 +743,11 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-                     warn_report("tap: open vhost char device failed: %s",
-                                 strerror(errno));
-                 }
--                return;
-+                goto failed;
-             }
-             if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
-                 error_setg_errno(errp, errno, "Failed to set FD nonblocking");
--                return;
-+                goto failed;
-             }
-         }
-         options.opaque = (void *)(uintptr_t)vhostfd;
-@@ -760,11 +760,17 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-             } else {
-                 warn_report(VHOST_NET_INIT_FAILED);
-             }
--            return;
-+            goto failed;
-         }
-     } else if (vhostfdname) {
-         error_setg(errp, "vhostfd(s)= is not valid without vhost");
-+        goto failed;
-     }
-+
-+    return;
-+
-+failed:
-+    qemu_del_net_client(&s->nc);
- }
- 
- static int get_fds(char *str, char *fds[], int max)
--- 
-2.7.4
+Thanks,
+Laurent
+> 
 
 
