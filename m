@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE5C5EC952
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 18:22:35 +0200 (CEST)
-Received: from localhost ([::1]:51218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8898E5EC93E
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 18:18:23 +0200 (CEST)
+Received: from localhost ([::1]:45386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odDLu-0006Aa-AY
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 12:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51782)
+	id 1odDHq-0000aQ-AS
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 12:18:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1odBqf-0001V9-3K
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:46:13 -0400
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:39504)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1odBjM-0001ZW-QS
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:38:42 -0400
-Received: by mail-qk1-x72f.google.com with SMTP id x18so6131924qkn.6
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:38:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=491pAsyjKKkfSAm8Vy1d1JF5ozmU0Ydi/yxKnx1tRn4=;
- b=H4EeVucMqu83ksvXrVa31vxhEInwVV16uxTPWZBb+yQdwtQKJaNxikIlCvfJP/jXwC
- NOV7HSAmEiFML1QQCHuoYphnnUW3/AHJIx4aX6oVCo7b/rQMtXhug0KJ3mDYXeKKZ5Ek
- bLDmoeAJtQNWHYptglWX4YoZZNk3ENBRBRrjvBrxpSe82iRP0CyUJnUG4ORTe6rdzkgC
- uwQ1nVlV0F2QsgIfLGxXv5aae4zIqykrk0fqJ3XfSJZJ1k0rqQ/N6pGDW1R3EEFZRpGd
- OitOwkUZWEho6dhEDC9BtVjkx8NkHC9imQ3SAUKObICsN8sJIB7xE4AqmYCxPiXBKQ0v
- 97dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=491pAsyjKKkfSAm8Vy1d1JF5ozmU0Ydi/yxKnx1tRn4=;
- b=EtvmRrRkoxZ08wzmnNVpDQSXIhnIxOEP2lYoXPlY/TftlnF/ef8nuHfcsVH0AbW6xV
- jjsRPLrGdMdFi+KoJJ5APbzH5md1ucsjqK0aaPIbjWsuBf55rAH/8K/L3bd3Q5/7K/I2
- zuFn7n7A5YhcN2r1BuXV1aLjWBy2ucJKq9mYRTeYqblrdmHwgajxXRl+J+ggDxR/6Xxy
- NfK3wL1HZA4U5r2gm8mOkjSSM8SKDD73MyhsxkCeiIqV73LVu0Y2vdmwwcawYr1UoEdw
- vL3xxxkHs3/JPfL1+98R3DYMBjpbk2lXEJ4QAJXlZyjC++FxrHfvbJa31tIXMZDYqDz2
- nvDw==
-X-Gm-Message-State: ACrzQf3hwR6Ckxe7N5N51WxryJ6j1bc/m64rrWGyAM3iZzn5X7buUjZf
- qyd6I3dOSTxd0q/XdVbnGKkACDQ51uMNWCkVPGQ=
-X-Google-Smtp-Source: AMsMyM4cs5kicScIa7aLN0sUNtktPdS/4ImoTk3yuEzXsj2J/nQkkRSFlmkYllFS7D3L4WNGACaEMzdVn9rvzazxKQ4=
-X-Received: by 2002:a05:620a:19a5:b0:6cf:4a24:cccb with SMTP id
- bm37-20020a05620a19a500b006cf4a24cccbmr18059184qkb.376.1664289516012; Tue, 27
- Sep 2022 07:38:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1odBqd-0001Ww-6f
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:46:11 -0400
+Received: from 10.mo552.mail-out.ovh.net ([87.98.187.244]:35743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1odBln-00023N-Px
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:41:16 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.51])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id E5AB025AA6;
+ Tue, 27 Sep 2022 14:41:05 +0000 (UTC)
+Received: from kaod.org (37.59.142.109) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 27 Sep
+ 2022 16:41:04 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-109S0031f5a7e25-70df-4a79-9fd9-0f1166658844,
+ 12A65CACE92C1DACCE6E97948814F03D28E096F2) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <b54249b3-3639-80e9-3c5c-f556e605e6e6@kaod.org>
+Date: Tue, 27 Sep 2022 16:41:02 +0200
 MIME-Version: 1.0
-References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
- <20220927110632.1973965-51-bmeng.cn@gmail.com>
- <CAMxuvazWXg+qpNvhR6bDcS5XwrDN_2zd-6KDmQvGS7TPa+hTNA@mail.gmail.com>
-In-Reply-To: <CAMxuvazWXg+qpNvhR6bDcS5XwrDN_2zd-6KDmQvGS7TPa+hTNA@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 27 Sep 2022 22:38:24 +0800
-Message-ID: <CAEUhbmUjgt7WnYFmxiN2JmitOxa9fCYs7A8dPWou81dANJRMAw@mail.gmail.com>
-Subject: Re: [PATCH v4 50/54] tests/qtest: migration-test: Skip running some
- TLS cases for win32
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Thomas Huth <thuth@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x72f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v9 09/10] s390x/cpu_topology: activating CPU topology
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
+ <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
+ <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
+ <nrb@linux.ibm.com>, <frankja@linux.ibm.com>
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-10-pmorel@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220902075531.188916-10-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.109]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 3adfd510-bbc5-4028-9d5d-0e3fd204df60
+X-Ovh-Tracer-Id: 828943807772134157
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegiedgheehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=clg@kaod.org;
+ helo=10.mo552.mail-out.ovh.net
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,38 +79,216 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 27, 2022 at 10:33 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> On Tue, Sep 27, 2022 at 3:09 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > Some migration test cases use TLS to communicate, but they fail on
-> > Windows with the following error messages:
-> >
-> >   qemu-system-x86_64: TLS handshake failed: Insufficient credentials fo=
-r that request.
-> >   qemu-system-x86_64: TLS handshake failed: Error in the pull function.
-> >   query-migrate shows failed migration: TLS handshake failed: Error in =
-the pull function.
-> >
-> > Disable them temporarily.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > ---
-> > I am not familar with the gnutls and simply enabling the gnutls debug
-> > output does not give me an immedidate hint on why it's failing on
-> > Windows. Disable these cases for now until someone or maintainers
-> > who may want to test this on Windows.
-> >
-> > (no changes since v1)
->
-> Please use g_test_skip() instead of #if blocks.
->
+On 9/2/22 09:55, Pierre Morel wrote:
+> Starting with a new machine, s390-virtio-ccw-7.2, the machine
+> property topology-disable is set to false while it is kept to
+> true for older machine.
 
-Is there a QEMU API to detect OS?
+We probably need a machine class option also because we don't want
+this to be possible :
 
-Regards,
-Bin
+    -M s390-ccw-virtio-7.1,topology-disable=false
+
+
+> This allows migrating older machine without disabling the ctop
+> CPU feature for older machine, thus keeping existing start scripts.
+> 
+> The KVM capability, KVM_CAP_S390_CPU_TOPOLOGY is used to
+> activate the S390_FEAT_CONFIGURATION_TOPOLOGY feature and
+> the topology facility for the guest in the case the topology
+> is not disabled.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   hw/core/machine.c                  |  5 +++
+>   hw/s390x/s390-virtio-ccw.c         | 55 ++++++++++++++++++++++++++----
+>   include/hw/boards.h                |  3 ++
+>   include/hw/s390x/s390-virtio-ccw.h |  1 +
+>   target/s390x/kvm/kvm.c             | 14 ++++++++
+>   5 files changed, 72 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 4c5c8d1655..cbcdd40763 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -40,6 +40,11 @@
+>   #include "hw/virtio/virtio-pci.h"
+>   #include "qom/object_interfaces.h"
+>   
+> +GlobalProperty hw_compat_7_1[] = {
+> +    { "s390x-cpu", "ctop", "off"},
+> +};
+> +const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+> +
+>   GlobalProperty hw_compat_7_0[] = {
+>       { "arm-gicv3-common", "force-8-bit-prio", "on" },
+>       { "nvme-ns", "eui64-default", "on"},
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 1fa98740de..3078e68df7 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -249,11 +249,16 @@ static void ccw_init(MachineState *machine)
+>       /* init memory + setup max page size. Required for the CPU model */
+>       s390_memory_init(machine->ram);
+>   
+> -    /* Adding the topology must be done before CPU intialization*/
+> -    dev = qdev_new(TYPE_S390_CPU_TOPOLOGY);
+> -    object_property_add_child(qdev_get_machine(), TYPE_S390_CPU_TOPOLOGY,
+> -                              OBJECT(dev));
+> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +    /*
+> +     * Adding the topology must be done before CPU intialization but
+> +     * only in the case it is not disabled for migration purpose.
+> +     */
+> +    if (!S390_CCW_MACHINE(machine)->topology_disable) {
+> +        dev = qdev_new(TYPE_S390_CPU_TOPOLOGY);
+> +        object_property_add_child(qdev_get_machine(), TYPE_S390_CPU_TOPOLOGY,
+> +                                  OBJECT(dev));
+> +        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +    }
+>   
+>       /* init CPUs (incl. CPU model) early so s390_has_feature() works */
+>       s390_init_cpus(machine);
+> @@ -676,6 +681,21 @@ static inline void machine_set_zpcii_disable(Object *obj, bool value,
+>       ms->zpcii_disable = value;
+>   }
+>   
+> +static inline bool machine_get_topology_disable(Object *obj, Error **errp)
+> +{
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> +
+> +    return ms->topology_disable;
+> +}
+> +
+> +static inline void machine_set_topology_disable(Object *obj, bool value,
+> +                                                Error **errp)
+> +{
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> +
+> +    ms->topology_disable = value;
+> +}
+> +
+>   static S390CcwMachineClass *current_mc;
+>   
+>   /*
+> @@ -778,6 +798,13 @@ static inline void s390_machine_initfn(Object *obj)
+>       object_property_set_description(obj, "zpcii-disable",
+>               "disable zPCI interpretation facilties");
+>       object_property_set_bool(obj, "zpcii-disable", false, NULL);
+> +
+> +    object_property_add_bool(obj, "topology-disable",
+> +                             machine_get_topology_disable,
+> +                             machine_set_topology_disable);
+> +    object_property_set_description(obj, "topology-disable",
+> +            "disable zPCI interpretation facilties");
+> +    object_property_set_bool(obj, "topology-disable", false, NULL);
+>   }
+>   
+>   static const TypeInfo ccw_machine_info = {
+> @@ -830,14 +857,29 @@ bool css_migration_enabled(void)
+>       }                                                                         \
+>       type_init(ccw_machine_register_##suffix)
+>   
+> +static void ccw_machine_7_2_instance_options(MachineState *machine)
+> +{
+> +}
+> +
+> +static void ccw_machine_7_2_class_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_CCW_MACHINE(7_2, "7.2", true);
+> +
+>   static void ccw_machine_7_1_instance_options(MachineState *machine)
+>   {
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
+> +
+> +    ccw_machine_7_2_instance_options(machine);
+> +    ms->topology_disable = true;
+>   }
+>   
+>   static void ccw_machine_7_1_class_options(MachineClass *mc)
+>   {
+> +    ccw_machine_7_2_class_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+>   }
+> -DEFINE_CCW_MACHINE(7_1, "7.1", true);
+> +DEFINE_CCW_MACHINE(7_1, "7.1", false);
+>   
+>   static void ccw_machine_7_0_instance_options(MachineState *machine)
+>   {
+> @@ -847,6 +889,7 @@ static void ccw_machine_7_0_instance_options(MachineState *machine)
+>       ccw_machine_7_1_instance_options(machine);
+>       s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
+>       ms->zpcii_disable = true;
+> +
+>   }
+>   
+>   static void ccw_machine_7_0_class_options(MachineClass *mc)
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 69e20c1252..6e9803aa2d 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -387,6 +387,9 @@ struct MachineState {
+>       } \
+>       type_init(machine_initfn##_register_types)
+>   
+> +extern GlobalProperty hw_compat_7_1[];
+> +extern const size_t hw_compat_7_1_len;
+> +
+>   extern GlobalProperty hw_compat_7_0[];
+>   extern const size_t hw_compat_7_0_len;
+>   
+> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+> index 9e7a0d75bc..b14660eecb 100644
+> --- a/include/hw/s390x/s390-virtio-ccw.h
+> +++ b/include/hw/s390x/s390-virtio-ccw.h
+> @@ -28,6 +28,7 @@ struct S390CcwMachineState {
+>       bool dea_key_wrap;
+>       bool pv;
+>       bool zpcii_disable;
+> +    bool topology_disable;
+>       uint8_t loadparm[8];
+>   };
+>   
+> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> index cb14bcc012..6b7efee511 100644
+> --- a/target/s390x/kvm/kvm.c
+> +++ b/target/s390x/kvm/kvm.c
+> @@ -2385,6 +2385,7 @@ bool kvm_s390_cpu_models_supported(void)
+>   
+>   void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
+>   {
+> +    S390CcwMachineState *ms = S390_CCW_MACHINE(qdev_get_machine());
+>       struct kvm_s390_vm_cpu_machine prop = {};
+>       struct kvm_device_attr attr = {
+>           .group = KVM_S390_VM_CPU_MODEL,
+> @@ -2466,6 +2467,19 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
+>           set_bit(S390_FEAT_UNPACK, model->features);
+>       }
+>   
+> +    /*
+> +     * If we have the CPU Topology implemented in KVM activate
+> +     * the CPU TOPOLOGY feature.
+> +     */
+> +    if ((!ms->topology_disable) &&
+
+'topology_disable' is a platform level configuration. May be instead,
+the feature could be cleared at the machine level ?
+
+Thanks,
+
+C.
+
+> +        kvm_check_extension(kvm_state, KVM_CAP_S390_CPU_TOPOLOGY)) {
+> +        if (kvm_vm_enable_cap(kvm_state, KVM_CAP_S390_CPU_TOPOLOGY, 0) < 0) {
+> +            error_setg(errp, "KVM: Error enabling KVM_CAP_S390_CPU_TOPOLOGY");
+> +            return;
+> +        }
+> +        set_bit(S390_FEAT_CONFIGURATION_TOPOLOGY, model->features);
+> +    }
+> +
+>       /* We emulate a zPCI bus and AEN, therefore we don't need HW support */
+>       set_bit(S390_FEAT_ZPCI, model->features);
+>       set_bit(S390_FEAT_ADAPTER_EVENT_NOTIFICATION, model->features);
+
 
