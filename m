@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3A575EC183
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:34:58 +0200 (CEST)
-Received: from localhost ([::1]:46822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D715EC1F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:58:42 +0200 (CEST)
+Received: from localhost ([::1]:35470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od8rY-0005PE-Mf
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44202)
+	id 1od9EX-0004d0-8u
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8R3-0002nT-2u
+ id 1od8R2-0002nS-U4
  for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:40 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:36608)
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:42808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8Qw-0004uP-Bz
+ id 1od8Qx-0004up-R1
  for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:29 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id y136so9383832pfb.3
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:22 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id e129so3019276pgc.9
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=mvrmJ/pQkH1S72jelAHPkbozzUShmbIR4RwdiG3Eq4Q=;
- b=nXgD+lyQOw5HfOtFgbeBp0Ubs05yfp9oWIKV/Qgx5a3EhiIVl3HOOlt3qmLr6P9Zdh
- Yhj8P19Iq/hVvX/FjQoNvl/AQusA9Qj4srPMltdfviVvGGVSLzYYxF3L2lAwQ9eFGmVH
- UxYrsbXORkggAqQnaQhVC7VBDPfdKdR2+ej1MGPyCnlrZPMqDSKJ1zD7O0OjjmsTCFpQ
- ZVVpxz6+Ek3Or54iKUz049eHjcGIZEn4SZCn5CncEXUOtbo1W/iWhbnfb49lLUKwIjR6
- 40A2Z9+l0M8CKJuKbK5ASHvbM2++8hiVQanrRoDuNwFDqrkh6rCDf6UDlxVvUHtw/na4
- vNog==
+ bh=9mqqdIfbR4VfPukRzl3JcnaSTQBvLdc6WQpYQIrxNWc=;
+ b=Z4At2N8OPHxqgqyWKrHdzcwcllsFOQvxZwidCkFzDiDK9TEwYl47avpjzqSyLhse4o
+ W4GGPPhhN6aQGmPrRe4AhN80LWq62I5BfqpyYlWi52HI88NWdI6THYADT/HBhKFnrBoX
+ oMeVm7iZ3dRFlslKdx1aruA3KfzcfLmSBF3H2J9+gH4INsqmC+cJJi/TRZu713rqixvt
+ J5FFMoai7CqAwURPLqJoGut9lNYBqc0wU/Kb9WoM6fUnak/J71lMT6lEMxAqqqjY7Kfy
+ bPRHp9jUTT1w/H4q+AWORI8nuy6jnZ17lNeQGxnSLVYkysVnsOcrYjLs50MMjJ3oEzAF
+ 9mjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=mvrmJ/pQkH1S72jelAHPkbozzUShmbIR4RwdiG3Eq4Q=;
- b=I176wBVQzn1DRZLF2Ph+QgnbyizHeDQHnonECIGb4K0aPhc8mYGnEmIi55l1qc0DGA
- LwruovtiXFgK3I4N1tmP08AJWqUfUX6+AkOWqtgEcSgXrV4SysiMu7YmNk4Ro3Pta5ze
- JX/eTQl09W964/6Y0nwdjgQ2wxzScbrZTwOptUSvSBnwGd2YCfq7BpXZj5vTlw5tC9Az
- hm1prXVyo9Nm1+LY29VGM0qqRnQSqixYC/72cZxhkAvDqMGVovgN9YM/ArppapBWJRhR
- PVAaKJtpEaGnUBBDzGf7T0T79bYj/SoXL1JqOELdfPZKqOp/yg3YwDch175soWXzzA6w
- og5A==
-X-Gm-Message-State: ACrzQf1jY2yG2UrgLwgwVOZxRFnEIqLuMBJqkBX8ZeUu/sOAV68kx+4V
- y8d97FeYOw0AjerdYAXT1WHHwJBsF8c=
-X-Google-Smtp-Source: AMsMyM6GES5WfCmR0+RxP4XTe/1D7bROhxzR879ic+XAiJL+aH2/PrSj6MtkPFmKig0UAW8Wp4Ku6Q==
-X-Received: by 2002:a63:e044:0:b0:43b:ddc9:3885 with SMTP id
- n4-20020a63e044000000b0043bddc93885mr23873968pgj.325.1664276841832; 
- Tue, 27 Sep 2022 04:07:21 -0700 (PDT)
+ bh=9mqqdIfbR4VfPukRzl3JcnaSTQBvLdc6WQpYQIrxNWc=;
+ b=NQL2KeS1qncgcseUCnMjlX2/gKvgwyAsB6sMsJ6YJhGh3d9qjvDtzSyv8I/HA7HEdp
+ e07J/GMYJx2ytFVL28Lcw4+fghWUCsS3QjRYzHby9ewrkCkg88sEvqeYfDcG59Cpk9p/
+ FZoj4C5cy1Bh9Lwqmur0yDi8fdx4hgt0xdBwtGubKtqDHlIs5/TxOCaUCWT0JCzZMhcg
+ 2GVBb5qaJxy+f9pnF05XvNHtCJvntebmDTNJEfBv2i+4CNjQ/V5LKDTTMdp+bkM3cCyb
+ 1/6ph4MeRZJTMiytHXAg5oCpA9jBfPyGLjfyuj6mqlF2nI44XpEVXDGSxe6h+fOEhO/Q
+ nQUA==
+X-Gm-Message-State: ACrzQf3QLLLunay0zARX/p7RLhACz3kQwYpJedn3OQjE+4QN6EgyS15l
+ Zv9+11baycSP0s2hkh+VfFCCLVLM79w=
+X-Google-Smtp-Source: AMsMyM6EDKJ3Y0lvnHDSAIfpIFI11q0Blyaxc7X1ya1Y1bfSgzxQr4Y36ZnlQuu+Eof8wDj1IEBqAA==
+X-Received: by 2002:a63:e64f:0:b0:43c:9db1:8096 with SMTP id
+ p15-20020a63e64f000000b0043c9db18096mr11608421pgj.567.1664276844121; 
+ Tue, 27 Sep 2022 04:07:24 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.19
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:07:21 -0700 (PDT)
+ Tue, 27 Sep 2022 04:07:23 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 14/54] tests/qtest: migration-test: Avoid using hardcoded
- /tmp
-Date: Tue, 27 Sep 2022 19:05:52 +0800
-Message-Id: <20220927110632.1973965-15-bmeng.cn@gmail.com>
+Subject: [PATCH v4 15/54] tests/qtest: pflash-cfi02-test: Avoid using
+ hardcoded /tmp
+Date: Tue, 27 Sep 2022 19:05:53 +0800
+Message-Id: <20220927110632.1973965-16-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,69 +96,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Bin Meng <bin.meng@windriver.com>
 
 This case was written to use hardcoded /tmp directory for temporary
-files. Update to use g_dir_make_tmp() for a portable implementation.
+files. Update to use g_file_open_tmp() for a portable implementation.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
 Changes in v4:
-- Update the error reporting by using the GError "error" argument
-  of g_dir_make_tmp()
-- Remove the const from tmpfs declaration
+- Replace the whole block with a g_assert_no_error()
 
 Changes in v3:
 - Split to a separate patch
 
- tests/qtest/migration-test.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ tests/qtest/pflash-cfi02-test.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 4728d528bb..f57e07fe2d 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -102,7 +102,7 @@ static bool ufd_version_check(void)
+diff --git a/tests/qtest/pflash-cfi02-test.c b/tests/qtest/pflash-cfi02-test.c
+index 7fce614b64..0b52c2ca5c 100644
+--- a/tests/qtest/pflash-cfi02-test.c
++++ b/tests/qtest/pflash-cfi02-test.c
+@@ -56,7 +56,7 @@ typedef struct {
+     QTestState *qtest;
+ } FlashConfig;
  
- #endif
+-static char image_path[] = "/tmp/qtest.XXXXXX";
++static char *image_path;
  
--static const char *tmpfs;
-+static char *tmpfs;
+ /*
+  * The pflash implementation allows some parameters to be unspecified. We want
+@@ -608,6 +608,7 @@ static void test_cfi_in_autoselect(const void *opaque)
+ static void cleanup(void *opaque)
+ {
+     unlink(image_path);
++    g_free(image_path);
+ }
  
- /* The boot file modifies memory area in [start_address, end_address)
-  * repeatedly. It outputs a 'B' at a fixed rate while it's still running.
-@@ -2434,10 +2434,10 @@ static bool kvm_dirty_ring_supported(void)
+ /*
+@@ -635,16 +636,14 @@ static const FlashConfig configuration[] = {
  
  int main(int argc, char **argv)
  {
--    char template[] = "/tmp/migration-test-XXXXXX";
-     const bool has_kvm = qtest_has_accel("kvm");
-     const bool has_uffd = ufd_version_check();
-     const char *arch = qtest_get_arch();
+-    int fd = mkstemp(image_path);
+-    if (fd == -1) {
+-        g_printerr("Failed to create temporary file %s: %s\n", image_path,
+-                   strerror(errno));
+-        exit(EXIT_FAILURE);
+-    }
 +    GError *err = NULL;
-     int ret;
- 
-     g_test_init(&argc, &argv, NULL);
-@@ -2462,9 +2462,11 @@ int main(int argc, char **argv)
-         return g_test_run();
-     }
- 
--    tmpfs = g_mkdtemp(template);
-+    tmpfs = g_dir_make_tmp("migration-test-XXXXXX", &err);
-     if (!tmpfs) {
--        g_test_message("g_mkdtemp on path (%s): %s", template, strerror(errno));
-+        g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
-+                       err->message);
-+        g_error_free(err);
-     }
-     g_assert(tmpfs);
- 
-@@ -2589,6 +2591,7 @@ int main(int argc, char **argv)
-         g_test_message("unable to rmdir: path (%s): %s",
-                        tmpfs, strerror(errno));
-     }
-+    g_free(tmpfs);
- 
-     return ret;
- }
++    int fd = g_file_open_tmp("qtest.XXXXXX", &image_path, &err);
++    g_assert_no_error(err);
++
+     if (ftruncate(fd, UNIFORM_FLASH_SIZE) < 0) {
+         int error_code = errno;
+         close(fd);
+-        unlink(image_path);
++        cleanup(NULL);
+         g_printerr("Failed to truncate file %s to %u MB: %s\n", image_path,
+                    UNIFORM_FLASH_SIZE, strerror(error_code));
+         exit(EXIT_FAILURE);
 -- 
 2.34.1
 
