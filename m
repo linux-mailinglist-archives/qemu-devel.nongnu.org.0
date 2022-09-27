@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60CF85EBDE0
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:58:15 +0200 (CEST)
-Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F525EBD33
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:26:50 +0200 (CEST)
+Received: from localhost ([::1]:60618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od6Pu-00022o-GF
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:58:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42208)
+	id 1od5vV-000151-5q
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:26:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1od5id-0007IN-16
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:13:31 -0400
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:36412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1od5ib-0007te-3u
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:13:30 -0400
-Received: by mail-io1-xd32.google.com with SMTP id n192so5985299iod.3
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 01:13:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=KrNEiZhQNbDF0mxt5i7EG+x+4lldhJ/giMmKoZ3ZLT4=;
- b=qwdjGpg7bL/POq5aXsxhZBZuI+Geb//7X7caLBOc/gO6M0SeywUY1lpsXleU38qoyE
- I5GImVUpUzIg+xjeWMPl5MQ0GP17KQYl1bgOSquqLZ2F7sbhqi/MbewVGmnqdrLJoAAt
- dUr6rZUznxnfGQwUySn2rxg0jjZZh6n5SvtjwI3hFNv6ecWIXS+Z2xBwDMb43+j3lA1/
- koCIQFi1vtdWgE0hdvXdbVvIXXNQYQWVdAShcEDCJC6XFVhZeEHrT/b6XeURuG7jaQMD
- BP46/Tb1UwNpDwISX8v4VB0FJgFO2SN28CaDOcfkpRc0oJtkBgCLyEjoJToVrdqNufm7
- 2Plg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=KrNEiZhQNbDF0mxt5i7EG+x+4lldhJ/giMmKoZ3ZLT4=;
- b=yImjxXEh/++0HykoelPbA+dfcNKitMNXy+tV+m6VmBdZvdf6KSSVyeLW+hw/emd6md
- F9hGixK8dRYwAoubm0s+sOmClSXwAKc2HVRVYlKYXlFtRlMuh7Ih8+SZXHNgKftKqaAj
- zVfk4VDRXSS6RYSxgL7r2amplbOP07di28suRx+X+br0ljhKhNEuW0zMAkyyFd1tU1I6
- 7MVL9IFWL11mekaNuGhbQOuBlNLjEBN8QZhdbDjPdJQel6X/6Jun0PUFjoL4O0qTDG3X
- JYoD49N+AR8PRbEfKQjwY5aBtTsFqPch1ndCCp2HAJIn4ZYcojapkFE+S0Yrv7MPTPox
- ZG1g==
-X-Gm-Message-State: ACrzQf0E0VnMUk7mIMIUVF9UM1og1i1DuTmLWdOiEfPs/fYgWxhpyvxF
- zSAOckUJBimUrb2BbNWNzvtFuQmK6afIodH9onLEKA==
-X-Google-Smtp-Source: AMsMyM6BiROw95oPG/dj0omuGU/gmPrRQ38gFjbrYCvyRdnwD/fO3WxykJ/JfmGp/wAc1ZernxcyBjmH802PqvzS3hE=
-X-Received: by 2002:a05:6638:238a:b0:35a:25b7:a1a7 with SMTP id
- q10-20020a056638238a00b0035a25b7a1a7mr14303982jat.92.1664266406073; Tue, 27
- Sep 2022 01:13:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oL-00057k-A8
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30803)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oI-0000Ha-I4
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664266759;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZrsRPawWkunlvhVNVnflPd4WDQw69927DCF0BTYV6rs=;
+ b=OgX2vYDpil6go9pj6o6UuMF9iBwcOx1dNUdrL7THNdaZOJsulul7JnpHendnQbOgFRPbJG
+ gk/ysIo0ASRtg7ydXupozDi9t7+NqhYgH4cN2Tvjjpprzu11OFFl8Bgb87ddWdlIOXHha+
+ 3DiMostmFRTKGiBYC6gwfUnvxp80Ln8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-496-Vws03tuOPKO7Y_mK6dF61Q-1; Tue, 27 Sep 2022 04:19:15 -0400
+X-MC-Unique: Vws03tuOPKO7Y_mK6dF61Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8DCD1E68196;
+ Tue, 27 Sep 2022 08:19:14 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 50085111DCE0;
+ Tue, 27 Sep 2022 08:19:14 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id CB5A91800622; Tue, 27 Sep 2022 10:19:12 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Alexandre Ratchov <alex@caoua.org>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/24] Kraxel 20220927 patches
+Date: Tue, 27 Sep 2022 10:18:48 +0200
+Message-Id: <20220927081912.180983-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220710170014.1673480-8-ani@anisinha.ca>
- <20220714163611-mutt-send-email-mst@kernel.org>
- <alpine.DEB.2.22.394.2207150929020.2162493@anisinha-lenovo>
- <20220715015941-mutt-send-email-mst@kernel.org>
- <CAARzgwwjXMmbRQ-ETPPqHP5eq5jtrGMSh2GeBh5fLS9Pcsut+A@mail.gmail.com>
- <20220716112943-mutt-send-email-mst@kernel.org>
- <alpine.DEB.2.22.394.2207251100590.87138@anisinha-lenovo>
- <alpine.DEB.2.22.394.2207271137210.130455@anisinha-lenovo>
- <CAARzgwwpy6yUJfuxxfM2vAUDqh+RyxjLqd+1xARiazqwTLbN9A@mail.gmail.com>
- <20220917162606-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220917162606-mutt-send-email-mst@kernel.org>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 27 Sep 2022 13:43:15 +0530
-Message-ID: <CAARzgwxoy_E-vkwo-mKo0tbG31Y3E3r9FB6v3H3hgPYW4fb6sA@mail.gmail.com>
-Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
- QEMU bios tables using biosbits
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: berrange@redhat.com, imammedo@redhat.com, jsnow@redhat.com, 
- pbonzini@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org, 
- thuth@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::d32;
- envelope-from=ani@anisinha.ca; helo=mail-io1-xd32.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,92 +85,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 18, 2022 at 1:58 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Fri, Sep 16, 2022 at 09:30:42PM +0530, Ani Sinha wrote:
-> > On Thu, Jul 28, 2022 at 12:08 AM Ani Sinha <ani@anisinha.ca> wrote:
-> > >
-> > >
-> > >
-> > > On Mon, 25 Jul 2022, Ani Sinha wrote:
-> > >
-> > > >
-> > > >
-> > > > On Sat, 16 Jul 2022, Michael S. Tsirkin wrote:
-> > > >
-> > > > > On Sat, Jul 16, 2022 at 12:06:00PM +0530, Ani Sinha wrote:
-> > > > > >
-> > > > > >
-> > > > > > On Fri, Jul 15, 2022 at 11:20 Michael S. Tsirkin <mst@redhat.co=
-m> wrote:
-> > > > > >
-> > > > > >     On Fri, Jul 15, 2022 at 09:47:27AM +0530, Ani Sinha wrote:
-> > > > > >     > > Instead of all this mess, can't we just spawn e.g. "git=
- clone --depth
-> > > > > >     1"?
-> > > > > >     > > And if the directory exists I would fetch and checkout.
-> > > > > >     >
-> > > > > >     > There are two reasons I can think of why I do not like th=
-is idea:
-> > > > > >     >
-> > > > > >     > (a) a git clone of a whole directory would download all v=
-ersions of the
-> > > > > >     > binary whereas we want only a specific version.
-> > > > > >
-> > > > > >     You mention shallow clone yourself, and I used --depth 1 ab=
-ove.
-> > > > > >
-> > > > > >     > Downloading a single file
-> > > > > >     > by shallow cloning or creating a git archive is overkill =
-IMHO when a wget
-> > > > > >     > style retrieval works just fine.
-> > > > > >
-> > > > > >     However, it does not provide for versioning, tagging etc so=
- you have
-> > > > > >     to implement your own schema.
-> > > > > >
-> > > > > >
-> > > > > > Hmm I=E2=80=99m not sure if we need all that. Bits has its own =
-versioning mechanism and
-> > > > > > I think all we need to do is maintain the same versioning logic=
- and maintain
-> > > > > > binaries of different  versions. Do we really need the power of=
- git/version
-> > > > > > control here? Dunno.
-> > > > >
-> > > > > Well we need some schema. Given we are not using official bits re=
-leases
-> > > > > I don't think we can reuse theirs.
-> > > >
-> > > > OK fine. Lets figuire out how to push bits somewhere in git.qemu.or=
-g and
-> > > > the binaries in some other repo first. Everything else hinges on th=
-at. We
-> > > > can fix the rest of the bits later incrementally.
-> > >
-> > > DanPB, any thoughts on putting bits on git.qemu.org or where and how =
-to
-> > > keep the binaries?
-> >
-> > Can we please conclude on this?
-> > Peter, can you please fork the repo? I have tried many times to reach
-> > you on IRC but failed.
->
-> Probably because of travel around KVM forum.
->
-> I think given our CI is under pressure again due to gitlab free tier
-> limits, tying binaries to CI isn't a great idea at this stage.
-> Can Ani just upload binaies to qemu.org for now?
+The following changes since commit 6160d8ff81fb9fba70f5dad88d43ffd0fa44984c:
 
-I agree with Michael here. Having a full ci/cd job for this is
-overkill IMHO. We should create a repo just for the binaries, have a
-README there to explain how we generate them and check in new versions
-as and when needed (it won't be frequent).
-How about biosbits-bin repo?
+  Merge tag 'edgar/xilinx-next-2022-09-21.for-upstream' of https://github.com/edgarigl/qemu into staging (2022-09-22 13:24:28 -0400)
 
+are available in the Git repository at:
 
->
-> --
-> MST
->
+  https://gitlab.com/kraxel/qemu.git tags/kraxel-20220927-pull-request
+
+for you to fetch changes up to 49a99ecb2290571b2e3f464c13e9c73b87ca91c4:
+
+  virtio-gpu: update scanout if there is any area covered by the rect (2022-09-27 07:32:31 +0200)
+
+----------------------------------------------------------------
+usb: make usbnet work with xhci.
+audio: add sndio backend.
+misc bugfixes for console, xhci, audio, ati-vga and virtio-gpu.
+
+----------------------------------------------------------------
+
+Akihiko Odaki (3):
+  ui/cocoa: Run qemu_init in the main thread
+  Revert "main-loop: Disable block backend global state assertion on
+    Cocoa"
+  meson: Allow to enable gtk and sdl while cocoa is enabled
+
+Alexandre Ratchov (1):
+  audio: Add sndio backend
+
+Cal Peake (1):
+  ui/console: Get tab completion working again in the SDL monitor vc
+
+Dongwon Kim (1):
+  virtio-gpu: update scanout if there is any area covered by the rect
+
+Gerd Hoffmann (2):
+  usb/msd: move usb_msd_packet_complete()
+  usb/msd: add usb_msd_fatal_error() and fix guest-triggerable assert
+
+Marc-André Lureau (5):
+  ui: add some vdagent related traces
+  ui/clipboard: fix serial priority
+  ui/vdagent: always reset the clipboard serial on caps
+  ui/clipboard: reset the serial state on reset
+  ui/vdagent: fix serial reset of guest agent
+
+Michael Brown (4):
+  usbnet: Add missing usb_wakeup() call in usbnet_receive()
+  usbnet: Accept mandatory USB_CDC_SET_ETHERNET_PACKET_FILTER request
+  usbnet: Detect short packets as sent by the xHCI controller
+  usbnet: Report link-up via interrupt endpoint in CDC-ECM mode
+
+Philippe Mathieu-Daudé (1):
+  hw/display/ati_2d: Fix buffer overflow in ati_2d_blt (CVE-2021-3638)
+
+Qiang Liu (2):
+  hcd-ohci: Drop ohci_service_iso_td() if ed->head & OHCI_DPTR_MASK is
+    zero
+  hcd-xhci: drop operation with secondary stream arrays enabled
+
+Thomas Huth (1):
+  hw/usb/hcd-xhci: Check whether DMA accesses fail
+
+Volker Rümelin (3):
+  ui/console: fix three double frees in png_save()
+  Revert "audio: Log context for audio bug"
+  audio: remove abort() in audio_bug()
+
+ meson_options.txt             |   4 +-
+ audio/audio_template.h        |  29 +-
+ include/hw/usb/msd.h          |   1 +
+ include/qemu-main.h           |   3 +-
+ include/qemu/main-loop.h      |  13 -
+ include/sysemu/sysemu.h       |   2 +-
+ include/ui/console.h          |   1 +
+ audio/audio.c                 |  25 +-
+ audio/sndioaudio.c            | 565 ++++++++++++++++++++++++++++++++++
+ hw/display/ati_2d.c           |   6 +-
+ hw/display/virtio-gpu.c       |   7 +-
+ hw/usb/dev-network.c          |  38 ++-
+ hw/usb/dev-storage.c          |  56 +++-
+ hw/usb/hcd-ohci.c             |  10 +
+ hw/usb/hcd-xhci.c             |  68 +++-
+ softmmu/main.c                |  10 +-
+ softmmu/vl.c                  |   2 +-
+ tests/qtest/fuzz/fuzz.c       |   2 +-
+ ui/clipboard.c                |  18 +-
+ ui/console.c                  |   6 +-
+ ui/vdagent.c                  |  13 +-
+ MAINTAINERS                   |   7 +
+ audio/meson.build             |   1 +
+ docs/devel/fuzzing.rst        |   4 +-
+ hw/usb/trace-events           |   1 +
+ meson.build                   |  19 +-
+ qapi/audio.json               |  25 +-
+ qemu-options.hx               |  16 +
+ scripts/meson-buildoptions.sh |   7 +-
+ ui/cocoa.m                    | 144 +++------
+ ui/trace-events               |   5 +
+ 31 files changed, 903 insertions(+), 205 deletions(-)
+ create mode 100644 audio/sndioaudio.c
+
+-- 
+2.37.3
+
 
