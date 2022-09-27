@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECFE85EBF83
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:15:16 +0200 (CEST)
-Received: from localhost ([::1]:51066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7A25EBF9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:21:36 +0200 (CEST)
+Received: from localhost ([::1]:49798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od7cS-0006T3-1C
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:15:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38610)
+	id 1od7iZ-000529-K7
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:21:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1od7a9-0000tK-DX
+ id 1od7a9-0000u6-S9
  for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:12:53 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:56062)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1od7a7-0002Vx-OF
+ id 1od7a7-0002WR-Oi
  for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:12:53 -0400
-Received: by mail-wm1-x334.google.com with SMTP id t4so6195490wmj.5
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 03:12:50 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id iv17so6196423wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 03:12:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=CJWWWX0j3DH7dA8Y5VomwvEKcqa9vhwQUJYhBUYvd+Q=;
- b=qK7WkBHmP6cpQ/O20B4lKQ+1uHK48TTvNpaNGwmYAwHy/fphYsI5MqF+PX7ijXMvbN
- 2RtCjUCr9z3zCVrNdWEB6uUjOMHtbePqrfwWlRhudYGlfb2o25eiC9U/DVNBd0fOv2J+
- CHTN2n1Bi1wI600nagm4WQPU7kzsLymTxfjhzb0pmh4HtOXmkiFE2Q8o0lVs+LANMvyw
- ZdAPY+MrK1GtnKoK483tb4rnrS4zlzQTmjwzMNjm70HV6atzhcyl2JfxUN86nAvUH8kk
- 4GOJN3AU/kI6acxCunk0rYklFhhCsF1+EDBxocZtdX+4Yqt9+IYI1bBf3W36Zhv13inJ
- yOig==
+ bh=8lc9+EAsDsNcRbit+l0khQ7LVOAu2tt4CiBZ5zrclyM=;
+ b=Tbjugk8KSpIctutBfMXYi8TFdBbmuK4d0Wy0OQ32PaIag0RYgzNWHrZoH2YKlDCe0k
+ A08ImKt/m5jtrFWg30h303n3mp93Z+MwAmxDc2OLK2HMiqizCe3seiIfYLwyj6KiAVfM
+ a0CfJPLKlMjI63277JLybveeLAn5DcSEPLz0kzO1rihLe7c4Bm+PC1f6e9eLaw9rTp0F
+ Tuc/4dK3xnYy4UZmPzi2p6hK1mBkeh0AcBma7Emnbh7zOhi434s3A22kbIfAkTLOe35b
+ VzVNplNsfPe685ou5fecAyY/BwA13lJ2yjR3jh6shfQSLspDe8xGm7eTMsjt+vBBKYaJ
+ 7ilA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=CJWWWX0j3DH7dA8Y5VomwvEKcqa9vhwQUJYhBUYvd+Q=;
- b=DxYKz2s74cg5vJi6LPheVWTLs8xNrtD64Zsxv8HrbosinjzsqiOcpd7AoGCDBIzIgr
- hUqfr6PNuxDaL8vYxg1RQQIa8x/sk9geKylQ/KBJ+5IBXJZdhL94yv1r3pJ1zht0i9TZ
- I7dK1gQCH3Thb+eqwsQLUgl6Fy7xi2Q/LQHw1PeuAxOc00kAmXTnS2qe4xJfrzhNnMaE
- QetB4CfnOSPaGho6ow/VN9el13NxADjtJS/PliNfhAA7wlk9HeR/26TUFaw1D6WO6SyG
- F1BUVWKYewiMhKLkPb4X9P1ut8piTGQom6Rp7wFQIm1OJv2n9PD5efMCuQEV9pTAMoVw
- 0m1A==
-X-Gm-Message-State: ACrzQf2/yD0yPIJmNPWdvwXdkH44nrl4NJiarkWWsjddr53pPq/3WDHv
- PRuO2yL8qrDU56NKiIcB1hjaIA==
-X-Google-Smtp-Source: AMsMyM7wfT9DZ/UIkVa18JJcD96YFwfcg96P75gS7UFTO3LzAjvrET0aAdTNbuxyjclyH/fVVaaCmg==
-X-Received: by 2002:a1c:7c03:0:b0:3b4:7647:ccd8 with SMTP id
- x3-20020a1c7c03000000b003b47647ccd8mr2053064wmc.10.1664273569674; 
- Tue, 27 Sep 2022 03:12:49 -0700 (PDT)
+ bh=8lc9+EAsDsNcRbit+l0khQ7LVOAu2tt4CiBZ5zrclyM=;
+ b=Vhvb0V3hEahgmxyFEYZCd8Uu4KZwEOoTaMEXRFWZN2y85e+06fk5zY8hjSSmpJTXUj
+ 6n0uRK8bZES1ri3/Raf8b43SuQkrSwQObfj1bRwZX9kLGrXX8pz85LWbgPczOoD+FWf7
+ R5aSC769ZeOQ2fVkSj9X1TzgQwP/4T26LUckJwqmeo52pclHCE8ZSvqbtikHpfpvxv46
+ mBY7T5G3ypF7FlLXqLvIKN6XS32CTA6TS6S5l+hz/zs67+/Xgi7SCFZ/FCbFcfd+Hckg
+ YApo2QkTwynZ3RQ/bF0oU5pgmVfgLPPS/rjLXylrMMlneaX4sEljN3+BSwRcqyMpxRr2
+ SUsA==
+X-Gm-Message-State: ACrzQf0G511pkcQlx6fHNV7sjSm3VnzCiQpkzLo1AuID0+Mp/hQceqok
+ 6Ug5yztAwh1zrwbi1iCNtJBefw==
+X-Google-Smtp-Source: AMsMyM6rjaxVfLZTu3unHULjHKan7DnxRhiQKYQqop1EY2OeS6KwPVVfInCgSpylU7T7pf/6xqMpDg==
+X-Received: by 2002:a05:600c:4f8e:b0:3b4:ab30:9af4 with SMTP id
+ n14-20020a05600c4f8e00b003b4ab309af4mr2040707wmq.84.1664273570348; 
+ Tue, 27 Sep 2022 03:12:50 -0700 (PDT)
 Received: from localhost.localdomain
  (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
  by smtp.gmail.com with ESMTPSA id
  w6-20020adfd4c6000000b00223b8168b15sm1398387wrk.66.2022.09.27.03.12.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 03:12:49 -0700 (PDT)
+ Tue, 27 Sep 2022 03:12:50 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: peter.maydell@linaro.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, robh+dt@kernel.org,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH v2 5/8] hw/arm/virt: Fix devicetree warnings about the GPIO
- node
-Date: Tue, 27 Sep 2022 11:03:46 +0100
-Message-Id: <20220927100347.176606-6-jean-philippe@linaro.org>
+Subject: [PATCH v2 6/8] hw/arm/virt: Fix devicetree warning about the SMMU node
+Date: Tue, 27 Sep 2022 11:03:47 +0100
+Message-Id: <20220927100347.176606-7-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220927100347.176606-1-jean-philippe@linaro.org>
 References: <20220927100347.176606-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,33 +91,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the pl061 device can be used as interrupt controller, its node
-should contain "interrupt-controller" and "#interrupt-cells" properties.
-Fix the corresponding dt-validate warnings:
+The SMMUv3 node isn't expected to have clock properties. Fix the
+corresponding dt-validate warning:
 
-  pl061@9030000: 'interrupt-controller' is a required property
-  From schema: linux/Documentation/devicetree/bindings/gpio/pl061-gpio.yaml
-  pl061@9030000: '#interrupt-cells' is a required property
-  From schema: linux/Documentation/devicetree/bindings/gpio/pl061-gpio.yaml
+  smmuv3@9050000: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+  From schema: linux/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- hw/arm/virt.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/arm/virt.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 6805c57530..10ce66c722 100644
+index 10ce66c722..2de16f6324 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -1012,6 +1012,8 @@ static void create_gpio_devices(const VirtMachineState *vms, int gpio,
-     qemu_fdt_setprop_cell(ms->fdt, nodename, "clocks", vms->clock_phandle);
-     qemu_fdt_setprop_string(ms->fdt, nodename, "clock-names", "apb_pclk");
-     qemu_fdt_setprop_cell(ms->fdt, nodename, "phandle", phandle);
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "#interrupt-cells", 2);
-+    qemu_fdt_setprop(ms->fdt, nodename, "interrupt-controller", NULL, 0);
+@@ -1362,8 +1362,6 @@ static void create_smmu(const VirtMachineState *vms,
+     qemu_fdt_setprop(ms->fdt, node, "interrupt-names", irq_names,
+                      sizeof(irq_names));
  
-     if (gpio != VIRT_GPIO) {
-         /* Mark as not usable by the normal world */
+-    qemu_fdt_setprop_cell(ms->fdt, node, "clocks", vms->clock_phandle);
+-    qemu_fdt_setprop_string(ms->fdt, node, "clock-names", "apb_pclk");
+     qemu_fdt_setprop(ms->fdt, node, "dma-coherent", NULL, 0);
+ 
+     qemu_fdt_setprop_cell(ms->fdt, node, "#iommu-cells", 1);
 -- 
 2.37.3
 
