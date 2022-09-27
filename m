@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8415A5ED048
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 00:31:21 +0200 (CEST)
-Received: from localhost ([::1]:59492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B18F5ED049
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 00:31:42 +0200 (CEST)
+Received: from localhost ([::1]:58056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odJ6m-0008Rs-1v
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 18:31:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40376)
+	id 1odJ77-0000eK-93
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 18:31:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1odJ4T-0004cN-Av
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 18:28:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56719)
+ id 1odJ4g-00058S-Kk
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 18:29:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1odJ4N-0006N2-Jo
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 18:28:53 -0400
+ id 1odJ4d-0006Oe-OX
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 18:29:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664317729;
+ s=mimecast20190719; t=1664317747;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kJPUy+E6s7hDc+pjiC7pOB9HlZbKnK9rw5KgBMZ6B34=;
- b=HtxTV1to+ZVqBjZXvCWkI8iClu5TD4AX04GYLh8uAF9m4w7fLoRJDL/ZistPAaIhlnr1tv
- XkJvDnG4p+BmdpPP+vte1dwvmlBfM2cC6hmLBR01mbcnH1AbON+pYOb96JzrzgoIyq5IgH
- SsgXJEa1urgblDIBKncF8z4zbFqTEuk=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MqizROy4T5G7gPBbSq3l0KrOthWsU+ke3X7Gin+EV9A=;
+ b=H4Z/yuvPRu5QXCv+Nyv8Wv552rhcpsPmkUmuPDKq/8s473DZQO6Ey5uSsxrMn9bAuQyoKC
+ ilQdh4hBcItzG8pMGvijlCKefb/9TPNRTjMbVxw4EGh1NcQPQtQ4IQno5ON3TVyB8JMa0V
+ +27PG5zk2dHIfIMdh9CPScQx5fIWGvU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-164-OYyWsVFuPOm5fM3rWL-njA-1; Tue, 27 Sep 2022 18:28:47 -0400
-X-MC-Unique: OYyWsVFuPOm5fM3rWL-njA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-631-m_k-4WyhOhej0YltfWvIOA-1; Tue, 27 Sep 2022 18:29:06 -0400
+X-MC-Unique: m_k-4WyhOhej0YltfWvIOA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 671F2185A79C
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 22:28:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AF06880206D
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 22:29:05 +0000 (UTC)
 Received: from [172.30.42.193] (unknown [10.22.8.99])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 34ED0140EBF3;
- Tue, 27 Sep 2022 22:28:47 +0000 (UTC)
-Subject: [PULL 0/2] VFIO updates 2022-09-27
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78EBA2027061;
+ Tue, 27 Sep 2022 22:29:05 +0000 (UTC)
+Subject: [PULL 1/2] vfio/migration: Fix incorrect initialization value for
+ parameters in VFIOMigration
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com
-Date: Tue, 27 Sep 2022 16:28:46 -0600
-Message-ID: <166431760265.2571033.4930197108505513269.stgit@omen>
+Date: Tue, 27 Sep 2022 16:29:04 -0600
+Message-ID: <166431773251.2571033.17308966326809405523.stgit@omen>
+In-Reply-To: <166431760265.2571033.4930197108505513269.stgit@omen>
+References: <166431760265.2571033.4930197108505513269.stgit@omen>
 User-Agent: StGit/1.5.dev2+g9ce680a52bd9
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,34 +82,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit dbc4f48b5ab3e6d85f78aa4df6bd6ad561c3d152:
+From: Kunkun Jiang <jiangkunkun@huawei.com>
 
-  Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into staging (2022-09-27 11:08:36 -0400)
+The structure VFIOMigration of a VFIODevice is allocated and initialized
+in vfio_migration_init(). "device_state" and "vm_running" are initialized
+to 0, indicating that VFIO device is_STOP and VM is not-running. The
+initialization value is incorrect. According to the agreement, default
+state of VFIO device is _RUNNING. And if a VFIO device is hot-plugged
+while the VM is running, "vm_running" should be 1. This patch fixes it.
 
-are available in the Git repository at:
+Fixes: 02a7e71b1e5b ("vfio: Add VM state change handler to know state of VM")
+Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+Link: https://lore.kernel.org/r/20220711014651.1327-1-jiangkunkun@huawei.com
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+---
+ hw/vfio/migration.c |    2 ++
+ 1 file changed, 2 insertions(+)
 
-  https://gitlab.com/alex.williamson/qemu.git tags/vfio-updates-20220927.1
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index a6ad1f894561..3de4252111ee 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -806,6 +806,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+     }
+ 
+     vbasedev->migration = g_new0(VFIOMigration, 1);
++    vbasedev->migration->device_state = VFIO_DEVICE_STATE_RUNNING;
++    vbasedev->migration->vm_running = runstate_is_running();
+ 
+     ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
+                             info->index, "migration");
 
-for you to fetch changes up to 85b6d2b5fc25c9c0d10d493b3728183ab8f8e68a:
-
-  vfio/common: Fix vfio_iommu_type1_info use after free (2022-09-27 14:26:42 -0600)
-
-----------------------------------------------------------------
-VFIO updates 2022-09-27
-
- * Fix initial values for migration state (Kunkun Jiang)
-
- * Fix a use-after-free error path (Alex Williamson)
-
-----------------------------------------------------------------
-Alex Williamson (1):
-      vfio/common: Fix vfio_iommu_type1_info use after free
-
-Kunkun Jiang (1):
-      vfio/migration: Fix incorrect initialization value for parameters in VFIOMigration
-
- hw/vfio/common.c    | 36 +++++++++++++++++++-----------------
- hw/vfio/migration.c |  2 ++
- 2 files changed, 21 insertions(+), 17 deletions(-)
 
 
