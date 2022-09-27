@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63E35EC6B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:42:25 +0200 (CEST)
-Received: from localhost ([::1]:32888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3139A5EC6C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:47:05 +0200 (CEST)
+Received: from localhost ([::1]:50920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odBmy-0004s3-RL
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42844)
+	id 1odBrS-0002Zj-Qk
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:47:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1odAGa-0008Tm-T4
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:04:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59863)
+ (Exim 4.90_1) (envelope-from <git@sphalerite.org>)
+ id 1odAH8-0000QH-Uj; Tue, 27 Sep 2022 09:05:27 -0400
+Received: from sosiego.soundray.org ([116.203.207.114]:56344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1odAGX-0002Yn-2n
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:04:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664283888;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R/nDiVQA20P7VZph7pRT+g/FUfk+b1+o+fvuh1NkUZU=;
- b=B9lzTyl2awA+36rcJX9M0mrLLjkcCLbQr6npZDJjfHmyFkwGoS/2wFwCn1vTcrWrcNz0wg
- D/XLixhqgs6Nk5ax0JS2IRYdIqcot6ZSL3gxnbS8mazOXJToEDKW8QzJstW4TGO1XjVEza
- gSYs3GhwkIG/blIow6ulSXq11m7LLTE=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-554-kirAf3AKMkGLVzVP4SCoIw-1; Tue, 27 Sep 2022 09:04:47 -0400
-X-MC-Unique: kirAf3AKMkGLVzVP4SCoIw-1
-Received: by mail-oa1-f71.google.com with SMTP id
- 586e51a60fabf-12785ab6ab3so3581228fac.5
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 06:04:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=R/nDiVQA20P7VZph7pRT+g/FUfk+b1+o+fvuh1NkUZU=;
- b=369gqEETEeJqZdaVXC9/lrRifGNu3+HCdFHzHuff626w24r2gieFhgHetarkljSX7+
- 47+YAB54c10k+hc1jG18RNJMmPMmvTxDNgUcdqPSGuNbZ6ZBOTc0FzNAV9lv6XJ6ZYqx
- YSwMeE1XJGtIPtH1dRlOG7NKnWqUAhhuaPL81e9Rgzr05B4e9++YiTrQkkwvi+ZZz1IN
- 4AxJSRFUssFU8tzWvk5lbKK6SfQGPRzOgj5b6+RB8Z8OIr7DB/Hw2sdbiek06Ccn5e9E
- 7OMqY/wHAUhW3f5tj/BozoQaTaJci8r6cAok9sRIPEccL5YbI9LSW7GQHN/KZcHZWVJO
- FchQ==
-X-Gm-Message-State: ACrzQf3yS7XH+4I+Mwg7KyLvKnhbY+smJM6clsEXVSfz9zqSfI32s5fr
- 74yhKlsJEJHJSNE62T717VXkbUMFlQqAGnoDM7zYE+3NzDcm056IKbgUWYkj3yUI2iC9ZBgrsFR
- sq8d+0oi5O2GqZdkQFOsv8P7Umr0N3pM=
-X-Received: by 2002:a05:6870:c1d4:b0:127:ad2c:3d74 with SMTP id
- i20-20020a056870c1d400b00127ad2c3d74mr2179704oad.205.1664283885577; 
- Tue, 27 Sep 2022 06:04:45 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7/ShVe25SRmO5ykQrSsj7gAY8paC+y17VY0v2t55rBEdMDajlg1A638949DsgnyZ+SCcgLgUaxxvyfDUQaJzo=
-X-Received: by 2002:a05:6870:c1d4:b0:127:ad2c:3d74 with SMTP id
- i20-20020a056870c1d400b00127ad2c3d74mr2179688oad.205.1664283885302; Tue, 27
- Sep 2022 06:04:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <git@sphalerite.org>)
+ id 1odAH5-0002d6-B5; Tue, 27 Sep 2022 09:05:25 -0400
+From: Linus Heckemann <git@sphalerite.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sphalerite.org;
+ s=sosiego; t=1664283916;
+ bh=qYlB6YTtaz+95XyXSI9BbZJWsQUDAyX1h7bRyQZL/bU=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date;
+ b=oDAP07qhinDnKCZfaVw8QRcWoVVmBQANP1r1sJxz0abjTxNkyQ4uifEyEoCI5iSNr
+ 0Nj4Fw/cwy6T2AiZQquFgMwT0Njb2gHvfsvcBfJewxzvoCzKsAyi+RGYCGtt4NeLQp
+ qMJCwRtIyf+pkEukJoajwlc/e+WpuCTka26b5tNg=
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: Qemu-block <qemu-block@nongnu.org>, Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 1/1] 9pfs: avoid iterator invalidation in
+ v9fs_mark_fids_unreclaim
+In-Reply-To: <1697950.a32zQFXn7i@silver>
+References: <20220926124207.1325763-1-git@sphalerite.org>
+ <1697950.a32zQFXn7i@silver>
+Date: Tue, 27 Sep 2022 15:05:13 +0200
+Message-ID: <ygav8p9vugm.fsf@localhost>
 MIME-Version: 1.0
-References: <20220927122146.2787854-1-stefanb@linux.ibm.com>
-In-Reply-To: <20220927122146.2787854-1-stefanb@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 27 Sep 2022 17:04:33 +0400
-Message-ID: <CAMxuvayyxizLFdHgYtjJZ412wUD4hq57NXKxUSHuJMKVGr4EQA@mail.gmail.com>
-Subject: Re: [PATCH] docs: Update TPM documentation for usage of a TPM 2
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain
+Received-SPF: pass client-ip=116.203.207.114; envelope-from=git@sphalerite.org;
+ helo=sosiego.soundray.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,119 +59,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 27, 2022 at 4:21 PM Stefan Berger <stefanb@linux.ibm.com> wrote=
-:
->
-> Update the TPM documentation for usage of a TPM 2 rather than a TPM 1.2.
-> Adjust the command lines and expected outputs inside the VM accordingly.
-> Update the command line to start a TPM 2 with swtpm.
->
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Ah, you sent this fix as a separate patch on top. I actually just meant that 
+> you would take my already queued patch as the latest version (just because I 
+> had made some minor changes on my end) and adjust that patch further as v4.
+>
+> Anyway, there are still some things to do here, so maybe you can send your 
+> patch squashed in the next round ...
+
+I see, will do!
+
+>> @Christian: I still haven't been able to reproduce the issue that this
+>> commit is supposed to fix (I tried building KDE too, no problems), so
+>> it's a bit of a shot in the dark. It certainly still runs and I think it
+>> should fix the issue, but it would be great if you could test it.
+>
+> No worries about reproduction, I will definitely test this thoroughly. ;-)
+>
+>>  hw/9pfs/9p.c | 46 ++++++++++++++++++++++++++++++----------------
+>>  1 file changed, 30 insertions(+), 16 deletions(-)
+>> 
+>> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+>> index f4c1e37202..825c39e122 100644
+>> --- a/hw/9pfs/9p.c
+>> +++ b/hw/9pfs/9p.c
+>> @@ -522,33 +522,47 @@ static int coroutine_fn
+>> v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path) V9fsFidState *fidp;
+>>      gpointer fid;
+>>      GHashTableIter iter;
+>> +    /*
+>> +     * The most common case is probably that we have exactly one
+>> +     * fid for the given path, so preallocate exactly one.
+>> +     */
+>> +    GArray *to_reopen = g_array_sized_new(FALSE, FALSE,
+>> sizeof(V9fsFidState*), 1); +    gint i;
+>
+> Please use `g_autoptr(GArray)` instead of `GArray *`, that avoids the need for 
+> explicit calls to g_array_free() below.
+
+Good call. I'm not familiar with glib, so I didn't know about this :)
+
+>> -            fidp->flags |= FID_NON_RECLAIMABLE;
+>
+> Why did you remove that? It should still be marked as FID_NON_RECLAIMABLE, no?
+
+Indeed, that was an accident. 
+
+>> +            /*
+>> +             * Ensure the fid survives a potential clunk request during
+>> +             * v9fs_reopen_fid or put_fid.
+>> +             */
+>> +            fidp->ref++;
+>
+> Hmm, bumping the refcount here makes sense, as the 2nd loop may be interrupted 
+> and the fid otherwise disappear in between, but ...
+>
+>> +            g_array_append_val(to_reopen, fidp);
+>>          }
+>> +    }
+>> 
+>> -        /* We're done with this fid */
+>> +    for (i=0; i < to_reopen->len; i++) {
+>> +        fidp = g_array_index(to_reopen, V9fsFidState*, i);
+>> +        /* reopen the file/dir if already closed */
+>> +        err = v9fs_reopen_fid(pdu, fidp);
+>> +        if (err < 0) {
+>> +            put_fid(pdu, fidp);
+>> +            g_array_free(to_reopen, TRUE);
+>> +            return err;
+>
+> ... this return would then leak all remainder fids that you have bumped the 
+> refcount for above already.
+
+You're right. I think the best way around it, though it feels ugly, is
+to add a third loop in an "out:".
+
+> Also: I noticed that your changes in virtfs_reset() would need the same 2-loop 
+> hack to avoid hash iterator invalidation, as it would also call put_fid() 
+> inside the loop and be prone for hash iterator invalidation otherwise.
+
+Good point. Will do.
 
 
-> ---
->  docs/specs/tpm.rst | 44 ++++++++++++++++++++++++--------------------
->  1 file changed, 24 insertions(+), 20 deletions(-)
->
-> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-> index 3be190343a..535912a92b 100644
-> --- a/docs/specs/tpm.rst
-> +++ b/docs/specs/tpm.rst
-> @@ -250,24 +250,25 @@ hardware TPM ``/dev/tpm0``:
->
->  The following commands should result in similar output inside the VM
->  with a Linux kernel that either has the TPM TIS driver built-in or
-> -available as a module:
-> +available as a module (assuming a TPM 2 is passed through):
->
->  .. code-block:: console
->
->    # dmesg | grep -i tpm
-> -  [    0.711310] tpm_tis 00:06: 1.2 TPM (device=3Did 0x1, rev-id 1)
-> -
-> -  # dmesg | grep TCPA
-> -  [    0.000000] ACPI: TCPA 0x0000000003FFD191C 000032 (v02 BOCHS  \
-> -      BXPCTCPA 0000001 BXPC 00000001)
-> +  [    0.012560] ACPI: TPM2 0x000000000BFFD1900 00004C (v04 BOCHS  \
-> +      BXPC     0000001 BXPC 00000001)
->
->    # ls -l /dev/tpm*
-> -  crw-------. 1 root root 10, 224 Jul 11 10:11 /dev/tpm0
-> +  crw-rw----. 1 tss root  10,   224 Sep  6 12:36 /dev/tpm0
-> +  crw-rw----. 1 tss rss  253, 65536 Sep  6 12:36 /dev/tpmrm0
->
-> -  # find /sys/devices/ | grep pcrs$ | xargs cat
-> -  PCR-00: 35 4E 3B CE 23 9F 38 59 ...
-> +  Starting with Linux 5.12 there are PCR entries for TPM 2 in sysfs:
-> +  # find /sys/devices/ -type f | grep pcr-sha
-> +  ...
-> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/=
-1
-> +  ...
-> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/=
-9
->    ...
-> -  PCR-23: 00 00 00 00 00 00 00 00 ...
->
->  The QEMU TPM emulator device
->  ----------------------------
-> @@ -304,6 +305,7 @@ a socket interface. They do not need to be run as roo=
-t.
->    mkdir /tmp/mytpm1
->    swtpm socket --tpmstate dir=3D/tmp/mytpm1 \
->      --ctrl type=3Dunixio,path=3D/tmp/mytpm1/swtpm-sock \
-> +    --tpm2 \
->      --log level=3D20
->
->  Command line to start QEMU with the TPM emulator device communicating
-> @@ -365,19 +367,20 @@ available as a module:
->  .. code-block:: console
->
->    # dmesg | grep -i tpm
-> -  [    0.711310] tpm_tis 00:06: 1.2 TPM (device=3Did 0x1, rev-id 1)
-> -
-> -  # dmesg | grep TCPA
-> -  [    0.000000] ACPI: TCPA 0x0000000003FFD191C 000032 (v02 BOCHS  \
-> -      BXPCTCPA 0000001 BXPC 00000001)
-> +  [    0.012560] ACPI: TPM2 0x000000000BFFD1900 00004C (v04 BOCHS  \
-> +      BXPC     0000001 BXPC 00000001)
->
->    # ls -l /dev/tpm*
-> -  crw-------. 1 root root 10, 224 Jul 11 10:11 /dev/tpm0
-> +  crw-rw----. 1 tss root  10,   224 Sep  6 12:36 /dev/tpm0
-> +  crw-rw----. 1 tss rss  253, 65536 Sep  6 12:36 /dev/tpmrm0
->
-> -  # find /sys/devices/ | grep pcrs$ | xargs cat
-> -  PCR-00: 35 4E 3B CE 23 9F 38 59 ...
-> +  Starting with Linux 5.12 there are PCR entries for TPM 2 in sysfs:
-> +  # find /sys/devices/ -type f | grep pcr-sha
-> +  ...
-> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/=
-1
-> +  ...
-> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/=
-9
->    ...
-> -  PCR-23: 00 00 00 00 00 00 00 00 ...
->
->  Migration with the TPM emulator
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> @@ -398,7 +401,8 @@ In a 1st terminal start an instance of a swtpm using =
-the following command:
->    mkdir /tmp/mytpm1
->    swtpm socket --tpmstate dir=3D/tmp/mytpm1 \
->      --ctrl type=3Dunixio,path=3D/tmp/mytpm1/swtpm-sock \
-> -    --log level=3D20 --tpm2
-> +    --tpm2 \
-> +    --log level=3D20
->
->  In a 2nd terminal start the VM:
->
-> --
-> 2.37.2
->
+One more thing has occurred to me. I think the reclaiming/reopening
+logic will misbehave in the following sequence of events:
 
+1. QEMU reclaims an open fid, losing the file handle
+2. The file referred to by the fid is replaced with a different file
+   (e.g. via rename or symlink) outside QEMU
+3. The file is accessed again by the guest, causing QEMU to reopen a
+   _different file_ from before without the guest having performed any
+   operations that should cause this to happen.
+
+This is neither introduced nor resolved by my changes. Am I overlooking
+something that avoids this (be it documentation that directories exposed
+via 9p should not be touched by the host), or is this a real issue? I'm
+thinking one could at least detect it by saving inode numbers in
+V9fsFidState and comparing them when reopening, but recovering from such
+a situation seems difficult.
+
+Linus
 
