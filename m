@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2387A5EBAD0
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 08:38:46 +0200 (CEST)
-Received: from localhost ([::1]:54656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B79325EBB09
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 08:56:55 +0200 (CEST)
+Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od4Eu-0001jx-RU
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 02:38:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38872)
+	id 1od4WU-000899-Qz
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 02:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od43D-0001uK-Ow
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:26:42 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:55355)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od43L-0001w5-33
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:26:47 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:54375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od43C-0000ZP-1u
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:26:39 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od43J-0000Zp-Az
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:26:46 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MXH7g-1okInl1wRK-00YlRz; Tue, 27
- Sep 2022 08:26:35 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MsIbU-1pVRqr40C2-00tmNj; Tue, 27
+ Sep 2022 08:26:36 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 2/3] target/m68k: use M68K_FEATURE_MOVEFROMSR_PRIV feature for
- move_from_sr privilege check
-Date: Tue, 27 Sep 2022 08:26:32 +0200
-Message-Id: <20220927062633.618677-3-laurent@vivier.eu>
+Cc: Laurent Vivier <laurent@vivier.eu>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PULL 3/3] m68k: align bootinfo strings and data to 4 bytes
+Date: Tue, 27 Sep 2022 08:26:33 +0200
+Message-Id: <20220927062633.618677-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220927062633.618677-1-laurent@vivier.eu>
 References: <20220927062633.618677-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QjL1m1fsxNqQUN6vmn7GKig/flH15DYtQMz7TRZP/pJOhrX+ef0
- d/2gCw3PTnzEnJqaKRKHcz+xQxa0VQrMzG2mUSSx9m9y2HFxWhronH2EB1+krzb1jqWPRQb
- SJu9mX0OIqnf/rvuPvrCMqiTksIR2kQ1P5MdXMfOOosrEdKd83o4fEj8ED+Qjp7m3cK15Go
- pdMHoyEcVh0DsELo0Tdsg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:h+3HM1+H3do=:iGQnpFcB5lEB9I6FLirnrz
- rp8mSNtgWQ8hB3kR9xQYViUoPTAF5skdna9RX9CDx2zsAhym3L5o/xWBF6FpHCXW5iAYWValk
- /1gyFqSPH6+ZAQFivBFn010RNo7YdCcUl3cgfF9LLwbS5nfIl9UtyxKV23cca2AKNajjJjQ7Y
- zrXyv9kEaO+sW/wNHs9mHIe5KPkEJ/rjoVVmCON9ti72nzWGiOrEijIbVxNI0v2mvV/fXr232
- rG0oqERkzxgotMD0mfwIAmvmkDfr2SuTtVl78c9XEqSD0mihatWBwvZ1FPjVmgN6RbbtlNQjf
- oZO3kVjo4mRiDr8QCODHixKgGhlOkJ1ZiF/lI2HUT0q3BbT/+28mix67p4uPWDdxnOCLPc26U
- ASOWwK/d6LitydwvoZEZ9moW6cwBUsYa5aCpaa2yDcAzhaNPbPtpNfDzJgT5wVxi4LlHB8Cmj
- Vujtl9lgAKTvTLi0PZf3+TbpjZq7bXSjIs9fBaQWN7AUpzbxi6dt+6zNzjMxrgZ3mpUKiAlJQ
- UTGpKpUmo3hBqCyMXC4ZAoT6xOUl9qDnp+EuGA4ZYIIoIrqCEvg1oJVWWVNhnzR5XXRB4OOMs
- E7Kin97vmrbAGGhpKoSJdoaa9mVpzDfb5+gnxaQAwpHVK5/5XKyTkFoRXYfFv84pdkDfxEWe0
- z3LGOwcjVRCopFqRHR57+XCGF/LemY0ffhprY7IXyttOCn5MnTK6TJ3fMD3nOf6kPVw8Wc1nc
- LGhFWei7fRTqXibZUhMSdoqTsVn5qOiIuX69bE9EG7VxehFMXx0USNv//y3Ghqx/FQUb0A8FZ
- 35vTRLx
+X-Provags-ID: V03:K1:3ErU7WZ+VCtw2Nrh78zJjF00pjkF9lhcFj3/H4Nt5gHwv5PmokS
+ HcKLJwiIRFLLIqSsHugL0WaR/ML3oZYGrmVDWiocSJohbTJkjG+Y/SWEqBL5Xh5XZzEg+zk
+ GdT9eiM7JIpRk//HmZjYOebbPpsqGFOw5XjzjV5MvjoZ3iInFhCXJJ7MI+euipo6nXE8BHJ
+ w68YeW81I4csB01pCyDEw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zepAkP3MoQ8=:t7v1204TtVkQ7ZLEXIi6uO
+ NGz6IosjTP0ObSMMg/hGRLH8cCUiWDwUf0YkiH9GJxXMiML1XqmFCFdYFeN080HrH4NmjDEZc
+ 0kP3x2cCRN1n0Io45FxGutrwms3Z7qGOyuYv9Tcmth/LknOyJaFml59MexX5js78jva1io7BZ
+ 8kgawUpCAylXhe+kov/UWUHjUSzcqIAyllllA/MPac9KwVNqsn55/WH5Z3KKjMJa59Ng1tfBs
+ WLEioOJLRH8XVFmRGslfMPeuLruUXu5r2S939cBTmrUD2cz5Qgvg+dMwMhl5+5Ag8B20Eoszb
+ 139hgL18kiZS/LRp0Ye8eF43uooA8WQ7OWvfW0SyVn4cje46Vq6y1erWe6x0qxlNEDuonOLl2
+ zwD5aG78k598OMfiGX3A5pjPgd31bFuJlSBgG2+oR4dyuv8B1ptVVTK7HyzBEFEnIv85MYjq7
+ YdmWCZIjEObEDO3HXtsseBgRwTH2Wnxsyj8I9msJKFQ8QKDDfbI8KVT5TxlxiUZG2NMzTp6AD
+ 5c4mxnwnyhxdz25pqJcJw3JPmnuqDyRjjLUjpHDo79TxNMAA6cTrR98ZEt2z9JBpNiPppNB3C
+ 9Oeb+T2sxvMejZ0kmX9PzXDk8nkCNtWJfv8ry3QOAcZi+e+tjySwCzxhr45PRMv7oR5zdilb3
+ /6L907ka3VYMiIg2mKwnoDG+3FonFqmSDs3cVH10TXu60X2y7UcyGQNFU4UYLR5Vtv0Srf7he
+ 4lmhTIEC3DKnlyCEo2XZlApHE/jOU5rALHCTO5+WYRM6FiA4mnjXyAJ2Sk34t9A50SZ4sWQ7o
+ qwuLXyI
 Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -73,98 +71,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 
-Now that M68K_FEATURE_M68000 has been renamed to M68K_FEATURE_M68K it is easier
-to see that the privilege exception check is wrong: it is currently only generated
-for ColdFire CPUs when in fact it should also be generated for Motorola CPUs from
-the 68010 onwards.
+Various tools, such as kexec-tools and m68k-bootinfo, expect each
+bootinfo entry to be aligned to 4 bytes, not 2 bytes. So adjust the
+padding to fill this out as such.
 
-Introduce a new M68K_FEATURE_MOVEFROMSR_PRIV feature which is set for all non-
-Motorola CPUs, and for all Motorola CPUs from the 68010 onwards and use it to
-determine whether a privilege exception should be generated for the MOVE-from-SR
-instruction.
+Also, break apart the padding additions from the other field length
+additions, so that it's more clear why these magic numbers are being
+added, and comment them too.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220925134804.139706-3-mark.cave-ayland@ilande.co.uk>
+Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20220926113900.1256630-2-Jason@zx2c4.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/m68k/cpu.h       | 2 ++
- target/m68k/cpu.c       | 5 +++++
- target/m68k/translate.c | 2 +-
- 3 files changed, 8 insertions(+), 1 deletion(-)
+ hw/m68k/bootinfo.h | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index f5c6e95cb44a..3a9cfe2f33a7 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -537,6 +537,8 @@ enum m68k_features {
-     M68K_FEATURE_UNALIGNED_DATA,
-     /* TRAPcc insn. (680[2346]0, and CPU32) */
-     M68K_FEATURE_TRAPCC,
-+    /* MOVE from SR privileged (from 68010) */
-+    M68K_FEATURE_MOVEFROMSR_PRIV,
- };
+diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
+index bd8b212fd35c..897162b8189c 100644
+--- a/hw/m68k/bootinfo.h
++++ b/hw/m68k/bootinfo.h
+@@ -48,13 +48,14 @@
+         stw_phys(as, base, id); \
+         base += 2; \
+         stw_phys(as, base, \
+-                 (sizeof(struct bi_record) + strlen(string) + 2) & ~1); \
++                 (sizeof(struct bi_record) + strlen(string) + \
++                  1 /* null termination */ + 3 /* padding */) & ~3); \
+         base += 2; \
+         for (i = 0; string[i]; i++) { \
+             stb_phys(as, base++, string[i]); \
+         } \
+         stb_phys(as, base++, 0); \
+-        base = (base + 1) & ~1; \
++        base = (base + 3) & ~3; \
+     } while (0)
  
- static inline bool m68k_feature(CPUM68KState *env, int feature)
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 8d23c72056fd..25d610db21f7 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -102,6 +102,7 @@ static void m5206_cpu_initfn(Object *obj)
-     CPUM68KState *env = &cpu->env;
- 
-     m68k_set_feature(env, M68K_FEATURE_CF_ISA_A);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- /* Base feature set, including isns. for m68k family */
-@@ -129,6 +130,7 @@ static void m68010_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_RTD);
-     m68k_set_feature(env, M68K_FEATURE_BKPT);
-     m68k_set_feature(env, M68K_FEATURE_MOVEC);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- /*
-@@ -241,6 +243,7 @@ static void m5208_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_BRAL);
-     m68k_set_feature(env, M68K_FEATURE_CF_EMAC);
-     m68k_set_feature(env, M68K_FEATURE_USP);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- static void cfv4e_cpu_initfn(Object *obj)
-@@ -254,6 +257,7 @@ static void cfv4e_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_CF_FPU);
-     m68k_set_feature(env, M68K_FEATURE_CF_EMAC);
-     m68k_set_feature(env, M68K_FEATURE_USP);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- static void any_cpu_initfn(Object *obj)
-@@ -275,6 +279,7 @@ static void any_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_USP);
-     m68k_set_feature(env, M68K_FEATURE_EXT_FULL);
-     m68k_set_feature(env, M68K_FEATURE_WORD_INDEX);
-+    m68k_set_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV);
- }
- 
- static void m68k_cpu_realizefn(DeviceState *dev, Error **errp)
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 233b9d8e5783..9df17aa4b2d8 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -4624,7 +4624,7 @@ DISAS_INSN(move_from_sr)
- {
-     TCGv sr;
- 
--    if (IS_USER(s) && !m68k_feature(env, M68K_FEATURE_M68K)) {
-+    if (IS_USER(s) && m68k_feature(env, M68K_FEATURE_MOVEFROMSR_PRIV)) {
-         gen_exception(s, s->base.pc_next, EXCP_PRIVILEGE);
-         return;
-     }
+ #define BOOTINFODATA(as, base, id, data, len) \
+@@ -63,13 +64,14 @@
+         stw_phys(as, base, id); \
+         base += 2; \
+         stw_phys(as, base, \
+-                 (sizeof(struct bi_record) + len + 3) & ~1); \
++                 (sizeof(struct bi_record) + len + \
++                  2 /* length field */ + 3 /* padding */) & ~3); \
+         base += 2; \
+         stw_phys(as, base, len); \
+         base += 2; \
+         for (i = 0; i < len; ++i) { \
+             stb_phys(as, base++, data[i]); \
+         } \
+-        base = (base + 1) & ~1; \
++        base = (base + 3) & ~3; \
+     } while (0)
+ #endif
 -- 
 2.37.3
 
