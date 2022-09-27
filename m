@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1959C5EC6B6
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:43:03 +0200 (CEST)
-Received: from localhost ([::1]:48642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319EF5EC643
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:33:53 +0200 (CEST)
+Received: from localhost ([::1]:49614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odBnZ-0006Bv-VH
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:43:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59190)
+	id 1odBeh-0000RU-QB
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:33:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odADN-0005oT-U5
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:01:34 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:37766)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1odAEL-0006sk-8O; Tue, 27 Sep 2022 09:02:33 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:36817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odADI-0001Ye-Ar
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:01:29 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id a26so20560413ejc.4
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 06:01:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=Xio5GT6NVGNglG40om7PUp218KA8MHlZ1aeDFPF9zXE=;
- b=QbIT5Yj+5IgCCzJVgrW1ZRd6s7xizBCgAWHkYJVcK1sh7MfFsTuX1olueAaHk6/OhJ
- ZGwQjfMEVFfXkamNaH+w2DcgvfYtFlWW8V4B42VE9RqQv83k90y5AfOFgoYrclUcOBjP
- 43yLIrvm6fRFw3cb9ok6UFVipWpHZEzXOoYgXDJ4WC0KXbKImYIpQFywU782sl/k7q5z
- UwdhM7UKXSfKoTppWjtoTs79xmMvsSw0GgX/p/f3WIS/G0SwUqLrEEbq0vigV/LOIJpx
- 9Vq4HpaQbySb6f/ESRPkqcnTOIgEYMdd1d5pJfe1/ttag5AjmThE/i2by+c+29HDiGOo
- 1NWQ==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1odAEJ-0001uC-9e; Tue, 27 Sep 2022 09:02:32 -0400
+Received: by mail-pg1-x534.google.com with SMTP id s206so9364922pgs.3;
+ Tue, 27 Sep 2022 06:02:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=T5SDTVqVEaz4x4vfwq9kUhyd/fGb+nmlcTRJGBUVFS0=;
+ b=DXo3xjL4Hq/r+8CUPUXGVBRWl3tGICMZ7O8ZGPfkC8Q5Uq2U4YGPX3bzvXv+pcFMSC
+ 7L0a/fEf/8dqaZKdG5WaBvSLCuQisw2wGgUCjcANKHW3M/FIPa+g6zXC3ENCX5kd+rh7
+ FIgk9iu7iZz1byWmDIotF4a+I4LYcFJU2Z7OxdNtd+mQu3hufqlpTIm/Vi42O8V7/RuP
+ rJ01sYtlUStjskWjxle0YkIaiopl/ZBnrlbk5kCWW2sLKRIDAI0DhYBxpvDrMsAR2OWK
+ 24ksoBdJjfDjzHy9xSPBmza7W4weJ0Dh4YMTZmQVKSlkKHTju2PFUIoYb0Yw0wVSiG0b
+ Ylkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Xio5GT6NVGNglG40om7PUp218KA8MHlZ1aeDFPF9zXE=;
- b=jTzl8EWzhpnJj83yUiWl+lOmWZvxCRVrRflMK0IKZGrI+MyC71TwSWWtMrEvY0VrOy
- zgchk9OdFRh0dKgG1m0TAU8ejISXXuI7fY4mElJJaHQ3mgYjvxm+GCp0L3xX8nwn2+if
- hwfWMjJp6pForzhH48NoY3RL/cRwlwvWUPhsM0mxrlE+vk6zJZ5fudBrwwl+D2oyXnt5
- WMpeG4RV+wxVI7NU9tBSh4xf1WVwh6PtkHT3y+F6A6aknLDWDgFG66anbLZE3dsTRV2R
- icELerHmXDuPHDloWZleGlCO9HsqII0rJvZd1fHvZU4kJ15JyZkkoZ92Zwid71Kd1S/B
- i8AQ==
-X-Gm-Message-State: ACrzQf10AoQzfBO1SNUXF40DUhE2NYXal64hxBwqCuhvYLqc/V49ep5X
- oJ4Vwg7gjWhsSRCB1HCRzr+t4U0rgrWyZ9LSPHbWBw==
-X-Google-Smtp-Source: AMsMyM5C4HqbLpUAeagRZxITlV/wlWocmP+8XVADLhb4eGO8Iu8bM53GW3e61H1B9onlPKSCt/02bN54U7Zvw3thPDI=
-X-Received: by 2002:a17:907:728e:b0:782:8e91:64c8 with SMTP id
- dt14-20020a170907728e00b007828e9164c8mr19719638ejc.36.1664283684688; Tue, 27
- Sep 2022 06:01:24 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=T5SDTVqVEaz4x4vfwq9kUhyd/fGb+nmlcTRJGBUVFS0=;
+ b=Hwi3Ho+De7SvAXhzBYLoKQjBd9QkplUyWs5gH1GK6mKitG5ZEiOK7e9lxGUqtu4kVK
+ KBYScIXwmOaNKPcq2nkbYcgBmPvui/XS815CFyUNeJWcKktAAbDQB5XiW8suOy4FlIBr
+ +1e18Jijr/yGnPZM5jrGK2UMCcO382zl9FgMSrWZltAGKGSS+bB7crqSkyAk8KwwiyiO
+ 9t+ye7944r6YOMAfrMVhSQJwwrremjhstvcuOrzh2aTctD/xK3HwpZ35FRFXrOWWtTun
+ PnbCz8hM/8w1OtvrC14fSvEyRyFvGd5/74MqigBQZ+pcrLnc7/LzanPfn4yHAorj8egn
+ O13A==
+X-Gm-Message-State: ACrzQf01QM8CRNwJU0hzcOxFEUvrJd82brqbS4UBxG6sCxZ+evwMiNu8
+ phFhzg2Vw4C55UXJ89RYTU0=
+X-Google-Smtp-Source: AMsMyM70TqzUfcskP+HfpVsDJPGEppXI969RgbULPMviJmmmugIg5JmPm5zZB84TlvfoKjupH7jANA==
+X-Received: by 2002:a63:fa4d:0:b0:43c:7fa:95f7 with SMTP id
+ g13-20020a63fa4d000000b0043c07fa95f7mr23999064pgk.48.1664283749259; 
+ Tue, 27 Sep 2022 06:02:29 -0700 (PDT)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id
+ d2-20020a170902cec200b00176a715653dsm1477808plg.145.2022.09.27.06.02.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Sep 2022 06:02:28 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v4] block: Refactor get_tmp_filename()
+Date: Tue, 27 Sep 2022 21:02:23 +0800
+Message-Id: <20220927130224.1982931-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220820141914.217399-1-tobias.roehmel@rwth-aachen.de>
- <20220820141914.217399-4-tobias.roehmel@rwth-aachen.de>
-In-Reply-To: <20220820141914.217399-4-tobias.roehmel@rwth-aachen.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Sep 2022 14:01:13 +0100
-Message-ID: <CAFEAcA8kw9-2eqNVANxc6h9LisuqKsaNGY6aZEmaLBc_p7Ag_A@mail.gmail.com>
-Subject: Re: [PATCH v3 3/9] target/arm: Make RVBAR available for all ARMv8 CPUs
-To: tobias.roehmel@rwth-aachen.de
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,89 +88,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 20 Aug 2022 at 15:19, <tobias.roehmel@rwth-aachen.de> wrote:
->
-> From: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
->
-> RVBAR shadows RVBAR_ELx where x is the highest exception
-> level if the highest EL is not EL3. This patch also allows
-> ARMv8 CPUs to change the reset address to be changed with
-> the rvbar property.
->
-> Signed-off-by: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
+From: Bin Meng <bin.meng@windriver.com>
 
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index b9547594ae..23461397e0 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -7954,13 +7954,20 @@ void register_cp_regs_for_features(ARMCPU *cpu)
->          /* RVBAR_EL1 is only implemented if EL1 is the highest EL */
->          if (!arm_feature(env, ARM_FEATURE_EL3) &&
->              !arm_feature(env, ARM_FEATURE_EL2)) {
-> -            ARMCPRegInfo rvbar =3D {
-> -                .name =3D "RVBAR_EL1", .state =3D ARM_CP_STATE_AA64,
-> -                .opc0 =3D 3, .opc1 =3D 0, .crn =3D 12, .crm =3D 0, .opc2=
- =3D 1,
-> -                .access =3D PL1_R,
-> -                .fieldoffset =3D offsetof(CPUARMState, cp15.rvbar),
-> +            ARMCPRegInfo rvbar[] =3D {
-> +                {
-> +                    .name =3D "RVBAR_EL1", .state =3D ARM_CP_STATE_AA64,
-> +                    .opc0 =3D 3, .opc1 =3D 0, .crn =3D 12, .crm =3D 0, .=
-opc2 =3D 1,
-> +                    .access =3D PL1_R,
-> +                    .fieldoffset =3D offsetof(CPUARMState, cp15.rvbar),
-> +                },
-> +                {   .name =3D "RVBAR", .type =3D ARM_CP_ALIAS,
-> +                    .cp =3D 15, .crn =3D 12, .crm =3D 0, .opc1 =3D 0, .o=
-pc2 =3D 1,
-> +                    .access =3D PL1_R,
-> +                    .fieldoffset =3D offsetof(CPUARMState, cp15.rvbar),
-> +                },
+At present there are two callers of get_tmp_filename() and they are
+inconsistent.
 
-Because the encodings here match, you don't need a separate
-struct for the AArch32 RVBAR -- you can just change
-the ARM_CP_STATE_AA64 to ARM_CP_STATE_BOTH.
+One does:
 
->              };
-> -            define_one_arm_cp_reg(cpu, &rvbar);
-> +            define_arm_cp_regs(cpu, rvbar);
->          }
->          define_arm_cp_regs(cpu, v8_idregs);
->          define_arm_cp_regs(cpu, v8_cp_reginfo);
-> @@ -8022,13 +8029,20 @@ void register_cp_regs_for_features(ARMCPU *cpu)
->          }
->          /* RVBAR_EL2 is only implemented if EL2 is the highest EL */
->          if (!arm_feature(env, ARM_FEATURE_EL3)) {
-> -            ARMCPRegInfo rvbar =3D {
-> -                .name =3D "RVBAR_EL2", .state =3D ARM_CP_STATE_AA64,
-> -                .opc0 =3D 3, .opc1 =3D 4, .crn =3D 12, .crm =3D 0, .opc2=
- =3D 1,
-> -                .access =3D PL2_R,
-> -                .fieldoffset =3D offsetof(CPUARMState, cp15.rvbar),
-> +            ARMCPRegInfo rvbar[] =3D {
-> +                {
-> +                    .name =3D "RVBAR_EL2", .state =3D ARM_CP_STATE_AA64,
-> +                    .opc0 =3D 3, .opc1 =3D 4, .crn =3D 12, .crm =3D 0, .=
-opc2 =3D 1,
-> +                    .access =3D PL2_R,
-> +                    .fieldoffset =3D offsetof(CPUARMState, cp15.rvbar),
-> +                },
-> +                {   .name =3D "RVBAR", .type =3D ARM_CP_ALIAS,
-> +                    .cp =3D 15, .crn =3D 12, .crm =3D 0, .opc1 =3D 0, .o=
-pc2 =3D 1,
-> +                    .access =3D PL2_R,
-> +                    .fieldoffset =3D offsetof(CPUARMState, cp15.rvbar),
-> +                },
+    /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+    char *tmp_filename = g_malloc0(PATH_MAX + 1);
+    ...
+    ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
 
-(Here we do need the second struct, beacuse the opc1 fields don't line up.)
+while the other does:
 
-Preferred ordering for the encoding fields in a cp struct is
- .cp .opc1 .crn .crm .opc2
-(ie in order as used in the asm instruction).
+    s->qcow_filename = g_malloc(PATH_MAX);
+    ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
 
-Otherwise this patch looks good.
+As we can see different 'size' arguments are passed. There are also
+platform specific implementations inside the function, and this use
+of snprintf is really undesirable.
 
-thanks
--- PMM
+The function name is also misleading. It creates a temporary file,
+not just a filename.
+
+Refactor this routine by changing its name and signature to:
+
+    char *create_tmp_file(Error **errp)
+
+and use g_file_open_tmp() for a consistent implementation.
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
+
+Changes in v4:
+- Rename the function to create_tmp_file() and take "Error **errp" as
+  a parameter, so that callers can pass errp all the way down to this
+  routine.
+- Commit message updated to reflect the latest change
+
+Changes in v3:
+- Do not use errno directly, instead still let get_tmp_filename() return
+  a negative number to indicate error
+
+Changes in v2:
+- Use g_autofree and g_steal_pointer
+
+ include/block/block_int-common.h |  2 +-
+ block.c                          | 47 ++++++++++++--------------------
+ block/vvfat.c                    |  7 ++---
+ 3 files changed, 21 insertions(+), 35 deletions(-)
+
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 8947abab76..d7c0a7e96f 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
+ }
+ 
+ int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
+-int get_tmp_filename(char *filename, int size);
++char *create_tmp_file(Error **errp);
+ void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+                                       QDict *options);
+ 
+diff --git a/block.c b/block.c
+index bc85f46eed..b33bd774ae 100644
+--- a/block.c
++++ b/block.c
+@@ -860,38 +860,27 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
+ 
+ /*
+  * Create a uniquely-named empty temporary file.
+- * Return 0 upon success, otherwise a negative errno value.
++ * Return the actual file name used upon success, otherwise NULL.
++ * This string should be freed with g_free() when not needed any longer.
+  */
+-int get_tmp_filename(char *filename, int size)
++char *create_tmp_file(Error **errp)
+ {
+-#ifdef _WIN32
+-    char temp_dir[MAX_PATH];
+-    /* GetTempFileName requires that its output buffer (4th param)
+-       have length MAX_PATH or greater.  */
+-    assert(size >= MAX_PATH);
+-    return (GetTempPath(MAX_PATH, temp_dir)
+-            && GetTempFileName(temp_dir, "qem", 0, filename)
+-            ? 0 : -GetLastError());
+-#else
++    g_autofree char *name = NULL;
++    g_autoptr(GError) err = NULL;
+     int fd;
+-    const char *tmpdir;
+-    tmpdir = getenv("TMPDIR");
+-    if (!tmpdir) {
+-        tmpdir = "/var/tmp";
+-    }
+-    if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
+-        return -EOVERFLOW;
+-    }
+-    fd = mkstemp(filename);
++
++    fd = g_file_open_tmp("vl.XXXXXX", &name, &err);
+     if (fd < 0) {
+-        return -errno;
++        error_setg_errno(errp, -ENOENT, "%s", err->message);
++        return NULL;
+     }
+     if (close(fd) != 0) {
+-        unlink(filename);
+-        return -errno;
++        unlink(name);
++        error_setg_errno(errp, -errno, "Could not close the temporary file");
++        return NULL;
+     }
+-    return 0;
+-#endif
++
++    return g_steal_pointer(&name);
+ }
+ 
+ /*
+@@ -3717,8 +3706,7 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
+                                                    QDict *snapshot_options,
+                                                    Error **errp)
+ {
+-    /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+-    char *tmp_filename = g_malloc0(PATH_MAX + 1);
++    char *tmp_filename = NULL;
+     int64_t total_size;
+     QemuOpts *opts = NULL;
+     BlockDriverState *bs_snapshot = NULL;
+@@ -3737,9 +3725,8 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
+     }
+ 
+     /* Create the temporary image */
+-    ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "Could not get temporary filename");
++    tmp_filename = create_tmp_file(errp);
++    if (!tmp_filename) {
+         goto out;
+     }
+ 
+diff --git a/block/vvfat.c b/block/vvfat.c
+index d6dd919683..f9bf8406d3 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -3146,10 +3146,9 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
+ 
+     array_init(&(s->commits), sizeof(commit_t));
+ 
+-    s->qcow_filename = g_malloc(PATH_MAX);
+-    ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "can't create temporary file");
++    s->qcow_filename = create_tmp_file(errp);
++    if (!s->qcow_filename) {
++        ret = -ENOENT;
+         goto err;
+     }
+ 
+-- 
+2.34.1
+
 
