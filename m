@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA875EC69B
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:38:08 +0200 (CEST)
-Received: from localhost ([::1]:43062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4AC5EC6F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:54:36 +0200 (CEST)
+Received: from localhost ([::1]:38886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odBio-0006B5-LF
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46518)
+	id 1odByl-0000zl-EU
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:54:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odAHo-0001Cp-Vf
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:06:09 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:46988)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1odANA-0004SC-IY
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:11:40 -0400
+Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:35673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odAHn-0002x7-7i
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:06:08 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id bj12so20505624ejb.13
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 06:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=7zlAeg6JuU6OQZjGNcJyoSLPkw665ZW8XUzKem6q4S4=;
- b=SHxFnfeGAES8euDkXcJcJKCzZsmCMeBREc7/rlthAluE9Vw2b9qzm1ogTzw0tRD44j
- 77IvVOQ8OqhYLTdyNhyeu9YxIatBY/Oe7yO2v3MeVfD09uN+GRM47Xh8Dzcx5FUHe4/9
- WeWXBs6veE5nEflNTgNngzHvOKjKrfv5hmC0jYXUKQ+NUoJ0ESfsTWFTidIJJMCieLv/
- 8gPD5k0pizVWYQM4XjZDqFtbOZYlzuMsfXrYnAoPAguyzyPYXyEQsqh1fgWMxYQA+cfD
- QEaCkV388ZeQwxGZjEPalOUTb3+OskHny1XvnOCz7qCK7qhdU2wEBX2MffiHDT8A5t/p
- a60A==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1odAN9-0003em-4F
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:11:40 -0400
+Received: by mail-qt1-x82e.google.com with SMTP id g23so5949964qtu.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 06:11:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=3LvnAKo0f8Jyp/+8N2nE549k8SHrR9Vf/ArF/eVxpAY=;
+ b=GWZBE0E5XPdhKBqpUZtBmP59e0YmSHJezUHDZsseQTw9ZGDK5NNfxRL/ysVT7IepgY
+ DQ+DiOht98bcRQ06qz990oDWKYU+QLKYMg2bdclxjnwFG4cUQvNaVDvEa0Y7l/fXnfTF
+ LpHUokkMouvDQ3s1+VFQWjv7TvqBh29JpiYzjISZYfR90zPGqrVRGPGyrp/8tArPaJpP
+ gkj4SkNQ4R2vOwXa7WrLoCm4/P3GuzPdw9SuHWRa7t954q40ML3SAoIy3uBNiLOzhkLH
+ SkeCJG5sUD7WrGrgrzWbXXfdJh6mY1zA4v8+HwSw44REDcYVnY5TbCG7t5HAtHVMKj5L
+ RIeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=7zlAeg6JuU6OQZjGNcJyoSLPkw665ZW8XUzKem6q4S4=;
- b=PtDH0eEH6FOxOZ0csoF/FGOaMVpMFYYXBvAhSrfJHNLcKrsnQPxs3Xu6dioG6AkBG7
- T6e57j4KhOieHxd01eGZ7hqcwwjeeu0EcGmGkWty9ev1dLNyXBL5DS+0Famg0DGXEicq
- F7pD/vspHonOQnDDsvQIPnOoW3zu2sQhqtD11pZYCAhRYAqD5pWJ0/e36v66lyZLj8Cv
- nd4GfbobNEWEr7nuXxSdr1nGUqFS7VnYrOVk5qhDevgwOzIx+M0c1/hyMKR6wYgyGTX0
- 0fwYM/sVpCI1K76PcS9mY/GDbGlFENCLQKFgLzEpMoE4YNUFWIqqwN4+PQ1gNlJQdUPS
- Xjzw==
-X-Gm-Message-State: ACrzQf3mrkrtOa/Yw6XhOaAL19+zZGu6vkA5xKNPwU3OXqOTJ4Xg5T6Z
- gKys4LxeuC6SsPdcpj6/d3fEElW2YtKNgIb8fPsKKQ==
-X-Google-Smtp-Source: AMsMyM5RV06AdNbjPRyDZiMxMsxtj4sUKyHPAgBglp9cJSQ2EwrrmMyAUdvwYNebrkkXPKeQc12jUOuTWz7gtELi/xQ=
-X-Received: by 2002:a17:906:db05:b0:741:5730:270e with SMTP id
- xj5-20020a170906db0500b007415730270emr21989244ejb.609.1664283965399; Tue, 27
- Sep 2022 06:06:05 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=3LvnAKo0f8Jyp/+8N2nE549k8SHrR9Vf/ArF/eVxpAY=;
+ b=fiE19btZIGdcVpXnjt9gT7tnH5CJNF+zA0+8Eca9w6HSnqrHY/1s33lqW/0H6cCrWF
+ bxqF+E0dxMZC5JaxSjSELH9klPC6kXzSCKkjnVIwjudcW9W4D5l+79/gxYEq0Mock3Rb
+ 6wF8yHi4S8xfTRlMqkWq0VcB8yoBrtS8f177RmW3cRA1EyVk4pxukWcxq4OXYH2yNS1+
+ wU0ssmtrJnQbaSfOLbqvXri9KuacpQ+RNclHyTbjl1vkxmzHU2YzEJlP+GO6YTIxHMrK
+ OGBWYHHtj64L2zhpLa0J/shSCkvTbyPXnWTykwDoWwP0wl2tFYWxzq9qagWOFsX0Tkna
+ Koww==
+X-Gm-Message-State: ACrzQf3DUenrZ/0Ws1VJD9QPFTmSv17Qtje3r1nwNFrwi/GO0o9KvjqL
+ USslfBFcFAjykms8UJ9Sitx86KwzscSqb/LITDDWHSyL
+X-Google-Smtp-Source: AMsMyM6vHDk1v2e1RrpYSFqfOJNR73Jnll0luoYsNcTjBrB4iSaMLRQ4/zRdSyrTUansdy/iS7WxtC4t8eXh5+bfIms=
+X-Received: by 2002:a05:622a:1803:b0:35b:aff1:aba0 with SMTP id
+ t3-20020a05622a180300b0035baff1aba0mr22407003qtc.334.1664284296184; Tue, 27
+ Sep 2022 06:11:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220820141914.217399-1-tobias.roehmel@rwth-aachen.de>
- <20220820141914.217399-6-tobias.roehmel@rwth-aachen.de>
-In-Reply-To: <20220820141914.217399-6-tobias.roehmel@rwth-aachen.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Sep 2022 14:05:54 +0100
-Message-ID: <CAFEAcA_2UE4bP8qh-4GgQudyDYZmj6Ou5XhqN0a0B+ojs_v43g@mail.gmail.com>
-Subject: Re: [PATCH v3 5/9] target/arm: Add ARMCacheAttrs to the signature of
- pmsav8_mpu_lookup
-To: tobias.roehmel@rwth-aachen.de
-Cc: qemu-devel@nongnu.org
+References: <YzLctFYiBG/JkNuH@p100>
+In-Reply-To: <YzLctFYiBG/JkNuH@p100>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 27 Sep 2022 21:11:26 +0800
+Message-ID: <CAEUhbmUZ=aCUUyQBAP3vVAjypao4m2bbaCiCtrq8qqsriKm_Xg@mail.gmail.com>
+Subject: Re: ddd
+To: Helge Deller <deller@gmx.de>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org, 
+ Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x82e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,31 +83,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 20 Aug 2022 at 15:19, <tobias.roehmel@rwth-aachen.de> wrote:
+On Tue, Sep 27, 2022 at 9:09 PM Helge Deller <deller@gmx.de> wrote:
 >
-> From: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
+> Add faccessat2() with strace output.
 >
-> Add ARMCacheAttrs to the signature of pmsav8_mpu_lookup to prepare
-> for the Cortex-R52 MPU which uses and combines cache attributes
-> of different translation levels.
+> Signed-off-by: Helge Deller <deller@gmx.de>
 >
-> Signed-off-by: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
+> ---
+> v2: Resending with minor commit message changes.
+>
 
-> +bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-> +                       MMUAccessType access_type, ARMMMUIdx mmu_idx,
-> +                       hwaddr *phys_ptr, MemTxAttrs *txattrs,
-> +                       int *prot, bool *is_subpage,
-> +                       ARMMMUFaultInfo *fi, uint32_t *mregion,
-> +                       ARMCacheAttrs *cacheattrs);
+The commit summary makes no sense. Would you please resend?
 
-When you next rebase this series on current upstream, you'll find
-there's been a refactoring of the ptw.c code, so that instead of
-passing half a dozen pointers to each function, we pass a
-single GetPhysAddrResult* for the function to fill in. That
-struct includes an "ARMCacheAttrs cacheattrs" field, so
-pmsav8_mpu_lookup() has access to fill it in, and this
-patch won't be necessary.
-
-thanks
--- PMM
+Regards,
+Bin
 
