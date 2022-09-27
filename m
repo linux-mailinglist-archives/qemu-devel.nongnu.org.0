@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF025EBEB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:35:55 +0200 (CEST)
-Received: from localhost ([::1]:41768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71AEE5EBE66
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:21:43 +0200 (CEST)
+Received: from localhost ([::1]:49178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od70M-0005Jh-5V
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:35:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57260)
+	id 1od6mc-000519-It
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:21:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1od6f0-0004XA-ST
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:13:50 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:33508)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1od6hw-0007na-QG; Tue, 27 Sep 2022 05:16:55 -0400
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:35713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1od6ez-0000pg-4f
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:13:50 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3C31021A60;
- Tue, 27 Sep 2022 09:13:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664270026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4UhVxF1yF+i0jm1UuN2h+mHv3fePZusH1z2zrwujcY8=;
- b=YsHBCR5akUPXYsM0m8cvKhIUgs9K6oxyBtS5IY+FtoNxywplYX013Nrb7qvvWVwrW2OVgJ
- F0wxsQcvGHu+A+RFuw4FGC0BVhl/AgdAOYkiMMbqjg2hjVqr9z3Jxlgnqya2f6tjMLvwue
- 8zfIAx203ULYBl11Prv657WvU+23u/Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664270026;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4UhVxF1yF+i0jm1UuN2h+mHv3fePZusH1z2zrwujcY8=;
- b=mYd9jSuYRKPd/Ohl2SADBzPj6Ymstmx+oHkGWsvdIRYUau5q4pQvt9QlKZePXoo/gZClON
- L/Y1xANUBsJwuwAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A770B139BE;
- Tue, 27 Sep 2022 09:13:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 3o+nJsm+MmOoLQAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 27 Sep 2022 09:13:45 +0000
-Message-ID: <6abb6453-1756-92b9-2afd-cc3ee69870d1@suse.de>
-Date: Tue, 27 Sep 2022 11:13:45 +0200
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1od6hu-0001QP-CG; Tue, 27 Sep 2022 05:16:52 -0400
+Received: by mail-lj1-x230.google.com with SMTP id x29so10248572ljq.2;
+ Tue, 27 Sep 2022 02:16:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=igP0c0sJaDfZh4aw8ZzkZmNyM+z7emPPLiXKyNQm1fU=;
+ b=B+C4A+REohi/2wz8ra5/U0YPZT6t/3Dfb5+XQpIp1gdrm4RRyY0CBYfg0eiiwDEl5z
+ r9676v6UbgFngDyMnKsz4EMg8Py1kRT5ZRxNLxGfHe2+bfbk2LE/u4Ips8GSocIaRdo3
+ NZQBOZzALnrDg8xOJf28WxoPcxm8pmP0dTAx2ePvMrIvUF7rv2u6P3kRdPE+DSThPnei
+ IUdtYixYrXoyf2xqvmgLweApS4WYoA2gFAnqbnEJDxDR8wYkIxF0B7lmMSIYdQU/fJ/S
+ E/CZNiqtomjYg+yiUzEMyQ8o9V46A35oesPY38p8/uHjzv81g7iz+jrAyKhTMA95hTrJ
+ XE3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=igP0c0sJaDfZh4aw8ZzkZmNyM+z7emPPLiXKyNQm1fU=;
+ b=slOJdtWMY/kGHeKpumqHPcvm5lAqVp/i9rmvk5gAlWLB/BuDPAJeJsoehBULTnFPhP
+ j037NiK6l7DYdYCdJR/OKO+ulJAnr59eFsbjc7E2JWjHlc3wYpwFsOCmbAJ9fLjoAlEk
+ u4wywQoQjfMG6vj73LJaLkyGQP/DydOwuM4iL6JgxdNmq4ZnqFLE/iB+d1OTywEfLwrQ
+ S8WzZTChMcEiJRXR9QcLlt1a9u0CU7mtYeI/mDhG7lHMv3wLoSm2ZGiwp8z3qhwjWED9
+ zELYi7U7YrfDohNCIqh5nrMrN4tlAm3m+Fm2GM4HWFiaIh1M4GWd/TQpFwVC3G50Eimo
+ 5egA==
+X-Gm-Message-State: ACrzQf358wILRr1DlbBHw1m3bnjaz8R+2ukgNBygkrpi9g0Wi7x7P+0E
+ RM3p7faXRL/AGwRtV8xyUJKOoHlFMyI23FzQReg=
+X-Google-Smtp-Source: AMsMyM4aDviZM3NlNLnfrZIkZJfCZi2DBQEbh75kOUBOPgLYrnRsmuQyS5MRnv9K8LMTZbbQzX9iKKwCi/lOLv+BOa4=
+X-Received: by 2002:a2e:a607:0:b0:26c:42c8:13af with SMTP id
+ v7-20020a2ea607000000b0026c42c813afmr8849623ljp.267.1664270207611; Tue, 27
+ Sep 2022 02:16:47 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v6 3/5] module: add Error arguments to module_load and
- module_load_qom
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220923232104.28420-1-cfontana@suse.de>
- <20220923232104.28420-4-cfontana@suse.de> <YzGBOwBQucv1F2NL@redhat.com>
- <3dc4a54e-7d04-36db-0931-2fb8d068b5f2@suse.de> <87a66lmev9.fsf@pond.sub.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <87a66lmev9.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20220911181840.8933-1-arwed.meyer@gmx.de>
+ <20220911181840.8933-6-arwed.meyer@gmx.de>
+In-Reply-To: <20220911181840.8933-6-arwed.meyer@gmx.de>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 27 Sep 2022 13:16:35 +0400
+Message-ID: <CAJ+F1C+qQy2QUCqeiNJGzOCpvF+a_TKC0eQcSDe_aqL=94mb7A@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] serial: Allow unaligned i/o access
+To: Arwed Meyer <arwed.meyer@gmx.de>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000088f99605e9a51a7c"
+Received-SPF: pass client-ip=2a00:1450:4864:20::230;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x230.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,128 +82,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/22 09:54, Markus Armbruster wrote:
-> Claudio Fontana <cfontana@suse.de> writes:
-> 
->> On 9/26/22 12:38, Kevin Wolf wrote:
->>> Am 24.09.2022 um 01:21 hat Claudio Fontana geschrieben:
->>>> improve error handling during module load, by changing:
->>>>
->>>> bool module_load(const char *prefix, const char *lib_name);
->>>> void module_load_qom(const char *type);
->>>>
->>>> to:
->>>>
->>>> int module_load(const char *prefix, const char *name, Error **errp);
->>>> int module_load_qom(const char *type, Error **errp);
->>>>
->>>> where the return value is:
->>>>
->>>>  -1 on module load error, and errp is set with the error
->>>>   0 on module or one of its dependencies are not installed
->>>>   1 on module load success
->>>>   2 on module load success (module already loaded or built-in)
->>>>
->>>> module_load_qom_one has been introduced in:
->>>>
->>>> commit 28457744c345 ("module: qom module support"), which built on top of
->>>> module_load_one, but discarded the bool return value. Restore it.
->>>>
->>>> Adapt all callers to emit errors, or ignore them, or fail hard,
->>>> as appropriate in each context.
->>>>
->>>> Some memory leaks also fixed as part of the module_load changes.
->>>>
->>>> audio: when attempting to load an audio module, report module load errors.
->>>> block: when attempting to load a block module, report module load errors.
->>>> console: when attempting to load a display module, report module load errors.
->>>>
->>>> qdev: when creating a new qdev Device object (DeviceState), report load errors.
->>>>       If a module cannot be loaded to create that device, now abort execution.
->>>>
->>>> qom/object.c: when initializing a QOM object, or looking up class_by_name,
->>>>               report module load errors.
->>>>
->>>> qtest: when processing the "module_load" qtest command, report errors
->>>>        in the load of the module.
->>>>
->>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>
->>>> diff --git a/block/dmg.c b/block/dmg.c
->>>> index 007b8d9996..a422cf8d5b 100644
->>>> --- a/block/dmg.c
->>>> +++ b/block/dmg.c
->>>> @@ -434,6 +434,7 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
->>>>      uint64_t plist_xml_offset, plist_xml_length;
->>>>      int64_t offset;
->>>>      int ret;
->>>> +    Error *local_err = NULL;
->>>>  
->>>>      ret = bdrv_apply_auto_read_only(bs, NULL, errp);
->>>>      if (ret < 0) {
->>>> @@ -446,8 +447,15 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
->>>>          return -EINVAL;
->>>>      }
->>>>  
->>>> -    block_module_load("dmg-bz2");
->>>> -    block_module_load("dmg-lzfse");
->>>> +    if (block_module_load("dmg-bz2", &local_err) < 0) {
->>>> +        error_report_err(local_err);
->>>> +        return -EINVAL;
->>>> +    }
->>>> +    local_err = NULL;
->>>> +    if (block_module_load("dmg-lzfse", &local_err) < 0) {
->>>> +        error_report_err(local_err);
->>>> +        return -EINVAL;
->>
->> I am concerned about the resources allocation here though,
->> is returning EINVAL here right, vs using "goto fail"?
->>
->> I matched the behavior of the preceding call:
->>
->>     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
->>                                BDRV_CHILD_IMAGE, false, errp);
->>     if (!bs->file) {
->>         return -EINVAL;
->>     }
->>
->> But afterwards the code goes:
->> .
->>     /* locate the UDIF trailer */
->>     offset = dmg_find_koly_offset(bs->file, errp);
->>     if (offset < 0) {
->>         ret = offset;
->>         goto fail;
->>     }
->>
->> Should the resources be freed or not in your view?
-> 
-> Functions should generally fail cleanly, and that means undoing side
-> effects such as allocations.
+--00000000000088f99605e9a51a7c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is pretty obvious.
+On Sun, Sep 11, 2022 at 10:46 PM Arwed Meyer <arwed.meyer@gmx.de> wrote:
 
-Note that this function does not perform the allocations,
-bdrv_open is called with existing allocated resources,
-and then frees those resources only in specific code paths.
+> Unaligned i/o access on serial UART works on real PCs.
+> This is used for example by FreeDOS CTMouse driver. Without this it
+> can't reset and detect serial mice.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/77
+> Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de>
+>
 
-I am asking here because the code preceding my hunk is doing:
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-"
-    ret = bdrv_apply_auto_read_only(bs, NULL, errp);
-    if (ret < 0) {
-        return ret;
-    }
+Michael, can you r-b too?
 
-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-                               BDRV_CHILD_IMAGE, false, errp);
-    if (!bs->file) {
-        return -EINVAL;
-    }
-"
 
-So something seems fishy here, looks inconsistent with the successive code that instead frees bs resources on error.
 
-Might be correct, but would need looking deeper into this by block-aware people. Kevin?
+> ---
+>  hw/char/serial.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/hw/char/serial.c b/hw/char/serial.c
+> index 7061aacbce..41b5e61977 100644
+> --- a/hw/char/serial.c
+> +++ b/hw/char/serial.c
+> @@ -961,6 +961,9 @@ void serial_set_frequency(SerialState *s, uint32_t
+> frequency)
+>  const MemoryRegionOps serial_io_ops =3D {
+>      .read =3D serial_ioport_read,
+>      .write =3D serial_ioport_write,
+> +    .valid =3D {
+> +        .unaligned =3D 1,
+> +    },
+>      .impl =3D {
+>          .min_access_size =3D 1,
+>          .max_access_size =3D 1,
+> --
+> 2.34.1
+>
+>
+>
 
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000088f99605e9a51a7c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Sep 11, 2022 at 10:46 PM Arwe=
+d Meyer &lt;<a href=3D"mailto:arwed.meyer@gmx.de">arwed.meyer@gmx.de</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Unalign=
+ed i/o access on serial UART works on real PCs.<br>
+This is used for example by FreeDOS CTMouse driver. Without this it<br>
+can&#39;t reset and detect serial mice.<br>
+<br>
+Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/77" rel=
+=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/is=
+sues/77</a><br>
+Signed-off-by: Arwed Meyer &lt;<a href=3D"mailto:arwed.meyer@gmx.de" target=
+=3D"_blank">arwed.meyer@gmx.de</a>&gt;<br></blockquote><div><br></div><div>=
+Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
+redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div><br></div><div>Mi=
+chael, can you r-b too?</div><div><br></div><div>=C2=A0<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0hw/char/serial.c | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
+<br>
+diff --git a/hw/char/serial.c b/hw/char/serial.c<br>
+index 7061aacbce..41b5e61977 100644<br>
+--- a/hw/char/serial.c<br>
++++ b/hw/char/serial.c<br>
+@@ -961,6 +961,9 @@ void serial_set_frequency(SerialState *s, uint32_t freq=
+uency)<br>
+=C2=A0const MemoryRegionOps serial_io_ops =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.read =3D serial_ioport_read,<br>
+=C2=A0 =C2=A0 =C2=A0.write =3D serial_ioport_write,<br>
++=C2=A0 =C2=A0 .valid =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .unaligned =3D 1,<br>
++=C2=A0 =C2=A0 },<br>
+=C2=A0 =C2=A0 =C2=A0.impl =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.min_access_size =3D 1,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.max_access_size =3D 1,<br>
+--<br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000088f99605e9a51a7c--
 
