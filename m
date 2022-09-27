@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E2595EC75F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:15:27 +0200 (CEST)
-Received: from localhost ([::1]:52422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 063B45EC799
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:25:14 +0200 (CEST)
+Received: from localhost ([::1]:50550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odCIw-0000GX-G7
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:15:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40220)
+	id 1odCSN-0001Im-Gs
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:25:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odAnH-0001A7-Kj
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:38:39 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:55090)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odAnI-0001AV-3t
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:38:41 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:55092)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odAnG-00088l-0g
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odAnG-00088p-DC
  for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:38:39 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DCBC11FCF0;
- Tue, 27 Sep 2022 13:38:36 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4B1081FCF5;
+ Tue, 27 Sep 2022 13:38:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664285916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ t=1664285917; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YmGTfY44v68oWEDWIgGzIBfmabjki9ALqeTNQFkqiu4=;
- b=URJ+0pyl6gIBtVZowAqk1n7p2JSElH7R9OdLWuIRV3PiQJIpUk5F7JIP9gIAPWGoCdRyNj
- mwhsC1CUQS2sX4c78Qfvs0zLxlC2IXVEN5jSXDgvl6vt2qL7E7TVkpa+xlWvFGRY3foq4v
- 0DCgdzRCWrJd8GR4CuBtm70rj083jpM=
+ bh=/vMReYXCUNDcbofY5nPdTks5rxY6D9/DKnA/gvCK44s=;
+ b=qRCVtZkiC7I0LABBfN5DKxCPjMNTlS0cxl5iKHuDLL+bGw1+ERFp/nPL6gzFI17JzdeQ+Y
+ QQN7aaTtT/FoKcoDb0XO70RQr0GdGLu6dpzajVW342L+wO60l9RdZk9NWSxBknqmYrT52/
+ H9gth6TQBv05Y7ucWsSFDK88kxkXwaM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664285916;
+ s=susede2_ed25519; t=1664285917;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YmGTfY44v68oWEDWIgGzIBfmabjki9ALqeTNQFkqiu4=;
- b=XQu7nGYgkVqbbCrJ4TOwRT43F/MEXuAuE/9IH2mpcylMBszbjIO+mB6ia3I41wAvhgZ2YE
- I3Jc47dF4REs0RDA==
+ bh=/vMReYXCUNDcbofY5nPdTks5rxY6D9/DKnA/gvCK44s=;
+ b=BeLe1V+16F2+h5A/ur1jFEzmj+kOc2cAmTgeKnYO33vHV1ofAmBdf/z3s+P+mxXBlQ6CBf
+ rmIZ0ZUrBYPI80Dg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 84515139BE;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E5B00139BE;
  Tue, 27 Sep 2022 13:38:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IHfRHtz8MmNsKgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id QA+JNtz8MmNsKgAAMHmgww
  (envelope-from <cfontana@suse.de>); Tue, 27 Sep 2022 13:38:36 +0000
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
@@ -60,14 +60,14 @@ Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [PATCH v7 4/5] dmg: warn when opening dmg images containing blocks of
- unknown type
-Date: Tue, 27 Sep 2022 15:38:24 +0200
-Message-Id: <20220927133825.32631-5-cfontana@suse.de>
+Subject: [PATCH v7 5/5] accel: abort if we fail to load the accelerator plugin
+Date: Tue, 27 Sep 2022 15:38:25 +0200
+Message-Id: <20220927133825.32631-6-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20220927133825.32631-1-cfontana@suse.de>
 References: <20220927133825.32631-1-cfontana@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
  helo=smtp-out2.suse.de
@@ -93,43 +93,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+if QEMU is configured with modules enabled, it is possible that the
+load of an accelerator module will fail.
+Abort in this case, relying on module_object_class_by_name to report
+the specific load error if any.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- block/dmg.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/block/dmg.c b/block/dmg.c
-index 837f18aa20..96f8c2d14f 100644
---- a/block/dmg.c
-+++ b/block/dmg.c
-@@ -254,6 +254,25 @@ static int dmg_read_mish_block(BDRVDMGState *s, DmgHeaderState *ds,
-     for (i = s->n_chunks; i < s->n_chunks + chunk_count; i++) {
-         s->types[i] = buff_read_uint32(buffer, offset);
-         if (!dmg_is_known_block_type(s->types[i])) {
-+            switch (s->types[i]) {
-+            case UDBZ:
-+                warn_report_once("dmg-bzip2 module is missing, accessing bzip2 "
-+                                 "compressed blocks will result in I/O errors");
-+                break;
-+            case ULFO:
-+                warn_report_once("dmg-lzfse module is missing, accessing lzfse "
-+                                 "compressed blocks will result in I/O errors");
-+                break;
-+            case UDCM:
-+            case UDLE:
-+                /* Comments and last entry can be ignored without problems */
-+                break;
-+            default:
-+                warn_report_once("Image contains chunks of unknown type %x, "
-+                                 "accessing them will result in I/O errors",
-+                                 s->types[i]);
-+                break;
-+            }
-             chunk_count--;
-             i--;
-             offset += 40;
+[claudio: changed abort() to exit(1)]
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ accel/accel-softmmu.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
+index 67276e4f52..f9cdafb148 100644
+--- a/accel/accel-softmmu.c
++++ b/accel/accel-softmmu.c
+@@ -66,6 +66,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
+ {
+     const char *ac_name;
+     char *ops_name;
++    ObjectClass *oc;
+     AccelOpsClass *ops;
+ 
+     ac_name = object_class_get_name(OBJECT_CLASS(ac));
+@@ -73,8 +74,13 @@ void accel_init_ops_interfaces(AccelClass *ac)
+ 
+     ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
+     ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
++    oc = module_object_class_by_name(ops_name);
++    if (!oc) {
++        error_report("fatal: could not load module for type '%s'", ops_name);
++        exit(1);
++    }
+     g_free(ops_name);
+-
++    ops = ACCEL_OPS_CLASS(oc);
+     /*
+      * all accelerators need to define ops, providing at least a mandatory
+      * non-NULL create_vcpu_thread operation.
 -- 
 2.26.2
 
