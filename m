@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6CE5EC1CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:47:26 +0200 (CEST)
-Received: from localhost ([::1]:47086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831A35EC101
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:21:11 +0200 (CEST)
+Received: from localhost ([::1]:43672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od93d-0006aW-Ot
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:47:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38746)
+	id 1od8eE-00006e-Fa
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8Qg-0002ZK-9A; Tue, 27 Sep 2022 07:07:10 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:34543)
+ id 1od8Qj-0002gf-Ai
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:13 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8Qe-0004qi-Jm; Tue, 27 Sep 2022 07:07:09 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id 3so9115020pga.1;
- Tue, 27 Sep 2022 04:07:07 -0700 (PDT)
+ id 1od8Qh-0004sD-Nb
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:13 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id u69so9109250pgd.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=DDfvonev3t2AiyDX5B9LyzyUqH7SwQcTwUB4VoIT05s=;
- b=Q5VYaqW5NSqPWE457QCR7hHozqPWjsKjCEhJ36Mxvbn3oZLNsaexYY6zq+tmwfxLUP
- sa0gdTkNI8WoEHb6FpCHWavRK75IfoZ68xsWX2isCfOBNVZRZePEbk/jF6TrF7OfvHUw
- g4uRu6LL6TXvD6qeC0PqlI3Wht410p4m0MWPOadjJ8Qy+tK+RZSB2Qx0GJR7PenY0CML
- fA8eG6BZL5PMyMo48NF2t69+QS1X9fEVhti7WWGAQQR0TOg2iGDzhJwLIxAwlaFoqztZ
- bAnEmvo05v+i27vrELZtnBq7LiUQA6S+C4a6tOoDiBp7YqNP4Z5oH+cub4eftKE7KzY4
- lAxA==
+ bh=cirh3Kjj/nxbkwXCG/8RgduffnSu2srYvVt4uLgnRrE=;
+ b=mdFXY5X7i/+JwRyJR39fsLhQmWKhET0cgh++DL+0IWLoQaCX2TzEMQZWAg5ezhvRbI
+ m3INbKwLYZanw59MMsqV10AsusoOH4hM7ue+abxQL3zYgYWl6ORgsqiTWOCqwG6K6zbr
+ d2B1GrzAwDulcBeb4zYOl/jSEopCiuCWcnIYA2o6X2qc62JSXKLeKFqG30Y6eeqydq5V
+ C4qabhC+3rOCl4T1YYdd+eMbexr5EZeax1FfzIs2Ft6Id8s65ks3ECzIxTDK3uIdTKu6
+ njwx5EnWteeJx8M5P9xNXSrIdK/WwFeQOzbziO/XzNh78IthUvG3beSF5w6eYTSPlndg
+ 0MdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=DDfvonev3t2AiyDX5B9LyzyUqH7SwQcTwUB4VoIT05s=;
- b=4lBAJH0LQNO4QCRZXjdMhivoBq031G2V57EyOU/TRc+uB7ZdPI6T2CVsGo/US+g8bU
- lx/D/umrpWn2Yv/tAHQTp30tOZtaSTNOwnf8Fqr4BEunF4YT3zUNcnEjAqbDtmnXKUI2
- 2+50JIWyClyf9QOa0Q6FRXQyVOpPJB/pNnhoY2ig9qOnCZMNTHlVxmrSUNF5O5W9fkgl
- UmvXuzUVzcbXLejA05KYGZ1/Xzl14Z34RC/pVIggoTmBIUnfH914Ls/gGxBSTaFcGOxq
- ZaPTyZgNRR3LEk7JsVnCZkwrH8uCExeXBwt8pQt9AoypnT8/lsuiyxKSEnBCZzeishRg
- Qm5A==
-X-Gm-Message-State: ACrzQf3+vSEHyyyJ1BB1z7N8ntE/yNEOJLi005gexF++wgMP9cWcxABr
- UgJ7fCtx1oqIdQ1avDt8fK3SoRhtEY4=
-X-Google-Smtp-Source: AMsMyM7hl09IOpc6CpDqMs6Uq0BaYfbnUorj9ZeEeSy5dC1UW+PgDthyTm55BLWWYAubmUr1zVrUIw==
-X-Received: by 2002:a63:5511:0:b0:439:12f6:fb9a with SMTP id
- j17-20020a635511000000b0043912f6fb9amr25031540pgb.197.1664276826819; 
- Tue, 27 Sep 2022 04:07:06 -0700 (PDT)
+ bh=cirh3Kjj/nxbkwXCG/8RgduffnSu2srYvVt4uLgnRrE=;
+ b=Tv5/0Vr+uAIvNpuOJyEye0FLSllE8iTobuP7fedgYpyYSfpzXAi/HlYFvlCSxGDlmo
+ cilAi2OimwCR/qfraYReN58u61LGVDB82o9QrF7Ew/734wVYliMKsIAWUlPye27br9Y5
+ ZR/35YeYvYZsHgNlnWKTlc1Cw6AF3Gj8srRSHeEq2+6paYAWcT9Cd504OgJwGOfNVL/n
+ brTk4RcdIe+nmml1VB4BZjTkCGIcBccU3AOaDsChw8npx6hxiAPZCMS62eX0p0kHe/jN
+ MNYxCnmMFtG+vEg6+EOXUwHQIs7OQ+vh/NsNYXNwWfhZnpB4XRyJi51RKFQCDIdNfeFA
+ Vl9w==
+X-Gm-Message-State: ACrzQf2gtqtTI7oWtYayVDLMxRTAcLXgZOq7COVMghB9zX9FDqutNyMq
+ vNi+8g2t4iI4rzipI8accRNlSrt8WAM=
+X-Google-Smtp-Source: AMsMyM6N6Fcp0G3O/x4bKG4DVLEMSvwWTkmk6XEYF78UsrnX99amI2Asr/MJcJj+w1oI4vF7+loHSg==
+X-Received: by 2002:a05:6a00:1ad3:b0:548:962b:4c53 with SMTP id
+ f19-20020a056a001ad300b00548962b4c53mr28358782pfv.59.1664276830147; 
+ Tue, 27 Sep 2022 04:07:10 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.04
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:07:06 -0700 (PDT)
+ Tue, 27 Sep 2022 04:07:09 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, John Snow <jsnow@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
  Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org
-Subject: [PATCH v4 09/54] tests/qtest: fdc-test: Avoid using hardcoded /tmp
-Date: Tue, 27 Sep 2022 19:05:47 +0800
-Message-Id: <20220927110632.1973965-10-bmeng.cn@gmail.com>
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH v4 10/54] tests/qtest: generic_fuzz: Avoid using hardcoded /tmp
+Date: Tue, 27 Sep 2022 19:05:48 +0800
+Message-Id: <20220927110632.1973965-11-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,7 +98,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Bin Meng <bin.meng@windriver.com>
 
 This case was written to use hardcoded /tmp directory for temporary
-files. Update to use g_file_open_tmp() for a portable implementation.
+files. Update to use g_dir_make_tmp() for a portable implementation.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
@@ -106,39 +109,24 @@ Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Changes in v3:
 - Split to a separate patch
 
- tests/qtest/fdc-test.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ tests/qtest/fuzz/generic_fuzz_configs.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
-index 52ade90a7d..1f9b99ad6d 100644
---- a/tests/qtest/fdc-test.c
-+++ b/tests/qtest/fdc-test.c
-@@ -68,7 +68,7 @@ enum {
-     DSKCHG  = 0x80,
- };
+diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
+index 0775e6702b..a825b78c14 100644
+--- a/tests/qtest/fuzz/generic_fuzz_configs.h
++++ b/tests/qtest/fuzz/generic_fuzz_configs.h
+@@ -20,8 +20,8 @@ typedef struct generic_fuzz_config {
+ } generic_fuzz_config;
  
--static char test_image[] = "/tmp/qtest.XXXXXX";
-+static char *test_image;
+ static inline gchar *generic_fuzzer_virtio_9p_args(void){
+-    char tmpdir[] = "/tmp/qemu-fuzz.XXXXXX";
+-    g_assert_nonnull(g_mkdtemp(tmpdir));
++    g_autofree char *tmpdir = g_dir_make_tmp("qemu-fuzz.XXXXXX", NULL);
++    g_assert_nonnull(tmpdir);
  
- #define assert_bit_set(data, mask) g_assert_cmphex((data) & (mask), ==, (mask))
- #define assert_bit_clear(data, mask) g_assert_cmphex((data) & (mask), ==, 0)
-@@ -608,7 +608,7 @@ int main(int argc, char **argv)
-     int ret;
- 
-     /* Create a temporary raw image */
--    fd = mkstemp(test_image);
-+    fd = g_file_open_tmp("qtest.XXXXXX", &test_image, NULL);
-     g_assert(fd >= 0);
-     ret = ftruncate(fd, TEST_IMAGE_SIZE);
-     g_assert(ret == 0);
-@@ -640,6 +640,7 @@ int main(int argc, char **argv)
-     /* Cleanup */
-     qtest_end();
-     unlink(test_image);
-+    g_free(test_image);
- 
-     return ret;
- }
+     return g_strdup_printf("-machine q35 -nodefaults "
+     "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
 -- 
 2.34.1
 
