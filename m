@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBDE5ED0D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 01:11:57 +0200 (CEST)
-Received: from localhost ([::1]:60780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 840B05ED0F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 01:19:54 +0200 (CEST)
+Received: from localhost ([::1]:54320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odJk4-0002Ga-7x
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 19:11:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56930)
+	id 1odJrl-00051B-EN
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 19:19:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odJil-0000v8-Hv
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 19:10:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36600)
+ id 1odJnX-0002c0-JY
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 19:15:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odJii-0003g9-0R
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 19:10:33 -0400
+ id 1odJnU-0004IQ-T1
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 19:15:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664320230;
+ s=mimecast20190719; t=1664320528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=K2JYcgv5xOxxafrVuaBtd3NT6vZeblcsukh9rEz9Q9A=;
- b=iYVPhrhhaNPnCyfwDpzGIqjaNyu32TgKGufHVEHCSjapcdXJ7iZqoYDb7atIC9FBJl5U6l
- SIxX1PB+qDQsWEZhhSg451uawsUAdwen8oqv3zsNLRNpJwU93auK1UNsku/7KTju/V7ucf
- Iu1FOBTx/w9FBIFBhDwIw3GTuirra9c=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xIMojhpvEKk2Djba2hObQj/BRFekMxfN7IUgQu3+N+0=;
+ b=AA3u+WY8tmGEpfZ1ewyiZ2JLw+9rfvkyRjXOO4BEW6lm06Aduwew7rgbVWqjs3pBd+BKEA
+ hc6QcY40fEdErytdzQikPQCPk1n8AM/jX8EgpbHfM2ENyuE1cEz6mCsEZFbObQN0FF1pSi
+ k28nWF/SpqnSsO3LENBujdshHv3jpuM=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-507-YSKXTeJiMnWJ-xhXYokE9w-1; Tue, 27 Sep 2022 19:10:28 -0400
-X-MC-Unique: YSKXTeJiMnWJ-xhXYokE9w-1
-Received: by mail-vs1-f72.google.com with SMTP id
- i186-20020a6722c3000000b0039e78fd2daeso1999232vsi.11
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 16:10:28 -0700 (PDT)
+ us-mta-501-Vz7bF3q3Pymyl3k3esk43Q-1; Tue, 27 Sep 2022 19:15:26 -0400
+X-MC-Unique: Vz7bF3q3Pymyl3k3esk43Q-1
+Received: by mail-vk1-f199.google.com with SMTP id
+ w6-20020a1f9406000000b00388997b8d31so3806737vkd.3
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 16:15:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=K2JYcgv5xOxxafrVuaBtd3NT6vZeblcsukh9rEz9Q9A=;
- b=OjsjRdM+6Du5GFbWSrSfeCc8DF/MOc/c/5q62YVRbkdnoifMG9pmgy5B9yRk5IS75F
- Kuw5DMuTJDZnj7WHMyxDYLkubFbwZnZvVQF3gWRDghAIxeyHIsPKwBPIc0gVdsVPQyxd
- kzc0108Z7b/roZRGB2LhCY8AROrt2/ec5QCfikBv0Cq45aWfb8nZdc52BGanw/Exuknh
- gI9hiMjNK7oFDD3RHP0DaFmYltwYQKgvKYTxylzrWRBroOYbDWC+cCijL+uR3oQC4IRZ
- CagXeUEVuvsWpR4yFEfaF5IxDIFy1O0+l0lRkIhCaZoyBdbMY9pXn/UEEThQU4ZkodgL
- f2Kg==
-X-Gm-Message-State: ACrzQf2lO7hZHOStRJlo+kkSOr1pJGDSTPKuSAOHallu0L/64OGq2YQz
- vH1uvIY4C04w9ExA0rqrrn4q8QV+Nd7KkIRN1DiLwal6g7kh8hBu6GwHq+JrjQDHl3wwKiXwS2a
- w/bA/VM+FSDwK6xfRENyouEw779q2zA4=
+ bh=xIMojhpvEKk2Djba2hObQj/BRFekMxfN7IUgQu3+N+0=;
+ b=duej6Izi1VZUdNmxrz06VIapXSzOhN3GuK3Wu05010fRgl/iGEjkLpH4hjsu1G19m+
+ KarpBEA5X3dxh33OUsZjiOZPnx3oNI+L0jDeRWWU0wpe/RC48HAkc2gCv3rsZAPJMbs3
+ X/grigrgnf9BoAYsFMHELfkhoe/9TNrVl62tKsp7pelCJ9cBfwIM2nvFnWLcE2IN5EkN
+ /ew6pSeL8k3LJGHz8rjrnRd1c026kpJXz0CpcA1X5VzUYQaKDk4T6wD4ME3kRyvrykty
+ xYTWLQOKqZ/Axc4h3muGKcT1xELv4wGugQqTGx/66gGkg189YK9rFZ7UCIvl2YxOI+41
+ odMQ==
+X-Gm-Message-State: ACrzQf39Cz3mecfFPya4fworXB8thDyPSGmIhvzfnrUksHlF4+wD5mvd
+ dibsJXH6KYPP+t7WRfyZsaKailt+7hlQhzvt4jgRvX4sds3fOQHJ1Ari5IgAGy9/BcyRsI/xBNP
+ oybBqqQOQ0g+KmFMU7j5IhJZ4RibF26M=
 X-Received: by 2002:a67:fc44:0:b0:398:30ac:1c95 with SMTP id
- p4-20020a67fc44000000b0039830ac1c95mr12640157vsq.16.1664320227992; 
- Tue, 27 Sep 2022 16:10:27 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4AyhihLpOvoHu3DXWCWfNiQJBf/36pNDJaBtrgl4uSGWSnnsQAhyiG0RchGQwYrzHOys/364RWKUPZAWDOSFE=
+ p4-20020a67fc44000000b0039830ac1c95mr12650285vsq.16.1664320526291; 
+ Tue, 27 Sep 2022 16:15:26 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5JGc5C53BlB1/IO1METmCKO6z/LijHt1HwmE1YPYuzi7QPoUz7K0sMMTkEmYW3kMKaO7z16g17hblM9h5pyFg=
 X-Received: by 2002:a67:fc44:0:b0:398:30ac:1c95 with SMTP id
- p4-20020a67fc44000000b0039830ac1c95mr12640150vsq.16.1664320227801; Tue, 27
- Sep 2022 16:10:27 -0700 (PDT)
+ p4-20020a67fc44000000b0039830ac1c95mr12650271vsq.16.1664320526008; Tue, 27
+ Sep 2022 16:15:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220710170014.1673480-8-ani@anisinha.ca>
- <CABgObfYW8O-JGhjLm47HmHG7WRhOQDO1EhUCTP59TZo4DnkQVg@mail.gmail.com>
- <20220927175440-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220927175440-mutt-send-email-mst@kernel.org>
+References: <20220927213501.4069117-1-alex.bennee@linaro.org>
+In-Reply-To: <20220927213501.4069117-1-alex.bennee@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 28 Sep 2022 01:10:15 +0200
-Message-ID: <CABgObfYv=-CwuxgjfPHeZ-yJMu0HFM=GSjkMSuvvVLtbQCEbHQ@mail.gmail.com>
-Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
- QEMU bios tables using biosbits
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel <qemu-devel@nongnu.org>, 
- Thomas Huth <thuth@redhat.com>, "Maydell, Peter" <peter.maydell@linaro.org>, 
- "P. Berrange, Daniel" <berrange@redhat.com>, John Snow <jsnow@redhat.com>, 
- "Mammedov, Igor" <imammedo@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000f8921905e9b0bf12"
+Date: Wed, 28 Sep 2022 01:15:14 +0200
+Message-ID: <CABgObfYjhe7_qTRYMz_eeTCaJekHOBe3WLrx_OnPBfaMRcuMKA@mail.gmail.com>
+Subject: Re: [RFC PATCH] tests/qtest: bump up QOS_PATH_MAX_ELEMENT_SIZE
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000bed6ee05e9b0d17b"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -98,56 +92,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f8921905e9b0bf12
+--000000000000bed6ee05e9b0d17b
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Il mer 28 set 2022, 00:09 Michael S. Tsirkin <mst@redhat.com> ha scritto:
-
-> On Tue, Sep 27, 2022 at 11:44:56PM +0200, Paolo Bonzini wrote:
-> > I also second the idea of using avocado instead of pytest, by the way.
-> >
-> > Paolo
->
-> I do not think this is a good fit for bios tests.
-> bios tests are intended for a wide audience of ACPI developers
-> across a variety of host systems. They basically do not need anything
-> from the host and they need to be super easy to configure
-> since we have lots of drive through contributors.
->
-
-The setup would be the same, with avocado installed in a virtual
-environment via pip. It doesn't need to be set up outside, neither with
-distro packages nor in ~/.local, and especially it is not necessary to deal
-with avocado-vt.
+What is an example of one such huge path? This would mean that LTO is
+changing the set of tests that are run, which is unexpected.
 
 Paolo
 
---000000000000f8921905e9b0bf12
+Il mar 27 set 2022, 23:35 Alex Benn=C3=A9e <alex.bennee@linaro.org> ha scri=
+tto:
+
+> It seems the depth of path we need to support can vary depending on
+> the order of the init constructors getting called. It seems
+> --enable-lto shuffles things around just enough to push you over the
+> limit.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1186
+> ---
+>  tests/qtest/libqos/qgraph.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tests/qtest/libqos/qgraph.h b/tests/qtest/libqos/qgraph.h
+> index 6e94824d09..5c0046e989 100644
+> --- a/tests/qtest/libqos/qgraph.h
+> +++ b/tests/qtest/libqos/qgraph.h
+> @@ -24,7 +24,7 @@
+>  #include "libqos-malloc.h"
+>
+>  /* maximum path length */
+> -#define QOS_PATH_MAX_ELEMENT_SIZE 50
+> +#define QOS_PATH_MAX_ELEMENT_SIZE 64
+>
+>  typedef struct QOSGraphObject QOSGraphObject;
+>  typedef struct QOSGraphNode QOSGraphNode;
+> --
+> 2.34.1
+>
+>
+
+--000000000000bed6ee05e9b0d17b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il mer 28 set 2022, 00:09 Michael S. Tsirkin &lt;<a hr=
-ef=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; ha scritto:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex">On Tue, Sep 27, 2022 at 11:44:56PM +0200, Paol=
-o Bonzini wrote:<br>
-&gt; I also second the idea of using avocado instead of pytest, by the way.=
+<div dir=3D"auto">What is an example of one such huge path? This would mean=
+ that LTO is changing the set of tests that are run, which is unexpected.<d=
+iv dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il mar 27 set 2022, =
+23:35 Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.b=
+ennee@linaro.org</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+">It seems the depth of path we need to support can vary depending on<br>
+the order of the init constructors getting called. It seems<br>
+--enable-lto shuffles things around just enough to push you over the<br>
+limit.<br>
 <br>
-&gt; <br>
-&gt; Paolo<br>
+Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.or=
+g" target=3D"_blank" rel=3D"noreferrer">alex.bennee@linaro.org</a>&gt;<br>
+Fixes: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/1186" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">https://gitlab.com/qemu-projec=
+t/qemu/-/issues/1186</a><br>
+---<br>
+=C2=A0tests/qtest/libqos/qgraph.h | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
 <br>
-I do not think this is a good fit for bios tests.<br>
-bios tests are intended for a wide audience of ACPI developers<br>
-across a variety of host systems. They basically do not need anything<br>
-from the host and they need to be super easy to configure<br>
-since we have lots of drive through contributors.<br></blockquote></div></d=
-iv><div dir=3D"auto"><br></div><div dir=3D"auto">The setup would be the sam=
-e, with avocado installed in a virtual environment via pip. It doesn&#39;t =
-need to be set up outside, neither with distro packages nor in ~/.local, an=
-d especially it is not necessary to deal with avocado-vt.</div><div dir=3D"=
-auto"><br></div><div dir=3D"auto">Paolo</div></div>
+diff --git a/tests/qtest/libqos/qgraph.h b/tests/qtest/libqos/qgraph.h<br>
+index 6e94824d09..5c0046e989 100644<br>
+--- a/tests/qtest/libqos/qgraph.h<br>
++++ b/tests/qtest/libqos/qgraph.h<br>
+@@ -24,7 +24,7 @@<br>
+=C2=A0#include &quot;libqos-malloc.h&quot;<br>
+<br>
+=C2=A0/* maximum path length */<br>
+-#define QOS_PATH_MAX_ELEMENT_SIZE 50<br>
++#define QOS_PATH_MAX_ELEMENT_SIZE 64<br>
+<br>
+=C2=A0typedef struct QOSGraphObject QOSGraphObject;<br>
+=C2=A0typedef struct QOSGraphNode QOSGraphNode;<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div>
 
---000000000000f8921905e9b0bf12--
+--000000000000bed6ee05e9b0d17b--
 
 
