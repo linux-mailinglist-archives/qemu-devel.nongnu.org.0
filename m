@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A6995EC3E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:14:03 +0200 (CEST)
-Received: from localhost ([::1]:35594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58FD65EC31C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:42:58 +0200 (CEST)
+Received: from localhost ([::1]:52020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odAPS-0006xT-Ag
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:14:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49430)
+	id 1od9vN-0002Sv-E4
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:42:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8SC-0003dz-JN
+ id 1od8SD-0003e0-JO
  for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:45 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:44718)
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:46956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8SA-0005Iv-HI
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:44 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id v186so9347067pfv.11
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:08:42 -0700 (PDT)
+ id 1od8SC-0005Jw-12
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:45 -0400
+Received: by mail-pl1-x629.google.com with SMTP id jm5so8729264plb.13
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:08:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=szrrAWQi57rwmVvkIAS0k/zzBtjmcZYK/YPRpaNr+UQ=;
- b=YQyXLzawnSLSYQILmjf5mHBwRWoSs8p40UrdsI+qzMeTMwOu3WfYNDF4ZyrRCoJBVi
- ri4thCv8VvUXhkRa3FmrIxKv+78CWB1MPSszqF18NLawvwDL2YJK4LFI0bL+rPDUQWy1
- aMqIJNmw0XSicEkPRggyw1BQqV1IHeznYd7tWBvc7YUraQy00mGqDNnM0ChkOBlMuv+V
- zTjQME2GYaa7cRh/w17vhzyquRzI2NFr3RQJpLLx6W2NTxuHBn9pP/AAp6+PJ8vaAn1X
- 9NItBqAdnrZWfCMhlbzZaVq9gKiLMfATcBnmk5O5mHwfW/J9tJmJpRL9GDQ/ba4FA+nm
- kBnw==
+ bh=GlznwSHa9K/cOS1FRxJZ04KXhLV4Kvl8Dx3ESYYXk8U=;
+ b=VaFL+Hd7zujksmRda54YrsN4XeeLNjB2z0sbAThf2Psm3M8m+AyvVScRMF2ztXxttw
+ usCXq9z72/ett/U9sCD3oYHKOq38cmW/O03i16CX1kHivlNWXuiTMWH+NWHSkPoPZOZ4
+ wUAaHprqMUuBtpdsR94Tc01yXhK5+Ysp2Fu+yriil3D/Mvn6NbaUzyS0Ea2nQ4C+0zbb
+ J7DwxZDfcmPWRpCH84azKOf+P+yaAsymsolYJPwSLi7KIqAXsUG3J+puoAh6HUv4rP4w
+ VHls3s35eA4LpD9zsUHGgczoH8hVH6HSAzkKbCSy3GGdVOruP9Kb9sRF0FMihW9YHM+b
+ JDtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=szrrAWQi57rwmVvkIAS0k/zzBtjmcZYK/YPRpaNr+UQ=;
- b=AFMx1Q8ZiduV1jAM492bX4nkJa2/ZAGIUXYYANUH4StVnzLAlZnFsb9Gx4IM9EAYtn
- VBji2IpC2AMKs7ebQ6tEoDSdMLz9NEXi2wfY2XlcBLfIRZqd1W2To1GyGHvAg++VYal0
- eExii5crxnSmei9JWE20HyYcgDVVE9Z1kLgcmdCr495FHLPaPzEoHr3N3geIKLWV9wdO
- xF4EZyYHLClD1wdYP7dxQYtNsDnv3U+JHm5AuN3kZxuzSpsPVyW1XYeV4vYqJxz5Ngzx
- vxdV6wm9svUPjteXc7eG8StKNL5v0rYbDJigs9UOAV2XsNyq5IRbTsVimXXWaTfdDvCJ
- NyFw==
-X-Gm-Message-State: ACrzQf1RXW8Mqok4JMxJLcHVUYc4jb9NLQCTA4Qz3M0exFqtalQxVMb/
- bQkZ2IX13hYYvVTDLEogGslv7xV3nPo=
-X-Google-Smtp-Source: AMsMyM4IxIQjf5RziKhLX6WYKrhS0QCKCXzAWLvp6xePfq2thtnxkvep+eYYHl5EWPbj1t2E2iNF7w==
-X-Received: by 2002:a05:6a02:43:b0:43c:dbdc:192d with SMTP id
- az3-20020a056a02004300b0043cdbdc192dmr5026287pgb.449.1664276920057; 
- Tue, 27 Sep 2022 04:08:40 -0700 (PDT)
+ bh=GlznwSHa9K/cOS1FRxJZ04KXhLV4Kvl8Dx3ESYYXk8U=;
+ b=PER8Bwdg8iSFA80Vv1DoQUQGnungROQUnP8YJiZPfp1WmizNVPfmnh//TjiyQKtmlq
+ jfpazVd9Wff3jcEGhjTi9d7uUE37Lr8cg8UCawUGKd4LkIlvWeHo6q9uq2Lhs5Zqwu1l
+ s13QVzcM9DSmWr8SobbvFPT707cvrGnFp5ujx2/b+SKR3OojgioOHnCMQjpB4PbdrC5o
+ VtXWI/ArW+OBFssKxSgj/H5vnC23TmPxXiJjV0NSGSPIrwfrSC3Er8lk0uZCGpFbAnDU
+ 0YkO+YPdAgOR0nJ8FVI+4eeZdZW+MSnhGrJEtsn1WoZwG8jax6u2P/t7kp3ERZM73avN
+ qmgA==
+X-Gm-Message-State: ACrzQf3e4vzkZQyatpJAkXDmFKzuyy/as8NtD77evH2keX1KKgYvFfux
+ 3zBUlhKLsqJERWjB1S3/arJ8ajwC+vk=
+X-Google-Smtp-Source: AMsMyM70J8Vtc2GVBRXX5bgn2hxB6IUWKbV84dvALKmbwq/LOgiWtcqp0+Y5gfz4lPh29m3GCoiVyg==
+X-Received: by 2002:a17:90a:e644:b0:200:2f9a:bd0a with SMTP id
+ ep4-20020a17090ae64400b002002f9abd0amr3978210pjb.88.1664276922469; 
+ Tue, 27 Sep 2022 04:08:42 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.08.37
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.08.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:08:39 -0700 (PDT)
+ Tue, 27 Sep 2022 04:08:42 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>,
  Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 44/54] tests/qtest: virtio-net-failover: Disable migration
- tests for win32
-Date: Tue, 27 Sep 2022 19:06:22 +0800
-Message-Id: <20220927110632.1973965-45-bmeng.cn@gmail.com>
+Subject: [PATCH v4 45/54] tests/qtest: libqtest: Replace the call to close a
+ socket with closesocket()
+Date: Tue, 27 Sep 2022 19:06:23 +0800
+Message-Id: <20220927110632.1973965-46-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,62 +94,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-These tests use the exec migration protocol, which is unsupported
-on Windows as of today. Disable these tests for now.
+close() is a *nix function. It works on any file descriptor, and
+sockets in *nix are an example of a file descriptor.
 
-Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+closesocket() is a Windows-specific function, which works only
+specifically with sockets. Sockets on Windows do not use *nix-style
+file descriptors, and socket() returns a handle to a kernel object
+instead, so it must be closed with closesocket().
+
+In QEMU there is already a logic to handle such platform difference
+in os-posix.h and os-win32.h, that:
+
+  * closesocket maps to close on POSIX
+  * closesocket maps to a wrapper that calls the real closesocket()
+    on Windows
+
+Replace the call to close a socket with closesocket() instead.
+
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
 (no changes since v1)
 
- tests/qtest/virtio-net-failover.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ tests/qtest/libqtest.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-index 443ee56de9..4a809590bf 100644
---- a/tests/qtest/virtio-net-failover.c
-+++ b/tests/qtest/virtio-net-failover.c
-@@ -588,6 +588,7 @@ static void test_hotplug_2_reverse(void)
-     machine_stop(qts);
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 12b1e85b51..1ae58624d9 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -113,7 +113,7 @@ static int socket_accept(int sock)
+                    (void *)&timeout, sizeof(timeout))) {
+         fprintf(stderr, "%s failed to set SO_RCVTIMEO: %s\n",
+                 __func__, strerror(errno));
+-        close(sock);
++        closesocket(sock);
+         return -1;
+     }
+ 
+@@ -124,7 +124,7 @@ static int socket_accept(int sock)
+     if (ret == -1) {
+         fprintf(stderr, "%s failed: %s\n", __func__, strerror(errno));
+     }
+-    close(sock);
++    closesocket(sock);
+ 
+     return ret;
  }
+@@ -507,8 +507,8 @@ void qtest_quit(QTestState *s)
+     qtest_remove_abrt_handler(s);
  
-+#ifndef _WIN32
- static QDict *migrate_status(QTestState *qts)
- {
-     QDict *resp, *ret;
-@@ -1827,6 +1828,7 @@ static void test_multi_in(gconstpointer opaque)
+     qtest_kill_qemu(s);
+-    close(s->fd);
+-    close(s->qmp_fd);
++    closesocket(s->fd);
++    closesocket(s->qmp_fd);
+     g_string_free(s->rx, true);
  
-     machine_stop(qts);
- }
-+#endif /* _WIN32 */
- 
- int main(int argc, char **argv)
- {
-@@ -1857,7 +1859,11 @@ int main(int argc, char **argv)
-     qtest_add_func("failover-virtio-net/hotplug/2_reverse",
-                    test_hotplug_2_reverse);
- 
--    /* migration tests */
-+#ifndef _WIN32
-+    /*
-+     * These migration tests cases use the exec migration protocol,
-+     * which is unsupported on Windows.
-+     */
-     qtest_add_data_func("failover-virtio-net/migrate/on/out", tmpfile,
-                         test_migrate_out);
-     qtest_add_data_func("failover-virtio-net/migrate/on/in", tmpfile,
-@@ -1886,6 +1892,7 @@ int main(int argc, char **argv)
-                         tmpfile, test_multi_out);
-     qtest_add_data_func("failover-virtio-net/migrate/multi/in",
-                    tmpfile, test_multi_in);
-+#endif /* _WIN32 */
- 
-     ret = g_test_run();
- 
+     for (GList *it = s->pending_events; it != NULL; it = it->next) {
 -- 
 2.34.1
 
