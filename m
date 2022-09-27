@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61D75EC5CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:20:01 +0200 (CEST)
-Received: from localhost ([::1]:53660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7D65EC59D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:11:52 +0200 (CEST)
+Received: from localhost ([::1]:41442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odBRI-0002G1-K5
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:20:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42818)
+	id 1odBJO-0007zI-3l
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1od9Mh-0000bH-Og
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:07:08 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:43820)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1od9Is-0007L2-O7
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:03:14 -0400
+Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:45631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1od9Md-0000Q1-V6
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:07:06 -0400
-Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
- (sas1-c73b4b4f4b95.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id CA32B2E0A30;
- Tue, 27 Sep 2022 14:59:22 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b64a::1:39] (unknown
- [2a02:6b8:b081:b64a::1:39])
- by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- KlVkgXAZLv-xLOqLkm3; Tue, 27 Sep 2022 14:59:21 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1664279961; bh=xyCrrfUBQDrhURqvOTlLAgLJQ/mI5GptNgrrNai/z+E=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=T7NEPlXKwIADLgzCMRKjsise2bK2E+ETkKyANDh4NcpjVo1KWjgciBmjL0y6o2bzk
- jaBp9hghswimkN7f5ioBPh/Vk/L+dc3SbROrjda8bhZsPOL/WgJvsNXJZFwnyXMsGv
- zDuTE5HeQA2LFT70dHeBSMQyvPkxHX8A+e1Mqt6c=
-Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <72d7816c-7c90-67f4-ea46-fc043bfd09cd@yandex-team.ru>
-Date: Tue, 27 Sep 2022 14:59:20 +0300
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1od9Iq-0008En-03
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:03:10 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.31])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E8C3522D38;
+ Tue, 27 Sep 2022 12:03:02 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 27 Sep
+ 2022 14:03:01 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R0022bac10f8-9f44-458b-ab87-31a5d5458b65,
+ 12A65CACE92C1DACCE6E97948814F03D28E096F2) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <89d6f37e-c521-4dd6-fd13-c7394bd0ab94@kaod.org>
+Date: Tue, 27 Sep 2022 14:03:00 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [patch v0] qapi/qmp: Add timestamps to qmp command responses.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v9 02/10] s390x/cpu topology: core_id sets s390x CPU
+ topology
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru, michael.roth@amd.com
-References: <20220926095940.283094-1-den-plotnikov@yandex-team.ru>
- <YzGmoWQPhR27VWX7@redhat.com> <871qrxnyjo.fsf@pond.sub.org>
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-In-Reply-To: <871qrxnyjo.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=77.88.29.217;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+To: Pierre Morel <pmorel@linux.ibm.com>, <qemu-s390x@nongnu.org>
+CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
+ <richard.henderson@linaro.org>, <david@redhat.com>, <thuth@redhat.com>,
+ <cohuck@redhat.com>, <mst@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>,
+ <eblake@redhat.com>, <armbru@redhat.com>, <seiden@linux.ibm.com>,
+ <nrb@linux.ibm.com>, <frankja@linux.ibm.com>
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-3-pmorel@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220902075531.188916-3-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 77af8a79-423d-41d0-8244-c2433466d59b
+X-Ovh-Tracer-Id: 16606460677994875661
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegiedgvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepfhhrrghnkhhjrgeslhhinhhugidrihgsmhdrtghomhdpoffvtefjohhsthepmhhoheegke
+Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
+ helo=6.mo548.mail-out.ovh.net
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,102 +80,290 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 9/2/22 09:55, Pierre Morel wrote:
+> In the S390x CPU topology the core_id specifies the CPU address
+> and the position of the core withing the topology.
+> 
+> Let's build the topology based on the core_id.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> ---
+>   hw/s390x/cpu-topology.c         | 135 ++++++++++++++++++++++++++++++++
+>   hw/s390x/meson.build            |   1 +
+>   hw/s390x/s390-virtio-ccw.c      |  10 +++
+>   include/hw/s390x/cpu-topology.h |  42 ++++++++++
+>   4 files changed, 188 insertions(+)
+>   create mode 100644 hw/s390x/cpu-topology.c
+>   create mode 100644 include/hw/s390x/cpu-topology.h
+> 
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> new file mode 100644
+> index 0000000000..a6ca006ec5
+> --- /dev/null
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -0,0 +1,135 @@
+> +/*
+> + * CPU Topology
+> + *
+> + * Copyright IBM Corp. 2022
+> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+> +
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+> +#include "qemu/error-report.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/boards.h"
+> +#include "qemu/typedefs.h"
+> +#include "target/s390x/cpu.h"
+> +#include "hw/s390x/s390-virtio-ccw.h"
+> +#include "hw/s390x/cpu-topology.h"
+> +
+> +S390Topology *s390_get_topology(void)
+> +{
+> +    static S390Topology *s390Topology;
+> +
+> +    if (!s390Topology) {
+> +        s390Topology = S390_CPU_TOPOLOGY(
+> +            object_resolve_path(TYPE_S390_CPU_TOPOLOGY, NULL));
+> +    }
+> +
+> +    return s390Topology;
+> +}
+> +
+> +/*
+> + * s390_topology_new_cpu:
+> + * @core_id: the core ID is machine wide
+> + *
+> + * The topology returned by s390_get_topology(), gives us the CPU
+> + * topology established by the -smp QEMU aruments.
+> + * The core-id gives:
+> + *  - the Container TLE (Topology List Entry) containing the CPU TLE.
+> + *  - in the CPU TLE the origin, or offset of the first bit in the core mask
+> + *  - the bit in the CPU TLE core mask
+> + */
+> +void s390_topology_new_cpu(int core_id)
+> +{
+> +    S390Topology *topo = s390_get_topology();
+> +    int socket_id;
+> +    int bit, origin;
+> +
+> +    /* In the case no Topology is used nothing is to be done here */
+> +    if (!topo) {
+> +        return;
+> +    }
+> +
+> +    socket_id = core_id / topo->cores;
+> +
+> +    bit = core_id;
+> +    origin = bit / 64;
+> +    bit %= 64;
+> +    bit = 63 - bit;
+> +
+> +    /*
+> +     * At the core level, each CPU is represented by a bit in a 64bit
+> +     * unsigned long. Set on plug and clear on unplug of a CPU.
 
-On 27.09.2022 09:04, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
->
->> On Mon, Sep 26, 2022 at 12:59:40PM +0300, Denis Plotnikov wrote:
->>> Add "start" & "end" timestamps to qmp command responses.
->>> It's disabled by default, but can be enabled with 'timestamp=on'
->>> monitor's parameter, e.g.:
->>>      -chardev  socket,id=mon1,path=/tmp/qmp.socket,server=on,wait=off
->>>      -mon chardev=mon1,mode=control,timestamp=on
->> I'm not convinced a cmdline flag is the right approach here.
->>
->> I think it ought be something defined by the QMP spec.
-> The QMP spec is docs/interop/qmp-spec.txt.  The feature needs to be
-> defined there regardless of how we control it.
-ok, thanks for pointing out
->
->> The "QMP" greeting should report "timestamp" capabilities.
->>
->> The 'qmp_capabilities' command can be used to turn on this
->> capability for all commands henceforth.
-> Yes, this is how optional QMP protocol features should be controlled.
->
-> Bonus: control is per connection, not just globally.
->
->> As an option extra, the 'execute' command could gain a
->> parameter to allow this to be requested for only an
->> individual command.
-> Needs a use case.
->
->> Alternatively we could say the overhead of adding the timestmaps
->> is small enough that we just add this unconditionally for
->> everything hence, with no opt-in/opt-out.
-> Yes, because the extension is backwards compatible.
+Do we have CPU unplug on s390x ?
 
-May be it worth to send the timestamps always in the response if doesn't 
-contradicts with anything and doesn't bring any unnecessary data overhead.
+> +     * The firmware assume that all CPU in a CPU TLE have the same
+> +     * type, polarization and are all dedicated or shared.
+> +     * In the case a socket contains CPU with different type, polarization
+> +     * or entitlement then they will be defined in different CPU containers.
+> +     * Currently we assume all CPU are identical IFL CPUs and that they are
+> +     * all dedicated CPUs.
+> +     * The only reason to have several S390TopologyCores inside a socket is
+> +     * to have more than 64 CPUs.
+> +     * In that case the origin field, representing the offset of the first CPU
+> +     * in the CPU container allows to represent up to the maximal number of
+> +     * CPU inside several CPU containers inside the socket container.
+> +     */
+> +    topo->socket[socket_id].active_count++;
+> +    topo->tle[socket_id].active_count++;
+> +    set_bit(bit, &topo->tle[socket_id].mask[origin]);
+> +}
+> +
+> +/**
+> + * s390_topology_realize:
+> + * @dev: the device state
+> + * @errp: the error pointer (not used)
+> + *
+> + * During realize the machine CPU topology is initialized with the
+> + * QEMU -smp parameters.
+> + * The maximum count of CPU TLE in the all Topology can not be greater
+> + * than the maximum CPUs.
+> + */
+> +static void s390_topology_realize(DeviceState *dev, Error **errp)
+> +{
+> +    MachineState *ms = MACHINE(qdev_get_machine());
 
- From the other hand turning it on via qmp capabilities seems to be more 
-flexible solution.
+Using qdev_get_machine() is suspicious :)
 
->
-> Aside: qmp-spec.txt could be clearer on what that means.
->
->>> Example of result:
->>>
->>>      ./qemu/scripts/qmp/qmp-shell /tmp/qmp.socket
->>>
->>>      (QEMU) query-status
->>>      {"end": {"seconds": 1650367305, "microseconds": 831032},
->>>       "start": {"seconds": 1650367305, "microseconds": 831012},
->>>       "return": {"status": "running", "singlestep": false, "running": true}}
->>>
->>> The responce of the qmp command contains the start & end time of
->>> the qmp command processing.
-> Seconds and microseconds since when?  The update to qmp-spec.txt should
-> tell.
->
-> Why split the time into seconds and microseconds?  If you use
-> microseconds since the Unix epoch (1970-01-01 UTC), 64 bit unsigned will
-> result in a year 586524 problem:
->
->      $ date --date "@`echo '2^64/1000000' | bc`"
->      Wed Jan 19 09:01:49 CET 586524
->
-> Even a mere 53 bits will last until 2255.
-This is Just for convenience, may be it's too much and timestamp in msec 
-if enough
->
->>> These times may be helpful for the management layer in understanding of
->>> the actual timeline of a qmp command processing.
->> Can you explain the problem scenario in more detail.
-> Yes, please, because:
->
->> The mgmt app already knows when it send the QMP command and knows
->> when it gets the QMP reply.  This covers the time the QMP was
->> queued before processing (might be large if QMP is blocked on
->> another slow command) , the processing time, and the time any
->> reply was queued before sending (ought to be small).
->>
->> So IIUC, the value these fields add is that they let the mgmt
->> app extract only the command processing time, eliminating
->> any variance do to queue before/after.
-So the scenario is the following: we need a means to understand from the 
-management layer prospecitive of what is the timeline of the command 
-execution. This is needed for a problem resolving if a qmp command 
-executes for too long from the management layer point of view. 
-Specifically, management layer sees the execution time as 
-"management_layer_internal_routine_time" + "qemu_dispatching_time" + 
-"qemu_qmp_command_execution_time". Suggested qmp command timestaps gives 
-"qemu_command_execution_time". Management layer calculates 
-"management_layer_internal_routine_time" internally. Using those two 
-things we can calculate "qemu_dispatching_time" and decide where the 
-potential delays comes from. This will gives us a direction of further 
-problem investigation.
->>
->>> Suggested-by: Andrey Ryabinin <arbn@yandex-team.ru>
->>> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+> +    S390Topology *topo = S390_CPU_TOPOLOGY(dev);
+> +    int n;
+> +
+> +    topo->sockets = ms->smp.sockets;
+> +    topo->cores = ms->smp.cores;
+> +    topo->tles = ms->smp.max_cpus;
+
+These look like object properties to me.
+
+> +
+> +    n = topo->sockets;
+> +    topo->socket = g_malloc0(n * sizeof(S390TopoContainer));
+> +    topo->tle = g_malloc0(topo->tles * sizeof(S390TopoTLE));
+> +}
+> +
+> +/**
+> + * topology_class_init:
+> + * @oc: Object class
+> + * @data: (not used)
+> + *
+> + * A very simple object we will need for reset and migration.
+> + */
+> +static void topology_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->realize = s390_topology_realize;
+> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> +}
+
+no vmstate ?
+
+> +static const TypeInfo cpu_topology_info = {
+> +    .name          = TYPE_S390_CPU_TOPOLOGY,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(S390Topology),
+> +    .class_init    = topology_class_init,
+> +};
+> +
+> +static void topology_register(void)
+> +{
+> +    type_register_static(&cpu_topology_info);
+> +}
+> +type_init(topology_register);
+> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+> index de28a90a57..96d7d7d231 100644
+> --- a/hw/s390x/meson.build
+> +++ b/hw/s390x/meson.build
+> @@ -2,6 +2,7 @@ s390x_ss = ss.source_set()
+>   s390x_ss.add(files(
+>     'ap-bridge.c',
+>     'ap-device.c',
+> +  'cpu-topology.c',
+>     'ccw-device.c',
+>     'css-bridge.c',
+>     'css.c',
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index b5ca154e2f..15cefd104b 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -43,6 +43,7 @@
+>   #include "sysemu/sysemu.h"
+>   #include "hw/s390x/pv.h"
+>   #include "migration/blocker.h"
+> +#include "hw/s390x/cpu-topology.h"
+>   
+>   static Error *pv_mig_blocker;
+>   
+> @@ -247,6 +248,12 @@ static void ccw_init(MachineState *machine)
+>       /* init memory + setup max page size. Required for the CPU model */
+>       s390_memory_init(machine->ram);
+>   
+> +    /* Adding the topology must be done before CPU intialization*/
+> +    dev = qdev_new(TYPE_S390_CPU_TOPOLOGY);
+> +    object_property_add_child(qdev_get_machine(), TYPE_S390_CPU_TOPOLOGY,
+
+No need to use qdev_get_machine(), you have 'machine' above.
+
+> +                              OBJECT(dev));
+> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+
+
+why not store a TYPE_S390_CPU_TOPOLOGY object pointer under the machine
+state for later use ?
+
+> +
+>       /* init CPUs (incl. CPU model) early so s390_has_feature() works */
+>       s390_init_cpus(machine);
+>   
+> @@ -309,6 +316,9 @@ static void s390_cpu_plug(HotplugHandler *hotplug_dev,
+>       g_assert(!ms->possible_cpus->cpus[cpu->env.core_id].cpu);
+>       ms->possible_cpus->cpus[cpu->env.core_id].cpu = OBJECT(dev);
+>   
+> +    /* Inserting the CPU in the Topology can not fail */
+> +    s390_topology_new_cpu(cpu->env.core_id);
+> +
+
+in which case, we could use the topo object pointer to insert a new CPU
+id and drop s390_get_topology() which looks overkill.
+
+I would add the test :
+
+    if (!S390_CCW_MACHINE(machine)->topology_disable) {
+
+before inserting to be consistent. But I am anticipating some other
+patch.
+
+C.
+
+
+>       if (dev->hotplugged) {
+>           raise_irq_cpu_hotplug();
+>       }
+> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+> new file mode 100644
+> index 0000000000..6911f975f4
+> --- /dev/null
+> +++ b/include/hw/s390x/cpu-topology.h
+> @@ -0,0 +1,42 @@
+> +/*
+> + * CPU Topology
+> + *
+> + * Copyright 2022 IBM Corp.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +#ifndef HW_S390X_CPU_TOPOLOGY_H
+> +#define HW_S390X_CPU_TOPOLOGY_H
+> +
+> +typedef struct S390TopoContainer {
+> +    int active_count;
+> +} S390TopoContainer;
+> +
+> +#define S390_TOPOLOGY_MAX_ORIGIN (1 + S390_MAX_CPUS / 64)
+> +typedef struct S390TopoTLE {
+> +    int active_count;
+> +    uint64_t mask[S390_TOPOLOGY_MAX_ORIGIN];
+> +} S390TopoTLE;
+> +
+> +#include "hw/qdev-core.h"
+> +#include "qom/object.h"
+> +
+> +struct S390Topology {
+> +    SysBusDevice parent_obj;
+> +    int sockets;
+> +    int cores;
+> +    int tles;
+> +    S390TopoContainer *socket;
+> +    S390TopoTLE *tle;
+> +};
+> +typedef struct S390Topology S390Topology;
+> +
+> +#define TYPE_S390_CPU_TOPOLOGY "s390-topology"
+> +OBJECT_DECLARE_SIMPLE_TYPE(S390Topology, S390_CPU_TOPOLOGY)
+> +
+> +S390Topology *s390_get_topology(void);
+> +void s390_topology_new_cpu(int core_id);
+> +
+> +#endif
+
 
