@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66535EBFC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:29:24 +0200 (CEST)
-Received: from localhost ([::1]:36268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D865EBF40
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:09:24 +0200 (CEST)
+Received: from localhost ([::1]:41434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od7q7-0005Xj-Ta
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:29:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40800)
+	id 1od7Wl-00036p-L3
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:09:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1od7NR-0008HU-Vu
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:59:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27414)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od7Nd-0008Sp-9q
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:59:58 -0400
+Received: from mout.gmx.net ([212.227.17.20]:33675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1od7NQ-00005G-9w
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:59:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664272782;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Cv2s2RMj/yiIy9atQZWzauYp1PxlHA8JgOuTAzR6GEk=;
- b=dmJzQop9ALW/+25PYuSg2MANsZ8xauKzDWi2myDpMFUPS2p00cn61+yROMgGShgfFmh5Ck
- hFsJNTQN2elpZldpo7aiOQ+1D2PECCXLkFlIGGEXDONcfMSUjyzgUEponvKmlmniC6YgyU
- nMMWT36I26sV009VJwJpqwU+zXjHK8I=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-567-PyQJyk5OM6CFq2nwv8oMww-1; Tue, 27 Sep 2022 05:59:40 -0400
-X-MC-Unique: PyQJyk5OM6CFq2nwv8oMww-1
-Received: by mail-ed1-f71.google.com with SMTP id
- x5-20020a05640226c500b00451ec193793so7424058edd.16
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 02:59:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Cv2s2RMj/yiIy9atQZWzauYp1PxlHA8JgOuTAzR6GEk=;
- b=IdeMoLWV6gM3G43vGxtRxoI/qPetDb2ISbDkPWJkFCAAZpRCwOitA3Jlrzt1++TfhU
- RysQJxGhBwgU3TQDyyyDQ2Su5AoqkHgg2K/Ove3nmVjse93zjRcMzMCHaidA1tZRjQP2
- tflRPTEXGzujW2yTDPg1eXkI7YSx0d5wPandj0AIulsqfJhhQyif8U0VNtn+MhgJvVad
- NLm+JH07ltOLxbpuDqn5xyGcSaRFzB+uOkimgSI3I4ENs3/I2O9/QNOHgZIMWhARFQD4
- lLJuEUpZTn8OQ4nY+emNpgWlsgW4YyC2NZnxOUMz65dlARXrvABPK9HPlaWOj74xLmZm
- p36g==
-X-Gm-Message-State: ACrzQf3WCZt9h2V0BC1xYJdvW2WpTUBYZxBqctlVlxnu1GrIAmvPWDqW
- lrihIKkxOT3pTs6ek1Kb+cvTBU5aeSffgjEOUqEDJ+Qfbg3qea/QjEiMyyosvZi1U1X8++JaClU
- W2WJykkEZ+1HW5NyMc4EqudN9y7wac2Eml7JJYQNGIJoWPUcUoQnx2SIFX+CKmNPlV/k=
-X-Received: by 2002:a17:907:2711:b0:781:d13a:bd15 with SMTP id
- w17-20020a170907271100b00781d13abd15mr22382508ejk.669.1664272778552; 
- Tue, 27 Sep 2022 02:59:38 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5quwjykfode9Tg9sJrlLphSK0HBkIJjaXfLXh620i0PMCYybFYak+cTc1o97CVgb9sy7micg==
-X-Received: by 2002:a17:907:2711:b0:781:d13a:bd15 with SMTP id
- w17-20020a170907271100b00781d13abd15mr22382486ejk.669.1664272778248; 
- Tue, 27 Sep 2022 02:59:38 -0700 (PDT)
-Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- o23-20020a170906769700b0073ddff7e432sm557077ejm.14.2022.09.27.02.59.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 02:59:37 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com
-Subject: [PATCH 5/5] configure, meson: move linker flag detection to meson
-Date: Tue, 27 Sep 2022 11:59:21 +0200
-Message-Id: <20220927095921.261760-6-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220927095921.261760-1-pbonzini@redhat.com>
-References: <20220927095921.261760-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od7NZ-00007E-CN
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:59:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1664272790;
+ bh=DTb7hZL7p3PaKrsxU9JPh/3YDkManuvypWYjuiwB3+k=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=GB3QfXPtODCLxkYaHOwH+6Q41y1xkjfzzadtesN543KxJcEhj87EqqjzBf+lT0Uuq
+ 15JbgnI7LffE+s9DguLMO6fzvC7kJPlxFqOEcqQ5wn6PhYLLZ4gqkiooJINSLEX4S1
+ lbcskbeRe81zYDiWG+Ia/nTVh3pAro1Z+MfLxaew=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100 ([92.116.138.255]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MO9z7-1osjNv1c7N-00ObB7; Tue, 27
+ Sep 2022 11:59:50 +0200
+Date: Tue, 27 Sep 2022 11:59:48 +0200
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Add guest memory layout to exception dump
+Message-ID: <YzLJlENCtqx87DIs@p100>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:wVf8JzjvBHty6mXIRI6lPy9/UJ/A++wmiKIPSUqE80moV3z17Qa
+ z8VRRkh2AU6aB5Tmuks8pHYPB9lw3wQUnUm4LXP6XdJAyW1jLQMS9J72eoFFHwbh0nXT4w2
+ Swe78Zh15Fo0W9qaiL8ttsHNrtv5ta0SqWoIUom0ggLxVB5vWzG/79ptRiBXiLHXts0BbUh
+ UCMqNHB3yC522SVTa84Zw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sADRP4QZLho=:cnl80o816M7oXSB2349A+5
+ Yfo/MZewq8tcb4cdq9Q8ZzX22JOqZrPV05d7d5SREgIc+pVsKW6bYwyBpsfafnaDUts4SNnrm
+ wynrfywY0ZTMvw0JQGDLc2bc7gccccA8sbNOn31TKWOv6nLqRZ7+P81CAj0g09dOaNMhLXmbr
+ McTUGQ5D9LfksHy37F3keYY2uoOmCy1WU73aZeMiJ+lNqaXLTy1mZilmWLwoZXf2PDNyGde2V
+ XcoYGPR6T9ItZ2QaoI1+l2WhIjFLMuIrg0mYG8bRXmbZDxfvoAZIYhl7Jhm+B+43E22Lz0eIK
+ dbApZxvC06p+m+Jy4XNauaJ+4OG/iFsBYHAZLwt6NCGM6GhbA1KKYLHp9LaHRaSaNbHDBLJ7k
+ sSILbFeLobMCcgq+ZWIle0vnvSb742I1tDybhlt7uuOxYlXMUT2pl0iNSgbpsqT/8ehntgnmI
+ ThidD4M4A9WpS1+0D7H3MvTlU9/0FOf0fs9PqD1nhSZg0B4ZOZjhkfKzJtwjmCI0V7d3UWYLs
+ spYlaLPKJv2gjVA0jMyQekerY5WGCljiZ7/9JdzliGydV/X17IOhIdlrYL4GijxUATVhtF0CM
+ hapIo512OlMtk3FbNK12MdTcPnt767Q1wu8VcOx1n2KoIf5bg0ttEbAmYmOU3uZCnn3lOXDap
+ nVHZOGQhhmx0w578Q3gJD0NGFOIPHQws2+LCBTU/6209g1+BA7zZV9A9aBsDkN6R2HRoKvVEL
+ Qxsfx3+zOOGDv3RKCv7NI9acJm/u9NTshgCFuA4jZz2QOpSSyBHReTug+cadORrDhsqB4Fq9S
+ w8dIXU7KWHexCoJhRMcM+dqoU1aPHAi7TQfDxtT6+ba2VgQ+eqALGkl/JHLgx57U/b7isj97g
+ xYDfEGPg1RP3NqPMybgMA4FoTlrp+MSnQJPNIGAAGcFfIHhhg0eENuSsSdbsoCbF0zXYkl6Xi
+ ReKFOBycYNt6HoANOD0r8VGXa+nOtpH1MfQM8ct3kpV1Avy6xs3rjpBtA5RI/qXAxoSFUVv9s
+ CrChjulFvhdLB0gqQaiGZMQZmAyVA1MMcNeDZ/HkbIhKtPZKaV7v045GVaDSKPcd0g3dR/0Bw
+ D47iVqJuKzrL2+fOwtpmki/D3yx+xIxEX+miydUKJh6/kstMeBPkKmNmbIxdo/kxuBWgSUaL4
+ DMxJXMBa8BMlyVpKk8KbW984zJ
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,89 +83,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure   | 16 ----------------
- meson.build | 13 +++++++++++++
- 2 files changed, 13 insertions(+), 16 deletions(-)
+When the emulation stops with a hard exception it's very useful for
+debugging purposes to dump the current guest memory layout (for an
+example see /proc/self/maps) beside the CPU registers.
 
-diff --git a/configure b/configure
-index 0a6f57c371..e5f1eb6213 100755
---- a/configure
-+++ b/configure
-@@ -1342,12 +1342,10 @@ EOF
- if test "$static" = "yes"; then
-   if test "$pie" != "no" && compile_prog "-Werror -fPIE -DPIE" "-static-pie"; then
-     CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
--    QEMU_LDFLAGS="-static-pie $QEMU_LDFLAGS"
-     pie="yes"
-   elif test "$pie" = "yes"; then
-     error_exit "-static-pie not available due to missing toolchain support"
-   else
--    QEMU_LDFLAGS="-static $QEMU_LDFLAGS"
-     pie="no"
-   fi
- elif test "$pie" = "no"; then
-@@ -1369,12 +1367,6 @@ else
-   pie="no"
- fi
- 
--# Detect support for PT_GNU_RELRO + DT_BIND_NOW.
--# The combination is known as "full relro", because .got.plt is read-only too.
--if compile_prog "" "-Wl,-z,relro -Wl,-z,now" ; then
--  QEMU_LDFLAGS="-Wl,-z,relro -Wl,-z,now $QEMU_LDFLAGS"
--fi
--
- ##########################################
- # __sync_fetch_and_and requires at least -march=i486. Many toolchains
- # use i686 as default anyway, but for those that don't, an explicit
-@@ -2247,14 +2239,6 @@ if test "$have_ubsan" = "yes"; then
- fi
- 
- ##########################################
--
--# Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
--if test "$solaris" = "no" && test "$tsan" = "no"; then
--    if $ld --version 2>/dev/null | grep "GNU ld" >/dev/null 2>/dev/null ; then
--        QEMU_LDFLAGS="-Wl,--warn-common $QEMU_LDFLAGS"
--    fi
--fi
--
- # Guest agent Windows MSI package
- 
- if test "$QEMU_GA_MANUFACTURER" = ""; then
-diff --git a/meson.build b/meson.build
-index f57a60ac4c..f8c80a5b00 100644
---- a/meson.build
-+++ b/meson.build
-@@ -183,6 +183,14 @@ qemu_cflags = config_host['QEMU_CFLAGS'].split()
- qemu_objcflags = config_host['QEMU_OBJCFLAGS'].split()
- qemu_ldflags = config_host['QEMU_LDFLAGS'].split()
- 
-+if enable_static
-+  qemu_ldflags += get_option('b_pie') ? '-static-pie' : '-static'
-+endif
-+
-+# Detect support for PT_GNU_RELRO + DT_BIND_NOW.
-+# The combination is known as "full relro", because .got.plt is read-only too.
-+qemu_ldflags += cc.get_supported_link_arguments('-Wl,-z,relro', '-Wl,-z,now')
-+
- if targetos == 'windows'
-   qemu_ldflags += cc.get_supported_link_arguments('-Wl,--no-seh', '-Wl,--nxcompat')
-   # Disable ASLR for debug builds to allow debugging with gdb
-@@ -265,6 +273,11 @@ if add_languages('cpp', required: false, native: false)
-   endif
- endif
- 
-+# Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
-+if targetos != 'sunos' and not config_host.has_key('CONFIG_TSAN')
-+  qemu_ldflags += linker.get_supported_link_arguments('-Wl,--warn-common')
-+endif
-+
- add_global_link_arguments(qemu_ldflags, native: false, language: ['c', 'cpp', 'objc'])
- 
- if targetos == 'linux'
--- 
-2.37.3
+The open_self_maps() function provides such a memory dump, but since
+it's located in the syscall.c file, various changes (add #includes, make
+this function externally visible, ...) are needed to be able to call it
+from the existing EXCP_DUMP() macro.
 
+This patch takes another approach by un-macronizing EXCP_DUMP() and turn
+it into a function located in syscall.c.
+Beside a reduced code footprint, this approach allows to add the memory
+dump and simplify the code to print to console and log file.
+
+Signed-off-by: Helge Deller <deller@gmx.de>
+
+diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
+index 36ff5b14f2..0b26b56915 100644
+=2D-- a/linux-user/cpu_loop-common.h
++++ b/linux-user/cpu_loop-common.h
+@@ -23,18 +23,7 @@
+ #include "exec/log.h"
+ #include "special-errno.h"
+
+-#define EXCP_DUMP(env, fmt, ...)                                        \
+-do {                                                                    \
+-    CPUState *cs =3D env_cpu(env);                                       =
+ \
+-    fprintf(stderr, fmt , ## __VA_ARGS__);                              \
+-    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
+-    cpu_dump_state(cs, stderr, 0);                                      \
+-    if (qemu_log_separate()) {                                          \
+-        qemu_log(fmt, ## __VA_ARGS__);                                  \
+-        qemu_log("Failing executable: %s\n", exec_path);                \
+-        log_cpu_state(cs, 0);                                           \
+-    }                                                                   \
+-} while (0)
++void EXCP_DUMP(CPUArchState *env, const char *fmt, int code);
+
+ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)=
+;
+ #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index d17f5d1c66..00861e9351 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -158,6 +158,7 @@
+ #include "qapi/error.h"
+ #include "fd-trans.h"
+ #include "tcg/tcg.h"
++#include "cpu_loop-common.h"
+
+ #ifndef CLONE_IO
+ #define CLONE_IO                0x80000000      /* Clone io context */
+@@ -8177,6 +8178,33 @@ static int is_proc_myself(const char *filename, con=
+st char *entry)
+     return 0;
+ }
+
++static void excp_dump(FILE *logfile, CPUArchState *env,
++                      const char *fmt, int code)
++{
++    if (logfile) {
++        CPUState *cs =3D env_cpu(env);
++
++        fprintf(logfile, fmt, code);
++        fprintf(logfile, "Failing executable: %s\n", exec_path);
++        cpu_dump_state(cs, logfile, 0);
++        open_self_maps(env, fileno(logfile));
++    }
++}
++
++void EXCP_DUMP(CPUArchState *env, const char *fmt, int code)
++{
++    /* dump to console */
++    excp_dump(stderr, env, fmt, code);
++
++    /* dump to log file */
++    if (qemu_log_separate()) {
++        FILE *logfile =3D qemu_log_trylock();
++
++        excp_dump(logfile, env, fmt, code);
++        qemu_log_unlock(logfile);
++    }
++}
++
+ #if HOST_BIG_ENDIAN !=3D TARGET_BIG_ENDIAN || \
+     defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+ static int is_proc(const char *filename, const char *entry)
 
