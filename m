@@ -2,64 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E25F5EBF3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:07:17 +0200 (CEST)
-Received: from localhost ([::1]:48950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 841A35EBF64
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:12:34 +0200 (CEST)
+Received: from localhost ([::1]:40774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od7Ug-0006VV-St
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:07:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58534)
+	id 1od7Zp-0000Pv-Kr
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:12:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od6uS-00078T-4M
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:29:49 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:35059)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od6uP-0003lW-SP
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:29:47 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MNfgZ-1osBqG36xH-00P7fJ; Tue, 27 Sep 2022 11:29:35 +0200
-Message-ID: <8007f9bc-3cfb-f29b-b7bb-82ff88d404ed@vivier.eu>
-Date: Tue, 27 Sep 2022 11:29:34 +0200
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1od79a-0000yC-0l
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:45:26 -0400
+Received: from nowt.default.pbrook.uk0.bigv.io
+ ([2001:41c8:51:832:fcff:ff:fe00:46dd]:43046)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paul@nowt.org>) id 1od79X-0006Cv-0y
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:45:25 -0400
+Received: from 92.40.189.141.threembb.co.uk ([92.40.189.141] helo=[127.0.0.1])
+ by nowt.default.pbrook.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
+ (envelope-from <paul@nowt.org>)
+ id 1od79N-0006iJ-Ln; Tue, 27 Sep 2022 10:45:13 +0100
+Date: Tue, 27 Sep 2022 10:43:13 +0100
+From: Paul Brook <paul@nowt.org>
+To: =?ISO-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH__v1_3/7=5D_contrib/gitdm=3A_?=
+ =?US-ASCII?Q?add_Paul_to_individual_contributors?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20220926134609.3301945-4-alex.bennee@linaro.org>
+References: <20220926134609.3301945-1-alex.bennee@linaro.org>
+ <20220926134609.3301945-4-alex.bennee@linaro.org>
+Message-ID: <FF56C338-0CE6-4A8D-9025-AC8A828E4727@nowt.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v2 2/2] linux-user: Set ELF_BASE_PLATFORM for MIPS
-Content-Language: fr
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: f4bug@amsat.org, qemu-devel@nongnu.org
-References: <20220803103009.95972-1-jiaxun.yang@flygoat.com>
- <20220803103009.95972-3-jiaxun.yang@flygoat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220803103009.95972-3-jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Xt1uFq0ov2JWk7xQOssx/51HU0aR7z4XYjWEl/lxdDrBFfS6YMR
- cvAHIXT200qCoAcW1Kyu1EfCtLfaN1E9AsT23yYLkIoDr6mkB5ueUo6cQxbPDlWpwUWiADI
- qPfq+nmsaZPiUk7OpIGORpUzeOrx31uznmH0PT2OI+Vq2vSHXLG/pkbp2eIRwFGPbJcpbA1
- ei4r4hTgI6bYSZLYNffcA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:arTIbbNRzvU=:3EvZ8gYE0wpkUe+lS9qDUS
- FLqS3u2fTfqePVOTfN1Go/sEnXMvxBBK2l3Qa0joPp7NtasUli0hZdFzUNm70IjcFFD3QURhA
- w1BNmunCbeaUZA7YKz7A3fSSJv57XYnpf2Rsx9z1ozYXTXgGPXb6UWFm2B06NV5WYb2nOV7b5
- 6eI3mDr9ck5tytnFjpzHKW/NDRGd4IGnGDb56fLxqRsHH4w7+Y2qDnimNplpsT7FXftfQVjL0
- Eu8SMmaM8i1uoIMvjqV7J1NhndaIk5GUx6KFxiCICH+xl3LWL7WB12FT8dqQ9ZrkR6zznXkpO
- fPf5et3yfzntQSRIOvwFr1bEb/2vfups5jvSlMambl2KGSjI9Vt/XdPaoM5YrithnK7AQeXQi
- Tp919EEiNG9F+YT3sVFLDKarQkHseASoljtSBuYcwX+W8dBIEC4lO9PhJZP6B6Mw7h3238Afs
- rx7CblHDZ2aZr59lmc6LsKyLlAXI+RFhd+KL20GiRiq1MaLBNayrGBQYT915aADG08de18jqx
- HTFEygq1S2UQGyTkSCF2v0VI3PcjqFGRg2a/MyovOqKS2TvvoqGhSnZZTF4YObPdT+sg5L+bO
- qe6QHt9IDLulkNrmUHJO83IPhIAmObaXqLCCeEaVekw65Biiooxog6tB3lLGROLTILgZvSgwq
- SxfOGoQtOVI4jyxBZDdGTaaiEnrdQzUJ4NiMv0+6KLAhfD2RShq8VGZT1ArGMtHnJQwrrDTEZ
- /XNf/8VVTsgZEweXDrXlHrQenQSJArEVONVmA/KvX5Ck+RgWVuzLEmhKy5cewg+9bfAYSSqnu
- YJ6und7
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/alternative;
+ boundary=----K7QJNVAJOAJAMMSIH835ZR6HZ0J8GA
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:41c8:51:832:fcff:ff:fe00:46dd;
+ envelope-from=paul@nowt.org; helo=nowt.default.pbrook.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,21 +60,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 03/08/2022 à 12:30, Jiaxun Yang a écrit :
-> Match most appropriate base platform string based on insn_flags.
-> Logic is aligned with aligned with set_isa() from
-> arch/mips/kernel/cpu-probe.c in Linux kernel.
-> 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   linux-user/elfload.c | 31 +++++++++++++++++++++++++++++++
->   1 file changed, 31 insertions(+)
+------K7QJNVAJOAJAMMSIH835ZR6HZ0J8GA
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Applied to my linux-user-for-7.2 branch.
+Yes, I'm happy for paul@codesourcery=2Ecom to be linked to my current email=
+ for attribution purposes=2E
 
-Thanks,
-Laurent
+Paul
 
+On 26 September 2022 14:46:05 BST, "Alex Benn=C3=A9e" <alex=2Ebennee@linar=
+o=2Eorg> wrote:
+>Do you want to map old commits to your canonical email now as well?
+>
+>Signed-off-by: Alex Benn=C3=A9e <alex=2Ebennee@linaro=2Eorg>
+>Cc: Paul Brook <paul@nowt=2Eorg>
+>---
+> contrib/gitdm/group-map-individuals | 1 +
+> 1 file changed, 1 insertion(+)
+>
+>diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-ma=
+p-individuals
+>index d5b05041bc=2E=2E0ec003048c 100644
+>--- a/contrib/gitdm/group-map-individuals
+>+++ b/contrib/gitdm/group-map-individuals
+>@@ -35,3 +35,4 @@ liq3ea@gmail=2Ecom
+> chetan4windows@gmail=2Ecom
+> akihiko=2Eodaki@gmail=2Ecom
+> simon@simonsafar=2Ecom
+>+paul@nowt=2Eorg
+>--=20
+>2=2E34=2E1
+>
+>
 
+------K7QJNVAJOAJAMMSIH835ZR6HZ0J8GA
+Content-Type: text/html;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body>Yes, I'm happy for paul@codesourcery=2Ecom to be l=
+inked to my current email for attribution purposes=2E<br><br>Paul<br><br><d=
+iv class=3D"gmail_quote">On 26 September 2022 14:46:05 BST, "Alex Benn=C3=
+=A9e" &lt;alex=2Ebennee@linaro=2Eorg&gt; wrote:<blockquote class=3D"gmail_q=
+uote" style=3D"margin: 0pt 0pt 0pt 0=2E8ex; border-left: 1px solid rgb(204,=
+ 204, 204); padding-left: 1ex;">
+<pre dir=3D"auto" class=3D"k9mail">Do you want to map old commits to your =
+canonical email now as well?<br><br>Signed-off-by: Alex Benn=C3=A9e &lt;ale=
+x=2Ebennee@linaro=2Eorg&gt;<br>Cc: Paul Brook &lt;paul@nowt=2Eorg&gt;<hr> c=
+ontrib/gitdm/group-map-individuals | 1 +<br> 1 file changed, 1 insertion(+)=
+<br><br>diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/gr=
+oup-map-individuals<br>index d5b05041bc=2E=2E0ec003048c 100644<br>--- a/con=
+trib/gitdm/group-map-individuals<br>+++ b/contrib/gitdm/group-map-individua=
+ls<br>@@ -35,3 +35,4 @@ liq3ea@gmail=2Ecom<br> chetan4windows@gmail=2Ecom<b=
+r> akihiko=2Eodaki@gmail=2Ecom<br> simon@simonsafar=2Ecom<br>+paul@nowt=2Eo=
+rg<br><div class=3D"k9mail-signature">-- <br>2=2E34=2E1<br><br><br></div></=
+pre></blockquote></div></body></html>
+------K7QJNVAJOAJAMMSIH835ZR6HZ0J8GA--
 
