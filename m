@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BBA5EC18B
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:36:07 +0200 (CEST)
-Received: from localhost ([::1]:35116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 328825EC1AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:39:51 +0200 (CEST)
+Received: from localhost ([::1]:51628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od8sf-0006iJ-Hx
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51436)
+	id 1od8vw-0000Dp-9V
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:39:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8Qb-0002Om-En
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:05 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:40956)
+ id 1od8Qd-0002Sy-JF
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:07 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:35575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8QZ-0004pX-Ew
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:04 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id b21so8755378plz.7
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:02 -0700 (PDT)
+ id 1od8Qb-0004q1-Pl
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:07 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ q35-20020a17090a752600b002038d8a68fbso15268900pjk.0
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=nYT5Ib6w3wC5eXhDEWVPn1yI3eXtWTmEMRT0Iv/KX3M=;
- b=CuJX9oWHsSCd5PaVzvfY0DvF20SaZMpxRU/HSfvv0If2UQlqmX1WW3IkzrpH3FYsYd
- fNJf9szMS60R3ia0guZqjbtHSuj9pqQFF1rhP2eGqQCKttN7jMqmQqvj6HU3R+5oNd/5
- 9KEaLZEEN1p/GCMUKsdWp5eTgMYxasFaWEKJFcfRqXANLp6IrzhrJHmcvOTxlZ7OiSLf
- TXcvmVDLQlpsLJjIm99bpypmqELx3kR0UC1t9TAFcrUdwvmM5rwPfx759qeKJAA5FeBW
- xndOOcT5Ms5QIFz4BwrR8FL8WoBY/sXyV+gi8pUC6SUqnb21wFuiho1FhGtHJUIJ/eej
- GTGg==
+ bh=QWOXKMHz0rXQ5dPdBLcePkLMQ3bbMjZW51rAm26MIow=;
+ b=hizRdoxmoaGwHWJJDA0ZCotI0xKXEfEzQvaoz6uRmQ0w10buExYaBkiuIFgYpURFDl
+ HqM9ZwtCifPf4sj9Do+DaEiNQwOeCFQ84MCHrpUbVrVVisVVBgnV5ExFTaRhB1MxHUFk
+ zO0OQPTo7IXNvE7k4wf77V09ulSm9oNya+B54YX7NZMK0kmqohEfeeVLZJMriJ+XVMrt
+ gNc5tTcMHwLKdWpEWWt8Nu4sqXNPFdJ9Vn1XJhlH9+G9vNzVhnNF3dFLsKyc+l3F4Yjd
+ N/SvuM/4qWKgLszVsM4Xjn2NYWDRrEdMT/sTxmGZ9RDHihKbMrgIco4QkgAqrYCKMau3
+ iBWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=nYT5Ib6w3wC5eXhDEWVPn1yI3eXtWTmEMRT0Iv/KX3M=;
- b=dYsAoPH3Ey5c+GU1Ooo8am/wL3QTv8z4g/J17YSkO2LYrrfCt0zCeZa382CQA8qwJP
- 8ABcNIOoTJmRkl0JV6HMRJ+LrVjL/kaM9wo8zzCFjwwsPAn/7diWSBRx07OH1mOqzjRV
- b0LgQQtMkZ9iaVr32T6+WcdP4LdkoO3QsKE/DcGwKgP0LtSoEPxnLXkpbK+8RkqyRLuS
- cB+PfJK7MfmTijoE4zs5/kr7eVMUA3/nasG0wyhPD72oOgT3TA2y16orkM/v7PxMfIb6
- TmQeGgnr8iG1oyb9U/Kgb2V2LlQh0XnNXgigwFIpw6yCPkYy4tTQcv23eILHQ/yEhjNW
- Xs6A==
-X-Gm-Message-State: ACrzQf20Et3pfKGPZJwSw9gdQw7br1IEq4dkxPnjUsYrwel1GK7gFFAE
- NcKAizRbGDrgtOghOjcpq851R7Fhq3I=
-X-Google-Smtp-Source: AMsMyM7ieFJoP7Xg0RQ8Xk09osRShMuZGoR9r9j/5GD7+4eSmbCoamDu+ZBlsIBe0N+eVu9/s7bHfA==
-X-Received: by 2002:a17:903:2593:b0:179:efd1:bc4b with SMTP id
- jb19-20020a170903259300b00179efd1bc4bmr1561786plb.35.1664276821716; 
- Tue, 27 Sep 2022 04:07:01 -0700 (PDT)
+ bh=QWOXKMHz0rXQ5dPdBLcePkLMQ3bbMjZW51rAm26MIow=;
+ b=fBqrwawpw2yDYy5qTu/hbzngRCFjS6s2po2G/TgGA6m4uwF1l/hhr5gJlRbEH9lGdL
+ EPOzLMGJ2NYDc3bo38y8vrLuf8PARkL89SnGrp6Ny0yaQJGM1e1pAEa9Zsp0fv65I3B+
+ u4tFWzm5uO2ynEjP3op0a57xYcypK9F1Co94Y6PYrJw9te3nnIBXgsIqPhlY12qPkX3A
+ 6cHnW5HhnqbYKapob7oo9zOKhvM/aYYWppLz3xF20PfLN/5Tj1wd7MLl5pf1N01c96e+
+ 9CVY9EIa664SPihMN34JvTbUzn1VbUVNJ+mXWry33YvxZiWdEHCi11GnoSXkQS/Jl7jk
+ n73Q==
+X-Gm-Message-State: ACrzQf2cGptf3ICDO16uuFW7CmuoM7F5IurYhmhsr418MsiaxHqZLsDf
+ Gl3oPMEl7iKjJ/lK7R/a+GsRaBK4IK0=
+X-Google-Smtp-Source: AMsMyM7aHwZ/dXxbQtSDcko9DEqS3+4XHuCM95SIAt4eUTaRyibolagtjxnifvkfdsfApq5FGQkmLA==
+X-Received: by 2002:a17:902:e749:b0:178:3980:45ad with SMTP id
+ p9-20020a170902e74900b00178398045admr26702035plf.153.1664276824148; 
+ Tue, 27 Sep 2022 04:07:04 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.06.59
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:07:01 -0700 (PDT)
+ Tue, 27 Sep 2022 04:07:03 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 07/54] tests/qtest: boot-serial-test: Avoid using hardcoded
- /tmp
-Date: Tue, 27 Sep 2022 19:05:45 +0800
-Message-Id: <20220927110632.1973965-8-bmeng.cn@gmail.com>
+Subject: [PATCH v4 08/54] tests/qtest: cxl-test: Avoid using hardcoded /tmp
+Date: Tue, 27 Sep 2022 19:05:46 +0800
+Message-Id: <20220927110632.1973965-9-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,10 +97,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Bin Meng <bin.meng@windriver.com>
 
 This case was written to use hardcoded /tmp directory for temporary
-files. Update to use g_file_open_tmp() for a portable implementation.
+files. Update to use g_dir_make_tmp() for a portable implementation.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
 (no changes since v3)
@@ -108,40 +109,52 @@ Changes in v3:
 - Split to a separate patch
 - Ensure g_autofree variable is initialized
 
- tests/qtest/boot-serial-test.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/qtest/cxl-test.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-index 2f99d71cab..72310ba30e 100644
---- a/tests/qtest/boot-serial-test.c
-+++ b/tests/qtest/boot-serial-test.c
-@@ -224,14 +224,14 @@ static bool check_guest_output(QTestState *qts, const testdef_t *test, int fd)
- static void test_machine(const void *data)
+diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
+index 2e14da7dee..cbe0fb549b 100644
+--- a/tests/qtest/cxl-test.c
++++ b/tests/qtest/cxl-test.c
+@@ -93,10 +93,9 @@ static void cxl_2root_port(void)
+ static void cxl_t3d(void)
  {
-     const testdef_t *test = data;
--    char serialtmp[] = "/tmp/qtest-boot-serial-sXXXXXX";
--    char codetmp[] = "/tmp/qtest-boot-serial-cXXXXXX";
-+    g_autofree char *serialtmp = NULL;
-+    g_autofree char *codetmp = NULL;
-     const char *codeparam = "";
-     const uint8_t *code = NULL;
-     QTestState *qts;
-     int ser_fd;
+     g_autoptr(GString) cmdline = g_string_new(NULL);
+-    char template[] = "/tmp/cxl-test-XXXXXX";
+-    const char *tmpfs;
++    g_autofree const char *tmpfs = NULL;
  
--    ser_fd = mkstemp(serialtmp);
-+    ser_fd = g_file_open_tmp("qtest-boot-serial-sXXXXXX", &serialtmp, NULL);
-     g_assert(ser_fd != -1);
+-    tmpfs = g_mkdtemp(template);
++    tmpfs = g_dir_make_tmp("cxl-test-XXXXXX", NULL);
  
-     if (test->kernel) {
-@@ -246,7 +246,7 @@ static void test_machine(const void *data)
-         ssize_t wlen;
-         int code_fd;
+     g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3D, tmpfs, tmpfs);
  
--        code_fd = mkstemp(codetmp);
-+        code_fd = g_file_open_tmp("qtest-boot-serial-cXXXXXX", &codetmp, NULL);
-         g_assert(code_fd != -1);
-         wlen = write(code_fd, code, test->codesize);
-         g_assert(wlen == test->codesize);
+@@ -107,10 +106,9 @@ static void cxl_t3d(void)
+ static void cxl_1pxb_2rp_2t3d(void)
+ {
+     g_autoptr(GString) cmdline = g_string_new(NULL);
+-    char template[] = "/tmp/cxl-test-XXXXXX";
+-    const char *tmpfs;
++    g_autofree const char *tmpfs = NULL;
+ 
+-    tmpfs = g_mkdtemp(template);
++    tmpfs = g_dir_make_tmp("cxl-test-XXXXXX", NULL);
+ 
+     g_string_printf(cmdline, QEMU_PXB_CMD QEMU_2RP QEMU_2T3D,
+                     tmpfs, tmpfs, tmpfs, tmpfs);
+@@ -122,10 +120,9 @@ static void cxl_1pxb_2rp_2t3d(void)
+ static void cxl_2pxb_4rp_4t3d(void)
+ {
+     g_autoptr(GString) cmdline = g_string_new(NULL);
+-    char template[] = "/tmp/cxl-test-XXXXXX";
+-    const char *tmpfs;
++    g_autofree const char *tmpfs = NULL;
+ 
+-    tmpfs = g_mkdtemp(template);
++    tmpfs = g_dir_make_tmp("cxl-test-XXXXXX", NULL);
+ 
+     g_string_printf(cmdline, QEMU_2PXB_CMD QEMU_4RP QEMU_4T3D,
+                     tmpfs, tmpfs, tmpfs, tmpfs, tmpfs, tmpfs,
 -- 
 2.34.1
 
