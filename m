@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74ECA5EC897
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:52:56 +0200 (CEST)
-Received: from localhost ([::1]:34574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 465A45EC895
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:52:29 +0200 (CEST)
+Received: from localhost ([::1]:48764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odCtC-0001JC-Bx
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45274)
+	id 1odCsm-0000zV-1N
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:52:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odBMn-0005A4-3r
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:21 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46940)
+ id 1odBMo-0005D7-Er
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:22 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odBMj-00061f-Ox
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:20 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id bk15so7472677wrb.13
+ id 1odBMl-00061X-Ti
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:22 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ u16-20020a05600c211000b003b5152ebf09so6974561wml.5
  for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=9V9LEBkVMIt0gNfbFS+tXVi8Jwwq7HDOfuY//HgX7ok=;
- b=POsf1l2YOZ4HYa8opijLwGMGJqQhh9MPr1yNJf9NX9Bnao5LC70yNnQtyhrjQ1MAOv
- WSq6saiyH8qF7SU4PbGQMmpFfWlb00zwiQctj7JukLqe+7KwOLVF3kXNeDo3oKGjR9pp
- u6KimzDFcGdWJ7EHN/edh0nfPmrclKcmPE1qI6O+MVVy3UJiX3JK7bm5hngQy4eMyiXy
- mKydhvMlCerMq0bDqmn7knkK7Skzp4uPrCkAcbWkMZHMWlIy0WzxbZ63Ko2Fk2RU8/RU
- gUw7mpbUt0XrvbioTquu+U22TQ8hh9ykkTHAWSFS/VllPky6aDkj3RWilkFo2rt0HwFf
- meig==
+ bh=97ac4mk+qRn8Kl2p6oRtCylE7z7H+goRcyRaHwAJvpk=;
+ b=czRlF50RH3LoDellwxcGp7CG1W7b47/roQ7W+JMF3aQe1l4jPeiRZyqTFG5pZ+y728
+ wcGSRwupm5hUbYa453c/X9UQSbI7bNGQXtTllkbX+K8jhlv2BomOXANWYEjfph2ck6bM
+ JCR5F3ycFYqEAylzMyDZj48yzGqYDy/tGSRsQ/oXkKdBKUDMj/ht9zcHCdkK+pjziS0G
+ uzdKZdtX6lizLAz46285OpQ7nDN1MgvbSjMeOwOND2pt+8sVLPQflR7SyXEO9P2Ave7l
+ 4OO9dh/amt3Hd/AmXp/TQZC/HHgcKSyTHy+cLCrI7JqCWil5LnHuyIEkMh75poz2bFJb
+ Jsvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=9V9LEBkVMIt0gNfbFS+tXVi8Jwwq7HDOfuY//HgX7ok=;
- b=zpF9s8oAjj5C1Zk79vffezEJ9JpeSjrFhM2+EulUaow92D9jt2ltTkWE9V/T0StZA1
- HD3IY2s8tUY4p6/FiXEQSU83feJwinrQekIQGYvAv+OEiMaYAn2Cblb20ywUYGZ0WxpK
- FJrsgk0V1rz6AVNC6F6GBaAgryIA7FAMBk11vYGUhJnDNhkX/T50lSZmcUWykKRcKIxf
- DHEPkQmeCeHp4+fbPVWlT0p6yEFKTAmgI5OSFe60HQgiEDRThR7bxjhniZ5bIIx7DeXS
- e7Nocs9+ikXHat5wyxOZiIk186mmh5h1XBnsCwJ1KVTNCpBCDLnMJg84mD2Vgmwlp7ZX
- opnQ==
-X-Gm-Message-State: ACrzQf3G8z+1LyaUMnSj16GGYmYN6mA4tNB0N4kvvKLCq/JXninjWeGa
- swqBM6nIC/V1qdmSk7yccXye8w==
-X-Google-Smtp-Source: AMsMyM5iGTNZ0Ns3xvQpfQkJD+YNGy1TrVzPzPkbZ/VP8zUtpCHUlWe4zpNEdt140qMCO9F2isoWQw==
-X-Received: by 2002:a5d:588f:0:b0:22b:623:ad04 with SMTP id
- n15-20020a5d588f000000b0022b0623ad04mr16915896wrf.607.1664288113769; 
+ bh=97ac4mk+qRn8Kl2p6oRtCylE7z7H+goRcyRaHwAJvpk=;
+ b=J0VamacMjmOMVC0jc4almvvYvlc1mnD+DC4PIp7LveZNjkAmd0qJlIMS48H+z5Zdh3
+ QxMM8eWeq4k3Rffc+6b2LZGdbyc0mMqbom5xEGG/2UXiou1ew03OJjGCrUKKqTGGvISj
+ vL+cu6BfCVuZzkZtZSAmAVefbkWwAvLSCxZbYwWtq7s8Y5xLrgXW6SgvoB7YJICTvWO+
+ zglUPxY54fOdzs8CSTHV6bD2nOvSKojAS2PUVcMWFl3ZJ59A/+1Z2oG7EZ4N8kk3yY/H
+ 2j+L/l1GNA9L7oGD2/k+Mqrn8kRDG76e6BaDUSDwbmpnT5ENW2SuTM3/1I1GAhB/GAGp
+ bxCg==
+X-Gm-Message-State: ACrzQf2n4RMGwL5blRew2sNHamUjdb1fwNNdTTqkuypXQw3lMeQHeD2F
+ 9WedqmMR0xfk1Ftvg5O5NsAAtkZ5S+SPPw==
+X-Google-Smtp-Source: AMsMyM4Yoc662MVwHw4TwhipB0ZrJTGQnnp0y665zjUlAClrMIBgzGGarjLSJSQg4YkRVnz/3T02LQ==
+X-Received: by 2002:a05:600c:4fcb:b0:3b4:a4dd:6154 with SMTP id
+ o11-20020a05600c4fcb00b003b4a4dd6154mr2826700wmq.60.1664288113211; 
  Tue, 27 Sep 2022 07:15:13 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- p14-20020adfce0e000000b0022af6c93340sm1957085wrn.17.2022.09.27.07.15.08
+ k22-20020a05600c1c9600b003b340f00f10sm14701857wms.31.2022.09.27.07.15.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 27 Sep 2022 07:15:10 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DCC711FFC0;
- Tue, 27 Sep 2022 15:15:06 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 12BC31FFB8;
+ Tue, 27 Sep 2022 15:15:07 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 09/15] hw/timer: convert mptimer access to attrs to derive
- cpu index
-Date: Tue, 27 Sep 2022 15:14:58 +0100
-Message-Id: <20220927141504.3886314-10-alex.bennee@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v3 10/15] configure: move detected gdb to TCG's config-host.mak
+Date: Tue, 27 Sep 2022 15:14:59 +0100
+Message-Id: <20220927141504.3886314-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927141504.3886314-1-alex.bennee@linaro.org>
 References: <20220927141504.3886314-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,73 +96,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This removes the hacks to deal with empty current_cpu.
+When tests/tcg gained it's own config-host.mak we forgot to move the
+GDB detection.
 
+Fixes: 544f4a2578 (tests/tcg: isolate from QEMU's config-host.mak)
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
 ---
-v2
-  - update for new fields
-  - bool asserts
----
- hw/timer/arm_mptimer.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ configure | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/timer/arm_mptimer.c b/hw/timer/arm_mptimer.c
-index cdfca3000b..34693a2534 100644
---- a/hw/timer/arm_mptimer.c
-+++ b/hw/timer/arm_mptimer.c
-@@ -41,9 +41,10 @@
-  * which is used in both the ARM11MPCore and Cortex-A9MP.
-  */
+diff --git a/configure b/configure
+index cc4ecd6008..f6a36a5361 100755
+--- a/configure
++++ b/configure
+@@ -2475,6 +2475,8 @@ if test -n "$gdb_bin"; then
+     gdb_version=$($gdb_bin --version | head -n 1)
+     if version_ge ${gdb_version##* } 9.1; then
+         echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
++    else
++        gdb_bin=""
+     fi
+ fi
  
--static inline int get_current_cpu(ARMMPTimerState *s)
-+static inline int get_current_cpu(ARMMPTimerState *s, MemTxAttrs attrs)
- {
--    int cpu_id = current_cpu ? current_cpu->cpu_index : 0;
-+    int cpu_id = attrs.requester_id;
-+    g_assert(attrs.requester_type == MTRT_CPU);
+@@ -2559,6 +2561,11 @@ echo "# Automatically generated by configure - do not modify" > $config_host_mak
+ echo "SRC_PATH=$source_path" >> $config_host_mak
+ echo "HOST_CC=$host_cc" >> $config_host_mak
  
-     if (cpu_id >= s->num_cpu) {
-         hw_error("arm_mptimer: num-cpu %d but this cpu is %d!\n",
-@@ -178,25 +179,27 @@ static void timerblock_write(void *opaque, hwaddr addr,
- /* Wrapper functions to implement the "read timer/watchdog for
-  * the current CPU" memory regions.
-  */
--static uint64_t arm_thistimer_read(void *opaque, hwaddr addr,
--                                   unsigned size)
-+static MemTxResult arm_thistimer_read(void *opaque, hwaddr addr, uint64_t *data,
-+                                      unsigned size, MemTxAttrs attrs)
- {
-     ARMMPTimerState *s = (ARMMPTimerState *)opaque;
--    int id = get_current_cpu(s);
--    return timerblock_read(&s->timerblock[id], addr, size);
-+    int id = get_current_cpu(s, attrs);
-+    *data = timerblock_read(&s->timerblock[id], addr, size);
-+    return MEMTX_OK;
- }
- 
--static void arm_thistimer_write(void *opaque, hwaddr addr,
--                                uint64_t value, unsigned size)
-+static MemTxResult arm_thistimer_write(void *opaque, hwaddr addr,
-+                                uint64_t value, unsigned size, MemTxAttrs attrs)
- {
-     ARMMPTimerState *s = (ARMMPTimerState *)opaque;
--    int id = get_current_cpu(s);
-+    int id = get_current_cpu(s, attrs);
-     timerblock_write(&s->timerblock[id], addr, value, size);
-+    return MEMTX_OK;
- }
- 
- static const MemoryRegionOps arm_thistimer_ops = {
--    .read = arm_thistimer_read,
--    .write = arm_thistimer_write,
-+    .read_with_attrs = arm_thistimer_read,
-+    .write_with_attrs = arm_thistimer_write,
-     .valid = {
-         .min_access_size = 4,
-         .max_access_size = 4,
++# versioned checked in the main config_host.mak above
++if test -n "$gdb_bin"; then
++    echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
++fi
++
+ tcg_tests_targets=
+ for target in $target_list; do
+   arch=${target%%-*}
 -- 
 2.34.1
 
