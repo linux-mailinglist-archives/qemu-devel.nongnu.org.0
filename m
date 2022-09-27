@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192D85EC330
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:46:43 +0200 (CEST)
-Received: from localhost ([::1]:38106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E358D5EC3EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:14:25 +0200 (CEST)
+Received: from localhost ([::1]:34146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od9yx-0007PT-GI
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:46:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44112)
+	id 1odAPo-0007nU-Su
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:14:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1od8XY-000115-5u
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:14:16 -0400
-Received: from mail-vk1-f180.google.com ([209.85.221.180]:38773)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1od8XU-00071L-3d
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:14:13 -0400
-Received: by mail-vk1-f180.google.com with SMTP id h5so4764773vkc.5
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:14:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=XICseC5ZAJO4L5qBXcqSTTr7i+K2qxui8nEb3EChY9Q=;
- b=ZPv8C72IbqGLNUeZiNbv6CQaQciIGJeqRxVRMpSrVhuVSl7fQzJv7i7CuiA2CrCu2P
- 4i8Gm29Lp9VMSunEKl8Qn0dbkvefXf/6PC6lb5bTkktzxkfs7a++ZHW5ckKyAeyPq5Yx
- cuiuNvVzGdeTIth2Z6G44/cmVdBc7yN/w918wWMGI83e5Sy/gwuMayUGf0l3S4UyQC4U
- ldeDqAFgHRG78n/HYtoeOhwXLdw2PvCJ5NQynEkpbpY9doqPER30CWA4quTnWYaH0Aic
- 4fyuVY6Ic/wLo5F9mHQSfDn+mCzyW5d/mgsbbOk9NzTnBmPlTLydcrnLVGoQ0TruwM4f
- VEJQ==
-X-Gm-Message-State: ACrzQf3hqNJOaTy5Vjf2v34mRHLC+8iuamXvB2iCzQqqVy4j/TCPyLLn
- jwW4zzfhBkfykAhA4Ct9B8Djn+A0u48AEsdECoo=
-X-Google-Smtp-Source: AMsMyM4xjILWS2zUJTjT2bitgCGTH6ONtRSkZ9LMQzafK24GZo3sLQLyvdXj2xvY1vbADL2UMVbnZ8aMXgkS6yYsYG0=
-X-Received: by 2002:a05:6122:10dc:b0:3a3:4904:2941 with SMTP id
- l28-20020a05612210dc00b003a349042941mr10828412vko.24.1664277250462; Tue, 27
- Sep 2022 04:14:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od8eb-0000om-LQ
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:21:35 -0400
+Received: from mout.gmx.net ([212.227.17.20]:58433)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od8eZ-0000Yo-K8
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:21:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1664277687;
+ bh=+fCikU8oGewwV5fb2gZaw3RxXW570qCENzy9my8B3ZY=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=Z3uI4yvp0ugIVc32YEQYaO3gXHChbZuRcQ9V4iNbBBgV9BafKYep73wa4r6sd2cL9
+ Vg3woN+3wQjCwjJU2Nkdvb4mk51rZzYKinS3DG5Si34AdormMh8AwPhO+JNGpIUiqp
+ nvhSg7DS22YdimMNsXHXRLs2tC9u5RdKmIiSznUE=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100 ([92.116.138.255]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MGz1f-1oPgVY3Fw3-00E1hI; Tue, 27
+ Sep 2022 13:21:27 +0200
+Date: Tue, 27 Sep 2022 13:21:24 +0200
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: ddd
+Message-ID: <YzLctFYiBG/JkNuH@p100>
 MIME-Version: 1.0
-References: <YzLJlENCtqx87DIs@p100>
-In-Reply-To: <YzLJlENCtqx87DIs@p100>
-Date: Tue, 27 Sep 2022 13:13:58 +0200
-Message-ID: <CAAdtpL5CvS_3aMgYhpc+okqSYA+WLQ=DfW0TvH04rYPXSJ9ggw@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: Add guest memory layout to exception dump
-To: Helge Deller <deller@gmx.de>
-Cc: Laurent Vivier <laurent@vivier.eu>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.221.180;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-vk1-f180.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:gg/pa041vPkrDBSWx+lg1bJ0vxAALOt7vnU6b1008aj6t0NQ9OS
+ 04dn8VvGpP1fGtT4R+cQzZkJ7eG5+ad++boqc3tcAcYG+AOIAaMeSeGk8WknfeWWQrcGzo2
+ nDmvzLdH97QTts5RK/qAdmcpEramvyiIhN2PcP2D4pHvfHnPjVdJmdkKpl9tKtXMUcyo8/1
+ 2gx+Gp5uF6ynlYuXz4geQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HeP3RMO7vzs=:TZbhUnCR5bXOgYFmCNUxQ/
+ I3MDekmQUrYdZphhzMftJqoB92K0OqtX4OLE5IdwysEjMqW1NoWngx8HrHkYU26qjG0UTKWTW
+ yRumIUXxde2O1Qgn8Pb/2apmzGk5mrnszRXcqelu3LlSEXwajAoGTrUwm3u9KC/McFfp7wWUs
+ wiIcjnnJMAgDvtwF6xPahfq1z30WdPAYBQixZHEX4uPrz+Eg1zdNAIZczMy/ZUOJ+0ywcJOwe
+ yJeLHlQkNZ7eAbEgVNuRlSFtGvmFOYn4ySqIay7Uf4Q3XdLUlktv0pH2uAcfib3xKYnnEbto0
+ v3rfwIw/Bgndf/D7//E4OMT895zqtIJBx4axxMqY8RVHvtvA3qipn5METrVip4twmomtjBSjS
+ qpE1crDKBCZr63kFusaJvEWjUsUVjDnydQSDl9hlEh1VWD2qXnxJYFBPgCkjs+g5LSQ6Xz5L1
+ cuGescpXBc0/zgiuykSzDXg7m8HQfdPIkHn+ZZKMMaTahwXxD9v8l2j/SFkwa45JHkJdxyWZK
+ T6N/4NT9fW0AJqk8vNMRzs3IuyUhg09ROWKr3WQHmM5Dcj4e7R9PMruUU12tPjY5S+EpyD/Wq
+ 83/zyQ0Cydg4PIE4yNGFc9BmPesHUiaO66xt1CPWqLJb7ugiBvYczORepMnbAkaiYvMox+4EJ
+ +rRvl17Apnk8ammQeMT1SkQBkTbm5qYC3/ZSx66i2JL6bNju5CaKwdo4tPvjmAekqyP1/f9xY
+ 2Pq5AgLIyCLsS027m91GvCT314//4hroWlg2FP7Kz2jAhp9uyGJNn/FpDFtp5P2o5EXq3wQPy
+ QG6bQX2T+h8FXjCCyfMtzpUhu4PB3eZjofaoU9Fjxlt9+o5rc2vfWOOf2sDgz5jd6Ac8iQg0K
+ 0ciXFY4NIAujkA1ggMNwp6igA3xg6BT9iuTfRgbdFE2xEdFNo/Z+2NXZj3SayntE4FxCJF1Do
+ 5wKe41zPURXJbUz9aMgTnqGP87FTkIIG37tD3Brp/JpLviLSwjPEX+gemEa21xy5jeq3ypPr8
+ BYfh8CffbjZEc+vX8nfY1BvlVtExGXZaWngc4o4Np04Qx0mXpf1/q343OEH1Ho0P+ZcqXAuH9
+ vCIUFpp6D2D7J3rWLXt5S8Gc9yB5F2F80r/3rO0yPXl1hIxW2Ge3rEi5FoUGUlp/NiDkdrfeJ
+ L60neZYtNO7WG71FhiZ9K3VMgi
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,112 +83,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Hi Helge,
+Add faccessat2() with strace output.
 
-On Tue, Sep 27, 2022 at 12:09 PM Helge Deller <deller@gmx.de> wrote:
->
-> When the emulation stops with a hard exception it's very useful for
-> debugging purposes to dump the current guest memory layout (for an
-> example see /proc/self/maps) beside the CPU registers.
->
-> The open_self_maps() function provides such a memory dump, but since
-> it's located in the syscall.c file, various changes (add #includes, make
-> this function externally visible, ...) are needed to be able to call it
-> from the existing EXCP_DUMP() macro.
->
-> This patch takes another approach by un-macronizing EXCP_DUMP() and turn
-> it into a function located in syscall.c.
-> Beside a reduced code footprint, this approach allows to add the memory
-> dump and simplify the code to print to console and log file.
->
-> Signed-off-by: Helge Deller <deller@gmx.de>
->
-> diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
-> index 36ff5b14f2..0b26b56915 100644
-> --- a/linux-user/cpu_loop-common.h
-> +++ b/linux-user/cpu_loop-common.h
-> @@ -23,18 +23,7 @@
->  #include "exec/log.h"
->  #include "special-errno.h"
->
-> -#define EXCP_DUMP(env, fmt, ...)                                        \
-> -do {                                                                    \
-> -    CPUState *cs = env_cpu(env);                                        \
-> -    fprintf(stderr, fmt , ## __VA_ARGS__);                              \
-> -    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
-> -    cpu_dump_state(cs, stderr, 0);                                      \
-> -    if (qemu_log_separate()) {                                          \
-> -        qemu_log(fmt, ## __VA_ARGS__);                                  \
-> -        qemu_log("Failing executable: %s\n", exec_path);                \
-> -        log_cpu_state(cs, 0);                                           \
-> -    }                                                                   \
-> -} while (0)
-> +void EXCP_DUMP(CPUArchState *env, const char *fmt, int code);
+Signed-off-by: Helge Deller <deller@gmx.de>
 
-s/EXCP_DUMP/target_cpu_dump_exception/
+=2D--
+v2: Resending with minor commit message changes.
 
-Worth split as a preliminary patch updating all targets.
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 7d882526da..307d19f5d0 100644
+=2D-- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1931,7 +1931,7 @@ print_execv(CPUArchState *cpu_env, const struct sysc=
+allname *name,
+ }
+ #endif
 
->  void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs);
->  #endif
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index d17f5d1c66..00861e9351 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -158,6 +158,7 @@
->  #include "qapi/error.h"
->  #include "fd-trans.h"
->  #include "tcg/tcg.h"
-> +#include "cpu_loop-common.h"
->
->  #ifndef CLONE_IO
->  #define CLONE_IO                0x80000000      /* Clone io context */
-> @@ -8177,6 +8178,33 @@ static int is_proc_myself(const char *filename, const char *entry)
->      return 0;
->  }
->
-> +static void excp_dump(FILE *logfile, CPUArchState *env,
-> +                      const char *fmt, int code)
+-#ifdef TARGET_NR_faccessat
++#if defined(TARGET_NR_faccessat) || defined(TARGET_NR_faccessat2)
+ static void
+ print_faccessat(CPUArchState *cpu_env, const struct syscallname *name,
+                 abi_long arg0, abi_long arg1, abi_long arg2,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 72e17b1acf..ef120ddd11 100644
+=2D-- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -177,6 +177,9 @@
+ #ifdef TARGET_NR_faccessat
+ { TARGET_NR_faccessat, "faccessat" , NULL, print_faccessat, NULL },
+ #endif
++#ifdef TARGET_NR_faccessat2
++{ TARGET_NR_faccessat2, "faccessat2" , NULL, print_faccessat, NULL },
++#endif
+ #ifdef TARGET_NR_fadvise64
+ { TARGET_NR_fadvise64, "fadvise64" , NULL, NULL, NULL },
+ #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f409121202..f51c4fbabd 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -399,6 +399,9 @@ _syscall3(int, ioprio_set, int, which, int, who, int, =
+ioprio)
+ #if defined(TARGET_NR_getrandom) && defined(__NR_getrandom)
+ _syscall3(int, getrandom, void *, buf, size_t, buflen, unsigned int, flag=
+s)
+ #endif
++#if defined(TARGET_NR_faccessat2) && defined(__NR_faccessat2)
++_syscall4(int, faccessat2, int, dirfd, char *, pathname, int, mode, int, =
+flags)
++#endif
 
-s/excp_dump/dump_excp_file/
-
-> +{
-> +    if (logfile) {
-
-Rather:
-
-    assert(logfile);
-
-(programming error).
-
-> +        CPUState *cs = env_cpu(env);
-> +
-> +        fprintf(logfile, fmt, code);
-> +        fprintf(logfile, "Failing executable: %s\n", exec_path);
-> +        cpu_dump_state(cs, logfile, 0);
-> +        open_self_maps(env, fileno(logfile));
-> +    }
-> +}
-> +
-> +void EXCP_DUMP(CPUArchState *env, const char *fmt, int code)
-
-s/EXCP_DUMP/target_cpu_dump_exception/
-
-> +{
-> +    /* dump to console */
-> +    excp_dump(stderr, env, fmt, code);
-> +
-> +    /* dump to log file */
-> +    if (qemu_log_separate()) {
-> +        FILE *logfile = qemu_log_trylock();
-> +
-> +        excp_dump(logfile, env, fmt, code);
-> +        qemu_log_unlock(logfile);
-> +    }
-> +}
-
-Nitpicking a bit, otherwise LGTM.
+ #if defined(TARGET_NR_kcmp) && defined(__NR_kcmp)
+ _syscall5(int, kcmp, pid_t, pid1, pid_t, pid2, int, type,
+@@ -9098,6 +9101,15 @@ static abi_long do_syscall1(CPUArchState *cpu_env, =
+int num, abi_long arg1,
+         unlock_user(p, arg2, 0);
+         return ret;
+ #endif
++#if defined(TARGET_NR_faccessat2) && defined(__NR_faccessat2)
++    case TARGET_NR_faccessat2:
++        if (!(p =3D lock_user_string(arg2))) {
++            return -TARGET_EFAULT;
++        }
++        ret =3D get_errno(faccessat2(arg1, p, arg3, arg4));
++        unlock_user(p, arg2, 0);
++        return ret;
++#endif
+ #ifdef TARGET_NR_nice /* not on alpha */
+     case TARGET_NR_nice:
+         return get_errno(nice(arg1));
 
