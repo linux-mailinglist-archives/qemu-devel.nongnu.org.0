@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7E05EC982
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 18:30:20 +0200 (CEST)
-Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4485EC9AC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 18:37:42 +0200 (CEST)
+Received: from localhost ([::1]:47904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odDTM-0002Hm-CH
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 12:30:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32862)
+	id 1odDaW-00019E-Po
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 12:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odBz8-0002Iv-2l
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:54:58 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:37750)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odBz6-0005nK-6z
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:54:57 -0400
-Received: by mail-ej1-x630.google.com with SMTP id a26so21296103ejc.4
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:54:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=p5tVGLL36grSyP4MJvz/C34dLKEr2z7PMxdoFexrzHw=;
- b=ZfqfTOIUniwIOCw6KDbtBBnheQr6IkH814AEpax/80avo8RZl9SBnxxbF8IP5hd91P
- F+8HNgSgHnD6C7/OV/gpRKQ+CeTJJB6wMFfrYSJRCR/CtWVJqeQ6C1j8RognjRtqk5Z3
- ruDdZd3aKEBamNQKK/+wXNBByHzXWSr5jqRQHGYtsgtG1Ql0WoCrm2jjVoDwzrFYKX9i
- /lX5ZU6vFAri2lAtptTcITXUEf9VfvCzpb/as+y3kEm+mWPnXt7eCXQ1Mw35o0Uej9P7
- TD1d4f3YV++MkWWmugb6xcy6cKDp4WwnMzor868mOiSTE0s53UWlJa7z5Z/aAO1gsudZ
- mzFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=p5tVGLL36grSyP4MJvz/C34dLKEr2z7PMxdoFexrzHw=;
- b=YhFzn/XzutIuP8sxW2i+jlVsfGqUYPOiQstrMjoUIc8Y2G9e6LQbrVoKSx7vajmyXz
- ksrWujQc7PtOdPIuvAZ5Hugtu+XAPRAaD7HXKo5uYe6ACH0esT0p0xTxqWrNp+L98jIt
- RDYv7QZWUjn8yoE9wouJSVLCdT78XIIHDf3gI6sjkMR9IMr15m+ZbCXa0al2ctFcAUFT
- 7tUizB4h8iXILc6GfaCIFO3tT1ZFX4iMkfF01fEKYXUAUyauj/xk5E9JwWHnZpL2/8aE
- /0Sy86SLsKVI2qKrXAFRVL8nDLesLSeiHWaUO+JTzkr6oxGLwhjjHdibsi6ShrSfpl/v
- om3A==
-X-Gm-Message-State: ACrzQf3vO3JqavhMXKiDXbwwbEbLJAR/yOpLRAu0X7E4w3HA34bJ1YKV
- HDhBGKmJdRBtPFpmiZxRu/XK2KXPNRtSo6zLHH3UhQ==
-X-Google-Smtp-Source: AMsMyM7ZuskS8nSs6REV5JKeJaHzemjqwpaw6+64BqDl0durw++sjJ50qGliQ6HO6FrDJ2xIOYws5dBImkJXTNMmY6U=
-X-Received: by 2002:a17:906:730d:b0:782:a4e0:bb54 with SMTP id
- di13-20020a170906730d00b00782a4e0bb54mr19027078ejc.659.1664290493950; Tue, 27
- Sep 2022 07:54:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1odC8S-0006DP-Ue
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 11:04:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40013)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1odC8P-000813-Uy
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 11:04:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664291072;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+lr0lq37fPUfgqiasybK9i9pDYPdb3zUSvxIy8be5Ak=;
+ b=Sc3ebhVqXxDl3hNotwIabW2DlFR6CqM2SUhUmHeRPgRFs9cp0HOo8rSRvidMaSxrb3+xWi
+ wKjEzcxjWXQZVh1bKgnYv9AHNBjCxLuUOtJ43rHp3BzPRps8U84tg3LFLe/SbEB6rf+JMr
+ YA6Xc6hS9I9nqWXk+4ieARNxaeNA/5k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-673-3IzSIU6EO3KtiD4NsBk9ow-1; Tue, 27 Sep 2022 11:04:28 -0400
+X-MC-Unique: 3IzSIU6EO3KtiD4NsBk9ow-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 828D2811E87;
+ Tue, 27 Sep 2022 15:04:26 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B1CFB40C6EC2;
+ Tue, 27 Sep 2022 15:04:25 +0000 (UTC)
+Date: Tue, 27 Sep 2022 11:04:23 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Alexandre Ratchov <alex@caoua.org>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/24] Kraxel 20220927 patches
+Message-ID: <YzMQ97/OkHDZ72VL@fedora>
+References: <20220927081912.180983-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20220927131347.170051-1-pbonzini@redhat.com>
-In-Reply-To: <20220927131347.170051-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Sep 2022 15:54:42 +0100
-Message-ID: <CAFEAcA8ygLqNYVCurKRyTGqSrbQaPL=jOEm29R7JHf2rj=bAQA@mail.gmail.com>
-Subject: Re: [PATCH] update Linux headers to 6.0
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, cohuck@redhat.com, mst@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="RI/uwxQXBCFb4wAC"
+Content-Disposition: inline
+In-Reply-To: <20220927081912.180983-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,23 +89,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Sept 2022 at 15:53, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The big change that comes in here is that several structs have been
-> switched to flexible array members.  This is compatible with
-> QEMU's use of this structs in constructs such as:
->
->     struct {
->         struct kvm_msrs info;
->         struct kvm_msr_entry entries[1];
->     } msr_data = {
->         .info.nmsrs = 1,
->         .entries[0].index = index,
->     };
 
-This won't build on clang -- see the patchset
-https://patchew.org/QEMU/20220915091035.3897-1-chenyi.qiang@intel.com/
-which includes an initial patch to disable that warning first.
+--RI/uwxQXBCFb4wAC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
--- PMM
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--RI/uwxQXBCFb4wAC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMzEPcACgkQnKSrs4Gr
+c8i7PAgAuUS1vsWD5zVTwa+0e2Z0ix3t9Yn68kwUNw45dLtd3lQ87ZkdvxiHOmyZ
+1723TZGEYx82qVDT++oRaZXaGGTu4nZo6cxhygq2D/GzUb7pM/NnuPIwtKlEhcL1
+2R1EjGKHqtTu9FemIfee882Gci1VKF2pHjD1AjCUQCiDMy7xQdblHm6Fs+3vlaMB
+uvKvarRtcTrbY+0uno4cUjpJa4+/5ks7onffnrJg28koAW6weZKYoVAeBuvyooyF
+WELOycESV2mvkpmKwNhin+Bn8mmJ6dnp2XE2JDn5CD2mz0T95nXH10nVsX2JItaE
++zsIOSOERJO/DyayA9ElQ1VBX2uYbQ==
+=NfiB
+-----END PGP SIGNATURE-----
+
+--RI/uwxQXBCFb4wAC--
+
 
