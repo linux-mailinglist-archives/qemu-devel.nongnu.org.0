@@ -2,100 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E095EC582
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:08:10 +0200 (CEST)
-Received: from localhost ([::1]:60176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 218B45EC615
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:29:32 +0200 (CEST)
+Received: from localhost ([::1]:55870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odBFo-00044t-S8
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52962)
+	id 1odBaV-00023H-0b
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1od9lo-0007za-J5; Tue, 27 Sep 2022 08:33:05 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29712
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od9wU-0004Km-12
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:44:06 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:58339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1od9lm-0004uV-Ib; Tue, 27 Sep 2022 08:33:04 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28RC7Go7010098;
- Tue, 27 Sep 2022 12:33:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=H2ycVdwsaW6+vrrtDZjFE5h/TC4dQxva/AchUE2ynaI=;
- b=s/ERlUAIqrwJakFZA215ASC4cwbYFFxX8bdQwGGWc7ihGJ3oGZ2GQVT4Nwo4mLsi3YZo
- DC4tRR5RW/ePRf5hGp21yOaQ8AxxdBnJMVELOR6euvuoPB5XEyLGPhc7bSq267jWwc3H
- syHiFrsEetoZuryNPMC95BNdXoWMO2FYyJMedaDk3QcipaPdmZNPNaz1kqmGJtmF7HHA
- dcvkvsTIDXlPb1LMR0JIxxYM5tH81NeOJlW1MeCdAkEWwhRUq6Jmkja8YKLKbDquOrRh
- H/JNCohUWAN2oAyr6TP1Y/U2VBMFUMMx6csdtkAP6/7pjAt2NQP4eUel5o4W65gspjXD Sg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3juxwtmbwe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Sep 2022 12:33:00 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28R9t5QP018170;
- Tue, 27 Sep 2022 12:32:59 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3juxwtmbwa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Sep 2022 12:32:59 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28RCKVWX012548;
- Tue, 27 Sep 2022 12:32:59 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma04wdc.us.ibm.com with ESMTP id 3jssh9cfj0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Sep 2022 12:32:58 +0000
-Received: from smtpav05.dal12v.mail.ibm.com ([9.208.128.132])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 28RCWxae8323830
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 27 Sep 2022 12:33:00 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CC1025804C;
- Tue, 27 Sep 2022 12:32:57 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 337E858056;
- Tue, 27 Sep 2022 12:32:57 +0000 (GMT)
-Received: from localhost (unknown [9.77.133.152])
- by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTPS;
- Tue, 27 Sep 2022 12:32:56 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Nicholas Piggin <npiggin@gmail.com>, Daniel Henrique Barboza
- <danielhb413@gmail.com>
-Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH] target/ppc: restore powerpc_excp_booke doorbell interrupts
-In-Reply-To: <20220924114436.1422786-1-npiggin@gmail.com>
-References: <20220924114436.1422786-1-npiggin@gmail.com>
-Date: Tue, 27 Sep 2022 09:32:55 -0300
-Message-ID: <871qrx5760.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od9wR-0006RM-6U
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:44:05 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue012
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MEC8L-1oVhpT48ft-00AD4X; Tue, 27
+ Sep 2022 14:43:59 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH v2 0/2] linux-user: handle /proc/self/exe with execve() syscall
+Date: Tue, 27 Sep 2022 14:43:55 +0200
+Message-Id: <20220927124357.688536-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Lo_IBFmh8gD6iAo8XAULWTBrRZtxK86J
-X-Proofpoint-GUID: uoGv2MgbhuD6LDD9I1Cxg_reoCxMobAP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-27_03,2022-09-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 mlxscore=0 suspectscore=0 mlxlogscore=979
- priorityscore=1501 adultscore=0 phishscore=0 impostorscore=0 bulkscore=0
- spamscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209270073
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:xLpn1GHM7HBcpa4ncdr/ERYKkAHU0AJl/Zn1fa1oZVg+8ZDHvUp
+ 6k3W0qSoq1t4yi3XE6LjL5lmUGMlnQjOlu7ttM80LA7zblJDpsA7QAa1LyFMUmflCkmQh7J
+ VmtCb/HBpyOmSsLs1Ghi09QsD1CSEkb+L/wp/VWJYsRx9ByXBrEZPaYOMjltMFJm32wOSlk
+ TOv8yfh9hlDmVbN3qAQBw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:H+hUSDX64Uw=:1P8+AIZ/R2qREeOC9Hs6Uo
+ p7QicaY4V1PH/aTNplSd2KDex2/3g6dIbwys/ZW6q0poFpCeyQ5Zor9jf42iVpPLnoY+GdlbT
+ CWJwOc5dIxw2HU8/nuWRhDztPuMiQ4L2ZuZBNeTro8QDdPc5OVcC1vWnoKznbJ7n/lorZyB5N
+ GfjJM8e14HM0t/9Nfiecrf8RKCVpOFD6RArpqEw5HKomJz/Py4G0fQzNgTEZc3ff3H3wS+URd
+ 0yRqUZEwGaPrBlqo9SgKIMkXBhnUuYkhlTFXIWS+UccQqMsXeNkDTbnHz/R4Ymbepsnkb1rC2
+ xJ6lFEBDDuSK8WGiyqfYVaLtgjnMcMo5Wf+eP2774CDK8R0pDrq3MnsfB21Cfd1UzUaOanJVd
+ 9VobpYjsE9V4pQ3BzM46xdKmDOyQnqjv0/NDGlA8Epas5MnVFrv2M02oo+oAHcOuRQhK149Br
+ w9qJWQYNsYuNF86q9LEsIUQa7FBWmfzWv12Ld3T6Zk9cWQXWg522O4WhYAA1ILwyF2Esc71YT
+ JqEvlYWmC9OKrqXLVgCvKdJBCE9thxMVliawVC8akFAVYgLxdWKDyauw2CHuKnRgj+reFbHiu
+ ZoiwpWGKXgAjxUd/32/O1eOSA5vhYdJkPD+6DKatVihsApBIwgoKfRyd7isZQq7zdIfsQ5opU
+ SuNSweLqD7tp32X6rC/AfpeeN+BzeINfZZH2JUxOqaz5qighXqjQezP5FzWeQr1chmWFR9wYK
+ rSiLnt9SbSzcSHLSRdMJfXK0vhw71AkbS31+VuvwbT0lkc9tAAdRmGFmSrv4klF0FKZ2WrBGR
+ CaOzXbu
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,64 +70,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nicholas Piggin <npiggin@gmail.com> writes:
+Use exec_path to re-execute the binary from /proc/self/exe
 
-> This partially reverts commit 9dc20cc37db9 ("target/ppc: Simplify
-> powerpc_excp_booke"), which removed DOORI and DOORCI interrupts.
-> Without this patch, a -cpu e5500 -smp 2 machine booting Linux
-> crashes with:
->
->   qemu: fatal: Invalid PowerPC exception 36. Aborting
->
-> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> ---
->  target/ppc/excp_helper.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 214acf5ac4..43f2480e94 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -1247,6 +1247,12 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int excp)
->      case POWERPC_EXCP_SPEU:   /* SPE/embedded floating-point unavailable/VPU  */
->          env->spr[SPR_BOOKE_ESR] = ESR_SPV;
->          break;
-> +    case POWERPC_EXCP_DOORI:     /* Embedded doorbell interrupt              */
-> +        break;
-> +    case POWERPC_EXCP_DOORCI:    /* Embedded doorbell critical interrupt     */
-> +        srr0 = SPR_BOOKE_CSRR0;
-> +        srr1 = SPR_BOOKE_CSRR1;
-> +        break;
->      case POWERPC_EXCP_RESET:     /* System reset exception                   */
->          if (FIELD_EX64(env->msr, MSR, POW)) {
->              cpu_abort(cs, "Trying to deliver power-saving system
-> reset "
+Fix do_openat() that should not use execfd.
 
-Ah, booke always trips me up.
+v2:
+- don't use execfd as it can't be closed and is usable by the child
 
-Since BookE has exception handler locations defined at runtime, the
-env->excp_vectors array doesn't really need to be initialized with valid
-exceptions/addresses (that is done on demand at
-translate.c:spr_write_excp_vector). So, unlike the other ppc variants,
-the init_excp_BookE/e200 code is not an exhaustive list of the
-exceptions that might exist.
+Laurent Vivier (2):
+  linux-user: handle /proc/self/exe with execve() syscall
+  linux-user: don't use AT_EXECFD in do_openat()
 
-Note that with this patch the doorbells behave differently if we try to
-dispatch the exception before the OS has touched the IVORs. For all
-other exceptions we dispatch at 0x0 + prefix while for the doorbells
-we'd bail here:
+ linux-user/syscall.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-    vector = env->excp_vectors[excp];
-    if (vector == (target_ulong)-1ULL) {
-        cpu_abort(cs, "Raised an exception without defined vector %d\n",
-                  excp);
-    }
+-- 
+2.37.3
 
-We might want to consider adding DOORI/DOORCI to init_excp_BookE. Or
-alternatively remove all of the 0x0 initialization from that
-function.
-
-The fix is good anyway:
-
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
 
