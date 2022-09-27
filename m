@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 753B65EC539
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:59:05 +0200 (CEST)
-Received: from localhost ([::1]:36430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D57E5EC4DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:46:55 +0200 (CEST)
+Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odB72-0002V5-JT
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41572)
+	id 1odAvG-0003vz-57
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:46:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1od9Ct-0003RA-1x
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:56:59 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:45579)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1od9Cr-00072N-4x
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:56:58 -0400
-Received: by mail-ej1-x636.google.com with SMTP id dv25so20101236ejb.12
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:56:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=fN9CNSSp9QD4DhPtMwCnClQHPB7aKH5qbOBL+jucZP0=;
- b=CLVkfux/8C7pJ1rPYedPBO3QIFOOPtrJVljnKjDRWoMYuNOTwi480lQzeJMK5SA8MJ
- f2aYizK0SprUvmnxbNbmLCrDHZK7tfgOrPZtORt0WfNT9lHqbbgjB8O1teXLCeu93yo0
- n4VYAhO6qqvtbqXBiAJz9JGzLITJBm5PO9ttdjbiFk8y8wzLoW5euc5GL9fQ7n7ltAZ4
- 7vF53Z/88TZHTT8djapfSXmZoOlcIVccLNR98sNPOjGc+gU69f8Myx/jdzXJxgIArQTz
- +p3KhW+mVYtPrTtDKIFTS0B7I90q5M6dgzCBZM4LjbGAE2VlyJDxilTGv4vGKaqO8xa8
- I5aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=fN9CNSSp9QD4DhPtMwCnClQHPB7aKH5qbOBL+jucZP0=;
- b=gfnoSTXfpnsDxdK6TDymfy5wohv+e1RuhiQGl5WR1Gdc/QJzdMhac8vD7DaXaI8uWq
- VSM4kL5Q4oN+PNMdnmwkR5JBWlq6uE7JA03NK5CFBsPswt7VqtJqe9GwIpluQEUViHX9
- bukNKTa06MKaI0C6oxM565PfqB0xBUu8c4Odx4jXifhqU/UxKyh9wRxnyjU+VvSJWL4b
- oJrz/kOtHPa1WEa2K6stibvT8gS+SFB4wRSXK3wsuJiK48tDS5ZyZnwNrR5zwqELPFUy
- 0o72qyvOh2Q4MLdpmLiUqvKRXrOclP8v9I9hUk7lN154GV9GEDmqR+uEN8gV/IZNsXUx
- pTOg==
-X-Gm-Message-State: ACrzQf2A+BcSbnaUbWdWJnmCt6oicW1jVFnZgHixvFqNKJe+897OuHvB
- 4rRFuJ2uwKi3SzjNEnItQ17YACdvlhjxD4YKRL2q9Q==
-X-Google-Smtp-Source: AMsMyM6NCwb2p0gKge7s4z8QGiYAKXJlAD3NSpjZrvudrF0fe025boWWvknizqdgaZL3/jZ1nxCCYK/6DVAGqvhy7RM=
-X-Received: by 2002:a17:906:9c83:b0:779:c14c:55e4 with SMTP id
- fj3-20020a1709069c8300b00779c14c55e4mr21919178ejc.619.1664279811942; Tue, 27
- Sep 2022 04:56:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1od9DP-0003kj-MB
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:57:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45149)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1od9DN-0007BT-PF
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:57:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664279846;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0QhmsVLXO2AHE436gB0OgdQpWUcfMhiYsyldy3FGGt4=;
+ b=JxH2GCa7eJx19Jy2uio7wZJ8csD9v4Lz9kWf12FSY+mHoPJaguroZRpYp2gI5e2PI/BMqD
+ lSf5oxVaDVEwroqTbBGDMtqWxiq/VMAdj3FI5uChI03EXjouwOqOeOoPkILmddnBib3lzR
+ 6ryP1Dlrk/l3eOrCCoPteBHXS9XoYP0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-591-qzpXSty3MXKHM3rGGElKHA-1; Tue, 27 Sep 2022 07:57:23 -0400
+X-MC-Unique: qzpXSty3MXKHM3rGGElKHA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DFECE8027ED;
+ Tue, 27 Sep 2022 11:57:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D50E5C15BA5;
+ Tue, 27 Sep 2022 11:57:20 +0000 (UTC)
+Date: Tue, 27 Sep 2022 13:57:19 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v6 3/5] module: add Error arguments to module_load and
+ module_load_qom
+Message-ID: <YzLlHwpx2syQLPFE@redhat.com>
+References: <20220923232104.28420-1-cfontana@suse.de>
+ <20220923232104.28420-4-cfontana@suse.de>
+ <YzGBOwBQucv1F2NL@redhat.com>
+ <3dc4a54e-7d04-36db-0931-2fb8d068b5f2@suse.de>
+ <87a66lmev9.fsf@pond.sub.org>
 MIME-Version: 1.0
-References: <20220927100347.176606-1-jean-philippe@linaro.org>
- <20220927100347.176606-5-jean-philippe@linaro.org>
-In-Reply-To: <20220927100347.176606-5-jean-philippe@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Sep 2022 12:56:40 +0100
-Message-ID: <CAFEAcA-5BDiv6sXJ_kpzCwpu20PJRQzOpS08bAswyJiFMSiT4w@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] hw/arm/virt: Fix devicetree warning about the
- gpio-key node
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, robh+dt@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87a66lmev9.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,28 +87,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Sept 2022 at 11:12, Jean-Philippe Brucker
-<jean-philippe@linaro.org> wrote:
-> The node name of the gpio-key devicetree node should be "key-poweroff":
->
->   gpio-keys: 'poweroff' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
->   From schema: linux/Documentation/devicetree/bindings/input/gpio-keys.yaml
->
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Am 27.09.2022 um 09:54 hat Markus Armbruster geschrieben:
+> Potential issue before this patch: I can't see bdrv_open_child() being
+> undone.  Shouldn't we close bs->file?  And what about
+> bdrv_open_child()'s side effect on @options?
 
-This restriction only went into the DT documentation in July
-(kernel commit 5eb5652250).
+bs->file is handled by the caller, bdrv_open_driver().
 
-Please don't retrospectively make perfectly valid working DTs
-non-valid. I don't see any reason to change QEMU here.
+options is going to be freed anyway, so I don't think we care about its
+content. And anyway, doesn't bdrv_open_child() only remove those entries
+from it that it processed, like in the success case?
 
-More generally, the set of things you might want the
-validator to warn about for a fresh new human-written DTB
-doesn't necessarily correspond to the set of things you want
-to enforce for a pre-existing code-generated DTB. For the
-former it makes much more sense to impose "coding style"
-and "naming convention" type rules.
+Kevin
 
-thanks
--- PMM
 
