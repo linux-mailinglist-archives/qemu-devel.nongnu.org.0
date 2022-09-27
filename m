@@ -2,64 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639045EC09A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:10:18 +0200 (CEST)
-Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC8705EC0E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:17:41 +0200 (CEST)
+Received: from localhost ([::1]:47232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od8Th-0004nZ-Eh
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:10:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47726)
+	id 1od8ap-000429-Vv
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:17:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od8Kb-0006R0-LW
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:00:53 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:53177)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1od8ME-0008Ob-Gz
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:02:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od8Ka-0003Y6-1z
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:00:53 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MMoOy-1ovl7024U0-00Ikry; Tue, 27 Sep 2022 13:00:50 +0200
-Message-ID: <bd97df02-e4a5-42b6-e00b-7b163af7066a@vivier.eu>
-Date: Tue, 27 Sep 2022 13:00:49 +0200
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1od8MC-0003td-Kn
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:02:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664276551;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OkVFbLVaWxUtZrJVH1RkSJuaegFdoRgoZjUJjxoGEeo=;
+ b=Y6C860zpgjjIZZAZZ133KSk5fbNKuewhfzbvV2fUvucu7mUJp03q3UEKTAV93XXIr7uTfC
+ gtn1JIDdS0zWJp/QcEQELmmVlA3xPouZ949xX6Ch4e2EyycJUTQCG8oj1i9Lt7Z+TZr3yZ
+ +/+0+xyT38r/CbDho8i11S37IeWs2S0=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-620-kgs5RpqGNYeBYv9vslvi6A-1; Tue, 27 Sep 2022 07:02:30 -0400
+X-MC-Unique: kgs5RpqGNYeBYv9vslvi6A-1
+Received: by mail-oo1-f70.google.com with SMTP id
+ x22-20020a4a3956000000b004748ff8c4b4so3970984oog.13
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:02:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=OkVFbLVaWxUtZrJVH1RkSJuaegFdoRgoZjUJjxoGEeo=;
+ b=3eGqidYr1QOr1XHlKyrT8C/NebQdgy9IWX6wkgLz3S6RVqy2vpAhOjB1z7RLUrQZLp
+ rcQu7XcMsggpQ/mtTD6iS9gJDLDO8DwBP5+LiVI3PkcjsY5jRc+IABF0fl7Tb2LZXOh/
+ ovj/Io8k1kARjGofVwdxAgXB3C1iVqJJbPzUlgP3EFHPT+VJ3/RQ3cEjMXhnnqPs4Kgx
+ Lko8+vHyge9wx8Z93rYn/J+4bJFucZ1JXRAxQ7QveI13rgKxCPIs+AgnIoTK5tzt14M/
+ 8erzCcglqKj+gWE/gIgR6S4cVclJ4lYsVwE27fRgWo/hXGJYmay4Msyol7x0uMjw49m1
+ +I1Q==
+X-Gm-Message-State: ACrzQf2FTDxgOOJcz6Wueece9prXotNehRu8CsN7o8s/+rk/o+xfL23E
+ jd6e7L5ztHpZJvqZacnXOGFr4/lBCRqzHCflmJeqQkE5NKviBPw9Xzx2Y1maJoGqxsxRpQm/aOe
+ nsUFcEa/io/dqdQ76YxTbOTE/0Uc6Ct0=
+X-Received: by 2002:a05:6808:1687:b0:347:cbd3:3dcf with SMTP id
+ bb7-20020a056808168700b00347cbd33dcfmr1491480oib.53.1664276549190; 
+ Tue, 27 Sep 2022 04:02:29 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6KEAyEO3R/ZpdpEGkQH+VMvxTVp7i5j9OSUpA6tfIIve4bKc+9FfE/Z21U11MHrB5CvNXcVgy2/7bQVFSc7DU=
+X-Received: by 2002:a05:6808:1687:b0:347:cbd3:3dcf with SMTP id
+ bb7-20020a056808168700b00347cbd33dcfmr1491438oib.53.1664276548483; Tue, 27
+ Sep 2022 04:02:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 2/2] linux-user: Add parameters of getrandom() syscall for
- strace
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-References: <20220927093538.8954-1-deller@gmx.de>
- <20220927093538.8954-2-deller@gmx.de>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220927093538.8954-2-deller@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:RAwmfu6EIlkohweEZd3mTamjlcFjF2CPY8CW/ZhTZTPsXSPw0UT
- cKI9lbM3LKPaj+i632zKpY1ViLeMcZCKM26R5QnCtc7bFD17qCilZea2nppjMRTuu+avzz5
- g4AcgcbHbQuhZfS9t2+RStI/eQECCljuRnMxrmIIOrvTxv4ta9Cwcm7iQH1OL3F9/bl9vhG
- ic2GonhTANw55UPyk2xaA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5MLxLzZVE8k=:wqR7lAZ1J/s4Yzwus9zyp1
- dAxmAXVcngYcTCegOyVG2jnisG9/U9zQIeKoq2Etw7CYc3RnvYYZ0IPNiGclLOxajLxGlXqzB
- 4ehoXE7DjIIgvYblWwQQVt4tE8W1xosWWbQ3SBuVO51ZK0ncBUQnPdOY2AUDUxHh6Bnu6TlKl
- gtmK5gIMtH89hVo1uQOOPj8219bJppabjkqxuCCRuNgQ9VFy+4xmMk4QTRtgzfMExA+n9czRs
- UmgMwJ62FT571z93EyvRppIV5mr43L8DYWD+nWvzho2W2BUhfE8GQ5Ix+hPQ9GaltxNNyUMu7
- zyKYERzBf+n5FOfdk5Nf+xbiZmNv0MXQGkvDjUPcEo21hOP5VrvsUsA/Sr/6N3ngUYThKb3Ra
- CSUF1V/Qo3jTKaIU8cbX4C9AGOxw13TWZmGGaoFOBxUXJ6hkThe8cEgR3Jrblmt4wijAhEabe
- U9kPlkffsJibgEDsUymFnVWIGI+fVvYflgLsIZO8ee856U7h9xulXv7tK2nRTyTQrguRTRpJt
- 6FltgSQ6usIC//defDdQNuB7kKDKGjUrJqy/FCLR9MfxpP/WACPAdQJSwR4l/ax2INqjgvs9w
- I5yMaj0buwrzTq8NNTiCy/8WTZcuLcU2vTXq3j/8/YARz0IrUR1kUH/rf0MkW5zD26f6rrxjj
- 999q05dPSjrYTePeNusOyIhkmigXizDVdmRholQv7Yft6wYdIkN8vminJOAFxAnMvmAxV+lT0
- DFqQlTh7YQz59ULNlr8y3JuSZOIAVYIT5M+Ody01sFznO1XYyoDavvBV/zQ/eX20kpn3/IZAU
- DsJ91VA
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20220927095921.261760-1-pbonzini@redhat.com>
+ <20220927095921.261760-6-pbonzini@redhat.com>
+In-Reply-To: <20220927095921.261760-6-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 27 Sep 2022 15:02:16 +0400
+Message-ID: <CAMxuvawj4i3TfxVj++mAQwKkvAydyRoFrfcFWHthETA1AA1kTg@mail.gmail.com>
+Subject: Re: [PATCH 5/5] configure, meson: move linker flag detection to meson
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,33 +95,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/09/2022 à 11:35, Helge Deller a écrit :
-> Signed-off-by: Helge Deller <deller@gmx.de>
+On Tue, Sep 27, 2022 at 1:59 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
 > ---
->   linux-user/strace.list | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index 31a2ccd76d..9bb234a584 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -358,7 +358,7 @@
->   { TARGET_NR_getpriority, "getpriority", "%s(%#x,%#x)", NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_getrandom
-> -{ TARGET_NR_getrandom, "getrandom", NULL, NULL, NULL },
-> +{ TARGET_NR_getrandom, "getrandom", "%s(%p,%u,%u)", NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_getresgid
->   { TARGET_NR_getresgid, "getresgid" , NULL, NULL, NULL },
+>  configure   | 16 ----------------
+>  meson.build | 13 +++++++++++++
+>  2 files changed, 13 insertions(+), 16 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 0a6f57c371..e5f1eb6213 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1342,12 +1342,10 @@ EOF
+>  if test "$static" =3D "yes"; then
+>    if test "$pie" !=3D "no" && compile_prog "-Werror -fPIE -DPIE" "-stati=
+c-pie"; then
+>      CONFIGURE_CFLAGS=3D"-fPIE -DPIE $CONFIGURE_CFLAGS"
+> -    QEMU_LDFLAGS=3D"-static-pie $QEMU_LDFLAGS"
+>      pie=3D"yes"
+>    elif test "$pie" =3D "yes"; then
+>      error_exit "-static-pie not available due to missing toolchain suppo=
+rt"
+>    else
+> -    QEMU_LDFLAGS=3D"-static $QEMU_LDFLAGS"
+>      pie=3D"no"
+>    fi
+>  elif test "$pie" =3D "no"; then
+> @@ -1369,12 +1367,6 @@ else
+>    pie=3D"no"
+>  fi
+>
+> -# Detect support for PT_GNU_RELRO + DT_BIND_NOW.
+> -# The combination is known as "full relro", because .got.plt is read-onl=
+y too.
+> -if compile_prog "" "-Wl,-z,relro -Wl,-z,now" ; then
+> -  QEMU_LDFLAGS=3D"-Wl,-z,relro -Wl,-z,now $QEMU_LDFLAGS"
+> -fi
+> -
+>  ##########################################
+>  # __sync_fetch_and_and requires at least -march=3Di486. Many toolchains
+>  # use i686 as default anyway, but for those that don't, an explicit
+> @@ -2247,14 +2239,6 @@ if test "$have_ubsan" =3D "yes"; then
+>  fi
+>
+>  ##########################################
+> -
+> -# Exclude --warn-common with TSan to suppress warnings from the TSan lib=
+raries.
+> -if test "$solaris" =3D "no" && test "$tsan" =3D "no"; then
+> -    if $ld --version 2>/dev/null | grep "GNU ld" >/dev/null 2>/dev/null =
+; then
+> -        QEMU_LDFLAGS=3D"-Wl,--warn-common $QEMU_LDFLAGS"
+> -    fi
+> -fi
+> -
+>  # Guest agent Windows MSI package
+>
+>  if test "$QEMU_GA_MANUFACTURER" =3D ""; then
+> diff --git a/meson.build b/meson.build
+> index f57a60ac4c..f8c80a5b00 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -183,6 +183,14 @@ qemu_cflags =3D config_host['QEMU_CFLAGS'].split()
+>  qemu_objcflags =3D config_host['QEMU_OBJCFLAGS'].split()
+>  qemu_ldflags =3D config_host['QEMU_LDFLAGS'].split()
+>
+> +if enable_static
+> +  qemu_ldflags +=3D get_option('b_pie') ? '-static-pie' : '-static'
+> +endif
+> +
+> +# Detect support for PT_GNU_RELRO + DT_BIND_NOW.
+> +# The combination is known as "full relro", because .got.plt is read-onl=
+y too.
+> +qemu_ldflags +=3D cc.get_supported_link_arguments('-Wl,-z,relro', '-Wl,-=
+z,now')
+> +
+>  if targetos =3D=3D 'windows'
+>    qemu_ldflags +=3D cc.get_supported_link_arguments('-Wl,--no-seh', '-Wl=
+,--nxcompat')
+>    # Disable ASLR for debug builds to allow debugging with gdb
+> @@ -265,6 +273,11 @@ if add_languages('cpp', required: false, native: fal=
+se)
+>    endif
+>  endif
+>
+> +# Exclude --warn-common with TSan to suppress warnings from the TSan lib=
+raries.
+> +if targetos !=3D 'sunos' and not config_host.has_key('CONFIG_TSAN')
+> +  qemu_ldflags +=3D linker.get_supported_link_arguments('-Wl,--warn-comm=
+on')
+> +endif
+> +
+>  add_global_link_arguments(qemu_ldflags, native: false, language: ['c', '=
+cpp', 'objc'])
+>
+>  if targetos =3D=3D 'linux'
 > --
 > 2.37.3
-> 
-> 
-
-Applied to my linux-user-for-7.2 branch.
-
-Thanks,
-Laurent
+>
 
 
