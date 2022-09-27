@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A975EC93C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 18:16:38 +0200 (CEST)
-Received: from localhost ([::1]:48232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 985595EC950
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 18:21:56 +0200 (CEST)
+Received: from localhost ([::1]:47140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odDG9-0007J0-8G
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 12:16:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46634)
+	id 1odDLH-0004SO-LH
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 12:21:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1odBYl-00084e-K9
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:27:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53868)
+ id 1odBZa-0000uC-BH
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:28:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1odBYj-00084h-WF
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:27:43 -0400
+ id 1odBZY-00089i-SE
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:28:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664288857;
+ s=mimecast20190719; t=1664288912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YnEJxhs2rzxD4CEJnSS+RjdQD8uWYxmXnMUFhqE+8l8=;
- b=SY6JuBd2AKRgtlmv27P0Qq5UYnahNFnsKxwzC1RG3U0KX/j0FaQ4bh+Ik0tDiDsMfhHrvw
- pxdDwl/zP4pgntdyOE35mdZgdv1/xQbVZxndLpzwFObvna9LkcSm4OAF+ITpK9ogQKymcd
- c2HTTr4iRwA5MBzokDudF4xp9zCeKlg=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uRWi5ToXjbdLQBNwvatDCfExVzWkWMY04dDYOihAhQY=;
+ b=YZU88GvWHY0WYufihNLZiSG9MsPFGhSCgJeBl3cjeUuM4zbXJauUbi2bzI2U0Ec93B7fjB
+ 7ZHVjgWchfq0a3lld9CTXGgV3zqzFhI4bEYBqH39fHUo4H3ZjZWHq7IpaVjkvBP+wEWMyw
+ 2iXRB2QdV4wR4lBIwG/ixqDfWMSh+vI=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-562-VB3euh3CPkKiuS4f6uww-g-1; Tue, 27 Sep 2022 10:27:36 -0400
-X-MC-Unique: VB3euh3CPkKiuS4f6uww-g-1
-Received: by mail-oo1-f70.google.com with SMTP id
- y3-20020a4a86c3000000b004761b39fee7so4116722ooh.1
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:27:36 -0700 (PDT)
+ us-mta-402-bHaWAB0kOEe8jn5_XvX3_w-1; Tue, 27 Sep 2022 10:28:31 -0400
+X-MC-Unique: bHaWAB0kOEe8jn5_XvX3_w-1
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-11eadf59e50so3667956fac.8
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:28:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=YnEJxhs2rzxD4CEJnSS+RjdQD8uWYxmXnMUFhqE+8l8=;
- b=T2rg/JTY+XGjCLTSlKo0JHhh9IdVVdxmax52/b8DP+gNwuWp3zja65y+YN2QHWT4dp
- f+UQ/ijAya1KDCHJ+4m7ktQgu/wcaYdlv2DND5v9Dc0UQoqdZyQmKUCnAwghydgAT40j
- dxeM/Oz20Ae+aS+owQtXX55UhmyDX3dLj/46gIvTxqjqCfKH3NgHgTorTjQQuyuLcFGw
- k2JcL9x4XS6dVhWkdHrnYkd6h7V6lyrVtUSf35zqMc0NSw0/Dm0jxAP7US7/1x7YzBs5
- TvTMQHRnn9eIbWbUS92Pdd7MINNdh821SDPU5/ltuKRMB6vQrfrZUh95VbzH5mLlFx2d
- NcDg==
-X-Gm-Message-State: ACrzQf1C/PkCTEpDrZngvfS//jHd0pL2Zy+tYNo+Ur3CeLshp/GW7YSc
- KfqcW05mfYI09DXZQ44dVNVIPQ42OqsK+z1jiHql6TEgwXs1oh5cP2NuE7/Dyogka6PJxui/QRd
- dVg/HR1zsYqYAqJ894YhiDAmeAUKR240=
-X-Received: by 2002:a05:6870:e98c:b0:131:8940:e7b with SMTP id
- r12-20020a056870e98c00b0013189400e7bmr1361901oao.53.1664288854849; 
- Tue, 27 Sep 2022 07:27:34 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM48AdPu36H8Z2qykU19+2Qfs8oF8FnpS6feEEByA0o/9KYcfXmscmGw0hPS4gRXpgn+3NgkWXLZ4QlThqo+nPg=
-X-Received: by 2002:a05:6870:e98c:b0:131:8940:e7b with SMTP id
- r12-20020a056870e98c00b0013189400e7bmr1361887oao.53.1664288854639; Tue, 27
- Sep 2022 07:27:34 -0700 (PDT)
+ bh=uRWi5ToXjbdLQBNwvatDCfExVzWkWMY04dDYOihAhQY=;
+ b=wcMqYoeJpAY8it6CwGsaWiBu+OG5mrruMHja4A1GVV60fuXiqXrew3I0yRDIPiHMDs
+ wUsbVwPjrDXXHY4lzIE3A7bEjspxC7AaREvJlIdAYrGO1tYS9txTJqxmFbx9mO+YzclC
+ kM8c/AieKwrMU52CYHrv1kHJI+0fbTGr/SsYIqKPrzEcWooncjTjT9k2zJAxcX6lmhEP
+ OAf81PZH+mw9QT0I6cS0WkEU/uMrn+DO1OyXmS6XScTk65aHbKAP5yJuFXuKJ4bOqJ8R
+ ozdxKioZ0fjstcaqWL15wpsDEFJCfrtg/Pi93jmYuO5fMBMDNriWhI1yCrFsF0d40N9r
+ nYdg==
+X-Gm-Message-State: ACrzQf3+xxrCXQXK3HmaeCiQ+lc9wIgw51qOBN7VSz5ObV6HJie0oSxR
+ UaWv2hWCWmIbEl0SbZ/9fwQSY1G+Tsa6es9EeU6jk/E646ytOnLSBHORL5cE6T3/O/XTeKYZkhq
+ nRHOzrIrxGmeVmkT/QY+AKi6pk98sDyU=
+X-Received: by 2002:a05:6808:21a3:b0:350:cca1:9f40 with SMTP id
+ be35-20020a05680821a300b00350cca19f40mr1978839oib.205.1664288908646; 
+ Tue, 27 Sep 2022 07:28:28 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7mx0Fb93XsTdMdeWUT8OxlXEsFcDe3f/8/P5DO4MVJHDT3n5YJRz6dvyjVtI/ScJNv+/b58nC6mCEWfqd7xyI=
+X-Received: by 2002:a05:6808:21a3:b0:350:cca1:9f40 with SMTP id
+ be35-20020a05680821a300b00350cca19f40mr1978826oib.205.1664288908448; Tue, 27
+ Sep 2022 07:28:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
- <20220927110632.1973965-16-bmeng.cn@gmail.com>
-In-Reply-To: <20220927110632.1973965-16-bmeng.cn@gmail.com>
+ <20220927110632.1973965-19-bmeng.cn@gmail.com>
+In-Reply-To: <20220927110632.1973965-19-bmeng.cn@gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 27 Sep 2022 18:27:23 +0400
-Message-ID: <CAMxuvazK2ic2ccM+STEhFRAKuFr8mQFXNO4SSdN7NwQpFN1eKQ@mail.gmail.com>
-Subject: Re: [PATCH v4 15/54] tests/qtest: pflash-cfi02-test: Avoid using
+Date: Tue, 27 Sep 2022 18:28:17 +0400
+Message-ID: <CAMxuvazVqfnyi-vwX2FJ47SY1K26hyriMi_DCvNmvhcj3whjeg@mail.gmail.com>
+Subject: Re: [PATCH v4 18/54] tests/qtest: vhost-user-test: Avoid using
  hardcoded /tmp
 To: Bin Meng <bmeng.cn@gmail.com>
 Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
@@ -103,69 +103,58 @@ On Tue, Sep 27, 2022 at 3:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 > From: Bin Meng <bin.meng@windriver.com>
 >
 > This case was written to use hardcoded /tmp directory for temporary
-> files. Update to use g_file_open_tmp() for a portable implementation.
+> files. Update to use g_dir_make_tmp() for a portable implementation.
 >
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
 >
 > Changes in v4:
-> - Replace the whole block with a g_assert_no_error()
+> - Update error reporting
 >
 > Changes in v3:
 > - Split to a separate patch
+> - Ensure g_autofree variable is initialized
 >
->  tests/qtest/pflash-cfi02-test.c | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
+>  tests/qtest/vhost-user-test.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 >
-> diff --git a/tests/qtest/pflash-cfi02-test.c b/tests/qtest/pflash-cfi02-t=
-est.c
-> index 7fce614b64..0b52c2ca5c 100644
-> --- a/tests/qtest/pflash-cfi02-test.c
-> +++ b/tests/qtest/pflash-cfi02-test.c
-> @@ -56,7 +56,7 @@ typedef struct {
->      QTestState *qtest;
->  } FlashConfig;
->
-> -static char image_path[] =3D "/tmp/qtest.XXXXXX";
-> +static char *image_path;
->
->  /*
->   * The pflash implementation allows some parameters to be unspecified. W=
-e want
-> @@ -608,6 +608,7 @@ static void test_cfi_in_autoselect(const void *opaque=
-)
->  static void cleanup(void *opaque)
+> diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.=
+c
+> index d7d6cfc9bd..84498941a6 100644
+> --- a/tests/qtest/vhost-user-test.c
+> +++ b/tests/qtest/vhost-user-test.c
+> @@ -482,8 +482,8 @@ static TestServer *test_server_new(const gchar *name,
+>          struct vhost_user_ops *ops)
 >  {
->      unlink(image_path);
-> +    g_free(image_path);
->  }
->
->  /*
-> @@ -635,16 +636,14 @@ static const FlashConfig configuration[] =3D {
->
->  int main(int argc, char **argv)
->  {
-> -    int fd =3D mkstemp(image_path);
-> -    if (fd =3D=3D -1) {
-> -        g_printerr("Failed to create temporary file %s: %s\n", image_pat=
-h,
-> -                   strerror(errno));
-> -        exit(EXIT_FAILURE);
-> -    }
+>      TestServer *server =3D g_new0(TestServer, 1);
+> -    char template[] =3D "/tmp/vhost-test-XXXXXX";
+> -    const char *tmpfs;
+> +    g_autofree const char *tmpfs =3D NULL;
 > +    GError *err =3D NULL;
-> +    int fd =3D g_file_open_tmp("qtest.XXXXXX", &image_path, &err);
-> +    g_assert_no_error(err);
-> +
->      if (ftruncate(fd, UNIFORM_FLASH_SIZE) < 0) {
->          int error_code =3D errno;
->          close(fd);
-> -        unlink(image_path);
-> +        cleanup(NULL);
->          g_printerr("Failed to truncate file %s to %u MB: %s\n", image_pa=
-th,
->                     UNIFORM_FLASH_SIZE, strerror(error_code));
->          exit(EXIT_FAILURE);
+>
+>      server->context =3D g_main_context_new();
+>      server->loop =3D g_main_loop_new(server->context, FALSE);
+> @@ -491,9 +491,11 @@ static TestServer *test_server_new(const gchar *name=
+,
+>      /* run the main loop thread so the chardev may operate */
+>      server->thread =3D g_thread_new(NULL, thread_function, server->loop)=
+;
+>
+> -    tmpfs =3D g_mkdtemp(template);
+> +    tmpfs =3D g_dir_make_tmp("vhost-test-XXXXXX", &err);
+>      if (!tmpfs) {
+> -        g_test_message("g_mkdtemp on path (%s): %s", template, strerror(=
+errno));
+> +        g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
+> +                       err->message);
+> +        g_error_free(err);
+
+You missed the opportunity to use g_autoptr(GError), ok anyway
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+>      }
+>      g_assert(tmpfs);
+>
 > --
 > 2.34.1
 >
