@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6025A5EBF1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:59:27 +0200 (CEST)
-Received: from localhost ([::1]:48184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0AA5EBE1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:16:03 +0200 (CEST)
+Received: from localhost ([::1]:35176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od7N8-00074c-Fz
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:59:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49572)
+	id 1od6h8-00077s-5a
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1od6be-0007Ic-IR
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:10:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55859)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od6di-0001n1-6W
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:12:31 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:50379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1od6bb-0000Hl-5Z
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:10:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664269817;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=e9V4mOxC7ZTYZ2NRPEsPcHZxTuIPyyP5Ra1HTlnicr0=;
- b=Dh2K3z4s17lRpS28t30Tt51mv62IVN42L6BUs1P2i4Fnu9bxCgBPGbX2omZ/OwyymFciRI
- zJAPRmgOYggw/R2v3kQZQFrdyvg+mXYIPJhHgNqhTZe3HB8pHLokOUTE8/ZGFxP81YO/n4
- fyRxn8VOYtxo9v5ae0rQk0GiiX+jDAE=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-377-mJ1g9ZWvPPqovQ1tsQczFg-1; Tue, 27 Sep 2022 05:10:16 -0400
-X-MC-Unique: mJ1g9ZWvPPqovQ1tsQczFg-1
-Received: by mail-oa1-f70.google.com with SMTP id
- 586e51a60fabf-127fb6a5017so3358817fac.0
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 02:10:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=e9V4mOxC7ZTYZ2NRPEsPcHZxTuIPyyP5Ra1HTlnicr0=;
- b=StTTsGga01BbBVXn50CtB8UlFbyxFE+Log/XUfogG0AGRm45v6Iqk8cu8+IECHvyQL
- hso4qSey9BrUt+UMg4hU5VYlynNXXfouIZnRyXlSDjho+/jpPMypw9sy2CYs7u2icVab
- MgeG2whyBK43rErieAg7Do6sLKnlr7kTK++zbX9tTwpvM2ue5vZNc5V6/Nc0LfcAOvqj
- 9B/10zsmHb8AcnLnvIXvsBrdrXx6+EiySkmk03LCOscUIGz/qlcJW4VhMOVSqqnyiqxk
- 3/3qw4ERcqPzc+jsQmvy5qO9Ks/ej38aphcTwyJABfjxW7VoZXaFa0nUXB9rt2lvgmdM
- PaiQ==
-X-Gm-Message-State: ACrzQf0admsRnjK5SBES3Qw0lxZfDMEjDJ1dLJzB5CteuVxFuSxtC3W/
- xEH3z96092dbliJT1hdLb2lPRHONOWjVskl7MrZuZWvl5O5s4uLzvr4hFexQ2uSheciylaUmvLw
- WOQQAshcWis/7wXsBiYwF6rSbWs6RLKw=
-X-Received: by 2002:a9d:125:0:b0:655:ced1:254b with SMTP id
- 34-20020a9d0125000000b00655ced1254bmr11974035otu.378.1664269815790; 
- Tue, 27 Sep 2022 02:10:15 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7cEz0rnXNRNU51kR4DX5EADmZvjLRlQppSViZZKNiF2kbxfDUbGMIG0fQ2+zjNRPO4nAPUjOntiUOykZgL/CE=
-X-Received: by 2002:a9d:125:0:b0:655:ced1:254b with SMTP id
- 34-20020a9d0125000000b00655ced1254bmr11974028otu.378.1664269815525; Tue, 27
- Sep 2022 02:10:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od6de-0000cz-Id
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:12:29 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MZCvh-1ohnZX2Rjl-00V5Gu; Tue, 27 Sep 2022 11:12:22 +0200
+Message-ID: <75faec85-72a0-9045-981e-2d8421b25257@vivier.eu>
+Date: Tue, 27 Sep 2022 11:12:21 +0200
 MIME-Version: 1.0
-References: <20220926110746.2769518-1-stefanb@linux.ibm.com>
-In-Reply-To: <20220926110746.2769518-1-stefanb@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 27 Sep 2022 13:10:04 +0400
-Message-ID: <CAMxuvax8sJVS=F_LaLYzBbf2DOEUWcxRTQKTy9qd=6v8oFrF9A@mail.gmail.com>
-Subject: Re: [PATCH] docs: Add --tpm2 option to swtpm command line
-To: Stefan Berger <stefanb@linux.ibm.com>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v3 00/12] linux-user: Add more syscalls, enhance tracing &
+ logging enhancements
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220918194555.83535-1-deller@gmx.de>
+ <3fe34e9b-d82d-7d30-b477-f870bdb3e88d@vivier.eu>
+ <27ebaa4d-eaa2-0590-92f1-679fd4178485@gmx.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <27ebaa4d-eaa2-0590-92f1-679fd4178485@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Py585droJ8DzbiC2V4OHjP84FFweMJ59v7RJG0BFSQEUXytSzVz
+ FYWqwngqZNjRa50ABBNhbpcaCrXcQaB/jvQnay0JI7IvG9hcK7ZDVZkjR+NP/7pJy4EkEHz
+ R4v+O5Zv98/7QhhHrfT52IpHDshoylWXfeCDKW1IpuB5DmXxmlL6z95FEW8f7FDFH61R+/h
+ Uo8dprkHw32s2Q3RisPaw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TPyspAuRXoA=:tUBghEggFFxu+bKG9VwZzt
+ ky0aiiL1XF6D/Hxt46Zm8APiL0gS/nxljCBn2YMbkr4TK3I2TUfDipvhKA5tZ+iitTN2MXS0w
+ L5YagymtCRXxzIz3g7CQLy6TTN+zt0vzRkeQrXT2HTO8GUVsoGkqJI6UQ79hnWGAHsxaqo8X+
+ YQtMN7Mz03C4BYib8dPo7zj4J5BY+nC+MSOIyg4+CiLbEkSK5CV2ZFgYTsndYJwNlj0zj+shD
+ JYdMuh95zC7v4yI066MyeKJm4vRX6jj+tZaWURqRjo+rPB61l8DPXNpNurzZdOhXC8NBgkCC3
+ fT1DAIwQ56sFaUzb3mst2/HM2q6wHgwbKscrgvs7oZzA2GWPoRfgj5WkxVJj1ZuQlQ/IYumqx
+ L2pcEq/CXRVCt5OoAXDJrlnYlBQXdy03hFImq1/Ru7QL8M6NNL0wf8hWELUH3TpHjrdr1rIOZ
+ YsWXI9NGAtBMmtGfLY+We+RWM0rOqS7Fxuvc2Fc2zKtfPn5IgVkmBW7wev4571EfjoNokEQmd
+ WR4gTWLSYmOrE5sw/oVVUPTajtpBeRAnOxp3/I/r4u610g8WUL+OSx3v+fnLiQQphRlQqkz1L
+ 1fGOj3Akhdy/RBmY3TDyTdMxvZdMjB6ayauCmIfzhOIo/qiQW399A4eyXN+KodeZUUTevK2KI
+ zDIMinYU24NZuku9ZQpVx/nLAvO4PpP3pdyCbuZy+E36H4UTAKvD5YfNQVXQwwJdbvIC3lPps
+ qXR1zjmgMFJ+sTHuzbHTkijp08lSMF4WBr1l6PSAtWl/rauAAGBSlnWl2k8gHTI4NyoA6DGi2
+ R3AV90P
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,35 +77,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Le 27/09/2022 à 10:56, Helge Deller a écrit :
+> On 9/27/22 09:32, Laurent Vivier wrote:
+>> Le 18/09/2022 à 21:45, Helge Deller a écrit :
+>>> Here is a bunch of patches for linux-user.
+>>>
+>>> Most of them add missing syscalls and enhance the tracing/logging.
+>>> Some of the patches are target-hppa specific.
+>>> I've tested those on productive hppa debian buildd servers (running qemu-user).
+>>>
+>>> Thanks!
+>>> Helge
+>>>
+>>> Changes to v2:
+>>> - Fix build of close_range() and pidfd_*() patches on older Linux
+>>>    distributions (noticed by Stefan Hajnoczi)
+>>>
+>>> Changes to v1:
+>>> - Dropped the faccessat2() syscall patch in favour of Richard's patch
+>>> - Various changes to the "missing signals in strace output" patch based on
+>>>    Richard's feedback, e.g. static arrays, fixed usage of _NSIG, fix build when
+>>>    TARGET_SIGIOT does not exist
+>>> - Use FUTEX_CMD_MASK in "Show timespec on strace for futex" patch
+>>>    unconditionally and turn into a switch statement - as suggested by Richard
+>>>
+>>> Helge Deller (12):
+>>>    linux-user: Add missing signals in strace output
+>>>    linux-user: Add missing clock_gettime64() syscall strace
+>>>    linux-user: Add pidfd_open(), pidfd_send_signal() and pidfd_getfd()
+>>>      syscalls
+>>>    linux-user: Log failing executable in EXCP_DUMP()
+>>>    linux-user/hppa: Use EXCP_DUMP() to show enhanced debug info
+>>>    linux-user/hppa: Dump IIR on register dump
+>>>    linux-user: Fix strace of chmod() if mode == 0
+>>>    linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000 for hppa arch
+>>>    linux-user: Add strace for clock_nanosleep()
+>>>    linux-user: Show timespec on strace for futex()
+>>>    linux-user: Add close_range() syscall
+>>>    linux-user: Add parameters of getrandom() syscall for strace
+>>>
+>>>   linux-user/cpu_loop-common.h |   2 +
+>>>   linux-user/hppa/cpu_loop.c   |   6 +-
+>>>   linux-user/mmap.c            |   4 +
+>>>   linux-user/signal-common.h   |  46 ++++++++++++
+>>>   linux-user/signal.c          |  37 +--------
+>>>   linux-user/strace.c          | 142 ++++++++++++++++++++++++++++++-----
+>>>   linux-user/strace.list       |  21 +++++-
+>>>   linux-user/syscall.c         |  50 ++++++++++++
+>>>   target/hppa/helper.c         |   6 +-
+>>>   9 files changed, 255 insertions(+), 59 deletions(-)
+>>>
+>>
+>> Series applied to my linux-user-for-7.2 branch,
+>> except PATCH 11 and 12 that have comments.
+> 
+> Thank you !!
+> I'll send updated versions for patches 11 and 12 asap.
+> Btw, where can I find your linux-user-for-7.2 branch?
+> It would help me to diff the new patches against this branch...
+> 
 
-On Mon, Sep 26, 2022 at 3:39 PM Stefan Berger <stefanb@linux.ibm.com> wrote:
->
-> Add the --tpm2 option to the swtpm command line to run a TPM 2.
->
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> ---
->  docs/specs/tpm.rst | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-> index 3be190343a..243e24b692 100644
-> --- a/docs/specs/tpm.rst
-> +++ b/docs/specs/tpm.rst
-> @@ -304,6 +304,7 @@ a socket interface. They do not need to be run as root.
->    mkdir /tmp/mytpm1
->    swtpm socket --tpmstate dir=/tmp/mytpm1 \
->      --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock \
-> +    --tpm2 \
->      --log level=20
+https://gitlab.com/laurent_vivier/qemu/-/commits/linux-user-for-7.2/
 
-Why only there? The next paragraphs shows usage of TIS device and
-dmesg logs of 1.2 TPM.
+But I can update and remove some patches if they appear to be broken when I test them.
 
->
->  Command line to start QEMU with the TPM emulator device communicating
-> --
-> 2.37.2
->
-
+Thanks,
+Laurent
 
