@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1515EBDF0
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:01:10 +0200 (CEST)
-Received: from localhost ([::1]:43860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EEBF5EBF0D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:54:51 +0200 (CEST)
+Received: from localhost ([::1]:47808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od6Sj-0006sy-5s
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:01:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38004)
+	id 1od7Ig-0008Au-CC
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od6Od-0001RT-8K
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:56:55 -0400
-Received: from mout.gmx.net ([212.227.17.20]:51847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od6OX-0006IZ-9n
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:56:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1664269002;
- bh=70OT6iQmCF7KC/XRdRpgGC9DFYh+jw6H9HLX0HZdr+M=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=I0KRAauRUpZcBo3vJPcZoc01muaJgAeh8e3+M/OxpPt9ePK7K5fyScHHvXg3j1IM1
- SKFVWiGhjYrJqAJPvMwnmNa4c0TGLYTIbplnJoP0POx7xtN26DMLtcJtTMF5Nbs3n9
- 0NQe1xf+FZrYzxHcbuglE4tsNdiTe27X680NyASQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.138.255]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N7zFj-1pGIp83xwJ-0153fc; Tue, 27
- Sep 2022 10:56:42 +0200
-Message-ID: <27ebaa4d-eaa2-0590-92f1-679fd4178485@gmx.de>
-Date: Tue, 27 Sep 2022 10:56:39 +0200
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1od6SZ-00072x-3B
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:01:00 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:35385)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1od6SW-0007KE-Ig
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:00:58 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id z25so14740378lfr.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 02:00:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=BKDNcQI5MVRecLwvd+fd/9BQ+4Zz5UOnta/2qjoXUfY=;
+ b=QSWRC0/gJZqnlGFwqjualZwYUubPiWYG5la8/lvLGVhxWk1fRzW2mf8O4CiolVvF55
+ yMpgIBs+1pgkNKe4KWpQXUwKv392CgTbHZJdTm08WiZo0mhB5SFaEfNpbLmjLeXiCDa6
+ Y6XAsJBj88XbDmfcgQmzlcGaW77cnK5AYIL7QTbOduz+gp2dTBGjV3a7B20AfHHmulae
+ LU3qU6CxLmyzpEwsK5p61Qrmy6a8PNEdGMBSORcbOGxnO29FiNgXZazEC/97z/M6paSa
+ x/nr9hpVGtinCcle99TQdPqUJPnAldx72dF5xhTM3t7R2FqX2MLCXPz5yieA+cLmlSBf
+ RRYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=BKDNcQI5MVRecLwvd+fd/9BQ+4Zz5UOnta/2qjoXUfY=;
+ b=Z+bykY21HVsVB+DXWmRybKy8gLxqV57u+hMhJyNP12rSCHlRrq5i8tTHzlIsASfBvj
+ NUAkwD/fh959TkNMTj8QlNbt7Z5u2ByVgNwRJmjiVHiy8bvO0t57BU+MAcjMmWrxll7I
+ DyvRfJvAijK8l6k21zfDHKuHLYUoh0JpOPzyWemJBVxrSqZjlmEnZzZr2zA2HHfsGO/F
+ FaLyIZvVoZd29uoZooMbm2MMB8wrCx5WaYTMpjXNNthXIOqjgbPGd1vekIdXIBCIvkUw
+ /6yzoVIxU/2sPBLuq1+TmdR4WczGXVHpu+q3AXKGqs/C5zjj5ex+j+dJE1f0VpnlNAXY
+ XD9Q==
+X-Gm-Message-State: ACrzQf0pXMCckZTGWOUjqEFfhHGHJfRCC7UV9vuhpEhQ2PihOVkPknz4
+ KXb3TFeZ4C6dI46tDOOsSlfbmw2jcqzu999Aug4=
+X-Google-Smtp-Source: AMsMyM56HI+MLNcv5pD++9io/atq+L2aRBjoXBpijfB7bUhb7qRrADw/dapOn0F7z13uwEdSg+KU4B64YSw0grtMYzA=
+X-Received: by 2002:a05:6512:201b:b0:497:a29d:25c1 with SMTP id
+ a27-20020a056512201b00b00497a29d25c1mr11238588lfb.276.1664269254087; Tue, 27
+ Sep 2022 02:00:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v3 00/12] linux-user: Add more syscalls, enhance tracing &
- logging enhancements
-Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, Stefan Hajnoczi <stefanha@gmail.com>, 
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220918194555.83535-1-deller@gmx.de>
- <3fe34e9b-d82d-7d30-b477-f870bdb3e88d@vivier.eu>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <3fe34e9b-d82d-7d30-b477-f870bdb3e88d@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:SLIrF4OAxgqasx7GM3ex967uRtSGg13HGGUk8SyrIItd91Y875n
- SXNvhpNJxxBThGQRAKI7S8Z1TDDXKHSV1FsVq19JVUwAVYR/J69uamXJeCrhz40Ck4oR7My
- kB/PRStKTjiTeSKcKJ7Tv0dcq3jyxBq/vbwmrWCs77UCpsl09nCdYlU+a58y/Qynol05d7v
- NztzTmDMWJMH7mnPxSBhg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VOsgAvwKNXI=:LsAOEm8A+oIRiAwqV5M61h
- xCTuXbaP2uL4OwZ5DdAtTGUjPRqNLiPi+HRvTIBkPwILuRkgmDYh3ah8JMBJXogP5yY5j6htW
- 4O7cliIuC2nJT7i/esqF/Xur1dz0R4V+CJWfc1up6AsDi7LH2Ccb6KiZer9yMMC47RsBELRg7
- pXCIvRAm5pHrCGfncblCA2WSudwO/Y3UmlMjpujti4Soc20zvxut8tvP6XsOkKhrEhHp8oFnU
- opeX5yTSIE4S8YgMDJ5WEzJNjb6iV1KYgKs6Jq2qdymsWTd7RZkubheLuSXN4Wvkd0rVk4wWm
- pSt7YEadMujyvy+yg7nzoS/TNZJGhQG7gVsYINeyJiyLdFrLf/BBeFfJF2L59L2zA2U3EW/S3
- RWsoco2nGMQnAIaLQtzSYLTZnQ2SJFGg91wf62bnEVnQa+CRGU3vWeyOw0ah+vVbkePYqCGOZ
- 4veDh4e/PCAgm18z+3kcepE0rL4WP9AjA5wi4ADJfB1lii9SFxmY/cqcRGDlCxHLEas1PBjlJ
- wdg6s3GEvjyVQmhV2kBCaZWwQwL5CeEXhOTfYPwPiLud9VqE1yFPqQC5oa+opnaNKckwea+Fx
- 5YY68yxDyZ639PqaCAJZd5Vm2S3ac4PhUhmiWh7L0UpfxXNNzonVo3FoUweva6i7Sx6+tjmDa
- lB08T4xu9zcCjjbHnVsLB9Iyg8qYPV3Ba5+AAckXdYHLu3nfBGrug2IaJY+bIK3NsB5guAD8Z
- tpAe2lLgJG2FI5Q83T14yrFHd17Xm/dDf4qMacQfAMIcF0cTY1wPGLTWvgQBjEQvOqapuxLVC
- Z+kiIIQ5aBfayFXCanLw74uRTmTAE2OpuMOgeTqiYE2EGNQRMp/8SIanuETef5ztNfHJAVsG8
- zytAmmf+p44Y0ajb99T4rcR+pLi/gD6O6IWrj+YX4Vy4VIp5dn7XhzbSTchXqqogBde7L4MBA
- v9fn5THbEr892ldNFWAwEH20ko0rrYlN3ykkFekDfwA7pW1JWRSvkL3SGcBCpXHZkD/GYXzPm
- MhSDi7EOVRtTvdagRUWsL7NUUaiRlkNCDtXcFTOJTiodKzNQEk+4hv6wPefXM8lEo2TPdcrX0
- bZ+7Y5L9jNeK44F8P4RODI+Q72aoYZZRyAYTTMX3zlvsXDljq7EM16Mn9kzi4bzmhAvKbtPmC
- 6oeSC/mX59bIgPIA5S4PjAd2xW
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
+ <20220925113032.1949844-43-bmeng.cn@gmail.com>
+ <CAJ+F1CLh=GzJ4gxQ+dEriC2nMzn5nUM-JBdhRpzai-z-RcPmxA@mail.gmail.com>
+ <CAEUhbmX+Nsyf9dFb3D1TT0DaiUGZ4Z_G-ojnJmDXZXngyhqdRg@mail.gmail.com>
+In-Reply-To: <CAEUhbmX+Nsyf9dFb3D1TT0DaiUGZ4Z_G-ojnJmDXZXngyhqdRg@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 27 Sep 2022 13:00:42 +0400
+Message-ID: <CAJ+F1CJjtspCoyH0=hhhRa=J9824sKbnOhcpJh_i9CFQMNuDHQ@mail.gmail.com>
+Subject: Re: [PATCH v3 42/54] chardev/char-file: Add FILE_SHARE_WRITE when
+ opening the file for win32
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000b35c6405e9a4e1c8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,77 +88,270 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/27/22 09:32, Laurent Vivier wrote:
-> Le 18/09/2022 =C3=A0 21:45, Helge Deller a =C3=A9crit=C2=A0:
->> Here is a bunch of patches for linux-user.
->>
->> Most of them add missing syscalls and enhance the tracing/logging.
->> Some of the patches are target-hppa specific.
->> I've tested those on productive hppa debian buildd servers (running qem=
-u-user).
->>
->> Thanks!
->> Helge
->>
->> Changes to v2:
->> - Fix build of close_range() and pidfd_*() patches on older Linux
->> =C2=A0=C2=A0 distributions (noticed by Stefan Hajnoczi)
->>
->> Changes to v1:
->> - Dropped the faccessat2() syscall patch in favour of Richard's patch
->> - Various changes to the "missing signals in strace output" patch based=
- on
->> =C2=A0=C2=A0 Richard's feedback, e.g. static arrays, fixed usage of _NS=
-IG, fix build when
->> =C2=A0=C2=A0 TARGET_SIGIOT does not exist
->> - Use FUTEX_CMD_MASK in "Show timespec on strace for futex" patch
->> =C2=A0=C2=A0 unconditionally and turn into a switch statement - as sugg=
-ested by Richard
->>
->> Helge Deller (12):
->> =C2=A0=C2=A0 linux-user: Add missing signals in strace output
->> =C2=A0=C2=A0 linux-user: Add missing clock_gettime64() syscall strace
->> =C2=A0=C2=A0 linux-user: Add pidfd_open(), pidfd_send_signal() and pidf=
-d_getfd()
->> =C2=A0=C2=A0=C2=A0=C2=A0 syscalls
->> =C2=A0=C2=A0 linux-user: Log failing executable in EXCP_DUMP()
->> =C2=A0=C2=A0 linux-user/hppa: Use EXCP_DUMP() to show enhanced debug in=
-fo
->> =C2=A0=C2=A0 linux-user/hppa: Dump IIR on register dump
->> =C2=A0=C2=A0 linux-user: Fix strace of chmod() if mode =3D=3D 0
->> =C2=A0=C2=A0 linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000 for =
-hppa arch
->> =C2=A0=C2=A0 linux-user: Add strace for clock_nanosleep()
->> =C2=A0=C2=A0 linux-user: Show timespec on strace for futex()
->> =C2=A0=C2=A0 linux-user: Add close_range() syscall
->> =C2=A0=C2=A0 linux-user: Add parameters of getrandom() syscall for stra=
-ce
->>
->> =C2=A0 linux-user/cpu_loop-common.h |=C2=A0=C2=A0 2 +
->> =C2=A0 linux-user/hppa/cpu_loop.c=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +-
->> =C2=A0 linux-user/mmap.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +
->> =C2=A0 linux-user/signal-common.h=C2=A0=C2=A0 |=C2=A0 46 ++++++++++++
->> =C2=A0 linux-user/signal.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 37 +--------
->> =C2=A0 linux-user/strace.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 142 ++++++++++++++++++++++++++++++-----
->> =C2=A0 linux-user/strace.list=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 21 +++++-
->> =C2=A0 linux-user/syscall.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 50 ++++++++++++
->> =C2=A0 target/hppa/helper.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0=C2=A0 6 +-
->> =C2=A0 9 files changed, 255 insertions(+), 59 deletions(-)
->>
+--000000000000b35c6405e9a4e1c8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Mon, Sep 26, 2022 at 7:05 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+
+> On Mon, Sep 26, 2022 at 9:27 PM Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@gmail.com> wrote:
+> >
+> > Hi
+> >
+> > On Sun, Sep 25, 2022 at 4:35 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >>
+> >> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> >>
+> >> The combination of GENERIC_WRITE and FILE_SHARE_READ options does not
+> >> allow the same file to be opened again by CreateFile() from another
+> >> QEMU process with the same options when the previous QEMU process
+> >> still holds the file handle opened.
+> >>
+> >> This was triggered by running the test_multifd_tcp_cancel() case on
+> >> Windows, which cancels the migration, and launches another QEMU
+> >> process to migrate with the same file opened for write. Chances are
+> >> that the previous QEMU process does not quit before the new QEMU
+> >> process runs hence the old one still holds the file handle that does
+> >> not allow shared write permission then the new QEMU process will fail.
+> >>
+> >> There is another test case boot-serial-test that triggers the same
+> >> issue. The qtest executable created a serial chardev file to be
+> >> passed to the QEMU executable. The serial file was created by
+> >> g_file_open_tmp(), which internally opens the file with
+> >> FILE_SHARE_WRITE security attribute, and based on [1], there is
+> >> only one case that allows the first call to CreateFile() with
+> >> GENERIC_READ & FILE_SHARE_WRITE, and second call to CreateFile()
+> >> with GENERIC_WRITE & FILE_SHARE_READ. All other combinations
+> >> require FILE_SHARE_WRITE in the second call. But there is no way
+> >> for the second call (in this case the QEMU executable) to know
+> >> what combination was passed to the first call, so we will have to
+> >> add FILE_SHARE_WRITE to the second call.
+> >>
+> >> For both scenarios we should add FILE_SHARE_WRITE in the chardev
+> >> file backend driver. This change also makes the behavior to be
+> >> consistent with the POSIX platforms.
+> >
+> >
+> > It seems to me the tests should be fixed instead. I thought you fixed
+> the first case. For the second case, why not close the file before starti=
+ng
+> qemu? If you have issues, I will take a deeper look.
 >
-> Series applied to my linux-user-for-7.2 branch,
-> except PATCH 11 and 12 that have comments.
+> Indeed, the following test case change can "fix" this issue:
+>
+> diff --git a/tests/qtest/boot-serial-test.c
+> b/tests/qtest/boot-serial-test.c
+> index 72310ba30e..f192fbc181 100644
+> --- a/tests/qtest/boot-serial-test.c
+> +++ b/tests/qtest/boot-serial-test.c
+> @@ -233,6 +233,7 @@ static void test_machine(const void *data)
+> ser_fd =3D g_file_open_tmp("qtest-boot-serial-sXXXXXX", &serialtmp, NULL)=
+;
+> g_assert(ser_fd !=3D -1);
+> + close(ser_fd);
+> if (test->kernel) {
+> code =3D test->kernel;
+> @@ -266,6 +267,7 @@ static void test_machine(const void *data)
+> unlink(codetmp);
+> }
+> + ser_fd =3D open(serialtmp, O_RDONLY);
+> if (!check_guest_output(qts, test, ser_fd)) {
+> g_error("Failed to find expected string. Please check '%s'",
+> serialtmp);
+>
+>
+Please send this fix as a new patch in the series.
 
-Thank you !!
-I'll send updated versions for patches 11 and 12 asap.
-Btw, where can I find your linux-user-for-7.2 branch?
-It would help me to diff the new patches against this branch...
 
-Helge
+> But I think it just workarounds the problem. The original test case
+> looks reasonable to me. If we update the case like above, we cannot
+> guarantee users will do like the updated test case does.
+>
+
+If the test is enabled, it will fail, and the reasons are reasonably valid:
+two processes shouldn't share the same file for writing with a chardev.
+
+I still think the windows file chardev behavior is superior and we should
+instead teach the posix implementation of exclusive write access, rather
+than downgrading the windows implementation. I'd drop this patch from the
+series for now.
+
+
+>
+> >
+> >>
+> >>
+> >> [1]
+> https://docs.microsoft.com/en-us/windows/win32/fileio/creating-and-openin=
+g-files
+> >>
+> >> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> >> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >> ---
+> >>
+> >> Changes in v3:
+> >> - Add another case "boot-serial-test" to justify the change
+> >>
+> >> Changes in v2:
+> >> - Update commit message to include the use case why we should set
+> >>   FILE_SHARE_WRITE when opening the file for win32
+> >>
+> >>  chardev/char-file.c | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+>
+> Regards,
+> Bin
+>
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000b35c6405e9a4e1c8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 26, 2022 at 7:05 PM Bin=
+ Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, S=
+ep 26, 2022 at 9:27 PM Marc-Andr=C3=A9 Lureau<br>
+&lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=3D"_blank">marcand=
+re.lureau@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi<br>
+&gt;<br>
+&gt; On Sun, Sep 25, 2022 at 4:35 PM Bin Meng &lt;<a href=3D"mailto:bmeng.c=
+n@gmail.com" target=3D"_blank">bmeng.cn@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; From: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.co=
+m" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; The combination of GENERIC_WRITE and FILE_SHARE_READ options does =
+not<br>
+&gt;&gt; allow the same file to be opened again by CreateFile() from anothe=
+r<br>
+&gt;&gt; QEMU process with the same options when the previous QEMU process<=
+br>
+&gt;&gt; still holds the file handle opened.<br>
+&gt;&gt;<br>
+&gt;&gt; This was triggered by running the test_multifd_tcp_cancel() case o=
+n<br>
+&gt;&gt; Windows, which cancels the migration, and launches another QEMU<br=
+>
+&gt;&gt; process to migrate with the same file opened for write. Chances ar=
+e<br>
+&gt;&gt; that the previous QEMU process does not quit before the new QEMU<b=
+r>
+&gt;&gt; process runs hence the old one still holds the file handle that do=
+es<br>
+&gt;&gt; not allow shared write permission then the new QEMU process will f=
+ail.<br>
+&gt;&gt;<br>
+&gt;&gt; There is another test case boot-serial-test that triggers the same=
+<br>
+&gt;&gt; issue. The qtest executable created a serial chardev file to be<br=
+>
+&gt;&gt; passed to the QEMU executable. The serial file was created by<br>
+&gt;&gt; g_file_open_tmp(), which internally opens the file with<br>
+&gt;&gt; FILE_SHARE_WRITE security attribute, and based on [1], there is<br=
+>
+&gt;&gt; only one case that allows the first call to CreateFile() with<br>
+&gt;&gt; GENERIC_READ &amp; FILE_SHARE_WRITE, and second call to CreateFile=
+()<br>
+&gt;&gt; with GENERIC_WRITE &amp; FILE_SHARE_READ. All other combinations<b=
+r>
+&gt;&gt; require FILE_SHARE_WRITE in the second call. But there is no way<b=
+r>
+&gt;&gt; for the second call (in this case the QEMU executable) to know<br>
+&gt;&gt; what combination was passed to the first call, so we will have to<=
+br>
+&gt;&gt; add FILE_SHARE_WRITE to the second call.<br>
+&gt;&gt;<br>
+&gt;&gt; For both scenarios we should add FILE_SHARE_WRITE in the chardev<b=
+r>
+&gt;&gt; file backend driver. This change also makes the behavior to be<br>
+&gt;&gt; consistent with the POSIX platforms.<br>
+&gt;<br>
+&gt;<br>
+&gt; It seems to me the tests should be fixed instead. I thought you fixed =
+the first case. For the second case, why not close the file before starting=
+ qemu? If you have issues, I will take a deeper look.<br>
+<br>
+Indeed, the following test case change can &quot;fix&quot; this issue:<br>
+<br>
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.=
+c<br>
+index 72310ba30e..f192fbc181 100644<br>
+--- a/tests/qtest/boot-serial-test.c<br>
++++ b/tests/qtest/boot-serial-test.c<br>
+@@ -233,6 +233,7 @@ static void test_machine(const void *data)<br>
+ser_fd =3D g_file_open_tmp(&quot;qtest-boot-serial-sXXXXXX&quot;, &amp;seri=
+altmp, NULL);<br>
+g_assert(ser_fd !=3D -1);<br>
++ close(ser_fd);<br>
+if (test-&gt;kernel) {<br>
+code =3D test-&gt;kernel;<br>
+@@ -266,6 +267,7 @@ static void test_machine(const void *data)<br>
+unlink(codetmp);<br>
+}<br>
++ ser_fd =3D open(serialtmp, O_RDONLY);<br>
+if (!check_guest_output(qts, test, ser_fd)) {<br>
+g_error(&quot;Failed to find expected string. Please check &#39;%s&#39;&quo=
+t;,<br>
+serialtmp);<br>
+<br></blockquote><div><br></div><div>Please send this fix as a new patch in=
+ the series.</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">
+But I think it just workarounds the problem. The original test case<br>
+looks reasonable to me. If we update the case like above, we cannot<br>
+guarantee users will do like the updated test case does.<br></blockquote><d=
+iv><br></div><div>If the test is enabled, it will fail, and the reasons are=
+ reasonably valid: two processes shouldn&#39;t share the same file for writ=
+ing with a chardev.</div><div><br></div><div>I still think the windows file=
+ chardev behavior is superior and we should instead teach the posix impleme=
+ntation of exclusive write access, rather than downgrading the windows impl=
+ementation. I&#39;d drop this patch from the series for now.<br></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; [1] <a href=3D"https://docs.microsoft.com/en-us/windows/win32/file=
+io/creating-and-opening-files" rel=3D"noreferrer" target=3D"_blank">https:/=
+/docs.microsoft.com/en-us/windows/win32/fileio/creating-and-opening-files</=
+a><br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@win=
+driver.com" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
+&gt;&gt; Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.c=
+om" target=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;<br>
+&gt;&gt; Changes in v3:<br>
+&gt;&gt; - Add another case &quot;boot-serial-test&quot; to justify the cha=
+nge<br>
+&gt;&gt;<br>
+&gt;&gt; Changes in v2:<br>
+&gt;&gt; - Update commit message to include the use case why we should set<=
+br>
+&gt;&gt;=C2=A0 =C2=A0FILE_SHARE_WRITE when opening the file for win32<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 chardev/char-file.c | 4 ++--<br>
+&gt;&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt;&gt;<br>
+<br>
+Regards,<br>
+Bin<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000b35c6405e9a4e1c8--
 
