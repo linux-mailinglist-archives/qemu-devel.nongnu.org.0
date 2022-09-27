@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA67B5EC089
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:06:42 +0200 (CEST)
-Received: from localhost ([::1]:49210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034375EC003
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:43:34 +0200 (CEST)
+Received: from localhost ([::1]:45336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od8QA-0001yR-5w
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38378)
+	id 1od83p-0000fG-1H
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:43:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1od7zG-000060-1Q
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:38:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34310)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od80e-0003PU-87
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:40:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1od7z9-0007Mx-PV
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:38:48 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od80b-0007kT-9U
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:40:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664275122;
+ s=mimecast20190719; t=1664275212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TQW6LOBGPc+Yz3hy/ACoB86PrrfaqaEJkTLJ82jpikQ=;
- b=KkymrDqHmdB1Eicn/eUBNoXNWBffXwxrTA7pLM8R9jNZ0U4K1gM+LybWxfC9e2QuzLPwr4
- bUQXzUDKkm4MqvmfZf3uHEanLg0geg2K2eU4FQXNe4Lipj31yUFh0kfKFil8ZQ+niaiaIe
- hjelWE8LCiElyr3t+P3Bc9oEB38hSwY=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BBRTE8CuleMUf9T7ofONthOtHGcyvTbet9O2OWsawbc=;
+ b=ccb8z+DM/vlqgi8//00zym25BHPN9Tq0KTSdMu+rVmNUstTHtbw3WVPT17RlikwqDU4Wp8
+ u1F5t+7yq5VtXDFMl8/VtfTlZrrKH143DTs2zn5bjrA2T0v5/V9ipNXa9pzhUDBKGLX8AS
+ S4bYThxCU412G5GlSkM0Gcqr4fw6XFY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-527-XkmRld44P2ONU_axniGS4Q-1; Tue, 27 Sep 2022 06:38:35 -0400
-X-MC-Unique: XkmRld44P2ONU_axniGS4Q-1
-Received: by mail-oa1-f70.google.com with SMTP id
- 586e51a60fabf-130ee3fa853so2544062fac.22
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 03:38:35 -0700 (PDT)
+ us-mta-343-jMVdAubeO3CfWJ1KtOB0IQ-1; Tue, 27 Sep 2022 06:40:11 -0400
+X-MC-Unique: jMVdAubeO3CfWJ1KtOB0IQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ m29-20020adfa3dd000000b00224f577fad1so2009935wrb.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 03:40:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=TQW6LOBGPc+Yz3hy/ACoB86PrrfaqaEJkTLJ82jpikQ=;
- b=VxpHr3M7cLEBZ4Ly5yhK5mcO05t4ZJ3CA/OVSIG5ql+f8GcvEtJS+KTrlzAOiz5U7m
- enuUiGda0RMd0s3eGSHYhdLf7HeFGG4UgM346CdW5lF2yhxIIJqJPxuo4DtRs6rASWPA
- 7S98hJi+Op7BNxBeUhYDoHEhcc/zBCEffM9VdKCshqXH0O6yMQ7GvaMH2S27vFmUHeBx
- vxTukcW4qCP6hl3kYHgy8AGFP+4YxTCJ/66MHQjxGhC1pwUCduE4Jvq/1rC767B08fgA
- a3hhA2uMlR1Yu17o8FAmLLu9zS3RQ5708IlQ9mPPbGOXCvr8nfJ4zM4YVVe30sKqjvyU
- aYaw==
-X-Gm-Message-State: ACrzQf2gezzphhevATvy0OadRQM7hEcBxYfhnyu0kFqIBwx+XkkPumPl
- PTBe+itmc80+xfV1YzskBoVDIFbSE8VqViCBzAaQ08e2nWJp9xRV4a/jadO/jsd/xC6VbjXKydI
- m5zMuRFeoHbuPvD+vWhNlkiRWf3yTb34=
-X-Received: by 2002:a05:6808:1687:b0:347:cbd3:3dcf with SMTP id
- bb7-20020a056808168700b00347cbd33dcfmr1450466oib.53.1664275114510; 
- Tue, 27 Sep 2022 03:38:34 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4r5OO9HeL5PbsQQGtLoNYkoV6Tl0rkPpHU3Q7P+jLcaz+YMKWa+F8KtYDDS1PCLAxMoTW0zJG3p1zicgHUfqo=
-X-Received: by 2002:a05:6808:1687:b0:347:cbd3:3dcf with SMTP id
- bb7-20020a056808168700b00347cbd33dcfmr1450461oib.53.1664275114334; Tue, 27
- Sep 2022 03:38:34 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=BBRTE8CuleMUf9T7ofONthOtHGcyvTbet9O2OWsawbc=;
+ b=Fe7Fa/gall8qavdQGFDZXgKtqkuW2XtUCc2v4SmhH41/ra0zT3W6A+Z0XXiaCQNMDb
+ usu3CyBgvwV3di/y0xtOmm6r+PucUsZ+lqZ67wutIMcb4gJZXao5yBrMafLGJkELglJs
+ CrfJkn32cOaY8bIPrKfNXmGyU/UsOmOvlhXjHpqSTNCHviq8FzjrgglwQVAAbvMxHqpW
+ RYlNNkBJcaHsNXPes7JFNJyQwuYniGLnAaQuZ3r3EWLQi2fQ6brfw3i68JMTqpG9/ZSt
+ hbyPKbYejTflFeHXu1jrUduUn9IKu780SR803ruAGETd2KN61O2+1gcD7AGn4HSoTnWY
+ lnug==
+X-Gm-Message-State: ACrzQf3JP1voM+HOWlqy+VStNT6TCerYKJOgkduktWgPiQoA863LfO3v
+ Bq1kjBCOxm9fgj1cBLZqISxkoE8eKGuGs3OSBgOQKDLuFcRfP9pwK/d9wBu+dsA7LEcB/Ye175s
+ JXv4YGXu68Qok048=
+X-Received: by 2002:a1c:7c04:0:b0:3b4:aaa4:9ec8 with SMTP id
+ x4-20020a1c7c04000000b003b4aaa49ec8mr2088956wmc.44.1664275210178; 
+ Tue, 27 Sep 2022 03:40:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6+i9dO1fANGtJVlyXoJ7Odj0eKxt3+Pd7uhvm/0PwfoUk3GdbPOV/2nODq4DvpBTi5hvgnDA==
+X-Received: by 2002:a1c:7c04:0:b0:3b4:aaa4:9ec8 with SMTP id
+ x4-20020a1c7c04000000b003b4aaa49ec8mr2088932wmc.44.1664275209921; 
+ Tue, 27 Sep 2022 03:40:09 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-179-30.web.vodafone.de.
+ [109.43.179.30]) by smtp.gmail.com with ESMTPSA id
+ h4-20020a05600c498400b003b4935f04a4sm1620980wmp.5.2022.09.27.03.40.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Sep 2022 03:40:09 -0700 (PDT)
+Message-ID: <965d60c1-09a0-1b70-31dd-f8935996e743@redhat.com>
+Date: Tue, 27 Sep 2022 12:40:08 +0200
 MIME-Version: 1.0
-References: <20220927095921.261760-1-pbonzini@redhat.com>
- <20220927095921.261760-2-pbonzini@redhat.com>
-In-Reply-To: <20220927095921.261760-2-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 27 Sep 2022 14:38:23 +0400
-Message-ID: <CAMxuvazxcvB8VpTfpjfUTzbbYuJPYvM9zSLa3qsC6iW3ZwD9HA@mail.gmail.com>
-Subject: Re: [PATCH 1/5] ui: fix path to dbus-display1.h
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v4 2/7] tests/x86: Add subtest with 'q35' machine type to
+ device-plug-test
+Content-Language: en-US
+To: Michael Labiuk <michael.labiuk@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com,
+ Juan Quintela <quintela@redhat.com>
+References: <20220920104842.605530-1-michael.labiuk@virtuozzo.com>
+ <20220920104842.605530-3-michael.labiuk@virtuozzo.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220920104842.605530-3-michael.labiuk@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,60 +104,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 27, 2022 at 1:59 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> While the source directory is always included in the include path,
-> the corresponding directory in the build tree is not.  Therefore,
-> custom_targets (e.g. ui/dbus-display1.h) must be referred to using
-> the full path.
->
-> This avoids a build failure when ui/dbus-chardev.c is not built as
-> a module:
->
-> In file included from ../ui/dbus-chardev.c:32:
-> ../ui/dbus.h:34:10: fatal error: dbus-display1.h: No such file or directo=
-ry
->    34 | #include "dbus-display1.h"
->       |          ^~~~~~~~~~~~~~~~~
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
+On 20/09/2022 12.48, Michael Labiuk wrote:
+> Configure pci bridge setting to plug pci device and unplug.
+> 
+> Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
 > ---
->  tests/qtest/dbus-display-test.c | 2 +-
->  ui/dbus.h                       | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/qtest/dbus-display-test.c b/tests/qtest/dbus-display-t=
-est.c
-> index 8be5974763..cb1b62d1d1 100644
-> --- a/tests/qtest/dbus-display-test.c
-> +++ b/tests/qtest/dbus-display-test.c
-> @@ -3,7 +3,7 @@
->  #include <gio/gio.h>
->  #include <gio/gunixfdlist.h>
->  #include "libqtest.h"
-> -#include "dbus-display1.h"
-> +#include "ui/dbus-display1.h"
->
->  static GDBusConnection*
->  test_dbus_p2p_from_fd(int fd)
-> diff --git a/ui/dbus.h b/ui/dbus.h
-> index c001c11f70..9c149e7b41 100644
-> --- a/ui/dbus.h
-> +++ b/ui/dbus.h
-> @@ -31,7 +31,7 @@
->  #include "ui/console.h"
->  #include "ui/clipboard.h"
->
-> -#include "dbus-display1.h"
-> +#include "ui/dbus-display1.h"
->
->  typedef struct DBusClipboardRequest {
->      GDBusMethodInvocation *invocation;
-> --
-> 2.37.3
->
+>   tests/qtest/device-plug-test.c | 41 ++++++++++++++++++++++++++++++++++
+>   1 file changed, 41 insertions(+)
+> 
+> diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
+> index e595b45b66..d66c386ef4 100644
+> --- a/tests/qtest/device-plug-test.c
+> +++ b/tests/qtest/device-plug-test.c
+> @@ -90,6 +90,19 @@ static void test_pci_unplug_request(void)
+>       qtest_quit(qtest);
+>   }
+>   
+> +static void test_q35_pci_unplug_request(void)
+> +{
+> +
+> +    QTestState *qtest = qtest_initf("-machine q35 "
+> +                                    "-device pcie-root-port,id=p1 "
+> +                                    "-device pcie-pci-bridge,bus=p1,id=b1 "
+> +                                    "-device virtio-mouse-pci,bus=b1,id=dev0");
+> +
+> +    process_device_remove(qtest, "dev0");
+> +
+> +    qtest_quit(qtest);
+> +}
+> +
+>   static void test_pci_unplug_json_request(void)
+>   {
+>       const char *arch = qtest_get_arch();
+> @@ -108,6 +121,27 @@ static void test_pci_unplug_json_request(void)
+>       qtest_quit(qtest);
+>   }
+>   
+> +static void test_q35_pci_unplug_json_request(void)
+> +{
+> +    const char *port = "-device '{\"driver\": \"pcie-root-port\", "
+> +                                      "\"id\": \"p1\"}'";
+> +
+> +    const char *bridge = "-device '{\"driver\": \"pcie-pci-bridge\", "
+> +                                   "\"id\": \"b1\", "
+> +                                   "\"bus\": \"p1\"}'";
+> +
+> +    const char *device = "-device '{\"driver\": \"virtio-mouse-pci\", "
+> +                                   "\"bus\": \"b1\", "
+> +                                   "\"id\": \"dev0\"}'";
+> +
+> +    QTestState *qtest = qtest_initf("-machine q35 %s %s %s",
+> +                                    port, bridge, device);
+> +
+> +    process_device_remove(qtest, "dev0");
+> +
+> +    qtest_quit(qtest);
+> +}
+> +
+>   static void test_ccw_unplug(void)
+>   {
+>       QTestState *qtest = qtest_initf("-device virtio-balloon-ccw,id=dev0");
+> @@ -187,5 +221,12 @@ int main(int argc, char **argv)
+>                          test_spapr_phb_unplug_request);
+>       }
+>   
+> +    if (!strcmp(arch, "x86_64")) {
+
+We should maybe also add a qtest_has_machine("q35") after the strcmp here 
+(there have recently been some efforts to make the qtests also run right if 
+one of the x86 machines has been disabled in the build)
+
+  Thomas
+
+
+> +        qtest_add_func("/device-plug/q35-pci-unplug-request",
+> +                   test_q35_pci_unplug_request);
+> +        qtest_add_func("/device-plug/q35-pci-unplug-json-request",
+> +                   test_q35_pci_unplug_json_request);
+> +    }
+> +
+>       return g_test_run();
+>   }
 
 
