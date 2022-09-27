@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD645EC727
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:03:16 +0200 (CEST)
-Received: from localhost ([::1]:47404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644415EC738
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:06:42 +0200 (CEST)
+Received: from localhost ([::1]:58368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odC77-0004jv-4k
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:03:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60998)
+	id 1odCAT-0000vf-GM
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:06:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odAWB-0005BU-Mf
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:21:00 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43739)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1odAX8-0005K1-Sn
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:22:03 -0400
+Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:42889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odAW8-0005Oh-T0
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:20:58 -0400
-Received: by mail-ed1-x532.google.com with SMTP id y8so13166734edc.10
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 06:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1odAX5-0005SR-Gt
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 09:21:58 -0400
+Received: by mail-qv1-xf31.google.com with SMTP id u8so559806qvv.9
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 06:21:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=DLGWnTVTFvxUfemaN9J52EFGjl49/8KYzb2zJJQVPC0=;
- b=UHqZNL53KczBTgCti13zB/iv4+PT3XvgFSMuhM7vgrvKjELNpWmT3dtfnKiF2REVk0
- 4YeOCgc1aifu+2X7ufjExoErAjUnv20PbC1/f1R83hDLPUonwSOkOtH84uLHUd5+FChF
- QZjgZ8cfYVDVD3cZb/0Mkv6KLOtnZDFHmcOLMLp7dO2BKrJTOnhtA5kXwvxeFClnd7Xl
- /fl618OCZcdCb2v0hvzz7SOcui5Zafnkk14RQnHyP3Dc4dG+8YsrOmV1iZYuY6bdUrl4
- ipi1vuNHsDuPhfRbaf8EF9GMNS1FnMOc9XwZmJXHUFvsk0gPsMa5wBkbSlcDAqJTjg3c
- rd2g==
+ bh=fAElqi7GgAXJHrQNaEnFFUZWVVL/vlVPcLKTXrC2hEQ=;
+ b=cPLG2GpfnZKhcMZr/L8eapBA9eKsiDTkUaGLJuWWA137q524PvLfNpHGfT1L8+k7sZ
+ MVOrftzPEj0lCyvtRAmtvp4QWCO1knwpoR6QcmFSwAUDPvSPMXseyawT+OgT+xm2c/uh
+ xRzc29MyevrKB4DvbmwzJoQtStKAevsmLhrPc33kvkFcBM93+YEYuyVdTTaQu+xDRr7L
+ r9Y12gKYEpgBzByTjDo56VQ9UYGZnvqwyKBqAxhjCvU90/U2EWT9M62YBtLjVAIS2Buj
+ +IqIczVvNdknSDZ+eFw9PkXjNvtQ69SvLWGG3E0hZMWyU82F68sL/ZMM41ZKJ34F+upl
+ VDHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=DLGWnTVTFvxUfemaN9J52EFGjl49/8KYzb2zJJQVPC0=;
- b=AfkGeBX2T626l/b3XPQadq4VLpBGPnxBn+jeTB26m7pApZLQMES9lTjehRnRzDoiLG
- QCCqlKNSF6l8+khQa1tnCW/hi3nU0WtTtEbGyaseVh0QogF8bdIDZmHcB2X2kETyG18F
- TI2hmv+gvvtDUUl2UaK/NVp8/BClIgksXXtmgh2kj2SKtrJ/INg5jvumrq7ZcxmBQHPw
- 3DzKFDYmCNiNG8fst89AAUn24Q3og9yABrQXkU9S0xF0KUBA9B7zuccLNEDKhz0OMDpn
- LKrwfzUWpPIF/1LG/TZa9sSLbU2QLuOLSI6QxQsfVY24LL8/wstKKHzYx3qZYEYwpfHk
- lR3g==
-X-Gm-Message-State: ACrzQf0ayhfq2c2fJurctznJFER60TwINDtx/89xq/M0z2OX+yM6ojht
- ObzjL0oROSj8NcIlLr+MoxOUmCdvoLfw10JgNGwddA==
-X-Google-Smtp-Source: AMsMyM65gW+CQFzu9XOKmUdZcyMjcShFPoKM5cGcLpndd/V+LfQpPuf1PiSH3BbSTXM+1Te2d01NJvfs17IauhN7zwU=
-X-Received: by 2002:a05:6402:2787:b0:451:d655:9269 with SMTP id
- b7-20020a056402278700b00451d6559269mr27837452ede.375.1664284853607; Tue, 27
- Sep 2022 06:20:53 -0700 (PDT)
+ bh=fAElqi7GgAXJHrQNaEnFFUZWVVL/vlVPcLKTXrC2hEQ=;
+ b=j49EHwzzLltxv0keDoSJlxh9vkC17YvUUUKpbanvA6aVgLIXusYnRXWUaw6KI1bOSM
+ foS086bq13oYenwvL72hg4iOc7UDZSDekoC3Yre0JoR14KdQlKysOrTVqWw8AWgvQknu
+ 4vNEN6hNwoj2CV57cAfnI8B0pNkVQ0hQhD+U1M1eWZ+/43Nah01+thoRP+NJJfFRKts9
+ 9AihpASQwGUwh6v4HCoLeuYZ+5Ybu7p+gosHZBqiYcDg5gQ/Knkn3eAfr/1hdUx9pDei
+ Ril/9VJPcwGJjvnJcS97XA6kSyazGFxYt7L8zEeoEMmSy2cvy2Vm+S+Ztk6rFVZb4Exm
+ QXYQ==
+X-Gm-Message-State: ACrzQf34c2hgNwKZnAiUCBJ/yO4q0lhcwhkAfo6uVy3z/+Rjx4UsSx+j
+ zUPMrnXbQIbvGmQ5SQoWL8pJgUY0ZAdYdeZPe6Y=
+X-Google-Smtp-Source: AMsMyM5ngWrHNhNol+L6uhXAUsV5VsrvFwQg03TSQ7SQ4XLArBk4s5ev4Q4GSStCKajUxkS1lSkn9tTleFz0O4axwf8=
+X-Received: by 2002:ad4:5763:0:b0:4ad:6f51:2aff with SMTP id
+ r3-20020ad45763000000b004ad6f512affmr21451177qvx.122.1664284903451; Tue, 27
+ Sep 2022 06:21:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220820141914.217399-1-tobias.roehmel@rwth-aachen.de>
- <20220820141914.217399-7-tobias.roehmel@rwth-aachen.de>
-In-Reply-To: <20220820141914.217399-7-tobias.roehmel@rwth-aachen.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Sep 2022 14:20:42 +0100
-Message-ID: <CAFEAcA9B32y-7-wmPr9LT34gqrZRfK0ygZ_iuy0LDa4VmrEgnw@mail.gmail.com>
-Subject: Re: [PATCH v3 6/9] target/arm: Enable TTBCR_EAE for ARMv8-R AArch32
-To: tobias.roehmel@rwth-aachen.de
-Cc: qemu-devel@nongnu.org
+References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
+ <20220927110632.1973965-44-bmeng.cn@gmail.com>
+ <CAJ+F1C+BsM16peLANydiBtRamWada6S8Hg5hLYD=Z274AbN_3A@mail.gmail.com>
+In-Reply-To: <CAJ+F1C+BsM16peLANydiBtRamWada6S8Hg5hLYD=Z274AbN_3A@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 27 Sep 2022 21:21:33 +0800
+Message-ID: <CAEUhbmWHn_XYh1+xmvxUuK7DAuJf7=kq1zEhsxmLLs9Pb_B+YA@mail.gmail.com>
+Subject: Re: [PATCH v4 43/54] tests/qtest: migration-test: Make sure QEMU
+ process "to" exited after migration is canceled
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,82 +91,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 20 Aug 2022 at 15:19, <tobias.roehmel@rwth-aachen.de> wrote:
+On Tue, Sep 27, 2022 at 9:15 PM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
 >
-> From: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
+> Hi
 >
-> ARMv8-R AArch32 CPUs behave as if TTBCR.EAE is always 1 even
-> tough they don't have the TTBCR register.
-> See ARM Architecture Reference Manual Supplement - ARMv8, for the ARMv8-R
-> AArch32 architecture profile Version:A.c section C1.2.
+> On Tue, Sep 27, 2022 at 5:02 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>
+>> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>>
+>> Make sure QEMU process "to" exited before launching another target
+>> for migration in the test_multifd_tcp_cancel case.
+>>
+>> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>> ---
+>>
+>> (no changes since v3)
+>>
+>> Changes in v3:
+>> - Add a usleep(1) in the busy wait loop
+>>
+>> Changes in v2:
+>> - Change to a busy wait after migration is canceled
+>>
+>>  tests/qtest/migration-test.c | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+>> index 45c5f5761b..6f9fe13488 100644
+>> --- a/tests/qtest/migration-test.c
+>> +++ b/tests/qtest/migration-test.c
+>> @@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)
+>>      wait_for_migration_pass(from);
+>>
+>>      migrate_cancel(from);
+>> +    /* Make sure QEMU process "to" exited */
+>> +    while (qtest_probe_child(to)) {
+>> +        usleep(1);
 >
-> Signed-off-by: Tobias R=C3=B6hmel <tobias.roehmel@rwth-aachen.de>
-> ---
->  target/arm/debug_helper.c | 3 ++-
->  target/arm/internals.h    | 3 ++-
->  target/arm/tlb_helper.c   | 3 ++-
->  3 files changed, 6 insertions(+), 3 deletions(-)
 >
-> diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-> index b18a6bd3a2..44b1e32974 100644
-> --- a/target/arm/debug_helper.c
-> +++ b/target/arm/debug_helper.c
-> @@ -434,7 +434,8 @@ static uint32_t arm_debug_exception_fsr(CPUARMState *=
-env)
->          using_lpae =3D true;
->      } else {
->          if (arm_feature(env, ARM_FEATURE_LPAE) &&
-> -            (env->cp15.tcr_el[target_el].raw_tcr & TTBCR_EAE)) {
-> +            ((env->cp15.tcr_el[target_el].raw_tcr & TTBCR_EAE)
-> +            || arm_feature(env, ARM_FEATURE_V8_R))) {
->              using_lpae =3D true;
->          }
->      }
-> diff --git a/target/arm/internals.h b/target/arm/internals.h
-> index b03049d920..e2a2b03d41 100644
-> --- a/target/arm/internals.h
-> +++ b/target/arm/internals.h
-> @@ -254,7 +254,8 @@ static inline bool extended_addresses_enabled(CPUARMS=
-tate *env)
->  {
->      TCR *tcr =3D &env->cp15.tcr_el[arm_is_secure(env) ? 3 : 1];
->      return arm_el_is_aa64(env, 1) ||
-> -           (arm_feature(env, ARM_FEATURE_LPAE) && (tcr->raw_tcr & TTBCR_=
-EAE));
-> +           (arm_feature(env, ARM_FEATURE_LPAE) && ((tcr->raw_tcr & TTBCR=
-_EAE)
-> +           || arm_feature(env, ARM_FEATURE_V8_R)));
->  }
+> Why not add a qtest_wait_qemu() ? (I think qtest_probe_child() should als=
+o be renamed)
 >
->  /* Update a QEMU watchpoint based on the information the guest has set i=
-n the
-> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-> index 7d8a86b3c4..891326edb8 100644
-> --- a/target/arm/tlb_helper.c
-> +++ b/target/arm/tlb_helper.c
-> @@ -20,7 +20,8 @@ bool regime_using_lpae_format(CPUARMState *env, ARMMMUI=
-dx mmu_idx)
->          return true;
->      }
->      if (arm_feature(env, ARM_FEATURE_LPAE)
-> -        && (regime_tcr(env, mmu_idx)->raw_tcr & TTBCR_EAE)) {
-> +        && ((regime_tcr(env, mmu_idx)->raw_tcr & TTBCR_EAE)
-> +        || arm_feature(env, ARM_FEATURE_V8_R))) {
->          return true;
->      }
->      return false;
 
-In all of these I think you've put the "is this v8R?" condition
-in a weird place in the existing conditional structure. v8R
-always uses the extended-address format, so we should have
-the test at the same kind of level we have the "is this AArch64?"
-test, not buried inside the "if LPAE" test.
+Do you mean adding:
 
-Also, you can write the check
-  (arm_feature(env, ARM_FEATURE_V8) && arm_feature(ARM_FEATURE_PMSA))
--- I still don't think there is any need for a separate V8_R
-feature bit.
+void qtest_wait_qemu(QTestState *s)
+{
+    while (qtest_probe_child(s)) {
+        usleep(1);
+    }
+}
 
-thanks
--- PMM
+Do you have a better name for qtest_probe_child()?
+
+Regards,
+Bin
 
