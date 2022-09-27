@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331D95ECD2F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 21:52:17 +0200 (CEST)
-Received: from localhost ([::1]:38946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F935ECD2D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 21:51:57 +0200 (CEST)
+Received: from localhost ([::1]:41686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odGcp-0002Cx-9t
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 15:52:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45416)
+	id 1odGcW-0001bV-4Y
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 15:51:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1odGMY-0000YD-Hz
+ id 1odGMY-0000WL-1q
  for qemu-devel@nongnu.org; Tue, 27 Sep 2022 15:35:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26273)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1odGMV-0004eo-B5
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 15:35:26 -0400
+ id 1odGMV-0004ex-At
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 15:35:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664307320;
+ s=mimecast20190719; t=1664307321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bBhFDs7vdzlVmvOfbdqBsqXYKuTYZOQO3H7xYLZLU2o=;
- b=CydzupIruy2B+GJ46Xfwv5OY47m2g/kptDOjmEzUbEbwL65ChiDZKd+ukRvxUPeBbMxr42
- dfJ6+FEQZKv9VvSt9ZqorySApkuknWecRY/vlc447fsNqd0H5Vy7GlTwnlTJaH8qdyMxyq
- ZwehzicvCce6IBGyWjpkDWTbYBKGq7E=
+ bh=hr4Rs7hpdNS7b3o4WidAG60QG2JI1UtqbqZ1ZxluRD8=;
+ b=gMGluApcws090ePeTL2D2ybsxj8nuDcLvrCsBAAYzRAcpDbjesFjObVIHK0YcFKGQIWxjG
+ EyDuO6nV9I3qizlTThVBhe7waqj9/s1N1o8cTwexI0F5rW9qSqT2Fx2isXn1BIvh7x1c45
+ CYdc1ntOIGqUj06UYaXgnXBH2BShkhE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-346-NbXV6x5hPL2XMVCpHjfBHA-1; Tue, 27 Sep 2022 15:35:16 -0400
-X-MC-Unique: NbXV6x5hPL2XMVCpHjfBHA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-665-iwxVAE5UNZCjCynqfMwD9w-1; Tue, 27 Sep 2022 15:35:18 -0400
+X-MC-Unique: iwxVAE5UNZCjCynqfMwD9w-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55DAD85A583;
- Tue, 27 Sep 2022 19:35:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C266811E87;
+ Tue, 27 Sep 2022 19:35:17 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFFB023177;
- Tue, 27 Sep 2022 19:34:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C100492B05;
+ Tue, 27 Sep 2022 19:35:16 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Yanan Wang <wangyanan55@huawei.com>, Kevin Wolf <kwolf@redhat.com>,
@@ -65,23 +65,24 @@ Cc: Yanan Wang <wangyanan55@huawei.com>, Kevin Wolf <kwolf@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>, sgarzare@redhat.com
-Subject: [PATCH v5 04/12] block: pass size to bdrv_unregister_buf()
-Date: Tue, 27 Sep 2022 15:34:23 -0400
-Message-Id: <20220927193431.22302-5-stefanha@redhat.com>
+Subject: [PATCH v5 05/12] block: use BdrvRequestFlags type for supported flag
+ fields
+Date: Tue, 27 Sep 2022 15:34:24 -0400
+Message-Id: <20220927193431.22302-6-stefanha@redhat.com>
 In-Reply-To: <20220927193431.22302-1-stefanha@redhat.com>
 References: <20220927193431.22302-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,154 +98,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only implementor of bdrv_register_buf() is block/nvme.c, where the
-size is not needed when unregistering a buffer. This is because
-util/vfio-helpers.c can look up mappings by address.
-
-Future block drivers that implement bdrv_register_buf() may not be able
-to do their job given only the buffer address. Add a size argument to
-bdrv_unregister_buf().
-
-Also document the assumptions about
-bdrv_register_buf()/bdrv_unregister_buf() calls. The same <host, size>
-values that were given to bdrv_register_buf() must be given to
-bdrv_unregister_buf().
-
-gcc 11.2.1 emits a spurious warning that img_bench()'s buf_size local
-variable might be uninitialized, so it's necessary to silence the
-compiler.
+Use the enum type so GDB displays the enum members instead of printing a
+numeric constant.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/block/block-global-state.h          | 5 ++++-
- include/block/block_int-common.h            | 2 +-
- include/sysemu/block-backend-global-state.h | 2 +-
- block/block-backend.c                       | 4 ++--
- block/io.c                                  | 6 +++---
- block/nvme.c                                | 2 +-
- qemu-img.c                                  | 4 ++--
- 7 files changed, 14 insertions(+), 11 deletions(-)
+ include/block/block_int-common.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
-index 21265e3966..7901f35863 100644
---- a/include/block/block-global-state.h
-+++ b/include/block/block-global-state.h
-@@ -243,9 +243,12 @@ void bdrv_del_child(BlockDriverState *parent, BdrvChild *child, Error **errp);
-  * Register/unregister a buffer for I/O. For example, VFIO drivers are
-  * interested to know the memory areas that would later be used for I/O, so
-  * that they can prepare IOMMU mapping etc., to get better performance.
-+ *
-+ * Buffers must not overlap and they must be unregistered with the same <host,
-+ * size> values that they were registered with.
-  */
- void bdrv_register_buf(BlockDriverState *bs, void *host, size_t size);
--void bdrv_unregister_buf(BlockDriverState *bs, void *host);
-+void bdrv_unregister_buf(BlockDriverState *bs, void *host, size_t size);
- 
- void bdrv_cancel_in_flight(BlockDriverState *bs);
- 
 diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index 8947abab76..b7a7cbd3a5 100644
+index b7a7cbd3a5..19798d0e77 100644
 --- a/include/block/block_int-common.h
 +++ b/include/block/block_int-common.h
-@@ -435,7 +435,7 @@ struct BlockDriver {
-      * DMA mapping for hot buffers.
-      */
-     void (*bdrv_register_buf)(BlockDriverState *bs, void *host, size_t size);
--    void (*bdrv_unregister_buf)(BlockDriverState *bs, void *host);
-+    void (*bdrv_unregister_buf)(BlockDriverState *bs, void *host, size_t size);
- 
+@@ -1051,7 +1051,7 @@ struct BlockDriverState {
      /*
-      * This field is modified only under the BQL, and is part of
-diff --git a/include/sysemu/block-backend-global-state.h b/include/sysemu/block-backend-global-state.h
-index 415f0c91d7..97f7dad2c3 100644
---- a/include/sysemu/block-backend-global-state.h
-+++ b/include/sysemu/block-backend-global-state.h
-@@ -107,7 +107,7 @@ void blk_io_limits_update_group(BlockBackend *blk, const char *group);
- void blk_set_force_allow_inactivate(BlockBackend *blk);
+      * Flags honored during pread
+      */
+-    unsigned int supported_read_flags;
++    BdrvRequestFlags supported_read_flags;
+     /*
+      * Flags honored during pwrite (so far: BDRV_REQ_FUA,
+      * BDRV_REQ_WRITE_UNCHANGED).
+@@ -1069,12 +1069,12 @@ struct BlockDriverState {
+      * flag), or they have to explicitly take the WRITE permission for
+      * their children.
+      */
+-    unsigned int supported_write_flags;
++    BdrvRequestFlags supported_write_flags;
+     /*
+      * Flags honored during pwrite_zeroes (so far: BDRV_REQ_FUA,
+      * BDRV_REQ_MAY_UNMAP, BDRV_REQ_WRITE_UNCHANGED)
+      */
+-    unsigned int supported_zero_flags;
++    BdrvRequestFlags supported_zero_flags;
+     /*
+      * Flags honoured during truncate (so far: BDRV_REQ_ZERO_WRITE).
+      *
+@@ -1082,7 +1082,7 @@ struct BlockDriverState {
+      * that any added space reads as all zeros. If this can't be guaranteed,
+      * the operation must fail.
+      */
+-    unsigned int supported_truncate_flags;
++    BdrvRequestFlags supported_truncate_flags;
  
- void blk_register_buf(BlockBackend *blk, void *host, size_t size);
--void blk_unregister_buf(BlockBackend *blk, void *host);
-+void blk_unregister_buf(BlockBackend *blk, void *host, size_t size);
- 
- const BdrvChild *blk_root(BlockBackend *blk);
- 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index d4a5df2ac2..99141f8f06 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2551,10 +2551,10 @@ void blk_register_buf(BlockBackend *blk, void *host, size_t size)
-     bdrv_register_buf(blk_bs(blk), host, size);
- }
- 
--void blk_unregister_buf(BlockBackend *blk, void *host)
-+void blk_unregister_buf(BlockBackend *blk, void *host, size_t size)
- {
-     GLOBAL_STATE_CODE();
--    bdrv_unregister_buf(blk_bs(blk), host);
-+    bdrv_unregister_buf(blk_bs(blk), host, size);
- }
- 
- int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
-diff --git a/block/io.c b/block/io.c
-index 0a8cbefe86..af85fa4bcc 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3305,16 +3305,16 @@ void bdrv_register_buf(BlockDriverState *bs, void *host, size_t size)
-     }
- }
- 
--void bdrv_unregister_buf(BlockDriverState *bs, void *host)
-+void bdrv_unregister_buf(BlockDriverState *bs, void *host, size_t size)
- {
-     BdrvChild *child;
- 
-     GLOBAL_STATE_CODE();
-     if (bs->drv && bs->drv->bdrv_unregister_buf) {
--        bs->drv->bdrv_unregister_buf(bs, host);
-+        bs->drv->bdrv_unregister_buf(bs, host, size);
-     }
-     QLIST_FOREACH(child, &bs->children, next) {
--        bdrv_unregister_buf(child->bs, host);
-+        bdrv_unregister_buf(child->bs, host, size);
-     }
- }
- 
-diff --git a/block/nvme.c b/block/nvme.c
-index 01fb28aa63..696502acea 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -1592,7 +1592,7 @@ static void nvme_register_buf(BlockDriverState *bs, void *host, size_t size)
-     }
- }
- 
--static void nvme_unregister_buf(BlockDriverState *bs, void *host)
-+static void nvme_unregister_buf(BlockDriverState *bs, void *host, size_t size)
- {
-     BDRVNVMeState *s = bs->opaque;
- 
-diff --git a/qemu-img.c b/qemu-img.c
-index 7d4b33b3da..b8a8818ddb 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -4368,7 +4368,7 @@ static int img_bench(int argc, char **argv)
-     struct timeval t1, t2;
-     int i;
-     bool force_share = false;
--    size_t buf_size;
-+    size_t buf_size = 0;
- 
-     for (;;) {
-         static const struct option long_options[] = {
-@@ -4590,7 +4590,7 @@ static int img_bench(int argc, char **argv)
- 
- out:
-     if (data.buf) {
--        blk_unregister_buf(blk, data.buf);
-+        blk_unregister_buf(blk, data.buf, buf_size);
-     }
-     qemu_vfree(data.buf);
-     blk_unref(blk);
+     /* the following member gives a name to every node on the bs graph. */
+     char node_name[32];
 -- 
 2.37.3
 
