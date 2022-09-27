@@ -2,73 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95CE5ECB67
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 19:41:48 +0200 (CEST)
-Received: from localhost ([::1]:55318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B44B65ECAAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 19:22:23 +0200 (CEST)
+Received: from localhost ([::1]:45888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odEaZ-0006Lu-Ew
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 13:41:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54522)
+	id 1odEHm-0005lX-Rx
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 13:22:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1odDv0-0003cs-4Z
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 12:58:53 -0400
-Received: from mout.gmx.net ([212.227.17.22]:60283)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1odE3g-0003Br-AV
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 13:07:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1odDus-00046i-Et
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 12:58:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1664297917;
- bh=IeoKusoEzytKlszwB6zEaGGAt+GVGNyVdHhNI4Oiv2Y=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=BH1C+8kOF0r8GYs4dfPEOppnWoHtgs6n1jlBJHt6a7pc+PHux5mkqdj6qWADHocej
- DZoGbdzwqQqTSBYzNiTuCgq5h+4nimAop/NCOjY3KoES7cqVbFmuh+B5ZX7SN7urz0
- O+oGBTBpzSEpqDyg8mANx6SE5gjcoA5WMAgQJXYI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100 ([92.116.138.255]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M7b6b-1obrOb3jdF-0081M9; Tue, 27
- Sep 2022 18:58:36 +0200
-Date: Tue, 27 Sep 2022 18:58:35 +0200
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- Philippe =?iso-8859-15?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: [PATCH v2] linux-user: Add guest memory layout to exception dump
-Message-ID: <YzMru6y+v5bbsTRn@p100>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1odE3b-0005mC-ND
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 13:07:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664298461;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v6joseTCJ6Q1ULHJqtMdYQ3ykcU0qv4BHwAMu0wPDVc=;
+ b=Mi14J4PZTm80qVPZZW4gX7jkGTmjywbH8ws769+YneoucXRh0uJcoNqw0XOmFgK22lsfIX
+ mH4kH4biD/2PVUG/mhQGHxv8/pdPfk5Zb+6IDwHiMBD7A+1kflGhONK/BezAp6OPu0qjY8
+ Wfna/bgCFcuYNKfBwYgd9wOY75zDB48=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-630-hsA0AwpXMHe5OCqkHYYUIg-1; Tue, 27 Sep 2022 13:07:39 -0400
+X-MC-Unique: hsA0AwpXMHe5OCqkHYYUIg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ z16-20020a05640235d000b0045485e4a5e0so8272002edc.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 10:07:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=v6joseTCJ6Q1ULHJqtMdYQ3ykcU0qv4BHwAMu0wPDVc=;
+ b=P01B/tLIEu7mdBKFX9LtvghvICSv4Dv7EL1exIC5l3U0Ycb6SuXWqsIzbuUxvL3rpF
+ Na2KAWxVdjdRw2gXa4HwJKlOddrGBB7e2cCjGX/HK8rK1oKzakecOpA56XDSC7ERPJrR
+ MRmkT7Jj0w9OodBe68a7nh5WBer3KgyK0LKgkclFQa/eS2+3NFH14HK4F2kZ0XzLJIKi
+ +j2BnvlJZ/bpAXS/3OEBgUZiGPwSy0dSuwmFR0U6xp4LDWbXoW1v8MB/RPm7gg0Uq0nH
+ O5kijjuYpOm/I3NbFeDupj28bZRnCWX2+oQQdgHh79NPOFhGjV15Fezm15cp6fVYj8s5
+ sPDw==
+X-Gm-Message-State: ACrzQf0p5G/dy9aX1Hz4bBfY9gWg93qc1MD6Ldhtgm5tfPxw0D8GAM5p
+ sStOChFaG2yVq0kip9Fju2PZED0OCX5EVQmgnwXrBoEb42XV0rOGQaQNZfu2CjItwbbrOO/RUJH
+ V4wT7gptlyzu6Hiw=
+X-Received: by 2002:a50:fc9a:0:b0:454:6a56:7d27 with SMTP id
+ f26-20020a50fc9a000000b004546a567d27mr28223776edq.73.1664298456584; 
+ Tue, 27 Sep 2022 10:07:36 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7KAk6ziilBlm3FxmAmC33zMV4SLEMRpHjnEN4V4FF55E1rqpeTCG8LxZf0dyuHsvSpwzjUZQ==
+X-Received: by 2002:a50:fc9a:0:b0:454:6a56:7d27 with SMTP id
+ f26-20020a50fc9a000000b004546a567d27mr28223738edq.73.1664298456201; 
+ Tue, 27 Sep 2022 10:07:36 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ ml23-20020a170906cc1700b0077016f4c6d4sm1048782ejb.55.2022.09.27.10.07.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Sep 2022 10:07:35 -0700 (PDT)
+Message-ID: <51698c38-468a-83e7-5ff0-be2175f1e17d@redhat.com>
+Date: Tue, 27 Sep 2022 19:07:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:SJx2geeWlxPkCu4a/P7JfyewxBpO/CnQnAZ/82MHWE2b/PTomKy
- vKan6+WBBCYgKOPJAQHWFXQGPIYhcsGDfhHBC1zE3c0lK//zfcpV9/+3+UA0K4XDq51yTaX
- bDn4vJbjaVsS6WoJOzaIsx0/r3tUPoCLLWQyhuS3x93H7xWpQDJlPtNNWMotsUvOfsJl27j
- MqKE9BpYhLqQaZhYcEF9w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:R0s9KLaJzb4=:WZGK0dN6QxCWGMHOrCaWX4
- zWSlAvixBgbl4r+w63qnUKPMtCormTh7Z+gknVmR25d+I58IumP4RKIrxxFdXU/EqC+cpj0iw
- DFBCSKcXvHjpsHWgYxaPDjsB/V9Ry1LN43ONvhcXZMMaO6Kabf2PMwycAETeyVarPXSgCegvb
- icEsp1O6QMSgc7OLroZl52j76y84cWHFFi2mqy+VDaw6G0b/1ymBbhmXwrG3TkTri0vVEqeRm
- tCiaTlQd5tAW+4kXEps1blhLCXbtlXnoya8StKhgYC2SPnHGUbBNT1W/PCbr8RbZWUKx8ByRj
- KFDIBuQ9B4i0vSUhOBn0kYdOIGWwTt2YHTr4MuHawaKonAOswvZ0/dif6jhYtyoA6uqiDbMbn
- QnmgegCRN16O2tKYj7Wco+pvMCme+XokRqvYFHbf1BbJMq5HNqRbS00nRgjuh4MtypXbM3FEa
- bsvZ5M8oJ28qLOSHBgXup/l2G9N6EVDS1fXfpL45G7z2SItT6CU5eog3x6o06tdulReHYe2wl
- pOO+mDncQUsRRPRtjWfASIXdBDEwya9m1FaznyrN4D0Gt7Y8go6psrnBsaBMvKo1H9Z5oycS1
- Tzo4Z/bBEiD0Ky3r/H/tF2RSCmqCTcfdetoUzriPwqTDXE/Wmk7AxVH1XGSO3STvIPz1D6Le4
- Hh/2BrZ9J43vcpTmC8Z7SeJwhLClXJkQ5JYL+GowYy6euQcT11Jkdk8X/KjVj9rDD04z4W8gr
- fEDLEmuV7pPov6G8S6W6FduLFRdcagl3WJFhcVqQSztonjmWd3H/zElu5r3b3J4qhtgOGLq07
- 990ZiQLk87cDfnzu9RwRG6V0NfKW1l93UJRq54RD2msqgiwLzRfPQIVT86IcyET61HRpCwoEP
- cMMpGOSKDWyxXHwRsJMopBQWPnbX7Fvr+dUJ8UTWidkyE84WY6Wbdtst5m7yhqs4zaSrx/Ved
- HvFc5MMyKxbGfxyCnB+2BWa7D6ns3vKZeH8VxB1AzTJ/Q4H/ddn8xSmPdFE+GFvcHEQal1eXH
- 90HmVYPZliUNxN/3r06CqnBSXRnGYXiECHASt4ubc3St2k8D4ePiXK1pyvPtR3Bq41OexWMGf
- GZRpdUDM0NGi8olBxs8ex2wZ3/gU0Rs33or7gsOIgTzhP5ColDNkTERFfB6BG+G/RvznMgbTA
- VOmjTnnoEEsud8FtLYSFrOXawD
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_ZBI=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] target/arm/kvm: Retry KVM_CREATE_VM call if it fails
+ EINTR
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Vitaly Chikunov <vt@altlinux.org>, Marc Zyngier <maz@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220927164920.1502219-1-peter.maydell@linaro.org>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <20220927164920.1502219-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,112 +104,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the emulation stops with a hard exception it's very useful for
-debugging purposes to dump the current guest memory layout (for an
-example see /proc/self/maps) beside the CPU registers.
+Hi Peter,
 
-The open_self_maps() function provides such a memory dump, but since
-it's located in the syscall.c file, various changes (add #includes, make
-this function externally visible, ...) are needed to be able to call it
-from the existing EXCP_DUMP() macro.
+On 9/27/22 18:49, Peter Maydell wrote:
+> Occasionally the KVM_CREATE_VM ioctl can return EINTR, even though
+> there is no pending signal to be taken. In commit 94ccff13382055
+> we added a retry-on-EINTR loop to the KVM_CREATE_VM call in the
+> generic KVM code. Adopt the same approach for the use of the
+> ioctl in the Arm-specific KVM code (where we use it to create a
+> scratch VM for probing for various things).
+>
+> For more information, see the mailing list thread:
+> https://lore.kernel.org/qemu-devel/8735e0s1zw.wl-maz@kernel.org/
+>
+> Reported-by: Vitaly Chikunov <vt@altlinux.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> The view in the thread seems to be that this is a kernel bug (because
+> in QEMU's case there shouldn't be a signal to be delivered at this
+> point because of our signal handling strategy); so I've adopted the
+> same "just retry-on-EINTR for this specific ioctl" approach that
+> commit 94ccff13 did, rather than, for instance, something wider like
+> "make kvm_ioctl() and friends always retry on EINTR".
+>
+> v2: correctly check for -1 and errno is EINTR...
+> ---
+>  target/arm/kvm.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+> index e5c1bd50d29..356199c9e25 100644
+> --- a/target/arm/kvm.c
+> +++ b/target/arm/kvm.c
+> @@ -79,7 +79,9 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
+>      if (max_vm_pa_size < 0) {
+>          max_vm_pa_size = 0;
+>      }
+> -    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
+> +    do {
+> +        vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
+> +    } while (vmfd == -1 && errno == -EINTR);
+shouldn't it be errno == EINTR?
 
-This patch takes another approach by re-defining EXCP_DUMP() to call
-target_exception_dump(), which is in syscall.c, consolidates the log
-print functions and allows to add the call to dump the memory layout.
+Eric
+>      if (vmfd < 0) {
+>          goto err;
+>      }
 
-Beside a reduced code footprint, this approach keeps the changes across
-the various callers minimal, and keeps EXCP_DUMP() highlighted as
-important macro/function.
-
-Signed-off-by: Helge Deller <deller@gmx.de>
-
-=2D--
-
-v2:
-Based on feedback by Philippe Mathieu-Daud=E9, renamed the two functions
-to excp_dump_file() and target_exception_dump(), and #define'ed
-EXCP_DUMP() to target_exception_dump().
-I intentionally did not replace all occurences of EXCP_DUMP() by
-target_exception_dump() as I think it's unneccesary and not beneficial.
-If this is really wished, I will send a v3.
-
-
-diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
-index 36ff5b14f2..e644d2ef90 100644
-=2D-- a/linux-user/cpu_loop-common.h
-+++ b/linux-user/cpu_loop-common.h
-@@ -23,18 +23,9 @@
- #include "exec/log.h"
- #include "special-errno.h"
-
--#define EXCP_DUMP(env, fmt, ...)                                        \
--do {                                                                    \
--    CPUState *cs =3D env_cpu(env);                                       =
- \
--    fprintf(stderr, fmt , ## __VA_ARGS__);                              \
--    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
--    cpu_dump_state(cs, stderr, 0);                                      \
--    if (qemu_log_separate()) {                                          \
--        qemu_log(fmt, ## __VA_ARGS__);                                  \
--        qemu_log("Failing executable: %s\n", exec_path);                \
--        log_cpu_state(cs, 0);                                           \
--    }                                                                   \
--} while (0)
-+void target_exception_dump(CPUArchState *env, const char *fmt, int code);
-+#define EXCP_DUMP(env, fmt, code) \
-+    target_exception_dump(env, fmt, code)
-
- void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)=
-;
- #endif
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 2e954d8dbd..7d29c4c396 100644
-=2D-- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -158,6 +158,7 @@
- #include "qapi/error.h"
- #include "fd-trans.h"
- #include "tcg/tcg.h"
-+#include "cpu_loop-common.h"
-
- #ifndef CLONE_IO
- #define CLONE_IO                0x80000000      /* Clone io context */
-@@ -8144,6 +8145,33 @@ static int is_proc_myself(const char *filename, con=
-st char *entry)
-     return 0;
- }
-
-+static void excp_dump_file(FILE *logfile, CPUArchState *env,
-+                      const char *fmt, int code)
-+{
-+    if (logfile) {
-+        CPUState *cs =3D env_cpu(env);
-+
-+        fprintf(logfile, fmt, code);
-+        fprintf(logfile, "Failing executable: %s\n", exec_path);
-+        cpu_dump_state(cs, logfile, 0);
-+        open_self_maps(env, fileno(logfile));
-+    }
-+}
-+
-+void target_exception_dump(CPUArchState *env, const char *fmt, int code)
-+{
-+    /* dump to console */
-+    excp_dump_file(stderr, env, fmt, code);
-+
-+    /* dump to log file */
-+    if (qemu_log_separate()) {
-+        FILE *logfile =3D qemu_log_trylock();
-+
-+        excp_dump_file(logfile, env, fmt, code);
-+        qemu_log_unlock(logfile);
-+    }
-+}
-+
- #if HOST_BIG_ENDIAN !=3D TARGET_BIG_ENDIAN || \
-     defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
- static int is_proc(const char *filename, const char *entry)
 
