@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB7C5EC396
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:06:00 +0200 (CEST)
-Received: from localhost ([::1]:41680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6995EC3E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:14:03 +0200 (CEST)
+Received: from localhost ([::1]:35594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odAHf-0000gx-KO
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:05:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49426)
+	id 1odAPS-0006xT-Ag
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:14:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8S8-0003ZN-E1
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:40 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:37385)
+ id 1od8SC-0003dz-JN
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:45 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:44718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8S6-0005IG-N6
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:40 -0400
-Received: by mail-pl1-x635.google.com with SMTP id d24so8768534pls.4
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:08:38 -0700 (PDT)
+ id 1od8SA-0005Iv-HI
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:44 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id v186so9347067pfv.11
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:08:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=4YlvwwHBUrcNOnSxEFPAUdpBdu13q6q8TiMytRlndpg=;
- b=cFkWFOU+SLyKxHC8TI5GHsFp3lW+Kro/4tvMMObpv3AzelZkodwoaWDKOOjHXrjaah
- 7iFVprZg1icIX23Nwadg67K0mpcj7O4T/Cx3vPGPDbT3/4k8XjgJKXNLZwgeY+r9DCRv
- /OyWiMI+FhJQ1swjcWXULAZ2tv2B/gtd2Xf49okehsgSGFySH7/BX8OiqQz06KASDsxR
- uF5/K/lCCHcXMXk9rJm40pfjmtlBMwubiM/7lGFyVyB+0Jio9XrB8N1Pr5bn3hl9b99E
- FSRHhPyhK2E/+2nW8XQmAeXG2z7L4TV85oTUNY0MjKqOVfhAXuxa7+ku/YAWp7VYqZb/
- U/Lg==
+ bh=szrrAWQi57rwmVvkIAS0k/zzBtjmcZYK/YPRpaNr+UQ=;
+ b=YQyXLzawnSLSYQILmjf5mHBwRWoSs8p40UrdsI+qzMeTMwOu3WfYNDF4ZyrRCoJBVi
+ ri4thCv8VvUXhkRa3FmrIxKv+78CWB1MPSszqF18NLawvwDL2YJK4LFI0bL+rPDUQWy1
+ aMqIJNmw0XSicEkPRggyw1BQqV1IHeznYd7tWBvc7YUraQy00mGqDNnM0ChkOBlMuv+V
+ zTjQME2GYaa7cRh/w17vhzyquRzI2NFr3RQJpLLx6W2NTxuHBn9pP/AAp6+PJ8vaAn1X
+ 9NItBqAdnrZWfCMhlbzZaVq9gKiLMfATcBnmk5O5mHwfW/J9tJmJpRL9GDQ/ba4FA+nm
+ kBnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=4YlvwwHBUrcNOnSxEFPAUdpBdu13q6q8TiMytRlndpg=;
- b=R+yz8kYMU4pYnL4i1pIS/YRFTT48Jhwc29c1JIqsuAj3dYywZiGDR60ixOMcakY4RB
- Px7o1fx54uIWkmr7fCAhXJGIqZhMm2XJDleGCswMUnps7GIFb8m6702JYz5aJJAwYHzH
- hmL73WKApM+OwTso5UTIsrkK2lbEeOu5seKdWOBMLXNjZdldhnK3L3AbdycIuEij8owk
- tnzLJlygUjy1ri/XWYhFa0XsK6uMX/mzhh8YaMnPFNYLlYdsMlV4uBDHdI8zLnadLM9h
- Y45FBRXQsT7EIZi46UiM+3LZr21VQ+LrUi/frGTBQJ5Wv+SnR3fkUt2y6eJahQYzHBO8
- ZOQQ==
-X-Gm-Message-State: ACrzQf1G2Dvy4vCN9xdRsJHrVMhNH76GBA8Dvl3W6/3KaiLeOCJRrPMv
- rFFd1wOQbfU8sLOTioix2wYPmxfeAWA=
-X-Google-Smtp-Source: AMsMyM64lL6+ATGpyOXwBOFvneYNwcdWi+2gaV70WlSBdvapqQc3yVRRRTah56lhC7GPE5uGtFmJvg==
-X-Received: by 2002:a17:902:d2d2:b0:177:4940:cc0f with SMTP id
- n18-20020a170902d2d200b001774940cc0fmr26459896plc.4.1664276917356; 
- Tue, 27 Sep 2022 04:08:37 -0700 (PDT)
+ bh=szrrAWQi57rwmVvkIAS0k/zzBtjmcZYK/YPRpaNr+UQ=;
+ b=AFMx1Q8ZiduV1jAM492bX4nkJa2/ZAGIUXYYANUH4StVnzLAlZnFsb9Gx4IM9EAYtn
+ VBji2IpC2AMKs7ebQ6tEoDSdMLz9NEXi2wfY2XlcBLfIRZqd1W2To1GyGHvAg++VYal0
+ eExii5crxnSmei9JWE20HyYcgDVVE9Z1kLgcmdCr495FHLPaPzEoHr3N3geIKLWV9wdO
+ xF4EZyYHLClD1wdYP7dxQYtNsDnv3U+JHm5AuN3kZxuzSpsPVyW1XYeV4vYqJxz5Ngzx
+ vxdV6wm9svUPjteXc7eG8StKNL5v0rYbDJigs9UOAV2XsNyq5IRbTsVimXXWaTfdDvCJ
+ NyFw==
+X-Gm-Message-State: ACrzQf1RXW8Mqok4JMxJLcHVUYc4jb9NLQCTA4Qz3M0exFqtalQxVMb/
+ bQkZ2IX13hYYvVTDLEogGslv7xV3nPo=
+X-Google-Smtp-Source: AMsMyM4IxIQjf5RziKhLX6WYKrhS0QCKCXzAWLvp6xePfq2thtnxkvep+eYYHl5EWPbj1t2E2iNF7w==
+X-Received: by 2002:a05:6a02:43:b0:43c:dbdc:192d with SMTP id
+ az3-20020a056a02004300b0043cdbdc192dmr5026287pgb.449.1664276920057; 
+ Tue, 27 Sep 2022 04:08:40 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.08.34
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.08.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:08:37 -0700 (PDT)
+ Tue, 27 Sep 2022 04:08:39 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 43/54] tests/qtest: migration-test: Make sure QEMU process
- "to" exited after migration is canceled
-Date: Tue, 27 Sep 2022 19:06:21 +0800
-Message-Id: <20220927110632.1973965-44-bmeng.cn@gmail.com>
+Subject: [PATCH v4 44/54] tests/qtest: virtio-net-failover: Disable migration
+ tests for win32
+Date: Tue, 27 Sep 2022 19:06:22 +0800
+Message-Id: <20220927110632.1973965-45-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,39 +97,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-Make sure QEMU process "to" exited before launching another target
-for migration in the test_multifd_tcp_cancel case.
+These tests use the exec migration protocol, which is unsupported
+on Windows as of today. Disable these tests for now.
 
 Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-(no changes since v3)
+(no changes since v1)
 
-Changes in v3:
-- Add a usleep(1) in the busy wait loop
+ tests/qtest/virtio-net-failover.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Changes in v2:
-- Change to a busy wait after migration is canceled
-
- tests/qtest/migration-test.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 45c5f5761b..6f9fe13488 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)
-     wait_for_migration_pass(from);
+diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
+index 443ee56de9..4a809590bf 100644
+--- a/tests/qtest/virtio-net-failover.c
++++ b/tests/qtest/virtio-net-failover.c
+@@ -588,6 +588,7 @@ static void test_hotplug_2_reverse(void)
+     machine_stop(qts);
+ }
  
-     migrate_cancel(from);
-+    /* Make sure QEMU process "to" exited */
-+    while (qtest_probe_child(to)) {
-+        usleep(1);
-+    }
++#ifndef _WIN32
+ static QDict *migrate_status(QTestState *qts)
+ {
+     QDict *resp, *ret;
+@@ -1827,6 +1828,7 @@ static void test_multi_in(gconstpointer opaque)
  
-     args = (MigrateStart){
-         .only_target = true,
+     machine_stop(qts);
+ }
++#endif /* _WIN32 */
+ 
+ int main(int argc, char **argv)
+ {
+@@ -1857,7 +1859,11 @@ int main(int argc, char **argv)
+     qtest_add_func("failover-virtio-net/hotplug/2_reverse",
+                    test_hotplug_2_reverse);
+ 
+-    /* migration tests */
++#ifndef _WIN32
++    /*
++     * These migration tests cases use the exec migration protocol,
++     * which is unsupported on Windows.
++     */
+     qtest_add_data_func("failover-virtio-net/migrate/on/out", tmpfile,
+                         test_migrate_out);
+     qtest_add_data_func("failover-virtio-net/migrate/on/in", tmpfile,
+@@ -1886,6 +1892,7 @@ int main(int argc, char **argv)
+                         tmpfile, test_multi_out);
+     qtest_add_data_func("failover-virtio-net/migrate/multi/in",
+                    tmpfile, test_multi_in);
++#endif /* _WIN32 */
+ 
+     ret = g_test_run();
+ 
 -- 
 2.34.1
 
