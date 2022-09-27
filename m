@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831A35EC101
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:21:11 +0200 (CEST)
-Received: from localhost ([::1]:43672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D385EC12E
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:25:58 +0200 (CEST)
+Received: from localhost ([::1]:43766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od8eE-00006e-Fa
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38752)
+	id 1od8ir-0006SL-Lq
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:25:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8Qj-0002gf-Ai
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:13 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35656)
+ id 1od8Qt-0002l4-EI
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:40 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:33430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8Qh-0004sD-Nb
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:13 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id u69so9109250pgd.2
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:11 -0700 (PDT)
+ id 1od8Qr-0004tq-2s
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:22 -0400
+Received: by mail-pl1-x629.google.com with SMTP id iw17so8800591plb.0
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=cirh3Kjj/nxbkwXCG/8RgduffnSu2srYvVt4uLgnRrE=;
- b=mdFXY5X7i/+JwRyJR39fsLhQmWKhET0cgh++DL+0IWLoQaCX2TzEMQZWAg5ezhvRbI
- m3INbKwLYZanw59MMsqV10AsusoOH4hM7ue+abxQL3zYgYWl6ORgsqiTWOCqwG6K6zbr
- d2B1GrzAwDulcBeb4zYOl/jSEopCiuCWcnIYA2o6X2qc62JSXKLeKFqG30Y6eeqydq5V
- C4qabhC+3rOCl4T1YYdd+eMbexr5EZeax1FfzIs2Ft6Id8s65ks3ECzIxTDK3uIdTKu6
- njwx5EnWteeJx8M5P9xNXSrIdK/WwFeQOzbziO/XzNh78IthUvG3beSF5w6eYTSPlndg
- 0MdQ==
+ bh=XZxuat3Ohybft7pjyhNM9f2+0mg9c8x2r1GRXvNmwH4=;
+ b=QOPgygQaxvdpgq1o6VVnY9DT9UKOH4otcNJKbxEUlbXwXagtNkYa9P3/lyyPCpDa15
+ Y98QRHsAUUCKzOwQr2SBhkG32qkZ2uu0EFNJxo46BfJ2gTWJW0Cv2ZoliUPNe9dG4J1f
+ wDqtzInIHpHSSYJZbW4EFSgMVBuAz5RmugwRKy2EOIbiu9ryDdTN486GfwtnSir9fcli
+ t8/t9BB+uqK8i4SQ/fUlHtnkmN0ud1LmELLeknhCxgtjWw1i74+sHWwOZbT65z0duYrW
+ gswHi2wFPgbwE08NRjpMaFx5FsHfY/puthnTBYkvHfOGONrH0saQSyPf+iNgN1fH9Rep
+ /LDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=cirh3Kjj/nxbkwXCG/8RgduffnSu2srYvVt4uLgnRrE=;
- b=Tv5/0Vr+uAIvNpuOJyEye0FLSllE8iTobuP7fedgYpyYSfpzXAi/HlYFvlCSxGDlmo
- cilAi2OimwCR/qfraYReN58u61LGVDB82o9QrF7Ew/734wVYliMKsIAWUlPye27br9Y5
- ZR/35YeYvYZsHgNlnWKTlc1Cw6AF3Gj8srRSHeEq2+6paYAWcT9Cd504OgJwGOfNVL/n
- brTk4RcdIe+nmml1VB4BZjTkCGIcBccU3AOaDsChw8npx6hxiAPZCMS62eX0p0kHe/jN
- MNYxCnmMFtG+vEg6+EOXUwHQIs7OQ+vh/NsNYXNwWfhZnpB4XRyJi51RKFQCDIdNfeFA
- Vl9w==
-X-Gm-Message-State: ACrzQf2gtqtTI7oWtYayVDLMxRTAcLXgZOq7COVMghB9zX9FDqutNyMq
- vNi+8g2t4iI4rzipI8accRNlSrt8WAM=
-X-Google-Smtp-Source: AMsMyM6N6Fcp0G3O/x4bKG4DVLEMSvwWTkmk6XEYF78UsrnX99amI2Asr/MJcJj+w1oI4vF7+loHSg==
-X-Received: by 2002:a05:6a00:1ad3:b0:548:962b:4c53 with SMTP id
- f19-20020a056a001ad300b00548962b4c53mr28358782pfv.59.1664276830147; 
- Tue, 27 Sep 2022 04:07:10 -0700 (PDT)
+ bh=XZxuat3Ohybft7pjyhNM9f2+0mg9c8x2r1GRXvNmwH4=;
+ b=tkbbCWFQD1yk4kHK5KQwnXDzL3gO7KL258I0LpGSPHhd+u/fLKo2Q6hyEflH/2qtu+
+ JwgiFWXjpQiB5dQv+jdxD1ItcPJYQMgtPU229gzfo73fOQTTmSu7Yye36UUdTKk6g4CP
+ rfT1OtPrymzjwnDU8gdIi4/ism0rO8QgwvxPla/bLyyZUvBShiZnxkCL4V5RFA7l8UMv
+ tXbPOL/vnvHfut0h2DsIEiRhkMrNHRmLLoSZGQHNtBhHDVhww3t4HT9ccFZgdBCaBdaH
+ dmqMg/mZszNP2FJpCJk4slzFKP/FdIh0OMqsiSj/27kHKp3t/0U5k/Vv9VpfclytxZT8
+ /bBw==
+X-Gm-Message-State: ACrzQf3Sqp7p6qdlBdA83sw7nhwzcFGU1yfL/Vwv/k9WKnjKB4TqXTuO
+ hmA40ZgUvbP6uYtKgQcnQNypgg209mI=
+X-Google-Smtp-Source: AMsMyM40MhSKXrIwB27gPEAM0IvBP41eDnG5ufanWtAlaLcV4OVZqE1AfmFVRvEpV5BtxLGsrRAF/Q==
+X-Received: by 2002:a17:90b:4c8e:b0:202:be8c:518e with SMTP id
+ my14-20020a17090b4c8e00b00202be8c518emr4057360pjb.26.1664276836180; 
+ Tue, 27 Sep 2022 04:07:16 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.07
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:07:09 -0700 (PDT)
+ Tue, 27 Sep 2022 04:07:15 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH v4 10/54] tests/qtest: generic_fuzz: Avoid using hardcoded /tmp
-Date: Tue, 27 Sep 2022 19:05:48 +0800
-Message-Id: <20220927110632.1973965-11-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v4 12/54] tests/qtest: hd-geo-test: Avoid using hardcoded /tmp
+Date: Tue, 27 Sep 2022 19:05:50 +0800
+Message-Id: <20220927110632.1973965-13-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,35 +95,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Bin Meng <bin.meng@windriver.com>
 
 This case was written to use hardcoded /tmp directory for temporary
-files. Update to use g_dir_make_tmp() for a portable implementation.
+files. Update to use g_file_open_tmp() for a portable implementation.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-(no changes since v3)
+Changes in v4:
+- Do not use g_autofree and g_steal_pointer
 
 Changes in v3:
 - Split to a separate patch
+- Ensure g_autofree variable is initialized
+- Use g_steal_pointer() in create_test_img()
 
- tests/qtest/fuzz/generic_fuzz_configs.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/hd-geo-test.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-index 0775e6702b..a825b78c14 100644
---- a/tests/qtest/fuzz/generic_fuzz_configs.h
-+++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -20,8 +20,8 @@ typedef struct generic_fuzz_config {
- } generic_fuzz_config;
+diff --git a/tests/qtest/hd-geo-test.c b/tests/qtest/hd-geo-test.c
+index 413cf964c0..ba772f4d7a 100644
+--- a/tests/qtest/hd-geo-test.c
++++ b/tests/qtest/hd-geo-test.c
+@@ -27,16 +27,16 @@
  
- static inline gchar *generic_fuzzer_virtio_9p_args(void){
--    char tmpdir[] = "/tmp/qemu-fuzz.XXXXXX";
--    g_assert_nonnull(g_mkdtemp(tmpdir));
-+    g_autofree char *tmpdir = g_dir_make_tmp("qemu-fuzz.XXXXXX", NULL);
-+    g_assert_nonnull(tmpdir);
+ static char *create_test_img(int secs)
+ {
+-    char *template = strdup("/tmp/qtest.XXXXXX");
++    char *template;
+     int fd, ret;
  
-     return g_strdup_printf("-machine q35 -nodefaults "
-     "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
+-    fd = mkstemp(template);
++    fd = g_file_open_tmp("qtest.XXXXXX", &template, NULL);
+     g_assert(fd >= 0);
+     ret = ftruncate(fd, (off_t)secs * 512);
+     close(fd);
+ 
+     if (ret) {
+-        free(template);
++        g_free(template);
+         template = NULL;
+     }
+ 
+@@ -422,9 +422,8 @@ static MBRpartitions empty_mbr = { {false, 0, 0, 0, 0, 0, 0, 0, 0},
+ 
+ static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
+ {
+-    const char *template = "/tmp/qtest.XXXXXX";
+-    char *raw_path = strdup(template);
+-    char *qcow2_path = strdup(template);
++    g_autofree char *raw_path = NULL;
++    char *qcow2_path;
+     char cmd[100 + 2 * PATH_MAX];
+     uint8_t buf[512] = {};
+     int i, ret, fd, offset;
+@@ -468,7 +467,7 @@ static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
+         offset += 0x10;
+     }
+ 
+-    fd = mkstemp(raw_path);
++    fd = g_file_open_tmp("qtest.XXXXXX", &raw_path, NULL);
+     g_assert(fd >= 0);
+     close(fd);
+ 
+@@ -478,7 +477,7 @@ static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
+     g_assert(ret == sizeof(buf));
+     close(fd);
+ 
+-    fd = mkstemp(qcow2_path);
++    fd = g_file_open_tmp("qtest.XXXXXX", &qcow2_path, NULL);
+     g_assert(fd >= 0);
+     close(fd);
+ 
+@@ -506,7 +505,6 @@ static char *create_qcow2_with_mbr(MBRpartitions mbr, uint64_t sectors)
+     free(qemu_img_abs_path);
+ 
+     unlink(raw_path);
+-    free(raw_path);
+ 
+     return qcow2_path;
+ }
+@@ -714,7 +712,7 @@ static void test_override(TestArgs *args, CHSResult expected[])
+ 
+     for (i = 0; i < args->n_drives; i++) {
+         unlink(args->drives[i]);
+-        free(args->drives[i]);
++        g_free(args->drives[i]);
+     }
+     g_free(args->drives);
+     g_strfreev(args->argv);
+@@ -867,7 +865,7 @@ static void test_override_scsi_hot_unplug(void)
+ 
+     for (i = 0; i < args->n_drives; i++) {
+         unlink(args->drives[i]);
+-        free(args->drives[i]);
++        g_free(args->drives[i]);
+     }
+     g_free(args->drives);
+     g_strfreev(args->argv);
+@@ -927,7 +925,7 @@ static void test_override_virtio_hot_unplug(void)
+ 
+     for (i = 0; i < args->n_drives; i++) {
+         unlink(args->drives[i]);
+-        free(args->drives[i]);
++        g_free(args->drives[i]);
+     }
+     g_free(args->drives);
+     g_strfreev(args->argv);
+@@ -987,7 +985,7 @@ test_add_done:
+     for (i = 0; i < backend_last; i++) {
+         if (img_file_name[i]) {
+             unlink(img_file_name[i]);
+-            free(img_file_name[i]);
++            g_free(img_file_name[i]);
+         }
+     }
+ 
 -- 
 2.34.1
 
