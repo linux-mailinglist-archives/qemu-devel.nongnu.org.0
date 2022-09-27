@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D795EBE87
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:26:00 +0200 (CEST)
-Received: from localhost ([::1]:55918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D55B5EBEA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:31:24 +0200 (CEST)
+Received: from localhost ([::1]:56642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od6ql-00028S-Rh
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:25:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47590)
+	id 1od6vz-0008KI-BX
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:31:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1od6iO-0008V5-4c
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:17:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56987)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1od6jf-0002lp-Id
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:18:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1od6iK-0001U1-Ud
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:17:18 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1od6jb-0001gg-ES
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:18:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664270235;
+ s=mimecast20190719; t=1664270314;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UQfYJYe+f1ZJlWxPO/NC+mL/f6ey5vMPSNmzbvnp1aM=;
- b=bgcDGqxzbCOX+0vK4WP3iHdBQ2C8IICfAMWjH4gGzuL4pREOKiXQUku7jKRSEXeipurKCT
- 2tHgUlE8ErPvoBjf9yChyuoyY+zoXJHHd7qYsag/Xte4QWkH+NnVR+IbCfmjhx/yxMsanS
- KXfpDUgqr3FtZNefH8q6SSUTkQrI19k=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-569-A4xhARgyPB-OZckkPDFr6Q-1; Tue, 27 Sep 2022 05:17:14 -0400
-X-MC-Unique: A4xhARgyPB-OZckkPDFr6Q-1
-Received: by mail-ej1-f69.google.com with SMTP id
- qb16-20020a1709077e9000b007827e5f3e2dso3486926ejc.3
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 02:17:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=UQfYJYe+f1ZJlWxPO/NC+mL/f6ey5vMPSNmzbvnp1aM=;
- b=vwh8PDncuRuKulVIXwVCvsOdsRTHbruDhiRYWeM/TKDd1YHgjr2szKdFv+spn0s2NJ
- 8oMNhJq6fiFI7HZO9XpwvFFpCwEbzRU0ck2UxDJ5WmMMQRMn5snCK64rfi5vipW8KCEf
- 01q2Y/26Fc8dygHugW1PzFaLhLU3zB545q2UP4toWxBYxoicJPF2WaFUN05VWne6MS9M
- twXWYXMyv9aGLSQgT4kGaExqklEwFA7Z7bahBxXpPjvw6a9b7IeN9Q+XG+G16qBJ5RYh
- oxfHm1vzmI30mNTMEnWnyeGX/UqSWRMsxrG9RPUSAwyVYT0oQYMHJGeVJx2tXhkWc/Ti
- VR9w==
-X-Gm-Message-State: ACrzQf0kLrtJbqKghjW1UO5KEPK6oTdS0eBOFNdThfvMbfNlKOWDuM3F
- b55zp/RoDZB/i2YUr0PvOzp2xPjoNDTKrU4tSTydNFxo6YbQtK8VTE8oO3Rf9i53CbIhgLDKFUX
- pizxvVubRjXvGQEM=
-X-Received: by 2002:a17:907:9602:b0:780:8c9f:f99a with SMTP id
- gb2-20020a170907960200b007808c9ff99amr22252313ejc.465.1664270233544; 
- Tue, 27 Sep 2022 02:17:13 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6g8t5m4YRfQR/npIYXd/ywm5HV9j7exnNbjnnIKbVQDEv5U5hq3ZAKZzG+MwgsmbJ77UfoRA==
-X-Received: by 2002:a17:907:9602:b0:780:8c9f:f99a with SMTP id
- gb2-20020a170907960200b007808c9ff99amr22252300ejc.465.1664270233337; 
- Tue, 27 Sep 2022 02:17:13 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- kz22-20020a17090777d600b00730979f568fsm488578ejc.150.2022.09.27.02.17.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 02:17:12 -0700 (PDT)
-Date: Tue, 27 Sep 2022 11:17:11 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>, David
- Woodhouse <dwmw2@infradead.org>, Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v2] Revert "intel_iommu: Fix irqchip / X2APIC
- configuration checks"
-Message-ID: <20220927111711.4307af92@redhat.com>
-In-Reply-To: <20220926153206.10881-1-peterx@redhat.com>
-References: <20220926153206.10881-1-peterx@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ bh=gC/uijryF+3efejwXgHTBWROp8FpDTWBHT74vDSgZSc=;
+ b=XWNuFnzuhNgLnV0utmICLwBz1d6BlDjpKXYE9CFKAQxgNNHAXECO/gWKP7LruYZ45TIQ2f
+ 3Ew5DWNUCpos54z8YoZPBukX4UPmTqvdv/olggvLHIwtHifn7dGuc3wfGuFvi0M7HhXLoH
+ SLdVejmoVHKLpfanvS4kMLpJpld0fAA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-563-LJCes0MvOqy0Ojaj-4Sxqg-1; Tue, 27 Sep 2022 05:18:31 -0400
+X-MC-Unique: LJCes0MvOqy0Ojaj-4Sxqg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E29923C10697;
+ Tue, 27 Sep 2022 09:18:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E3D690A1C;
+ Tue, 27 Sep 2022 09:18:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1E05D21E691D; Tue, 27 Sep 2022 11:18:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org,  Jason Wang <jasowang@redhat.com>,  Greg Kurz
+ <groug@kaod.org>,  David Gibson <david@gibson.dropbear.id.au>,  Thomas
+ Huth <thuth@redhat.com>,  Eric Blake <eblake@redhat.com>,  "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Stefano Brivio
+ <sbrivio@redhat.com>
+Subject: Re: [PATCH v9 05/16] qapi: net: add stream and dgram netdevs
+References: <20220926195048.487915-1-lvivier@redhat.com>
+ <20220926195048.487915-6-lvivier@redhat.com>
+Date: Tue, 27 Sep 2022 11:18:29 +0200
+In-Reply-To: <20220926195048.487915-6-lvivier@redhat.com> (Laurent Vivier's
+ message of "Mon, 26 Sep 2022 21:50:37 +0200")
+Message-ID: <87zgelkwey.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -103,75 +85,224 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Sep 2022 11:32:06 -0400
-Peter Xu <peterx@redhat.com> wrote:
+Laurent Vivier <lvivier@redhat.com> writes:
 
-> It's true that when vcpus<=255 we don't require the length of 32bit APIC
-> IDs.  However here since we already have EIM=ON it means the hypervisor
-> will declare the VM as x2apic supported (e.g. VT-d ECAP register will have
-> EIM bit 4 set), so the guest should assume the APIC IDs are 32bits width
-> even if vcpus<=255.  In short, commit 77250171bdc breaks any simple cmdline
-> that wants to boot a VM with >=9 but <=255 vcpus with:
-> 
->   -device intel-iommu,intremap=on
-> 
-> For anyone who does not want to enable x2apic, we can use eim=off in the
-> intel-iommu parameters to skip enabling KVM x2apic.
-> 
-> This partly reverts commit 77250171bdc02aee106083fd2a068147befa1a38, while
-> keeping the valid bit on checking split irqchip, but revert the other change.
-> 
-> One thing to mention is that this patch may break migration compatibility
-> of such VM, however that's probably the best thing we can do, because the
-> old behavior was simply wrong and not working for >8 vcpus.  For <=8 vcpus,
-> there could be a light guest ABI change (by enabling KVM x2apic after this
-> patch), but logically it shouldn't affect the migration from working.
-> 
-> Also, this is not the 1st commit to change x2apic behavior.  Igor provided
-> a full history of how this evolved for the past few years:
-> 
-> https://lore.kernel.org/qemu-devel/20220922154617.57d1a1fb@redhat.com/
-> 
-> Relevant commits for reference:
-> 
->   fb506e701e ("intel_iommu: reject broken EIM", 2016-10-17)
->   c1bb5418e3 ("target/i386: Support up to 32768 CPUs without IRQ remapping", 2020-12-10)
->   77250171bd ("intel_iommu: Fix irqchip / X2APIC configuration checks", 2022-05-16)
->   dc89f32d92 ("target/i386: Fix sanity check on max APIC ID / X2APIC enablement", 2022-05-16)
-> 
-> We may want to have this for stable too (mostly for 7.1.0 only).  Adding a
-> fixes tag.
-> 
-> Cc: David Woodhouse <dwmw2@infradead.org>
-> Cc: Claudio Fontana <cfontana@suse.de>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Fixes: 77250171bd ("intel_iommu: Fix irqchip / X2APIC configuration checks")
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
+> Copied from socket netdev file and modified to use SocketAddress
+> to be able to introduce new features like unix socket.
+>
+> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
+> according to the IP address type.
+> "listen" and "connect" modes are managed by stream netdev. An optional
+> parameter "server" defines the mode (server by default)
+>
+> The two new types need to be parsed the modern way with -netdev, because
+> with the traditional way, the "type" field of netdev structure collides with
+> the "type" field of SocketAddress and prevents the correct evaluation of the
+> command line option. Moreover the traditional way doesn't allow to use
+> the same type (SocketAddress) several times with the -netdev option
+> (needed to specify "local" and "remote" addresses).
+>
+> The previous commit paved the way for parsing the modern way, but
+> omitted one detail: how to pick modern vs. traditional, in
+> netdev_is_modern().
+>
+> We want to pick based on the value of parameter "type".  But how to
+> extract it from the option argument?
+>
+> Parsing the option argument, either the modern or the traditional way,
+> extracts it for us, but only if parsing succeeds.
+>
+> If parsing fails, there is no good option.  No matter which parser we
+> pick, it'll be the wrong one for some arguments, and the error
+> reporting will be confusing.
+>
+> Fortunately, the traditional parser accepts *anything* when called in
+> a certain way.  This maximizes our chance to extract the value of
+> "type", and in turn minimizes the risk of confusing error reporting.
+>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
 > ---
-> v2:
-> - Added some more information into commit message [Igor]
-> ---
->  hw/i386/intel_iommu.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index 05d53a1aa9..6524c2ee32 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -3818,6 +3818,11 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
->              error_setg(errp, "eim=on requires accel=kvm,kernel-irqchip=split");
->              return false;
->          }
-> +        if (!kvm_enable_x2apic()) {
-> +            error_setg(errp, "eim=on requires support on the KVM side"
-> +                             "(X2APIC_API, first shipped in v4.7)");
-> +            return false;
-> +        }
->      }
+>  hmp-commands.hx |   2 +-
+>  net/clients.h   |   6 +
+>  net/dgram.c     | 542 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  net/hub.c       |   2 +
+>  net/meson.build |   2 +
+>  net/net.c       |  30 ++-
+>  net/stream.c    | 423 +++++++++++++++++++++++++++++++++++++
+>  qapi/net.json   |  63 +++++-
+>  qemu-options.hx |  12 ++
+>  9 files changed, 1078 insertions(+), 4 deletions(-)
+>  create mode 100644 net/dgram.c
+>  create mode 100644 net/stream.c
+>
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index 8ab8000acd9e..da40a7eb04ed 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -1276,7 +1276,7 @@ ERST
+>      {
+>          .name       = "netdev_add",
+>          .args_type  = "netdev:O",
+> -        .params     = "[user|tap|socket|vde|bridge|hubport|netmap|vhost-user"
+> +        .params     = "[user|tap|socket|stream|dgram|vde|bridge|hubport|netmap|vhost-user"
+>  #ifdef CONFIG_VMNET
+>                        "|vmnet-host|vmnet-shared|vmnet-bridged"
+>  #endif
+> diff --git a/net/clients.h b/net/clients.h
+
+[...]
+
+> diff --git a/qapi/net.json b/qapi/net.json
+> index dd088c09c509..e02e8001a000 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -7,6 +7,7 @@
+>  ##
 >  
->      /* Currently only address widths supported are 39 and 48 bits */
+>  { 'include': 'common.json' }
+> +{ 'include': 'sockets.json' }
+>  
+>  ##
+>  # @set_link:
+> @@ -573,6 +574,61 @@
+>      '*isolated':  'bool' },
+>    'if': 'CONFIG_VMNET' }
+>  
+> +##
+> +# @NetdevStreamOptions:
+> +#
+> +# Configuration info for stream socket netdev
+> +#
+> +# @addr: socket address to listen on (server=true)
+> +#        or connect to (server=false)
+> +# @server: create server socket (default: true)
+> +#
+> +# Only SocketAddress types 'inet' and 'fd' are supported.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'NetdevStreamOptions',
+> +  'data': {
+> +    'addr':   'SocketAddress',
+> +    '*server': 'bool' } }
+> +
+> +##
+> +# @NetdevDgramOptions:
+> +#
+> +# Configuration info for datagram socket netdev.
+> +#
+> +# @remote: remote address
+> +# @local: local address
+> +#
+> +# Only SocketAddress types 'inet' and 'fd' are supported.
+> +#
+> +# The code checks there is at least one of these options and reports an error
+> +# if not.
+
+Can we drop this sentence?
+
+>            If remote address is present and it's a multicast address, local
+> +# address is optional. Otherwise local address is required and remote address
+> +# is optional.
+> +#
+> +# .. table:: Valid parameters combination table
+> +#    :widths: auto
+> +#
+> +#    =============  ========  =====
+> +#    remote         local     okay?
+> +#    =============  ========  =====
+> +#    absent         absent    no
+> +#    absent         not fd    no
+> +#    absent         fd        yes
+> +#    multicast      absent    yes
+> +#    multicast      present   yes
+> +#    not multicast  absent    no
+> +#    not multicast  present   yes
+> +#    =============  ========  =====
+> +#
+> +# Since: 7.1
+> +##
+
+My networking fu is not strong enough to suggest further improvements.
+So let's go with what we have here.
+
+> +{ 'struct': 'NetdevDgramOptions',
+> +  'data': {
+> +    '*local':  'SocketAddress',
+> +    '*remote': 'SocketAddress' } }
+> +
+>  ##
+>  # @NetClientDriver:
+>  #
+> @@ -586,8 +642,9 @@
+>  #        @vmnet-bridged since 7.1
+>  ##
+>  { 'enum': 'NetClientDriver',
+> -  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
+> +  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'stream',
+> +            'dgram', 'vde', 'bridge', 'hubport', 'netmap', 'vhost-user',
+> +            'vhost-vdpa',
+>              { 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' },
+>              { 'name': 'vmnet-shared', 'if': 'CONFIG_VMNET' },
+>              { 'name': 'vmnet-bridged', 'if': 'CONFIG_VMNET' }] }
+> @@ -617,6 +674,8 @@
+>      'tap':      'NetdevTapOptions',
+>      'l2tpv3':   'NetdevL2TPv3Options',
+>      'socket':   'NetdevSocketOptions',
+> +    'stream':   'NetdevStreamOptions',
+> +    'dgram':    'NetdevDgramOptions',
+>      'vde':      'NetdevVdeOptions',
+>      'bridge':   'NetdevBridgeOptions',
+>      'hubport':  'NetdevHubPortOptions',
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index d8b5ce5b4354..8c765f345da8 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2734,6 +2734,18 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+>      "-netdev socket,id=str[,fd=h][,udp=host:port][,localaddr=host:port]\n"
+>      "                configure a network backend to connect to another network\n"
+>      "                using an UDP tunnel\n"
+> +    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port\n"
+> +    "-netdev stream,id=str[,server=on|off],addr.type=fd,addr.str=h\n"
+
+Not this patch's fault: using String for SocketAddress member @fd was a
+mistake, because the resulting UI is bad: addr.str tells me nothing.
+str.name would have been better.  Commit 5be8c759f0 "qapi: add socket
+address types" (v1.3.0).
+
+Commit 1723d6b1cf "sockets: allow SocketAddress 'fd' to reference
+numeric file descriptors" (v2.12.0) made it worse: it overloaded the
+name so that decimal means numeric file descriptor.  It should be an
+alternate of string file descriptor name and int file descriptor number.
+Except keyval_parse() killed that use of alternates (commit c0644771eb
+"qapi: Reject alternates that can't work with keyval_parse()",
+v2.10.0-rc0).  Sigh, too complicated to have nice things.
+
+Back to this patch.  "addr.str=h" could perhaps be improved to
+"=fd-name-or-number" or "=file-descriptor".  Even "=fd" would be better,
+I think.
+
+> +    "                configure a network backend to connect to another network\n"
+> +    "                using a socket connection in stream mode.\n"
+> +    "-netdev dgram,id=str,remote.type=inet,remote.host=maddr,remote.port=port[,local.type=inet,local.host=addr]\n"
+> +    "-netdev dgram,id=str,remote.type=inet,remote.host=maddr,remote.port=port[,local.type=fd,local.str=h]\n"
+> +    "                configure a network backend to connect to a multicast maddr and port\n"
+> +    "                use ``local.host=addr`` to specify the host address to send packets from\n"
+> +    "-netdev dgram,id=str,local.type=inet,local.host=addr,local.port=port[,remote.type=inet,remote.host=addr,remote.port=port]\n"
+> +    "-netdev dgram,id=str,local.type=fd,local.str=h\n"
+> +    "                configure a network backend to connect to another network\n"
+> +    "                using an UDP tunnel\n"
+
+I should probably try to match these cases to the table in the QAPI
+schema doc comment.  But that would be like, uh, work.
+
+>  #ifdef CONFIG_VDE
+>      "-netdev vde,id=str[,sock=socketpath][,port=n][,group=groupname][,mode=octalmode]\n"
+>      "                configure a network backend to connect to port 'n' of a vde switch\n"
+
+QAPI schema
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
