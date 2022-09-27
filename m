@@ -2,91 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B985EC08D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:07:11 +0200 (CEST)
-Received: from localhost ([::1]:47232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8A45EC0DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:16:56 +0200 (CEST)
+Received: from localhost ([::1]:33990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od8Qg-0002Hn-NQ
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43280)
+	id 1od8a6-0003SG-UW
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od8Hf-0004BF-Gm
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:57:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49287)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od8Ji-0005qS-7s
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:59:58 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:54463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od8Hb-0002pl-KX
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:57:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664276266;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CzAeSsm+3ZW0tKut8mGrHiuyeyG8X8+vcnz2bCF7Mng=;
- b=WSVf1Q7p+e35e/ZJMmrwrv4a7j01trgHHqL6gZV1vi/roLKyUjTP8zGcRdSVjOm4tsRFJC
- dqhXAsuBymMNTV+E8tSUCib+oib+Xrndpbv0T3Bufq+o2wL2G+jULTaAquVrXByMwRI9N+
- zv0a8UH4iLCcReMTA3fFt3PVViMzXZ4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-41-t4Xa-G06M8KKKDFv05Yu8A-1; Tue, 27 Sep 2022 06:57:44 -0400
-X-MC-Unique: t4Xa-G06M8KKKDFv05Yu8A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 84-20020a1c0257000000b003b4be28d7e3so8461603wmc.0
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 03:57:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=CzAeSsm+3ZW0tKut8mGrHiuyeyG8X8+vcnz2bCF7Mng=;
- b=JBQRmJo7rF5en30QMhP0e7Jmwv/aLN5cD+nrtZ5+oKCUb1aw5vUyD85PIF3ltyLHOE
- GG7HS1tVPQk334CCwc+0TutQGvIX2PLE2HtiFRH7ZFx45dtB+cnLklsjCd1Ql5WHOErH
- 89nNtRS+OB1/POBAOrM7UA1cUwi24zPtwsA8JmlGMDkDLI9MQZ4zmKbhYa2Zt2tzb8bg
- rNMe9tY8DQPkCZQ6Mknu6llBl6X13ZzQ3lLm67gFKC98EWB87xf1zUZxS9289QogDPII
- X55KZjq2J4HZSRHcSdV5iore9rOVParxfSYMO96pP6NPPtUe7nid8p4vMmRtraUbxGLD
- hAtA==
-X-Gm-Message-State: ACrzQf0DUFpBj7xzk0z8fTU8xVgiW+vj/MCQO3KO+QA0n2tj2rCDXWx3
- 7U8tmlxiMthzHK+jcoxnMbVV6HIZY3MWXllog1M7V+qhlFBK3yYx95i+5uAdre6Iq+6fuwuOIET
- 8Q4+6lPieyUM+r0A=
-X-Received: by 2002:a05:600c:1d89:b0:3b4:7554:defb with SMTP id
- p9-20020a05600c1d8900b003b47554defbmr2026605wms.21.1664276263548; 
- Tue, 27 Sep 2022 03:57:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4DjBmTHSTB5lVVlPUlYjfGHZ/2QHiewiCIDuM2+HgSQFLSL9oflf/Q53dZhMZat3/srPKxDQ==
-X-Received: by 2002:a05:600c:1d89:b0:3b4:7554:defb with SMTP id
- p9-20020a05600c1d8900b003b47554defbmr2026586wms.21.1664276263343; 
- Tue, 27 Sep 2022 03:57:43 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-179-30.web.vodafone.de.
- [109.43.179.30]) by smtp.gmail.com with ESMTPSA id
- l3-20020adffe83000000b0022abc6ded45sm1087493wrr.13.2022.09.27.03.57.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Sep 2022 03:57:42 -0700 (PDT)
-Message-ID: <55f0efff-2256-5755-afad-351b47a0d003@redhat.com>
-Date: Tue, 27 Sep 2022 12:57:41 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od8Je-0003JL-SH
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:59:57 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M3UlW-1oca5F3gtW-000gWs; Tue, 27 Sep 2022 12:59:52 +0200
+Message-ID: <86cef816-90c0-f5e9-3e5b-28beffff1c51@vivier.eu>
+Date: Tue, 27 Sep 2022 12:59:50 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Michael Labiuk <michael.labiuk@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
-References: <20220920104842.605530-1-michael.labiuk@virtuozzo.com>
- <20220920104842.605530-4-michael.labiuk@virtuozzo.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v4 3/7] tests/x86: Add 'q35' machine type to ivshmem-test
-In-Reply-To: <20220920104842.605530-4-michael.labiuk@virtuozzo.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 0/8] linux-user: Futex improvements
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220829021006.67305-1-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220829021006.67305-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:aHibNxb1WRj1g9bsWfrRE64kG7Kp7zWa1lZu62SGLcp2GzdWM3e
+ ojMTO/PRV+oqQucpGmliplxkwcPdd6z0XM7hNee+E5feRUtwSetbAITbe9LfnEdMUJX9x2y
+ COjsVPtBJkWSyQgWoylPF7IdO3rtsmRHBhiGYA6sFoqRXIrv3lFy4kCdqsdF5Wy6d3bQ7bV
+ mvtmbWl0tlsE1lx+7uB7w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gjYnqpofYJk=:QVDmQd13NIDirOwDbPtiPg
+ 3obfQeszf/xzNJSVbvdbBtVVyqO4rYAL6Cp1m2twinF3wI1xmz4JPLiZ6DUPQkkNS4gh0lDoK
+ tuC9GWULdleLs1Cp2UENKxhEP3V37N16mmKKwDTtR08z3nynkNj4u2Q2jcFDdMLAaFJKGmYhp
+ jIQQ/xX4tAJAgbtKE1ghU4YAB9cJuacDtIgawbCpoAYUNkQCvXlKEiqtQuInDlD00aViImVQ6
+ /wgeA09X6PdC9czNdiIkF/qvmD38eqQ7viWYDhwpNlSXcGUYZex56jfXinliK4qTjQYJgNfyj
+ 31IoPrwvUBp5RF2VjXAY+j4VO89d3INvHspYqCCJw5uxm+n28VVk9u0LQOwojVoP6c78ErieY
+ f0+/Ca7rImCn3t6WAE21R26olCb2CADze9iPLoB/B2zKaINq2J8S3pw4K42XSQ+6jS2fpprOr
+ ntVH8masEcpYNdLD0m/Go1FUxoyKqnJOzgwjbhHhHtoCcY1PqrKK1hO723iS3vhoBYIJaTSz2
+ 1/ieJ0bSEPhMBB8yOHEpdHvx5tdsq4Jrmw0GPj7fHYo3jjZtaplrL87ppWs9NG6lDM7gJfGMb
+ lyj3HUulb1H3+zgrEO+RPUAxTy9O1ZLdRuMKCYtlIJXlt1dRj0e6OEYL4Q9QOiWvDMxXtRkrS
+ 4dG+BFCoFEdNNL+o/l78dsMr0QItBVNyvb9JImUO1AENN4nflIF92qMXtXwBR+bUY0Fcoyh4I
+ 5EKvkmkH9f/0BSUdz8P9RY1Zr+gkpkfW10eNCpOMFLTIRQTpnWKLpNiYo7mnQpRTrHdLAlPSo
+ wjdbANt
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,84 +73,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/09/2022 12.48, Michael Labiuk wrote:
-> Configure pci bridge setting to test ivshmem on 'q35'.
+Le 29/08/2022 à 04:09, Richard Henderson a écrit :
+> Fixes a bug in FUTEX_FD, and implements a bunch of other ops.
+> Also, some assorted strace fixes.
 > 
-> Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
-> ---
->   tests/qtest/ivshmem-test.c | 30 ++++++++++++++++++++++++++++++
->   1 file changed, 30 insertions(+)
+> r~
 > 
-> diff --git a/tests/qtest/ivshmem-test.c b/tests/qtest/ivshmem-test.c
-> index 9611d05eb5..0f9755abc6 100644
-> --- a/tests/qtest/ivshmem-test.c
-> +++ b/tests/qtest/ivshmem-test.c
-> @@ -378,6 +378,32 @@ static void test_ivshmem_server(void)
->       close(thread.pipe[0]);
->   }
->   
-> +static void device_del(QTestState *qtest, const char *id)
-> +{
-> +    QDict *resp;
-> +
-> +    resp = qtest_qmp(qtest,
-> +                     "{'execute': 'device_del',"
-> +                     " 'arguments': { 'id': %s } }", id);
-> +
-> +    g_assert(qdict_haskey(resp, "return"));
-> +    qobject_unref(resp);
-> +}
+> Richard Henderson (8):
+>    linux-user: Combine do_futex and do_futex_time64
+>    linux-user: Sink call to do_safe_futex
+>    linux-user: Implement FUTEX_WAKE_BITSET
+>    linux-user: Convert signal number for FUTEX_FD
+>    linux-user: Implement PI futexes
+>    linux-user: Update print_futex_op
+>    linux-user: Lock log around strace
+>    linux-user: Log tid for strace
+> 
+>   linux-user/syscall_defs.h |   3 +
+>   linux-user/strace.c       | 130 ++++++++++++++++++++++----------------
+>   linux-user/syscall.c      | 125 ++++++++++++++----------------------
+>   3 files changed, 125 insertions(+), 133 deletions(-)
+> 
 
-Uh, this made me realize that we have lots of similar, yet quite different 
-device_del functions around in the qtests... could we maybe unify them a 
-little bit?
+Series applied to my linux-user-for-7.2 branch.
 
-What about if you add your function above as qtest_qmp_device_del_nowait() 
-in libqtest.c (in a separate patch) and change qtest_qmp_device_del() to 
-call your new function before doing the qtest_qmp_eventwait() ?
-A similar change could then be done to qpci_unplug_acpi_device_test() in 
-tests/qtest/libqos/pci-pc.c and to device_del() in 
-tests/qtest/drive_del-test.c ... ?
-
-> +static void test_ivshmem_hotplug_q35(void)
-> +{
-> +    QTestState *qts = qtest_init("-object memory-backend-ram,size=1M,id=mb1 "
-> +                                 "-device pcie-root-port,id=p1 "
-> +                                 "-device pcie-pci-bridge,bus=p1,id=b1 "
-> +                                 "-machine q35");
-> +
-> +    qtest_qmp_device_add(qts, "ivshmem-plain", "iv1",
-> +                         "{'memdev': 'mb1', 'bus': 'b1'}");
-> +    device_del(qts, "iv1");
-> +
-> +    qtest_quit(qts);
-> +}
-> +
->   #define PCI_SLOT_HP             0x06
->   
->   static void test_ivshmem_hotplug(void)
-> @@ -469,6 +495,7 @@ int main(int argc, char **argv)
->   {
->       int ret, fd;
->       gchar dir[] = "/tmp/ivshmem-test.XXXXXX";
-> +    const char *arch = qtest_get_arch();
->   
->       g_test_init(&argc, &argv, NULL);
->   
-> @@ -494,6 +521,9 @@ int main(int argc, char **argv)
->           qtest_add_func("/ivshmem/pair", test_ivshmem_pair);
->           qtest_add_func("/ivshmem/server", test_ivshmem_server);
->       }
-> +    if (!strcmp(arch, "x86_64")) {
-
-I'd suggest to use qtest_has_machine("q35") instead.
-
-> +        qtest_add_func("/ivshmem/hotplug-q35", test_ivshmem_hotplug_q35);
-> +    }
->   
->   out:
->       ret = g_test_run();
-
-  Thomas
+Thanks,
+Laurent
 
 
