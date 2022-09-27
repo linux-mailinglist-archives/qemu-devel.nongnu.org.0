@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004A75EB649
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 02:33:08 +0200 (CEST)
-Received: from localhost ([::1]:33142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360075EB67B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 02:53:42 +0200 (CEST)
+Received: from localhost ([::1]:38780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocyX5-0000VP-GD
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 20:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38952)
+	id 1ocyqy-0006bM-TC
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 20:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1ocyUT-0007Kb-N4
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 20:30:25 -0400
-Received: from mga11.intel.com ([192.55.52.93]:23261)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1ocyUP-0004Km-An
- for qemu-devel@nongnu.org; Mon, 26 Sep 2022 20:30:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664238621; x=1695774621;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=6NLQKWlHtCBDw0dfy6pJ5bYnZZlPD9MvjJU2iFSWEwA=;
- b=do1ZJh5STTTYVmf3N8olGqszSg9XZAvL5iJGwtQlSxvj8Hai4JTsarXR
- zz9G/so6RJbnZHhyd7uoOAIXHLhslI0wRCwqbB/02Yl0oGi8+D+JL2XNK
- ygCvj/TW+Nri+jYshrnt4SnJN+4excoLBkrsZ9vfbIpdSytfGPSLREzpi
- VifQIbw0XjywD6JnIcAhvSuHzTE3M4G2lZRomOUPGoOq/IU57j3m4NZNC
- v/u9MvKgYlquqfs+HQU607666Ui181E82hupQfVLe5TriA/ASNtFvZJEq
- cJeRO25OHU/IaP/df+Szcxk2B6M9WjuAeW8EFHegRJNfJf1W5IdB7KLng A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="298775240"
-X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; d="scan'208";a="298775240"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2022 17:30:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="689784468"
-X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; d="scan'208";a="689784468"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by fmsmga004.fm.intel.com with ESMTP; 26 Sep 2022 17:30:16 -0700
-Message-ID: <05c1d96492beaa8ec12b8807877903744d97e109.camel@linux.intel.com>
-Subject: Re: [PATCH v4 5/5] test/acpi/bios-tables-test: SSDT: update golden
- master binaries
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca, 
- jingqi.liu@intel.com, qemu-devel@nongnu.org, robert.hu@intel.com
-Date: Tue, 27 Sep 2022 08:30:16 +0800
-In-Reply-To: <20220926152214.05255edf@redhat.com>
-References: <20220922122155.1326543-1-robert.hu@linux.intel.com>
- <20220922122155.1326543-6-robert.hu@linux.intel.com>
- <783af0cd89700c2c3ae9c6b2b1e49dab0a2d3f70.camel@linux.intel.com>
- <20220926152214.05255edf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=192.55.52.93;
- envelope-from=robert.hu@linux.intel.com; helo=mga11.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1ocyp2-00053B-A9
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 20:51:40 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:55734 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1ocyoy-0006xA-Ih
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 20:51:39 -0400
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bx5OHkSDJjT38iAA--.63316S3; 
+ Tue, 27 Sep 2022 08:50:44 +0800 (CST)
+Subject: Re: [PATCH v1 2/7] contrib/gitdm: add mapping for Loongson Technology
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+References: <20220926134609.3301945-1-alex.bennee@linaro.org>
+ <20220926134609.3301945-3-alex.bennee@linaro.org>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <91b5ce17-055a-f02c-cb26-67508f7ac573@loongson.cn>
+Date: Tue, 27 Sep 2022 08:50:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20220926134609.3301945-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: AQAAf8Bx5OHkSDJjT38iAA--.63316S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrZw4kJw48ZrWUJr1rJr1UWrg_yoW3Wrg_Aa
+ yktr1ruw12kFW0kwn5Zr13Xa4kZ340va43K3Z3tw1Sq3Z8tw4rXr98A3Z8Za13AFW7ur13
+ tF4fXrySkws5XjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb3xFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280
+ aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
+ vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+ JVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+ 8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVCm
+ -wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26ryrJr1UJwCFx2IqxVCFs4IE7x
+ kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+ 67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+ CI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
+ MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvf
+ C2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,57 +78,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2022-09-26 at 15:22 +0200, Igor Mammedov wrote:
-> > > 0800200c9a66"), One, 0x05, Local0, One)
-> > > +                    CreateDWordField (Local3, Zero, STTS)
-> > > +                    CreateField (Local3, 0x20, (LEN << 0x03),
-> > > LDAT)
-> > > +                    Name (LSA, Buffer (Zero){})
-> > > +                    ToBuffer (LDAT, LSA) /*
-> > > \_SB_.NVDR.NV00._LSR.LSA_ */
-> > > +                    Local1 = Package (0x02)
-> > > +                        {
-> > > +                            STTS,
-> > > +                            LSA
-> > > +                        }  
-> > 
-> > Hi Igor,
-> > 
-> > Here is a little different from original proposal 
-> > https://lore.kernel.org/qemu-devel/80b09055416c790922c7c3db60d2ba865792d1b0.camel@linux.intel.com/
-> > 
-> >    Local1 = Package (0x2) {STTS, toBuffer(LDAT)}
-> > 
-> > Because in my test, Linux guest complains:
-> > 
-> > [    3.884656] ACPI Error: AE_SUPPORT, Expressions within package
-> > elements are not supported (20220331/dspkginit-172)
-> > [    3.887104] ACPI Error: Aborting method \_SB.NVDR.NV00._LSR due
-> > to
-> > previous error (AE_SUPPORT) (20220331/psparse-531)
-> > 
-> > 
-> > So I have to move toBuffer() out of Package{} and name LSA to hold
-> > the
-> > buffer. If you have better idea, pls. let me know.
-> 
-> Would something like following work?
-> 
-> LocalX =  Buffer (Zero){}
-> LocalY = Package (0x01) { LocalX }
 
+在 2022/9/26 下午9:46, Alex Bennée 写道:
+> Please confirm you are happy with this mapping.
+>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Cc: Song Gao <gaosong@loongson.cn>
+> ---
+>   contrib/gitdm/domain-map | 1 +
+>   1 file changed, 1 insertion(+)
+Acked-by: Song Gao <gaosong@loongson.cn>
 
-No, Package{} doesn't accept LocalX as elements.
-
-PackageTerm :=
-Package (
-NumElements // Nothing | ByteConstExpr | TermArg => Integer
-) {PackageList} => Package
-
-PackageList :=
-Nothing | <PackageElement PackageListTail>
-
-PackageElement :=
-DataObject | NameString
+Thanks
+Song Gao
+> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+> index 2800d9f986..434ef53afc 100644
+> --- a/contrib/gitdm/domain-map
+> +++ b/contrib/gitdm/domain-map
+> @@ -19,6 +19,7 @@ ibm.com         IBM
+>   igalia.com      Igalia
+>   intel.com       Intel
+>   linaro.org      Linaro
+> +loongson.cn     Loongson Technology
+>   lwn.net         LWN
+>   microsoft.com   Microsoft
+>   mvista.com      MontaVista
 
 
