@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A8A05EC815
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:36:55 +0200 (CEST)
-Received: from localhost ([::1]:36126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67885EC831
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:39:27 +0200 (CEST)
+Received: from localhost ([::1]:48250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odCdi-000861-Cf
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:36:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40766)
+	id 1odCgA-0004AN-Es
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:39:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odBMe-00053z-OS
+ id 1odBMe-00053y-OH
  for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:13 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52114)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odBMc-0005zB-44
+ id 1odBMb-0005yp-N5
  for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:12 -0400
-Received: by mail-wm1-x335.google.com with SMTP id o5so6648626wms.1
+Received: by mail-wr1-x42d.google.com with SMTP id x18so15215703wrm.7
  for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:15:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=kwIb/itvs3rKbwTJEqXho8uP1946GYiAG+/duWCVn30=;
- b=W9SC7/+Tf5OCooTlzhP4Sis/4s2IihlstIcDh0P59xQeUidh5CSTHMWMDbH8stIAw1
- yeHHLR5Ha4Mi1aBjzZRFlA0vV+MkztOchTrhVfvL+NjG2muHVbno3etCyyvETewjIRet
- c2+IQOl/hGHtn7aXE/dfxOjM2WvDBwW+Khmp24YNup5gwrstuW4Hbw08IPS1pBxEWEHW
- FxkvJxgzPemAcIV0szrbH7+JSsKcpaIzNY0p5y8/DiTg95sN9zW0IIJibb/xsHvbmB19
- DWy3EQB3tMOE74BcDzebTxkG1wnV1vqCZhoqjs/KdLRpXmQT+ngtqWoCo5Iq6oxE24Gh
- 4ECQ==
+ bh=tuxNv9/88S7ezaeS7QVX6RVgPFquMHRDAzKT6wAF58Q=;
+ b=TU/IHbgsBWvhI/LiwObqBNrJ635QK32n5ZKe0vWT486YUFn3wClp0UI68x8IpSuq3A
+ T1SYm6oLvS2GKcYVQ1Ubm1MGn27HOlxfz4xxGUO72N76tuKBv3oL9ycNs+gG3OTO2PC6
+ 2J94kplvKI6gjfqci5btZav6f3CooHxcd5QSu+1ar3y9G6JGQIzLPn2jWAju6/Bp1dPh
+ bP8S7j36zl5Ksh61EEExHEG2NezJNosmr/cXF8+wircmAM9DVV7h5OOH7iL3Gsb/IP1V
+ IHiGUDMgWAU/W5HX2IAybtTe0hAniuPHR7LfJ7/X9OVC7lVz2KB0BZ6hz4QeqJq4eiHf
+ /xzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=kwIb/itvs3rKbwTJEqXho8uP1946GYiAG+/duWCVn30=;
- b=VkQqegUoGlp7U0JBQwJ+fImRXSW8yPXl8Dxch4r0OWXFNqYvRl44xfqngZw4hMUKiW
- dZ84AQRlYuhAACvVkJvBAu1D5rWzXBMy/SfmtHYPcNl2c6YDA3UIJqVGh2YAyhJ4uaBo
- UYnn1wx2BbUOQvoGCZQ8XzsWUYCLPyCLPPD44oldPZ22bLljTNztfYBiUvwXxv5b/Q/m
- rlVp2POIpdvTAMkUz7bJ3Ie9JzZzBQIcADpWjBuWgcDRveBQ/hsYHsnqzwsZ2QPTzNoc
- Hl83JtJrDduii+Lq5RQHFPqVKbJ/NSbBRvcsbJoBD+jOGYxXP58SwftR0MWoqX3or4oe
- UIjw==
-X-Gm-Message-State: ACrzQf3IXSWnQShWQPhQyJDW//wAIhmPJTP7tmx7ooUY4eOTROwFx2Yk
- y8u352VkRm15sYR7aGo83QXDXmX9VMSBTw==
-X-Google-Smtp-Source: AMsMyM7DYiLQ+7glLilZarpUd+3QCck5pzjzpEcXHejIfZJdndjTFd6Ymc1ZvPjRVjH7vCQ9Eor6Bw==
-X-Received: by 2002:a05:600c:1ca0:b0:3a8:41cf:a31f with SMTP id
- k32-20020a05600c1ca000b003a841cfa31fmr2960353wms.161.1664288108496; 
- Tue, 27 Sep 2022 07:15:08 -0700 (PDT)
+ bh=tuxNv9/88S7ezaeS7QVX6RVgPFquMHRDAzKT6wAF58Q=;
+ b=caCX2UuNFNJAhGn/t1xFHrHDBdETSjMFb1Lg4PyE00nFSAmZLMRu5bexgXyBqq4Zhk
+ EPN1Iet6Aq5TG6FOEfFMiYegKTwSvSIFElbK+kqpID8po57wWGePhKmZnQQ2jUj2dD/c
+ +J8SgYl1J3BkpLdk1GCF1Bq1VTgwEzjzCkBOML12KJC8uONe9HcZhkK1GwG0U+AkNe4b
+ M4p5ioqhON2tAcJyzDoBhb5fa2ervQy9GZ1Ee3GzcEbRPWNXcbshc6ldxAoGWZfa/mLw
+ l1FI/gdPs4hSHWkyjRVB49yz8LhH/WVVhpVdbuedg6WaYE2bX/D773mgTnoPYbyrExEO
+ ymPQ==
+X-Gm-Message-State: ACrzQf12k26/FQxC68XKk3dVARqPQb1cGFTP3GG2FFdcyGUqYur2aFQU
+ JFhgaPWE11xASxfRRcgY0Blv8A==
+X-Google-Smtp-Source: AMsMyM7bYGQoPW806GzbntY5LQ+v2RxdYyH3CB0vzNfvUGGyjkFlfWesdVOQa7kPUn7zO4Lt2vWSXA==
+X-Received: by 2002:adf:f18d:0:b0:228:9f0a:f291 with SMTP id
+ h13-20020adff18d000000b002289f0af291mr18117532wro.252.1664288107948; 
+ Tue, 27 Sep 2022 07:15:07 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- d16-20020adff850000000b0022ae59d472esm1853489wrq.112.2022.09.27.07.15.05
+ p2-20020adfce02000000b00226dba960b4sm1983711wrn.3.2022.09.27.07.15.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 27 Sep 2022 07:15:06 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 775281FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id 9F8E71FFBB;
  Tue, 27 Sep 2022 15:15:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Alexander Graf <agraf@csgraf.de>, Mads Ynddal <mads@ynddal.dk>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 02/15] target/arm: ensure TCG IO accesses set appropriate
+Subject: [PATCH v3 03/15] target/arm: ensure HVF traps set appropriate
  MemTxAttrs
-Date: Tue, 27 Sep 2022 15:14:51 +0100
-Message-Id: <20220927141504.3886314-3-alex.bennee@linaro.org>
+Date: Tue, 27 Sep 2022 15:14:52 +0100
+Message-Id: <20220927141504.3886314-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927141504.3886314-1-alex.bennee@linaro.org>
 References: <20220927141504.3886314-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,35 +97,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both arm_cpu_tlb_fill (for normal IO) and
-arm_cpu_get_phys_page_attrs_debug (for debug access) come through
-get_phys_addr which is setting the other memory attributes for the
-transaction. As these are all by definition CPU accesses we can also
-set the requested_type/index as appropriate.
+As most HVF devices are done purely in software we need to make sure
+we properly encode the source CPU in MemTxAttrs. This will allow the
+device emulations to use those attributes rather than relying on
+current_cpu (although current_cpu will still be correct in this case).
 
+Acked-by: Alexander Graf <agraf@csgraf.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Mads Ynddal <mads@ynddal.dk>
 
 ---
-v3
-  - reword commit summary
+v2
+  - update MEMTXATTRS macro
 ---
- target/arm/ptw.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/arm/hvf/hvf.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 2ddfc028ab..4b0dc9bd14 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -2289,6 +2289,9 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
-     ARMMMUIdx s1_mmu_idx = stage_1_mmu_idx(mmu_idx);
-     bool is_secure = regime_is_secure(env, mmu_idx);
+diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+index 060aa0ccf4..d81fbbb2df 100644
+--- a/target/arm/hvf/hvf.c
++++ b/target/arm/hvf/hvf.c
+@@ -1233,11 +1233,11 @@ int hvf_vcpu_exec(CPUState *cpu)
+             val = hvf_get_reg(cpu, srt);
+             address_space_write(&address_space_memory,
+                                 hvf_exit->exception.physical_address,
+-                                MEMTXATTRS_UNSPECIFIED, &val, len);
++                                MEMTXATTRS_CPU(cpu), &val, len);
+         } else {
+             address_space_read(&address_space_memory,
+                                hvf_exit->exception.physical_address,
+-                               MEMTXATTRS_UNSPECIFIED, &val, len);
++                               MEMTXATTRS_CPU(cpu), &val, len);
+             hvf_set_reg(cpu, srt, val);
+         }
  
-+    attrs->requester_type = MEMTXATTRS_CPU;
-+    attrs->requester_id = env_cpu(env)->cpu_index;
-+
-     if (mmu_idx != s1_mmu_idx) {
-         /*
-          * Call ourselves recursively to do the stage 1 and then stage 2
 -- 
 2.34.1
 
