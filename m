@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F5B5EC1DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:51:01 +0200 (CEST)
-Received: from localhost ([::1]:60878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116EC5EC1C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:46:19 +0200 (CEST)
+Received: from localhost ([::1]:46952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od976-0001JJ-UY
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51566)
+	id 1od92Q-0004uy-7R
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:46:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8RG-0002oF-Am
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:49 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:41727)
+ id 1od8RM-0002p9-8j; Tue, 27 Sep 2022 07:07:58 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:35578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8RE-0004yI-6D
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:46 -0400
-Received: by mail-pl1-x632.google.com with SMTP id d11so8751372pll.8
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:42 -0700 (PDT)
+ id 1od8RK-0004zz-Bw; Tue, 27 Sep 2022 07:07:51 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ q35-20020a17090a752600b002038d8a68fbso15270661pjk.0; 
+ Tue, 27 Sep 2022 04:07:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=2qELv4fD6lZQNjqoSLTskKNLUucRsODzyqWeHTRxa0M=;
- b=pII52T+HV6pn8oWQbmQqlwecGHtVKcXojRBG7lPjQdUbIZcVNxkl/rZpvHoxDTExJE
- nPugh4OxVkFLfusjzyHLt1zwKh3pvVOyo2RICjNuKwtADeDubJV4b2QogAQNsbd1MI32
- me+Ex6ukCaamIKMmeinpe7km2LQ3/OCXG3u8ppc8a3gCAwFLUxgI0Z78EA/OpngD4PJH
- 3Z30HQCF0zPteODiKLPWZcmMQKjBMiBsf0mib4w2e2WIJlzbpVsyUD233k15HsBCu1K8
- 9jqJJPYa4KYs/rhWakTlZGVZWXoU3M7ZJhWhPWSZIOj27Ee2CoE8HnFLJ5zRGfVCGvY2
- rsYA==
+ bh=mASgTbgC1fZZDNGRrUnVCNQGIWuAR0DCWfyrQC7EGTU=;
+ b=UZM/j2lk1sGIINoePExJQWIgZdnFHZL2YFTUPXbY87EmUVwUdw/UBAPQp8HH+dbY1b
+ pHg5Qz/vezWkhxAICUoGhQGlAyDea1ajkrVYRPaHKAuCYz6D8preYRi0l+EX3wCFlAyR
+ TIzxVatDwOK7SmdVIxoSF7tNtrmYlTPCW3C9wNfPHuIyEEsUtc69HZZKDGZ+VOqnmSz0
+ KHt/qc7sopRe1riJCCmAkJKDXhxEuEmtiDrZOYDyYTQ1343rKwRKCVUWtjklMnu3gCt7
+ OWM5s1V22i3yqreBdpUzkn2Qkm2C35gWB4B93CGHldz9v8Srga4NM2yz6xE0kaLFHjOT
+ 5W3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=2qELv4fD6lZQNjqoSLTskKNLUucRsODzyqWeHTRxa0M=;
- b=2/NPEfWFy+YZkbFrjNiCsdQ/1UKleBcamYD3/3AwJs2Hrpym65IAutXm4ND9GlwtT9
- /2xtePCWJs3V5gH18XLwC+SwSGF8dlqrXoV0yiBhcBHOOb33pdc41HxRAwybRIdF5Z65
- FLX/9wKOUp8XWvEJJ8r2tojh0H1Gks6zAuzbFXTx6Z+oOP3pWIU6pjFp/box5QFJQqCG
- iyJjO4uIv/lEVpApnRMVCdFYJS6KLUldaPgca/DyBSwmrlboa0Bh9HdAMiRL2AsU211T
- EOjY3jFzZOQs/C77rGLW4r7vUGuTVxW8QYcNDHubRPil7elt0nihJ02lPxbOtmxx1su7
- mbXg==
-X-Gm-Message-State: ACrzQf28NtBwCvZDmx8MPuOwwuRIFgU511znwjNc3ixRFcVB7/iy/rLm
- DOwQoYGrooAGbh5Vva7PMYlPQrZkS3Y=
-X-Google-Smtp-Source: AMsMyM4ZzmG+HCWrpPUJg5Xpwg7enR4USz8X8wcPhrP1QbrUdtS7s518MvprAno+okthntWLsV4Vsg==
-X-Received: by 2002:a17:903:245:b0:178:e0ba:e507 with SMTP id
- j5-20020a170903024500b00178e0bae507mr27653326plh.115.1664276861275; 
- Tue, 27 Sep 2022 04:07:41 -0700 (PDT)
+ bh=mASgTbgC1fZZDNGRrUnVCNQGIWuAR0DCWfyrQC7EGTU=;
+ b=lolZCTaK0Ji8dIW6boVTB/IyOxOA6BM/SZpYGIY/Dg+gKuFI977OoENOc+R2W/+0K4
+ nPtNWfyKZpaXKVeknIvaHzCscAyRMjc0Z5ml2UBwa9OirBW3+/qHbHMmbS037Aybu/Ea
+ AXZZpDgfO9UuhgIS11O70q5u1zUr/shMROY6V1z4XBBkDOJZsG1MwpSOOyj4Ej13L9/5
+ OPuZVGhY5rris+1svREY/YPDj0D6m1H6vSBeXSChdG44aTyKK7Vl1mBCIoFvaTHbdQBv
+ yZ2Ac8bmn4Ob2mqqKNm6Ri7HoNOJfo3J/zriXdpGRQrqn4OikPBm+eT4GM/049PYx5zn
+ TIHg==
+X-Gm-Message-State: ACrzQf2uBAdTpgAuMnAZhSznz/DruswFMpQVYmTpJeuXfpk3W48CRy4s
+ XbfVL5Vlthd+1hPkDOP8N8WRzPnYhno=
+X-Google-Smtp-Source: AMsMyM5skg2pYPxSEADOlNkBBqcJ8Egrk8huHfPzMR4ocU7lP/0LNnRKldv9w0K6rzULoiojd7KxUg==
+X-Received: by 2002:a17:903:244b:b0:176:c8ee:a5ee with SMTP id
+ l11-20020a170903244b00b00176c8eea5eemr26039812pls.46.1664276868491; 
+ Tue, 27 Sep 2022 04:07:48 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.39
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:07:40 -0700 (PDT)
+ Tue, 27 Sep 2022 04:07:48 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>
-Subject: [PATCH v4 22/54] tests/unit: test-image-locking: Avoid using
- hardcoded /tmp
-Date: Tue, 27 Sep 2022 19:06:00 +0800
-Message-Id: <20220927110632.1973965-23-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Subject: [PATCH v4 25/54] block/vvfat: Unify the mkdir() call
+Date: Tue, 27 Sep 2022 19:06:03 +0800
+Message-Id: <20220927110632.1973965-26-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,52 +94,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-This case was written to use hardcoded /tmp directory for temporary
-files. Update to use g_file_open_tmp() for a portable implementation.
+There is a difference in the mkdir() call for win32 and non-win32
+platforms, and currently is handled in the codes with #ifdefs.
+
+glib provides a portable g_mkdir() API and we can use it to unify
+the codes without #ifdefs.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-(no changes since v3)
+(no changes since v2)
 
-Changes in v3:
-- Split to a separate patch
-- Ensure g_autofree variable is initialized
+Changes in v2:
+- Change to use g_mkdir()
 
- tests/unit/test-image-locking.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ block/vvfat.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/tests/unit/test-image-locking.c b/tests/unit/test-image-locking.c
-index ba057bd66c..a47299c247 100644
---- a/tests/unit/test-image-locking.c
-+++ b/tests/unit/test-image-locking.c
-@@ -76,10 +76,10 @@ static void check_locked_bytes(int fd, uint64_t perm_locks,
- static void test_image_locking_basic(void)
- {
-     BlockBackend *blk1, *blk2, *blk3;
--    char img_path[] = "/tmp/qtest.XXXXXX";
-+    g_autofree char *img_path = NULL;
-     uint64_t perm, shared_perm;
+diff --git a/block/vvfat.c b/block/vvfat.c
+index d6dd919683..723beef025 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -25,6 +25,7 @@
  
--    int fd = mkstemp(img_path);
-+    int fd = g_file_open_tmp("qtest.XXXXXX", &img_path, NULL);
-     assert(fd >= 0);
+ #include "qemu/osdep.h"
+ #include <dirent.h>
++#include <glib/gstdio.h>
+ #include "qapi/error.h"
+ #include "block/block_int.h"
+ #include "block/qdict.h"
+@@ -2726,13 +2727,9 @@ static int handle_renames_and_mkdirs(BDRVVVFATState* s)
+             mapping_t* mapping;
+             int j, parent_path_len;
  
-     perm = BLK_PERM_WRITE | BLK_PERM_CONSISTENT_READ;
-@@ -117,10 +117,10 @@ static void test_image_locking_basic(void)
- static void test_set_perm_abort(void)
- {
-     BlockBackend *blk1, *blk2;
--    char img_path[] = "/tmp/qtest.XXXXXX";
-+    g_autofree char *img_path = NULL;
-     uint64_t perm, shared_perm;
-     int r;
--    int fd = mkstemp(img_path);
-+    int fd = g_file_open_tmp("qtest.XXXXXX", &img_path, NULL);
-     assert(fd >= 0);
+-#ifdef __MINGW32__
+-            if (mkdir(commit->path))
++            if (g_mkdir(commit->path, 0755)) {
+                 return -5;
+-#else
+-            if (mkdir(commit->path, 0755))
+-                return -5;
+-#endif
++            }
  
-     perm = BLK_PERM_WRITE | BLK_PERM_CONSISTENT_READ;
+             mapping = insert_mapping(s, commit->param.mkdir.cluster,
+                     commit->param.mkdir.cluster + 1);
 -- 
 2.34.1
 
