@@ -2,56 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60EEC5ECCC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 21:18:30 +0200 (CEST)
-Received: from localhost ([::1]:54788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D70F5ECCA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 21:13:24 +0200 (CEST)
+Received: from localhost ([::1]:43602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odG67-00048z-It
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 15:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35894)
+	id 1odG1D-0000sB-Kp
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 15:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1odFzg-0007sC-Rp; Tue, 27 Sep 2022 15:11:51 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:49707)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1odFzf-0001IO-9T; Tue, 27 Sep 2022 15:11:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Pzsc0eOp89LfYHRSWOiIums0ZByaWn4gdCHMpBSyFaY=; b=Po4LCp+i2DACdg7zsQSrJXELhl
- DGBtLGejmQZ8Cg/bqVyVusTzEraQEsIZXEqwHCA8PMH1k+teKw0E5jvtR9U0Sf3kWqhU4XZkxjDmB
- 48iQWwYI6DovKLn27pZyvbxUZF1mDyEWnegwirwKpOEmBf971dlS8Il0d2E5QQ4PAxvmKxkN2bGos
- 0vpvRjy1nzimzpI6rCdfqBUbX82GaT3y8Q2PXP2Fzc++Vsc+gbipPdGEGyTzWGNZvJpBkBPOkTMMw
- utYHN21gWSa3G5/dHW44y2kdJZ81k4bfbfY0Xy3TTp9kO3tQ0eHgH90srx+8DwMCcgwRldkYao9Mk
- IkLPwF/Z+4TnbXowTSOS/VwWm7BuPAp/crp9sa/blLSVQEwOawKkpk3JO5hZMGUvxL6ut6gI7tULb
- OOrz+UzI2Mdmi1bVdKfmPsAlV2KAGha98C2/tA1ihQW/5phr3IAahwSV6KfDlrI7kvhPegEk674Ke
- VnY/Iwn7sO4QpT/1pQFu8Wx3Bo22GM6xpt6VxjMuN5xBwUoFciNnXRxbyrOR+LWOxjwLAQCvYv1sq
- JuHJHOdYXH8KG2WYtG1Bc+zrg58KVA75AGn/jxAYP37BnKske/wyV1VHSILRWSVppvo8MrrI4Vpeo
- E0jlrLTrqXclbxtkW6TqQZY6C7ik9XXH6pp9kfAPI=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Qemu-block <qemu-block@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- Linus Heckemann <git@sphalerite.org>
-Subject: Re: [PATCH v5] 9pfs: use GHashTable for fid table
-Date: Tue, 27 Sep 2022 21:10:52 +0200
-Message-ID: <7301097.N5VPtqMtvv@silver>
-In-Reply-To: <ygasfkcx30u.fsf@localhost>
-References: <20220927142503.1694674-1-git@sphalerite.org>
- <ygasfkcx30u.fsf@localhost>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1odFz9-0007IH-9Q
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 15:11:15 -0400
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:39798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1odFz3-0001CI-Uv
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 15:11:11 -0400
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-352ffac3941so3590837b3.6
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 12:11:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=S6QmxKTtdfrOjmZPSLZweEYA+qMv3HvmKvtYHcCy7bg=;
+ b=DGkldR14cLyBfwmTK57q+otZcC4SoDOiHPYzZJGMHqB8VWrfPwQjCc/+Uqe70ASlUA
+ fZOJT6V8nQewwjlrMXcp7ZGiUku9Eq4SYC+FxFD2nglQkyDjNYyxkxB6+zBnjn/ad1Da
+ f6zZM2xac/2upq7zcMUNlcOFHtUPtFZRTeSgJ8elwBdsIwlLzV+DABsvdi+ugFQsOso4
+ 9nOMxpPnoYdBLCh1CdrymgFZLdW+MGZWoeSalWCGd926niy3u25HjOzwXPCmbKcEUWFX
+ MzepbVKKWtBOshq2gAnK7r0ny/94U5Zr8os/jI8/mnrh8s6ydDVxlGM6pLUufus0Z3MG
+ CLJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=S6QmxKTtdfrOjmZPSLZweEYA+qMv3HvmKvtYHcCy7bg=;
+ b=PyKDhUvjSUeCgWEMOSifPW2M69j13sSflNruKUTPCjFrLsZ2rX1LF7LkWsZfEQCddc
+ JbDkXuivhK1+lu1BaA8gbUQcY+jc8IMr0XzWSsfAb21OTOJsN15FTxLYcCB0Ckq/AjZZ
+ F8jR60De0jbAlaLYkzC3zByzaB5yowSjJifBHChK7MrpkuQaattLcjohEdfJFJgvhX8S
+ Q7nJmMff3CGl95l4lquFLpPmibiOI9EnY746rQrti7M6J6TiXh+yN48f72eowA8UM/Ac
+ NFcJsiooPm15rsBuWaP9hPlFVeymoGub0x3CIzVMR0OD/4Z6a7f4GoyJYJhSRtZEZmEJ
+ Akzw==
+X-Gm-Message-State: ACrzQf3iceYhgUuy1azcAD5EAVY1nZOE5TzY8s8llv0xvC0CmjA7QD/r
+ su8Tm8zac5+bcTDGCOtm0CxinkAUsYz3vGoe7TI=
+X-Google-Smtp-Source: AMsMyM5nU7mfziyiN7uWLBG9FsgZb1nK9Yu0lM4wrkRFeKHSx1lYMj6+1gdZ1dhXVBCYthmck9jpAy4R1fi0Eq5UaEw=
+X-Received: by 2002:a0d:df46:0:b0:345:22d9:f5c1 with SMTP id
+ i67-20020a0ddf46000000b0034522d9f5c1mr26811519ywe.239.1664305866461; Tue, 27
+ Sep 2022 12:11:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+References: <285e1375-82c4-556d-54fa-abba6b8e8e77@redhat.com>
+ <CAJSP0QX13hF2_qSvO0Hfh=DtyurhkXyJKnrzWTSsTtURueTV6A@mail.gmail.com>
+ <YzMcobeWVAnHUkNu@redhat.com>
+ <CAJSP0QW_An5ypmsaXaVeHNKKzW0+x2Pmp8bQtPfVxPCqgAwFCA@mail.gmail.com>
+ <YzM5i5QP7NQq4OHV@redhat.com>
+ <dc108d7d-297b-5a84-68dd-12da3a0e68d0@redhat.com>
+ <CAJSP0QVX8Q5Cg2rr7ee19Wvbghpx8FXyPBratjQi6D4mqHW8pQ@mail.gmail.com>
+ <8407a398-a006-b009-b48c-7814dc15c811@redhat.com>
+In-Reply-To: <8407a398-a006-b009-b48c-7814dc15c811@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 27 Sep 2022 15:10:54 -0400
+Message-ID: <CAJSP0QW7EQKWk7F5UP9gKWqpooEkqdOUbxiMW2ac-5YL5ytY5A@mail.gmail.com>
+Subject: Re: Should we maybe move Cirrus-CI jobs away from Gitlab again?
+To: Thomas Huth <thuth@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1131.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,61 +97,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 27. September 2022 17:14:57 CEST Linus Heckemann wrote:
-> Linus Heckemann <git@sphalerite.org> writes:
-> >  static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
-> >  {
-> >  
-> >      V9fsState *s = pdu->s;
-> >      V9fsFidState *fidp;
-> > 
-> > +    GList *freeing;
-> > +    /* Get a list of all the values (fid states) in the table, which we
-> > then... */ +    g_autoptr(GList) fids = g_hash_table_get_values(s->fids);
-> > 
-> > -    /* Free all fids */
-> > -    while (!QSIMPLEQ_EMPTY(&s->fid_list)) {
-> > -        /* Get fid */
-> > -        fidp = QSIMPLEQ_FIRST(&s->fid_list);
-> > -        fidp->ref++;
-> > +    /* ... remove from the table, taking over ownership. */
-> > +    g_hash_table_steal_all(s->fids);
-> > 
-> > -        /* Clunk fid */
-> > -        QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
-> > +    /*
-> > +     * This allows us to release our references to them asynchronously
-> > without +     * iterating over the hash table and risking iterator
-> > invalidation +     * through concurrent modifications.
-> > +     */
-> > +    for (freeing = fids; freeing; freeing = freeing->next) {
-> > +        fidp = freeing->data;
-> > +        fidp->ref++;
-> > 
-> >          fidp->clunked = true;
-> > 
-> > -
-> > 
-> >          put_fid(pdu, fidp);
-> >      
-> >      }
-> >  
-> >  }
-> 
-> I'm not sure if this implementation is correct. I'm concerned that it
-> may result in dangling references, but haven't been able to find a
-> client that will send the TVERSION request on a connection that's
-> already been used in other ways, as opposed to when the connection is
-> first established. I suspect this will be very rare in general, so it
-> might be good to have a test case somewhere.
+On Tue, 27 Sept 2022 at 15:04, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 27/09/2022 20.47, Stefan Hajnoczi wrote:
+> > On Tue, 27 Sept 2022 at 14:40, Thomas Huth <thuth@redhat.com> wrote:
+> >>
+> >> On 27/09/2022 19.57, Daniel P. Berrang=C3=A9 wrote:
+> >>> On Tue, Sep 27, 2022 at 01:36:20PM -0400, Stefan Hajnoczi wrote:
+> >>>> On Tue, 27 Sept 2022 at 11:54, Daniel P. Berrang=C3=A9 <berrange@red=
+hat.com> wrote:
+> >>>>>
+> >>>>> On Tue, Sep 27, 2022 at 11:44:45AM -0400, Stefan Hajnoczi wrote:
+> >>>>>> On Tue, 27 Sept 2022 at 05:02, Thomas Huth <thuth@redhat.com> wrot=
+e:
+> >>>>>>> now that Gitlab is giving us pressure on the amount of free CI mi=
+nutes, I
+> >>>>>>> wonder whether we should maybe move the Cirrus-CI jobs out of the=
+ gitlab-CI
+> >>>>>>> dashboard again? We could add the jobs to our .cirrus-ci.yml file=
+ instead,
+> >>>>>>> like we did it in former times...
+> >>>>>>>
+> >>>>>>> Big advantage would be of course that the time for those jobs wou=
+ld not
+> >>>>>>> count in the Gitlab-CI minutes anymore. Disadvantage is of course=
+ that they
+> >>>>>>> do not show up in the gitlab-CI dashboard anymore, so there is no=
+ more
+> >>>>>>> e-mail notification about failed jobs, and you have to push to gi=
+thub, too,
+> >>>>>>> and finally check the results manually on cirrus-ci.com ...
+> >>>>>>
+> >>>>>> My understanding is that .gitlab-ci.d/cirrus.yml uses a GitLab CI =
+job
+> >>>>>> to run the cirrus-run container image that forwards jobs to Cirrus=
+-CI.
+> >>>>>> So GitLab CI resources are consumed waiting for Cirrus-CI to finis=
+h.
+> >>>>>>
+> >>>>>> This shouldn't affect gitlab.com/qemu-project where there are priv=
+ate
+> >>>>>> runners that do not consume GitLab CI minutes.
+> >>>>>>
+> >>>>>> Individual developers are affected though because they most likely
+> >>>>>> rely on the GitLab shared runner minutes quota.
+> >>>>>
+> >>>>> NB, none of the jobs should ever be run automatically anymore in
+> >>>>> QEMU CI pipelines. It always requires the maintainer to set the
+> >>>>> env var when pushing to git, to explicitly create a pipeline.
+> >>>>> You can then selectively start each individual job as desired.
+> >>>>
+> >>>> Cirrus CI is not automatically started when pushing to a personal
+> >>>> GitLab repo? If starting it requires manual action anyway then I thi=
+nk
+> >>>> nothing needs to be changed here.
+> >>>
+> >>> No pipeline at all is created unless you do
+> >>>
+> >>>     git push -o ci.variable=3DQEMU_CI=3D1 <your-fork-remote>
+> >>>
+> >>> that creates the pipeliune but doesn't run any jobs - they're manual
+> >>> start.
+> >>
+> >> Yes, sure, the jobs are not started automatically. But I *do* want to =
+run
+> >> the jobs before sending pull requests - but since the gitlab-CI minute=
+s are
+> >> now very limited, I'd like to avoid burning these minutes via gitlab a=
+nd
+> >> start those jobs directly on cirrus-ci.com again. For that the jobs wo=
+uld
+> >> need to be moved to our .cirrus-ci.yml file again.
+> >>
+> >> Well, maybe we could also have both, jobs via cirrus-run for those who=
+ want
+> >> to see them in their gitlab-CI dashboard, and via .cirrus-ci.yml for t=
+hose
+> >> who want to avoid burning CI minutes on Gitlab. It's a little bit of
+> >> double-maintenance, but maybe acceptable?
+> >
+> > I just noticed that qemu.git/master doesn't run Cirrus-CI. I guess it
+> > hasn't been set up in our GitLab project.
+> >
+> > Since it's not enabled for qemu.git/master nothing will change from my
+> > perspective. Feel free to change it as you wish.
+>
+> It's only run for the "staging" branch, I think. The idea was that things
+> get tested before merge on the "staging" branch, then there is no need
+> anymore to rerun everything when it gets pushed into the "master" branch.
 
-Always welcome! :)
-https://wiki.qemu.org/Documentation/9p#Test_Cases
+I don't see a cirrus job:
+https://gitlab.com/qemu-project/qemu/-/pipelines/652051335
 
-If you do, then please add the test as a separate patch.
-
-Best regards,
-Christian Schoenebeck
-
-
+Stefan
 
