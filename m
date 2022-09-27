@@ -2,89 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1785EBE02
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:08:08 +0200 (CEST)
-Received: from localhost ([::1]:53964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C98D5EBEB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:35:41 +0200 (CEST)
+Received: from localhost ([::1]:43822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od6ZT-0004rw-8A
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:08:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46784)
+	id 1od708-0004rA-8X
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:35:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od5r1-0008Gs-Ie
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:22:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59468)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od5qz-0000lx-Ox
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:22:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664266929;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=MLqQZ+7PSZN58OTodD562PnWI5elhFrOF+nHccsB9Pk=;
- b=Dt0+JMIOB/vOW0J0D+K3TzM/EmGeDe08L65DA61ZnT0cVwiYVeWWIDDHri4r/fTOyQVoCb
- PHBVxEG6GkiyzOpF6luo/OUd8oNyaKiToA3774GoF1WNQrjVuDNXoLJjZmzhUiilc9u0ku
- jx9TCKbtVXjZN7o1VXNxUVyranB2h+Q=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-460-vyQXZv4PMfKItockPWEhxQ-1; Tue, 27 Sep 2022 04:22:07 -0400
-X-MC-Unique: vyQXZv4PMfKItockPWEhxQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r7-20020a1c4407000000b003b3f017f259so5211283wma.3
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 01:22:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1od5yQ-0004AF-SZ
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:29:50 -0400
+Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:40633)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1od5yL-0001pa-Ge
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:29:47 -0400
+Received: by mail-lj1-x22a.google.com with SMTP id g20so10090128ljg.7
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 01:29:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=Rmad2rYfZ5IW7fBzajyAFegdmVvGYsEWjisBPHInPuU=;
+ b=Mi/5Xn2HhI3ATwYOIrlIiqYNTvc0r9p+v2mxeIIjX8L+tMaAwGdH5HBkAtUOk3uX/V
+ ED+2QZrIgdq01mDim8ddssWjDNFkS5VDGP02usHuQZxQ2O9mfyYdW+E0tsifLvrHvAfC
+ xu8kF0SDDW1U5PyWxO5F9gcduB6XK3QqgFJKLuM/riac83VS/couJgG2HZFP5ykCk6MO
+ /J7uxLxh8/n4acCER8e4/NqGoiVvNhjw+GlJnTiK/LHq/SImC46doQsM5JQkRxc8ra3V
+ S5hZhmjePyyL83TzZU5mPYU27WgK/QecZdwgyh3IrEwuX/7nSwrYFm6sH0xaLGB9qcof
+ jEYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date;
- bh=MLqQZ+7PSZN58OTodD562PnWI5elhFrOF+nHccsB9Pk=;
- b=ELUX6/Ub0zdT9/JfENeYbEf+Akq/qD/cgcqwxySeviGSaMO/TJ9fjstTxP82wavq6b
- FxHtNdGA8730PlCGoddAoRZ7xtnJe4jbCwnZiJ7/WAjyyo0BuO1YfYMapJALGahDfcrA
- 2z+Z63xx2LWtbQhjAdFH5oyWxO8TbIzuBZMJDWaEj5W5BA+HB2hOfYdwa7EGOMyCFRME
- onOaBP2SKBGU9IGUxn7+moM0TqT+aYzrAVu1wUGSUAc48NijCQSPbK/hNYYdsz4H1V5e
- sDLXCgpJmjxrSqxigk7FcDMz5DHvzj9ps7IC+S7JIndzZW3QhX5HV7KoV/AgFLHbrnMh
- QE+g==
-X-Gm-Message-State: ACrzQf2PcO57EbvuVMENQw9Sk03cniGzEksPdPT5UsieDjsQ53i0nYwC
- 6S7r2g1HVJ5Ju3N8J4gy+Tmq6p+tCwCK94XoodNZFQj2ehcq9onrCWakNTMT8dMggItgXISYgex
- 3zfOl00OvlSIF8mkrSOGtOuzzInAVxQK6O96LaTO9ma7UbPDVmjRgmzA9gotyOIo=
-X-Received: by 2002:a5d:5849:0:b0:22b:a0e:11e0 with SMTP id
- i9-20020a5d5849000000b0022b0a0e11e0mr16633516wrf.72.1664266926672; 
- Tue, 27 Sep 2022 01:22:06 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7PNpbbqmTBq7vqe39uAFLrjW74qKyRFewa4KCvFBGfAXOvzgXKY0VK7XzGrz+RhNX6te7ttA==
-X-Received: by 2002:a5d:5849:0:b0:22b:a0e:11e0 with SMTP id
- i9-20020a5d5849000000b0022b0a0e11e0mr16633491wrf.72.1664266926385; 
- Tue, 27 Sep 2022 01:22:06 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-179-30.web.vodafone.de.
- [109.43.179.30]) by smtp.gmail.com with ESMTPSA id
- y18-20020adfe6d2000000b0022af63bb6f2sm1051341wrm.113.2022.09.27.01.22.05
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=Rmad2rYfZ5IW7fBzajyAFegdmVvGYsEWjisBPHInPuU=;
+ b=E6JK2YQMU27TG8+BMqrQUGaAqMSxX9QTMm+lWwL7W0DBDZW/kX+lFNjCnUPcc3z9rZ
+ Bf6RUN3esqwv3OHz5QyUhj6K0YMI7tRFwaQmyb9MEWtFQdS3Qp+nPPI1ohr9daskvUup
+ 0p1UqItNqM6cmqdYyUFb4IbzrLTgvqbwBv+qymLvVY9AT5kQyebxJb5K1VaRgcstOm1/
+ 4f7DfdO5FwtGU+F82uHLgdn4P9ujtUzgfO4qfn/i/vHmSktfrJxuCLm/hEbrsiLFyT5I
+ s/paZ/5fAhRs/aNBJXZy4rroo/ZKwxa1rqervxsWdatJlrcfhrYaZ7mICweZRNaIebTv
+ r+fQ==
+X-Gm-Message-State: ACrzQf1nWKZbGzqzFYiWa4jG+l4a9Jix7P+IwUhjZE4wZIb4HVRrC5o0
+ OfG54UKsIgaC7994reBOrX2yNQ==
+X-Google-Smtp-Source: AMsMyM6QuPNn7p0WQmtvLVXq4pvEeDPjjfGEg+5I+YHez3qvBrp2vvjxeYBxxo+HXMTlTBXaTYvXYA==
+X-Received: by 2002:a2e:b61c:0:b0:26c:c17:feeb with SMTP id
+ r28-20020a2eb61c000000b0026c0c17feebmr9548739ljn.199.1664267383139; 
+ Tue, 27 Sep 2022 01:29:43 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com.
+ [209.85.167.50]) by smtp.gmail.com with ESMTPSA id
+ u28-20020a2eb81c000000b0026bf27c7056sm90960ljo.67.2022.09.27.01.29.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Sep 2022 01:22:05 -0700 (PDT)
-Message-ID: <285e1375-82c4-556d-54fa-abba6b8e8e77@redhat.com>
-Date: Tue, 27 Sep 2022 10:22:04 +0200
+ Tue, 27 Sep 2022 01:29:42 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id o2so14557063lfc.10;
+ Tue, 27 Sep 2022 01:29:42 -0700 (PDT)
+X-Received: by 2002:a05:6512:3d94:b0:49d:144c:9667 with SMTP id
+ k20-20020a0565123d9400b0049d144c9667mr10787427lfv.50.1664267381646; Tue, 27
+ Sep 2022 01:29:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Should we maybe move Cirrus-CI jobs away from Gitlab again?
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220914101108.82571-1-alistair.francis@wdc.com>
+ <20220914101108.82571-2-alistair.francis@wdc.com>
+In-Reply-To: <20220914101108.82571-2-alistair.francis@wdc.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Tue, 27 Sep 2022 16:29:30 +0800
+X-Gmail-Original-Message-ID: <CANzO1D2Hh9ipmReXrbssWeg=mgZbMnXOu+2GNTWy+cEDQKEJRg@mail.gmail.com>
+Message-ID: <CANzO1D2Hh9ipmReXrbssWeg=mgZbMnXOu+2GNTWy+cEDQKEJRg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] target/riscv: Set the CPU resetvec directly
+To: Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ bmeng.cn@gmail.com, alistair23@gmail.com
+Content-Type: multipart/alternative; boundary="000000000000182c5805e9a4722d"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
+ envelope-from=frank.chang@sifive.com; helo=mail-lj1-x22a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,22 +96,269 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000182c5805e9a4722d
+Content-Type: text/plain; charset="UTF-8"
 
-  Hi all,
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
-now that Gitlab is giving us pressure on the amount of free CI minutes, I 
-wonder whether we should maybe move the Cirrus-CI jobs out of the gitlab-CI 
-dashboard again? We could add the jobs to our .cirrus-ci.yml file instead, 
-like we did it in former times...
+On Wed, Sep 14, 2022 at 6:12 PM Alistair Francis via <qemu-riscv@nongnu.org>
+wrote:
 
-Big advantage would be of course that the time for those jobs would not 
-count in the Gitlab-CI minutes anymore. Disadvantage is of course that they 
-do not show up in the gitlab-CI dashboard anymore, so there is no more 
-e-mail notification about failed jobs, and you have to push to github, too, 
-and finally check the results manually on cirrus-ci.com ...
+> Instead of using our properties to set a config value which then might
+> be used to set the resetvec (depending on your timing), let's instead
+> just set the resetvec directly in the env struct.
+>
+> This allows us to set the reset vec from the command line with:
+>     -global driver=riscv.hart_array,property=resetvec,value=0x20000400
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/cpu.h     |  3 +--
+>  target/riscv/cpu.c     | 13 +++----------
+>  target/riscv/machine.c |  6 +++---
+>  3 files changed, 7 insertions(+), 15 deletions(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 06751e1e3e..22344a620b 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -190,7 +190,7 @@ struct CPUArchState {
+>      /* This contains QEMU specific information about the virt state. */
+>      target_ulong virt;
+>      target_ulong geilen;
+> -    target_ulong resetvec;
+> +    uint64_t resetvec;
+>
+>      target_ulong mhartid;
+>      /*
+> @@ -474,7 +474,6 @@ struct RISCVCPUConfig {
+>      bool pmp;
+>      bool epmp;
+>      bool debug;
+> -    uint64_t resetvec;
+>
+>      bool short_isa_string;
+>  };
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index aee14a239a..b29c88b9f0 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -228,13 +228,6 @@ static void set_vext_version(CPURISCVState *env, int
+> vext_ver)
+>      env->vext_ver = vext_ver;
+>  }
+>
+> -static void set_resetvec(CPURISCVState *env, target_ulong resetvec)
+> -{
+> -#ifndef CONFIG_USER_ONLY
+> -    env->resetvec = resetvec;
+> -#endif
+> -}
+> -
+>  static void riscv_any_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> @@ -336,7 +329,6 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+>
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+> -    set_resetvec(env, DEFAULT_RSTVEC);
+>      cpu->cfg.mmu = false;
+>  }
+>  #endif
+> @@ -676,7 +668,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error
+> **errp)
+>          riscv_set_feature(env, RISCV_FEATURE_DEBUG);
+>      }
+>
+> -    set_resetvec(env, cpu->cfg.resetvec);
+>
+>  #ifndef CONFIG_USER_ONLY
+>      if (cpu->cfg.ext_sstc) {
+> @@ -1079,7 +1070,9 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid,
+> RISCV_CPU_MARCHID),
+>      DEFINE_PROP_UINT64("mimpid", RISCVCPU, cfg.mimpid, RISCV_CPU_MIMPID),
+>
+> -    DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec,
+> DEFAULT_RSTVEC),
+> +#ifndef CONFIG_USER_ONLY
+> +    DEFINE_PROP_UINT64("resetvec", RISCVCPU, env.resetvec,
+> DEFAULT_RSTVEC),
+> +#endif
+>
+>      DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string,
+> false),
+>
+> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> index 41098f6ad0..c4e6b3bba4 100644
+> --- a/target/riscv/machine.c
+> +++ b/target/riscv/machine.c
+> @@ -308,8 +308,8 @@ static const VMStateDescription vmstate_pmu_ctr_state
+> = {
+>
+>  const VMStateDescription vmstate_riscv_cpu = {
+>      .name = "cpu",
+> -    .version_id = 4,
+> -    .minimum_version_id = 4,
+> +    .version_id = 5,
+> +    .minimum_version_id = 5,
+>      .post_load = riscv_cpu_post_load,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
+> @@ -331,7 +331,7 @@ const VMStateDescription vmstate_riscv_cpu = {
+>          VMSTATE_UINT32(env.features, RISCVCPU),
+>          VMSTATE_UINTTL(env.priv, RISCVCPU),
+>          VMSTATE_UINTTL(env.virt, RISCVCPU),
+> -        VMSTATE_UINTTL(env.resetvec, RISCVCPU),
+> +        VMSTATE_UINT64(env.resetvec, RISCVCPU),
+>          VMSTATE_UINTTL(env.mhartid, RISCVCPU),
+>          VMSTATE_UINT64(env.mstatus, RISCVCPU),
+>          VMSTATE_UINT64(env.mip, RISCVCPU),
+> --
+> 2.37.2
+>
+>
+>
 
-Opinions?
+--000000000000182c5805e9a4722d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  Thomas
+<div dir=3D"ltr">Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang=
+@sifive.com">frank.chang@sifive.com</a>&gt;</div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 14, 2022 at 6:12 PM =
+Alistair Francis via &lt;<a href=3D"mailto:qemu-riscv@nongnu.org">qemu-risc=
+v@nongnu.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">Instead of using our properties to set a config value which the=
+n might<br>
+be used to set the resetvec (depending on your timing), let&#39;s instead<b=
+r>
+just set the resetvec directly in the env struct.<br>
+<br>
+This allows us to set the reset vec from the command line with:<br>
+=C2=A0 =C2=A0 -global driver=3Driscv.hart_array,property=3Dresetvec,value=
+=3D0x20000400<br>
+<br>
+Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.=
+com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 3 +--<br>
+=C2=A0target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0| 13 +++----------<br>
+=C2=A0target/riscv/machine.c |=C2=A0 6 +++---<br>
+=C2=A03 files changed, 7 insertions(+), 15 deletions(-)<br>
+<br>
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
+index 06751e1e3e..22344a620b 100644<br>
+--- a/target/riscv/cpu.h<br>
++++ b/target/riscv/cpu.h<br>
+@@ -190,7 +190,7 @@ struct CPUArchState {<br>
+=C2=A0 =C2=A0 =C2=A0/* This contains QEMU specific information about the vi=
+rt state. */<br>
+=C2=A0 =C2=A0 =C2=A0target_ulong virt;<br>
+=C2=A0 =C2=A0 =C2=A0target_ulong geilen;<br>
+-=C2=A0 =C2=A0 target_ulong resetvec;<br>
++=C2=A0 =C2=A0 uint64_t resetvec;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0target_ulong mhartid;<br>
+=C2=A0 =C2=A0 =C2=A0/*<br>
+@@ -474,7 +474,6 @@ struct RISCVCPUConfig {<br>
+=C2=A0 =C2=A0 =C2=A0bool pmp;<br>
+=C2=A0 =C2=A0 =C2=A0bool epmp;<br>
+=C2=A0 =C2=A0 =C2=A0bool debug;<br>
+-=C2=A0 =C2=A0 uint64_t resetvec;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0bool short_isa_string;<br>
+=C2=A0};<br>
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+index aee14a239a..b29c88b9f0 100644<br>
+--- a/target/riscv/cpu.c<br>
++++ b/target/riscv/cpu.c<br>
+@@ -228,13 +228,6 @@ static void set_vext_version(CPURISCVState *env, int v=
+ext_ver)<br>
+=C2=A0 =C2=A0 =C2=A0env-&gt;vext_ver =3D vext_ver;<br>
+=C2=A0}<br>
+<br>
+-static void set_resetvec(CPURISCVState *env, target_ulong resetvec)<br>
+-{<br>
+-#ifndef CONFIG_USER_ONLY<br>
+-=C2=A0 =C2=A0 env-&gt;resetvec =3D resetvec;<br>
+-#endif<br>
+-}<br>
+-<br>
+=C2=A0static void riscv_any_cpu_init(Object *obj)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;RISCV_CPU(obj)-&gt;env;<br>
+@@ -336,7 +329,6 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | R=
+VU);<br>
+=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_10_0);<br>
+-=C2=A0 =C2=A0 set_resetvec(env, DEFAULT_RSTVEC);<br>
+=C2=A0 =C2=A0 =C2=A0cpu-&gt;cfg.mmu =3D false;<br>
+=C2=A0}<br>
+=C2=A0#endif<br>
+@@ -676,7 +668,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error *=
+*errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0riscv_set_feature(env, RISCV_FEATURE_DEBU=
+G);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 set_resetvec(env, cpu-&gt;cfg.resetvec);<br>
+<br>
+=C2=A0#ifndef CONFIG_USER_ONLY<br>
+=C2=A0 =C2=A0 =C2=A0if (cpu-&gt;cfg.ext_sstc) {<br>
+@@ -1079,7 +1070,9 @@ static Property riscv_cpu_properties[] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_UINT64(&quot;marchid&quot;, RISCVCPU, cfg.m=
+archid, RISCV_CPU_MARCHID),<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_UINT64(&quot;mimpid&quot;, RISCVCPU, cfg.mi=
+mpid, RISCV_CPU_MIMPID),<br>
+<br>
+-=C2=A0 =C2=A0 DEFINE_PROP_UINT64(&quot;resetvec&quot;, RISCVCPU, cfg.reset=
+vec, DEFAULT_RSTVEC),<br>
++#ifndef CONFIG_USER_ONLY<br>
++=C2=A0 =C2=A0 DEFINE_PROP_UINT64(&quot;resetvec&quot;, RISCVCPU, env.reset=
+vec, DEFAULT_RSTVEC),<br>
++#endif<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;short-isa-string&quot;, RISCVCPU=
+, cfg.short_isa_string, false),<br>
+<br>
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c<br>
+index 41098f6ad0..c4e6b3bba4 100644<br>
+--- a/target/riscv/machine.c<br>
++++ b/target/riscv/machine.c<br>
+@@ -308,8 +308,8 @@ static const VMStateDescription vmstate_pmu_ctr_state =
+=3D {<br>
+<br>
+=C2=A0const VMStateDescription vmstate_riscv_cpu =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.name =3D &quot;cpu&quot;,<br>
+-=C2=A0 =C2=A0 .version_id =3D 4,<br>
+-=C2=A0 =C2=A0 .minimum_version_id =3D 4,<br>
++=C2=A0 =C2=A0 .version_id =3D 5,<br>
++=C2=A0 =C2=A0 .minimum_version_id =3D 5,<br>
+=C2=A0 =C2=A0 =C2=A0.post_load =3D riscv_cpu_post_load,<br>
+=C2=A0 =C2=A0 =C2=A0.fields =3D (VMStateField[]) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 3=
+2),<br>
+@@ -331,7 +331,7 @@ const VMStateDescription vmstate_riscv_cpu =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT32(env.features, RISCVCPU),<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINTTL(env.priv, RISCVCPU),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINTTL(env.virt, RISCVCPU),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINTTL(env.resetvec, RISCVCPU),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT64(env.resetvec, RISCVCPU),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINTTL(env.mhartid, RISCVCPU),<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT64(env.mstatus, RISCVCPU),<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT64(env.mip, RISCVCPU),<br>
+-- <br>
+2.37.2<br>
+<br>
+<br>
+</blockquote></div>
 
+--000000000000182c5805e9a4722d--
 
