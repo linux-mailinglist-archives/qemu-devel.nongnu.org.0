@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16485EC5E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:22:21 +0200 (CEST)
-Received: from localhost ([::1]:36198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F065EC5DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 16:21:26 +0200 (CEST)
+Received: from localhost ([::1]:35542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odBTU-0003s8-Be
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35252)
+	id 1odBSe-0003Nz-8d
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 10:21:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1odA0b-0001m1-3p
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:48:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23511)
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1odA1J-00024K-L1
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:49:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1odA0Y-0007FJ-SF
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:48:20 -0400
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1odA1I-0007KB-7w
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 08:49:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664282898;
+ s=mimecast20190719; t=1664282942;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eig4h6XvaBCCNnnThtNKOtsC59Q/xOgaZws4eVtAdZM=;
- b=JI1JYbkJgooT+XP+OLKJeCCcjNaPPGMS7cgwlejw3+hrM9I9vioTSQbX7L+b7o7rBgLX1f
- tlOlJEkX3YO+Qe8b28YTIY60nxn02mdAMlvUTEYPlzv916C7X/PZp6dQH7kohX+0v1q0OE
- knJj0kwoL10WMSzTQz/I3kyVof0k7AU=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZjA06iHvrYEC1gHjlQUHmscVY89zOnX4QqZ39wawjbY=;
+ b=MBzzQrvJIbNfhfqCucwA6bmCWwa3WPPGAkXQyeR5eeWxyl4yuWrDrW6SaaM3VPVPx0/vdI
+ PVYIwTEJzpa32M59M80NgVNqfRgw9Zw/8r+IM39UEjKzy3Yq4IPPBYqceK8oTVAzJAgOp6
+ PA0ypht418z5vRK0M8hiiUdal4GIVzk=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-86-nC11kJZLP86F6CqRpn6NFA-1; Tue, 27 Sep 2022 08:48:16 -0400
-X-MC-Unique: nC11kJZLP86F6CqRpn6NFA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- i11-20020a1709064fcb00b00783415e70c2so2794152ejw.6
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 05:48:16 -0700 (PDT)
+ us-mta-163-qV-8Sb3EMd2IEx84UX2XFA-1; Tue, 27 Sep 2022 08:48:53 -0400
+X-MC-Unique: qV-8Sb3EMd2IEx84UX2XFA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ m3-20020a056402430300b004512f6268dbso7802168edc.23
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 05:48:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=eig4h6XvaBCCNnnThtNKOtsC59Q/xOgaZws4eVtAdZM=;
- b=M0GbFyuS0ProTJO7uPqMu2lYJiWO8n+z3uYGPgBJn17Z5DIJNvtGcFJ/Is2H4u0ufZ
- +fMy5C4hcFwh5gUJ7pNpwBAgnZdGajJ45pdCgskmPawXEqZZs7GjYGO3tj9iN7O9Ljmv
- kPrGN3WFrMpeIHduN2lI4U6bxAh2up5Ejy/ixuNdQfFAz5PAXxar79LzfvkPM/1NNHyI
- MmNjdtN66ARZtmWtgle1Ht+9zBK+CBdMg6u/lcWDNy2MA6HqQ/SQyrFilx6gaRxDAGi2
- BOxPIabcwdVWRJTL7YGKdkP/a83/RnimWXpeTjDc7lzbd9jmEZ9WnIXaAdJZtTfp3/Be
- D/uw==
-X-Gm-Message-State: ACrzQf0XVjmHXY0FAjveL3mLlRC7nYxo4UN6UWXFnSBtQN+slwW/6DLP
- RfGaLh+9NZqceSvfTFBnY5YbFd0qCwBkYZH5u+V2snDtIHQRDRIPva4P0bEs6PnYVY04gsGGUmh
- crKhbCy6IlLMcYxE=
-X-Received: by 2002:a17:907:5ce:b0:730:bae0:deb with SMTP id
- wg14-20020a17090705ce00b00730bae00debmr23226469ejb.181.1664282895796; 
- Tue, 27 Sep 2022 05:48:15 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6cfk2tetm4Otkd/EZ1CP30dZ8vWZKOH+OWIwcn+HjM2XmaAhJu0czD06QTbm+m1eo+xGNSOg==
-X-Received: by 2002:a17:907:5ce:b0:730:bae0:deb with SMTP id
- wg14-20020a17090705ce00b00730bae00debmr23226460ejb.181.1664282895612; 
- Tue, 27 Sep 2022 05:48:15 -0700 (PDT)
+ bh=ZjA06iHvrYEC1gHjlQUHmscVY89zOnX4QqZ39wawjbY=;
+ b=QTnNplC7H4wPIZ6Rul+xwWc630XctWLqZ0j2ccUAC3KuOnJ1P+w2frMd2AWK0HpV7Q
+ kPk5iOc6gWQhwoBM6lE3gmjPHidDAG9ATbXCGDe4nOrbndrCYRnPgNju8z9AjRyYgPfp
+ HcTwHx2oxiBDSwYEKQykhYVgQknPgT5hvcc+fst8i8d/Hzl2H3rtMHfMN0I17I0bULkK
+ RpIR/1ELSaq1rmxyjxJLC12kzAW8c9aaqbHJvz8IXvRAvcBOHWG77FofwJ8V/Y5wukqf
+ DjsBhP01//Xxm4aF0kQi09DZXMntJKQtXFlgzq2TgOBuy2RUjHr4xZ7iQSQKncZKEiOB
+ 3Cag==
+X-Gm-Message-State: ACrzQf2q7ku5zvzNsHk4qeOHFNz+3CeLPLNfC0qUdo91RAkbje5uR+Y6
+ dpbqZg9I8YvaPmmtkmM935ZjTWw46hMX0P0udUPunePM4Ib2ni2qOBwOrYMdqiAG2GAceLSpX02
+ A7w0rRwlVxMvldcE=
+X-Received: by 2002:a05:6402:1247:b0:456:eb22:1978 with SMTP id
+ l7-20020a056402124700b00456eb221978mr18513627edw.374.1664282932930; 
+ Tue, 27 Sep 2022 05:48:52 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6/y+JAcCLSCaj+s02LwxEIMdh217ykgkX2LYtUsO5C67YMBLWVjN2AyY93aKU9QIYKRA0NOg==
+X-Received: by 2002:a05:6402:1247:b0:456:eb22:1978 with SMTP id
+ l7-20020a056402124700b00456eb221978mr18513604edw.374.1664282932706; 
+ Tue, 27 Sep 2022 05:48:52 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
  ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
  by smtp.gmail.com with ESMTPSA id
- 12-20020a170906318c00b0073dcdf9b0bcsm784350ejy.17.2022.09.27.05.48.14
+ kw26-20020a170907771a00b0073dd8e5a39fsm742036ejc.156.2022.09.27.05.48.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Sep 2022 05:48:15 -0700 (PDT)
-Message-ID: <3229b3da-116a-f0fa-95eb-042825a95e98@redhat.com>
-Date: Tue, 27 Sep 2022 14:48:13 +0200
+ Tue, 27 Sep 2022 05:48:52 -0700 (PDT)
+Message-ID: <745ad260-b11b-8c72-8bb6-cc72acbb2987@redhat.com>
+Date: Tue, 27 Sep 2022 14:48:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 1/8] hw/arm/virt: Fix devicetree warning about the root
+Subject: Re: [PATCH v2 2/8] hw/arm/virt: Fix devicetree warning about the GIC
  node
 Content-Language: en-US
 To: Jean-Philippe Brucker <jean-philippe@linaro.org>, peter.maydell@linaro.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, robh+dt@kernel.org
 References: <20220927100347.176606-1-jean-philippe@linaro.org>
- <20220927100347.176606-2-jean-philippe@linaro.org>
+ <20220927100347.176606-3-jean-philippe@linaro.org>
 From: Eric Auger <eauger@redhat.com>
-In-Reply-To: <20220927100347.176606-2-jean-philippe@linaro.org>
+In-Reply-To: <20220927100347.176606-3-jean-philippe@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eauger@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,21 +103,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi jean,
+Hi Jean,
 
 On 9/27/22 12:03, Jean-Philippe Brucker wrote:
-> The devicetree specification requires a 'model' property in the root
-> node. Fix the corresponding dt-validate warning:
+> The GICv3 bindings requires a #msi-cells property for the ITS node. Fix
+> the corresponding dt-validate warning:
 > 
->   /: 'model' is a required property
->   From schema: dtschema/schemas/root-node.yaml
-> 
-> Use the same name for model as for compatible. The specification
-> recommends that 'compatible' follows the format 'manufacturer,model' and
-> 'model' follows the format 'manufacturer,model-number'. Since our> 'compatible' doesn't observe this, 'model' doesn't really need to
-> either.
+>   interrupt-controller@8000000: msi-controller@8080000: '#msi-cells' is a required property
+>   From schema: linux/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
+
+nit: you may add
+linux/Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml
+says
+
+      "#msi-cells":
+        description:
+          The single msi-cell is the DeviceID of the device which will
+generate
+          the MSI.
+        const: 1
+
+
+
 > 
 > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Besides,
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
 Eric
@@ -127,16 +137,16 @@ Eric
 >  1 file changed, 1 insertion(+)
 > 
 > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 1a6480fd2a..83ab1a37fb 100644
+> index 83ab1a37fb..ed6f1ac41e 100644
 > --- a/hw/arm/virt.c
 > +++ b/hw/arm/virt.c
-> @@ -252,6 +252,7 @@ static void create_fdt(VirtMachineState *vms)
->      qemu_fdt_setprop_string(fdt, "/", "compatible", "linux,dummy-virt");
->      qemu_fdt_setprop_cell(fdt, "/", "#address-cells", 0x2);
->      qemu_fdt_setprop_cell(fdt, "/", "#size-cells", 0x2);
-> +    qemu_fdt_setprop_string(fdt, "/", "model", "linux,dummy-virt");
->  
->      /* /chosen must exist for load_dtb to fill in necessary properties later */
->      qemu_fdt_add_subnode(fdt, "/chosen");
+> @@ -487,6 +487,7 @@ static void fdt_add_its_gic_node(VirtMachineState *vms)
+>      qemu_fdt_setprop_string(ms->fdt, nodename, "compatible",
+>                              "arm,gic-v3-its");
+>      qemu_fdt_setprop(ms->fdt, nodename, "msi-controller", NULL, 0);
+> +    qemu_fdt_setprop_cell(ms->fdt, nodename, "#msi-cells", 1);
+>      qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
+>                                   2, vms->memmap[VIRT_GIC_ITS].base,
+>                                   2, vms->memmap[VIRT_GIC_ITS].size);
 
 
