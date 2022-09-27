@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E6E5EBF3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:07:51 +0200 (CEST)
-Received: from localhost ([::1]:49076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C66535EBFC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:29:24 +0200 (CEST)
+Received: from localhost ([::1]:36268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od7VG-0007dI-N0
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:07:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60418)
+	id 1od7q7-0005Xj-Ta
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:29:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1od7NN-000859-Qp
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:59:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43717)
+ id 1od7NR-0008HU-Vu
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:59:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1od7NL-0008Vf-Qk
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:59:41 -0400
+ id 1od7NQ-00005G-9w
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:59:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664272779;
+ s=mimecast20190719; t=1664272782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cZvvOrSffxAvNyvTqnxvbaS4G1IkK9vUU36lJHAhErM=;
- b=VNP+vrLIn0paEt5oXEKkNiwNklUatwuZowzZT4ud6cvAZ74tpyGhOFM3hhu8Eq2jd4xcI2
- Qb2OEDSAsyzmzWb9YKVuCNMYRlwPHdOH3MBdIsMckj1Q9CTJQ3zfaPFvQ1YZCs59rm16kE
- O8Al5zjk+arMp7n3ogEPzvlRKYY9afw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Cv2s2RMj/yiIy9atQZWzauYp1PxlHA8JgOuTAzR6GEk=;
+ b=dmJzQop9ALW/+25PYuSg2MANsZ8xauKzDWi2myDpMFUPS2p00cn61+yROMgGShgfFmh5Ck
+ hFsJNTQN2elpZldpo7aiOQ+1D2PECCXLkFlIGGEXDONcfMSUjyzgUEponvKmlmniC6YgyU
+ nMMWT36I26sV009VJwJpqwU+zXjHK8I=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-173-bn8fzegbPkmSz6Cz03Atpw-1; Tue, 27 Sep 2022 05:59:37 -0400
-X-MC-Unique: bn8fzegbPkmSz6Cz03Atpw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z13-20020a05640240cd00b0045276a79364so7352079edb.2
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 02:59:37 -0700 (PDT)
+ us-mta-567-PyQJyk5OM6CFq2nwv8oMww-1; Tue, 27 Sep 2022 05:59:40 -0400
+X-MC-Unique: PyQJyk5OM6CFq2nwv8oMww-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ x5-20020a05640226c500b00451ec193793so7424058edd.16
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 02:59:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=cZvvOrSffxAvNyvTqnxvbaS4G1IkK9vUU36lJHAhErM=;
- b=eKEeHaN1x80X6xk2i8FzAox6jkhWY0xU8WQxD4Y++dwp10nLRA6W9XYiXxno9H7PrN
- 9GyUTOQjd0LVLq8n4TJNnrSVhuLt5S98ry4se3mz2UZAJXARrZxdNFg4Fw3Kcii5tvp5
- S9unR/oRkq/6p/4umFn3JwQcnmyOQRNLBiZ5EQECHNVTHfKUKfveZ9r9EJrJ0Quu/Rwc
- fhohImbKDUQ4uru2CY8XbitaesfY7XDqcGVG4YMgsFylUuzRI+5q5+7iLsa3DaBprcyk
- yBd0oHEalgMRDa2lyWCeeNXmY5dbCoFlg5zpU8SA2797PUdaqD07zatUGgHA3Bp/YdkL
- X4Mw==
-X-Gm-Message-State: ACrzQf1nPmN6w+/RrrNGiMf2QoA7LdSUaXNy6Yg7xWwbE1BvwsRZhuAu
- P12WsVbQNgPzHw8gs604jIov40evFgJBXXQ0JAawN8P/loSq7G4V/IfXKWrO6HVWjXq6LmRYA0x
- xmUHqY15vedHGjKughSEKPsoAPdq8s072cOTRinwTBjVOolTwBhiz724iwIyoa4OtBe8=
-X-Received: by 2002:a05:6402:3582:b0:451:3f7b:a7c5 with SMTP id
- y2-20020a056402358200b004513f7ba7c5mr27554683edc.63.1664272775794; 
- Tue, 27 Sep 2022 02:59:35 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM59HiQ/LJRKPB4qlkG2AM8HAG/5jpynZ4t/NT9a2ipWtideWLQ5L2pRJnpn+wQ0PkH5rnAG4Q==
-X-Received: by 2002:a05:6402:3582:b0:451:3f7b:a7c5 with SMTP id
- y2-20020a056402358200b004513f7ba7c5mr27554659edc.63.1664272775434; 
- Tue, 27 Sep 2022 02:59:35 -0700 (PDT)
+ bh=Cv2s2RMj/yiIy9atQZWzauYp1PxlHA8JgOuTAzR6GEk=;
+ b=IdeMoLWV6gM3G43vGxtRxoI/qPetDb2ISbDkPWJkFCAAZpRCwOitA3Jlrzt1++TfhU
+ RysQJxGhBwgU3TQDyyyDQ2Su5AoqkHgg2K/Ove3nmVjse93zjRcMzMCHaidA1tZRjQP2
+ tflRPTEXGzujW2yTDPg1eXkI7YSx0d5wPandj0AIulsqfJhhQyif8U0VNtn+MhgJvVad
+ NLm+JH07ltOLxbpuDqn5xyGcSaRFzB+uOkimgSI3I4ENs3/I2O9/QNOHgZIMWhARFQD4
+ lLJuEUpZTn8OQ4nY+emNpgWlsgW4YyC2NZnxOUMz65dlARXrvABPK9HPlaWOj74xLmZm
+ p36g==
+X-Gm-Message-State: ACrzQf3WCZt9h2V0BC1xYJdvW2WpTUBYZxBqctlVlxnu1GrIAmvPWDqW
+ lrihIKkxOT3pTs6ek1Kb+cvTBU5aeSffgjEOUqEDJ+Qfbg3qea/QjEiMyyosvZi1U1X8++JaClU
+ W2WJykkEZ+1HW5NyMc4EqudN9y7wac2Eml7JJYQNGIJoWPUcUoQnx2SIFX+CKmNPlV/k=
+X-Received: by 2002:a17:907:2711:b0:781:d13a:bd15 with SMTP id
+ w17-20020a170907271100b00781d13abd15mr22382508ejk.669.1664272778552; 
+ Tue, 27 Sep 2022 02:59:38 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5quwjykfode9Tg9sJrlLphSK0HBkIJjaXfLXh620i0PMCYybFYak+cTc1o97CVgb9sy7micg==
+X-Received: by 2002:a17:907:2711:b0:781:d13a:bd15 with SMTP id
+ w17-20020a170907271100b00781d13abd15mr22382486ejk.669.1664272778248; 
+ Tue, 27 Sep 2022 02:59:38 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- m21-20020a1709060d9500b0073d638a7a89sm538305eji.99.2022.09.27.02.59.34
+ o23-20020a170906769700b0073ddff7e432sm557077ejm.14.2022.09.27.02.59.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 02:59:34 -0700 (PDT)
+ Tue, 27 Sep 2022 02:59:37 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com
-Subject: [PATCH 4/5] configure,
- meson: move C++ compiler detection to meson.build
-Date: Tue, 27 Sep 2022 11:59:20 +0200
-Message-Id: <20220927095921.261760-5-pbonzini@redhat.com>
+Subject: [PATCH 5/5] configure, meson: move linker flag detection to meson
+Date: Tue, 27 Sep 2022 11:59:21 +0200
+Message-Id: <20220927095921.261760-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220927095921.261760-1-pbonzini@redhat.com>
 References: <20220927095921.261760-1-pbonzini@redhat.com>
@@ -101,200 +100,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test is slightly weaker than before, because it does not
-call an extern "C" function from a C source file.  However,
-in practice what we seek to detect is ABI compatibility of the
-various sanitizer flags, and for that it is enough to compile
-anything with CC and link it with CXX.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure      | 57 --------------------------------------------------
- meson.build    | 37 ++++++++++++++++++++++----------
- scripts/main.c |  1 +
- 3 files changed, 27 insertions(+), 68 deletions(-)
- create mode 100644 scripts/main.c
+ configure   | 16 ----------------
+ meson.build | 13 +++++++++++++
+ 2 files changed, 13 insertions(+), 16 deletions(-)
 
 diff --git a/configure b/configure
-index 680d96d09f..0a6f57c371 100755
+index 0a6f57c371..e5f1eb6213 100755
 --- a/configure
 +++ b/configure
-@@ -75,7 +75,6 @@ fi
- TMPB="qemu-conf"
- TMPC="${TMPDIR1}/${TMPB}.c"
- TMPO="${TMPDIR1}/${TMPB}.o"
--TMPCXX="${TMPDIR1}/${TMPB}.cxx"
- TMPM="${TMPDIR1}/${TMPB}.m"
- TMPE="${TMPDIR1}/${TMPB}.exe"
+@@ -1342,12 +1342,10 @@ EOF
+ if test "$static" = "yes"; then
+   if test "$pie" != "no" && compile_prog "-Werror -fPIE -DPIE" "-static-pie"; then
+     CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
+-    QEMU_LDFLAGS="-static-pie $QEMU_LDFLAGS"
+     pie="yes"
+   elif test "$pie" = "yes"; then
+     error_exit "-static-pie not available due to missing toolchain support"
+   else
+-    QEMU_LDFLAGS="-static $QEMU_LDFLAGS"
+     pie="no"
+   fi
+ elif test "$pie" = "no"; then
+@@ -1369,12 +1367,6 @@ else
+   pie="no"
+ fi
  
-@@ -158,10 +157,6 @@ do_cc() {
-     do_compiler_werror "$cc" $CPU_CFLAGS "$@"
- }
- 
--do_cxx() {
--    do_compiler_werror "$cxx" $CPU_CFLAGS "$@"
--}
--
- do_objc() {
-     do_compiler_werror "$objcc" $CPU_CFLAGS "$@"
- }
-@@ -171,24 +166,6 @@ add_to() {
-     eval $1=\${$1:+\"\$$1 \"}\$2
- }
- 
--update_cxxflags() {
--    # Set QEMU_CXXFLAGS from QEMU_CFLAGS by filtering out those
--    # options which some versions of GCC's C++ compiler complain about
--    # because they only make sense for C programs.
--    QEMU_CXXFLAGS="-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS"
--    CONFIGURE_CXXFLAGS=$(echo "$CONFIGURE_CFLAGS" | sed s/-std=gnu11/-std=gnu++11/)
--    for arg in $QEMU_CFLAGS; do
--        case $arg in
--            -Wstrict-prototypes|-Wmissing-prototypes|-Wnested-externs|\
--            -Wold-style-declaration|-Wold-style-definition|-Wredundant-decls)
--                ;;
--            *)
--                QEMU_CXXFLAGS=${QEMU_CXXFLAGS:+$QEMU_CXXFLAGS }$arg
--                ;;
--        esac
--    done
--}
--
- compile_object() {
-   local_cflags="$1"
-   do_cc $CFLAGS $EXTRA_CFLAGS $CONFIGURE_CFLAGS $QEMU_CFLAGS $local_cflags -c -o $TMPO $TMPC
-@@ -2371,38 +2348,6 @@ fi
- #######################################
- # generate config-host.mak
- 
--# Check that the C++ compiler exists and works with the C compiler.
--# All the QEMU_CXXFLAGS are based on QEMU_CFLAGS. Keep this at the end to don't miss any other that could be added.
--if has $cxx; then
--    cat > $TMPC <<EOF
--int c_function(void);
--int main(void) { return c_function(); }
--EOF
--
--    compile_object
--
--    cat > $TMPCXX <<EOF
--extern "C" {
--   int c_function(void);
--}
--int c_function(void) { return 42; }
--EOF
--
--    update_cxxflags
--
--    if do_cxx $CXXFLAGS $EXTRA_CXXFLAGS $CONFIGURE_CXXFLAGS $QEMU_CXXFLAGS -o $TMPE $TMPCXX $TMPO $QEMU_LDFLAGS; then
--        # C++ compiler $cxx works ok with C compiler $cc
--        :
--    else
--        echo "C++ compiler $cxx does not work with C compiler $cc"
--        echo "Disabling C++ specific optional code"
--        cxx=
--    fi
--else
--    echo "No C++ compiler available; disabling C++ specific optional code"
--    cxx=
+-# Detect support for PT_GNU_RELRO + DT_BIND_NOW.
+-# The combination is known as "full relro", because .got.plt is read-only too.
+-if compile_prog "" "-Wl,-z,relro -Wl,-z,now" ; then
+-  QEMU_LDFLAGS="-Wl,-z,relro -Wl,-z,now $QEMU_LDFLAGS"
 -fi
 -
- if ! (GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
-     exit 1
+ ##########################################
+ # __sync_fetch_and_and requires at least -march=i486. Many toolchains
+ # use i686 as default anyway, but for those that don't, an explicit
+@@ -2247,14 +2239,6 @@ if test "$have_ubsan" = "yes"; then
  fi
-@@ -2486,7 +2431,6 @@ echo "MESON=$meson" >> $config_host_mak
- echo "NINJA=$ninja" >> $config_host_mak
- echo "CC=$cc" >> $config_host_mak
- echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
--echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
- echo "QEMU_OBJCFLAGS=$QEMU_OBJCFLAGS" >> $config_host_mak
- echo "GLIB_CFLAGS=$glib_cflags" >> $config_host_mak
- echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
-@@ -2608,7 +2552,6 @@ if test "$skip_meson" = no; then
-       echo "${a}-softmmu = '$c'" >> $cross
-   done
  
--  test -z "$cxx" && echo "link_language = 'c'" >> $cross
-   echo "[built-in options]" >> $cross
-   echo "c_args = [$(meson_quote $CFLAGS $EXTRA_CFLAGS)]" >> $cross
-   echo "cpp_args = [$(meson_quote $CXXFLAGS $EXTRA_CXXFLAGS)]" >> $cross
+ ##########################################
+-
+-# Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
+-if test "$solaris" = "no" && test "$tsan" = "no"; then
+-    if $ld --version 2>/dev/null | grep "GNU ld" >/dev/null 2>/dev/null ; then
+-        QEMU_LDFLAGS="-Wl,--warn-common $QEMU_LDFLAGS"
+-    fi
+-fi
+-
+ # Guest agent Windows MSI package
+ 
+ if test "$QEMU_GA_MANUFACTURER" = ""; then
 diff --git a/meson.build b/meson.build
-index e1700d1d55..f57a60ac4c 100644
+index f57a60ac4c..f8c80a5b00 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -180,7 +180,6 @@ endif
- ##################
- 
- qemu_cflags = config_host['QEMU_CFLAGS'].split()
--qemu_cxxflags = config_host['QEMU_CXXFLAGS'].split()
+@@ -183,6 +183,14 @@ qemu_cflags = config_host['QEMU_CFLAGS'].split()
  qemu_objcflags = config_host['QEMU_OBJCFLAGS'].split()
  qemu_ldflags = config_host['QEMU_LDFLAGS'].split()
  
-@@ -194,7 +193,6 @@ endif
- 
- if get_option('gprof')
-   qemu_cflags += ['-p']
--  qemu_cxxflags += ['-p']
-   qemu_objcflags += ['-p']
-   qemu_ldflags += ['-p']
- endif
-@@ -240,8 +238,33 @@ if get_option('fuzzing')
- endif
- 
- add_global_arguments(qemu_cflags, native: false, language: ['c'])
--add_global_arguments(qemu_cxxflags, native: false, language: ['cpp'])
- add_global_arguments(qemu_objcflags, native: false, language: ['objc'])
++if enable_static
++  qemu_ldflags += get_option('b_pie') ? '-static-pie' : '-static'
++endif
 +
-+# Check that the C++ compiler exists and works with the C compiler.
-+link_language = 'c'
-+linker = cc
-+qemu_cxxflags = []
-+if add_languages('cpp', required: false, native: false)
-+  cxx = meson.get_compiler('cpp')
-+  add_global_arguments(['-D__STDC_LIMIT_MACROS', '-D__STDC_CONSTANT_MACROS', '-D__STDC_FORMAT_MACROS'],
-+                       native: false, language: 'cpp')
-+  foreach k: qemu_cflags
-+    if k not in ['-Wstrict-prototypes', '-Wmissing-prototypes', '-Wnested-externs',
-+                 '-Wold-style-declaration', '-Wold-style-definition', '-Wredundant-decls']
-+      qemu_cxxflags += [k]
-+    endif
-+  endforeach
-+  add_global_arguments(qemu_cxxflags, native: false, language: 'cpp')
++# Detect support for PT_GNU_RELRO + DT_BIND_NOW.
++# The combination is known as "full relro", because .got.plt is read-only too.
++qemu_ldflags += cc.get_supported_link_arguments('-Wl,-z,relro', '-Wl,-z,now')
 +
-+  if cxx.links(files('scripts/main.c'), args: qemu_cflags)
-+    link_language = 'cpp'
-+    linker = cxx
-+  else
-+    message('C++ compiler does not work with C compiler')
-+    message('Disabling C++-specific optional code')
-+  endif
+ if targetos == 'windows'
+   qemu_ldflags += cc.get_supported_link_arguments('-Wl,--no-seh', '-Wl,--nxcompat')
+   # Disable ASLR for debug builds to allow debugging with gdb
+@@ -265,6 +273,11 @@ if add_languages('cpp', required: false, native: false)
+   endif
+ endif
+ 
++# Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
++if targetos != 'sunos' and not config_host.has_key('CONFIG_TSAN')
++  qemu_ldflags += linker.get_supported_link_arguments('-Wl,--warn-common')
 +endif
 +
  add_global_link_arguments(qemu_ldflags, native: false, language: ['c', 'cpp', 'objc'])
  
  if targetos == 'linux'
-@@ -255,14 +278,6 @@ add_project_arguments('-iquote', '.',
-                       '-iquote', meson.current_source_dir() / 'include',
-                       language: ['c', 'cpp', 'objc'])
- 
--link_language = meson.get_external_property('link_language', 'cpp')
--if link_language == 'cpp'
--  add_languages('cpp', required: true, native: false)
--  cxx = meson.get_compiler('cpp')
--  linker = cxx
--else
--  linker = cc
--endif
- if host_machine.system() == 'darwin'
-   add_languages('objc', required: false, native: false)
- endif
-diff --git a/scripts/main.c b/scripts/main.c
-new file mode 100644
-index 0000000000..b552c8e4ed
---- /dev/null
-+++ b/scripts/main.c
-@@ -0,0 +1 @@
-+int main(void) {}
 -- 
 2.37.3
 
