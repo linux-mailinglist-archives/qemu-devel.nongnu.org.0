@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67885EC831
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:39:27 +0200 (CEST)
-Received: from localhost ([::1]:48250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2DE5EC84A
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:40:30 +0200 (CEST)
+Received: from localhost ([::1]:60398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odCgA-0004AN-Es
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:39:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40764)
+	id 1odChB-0006CH-Sj
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:40:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odBMe-00053y-OH
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:13 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40639)
+ id 1odBMj-00055e-VS
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:19 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:43895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odBMb-0005yp-N5
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:12 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id x18so15215703wrm.7
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:15:09 -0700 (PDT)
+ id 1odBMc-0005zh-IS
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:13 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ r3-20020a05600c35c300b003b4b5f6c6bdso5526688wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:15:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=tuxNv9/88S7ezaeS7QVX6RVgPFquMHRDAzKT6wAF58Q=;
- b=TU/IHbgsBWvhI/LiwObqBNrJ635QK32n5ZKe0vWT486YUFn3wClp0UI68x8IpSuq3A
- T1SYm6oLvS2GKcYVQ1Ubm1MGn27HOlxfz4xxGUO72N76tuKBv3oL9ycNs+gG3OTO2PC6
- 2J94kplvKI6gjfqci5btZav6f3CooHxcd5QSu+1ar3y9G6JGQIzLPn2jWAju6/Bp1dPh
- bP8S7j36zl5Ksh61EEExHEG2NezJNosmr/cXF8+wircmAM9DVV7h5OOH7iL3Gsb/IP1V
- IHiGUDMgWAU/W5HX2IAybtTe0hAniuPHR7LfJ7/X9OVC7lVz2KB0BZ6hz4QeqJq4eiHf
- /xzw==
+ bh=jinC1E8FBpCtwExy5oEB2wbtRevFZPQmAbFk5PB8kRY=;
+ b=gLTcB6Czzx3VJdWGNqcAsFy6R1+SJ8DAs8+LrUAwxlvZ0DQRJYm4UzukgAUx3G804/
+ It5yr7e/JoxhrUch8KFQtTMV7w2oU5fyLZFtVelUWvw2gYJzt9nQRyho2BZ/2saA746y
+ MQqesr8JPIRTmb2pB5lF0RJTrWI9suoghsWm6lxBCCznI+NUS5jwQTXbfP77UV/yTRsI
+ +whj2hNU//YRUfHnwev5F6s1+KdDn3hJ2clhvk0bagJOq5mjG30gXxZl0THdon8WmTnu
+ rnDm4iB/ayxzF8RJfIVFbgDakhp1KgGVaSylSdQMHTJ06wcxYjQlGtg+eMwX/w1mowAU
+ ak7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=tuxNv9/88S7ezaeS7QVX6RVgPFquMHRDAzKT6wAF58Q=;
- b=caCX2UuNFNJAhGn/t1xFHrHDBdETSjMFb1Lg4PyE00nFSAmZLMRu5bexgXyBqq4Zhk
- EPN1Iet6Aq5TG6FOEfFMiYegKTwSvSIFElbK+kqpID8po57wWGePhKmZnQQ2jUj2dD/c
- +J8SgYl1J3BkpLdk1GCF1Bq1VTgwEzjzCkBOML12KJC8uONe9HcZhkK1GwG0U+AkNe4b
- M4p5ioqhON2tAcJyzDoBhb5fa2ervQy9GZ1Ee3GzcEbRPWNXcbshc6ldxAoGWZfa/mLw
- l1FI/gdPs4hSHWkyjRVB49yz8LhH/WVVhpVdbuedg6WaYE2bX/D773mgTnoPYbyrExEO
- ymPQ==
-X-Gm-Message-State: ACrzQf12k26/FQxC68XKk3dVARqPQb1cGFTP3GG2FFdcyGUqYur2aFQU
- JFhgaPWE11xASxfRRcgY0Blv8A==
-X-Google-Smtp-Source: AMsMyM7bYGQoPW806GzbntY5LQ+v2RxdYyH3CB0vzNfvUGGyjkFlfWesdVOQa7kPUn7zO4Lt2vWSXA==
-X-Received: by 2002:adf:f18d:0:b0:228:9f0a:f291 with SMTP id
- h13-20020adff18d000000b002289f0af291mr18117532wro.252.1664288107948; 
- Tue, 27 Sep 2022 07:15:07 -0700 (PDT)
+ bh=jinC1E8FBpCtwExy5oEB2wbtRevFZPQmAbFk5PB8kRY=;
+ b=hWtU0Gf/2TQw9pO88QiRYZQjwoe3p0TdF+iCYp6f2pFGTzSbkFuYQKWNwOa+7ZwhC8
+ NrbC0xPuyd4ezdVVz1NFkDmAQWFhrC9+xDkZWPKxrsOKVekjABhzpCA5BpVkLDoZDVbK
+ 4VcOovf4g02VqkBlaR7nAAB9a+Jz/taDu5MidHjXDzvfVCNEbaDWmqGH37xfVdko+6eo
+ CYC6lt4KBMy9oLVOzn4ocdQpc9mtmMG1/4DAifDJNR2ErC+MF4ReixR/DYmEi1bPcwAN
+ YGnoL7zdLevdZPglbXQcKQEhRI/xNDCiVgWVKHgyyH6xSh1r+r1SLvugZD8K9+VGi+c2
+ 8sqw==
+X-Gm-Message-State: ACrzQf0NzypCGyTM99Q0C/ljLwqm+sqzaJOlCmmx4KeIEHk56dYi4nMA
+ rWePRoUE4GIrEciRC+2nTP+3Hg==
+X-Google-Smtp-Source: AMsMyM7nx4GBbJ6jrZNIdLSGvy4obHwUe2oEjfUVDrw3vMocX+vfP1s3I2fqZIY5WDNcBqEbsp2iqQ==
+X-Received: by 2002:a05:600c:34d2:b0:3b4:a617:f3b9 with SMTP id
+ d18-20020a05600c34d200b003b4a617f3b9mr2846431wmq.204.1664288109247; 
+ Tue, 27 Sep 2022 07:15:09 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- p2-20020adfce02000000b00226dba960b4sm1983711wrn.3.2022.09.27.07.15.06
+ az19-20020a05600c601300b003a83ca67f73sm2107341wmb.3.2022.09.27.07.15.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 07:15:06 -0700 (PDT)
+ Tue, 27 Sep 2022 07:15:07 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9F8E71FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id DAF1D1FFBC;
  Tue, 27 Sep 2022 15:15:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Alexander Graf <agraf@csgraf.de>, Mads Ynddal <mads@ynddal.dk>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 03/15] target/arm: ensure HVF traps set appropriate
+ Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ kvm@vger.kernel.org (open list:Overall KVM CPUs)
+Subject: [PATCH v3 04/15] target/arm: ensure KVM traps set appropriate
  MemTxAttrs
-Date: Tue, 27 Sep 2022 15:14:52 +0100
-Message-Id: <20220927141504.3886314-4-alex.bennee@linaro.org>
+Date: Tue, 27 Sep 2022 15:14:53 +0100
+Message-Id: <20220927141504.3886314-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927141504.3886314-1-alex.bennee@linaro.org>
 References: <20220927141504.3886314-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,40 +99,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As most HVF devices are done purely in software we need to make sure
-we properly encode the source CPU in MemTxAttrs. This will allow the
-device emulations to use those attributes rather than relying on
-current_cpu (although current_cpu will still be correct in this case).
+Although most KVM users will use the in-kernel GIC emulation it is
+perfectly possible not to. In this case we need to ensure the
+MemTxAttrs are correctly populated so the GIC can divine the source
+CPU of the operation.
 
-Acked-by: Alexander Graf <agraf@csgraf.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Mads Ynddal <mads@ynddal.dk>
 
 ---
-v2
-  - update MEMTXATTRS macro
+v3
+  - new for v3
 ---
- target/arm/hvf/hvf.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/arm/kvm.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index 060aa0ccf4..d81fbbb2df 100644
---- a/target/arm/hvf/hvf.c
-+++ b/target/arm/hvf/hvf.c
-@@ -1233,11 +1233,11 @@ int hvf_vcpu_exec(CPUState *cpu)
-             val = hvf_get_reg(cpu, srt);
-             address_space_write(&address_space_memory,
-                                 hvf_exit->exception.physical_address,
--                                MEMTXATTRS_UNSPECIFIED, &val, len);
-+                                MEMTXATTRS_CPU(cpu), &val, len);
-         } else {
-             address_space_read(&address_space_memory,
-                                hvf_exit->exception.physical_address,
--                               MEMTXATTRS_UNSPECIFIED, &val, len);
-+                               MEMTXATTRS_CPU(cpu), &val, len);
-             hvf_set_reg(cpu, srt, val);
-         }
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index e5c1bd50d2..05056562f4 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -801,13 +801,14 @@ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
+ {
+     ARMCPU *cpu;
+     uint32_t switched_level;
++    MemTxAttrs attrs = MEMTXATTRS_CPU(cs);
  
+     if (kvm_irqchip_in_kernel()) {
+         /*
+          * We only need to sync timer states with user-space interrupt
+          * controllers, so return early and save cycles if we don't.
+          */
+-        return MEMTXATTRS_UNSPECIFIED;
++        return attrs;
+     }
+ 
+     cpu = ARM_CPU(cs);
+@@ -848,7 +849,7 @@ MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
+         qemu_mutex_unlock_iothread();
+     }
+ 
+-    return MEMTXATTRS_UNSPECIFIED;
++    return attrs;
+ }
+ 
+ void kvm_arm_vm_state_change(void *opaque, bool running, RunState state)
+@@ -1003,6 +1004,10 @@ int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
+     hwaddr xlat, len, doorbell_gpa;
+     MemoryRegionSection mrs;
+     MemoryRegion *mr;
++    MemTxAttrs attrs = {
++        .requester_type = MTRT_PCI,
++        .requester_id = pci_requester_id(dev)
++    };
+ 
+     if (as == &address_space_memory) {
+         return 0;
+@@ -1012,8 +1017,7 @@ int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
+ 
+     RCU_READ_LOCK_GUARD();
+ 
+-    mr = address_space_translate(as, address, &xlat, &len, true,
+-                                 MEMTXATTRS_UNSPECIFIED);
++    mr = address_space_translate(as, address, &xlat, &len, true, attrs);
+ 
+     if (!mr) {
+         return 1;
 -- 
 2.34.1
 
