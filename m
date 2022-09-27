@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8635ECA76
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 19:06:51 +0200 (CEST)
-Received: from localhost ([::1]:35152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C589D5ECAA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 19:20:03 +0200 (CEST)
+Received: from localhost ([::1]:37078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odE2k-0001gN-UZ
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 13:06:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55132)
+	id 1odEFW-00025b-MA
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 13:20:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odDlu-000729-LM
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 12:49:27 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odDls-0002LY-DQ
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 12:49:25 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- i203-20020a1c3bd4000000b003b3df9a5ecbso9822418wma.1
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 09:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=p6WvLY1DdFqAItBhNcJerG2iDkIGFsH5MoIdSxHl50U=;
- b=MZdQ5iYZPnnxIcAYcHyfJL7BKoFiF8+QeKWomrVf0fFi6wXKYcHf+mJ/Tf6upv8V3q
- lPUtlyGegauuWCmdUQWIVCjd0Z/sgKTZPbeSRPMKeotn2WlxZv3jVTsUkU4IAnU8IGUz
- ynsZEf4Dyzef8UIugqZwDDtenB/yUEhs+/rCeT5llMByJohEHjIykHX0RYo/NW6v6e/y
- h0pFxLXRHkqlWBtCiscKkH7Y10mLR3n0wXaVDDjaUVIKkW8nfKldsJPjyBGMhG+0WxOo
- TNdnoRjdrT3wK4TU1CJNxMcfniIt8gqWpWvO0WjI+Gu+4CAe8wjdVxVUWXMSL7UbZQjp
- pjMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=p6WvLY1DdFqAItBhNcJerG2iDkIGFsH5MoIdSxHl50U=;
- b=lvZVwJsw3AacQiJ/pvJPQHkFJa1mAjBAOrjh1o9+JRX5cYIn5TlO4vljcyoVVWwH6m
- fWd7tI4l0cLoKnaMNdm4q32g/tZoC/Eu87xgzKsQzT4xYZvzjc85QxyyfqYEAAkTu6cz
- grqDaiP+Ya0u1dcAm6v0Eb6N83ISL72attJE/KkeAoyiRi3bWeeP5vSdapqG9Gw6rDWs
- C6vOCkGhAoZAqgha/PhCVd9N89z+yRn9HRos3byZZcpSIrad4tFSYJ+Qat64apzNM6IA
- cOpd2av0pbHwe172B7ogV4vuy6i/gw2A+l1uo4+dgc2prWxxQ+mFaBXKK+BShpIhnKqL
- VP5g==
-X-Gm-Message-State: ACrzQf3+QMlAAzxPo7ww9FXaSiDo/+kyUIZvigzu2Ku9IVQpt1TB7Ati
- kKt0CQUo+4GIDZykYFe8h0K5qg==
-X-Google-Smtp-Source: AMsMyM5MUq29rQeC2of/U2oIRSaOctB705LB5LssuPQJMVK3xMrb+qSsm0pXXRVVxsWrhEQvVrHo4A==
-X-Received: by 2002:a05:600c:348e:b0:3b4:a9f1:c240 with SMTP id
- a14-20020a05600c348e00b003b4a9f1c240mr3477564wmq.192.1664297362796; 
- Tue, 27 Sep 2022 09:49:22 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- b13-20020a5d40cd000000b00226f39d1a3esm2257118wrq.73.2022.09.27.09.49.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 09:49:22 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Vitaly Chikunov <vt@altlinux.org>, Marc Zyngier <maz@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Auger <eric.auger@redhat.com>
-Subject: [PATCH v2] target/arm/kvm: Retry KVM_CREATE_VM call if it fails EINTR
-Date: Tue, 27 Sep 2022 17:49:20 +0100
-Message-Id: <20220927164920.1502219-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1odDtP-0001WQ-QV
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 12:57:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60496)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1odDtM-0003jm-J9
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 12:57:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664297826;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9GxowGyNkcClzXlNjE6ad3kwp1LEz8l53WRIJYYcCrw=;
+ b=PuxlEJ2pFwoUdnXxBH7PlC8AXZQssPCdJ9VRlYxXws2nx7h6sRzfIdhBmmdrBQl1WgHCnX
+ 5iN8GGxZjfDEsBooQn8omV3k/vIHhYXu0j7Xy/0PK1MySrs2Iz8KMrWStr6kBGzBBbLwCG
+ mX5vs8PrWpS07pvXE5HUSVwTKMhopHo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-591-XJmYNhHRMXiV8hsQU_FlZA-1; Tue, 27 Sep 2022 12:57:05 -0400
+X-MC-Unique: XJmYNhHRMXiV8hsQU_FlZA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B0F23C10226;
+ Tue, 27 Sep 2022 16:57:05 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.22.8.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AFEA40C6EC2;
+ Tue, 27 Sep 2022 16:57:05 +0000 (UTC)
+Received: by fedora.redhat.com (Postfix, from userid 1000)
+ id DFB244A7A5; Tue, 27 Sep 2022 12:57:04 -0400 (EDT)
+Date: Tue, 27 Sep 2022 12:57:04 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Colin Walters <walters@verbum.org>
+Cc: qemu-devel@nongnu.org, virtio-fs-list <virtio-fs@redhat.com>,
+ German Maglione <gmaglione@redhat.com>, Sergio Lopez <slp@redhat.com>
+Subject: Re: virtiofsd: Any reason why there's not an "openat2" sandbox mode?
+Message-ID: <YzMrYAJQeSP2hDSs@redhat.com>
+References: <4362261a-c762-4666-84e2-03c9daa6c4d9@www.fastmail.com>
+ <YzMmu3xfOtQwuFUx@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YzMmu3xfOtQwuFUx@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,47 +80,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Occasionally the KVM_CREATE_VM ioctl can return EINTR, even though
-there is no pending signal to be taken. In commit 94ccff13382055
-we added a retry-on-EINTR loop to the KVM_CREATE_VM call in the
-generic KVM code. Adopt the same approach for the use of the
-ioctl in the Arm-specific KVM code (where we use it to create a
-scratch VM for probing for various things).
+On Tue, Sep 27, 2022 at 12:37:15PM -0400, Vivek Goyal wrote:
+> On Fri, Sep 09, 2022 at 05:24:03PM -0400, Colin Walters wrote:
+> > We previously had a chat here https://lore.kernel.org/all/348d4774-bd5f-4832-bd7e-a21491fdac8d@www.fastmail.com/T/
+> > around virtiofsd and privileges and the case of trying to run virtiofsd inside an unprivileged (Kubernetes) container.
+> > 
+> > Right now we're still using 9p, and it has bugs (basically it seems like the 9p inode flushing callback tries to allocate memory to send an RPC, and this causes OOM problems)
+> > https://github.com/coreos/coreos-assembler/issues/1812
+> > 
+> > Coming back to this...as of lately in Linux, there's support for strongly isolated filesystem access via openat2():
+> > https://lwn.net/Articles/796868/
+> > 
+> > Is there any reason we couldn't do an -o sandbox=openat2 ?  This operates without any privileges at all, and should be usable (and secure enough) in our use case.
+> 
+> [ cc virtio-fs-list, german, sergio ]
+> 
+> Hi Colin,
+> 
+> Using openat2(RESOLVE_IN_ROOT) (if kernel is new enough), sounds like a
+> good idea. We talked about it few times but nobody ever wrote a patch to
+> implement it.
+> 
+> And it probably makes sense with all the sandboxes (chroot(), namespaces).
+> 
+> I am wondering that it probably should not be a new sandbox mode at all.
+> It probably should be the default if kernel offers openat2() syscall.
+> 
+> Now all the development has moved to rust virtiofsd.
+> 
+> https://gitlab.com/virtio-fs/virtiofsd
+> 
+> C version of virtiofsd is just seeing small critical fixes.
+> 
+> And rust version allows running unprivileged (inside a user namespace).
+> German is also working on allowing running unprivileged without
+> user namespaces but this will not allow arbitrary uid/gid switching.
+> 
+> https://gitlab.com/virtio-fs/virtiofsd/-/merge_requests/136
+> 
+> If one wants to run unprivileged and also do arbitrary uid/gid switching,
+> then you need to use user namepsaces and map a range of subuid/subgid
+> into the user namepsace virtiofsd is running in.
+> 
+> If possible, please try to use rust virtiofsd for your situation. Its
+> already packaged for fedora.
+> 
+> Coming back to original idea of using openat2(), I think we should
+> probably give it a try in rust virtiofsd and if it works, it should
+> work across all the sandboxing modes.
 
-For more information, see the mailing list thread:
-https://lore.kernel.org/qemu-devel/8735e0s1zw.wl-maz@kernel.org/
+Thinking more about it, enabling openat2() usage conditionally based on
+some option probably is not a bad idea. I was assuming that using
+openat2() by default will not break any of the existing use cases. But
+I am not sure. I have burnt my fingers so many times and had to back
+out on default settings that enabling usage of openat2() conditionally
+will probably be a safer choice. :-)
 
-Reported-by: Vitaly Chikunov <vt@altlinux.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-The view in the thread seems to be that this is a kernel bug (because
-in QEMU's case there shouldn't be a signal to be delivered at this
-point because of our signal handling strategy); so I've adopted the
-same "just retry-on-EINTR for this specific ioctl" approach that
-commit 94ccff13 did, rather than, for instance, something wider like
-"make kvm_ioctl() and friends always retry on EINTR".
-
-v2: correctly check for -1 and errno is EINTR...
----
- target/arm/kvm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index e5c1bd50d29..356199c9e25 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -79,7 +79,9 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
-     if (max_vm_pa_size < 0) {
-         max_vm_pa_size = 0;
-     }
--    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-+    do {
-+        vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-+    } while (vmfd == -1 && errno == -EINTR);
-     if (vmfd < 0) {
-         goto err;
-     }
--- 
-2.25.1
+Vivek
 
 
