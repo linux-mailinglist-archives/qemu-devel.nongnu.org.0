@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E65A5EBA95
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 08:26:09 +0200 (CEST)
-Received: from localhost ([::1]:55302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C9E05EBADF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 08:43:33 +0200 (CEST)
+Received: from localhost ([::1]:57918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od42i-0001WG-Gi
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 02:26:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36520)
+	id 1od4JY-00069x-6B
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 02:43:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luzhipeng@cestc.cn>)
- id 1od3tr-0004TQ-FM; Tue, 27 Sep 2022 02:17:02 -0400
-Received: from [106.39.185.57] (port=59814 helo=smtp.cecloud.com)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luzhipeng@cestc.cn>)
- id 1od3to-0007n6-79; Tue, 27 Sep 2022 02:16:59 -0400
-Received: from localhost (localhost [127.0.0.1])
- by smtp.cecloud.com (Postfix) with ESMTP id B93E7FC0209;
- Tue, 27 Sep 2022 14:16:49 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from [10.32.181.78] (unknown [111.48.58.10])
- by smtp.cecloud.com (postfix) whith ESMTP id
- P51407T281470966559088S1664259408439500_; 
- Tue, 27 Sep 2022 14:16:49 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <9b5cb38db96bf1619e69e062358a7def>
-X-RL-SENDER: luzhipeng@cestc.cn
-X-SENDER: luzhipeng@cestc.cn
-X-LOGIN-NAME: luzhipeng@cestc.cn
-X-FST-TO: vsementsov@yandex-team.ru
-X-RCPT-COUNT: 5
-X-SENDER-IP: 111.48.58.10
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-Message-ID: <1ba82bba-5dd4-c678-664c-256be4ffb751@cestc.cn>
-Date: Tue, 27 Sep 2022 14:16:47 +0800
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1od3zN-0000DN-1o
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:22:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30133)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1od3zK-0008Sw-AA
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:22:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664259757;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=da7TfaJTwlv6KJkJn5exId0yDWWlgAimMGibg24a5eA=;
+ b=fngy8dA0bbn0Ow4UnztQ2KdmpKWTWpiK70+IeA5sESyRdEX3b0u+kmAXYCFUp8OAGXUrGu
+ yRlAsVmcfLFpPouJgP/L046SPDrKJVbBJUSUg/kmNGcF5Ckn0jAiO2UvgFAizExFGR5XDn
+ RADyk46WkZM1UTZE/eHronzFxZiRMZY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-662--PAF9RJdPYW5itdvyRS3jQ-1; Tue, 27 Sep 2022 02:22:34 -0400
+X-MC-Unique: -PAF9RJdPYW5itdvyRS3jQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7AC3862FDC;
+ Tue, 27 Sep 2022 06:22:33 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3303D1121314;
+ Tue, 27 Sep 2022 06:22:32 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id F1D6D21E691D; Tue, 27 Sep 2022 08:22:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Daniel P . =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Bin Meng <bin.meng@windriver.com>,  Hanna Reitz
+ <hreitz@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,  Qemu-block
+ <qemu-block@nongnu.org>,  "qemu-devel@nongnu.org Developers"
+ <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2] block: Refactor get_tmp_filename()
+References: <20220924114544.1906498-1-bmeng.cn@gmail.com>
+ <87edvya1ez.fsf@pond.sub.org>
+ <CAEUhbmX61MEXRv0XMXAVnuuVmq841i1_z2U5bR8hS39-cS7cKg@mail.gmail.com>
+Date: Tue, 27 Sep 2022 08:22:30 +0200
+In-Reply-To: <CAEUhbmX61MEXRv0XMXAVnuuVmq841i1_z2U5bR8hS39-cS7cKg@mail.gmail.com>
+ (Bin Meng's message of "Mon, 26 Sep 2022 23:28:08 +0800")
+Message-ID: <87o7v1mj4p.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH] qemu-nbd: set timeout to qemu-nbd socket
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "Denis V. Lunev" <den@virtuozzo.com>, qemu-devel <qemu-devel@nongnu.org>
-Cc: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
-References: <20220925135308.481-1-luzhipeng@cestc.cn>
- <2718426c-dd89-5b50-29c4-63f0d6c9b25f@yandex-team.ru>
- <02a2279b-fcb2-c90d-7598-af029ea8261a@virtuozzo.com>
- <50b3e1ee-8bba-ae28-ca0e-4cb489a65ad5@yandex-team.ru>
-From: luzhipeng <luzhipeng@cestc.cn>
-In-Reply-To: <50b3e1ee-8bba-ae28-ca0e-4cb489a65ad5@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 106.39.185.57 (failed)
-Received-SPF: pass client-ip=106.39.185.57; envelope-from=luzhipeng@cestc.cn;
- helo=smtp.cecloud.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
- RCVD_IN_SBL_CSS=3.335, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,68 +86,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Bin Meng <bmeng.cn@gmail.com> writes:
 
-
-在 2022/9/26 20:44, Vladimir Sementsov-Ogievskiy 写道:
-> On 9/26/22 14:34, Denis V. Lunev wrote:
->> On 9/26/22 12:05, Vladimir Sementsov-Ogievskiy wrote:
->>> [+ Den]
->>>
->>> On 9/25/22 16:53, luzhipeng wrote:
->>>> From: lu zhipeng <luzhipeng@cestc.cn>
->>>>
->>>> Prevent the NBD socket stuck all the time, So
->>>> set timeout.
->>>>
->>>> Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
->>>> ---
->>>>   nbd/client.c | 8 ++++++++
->>>>   1 file changed, 8 insertions(+)
->>>>
->>>> diff --git a/nbd/client.c b/nbd/client.c
->>>> index 30d5383cb1..89dde53a0f 100644
->>>> --- a/nbd/client.c
->>>> +++ b/nbd/client.c
->>>> @@ -24,6 +24,8 @@
->>>>   #include "nbd-internal.h"
->>>>   #include "qemu/cutils.h"
->>>>   +#define NBD_DEFAULT_TIMEOUT 30
->>>> +
->>>>   /* Definitions for opaque data types */
->>>>     static QTAILQ_HEAD(, NBDExport) exports = 
->>>> QTAILQ_HEAD_INITIALIZER(exports);
->>>> @@ -1301,6 +1303,12 @@ int nbd_init(int fd, QIOChannelSocket *sioc, 
->>>> NBDExportInfo *info,
->>>>           }
->>>>       }
->>>>   +    if (ioctl(fd, NBD_SET_TIMEOUT, NBD_DEFAULT_TIMEOUT) < 0) {
->>>> +        int serrno = errno;
->>>> +        error_setg(errp, "Failed setting timeout");
->>>> +        return -serrno;
->>>> +    }
->>>> +
->>>>       trace_nbd_init_finish();
->>>>         return 0;
->>>
->>>
->>> Personally, I don't see a problem in enabling timeout by default.. 
->>> But probably we need a new option instead?
->>>
->>>
->> I believe that this should be the same story as we have had with
->> KEEPALIVE. This should be set as an option and downstream
->> will change its default when necessary.
+> On Mon, Sep 26, 2022 at 6:13 PM Markus Armbruster <armbru@redhat.com> wrote:
 >>
-> 
-> It's also interesting, how NBD_SET_TIMEOUT would interfere with 
-> keep-alive options set on the socket. Isn't existing keep-alive option 
-> already enough, do we need both timeouts?
-> 
-> (and yes, if we need both ways for different cases, we definitely should 
-> keep a possibility for the user to enable only one timeout, so now I 
-> agree, that we need an option for this new feature)
+>> Bin Meng <bmeng.cn@gmail.com> writes:
+>>
+>> > From: Bin Meng <bin.meng@windriver.com>
+>> >
+>> > At present there are two callers of get_tmp_filename() and they are
+>> > inconsistent.
+>> >
+>> > One does:
+>> >
+>> >     /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+>> >     char *tmp_filename = g_malloc0(PATH_MAX + 1);
+>> >     ...
+>> >     ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+>> >
+>> > while the other does:
+>> >
+>> >     s->qcow_filename = g_malloc(PATH_MAX);
+>> >     ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
+>> >
+>> > As we can see different 'size' arguments are passed. There are also
+>> > platform specific implementations inside the function, and this use
+>> > of snprintf is really undesirable.
+>> >
+>> > Refactor this routine by changing its signature to:
+>> >
+>> >     char *get_tmp_filename(void)
+>> >
+>> > and use g_file_open_tmp() for a consistent implementation.
+>> >
+>> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>> > ---
+>> >
+>> > Changes in v2:
+>> > - Use g_autofree and g_steal_pointer
+>> >
+>> >  include/block/block_int-common.h |  2 +-
+>> >  block.c                          | 42 ++++++++++----------------------
+>> >  block/vvfat.c                    |  8 +++---
+>> >  3 files changed, 18 insertions(+), 34 deletions(-)
+>> >
+>> > diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+>> > index 8947abab76..ea69a9349c 100644
+>> > --- a/include/block/block_int-common.h
+>> > +++ b/include/block/block_int-common.h
+>> > @@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
+>> >  }
+>> >
+>> >  int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
+>> > -int get_tmp_filename(char *filename, int size);
+>> > +char *get_tmp_filename(void);
+>> >  void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+>> >                                        QDict *options);
+>> >
+>> > diff --git a/block.c b/block.c
+>> > index bc85f46eed..4e7a795566 100644
+>> > --- a/block.c
+>> > +++ b/block.c
+>> > @@ -860,38 +860,23 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
+>> >
+>> >  /*
+>> >   * Create a uniquely-named empty temporary file.
+>> > - * Return 0 upon success, otherwise a negative errno value.
+>> > + * Return the actual name used upon success, otherwise NULL.
+>> > + * The called function is responsible for freeing it.
+>> >   */
+>> > -int get_tmp_filename(char *filename, int size)
+>> > +char *get_tmp_filename(void)
+>> >  {
+>> > -#ifdef _WIN32
+>> > -    char temp_dir[MAX_PATH];
+>> > -    /* GetTempFileName requires that its output buffer (4th param)
+>> > -       have length MAX_PATH or greater.  */
+>> > -    assert(size >= MAX_PATH);
+>> > -    return (GetTempPath(MAX_PATH, temp_dir)
+>> > -            && GetTempFileName(temp_dir, "qem", 0, filename)
+>> > -            ? 0 : -GetLastError());
+>> > -#else
+>> > +    g_autofree char *filename = NULL;
+>> >      int fd;
+>> > -    const char *tmpdir;
+>> > -    tmpdir = getenv("TMPDIR");
+>> > -    if (!tmpdir) {
+>> > -        tmpdir = "/var/tmp";
+>> > -    }
+>> > -    if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
+>> > -        return -EOVERFLOW;
+>> > -    }
+>> > -    fd = mkstemp(filename);
+>> > +
+>> > +    fd = g_file_open_tmp("vl.XXXXXX", &filename, NULL);
+>> >      if (fd < 0) {
+>> > -        return -errno;
+>> > +        return NULL;
+>> >      }
+>> >      if (close(fd) != 0) {
+>> >          unlink(filename);
+>> > -        return -errno;
+>> > +        return NULL;
+>> >      }
+>> > -    return 0;
+>> > -#endif
+>> > +    return g_steal_pointer(&filename);
+>> >  }
+>>
+>> Oh my, what a lovely mess you're messing with!
+>>
+>> The function creates a temporary *file*, not just a filename.  Makes
+>> sense, as creating a unique filename is inherently racy.  The contract
+>> is clear enough ("Create a uniquely-named empty temporary file"), but
+>> the function name is actively misleading.
+>
+> Agreed that the name is misleading.
 
-Keep alive is only valid for tcp, but not for unix sockets
+Care to fix that?
 
+>> Of course, creating a temporary file for the caller to (re)open is also
+>> racy.  By the time the caller gets around to it, the filename could name
+>> anything.  Return an open file file descriptor is a better idea.  It's
+>> basically g_file_open_tmp().  Could we rework the two users of
+>> get_tmp_filename() accept a file descriptor?
+>
+> I looked at the 2 callers, and it looks like we need to do more than
+> these 2 callers to teach them to accept a file descriptor. :(
+
+Looks like it requires surgery to bdrv_create() at least.  I'm not
+demanding you do that now.
+
+[...]
 
 
