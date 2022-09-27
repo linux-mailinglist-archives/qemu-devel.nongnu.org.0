@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB16C5EBEA0
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:30:02 +0200 (CEST)
-Received: from localhost ([::1]:43262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C77485EBDD4
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:55:35 +0200 (CEST)
+Received: from localhost ([::1]:48854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od6uf-0007Ay-Cn
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:30:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50876)
+	id 1od6NK-0007wr-SN
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:55:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oa-0005kk-Fy
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55350)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oY-0005cf-L2
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oZ-0000L5-0C
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:40 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oX-0000Kq-5c
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664266778;
+ s=mimecast20190719; t=1664266776;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MQSZ3YegllO8gYugV2LwNog3NGPPlbl9W71LJ6tpgkc=;
- b=Buo+7k55djmmSgmYHXhHFoDmD/MHeK/Ko73P6s6KvGsrFLBsf+b6nuWX5dZ3ckgqEOcP5Y
- lGQaBWcH2wONQxJMfyIMGEiXAvUtRYy1S4DvnWinBhkGbjfznnVLZb1z+PTkWK8hj25pJc
- 6nNR7Irb4B37o+b/evqhUZiPN+FyZiQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TwMBwWhUCObCQODSt2PE3geZjaDC55CP59MmTESi1FE=;
+ b=F7I7ortHsi9AV+jex3TfTI3BqtSQa2SVx6iHUFZXXl4q73SCdoG42j/ZqcUi1fTI04ASob
+ 9tnlxz5ANf2uV+NdGcZpRzttX2XewWrR0ZsBtz5P9oMgIqbw5mXI2Zt0ArJcXCpxHX5Q8b
+ cCrrgQIuLUSZgbKjzwSiuVkULNNSG8s=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-NoODQLMfOF2E7mSn3E7gRA-1; Tue, 27 Sep 2022 04:19:30 -0400
-X-MC-Unique: NoODQLMfOF2E7mSn3E7gRA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-70-4WZjYfBGMwGF8uEaKDpRgg-1; Tue, 27 Sep 2022 04:19:32 -0400
+X-MC-Unique: 4WZjYfBGMwGF8uEaKDpRgg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E1553C10224;
- Tue, 27 Sep 2022 08:19:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AFDEA811E81;
+ Tue, 27 Sep 2022 08:19:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CEC122087440;
- Tue, 27 Sep 2022 08:19:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B4D318EB3;
+ Tue, 27 Sep 2022 08:19:31 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DD7E218009A8; Tue, 27 Sep 2022 10:19:13 +0200 (CEST)
+ id EA7EF18009AA; Tue, 27 Sep 2022 10:19:13 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -56,15 +56,15 @@ Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Michael Brown <mcb30@ipxe.org>
-Subject: [PULL 18/24] usbnet: Detect short packets as sent by the xHCI
- controller
-Date: Tue, 27 Sep 2022 10:19:06 +0200
-Message-Id: <20220927081912.180983-19-kraxel@redhat.com>
+Subject: [PULL 19/24] usbnet: Report link-up via interrupt endpoint in CDC-ECM
+ mode
+Date: Tue, 27 Sep 2022 10:19:07 +0200
+Message-Id: <20220927081912.180983-20-kraxel@redhat.com>
 In-Reply-To: <20220927081912.180983-1-kraxel@redhat.com>
 References: <20220927081912.180983-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -91,30 +91,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Brown <mcb30@ipxe.org>
 
-The xHCI controller will ignore the endpoint MTU and so may deliver
-packets of any length.  Detect short packets as being any packet that
-has a length of zero or a length that is not a multiple of the MTU.
-
 Signed-off-by: Michael Brown <mcb30@ipxe.org>
-Message-Id: <20220906183053.3625472-4-mcb30@ipxe.org>
+Message-Id: <20220906183053.3625472-5-mcb30@ipxe.org>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/dev-network.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/usb/dev-network.c | 27 +++++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
 
 diff --git a/hw/usb/dev-network.c b/hw/usb/dev-network.c
-index 155df935cd68..9d83974ec9f0 100644
+index 9d83974ec9f0..ac1adca54355 100644
 --- a/hw/usb/dev-network.c
 +++ b/hw/usb/dev-network.c
-@@ -1211,7 +1211,7 @@ static void usb_net_handle_dataout(USBNetState *s, USBPacket *p)
-     s->out_ptr += sz;
+@@ -91,6 +91,8 @@ enum usbstring_idx {
+ #define USB_CDC_SET_ETHERNET_PACKET_FILTER	0x43
+ #define USB_CDC_GET_ETHERNET_STATISTIC		0x44
  
-     if (!is_rndis(s)) {
--        if (p->iov.size < 64) {
-+        if (p->iov.size % 64 || p->iov.size == 0) {
-             qemu_send_packet(qemu_get_queue(s->nic), s->out_buf, s->out_ptr);
-             s->out_ptr = 0;
-         }
++#define USB_CDC_NETWORK_CONNECTION	0x00
++
+ #define LOG2_STATUS_INTERVAL_MSEC	5    /* 1 << 5 == 32 msec */
+ #define STATUS_BYTECOUNT		16   /* 8 byte header + data */
+ 
+@@ -640,6 +642,8 @@ struct USBNetState {
+     uint16_t filter;
+     uint32_t vendorid;
+ 
++    uint16_t connection;
++
+     unsigned int out_ptr;
+     uint8_t out_buf[2048];
+ 
+@@ -1140,18 +1144,28 @@ static void usb_net_handle_control(USBDevice *dev, USBPacket *p,
+ 
+ static void usb_net_handle_statusin(USBNetState *s, USBPacket *p)
+ {
+-    le32 buf[2];
++    le32 rbuf[2];
++    uint16_t ebuf[4];
+ 
+     if (p->iov.size < 8) {
+         p->status = USB_RET_STALL;
+         return;
+     }
+ 
+-    buf[0] = cpu_to_le32(1);
+-    buf[1] = cpu_to_le32(0);
+-    usb_packet_copy(p, buf, 8);
+-    if (!s->rndis_resp.tqh_first) {
+-        p->status = USB_RET_NAK;
++    if (is_rndis(s)) {
++        rbuf[0] = cpu_to_le32(1);
++        rbuf[1] = cpu_to_le32(0);
++        usb_packet_copy(p, rbuf, 8);
++        if (!s->rndis_resp.tqh_first) {
++            p->status = USB_RET_NAK;
++        }
++    } else {
++        ebuf[0] =
++            cpu_to_be16(ClassInterfaceRequest | USB_CDC_NETWORK_CONNECTION);
++        ebuf[1] = cpu_to_le16(s->connection);
++        ebuf[2] = cpu_to_le16(1);
++        ebuf[3] = cpu_to_le16(0);
++        usb_packet_copy(p, ebuf, 8);
+     }
+ 
+ #ifdef TRAFFIC_DEBUG
+@@ -1366,6 +1380,7 @@ static void usb_net_realize(USBDevice *dev, Error **errp)
+     s->media_state = 0;	/* NDIS_MEDIA_STATE_CONNECTED */;
+     s->filter = 0;
+     s->vendorid = 0x1234;
++    s->connection = 1;	/* Connected */
+     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
+     s->bulk_in = usb_ep_get(dev, USB_TOKEN_IN, 2);
+ 
 -- 
 2.37.3
 
