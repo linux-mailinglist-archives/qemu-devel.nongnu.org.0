@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E625EC968
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 18:25:06 +0200 (CEST)
-Received: from localhost ([::1]:51212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FF15ECA25
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 18:53:51 +0200 (CEST)
+Received: from localhost ([::1]:43772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odDOK-0002kd-OU
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 12:25:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35454)
+	id 1odDqA-0003qh-Oy
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 12:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1odCqd-00063P-LP; Tue, 27 Sep 2022 11:50:21 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:46697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1odCqb-0008TB-Po; Tue, 27 Sep 2022 11:50:15 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id e81so12677436ybb.13;
- Tue, 27 Sep 2022 08:50:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=MOXnyf1YwlbSeeWuLBeh11X+2FufbZlo7w2wB12V7kg=;
- b=VsUq4ENYKFkBKvmnOAv4cRmTbI434LO8lpPu9KvnwMm2iyPYJKCScuanX6eUpyOA8k
- MKNnBWW5gouxbhjvVHZh6K2ro+xg1amhF95FIfItTPhhkipToeGnRahbZoiA6IKbW2x1
- tOyu7vD/WnJUW3ldtags90xtJDT1Z3cuzobvxObH97Q+2KAihUVoW6M991u/fiB62EIH
- kPGAPOGRozxEfnicSQK2kqWE+K9ppo60EZ3SFi0mF9aTvnjIGbtd9fA8HDSyHkD2mkit
- m87lCIGABlGQbJh6i+4+xPdbxszoocgnK0oM1m1FDhXPoko06z/ClD8bsOKmPH661CTD
- Z16g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=MOXnyf1YwlbSeeWuLBeh11X+2FufbZlo7w2wB12V7kg=;
- b=nSilrLhsFTiUBxKvON2xc0L4HBN+jDHkfSt3SONtusVytHXpFsFecQnW18V1/MDtir
- VcVA1V8uaw4M3Z+u5G4jD6YLYVKzUEBEcDGj5CS9AnGfCjIs/w+sCpRNi4mOMG3giCuL
- DC61WgWDOJMdpp8ouTJnYRdp347p/Xjqc/5qbsBSbuv9Kv5UeVT61xyOEqJ6PZrMtdxk
- Zt3SWDNumAGNMT22TJstgJdbsA29MVZVdFRGWbbp93aTdaZLFIv2Nk9stp490he4Jey0
- j+WnmyICR8fmBFlUHaLMBsQeuIgC24K6V0WWCtIkAx2yda+WGeN3Q5tjLfpvlig5GCuI
- 0k3w==
-X-Gm-Message-State: ACrzQf3t7C9qJuXnSIVBlRyjlFRWwWIw7e3HfOUC53/SXIlcVanEMWn+
- aE9VW+d4vTcYEMaP97f16JMFmOZNvvDZBUsuYek=
-X-Google-Smtp-Source: AMsMyM4HEDzy8Bb0w/UXXxvhavWHuCQ0z8zQ5WOQCWTL9HdAsMJ5ePBYie/UaB1bX9bgjQan+IZELaELrh4Ubr7f9xc=
-X-Received: by 2002:a25:ed09:0:b0:6bb:99fb:f9c8 with SMTP id
- k9-20020a25ed09000000b006bb99fbf9c8mr10257912ybh.207.1664293812355; Tue, 27
- Sep 2022 08:50:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1odCue-0004cK-Lw
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 11:54:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1odCua-0000fS-KY
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 11:54:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664294058;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=FfRV/vwQrYOux5veysQEawnb1aTDXWE7BAXB+T2CfkY=;
+ b=g2+1SQedCxlNCN7u993MNWjo8/KnRyrmWkel0gzzi1DpbhMXGrzorBeCyzLLgUZucS4iek
+ 8FYHX5e7LBS/NpQ0R+26iuu2xNgjzJME3nY27U3k5yiNUu4x1qKJaOl371VFbYruNgd3cH
+ Ba/JeI/iEg0kyM36HI/Lm2DcpKKiXLs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-245-OMtPl4NPPMKTcrYlxZS02g-1; Tue, 27 Sep 2022 11:54:14 -0400
+X-MC-Unique: OMtPl4NPPMKTcrYlxZS02g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4511280D2A2;
+ Tue, 27 Sep 2022 15:54:14 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F12C40C6EC2;
+ Tue, 27 Sep 2022 15:54:12 +0000 (UTC)
+Date: Tue, 27 Sep 2022 16:54:09 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: Should we maybe move Cirrus-CI jobs away from Gitlab again?
+Message-ID: <YzMcobeWVAnHUkNu@redhat.com>
+References: <285e1375-82c4-556d-54fa-abba6b8e8e77@redhat.com>
+ <CAJSP0QX13hF2_qSvO0Hfh=DtyurhkXyJKnrzWTSsTtURueTV6A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220818184618.2205172-1-yokada.996@gmail.com>
- <YwZiyXqPTlSadOOR@fedora> <Yyn/UUVAHwV+bMP7@redhat.com>
-In-Reply-To: <Yyn/UUVAHwV+bMP7@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 27 Sep 2022 11:50:00 -0400
-Message-ID: <CAJSP0QXUWia+U1uLVVDxputRxEeYJqNapORts4R0UTUiXaL17w@mail.gmail.com>
-Subject: Re: [Virtio-fs] [PATCH] virtiofsd: use g_date_time_get_microsecond to
- get subsecond
-To: Vivek Goyal <vgoyal@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Yusuke Okada <yokada.996@gmail.com>,
- "open list:virtiofs" <virtio-fs@redhat.com>,
- Yusuke Okada <okada.yusuke@jp.fujitsu.com>, 
- qemu-devel@nongnu.org, qemu-stable <qemu-stable@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAJSP0QX13hF2_qSvO0Hfh=DtyurhkXyJKnrzWTSsTtURueTV6A@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,44 +82,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Sept 2022 at 19:08, Vivek Goyal <vgoyal@redhat.com> wrote:
->
-> On Wed, Aug 24, 2022 at 01:41:29PM -0400, Stefan Hajnoczi wrote:
-> > On Thu, Aug 18, 2022 at 02:46:19PM -0400, Yusuke Okada wrote:
-> > > From: Yusuke Okada <okada.yusuke@jp.fujitsu.com>
-> > >
-> > > The "%f" specifier in g_date_time_format() is only available in glib
-> > > 2.65.2 or later. If combined with older glib, the function returns null
-> > > and the timestamp displayed as "(null)".
-> > >
-> > > For backward compatibility, g_date_time_get_microsecond should be used
-> > > to retrieve subsecond.
-> > >
-> > > In this patch the g_date_time_format() leaves subsecond field as "%06d"
-> > > and let next snprintf to format with g_date_time_get_microsecond.
-> > >
-> > > Signed-off-by: Yusuke Okada <okada.yusuke@jp.fujitsu.com>
-> > > ---
-> > >  tools/virtiofsd/passthrough_ll.c | 7 +++++--
-> > >  1 file changed, 5 insertions(+), 2 deletions(-)
+On Tue, Sep 27, 2022 at 11:44:45AM -0400, Stefan Hajnoczi wrote:
+> On Tue, 27 Sept 2022 at 05:02, Thomas Huth <thuth@redhat.com> wrote:
+> > now that Gitlab is giving us pressure on the amount of free CI minutes, I
+> > wonder whether we should maybe move the Cirrus-CI jobs out of the gitlab-CI
+> > dashboard again? We could add the jobs to our .cirrus-ci.yml file instead,
+> > like we did it in former times...
 > >
-> > Thanks, applied to my block tree for QEMU 7.2:
-> > https://gitlab.com/stefanha/qemu/commits/block
->
-> Hi Stefan,
->
-> Wondering when do you plan to send it for merge. This seems like
-> a simple fix. Not sure why it does not qualify as a fix for
-> 7.1 instead.
+> > Big advantage would be of course that the time for those jobs would not
+> > count in the Gitlab-CI minutes anymore. Disadvantage is of course that they
+> > do not show up in the gitlab-CI dashboard anymore, so there is no more
+> > e-mail notification about failed jobs, and you have to push to github, too,
+> > and finally check the results manually on cirrus-ci.com ...
+> 
+> My understanding is that .gitlab-ci.d/cirrus.yml uses a GitLab CI job
+> to run the cirrus-run container image that forwards jobs to Cirrus-CI.
+> So GitLab CI resources are consumed waiting for Cirrus-CI to finish.
+> 
+> This shouldn't affect gitlab.com/qemu-project where there are private
+> runners that do not consume GitLab CI minutes.
+> 
+> Individual developers are affected though because they most likely
+> rely on the GitLab shared runner minutes quota.
 
-The pull request with this patch was merged into qemu.git/master today.
+NB, none of the jobs should ever be run automatically anymore in
+QEMU CI pipelines. It always requires the maintainer to set the
+env var when pushing to git, to explicitly create a pipeline.
+You can then selectively start each individual job as desired.
 
-Regarding 7.1, it needs to go through the -stable tree. I have CCed
-qemu-stable so this patch can be picked up.
+While the Cirrus CI minutes burn is undesirable, it is not
+inherantly worse than the CI minutes burn from all the other
+build jobs. Contributors unforunately just need to be aware
+of this and be more selective in running jobs.
 
-Thanks,
-Stefan
+If QEMU does eventually join the OSS program, then I believe
+forks of QEMU will get an elevate CI allowance.
+
+> 
+> Does GitLab CI support some kind of async job so a container doesn't
+> have to monitor Cirrus-CI for the duration of the tests? I guess it
+> would require a job like the cirrus-run job, except a webhook signals
+> completion and therefore the GitLab CI container doesn't need to wait
+> around.
+
+No, this consumption of GitLab CI minutes is an inherant limitation
+of using the cirrus-run hack.  The real solution would be native
+GItLab support for Cirrus CI. This would have Cirrus CI listening
+for git changes, triggers the pipeline itself, and then reports
+them back as a fake GitLab CI pipeline job. This is what Travis
+is able todo these days, and the recommended way for external CI
+systems to integrate.  No ETA on when Cirrus may support this.
+
+https://github.com/cirruslabs/cirrus-ci-docs/issues/10
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
