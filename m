@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC6225EC30D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:41:31 +0200 (CEST)
-Received: from localhost ([::1]:55574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5FC5EC328
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:44:29 +0200 (CEST)
+Received: from localhost ([::1]:39052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od9tx-0007Gs-8b
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34734)
+	id 1od9wq-0004yA-Js
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:44:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8RW-0002xl-Cd
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:02 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:43863)
+ id 1od8RY-000320-4l
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:04 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:45810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8RT-0004wc-Ky
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:02 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id d82so9341129pfd.10
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:59 -0700 (PDT)
+ id 1od8RW-00050q-Ba
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:03 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ l9-20020a17090a4d4900b00205e295400eso413727pjh.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:08:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=bgoeJG+EitAc6steECPvwA+eqgU3ODIY2NLoSDcVQq4=;
- b=VwLlsuJAW4kiLIJ2F4USgAVVaEFk3w0prwvq02bqZl6n9fib29D9QcuRJe94RBABnj
- DD1KPKSVzZqUVy70uMKrqzqgpRlAs6lcArol1rJtDZ3WHOXiDR0+9B/iuvh/51c1D5oN
- 4/x7fam6mkBkEqP2WzE1DLBcbIUVQKqSrG/BxCmnllQIdsemcus8UK1NmIAD7h6fQYps
- 5VNj+vmADdKecMpIDULVnbU55gjWymukQA4QHtedqd2O7ID57JB7yDuZ7TBx0P2nfXLU
- E9ovrwBj5WkSDCbmx0sQLiEsOrbURFfgHJMVkfR9gaHma/BDFOQtVBN9NXrLRIVoUK6D
- seqw==
+ bh=73Bh6gjqapgnX8a4D+ItufmvDUF4gENdWKOZ0zcuwjU=;
+ b=TYUJaMUFGOWvSZnl8vzXr5OVIF81ks6D0N5GexrbpJJg2IiWjsTqgotBkcxAX7sSU4
+ I21bIhVXnZs6bIjOYVYQz8YFgGbQsgRdt7l+liulAOiWyn/7CRbQT9Kk0C/FaUylq5Ms
+ Y5mCk80Krhn2j/0RCdiFMj9CSdkwdd2WlFXEEnVwivStC+NjheBhtKzr9H/7HL1sDia1
+ I+5YuVhwsS/mOPxTQ5286Uc8PeRityT/lsO75P/JRKr/Rtlj5N58NPecsXfofavCt72c
+ ikV2q7lM4PGciKSo3STj/Up3g84CLPOKrT0Bm8cLoIrDo7IW0/YsBY1dgTifIymE6yBB
+ yoRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=bgoeJG+EitAc6steECPvwA+eqgU3ODIY2NLoSDcVQq4=;
- b=DHH6q91xYFcrHflYsR5KEng5uE3EH1X+f9XcVvGvI5RrZEokV7/1E+dEXlhhNRGSzF
- DTDpoJNzT4vLRB0HAJJs93pVMSRPjJJ2t6muDXD2L2kM8Re9w1uPpOEXEde3FvFL33rd
- n6B7KcE+GIR7g5qreAigEWYvevY5Nju2Hhml9x0PWW7w/ztihcxSq5CFb69uv1+FO55/
- befXXFrRHNT7IoUrwhsf5hzhWUkXVYJ43GLhlHAAhhm1jAVGEh58e+tOY0WQXJWQ1pOX
- I48T21etJ3YOBdUubSM4Fn7SRV9Katsg6B2zktjCHWOW1XO2RzOYojN0Zj+6NkrHO+LS
- DHAA==
-X-Gm-Message-State: ACrzQf05k8OXDD84GI8LonWD0AZ2GBtKAjvtF/vj8TY905DOED4dkTNB
- RtfE4YQCKC+R2gmF3uu13OA/giBGQWc=
-X-Google-Smtp-Source: AMsMyM6HAh79pCHR8+cpzDLacK6of6dNQCibMmmrUV3Vlo1Uwwu+M0hj7N7MOhM5/HGVvS4M4wWx9g==
-X-Received: by 2002:a62:4e4c:0:b0:53e:22b6:6869 with SMTP id
- c73-20020a624e4c000000b0053e22b66869mr28253643pfb.29.1664276878526; 
- Tue, 27 Sep 2022 04:07:58 -0700 (PDT)
+ bh=73Bh6gjqapgnX8a4D+ItufmvDUF4gENdWKOZ0zcuwjU=;
+ b=y4ODOyYGV+GGzMgiLLPQ6I7CfdyBFNZ/6aY+ysmretGwMzp3UuLLwXSaJQNZkALg9f
+ +aKhblK+cdOOjDKJgGrBzkOx1TEoFmoH8DxySUVHNRmS4FD6o6cHDRcp0kbatZ9IPtdO
+ RJ8Xy3HyossLjVjr+lyRasBLq0aMwjyd0JGQChY10KvHUG+kQF7f93uEB1ij7bZq7VEn
+ kFzT2KdBVkeu0JpRdWqqnhEAXGFHdDZM2QBhAFb8IQmYuV001xEGuNTNcfqRHYQd4YmP
+ SUlxYZ0Ngzg/56zsmS3MgsvWVAyEm2u/5UN6ZJqGhFNGIcRBf4BNw+3DWpmTNc+iO6vx
+ EFQg==
+X-Gm-Message-State: ACrzQf0x15ODuu4AbekuMM37DaHPoMDIHcQsrR0qm6Vh/XIf22jbeUi8
+ TnD4IKZ8W2FGJnH1RNjFNqtXgO9DSG8=
+X-Google-Smtp-Source: AMsMyM5yr62DLe8Kzv8Uvbur+50MZQxRuw1La7woQTfpz1VKC6OwlOOxLJjvC7HWSXCskMrF7KFX5A==
+X-Received: by 2002:a17:902:d58f:b0:179:b756:6f5e with SMTP id
+ k15-20020a170902d58f00b00179b7566f5emr15372305plh.1.1664276881464; 
+ Tue, 27 Sep 2022 04:08:01 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.56
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:07:58 -0700 (PDT)
+ Tue, 27 Sep 2022 04:08:00 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 29/54] tests/qtest: Build test-filter-{mirror,
- redirector} cases for posix only
-Date: Tue, 27 Sep 2022 19:06:07 +0800
-Message-Id: <20220927110632.1973965-30-bmeng.cn@gmail.com>
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v4 30/54] tests/qtest: qmp-test: Skip running test_qmp_oob for
+ win32
+Date: Tue, 27 Sep 2022 19:06:08 +0800
+Message-Id: <20220927110632.1973965-31-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,115 +96,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-The test-filter-{mirror,redirector} cases use socketpair() API that
-is only available on POSIX and should only be built for POSIX.
+The test_qmp_oob test case calls mkfifo() which does not exist on
+win32. Exclude it.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
 
 (no changes since v2)
 
 Changes in v2:
-- Introduce a new variable qtests_filter and add that to the
-  qtests_ARCH variables
+- Add a comment in the code to explain why test_qmp_oob test case
+  is skipped on win32
 
- tests/qtest/meson.build | 36 ++++++++++++++++--------------------
- 1 file changed, 16 insertions(+), 20 deletions(-)
+ tests/qtest/qmp-test.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index e910cb32ca..455f1bbb7e 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -39,9 +39,14 @@ qtests_pci = \
- qtests_cxl = \
-   (config_all_devices.has_key('CONFIG_CXL') ? ['cxl-test'] : [])
+diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
+index d2070cb683..22957fa49c 100644
+--- a/tests/qtest/qmp-test.c
++++ b/tests/qtest/qmp-test.c
+@@ -159,6 +159,8 @@ static void test_qmp_protocol(void)
+     qtest_quit(qts);
+ }
  
-+qtests_filter = \
-+  (slirp.found() ? ['test-netfilter'] : []) + \
-+  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) + \
-+  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-redirector'] : [])
++#ifndef _WIN32
 +
- qtests_i386 = \
--  (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +             \
--  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) +                     \
-+  (slirp.found() ? ['pxe-test'] : []) + \
-+  qtests_filter + \
-   (have_tools ? ['ahci-test'] : []) +                                                       \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +           \
-   (config_all_devices.has_key('CONFIG_SGA') ? ['boot-serial-test'] : []) +                  \
-@@ -95,8 +100,7 @@ qtests_i386 = \
-    'vmgenid-test',
-    'migration-test',
-    'test-x86-cpuid-compat',
--   'numa-test',
--   'test-filter-redirector'
-+   'numa-test'
-   ]
+ /* Out-of-band tests */
  
- if dbus_display
-@@ -120,30 +124,25 @@ endif
- qtests_x86_64 = qtests_i386
+ char *tmpdir;
+@@ -279,6 +281,8 @@ static void test_qmp_oob(void)
+     qtest_quit(qts);
+ }
  
- qtests_alpha = ['boot-serial-test'] + \
--  ['test-filter-mirror', 'test-filter-redirector'] + \
--  (slirp.found() ? ['test-netfilter'] : []) + \
-+  qtests_filter + \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
++#endif /* _WIN32 */
++
+ /* Preconfig tests */
  
- qtests_avr = [ 'boot-serial-test' ]
+ static void test_qmp_preconfig(void)
+@@ -338,7 +342,10 @@ int main(int argc, char *argv[])
+     g_test_init(&argc, &argv, NULL);
  
- qtests_hppa = ['boot-serial-test'] + \
--  ['test-filter-mirror', 'test-filter-redirector'] + \
--  (slirp.found() ? ['test-netfilter'] : []) + \
-+  qtests_filter + \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
+     qtest_add_func("qmp/protocol", test_qmp_protocol);
++#ifndef _WIN32
++    /* This case calls mkfifo() which does not exist on win32 */
+     qtest_add_func("qmp/oob", test_qmp_oob);
++#endif
+     qtest_add_func("qmp/preconfig", test_qmp_preconfig);
+     qtest_add_func("qmp/missing-any-arg", test_qmp_missing_any_arg);
  
- qtests_m68k = ['boot-serial-test'] + \
--  ['test-filter-mirror', 'test-filter-redirector'] + \
--  (slirp.found() ? ['test-netfilter'] : [])
-+  qtests_filter
- 
- qtests_microblaze = ['boot-serial-test'] + \
--  ['test-filter-mirror', 'test-filter-redirector'] + \
--  (slirp.found() ? ['test-netfilter'] : [])
-+  qtests_filter
- 
- qtests_microblazeel = qtests_microblaze
- 
- qtests_mips = \
--  ['test-filter-mirror', 'test-filter-redirector'] + \
--  (slirp.found() ? ['test-netfilter'] : []) + \
-+  qtests_filter + \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
- 
-@@ -152,8 +151,7 @@ qtests_mips64 = qtests_mips
- qtests_mips64el = qtests_mips
- 
- qtests_ppc = \
--  ['test-filter-mirror', 'test-filter-redirector'] + \
--  (slirp.found() ? ['test-netfilter'] : []) + \
-+  qtests_filter + \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_M48T59') ? ['m48t59-test'] : []) +                     \
-   (config_all_devices.has_key('CONFIG_TCG') ? ['prom-env-test'] : []) +                      \
-@@ -174,13 +172,11 @@ qtests_sh4 = (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-te
- qtests_sh4eb = (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : [])
- 
- qtests_sparc = ['prom-env-test', 'm48t59-test', 'boot-serial-test'] + \
--  ['test-filter-mirror', 'test-filter-redirector'] + \
--  (slirp.found() ? ['test-netfilter'] : [])
-+  qtests_filter
- 
- qtests_sparc64 = \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
--  (slirp.found() ? ['test-netfilter'] : []) + \
--  ['test-filter-mirror', 'test-filter-redirector'] + \
-+  qtests_filter + \
-   ['prom-env-test', 'boot-serial-test']
- 
- qtests_npcm7xx = \
 -- 
 2.34.1
 
