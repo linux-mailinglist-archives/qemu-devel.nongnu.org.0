@@ -2,93 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034375EC003
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:43:34 +0200 (CEST)
-Received: from localhost ([::1]:45336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233C85EC00F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:46:34 +0200 (CEST)
+Received: from localhost ([::1]:37298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od83p-0000fG-1H
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:43:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49734)
+	id 1od86j-0004yC-7K
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:46:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od80e-0003PU-87
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:40:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52650)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od81R-0004gq-36
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:41:05 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:44229)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od80b-0007kT-9U
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:40:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664275212;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BBRTE8CuleMUf9T7ofONthOtHGcyvTbet9O2OWsawbc=;
- b=ccb8z+DM/vlqgi8//00zym25BHPN9Tq0KTSdMu+rVmNUstTHtbw3WVPT17RlikwqDU4Wp8
- u1F5t+7yq5VtXDFMl8/VtfTlZrrKH143DTs2zn5bjrA2T0v5/V9ipNXa9pzhUDBKGLX8AS
- S4bYThxCU412G5GlSkM0Gcqr4fw6XFY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-343-jMVdAubeO3CfWJ1KtOB0IQ-1; Tue, 27 Sep 2022 06:40:11 -0400
-X-MC-Unique: jMVdAubeO3CfWJ1KtOB0IQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m29-20020adfa3dd000000b00224f577fad1so2009935wrb.4
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 03:40:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=BBRTE8CuleMUf9T7ofONthOtHGcyvTbet9O2OWsawbc=;
- b=Fe7Fa/gall8qavdQGFDZXgKtqkuW2XtUCc2v4SmhH41/ra0zT3W6A+Z0XXiaCQNMDb
- usu3CyBgvwV3di/y0xtOmm6r+PucUsZ+lqZ67wutIMcb4gJZXao5yBrMafLGJkELglJs
- CrfJkn32cOaY8bIPrKfNXmGyU/UsOmOvlhXjHpqSTNCHviq8FzjrgglwQVAAbvMxHqpW
- RYlNNkBJcaHsNXPes7JFNJyQwuYniGLnAaQuZ3r3EWLQi2fQ6brfw3i68JMTqpG9/ZSt
- hbyPKbYejTflFeHXu1jrUduUn9IKu780SR803ruAGETd2KN61O2+1gcD7AGn4HSoTnWY
- lnug==
-X-Gm-Message-State: ACrzQf3JP1voM+HOWlqy+VStNT6TCerYKJOgkduktWgPiQoA863LfO3v
- Bq1kjBCOxm9fgj1cBLZqISxkoE8eKGuGs3OSBgOQKDLuFcRfP9pwK/d9wBu+dsA7LEcB/Ye175s
- JXv4YGXu68Qok048=
-X-Received: by 2002:a1c:7c04:0:b0:3b4:aaa4:9ec8 with SMTP id
- x4-20020a1c7c04000000b003b4aaa49ec8mr2088956wmc.44.1664275210178; 
- Tue, 27 Sep 2022 03:40:10 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6+i9dO1fANGtJVlyXoJ7Odj0eKxt3+Pd7uhvm/0PwfoUk3GdbPOV/2nODq4DvpBTi5hvgnDA==
-X-Received: by 2002:a1c:7c04:0:b0:3b4:aaa4:9ec8 with SMTP id
- x4-20020a1c7c04000000b003b4aaa49ec8mr2088932wmc.44.1664275209921; 
- Tue, 27 Sep 2022 03:40:09 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-179-30.web.vodafone.de.
- [109.43.179.30]) by smtp.gmail.com with ESMTPSA id
- h4-20020a05600c498400b003b4935f04a4sm1620980wmp.5.2022.09.27.03.40.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Sep 2022 03:40:09 -0700 (PDT)
-Message-ID: <965d60c1-09a0-1b70-31dd-f8935996e743@redhat.com>
-Date: Tue, 27 Sep 2022 12:40:08 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od81O-0007xd-3t
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:41:04 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MJmbB-1ox8oC27c9-00K7uk; Tue, 27 Sep 2022 12:40:57 +0200
+Message-ID: <b20778a7-8f5e-f1b0-b34b-e92d878e53ef@vivier.eu>
+Date: Tue, 27 Sep 2022 12:40:56 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v4 2/7] tests/x86: Add subtest with 'q35' machine type to
- device-plug-test
-Content-Language: en-US
-To: Michael Labiuk <michael.labiuk@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com,
- Juan Quintela <quintela@redhat.com>
-References: <20220920104842.605530-1-michael.labiuk@virtuozzo.com>
- <20220920104842.605530-3-michael.labiuk@virtuozzo.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220920104842.605530-3-michael.labiuk@virtuozzo.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH 1/2] linux-user: Add close_range() syscall
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+References: <20220927093538.8954-1-deller@gmx.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220927093538.8954-1-deller@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:TYJbRYIbYTM1md+rmERh43tJNfs4hZ1gWXWHAJhILg1aDPfrLaL
+ OlBvZrsxVUgrjAsTAUCst7i4q4kknE0lHKhTWL3DLg7zUIi/zPwtD8EsxveyDl5PErVersM
+ BkIAcogTGw+g+kNE8vYZRXwWlIcRMTwWjCjYcEbGySkXlb+3PQib2437kczBJ4wupW2p8XQ
+ bCAdxzAJUoA5fx2uFAOiA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mTbLxIb2P9I=:RxKvSGfM6XcivO99HEIkd/
+ FfpvwqcaIYTDGz9GCCv/WHDyugpsV0RzOasTdwlmKAn7H4k6HYDy8m3VD6hOAdmKZwLMRemJb
+ +nhoppdVJZMt6i9iE4miuVIjSCMGz14+xkN6WzeCRuFdE8eZ6sz17iSv/OXn8VitSXgxl0MKw
+ 4Oh8hMu+zZS8Wi9oG/MsMcba3zqktpJlYzwufA3hYjqOl7Uvkupb6Dr/2OlYwY31KlJlXRAaO
+ UxTKp9Cchmizt2WSycfq4xjg8/Jlpwus4XjnqTlXnSTvdzeualt/d+uP9mp1FTFf9wAqDan67
+ dBBM0GnxieEk9cJb+JMBI8gZNvljqIMPeYp6xTxjaPPoMgyJrcPR/8oB3lj8JBZy7pr7ERSI9
+ hMNw3RDdnkghsIU+OuLyQ85md7dWPllZ26EVI+ZBGA9lp3BFoGACYbBEpCM3ajI9ItfqjxAIP
+ fQnU6duvtYp7k3mzSSAosgkOwHDuAacwHm2N2L7fBucIH5imrNdM5/SXI67AcYW9xao7EEcZR
+ D+U6NbVpLlS/EcZIOFyb3K5eOYPrn4DLA/izP6MR46M44CCcd0PZ81H8VBAQnmaF2+lwsdiWm
+ D9nqkI+/cT+R3wiJIN8BVbvgFchwYCqxWsIER+PZCQZsOh2fWmk1Ek519O9CvhmhptdugZxsj
+ 4V4UtZ9KFJuqg5Sp0CTQKzc5dI5mq0Q8QjYc1jJCKN5B2z18IgOXlqgoFzVkHqluIhsGrdADD
+ zczO3niqz6GSIB4uEhZzui1deuk8j0H675YcemmoZF65QhaYJfQHcF6rPlTAUo3PMwViWdAV8
+ oCjJm6X
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,86 +73,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/09/2022 12.48, Michael Labiuk wrote:
-> Configure pci bridge setting to plug pci device and unplug.
-> 
-> Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
+Le 27/09/2022 à 11:35, Helge Deller a écrit :
+> Signed-off-by: Helge Deller <deller@gmx.de>
 > ---
->   tests/qtest/device-plug-test.c | 41 ++++++++++++++++++++++++++++++++++
->   1 file changed, 41 insertions(+)
+>   linux-user/strace.list |  3 +++
+>   linux-user/syscall.c   | 19 +++++++++++++++++++
+>   2 files changed, 22 insertions(+)
 > 
-> diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-> index e595b45b66..d66c386ef4 100644
-> --- a/tests/qtest/device-plug-test.c
-> +++ b/tests/qtest/device-plug-test.c
-> @@ -90,6 +90,19 @@ static void test_pci_unplug_request(void)
->       qtest_quit(qtest);
->   }
->   
-> +static void test_q35_pci_unplug_request(void)
-> +{
+> diff --git a/linux-user/strace.list b/linux-user/strace.list
+> index 2fa74b7203..31a2ccd76d 100644
+> --- a/linux-user/strace.list
+> +++ b/linux-user/strace.list
+> @@ -103,6 +103,9 @@
+>   #ifdef TARGET_NR_close
+>   { TARGET_NR_close, "close" , "%s(%d)", NULL, NULL },
+>   #endif
+> +#ifdef TARGET_NR_close_range
+> +{ TARGET_NR_close_range, "close_range" , "%s(%u,%u,%u)", NULL, NULL },
+> +#endif
+>   #ifdef TARGET_NR_connect
+>   { TARGET_NR_connect, "connect" , "%s(%d,%#x,%d)", NULL, NULL },
+>   #endif
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 6219ef36c9..8e0bdd7a30 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -339,6 +339,13 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
+>   #ifdef __NR_exit_group
+>   _syscall1(int,exit_group,int,error_code)
+>   #endif
+> +#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
+> +#define __NR_sys_close_range __NR_close_range
+> +_syscall3(int,sys_close_range,int,first,int,last,int,flags)
+> +#ifndef CLOSE_RANGE_CLOEXEC
+> +#define CLOSE_RANGE_CLOEXEC     (1U << 2)
+> +#endif
+> +#endif
+>   #if defined(__NR_futex)
+>   _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
+>             const struct timespec *,timeout,int *,uaddr2,int,val3)
+> @@ -8756,6 +8763,18 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+>       case TARGET_NR_close:
+>           fd_trans_unregister(arg1);
+>           return get_errno(close(arg1));
+> +#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
+> +    case TARGET_NR_close_range:
+> +        if (!(arg3 & CLOSE_RANGE_CLOEXEC)) {
+> +            abi_long fd;
+> +            abi_long maxfd = (arg2 == (abi_long)-1) ? target_fd_max : arg2;
 > +
-> +    QTestState *qtest = qtest_initf("-machine q35 "
-> +                                    "-device pcie-root-port,id=p1 "
-> +                                    "-device pcie-pci-bridge,bus=p1,id=b1 "
-> +                                    "-device virtio-mouse-pci,bus=b1,id=dev0");
-> +
-> +    process_device_remove(qtest, "dev0");
-> +
-> +    qtest_quit(qtest);
-> +}
-> +
->   static void test_pci_unplug_json_request(void)
->   {
->       const char *arch = qtest_get_arch();
-> @@ -108,6 +121,27 @@ static void test_pci_unplug_json_request(void)
->       qtest_quit(qtest);
->   }
->   
-> +static void test_q35_pci_unplug_json_request(void)
-> +{
-> +    const char *port = "-device '{\"driver\": \"pcie-root-port\", "
-> +                                      "\"id\": \"p1\"}'";
-> +
-> +    const char *bridge = "-device '{\"driver\": \"pcie-pci-bridge\", "
-> +                                   "\"id\": \"b1\", "
-> +                                   "\"bus\": \"p1\"}'";
-> +
-> +    const char *device = "-device '{\"driver\": \"virtio-mouse-pci\", "
-> +                                   "\"bus\": \"b1\", "
-> +                                   "\"id\": \"dev0\"}'";
-> +
-> +    QTestState *qtest = qtest_initf("-machine q35 %s %s %s",
-> +                                    port, bridge, device);
-> +
-> +    process_device_remove(qtest, "dev0");
-> +
-> +    qtest_quit(qtest);
-> +}
-> +
->   static void test_ccw_unplug(void)
->   {
->       QTestState *qtest = qtest_initf("-device virtio-balloon-ccw,id=dev0");
-> @@ -187,5 +221,12 @@ int main(int argc, char **argv)
->                          test_spapr_phb_unplug_request);
->       }
->   
-> +    if (!strcmp(arch, "x86_64")) {
+> +            for (fd = arg1; fd <= maxfd; fd++) {
+> +                fd_trans_unregister(fd);
+> +            }
+> +        }
+> +        return get_errno(sys_close_range(arg1, arg2, arg3));
 
-We should maybe also add a qtest_has_machine("q35") after the strcmp here 
-(there have recently been some efforts to make the qtests also run right if 
-one of the x86 machines has been disabled in the build)
+fd_trans_unregister() must called only if close_range() doesn't fail.
 
-  Thomas
+Thanks,
+Laurent
 
-
-> +        qtest_add_func("/device-plug/q35-pci-unplug-request",
-> +                   test_q35_pci_unplug_request);
-> +        qtest_add_func("/device-plug/q35-pci-unplug-json-request",
-> +                   test_q35_pci_unplug_json_request);
-> +    }
-> +
->       return g_test_run();
->   }
+> +#endif
+> 
+>       case TARGET_NR_brk:
+>           return do_brk(arg1);
+> --
+> 2.37.3
+> 
+> 
 
 
