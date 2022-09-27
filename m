@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8F35EC2C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:32:46 +0200 (CEST)
-Received: from localhost ([::1]:39186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC6225EC30D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:41:31 +0200 (CEST)
+Received: from localhost ([::1]:55574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od9lV-00078m-7e
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:32:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34730)
+	id 1od9tx-0007Gs-8b
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:41:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8RT-0002ri-9f
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:00 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:36600)
+ id 1od8RW-0002xl-Cd
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:02 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:43863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8RR-00051Q-LO
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:07:59 -0400
-Received: by mail-pg1-x535.google.com with SMTP id s206so9108794pgs.3
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:57 -0700 (PDT)
+ id 1od8RT-0004wc-Ky
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:02 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id d82so9341129pfd.10
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=SZXLVRmmnhtpF37sbXWA0CFlA2zznYKmR2V+rAyp5Mc=;
- b=EtDxCs+YapOObKwqMS1MBUW4qZb/JqqfPIMmZl3wnyI/9vUS3ey1loyvEObS8iAlLo
- gw2hd1v71uP48sEn/HD4pgHBS/7uavahEOk+pk62N/MpFyJJSmig6zj8cjYKKilv6K7u
- A6B/ctv73d7GyGsT7FhMly7cSCkG59hAoGG32yGPK0ThBHugIdIFrPbKx4WEhyh6NiTu
- WYpVxU89QEse9AXWbcdekogk/KXi3p1RmWeE3+D9fPsOhW9gMCumtMdsFUqI+lM0/hD6
- caMTHbRUedVm+slle6pdSxn3sHQU2Zuc6yBzW2CdWfrwkC4O0/5PpsU7SJEucX7b4d5D
- XvLw==
+ bh=bgoeJG+EitAc6steECPvwA+eqgU3ODIY2NLoSDcVQq4=;
+ b=VwLlsuJAW4kiLIJ2F4USgAVVaEFk3w0prwvq02bqZl6n9fib29D9QcuRJe94RBABnj
+ DD1KPKSVzZqUVy70uMKrqzqgpRlAs6lcArol1rJtDZ3WHOXiDR0+9B/iuvh/51c1D5oN
+ 4/x7fam6mkBkEqP2WzE1DLBcbIUVQKqSrG/BxCmnllQIdsemcus8UK1NmIAD7h6fQYps
+ 5VNj+vmADdKecMpIDULVnbU55gjWymukQA4QHtedqd2O7ID57JB7yDuZ7TBx0P2nfXLU
+ E9ovrwBj5WkSDCbmx0sQLiEsOrbURFfgHJMVkfR9gaHma/BDFOQtVBN9NXrLRIVoUK6D
+ seqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=SZXLVRmmnhtpF37sbXWA0CFlA2zznYKmR2V+rAyp5Mc=;
- b=xb8ukLs9w6B2OTbVAcER8150o56FaAuz0i18/UnBf5yLC6xk0fQ5yIYZYh6550Q+ec
- sRkXUfAotzKcFXBB/Ppl8wFd8zq/ZgDDoKLIHlRlDFkoCVlPyprGf3PwsG63VbrSGSA5
- DRpzxkc4OXdQXANeSx7gq6BifV2SRL74kMpjDdmrdRirGWJvEBwOOCLWDetRwDvKQOBd
- LE1EXGDkbZqmkyIKYkTqBjAW2q3HVLOXtDfrXuJq1Pme05VjvcVeFGfo+WSHkaL+KyjG
- nLu1xqaP8A94Ca0iQOL61mBpA5k1T/HbqpWMuJlQYEKU0/oqE25gt16j1yaowDimQJWL
- NXMg==
-X-Gm-Message-State: ACrzQf16Kzagx4xT89UQgL0CkDA3BR2E/y3saxpEipqh56DtpsXFYrMt
- jXotCjIi6Sud02kSh6AARz5+Wb3PbZw=
-X-Google-Smtp-Source: AMsMyM6VpIthGnf60bTjTLaWIytQeBrurWklPUk320H4Zph4dJZODW0qgMNqdYCblhn9+Io1AXqR+w==
-X-Received: by 2002:a62:a512:0:b0:536:e2bd:e15e with SMTP id
- v18-20020a62a512000000b00536e2bde15emr29324870pfm.1.1664276876062; 
- Tue, 27 Sep 2022 04:07:56 -0700 (PDT)
+ bh=bgoeJG+EitAc6steECPvwA+eqgU3ODIY2NLoSDcVQq4=;
+ b=DHH6q91xYFcrHflYsR5KEng5uE3EH1X+f9XcVvGvI5RrZEokV7/1E+dEXlhhNRGSzF
+ DTDpoJNzT4vLRB0HAJJs93pVMSRPjJJ2t6muDXD2L2kM8Re9w1uPpOEXEde3FvFL33rd
+ n6B7KcE+GIR7g5qreAigEWYvevY5Nju2Hhml9x0PWW7w/ztihcxSq5CFb69uv1+FO55/
+ befXXFrRHNT7IoUrwhsf5hzhWUkXVYJ43GLhlHAAhhm1jAVGEh58e+tOY0WQXJWQ1pOX
+ I48T21etJ3YOBdUubSM4Fn7SRV9Katsg6B2zktjCHWOW1XO2RzOYojN0Zj+6NkrHO+LS
+ DHAA==
+X-Gm-Message-State: ACrzQf05k8OXDD84GI8LonWD0AZ2GBtKAjvtF/vj8TY905DOED4dkTNB
+ RtfE4YQCKC+R2gmF3uu13OA/giBGQWc=
+X-Google-Smtp-Source: AMsMyM6HAh79pCHR8+cpzDLacK6of6dNQCibMmmrUV3Vlo1Uwwu+M0hj7N7MOhM5/HGVvS4M4wWx9g==
+X-Received: by 2002:a62:4e4c:0:b0:53e:22b6:6869 with SMTP id
+ c73-20020a624e4c000000b0053e22b66869mr28253643pfb.29.1664276878526; 
+ Tue, 27 Sep 2022 04:07:58 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.53
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.07.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:07:55 -0700 (PDT)
+ Tue, 27 Sep 2022 04:07:58 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Jason Wang <jasowang@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 28/54] tests/qtest: Skip running virtio-net-test cases that
- require socketpair() for win32
-Date: Tue, 27 Sep 2022 19:06:06 +0800
-Message-Id: <20220927110632.1973965-29-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v4 29/54] tests/qtest: Build test-filter-{mirror,
+ redirector} cases for posix only
+Date: Tue, 27 Sep 2022 19:06:07 +0800
+Message-Id: <20220927110632.1973965-30-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,8 +96,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Some of the virtio-net-test test cases require socketpair() to do the
-test setup. Skip them for win32.
+The test-filter-{mirror,redirector} cases use socketpair() API that
+is only available on POSIX and should only be built for POSIX.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
@@ -106,55 +106,105 @@ Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 (no changes since v2)
 
 Changes in v2:
-- Change to skip only part of the virtio-net-test cases that require
-  socketpair() intead of disabling all of them
+- Introduce a new variable qtests_filter and add that to the
+  qtests_ARCH variables
 
- tests/qtest/virtio-net-test.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ tests/qtest/meson.build | 36 ++++++++++++++++--------------------
+ 1 file changed, 16 insertions(+), 20 deletions(-)
 
-diff --git a/tests/qtest/virtio-net-test.c b/tests/qtest/virtio-net-test.c
-index 6ded252901..dff43f0f60 100644
---- a/tests/qtest/virtio-net-test.c
-+++ b/tests/qtest/virtio-net-test.c
-@@ -165,8 +165,6 @@ static void stop_cont_test(void *obj, void *data, QGuestAllocator *t_alloc)
-     rx_stop_cont_test(dev, t_alloc, rx, sv[0]);
- }
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index e910cb32ca..455f1bbb7e 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -39,9 +39,14 @@ qtests_pci = \
+ qtests_cxl = \
+   (config_all_devices.has_key('CONFIG_CXL') ? ['cxl-test'] : [])
  
--#endif
--
- static void hotplug(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtioPCIDevice *dev = obj;
-@@ -286,6 +284,8 @@ static void *virtio_net_test_setup(GString *cmd_line, void *arg)
-     return sv;
- }
- 
-+#endif /* _WIN32 */
++qtests_filter = \
++  (slirp.found() ? ['test-netfilter'] : []) + \
++  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) + \
++  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-redirector'] : [])
 +
- static void large_tx(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtioNet *dev = obj;
-@@ -319,16 +319,15 @@ static void *virtio_net_test_setup_nosocket(GString *cmd_line, void *arg)
+ qtests_i386 = \
+-  (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +             \
+-  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) +                     \
++  (slirp.found() ? ['pxe-test'] : []) + \
++  qtests_filter + \
+   (have_tools ? ['ahci-test'] : []) +                                                       \
+   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +           \
+   (config_all_devices.has_key('CONFIG_SGA') ? ['boot-serial-test'] : []) +                  \
+@@ -95,8 +100,7 @@ qtests_i386 = \
+    'vmgenid-test',
+    'migration-test',
+    'test-x86-cpuid-compat',
+-   'numa-test',
+-   'test-filter-redirector'
++   'numa-test'
+   ]
  
- static void register_virtio_net_test(void)
- {
--    QOSGraphTestOptions opts = {
--        .before = virtio_net_test_setup,
--    };
-+    QOSGraphTestOptions opts = { 0 };
+ if dbus_display
+@@ -120,30 +124,25 @@ endif
+ qtests_x86_64 = qtests_i386
  
--    qos_add_test("hotplug", "virtio-net-pci", hotplug, &opts);
- #ifndef _WIN32
-+    opts.before = virtio_net_test_setup;
-+    qos_add_test("hotplug", "virtio-net-pci", hotplug, &opts);
-     qos_add_test("basic", "virtio-net", send_recv_test, &opts);
-     qos_add_test("rx_stop_cont", "virtio-net", stop_cont_test, &opts);
--#endif
-     qos_add_test("announce-self", "virtio-net", announce_self, &opts);
-+#endif
+ qtests_alpha = ['boot-serial-test'] + \
+-  ['test-filter-mirror', 'test-filter-redirector'] + \
+-  (slirp.found() ? ['test-netfilter'] : []) + \
++  qtests_filter + \
+   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
  
-     /* These tests do not need a loopback backend.  */
-     opts.before = virtio_net_test_setup_nosocket;
+ qtests_avr = [ 'boot-serial-test' ]
+ 
+ qtests_hppa = ['boot-serial-test'] + \
+-  ['test-filter-mirror', 'test-filter-redirector'] + \
+-  (slirp.found() ? ['test-netfilter'] : []) + \
++  qtests_filter + \
+   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
+ 
+ qtests_m68k = ['boot-serial-test'] + \
+-  ['test-filter-mirror', 'test-filter-redirector'] + \
+-  (slirp.found() ? ['test-netfilter'] : [])
++  qtests_filter
+ 
+ qtests_microblaze = ['boot-serial-test'] + \
+-  ['test-filter-mirror', 'test-filter-redirector'] + \
+-  (slirp.found() ? ['test-netfilter'] : [])
++  qtests_filter
+ 
+ qtests_microblazeel = qtests_microblaze
+ 
+ qtests_mips = \
+-  ['test-filter-mirror', 'test-filter-redirector'] + \
+-  (slirp.found() ? ['test-netfilter'] : []) + \
++  qtests_filter + \
+   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
+   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
+ 
+@@ -152,8 +151,7 @@ qtests_mips64 = qtests_mips
+ qtests_mips64el = qtests_mips
+ 
+ qtests_ppc = \
+-  ['test-filter-mirror', 'test-filter-redirector'] + \
+-  (slirp.found() ? ['test-netfilter'] : []) + \
++  qtests_filter + \
+   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
+   (config_all_devices.has_key('CONFIG_M48T59') ? ['m48t59-test'] : []) +                     \
+   (config_all_devices.has_key('CONFIG_TCG') ? ['prom-env-test'] : []) +                      \
+@@ -174,13 +172,11 @@ qtests_sh4 = (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-te
+ qtests_sh4eb = (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : [])
+ 
+ qtests_sparc = ['prom-env-test', 'm48t59-test', 'boot-serial-test'] + \
+-  ['test-filter-mirror', 'test-filter-redirector'] + \
+-  (slirp.found() ? ['test-netfilter'] : [])
++  qtests_filter
+ 
+ qtests_sparc64 = \
+   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
+-  (slirp.found() ? ['test-netfilter'] : []) + \
+-  ['test-filter-mirror', 'test-filter-redirector'] + \
++  qtests_filter + \
+   ['prom-env-test', 'boot-serial-test']
+ 
+ qtests_npcm7xx = \
 -- 
 2.34.1
 
