@@ -2,88 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3AFA5EC8C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:56:29 +0200 (CEST)
-Received: from localhost ([::1]:36246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91FA35EC75E
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:14:39 +0200 (CEST)
+Received: from localhost ([::1]:34062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odCwe-0007ku-Oy
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45286)
+	id 1odCIA-00077S-MW
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:14:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odBMp-0005Et-QD
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:23 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:46734)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odBMl-00062E-Ki
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:15:22 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- n40-20020a05600c3ba800b003b49aefc35fso5517191wms.5
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:15:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=vjojPbAZCZTm66THKz2INVh3tZm0jABrqXmO5V1a0wU=;
- b=bOncOETTUL52OFCBTuM6WiteaXsBwHa8z81wgpPagwiAIvVOm4UmMX1d3Gr7Pnz+/S
- e0qWcNNoSWL3Ac3fbZeK0pTCVRYP38cmKZjSJV3f7dth683kApw0iKYbunASionRqiFi
- Zw+6NpqJgTW8n7Ea8urXSsQ431pj5nF3hdXI5IKF3ztD/b8eDRYCoAMFEHjACwa4PCBx
- woURAwnaHiQBJ1eIV5tYz+H+gTkvrBmMsx0BQX7g3uFG0dB3illtXRJ0l/KcXsBkFRoc
- tzc1kkTLFIXbz4JMFBnb2Vy7DXHaD7W8y0/RWbg57yKnzDP92y/X/wBf7SdSiNKGnIRr
- DbLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=vjojPbAZCZTm66THKz2INVh3tZm0jABrqXmO5V1a0wU=;
- b=LpOOLEpPYUE9EZfPsI767t27I8qa/UAiRwUvPLLrt2IVlZYCYljx4bCS7tSrhg+mdn
- CE0Wlb29WJ3AG9Z3PumRypRhWcTEKRESUjm7T8JmBTNU/pQsiuSRXu90L/pMPQ1vhnKK
- C0MXmUvRv9qUyff2aPtFBEb4W/bQ03ppz+7A8AlIK/wbV32lgliRE3k5H1vYZm4VTile
- cynCnYhOHJ0zkmDNJ/pO2GdjH0zSCUVS/LDiY1wcduEC0ZpZSYVWYyPal87zx7FsH7t3
- nJbGwg8lcr35OZS7FRFT7XUdBkop7Q3oYfnnRixX+QSTwQySxFjNSDDsKmHUeopgSPw6
- mkkg==
-X-Gm-Message-State: ACrzQf3heezarhT1p32BKWWg0M5VqcJyN3ngzsEDEjASd2o+RPxPycsH
- dv99SDil3BmI7pj31Dk4CwqsHQ==
-X-Google-Smtp-Source: AMsMyM6O+ZFMxTqNhls7Mb22U2C0DLBE1ntSAXr7RcAhwEg+y6oSVinWVH83rQKCHHZI1nwQnIUsCA==
-X-Received: by 2002:a1c:4c18:0:b0:3b4:9b1d:5501 with SMTP id
- z24-20020a1c4c18000000b003b49b1d5501mr2884277wmf.13.1664288116334; 
- Tue, 27 Sep 2022 07:15:16 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- d4-20020adffd84000000b0022b0064841esm1281877wrr.59.2022.09.27.07.15.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 07:15:11 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0308F1FFBA;
- Tue, 27 Sep 2022 15:15:09 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Mads Ynddal <mads@ynddal.dk>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- kvm@vger.kernel.org (open list:Overall KVM CPUs)
-Subject: [PATCH  v3 14/15] gdbstub: move guest debug support check to ops
-Date: Tue, 27 Sep 2022 15:15:03 +0100
-Message-Id: <20220927141504.3886314-15-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220927141504.3886314-1-alex.bennee@linaro.org>
-References: <20220927141504.3886314-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <linus@sphalerite.org>)
+ id 1odBWN-0005UT-Ld; Tue, 27 Sep 2022 10:25:33 -0400
+Received: from sosiego.soundray.org ([2a01:4f8:c2c:a9a0::1]:59202)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <linus@sphalerite.org>)
+ id 1odBWJ-0007cj-Uc; Tue, 27 Sep 2022 10:25:15 -0400
+From: Linus Heckemann <git@sphalerite.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sphalerite.org;
+ s=sosiego; t=1664288705;
+ bh=e/jLQuGsPOhXvNmmNG0+/5tNPTn+E4YpC5s8ZYBPCIc=;
+ h=From:To:Cc:Subject:Date;
+ b=3pfv//0iQvvESV5ip4fpK8dW5cpd8w0ogNubyIMQZY/D9i7IzAWwjLL3zk2CMFa9V
+ FfrFhawaxqKMgytXznKyPjm6dcMZ8jowbFD1jb8JN1/kmsb75ajnciBXU4YT7rHd/y
+ JxBIYNsOpMf1Nmuv41sh3Qkctzj3Z5tox7kdVYcI=
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+	qemu-devel@nongnu.org
+Cc: Qemu-block <qemu-block@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ Linus Heckemann <git@sphalerite.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH v5] 9pfs: use GHashTable for fid table
+Date: Tue, 27 Sep 2022 16:25:03 +0200
+Message-Id: <20220927142503.1694674-1-git@sphalerite.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a01:4f8:c2c:a9a0::1;
+ envelope-from=linus@sphalerite.org; helo=sosiego.soundray.org
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,207 +59,378 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This removes the final hard coding of kvm_enabled() in gdbstub and
-moves the check to an AccelOps.
+The previous implementation would iterate over the fid table for
+lookup operations, resulting in an operation with O(n) complexity on
+the number of open files and poor cache locality -- for every open,
+stat, read, write, etc operation.
 
+This change uses a hashtable for this instead, significantly improving
+the performance of the 9p filesystem. The runtime of NixOS's simple
+installer test, which copies ~122k files totalling ~1.8GiB from 9p,
+decreased by a factor of about 10.
+
+Signed-off-by: Linus Heckemann <git@sphalerite.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Mads Ynddal <mads@ynddal.dk>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20220908112353.289267-1-git@sphalerite.org>
+[CS: - Retain BUG_ON(f->clunked) in get_fid().
+     - Add TODO comment in clunk_fid(). ]
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- accel/kvm/kvm-cpus.h       | 1 +
- gdbstub/internals.h        | 1 +
- include/sysemu/accel-ops.h | 1 +
- include/sysemu/kvm.h       | 7 -------
- accel/kvm/kvm-accel-ops.c  | 1 +
- accel/kvm/kvm-all.c        | 6 ++++++
- accel/tcg/tcg-accel-ops.c  | 6 ++++++
- gdbstub/gdbstub.c          | 5 ++---
- gdbstub/softmmu.c          | 9 +++++++++
- gdbstub/user.c             | 6 ++++++
- 10 files changed, 33 insertions(+), 10 deletions(-)
+This squashes the separately submitted patch "9pfs: avoid iterator
+invalidation in v9fs_mark_fids_unreclaim"
+(20220926124207.1325763-1-git@sphalerite.org) into the previous
+version of this change.
 
-diff --git a/accel/kvm/kvm-cpus.h b/accel/kvm/kvm-cpus.h
-index 33e435d62b..fd63fe6a59 100644
---- a/accel/kvm/kvm-cpus.h
-+++ b/accel/kvm/kvm-cpus.h
-@@ -18,6 +18,7 @@ void kvm_destroy_vcpu(CPUState *cpu);
- void kvm_cpu_synchronize_post_reset(CPUState *cpu);
- void kvm_cpu_synchronize_post_init(CPUState *cpu);
- void kvm_cpu_synchronize_pre_loadvm(CPUState *cpu);
-+bool kvm_supports_guest_debug(void);
- int kvm_insert_breakpoint(CPUState *cpu, int type, hwaddr addr, hwaddr len);
- int kvm_remove_breakpoint(CPUState *cpu, int type, hwaddr addr, hwaddr len);
- void kvm_remove_all_breakpoints(CPUState *cpu);
-diff --git a/gdbstub/internals.h b/gdbstub/internals.h
-index 41e2e72dbf..eabb0341d1 100644
---- a/gdbstub/internals.h
-+++ b/gdbstub/internals.h
-@@ -9,6 +9,7 @@
- #ifndef _INTERNALS_H_
- #define _INTERNALS_H_
+I've skipped v4, because the former is arguably a poorly submitted v4.
+
+I've also addressed Christian Schoenebeck's comments on the former:
+
+* (v9fs_mark_fids_unreclaim) switched to g_autoptr for the array
+  storing the fids intermediately in preparation for reopening
+
+* (v9fs_mark_fids_unreclaim) restored the accidentally removed
+  FID_NON_RECLAIMABLE mark
+
+* (v9fs_mark_fids_unreclaim) moved fid reference release into a third
+  loop, which is run even if an error is encountered during a reopen
+  operation, in order to avoid leaking references to fids.
+
+* (v9fs_reset) implemented logic to avoid the same iterator
+  invalidation problem
+
+I've also added a comment explaining the exact role of
+v9fs_mark_fids_unreclaim, since it's not entirely obvious at a glance.
+
+
+ hw/9pfs/9p.c | 188 ++++++++++++++++++++++++++++-----------------------
+ hw/9pfs/9p.h |   2 +-
+ 2 files changed, 106 insertions(+), 84 deletions(-)
+
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index aebadeaa03..0e485cb631 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -282,33 +282,32 @@ static V9fsFidState *coroutine_fn get_fid(V9fsPDU *pdu, int32_t fid)
+     V9fsFidState *f;
+     V9fsState *s = pdu->s;
  
-+bool gdb_supports_guest_debug(void);
- int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len);
- int gdb_breakpoint_remove(CPUState *cs, int type, hwaddr addr, hwaddr len);
- void gdb_breakpoint_remove_all(CPUState *cs);
-diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
-index 86794ac273..8cc7996def 100644
---- a/include/sysemu/accel-ops.h
-+++ b/include/sysemu/accel-ops.h
-@@ -47,6 +47,7 @@ struct AccelOpsClass {
-     int64_t (*get_elapsed_ticks)(void);
- 
-     /* gdbstub hooks */
-+    bool (*supports_guest_debug)(void);
-     int (*insert_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwaddr len);
-     int (*remove_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwaddr len);
-     void (*remove_all_breakpoints)(CPUState *cpu);
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index 21d3f1d01e..6e1bd01725 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -46,7 +46,6 @@ extern bool kvm_readonly_mem_allowed;
- extern bool kvm_direct_msi_allowed;
- extern bool kvm_ioeventfd_any_length_allowed;
- extern bool kvm_msi_use_devid;
--extern bool kvm_has_guest_debug;
- 
- #define kvm_enabled()           (kvm_allowed)
- /**
-@@ -168,11 +167,6 @@ extern bool kvm_has_guest_debug;
-  */
- #define kvm_msi_devid_required() (kvm_msi_use_devid)
- 
--/*
-- * Does KVM support guest debugging
-- */
--#define kvm_supports_guest_debug() (kvm_has_guest_debug)
--
- #else
- 
- #define kvm_enabled()           (0)
-@@ -190,7 +184,6 @@ extern bool kvm_has_guest_debug;
- #define kvm_direct_msi_enabled() (false)
- #define kvm_ioeventfd_any_length_enabled() (false)
- #define kvm_msi_devid_required() (false)
--#define kvm_supports_guest_debug() (false)
- 
- #endif  /* CONFIG_KVM_IS_POSSIBLE */
- 
-diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
-index 5c0e37514c..fbf4fe3497 100644
---- a/accel/kvm/kvm-accel-ops.c
-+++ b/accel/kvm/kvm-accel-ops.c
-@@ -99,6 +99,7 @@ static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
-     ops->synchronize_pre_loadvm = kvm_cpu_synchronize_pre_loadvm;
- 
- #ifdef KVM_CAP_SET_GUEST_DEBUG
-+    ops->supports_guest_debug = kvm_supports_guest_debug;
-     ops->insert_breakpoint = kvm_insert_breakpoint;
-     ops->remove_breakpoint = kvm_remove_breakpoint;
-     ops->remove_all_breakpoints = kvm_remove_all_breakpoints;
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index b8c734fe3a..6ebff6e5a6 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -3287,6 +3287,12 @@ int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap)
-     return data.err;
- }
- 
-+bool kvm_supports_guest_debug(void)
-+{
-+    /* probed during kvm_init() */
-+    return kvm_has_guest_debug;
-+}
-+
- int kvm_insert_breakpoint(CPUState *cpu, int type, hwaddr addr, hwaddr len)
- {
-     struct kvm_sw_breakpoint *bp;
-diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
-index 965c2ad581..19cbf1db3a 100644
---- a/accel/tcg/tcg-accel-ops.c
-+++ b/accel/tcg/tcg-accel-ops.c
-@@ -93,6 +93,11 @@ void tcg_handle_interrupt(CPUState *cpu, int mask)
-     }
- }
- 
-+static bool tcg_supports_guest_debug(void)
-+{
-+    return true;
-+}
-+
- /* Translate GDB watchpoint type to a flags value for cpu_watchpoint_* */
- static inline int xlat_gdb_type(CPUState *cpu, int gdbtype)
- {
-@@ -198,6 +203,7 @@ static void tcg_accel_ops_init(AccelOpsClass *ops)
+-    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
++    f = g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
++    if (f) {
+         BUG_ON(f->clunked);
+-        if (f->fid == fid) {
+-            /*
+-             * Update the fid ref upfront so that
+-             * we don't get reclaimed when we yield
+-             * in open later.
+-             */
+-            f->ref++;
+-            /*
+-             * check whether we need to reopen the
+-             * file. We might have closed the fd
+-             * while trying to free up some file
+-             * descriptors.
+-             */
+-            err = v9fs_reopen_fid(pdu, f);
+-            if (err < 0) {
+-                f->ref--;
+-                return NULL;
+-            }
+-            /*
+-             * Mark the fid as referenced so that the LRU
+-             * reclaim won't close the file descriptor
+-             */
+-            f->flags |= FID_REFERENCED;
+-            return f;
++        /*
++         * Update the fid ref upfront so that
++         * we don't get reclaimed when we yield
++         * in open later.
++         */
++        f->ref++;
++        /*
++         * check whether we need to reopen the
++         * file. We might have closed the fd
++         * while trying to free up some file
++         * descriptors.
++         */
++        err = v9fs_reopen_fid(pdu, f);
++        if (err < 0) {
++            f->ref--;
++            return NULL;
          }
++        /*
++         * Mark the fid as referenced so that the LRU
++         * reclaim won't close the file descriptor
++         */
++        f->flags |= FID_REFERENCED;
++        return f;
      }
+     return NULL;
+ }
+@@ -317,12 +316,9 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t fid)
+ {
+     V9fsFidState *f;
  
-+    ops->supports_guest_debug = tcg_supports_guest_debug;
-     ops->insert_breakpoint = tcg_insert_breakpoint;
-     ops->remove_breakpoint = tcg_remove_breakpoint;
-     ops->remove_all_breakpoints = tcg_remove_all_breakpoints;
-diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-index ff9f3f9586..be88ca0d71 100644
---- a/gdbstub/gdbstub.c
-+++ b/gdbstub/gdbstub.c
-@@ -45,7 +45,6 @@
- 
- #include "qemu/sockets.h"
- #include "sysemu/hw_accel.h"
--#include "sysemu/kvm.h"
- #include "sysemu/runstate.h"
- #include "semihosting/semihost.h"
- #include "exec/exec-all.h"
-@@ -3447,8 +3446,8 @@ int gdbserver_start(const char *device)
-         return -1;
+-    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
++    if (g_hash_table_contains(s->fids, GINT_TO_POINTER(fid))) {
+         /* If fid is already there return NULL */
+-        BUG_ON(f->clunked);
+-        if (f->fid == fid) {
+-            return NULL;
+-        }
++        return NULL;
      }
+     f = g_new0(V9fsFidState, 1);
+     f->fid = fid;
+@@ -333,7 +329,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t fid)
+      * reclaim won't close the file descriptor
+      */
+     f->flags |= FID_REFERENCED;
+-    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
++    g_hash_table_insert(s->fids, GINT_TO_POINTER(fid), f);
  
--    if (kvm_enabled() && !kvm_supports_guest_debug()) {
--        error_report("gdbstub: KVM doesn't support guest debugging");
-+    if (!gdb_supports_guest_debug()) {
-+        error_report("gdbstub: current accelerator doesn't support guest debugging");
-         return -1;
+     v9fs_readdir_init(s->proto_version, &f->fs.dir);
+     v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
+@@ -424,12 +420,12 @@ static V9fsFidState *clunk_fid(V9fsState *s, int32_t fid)
+ {
+     V9fsFidState *fidp;
+ 
+-    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
+-        if (fidp->fid == fid) {
+-            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
+-            fidp->clunked = true;
+-            return fidp;
+-        }
++    /* TODO: Use g_hash_table_steal_extended() instead? */
++    fidp = g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
++    if (fidp) {
++        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
++        fidp->clunked = true;
++        return fidp;
      }
+     return NULL;
+ }
+@@ -439,10 +435,15 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
+     int reclaim_count = 0;
+     V9fsState *s = pdu->s;
+     V9fsFidState *f;
++    GHashTableIter iter;
++    gpointer fid;
++
++    g_hash_table_iter_init(&iter, s->fids);
++
+     QSLIST_HEAD(, V9fsFidState) reclaim_list =
+         QSLIST_HEAD_INITIALIZER(reclaim_list);
  
-diff --git a/gdbstub/softmmu.c b/gdbstub/softmmu.c
-index 4e73890379..f208c6cf15 100644
---- a/gdbstub/softmmu.c
-+++ b/gdbstub/softmmu.c
-@@ -15,6 +15,15 @@
- #include "sysemu/cpus.h"
- #include "internals.h"
+-    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
++    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &f)) {
+         /*
+          * Unlink fids cannot be reclaimed. Check
+          * for them and skip them. Also skip fids
+@@ -514,72 +515,82 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
+     }
+ }
  
-+bool gdb_supports_guest_debug(void)
-+{
-+    const AccelOpsClass *ops = cpus_get_accel();
-+    if (ops->supports_guest_debug) {
-+        return ops->supports_guest_debug();
++/*
++ * This is used when a path is removed from the directory tree. Any
++ * fids that still reference it must not be closed from then on, since
++ * they cannot be reopened.
++ */
+ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
+ {
+-    int err;
++    int err = 0;
+     V9fsState *s = pdu->s;
+-    V9fsFidState *fidp, *fidp_next;
++    V9fsFidState *fidp;
++    gpointer fid;
++    GHashTableIter iter;
++    /*
++     * The most common case is probably that we have exactly one
++     * fid for the given path, so preallocate exactly one.
++     */
++    g_autoptr(GArray) to_reopen = g_array_sized_new(FALSE, FALSE, sizeof(V9fsFidState*), 1);
++    gint i;
+ 
+-    fidp = QSIMPLEQ_FIRST(&s->fid_list);
+-    if (!fidp) {
+-        return 0;
+-    }
++    g_hash_table_iter_init(&iter, s->fids);
+ 
+     /*
+-     * v9fs_reopen_fid() can yield : a reference on the fid must be held
+-     * to ensure its pointer remains valid and we can safely pass it to
+-     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
+-     * we must keep a reference on the next fid as well. So the logic here
+-     * is to get a reference on a fid and only put it back during the next
+-     * iteration after we could get a reference on the next fid. Start with
+-     * the first one.
++     * We iterate over the fid table looking for the entries we need
++     * to reopen, and store them in to_reopen. This is because
++     * reopening them happens asynchronously, allowing the fid table
++     * to be modified in the meantime, invalidating our iterator.
+      */
+-    for (fidp->ref++; fidp; fidp = fidp_next) {
++    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &fidp)) {
+         if (fidp->path.size == path->size &&
+             !memcmp(fidp->path.data, path->data, path->size)) {
+-            /* Mark the fid non reclaimable. */
+-            fidp->flags |= FID_NON_RECLAIMABLE;
+-
+-            /* reopen the file/dir if already closed */
+-            err = v9fs_reopen_fid(pdu, fidp);
+-            if (err < 0) {
+-                put_fid(pdu, fidp);
+-                return err;
+-            }
+-        }
+-
+-        fidp_next = QSIMPLEQ_NEXT(fidp, next);
+-
+-        if (fidp_next) {
+             /*
+-             * Ensure the next fid survives a potential clunk request during
+-             * put_fid() below and v9fs_reopen_fid() in the next iteration.
++             * Ensure the fid survives a potential clunk request during
++             * v9fs_reopen_fid or put_fid.
+              */
+-            fidp_next->ref++;
++            fidp->ref++;
++            g_array_append_val(to_reopen, fidp);
+         }
 +    }
-+    return false;
-+}
-+
- int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len)
- {
-     const AccelOpsClass *ops = cpus_get_accel();
-diff --git a/gdbstub/user.c b/gdbstub/user.c
-index 42652b28a7..033e5fdd71 100644
---- a/gdbstub/user.c
-+++ b/gdbstub/user.c
-@@ -14,6 +14,12 @@
- #include "hw/core/cpu.h"
- #include "internals.h"
  
-+bool gdb_supports_guest_debug(void)
-+{
-+    /* user-mode == TCG == supported */
-+    return true;
-+}
-+
- int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len)
+-        /* We're done with this fid */
+-        put_fid(pdu, fidp);
++    for (i=0; i < to_reopen->len; i++) {
++        fidp = g_array_index(to_reopen, V9fsFidState*, i);
++        fidp->flags |= FID_NON_RECLAIMABLE;
++        /* reopen the file/dir if already closed */
++        err = v9fs_reopen_fid(pdu, fidp);
++        if (err < 0) {
++            goto out;
++        }
+     }
+ 
+-    return 0;
++ out:
++    for (i=0; i < to_reopen->len; i++) {
++        put_fid(pdu, g_array_index(to_reopen, V9fsFidState*, i));
++    }
++    return err;
+ }
+ 
+ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
  {
-     CPUState *cpu;
+     V9fsState *s = pdu->s;
+     V9fsFidState *fidp;
++    GList *freeing;
++    /* Get a list of all the values (fid states) in the table, which we then... */
++    g_autoptr(GList) fids = g_hash_table_get_values(s->fids);
+ 
+-    /* Free all fids */
+-    while (!QSIMPLEQ_EMPTY(&s->fid_list)) {
+-        /* Get fid */
+-        fidp = QSIMPLEQ_FIRST(&s->fid_list);
+-        fidp->ref++;
++    /* ... remove from the table, taking over ownership. */
++    g_hash_table_steal_all(s->fids);
+ 
+-        /* Clunk fid */
+-        QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
++    /*
++     * This allows us to release our references to them asynchronously without
++     * iterating over the hash table and risking iterator invalidation
++     * through concurrent modifications.
++     */
++    for (freeing = fids; freeing; freeing = freeing->next) {
++        fidp = freeing->data;
++        fidp->ref++;
+         fidp->clunked = true;
+-
+         put_fid(pdu, fidp);
+     }
+ }
+@@ -3205,6 +3216,8 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU *pdu, V9fsFidState *fidp,
+     V9fsFidState *tfidp;
+     V9fsState *s = pdu->s;
+     V9fsFidState *dirfidp = NULL;
++    GHashTableIter iter;
++    gpointer fid;
+ 
+     v9fs_path_init(&new_path);
+     if (newdirfid != -1) {
+@@ -3238,11 +3251,13 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU *pdu, V9fsFidState *fidp,
+     if (err < 0) {
+         goto out;
+     }
++
+     /*
+      * Fixup fid's pointing to the old name to
+      * start pointing to the new name
+      */
+-    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
++    g_hash_table_iter_init(&iter, s->fids);
++    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
+         if (v9fs_path_is_ancestor(&fidp->path, &tfidp->path)) {
+             /* replace the name */
+             v9fs_fix_path(&tfidp->path, &new_path, strlen(fidp->path.data));
+@@ -3320,6 +3335,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU *pdu, V9fsPath *olddir,
+     V9fsPath oldpath, newpath;
+     V9fsState *s = pdu->s;
+     int err;
++    GHashTableIter iter;
++    gpointer fid;
+ 
+     v9fs_path_init(&oldpath);
+     v9fs_path_init(&newpath);
+@@ -3336,7 +3353,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU *pdu, V9fsPath *olddir,
+      * Fixup fid's pointing to the old name to
+      * start pointing to the new name
+      */
+-    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
++    g_hash_table_iter_init(&iter, s->fids);
++    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
+         if (v9fs_path_is_ancestor(&oldpath, &tfidp->path)) {
+             /* replace the name */
+             v9fs_fix_path(&tfidp->path, &newpath, strlen(oldpath.data));
+@@ -4226,7 +4244,7 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+     s->ctx.fmode = fse->fmode;
+     s->ctx.dmode = fse->dmode;
+ 
+-    QSIMPLEQ_INIT(&s->fid_list);
++    s->fids = g_hash_table_new(NULL, NULL);
+     qemu_co_rwlock_init(&s->rename_lock);
+ 
+     if (s->ops->init(&s->ctx, errp) < 0) {
+@@ -4286,6 +4304,10 @@ void v9fs_device_unrealize_common(V9fsState *s)
+     if (s->ctx.fst) {
+         fsdev_throttle_cleanup(s->ctx.fst);
+     }
++    if (s->fids) {
++        g_hash_table_destroy(s->fids);
++        s->fids = NULL;
++    }
+     g_free(s->tag);
+     qp_table_destroy(&s->qpd_table);
+     qp_table_destroy(&s->qpp_table);
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 994f952600..10fd2076c2 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -339,7 +339,7 @@ typedef struct {
+ struct V9fsState {
+     QLIST_HEAD(, V9fsPDU) free_list;
+     QLIST_HEAD(, V9fsPDU) active_list;
+-    QSIMPLEQ_HEAD(, V9fsFidState) fid_list;
++    GHashTable *fids;
+     FileOperations *ops;
+     FsContext ctx;
+     char *tag;
 -- 
-2.34.1
+2.36.2
 
 
