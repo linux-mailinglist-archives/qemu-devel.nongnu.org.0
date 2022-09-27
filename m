@@ -2,175 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881A65ED00D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 00:07:54 +0200 (CEST)
-Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6175ED010
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 00:11:38 +0200 (CEST)
+Received: from localhost ([::1]:50876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odIk5-0000ZP-3D
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 18:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52420)
+	id 1odInh-0005EA-CT
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 18:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eddie.dong@intel.com>)
- id 1odIgv-0004fI-V1; Tue, 27 Sep 2022 18:04:37 -0400
-Received: from mga18.intel.com ([134.134.136.126]:7707)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eddie.dong@intel.com>)
- id 1odIgt-0002s7-Jy; Tue, 27 Sep 2022 18:04:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664316275; x=1695852275;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=fbm06furegukM36GLVuTPYNUumwMQ8MSwueCwphxaCg=;
- b=TB2xckn1KzskGs1TVdVflWYdBz0i1dme1yRSVCyjAXSE/vo6K24wGrEA
- DFgEwn8gpTQnDZYM9cjzu9IEmNtf29czPRKZFNMV0uzeo8DbriSCDsuRE
- 7JfbNK25XnfAPI9BS0r35i0SkxSl52XtwVSdDb6z+IcrPkbTBgyKt1lXd
- 0Y4bP+sled5VZvHW/AXdewyeWyaTRj1MJIuFzWadYmKS0jFANE+pu4YO9
- d9p8B/ni0QOVjLycMDdOqTiTGVP1l11FpKICo9CIgb88EDG5aj4rGRb6L
- c/RFz9PBra4cPPncpZiRgsyCYLEMrvB9pjgy/MPVz9JWfxSfI8X7y7SWL g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="284570845"
-X-IronPort-AV: E=Sophos;i="5.93,350,1654585200"; d="scan'208";a="284570845"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Sep 2022 15:04:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="725686578"
-X-IronPort-AV: E=Sophos;i="5.93,350,1654585200"; d="scan'208";a="725686578"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga002.fm.intel.com with ESMTP; 27 Sep 2022 15:04:31 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 27 Sep 2022 15:04:31 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 27 Sep 2022 15:04:30 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Tue, 27 Sep 2022 15:04:30 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.103)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Tue, 27 Sep 2022 15:04:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JTCWAxvgFX3B2XOtAKCwUqerjf5WQyZGkaCHrPncRDcx8bWu8jtdkE0//vUxu6E32aSDxJdh/fQ40Y+xAKX32YR8VUYzrdJfVp8DWfbc+ObuI7bOSRdc704QahXdMb45cLskod7ZCNt221fB98nCxSbpFIW/1hko8zOEreR9njdFP2SN0rPWxkWo+euAPFVdGfjwzNKYW5IdQE6IkX5g/u/PX689g+QwzhKu+8wERozxPIp6ZhGHRMXP8UcYZitf5lgoXxBK/xk/oE5HBRjRnidjnqWniv8fjUA8FnZzRhkrk2iIABTsXZl90DYls+U1rbOywH5G8Q5zM8WRu+mA6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fbm06furegukM36GLVuTPYNUumwMQ8MSwueCwphxaCg=;
- b=MgRwREMhaEV+IYsrKfcZuBeFBsoaaIcWPXVzXBI7mSuRZn+9PeMZFRqkwhVRGsBURIpn5TD062c8rQcyNGnqbIzUJDlUfh2+vSS2YT1JQ5lhgCt/rAJWG8ymAxG2KD62ihT7uv7/ZGeYaCYDa7l/U7tO8vBC+t8TfHW/FqHt5drxBmqpHYXK9EMVm1WAdhUGZBbTf9Jr6AVBeNM/APu624J9uMaK3kkSZfDjbKsOAumodyN3hxY25FlOXJpPe47jkJqxJP9gZBKCh2uzBm99hGG0KHC49Ij6cuzkwoZH8jqbLywZgOASz7tuDBbWb4cE2yJ9IrAOAOGmd3VArP1YyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BL0PR11MB3042.namprd11.prod.outlook.com (2603:10b6:208:78::17)
- by MN2PR11MB4551.namprd11.prod.outlook.com (2603:10b6:208:269::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.24; Tue, 27 Sep
- 2022 22:04:28 +0000
-Received: from BL0PR11MB3042.namprd11.prod.outlook.com
- ([fe80::b52e:e73e:ac99:8a5]) by BL0PR11MB3042.namprd11.prod.outlook.com
- ([fe80::b52e:e73e:ac99:8a5%3]) with mapi id 15.20.5676.017; Tue, 27 Sep 2022
- 22:04:28 +0000
-From: "Dong, Eddie" <eddie.dong@intel.com>
-To: Tyler Ng <tkng@rivosinc.com>
-CC: "open list:RISC-V" <qemu-riscv@nongnu.org>, "qemu-devel@nongnu.org
- Developers" <qemu-devel@nongnu.org>, Alistair Francis
- <Alistair.Francis@wdc.com>, "Meng, Bin" <bin.meng@windriver.com>, Thomas Huth
- <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Laurent Vivier <lvivier@redhat.com>
-Subject: RE: [PATCH v2 1/3] hw/watchdog: wdt_ibex_aon.c: Implement the
- watchdog for the OpenTitan
-Thread-Topic: [PATCH v2 1/3] hw/watchdog: wdt_ibex_aon.c: Implement the
- watchdog for the OpenTitan
-Thread-Index: AQHYzqCkzYowmiYXhEufWUdCK4JisK3yKLLggAA4L4CAAXZwcA==
-Date: Tue, 27 Sep 2022 22:04:28 +0000
-Message-ID: <BL0PR11MB304295EA40A39F491D8DEFA58A559@BL0PR11MB3042.namprd11.prod.outlook.com>
-References: <CAB88-qOh7dBoFP4SWcM4G5EVp6cumVnZ5j4tNRqSvMT08=dAcA@mail.gmail.com>
- <BL0PR11MB3042E97131ADE38A3535984F8A529@BL0PR11MB3042.namprd11.prod.outlook.com>
- <CAB88-qMZiPgFx-13WiXqJ9+EV04THXuSHkLjFxLqvZxKp5LNkA@mail.gmail.com>
-In-Reply-To: <CAB88-qMZiPgFx-13WiXqJ9+EV04THXuSHkLjFxLqvZxKp5LNkA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.500.17
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL0PR11MB3042:EE_|MN2PR11MB4551:EE_
-x-ms-office365-filtering-correlation-id: 7167ca6d-cfb9-4446-bf2f-08daa0d43f70
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: JSaUfaGPjjlHRehphmMH7s9G6L7mppCqkvcW4d22DsBgXIsGIhuDXJWNpnGRMHT97glDtxdBZRh0+8H7WqYZEmh0f+iXgJzyG2ocP9z7YlTpogViZO8UqOqNKMBS88O98oMmvtoOdn4J9sHQmZd5DyjQhZgtELiJiDUdf3DqngmBQeR9w+ypY376dIIEr4FsB+lrZxPbryZ8cUgg0hN2K12g1kRH3IUz9KLHFr2cNuYQCGl3AgTkvcXKbD5nwukbop5dO5OeGO02RKJyPIodl4Q7A+/Vb9dvykNRiXrFSqDbCEC1SnskKWuGB9R3exqJDcp2jBoDo+3b6+ZyccVCYDL0sBdCQh3lC6KUjOLxhJg4ji0kmnnVFDSx5TvPa5k6VPlkwmQH3u9L+uEyz53qwVAFqDvaRJ+LACbMpAMX4j11qNsBlVJCZXkC1vSDbAzWR7YrNTJ35yw+IK3bHkmJ7vdhuBVUUpq5lVC6+XIIt4DMbhAxOGUVmFAuXTXp4joq/Ju/KMO+i/Vcgw6Hjc76uWIgVv7PJmTJC3PyaKaHsUrPNjAqKHK0s/sz7HWFY+X6MdYFewlvmdiprKTD4lPBgvf83qUi2a4AGuEfKRtfvIWcSX5bq7a0eW/bwzrxHixg0GIKGL/1LLulGojS+vtfjLBQQYnkIaQJvqcxHxp3I0XNkHuKWzpYQmbIEVxbPwgf751LEvlW4SynME/DrvqKY9NYA36qdpbFADBx87iErlX6jGr0uEybsE8H12/MAt/S6bhahGSn5iXJlcjte8+Fjg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR11MB3042.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(366004)(136003)(396003)(39860400002)(346002)(376002)(451199015)(55016003)(86362001)(71200400001)(38070700005)(33656002)(478600001)(2906002)(41300700001)(7696005)(5660300002)(6506007)(54906003)(38100700002)(6916009)(9686003)(26005)(8936002)(76116006)(82960400001)(64756008)(83380400001)(186003)(8676002)(52536014)(66556008)(66476007)(66446008)(122000001)(66946007)(316002)(4326008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WnhjMXI1cnpVcjFkdjdmNVhWbFREd200bTZPOWYwTGdKUkZ3WmxiSHpvdHRR?=
- =?utf-8?B?NkRkeFZtUUJNajFCZHhINmJybzdRMVJvR2h6OVpEbnhEVy9SRFptNjlHYXRn?=
- =?utf-8?B?NFBuWHlML3BVMzlMaW95UVlZUWFibTNzbVlSZFFvYlU3YTU0L1phcld2VTFS?=
- =?utf-8?B?RGdFcndMQUpLYi9IMzVMYzFGcnVhdFc0cEJSVHN2S0hRbEwwQUxrQUVsWUh0?=
- =?utf-8?B?YlU1WkxMVDZ4RVNybW9OOEN0Z05YZWhJa2pSOXNGa2RWME9QelE4OURFRmZp?=
- =?utf-8?B?QXFMMWZWSW5pR0x0aWZxUW5ZNnhNbVAxbFFQV0R5ak9yTzNoS1B1c290K1M5?=
- =?utf-8?B?cFY3V29HUVJZU0lPTElwalIvNnRCSFI5SUNCUC80dUp0VHZMWUlMTGxQZktC?=
- =?utf-8?B?V2NTZC91VmY2NURJaTZuWkZDV0FWcHducC9EWjVZVGtocnB0Y3VySnd4SWxz?=
- =?utf-8?B?ZVZkM1ZnZlNsVTJkZXg4WUVpdWJORkFLRGdUcUpaUFFheGsrYUNGQTNHWFBq?=
- =?utf-8?B?bmxRbDBQaE9Qck9JTHd0Q1pmRTl2V0oyK083MTE0VU51VTlTZVkwTC9vMURS?=
- =?utf-8?B?SkNvMEp2MFN5NHRRTjdqS2RFaHY0YzY3UGNSakhqQzdQSUJRRXY4NHpzTGFu?=
- =?utf-8?B?L0I2bTJBdU5SQXdvNG50bndWbFBTNmNYcDN0Y1BsMTFFUGdhMFdjblI4ZDZh?=
- =?utf-8?B?NmVrMTlYSG5KZXpERXZzRkptTWZYWjJBTlovZkdVemlTbk1URTlqZ0U3VFJn?=
- =?utf-8?B?bG1OZXZWQ0xYQ1hsSnhYK283TXdqeUhrbDFkM29OS3NBbVludWwwSlFJZjdp?=
- =?utf-8?B?MW9nK05COTBCL1ZSMWJaY1ZLTFZPOWY3Y2hOYnJvODZUU3F4UEFaVjhsajdO?=
- =?utf-8?B?Wmp4aXhScTJUaWpCRi80NXBXdWE1Nm5rdG00KzVQNWM0RzZZRm83SWczN1BT?=
- =?utf-8?B?bytkc3VPWHc1R1M5RWpiZkxVYURTclhsUEcycjB0bmN0cHo1MzcrSnJnZ2pF?=
- =?utf-8?B?VTFOdGZqaE9jVWVLemhPWmVSeUM4dkh1NVk2ZVRKdUlZNWxkYm9tT0FBcG90?=
- =?utf-8?B?SlRpZDV4M1Qyc3lQZzNweXNsdG8yQ2FZOEVrSHVuU1RmRmtWR0tHNnBxazZO?=
- =?utf-8?B?WTA3RlkrVkNHOVNQMnNENXY1a1ZrTzV1NWZpbHg4ajY4M1hUL01MMjJHRG1H?=
- =?utf-8?B?Q1BLOUYyc2ZocE9OUkx6TXRjN2Nud29UMFI1d1NzaGZlYlZOUVNWbVVXMVg3?=
- =?utf-8?B?Y0pUWUVHNGh1WFd4NXVybHNEUWI0aGRQNHFzR081cVZlVnhtU09aZUNyR1kx?=
- =?utf-8?B?V01Qd0s4dFVRNWs5MWxtdzhNZXljVHFKUUVXVENtVVZDRG5QdFc3SGV6OHRh?=
- =?utf-8?B?RFp4UmkwWW9FQVE3Vmo4SG5BczZlbytkdmlHSjU5cTRsUHlaWVVUSTZCNm1R?=
- =?utf-8?B?Y1VkYXo3WERTbDFGQ2lVTVJraXVJdG9EbENFcmRPS3U4NnF6amlxbzRWSUtZ?=
- =?utf-8?B?VCtIZForbmxNQXJQTno5dDF0MUhCeDhwOTFmODBUTHQ4SXdTbXFqRkhuMHUy?=
- =?utf-8?B?Ty9SMi9sRGtMMmUzRUNTQnJxaGpZY0RlTXdpZzJKZ0ZmVmF3K3IrUERpWVpD?=
- =?utf-8?B?UElZMkYxSXFLaXBWajNJRmJVYUJjdzF1YlAzMmg5dUpJc0xXYVQ0MVByUm0y?=
- =?utf-8?B?blVuU1Zya1lDTStNazJwcXRKa0FlT0EvZ21iTTVhMDBTRlh3SUtwQ2tlQjRh?=
- =?utf-8?B?SkM5UGxLcWgzblYxQTF4U0Z0aE83M2VNTE5Id1FCQnRzUWxYTXJMUjdjWFgw?=
- =?utf-8?B?SVNRMWRjZTk1OG5pY1BOUnpHNlJUellCK3VPanNkRWowaTd0S1BWSXorbzRu?=
- =?utf-8?B?TDFIZGc2U3ZRNjVVdjk5M2ZDVlU0aStkVHphYkxBL2RZcmRtc3A5RHdxOHVx?=
- =?utf-8?B?WEhoQXVCV25xeWtVTUs5YUdDTnRZT0NMd05jblhKU0lBREt4QkMwZVRxODRI?=
- =?utf-8?B?d3JqMjlQNTMrd0FiVmV0bllLTG9vaXhNR0UxNjRPalBaRmxuTzhKRG84OTF1?=
- =?utf-8?B?dGQrRzNnUFV1OHlRR04xaXRaTENDNGdiZXVOOHdDeGlvSzV0bWE4dlh6M0NH?=
- =?utf-8?Q?kh2FQK4nFyAL7k6ScSTXimaSY?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1odIkS-0001Ra-Lr; Tue, 27 Sep 2022 18:08:18 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36358)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1odIkQ-0003MD-Hl; Tue, 27 Sep 2022 18:08:16 -0400
+Received: by mail-ej1-x630.google.com with SMTP id 13so23514668ejn.3;
+ Tue, 27 Sep 2022 15:08:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=LSsZ7Zzodm+J4AdIzVzrt59xtXzFIQYAp4B1mMdCnlg=;
+ b=LPeWtOvHCHtcV3r8r6TSpSuv4ZSQP9jOAQvZi1WC35/SHJW7rkkI2ClNC+Uh6n557X
+ 6Ljm9g3AULCm+twQjljeRuT/o4TBWXSf5LfE+6RuMDQZQqpLqn4ndZx9BN9ySdCXD4g3
+ 39ebMnDUC22Wrzf6BvzV+IuEod0BGSHs1bsPxHedtCwqbuDNinXmpTPOr5ImL3QuxNds
+ u93mH6i3VKiGarfuwGuk9m9sg7GfiVdwQCs/LFgb3ttO7ki3Er8zI/cX3TMQXYsKHX1N
+ Tf5zNphkLpLuYXxf/qzFIqEQ+GX545ZjaO+LMJCECbsZiORLCXlrLyS/Up0BmehPh6Dp
+ aueA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=LSsZ7Zzodm+J4AdIzVzrt59xtXzFIQYAp4B1mMdCnlg=;
+ b=ZN6RgnWQgYunN1C56spYOE82bTGPxq0y9OYjnZ9aJJXSOhXXOy+Nr2nztC1HXxnlSd
+ EwDcV87jmQtzLO6CZUWioVJRhm09nVW1FOAwDxUx6n63odu3+mqBlb8mUEUxWQpf8Um4
+ 4sE+a19gypalWvbTeWtew95YVNnvIzeknq9dBiTD0caCdXrgpFGPhyLoOedK1xzKeNUl
+ eBx+seJGI5ha+Sk5mlLuj2juiY0pRBAzlGp7WpkmqGA+Dt9eImvn6gVj4ri88KmjqLoG
+ MXM72HfooCgVjfaPfaQffOYVK9/nmy6xDcxunk2TytochFzcDCH/dOuDuFcQzcn7l6qz
+ 4VEg==
+X-Gm-Message-State: ACrzQf1KDFSkGengMHVa68FOe1wCko+FQQ0tgeGrZsLZpWnTyHCscj/E
+ TPEYTjbEb7DxQ03u8LE9fGHc8NkD594=
+X-Google-Smtp-Source: AMsMyM5MA6KriOHoVUm0p8EoaEQq9w5QAs7lNgyaMBHoiCEt8x4wUPFesO1kiywgXD3iflQjqiUODA==
+X-Received: by 2002:a17:907:3e06:b0:733:693:600e with SMTP id
+ hp6-20020a1709073e0600b007330693600emr23486571ejc.410.1664316489914; 
+ Tue, 27 Sep 2022 15:08:09 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-011-044-017.77.11.pool.telefonica.de.
+ [77.11.44.17]) by smtp.gmail.com with ESMTPSA id
+ k20-20020aa7d8d4000000b00457d9c16fb2sm557877eds.23.2022.09.27.15.08.09
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 27 Sep 2022 15:08:09 -0700 (PDT)
+Date: Tue, 27 Sep 2022 22:08:06 +0000
+From: B <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+CC: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2=5D_hw/virtio/vhost-shadow-virtqu?=
+ =?US-ASCII?Q?eue=3A_Silence_GCC_error_=22maybe-uninitialized=22?=
+In-Reply-To: <D1ED14E5-CFF9-4525-96C5-60262DB17309@gmail.com>
+References: <20220910151117.6665-1-shentey@gmail.com>
+ <D1ED14E5-CFF9-4525-96C5-60262DB17309@gmail.com>
+Message-ID: <3565DD2F-D779-4EEA-9273-EC11963BC3C0@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB3042.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7167ca6d-cfb9-4446-bf2f-08daa0d43f70
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2022 22:04:28.3586 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 94vs5ce6rWB52n5dmzKjdGSmNWdjmakghUFyuse5hKtPw94DmzBO07zrJmvhpsunHkJML3VqWMJk0SY/ZeG6EA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4551
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=eddie.dong@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -186,34 +90,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgVHlsZXI6DQoNCj4gK30NCj4gKw0KPiArLyogQ2FsbGVkIHdoZW4gdGhlIGJhcmsgdGltZXIg
-ZXhwaXJlcyAqLyBzdGF0aWMgdm9pZA0KPiAraWJleF9hb25fYmFya2VyX2V4cGlyZWQodm9pZCAq
-b3BhcXVlKSB7DQpUaGlzIG1heSBoYXBwZW4gZHVyaW5nIGliZXhfYW9uX3VwZGF0ZV9jb3VudCgp
-LCByaWdodD8gDQoNCj4gK8KgIMKgIEliZXhBT05UaW1lclN0YXRlICpzID0gSUJFWF9BT05fVElN
-RVIob3BhcXVlKTsNCj4gK8KgIMKgIGlmIChpYmV4X2Fvbl91cGRhdGVfY291bnQocykgJiYNCiAg
-ICAgICAgVGhpcyBtYXkgaGFwcGVuIGR1cmluZyBpYmV4X2Fvbl91cGRhdGVfY291bnQoKS4NCiAg
-ICAgICAgTmVzdGVkIGNhbGwgbWF5IGxlYWQgdG8gaW5jb3JyZWN0IHMtPnJlZ3NbUl9XRE9HX0NP
-VU5UXSAmIHMtPndkb2dfbGFzdC4gDQoNCiAgICBDYW4geW91IGVsYWJvcmF0ZT8gVGhlIHRpbWVy
-cyBmb3IgYmFyayBhbmQgYml0ZSBhcmUgbm90IHVwZGF0ZWQgaW4gInVwZGF0ZV9jb3VudCIuDQoN
-CldoZW4gMXN0IGliZXhfYW9uX3VwZGF0ZV9jb3VudCgpIGlzIGV4ZWN1dGluZywgYW5kIGlzIGlu
-IHRoZSBwbGFjZSBQUFAgKGFmdGVyIHVwZGF0aW5nIHMtPnJlZ3NbUl9XRE9HX0NPVU5UXSBidXQg
-YmVmb3JlIHVwZGF0aW5nIHMtPndkb2dfbGFzdCksIGEgdGltZXIgKGJhcmtlcikgbWF5IGhhcHBl
-bi4NCkluc2lkZSBpYmV4X2Fvbl9iYXJrZXJfZXhwaXJlZCgpLCBpdCBjYWxscyBpYmV4X2Fvbl91
-cGRhdGVfY291bnQoKSBhZ2FpbiAobmVzdCBjYWxsKSwgYW5kIHVwZGF0ZSBzLT5yZWdzW1JfV0RP
-R19DT1VOVF0gJiBzLT53ZG9nX2xhc3QsIHdpdGggdGhlIG5ldyB2YWx1ZS4NCkFmdGVyIHRoZSBu
-ZXN0IGV4ZWN1dGlvbiBlbmRzLCBhbmQgcmV0dXJucyB0byB0aGUgaW5pdGlhbCBwb2ludCAoUFBQ
-KSAsIHRoZSBzLT53ZG9nX2xhc3QgaXMgdXBkYXRlZCAod2l0aCB0aGUgdmFsdWUgb2YgMXN0IGV4
-ZWN1dGlvbiB0aW1lKSwgdGhpcyBsZWFkcyB0byBtaXNtYXRjaCBvZiBzLT5yZWdzW1JfV0RPR19D
-T1VOVF0gJiBzLT53ZG9nX2xhc3QuDQoNClRoaXMgY2FzZSBtYXkgbm90IGJlIHRyaWdnZXJlZCBh
-dCBub3JtYWwgY2FzZSwgYnV0IGlmIHRoZSBndWVzdCByZWFkIEFfV0RPR19DT1VOVCwgdGhlIDFz
-dCBpYmV4X2Fvbl91cGRhdGVfY291bnQoKSBkb2VzIGV4ZWN1dGUsIGFuZCBicmluZyB0aGUgcG90
-ZW50aWFsIGlzc3VlLg0KDQpJIHRoaW5rIHdlIGNhbiBzb2x2ZSB0aGUgcHJvYmxlbSwgYnkgbm90
-IHVwZGF0aW5nIHMtPnJlZ3NbUl9XRE9HX0NPVU5UXSAmIHMtPndkb2dfbGFzdCBpbiB0aGUgdGlt
-ZXIgY2FsbCBiYWNrIEFQSS4gIFRoZSB1cGRhdGUgaXMgbm90IG5lY2Vzc2FyeSBnaXZlbiB0aGF0
-IHRoZSBzdG9yZWQgdmFsdWUgaXMgYW55d2F5IG5vdCB0aGUgY3VycmVudCBDT1VOVC4gV2Ugb25s
-eSBuZWVkIHRvIHVwZGF0ZSB3aGVuIHRoZSBndWVzdCB3cml0ZSB0aGUgQ09VTlQuDQoNCg0KPiAr
-wqAgwqAgwqAgwqAgcy0+cmVnc1tSX1dET0dfQ09VTlRdID49IHMtPnJlZ3NbUl9XRE9HX0JBUktf
-VEhPTERdKSB7DQo+ICvCoCDCoCDCoCDCoCBzLT5yZWdzW1JfSU5UUl9TVEFURV0gfD0gKDEgPDwg
-MSk7DQo+ICvCoCDCoCDCoCDCoCBxZW11X2lycV9yYWlzZShzLT5iYXJrX2lycSk7DQo+ICvCoCDC
-oCB9DQo+ICt9DQo+ICsNCg0KDQpUSFggIEVkZGllDQo=
+
+
+Am 20=2E September 2022 05:29:25 UTC schrieb Bernhard Beschow <shentey@gma=
+il=2Ecom>:
+>Am 10=2E September 2022 15:11:17 UTC schrieb Bernhard Beschow <shentey@gm=
+ail=2Ecom>:
+>>GCC issues a false positive warning, resulting in build failure with -We=
+rror:
+>>
+>>  In file included from /usr/include/glib-2=2E0/glib=2Eh:114,
+>>                   from src/include/glib-compat=2Eh:32,
+>>                   from src/include/qemu/osdep=2Eh:144,
+>>                   from =2E=2E/src/hw/virtio/vhost-shadow-virtqueue=2Ec:=
+10:
+>>  In function =E2=80=98g_autoptr_cleanup_generic_gfree=E2=80=99,
+>>      inlined from =E2=80=98vhost_handle_guest_kick=E2=80=99 at =2E=2E/s=
+rc/hw/virtio/vhost-shadow-virtqueue=2Ec:292:42:
+>>  /usr/include/glib-2=2E0/glib/glib-autocleanups=2Eh:28:3: error: =E2=80=
+=98elem=E2=80=99 may be used uninitialized [-Werror=3Dmaybe-uninitialized]
+>>     28 |   g_free (*pp);
+>>        |   ^~~~~~~~~~~~
+>>  =2E=2E/src/hw/virtio/vhost-shadow-virtqueue=2Ec: In function =E2=80=98=
+vhost_handle_guest_kick=E2=80=99:
+>>  =2E=2E/src/hw/virtio/vhost-shadow-virtqueue=2Ec:292:42: note: =E2=80=
+=98elem=E2=80=99 was declared here
+>>    292 |             g_autofree VirtQueueElement *elem;
+>>        |                                          ^~~~
+>>  cc1: all warnings being treated as errors
+>>
+>>There is actually no problem since "elem" is initialized in both branche=
+s=2E
+>>Silence the warning by initializig it with "NULL"=2E
+>>
+>>$ gcc --version
+>>gcc (GCC) 12=2E2=2E0
+>>
+>>Fixes: 9c2ab2f1ec333be8614cc12272d4b91960704dbe ("vhost: stop transfer e=
+lem ownership in vhost_handle_guest_kick")
+>>Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>>---
+>
+>Ping
+
+Ping2
+
+>
+>> hw/virtio/vhost-shadow-virtqueue=2Ec | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>>diff --git a/hw/virtio/vhost-shadow-virtqueue=2Ec b/hw/virtio/vhost-shad=
+ow-virtqueue=2Ec
+>>index e8e5bbc368=2E=2E596d4434d2 100644
+>>--- a/hw/virtio/vhost-shadow-virtqueue=2Ec
+>>+++ b/hw/virtio/vhost-shadow-virtqueue=2Ec
+>>@@ -289,7 +289,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtq=
+ueue *svq)
+>>         virtio_queue_set_notification(svq->vq, false);
+>>=20
+>>         while (true) {
+>>-            g_autofree VirtQueueElement *elem;
+>>+            g_autofree VirtQueueElement *elem =3D NULL;
+>>             int r;
+>>=20
+>>             if (svq->next_guest_avail_elem) {
+>
 
