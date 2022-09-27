@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686315EBDE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:59:28 +0200 (CEST)
-Received: from localhost ([::1]:33856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1785EBE02
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:08:08 +0200 (CEST)
+Received: from localhost ([::1]:53964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od6R5-0004oK-H0
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:59:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56202)
+	id 1od6ZT-0004rw-8A
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5pI-0006Qk-GV
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:20:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55941)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od5r1-0008Gs-Ie
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:22:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5pE-0000aO-S7
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:20:23 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od5qz-0000lx-Ox
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:22:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664266820;
+ s=mimecast20190719; t=1664266929;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wap4bE3M153XlNUESFRpL6QFaSZ1Y/NXM6sOa6Kq+is=;
- b=XSbBt7uJeNilmbDQZLdv7ZfA/WkISg+9XwGgu3Gsd04ER3ZwB8TqGfpn98dIHyyLk0Wb9P
- y3Wa9Q6trnWmFWjS4jduMh6ZFgDAt93IOxfTww2wG7xIotIAXE5wcsDdjxqad3F80vsisC
- ax95MgheajfbXi7p80p2URjpmGYGUiw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-624-HK9T0suaNLeg4jL08XQ1RQ-1; Tue, 27 Sep 2022 04:20:14 -0400
-X-MC-Unique: HK9T0suaNLeg4jL08XQ1RQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 106BA85A5A6;
- Tue, 27 Sep 2022 08:20:14 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B5F4540C6EC2;
- Tue, 27 Sep 2022 08:20:13 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 533AD18009CC; Tue, 27 Sep 2022 10:19:14 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Alexandre Ratchov <alex@caoua.org>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Dongwon Kim <dongwon.kim@intel.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 24/24] virtio-gpu: update scanout if there is any area covered
- by the rect
-Date: Tue, 27 Sep 2022 10:19:12 +0200
-Message-Id: <20220927081912.180983-25-kraxel@redhat.com>
-In-Reply-To: <20220927081912.180983-1-kraxel@redhat.com>
-References: <20220927081912.180983-1-kraxel@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MLqQZ+7PSZN58OTodD562PnWI5elhFrOF+nHccsB9Pk=;
+ b=Dt0+JMIOB/vOW0J0D+K3TzM/EmGeDe08L65DA61ZnT0cVwiYVeWWIDDHri4r/fTOyQVoCb
+ PHBVxEG6GkiyzOpF6luo/OUd8oNyaKiToA3774GoF1WNQrjVuDNXoLJjZmzhUiilc9u0ku
+ jx9TCKbtVXjZN7o1VXNxUVyranB2h+Q=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-460-vyQXZv4PMfKItockPWEhxQ-1; Tue, 27 Sep 2022 04:22:07 -0400
+X-MC-Unique: vyQXZv4PMfKItockPWEhxQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ r7-20020a1c4407000000b003b3f017f259so5211283wma.3
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 01:22:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=MLqQZ+7PSZN58OTodD562PnWI5elhFrOF+nHccsB9Pk=;
+ b=ELUX6/Ub0zdT9/JfENeYbEf+Akq/qD/cgcqwxySeviGSaMO/TJ9fjstTxP82wavq6b
+ FxHtNdGA8730PlCGoddAoRZ7xtnJe4jbCwnZiJ7/WAjyyo0BuO1YfYMapJALGahDfcrA
+ 2z+Z63xx2LWtbQhjAdFH5oyWxO8TbIzuBZMJDWaEj5W5BA+HB2hOfYdwa7EGOMyCFRME
+ onOaBP2SKBGU9IGUxn7+moM0TqT+aYzrAVu1wUGSUAc48NijCQSPbK/hNYYdsz4H1V5e
+ sDLXCgpJmjxrSqxigk7FcDMz5DHvzj9ps7IC+S7JIndzZW3QhX5HV7KoV/AgFLHbrnMh
+ QE+g==
+X-Gm-Message-State: ACrzQf2PcO57EbvuVMENQw9Sk03cniGzEksPdPT5UsieDjsQ53i0nYwC
+ 6S7r2g1HVJ5Ju3N8J4gy+Tmq6p+tCwCK94XoodNZFQj2ehcq9onrCWakNTMT8dMggItgXISYgex
+ 3zfOl00OvlSIF8mkrSOGtOuzzInAVxQK6O96LaTO9ma7UbPDVmjRgmzA9gotyOIo=
+X-Received: by 2002:a5d:5849:0:b0:22b:a0e:11e0 with SMTP id
+ i9-20020a5d5849000000b0022b0a0e11e0mr16633516wrf.72.1664266926672; 
+ Tue, 27 Sep 2022 01:22:06 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7PNpbbqmTBq7vqe39uAFLrjW74qKyRFewa4KCvFBGfAXOvzgXKY0VK7XzGrz+RhNX6te7ttA==
+X-Received: by 2002:a5d:5849:0:b0:22b:a0e:11e0 with SMTP id
+ i9-20020a5d5849000000b0022b0a0e11e0mr16633491wrf.72.1664266926385; 
+ Tue, 27 Sep 2022 01:22:06 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-179-30.web.vodafone.de.
+ [109.43.179.30]) by smtp.gmail.com with ESMTPSA id
+ y18-20020adfe6d2000000b0022af63bb6f2sm1051341wrm.113.2022.09.27.01.22.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Sep 2022 01:22:05 -0700 (PDT)
+Message-ID: <285e1375-82c4-556d-54fa-abba6b8e8e77@redhat.com>
+Date: Tue, 27 Sep 2022 10:22:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Should we maybe move Cirrus-CI jobs away from Gitlab again?
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -92,40 +102,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dongwon Kim <dongwon.kim@intel.com>
 
-The scanout is currently updated only if the whole rect is inside the
-scanout space. This is not a correct condition because the scanout should
-be updated even a small area in the scanout space is covered by the rect.
+  Hi all,
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220909014052.7297-1-dongwon.kim@intel.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/display/virtio-gpu.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+now that Gitlab is giving us pressure on the amount of free CI minutes, I 
+wonder whether we should maybe move the Cirrus-CI jobs out of the gitlab-CI 
+dashboard again? We could add the jobs to our .cirrus-ci.yml file instead, 
+like we did it in former times...
 
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 20cc703dcc6e..5e15c79b94a5 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -515,9 +515,10 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
-         for (i = 0; i < g->parent_obj.conf.max_outputs; i++) {
-             scanout = &g->parent_obj.scanout[i];
-             if (scanout->resource_id == res->resource_id &&
--                rf.r.x >= scanout->x && rf.r.y >= scanout->y &&
--                rf.r.x + rf.r.width <= scanout->x + scanout->width &&
--                rf.r.y + rf.r.height <= scanout->y + scanout->height &&
-+                rf.r.x < scanout->x + scanout->width &&
-+                rf.r.x + rf.r.width >= scanout->x &&
-+                rf.r.y < scanout->y + scanout->height &&
-+                rf.r.y + rf.r.height >= scanout->y &&
-                 console_has_gl(scanout->con)) {
-                 dpy_gl_update(scanout->con, 0, 0, scanout->width,
-                               scanout->height);
--- 
-2.37.3
+Big advantage would be of course that the time for those jobs would not 
+count in the Gitlab-CI minutes anymore. Disadvantage is of course that they 
+do not show up in the gitlab-CI dashboard anymore, so there is no more 
+e-mail notification about failed jobs, and you have to push to github, too, 
+and finally check the results manually on cirrus-ci.com ...
+
+Opinions?
+
+  Thomas
 
 
