@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374BF5EB627
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 02:18:36 +0200 (CEST)
-Received: from localhost ([::1]:57104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004A75EB649
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 02:33:08 +0200 (CEST)
+Received: from localhost ([::1]:33142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ocyJ0-0005s6-1Q
-	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 20:18:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48144)
+	id 1ocyX5-0000VP-GD
+	for lists+qemu-devel@lfdr.de; Mon, 26 Sep 2022 20:33:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocyHk-0004Ok-AP; Mon, 26 Sep 2022 20:17:16 -0400
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:33310)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ocyHi-0002Vb-M2; Mon, 26 Sep 2022 20:17:16 -0400
-Received: by mail-qt1-x832.google.com with SMTP id ay9so5203261qtb.0;
- Mon, 26 Sep 2022 17:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=Mszleyk4Hu6DrKr/d/FbFuzBxfXd1JzkSfdx/iPufcM=;
- b=VmbJxLJWtGoj2xaFUSOO1IQ9vcTP1JyAknPYUEfHZaR/8BuF8AmzMXIyRuvs0xv3UN
- +dEdFqXvhYPcp4yL34lZefBsGSYI5/2LxIpjs2emIJCfSXeVy1/vSS2etqD219MYr4Z6
- Fzi2hZH/6X3J5/V7J5CKUbrngOVporJkRFjLXd3ZBTpfOIpHI+aJPWNbPuhncCrBV3iu
- F4JTGLYtNxd2jgJ1VgKHqQI0PXNPNu/C7Hs8atxzuIWhgaiAGfOB/Lk68ELZ0FNx9AWU
- X7cXDGFLmn4xlgbUb6ikxC9lq8R6YXs2u/TtvVDFvUu3BesVReJhHGE/y4NI1xtEKbWx
- QYTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Mszleyk4Hu6DrKr/d/FbFuzBxfXd1JzkSfdx/iPufcM=;
- b=jL4I1aaszuQIo9RnSFxLqj7OYRc3IxoZG5YxVAjkg25OPJBWwuMxkxGnRJfxbIg1/V
- KZKqvByjW5I7jWSeRrHPfku3AtSoxI9imUfqC7dU6W8V9Aob3MK/sgNQFRY3yCHe+JnB
- 8UYOMl3NmIMIV5uAnV/Ciqe6uIinNOFyHbEuye23zNKqpcXGP2mgp7dwCEstxP1SwzNo
- T+YyiGjvOoigSltQcF1P0kTGDFQLIFBSEn0G3+p72okBqk69xResogTF5RTHpstyvJTn
- mfRyIHlBj/YQcLVk5xCn0YMbk7SqF0DGYqoMYlbKUQZN9m+/o0p+FqM2nIgWHqYqidi0
- bWyQ==
-X-Gm-Message-State: ACrzQf0FgTGyEy84EvgI66WLmEv9tcNHwXNIA1O1EDsVZG2C3kmuAIhb
- +l22Vf8EfxKONJ9oVE29HWjge8GOAzETkHc4OP8=
-X-Google-Smtp-Source: AMsMyM7SybGPSAF64mhE5hd+ia/76r3F5U9T/erz69g3YJ6F4ZvIrSNOBYFM5fJiIDngfV9hAkuHIwNGPgKlULE7yO0=
-X-Received: by 2002:a05:622a:654:b0:35c:f6e6:76b7 with SMTP id
- a20-20020a05622a065400b0035cf6e676b7mr20240965qtb.365.1664237832623; Mon, 26
- Sep 2022 17:17:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220925113032.1949844-1-bmeng.cn@gmail.com>
- <20220925113032.1949844-38-bmeng.cn@gmail.com>
- <7e906143-363e-7a15-885c-8f3f8e4636b1@redhat.com>
-In-Reply-To: <7e906143-363e-7a15-885c-8f3f8e4636b1@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 27 Sep 2022 08:17:01 +0800
-Message-ID: <CAEUhbmXRy7C4VKawSCiEmZee_3yFmqbpdgBhC7uxd+4hxKb=xg@mail.gmail.com>
-Subject: Re: [PATCH v3 37/54] tests/qtest: {ahci, ide}-test: Use relative path
- for temporary files for win32
-To: Thomas Huth <thuth@redhat.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Bin Meng <bin.meng@windriver.com>, John Snow <jsnow@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Qemu-block <qemu-block@nongnu.org>
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1ocyUT-0007Kb-N4
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 20:30:25 -0400
+Received: from mga11.intel.com ([192.55.52.93]:23261)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1ocyUP-0004Km-An
+ for qemu-devel@nongnu.org; Mon, 26 Sep 2022 20:30:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664238621; x=1695774621;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=6NLQKWlHtCBDw0dfy6pJ5bYnZZlPD9MvjJU2iFSWEwA=;
+ b=do1ZJh5STTTYVmf3N8olGqszSg9XZAvL5iJGwtQlSxvj8Hai4JTsarXR
+ zz9G/so6RJbnZHhyd7uoOAIXHLhslI0wRCwqbB/02Yl0oGi8+D+JL2XNK
+ ygCvj/TW+Nri+jYshrnt4SnJN+4excoLBkrsZ9vfbIpdSytfGPSLREzpi
+ VifQIbw0XjywD6JnIcAhvSuHzTE3M4G2lZRomOUPGoOq/IU57j3m4NZNC
+ v/u9MvKgYlquqfs+HQU607666Ui181E82hupQfVLe5TriA/ASNtFvZJEq
+ cJeRO25OHU/IaP/df+Szcxk2B6M9WjuAeW8EFHegRJNfJf1W5IdB7KLng A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="298775240"
+X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; d="scan'208";a="298775240"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Sep 2022 17:30:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10482"; a="689784468"
+X-IronPort-AV: E=Sophos;i="5.93,347,1654585200"; d="scan'208";a="689784468"
+Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
+ ([10.239.48.212])
+ by fmsmga004.fm.intel.com with ESMTP; 26 Sep 2022 17:30:16 -0700
+Message-ID: <05c1d96492beaa8ec12b8807877903744d97e109.camel@linux.intel.com>
+Subject: Re: [PATCH v4 5/5] test/acpi/bios-tables-test: SSDT: update golden
+ master binaries
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca, 
+ jingqi.liu@intel.com, qemu-devel@nongnu.org, robert.hu@intel.com
+Date: Tue, 27 Sep 2022 08:30:16 +0800
+In-Reply-To: <20220926152214.05255edf@redhat.com>
+References: <20220922122155.1326543-1-robert.hu@linux.intel.com>
+ <20220922122155.1326543-6-robert.hu@linux.intel.com>
+ <783af0cd89700c2c3ae9c6b2b1e49dab0a2d3f70.camel@linux.intel.com>
+ <20220926152214.05255edf@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x832.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=robert.hu@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,93 +82,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
+On Mon, 2022-09-26 at 15:22 +0200, Igor Mammedov wrote:
+> > > 0800200c9a66"), One, 0x05, Local0, One)
+> > > +                    CreateDWordField (Local3, Zero, STTS)
+> > > +                    CreateField (Local3, 0x20, (LEN << 0x03),
+> > > LDAT)
+> > > +                    Name (LSA, Buffer (Zero){})
+> > > +                    ToBuffer (LDAT, LSA) /*
+> > > \_SB_.NVDR.NV00._LSR.LSA_ */
+> > > +                    Local1 = Package (0x02)
+> > > +                        {
+> > > +                            STTS,
+> > > +                            LSA
+> > > +                        }  
+> > 
+> > Hi Igor,
+> > 
+> > Here is a little different from original proposal 
+> > https://lore.kernel.org/qemu-devel/80b09055416c790922c7c3db60d2ba865792d1b0.camel@linux.intel.com/
+> > 
+> >    Local1 = Package (0x2) {STTS, toBuffer(LDAT)}
+> > 
+> > Because in my test, Linux guest complains:
+> > 
+> > [    3.884656] ACPI Error: AE_SUPPORT, Expressions within package
+> > elements are not supported (20220331/dspkginit-172)
+> > [    3.887104] ACPI Error: Aborting method \_SB.NVDR.NV00._LSR due
+> > to
+> > previous error (AE_SUPPORT) (20220331/psparse-531)
+> > 
+> > 
+> > So I have to move toBuffer() out of Package{} and name LSA to hold
+> > the
+> > buffer. If you have better idea, pls. let me know.
+> 
+> Would something like following work?
+> 
+> LocalX =  Buffer (Zero){}
+> LocalY = Package (0x01) { LocalX }
 
-On Tue, Sep 27, 2022 at 12:20 AM Thomas Huth <thuth@redhat.com> wrote:
->
-> On 25/09/2022 13.30, Bin Meng wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > These test cases uses "blkdebug:path/to/config:path/to/image" for
-> > testing. On Windows, absolute file paths contain the delimiter ':'
-> > which causes the blkdebug filename parser fail to parse filenames.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >
-> > (no changes since v1)
-> >
-> >   tests/qtest/ahci-test.c | 21 ++++++++++++++++++---
-> >   tests/qtest/ide-test.c  | 20 ++++++++++++++++++--
-> >   2 files changed, 36 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
-> > index 1d5929d8c3..66652fed04 100644
-> > --- a/tests/qtest/ahci-test.c
-> > +++ b/tests/qtest/ahci-test.c
-> > @@ -1833,7 +1833,7 @@ static void create_ahci_io_test(enum IOMode type,=
- enum AddrMode addr,
-> >
-> >   int main(int argc, char **argv)
-> >   {
-> > -    const char *arch;
-> > +    const char *arch, *base;
-> >       int ret;
-> >       int fd;
-> >       int c;
-> > @@ -1871,8 +1871,22 @@ int main(int argc, char **argv)
-> >           return 0;
-> >       }
-> >
-> > +    /*
-> > +     * "base" stores the starting point where we create temporary file=
-s.
-> > +     *
-> > +     * On Windows, this is set to the relative path of current working
-> > +     * directory, because the absolute path causes the blkdebug filena=
-me
-> > +     * parser fail to parse "blkdebug:path/to/config:path/to/image".
-> > +     */
-> > +#ifndef _WIN32
-> > +    base =3D g_get_tmp_dir();
-> > +#else
-> > +    base =3D ".";
-> > +#endif
-> > +
-> >       /* Create a temporary image */
-> > -    fd =3D g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
-> > +    tmp_path =3D g_strdup_printf("%s/qtest.XXXXXX", base);
-> > +    fd =3D g_mkstemp(tmp_path);
-> >       g_assert(fd >=3D 0);
-> >       if (have_qemu_img()) {
-> >           imgfmt =3D "qcow2";
-> > @@ -1889,7 +1903,8 @@ int main(int argc, char **argv)
-> >       close(fd);
-> >
-> >       /* Create temporary blkdebug instructions */
-> > -    fd =3D g_file_open_tmp("qtest-blkdebug.XXXXXX", &debug_path, NULL)=
-;
-> > +    debug_path =3D g_strdup_printf("%s/qtest-blkdebug.XXXXXX", base);
-> > +    fd =3D g_mkstemp(debug_path);
-> >       g_assert(fd >=3D 0);
-> >       close(fd);
->
-> It would maybe make sense to merge this with patch 05 ("tests/qtest:
-> ahci-test: Avoid using hardcoded /tmp") ? ... but if you want to keep it
-> separate, that's fine for me, too.
 
-I'd prefer to keep these two patches separate as they are resolving
-different issues.
+No, Package{} doesn't accept LocalX as elements.
 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
->
+PackageTerm :=
+Package (
+NumElements // Nothing | ByteConstExpr | TermArg => Integer
+) {PackageList} => Package
 
-Thanks for the review!
+PackageList :=
+Nothing | <PackageElement PackageListTail>
 
-Regards,
-Bin
+PackageElement :=
+DataObject | NameString
 
-Regards,
-Bin
 
