@@ -2,105 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CAB5EBB6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 09:23:34 +0200 (CEST)
-Received: from localhost ([::1]:56048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9F45EBB19
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 09:05:07 +0200 (CEST)
+Received: from localhost ([::1]:46116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od4wH-00063D-CF
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 03:23:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53628)
+	id 1od4eQ-0005Wa-IY
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 03:05:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=262caef14=alistair.francis@opensource.wdc.com>)
- id 1od48p-0005uH-D5
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:32:27 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:44585)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od47y-00059E-7x
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:31:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=262caef14=alistair.francis@opensource.wdc.com>)
- id 1od48n-0001Ix-9f
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:32:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1664260345; x=1695796345;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=JTSMLkxcYCzyxXWNrOTbqqMrysZ7unMLjmz7dj6Id2g=;
- b=I+DxeOIZok3IJq6gPM5vQkWhG8rHhfKtiRsjFcyOcAAf82tMOhinbDU9
- PzZ5zLC88KiXU02uxWx74R/6uoNwKZPyEnCvoSodqZCzJdhxHBcIXB5zm
- JIPwc2ChKEUpy1qp9yEWIF+e2rVMFmAacrwW0HtGJzV9h6RPMFPjEKPmy
- GPdm5bc1QNXSZcDEh3zmN3x9RLi9dKRwOb1Zwn2RrtPFI1EfXpKSJVboy
- 0C8xFsE4HuFcyZN8Xb44SZ+xZ4+eU6riQFUU6aLjmq6hwKsn6AA6DwXxA
- CRNGwhDc4uPryWjffIGgkn/618/NAgslQx2E140eQFMykfrYRPNi8uXlP g==;
-X-IronPort-AV: E=Sophos;i="5.93,348,1654531200"; d="scan'208";a="217530942"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 27 Sep 2022 14:31:49 +0800
-IronPort-SDR: /hriwk+TII0Fzi2MSL9pqj4bFLfhqEjQtwMr5a9BWysZizvSWfsifQHqwuK34grrctX6Eqa8fl
- qPPVn63ukqvPT+68Azl+QBtvAta8OBekae1/qs1FV39APT8xlyBVQtgz81zEnZ8/vR0kd2nyra
- fLFOpaz06lcP5RigOH6H3GWYFXbefDeDgfWjVH19X3vs79dVmOefP6jMRhPLdbM4ZyslI8jMiZ
- 8xsN34D71pqTZvRwDGdArDxENlELoDlFGr9NIgMz2vOIhaLbgKMGjAVBnaVylnpEZv7uxsR1Gc
- sEkpbfLFfaplDnXF2DhI7iGS
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 26 Sep 2022 22:51:46 -0700
-IronPort-SDR: qxarEGhI+j0Xp48rWcEYDSiBfdaKIF/LV6hPnm/WO4iPMgHv/lu9wgdmSbDQsE0ePlpQqaPr3C
- cG3Lvi5b+YEQofGAKZyqSN9rMG9RzIbohNQWrvuJvmK4MSWBqyxwvslO1lEuWM31cc088YsKCG
- n0YEKLbo6e07YKQzkU5aZOgM3+GUMuL3Td12Y5fS07HKaITMxZUsY+G/iwB3WcPqiK0H3K5UXc
- Z/1qWWesZCkXDsCJKXNTWPT3Wvb7eW+2TMzIiChVv8UtTDWhYvw84JNlLKqXMIQdxr6U7oemeO
- f/4=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 26 Sep 2022 23:31:49 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Mc8sw6zf6z1Rwrq
- for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 23:31:48 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1664260308; x=1666852309; bh=JTSMLkxcYCzyxXWNrO
- TbqqMrysZ7unMLjmz7dj6Id2g=; b=S6ppP47X8j1ySUeZZFCprnRV/VYOyZy7nP
- H54Da4svOUAi+gYUgP9ykqHwCl6YC0O9+Wn5Ueo+kDfMAm+L95e7hKfitHDa09/K
- x8cVAsxtrJbRzyv1u2fxcZ9N5Dc6w2ADz8NgMjb9secjj1WQFOxwVL+McB/erkFu
- uDJlVF36ZE5h0p9gmT1anax5JhdVmWqO6psv08QIXrZl3YnWG3dW+fX/3F3w5LUJ
- Wwg4WROwIVb2xR2GVu3UWV11l8b3s57tB25+n7W0Is4MLOfP3QqT0GPmM6vEaSJ0
- 3WacC2LSjDxFUqxsfoZWsVDk0ZvdR0Yjih6xeELSJOUQ5qjDcRGQ==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id CiqK49PptpIG for <qemu-devel@nongnu.org>;
- Mon, 26 Sep 2022 23:31:48 -0700 (PDT)
-Received: from toolbox.wdc.com (unknown [10.225.167.123])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Mc8st5nysz1RvTr;
- Mon, 26 Sep 2022 23:31:46 -0700 (PDT)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Yang Liu <liuyang22@iscas.ac.cn>,
- Alistair Francis <alistair.francis@wdc.com>,
- Frank Chang <frank.chang@sifive.com>
-Subject: [PULL v2 22/22] target/riscv: rvv-1.0: vf[w]redsum distinguish
- between ordered/unordered
-Date: Tue, 27 Sep 2022 16:31:04 +1000
-Message-Id: <20220927063104.2846825-23-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220927063104.2846825-1-alistair.francis@opensource.wdc.com>
-References: <20220927063104.2846825-1-alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od47u-0001Hq-FG
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 02:31:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664260289;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YQTs4tfEW30qVCeD9xi5rcIrk6UTMX4QrTH9glQfXVo=;
+ b=Kmq0otpejJvsxfrv1iQATxv3l8iKoTf4+sXZRhnCpWxfyPtxPsiF0Qw8hWAto5iLsyh4ug
+ uvF/7W4XOTwY7OqChZRulYZ8dscyEoyoXMpH+Te+2tFn8m6v+SS88LHFVmt/G505kVUiga
+ Ch1tcDuIaE511f/kHq30N6xpod/heSc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-384-tiMCtdJXNxOc1HdGu9SXwg-1; Tue, 27 Sep 2022 02:31:21 -0400
+X-MC-Unique: tiMCtdJXNxOc1HdGu9SXwg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d18-20020adfa352000000b0022cbe33d2a5so238510wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 26 Sep 2022 23:31:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=YQTs4tfEW30qVCeD9xi5rcIrk6UTMX4QrTH9glQfXVo=;
+ b=fDXsujH+42NCvMtmIJRVpLep8x4XBfxqoG7va1hpRwCPpW+rcyKPx7YHZ+0FHVNDt9
+ vMB8oAk4QyzJwjC6bcK4scE60J5CHpIfin5WxAlWalr9a7/g/CxNjuxWOlQaVIMUuW+C
+ 2CYIQ1na18GEnlL6kV07Qsd9BQk9WZT5tKACWAv6k9mmWmU5XG96h5AlGn0u71Qposg/
+ Z5WV4g6aSCOzI302yp2cBSLG/Df2TZuMQnclwsQ4WKd+4SI4g43rkPJo4fAKB/8+Xnnt
+ O1EL48w4xMfAW9A10ONSNc2p7QhZppSgeK+2cwX4IzyxmnRQjY42HtM5KIqSQRZSocyC
+ Yc0w==
+X-Gm-Message-State: ACrzQf1KS19QE4eV8f5CaE50WAzy3RQq+4o76AOdK9mh7V9jcVsbmn+g
+ ffn06mpL5NwFR52m6h1dF9BdkDk76+gTBJlRKxRma4ACXx0wwKYQ5bbQkoXgI6TppG7DHmDSYBt
+ MhIrLjtfDAy1RUa8=
+X-Received: by 2002:adf:e383:0:b0:228:9a53:612b with SMTP id
+ e3-20020adfe383000000b002289a53612bmr16206747wrm.651.1664260280307; 
+ Mon, 26 Sep 2022 23:31:20 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4ttaRsiIb1FEuqSTWEraLokNxZE6dO08JR3NM4noaFCzF2sr5Dr0cVzparkhVGHsBcuCM2nw==
+X-Received: by 2002:adf:e383:0:b0:228:9a53:612b with SMTP id
+ e3-20020adfe383000000b002289a53612bmr16206724wrm.651.1664260280065; 
+ Mon, 26 Sep 2022 23:31:20 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-179-30.web.vodafone.de.
+ [109.43.179.30]) by smtp.gmail.com with ESMTPSA id
+ bd24-20020a05600c1f1800b003a62400724bsm826993wmb.0.2022.09.26.23.31.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Sep 2022 23:31:19 -0700 (PDT)
+Message-ID: <c2773c56-2710-ae39-5009-a8d11bddb81f@redhat.com>
+Date: Tue, 27 Sep 2022 08:31:17 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=262caef14=alistair.francis@opensource.wdc.com;
- helo=esa3.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 1/3] hw/watchdog: wdt_ibex_aon.c: Implement the
+ watchdog for the OpenTitan
+Content-Language: en-US
+To: Tyler Ng <tkng@rivosinc.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Laurent Vivier <lvivier@redhat.com>
+References: <CAB88-qOh7dBoFP4SWcM4G5EVp6cumVnZ5j4tNRqSvMT08=dAcA@mail.gmail.com>
+ <55a69b23-3bea-0676-478a-d257fc4febf5@redhat.com>
+ <CAB88-qO7vw4gC6JNuX=CcnXmYznPdwdhv_nJNrejVzFXSoLQnQ@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAB88-qO7vw4gC6JNuX=CcnXmYznPdwdhv_nJNrejVzFXSoLQnQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,149 +107,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yang Liu <liuyang22@iscas.ac.cn>
+  Hi Tyler!
 
-Starting with RVV1.0, the original vf[w]redsum_vs instruction was renamed
-to vf[w]redusum_vs. The distinction between ordered and unordered is also
-more consistent with other instructions, although there is no difference
-in implementation between the two for QEMU.
+On 27/09/2022 01.03, Tyler Ng wrote:
+> Hi Thomas,
+> 
+> On Thu, Sep 22, 2022 at 9:17 AM Thomas Huth <thuth@redhat.com 
+> <mailto:thuth@redhat.com>> wrote:
+> 
+>     On 22/09/2022 17.58, Tyler Ng wrote:
+>      > This commit adds most of an implementation of the OpenTitan Always-On
+>      > Timer. The documentation for this timer is found here:
+>      >
+>      > https://docs.opentitan.org/hw/ip/aon_timer/doc/
+>     <https://docs.opentitan.org/hw/ip/aon_timer/doc/>
+>      >
+>      > Using commit 217a0168ba118503c166a9587819e3811eeb0c0c
+>      >
+>      > The implementation includes most of the watchdog features; it does not
+>      > implement the wakeup timer.
+>      >
+>      > An important note: the OpenTitan board uses the sifive_plic. The plic
+>      > will not be able to claim the bark interrupt (159) because the sifive
+>      > plic sets priority[159], but checks priority[158] for the priority, so
+>      > it thinks that the interrupt's priority is 0 (effectively disabled).
+>     ...
+>      > diff --git a/tests/qtest/ibex-aon-timer-test.c
+>      > b/tests/qtest/ibex-aon-timer-test.c
+>      > new file mode 100644
+>      > index 0000000000..af33feac39
+>      > --- /dev/null
+>      > +++ b/tests/qtest/ibex-aon-timer-test.c
+>      > @@ -0,0 +1,189 @@
+>      > +/*
+>      > + * Testing the OpenTitan AON Timer
+>      > + *
+>      > + * Copyright (c) 2022 Rivos Inc.
+>      > + *
+>      > + * Permission is hereby granted, free of charge, to any person
+>     obtaining a copy
+>      > + * of this software and associated documentation files (the
+>      > "Software"), to deal
+>      > + * in the Software without restriction, including without limitation
+>     the rights
+>      > + * to use, copy, modify, merge, publish, distribute, sublicense,
+>     and/or sell
+>      > + * copies of the Software, and to permit persons to whom the Software is
+>      > + * furnished to do so, subject to the following conditions:
+>      > + *
+>      > + * The above copyright notice and this permission notice shall be
+>     included in
+>      > + * all copies or substantial portions of the Software.
+>      > + *
+>      > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+>     EXPRESS OR
+>      > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+>     MERCHANTABILITY,
+>      > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+>     SHALL
+>      > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES
+>     OR OTHER
+>      > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+>      > ARISING FROM,
+>      > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+>     DEALINGS IN
+>      > + * THE SOFTWARE.
+> 
+>     Could you maybe add a SPDX license identifier at the beginning of the
+>     comment, so that it's easier to identify the license at a first glance?
+>     (also in the other new files)
+> 
+> Will do, was actually thinking of switching over to GPL-2.0-or-later as 
+> opposed to MIT.
 
-Signed-off-by: Yang Liu <liuyang22@iscas.ac.cn>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Message-Id: <20220817074802.20765-2-liuyang22@iscas.ac.cn>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/helper.h                   | 15 ++++++++++-----
- target/riscv/insn32.decode              |  6 ++++--
- target/riscv/vector_helper.c            | 19 +++++++++++++------
- target/riscv/insn_trans/trans_rvv.c.inc |  6 ++++--
- 4 files changed, 31 insertions(+), 15 deletions(-)
+Yes, that would be the best fit for QEMU, I think.
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 4ef3b2251d..a03014fe67 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -1009,9 +1009,12 @@ DEF_HELPER_6(vwredsum_vs_b, void, ptr, ptr, ptr, p=
-tr, env, i32)
- DEF_HELPER_6(vwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-=20
--DEF_HELPER_6(vfredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vfredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vfredsum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredusum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredusum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredusum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfredosum_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmax_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmax_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmax_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
-@@ -1019,8 +1022,10 @@ DEF_HELPER_6(vfredmin_vs_h, void, ptr, ptr, ptr, p=
-tr, env, i32)
- DEF_HELPER_6(vfredmin_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vfredmin_vs_d, void, ptr, ptr, ptr, ptr, env, i32)
-=20
--DEF_HELPER_6(vfwredsum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vfwredsum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfwredusum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfwredusum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfwredosum_vs_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vfwredosum_vs_w, void, ptr, ptr, ptr, ptr, env, i32)
-=20
- DEF_HELPER_6(vmand_mm, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vmnand_mm, void, ptr, ptr, ptr, ptr, env, i32)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 595fdcdad8..d0253b8104 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -664,11 +664,13 @@ vredmax_vs      000111 . ..... ..... 010 ..... 1010=
-111 @r_vm
- vwredsumu_vs    110000 . ..... ..... 000 ..... 1010111 @r_vm
- vwredsum_vs     110001 . ..... ..... 000 ..... 1010111 @r_vm
- # Vector ordered and unordered reduction sum
--vfredsum_vs     0000-1 . ..... ..... 001 ..... 1010111 @r_vm
-+vfredusum_vs    000001 . ..... ..... 001 ..... 1010111 @r_vm
-+vfredosum_vs    000011 . ..... ..... 001 ..... 1010111 @r_vm
- vfredmin_vs     000101 . ..... ..... 001 ..... 1010111 @r_vm
- vfredmax_vs     000111 . ..... ..... 001 ..... 1010111 @r_vm
- # Vector widening ordered and unordered float reduction sum
--vfwredsum_vs    1100-1 . ..... ..... 001 ..... 1010111 @r_vm
-+vfwredusum_vs   110001 . ..... ..... 001 ..... 1010111 @r_vm
-+vfwredosum_vs   110011 . ..... ..... 001 ..... 1010111 @r_vm
- vmand_mm        011001 - ..... ..... 010 ..... 1010111 @r
- vmnand_mm       011101 - ..... ..... 010 ..... 1010111 @r
- vmandn_mm       011000 - ..... ..... 010 ..... 1010111 @r
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 2828073497..b94f809eb3 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -4714,9 +4714,14 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,  =
-         \
- }
-=20
- /* Unordered sum */
--GEN_VEXT_FRED(vfredsum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
--GEN_VEXT_FRED(vfredsum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
--GEN_VEXT_FRED(vfredsum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
-+GEN_VEXT_FRED(vfredusum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
-+GEN_VEXT_FRED(vfredusum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
-+GEN_VEXT_FRED(vfredusum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
-+
-+/* Ordered sum */
-+GEN_VEXT_FRED(vfredosum_vs_h, uint16_t, uint16_t, H2, H2, float16_add)
-+GEN_VEXT_FRED(vfredosum_vs_w, uint32_t, uint32_t, H4, H4, float32_add)
-+GEN_VEXT_FRED(vfredosum_vs_d, uint64_t, uint64_t, H8, H8, float64_add)
-=20
- /* Maximum value */
- GEN_VEXT_FRED(vfredmax_vs_h, uint16_t, uint16_t, H2, H2, float16_maximum=
-_number)
-@@ -4740,9 +4745,11 @@ static uint64_t fwadd32(uint64_t a, uint32_t b, fl=
-oat_status *s)
- }
-=20
- /* Vector Widening Floating-Point Reduction Instructions */
--/* Unordered reduce 2*SEW =3D 2*SEW + sum(promote(SEW)) */
--GEN_VEXT_FRED(vfwredsum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
--GEN_VEXT_FRED(vfwredsum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
-+/* Ordered/unordered reduce 2*SEW =3D 2*SEW + sum(promote(SEW)) */
-+GEN_VEXT_FRED(vfwredusum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
-+GEN_VEXT_FRED(vfwredusum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
-+GEN_VEXT_FRED(vfwredosum_vs_h, uint32_t, uint16_t, H4, H2, fwadd16)
-+GEN_VEXT_FRED(vfwredosum_vs_w, uint64_t, uint32_t, H8, H4, fwadd32)
-=20
- /*
-  *** Vector Mask Operations
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
-trans/trans_rvv.c.inc
-index e58208f363..4dea4413ae 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -3136,7 +3136,8 @@ static bool freduction_check(DisasContext *s, arg_r=
-mrr *a)
-            require_zve64f(s);
- }
-=20
--GEN_OPFVV_TRANS(vfredsum_vs, freduction_check)
-+GEN_OPFVV_TRANS(vfredusum_vs, freduction_check)
-+GEN_OPFVV_TRANS(vfredosum_vs, freduction_check)
- GEN_OPFVV_TRANS(vfredmax_vs, freduction_check)
- GEN_OPFVV_TRANS(vfredmin_vs, freduction_check)
-=20
-@@ -3148,7 +3149,8 @@ static bool freduction_widen_check(DisasContext *s,=
- arg_rmrr *a)
-            (s->sew !=3D MO_8);
- }
-=20
--GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, freduction_widen_check)
-+GEN_OPFVV_WIDEN_TRANS(vfwredusum_vs, freduction_widen_check)
-+GEN_OPFVV_WIDEN_TRANS(vfwredosum_vs, freduction_widen_check)
-=20
- /*
-  *** Vector Mask Operations
---=20
-2.37.3
+>      > + */
+>      > +
+>      > +#include "qemu/osdep.h"
+>      > +#include "libqtest.h"
+>      > +#include "qapi/qmp/qdict.h"
+>      > +
+>      > +#define AON_BASE_ADDR (0x40470000ul)
+>      > +#define AON_ADDR(addr) (AON_BASE_ADDR + addr)
+>      > +#define AON_WKUP_IRQ 158
+>      > +#define AON_BARK_IRQ 159
+>      > +#define AON_FREQ 200000 /* 200 KHz */
+>      > +#define AON_PERIOD_NS 5000
+>      > +#define NANOS_PER_SECOND 1000000000LL
+>      > +/* Test that reads work, and that the regs get reset to the correct
+>     value */
+>      > +static void test_reads(void)
+>      > +{
+>      > +    QTestState *test = qtest_init("-M opentitan");
+>      > +    g_assert(qtest_readl(test, AON_ADDR(0x00)) == 0);
+>      > +    g_assert(qtest_readl(test, AON_ADDR(0x04)) == 0);
+>      > +    g_assert(qtest_readl(test, AON_ADDR(0x08)) == 0);
+>      > +    g_assert(qtest_readl(test, AON_ADDR(0x0c)) == 0);
+>      > +    g_assert(qtest_readl(test, AON_ADDR(0x10)) == 1); > +   
+>     g_assert(qtest_readl(test, AON_ADDR(0x14)) == 0);
+>      > +    g_assert(qtest_readl(test, AON_ADDR(0x18)) == 0);
+>      > +    g_assert(qtest_readl(test, AON_ADDR(0x1c)) == 0);
+>      > +    g_assert(qtest_readl(test, AON_ADDR(0x20)) == 0);
+>      > +    g_assert(qtest_readl(test, AON_ADDR(0x24)) == 0);
+>      > +    g_assert(qtest_readl(test, AON_ADDR(0x28)) == 0);
+>      > +    g_assert(qtest_readl(test, AON_ADDR(0x2c)) == 0);
+> 
+>     The read tests that check for 0 could maybe be simplified with a for-loop
+>     (or two).
+> 
+> I'm not entirely sure about what benefit this would bring after writing it out.
+
+Mostly a matter of taste. Keep it in the current shape if you prefer that.
+
+>      > +    qtest_quit(test);
+>      > +}
+>      > +
+>      > +static void test_writes(void)
+>      > +{
+>      > +    /* Test that writes worked, while the config is unlocked */
+>      > +    QTestState *test = qtest_init("-M opentitan");
+>      > +
+>      > +
+>      > +    qtest_writel(test, AON_ADDR(0x18), (1 << 19)); /* WDOG_BARK_THOLD */
+>      > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x18)),
+>      > +                     ==, (1 << 19));
+>      > +
+>      > +    qtest_writel(test, AON_ADDR(0x1c), (1 << 20)); /* WDOG_BITE_THOLD */
+>      > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x1c)),
+>      > +                     ==, (1 << 20));
+>      > +
+>      > +    qtest_writel(test, AON_ADDR(0x14), 0x1); /* WDOG_CTRL enable */
+>      > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x14)),
+>      > +                     ==, 0x1);
+>      > +
+>      > +    qtest_writel(test, AON_ADDR(0x10), 0x0); /* WDOG_REGWEN enable */
+>      > +    g_assert_cmpuint(qtest_readl(test, AON_ADDR(0x10)), ==, 0x0);
+> 
+>     I think the above code would be better readable if you'd provide a helper
+>     function like this:
+> 
+>     static void writel_and_assert(QTestState qts, int addr, int val)
+>     {
+>           qtest_writel(qts, AON_ADDR(addr), val);
+>           g_assert_cmpuint(qtest_readl(qts, AON_ADDR(addr)), val);
+>     }
+> 
+> Thanks for the suggestion. I decided to go with a macro instead though, 
+> because it makes it easier to distinguish where an assertion failed without 
+> a debugger.
+
+That's a good idea, indeed!
+
+  Thomas
 
 
