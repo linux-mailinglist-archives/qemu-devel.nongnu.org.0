@@ -2,63 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0BA5EBFFB
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:42:29 +0200 (CEST)
-Received: from localhost ([::1]:36664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8775EBFEC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:39:54 +0200 (CEST)
+Received: from localhost ([::1]:36960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od82m-0006NS-G9
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:42:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53976)
+	id 1od80H-0002Ga-Jf
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:39:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od7ur-0004En-El
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:34:17 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:41369)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od7vq-0004XQ-Hv
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:35:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od7up-0006dt-Rh
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:34:17 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M72Xn-1obkTa38nv-008dhs; Tue, 27 Sep 2022 12:34:13 +0200
-Message-ID: <a61c6643-4d70-0c79-5576-5e4015e81813@vivier.eu>
-Date: Tue, 27 Sep 2022 12:34:13 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1od7vm-0006uh-5q
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:35:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664274913;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LZAjTQAVwia+JYnTFmd7g5wW9u/J3NN0VhLUWG2DQMo=;
+ b=fLMxM5wtQM6TbfrdnU2gkOJd4xL2/qY2MnvyPDHCweikunUPGY/Uv9FtORt0Qi9lIqFhx5
+ vNy8/ygfK+C7QsaBbVrfdei6sY4EyJF1SpcK9IJ1m1/RUtql+ztzv+cTj27H/Yf/XAhqkk
+ qyWFRoYCOWZuQudQA6ll3AQS+TLCLT8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-625-z3pGzEFAOGmN7czczSSGJQ-1; Tue, 27 Sep 2022 06:35:09 -0400
+X-MC-Unique: z3pGzEFAOGmN7czczSSGJQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r7-20020a1c4407000000b003b3309435a9so8015716wma.6
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 03:35:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=LZAjTQAVwia+JYnTFmd7g5wW9u/J3NN0VhLUWG2DQMo=;
+ b=MZEIULfDMQMBfFRRbQ8iSWW+5BY19UaOdgK1+FD1ManogIsqY0g81401KfUJsbKNNW
+ S3ofwdVhTBtqfWjnkItbInaQf/gzvZPNKcRKtBlz0Acnn2hATXjXbbA2G4BcdOrSagwu
+ 9SzynzSVUjsqCXgMkypVdbUXjlcjRmBJkIJvj6zq88S/DDrfmMsZPS1LJGOTtujlVgbw
+ 0efnEUtvbmhha9F24MTL1FnOfJBkiPcUIBCbiaQBaKQHquuWnjsAkTEsguzTv3A+yUeY
+ KAweHEFBgG122zUQAhyvLCCrbnG9iNFajiPOASaNLrRzzwAB/9rjD/WdQlBTltXhVkDz
+ yhIw==
+X-Gm-Message-State: ACrzQf0kwEVlNvrABizIGPBUqBPc/CpIXN3RfDSiinxiuSdOe/66USjY
+ uWZeXH28cy+CEQaxWjMR4DwmEox+rSA5OIevkSpBkr1CZISiBmW4J+MyR3g2CJgpVD+ZX9ZLIMF
+ EHUROeIbugyZzkhM=
+X-Received: by 2002:a1c:2c6:0:b0:3b3:efc2:1bb1 with SMTP id
+ 189-20020a1c02c6000000b003b3efc21bb1mr2097208wmc.38.1664274908119; 
+ Tue, 27 Sep 2022 03:35:08 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4hksFydCZSW9VlvkNex+4culeoZh8r34gYorve8WrDpO2YpadXbM0OdGZVIIIfaf2WJ5DEjw==
+X-Received: by 2002:a1c:2c6:0:b0:3b3:efc2:1bb1 with SMTP id
+ 189-20020a1c02c6000000b003b3efc21bb1mr2097192wmc.38.1664274907925; 
+ Tue, 27 Sep 2022 03:35:07 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-179-30.web.vodafone.de.
+ [109.43.179.30]) by smtp.gmail.com with ESMTPSA id
+ y3-20020a5d4ac3000000b0022ac672654dsm1528664wrs.58.2022.09.27.03.35.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Sep 2022 03:35:07 -0700 (PDT)
+Message-ID: <fa511284-b2f6-33a6-3d6e-43d9f98c5c75@redhat.com>
+Date: Tue, 27 Sep 2022 12:35:05 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 8/8] linux-user: Log tid for strace
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220829021006.67305-1-richard.henderson@linaro.org>
- <20220829021006.67305-9-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220829021006.67305-9-richard.henderson@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v4 2/7] tests/x86: Add subtest with 'q35' machine type to
+ device-plug-test
+Content-Language: en-US
+To: Michael Labiuk <michael.labiuk@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, den@virtuozzo.com
+References: <20220920104842.605530-1-michael.labiuk@virtuozzo.com>
+ <20220920104842.605530-3-michael.labiuk@virtuozzo.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220920104842.605530-3-michael.labiuk@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:e6eXNN5KrUrRcuQJnb3Z5JBepljJmNKOVOgNNa7qJsNTu39Jofm
- KrVZXhNZiZGjG7zzRRl1zjZrwlbn1H/8DTVhhuqxhKWEMoch4G20OLdB+UGoc2llAj46EUt
- 5ZybPEDe8Lkf1KDS3082lbioYaowE+qtMetDoYTKhqDUjwjMjBG5GJFdK7hkWi8UqR7ydJp
- EssuDuZycMNDfd3HPN0iA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RKC+c17Ei8Q=:AMFpMTnQ4ktXKDgz6q5s7V
- bePYFwSnUxOJs/WQcL59tLx0ThWq5mdRVoW2GzouvIbOW+4MVTAKDODONX+PgAhW9rfxrDGd/
- BJbwPjA1piDdocFfKy1conDahMSB8HuSvps6YsBCRikVLkYqLJbqGG5U208CCGbKbS5wByH8Y
- D2SYWGJkdZ9YzHX8IkNC8S3ENnlVTg5izlMz3zlWDSFXb4CjgkS7rEEbLx16pbffgaM1vXF+2
- Y8q2HjydvOiIFRybJtd+8kVkQqqTODluycRb/B6PygivEPb1W9QGbLI0LVj1+E3+33jqxze2N
- CWtsgMAUqRRmNrKEVj1w4CNZpfghsI4BGhN4bMhokpB6NDzNldSCw6itwD/wXfYOyty7ihTE5
- einywkhntiqq444W9VswptKnHHWxAM4A38MAyGcExN2h4n6T43fyB9zc08O7no0Ymji5K+mZQ
- oSpsTncLM1+yPPPtWBNlDaW61qBAWX1Klx4TTjzBmjwZaJiw5pIt8odMLyX6+reeeVXK8ajw7
- xE5y2aJoAbq8eYbQBUgLvAjjWjNiKrYLpIW56mgV5RumE0vJv6EqqWqL3QdDA2gOUcyfdicjp
- RZlsf3L6QsxpOqhaVSBiqd7j89l2OhX6JjveeDAHaM7YVCL2V43wtKjR6pITQyun+u/U6Gb8x
- u40n4JVJ8jLnaC7YVFKjlWn+TN09O/ZwkAnYcp2NE9wJP5YfxrKW8MKvVziCULANGj4YslLY0
- wOJA8QoV/IUlB++E3gA24JbiqNHlkeIQ0sNN0KacowLKzR5kX7AuinbFuG3NV9UutxHG65Nbp
- CIq7Nig
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,28 +103,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 29/08/2022 à 04:10, Richard Henderson a écrit :
-> Printing the same pid for all threads isn't helpful.
+On 20/09/2022 12.48, Michael Labiuk wrote:
+> Configure pci bridge setting to plug pci device and unplug.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Michael Labiuk <michael.labiuk@virtuozzo.com>
 > ---
->   linux-user/strace.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index c47d91bb3d..ca9d44fa7c 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -3782,7 +3782,7 @@ print_syscall(CPUArchState *cpu_env, int num,
->       if (!f) {
->           return;
->       }
-> -    fprintf(f, "%d ", getpid());
-> +    fprintf(f, "%d ", gettid());
->   
->       for (i = 0; i < nsyscalls; i++) {
->           if (scnames[i].nr == num) {
+>   tests/qtest/device-plug-test.c | 41 ++++++++++++++++++++++++++++++++++
+>   1 file changed, 41 insertions(+)
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
