@@ -2,78 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5745EC914
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 18:08:27 +0200 (CEST)
-Received: from localhost ([::1]:60628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9D85EC925
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 18:12:19 +0200 (CEST)
+Received: from localhost ([::1]:49170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odD8E-0003Wb-9O
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 12:08:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37584)
+	id 1odDBy-0001BQ-QR
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 12:12:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1odBV0-0005Ig-A4
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:24:01 -0400
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:45608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1odBUy-0007Lu-39
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:23:49 -0400
-Received: by mail-lj1-x232.google.com with SMTP id c7so11069327ljm.12
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:23:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=37pld8SJ8bAX3DYFrAqW82CFpXv9NON7z+VG3qU5uTQ=;
- b=j4x36JURoQ5opCE07HObOfkK/GcHH3ph6zNgKqaIVbHTtaCc5BkkrGANiTCs5EIlJy
- Nm+BO+QzQhEzOyL2QP8/ykOIZ3zu/kOQybo9DbUtdCD2tJ1tO4jWtV1dp+sQKQwvwwMT
- 2n9VtWrpHZjLtpMlDYEKszg4oq0W39DZ42x91X8xpK8d+BACZH2p+WhImeIEZJz/MeG6
- kn+ePjEHLwrwjddIqbeJe7+ugCMo+faWDhpf07Ob0yO9wOyayhXk617cRNHohBP3Qkrg
- FULukEH/9vHzsU6KN+Jz24vCbbNSRCQ3a/hsHIxmp0+J4z40Dhv+rhnGs6/BeMnopj+q
- EhTw==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1odBYE-0006fr-3R
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:27:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1odBY9-0007yQ-Gx
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:27:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664288823;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NezChzvMGRnr+BeY818eZqTO8zRghATTrTwE1945+Bo=;
+ b=aDNebBmPgRv8i8UQWgPCTn3OawyrLtQkseq5EaWFZ4dJ8qlw1YpZ3/sZ8xag3O9McgoXdc
+ oIqdoBkfaBPLjoMdlQ3uhLCGj4tRQnx6+SkwPpEVToinboRR86QcR8W+KTJ+qxS4ubJEWP
+ 0GJtzUar5GvMJpP/DJ6MmxDH9ntHiJc=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-662-g7k2r8RMMdGQyDwj-QeVzg-1; Tue, 27 Sep 2022 10:27:02 -0400
+X-MC-Unique: g7k2r8RMMdGQyDwj-QeVzg-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ y25-20020a9d6359000000b00655ffb2ca00so4705175otk.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:27:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=37pld8SJ8bAX3DYFrAqW82CFpXv9NON7z+VG3qU5uTQ=;
- b=HI9NqGITMIRGxdAmqxuK6dhsibHfoC2lKXI26kmDCOe+E1BuA7KH8MxCc7LJrnc3wI
- Tfv4p4j/3st3PknH8CTfP+JfN/whVWeIsBXZ5qP86NQnmCPHAN97PQmnyy4GPwn23Vbn
- SJ4YwOU5tGLZKH6B3ftOP/g+NnlgNi5UVqj9wUU2mKmobw8N4gOpqjmi+YiwKiPlVHqP
- EbFSs/4fMk1SEI5JT3BI3A3AQ4X5uxgv4akfj9hS59+y45qsf5o7yk8eDkNJb8NoD3hq
- sgBCJKyxfzIfybyPElQQwnccC64tuesCYuhElts78Gka+EeiLA2QboLQ1b+Slo9xh2Io
- 1hug==
-X-Gm-Message-State: ACrzQf0utu6nG55lPz6VATHTJipWNWU0eW0adeg3TanZUG95LHmdVkUF
- xflY1aVSEbcjBEdm61C2Jgc43oLT3WbmArZN65Y=
-X-Google-Smtp-Source: AMsMyM7gZZcq/R7i5dfI/eLIK4FDAPkDXi4QvxuGjiZK+kw3XnLSy/iHVSKc6IPmqqfhZpoKXrMs/YHtjKvBeiVozzU=
-X-Received: by 2002:a2e:a44c:0:b0:26b:e70f:a026 with SMTP id
- v12-20020a2ea44c000000b0026be70fa026mr9503579ljn.94.1664288621633; Tue, 27
- Sep 2022 07:23:41 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=NezChzvMGRnr+BeY818eZqTO8zRghATTrTwE1945+Bo=;
+ b=PPOOjvwbDntGLD4GHsPUg0BNXs1ENMCBxZNHoTIRPcuEsrcwajLN4bIw8heZRx7Eil
+ 9bA2Vx9If/KZ+JVJm4rCYM1XBRPLo2pVwCwB5crRePQ5Pez6362Zo6tzxb7dUmH5v4wX
+ 9o0tuREoghfp9WfST8PwvImDfIU85sM0cvWKK1U/wV7Nos+aNjGo7rdy3R2AOOIk1McX
+ 4mhsVvzKRy4jqNG0MNlfW0ym9BUsnEwTbH/JAJiqVNFnGAWvQgGPK0duVq5BjrXMIOUl
+ eBhS1PU+wgSDdZQLGtQBH7qNh7UyAMP7/GKoI0NiLqFqjDJbO0/fNLiN4d1yGz2nUMb1
+ tNsw==
+X-Gm-Message-State: ACrzQf0CD8FV1kgJd+UOfIUbtA1sOY8lnKHkKz6/cMMXRGXxhgwPhbZW
+ cTh+oImE1XOJWpXCuI6hWlej8oiBHt71JMtmiJbvrQsOvYGSbyXp3fjwrd5O7u6RHwQ2+IWxhGg
+ SwA9J01ZtsNJAYEEJwztLQsFo/0ySLFE=
+X-Received: by 2002:a05:6808:21a3:b0:350:cca1:9f40 with SMTP id
+ be35-20020a05680821a300b00350cca19f40mr1975597oib.205.1664288821424; 
+ Tue, 27 Sep 2022 07:27:01 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7+b3sVUythNW8p8meyJQrUROneF4lfjAGeeFO8razwVoKg85WU+seRV5dHwbGcgXNTAiCjVBOxIz+Ofqe4IQE=
+X-Received: by 2002:a05:6808:21a3:b0:350:cca1:9f40 with SMTP id
+ be35-20020a05680821a300b00350cca19f40mr1975586oib.205.1664288821252; Tue, 27
+ Sep 2022 07:27:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
- <20220927110632.1973965-44-bmeng.cn@gmail.com>
- <CAJ+F1C+BsM16peLANydiBtRamWada6S8Hg5hLYD=Z274AbN_3A@mail.gmail.com>
- <CAEUhbmWHn_XYh1+xmvxUuK7DAuJf7=kq1zEhsxmLLs9Pb_B+YA@mail.gmail.com>
-In-Reply-To: <CAEUhbmWHn_XYh1+xmvxUuK7DAuJf7=kq1zEhsxmLLs9Pb_B+YA@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 27 Sep 2022 18:23:30 +0400
-Message-ID: <CAJ+F1CLKh-g=d+THtGUG6LiA+Hrx-RJ-GJhZgUniPn5ML5Kokg@mail.gmail.com>
-Subject: Re: [PATCH v4 43/54] tests/qtest: migration-test: Make sure QEMU
- process "to" exited after migration is canceled
+ <20220927110632.1973965-15-bmeng.cn@gmail.com>
+In-Reply-To: <20220927110632.1973965-15-bmeng.cn@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 27 Sep 2022 18:26:49 +0400
+Message-ID: <CAMxuvaygYvLDDb+w-HLW0RXmZbY8HoQb5=Ck2g=C3=QtLiLCuQ@mail.gmail.com>
+Subject: Re: [PATCH v4 14/54] tests/qtest: migration-test: Avoid using
+ hardcoded /tmp
 To: Bin Meng <bmeng.cn@gmail.com>
 Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000018a60d05e9a9649d"
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x232.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ Bin Meng <bin.meng@windriver.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,161 +100,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000018a60d05e9a9649d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
 Hi
 
-On Tue, Sep 27, 2022 at 5:21 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-
-> On Tue, Sep 27, 2022 at 9:15 PM Marc-Andr=C3=A9 Lureau
-> <marcandre.lureau@gmail.com> wrote:
-> >
-> > Hi
-> >
-> > On Tue, Sep 27, 2022 at 5:02 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >>
-> >> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> >>
-> >> Make sure QEMU process "to" exited before launching another target
-> >> for migration in the test_multifd_tcp_cancel case.
-> >>
-> >> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> >> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >> ---
-> >>
-> >> (no changes since v3)
-> >>
-> >> Changes in v3:
-> >> - Add a usleep(1) in the busy wait loop
-> >>
-> >> Changes in v2:
-> >> - Change to a busy wait after migration is canceled
-> >>
-> >>  tests/qtest/migration-test.c | 4 ++++
-> >>  1 file changed, 4 insertions(+)
-> >>
-> >> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test=
-.c
-> >> index 45c5f5761b..6f9fe13488 100644
-> >> --- a/tests/qtest/migration-test.c
-> >> +++ b/tests/qtest/migration-test.c
-> >> @@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)
-> >>      wait_for_migration_pass(from);
-> >>
-> >>      migrate_cancel(from);
-> >> +    /* Make sure QEMU process "to" exited */
-> >> +    while (qtest_probe_child(to)) {
-> >> +        usleep(1);
-> >
-> >
-> > Why not add a qtest_wait_qemu() ? (I think qtest_probe_child() should
-> also be renamed)
-> >
+On Tue, Sep 27, 2022 at 3:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Do you mean adding:
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> void qtest_wait_qemu(QTestState *s)
-> {
->     while (qtest_probe_child(s)) {
->         usleep(1);
->     }
-> }
+> This case was written to use hardcoded /tmp directory for temporary
+> files. Update to use g_dir_make_tmp() for a portable implementation.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+>
+> Changes in v4:
+> - Update the error reporting by using the GError "error" argument
+>   of g_dir_make_tmp()
+> - Remove the const from tmpfs declaration
+>
+> Changes in v3:
+> - Split to a separate patch
+>
+>  tests/qtest/migration-test.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 4728d528bb..f57e07fe2d 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -102,7 +102,7 @@ static bool ufd_version_check(void)
+>
+>  #endif
+>
+> -static const char *tmpfs;
+> +static char *tmpfs;
+>
+>  /* The boot file modifies memory area in [start_address, end_address)
+>   * repeatedly. It outputs a 'B' at a fixed rate while it's still running=
+.
+> @@ -2434,10 +2434,10 @@ static bool kvm_dirty_ring_supported(void)
+>
+>  int main(int argc, char **argv)
+>  {
+> -    char template[] =3D "/tmp/migration-test-XXXXXX";
+>      const bool has_kvm =3D qtest_has_accel("kvm");
+>      const bool has_uffd =3D ufd_version_check();
+>      const char *arch =3D qtest_get_arch();
+> +    GError *err =3D NULL;
+>      int ret;
+>
+>      g_test_init(&argc, &argv, NULL);
+> @@ -2462,9 +2462,11 @@ int main(int argc, char **argv)
+>          return g_test_run();
+>      }
+>
+> -    tmpfs =3D g_mkdtemp(template);
+> +    tmpfs =3D g_dir_make_tmp("migration-test-XXXXXX", &err);
+>      if (!tmpfs) {
+> -        g_test_message("g_mkdtemp on path (%s): %s", template, strerror(=
+errno));
+> +        g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
+> +                       err->message);
+> +        g_error_free(err);
+
+You missed the opportunity to use g_autoptr(GError), ok anyway
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
+>      }
+>      g_assert(tmpfs);
+>
+> @@ -2589,6 +2591,7 @@ int main(int argc, char **argv)
+>          g_test_message("unable to rmdir: path (%s): %s",
+>                         tmpfs, strerror(errno));
+>      }
+> +    g_free(tmpfs);
+>
+>      return ret;
+>  }
+> --
+> 2.34.1
 >
 
-No, more like qtest_probe_child() but without WNOHANG.
-
-
->
-> Do you have a better name for qtest_probe_child()?
->
->
-Perhaps qtest_wait_child() with a new argument "bool nohang" then?
-
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000018a60d05e9a9649d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 27, 2022 at 5:21 PM Bin=
- Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, S=
-ep 27, 2022 at 9:15 PM Marc-Andr=C3=A9 Lureau<br>
-&lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=3D"_blank">marcand=
-re.lureau@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Hi<br>
-&gt;<br>
-&gt; On Tue, Sep 27, 2022 at 5:02 PM Bin Meng &lt;<a href=3D"mailto:bmeng.c=
-n@gmail.com" target=3D"_blank">bmeng.cn@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; From: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.co=
-m" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Make sure QEMU process &quot;to&quot; exited before launching anot=
-her target<br>
-&gt;&gt; for migration in the test_multifd_tcp_cancel case.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@win=
-driver.com" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
-&gt;&gt; Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.c=
-om" target=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;<br>
-&gt;&gt; (no changes since v3)<br>
-&gt;&gt;<br>
-&gt;&gt; Changes in v3:<br>
-&gt;&gt; - Add a usleep(1) in the busy wait loop<br>
-&gt;&gt;<br>
-&gt;&gt; Changes in v2:<br>
-&gt;&gt; - Change to a busy wait after migration is canceled<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 tests/qtest/migration-test.c | 4 ++++<br>
-&gt;&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-=
-test.c<br>
-&gt;&gt; index 45c5f5761b..6f9fe13488 100644<br>
-&gt;&gt; --- a/tests/qtest/migration-test.c<br>
-&gt;&gt; +++ b/tests/qtest/migration-test.c<br>
-&gt;&gt; @@ -2132,6 +2132,10 @@ static void test_multifd_tcp_cancel(void)<b=
-r>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 wait_for_migration_pass(from);<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 migrate_cancel(from);<br>
-&gt;&gt; +=C2=A0 =C2=A0 /* Make sure QEMU process &quot;to&quot; exited */<=
-br>
-&gt;&gt; +=C2=A0 =C2=A0 while (qtest_probe_child(to)) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 usleep(1);<br>
-&gt;<br>
-&gt;<br>
-&gt; Why not add a qtest_wait_qemu() ? (I think qtest_probe_child() should =
-also be renamed)<br>
-&gt;<br>
-<br>
-Do you mean adding:<br>
-<br>
-void qtest_wait_qemu(QTestState *s)<br>
-{<br>
-=C2=A0 =C2=A0 while (qtest_probe_child(s)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 usleep(1);<br>
-=C2=A0 =C2=A0 }<br>
-}<br></blockquote><div><br></div><div>No, more like qtest_probe_child() but=
- without WNOHANG.</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">
-<br>
-Do you have a better name for qtest_probe_child()?<br>
-<br></blockquote><div><br></div><div>Perhaps qtest_wait_child() with a new =
-argument &quot;bool nohang&quot; then?</div><br clear=3D"all"></div><br>-- =
-<br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></=
-div></div>
-
---00000000000018a60d05e9a9649d--
 
