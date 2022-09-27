@@ -2,90 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3432D5ED015
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 00:13:33 +0200 (CEST)
-Received: from localhost ([::1]:47024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14655ED025
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 00:20:11 +0200 (CEST)
+Received: from localhost ([::1]:42706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odIpY-0006ot-Al
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 18:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56986)
+	id 1odIvt-0001V7-KH
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 18:20:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odIlh-0002ZT-Q7
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 18:09:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41792)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1odIrN-0006xH-V6; Tue, 27 Sep 2022 18:15:26 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60414
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odIle-0003Xx-AT
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 18:09:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664316569;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X3wCunMGtGrO91GsbILogR07wOi/L4+/7reDKAS3BYU=;
- b=bX8c5AC334BYtZgxBZhslBKuBqjUIuSegeNXKYrOjYKyRZHk+kdalesx1UnSCzjwUJhXpT
- i8+pI2nVWKWLU6ETqZsb38qkDq9sY7NnSGA3unxodk3aOd+xnsQ6DH2k5eGjTPaAvT5IGf
- 55W5L2PUqo578WUJmeKpamFm7wnKY84=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-615-_2EU_8uLOripyi09xcsQJg-1; Tue, 27 Sep 2022 18:09:28 -0400
-X-MC-Unique: _2EU_8uLOripyi09xcsQJg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h133-20020a1c218b000000b003b3263d477eso6137463wmh.8
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 15:09:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=X3wCunMGtGrO91GsbILogR07wOi/L4+/7reDKAS3BYU=;
- b=X5JcPJMXSl3Gw34y9bn3s7QIvq+uyvqpzl2X0dzds2SBTPgY6LRrAreqJuqpmZZP4D
- 8vn2SVKhkHrKraLayNlibgfLK7miFPYLhHiXI5bj2dqDnZaEqDl0ZcaA8+X1l9gB9qc5
- k+YxGr8DBhvH6zPWxtw3EWb1h7O2mZ6Ajr7phuxlvD8En1NjYK5Zd7+8pxy0Zg4R9cXN
- dO1Sz+IwU29g4se+8DUGHiIUzEoYEi5D8pkjHR6snK9petyzU9YJXX/8fqzjpJXUCXjv
- i8Zcspbr7HtDPzbgrXHnUlnJ3vQOCMkhdh5kLdIW8CdPA8NH3ob1w96qyOA7iSnS2eCF
- pDBA==
-X-Gm-Message-State: ACrzQf2cncrzmqSuFoyJ6tUIZOsHiwBcTXZbCjcaeqZSWVZS53kGp32E
- u3+4yT9FnvvpuBtbeOJXqTr+8yhihYPan0e5nFrUqUYRLihBRTpBEAkxeg9MhL7bAzdTOe2rdmZ
- xvKOZQfj/DzOPNfw=
-X-Received: by 2002:adf:f44c:0:b0:228:8686:552f with SMTP id
- f12-20020adff44c000000b002288686552fmr17687319wrp.587.1664316566821; 
- Tue, 27 Sep 2022 15:09:26 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5elaksUxtExYKS+PSkglKazEQoKREyZbqWcpdwkDS6jA6Mn1jpuA+qlGJ9PzgrmoOLF+u/Rg==
-X-Received: by 2002:adf:f44c:0:b0:228:8686:552f with SMTP id
- f12-20020adff44c000000b002288686552fmr17687311wrp.587.1664316566477; 
- Tue, 27 Sep 2022 15:09:26 -0700 (PDT)
-Received: from redhat.com ([2.55.47.213]) by smtp.gmail.com with ESMTPSA id
- g20-20020a05600c4ed400b003b4931eb435sm602wmq.26.2022.09.27.15.09.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 15:09:25 -0700 (PDT)
-Date: Tue, 27 Sep 2022 18:09:22 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel <qemu-devel@nongnu.org>,
- Thomas Huth <thuth@redhat.com>,
- "Maydell, Peter" <peter.maydell@linaro.org>,
- "P. Berrange, Daniel" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
- "Mammedov, Igor" <imammedo@redhat.com>
-Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
- QEMU bios tables using biosbits
-Message-ID: <20220927175440-mutt-send-email-mst@kernel.org>
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220710170014.1673480-8-ani@anisinha.ca>
- <CABgObfYW8O-JGhjLm47HmHG7WRhOQDO1EhUCTP59TZo4DnkQVg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1odIrL-0004W6-BU; Tue, 27 Sep 2022 18:15:25 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28RKe2mA024418;
+ Tue, 27 Sep 2022 22:15:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=T1OpkYrrl/dse3okh4/3MFFqVhc39JALYVSukffZj48=;
+ b=WbCMPevMJxqtGWbsdafCBpoDWYW1M0m/NZxy2ZXb9XtFjPVVRv3bVl/7py/9s+s0q3SF
+ QGrQ4PNGKtDrKYhhAWE5MWe1xRf05vrx6GLcbzWLN9fmEj5rD2dGz7eVPXkyUDgSK+Qs
+ oDgmVZ0quAA0RveuMs4rQoHV6hFaC5lxneAeN4+cv+qT9s6NKdrcGBwHTxmfHTVyg84t
+ RGTrRpScAQgijDAwQxzOhe1Ssz3CNONL2zgMtiuacRjOMcPzGK46KttWhjFLkW91LlLf
+ 6GC9Tb912pZ6nr+ErDfhn7IhuMZoEubTVJIcEnRnvJ6DHafOlH66W2IDbJigKfImmTaf 6w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3jv4eu0xg1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Sep 2022 22:15:07 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28RMF118024570;
+ Tue, 27 Sep 2022 22:15:07 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3jv4eu0xey-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Sep 2022 22:15:07 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28RM5JnK007780;
+ Tue, 27 Sep 2022 22:14:13 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma02dal.us.ibm.com with ESMTP id 3jsshacye9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 27 Sep 2022 22:14:13 +0000
+Received: from smtpav04.wdc07v.mail.ibm.com ([9.208.128.116])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 28RMECEu6750740
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 27 Sep 2022 22:14:13 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 62CD758050;
+ Tue, 27 Sep 2022 22:14:12 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AAAD958045;
+ Tue, 27 Sep 2022 22:14:11 +0000 (GMT)
+Received: from localhost (unknown [9.77.133.152])
+ by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
+ Tue, 27 Sep 2022 22:14:11 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
+ Ferst <matheus.ferst@eldorado.org.br>
+Subject: Re: [RFC PATCH v2 13/29] target/ppc: remove unused interrupts from
+ p8_pending_interrupt
+In-Reply-To: <20220927201544.4088567-14-matheus.ferst@eldorado.org.br>
+References: <20220927201544.4088567-1-matheus.ferst@eldorado.org.br>
+ <20220927201544.4088567-14-matheus.ferst@eldorado.org.br>
+Date: Tue, 27 Sep 2022 19:14:09 -0300
+Message-ID: <87a66kv51q.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABgObfYW8O-JGhjLm47HmHG7WRhOQDO1EhUCTP59TZo4DnkQVg@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: rFmOreqkn2YBqnGu-t1pi70knORkgziB
+X-Proofpoint-ORIG-GUID: 02qTMeeHbx8Ii70AMnCwGXC1noYPuZ0m
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-27_11,2022-09-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ impostorscore=0 priorityscore=1501 bulkscore=0 mlxscore=0 suspectscore=0
+ phishscore=0 spamscore=0 adultscore=0 clxscore=1011 mlxlogscore=885
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209270135
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,185 +113,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 27, 2022 at 11:44:56PM +0200, Paolo Bonzini wrote:
-> I also second the idea of using avocado instead of pytest, by the way.
-> 
-> Paolo
+Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
 
-I do not think this is a good fit for bios tests.
-bios tests are intended for a wide audience of ACPI developers
-across a variety of host systems. They basically do not need anything
-from the host and they need to be super easy to configure
-since we have lots of drive through contributors.
+> Remove the following unused interrupts from the POWER8 interrupt masking
+> method:
+> - PPC_INTERRUPT_RESET: only raised for 6xx, 7xx, 970, and POWER5p;
+> - Debug Interrupt: removed in Power ISA v2.07;
+> - Hypervisor Virtualization: introduced in Power ISA v3.0;
+> - Critical Input, Watchdog Timer, and Fixed Interval Timer: only defined
+>   for embedded CPUs;
+> - Hypervisor Doorbell, Doorbell, and Critical Doorbell: processor does
 
+We still need the first two.
+0xe80 - Directed hypervisor doorbell
+0xa00 - Directed privileged doorbell
 
-Problem is I don't think avocado is yet at the level where I can
-ask random developers to use it to check their ACPI patches.
-
-I just went ahead and rechecked and the situation isn't much better
-yet. I think the focus of avocado is system testing of full guests with
-KVM, not unit testing of ACPI.
-
-Let's start with installation on a clean box:
-
-following
-https://avocado-framework.readthedocs.io/en/98.0/guides/user/chapters/installing.html
-
-Ugh pip, will install a bunch of stuff in ~/.local and ask me to tweak
-PATH ... and what about security? No thanks!
-
-So ...
-do I want LTS or latest? Well I donnu .... let's try LTS?
-
-$ dnf module enable avocado:82lts
-[sudo] password for mst: 
-Last metadata expiration check: 6 days, 15:20:21 ago on Wed 21 Sep 2022 02:33:31 AM EDT.
-Dependencies resolved.
-==========================================================================================================================================
- Package                          Architecture                    Version                          Repository                        Size
-==========================================================================================================================================
-Enabling module streams:
- avocado                                                          82lts                                                                  
-
-Transaction Summary
-==========================================================================================================================================
-
-Is this ok [y/N]: y
-Complete!
-[mst@tuck linux]$  dnf module install avocado
-Last metadata expiration check: 6 days, 15:20:41 ago on Wed 21 Sep 2022 02:33:31 AM EDT.
-No default profiles for module avocado:82lts. Available profiles: default, minimal
-Error: Problems in request:
-broken groups or modules: avocado
-
-
-Ugh I guess latest then?
-
-
-[mst@tuck linux]$ dnf module enable avocado:latest
-Last metadata expiration check: 6 days, 15:25:21 ago on Wed 21 Sep 2022 02:33:31 AM EDT.
-Dependencies resolved.
-The operation would result in switching of module 'avocado' stream '82lts' to stream 'latest'
-Error: It is not possible to switch enabled streams of a module unless explicitly enabled via configuration option module_stream_switch.
-It is recommended to rather remove all installed content from the module, and reset the module using 'dnf module reset <module_name>' command. After you reset the module, you can install the other stream.
-
-
-
-Scary ... I don't really know what are streams and I am guessing module
-is avocado here? and what will this affect. Oh well, I'll risk this:
-
-
-
-[mst@tuck linux]$ dnf module reset  avocado
-Last metadata expiration check: 6 days, 15:25:46 ago on Wed 21 Sep 2022 02:33:31 AM EDT.
-Dependencies resolved.
-==========================================================================================================================================
- Package                          Architecture                    Version                          Repository                        Size
-==========================================================================================================================================
-Resetting modules:
- avocado                                                                                                                                 
-
-Transaction Summary
-==========================================================================================================================================
-
-Is this ok [y/N]: y
-Complete!
-[mst@tuck linux]$ dnf module enable avocado:latest
-Last metadata expiration check: 6 days, 15:25:55 ago on Wed 21 Sep 2022 02:33:31 AM EDT.
-Dependencies resolved.
-==========================================================================================================================================
- Package                          Architecture                    Version                          Repository                        Size
-==========================================================================================================================================
-Enabling module streams:
- avocado                                                          latest                                                                 
-
-Transaction Summary
-==========================================================================================================================================
-
-Is this ok [y/N]: y
-Complete!
-[mst@tuck linux]$  dnf module install avocado
-Last metadata expiration check: 6 days, 15:26:03 ago on Wed 21 Sep 2022 02:33:31 AM EDT.
-Dependencies resolved.
-==========================================================================================================================================
- Package                                              Architecture  Version                                  Repository              Size
-==========================================================================================================================================
-Installing group/module packages:
- python3-avocado                                      noarch        97.0-1.module_f35+14550+3bc43fee         updates-modular        603 k
- python3-avocado-plugins-output-html                  noarch        97.0-1.module_f35+14550+3bc43fee         updates-modular         99 k
- python3-avocado-plugins-varianter-yaml-to-mux        noarch        97.0-1.module_f35+14550+3bc43fee         updates-modular         29 k
-Installing dependencies:
- gdb-gdbserver                                        x86_64        12.1-1.fc35                              updates                300 k
- python-avocado-common                                noarch        97.0-1.module_f35+14550+3bc43fee         updates-modular         29 k
-Installing module profiles:
- avocado/default                                                                                                                         
-
-Transaction Summary
-==========================================================================================================================================
-Install  5 Packages
-
-Total download size: 1.0 M
-Installed size: 3.5 M
-Is this ok [y/N]: y
-Downloading Packages:
-(1/5): python-avocado-common-97.0-1.module_f35+14550+3bc43fee.noarch.rpm                                   40 kB/s |  29 kB     00:00    
-(2/5): python3-avocado-plugins-output-html-97.0-1.module_f35+14550+3bc43fee.noarch.rpm                    109 kB/s |  99 kB     00:00    
-(3/5): python3-avocado-plugins-varianter-yaml-to-mux-97.0-1.module_f35+14550+3bc43fee.noarch.rpm           28 kB/s |  29 kB     00:01    
-(4/5): python3-avocado-97.0-1.module_f35+14550+3bc43fee.noarch.rpm                                        479 kB/s | 603 kB     00:01    
-(5/5): gdb-gdbserver-12.1-1.fc35.x86_64.rpm                                                               232 kB/s | 300 kB     00:01    
-------------------------------------------------------------------------------------------------------------------------------------------
-Total                                                                                                     204 kB/s | 1.0 MB     00:05     
-Running transaction check
-Transaction check succeeded.
-Running transaction test
-Transaction test succeeded.
-Running transaction
-Regex version mismatch, expected: 10.40 2022-04-14 actual: 10.35 2020-05-09
-  Preparing        :                                                                                                                  1/1 
-  Installing       : python-avocado-common-97.0-1.module_f35+14550+3bc43fee.noarch                                                    1/5 
-  Installing       : gdb-gdbserver-12.1-1.fc35.x86_64                                                                                 2/5 
-  Installing       : python3-avocado-97.0-1.module_f35+14550+3bc43fee.noarch                                                          3/5 
-  Installing       : python3-avocado-plugins-output-html-97.0-1.module_f35+14550+3bc43fee.noarch                                      4/5 
-  Installing       : python3-avocado-plugins-varianter-yaml-to-mux-97.0-1.module_f35+14550+3bc43fee.noarch                            5/5 
-  Running scriptlet: python3-avocado-plugins-varianter-yaml-to-mux-97.0-1.module_f35+14550+3bc43fee.noarch                            5/5 
-  Verifying        : gdb-gdbserver-12.1-1.fc35.x86_64                                                                                 1/5 
-  Verifying        : python-avocado-common-97.0-1.module_f35+14550+3bc43fee.noarch                                                    2/5 
-  Verifying        : python3-avocado-97.0-1.module_f35+14550+3bc43fee.noarch                                                          3/5 
-  Verifying        : python3-avocado-plugins-output-html-97.0-1.module_f35+14550+3bc43fee.noarch                                      4/5 
-  Verifying        : python3-avocado-plugins-varianter-yaml-to-mux-97.0-1.module_f35+14550+3bc43fee.noarch                            5/5 
-
-Installed:
-  gdb-gdbserver-12.1-1.fc35.x86_64                                                                                                        
-  python-avocado-common-97.0-1.module_f35+14550+3bc43fee.noarch                                                                           
-  python3-avocado-97.0-1.module_f35+14550+3bc43fee.noarch                                                                                 
-  python3-avocado-plugins-output-html-97.0-1.module_f35+14550+3bc43fee.noarch                                                             
-  python3-avocado-plugins-varianter-yaml-to-mux-97.0-1.module_f35+14550+3bc43fee.noarch                                                   
-
-Complete!
-
-
-Great! Except I want avocado-vt of course. I will pretend someone told
-me that I need it.
-
-Installing Avocado-VT on Fedora or Enterprise Linux is a matter of installing the avocado-plugins-vt package. Install it with:
-
-$ yum install avocado-plugins-vt
-
-
-I guess I will replace yum with dnf then?
-
-
-
-[mst@tuck linux]$ dnf install avocado-plugins-vt
-Last metadata expiration check: 6 days, 15:31:16 ago on Wed 21 Sep 2022 02:33:31 AM EDT.
-No match for argument: avocado-plugins-vt
-Error: Unable to find a match: avocado-plugins-vt
-
-
-And this is Fedora. What do people do on debian? non Linux?
-
-
--- 
-MST
-
+>   not implement the "Embedded.Processor Control" category;
+> - Programmable Interval Timer: 40x-only;
+> - PPC_INTERRUPT_THERM: only raised for 970 and POWER5p;
+>
 
