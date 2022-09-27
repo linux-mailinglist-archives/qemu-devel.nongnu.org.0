@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E6A5EBD25
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:23:13 +0200 (CEST)
-Received: from localhost ([::1]:40560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD19A5EBE0D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:12:13 +0200 (CEST)
+Received: from localhost ([::1]:49118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od5s0-0002KS-4z
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:23:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52902)
+	id 1od6dQ-0001Bj-Dg
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:12:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oL-00056u-EH
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29776)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oQ-0005OV-0q
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oI-0000Hg-IA
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:23 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oI-0000He-Ia
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664266761;
+ s=mimecast20190719; t=1664266760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t+8ci7yIxQ8T3QiJDY00xznjj3eoJ5YaGlNk+syamAw=;
- b=ZNczbt232I9LzmhIQVOt8w646Pwy5jW8XbC48msXZLDfHwwldq0uLKpSOZlu9/EdB2X7ya
- DBD/NnnwF4jCkJ/7MjEYC4OdvRZEQjKjaLcnUvDe7Ol+iGQyQ2MKT2M0i+mHUlN8O5Pv/T
- crwPwkcNOOh9jTpwrLopkYfbMiN+gMM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/zq3OWtNsr/F8P8xBpqtvQmjLKJC+788Jtr6JhyFLLk=;
+ b=FnxM3uLjYwNpBV/JsPy1kM4ptdwjuMVjRwSHydhn0TTezi9APzlShytu8MYcY8NOVE1TDd
+ VziWMHzWU0VBAUfG58nuLBYAwnH3vDUsfV8fff4qRKXZYrvhDHAtcfxblYmkPRhMlOJK4v
+ cKeBIyk9N3q3dd8sV/ewydmIqFtg01E=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-ez4EkGUNMIqzUNW0gtG0BA-1; Tue, 27 Sep 2022 04:19:18 -0400
-X-MC-Unique: ez4EkGUNMIqzUNW0gtG0BA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-3-V-sPBArWOO-3mYNN4Tp2xw-1; Tue, 27 Sep 2022 04:19:18 -0400
+X-MC-Unique: V-sPBArWOO-3mYNN4Tp2xw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D9CD71E6818C;
- Tue, 27 Sep 2022 08:19:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7776C86C043;
+ Tue, 27 Sep 2022 08:19:16 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 58C8840CF8E2;
- Tue, 27 Sep 2022 08:19:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EDF132166B26;
+ Tue, 27 Sep 2022 08:19:15 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id DA21B1800629; Tue, 27 Sep 2022 10:19:12 +0200 (CEST)
+ id 018DA180062D; Tue, 27 Sep 2022 10:19:13 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -54,18 +54,15 @@ Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>,
  Alexandre Ratchov <alex@caoua.org>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Cal Peake <cp@absolutedigital.net>
-Subject: [PULL 01/24] ui/console: Get tab completion working again in the SDL
- monitor vc
-Date: Tue, 27 Sep 2022 10:18:49 +0200
-Message-Id: <20220927081912.180983-2-kraxel@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 02/24] ui/cocoa: Run qemu_init in the main thread
+Date: Tue, 27 Sep 2022 10:18:50 +0200
+Message-Id: <20220927081912.180983-3-kraxel@redhat.com>
 In-Reply-To: <20220927081912.180983-1-kraxel@redhat.com>
 References: <20220927081912.180983-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -90,45 +87,362 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cal Peake <cp@absolutedigital.net>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Define a QEMU special key constant for the tab key and add an entry for
-it in the qcode_to_keysym table. This allows tab completion to work again
-in the SDL monitor virtual console, which has been broken ever since the
-migration from SDL1 to SDL2.
+This work is based on:
+https://patchew.org/QEMU/20220317125534.38706-1-philippe.mathieu.daude@gmail.com/
 
-Signed-off-by: Cal Peake <cp@absolutedigital.net>
-Message-Id: <7054816e-99c-7e2-6737-7cf98cc56e2@absolutedigital.net>
+Simplify the initialization dance by running qemu_init() in the main
+thread before the Cocoa event loop starts. The secondary thread only
+runs only qemu_main_loop() and qemu_cleanup().
+
+This fixes a case where addRemovableDevicesMenuItems() calls
+qmp_query_block() while expecting the main thread to still hold
+the BQL.
+
+Overriding the code after calling qemu_init() is done by dynamically
+replacing a function pointer variable, qemu_main when initializing
+ui/cocoa, which unifies the static implementation of main() for
+builds with ui/cocoa and ones without ui/cocoa.
+
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Message-Id: <20220819132756.74641-2-akihiko.odaki@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/console.h | 1 +
- ui/console.c         | 1 +
- 2 files changed, 2 insertions(+)
+ include/qemu-main.h     |   3 +-
+ include/sysemu/sysemu.h |   2 +-
+ softmmu/main.c          |  10 +--
+ softmmu/vl.c            |   2 +-
+ tests/qtest/fuzz/fuzz.c |   2 +-
+ docs/devel/fuzzing.rst  |   4 +-
+ ui/cocoa.m              | 144 ++++++++++++++--------------------------
+ 7 files changed, 62 insertions(+), 105 deletions(-)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index c0520c694c23..e400ee9fa74b 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -70,6 +70,7 @@ void hmp_mouse_set(Monitor *mon, const QDict *qdict);
- /* keysym is a unicode code except for special keys (see QEMU_KEY_xxx
-    constants) */
- #define QEMU_KEY_ESC1(c) ((c) | 0xe100)
-+#define QEMU_KEY_TAB        0x0009
- #define QEMU_KEY_BACKSPACE  0x007f
- #define QEMU_KEY_UP         QEMU_KEY_ESC1('A')
- #define QEMU_KEY_DOWN       QEMU_KEY_ESC1('B')
-diff --git a/ui/console.c b/ui/console.c
-index 765892f84f1c..243f2f6e64ae 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -1368,6 +1368,7 @@ static const int qcode_to_keysym[Q_KEY_CODE__MAX] = {
-     [Q_KEY_CODE_PGUP]   = QEMU_KEY_PAGEUP,
-     [Q_KEY_CODE_PGDN]   = QEMU_KEY_PAGEDOWN,
-     [Q_KEY_CODE_DELETE] = QEMU_KEY_DELETE,
-+    [Q_KEY_CODE_TAB]    = QEMU_KEY_TAB,
-     [Q_KEY_CODE_BACKSPACE] = QEMU_KEY_BACKSPACE,
- };
+diff --git a/include/qemu-main.h b/include/qemu-main.h
+index 6a3e90d0ad59..940960a7dbcb 100644
+--- a/include/qemu-main.h
++++ b/include/qemu-main.h
+@@ -5,6 +5,7 @@
+ #ifndef QEMU_MAIN_H
+ #define QEMU_MAIN_H
  
+-int qemu_main(int argc, char **argv, char **envp);
++int qemu_default_main(void);
++extern int (*qemu_main)(void);
+ 
+ #endif /* QEMU_MAIN_H */
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 31aa45160be8..6a7a31e64dea 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -102,7 +102,7 @@ void qemu_boot_set(const char *boot_order, Error **errp);
+ 
+ bool defaults_enabled(void);
+ 
+-void qemu_init(int argc, char **argv, char **envp);
++void qemu_init(int argc, char **argv);
+ int qemu_main_loop(void);
+ void qemu_cleanup(void);
+ 
+diff --git a/softmmu/main.c b/softmmu/main.c
+index 1b675a8c036f..694388bd7f7f 100644
+--- a/softmmu/main.c
++++ b/softmmu/main.c
+@@ -30,20 +30,20 @@
+ #include <SDL.h>
+ #endif
+ 
+-int qemu_main(int argc, char **argv, char **envp)
++int qemu_default_main(void)
+ {
+     int status;
+ 
+-    qemu_init(argc, argv, envp);
+     status = qemu_main_loop();
+     qemu_cleanup();
+ 
+     return status;
+ }
+ 
+-#ifndef CONFIG_COCOA
++int (*qemu_main)(void) = qemu_default_main;
++
+ int main(int argc, char **argv)
+ {
+-    return qemu_main(argc, argv, NULL);
++    qemu_init(argc, argv);
++    return qemu_main();
+ }
+-#endif
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index e62b9cc35d75..9abadcc15051 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2605,7 +2605,7 @@ void qmp_x_exit_preconfig(Error **errp)
+     }
+ }
+ 
+-void qemu_init(int argc, char **argv, char **envp)
++void qemu_init(int argc, char **argv)
+ {
+     QemuOpts *opts;
+     QemuOpts *icount_opts = NULL, *accel_opts = NULL;
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index 2b3bc1fb9df5..eb7520544b80 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -218,7 +218,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+         g_free(pretty_cmd_line);
+     }
+ 
+-    qemu_init(result.we_wordc, result.we_wordv, NULL);
++    qemu_init(result.we_wordc, result.we_wordv);
+ 
+     /* re-enable the rcu atfork, which was previously disabled in qemu_init */
+     rcu_enable_atfork();
+diff --git a/docs/devel/fuzzing.rst b/docs/devel/fuzzing.rst
+index 784ecb99e667..715330c85613 100644
+--- a/docs/devel/fuzzing.rst
++++ b/docs/devel/fuzzing.rst
+@@ -287,8 +287,8 @@ select the fuzz target. Then, the qtest client is initialized. If the target
+ requires qos, qgraph is set up and the QOM/LIBQOS modules are initialized.
+ Then the QGraph is walked and the QEMU cmd_line is determined and saved.
+ 
+-After this, the ``vl.c:qemu_main`` is called to set up the guest. There are
+-target-specific hooks that can be called before and after qemu_main, for
++After this, the ``vl.c:main`` is called to set up the guest. There are
++target-specific hooks that can be called before and after main, for
+ additional setup(e.g. PCI setup, or VM snapshotting).
+ 
+ ``LLVMFuzzerTestOneInput``: Uses qtest/qos functions to act based on the fuzz
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 5a8bd5dd84e0..660d3e093569 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -100,13 +100,9 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+ static int left_command_key_enabled = 1;
+ static bool swap_opt_cmd;
+ 
+-static int gArgc;
+-static char **gArgv;
+ static bool stretch_video;
+ static NSTextField *pauseLabel;
+ 
+-static QemuSemaphore display_init_sem;
+-static QemuSemaphore app_started_sem;
+ static bool allow_events;
+ 
+ static NSInteger cbchangecount = -1;
+@@ -597,7 +593,7 @@ - (void) updateUIInfo
+         /*
+          * Don't try to tell QEMU about UI information in the application
+          * startup phase -- we haven't yet registered dcl with the QEMU UI
+-         * layer, and also trying to take the iothread lock would deadlock.
++         * layer.
+          * When cocoa_display_init() does register the dcl, the UI layer
+          * will call cocoa_switch(), which will call updateUIInfo, so
+          * we don't lose any information here.
+@@ -790,16 +786,6 @@ - (void) handleMonitorInput:(NSEvent *)event
+ 
+ - (bool) handleEvent:(NSEvent *)event
+ {
+-    if(!allow_events) {
+-        /*
+-         * Just let OSX have all events that arrive before
+-         * applicationDidFinishLaunching.
+-         * This avoids a deadlock on the iothread lock, which cocoa_display_init()
+-         * will not drop until after the app_started_sem is posted. (In theory
+-         * there should not be any such events, but OSX Catalina now emits some.)
+-         */
+-        return false;
+-    }
+     return bool_with_iothread_lock(^{
+         return [self handleEventLocked:event];
+     });
+@@ -1287,8 +1273,6 @@ - (void)applicationDidFinishLaunching: (NSNotification *) note
+ {
+     COCOA_DEBUG("QemuCocoaAppController: applicationDidFinishLaunching\n");
+     allow_events = true;
+-    /* Tell cocoa_display_init to proceed */
+-    qemu_sem_post(&app_started_sem);
+ }
+ 
+ - (void)applicationWillTerminate:(NSNotification *)aNotification
+@@ -1919,92 +1903,45 @@ static void cocoa_clipboard_request(QemuClipboardInfo *info,
+ /*
+  * The startup process for the OSX/Cocoa UI is complicated, because
+  * OSX insists that the UI runs on the initial main thread, and so we
+- * need to start a second thread which runs the vl.c qemu_main():
+- *
+- * Initial thread:                    2nd thread:
++ * need to start a second thread which runs the qemu_default_main():
+  * in main():
+- *  create qemu-main thread
+- *  wait on display_init semaphore
+- *                                    call qemu_main()
+- *                                    ...
+- *                                    in cocoa_display_init():
+- *                                     post the display_init semaphore
+- *                                     wait on app_started semaphore
+- *  create application, menus, etc
+- *  enter OSX run loop
+- * in applicationDidFinishLaunching:
+- *  post app_started semaphore
+- *                                     tell main thread to fullscreen if needed
+- *                                    [...]
+- *                                    run qemu main-loop
+- *
+- * We do this in two stages so that we don't do the creation of the
+- * GUI application menus and so on for command line options like --help
+- * where we want to just print text to stdout and exit immediately.
++ *  in cocoa_display_init():
++ *   assign cocoa_main to qemu_main
++ *   create application, menus, etc
++ *  in cocoa_main():
++ *   create qemu-main thread
++ *   enter OSX run loop
+  */
+ 
+ static void *call_qemu_main(void *opaque)
+ {
+     int status;
+ 
+-    COCOA_DEBUG("Second thread: calling qemu_main()\n");
+-    status = qemu_main(gArgc, gArgv, *_NSGetEnviron());
+-    COCOA_DEBUG("Second thread: qemu_main() returned, exiting\n");
++    COCOA_DEBUG("Second thread: calling qemu_default_main()\n");
++    qemu_mutex_lock_iothread();
++    status = qemu_default_main();
++    qemu_mutex_unlock_iothread();
++    COCOA_DEBUG("Second thread: qemu_default_main() returned, exiting\n");
+     [cbowner release];
+     exit(status);
+ }
+ 
+-int main (int argc, char **argv) {
++static int cocoa_main()
++{
+     QemuThread thread;
+ 
+-    COCOA_DEBUG("Entered main()\n");
+-    gArgc = argc;
+-    gArgv = argv;
+-
+-    qemu_sem_init(&display_init_sem, 0);
+-    qemu_sem_init(&app_started_sem, 0);
++    COCOA_DEBUG("Entered %s()\n", __func__);
+ 
++    qemu_mutex_unlock_iothread();
+     qemu_thread_create(&thread, "qemu_main", call_qemu_main,
+                        NULL, QEMU_THREAD_DETACHED);
+ 
+-    COCOA_DEBUG("Main thread: waiting for display_init_sem\n");
+-    qemu_sem_wait(&display_init_sem);
+-    COCOA_DEBUG("Main thread: initializing app\n");
+-
+-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+-
+-    // Pull this console process up to being a fully-fledged graphical
+-    // app with a menubar and Dock icon
+-    ProcessSerialNumber psn = { 0, kCurrentProcess };
+-    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+-
+-    [QemuApplication sharedApplication];
+-
+-    create_initial_menus();
+-
+-    /*
+-     * Create the menu entries which depend on QEMU state (for consoles
+-     * and removeable devices). These make calls back into QEMU functions,
+-     * which is OK because at this point we know that the second thread
+-     * holds the iothread lock and is synchronously waiting for us to
+-     * finish.
+-     */
+-    add_console_menu_entries();
+-    addRemovableDevicesMenuItems();
+-
+-    // Create an Application controller
+-    QemuCocoaAppController *appController = [[QemuCocoaAppController alloc] init];
+-    [NSApp setDelegate:appController];
+-
+     // Start the main event loop
+     COCOA_DEBUG("Main thread: entering OSX run loop\n");
+     [NSApp run];
+-    COCOA_DEBUG("Main thread: left OSX run loop, exiting\n");
++    COCOA_DEBUG("Main thread: left OSX run loop, which should never happen\n");
+ 
+-    [appController release];
+-    [pool release];
+-
+-    return 0;
++    abort();
+ }
+ 
+ 
+@@ -2083,25 +2020,42 @@ static void cocoa_refresh(DisplayChangeListener *dcl)
+ 
+ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+ {
++    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
++
+     COCOA_DEBUG("qemu_cocoa: cocoa_display_init\n");
+ 
+-    /* Tell main thread to go ahead and create the app and enter the run loop */
+-    qemu_sem_post(&display_init_sem);
+-    qemu_sem_wait(&app_started_sem);
+-    COCOA_DEBUG("cocoa_display_init: app start completed\n");
++    qemu_main = cocoa_main;
++
++    // Pull this console process up to being a fully-fledged graphical
++    // app with a menubar and Dock icon
++    ProcessSerialNumber psn = { 0, kCurrentProcess };
++    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
++
++    [QemuApplication sharedApplication];
++
++    create_initial_menus();
++
++    /*
++     * Create the menu entries which depend on QEMU state (for consoles
++     * and removeable devices). These make calls back into QEMU functions,
++     * which is OK because at this point we know that the second thread
++     * holds the iothread lock and is synchronously waiting for us to
++     * finish.
++     */
++    add_console_menu_entries();
++    addRemovableDevicesMenuItems();
++
++    // Create an Application controller
++    QemuCocoaAppController *controller = [[QemuCocoaAppController alloc] init];
++    [NSApp setDelegate:controller];
+ 
+-    QemuCocoaAppController *controller = (QemuCocoaAppController *)[[NSApplication sharedApplication] delegate];
+     /* if fullscreen mode is to be used */
+     if (opts->has_full_screen && opts->full_screen) {
+-        dispatch_async(dispatch_get_main_queue(), ^{
+-            [NSApp activateIgnoringOtherApps: YES];
+-            [controller toggleFullScreen: nil];
+-        });
++        [NSApp activateIgnoringOtherApps: YES];
++        [controller toggleFullScreen: nil];
+     }
+     if (opts->u.cocoa.has_full_grab && opts->u.cocoa.full_grab) {
+-        dispatch_async(dispatch_get_main_queue(), ^{
+-            [controller setFullGrab: nil];
+-        });
++        [controller setFullGrab: nil];
+     }
+ 
+     if (opts->has_show_cursor && opts->show_cursor) {
+@@ -2121,6 +2075,8 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+     qemu_event_init(&cbevent, false);
+     cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
+     qemu_clipboard_peer_register(&cbpeer);
++
++    [pool release];
+ }
+ 
+ static QemuDisplay qemu_display_cocoa = {
 -- 
 2.37.3
 
