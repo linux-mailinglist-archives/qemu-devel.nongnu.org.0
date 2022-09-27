@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626365ECA5F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 19:01:57 +0200 (CEST)
-Received: from localhost ([::1]:45654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB8635ECA76
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 19:06:51 +0200 (CEST)
+Received: from localhost ([::1]:35152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odDxz-0005fl-GS
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 13:01:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42522)
+	id 1odE2k-0001gN-UZ
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 13:06:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bwidawsk@kernel.org>)
- id 1odDiZ-0004fk-Fp
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 12:45:59 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:52838)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bwidawsk@kernel.org>)
- id 1odDiX-0001vZ-A8
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 12:45:59 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7D02BB81C82;
- Tue, 27 Sep 2022 16:45:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FDCEC433D7;
- Tue, 27 Sep 2022 16:45:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1664297152;
- bh=mXLjU0NnaHtLCXzlZQdzs2AQEJ7WwomDsI5Ppifs1N8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aDkUbYfhgQpMOR4xOAGIpvC3KUpRrpv2Cb0i6vSlbE8N8lYMndgpVozg6zSru4iQT
- 5fvJ0rypXB8osEQeEebIHIV+HypX4bJsAFFTAiXS5Bwqwj9tlkhFvusvCLtXdfSAnf
- JlIE66fDvqqZFYTcGtZv6zPpIzgOsU7iyRNircn79t4QmfdHEnBfAy5/DvIyfbJsWp
- 1KqFlnSk8gRyghRxvOeR8nTetbwUEktzTAr9X+lApS7bkEdz2kvMKuT7eSY8JxHzv/
- Mh3/juQbl2JONbdhK2WDET+DvrmQum38ZYeZPKW7X5LRYBhp43Ii6U+iDa0GIjsgl5
- CpaStx0/nHVTg==
-Date: Tue, 27 Sep 2022 09:45:49 -0700
-From: Ben Widawsky <bwidawsk@kernel.org>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: linux-cxl@vger.kernel.org, qemu-devel@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>, linuxarm@huawei.com
-Subject: Re: [PATCH] mem/cxl-type3: Add sn option to provide serial number
- for PCI ecap
-Message-ID: <20220927164549.4rcc7ttrkc7tod7g@bwidawsk-mobl5>
-References: <20220923161835.9805-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odDlu-000729-LM
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 12:49:27 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36739)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odDls-0002LY-DQ
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 12:49:25 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ i203-20020a1c3bd4000000b003b3df9a5ecbso9822418wma.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 09:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=p6WvLY1DdFqAItBhNcJerG2iDkIGFsH5MoIdSxHl50U=;
+ b=MZdQ5iYZPnnxIcAYcHyfJL7BKoFiF8+QeKWomrVf0fFi6wXKYcHf+mJ/Tf6upv8V3q
+ lPUtlyGegauuWCmdUQWIVCjd0Z/sgKTZPbeSRPMKeotn2WlxZv3jVTsUkU4IAnU8IGUz
+ ynsZEf4Dyzef8UIugqZwDDtenB/yUEhs+/rCeT5llMByJohEHjIykHX0RYo/NW6v6e/y
+ h0pFxLXRHkqlWBtCiscKkH7Y10mLR3n0wXaVDDjaUVIKkW8nfKldsJPjyBGMhG+0WxOo
+ TNdnoRjdrT3wK4TU1CJNxMcfniIt8gqWpWvO0WjI+Gu+4CAe8wjdVxVUWXMSL7UbZQjp
+ pjMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=p6WvLY1DdFqAItBhNcJerG2iDkIGFsH5MoIdSxHl50U=;
+ b=lvZVwJsw3AacQiJ/pvJPQHkFJa1mAjBAOrjh1o9+JRX5cYIn5TlO4vljcyoVVWwH6m
+ fWd7tI4l0cLoKnaMNdm4q32g/tZoC/Eu87xgzKsQzT4xYZvzjc85QxyyfqYEAAkTu6cz
+ grqDaiP+Ya0u1dcAm6v0Eb6N83ISL72attJE/KkeAoyiRi3bWeeP5vSdapqG9Gw6rDWs
+ C6vOCkGhAoZAqgha/PhCVd9N89z+yRn9HRos3byZZcpSIrad4tFSYJ+Qat64apzNM6IA
+ cOpd2av0pbHwe172B7ogV4vuy6i/gw2A+l1uo4+dgc2prWxxQ+mFaBXKK+BShpIhnKqL
+ VP5g==
+X-Gm-Message-State: ACrzQf3+QMlAAzxPo7ww9FXaSiDo/+kyUIZvigzu2Ku9IVQpt1TB7Ati
+ kKt0CQUo+4GIDZykYFe8h0K5qg==
+X-Google-Smtp-Source: AMsMyM5MUq29rQeC2of/U2oIRSaOctB705LB5LssuPQJMVK3xMrb+qSsm0pXXRVVxsWrhEQvVrHo4A==
+X-Received: by 2002:a05:600c:348e:b0:3b4:a9f1:c240 with SMTP id
+ a14-20020a05600c348e00b003b4a9f1c240mr3477564wmq.192.1664297362796; 
+ Tue, 27 Sep 2022 09:49:22 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ b13-20020a5d40cd000000b00226f39d1a3esm2257118wrq.73.2022.09.27.09.49.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Sep 2022 09:49:22 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Vitaly Chikunov <vt@altlinux.org>, Marc Zyngier <maz@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Auger <eric.auger@redhat.com>
+Subject: [PATCH v2] target/arm/kvm: Retry KVM_CREATE_VM call if it fails EINTR
+Date: Tue, 27 Sep 2022 17:49:20 +0100
+Message-Id: <20220927164920.1502219-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220923161835.9805-1-Jonathan.Cameron@huawei.com>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=bwidawsk@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,85 +89,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22-09-23 17:18:35, Jonathan Cameron wrote:
-> The Device Serial Number Extended Capability PCI r6.0 sec 7.9.3
-> provides a standard way to provide a device serial number as
-> an IEEE defined 64-bit extended unique identifier EUI-64.
-> 
-> CXL 2.0 section 8.1.12.2 Memory Device PCIe Capabilities and
-> Extended Capabilities requires this to be used to uniquely
-> identify CXL memory devices.
-> 
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Occasionally the KVM_CREATE_VM ioctl can return EINTR, even though
+there is no pending signal to be taken. In commit 94ccff13382055
+we added a retry-on-EINTR loop to the KVM_CREATE_VM call in the
+generic KVM code. Adopt the same approach for the use of the
+ioctl in the Arm-specific KVM code (where we use it to create a
+scratch VM for probing for various things).
 
-Reviewed-by: Ben Widawsky <bwidawsk@kernel.org>
+For more information, see the mailing list thread:
+https://lore.kernel.org/qemu-devel/8735e0s1zw.wl-maz@kernel.org/
 
-> ---
-> 
-> This is the missing element to be able to use the Linux kernel
-> support for PMEM region creation.  Without this you can create
-> a region, but not remount it after reboot (as the label
-> is not valid).
-> 
->  hw/mem/cxl_type3.c          | 14 +++++++++++++-
->  include/hw/cxl/cxl_device.h |  1 +
->  2 files changed, 14 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> index 3bf2869573..e0c1535b73 100644
-> --- a/hw/mem/cxl_type3.c
-> +++ b/hw/mem/cxl_type3.c
-> @@ -14,6 +14,12 @@
->  #include "sysemu/hostmem.h"
->  #include "hw/cxl/cxl.h"
->  
-> +/*
-> + * Null value of all Fs suggested by IEEE RA guidelines for use of
-> + * EU, OUI and CID
-> + */
-> +#define UI64_NULL ~(0ULL)
-> +
->  static void build_dvsecs(CXLType3Dev *ct3d)
->  {
->      CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
-> @@ -149,7 +155,12 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
->      pci_config_set_class(pci_conf, PCI_CLASS_MEMORY_CXL);
->  
->      pcie_endpoint_cap_init(pci_dev, 0x80);
-> -    cxl_cstate->dvsec_offset = 0x100;
-> +    if (ct3d->sn != UI64_NULL) {
-> +        pcie_dev_ser_num_init(pci_dev, 0x100, ct3d->sn);
-> +        cxl_cstate->dvsec_offset = 0x100 + 0x0c;
-> +    } else {
-> +        cxl_cstate->dvsec_offset = 0x100;
-> +    }
+Reported-by: Vitaly Chikunov <vt@altlinux.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+The view in the thread seems to be that this is a kernel bug (because
+in QEMU's case there shouldn't be a signal to be delivered at this
+point because of our signal handling strategy); so I've adopted the
+same "just retry-on-EINTR for this specific ioctl" approach that
+commit 94ccff13 did, rather than, for instance, something wider like
+"make kvm_ioctl() and friends always retry on EINTR".
 
-Perhaps just always make it 0x10c to keep it simple and debuggable?
+v2: correctly check for -1 and errno is EINTR...
+---
+ target/arm/kvm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->  
->      ct3d->cxl_cstate.pdev = pci_dev;
->      build_dvsecs(ct3d);
-> @@ -275,6 +286,7 @@ static Property ct3_props[] = {
->                       HostMemoryBackend *),
->      DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
->                       HostMemoryBackend *),
-> +    DEFINE_PROP_UINT64("sn", CXLType3Dev, sn, UI64_NULL),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> index 1e141b6621..e4d221cdb3 100644
-> --- a/include/hw/cxl/cxl_device.h
-> +++ b/include/hw/cxl/cxl_device.h
-> @@ -237,6 +237,7 @@ struct CXLType3Dev {
->      /* Properties */
->      HostMemoryBackend *hostmem;
->      HostMemoryBackend *lsa;
-> +    uint64_t sn;
->  
->      /* State */
->      AddressSpace hostmem_as;
-> -- 
-> 2.32.0
-> 
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index e5c1bd50d29..356199c9e25 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -79,7 +79,9 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
+     if (max_vm_pa_size < 0) {
+         max_vm_pa_size = 0;
+     }
+-    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
++    do {
++        vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
++    } while (vmfd == -1 && errno == -EINTR);
+     if (vmfd < 0) {
+         goto err;
+     }
+-- 
+2.25.1
+
 
