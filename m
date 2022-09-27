@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F875EC4CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:44:41 +0200 (CEST)
-Received: from localhost ([::1]:46508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262715EC4AB
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:40:09 +0200 (CEST)
+Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odAt6-0000tl-M9
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:44:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35434)
+	id 1odAoh-0002iM-OE
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:40:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1od9Ai-0002h6-3S
+ id 1od9Aj-0002h8-00
  for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:54:55 -0400
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:36740)
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:33456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1od9Af-0006Zx-Ol
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:54:43 -0400
-Received: by mail-lf1-x131.google.com with SMTP id bu25so13432251lfb.3
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:54:37 -0700 (PDT)
+ id 1od9Af-0006aG-Qs
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:54:44 -0400
+Received: by mail-lf1-x136.google.com with SMTP id d42so15418684lfv.0
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:54:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=9XcX+vukxwEFNX8/4TgHjhApQ3EbnOuN7LIEclCoXKs=;
- b=G5aCBljpVMK3uwwbcKHH/NEXSEiF+G5XeD0/aNu8AYKv8YlRqpb7KL2wK0evbVTrOp
- RlPkmxQH0sC5qqN+qzZRZjH0eSmMWmOIs3QbvYT5qu3QNZaNoPEelp5pcdE+HgEnuZmD
- rdOLxqkF6j26oF7drYTWAwWrGQtVpE7mLxYVhYBXCkKe5/L5y1+XAI9sBu6EWAhBIRR8
- JCZHIC2+2cAKFhX5mbqzXRVR0WMdBaQ/Xa/Hm1NuwbEhAAVjQ6VBrecj1kz+RfcVXgBL
- XlBa/Hrmjm8k5Z3DflzmA0xU7cNwBwNFza6nt8brGrdsFOAAGqaqB5VGJvyxRH1RkFJ+
- P7vQ==
+ bh=U2gxc5nxmL46XGztOIFhAMX1aYULHt67avmFBvOV9OE=;
+ b=S6iRnjlcL54l1Sbq+qXnEyomiM6SfO+FcbaPnTjofTXKKZwhkNOtKraM7lGAYfwMrg
+ eUuNGct0St6vcLb8Hw7KhsoWUL+9uTqL3jRgGLGmsYQlulU9VI6TGGjZGD0AD3fwXu8y
+ k5O79IswXSqI3fRhUq+jt+JUtdnToQu6AuDm9LgtsFH0cG/Fnag2jJS12OgxwiED4QPk
+ 1zYS4tnGGVdJTQfffMz+V56a9E7yKNyu7JxbZlL1jUzfZ8NUCcrT/bXmqxXMOSUpmzzi
+ /4DvrzKQFOj7yJP/2/jam6fgFlSDvw6f8kmXpM2PLtT+pHYJXzlciA91EhMhHGlnZ+lY
+ bDZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=9XcX+vukxwEFNX8/4TgHjhApQ3EbnOuN7LIEclCoXKs=;
- b=cPlpAbJCvBocrTbJh/Gjr+1lsDqgOcNfBzPQ2w2Pasila44q8QiyqJcSiP+36gQGO8
- ATJbslqPtN7Y67krXf49yMuiB9vDREkuuR44dSXxWheiD5zk7oKOw/cywC/SZMCRx/Z4
- eH8qrpu7koh0x0GSp3IADFZrBoM6PKuOdqDxmYHZcnGXO9jVa4F6aflMqAJmqQPu5MA6
- xyMlwHACaEtG/un6UazpIHT/P3yEfMPcymYzVAfVoptGB4XMZkLSyWofpyoEeYpGPiph
- 1Zq4MQsSHnQDYVgkuHlPMDFkESronXVLi4Bk+UzBEmbQvv+n3IHf2AH2qKxlQI5l3J0b
- o2zg==
-X-Gm-Message-State: ACrzQf3bQwjn35w0Q+qV5gto4x0Qb78eFdGogevg34VyrIxlbaAXDTlz
- 5IzNGRH3KXwM3q+Cy8REXdsRHncQcm55Mvg5uz4=
-X-Google-Smtp-Source: AMsMyM7ctstFB6TthDMIboIdjuHAUe6DBAVsZbYkZV2kzTB2obuTJ9xrLH4gv1suZblf0cAsQkxVHaJRCusqonigdaE=
-X-Received: by 2002:ac2:5e66:0:b0:49e:bce2:3df5 with SMTP id
- a6-20020ac25e66000000b0049ebce23df5mr10472333lfr.362.1664279676547; Tue, 27
- Sep 2022 04:54:36 -0700 (PDT)
+ bh=U2gxc5nxmL46XGztOIFhAMX1aYULHt67avmFBvOV9OE=;
+ b=fyR0JVDKyUioBqk8FcXNaEidgQV8vZ2VcG9YR3gIM8zxB9o72SOJhRRvD4/fOpsHGM
+ T1EavUroodo1rBx9gTS1etoTYeRM1jWzK/O4Vyk5s+so7yVGjJ6VEhLtl2isHEwkD+/B
+ OZRQIqdWg+GqnGnltcOAswaxdO6nb4kFZxQ2JhFrkC5vlYvzgX7KCEY6dUBuAhaMPlNa
+ tMcmfV+FufnN9j5Op5Sk8yZQXvMPokmok2vG/V+2Fc2Pf7iR2X/JOvtMAKLXQ5zb9iKb
+ vfMPzDTOX3tQoL83LwO5rZtFGyJquS3LyPs7lHZCGuXXwPFFYP/f3vWfQZTIBWmCs7C8
+ hPnA==
+X-Gm-Message-State: ACrzQf0N85LcgNeb0EYKdIeeV+2RyEtllQqosgk6U2ankIxgkPLNqyhT
+ s+ozTZJrW9ITd4ZYkwCZQH/aLLKG2ReRurjWz3U=
+X-Google-Smtp-Source: AMsMyM7r6eIf91VKaHT0fr9nZTdtITQ6hIuYn562VfOJtyV125OsIoQ2Oox7HdU0sNvG57FfCGdDs9L+FRlDEqbvDEc=
+X-Received: by 2002:a05:6512:6c9:b0:49a:51d4:d517 with SMTP id
+ u9-20020a05651206c900b0049a51d4d517mr11260382lff.329.1664279677919; Tue, 27
+ Sep 2022 04:54:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <38d7417a-fc26-be39-6a63-99c79ee15fc9@t-online.de>
- <20220923183640.8314-5-vr_qemu@t-online.de>
-In-Reply-To: <20220923183640.8314-5-vr_qemu@t-online.de>
+ <20220923183640.8314-4-vr_qemu@t-online.de>
+In-Reply-To: <20220923183640.8314-4-vr_qemu@t-online.de>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 27 Sep 2022 15:54:23 +0400
-Message-ID: <CAJ+F1CKO7DCTKJgEWc4roTyN9Ozp0hw_L2OiQFvS-0nRHFKhRw@mail.gmail.com>
-Subject: Re: [PATCH 05/12] audio: add more audio rate control functions
+Date: Tue, 27 Sep 2022 15:54:25 +0400
+Message-ID: <CAJ+F1CJMiMPKHMAEJyrpE3DT1VXXSN1t1nbSUk6TErtt62EHng@mail.gmail.com>
+Subject: Re: [PATCH 04/12] alsaaudio: reduce playback latency
 To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000ed77fa05e9a74ed1"
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x131.google.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, 
+ Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="00000000000002658505e9a74f52"
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,103 +84,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ed77fa05e9a74ed1
+--00000000000002658505e9a74f52
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 23, 2022 at 10:43 PM Volker R=C3=BCmelin <vr_qemu@t-online.de> =
+On Fri, Sep 23, 2022 at 10:51 PM Volker R=C3=BCmelin <vr_qemu@t-online.de> =
 wrote:
 
-> The next patch needs two new rate control functions. The first
-> one returns the bytes needed at call time to maintain the
-> selected rate. The second one adjusts the bytes actually sent.
->
-> Split the audio_rate_get_bytes() function into these two
-> functions and reintroduce audio_rate_get_bytes().
+> Change the buffer_get_free pcm_ops function to report the free
+> ALSA playback buffer. The generic buffer becomes a temporary
+> buffer and is empty after a call to audio_run_out().
 >
 > Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 >
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
+lgtm
+Acked-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
 > ---
->  audio/audio.c     | 35 ++++++++++++++++++++++++-----------
->  audio/audio_int.h |  2 ++
->  2 files changed, 26 insertions(+), 11 deletions(-)
+>  audio/alsaaudio.c | 38 +++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 37 insertions(+), 1 deletion(-)
 >
-> diff --git a/audio/audio.c b/audio/audio.c
-> index 9e55834909..557538a7b7 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -2250,26 +2250,39 @@ void audio_rate_start(RateCtl *rate)
->      rate->start_ticks =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+> index 4a61378cd7..7a2a94cd42 100644
+> --- a/audio/alsaaudio.c
+> +++ b/audio/alsaaudio.c
+> @@ -602,6 +602,42 @@ static int alsa_open(bool in, struct alsa_params_req
+> *req,
+>      return -1;
 >  }
 >
-> -size_t audio_rate_get_bytes(struct audio_pcm_info *info, RateCtl *rate,
-> -                            size_t bytes_avail)
-> +size_t audio_rate_peek_bytes(RateCtl *rate, struct audio_pcm_info *info)
->  {
->      int64_t now;
->      int64_t ticks;
->      int64_t bytes;
-> -    int64_t samples;
-> -    size_t ret;
-> +    int64_t frames;
->
->      now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->      ticks =3D now - rate->start_ticks;
->      bytes =3D muldiv64(ticks, info->bytes_per_second,
-> NANOSECONDS_PER_SECOND);
-> -    samples =3D (bytes - rate->bytes_sent) / info->bytes_per_frame;
-> -    if (samples < 0 || samples > 65536) {
-> -        AUD_log(NULL, "Resetting rate control (%" PRId64 " samples)\n",
-> samples);
-> +    frames =3D (bytes - rate->bytes_sent) / info->bytes_per_frame;
-> +    if (frames < 0 || frames > 65536) {
-> +        AUD_log(NULL, "Resetting rate control (%" PRId64 " frames)\n",
-> frames);
->          audio_rate_start(rate);
-> -        samples =3D 0;
-> +        frames =3D 0;
->      }
->
-> -    ret =3D MIN(samples * info->bytes_per_frame, bytes_avail);
-> -    rate->bytes_sent +=3D ret;
-> -    return ret;
-> +    return frames * info->bytes_per_frame;
-> +}
-> +
-> +void audio_rate_add_bytes(RateCtl *rate, size_t bytes_used)
+> +static size_t alsa_buffer_get_free(HWVoiceOut *hw)
 > +{
-> +    rate->bytes_sent +=3D bytes_used;
-> +}
+> +    ALSAVoiceOut *alsa =3D (ALSAVoiceOut *)hw;
+> +    snd_pcm_sframes_t avail;
+> +    size_t alsa_free, generic_free, generic_in_use;
 > +
-> +size_t audio_rate_get_bytes(struct audio_pcm_info *info, RateCtl *rate,
-> +                            size_t bytes_avail)
-> +{
-> +    size_t bytes;
-> +
-> +    bytes =3D audio_rate_peek_bytes(rate, info);
-> +    bytes =3D MIN(bytes, bytes_avail);
-> +    audio_rate_add_bytes(rate, bytes);
-> +
-> +    return bytes;
->  }
-> diff --git a/audio/audio_int.h b/audio/audio_int.h
-> index 2a6914d2aa..97e20e8429 100644
-> --- a/audio/audio_int.h
-> +++ b/audio/audio_int.h
-> @@ -263,6 +263,8 @@ typedef struct RateCtl {
->  } RateCtl;
->
->  void audio_rate_start(RateCtl *rate);
-> +size_t audio_rate_peek_bytes(RateCtl *rate, struct audio_pcm_info *info)=
+> +    avail =3D snd_pcm_avail_update(alsa->handle);
+> +    if (avail < 0) {
+> +        if (avail =3D=3D -EPIPE) {
+> +            if (!alsa_recover(alsa->handle)) {
+> +                avail =3D snd_pcm_avail_update(alsa->handle);
+> +            }
+> +        }
+> +        if (avail < 0) {
+> +            alsa_logerr(avail,
+> +                        "Could not obtain number of available frames\n")=
 ;
-> +void audio_rate_add_bytes(RateCtl *rate, size_t bytes_used);
->  size_t audio_rate_get_bytes(struct audio_pcm_info *info, RateCtl *rate,
->                              size_t bytes_avail);
+> +            avail =3D 0;
+> +        }
+> +    }
+> +
+> +    alsa_free =3D avail * hw->info.bytes_per_frame;
+> +    generic_free =3D audio_generic_buffer_get_free(hw);
+> +    generic_in_use =3D hw->samples * hw->info.bytes_per_frame -
+> generic_free;
+> +    if (generic_in_use) {
+> +        /*
+> +         * This code can only be reached in the unlikely case that
+> +         * snd_pcm_avail_update() returned a larger number of frames
+> +         * than snd_pcm_writei() could write. Make sure that all
+> +         * remaining bytes in the generic buffer can be written.
+> +         */
+> +        alsa_free =3D alsa_free > generic_in_use ? alsa_free -
+> generic_in_use : 0;
+> +    }
+> +
+> +    return alsa_free;
+> +}
+> +
+>  static size_t alsa_write(HWVoiceOut *hw, void *buf, size_t len)
+>  {
+>      ALSAVoiceOut *alsa =3D (ALSAVoiceOut *) hw;
+> @@ -916,7 +952,7 @@ static struct audio_pcm_ops alsa_pcm_ops =3D {
+>      .init_out =3D alsa_init_out,
+>      .fini_out =3D alsa_fini_out,
+>      .write    =3D alsa_write,
+> -    .buffer_get_free =3D audio_generic_buffer_get_free,
+> +    .buffer_get_free =3D alsa_buffer_get_free,
+>      .run_buffer_out =3D audio_generic_run_buffer_out,
+>      .enable_out =3D alsa_enable_out,
 >
 > --
 > 2.35.3
@@ -190,117 +175,96 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000ed77fa05e9a74ed1
+--00000000000002658505e9a74f52
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 23, 2022 at 10:43 PM Volk=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 23, 2022 at 10:51 PM Volk=
 er R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.de" target=3D"_blank=
 ">vr_qemu@t-online.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
 ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">The next patch needs two new rate control functions. T=
-he first<br>
-one returns the bytes needed at call time to maintain the<br>
-selected rate. The second one adjusts the bytes actually sent.<br>
-<br>
-Split the audio_rate_get_bytes() function into these two<br>
-functions and reintroduce audio_rate_get_bytes().<br>
+4);padding-left:1ex">Change the buffer_get_free pcm_ops function to report =
+the free<br>
+ALSA playback buffer. The generic buffer becomes a temporary<br>
+buffer and is empty after a call to audio_run_out().<br>
 <br>
 Signed-off-by: Volker R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.d=
 e" target=3D"_blank">vr_qemu@t-online.de</a>&gt;<br></blockquote><div><br><=
-/div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcand=
-re.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;=
-<br><br>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+/div><div><div>lgtm<br></div><div>Acked-by: Marc-Andr=C3=A9 Lureau &lt;<a h=
+ref=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lure=
+au@redhat.com</a>&gt;</div>=C2=A0</div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">
 ---<br>
-=C2=A0audio/audio.c=C2=A0 =C2=A0 =C2=A0| 35 ++++++++++++++++++++++++-------=
-----<br>
-=C2=A0audio/audio_int.h |=C2=A0 2 ++<br>
-=C2=A02 files changed, 26 insertions(+), 11 deletions(-)<br>
+=C2=A0audio/alsaaudio.c | 38 +++++++++++++++++++++++++++++++++++++-<br>
+=C2=A01 file changed, 37 insertions(+), 1 deletion(-)<br>
 <br>
-diff --git a/audio/audio.c b/audio/audio.c<br>
-index 9e55834909..557538a7b7 100644<br>
---- a/audio/audio.c<br>
-+++ b/audio/audio.c<br>
-@@ -2250,26 +2250,39 @@ void audio_rate_start(RateCtl *rate)<br>
-=C2=A0 =C2=A0 =C2=A0rate-&gt;start_ticks =3D qemu_clock_get_ns(QEMU_CLOCK_V=
-IRTUAL);<br>
+diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c<br>
+index 4a61378cd7..7a2a94cd42 100644<br>
+--- a/audio/alsaaudio.c<br>
++++ b/audio/alsaaudio.c<br>
+@@ -602,6 +602,42 @@ static int alsa_open(bool in, struct alsa_params_req *=
+req,<br>
+=C2=A0 =C2=A0 =C2=A0return -1;<br>
 =C2=A0}<br>
 <br>
--size_t audio_rate_get_bytes(struct audio_pcm_info *info, RateCtl *rate,<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 size_t bytes_avail)<br>
-+size_t audio_rate_peek_bytes(RateCtl *rate, struct audio_pcm_info *info)<b=
-r>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0int64_t now;<br>
-=C2=A0 =C2=A0 =C2=A0int64_t ticks;<br>
-=C2=A0 =C2=A0 =C2=A0int64_t bytes;<br>
--=C2=A0 =C2=A0 int64_t samples;<br>
--=C2=A0 =C2=A0 size_t ret;<br>
-+=C2=A0 =C2=A0 int64_t frames;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);<br>
-=C2=A0 =C2=A0 =C2=A0ticks =3D now - rate-&gt;start_ticks;<br>
-=C2=A0 =C2=A0 =C2=A0bytes =3D muldiv64(ticks, info-&gt;bytes_per_second, NA=
-NOSECONDS_PER_SECOND);<br>
--=C2=A0 =C2=A0 samples =3D (bytes - rate-&gt;bytes_sent) / info-&gt;bytes_p=
-er_frame;<br>
--=C2=A0 =C2=A0 if (samples &lt; 0 || samples &gt; 65536) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 AUD_log(NULL, &quot;Resetting rate control (%&=
-quot; PRId64 &quot; samples)\n&quot;, samples);<br>
-+=C2=A0 =C2=A0 frames =3D (bytes - rate-&gt;bytes_sent) / info-&gt;bytes_pe=
-r_frame;<br>
-+=C2=A0 =C2=A0 if (frames &lt; 0 || frames &gt; 65536) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 AUD_log(NULL, &quot;Resetting rate control (%&=
-quot; PRId64 &quot; frames)\n&quot;, frames);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0audio_rate_start(rate);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 samples =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 frames =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 ret =3D MIN(samples * info-&gt;bytes_per_frame, bytes_avail)=
-;<br>
--=C2=A0 =C2=A0 rate-&gt;bytes_sent +=3D ret;<br>
--=C2=A0 =C2=A0 return ret;<br>
-+=C2=A0 =C2=A0 return frames * info-&gt;bytes_per_frame;<br>
-+}<br>
-+<br>
-+void audio_rate_add_bytes(RateCtl *rate, size_t bytes_used)<br>
++static size_t alsa_buffer_get_free(HWVoiceOut *hw)<br>
 +{<br>
-+=C2=A0 =C2=A0 rate-&gt;bytes_sent +=3D bytes_used;<br>
-+}<br>
++=C2=A0 =C2=A0 ALSAVoiceOut *alsa =3D (ALSAVoiceOut *)hw;<br>
++=C2=A0 =C2=A0 snd_pcm_sframes_t avail;<br>
++=C2=A0 =C2=A0 size_t alsa_free, generic_free, generic_in_use;<br>
 +<br>
-+size_t audio_rate_get_bytes(struct audio_pcm_info *info, RateCtl *rate,<br=
->
++=C2=A0 =C2=A0 avail =3D snd_pcm_avail_update(alsa-&gt;handle);<br>
++=C2=A0 =C2=A0 if (avail &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (avail =3D=3D -EPIPE) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!alsa_recover(alsa-&gt;handl=
+e)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 avail =3D snd_pcm_=
+avail_update(alsa-&gt;handle);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (avail &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 alsa_logerr(avail,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 size_t bytes_avail)<br>
-+{<br>
-+=C2=A0 =C2=A0 size_t bytes;<br>
+=A0 =C2=A0 &quot;Could not obtain number of available frames\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 avail =3D 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
 +<br>
-+=C2=A0 =C2=A0 bytes =3D audio_rate_peek_bytes(rate, info);<br>
-+=C2=A0 =C2=A0 bytes =3D MIN(bytes, bytes_avail);<br>
-+=C2=A0 =C2=A0 audio_rate_add_bytes(rate, bytes);<br>
++=C2=A0 =C2=A0 alsa_free =3D avail * hw-&gt;info.bytes_per_frame;<br>
++=C2=A0 =C2=A0 generic_free =3D audio_generic_buffer_get_free(hw);<br>
++=C2=A0 =C2=A0 generic_in_use =3D hw-&gt;samples * hw-&gt;info.bytes_per_fr=
+ame - generic_free;<br>
++=C2=A0 =C2=A0 if (generic_in_use) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* This code can only be reached in the u=
+nlikely case that<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* snd_pcm_avail_update() returned a larg=
+er number of frames<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* than snd_pcm_writei() could write. Mak=
+e sure that all<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* remaining bytes in the generic buffer =
+can be written.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 alsa_free =3D alsa_free &gt; generic_in_use ? =
+alsa_free - generic_in_use : 0;<br>
++=C2=A0 =C2=A0 }<br>
 +<br>
-+=C2=A0 =C2=A0 return bytes;<br>
-=C2=A0}<br>
-diff --git a/audio/audio_int.h b/audio/audio_int.h<br>
-index 2a6914d2aa..97e20e8429 100644<br>
---- a/audio/audio_int.h<br>
-+++ b/audio/audio_int.h<br>
-@@ -263,6 +263,8 @@ typedef struct RateCtl {<br>
-=C2=A0} RateCtl;<br>
-<br>
-=C2=A0void audio_rate_start(RateCtl *rate);<br>
-+size_t audio_rate_peek_bytes(RateCtl *rate, struct audio_pcm_info *info);<=
-br>
-+void audio_rate_add_bytes(RateCtl *rate, size_t bytes_used);<br>
-=C2=A0size_t audio_rate_get_bytes(struct audio_pcm_info *info, RateCtl *rat=
-e,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t bytes_avail);<br>
++=C2=A0 =C2=A0 return alsa_free;<br>
++}<br>
++<br>
+=C2=A0static size_t alsa_write(HWVoiceOut *hw, void *buf, size_t len)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0ALSAVoiceOut *alsa =3D (ALSAVoiceOut *) hw;<br>
+@@ -916,7 +952,7 @@ static struct audio_pcm_ops alsa_pcm_ops =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.init_out =3D alsa_init_out,<br>
+=C2=A0 =C2=A0 =C2=A0.fini_out =3D alsa_fini_out,<br>
+=C2=A0 =C2=A0 =C2=A0.write=C2=A0 =C2=A0 =3D alsa_write,<br>
+-=C2=A0 =C2=A0 .buffer_get_free =3D audio_generic_buffer_get_free,<br>
++=C2=A0 =C2=A0 .buffer_get_free =3D alsa_buffer_get_free,<br>
+=C2=A0 =C2=A0 =C2=A0.run_buffer_out =3D audio_generic_run_buffer_out,<br>
+=C2=A0 =C2=A0 =C2=A0.enable_out =3D alsa_enable_out,<br>
 <br>
 -- <br>
 2.35.3<br>
@@ -309,5 +273,5 @@ e,<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
 =C3=A9 Lureau<br></div></div>
 
---000000000000ed77fa05e9a74ed1--
+--00000000000002658505e9a74f52--
 
