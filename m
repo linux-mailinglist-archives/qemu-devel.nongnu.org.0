@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319305EBDCC
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:52:06 +0200 (CEST)
-Received: from localhost ([::1]:33454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438025EBDA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:41:48 +0200 (CEST)
+Received: from localhost ([::1]:46906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od6Jx-0002lJ-9F
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54860)
+	id 1od69z-0000Tf-DN
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:41:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oL-0005Ak-Or
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50407)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oU-0005RD-AL
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oI-0000Hh-Io
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:25 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5oJ-0000I6-PG
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:19:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664266761;
+ s=mimecast20190719; t=1664266763;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FTKq25OCJ8Ex90En1AKkU4cElLVlu/nURiwsIyiJ+es=;
- b=GVKdjVFlLthpk0hWWop1ZOnRLKGrqCv9m/g7/kGAsaNCEDtvlXBuILnSegK6YGbw+U/f4b
- I1FlRw68Ahb4cEeQWQJuV6sM+4gD3aylW9032D++qJ+HBIYLqIrvko+oXaykj7lTC3Rr/w
- aS43p/dwCy/bSLAfDEFVvjnPWTcbt08=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qz6m5wNnMR4b4k9F7KgrsOGoMcMDGwawdO4N7dnhA6U=;
+ b=bfEiFLTDPJ5/o7bqh0Zc7FNnmUty1X8S6Gar3qtcKb0Zy5R7xwI2LY8A7M4wtd5MrBke9o
+ rCRZaEOWEtV1+Rc31s7L2PM5tLr2KellnixsZsK1f2sni4EMFSyx3OLGbWDfFjJgx6GnJ5
+ QqSl5X0bDX5uJmAeNbuTlNQVWAurkvE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-3sUqPSBAMkmIFLWw0Q3HJg-1; Tue, 27 Sep 2022 04:19:18 -0400
-X-MC-Unique: 3sUqPSBAMkmIFLWw0Q3HJg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-287-yZPhxNhgO3i6jADW-GYwXg-1; Tue, 27 Sep 2022 04:19:20 -0400
+X-MC-Unique: yZPhxNhgO3i6jADW-GYwXg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E23053C10224;
- Tue, 27 Sep 2022 08:19:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69A4D803D4A;
+ Tue, 27 Sep 2022 08:19:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 99D8840C6EC2;
- Tue, 27 Sep 2022 08:19:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 26E5C2166B26;
+ Tue, 27 Sep 2022 08:19:19 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0ECF118007A4; Tue, 27 Sep 2022 10:19:13 +0200 (CEST)
+ id 1B999180091C; Tue, 27 Sep 2022 10:19:13 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -54,26 +54,23 @@ Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Akihiko Odaki <akihiko.odaki@gmail.com>,
  Alexandre Ratchov <alex@caoua.org>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PULL 03/24] Revert "main-loop: Disable block backend global state
- assertion on Cocoa"
-Date: Tue, 27 Sep 2022 10:18:51 +0200
-Message-Id: <20220927081912.180983-4-kraxel@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 04/24] meson: Allow to enable gtk and sdl while cocoa is enabled
+Date: Tue, 27 Sep 2022 10:18:52 +0200
+Message-Id: <20220927081912.180983-5-kraxel@redhat.com>
 In-Reply-To: <20220927081912.180983-1-kraxel@redhat.com>
 References: <20220927081912.180983-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,46 +89,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-This reverts commit 47281859f66bdab1974fb122cab2cbb4a1c9af7f.
+As ui/cocoa does no longer override main(), ui/gtk and ui/sdl
+can be enabled even ui/cocoa is enabled.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220819132756.74641-3-akihiko.odaki@gmail.com>
+Message-Id: <20220819132756.74641-4-akihiko.odaki@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/qemu/main-loop.h | 13 -------------
- 1 file changed, 13 deletions(-)
+ meson.build | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index c50d1b7e3ab6..aac707d073a1 100644
---- a/include/qemu/main-loop.h
-+++ b/include/qemu/main-loop.h
-@@ -284,23 +284,10 @@ bool qemu_in_main_thread(void);
-  * Please refer to include/block/block-global-state.h for more
-  * information about GS API.
-  */
--#ifdef CONFIG_COCOA
--/*
-- * When using the Cocoa UI, addRemovableDevicesMenuItems() is called from
-- * a thread different from the QEMU main thread and can not take the BQL,
-- * triggering this assertions in the block layer (commit 0439c5a462).
-- * As the Cocoa fix is not trivial, disable this assertion for the v7.0.0
-- * release (when using Cocoa); we will restore it immediately after the
-- * release.
-- * This issue is tracked as https://gitlab.com/qemu-project/qemu/-/issues/926
-- */
--#define GLOBAL_STATE_CODE()
--#else
- #define GLOBAL_STATE_CODE()                                         \
-     do {                                                            \
-         assert(qemu_in_main_thread());                              \
-     } while (0)
--#endif /* CONFIG_COCOA */
+diff --git a/meson.build b/meson.build
+index 3885fc107633..d9ac91ff3659 100644
+--- a/meson.build
++++ b/meson.build
+@@ -589,12 +589,6 @@ endif
  
- /*
-  * Mark and check that the function is part of the I/O API.
+ cocoa = dependency('appleframeworks', modules: ['Cocoa', 'CoreVideo'],
+                    required: get_option('cocoa'))
+-if cocoa.found() and get_option('sdl').enabled()
+-  error('Cocoa and SDL cannot be enabled at the same time')
+-endif
+-if cocoa.found() and get_option('gtk').enabled()
+-  error('Cocoa and GTK+ cannot be enabled at the same time')
+-endif
+ 
+ vmnet = dependency('appleframeworks', modules: 'vmnet', required: get_option('vmnet'))
+ if vmnet.found() and not cc.has_header_symbol('vmnet/vmnet.h',
+@@ -921,7 +915,7 @@ if not get_option('brlapi').auto() or have_system
+ endif
+ 
+ sdl = not_found
+-if not get_option('sdl').auto() or (have_system and not cocoa.found())
++if not get_option('sdl').auto() or have_system
+   sdl = dependency('sdl2', required: get_option('sdl'), kwargs: static_kwargs)
+   sdl_image = not_found
+ endif
+@@ -1187,7 +1181,7 @@ endif
+ gtk = not_found
+ gtkx11 = not_found
+ vte = not_found
+-if not get_option('gtk').auto() or (have_system and not cocoa.found())
++if not get_option('gtk').auto() or have_system
+   gtk = dependency('gtk+-3.0', version: '>=3.22.0',
+                    method: 'pkg-config',
+                    required: get_option('gtk'),
 -- 
 2.37.3
 
