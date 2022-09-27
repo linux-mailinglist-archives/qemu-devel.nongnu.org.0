@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4115EBF16
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:58:19 +0200 (CEST)
-Received: from localhost ([::1]:51312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E25F5EBF3C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 12:07:17 +0200 (CEST)
+Received: from localhost ([::1]:48950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od7M2-0004z9-0v
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:58:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59252)
+	id 1od7Ug-0006VV-St
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 06:07:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od7I7-0007yj-FP
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:54:18 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:57095)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od6uS-00078T-4M
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:29:49 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:35059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od7I5-0007Ue-UC
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:54:15 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od6uP-0003lW-SP
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 05:29:47 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MvavG-1pUGPN3Qta-00seBb; Tue, 27 Sep 2022 11:54:11 +0200
-Message-ID: <ce0f5623-95fa-7e11-721b-6b7c0b3824eb@vivier.eu>
-Date: Tue, 27 Sep 2022 11:54:10 +0200
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MNfgZ-1osBqG36xH-00P7fJ; Tue, 27 Sep 2022 11:29:35 +0200
+Message-ID: <8007f9bc-3cfb-f29b-b7bb-82ff88d404ed@vivier.eu>
+Date: Tue, 27 Sep 2022 11:29:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH 3/8] linux-user: Implement FUTEX_WAKE_BITSET
+Subject: Re: [PATCH v2 2/2] linux-user: Set ELF_BASE_PLATFORM for MIPS
 Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220829021006.67305-1-richard.henderson@linaro.org>
- <20220829021006.67305-4-richard.henderson@linaro.org>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: f4bug@amsat.org, qemu-devel@nongnu.org
+References: <20220803103009.95972-1-jiaxun.yang@flygoat.com>
+ <20220803103009.95972-3-jiaxun.yang@flygoat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220829021006.67305-4-richard.henderson@linaro.org>
+In-Reply-To: <20220803103009.95972-3-jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:w0+PGoJH8l/+rc3UCIbuETyiCvQ/57wKY0aTP6wixxmNvynZt/L
- iURfLx1bz+THV2t56MweFm2QQDQ9yw/3y5cs4F/1sd9w/BEFEsXxLESVkxWvQEsH6TI8oty
- nyRSu7PRzbmhYLgjH4Uifp1KT7lgerSDbvIE3qHcTnA/MoboQTGe8L8H2gN6sAmzs4/1g/D
- tsRNQ+mZra58v29ZbmT0Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0iU14/IS+OA=:VulAFHQMYvI8vdiDs1ZJXz
- 7b8FNzXfiG7vpwiQtmfR0uLFDJGFnVznleKZ+ykREK7B9Vl137BntmQQu/XXsGo6ntxIFQwea
- jjTPhRGiRt3xwokq4bYNMoNZDlt+YEdYKoR4ec/bPSGYCiIUnaoooNqm02ITUpifOqqu662NZ
- bu7Xocs9FwU/nJ15CTQnZxsLjuiHVwd24BG/5tLjeac+ovQi5x7313l7XgWl79c9RSSpYVPNM
- VfmYlRxQBX6MV2bGE6xlCRB3/bO8t0T3Vj44Z9I62d1tLVThad8PfuTqgK3Q6zRblCFYNaSbE
- AyNUKaogJDaOCIWsBK0oWP6Jdj3AxxWQq0N9sdzUVC+Np1k2W6ve4/3vHBK/do0wfGV78qATI
- qMOaBzVjvBM60BS9X9xyHhUM0B0qZOKx+gOMNF0tOQui/qI+oGTCWre7dKrtGBk2YfFv6+VNG
- /fAoTrcmPnuEIwW94EIn2jC8CcUE3iIKawvfDx/gv5s8SPtxdzIFNbmkPVfrZsH3TqAZuWkNU
- xffyi2a3hJ3wFRYQ56U6ocGqiR9kmxjLtgBj3BPW9BhomlQhdeI6M7kwuLkmG98M0Eu93AyWM
- IzIH2+3g9h6dEqM3+ntNgw26/q95qRNpcTf7YylsHi/obw3SvKUjAlWhQJYvgkbmVvih/0YXR
- FVC48ELzdIm7PdPP+KDAorTkZ/nxhYraGW3FH9q9/UYpz+MmzST09kTBPzcMSBPGQPXTjZj54
- YHJMccvnc0N9k8+0RSexpeWD4S32gCO4G6U/LXG5uPg+vBaqXRs1QQM+mXdLnXkNC1TMBJAiv
- nLoyklj
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Xt1uFq0ov2JWk7xQOssx/51HU0aR7z4XYjWEl/lxdDrBFfS6YMR
+ cvAHIXT200qCoAcW1Kyu1EfCtLfaN1E9AsT23yYLkIoDr6mkB5ueUo6cQxbPDlWpwUWiADI
+ qPfq+nmsaZPiUk7OpIGORpUzeOrx31uznmH0PT2OI+Vq2vSHXLG/pkbp2eIRwFGPbJcpbA1
+ ei4r4hTgI6bYSZLYNffcA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:arTIbbNRzvU=:3EvZ8gYE0wpkUe+lS9qDUS
+ FLqS3u2fTfqePVOTfN1Go/sEnXMvxBBK2l3Qa0joPp7NtasUli0hZdFzUNm70IjcFFD3QURhA
+ w1BNmunCbeaUZA7YKz7A3fSSJv57XYnpf2Rsx9z1ozYXTXgGPXb6UWFm2B06NV5WYb2nOV7b5
+ 6eI3mDr9ck5tytnFjpzHKW/NDRGd4IGnGDb56fLxqRsHH4w7+Y2qDnimNplpsT7FXftfQVjL0
+ Eu8SMmaM8i1uoIMvjqV7J1NhndaIk5GUx6KFxiCICH+xl3LWL7WB12FT8dqQ9ZrkR6zznXkpO
+ fPf5et3yfzntQSRIOvwFr1bEb/2vfups5jvSlMambl2KGSjI9Vt/XdPaoM5YrithnK7AQeXQi
+ Tp919EEiNG9F+YT3sVFLDKarQkHseASoljtSBuYcwX+W8dBIEC4lO9PhJZP6B6Mw7h3238Afs
+ rx7CblHDZ2aZr59lmc6LsKyLlAXI+RFhd+KL20GiRiq1MaLBNayrGBQYT915aADG08de18jqx
+ HTFEygq1S2UQGyTkSCF2v0VI3PcjqFGRg2a/MyovOqKS2TvvoqGhSnZZTF4YObPdT+sg5L+bO
+ qe6QHt9IDLulkNrmUHJO83IPhIAmObaXqLCCeEaVekw65Biiooxog6tB3lLGROLTILgZvSgwq
+ SxfOGoQtOVI4jyxBZDdGTaaiEnrdQzUJ4NiMv0+6KLAhfD2RShq8VGZT1ArGMtHnJQwrrDTEZ
+ /XNf/8VVTsgZEweXDrXlHrQenQSJArEVONVmA/KvX5Ck+RgWVuzLEmhKy5cewg+9bfAYSSqnu
+ YJ6und7
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -74,25 +75,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 29/08/2022 à 04:10, Richard Henderson a écrit :
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   linux-user/syscall.c | 1 +
->   1 file changed, 1 insertion(+)
+Le 03/08/2022 à 12:30, Jiaxun Yang a écrit :
+> Match most appropriate base platform string based on insn_flags.
+> Logic is aligned with aligned with set_isa() from
+> arch/mips/kernel/cpu-probe.c in Linux kernel.
 > 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 8fbd5a9556..8bf4b79a9e 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -7774,6 +7774,7 @@ static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
->           val = tswap32(val);
->           break;
->       case FUTEX_WAKE:
-> +    case FUTEX_WAKE_BITSET:
->           timeout = 0;
->           break;
->       case FUTEX_FD:
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   linux-user/elfload.c | 31 +++++++++++++++++++++++++++++++
+>   1 file changed, 31 insertions(+)
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my linux-user-for-7.2 branch.
+
+Thanks,
+Laurent
+
 
 
