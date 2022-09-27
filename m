@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E80E5EBDD0
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:53:33 +0200 (CEST)
-Received: from localhost ([::1]:44498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 686315EBDE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:59:28 +0200 (CEST)
+Received: from localhost ([::1]:33856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od6LM-0005a3-5L
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:53:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56200)
+	id 1od6R5-0004oK-H0
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:59:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5pE-0006N0-Lj
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:20:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47812)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5pI-0006Qk-GV
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:20:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5pC-0000aC-2e
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:20:19 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od5pE-0000aO-S7
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:20:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664266817;
+ s=mimecast20190719; t=1664266820;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tbw9W7pPdJJ3uWnYTKdZaKFVJP/G2X2I0succO0vGcQ=;
- b=hmH0JccdPy8vJy79//U+8WdKS3ffE4ujpyoQNJLjgrTQULGbVBwBIYzZxAHzSMaJ7s/igk
- 8fovmQaJt7SeF91vvEGcjlgNi+kZoJYRnNEjpwW/zDaQ97lKjtxJ325bYvQQaqFwWAakUd
- QeIJUEtRDPLuOP7ltY4ax7k77moXwKU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Wap4bE3M153XlNUESFRpL6QFaSZ1Y/NXM6sOa6Kq+is=;
+ b=XSbBt7uJeNilmbDQZLdv7ZfA/WkISg+9XwGgu3Gsd04ER3ZwB8TqGfpn98dIHyyLk0Wb9P
+ y3Wa9Q6trnWmFWjS4jduMh6ZFgDAt93IOxfTww2wG7xIotIAXE5wcsDdjxqad3F80vsisC
+ ax95MgheajfbXi7p80p2URjpmGYGUiw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-CL-FyslxPT-fc1e-sTZuAQ-1; Tue, 27 Sep 2022 04:20:13 -0400
-X-MC-Unique: CL-FyslxPT-fc1e-sTZuAQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-624-HK9T0suaNLeg4jL08XQ1RQ-1; Tue, 27 Sep 2022 04:20:14 -0400
+X-MC-Unique: HK9T0suaNLeg4jL08XQ1RQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BC8538173C3;
- Tue, 27 Sep 2022 08:20:12 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 106BA85A5A6;
+ Tue, 27 Sep 2022 08:20:14 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B536492B04;
- Tue, 27 Sep 2022 08:20:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B5F4540C6EC2;
+ Tue, 27 Sep 2022 08:20:13 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 449DB18009BF; Tue, 27 Sep 2022 10:19:14 +0200 (CEST)
+ id 533AD18009CC; Tue, 27 Sep 2022 10:19:14 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -56,19 +56,18 @@ Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Qiang Liu <qiangliu@zju.edu.cn>,
- Mauro Matteo Cascella <mcascell@redhat.com>
-Subject: [PULL 23/24] hw/display/ati_2d: Fix buffer overflow in ati_2d_blt
- (CVE-2021-3638)
-Date: Tue, 27 Sep 2022 10:19:11 +0200
-Message-Id: <20220927081912.180983-24-kraxel@redhat.com>
+ Dongwon Kim <dongwon.kim@intel.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PULL 24/24] virtio-gpu: update scanout if there is any area covered
+ by the rect
+Date: Tue, 27 Sep 2022 10:19:12 +0200
+Message-Id: <20220927081912.180983-25-kraxel@redhat.com>
 In-Reply-To: <20220927081912.180983-1-kraxel@redhat.com>
 References: <20220927081912.180983-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -93,78 +92,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Dongwon Kim <dongwon.kim@intel.com>
 
-When building QEMU with DEBUG_ATI defined then running with
-'-device ati-vga,romfile="" -d unimp,guest_errors -trace ati\*'
-we get:
+The scanout is currently updated only if the whole rect is inside the
+scanout space. This is not a correct condition because the scanout should
+be updated even a small area in the scanout space is covered by the rect.
 
-  ati_mm_write 4 0x16c0 DP_CNTL <- 0x1
-  ati_mm_write 4 0x146c DP_GUI_MASTER_CNTL <- 0x2
-  ati_mm_write 4 0x16c8 DP_MIX <- 0xff0000
-  ati_mm_write 4 0x16c4 DP_DATATYPE <- 0x2
-  ati_mm_write 4 0x224 CRTC_OFFSET <- 0x0
-  ati_mm_write 4 0x142c DST_PITCH_OFFSET <- 0xfe00000
-  ati_mm_write 4 0x1420 DST_Y <- 0x3fff
-  ati_mm_write 4 0x1410 DST_HEIGHT <- 0x3fff
-  ati_mm_write 4 0x1588 DST_WIDTH_X <- 0x3fff3fff
-  ati_2d_blt: vram:0x7fff5fa00000 addr:0 ds:0x7fff61273800 stride:2560 bpp:32 rop:0xff
-  ati_2d_blt: 0 0 0, 0 127 0, (0,0) -> (16383,16383) 16383x16383 > ^
-  ati_2d_blt: pixman_fill(dst:0x7fff5fa00000, stride:254, bpp:8, x:16383, y:16383, w:16383, h:16383, xor:0xff000000)
-  Thread 3 "qemu-system-i38" received signal SIGSEGV, Segmentation fault.
-  (gdb) bt
-  #0  0x00007ffff7f62ce0 in sse2_fill.lto_priv () at /lib64/libpixman-1.so.0
-  #1  0x00007ffff7f09278 in pixman_fill () at /lib64/libpixman-1.so.0
-  #2  0x0000555557b5a9af in ati_2d_blt (s=0x631000028800) at hw/display/ati_2d.c:196
-  #3  0x0000555557b4b5a2 in ati_mm_write (opaque=0x631000028800, addr=5512, data=1073692671, size=4) at hw/display/ati.c:843
-  #4  0x0000555558b90ec4 in memory_region_write_accessor (mr=0x631000039cc0, addr=5512, ..., size=4, ...) at softmmu/memory.c:492
-
-Commit 584acf34cb0 ("ati-vga: Fix reverse bit blts") introduced
-the local dst_x and dst_y which adjust the (x, y) coordinates
-depending on the direction in the SRCCOPY ROP3 operation, but
-forgot to address the same issue for the PATCOPY, BLACKNESS and
-WHITENESS operations, which also call pixman_fill().
-
-Fix that now by using the adjusted coordinates in the pixman_fill
-call, and update the related debug printf().
-
-Reported-by: Qiang Liu <qiangliu@zju.edu.cn>
-Fixes: 584acf34cb0 ("ati-vga: Fix reverse bit blts")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
-Message-Id: <20210906153103.1661195-1-philmd@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20220909014052.7297-1-dongwon.kim@intel.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/ati_2d.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/display/virtio-gpu.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-index 4dc10ea79529..692bec91de45 100644
---- a/hw/display/ati_2d.c
-+++ b/hw/display/ati_2d.c
-@@ -84,7 +84,7 @@ void ati_2d_blt(ATIVGAState *s)
-     DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d %c %c\n",
-             s->regs.src_offset, s->regs.dst_offset, s->regs.default_offset,
-             s->regs.src_pitch, s->regs.dst_pitch, s->regs.default_pitch,
--            s->regs.src_x, s->regs.src_y, s->regs.dst_x, s->regs.dst_y,
-+            s->regs.src_x, s->regs.src_y, dst_x, dst_y,
-             s->regs.dst_width, s->regs.dst_height,
-             (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ? '>' : '<'),
-             (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ? 'v' : '^'));
-@@ -180,11 +180,11 @@ void ati_2d_blt(ATIVGAState *s)
-         dst_stride /= sizeof(uint32_t);
-         DPRINTF("pixman_fill(%p, %d, %d, %d, %d, %d, %d, %x)\n",
-                 dst_bits, dst_stride, bpp,
--                s->regs.dst_x, s->regs.dst_y,
-+                dst_x, dst_y,
-                 s->regs.dst_width, s->regs.dst_height,
-                 filler);
-         pixman_fill((uint32_t *)dst_bits, dst_stride, bpp,
--                    s->regs.dst_x, s->regs.dst_y,
-+                    dst_x, dst_y,
-                     s->regs.dst_width, s->regs.dst_height,
-                     filler);
-         if (dst_bits >= s->vga.vram_ptr + s->vga.vbe_start_addr &&
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 20cc703dcc6e..5e15c79b94a5 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -515,9 +515,10 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
+         for (i = 0; i < g->parent_obj.conf.max_outputs; i++) {
+             scanout = &g->parent_obj.scanout[i];
+             if (scanout->resource_id == res->resource_id &&
+-                rf.r.x >= scanout->x && rf.r.y >= scanout->y &&
+-                rf.r.x + rf.r.width <= scanout->x + scanout->width &&
+-                rf.r.y + rf.r.height <= scanout->y + scanout->height &&
++                rf.r.x < scanout->x + scanout->width &&
++                rf.r.x + rf.r.width >= scanout->x &&
++                rf.r.y < scanout->y + scanout->height &&
++                rf.r.y + rf.r.height >= scanout->y &&
+                 console_has_gl(scanout->con)) {
+                 dpy_gl_update(scanout->con, 0, 0, scanout->width,
+                               scanout->height);
 -- 
 2.37.3
 
