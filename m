@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC295EBDB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:45:04 +0200 (CEST)
-Received: from localhost ([::1]:51264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5E55EBD95
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:39:38 +0200 (CEST)
+Received: from localhost ([::1]:52390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od6D9-0004oN-SW
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:45:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34228)
+	id 1od67t-0006Xm-O6
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:39:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1od5QR-0001zr-HC
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:54:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36156)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1od5VG-0002Ys-H5
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:59:42 -0400
+Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:47783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1od5QO-0004vk-0s
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:54:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664265279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0+Kz73S6neiN2Bm5QOfPiRO36+XH+8AMcNc1Npinuxw=;
- b=Ibtl1M8InA5LtZCKjE0wWWrnKxDFUucbtboMU/B0IbBPGlXOyM+vHowRtYHm8P5s634qsX
- M0kXUzKtg8ZYK/z3zoUVqgTvBATfM50WeZd+9kl9VkedWEi3zfqk/itKN8aoPPTfbIXWBU
- XzOp1Gp3wHxMozTW4ofRrROpGxx5MvY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-367-NQ-hlzj2MHW4mz4M26bVng-1; Tue, 27 Sep 2022 03:54:37 -0400
-X-MC-Unique: NQ-hlzj2MHW4mz4M26bVng-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DCD7E862FE0;
- Tue, 27 Sep 2022 07:54:36 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D2CE2166B26;
- Tue, 27 Sep 2022 07:54:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6027421E691D; Tue, 27 Sep 2022 09:54:34 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: Kevin Wolf <kwolf@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,  qemu-devel@nongnu.org,
- dinechin@redhat.com,  Gerd Hoffmann <kraxel@redhat.com>,  =?utf-8?Q?Marc?=
- =?utf-8?Q?-Andr=C3=A9?=
- Lureau <marcandre.lureau@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>
-Subject: Re: [PATCH v6 3/5] module: add Error arguments to module_load and
- module_load_qom
-References: <20220923232104.28420-1-cfontana@suse.de>
- <20220923232104.28420-4-cfontana@suse.de>
- <YzGBOwBQucv1F2NL@redhat.com>
- <3dc4a54e-7d04-36db-0931-2fb8d068b5f2@suse.de>
-Date: Tue, 27 Sep 2022 09:54:34 +0200
-In-Reply-To: <3dc4a54e-7d04-36db-0931-2fb8d068b5f2@suse.de> (Claudio Fontana's
- message of "Mon, 26 Sep 2022 15:54:41 +0200")
-Message-ID: <87a66lmev9.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1od5VD-00060C-UE
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:59:42 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.44])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 0B3522287A;
+ Tue, 27 Sep 2022 07:59:35 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Tue, 27 Sep
+ 2022 09:59:35 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003209ff6a8-693c-4e54-b996-f18c93373fec,
+ 12A65CACE92C1DACCE6E97948814F03D28E096F2) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <70ae04a8-aa84-584d-206c-ed9692536ab0@kaod.org>
+Date: Tue, 27 Sep 2022 09:59:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [RFC PATCH] ast2600: Fix CPU features
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>
+CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, Peter Maydell
+ <peter.maydell@linaro.org>, Richard Henderson <richard.henderson@linaro.org>, 
+ Andrew Jeffery <andrew@aj.id.au>
+References: <20220926062608.3930789-1-clg@kaod.org>
+ <44c772eb-cf7a-c6ac-8eed-8cc35501e46a@kaod.org>
+ <CACPK8XduDO=ORw1rj5E2bdzCigv3+_UR5SNF3FA8oJPnBr=S8w@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CACPK8XduDO=ORw1rj5E2bdzCigv3+_UR5SNF3FA8oJPnBr=S8w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 9732928f-a99b-4ff9-b792-b0768d060826
+X-Ovh-Tracer-Id: 12494955692652399398
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeegfedguddvlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepueeludejieffuddvfeegffettdegtdefudeikefftdetuddtkeetueevtdefheeinecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegrnhgurhgvfiesrghjrdhiugdrrghupdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
+ helo=8.mo548.mail-out.ovh.net
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,129 +77,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Claudio Fontana <cfontana@suse.de> writes:
+On 9/27/22 03:49, Joel Stanley wrote:
+> On Mon, 26 Sept 2022 at 07:05, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> On 9/26/22 08:26, Cédric Le Goater wrote:
+>>> Currently, the CPU features exposed to the AST2600 QEMU machines are :
+>>>
+>>>     half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt
+>>>     vfpd32 lpae evtstrm
+>>>
+>>> But, the features of the Cortex A7 CPU on the Aspeed AST2600 A3 SoC
+>>> are :
+>>>
+>>>     half thumb fastmult vfp edsp vfpv3 vfpv3d16 tls vfpv4 idiva idivt
+>>>     lpae evtstrm
+>>>
+>>> The vfpv3d16 feature bit is common to both vfpv3 and vfpv4, and for
+>>> this SoC, QEMU should advertise a VFPv4 unit with 16 double-precision
+>>> registers, and not 32 registers.
+>>>
+>>> Drop neon support and hack the default mvfr0 register value of the
+>>> cortex A7 to advertise 16 registers.
+>>>
+>>> How can that be done cleanly ? Should we :
+>>>
+>>>    * introduce a new A7 CPU with its own _initfn routine ?
+>>>    * introduce a new CPU property to set the number of "Advanced SIMD
+>>>      and floating-point" registers in arm_cpu_realizefn() ?
+>>
+>> This is a note in the Cortex A7 MPCore Technical reference saying :
+>>
+>> "When FPU option is selected without NEON, the FPU is VFPv4-D16 and uses 16
+>> double-precision registers. When the FPU is implemented with NEON, the FPU is
+>> VFPv4-D32 and uses 32 double-precision registers. This register bank is shared
+>> with NEON."
+> 
+> The datasheet only has this to say:
+> 
+> "1.2GHz dual-core ARM Cortex A7 (r0p5) 32-bit CPU with FPU"
+> 
+> With no details about the FPU. The hardware is a golden reference though:
+> 
+>   fpsid: 41023075
+>   mvfr0: 10110221
+>   mvfr1: 11000011
+> 
+> $ bitfield mvfr0 0x10110221
+> decoding as Media and VFP Feature Register 0
+> 0x10110221 [269550113]
+>        A_SIMD registers: 0x1 [16 x 64-bit registers]
+>        Single precision: 0x2 [Supported, VFPv4 or VFPv3]
+>        Double precision: 0x2 [Supported, VFPv4 or VFPv3]
+> VFP exception trapping: 0x0 [Not supported]
+>                  Divide: 0x1 [Hardware divide is supported]
+>             Square Root: 0x1 [Hardware square root supported]
+>           Short vectors: 0x0 [Not supported]
+>      VFP Rounding Modes: 0x1 [All modes supported]
+> 
+> $ bitfield mvfr1 0x11000011
+> decoding as Media and VFP Feature Register 1
+> 0x11000011 [285212689]
+>                 FZ: 0x1
+>         D_NaN mode: 0x1
+> A_SIMD load/store: 0x0
+>     A_SIMD integer: 0x0
+>        A_SIMD SPFP: 0x0
+>        A_SIMD HPFP: 0x0
+>           VFP HPFP: 0x2
+>        A_SIMD FMAC: 0x1
+> 
+> As you say, no NEON  and 16 64-bit registers.
+> 
+>>
+>> Could we deduce the number of registers from the availability of the NEON
+>> feature, on A7 only ?
+> 
+> We certainly should make the NEON property match the mvfr1 value.
+> Linux tests for NEON with this:
+> 
+>     (fmrx(MVFR1) & 0x000fff00) == 0x00011100)
+> 
+> https://elixir.bootlin.com/linux/v5.19/source/arch/arm/vfp/vfpmodule.c#L812
 
-> On 9/26/22 12:38, Kevin Wolf wrote:
->> Am 24.09.2022 um 01:21 hat Claudio Fontana geschrieben:
->>> improve error handling during module load, by changing:
->>>
->>> bool module_load(const char *prefix, const char *lib_name);
->>> void module_load_qom(const char *type);
->>>
->>> to:
->>>
->>> int module_load(const char *prefix, const char *name, Error **errp);
->>> int module_load_qom(const char *type, Error **errp);
->>>
->>> where the return value is:
->>>
->>>  -1 on module load error, and errp is set with the error
->>>   0 on module or one of its dependencies are not installed
->>>   1 on module load success
->>>   2 on module load success (module already loaded or built-in)
->>>
->>> module_load_qom_one has been introduced in:
->>>
->>> commit 28457744c345 ("module: qom module support"), which built on top of
->>> module_load_one, but discarded the bool return value. Restore it.
->>>
->>> Adapt all callers to emit errors, or ignore them, or fail hard,
->>> as appropriate in each context.
->>>
->>> Some memory leaks also fixed as part of the module_load changes.
->>>
->>> audio: when attempting to load an audio module, report module load errors.
->>> block: when attempting to load a block module, report module load errors.
->>> console: when attempting to load a display module, report module load errors.
->>>
->>> qdev: when creating a new qdev Device object (DeviceState), report load errors.
->>>       If a module cannot be loaded to create that device, now abort execution.
->>>
->>> qom/object.c: when initializing a QOM object, or looking up class_by_name,
->>>               report module load errors.
->>>
->>> qtest: when processing the "module_load" qtest command, report errors
->>>        in the load of the module.
->>>
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> 
->>> diff --git a/block/dmg.c b/block/dmg.c
->>> index 007b8d9996..a422cf8d5b 100644
->>> --- a/block/dmg.c
->>> +++ b/block/dmg.c
->>> @@ -434,6 +434,7 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
->>>      uint64_t plist_xml_offset, plist_xml_length;
->>>      int64_t offset;
->>>      int ret;
->>> +    Error *local_err = NULL;
->>>  
->>>      ret = bdrv_apply_auto_read_only(bs, NULL, errp);
->>>      if (ret < 0) {
->>> @@ -446,8 +447,15 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
->>>          return -EINVAL;
->>>      }
->>>  
->>> -    block_module_load("dmg-bz2");
->>> -    block_module_load("dmg-lzfse");
->>> +    if (block_module_load("dmg-bz2", &local_err) < 0) {
->>> +        error_report_err(local_err);
->>> +        return -EINVAL;
->>> +    }
->>> +    local_err = NULL;
->>> +    if (block_module_load("dmg-lzfse", &local_err) < 0) {
->>> +        error_report_err(local_err);
->>> +        return -EINVAL;
->
-> I am concerned about the resources allocation here though,
-> is returning EINVAL here right, vs using "goto fail"?
->
-> I matched the behavior of the preceding call:
->
->     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
->                                BDRV_CHILD_IMAGE, false, errp);
->     if (!bs->file) {
->         return -EINVAL;
->     }
->
-> But afterwards the code goes:
-> .
->     /* locate the UDIF trailer */
->     offset = dmg_find_koly_offset(bs->file, errp);
->     if (offset < 0) {
->         ret = offset;
->         goto fail;
->     }
->
-> Should the resources be freed or not in your view?
 
-Functions should generally fail cleanly, and that means undoing side
-effects such as allocations.
+ok. I will resend with 2 patches. An obvious first one removing NEON
+from the AsT2600 SoC and a second decreasing the number of registers
+to 16 when NEON is off.
 
-Typically, we undo in reverse order, and goto the right spot in that
-sequence.
 
-When the undo can be made to work whether the "do" happened or not, we
-can use fewer labels for simplicity.  For instance, g_free(mumble) works
-as long as mumble is initialized to NULL.
+Thanks,
 
-In this function:
+C.
 
-   fail:
-       g_free(s->types);
-       g_free(s->offsets);
-       g_free(s->lengths);
-       g_free(s->sectors);
-       g_free(s->sectorcounts);
-       qemu_vfree(s->compressed_chunk);
-       qemu_vfree(s->uncompressed_chunk);
-       return ret;
-
-I figure this undoes side effects hidden in the read functions called.
-
-Potential issue before this patch: I can't see bdrv_open_child() being
-undone.  Shouldn't we close bs->file?  And what about
-bdrv_open_child()'s side effect on @options?
-
-[...]
+> Cheers,
+> 
+> Joel
+> 
+>>>
+>>> This problem was raised by a buildroot rootfs compiled with vfpv4.
+>>> Boot went fine under QEMU but on real HW, user space binaries had
+>>> issues with output. Compiling buildroot with vfpv4d16 fixed it and
+>>> I didn't dig further. Nevertheless, it would be nice to catch such
+>>> issues with QEMU.
+>>>
+>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>> ---
+>>>    hw/arm/aspeed_ast2600.c | 2 ++
+>>>    target/arm/cpu_tcg.c    | 2 +-
+>>>    2 files changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+>>> index dcdc9bc54456..af987fd418ec 100644
+>>> --- a/hw/arm/aspeed_ast2600.c
+>>> +++ b/hw/arm/aspeed_ast2600.c
+>>> @@ -330,6 +330,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>>>
+>>>            object_property_set_int(OBJECT(&s->cpu[i]), "cntfrq", 1125000000,
+>>>                                    &error_abort);
+>>> +        object_property_set_bool(OBJECT(&s->cpu[i]), "neon", false,
+>>> +                                &error_abort);
+>>>            object_property_set_link(OBJECT(&s->cpu[i]), "memory",
+>>>                                     OBJECT(s->memory), &error_abort);
+>>>
+>>> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+>>> index 98b5ba216041..b3f93783a061 100644
+>>> --- a/target/arm/cpu_tcg.c
+>>> +++ b/target/arm/cpu_tcg.c
+>>> @@ -545,7 +545,7 @@ static void cortex_a7_initfn(Object *obj)
+>>>        cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A7;
+>>>        cpu->midr = 0x410fc075;
+>>>        cpu->reset_fpsid = 0x41023075;
+>>> -    cpu->isar.mvfr0 = 0x10110222;
+>>> +    cpu->isar.mvfr0 = 0x10110221; /* SIMDREG == 0x1 -> 16 registers */
+>>>        cpu->isar.mvfr1 = 0x11111111;
+>>>        cpu->ctr = 0x84448003;
+>>>        cpu->reset_sctlr = 0x00c50078;
+>>
 
 
