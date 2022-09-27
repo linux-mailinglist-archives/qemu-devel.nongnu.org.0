@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D70F5ECCA6
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 21:13:24 +0200 (CEST)
-Received: from localhost ([::1]:43602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E51585ECD05
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 21:39:29 +0200 (CEST)
+Received: from localhost ([::1]:51194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odG1D-0000sB-Kp
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 15:13:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43142)
+	id 1odGQS-0005cp-8X
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 15:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1odFz9-0007IH-9Q
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 15:11:15 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:39798)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1odFz3-0001CI-Uv
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 15:11:11 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-352ffac3941so3590837b3.6
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 12:11:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=S6QmxKTtdfrOjmZPSLZweEYA+qMv3HvmKvtYHcCy7bg=;
- b=DGkldR14cLyBfwmTK57q+otZcC4SoDOiHPYzZJGMHqB8VWrfPwQjCc/+Uqe70ASlUA
- fZOJT6V8nQewwjlrMXcp7ZGiUku9Eq4SYC+FxFD2nglQkyDjNYyxkxB6+zBnjn/ad1Da
- f6zZM2xac/2upq7zcMUNlcOFHtUPtFZRTeSgJ8elwBdsIwlLzV+DABsvdi+ugFQsOso4
- 9nOMxpPnoYdBLCh1CdrymgFZLdW+MGZWoeSalWCGd926niy3u25HjOzwXPCmbKcEUWFX
- MzepbVKKWtBOshq2gAnK7r0ny/94U5Zr8os/jI8/mnrh8s6ydDVxlGM6pLUufus0Z3MG
- CLJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=S6QmxKTtdfrOjmZPSLZweEYA+qMv3HvmKvtYHcCy7bg=;
- b=PyKDhUvjSUeCgWEMOSifPW2M69j13sSflNruKUTPCjFrLsZ2rX1LF7LkWsZfEQCddc
- JbDkXuivhK1+lu1BaA8gbUQcY+jc8IMr0XzWSsfAb21OTOJsN15FTxLYcCB0Ckq/AjZZ
- F8jR60De0jbAlaLYkzC3zByzaB5yowSjJifBHChK7MrpkuQaattLcjohEdfJFJgvhX8S
- Q7nJmMff3CGl95l4lquFLpPmibiOI9EnY746rQrti7M6J6TiXh+yN48f72eowA8UM/Ac
- NFcJsiooPm15rsBuWaP9hPlFVeymoGub0x3CIzVMR0OD/4Z6a7f4GoyJYJhSRtZEZmEJ
- Akzw==
-X-Gm-Message-State: ACrzQf3iceYhgUuy1azcAD5EAVY1nZOE5TzY8s8llv0xvC0CmjA7QD/r
- su8Tm8zac5+bcTDGCOtm0CxinkAUsYz3vGoe7TI=
-X-Google-Smtp-Source: AMsMyM5nU7mfziyiN7uWLBG9FsgZb1nK9Yu0lM4wrkRFeKHSx1lYMj6+1gdZ1dhXVBCYthmck9jpAy4R1fi0Eq5UaEw=
-X-Received: by 2002:a0d:df46:0:b0:345:22d9:f5c1 with SMTP id
- i67-20020a0ddf46000000b0034522d9f5c1mr26811519ywe.239.1664305866461; Tue, 27
- Sep 2022 12:11:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1odGLt-0008G6-GZ
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 15:34:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56154)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1odGLq-0004ab-B7
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 15:34:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664307280;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+puEcpTYXnHrRO5+nOTrfX2Kg+n/q7CFbR7uIhHcOR0=;
+ b=EepAX2haIOGwi1U89F2jZ/tUdzopiHwbYoPeL8CUe6HFVlJoNSJciM7L9ugzKEAPgkAIud
+ 33AueBawkK8mMNUwfAIJ8xyVUqp/RBj8Rj/u4nUtPLPuCzCut6n69lA7c9PeUcMS0bYqK6
+ 8mQw/L6qooGDHF2pfKzwiecVp9kChcU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-1-VlZYPxmAM22jlrQCqiqniQ-1; Tue, 27 Sep 2022 15:34:36 -0400
+X-MC-Unique: VlZYPxmAM22jlrQCqiqniQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7FE6580C8C1;
+ Tue, 27 Sep 2022 19:34:35 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F7A72027062;
+ Tue, 27 Sep 2022 19:34:32 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Yanan Wang <wangyanan55@huawei.com>, Kevin Wolf <kwolf@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Eric Blake <eblake@redhat.com>,
+ integration@gluster.org, David Hildenbrand <david@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, afaria@redhat.com,
+ Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Peter Xu <peterx@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jeff Cody <codyprime@gmail.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, sgarzare@redhat.com
+Subject: [PATCH v5 00/12] blkio: add libblkio BlockDriver
+Date: Tue, 27 Sep 2022 15:34:19 -0400
+Message-Id: <20220927193431.22302-1-stefanha@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <285e1375-82c4-556d-54fa-abba6b8e8e77@redhat.com>
- <CAJSP0QX13hF2_qSvO0Hfh=DtyurhkXyJKnrzWTSsTtURueTV6A@mail.gmail.com>
- <YzMcobeWVAnHUkNu@redhat.com>
- <CAJSP0QW_An5ypmsaXaVeHNKKzW0+x2Pmp8bQtPfVxPCqgAwFCA@mail.gmail.com>
- <YzM5i5QP7NQq4OHV@redhat.com>
- <dc108d7d-297b-5a84-68dd-12da3a0e68d0@redhat.com>
- <CAJSP0QVX8Q5Cg2rr7ee19Wvbghpx8FXyPBratjQi6D4mqHW8pQ@mail.gmail.com>
- <8407a398-a006-b009-b48c-7814dc15c811@redhat.com>
-In-Reply-To: <8407a398-a006-b009-b48c-7814dc15c811@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 27 Sep 2022 15:10:54 -0400
-Message-ID: <CAJSP0QW7EQKWk7F5UP9gKWqpooEkqdOUbxiMW2ac-5YL5ytY5A@mail.gmail.com>
-Subject: Re: Should we maybe move Cirrus-CI jobs away from Gitlab again?
-To: Thomas Huth <thuth@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,97 +95,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Sept 2022 at 15:04, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 27/09/2022 20.47, Stefan Hajnoczi wrote:
-> > On Tue, 27 Sept 2022 at 14:40, Thomas Huth <thuth@redhat.com> wrote:
-> >>
-> >> On 27/09/2022 19.57, Daniel P. Berrang=C3=A9 wrote:
-> >>> On Tue, Sep 27, 2022 at 01:36:20PM -0400, Stefan Hajnoczi wrote:
-> >>>> On Tue, 27 Sept 2022 at 11:54, Daniel P. Berrang=C3=A9 <berrange@red=
-hat.com> wrote:
-> >>>>>
-> >>>>> On Tue, Sep 27, 2022 at 11:44:45AM -0400, Stefan Hajnoczi wrote:
-> >>>>>> On Tue, 27 Sept 2022 at 05:02, Thomas Huth <thuth@redhat.com> wrot=
-e:
-> >>>>>>> now that Gitlab is giving us pressure on the amount of free CI mi=
-nutes, I
-> >>>>>>> wonder whether we should maybe move the Cirrus-CI jobs out of the=
- gitlab-CI
-> >>>>>>> dashboard again? We could add the jobs to our .cirrus-ci.yml file=
- instead,
-> >>>>>>> like we did it in former times...
-> >>>>>>>
-> >>>>>>> Big advantage would be of course that the time for those jobs wou=
-ld not
-> >>>>>>> count in the Gitlab-CI minutes anymore. Disadvantage is of course=
- that they
-> >>>>>>> do not show up in the gitlab-CI dashboard anymore, so there is no=
- more
-> >>>>>>> e-mail notification about failed jobs, and you have to push to gi=
-thub, too,
-> >>>>>>> and finally check the results manually on cirrus-ci.com ...
-> >>>>>>
-> >>>>>> My understanding is that .gitlab-ci.d/cirrus.yml uses a GitLab CI =
-job
-> >>>>>> to run the cirrus-run container image that forwards jobs to Cirrus=
--CI.
-> >>>>>> So GitLab CI resources are consumed waiting for Cirrus-CI to finis=
-h.
-> >>>>>>
-> >>>>>> This shouldn't affect gitlab.com/qemu-project where there are priv=
-ate
-> >>>>>> runners that do not consume GitLab CI minutes.
-> >>>>>>
-> >>>>>> Individual developers are affected though because they most likely
-> >>>>>> rely on the GitLab shared runner minutes quota.
-> >>>>>
-> >>>>> NB, none of the jobs should ever be run automatically anymore in
-> >>>>> QEMU CI pipelines. It always requires the maintainer to set the
-> >>>>> env var when pushing to git, to explicitly create a pipeline.
-> >>>>> You can then selectively start each individual job as desired.
-> >>>>
-> >>>> Cirrus CI is not automatically started when pushing to a personal
-> >>>> GitLab repo? If starting it requires manual action anyway then I thi=
-nk
-> >>>> nothing needs to be changed here.
-> >>>
-> >>> No pipeline at all is created unless you do
-> >>>
-> >>>     git push -o ci.variable=3DQEMU_CI=3D1 <your-fork-remote>
-> >>>
-> >>> that creates the pipeliune but doesn't run any jobs - they're manual
-> >>> start.
-> >>
-> >> Yes, sure, the jobs are not started automatically. But I *do* want to =
-run
-> >> the jobs before sending pull requests - but since the gitlab-CI minute=
-s are
-> >> now very limited, I'd like to avoid burning these minutes via gitlab a=
-nd
-> >> start those jobs directly on cirrus-ci.com again. For that the jobs wo=
-uld
-> >> need to be moved to our .cirrus-ci.yml file again.
-> >>
-> >> Well, maybe we could also have both, jobs via cirrus-run for those who=
- want
-> >> to see them in their gitlab-CI dashboard, and via .cirrus-ci.yml for t=
-hose
-> >> who want to avoid burning CI minutes on Gitlab. It's a little bit of
-> >> double-maintenance, but maybe acceptable?
-> >
-> > I just noticed that qemu.git/master doesn't run Cirrus-CI. I guess it
-> > hasn't been set up in our GitLab project.
-> >
-> > Since it's not enabled for qemu.git/master nothing will change from my
-> > perspective. Feel free to change it as you wish.
->
-> It's only run for the "staging" branch, I think. The idea was that things
-> get tested before merge on the "staging" branch, then there is no need
-> anymore to rerun everything when it gets pushed into the "master" branch.
+v5:
+- Drop "RFC" since libblkio 1.0 has been released and the library API is stable
+- Disable BDRV_REQ_REGISTERED_BUF if we run out of blkio_mem_regions. The
+  bounce buffer slow path is taken when there are not enough blkio_mem_regions
+  to cover guest RAM. [Hanna & David Hildenbrand]
+- Call ram_block_discard_disable() when mem-region-pinned property is true or
+  absent [David Hildenbrand]
+- Use a bounce buffer pool instead of allocating/freeing a buffer for each
+  request. This reduces the number of blkio_mem_regions required for bounce
+  buffers to 1 and avoids frequent blkio_mem_region_map/unmap() calls.
+- Switch to .bdrv_co_*() instead of .bdrv_aio_*(). Needed for the bounce buffer
+  pool's CoQueue.
+v4:
+- Patch 1:
+  - Add virtio-blk-vhost-user driver [Kevin]
+  - Drop .bdrv_parse_filename() and .bdrv_needs_filename for virtio-blk-vhost-vdpa [Stefano]
+  - Add copyright and license header [Hanna]
+  - Drop .bdrv_parse_filename() in favor of --blockdev or json: [Hanna]
+  - Clarify that "filename" is always non-NULL for io_uring [Hanna]
+  - Check that virtio-blk-vhost-vdpa "path" option is non-NULL [Hanna]
+  - Fix virtio-blk-vhost-vdpa cache.direct=off logic [Hanna]
+  - Use macros for driver names [Hanna]
+  - Assert that the driver name is valid [Hanna]
+  - Update "readonly" property name to "read-only" [Hanna]
+  - Call blkio_detach_aio_context() in blkio_close() [Hanna]
+  - Avoid uint32_t * to int * casts in blkio_refresh_limits() [Hanna]
+  - Remove write zeroes and discard from the todo list [Hanna]
+  - Use PRIu32 instead of %d for uint32_t [Hanna]
+  - Fix error messages with buf-alignment instead of optimal-io-size [Hanna]
+  - Call map/unmap APIs since libblkio alloc/free APIs no longer do that
+  - Update QAPI schema QEMU version to 7.2
+- Patch 5:
+  - Expand the BDRV_REQ_REGISTERED_BUF flag passthrough and drop assert(!flags)
+    in drivers [Hanna]
+- Patch 7:
+  - Fix BLK->BDRV typo [Hanna]
+  - Make BlockRAMRegistrar handle failure [Hanna]
+- Patch 8:
+  - Replace memory_region_get_fd() approach with qemu_ram_get_fd()
+- Patch 10:
+  - Use (void)ret; to discard unused return value [Hanna]
+  - libblkio's blkio_unmap_mem_region() API no longer has a return value
+  - Check for registered bufs that cross RAMBlocks [Hanna]
+- Patch 11:
+  - Handle bdrv_register_buf() errors [Hanna]
+v3:
+- Add virtio-blk-vhost-vdpa for vdpa-blk devices including VDUSE
+- Add discard and write zeroes support
+- Rebase and adopt latest libblkio APIs
+v2:
+- Add BDRV_REQ_REGISTERED_BUF to bs.supported_write_flags [Stefano]
+- Use new blkioq_get_num_completions() API
+- Implement .bdrv_refresh_limits()
 
-I don't see a cirrus job:
-https://gitlab.com/qemu-project/qemu/-/pipelines/652051335
+This patch series adds a QEMU BlockDriver for libblkio
+(https://gitlab.com/libblkio/libblkio/), a library for high-performance block
+device I/O. This work was presented at KVM Forum 2022 and slides are available
+here:
+https://static.sched.com/hosted_files/kvmforum2022/8c/libblkio-kvm-forum-2022.pdf
 
-Stefan
+The second patch adds the core BlockDriver and most of the libblkio API usage.
+Three libblkio drivers are included:
+- io_uring
+- virtio-blk-vhost-user
+- virtio-blk-vhost-vdpa
+
+The remainder of the patch series reworks the existing QEMU bdrv_register_buf()
+API so virtio-blk emulation efficiently map guest RAM for libblkio - some
+libblkio drivers require that I/O buffer memory is pre-registered (think VFIO,
+vhost, etc).
+
+Vladimir requested performance results that show the effect of the
+BDRV_REQ_REGISTERED_BUF flag. I ran the patches against qemu-storage-daemon's
+vhost-user-blk export with iodepth=1 bs=512 to see the per-request overhead due
+to bounce buffer allocation/mapping:
+
+Name                                   IOPS   Error
+bounce-buf                          4373.81 ± 0.01%
+registered-buf                     13062.80 ± 0.67%
+
+The BDRV_REQ_REGISTERED_BUF optimization version is about 3x faster.
+
+See the BlockDriver struct in block/blkio.c for a list of APIs that still need
+to be implemented. The core functionality is covered.
+
+Regarding the design: each libblkio driver is a separately named BlockDriver.
+That means there is an "io_uring" BlockDriver and not a generic "libblkio"
+BlockDriver. This way QAPI and open parameters are type-safe and mandatory
+parameters can be checked by QEMU.
+
+Stefan Hajnoczi (12):
+  coroutine: add flag to re-queue at front of CoQueue
+  blkio: add libblkio block driver
+  numa: call ->ram_block_removed() in ram_block_notifer_remove()
+  block: pass size to bdrv_unregister_buf()
+  block: use BdrvRequestFlags type for supported flag fields
+  block: add BDRV_REQ_REGISTERED_BUF request flag
+  block: return errors from bdrv_register_buf()
+  block: add BlockRAMRegistrar
+  exec/cpu-common: add qemu_ram_get_fd()
+  stubs: add qemu_ram_block_from_host() and qemu_ram_get_fd()
+  blkio: implement BDRV_REQ_REGISTERED_BUF optimization
+  virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization hint
+
+ MAINTAINERS                                 |    7 +
+ meson_options.txt                           |    2 +
+ qapi/block-core.json                        |   53 +-
+ meson.build                                 |    9 +
+ include/block/block-common.h                |    9 +
+ include/block/block-global-state.h          |   10 +-
+ include/block/block_int-common.h            |   15 +-
+ include/exec/cpu-common.h                   |    1 +
+ include/hw/virtio/virtio-blk.h              |    2 +
+ include/qemu/coroutine.h                    |   15 +-
+ include/sysemu/block-backend-global-state.h |    4 +-
+ include/sysemu/block-ram-registrar.h        |   37 +
+ block.c                                     |   14 +
+ block/blkio.c                               | 1017 +++++++++++++++++++
+ block/blkverify.c                           |    4 +-
+ block/block-backend.c                       |    8 +-
+ block/block-ram-registrar.c                 |   54 +
+ block/crypto.c                              |    4 +-
+ block/file-posix.c                          |    1 -
+ block/gluster.c                             |    1 -
+ block/io.c                                  |  101 +-
+ block/mirror.c                              |    2 +
+ block/nbd.c                                 |    1 -
+ block/nvme.c                                |   20 +-
+ block/parallels.c                           |    1 -
+ block/qcow.c                                |    2 -
+ block/qed.c                                 |    1 -
+ block/raw-format.c                          |    2 +
+ block/replication.c                         |    1 -
+ block/ssh.c                                 |    1 -
+ block/vhdx.c                                |    1 -
+ hw/block/virtio-blk.c                       |   39 +-
+ hw/core/numa.c                              |   17 +
+ qemu-img.c                                  |    6 +-
+ softmmu/physmem.c                           |    5 +
+ stubs/physmem.c                             |   13 +
+ tests/qtest/modules-test.c                  |    3 +
+ util/qemu-coroutine-lock.c                  |    9 +-
+ util/vfio-helpers.c                         |    5 +-
+ block/meson.build                           |    2 +
+ scripts/meson-buildoptions.sh               |    3 +
+ stubs/meson.build                           |    1 +
+ 42 files changed, 1412 insertions(+), 91 deletions(-)
+ create mode 100644 include/sysemu/block-ram-registrar.h
+ create mode 100644 block/blkio.c
+ create mode 100644 block/block-ram-registrar.c
+ create mode 100644 stubs/physmem.c
+
+-- 
+2.37.3
+
 
