@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238475EC7B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:29:47 +0200 (CEST)
-Received: from localhost ([::1]:43242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C475EC79F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 17:26:26 +0200 (CEST)
+Received: from localhost ([::1]:38212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odCWn-0008QI-Oa
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:29:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51782)
+	id 1odCTX-0002il-VI
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 11:26:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1odBr2-0001V9-Pt
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:46:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29192)
+ id 1odBr1-0001Xn-GJ
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:46:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1odBcw-0000Y4-KR
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:32:03 -0400
+ id 1odBdn-0000ho-J5
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 10:32:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664289121;
+ s=mimecast20190719; t=1664289175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N/U+KpeeveGhqTWFnVsCDmlmMMaJZ1kse3HxUZ6zzwI=;
- b=G7ymXST/gX13r3gqnTGLHpX4y4DZDVmsXlz2jztLcE0V5WFxUA+m1tM09FG3HMaMa8ms2q
- MiXJ465QcUpRAMXmF62f2ZfwCejkexB5IQYEo2UgGZ3cSR2qtHELP5yacW/SLq2X+XR22+
- EJMW0R8/eZrEvZ9ArxKtLfS+EBH3/0U=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NTQFM9fwS0ER3+4WuqpbllZYzVLHvNZXeFQgu9/Q3Qk=;
+ b=XpX5dlCdxEzSIttl4wnXWNc2hqeI2wlXruBwVjZ8yv/DkH/2iye9UzuDZIfRfd9heGJf3U
+ UCeftZFWCvCivgx/3IqUpnjcwDX35aurkHb8w4dwxrIEszbHAP0TSf48WNPaxc6VVkoeze
+ weZ39HBtISfSRcACDE17zwhhJe9tbf4=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-428-4-SYrMmJOhS56KNZlCJDjw-1; Tue, 27 Sep 2022 10:30:23 -0400
-X-MC-Unique: 4-SYrMmJOhS56KNZlCJDjw-1
-Received: by mail-oo1-f72.google.com with SMTP id
- f6-20020a4a9206000000b0044e001dc716so4193715ooh.20
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:29:44 -0700 (PDT)
+ us-mta-581-2ao-eBOIOpaUtU8I1bEb3g-1; Tue, 27 Sep 2022 10:32:50 -0400
+X-MC-Unique: 2ao-eBOIOpaUtU8I1bEb3g-1
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-126ebb05e8eso3732136fac.11
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 07:32:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=N/U+KpeeveGhqTWFnVsCDmlmMMaJZ1kse3HxUZ6zzwI=;
- b=ufNRtIJAwkcpGfGdKGCWrGblxUK7WNFqaJT5jFWUhJm7AezTwEz9wYfkiGIyzqI0on
- jvzxBd9tJChp+LWPrzIwzmiqB4wETGtOTH1LoR0/gv+1cnLO7C7lkzb+Dt4QCtGd5WV8
- o1LpDYBVuHAO4qPLeMgWRDcGgBECFwEYhGrniKfb31yLPDkvi2YrSXGOh3Ws8p9mzzKA
- XRhUJ5uMv/cWrtFumtgsp02jtUcR8oWX0sby3VKhweLAD8gU0xMYScA2VqVYV210wyL2
- XF6TYMRTl2U4GtjqIT4TG489thzvr51zSwztbKNgN1fkqVOvd+RgokE6KQS0JVBpxO8X
- J0Pw==
-X-Gm-Message-State: ACrzQf0fdTAZBvX4PnK28E5Zo7YseBluXztcxn8ZJNaDxiBEuoCssb3p
- 4o3sRplYneqxzwoPta/n/CZMEI21nJflV5oBMPxXRKwrDC/QBUIkmE2DBRYkL1zUoNMOgPV0pnZ
- bEdsIitJE93YMXlcqgjZLpXFKqRuRVZw=
-X-Received: by 2002:a05:6870:e98c:b0:131:8940:e7b with SMTP id
- r12-20020a056870e98c00b0013189400e7bmr1367975oao.53.1664288983196; 
- Tue, 27 Sep 2022 07:29:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM67t3YjY/B7Cie3jubrN3BBq+4+2se0oxo492Tlt0ERreWRpZHyrBpSDSssCgxe0vM2FPc4WLtdZKQEhIh+OWY=
-X-Received: by 2002:a05:6870:e98c:b0:131:8940:e7b with SMTP id
- r12-20020a056870e98c00b0013189400e7bmr1367959oao.53.1664288983014; Tue, 27
- Sep 2022 07:29:43 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=NTQFM9fwS0ER3+4WuqpbllZYzVLHvNZXeFQgu9/Q3Qk=;
+ b=OWU3qune6jxvHYiSUQwpZ0Rhdkxj/6w005j2HKq51O0ZgqVWyQ0Oy5anlJUhg4zet2
+ TtGwi8DQV62BB7gSRs3btctS4ZnKm5l8I4VBbqbW2vY1OXLySJ4KuGto3QAsg0u/X7ja
+ lmaJj/bIT+uP4NlO1fizz4BM/9G+V6NYakPihRhwIlfWCS+xnYIMQBCGhX6QS54mLsBt
+ yRkNZ8seeu5rhaRtufWAK+t6ASNOtfgu2ysnibxCi7lowdx+09hUwAOlgy1PjB/tlrF1
+ FJenhgxeVtexySk83pxG6TyCU9v0AHDluPcXcre/JMs33AIHmcPW0cQvY0EvQHUTRmTB
+ ho7w==
+X-Gm-Message-State: ACrzQf1260UL+Ic7TDCBcxonARYtqzsQalD53OMCF5RukCA31DgzGIcX
+ n0KGbbKoc9jGKwXEgzuJ65eqv/hv8E/QJCbWsQhtd/orofwvKKVwkFjIrQZDpJn9Qaxjn7Yu9Ou
+ cBV5980vGfhpM6DIB0fTdz8kbghXVwBY=
+X-Received: by 2002:a9d:125:0:b0:655:ced1:254b with SMTP id
+ 34-20020a9d0125000000b00655ced1254bmr12588195otu.378.1664289166594; 
+ Tue, 27 Sep 2022 07:32:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6rU6zv/a+xfW7d5uIyNNjg5iqf4vm0mULxOxrrA8GODvOd/CZLkC1YnhaioRL7OYRHsbINEVOXJwmF6A/1wUQ=
+X-Received: by 2002:a9d:125:0:b0:655:ced1:254b with SMTP id
+ 34-20020a9d0125000000b00655ced1254bmr12588180otu.378.1664289166381; Tue, 27
+ Sep 2022 07:32:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
- <20220927110632.1973965-40-bmeng.cn@gmail.com>
-In-Reply-To: <20220927110632.1973965-40-bmeng.cn@gmail.com>
+ <20220927110632.1973965-51-bmeng.cn@gmail.com>
+In-Reply-To: <20220927110632.1973965-51-bmeng.cn@gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 27 Sep 2022 18:29:31 +0400
-Message-ID: <CAMxuvaysRz4pgRKwf=Gp70LZViAMbdPjFWAHkjiure22J4xG5A@mail.gmail.com>
-Subject: Re: [PATCH v4 39/54] tests/qtest: boot-serial-test: Close the serial
- file before starting QEMU
+Date: Tue, 27 Sep 2022 18:32:35 +0400
+Message-ID: <CAMxuvazWXg+qpNvhR6bDcS5XwrDN_2zd-6KDmQvGS7TPa+hTNA@mail.gmail.com>
+Subject: Re: [PATCH v4 50/54] tests/qtest: migration-test: Skip running some
+ TLS cases for win32
 To: Bin Meng <bmeng.cn@gmail.com>
 Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Bin Meng <bin.meng@windriver.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
  Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -98,65 +97,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 27, 2022 at 3:08 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Tue, Sep 27, 2022 at 3:09 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
 > From: Bin Meng <bin.meng@windriver.com>
 >
-> This qtest executable created a serial chardev file to be passed to
-> the QEMU executable. The serial file was created by g_file_open_tmp(),
-> which internally opens the file with FILE_SHARE_WRITE security attribute
-> on Windows. Based on [1], there is only one case that allows the first
-> call to CreateFile() with GENERIC_READ & FILE_SHARE_WRITE, and second
-> call to CreateFile() with GENERIC_WRITE & FILE_SHARE_READ. All other
-> combinations require FILE_SHARE_WRITE in the second call. But there is
-> no way for the second call (in this case the QEMU executable) to know
-> what combination was passed to the first call, unless FILE_SHARE_WRITE
-> is passed to the second call.
+> Some migration test cases use TLS to communicate, but they fail on
+> Windows with the following error messages:
 >
-> Two processes shouldn't share the same file for writing with a chardev.
-> Let's close the serial file before starting QEMU.
+>   qemu-system-x86_64: TLS handshake failed: Insufficient credentials for that request.
+>   qemu-system-x86_64: TLS handshake failed: Error in the pull function.
+>   query-migrate shows failed migration: TLS handshake failed: Error in the pull function.
 >
-> [1] https://docs.microsoft.com/en-us/windows/win32/fileio/creating-and-op=
-ening-files
+> Disable them temporarily.
 >
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-
 > ---
+> I am not familar with the gnutls and simply enabling the gnutls debug
+> output does not give me an immedidate hint on why it's failing on
+> Windows. Disable these cases for now until someone or maintainers
+> who may want to test this on Windows.
 >
-> Changes in v4:
-> - New patch: "tests/qtest: boot-serial-test: Close the serial file before=
- starting QEMU"
+> (no changes since v1)
+
+Please use g_test_skip() instead of #if blocks.
+
 >
->  tests/qtest/boot-serial-test.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  tests/qtest/migration-test.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 >
-> diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-tes=
-t.c
-> index 72310ba30e..b216519b62 100644
-> --- a/tests/qtest/boot-serial-test.c
-> +++ b/tests/qtest/boot-serial-test.c
-> @@ -233,6 +233,7 @@ static void test_machine(const void *data)
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index 6f9fe13488..5c1aaa700e 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -1402,6 +1402,7 @@ static void test_precopy_unix_dirty_ring(void)
+>  }
 >
->      ser_fd =3D g_file_open_tmp("qtest-boot-serial-sXXXXXX", &serialtmp, =
-NULL);
->      g_assert(ser_fd !=3D -1);
-> +    close(ser_fd);
+>  #ifdef CONFIG_GNUTLS
+> +#ifndef _WIN32
+>  static void test_precopy_unix_tls_psk(void)
+>  {
+>      g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+> @@ -1414,6 +1415,7 @@ static void test_precopy_unix_tls_psk(void)
 >
->      if (test->kernel) {
->          code =3D test->kernel;
-> @@ -266,6 +267,8 @@ static void test_machine(const void *data)
->          unlink(codetmp);
->      }
+>      test_precopy_common(&args);
+>  }
+> +#endif /* _WIN32 */
 >
-> +    ser_fd =3D open(serialtmp, O_RDONLY);
-> +    g_assert(ser_fd !=3D -1);
->      if (!check_guest_output(qts, test, ser_fd)) {
->          g_error("Failed to find expected string. Please check '%s'",
->                  serialtmp);
+>  #ifdef CONFIG_TASN1
+>  static void test_precopy_unix_tls_x509_default_host(void)
+> @@ -1522,6 +1524,7 @@ static void test_precopy_tcp_plain(void)
+>  }
+>
+>  #ifdef CONFIG_GNUTLS
+> +#ifndef _WIN32
+>  static void test_precopy_tcp_tls_psk_match(void)
+>  {
+>      MigrateCommon args = {
+> @@ -1532,6 +1535,7 @@ static void test_precopy_tcp_tls_psk_match(void)
+>
+>      test_precopy_common(&args);
+>  }
+> +#endif /* _WIN32 */
+>
+>  static void test_precopy_tcp_tls_psk_mismatch(void)
+>  {
+> @@ -1929,6 +1933,7 @@ static void test_multifd_tcp_zstd(void)
+>  #endif
+>
+>  #ifdef CONFIG_GNUTLS
+> +#ifndef _WIN32
+>  static void *
+>  test_migrate_multifd_tcp_tls_psk_start_match(QTestState *from,
+>                                               QTestState *to)
+> @@ -1936,6 +1941,7 @@ test_migrate_multifd_tcp_tls_psk_start_match(QTestState *from,
+>      test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
+>      return test_migrate_tls_psk_start_match(from, to);
+>  }
+> +#endif /* _WIN32 */
+>
+>  static void *
+>  test_migrate_multifd_tcp_tls_psk_start_mismatch(QTestState *from,
+> @@ -1987,6 +1993,7 @@ test_migrate_multifd_tls_x509_start_reject_anon_client(QTestState *from,
+>  }
+>  #endif /* CONFIG_TASN1 */
+>
+> +#ifndef _WIN32
+>  static void test_multifd_tcp_tls_psk_match(void)
+>  {
+>      MigrateCommon args = {
+> @@ -1996,6 +2003,7 @@ static void test_multifd_tcp_tls_psk_match(void)
+>      };
+>      test_precopy_common(&args);
+>  }
+> +#endif /* _WIN32 */
+>
+>  static void test_multifd_tcp_tls_psk_mismatch(void)
+>  {
+> @@ -2498,8 +2506,10 @@ int main(int argc, char **argv)
+>      qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
+>      qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
+>  #ifdef CONFIG_GNUTLS
+> +#ifndef _WIN32
+>      qtest_add_func("/migration/precopy/unix/tls/psk",
+>                     test_precopy_unix_tls_psk);
+> +#endif
+>
+>      if (has_uffd) {
+>          /*
+> @@ -2525,8 +2535,10 @@ int main(int argc, char **argv)
+>
+>      qtest_add_func("/migration/precopy/tcp/plain", test_precopy_tcp_plain);
+>  #ifdef CONFIG_GNUTLS
+> +#ifndef _WIN32
+>      qtest_add_func("/migration/precopy/tcp/tls/psk/match",
+>                     test_precopy_tcp_tls_psk_match);
+> +#endif
+>      qtest_add_func("/migration/precopy/tcp/tls/psk/mismatch",
+>                     test_precopy_tcp_tls_psk_mismatch);
+>  #ifdef CONFIG_TASN1
+> @@ -2570,8 +2582,10 @@ int main(int argc, char **argv)
+>                     test_multifd_tcp_zstd);
+>  #endif
+>  #ifdef CONFIG_GNUTLS
+> +#ifndef _WIN32
+>      qtest_add_func("/migration/multifd/tcp/tls/psk/match",
+>                     test_multifd_tcp_tls_psk_match);
+> +#endif
+>      qtest_add_func("/migration/multifd/tcp/tls/psk/mismatch",
+>                     test_multifd_tcp_tls_psk_mismatch);
+>  #ifdef CONFIG_TASN1
 > --
 > 2.34.1
 >
