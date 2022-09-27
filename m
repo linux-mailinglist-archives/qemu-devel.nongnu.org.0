@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E3E5EC2A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:26:46 +0200 (CEST)
-Received: from localhost ([::1]:50072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3455EC2CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 14:36:08 +0200 (CEST)
+Received: from localhost ([::1]:39096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od9fi-0006Xi-0I
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:26:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33824)
+	id 1od9ol-00028w-Di
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 08:36:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8Rq-0003Hk-08
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:27 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:44641)
+ id 1od8Rr-0003Hs-WA; Tue, 27 Sep 2022 07:08:27 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:35385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8Ro-0005Fu-0B
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:08:21 -0400
-Received: by mail-pl1-x635.google.com with SMTP id w10so8745139pll.11
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:08:19 -0700 (PDT)
+ id 1od8Rq-0005G9-CD; Tue, 27 Sep 2022 07:08:23 -0400
+Received: by mail-pl1-x635.google.com with SMTP id t3so8781945ply.2;
+ Tue, 27 Sep 2022 04:08:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=Piw1OXyWwwLD9JGgfjn4u0pfw+bsIph7Kp2bvtzr/Js=;
- b=TQ6mPEyLG9/gBGLvDq02jxOOT7//XKsYQXpjtEHWDu/J80QlMyHji8c0EOznxBODZm
- 3mcLilVMufoKmApOamQWyiZKoS+ivSbyhJlB5yhk3Tk2Qpaoc8xPIaF4JPGzPhqgpy1W
- ez/OkFg+2XVKYHoMBno3Dh3xKEEGGE0kfVeW+i0Qy2GrnZpPy5iWQ/cLYLP1+1Ywxuqx
- 1uTjNWxIXmIIIt+fOE2hMAzyUibtRzIRXCR6RdzCGn/E/LO0iFShCegcnigqJGfdDGRG
- oNqQLGK2mZhtqQsqUtkQ6F2Xvdi6Un2FaZGmt2SuWAY9lCZDlCWYXyTVPYRrtdSd7Naf
- hC4A==
+ bh=WQDx+cZ1kDn23arphhz0GuuPrk4Ga5SEGuDsuw5J2h4=;
+ b=UXHtywOYYf7/ugDY4VALfR8gFQlMM3YBXgFy2c6G4FeXqHdSQgvOYuhuRq6nzQw5s9
+ U/eoifiKySWFDGhuTAXkMuYWrtKV/7xc7G+jzJ11OVqIPVG5VTuGpENDDQnupDG36BTC
+ DieFa7HXb7hYSclZcI/oKrBMGuWTOpXR7vscqaJkiu8FvBeg/BD48Xv/U4rZu14ztp6g
+ ymk8hhqbVyXDx8kKYUvvTO15CeKeOnMUV0WKL81+ldcjjGg/gYx9uGfyDNiklOiwTgCr
+ 51nxkmfqwjoVbfiPJOiIlcIH1TBQTMsgks+1G+tqWJxERjSd6JqqhQXjXE+NFtxYBfna
+ 2XZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=Piw1OXyWwwLD9JGgfjn4u0pfw+bsIph7Kp2bvtzr/Js=;
- b=SkmgtSe5UOGd/tBNFIYnOnPwwX2o22MsV0hUI9vsnr9zxfbyfprabqJ0iFJAvW8TgB
- 92H9Lsv4yxippx2bpR1Yw3o321k+o52HZhR7oxZFO0TzVrl/gI/td0MFI/7mGqcneBfd
- q95VtKyzI5as+ckznWTil8IRDvjaUUqL5dZTDiQK7Zxk+qK0TQlRAeP6JGuC4x9o1YcK
- wBy8oSbRaOBMQM+kslY5cVz3taBxXvcfJRZ5/EwdfPx4G0DSny8PI2vpq+/EYnVKxVu1
- M4QjyrBFDS5LnQms9fSg4V9v59oQFaawyi1gkHhl/rbtQ/gQRlrV6QriTC62a/2czXWI
- 4Gaw==
-X-Gm-Message-State: ACrzQf2ky6rGMeX7hhPS5NiieTz5O917+r8ilymFBgrDULPXiTuslwnk
- DP7YB9wdRCGr/pM1bOFl8NHdWVvfoZ0=
-X-Google-Smtp-Source: AMsMyM5FECRbgxkAUynipAfl15sP+JinHA2ckmrk8h2uBmG9gKJnIT/3dYHuCIfkDffw6j1CRRo1EQ==
-X-Received: by 2002:a17:90b:4d8e:b0:200:73b4:4da2 with SMTP id
- oj14-20020a17090b4d8e00b0020073b44da2mr4074607pjb.197.1664276897849; 
- Tue, 27 Sep 2022 04:08:17 -0700 (PDT)
+ bh=WQDx+cZ1kDn23arphhz0GuuPrk4Ga5SEGuDsuw5J2h4=;
+ b=C/E/GsX1kxgeqca9oUFigGLureCfa85Yjo0yU6unctNUD8kkIi/ljKtmsHqSyHz14I
+ /+zJzVys2/8H3bqtGeVgBfc20P6vviOxt1kRTePxbyxagX3OwieD0Ey8zowuuPeK4kAi
+ 7dxce08+WSg9mUwyo7/553p3QOSf+YJnO9eKhVhfj49580XqC2zxGbCpxDANjctTeey1
+ DaI4TjlwdVhCBrc6zjle/nUIIo173m715kE2Fk4X4i5O0i0V8hChhlujhB8/ZsBvsiBO
+ GTfdnddxv9qWmm2wLDT501uH9gC/wBTVS84PuU3lIO5bd06fm4zFgav+6XIDDnSsKd86
+ smQQ==
+X-Gm-Message-State: ACrzQf1eMLpR+Z2iFRsrOXCEajYEO07SHpHNGlSs5cYcZZ9FUD+t4tbk
+ bex7NRiFlxdlkH6JWTXZJPZqK17uMz8=
+X-Google-Smtp-Source: AMsMyM7Ds0R55xlAo3BUwsBUkGtms6VFpIEejI5d90Rlh/dp/GwLBXjSWgbdup8Xzkv7UTM64CkJRA==
+X-Received: by 2002:a17:90b:1e02:b0:203:21f3:f233 with SMTP id
+ pg2-20020a17090b1e0200b0020321f3f233mr3918411pjb.189.1664276900579; 
+ Tue, 27 Sep 2022 04:08:20 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.08.15
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.08.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:08:17 -0700 (PDT)
+ Tue, 27 Sep 2022 04:08:20 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 36/54] tests/qtest: Support libqtest to build and run on
- Windows
-Date: Tue, 27 Sep 2022 19:06:14 +0800
-Message-Id: <20220927110632.1973965-37-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, John Snow <jsnow@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org
+Subject: [PATCH v4 37/54] tests/qtest: {ahci,
+ ide}-test: Use relative path for temporary files for win32
+Date: Tue, 27 Sep 2022 19:06:15 +0800
+Message-Id: <20220927110632.1973965-38-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
@@ -97,262 +95,107 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present the libqtest codes were written to depend on several
-POSIX APIs, including fork(), kill() and waitpid(). Unfortunately
-these APIs are not available on Windows.
+These test cases uses "blkdebug:path/to/config:path/to/image" for
+testing. On Windows, absolute file paths contain the delimiter ':'
+which causes the blkdebug filename parser fail to parse filenames.
 
-This commit implements the corresponding functionalities using
-win32 native APIs. With this change, all qtest cases can build
-successfully on a Windows host, and we can start qtest testing
-on Windows now.
-
-Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
 
-(no changes since v2)
+(no changes since v1)
 
-Changes in v2:
-- Move the enabling of building qtests on Windows to a separate
-  patch to keep bisectablity
-- Call socket_init() unconditionally
-- Add a missing CloseHandle() call
+ tests/qtest/ahci-test.c | 21 ++++++++++++++++++---
+ tests/qtest/ide-test.c  | 20 ++++++++++++++++++--
+ 2 files changed, 36 insertions(+), 5 deletions(-)
 
- tests/qtest/libqtest.c | 98 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 96 insertions(+), 2 deletions(-)
-
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index f0ac467903..12b1e85b51 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -16,9 +16,11 @@
+diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
+index 1d5929d8c3..66652fed04 100644
+--- a/tests/qtest/ahci-test.c
++++ b/tests/qtest/ahci-test.c
+@@ -1833,7 +1833,7 @@ static void create_ahci_io_test(enum IOMode type, enum AddrMode addr,
  
- #include "qemu/osdep.h"
- 
-+#ifndef _WIN32
- #include <sys/socket.h>
- #include <sys/wait.h>
- #include <sys/un.h>
-+#endif /* _WIN32 */
- #ifdef __linux__
- #include <sys/prctl.h>
- #endif /* __linux__ */
-@@ -27,6 +29,7 @@
- #include "libqmp.h"
- #include "qemu/ctype.h"
- #include "qemu/cutils.h"
-+#include "qemu/sockets.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qjson.h"
- #include "qapi/qmp/qlist.h"
-@@ -35,6 +38,16 @@
- #define MAX_IRQ 256
- #define SOCKET_TIMEOUT 50
- 
-+#ifndef _WIN32
-+# define CMD_EXEC   "exec "
-+# define DEV_STDERR "/dev/fd/2"
-+# define DEV_NULL   "/dev/null"
-+#else
-+# define CMD_EXEC   ""
-+# define DEV_STDERR "2"
-+# define DEV_NULL   "nul"
-+#endif
-+
- typedef void (*QTestSendFn)(QTestState *s, const char *buf);
- typedef void (*ExternalSendFn)(void *s, const char *buf);
- typedef GString* (*QTestRecvFn)(QTestState *);
-@@ -66,6 +79,9 @@ struct QTestState
- };
- 
- static GHookList abrt_hooks;
-+#ifdef _WIN32
-+typedef void (*sighandler_t)(int);
-+#endif
- static sighandler_t sighandler_old;
- 
- static int qtest_query_target_endianness(QTestState *s);
-@@ -118,10 +134,19 @@ bool qtest_probe_child(QTestState *s)
-     pid_t pid = s->qemu_pid;
- 
-     if (pid != -1) {
-+#ifndef _WIN32
-         pid = waitpid(pid, &s->wstatus, WNOHANG);
-         if (pid == 0) {
-             return true;
-         }
-+#else
-+        DWORD exit_code;
-+        GetExitCodeProcess((HANDLE)pid, &exit_code);
-+        if (exit_code == STILL_ACTIVE) {
-+            return true;
-+        }
-+        CloseHandle((HANDLE)pid);
-+#endif
-         s->qemu_pid = -1;
-     }
-     return false;
-@@ -135,13 +160,23 @@ void qtest_set_expected_status(QTestState *s, int status)
- void qtest_kill_qemu(QTestState *s)
+ int main(int argc, char **argv)
  {
-     pid_t pid = s->qemu_pid;
-+#ifndef _WIN32
-     int wstatus;
-+#else
-+    DWORD ret, exit_code;
-+#endif
- 
-     /* Skip wait if qtest_probe_child already reaped.  */
-     if (pid != -1) {
-+#ifndef _WIN32
-         kill(pid, SIGTERM);
-         TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
-         assert(pid == s->qemu_pid);
-+#else
-+        TerminateProcess((HANDLE)pid, s->expected_status);
-+        ret = WaitForSingleObject((HANDLE)pid, INFINITE);
-+        assert(ret == WAIT_OBJECT_0);
-+#endif
-         s->qemu_pid = -1;
-     }
- 
-@@ -149,6 +184,7 @@ void qtest_kill_qemu(QTestState *s)
-      * Check whether qemu exited with expected exit status; anything else is
-      * fishy and should be logged with as much detail as possible.
-      */
-+#ifndef _WIN32
-     wstatus = s->wstatus;
-     if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) != s->expected_status) {
-         fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU "
-@@ -165,6 +201,16 @@ void qtest_kill_qemu(QTestState *s)
-                 __FILE__, __LINE__, sig, signame, dump);
-         abort();
-     }
-+#else
-+    GetExitCodeProcess((HANDLE)pid, &exit_code);
-+    CloseHandle((HANDLE)pid);
-+    if (exit_code != s->expected_status) {
-+        fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU "
-+                "process but encountered exit status %ld (expected %d)\n",
-+                __FILE__, __LINE__, exit_code, s->expected_status);
-+        abort();
-+    }
-+#endif
- }
- 
- static void kill_qemu_hook_func(void *s)
-@@ -243,6 +289,38 @@ static const char *qtest_qemu_binary(void)
-     return qemu_bin;
- }
- 
-+#ifdef _WIN32
-+static pid_t qtest_create_process(char *cmd)
-+{
-+    STARTUPINFO si;
-+    PROCESS_INFORMATION pi;
-+    BOOL ret;
-+
-+    ZeroMemory(&si, sizeof(si));
-+    si.cb = sizeof(si);
-+    ZeroMemory(&pi, sizeof(pi));
-+
-+    ret = CreateProcess(NULL,   /* module name */
-+                        cmd,    /* command line */
-+                        NULL,   /* process handle not inheritable */
-+                        NULL,   /* thread handle not inheritable */
-+                        FALSE,  /* set handle inheritance to FALSE */
-+                        0,      /* No creation flags */
-+                        NULL,   /* use parent's environment block */
-+                        NULL,   /* use parent's starting directory */
-+                        &si,    /* pointer to STARTUPINFO structure */
-+                        &pi     /* pointer to PROCESS_INFORMATION structure */
-+                        );
-+    if (ret == 0) {
-+        fprintf(stderr, "%s:%d: unable to create a new process (%s)\n",
-+                __FILE__, __LINE__, strerror(GetLastError()));
-+        abort();
-+    }
-+
-+    return (pid_t)pi.hProcess;
-+}
-+#endif /* _WIN32 */
-+
- QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
- {
-     QTestState *s;
-@@ -270,6 +348,7 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-     unlink(socket_path);
-     unlink(qmp_socket_path);
- 
-+    socket_init();
-     sock = init_socket(socket_path);
-     qmpsock = init_socket(qmp_socket_path);
- 
-@@ -278,7 +357,7 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
- 
-     qtest_add_abrt_handler(kill_qemu_hook_func, s);
- 
--    command = g_strdup_printf("exec %s %s"
-+    command = g_strdup_printf(CMD_EXEC "%s %s"
-                               "-qtest unix:%s "
-                               "-qtest-log %s "
-                               "-chardev socket,path=%s,id=char0 "
-@@ -287,7 +366,7 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-                               "%s"
-                               " -accel qtest",
-                               qemu_binary, tracearg, socket_path,
--                              getenv("QTEST_LOG") ? "/dev/fd/2" : "/dev/null",
-+                              getenv("QTEST_LOG") ? DEV_STDERR : DEV_NULL,
-                               qmp_socket_path,
-                               extra_args ?: "");
- 
-@@ -296,6 +375,7 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-     s->pending_events = NULL;
-     s->wstatus = 0;
-     s->expected_status = 0;
-+#ifndef _WIN32
-     s->qemu_pid = fork();
-     if (s->qemu_pid == 0) {
- #ifdef __linux__
-@@ -318,6 +398,9 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-         execlp("/bin/sh", "sh", "-c", command, NULL);
-         exit(1);
-     }
-+#else
-+    s->qemu_pid = qtest_create_process(command);
-+#endif /* _WIN32 */
- 
-     g_free(command);
-     s->fd = socket_accept(sock);
-@@ -336,9 +419,19 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-         s->irq_level[i] = false;
+-    const char *arch;
++    const char *arch, *base;
+     int ret;
+     int fd;
+     int c;
+@@ -1871,8 +1871,22 @@ int main(int argc, char **argv)
+         return 0;
      }
  
 +    /*
-+     * Stopping QEMU for debugging is not supported on Windows.
++     * "base" stores the starting point where we create temporary files.
 +     *
-+     * Using DebugActiveProcess() API can suspend the QEMU process,
-+     * but gdb cannot attach to the process. Using the undocumented
-+     * NtSuspendProcess() can suspend the QEMU process and gdb can
-+     * attach to the process, but gdb cannot resume it.
++     * On Windows, this is set to the relative path of current working
++     * directory, because the absolute path causes the blkdebug filename
++     * parser fail to parse "blkdebug:path/to/config:path/to/image".
 +     */
 +#ifndef _WIN32
-     if (getenv("QTEST_STOP")) {
-         kill(s->qemu_pid, SIGSTOP);
-     }
++    base = g_get_tmp_dir();
++#else
++    base = ".";
 +#endif
++
+     /* Create a temporary image */
+-    fd = g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
++    tmp_path = g_strdup_printf("%s/qtest.XXXXXX", base);
++    fd = g_mkstemp(tmp_path);
+     g_assert(fd >= 0);
+     if (have_qemu_img()) {
+         imgfmt = "qcow2";
+@@ -1889,7 +1903,8 @@ int main(int argc, char **argv)
+     close(fd);
  
-     /* ask endianness of the target */
+     /* Create temporary blkdebug instructions */
+-    fd = g_file_open_tmp("qtest-blkdebug.XXXXXX", &debug_path, NULL);
++    debug_path = g_strdup_printf("%s/qtest-blkdebug.XXXXXX", base);
++    fd = g_mkstemp(debug_path);
+     g_assert(fd >= 0);
+     close(fd);
  
-@@ -392,6 +485,7 @@ QTestState *qtest_init_with_serial(const char *extra_args, int *sock_fd)
-     g_assert_true(sock_dir != NULL);
-     sock_path = g_strdup_printf("%s/sock", sock_dir);
+diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
+index 25302be6dc..5e3e28aea2 100644
+--- a/tests/qtest/ide-test.c
++++ b/tests/qtest/ide-test.c
+@@ -1011,16 +1011,32 @@ static void test_cdrom_dma(void)
  
-+    socket_init();
-     sock_fd_init = init_socket(sock_path);
+ int main(int argc, char **argv)
+ {
++    const char *base;
+     int fd;
+     int ret;
  
-     qts = qtest_initf("-chardev socket,id=s0,path=%s -serial chardev:s0 %s",
++    /*
++     * "base" stores the starting point where we create temporary files.
++     *
++     * On Windows, this is set to the relative path of current working
++     * directory, because the absolute path causes the blkdebug filename
++     * parser fail to parse "blkdebug:path/to/config:path/to/image".
++     */
++#ifndef _WIN32
++    base = g_get_tmp_dir();
++#else
++    base = ".";
++#endif
++
+     /* Create temporary blkdebug instructions */
+-    fd = g_file_open_tmp("qtest-blkdebug.XXXXXX", &debug_path, NULL);
++    debug_path = g_strdup_printf("%s/qtest-blkdebug.XXXXXX", base);
++    fd = g_mkstemp(debug_path);
+     g_assert(fd >= 0);
+     close(fd);
+ 
+     /* Create a temporary raw image */
+-    fd = g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
++    tmp_path = g_strdup_printf("%s/qtest.XXXXXX", base);
++    fd = g_mkstemp(tmp_path);
+     g_assert(fd >= 0);
+     ret = ftruncate(fd, TEST_IMAGE_SIZE);
+     g_assert(ret == 0);
 -- 
 2.34.1
 
