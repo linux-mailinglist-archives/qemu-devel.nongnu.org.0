@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CB35EBCF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:14:51 +0200 (CEST)
-Received: from localhost ([::1]:37252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA495EBCCA
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 10:08:54 +0200 (CEST)
+Received: from localhost ([::1]:33974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od5ju-0001JL-8R
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:14:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51108)
+	id 1od5e9-0001IH-Bt
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 04:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1od53E-0003bk-JQ
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:30:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54918)
+ id 1od53J-0003hv-LN
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:30:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1od53D-0001iJ-5t
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:30:44 -0400
+ id 1od53I-0001ia-5b
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 03:30:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664263842;
+ s=mimecast20190719; t=1664263847;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wb0dSr/OJV8D95Ry+UtOY5KDQAddafisX+Dj9PUMKgg=;
- b=alPP9Wy2/NSq0ZGhW9DPY7bdKUwyBNqswNGmH2lkct2VMDw2xUw33hjpPVl7bnRb3JOkoN
- +7SEbuDNh8Iy1Xs+lmtAizUHvIlTSsRN681YV9xYVI2zvw6PylmHGkvx/WyfsyBrIhmnPj
- O5vztYJhQGoauu+9gjRR0wCpooKrR6k=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uUpRueFXdUTQEFcImJve815g7+VAZ6OTmwxxO6AXHp0=;
+ b=JMkoyNcf5XIlQdQkg/h1DfD/zllz3wMzmDidCNngw7XCqrkpsyFBvUmzh8/msw3SDUWjIC
+ 9ku8Pxv6jFqbFLmtCrbNErXRbWZY3GvfHHaamQQt2ioa0bhtyx/PSR11YB5sQwnXV3wz/b
+ a4KWkAI+y/CuxG39Feo/ZO3M4DYj+Fw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-_AD6oA41NeGT4t6nGoaXeQ-1; Tue, 27 Sep 2022 03:30:40 -0400
-X-MC-Unique: _AD6oA41NeGT4t6nGoaXeQ-1
+ us-mta-627-YkfzPV_WMleQVkBrHeFq0A-1; Tue, 27 Sep 2022 03:30:44 -0400
+X-MC-Unique: YkfzPV_WMleQVkBrHeFq0A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30E56811732;
- Tue, 27 Sep 2022 07:30:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B678038164C4;
+ Tue, 27 Sep 2022 07:30:43 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-192.pek2.redhat.com
  [10.72.13.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD4CC2166B26;
- Tue, 27 Sep 2022 07:30:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 687F02166B26;
+ Tue, 27 Sep 2022 07:30:40 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org,
 	stefanha@redhat.com
 Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PULL 4/8] vdpa: Add vhost_vdpa_net_load_mq
-Date: Tue, 27 Sep 2022 15:30:18 +0800
-Message-Id: <20220927073022.28378-5-jasowang@redhat.com>
+Subject: [PULL 5/8] vdpa: validate MQ CVQ commands
+Date: Tue, 27 Sep 2022 15:30:19 +0800
+Message-Id: <20220927073022.28378-6-jasowang@redhat.com>
 In-Reply-To: <20220927073022.28378-1-jasowang@redhat.com>
 References: <20220927073022.28378-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -85,59 +85,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-Same way as with the MAC, restore the expected number of queues at
-device's start.
+So we are sure we can update the device model properly before sending to
+the device.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/vhost-vdpa.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ net/vhost-vdpa.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index e799e74..3950e4f 100644
+index 3950e4f..c6cbe2f 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -400,6 +400,28 @@ static int vhost_vdpa_net_load_mac(VhostVDPAState *s, const VirtIONet *n)
-     return 0;
- }
- 
-+static int vhost_vdpa_net_load_mq(VhostVDPAState *s,
-+                                  const VirtIONet *n)
-+{
-+    struct virtio_net_ctrl_mq mq;
-+    uint64_t features = n->parent_obj.guest_features;
-+    ssize_t dev_written;
-+
-+    if (!(features & BIT_ULL(VIRTIO_NET_F_MQ))) {
-+        return 0;
-+    }
-+
-+    mq.virtqueue_pairs = cpu_to_le16(n->curr_queue_pairs);
-+    dev_written = vhost_vdpa_net_load_cmd(s, VIRTIO_NET_CTRL_MQ,
-+                                          VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET, &mq,
-+                                          sizeof(mq));
-+    if (unlikely(dev_written < 0)) {
-+        return dev_written;
-+    }
-+
-+    return *s->status != VIRTIO_NET_OK;
-+}
-+
- static int vhost_vdpa_net_load(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-@@ -418,6 +440,10 @@ static int vhost_vdpa_net_load(NetClientState *nc)
-     if (unlikely(r < 0)) {
-         return r;
-     }
-+    r = vhost_vdpa_net_load_mq(s, n);
-+    if (unlikely(r)) {
-+        return r;
-+    }
- 
-     return 0;
- }
+@@ -486,6 +486,15 @@ static bool vhost_vdpa_net_cvq_validate_cmd(const void *out_buf, size_t len)
+                           __func__, ctrl.cmd);
+         };
+         break;
++    case VIRTIO_NET_CTRL_MQ:
++        switch (ctrl.cmd) {
++        case VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET:
++            return true;
++        default:
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid mq cmd %u\n",
++                          __func__, ctrl.cmd);
++        };
++        break;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid control class %u\n",
+                       __func__, ctrl.class);
 -- 
 2.7.4
 
