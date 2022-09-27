@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8A45EC0DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:16:56 +0200 (CEST)
-Received: from localhost ([::1]:33990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58D65EC115
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:22:01 +0200 (CEST)
+Received: from localhost ([::1]:52242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od8a6-0003SG-UW
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:16:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38940)
+	id 1od8f2-0001Ij-SY
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:22:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od8Ji-0005qS-7s
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:59:58 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:54463)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od8Jr-0005us-0e
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:00:18 -0400
+Received: from mout.gmx.net ([212.227.17.21]:52639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1od8Je-0003JL-SH
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 06:59:57 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M3UlW-1oca5F3gtW-000gWs; Tue, 27 Sep 2022 12:59:52 +0200
-Message-ID: <86cef816-90c0-f5e9-3e5b-28beffff1c51@vivier.eu>
-Date: Tue, 27 Sep 2022 12:59:50 +0200
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1od8Jo-0003Ml-33
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:00:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1664276402;
+ bh=ibgt8nLgZ+UodxbB1ZTIFvYGT6XnRe69Z7n8N2Spfww=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=Hx97lRB7Yi7FVJOUNcJBKQaWYv5rEHWIzWc/ako/hEHaur1oe/LNox5t4XF2iCpQg
+ oQn4TwMCcvpVtr19u4WCJHlHRVnZvNZ7/2qCw1y9cnyY/tgcni7N4uCvcJRJ3noOBR
+ 9f8JRd9igYE5XRIEWPlXuG2kJEEGy8mfltUdaS1g=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100 ([92.116.138.255]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N1wll-1pNRN50RIX-012HXN; Tue, 27
+ Sep 2022 13:00:02 +0200
+Date: Tue, 27 Sep 2022 13:00:00 +0200
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Subject: [PATCH v3] linux-user: Add close_range() syscall
+Message-ID: <YzLXsPYR2OjfKWy6@p100>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 0/8] linux-user: Futex improvements
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220829021006.67305-1-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220829021006.67305-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:aHibNxb1WRj1g9bsWfrRE64kG7Kp7zWa1lZu62SGLcp2GzdWM3e
- ojMTO/PRV+oqQucpGmliplxkwcPdd6z0XM7hNee+E5feRUtwSetbAITbe9LfnEdMUJX9x2y
- COjsVPtBJkWSyQgWoylPF7IdO3rtsmRHBhiGYA6sFoqRXIrv3lFy4kCdqsdF5Wy6d3bQ7bV
- mvtmbWl0tlsE1lx+7uB7w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gjYnqpofYJk=:QVDmQd13NIDirOwDbPtiPg
- 3obfQeszf/xzNJSVbvdbBtVVyqO4rYAL6Cp1m2twinF3wI1xmz4JPLiZ6DUPQkkNS4gh0lDoK
- tuC9GWULdleLs1Cp2UENKxhEP3V37N16mmKKwDTtR08z3nynkNj4u2Q2jcFDdMLAaFJKGmYhp
- jIQQ/xX4tAJAgbtKE1ghU4YAB9cJuacDtIgawbCpoAYUNkQCvXlKEiqtQuInDlD00aViImVQ6
- /wgeA09X6PdC9czNdiIkF/qvmD38eqQ7viWYDhwpNlSXcGUYZex56jfXinliK4qTjQYJgNfyj
- 31IoPrwvUBp5RF2VjXAY+j4VO89d3INvHspYqCCJw5uxm+n28VVk9u0LQOwojVoP6c78ErieY
- f0+/Ca7rImCn3t6WAE21R26olCb2CADze9iPLoB/B2zKaINq2J8S3pw4K42XSQ+6jS2fpprOr
- ntVH8masEcpYNdLD0m/Go1FUxoyKqnJOzgwjbhHhHtoCcY1PqrKK1hO723iS3vhoBYIJaTSz2
- 1/ieJ0bSEPhMBB8yOHEpdHvx5tdsq4Jrmw0GPj7fHYo3jjZtaplrL87ppWs9NG6lDM7gJfGMb
- lyj3HUulb1H3+zgrEO+RPUAxTy9O1ZLdRuMKCYtlIJXlt1dRj0e6OEYL4Q9QOiWvDMxXtRkrS
- 4dG+BFCoFEdNNL+o/l78dsMr0QItBVNyvb9JImUO1AENN4nflIF92qMXtXwBR+bUY0Fcoyh4I
- 5EKvkmkH9f/0BSUdz8P9RY1Zr+gkpkfW10eNCpOMFLTIRQTpnWKLpNiYo7mnQpRTrHdLAlPSo
- wjdbANt
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:d4xXgPxMwkQ5/wBPnyjaaRwulBkLPEGoMq2CEsGDVAhjhFoyHHp
+ 03doFplOrlQwmAcwUqdEWKo35D+TMo1EvBOIifM8uY5KG1/7XJwUQI4iLDxF1HF6jKuPCFu
+ EVE5Q6VdN31h6DrTc9pIoyf6VvSBgAod9F/theyJIOa9r7ZReqPxc6Id2A9nbquVmkB38eb
+ dMtU8OXIgh+tvYdFSNelQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZYI1K+oHZks=:PYhkLSn3X+w2QIEXp1iA1s
+ 0RIorUJC3+us9MZZxm70VkvXrLnAYOoIcAcdgUIEmthXpc3o4xwYPL7MG3j4lG9UPurXkMgAB
+ RXv/WQB3Q4VqPkvBEFzY3DrxjZAOxrganosiKi6S85Ib92NRBJ7ysvxVZNL7tOyWmb+1dqTfX
+ ZOy8yQ4sZPKHaiGJESm5aQzatmLZX5c0Wi3MZb1UAk+doC0gdTBotGeSclU/9Jt2Dfeu9or8C
+ HG+zj3+R4ywRdz1989t5Wd5w1Jri1ODg79YGY9iZ6Zct2Od6fnsv5V6JmXU2HrSH6Rh6DdI6T
+ tCguwFyBtJA7usGMBEohHyilE3qyukikyO+il41fWIcm8Cdmfrkqv5Rxj8kLOVYCao8dwMMXa
+ v1ubBgoFduHOwzYFsbX600RX5L8qzIIVDkGETJa3Qf9qzqMqJrBd7qJ3fiJ7NcFnisyasvcMm
+ KPogHlFwzHtF4RFDEAO1bMqpO5wBCVPeNM4mtTFM2vUyFebHqrekiGNcL+Vs/rtC9I0sB86iJ
+ UlhrsXhISmwejqFZX7k3AIim9F7dvcgxJsS9jU7LOP3u/UIb/tn3cJw+eYc/cK6Y9RFc1k0O+
+ YuduBciDbDjHWZUB7p0oQncuDeWzIyizF2U0tuxS1XiuMr7sjsyDO7uLLC/sVxKyT/H1waMyP
+ x903NxWwlXRaLFK8DRarLh238TIPgcZuWlaUFnFQwV9kajV+8N6ppAZpSnZMHQUlkjFb+BPJb
+ nFRfupFNuPRCCxL/vbnm7Hfn/aymXenhFjJ6i58+11FQ8CXmo84ctvIoXvqKTyywAcCDNig+E
+ CeH7QqVREyY0eI5uuxoXObpxh4vMTbhYOqgNfzgC5eMwR2GshQ9IQGTtg/bXCgkxg6tIoVAsU
+ HVwOW4vLha7hbIiXpVRoM7GKYoPp2t91KT6AzealUoeZ2njtvg5Wz1QTfiXgWq2Sfc3kq5eSC
+ ypiY06E/FYpz8xAxkpJzzbf9zOkf8p26laP/o/jow228+VP/13NmtWbMdzo9k+eNwZZjVzxSV
+ 4CkYQkmHZuJ+tjSR1e0OB6ue80TfH/TYrSo/+ymzuxAWR2nn1Ts1xOOfBmMY5ak+Jeamy5tGq
+ E5HGPyzl0/64gghYyIDJp3/0R2gvshaVskziaf7zgy4Vx41JKY+S1ewogPwBwgXkGxRTQjhVl
+ km0cFI9s+mQK5FGLmZRRiV6MTL
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_MSPIKE_ZBI=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,31 +83,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 29/08/2022 à 04:09, Richard Henderson a écrit :
-> Fixes a bug in FUTEX_FD, and implements a bunch of other ops.
-> Also, some assorted strace fixes.
-> 
-> r~
-> 
-> Richard Henderson (8):
->    linux-user: Combine do_futex and do_futex_time64
->    linux-user: Sink call to do_safe_futex
->    linux-user: Implement FUTEX_WAKE_BITSET
->    linux-user: Convert signal number for FUTEX_FD
->    linux-user: Implement PI futexes
->    linux-user: Update print_futex_op
->    linux-user: Lock log around strace
->    linux-user: Log tid for strace
-> 
->   linux-user/syscall_defs.h |   3 +
->   linux-user/strace.c       | 130 ++++++++++++++++++++++----------------
->   linux-user/syscall.c      | 125 ++++++++++++++----------------------
->   3 files changed, 125 insertions(+), 133 deletions(-)
-> 
+Signed-off-by: Helge Deller <deller@gmx.de>
 
-Series applied to my linux-user-for-7.2 branch.
+=2D--
+Changes:
+v3: fd_trans_unregister() only called if close_range() doesn't fail
+v2: consider CLOSE_RANGE_CLOEXEC flag
 
-Thanks,
-Laurent
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index f8a771b4f2..8377ef48b2 100644
+=2D-- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -103,6 +103,9 @@
+ #ifdef TARGET_NR_close
+ { TARGET_NR_close, "close" , "%s(%d)", NULL, NULL },
+ #endif
++#ifdef TARGET_NR_close_range
++{ TARGET_NR_close_range, "close_range" , "%s(%u,%u,%u)", NULL, NULL },
++#endif
+ #ifdef TARGET_NR_connect
+ { TARGET_NR_connect, "connect" , "%s(%d,%#x,%d)", NULL, NULL },
+ #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index e0e0f05812..20bf880ace 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -338,6 +338,13 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
+ #ifdef __NR_exit_group
+ _syscall1(int,exit_group,int,error_code)
+ #endif
++#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
++#define __NR_sys_close_range __NR_close_range
++_syscall3(int,sys_close_range,int,first,int,last,int,flags)
++#ifndef CLOSE_RANGE_CLOEXEC
++#define CLOSE_RANGE_CLOEXEC     (1U << 2)
++#endif
++#endif
+ #if defined(__NR_futex)
+ _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
+           const struct timespec *,timeout,int *,uaddr2,int,val3)
+@@ -8730,6 +8737,19 @@ static abi_long do_syscall1(CPUArchState *cpu_env, =
+int num, abi_long arg1,
+     case TARGET_NR_close:
+         fd_trans_unregister(arg1);
+         return get_errno(close(arg1));
++#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
++    case TARGET_NR_close_range:
++        ret =3D get_errno(sys_close_range(arg1, arg2, arg3));
++        if (ret =3D=3D 0 && !(arg3 & CLOSE_RANGE_CLOEXEC)) {
++            abi_long fd;
++            abi_long maxfd =3D (arg2 =3D=3D (abi_long)-1) ? target_fd_max=
+ : arg2;
++
++            for (fd =3D arg1; fd <=3D maxfd; fd++) {
++                fd_trans_unregister(fd);
++            }
++        }
++        return ret;
++#endif
 
+     case TARGET_NR_brk:
+         return do_brk(arg1);
 
