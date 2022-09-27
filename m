@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C98D5EBEB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:35:41 +0200 (CEST)
-Received: from localhost ([::1]:43822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 520475EBECD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 11:39:50 +0200 (CEST)
+Received: from localhost ([::1]:41710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od708-0004rA-8X
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:35:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43860)
+	id 1od749-0001yV-Aw
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 05:39:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1od5yQ-0004AF-SZ
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:29:50 -0400
-Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:40633)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1od5yL-0001pa-Ge
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:29:47 -0400
-Received: by mail-lj1-x22a.google.com with SMTP id g20so10090128ljg.7
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 01:29:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=Rmad2rYfZ5IW7fBzajyAFegdmVvGYsEWjisBPHInPuU=;
- b=Mi/5Xn2HhI3ATwYOIrlIiqYNTvc0r9p+v2mxeIIjX8L+tMaAwGdH5HBkAtUOk3uX/V
- ED+2QZrIgdq01mDim8ddssWjDNFkS5VDGP02usHuQZxQ2O9mfyYdW+E0tsifLvrHvAfC
- xu8kF0SDDW1U5PyWxO5F9gcduB6XK3QqgFJKLuM/riac83VS/couJgG2HZFP5ykCk6MO
- /J7uxLxh8/n4acCER8e4/NqGoiVvNhjw+GlJnTiK/LHq/SImC46doQsM5JQkRxc8ra3V
- S5hZhmjePyyL83TzZU5mPYU27WgK/QecZdwgyh3IrEwuX/7nSwrYFm6sH0xaLGB9qcof
- jEYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=Rmad2rYfZ5IW7fBzajyAFegdmVvGYsEWjisBPHInPuU=;
- b=E6JK2YQMU27TG8+BMqrQUGaAqMSxX9QTMm+lWwL7W0DBDZW/kX+lFNjCnUPcc3z9rZ
- Bf6RUN3esqwv3OHz5QyUhj6K0YMI7tRFwaQmyb9MEWtFQdS3Qp+nPPI1ohr9daskvUup
- 0p1UqItNqM6cmqdYyUFb4IbzrLTgvqbwBv+qymLvVY9AT5kQyebxJb5K1VaRgcstOm1/
- 4f7DfdO5FwtGU+F82uHLgdn4P9ujtUzgfO4qfn/i/vHmSktfrJxuCLm/hEbrsiLFyT5I
- s/paZ/5fAhRs/aNBJXZy4rroo/ZKwxa1rqervxsWdatJlrcfhrYaZ7mICweZRNaIebTv
- r+fQ==
-X-Gm-Message-State: ACrzQf1nWKZbGzqzFYiWa4jG+l4a9Jix7P+IwUhjZE4wZIb4HVRrC5o0
- OfG54UKsIgaC7994reBOrX2yNQ==
-X-Google-Smtp-Source: AMsMyM6QuPNn7p0WQmtvLVXq4pvEeDPjjfGEg+5I+YHez3qvBrp2vvjxeYBxxo+HXMTlTBXaTYvXYA==
-X-Received: by 2002:a2e:b61c:0:b0:26c:c17:feeb with SMTP id
- r28-20020a2eb61c000000b0026c0c17feebmr9548739ljn.199.1664267383139; 
- Tue, 27 Sep 2022 01:29:43 -0700 (PDT)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com.
- [209.85.167.50]) by smtp.gmail.com with ESMTPSA id
- u28-20020a2eb81c000000b0026bf27c7056sm90960ljo.67.2022.09.27.01.29.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Sep 2022 01:29:42 -0700 (PDT)
-Received: by mail-lf1-f50.google.com with SMTP id o2so14557063lfc.10;
- Tue, 27 Sep 2022 01:29:42 -0700 (PDT)
-X-Received: by 2002:a05:6512:3d94:b0:49d:144c:9667 with SMTP id
- k20-20020a0565123d9400b0049d144c9667mr10787427lfv.50.1664267381646; Tue, 27
- Sep 2022 01:29:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od615-0006j3-8v
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:32:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50148)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1od611-0002Pv-NA
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 04:32:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664267550;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rRnimB01fkjB1gcy7qs2bqVlQaW7rt82H474bXpTsZc=;
+ b=EupxqWTkdAkeg6FWON8ufPDXD8Sruo2LgEqO0vO5FO2BSPt49JVyBseZhK6mH1FRx3hGO0
+ HABcABiavQAwwZZVhxk1BGHcUXAAYaloR4Fe9XA9FnVhs/uiTYeaA7hZ+aH/MVShYZvyxl
+ UUjEewL5D6KmZmNnE6wZIRvHQUL5+hI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-557-l6i_uI7TM2KhMbxXkVa9Dg-1; Tue, 27 Sep 2022 04:32:27 -0400
+X-MC-Unique: l6i_uI7TM2KhMbxXkVa9Dg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B07D7382C96B;
+ Tue, 27 Sep 2022 08:32:26 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B4E91120AC2;
+ Tue, 27 Sep 2022 08:32:26 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 24CD51800622; Tue, 27 Sep 2022 10:32:25 +0200 (CEST)
+Date: Tue, 27 Sep 2022 10:32:25 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Antonio Caggiano <antonio.caggiano@collabora.com>,
+ qemu-devel@nongnu.org, gert.wollny@collabora.com,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 4/4] virtio-gpu: Don't require udmabuf when blob
+ support is enabled
+Message-ID: <20220927083225.gdgo6tkv4ssw73yd@sirius.home.kraxel.org>
+References: <20220913105022.81953-1-antonio.caggiano@collabora.com>
+ <20220913105022.81953-5-antonio.caggiano@collabora.com>
+ <20220923123219.ofn2ygm4knljo6w2@sirius.home.kraxel.org>
+ <6fe0d770-1a95-3d8f-6a75-a596f26aad54@collabora.com>
 MIME-Version: 1.0
-References: <20220914101108.82571-1-alistair.francis@wdc.com>
- <20220914101108.82571-2-alistair.francis@wdc.com>
-In-Reply-To: <20220914101108.82571-2-alistair.francis@wdc.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Tue, 27 Sep 2022 16:29:30 +0800
-X-Gmail-Original-Message-ID: <CANzO1D2Hh9ipmReXrbssWeg=mgZbMnXOu+2GNTWy+cEDQKEJRg@mail.gmail.com>
-Message-ID: <CANzO1D2Hh9ipmReXrbssWeg=mgZbMnXOu+2GNTWy+cEDQKEJRg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] target/riscv: Set the CPU resetvec directly
-To: Alistair Francis <alistair.francis@wdc.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- bmeng.cn@gmail.com, alistair23@gmail.com
-Content-Type: multipart/alternative; boundary="000000000000182c5805e9a4722d"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=frank.chang@sifive.com; helo=mail-lj1-x22a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6fe0d770-1a95-3d8f-6a75-a596f26aad54@collabora.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,269 +84,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000182c5805e9a4722d
-Content-Type: text/plain; charset="UTF-8"
+On Mon, Sep 26, 2022 at 09:32:40PM +0300, Dmitry Osipenko wrote:
+> On 9/23/22 15:32, Gerd Hoffmann wrote:
+> > On Tue, Sep 13, 2022 at 12:50:22PM +0200, Antonio Caggiano wrote:
+> >> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >>
+> >> Host blobs don't need udmabuf, it's only needed by guest blobs. The host
+> >> blobs are utilized by the Mesa virgl driver when persistent memory mapping
+> >> is needed by a GL buffer, otherwise virgl driver doesn't use blobs.
+> >> Persistent mapping support bumps GL version from 4.3 to 4.5 in guest.
+> >> Relax the udmabuf requirement.
+> > 
+> > What about blob=on,virgl=off?
+> > 
+> > In that case qemu manages the resources and continued to require
+> > udmabuf.
+> 
+> The udmabuf is used only by the blob resource-creation command in Qemu.
+> I couldn't find when we could hit that udmabuf code path in Qemu because
+> BLOB_MEM_GUEST resource type is used only by crosvm+Venus when crosvm
+> uses a dedicated render-server for virglrenderer.
 
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
+Recent enough linux guest driver will use BLOB_MEM_GUEST resources
+with blob=on + virgl=off
 
-On Wed, Sep 14, 2022 at 6:12 PM Alistair Francis via <qemu-riscv@nongnu.org>
-wrote:
+>   - /dev/udmabuf isn't accessible by normal user
+>   - udmabuf driver isn't shipped by all of the popular Linux distros,
+> for example Debian doesn't ship it
 
-> Instead of using our properties to set a config value which then might
-> be used to set the resetvec (depending on your timing), let's instead
-> just set the resetvec directly in the env struct.
->
-> This allows us to set the reset vec from the command line with:
->     -global driver=riscv.hart_array,property=resetvec,value=0x20000400
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/cpu.h     |  3 +--
->  target/riscv/cpu.c     | 13 +++----------
->  target/riscv/machine.c |  6 +++---
->  3 files changed, 7 insertions(+), 15 deletions(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 06751e1e3e..22344a620b 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -190,7 +190,7 @@ struct CPUArchState {
->      /* This contains QEMU specific information about the virt state. */
->      target_ulong virt;
->      target_ulong geilen;
-> -    target_ulong resetvec;
-> +    uint64_t resetvec;
->
->      target_ulong mhartid;
->      /*
-> @@ -474,7 +474,6 @@ struct RISCVCPUConfig {
->      bool pmp;
->      bool epmp;
->      bool debug;
-> -    uint64_t resetvec;
->
->      bool short_isa_string;
->  };
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index aee14a239a..b29c88b9f0 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -228,13 +228,6 @@ static void set_vext_version(CPURISCVState *env, int
-> vext_ver)
->      env->vext_ver = vext_ver;
->  }
->
-> -static void set_resetvec(CPURISCVState *env, target_ulong resetvec)
-> -{
-> -#ifndef CONFIG_USER_ONLY
-> -    env->resetvec = resetvec;
-> -#endif
-> -}
-> -
->  static void riscv_any_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> @@ -336,7 +329,6 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
->
->      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
->      set_priv_version(env, PRIV_VERSION_1_10_0);
-> -    set_resetvec(env, DEFAULT_RSTVEC);
->      cpu->cfg.mmu = false;
->  }
->  #endif
-> @@ -676,7 +668,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error
-> **errp)
->          riscv_set_feature(env, RISCV_FEATURE_DEBUG);
->      }
->
-> -    set_resetvec(env, cpu->cfg.resetvec);
->
->  #ifndef CONFIG_USER_ONLY
->      if (cpu->cfg.ext_sstc) {
-> @@ -1079,7 +1070,9 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_UINT64("marchid", RISCVCPU, cfg.marchid,
-> RISCV_CPU_MARCHID),
->      DEFINE_PROP_UINT64("mimpid", RISCVCPU, cfg.mimpid, RISCV_CPU_MIMPID),
->
-> -    DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec,
-> DEFAULT_RSTVEC),
-> +#ifndef CONFIG_USER_ONLY
-> +    DEFINE_PROP_UINT64("resetvec", RISCVCPU, env.resetvec,
-> DEFAULT_RSTVEC),
-> +#endif
->
->      DEFINE_PROP_BOOL("short-isa-string", RISCVCPU, cfg.short_isa_string,
-> false),
->
-> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> index 41098f6ad0..c4e6b3bba4 100644
-> --- a/target/riscv/machine.c
-> +++ b/target/riscv/machine.c
-> @@ -308,8 +308,8 @@ static const VMStateDescription vmstate_pmu_ctr_state
-> = {
->
->  const VMStateDescription vmstate_riscv_cpu = {
->      .name = "cpu",
-> -    .version_id = 4,
-> -    .minimum_version_id = 4,
-> +    .version_id = 5,
-> +    .minimum_version_id = 5,
->      .post_load = riscv_cpu_post_load,
->      .fields = (VMStateField[]) {
->          VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
-> @@ -331,7 +331,7 @@ const VMStateDescription vmstate_riscv_cpu = {
->          VMSTATE_UINT32(env.features, RISCVCPU),
->          VMSTATE_UINTTL(env.priv, RISCVCPU),
->          VMSTATE_UINTTL(env.virt, RISCVCPU),
-> -        VMSTATE_UINTTL(env.resetvec, RISCVCPU),
-> +        VMSTATE_UINT64(env.resetvec, RISCVCPU),
->          VMSTATE_UINTTL(env.mhartid, RISCVCPU),
->          VMSTATE_UINT64(env.mstatus, RISCVCPU),
->          VMSTATE_UINT64(env.mip, RISCVCPU),
-> --
-> 2.37.2
->
->
->
+That's why blob resources are off by default.
 
---000000000000182c5805e9a4722d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> Because of all of the above, I don't think it makes sense to
+> hard-require udmabuf at the start of Qemu. It's much better to fail
+> resource creation dynamically.
 
-<div dir=3D"ltr">Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang=
-@sifive.com">frank.chang@sifive.com</a>&gt;</div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 14, 2022 at 6:12 PM =
-Alistair Francis via &lt;<a href=3D"mailto:qemu-riscv@nongnu.org">qemu-risc=
-v@nongnu.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">Instead of using our properties to set a config value which the=
-n might<br>
-be used to set the resetvec (depending on your timing), let&#39;s instead<b=
-r>
-just set the resetvec directly in the env struct.<br>
-<br>
-This allows us to set the reset vec from the command line with:<br>
-=C2=A0 =C2=A0 -global driver=3Driscv.hart_array,property=3Dresetvec,value=
-=3D0x20000400<br>
-<br>
-Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.=
-com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
----<br>
-=C2=A0target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 3 +--<br>
-=C2=A0target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0| 13 +++----------<br>
-=C2=A0target/riscv/machine.c |=C2=A0 6 +++---<br>
-=C2=A03 files changed, 7 insertions(+), 15 deletions(-)<br>
-<br>
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
-index 06751e1e3e..22344a620b 100644<br>
---- a/target/riscv/cpu.h<br>
-+++ b/target/riscv/cpu.h<br>
-@@ -190,7 +190,7 @@ struct CPUArchState {<br>
-=C2=A0 =C2=A0 =C2=A0/* This contains QEMU specific information about the vi=
-rt state. */<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong virt;<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong geilen;<br>
--=C2=A0 =C2=A0 target_ulong resetvec;<br>
-+=C2=A0 =C2=A0 uint64_t resetvec;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0target_ulong mhartid;<br>
-=C2=A0 =C2=A0 =C2=A0/*<br>
-@@ -474,7 +474,6 @@ struct RISCVCPUConfig {<br>
-=C2=A0 =C2=A0 =C2=A0bool pmp;<br>
-=C2=A0 =C2=A0 =C2=A0bool epmp;<br>
-=C2=A0 =C2=A0 =C2=A0bool debug;<br>
--=C2=A0 =C2=A0 uint64_t resetvec;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0bool short_isa_string;<br>
-=C2=A0};<br>
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-index aee14a239a..b29c88b9f0 100644<br>
---- a/target/riscv/cpu.c<br>
-+++ b/target/riscv/cpu.c<br>
-@@ -228,13 +228,6 @@ static void set_vext_version(CPURISCVState *env, int v=
-ext_ver)<br>
-=C2=A0 =C2=A0 =C2=A0env-&gt;vext_ver =3D vext_ver;<br>
-=C2=A0}<br>
-<br>
--static void set_resetvec(CPURISCVState *env, target_ulong resetvec)<br>
--{<br>
--#ifndef CONFIG_USER_ONLY<br>
--=C2=A0 =C2=A0 env-&gt;resetvec =3D resetvec;<br>
--#endif<br>
--}<br>
--<br>
-=C2=A0static void riscv_any_cpu_init(Object *obj)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;RISCV_CPU(obj)-&gt;env;<br>
-@@ -336,7 +329,6 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | R=
-VU);<br>
-=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_10_0);<br>
--=C2=A0 =C2=A0 set_resetvec(env, DEFAULT_RSTVEC);<br>
-=C2=A0 =C2=A0 =C2=A0cpu-&gt;cfg.mmu =3D false;<br>
-=C2=A0}<br>
-=C2=A0#endif<br>
-@@ -676,7 +668,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error *=
-*errp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0riscv_set_feature(env, RISCV_FEATURE_DEBU=
-G);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 set_resetvec(env, cpu-&gt;cfg.resetvec);<br>
-<br>
-=C2=A0#ifndef CONFIG_USER_ONLY<br>
-=C2=A0 =C2=A0 =C2=A0if (cpu-&gt;cfg.ext_sstc) {<br>
-@@ -1079,7 +1070,9 @@ static Property riscv_cpu_properties[] =3D {<br>
-=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_UINT64(&quot;marchid&quot;, RISCVCPU, cfg.m=
-archid, RISCV_CPU_MARCHID),<br>
-=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_UINT64(&quot;mimpid&quot;, RISCVCPU, cfg.mi=
-mpid, RISCV_CPU_MIMPID),<br>
-<br>
--=C2=A0 =C2=A0 DEFINE_PROP_UINT64(&quot;resetvec&quot;, RISCVCPU, cfg.reset=
-vec, DEFAULT_RSTVEC),<br>
-+#ifndef CONFIG_USER_ONLY<br>
-+=C2=A0 =C2=A0 DEFINE_PROP_UINT64(&quot;resetvec&quot;, RISCVCPU, env.reset=
-vec, DEFAULT_RSTVEC),<br>
-+#endif<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;short-isa-string&quot;, RISCVCPU=
-, cfg.short_isa_string, false),<br>
-<br>
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c<br>
-index 41098f6ad0..c4e6b3bba4 100644<br>
---- a/target/riscv/machine.c<br>
-+++ b/target/riscv/machine.c<br>
-@@ -308,8 +308,8 @@ static const VMStateDescription vmstate_pmu_ctr_state =
-=3D {<br>
-<br>
-=C2=A0const VMStateDescription vmstate_riscv_cpu =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.name =3D &quot;cpu&quot;,<br>
--=C2=A0 =C2=A0 .version_id =3D 4,<br>
--=C2=A0 =C2=A0 .minimum_version_id =3D 4,<br>
-+=C2=A0 =C2=A0 .version_id =3D 5,<br>
-+=C2=A0 =C2=A0 .minimum_version_id =3D 5,<br>
-=C2=A0 =C2=A0 =C2=A0.post_load =3D riscv_cpu_post_load,<br>
-=C2=A0 =C2=A0 =C2=A0.fields =3D (VMStateField[]) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 3=
-2),<br>
-@@ -331,7 +331,7 @@ const VMStateDescription vmstate_riscv_cpu =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT32(env.features, RISCVCPU),<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINTTL(env.priv, RISCVCPU),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINTTL(env.virt, RISCVCPU),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINTTL(env.resetvec, RISCVCPU),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT64(env.resetvec, RISCVCPU),<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINTTL(env.mhartid, RISCVCPU),<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT64(env.mstatus, RISCVCPU),<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT64(env.mip, RISCVCPU),<br>
--- <br>
-2.37.2<br>
-<br>
-<br>
-</blockquote></div>
+Disagree.  When virgl/venus is enabled, then yes, qemu would let
+virglrenderer manage resources and I'm ok with whatever requirements
+virglrenderer has.  When qemu manages resources by itself udmabuf is
+a hard requirement for blob support though.
 
---000000000000182c5805e9a4722d--
+take care,
+  Gerd
+
 
