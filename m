@@ -2,56 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331B75ECAA7
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 19:19:59 +0200 (CEST)
-Received: from localhost ([::1]:37070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28FD45ECAE5
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 19:34:40 +0200 (CEST)
+Received: from localhost ([::1]:49148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odEFR-0001qf-Of
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 13:19:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57090)
+	id 1odETe-0008G0-Jh
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 13:34:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1odEAk-0005fw-F5; Tue, 27 Sep 2022 13:15:06 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:57571)
+ (Exim 4.90_1) (envelope-from <gmaglion@redhat.com>)
+ id 1odEOI-0003Vk-3d
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 13:29:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1odEAi-00070u-6G; Tue, 27 Sep 2022 13:15:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=syjQOdvDY9EZwnD1ZYJNdZ6c9ZkV/0GRczjLumqWc0A=; b=Qz7H5CxCz7I/vjv3V8yFyr00zK
- GFCfU1SsrDSkW8JIzsRyNy5yM5g9ivY+EIODJF3DTazskAwP9dfOXqGEgL3U7FYHLeKTV2tX+xyPH
- /7FjBRN3mDb5jXarttu5LeJNUwg4tH2GSUNYvK0dExkFzQhTWIM3uyXpVyUsq1vpEgaHW99Ip+pZ/
- sddU/+xaAf99F3IQF0CpU+0vpLtyysZryy9UwKp+gGAFQ9Gv+xCWJSEC/GXx69DQzaComxfLYxfvl
- CCUTslicN3O3EXWgRXV5BaxhmV7X+o/lrQEv5KBrkCLdQL0vIzdmTqoYEb0lB00U42w7MOWexkVHp
- E9oORfGOCQ1fh589VSL0GAQvrUI/l0KQUu7K8LLRyKb3n6GVZNtHQYHzVqEm/dFtI6Nsg+zAwl1jg
- uCgt56IF84++SSxOdsCL+BsJyi5sLs3qTUlzf/DaLsGmHAYpJUvXWP6nmSLF9As1bQQc2sRe/5OqM
- rlDmrT5xHvZMZm1yXv5yzPlpE2P6zNI1z85Znu18rEtuq7x0M8p7ao1alA1l5V60ZPTtw4NdAxbbl
- 0xfe9txhy0cYwUQQxSKICO7+AOjwyOmCuv+DII5gesRXaNzo4KMF/fDragHTqLZE6PlNzYHqDVcIb
- ot1bFJcmucAPincpdtXMepjoVQg+CQmxuaU1AZaxU=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Qemu-block <qemu-block@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Linus Heckemann <git@sphalerite.org>
-Subject: Re: [PATCH 1/1] 9pfs: avoid iterator invalidation in
- v9fs_mark_fids_unreclaim
-Date: Tue, 27 Sep 2022 19:14:33 +0200
-Message-ID: <3675458.bPJFzOz80O@silver>
-In-Reply-To: <ygav8p9vugm.fsf@localhost>
-References: <20220926124207.1325763-1-git@sphalerite.org>
- <1697950.a32zQFXn7i@silver> <ygav8p9vugm.fsf@localhost>
+ (Exim 4.90_1) (envelope-from <gmaglion@redhat.com>)
+ id 1odEOE-0000xg-5Y
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 13:29:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664299741;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=99zGODJaHOsGnKzp/SlpxOTnwyvpi5KIjrZSNjhFvoc=;
+ b=ibprM9ZRsJZ/67WnfRKKz2MkdbuA0ps5+RI4Q13UyUm4PKXnSjU1IWmFMm34FYIgPuz7IG
+ x5CE2zH1A97SYwGslW2vn22F0XtaHgg2qthhR2zjRPJgjOvtyWLjdNIOTk1qp2L2tkzliX
+ XBGMNT+20podB2p4/TqQcV1/CPu4vTw=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-134-ho2oKaCnPE2EoO4NDqO9Bg-1; Tue, 27 Sep 2022 13:27:39 -0400
+X-MC-Unique: ho2oKaCnPE2EoO4NDqO9Bg-1
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-3508d8c60ceso84988917b3.18
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 10:27:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=99zGODJaHOsGnKzp/SlpxOTnwyvpi5KIjrZSNjhFvoc=;
+ b=FlpYwrHh140WyP8U82T68yGVfUyVYZcsYCryhI2xiXiXWL1QJuKzQegd9E1rmGYlbY
+ EDKFmOl4mnUfBGWDpq6KzrWFViKv/s1ChqA4QQ21FrP2olsLSxkwLbyul42XinefJzQi
+ FA0I5Yf58dBAR6VcgfByz8ohxpy0H7BmIe/8n6AzH9yJLNLAaxT5y8EupJTtCEyhwAoE
+ 6jYf4DwOmWqLLWxrxLFaUrmR6KsbCeopGTluRUEZAp9zW+J7DBjnGywdAgc6vOGKnMUS
+ 1bfHLSCGssRLxRzbwAry7KH85jwE4X0Lts/YBAsNpJxf5Sd6MT/6dbmA0Cvw2c7TUC8+
+ TAxw==
+X-Gm-Message-State: ACrzQf0dvjEsxwvLiHDfmmNisCGmEYjmdcBmngLtesi+FbGbiqrpL3Y3
+ KbbuZToDf5o52db4zH+dupmU1UEOLRqHNBYKV+uurCxxyvFBLYfCaTv2py7jXQfCWnwFYC1qiwb
+ tWRqMD64sKDVV88YM96NG7RwDvJeNYLw=
+X-Received: by 2002:a0d:c981:0:b0:330:dc03:7387 with SMTP id
+ l123-20020a0dc981000000b00330dc037387mr26753906ywd.380.1664299659247; 
+ Tue, 27 Sep 2022 10:27:39 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7wsazdse0NUEIo9/Hq2+QOeS5K1hBFYuZ2TkLxUVRwxW/xlzaKSF3iWfzmPre0jMkYeMsXFzb7BULhqiYRIz0=
+X-Received: by 2002:a0d:c981:0:b0:330:dc03:7387 with SMTP id
+ l123-20020a0dc981000000b00330dc037387mr26753891ywd.380.1664299659021; Tue, 27
+ Sep 2022 10:27:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <4362261a-c762-4666-84e2-03c9daa6c4d9@www.fastmail.com>
+ <YzMmu3xfOtQwuFUx@redhat.com> <YzMrYAJQeSP2hDSs@redhat.com>
+In-Reply-To: <YzMrYAJQeSP2hDSs@redhat.com>
+From: German Maglione <gmaglione@redhat.com>
+Date: Tue, 27 Sep 2022 19:27:02 +0200
+Message-ID: <CAJh=p+5rQDBJJC8VNGL10KYgDeq-Hg5WK7avONCti03eJGH+ow@mail.gmail.com>
+Subject: Re: virtiofsd: Any reason why there's not an "openat2" sandbox mode?
+To: Vivek Goyal <vgoyal@redhat.com>
+Cc: Colin Walters <walters@verbum.org>, qemu-devel@nongnu.org, 
+ virtio-fs-list <virtio-fs@redhat.com>, Sergio Lopez <slp@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gmaglion@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,133 +93,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 27. September 2022 15:05:13 CEST Linus Heckemann wrote:
-> Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
-> > Ah, you sent this fix as a separate patch on top. I actually just meant
-> > that you would take my already queued patch as the latest version (just
-> > because I had made some minor changes on my end) and adjust that patch
-> > further as v4.
-> > 
-> > Anyway, there are still some things to do here, so maybe you can send your
-> > patch squashed in the next round ...
-> 
-> I see, will do!
-> 
-> >> @Christian: I still haven't been able to reproduce the issue that this
-> >> commit is supposed to fix (I tried building KDE too, no problems), so
-> >> it's a bit of a shot in the dark. It certainly still runs and I think it
-> >> should fix the issue, but it would be great if you could test it.
-> > 
-> > No worries about reproduction, I will definitely test this thoroughly. ;-)
-> > 
-> >>  hw/9pfs/9p.c | 46 ++++++++++++++++++++++++++++++----------------
-> >>  1 file changed, 30 insertions(+), 16 deletions(-)
-> >> 
-> >> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> >> index f4c1e37202..825c39e122 100644
-> >> --- a/hw/9pfs/9p.c
-> >> +++ b/hw/9pfs/9p.c
-> >> @@ -522,33 +522,47 @@ static int coroutine_fn
-> >> v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path) V9fsFidState
-> >> *fidp;
-> >> 
-> >>      gpointer fid;
-> >>      GHashTableIter iter;
-> >> 
-> >> +    /*
-> >> +     * The most common case is probably that we have exactly one
-> >> +     * fid for the given path, so preallocate exactly one.
-> >> +     */
-> >> +    GArray *to_reopen = g_array_sized_new(FALSE, FALSE,
-> >> sizeof(V9fsFidState*), 1); +    gint i;
-> > 
-> > Please use `g_autoptr(GArray)` instead of `GArray *`, that avoids the need
-> > for explicit calls to g_array_free() below.
-> 
-> Good call. I'm not familiar with glib, so I didn't know about this :)
-> 
-> >> -            fidp->flags |= FID_NON_RECLAIMABLE;
-> > 
-> > Why did you remove that? It should still be marked as FID_NON_RECLAIMABLE,
-> > no?
-> Indeed, that was an accident.
-> 
-> >> +            /*
-> >> +             * Ensure the fid survives a potential clunk request during
-> >> +             * v9fs_reopen_fid or put_fid.
-> >> +             */
-> >> +            fidp->ref++;
-> > 
-> > Hmm, bumping the refcount here makes sense, as the 2nd loop may be
-> > interrupted and the fid otherwise disappear in between, but ...
-> > 
-> >> +            g_array_append_val(to_reopen, fidp);
-> >> 
-> >>          }
-> >> 
-> >> +    }
-> >> 
-> >> -        /* We're done with this fid */
-> >> +    for (i=0; i < to_reopen->len; i++) {
-> >> +        fidp = g_array_index(to_reopen, V9fsFidState*, i);
-> >> +        /* reopen the file/dir if already closed */
-> >> +        err = v9fs_reopen_fid(pdu, fidp);
-> >> +        if (err < 0) {
-> >> +            put_fid(pdu, fidp);
-> >> +            g_array_free(to_reopen, TRUE);
-> >> +            return err;
-> > 
-> > ... this return would then leak all remainder fids that you have bumped
-> > the
-> > refcount for above already.
-> 
-> You're right. I think the best way around it, though it feels ugly, is
-> to add a third loop in an "out:".
+On Tue, Sep 27, 2022 at 6:57 PM Vivek Goyal <vgoyal@redhat.com> wrote:
+>
+> On Tue, Sep 27, 2022 at 12:37:15PM -0400, Vivek Goyal wrote:
+> > On Fri, Sep 09, 2022 at 05:24:03PM -0400, Colin Walters wrote:
+> > > We previously had a chat here https://lore.kernel.org/all/348d4774-bd5f-4832-bd7e-a21491fdac8d@www.fastmail.com/T/
+> > > around virtiofsd and privileges and the case of trying to run virtiofsd inside an unprivileged (Kubernetes) container.
+> > >
+> > > Right now we're still using 9p, and it has bugs (basically it seems like the 9p inode flushing callback tries to allocate memory to send an RPC, and this causes OOM problems)
+> > > https://github.com/coreos/coreos-assembler/issues/1812
+> > >
+> > > Coming back to this...as of lately in Linux, there's support for strongly isolated filesystem access via openat2():
+> > > https://lwn.net/Articles/796868/
+> > >
+> > > Is there any reason we couldn't do an -o sandbox=openat2 ?  This operates without any privileges at all, and should be usable (and secure enough) in our use case.
+> >
+> > [ cc virtio-fs-list, german, sergio ]
+> >
+> > Hi Colin,
+> >
+> > Using openat2(RESOLVE_IN_ROOT) (if kernel is new enough), sounds like a
+> > good idea. We talked about it few times but nobody ever wrote a patch to
+> > implement it.
+> >
+> > And it probably makes sense with all the sandboxes (chroot(), namespaces).
+> >
+> > I am wondering that it probably should not be a new sandbox mode at all.
+> > It probably should be the default if kernel offers openat2() syscall.
+> >
+> > Now all the development has moved to rust virtiofsd.
+> >
+> > https://gitlab.com/virtio-fs/virtiofsd
+> >
+> > C version of virtiofsd is just seeing small critical fixes.
+> >
+> > And rust version allows running unprivileged (inside a user namespace).
+> > German is also working on allowing running unprivileged without
+> > user namespaces but this will not allow arbitrary uid/gid switching.
+> >
+> > https://gitlab.com/virtio-fs/virtiofsd/-/merge_requests/136
+> >
+> > If one wants to run unprivileged and also do arbitrary uid/gid switching,
+> > then you need to use user namepsaces and map a range of subuid/subgid
+> > into the user namepsace virtiofsd is running in.
+> >
+> > If possible, please try to use rust virtiofsd for your situation. Its
+> > already packaged for fedora.
+> >
+> > Coming back to original idea of using openat2(), I think we should
+> > probably give it a try in rust virtiofsd and if it works, it should
+> > work across all the sandboxing modes.
+>
+> Thinking more about it, enabling openat2() usage conditionally based on
+> some option probably is not a bad idea. I was assuming that using
+> openat2() by default will not break any of the existing use cases. But
+> I am not sure. I have burnt my fingers so many times and had to back
+> out on default settings that enabling usage of openat2() conditionally
+> will probably be a safer choice. :-)
+>
 
-Either that, or continuing the loop to the end. Not that this would become 
-much prettier. I must admit I also don't really have a good idea for a clean 
-solution in this case.
+I could work on this for the next major version and see if anything breaks.
+But I prefer to add this as a compilation feature, instead of a command line
+option that we will then have to maintain for a while.
 
-> > Also: I noticed that your changes in virtfs_reset() would need the same
-> > 2-loop hack to avoid hash iterator invalidation, as it would also call
-> > put_fid() inside the loop and be prone for hash iterator invalidation
-> > otherwise.
-> Good point. Will do.
-> 
-> One more thing has occurred to me. I think the reclaiming/reopening
-> logic will misbehave in the following sequence of events:
-> 
-> 1. QEMU reclaims an open fid, losing the file handle
-> 2. The file referred to by the fid is replaced with a different file
->    (e.g. via rename or symlink) outside QEMU
-> 3. The file is accessed again by the guest, causing QEMU to reopen a
->    _different file_ from before without the guest having performed any
->    operations that should cause this to happen.
-> 
-> This is neither introduced nor resolved by my changes. Am I overlooking
-> something that avoids this (be it documentation that directories exposed
-> via 9p should not be touched by the host), or is this a real issue? I'm
-> thinking one could at least detect it by saving inode numbers in
-> V9fsFidState and comparing them when reopening, but recovering from such
-> a situation seems difficult.
+Also, I don't see it as a sandbox feature, as Stefan mentioned, a compromised
+process can call openat2() without RESOLVE_IN_ROOT. I did some test with
+Landlock to lock virtiofsd inside the shared directory, but IIRC it requires a
+kernel 5.13
 
-Well, in that specific scenario when rename/move happens outside of QEMU then 
-yes, this might happen unfortunately. The point of this "reclaim fid" stuff is 
-to deal with the fact that there is an upper limit on systems for the max. 
-amount of open file descriptors a process might hold at a time. And on some 
-systems like macOS I think that limit is quite low by default (like 100?).
-
-There is also another issue pending that affects pure inner-guest behaviour; 
-the infamous use-after-unlink() use pattern:
-https://wiki.qemu.org/Documentation/9p#Implementation_Plans
-https://gitlab.com/qemu-project/qemu/-/issues/103
-
-It would make sense to look how other file servers deal with the max. amount 
-of file descriptors limit before starting to just fight the symptoms. This 
-whole reclaim fid stuff in general is PITA.
-
-Best regards,
-Christian Schoenebeck
-
+Cheers,
+-- 
+German
 
 
