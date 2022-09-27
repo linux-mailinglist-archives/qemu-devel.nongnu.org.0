@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF955EC130
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:26:12 +0200 (CEST)
-Received: from localhost ([::1]:50402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25045EC13E
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 13:27:08 +0200 (CEST)
+Received: from localhost ([::1]:38760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1od8j5-00075K-83
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:26:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50426)
+	id 1od8jz-0007wp-OK
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 07:27:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8QP-0002IC-Bz
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:06:53 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:37882)
+ id 1od8QR-0002LL-Rp
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:06:57 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:43553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1od8QM-0004mj-FE
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:06:52 -0400
-Received: by mail-pl1-x630.google.com with SMTP id d24so8764846pls.4
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:06:49 -0700 (PDT)
+ id 1od8QO-0004n2-SX
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:06:54 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ g1-20020a17090a708100b00203c1c66ae3so9748640pjk.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:06:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=NHZEwyZe4QvDxYFPPW8rgMjXXwZjWrApXq6jqgxMbHA=;
- b=XTsx8CxNq/kOZS8aJ0d3oeKrI1TXbCHvnBVEV6WfrAxuxYAaLM2DvQCkX2HpLTqWmH
- baNuzEMWRHlTXHj0rV9D385IXUL73G8DJlMQX4uKDfPIoAGBHjnVGn/kdYrOT2oadTsp
- Bkm4QTaGpgs3HUmKlQbJgbNG4mvfvMvknCarYjGMpGs1huGG6dIfrrSaC33VvJHTLaX0
- oJxaCEfrNzqQYJunMMEIbKxS4Onwj15Is+UjFrZ1QLm/8xw6VLklj8R7BstJyQj2wahN
- 9Cn8wEmDDKkh5SxJ7gMB8fMUwSa3mH0tDgU3xIDOP/pQRomRECsHJTYhB8RtVpVPwBYi
- veLw==
+ bh=x1b0DAXqWLfiXhIrelVULtyJQz5QogyXKHVADLX3USo=;
+ b=OEQWGlp8ddYVy7KDzCF87peGjiai92wCcSzyVkTBc9cmZCEWf7WrXCKCDovalt9Lvd
+ UWUJYNe85u+1QbWKPfgYBygtFVUNML1w1Y+tVVUYp+P+Wfh6IBtndToijmRkoH67IQbh
+ IQmyQEKQGUUiMJ8KM0Aah6+PjP7kCaamRH1tFumlRlkVCnM7cdOVGu2pzckNe25J1MSH
+ +/dqOft0gsK0wqM7xdTDh+ysbcMoMWhepRhbKZwqqNgIgauBW9K5lYg3ZDyveS+AqMKw
+ PCTgbFJNlrGT99i7ugu6mR46JGjXWluLQqyP3H47DvG4QXgt+n215YgSCr2yhfmqmyR0
+ 5g+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=NHZEwyZe4QvDxYFPPW8rgMjXXwZjWrApXq6jqgxMbHA=;
- b=GDcEdi+T6DLPGBg2Ls34Cwd1uuHhCaC/pBXbLvKeYDgOiLfZA5Mt4VWBL0YV3EReM2
- zdi/L0o6Rk5R+osFMV61MuEv01D897w4zanFkSGM68gmbfjSOJcRXRp75xgEVwbI1nN2
- 9Hagh4DgDVn995lfC1xwqHNzqyUFZ4r5hGidWQAierz6pBbfFwIHwmKrOt+P/Pat89u0
- E5ckkxwj+KYKcRt7iwEeqQ3UOrS3pNSdmv1uPY2gy9JS7J239GvC7qhKJGbka+QkFNiH
- NRnVqHpxvYZKb1Sd/9V/Fl/rDCo1+gMA92EGhR5S+3+po+qgMLCb/wYbUdP58JQT5nku
- HR5Q==
-X-Gm-Message-State: ACrzQf1VJ0a3l2u/fPwT+hhp/LOvHpZfYPs4i2KyVaK0hlvy+aMn4WFH
- KtpvNDHb3x1dZTaQ2sAVpvrgywsvUmg=
-X-Google-Smtp-Source: AMsMyM4Tq2inUqqUQwZ05wknyyfHiH4CXnC09PUMS8u5RHYmSYHF9SgPQce8yMLpbImsuzFLdmjSHw==
-X-Received: by 2002:a17:903:228c:b0:178:3bc7:8a3f with SMTP id
- b12-20020a170903228c00b001783bc78a3fmr26393633plh.88.1664276808836; 
- Tue, 27 Sep 2022 04:06:48 -0700 (PDT)
+ bh=x1b0DAXqWLfiXhIrelVULtyJQz5QogyXKHVADLX3USo=;
+ b=lgBYuLR6KSNqeAo4whf77eHfzLuo+eCgk+tYkpicAWXxrPhTjV3rbDJfruwCPDpYL7
+ PlW/Ru8DzgawhpAknq88a8OVuYEhitzvikEmmy3Imch4ZOpwoS59QeijKSi7AsgayLKW
+ 5PGT8Maj8bUgDeLfXjGkOoa3VBqRTjeYDnrKUpx3AaDXvgDLN5eied06gzUp7E3b8xNj
+ E2PB2H3B3ChFAWuxrGbNwUuZsZVWRooqCf07LK+jX/mp89yJlJpmZOMyICEMq0mnp6aV
+ M8FV2SLsGcpDYKWPx6zEnh3E2VVylwHXkGNhQdOgpPVJ12eE6YVRnrVLhd78EpnkqbW8
+ ohgw==
+X-Gm-Message-State: ACrzQf2LVrZij0wHlfK/wlvEEt16ikSSSNOHWyAriqlcVQeQ62BG6l1I
+ LXTkd8IhriMbtAPqF4bs56lUv+JeNN4=
+X-Google-Smtp-Source: AMsMyM6UaTGNIt9dmWu/ifbDD6PghbSeQ3rAJPsddSwIUAiTmbHKitWvFIOcFaO5kJSI0sWtC9bo2Q==
+X-Received: by 2002:a17:903:32c2:b0:178:2ca7:fade with SMTP id
+ i2-20020a17090332c200b001782ca7fademr26738551plr.71.1664276811143; 
+ Tue, 27 Sep 2022 04:06:51 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.06.46
+ i7-20020a626d07000000b00540f2323f67sm1453601pfc.95.2022.09.27.04.06.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 04:06:48 -0700 (PDT)
+ Tue, 27 Sep 2022 04:06:50 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org,
 	Thomas Huth <thuth@redhat.com>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v4 02/54] semihosting/arm-compat-semi: Avoid using hardcoded
- /tmp
-Date: Tue, 27 Sep 2022 19:05:40 +0800
-Message-Id: <20220927110632.1973965-3-bmeng.cn@gmail.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v4 03/54] tcg: Avoid using hardcoded /tmp
+Date: Tue, 27 Sep 2022 19:05:41 +0800
+Message-Id: <20220927110632.1973965-4-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,28 +100,32 @@ From: Bin Meng <bin.meng@windriver.com>
 Use g_get_tmp_dir() to get the directory to use for temporary files.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
 
-(no changes since v1)
+(no changes since v2)
 
- semihosting/arm-compat-semi.c | 3 ++-
+Changes in v2:
+- Use g_autofree to declare the variable
+
+ tcg/tcg.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index e741674238..d5e66cc298 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -503,7 +503,8 @@ void do_common_semihosting(CPUState *cs)
-         GET_ARG(0);
-         GET_ARG(1);
-         GET_ARG(2);
--        len = asprintf(&s, "/tmp/qemu-%x%02x", getpid(), (int)arg1 & 0xff);
-+        len = asprintf(&s, "%s/qemu-%x%02x", g_get_tmp_dir(),
-+                       getpid(), (int)arg1 & 0xff);
-         if (len < 0) {
-             common_semi_set_ret(cs, -1);
-             break;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 0f9cfe96f2..8847053176 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -4729,7 +4729,8 @@ static void tcg_register_jit_int(const void *buf_ptr, size_t buf_size,
+     /* Enable this block to be able to debug the ELF image file creation.
+        One can use readelf, objdump, or other inspection utilities.  */
+     {
+-        FILE *f = fopen("/tmp/qemu.jit", "w+b");
++        g_autofree char *jit = g_strdup_printf("%s/qemu.jit", g_get_tmp_dir());
++        FILE *f = fopen(jit, "w+b");
+         if (f) {
+             if (fwrite(img, img_size, 1, f) != img_size) {
+                 /* Avoid stupid unused return value warning for fwrite.  */
 -- 
 2.34.1
 
