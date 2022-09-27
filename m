@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2053F5EC467
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:27:58 +0200 (CEST)
-Received: from localhost ([::1]:50574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3655EC481
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Sep 2022 15:32:10 +0200 (CEST)
+Received: from localhost ([::1]:59656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odAcu-00059l-4V
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57276)
+	id 1odAgz-0003aD-9K
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 09:32:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1od93T-0006pl-Dm
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:47:23 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36459)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1od93Q-0005qm-GE
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:47:14 -0400
-Received: by mail-ej1-x630.google.com with SMTP id 13so20120047ejn.3
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 04:47:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=4rW0xzQSF2NcmC9VW8G5ihjG3KxSEvNbxRcfWvoPUFE=;
- b=aBZ9vaHodLO8UOY75z8GROo6zMRPArLUlzswjvhhU9xm0phjWQppdRRv4jbOcU3T3P
- fe/HXZr6l47I7WSMSx6YyZ1oW3CUTlInpBzI0HKl+kLJZPTMCxW2jP/K7rUzuxcjfgEq
- qeVDUazlVKpMBJwx6cCdMVZJ5lefdjWkhH3j2e2ny/WUIw+p0yZo/HVAGtpF1TmaGmLb
- mVK3WJeIpqoBsrHOnuDVsJCJ7ykQnQcxVirv5IOonP1IiB+8ED2szzGlqpqqFlg2g6hO
- u56Cy8+/Q1ro5wqDVkV+rUQY/URCsld1rs3Lpm0KPW3n4L+nYCmnKxLiSOMO4jNSYwqu
- shBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=4rW0xzQSF2NcmC9VW8G5ihjG3KxSEvNbxRcfWvoPUFE=;
- b=8EiQaeGmWDgr96nJ2qwrrF/vmJDj7KPRWnwLxDnCNGLy0ruP9bx1VViJk97Ft69Bpm
- 5RCj3lPW+BD3kZSASzZ8EUI+Xx1iHWFx7Z1fRXz8wTMTsfja7FChBycJVycOCTshre7o
- ilRn8m4TjpC9kIH+s7I3tb5ftv5FSgM6KBXICvN52bsGQ728LQPNQW1lJaclYqDirc3/
- /RleXmmlA41WaRA8B3q311gg3P5sEqDg1PDU+CQWLqGNma3nvWGIuglmac5gAAUShHLv
- XsOPXp1/gmafv/hSGUb0OwuYp/tBwH1aeiwh6+KHOWKjM02EUztH7q3rRXQfr9SqMdcY
- 8vxA==
-X-Gm-Message-State: ACrzQf0HQiIiJqtdERFkdjulHLA2meAxxIJSiptmbz++JAgVhGQpKBDU
- QqtxG8j/rz+sFSc3TveMOuvkWtJzIAOQwREMFf646Q==
-X-Google-Smtp-Source: AMsMyM6hwOktXtCE1D+mudXCFnLOp8jMnUOy2AwATh9aisxJdMMdymQALLRH4UIUuRLIDiUTh99nEx6j2hUQY5lj1nk=
-X-Received: by 2002:a17:907:728e:b0:782:8e91:64c8 with SMTP id
- dt14-20020a170907728e00b007828e9164c8mr19425852ejc.36.1664279230020; Tue, 27
- Sep 2022 04:47:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1od99X-0002LC-UO
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:53:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25589)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1od99T-0006V1-IX
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 07:53:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664279601;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8fjv9vX2zNNya3vMsJ0rcfaX4B8gMhJ6LrIs3oZI7Cs=;
+ b=eJ1TxPqH0dZ+p/B5iEjrAr1D5RpO4W19O3jf0vJ4Uw3rJgefw4ntqXwcDFe3Re/WP/uY19
+ AbPhTQOMt6ax/fNWZuyTk5Z5dCMeLo1WaYCNif8cL7fp5/UiX8hGxICJTU2+/+g0PQHG+h
+ vHLlmMFoxuLbkCT4UIbVO/Ed87eugxM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-412-NxHA66fcOX-WIkEd8tFV_Q-1; Tue, 27 Sep 2022 07:53:18 -0400
+X-MC-Unique: NxHA66fcOX-WIkEd8tFV_Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F3033C0D183;
+ Tue, 27 Sep 2022 11:53:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 775AA492B13;
+ Tue, 27 Sep 2022 11:53:16 +0000 (UTC)
+Date: Tue, 27 Sep 2022 13:53:15 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v6 3/5] module: add Error arguments to module_load and
+ module_load_qom
+Message-ID: <YzLkK5L8b52YGlyo@redhat.com>
+References: <20220923232104.28420-1-cfontana@suse.de>
+ <20220923232104.28420-4-cfontana@suse.de>
+ <YzGBOwBQucv1F2NL@redhat.com>
+ <3dc4a54e-7d04-36db-0931-2fb8d068b5f2@suse.de>
+ <87a66lmev9.fsf@pond.sub.org>
+ <6abb6453-1756-92b9-2afd-cc3ee69870d1@suse.de>
 MIME-Version: 1.0
-References: <20220927100347.176606-1-jean-philippe@linaro.org>
- <20220927100347.176606-8-jean-philippe@linaro.org>
-In-Reply-To: <20220927100347.176606-8-jean-philippe@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Sep 2022 12:46:58 +0100
-Message-ID: <CAFEAcA8_mLVgvorF12qBMAW5NoZT2mXAzjfavCbDtcZjzcprow@mail.gmail.com>
-Subject: Re: [PATCH v2 7/8] hw/arm/virt: Fix devicetree warnings about the
- virtio-iommu node
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, robh+dt@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6abb6453-1756-92b9-2afd-cc3ee69870d1@suse.de>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,52 +88,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Sept 2022 at 11:12, Jean-Philippe Brucker
-<jean-philippe@linaro.org> wrote:
->
-> The "PCI Bus Binding to: IEEE Std 1275-1994" defines the compatible
-> string for a PCIe bus or endpoint as "pci<vendorid>,<deviceid>" or
-> similar. Since the initial binding for PCI virtio-iommu didn't follow
-> this rule, it was modified to accept both strings and ensure backward
-> compatibility. Also, the unit-name for the node should be
-> "device,function".
->
-> Fix corresponding dt-validate and dtc warnings:
->
->   pcie@10000000: virtio_iommu@16:compatible: ['virtio,pci-iommu'] does not contain items matching the given schema
->   pcie@10000000: Unevaluated properties are not allowed (... 'virtio_iommu@16' were unexpected)
->   From schema: linux/Documentation/devicetree/bindings/pci/host-generic-pci.yaml
->   virtio_iommu@16: compatible: 'oneOf' conditional failed, one must be fixed:
->         ['virtio,pci-iommu'] is too short
->         'pci1af4,1057' was expected
->   From schema: dtschema/schemas/pci/pci-bus.yaml
->
->   Warning (pci_device_reg): /pcie@10000000/virtio_iommu@16: PCI unit address format error, expected "2,0"
->
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->  hw/arm/virt.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 2de16f6324..5e16d54bbb 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1372,14 +1372,15 @@ static void create_smmu(const VirtMachineState *vms,
->
->  static void create_virtio_iommu_dt_bindings(VirtMachineState *vms)
->  {
-> -    const char compat[] = "virtio,pci-iommu";
-> +    const char compat[] = "virtio,pci-iommu\0pci1af4,1057";
->      uint16_t bdf = vms->virtio_iommu_bdf;
+Am 27.09.2022 um 11:13 hat Claudio Fontana geschrieben:
+> On 9/27/22 09:54, Markus Armbruster wrote:
+> > Claudio Fontana <cfontana@suse.de> writes:
+> > 
+> >> On 9/26/22 12:38, Kevin Wolf wrote:
+> >>> Am 24.09.2022 um 01:21 hat Claudio Fontana geschrieben:
+> >>>> improve error handling during module load, by changing:
+> >>>>
+> >>>> bool module_load(const char *prefix, const char *lib_name);
+> >>>> void module_load_qom(const char *type);
+> >>>>
+> >>>> to:
+> >>>>
+> >>>> int module_load(const char *prefix, const char *name, Error **errp);
+> >>>> int module_load_qom(const char *type, Error **errp);
+> >>>>
+> >>>> where the return value is:
+> >>>>
+> >>>>  -1 on module load error, and errp is set with the error
+> >>>>   0 on module or one of its dependencies are not installed
+> >>>>   1 on module load success
+> >>>>   2 on module load success (module already loaded or built-in)
+> >>>>
+> >>>> module_load_qom_one has been introduced in:
+> >>>>
+> >>>> commit 28457744c345 ("module: qom module support"), which built on top of
+> >>>> module_load_one, but discarded the bool return value. Restore it.
+> >>>>
+> >>>> Adapt all callers to emit errors, or ignore them, or fail hard,
+> >>>> as appropriate in each context.
+> >>>>
+> >>>> Some memory leaks also fixed as part of the module_load changes.
+> >>>>
+> >>>> audio: when attempting to load an audio module, report module load errors.
+> >>>> block: when attempting to load a block module, report module load errors.
+> >>>> console: when attempting to load a display module, report module load errors.
+> >>>>
+> >>>> qdev: when creating a new qdev Device object (DeviceState), report load errors.
+> >>>>       If a module cannot be loaded to create that device, now abort execution.
+> >>>>
+> >>>> qom/object.c: when initializing a QOM object, or looking up class_by_name,
+> >>>>               report module load errors.
+> >>>>
+> >>>> qtest: when processing the "module_load" qtest command, report errors
+> >>>>        in the load of the module.
+> >>>>
+> >>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> >>>
+> >>>> diff --git a/block/dmg.c b/block/dmg.c
+> >>>> index 007b8d9996..a422cf8d5b 100644
+> >>>> --- a/block/dmg.c
+> >>>> +++ b/block/dmg.c
+> >>>> @@ -434,6 +434,7 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+> >>>>      uint64_t plist_xml_offset, plist_xml_length;
+> >>>>      int64_t offset;
+> >>>>      int ret;
+> >>>> +    Error *local_err = NULL;
+> >>>>  
+> >>>>      ret = bdrv_apply_auto_read_only(bs, NULL, errp);
+> >>>>      if (ret < 0) {
+> >>>> @@ -446,8 +447,15 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+> >>>>          return -EINVAL;
+> >>>>      }
+> >>>>  
+> >>>> -    block_module_load("dmg-bz2");
+> >>>> -    block_module_load("dmg-lzfse");
+> >>>> +    if (block_module_load("dmg-bz2", &local_err) < 0) {
+> >>>> +        error_report_err(local_err);
+> >>>> +        return -EINVAL;
+> >>>> +    }
+> >>>> +    local_err = NULL;
+> >>>> +    if (block_module_load("dmg-lzfse", &local_err) < 0) {
+> >>>> +        error_report_err(local_err);
+> >>>> +        return -EINVAL;
+> >>
+> >> I am concerned about the resources allocation here though,
+> >> is returning EINVAL here right, vs using "goto fail"?
+> >>
+> >> I matched the behavior of the preceding call:
+> >>
+> >>     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+> >>                                BDRV_CHILD_IMAGE, false, errp);
+> >>     if (!bs->file) {
+> >>         return -EINVAL;
+> >>     }
+> >>
+> >> But afterwards the code goes:
+> >> .
+> >>     /* locate the UDIF trailer */
+> >>     offset = dmg_find_koly_offset(bs->file, errp);
+> >>     if (offset < 0) {
+> >>         ret = offset;
+> >>         goto fail;
+> >>     }
+> >>
+> >> Should the resources be freed or not in your view?
+> > 
+> > Functions should generally fail cleanly, and that means undoing side
+> > effects such as allocations.
+> 
+> This is pretty obvious.
+> 
+> Note that this function does not perform the allocations,
+> bdrv_open is called with existing allocated resources,
+> and then frees those resources only in specific code paths.
 
-PCI_DEVICE_ID_VIRTIO_IOMMU is listed in include/hw/pci/pci.h
-as 0x1014, so where does 1057 come from? (This is a hex value,
-right?)
+These aren't allocated, the caller just allocates the BDRVDMGState and
+initialises it with zeros. In other words, at this point, the free
+functions don't do anything yet and you may or may not call them, it
+doesn't matter.
 
-docs/specs/pci-ids.txt doesn't list either 1014 or 1057, so
-I guess we forgot to update that...
+We have an explicit line like this after the module loading:
 
-thanks
--- PMM
+    s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
+
+It's completely unnecessary because the BDRVDMGState is already
+initialised like this, but if you think of this as the point where these
+fields come to life, using a direct return before it and 'goto fail'
+afterwards makes a little bit of sense at least.
+
+As far as I can tell, only dmg_read_resource_fork() or
+dmg_read_plist_xml() actually allocate some memeory that needs to be
+undone, so some of the existing 'goto fail' instances could be direct
+returns. But they're not wrong either, so no need to change them.
+
+Kevin
+
 
