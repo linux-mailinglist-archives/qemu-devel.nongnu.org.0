@@ -2,98 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB135EDC5D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 14:12:54 +0200 (CEST)
-Received: from localhost ([::1]:40902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224115EDCDD
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 14:35:32 +0200 (CEST)
+Received: from localhost ([::1]:42236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odVvp-0004UB-FV
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 08:12:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39528)
+	id 1odWHi-0008Tu-Si
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 08:35:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odSvy-0007sy-Gv
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:00:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28447)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1odT0C-0001XK-9p; Wed, 28 Sep 2022 05:05:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odSvu-0006TS-TT
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:00:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664355646;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ws0mxhivjKUIgvTzB8kXlPgTHypInkLtZwdsZddi4NA=;
- b=CeKdEkJG2+DBSDhFRr0hkLHFy2prsja+vbZcO3YEGBL/YHPQKCH7T5aTnSs8LIe4sVW63H
- Ize1vv6SaQD221m4/KFMPiRW5BYodI2OjmBR3KJV+B7ac18M/xW0REl4e8vgLMr0Vfnm6x
- ZF69iIiyQTTsknD08VUoqtPCmXNSQs8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-280-HGOa3e7jPn-fQAFoPSSLRg-1; Wed, 28 Sep 2022 05:00:43 -0400
-X-MC-Unique: HGOa3e7jPn-fQAFoPSSLRg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay21-20020a05600c1e1500b003b45fd14b53so1480790wmb.1
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 02:00:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=ws0mxhivjKUIgvTzB8kXlPgTHypInkLtZwdsZddi4NA=;
- b=D+8/c2IIacHQh1T54tGxbFRrL7Py3EDS17vNDDeDgCjkT7nbEWUcrzdOQVFzjxPvSu
- yVzxy0Xfy7BUjeW83QFXhawcxVN/r89zLHPe7on+T7BZn/SFcWlf0PDSg68Zm9MQWkcG
- PfNQ6DgnTzEs/FP0EmnD6NOl/r59sBeeFfd96XMq571nP0i10io+pBuKH2L0BNXzv1dj
- Ix6aRl3UjuG5niiaoPH2I7Qcp2lHADiWEI+cUSM7OCoJ8OIX+p3UG40jLVy/HCcuT6mk
- 7I1qk8pFgRbjqTiMLwgGnumWWhmEP+jOlkszqtoCULq1iDl+EluLodVWidcAOlpINPkc
- VQ7g==
-X-Gm-Message-State: ACrzQf1znpPiO3p7yzOW2ApZRsL0xjOd9Y8fe4BZbv2giiR37ot9CCDC
- z2ULbUPtW1zmqDSLgpVTKYeouz2AzUQ7wIRlKtwD/7saFBGfnPUIYJdedQqvNJk1OXPHURC7kCE
- vfHpCQuTidMotGWg=
-X-Received: by 2002:a05:6000:144f:b0:22a:7098:6472 with SMTP id
- v15-20020a056000144f00b0022a70986472mr20190530wrx.685.1664355641994; 
- Wed, 28 Sep 2022 02:00:41 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7Rlw+3BGY5S5WyORmE2egqKNtujc3hD/hora97QSYCaG/Rhj6Gw2dKJFUhGy4u9l5RRAxQQQ==
-X-Received: by 2002:a05:6000:144f:b0:22a:7098:6472 with SMTP id
- v15-20020a056000144f00b0022a70986472mr20190500wrx.685.1664355641634; 
- Wed, 28 Sep 2022 02:00:41 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-89.web.vodafone.de.
- [109.43.176.89]) by smtp.gmail.com with ESMTPSA id
- m17-20020a05600c3b1100b003b476cabf1csm1435993wms.26.2022.09.28.02.00.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Sep 2022 02:00:41 -0700 (PDT)
-Message-ID: <a0125f4b-9953-0a15-1c17-23af8e14e329@redhat.com>
-Date: Wed, 28 Sep 2022 11:00:39 +0200
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1odT05-00077h-1r; Wed, 28 Sep 2022 05:05:07 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28S8lZoh007633;
+ Wed, 28 Sep 2022 09:05:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=mOWQIBzUMWGS2vEJI1vSlEYeBFZsn68gjHfZuTclrUE=;
+ b=f6PwKfaOoD6jvV0a8O3dEBo4GNw8J5fNwjF74hHDRoiveMEQl1WkaLNd5ZBJ2cNkMgOd
+ 5a61kDK5VrBgVhF1U8ngnWAFWZM5daaSX2CcDEkPZMiIesASDTwvDhVQal4mcZ4V+CO2
+ HehtlOyHeAlvZnBw3R1j6DVU3PlJ4wNRkHLKzAkT7BZ+i4HQ6gtTVKjoqfmqsxTKWtJX
+ fhipuJOMrIwHpN3hBAzZhwgOk5yxlLxMSCysbl5l+TuRtvfNujR3a/j4I11P+4dbp4dD
+ kK5v7r3+W5wD7nQC0h8qfOf6p3n/Vo9FWzl65ACBOx3XqOJYqGJgSa7v3eebZlxuXABt hA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvf8rf4h8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 09:05:03 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28S8o7SU013365;
+ Wed, 28 Sep 2022 09:05:02 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvf8rf4fy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 09:05:02 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28S8qSsp015006;
+ Wed, 28 Sep 2022 09:05:00 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3jss5j501w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 09:05:00 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 28S95Pev51904772
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Sep 2022 09:05:25 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0F5A54C040;
+ Wed, 28 Sep 2022 09:04:57 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 194FC4C044;
+ Wed, 28 Sep 2022 09:04:56 +0000 (GMT)
+Received: from [9.171.31.212] (unknown [9.171.31.212])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 28 Sep 2022 09:04:56 +0000 (GMT)
+Message-ID: <c5f28aa1-bc09-d193-a402-132949a95b32@linux.ibm.com>
+Date: Wed, 28 Sep 2022 11:04:55 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v4 31/54] accel/qtest: Implement a portable qtest
- accelerator
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v9 04/10] hw/core: introducing drawer and books for s390x
 Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng
- <bin.meng@windriver.com>, Eduardo Habkost <eduardo@habkost.net>,
- Laurent Vivier <lvivier@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>
-References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
- <20220927110632.1973965-32-bmeng.cn@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220927110632.1973965-32-bmeng.cn@gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, borntraeger@de.ibm.com,
+ pasic@linux.ibm.com, richard.henderson@linaro.org, david@redhat.com,
+ thuth@redhat.com, cohuck@redhat.com, mst@redhat.com,
+ pbonzini@redhat.com, kvm@vger.kernel.org, ehabkost@redhat.com,
+ marcel.apfelbaum@gmail.com, eblake@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-5-pmorel@linux.ibm.com> <87ilm03mkl.fsf@pond.sub.org>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <87ilm03mkl.fsf@pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 86m8N50ZMLclAOAlZXpWdD2YSQSYCWhJ
+X-Proofpoint-GUID: 8DlWo8xff9iwHynR2Gp_OLpx3B37je31
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-28_03,2022-09-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ spamscore=0 mlxlogscore=999 suspectscore=0 phishscore=0 priorityscore=1501
+ impostorscore=0 clxscore=1015 adultscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209280055
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,148 +121,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/09/2022 13.06, Bin Meng wrote:
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+
+
+On 9/6/22 10:59, Markus Armbruster wrote:
+> Pierre Morel <pmorel@linux.ibm.com> writes:
 > 
-> Currently signal SIGIPI [=SIGUSR1] is used to kick the dummy CPU
-> when qtest accelerator is used. However SIGUSR1 is unsupported on
-> Windows. To support Windows, we add a QemuSemaphore CPUState::sem
-> to kick the dummy CPU instead.
+>> S390x defines two topology levels above sockets: nbooks and drawers.
 > 
-> As a result of this, the POSIX implementation via signal is no
-> longer needed and can use the same path as Windows.
+> nbooks or books?
 > 
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
+>> Let's add these two levels inside the CPU topology implementation.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
 > 
-> (no changes since v2)
+> [...]
 > 
-> Changes in v2:
-> - Replace signal by the semaphore on posix too
-
-This does not work - it breaks running with KVM on Linux. When I add this 
-patch, I get:
-
-$ ./qemu-system-x86_64  -machine pc   -smp 4 -enable-kvm
-qemu-system-x86_64: ../../devel/qemu/util/qemu-thread-posix.c:86: 
-qemu_mutex_lock_impl: Assertion `mutex->initialized' failed.
-Aborted (core dumped)
-
-I think "SIG_IPI" is used for kicking a CPU out of the kernel mode there, so 
-you cannot simply replace it wrt KVM.
-
-  Thomas
-
-
->   include/hw/core/cpu.h   |  1 +
->   accel/dummy-cpus.c      | 15 ++-------------
->   softmmu/cpus.c          | 10 +---------
->   accel/meson.build       |  1 +
->   accel/qtest/meson.build |  1 +
->   5 files changed, 6 insertions(+), 22 deletions(-)
+>> diff --git a/qapi/machine.json b/qapi/machine.json
+>> index 6afd1936b0..bdd92e3cb1 100644
+>> --- a/qapi/machine.json
+>> +++ b/qapi/machine.json
+>> @@ -900,13 +900,15 @@
+>>   # a CPU is being hotplugged.
+>>   #
+>>   # @node-id: NUMA node ID the CPU belongs to
+>> -# @socket-id: socket number within node/board the CPU belongs to
+>> +# @drawer-id: drawer number within node/board the CPU belongs to
+>> +# @book-id: book number within drawer/node/board the CPU belongs to
+>> +# @socket-id: socket number within book/node/board the CPU belongs to
+>>   # @die-id: die number within socket the CPU belongs to (since 4.1)
+>>   # @cluster-id: cluster number within die the CPU belongs to (since 7.1)
+>>   # @core-id: core number within cluster the CPU belongs to
+>>   # @thread-id: thread number within core the CPU belongs to
+>>   #
+>> -# Note: currently there are 6 properties that could be present
+>> +# Note: currently there are 7 properties that could be present
 > 
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index 500503da13..2f46c37dc1 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -326,6 +326,7 @@ struct CPUState {
->   #ifdef _WIN32
->       HANDLE hThread;
->   #endif
-> +    QemuSemaphore sem;
->       int thread_id;
->       bool running, has_waiter;
->       struct QemuCond *halt_cond;
-> diff --git a/accel/dummy-cpus.c b/accel/dummy-cpus.c
-> index 10429fdfb2..3769d3db0a 100644
-> --- a/accel/dummy-cpus.c
-> +++ b/accel/dummy-cpus.c
-> @@ -21,8 +21,6 @@
->   static void *dummy_cpu_thread_fn(void *arg)
->   {
->       CPUState *cpu = arg;
-> -    sigset_t waitset;
-> -    int r;
->   
->       rcu_register_thread();
->   
-> @@ -32,23 +30,13 @@ static void *dummy_cpu_thread_fn(void *arg)
->       cpu->can_do_io = 1;
->       current_cpu = cpu;
->   
-> -    sigemptyset(&waitset);
-> -    sigaddset(&waitset, SIG_IPI);
-> -
->       /* signal CPU creation */
->       cpu_thread_signal_created(cpu);
->       qemu_guest_random_seed_thread_part2(cpu->random_seed);
->   
->       do {
->           qemu_mutex_unlock_iothread();
-> -        do {
-> -            int sig;
-> -            r = sigwait(&waitset, &sig);
-> -        } while (r == -1 && (errno == EAGAIN || errno == EINTR));
-> -        if (r == -1) {
-> -            perror("sigwait");
-> -            exit(1);
-> -        }
-> +        qemu_sem_wait(&cpu->sem);
->           qemu_mutex_lock_iothread();
->           qemu_wait_io_event(cpu);
->       } while (!cpu->unplug);
-> @@ -67,6 +55,7 @@ void dummy_start_vcpu_thread(CPUState *cpu)
->       qemu_cond_init(cpu->halt_cond);
->       snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/DUMMY",
->                cpu->cpu_index);
-> +    qemu_sem_init(&cpu->sem, 0);
->       qemu_thread_create(cpu->thread, thread_name, dummy_cpu_thread_fn, cpu,
->                          QEMU_THREAD_JOINABLE);
->   }
-> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> index 23b30484b2..2a992d0d5f 100644
-> --- a/softmmu/cpus.c
-> +++ b/softmmu/cpus.c
-> @@ -437,19 +437,11 @@ void qemu_wait_io_event(CPUState *cpu)
->   
->   void cpus_kick_thread(CPUState *cpu)
->   {
-> -#ifndef _WIN32
-> -    int err;
-> -
->       if (cpu->thread_kicked) {
->           return;
->       }
->       cpu->thread_kicked = true;
-> -    err = pthread_kill(cpu->thread->thread, SIG_IPI);
-> -    if (err && err != ESRCH) {
-> -        fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
-> -        exit(1);
-> -    }
-> -#endif
-> +    qemu_sem_post(&cpu->sem);
->   }
->   
->   void qemu_cpu_kick(CPUState *cpu)
-> diff --git a/accel/meson.build b/accel/meson.build
-> index b9a963cf80..b21c85dc0a 100644
-> --- a/accel/meson.build
-> +++ b/accel/meson.build
-> @@ -17,4 +17,5 @@ dummy_ss.add(files(
->   ))
->   
->   specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: dummy_ss)
-> +specific_ss.add_all(when: ['CONFIG_WIN32'], if_true: dummy_ss)
->   specific_ss.add_all(when: ['CONFIG_XEN'], if_true: dummy_ss)
-> diff --git a/accel/qtest/meson.build b/accel/qtest/meson.build
-> index 4c65600293..a4876fc0f2 100644
-> --- a/accel/qtest/meson.build
-> +++ b/accel/qtest/meson.build
-> @@ -1,2 +1,3 @@
->   qtest_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'],
->                       if_true: files('qtest.c'))
-> +qtest_module_ss.add(when: ['CONFIG_WIN32'], if_true: files('qtest.c'))
+> Should this be 8?
 
+when one can count .. yes :)
+
+Thanks, I will update in next spin
+
+> 
+>>   #       but management should be prepared to pass through other
+>>   #       properties with device_add command to allow for future
+>>   #       interface extension. This also requires the filed names to be kept in
+>     #       sync with the properties passed to -device/device_add.
+> 
+> Not your patch's fault, but the second sentence is less than clear.
+> What are "the filed names"?  A typo perhaps?
+
+I understood that it means the names in the structure here under which 
+are filed inside the single quotes.
+
+
+In this case, may be "filed names" should be replaced by
+"names in the CpuInstanceProperties structure"
+
+
+> 
+>> @@ -916,6 +918,8 @@
+>>   ##
+>>   { 'struct': 'CpuInstanceProperties',
+>>     'data': { '*node-id': 'int',
+>> +            '*drawer-id': 'int',
+>> +            '*book-id': 'int',
+>>               '*socket-id': 'int',
+>>               '*die-id': 'int',
+>>               '*cluster-id': 'int',
+>> @@ -1465,6 +1469,10 @@
+>>   #
+
+Regards,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
