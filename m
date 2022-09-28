@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16D45EE6AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:37:06 +0200 (CEST)
-Received: from localhost ([::1]:36874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AAF35EE6B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:40:36 +0200 (CEST)
+Received: from localhost ([::1]:44302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oddnl-00033H-QO
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:37:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60030)
+	id 1oddr9-00006n-Eo
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:40:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odden-00082i-3t
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:49 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:50989)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddel-00080g-Sd
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:47 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:52071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddek-0006Nr-Qc
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:48 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddek-0006OE-7m
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:47 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MCsHm-1oUny40AfA-008oWW; Wed, 28
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Md6ZB-1pDWVP1xVT-00aCyp; Wed, 28
  Sep 2022 22:27:44 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
 	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 11/37] linux-user: Add strace for clock_nanosleep()
-Date: Wed, 28 Sep 2022 22:27:11 +0200
-Message-Id: <20220928202737.793171-12-laurent@vivier.eu>
+Subject: [PULL 12/37] linux-user: Show timespec on strace for futex()
+Date: Wed, 28 Sep 2022 22:27:12 +0200
+Message-Id: <20220928202737.793171-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928202737.793171-1-laurent@vivier.eu>
 References: <20220928202737.793171-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:uxe/ig7xPkgNaE3XrHmpD7iNNdAZ18vuUtPQBODcaLPpdTfNuAy
- S7GHvwflmPQ9HMHnRZ4GAnjUqclsy0g/YfZswFdkSr+H3faBi+zB5Mx1k5k8o8u0yT2L6no
- jZDGjnDKHTE8afhlIf21EZ8HC09iCi3Lx8bRfhchJVQxIJ0yKNNL6Gveh7OHQ/+g25HlG1Z
- ngCB7Iwy1nkoHs00fdHow==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SamJgTClsRI=:vKRxqBYmXzOFFIxmdVDVu7
- WoVsfUfXy/Y+IPopHduDgThTOXpXaXc2W6KLrQgFg+8I1tOI7nO8x985lBIGa1ZlR8B4KOQSo
- tgCw8kLoDky+N8JVA5/qSRCb87yORw/IbJGHpjmcd1lkMzkWk5lSZvcyQLH17PbUSwca7RMYj
- WQ3GSXhfozuMqbos3ruMAcUHiL2YqusOEkuOJUqxxP3XtnvfeoKRcyxz2iWp/8tozNLY4kYIw
- V/klhcs/MptQKKMv2vdoMq0ffcX9yruXwizrs6bAMhP2BlzRbPP5tPm41dEnEHkHFjYXX8+bq
- OEAo3B0A0T5qAiJIaZiABEYcoFKN5Gzpz4AWVMqhQ7DQfakF/NsDMrYVBRL352yQtH+MB8iRi
- QxSiewUMtGIZ8weEIKuf+O00IItO0KWAMCJRoq5Wys35lW5GQbffJMsvYSbNqkQVJzU9D38/e
- ohk/F2DrURUNjErYn+EbXwlS1MRKupOoSELN8Cff0O7k1t0QkOd3EFsGeI1zyhVMYnZZPSAEx
- LJnV5QHbbYn6gC8KwKIUMMFhcfkx6ACVcfo9Cam8fx5J5l1lb/5Hqxwdxe7n5FYc0yoj1qegJ
- NZRqPn6GkSrgaT7+/2Haownoj6E99BK1/Pyw2vabilTqIvzHHCBLvvuem3HqukDjflBb/vP7/
- 9qAEzOS665laPsnU87OGqVe5fY+7LPfnFBhfnf2nMCVizOjZbM6ympHxgMsXJYzY1aVv2P0q+
- 94q3e41h4uMSD4EOTeMoHQwgawFRi/3fCz9f4S1iZZt/K9/YEiHHyoUm78tLYA1f0nLjGrPOT
- 8FdJMhf
+X-Provags-ID: V03:K1:CRsGxHjD+1wbbLQz8YsRXOrJHO1nG1zFk9F88yHWDwrgcAkN/Jv
+ XlVy6iSr8yVq6PPUtNw/wQxWcYEd85L+YrWsgEDhijtrvOvVC75QpX4KvNhvnpP2cGCaLYq
+ LX8hIm34qmOOgqkOWvdlDhk+/ICO465RP1VtL5ODs4WyNRpzI22u5xZ57d9PTjGqBJItc4L
+ zmz+zIp7HKJcjgxpwMvWQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CNOo1p2LRNk=:dv4MzYLA+x12H8GRUCEIq2
+ lYkaEf3RJlfcGlDkmB7JgTELPDsdAGunqczayRNSjgbRtxUg+OHwic0T+raQVY9wMme40UwfU
+ hwV+BCwtwkZ/959Hhb+UPJn6qmOzPSF7nL2LRp9g1/zfGU8LzRmByyjmO0w8fT3JphAb6yP02
+ 4UwwozSSF+0hqsIop7WOHnYGjjJ5te9NEqJuRMq5/xezcTSR/ZU/e9dCUnZ7vgPS5dezUZkZZ
+ LPSUzeibbOc+s1AcO/waC8fj9ROaLdNWtn3kleungrUWC1l9KRq1P8u6h0It7lCQOuUgHLMi0
+ pxyq1X6qlSJ009xe06f5ItHO0ZE8mADbU6uo/P9ZP/dg3inFC6Md0cOOHk4Ru9dfkVFXRcGkc
+ 7Wev9awAjbsj6KuWiWPzaJAUTEE18Wnt72DtYiWxEJ2Nek8nZgNp8eGbGbZsmMI/vkvmzyRFZ
+ fboaDEyY6Fg79spJvP/s0iJLAWc7IAz29skbTGQytaKNIaVMgFIVlg9cSHaTsj0lEJGdphMuS
+ q0EE75HeDcJbDhy3hCE6dp7fciCcEAWDSx9uP/OhaY1gBiMxN5oOLMy/A1Zaiuk9hykxTHfw1
+ m9CQ5ctqN3GjBpxdcmVhJH/SBIVladuRK+88RJmXhbGSp9pSEAHjWVggryzYMrs1eD+CDiXME
+ 6e3SJ4f6IbBPgae/FBpNf3jeJ05dDAV36l+acSVTS9iRG+Tx30FtJCStFI2iKzFAKrJLOwoCs
+ OgmSbSOrTy3E7P4v3Yo4bsnPXrnwl25fnBJJcGdn1ukg+0oDYx39ve1uG4GswOKuDPCO56T33
+ zk4Rw6r
 Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -76,53 +76,38 @@ From: Helge Deller <deller@gmx.de>
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220918194555.83535-10-deller@gmx.de>
+Message-Id: <20220918194555.83535-11-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 15 +++++++++++++++
- linux-user/strace.list |  3 ++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ linux-user/strace.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 2f539845bb90..6f818212d529 100644
+index 6f818212d529..b6b9abaea466 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -3567,6 +3567,21 @@ print_unshare(CPUArchState *cpu_env, const struct syscallname *name,
- }
- #endif
- 
-+#ifdef TARGET_NR_clock_nanosleep
-+static void
-+print_clock_nanosleep(CPUArchState *cpu_env, const struct syscallname *name,
-+                abi_long arg0, abi_long arg1, abi_long arg2,
-+                abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_enums(clockids, arg0, 0);
-+    print_raw_param("%d", arg1, 0);
-+    print_timespec(arg2, 0);
-+    print_timespec(arg3, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- #ifdef TARGET_NR_utime
- static void
- print_utime(CPUArchState *cpu_env, const struct syscallname *name,
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 4d8b7f6a5e0c..215d971b2aea 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -91,7 +91,8 @@
-                            print_syscall_ret_clock_gettime },
- #endif
- #ifdef TARGET_NR_clock_nanosleep
--{ TARGET_NR_clock_nanosleep, "clock_nanosleep" , NULL, NULL, NULL },
-+{ TARGET_NR_clock_nanosleep, "clock_nanosleep" , NULL, print_clock_nanosleep,
-+                            NULL },
- #endif
- #ifdef TARGET_NR_clock_settime
- { TARGET_NR_clock_settime, "clock_settime" , NULL, print_clock_settime, NULL },
+@@ -3714,11 +3714,20 @@ print_futex(CPUArchState *cpu_env, const struct syscallname *name,
+             abi_long arg0, abi_long arg1, abi_long arg2,
+             abi_long arg3, abi_long arg4, abi_long arg5)
+ {
++    abi_long op = arg1 & FUTEX_CMD_MASK;
+     print_syscall_prologue(name);
+     print_pointer(arg0, 0);
+     print_futex_op(arg1, 0);
+     print_raw_param(",%d", arg2, 0);
+-    print_pointer(arg3, 0); /* struct timespec */
++    switch (op) {
++        case FUTEX_WAIT:
++        case FUTEX_WAIT_BITSET:
++            print_timespec(arg3, 0);
++            break;
++        default:
++            print_pointer(arg3, 0);
++            break;
++    }
+     print_pointer(arg4, 0);
+     print_raw_param("%d", arg4, 1);
+     print_syscall_epilogue(name);
 -- 
 2.37.3
 
