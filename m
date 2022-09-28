@@ -2,92 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160135ED465
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 07:56:42 +0200 (CEST)
-Received: from localhost ([::1]:60520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9365ED594
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 09:01:12 +0200 (CEST)
+Received: from localhost ([::1]:47116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odQ3k-0004si-KQ
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 01:56:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43070)
+	id 1odR4A-0008DM-31
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 03:01:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odQ0N-0003Gz-NX
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 01:53:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33094)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1odQWV-0007Qu-6W
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 02:26:24 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:34385
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odQ0L-0003po-CB
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 01:53:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664344388;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=g5bsxTiKbM/eASvh+KnXAUdlMgfGe61xOojJPdMJDqU=;
- b=bXRRGfg5ZLSiuZjYxny0pSYjzsrhEDEVkk5GS7lDBlrvjQqHteuaxRVWUyN6TwOdU2psox
- RFKDre8RXkUMRpuFmAUDM8qZX3Hl/Bs7dL5b8ZQXeOf+GmjnHUN4eZrXUvfIXF7brcPXY/
- uJ8GvxcAbej1XJFNesNjur1Z/KuXWcU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-609-t9Pu4PfgP1mILZAODMwQRg-1; Wed, 28 Sep 2022 01:53:05 -0400
-X-MC-Unique: t9Pu4PfgP1mILZAODMwQRg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- s16-20020adf9790000000b0022cc14c6114so956271wrb.0
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 22:53:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=g5bsxTiKbM/eASvh+KnXAUdlMgfGe61xOojJPdMJDqU=;
- b=et3L5OOJNE74iTEu8deUBulQ+MB7FC0m3BrYlBKdmQf0TwGNPu/ZBHd7IPzTyfYGvF
- tNBitrZ7DV/HmJmITX76tlm575qTmTh1zic4HV8eCXeyObU5XIcB5enw/6ozMx6jH43N
- hGnKsHnt+09JSa9ri/jaOLtJk+uefP1O4HZwaoBZScZkJLpX3ZaupT/yNFrFHGL2kz1B
- P7zREzSSu0ehaBMrT2Q1WWEuLPbyihXZ1PkKnrWLVdtGOj69VLuebMZoX8p+vtHXA//S
- 53fVirySsTVY1hbQdsz8F9x4vRYn2qfxB5BAdS15M0Y3mCwZYdLcpXOpObH1EaskZMC3
- m0Qw==
-X-Gm-Message-State: ACrzQf3Ft10Lauegi3yfroWtOc3bVOt5++lnq0EE4tzwqH023UgQ0TKK
- BokszfurNwr34R2g2BCpytjHXz9gAIJzujis5ixRiOooANxI/w3cBq7v4oI++DJVhfFjVsOnf1f
- uqr4kZbl8UcnnzDM=
-X-Received: by 2002:a5d:5406:0:b0:228:db0e:a4d3 with SMTP id
- g6-20020a5d5406000000b00228db0ea4d3mr18690207wrv.8.1664344384273; 
- Tue, 27 Sep 2022 22:53:04 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5uJbgLeFG4Hen+A9nkWnRGxX2Mq2K0opr7QRftRL+p0RN6eEjKtO4dYylEWGEBOglPu1ACMQ==
-X-Received: by 2002:a5d:5406:0:b0:228:db0e:a4d3 with SMTP id
- g6-20020a5d5406000000b00228db0ea4d3mr18690196wrv.8.1664344384055; 
- Tue, 27 Sep 2022 22:53:04 -0700 (PDT)
-Received: from redhat.com ([2.55.17.78]) by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c1d1200b003a601a1c2f7sm762142wms.19.2022.09.27.22.53.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 22:53:03 -0700 (PDT)
-Date: Wed, 28 Sep 2022 01:53:00 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel <qemu-devel@nongnu.org>,
- Thomas Huth <thuth@redhat.com>,
- "Maydell, Peter" <peter.maydell@linaro.org>,
- "P. Berrange, Daniel" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
- "Mammedov, Igor" <imammedo@redhat.com>
-Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
- QEMU bios tables using biosbits
-Message-ID: <20220928013638-mutt-send-email-mst@kernel.org>
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220710170014.1673480-8-ani@anisinha.ca>
- <CABgObfYW8O-JGhjLm47HmHG7WRhOQDO1EhUCTP59TZo4DnkQVg@mail.gmail.com>
- <20220927175440-mutt-send-email-mst@kernel.org>
- <CABgObfYv=-CwuxgjfPHeZ-yJMu0HFM=GSjkMSuvvVLtbQCEbHQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1odQWD-0000Fd-NH
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 02:26:21 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4Mcmhf4s2Bz4xGH; Wed, 28 Sep 2022 16:25:54 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1664346354;
+ bh=gcv0pixq8VKkqLgGxV9Ru8ppJNtrsbke2IVNGXEFEJ0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dLJt9KkdxSmZP+mk6GlfHFowaGTpzizScipZKplk5/DF3K+GMVG9SiZSro95wy9rc
+ 0i89dFi7RJrV2W9py4UkkBJDLCHfgF+Lot8bGIDHWT5CeK+63smz6gDyFlV2WssdZc
+ gM7lDBT0mO7wjD72UP1I0Hb3KyS9mel51wR0M1rk=
+Date: Wed, 28 Sep 2022 14:55:29 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Thomas Huth <thuth@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH v9 01/16] net: introduce convert_host_port()
+Message-ID: <YzPTwahVuzXmu71B@yekko>
+References: <20220926195048.487915-1-lvivier@redhat.com>
+ <20220926195048.487915-2-lvivier@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GCI677W8+NhjmYAa"
 Content-Disposition: inline
-In-Reply-To: <CABgObfYv=-CwuxgjfPHeZ-yJMu0HFM=GSjkMSuvvVLtbQCEbHQ@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20220926195048.487915-2-lvivier@redhat.com>
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,32 +71,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 01:10:15AM +0200, Paolo Bonzini wrote:
-> 
-> 
-> Il mer 28 set 2022, 00:09 Michael S. Tsirkin <mst@redhat.com> ha scritto:
-> 
->     On Tue, Sep 27, 2022 at 11:44:56PM +0200, Paolo Bonzini wrote:
->     > I also second the idea of using avocado instead of pytest, by the way.
->     >
->     > Paolo
-> 
->     I do not think this is a good fit for bios tests.
->     bios tests are intended for a wide audience of ACPI developers
->     across a variety of host systems. They basically do not need anything
->     from the host and they need to be super easy to configure
->     since we have lots of drive through contributors.
-> 
-> 
-> The setup would be the same, with avocado installed in a virtual environment
-> via pip. It doesn't need to be set up outside, neither with distro packages nor
-> in ~/.local, and especially it is not necessary to deal with avocado-vt.
-> 
-> Paolo
 
-Hmm, good point.
+--GCI677W8+NhjmYAa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-MST
+On Mon, Sep 26, 2022 at 09:50:33PM +0200, Laurent Vivier wrote:
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
 
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  include/qemu/sockets.h |  2 ++
+>  net/net.c              | 62 ++++++++++++++++++++++--------------------
+>  2 files changed, 34 insertions(+), 30 deletions(-)
+>=20
+> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+> index 038faa157f59..47194b9732f8 100644
+> --- a/include/qemu/sockets.h
+> +++ b/include/qemu/sockets.h
+> @@ -47,6 +47,8 @@ void socket_listen_cleanup(int fd, Error **errp);
+>  int socket_dgram(SocketAddress *remote, SocketAddress *local, Error **er=
+rp);
+> =20
+>  /* Old, ipv4 only bits.  Don't use for new code. */
+> +int convert_host_port(struct sockaddr_in *saddr, const char *host,
+> +                      const char *port, Error **errp);
+>  int parse_host_port(struct sockaddr_in *saddr, const char *str,
+>                      Error **errp);
+>  int socket_init(void);
+> diff --git a/net/net.c b/net/net.c
+> index 2db160e0634d..d2288bd3a929 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -66,55 +66,57 @@ static QTAILQ_HEAD(, NetClientState) net_clients;
+>  /***********************************************************/
+>  /* network device redirectors */
+> =20
+> -int parse_host_port(struct sockaddr_in *saddr, const char *str,
+> -                    Error **errp)
+> +int convert_host_port(struct sockaddr_in *saddr, const char *host,
+> +                      const char *port, Error **errp)
+>  {
+> -    gchar **substrings;
+>      struct hostent *he;
+> -    const char *addr, *p, *r;
+> -    int port, ret =3D 0;
+> +    const char *r;
+> +    long p;
+> =20
+>      memset(saddr, 0, sizeof(*saddr));
+> =20
+> -    substrings =3D g_strsplit(str, ":", 2);
+> -    if (!substrings || !substrings[0] || !substrings[1]) {
+> -        error_setg(errp, "host address '%s' doesn't contain ':' "
+> -                   "separating host from port", str);
+> -        ret =3D -1;
+> -        goto out;
+> -    }
+> -
+> -    addr =3D substrings[0];
+> -    p =3D substrings[1];
+> -
+>      saddr->sin_family =3D AF_INET;
+> -    if (addr[0] =3D=3D '\0') {
+> +    if (host[0] =3D=3D '\0') {
+>          saddr->sin_addr.s_addr =3D 0;
+>      } else {
+> -        if (qemu_isdigit(addr[0])) {
+> -            if (!inet_aton(addr, &saddr->sin_addr)) {
+> +        if (qemu_isdigit(host[0])) {
+> +            if (!inet_aton(host, &saddr->sin_addr)) {
+>                  error_setg(errp, "host address '%s' is not a valid "
+> -                           "IPv4 address", addr);
+> -                ret =3D -1;
+> -                goto out;
+> +                           "IPv4 address", host);
+> +                return -1;
+>              }
+>          } else {
+> -            he =3D gethostbyname(addr);
+> +            he =3D gethostbyname(host);
+>              if (he =3D=3D NULL) {
+> -                error_setg(errp, "can't resolve host address '%s'", addr=
+);
+> -                ret =3D -1;
+> -                goto out;
+> +                error_setg(errp, "can't resolve host address '%s'", host=
+);
+> +                return -1;
+>              }
+>              saddr->sin_addr =3D *(struct in_addr *)he->h_addr;
+>          }
+>      }
+> -    port =3D strtol(p, (char **)&r, 0);
+> -    if (r =3D=3D p) {
+> -        error_setg(errp, "port number '%s' is invalid", p);
+> +    if (qemu_strtol(port, &r, 0, &p) !=3D 0) {
+> +        error_setg(errp, "port number '%s' is invalid", port);
+> +        return -1;
+> +    }
+> +    saddr->sin_port =3D htons(p);
+> +    return 0;
+> +}
+> +
+> +int parse_host_port(struct sockaddr_in *saddr, const char *str,
+> +                    Error **errp)
+> +{
+> +    gchar **substrings;
+> +    int ret;
+> +
+> +    substrings =3D g_strsplit(str, ":", 2);
+> +    if (!substrings || !substrings[0] || !substrings[1]) {
+> +        error_setg(errp, "host address '%s' doesn't contain ':' "
+> +                   "separating host from port", str);
+>          ret =3D -1;
+>          goto out;
+>      }
+> -    saddr->sin_port =3D htons(port);
+> +
+> +    ret =3D convert_host_port(saddr, substrings[0], substrings[1], errp);
+> =20
+>  out:
+>      g_strfreev(substrings);
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--GCI677W8+NhjmYAa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmMz06UACgkQgypY4gEw
+YSLn7Q/9F8AG3Y6YwHndP6Ze0wrUqzOcDqOLM4U+w/NVY/Eixj0zmsY0hdpMQdCp
+vijP/MoZIJycF42XRGT4zd5F0R19ytj/VyklpNVP/1PFl2kCmpPmI3AmRiZobAZF
+QZF/ytxEtTN5NxWRU3X+51KpYcju3sS8lxkhUlCDwfjMuqShhv5v4jhRPhJXpIkS
+Tbo8HjUtmVJzY/HUeWJHwrMsgN4H1LVLFujaqk1+ievcQ5gnqLQGjxrqBbY0Lpsy
+w/bTnhm3kj6Zt0QgqUPdAgQ6kiEs/NmfvA2KZgZLzelFXYFhh7ic3CVJknAIsjtg
+Md2RaiLtO/CJAAd0h2su5EcBFSskt2w/GL1YEa6LW8VG+dH7XQZBCobJElJ1MIXA
+FQXTioI56Gd1XVF8Na0GDvPhskCFNMqB5JsOba4gOFkVrXebpZiEM4TqvDPt9OW8
+Me/A5mvVEh7M4JauuJETn3reHlG00hWP9hBndipX3x880CVQ41pdQL90Z/c/NAkj
+QHIuPwWRBTW/zsKoCBHfvsCMmwFCCfruzcXO2ZRXzUgrlbBqw5swPGYXJ05GI02G
+AJ+vl8kA6fkIbVVBplfRPyidA8F2KMMRFA7OCKBI+3xR1WyWyGNJqa/kIwujsd+U
+Seh7NN1Ap8WfIkCP9nFx49x2tpqPgO2OoBoQjtVXciANj2EUyVM=
+=uUfY
+-----END PGP SIGNATURE-----
+
+--GCI677W8+NhjmYAa--
 
