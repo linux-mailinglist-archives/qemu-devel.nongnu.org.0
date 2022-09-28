@@ -2,78 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32155EDBB6
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:25:25 +0200 (CEST)
-Received: from localhost ([::1]:50848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A193E5EDBD3
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:33:59 +0200 (CEST)
+Received: from localhost ([::1]:39422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odVBs-0004X4-Un
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:25:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40898)
+	id 1odVKA-00047c-Ne
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:33:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1odTpB-0004Oo-D6
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:57:54 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:33353)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1odTp9-0005zB-Fm
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:57:52 -0400
-Received: by mail-qt1-x833.google.com with SMTP id ay9so7635838qtb.0
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 02:57:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=ohCt+6UM2hyIqf3vdtxJsQlrQcmke11T0U8WDNXHpmQ=;
- b=B0vk4j9uYvJY6tg6xYVdQZI2cJVA+PB+KbeGV2pKsRlieyxcRQl+p71mtJQBIUr+Z+
- OV6zjfIG9oPQcZWZM+ShEU0eeqNmCNaBgm1hh5leE2KahekG5HwQ1Vt7DNksEf7K3h74
- p1AIXNg3bz8LTCUv2PfdrLLamO6qdY71mAUmn29YFlQzB6VhrwHA66UE4Oy2Q8Ly1OJO
- /cBAOFa7U/oug5sGUWZ2kIvFkl6C6re2/0N/zFYhjGheEepi/3wScPIs+95vKxsoRTDD
- Txfa4i3vaZV22lk6LUQrKpBMgiC/m0Jli2vlnyWNT17mzeuA7EATrRMVQR2sp5+BQiHk
- q20A==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odTuU-0000mz-Q0
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 06:03:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27633)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odTuR-00079W-SV
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 06:03:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664359398;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LgRbXjpW1XLVuxlCZQUp/YcUUZEskjKt1Z0sQHEyibo=;
+ b=EfRwekqajpwAKl+9lTAeX/a4um0GbxsT+bxMvRSAd8ElbhMHMGGVmIeyWA79I45W1GjNML
+ Q4Gha4sfhABkpuSPqBRW7MNcGiXbZjj5lJ5aDSl/G7+YG+Q2DvgJrayTXp95ppdWV6gnTJ
+ BTPZ9HeZx3sPP+uOlKFszIOHfklAGLk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-653-yvSJxEVtPsWu_aP_tPYZuA-1; Wed, 28 Sep 2022 06:03:17 -0400
+X-MC-Unique: yvSJxEVtPsWu_aP_tPYZuA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ g8-20020a05600c4ec800b003b4bcbdb63cso6887792wmq.7
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 03:03:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=ohCt+6UM2hyIqf3vdtxJsQlrQcmke11T0U8WDNXHpmQ=;
- b=M8ZHYVqyriVlZqOLDSx7pOysMfoVCvsH4XqihsefUHbbgjL4WqGHAv4sE+v+p24FEm
- cFPvMyIUvMVClHn6zFslVoFdH5vMnT4T2fiPEWsklXH5YfJsaFasbblYHZsIXRhJnKmZ
- MoFIB+xKk8MEaKUDDfubzVRdgGAC1KY0b3Vr1P5L0bt/YZZhuQA+aI6p9QElc4Djmd6H
- PQ7iEZr8S8HL3916beY6sRGf6LzzQALcS/H9xZmBCiEokvsKuMtFdsaZQd4el3ci3xsq
- Jrl/wWAj6gzmt0w5gvutqect8UGBMKM7ToUrg2a5skO7xvlYw9f23EKNipVxKtwJo54O
- YdDw==
-X-Gm-Message-State: ACrzQf0FP+oDstmbtdUa0ioBpCNxMusqbQihobmIIBdxTu75+3IZVhoV
- 25DCqd0vWxMQnz0wNh761RWdPdmJs8J0WaTtN0E=
-X-Google-Smtp-Source: AMsMyM4r6a3nzcpvwL1Vu4rdBTajZe0318P+hQk/HhjZJWFEzeLwFInUiDlP17aul1dzUeBo8Bd57lXluXcO7xhOWeQ=
-X-Received: by 2002:a05:622a:92:b0:35d:58bc:4a4a with SMTP id
- o18-20020a05622a009200b0035d58bc4a4amr472617qtw.391.1664359070379; Wed, 28
- Sep 2022 02:57:50 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=LgRbXjpW1XLVuxlCZQUp/YcUUZEskjKt1Z0sQHEyibo=;
+ b=Do+OVfZW7GXyQ5hCdf2aF6I4p4ULrayyE0RjpEGSnljKSmHJ8TcIJBgP1fSzOTXQLt
+ 7GRjU2dNC3wZXzgH5mLBYzUI6Rjn7KQt/DyLyM5ZZcHfFNDfVw0wFNIZ+3Q7ErEMV1Ky
+ 3smC1p3eYu+TtHk7G36v1mziqYM8eRAE2gCauxcw0YZ8K7it9FiL5xHag7nhYNAozPt2
+ w4lqVAC11GzOUMmmHgjmMIpSmcw7l1q1iy1d/45tkNyTzBB39gNlDQLJee+kpTVPYkMc
+ OQUOvfhlLbvL42ammH2Fbj5M3IBQ143assn2fEG2knE03l0UnNrfFsxuG+NEHViGMcvj
+ Di6w==
+X-Gm-Message-State: ACrzQf1Ufq9daJnRDZMbd9D4VMarHnFzA7+zulE3+OPIbWjd8gOVqZgI
+ K8dFiN/3fHkKRZv+deVFrhhLB4FRo1QowixgrvTt7LDtDrNrDtz0UiCadzHokzJCHm63+3fuyPw
+ 20xxRwAhlTvMqAEo=
+X-Received: by 2002:a5d:64cf:0:b0:22a:b61d:875e with SMTP id
+ f15-20020a5d64cf000000b0022ab61d875emr19094550wri.100.1664359396465; 
+ Wed, 28 Sep 2022 03:03:16 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7qNO4DpQwMuDEFWzGmUHC3pWRblygYBLzyOP+peev+00W8gSBHrYZOEw8a6msx93DlAEKpuA==
+X-Received: by 2002:a5d:64cf:0:b0:22a:b61d:875e with SMTP id
+ f15-20020a5d64cf000000b0022ab61d875emr19094529wri.100.1664359396260; 
+ Wed, 28 Sep 2022 03:03:16 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-89.web.vodafone.de.
+ [109.43.176.89]) by smtp.gmail.com with ESMTPSA id
+ u4-20020adff884000000b0022a2dbc80fdsm3774507wrp.10.2022.09.28.03.03.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Sep 2022 03:03:15 -0700 (PDT)
+Message-ID: <fd7dad24-0725-8c0f-067b-7ae99aca8d80@redhat.com>
+Date: Wed, 28 Sep 2022 12:03:14 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v4 35/54] tests/qtest: libqtest: Install signal handler
+ via signal()
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
  <20220927110632.1973965-36-bmeng.cn@gmail.com>
  <8b15887b-686f-3b59-ce2a-899c22b53458@redhat.com>
-In-Reply-To: <8b15887b-686f-3b59-ce2a-899c22b53458@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 28 Sep 2022 17:57:39 +0800
-Message-ID: <CAEUhbmWLMfLGJvH+aMV-w0mBaH16vp+2Foxj1Mm-xGMhmg86gw@mail.gmail.com>
-Subject: Re: [PATCH v4 35/54] tests/qtest: libqtest: Install signal handler
- via signal()
-To: Thomas Huth <thuth@redhat.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ <CAEUhbmWLMfLGJvH+aMV-w0mBaH16vp+2Foxj1Mm-xGMhmg86gw@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <CAEUhbmWLMfLGJvH+aMV-w0mBaH16vp+2Foxj1Mm-xGMhmg86gw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,51 +107,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 5:43 PM Thomas Huth <thuth@redhat.com> wrote:
->
-> On 27/09/2022 13.06, Bin Meng wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > At present the codes uses sigaction() to install signal handler with
-> > a flag SA_RESETHAND. Such usage can be covered by the signal() API
-> > that is a simplified interface to the general sigaction() facility.
-> >
-> > Update to use signal() to install the signal handler, as it is
-> > available on Windows which we are going to support.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >
-> > (no changes since v1)
-> >
-> >   tests/qtest/libqtest.c | 14 +++-----------
-> >   1 file changed, 3 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> > index 269d622fe3..f0ac467903 100644
-> > --- a/tests/qtest/libqtest.c
-> > +++ b/tests/qtest/libqtest.c
-> > @@ -66,7 +66,7 @@ struct QTestState
-> >   };
-> >
-> >   static GHookList abrt_hooks;
-> > -static struct sigaction sigact_old;
-> > +static sighandler_t sighandler_old;
->
-> This seems to break compilation on NetBSD (which you can test via "make
-> vm-build-netbsd" on a Linux KVM host):
+On 28/09/2022 11.57, Bin Meng wrote:
+> On Wed, Sep 28, 2022 at 5:43 PM Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> On 27/09/2022 13.06, Bin Meng wrote:
+>>> From: Bin Meng <bin.meng@windriver.com>
+>>>
+>>> At present the codes uses sigaction() to install signal handler with
+>>> a flag SA_RESETHAND. Such usage can be covered by the signal() API
+>>> that is a simplified interface to the general sigaction() facility.
+>>>
+>>> Update to use signal() to install the signal handler, as it is
+>>> available on Windows which we are going to support.
+>>>
+>>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>>> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>> ---
+>>>
+>>> (no changes since v1)
+>>>
+>>>    tests/qtest/libqtest.c | 14 +++-----------
+>>>    1 file changed, 3 insertions(+), 11 deletions(-)
+>>>
+>>> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+>>> index 269d622fe3..f0ac467903 100644
+>>> --- a/tests/qtest/libqtest.c
+>>> +++ b/tests/qtest/libqtest.c
+>>> @@ -66,7 +66,7 @@ struct QTestState
+>>>    };
+>>>
+>>>    static GHookList abrt_hooks;
+>>> -static struct sigaction sigact_old;
+>>> +static sighandler_t sighandler_old;
+>>
+>> This seems to break compilation on NetBSD (which you can test via "make
+>> vm-build-netbsd" on a Linux KVM host):
+> 
+> Oops, so this means this test is not covered by GitLab CI ...
 
-Oops, so this means this test is not covered by GitLab CI ...
+You can enable the NetBSD tests in the Gitlab-CI by setting up Cirrus-CI for 
+your account. The information hides here:
 
->
->
-> ../src/tests/qtest/libqtest.c:86:8: error: unknown type name 'sighandler_=
-t'
->   static sighandler_t sighandler_old;
->          ^~~~~~~~~~~~
->
+  .gitlab-ci.d/cirrus/README.rst
 
-Regards,
-Bin
+... but since this is running NetBSD in a KVM-enabled container on Cirrus-CI 
+via a script from Gitlab-CI, it's a little bit fragile, so it might be 
+easier to simply type "make vm-build-netbsd" on your local KVM-capable Linux 
+host.
+
+  Thomas
+
 
