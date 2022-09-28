@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224115EDCDD
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 14:35:32 +0200 (CEST)
-Received: from localhost ([::1]:42236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF38B5EDD13
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 14:44:05 +0200 (CEST)
+Received: from localhost ([::1]:47552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odWHi-0008Tu-Si
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 08:35:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36120)
+	id 1odWQ0-0006Im-4e
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 08:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1odT0C-0001XK-9p; Wed, 28 Sep 2022 05:05:17 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45006)
+ id 1odT1M-00022K-V8; Wed, 28 Sep 2022 05:06:28 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1odT05-00077h-1r; Wed, 28 Sep 2022 05:05:07 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28S8lZoh007633;
- Wed, 28 Sep 2022 09:05:03 GMT
+ id 1odT1L-0007U5-Gz; Wed, 28 Sep 2022 05:06:24 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28S8lYam003402;
+ Wed, 28 Sep 2022 09:06:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=mOWQIBzUMWGS2vEJI1vSlEYeBFZsn68gjHfZuTclrUE=;
- b=f6PwKfaOoD6jvV0a8O3dEBo4GNw8J5fNwjF74hHDRoiveMEQl1WkaLNd5ZBJ2cNkMgOd
- 5a61kDK5VrBgVhF1U8ngnWAFWZM5daaSX2CcDEkPZMiIesASDTwvDhVQal4mcZ4V+CO2
- HehtlOyHeAlvZnBw3R1j6DVU3PlJ4wNRkHLKzAkT7BZ+i4HQ6gtTVKjoqfmqsxTKWtJX
- fhipuJOMrIwHpN3hBAzZhwgOk5yxlLxMSCysbl5l+TuRtvfNujR3a/j4I11P+4dbp4dD
- kK5v7r3+W5wD7nQC0h8qfOf6p3n/Vo9FWzl65ACBOx3XqOJYqGJgSa7v3eebZlxuXABt hA== 
+ bh=3DcaO+CkYJ/Sf8fcKrcfSWu64WpweeM0zjUmsppfzXU=;
+ b=DdjTJKLNyUryHO4biNIk8b5SCemtqb4WRS4+RX4kdCiPiy/nO4yWYy4gCQZnz2sDrW09
+ vqWwRmsCPCqS17LXWOyCf414okFaaWaLd6f489xsvdoxnpnue63xrOfU0XTstkBvOby8
+ ojjSVqhiX/TuQJGnH+yXoS3mHR5Jk0VnEr3uWUtatdgIxIYgVebwA7pdwhRnbHcODF1e
+ mYp7OkiYlZXTpwU/pK8z1G6OJ4NRiXP+3okznk+IQxR5eVJ+L4VEtCQQPIiiYWx+4MEa
+ vPmkBERrizJbCVgAbjBmOj6UCFJu+CfLR7YPCQq8sKqTL/rtKKuYSHonAzudPtZXVOGd Ng== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvf8rf4h8-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvk2pgpsp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 09:05:03 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28S8o7SU013365;
- Wed, 28 Sep 2022 09:05:02 GMT
+ Wed, 28 Sep 2022 09:06:21 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28S8o7su012534;
+ Wed, 28 Sep 2022 09:06:21 GMT
 Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
  [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvf8rf4fy-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvk2pgprr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 09:05:02 +0000
+ Wed, 28 Sep 2022 09:06:21 +0000
 Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28S8qSsp015006;
- Wed, 28 Sep 2022 09:05:00 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3jss5j501w-1
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28S95UlY025093;
+ Wed, 28 Sep 2022 09:06:19 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 3jss5j503y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 09:05:00 +0000
+ Wed, 28 Sep 2022 09:06:19 +0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 28S95Pev51904772
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 28S96GTa3801710
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 28 Sep 2022 09:05:25 GMT
+ Wed, 28 Sep 2022 09:06:16 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0F5A54C040;
- Wed, 28 Sep 2022 09:04:57 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2208B4C044;
+ Wed, 28 Sep 2022 09:06:16 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 194FC4C044;
- Wed, 28 Sep 2022 09:04:56 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 457964C040;
+ Wed, 28 Sep 2022 09:06:15 +0000 (GMT)
 Received: from [9.171.31.212] (unknown [9.171.31.212])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 28 Sep 2022 09:04:56 +0000 (GMT)
-Message-ID: <c5f28aa1-bc09-d193-a402-132949a95b32@linux.ibm.com>
-Date: Wed, 28 Sep 2022 11:04:55 +0200
+ Wed, 28 Sep 2022 09:06:15 +0000 (GMT)
+Message-ID: <8a42b8d6-33de-21be-6a97-4db89f9aeb62@linux.ibm.com>
+Date: Wed, 28 Sep 2022 11:06:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
@@ -86,16 +86,16 @@ In-Reply-To: <87ilm03mkl.fsf@pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 86m8N50ZMLclAOAlZXpWdD2YSQSYCWhJ
-X-Proofpoint-GUID: 8DlWo8xff9iwHynR2Gp_OLpx3B37je31
+X-Proofpoint-ORIG-GUID: pzZJC472TVntesMqoISzO1_gbTOe85Vh
+X-Proofpoint-GUID: 5oUmcdghm3qHMmprgkG5yrGzIvv4Zuo1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-28_03,2022-09-27_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- spamscore=0 mlxlogscore=999 suspectscore=0 phishscore=0 priorityscore=1501
- impostorscore=0 clxscore=1015 adultscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ bulkscore=0 spamscore=0 clxscore=1015 mlxlogscore=904 phishscore=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2209280055
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
  helo=mx0b-001b2d01.pphosted.com
@@ -129,72 +129,15 @@ On 9/6/22 10:59, Markus Armbruster wrote:
 >> S390x defines two topology levels above sockets: nbooks and drawers.
 > 
 > nbooks or books?
-> 
->> Let's add these two levels inside the CPU topology implementation.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
-> 
-> [...]
-> 
->> diff --git a/qapi/machine.json b/qapi/machine.json
->> index 6afd1936b0..bdd92e3cb1 100644
->> --- a/qapi/machine.json
->> +++ b/qapi/machine.json
->> @@ -900,13 +900,15 @@
->>   # a CPU is being hotplugged.
->>   #
->>   # @node-id: NUMA node ID the CPU belongs to
->> -# @socket-id: socket number within node/board the CPU belongs to
->> +# @drawer-id: drawer number within node/board the CPU belongs to
->> +# @book-id: book number within drawer/node/board the CPU belongs to
->> +# @socket-id: socket number within book/node/board the CPU belongs to
->>   # @die-id: die number within socket the CPU belongs to (since 4.1)
->>   # @cluster-id: cluster number within die the CPU belongs to (since 7.1)
->>   # @core-id: core number within cluster the CPU belongs to
->>   # @thread-id: thread number within core the CPU belongs to
->>   #
->> -# Note: currently there are 6 properties that could be present
->> +# Note: currently there are 7 properties that could be present
-> 
-> Should this be 8?
 
-when one can count .. yes :)
+Sorry, forgot this.
 
-Thanks, I will update in next spin
+Yes typo, I mean "books"
 
-> 
->>   #       but management should be prepared to pass through other
->>   #       properties with device_add command to allow for future
->>   #       interface extension. This also requires the filed names to be kept in
->     #       sync with the properties passed to -device/device_add.
-> 
-> Not your patch's fault, but the second sentence is less than clear.
-> What are "the filed names"?  A typo perhaps?
-
-I understood that it means the names in the structure here under which 
-are filed inside the single quotes.
-
-
-In this case, may be "filed names" should be replaced by
-"names in the CpuInstanceProperties structure"
-
-
-> 
->> @@ -916,6 +918,8 @@
->>   ##
->>   { 'struct': 'CpuInstanceProperties',
->>     'data': { '*node-id': 'int',
->> +            '*drawer-id': 'int',
->> +            '*book-id': 'int',
->>               '*socket-id': 'int',
->>               '*die-id': 'int',
->>               '*cluster-id': 'int',
->> @@ -1465,6 +1469,10 @@
->>   #
-
-Regards,
+Thanks,
 Pierre
+
+
 
 -- 
 Pierre Morel
