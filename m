@@ -2,47 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E0F5EE260
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 18:57:12 +0200 (CEST)
-Received: from localhost ([::1]:43062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F003A5EE1E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 18:31:38 +0200 (CEST)
+Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odaMx-0005V3-8W
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 12:57:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35178)
+	id 1odZyD-0006Kq-Go
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 12:31:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1odZlM-0001it-At
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 12:18:20 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:57376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1odZlK-00035G-4d
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 12:18:19 -0400
-Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <mail@maciej.szmigiero.name>)
- id 1odZku-0000ND-8N; Wed, 28 Sep 2022 18:17:52 +0200
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, kvm@vger.kernel.org,
- qemu-devel@nongnu.org
-Subject: [PATCH v2] hyperv: fix SynIC SINT assertion failure on guest reset
-Date: Wed, 28 Sep 2022 18:17:46 +0200
-Message-Id: <8474c6ca63bbbf85ac7721732a7bbdb033f7aa50.1664378882.git.maciej.szmigiero@oracle.com>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1odZsQ-0000J5-Lh
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 12:25:38 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:35722)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1odZsO-0004st-Tk
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 12:25:38 -0400
+Received: by mail-pg1-x535.google.com with SMTP id u69so12684267pgd.2
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 09:25:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=kVqJtmVBmc8Wxze+lxYQwwSyGzsY62s1YugOwDGwy3A=;
+ b=J4Vdb1PtlqonoyzegYNSfoWMupZO7GTM8mXYY57NUsmKJMPSDWFLGGbr1VrBOkn5b8
+ Vu+4soZfQrgpXuKqgOzDUojayquk5yhqVOi68ixyIP9xEMegjJlmpdRZHjDhUEvcYkkT
+ PaWfTba/wHr19nEpecM3SiUo+xLq4qOpSsnjmPQ6SYhTKaGNsNWvqzEAVGK0Y4n+acYR
+ XqtaeNpCcncYrRV0OvxL3lJoQpxgp/tvR6i24n645HB1fNlMONs7b5iqpPqn5WqLQnEJ
+ 9/iU9xQ+xBD8RVCSlow9YbkzrDm7eGsqo0YG0+nkr8K0tsrhz8nrlF1lX6vIYhd2F6Y8
+ yPgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=kVqJtmVBmc8Wxze+lxYQwwSyGzsY62s1YugOwDGwy3A=;
+ b=lHxg83zyGZggJhCNZgOvY+XsH+zFyPYnA+oGs428SFt0K9Hc8YBSiuinK/fjGwFeK1
+ UkyMmJNlszcsW+VT92CTySCYoKEN+31TBicOcBB/2oG5tiW9XHpaQyXqk6t9SavQrEXb
+ TjrWd9NnXCvfAVLMbVe7qbVZPMHJWv6SeZgqgdiW7tgVVjjHqFJNnymmlP4gp5pDFKi8
+ HsMhHF7LWN9Hnq8by5/TVVVe0tozD48FgOagwXvfi8ykt0WAWMr+O6l114s9St3xT336
+ ieJx1n1CsINCfVSSe6HRj7gRU5d5rQbJk/asGRtqCdNIkpNI1DEvU144XdGz0jjmVmhY
+ IxcA==
+X-Gm-Message-State: ACrzQf2cR6jxpClg2Crpyt4ugCyF+n3rVtfIttE6tKSpgCaCp7Ru+dSr
+ lIWi9hdCPJoC2JqLcKrbVlGY5Q==
+X-Google-Smtp-Source: AMsMyM75ZG7Ywu34GN07KMWikWxzydUC4KV/PPHIUgu+0tWphoy/g7nUqFq9/mERKwCcOMFpFE0j8Q==
+X-Received: by 2002:a05:6a00:2446:b0:52b:e9a8:cb14 with SMTP id
+ d6-20020a056a00244600b0052be9a8cb14mr35675552pfj.32.1664382335464; 
+ Wed, 28 Sep 2022 09:25:35 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:986f:cb56:6709:4057?
+ ([2602:47:d49d:ec01:986f:cb56:6709:4057])
+ by smtp.gmail.com with ESMTPSA id
+ q15-20020a170902f78f00b0016c9e5f291bsm3881067pln.111.2022.09.28.09.25.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Sep 2022 09:25:34 -0700 (PDT)
+Message-ID: <afb177dc-ab07-5167-e559-5b5280150c46@linaro.org>
+Date: Wed, 28 Sep 2022 09:25:32 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.28.154.113;
- envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 4/5] configure, meson: move C++ compiler detection to
+ meson.build
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com
+References: <20220927095921.261760-1-pbonzini@redhat.com>
+ <20220927095921.261760-5-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220927095921.261760-5-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,165 +96,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>
+On 9/27/22 02:59, Paolo Bonzini wrote:
+> The test is slightly weaker than before, because it does not
+> call an extern "C" function from a C source file.  However,
+> in practice what we seek to detect is ABI compatibility of the
+> various sanitizer flags, and for that it is enough to compile
+> anything with CC and link it with CXX.
 
-Resetting a guest that has Hyper-V VMBus support enabled triggers a QEMU
-assertion failure:
-hw/hyperv/hyperv.c:131: synic_reset: Assertion `QLIST_EMPTY(&synic->sint_routes)' failed.
+Maybe just wait a moment on this one?
+We have patches on list to remove the last use of C++.
 
-This happens both on normal guest reboot or when using "system_reset" HMP
-command.
 
-The failing assertion was introduced by commit 64ddecc88bcf ("hyperv: SControl is optional to enable SynIc")
-to catch dangling SINT routes on SynIC reset.
 
-The root cause of this problem is that the SynIC itself is reset before
-devices using SINT routes have chance to clean up these routes.
-
-Since there seems to be no existing mechanism to force reset callbacks (or
-methods) to be executed in specific order let's use a similar method that
-is already used to reset another interrupt controller (APIC) after devices
-have been reset - by invoking the SynIC reset from the machine reset
-handler via a new x86_cpu_after_reset() function co-located with
-the existing x86_cpu_reset() in target/i386/cpu.c.
-
-Fixes: 64ddecc88bcf ("hyperv: SControl is optional to enable SynIc") # exposed the bug
-Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
----
-
-Changes from v1:
-Directly call x86_cpu_after_reset() from pc_machine_reset() instead of
-adding a new "after_reset" X86 CPU class method.
-
- hw/i386/pc.c               |  3 +++
- target/i386/cpu.c          |  9 +++++++++
- target/i386/cpu.h          |  2 ++
- target/i386/kvm/hyperv.c   |  4 ++++
- target/i386/kvm/kvm.c      | 24 +++++++++++++++++-------
- target/i386/kvm/kvm_i386.h |  1 +
- 6 files changed, 36 insertions(+), 7 deletions(-)
-
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 566accf7e6..736a4f34b0 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -92,6 +92,7 @@
- #include "hw/virtio/virtio-mem-pci.h"
- #include "hw/mem/memory-device.h"
- #include "sysemu/replay.h"
-+#include "target/i386/cpu.h"
- #include "qapi/qmp/qerror.h"
- #include "e820_memory_layout.h"
- #include "fw_cfg.h"
-@@ -1859,6 +1860,8 @@ static void pc_machine_reset(MachineState *machine)
-     CPU_FOREACH(cs) {
-         cpu = X86_CPU(cs);
- 
-+        x86_cpu_after_reset(cpu);
-+
-         if (cpu->apic_state) {
-             device_legacy_reset(cpu->apic_state);
-         }
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 1db1278a59..4ea605c3b0 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6034,6 +6034,15 @@ static void x86_cpu_reset(DeviceState *dev)
- #endif
- }
- 
-+void x86_cpu_after_reset(X86CPU *cpu)
-+{
-+#ifndef CONFIG_USER_ONLY
-+    if (kvm_enabled()) {
-+        kvm_arch_after_reset_vcpu(cpu);
-+    }
-+#endif
-+}
-+
- static void mce_init(X86CPU *cpu)
- {
-     CPUX86State *cenv = &cpu->env;
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 82004b65b9..c67d98e1a9 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -2079,6 +2079,8 @@ typedef struct PropValue {
- } PropValue;
- void x86_cpu_apply_props(X86CPU *cpu, PropValue *props);
- 
-+void x86_cpu_after_reset(X86CPU *cpu);
-+
- uint32_t cpu_x86_virtual_addr_width(CPUX86State *env);
- 
- /* cpu.c other functions (cpuid) */
-diff --git a/target/i386/kvm/hyperv.c b/target/i386/kvm/hyperv.c
-index 9026ef3a81..e3ac978648 100644
---- a/target/i386/kvm/hyperv.c
-+++ b/target/i386/kvm/hyperv.c
-@@ -23,6 +23,10 @@ int hyperv_x86_synic_add(X86CPU *cpu)
-     return 0;
- }
- 
-+/*
-+ * All devices possibly using SynIC have to be reset before calling this to let
-+ * them remove their SINT routes first.
-+ */
- void hyperv_x86_synic_reset(X86CPU *cpu)
- {
-     hyperv_synic_reset(CPU(cpu));
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index a1fd1f5379..774484c588 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -2203,20 +2203,30 @@ void kvm_arch_reset_vcpu(X86CPU *cpu)
-         env->mp_state = KVM_MP_STATE_RUNNABLE;
-     }
- 
-+    /* enabled by default */
-+    env->poll_control_msr = 1;
-+
-+    kvm_init_nested_state(env);
-+
-+    sev_es_set_reset_vector(CPU(cpu));
-+}
-+
-+void kvm_arch_after_reset_vcpu(X86CPU *cpu)
-+{
-+    CPUX86State *env = &cpu->env;
-+    int i;
-+
-+    /*
-+     * Reset SynIC after all other devices have been reset to let them remove
-+     * their SINT routes first.
-+     */
-     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC)) {
--        int i;
-         for (i = 0; i < ARRAY_SIZE(env->msr_hv_synic_sint); i++) {
-             env->msr_hv_synic_sint[i] = HV_SINT_MASKED;
-         }
- 
-         hyperv_x86_synic_reset(cpu);
-     }
--    /* enabled by default */
--    env->poll_control_msr = 1;
--
--    kvm_init_nested_state(env);
--
--    sev_es_set_reset_vector(CPU(cpu));
- }
- 
- void kvm_arch_do_init_vcpu(X86CPU *cpu)
-diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
-index 4124912c20..096a5dd781 100644
---- a/target/i386/kvm/kvm_i386.h
-+++ b/target/i386/kvm/kvm_i386.h
-@@ -38,6 +38,7 @@ bool kvm_has_adjust_clock_stable(void);
- bool kvm_has_exception_payload(void);
- void kvm_synchronize_all_tsc(void);
- void kvm_arch_reset_vcpu(X86CPU *cs);
-+void kvm_arch_after_reset_vcpu(X86CPU *cpu);
- void kvm_arch_do_init_vcpu(X86CPU *cs);
- 
- void kvm_put_apicbase(X86CPU *cpu, uint64_t value);
+r~
 
