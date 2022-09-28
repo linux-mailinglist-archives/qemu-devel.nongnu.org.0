@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A15E5EE6E9
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:59:10 +0200 (CEST)
-Received: from localhost ([::1]:55242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164FB5EE6B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:40:51 +0200 (CEST)
+Received: from localhost ([::1]:58514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ode97-0007GS-5T
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60052)
+	id 1oddrO-0000Td-55
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddet-0008MW-T2
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:55 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:48195)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf4-0000a6-67
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:06 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:42867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odder-0006T6-Bq
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:54 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MEV7U-1oTA562rhC-00FyCI; Wed, 28
- Sep 2022 22:27:50 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddes-0006TQ-HN
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:05 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MVMqF-1omBxv2uIx-00SLHh; Wed, 28
+ Sep 2022 22:27:52 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
 	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 18/37] linux-user: Fix TARGET_PROT_SEM for XTENSA
-Date: Wed, 28 Sep 2022 22:27:18 +0200
-Message-Id: <20220928202737.793171-19-laurent@vivier.eu>
+Subject: [PULL 19/37] linux-user: Add proper strace format strings for
+ getdents()/getdents64()
+Date: Wed, 28 Sep 2022 22:27:19 +0200
+Message-Id: <20220928202737.793171-20-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928202737.793171-1-laurent@vivier.eu>
 References: <20220928202737.793171-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:A1/nH2+PkP1GnT42Sg7sSlRZaoyRH4CLQaeOzJNv00dS+QmhJxZ
- eQ6GqEQ0ZI12408qhDAv/9KBxQjqc60FCqIn+sX/URsvDNgeUa9uLogQTZgJ6iT4ztHXxji
- IZyOEkbYeFONJBScNzzN/oHmuYbGRQQcti2qy0DHmZXiHckQ6P/oroyx7kPoKd5Z2CUtIeL
- S08RNX2MoqgGP9OaKHRMg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ClgR7nEbAks=:kEZJT5bFAoCoR5Pmd5oJXK
- wU6gHh08lfZJdu8eWJuW+Cck2le0CB07uy8iu5b/NFurjuRUGoNWRk3BfMeTC8m0DSsHNVONm
- GXxsifGf9obNnLCqCKr9mO5IyyFoczzbL+t2b5gpbv1VhRNtpFU+Gp7emJLyepnZOPGENVj1S
- Vamu1MsPRKNN4lHIM9KTpI8Te8mqHzxRcEI2aCLq2rVy1J1+8vEWol0/xjQGflqsPGbHecJUz
- MmggEUuQlRc50M6wLu2djtszT+cY9ucfDi0BMuv+sPgxAOzigQwlghWNCztEh5TIEKzOMGpJ1
- 1bj/pCTFCSx8BNCVKvsT8nU9ribilvpbT9Y9rcHj0ojxcciUIOa1eXyU0Wvd6h0kTdrNd11Fr
- 63CBBK6njxynDHMrhTo0vP+tcfIK7d0cSnZbWnPSMVN+hNZsP8g7AxAj6BIIwibAlTcTAw++5
- aIgWCSnrRDezmqxlUzK3R4J6uoseM7Ac7tg4CNs+hMHgJim/w7oYwBq1ytS4K1heoaxSLh5Gp
- YmjnOEilT6jQTHX3Iw7Y/njQZXq1Xv1pVC/mrl3CKn2TAwc94SI+x58ulqfIt9EDDzxovqiHh
- IJ/VzOcz9wOnq+c1U+9isZT9v4cSe7QmweUrWFKGiIqP1/kV0SeZi2gHmeeInhSVuTNvOLY4y
- OxQGGMv4FAh+dQAtXReGh0PBYtBmVKqSdPeZo1EtvBA++ZK3JIxwYuREb2LZfq3EhPhRl1s06
- vRgyhrm+8XU7jcUVSoi3vXXGfXgopOhc1CvvToZSse2YGTygrYIvzwRLXUlAlUp5M11lhlPcX
- kSBZPWT
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:GpWvH71Ha/BJ7QQ7uKIqke2HySaH4TAbweugJIVzvZyFI8KXAVL
+ 8naTb6lvOry51pk5q37AWmizGTaO2r7uRutiVZ+o+XuGmofaya1ROX+8OPaCa5SKzQUSGVu
+ VG2YnPwf5LvU92FYqY4BYxEpl/q5IijAGSoQBLhkfyVsyjOSISb+EgGlrkh36uak9415DxR
+ s8bFzgK5z7m7N2IGF/XUQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zC4kfa0MKzY=:3OoKZ2PJ1AnaCBoh/4VEi8
+ lz+riJkmj2KVKi1IcQfIEJDkxCVvh9rttys7/RStGCQWgJ3IRcz88ed5QodIUExyFyKyU7Fh+
+ H6Ho0BKOOCLnN/beicLUZKD8b4JuPZ+KzyqWkNQzKT69xx/6dr9WUdHoccuhL/HGwPLpUt/9r
+ yb5IlPr2xUOY1Uplg4np+s2YrCoHvtSDnDvxVx+eeS6EmB8GMBZ61YUnpANj9/DAcXKpMiUNs
+ 9xjYWAn05dkm7PygOaNH+DeMfOxIx8LkfBKI4MS9W7KeSCuPWe85bSyMyJH5jNmuQaCAjBH9w
+ ggGQz3NnRd3rgqUWpfiijJR2bxOCzdgDfW8qzh8DHb3dtqdzMSVNEapkSPFEjwVtJ15k86GNh
+ QLy91muqG9qoKD6uViLiiHT8oTMxnoG2+5gUE06py4hzuq540ufXC7+W3mCmknSjRUhGvj4Vi
+ MSwPVXN/aqCZLftXFzJV4Twpm5IeuBhwUz3RkBcgF8tBQmpJB1YTj5KfA3bDX8mJhFw0kcX1b
+ 4QndahgSJrr2UoDEe6oN099eODEZXuFuNEf1suWvfnPhH0raUcuXgXxVjawLYDbDs+EZf++H5
+ HJh3topzcFtGYAX7B0DYJnboP9dOG0zjtXQ24y6C9CTOTBtiiE0rCu0TuIdeic5okZ4hdzYKj
+ Dri2oLhhRM29xE/xQQ9sD5reVrLxmVcxFuar5UtROZ6rJ4HIWvasTFMCG84j7AFTCOqYRt+8t
+ iK17Gvvj0HyNBsBWjBM6fFSZCUCSK6OFOGfJ+lKtDMHjn6YFLoFb73YxMJNUHjRjaGonj58hr
+ P9QaNBD
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,29 +74,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Helge Deller <deller@gmx.de>
 
-The xtensa platform has a value of 0x10 for PROT_SEM.
-
 Signed-off-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220924114501.21767-2-deller@gmx.de>
+Message-Id: <20220924114501.21767-3-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall_defs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/strace.list | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 85b0f33e91d7..1e3577bfa56f 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -1246,7 +1246,7 @@ struct target_winsize {
- 
- #include "termbits.h"
- 
--#if defined(TARGET_MIPS)
-+#if defined(TARGET_MIPS) || defined(TARGET_XTENSA)
- #define TARGET_PROT_SEM         0x10
- #else
- #define TARGET_PROT_SEM         0x08
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index c6f748505a9e..f8a771b4f256 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -279,10 +279,10 @@
+ { TARGET_NR_getcwd, "getcwd" , "%s(%p,%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getdents
+-{ TARGET_NR_getdents, "getdents" , NULL, NULL, NULL },
++{ TARGET_NR_getdents, "getdents" , "%s(%d,%p,%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getdents64
+-{ TARGET_NR_getdents64, "getdents64" , NULL, NULL, NULL },
++{ TARGET_NR_getdents64, "getdents64" , "%s(%d,%p,%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getdomainname
+ { TARGET_NR_getdomainname, "getdomainname" , NULL, NULL, NULL },
 -- 
 2.37.3
 
