@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687815EDA01
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 12:23:43 +0200 (CEST)
-Received: from localhost ([::1]:48170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2155EDAFC
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:02:28 +0200 (CEST)
+Received: from localhost ([::1]:39624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odUE8-0007OW-UW
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 06:23:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33316)
+	id 1odUpe-000761-SU
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:02:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE9-0008Aq-Nt
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:33 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:37727)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEC-0008E9-4s
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:36 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:50021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE6-0008BD-JJ
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:32 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE9-0008C1-30
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:35 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1N63JO-1pJWA20rCy-016QSd; Wed, 28
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M7sM0-1oZcT62qQ6-005101; Wed, 28
  Sep 2022 10:15:26 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 15/38] linux-user: Implement stracing madvise()
-Date: Wed, 28 Sep 2022 10:14:54 +0200
-Message-Id: <20220928081517.734954-16-laurent@vivier.eu>
+Subject: [PULL 16/38] linux-user: Passthrough MADV_DONTNEED for certain file
+ mappings
+Date: Wed, 28 Sep 2022 10:14:55 +0200
+Message-Id: <20220928081517.734954-17-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nDHUuuST60S5LHG25c5IcMxkEmHfXMUq7xrZ8Iks5GXPySc6C19
- enWEjdU/DAWbtYksH6o608VAJ6+ryUh/ZxcPiE6R3WbYLUDwv/0lr7a5rN4/5Tl2RjBdzMs
- cPFDCE9X+jLcvrQF62GNunCsR+bllpj1gQjOpuOllyjtR+h9T06Jr5fgXKMymSRbKh9ai6R
- OvCOj730QQBvj5q5kd+NQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5sq+y7gYpX8=:NmDi6G+CEf1P+28Fd5Y53n
- 9Y+4pXJhg/XcAJMXPDC17nZirOJhYg3BIgC/b6/QWUyOdG6Zs7euT2hDRQw3WuThFZAY0F5LL
- GNDJwLP2LcMEJWkm8uqSUynD7MQnBH7zIyo5Zu1cGLXz6wxAWrhRTaTLGpqMEKUAjbLLltigT
- 62yROXfb8kWMqbYNUqoqoGSFpLZ8AZ6yXyq3LOvBkwrJjEwEUPR4gG0YHDrQJ7V/ioLEefMCz
- 5MZ3/f9myXVZbhJ0TgpgIYe/MiewjArSFiaTakPdVwSY3baSDIHFt1O3BIJRTBRKetJL6t1lS
- OwPsCuNl4tgGnAQYdikEXwo1bt+59oKecMP2nxqCJOry9+t4Rmf/vZmKzA6Vpr4vQJt8FBcpT
- r5J89p02UAWcMhujWRFOpX8iWMC01xvkGu7YHp0rZu10KRH7+YyXYgK94g7T3nj6rrJhgQStv
- O7ewDxAHuobWln3HnQuSGbZvrMe/PK86XguIw033rGRx0zR3WoH+wPRrtPbD9sGTtST4xi6tn
- Cpny2LIK+6psVB4JZX5v/ygrJurbFtvV+LC83giax/o+BZeCFY5dsdwu5N3WdGSZjWkxwngWY
- ihG64N7bbDMSLgSZFaPAWZxseKVR5zsWEPzAZWBEslg+NRWJr2EgNUR5uQLffD+/M7Ke0cGPV
- l81Ol1IUk1cbklgcr8IEm9rn38XehnH5oKFfnH/DBYVehRLvw6iPhDEypu+9WHJvouDPQCO9S
- p6cwM/gt97u7jx0L3zZAaqRwZQtHXiTAlrfCFPWWcDlBnisqg0uoabWtw1XrKY9jKu/8UbNkk
- Q8z2UpF
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:LQ82ZVVfgkO4SbaPem9hFKWDkmY+n/GBDvsj7la4Ul6cIMvAF4O
+ FK3G82QdkeKYXrffTTYNvGjbAZLO2Yj7FsiSm7flLfnmMzOwLqCgx35sddVLmLdBK+YuvYG
+ 4u4aFXAMMPMlvzzPw5LOOC+UDaMJUFnQ3gJL2gvcvU6R8L5Y7xWr7wOG6PGU0AspMweb3uR
+ FNisTq2e2HPFfRfRtqBFQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1z9D+VJIki0=:gIjIhTpY47nKUgYbXFQiCf
+ JVZmZZEiJ8wflk9Ki/+HzwIEcYp1EXgE2qCU7FU4sToLAnP/sg4xz29aITiSZHsYPgiUYX1uT
+ fp6HP85FUBeg0HIws09XiMCYtg6ipkEHkeI1rvYMbBW65dDjscdR3KmG1JNA6I/SfLzKhhcyP
+ jFj4o2TFPFSjI9fvejcEYWzjARrgA2krjx33Ib0eFMTf5V2x41oVJh04u2Yh1g/jmHShURWEJ
+ nu1obDYcFDTDdWcoxpo6uGDPrwhRU0pT6HaE+fQpGjgd9oNEDYl9XPnAzlaPVftb8tXxqeqHl
+ qzk1EObKsdSfCfKP2j/CNHN/8yHMFplkrI1bgay5Da1fwsTGmFEl49qOQG4PA8nrOMrMzRXcd
+ BjGMNIcStJ/ZLP9pYlne2rHnymdbGGbvljtl+HJndmQ2sYe/PTaprLACiOZcDZ5ugYznxdmBE
+ SoWg5nOGY3bpUr8HsbD0a+Ci1zTl/pxXdjzkQJElMl032vDeOdVSC0KQGGf+IMrvhHs1UvSBu
+ ddYvHaJKb6jQNnoVk7WoVjP1zWokTiVdQ9LzH6z5lhongbfLlKmCWmNNS8y63oZCdjR7Fmos/
+ E8331xedHwWEMZ6HywM8b7fotf88Id72VYiXRfQrEkNPMXC+dRRdO7n+YvQboK4gCB/0gc6Es
+ EuucaC4uh/HJ93PL6kEfix5Ie76KBaRAZdgPwkQWA+i28pkLZrLEOrhxOCWVsnU7NEBRbhfnf
+ 8T5ohCy4KHMt96Q/R8KVQYMrJacZuFV28drfsqlJH2ZZlWSh7a4jQjNJz/VGTBVdR7YV43jOH
+ KzXGx9o
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -75,92 +76,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-The default implementation has several problems: the first argument is
-not displayed as a pointer, making it harder to grep; the third
-argument is not symbolized; and there are several extra unused
-arguments.
+This is a follow-up for commit 892a4f6a750a ("linux-user: Add partial
+support for MADV_DONTNEED"), which added passthrough for anonymous
+mappings. File mappings can be handled in a similar manner.
+
+In order to do that, mark pages, for which mmap() was passed through,
+with PAGE_PASSTHROUGH, and then allow madvise() passthrough for these
+pages. Drop the explicit PAGE_ANON check, since anonymous mappings are
+expected to have PAGE_PASSTHROUGH anyway.
+
+Add PAGE_PASSTHROUGH to PAGE_STICKY in order to keep it on mprotect().
 
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220906000839.1672934-4-iii@linux.ibm.com>
+Message-Id: <20220725125043.43048-1-iii@linux.ibm.com>
+Message-Id: <20220906000839.1672934-5-iii@linux.ibm.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 41 +++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list |  2 +-
- 2 files changed, 42 insertions(+), 1 deletion(-)
+ accel/tcg/translate-all.c |  2 +-
+ include/exec/cpu-all.h    |  6 ++++++
+ linux-user/mmap.c         | 27 ++++++++++++++++++++++-----
+ 3 files changed, 29 insertions(+), 6 deletions(-)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index b6b9abaea466..2deb84a2c106 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -18,6 +18,7 @@
- #include "user-internals.h"
- #include "strace.h"
- #include "signal-common.h"
-+#include "target_mman.h"
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index f5e8592d4a47..d71d04d338db 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -2258,7 +2258,7 @@ int page_get_flags(target_ulong address)
+ #ifndef PAGE_TARGET_STICKY
+ #define PAGE_TARGET_STICKY  0
+ #endif
+-#define PAGE_STICKY  (PAGE_ANON | PAGE_TARGET_STICKY)
++#define PAGE_STICKY  (PAGE_ANON | PAGE_PASSTHROUGH | PAGE_TARGET_STICKY)
  
- struct syscallname {
-     int nr;
-@@ -3019,6 +3020,46 @@ print_stat(CPUArchState *cpu_env, const struct syscallname *name,
- #define print_lstat64   print_stat
- #endif
+ /* Modify the flags of a page and invalidate the code if necessary.
+    The flag PAGE_WRITE_ORG is positioned automatically depending
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index 491629b9ba7a..16b7df41bf5e 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -262,6 +262,12 @@ extern const TargetPageBits target_page;
+ #define PAGE_TARGET_1  0x0200
+ #define PAGE_TARGET_2  0x0400
  
-+#if defined(TARGET_NR_madvise)
-+static struct enums madvise_advice[] = {
-+    ENUM_TARGET(MADV_NORMAL),
-+    ENUM_TARGET(MADV_RANDOM),
-+    ENUM_TARGET(MADV_SEQUENTIAL),
-+    ENUM_TARGET(MADV_WILLNEED),
-+    ENUM_TARGET(MADV_DONTNEED),
-+    ENUM_TARGET(MADV_FREE),
-+    ENUM_TARGET(MADV_REMOVE),
-+    ENUM_TARGET(MADV_DONTFORK),
-+    ENUM_TARGET(MADV_DOFORK),
-+    ENUM_TARGET(MADV_MERGEABLE),
-+    ENUM_TARGET(MADV_UNMERGEABLE),
-+    ENUM_TARGET(MADV_HUGEPAGE),
-+    ENUM_TARGET(MADV_NOHUGEPAGE),
-+    ENUM_TARGET(MADV_DONTDUMP),
-+    ENUM_TARGET(MADV_DODUMP),
-+    ENUM_TARGET(MADV_WIPEONFORK),
-+    ENUM_TARGET(MADV_KEEPONFORK),
-+    ENUM_TARGET(MADV_COLD),
-+    ENUM_TARGET(MADV_PAGEOUT),
-+    ENUM_TARGET(MADV_POPULATE_READ),
-+    ENUM_TARGET(MADV_POPULATE_WRITE),
-+    ENUM_TARGET(MADV_DONTNEED_LOCKED),
-+    ENUM_END,
-+};
++/*
++ * For linux-user, indicates that the page is mapped with the same semantics
++ * in both guest and host.
++ */
++#define PAGE_PASSTHROUGH 0x0800
 +
-+static void
-+print_madvise(CPUArchState *cpu_env, const struct syscallname *name,
-+              abi_long arg0, abi_long arg1, abi_long arg2,
-+              abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_pointer(arg0, 0);
-+    print_raw_param("%d", arg1, 0);
-+    print_enums(madvise_advice, arg2, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- #if defined(TARGET_NR_fstat) || defined(TARGET_NR_fstat64)
- static void
- print_fstat(CPUArchState *cpu_env, const struct syscallname *name,
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 215d971b2aea..c6f748505a9e 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -542,7 +542,7 @@
- { TARGET_NR_lstat64, "lstat64" , NULL, print_lstat64, NULL },
- #endif
- #ifdef TARGET_NR_madvise
--{ TARGET_NR_madvise, "madvise" , NULL, NULL, NULL },
-+{ TARGET_NR_madvise, "madvise" , NULL, print_madvise, NULL },
- #endif
- #ifdef TARGET_NR_madvise1
- { TARGET_NR_madvise1, "madvise1" , NULL, NULL, NULL },
+ #if defined(CONFIG_USER_ONLY)
+ void page_dump(FILE *f);
+ 
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 942bec7e8528..e557f3626e5d 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -431,7 +431,8 @@ abi_ulong mmap_find_vma(abi_ulong start, abi_ulong size, abi_ulong align)
+ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
+                      int flags, int fd, abi_ulong offset)
+ {
+-    abi_ulong ret, end, real_start, real_end, retaddr, host_offset, host_len;
++    abi_ulong ret, end, real_start, real_end, retaddr, host_offset, host_len,
++              passthrough_start = -1, passthrough_end = -1;
+     int page_flags, host_prot;
+ 
+     mmap_lock();
+@@ -544,6 +545,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
+             host_start += offset - host_offset;
+         }
+         start = h2g(host_start);
++        passthrough_start = start;
++        passthrough_end = start + len;
+     } else {
+         if (start & ~TARGET_PAGE_MASK) {
+             errno = EINVAL;
+@@ -626,6 +629,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
+                      host_prot, flags, fd, offset1);
+             if (p == MAP_FAILED)
+                 goto fail;
++            passthrough_start = real_start;
++            passthrough_end = real_end;
+         }
+     }
+  the_end1:
+@@ -633,7 +638,18 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
+         page_flags |= PAGE_ANON;
+     }
+     page_flags |= PAGE_RESET;
+-    page_set_flags(start, start + len, page_flags);
++    if (passthrough_start == passthrough_end) {
++        page_set_flags(start, start + len, page_flags);
++    } else {
++        if (start < passthrough_start) {
++            page_set_flags(start, passthrough_start, page_flags);
++        }
++        page_set_flags(passthrough_start, passthrough_end,
++                       page_flags | PAGE_PASSTHROUGH);
++        if (passthrough_end < start + len) {
++            page_set_flags(passthrough_end, start + len, page_flags);
++        }
++    }
+  the_end:
+     trace_target_mmap_complete(start);
+     if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
+@@ -852,7 +868,7 @@ static bool can_passthrough_madv_dontneed(abi_ulong start, abi_ulong end)
+     }
+ 
+     for (addr = start; addr < end; addr += TARGET_PAGE_SIZE) {
+-        if (!(page_get_flags(addr) & PAGE_ANON)) {
++        if (!(page_get_flags(addr) & PAGE_PASSTHROUGH)) {
+             return false;
+         }
+     }
+@@ -894,8 +910,9 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
+      * This is a hint, so ignoring and returning success is ok.
+      *
+      * This breaks MADV_DONTNEED, completely implementing which is quite
+-     * complicated. However, there is one low-hanging fruit: host-page-aligned
+-     * anonymous mappings. In this case passthrough is safe, so do it.
++     * complicated. However, there is one low-hanging fruit: mappings that are
++     * known to have the same semantics in the host and the guest. In this case
++     * passthrough is safe, so do it.
+      */
+     mmap_lock();
+     if (advice == TARGET_MADV_DONTNEED &&
 -- 
 2.37.3
 
