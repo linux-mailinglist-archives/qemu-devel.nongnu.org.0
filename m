@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D985EE4A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 20:55:42 +0200 (CEST)
-Received: from localhost ([::1]:50136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0EF45EE4B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 20:59:21 +0200 (CEST)
+Received: from localhost ([::1]:48298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odcDd-0003du-59
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 14:55:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37940)
+	id 1odcHB-0007lW-0f
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 14:59:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1odcC2-0000pF-KM
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 14:54:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45693)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1odcBy-0007Am-Md
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 14:54:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664391234;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Il+przMnNEgL9JWxY/fTP8A+BKQsFcCth8kZcq+Cafo=;
- b=F4vGDQn7Q/JIdob1LHgwbR+BPsnZFEBMcRML3TVkfxkvQe798fAsh5TUvlH2ICFTozTnFB
- PF5zgXWP7ITcH0AhSSIQxtdvXpq68Y5yJ4DJfEPN4q+SwWVM/AEtFg1Cef71U9mhLPWZJO
- ZdfFpUrHWzvnfW79cytrZshKX5R0kzg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-613-8pvx5WM-NIKHVBBwv1PVMQ-1; Wed, 28 Sep 2022 14:53:52 -0400
-X-MC-Unique: 8pvx5WM-NIKHVBBwv1PVMQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- t1-20020adfba41000000b0022cc6bcd8dbso886833wrg.4
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 11:53:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odcEN-0004H3-7b
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 14:56:27 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40836)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odcEK-0007h7-Hn
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 14:56:26 -0400
+Received: by mail-ej1-x635.google.com with SMTP id l14so29039832eja.7
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 11:56:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=ZY2HNktMluQmsNvOy1Svrazl3wDZBz83ClQa6XKE/Pk=;
+ b=EQWUoa3JktyoMDaSm0R9kHmF9LO00m9mptqUukQVVsowdJKFjoWApEe+shhC5q2EVg
+ hvjc716SDry6+cazWICfXkLbxcRRb0CouTs1UpbK/XrAaJrIViDs6hMkfkXF7yOnchnJ
+ mKpCWOiojhfgDkRe5hsVDHQY6qTZQ3bEJsan/2KkAa5erQEyp23E44QLoDSWxr5fAWpm
+ RQbmxqYU+nPvGDuLoEBoFvqJkhPmFOvSCLGCGXf6BeOdpvA5VfDvs36Fffd54YyKf5LD
+ NgzNJptpinjkngm/yONdmottotGAmzq6+8vopNMJca7brD6LB+9CwcAfK8AgbnVhdMxC
+ 3LDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=Il+przMnNEgL9JWxY/fTP8A+BKQsFcCth8kZcq+Cafo=;
- b=bTHzDvry8kR4+erOuwf7Ib32WAZ7hS2fMym4OZBVf1tI63uDBGY7rN13A3o+CDLUST
- 4+YAP5tiElHKUV127r+OZ6JUdlSQeQYjD0wlsuZDsWJ82PNK3/OkhucTj9fRkoFzpH0Z
- W+sZxl/Qa878uv4wWv3p3l/ODLKiemjl8n+IOk1oF1fxTWOqiOVc0SpRF/LY0siKnmAH
- oyUhAfR6XclUipoYjcjU2Mz/Z50LUpYRVeI3ez51CG8KJbigWnHNT9MmydRCQ/v5YUOm
- ZiLwa4kCgzDVf8lLM6yrsBSGZ9SOqoXnidJ63uv7+6Wr3YvMwa68JdDkkdvz/+D9Dddm
- p0Pg==
-X-Gm-Message-State: ACrzQf2CBu2iY4dJuuAY+o5YV0HUCTJEOVZ8aZniceA511CxMPlKUqJt
- Vds+0t7TgjUQ7PbWqvv4TAlM1SwHycUBIxCPzYZ0LENqDkgjsHybzx2KSTbeGSVTVLT5kXBN3IJ
- nELJKn0mXRk0HMpI=
-X-Received: by 2002:a05:6000:2cd:b0:22a:4831:dfd with SMTP id
- o13-20020a05600002cd00b0022a48310dfdmr21401226wry.706.1664391231061; 
- Wed, 28 Sep 2022 11:53:51 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6Ww/xx2kVxkuk0Rv7QAWuPCq9bmuGY5LhwlAQs5VqEAPq+1avRNdwM742g7/0t9hcLp9hWEA==
-X-Received: by 2002:a05:6000:2cd:b0:22a:4831:dfd with SMTP id
- o13-20020a05600002cd00b0022a48310dfdmr21401207wry.706.1664391230823; 
- Wed, 28 Sep 2022 11:53:50 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- e6-20020a05600c4b8600b003b482fbd93bsm2283116wmp.24.2022.09.28.11.53.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Sep 2022 11:53:50 -0700 (PDT)
-Date: Wed, 28 Sep 2022 19:53:48 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Fiona Ebner <f.ebner@proxmox.com>
-Cc: "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, jsnow@redhat.com,
- vsementsov@yandex-team.ru, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, quintela@redhat.com,
- Thomas Lamprecht <t.lamprecht@proxmox.com>,
- Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
- Wolfgang Bumiller <w.bumiller@proxmox.com>
-Subject: Re: Question regarding live-migration with drive-mirror
-Message-ID: <YzSYPDR0L98Nks4P@work-vm>
-References: <1db7f571-cb7f-c293-04cc-cd856e060c3f@proxmox.com>
+ bh=ZY2HNktMluQmsNvOy1Svrazl3wDZBz83ClQa6XKE/Pk=;
+ b=AIXbyKKhGAEIn2u7V/kv1vW0jQMcQjXCCWvl+naKeub+n83ocNspHZBonQXSPePA2j
+ UaacujdjDrcrMuK2sQ3k7hPU+8R3gaPM9auvjNKl+daoUgKH37Zyruxi7lhF2H0XJiF8
+ Go1TAvGU5krVRlhRjyRiWLeprsjkIJ9DjvHId6pkRFQC0km3BoTQxeYvXuQbG068o14L
+ A95dTp0MfMpi0AHB4wTh+2g8AmIi5/uqf11cpl4wjDfc+fwgfhrjqRl2vLOoVhB18For
+ g8EQx6NcsHh00CcFHyGGa/zO68P5572YODfNu/K7nfEB52oD9Ca0asJe4rJ7r31FmoKe
+ GrwQ==
+X-Gm-Message-State: ACrzQf1GA9E+tGqpYQKsamQbblJX7+AJ6ddxdEd84hhwB3S3Vv2ikFgn
+ fUrutjNUDeYtzqlgwZghd/vbPDv6UidwrANaSzvvsw==
+X-Google-Smtp-Source: AMsMyM7MzPu5T11FIlKx57fLw0gfd0u9zQL+jlmwi6zBBCV8XJkKv6lPqZjC/q/LxhmaGhoK6/TKIPZidkbEb7D7wJ0=
+X-Received: by 2002:a17:906:730d:b0:782:a4e0:bb54 with SMTP id
+ di13-20020a170906730d00b00782a4e0bb54mr24830530ejc.659.1664391382579; Wed, 28
+ Sep 2022 11:56:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1db7f571-cb7f-c293-04cc-cd856e060c3f@proxmox.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220927141504.3886314-1-alex.bennee@linaro.org>
+ <20220927141504.3886314-2-alex.bennee@linaro.org>
+ <769e0e8a-7787-b02b-9e26-87eca955666b@linaro.org>
+In-Reply-To: <769e0e8a-7787-b02b-9e26-87eca955666b@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 28 Sep 2022 19:56:11 +0100
+Message-ID: <CAFEAcA-0zoNS0nWrYu6hM1=8tG4i4GkjHLL2v4OMmJv5GaDAMg@mail.gmail.com>
+Subject: Re: [PATCH v3 01/15] hw: encode accessing CPU index in MemTxAttrs
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,88 +91,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Fiona Ebner (f.ebner@proxmox.com) wrote:
-> Hi,
-> recently one of our users provided a backtrace[0] for the following
-> assertion failure during a live migration that uses drive-mirror to sync
-> a local disk:
-> > bdrv_co_write_req_prepare: Assertion `!(bs->open_flags & BDRV_O_INACTIVE)' failed
-> 
-> The way we do migration with a local disk is essentially:
-> 1. start target instance with a suitable NBD export
-> 2. start drive-mirror on the source side and wait for it to become ready
-> once
-> 3. issue 'migrate' QMP command
-> 4. cancel drive-mirror blockjob after the migration has finished
-> 
-> I reproduced the issue with the following fio script running in the
-> guest (to dirty lots of clusters):
-> > fio --name=make-mirror-work --size=100M --direct=1 --rw=randwrite \
-> >     --bs=4k --ioengine=psync --numjobs=5 --runtime=60 --time_based
-> 
-> AFAIU, the issue is that nothing guarantees that the drive mirror is
-> ready when the migration inactivates the block drives.
+On Wed, 28 Sept 2022 at 17:42, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 9/27/22 07:14, Alex Benn=C3=A9e wrote:
+> > --- a/hw/misc/tz-msc.c
+> > +++ b/hw/misc/tz-msc.c
+> > @@ -137,11 +137,11 @@ static MemTxResult tz_msc_read(void *opaque, hwad=
+dr addr, uint64_t *pdata,
+> >           return MEMTX_OK;
+> >       case MSCAllowSecure:
+> >           attrs.secure =3D 1;
+> > -        attrs.unspecified =3D 0;
+> > +        attrs.requester_type =3D MTRT_CPU;
+> >           break;
+> >       case MSCAllowNonSecure:
+> >           attrs.secure =3D 0;
+> > -        attrs.unspecified =3D 0;
+> > +        attrs.requester_type =3D MTRT_CPU;
+> >           break;
+>
+> This is surely incomplete.  You can't just set "cpu" without saying where=
+ it's from.
+>
+> Since this device is only used by the ARMSSE machine, I would hope that a=
+ttrs.unspecified
+> should never be set before the patch, and thus MTRT_CPU should be set aft=
+erward.
 
-I don't know the block code well enough; I don't think I'd realised
-that a drive-mirror could become unready.
+The MSC is in the address map like most other stuff, and thus there is
+no restriction on whether it can be accessed by other things than CPUs
+(DMAing to it would be silly but is perfectly possible).
 
-> Is using copy-mode=write-blocking for drive-mirror to only way to avoid
-> this issue? There, the downside is that the network (used by the mirror)
-> would become a bottleneck for IO in the guest, while the behavior would
-> really only be needed during the final phase.
+The intent of the code is "pass this transaction through, but force
+it to be Secure/NonSecure regardless of what it was before". That
+should not involve a change of the requester type.
 
-It sounds like you need a way to switch to the blocking mode.
-
-> I guess the assert should be avoided in any case. Here's a few ideas
-> that came to mind:
-> 1. migration should fail gracefully
-> 2. migration should wait for the mirror-jobs to become ready before
-> inactivating the block drives - that would increase the downtime in
-> these situations of course
-> 2A. additionally, drive-mirror could be taken into account when
-> converging the migration somehow?
-
-Does the migration capaibility 'pause-before-switchover' help you here?
-If enabled, it causes the VM to pause just before the
-bdrv_inactivate_all (and then use migrate-continue to tell it to carry
-on)
-
-Dave
-
-> I noticed the following comment in the mirror implementation
-> >         /* Note that even when no rate limit is applied we need to yield
-> >          * periodically with no pending I/O so that bdrv_drain_all() returns.
-> >          * We do so every BLKOCK_JOB_SLICE_TIME nanoseconds, or when there is
-> >          * an error, or when the source is clean, whichever comes first. */
-> 
-> 3. change draining behavior after the job was ready once, so that
-> bdrv_drain_all() will only return when the job is ready again? Hope I'm
-> not completely misunderstanding this.
-> 
-> Best Regards,
-> Fiona
-> 
-> [0]:
-> > Thread 1 (Thread 0x7f3389d4a000 (LWP 2297576) "kvm"):
-> > #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
-> > #1  0x00007f339488d537 in __GI_abort () at abort.c:79
-> > #2  0x00007f339488d40f in __assert_fail_base (fmt=0x7f3394a056a8 "%s%s%s:%u: %s%sAssertion `%s' failed.\n%n", assertion=0x5595f85bfd70 "!(bs->open_flags & BDRV_O_INACTIVE)", file=0x5595f85cb576 "../block/io.c", line=2026, function=<optimized out>) at assert.c:92
-> > #3  0x00007f339489c662 in __GI___assert_fail (assertion=assertion@entry=0x5595f85bfd70 "!(bs->open_flags & BDRV_O_INACTIVE)", file=file@entry=0x5595f85cb576 "../block/io.c", line=line@entry=2026, function=function@entry=0x5595f85cc510 <__PRETTY_FUNCTION__.8> "bdrv_co_write_req_prepare") at assert.c:101
-> > #4  0x00005595f83218f2 in bdrv_co_write_req_prepare (child=0x5595f91cab90, offset=60867018752, bytes=196608, req=0x7f324a2e9d70, flags=0) at ../block/io.c:2026
-> > #5  0x00005595f8323384 in bdrv_aligned_pwritev (child=child@entry=0x5595f91cab90, req=req@entry=0x7f324a2e9d70, offset=60867018752, bytes=196608, align=align@entry=1, qiov=0x5595f9030d58, qiov_offset=0, flags=0) at ../block/io.c:2140
-> > #6  0x00005595f832485a in bdrv_co_pwritev_part (child=0x5595f91cab90, offset=<optimized out>, offset@entry=60867018752, bytes=<optimized out>, bytes@entry=196608, qiov=<optimized out>, qiov@entry=0x5595f9030d58, qiov_offset=<optimized out>, qiov_offset@entry=0, flags=flags@entry=0) at ../block/io.c:2353
-> > #7  0x00005595f8315a09 in blk_co_do_pwritev_part (blk=blk@entry=0x5595f91db8c0, offset=60867018752, bytes=196608, qiov=qiov@entry=0x5595f9030d58, qiov_offset=qiov_offset@entry=0, flags=flags@entry=0) at ../block/block-backend.c:1365
-> > #8  0x00005595f8315bdd in blk_co_pwritev_part (flags=0, qiov_offset=0, qiov=qiov@entry=0x5595f9030d58, bytes=<optimized out>, offset=<optimized out>, blk=0x5595f91db8c0) at ../block/block-backend.c:1380
-> > #9  blk_co_pwritev (blk=0x5595f91db8c0, offset=<optimized out>, bytes=<optimized out>, qiov=qiov@entry=0x5595f9030d58, flags=flags@entry=0) at ../block/block-backend.c:1391
-> > #10 0x00005595f8328a59 in mirror_read_complete (ret=0, op=0x5595f9030d50) at ../block/mirror.c:260
-> > #11 mirror_co_read (opaque=0x5595f9030d50) at ../block/mirror.c:400
-> > #12 0x00005595f843a39b in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>) at ../util/coroutine-ucontext.c:177
-> > #13 0x00007f33948b8d40 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
-> > #14 0x00007f324a3ea6e0 in ?? ()
-> > #15 0x0000000000000000 in ?? ()
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+thanks
+-- PMM
 
