@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E36675EDB6D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:12:39 +0200 (CEST)
-Received: from localhost ([::1]:51136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683905EDB1D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:06:12 +0200 (CEST)
+Received: from localhost ([::1]:36494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odUzW-0005zc-RO
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:12:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34290)
+	id 1odUtG-0000xh-HI
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:06:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSED-0008EN-8x
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:43 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:33237)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEP-0008Fc-Ff
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:53 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:56369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE9-0008CT-GY
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:37 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEL-0008Im-DQ
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:48 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mo7if-1p2fpQ0ZD9-00pbgn; Wed, 28
- Sep 2022 10:15:31 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MmU5P-1p4IeQ3qOP-00iT4t; Wed, 28
+ Sep 2022 10:15:32 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Helge Deller <deller@gmx.de>,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 24/38] linux-user/hppa: Fix setup_sigcontext()
-Date: Wed, 28 Sep 2022 10:15:03 +0200
-Message-Id: <20220928081517.734954-25-laurent@vivier.eu>
+Cc: fanwenjie <fanwj@mail.ustc.edu.cn>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 25/38] linux-user: fix bug about missing signum convert of
+ sigqueue
+Date: Wed, 28 Sep 2022 10:15:04 +0200
+Message-Id: <20220928081517.734954-26-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nyvb0xlTfKgSrLZh0sNx/EtoZdcMLg70Ejf8AFpKn0fcZoepwzG
- Cf5V0S1BLW1tL4q6fWy8Xfys0RjpDaxWetPa4RgwdbqYsE5R0fU2qvFG0xhi/JhrpVXucrL
- LA9ombmSQDFT1QGmUjYyT9s3aE7PnpzVgYNl8eee9Hp5olcLGSJxcPSzJDAb11SR96Xkt+y
- BP5sd+bOpNqvD1LKifeOQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wyqlZvSCPu4=:nnmB46SSLUAfGsYL7XVoH5
- M9vIwEDRo12jYvcgnWBOMsQs6hLJriYysAoIQUWZgXMdCyQWhF/VmE4UdI9uSlhMjpb56F7k/
- h9MlmJsyFtjsbAGdFifBHYFSnJlYZFihA8BXwSozDWW45GPvJGfVpjbINvdSj4GIwZK0kPi17
- 6mbcgYeHZIFAtxjmoH3jTfTbGddlrRWy4zfS0wezswSyWowmg5PhEATkcP6kfajH9bgpSKicD
- u1hA1bOx3vIzCnxo1k8ta6rHESCohTa/yTfFhPstXVA/Lx9vSRlQrs85SJR6HABuEgXmvwjhR
- CE9bnssq6U65bWYQ9RkG0x1rVO/KV+9c+HPFBd2guRBEgUKDlhbUt+y+L++DvJRgwjkunN6LY
- bUrQMxd5qjre2p1GW7XqNLeXxnSrmY0lXyh5ADiKSidOBazZ4UXumvaYXi5n1xPfSosNmVXDa
- zAa5pOQvRkIdq6CHlQwCXyUaX9m4pwlnzZBNgB+6ecE58si6WAkgsrKPPIjmM+94iyvNVuqcF
- PR0N+v5+R4QcIBkYHnHN/yqLfTvUf4RH4HsRrhl0TIn94xVwzEoSIVpnY86K+tbPJCB4iWUxQ
- 5U7rbNimbA4ARzKhX3WLa7qTXJbA9h5+vD+wk5a8vQR0cA4F3MfNS1taCgEDXDitvvl9iZtSP
- 2WJNIq8RFYSxYSgWgb1789gJIMltoUYJAEODxlTsVOspvQ7EZkrAx3lTc/A8kLJ5fK5INJFfC
- iTYmzLGqi1w2a6vmuZ7biXmTEW8DNdXKEmr26EduvLx0bvBTf9QckE719UBjQWCiCiwflKSRY
- 8lCeI/7
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:xfvhM1OdIVIPyXA9xQgjjSyHfK115+hH9/1qYPCGkYdqoiRwPw5
+ Nt3wLyuni8ACsXkvkEC0Wrv9V6DApKsb2h4erFll5u0FNrpWfvJzTLSQpqNjrlj4k0ZaE+W
+ lA8Ih3O6hnIClEhBCGzYFAZA4PTSJhhU2wMA48UQsEyLIEnqH1kPV5BxoZEGTJFhEJjRDkG
+ kYEpkx9/A9HMKKtiZYv2w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GDh9JVtQKAE=:1qSnC0cGO8KtqPqvHKQCGw
+ TlRKkH2iUSlWIoMcuQsSlwiH47e0tCuDwHawWwf0tWNg1LCllVw9k7wGORGGGKidWC55T8CBd
+ wLzv5mH3jdgteqbVBdLBEuLNoU9F6lF3l8AADuEE/RoJnwA4/U3RfrUM8nvddKzZ9R4tfDoFn
+ QY4KZu3h2ZbdvYWMLT029kwpDgHmLKidf+KzIzj5NArMYNSL2Lk6Qjr9t/LGW4YskTy6t4dBD
+ BFM1a5ess0xQoUr9ZKx7wmD9gn7aqGxyzQGQW/AI1PaDInLcpTe9zYMhPALV8s4r/qyK0VeJY
+ 8lyLlFsm8/qLhn+U8jVA81ZF+kqQEfr0QqsSxypyMgVBy5s3/MedPosC43Ch9Roi0chpnaM92
+ MFRIKcn8DLMFgWHWel9Lf+UhYczlNNk4EvB1CbpU3jE5KXFcp4Ok0fg8/Ok8W4VT8sedLxoBD
+ 9zNL8TP/VU345GARCW+DkErLRQu4gG1wxlpjcRp4G/tUQFLrrFw0iHnG9oLT8nlSz6GAkos8j
+ K4JfaT0/TZFNuFY81c8xb45twe3txIAT4isQImSQuWKRtE5Y3D/mcumSQf8b1ZFSXXf45cGZ2
+ LsVcEEPI+vCCdIFYw453gzuR6GdKeQZHQd7ld82XRrSktEYrh4aV1RCVKvPphFc5or3sSDB0E
+ 1O7Ak1NaYjutT7sdLbx6I10bSJSEgKITAUgu3pDDHRHiDEcLYTSauCKHO47zU6vDGqMYG3j4d
+ q82XCTx+BGxIQQVHut3QRnnyVkKbLWGynbaEoYq35FyqV+4Xv/DHUyC3S1mv7qVA1bnaUNDXO
+ cclvHDB
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,51 +75,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Helge Deller <deller@gmx.de>
+From: fanwenjie <fanwj@mail.ustc.edu.cn>
 
-We don't emulate a preemptive kernel on this level, and the hppa architecture
-doesn't allow context switches on the gateway page. So we always have to return
-to sc_iaoq[] and not to gr[31].
-This fixes the remaining random segfaults which still occured.
-
-Signed-off-by: Helge Deller <deller@gmx.de>
-Message-Id: <20220924114501.21767-8-deller@gmx.de>
+Fixes: 66fb9763af ("basic signal handling")
+Fixes: cf8b8bfc50 ("linux-user: add support for rt_tgsigqueueinfo() system call")
+Signed-off-by: fanwenjie <fanwj@mail.ustc.edu.cn>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/hppa/signal.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+ linux-user/syscall.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/hppa/signal.c b/linux-user/hppa/signal.c
-index 396e310dc92d..f253a1586461 100644
---- a/linux-user/hppa/signal.c
-+++ b/linux-user/hppa/signal.c
-@@ -49,23 +49,13 @@ struct target_rt_sigframe {
- 
- static void setup_sigcontext(struct target_sigcontext *sc, CPUArchState *env)
- {
--    int flags = 0;
-     int i;
- 
--    /* ??? if on_sig_stack, flags |= 1 (PARISC_SC_FLAG_ONSTACK).  */
--
--    if (env->iaoq_f < TARGET_PAGE_SIZE) {
--        /* In the gateway page, executing a syscall.  */
--        flags |= 2; /* PARISC_SC_FLAG_IN_SYSCALL */
--        __put_user(env->gr[31], &sc->sc_iaoq[0]);
--        __put_user(env->gr[31] + 4, &sc->sc_iaoq[1]);
--    } else {
--        __put_user(env->iaoq_f, &sc->sc_iaoq[0]);
--        __put_user(env->iaoq_b, &sc->sc_iaoq[1]);
--    }
-+    __put_user(env->iaoq_f, &sc->sc_iaoq[0]);
-+    __put_user(env->iaoq_b, &sc->sc_iaoq[1]);
-     __put_user(0, &sc->sc_iasq[0]);
-     __put_user(0, &sc->sc_iasq[1]);
--    __put_user(flags, &sc->sc_flags);
-+    __put_user(0, &sc->sc_flags);
- 
-     __put_user(cpu_hppa_get_psw(env), &sc->sc_gr[0]);
-     for (i = 1; i < 32; ++i) {
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f87b36b2491f..54b29f3b406a 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -9728,7 +9728,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+             }
+             target_to_host_siginfo(&uinfo, p);
+             unlock_user(p, arg3, 0);
+-            ret = get_errno(sys_rt_sigqueueinfo(arg1, arg2, &uinfo));
++            ret = get_errno(sys_rt_sigqueueinfo(arg1, target_to_host_signal(arg2), &uinfo));
+         }
+         return ret;
+     case TARGET_NR_rt_tgsigqueueinfo:
+@@ -9741,7 +9741,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+             }
+             target_to_host_siginfo(&uinfo, p);
+             unlock_user(p, arg4, 0);
+-            ret = get_errno(sys_rt_tgsigqueueinfo(arg1, arg2, arg3, &uinfo));
++            ret = get_errno(sys_rt_tgsigqueueinfo(arg1, arg2, target_to_host_signal(arg3), &uinfo));
+         }
+         return ret;
+ #ifdef TARGET_NR_sigreturn
 -- 
 2.37.3
 
