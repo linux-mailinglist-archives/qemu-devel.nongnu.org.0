@@ -2,43 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31BA5EE12E
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 18:03:39 +0200 (CEST)
-Received: from localhost ([::1]:52290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A37805EE2FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 19:25:00 +0200 (CEST)
+Received: from localhost ([::1]:58044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odZX9-00081e-03
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 12:03:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58712)
+	id 1odanr-0007lC-Ml
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 13:24:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>) id 1odZND-0004Hv-N6
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 11:53:23 -0400
-Received: from relay.virtuozzo.com ([130.117.225.111]:35458)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@openvz.org>) id 1odZN7-00066f-FV
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 11:53:22 -0400
-Received: from [192.168.16.115] (helo=iris.sw.ru)
- by relay.virtuozzo.com with esmtp (Exim 4.95)
- (envelope-from <den@openvz.org>) id 1odZK4-006fCW-3e;
- Wed, 28 Sep 2022 17:52:32 +0200
-From: "Denis V. Lunev" <den@openvz.org>
-To: qemu-devel@nongnu.org
-Cc: "Denis V . Lunev" <den@openvz.org>,
- Denis Plotnikov <den-plotnikov@yandex-team.ru>,
- Yan Vugenfirer <yvugenfi@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 1/1] qxl: add subsystem_vendor_id property
-Date: Wed, 28 Sep 2022 17:52:44 +0200
-Message-Id: <20220928155244.1837455-1-den@openvz.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1odZNh-0005JR-TH
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 11:53:53 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:36578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1odZNT-0006Dj-MC
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 11:53:53 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-131a17bf7fdso3156783fac.3
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 08:53:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=+Oc0jlT7+bSQWvAROTPIJXYXCuHcJSJ7jipGsmrxoKM=;
+ b=gf5qctYcxpxz6tMjOx/mWTrADs3KMK8isirprwKfreIdCmWRJcLuhdb8qPHXpR+4Nn
+ 1LlmZ4dS52X9uJDMEH42cmE0SLfAHldysgtTX9qm8uEnN46OZe6DLUBD/HyH/z36FAoo
+ 0EbhYevzMisNgTCLVhsX/fYWWAcB4yOoumwQDMJ68WJLWVBaQDbAxK89Hmv8eksKRqyU
+ w0fx9AVQKQTlO7EAfmGH/rikofWR3vpCyZ5Zn7k61UeRi6Dmokz2qKIhnMhhStbxIzw8
+ 70w6EliGZ5BTGepSiz2CZPCMZuJWBYScmAtTnLFT/QK9NR8wMfArnm2fDXSP/hPIKox/
+ d0GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=+Oc0jlT7+bSQWvAROTPIJXYXCuHcJSJ7jipGsmrxoKM=;
+ b=hFjJ/MxYJtbMSrh/LV4BUrNJ6cJDG7kNY9TrNf7A4CsmhWJCQr+u+PQxncck8HCKb0
+ KnInKm1Fx3U5lrpHGHabbatifeuPRGQi7128fJnjnehrgEdn5grjYPIX2rgwMA9dy3ht
+ RIrn7/ppNR3bT2iWnzql11f1doJeTFryT6d6nf/3pxXNy9jyGe+POwSUd2qXEGqFQqPU
+ W3B5NRIBdD49jcH/JAa5a+e+cvx4ihh7aW/ecKWmgc5HH+YZPNpka72TrJ5yB85Gktil
+ crOKxyxrkBGyuXD5lT4F0GMompAa3eh39Wnwap4TbWj614nbGZdQcaLCm2NKZk0JKKez
+ XhUg==
+X-Gm-Message-State: ACrzQf0yowQAAVbS3RNe46zp5oSqCSLhWL5DwG1sTbXTS505/OEIlYon
+ +qUXtyd011QAdVkXgX7cw9wL8OumRegvIIgKo+rK9w==
+X-Google-Smtp-Source: AMsMyM5HB9Zat5ulXlg2wBTf0TYj+Fs6xKuB6Rdl9N6uloVkjHHGHo1Skxxz0UQGUKDwI8QywHRf3d6w+sM2pS6gdyw=
+X-Received: by 2002:a05:6870:a91f:b0:131:bb72:7313 with SMTP id
+ eq31-20020a056870a91f00b00131bb727313mr593450oab.90.1664380417980; Wed, 28
+ Sep 2022 08:53:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=130.117.225.111; envelope-from=den@openvz.org;
- helo=relay.virtuozzo.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+References: <20220925132010.5336-1-jim.shu@sifive.com>
+ <CAJ307Eg7xYVKY3Yr_+BDedX0gzuCAm2RdcS5rFMv0N44+J++sw@mail.gmail.com>
+In-Reply-To: <CAJ307Eg7xYVKY3Yr_+BDedX0gzuCAm2RdcS5rFMv0N44+J++sw@mail.gmail.com>
+From: Jim Shu <jim.shu@sifive.com>
+Date: Wed, 28 Sep 2022 23:53:26 +0800
+Message-ID: <CALw707qqdcSRu3ByFqE62Uh3QZncCMt1GFB+yFGsTAZ+yRg5yQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc: sifive_plic: fix hard-coded max priority level
+To: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-riscv@nongnu.org, Emmanuel Blot <emmanuel.blot@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=jim.shu@sifive.com; helo=mail-oa1-x2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,60 +89,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This property is needed for WHQL/inboxing of Windows drivers. We do need
-to get drivers to be separated by the hypervisor vendors and that should
-be done as PCI subvendor ID.
+Hi Cl=C3=A9ment,
 
-This patch adds PCI subsystem vendor ID to QXL device to match that
-convention.
+Thanks for your opinion. I think it's a good enhancement.
 
-The original version of this code has been written by Denis Plotnikov
-while he has been working in Virtuozzo.
+PLIC spec [1] says that interrupt source priority registers should be
+WARL =EF=AC=81elds to allow software to determine "the number and position =
+of
+read-write bits" in each priority speci=EF=AC=81cation, if any. To simplify
+discovery of supported priority values, each priority register must
+support any combination of values in the bits that are variable within
+the register, i.e., if there are two variable bits in the register,
+all four combinations of values in those bits must operate as valid
+priority levels.
 
-Signed-off-by: Denis V. Lunev <den@openvz.org>
-CC: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-CC: Yan Vugenfirer <yvugenfi@redhat.com>
-CC: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/display/qxl.c | 4 ++++
- hw/display/qxl.h | 1 +
- 2 files changed, 5 insertions(+)
+I think "num_priorities + 1" should be power-of-2 and SW could
+discover available bits of interrupt source priority.
+I'll do this enhancement in the next version patch.
 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 5b10f697f1..ec117aa90f 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -2204,6 +2204,8 @@ static void qxl_realize_common(PCIQXLDevice *qxl, Error **errp)
- 
-     qxl->update_area_bh = qemu_bh_new(qxl_render_update_area_bh, qxl);
-     qxl->ssd.cursor_bh = qemu_bh_new(qemu_spice_cursor_refresh_bh, &qxl->ssd);
-+
-+    pci_set_word(&config[PCI_SUBSYSTEM_VENDOR_ID], qxl->subsystem_vendor_id);
- }
- 
- static void qxl_realize_primary(PCIDevice *dev, Error **errp)
-@@ -2469,6 +2471,8 @@ static Property qxl_properties[] = {
-         DEFINE_PROP_UINT32("xres", PCIQXLDevice, xres, 0),
-         DEFINE_PROP_UINT32("yres", PCIQXLDevice, yres, 0),
-         DEFINE_PROP_BOOL("global-vmstate", PCIQXLDevice, vga.global_vmstate, false),
-+        DEFINE_PROP_UINT16("subsystem-vendor-id", PCIQXLDevice,
-+                            subsystem_vendor_id, PCI_VENDOR_ID_REDHAT_QUMRANET),
-         DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/display/qxl.h b/hw/display/qxl.h
-index e74de9579d..111edbf0dc 100644
---- a/hw/display/qxl.h
-+++ b/hw/display/qxl.h
-@@ -126,6 +126,7 @@ struct PCIQXLDevice {
-     int                num_dirty_rects;
-     QXLRect            dirty[QXL_NUM_DIRTY_RECTS];
-     QEMUBH            *update_area_bh;
-+    uint16_t           subsystem_vendor_id;
- };
- 
- #define TYPE_PCI_QXL "pci-qxl"
--- 
-2.34.1
+[1] https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.adoc#in=
+terrupt-priorities
 
+Thanks,
+Jim Shu
+
+
+
+
+On Mon, Sep 26, 2022 at 3:52 PM Cl=C3=A9ment Chigot <chigot@adacore.com> wr=
+ote:
+>
+> Hi Jim,
+>
+> On Sun, Sep 25, 2022 at 3:26 PM Jim Shu <jim.shu@sifive.com> wrote:
+> >
+> > The maximum priority level is hard-coded when writing to interrupt
+> > priority register. However, when writing to priority threshold register=
+,
+> > the maximum priority level is from num_priorities Property which is
+> > configured by platform.
+> >
+> > Also change interrupt priority register to use num_priorities Property
+> > in maximum priority level.
+> >
+> > Signed-off-by: Emmanuel Blot <emmanuel.blot@sifive.com>
+> > Signed-off-by: Jim Shu <jim.shu@sifive.com>
+> > Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> > ---
+> >  hw/intc/sifive_plic.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> > index af4ae3630e..f864efa761 100644
+> > --- a/hw/intc/sifive_plic.c
+> > +++ b/hw/intc/sifive_plic.c
+> > @@ -180,8 +180,10 @@ static void sifive_plic_write(void *opaque, hwaddr=
+ addr, uint64_t value,
+> >      if (addr_between(addr, plic->priority_base, plic->num_sources << 2=
+)) {
+> >          uint32_t irq =3D ((addr - plic->priority_base) >> 2) + 1;
+> >
+> > -        plic->source_priority[irq] =3D value & 7;
+> > -        sifive_plic_update(plic);
+> > +        if (value <=3D plic->num_priorities) {
+> > +            plic->source_priority[irq] =3D value;
+> > +            sifive_plic_update(plic);
+> > +        }
+>
+> If I'm not mistaking the documentation [1], these registers are WARL
+> (Write-Any-Read-Legal). However, in your case, any value above
+> "num_priorities" will be ignored.
+>
+> We had an issue related to that and ended up making a local patch.
+> However, we are assuming that "num_priorities+1" is a power of 2
+> (which is currently the case)
+>
+> -        plic->source_priority[irq] =3D value & 7;
+> +        /* Interrupt Priority registers are Write-Any Read-Legal. Cleanu=
+p
+> +         * incoming values before storing them.
+> +         */
+> +        plic->source_priority[irq] =3D value % (plic->num_priorities + 1=
+);
+>
+> Note that it should also be done for target_priority a bit below.
+> -            if (value <=3D plic->num_priorities) {
+> -                plic->target_priority[addrid] =3D value;
+> -                sifive_plic_update(plic);
+> -            }
+> +            /* Priority Thresholds registers are Write-Any Read-Legal. C=
+leanup
+> +             * incoming values before storing them.
+> +             */
+> +            plic->target_priority[addrid] =3D value % (plic->num_priorit=
+ies + 1);
+> +            sifive_plic_update(plic);
+>
+> [1] https://static.dev.sifive.com/FE310-G000.pdf
+>
+> Thanks,
+> Cl=C3=A9ment
 
