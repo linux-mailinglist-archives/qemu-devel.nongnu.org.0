@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFFC25ED982
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:53:20 +0200 (CEST)
-Received: from localhost ([::1]:43828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B15E25ED872
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:10:14 +0200 (CEST)
+Received: from localhost ([::1]:42806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odTkl-0000R9-64
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:53:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33288)
+	id 1odT53-0003g7-Qj
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:10:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE3-00085Z-Lz
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:28 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:58873)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE7-000893-7P
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:33 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:36299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSDz-000896-IQ
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:26 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE5-0008Aa-F3
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:30 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1N8GEY-1pHJEn073Q-014EbX; Wed, 28
- Sep 2022 10:15:21 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MIdaF-1oPUGS3p6D-00EbO6; Wed, 28
+ Sep 2022 10:15:22 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Helge Deller <deller@gmx.de>,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 04/38] linux-user: Add missing clock_gettime64() syscall strace
-Date: Wed, 28 Sep 2022 10:14:43 +0200
-Message-Id: <20220928081517.734954-5-laurent@vivier.eu>
+Cc: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 06/38] linux-user: Log failing executable in EXCP_DUMP()
+Date: Wed, 28 Sep 2022 10:14:45 +0200
+Message-Id: <20220928081517.734954-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:IqbgRMHNNF80mZqvlCiw/z50h1nvgJDbFtYTzgvXNw1avV1dA3D
- 9sGtDbAL1GRsxiEsY0HmuwJjWkeilrz8x+QWQfmUpinbigeytUzGIRzIsajQKNsmFJZKy0D
- DktW4YQVI42VF7B1fGfhMSIgypb+VoUtVfoFNxGTDTisQr5vK4fRsezgfh6DsLxIE/9BPzS
- hL83EUR2B2M+bThX1gknw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9w71wlwQ+kU=:pAGHC6l08XctY4yH8JBWzy
- 4EqY8TCYym2dx3tfl5vbxxsqkgzYNtPxBaGxkTrbULKtri5J43Svdn8r/H6md4qC30Sp0AJPL
- Uk1myjaRvqlfMPg4GcI+VFMXDvGaqJwD8W7gvWhB2IFWMctEC1OSaAA8748svMIWPmJWVUUqb
- OtuUmE5MmkQ0VRU7XswBzqRVakDOBhYnGs6J02RzGP+nmAbEft4/VrgxtPpu/8fFbJFTSMbgq
- N7cJZwrXmIuA1dUAfilOsAvbaoenP/9KhMpBRuX+mvH/s29VHb0/GcEPYT5SjfqDANj2JeEMJ
- sfCSH7VdP3PLwmuIzVhztAZaiOPgzBs1lK49gjy705p3TZt4L5UyWLk+ha9xlX2y4kgz6yTxl
- vktZkE5SP2elcyzgdUEQ0liFcpGLfJt0ZWII7HiOywUzqsELprae/fXgLtb5++UcfUoG42688
- 4J1ctnRbF0pVjI/ti1Uq0TC+r+UOyfog34gsREaleukBde9RRVCxJir4Wcn8E9i4OMzVVrq9h
- CRBCnzhUWI/TODzBMHg+RguVOBWRzj+WTFEZWGDzjkUybwGShdJePeb+gV/rcwoH2baNcSsvS
- dHAX2l+xGJE5t3S7oSTTRMGixUWKkVA0sJzyRsCmNZMrEkwLX9e44/XyRXxcPcUsuAVPT+RrH
- LwoeD9BVvY7igkAyWd/WDbvkhL284cEFwiid6CIVULtVqzE9bpRrhhPrUBEjFrHz2zezNET3l
- Kg+ynxPncYWgPZp/JcVucKyy0n9o1M9hkR9cW6ux1mKVo0jWn8id1K9D9N8Sz0fVxxik11vLr
- nzddzZD
+X-Provags-ID: V03:K1:wZbqebJkWTWdpG5fB3c1lZG7gH2IX05p7dI0bk4pYO6PaX4GpD8
+ rwJwSeoQiX1jLRQ7RSqQARtVeCZs5+0JMl17KSHjvCeuxbdyA9TlwsaKga58BVLW03Fjfvi
+ rW7MpGkYqEXsnV9WFs1l8gYtY0W9wO7fIphikNTokddYvfDPqm7iMWvUAdaqq5JNnk4EjCX
+ md+FPuzchaH6mJ0s/g8bQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jCxnW7UMzKY=:HjgOSwqvRxuhCwBdaHXM7n
+ bfZ98ElRwJxnMsWO2NDZ1+vTp95uJ+GoHZYnjE1vCisuDmas4gbQv9Ca4Quv0RBlutR5JfEz8
+ L2ZcpyUBwFJoZ0ORZnzwLa/bTDgf6kNEQb0jXPILNBuuO78OXTzgW0+bD7HldafNg3TglS50i
+ oj+X7YSE6OrBlq8cVUyKgHxyFvoCRgoN14+NxxkZVxRRoNx3XTpSB+0uiBqPToHOi18y6AxBV
+ xRPu5mjEdudMar1aExxY7aMs29XF5O5uVYurHsgjED+Om8CZ9PRkPFAbWx2nebR3Wo1KpLZyi
+ oKOZAt1l956UCS4JUBbgJNruFTWty0QMDx2tpuMIVYOZwUOE5YT6QWuxr3/IW+Ev0AaoEN8Nk
+ UiIBJ5sHm2Fcmw4mIeHA2gvewDVU+he9XFgn9qVKgW+MPWW6kuzKH3nElWsIp+YPvpeW5UhQw
+ r+/Bng5ym1M/UW+/8g/FmYFx63LZFLdly+6THwJsseh0uDc/iFd5l5l013evLK/VC16SA+CSR
+ t1SFvIJN2rv5m0ZJDoB1qBqLt78wAWmvlO6LLkRg3qZFro236xSLJ4Y5F0HjlN0sg1YYfCQIf
+ Hq4ZMuR5w4cXN3pcn+fUoo0VK8+YIiidliU4FVBlztXgtDj3w5zgk1UkBeGwm9g+aIVVun6wB
+ 13BeIxqtNwA34n3ykiz2vMiaC/HYsfmm5T1qGnUcYSAREdoH9/jVG2coPGCl1OG7NTE6MjVl/
+ hsO/MXGFFKrP+RB3TtH/eE3ePEb26zPN+ttoehmMWjdNuWOUN04vY6uAHVM/y7W/KVLG3pdLI
+ 4NSdvhj
 Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -73,116 +74,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Helge Deller <deller@gmx.de>
 
-Allow linux-user to strace the clock_gettime64() syscall.
-This syscall is used a lot on 32-bit guest architectures which use newer
-glibc versions.
+Enhance the EXCP_DUMP() macro to print out the failing program too.
+During debugging it's sometimes hard to track down the actual failing
+program if you are e.g. building a whole debian package.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220918194555.83535-3-deller@gmx.de>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220918194555.83535-5-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 53 ++++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list |  4 ++++
- 2 files changed, 57 insertions(+)
+ linux-user/cpu_loop-common.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index a4eeef7ae1ca..816e67999539 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -82,6 +82,7 @@ UNUSED static void print_buf(abi_long addr, abi_long len, int last);
- UNUSED static void print_raw_param(const char *, abi_long, int);
- UNUSED static void print_timeval(abi_ulong, int);
- UNUSED static void print_timespec(abi_ulong, int);
-+UNUSED static void print_timespec64(abi_ulong, int);
- UNUSED static void print_timezone(abi_ulong, int);
- UNUSED static void print_itimerval(abi_ulong, int);
- UNUSED static void print_number(abi_long, int);
-@@ -795,6 +796,24 @@ print_syscall_ret_clock_gettime(CPUArchState *cpu_env, const struct syscallname
- #define print_syscall_ret_clock_getres     print_syscall_ret_clock_gettime
- #endif
- 
-+#if defined(TARGET_NR_clock_gettime64)
-+static void
-+print_syscall_ret_clock_gettime64(CPUArchState *cpu_env, const struct syscallname *name,
-+                                abi_long ret, abi_long arg0, abi_long arg1,
-+                                abi_long arg2, abi_long arg3, abi_long arg4,
-+                                abi_long arg5)
-+{
-+    if (!print_syscall_err(ret)) {
-+        qemu_log(TARGET_ABI_FMT_ld, ret);
-+        qemu_log(" (");
-+        print_timespec64(arg1, 1);
-+        qemu_log(")");
-+    }
-+
-+    qemu_log("\n");
-+}
-+#endif
-+
- #ifdef TARGET_NR_gettimeofday
- static void
- print_syscall_ret_gettimeofday(CPUArchState *cpu_env, const struct syscallname *name,
-@@ -1652,6 +1671,27 @@ print_timespec(abi_ulong ts_addr, int last)
-     }
- }
- 
-+static void
-+print_timespec64(abi_ulong ts_addr, int last)
-+{
-+    if (ts_addr) {
-+        struct target__kernel_timespec *ts;
-+
-+        ts = lock_user(VERIFY_READ, ts_addr, sizeof(*ts), 1);
-+        if (!ts) {
-+            print_pointer(ts_addr, last);
-+            return;
-+        }
-+        qemu_log("{tv_sec = %lld"
-+                 ",tv_nsec = %lld}%s",
-+                 (long long)tswap64(ts->tv_sec), (long long)tswap64(ts->tv_nsec),
-+                 get_comma(last));
-+        unlock_user(ts, ts_addr, 0);
-+    } else {
-+        qemu_log("NULL%s", get_comma(last));
-+    }
-+}
-+
- static void
- print_timezone(abi_ulong tz_addr, int last)
- {
-@@ -2267,6 +2307,19 @@ print_clock_gettime(CPUArchState *cpu_env, const struct syscallname *name,
- #define print_clock_getres     print_clock_gettime
- #endif
- 
-+#if defined(TARGET_NR_clock_gettime64)
-+static void
-+print_clock_gettime64(CPUArchState *cpu_env, const struct syscallname *name,
-+                    abi_long arg0, abi_long arg1, abi_long arg2,
-+                    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_enums(clockids, arg0, 0);
-+    print_pointer(arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- #ifdef TARGET_NR_clock_settime
- static void
- print_clock_settime(CPUArchState *cpu_env, const struct syscallname *name,
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 72e17b1acf00..a78cdf3cdfef 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -1676,3 +1676,7 @@
- #ifdef TARGET_NR_copy_file_range
- { TARGET_NR_copy_file_range, "copy_file_range", "%s(%d,%p,%d,%p,"TARGET_ABI_FMT_lu",%u)", NULL, NULL },
- #endif
-+#ifdef TARGET_NR_clock_gettime64
-+{ TARGET_NR_clock_gettime64, "clock_gettime64" , NULL, print_clock_gettime64,
-+                           print_syscall_ret_clock_gettime64 },
-+#endif
+diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
+index dc0042e4de35..36ff5b14f2a7 100644
+--- a/linux-user/cpu_loop-common.h
++++ b/linux-user/cpu_loop-common.h
+@@ -27,9 +27,11 @@
+ do {                                                                    \
+     CPUState *cs = env_cpu(env);                                        \
+     fprintf(stderr, fmt , ## __VA_ARGS__);                              \
++    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
+     cpu_dump_state(cs, stderr, 0);                                      \
+     if (qemu_log_separate()) {                                          \
+         qemu_log(fmt, ## __VA_ARGS__);                                  \
++        qemu_log("Failing executable: %s\n", exec_path);                \
+         log_cpu_state(cs, 0);                                           \
+     }                                                                   \
+ } while (0)
 -- 
 2.37.3
 
