@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B56C5EDBA8
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:23:05 +0200 (CEST)
-Received: from localhost ([::1]:49276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD3A5EDB6C
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:12:27 +0200 (CEST)
+Received: from localhost ([::1]:40672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odV9a-0000EM-U9
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:23:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34556)
+	id 1odUzI-0005dW-Rf
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:12:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEL-0008FA-Kk
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:52 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:54455)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEN-0008FL-KM
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:53 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:45261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEE-0008G8-Aa
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:43 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEH-0008H3-3M
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:46 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MEFCF-1oTryE2ld7-00AEFz; Wed, 28
- Sep 2022 10:15:35 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MORR2-1osOso241W-00PvRM; Wed, 28
+ Sep 2022 10:15:36 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 33/38] linux-user: Convert signal number for FUTEX_FD
-Date: Wed, 28 Sep 2022 10:15:12 +0200
-Message-Id: <20220928081517.734954-34-laurent@vivier.eu>
+Subject: [PULL 35/38] linux-user: Update print_futex_op
+Date: Wed, 28 Sep 2022 10:15:14 +0200
+Message-Id: <20220928081517.734954-36-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3RAJaY3DtebYhEIu4IehU09BFpQeaT0lT0hcZ11RWkvrE/cQFsa
- wEyMBPp6rNu4hxk3Hsm/Oc1wDTOjfayGdZwIaI7I4CsjG2Kr51+uSz/80VTOCAAsEngcMEj
- fEmXGzyI5yd0spRz6HLsg45bmwZLjZmOe7QcUKsfKAPkH/ZMH/b3892Om7RcglDzfOK0lNS
- iuBSmWqGkbkhaRAhp11Jg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LpcVzUnbprI=:xQnRAUpukqNi71hEwKBelt
- JcYzrXIJpAVr9KzFd48jtVbpVT11eqcIYGTj+XCmIuHDIlZgdTX8SJnmXMEtGt+aHv+rTrz+O
- PJjF4jGI45zgcs7zU+L6C8F56l+MPGOsdQkiqKZFqnyptGUwuFqdnuWjUTd+kGo1Ke/9pnQB1
- cMOJ5CT6KTe4wk3YAfvsypjZLjsZBrUdpHnbtS41S5pFVsHPvQ+NJSlGVQB4L4UnAW4HsBZ6L
- +SZRsZYVUKOv1VAe4gT2iS3EDpMbnO0XOh9kVVxNAdvYib2mLtrZ89kK/37IfPmK742J1RjLk
- /HpV11j5UEf/teIR/klryrDBBl81Ec73yliCTe5loGz3Sgxz+36asK4+3pMKDFayQrC6Upjfw
- ny+ivHQV5mmS+ilFPSlruDxz+V3muApDl7dnKAWBCeYncf1laBypz0nCqxgEt8bT/Idrlygm0
- KHCgaH2j+Hd1Mq6ZA0VO0ZWtjJqWffwFe/unJVYoGXARui7Cy11t1hUOsyEKMHPq3KhFbQ2Jq
- OygLRtHYkY4KrZfXLwx4dgBagJLuaATK1Ftqz506vpSuYiwU3AdNRpjTT04YRb43Q11myFEU4
- B/vdNwSTNJHq1Klby2uHIoPvlQYOGdO060WU37t9ytY2vewR6Yt9er5FoY1/9dNEeH0vD8Kqa
- VPR3jyu0JWgn+kIGWsXqRBwbemXS8zjEpZB1bOqjMmsAjHFZuNThQKjYW1zgat8GctOld0H4W
- IYObqhTMb9C+rfK0pzCPETSlIFVsiJxoSRolAkk9vPmZoLdCSRmBLq8v77/93ownX+sqtis7B
- PHCO8KP
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:L9lncU1G2iarxIbxOUr1tjTNU6d9JPQrW1TgMl2h/nO2Po/+4R5
+ vcvnvohdPQOIjTCHbPe6XbOaUBl4KZU841E0ck3Y1ezVfewZldZXaDRGPdQHaFOXJxFxw/z
+ vV0i3bWwc+tYnkHKhhq2Y64o7+qPAnoZbWvMB7r6vOpsDGuSgqHupIfiemjTmXLS6mHpUv5
+ 0GVmNlhJEbXb7XLQVfV0g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:a5EujZJU9Ws=:GX7+Fxr4zYZZxJ9GLOMtEE
+ G6rh5BnhaD7FPkckraNPegdeanQnvGe5inOJ4p5e72yA4kvNawIgcE1OplFJlMSXcdLm+vS2T
+ XORjdc27WLxmHgVUk83IQR6Bt3rXNtA8nO9NLp3gV+5YJHhKNhI1KpwJogMIuTM7OoWe7ShPG
+ uuYfLerOnohxruJMT6StHlRry/89LWPhguNxKUlou70N44NaPoYMb5OFF0c1930p0vXOiR7ie
+ 8k/C7SbbXbikDr1NTGcmAcM8p9TFKBS1+KPgIWOHyBxA4Rv6MqiFHG9cJPJ0CknspjyKOUIam
+ QE6xhYKOAR5noj1SQxQ+dkpukn8rd1eeSeyxbeVm9evXBRfa8dfie0odHyeT9Npsrzvpz2Ecm
+ LXXG2uQm9pHTSZf8kFN/K7KnRAKuIifKWTRMNjFrekefELdJTW0I2gBjdh/+cAGRAqnKotDvw
+ 8UA39JgWWik2Uz0uif9C31j2jYMU9c3Ff9HNxGgAauhc6DIHvH4eqGVqm1KGyjcdgOAH9yXmK
+ zZxLEuv35PajYzEwtaMq5m+R9u3pGCf9AeuW/YQw3JqPPMJJ2wfkP1zC/CHtLYHbo2v0UEvji
+ HE7iwwnYE1cHbvDRpO65SZxKnYjFH2IzkLCV4Hzpj5SwGpACOizGS7ZkOqqfCRxpzSeYFQ8sR
+ t5N1qiO9m0ZLISGIJtxB/ofiLNKBfaTw5YYMKfxQJMX34tkD8VjgypRKbQH2RsdfYjy20VHsD
+ xnWnGYa37JEiL1z3A1dCur0erj45+me+tqAokvv0OiPGY5Umi0+0JHG9WsCl90THFlwLPejVu
+ ckLMS9l
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,29 +73,107 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The val argument to FUTEX_FD is a signal number.  Convert to match
-the host, as it will be converted back when the signal is delivered.
+Use a table for the names; print unknown values in hex,
+since the value contains flags.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220829021006.67305-5-richard.henderson@linaro.org>
+Message-Id: <20220829021006.67305-7-richard.henderson@linaro.org>
+[lv: update print_futex() according to
+"linux-user: Show timespec on strace for futex()"]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 1 +
- 1 file changed, 1 insertion(+)
+ linux-user/strace.c | 70 +++++++++++++++++++++------------------------
+ 1 file changed, 33 insertions(+), 37 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index e2b6b564e6cb..3f144e3c1f5d 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -7793,6 +7793,7 @@ static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
-         timeout = 0;
-         break;
-     case FUTEX_FD:
-+        val = target_to_host_signal(val);
-         timeout = 0;
-         break;
-     case FUTEX_CMP_REQUEUE:
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 2deb84a2c106..faa733125624 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -3710,44 +3710,37 @@ print_munmap(CPUArchState *cpu_env, const struct syscallname *name,
+ #endif
+ 
+ #ifdef TARGET_NR_futex
+-static void print_futex_op(abi_long tflag, int last)
+-{
+-#define print_op(val) \
+-if( cmd == val ) { \
+-    qemu_log(#val); \
+-    return; \
+-}
+-
+-    int cmd = (int)tflag;
+-#ifdef FUTEX_PRIVATE_FLAG
+-    if (cmd & FUTEX_PRIVATE_FLAG) {
+-        qemu_log("FUTEX_PRIVATE_FLAG|");
+-        cmd &= ~FUTEX_PRIVATE_FLAG;
+-    }
+-#endif
+-#ifdef FUTEX_CLOCK_REALTIME
+-    if (cmd & FUTEX_CLOCK_REALTIME) {
+-        qemu_log("FUTEX_CLOCK_REALTIME|");
+-        cmd &= ~FUTEX_CLOCK_REALTIME;
++static void print_futex_op(int cmd, int last)
++{
++    static const char * const futex_names[] = {
++#define NAME(X)  [X] = #X
++        NAME(FUTEX_WAIT),
++        NAME(FUTEX_WAKE),
++        NAME(FUTEX_FD),
++        NAME(FUTEX_REQUEUE),
++        NAME(FUTEX_CMP_REQUEUE),
++        NAME(FUTEX_WAKE_OP),
++        NAME(FUTEX_LOCK_PI),
++        NAME(FUTEX_UNLOCK_PI),
++        NAME(FUTEX_TRYLOCK_PI),
++        NAME(FUTEX_WAIT_BITSET),
++        NAME(FUTEX_WAKE_BITSET),
++        NAME(FUTEX_WAIT_REQUEUE_PI),
++        NAME(FUTEX_CMP_REQUEUE_PI),
++        NAME(FUTEX_LOCK_PI2),
++#undef NAME
++    };
++
++    unsigned base_cmd = cmd & FUTEX_CMD_MASK;
++
++    if (base_cmd < ARRAY_SIZE(futex_names)) {
++        qemu_log("%s%s%s",
++                 (cmd & FUTEX_PRIVATE_FLAG ? "FUTEX_PRIVATE_FLAG|" : ""),
++                 (cmd & FUTEX_CLOCK_REALTIME ? "FUTEX_CLOCK_REALTIME|" : ""),
++                 futex_names[base_cmd]);
++    } else {
++        qemu_log("0x%x", cmd);
+     }
+-#endif
+-    print_op(FUTEX_WAIT)
+-    print_op(FUTEX_WAKE)
+-    print_op(FUTEX_FD)
+-    print_op(FUTEX_REQUEUE)
+-    print_op(FUTEX_CMP_REQUEUE)
+-    print_op(FUTEX_WAKE_OP)
+-    print_op(FUTEX_LOCK_PI)
+-    print_op(FUTEX_UNLOCK_PI)
+-    print_op(FUTEX_TRYLOCK_PI)
+-#ifdef FUTEX_WAIT_BITSET
+-    print_op(FUTEX_WAIT_BITSET)
+-#endif
+-#ifdef FUTEX_WAKE_BITSET
+-    print_op(FUTEX_WAKE_BITSET)
+-#endif
+-    /* unknown values */
+-    qemu_log("%d", cmd);
+ }
+ 
+ static void
+@@ -3763,6 +3756,9 @@ print_futex(CPUArchState *cpu_env, const struct syscallname *name,
+     switch (op) {
+         case FUTEX_WAIT:
+         case FUTEX_WAIT_BITSET:
++        case FUTEX_LOCK_PI:
++        case FUTEX_LOCK_PI2:
++        case FUTEX_WAIT_REQUEUE_PI:
+             print_timespec(arg3, 0);
+             break;
+         default:
 -- 
 2.37.3
 
