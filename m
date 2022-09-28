@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FB35EDE91
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 16:15:58 +0200 (CEST)
-Received: from localhost ([::1]:39476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EDB25EDEB5
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 16:23:39 +0200 (CEST)
+Received: from localhost ([::1]:46032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odXqv-0006xB-1E
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 10:15:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48830)
+	id 1odXyM-0004Lt-4a
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 10:23:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1odVyO-00067E-Gu
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:15:36 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:40861)
+ id 1odVzp-0006aI-3x
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:17:02 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:33357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1odVyM-00040z-PJ
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:15:32 -0400
-Received: by mail-pf1-x431.google.com with SMTP id b75so12351957pfb.7
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 05:15:29 -0700 (PDT)
+ id 1odVzm-0004I2-4X
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:16:59 -0400
+Received: by mail-pf1-x435.google.com with SMTP id w2so12409441pfb.0
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 05:16:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=BdZUaBJNIT4uz6dQ23vgSdA51kUUyLq6Gj+LpfRLMwo=;
- b=os/uSPpGoGgOZ2kR8P9v3ItD5MfSFqKjFiM9ilDo1z/yMai3nq3nB4STdonn8fO6ZS
- ksgliIBb9X7U1ruS5VQK/Y0udu7kaWo9+ERNhj3rBsAclyQIaaPgYBqrsxBFWpq98K9x
- /5yKWbDmCIxbBBHfXYPUcEV6h16eQRGsF50gohcCinafOg15fag0ZTPw1poJRPIU+7SJ
- Z/rp2kekB+MWzS1mGJ0HRHvXtb3t1xikUIjVlR/Axy+nooj24iDMSI81PGHFKu0DY4PY
- PtKPuy8CNT9QEqEq3/EMYJSHkisn7qwB/HzukvzFDRPxXM7XhBqTHOLccnsZfHTfKYKa
- qlGQ==
+ bh=hZZzk2h0DXLhS5kIUscxiCbkj1nfwKlpBBur/BWrcpQ=;
+ b=jrvyeQeBTHSvXCWA4xXnk8d58gJrni3//pR8QAG5hjfijMxYapJVMs1UkleHdQhTi7
+ nVwcBQd11SR8NfF+tLEC6UADk9pYMUkRevkCFK2O+l33dHMvJqwz1ff3LjK+aoFEI6k4
+ bYU2OjTkmljHuYz0I9naLf3YoRxhMPCU4UTS13+Rpce2BeD9yTT6JE/DivnMEW9szyQe
+ 0wuQEUSfeJqhk3fOP+8TK6QPSl8BpUM4V2aQ77A5Xg3ivXDlCahqQfkH+dLYV6n/O6Qf
+ CPSmwTJwaseDuj4UoD7t7tvpn2F8htoZbmYvIS86/rY62QD+WEIAtMIGUC15wpj3vOM5
+ czbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=BdZUaBJNIT4uz6dQ23vgSdA51kUUyLq6Gj+LpfRLMwo=;
- b=TwxWPl/17rmV/qQpKvQ1KtemrRaMgtyRZ+lSsEgAUPg/1ymSHjatsfvLSphZmRbncD
- 3hR1/H3O9e4IKzDKeNOeBCxM/7VVPebXnd7drNx04v5f9WnQMr9Mo2LVYIr8QWCThgPT
- /OaMF1amCOA7hw5uluCFddTnR6tU5SJPsWlctW6EQ3cjqovyK/JGsG/fFX5X/LmVV0sV
- cbn9KI/1CjEMAn58i9pBEZeqGw3vbZWmjBG1jl8ug5i/s8uNaW9UvjUz0KHhtl9gs3s/
- K65SlNAF9TfG68z337OTf9wWhB9fy45/iI+Be5sgEei2Qu9O8AS1Pvii8yj0h+n6wRph
- AlMw==
-X-Gm-Message-State: ACrzQf0mC7dXjH2absA8ocTcMeiOHqCkzMQxrlS3mTECzhts/SRyC+9q
- gvxwZ3v2dnSPPUL2dPwYj9A6Kg==
-X-Google-Smtp-Source: AMsMyM4lr46JNZSKyq809+IOIhtE9KsHsemyd/sRI5OuQBB4L1gBJZIDelmxwoEFo5y/8D2DDnDYLA==
-X-Received: by 2002:a05:6a00:4006:b0:53e:815a:ff71 with SMTP id
- by6-20020a056a00400600b0053e815aff71mr34301291pfb.4.1664367328173; 
- Wed, 28 Sep 2022 05:15:28 -0700 (PDT)
+ bh=hZZzk2h0DXLhS5kIUscxiCbkj1nfwKlpBBur/BWrcpQ=;
+ b=fl+OvuTF04jjmOGxhmFzUzOI72oaB2mRy5ZAri3lvoPyS6yDobpKZCYz7PKQENHERK
+ 9lNfH3d+4Lh83z1cSd5ni0R7Sgi+oC2HVCiIY82MvnG/yaeKHssfc+aJw80dWrlT2IYk
+ c0F1awXHHc5hYIIlk5mbkiAjD2gScqgDqLSKx0cj/Lvr1fb26U6zcmpuxAgR6z2C8sxJ
+ IUHpK6NODwo+zozDLAxzpV3csC9KxgzZnH0BERX8URTpVHZAI+mMLkNKYiQNSPn/7w9F
+ 1moR3FsguDL0fnaRdTNqShwYf+QPfdGYtcHZhpLDFRVUNVFl9OMI58G34FDk+3W2YDOT
+ YiQQ==
+X-Gm-Message-State: ACrzQf05iPcrvyj//XthvyZAsYrbETDKBntxSpIluzVIYhsp6Py8PrFe
+ V3Vjf1L/uqSIk0g4MnAsgb/nVw==
+X-Google-Smtp-Source: AMsMyM5QG71f9I2oTL4JdFaFLlWV+7wsOIXLASDTY5E9HMTJMwPpsd5IJjBzpMRtSKaVmPdmVxoVZw==
+X-Received: by 2002:a05:6a00:1c72:b0:543:239c:b602 with SMTP id
+ s50-20020a056a001c7200b00543239cb602mr34589795pfw.75.1664367414244; 
+ Wed, 28 Sep 2022 05:16:54 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49d:ec01:986f:cb56:6709:4057?
  ([2602:47:d49d:ec01:986f:cb56:6709:4057])
  by smtp.gmail.com with ESMTPSA id
- cp16-20020a170902e79000b0017834a6966csm3523509plb.176.2022.09.28.05.15.27
+ 1-20020a630d41000000b0043c9da02729sm3459114pgn.6.2022.09.28.05.16.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Sep 2022 05:15:27 -0700 (PDT)
-Message-ID: <b4934613-e1a4-e6a8-58cf-dfe91d19a01f@linaro.org>
-Date: Wed, 28 Sep 2022 05:15:25 -0700
+ Wed, 28 Sep 2022 05:16:53 -0700 (PDT)
+Message-ID: <a2714c98-56ba-5cee-2a69-8e70c769e0b1@linaro.org>
+Date: Wed, 28 Sep 2022 05:16:51 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 2/3] target/arm: Make writes to MDCR_EL3 use PMU
- start/finish calls
+Subject: Re: [PATCH 3/3] target/arm: Update SDCR_VALID_MASK to include SCCD
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>
 References: <20220923123412.1214041-1-peter.maydell@linaro.org>
- <20220923123412.1214041-3-peter.maydell@linaro.org>
+ <20220923123412.1214041-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220923123412.1214041-3-peter.maydell@linaro.org>
+In-Reply-To: <20220923123412.1214041-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -98,22 +97,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/23/22 05:34, Peter Maydell wrote:
-> In commit 01765386a88868 we fixed a bug where we weren't correctly
-> bracketing changes to some registers with pmu_op_start() and
-> pmu_op_finish() calls for changes which affect whether the PMU
-> counters might be enabled.  However, we missed the case of writes to
-> the AArch64 MDCR_EL3 register, because (unlike its AArch32
-> counterpart) they are currently done directly to the CPU state struct
-> without going through the sdcr_write() function.
+> Our SDCR_VALID_MASK doesn't include all of the bits which are defined
+> by the current architecture.  In particular in commit 0b42f4fab9d3 we
+> forgot to add SCCD, which meant that an AArch32 guest couldn't
+> actually use the SCCD bit to disable counting in Secure state.
 > 
-> Give MDCR_EL3 a writefn which handles the PMU start/finish calls.
-> The SDCR writefn then simplfies to "call the MDCR_EL3 writefn after
-> masking off the bits which don't exist in the AArch32 register".
+> Add all the currently defined bits; we don't implement all of them,
+> but this makes them be reads-as-written, which is architecturally
+> valid and matches how we currently handle most of the others in the
+> mask.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/helper.c | 18 ++++++++++++++----
->   1 file changed, 14 insertions(+), 4 deletions(-)
+>   target/arm/cpu.h | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
