@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9175EE83B
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 23:22:28 +0200 (CEST)
-Received: from localhost ([::1]:55894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 947575EE7D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 23:07:29 +0200 (CEST)
+Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odeVf-00016j-5I
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 17:22:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37016)
+	id 1odeH9-0001as-Nq
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 17:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf5-0000eD-ET
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:07 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:53173)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf6-0000hr-F6
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:08 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:49501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf3-0006YC-Ry
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:07 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf4-0006YX-Lq
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:08 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MTzve-1on1JR2Pru-00QyN6; Wed, 28
- Sep 2022 22:28:03 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1Myb09-1pRLb72Mpx-00ywzv; Wed, 28
+ Sep 2022 22:28:04 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 34/37] linux-user: Implement PI futexes
-Date: Wed, 28 Sep 2022 22:27:34 +0200
-Message-Id: <20220928202737.793171-35-laurent@vivier.eu>
+Subject: [PULL 35/37] linux-user: Update print_futex_op
+Date: Wed, 28 Sep 2022 22:27:35 +0200
+Message-Id: <20220928202737.793171-36-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928202737.793171-1-laurent@vivier.eu>
 References: <20220928202737.793171-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZgvfdCGvrXdYFhC9TqX60aEUkAF5VzmrV0EUY4pGCK7Jn+si3LI
- oYNrom6aQ/3FjBTFpsRHD1CH2WDWU41lXCsOicOXyq+aapXYY6FyNml2akG8Y+PxRza5rUe
- htCvEW6IvqIgeO7ZlhAF8cMlq1WDdADskwKIn9t5J0Vi3L3OubN4lVOLQgK05W/sSMhUwH7
- cSFJrpqjEyVi7zlhY4/UQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dbf6zThDfDg=:WGnTVHEAs/DwGg8jGUYaqe
- kYO4mFBY4Uo23XB6UBxaIRhFOlGc+sao3vpguyhxeHHaI1LUnuZ9nVMtS4u5qc43dnQXM6d0v
- i5WFquLNKzfL75lcXu01xRSKW+Z3L0jyU5GonB2wU0jHWM26/jeSYgVDz8oeXt3xhPmT1RWfo
- 4iMggATj97A8zrUiFI8611aOq+qyOQruW04FWwSt5bEYF1es0iXzza0r+Assd1HStsafa4MDi
- O2Fyio6bkRsDMsVM4LqKCfBXRcRa01MfZlC4aT0FBpI1CvT6agK/tFNhLDoK1JvzWPjwZhfhQ
- QRHrfxRUkfb/t2Pr4YljTaPdAtjH1IKReaEFNgl3BgNKyJ8smn1mKwhyL6VvY8OD5IMtVXShc
- XQsv/UxLBwBjtTpikeO4fZaYrU2f6xInRDMK8xS4HfsUeTYEd78HP8iqrgoUz2zHvs6ZJzuW4
- uiAMwkt9XrtnGn0PhmNXO2eF1YZY88zETsgjWkNclRt8YLTu0teXjIMFswER+HcJHZ9qBmUYu
- 1GzimwWyZuzxg5Z3pmmQUUPylK2I+fztCiynU81WAzL1nBokHsAyk/ex4G6LglSQSZwR1bf5a
- bEUmhHE/ZAjYMotSBRiHU06qcHHtdov9m+W17FZZcf+huzWhZHesDa3xi+raA5Sxjeg1jwhLO
- owbriQpNlIcjEaRpfrsBgPT2ZwkLAlC3Zg5/S00en+YbwvlKfniBSwWIEbkMXYKcvS/ZajHWX
- iiK6fk+3T8MgmYSpbpvMP/1mII+XCr5bckoAd0MqAJNQHClBF/vfJi08wAEbYPWWYmQ3nXYl+
- ssFhHqz
+X-Provags-ID: V03:K1:lIb77sB6JdUnv2GeVFDsdSEuAi4q+peZJJB3PjBOjCo6tQOking
+ fXMbsdE7jYteSMdCkW44ykwNVcu0o5dQPP2llLR31S6gFLP965jUar7plfVETNGE6NvGmc2
+ sjLpFwGxHhG9kup301xVNX5uoyZ30fnzp4Lojsv57ff98JNPz3sJlGkRyK9QocC5hig37CL
+ dvwOWJ7fxrA1I0hfBHHeg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aqWYxsrcghQ=:a+GUDRSuQqGT+zbg/i+Bto
+ 61QxKjGeA1aACl+wMpqyt5cpkWtcgyXLlYouSbzZ/imClwsFP34P7kwVN2AwmOeld8B8R2pbg
+ bUupwKq3o/IDPnbNKb8SEF+a3kMn+SfMNGK9RVcjP1gi05UGkm0q/IISB//JZsUEjWh69VX+4
+ VqghXp8rroXwCuSq1pPTTMrYGXM+CImljAahA4RaMGfwg+kXlwwhQJeAEGA86QfuGETZq8upS
+ jEgNYKcDU2FmlmWnjH/trs9I8kiL/y7oEIm3ohtyzsRmKx4F8L00VbMXAdb4KLx4+TU5KNUff
+ 1wCCYGDupKQuXZwlIdXDgStZ4vuVRPKmN9zIwHyu6xZOsdzVcLhntqf0VbPxlC1D97JsE6V0x
+ 6piibayqBrhpc0QdlgMqEG+oQNrm/fPWslUUY/UAu5HkkklFUfREg7G4g9JmduYRFNF0E9BSA
+ CfwwYZ68eZ64wdc3FN9rtsMIrhG5ShoXcQjhgFXTRV/MJ8w5+eu378EpGUzX6c7lCazcyGbrn
+ Pms14ZeZrPO6SWAJH4jpj+nQAgvk7GxN0/+GzNbsoTMj/Ja7Hzuv46ZB+sp4zOy/DDsTlHQ6m
+ iVI/mjcZCzIcrq+iHQpfaEkeIbd9RXTkUv3PmLIN4/LQJ/zC6FROlUdbmPH0nMl6DVBCZQtH5
+ CP1FI/XzAkSj6KSOYFVjNEadFgGmgOaahl8S+b0pO4jdDOlUD9OcIU6/9xEpi3a5gIqQtfAjX
+ 2MlzasBR5Rabn70eCfJSlTPwZmffo99aFdcbDGDgOSBRPmbUs6YzQ9BI14J/irGE8nXke/lZm
+ hFOvFym
 Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -74,61 +74,107 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Define the missing FUTEX_* constants in syscall_defs.h
+Use a table for the names; print unknown values in hex,
+since the value contains flags.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220829021006.67305-6-richard.henderson@linaro.org>
+Message-Id: <20220829021006.67305-7-richard.henderson@linaro.org>
+[lv: update print_futex() according to
+"linux-user: Show timespec on strace for futex()"]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c      | 10 ++++++++++
- linux-user/syscall_defs.h |  3 +++
- 2 files changed, 13 insertions(+)
+ linux-user/strace.c | 70 +++++++++++++++++++++------------------------
+ 1 file changed, 33 insertions(+), 37 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 3f144e3c1f5d..2e954d8dbd9e 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -7788,8 +7788,17 @@ static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
-     case FUTEX_WAIT_BITSET:
-         val = tswap32(val);
-         break;
-+    case FUTEX_WAIT_REQUEUE_PI:
-+        val = tswap32(val);
-+        haddr2 = g2h(cpu, uaddr2);
-+        break;
-+    case FUTEX_LOCK_PI:
-+    case FUTEX_LOCK_PI2:
-+        break;
-     case FUTEX_WAKE:
-     case FUTEX_WAKE_BITSET:
-+    case FUTEX_TRYLOCK_PI:
-+    case FUTEX_UNLOCK_PI:
-         timeout = 0;
-         break;
-     case FUTEX_FD:
-@@ -7797,6 +7806,7 @@ static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
-         timeout = 0;
-         break;
-     case FUTEX_CMP_REQUEUE:
-+    case FUTEX_CMP_REQUEUE_PI:
-         val3 = tswap32(val3);
-         /* fall through */
-     case FUTEX_REQUEUE:
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 1e3577bfa56f..01ee10a88fe0 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2699,6 +2699,9 @@ struct target_drm_i915_getparam {
- #define FUTEX_TRYLOCK_PI        8
- #define FUTEX_WAIT_BITSET       9
- #define FUTEX_WAKE_BITSET       10
-+#define FUTEX_WAIT_REQUEUE_PI   11
-+#define FUTEX_CMP_REQUEUE_PI    12
-+#define FUTEX_LOCK_PI2          13
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 2deb84a2c106..faa733125624 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -3710,44 +3710,37 @@ print_munmap(CPUArchState *cpu_env, const struct syscallname *name,
+ #endif
  
- #define FUTEX_PRIVATE_FLAG      128
- #define FUTEX_CLOCK_REALTIME    256
+ #ifdef TARGET_NR_futex
+-static void print_futex_op(abi_long tflag, int last)
+-{
+-#define print_op(val) \
+-if( cmd == val ) { \
+-    qemu_log(#val); \
+-    return; \
+-}
+-
+-    int cmd = (int)tflag;
+-#ifdef FUTEX_PRIVATE_FLAG
+-    if (cmd & FUTEX_PRIVATE_FLAG) {
+-        qemu_log("FUTEX_PRIVATE_FLAG|");
+-        cmd &= ~FUTEX_PRIVATE_FLAG;
+-    }
+-#endif
+-#ifdef FUTEX_CLOCK_REALTIME
+-    if (cmd & FUTEX_CLOCK_REALTIME) {
+-        qemu_log("FUTEX_CLOCK_REALTIME|");
+-        cmd &= ~FUTEX_CLOCK_REALTIME;
++static void print_futex_op(int cmd, int last)
++{
++    static const char * const futex_names[] = {
++#define NAME(X)  [X] = #X
++        NAME(FUTEX_WAIT),
++        NAME(FUTEX_WAKE),
++        NAME(FUTEX_FD),
++        NAME(FUTEX_REQUEUE),
++        NAME(FUTEX_CMP_REQUEUE),
++        NAME(FUTEX_WAKE_OP),
++        NAME(FUTEX_LOCK_PI),
++        NAME(FUTEX_UNLOCK_PI),
++        NAME(FUTEX_TRYLOCK_PI),
++        NAME(FUTEX_WAIT_BITSET),
++        NAME(FUTEX_WAKE_BITSET),
++        NAME(FUTEX_WAIT_REQUEUE_PI),
++        NAME(FUTEX_CMP_REQUEUE_PI),
++        NAME(FUTEX_LOCK_PI2),
++#undef NAME
++    };
++
++    unsigned base_cmd = cmd & FUTEX_CMD_MASK;
++
++    if (base_cmd < ARRAY_SIZE(futex_names)) {
++        qemu_log("%s%s%s",
++                 (cmd & FUTEX_PRIVATE_FLAG ? "FUTEX_PRIVATE_FLAG|" : ""),
++                 (cmd & FUTEX_CLOCK_REALTIME ? "FUTEX_CLOCK_REALTIME|" : ""),
++                 futex_names[base_cmd]);
++    } else {
++        qemu_log("0x%x", cmd);
+     }
+-#endif
+-    print_op(FUTEX_WAIT)
+-    print_op(FUTEX_WAKE)
+-    print_op(FUTEX_FD)
+-    print_op(FUTEX_REQUEUE)
+-    print_op(FUTEX_CMP_REQUEUE)
+-    print_op(FUTEX_WAKE_OP)
+-    print_op(FUTEX_LOCK_PI)
+-    print_op(FUTEX_UNLOCK_PI)
+-    print_op(FUTEX_TRYLOCK_PI)
+-#ifdef FUTEX_WAIT_BITSET
+-    print_op(FUTEX_WAIT_BITSET)
+-#endif
+-#ifdef FUTEX_WAKE_BITSET
+-    print_op(FUTEX_WAKE_BITSET)
+-#endif
+-    /* unknown values */
+-    qemu_log("%d", cmd);
+ }
+ 
+ static void
+@@ -3763,6 +3756,9 @@ print_futex(CPUArchState *cpu_env, const struct syscallname *name,
+     switch (op) {
+         case FUTEX_WAIT:
+         case FUTEX_WAIT_BITSET:
++        case FUTEX_LOCK_PI:
++        case FUTEX_LOCK_PI2:
++        case FUTEX_WAIT_REQUEUE_PI:
+             print_timespec(arg3, 0);
+             break;
+         default:
 -- 
 2.37.3
 
