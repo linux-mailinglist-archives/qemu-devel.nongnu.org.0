@@ -2,93 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A155EE0AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 17:39:53 +0200 (CEST)
-Received: from localhost ([::1]:37460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B99095EE0CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 17:48:37 +0200 (CEST)
+Received: from localhost ([::1]:40276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odZA8-00086f-45
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 11:39:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53062)
+	id 1odZIa-0006aR-CP
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 11:48:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odWAa-0002IT-Kt
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:28:08 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:43756)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odWHf-0000CV-Ce
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:35:27 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:56694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odWAY-00069s-A3
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:28:07 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- r3-20020a05600c35c300b003b4b5f6c6bdso923178wmq.2
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 05:28:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=5VfD97tWBcr5iQaTGtb/AibnoTMM00QHMx9rgrO+rcw=;
- b=BHNR6CRIdHDql+GQF3J6dk2DhB3HjNiTwwqvkNJ1DraM5FerDfxTyYtMgBwSD1V7kn
- uJS8uKVqiUVrkY29TTJngc8XAChgqo+b9qU2atVMAayPRNO7Lj8LhLNzbhE+CHpDi3iu
- cetY1VLLB7RPlzsrW4ELtq/qWaBs4y/L8BRy5yNYm3nRzgdzfpmjk/ZMNwAcsXp/UodD
- wmIbMUcEMtxuombiOuNz4HAfMPriTwwJO4aDXg3j6rsilzHYn0iMB5/vG0IPJ7FzxAWZ
- pqaX/qFCdj605Znetrq4SNt5AYalrxj+3r31GY5YUizfaj6pubIkueRXTtvxRNTdaVj8
- RQMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=5VfD97tWBcr5iQaTGtb/AibnoTMM00QHMx9rgrO+rcw=;
- b=ZnYkwNfUBcC0wL/HdFEEpNL0ORuhbOd++8UUGsYKhWu39dWnytVKjuXzpxhlWMIlCP
- zI3p6Jcgurmw8h8SIaNL8IfV933o0DV58xqzvNCQVgMuHCFT+oueSlIOxX8FL3RfQdRo
- fR+DqNZdE3VJsIjbfHUU+SC4GhsMXQyJC69sx+0JOBRy6b1Rj+FaloFLEB/0XRahQ0U7
- +nDzVuUNbWWyv/FsCFVS0Whu1ZQD3d3g0LJOLtUjzw3LMhWeWhVApAZpLjh3tmKG3FNY
- EWUwO13yfWNtjRcTbwhxD72D+Bq5v4TtUN4jb7tU0T6dkUz2wNjO2fgaE2P4PKg6PUrG
- hBEA==
-X-Gm-Message-State: ACrzQf1qwlHgvFZN3U+YwkMLQ7ZrAqjSgF6JsyhKRxGtmeNtnBQzuCop
- KEXeegBQ5O2HVsqTKP6qbILPdg==
-X-Google-Smtp-Source: AMsMyM6tyYvrT3EWjfNNk43SqlrN9qeOabsscIpD+lWKmV7lCiENeDfPiMZ6IxQUBtjDUv27BlWSOA==
-X-Received: by 2002:a1c:f311:0:b0:3b5:18ca:fc5e with SMTP id
- q17-20020a1cf311000000b003b518cafc5emr6654995wmq.70.1664368084189; 
- Wed, 28 Sep 2022 05:28:04 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- j6-20020a05600c190600b003a5f3f5883dsm1851190wmq.17.2022.09.28.05.28.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Sep 2022 05:28:03 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 53A9A1FFB7;
- Wed, 28 Sep 2022 13:28:02 +0100 (BST)
-References: <285e1375-82c4-556d-54fa-abba6b8e8e77@redhat.com>
- <CAJSP0QX13hF2_qSvO0Hfh=DtyurhkXyJKnrzWTSsTtURueTV6A@mail.gmail.com>
- <YzMcobeWVAnHUkNu@redhat.com>
- <CAJSP0QW_An5ypmsaXaVeHNKKzW0+x2Pmp8bQtPfVxPCqgAwFCA@mail.gmail.com>
- <YzM5i5QP7NQq4OHV@redhat.com>
- <dc108d7d-297b-5a84-68dd-12da3a0e68d0@redhat.com>
- <YzP2k5GBb1lKsqB8@redhat.com>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Philippe =?utf-8?Q?Mathieu-Daud?=
- =?utf-8?Q?=C3=A9?=
- <f4bug@amsat.org>, Stefan Hajnoczi <stefanha@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>
-Subject: Re: Should we maybe move Cirrus-CI jobs away from Gitlab again?
-Date: Wed, 28 Sep 2022 13:27:06 +0100
-In-reply-to: <YzP2k5GBb1lKsqB8@redhat.com>
-Message-ID: <8735cb3cq5.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odWHd-0007dV-CV
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:35:27 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id DF88F1FA7A;
+ Wed, 28 Sep 2022 12:35:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1664368523; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4L5t01RoSvLFc7n/IRLFdqy9eyH/xhBEeEPfT71PCJI=;
+ b=ZUWenQzJ+Px2VTp/F14d+ELWO0qT/gjY87zJzgnfdBkds3Q5z/yhVOgEfzzu9vRS1JpJng
+ hENc1K5QYFgDy+O7Sz2S32+sLIa6DvPEUQgGzaP8mk9FGuEWwJe941qa6z23cIGGHtU2rV
+ edyyoM0XhzDtFxMNP7XIeWG43B3MESY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1664368523;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4L5t01RoSvLFc7n/IRLFdqy9eyH/xhBEeEPfT71PCJI=;
+ b=WvYrA/SOTNLHlYRLHou1z95yGZUFYhqdcRNnGViTUXS4UwtdnOpcAT9Q2vmCkEG7O3N6jD
+ ZlW13UGCWdZ5nNAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6196D13A84;
+ Wed, 28 Sep 2022 12:35:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id UDioFYs/NGM7QgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Wed, 28 Sep 2022 12:35:23 +0000
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Claudio Fontana <cfontana@suse.de>
+Subject: [PATCH v8 1/5] module: removed unused function argument "mayfail"
+Date: Wed, 28 Sep 2022 14:29:55 +0200
+Message-Id: <20220928122959.16679-2-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20220928122959.16679-1-cfontana@suse.de>
+References: <20220928122959.16679-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,105 +93,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+mayfail is always passed as false for every invocation throughout the program.
+It controls whether to printf or not to printf an error on
+g_module_open failure.
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Remove this unused argument.
 
-> On Tue, Sep 27, 2022 at 08:40:44PM +0200, Thomas Huth wrote:
->> On 27/09/2022 19.57, Daniel P. Berrang=C3=A9 wrote:
->> > On Tue, Sep 27, 2022 at 01:36:20PM -0400, Stefan Hajnoczi wrote:
->> > > On Tue, 27 Sept 2022 at 11:54, Daniel P. Berrang=C3=A9 <berrange@red=
-hat.com> wrote:
->> > > >=20
->> > > > On Tue, Sep 27, 2022 at 11:44:45AM -0400, Stefan Hajnoczi wrote:
->> > > > > On Tue, 27 Sept 2022 at 05:02, Thomas Huth <thuth@redhat.com> wr=
-ote:
->> > > > > > now that Gitlab is giving us pressure on the amount of free CI=
- minutes, I
->> > > > > > wonder whether we should maybe move the Cirrus-CI jobs out of =
-the gitlab-CI
->> > > > > > dashboard again? We could add the jobs to our .cirrus-ci.yml f=
-ile instead,
->> > > > > > like we did it in former times...
->> > > > > >=20
->> > > > > > Big advantage would be of course that the time for those jobs =
-would not
->> > > > > > count in the Gitlab-CI minutes anymore. Disadvantage is of cou=
-rse that they
->> > > > > > do not show up in the gitlab-CI dashboard anymore, so there is=
- no more
->> > > > > > e-mail notification about failed jobs, and you have to push to=
- github, too,
->> > > > > > and finally check the results manually on cirrus-ci.com ...
->> > > > >=20
->> > > > > My understanding is that .gitlab-ci.d/cirrus.yml uses a GitLab C=
-I job
->> > > > > to run the cirrus-run container image that forwards jobs to Cirr=
-us-CI.
->> > > > > So GitLab CI resources are consumed waiting for Cirrus-CI to fin=
-ish.
->> > > > >=20
->> > > > > This shouldn't affect gitlab.com/qemu-project where there are pr=
-ivate
->> > > > > runners that do not consume GitLab CI minutes.
->> > > > >=20
->> > > > > Individual developers are affected though because they most like=
-ly
->> > > > > rely on the GitLab shared runner minutes quota.
->> > > >=20
->> > > > NB, none of the jobs should ever be run automatically anymore in
->> > > > QEMU CI pipelines. It always requires the maintainer to set the
->> > > > env var when pushing to git, to explicitly create a pipeline.
->> > > > You can then selectively start each individual job as desired.
->> > >=20
->> > > Cirrus CI is not automatically started when pushing to a personal
->> > > GitLab repo? If starting it requires manual action anyway then I thi=
-nk
->> > > nothing needs to be changed here.
->> >=20
->> > No pipeline at all is created unless you do
->> >=20
->> >    git push -o ci.variable=3DQEMU_CI=3D1 <your-fork-remote>
->> >=20
->> > that creates the pipeliune but doesn't run any jobs - they're manual
->> > start.
->>=20
->> Yes, sure, the jobs are not started automatically. But I *do* want to run
->> the jobs before sending pull requests - but since the gitlab-CI minutes =
-are
->> now very limited, I'd like to avoid burning these minutes via gitlab and
->> start those jobs directly on cirrus-ci.com again. For that the jobs would
->> need to be moved to our .cirrus-ci.yml file again.
->
-> We do need a better story for maintainers sending pull requests to have
-> ability to run CI. We have 50+ jobs in the bujild stage of which the
-> cirrus jobs are just 3 - removing the cirrus jobs won't make a difference
-> to how quickly we run out of minutes if people try to run all of them.
->
-> We need to define a much tighter minimalist set of recommended jobs to
-> run.
->
-> I believe that if QEMU joins the OSS program, then the forks of QEMU
-> also benefit from a reduced cost factor for jobs they run, effectively
-> giving you much higher CI quota
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/qemu/module.h |  8 ++++----
+ softmmu/qtest.c       |  2 +-
+ util/module.c         | 20 +++++++++-----------
+ 3 files changed, 14 insertions(+), 16 deletions(-)
 
-We shall find out soon enough. The code came through today so I've
-applied it to the project which shows we are now on the "Ultimate" tier.
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index bd73607104..8c012bbe03 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -61,15 +61,15 @@ typedef enum {
+ #define fuzz_target_init(function) module_init(function, \
+                                                MODULE_INIT_FUZZ_TARGET)
+ #define migration_init(function) module_init(function, MODULE_INIT_MIGRATION)
+-#define block_module_load_one(lib) module_load_one("block-", lib, false)
+-#define ui_module_load_one(lib) module_load_one("ui-", lib, false)
+-#define audio_module_load_one(lib) module_load_one("audio-", lib, false)
++#define block_module_load_one(lib) module_load_one("block-", lib)
++#define ui_module_load_one(lib) module_load_one("ui-", lib)
++#define audio_module_load_one(lib) module_load_one("audio-", lib)
+ 
+ void register_module_init(void (*fn)(void), module_init_type type);
+ void register_dso_module_init(void (*fn)(void), module_init_type type);
+ 
+ void module_call_init(module_init_type type);
+-bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
++bool module_load_one(const char *prefix, const char *lib_name);
+ void module_load_qom_one(const char *type);
+ void module_load_qom_all(void);
+ void module_allow_arch(const char *arch);
+diff --git a/softmmu/qtest.c b/softmmu/qtest.c
+index f8acef2628..76eb7bac56 100644
+--- a/softmmu/qtest.c
++++ b/softmmu/qtest.c
+@@ -756,7 +756,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+         g_assert(words[1] && words[2]);
+ 
+         qtest_send_prefix(chr);
+-        if (module_load_one(words[1], words[2], false)) {
++        if (module_load_one(words[1], words[2])) {
+             qtest_sendf(chr, "OK\n");
+         } else {
+             qtest_sendf(chr, "FAIL\n");
+diff --git a/util/module.c b/util/module.c
+index 8ddb0e18f5..8563edd626 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -144,7 +144,7 @@ static bool module_check_arch(const QemuModinfo *modinfo)
+     return true;
+ }
+ 
+-static int module_load_file(const char *fname, bool mayfail, bool export_symbols)
++static int module_load_file(const char *fname, bool export_symbols)
+ {
+     GModule *g_module;
+     void (*sym)(void);
+@@ -172,10 +172,8 @@ static int module_load_file(const char *fname, bool mayfail, bool export_symbols
+     }
+     g_module = g_module_open(fname, flags);
+     if (!g_module) {
+-        if (!mayfail) {
+-            fprintf(stderr, "Failed to open module: %s\n",
+-                    g_module_error());
+-        }
++        fprintf(stderr, "Failed to open module: %s\n",
++                g_module_error());
+         ret = -EINVAL;
+         goto out;
+     }
+@@ -208,7 +206,7 @@ out:
+ }
+ #endif
+ 
+-bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
++bool module_load_one(const char *prefix, const char *lib_name)
+ {
+     bool success = false;
+ 
+@@ -256,7 +254,7 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+             if (strcmp(modinfo->name, module_name) == 0) {
+                 /* we depend on other module(s) */
+                 for (sl = modinfo->deps; *sl != NULL; sl++) {
+-                    module_load_one("", *sl, false);
++                    module_load_one("", *sl);
+                 }
+             } else {
+                 for (sl = modinfo->deps; *sl != NULL; sl++) {
+@@ -287,7 +285,7 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+     for (i = 0; i < n_dirs; i++) {
+         fname = g_strdup_printf("%s/%s%s",
+                 dirs[i], module_name, CONFIG_HOST_DSOSUF);
+-        ret = module_load_file(fname, mayfail, export_symbols);
++        ret = module_load_file(fname, export_symbols);
+         g_free(fname);
+         fname = NULL;
+         /* Try loading until loaded a module file */
+@@ -333,7 +331,7 @@ void module_load_qom_one(const char *type)
+         }
+         for (sl = modinfo->objs; *sl != NULL; sl++) {
+             if (strcmp(type, *sl) == 0) {
+-                module_load_one("", modinfo->name, false);
++                module_load_one("", modinfo->name);
+             }
+         }
+     }
+@@ -354,7 +352,7 @@ void module_load_qom_all(void)
+         if (!module_check_arch(modinfo)) {
+             continue;
+         }
+-        module_load_one("", modinfo->name, false);
++        module_load_one("", modinfo->name);
+     }
+     module_loaded_qom_all = true;
+ }
+@@ -370,7 +368,7 @@ void qemu_load_module_for_opts(const char *group)
+         }
+         for (sl = modinfo->opts; *sl != NULL; sl++) {
+             if (strcmp(group, *sl) == 0) {
+-                module_load_one("", modinfo->name, false);
++                module_load_one("", modinfo->name);
+             }
+         }
+     }
+-- 
+2.26.2
 
->
->> Well, maybe we could also have both, jobs via cirrus-run for those who w=
-ant
->> to see them in their gitlab-CI dashboard, and via .cirrus-ci.yml for tho=
-se
->> who want to avoid burning CI minutes on Gitlab. It's a little bit of
->> double-maintenance, but maybe acceptable?
->
-> Key info about the jobs is in .gitlab-ci.d/cirrus/freebsd-12.vars which
-> could be referenced from the cirrus-ci.yml to reduce duplication
->
-> With regards,
-> Daniel
-
-
---=20
-Alex Benn=C3=A9e
 
