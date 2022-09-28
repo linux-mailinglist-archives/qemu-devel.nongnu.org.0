@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911BD5ED956
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:42:20 +0200 (CEST)
-Received: from localhost ([::1]:46480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53ABE5ED9A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:59:56 +0200 (CEST)
+Received: from localhost ([::1]:45808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odTa7-0002Kn-L3
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:42:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34302)
+	id 1odTr9-00063k-C8
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:59:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEI-0008Ef-8a
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:48 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:48711)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEL-0008FE-MK
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:52 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:39337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEC-0008Eq-Fj
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:38 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEE-0008G4-Ak
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:43 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MHnZQ-1oPl6e1TNu-00EspI; Wed, 28
- Sep 2022 10:15:34 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mrxjf-1oyp0n0Lcj-00nwjH; Wed, 28
+ Sep 2022 10:15:36 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 30/38] linux-user: Combine do_futex and do_futex_time64
-Date: Wed, 28 Sep 2022 10:15:09 +0200
-Message-Id: <20220928081517.734954-31-laurent@vivier.eu>
+Subject: [PULL 34/38] linux-user: Implement PI futexes
+Date: Wed, 28 Sep 2022 10:15:13 +0200
+Message-Id: <20220928081517.734954-35-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SamJiBJS15wz51R/KWLWvc/jxcfEH2F6VLID+yWqWPvWdsSzIEw
- HGfejNoJvTaq1ExzrUF4kMO24kb9lsa/IGYjAYSk6h4WTkRuUw7xoBx3uqrZOstwdXgAkFn
- VCy3FWkNNlXJK6XG5NQrwu2/8bZj7aDO9vAghMWFfXrMjrKZ1kiLeEiNeWXGySMYQPpW2Js
- NxxEXI7qQQXNGiYVfg16w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WtBhKx43KF0=:8BsGNwnM35D+lT0Utjiz3C
- NzLxxK4SDGduF48NrDbi3Mo4IdBOqzHQerRAvPKSlPYyqcolwLEfNMDP0ZqPm2rPmGyi9W3bx
- n7bWETMZKkcv4EpHj1JiwdhZ9r18Et9iUPSHEez7ixEObtbFRcE6hN2bokle5zgHd4NCKduIV
- 7uQtQTmRSjqoJQRimxOtLrHaA73C9rJPS6hOlEAHApszvx5VKXscwEav/1wOyQFKJ0k1Ehwy+
- fccxyelPV5ywtr1gUg7M4fIbkpjAzD/DF1PdiWevo5AzYYPfBVVkrkfJdwlOCDT1OrdgLTe11
- LYe84iqlcaiyYKAOWjMmRfC37HLN+48ENz8bqZRew35iCaiIpeLtzRgaIR627ZDzkNaArrcG3
- DVnm6db6gGGS6gjQeY4/V+1KvcyL5Owu5evAGCxZwp2mz9ilSJOA9B2dz1AAfzelw/eESju/e
- 9wpD+jISg8a+qLwZ/dlou6SaPH4oxUh4o05FIQTBMivUfX5I2QNCjuDAHWKD2kA01rfn0S4Oy
- CAN7RVltNu7QRxO6O0K5GcsQ6mYcgrdD4PTTWx5K1sTGIJmfkWLQFGRnYXl/MyqrODSbKYMqB
- TOvP4WUylgp19TK8LDvEbOZL7VOb0pRzQz76mY/tXADzcRNDFFZd6VA6ECxUdUivmR6r5b5T0
- iH/g/W2eaIHO7dOTl9ybo0IWomxKfQUJMUn2lJ0HXkAnr2AKo4LgJM1AYr/yhqWQ6jymLA/l/
- htR09ST7zeCbEGqmCU3n52MaGVF1IL75jWRd/6cP8P9fpa4S9eX3ypsngWk6kDfGHt/7PW+JV
- re8fLiK
+X-Provags-ID: V03:K1:4K+CKP9O1oEKj0MYZ5BWZFjbTXYYxV6lfFCtK1/B14hG+wbPrBA
+ 6Le1oaOcKMted6Kg34LUoShfzbk1TvC8FZRuggEEaMXJOyLyYiKHjv3sBm9of/6qXX/QbRN
+ DNONK5nsUpHN+sJkflElwR/r0Sa/uHSJCymwqAtv7I3TpuKd2R1EpvUWaouiANybIZw+e9b
+ wUov5ysbGMJN8pvhUH1qw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0opjmy1l9dk=:cc/gPryyzukaOuyM5fTJ61
+ MN4FB0s0PtCWxsLr/4tC3YMBUXq+hNC/y/Ls8aTR/6UgpCLIijbUp/R/u0cHJRJ6OYy8X1w2H
+ 6lzihdZH+5kxfU3KiJNwUfXCVl8QoCrTJ6aVxajdClh5z5dhabqvQWq460N0SacAR9LuV3PB/
+ puscwuX4WXvFP7jcyzDJP0h9S1XnlHSbOcyIqgxFSXPRYq9TScwSeYkF6kPabs5cchHLPVGn4
+ eURoKzHHrb4LzAAC0vCkEI9w7Wgk6kdmMO/gB7XnPddc1uDsuSaiclgXCIvJpyBVM1HcLd5+V
+ /eoQqSeRSDno/DKKCmT3F8MgTqeVI6sIFEM4UW6XtAULI6OVmAqpXJHnGaQSUVVfFf5y5ueMP
+ 7t9d5w2DH1vShRx1yyX+2kNpVNTqlsAGvZ6KLY0bmwUqnGL2Oi3Kj4IxcDi/q60Lr3QTWjrZ1
+ cdvStH+b5i5WIcCqSbZbpOsA4jVe+XKBOgKzJQfh7kHc6hurFcdNkD5cI8v56Wth0UuNY1wID
+ dzRRNrKtXTUczPMl73ypqfg++V7N0X8tsHiBxrXjNwIPZHLOn2MoHUiAr7oZlinIFXOMW3IuR
+ TwElnZe8zvr7lsMMAcnH+qE0Piu7289QopH110RqoMhB/pSE2BDBC8fw8qQsFOVtw0yuAayuK
+ kAOxcqbaq/pm6pIlzFfH3NIRzuhxJ2XEfj1SFSLJgiypWRFoa5sPY83Ge9sLLtgXGyLP/6Tz8
+ EWTXE80zZUK/XtoafrW/rGnTObrmXpdXjQTelvdWnkklmoAHUnYeYB34530qV0AONKYp2h9Xm
+ UsGEbQ9
 Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -73,118 +73,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Pass a boolean to select between time32 and time64.
+Define the missing FUTEX_* constants in syscall_defs.h
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220829021006.67305-2-richard.henderson@linaro.org>
+Message-Id: <20220829021006.67305-6-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 67 ++++++++------------------------------------
- 1 file changed, 11 insertions(+), 56 deletions(-)
+ linux-user/syscall.c      | 10 ++++++++++
+ linux-user/syscall_defs.h |  3 +++
+ 2 files changed, 13 insertions(+)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index e0e0f058121f..af3a605fc458 100644
+index 3f144e3c1f5d..2e954d8dbd9e 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -7768,9 +7768,10 @@ static int do_safe_futex(int *uaddr, int op, int val,
-    futexes locally would make futexes shared between multiple processes
-    tricky.  However they're probably useless because guest atomic
-    operations won't work either.  */
--#if defined(TARGET_NR_futex)
--static int do_futex(CPUState *cpu, target_ulong uaddr, int op, int val,
--                    target_ulong timeout, target_ulong uaddr2, int val3)
-+#if defined(TARGET_NR_futex) || defined(TARGET_NR_futex_time64)
-+static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
-+                    int op, int val, target_ulong timeout,
-+                    target_ulong uaddr2, int val3)
- {
-     struct timespec ts, *pts;
-     int base_op;
-@@ -7787,7 +7788,11 @@ static int do_futex(CPUState *cpu, target_ulong uaddr, int op, int val,
+@@ -7788,8 +7788,17 @@ static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
      case FUTEX_WAIT_BITSET:
-         if (timeout) {
-             pts = &ts;
--            target_to_host_timespec(pts, timeout);
-+            if (time64
-+                ? target_to_host_timespec64(pts, timeout)
-+                : target_to_host_timespec(pts, timeout)) {
-+                return -TARGET_EFAULT;
-+            }
-         } else {
-             pts = NULL;
-         }
-@@ -7817,56 +7822,6 @@ static int do_futex(CPUState *cpu, target_ulong uaddr, int op, int val,
- }
- #endif
+         val = tswap32(val);
+         break;
++    case FUTEX_WAIT_REQUEUE_PI:
++        val = tswap32(val);
++        haddr2 = g2h(cpu, uaddr2);
++        break;
++    case FUTEX_LOCK_PI:
++    case FUTEX_LOCK_PI2:
++        break;
+     case FUTEX_WAKE:
+     case FUTEX_WAKE_BITSET:
++    case FUTEX_TRYLOCK_PI:
++    case FUTEX_UNLOCK_PI:
+         timeout = 0;
+         break;
+     case FUTEX_FD:
+@@ -7797,6 +7806,7 @@ static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
+         timeout = 0;
+         break;
+     case FUTEX_CMP_REQUEUE:
++    case FUTEX_CMP_REQUEUE_PI:
+         val3 = tswap32(val3);
+         /* fall through */
+     case FUTEX_REQUEUE:
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 1e3577bfa56f..01ee10a88fe0 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -2699,6 +2699,9 @@ struct target_drm_i915_getparam {
+ #define FUTEX_TRYLOCK_PI        8
+ #define FUTEX_WAIT_BITSET       9
+ #define FUTEX_WAKE_BITSET       10
++#define FUTEX_WAIT_REQUEUE_PI   11
++#define FUTEX_CMP_REQUEUE_PI    12
++#define FUTEX_LOCK_PI2          13
  
--#if defined(TARGET_NR_futex_time64)
--static int do_futex_time64(CPUState *cpu, target_ulong uaddr, int op,
--                           int val, target_ulong timeout,
--                           target_ulong uaddr2, int val3)
--{
--    struct timespec ts, *pts;
--    int base_op;
--
--    /* ??? We assume FUTEX_* constants are the same on both host
--       and target.  */
--#ifdef FUTEX_CMD_MASK
--    base_op = op & FUTEX_CMD_MASK;
--#else
--    base_op = op;
--#endif
--    switch (base_op) {
--    case FUTEX_WAIT:
--    case FUTEX_WAIT_BITSET:
--        if (timeout) {
--            pts = &ts;
--            if (target_to_host_timespec64(pts, timeout)) {
--                return -TARGET_EFAULT;
--            }
--        } else {
--            pts = NULL;
--        }
--        return do_safe_futex(g2h(cpu, uaddr), op,
--                             tswap32(val), pts, NULL, val3);
--    case FUTEX_WAKE:
--        return do_safe_futex(g2h(cpu, uaddr), op, val, NULL, NULL, 0);
--    case FUTEX_FD:
--        return do_safe_futex(g2h(cpu, uaddr), op, val, NULL, NULL, 0);
--    case FUTEX_REQUEUE:
--    case FUTEX_CMP_REQUEUE:
--    case FUTEX_WAKE_OP:
--        /* For FUTEX_REQUEUE, FUTEX_CMP_REQUEUE, and FUTEX_WAKE_OP, the
--           TIMEOUT parameter is interpreted as a uint32_t by the kernel.
--           But the prototype takes a `struct timespec *'; insert casts
--           to satisfy the compiler.  We do not need to tswap TIMEOUT
--           since it's not compared to guest memory.  */
--        pts = (struct timespec *)(uintptr_t) timeout;
--        return do_safe_futex(g2h(cpu, uaddr), op, val, pts, g2h(cpu, uaddr2),
--                             (base_op == FUTEX_CMP_REQUEUE
--                              ? tswap32(val3) : val3));
--    default:
--        return -TARGET_ENOSYS;
--    }
--}
--#endif
--
- #if defined(TARGET_NR_name_to_handle_at) && defined(CONFIG_OPEN_BY_HANDLE)
- static abi_long do_name_to_handle_at(abi_long dirfd, abi_long pathname,
-                                      abi_long handle, abi_long mount_id,
-@@ -12372,11 +12327,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
- #endif
- #ifdef TARGET_NR_futex
-     case TARGET_NR_futex:
--        return do_futex(cpu, arg1, arg2, arg3, arg4, arg5, arg6);
-+        return do_futex(cpu, false, arg1, arg2, arg3, arg4, arg5, arg6);
- #endif
- #ifdef TARGET_NR_futex_time64
-     case TARGET_NR_futex_time64:
--        return do_futex_time64(cpu, arg1, arg2, arg3, arg4, arg5, arg6);
-+        return do_futex(cpu, true, arg1, arg2, arg3, arg4, arg5, arg6);
- #endif
- #ifdef CONFIG_INOTIFY
- #if defined(TARGET_NR_inotify_init)
+ #define FUTEX_PRIVATE_FLAG      128
+ #define FUTEX_CLOCK_REALTIME    256
 -- 
 2.37.3
 
