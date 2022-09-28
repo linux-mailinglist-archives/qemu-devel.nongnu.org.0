@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1805ED841
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 10:53:06 +0200 (CEST)
-Received: from localhost ([::1]:57236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4115ED9A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 12:00:03 +0200 (CEST)
+Received: from localhost ([::1]:42242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odSoT-0000Jo-Ph
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 04:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33304)
+	id 1odTrG-0006Mg-2D
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 06:00:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE5-00087j-Vk
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:30 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:47301)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE4-00085x-H5
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:28 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:57237)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE3-00089v-O9
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:29 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE1-00089R-Ir
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:27 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MKsf5-1owVk6190n-00LHKE; Wed, 28
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MaIzb-1oh9fq2tVd-00WGlO; Wed, 28
  Sep 2022 10:15:23 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 09/38] linux-user: Fix strace of chmod() if mode == 0
-Date: Wed, 28 Sep 2022 10:14:48 +0200
-Message-Id: <20220928081517.734954-10-laurent@vivier.eu>
+Cc: Helge Deller <deller@gmx.de>,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 10/38] linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000
+ for hppa arch
+Date: Wed, 28 Sep 2022 10:14:49 +0200
+Message-Id: <20220928081517.734954-11-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:wW157dSxuI13Lk7itxP3LXL55v3ZsD3RLA6W1kNLy42PoMm7fAC
- 5i6/+VB9lmFjdeO6gCX4NNV7yRl/V2UOVJbjaSpXY6IvrntRGJFzqx4wRiJo8rx66Os4718
- rJZ7+ZVt+VZo2HIHfxBe1XhSNu0l/xSqKE+aD2GiDjDLeFn1HlTN/vtE7/G3J6RGEboBba7
- XcHngg8y7kwEFDM4SKkQQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wZjjziwp3Pc=:eaq13rPcZesd89pSyIo6PR
- Vnr1qA9QSAQUT0R+L1nxrPvmh8u/iQ+cd/YvQB/o2Cj0RJ6UfR2cEZ3A+nm2NqHx6xG3k4VYS
- PISi8SiyyvdWYCm/uSTo0bn57ANRMIFIraaLy9eV1wbTtSgP3NdHayfqzKWrPmI0NrYFMD9nq
- Dbk9E3hJlotPeTdvUL+rZDHgDtxCa/QYfa4b4/v8DPVZrHa4xk+TaGw9gu17N7MlYZNKEImSQ
- XOf5699cFwzUngMrupC6biS/936Z+lTjzKg6UBVlTVNv1LVi/iHnX9IFN2DFV0hq8x0RPLpYi
- fLHX8yj9UU+ZRnRRQ5ORrOfxGqJnDyQ7ows9eNmtToLuIwNICqHL7eOmPIcoBqsKV0rLA1M9m
- 7KDsOk1Ei12CuTgI/GX2RePVGCnx3wtzg8Uv4BeEggiJSrbLV3awNLRn2ZyUpj6o3/xx5D3DZ
- Zhzt99A9RCBSNbNizk6RUDrV7DCtcnWhum6Erhun5Ci4AboDnFDggpD5IfpJ4W537PMvAYUBc
- 8S4Zjh7H/pXzLoQqQq6A2JosRqv3J5A2C7AQiePnVrqXmrzStYfk7y81uxiMSBhDP9aT3IdB5
- zOiRPgINnadFSjGwg7WpJCKbG6iztHlONwja6oKc6KloRkKu3V1ASNZsPhotBw7rt+r1JDLgu
- x19AHGtsppU+nZormUj9TIq7ys4LNrGD8tbkMEm5kI6BQKFU5lRMwAcZR1FL6ZuSNljhR9iC9
- GDcBklrfUqCWk2DtRLgqVdpUslEK8mUloOS62FsBJ/ut6KsjHxac8+yNBMr8ywSkcMbXdO7Vk
- 3ToRFxG
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:T1eV7LRVxdD7n/uwqAe50bzBcFYHuls4iERktTuxqu1NmF2wpg4
+ 7+tAGOzN8Kd7Oz4M3ZngMoiVPpIlLV4JYIYWil5Y+EiLp3JYgyrC/SIebbdIZ0ggzuoiJ8g
+ wDvupiXCt+T3gjVBhQNO1f1WIdZtIPTNBQidUSWARzrpzH6mN1Ax0YdvndHx4ItbL8/2XyM
+ /S8u7tsBUP2dAj6teTfbw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aV2DD5YMc4w=:UfW1hEYo/E4v++AqwMlYD+
+ L0uiUtMuOg5UtPl6KOHTaczxcPlpDzXJLOhS/VX/yy+K/v55lHMr4AEX1OLth+sIAjiPkO/Tx
+ A9MwlAlLYFHuQVt9q+GvCVIITnlUZr5GY52PT6Owx6bBK4/HRtKgkBdF52Ord5FQwRL9F1gC1
+ 0OxQfFDCSil19SsSX35k/r5jY+hGejOw4YvLT3sGY0LZy3vadLixGsPj0WCqV141DEHWfy4l+
+ /8tiYj+Jv34SBJWLlWAK9DBSPeD5rsxu2t1xUD9hgdWY2H9QlQnfxOwM6X4hcBuwGrOGppj55
+ xl/DDhFU7E4XoHBiLR15qoz9nyoy8viPnHVV0xxwhNDq2e3BosdqdqJ991uVI77zUqJRLlO13
+ KT/9aD4W842A6qfAjwOz0jhz7eOV/nsJz19Qr7wRKjHZ2LMashz2kULKFczOsPnqk72DKD8aB
+ CsMo5Bw+vV9AGBcf0zGbNyn/Et5YRxbxWs+ccBnz5YY+V9jLY0UQt39pvP072b1WwUxepnOYr
+ BFahHoXSoxA12sOEH+WKvAz9/z06nXk4AylJ7++wUJrJZu+ZgMnS7ebfhNvv4atrX5txkrJLD
+ YhmJV7KbOfm8LV7s6oO4sLXFK1/Ap1UgalYI1XQnFbAru4k/yeJjtKBHeL/oXkH+1D0Vmfs5/
+ NK5CopbCEjdOFBbhfAf+oGL4MmGqanf5Dny511PlAYhxsV+wgSgKsUjT7fQGPVJexRQCUQFPx
+ 6tQbmzrebyvel//fphzTPFK4cqMT43J0cnyFjJLBLnBGRQm/ZR2qqLSh+BSklZnwn+5DKWbc7
+ yMuHERH
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -75,37 +75,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Helge Deller <deller@gmx.de>
 
-If the mode parameter of chmod() is zero, this value isn't shown
-when stracing a program:
-    chmod("filename",)
-This patch fixes it up to show the zero-value as well:
-    chmod("filename",000)
+On the parisc architecture the stack grows upwards.
+Move the TASK_UNMAPPED_BASE to high memory area as it's done by the
+kernel on physical machines.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220918194555.83535-8-deller@gmx.de>
+Message-Id: <20220918194555.83535-9-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ linux-user/mmap.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 5ac64df02b85..2f539845bb90 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -1505,6 +1505,11 @@ print_file_mode(abi_long mode, int last)
-     const char *sep = "";
-     const struct flags *m;
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 6a828e8418a7..83fdae7034ea 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -253,8 +253,12 @@ static int mmap_frag(abi_ulong real_start,
+ # define TASK_UNMAPPED_BASE  (1ul << 38)
+ #endif
+ #else
++#ifdef TARGET_HPPA
++# define TASK_UNMAPPED_BASE  0xfa000000
++#else
+ # define TASK_UNMAPPED_BASE  0x40000000
+ #endif
++#endif
+ abi_ulong mmap_next_start = TASK_UNMAPPED_BASE;
  
-+    if (mode == 0) {
-+        qemu_log("000%s", get_comma(last));
-+        return;
-+    }
-+
-     for (m = &mode_flags[0]; m->f_string != NULL; m++) {
-         if ((m->f_value & mode) == m->f_value) {
-             qemu_log("%s%s", m->f_string, sep);
+ unsigned long last_brk;
 -- 
 2.37.3
 
