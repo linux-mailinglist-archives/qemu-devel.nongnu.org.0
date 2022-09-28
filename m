@@ -2,97 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B3C5EDECB
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 16:29:36 +0200 (CEST)
-Received: from localhost ([::1]:44878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7B65EDEFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 16:42:11 +0200 (CEST)
+Received: from localhost ([::1]:43980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odY46-0002ZY-1o
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 10:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50666)
+	id 1odYGI-0005bJ-6F
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 10:42:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odWrg-0007mE-5C
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 09:12:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21651)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1odWvC-0003h7-QP; Wed, 28 Sep 2022 09:16:18 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odWrb-0005sp-WB
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 09:12:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664370754;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AuHT8PtyiD7aagp0yWNdxsI8RGAMvLkF7dBAn6JuQ+Y=;
- b=MtzG/mTTwOLyaQxvHHMPRUNp9hmd5yDURAj9LiaPrUL/1W/Bf3j9+bzE4MF+QAdHrtOQR5
- hIlIrcFnCsJ3qkOWyFUz8KIeieh2GoQuuHrxgT6EtsXyl1bOKExxhjHootyIGXzo+6OVa9
- QDfbnTexktMc45IQ70ZFUot19SSifuE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-614-_i5cxo0-OhmXfD9xd6WhUQ-1; Wed, 28 Sep 2022 09:12:33 -0400
-X-MC-Unique: _i5cxo0-OhmXfD9xd6WhUQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n7-20020a1c2707000000b003a638356355so7098215wmn.2
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 06:12:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=AuHT8PtyiD7aagp0yWNdxsI8RGAMvLkF7dBAn6JuQ+Y=;
- b=NhDbJA2D4P8YSyedhz77dqGJD/UJtcAfj29Qr8UFwvIq4ulv5E8lbITuK3lAfqeowA
- qpk52aIOBnV2oa0faFQRelYrn81CYRnDDSOs1QP9nEAM4W8USKOPWZ7eGLIQ8UbauXTr
- ck2Rmi1FuCQ1l9DY4lkWqpzbM4NI1kxwUumeXtWZ9Qpk78XeQRHBbTZFjQF6v1EBCeJl
- kP6vztrojyssxKdtedIngFOh3lSNdjiI1Qb+oquqFnoDlYmVUIpf37o/FU8KyUiPFDDX
- QuVOFDqdSXaJyyao/FQmp2dDmvjBtIyDebF68IiWB0aNmewYSVJ6kdvhqPN30cNh7laA
- ID3g==
-X-Gm-Message-State: ACrzQf3DLDOjRDiYBKIPEXLK8KfkA/RnXSbm+WouYHCVGbFYMVotb0l4
- C0vDDdRObf2FI301Q50lBwWQ+8WNEehhJDgYnn7z7EjRpoDmNJOEPtS/wdEF5My2m5hMyNPTeIS
- 6GscPp3oiIuuQqyE=
-X-Received: by 2002:a7b:cc99:0:b0:3b4:76f2:192b with SMTP id
- p25-20020a7bcc99000000b003b476f2192bmr6955582wma.138.1664370751875; 
- Wed, 28 Sep 2022 06:12:31 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5alVuWy3rwRpQ9u35kFkJDfyPPHupQkqPM07uJFwONj3DXwK+w2weGdGQjt46nUnAGRufx4Q==
-X-Received: by 2002:a7b:cc99:0:b0:3b4:76f2:192b with SMTP id
- p25-20020a7bcc99000000b003b476f2192bmr6955571wma.138.1664370751668; 
- Wed, 28 Sep 2022 06:12:31 -0700 (PDT)
-Received: from redhat.com ([2.55.47.213]) by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c020700b003b492753826sm1647109wmi.43.2022.09.28.06.12.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Sep 2022 06:12:30 -0700 (PDT)
-Date: Wed, 28 Sep 2022 09:12:26 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: Why we should avoid new submodules if possible
-Message-ID: <20220928062623-mutt-send-email-mst@kernel.org>
-References: <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
- <20220628060210-mutt-send-email-mst@kernel.org>
- <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
- <20220928052352-mutt-send-email-mst@kernel.org>
- <YzQVyj5ouhGshZ2+@redhat.com>
- <20220928061303-mutt-send-email-mst@kernel.org>
- <YzQfah9Iu/MB0Zh/@redhat.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1odWv9-0006hE-3I; Wed, 28 Sep 2022 09:16:18 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28SC4sOp030403;
+ Wed, 28 Sep 2022 13:16:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=ea9Y434e/0ULf0ZJKXyjsPi39rSoWhtnLXf1HQCIXck=;
+ b=QhPbU6Q7nIZCLVsJBzcUWgk8CxgF8wbxcf0UcAQBFT1TS+nR8CEiVeZReLF3QNU0DPek
+ 9i1hqFDU4bscBN7LJptkVcJk6dOSqIY8c9lsekXmEurvDFyISh5YIICmleOT+8ymD5Wf
+ hg+o0iNnSKpG8aFTZZs7qpRO3Cz+IK1H8q3xaYtQR53VYI+aNA6OFnCi+bGlAQrLXeCU
+ OJA445zLTlchwINTtjs2sfXseid25LGBUhtPSCT6Vx9JSHpeiexYRuOCYrz/yW2gYsbT
+ WRA0NePotLaLoufEKdZEVIQ6eMkTqq7N6u9Npz0P4w8/XdePNFSuHRHR8Ey0w6HWPkQA Lw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvjn70u88-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 13:15:59 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28SBQBct023858;
+ Wed, 28 Sep 2022 13:15:59 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvjn70u7b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 13:15:59 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28SD5lZu001869;
+ Wed, 28 Sep 2022 13:15:57 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3jssh9d96p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 13:15:56 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 28SDFr8160752320
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Sep 2022 13:15:53 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 958324C050;
+ Wed, 28 Sep 2022 13:15:53 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9B2D54C046;
+ Wed, 28 Sep 2022 13:15:52 +0000 (GMT)
+Received: from [9.171.31.212] (unknown [9.171.31.212])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 28 Sep 2022 13:15:52 +0000 (GMT)
+Message-ID: <43d0b978-8b38-97c0-213f-107eb76ae309@linux.ibm.com>
+Date: Wed, 28 Sep 2022 15:15:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v9 02/10] s390x/cpu topology: core_id sets s390x CPU
+ topology
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-3-pmorel@linux.ibm.com>
+ <89d6f37e-c521-4dd6-fd13-c7394bd0ab94@kaod.org>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <89d6f37e-c521-4dd6-fd13-c7394bd0ab94@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YzQfah9Iu/MB0Zh/@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: GOo3_rfCf7VyehALJk-HZ3SsTwczBI0W
+X-Proofpoint-GUID: 3RQ9TehLSJwCE_c_F2R6N2V8vFJFird1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-28_04,2022-09-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0
+ malwarescore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
+ adultscore=0 mlxscore=0 priorityscore=1501 phishscore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209280081
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,41 +123,279 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 11:18:18AM +0100, Daniel P. Berrang� wrote:
-> On Wed, Sep 28, 2022 at 06:13:45AM -0400, Michael S. Tsirkin wrote:
-> > On Wed, Sep 28, 2022 at 10:37:14AM +0100, Daniel P. Berrang� wrote:
-> > > There's also the perenial problem that developers frequently send
-> > > patches that mistakenly include submodule changes, which is related to the
-> > > way that 'git checkout' doesn't sync submodule state when switching branches.
-> > 
-> > Do you happen to know how exactly that happens?
+
+
+On 9/27/22 14:03, Cédric Le Goater wrote:
+> On 9/2/22 09:55, Pierre Morel wrote:
+>> In the S390x CPU topology the core_id specifies the CPU address
+>> and the position of the core withing the topology.
+>>
+>> Let's build the topology based on the core_id.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   hw/s390x/cpu-topology.c         | 135 ++++++++++++++++++++++++++++++++
+>>   hw/s390x/meson.build            |   1 +
+>>   hw/s390x/s390-virtio-ccw.c      |  10 +++
+>>   include/hw/s390x/cpu-topology.h |  42 ++++++++++
+>>   4 files changed, 188 insertions(+)
+>>   create mode 100644 hw/s390x/cpu-topology.c
+>>   create mode 100644 include/hw/s390x/cpu-topology.h
+>>
+>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>> new file mode 100644
+>> index 0000000000..a6ca006ec5
+>> --- /dev/null
+>> +++ b/hw/s390x/cpu-topology.c
+>> @@ -0,0 +1,135 @@
+>> +/*
+>> + * CPU Topology
+>> + *
+>> + * Copyright IBM Corp. 2022
+>> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+>> +
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or 
+>> (at
+>> + * your option) any later version. See the COPYING file in the top-level
+>> + * directory.
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "qapi/error.h"
+>> +#include "qemu/error-report.h"
+>> +#include "hw/sysbus.h"
+>> +#include "hw/qdev-properties.h"
+>> +#include "hw/boards.h"
+>> +#include "qemu/typedefs.h"
+>> +#include "target/s390x/cpu.h"
+>> +#include "hw/s390x/s390-virtio-ccw.h"
+>> +#include "hw/s390x/cpu-topology.h"
+>> +
+>> +S390Topology *s390_get_topology(void)
+>> +{
+>> +    static S390Topology *s390Topology;
+>> +
+>> +    if (!s390Topology) {
+>> +        s390Topology = S390_CPU_TOPOLOGY(
+>> +            object_resolve_path(TYPE_S390_CPU_TOPOLOGY, NULL));
+>> +    }
+>> +
+>> +    return s390Topology;
+>> +}
+>> +
+>> +/*
+>> + * s390_topology_new_cpu:
+>> + * @core_id: the core ID is machine wide
+>> + *
+>> + * The topology returned by s390_get_topology(), gives us the CPU
+>> + * topology established by the -smp QEMU aruments.
+>> + * The core-id gives:
+>> + *  - the Container TLE (Topology List Entry) containing the CPU TLE.
+>> + *  - in the CPU TLE the origin, or offset of the first bit in the 
+>> core mask
+>> + *  - the bit in the CPU TLE core mask
+>> + */
+>> +void s390_topology_new_cpu(int core_id)
+>> +{
+>> +    S390Topology *topo = s390_get_topology();
+>> +    int socket_id;
+>> +    int bit, origin;
+>> +
+>> +    /* In the case no Topology is used nothing is to be done here */
+>> +    if (!topo) {
+>> +        return;
+>> +    }
+>> +
+>> +    socket_id = core_id / topo->cores;
+>> +
+>> +    bit = core_id;
+>> +    origin = bit / 64;
+>> +    bit %= 64;
+>> +    bit = 63 - bit;
+>> +
+>> +    /*
+>> +     * At the core level, each CPU is represented by a bit in a 64bit
+>> +     * unsigned long. Set on plug and clear on unplug of a CPU.
 > 
-> For any given branch the submodule is synced to a given git commit hash.
-> If the submodule checkout is not synced to the same commit hash it will
-> show as dirty, and if you git add this pending change, it'll record that
-> new submodule commit hash.  Seeing dirty state is common when you switch
-> between branches, either side of a git master change that updated a
-> submodule.
+> Do we have CPU unplug on s390x ?
+
+not in QEMU.
+
+I will change this sentence.
+
 > 
-> With regards,
-> Daniel
+>> +     * The firmware assume that all CPU in a CPU TLE have the same
+>> +     * type, polarization and are all dedicated or shared.
+>> +     * In the case a socket contains CPU with different type, 
+>> polarization
+>> +     * or entitlement then they will be defined in different CPU 
+>> containers.
+>> +     * Currently we assume all CPU are identical IFL CPUs and that 
+>> they are
+>> +     * all dedicated CPUs.
+>> +     * The only reason to have several S390TopologyCores inside a 
+>> socket is
+>> +     * to have more than 64 CPUs.
+>> +     * In that case the origin field, representing the offset of the 
+>> first CPU
+>> +     * in the CPU container allows to represent up to the maximal 
+>> number of
+>> +     * CPU inside several CPU containers inside the socket container.
+>> +     */
+>> +    topo->socket[socket_id].active_count++;
+>> +    topo->tle[socket_id].active_count++;
+>> +    set_bit(bit, &topo->tle[socket_id].mask[origin]);
+>> +}
+>> +
+>> +/**
+>> + * s390_topology_realize:
+>> + * @dev: the device state
+>> + * @errp: the error pointer (not used)
+>> + *
+>> + * During realize the machine CPU topology is initialized with the
+>> + * QEMU -smp parameters.
+>> + * The maximum count of CPU TLE in the all Topology can not be greater
+>> + * than the maximum CPUs.
+>> + */
+>> +static void s390_topology_realize(DeviceState *dev, Error **errp)
+>> +{
+>> +    MachineState *ms = MACHINE(qdev_get_machine());
+> 
+> Using qdev_get_machine() is suspicious :)
 
-I see. It is interesting.
+OK
 
-So apparently what you want is ignore submodule
-changes, right? If yes this is close to what we want:
+> 
+>> +    S390Topology *topo = S390_CPU_TOPOLOGY(dev);
+>> +    int n;
+>> +
+>> +    topo->sockets = ms->smp.sockets;
+>> +    topo->cores = ms->smp.cores;
+>> +    topo->tles = ms->smp.max_cpus;
+> 
+> These look like object properties to me.
 
-git submodule update --checkout testsub
-git update-index --skip-worktree testsub
+It is a temporary store to keep them at hand.
+I will see if I keep them afterall.
+If I keep them I will make them property.
 
-A script checking out the submodule can just run this
-command.
+> 
+>> +
+>> +    n = topo->sockets;
+>> +    topo->socket = g_malloc0(n * sizeof(S390TopoContainer));
+>> +    topo->tle = g_malloc0(topo->tles * sizeof(S390TopoTLE));
+>> +}
+>> +
+>> +/**
+>> + * topology_class_init:
+>> + * @oc: Object class
+>> + * @data: (not used)
+>> + *
+>> + * A very simple object we will need for reset and migration.
+>> + */
+>> +static void topology_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>> +
+>> +    dc->realize = s390_topology_realize;
+>> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>> +}
+> 
+> no vmstate ?
 
+it is added in a later patch
 
+> 
+>> +static const TypeInfo cpu_topology_info = {
+>> +    .name          = TYPE_S390_CPU_TOPOLOGY,
+>> +    .parent        = TYPE_SYS_BUS_DEVICE,
+>> +    .instance_size = sizeof(S390Topology),
+>> +    .class_init    = topology_class_init,
+>> +};
+>> +
+>> +static void topology_register(void)
+>> +{
+>> +    type_register_static(&cpu_topology_info);
+>> +}
+>> +type_init(topology_register);
+>> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+>> index de28a90a57..96d7d7d231 100644
+>> --- a/hw/s390x/meson.build
+>> +++ b/hw/s390x/meson.build
+>> @@ -2,6 +2,7 @@ s390x_ss = ss.source_set()
+>>   s390x_ss.add(files(
+>>     'ap-bridge.c',
+>>     'ap-device.c',
+>> +  'cpu-topology.c',
+>>     'ccw-device.c',
+>>     'css-bridge.c',
+>>     'css.c',
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index b5ca154e2f..15cefd104b 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -43,6 +43,7 @@
+>>   #include "sysemu/sysemu.h"
+>>   #include "hw/s390x/pv.h"
+>>   #include "migration/blocker.h"
+>> +#include "hw/s390x/cpu-topology.h"
+>>   static Error *pv_mig_blocker;
+>> @@ -247,6 +248,12 @@ static void ccw_init(MachineState *machine)
+>>       /* init memory + setup max page size. Required for the CPU model */
+>>       s390_memory_init(machine->ram);
+>> +    /* Adding the topology must be done before CPU intialization*/
+>> +    dev = qdev_new(TYPE_S390_CPU_TOPOLOGY);
+>> +    object_property_add_child(qdev_get_machine(), 
+>> TYPE_S390_CPU_TOPOLOGY,
+> 
+> No need to use qdev_get_machine(), you have 'machine' above.
 
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+OK
 
+> 
+>> +                              OBJECT(dev));
+>> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> 
+> 
+> why not store a TYPE_S390_CPU_TOPOLOGY object pointer under the machine
+> state for later use ?
+
+May be, I will think about it.
+
+> 
+>> +
+>>       /* init CPUs (incl. CPU model) early so s390_has_feature() works */
+>>       s390_init_cpus(machine);
+>> @@ -309,6 +316,9 @@ static void s390_cpu_plug(HotplugHandler 
+>> *hotplug_dev,
+>>       g_assert(!ms->possible_cpus->cpus[cpu->env.core_id].cpu);
+>>       ms->possible_cpus->cpus[cpu->env.core_id].cpu = OBJECT(dev);
+>> +    /* Inserting the CPU in the Topology can not fail */
+>> +    s390_topology_new_cpu(cpu->env.core_id);
+>> +
+> 
+> in which case, we could use the topo object pointer to insert a new CPU
+> id and drop s390_get_topology() which looks overkill.
+> 
+> I would add the test :
+> 
+>     if (!S390_CCW_MACHINE(machine)->topology_disable) {
+> 
+> before inserting to be consistent. But I am anticipating some other
+> patch.
+
+It belongs here for bisect so I will add it here.
+Thanks.
+
+> 
+> C.
+> 
+> 
+
+Thanks,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
