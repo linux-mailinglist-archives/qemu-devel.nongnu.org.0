@@ -2,82 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19AD55EE07E
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 17:30:45 +0200 (CEST)
-Received: from localhost ([::1]:40350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A155EE0AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 17:39:53 +0200 (CEST)
+Received: from localhost ([::1]:37460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odZ1B-0000Sk-HH
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 11:30:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38708)
+	id 1odZA8-00086f-45
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 11:39:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1odW7B-0001Pa-Bn
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:24:39 -0400
-Received: from mail-ua1-x92e.google.com ([2607:f8b0:4864:20::92e]:41666)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1odWAa-0002IT-Kt
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:28:08 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:43756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1odW78-0005U0-EM
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:24:37 -0400
-Received: by mail-ua1-x92e.google.com with SMTP id y20so4585738uao.8
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 05:24:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=i92/cIWh7SKXYu37gx74Le2GBk1TlkkmSW8QU16LTks=;
- b=c6lw4rsuPPRSKPo4lA7bVOXYcLDbcRqNCY2GajmkaZIEovNP5HAQShMgWHP0CJfOE5
- Ufdg0+Or8wAN1MXsN4dtViWI6FKKT+LQmzKTRJIWpeDpDAemBG1Y4x2LtRq3k2MpoUGe
- hZJTDixVVcTJ3Ke6RQOSVWluvpaSqUt2iWrONTOes5zzuF3Nja/goo8FOKhaboisTwoj
- vfSt0jKAncboUafRYAxMM9V/FCnGonyzKMVoNDYA3YzAcZRE5Yq4IT+XPycRxjb0+Oop
- XlrPwQHUj+HpuZzhAVMrkr+wk3fJfaL/r34CKFV1pcK9g5NtG8qFzw5Q6piGIGQHz2jd
- E7XQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1odWAY-00069s-A3
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:28:07 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ r3-20020a05600c35c300b003b4b5f6c6bdso923178wmq.2
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 05:28:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=5VfD97tWBcr5iQaTGtb/AibnoTMM00QHMx9rgrO+rcw=;
+ b=BHNR6CRIdHDql+GQF3J6dk2DhB3HjNiTwwqvkNJ1DraM5FerDfxTyYtMgBwSD1V7kn
+ uJS8uKVqiUVrkY29TTJngc8XAChgqo+b9qU2atVMAayPRNO7Lj8LhLNzbhE+CHpDi3iu
+ cetY1VLLB7RPlzsrW4ELtq/qWaBs4y/L8BRy5yNYm3nRzgdzfpmjk/ZMNwAcsXp/UodD
+ wmIbMUcEMtxuombiOuNz4HAfMPriTwwJO4aDXg3j6rsilzHYn0iMB5/vG0IPJ7FzxAWZ
+ pqaX/qFCdj605Znetrq4SNt5AYalrxj+3r31GY5YUizfaj6pubIkueRXTtvxRNTdaVj8
+ RQMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=i92/cIWh7SKXYu37gx74Le2GBk1TlkkmSW8QU16LTks=;
- b=jnEYXtKeiClDixnF/v6i0pwFgRD6yndUr+ZhxEBgwNQwxActKAwUBB4RuU3EfOde5p
- G0su+EPhhvudBjIJuP0qiTN1RbohPBjZu+Fg1X4ggoHGso4cjGh59LoAPXHm7wEXljhn
- 8GIkMJJfpYHrI42I+fpQfLVfImk9Z/eutAzhwRYPg/Kh/twOof7FMZzfEvRV9VND/2JW
- 0ut2tTs+D9WtjwatCb5dIptwqXnMbZ+rzaK3aHQfRyU8ThTNiMElg4XWKORhdeLYJjBz
- x+hxDY8qGP4t03HcvM3dVvOf/EKO4czyiDOcX+7T6upChG8VMrFda8O6xm0mwv8sifT3
- 8T3Q==
-X-Gm-Message-State: ACrzQf1q5oB3B2FcF+1br3rLwGwZqeyoyo7g5VXWKgaBhMYBOx54QNU+
- lou0AKcIfiGtQ5rhHqarwD+gcom3KTZgBAInTa4=
-X-Google-Smtp-Source: AMsMyM69LEyQ4X5kGXlpZ9zn/Ms6PQRD+JgXkZNwZR7Q+qXnT/ITSfhNOvOG8ASMp0fvToiw7UVkhLju6tIm6d+PiqU=
-X-Received: by 2002:ab0:a8f:0:b0:3d0:6ea6:e030 with SMTP id
- d15-20020ab00a8f000000b003d06ea6e030mr5107362uak.86.1664367871150; Wed, 28
- Sep 2022 05:24:31 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=5VfD97tWBcr5iQaTGtb/AibnoTMM00QHMx9rgrO+rcw=;
+ b=ZnYkwNfUBcC0wL/HdFEEpNL0ORuhbOd++8UUGsYKhWu39dWnytVKjuXzpxhlWMIlCP
+ zI3p6Jcgurmw8h8SIaNL8IfV933o0DV58xqzvNCQVgMuHCFT+oueSlIOxX8FL3RfQdRo
+ fR+DqNZdE3VJsIjbfHUU+SC4GhsMXQyJC69sx+0JOBRy6b1Rj+FaloFLEB/0XRahQ0U7
+ +nDzVuUNbWWyv/FsCFVS0Whu1ZQD3d3g0LJOLtUjzw3LMhWeWhVApAZpLjh3tmKG3FNY
+ EWUwO13yfWNtjRcTbwhxD72D+Bq5v4TtUN4jb7tU0T6dkUz2wNjO2fgaE2P4PKg6PUrG
+ hBEA==
+X-Gm-Message-State: ACrzQf1qwlHgvFZN3U+YwkMLQ7ZrAqjSgF6JsyhKRxGtmeNtnBQzuCop
+ KEXeegBQ5O2HVsqTKP6qbILPdg==
+X-Google-Smtp-Source: AMsMyM6tyYvrT3EWjfNNk43SqlrN9qeOabsscIpD+lWKmV7lCiENeDfPiMZ6IxQUBtjDUv27BlWSOA==
+X-Received: by 2002:a1c:f311:0:b0:3b5:18ca:fc5e with SMTP id
+ q17-20020a1cf311000000b003b518cafc5emr6654995wmq.70.1664368084189; 
+ Wed, 28 Sep 2022 05:28:04 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ j6-20020a05600c190600b003a5f3f5883dsm1851190wmq.17.2022.09.28.05.28.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Sep 2022 05:28:03 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 53A9A1FFB7;
+ Wed, 28 Sep 2022 13:28:02 +0100 (BST)
+References: <285e1375-82c4-556d-54fa-abba6b8e8e77@redhat.com>
+ <CAJSP0QX13hF2_qSvO0Hfh=DtyurhkXyJKnrzWTSsTtURueTV6A@mail.gmail.com>
+ <YzMcobeWVAnHUkNu@redhat.com>
+ <CAJSP0QW_An5ypmsaXaVeHNKKzW0+x2Pmp8bQtPfVxPCqgAwFCA@mail.gmail.com>
+ <YzM5i5QP7NQq4OHV@redhat.com>
+ <dc108d7d-297b-5a84-68dd-12da3a0e68d0@redhat.com>
+ <YzP2k5GBb1lKsqB8@redhat.com>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Philippe =?utf-8?Q?Mathieu-Daud?=
+ =?utf-8?Q?=C3=A9?=
+ <f4bug@amsat.org>, Stefan Hajnoczi <stefanha@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Richard Henderson
+ <richard.henderson@linaro.org>
+Subject: Re: Should we maybe move Cirrus-CI jobs away from Gitlab again?
+Date: Wed, 28 Sep 2022 13:27:06 +0100
+In-reply-to: <YzP2k5GBb1lKsqB8@redhat.com>
+Message-ID: <8735cb3cq5.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220926095509.3759409-1-kraxel@redhat.com>
- <20220926095509.3759409-14-kraxel@redhat.com>
- <CAJSP0QVoLf_v2xP6GwDzbFg_RDnP5ppM3UZwTN3XAWPcv6cFCQ@mail.gmail.com>
-In-Reply-To: <CAJSP0QVoLf_v2xP6GwDzbFg_RDnP5ppM3UZwTN3XAWPcv6cFCQ@mail.gmail.com>
-From: Qiang Liu <cyruscyliu@gmail.com>
-Date: Wed, 28 Sep 2022 20:24:20 +0800
-Message-ID: <CAAKa2j=2cdYxBFZO1pTJLFcPVb-6R4gnB9zad3rdptfuuo0ixw@mail.gmail.com>
-Subject: Re: [PULL 13/25] hcd-ohci: Fix inconsistency when resetting ohci root
- hubs
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org, 
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Bandan Das <bsd@redhat.com>, 
- Alexander Bulekov <alxndr@bu.edu>, Laurent Vivier <lvivier@redhat.com>, 
- Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Akihiko Odaki <akihiko.odaki@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Alexandre Ratchov <alex@caoua.org>, Peter Maydell <peter.maydell@linaro.org>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000bc4e7705e9bbd7f0"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92e;
- envelope-from=cyruscyliu@gmail.com; helo=mail-ua1-x92e.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,192 +105,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bc4e7705e9bbd7f0
-Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-I will take over this and fix it
-
-Best,
-Qiang
-
-On Tue, Sep 27, 2022 at 9:11 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
-
-> On Mon, 26 Sept 2022 at 06:29, Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >
-> > From: Qiang Liu <cyruscyliu@gmail.com>
-> >
-> > I found an assertion failure in usb_cancel_packet() and posted my
-> analysis in
-> > https://gitlab.com/qemu-project/qemu/-/issues/1180. I think this issue
-> is
-> > because the inconsistency when resetting ohci root hubs.
-> >
-> > There are two ways to reset ohci root hubs: 1) through HcRhPortStatus, 2)
-> > through HcControl. However, when the packet's status is USB_PACKET_ASYNC,
-> > resetting through HcRhPortStatus will complete the packet and thus
-> resetting
-> > through HcControl will fail. That is because IMO resetting through
-> > HcRhPortStatus should first detach the port and then invoked
-> usb_device_reset()
-> > just like through HcControl. Therefore, I change usb_device_reset() to
-> > usb_port_reset() where usb_detach() and usb_device_reset() are invoked
-> > consequently.
-> >
-> > Fixes: d28f4e2d8631 ("usb: kill USB_MSG_RESET")
-> > Reported-by: Qiang Liu <cyruscyliu@gmail.com>
-> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1180
-> > Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
-> > Message-Id: <20220830033022.1164961-1-cyruscyliu@gmail.com>
-> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> > ---
-> >  hw/usb/hcd-ohci.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Tue, Sep 27, 2022 at 08:40:44PM +0200, Thomas Huth wrote:
+>> On 27/09/2022 19.57, Daniel P. Berrang=C3=A9 wrote:
+>> > On Tue, Sep 27, 2022 at 01:36:20PM -0400, Stefan Hajnoczi wrote:
+>> > > On Tue, 27 Sept 2022 at 11:54, Daniel P. Berrang=C3=A9 <berrange@red=
+hat.com> wrote:
+>> > > >=20
+>> > > > On Tue, Sep 27, 2022 at 11:44:45AM -0400, Stefan Hajnoczi wrote:
+>> > > > > On Tue, 27 Sept 2022 at 05:02, Thomas Huth <thuth@redhat.com> wr=
+ote:
+>> > > > > > now that Gitlab is giving us pressure on the amount of free CI=
+ minutes, I
+>> > > > > > wonder whether we should maybe move the Cirrus-CI jobs out of =
+the gitlab-CI
+>> > > > > > dashboard again? We could add the jobs to our .cirrus-ci.yml f=
+ile instead,
+>> > > > > > like we did it in former times...
+>> > > > > >=20
+>> > > > > > Big advantage would be of course that the time for those jobs =
+would not
+>> > > > > > count in the Gitlab-CI minutes anymore. Disadvantage is of cou=
+rse that they
+>> > > > > > do not show up in the gitlab-CI dashboard anymore, so there is=
+ no more
+>> > > > > > e-mail notification about failed jobs, and you have to push to=
+ github, too,
+>> > > > > > and finally check the results manually on cirrus-ci.com ...
+>> > > > >=20
+>> > > > > My understanding is that .gitlab-ci.d/cirrus.yml uses a GitLab C=
+I job
+>> > > > > to run the cirrus-run container image that forwards jobs to Cirr=
+us-CI.
+>> > > > > So GitLab CI resources are consumed waiting for Cirrus-CI to fin=
+ish.
+>> > > > >=20
+>> > > > > This shouldn't affect gitlab.com/qemu-project where there are pr=
+ivate
+>> > > > > runners that do not consume GitLab CI minutes.
+>> > > > >=20
+>> > > > > Individual developers are affected though because they most like=
+ly
+>> > > > > rely on the GitLab shared runner minutes quota.
+>> > > >=20
+>> > > > NB, none of the jobs should ever be run automatically anymore in
+>> > > > QEMU CI pipelines. It always requires the maintainer to set the
+>> > > > env var when pushing to git, to explicitly create a pipeline.
+>> > > > You can then selectively start each individual job as desired.
+>> > >=20
+>> > > Cirrus CI is not automatically started when pushing to a personal
+>> > > GitLab repo? If starting it requires manual action anyway then I thi=
+nk
+>> > > nothing needs to be changed here.
+>> >=20
+>> > No pipeline at all is created unless you do
+>> >=20
+>> >    git push -o ci.variable=3DQEMU_CI=3D1 <your-fork-remote>
+>> >=20
+>> > that creates the pipeliune but doesn't run any jobs - they're manual
+>> > start.
+>>=20
+>> Yes, sure, the jobs are not started automatically. But I *do* want to run
+>> the jobs before sending pull requests - but since the gitlab-CI minutes =
+are
+>> now very limited, I'd like to avoid burning these minutes via gitlab and
+>> start those jobs directly on cirrus-ci.com again. For that the jobs would
+>> need to be moved to our .cirrus-ci.yml file again.
 >
-> This commit breaks boot-serial-test on ppc64-softmmu.
+> We do need a better story for maintainers sending pull requests to have
+> ability to run CI. We have 50+ jobs in the bujild stage of which the
+> cirrus jobs are just 3 - removing the cirrus jobs won't make a difference
+> to how quickly we run out of minutes if people try to run all of them.
 >
->   $ ./configure --enable-tcg-interpreter
-> '--target-list=aarch64-softmmu alpha-softmmu arm-softmmu hppa-softmmu
-> m68k-softmmu microblaze-softmmu ppc64-softmmu s390x-softmmu
-> x86_64-softmmu'
->   $ make && cd build && QTEST_QEMU_BINARY=./qemu-system-ppc64
-> ./tests/qtest/boot-serial-test; cd -
+> We need to define a much tighter minimalist set of recommended jobs to
+> run.
 >
-> (Yes, the full --target-list is needed because boot-serial-test isn't
-> built when only ppc64-softmmu is selected.)
->
-> Here is the CI failure:
-> https://gitlab.com/qemu-project/qemu/-/jobs/3087540972#L22
->
-> Stefan
->
-> >
-> > diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-> > index 72bdde92617c..28d703481515 100644
-> > --- a/hw/usb/hcd-ohci.c
-> > +++ b/hw/usb/hcd-ohci.c
-> > @@ -1436,7 +1436,7 @@ static void ohci_port_set_status(OHCIState *ohci,
-> int portnum, uint32_t val)
-> >
-> >      if (ohci_port_set_if_connected(ohci, portnum, val & OHCI_PORT_PRS))
-> {
-> >          trace_usb_ohci_port_reset(portnum);
-> > -        usb_device_reset(port->port.dev);
-> > +        usb_port_reset(&port->port);
-> >          port->ctrl &= ~OHCI_PORT_PRS;
-> >          /* ??? Should this also set OHCI_PORT_PESC.  */
-> >          port->ctrl |= OHCI_PORT_PES | OHCI_PORT_PRSC;
-> > --
-> > 2.37.3
-> >
-> >
->
+> I believe that if QEMU joins the OSS program, then the forks of QEMU
+> also benefit from a reduced cost factor for jobs they run, effectively
+> giving you much higher CI quota
 
---000000000000bc4e7705e9bbd7f0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+We shall find out soon enough. The code came through today so I've
+applied it to the project which shows we are now on the "Ultimate" tier.
 
-<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>I will take over this an=
-d fix it</div><div><br></div><div>Best,</div><div>Qiang</div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 27, 2022=
- at 9:11 AM Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com">stefa=
-nha@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">On Mon, 26 Sept 2022 at 06:29, Gerd Hoffmann &lt;<a href=3D"ma=
-ilto:kraxel@redhat.com" target=3D"_blank">kraxel@redhat.com</a>&gt; wrote:<=
-br>
-&gt;<br>
-&gt; From: Qiang Liu &lt;<a href=3D"mailto:cyruscyliu@gmail.com" target=3D"=
-_blank">cyruscyliu@gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; I found an assertion failure in usb_cancel_packet() and posted my anal=
-ysis in<br>
-&gt; <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/1180" rel=3D"=
-noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/issues=
-/1180</a>. I think this issue is<br>
-&gt; because the inconsistency when resetting ohci root hubs.<br>
-&gt;<br>
-&gt; There are two ways to reset ohci root hubs: 1) through HcRhPortStatus,=
- 2)<br>
-&gt; through HcControl. However, when the packet&#39;s status is USB_PACKET=
-_ASYNC,<br>
-&gt; resetting through HcRhPortStatus will complete the packet and thus res=
-etting<br>
-&gt; through HcControl will fail. That is because IMO resetting through<br>
-&gt; HcRhPortStatus should first detach the port and then invoked usb_devic=
-e_reset()<br>
-&gt; just like through HcControl. Therefore, I change usb_device_reset() to=
-<br>
-&gt; usb_port_reset() where usb_detach() and usb_device_reset() are invoked=
-<br>
-&gt; consequently.<br>
-&gt;<br>
-&gt; Fixes: d28f4e2d8631 (&quot;usb: kill USB_MSG_RESET&quot;)<br>
-&gt; Reported-by: Qiang Liu &lt;<a href=3D"mailto:cyruscyliu@gmail.com" tar=
-get=3D"_blank">cyruscyliu@gmail.com</a>&gt;<br>
-&gt; Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/118=
-0" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qem=
-u/-/issues/1180</a><br>
-&gt; Signed-off-by: Qiang Liu &lt;<a href=3D"mailto:cyruscyliu@gmail.com" t=
-arget=3D"_blank">cyruscyliu@gmail.com</a>&gt;<br>
-&gt; Message-Id: &lt;<a href=3D"mailto:20220830033022.1164961-1-cyruscyliu@=
-gmail.com" target=3D"_blank">20220830033022.1164961-1-cyruscyliu@gmail.com<=
-/a>&gt;<br>
-&gt; Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" =
-target=3D"_blank">kraxel@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/usb/hcd-ohci.c | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-This commit breaks boot-serial-test on ppc64-softmmu.<br>
-<br>
-=C2=A0 $ ./configure --enable-tcg-interpreter<br>
-&#39;--target-list=3Daarch64-softmmu alpha-softmmu arm-softmmu hppa-softmmu=
-<br>
-m68k-softmmu microblaze-softmmu ppc64-softmmu s390x-softmmu<br>
-x86_64-softmmu&#39;<br>
-=C2=A0 $ make &amp;&amp; cd build &amp;&amp; QTEST_QEMU_BINARY=3D./qemu-sys=
-tem-ppc64<br>
-./tests/qtest/boot-serial-test; cd -<br>
-<br>
-(Yes, the full --target-list is needed because boot-serial-test isn&#39;t<b=
-r>
-built when only ppc64-softmmu is selected.)<br>
-<br>
-Here is the CI failure:<br>
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/3087540972#L22" rel=
-=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jo=
-bs/3087540972#L22</a><br>
-<br>
-Stefan<br>
-<br>
-&gt;<br>
-&gt; diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c<br>
-&gt; index 72bdde92617c..28d703481515 100644<br>
-&gt; --- a/hw/usb/hcd-ohci.c<br>
-&gt; +++ b/hw/usb/hcd-ohci.c<br>
-&gt; @@ -1436,7 +1436,7 @@ static void ohci_port_set_status(OHCIState *ohci=
-, int portnum, uint32_t val)<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if (ohci_port_set_if_connected(ohci, portnum, val =
-&amp; OHCI_PORT_PRS)) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_usb_ohci_port_reset(portnum);<=
-br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 usb_device_reset(port-&gt;<a href=3D"http=
-://port.dev" rel=3D"noreferrer" target=3D"_blank">port.dev</a>);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 usb_port_reset(&amp;port-&gt;port);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port-&gt;ctrl &amp;=3D ~OHCI_PORT_PR=
-S;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* ??? Should this also set OHCI_POR=
-T_PESC.=C2=A0 */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port-&gt;ctrl |=3D OHCI_PORT_PES | O=
-HCI_PORT_PRSC;<br>
-&gt; --<br>
-&gt; 2.37.3<br>
-&gt;<br>
-&gt;<br>
-</blockquote></div></div>
+>
+>> Well, maybe we could also have both, jobs via cirrus-run for those who w=
+ant
+>> to see them in their gitlab-CI dashboard, and via .cirrus-ci.yml for tho=
+se
+>> who want to avoid burning CI minutes on Gitlab. It's a little bit of
+>> double-maintenance, but maybe acceptable?
+>
+> Key info about the jobs is in .gitlab-ci.d/cirrus/freebsd-12.vars which
+> could be referenced from the cirrus-ci.yml to reduce duplication
+>
+> With regards,
+> Daniel
 
---000000000000bc4e7705e9bbd7f0--
+
+--=20
+Alex Benn=C3=A9e
 
