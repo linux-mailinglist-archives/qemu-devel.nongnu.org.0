@@ -2,95 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A193E5EDBD3
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:33:59 +0200 (CEST)
-Received: from localhost ([::1]:39422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A6C5EDBFB
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:46:20 +0200 (CEST)
+Received: from localhost ([::1]:60090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odVKA-00047c-Ne
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:33:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45952)
+	id 1odVW7-00022i-DJ
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:46:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odTuU-0000mz-Q0
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 06:03:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27633)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1odTug-00019N-Lm; Wed, 28 Sep 2022 06:03:35 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odTuR-00079W-SV
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 06:03:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664359398;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LgRbXjpW1XLVuxlCZQUp/YcUUZEskjKt1Z0sQHEyibo=;
- b=EfRwekqajpwAKl+9lTAeX/a4um0GbxsT+bxMvRSAd8ElbhMHMGGVmIeyWA79I45W1GjNML
- Q4Gha4sfhABkpuSPqBRW7MNcGiXbZjj5lJ5aDSl/G7+YG+Q2DvgJrayTXp95ppdWV6gnTJ
- BTPZ9HeZx3sPP+uOlKFszIOHfklAGLk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-653-yvSJxEVtPsWu_aP_tPYZuA-1; Wed, 28 Sep 2022 06:03:17 -0400
-X-MC-Unique: yvSJxEVtPsWu_aP_tPYZuA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- g8-20020a05600c4ec800b003b4bcbdb63cso6887792wmq.7
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 03:03:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=LgRbXjpW1XLVuxlCZQUp/YcUUZEskjKt1Z0sQHEyibo=;
- b=Do+OVfZW7GXyQ5hCdf2aF6I4p4ULrayyE0RjpEGSnljKSmHJ8TcIJBgP1fSzOTXQLt
- 7GRjU2dNC3wZXzgH5mLBYzUI6Rjn7KQt/DyLyM5ZZcHfFNDfVw0wFNIZ+3Q7ErEMV1Ky
- 3smC1p3eYu+TtHk7G36v1mziqYM8eRAE2gCauxcw0YZ8K7it9FiL5xHag7nhYNAozPt2
- w4lqVAC11GzOUMmmHgjmMIpSmcw7l1q1iy1d/45tkNyTzBB39gNlDQLJee+kpTVPYkMc
- OQUOvfhlLbvL42ammH2Fbj5M3IBQ143assn2fEG2knE03l0UnNrfFsxuG+NEHViGMcvj
- Di6w==
-X-Gm-Message-State: ACrzQf1Ufq9daJnRDZMbd9D4VMarHnFzA7+zulE3+OPIbWjd8gOVqZgI
- K8dFiN/3fHkKRZv+deVFrhhLB4FRo1QowixgrvTt7LDtDrNrDtz0UiCadzHokzJCHm63+3fuyPw
- 20xxRwAhlTvMqAEo=
-X-Received: by 2002:a5d:64cf:0:b0:22a:b61d:875e with SMTP id
- f15-20020a5d64cf000000b0022ab61d875emr19094550wri.100.1664359396465; 
- Wed, 28 Sep 2022 03:03:16 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7qNO4DpQwMuDEFWzGmUHC3pWRblygYBLzyOP+peev+00W8gSBHrYZOEw8a6msx93DlAEKpuA==
-X-Received: by 2002:a5d:64cf:0:b0:22a:b61d:875e with SMTP id
- f15-20020a5d64cf000000b0022ab61d875emr19094529wri.100.1664359396260; 
- Wed, 28 Sep 2022 03:03:16 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-89.web.vodafone.de.
- [109.43.176.89]) by smtp.gmail.com with ESMTPSA id
- u4-20020adff884000000b0022a2dbc80fdsm3774507wrp.10.2022.09.28.03.03.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Sep 2022 03:03:15 -0700 (PDT)
-Message-ID: <fd7dad24-0725-8c0f-067b-7ae99aca8d80@redhat.com>
-Date: Wed, 28 Sep 2022 12:03:14 +0200
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1odTue-00079x-Rn; Wed, 28 Sep 2022 06:03:34 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28S9vsln039483;
+ Wed, 28 Sep 2022 10:03:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=qUi0NCrPzDUorqH6Y4leU/zehLg6NmyCovvT7z+8JJg=;
+ b=SST1dxDVEqij0l2qq2tcUXmtU5TUku17QbX6/Ot7cVBz2N9OdxZRIfPmqXiay7cZdOpF
+ m7XtprqqqMEwYspAYYjhFAUuTmjFJ/ttA5fo3Js8MV/CZ9KKthg2JoMpUuasP19zL5Ju
+ yhRf3MMGBzQIj+zSt42fEIWv0RDZeNA23des1ZwUxfvHck+Vfo10zOXIRHN79ePSbtLo
+ qldRyo4p+KFfnevIUISz6wvDuRhFIqJS4f3Bsz0WdeK6Km6QnUKZjtJNGSDkSFDRZPqw
+ TwwxnzI08bxlp96eSGEcISQXuIHk0GeV8ZolEgNujiJxWC1uQ0KZU4bVOn94qgSUuynh RA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvm3qg6aw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 10:03:30 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28SA0dbl013477;
+ Wed, 28 Sep 2022 10:03:29 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvm3qg68t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 10:03:29 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28S9rqIr003634;
+ Wed, 28 Sep 2022 10:03:26 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma05fra.de.ibm.com with ESMTP id 3jssh8usft-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 10:03:26 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 28SA3NsD53739776
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Sep 2022 10:03:23 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1CB2C4C052;
+ Wed, 28 Sep 2022 10:03:23 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4125F4C040;
+ Wed, 28 Sep 2022 10:03:22 +0000 (GMT)
+Received: from [9.171.31.212] (unknown [9.171.31.212])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 28 Sep 2022 10:03:22 +0000 (GMT)
+Message-ID: <e5e4aabd-64aa-70c0-e301-0d11e70829f2@linux.ibm.com>
+Date: Wed, 28 Sep 2022 12:03:21 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v4 35/54] tests/qtest: libqtest: Install signal handler
- via signal()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v9 03/10] s390x/cpu topology: reporting the CPU topology
+ to the guest
 Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
- <20220927110632.1973965-36-bmeng.cn@gmail.com>
- <8b15887b-686f-3b59-ce2a-899c22b53458@redhat.com>
- <CAEUhbmWLMfLGJvH+aMV-w0mBaH16vp+2Foxj1Mm-xGMhmg86gw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAEUhbmWLMfLGJvH+aMV-w0mBaH16vp+2Foxj1Mm-xGMhmg86gw@mail.gmail.com>
+To: Nico Boehr <nrb@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ frankja@linux.ibm.com
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-4-pmorel@linux.ibm.com>
+ <166245225333.5995.17109067416462484247@t14-nrb>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <166245225333.5995.17109067416462484247@t14-nrb>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: QWfzCb2PuSeW8adl_S_w_Wi2vIB48UpJ
+X-Proofpoint-GUID: Ab-Gyf7slNEh6gSDk5aSvbbCP9NqNWLf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-28_03,2022-09-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 adultscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 mlxscore=0 impostorscore=0
+ phishscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209280061
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,54 +123,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/09/2022 11.57, Bin Meng wrote:
-> On Wed, Sep 28, 2022 at 5:43 PM Thomas Huth <thuth@redhat.com> wrote:
+
+
+On 9/6/22 10:17, Nico Boehr wrote:
+> Quoting Pierre Morel (2022-09-02 09:55:24)
+>> The guest can use the STSI instruction to get a buffer filled
+>> with the CPU topology description.
 >>
->> On 27/09/2022 13.06, Bin Meng wrote:
->>> From: Bin Meng <bin.meng@windriver.com>
->>>
->>> At present the codes uses sigaction() to install signal handler with
->>> a flag SA_RESETHAND. Such usage can be covered by the signal() API
->>> that is a simplified interface to the general sigaction() facility.
->>>
->>> Update to use signal() to install the signal handler, as it is
->>> available on Windows which we are going to support.
->>>
->>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->>> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->>> ---
->>>
->>> (no changes since v1)
->>>
->>>    tests/qtest/libqtest.c | 14 +++-----------
->>>    1 file changed, 3 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
->>> index 269d622fe3..f0ac467903 100644
->>> --- a/tests/qtest/libqtest.c
->>> +++ b/tests/qtest/libqtest.c
->>> @@ -66,7 +66,7 @@ struct QTestState
->>>    };
->>>
->>>    static GHookList abrt_hooks;
->>> -static struct sigaction sigact_old;
->>> +static sighandler_t sighandler_old;
->>
->> This seems to break compilation on NetBSD (which you can test via "make
->> vm-build-netbsd" on a Linux KVM host):
+>> Let us implement the STSI instruction for the basis CPU topology
+>> level, level 2.
 > 
-> Oops, so this means this test is not covered by GitLab CI ...
+> I like this. It is so much simpler. Thanks.
+> 
+> [...]
+>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>> index a6ca006ec5..e2fd5c7e44 100644
+>> --- a/hw/s390x/cpu-topology.c
+>> +++ b/hw/s390x/cpu-topology.c
+>> @@ -76,9 +76,11 @@ void s390_topology_new_cpu(int core_id)
+>>        * in the CPU container allows to represent up to the maximal number of
+>>        * CPU inside several CPU containers inside the socket container.
+>>        */
+>> +    qemu_mutex_lock(&topo->topo_mutex);
+> 
+> You access topo->cores above. Do you need the mutex for that? I guess not since
+> it can't change at runtime (right?), so maybe it is worth documenting what the
+> topo_mutex actually protects or you just take the mutex at the start of the
+> function.
 
-You can enable the NetBSD tests in the Gitlab-CI by setting up Cirrus-CI for 
-your account. The information hides here:
+You are right one should always do that.
+I will add this.
 
-  .gitlab-ci.d/cirrus/README.rst
+> 
+> [...]
+>> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
+>> new file mode 100644
+>> index 0000000000..56865dafc6
+>> --- /dev/null
+>> +++ b/target/s390x/cpu_topology.c
+> [...]
+>> +static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
+>> +{
+>> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
+>> +
+>> +    tle->nl = 0;
+>> +    tle->dedicated = 1;
+>> +    tle->polarity = S390_TOPOLOGY_POLARITY_H;
+>> +    tle->type = S390_TOPOLOGY_CPU_TYPE;
+>> +    tle->origin = origin * 64;
+> 
+> origin would also need a byte order conversion.
 
-... but since this is running NetBSD in a KVM-enabled container on Cirrus-CI 
-via a script from Gitlab-CI, it's a little bit fragile, so it might be 
-easier to simply type "make vm-build-netbsd" on your local KVM-capable Linux 
-host.
+yes
 
-  Thomas
+> 
+>> +    tle->mask = be64_to_cpu(mask);
+> 
+> cpu_to_be64()
 
+yes
+
+> 
+> [...]
+>> +static char *s390_top_set_level2(S390Topology *topo, char *p)
+>> +{
+>> +    int i, origin;
+>> +
+>> +    for (i = 0; i < topo->sockets; i++) {
+>> +        if (!topo->socket[i].active_count) {
+>> +            continue;
+>> +        }
+>> +        p = fill_container(p, 1, i);
+>> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
+>> +            uint64_t mask = 0L;
+>> +
+>> +            mask = be64_to_cpu(topo->tle[i].mask[origin]);
+> 
+> Don't you already do the endianness conversion in fill_tle_cpu()?
+
+yes
+
+> 
+> [...]
+>> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
+>> +{
+>> +    SysIB_151x *sysib;
+>> +    int len = sizeof(*sysib);
+>> +
+>> +    if (s390_is_pv() || sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
+>> +        setcc(cpu, 3);
+>> +        return;
+>> +    }
+>> +
+>> +    sysib = g_malloc0(TARGET_PAGE_SIZE);
+>> +
+>> +    len += setup_stsi(sysib, sel2);
+>> +    if (len > TARGET_PAGE_SIZE) {
+>> +        setcc(cpu, 3);
+>> +        goto out_free;
+>> +    }
+> 
+> Maybe I don't get it, but isn't it kind of late for this check? You would
+> already have written beyond the end of the buffer at this point in time...
+
+it is
+
+
+Thanks for your comments.
+
+regards,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
