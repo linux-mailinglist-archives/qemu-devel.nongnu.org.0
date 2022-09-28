@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CCBB5EEA0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 01:16:07 +0200 (CEST)
-Received: from localhost ([::1]:37414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281595EEA16
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 01:21:24 +0200 (CEST)
+Received: from localhost ([::1]:40364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odgHe-0005Zz-5F
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 19:16:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43890)
+	id 1odgMi-0000xf-Mi
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 19:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=E/AC=Z7=zx2c4.com=Jason@kernel.org>)
- id 1odgFp-00044V-8e
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 19:14:13 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:46616)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1odgHm-0005jq-5a
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 19:16:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=E/AC=Z7=zx2c4.com=Jason@kernel.org>)
- id 1odgFn-00083I-3r
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 19:14:13 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id DF571B820F5;
- Wed, 28 Sep 2022 23:14:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B0D6C433C1;
- Wed, 28 Sep 2022 23:13:58 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="JBtQtJkA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664406835;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1odgHh-00005R-Hf
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 19:16:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664406968;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v/cyttnX7IBB13ofxELqP1H+N0vDWsSp9Fd54rR0iDQ=;
- b=JBtQtJkAnTPelRTf2vqyjQIGYw4O/COcB2HFL6p/nNLwm/nKbmW3EnW04YzAzqjd2miXZ5
- 0DZzRJw5Q904zG5uvy+8TywwekQuw451uieYGkJgckp3EQOsZxS2bYhVDXj7uUAmbdk/dA
- ffaq+oYVB0Xt9wDZi4Mf/oYw+mkKXCg=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id ce47030d
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 28 Sep 2022 23:13:54 +0000 (UTC)
-Date: Thu, 29 Sep 2022 01:13:52 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: linux-m68k@lists.linux-m68k.org, qemu-devel@nongnu.org,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH qemu v2 2/2] m68k: align bootinfo strings and data to 4
- bytes
-Message-ID: <YzTVMCTGV9IvcJ0O@zx2c4.com>
-References: <20220926113900.1256630-1-Jason@zx2c4.com>
- <20220926113900.1256630-2-Jason@zx2c4.com>
- <ad4c5a70-6226-6be3-0049-65880170d8af@vivier.eu>
- <CAHmME9r7sjUVOiQDp7WuzFe7Xss1riZBLg=wQeZ5uvWjONoO6Q@mail.gmail.com>
- <5ebf4a4a-031b-0706-d199-d116cd518226@vivier.eu>
- <CAHmME9qFuKwUKvqOZZMuy8v+SLBh1Dt5+5xRM=+v6ynGktbj8g@mail.gmail.com>
+ bh=e1jrYJ+kglX03W4nBmi5CZ2KjUjK5QDmGP96FkJhQZo=;
+ b=HnlXVoVE1apX9XGDeBwsJF2x4Ry/bkYwbkRTRpaUjGLYEyc/ByNuHruvhD7A0DIfEka6KW
+ hAcCIHxhE8pBgAdG917NjIglZP1fSQ7mDtHpdilnUiYg8Uy5+rIwPdJkD9l2qv3Sn+MQ7B
+ wR0y/btRuiUEXKSHYt5LTN040+1SDsw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-208-keQ_6p2VOW-IUbGFdGeX-A-1; Wed, 28 Sep 2022 19:16:06 -0400
+X-MC-Unique: keQ_6p2VOW-IUbGFdGeX-A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6102D811E67;
+ Wed, 28 Sep 2022 23:16:06 +0000 (UTC)
+Received: from [10.64.54.143] (vpn2-54-143.bne.redhat.com [10.64.54.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C8087AE5;
+ Wed, 28 Sep 2022 23:16:02 +0000 (UTC)
+Subject: Re: [PATCH v3 3/5] hw/arm/virt: Introduce variable region_base in
+ virt_set_high_memmap()
+To: eric.auger@redhat.com, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, cohuck@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org,
+ shan.gavin@gmail.com
+References: <20220921231349.274049-1-gshan@redhat.com>
+ <20220921231349.274049-4-gshan@redhat.com>
+ <6e1b2667-b561-51ac-57af-123a393fc677@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <4e53182d-89f5-cd9e-fe71-073251bfe385@redhat.com>
+Date: Thu, 29 Sep 2022 09:15:59 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHmME9qFuKwUKvqOZZMuy8v+SLBh1Dt5+5xRM=+v6ynGktbj8g@mail.gmail.com>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=E/AC=Z7=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <6e1b2667-b561-51ac-57af-123a393fc677@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,44 +83,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 26, 2022 at 11:42:37PM +0200, Jason A. Donenfeld wrote:
-> On Mon, Sep 26, 2022 at 11:42 PM Laurent Vivier <laurent@vivier.eu> wrote:
-> >
-> > Le 26/09/2022 à 23:40, Jason A. Donenfeld a écrit :
-> > > On Mon, Sep 26, 2022 at 11:37 PM Laurent Vivier <laurent@vivier.eu> wrote:
-> > >>
-> > >> Le 26/09/2022 à 13:39, Jason A. Donenfeld a écrit :
-> > >>> Various tools, such as kexec-tools and m68k-bootinfo, expect each
-> > >>> bootinfo entry to be aligned to 4 bytes, not 2 bytes. So adjust the
-> > >>> padding to fill this out as such.
-> > >>>
-> > >>> Also, break apart the padding additions from the other field length
-> > >>> additions, so that it's more clear why these magic numbers are being
-> > >>> added, and comment them too.
-> > >>>
-> > >>> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > >>> Cc: Laurent Vivier <laurent@vivier.eu>
-> > >>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > >>> ---
-> > >>>    hw/m68k/bootinfo.h | 10 ++++++----
-> > >>>    1 file changed, 6 insertions(+), 4 deletions(-)
-> > >>>
-> > >>
-> > >> Applied to my m68k-for-7.2 branch
-> > >
-> > > What about 1/2?
-> > >
-> >
-> > I'd like to wait a little to see what happens on the linux side.
+Hi Eric,
+
+On 9/28/22 10:10 PM, Eric Auger wrote:
+> On 9/22/22 01:13, Gavin Shan wrote:
+>> This introduces variable 'region_base' for the base address of the
+>> specific high memory region. It's the preparatory work to optimize
+>> high memory region address assignment.
+> Why is it a preparatory work (same comment for previous patch, ie [2/5]
+> ). Are those changes really needed? why?
 > 
-> Alright, makes sense. Just please don't forget about it.
 
-Okay, all set. Uneventful.
-https://git.kernel.org/pub/scm/linux/kernel/git/geert/linux-m68k.git/commit/?id=f1bb20c8be1929743fdb313b4770601afc39c1b7
+In PATCH[4/5], @base argument is added to virt_set_high_memmap(), to
+represent current global base address. With the optimization applied
+in PATCH[4/5], @base isn't unconditionally updated to the top of the
+iterated high memory region. So we need @region_base here (PATCH[3/5])
+to track the aligned base address for the iterated high memory region,
+which may or may be not updated to @base.
 
-Jason
+Since we have @region_base in PATCH[3/5], it'd better to have @region_size
+in PATCH[2/5].
+
+Actually, PATCH[1-3/5] are all preparatory patches for PATCH[4/5]. My
+intention was to organize the patches in a way to keep the logical
+change part simple enough, for easier review.
+
+Thanks,
+Gavin
+
+>>
+>> No functional change intended.
+>>
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> ---
+>>   hw/arm/virt.c | 12 ++++++------
+>>   1 file changed, 6 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>> index 187b3ee0e2..b0b679d1f4 100644
+>> --- a/hw/arm/virt.c
+>> +++ b/hw/arm/virt.c
+>> @@ -1692,15 +1692,15 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+>>   static void virt_set_high_memmap(VirtMachineState *vms,
+>>                                    hwaddr base, int pa_bits)
+>>   {
+>> -    hwaddr region_size;
+>> +    hwaddr region_base, region_size;
+>>       bool fits;
+>>       int i;
+>>   
+>>       for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
+>> +        region_base = ROUND_UP(base, extended_memmap[i].size);
+>>           region_size = extended_memmap[i].size;
+>>   
+>> -        base = ROUND_UP(base, region_size);
+>> -        vms->memmap[i].base = base;
+>> +        vms->memmap[i].base = region_base;
+>>           vms->memmap[i].size = region_size;
+>>   
+>>           /*
+>> @@ -1709,9 +1709,9 @@ static void virt_set_high_memmap(VirtMachineState *vms,
+>>            *
+>>            * For each device that doesn't fit, disable it.
+>>            */
+>> -        fits = (base + region_size) <= BIT_ULL(pa_bits);
+>> +        fits = (region_base + region_size) <= BIT_ULL(pa_bits);
+>>           if (fits) {
+>> -            vms->highest_gpa = base + region_size - 1;
+>> +            vms->highest_gpa = region_base + region_size - 1;
+>>           }
+>>   
+>>           switch (i) {
+>> @@ -1726,7 +1726,7 @@ static void virt_set_high_memmap(VirtMachineState *vms,
+>>               break;
+>>           }
+>>   
+>> -        base += region_size;
+>> +        base = region_base + region_size;
+>>       }
+>>   }
+>>   
+> 
 
 
