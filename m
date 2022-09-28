@@ -2,99 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55EDC5EE876
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 23:40:14 +0200 (CEST)
-Received: from localhost ([::1]:50780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2AA5EE829
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 23:18:11 +0200 (CEST)
+Received: from localhost ([::1]:60634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odemr-0001sG-Ee
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 17:40:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54290)
+	id 1odeRW-0005Dl-DN
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 17:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odeHh-0002rd-4s
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 17:08:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41580)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odeHd-0004dq-P3
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 17:07:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664399276;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=npgEWEPY9BCX1R4o0a9RLtWZiDXSw9D39L+ve4T9Zyw=;
- b=dkDcihqzqNL+Lob0EZIiM2DcYDqF57bf02LPxfZ8UdIrEwQpTMa03VlyHmm7XlgsREjzP0
- XFJDUYKA/HhVU+cWDAdMOPAInjAexP6ArwayQWBwV43qxKgmvcIfZ8Yyg0m7jA4ngU7M54
- iuHDuJkCT30i/jaCczDaEWCDv8O5owg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-581-T5rvPDTsP5Ov3ebmNhrdCQ-1; Wed, 28 Sep 2022 17:07:54 -0400
-X-MC-Unique: T5rvPDTsP5Ov3ebmNhrdCQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n7-20020a1c2707000000b003a638356355so7604455wmn.2
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 14:07:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1odeI5-0003bN-9L
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 17:08:28 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:36522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1odeI3-0004kH-Jv
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 17:08:25 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ e11-20020a17090a77cb00b00205edbfd646so3957196pjs.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 14:08:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=Yb5jkatCbd934Hi5+gLiuAZZ03aq8OvW9FfNUIdbvAA=;
+ b=zKhgNx4I9jUEzOrOF9n0WolL36EOJLXMk+5Rq05cmXySje9VxaxCIe+m6MDX7oojcY
+ bvbyxKQHsVkvRnZ5hb1CiUlQs0XEKOKo4/v39f4cMyYAdGT8saDSFeFEpNwPNTQW2VlQ
+ wZq4Myz7tW4+xEW1DiJKFKY9bbXYbrk++TEc0NQgKo5FkvkF4POUCPYl6dQw7O8tZcr8
+ dsjIdEGhUq7AQkft5BdAhfqDp9wiBJvK4DSyhqwLZBSaSDgkWKs+sXO3F7sYgWj5o7+H
+ LJwpMjbGeh+MVF/SiS6DsPJIIDFtRdQar0xPR7GFs9DNA7nZIond12h+iHEH7wuULwin
+ 6Dew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=npgEWEPY9BCX1R4o0a9RLtWZiDXSw9D39L+ve4T9Zyw=;
- b=tZsrxr1kC22o2WZOzoqOrqP57Mr+CyIMcHCWbeugasxEqU1hIZfTSJsg12R/yDnAQT
- gXkaJ6ALLcpi/gHbGPIs5fez0MF9v52Ha4vBmPdoBIE2xIFPY/ZmpvOB+i1H66WFkdKS
- HZ8AfxePJccNXl+FfmKk1Vo3YLO8GMx0868B9xXJOGMCisbDT0tIE4cBPpQN5IZ+PMlE
- h7tZ5yRQVVZHvqPcQCzkSiVPSdLuNiYILSzOKyXNsKNBhPBeZbaNAVWq0e4L5y20oeO9
- kyy7geSxFn2obIkRiGmtoPGNb3+tboY6PACEE/0xG4TyyfdrXx71kbiDdvREeU1Cxu+7
- 5ZbQ==
-X-Gm-Message-State: ACrzQf3/a7EsXW8JXnpI+BvypFkfjSSt58vRH0X2nwL4Jx8aThOIXHJ5
- Et4+XVd8LYxdrMdNdiTfM8XiEEEu4Gp+wah8VtBpXIV21F+8jC0vS6zDJeXjbrtXv2PdzQZ2x9K
- iAU8baPnoJfncMts=
-X-Received: by 2002:a05:600c:3c8e:b0:3b4:d224:ae27 with SMTP id
- bg14-20020a05600c3c8e00b003b4d224ae27mr8519114wmb.187.1664399273446; 
- Wed, 28 Sep 2022 14:07:53 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7fSgu4d0eIus4sNzQpP7Nor2b5lX7KY5A7gY/YFeqcO4dB66Fh9XllT6QqV2/1Db2kgIRbIg==
-X-Received: by 2002:a05:600c:3c8e:b0:3b4:d224:ae27 with SMTP id
- bg14-20020a05600c3c8e00b003b4d224ae27mr8519097wmb.187.1664399273215; 
- Wed, 28 Sep 2022 14:07:53 -0700 (PDT)
-Received: from redhat.com ([2.55.17.78]) by smtp.gmail.com with ESMTPSA id
- 3-20020a05600c230300b003b4727d199asm2665587wmo.15.2022.09.28.14.07.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Sep 2022 14:07:52 -0700 (PDT)
-Date: Wed, 28 Sep 2022 17:07:48 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: Why we should avoid new submodules if possible
-Message-ID: <20220928170234-mutt-send-email-mst@kernel.org>
-References: <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
- <20220628060210-mutt-send-email-mst@kernel.org>
- <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
- <20220628062551-mutt-send-email-mst@kernel.org>
- <CAFEAcA985ardY5zWkrZYgWjj+tdVNUnRcaBUChGFX0-o99cjQA@mail.gmail.com>
- <20220628064831-mutt-send-email-mst@kernel.org>
- <20220928204803.GS28810@kitsune.suse.cz>
+ bh=Yb5jkatCbd934Hi5+gLiuAZZ03aq8OvW9FfNUIdbvAA=;
+ b=5TZZuwtd6Kxr06IDRC9iEk9l6cFZDr6GU5gYnHEePW5Gpa4n0tWbP3u0Gd08ghT2CG
+ 7mdpG8suqeuA/Seu9DtBgmCFyEKiAUy+osnh9fFthL2HYjziLGlTzqzWHA+9BYR4N8EW
+ J4AYgGiFxqHcpzxQ95SnbKuutFyxcyCDhLVvg9XWiB7XzxIkFyoM38+yehVNDEfpccW1
+ bSdRBTumotbv9SCyll4jER+FWAjo3cN1A5NbFfsiuhX351mJqFhDRkK3IXnuBoUGcZja
+ bsSSpHq+9mzd07biKxjpSZopjQtfjgBu+h8FM2Iv4KYh900SGmsoJWKHAdX0lYEvPiR8
+ 4CLw==
+X-Gm-Message-State: ACrzQf02hPk/he3HgR6AcU4BO9SK15zVMxsTTTMuheuQDLwFcb9STEum
+ kzDpP8611v3iAOJ+U7Jj6XKqLw==
+X-Google-Smtp-Source: AMsMyM7NkCEfxJeYLJOoWYJWxLJBrQc+wjWTksHP9VxgIol+Acx+fHL+Xa22yz1+4UGKBrFaZ9OeIw==
+X-Received: by 2002:a17:902:7107:b0:17a:46a:b0bc with SMTP id
+ a7-20020a170902710700b0017a046ab0bcmr1642756pll.172.1664399302055; 
+ Wed, 28 Sep 2022 14:08:22 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:986f:cb56:6709:4057?
+ ([2602:47:d49d:ec01:986f:cb56:6709:4057])
+ by smtp.gmail.com with ESMTPSA id
+ f13-20020a170902ce8d00b0017534ffd491sm4239405plg.163.2022.09.28.14.08.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Sep 2022 14:08:21 -0700 (PDT)
+Message-ID: <d25bff61-646a-6ccf-0b43-20e6f1e8a85a@linaro.org>
+Date: Wed, 28 Sep 2022 14:08:19 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 4/5] configure, meson: move C++ compiler detection to
+ meson.build
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20220927095921.261760-1-pbonzini@redhat.com>
+ <20220927095921.261760-5-pbonzini@redhat.com>
+ <afb177dc-ab07-5167-e559-5b5280150c46@linaro.org>
+ <CABgObfbPcy63-nZBzZe1Dtinm-h0FmoHYukZQY6uxLMsn8fesA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CABgObfbPcy63-nZBzZe1Dtinm-h0FmoHYukZQY6uxLMsn8fesA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220928204803.GS28810@kitsune.suse.cz>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,36 +100,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 10:48:03PM +0200, Michal Suchánek wrote:
-> Hello,
-> 
-> On Tue, Jun 28, 2022 at 07:00:59AM -0400, Michael S. Tsirkin wrote:
-> 
-> > 
-> > git submodules are awkward basically because they are an automated wget.
-> > I don't think an explicit wget is much better ... but
-> > looks like I'm alone in this. Oh well.
-> > So it will be a weird dance of wget a tarball, unpack, generate
-> > ISO and run. God help you if you need to patch the test - it's
-> > wget all the way down.
-> 
-> That's the problem - the submodules are not automated. They are
-> half-automated, and the rules for when the automation works and for when
-> the automation falls apart are not intellibible for the general Joe
-> Developer.
-> 
-> You might spend a few days studying how they behave exactly, and then you
-> will know. But unless you will use them every day you will forget again,
-> because the rules do not lend themselves to some abstraction easily
-> understood by humans.
-> 
-> Thanks
-> 
-> Michal
+On 9/28/22 12:21, Paolo Bonzini wrote:
+> Heh, I wanted to get it in for exactly that reason, so that a future revert would not 
+> introduce the test in configure. But I guess having the patch out there on the archives 
+> may also be enough.
 
-But why would learning a different tool be easier?
+Heh.  I suppose that's fair, being wary of reversion.
 
--- 
-MST
+
+r~
+
+> 
+> Paolo
+> 
+> Il mer 28 set 2022, 18:25 Richard Henderson <richard.henderson@linaro.org 
+> <mailto:richard.henderson@linaro.org>> ha scritto:
+> 
+>     On 9/27/22 02:59, Paolo Bonzini wrote:
+>      > The test is slightly weaker than before, because it does not
+>      > call an extern "C" function from a C source file.Â  However,
+>      > in practice what we seek to detect is ABI compatibility of the
+>      > various sanitizer flags, and for that it is enough to compile
+>      > anything with CC and link it with CXX.
+> 
+>     Maybe just wait a moment on this one?
+>     We have patches on list to remove the last use of C++.
+> 
+> 
+> 
+>     r~
+> 
 
 
