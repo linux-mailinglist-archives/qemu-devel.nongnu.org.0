@@ -2,84 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94185EDE12
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 15:47:28 +0200 (CEST)
-Received: from localhost ([::1]:32836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BD75EDE46
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 15:56:25 +0200 (CEST)
+Received: from localhost ([::1]:33524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odXPM-0007Fe-0f
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 09:47:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49458)
+	id 1odXY0-000696-6u
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 09:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odVmI-0006bS-0Z
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:03:02 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:36406)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odVmE-0001xt-PG
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:03:00 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 07DD81FA40;
- Wed, 28 Sep 2022 12:02:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664366573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1odVso-0002XY-Lp
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:09:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1odVsj-0002tO-SI
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:09:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664366980;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pfcfz93xrZm3HxaxmEVVigp7u5/qmu1R8aSpKp4xn30=;
- b=X1d2hpzf11f+sXdWmUkY95yvztvbqmxgmWGkVUDvKfGWZ73e17/QMENndGm4L0HYCOw4l3
- yQ8P5Jg1MlsOAvSqY2TJH26vucq8sOeyjGr5YWUPhWJKMXnqUp8g+5xaSIxWVLedlzRM7d
- S3YDBlppkOcUUJIOXfs6Ueny6cMZBZo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664366573;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pfcfz93xrZm3HxaxmEVVigp7u5/qmu1R8aSpKp4xn30=;
- b=7GdF2aE+SNFsgHaKo+jwLi1xzrQbgpbwwOv6uKbQUtZRF7DfZybdJLMxDOYH+b9mewxpAg
- 7LR/JApF9+Lw93Bg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4DD6913677;
- Wed, 28 Sep 2022 12:02:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wx0FAeo3NGN1MwAAMHmgww
- (envelope-from <cfontana@suse.de>); Wed, 28 Sep 2022 12:02:50 +0000
-Message-ID: <3487e03f-30dc-6545-4d24-cfee9ad15642@suse.de>
-Date: Wed, 28 Sep 2022 14:02:48 +0200
+ bh=YUPsp/GtnBuzx1Cbt7xPllQbLMXUKK4JoAcxGxwXKs8=;
+ b=EItFt/7Onwm1DZFMUfCtJ+hE+xjKz2xVTH83G4VsMmj0Yri+kuAfkF7RNw4Kzg4vI1OHJd
+ hBGfqA1zVNNSvcC9/tbs4DbDamhO9Je3r/9tSk3Ju7cH7sPKyAjCcICJ11f83uArwn+zHr
+ Y4aHLDfHXcC874Puyklex36xICUwPew=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-378-iBOLwg6cN3KKeAufS2Uzsg-1; Wed, 28 Sep 2022 08:09:39 -0400
+X-MC-Unique: iBOLwg6cN3KKeAufS2Uzsg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ y15-20020a1c4b0f000000b003b47578405aso491085wma.5
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 05:09:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=YUPsp/GtnBuzx1Cbt7xPllQbLMXUKK4JoAcxGxwXKs8=;
+ b=xbca8RVr2qbP36UjWY07QP6L9bnZY7x1YRLSEAcm2ZG4M+fzcb21QA5gSF14Af0LyZ
+ rkDYis2mpNPHqy4tiybzZ4HTX8fI5PgXhVWwvsMyCCw/6rX/eH7AdOV1qQnaqS+abGsa
+ n09l0g9paYvaOcdGG40Z7g8LU67gTPrSgVjg/a8h9B5uxylctT+rtrO6v8fuD36So8iN
+ MVLc5s1Q+MM+8PaqgtbbG+ZWl2zopTuNeqeBsz3BpjBFJDcOV7ygECRDJCwzFOAFXRDR
+ t77myywG1exTS2cFNHdPb9SoCC8k55KSFiN5vL8yYD+xKyRyv97rEGwwR66yjm7KOw+z
+ N8pA==
+X-Gm-Message-State: ACrzQf2cmwYKRZODhQnboTFj6X73LggEPzlZY6ElqN3RohP8Ut7JTw7c
+ iGn6KWhhoqSik3+F1IdIb1GMUN/gEwCUZZzJ7oE+yc2cRmYwoB0mFL+p0VQixuvKmUdmB/T5mL2
+ P4DHhKTO623H32go=
+X-Received: by 2002:a05:600c:19d2:b0:3b4:a4cb:2416 with SMTP id
+ u18-20020a05600c19d200b003b4a4cb2416mr6676464wmq.6.1664366978160; 
+ Wed, 28 Sep 2022 05:09:38 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5GQlGJu9dv+ewdy26fTa/w0A2vk3KxiP00ssHAfHAhkjgjdOXO9w/uDb6pAtwrCcf2pVHHAw==
+X-Received: by 2002:a05:600c:19d2:b0:3b4:a4cb:2416 with SMTP id
+ u18-20020a05600c19d200b003b4a4cb2416mr6676440wmq.6.1664366977842; 
+ Wed, 28 Sep 2022 05:09:37 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ q16-20020a7bce90000000b003b492b30822sm1600114wmj.2.2022.09.28.05.09.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Sep 2022 05:09:37 -0700 (PDT)
+Message-ID: <13f19e41-0feb-7cfc-11f8-46d0f3f326db@redhat.com>
+Date: Wed, 28 Sep 2022 14:09:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v7 3/5] module: add Error arguments to module_load and
- module_load_qom
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 1/5] hw/arm/virt: Introduce virt_set_high_memmap()
+ helper
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2eBerrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220927133825.32631-1-cfontana@suse.de>
- <20220927133825.32631-4-cfontana@suse.de> <87zgejybu4.fsf@pond.sub.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <87zgejybu4.fsf@pond.sub.org>
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, cohuck@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org,
+ shan.gavin@gmail.com
+References: <20220921231349.274049-1-gshan@redhat.com>
+ <20220921231349.274049-2-gshan@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <20220921231349.274049-2-gshan@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,349 +105,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/22 13:31, Markus Armbruster wrote:
-> Claudio Fontana <cfontana@suse.de> writes:
-> 
->> improve error handling during module load, by changing:
->>
->> bool module_load(const char *prefix, const char *lib_name);
->> void module_load_qom(const char *type);
->>
->> to:
->>
->> int module_load(const char *prefix, const char *name, Error **errp);
->> int module_load_qom(const char *type, Error **errp);
->>
->> where the return value is:
->>
->>  -1 on module load error, and errp is set with the error
->>   0 on module or one of its dependencies are not installed
->>   1 on module load success
->>   2 on module load success (module already loaded or built-in)
-> 
-> Two changes, if I understand things correctly:
-> 
-> 1. Convert to Error API from fprintf(stderr, ...)
-> 
-> 2. Return a more useful value
-> 
-> Right?
+Hi Gavin,
 
-Yes.
+On 9/22/22 01:13, Gavin Shan wrote:
+> This introduces virt_set_high_memmap() helper. The logic of high
+> memory region address assignment is moved to the helper. The intention
+> is to make the subsequent optimization for high memory region address
+> assignment easier.
+>
+> No functional change intended.
+>
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-> 
-> Do you add any new errors here that weren't reported before?  Just
+Thanks
 
-Yes.
+Eric
+> ---
+>  hw/arm/virt.c | 74 ++++++++++++++++++++++++++++-----------------------
+>  1 file changed, 41 insertions(+), 33 deletions(-)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 0961e053e5..4dab528b82 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1689,6 +1689,46 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+>      return arm_cpu_mp_affinity(idx, clustersz);
+>  }
+>  
+> +static void virt_set_high_memmap(VirtMachineState *vms,
+> +                                 hwaddr base, int pa_bits)
+> +{
+> +    int i;
+> +
+> +    for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
+> +        hwaddr size = extended_memmap[i].size;
+> +        bool fits;
+> +
+> +        base = ROUND_UP(base, size);
+> +        vms->memmap[i].base = base;
+> +        vms->memmap[i].size = size;
+> +
+> +        /*
+> +         * Check each device to see if they fit in the PA space,
+> +         * moving highest_gpa as we go.
+> +         *
+> +         * For each device that doesn't fit, disable it.
+> +         */
+> +        fits = (base + size) <= BIT_ULL(pa_bits);
+> +        if (fits) {
+> +            vms->highest_gpa = base + size - 1;
+> +        }
+> +
+> +        switch (i) {
+> +        case VIRT_HIGH_GIC_REDIST2:
+> +            vms->highmem_redists &= fits;
+> +            break;
+> +        case VIRT_HIGH_PCIE_ECAM:
+> +            vms->highmem_ecam &= fits;
+> +            break;
+> +        case VIRT_HIGH_PCIE_MMIO:
+> +            vms->highmem_mmio &= fits;
+> +            break;
+> +        }
+> +
+> +        base += size;
+> +    }
+> +}
+> +
+>  static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+>  {
+>      MachineState *ms = MACHINE(vms);
+> @@ -1744,39 +1784,7 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+>      /* We know for sure that at least the memory fits in the PA space */
+>      vms->highest_gpa = memtop - 1;
+>  
+> -    for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
+> -        hwaddr size = extended_memmap[i].size;
+> -        bool fits;
+> -
+> -        base = ROUND_UP(base, size);
+> -        vms->memmap[i].base = base;
+> -        vms->memmap[i].size = size;
+> -
+> -        /*
+> -         * Check each device to see if they fit in the PA space,
+> -         * moving highest_gpa as we go.
+> -         *
+> -         * For each device that doesn't fit, disable it.
+> -         */
+> -        fits = (base + size) <= BIT_ULL(pa_bits);
+> -        if (fits) {
+> -            vms->highest_gpa = base + size - 1;
+> -        }
+> -
+> -        switch (i) {
+> -        case VIRT_HIGH_GIC_REDIST2:
+> -            vms->highmem_redists &= fits;
+> -            break;
+> -        case VIRT_HIGH_PCIE_ECAM:
+> -            vms->highmem_ecam &= fits;
+> -            break;
+> -        case VIRT_HIGH_PCIE_MMIO:
+> -            vms->highmem_mmio &= fits;
+> -            break;
+> -        }
+> -
+> -        base += size;
+> -    }
+> +    virt_set_high_memmap(vms, base, pa_bits);
+>  
+>      if (device_memory_size > 0) {
+>          ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
 
-> trying to calibrate my expectations before I dig into the actual patch.
-> 
->> module_load_qom_one has been introduced in:
->>
->> commit 28457744c345 ("module: qom module support"), which built on top of
->> module_load_one, but discarded the bool return value. Restore it.
->>
->> Adapt all callers to emit errors, or ignore them, or fail hard,
->> as appropriate in each context.
->>
->> Some memory leaks also fixed as part of the module_load changes.
-> 
-> Where?
-
-I misinterpreted the use of g_hash_table_add, so there is a fix for me here too (module_name should not be freed as the g_hash_table_add takes ownership).
-The g_* API is a bit messy here, as the ownership and whether the key is freed depends on how the table was created (supplying a free function or not).
-
-However, the code in the loop following the g_hash_table_add may "return false;" from the function directly,
-skipping the cleanup code:
-
-g_hash_table_add(loaded_modules, module_name);
-
--    for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
--        if (modinfo->arch) {
--            if (strcmp(modinfo->name, module_name) == 0) {
--                if (!module_check_arch(modinfo)) {
--                    return false;
--                }
--            }
--        }
-     }
-
-So there is no chance to free at:
-
--    if (!success) {
--        g_hash_table_remove(loaded_modules, module_name);
--        g_free(module_name);
-      }
-
-But, I should not have taken the g_free(...) out of the test, will fix.
-
-
-
-> 
->> audio: when attempting to load an audio module, report module load errors.
->> block: when attempting to load a block module, report module load errors.
->> console: when attempting to load a display module, report module load errors.
->>
->> qdev: when creating a new qdev Device object (DeviceState), report load errors.
->>       If a module cannot be loaded to create that device, now abort execution.
->>
->> qom/object.c: when initializing a QOM object, or looking up class_by_name,
->>               report module load errors.
->>
->> qtest: when processing the "module_load" qtest command, report errors
->>        in the load of the module.
-> 
-> This looks like a list of behavioral changes.  Appreciated!  It's a bit
-> terse, though.  I might come back to this and suggest improvement.  But
-> first, I need to understand the patch.
-> 
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
->>  audio/audio.c         |  16 ++--
->>  block.c               |  20 +++-
->>  block/dmg.c           |  14 ++-
->>  hw/core/qdev.c        |  17 +++-
->>  include/qemu/module.h |  37 +++++++-
->>  qom/object.c          |  18 +++-
->>  softmmu/qtest.c       |   8 +-
->>  ui/console.c          |  18 +++-
->>  util/module.c         | 211 +++++++++++++++++++++++-------------------
->>  9 files changed, 235 insertions(+), 124 deletions(-)
->>
->> diff --git a/audio/audio.c b/audio/audio.c
->> index 0a682336a0..ea51793843 100644
->> --- a/audio/audio.c
->> +++ b/audio/audio.c
->> @@ -72,20 +72,24 @@ void audio_driver_register(audio_driver *drv)
->>  audio_driver *audio_driver_lookup(const char *name)
->>  {
->>      struct audio_driver *d;
->> +    Error *local_err = NULL;
->> +    int rv;
->>  
->>      QLIST_FOREACH(d, &audio_drivers, next) {
->>          if (strcmp(name, d->name) == 0) {
->>              return d;
->>          }
->>      }
->> -
->> -    audio_module_load(name);
->> -    QLIST_FOREACH(d, &audio_drivers, next) {
->> -        if (strcmp(name, d->name) == 0) {
->> -            return d;
->> +    rv = audio_module_load(name, &local_err);
->> +    if (rv > 0) {
->> +        QLIST_FOREACH(d, &audio_drivers, next) {
->> +            if (strcmp(name, d->name) == 0) {
->> +                return d;
->> +            }
->>          }
->> +    } else if (rv < 0) {
->> +        error_report_err(local_err);
->>      }
->> -
->>      return NULL;
->>  }
->>  
-> 
-> Before: audio_module_load() reports to stderr, but the caller can't
-
-before: reports _some_ errors to stderr
-
-> know.  So, error or no error, search the driver registry for the one we
-> want.  Return it if found, else fail.
-> 
-> After: if audio_module_load() fails, report to stderr or current
-> monitor, and fail.  If it could find no module or loaded one, search the
-> driver registry.  Return it if found, else fail.
-> 
-> What if audio_module_load() fails, but a search for the driver succeeds?
-> Before the patch, we succeed.  
-
-audio_module_load() is the only way that audio_drivers can be updated and the search would return a different result.
-The previous code was just lazily running the same code twice to make it simpler for the programmer in those conditions.
-
-Afterwards, we fail.  Can this happen?
-
-No.
-
-> Yes: module_load() starts with
-> 
->        if (!g_module_supported()) {
->            error_setg(errp, "%s", "this platform does not support GLib modules");
->            return -1;
->        }
-> 
-> Regression.
-> 
-> One way to fix: ensure module_load() cannot fail when the search will
-> succeed.
-> 
-> Another: search first, and module_load() only if not found, then search
-> again.
-> 
-
-Does not apply.
-
-> Now let's review your use of the Error API.  Error objects should be
-> passed up the call chain to the place that handles then.  The call
-> chains are:
-> 
-> * audio_init(), which is called by
-> 
->   - AUD_register_card(), which is called by a bunch of device creation
->     helpers called within machine initialization functions (I think),
->     which are called from qemu_init() via qemu_init_board() and
->     machine_run_board_init()
-> 
->   - AUD_add_capture(), which is called by
-> 
->     · wav_start_capture(), which is called by hmp_wavcapture on behalf
->       of HMP command wavcapture
-> 
->     · audio_add(), which is called by protocol_client_msg() in respone
->       of a VNC_MSG_CLIENT_QEMU_AUDIO_ENABLE message from a VNC client (I
->       think).  Since audio_add() does return anything, its callers
->       remain oblivious of failure.
-> 
->   - audio_init_audiodevs(), which is called by
->     qemu_create_early_backends(), which is called by qemu_init()
-> 
-> * audio_help(), which is called by
-> 
->   - audio_parse_option(), which is called by qemu_init()
-> 
->   - qemu_init()
-> 
-> * audio_handle_legacy_opts()
-> 
->   - audio_init(); see above
-> 
->   - audio_legacy_help(), which is called by qemu_init()
-> 
-> For the call chains that end in qemu_init(), error_report_err() is okay.
-> Just beware of error cascades, i.e. one issue triggering multiple
-> reports.  That's bad UX.  The extra reporting should predate this patch,
-> which means it's no reason to reject this patch.
-> 
-> Likewise for call chains that end in an HMP command, because
-> error_report_err() does the right thing then: it reports to the current
-> monitor.  Bug fix: before the patch, it reports to stderr.  Commit
-> message should mention the fix.
-> 
-> The problematic case is audio_add().  Reporting an error and then
-> ignoring it feels wrong.  But it's how audio_add() works even before
-> this patch.  Not this patch's problem to solve.
-> 
->> diff --git a/block.c b/block.c
->> index 72c7f6d47d..7a94739aed 100644
->> --- a/block.c
->> +++ b/block.c
->> @@ -464,12 +464,18 @@ BlockDriver *bdrv_find_format(const char *format_name)
->>      /* The driver isn't registered, maybe we need to load a module */
->>      for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
->>          if (!strcmp(block_driver_modules[i].format_name, format_name)) {
->> -            block_module_load(block_driver_modules[i].library_name);
->> +            Error *local_err = NULL;
->> +            int rv = block_module_load(block_driver_modules[i].library_name,
->> +                                       &local_err);
->> +            if (rv > 0) {
->> +                return bdrv_do_find_format(format_name);
->> +            } else if (rv < 0) {
->> +                error_report_err(local_err);
->> +            }
->>              break;
->>          }
->>      }
->> -
->> -    return bdrv_do_find_format(format_name);
->> +    return NULL;
->>  }
->>  
-> 
-> Same regression, I think.
-
-There is no problem here either.
-
-> 
-> Callers:
-> 
-> * bdrv_open_common()
-> 
-> * bdrv_fill_options()
-> 
-> * bdrv_open_inherit()
-> 
-> * bdrv_insert_node()
-> 
-> * bdrv_img_create()
-> 
-> * qmp_x_blockdev_amend()
-> 
-> * qmp_blockdev_create()
-> 
-> * qcow_co_create_opts()
-> 
-> * enable_write_target()
-> 
-> These all use the Error API.  Thus, we have instances of the
-> "error_report() or similar from within a user of th Error API"
-> anti-pattern.
-> 
-> Let's look more closely at just one of them: qmp_blockdev_create().
-> Since we're in QMP monitor context, bdrv_find_format()'s
-> error_report_err() will report a specific error to stderr, and then
-> qmp_blockdev_create() will report a less specific one to the QMP client.
-> This is wrong.
-> 
-> The obvious fix is to convert bdrv_find_format() to the Error API.
-> 
-> If you can't do that now, please note the issue in the commit message.
-> 
->>  static int bdrv_format_is_whitelisted(const char *format_name, bool read_only)
->> @@ -976,12 +982,16 @@ BlockDriver *bdrv_find_protocol(const char *filename,
->>      for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
->>          if (block_driver_modules[i].protocol_name &&
->>              !strcmp(block_driver_modules[i].protocol_name, protocol)) {
->> -            block_module_load(block_driver_modules[i].library_name);
->> +            int rv = block_module_load(block_driver_modules[i].library_name, errp);
->> +            if (rv > 0) {
->> +                drv1 = bdrv_do_find_protocol(protocol);
->> +            } else if (rv < 0) {
->> +                return NULL;
->> +            }
->>              break;
->>          }
->>      }
->>  
->> -    drv1 = bdrv_do_find_protocol(protocol);
->>      if (!drv1) {
->>          error_setg(errp, "Unknown protocol '%s'", protocol);
->>      }
-> 
-> Same regression, I think.
-> 
-> bdrv_find_protocol() already uses the Error API, and your patch passes
-> the Error up the chain.  Good.
-
-This can be done here.
-
-> 
-> [...]
-> 
-> Out of steam for today, intend to continue later.  If you want to respin
-> meanwhile, that's okay.  If you prefer to wait for me to finish
-> reviewing this one, that's okay, too.
-> 
-
-I will be in vacation for two weeks, my concern is that this issue will be lost to the noise.
-Will respin with the actual fixes, and hope this can be put into qemu and then move from there.
-
-Thanks,
-
-Claudio
 
