@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15E25ED872
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:10:14 +0200 (CEST)
-Received: from localhost ([::1]:42806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A895ED851
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 10:58:32 +0200 (CEST)
+Received: from localhost ([::1]:36318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odT53-0003g7-Qj
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:10:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33310)
+	id 1odSti-0005rU-Gn
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 04:58:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE7-000893-7P
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:33 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:36299)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE5-0008Aa-F3
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE5-00087a-NC
  for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:30 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:39059)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE3-00089w-OH
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:29 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MIdaF-1oPUGS3p6D-00EbO6; Wed, 28
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MS3vJ-1opOD33KoN-00TUns; Wed, 28
  Sep 2022 10:15:22 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 06/38] linux-user: Log failing executable in EXCP_DUMP()
-Date: Wed, 28 Sep 2022 10:14:45 +0200
-Message-Id: <20220928081517.734954-7-laurent@vivier.eu>
+Subject: [PULL 08/38] linux-user/hppa: Dump IIR on register dump
+Date: Wed, 28 Sep 2022 10:14:47 +0200
+Message-Id: <20220928081517.734954-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:wZbqebJkWTWdpG5fB3c1lZG7gH2IX05p7dI0bk4pYO6PaX4GpD8
- rwJwSeoQiX1jLRQ7RSqQARtVeCZs5+0JMl17KSHjvCeuxbdyA9TlwsaKga58BVLW03Fjfvi
- rW7MpGkYqEXsnV9WFs1l8gYtY0W9wO7fIphikNTokddYvfDPqm7iMWvUAdaqq5JNnk4EjCX
- md+FPuzchaH6mJ0s/g8bQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jCxnW7UMzKY=:HjgOSwqvRxuhCwBdaHXM7n
- bfZ98ElRwJxnMsWO2NDZ1+vTp95uJ+GoHZYnjE1vCisuDmas4gbQv9Ca4Quv0RBlutR5JfEz8
- L2ZcpyUBwFJoZ0ORZnzwLa/bTDgf6kNEQb0jXPILNBuuO78OXTzgW0+bD7HldafNg3TglS50i
- oj+X7YSE6OrBlq8cVUyKgHxyFvoCRgoN14+NxxkZVxRRoNx3XTpSB+0uiBqPToHOi18y6AxBV
- xRPu5mjEdudMar1aExxY7aMs29XF5O5uVYurHsgjED+Om8CZ9PRkPFAbWx2nebR3Wo1KpLZyi
- oKOZAt1l956UCS4JUBbgJNruFTWty0QMDx2tpuMIVYOZwUOE5YT6QWuxr3/IW+Ev0AaoEN8Nk
- UiIBJ5sHm2Fcmw4mIeHA2gvewDVU+he9XFgn9qVKgW+MPWW6kuzKH3nElWsIp+YPvpeW5UhQw
- r+/Bng5ym1M/UW+/8g/FmYFx63LZFLdly+6THwJsseh0uDc/iFd5l5l013evLK/VC16SA+CSR
- t1SFvIJN2rv5m0ZJDoB1qBqLt78wAWmvlO6LLkRg3qZFro236xSLJ4Y5F0HjlN0sg1YYfCQIf
- Hq4ZMuR5w4cXN3pcn+fUoo0VK8+YIiidliU4FVBlztXgtDj3w5zgk1UkBeGwm9g+aIVVun6wB
- 13BeIxqtNwA34n3ykiz2vMiaC/HYsfmm5T1qGnUcYSAREdoH9/jVG2coPGCl1OG7NTE6MjVl/
- hsO/MXGFFKrP+RB3TtH/eE3ePEb26zPN+ttoehmMWjdNuWOUN04vY6uAHVM/y7W/KVLG3pdLI
- 4NSdvhj
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:P+eHJAuG0u3qJteTmtcoh3mfe530qxlmOcKH73U3m62AqgkXvtK
+ aJCgCjW+EcbzV4v9B3Nd/nXvMIQlOHP8PvSO/RwMBrngLhsx+Rpt622LjTf92ZOo86gicLX
+ CAcpr8rIHOmbfNUuR/DazOOPlMIGEsU219QeGUEhuJEnpTaiKX3MU4yTFw+Ld9v2Pf4V5PG
+ v4rZSXoMj/yB0YYdPy7fQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/3D1NtuUK10=:HooqMHjW+akNLrvP5bRiBB
+ QQzKLq8nRbPe+X7+mtEfc0NJN+GNLr7Axn4BrUNuZZQg9uhRDHs3yPTddbrr/Q5i5sQLOaPWI
+ j3wwnqpiI3SkL/DRftGFnwGLJUgdqUt43I2QsohAarBEJmb+oAC2P93+eBGkdUutRnIoex0ZN
+ qzHurO14C2EjcB7U1lhV6C74WzQrDHrh2u7JO5ceVy6ceSSqqlmm9Myq4bs63mQ7Ss3AWcsj+
+ pcBBNRr0HhXJ+xxWUeREjBm4EEaEXvNS+k5M7UwNvum76kxZXVRJn/h+yNyGAJdkWHK7Zsql/
+ ddi5SZgevd/QvQP08Q/UNtnikV7w80rwMMzmP73H3GkhXGYIwrhAl7DruZqrfCW3DKV4GA6Lw
+ 8eid6QRJnNJTqVzTNAiYr12tmocrUDwW3Xx/am9wkAC5R1ByYz/RIwS7KtDt4ewfntU6VcTBp
+ U6dw2EN9d8DLHsoQM/bIMWkapmKKVGGGcVIhw87je9r6pjDn09BHTv1DXvgW3xI9Hd938PHSC
+ 1ng15bfy385b0eJTx9nCk0u9h3lbK1+w5roy1mL5VSCx/sq1ycvNNvBPGevTL4E9RG0wItNl7
+ nm/FiKKRYjxE1ul1imu5P0tahmdSYDXl4No8Umnx7hY9/DIlpZ6QKaIydUcTG6iy0mD9zJX/p
+ dNJZ8VFlMaZH+wahktJw6EN11/QdLUhmgbbU1hnBX0f1FdmklDD20qHp3dcxxmRm3Hf/+dYnS
+ yMQn8wieMLI/S5cPkFyn+cws4ynLTrHUdaJ6KKyuNkatpcr0N0/o9VpYEA4W8puwu7yRr5zTu
+ VbiTmp9
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,35 +75,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Helge Deller <deller@gmx.de>
 
-Enhance the EXCP_DUMP() macro to print out the failing program too.
-During debugging it's sometimes hard to track down the actual failing
-program if you are e.g. building a whole debian package.
+Include the IIR register (which holds the opcode of the failing
+instruction) when dumping the hppa registers.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220918194555.83535-5-deller@gmx.de>
+Message-Id: <20220918194555.83535-7-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/cpu_loop-common.h | 2 ++
- 1 file changed, 2 insertions(+)
+ target/hppa/helper.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/cpu_loop-common.h b/linux-user/cpu_loop-common.h
-index dc0042e4de35..36ff5b14f2a7 100644
---- a/linux-user/cpu_loop-common.h
-+++ b/linux-user/cpu_loop-common.h
-@@ -27,9 +27,11 @@
- do {                                                                    \
-     CPUState *cs = env_cpu(env);                                        \
-     fprintf(stderr, fmt , ## __VA_ARGS__);                              \
-+    fprintf(stderr, "Failing executable: %s\n", exec_path);             \
-     cpu_dump_state(cs, stderr, 0);                                      \
-     if (qemu_log_separate()) {                                          \
-         qemu_log(fmt, ## __VA_ARGS__);                                  \
-+        qemu_log("Failing executable: %s\n", exec_path);                \
-         log_cpu_state(cs, 0);                                           \
-     }                                                                   \
- } while (0)
+diff --git a/target/hppa/helper.c b/target/hppa/helper.c
+index e2758d8df380..74b8747083f9 100644
+--- a/target/hppa/helper.c
++++ b/target/hppa/helper.c
+@@ -85,9 +85,11 @@ void hppa_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     char psw_c[20];
+     int i;
+ 
+-    qemu_fprintf(f, "IA_F " TARGET_FMT_lx " IA_B " TARGET_FMT_lx "\n",
++    qemu_fprintf(f, "IA_F " TARGET_FMT_lx " IA_B " TARGET_FMT_lx
++                 " IIR " TREG_FMT_lx  "\n",
+                  hppa_form_gva_psw(psw, env->iasq_f, env->iaoq_f),
+-                 hppa_form_gva_psw(psw, env->iasq_b, env->iaoq_b));
++                 hppa_form_gva_psw(psw, env->iasq_b, env->iaoq_b),
++                 env->cr[CR_IIR]);
+ 
+     psw_c[0]  = (psw & PSW_W ? 'W' : '-');
+     psw_c[1]  = (psw & PSW_E ? 'E' : '-');
 -- 
 2.37.3
 
