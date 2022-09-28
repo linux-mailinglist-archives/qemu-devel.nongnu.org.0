@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6DB25EDA32
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 12:36:24 +0200 (CEST)
-Received: from localhost ([::1]:47034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 563AB5ED9D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 12:09:37 +0200 (CEST)
+Received: from localhost ([::1]:57532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odUQN-0006lZ-N7
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 06:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34722)
+	id 1odU0W-00042V-5S
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 06:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@linux.intel.com>)
- id 1odSBd-0005qW-7l
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:12:57 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:3667 helo=mga06.intel.com)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE5-00087k-Vy
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:30 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:33311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@linux.intel.com>)
- id 1odSBa-0007xS-0x
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:12:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664352773; x=1695888773;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=WUydh4KeVaE5LqoKJNF+y6777z2ABFTIRnN2oRKQEkA=;
- b=JPPGckyDrfQ7UdoM9ZCq8Kpt5F1nVxN7Zh2biSjYUwTKRNonyThHSIzV
- REHMq7VK0kvSN6X5MeRNm1lnllYCQ7W4VFU9FgFspdHaQujxS6nAgcQhn
- +7S+w5IMqrrvCwjBh7n6tmfe6tW8HFF8RLUIYGmcAOWzcH80PEIprQ+J5
- gmSpCmEUsz8m73Xsf+zHordsvIqUsmWbj7Y/P6tuoS2guBJxCUuftf7if
- 7AF3tHgK/oxc4FWv/U4ZIWBRvapcZ2Tn6GezgncmEx6fM0h4Axfsej/9n
- btaJAAbQNLskk2uw77R1toDxkMxEzVUYyGUhby8ADnqumlQw4zG8bFi0b A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="363379417"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="363379417"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 01:12:45 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="725852890"
-X-IronPort-AV: E=Sophos;i="5.93,351,1654585200"; d="scan'208";a="725852890"
-Received: from yangzhon.bj.intel.com (HELO yangzhon) ([10.238.157.60])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 01:12:42 -0700
-Date: Wed, 28 Sep 2022 04:12:32 -0400
-From: Yang Zhong <yang.zhong@linux.intel.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, "Wang, Lei" <lei4.wang@intel.com>,
- paul.c.lai@intel.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
- robert.hu@intel.com, chenyi.qiang@intel.com, yang.zhong@linux.intel.com
-Subject: Re: [PATCH] i386: Add new CPU model SapphireRapids
-Message-ID: <YzQB8GFVm6UPq1GD@yangzhon>
-References: <20220812055751.14553-1-lei4.wang@intel.com>
- <Yysk/taT/eKR0Bp3@work-vm> <Yy21A2CWzrS3SIzH@yangzhon>
- <b1f238c6-ab3d-eb8f-d1b4-dbdf342c002c@intel.com>
- <YzFX04164F6KfZdY@yangzhon> <YzFoAWTHZZUE3CkW@work-vm>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE3-00089t-No
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:29 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MDQmW-1oU8pd2npO-00ASW9; Wed, 28
+ Sep 2022 10:15:19 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 01/38] linux-user: use 'max' instead of 'qemu32' / 'qemu64' by
+ default
+Date: Wed, 28 Sep 2022 10:14:40 +0200
+Message-Id: <20220928081517.734954-2-laurent@vivier.eu>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
+References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YzFoAWTHZZUE3CkW@work-vm>
-Received-SPF: none client-ip=134.134.136.31;
- envelope-from=yang.zhong@linux.intel.com; helo=mga06.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:e345ae5atdF0YMpk8asE0ffRIPJ41+q9N1OBzYNeq2TVkT/qDtD
+ aAMSB0wWLtGvXA4OFt16C53Ii9BGXwHrOprOgmVynbMaXJ6JqWTHQjpEtpa+uDNzZHr2Ycc
+ MwoS8qiczEvaU7eY5KeaAy6EGq4wL4YBb2zPf+Rmkn6lBqaljy2ti+CQoHQ4f8ivTNqkATD
+ KSVgqK/BkG00PTEDgKsXg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pCR6V7K3E4Y=:RhM5zCHz0wNSjQIpTbM2lo
+ GDYtafErBtIw23zYgZERSxjVty8P2uRxjEiWxjGmHBMf21hOWCrOh9ss+Jtc4V5bS/9buq6BC
+ L/7a0ChlHZKoNOoclh0U8LhAzUAAL5P6u7JOQOAiJAaOgZU3c1GS0ZcPwhFMa6FuvkDplYNkd
+ yZDYUj9mo7w4ZMUt6ho7VJ/m4eCE21RSf1P1u7pawMFQo1th4xKnZ26W7KvciTCYMX91fA283
+ Wyj71UgB7h+8A7vhCnamSn09mqTJgrzYUMb1IEucUww0KN7FHE+l5DcTv18ZWkTpL+HZgXSXt
+ PdgPLiGxANFbmvTH+VjcvFSVzW9jF2ZzW9r2al62JWBmSRvvbrNjIHgwAhT4xghAG2+qYr5zQ
+ Dtmq99WalzPaOvP+dxUJqfnwxPnjQS1QbKyBP+i+EuP2zfgTVHZ3OJIeAJ1naxTiNflc1Xgka
+ ooopCmb5gbRo0lcEKm3T9sLH38J7bg3yyMFsjXTd+E9jHSVKM8cN1jU6MTDxwirb2p1VvJ4p/
+ 5qtsXDj8CBJbsG8Gs5q4h3fIOhDRDYoWWRiaDG0SA7DwBYrieau6t6FddcRLoS6CiOz30amQu
+ VogokSMhyB285Knxw6i6n6uqvY0L78iUZrW/woGleTHW352iHGsozWUSmd2ysu00dPhdUQrA0
+ OeIjpucf9/rWowO5Yu4MioqCCqZjiMmZO2JbSYx+dYWZBXzgssIyA/6SeANLCxYSYO/Yyu/+g
+ L/elFKHU5FF1IAjjBUcJvyaVE4cFaxa98gKCQ0gQ2EoqIry6DcKc4T8QdGM//PUMlmfOqZCqL
+ xoj2fzX
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,114 +75,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 26, 2022 at 09:51:13AM +0100, Dr. David Alan Gilbert wrote:
-> * Yang Zhong (yang.zhong@linux.intel.com) wrote:
-> > On Sat, Sep 24, 2022 at 12:01:16AM +0800, Xiaoyao Li wrote:
-> > > On 9/23/2022 9:30 PM, Yang Zhong wrote:
-> > > > On Wed, Sep 21, 2022 at 03:51:42PM +0100, Dr. David Alan Gilbert wrote:
-> > > > > * Wang, Lei (lei4.wang@intel.com) wrote:
-> > > > > > The new CPU model mostly inherits features from Icelake-Server, while
-> > > > > > adding new features:
-> > > > > >   - AMX (Advance Matrix eXtensions)
-> > > > > >   - Bus Lock Debug Exception
-> > > > > > and new instructions:
-> > > > > >   - AVX VNNI (Vector Neural Network Instruction):
-> > > > > >      - VPDPBUS: Multiply and Add Unsigned and Signed Bytes
-> > > > > >      - VPDPBUSDS: Multiply and Add Unsigned and Signed Bytes with Saturation
-> > > > > >      - VPDPWSSD: Multiply and Add Signed Word Integers
-> > > > > >      - VPDPWSSDS: Multiply and Add Signed Integers with Saturation
-> > > > > >   - FP16: Replicates existing AVX512 computational SP (FP32) instructions
-> > > > > >     using FP16 instead of FP32 for ~2X performance gain
-> > > > > >   - SERIALIZE: Provide software with a simple way to force the processor to
-> > > > > >     complete all modifications, faster, allowed in all privilege levels and
-> > > > > >     not causing an unconditional VM exit
-> > > > > >   - TSX Suspend Load Address Tracking: Allows programmers to choose which
-> > > > > >     memory accesses do not need to be tracked in the TSX read set
-> > > > > >   - AVX512_BF16: Vector Neural Network Instructions supporting BFLOAT16
-> > > > > >     inputs and conversion instructions from IEEE single precision
-> > > > > > 
-> > > > > > Features may be added in future versions:
-> > > > > >   - CET (virtualization support hasn't been merged)
-> > > > > > Instructions may be added in future versions:
-> > > > > >   - fast zero-length MOVSB (KVM doesn't support yet)
-> > > > > >   - fast short STOSB (KVM doesn't support yet)
-> > > > > >   - fast short CMPSB, SCASB (KVM doesn't support yet)
-> > > > > > 
-> > > > > > Signed-off-by: Wang, Lei <lei4.wang@intel.com>
-> > > > > > Reviewed-by: Robert Hoo <robert.hu@linux.intel.com>
-> > > > > 
-> > > > > Hi,
-> > > > >     What fills in the AMX tile and tmul information leafs
-> > > > > (0x1D, 0x1E)?
-> > > > >    In particular, how would we make sure when we migrate between two
-> > > > > generations of AMX/Tile/Tmul capable devices with different
-> > > > > register/palette/tmul limits that the migration is tied to the CPU type
-> > > > > correctly?
-> > > > >    Would you expect all devices called a 'SappireRapids' to have the same
-> > > > > sizes?
-> > > > > 
-> > > > 
-> > > >     There is only one palette in current design. This palette include 8
-> > > >     tiles.  Those two CPUID leafs defined bytes_per_tile, total_tile_bytes,
-> > > >     max_rows and etc, the AMX tool will configure those values into TILECFG with
-> > > >     ldtilecfg instrcutions. Once tiles are configured, we can use
-> > > >     tileload instruction to load data into those tiles.
-> > > > 
-> > > >     We did migration between two SappireRapids with amx self test tool
-> > > >     (tools/testing/selftests/x86/amx.c)started in two sides, the migration
-> > > >     work well.
-> > > > 
-> > > >     As for SappireRapids and more newer cpu types, those two CPUID leafs
-> > > >     definitions are all same on AMX.
-> > > 
-> > > I'm not sure what definitions mean here. Are you saying the CPUID values of
-> > > leaf 0x1D and 0x1E won't change for any future Intel Silicion?
-> > > 
-> > > Personally, I doubt it. And we shouldn't take such assumption unless Intel
-> > > states it SDM.
-> > 
-> >   The current 0x1D and 0x1E definitions as below:
-> > 
-> >   /* CPUID Leaf 0x1D constants: */
-> >   #define INTEL_AMX_TILE_MAX_SUBLEAF     0x1
-> >   #define INTEL_AMX_TOTAL_TILE_BYTES     0x2000
-> >   #define INTEL_AMX_BYTES_PER_TILE       0x400
-> >   #define INTEL_AMX_BYTES_PER_ROW        0x40
-> >   #define INTEL_AMX_TILE_MAX_NAMES       0x8
-> >   #define INTEL_AMX_TILE_MAX_ROWS        0x10
-> > 
-> >   /* CPUID Leaf 0x1E constants: */
-> >   #define INTEL_AMX_TMUL_MAX_K           0x10
-> >   #define INTEL_AMX_TMUL_MAX_N           0x40
-> > 
-> >   These values are defined from SDM, and from the new developping CPU,
-> >   these values are still same with SappireRapids. thanks!
-> 
-> But there's nothing stopping them increasing in future versions ?
->
-  Okay, thanks! We will add these CPUID leafs in this cpu model.
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-  Yang
-  
-> Dave
-> 
-> >   Yang
-> > > 
-> > > > So, on AMX perspective, the migration
-> > > >     should be workable on subsequent cpu types. thanks!
-> > > 
-> > > I think what Dave worried is that when migrating one VM created with
-> > > "SapphireRapids" model on SPR machine to some newer platform in the future,
-> > > where the newer platform reports different value on CPUID leaves 0x1D and
-> > > 0x1E than SPR platform.
-> > > 
-> > > I think we need to contain CPUID leaves 0x1D and 0x1E into CPU model as
-> > > well. Otherwise we will hit the same as Intel PT that SPR reports less
-> > > capabilities that ICX.
-> > > 
-> > 
-> -- 
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
-> 
+The 'qemu64' CPU model implements the least featureful x86_64 CPU that's
+possible. Historically this hasn't been an issue since it was rare for
+OS distros to build with a higher mandatory CPU baseline.
+
+With RHEL-9, however, the entire distro is built for the x86_64-v2 ABI
+baseline:
+
+  https://developers.redhat.com/blog/2021/01/05/building-red-hat-enterprise-linux-9-for-the-x86-64-v2-microarchitecture-level
+
+It is likely that other distros may take similar steps in the not too
+distant future. For example, it has been suggested for Fedora on a
+number of occasions.
+
+This new baseline is not compatible with the qemu64 CPU model though.
+While it is possible to pass a '-cpu xxx' flag to qemu-x86_64, the
+usage of QEMU doesn't always allow for this. For example, the args
+are typically controlled via binfmt rules that the user has no ability
+to change. This impacts users who are trying to use podman on aarch64
+platforms, to run containers with x86_64 content. There's no arg to
+podman that can be used to change the qemu-x86_64 args, and a non-root
+user of podman can not change binfmt rules without elevating privileges:
+
+  https://github.com/containers/podman/issues/15456#issuecomment-1228210973
+
+Changing to the 'max' CPU model gives 'qemu-x86_64' maximum
+compatibility with binaries it is likely to encounter in the wild,
+and not likely to have a significant downside for existing usage.
+
+Most other architectures already use an 'any' CPU model, which is
+often mapped to 'max' (or similar) already, rather than the oldest
+possible CPU model.
+
+For the sake of consistency the 'i386' architecture is also changed
+from using 'qemu32' to 'max'.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220923110413.70593-1-berrange@redhat.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/i386/target_elf.h   | 2 +-
+ linux-user/x86_64/target_elf.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/linux-user/i386/target_elf.h b/linux-user/i386/target_elf.h
+index 1c6142e7da0d..238a9aba738a 100644
+--- a/linux-user/i386/target_elf.h
++++ b/linux-user/i386/target_elf.h
+@@ -9,6 +9,6 @@
+ #define I386_TARGET_ELF_H
+ static inline const char *cpu_get_model(uint32_t eflags)
+ {
+-    return "qemu32";
++    return "max";
+ }
+ #endif
+diff --git a/linux-user/x86_64/target_elf.h b/linux-user/x86_64/target_elf.h
+index 7b76a90de880..3f628f8d6619 100644
+--- a/linux-user/x86_64/target_elf.h
++++ b/linux-user/x86_64/target_elf.h
+@@ -9,6 +9,6 @@
+ #define X86_64_TARGET_ELF_H
+ static inline const char *cpu_get_model(uint32_t eflags)
+ {
+-    return "qemu64";
++    return "max";
+ }
+ #endif
+-- 
+2.37.3
+
 
