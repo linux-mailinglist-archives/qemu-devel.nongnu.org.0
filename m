@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780F25EDBBA
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:26:44 +0200 (CEST)
-Received: from localhost ([::1]:46456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B9A5EDAB9
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 12:58:32 +0200 (CEST)
+Received: from localhost ([::1]:51498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odVD9-0005lq-Hl
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:26:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34576)
+	id 1odUlr-0003Ka-Dz
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 06:58:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEP-0008Fd-Fo
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:53 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:48621)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEL-0008F5-Db
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:52 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:35471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEL-0008IW-Cf
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:48 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEC-0008FJ-Q7
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:38 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mo7if-1p2fpW3vKN-00pbgn; Wed, 28
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MF418-1oSVzy3Jnc-00FRrG; Wed, 28
  Sep 2022 10:15:34 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 29/38] linux-user: Set ELF_BASE_PLATFORM for MIPS
-Date: Wed, 28 Sep 2022 10:15:08 +0200
-Message-Id: <20220928081517.734954-30-laurent@vivier.eu>
+Subject: [PULL 31/38] linux-user: Sink call to do_safe_futex
+Date: Wed, 28 Sep 2022 10:15:10 +0200
+Message-Id: <20220928081517.734954-32-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lgaKoIHZWxB3rJzYbmezEhyHyNWXd6l8BaSBVeYOgmv5e6/q8Ar
- 0LQK1smlGwOwhcTYFq3sP9wX8wUw9//5SXcBxXAYyRKXEf7FB2Rui8szaHAv99OqlDADohd
- oiCLuxtVIAx/sGpSTWkMivt5hKQyOSH8iRA6mRA3T8VTY007qY1sPfejRW6ddhVUOm9XDfK
- moEXUCb7x/l6bHZvJjzEg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GXWJgHAUvxQ=:IFIYVTMyry6I0lQjud6HQl
- cWvWMZuZkJttnBEd148gc43wwGo3PWbSnl5a3usSlGRpOqu8upPzHLjmM1o0Vfu2Jlo8hh/4I
- uq9XUzHihsc0Lhsnqslvr6pBsiWUHJad9suc8Sx66n1m9Qaa2SIHOtsORuBGSW76VIOGtZD9i
- XKgEZ6MiCfX+LvMFMWgchXsxXGJUuF1VvJod3ieBsYMRLnVQD5eZ9W/ZkyhOpx2JIMe7RY6p7
- JCfKZoo7nwKWc9CxJzxot11KBwm7sIqphqTKbG0zVrLRVI9jQrpo7XcOOmhFkdB0F0PoTR4xF
- ebCDYJbrt76uYZ+sHBk+P3v+Uhn2r+ABjNS8jr+2uZurv+6cJ66wljYE9sjGS30orQ7LnH/M9
- le6AI9/E/lKj1WNaYs+S4rWsf58YDIeQgPhvW3FclhYgbsw5GSTjqbBGhmGT/PD5vFqDPc3Sc
- od1+gcUdGPBb1Q+VhY74ZoG95P732qEE0uiHmcfGVXUxv6RnHxwM53twCi9Xg/0Vza/YIOw6Y
- W0JTI4QwxWJ/4hvd8fYHwhYW9q4EgOdJmRJRYswqxmn7VHWyGgKTXn+QJ8wZZp8+f8l1C0l1l
- 7JS6HLuP5c1v9SR9mq3Fs4fsZg6p3z4JgODbi5B1+DrUjMH5UdvJfqpTPeekM3z5GWoo7DSfi
- FpM48m5pgkTXGfbm/MFehLhsYeYgEIL8skTOIIztt4c6Bd3Ifhebb/Q31FYgJMFpoyoe+63VJ
- ZpKHsA120SZvQWgPp6a28VD++Oa1Urpe3KcRJWIezG5Ib8n9Pj493zNf0ZNYUwigWr9EZZtl2
- +vDaP3g
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:F2vojFSJ83+rfnQq3MwZKPVeQRr+iDu/USOxEHslPkX5PQFRTxP
+ Fmj5oKbjRd7TpUvXjxbGGwKr8TBbUei0onF0B7oBoCPMZrRgliI0JQuh8+t/I8zs9LIb7jx
+ 3VDsfze5KTAPcrxQBnYxVrXrjlWQhsVv+Yz9/xZGJLcaXc0F3HXmL0DlmlT54n8NodiVhG0
+ VMkayuYT1bl5OJhPTU8cg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:GEbEnmnfBrc=:EEquTR23/HKaLJyx9YCf2/
+ a4bTXfKB2uIyXCEr7pR4IQEP8Oeewy7w/GSwXDPW+ZHbsHuSBdL8abqv2+C+j+saGCzD3YlIC
+ mkSQoP5KUQmUYckhlQcsx3lBZDupACsG2Zypmo9+HcKOyG71apiUI5pxVZm5/khP7bPHBn8Ny
+ q4rErxxPRATX3O1X3Wr6itwmG/Ml/qTcEYzm4RMkcQ9FqjZSSdKHXWKeW47BLRyWN50QRBe2r
+ lo9Yg6vEbfP2Tna9apCg93Cp3haBgOooSlW7OCsML13oBKgUQJqdsyzDpTJatvVpMq9nW3Fzu
+ kBp6HIb/99VNfCsGod3eu52FL93LmrCUEl7E29vMN+BtzYXTw3B2QmDo3ioppCVfHE8xefVQc
+ AzP1pmkDHtPR3JIJLCn999da94b1jJLjL1t5+hFCrunRoCMaLo+B4aQ43GFURSn79NWxCaY+A
+ Bgn5TOiadGivCqxzjmkuIIua3dfUjWRyZbi8Rl03hdjhOAMntIPCIihlxd5K3OPs7+bqOsdW3
+ b/Ge8MSPcqWPmlMNOKZnv0NWaWCZZ7QJb9gWfNKgThNZDdLdNaTdptde6Fi4cm/im40fR3jla
+ 7CJxBD489ZRXAQ3XcZCFbPdkA4bQx4YRX+e+7VWXIb+rpBTDOOW3BopciZgdwo0XmNolPzZpr
+ B3C/mkXwPwmASOTAVbYG3GOI0bf6waaGp5lN0WCrQBrq6fI24i+nI9lQgWZYLgi4xIBfJ428o
+ So3PbIK+WZwbHgUBhNy5IuS1bDcps90Obwm0N1vQvE1GKiIYoasWsWvn2zwwuKY0CIkIhjwKh
+ m2TLNfT
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -74,62 +72,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Match most appropriate base platform string based on insn_flags.
-Logic is aligned with aligned with set_isa() from
-arch/mips/kernel/cpu-probe.c in Linux kernel.
+Leave only the argument adjustments within the shift,
+and sink the actual syscall to the end.  Sink the
+timespec conversion as well, as there will be more users.
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220803103009.95972-3-jiaxun.yang@flygoat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20220829021006.67305-3-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ linux-user/syscall.c | 60 +++++++++++++++++++++++---------------------
+ 1 file changed, 31 insertions(+), 29 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 581fbc858b48..20894b633f58 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1080,6 +1080,37 @@ static uint32_t get_elf_hwcap(void)
- #define elf_check_abi(x) (!((x) & EF_MIPS_ABI2))
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index af3a605fc458..17e17f480456 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7773,11 +7773,11 @@ static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
+                     int op, int val, target_ulong timeout,
+                     target_ulong uaddr2, int val3)
+ {
+-    struct timespec ts, *pts;
++    struct timespec ts, *pts = NULL;
++    void *haddr2 = NULL;
+     int base_op;
+ 
+-    /* ??? We assume FUTEX_* constants are the same on both host
+-       and target.  */
++    /* We assume FUTEX_* constants are the same on both host and target. */
+ #ifdef FUTEX_CMD_MASK
+     base_op = op & FUTEX_CMD_MASK;
+ #else
+@@ -7786,39 +7786,41 @@ static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
+     switch (base_op) {
+     case FUTEX_WAIT:
+     case FUTEX_WAIT_BITSET:
+-        if (timeout) {
+-            pts = &ts;
+-            if (time64
+-                ? target_to_host_timespec64(pts, timeout)
+-                : target_to_host_timespec(pts, timeout)) {
+-                return -TARGET_EFAULT;
+-            }
+-        } else {
+-            pts = NULL;
+-        }
+-        return do_safe_futex(g2h(cpu, uaddr),
+-                             op, tswap32(val), pts, NULL, val3);
++        val = tswap32(val);
++        break;
+     case FUTEX_WAKE:
+-        return do_safe_futex(g2h(cpu, uaddr),
+-                             op, val, NULL, NULL, 0);
++        timeout = 0;
++        break;
+     case FUTEX_FD:
+-        return do_safe_futex(g2h(cpu, uaddr),
+-                             op, val, NULL, NULL, 0);
+-    case FUTEX_REQUEUE:
++        timeout = 0;
++        break;
+     case FUTEX_CMP_REQUEUE:
++        val3 = tswap32(val3);
++        /* fall through */
++    case FUTEX_REQUEUE:
+     case FUTEX_WAKE_OP:
+-        /* For FUTEX_REQUEUE, FUTEX_CMP_REQUEUE, and FUTEX_WAKE_OP, the
+-           TIMEOUT parameter is interpreted as a uint32_t by the kernel.
+-           But the prototype takes a `struct timespec *'; insert casts
+-           to satisfy the compiler.  We do not need to tswap TIMEOUT
+-           since it's not compared to guest memory.  */
+-        pts = (struct timespec *)(uintptr_t) timeout;
+-        return do_safe_futex(g2h(cpu, uaddr), op, val, pts, g2h(cpu, uaddr2),
+-                             (base_op == FUTEX_CMP_REQUEUE
+-                              ? tswap32(val3) : val3));
++        /*
++         * For these, the 4th argument is not TIMEOUT, but VAL2.
++         * But the prototype of do_safe_futex takes a pointer, so
++         * insert casts to satisfy the compiler.  We do not need
++         * to tswap VAL2 since it's not compared to guest memory.
++          */
++        pts = (struct timespec *)(uintptr_t)timeout;
++        timeout = 0;
++        haddr2 = g2h(cpu, uaddr2);
++        break;
+     default:
+         return -TARGET_ENOSYS;
+     }
++    if (timeout) {
++        pts = &ts;
++        if (time64
++            ? target_to_host_timespec64(pts, timeout)
++            : target_to_host_timespec(pts, timeout)) {
++            return -TARGET_EFAULT;
++        }
++    }
++    return do_safe_futex(g2h(cpu, uaddr), op, val, pts, haddr2, val3);
+ }
  #endif
  
-+#define ELF_BASE_PLATFORM get_elf_base_platform()
-+
-+#define MATCH_PLATFORM_INSN(_flags, _base_platform)      \
-+    do { if ((cpu->env.insn_flags & (_flags)) == _flags) \
-+    { return _base_platform; } } while (0)
-+
-+static const char *get_elf_base_platform(void)
-+{
-+    MIPSCPU *cpu = MIPS_CPU(thread_cpu);
-+
-+    /* 64 bit ISAs goes first */
-+    MATCH_PLATFORM_INSN(CPU_MIPS64R6, "mips64r6");
-+    MATCH_PLATFORM_INSN(CPU_MIPS64R5, "mips64r5");
-+    MATCH_PLATFORM_INSN(CPU_MIPS64R2, "mips64r2");
-+    MATCH_PLATFORM_INSN(CPU_MIPS64R1, "mips64");
-+    MATCH_PLATFORM_INSN(CPU_MIPS5, "mips5");
-+    MATCH_PLATFORM_INSN(CPU_MIPS4, "mips4");
-+    MATCH_PLATFORM_INSN(CPU_MIPS3, "mips3");
-+
-+    /* 32 bit ISAs */
-+    MATCH_PLATFORM_INSN(CPU_MIPS32R6, "mips32r6");
-+    MATCH_PLATFORM_INSN(CPU_MIPS32R5, "mips32r5");
-+    MATCH_PLATFORM_INSN(CPU_MIPS32R2, "mips32r2");
-+    MATCH_PLATFORM_INSN(CPU_MIPS32R1, "mips32");
-+    MATCH_PLATFORM_INSN(CPU_MIPS2, "mips2");
-+
-+    /* Fallback */
-+    return "mips";
-+}
-+#undef MATCH_PLATFORM_INSN
-+
- static inline void init_thread(struct target_pt_regs *regs,
-                                struct image_info *infop)
- {
 -- 
 2.37.3
 
