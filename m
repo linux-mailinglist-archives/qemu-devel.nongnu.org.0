@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19525ED8FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:31:52 +0200 (CEST)
-Received: from localhost ([::1]:60366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63EE55ED8AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:16:39 +0200 (CEST)
+Received: from localhost ([::1]:58234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odTPz-0004WT-KI
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34280)
+	id 1odTBG-0000xV-Fs
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:16:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEC-0008E2-1y
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:36 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:48769)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE9-0008At-Nb
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:33 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:60023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE9-0008C0-GL
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:35 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MJmCV-1oxbfi0dFB-00KBOg; Wed, 28
- Sep 2022 10:15:27 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE6-0008BG-N4
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:32 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MqJZl-1p0Su34AuR-00nOlN; Wed, 28
+ Sep 2022 10:15:29 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 17/38] tests/tcg/linux-test: Add linux-madvise test
-Date: Wed, 28 Sep 2022 10:14:56 +0200
-Message-Id: <20220928081517.734954-18-laurent@vivier.eu>
+Cc: Helge Deller <deller@gmx.de>,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 19/38] linux-user: Add proper strace format strings for
+ getdents()/getdents64()
+Date: Wed, 28 Sep 2022 10:14:58 +0200
+Message-Id: <20220928081517.734954-20-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:d2Jg5mLWB36vBtez6hhiQ29KTnw5vHmZPZPTV4IiQpDPNFKSmve
- 11w5PtzLwx0zOkoiq7OPaRC9AYwlcbfYmMr5Mrnf/sLwG/JUyYp5auyKIacrodR0rZFPpmo
- KqWV9l21/g7GJsVL2IgW/cz9sbsigJp87uHqOSFIg1zecd/OIidpK3CwCEg3RUVkrYmWYyM
- FxQrs/G4qT9uczZMAukqA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6XwwXc7CQI0=:RBgrlJ1tv8VE+7hC/HLjd4
- 5ZeFkOPs8tUxe2ne7fXblQSxc6hYLAcoZ+qq3Bzr7NrfPVr+jy+H8DM9wnHtIiOfvBLuoQF1b
- TVq2lFJfN+T+sczO0ZT9/nDNt8jo7TKai9fdSzQ0sf0IXGyaI4afMXNeKR+1p61SuoOV4hI+0
- qW24UXs8mHKkkMaCPdj997efEonmbLT/qc0E0elQTUc74nsujXHk0ViEFLv6+bOPA9xkKFteC
- uEcPkKFoqVXTuPzS3WJ4MrxzOAT3jl0fTIsVTbxdNeqRHueJOmVJl1Kbzeg/UzsxrKS9LvZ/G
- gtNjlzc4fOhcVqLHGHgdz+qt2ADo273k0mKSCD6lha1LHovvRasmZ/PLQKluOg4kafaeM4gfs
- O9RMSI4HV35N7zfCpxrBebABt98/edR6fA2okh9kye0V7p3dwMc/As16o2SAM/dS8n4uFSpBq
- 8qflKol24hRq4CzdpNyV133bSvcr3lvzV5cwcctysdeZAatmB9aJDic03Lv4blIiwA+taQ/Y3
- 792UEXt8TJskM1Djz8K3U5errVpTQMuge8eSHVvIwtQwZIJOqASm0U4s75KY1mvUvpCAD/nbS
- /paxcCFTUIZyq+y0UwCMpMsj1Vv/uCCM0dOuNpO30DAZZimHOaOANJTKS4gfZxLlf3xDP6O10
- Go1DWL2oC6O2exsP2IkAXFlmrC038KxDXyHZsuzWdf35f7jCZJr678CZjMMdOwIkw2HhLd9I+
- Fznt7K7r+83FO2gWUqgYYcPrEoSyj8hn+gKrucYKH8l/teGqHw6cuBBkGCWbwDU6AbnM852yY
- fSzyIS8
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:sXmInNDon6rnMD6euxiqvLJ6kYD94o+sswb+DUaGQTDIb1MMEOt
+ JhsdfVPX6+Jrz073mdr0C4FaZiC8YLjKL5fU3c96ZELkCzlBZvWdjkXD7XfgE4P6qWreDx9
+ sScQdX+TKVgxheLO6XnXNX2edH78pNYlp++Ouep8SqXYlljROsgGhbIbCnTgT5uTjNEYVJl
+ 1T+537/DUWiTZx5wgFfnQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jXBCI8GC7Zc=:NwfyhB7p9GQjxxBmsSFwDI
+ VkeF1w4yLdZnDRK3+nuJN6zlBJCFWX2FPkyRuEE0gxJtoLCzqM9dotWZwixT9KYnOe8j/fQB4
+ cCZX5y6G13TOR9e84sseeRTtx8BXJGrFhoD0e15M7reN1HWgbT/ecBfhF765tLZVQxT4ZQ6eZ
+ 3CoM1v+yfdAq+a3SHLs45O2X3L4cba69OaFcVHGk4hyeOz4can+bot8HfYJyh3mV1n7QUaKn/
+ 6T59JLKGXjygiAn7qeA7/87scyFhDbOOH5NvZHA4GtD2ycCeMaMzzmtkairke6xG+vGeSq6vI
+ mO3FJ3Kt3MmccfJiydr2hr4G5vH4uWJKyBDgK9cnZ8mdMqV9XXE8pkLJ/pbyrmKymYQons2ZL
+ FmZirYImWRfjVJ5Fx/pM9sarsJlwVjhBVXNOCT/xtE2XBniLjlCiJQYfRrbC+5regSLvZsZsS
+ n17Cl5sTU6QvrFGioEwceWqh6/BWGABxltM3uV/iE6sTY8PV0Anbpj+mR0t4jvcFIEPXybxTg
+ JNRYb6ZDY7YzvLMpgwX7OegTfiQFZa9jkuXBSCtLseDBlqo9mpx0PnyPCKlnP+ry/3jlvGTr8
+ Bat6k1t/jGLaXLr3edKF2bPPWoRhhZroYHrS/exk6gal1s9i7kTk0VDsO9YfXB6uMXUWwDVrJ
+ mji30eSyGqgnXvOeH/OmVaDU6YxQ80sK36YvTw5y739bI1Nh6XqfBoApijQs0w08YOag5pktw
+ Bpo3tF5iRcXqAdBorObDBhqTb1tUYqNcTXRwaCbLgDY6sfrzVHJv8mlFJMdOCuNPgc3FDOVin
+ sFawEXN
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,96 +73,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+From: Helge Deller <deller@gmx.de>
 
-Add a test that checks madvise(MADV_DONTNEED) behavior with anonymous
-and file mappings in order to prevent regressions.
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220906000839.1672934-6-iii@linux.ibm.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
+Message-Id: <20220924114501.21767-3-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- tests/tcg/multiarch/linux/linux-madvise.c | 70 +++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
- create mode 100644 tests/tcg/multiarch/linux/linux-madvise.c
+ linux-user/strace.list | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/tcg/multiarch/linux/linux-madvise.c b/tests/tcg/multiarch/linux/linux-madvise.c
-new file mode 100644
-index 000000000000..29d0997e687c
---- /dev/null
-+++ b/tests/tcg/multiarch/linux/linux-madvise.c
-@@ -0,0 +1,70 @@
-+#include <assert.h>
-+#include <stdlib.h>
-+#include <sys/mman.h>
-+#include <unistd.h>
-+
-+static void test_anonymous(void)
-+{
-+    int pagesize = getpagesize();
-+    char *page;
-+    int ret;
-+
-+    page = mmap(NULL, pagesize, PROT_READ, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-+    assert(page != MAP_FAILED);
-+
-+    /* Check that mprotect() does not interfere with MADV_DONTNEED. */
-+    ret = mprotect(page, pagesize, PROT_READ | PROT_WRITE);
-+    assert(ret == 0);
-+
-+    /* Check that MADV_DONTNEED clears the page. */
-+    *page = 42;
-+    ret = madvise(page, pagesize, MADV_DONTNEED);
-+    assert(ret == 0);
-+    assert(*page == 0);
-+
-+    ret = munmap(page, pagesize);
-+    assert(ret == 0);
-+}
-+
-+static void test_file(void)
-+{
-+    char tempname[] = "/tmp/.cmadviseXXXXXX";
-+    int pagesize = getpagesize();
-+    ssize_t written;
-+    char c = 42;
-+    char *page;
-+    int ret;
-+    int fd;
-+
-+    fd = mkstemp(tempname);
-+    assert(fd != -1);
-+    ret = unlink(tempname);
-+    assert(ret == 0);
-+    written = write(fd, &c, sizeof(c));
-+    assert(written == sizeof(c));
-+    page = mmap(NULL, pagesize, PROT_READ, MAP_PRIVATE, fd, 0);
-+    assert(page != MAP_FAILED);
-+
-+    /* Check that mprotect() does not interfere with MADV_DONTNEED. */
-+    ret = mprotect(page, pagesize, PROT_READ | PROT_WRITE);
-+    assert(ret == 0);
-+
-+    /* Check that MADV_DONTNEED resets the page. */
-+    *page = 0;
-+    ret = madvise(page, pagesize, MADV_DONTNEED);
-+    assert(ret == 0);
-+    assert(*page == c);
-+
-+    ret = munmap(page, pagesize);
-+    assert(ret == 0);
-+    ret = close(fd);
-+    assert(ret == 0);
-+}
-+
-+int main(void)
-+{
-+    test_anonymous();
-+    test_file();
-+
-+    return EXIT_SUCCESS;
-+}
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index c6f748505a9e..f8a771b4f256 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -279,10 +279,10 @@
+ { TARGET_NR_getcwd, "getcwd" , "%s(%p,%d)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getdents
+-{ TARGET_NR_getdents, "getdents" , NULL, NULL, NULL },
++{ TARGET_NR_getdents, "getdents" , "%s(%d,%p,%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getdents64
+-{ TARGET_NR_getdents64, "getdents64" , NULL, NULL, NULL },
++{ TARGET_NR_getdents64, "getdents64" , "%s(%d,%p,%u)", NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_getdomainname
+ { TARGET_NR_getdomainname, "getdomainname" , NULL, NULL, NULL },
 -- 
 2.37.3
 
