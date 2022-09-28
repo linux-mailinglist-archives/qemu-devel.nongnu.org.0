@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9F45ED671
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 09:41:35 +0200 (CEST)
-Received: from localhost ([::1]:47834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0BB5ED6E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 09:55:44 +0200 (CEST)
+Received: from localhost ([::1]:43780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odRhF-0005CJ-D0
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 03:41:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50836)
+	id 1odRux-0005iV-6k
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 03:55:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLS-0000vi-RX
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58221)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLh-0000yS-Oi
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLQ-0008Rr-JG
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:01 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLf-0008U4-29
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664349539;
+ s=mimecast20190719; t=1664349554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nsT/MYvq1C+hW8KNERyVSGCrtj4yc5rro7ngvowcej4=;
- b=S6qa1ONbvyfqCTHm85lXP6f9UmTF3gtYyHglRp19VMM5n/pdpl3Gj/IfPEQW2qSYNsHaYT
- YsGfFX2jmCA0wVXtIcF28WjyL/TPP/ulinQaHd9v7S5k7nvEo8Lyjr0J8YpTIzUzTqGs4P
- kJGrgMoB15XZAjD3EjUd60thpT1c4lw=
+ bh=dePdyRTl62AvVB7TLSqcw8+czymOGMtmr0veNvoXg5I=;
+ b=HWk14JcderdlDKS4vwLGb5D52iQV6KwieYIqvCeTcIJD4hlmHmO9BpXgx7y+NyaJ3LLsJD
+ kskTGs9r8AL9wk7Sr+RD02QCgQkEdg2CrBQqI7V5KjEdj+WZ8peMMtKyi2CVR+YF2IqwAW
+ n7liy1ntWqQ0Z6ZG9zuOGSQWK1pYWy8=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-82-3p88ceqnMUCd9hbvy3899g-1; Wed, 28 Sep 2022 03:18:58 -0400
-X-MC-Unique: 3p88ceqnMUCd9hbvy3899g-1
+ us-mta-15-igu8rn8JODeS2t7rOQ3usA-1; Wed, 28 Sep 2022 03:19:13 -0400
+X-MC-Unique: igu8rn8JODeS2t7rOQ3usA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2447A2999B4C;
- Wed, 28 Sep 2022 07:18:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A134F3C01D96;
+ Wed, 28 Sep 2022 07:19:12 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E164A40C83BB;
- Wed, 28 Sep 2022 07:18:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3942C40C83BB;
+ Wed, 28 Sep 2022 07:19:10 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 06/37] tests/qtest: fdc-test: Avoid using hardcoded /tmp
-Date: Wed, 28 Sep 2022 09:18:12 +0200
-Message-Id: <20220928071843.1468323-7-thuth@redhat.com>
+Subject: [PULL 15/37] tests/unit: test-qga: Avoid using hardcoded /tmp
+Date: Wed, 28 Sep 2022 09:18:21 +0200
+Message-Id: <20220928071843.1468323-16-thuth@redhat.com>
 In-Reply-To: <20220928071843.1468323-1-thuth@redhat.com>
 References: <20220928071843.1468323-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,46 +82,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Bin Meng <bin.meng@windriver.com>
 
 This case was written to use hardcoded /tmp directory for temporary
-files. Update to use g_file_open_tmp() for a portable implementation.
+files. Update to use g_get_tmp_dir() for a portable implementation.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220925113032.1949844-10-bmeng.cn@gmail.com>
+Message-Id: <20220925113032.1949844-24-bmeng.cn@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/fdc-test.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ tests/unit/test-qga.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/fdc-test.c b/tests/qtest/fdc-test.c
-index 52ade90a7d..1f9b99ad6d 100644
---- a/tests/qtest/fdc-test.c
-+++ b/tests/qtest/fdc-test.c
-@@ -68,7 +68,7 @@ enum {
-     DSKCHG  = 0x80,
- };
+diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+index b6ea7c7304..b4e0a14573 100644
+--- a/tests/unit/test-qga.c
++++ b/tests/unit/test-qga.c
+@@ -60,7 +60,7 @@ fixture_setup(TestFixture *fixture, gconstpointer data, gchar **envp)
  
--static char test_image[] = "/tmp/qtest.XXXXXX";
-+static char *test_image;
+     fixture->loop = g_main_loop_new(NULL, FALSE);
  
- #define assert_bit_set(data, mask) g_assert_cmphex((data) & (mask), ==, (mask))
- #define assert_bit_clear(data, mask) g_assert_cmphex((data) & (mask), ==, 0)
-@@ -608,7 +608,7 @@ int main(int argc, char **argv)
-     int ret;
+-    fixture->test_dir = g_strdup("/tmp/qgatest.XXXXXX");
++    fixture->test_dir = g_strdup_printf("%s/qgatest.XXXXXX", g_get_tmp_dir());
+     g_assert_nonnull(g_mkdtemp(fixture->test_dir));
  
-     /* Create a temporary raw image */
--    fd = mkstemp(test_image);
-+    fd = g_file_open_tmp("qtest.XXXXXX", &test_image, NULL);
-     g_assert(fd >= 0);
-     ret = ftruncate(fd, TEST_IMAGE_SIZE);
-     g_assert(ret == 0);
-@@ -640,6 +640,7 @@ int main(int argc, char **argv)
-     /* Cleanup */
-     qtest_end();
-     unlink(test_image);
-+    g_free(test_image);
- 
-     return ret;
- }
+     path = g_build_filename(fixture->test_dir, "sock", NULL);
 -- 
 2.31.1
 
