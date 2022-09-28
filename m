@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DF75EDA48
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 12:43:31 +0200 (CEST)
-Received: from localhost ([::1]:60186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE6D5EDA73
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 12:50:24 +0200 (CEST)
+Received: from localhost ([::1]:37734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odUXK-0006c6-Sk
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 06:43:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33292)
+	id 1odUdz-00042A-A1
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 06:50:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE4-00085w-Fz
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE4-000861-K4
  for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:28 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:56399)
+Received: from mout.kundenserver.de ([217.72.192.73]:56601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE1-00089G-Az
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:27 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE1-00089W-Uj
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:28 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M8yoa-1oYWXU1OiM-0066vZ; Wed, 28
- Sep 2022 10:15:22 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Ml6du-1p58Xg0hKe-00lRA3; Wed, 28
+ Sep 2022 10:15:24 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
 	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 07/38] linux-user/hppa: Use EXCP_DUMP() to show enhanced debug
- info
-Date: Wed, 28 Sep 2022 10:14:46 +0200
-Message-Id: <20220928081517.734954-8-laurent@vivier.eu>
+Subject: [PULL 11/38] linux-user: Add strace for clock_nanosleep()
+Date: Wed, 28 Sep 2022 10:14:50 +0200
+Message-Id: <20220928081517.734954-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:dcozIl1eKKzdXmr6gojm9kew86deK7bmN6zH/PznQTo7Vj/US0L
- Q96IVymaJFYzM8T0g0CfyIZaW0RvvFqhEQ+40nx5q8ahtWQBd7q0Dtu6CpAicUia/nyjaTs
- zI5BRi3H+kFlpUDmN14HPQgO3ERekKzY9IyTjjgglNgw1sKxdEpb6Xyx5Mufai5/3fu4xki
- wlHwalPbuQQPuFs0AKO5g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5d2J+cT4hdk=:6+SbzBzyO2CcjH0lOD60YN
- g9aDGV8MpZZPS0b3ViVzK3+iwaeExtC7IoFvt7w49VI8D2Ln3g7Clfx6ZR66cuO6jWvQNXPVz
- uiHXonrpwqsKl9gMIkWoitGPRiuBcvctffMLmy6iUFboInQv8df81wB7X/rRrOJu/PSE6tRAo
- SQFAtjcuv99zi6GwB9yF1CWNhTE0L7HbM+QCifSvz4ybuaGQzPqgtdElhfrCWeoG3DTZIj2z4
- ljKxKbSedYHxxo3OXHQYvyXItm7Nm8cltifoANjg/hxg//ZaROPDc8cB8/V+2xhXzHTIpM3mz
- NgMdIc/6xOcBxKomBwuORVAldD2o61RWjWS3zQyZcd3BsgWrnm1uqzp8dWJnOQy3JVzE3CK8A
- ytsL3VwhTzYusNW4AVb7dxgEvpUSSZ066YRTtE3UL437W3iFADC8aL2JYYdBAJth84NSxrvuX
- FopcjHp/bTdtGGYqR6DzCN8yvTdQc9UOEYRga8JXhfQVWsqhZ7UzLTTOeE9cz7IUnoKrvKgjF
- rbseWki1Sgoz1+nOfgB/JWl2MVjCthCOqEAYeV0qtnr8AwgGQkXz/hZzQ+uJKv70S+8t5Outb
- 5DUweBXtG2J4kT9oQiOBkkbiJUjOMc1bVitXq11ToMPx3PqroaFiBZVQVHtUkHzV046/GCSAC
- LWjzxngXh0aGnJN4zFqLcO2kOgRyg8oHRa1hTz/sUhawBBe5XzBb/Qg7aCgh245dv0aKuKwqo
- te43M6eCuWuaGkaU0/Nb9CKtsz7dqIUzJn9X+kQMHEEpERHn/GgvHIXKKq4yHazsN+MOzZRfP
- /j3Q5sB
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:yWeQiDY9fwlIG1OG2ayCuDT52r8Vqc8bD2I9Kf1Fh4vPBNGh0cx
+ KRnmvlHk44GCKp/iEnvmO+qyVgHJ+mdwiov0izreuRvTfid3GNMcVrKia4ZG2ZXR7uNJkP3
+ P29pJBVdvbcdjOazWh8dd4VbLLc7TQsB43BwdnSyJhV0rmDZxgdHRdJY5Zcw5VppkzuCNcf
+ 0O35b2yLd3bHx5r6Gw+3Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:p/cL610Ro18=:yQn7TpbuA5XEBEXg7lqXnA
+ 9RH2zTie2iNZM5LiQkpZdT42rrQk/XLgAxAty5AW34oO8iQELsIKZzmg6vM/9E/jNx+Ogjga4
+ yb+/9Dk8mZryojTqe3neE3XjijLoPCug/jyusMzSSpyou/AJ43pEFU2dbOh0Nfm0evXAo3HoN
+ /nK+x3AM8V1/MfHNN/PYQ3vXSDP5WnAT+M9IINlsNkuCgmQOMXvRhEaBp0FubwIB0LYAILdJA
+ tjmMEZ7kEH+vQM7zh5qJXNoRavmatiCIingCTMV6VaBKwGUAY6qLEdAECG4LhTgP1FiaXgx3f
+ GHtytMjXHBP5A1QPmvU5F8U9RPpYm1W3DCSC0eOUGNCAWZkHbtRliaNiRSKZZ5zEYWt8ZbrzU
+ Onbz5ChmaMVU+SORW2/lKTsjhUfNUOqXSzu1ssC4fnbNYfQxS51wf+sxqNK4uHFxruapwSSQW
+ 8dcs3MqXGUV5cZhGN70TIzU9BehRX5Epu8/6yMcuElTEve8F4eNGLL4hPkopTxjSI6PyjwzVE
+ EoQc9Q/nn1FzafIF92D3SD5z2x/cKW1Hy6f3v3dDWlqH79rSKtold3TG3Yt9MIyv9BVr8Bdyz
+ SefinKH9N7YcwgmEnI5EMe6P2Na9hvGvSbTFy2u4aNjxeEOQjSZSaOrsVBcBUzlIVP+GWYOP0
+ G3rVipV99KXTlMAce5w+rsnKraK9gsD++FYKq/mS2bc9Vaq+xvEjUTCosylMDJfURucjRLGVa
+ SvUoNQFr84EYCUiDTvdGP0uvbK62Wyck86WxGXbY1TJESdNOmrB1cqXyTsQbM6DF7DUSWq4ca
+ hcIQfi9
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -75,47 +74,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Helge Deller <deller@gmx.de>
 
-Enhance the hppa linux-user cpu_loop() to show more debugging info
-on hard errors.
-
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220918194555.83535-6-deller@gmx.de>
+Message-Id: <20220918194555.83535-10-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/hppa/cpu_loop.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ linux-user/strace.c    | 15 +++++++++++++++
+ linux-user/strace.list |  3 ++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
-index 64263c3dc406..1ef3b461911c 100644
---- a/linux-user/hppa/cpu_loop.c
-+++ b/linux-user/hppa/cpu_loop.c
-@@ -147,12 +147,15 @@ void cpu_loop(CPUHPPAState *env)
-             force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, env->iaoq_f);
-             break;
-         case EXCP_ILL:
-+            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", trapnr);
-             force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->iaoq_f);
-             break;
-         case EXCP_PRIV_OPR:
-+            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", trapnr);
-             force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->iaoq_f);
-             break;
-         case EXCP_PRIV_REG:
-+            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", trapnr);
-             force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVREG, env->iaoq_f);
-             break;
-         case EXCP_OVERFLOW:
-@@ -171,7 +174,8 @@ void cpu_loop(CPUHPPAState *env)
-             /* just indicate that signals should be handled asap */
-             break;
-         default:
--            g_assert_not_reached();
-+            EXCP_DUMP(env, "qemu: unhandled CPU exception 0x%x - aborting\n", trapnr);
-+            abort();
-         }
-         process_pending_signals(env);
-     }
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 2f539845bb90..6f818212d529 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -3567,6 +3567,21 @@ print_unshare(CPUArchState *cpu_env, const struct syscallname *name,
+ }
+ #endif
+ 
++#ifdef TARGET_NR_clock_nanosleep
++static void
++print_clock_nanosleep(CPUArchState *cpu_env, const struct syscallname *name,
++                abi_long arg0, abi_long arg1, abi_long arg2,
++                abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_prologue(name);
++    print_enums(clockids, arg0, 0);
++    print_raw_param("%d", arg1, 0);
++    print_timespec(arg2, 0);
++    print_timespec(arg3, 1);
++    print_syscall_epilogue(name);
++}
++#endif
++
+ #ifdef TARGET_NR_utime
+ static void
+ print_utime(CPUArchState *cpu_env, const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 4d8b7f6a5e0c..215d971b2aea 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -91,7 +91,8 @@
+                            print_syscall_ret_clock_gettime },
+ #endif
+ #ifdef TARGET_NR_clock_nanosleep
+-{ TARGET_NR_clock_nanosleep, "clock_nanosleep" , NULL, NULL, NULL },
++{ TARGET_NR_clock_nanosleep, "clock_nanosleep" , NULL, print_clock_nanosleep,
++                            NULL },
+ #endif
+ #ifdef TARGET_NR_clock_settime
+ { TARGET_NR_clock_settime, "clock_settime" , NULL, print_clock_settime, NULL },
 -- 
 2.37.3
 
