@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3DC5EE81C
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 23:15:40 +0200 (CEST)
-Received: from localhost ([::1]:54448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 130CB5EE7B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 23:07:06 +0200 (CEST)
+Received: from localhost ([::1]:35778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odeP5-0003sV-HP
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 17:15:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37010)
+	id 1odeGn-0000Wz-6H
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 17:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf4-0000aL-9X
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf4-0000bT-OO
  for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:06 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:37561)
+Received: from mout.kundenserver.de ([212.227.126.131]:36759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf2-0006Xp-En
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:05 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf3-0006Y0-20
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:06 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MRT6b-1oq5yB1gmL-00NPKB; Wed, 28
- Sep 2022 22:28:02 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N8oOk-1pGatp07OA-015mlY; Wed, 28
+ Sep 2022 22:28:03 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 32/37] linux-user: Implement FUTEX_WAKE_BITSET
-Date: Wed, 28 Sep 2022 22:27:32 +0200
-Message-Id: <20220928202737.793171-33-laurent@vivier.eu>
+Subject: [PULL 33/37] linux-user: Convert signal number for FUTEX_FD
+Date: Wed, 28 Sep 2022 22:27:33 +0200
+Message-Id: <20220928202737.793171-34-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928202737.793171-1-laurent@vivier.eu>
 References: <20220928202737.793171-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:agDZ5w13uWTXRVud1+gyB8UI2xF8y6S1qbUxxTUhx7Qf4H0VeIe
- INTtSpmrYzmghA+z5CYN21MW+k4t6Luf6+6Jv1MvP8SrVos9hQMV3woJj9tnKRCKkuKOafT
- xgwbU2+tQ3Dmti60jl/k4mXoiKxn+HtqP4yDq1Zm14q9yGUzItb9igzcJaU8vvnKrPLOf+I
- DnG1ZqaNrd/gBBpadHb2A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/BeXZgQ+A0M=:1ZTPUsNwlJGTtR6yzmEQ1a
- zlvzWATXOGFubmUu2vxYDG+V4p7AZ5c3MyhGoGEo3zJwzG7xrHwddkuGktG2GZZuwOHJzKDxp
- tUF1QlE5cLuiT7ljWsqT48ekWjskYtD0Nl5F7o32H2f/yv90ZHP7K0uXpxNq2nTaJwTO5SBrO
- 1W3hPeDbx++pNF1tS1cRt+C23PmDEHd0f4p/x/aWzUlAPlJJWH6IEDzqZeo4smzw82NkXKRf6
- TcBoEez/2MrsrkBQgYHYtoh5NI7ZKmQWkJRmeKGtLUhb147STprFeOc05IZz9ZX6UuPtsJi/o
- JW39pga3f1ekUg+LadgWimZLusiKilq3n4VqRqfJhrhjqA6te+jYRzOyIXRnYnICwtMIzofpS
- 8rq1LTTINDvuP7kkLoCJFKzfZYbBWSoHUqZsnANcfcDzcr8eMsIUBmuW7XQb0z9yAZ9UPv38L
- QCRpDNzR2EDhcE1TJWENSyCYT72RD4A5559MkEEhKmgypCHHOBeS4S28GUDaORY8oHt9+vxOt
- ZNVWDL9lTu4MNGyerh8k4pLv5fCyOXJowNOUhRnkifHJMfR6NpHSnXaPP6cjI/nwxRPZ//2Ik
- oY3M3irP02V9O577e7YgPHi1rvJ+oS7a/clihqaVrbSPj+q1NcNxXPWVKl6mzqYC1TmoVLwIP
- DQNfJ6SQIuEJSqj1ALB2fYO0stE9NjOnDoT9UWiT5UNnX7dKWjaKSjluY802G4pGW2HLwZxOu
- wEg/1juswKTQdkjGEv2dC1oEjs5o5dMCW11sYEnhkHmfPFzSKEv21BvZhppmyZmfHcPNoTnS7
- AkpCOSj
+X-Provags-ID: V03:K1:LrQ/4Fa8vgjiL1wbQ8E31IiRFOIh714S5n80a490IYN/Q9sVr0w
+ 8SGRYi+XxfzOZTCwN3D5/+Nh6MT/9isFyCDIivTTwSuJ8CjLV0CqBIlW40gvhV46jlEzaG9
+ dJ4lAdxLrSUpiIA7DMNsYm6hNZ4HiZk9LqittnjmgMvKcdjR6aIzEWl94z+URvtae3kty27
+ j2VIvRGEXwINQGMuYGFIA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wz9bXzUcxwc=:asapbxYxPYATZTBfRa6har
+ 6SWslz4A70lnp3BemVDIHfK57UfDIGLSrz/po6cLi9h+Eh1nFTotezUxuOYG6ehOdVMdYLzVL
+ FiRyFlzOJ4amrrI/b1WX6adJIn+JURLIOk/2EAZP0CsAtv/vL7BzfTwnxt2t5sM77smadCSS6
+ YIpDTeDkk61QSDOg+6pkvH92dzjE3OR46EGj3siezpx0QrZPMa/OWbyt5miVRsDxjS3Bc6ZDp
+ VQFWOvXWZWXUFmMkxbFk8nCE3m6aqgUatgciDYQ7sIoJOFG8lBOfvima+9PNR6PwMebZ6ZtX8
+ 8y/5L/aUAtY+zFJEtJ6SAyaMNZwVpKy652pt3Lic+w+JU4MdoOded0p0z/H67Y7wSJiy/c9Y4
+ DpTEfZHHGfhiGjs65D6NefMwhIOmP0D+XsLE6y77rkU3mgUud+F22DaJXAz4ZbTCuCQ/Bzwnw
+ yYMN6bBSxcXj5SmrenplZev/ioeHakA8WzuXmuDI07GPxZHmgKIao1IozrLpO0DQSer8MZVc/
+ BkD4zRfYYS9OtiwcnRELlAm6BbEM52CKQBumM6KGnaDdUheYoX2Y7MGZvS+xjT64qxUK1uQmF
+ T5uZCOh3GAoTpu+EDxWEWZL3IhQQ+13mv4acBR98O5c0LE0FthXnUtSFj7vChUfUt28zgROfK
+ K9ZfPcvoJcOxKGJ1IMpCqxrVWAjo7brdMXoJ+FrEnT9Zeuz0/OggXZE9RdQ74a8zPtgwR7Gvz
+ PB5s0HJ3REATScO5ylmNRknsBrtOYecYySkVwVilnAlgJs/CremLXd8c3QEdK2MOGNjL/K9Is
+ VRhSVL+
 Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -74,26 +74,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+The val argument to FUTEX_FD is a signal number.  Convert to match
+the host, as it will be converted back when the signal is delivered.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220829021006.67305-4-richard.henderson@linaro.org>
+Message-Id: <20220829021006.67305-5-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
  linux-user/syscall.c | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 17e17f480456..e2b6b564e6cb 100644
+index e2b6b564e6cb..3f144e3c1f5d 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -7789,6 +7789,7 @@ static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
-         val = tswap32(val);
-         break;
-     case FUTEX_WAKE:
-+    case FUTEX_WAKE_BITSET:
+@@ -7793,6 +7793,7 @@ static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
          timeout = 0;
          break;
      case FUTEX_FD:
++        val = target_to_host_signal(val);
+         timeout = 0;
+         break;
+     case FUTEX_CMP_REQUEUE:
 -- 
 2.37.3
 
