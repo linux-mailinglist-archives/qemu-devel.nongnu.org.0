@@ -2,54 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF025EDE9C
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 16:17:42 +0200 (CEST)
-Received: from localhost ([::1]:53920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70885EDE5F
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 16:03:39 +0200 (CEST)
+Received: from localhost ([::1]:59262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odXsb-0007sV-FK
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 10:17:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37908)
+	id 1odXey-0003cZ-UH
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 10:03:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1odUOV-0005pr-Uz
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 06:34:25 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:59544)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1odVtu-0003cU-7n
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:10:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1odUOR-00057N-Os
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 06:34:21 -0400
-Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <mail@maciej.szmigiero.name>)
- id 1odUOH-0008Ji-9b; Wed, 28 Sep 2022 12:34:09 +0200
-Message-ID: <c1721404-aadd-5941-07db-bee4d67599a1@maciej.szmigiero.name>
-Date: Wed, 28 Sep 2022 12:34:01 +0200
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1odVtq-0003FC-TR
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:10:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664367050;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ssHiT8auoEjKjLHr/WW4tRUwm7tu+pz8C/+F+yd1mBs=;
+ b=J2XD1sLzDu11bmzFk8TRSyPo0HNxhk5YpwRVqvJ/4TutQmuQLlThG6D5ietf4a5WdgRGOc
+ L/83I/OBbktbRnvzeFlYo9n13XderHcENFUTLvy5P4i51ggdWUhq6iAvLTaEhVdrMK+Bqr
+ UcBXf+YYvIHrVP64iZCj2w9pzfKM5wU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-630-X29UE6JAPwyxBGdxrPPYBw-1; Wed, 28 Sep 2022 08:10:49 -0400
+X-MC-Unique: X29UE6JAPwyxBGdxrPPYBw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p36-20020a05600c1da400b003b4faefa2b9so7023537wms.6
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 05:10:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=ssHiT8auoEjKjLHr/WW4tRUwm7tu+pz8C/+F+yd1mBs=;
+ b=Vdk5TJiZsQCnNB9MNiZQb8b3oaq93p8WCNvcOKkDLbTieADTSl5jL4CynSfxYifSM0
+ Osvt0x2vrpt5M7cUrhFZUf/mY0pubde/5ENOw+68IYPG7x8J+Wy4PUeW8dGf2noxMfAD
+ ElDzctuu+/neZHe4fQqda/hVQOvBHcOEXPDgkMgwvZIVOI7TdA7bWuxhPRshfMfB5bp9
+ ShJB40lZII/0yZZWEdQYQi2SFUexW6OjXVPTd/fp72WxWgHRrcyQfEQrgloe0fKEnT9/
+ 9rAKX51v2/mZyGolGlD4G8iyBzIXa5ylWQ7uvR2GEn+BBzTTJBhpQ55sicYQFBci4FW4
+ lr2w==
+X-Gm-Message-State: ACrzQf2SRcKvS4OdocKhI6ijcDzJLaPIhDniyKRlkmKmtymZ+ispuyUr
+ MYDbkZhiQQ9obROKKOisbc4gP5GY9H6bLoTETG01d5U/L/c5TlyYnNWE13aJva72Qu573PTx4ok
+ wJM2g9J/YOnXD2FM=
+X-Received: by 2002:a5d:5407:0:b0:228:a79b:4432 with SMTP id
+ g7-20020a5d5407000000b00228a79b4432mr20355706wrv.96.1664367048166; 
+ Wed, 28 Sep 2022 05:10:48 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7fS/1sQ5lwFsmjHEYF+EjziaY+mXH3K2ROcBvgxBcT9sELwogh0wgA35N1qd4jFgvGsN/vzQ==
+X-Received: by 2002:a5d:5407:0:b0:228:a79b:4432 with SMTP id
+ g7-20020a5d5407000000b00228a79b4432mr20355687wrv.96.1664367047934; 
+ Wed, 28 Sep 2022 05:10:47 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ m67-20020a1c2646000000b003a342933727sm1595104wmm.3.2022.09.28.05.10.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Sep 2022 05:10:47 -0700 (PDT)
+Message-ID: <6e1b2667-b561-51ac-57af-123a393fc677@redhat.com>
+Date: Wed, 28 Sep 2022 14:10:45 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Content-Language: en-US, pl-PL
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Marcelo Tosatti
- <mtosatti@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, kvm <kvm@vger.kernel.org>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <2ca557c8eb947112103168a9da3033ac5dc6ab99.1664291365.git.maciej.szmigiero@oracle.com>
- <CABgObfb7ow0hZyHFEKBs_c=pbB7k7aCQjL1Qj=xu4+M9CSTzaQ@mail.gmail.com>
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Subject: Re: [PATCH][RESEND] hyperv: fix SynIC SINT assertion failure on guest
- reset
-In-Reply-To: <CABgObfb7ow0hZyHFEKBs_c=pbB7k7aCQjL1Qj=xu4+M9CSTzaQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.28.154.113;
- envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 3/5] hw/arm/virt: Introduce variable region_base in
+ virt_set_high_memmap()
+Content-Language: en-US
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, cohuck@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org,
+ shan.gavin@gmail.com
+References: <20220921231349.274049-1-gshan@redhat.com>
+ <20220921231349.274049-4-gshan@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <20220921231349.274049-4-gshan@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,195 +105,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28.09.2022 01:17, Paolo Bonzini wrote:
-> Why does this need to be a virtual function, if it is the same for all CPUs (it differs between system and user-mode emulation, but it is never called by user-mode emulation so that does not matter)?
+Hi Gavin,
 
-Will change the patch to directly call x86_cpu_after_reset() from pc_machine_reset() then.
+On 9/22/22 01:13, Gavin Shan wrote:
+> This introduces variable 'region_base' for the base address of the
+> specific high memory region. It's the preparatory work to optimize
+> high memory region address assignment.
+Why is it a preparatory work (same comment for previous patch, ie [2/5]
+). Are those changes really needed? why?
 
-> 
-> Paolo
-
-Thanks,
-Maciej
-  
-> Il mar 27 set 2022, 17:12 Maciej S. Szmigiero <mail@maciej.szmigiero.name <mailto:mail@maciej.szmigiero.name>> ha scritto:
-> 
->     From: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com <mailto:maciej.szmigiero@oracle.com>>
-> 
->     Resetting a guest that has Hyper-V VMBus support enabled triggers a QEMU
->     assertion failure:
->     hw/hyperv/hyperv.c:131: synic_reset: Assertion `QLIST_EMPTY(&synic->sint_routes)' failed.
-> 
->     This happens both on normal guest reboot or when using "system_reset" HMP
->     command.
-> 
->     The failing assertion was introduced by commit 64ddecc88bcf ("hyperv: SControl is optional to enable SynIc")
->     to catch dangling SINT routes on SynIC reset.
-> 
->     The root cause of this problem is that the SynIC itself is reset before
->     devices using SINT routes have chance to clean up these routes.
-> 
->     Since there seems to be no existing mechanism to force reset callbacks (or
->     methods) to be executed in specific order let's use a similar method that
->     is already used to reset another interrupt controller (APIC) after devices
->     have been reset - by invoking the SynIC reset from the machine reset
->     handler via a new "after_reset" X86 CPU method.
-> 
->     Fixes: 64ddecc88bcf ("hyperv: SControl is optional to enable SynIc") # exposed the bug
->     Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com <mailto:maciej.szmigiero@oracle.com>>
->     ---
->       hw/i386/pc.c               |  6 ++++++
->       target/i386/cpu-qom.h      |  2 ++
->       target/i386/cpu.c          | 10 ++++++++++
->       target/i386/kvm/hyperv.c   |  4 ++++
->       target/i386/kvm/kvm.c      | 24 +++++++++++++++++-------
->       target/i386/kvm/kvm_i386.h |  1 +
->       6 files changed, 40 insertions(+), 7 deletions(-)
-> 
->     diff --git a/hw/i386/pc.c b/hw/i386/pc.c
->     index 566accf7e6..e44f11efb3 100644
->     --- a/hw/i386/pc.c
->     +++ b/hw/i386/pc.c
->     @@ -1850,6 +1850,7 @@ static void pc_machine_reset(MachineState *machine)
->       {
->           CPUState *cs;
->           X86CPU *cpu;
->     +    const X86CPUClass *cpuc;
-> 
->           qemu_devices_reset();
-> 
->     @@ -1858,6 +1859,11 @@ static void pc_machine_reset(MachineState *machine)
->            */
->           CPU_FOREACH(cs) {
->               cpu = X86_CPU(cs);
->     +        cpuc = X86_CPU_GET_CLASS(cpu);
->     +
->     +        if (cpuc->after_reset) {
->     +            cpuc->after_reset(cpu);
->     +        }
-> 
->               if (cpu->apic_state) {
->                   device_legacy_reset(cpu->apic_state);
->     diff --git a/target/i386/cpu-qom.h b/target/i386/cpu-qom.h
->     index c557a522e1..339d23006a 100644
->     --- a/target/i386/cpu-qom.h
->     +++ b/target/i386/cpu-qom.h
->     @@ -43,6 +43,7 @@ typedef struct X86CPUModel X86CPUModel;
->        * @static_model: See CpuDefinitionInfo::static
->        * @parent_realize: The parent class' realize handler.
->        * @parent_reset: The parent class' reset handler.
->     + * @after_reset: Reset handler to be called only after all other devices have been reset.
->        *
->        * An x86 CPU model or family.
->        */
->     @@ -68,6 +69,7 @@ struct X86CPUClass {
->           DeviceRealize parent_realize;
->           DeviceUnrealize parent_unrealize;
->           DeviceReset parent_reset;
->     +    void (*after_reset)(X86CPU *cpu);
->       };
-> 
-> 
->     diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->     index 1db1278a59..c908b944bd 100644
->     --- a/target/i386/cpu.c
->     +++ b/target/i386/cpu.c
->     @@ -6034,6 +6034,15 @@ static void x86_cpu_reset(DeviceState *dev)
->       #endif
->       }
-> 
->     +static void x86_cpu_after_reset(X86CPU *cpu)
->     +{
->     +#ifndef CONFIG_USER_ONLY
->     +    if (kvm_enabled()) {
->     +        kvm_arch_after_reset_vcpu(cpu);
->     +    }
->     +#endif
->     +}
->     +
->       static void mce_init(X86CPU *cpu)
->       {
->           CPUX86State *cenv = &cpu->env;
->     @@ -7099,6 +7108,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
->           device_class_set_props(dc, x86_cpu_properties);
-> 
->           device_class_set_parent_reset(dc, x86_cpu_reset, &xcc->parent_reset);
->     +    xcc->after_reset = x86_cpu_after_reset;
->           cc->reset_dump_flags = CPU_DUMP_FPU | CPU_DUMP_CCOP;
-> 
->           cc->class_by_name = x86_cpu_class_by_name;
->     diff --git a/target/i386/kvm/hyperv.c b/target/i386/kvm/hyperv.c
->     index 9026ef3a81..e3ac978648 100644
->     --- a/target/i386/kvm/hyperv.c
->     +++ b/target/i386/kvm/hyperv.c
->     @@ -23,6 +23,10 @@ int hyperv_x86_synic_add(X86CPU *cpu)
->           return 0;
->       }
-> 
->     +/*
->     + * All devices possibly using SynIC have to be reset before calling this to let
->     + * them remove their SINT routes first.
->     + */
->       void hyperv_x86_synic_reset(X86CPU *cpu)
->       {
->           hyperv_synic_reset(CPU(cpu));
->     diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->     index a1fd1f5379..774484c588 100644
->     --- a/target/i386/kvm/kvm.c
->     +++ b/target/i386/kvm/kvm.c
->     @@ -2203,20 +2203,30 @@ void kvm_arch_reset_vcpu(X86CPU *cpu)
->               env->mp_state = KVM_MP_STATE_RUNNABLE;
->           }
-> 
->     +    /* enabled by default */
->     +    env->poll_control_msr = 1;
->     +
->     +    kvm_init_nested_state(env);
->     +
->     +    sev_es_set_reset_vector(CPU(cpu));
->     +}
->     +
->     +void kvm_arch_after_reset_vcpu(X86CPU *cpu)
->     +{
->     +    CPUX86State *env = &cpu->env;
->     +    int i;
->     +
->     +    /*
->     +     * Reset SynIC after all other devices have been reset to let them remove
->     +     * their SINT routes first.
->     +     */
->           if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC)) {
->     -        int i;
->               for (i = 0; i < ARRAY_SIZE(env->msr_hv_synic_sint); i++) {
->                   env->msr_hv_synic_sint[i] = HV_SINT_MASKED;
->               }
-> 
->               hyperv_x86_synic_reset(cpu);
->           }
->     -    /* enabled by default */
->     -    env->poll_control_msr = 1;
->     -
->     -    kvm_init_nested_state(env);
->     -
->     -    sev_es_set_reset_vector(CPU(cpu));
->       }
-> 
->       void kvm_arch_do_init_vcpu(X86CPU *cpu)
->     diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
->     index 4124912c20..096a5dd781 100644
->     --- a/target/i386/kvm/kvm_i386.h
->     +++ b/target/i386/kvm/kvm_i386.h
->     @@ -38,6 +38,7 @@ bool kvm_has_adjust_clock_stable(void);
->       bool kvm_has_exception_payload(void);
->       void kvm_synchronize_all_tsc(void);
->       void kvm_arch_reset_vcpu(X86CPU *cs);
->     +void kvm_arch_after_reset_vcpu(X86CPU *cpu);
->       void kvm_arch_do_init_vcpu(X86CPU *cs);
-> 
->       void kvm_put_apicbase(X86CPU *cpu, uint64_t value);
-> 
+Eric
+>
+> No functional change intended.
+>
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  hw/arm/virt.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 187b3ee0e2..b0b679d1f4 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1692,15 +1692,15 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+>  static void virt_set_high_memmap(VirtMachineState *vms,
+>                                   hwaddr base, int pa_bits)
+>  {
+> -    hwaddr region_size;
+> +    hwaddr region_base, region_size;
+>      bool fits;
+>      int i;
+>  
+>      for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
+> +        region_base = ROUND_UP(base, extended_memmap[i].size);
+>          region_size = extended_memmap[i].size;
+>  
+> -        base = ROUND_UP(base, region_size);
+> -        vms->memmap[i].base = base;
+> +        vms->memmap[i].base = region_base;
+>          vms->memmap[i].size = region_size;
+>  
+>          /*
+> @@ -1709,9 +1709,9 @@ static void virt_set_high_memmap(VirtMachineState *vms,
+>           *
+>           * For each device that doesn't fit, disable it.
+>           */
+> -        fits = (base + region_size) <= BIT_ULL(pa_bits);
+> +        fits = (region_base + region_size) <= BIT_ULL(pa_bits);
+>          if (fits) {
+> -            vms->highest_gpa = base + region_size - 1;
+> +            vms->highest_gpa = region_base + region_size - 1;
+>          }
+>  
+>          switch (i) {
+> @@ -1726,7 +1726,7 @@ static void virt_set_high_memmap(VirtMachineState *vms,
+>              break;
+>          }
+>  
+> -        base += region_size;
+> +        base = region_base + region_size;
+>      }
+>  }
+>  
 
 
