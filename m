@@ -2,86 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1418B5EE311
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 19:27:06 +0200 (CEST)
-Received: from localhost ([::1]:34414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF885EE329
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 19:31:07 +0200 (CEST)
+Received: from localhost ([::1]:43024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odapo-0002Yg-U7
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 13:27:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38038)
+	id 1odatm-00006s-4P
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 13:31:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1odakV-0005AJ-Gn
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 13:21:35 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:38604)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1odakT-0007zz-7W
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 13:21:31 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- x1-20020a17090ab00100b001fda21bbc90so3201326pjq.3
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 10:21:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=oKNZNoOq+eipuHj18XgaM0oVQ3+KHtf+JUXq7MW5nF0=;
- b=sGQl0fh/5gzlRpi+L2jjN+krDU3ktAwu/QcWpBnw2rUhsZJ2sHxypm2q7UjzG0Myy1
- YN+3FZUpTwKETjREj5d8RVVw8NdB0Dsm0gFx9h8MkaL7q7Xn+I8dWx7rajD3u7f5wEFd
- v9YgaCrEthVKl4/yNXFke9VqJwKB9q3/KPoKjKnBhL4IZn9vzFj59SV7Y9IyA48y1URM
- fUYI+bZ+TocHBC8EkBcdR/cRkGOGZIuhI+v+quN8HZT59ZoMlpvq1/WiBnLPpBJ29Vq2
- XXs2DOMfCka0j1gbISBmJPbARaMBRHkJXyJzAZnAJQpiR8HPlKa5YoV7OeGHehVF4U5w
- MnNA==
+ (Exim 4.90_1) (envelope-from <awilliam@redhat.com>)
+ id 1odakw-0005Qm-JN
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 13:22:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27157)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <awilliam@redhat.com>)
+ id 1odakr-00081V-E8
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 13:21:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664385712;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LDwROmfkxGv17dJGybdu4VJ1CelkqKakDb5EIIMnAUo=;
+ b=ZSJBDMhNTW4W9XGTzDpokqnoKo2cRbpYmz3bny+CSRM8IaTKeahx8L4VoBsEKNq1lQSn4t
+ VnDjC/Gdoib758U2Vcahd5vupV3FDeDx/WrtXWp1Iws7rK4LgSxlCtFdYCTLNZzry0DgFy
+ hVGjkgvLPGaiDxBRlqfudUSXb4UKuXo=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-54-C2wuU5VcPie6CuPwR97E9g-1; Wed, 28 Sep 2022 13:21:50 -0400
+X-MC-Unique: C2wuU5VcPie6CuPwR97E9g-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ u6-20020a17090a1f0600b002039826d478so1329613pja.4
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 10:21:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=oKNZNoOq+eipuHj18XgaM0oVQ3+KHtf+JUXq7MW5nF0=;
- b=3arLx9ePuaeZF8NxmPIL6+u3ke0WwVbkolUD0gVuKXbKKoQPKaQBGivNV3F4qhIlwK
- iupI84Z//eFm7ExttydfseWQSzRFF433h+FGj8WiCzu4nLLgLhYuunKMKW0iknqKgvLy
- UoARZbuEaB7j3Tatm2/FK3z16yOwDL5p2gwGirYftcxOqyBj812MgioOQrJiTde4u6Uk
- Ks8q6NjT4VEfPg1zHb2gg8G5YrWwwcP1AR8w9CpJFjd/VQc1vCjZuVetEGZ/FaYsYvc3
- K0k35uRBj/fd0BwWxgR7DvOSg1JQ020pARPBXqj5uIbcLIGScfZURQDAeCDAzHp91VGa
- DIfQ==
-X-Gm-Message-State: ACrzQf3ihwJyHjv6Occs+ivmJZAaWmeD5Vhh3ckgl3jBarOFxeZlBb5z
- zA6qWQ5bL52N+vnI8XqFx7l7Jw==
-X-Google-Smtp-Source: AMsMyM4KLikcgq4BvAP1E+cQY7vygNXC1bBc8nIJMsivDMBHG9tVdqc0qhK5s272cqKFz7RQZsDq8w==
-X-Received: by 2002:a17:902:a611:b0:178:6b71:2ee5 with SMTP id
- u17-20020a170902a61100b001786b712ee5mr807730plq.53.1664385687528; 
- Wed, 28 Sep 2022 10:21:27 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:986f:cb56:6709:4057?
- ([2602:47:d49d:ec01:986f:cb56:6709:4057])
- by smtp.gmail.com with ESMTPSA id
- q26-20020aa7843a000000b00535da15a252sm4216495pfn.165.2022.09.28.10.21.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Sep 2022 10:21:26 -0700 (PDT)
-Message-ID: <b2048335-768b-b3b7-d51e-c96ae8d0763b@linaro.org>
-Date: Wed, 28 Sep 2022 10:21:24 -0700
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date;
+ bh=LDwROmfkxGv17dJGybdu4VJ1CelkqKakDb5EIIMnAUo=;
+ b=myISbXVRRkkCM/CJqQE0WLX2DVvXE6M8mfwQZURKOiBo7qhkpAX+8UWaYPFFGhiAWT
+ lTOdcsPS8AzlHH3CJVxBxV/vuk694IQbsfbRs0YJwVNe77Hie1zvVCfVN4meiJ3kuAhC
+ MQpSwHAIP/C/dKJptbUNGdVgHSBk+sHhqShrF+dbSrPzmhCz8C/sKIGKZMFxoElxiHEq
+ nXcULM2BspyI92mycg3AYH+q5iZc4/5E0sqCNrFpZ8bi3798zfL2L9CBIRru2QlV+Pzm
+ oLF4yoa7mKC2JBitNuCC+bdPVraGsB024WvtLcpqM65prczzOGwvERPYSoKeP5+Q7FfK
+ MvWQ==
+X-Gm-Message-State: ACrzQf2jFx1TIZ4aq9snbe7lM68z/rxpAJ4R88uvR8DmZXk+gzHPpG8x
+ qNk0E0NTQghpqG6GpUU7By3zyvonnwbEszbDCtapsFv7W0Z1C2x9za6oib4UIjdTlmWJIR45m9m
+ jUbh3E3kSyZ5/gw==
+X-Received: by 2002:a17:902:b10f:b0:179:dee4:d2c5 with SMTP id
+ q15-20020a170902b10f00b00179dee4d2c5mr847886plr.130.1664385709774; 
+ Wed, 28 Sep 2022 10:21:49 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6bqk07QQjZQR4aPTXHaKHP/bAbV+8sIIbnsCb5QCLSRtLlNn073qsrPB7WKvzZmLP22dCJgQ==
+X-Received: by 2002:a17:902:b10f:b0:179:dee4:d2c5 with SMTP id
+ q15-20020a170902b10f00b00179dee4d2c5mr847868plr.130.1664385709556; 
+ Wed, 28 Sep 2022 10:21:49 -0700 (PDT)
+Received: from t16.happyassassin.net (d172-218-245-5.bchsia.telus.net.
+ [172.218.245.5]) by smtp.gmail.com with ESMTPSA id
+ z27-20020aa79e5b000000b0053617cbe2d2sm4299212pfq.168.2022.09.28.10.21.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Sep 2022 10:21:49 -0700 (PDT)
+Message-ID: <73db038d24e8b631e208a0f9946d004c24b6d32b.camel@redhat.com>
+Subject: Re: qemu and -vga vs. -device
+From: Adam Williamson <awilliam@redhat.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, Gerd Hoffmann
+ <kraxel@redhat.com>
+Cc: qemu-ppc@nongnu.org, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Date: Wed, 28 Sep 2022 10:21:48 -0700
+In-Reply-To: <d8f07d3c-933c-adbe-8f83-08a9f45ba631@gmail.com>
+References: <b773b085e1a3bda7aae1b6498216c416b30843bc.camel@redhat.com>
+ <20220919044209.u7iy4c6zaibgtlpc@sirius.home.kraxel.org>
+ <3aae1641f95503b40341c1130194a19e5e156b51.camel@redhat.com>
+ <20220926092649.yjly7pkejttcqdlc@sirius.home.kraxel.org>
+ <c6897368-1d0c-dca9-218c-91709a4b27fc@gmail.com>
+ <c54fcd41ece548c72e9058300d0fc19f022cd7f0.camel@redhat.com>
+ <d8f07d3c-933c-adbe-8f83-08a9f45ba631@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.0 (by Flathub.org)) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] target/arm: Disable VFPv4-D32 when NEON is not
- available
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>
-References: <20220928164719.655586-1-clg@kaod.org>
- <20220928164719.655586-2-clg@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220928164719.655586-2-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=awilliam@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,22 +107,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/22 09:47, Cédric Le Goater wrote:
-> As the Cortex A7 MPCore Technical reference says :
-> 
->    "When FPU option is selected without NEON, the FPU is VFPv4-D16 and
->    uses 16 double-precision registers. When the FPU is implemented with
->    NEON, the FPU is VFPv4-D32 and uses 32 double-precision registers.
->    This register bank is shared with NEON."
-> 
-> Modify the mvfr0 register value of the cortex A7 to advertise only 16
-> registers when NEON is not available, and not 32 registers.
+On Wed, 2022-09-28 at 06:00 -0300, Daniel Henrique Barboza wrote:
+> > Note, it looks like I was just a bit impatient in my manual trials;
+> > looking at some jobs that ran today, they did eventually clear to
+> > the
+> > Fedora installer GUI after about 90-120 seconds. But they
+> > definitely
+> > don't show the bootloader (which our test system expects to see, so
+> > the
+> > test fails). When run without the `-vga none` part, the bootloader
+> > is
+> > shown at the same resolution and using the same fonts as the OFW
+> > interface.
+>=20
+>=20
+> By "bootloader" you mean grub, correct?
 
-Looks like A5 has the same language, while A15 says that NEON cannot be enabled without 
-VFP (which is the same as all aarch64 cores).  I guess this is a decent compromise.
+Yeah, exactly, the grub menu. On our installer images we use it to
+offer various choices (install, run a media check and install, run
+rescue mode...)
+--=20
+Adam Williamson
+Fedora QA
+IRC: adamw | Twitter: adamw_ha
+https://www.happyassassin.net
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
-r~
 
