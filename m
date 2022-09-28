@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E355ED846
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 10:54:56 +0200 (CEST)
-Received: from localhost ([::1]:37742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 445D65ED75A
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 10:14:53 +0200 (CEST)
+Received: from localhost ([::1]:45214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odSqF-0001aE-1W
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 04:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37860)
+	id 1odSDS-00079o-96
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 04:14:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRM7-00018C-NS
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22460)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRM9-00018z-Pc
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRM4-00005h-IT
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:42 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRM5-00005r-Kn
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664349579;
+ s=mimecast20190719; t=1664349580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zSZoX2Io63krnoBhRHtWcDZ1L8thJgpeD+q7WPJ8WIM=;
- b=VQECap4FOq52OYvLeg7N/h8k1zxNELJfEjYTMl1Em7d8LTbqFfUDII37LID0Ga2e8ehBbu
- sDQrebnI3pmbOW9UtY+jP5pT+Xrf2IJ2NIk1OWuVfv0IKQ5bYEFamWnv64JAhzlOHIOVbT
- sVPq3E2nXAkXvUTA5aRBxiOWvBPhpso=
+ bh=wz+tV55f6JGd6+DT7U2gMJM8YM5pasl4rLidgPRaDtY=;
+ b=UeIvCIMCeYHwPloXsrWgJAcaRpqabPcRglsohJcqxpqRlsrEM7PpYhnM838GaM0QlgjigU
+ B0mCOdmcGuKYhC3PD9ePdDu6pKJtypfa/yIOq+xZj0bDQDwrkkVsw131a3DVU2VwW/z9t9
+ JHeLaabkCiNowph6R+Z5sFcdlOUBEq0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-UGA1zQrjMZuYVBP9Bx5DiQ-1; Wed, 28 Sep 2022 03:19:36 -0400
-X-MC-Unique: UGA1zQrjMZuYVBP9Bx5DiQ-1
+ us-mta-657-T1xOSgiqO2O0zks2gkHaRg-1; Wed, 28 Sep 2022 03:19:37 -0400
+X-MC-Unique: T1xOSgiqO2O0zks2gkHaRg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CA2C5868A21;
- Wed, 28 Sep 2022 07:19:35 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7CACF101CC67;
+ Wed, 28 Sep 2022 07:19:37 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BC1940C83BB;
- Wed, 28 Sep 2022 07:19:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B65140C83BB;
+ Wed, 28 Sep 2022 07:19:36 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>,
+Cc: Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 26/37] tests/qtest: virtio-net-failover: Disable migration
- tests for win32
-Date: Wed, 28 Sep 2022 09:18:32 +0200
-Message-Id: <20220928071843.1468323-27-thuth@redhat.com>
+Subject: [PULL 27/37] tests/qtest: microbit-test: Fix socket access for win32
+Date: Wed, 28 Sep 2022 09:18:33 +0200
+Message-Id: <20220928071843.1468323-28-thuth@redhat.com>
 In-Reply-To: <20220928071843.1468323-1-thuth@redhat.com>
 References: <20220928071843.1468323-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -81,61 +79,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-These tests use the exec migration protocol, which is unsupported
-on Windows as of today. Disable these tests for now.
+Sockets on Windows do not use *nix-style file descriptors, so
+write()/read()/close() do not work on Windows.
 
-Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+Switch over to use send()/recv()/closesocket() which work with
+sockets on all platforms.
+
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220925113032.1949844-42-bmeng.cn@gmail.com>
+Message-Id: <20220925113032.1949844-45-bmeng.cn@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/virtio-net-failover.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ tests/qtest/microbit-test.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
-index 443ee56de9..4a809590bf 100644
---- a/tests/qtest/virtio-net-failover.c
-+++ b/tests/qtest/virtio-net-failover.c
-@@ -588,6 +588,7 @@ static void test_hotplug_2_reverse(void)
-     machine_stop(qts);
- }
- 
-+#ifndef _WIN32
- static QDict *migrate_status(QTestState *qts)
+diff --git a/tests/qtest/microbit-test.c b/tests/qtest/microbit-test.c
+index b71daae9a9..4bc267020b 100644
+--- a/tests/qtest/microbit-test.c
++++ b/tests/qtest/microbit-test.c
+@@ -51,7 +51,7 @@ static void uart_rw_to_rxd(QTestState *qts, int sock_fd, const char *in,
  {
-     QDict *resp, *ret;
-@@ -1827,6 +1828,7 @@ static void test_multi_in(gconstpointer opaque)
+     int i, in_len = strlen(in);
  
-     machine_stop(qts);
+-    g_assert_true(write(sock_fd, in, in_len) == in_len);
++    g_assert_true(send(sock_fd, in, in_len, 0) == in_len);
+     for (i = 0; i < in_len; i++) {
+         g_assert_true(uart_wait_for_event(qts, NRF51_UART_BASE +
+                                                A_UART_RXDRDY));
+@@ -77,7 +77,7 @@ static void test_nrf51_uart(void)
+     char s[10];
+     QTestState *qts = qtest_init_with_serial("-M microbit", &sock_fd);
+ 
+-    g_assert_true(write(sock_fd, "c", 1) == 1);
++    g_assert_true(send(sock_fd, "c", 1, 0) == 1);
+     g_assert_cmphex(qtest_readl(qts, NRF51_UART_BASE + A_UART_RXD), ==, 0x00);
+ 
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_ENABLE, 0x04);
+@@ -97,17 +97,17 @@ static void test_nrf51_uart(void)
+ 
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_STARTTX, 0x01);
+     uart_w_to_txd(qts, "d");
+-    g_assert_true(read(sock_fd, s, 10) == 1);
++    g_assert_true(recv(sock_fd, s, 10, 0) == 1);
+     g_assert_cmphex(s[0], ==, 'd');
+ 
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_SUSPEND, 0x01);
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_TXD, 'h');
+     qtest_writel(qts, NRF51_UART_BASE + A_UART_STARTTX, 0x01);
+     uart_w_to_txd(qts, "world");
+-    g_assert_true(read(sock_fd, s, 10) == 5);
++    g_assert_true(recv(sock_fd, s, 10, 0) == 5);
+     g_assert_true(memcmp(s, "world", 5) == 0);
+ 
+-    close(sock_fd);
++    closesocket(sock_fd);
+ 
+     qtest_quit(qts);
  }
-+#endif /* _WIN32 */
- 
- int main(int argc, char **argv)
- {
-@@ -1857,7 +1859,11 @@ int main(int argc, char **argv)
-     qtest_add_func("failover-virtio-net/hotplug/2_reverse",
-                    test_hotplug_2_reverse);
- 
--    /* migration tests */
-+#ifndef _WIN32
-+    /*
-+     * These migration tests cases use the exec migration protocol,
-+     * which is unsupported on Windows.
-+     */
-     qtest_add_data_func("failover-virtio-net/migrate/on/out", tmpfile,
-                         test_migrate_out);
-     qtest_add_data_func("failover-virtio-net/migrate/on/in", tmpfile,
-@@ -1886,6 +1892,7 @@ int main(int argc, char **argv)
-                         tmpfile, test_multi_out);
-     qtest_add_data_func("failover-virtio-net/migrate/multi/in",
-                    tmpfile, test_multi_in);
-+#endif /* _WIN32 */
- 
-     ret = g_test_run();
- 
 -- 
 2.31.1
 
