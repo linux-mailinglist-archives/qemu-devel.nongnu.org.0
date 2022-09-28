@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18585ED43E
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 07:29:45 +0200 (CEST)
-Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 111A15ED447
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 07:34:18 +0200 (CEST)
+Received: from localhost ([::1]:52888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odPdg-0006RJ-Oq
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 01:29:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41788)
+	id 1odPi4-0008U2-QU
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 01:34:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odPbt-0004oV-RA
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 01:27:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50404)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1odPeb-0006b8-Km
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 01:30:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odPbj-0008V8-J4
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 01:27:47 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1odPeZ-0000xP-5f
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 01:30:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664342861;
+ s=mimecast20190719; t=1664343037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=gVwc1niaditCDxFplIzlHtZ1B1MQmJ0UYf7XhaGiWI0=;
- b=ScNt1q4TV0N1U7gsGZy038RY0MA2Byblr91R4oPszpZVKnHevs+wQDuGFT4ojAtCdmCemA
- V5dXVQYcTIK1KrGrB0GcLNtQoKMIo5ffGjt7HUVhco5rMsKLJehZnRaj8Kx5jG5XN4iCO+
- PIhXr12x4026oBjOPttOSgPkucCq/8k=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-IzFG1rXON56wZvG9KRP5EA-1; Wed, 28 Sep 2022 01:27:38 -0400
-X-MC-Unique: IzFG1rXON56wZvG9KRP5EA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AAF99185A794;
- Wed, 28 Sep 2022 05:27:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E1F640C6EC2;
- Wed, 28 Sep 2022 05:27:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4A00421E691D; Wed, 28 Sep 2022 07:27:34 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org,  Yanan Wang <wangyanan55@huawei.com>,  Kevin Wolf
- <kwolf@redhat.com>,  Markus Armbruster <armbru@redhat.com>,  John Snow
- <jsnow@redhat.com>,  "Denis V. Lunev" <den@openvz.org>,  Xie Changlong
- <xiechanglong.d@gmail.com>,  Eric Blake <eblake@redhat.com>,
- integration@gluster.org,  David Hildenbrand <david@redhat.com>,  Wen
- Congyang <wencongyang2@huawei.com>,  Laurent Vivier <lvivier@redhat.com>,
- "Richard W.M. Jones" <rjones@redhat.com>,  afaria@redhat.com,  Fam Zheng
- <fam@euphon.net>,  Thomas Huth <thuth@redhat.com>,  Hanna Reitz
- <hreitz@redhat.com>,  Eduardo Habkost <eduardo@habkost.net>,  Peter Xu
- <peterx@redhat.com>,  Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  Vladimir
- Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,  Philippe =?utf-8?Q?Math?=
- =?utf-8?Q?ieu-Daud=C3=A9?=
- <f4bug@amsat.org>,  Jeff Cody <codyprime@gmail.com>,
- qemu-block@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  Richard
- Henderson <richard.henderson@linaro.org>,  "Michael S. Tsirkin"
- <mst@redhat.com>,  sgarzare@redhat.com
-Subject: Re: [PATCH v5 02/12] blkio: add libblkio block driver
-References: <20220927193431.22302-1-stefanha@redhat.com>
- <20220927193431.22302-3-stefanha@redhat.com>
-Date: Wed, 28 Sep 2022 07:27:34 +0200
-In-Reply-To: <20220927193431.22302-3-stefanha@redhat.com> (Stefan Hajnoczi's
- message of "Tue, 27 Sep 2022 15:34:21 -0400")
-Message-ID: <87sfkc1321.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=fmBj1lduOn8F85drGDxJrHTnkEcvt2YEawUXsVwPYWo=;
+ b=TKp05VUitnl1EHigaR2q/XZeVOwX11D11Y8cuIqe3oiXZWKZz0T4/xw7jRNcuoEr6gE9Jq
+ dA54Bf88dD4Zz03jlg0+d/VDlmr7Q96pZx9qeS3xaihKpg1rK7BThY/15v0r4Zq/yTZkEx
+ GJbxAGusd6EM/JyE9yHA9CG1HFxfLeQ=
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
+ [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-440-PzMIC6AJNfm33B05_ImEhw-1; Wed, 28 Sep 2022 01:30:32 -0400
+X-MC-Unique: PzMIC6AJNfm33B05_ImEhw-1
+Received: by mail-vk1-f197.google.com with SMTP id
+ b198-20020a1fb2cf000000b003a344f1be22so4051558vkf.12
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 22:30:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=fmBj1lduOn8F85drGDxJrHTnkEcvt2YEawUXsVwPYWo=;
+ b=vsyzTTWSL/bXmQu3yX+X5PKHg2R/pdqW7FZbzM2i/N3HNHD9xrgbAHcJQEkky12ima
+ P3bYRHLiLNL2daEnKAT30GWrIwwGhX+7ps3UMx29MupySYxw/pAPCaUw6KOb4fIIMQ1t
+ sXIbwAjxC6OmcV2zZ+AHgQmwPK3rrCVNBEqkyrig1HUGRixmxwmClsa4j+yhzsCR7mPP
+ 4AlxPiSYcbSAVIK2NzcLkFHfpjhb9AFpmC3ufM05QodFdfHxaF9AlIbzu1kKw8qmdXbO
+ 1roJ7tPZsrpD2ZS4hgkH3aVA9GmQfeBimzGunIctvc/r9JkHowOXzB9N1u7unOMPnywX
+ 2iYg==
+X-Gm-Message-State: ACrzQf3kLPY9z2iD49bsww7LwPtI1DUY7UyRftOlW0lV/+jBb3mJ4vZp
+ NZWxRxnFTrxE04RmlWnB34vemRrg6gZ+l5My81oO1bS8lQyD4z48FQVK0mnsQHrKIgqxx1NlSl6
+ D/wQ2RHaowXpZToh5DvHExHpJ15G+eO8=
+X-Received: by 2002:a1f:2c93:0:b0:3a3:4904:aa91 with SMTP id
+ s141-20020a1f2c93000000b003a34904aa91mr13531796vks.33.1664343032358; 
+ Tue, 27 Sep 2022 22:30:32 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5NfaFCIHN/Y8U+KFTPUgfQmTzaJNxd6cyooS1TqT2VVm/w6UyR8rkY21+yKhRxgm0ksnk+7M8PM97BYPwaYx8=
+X-Received: by 2002:a1f:2c93:0:b0:3a3:4904:aa91 with SMTP id
+ s141-20020a1f2c93000000b003a34904aa91mr13531787vks.33.1664343032155; Tue, 27
+ Sep 2022 22:30:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+References: <20220923073333.23381-1-chenyi.qiang@intel.com>
+ <20220923073333.23381-3-chenyi.qiang@intel.com>
+ <dc8d4a33-7246-222b-66b5-6ba784fac56e@redhat.com>
+ <f6caeb4e-82a8-9245-2cb6-22580af559ae@intel.com>
+In-Reply-To: <f6caeb4e-82a8-9245-2cb6-22580af559ae@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 28 Sep 2022 07:29:59 +0200
+Message-ID: <CABgObfZ4OkQJ3+Ffir2eFESLQ=dgzZCe_JUFVX8p4+o=eSE5=A@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] i386: Add notify VM exit support
+To: Chenyi Qiang <chenyi.qiang@intel.com>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>, 
+ Xiaoyao Li <xiaoyao.li@intel.com>, Sean Christopherson <seanjc@google.com>, 
+ qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>
+Content-Type: multipart/alternative; boundary="0000000000003769af05e9b60f89"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,135 +98,378 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@redhat.com> writes:
+--0000000000003769af05e9b60f89
+Content-Type: text/plain; charset="UTF-8"
 
-> libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
-> high-performance disk I/O. It currently supports io_uring,
-> virtio-blk-vhost-user, and virtio-blk-vhost-vdpa with additional drivers
-> under development.
->
-> One of the reasons for developing libblkio is that other applications
-> besides QEMU can use it. This will be particularly useful for
-> virtio-blk-vhost-user which applications may wish to use for connecting
-> to qemu-storage-daemon.
->
-> libblkio also gives us an opportunity to develop in Rust behind a C API
-> that is easy to consume from QEMU.
->
-> This commit adds io_uring, virtio-blk-vhost-user, and
-> virtio-blk-vhost-vdpa BlockDrivers to QEMU using libblkio. It will be
-> easy to add other libblkio drivers since they will share the majority of
-> code.
->
-> For now I/O buffers are copied through bounce buffers if the libblkio
-> driver requires it. Later commits add an optimization for
-> pre-registering guest RAM to avoid bounce buffers.
->
-> The syntax is:
->
->   --blockdev io_uring,node-name=drive0,filename=test.img,readonly=on|off,cache.direct=on|off
->
-> and:
->
->   --blockdev virtio-blk-vhost-vdpa,node-name=drive0,path=/dev/vdpa...,readonly=on|off
->
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Acked-by: Markus Armbruster <armbru@redhat.com>
+Il mer 28 set 2022, 04:21 Chenyi Qiang <chenyi.qiang@intel.com> ha scritto:
 
-[...]
+> >> +        warn_report_once("KVM: encounter a notify exit with %svalid
+> >> context in"
+> >> +                         " guest. It means there can be possible
+> >> misbehaves in"
+> >> +                         " guest, please have a look.",
+> >> +                         ctx_invalid ? "in" : "");
+> >
+> > The warning should be unconditional if the context is invalid.
+> >
+>
+> In valid context case, the warning can also notify the admin that the
+> guest misbehaves. Is it necessary to remove it?
+>
 
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index f21fa235f2..5aed0dd436 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -2951,11 +2951,16 @@
->              'file', 'snapshot-access', 'ftp', 'ftps', 'gluster',
->              {'name': 'host_cdrom', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
->              {'name': 'host_device', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
-> -            'http', 'https', 'iscsi',
-> +            'http', 'https',
-> +            { 'name': 'io_uring', 'if': 'CONFIG_BLKIO' },
-> +            'iscsi',
->              'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
->              'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
->              { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
-> -            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
-> +            'ssh', 'throttle', 'vdi', 'vhdx',
-> +            { 'name': 'virtio-blk-vhost-user', 'if': 'CONFIG_BLKIO' },
-> +            { 'name': 'virtio-blk-vhost-vdpa', 'if': 'CONFIG_BLKIO' },
-> +            'vmdk', 'vpc', 'vvfat' ] }
->  
->  ##
->  # @BlockdevOptionsFile:
-> @@ -3678,6 +3683,42 @@
->              '*debug': 'int',
->              '*logfile': 'str' } }
->  
-> +##
-> +# @BlockdevOptionsIoUring:
-> +#
-> +# Driver specific block device options for the io_uring backend.
-> +#
-> +# @filename: path to the image file
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'struct': 'BlockdevOptionsIoUring',
-> +  'data': { 'filename': 'str' } }
-> +
-> +##
-> +# @BlockdevOptionsVirtioBlkVhostUser:
-> +#
-> +# Driver specific block device options for the virtio-blk-vhost-user backend.
-> +#
-> +# @path: path to the vhost-user UNIX domain socket.
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'struct': 'BlockdevOptionsVirtioBlkVhostUser',
-> +  'data': { 'path': 'str' } }
-> +
-> +##
-> +# @BlockdevOptionsVirtioBlkVhostVdpa:
-> +#
-> +# Driver specific block device options for the virtio-blk-vhost-vdpa backend.
-> +#
-> +# @path: path to the vhost-vdpa character device.
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'struct': 'BlockdevOptionsVirtioBlkVhostVdpa',
-> +  'data': { 'path': 'str' } }
-> +
+You can keep it, but it should be separated so that that invalid context
+case uses warn_report instead of warn_report_once.
 
-Should these be 'if': 'CONFIG_BLKIO'?
+Paolo
 
->  ##
->  # @IscsiTransport:
->  #
-> @@ -4305,6 +4346,8 @@
->                         'if': 'HAVE_HOST_BLOCK_DEVICE' },
->        'http':       'BlockdevOptionsCurlHttp',
->        'https':      'BlockdevOptionsCurlHttps',
-> +      'io_uring':   { 'type': 'BlockdevOptionsIoUring',
-> +                      'if': 'CONFIG_BLKIO' },
->        'iscsi':      'BlockdevOptionsIscsi',
->        'luks':       'BlockdevOptionsLUKS',
->        'nbd':        'BlockdevOptionsNbd',
-> @@ -4327,6 +4370,12 @@
->        'throttle':   'BlockdevOptionsThrottle',
->        'vdi':        'BlockdevOptionsGenericFormat',
->        'vhdx':       'BlockdevOptionsGenericFormat',
-> +      'virtio-blk-vhost-user':
-> +                    { 'type': 'BlockdevOptionsVirtioBlkVhostUser',
-> +                      'if': 'CONFIG_BLKIO' },
-> +      'virtio-blk-vhost-vdpa':
-> +                    { 'type': 'BlockdevOptionsVirtioBlkVhostVdpa',
-> +                      'if': 'CONFIG_BLKIO' },
->        'vmdk':       'BlockdevOptionsGenericCOWFormat',
->        'vpc':        'BlockdevOptionsGenericFormat',
->        'vvfat':      'BlockdevOptionsVVFAT'
 
-[...]
+> >> +    object_class_property_add(oc, X86_MACHINE_NOTIFY_WINDOW,
+> "uint32_t",
+> >
+> > uint32 (not uint32_t)
+> >
+>
+> ...
+>
+> >> +                              x86_machine_get_notify_window,
+> >> +                              x86_machine_set_notify_window, NULL,
+> >> NULL);
+> >> +    object_class_property_set_description(oc,
+> X86_MACHINE_NOTIFY_WINDOW,
+> >> +            "Set the notify window required by notify VM exit");
+> >
+> > "Clock cycles without an event window after which a notification VM exit
+> > occurs"
+> >
+>
+> Will Fix it. Thanks a lot!
+>
+> > Thanks,
+> >
+> > Paolo
+> >
+> >  From a5cb704991cfcda19a33c622833b69a8f6928530 Mon Sep 17 00:00:00 2001
+> > From: Paolo Bonzini <pbonzini@redhat.com>
+> > Date: Tue, 27 Sep 2022 15:20:16 +0200
+> > Subject: [PATCH] kvm: allow target-specific accelerator properties
+> >
+> > Several hypervisor capabilities in KVM are target-specific.  When exposed
+> > to QEMU users as accelerator properties (i.e. -accel kvm,prop=value),
+> they
+> > should not be available for all targets.
+> >
+> > Add a hook for targets to add their own properties to -accel kvm; for
+> > now no such property is defined.
+> >
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> >
+> > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> > index 5acab1767f..f90c5cb285 100644
+> > --- a/accel/kvm/kvm-all.c
+> > +++ b/accel/kvm/kvm-all.c
+> > @@ -3737,6 +3737,8 @@ static void kvm_accel_class_init(ObjectClass *oc,
+> > void *data)
+> >           NULL, NULL);
+> >       object_class_property_set_description(oc, "dirty-ring-size",
+> >           "Size of KVM dirty page ring buffer (default: 0, i.e. use
+> > bitmap)");
+> > +
+> > +    kvm_arch_accel_class_init(oc);
+> >   }
+> >
+> >   static const TypeInfo kvm_accel_type = {
+> > diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+> > index efd6dee818..50868ebf60 100644
+> > --- a/include/sysemu/kvm.h
+> > +++ b/include/sysemu/kvm.h
+> > @@ -353,6 +353,8 @@ bool kvm_device_supported(int vmfd, uint64_t type);
+> >
+> >   extern const KVMCapabilityInfo kvm_arch_required_capabilities[];
+> >
+> > +void kvm_arch_accel_class_init(ObjectClass *oc);
+> > +
+> >   void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run);
+> >   MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run);
+> >
+> > diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+> > index e5c1bd50d2..d21603cf28 100644
+> > --- a/target/arm/kvm.c
+> > +++ b/target/arm/kvm.c
+> > @@ -1056,3 +1056,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
+> >   {
+> >       return true;
+> >   }
+> > +
+> > +void kvm_arch_accel_class_init(ObjectClass *oc)
+> > +{
+> > +}
+> > diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> > index 21880836a6..22b3b37193 100644
+> > --- a/target/i386/kvm/kvm.c
+> > +++ b/target/i386/kvm/kvm.c
+> > @@ -5472,3 +5472,7 @@ void kvm_request_xsave_components(X86CPU *cpu,
+> > uint64_t mask)
+> >           mask &= ~BIT_ULL(bit);
+> >       }
+> >   }
+> > +
+> > +void kvm_arch_accel_class_init(ObjectClass *oc)
+> > +{
+> > +}
+> > diff --git a/target/mips/kvm.c b/target/mips/kvm.c
+> > index caf70decd2..bcb8e06b2c 100644
+> > --- a/target/mips/kvm.c
+> > +++ b/target/mips/kvm.c
+> > @@ -1294,3 +1294,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
+> >   {
+> >       return true;
+> >   }
+> > +
+> > +void kvm_arch_accel_class_init(ObjectClass *oc)
+> > +{
+> > +}
+> > diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> > index 466d0d2f4c..7c25348b7b 100644
+> > --- a/target/ppc/kvm.c
+> > +++ b/target/ppc/kvm.c
+> > @@ -2966,3 +2966,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
+> >   {
+> >       return true;
+> >   }
+> > +
+> > +void kvm_arch_accel_class_init(ObjectClass *oc)
+> > +{
+> > +}
+> > diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+> > index 70b4cff06f..30f21453d6 100644
+> > --- a/target/riscv/kvm.c
+> > +++ b/target/riscv/kvm.c
+> > @@ -532,3 +532,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
+> >   {
+> >       return true;
+> >   }
+> > +
+> > +void kvm_arch_accel_class_init(ObjectClass *oc)
+> > +{
+> > +}
+> > diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+> > index 7bd8db0e7b..840af34576 100644
+> > --- a/target/s390x/kvm/kvm.c
+> > +++ b/target/s390x/kvm/kvm.c
+> > @@ -2574,3 +2574,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
+> >   {
+> >       return true;
+> >   }
+> > +
+> > +void kvm_arch_accel_class_init(ObjectClass *oc)
+> > +{
+> > +}
+> >
+>
+>
+
+--0000000000003769af05e9b60f89
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il mer 28 set 2022, 04:21 Chenyi Qiang &lt;<a href=3D"=
+mailto:chenyi.qiang@intel.com">chenyi.qiang@intel.com</a>&gt; ha scritto:</=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex">
+&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 warn_report_once(&quot=
+;KVM: encounter a notify exit with %svalid <br>
+&gt;&gt; context in&quot;<br>
+&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 &quot; guest. It means there can be possible <br>
+&gt;&gt; misbehaves in&quot;<br>
+&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 &quot; guest, please have a look.&quot;,<br>
+&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 ctx_invalid ? &quot;in&quot; : &quot;&quot;);<br>
+&gt; <br>
+&gt; The warning should be unconditional if the context is invalid.<br>
+&gt; <br>
+<br>
+In valid context case, the warning can also notify the admin that the <br>
+guest misbehaves. Is it necessary to remove it?<br></blockquote></div></div=
+><div dir=3D"auto"><br></div><div dir=3D"auto">You can keep it, but it shou=
+ld be separated so that that invalid context case uses warn_report instead =
+of warn_report_once.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Pao=
+lo</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_q=
+uote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">
+<br>
+&gt;&gt; +=C2=A0=C2=A0=C2=A0 object_class_property_add(oc, X86_MACHINE_NOTI=
+FY_WINDOW, &quot;uint32_t&quot;,<br>
+&gt; <br>
+&gt; uint32 (not uint32_t)<br>
+&gt; <br>
+<br>
+...<br>
+<br>
+&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 x86_machine_get_notify_window,<br>
+&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 x86_machine_set_notify_window, NULL, <=
+br>
+&gt;&gt; NULL);<br>
+&gt;&gt; +=C2=A0=C2=A0=C2=A0 object_class_property_set_description(oc, X86_=
+MACHINE_NOTIFY_WINDOW,<br>
+&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 &quot;Set the notify window required by notify VM exit&quot;);<br>
+&gt; <br>
+&gt; &quot;Clock cycles without an event window after which a notification =
+VM exit <br>
+&gt; occurs&quot;<br>
+&gt; <br>
+<br>
+Will Fix it. Thanks a lot!<br>
+<br>
+&gt; Thanks,<br>
+&gt; <br>
+&gt; Paolo<br>
+&gt; <br>
+&gt;=C2=A0 From a5cb704991cfcda19a33c622833b69a8f6928530 Mon Sep 17 00:00:0=
+0 2001<br>
+&gt; From: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=
+=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
+&gt; Date: Tue, 27 Sep 2022 15:20:16 +0200<br>
+&gt; Subject: [PATCH] kvm: allow target-specific accelerator properties<br>
+&gt; <br>
+&gt; Several hypervisor capabilities in KVM are target-specific.=C2=A0 When=
+ exposed<br>
+&gt; to QEMU users as accelerator properties (i.e. -accel kvm,prop=3Dvalue)=
+, they<br>
+&gt; should not be available for all targets.<br>
+&gt; <br>
+&gt; Add a hook for targets to add their own properties to -accel kvm; for<=
+br>
+&gt; now no such property is defined.<br>
+&gt; <br>
+&gt; Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com=
+" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c<br>
+&gt; index 5acab1767f..f90c5cb285 100644<br>
+&gt; --- a/accel/kvm/kvm-all.c<br>
+&gt; +++ b/accel/kvm/kvm-all.c<br>
+&gt; @@ -3737,6 +3737,8 @@ static void kvm_accel_class_init(ObjectClass *oc=
+, <br>
+&gt; void *data)<br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NULL, NULL);<br=
+>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 object_class_property_set_description(o=
+c, &quot;dirty-ring-size&quot;,<br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &quot;Size of K=
+VM dirty page ring buffer (default: 0, i.e. use <br>
+&gt; bitmap)&quot;);<br>
+&gt; +<br>
+&gt; +=C2=A0=C2=A0=C2=A0 kvm_arch_accel_class_init(oc);<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0static const TypeInfo kvm_accel_type =3D {<br>
+&gt; diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h<br>
+&gt; index efd6dee818..50868ebf60 100644<br>
+&gt; --- a/include/sysemu/kvm.h<br>
+&gt; +++ b/include/sysemu/kvm.h<br>
+&gt; @@ -353,6 +353,8 @@ bool kvm_device_supported(int vmfd, uint64_t type)=
+;<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0extern const KVMCapabilityInfo kvm_arch_required_capabilit=
+ies[];<br>
+&gt; <br>
+&gt; +void kvm_arch_accel_class_init(ObjectClass *oc);<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run);=
+<br>
+&gt;=C2=A0 =C2=A0MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run=
+ *run);<br>
+&gt; <br>
+&gt; diff --git a/target/arm/kvm.c b/target/arm/kvm.c<br>
+&gt; index e5c1bd50d2..d21603cf28 100644<br>
+&gt; --- a/target/arm/kvm.c<br>
+&gt; +++ b/target/arm/kvm.c<br>
+&gt; @@ -1056,3 +1056,7 @@ bool kvm_arch_cpu_check_are_resettable(void)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 return true;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +void kvm_arch_accel_class_init(ObjectClass *oc)<br>
+&gt; +{<br>
+&gt; +}<br>
+&gt; diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c<br>
+&gt; index 21880836a6..22b3b37193 100644<br>
+&gt; --- a/target/i386/kvm/kvm.c<br>
+&gt; +++ b/target/i386/kvm/kvm.c<br>
+&gt; @@ -5472,3 +5472,7 @@ void kvm_request_xsave_components(X86CPU *cpu, <=
+br>
+&gt; uint64_t mask)<br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mask &amp;=3D ~=
+BIT_ULL(bit);<br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +void kvm_arch_accel_class_init(ObjectClass *oc)<br>
+&gt; +{<br>
+&gt; +}<br>
+&gt; diff --git a/target/mips/kvm.c b/target/mips/kvm.c<br>
+&gt; index caf70decd2..bcb8e06b2c 100644<br>
+&gt; --- a/target/mips/kvm.c<br>
+&gt; +++ b/target/mips/kvm.c<br>
+&gt; @@ -1294,3 +1294,7 @@ bool kvm_arch_cpu_check_are_resettable(void)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 return true;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +void kvm_arch_accel_class_init(ObjectClass *oc)<br>
+&gt; +{<br>
+&gt; +}<br>
+&gt; diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c<br>
+&gt; index 466d0d2f4c..7c25348b7b 100644<br>
+&gt; --- a/target/ppc/kvm.c<br>
+&gt; +++ b/target/ppc/kvm.c<br>
+&gt; @@ -2966,3 +2966,7 @@ bool kvm_arch_cpu_check_are_resettable(void)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 return true;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +void kvm_arch_accel_class_init(ObjectClass *oc)<br>
+&gt; +{<br>
+&gt; +}<br>
+&gt; diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c<br>
+&gt; index 70b4cff06f..30f21453d6 100644<br>
+&gt; --- a/target/riscv/kvm.c<br>
+&gt; +++ b/target/riscv/kvm.c<br>
+&gt; @@ -532,3 +532,7 @@ bool kvm_arch_cpu_check_are_resettable(void)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 return true;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +void kvm_arch_accel_class_init(ObjectClass *oc)<br>
+&gt; +{<br>
+&gt; +}<br>
+&gt; diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c<br>
+&gt; index 7bd8db0e7b..840af34576 100644<br>
+&gt; --- a/target/s390x/kvm/kvm.c<br>
+&gt; +++ b/target/s390x/kvm/kvm.c<br>
+&gt; @@ -2574,3 +2574,7 @@ bool kvm_arch_cpu_check_are_resettable(void)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 return true;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +void kvm_arch_accel_class_init(ObjectClass *oc)<br>
+&gt; +{<br>
+&gt; +}<br>
+&gt; <br>
+<br>
+</blockquote></div></div></div>
+
+--0000000000003769af05e9b60f89--
 
 
