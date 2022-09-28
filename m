@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E025ED871
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:07:39 +0200 (CEST)
-Received: from localhost ([::1]:50722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C445ED892
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:13:55 +0200 (CEST)
+Received: from localhost ([::1]:47098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odT2T-0001uO-C8
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:07:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50828)
+	id 1odT8c-0007wZ-6y
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:13:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLP-0000sP-8y
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:18:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35060)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLQ-0000tm-Fv
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLM-0008R7-Di
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:18:58 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLO-0008RH-IP
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664349535;
+ s=mimecast20190719; t=1664349537;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=icYOHzCKPT4tZ28xawFjkohy3v7aTvDH9bPp19lPMRo=;
- b=cSscallQO6K5pqJMQw9K0qzPjaqSxljhs9RRG7yRnW3cmTlucU1Sdheo29yKYiMMQQ6EEI
- JJzQu+xeuqFu5oB7jeyc9NwgieuMsQbgB0oZMO7RoEQzL+0J87ptEPz6r5Tkco6EObYJGL
- B2k+0iToE59YbasKJ6LFWBbtkD9zgp8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/UsJhLzu0nitUvLy8VWmP9xG5F2iel+EKXGwE+FAw14=;
+ b=Sb5oS7esAFJT6ToaisOgHFY1NdLpRtkIckT35kkTZU1r7X2pFJWUpfdTkSMUV45Bvqknqw
+ a1JQCy8uPyBdr6ORIyeqvtFpKldA3V90CnYElA9S+CwaBbKeYgrv2fC08AOX1wAxFMJIKp
+ tN4efszg34t65dm2AvKEWvXqwChbpt8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-413-rr37SpbYMoKwbflr3qwICw-1; Wed, 28 Sep 2022 03:18:52 -0400
-X-MC-Unique: rr37SpbYMoKwbflr3qwICw-1
+ us-mta-597-xb8V2QpWOQis3xblP3Ezeg-1; Wed, 28 Sep 2022 03:18:53 -0400
+X-MC-Unique: xb8V2QpWOQis3xblP3Ezeg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3826858F13;
- Wed, 28 Sep 2022 07:18:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 634623800C25;
+ Wed, 28 Sep 2022 07:18:53 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9AFC240C83BB;
- Wed, 28 Sep 2022 07:18:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B01840C83BB;
+ Wed, 28 Sep 2022 07:18:51 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>
-Subject: [PULL 02/37] tests/qtest: ahci-test: Avoid using hardcoded /tmp
-Date: Wed, 28 Sep 2022 09:18:08 +0200
-Message-Id: <20220928071843.1468323-3-thuth@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 03/37] tests/qtest: aspeed_smc-test: Avoid using hardcoded /tmp
+Date: Wed, 28 Sep 2022 09:18:09 +0200
+Message-Id: <20220928071843.1468323-4-thuth@redhat.com>
 In-Reply-To: <20220928071843.1468323-1-thuth@redhat.com>
 References: <20220928071843.1468323-1-thuth@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -84,78 +86,36 @@ files. Update to use g_file_open_tmp() for a portable implementation.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220925113032.1949844-6-bmeng.cn@gmail.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20220925113032.1949844-7-bmeng.cn@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/ahci-test.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ tests/qtest/aspeed_smc-test.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/ahci-test.c b/tests/qtest/ahci-test.c
-index f1e510b0ac..1d5929d8c3 100644
---- a/tests/qtest/ahci-test.c
-+++ b/tests/qtest/ahci-test.c
-@@ -44,9 +44,9 @@
- #define TEST_IMAGE_SIZE_MB_SMALL 64
- 
- /*** Globals ***/
--static char tmp_path[] = "/tmp/qtest.XXXXXX";
--static char debug_path[] = "/tmp/qtest-blkdebug.XXXXXX";
--static char mig_socket[] = "/tmp/qtest-migration.XXXXXX";
-+static char *tmp_path;
-+static char *debug_path;
-+static char *mig_socket;
- static bool ahci_pedantic;
- static const char *imgfmt;
- static unsigned test_image_size_mb;
-@@ -1437,10 +1437,10 @@ static void test_ncq_simple(void)
- 
- static int prepare_iso(size_t size, unsigned char **buf, char **name)
- {
--    char cdrom_path[] = "/tmp/qtest.iso.XXXXXX";
-+    g_autofree char *cdrom_path = NULL;
-     unsigned char *patt;
-     ssize_t ret;
--    int fd = mkstemp(cdrom_path);
-+    int fd = g_file_open_tmp("qtest.iso.XXXXXX", &cdrom_path, NULL);
- 
-     g_assert(fd != -1);
-     g_assert(buf);
-@@ -1872,7 +1872,7 @@ int main(int argc, char **argv)
-     }
- 
-     /* Create a temporary image */
--    fd = mkstemp(tmp_path);
-+    fd = g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
-     g_assert(fd >= 0);
-     if (have_qemu_img()) {
-         imgfmt = "qcow2";
-@@ -1889,12 +1889,12 @@ int main(int argc, char **argv)
-     close(fd);
- 
-     /* Create temporary blkdebug instructions */
--    fd = mkstemp(debug_path);
-+    fd = g_file_open_tmp("qtest-blkdebug.XXXXXX", &debug_path, NULL);
-     g_assert(fd >= 0);
-     close(fd);
- 
-     /* Reserve a hollow file to use as a socket for migration tests */
--    fd = mkstemp(mig_socket);
-+    fd = g_file_open_tmp("qtest-migration.XXXXXX", &mig_socket, NULL);
-     g_assert(fd >= 0);
-     close(fd);
- 
-@@ -1947,8 +1947,11 @@ int main(int argc, char **argv)
- 
-     /* Cleanup */
-     unlink(tmp_path);
-+    g_free(tmp_path);
-     unlink(debug_path);
-+    g_free(debug_path);
-     unlink(mig_socket);
-+    g_free(mig_socket);
- 
-     return ret;
+diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
+index 05ce941566..c713a3700b 100644
+--- a/tests/qtest/aspeed_smc-test.c
++++ b/tests/qtest/aspeed_smc-test.c
+@@ -608,16 +608,15 @@ static void test_write_block_protect_bottom_bit(void)
+     flash_reset();
  }
+ 
+-static char tmp_path[] = "/tmp/qtest.m25p80.XXXXXX";
+-
+ int main(int argc, char **argv)
+ {
++    g_autofree char *tmp_path = NULL;
+     int ret;
+     int fd;
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
+-    fd = mkstemp(tmp_path);
++    fd = g_file_open_tmp("qtest.m25p80.XXXXXX", &tmp_path, NULL);
+     g_assert(fd >= 0);
+     ret = ftruncate(fd, FLASH_SIZE);
+     g_assert(ret == 0);
 -- 
 2.31.1
 
