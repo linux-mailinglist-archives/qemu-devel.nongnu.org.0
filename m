@@ -2,107 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552D85ED104
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 01:25:12 +0200 (CEST)
-Received: from localhost ([::1]:51924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A4B5ED17E
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 02:16:18 +0200 (CEST)
+Received: from localhost ([::1]:34362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odJwt-00078l-G3
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 19:25:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47050)
+	id 1odKkL-0006hs-3p
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 20:16:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1odJvI-0005mC-Mh
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 19:23:32 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:41589)
+ (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1odKhm-0005CK-SD
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 20:13:42 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:37662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1odJvG-000579-Ti
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 19:23:32 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id q9so10710659pgq.8
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 16:23:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=4MnMVs6E8JaSDSsn99y8Cflsak9Vn4oCEKVAnOpimrc=;
- b=KTBy7fQLQX03opurQqZ2U9ctULmybQ5FJUoo4PZb+gpAETjrkid149E9fk/0W8/73E
- ZrwvTRfgroj/9bgiZZ8XJyKrd78XrYX2iQYAUldEdxqL5OZpVAi1zS9yu8prYMHVa77l
- 4zjeo6ZBuAJWWGf1zHyMcSzUGInYNji/wPL8fWTGb5gG2xdIaqbbpro066Nv0icVdUH8
- qi08NfiTgaHr/ClJbZ6TR3Yy/OpgSs603ryzzPCdNeTU5ylFZxeFY2UaHzVWoEaEC5jr
- gHQ/fgp9BIfxbbHrCGK8KR3V4hCHTuvinL4qrNVOIDHv67EUocIGa2CUS0dDgpDBgy9Q
- 85BA==
+ (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1odKhj-0003Nc-UL
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 20:13:38 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id d24so10470874pls.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 17:13:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=WFa7ZRnqxMN+y/LRs6tJAycIebJhsIaRM+TScBfZG9s=;
+ b=6X8+co7XyqBTd0NEDuS1Sbjr9W3FfmEm30xjAwijHTMRoZuMGgrelqE6PGZHZ2ssvM
+ vMbZsdqXGF4GYs6G5vFYKdH8XBAHWi9kPb0j2hq1WFi/1v2s+THDbDhx93gKKf5w8MjY
+ SbwwCd66paqQpNGUQktB5qrj/ENyTY3yknoCM1hOHbYDlv6N4csZ1SD0kIRuX92HStDj
+ /ELo5p6PB8GCVWcasps0cKwINaCrStg68Q4bhBZ5y72tGQDJPTz/78IxagqPCtarZiZr
+ EDM0HZB61r1ydRAWXoPRoPB0kqiyo3ifxqaphqxYvbc105WFp0nkM9XiIXgjVwhWDryF
+ 8yiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=4MnMVs6E8JaSDSsn99y8Cflsak9Vn4oCEKVAnOpimrc=;
- b=6nLLeE3LflLOVKGttZYNBOvDClryZQ4zRgACP4wj9Jwr/F/qF9Y4zR+TIPMic1zP5G
- LgmGkaTVfJpJTaR1mLaYGzSIl8/0Sgpn2YRfGdzkDWD2e0BpF40K8c1LJ/mA9S2L640U
- zpuh/oaZG92pJfv8aQJlpK+/aKVU83nE+VYS/nLYSQjQFqDxdJLCgy797X07BCoCjNLu
- NBo7ylwQluQkou/b7qsB3RFe1z0uiI29EEVN8QUFTHPaRXFD81uVoPJcmx2vL3nZCw+C
- UG50o8adqrCvBzlvJLe2y/5sACD59CeBwdyaiaVsrOAUEPb/2uGQaLM34CDgLbBWz8vI
- J7FA==
-X-Gm-Message-State: ACrzQf2HIVz8Fgs5YYir/8VX3yu23vlBg+p5KOdhvzJE3iJunYOaWu/8
- HdIBOPAY7r7M99vtWvZwkunEHQ==
-X-Google-Smtp-Source: AMsMyM5cCdZ/UJFMHAs5b3PS1i/34zTcpqdwe1Srr8AE4gzK5DkIpIp9pBozWLBz/E9ieWU+3YHPog==
-X-Received: by 2002:a05:6a00:124f:b0:542:6c43:5be8 with SMTP id
- u15-20020a056a00124f00b005426c435be8mr31885111pfi.5.1664321009101; 
- Tue, 27 Sep 2022 16:23:29 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- j1-20020a17090a318100b002007b60e288sm58733pjb.23.2022.09.27.16.23.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Sep 2022 16:23:28 -0700 (PDT)
-Date: Tue, 27 Sep 2022 23:23:24 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: "Kirill A. Shutemov" <kirill@shutemov.name>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <YzOF7MT15nfBX0Ma@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <d16284f5-3493-2892-38e6-f1fa5c10bdbb@redhat.com>
- <20220923005808.vfltoecttoatgw5o@box.shutemov.name>
- <f703e615-3b75-96a2-fb48-2fefd8a2069b@redhat.com>
- <20220926144854.dyiacztlpx4fkjs5@box.shutemov.name>
- <0a99aa24-599c-cc60-b23b-b77887af3702@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=WFa7ZRnqxMN+y/LRs6tJAycIebJhsIaRM+TScBfZG9s=;
+ b=HELQIgd7S+hrJEWkz47QkAEFBVybAGbBoiJfgCcF7CERrsIi2fIqmWBgTqu1YK0KN2
+ iecJEhHhr4wtQUn3v4R9CpCb9fOrUto5SmP7GDhbYCRL2GrJtSrMyouJxgSWG/kXVtpR
+ bX9jZMqrKsCcOAUr6zDE1FtVQ4k3h5qoBx0qQSGc1xvXidmLOF+RP+RgFaNjjCyz9M3D
+ 7ge149rri9aRtAI5xveQbY/oxn0fHevNaG5LmnYAqPOuHWKpQd+l4Dmj6XE6kOPwglxY
+ 9+WsmbWwSoWYbd5sFBMJlSz7Zi8g5XWK4BI8XVHqc/BFRX4kWD3BUMN79e0zGZHMbt9c
+ cU3Q==
+X-Gm-Message-State: ACrzQf1xXQ77hfrRhAyXn01Om7Yq/SwFM3zXkdaDbPPGgfS3nMG7X1Am
+ QQINulN2b1ticqB6/acPs595NQmonqO2DSDpRVdinw==
+X-Google-Smtp-Source: AMsMyM67ORFvbptck9D4JYCtUABqvskmuTEt2hhUHFhOkjsuhk5Afou/aLEd90TxSbKXXJ4X/wO0DDwfe2dvoTnwsXs=
+X-Received: by 2002:a17:90b:3149:b0:202:e9e9:632f with SMTP id
+ ip9-20020a17090b314900b00202e9e9632fmr7466352pjb.96.1664324013798; Tue, 27
+ Sep 2022 17:13:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0a99aa24-599c-cc60-b23b-b77887af3702@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=seanjc@google.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+References: <CAB88-qOh7dBoFP4SWcM4G5EVp6cumVnZ5j4tNRqSvMT08=dAcA@mail.gmail.com>
+ <BL0PR11MB3042E97131ADE38A3535984F8A529@BL0PR11MB3042.namprd11.prod.outlook.com>
+ <CAB88-qMZiPgFx-13WiXqJ9+EV04THXuSHkLjFxLqvZxKp5LNkA@mail.gmail.com>
+ <BL0PR11MB304295EA40A39F491D8DEFA58A559@BL0PR11MB3042.namprd11.prod.outlook.com>
+In-Reply-To: <BL0PR11MB304295EA40A39F491D8DEFA58A559@BL0PR11MB3042.namprd11.prod.outlook.com>
+From: Tyler Ng <tkng@rivosinc.com>
+Date: Tue, 27 Sep 2022 17:13:22 -0700
+Message-ID: <CAB88-qNCDw3r_oJK+wYhxLuZKtoWYAHkue3U-wWViqipYO=wJA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] hw/watchdog: wdt_ibex_aon.c: Implement the
+ watchdog for the OpenTitan
+To: "Dong, Eddie" <eddie.dong@intel.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ "Meng, Bin" <bin.meng@windriver.com>, Thomas Huth <thuth@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Laurent Vivier <lvivier@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000a250ba05e9b1a194"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=tkng@rivosinc.com; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,52 +89,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 26, 2022, David Hildenbrand wrote:
-> On 26.09.22 16:48, Kirill A. Shutemov wrote:
-> > On Mon, Sep 26, 2022 at 12:35:34PM +0200, David Hildenbrand wrote:
-> > > When using DAX, what happens with the shared <->private conversion? Which
-> > > "type" is supposed to use dax, which not?
-> > > 
-> > > In other word, I'm missing too many details on the bigger picture of how
-> > > this would work at all to see why it makes sense right now to prepare for
-> > > that.
-> > 
-> > IIUC, KVM doesn't really care about pages or folios. They need PFN to
-> > populate SEPT. Returning page/folio would make KVM do additional steps to
-> > extract PFN and one more place to have a bug.
-> 
-> Fair enough. Smells KVM specific, though.
+--000000000000a250ba05e9b1a194
+Content-Type: text/plain; charset="UTF-8"
 
-TL;DR: I'm good with either approach, though providing a "struct page" might avoid
-       refactoring the API in the nearish future.
+Hi Eddie,
 
-Playing devil's advocate for a second, the counter argument is that KVM is the
-only user for the foreseeable future.
 
-That said, it might make sense to return a "struct page" from the core API and
-force KVM to do page_to_pfn().  KVM already does that for HVA-based memory, so
-it's not exactly new code.
+On Tue, Sep 27, 2022 at 3:04 PM Dong, Eddie <eddie.dong@intel.com> wrote:
 
-More importantly, KVM may actually need/want the "struct page" in the not-too-distant
-future to support mapping non-refcounted "struct page" memory into the guest.  The
-ChromeOS folks have a use case involving virtio-gpu blobs where KVM can get handed a
-"struct page" that _isn't_ refcounted[*].  Once the lack of mmu_notifier integration
-is fixed, the remaining issue is that KVM doesn't currently have a way to determine
-whether or not it holds a reference to the page.  Instead, KVM assumes that if the
-page is "normal", it's refcounted, e.g. see kvm_release_pfn_clean().
+> Hi Tyler:
+>
+> > +}
+> > +
+> > +/* Called when the bark timer expires */ static void
+> > +ibex_aon_barker_expired(void *opaque) {
+> This may happen during ibex_aon_update_count(), right?
+>
+> > +    IbexAONTimerState *s = IBEX_AON_TIMER(opaque);
+> > +    if (ibex_aon_update_count(s) &&
+>         This may happen during ibex_aon_update_count().
+>         Nested call may lead to incorrect s->regs[R_WDOG_COUNT] &
+> s->wdog_last.
+>
+>     Can you elaborate? The timers for bark and bite are not updated in
+> "update_count".
+>
+> When 1st ibex_aon_update_count() is executing, and is in the place PPP
+> (after updating s->regs[R_WDOG_COUNT] but before updating s->wdog_last), a
+> timer (barker) may happen.
+> Inside ibex_aon_barker_expired(), it calls ibex_aon_update_count() again
+> (nest call), and update s->regs[R_WDOG_COUNT] & s->wdog_last, with the new
+> value.
+> After the nest execution ends, and returns to the initial point (PPP) ,
+> the s->wdog_last is updated (with the value of 1st execution time), this
+> leads to mismatch of s->regs[R_WDOG_COUNT] & s->wdog_last.
+>
+> This case may not be triggered at normal case, but if the guest read
+> A_WDOG_COUNT, the 1st ibex_aon_update_count() does execute, and bring the
+> potential issue.
+>
 
-KVM's current workaround for this is to refuse to map these pages into the guest,
-i.e. KVM simply forces its assumption that normal pages are refcounted to be true.
-To remove that workaround, the likely solution will be to pass around a tuple of
-page+pfn, where "page" is non-NULL if the pfn is a refcounted "struct page".
+I see, I wasn't aware that the virtual clock continued running while the
+device address was being read.
 
-At that point, getting handed a "struct page" from the core API would be a good
-thing as KVM wouldn't need to probe the PFN to determine whether or not it's a
-refcounted page.
 
-Note, I still want the order to be provided by the API so that KVM doesn't need
-to run through a bunch of helpers to try and figure out the allowed mapping size.
+> I think we can solve the problem, by not updating s->regs[R_WDOG_COUNT] &
+> s->wdog_last in the timer call back API.  The update is not necessary given
+> that the stored value is anyway not the current COUNT. We only need to
+> update when the guest write the COUNT.
+>
+>
+My initial concern about this is that the HW does the comparison check to
+determine a bark/bite occurred, which is why I think the count should be
+updated on a timer expiration,
 
-[*] https://lore.kernel.org/all/CAD=HUj736L5oxkzeL2JoPV8g1S6Rugy_TquW=PRt73YmFzP6Jw@mail.gmail.com
 
+>
+> > +        s->regs[R_WDOG_COUNT] >= s->regs[R_WDOG_BARK_THOLD]) {
+> > +        s->regs[R_INTR_STATE] |= (1 << 1);
+> > +        qemu_irq_raise(s->bark_irq);
+> > +    }
+> > +}
+> > +
+>
+>
+> THX  Eddie
+>
+Thanks,
+-Tyler
+
+--000000000000a250ba05e9b1a194
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Eddie,<br></div><div dir=3D"ltr"><div dir=3D"ltr">=
+<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
+tr">On Tue, Sep 27, 2022 at 3:04 PM Dong, Eddie &lt;<a href=3D"mailto:eddie=
+.dong@intel.com" target=3D"_blank">eddie.dong@intel.com</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Tyler:<br>
+<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +/* Called when the bark timer expires */ static void<br>
+&gt; +ibex_aon_barker_expired(void *opaque) {<br>
+This may happen during ibex_aon_update_count(), right? <br>
+<br>
+&gt; +=C2=A0 =C2=A0 IbexAONTimerState *s =3D IBEX_AON_TIMER(opaque);<br>
+&gt; +=C2=A0 =C2=A0 if (ibex_aon_update_count(s) &amp;&amp;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 This may happen during ibex_aon_update_count().=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Nested call may lead to incorrect s-&gt;regs[R_=
+WDOG_COUNT] &amp; s-&gt;wdog_last. <br>
+<br>
+=C2=A0 =C2=A0 Can you elaborate? The timers for bark and bite are not updat=
+ed in &quot;update_count&quot;.<br>
+<br>
+When 1st ibex_aon_update_count() is executing, and is in the place PPP (aft=
+er updating s-&gt;regs[R_WDOG_COUNT] but before updating s-&gt;wdog_last), =
+a timer (barker) may happen.<br>
+Inside ibex_aon_barker_expired(), it calls ibex_aon_update_count() again (n=
+est call), and update s-&gt;regs[R_WDOG_COUNT] &amp; s-&gt;wdog_last, with =
+the new value.<br>
+After the nest execution ends, and returns to the initial point (PPP) , the=
+ s-&gt;wdog_last is updated (with the value of 1st execution time), this le=
+ads to mismatch of s-&gt;regs[R_WDOG_COUNT] &amp; s-&gt;wdog_last.<br>
+<br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+This case may not be triggered at normal case, but if the guest read A_WDOG=
+_COUNT, the 1st ibex_aon_update_count() does execute, and bring the potenti=
+al issue.<br></blockquote><div><br></div><div>I see, I wasn&#39;t aware tha=
+t the virtual clock continued running while the device address was being re=
+ad.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">
+I think we can solve the problem, by not updating s-&gt;regs[R_WDOG_COUNT] =
+&amp; s-&gt;wdog_last in the timer call back API.=C2=A0 The update is not n=
+ecessary given that the stored value is anyway not the current COUNT. We on=
+ly need to update when the guest write the COUNT.<br>
+<br></blockquote><div><br></div><div>My initial concern about this is that =
+the HW does the comparison check to determine a bark/bite occurred, which i=
+s why I think the count should be updated on a timer expiration,<br></div><=
+div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_WDOG_COUNT] &gt;=3D s-&gt;re=
+gs[R_WDOG_BARK_THOLD]) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_INTR_STATE] |=3D (1 &lt;&lt;=
+ 1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_irq_raise(s-&gt;bark_irq);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +}<br>
+&gt; +<br>
+<br>
+<br>
+THX=C2=A0 Eddie<br></blockquote><div>Thanks,<br></div><div>-Tyler <br></div=
+></div></div>
+</div>
+
+--000000000000a250ba05e9b1a194--
 
