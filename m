@@ -2,97 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70885EDE5F
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 16:03:39 +0200 (CEST)
-Received: from localhost ([::1]:59262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8FA5EDE78
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 16:10:00 +0200 (CEST)
+Received: from localhost ([::1]:33116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odXey-0003cZ-UH
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 10:03:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38042)
+	id 1odXl8-0000Ai-32
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 10:09:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1odVtu-0003cU-7n
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:10:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20264)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1odVtq-0003FC-TR
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:10:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664367050;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ssHiT8auoEjKjLHr/WW4tRUwm7tu+pz8C/+F+yd1mBs=;
- b=J2XD1sLzDu11bmzFk8TRSyPo0HNxhk5YpwRVqvJ/4TutQmuQLlThG6D5ietf4a5WdgRGOc
- L/83I/OBbktbRnvzeFlYo9n13XderHcENFUTLvy5P4i51ggdWUhq6iAvLTaEhVdrMK+Bqr
- UcBXf+YYvIHrVP64iZCj2w9pzfKM5wU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-630-X29UE6JAPwyxBGdxrPPYBw-1; Wed, 28 Sep 2022 08:10:49 -0400
-X-MC-Unique: X29UE6JAPwyxBGdxrPPYBw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- p36-20020a05600c1da400b003b4faefa2b9so7023537wms.6
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 05:10:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1odVuX-000411-Bk
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:11:34 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:44943)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1odVuH-0003I4-33
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:11:31 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id w10so11588840pll.11
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 05:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=JBv4OJZaUU3HWheQvz90LN7h5LlrfeugSxtPjqjuFfI=;
+ b=hk4PgO2R8P14Cfe/4dR+2ZZ0eBmhQSXLElk0gLZIK3pl5Twq/V53Pp3mlKtko2rlkV
+ 1fNVoaTKNMcEOo397Mq2a6D8K/LYy/H+snA+Q/Y4qxkJrg57IyQlpK2MKSSMkhXhKLsQ
+ Bi33fDfvE2fYy1I6PkUeYP70fBhKqK2gHp72gV6Z2gvQpyBY1l4MAHT2YKMbmCtEcj6M
+ gqMNo7I2gy9x3zTYBwbQlr2fqRtjYUNEpINtV1LQjqRqjQ/zqYJ8pohdzGBkPYBOaObZ
+ TAT7h14OItFNZMr4i7C+V540W9Zbs6OPNwU55j5LCqJFaHOCJ/7k/wgcTnKBPXNW+P90
+ LmmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date;
- bh=ssHiT8auoEjKjLHr/WW4tRUwm7tu+pz8C/+F+yd1mBs=;
- b=Vdk5TJiZsQCnNB9MNiZQb8b3oaq93p8WCNvcOKkDLbTieADTSl5jL4CynSfxYifSM0
- Osvt0x2vrpt5M7cUrhFZUf/mY0pubde/5ENOw+68IYPG7x8J+Wy4PUeW8dGf2noxMfAD
- ElDzctuu+/neZHe4fQqda/hVQOvBHcOEXPDgkMgwvZIVOI7TdA7bWuxhPRshfMfB5bp9
- ShJB40lZII/0yZZWEdQYQi2SFUexW6OjXVPTd/fp72WxWgHRrcyQfEQrgloe0fKEnT9/
- 9rAKX51v2/mZyGolGlD4G8iyBzIXa5ylWQ7uvR2GEn+BBzTTJBhpQ55sicYQFBci4FW4
- lr2w==
-X-Gm-Message-State: ACrzQf2SRcKvS4OdocKhI6ijcDzJLaPIhDniyKRlkmKmtymZ+ispuyUr
- MYDbkZhiQQ9obROKKOisbc4gP5GY9H6bLoTETG01d5U/L/c5TlyYnNWE13aJva72Qu573PTx4ok
- wJM2g9J/YOnXD2FM=
-X-Received: by 2002:a5d:5407:0:b0:228:a79b:4432 with SMTP id
- g7-20020a5d5407000000b00228a79b4432mr20355706wrv.96.1664367048166; 
- Wed, 28 Sep 2022 05:10:48 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7fS/1sQ5lwFsmjHEYF+EjziaY+mXH3K2ROcBvgxBcT9sELwogh0wgA35N1qd4jFgvGsN/vzQ==
-X-Received: by 2002:a5d:5407:0:b0:228:a79b:4432 with SMTP id
- g7-20020a5d5407000000b00228a79b4432mr20355687wrv.96.1664367047934; 
- Wed, 28 Sep 2022 05:10:47 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=JBv4OJZaUU3HWheQvz90LN7h5LlrfeugSxtPjqjuFfI=;
+ b=1y87MSOtAE++idBLoEw5CgA/vbEsInN0JXwuh2G7DRS4+JfkHmyA/nTXOuB9WxngsX
+ cQjKC9viTP1qTU7mJmVHHYH6gcQfWK4Ed9ZMM6CJ5gnmAbdjQBEOXyEFnZRmN0dJ2xZi
+ CS7PYHtsvuYqXKzh/8+MOtfd1ZYKVInMD2Yjs1igdorFB0HrwpmY0peRd9wgNdUHApPQ
+ 0t8nHZ9iR+kSeki2u/Ow6Si0oWhlfTWmMKkptZVC2UhI98npX5/VXQXLc9s2cTLIvFgF
+ rZS2DNFTknV5so8tefrWUh4kgnxu4D4rH6o59Hebqn4SkpiWIblVO+Ug6182FObbUJU/
+ OtqQ==
+X-Gm-Message-State: ACrzQf2bxJ1Oca8BACfz0vOw7+nsFM1qGRZNQ01W5B+OtewJQjWHN+1a
+ IXkOYJ5BAwlRVqRE9WL/bqezjQ==
+X-Google-Smtp-Source: AMsMyM7Nnad0scozS/t7DgNlIMbTRwIv0JT0mDGrXvyIofVxID7fGSwS3PIZmIlkc07ELS7beiexgA==
+X-Received: by 2002:a17:90b:4acd:b0:202:e381:e650 with SMTP id
+ mh13-20020a17090b4acd00b00202e381e650mr10426934pjb.204.1664367075279; 
+ Wed, 28 Sep 2022 05:11:15 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:986f:cb56:6709:4057?
+ ([2602:47:d49d:ec01:986f:cb56:6709:4057])
  by smtp.gmail.com with ESMTPSA id
- m67-20020a1c2646000000b003a342933727sm1595104wmm.3.2022.09.28.05.10.46
+ d4-20020a170902654400b0017691eb7e17sm3531737pln.239.2022.09.28.05.11.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Sep 2022 05:10:47 -0700 (PDT)
-Message-ID: <6e1b2667-b561-51ac-57af-123a393fc677@redhat.com>
-Date: Wed, 28 Sep 2022 14:10:45 +0200
+ Wed, 28 Sep 2022 05:11:14 -0700 (PDT)
+Message-ID: <e4c42def-a1a0-25cb-c3bb-7ace33e1a9ff@linaro.org>
+Date: Wed, 28 Sep 2022 05:11:12 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 3/5] hw/arm/virt: Introduce variable region_base in
- virt_set_high_memmap()
+Subject: Re: [PATCH 1/3] target/arm: Mark registers which call pmu_op_start()
+ as ARM_CP_IO
 Content-Language: en-US
-To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, maz@kernel.org, cohuck@redhat.com,
- zhenyzha@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org,
- shan.gavin@gmail.com
-References: <20220921231349.274049-1-gshan@redhat.com>
- <20220921231349.274049-4-gshan@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <20220921231349.274049-4-gshan@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>
+References: <20220923123412.1214041-1-peter.maydell@linaro.org>
+ <20220923123412.1214041-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220923123412.1214041-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,71 +93,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gavin,
-
-On 9/22/22 01:13, Gavin Shan wrote:
-> This introduces variable 'region_base' for the base address of the
-> specific high memory region. It's the preparatory work to optimize
-> high memory region address assignment.
-Why is it a preparatory work (same comment for previous patch, ie [2/5]
-). Are those changes really needed? why?
-
-Eric
->
-> No functional change intended.
->
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
+On 9/23/22 05:34, Peter Maydell wrote:
+> In commit 01765386a888 we made some system register write functions
+> call pmu_op_start()/pmu_op_finish(). This means that they now touch
+> timers, so for icount to work these registers must have the ARM_CP_IO
+> flag set.
+> 
+> This fixes a bug where when icount is enabled a guest that touches
+> MDCR_EL3, MDCR_EL2, PMCNTENSET_EL0 or PMCNTENCLR_EL0 would cause
+> QEMU to print an error message and exit, for example:
+> 
+> [    2.495971] TCP: Hash tables configured (established 1024 bind 1024)
+> [    2.496213] UDP hash table entries: 256 (order: 1, 8192 bytes)
+> [    2.496386] UDP-Lite hash table entries: 256 (order: 1, 8192 bytes)
+> [    2.496917] NET: Registered protocol family 1
+> qemu-system-aarch64: Bad icount read
+> 
+> Reported-by: Thomas Huth<thuth@redhat.com>
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->  hw/arm/virt.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 187b3ee0e2..b0b679d1f4 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1692,15 +1692,15 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
->  static void virt_set_high_memmap(VirtMachineState *vms,
->                                   hwaddr base, int pa_bits)
->  {
-> -    hwaddr region_size;
-> +    hwaddr region_base, region_size;
->      bool fits;
->      int i;
->  
->      for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
-> +        region_base = ROUND_UP(base, extended_memmap[i].size);
->          region_size = extended_memmap[i].size;
->  
-> -        base = ROUND_UP(base, region_size);
-> -        vms->memmap[i].base = base;
-> +        vms->memmap[i].base = region_base;
->          vms->memmap[i].size = region_size;
->  
->          /*
-> @@ -1709,9 +1709,9 @@ static void virt_set_high_memmap(VirtMachineState *vms,
->           *
->           * For each device that doesn't fit, disable it.
->           */
-> -        fits = (base + region_size) <= BIT_ULL(pa_bits);
-> +        fits = (region_base + region_size) <= BIT_ULL(pa_bits);
->          if (fits) {
-> -            vms->highest_gpa = base + region_size - 1;
-> +            vms->highest_gpa = region_base + region_size - 1;
->          }
->  
->          switch (i) {
-> @@ -1726,7 +1726,7 @@ static void virt_set_high_memmap(VirtMachineState *vms,
->              break;
->          }
->  
-> -        base += region_size;
-> +        base = region_base + region_size;
->      }
->  }
->  
+>   target/arm/helper.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
