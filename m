@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A6C5EDBFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:46:20 +0200 (CEST)
-Received: from localhost ([::1]:60090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D0E5EDC46
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 14:05:46 +0200 (CEST)
+Received: from localhost ([::1]:52014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odVW7-00022i-DJ
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:46:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38162)
+	id 1odVos-0000Ig-QG
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 08:05:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1odTug-00019N-Lm; Wed, 28 Sep 2022 06:03:35 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30312)
+ id 1odSXI-00050h-Jv; Wed, 28 Sep 2022 04:35:27 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1odTue-00079x-Rn; Wed, 28 Sep 2022 06:03:34 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28S9vsln039483;
- Wed, 28 Sep 2022 10:03:30 GMT
+ id 1odSXG-0002go-KB; Wed, 28 Sep 2022 04:35:19 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28S8X1Ad036627;
+ Wed, 28 Sep 2022 08:35:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=qUi0NCrPzDUorqH6Y4leU/zehLg6NmyCovvT7z+8JJg=;
- b=SST1dxDVEqij0l2qq2tcUXmtU5TUku17QbX6/Ot7cVBz2N9OdxZRIfPmqXiay7cZdOpF
- m7XtprqqqMEwYspAYYjhFAUuTmjFJ/ttA5fo3Js8MV/CZ9KKthg2JoMpUuasP19zL5Ju
- yhRf3MMGBzQIj+zSt42fEIWv0RDZeNA23des1ZwUxfvHck+Vfo10zOXIRHN79ePSbtLo
- qldRyo4p+KFfnevIUISz6wvDuRhFIqJS4f3Bsz0WdeK6Km6QnUKZjtJNGSDkSFDRZPqw
- TwwxnzI08bxlp96eSGEcISQXuIHk0GeV8ZolEgNujiJxWC1uQ0KZU4bVOn94qgSUuynh RA== 
+ bh=Pril1kfTRHNDt2CgXQk0eiX1bg4Dsc9R+e7lQojtBMg=;
+ b=tF1KFLQSdUfP387QbvPvgqTOLSHIVSVxm/Y5UggVy6yjf/Qj/hR+8Tk3oDiwv7/kMLkh
+ FWkg88G/ZGsnGzGsnqiJ/vE8w+PdsXBHMwIH8pht7Oqw20sCXdvctBPns84lKdoCfxRL
+ 3ThmNUg1eouh50UrM7e3mOqeGah23m4rRPp6YIket5Iz8p/6deEBdI6yDjEq/nb6FdR8
+ 70YA3ht7kvdOjORNm6Hn9UI+f8Z5NhozCUcoDKUk+GBwtunI+jGf040EdfOvy9EytSQb
+ kz6Us9ILDBuvj88L7odceLIgfJwf3b+6yK91c74KcE+a3gNXjao/MfLM2/FmyDaqTM1G Iw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvm3qg6aw-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvgubbq4f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 10:03:30 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28SA0dbl013477;
- Wed, 28 Sep 2022 10:03:29 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvm3qg68t-1
+ Wed, 28 Sep 2022 08:35:16 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28S6Vnxe017356;
+ Wed, 28 Sep 2022 08:35:16 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvgubbq2u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 10:03:29 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28S9rqIr003634;
- Wed, 28 Sep 2022 10:03:26 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma05fra.de.ibm.com with ESMTP id 3jssh8usft-1
+ Wed, 28 Sep 2022 08:35:16 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28S8LYa8001207;
+ Wed, 28 Sep 2022 08:35:14 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04ams.nl.ibm.com with ESMTP id 3juapujkh6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 10:03:26 +0000
+ Wed, 28 Sep 2022 08:35:14 +0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 28SA3NsD53739776
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 28S8ZAcv65995166
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 28 Sep 2022 10:03:23 GMT
+ Wed, 28 Sep 2022 08:35:10 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1CB2C4C052;
- Wed, 28 Sep 2022 10:03:23 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 76E784C050;
+ Wed, 28 Sep 2022 08:35:10 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4125F4C040;
- Wed, 28 Sep 2022 10:03:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A013A4C046;
+ Wed, 28 Sep 2022 08:35:09 +0000 (GMT)
 Received: from [9.171.31.212] (unknown [9.171.31.212])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 28 Sep 2022 10:03:22 +0000 (GMT)
-Message-ID: <e5e4aabd-64aa-70c0-e301-0d11e70829f2@linux.ibm.com>
-Date: Wed, 28 Sep 2022 12:03:21 +0200
+ Wed, 28 Sep 2022 08:35:09 +0000 (GMT)
+Message-ID: <1b1228e1-ec62-829d-9a4a-6ebf412102c5@linux.ibm.com>
+Date: Wed, 28 Sep 2022 10:35:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH v9 03/10] s390x/cpu topology: reporting the CPU topology
- to the guest
+Subject: Re: [PATCH v9 06/10] s390x/cpu_topology: resetting the
+ Topology-Change-Report
 Content-Language: en-US
 To: Nico Boehr <nrb@linux.ibm.com>, qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
@@ -81,26 +81,26 @@ Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
  eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
  frankja@linux.ibm.com
 References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-4-pmorel@linux.ibm.com>
- <166245225333.5995.17109067416462484247@t14-nrb>
+ <20220902075531.188916-7-pmorel@linux.ibm.com>
+ <166245286528.5995.1915366030580373557@t14-nrb>
 From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <166245225333.5995.17109067416462484247@t14-nrb>
+In-Reply-To: <166245286528.5995.1915366030580373557@t14-nrb>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: QWfzCb2PuSeW8adl_S_w_Wi2vIB48UpJ
-X-Proofpoint-GUID: Ab-Gyf7slNEh6gSDk5aSvbbCP9NqNWLf
+X-Proofpoint-GUID: lM24rxlpa0nMYkCZZOFPBk4D5zQHxNyi
+X-Proofpoint-ORIG-GUID: Yh3pmBzSTUY_r9SjaOxqr25Bf3ziQyYf
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-28_03,2022-09-27_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0
- spamscore=0 bulkscore=0 suspectscore=0 mlxscore=0 impostorscore=0
- phishscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209280061
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+ malwarescore=0 bulkscore=0
+ adultscore=0 clxscore=1015 impostorscore=0 mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 suspectscore=0 spamscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2209280051
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -125,113 +125,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 9/6/22 10:17, Nico Boehr wrote:
-> Quoting Pierre Morel (2022-09-02 09:55:24)
->> The guest can use the STSI instruction to get a buffer filled
->> with the CPU topology description.
+On 9/6/22 10:27, Nico Boehr wrote:
+> Quoting Pierre Morel (2022-09-02 09:55:27)
+>> During a subsystem reset the Topology-Change-Report is cleared
+>> by the machine.
+>> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
+>>   bit of the SCA in the case of a subsystem reset.
 >>
->> Let us implement the STSI instruction for the basis CPU topology
->> level, level 2.
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > 
-> I like this. It is so much simpler. Thanks.
-> 
-> [...]
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index a6ca006ec5..e2fd5c7e44 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -76,9 +76,11 @@ void s390_topology_new_cpu(int core_id)
->>        * in the CPU container allows to represent up to the maximal number of
->>        * CPU inside several CPU containers inside the socket container.
->>        */
->> +    qemu_mutex_lock(&topo->topo_mutex);
-> 
-> You access topo->cores above. Do you need the mutex for that? I guess not since
-> it can't change at runtime (right?), so maybe it is worth documenting what the
-> topo_mutex actually protects or you just take the mutex at the start of the
-> function.
-
-You are right one should always do that.
-I will add this.
-
-> 
-> [...]
->> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
->> new file mode 100644
->> index 0000000000..56865dafc6
->> --- /dev/null
->> +++ b/target/s390x/cpu_topology.c
-> [...]
->> +static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
->> +{
->> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
->> +
->> +    tle->nl = 0;
->> +    tle->dedicated = 1;
->> +    tle->polarity = S390_TOPOLOGY_POLARITY_H;
->> +    tle->type = S390_TOPOLOGY_CPU_TYPE;
->> +    tle->origin = origin * 64;
-> 
-> origin would also need a byte order conversion.
-
-yes
-
-> 
->> +    tle->mask = be64_to_cpu(mask);
-> 
-> cpu_to_be64()
-
-yes
-
-> 
-> [...]
->> +static char *s390_top_set_level2(S390Topology *topo, char *p)
->> +{
->> +    int i, origin;
->> +
->> +    for (i = 0; i < topo->sockets; i++) {
->> +        if (!topo->socket[i].active_count) {
->> +            continue;
->> +        }
->> +        p = fill_container(p, 1, i);
->> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
->> +            uint64_t mask = 0L;
->> +
->> +            mask = be64_to_cpu(topo->tle[i].mask[origin]);
-> 
-> Don't you already do the endianness conversion in fill_tle_cpu()?
-
-yes
-
-> 
-> [...]
->> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
->> +{
->> +    SysIB_151x *sysib;
->> +    int len = sizeof(*sysib);
->> +
->> +    if (s390_is_pv() || sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
->> +        setcc(cpu, 3);
->> +        return;
->> +    }
->> +
->> +    sysib = g_malloc0(TARGET_PAGE_SIZE);
->> +
->> +    len += setup_stsi(sysib, sel2);
->> +    if (len > TARGET_PAGE_SIZE) {
->> +        setcc(cpu, 3);
->> +        goto out_free;
->> +    }
-> 
-> Maybe I don't get it, but isn't it kind of late for this check? You would
-> already have written beyond the end of the buffer at this point in time...
-
-it is
+> Reviewed-by: Nico Boehr <nrb@linux.ibm.com>
 
 
-Thanks for your comments.
-
-regards,
+Thanks,
 Pierre
 
 -- 
