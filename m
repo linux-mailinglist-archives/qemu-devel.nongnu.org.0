@@ -2,82 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C3A5EDD85
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 15:11:51 +0200 (CEST)
-Received: from localhost ([::1]:50102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E545EDDBA
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 15:32:56 +0200 (CEST)
+Received: from localhost ([::1]:53550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odWqq-000625-7Q
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 09:11:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40900)
+	id 1odXBD-0000jC-Ns
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 09:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1odTpD-0004Qn-On
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:57:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26950)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1odTsi-0007Zx-CS; Wed, 28 Sep 2022 06:01:32 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1odTpB-00060j-Jo
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:57:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664359072;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9LPEbT43L4AwK2Cx4QfVmGJZRe5w2AhJmB0ByWQykOo=;
- b=Z7O++Q6M8VST1de8ljLkAAG1Pi1I9nh7WiZH/+lA/TVHDa42d+Pa3fi+CK4Gfe2x92/h7M
- khlwl72MGsnU+WS3lOgcOoc2arA3yXGKgcnLnjypOcfd4tlWKBRmCyP81zE1Z15dagZMjR
- pUT3d3OE4JFGrcXnlXGu7jiDeM2qZho=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-121-aWt0bS-FN7G2RER3kXPsqA-1; Wed, 28 Sep 2022 05:57:51 -0400
-X-MC-Unique: aWt0bS-FN7G2RER3kXPsqA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 31C2C101A528;
- Wed, 28 Sep 2022 09:57:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CEA64C15BA4;
- Wed, 28 Sep 2022 09:57:49 +0000 (UTC)
-Date: Wed, 28 Sep 2022 10:57:47 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: Why we should avoid new submodules if possible
-Message-ID: <YzQam+F1HEu5g52A@redhat.com>
-References: <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
- <Yrq6anPW60FkjmK6@redhat.com>
- <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
- <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
- <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
- <20220628060210-mutt-send-email-mst@kernel.org>
- <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
- <20220928052352-mutt-send-email-mst@kernel.org>
- <YzQVyj5ouhGshZ2+@redhat.com>
- <20220928054803-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1odTsf-0006sG-QP; Wed, 28 Sep 2022 06:01:32 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28S9vskR039483;
+ Wed, 28 Sep 2022 10:01:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=m/wK4JxOPBqDEkrzTHWZeDUZEUjQCR812nP2toUkHvQ=;
+ b=Umpk/dpnPX1UJZEA0I1/uK+Rygrj9TiTUYyDtqxkdczG7uRllafcOurAI4DrwxznhPoP
+ QUHZK1dDuAqQrCR0LTS+kCgORYCX9EcrvExPHW9fwpoWgcPQ/axtoJSUjv89VN173nXB
+ P3qZ6MtnheLSupOpd0xZDL1P237xzvjjcVuxn4AZIbu/N2Kxy5/o4b8KT061pMlzr8KE
+ 2oXWtJVMIXvsLAdmagjxF9m0FAgYOF0EoICoH5mF+SdKfQRZrsPvQFs1rkKoYxabKixA
+ QyYHLUhP8h9hP+45lw6aGT0fksc0kILqWWIiT+Tt5m+65rLrgyXu9O2BiqVRuNk6aQ/c lg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvm3qg3y3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 10:01:26 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28S9wf1M001844;
+ Wed, 28 Sep 2022 10:01:26 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvm3qg3we-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 10:01:26 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28S9pnWW011490;
+ Wed, 28 Sep 2022 10:01:23 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04fra.de.ibm.com with ESMTP id 3jssh93t2e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Sep 2022 10:01:23 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 28SA1Kd72949758
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Sep 2022 10:01:20 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 29E4E4C046;
+ Wed, 28 Sep 2022 10:01:20 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 37D8C4C040;
+ Wed, 28 Sep 2022 10:01:19 +0000 (GMT)
+Received: from [9.171.31.212] (unknown [9.171.31.212])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 28 Sep 2022 10:01:19 +0000 (GMT)
+Message-ID: <c8021a8e-1d58-e755-0ac2-8f8f7c5feb31@linux.ibm.com>
+Date: Wed, 28 Sep 2022 12:01:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220928054803-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v9 03/10] s390x/cpu topology: reporting the CPU topology
+ to the guest
+Content-Language: en-US
+To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+References: <20220902075531.188916-1-pmorel@linux.ibm.com>
+ <20220902075531.188916-4-pmorel@linux.ibm.com>
+ <e2e5e8dc27ee12981c6df4e5f6b208362bd3671a.camel@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <e2e5e8dc27ee12981c6df4e5f6b208362bd3671a.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: msnwiT6v7sS2LNPPvNh8n4yNJMM0U64G
+X-Proofpoint-GUID: 9BB5e78K4FYbAfhlnuQKnsYjxbq238sa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-28_03,2022-09-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 adultscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 mlxscore=0 impostorscore=0
+ phishscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209280061
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,115 +120,325 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 05:53:17AM -0400, Michael S. Tsirkin wrote:
-> On Wed, Sep 28, 2022 at 10:37:14AM +0100, Daniel P. Berrangé wrote:
-> > On Wed, Sep 28, 2022 at 05:26:42AM -0400, Michael S. Tsirkin wrote:
-> > > On Tue, Jun 28, 2022 at 12:21:39PM +0200, Thomas Huth wrote:
-> > > > On 28/06/2022 12.03, Michael S. Tsirkin wrote:
-> > > > [...]
-> > > > > For biosbits if we are going this route then I feel a submodule is much
-> > > > > better.  It records which version exactly each qemu version wants.
-> > > > 
-> > > > As far as I know, you can also specify the version when using pip, can't
-> > > > you? So that's not really an advantage here.
-> > > > 
-> > > > On the contrary, submodules have a couple of disadvantages that I really
-> > > > dislike:
-> > > > 
-> > > > - submodules do not get updated automatically when doing a "git checkout",
-> > > > we have to update them via a script instead. This causes e.g. trouble if you
-> > > > rsync your source tree to a machine that has no access to the internet and
-> > > > you forgot to update the submodule before the sync
-> > > > 
-> > > > - the content of submodules is not added to the tarballs that get created on
-> > > > the git forges automatically. There were lots of requests from users in the
-> > > > past that tried to download a tarball from github and then wondered why they
-> > > > couldn't compile QEMU.
-> > > > 
-> > > > - we include the submodule content in our release tarballs, so people get
-> > > > the impression that hte submodule content is part of the QEMU sources. This
-> > > > has two disadvantages:
-> > > >  * We already got bug reports for the code in the submodule,
-> > > >    where people did not understand that they should report that
-> > > >    rather to the original project instead (i.e. you ship it - you
-> > > >    own it)
-> > > >  * People get the impression that QEMU is a huge monster
-> > > >    application if they count the number of code lines, run
-> > > >    their code scanner tools on the tarball contents, etc.
-> > > >    Remember "nemu", for example, where one of the main complaints
-> > > >    was that QEMU has too many lines of code?
-> > > > 
-> > > > - If programs includes code via submodules, this gets a higher
-> > > >   burder for distro maintainers, since they have to patch each
-> > > >   and every package when there is a bug, instead of being able to
-> > > >   fix it in one central place.
-> > > > 
-> > > > So in my opinion we should avoid new submodules if there is an alternative.
-> > > > 
-> > > >  Thomas
-> > > 
-> > > So looking at the latest proposals downloading files from CI,
-> > > checksumming them etc etc. No auto checkout, not added automatically
-> > > either, right?
-> > > 
-> > > This seems to be the only difference:
-> > > - we include the submodule content in our release tarballs
-> > 
-> > That's just one of the issues with submodules. Working with them in general
-> > is not a pleasant experiance.
-> 
-> This is what I asked about at the maintainers summit.
-> I'd like to map the issues and see if there's anything
-> we can do to solve them. In particular we will likely
-> keep using submodules where we historically did
-> so it's time well spent.
-> 
-> I agree generally but the big question is what to replace these with.
-> Below I assume the replacement is a script such as avocado or pytest
-> with its own hashing, calling wget internally etc etc.
-> 
-> 
-> > Thomas pointed out some of the issues, such
-> > as 'git checkout' ignoring submodules, requiring extra steps to sync them.
-> 
-> 
-> Not different from a home grown SCM as part of test script, right?
 
-We're not building a home grown SCM as part of a test script, so
-this answer is irrelevant.
 
-> > There's also the perenial problem that developers frequently send
-> > patches that mistakenly include submodule changes,
+On 9/6/22 13:49, Janis Schoetterl-Glausch wrote:
+> On Fri, 2022-09-02 at 09:55 +0200, Pierre Morel wrote:
+>> The guest can use the STSI instruction to get a buffer filled
+>> with the CPU topology description.
+>>
+>> Let us implement the STSI instruction for the basis CPU topology
+>> level, level 2.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   hw/s390x/cpu-topology.c         |   4 ++
+>>   include/hw/s390x/cpu-topology.h |   5 ++
+>>   target/s390x/cpu.h              |  49 +++++++++++++++
+>>   target/s390x/cpu_topology.c     | 108 ++++++++++++++++++++++++++++++++
+>>   target/s390x/kvm/kvm.c          |   6 +-
+>>   target/s390x/meson.build        |   1 +
+>>   6 files changed, 172 insertions(+), 1 deletion(-)
+>>   create mode 100644 target/s390x/cpu_topology.c
+>>
+>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>> index a6ca006ec5..e2fd5c7e44 100644
+>> --- a/hw/s390x/cpu-topology.c
+>> +++ b/hw/s390x/cpu-topology.c
+>> @@ -76,9 +76,11 @@ void s390_topology_new_cpu(int core_id)
+>>        * in the CPU container allows to represent up to the maximal number of
+>>        * CPU inside several CPU containers inside the socket container.
+>>        */
+>> +    qemu_mutex_lock(&topo->topo_mutex);
 > 
-> OK, so the thing to do would be to look for ways to exclude submodule changes
-> from git commits.
+> You could use a reader writer lock for this, if qemu has that (I didn't
+> find any tho).
 
-If someone wants to make git suck less with submodules great, but needs
-someone to actually do the work.
+I can use RCU but we could also consider that the write path is very short.
 
-> > I'd really like to see us doing more to eliminate as much use of submodules
-> > as is possible over time. 
 > 
-> Or try to fix the problems, right?
+>>       topo->socket[socket_id].active_count++;
+>>       topo->tle[socket_id].active_count++;
+>>       set_bit(bit, &topo->tle[socket_id].mask[origin]);
+>> +    qemu_mutex_unlock(&topo->topo_mutex);
+>>   }
+>>   
+>>   /**
+>> @@ -104,6 +106,8 @@ static void s390_topology_realize(DeviceState *dev, Error **errp)
+>>       n = topo->sockets;
+>>       topo->socket = g_malloc0(n * sizeof(S390TopoContainer));
+>>       topo->tle = g_malloc0(topo->tles * sizeof(S390TopoTLE));
+>> +
+>> +    qemu_mutex_init(&topo->topo_mutex);
+>>   }
+>>   
+>>   /**
+>> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+>> index 6911f975f4..0b7f3d10b2 100644
+>> --- a/include/hw/s390x/cpu-topology.h
+>> +++ b/include/hw/s390x/cpu-topology.h
+>> @@ -10,6 +10,10 @@
+>>   #ifndef HW_S390X_CPU_TOPOLOGY_H
+>>   #define HW_S390X_CPU_TOPOLOGY_H
+>>   
+>> +#define S390_TOPOLOGY_CPU_TYPE    0x03
+> 
+> IMO you should add the name of cpu type 0x03 to the name of the
+> constant, even if there is only one right now.
+> You did the same for the polarity after all.
 
-Again needs someone to actually make it happen.
+OK right
+#define S390_TOPOLOGY_CPU_IFL 0x03
 
-Meanwhile  QEMU already has an integrated test harness in the form
-of Avocado that does everything needed. If Avocado had just been
-used for this biosbits test in the first place, the test would
-likely have already been merged to QEMU, instead of us having this
-never ending debate on how to re-invent an alternative to what
-already avocado does.
+> 
+>> +
+>> +#define S390_TOPOLOGY_POLARITY_H  0x00
+>> +
+>>   typedef struct S390TopoContainer {
+>>       int active_count;
+>>   } S390TopoContainer;
+>> @@ -30,6 +34,7 @@ struct S390Topology {
+>>       int tles;
+>>       S390TopoContainer *socket;
+>>       S390TopoTLE *tle;
+>> +    QemuMutex topo_mutex;
+>>   };
+>>   typedef struct S390Topology S390Topology;
+>>   
+>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>> index 7d6d01325b..c61fe9b563 100644
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+>> @@ -565,6 +565,53 @@ typedef union SysIB {
+>>   } SysIB;
+>>   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
+>>   
+>> +/* CPU type Topology List Entry */
+>> +typedef struct SysIBTl_cpu {
+>> +        uint8_t nl;
+>> +        uint8_t reserved0[3];
+>> +        uint8_t reserved1:5;
+>> +        uint8_t dedicated:1;
+>> +        uint8_t polarity:2;
+>> +        uint8_t type;
+>> +        uint16_t origin;
+>> +        uint64_t mask;
+>> +} SysIBTl_cpu;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
+>> +
+>> +/* Container type Topology List Entry */
+>> +typedef struct SysIBTl_container {
+>> +        uint8_t nl;
+>> +        uint8_t reserved[6];
+>> +        uint8_t id;
+>> +} QEMU_PACKED SysIBTl_container;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
+>> +
+>> +/* Generic Topology List Entry */
+>> +typedef union SysIBTl_entry {
+>> +        uint8_t nl;
+>> +        SysIBTl_container container;
+>> +        SysIBTl_cpu cpu;
+>> +} SysIBTl_entry;
+> 
+> This isn't used for anything but the declaration in SysIB_151x, is it?
 
-With regards,
-Daniel
+right.
+
+>> +
+>> +#define TOPOLOGY_NR_MAG  6
+>> +#define TOPOLOGY_NR_MAG6 0
+>> +#define TOPOLOGY_NR_MAG5 1
+>> +#define TOPOLOGY_NR_MAG4 2
+>> +#define TOPOLOGY_NR_MAG3 3
+>> +#define TOPOLOGY_NR_MAG2 4
+>> +#define TOPOLOGY_NR_MAG1 5
+>> +/* Configuration topology */
+>> +typedef struct SysIB_151x {
+>> +    uint8_t  reserved0[2];
+>> +    uint16_t length;
+>> +    uint8_t  mag[TOPOLOGY_NR_MAG];
+>> +    uint8_t  reserved1;
+>> +    uint8_t  mnest;
+>> +    uint32_t reserved2;
+>> +    SysIBTl_entry tle[0];
+> 
+> I would just use uint64_t[0] as type or uint64_t[] whichever is qemu
+> style.
+
+OK
+
+
+
+> 
+>> +} SysIB_151x;
+>> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
+>> +
+>>   /* MMU defines */
+>>   #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
+>>   #define ASCE_SUBSPACE         0x200       /* subspace group control           */
+>> @@ -843,4 +890,6 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
+>>   
+>>   #include "exec/cpu-all.h"
+>>   
+>> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
+>> +
+>>   #endif
+>> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
+>> new file mode 100644
+>> index 0000000000..56865dafc6
+>> --- /dev/null
+>> +++ b/target/s390x/cpu_topology.c
+>> @@ -0,0 +1,108 @@
+>> +/*
+>> + * QEMU S390x CPU Topology
+>> + *
+>> + * Copyright IBM Corp. 2022
+>> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+>> + *
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+>> + * your option) any later version. See the COPYING file in the top-level
+>> + * directory.
+>> + */
+>> +#include "qemu/osdep.h"
+>> +#include "cpu.h"
+>> +#include "hw/s390x/pv.h"
+>> +#include "hw/sysbus.h"
+>> +#include "hw/s390x/cpu-topology.h"
+>> +#include "hw/s390x/sclp.h"
+>> +
+>> +static char *fill_container(char *p, int level, int id)
+>> +{
+>> +    SysIBTl_container *tle = (SysIBTl_container *)p;
+>> +
+>> +    tle->nl = level;
+>> +    tle->id = id;
+>> +    return p + sizeof(*tle);
+>> +}
+>> +
+>> +static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
+>> +{
+>> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
+>> +
+>> +    tle->nl = 0;
+>> +    tle->dedicated = 1;
+>> +    tle->polarity = S390_TOPOLOGY_POLARITY_H;
+>> +    tle->type = S390_TOPOLOGY_CPU_TYPE;
+>> +    tle->origin = origin * 64;
+>> +    tle->mask = be64_to_cpu(mask);
+> 
+> You convert endianess for mask here...
+> 
+>> +    return p + sizeof(*tle);
+>> +}
+>> +
+>> +static char *s390_top_set_level2(S390Topology *topo, char *p)
+>> +{
+>> +    int i, origin;
+>> +
+>> +    for (i = 0; i < topo->sockets; i++) {
+>> +        if (!topo->socket[i].active_count) {
+>> +            continue;
+>> +        }
+>> +        p = fill_container(p, 1, i);
+>> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
+>> +            uint64_t mask = 0L;
+>> +
+>> +            mask = be64_to_cpu(topo->tle[i].mask[origin]);
+> 
+> ...and here. So one has to go, I guess this one.
+> Also using cpu_to_be64 seems more intuitive to me.
+
+cpu_to_be64 is the right thing to do.
+Also yes, I suppress this one.
+
+> 
+>> +            if (mask) {
+>> +                p = fill_tle_cpu(p, mask, origin);
+>> +            }
+>> +        }
+>> +    }
+>> +    return p;
+>> +}
+>> +
+>> +static int setup_stsi(SysIB_151x *sysib, int level)
+>> +{
+>> +    S390Topology *topo = s390_get_topology();
+>> +    char *p = (char *)sysib->tle;
+>> +
+>> +    qemu_mutex_lock(&topo->topo_mutex);
+>> +
+>> +    sysib->mnest = level;
+>> +    switch (level) {
+>> +    case 2:
+>> +        sysib->mag[TOPOLOGY_NR_MAG2] = topo->sockets;
+>> +        sysib->mag[TOPOLOGY_NR_MAG1] = topo->cores;
+>> +        p = s390_top_set_level2(topo, p);
+>> +        break;
+>> +    }
+>> +
+>> +    qemu_mutex_unlock(&topo->topo_mutex);
+>> +
+>> +    return p - (char *)sysib->tle;
+>> +}
+>> +
+>> +#define S390_TOPOLOGY_MAX_MNEST 2
+>> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
+>> +{
+>> +    SysIB_151x *sysib;
+>> +    int len = sizeof(*sysib);
+>> +
+>> +    if (s390_is_pv() || sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
+>> +        setcc(cpu, 3);
+>> +        return;
+>> +    }
+>> +
+>> +    sysib = g_malloc0(TARGET_PAGE_SIZE);
+> 
+> What made you decide against stack allocating this?
+
+I just did not think about it.
+I will change it.
+
+> 
+>> +
+>> +    len += setup_stsi(sysib, sel2);
+>> +    if (len > TARGET_PAGE_SIZE) {
+> 
+> If you do the check here it's too late.
+
+yes.
+
+> 
+>> +        setcc(cpu, 3);
+>> +        goto out_free;
+>> +    }
+>> +
+>> +    sysib->length = be16_to_cpu(len);
+>> +    s390_cpu_virt_mem_write(cpu, addr, ar, sysib, len);
+> 
+> If the return value of this is <0 it's an error condition.
+> If you ignore the value we'll keep running.
+
+I understood that exceptions are handled inside 
+s390_cpu_virt_mem_write() and we have no CC to report.
+
+> 
+>> +    setcc(cpu, 0);
+> 
+> Is it correct to set the cc value even if s390_cpu_virt_mem_write
+> causes an exception?
+
+I guess that if it caused an exception we do not get so far.
+Am I wrong?
+
+Thanks,
+Pierre
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Pierre Morel
+IBM Lab Boeblingen
 
