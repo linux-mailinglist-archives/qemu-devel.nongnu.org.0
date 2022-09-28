@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5501F5ED6B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 09:49:03 +0200 (CEST)
-Received: from localhost ([::1]:55698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25745ED703
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 10:01:24 +0200 (CEST)
+Received: from localhost ([::1]:51020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odRoT-0002tK-NI
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 03:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38370)
+	id 1odS0O-0000Wv-VV
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 04:01:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLs-00010u-H2
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21887)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRM9-000192-Qt
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLr-0008VM-0X
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:28 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRM7-00006G-Fd
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664349566;
+ s=mimecast20190719; t=1664349582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fS0HFYuay2FaG6jezA4xu47Chtmh+TOfClxLJ6MIUFw=;
- b=H6hBO213QdyvzOvhQFWA3hpmX8EDWsSnOUxLvkNSL293eQXh2dwBUxlk4R3ZOdkDndo4SO
- Fc5B0FxrpeDOqxGzvCDDPbl2+hxIGmWU+vrj53HfxLD4DbsshOsR7xPvswAT9XCp4r0Svi
- 4Co7Oo8C69SOVsPN9QZt2V/JNz9ZEeM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FqK53HiLqubGe4i5AWK6z/x4b/Cp9RLfAtOKktGCY0U=;
+ b=RsJiiR7jFsIOPC+SvTDS3MYCWXC0ETE4xtuFIUrfFLbnLBfzxskBpCA3UxjDe0znxc8PMz
+ 7YO0kv5MwjCgh8bNVBapsdE+gxtX05u7co3kb/msG71oqMeQLP0p+evX0TlqI5izqvum81
+ 8JPGOmOPLmnfPp+YPYoIJzjm0HN6cE8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-381-EksNxqiMNGiKDW-GHajsMQ-1; Wed, 28 Sep 2022 03:19:19 -0400
-X-MC-Unique: EksNxqiMNGiKDW-GHajsMQ-1
+ us-mta-607-UcX4zyptMTe3hDRUgN8bjA-1; Wed, 28 Sep 2022 03:19:41 -0400
+X-MC-Unique: UcX4zyptMTe3hDRUgN8bjA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B5231C20AEF;
- Wed, 28 Sep 2022 07:19:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A7985811E67;
+ Wed, 28 Sep 2022 07:19:40 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D86440C83BB;
- Wed, 28 Sep 2022 07:19:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E659B40C83BB;
+ Wed, 28 Sep 2022 07:19:39 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>
-Subject: [PULL 19/37] tests/qtest: qmp-test: Skip running test_qmp_oob for
- win32
-Date: Wed, 28 Sep 2022 09:18:25 +0200
-Message-Id: <20220928071843.1468323-20-thuth@redhat.com>
+Subject: [PULL 29/37] tests/qtest: migration-test: Skip running some TLS cases
+ for win32
+Date: Wed, 28 Sep 2022 09:18:35 +0200
+Message-Id: <20220928071843.1468323-30-thuth@redhat.com>
 In-Reply-To: <20220928071843.1468323-1-thuth@redhat.com>
 References: <20220928071843.1468323-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -80,50 +80,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-The test_qmp_oob test case calls mkfifo() which does not exist on
-win32. Exclude it.
+Some migration test cases use TLS to communicate, but they fail on
+Windows with the following error messages:
+
+  qemu-system-x86_64: TLS handshake failed: Insufficient credentials for that request.
+  qemu-system-x86_64: TLS handshake failed: Error in the pull function.
+  query-migrate shows failed migration: TLS handshake failed: Error in the pull function.
+
+Disable them temporarily.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220925113032.1949844-31-bmeng.cn@gmail.com>
+Message-Id: <20220925113032.1949844-51-bmeng.cn@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/qmp-test.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ tests/qtest/migration-test.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
-index bf7304c7dc..23b2a37942 100644
---- a/tests/qtest/qmp-test.c
-+++ b/tests/qtest/qmp-test.c
-@@ -159,6 +159,8 @@ static void test_qmp_protocol(void)
-     qtest_quit(qts);
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 3db1177377..0d153d6b5e 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1402,6 +1402,7 @@ static void test_precopy_unix_dirty_ring(void)
  }
  
+ #ifdef CONFIG_GNUTLS
 +#ifndef _WIN32
-+
- /* Out-of-band tests */
+ static void test_precopy_unix_tls_psk(void)
+ {
+     g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+@@ -1414,6 +1415,7 @@ static void test_precopy_unix_tls_psk(void)
  
- char tmpdir[] = "/tmp/qmp-test-XXXXXX";
-@@ -277,6 +279,8 @@ static void test_qmp_oob(void)
-     qtest_quit(qts);
+     test_precopy_common(&args);
  }
- 
 +#endif /* _WIN32 */
-+
- /* Preconfig tests */
  
- static void test_qmp_preconfig(void)
-@@ -336,7 +340,10 @@ int main(int argc, char *argv[])
-     g_test_init(&argc, &argv, NULL);
+ #ifdef CONFIG_TASN1
+ static void test_precopy_unix_tls_x509_default_host(void)
+@@ -1522,6 +1524,7 @@ static void test_precopy_tcp_plain(void)
+ }
  
-     qtest_add_func("qmp/protocol", test_qmp_protocol);
+ #ifdef CONFIG_GNUTLS
 +#ifndef _WIN32
-+    /* This case calls mkfifo() which does not exist on win32 */
-     qtest_add_func("qmp/oob", test_qmp_oob);
-+#endif
-     qtest_add_func("qmp/preconfig", test_qmp_preconfig);
-     qtest_add_func("qmp/missing-any-arg", test_qmp_missing_any_arg);
+ static void test_precopy_tcp_tls_psk_match(void)
+ {
+     MigrateCommon args = {
+@@ -1532,6 +1535,7 @@ static void test_precopy_tcp_tls_psk_match(void)
  
+     test_precopy_common(&args);
+ }
++#endif /* _WIN32 */
+ 
+ static void test_precopy_tcp_tls_psk_mismatch(void)
+ {
+@@ -1929,6 +1933,7 @@ static void test_multifd_tcp_zstd(void)
+ #endif
+ 
+ #ifdef CONFIG_GNUTLS
++#ifndef _WIN32
+ static void *
+ test_migrate_multifd_tcp_tls_psk_start_match(QTestState *from,
+                                              QTestState *to)
+@@ -1936,6 +1941,7 @@ test_migrate_multifd_tcp_tls_psk_start_match(QTestState *from,
+     test_migrate_precopy_tcp_multifd_start_common(from, to, "none");
+     return test_migrate_tls_psk_start_match(from, to);
+ }
++#endif /* _WIN32 */
+ 
+ static void *
+ test_migrate_multifd_tcp_tls_psk_start_mismatch(QTestState *from,
+@@ -1987,6 +1993,7 @@ test_migrate_multifd_tls_x509_start_reject_anon_client(QTestState *from,
+ }
+ #endif /* CONFIG_TASN1 */
+ 
++#ifndef _WIN32
+ static void test_multifd_tcp_tls_psk_match(void)
+ {
+     MigrateCommon args = {
+@@ -1996,6 +2003,7 @@ static void test_multifd_tcp_tls_psk_match(void)
+     };
+     test_precopy_common(&args);
+ }
++#endif /* _WIN32 */
+ 
+ static void test_multifd_tcp_tls_psk_mismatch(void)
+ {
+@@ -2492,8 +2500,10 @@ int main(int argc, char **argv)
+     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
+     qtest_add_func("/migration/precopy/unix/xbzrle", test_precopy_unix_xbzrle);
+ #ifdef CONFIG_GNUTLS
++#ifndef _WIN32
+     qtest_add_func("/migration/precopy/unix/tls/psk",
+                    test_precopy_unix_tls_psk);
++#endif
+ 
+     if (has_uffd) {
+         /*
+@@ -2519,8 +2529,10 @@ int main(int argc, char **argv)
+ 
+     qtest_add_func("/migration/precopy/tcp/plain", test_precopy_tcp_plain);
+ #ifdef CONFIG_GNUTLS
++#ifndef _WIN32
+     qtest_add_func("/migration/precopy/tcp/tls/psk/match",
+                    test_precopy_tcp_tls_psk_match);
++#endif
+     qtest_add_func("/migration/precopy/tcp/tls/psk/mismatch",
+                    test_precopy_tcp_tls_psk_mismatch);
+ #ifdef CONFIG_TASN1
+@@ -2564,8 +2576,10 @@ int main(int argc, char **argv)
+                    test_multifd_tcp_zstd);
+ #endif
+ #ifdef CONFIG_GNUTLS
++#ifndef _WIN32
+     qtest_add_func("/migration/multifd/tcp/tls/psk/match",
+                    test_multifd_tcp_tls_psk_match);
++#endif
+     qtest_add_func("/migration/multifd/tcp/tls/psk/mismatch",
+                    test_multifd_tcp_tls_psk_mismatch);
+ #ifdef CONFIG_TASN1
 -- 
 2.31.1
 
