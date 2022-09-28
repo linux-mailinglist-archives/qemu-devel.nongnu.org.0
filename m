@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18DE95EE6AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:36:58 +0200 (CEST)
-Received: from localhost ([::1]:53002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46A45EE6A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:30:55 +0200 (CEST)
+Received: from localhost ([::1]:45826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oddnd-0002mh-6A
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60016)
+	id 1oddhm-0005Dw-O8
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:30:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddek-0007wI-7B
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:46 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:43941)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddei-0007u0-RV
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:44 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:44405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddei-0006Mu-4Y
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:45 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddeh-0006MQ-1p
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:44 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MuDTn-1pVjLF3U1l-00ucB3; Wed, 28
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mirb8-1p7DEv15hU-00etgK; Wed, 28
  Sep 2022 22:27:41 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
 	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 04/37] linux-user: Add missing clock_gettime64() syscall strace
-Date: Wed, 28 Sep 2022 22:27:04 +0200
-Message-Id: <20220928202737.793171-5-laurent@vivier.eu>
+Subject: [PULL 05/37] linux-user: Add pidfd_open(),
+ pidfd_send_signal() and pidfd_getfd() syscalls
+Date: Wed, 28 Sep 2022 22:27:05 +0200
+Message-Id: <20220928202737.793171-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928202737.793171-1-laurent@vivier.eu>
 References: <20220928202737.793171-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GIW8ynZGiXfnZktLTdPEs/LQDSNBJPXQhZyfu6tzVnC3HmGNp82
- YkHDxojOEqOZFLl2vm3gTXBtrYOfilnqPUaEX9LYLEfFODyqmXym+9MGeGgdIh2wHDX+lDi
- n1WwjIsRlsW6w0VRr+08m/a734f3hi9RyVuhov53/1tmIAB05fgF4TFHKr8+YZYUkeRmPVa
- f0TCEzN3Uu/l6Bt58dVwA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vkYEw0vDZ6M=:LMP4TO9yJlWRIkQeNXxsUj
- Fx/VMfsxKkgYwBLl0wEZ2yKCfYtQFnr8PegYtny9wNmF5SkRynriGOFWqKvvfY2aE37NQSFLU
- vMr7rnp6se4y22sdPioJJwjSoMiU/kyGo6Mfz10xbAnLYkggk2+W6Iwv8PD/MQRIKiO64ug3v
- e2zrLg6b9nKLFi4AwFXbCW07s+kb6G2SLdtEr00YB4J8iTJgf4j8dCQ79vrk5c/4dhwaeUx+v
- UMSAgH836XYXlTgQmJ4buf+T94OH+k0E4YKk2Id1IDsqexRmb5MUO/uBwudqMpBDbjDfis4Gq
- mYTV4gMHXlMbs0c/p+peVZqz5MtSTgMd9kBQW1nnB85HXBAM2dr5TXm+lEhs/Mic+mYjuZ5ZC
- eqsvsKAKd53FghKMj+KV79zCYPIPRva+pbbpMhWFlswevJPKYLyfl4Rg/GPSb0hWBlBzi1zwT
- 6KAiEDvUkV0BOWOSWQs81KAsUHEgkwaWPbFoq1JWCWYEXlGdqwWxGtnbr1lptoNcNN9Dbe4bf
- u8KnJgpIRvjjv6BLuGJIetj8XMr6hA/rY18rbPzHgAQ80vMdIhVG4uHJvoKYFu0gfhqES8zak
- Ri/rrmK6z6K5+tA1brgys8oTNkqtlPNScb6CAYOlnNvL2hEiGGaBkTHuwQDIRD/0xISDq5HD0
- hD5tyqnZ0BnYYgb6EWhKlvXBnj8SkNOZ1alKK1mXk12FAuWr2aZGCTZSANMOyBSuO5/Vd3qob
- OppTkw4ToK/Te0JEX9S/NHYmAUcka61DD6Jihx1LfTY+S4hFE8qyaqx9QsDBBYM7g5nVqDC2f
- ++lYfkS
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:CZNab/SaSwFIk+e1+nEbEBympse6t7XjYQN4lD+8PB1TsNU10HT
+ HxSdw9PrBUmWVHVYngvsFzno9myTHOnuf8cxFOWQmlo5gjpNoON2mNv/If3MOi1HdpoizBg
+ SFYYveA12VeWUQI0noqjUaogR0ervdEHlSlMydyeoxGfg7BElsPLddNHoDOpddBxoOS/Kr7
+ HxfKGDhbN7kzMWmmkOV1w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0fO/qyTfghM=:83VGdksul+S0Qa+2CwpByX
+ h3KCnVqy2UQDLMqFVoNH4F7ZTzKPhbtP/nsokUEdwStc578ZXdihCKTl2h+fObjN2A1Eq1uXV
+ TpElyJMwN7Pq40QH1NHS4n1NLeb2BwVhk+JDgsSak8qlLkWSVsABBw6PtGuE6JU1+EdoW7i6n
+ Wd5//QSzRuZUzq39VBDLLZnjvbhbCj7kfeWiQ09fO8y1526w/jeUnTo+eXDVnjwwIiTgJ4pDf
+ 7ZnexmcfnWWcGnpy1qPrxgxJUp7ipeWsyXFtsEtY7BNtVQvtehLiLPA6YK/AafycG661FxZgj
+ OFgA+fd7YGGkj3KPmNuGny/nu6A5CLQmmi3ih0mOoLGKjR3S9N8cAwn2ZHi7SpVNozIv3ysQ/
+ BoCfMjXe7qmS7wxd+f0G2lrvEdN4qBkyKbtGxqYpm+FZA+IPkdOTU0/JYlOQSX0TvLpucK2ZU
+ HX/H5RLye2SKSaaevDp6EB2ECWsycHZmDrGKkndFlQ9cQ++xrPGMGdQ6NOqs0DzKg4djb4YWI
+ mBUfYoTiNiDovYgpJbEgVUB1gB01rNtLVVq6qWahdI8CCF6AMHlGlU/C7fK9rifauQqgfYm+F
+ AYaNeybEqxHQQ1jTJptqlLMMV6vIoNGC7Du1EgP1zuBfVEF3H6iJSKIprhDDGqfU9m4owZpgQ
+ IWb7INY+kjeJDjHYIWBA2e9Cw9FTgnDZDv4OkFLq2DffykuQUm9cKJP1NUi/gFyj8UOz0kNPa
+ X5ZzghUgSJwg+I3L3RHqqhdYxTRQsC5Q8w1XU3P5W+GFdAhq6KZNmr6OwOf861cV5AH2VcHUt
+ eMMuY5U
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,116 +74,130 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Helge Deller <deller@gmx.de>
 
-Allow linux-user to strace the clock_gettime64() syscall.
-This syscall is used a lot on 32-bit guest architectures which use newer
-glibc versions.
+I noticed those were missing when running the glib2.0 testsuite.
+Add the syscalls including the strace output.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220918194555.83535-3-deller@gmx.de>
+Message-Id: <20220918194555.83535-4-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c    | 53 ++++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list |  4 ++++
- 2 files changed, 57 insertions(+)
+ linux-user/strace.c    | 28 ++++++++++++++++++++++++++++
+ linux-user/strace.list |  9 +++++++++
+ linux-user/syscall.c   | 34 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 71 insertions(+)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index a4eeef7ae1ca..816e67999539 100644
+index 816e67999539..5ac64df02b85 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -82,6 +82,7 @@ UNUSED static void print_buf(abi_long addr, abi_long len, int last);
- UNUSED static void print_raw_param(const char *, abi_long, int);
- UNUSED static void print_timeval(abi_ulong, int);
- UNUSED static void print_timespec(abi_ulong, int);
-+UNUSED static void print_timespec64(abi_ulong, int);
- UNUSED static void print_timezone(abi_ulong, int);
- UNUSED static void print_itimerval(abi_ulong, int);
- UNUSED static void print_number(abi_long, int);
-@@ -795,6 +796,24 @@ print_syscall_ret_clock_gettime(CPUArchState *cpu_env, const struct syscallname
- #define print_syscall_ret_clock_getres     print_syscall_ret_clock_gettime
- #endif
- 
-+#if defined(TARGET_NR_clock_gettime64)
-+static void
-+print_syscall_ret_clock_gettime64(CPUArchState *cpu_env, const struct syscallname *name,
-+                                abi_long ret, abi_long arg0, abi_long arg1,
-+                                abi_long arg2, abi_long arg3, abi_long arg4,
-+                                abi_long arg5)
-+{
-+    if (!print_syscall_err(ret)) {
-+        qemu_log(TARGET_ABI_FMT_ld, ret);
-+        qemu_log(" (");
-+        print_timespec64(arg1, 1);
-+        qemu_log(")");
-+    }
-+
-+    qemu_log("\n");
-+}
-+#endif
-+
- #ifdef TARGET_NR_gettimeofday
- static void
- print_syscall_ret_gettimeofday(CPUArchState *cpu_env, const struct syscallname *name,
-@@ -1652,6 +1671,27 @@ print_timespec(abi_ulong ts_addr, int last)
-     }
+@@ -3317,6 +3317,34 @@ print_openat(CPUArchState *cpu_env, const struct syscallname *name,
  }
- 
-+static void
-+print_timespec64(abi_ulong ts_addr, int last)
-+{
-+    if (ts_addr) {
-+        struct target__kernel_timespec *ts;
-+
-+        ts = lock_user(VERIFY_READ, ts_addr, sizeof(*ts), 1);
-+        if (!ts) {
-+            print_pointer(ts_addr, last);
-+            return;
-+        }
-+        qemu_log("{tv_sec = %lld"
-+                 ",tv_nsec = %lld}%s",
-+                 (long long)tswap64(ts->tv_sec), (long long)tswap64(ts->tv_nsec),
-+                 get_comma(last));
-+        unlock_user(ts, ts_addr, 0);
-+    } else {
-+        qemu_log("NULL%s", get_comma(last));
-+    }
-+}
-+
- static void
- print_timezone(abi_ulong tz_addr, int last)
- {
-@@ -2267,6 +2307,19 @@ print_clock_gettime(CPUArchState *cpu_env, const struct syscallname *name,
- #define print_clock_getres     print_clock_gettime
  #endif
  
-+#if defined(TARGET_NR_clock_gettime64)
++#ifdef TARGET_NR_pidfd_send_signal
 +static void
-+print_clock_gettime64(CPUArchState *cpu_env, const struct syscallname *name,
-+                    abi_long arg0, abi_long arg1, abi_long arg2,
-+                    abi_long arg3, abi_long arg4, abi_long arg5)
++print_pidfd_send_signal(CPUArchState *cpu_env, const struct syscallname *name,
++                abi_long arg0, abi_long arg1, abi_long arg2,
++                abi_long arg3, abi_long arg4, abi_long arg5)
 +{
++    void *p;
++    target_siginfo_t uinfo;
++
 +    print_syscall_prologue(name);
-+    print_enums(clockids, arg0, 0);
-+    print_pointer(arg1, 1);
++    print_raw_param("%d", arg0, 0);
++    print_signal(arg1, 0);
++
++    p = lock_user(VERIFY_READ, arg2, sizeof(target_siginfo_t), 1);
++    if (p) {
++        get_target_siginfo(&uinfo, p);
++        print_siginfo(&uinfo);
++
++        unlock_user(p, arg2, 0);
++    } else {
++        print_pointer(arg2, 1);
++    }
++
++    print_raw_param("%u", arg3, 0);
 +    print_syscall_epilogue(name);
 +}
 +#endif
 +
- #ifdef TARGET_NR_clock_settime
+ #ifdef TARGET_NR_mq_unlink
  static void
- print_clock_settime(CPUArchState *cpu_env, const struct syscallname *name,
+ print_mq_unlink(CPUArchState *cpu_env, const struct syscallname *name,
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 72e17b1acf00..a78cdf3cdfef 100644
+index a78cdf3cdfef..4d8b7f6a5e0c 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -1676,3 +1676,7 @@
- #ifdef TARGET_NR_copy_file_range
- { TARGET_NR_copy_file_range, "copy_file_range", "%s(%d,%p,%d,%p,"TARGET_ABI_FMT_lu",%u)", NULL, NULL },
+@@ -1664,6 +1664,15 @@
+ #ifdef TARGET_NR_pipe2
+ { TARGET_NR_pipe2, "pipe2", NULL, NULL, NULL },
  #endif
-+#ifdef TARGET_NR_clock_gettime64
-+{ TARGET_NR_clock_gettime64, "clock_gettime64" , NULL, print_clock_gettime64,
-+                           print_syscall_ret_clock_gettime64 },
++#ifdef TARGET_NR_pidfd_open
++{ TARGET_NR_pidfd_open, "pidfd_open", "%s(%d,%u)", NULL, NULL },
 +#endif
++#ifdef TARGET_NR_pidfd_send_signal
++{ TARGET_NR_pidfd_send_signal, "pidfd_send_signal", NULL, print_pidfd_send_signal, NULL },
++#endif
++#ifdef TARGET_NR_pidfd_getfd
++{ TARGET_NR_pidfd_getfd, "pidfd_getfd", "%s(%d,%d,%u)", NULL, NULL },
++#endif
+ #ifdef TARGET_NR_atomic_cmpxchg_32
+ { TARGET_NR_atomic_cmpxchg_32, "atomic_cmpxchg_32", NULL, NULL, NULL },
+ #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index abf82bab2a18..850410c9b553 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -346,6 +346,16 @@ _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
+ _syscall6(int,sys_futex_time64,int *,uaddr,int,op,int,val,
+           const struct timespec *,timeout,int *,uaddr2,int,val3)
+ #endif
++#if defined(__NR_pidfd_open) && defined(TARGET_NR_pidfd_open)
++_syscall2(int, pidfd_open, pid_t, pid, unsigned int, flags);
++#endif
++#if defined(__NR_pidfd_send_signal) && defined(TARGET_NR_pidfd_send_signal)
++_syscall4(int, pidfd_send_signal, int, pidfd, int, sig, siginfo_t *, info,
++                             unsigned int, flags);
++#endif
++#if defined(__NR_pidfd_getfd) && defined(TARGET_NR_pidfd_getfd)
++_syscall3(int, pidfd_getfd, int, pidfd, int, targetfd, unsigned int, flags);
++#endif
+ #define __NR_sys_sched_getaffinity __NR_sched_getaffinity
+ _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
+           unsigned long *, user_mask_ptr);
+@@ -8683,6 +8693,30 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         ret = do_open_by_handle_at(arg1, arg2, arg3);
+         fd_trans_unregister(ret);
+         return ret;
++#endif
++#if defined(__NR_pidfd_open) && defined(TARGET_NR_pidfd_open)
++    case TARGET_NR_pidfd_open:
++        return get_errno(pidfd_open(arg1, arg2));
++#endif
++#if defined(__NR_pidfd_send_signal) && defined(TARGET_NR_pidfd_send_signal)
++    case TARGET_NR_pidfd_send_signal:
++        {
++            siginfo_t uinfo;
++
++            p = lock_user(VERIFY_READ, arg3, sizeof(target_siginfo_t), 1);
++            if (!p) {
++                return -TARGET_EFAULT;
++            }
++            target_to_host_siginfo(&uinfo, p);
++            unlock_user(p, arg3, 0);
++            ret = get_errno(pidfd_send_signal(arg1, target_to_host_signal(arg2),
++                &uinfo, arg4));
++        }
++        return ret;
++#endif
++#if defined(__NR_pidfd_getfd) && defined(TARGET_NR_pidfd_getfd)
++    case TARGET_NR_pidfd_getfd:
++        return get_errno(pidfd_getfd(arg1, arg2, arg3));
+ #endif
+     case TARGET_NR_close:
+         fd_trans_unregister(arg1);
 -- 
 2.37.3
 
