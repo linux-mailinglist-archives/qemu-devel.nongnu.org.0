@@ -2,62 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF575ED434
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 07:24:15 +0200 (CEST)
-Received: from localhost ([::1]:38372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18585ED43E
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 07:29:45 +0200 (CEST)
+Received: from localhost ([::1]:40984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odPYM-0004U6-1A
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 01:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33748)
+	id 1odPdg-0006RJ-Oq
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 01:29:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liuyang22@iscas.ac.cn>)
- id 1odPWZ-0002Jm-Us; Wed, 28 Sep 2022 01:22:24 -0400
-Received: from smtp85.cstnet.cn ([159.226.251.85]:35060 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liuyang22@iscas.ac.cn>)
- id 1odPWX-0007t2-B0; Wed, 28 Sep 2022 01:22:23 -0400
-Received: from liuyang22$iscas.ac.cn ( [46.232.120.163] ) by
- ajax-webmail-APP-13 (Coremail) ; Wed, 28 Sep 2022 13:22:13 +0800
- (GMT+08:00)
-X-Originating-IP: [46.232.120.163]
-Date: Wed, 28 Sep 2022 13:22:13 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5YiY6Ziz?= <liuyang22@iscas.ac.cn>
-To: "Alistair Francis" <alistair23@gmail.com>
-Cc: "Palmer Dabbelt" <palmer@dabbelt.com>, 
- "Alistair Francis" <alistair.francis@wdc.com>, 
- "Bin Meng" <bin.meng@windriver.com>, "Tommy Wu" <tommy.wu@sifive.com>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, 
- wangjunqiang <wangjunqiang@iscas.ac.cn>, 
- =?UTF-8?Q?Wei_Wu_=28=E5=90=B4=E4=BC=9F=29?= <lazyparser@gmail.com>, 
- liweiwei <liweiwei@iscas.ac.cn>
-Subject: Re: Re: [PATCH v2] disas/riscv.c: rvv: Add disas support for vector
- instructions
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20220622(41e5976f)
- Copyright (c) 2002-2022 www.mailtech.cn cnic.cn
-In-Reply-To: <CAKmqyKNNyyC0qcPam8iYTqreAF=jYuX0=qCSe6sr2xja0g9_oQ@mail.gmail.com>
-References: <20220826032258.7289-1-liuyang22@iscas.ac.cn>
- <CAKmqyKO2p8DF-e0UujtZu8gJpH+=BE6w1KZo5fA0vkK+=mk03A@mail.gmail.com>
- <CAKmqyKNNyyC0qcPam8iYTqreAF=jYuX0=qCSe6sr2xja0g9_oQ@mail.gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odPbt-0004oV-RA
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 01:27:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50404)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odPbj-0008V8-J4
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 01:27:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664342861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gVwc1niaditCDxFplIzlHtZ1B1MQmJ0UYf7XhaGiWI0=;
+ b=ScNt1q4TV0N1U7gsGZy038RY0MA2Byblr91R4oPszpZVKnHevs+wQDuGFT4ojAtCdmCemA
+ V5dXVQYcTIK1KrGrB0GcLNtQoKMIo5ffGjt7HUVhco5rMsKLJehZnRaj8Kx5jG5XN4iCO+
+ PIhXr12x4026oBjOPttOSgPkucCq/8k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-553-IzFG1rXON56wZvG9KRP5EA-1; Wed, 28 Sep 2022 01:27:38 -0400
+X-MC-Unique: IzFG1rXON56wZvG9KRP5EA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AAF99185A794;
+ Wed, 28 Sep 2022 05:27:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E1F640C6EC2;
+ Wed, 28 Sep 2022 05:27:36 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4A00421E691D; Wed, 28 Sep 2022 07:27:34 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org,  Yanan Wang <wangyanan55@huawei.com>,  Kevin Wolf
+ <kwolf@redhat.com>,  Markus Armbruster <armbru@redhat.com>,  John Snow
+ <jsnow@redhat.com>,  "Denis V. Lunev" <den@openvz.org>,  Xie Changlong
+ <xiechanglong.d@gmail.com>,  Eric Blake <eblake@redhat.com>,
+ integration@gluster.org,  David Hildenbrand <david@redhat.com>,  Wen
+ Congyang <wencongyang2@huawei.com>,  Laurent Vivier <lvivier@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>,  afaria@redhat.com,  Fam Zheng
+ <fam@euphon.net>,  Thomas Huth <thuth@redhat.com>,  Hanna Reitz
+ <hreitz@redhat.com>,  Eduardo Habkost <eduardo@habkost.net>,  Peter Xu
+ <peterx@redhat.com>,  Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  Vladimir
+ Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,  Philippe =?utf-8?Q?Math?=
+ =?utf-8?Q?ieu-Daud=C3=A9?=
+ <f4bug@amsat.org>,  Jeff Cody <codyprime@gmail.com>,
+ qemu-block@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  Richard
+ Henderson <richard.henderson@linaro.org>,  "Michael S. Tsirkin"
+ <mst@redhat.com>,  sgarzare@redhat.com
+Subject: Re: [PATCH v5 02/12] blkio: add libblkio block driver
+References: <20220927193431.22302-1-stefanha@redhat.com>
+ <20220927193431.22302-3-stefanha@redhat.com>
+Date: Wed, 28 Sep 2022 07:27:34 +0200
+In-Reply-To: <20220927193431.22302-3-stefanha@redhat.com> (Stefan Hajnoczi's
+ message of "Tue, 27 Sep 2022 15:34:21 -0400")
+Message-ID: <87sfkc1321.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Message-ID: <15ad96e6.24ec8.183828ba508.Coremail.liuyang22@iscas.ac.cn>
-X-Coremail-Locale: en_US
-X-CM-TRANSID: twCowACniZoG2jNjiWQDAA--.36875W
-X-CM-SenderInfo: 5olx5tdqjsjq5lvft2wodfhubq/1tbiBwcDAGMznGvNzAAAsl
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=159.226.251.85;
- envelope-from=liuyang22@iscas.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,69 +96,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CgoKJmd0OyAtLS0tLU9yaWdpbmFsIE1lc3NhZ2VzLS0tLS0KJmd0OyBGcm9tOiAiQWxpc3RhaXIg
-RnJhbmNpcyIgPGFsaXN0YWlyMjNAZ21haWwuY29tPgomZ3Q7IFNlbnQgVGltZTogMjAyMi0wOS0y
-NyAwOTo1NzozOSAoVHVlc2RheSkKJmd0OyBUbzogIllhbmcgTGl1IiA8bGl1eWFuZzIyQGlzY2Fz
-LmFjLmNuPgomZ3Q7IENjOiAiUGFsbWVyIERhYmJlbHQiIDxwYWxtZXJAZGFiYmVsdC5jb20+LCAi
-QWxpc3RhaXIgRnJhbmNpcyIgPGFsaXN0YWlyLmZyYW5jaXNAd2RjLmNvbT4sICJCaW4gTWVuZyIg
-PGJpbi5tZW5nQHdpbmRyaXZlci5jb20+LCAiVG9tbXkgV3UiIDx0b21teS53dUBzaWZpdmUuY29t
-PiwgIm9wZW4gbGlzdDpSSVNDLVYiIDxxZW11LXJpc2N2QG5vbmdudS5vcmc+LCAicWVtdS1kZXZl
-bEBub25nbnUub3JnIERldmVsb3BlcnMiIDxxZW11LWRldmVsQG5vbmdudS5vcmc+LCB3YW5nanVu
-cWlhbmcgPHdhbmdqdW5xaWFuZ0Bpc2Nhcy5hYy5jbj4sICJXZWkgV3UgKOWQtOS8nykiIDxsYXp5
-cGFyc2VyQGdtYWlsLmNvbT4sIGxpd2Vpd2VpIDxsaXdlaXdlaUBpc2Nhcy5hYy5jbj4KJmd0OyBT
-dWJqZWN0OiBSZTogW1BBVENIIHYyXSBkaXNhcy9yaXNjdi5jOiBydnY6IEFkZCBkaXNhcyBzdXBw
-b3J0IGZvciB2ZWN0b3IgaW5zdHJ1Y3Rpb25zCiZndDsgCiZndDsgT24gRnJpLCBTZXAgMjMsIDIw
-MjIgYXQgMjoyNyBQTSBBbGlzdGFpciBGcmFuY2lzIDxhbGlzdGFpcjIzQGdtYWlsLmNvbT4gd3Jv
-dGU6CiZndDsgJmd0OwomZ3Q7ICZndDsgT24gRnJpLCBBdWcgMjYsIDIwMjIgYXQgMToyNiBQTSBZ
-YW5nIExpdSA8bGl1eWFuZzIyQGlzY2FzLmFjLmNuPiB3cm90ZToKJmd0OyAmZ3Q7ICZndDsKJmd0
-OyAmZ3Q7ICZndDsgVGVzdGVkIHdpdGggaHR0cHM6Ly9naXRodWIuY29tL2tzY28vcnZ2LWRlY29k
-ZXItdGVzdHMKJmd0OyAmZ3Q7ICZndDsKJmd0OyAmZ3Q7ICZndDsgRXhwZWN0ZWQgY2hlY2twYXRj
-aCBlcnJvcnMgZm9yIGNvbnNpc3RlbmN5IGFuZCBicmV2aXR5IHJlYXNvbnM6CiZndDsgJmd0OyAm
-Z3Q7CiZndDsgJmd0OyAmZ3Q7IEVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwomZ3Q7ICZn
-dDsgJmd0OyBFUlJPUjogdHJhaWxpbmcgc3RhdGVtZW50cyBzaG91bGQgYmUgb24gbmV4dCBsaW5l
-CiZndDsgJmd0OyAmZ3Q7IEVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFy
-bXMgb2YgdGhpcyBzdGF0ZW1lbnQKJmd0OyAmZ3Q7ICZndDsKJmd0OyAmZ3Q7ICZndDsgU2lnbmVk
-LW9mZi1ieTogWWFuZyBMaXUgPGxpdXlhbmcyMkBpc2Nhcy5hYy5jbj4KJmd0OyAmZ3Q7CiZndDsg
-Jmd0OyBUaGFua3MhCiZndDsgJmd0OwomZ3Q7ICZndDsgQXBwbGllZCB0byByaXNjdi10by1hcHBs
-eS5uZXh0CiZndDsgCiZndDsgVGhpcyBwYXRjaCBmYWlscyB0byBidWlsZCB3aXRoIHRoaXMgZXJy
-b3I6CiZndDsgCiZndDsgLi4vZGlzYXMvcmlzY3YuYzogSW4gZnVuY3Rpb24gJ3ByaW50X2luc25f
-cmlzY3YnOgomZ3Q7IC4uL2Rpc2FzL3Jpc2N2LmM6NDUxMzozMDogZXJyb3I6ICdfX2J1aWx0aW5f
-X19zcHJpbnRmX2NoaycgbWF5IHdyaXRlIGEKJmd0OyB0ZXJtaW5hdGluZyBudWwgcGFzdCB0aGUg
-ZW5kIG9mIHRoZSBkZXN0aW5hdGlvbgomZ3Q7IFstV2Vycm9yPWZvcm1hdC1vdmVyZmxvdz1dCiZn
-dDsgIDQ1MTMgfCAgICAgICAgICAgICBzcHJpbnRmKG5idWYsICIlZCIsIHNldyk7CiZndDsgICAg
-ICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KJmd0OyBJbiBmaWxlIGluY2x1ZGVk
-IGZyb20gL3Vzci9pbmNsdWRlL3N0ZGlvLmg6OTA2LAomZ3Q7ICAgICAgICAgICAgICAgICAgZnJv
-bQomZ3Q7IC9zY3JhdGNoL2plbmtpbnMtdG1wL3dvcmtzcGFjZS9RRU1VLU11bHRpLUNvbmZpZy1C
-dWlsZC9CVUlMRF9PUFRJT05TL0dDQy9pbmNsdWRlL3FlbXUvb3NkZXAuaDo5NywKJmd0OyAgICAg
-ICAgICAgICAgICAgIGZyb20gLi4vZGlzYXMvcmlzY3YuYzoyMDoKJmd0OyBJbiBmdW5jdGlvbiAn
-c3ByaW50ZicsCiZndDsgICAgIGlubGluZWQgZnJvbSAnZm9ybWF0X2luc3QnIGF0IC4uL2Rpc2Fz
-L3Jpc2N2LmM6NDUxMzoxMywKJmd0OyAgICAgaW5saW5lZCBmcm9tICdkaXNhc21faW5zdCcgYXQg
-Li4vZGlzYXMvcmlzY3YuYzo0NjQwOjUsCiZndDsgICAgIGlubGluZWQgZnJvbSAncHJpbnRfaW5z
-bl9yaXNjdicgYXQgLi4vZGlzYXMvcmlzY3YuYzo0NjkwOjU6CiZndDsgL3Vzci9pbmNsdWRlL2Jp
-dHMvc3RkaW8yLmg6MzA6MTA6IG5vdGU6ICdfX2J1aWx0aW5fX19zcHJpbnRmX2NoaycKJmd0OyBv
-dXRwdXQgYmV0d2VlbiAyIGFuZCA1IGJ5dGVzIGludG8gYSBkZXN0aW5hdGlvbiBvZiBzaXplIDQK
-Jmd0OyAgICAzMCB8ICAgcmV0dXJuIF9fYnVpbHRpbl9fX3NwcmludGZfY2hrIChfX3MsIF9fVVNF
-X0ZPUlRJRllfTEVWRUwgLSAxLAomZ3Q7ICAgICAgIHwgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CiZndDsgICAgMzEgfCAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgX19nbGliY19vYmpzaXplIChfX3MpLCBfX2Zt
-dCwKJmd0OyAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgomZ3Q7ICAgIDMyIHwgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIF9fdmFfYXJnX3BhY2sgKCkpOwomZ3Q7ICAgICAgIHwgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIH5+fn5+fn5+fn5+fn5+fn5+CiZndDsgCiZndDsgCiZndDsg
-QWxpc3RhaXIKJmd0OyAKClRoYW5rcyBmb3IgdGhlIHJldmlldywgSSd2ZSBzdWJtaXR0ZWQgYSB2
-MyBwYXRjaC4KCllhbmcKCiZndDsgJmd0OyAmZ3Q7ICAgICAgZGVjb2RlX2luc3Rfb3BlcmFuZHMo
-JmFtcDtkZWMpOwomZ3Q7ICZndDsgJmd0OyAgICAgIGRlY29kZV9pbnN0X2RlY29tcHJlc3MoJmFt
-cDtkZWMsIGlzYSk7CiZndDsgJmd0OyAmZ3Q7ICAgICAgZGVjb2RlX2luc3RfbGlmdF9wc2V1ZG8o
-JmFtcDtkZWMpOwomZ3Q7ICZndDsgJmd0OyAtICAgIGZvcm1hdF9pbnN0KGJ1ZiwgYnVmbGVuLCAx
-NiwgJmFtcDtkZWMpOwomZ3Q7ICZndDsgJmd0OyArICAgIGZvcm1hdF9pbnN0KGJ1ZiwgYnVmbGVu
-LCAyNCwgJmFtcDtkZWMpOwomZ3Q7ICZndDsgJmd0OyAgfQomZ3Q7ICZndDsgJmd0OwomZ3Q7ICZn
-dDsgJmd0OyAgI2RlZmluZSBJTlNUX0ZNVF8yICIlMDQiIFBSSXg2NCAiICAgICAgICAgICAgICAi
-CiZndDsgJmd0OyAmZ3Q7IC0tCiZndDsgJmd0OyAmZ3Q7IDIuMzAuMSAoQXBwbGUgR2l0LTEzMCkK
-Jmd0OyAmZ3Q7ICZndDsKJmd0OyAmZ3Q7ICZndDsKPC9saXV5YW5nMjJAaXNjYXMuYWMuY24+PC9s
-aXV5YW5nMjJAaXNjYXMuYWMuY24+PC9hbGlzdGFpcjIzQGdtYWlsLmNvbT48L2xpd2Vpd2VpQGlz
-Y2FzLmFjLmNuPjwvbGF6eXBhcnNlckBnbWFpbC5jb20+PC93YW5nanVucWlhbmdAaXNjYXMuYWMu
-Y24+PC9xZW11LWRldmVsQG5vbmdudS5vcmc+PC9xZW11LXJpc2N2QG5vbmdudS5vcmc+PC90b21t
-eS53dUBzaWZpdmUuY29tPjwvYmluLm1lbmdAd2luZHJpdmVyLmNvbT48L2FsaXN0YWlyLmZyYW5j
-aXNAd2RjLmNvbT48L3BhbG1lckBkYWJiZWx0LmNvbT48L2xpdXlhbmcyMkBpc2Nhcy5hYy5jbj48
-L2FsaXN0YWlyMjNAZ21haWwuY29tPg==
+Stefan Hajnoczi <stefanha@redhat.com> writes:
+
+> libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
+> high-performance disk I/O. It currently supports io_uring,
+> virtio-blk-vhost-user, and virtio-blk-vhost-vdpa with additional drivers
+> under development.
+>
+> One of the reasons for developing libblkio is that other applications
+> besides QEMU can use it. This will be particularly useful for
+> virtio-blk-vhost-user which applications may wish to use for connecting
+> to qemu-storage-daemon.
+>
+> libblkio also gives us an opportunity to develop in Rust behind a C API
+> that is easy to consume from QEMU.
+>
+> This commit adds io_uring, virtio-blk-vhost-user, and
+> virtio-blk-vhost-vdpa BlockDrivers to QEMU using libblkio. It will be
+> easy to add other libblkio drivers since they will share the majority of
+> code.
+>
+> For now I/O buffers are copied through bounce buffers if the libblkio
+> driver requires it. Later commits add an optimization for
+> pre-registering guest RAM to avoid bounce buffers.
+>
+> The syntax is:
+>
+>   --blockdev io_uring,node-name=drive0,filename=test.img,readonly=on|off,cache.direct=on|off
+>
+> and:
+>
+>   --blockdev virtio-blk-vhost-vdpa,node-name=drive0,path=/dev/vdpa...,readonly=on|off
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+
+[...]
+
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index f21fa235f2..5aed0dd436 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2951,11 +2951,16 @@
+>              'file', 'snapshot-access', 'ftp', 'ftps', 'gluster',
+>              {'name': 'host_cdrom', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
+>              {'name': 'host_device', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
+> -            'http', 'https', 'iscsi',
+> +            'http', 'https',
+> +            { 'name': 'io_uring', 'if': 'CONFIG_BLKIO' },
+> +            'iscsi',
+>              'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
+>              'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+>              { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
+> -            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
+> +            'ssh', 'throttle', 'vdi', 'vhdx',
+> +            { 'name': 'virtio-blk-vhost-user', 'if': 'CONFIG_BLKIO' },
+> +            { 'name': 'virtio-blk-vhost-vdpa', 'if': 'CONFIG_BLKIO' },
+> +            'vmdk', 'vpc', 'vvfat' ] }
+>  
+>  ##
+>  # @BlockdevOptionsFile:
+> @@ -3678,6 +3683,42 @@
+>              '*debug': 'int',
+>              '*logfile': 'str' } }
+>  
+> +##
+> +# @BlockdevOptionsIoUring:
+> +#
+> +# Driver specific block device options for the io_uring backend.
+> +#
+> +# @filename: path to the image file
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'BlockdevOptionsIoUring',
+> +  'data': { 'filename': 'str' } }
+> +
+> +##
+> +# @BlockdevOptionsVirtioBlkVhostUser:
+> +#
+> +# Driver specific block device options for the virtio-blk-vhost-user backend.
+> +#
+> +# @path: path to the vhost-user UNIX domain socket.
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'BlockdevOptionsVirtioBlkVhostUser',
+> +  'data': { 'path': 'str' } }
+> +
+> +##
+> +# @BlockdevOptionsVirtioBlkVhostVdpa:
+> +#
+> +# Driver specific block device options for the virtio-blk-vhost-vdpa backend.
+> +#
+> +# @path: path to the vhost-vdpa character device.
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'BlockdevOptionsVirtioBlkVhostVdpa',
+> +  'data': { 'path': 'str' } }
+> +
+
+Should these be 'if': 'CONFIG_BLKIO'?
+
+>  ##
+>  # @IscsiTransport:
+>  #
+> @@ -4305,6 +4346,8 @@
+>                         'if': 'HAVE_HOST_BLOCK_DEVICE' },
+>        'http':       'BlockdevOptionsCurlHttp',
+>        'https':      'BlockdevOptionsCurlHttps',
+> +      'io_uring':   { 'type': 'BlockdevOptionsIoUring',
+> +                      'if': 'CONFIG_BLKIO' },
+>        'iscsi':      'BlockdevOptionsIscsi',
+>        'luks':       'BlockdevOptionsLUKS',
+>        'nbd':        'BlockdevOptionsNbd',
+> @@ -4327,6 +4370,12 @@
+>        'throttle':   'BlockdevOptionsThrottle',
+>        'vdi':        'BlockdevOptionsGenericFormat',
+>        'vhdx':       'BlockdevOptionsGenericFormat',
+> +      'virtio-blk-vhost-user':
+> +                    { 'type': 'BlockdevOptionsVirtioBlkVhostUser',
+> +                      'if': 'CONFIG_BLKIO' },
+> +      'virtio-blk-vhost-vdpa':
+> +                    { 'type': 'BlockdevOptionsVirtioBlkVhostVdpa',
+> +                      'if': 'CONFIG_BLKIO' },
+>        'vmdk':       'BlockdevOptionsGenericCOWFormat',
+>        'vpc':        'BlockdevOptionsGenericFormat',
+>        'vvfat':      'BlockdevOptionsVVFAT'
+
+[...]
+
 
