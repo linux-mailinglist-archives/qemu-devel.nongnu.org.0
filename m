@@ -2,109 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED955EDC16
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:58:34 +0200 (CEST)
-Received: from localhost ([::1]:52784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F6A5EDBE6
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:38:15 +0200 (CEST)
+Received: from localhost ([::1]:36632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odVhx-0002dG-5t
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:58:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51946)
+	id 1odVOI-0006tu-6x
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:38:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1odSXB-00050U-9L; Wed, 28 Sep 2022 04:35:21 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38364)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1odSY9-0005CI-Cs
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:36:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1odSWw-0002f8-R5; Wed, 28 Sep 2022 04:35:13 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28S81GGD018858;
- Wed, 28 Sep 2022 08:34:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=A8hyOLYWcfo7I++4mtqYegVv66r9HdmGJTE/Mgd1xbA=;
- b=JcvyQfFoiDlbBc1Hl3DibHlZOjc3LR63y6hwV0KkVVGL1V8R37qGSrvG2zlnIxA1L3zQ
- NwNhj7CO6KJshSQRHOUImxwQZbAgR0hoq4LXJ4syZWZEvYrD4ozbiS6APHRbp5z6RjIB
- shzDn8AAfZwHi8qsB45+qdH90hYrlStUyLbqPaJiWDXDtEhMjoW3Z+zCuNLwUJBl4xVm
- 4LlEVA/LU/O0IltKqrcCOGin7r7b/6AUjFGerLZYeSZZvip7m5lIAm6oRL9FGdzj9qdE
- +xHt5fR+N3sylcvESGpNodfs4Mo1lxM2yTY7KKk4pOtYmYBD1nA7g5QEzNx3irIyGqVL Vg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvjd0ryyx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 08:34:52 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28S8P6a7027928;
- Wed, 28 Sep 2022 08:34:52 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvjd0rywy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 08:34:52 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28S8LqNK023713;
- Wed, 28 Sep 2022 08:34:49 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06ams.nl.ibm.com with ESMTP id 3jss5j4xx7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 08:34:49 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 28S8YkxY2491026
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 28 Sep 2022 08:34:46 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8AC314C046;
- Wed, 28 Sep 2022 08:34:46 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A56A04C044;
- Wed, 28 Sep 2022 08:34:45 +0000 (GMT)
-Received: from [9.171.31.212] (unknown [9.171.31.212])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 28 Sep 2022 08:34:45 +0000 (GMT)
-Message-ID: <c4dca971-175f-5d51-ac6f-e73582583e56@linux.ibm.com>
-Date: Wed, 28 Sep 2022 10:34:45 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1odSY5-00031D-JH
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:36:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664354167;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gZaEjQesn4XYv513VP97X+CjyiaUo1u5G7XLc/Pplgk=;
+ b=TRsBlkrULC3hBd3GGlhq80k2yQRqn2VIY8pX1+iB0vXKoxy+EuxX93DO4E5OrXZFrHrNFL
+ FLURQZf+4JlwUBGvg6u8zoLe4+u3beiikQC9xeyccdscv8M1+eDZSmUE20q0Q7D07w2Yca
+ TGaHZ4l5cQDspMttlhYWKv4YgGlLC94=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-393-H2JmkPOEN7qPR36wgdvQcQ-1; Wed, 28 Sep 2022 04:36:03 -0400
+X-MC-Unique: H2JmkPOEN7qPR36wgdvQcQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35D44381494C;
+ Wed, 28 Sep 2022 08:36:03 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BEC3492B04;
+ Wed, 28 Sep 2022 08:36:01 +0000 (UTC)
+Date: Wed, 28 Sep 2022 09:35:59 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ imammedo@redhat.com, jsnow@redhat.com, pbonzini@redhat.com,
+ peter.maydell@linaro.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
+ QEMU bios tables using biosbits
+Message-ID: <YzQHb35ANVR9bHFj@redhat.com>
+References: <20220917162606-mutt-send-email-mst@kernel.org>
+ <CAARzgwxoy_E-vkwo-mKo0tbG31Y3E3r9FB6v3H3hgPYW4fb6sA@mail.gmail.com>
+ <YzK1VzoU05vnlxY4@redhat.com>
+ <CAARzgwxpm-tF3OwK95gHe+9_6qBebiqPFLug-59RUt85aCnuZQ@mail.gmail.com>
+ <YzLN3Y1pNO8SVn9M@redhat.com>
+ <CAARzgwx+ZitnYKvmkDGA1+Aq3_yPQFSs5GfTvGaAeNmHxUSNOQ@mail.gmail.com>
+ <CAARzgwwLXp9rDkQ4OTW2TUgnp_XDyMTXf6OhsKE9qAL1HTuMRQ@mail.gmail.com>
+ <YzMahUpNtsas18rN@redhat.com>
+ <20220927172044-mutt-send-email-mst@kernel.org>
+ <2a5c6c18-e0b1-aaf8-78fa-5a12396fef87@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v9 07/10] s390x/cpu_topology: CPU topology migration
-Content-Language: en-US
-To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-8-pmorel@linux.ibm.com>
- <5f127a8be58d0842c6d94d682538af55f4eef64f.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <5f127a8be58d0842c6d94d682538af55f4eef64f.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 0-B756vJ-4C4tLTNQaFKDsBWNQCwhREM
-X-Proofpoint-GUID: g2-uQyEWaP1aQM951z1pTrUXfb9vLZjL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-28_03,2022-09-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- suspectscore=0 mlxscore=0 clxscore=1015 impostorscore=0 malwarescore=0
- spamscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209280051
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2a5c6c18-e0b1-aaf8-78fa-5a12396fef87@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,89 +91,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 9/8/22 20:04, Janis Schoetterl-Glausch wrote:
-> On Fri, 2022-09-02 at 09:55 +0200, Pierre Morel wrote:
->> The migration can only take place if both source and destination
->> of the migration both use or both do not use the CPU topology
->> facility.
->>
->> We indicate a change in topology during migration postload for the
->> case the topology changed between source and destination.
+On Wed, Sep 28, 2022 at 10:31:39AM +0200, Thomas Huth wrote:
+> On 27/09/2022 23.21, Michael S. Tsirkin wrote:
+> > On Tue, Sep 27, 2022 at 04:45:09PM +0100, Daniel P. Berrangé wrote:
+> > > On Tue, Sep 27, 2022 at 07:35:13PM +0530, Ani Sinha wrote:
+> ...
+> > > > Alright, .gitlab-ci.yml is produced and the pipeline succeeds.
+> > > > However, the question still remains, where do we keep the generated
+> > > > artifacts?
+> > > 
+> > > The following link will always reflect the published artifacts from
+> > > the most recently fully successful CI pipeline, on the 'qemu-bits'
+> > > branch, and 'qemu-bits-build' CI job:
+> > > 
+> > > https://gitlab.com/qemu-project/biosbits-bits/-/jobs/artifacts/qemu-bits/download?job=qemu-bits-build
+> > > 
+> > > Tweak as needed if you push the CI to master branch instead. This
+> > > link can be considered the permanent home of the artifact. I'd just
+> > > suggest that the QEMU job automatically skip if it fails to download
+> > > the artifact, as occassionally transient infra errors can impact
+> > > it.
+> > 
+> > This just means once we change the test old qemu source can no longer use it.
+> > Why is this a good idea? Are we so short on disk space? I thought CPU
+> > is the limiting factor?
 > 
-> You always set the report bit after migration, right?
-> In the last series you actually migrated the bit.
-> Why the change? With the code you have actually migrating the bit isn't
-> hard.
-
-As for the moment the vCPU do not migrate from real CPU I thought based 
-on the remark of Nico that there is no need to set the bit after a 
-migration.
-
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   hw/s390x/cpu-topology.c         | 79 +++++++++++++++++++++++++++++++++
->>   include/hw/s390x/cpu-topology.h |  1 +
->>   target/s390x/cpu-sysemu.c       |  8 ++++
->>   target/s390x/cpu.h              |  1 +
->>   4 files changed, 89 insertions(+)
->>
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index 6098d6ea1f..b6bf839e40 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -19,6 +19,7 @@
->>   #include "target/s390x/cpu.h"
->>   #include "hw/s390x/s390-virtio-ccw.h"
->>   #include "hw/s390x/cpu-topology.h"
->> +#include "migration/vmstate.h"
->>   
->>   S390Topology *s390_get_topology(void)
->>   {
->> @@ -132,6 +133,83 @@ static void s390_topology_reset(DeviceState *dev)
->>       s390_cpu_topology_reset();
->>   }
->>   
->> +/**
->> + * cpu_topology_postload
->> + * @opaque: a pointer to the S390Topology
->> + * @version_id: version identifier
->> + *
->> + * We check that the topology is used or is not used
->> + * on both side identically.
->> + *
->> + * If the topology is in use we set the Modified Topology Change Report
->> + * on the destination host.
->> + */
->> +static int cpu_topology_postload(void *opaque, int version_id)
->> +{
->> +    S390Topology *topo = opaque;
->> +    int ret;
->> +
->> +    if (topo->topology_needed != s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
+> FYI, we'll soon be short on disk space, gitlab plans to introduce storage
+> limits:
 > 
-> Does this function even run if topology_needed is false?
-> In that case there is no data saved, so no reason to load it either.
-> If so you can only check that both the source and the destination have
-> the feature enabled. You would need to always send the topology VMSD in
-> order to check that the feature is disabled.
-> 
-> Does qemu allow you to attempt to migrate to a host with another cpu
-> model?
-> If it disallowes that you wouldn't need to do any checks, right?
+>  https://about.gitlab.com/pricing/faq-paid-storage-transfer/
 
-hum yes I must rework this
+That's the key reason I prefer the binary as CI artifact rather than
+in Git. Once checked into git, you can never reclaim that storage
+usage, as the git repo is append only, only option is to delete the
+repo and recreate.  With CI artifacts we can control exactly which
+binaries consume storage quota at any time.
 
-Thanks,
-Pierre
-
-
+With regards,
+Daniel
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
