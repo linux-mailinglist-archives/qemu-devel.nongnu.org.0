@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF1A5EE7BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 23:07:09 +0200 (CEST)
-Received: from localhost ([::1]:35782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F025EE73D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 23:03:49 +0200 (CEST)
+Received: from localhost ([::1]:38196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odeGq-0000ii-V6
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 17:07:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33364)
+	id 1odeDc-0004TT-Q9
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 17:03:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddex-0000Cn-Kl
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddex-0000AV-0c
  for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:59 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:53573)
+Received: from mout.kundenserver.de ([212.227.126.134]:37825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddev-0006U7-Be
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:59 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddev-0006U6-Bf
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:58 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MMoOy-1ouCZZ1V7U-00Ikd4; Wed, 28
- Sep 2022 22:27:53 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1McXs5-1pE3wC43dl-00d2Qx; Wed, 28
+ Sep 2022 22:27:54 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
 	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 20/37] linux-user/hppa: Add signal trampoline for hppa target
-Date: Wed, 28 Sep 2022 22:27:20 +0200
-Message-Id: <20220928202737.793171-21-laurent@vivier.eu>
+Subject: [PULL 21/37] linux-user/hppa: Drop stack guard page on hppa target
+Date: Wed, 28 Sep 2022 22:27:21 +0200
+Message-Id: <20220928202737.793171-22-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928202737.793171-1-laurent@vivier.eu>
 References: <20220928202737.793171-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GBK6QYDPd7J6IsdTi0b62Ai0RJc2j5XF6l8jc/qzLyef69mnFEz
- oUisye0WwUpifiHJMmtLc5ZL+F+eK/YxYcgsubfMn7p4ws7xSVDGkhLfm9S6crldJS4rc/3
- bHb9Etk/9dtqTD8eD8YxTNcBRCI7aRWzt7oFc6g8NBwfSZpTOdMGNzmCsrYni34+bOl1ytj
- 4K8pYzQw4FVBsmyMzI6Ew==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dir/g86Mt6E=:R9tIj70TBVMkirhJxTLtLS
- d3b0TBTA3mjmLqJ1VNbebh78vZdCSs6hNXEOTOc9hNPyBYeGWj9zePVuIiVDojmtXGNUnYcHN
- s6LeOsnETIQLV2X5YFA1mpcYo2CmIOxeM2bocyTq15j4PzTwSZ5+vbQWiMur/ikVDBzQRdm9r
- rBxS8JJDPKh5DA5sUxzg1Cf5qnBUjP5V6eWOIUHJf3qQPRiHB4Mx/DrhT7cgcuce4pvdiyor7
- MoOXooiu4DuZIm7BqcM1jXmtHbe9jcY0bYpaGekVNwg/Umc3ccfWKnnTu6mBm++iwJyRf9Lkw
- AkQXdPc/Gy0lQuNKj8h10hTBN5NbW5sSm/cySdtBqPOIs+cqcsza1kUBf/VX6weNyxcQ3xDve
- ft7KznZ/prPv58uWQMzYeJHD07ZuWY4fhesRjegTPQtbUHAGQ0iX0s/a0UXQvU3EEAST5dvHS
- 1nWsQvS7QQtI6KN40LP/+qlvOQvAs9y909tyj6HRbYqKhPOG5Fdz0R5E84XcsVWW/POCWuTQx
- TSkF0figQzAr3gK2mYs/cBpDB9WrE9jSQrsKPe/TmJFbUFSGTNis1C30TQxFqCBeeK2vNRXGr
- 8FOIunzQL/LpPYzc+GKpkmXh3XePZsb4AWcyjcndii0MsdxfAlAAMchgU+8TrTmOu9ehtIF62
- ym6sBYWKFCmrmwibhtqCTgc0MOPXqNi0fajIje4IrKYIxI7JNjTSqhqKFFq+h1CDPIgXDuLty
- 0n7/oLE7Cu3ZkbMBWP/esJQzB7sX2FnzIhqGlCcbLJtKzaqMGKpmsiIW0hEo/F52kArD4JJhg
- kFs4QVd
+X-Provags-ID: V03:K1:5Y3lpqbSBbvfU+KgElufzVsDShBRX8RapRIfmeRnhhiK37PALjY
+ Y2ruyLjSmUIF4tlt8QXWuB8xjaLZPRToJWNOIyItf5jk/P2rPsHkFAJfWClO0b9Wv9AlJ6Z
+ O6iXSEa9lyIgfOFLoyQ3casHcdc+AyXpKtJOhV4r3PMG6TEFQshExWdM8/H9kANER2XiW9I
+ SQYT6ZtCC4hRVbbsqWUmg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1XursJTPiaM=:EDL0VUUdli0iRHD6j8LkH6
+ z6/qxH5gugHIA8LTD8RH+ghp8ycWWAAqfMGsA6sdpConVYyJ7qsBR1XVqbCH8/iZqq10YzInH
+ xCZrHOAtQCjygUKiSzS19FIjcwIh1lTVC9PnAhmodai6jzKyPd4Uol4vxcdK6rYe9LiLOI3sj
+ 8tm+p2shOaoiaFiMwIdNqKDpylLYuFlazmaKedGlb+HnU5OGmflwxlXyECccN28a9j1yT5YJB
+ PJ5Fy4CxbOOLcT57rheg2sITr+Wo1gIRR8Zrz6tzlmF3b1UikSKNVhXkcF3GP7ZgX7j4BOsbV
+ Z12ztklmiyGoD63dpJ1BBNq+v6Sj6FZGxEETGM+zXszOlRjXkOQW4FgMpU1lofRpnehp3quqG
+ Wt2XxqVz9+bwtTkVXMhPuM4yLeJb6G60IguNvpU79pwtCFzSDZZMHZZr9IETW8gFVp7AjhiHr
+ NDGH7E4lcpKyDNbUFDsGRmh834Zf6G55BXlu1bG83RmNIHL9XND7KFE+qb0kqjBsZZ2d0SB34
+ SW6qwuQoJ+GO8eLnYUAVopQQlQJkQgy/0OoMPsJHZE6jxWlhzENbdKsvSHwbx4ly9kgEs8cA9
+ h+aza4wgJUmCwGHC/nEnNJZHuqLZKKPGGWWjPHwOw0zHpvG48RwtC1uGfWON2HkPnQQnHqKhw
+ +rE+iIqRUy9QEEvlVD/oQWCPkT39K0tXzfCAz+c0eozOXoubcHhywKDV/KxHDfD5JGJKmpgDt
+ 596W42t1R92HGCo60/egNZ7gIIy4vYM8qVALriVT3Dnd78PqXknBFa9UP7oWS64okDtAKg8mh
+ Zrt45g6
 Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -74,122 +74,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Helge Deller <deller@gmx.de>
 
-In Linux kernel v5.18 the vDSO for signal trampoline was added.
-This code mimiks the bare minimum of this vDSO and thus avoids that the
-parisc emulation needs executable stacks.
+The stack-overflow check when building the "grep" debian package fails
+on the debian hppa target. Reason is, that the guard page at the top
+of the stack (which is added by qemu) prevents the fault handler in the
+grep program to properly detect the stack overflow.
+
+The Linux kernel on a physical machine doesn't install a guard page
+either, so drop it and as such fix the build of "grep".
 
 Signed-off-by: Helge Deller <deller@gmx.de>
-Message-Id: <20220924114501.21767-4-deller@gmx.de>
+Message-Id: <20220924114501.21767-5-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/hppa/signal.c        | 41 +++++++++++++++++++++++++--------
- linux-user/hppa/target_signal.h | 14 +----------
- 2 files changed, 32 insertions(+), 23 deletions(-)
+ linux-user/elfload.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/linux-user/hppa/signal.c b/linux-user/hppa/signal.c
-index 962f551c0429..396e310dc92d 100644
---- a/linux-user/hppa/signal.c
-+++ b/linux-user/hppa/signal.c
-@@ -41,7 +41,7 @@ struct target_ucontext {
- };
- 
- struct target_rt_sigframe {
--    abi_uint tramp[9];
-+    abi_uint tramp[2];  /* syscall restart return address */
-     target_siginfo_t info;
-     struct target_ucontext uc;
-     /* hidden location of upper halves of pa2.0 64-bit gregs */
-@@ -101,9 +101,15 @@ static void restore_sigcontext(CPUArchState *env, struct target_sigcontext *sc)
-     __get_user(env->cr[CR_SAR], &sc->sc_sar);
- }
- 
--/* No, this doesn't look right, but it's copied straight from the kernel.  */
-+#if TARGET_ABI_BITS == 32
-+#define SIGFRAME                64
-+#define FUNCTIONCALLFRAME       48
-+#else
-+#define SIGFRAME                128
-+#define FUNCTIONCALLFRAME       96
-+#endif
- #define PARISC_RT_SIGFRAME_SIZE32 \
--    ((sizeof(struct target_rt_sigframe) + 48 + 64) & -64)
-+    ((sizeof(struct target_rt_sigframe) + FUNCTIONCALLFRAME + SIGFRAME) & -SIGFRAME)
- 
- void setup_rt_frame(int sig, struct target_sigaction *ka,
-                     target_siginfo_t *info,
-@@ -118,7 +124,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     if ((ka->sa_flags & TARGET_SA_ONSTACK) && !sas_ss_flags(sp)) {
-         sp = (ts->sigaltstack_used.ss_sp + 0x7f) & ~0x3f;
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index ba5c4c02e591..c7e3f1d47c16 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2096,9 +2096,15 @@ static abi_ulong setup_arg_pages(struct linux_binprm *bprm,
+     if (size < STACK_LOWER_LIMIT) {
+         size = STACK_LOWER_LIMIT;
      }
--    frame_addr = QEMU_ALIGN_UP(sp, 64);
-+    frame_addr = QEMU_ALIGN_UP(sp, SIGFRAME);
-     sp = frame_addr + PARISC_RT_SIGFRAME_SIZE32;
- 
-     trace_user_setup_rt_frame(env, frame_addr);
-@@ -139,14 +145,9 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
- 
-     setup_sigcontext(&frame->uc.tuc_mcontext, env);
- 
--    __put_user(0x34190000, frame->tramp + 0); /* ldi 0,%r25 */
--    __put_user(0x3414015a, frame->tramp + 1); /* ldi __NR_rt_sigreturn,%r20 */
--    __put_user(0xe4008200, frame->tramp + 2); /* be,l 0x100(%sr2,%r0) */
--    __put_user(0x08000240, frame->tramp + 3); /* nop */
--
-     unlock_user_struct(frame, frame_addr, 1);
- 
--    env->gr[2] = h2g(frame->tramp);
-+    env->gr[2] = default_rt_sigreturn;
-     env->gr[30] = sp;
-     env->gr[26] = sig;
-     env->gr[25] = h2g(&frame->info);
-@@ -197,3 +198,23 @@ long do_rt_sigreturn(CPUArchState *env)
-     force_sig(TARGET_SIGSEGV);
-     return -QEMU_ESIGRETURN;
- }
+-    guard = TARGET_PAGE_SIZE;
+-    if (guard < qemu_real_host_page_size()) {
+-        guard = qemu_real_host_page_size();
 +
-+void setup_sigtramp(abi_ulong sigtramp_page)
-+{
-+    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 6*4, 0);
-+    abi_ulong SIGFRAME_CONTEXT_REGS32;
-+    assert(tramp != NULL);
-+
-+    SIGFRAME_CONTEXT_REGS32 = offsetof(struct target_rt_sigframe, uc.tuc_mcontext);
-+    SIGFRAME_CONTEXT_REGS32 -= PARISC_RT_SIGFRAME_SIZE32;
-+
-+    __put_user(SIGFRAME_CONTEXT_REGS32, tramp + 0);
-+    __put_user(0x08000240, tramp + 1);  /* nop - b/c dwarf2 unwind routines */
-+    __put_user(0x34190000, tramp + 2);  /* ldi 0, %r25 (in_syscall=0) */
-+    __put_user(0x3414015a, tramp + 3);  /* ldi __NR_rt_sigreturn, %r20 */
-+    __put_user(0xe4008200, tramp + 4);  /* ble 0x100(%sr2, %r0) */
-+    __put_user(0x08000240, tramp + 5);  /* nop */
-+
-+    default_rt_sigreturn = (sigtramp_page + 8) | 3;
-+    unlock_user(tramp, sigtramp_page, 6*4);
-+}
-diff --git a/linux-user/hppa/target_signal.h b/linux-user/hppa/target_signal.h
-index af6c2fce589d..190bb3d653b6 100644
---- a/linux-user/hppa/target_signal.h
-+++ b/linux-user/hppa/target_signal.h
-@@ -70,18 +70,6 @@ typedef struct target_sigaltstack {
- /* mask for all SS_xxx flags */
- #define TARGET_SS_FLAG_BITS  TARGET_SS_AUTODISARM
++    if (STACK_GROWS_DOWN) {
++        guard = TARGET_PAGE_SIZE;
++        if (guard < qemu_real_host_page_size()) {
++            guard = qemu_real_host_page_size();
++        }
++    } else {
++        /* no guard page for hppa target where stack grows upwards. */
++        guard = 0;
+     }
  
--/*
-- * We cannot use a bare sigtramp page for hppa-linux.
-- *
-- * Unlike other guests where we use the instructions at PC to validate
-- * an offset from SP, the hppa libgcc signal frame fallback unwinding uses
-- * the PC address itself to find the frame.  This is due to the fact that
-- * the hppa grows the stack upward, and the frame is of unknown size.
-- *
-- * TODO: We should be able to use a VDSO to address this, by providing
-- * proper unwind info for the sigtramp code, at which point the fallback
-- * unwinder will not be used.
-- */
--#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
-+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
- 
- #endif /* HPPA_TARGET_SIGNAL_H */
+     prot = PROT_READ | PROT_WRITE;
+@@ -2118,7 +2124,6 @@ static abi_ulong setup_arg_pages(struct linux_binprm *bprm,
+         info->stack_limit = error + guard;
+         return info->stack_limit + size - sizeof(void *);
+     } else {
+-        target_mprotect(error + size, guard, PROT_NONE);
+         info->stack_limit = error + size;
+         return error;
+     }
 -- 
 2.37.3
 
