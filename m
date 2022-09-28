@@ -2,95 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF50F5EDD77
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 15:04:38 +0200 (CEST)
-Received: from localhost ([::1]:60356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFAC85EDD12
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 14:43:14 +0200 (CEST)
+Received: from localhost ([::1]:58828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odWjt-0000AV-RY
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 09:04:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34814)
+	id 1odWPB-00054x-Av
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 08:43:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odTHr-0005nD-9h
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:23:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47410)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odTLA-0008OY-HE
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:26:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46954)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odTHp-0001JD-5o
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:23:26 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odTL8-0001lA-Kb
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:26:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664357004;
+ s=mimecast20190719; t=1664357209;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FGpVIVbRbGo/RSqxslHzJ9b46uLT3GvEo0fw3Zb7PCo=;
- b=H9gdEJHsb0dLOFkS+yLWzFhAz9f0u9pqcuU5o9mPN0DWQvvcfsMVGay6M8dA2qMmsExZeZ
- eA4nYrgKLJWG5Q3RkAig+Fmfi9o5NbRD6u2EZyzAeFKLc0M8F/1eEvyENGza62vHgXYcFL
- LtBPBDPpgWwZiwdKKKbm2yYGaazkIBU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2TKotPrHkV5VHU1WXrrJlbKy+Tg95jF5F4vtZv/JVdQ=;
+ b=G9TLCderuJkO2xkvYGTBnaiUhyXrFzPFtU6jrZAdf/ewFqGwkwOXB7soRWQTBUEH2uISxd
+ Ve28GA8YWZCR1kGQrjY66BLepx/OOC9wNZxA7qYeQp8QvkBWBin/Hm/SVSgTSGMA3ubvUH
+ KoxLCp0N8AEGKHrZwk+9LhYRwCL3axw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-670-MEP3eRabMdWCKFdUjtMM1Q-1; Wed, 28 Sep 2022 05:23:22 -0400
-X-MC-Unique: MEP3eRabMdWCKFdUjtMM1Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- q2-20020adfab02000000b0022cc38d5a8fso832088wrc.6
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 02:23:22 -0700 (PDT)
+ us-mta-225-SSpBf2QCPYq81b3d_QInYw-1; Wed, 28 Sep 2022 05:26:48 -0400
+X-MC-Unique: SSpBf2QCPYq81b3d_QInYw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h20-20020adfaa94000000b0022cc1de1251so1079735wrc.15
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 02:26:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=FGpVIVbRbGo/RSqxslHzJ9b46uLT3GvEo0fw3Zb7PCo=;
- b=RjIUM53qwtfl4ex9287j68ebPQd2aSS6zwyx356c8iJ6NjsqT3roKv7bFUjmtrPUnf
- OHYO33YvOWhrQbVZrEKPo8PfPyaN2WEcxwKiTa+FECS5Z4s9WJsjyUbE9I3yCYUiAhuu
- o1womS9W/itbYutr1ntJKj1LCbKaBe4brOFipOfN6ktIJVKacP1giHi0Cy4MHhbntzV7
- m4RcWfWhn85SOkRxHOtl6EigPbH6RJmI/Zj+EtELneabuXK+jOD3hznMTLw3M7S9i8UX
- Cggr606p6N250BaaOZU2FAibswDMdJFxjXhf7+7niKKEMCI5CAaL2Cf85UyCWK41M3Sr
- QzOA==
-X-Gm-Message-State: ACrzQf3lv8gECgkc6CHA4C/lJSGX8m6orcbgWAGkEd0/s3X7m0AtMDUx
- gc/KmN8qV6+njOu+TQTenE4xSrggrrgdoYtbczKxmx0EdJoydTAzNiulEYD41dipc9qx0qdqJdB
- l54Udav1o+W9OKgg=
-X-Received: by 2002:a5d:5f0a:0:b0:228:dff9:5f7e with SMTP id
- cl10-20020a5d5f0a000000b00228dff95f7emr18900383wrb.601.1664357001677; 
- Wed, 28 Sep 2022 02:23:21 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5zeEWT3HdrWdHqLdVbZvX+d7Y3tunhF1mI0ku/lcGJDpzh3dwS+D4AiGM3uKsE+Jwl/tqNmw==
-X-Received: by 2002:a5d:5f0a:0:b0:228:dff9:5f7e with SMTP id
- cl10-20020a5d5f0a000000b00228dff95f7emr18900364wrb.601.1664357001456; 
- Wed, 28 Sep 2022 02:23:21 -0700 (PDT)
-Received: from redhat.com ([2.55.17.78]) by smtp.gmail.com with ESMTPSA id
- m35-20020a05600c3b2300b003b47b913901sm5925956wms.1.2022.09.28.02.23.19
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=2TKotPrHkV5VHU1WXrrJlbKy+Tg95jF5F4vtZv/JVdQ=;
+ b=mW40w8CX8JHjugon9y9esIMrBPw94WFDq79VtNaqn1T/LhX7aC9BPq8XvwUJREgk5J
+ W03KDAP8BUi3w9bepQMIO0yZ7UCJgcYemYOw9nFAVPVyNmaueWtmfEYQx6oiOA5IPXXu
+ xdNBXUi4suLQvVUzE6xANNNj7J+2l7oimcUv/SzpQb0xi8r/z/N07EsQmW/e/k3bfq4/
+ s8O25zT6fwvcPsVGK9gNuUlBUIjFUWnO1gfwqAFPHdtLEMeBtQbfMoMkIFi/Cbx3vkqH
+ 3BGawIRRnYmloWRTx28Fvm7Y0ctPkGxjWJkrwn/yRDnehcXJiZs8JNZ8Lqb0cbEGQpFs
+ kGSQ==
+X-Gm-Message-State: ACrzQf1tAMm6OpT4lJROjj1r27NHIAzLrTF6bBqGky87hTgj3bG8WHI4
+ PZshXM1cqwkBpCHnbT1yvViRu8R1UOyVJ42V4qTfgM4nR29rq4csLibs1dy48Cuf7iUqxkhL0DL
+ aLdXCS2bqzXeeU2M=
+X-Received: by 2002:a05:6000:1849:b0:228:c87d:2578 with SMTP id
+ c9-20020a056000184900b00228c87d2578mr19993193wri.274.1664357207254; 
+ Wed, 28 Sep 2022 02:26:47 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7zCOfhiF+//xh1RHM0P37/zW2PmAi0WUEuWPU0OZ/5SnOrSesO58ss7v4Kh1pVPZWxMEH4eQ==
+X-Received: by 2002:a05:6000:1849:b0:228:c87d:2578 with SMTP id
+ c9-20020a056000184900b00228c87d2578mr19993174wri.274.1664357207014; 
+ Wed, 28 Sep 2022 02:26:47 -0700 (PDT)
+Received: from redhat.com ([2.55.47.213]) by smtp.gmail.com with ESMTPSA id
+ k18-20020a05600c1c9200b003b5054c6cd2sm1508507wms.36.2022.09.28.02.26.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Sep 2022 02:23:20 -0700 (PDT)
-Date: Wed, 28 Sep 2022 05:23:17 -0400
+ Wed, 28 Sep 2022 02:26:46 -0700 (PDT)
+Date: Wed, 28 Sep 2022 05:26:42 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, John Snow <jsnow@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 10/11] pytest: add pytest to the meson build system
-Message-ID: <20220928052131-mutt-send-email-mst@kernel.org>
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220710170014.1673480-11-ani@anisinha.ca>
- <CAFn=p-b_uVDib7qFcy=6fsMCGrcY8hQ89ZsQAfQMuHO26WM1dg@mail.gmail.com>
- <alpine.DEB.2.22.394.2207121220420.1824593@anisinha-lenovo>
- <YxdG4LISpDFvBr0k@redhat.com>
- <20220927172212-mutt-send-email-mst@kernel.org>
- <28f3d1b1-f17f-e5b3-99aa-772fef2a9d94@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: Why we should avoid new submodules if possible
+Message-ID: <20220928052352-mutt-send-email-mst@kernel.org>
+References: <20220628030749-mutt-send-email-mst@kernel.org>
+ <7bf5976e-8277-7c78-f412-44f7be8754f4@redhat.com>
+ <YrqyWhu8ThAcUGI4@redhat.com>
+ <CAARzgwyZNAYK3p16wjeykoCB9C+tmznY+OZAM-vw+Pn_4CdMqQ@mail.gmail.com>
+ <Yrq6anPW60FkjmK6@redhat.com>
+ <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
+ <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
+ <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
+ <20220628060210-mutt-send-email-mst@kernel.org>
+ <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <28f3d1b1-f17f-e5b3-99aa-772fef2a9d94@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,78 +107,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 09:32:57AM +0200, Thomas Huth wrote:
-> On 27/09/2022 23.26, Michael S. Tsirkin wrote:
-> > On Tue, Sep 06, 2022 at 02:10:56PM +0100, Daniel P. Berrangé wrote:
-> > > On Tue, Jul 12, 2022 at 12:22:10PM +0530, Ani Sinha wrote:
-> > > > 
-> > > > 
-> > > > On Mon, 11 Jul 2022, John Snow wrote:
-> > > > 
-> > > > > On Sun, Jul 10, 2022 at 1:01 PM Ani Sinha <ani@anisinha.ca> wrote:
-> > > > > > 
-> > > > > > Integrate the pytest framework with the meson build system. This will make meson
-> > > > > > run all the pytests under the pytest directory.
-> > > > > > 
-> > > > > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > > > > > ---
-> > > > > >   tests/Makefile.include   |  4 +++-
-> > > > > >   tests/meson.build        |  1 +
-> > > > > >   tests/pytest/meson.build | 49 ++++++++++++++++++++++++++++++++++++++++
-> > > > > >   3 files changed, 53 insertions(+), 1 deletion(-)
-> > > > > >   create mode 100644 tests/pytest/meson.build
-> > > > > > 
-> > > > > > diff --git a/tests/Makefile.include b/tests/Makefile.include
-> > > > > > index 3accb83b13..40755a6bd1 100644
-> > > > > > --- a/tests/Makefile.include
-> > > > > > +++ b/tests/Makefile.include
-> > > > > > @@ -3,12 +3,14 @@
-> > > > > >   .PHONY: check-help
-> > > > > >   check-help:
-> > > > > >          @echo "Regression testing targets:"
-> > > > > > -       @echo " $(MAKE) check                  Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
-> > > > > > +       @echo " $(MAKE) check                  Run block, qapi-schema, unit, softfloat, qtest, pytest and decodetree tests"
-> > > > > 
-> > > > > Does this mean that "make check" *requires* an internet connection?
-> > > > 
-> > > > No. My test will be skipped if it is unable to download the artifacts it
-> > > > requires due to lack of Internet connectivity.
-> > > 
-> > > That's not the only concern, there are also people who have metered
-> > > internet connections, or whose connections are slow and thus have
-> > > long download times. Any test that downloads should be opt-in only.
-> > > 
-> > > 
-> > > With regards,
-> > > Daniel
-> > 
-> > <rant>
-> > This is why I wanted git submodules. A well understood decentralized
-> > model. Now we are reinventing them badly.
+On Tue, Jun 28, 2022 at 12:21:39PM +0200, Thomas Huth wrote:
+> On 28/06/2022 12.03, Michael S. Tsirkin wrote:
+> [...]
+> > For biosbits if we are going this route then I feel a submodule is much
+> > better.  It records which version exactly each qemu version wants.
 > 
-> I don't see much of a difference here with submodules with regards to
-> Daniel's concerns: If you clone the QEMU repo with a good internet
-> connection, you also don't get the submodules by default. If you then move
-> to a bad internet connection or offline and the build system tries to pull
-> in the submodule, you've also lost.
-> OTOH, with downloads, you can also make sure to have all downloads cached
-> while you're still on the good internet connection. The cache should
-> continue working if you're then moving offline.
-
-submodules as a cache include checksumming, a way to make local
-changes without too much pain, documentation ....
-
-
-> > I asked on the maintainers summit what issues people have with
-> > submodules, no one volunteered any information.
+> As far as I know, you can also specify the version when using pip, can't
+> you? So that's not really an advantage here.
 > 
-> You know my position already (https://lore.kernel.org/qemu-devel/d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com/),
-> so at least I did not feel the need to repeat that again (and we were pretty
-> short in time anyway).
-
-Pity, but ok, I will revive that thread.
-
+> On the contrary, submodules have a couple of disadvantages that I really
+> dislike:
+> 
+> - submodules do not get updated automatically when doing a "git checkout",
+> we have to update them via a script instead. This causes e.g. trouble if you
+> rsync your source tree to a machine that has no access to the internet and
+> you forgot to update the submodule before the sync
+> 
+> - the content of submodules is not added to the tarballs that get created on
+> the git forges automatically. There were lots of requests from users in the
+> past that tried to download a tarball from github and then wondered why they
+> couldn't compile QEMU.
+> 
+> - we include the submodule content in our release tarballs, so people get
+> the impression that hte submodule content is part of the QEMU sources. This
+> has two disadvantages:
+>  * We already got bug reports for the code in the submodule,
+>    where people did not understand that they should report that
+>    rather to the original project instead (i.e. you ship it - you
+>    own it)
+>  * People get the impression that QEMU is a huge monster
+>    application if they count the number of code lines, run
+>    their code scanner tools on the tarball contents, etc.
+>    Remember "nemu", for example, where one of the main complaints
+>    was that QEMU has too many lines of code?
+> 
+> - If programs includes code via submodules, this gets a higher
+>   burder for distro maintainers, since they have to patch each
+>   and every package when there is a bug, instead of being able to
+>   fix it in one central place.
+> 
+> So in my opinion we should avoid new submodules if there is an alternative.
 > 
 >  Thomas
+
+So looking at the latest proposals downloading files from CI,
+checksumming them etc etc. No auto checkout, not added automatically
+either, right?
+
+This seems to be the only difference:
+- we include the submodule content in our release tarballs
+
+How about we just fix that? Thomas would that address your
+concern at least wrt tests?
+
+
+-- 
+MST
 
 
