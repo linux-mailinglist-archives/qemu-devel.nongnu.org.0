@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905D05EDECC
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 16:29:55 +0200 (CEST)
-Received: from localhost ([::1]:33430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EA5B5EE013
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 17:21:15 +0200 (CEST)
+Received: from localhost ([::1]:59316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odY4Q-0003Qp-Cd
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 10:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34228)
+	id 1odYs5-00065T-Br
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 11:21:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odWHh-0000FC-KL
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:35:29 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:58064)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1odWcN-0003PN-Dp
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:56:52 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:40752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odWHf-0007eW-IZ
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:35:29 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 184051FA91;
- Wed, 28 Sep 2022 12:35:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664368526; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R6T8kiXEFNJEHznxsn2jM0RB4ZpVuiVkxLuwnThSOgo=;
- b=QR1qMdJm+dro0cDvZgmLDmdWbKMoDlbCx9kMJSjcYdgyQcB8Np7h0WOxwQRmXgKxepFT7Q
- MCIms4fxdB4Mu6hgHf0JWQ1E5ofgDrTtCC9ArxXtBdsGasmxfnLkPtGBjXlySS4VWy9w/9
- kG4SGJ3KW4fzCMrTmATFltnyqpNLCjg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664368526;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R6T8kiXEFNJEHznxsn2jM0RB4ZpVuiVkxLuwnThSOgo=;
- b=hp9ErMxm7x3Krwf8SuwWBWgJ/iZmih1lh7CDrc23RyMQKNyiW+CSwLT7F0dyH5DqHlFWCk
- suiIf+rmH3dcwKBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9525913A84;
- Wed, 28 Sep 2022 12:35:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qH8pIo0/NGM7QgAAMHmgww
- (envelope-from <cfontana@suse.de>); Wed, 28 Sep 2022 12:35:25 +0000
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Claudio Fontana <cfontana@suse.de>
-Subject: [PATCH v8 5/5] accel: abort if we fail to load the accelerator plugin
-Date: Wed, 28 Sep 2022 14:29:59 +0200
-Message-Id: <20220928122959.16679-6-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20220928122959.16679-1-cfontana@suse.de>
-References: <20220928122959.16679-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1odWcL-0002d9-2k
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 08:56:50 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-324ec5a9e97so129597907b3.7
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 05:56:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=8MU5deADsTJBWwG5pMZWqM9J/RZWkGJTH5c0evkGUbE=;
+ b=bGw6DNyhFOkthBge9qRiFu84/Iw9oaSeGQvDnSllIlmuIciAQFteOyNrGdhFaP0sas
+ mU+lcmezoChziKUGYC9Rj4egBVx4LfokHcqtxGAeq9PsyY9c0827hslXCmIJAMvtQNSV
+ RdbAf/DRG6teQleNmWnCFB2FldcjN0i78eNH561UwvqgSoadqLx0HiNibc4nC4/roUEF
+ 5lmg/jEoolaUqeeUS32VzPd9jX4yz3eLA4l0B+UUSzqbp0g+DIcWDoVhisPBHPBMOTIj
+ PcwVURMedLKRTg9gSf5rBr+Uz7A92jT6RbYaNHfMp4/LEDhKXeNcxx937huzFymTJFsa
+ aSdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=8MU5deADsTJBWwG5pMZWqM9J/RZWkGJTH5c0evkGUbE=;
+ b=vHJMMDKlsvgrztyx+gz6DfKcpjJU6yvBfTmJuligku/OAIZpQniwIFhMtAryiBLYUq
+ +9UM+xGwsdrmJDMga2SAUN4Nd83Ymqw7khwLIFZf9YhTBpsMVki4b/uaMWoWhG3DrW5w
+ UJscKmKh/+7xNJIxM9T8BIyZe8ydFRnJ5sZtePo/Ovh+5aE16c40X3HrS8OZJYzi9xmR
+ p2rP5djgTnimCP423X520zHarNuRboZwXAk7eiHYShS9XGDOiq4Fv80YraC9Pqj1D3SO
+ GJD6/zZ44ugyRKxcSaiAkl8fZ6is44lmPsQssoY4AyPdgxmspRbcpHi7IOhMZmFncF8g
+ 7H5w==
+X-Gm-Message-State: ACrzQf0BS8TDc7q9RyXYcM7fXJNBReE2qdXVLc4eVaXSnoaEimrFXAbB
+ RSNgSwgL+0uKIki5SFcXmGmO4z3x2sNGuYnDHr8=
+X-Google-Smtp-Source: AMsMyM4kAebgxWJWDD8MwVHCE9PfQ1QgbyGzpc74gM1oYjCpSSlwLigjNdS+eAo1RukfmqrxSMcfOcdmbPffc7ZSYM0=
+X-Received: by 2002:a81:66c5:0:b0:345:3b1c:26 with SMTP id
+ a188-20020a8166c5000000b003453b1c0026mr31454993ywc.156.1664369804544; 
+ Wed, 28 Sep 2022 05:56:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+References: <285e1375-82c4-556d-54fa-abba6b8e8e77@redhat.com>
+ <CAJSP0QX13hF2_qSvO0Hfh=DtyurhkXyJKnrzWTSsTtURueTV6A@mail.gmail.com>
+ <YzMcobeWVAnHUkNu@redhat.com>
+ <CAJSP0QW_An5ypmsaXaVeHNKKzW0+x2Pmp8bQtPfVxPCqgAwFCA@mail.gmail.com>
+ <YzM5i5QP7NQq4OHV@redhat.com>
+ <dc108d7d-297b-5a84-68dd-12da3a0e68d0@redhat.com>
+ <YzP2k5GBb1lKsqB8@redhat.com> <8735cb3cq5.fsf@linaro.org>
+In-Reply-To: <8735cb3cq5.fsf@linaro.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 28 Sep 2022 08:56:32 -0400
+Message-ID: <CAJSP0QXGn46pYZL03t9GHWfgueEmLZRPm9h-9RhwDxveqSEMUw@mail.gmail.com>
+Subject: Re: Should we maybe move Cirrus-CI jobs away from Gitlab again?
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,49 +95,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-if QEMU is configured with modules enabled, it is possible that the
-load of an accelerator module will fail.
-Exit in this case, relying on module_object_class_by_name to report
-the specific load error if any.
+On Wed, 28 Sept 2022 at 08:28, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+> We shall find out soon enough. The code came through today so I've
+> applied it to the project which shows we are now on the "Ultimate" tier.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Thank you, Alex!
 
-[claudio: changed abort() to exit(1)]
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
----
- accel/accel-softmmu.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
-index 67276e4f52..f9cdafb148 100644
---- a/accel/accel-softmmu.c
-+++ b/accel/accel-softmmu.c
-@@ -66,6 +66,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
- {
-     const char *ac_name;
-     char *ops_name;
-+    ObjectClass *oc;
-     AccelOpsClass *ops;
- 
-     ac_name = object_class_get_name(OBJECT_CLASS(ac));
-@@ -73,8 +74,13 @@ void accel_init_ops_interfaces(AccelClass *ac)
- 
-     ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
-     ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
-+    oc = module_object_class_by_name(ops_name);
-+    if (!oc) {
-+        error_report("fatal: could not load module for type '%s'", ops_name);
-+        exit(1);
-+    }
-     g_free(ops_name);
--
-+    ops = ACCEL_OPS_CLASS(oc);
-     /*
-      * all accelerators need to define ops, providing at least a mandatory
-      * non-NULL create_vcpu_thread operation.
--- 
-2.26.2
-
+Stefan
 
