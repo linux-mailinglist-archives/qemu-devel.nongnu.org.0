@@ -2,97 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FD25EDB9D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:21:53 +0200 (CEST)
-Received: from localhost ([::1]:35460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32155EDBB6
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:25:25 +0200 (CEST)
+Received: from localhost ([::1]:50848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odV8S-0006qr-8d
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:21:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38576)
+	id 1odVBs-0004X4-Un
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:25:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odTey-00050z-09
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:47:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39933)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odTev-0004ll-2q
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:47:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664358436;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4iAMdyYrkHoEf6kQI2ktjdEyibiNtjYQujLoUUCyp+I=;
- b=fxURGC5HIC86Fgi3uCrVJwz93ecydHloX9AU9QRwQZPaFfr2MfmcMuWBXnRH/9jdjspjiO
- Ct1rMfFsoj/jmfsXArwPBhX52E0Lv6jobY9uZJuM1fUreSqHR54bI2WXZ3Y0fXlD3Mb69i
- t601ehhsT7dzgPfCnGVCl1JOU0B2eic=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-543-Dmz9Q9dcOamRQtqz8-nsGQ-1; Wed, 28 Sep 2022 05:47:14 -0400
-X-MC-Unique: Dmz9Q9dcOamRQtqz8-nsGQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- e3-20020a05600c218300b003b4e4582006so385005wme.6
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 02:47:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1odTpB-0004Oo-D6
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:57:54 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:33353)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1odTp9-0005zB-Fm
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 05:57:52 -0400
+Received: by mail-qt1-x833.google.com with SMTP id ay9so7635838qtb.0
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 02:57:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=ohCt+6UM2hyIqf3vdtxJsQlrQcmke11T0U8WDNXHpmQ=;
+ b=B0vk4j9uYvJY6tg6xYVdQZI2cJVA+PB+KbeGV2pKsRlieyxcRQl+p71mtJQBIUr+Z+
+ OV6zjfIG9oPQcZWZM+ShEU0eeqNmCNaBgm1hh5leE2KahekG5HwQ1Vt7DNksEf7K3h74
+ p1AIXNg3bz8LTCUv2PfdrLLamO6qdY71mAUmn29YFlQzB6VhrwHA66UE4Oy2Q8Ly1OJO
+ /cBAOFa7U/oug5sGUWZ2kIvFkl6C6re2/0N/zFYhjGheEepi/3wScPIs+95vKxsoRTDD
+ Txfa4i3vaZV22lk6LUQrKpBMgiC/m0Jli2vlnyWNT17mzeuA7EATrRMVQR2sp5+BQiHk
+ q20A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=4iAMdyYrkHoEf6kQI2ktjdEyibiNtjYQujLoUUCyp+I=;
- b=XuTToSmw5Ic8oRTgS3Nyl8Yb5EUfLd/WAgoCcWNZdYtL4BwVSsp7K7Px4ADCAHovKJ
- Cv6mH0XUnJIfV3xUVvfojse1qR2VwIeu3JUien+H5Ezj4pgO5C+fzyoaj8nGkTDz62Mu
- /n/lPqAKZbFEyoIaq3kunoxAolpIORBIbkceZf9FNtRzB2aLAh5tqGM+RxX9EH7MrjEh
- yxXcC0/5CGlcLGWU2DJwT45QD9A1MKJl+K2UKF7ONGO1MBA5XI8m1+L0rKwJGWjzXeml
- B9M2md5MJxl1NRwMN+dNwSNIt6w68PzK0aSnnAad9OdE4SVKpbqpKH3a2ESRXyPQW8+l
- cCNA==
-X-Gm-Message-State: ACrzQf0cAc6pitkqAwobZwc6tPCP4j5MrZTLAv1icLNWOr3a7KtBtZae
- Co6StYPB7KrjTbiUlh/6UoRN85GZIcj7NT5isV72/hEhd8Jg7xPiS2nTl2buaxQB/lbrEl42jMd
- baFEPxj5VXOyZ8qs=
-X-Received: by 2002:adf:fb50:0:b0:22a:e4e9:a6b3 with SMTP id
- c16-20020adffb50000000b0022ae4e9a6b3mr19620044wrs.467.1664358433412; 
- Wed, 28 Sep 2022 02:47:13 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6jLDuyeQ460UC80tw+0Og6FXkZYpaDM93OjzKdi+6gdm4SNWRT84VEq1DKV12SgCe4J1yflA==
-X-Received: by 2002:adf:fb50:0:b0:22a:e4e9:a6b3 with SMTP id
- c16-20020adffb50000000b0022ae4e9a6b3mr19620019wrs.467.1664358433171; 
- Wed, 28 Sep 2022 02:47:13 -0700 (PDT)
-Received: from redhat.com ([2.55.47.213]) by smtp.gmail.com with ESMTPSA id
- j8-20020a5d6188000000b0022cc3e67fc5sm2479294wru.65.2022.09.28.02.47.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Sep 2022 02:47:12 -0700 (PDT)
-Date: Wed, 28 Sep 2022 05:47:09 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- imammedo@redhat.com, jsnow@redhat.com, pbonzini@redhat.com,
- peter.maydell@linaro.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
- QEMU bios tables using biosbits
-Message-ID: <20220928053729-mutt-send-email-mst@kernel.org>
-References: <CAARzgwxoy_E-vkwo-mKo0tbG31Y3E3r9FB6v3H3hgPYW4fb6sA@mail.gmail.com>
- <YzK1VzoU05vnlxY4@redhat.com>
- <CAARzgwxpm-tF3OwK95gHe+9_6qBebiqPFLug-59RUt85aCnuZQ@mail.gmail.com>
- <YzLN3Y1pNO8SVn9M@redhat.com>
- <CAARzgwx+ZitnYKvmkDGA1+Aq3_yPQFSs5GfTvGaAeNmHxUSNOQ@mail.gmail.com>
- <CAARzgwwLXp9rDkQ4OTW2TUgnp_XDyMTXf6OhsKE9qAL1HTuMRQ@mail.gmail.com>
- <YzMahUpNtsas18rN@redhat.com>
- <20220927172044-mutt-send-email-mst@kernel.org>
- <2a5c6c18-e0b1-aaf8-78fa-5a12396fef87@redhat.com>
- <YzQHb35ANVR9bHFj@redhat.com>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=ohCt+6UM2hyIqf3vdtxJsQlrQcmke11T0U8WDNXHpmQ=;
+ b=M8ZHYVqyriVlZqOLDSx7pOysMfoVCvsH4XqihsefUHbbgjL4WqGHAv4sE+v+p24FEm
+ cFPvMyIUvMVClHn6zFslVoFdH5vMnT4T2fiPEWsklXH5YfJsaFasbblYHZsIXRhJnKmZ
+ MoFIB+xKk8MEaKUDDfubzVRdgGAC1KY0b3Vr1P5L0bt/YZZhuQA+aI6p9QElc4Djmd6H
+ PQ7iEZr8S8HL3916beY6sRGf6LzzQALcS/H9xZmBCiEokvsKuMtFdsaZQd4el3ci3xsq
+ Jrl/wWAj6gzmt0w5gvutqect8UGBMKM7ToUrg2a5skO7xvlYw9f23EKNipVxKtwJo54O
+ YdDw==
+X-Gm-Message-State: ACrzQf0FP+oDstmbtdUa0ioBpCNxMusqbQihobmIIBdxTu75+3IZVhoV
+ 25DCqd0vWxMQnz0wNh761RWdPdmJs8J0WaTtN0E=
+X-Google-Smtp-Source: AMsMyM4r6a3nzcpvwL1Vu4rdBTajZe0318P+hQk/HhjZJWFEzeLwFInUiDlP17aul1dzUeBo8Bd57lXluXcO7xhOWeQ=
+X-Received: by 2002:a05:622a:92:b0:35d:58bc:4a4a with SMTP id
+ o18-20020a05622a009200b0035d58bc4a4amr472617qtw.391.1664359070379; Wed, 28
+ Sep 2022 02:57:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YzQHb35ANVR9bHFj@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
+ <20220927110632.1973965-36-bmeng.cn@gmail.com>
+ <8b15887b-686f-3b59-ce2a-899c22b53458@redhat.com>
+In-Reply-To: <8b15887b-686f-3b59-ce2a-899c22b53458@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 28 Sep 2022 17:57:39 +0800
+Message-ID: <CAEUhbmWLMfLGJvH+aMV-w0mBaH16vp+2Foxj1Mm-xGMhmg86gw@mail.gmail.com>
+Subject: Re: [PATCH v4 35/54] tests/qtest: libqtest: Install signal handler
+ via signal()
+To: Thomas Huth <thuth@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Bin Meng <bin.meng@windriver.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x833.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,55 +90,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 09:35:59AM +0100, Daniel P. Berrangé wrote:
-> On Wed, Sep 28, 2022 at 10:31:39AM +0200, Thomas Huth wrote:
-> > On 27/09/2022 23.21, Michael S. Tsirkin wrote:
-> > > On Tue, Sep 27, 2022 at 04:45:09PM +0100, Daniel P. Berrangé wrote:
-> > > > On Tue, Sep 27, 2022 at 07:35:13PM +0530, Ani Sinha wrote:
-> > ...
-> > > > > Alright, .gitlab-ci.yml is produced and the pipeline succeeds.
-> > > > > However, the question still remains, where do we keep the generated
-> > > > > artifacts?
-> > > > 
-> > > > The following link will always reflect the published artifacts from
-> > > > the most recently fully successful CI pipeline, on the 'qemu-bits'
-> > > > branch, and 'qemu-bits-build' CI job:
-> > > > 
-> > > > https://gitlab.com/qemu-project/biosbits-bits/-/jobs/artifacts/qemu-bits/download?job=qemu-bits-build
-> > > > 
-> > > > Tweak as needed if you push the CI to master branch instead. This
-> > > > link can be considered the permanent home of the artifact. I'd just
-> > > > suggest that the QEMU job automatically skip if it fails to download
-> > > > the artifact, as occassionally transient infra errors can impact
-> > > > it.
-> > > 
-> > > This just means once we change the test old qemu source can no longer use it.
-> > > Why is this a good idea? Are we so short on disk space? I thought CPU
-> > > is the limiting factor?
-> > 
-> > FYI, we'll soon be short on disk space, gitlab plans to introduce storage
-> > limits:
-> > 
-> >  https://about.gitlab.com/pricing/faq-paid-storage-transfer/
-> 
-> That's the key reason I prefer the binary as CI artifact rather than
-> in Git. Once checked into git, you can never reclaim that storage
-> usage, as the git repo is append only, only option is to delete the
-> repo and recreate.  With CI artifacts we can control exactly which
-> binaries consume storage quota at any time.
-> 
-> With regards,
-> Daniel
+On Wed, Sep 28, 2022 at 5:43 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 27/09/2022 13.06, Bin Meng wrote:
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > At present the codes uses sigaction() to install signal handler with
+> > a flag SA_RESETHAND. Such usage can be covered by the signal() API
+> > that is a simplified interface to the general sigaction() facility.
+> >
+> > Update to use signal() to install the signal handler, as it is
+> > available on Windows which we are going to support.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >
+> > (no changes since v1)
+> >
+> >   tests/qtest/libqtest.c | 14 +++-----------
+> >   1 file changed, 3 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> > index 269d622fe3..f0ac467903 100644
+> > --- a/tests/qtest/libqtest.c
+> > +++ b/tests/qtest/libqtest.c
+> > @@ -66,7 +66,7 @@ struct QTestState
+> >   };
+> >
+> >   static GHookList abrt_hooks;
+> > -static struct sigaction sigact_old;
+> > +static sighandler_t sighandler_old;
+>
+> This seems to break compilation on NetBSD (which you can test via "make
+> vm-build-netbsd" on a Linux KVM host):
 
-I agree binaries in git are a bit of a hack.
-But I also feel managing files as part of a test tool is a hack too,
-it's an SCM issue.  How about e.g. git-lfs? Seems to be reasonably well
-supported on gitlab. There's also gitlab but that seems to be older.
+Oops, so this means this test is not covered by GitLab CI ...
 
+>
+>
+> ../src/tests/qtest/libqtest.c:86:8: error: unknown type name 'sighandler_=
+t'
+>   static sighandler_t sighandler_old;
+>          ^~~~~~~~~~~~
+>
 
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Regards,
+Bin
 
