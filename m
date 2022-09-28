@@ -2,61 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2F935ED390
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 05:41:26 +0200 (CEST)
-Received: from localhost ([::1]:41786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A255ED3BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 06:00:27 +0200 (CEST)
+Received: from localhost ([::1]:50026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odNwr-0004zh-LD
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 23:41:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52838)
+	id 1odOFF-0001aB-VK
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 00:00:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luzhipeng@cestc.cn>)
- id 1odNuq-0003Tv-Pa
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 23:39:20 -0400
-Received: from [106.39.185.57] (port=43682 helo=smtp.cecloud.com)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luzhipeng@cestc.cn>) id 1odNun-0000hm-Fg
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 23:39:20 -0400
-Received: from localhost (localhost [127.0.0.1])
- by smtp.cecloud.com (Postfix) with ESMTP id DB697FC0204
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 11:39:06 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ANTISPAM-LEVEL: 2
-X-ABS-CHECKED: 0
-Received: from localhost.localdomain (unknown [111.48.58.10])
- by smtp.cecloud.com (postfix) whith ESMTP id
- P51403T281471095533936S1664336344906640_; 
- Wed, 28 Sep 2022 11:39:06 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <d43550730aef20594493550508788003>
-X-RL-SENDER: luzhipeng@cestc.cn
-X-SENDER: luzhipeng@cestc.cn
-X-LOGIN-NAME: luzhipeng@cestc.cn
-X-FST-TO: qemu-devel@nongnu.org
-X-RCPT-COUNT: 3
-X-SENDER-IP: 111.48.58.10
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From: luzhipeng <luzhipeng@cestc.cn>
-To: qemu-devel <qemu-devel@nongnu.org>
-Cc: Jason Wang <jasowang@redhat.com>,
-	lu zhipeng <luzhipeng@cestc.cn>
-Subject: [PATCH] virtio: del net client if net_init_tap_one failed
-Date: Wed, 28 Sep 2022 11:38:51 +0800
-Message-Id: <20220928033851.1587-1-luzhipeng@cestc.cn>
-X-Mailer: git-send-email 2.34.0.windows.1
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odODZ-0000B5-Sw
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 23:58:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29479)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odODU-0003nD-Cz
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 23:58:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664337515;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pDPIS6caYWOJotOX8OS6v4GaMbCKoU6u9o8OTsHQzVs=;
+ b=EMe93qONHr6xmU5FzwMXmco8eIacGX1aFVCfOqcj6cvM9QmjeiYALIdjXIfZE9baVd2bVa
+ zyLnmTN6dtMDiiJM8ZZ4pSfpplG6Wc6MNKnEYmsTVGjHJVGY3ck5Ks4J6EudYaf1YRPtBv
+ pepENeFZNswTafy6lmHuy1+1lA7rhyE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-422-xVMWab1iMxeTPmg17fyebA-1; Tue, 27 Sep 2022 23:58:25 -0400
+X-MC-Unique: xVMWab1iMxeTPmg17fyebA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i129-20020a1c3b87000000b003b33e6160bdso447536wma.7
+ for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 20:58:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=pDPIS6caYWOJotOX8OS6v4GaMbCKoU6u9o8OTsHQzVs=;
+ b=f8hown095fYDk47ltyhEE2shDWlttkqEcIPmBdMk+Cy9rADegLohpr9RU/gSx1lU4W
+ CpywSwBWj2OQ/F7Z90xEnbtaIaAajwPVhyByxf81RuTsDJWZspAV3+1Un6R6HdYNm34K
+ FJtvETJ6SS5U2QWf0lBS0VSSKo4z9H76MxzoMjzrGdtWE01Ene8oA91RKHHrV6ZiaS6R
+ DTnQUwZ+BY67JgKg4B7vwuTl/qQF5CeapVMSTqXopr6uKwFl2L8msGwWK4RkPqgh8koG
+ h/VmDvmd1cMWKO3aO8AHOCUgvZukzQXsa+EOWaeTmcl0uMmfbJsPJKYvdvZbWZdhkC1G
+ GS0A==
+X-Gm-Message-State: ACrzQf2Vee3vl1gIojxX1H3GKcfg1ytZt6lZQpvREiSllEE8w8TaabFB
+ Bx6CS7b2p6Cp3g/Tn4AmcXSwYjkFAPZMeErlJ4MmSO4oRrF4iMh+cj84/oNciYqnVI4B6eWSKin
+ 7ljJZXVgs4ZUMRNY=
+X-Received: by 2002:a05:600c:2118:b0:3b4:76ce:d274 with SMTP id
+ u24-20020a05600c211800b003b476ced274mr5102216wml.95.1664337504520; 
+ Tue, 27 Sep 2022 20:58:24 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5+orr579Cx3BJ6wFpZY8MW7drjydsaVqhTya650II4cLCQ1BIB+6mBNvpgemxGm6GKfFwwZA==
+X-Received: by 2002:a05:600c:2118:b0:3b4:76ce:d274 with SMTP id
+ u24-20020a05600c211800b003b476ced274mr5102203wml.95.1664337504302; 
+ Tue, 27 Sep 2022 20:58:24 -0700 (PDT)
+Received: from redhat.com ([2.55.17.78]) by smtp.gmail.com with ESMTPSA id
+ j8-20020a5d6188000000b0022cc3e67fc5sm1702032wru.65.2022.09.27.20.58.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Sep 2022 20:58:23 -0700 (PDT)
+Date: Tue, 27 Sep 2022 23:58:20 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ imammedo@redhat.com, jsnow@redhat.com, pbonzini@redhat.com,
+ peter.maydell@linaro.org, qemu-devel@nongnu.org, thuth@redhat.com
+Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
+ QEMU bios tables using biosbits
+Message-ID: <20220927233925-mutt-send-email-mst@kernel.org>
+References: <CAARzgwwjXMmbRQ-ETPPqHP5eq5jtrGMSh2GeBh5fLS9Pcsut+A@mail.gmail.com>
+ <20220716112943-mutt-send-email-mst@kernel.org>
+ <alpine.DEB.2.22.394.2207251100590.87138@anisinha-lenovo>
+ <alpine.DEB.2.22.394.2207271137210.130455@anisinha-lenovo>
+ <CAARzgwwpy6yUJfuxxfM2vAUDqh+RyxjLqd+1xARiazqwTLbN9A@mail.gmail.com>
+ <20220917162606-mutt-send-email-mst@kernel.org>
+ <CAARzgwxoy_E-vkwo-mKo0tbG31Y3E3r9FB6v3H3hgPYW4fb6sA@mail.gmail.com>
+ <YzK1VzoU05vnlxY4@redhat.com>
+ <20220927171601-mutt-send-email-mst@kernel.org>
+ <CAARzgwx=514Q8hMMLP4OpczRH4U2iiMnHqhJ6p3vg-8O3_aK=w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 106.39.185.57 (failed)
-Received-SPF: pass client-ip=106.39.185.57; envelope-from=luzhipeng@cestc.cn;
- helo=smtp.cecloud.com
-X-Spam_score_int: 22
-X-Spam_score: 2.2
-X-Spam_bar: ++
-X-Spam_report: (2.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_SBL_CSS=3.335,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAARzgwx=514Q8hMMLP4OpczRH4U2iiMnHqhJ6p3vg-8O3_aK=w@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: 3
+X-Spam_score: 0.3
+X-Spam_bar: /
+X-Spam_report: (0.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SORTED_RECIPS=2.499, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,81 +106,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: lu zhipeng <luzhipeng@cestc.cn>
+On Wed, Sep 28, 2022 at 08:38:54AM +0530, Ani Sinha wrote:
+> > I don't really care where we upload them but only having the
+> > latest version is just going to break anything expecting
+> > the old binary.
+> 
+> In fairness, I am not entirely certain if there is a tight coupling
+> between the qemu tests and the bits binaries. I have written the test
+> framework in a way such that test modifications and new tests can be
+> pushed into the bits binaries and the iso gets regenerated with the
+> new tests from QEMU itself before running the tests. Only when we need
+> bits bugfixes or say upgrade to new acpica that we would need to
+> regenerate the bits binaries.
 
-If the net tap initializes successful, but failed during
-network card hot-plugging, the net-tap will remains,
-so cleanup.
+Theoretically, that's correct. But if we did not have bugs we would
+not need tests.
 
-Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
----
- net/tap.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/net/tap.c b/net/tap.c
-index b3ddfd4a74..e203d07a12 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -686,7 +686,7 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-     tap_set_sndbuf(s->fd, tap, &err);
-     if (err) {
-         error_propagate(errp, err);
--        return;
-+        goto failed;
-     }
- 
-     if (tap->has_fd || tap->has_fds) {
-@@ -726,12 +726,12 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-                 } else {
-                     warn_report_err(err);
-                 }
--                return;
-+                goto failed;
-             }
-             if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
-                 error_setg_errno(errp, errno, "%s: Can't use file descriptor %d",
-                                  name, fd);
--                return;
-+                goto failed;
-             }
-         } else {
-             vhostfd = open("/dev/vhost-net", O_RDWR);
-@@ -743,11 +743,11 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-                     warn_report("tap: open vhost char device failed: %s",
-                                 strerror(errno));
-                 }
--                return;
-+                goto failed;
-             }
-             if (!g_unix_set_fd_nonblocking(vhostfd, true, NULL)) {
-                 error_setg_errno(errp, errno, "Failed to set FD nonblocking");
--                return;
-+                goto failed;
-             }
-         }
-         options.opaque = (void *)(uintptr_t)vhostfd;
-@@ -760,11 +760,17 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-             } else {
-                 warn_report(VHOST_NET_INIT_FAILED);
-             }
--            return;
-+            goto failed;
-         }
-     } else if (vhostfdname) {
-         error_setg(errp, "vhostfd(s)= is not valid without vhost");
-+        goto failed;
-     }
-+
-+    return;
-+
-+failed:
-+    qemu_del_net_client(&s->nc);
- }
- 
- static int get_fds(char *str, char *fds[], int max)
 -- 
-2.31.1
-
-
+MST
 
 
