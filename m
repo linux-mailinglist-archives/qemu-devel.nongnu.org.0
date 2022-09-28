@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67FB5EE6CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:46:24 +0200 (CEST)
-Received: from localhost ([::1]:48128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D014E5EE6D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:52:40 +0200 (CEST)
+Received: from localhost ([::1]:59642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oddwm-0006kc-1O
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37020)
+	id 1ode2p-0004Th-S3
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:52:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf6-0000im-M8
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:08 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:34877)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf7-0000nQ-Oc
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:09 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:49503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf4-0006Yc-TX
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:08 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddf5-0006Yz-J7
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:28:09 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MC2k1-1oWAUH0AKj-00CT7n; Wed, 28
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MGzDv-1oRFKd3BTP-00E6DR; Wed, 28
  Sep 2022 22:28:00 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 28/37] linux-user: Introduce stubs for ELF AT_BASE_PLATFORM
-Date: Wed, 28 Sep 2022 22:27:28 +0200
-Message-Id: <20220928202737.793171-29-laurent@vivier.eu>
+Subject: [PULL 29/37] linux-user: Set ELF_BASE_PLATFORM for MIPS
+Date: Wed, 28 Sep 2022 22:27:29 +0200
+Message-Id: <20220928202737.793171-30-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928202737.793171-1-laurent@vivier.eu>
 References: <20220928202737.793171-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:/OO4VLwqwiO6rIelA5yLyGkMsge4uIk39rEbm/fg+RnW5TJt6ZQ
- qsNEkiNarMRzQcnLdHEZ+rZeX6XBLjysSbyD1nHMPGPDD6d6KTLwvHd40bdUj+IlfG5xYdk
- oW+TlEzYkpT5GaKsf0M4g582Kh+lGEQNnVnynG/83RwJ08QiXdOAiCqhf1r5KN/ztwnGohe
- RdI6LSXHfvqKQSHG2X4wg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:00sLbt8MqHA=:wNpFdlkTQkSUTZ9AbsXmiL
- bioJYG9u1B+pmICMEJEzN+IBbbMURsnS13Dvoms5QaiSm+LWEGh4aica5xUBTCH81ZaHYaKKs
- CzBWIeMv5izkPP0LYNHRi0YkNXm09ygYqCYVEwAIif9qILUbai92/yYUbEsAhFvA0Fkd1jT2P
- XSFVQ2Ikm1l1k5sBd0+AJ0oguZR+JOrmR8wHl+Z9PTo24KOpdBCVg7E4mA46eqnWm0GCDL6hX
- o9emNyqlt5QY3aX/ualS+PUovWRLzAd6NmfoAKSAq7GXUGCZReexCCQ1QUXltE3ABIremxVhL
- l9rZhV8gNAE/bjvzO8ZJGVF3zSjHZOcJ7pR2URGHrM/eP8ogigm/6EJKieD5RuZ3lriYsDCbq
- yKZ1Hz0Ixncfg+mkOqh9/LsSW7fJyeC5fC84aWhXbjsns0wyRqn2zN/T4grriuD29WHpyUB88
- TiDkJNX2BOrhIe0ggyT78ojrC2DeaJn959PDpOrPcNbUkHOlk2ooBvsSNiiWAMp4DmCgBbaJd
- RARkAyx2VKBFAmpw7V67ZOVNktmGeUjP+TaWBxzLIGqXl1PVikV4nZoUMR8AHbl3DMnIkqfcB
- itZ4BVBKT7UW6/B1dIqCO4/YpO6LTi9o6g29GW2ySMYPoiNSvF7N5AWm4QaLHnahMoBYFrfh/
- rv1hPINfLAQYZ04dnanZN9M6lBK9Cbc8zlaMNgORDI7+/3l0XU2DRGFVFqmb5kW/Douw7Jvlv
- fpOATiq0e58IQRxqDpONw1h+GbnnW9u8PEw+sUFYP5QwQ6vv2HsBdqjwG2it4wba+zUFRO1Sl
- JZA4Nqh
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:BaP8I+9To0VdoUT6VN1UoFC/nE8UF9sN4LEoPrLUsaDNazfjA/Z
+ PvvcfD64krJFGYfcO8LsUqoG4uSskmDko0HbktlY9RhFFE0ThCF0moq9PfAO/lCoj491iZb
+ 6+ddaMQZKWOV2Q7IwoiHdLVtolcxqd2KVm41NUjxs6OrXzjXRCu+VYa9z2mmFjp8GYKe2D1
+ kNPOUBhM/ltUHQpJmnpjw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:T53Ly6S6kx0=:CGvUBBRa5SBztbivxnfyJX
+ SMlrg2yVReyzlg+uXtX9IbNmwk+upa8LI6fvarxQ87flpuWf181gmY+EPG0AxgSrtuDUgDs6d
+ aWBqYfEpNb2SKYyLUXhTrnTNLLfyhp+hSl4twu5seRCo8J+lp7fi5sZsDl8HssMhqA+H9X8g9
+ vsqjPXVEMmin6LaKRdB/0XPlAZQJzOJKXdKeRhqbkSBzzeq8fdZdAGNMoVPwKoJBKY5x9NlWS
+ NiaiSddVDhXTQZDWJmd3DGNrDDCZV34NyHdEug5P521ddCdisx+388KcsJ8HFBbsMql3xvvE8
+ 93tm2UNsg4FIDua+IBIAFwnKuhSpge5vafKQ9dztk/HBDhFgO0crX1y1j0gTT0e61g2N0gQxl
+ g3aZ0/ZajLDDnzMeNscNh/Cyri7pCVCPTdh2xsxUbzfdmjuT1Tl7YX5FRLeKPl2g0SDtV1+4G
+ zoube5Zm1Ozqt76gzvfDaxA4ZaQ2Fx+82jORYwh6tUZ2Jk00GHepHFlZHEEfn8nX81gvsHA7A
+ WLoaLHNW6R9TMH3CAG/GE6vJBlj4PNQTd/jdMARp9e9gK+ni9xanXtO6IRBR8zfVDUuWA7BB5
+ tsngYeqtpMix0n1kQ72ddgMFyOvDRDJ9os9UUe5TwsY6QTUpaK1IuDgnXY0u5SFphZ/vfhiRE
+ iFWVjy6PksK1yPUBsJVSrH1w7KMGVA55CgWhm7WuN+cru6KRT2iOj/emkHhTyUctQ7o2QYEOY
+ uHp76xls4m6/kDUCrKIc5kTIPE50PpSGVBa+NXvk436/67U+7PTJr08ad1YWNK3i2ZRbUL8YO
+ tO0Ta3w
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -76,86 +76,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-AT_BASE_PLATFORM is a elf auxiliary vector pointing to a string
-to pass some architecture information.
-See getauxval(3) man-page.
+Match most appropriate base platform string based on insn_flags.
+Logic is aligned with aligned with set_isa() from
+arch/mips/kernel/cpu-probe.c in Linux kernel.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220803103009.95972-2-jiaxun.yang@flygoat.com>
+Message-Id: <20220803103009.95972-3-jiaxun.yang@flygoat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+ linux-user/elfload.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index c7e3f1d47c16..581fbc858b48 100644
+index 581fbc858b48..20894b633f58 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -1776,6 +1776,10 @@ static inline void init_thread(struct target_pt_regs *regs,
- 
- #endif /* TARGET_HEXAGON */
- 
-+#ifndef ELF_BASE_PLATFORM
-+#define ELF_BASE_PLATFORM (NULL)
-+#endif
-+
- #ifndef ELF_PLATFORM
- #define ELF_PLATFORM (NULL)
- #endif
-@@ -2220,8 +2224,8 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-     int i;
-     abi_ulong u_rand_bytes;
-     uint8_t k_rand_bytes[16];
--    abi_ulong u_platform;
--    const char *k_platform;
-+    abi_ulong u_platform, u_base_platform;
-+    const char *k_platform, *k_base_platform;
-     const int n = sizeof(elf_addr_t);
- 
-     sp = p;
-@@ -2243,6 +2247,22 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-         }
-     }
- 
-+    u_base_platform = 0;
-+    k_base_platform = ELF_BASE_PLATFORM;
-+    if (k_base_platform) {
-+        size_t len = strlen(k_base_platform) + 1;
-+        if (STACK_GROWS_DOWN) {
-+            sp -= (len + n - 1) & ~(n - 1);
-+            u_base_platform = sp;
-+            /* FIXME - check return value of memcpy_to_target() for failure */
-+            memcpy_to_target(sp, k_base_platform, len);
-+        } else {
-+            memcpy_to_target(sp, k_base_platform, len);
-+            u_base_platform = sp;
-+            sp += len + 1;
-+        }
-+    }
-+
-     u_platform = 0;
-     k_platform = ELF_PLATFORM;
-     if (k_platform) {
-@@ -2284,6 +2304,8 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-     }
- 
-     size = (DLINFO_ITEMS + 1) * 2;
-+    if (k_base_platform)
-+        size += 2;
-     if (k_platform)
-         size += 2;
- #ifdef DLINFO_ARCH_ITEMS
-@@ -2361,6 +2383,9 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-     NEW_AUX_ENT(AT_HWCAP2, (abi_ulong) ELF_HWCAP2);
+@@ -1080,6 +1080,37 @@ static uint32_t get_elf_hwcap(void)
+ #define elf_check_abi(x) (!((x) & EF_MIPS_ABI2))
  #endif
  
-+    if (u_base_platform) {
-+        NEW_AUX_ENT(AT_BASE_PLATFORM, u_base_platform);
-+    }
-     if (u_platform) {
-         NEW_AUX_ENT(AT_PLATFORM, u_platform);
-     }
++#define ELF_BASE_PLATFORM get_elf_base_platform()
++
++#define MATCH_PLATFORM_INSN(_flags, _base_platform)      \
++    do { if ((cpu->env.insn_flags & (_flags)) == _flags) \
++    { return _base_platform; } } while (0)
++
++static const char *get_elf_base_platform(void)
++{
++    MIPSCPU *cpu = MIPS_CPU(thread_cpu);
++
++    /* 64 bit ISAs goes first */
++    MATCH_PLATFORM_INSN(CPU_MIPS64R6, "mips64r6");
++    MATCH_PLATFORM_INSN(CPU_MIPS64R5, "mips64r5");
++    MATCH_PLATFORM_INSN(CPU_MIPS64R2, "mips64r2");
++    MATCH_PLATFORM_INSN(CPU_MIPS64R1, "mips64");
++    MATCH_PLATFORM_INSN(CPU_MIPS5, "mips5");
++    MATCH_PLATFORM_INSN(CPU_MIPS4, "mips4");
++    MATCH_PLATFORM_INSN(CPU_MIPS3, "mips3");
++
++    /* 32 bit ISAs */
++    MATCH_PLATFORM_INSN(CPU_MIPS32R6, "mips32r6");
++    MATCH_PLATFORM_INSN(CPU_MIPS32R5, "mips32r5");
++    MATCH_PLATFORM_INSN(CPU_MIPS32R2, "mips32r2");
++    MATCH_PLATFORM_INSN(CPU_MIPS32R1, "mips32");
++    MATCH_PLATFORM_INSN(CPU_MIPS2, "mips2");
++
++    /* Fallback */
++    return "mips";
++}
++#undef MATCH_PLATFORM_INSN
++
+ static inline void init_thread(struct target_pt_regs *regs,
+                                struct image_info *infop)
+ {
 -- 
 2.37.3
 
