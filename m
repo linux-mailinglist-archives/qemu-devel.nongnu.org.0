@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053645EE6CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:45:59 +0200 (CEST)
-Received: from localhost ([::1]:47844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C16D45EE6AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:37:06 +0200 (CEST)
+Received: from localhost ([::1]:36874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oddwL-00068n-Pb
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:45:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
+	id 1oddnl-00033H-QO
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:37:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddel-0007zI-C8
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:47 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:52737)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odden-00082i-3t
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:49 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:50989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddej-0006NW-Bt
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:47 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddek-0006Nr-Qc
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:48 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MdNPq-1pChQN2Y08-00ZNto; Wed, 28
- Sep 2022 22:27:43 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MCsHm-1oUny40AfA-008oWW; Wed, 28
+ Sep 2022 22:27:44 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>,
 	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 10/37] linux-user/hppa: Set TASK_UNMAPPED_BASE to 0xfa000000
- for hppa arch
-Date: Wed, 28 Sep 2022 22:27:10 +0200
-Message-Id: <20220928202737.793171-11-laurent@vivier.eu>
+Subject: [PULL 11/37] linux-user: Add strace for clock_nanosleep()
+Date: Wed, 28 Sep 2022 22:27:11 +0200
+Message-Id: <20220928202737.793171-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928202737.793171-1-laurent@vivier.eu>
 References: <20220928202737.793171-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:cKcCZW6qZdTYScJOBP+nv5g7E36cM2agAakTwnH3f+wCiXJ8UJ7
- 664AKzDC14KYsT2MM/PuM+NotjGeHebIMIoQqxfYqnLDBAim558btGEGdUPByUrXPGtG1EA
- qBMqY3Is6LUPHbdrFkQQ0z15wkGSg9a1WAazg+Nlq7YaLqgv8PMKro90SscqeWpuEB4RuFJ
- KTmCFmW3OzHBByyBDSLyQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:N8ms75257Oo=:cSuDqrlyqkgThQl1j8wW/t
- bHeTDlXgymRU3+cBM7Gw2AzGeOWPq7OfLXazPcwBBy2TR2wH/khmMC1KQZUQI+4QDXExFDdv6
- rZcUVqccO+EbXvsg99gRCV0+Kyo4hcG21eDqyhKKg2XsRg/I/86l73K+ErwZrKGpGRpNUtR/s
- FBnJM80vsX9ZLNBqxUx/2okdi72uAN+UATpf87KsUHGsaMkuDg+oFdnLTfLOt+EBKUTlYEkhu
- qunkIQI0WuvX0UvNAMCQa5yWxUWLJtxwFPuzQaDB4RBT3j1TdwklewNCqt8OM2ZLe20z2bPtk
- T1TkH6OAFertVTZCCy1iZXv+w6jJNNDDrDngHa1YXE9H7pb0a8i3vLcp2tJu+UtffFC5QQf9L
- MnO+6aH4Y7DZbLOQiJ8pE15WMlEl1cobFQL3O/dl5nB2TX7CRKQixFa/Qw0pcfPE1ieRYldFj
- SbHRo1ET2cqh67ubzFa5iZMcOHmFht9cP2kOu3lP5kYcvfONPiGQtfEPZetbnqcYrg7DsE+cR
- DG4nyoOBVNHFbP/6p87YAEp8C3knQ/8YUF4uALOVi1KcSyZ+FAS7iyQV3N/DPavi/Vq/w8Cbb
- wI38Puv7duUgpxkLVjZyL+bOseqoQnqpO9J4kXmusUSjBFHqZooEf+1T2Jafl7sjIWAI4Pva6
- XM/TPCtrZNGf6CxSC7k96xXPA3OvbrGwWVVHI48JXM9taPSR3xZHUAStnSPa5bx4g5FIZ5SZx
- +eN9ruIRP43dVOfX8LiBMpeWtgVqJwGWJdyA1THmecvQAhneJuLIWL+/Q3EVnprDz2SzPCN3s
- hhw4HVm
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:uxe/ig7xPkgNaE3XrHmpD7iNNdAZ18vuUtPQBODcaLPpdTfNuAy
+ S7GHvwflmPQ9HMHnRZ4GAnjUqclsy0g/YfZswFdkSr+H3faBi+zB5Mx1k5k8o8u0yT2L6no
+ jZDGjnDKHTE8afhlIf21EZ8HC09iCi3Lx8bRfhchJVQxIJ0yKNNL6Gveh7OHQ/+g25HlG1Z
+ ngCB7Iwy1nkoHs00fdHow==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SamJgTClsRI=:vKRxqBYmXzOFFIxmdVDVu7
+ WoVsfUfXy/Y+IPopHduDgThTOXpXaXc2W6KLrQgFg+8I1tOI7nO8x985lBIGa1ZlR8B4KOQSo
+ tgCw8kLoDky+N8JVA5/qSRCb87yORw/IbJGHpjmcd1lkMzkWk5lSZvcyQLH17PbUSwca7RMYj
+ WQ3GSXhfozuMqbos3ruMAcUHiL2YqusOEkuOJUqxxP3XtnvfeoKRcyxz2iWp/8tozNLY4kYIw
+ V/klhcs/MptQKKMv2vdoMq0ffcX9yruXwizrs6bAMhP2BlzRbPP5tPm41dEnEHkHFjYXX8+bq
+ OEAo3B0A0T5qAiJIaZiABEYcoFKN5Gzpz4AWVMqhQ7DQfakF/NsDMrYVBRL352yQtH+MB8iRi
+ QxSiewUMtGIZ8weEIKuf+O00IItO0KWAMCJRoq5Wys35lW5GQbffJMsvYSbNqkQVJzU9D38/e
+ ohk/F2DrURUNjErYn+EbXwlS1MRKupOoSELN8Cff0O7k1t0QkOd3EFsGeI1zyhVMYnZZPSAEx
+ LJnV5QHbbYn6gC8KwKIUMMFhcfkx6ACVcfo9Cam8fx5J5l1lb/5Hqxwdxe7n5FYc0yoj1qegJ
+ NZRqPn6GkSrgaT7+/2Haownoj6E99BK1/Pyw2vabilTqIvzHHCBLvvuem3HqukDjflBb/vP7/
+ 9qAEzOS665laPsnU87OGqVe5fY+7LPfnFBhfnf2nMCVizOjZbM6ympHxgMsXJYzY1aVv2P0q+
+ 94q3e41h4uMSD4EOTeMoHQwgawFRi/3fCz9f4S1iZZt/K9/YEiHHyoUm78tLYA1f0nLjGrPOT
+ 8FdJMhf
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -75,34 +74,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Helge Deller <deller@gmx.de>
 
-On the parisc architecture the stack grows upwards.
-Move the TASK_UNMAPPED_BASE to high memory area as it's done by the
-kernel on physical machines.
-
 Signed-off-by: Helge Deller <deller@gmx.de>
-Message-Id: <20220918194555.83535-9-deller@gmx.de>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20220918194555.83535-10-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/mmap.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ linux-user/strace.c    | 15 +++++++++++++++
+ linux-user/strace.list |  3 ++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 6a828e8418a7..83fdae7034ea 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -253,8 +253,12 @@ static int mmap_frag(abi_ulong real_start,
- # define TASK_UNMAPPED_BASE  (1ul << 38)
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 2f539845bb90..6f818212d529 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -3567,6 +3567,21 @@ print_unshare(CPUArchState *cpu_env, const struct syscallname *name,
+ }
  #endif
- #else
-+#ifdef TARGET_HPPA
-+# define TASK_UNMAPPED_BASE  0xfa000000
-+#else
- # define TASK_UNMAPPED_BASE  0x40000000
- #endif
-+#endif
- abi_ulong mmap_next_start = TASK_UNMAPPED_BASE;
  
- unsigned long last_brk;
++#ifdef TARGET_NR_clock_nanosleep
++static void
++print_clock_nanosleep(CPUArchState *cpu_env, const struct syscallname *name,
++                abi_long arg0, abi_long arg1, abi_long arg2,
++                abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    print_syscall_prologue(name);
++    print_enums(clockids, arg0, 0);
++    print_raw_param("%d", arg1, 0);
++    print_timespec(arg2, 0);
++    print_timespec(arg3, 1);
++    print_syscall_epilogue(name);
++}
++#endif
++
+ #ifdef TARGET_NR_utime
+ static void
+ print_utime(CPUArchState *cpu_env, const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 4d8b7f6a5e0c..215d971b2aea 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -91,7 +91,8 @@
+                            print_syscall_ret_clock_gettime },
+ #endif
+ #ifdef TARGET_NR_clock_nanosleep
+-{ TARGET_NR_clock_nanosleep, "clock_nanosleep" , NULL, NULL, NULL },
++{ TARGET_NR_clock_nanosleep, "clock_nanosleep" , NULL, print_clock_nanosleep,
++                            NULL },
+ #endif
+ #ifdef TARGET_NR_clock_settime
+ { TARGET_NR_clock_settime, "clock_settime" , NULL, print_clock_settime, NULL },
 -- 
 2.37.3
 
