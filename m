@@ -2,90 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E245EE2C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 19:13:51 +0200 (CEST)
-Received: from localhost ([::1]:37170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F31BA5EE12E
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 18:03:39 +0200 (CEST)
+Received: from localhost ([::1]:52290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odad4-0007HB-Ln
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 13:13:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40510)
+	id 1odZX9-00081e-03
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 12:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1odZ9j-0007jg-BE
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 11:39:27 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:41577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1odZ9g-0002hf-T8
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 11:39:27 -0400
-Received: by mail-pf1-x432.google.com with SMTP id l65so12842725pfl.8
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 08:39:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=9HPxMrPStypfLUK51WWAsl0OZQhQEY0JZqgyIpLouM4=;
- b=BJwMBlDdHFkd0jAwecVqx+s/fGerntggdPNrI/xHlxXPqIhFngjdgaVZZ4tLTe0YzK
- 5Q0E+6qUD1XfaSvcFoXOq6koqUjH6sS0MPy4uKFar91DR/Gzsggm1Hf8Jf6m3Zlw5n2L
- XSZoE5On5a1iuh+CK1Ssfy4omA1Q5wtTbBR47PUZ2UszfqQdgj9GyCd8Gi0fdy1fR/it
- /GcX33mWSKQFmPi0ivYlNLFOjDI81OmBRUZ6QV/zD9/In6yawak/NTG8iOCLu23k+MgG
- 4+1vIyxi5tfMVUzdEChx7be77MgX5DD+Al/Y2Kdkl/9V0NgW0nr9Xuy5TILtbB9dFhuC
- HpmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=9HPxMrPStypfLUK51WWAsl0OZQhQEY0JZqgyIpLouM4=;
- b=MsYp/VCwX6/DoE01fVhcCYF6dsmN6fladalCll3LDCVKb357MmzaHhVJ0EcL9z8eXH
- JX/wKc8gNzMSZ7IFKivpjr2wKGIUhQQPOnTDDyhx4cb43sHDKyGODDDgXACvb7jpTfYD
- XUCYCnpaV+zn7OM7oAAx6b7od2Owe7X/BdHvb6wM+yp+YBrfIaPVsz6yNQE1HfEZEsXs
- j7DfGzk+a7GuowfBMAAN/LKlrjS9NCr8W/kIouaS0imq4MaSBjVTynD8l3/umem2QZtG
- OfEgRgSRNsxdr+9EI0MbeBzTCX6BzC3Dxn89+lyBkYdlbLZieriYVPXAv9TMNNhcFKe0
- b2Tw==
-X-Gm-Message-State: ACrzQf0mjEhExpmTDNTrr6UlinBN+/AWmp+8jV5DSDpluB2DoOhiaPMG
- 3sdUDs/pBemNEcHfYFg5fDGniw==
-X-Google-Smtp-Source: AMsMyM5QCfK221DxtKxJ5qJ7h+dYqNr7LzqCvNZHfYNG+T4jxSZfHyKhgofK/MvMXWHcwENibhwlqQ==
-X-Received: by 2002:a63:4143:0:b0:43a:20d4:a438 with SMTP id
- o64-20020a634143000000b0043a20d4a438mr30192956pga.452.1664379563431; 
- Wed, 28 Sep 2022 08:39:23 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:986f:cb56:6709:4057?
- ([2602:47:d49d:ec01:986f:cb56:6709:4057])
- by smtp.gmail.com with ESMTPSA id
- v66-20020a622f45000000b00543780ba53asm4144428pfv.124.2022.09.28.08.39.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Sep 2022 08:39:22 -0700 (PDT)
-Message-ID: <18971815-0868-ab30-0bd0-3541b5d2df46@linaro.org>
-Date: Wed, 28 Sep 2022 08:39:21 -0700
+ (Exim 4.90_1) (envelope-from <den@openvz.org>) id 1odZND-0004Hv-N6
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 11:53:23 -0400
+Received: from relay.virtuozzo.com ([130.117.225.111]:35458)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den@openvz.org>) id 1odZN7-00066f-FV
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 11:53:22 -0400
+Received: from [192.168.16.115] (helo=iris.sw.ru)
+ by relay.virtuozzo.com with esmtp (Exim 4.95)
+ (envelope-from <den@openvz.org>) id 1odZK4-006fCW-3e;
+ Wed, 28 Sep 2022 17:52:32 +0200
+From: "Denis V. Lunev" <den@openvz.org>
+To: qemu-devel@nongnu.org
+Cc: "Denis V . Lunev" <den@openvz.org>,
+ Denis Plotnikov <den-plotnikov@yandex-team.ru>,
+ Yan Vugenfirer <yvugenfi@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH 1/1] qxl: add subsystem_vendor_id property
+Date: Wed, 28 Sep 2022 17:52:44 +0200
+Message-Id: <20220928155244.1837455-1-den@openvz.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v8 4/5] dmg: warn when opening dmg images containing
- blocks of unknown type
-Content-Language: en-US
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20220928122959.16679-1-cfontana@suse.de>
- <20220928122959.16679-5-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220928122959.16679-5-cfontana@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=130.117.225.111; envelope-from=den@openvz.org;
+ helo=relay.virtuozzo.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,51 +54,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/22 05:29, Claudio Fontana wrote:
-> From: Kevin Wolf <kwolf@redhat.com>
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->   block/dmg.c | 19 +++++++++++++++++++
->   1 file changed, 19 insertions(+)
+This property is needed for WHQL/inboxing of Windows drivers. We do need
+to get drivers to be separated by the hypervisor vendors and that should
+be done as PCI subvendor ID.
 
-If it's from Kevin, it should have his s-o-b as well.  With that,
+This patch adds PCI subsystem vendor ID to QXL device to match that
+convention.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The original version of this code has been written by Denis Plotnikov
+while he has been working in Virtuozzo.
 
+Signed-off-by: Denis V. Lunev <den@openvz.org>
+CC: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+CC: Yan Vugenfirer <yvugenfi@redhat.com>
+CC: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/display/qxl.c | 4 ++++
+ hw/display/qxl.h | 1 +
+ 2 files changed, 5 insertions(+)
 
-r~
-
-> 
-> diff --git a/block/dmg.c b/block/dmg.c
-> index 837f18aa20..96f8c2d14f 100644
-> --- a/block/dmg.c
-> +++ b/block/dmg.c
-> @@ -254,6 +254,25 @@ static int dmg_read_mish_block(BDRVDMGState *s, DmgHeaderState *ds,
->       for (i = s->n_chunks; i < s->n_chunks + chunk_count; i++) {
->           s->types[i] = buff_read_uint32(buffer, offset);
->           if (!dmg_is_known_block_type(s->types[i])) {
-> +            switch (s->types[i]) {
-> +            case UDBZ:
-> +                warn_report_once("dmg-bzip2 module is missing, accessing bzip2 "
-> +                                 "compressed blocks will result in I/O errors");
-> +                break;
-> +            case ULFO:
-> +                warn_report_once("dmg-lzfse module is missing, accessing lzfse "
-> +                                 "compressed blocks will result in I/O errors");
-> +                break;
-> +            case UDCM:
-> +            case UDLE:
-> +                /* Comments and last entry can be ignored without problems */
-> +                break;
-> +            default:
-> +                warn_report_once("Image contains chunks of unknown type %x, "
-> +                                 "accessing them will result in I/O errors",
-> +                                 s->types[i]);
-> +                break;
-> +            }
->               chunk_count--;
->               i--;
->               offset += 40;
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 5b10f697f1..ec117aa90f 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -2204,6 +2204,8 @@ static void qxl_realize_common(PCIQXLDevice *qxl, Error **errp)
+ 
+     qxl->update_area_bh = qemu_bh_new(qxl_render_update_area_bh, qxl);
+     qxl->ssd.cursor_bh = qemu_bh_new(qemu_spice_cursor_refresh_bh, &qxl->ssd);
++
++    pci_set_word(&config[PCI_SUBSYSTEM_VENDOR_ID], qxl->subsystem_vendor_id);
+ }
+ 
+ static void qxl_realize_primary(PCIDevice *dev, Error **errp)
+@@ -2469,6 +2471,8 @@ static Property qxl_properties[] = {
+         DEFINE_PROP_UINT32("xres", PCIQXLDevice, xres, 0),
+         DEFINE_PROP_UINT32("yres", PCIQXLDevice, yres, 0),
+         DEFINE_PROP_BOOL("global-vmstate", PCIQXLDevice, vga.global_vmstate, false),
++        DEFINE_PROP_UINT16("subsystem-vendor-id", PCIQXLDevice,
++                            subsystem_vendor_id, PCI_VENDOR_ID_REDHAT_QUMRANET),
+         DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/display/qxl.h b/hw/display/qxl.h
+index e74de9579d..111edbf0dc 100644
+--- a/hw/display/qxl.h
++++ b/hw/display/qxl.h
+@@ -126,6 +126,7 @@ struct PCIQXLDevice {
+     int                num_dirty_rects;
+     QXLRect            dirty[QXL_NUM_DIRTY_RECTS];
+     QEMUBH            *update_area_bh;
++    uint16_t           subsystem_vendor_id;
+ };
+ 
+ #define TYPE_PCI_QXL "pci-qxl"
+-- 
+2.34.1
 
 
