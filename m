@@ -2,95 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF885EE329
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 19:31:07 +0200 (CEST)
-Received: from localhost ([::1]:43024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620835EE381
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 19:52:35 +0200 (CEST)
+Received: from localhost ([::1]:47946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odatm-00006s-4P
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 13:31:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43636)
+	id 1odbEX-00013f-HD
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 13:52:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <awilliam@redhat.com>)
- id 1odakw-0005Qm-JN
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 13:22:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27157)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1odan4-0007ZW-D7; Wed, 28 Sep 2022 13:24:11 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:54675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <awilliam@redhat.com>)
- id 1odakr-00081V-E8
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 13:21:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664385712;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LDwROmfkxGv17dJGybdu4VJ1CelkqKakDb5EIIMnAUo=;
- b=ZSJBDMhNTW4W9XGTzDpokqnoKo2cRbpYmz3bny+CSRM8IaTKeahx8L4VoBsEKNq1lQSn4t
- VnDjC/Gdoib758U2Vcahd5vupV3FDeDx/WrtXWp1Iws7rK4LgSxlCtFdYCTLNZzry0DgFy
- hVGjkgvLPGaiDxBRlqfudUSXb4UKuXo=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-54-C2wuU5VcPie6CuPwR97E9g-1; Wed, 28 Sep 2022 13:21:50 -0400
-X-MC-Unique: C2wuU5VcPie6CuPwR97E9g-1
-Received: by mail-pj1-f71.google.com with SMTP id
- u6-20020a17090a1f0600b002039826d478so1329613pja.4
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 10:21:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date;
- bh=LDwROmfkxGv17dJGybdu4VJ1CelkqKakDb5EIIMnAUo=;
- b=myISbXVRRkkCM/CJqQE0WLX2DVvXE6M8mfwQZURKOiBo7qhkpAX+8UWaYPFFGhiAWT
- lTOdcsPS8AzlHH3CJVxBxV/vuk694IQbsfbRs0YJwVNe77Hie1zvVCfVN4meiJ3kuAhC
- MQpSwHAIP/C/dKJptbUNGdVgHSBk+sHhqShrF+dbSrPzmhCz8C/sKIGKZMFxoElxiHEq
- nXcULM2BspyI92mycg3AYH+q5iZc4/5E0sqCNrFpZ8bi3798zfL2L9CBIRru2QlV+Pzm
- oLF4yoa7mKC2JBitNuCC+bdPVraGsB024WvtLcpqM65prczzOGwvERPYSoKeP5+Q7FfK
- MvWQ==
-X-Gm-Message-State: ACrzQf2jFx1TIZ4aq9snbe7lM68z/rxpAJ4R88uvR8DmZXk+gzHPpG8x
- qNk0E0NTQghpqG6GpUU7By3zyvonnwbEszbDCtapsFv7W0Z1C2x9za6oib4UIjdTlmWJIR45m9m
- jUbh3E3kSyZ5/gw==
-X-Received: by 2002:a17:902:b10f:b0:179:dee4:d2c5 with SMTP id
- q15-20020a170902b10f00b00179dee4d2c5mr847886plr.130.1664385709774; 
- Wed, 28 Sep 2022 10:21:49 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6bqk07QQjZQR4aPTXHaKHP/bAbV+8sIIbnsCb5QCLSRtLlNn073qsrPB7WKvzZmLP22dCJgQ==
-X-Received: by 2002:a17:902:b10f:b0:179:dee4:d2c5 with SMTP id
- q15-20020a170902b10f00b00179dee4d2c5mr847868plr.130.1664385709556; 
- Wed, 28 Sep 2022 10:21:49 -0700 (PDT)
-Received: from t16.happyassassin.net (d172-218-245-5.bchsia.telus.net.
- [172.218.245.5]) by smtp.gmail.com with ESMTPSA id
- z27-20020aa79e5b000000b0053617cbe2d2sm4299212pfq.168.2022.09.28.10.21.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Sep 2022 10:21:49 -0700 (PDT)
-Message-ID: <73db038d24e8b631e208a0f9946d004c24b6d32b.camel@redhat.com>
-Subject: Re: qemu and -vga vs. -device
-From: Adam Williamson <awilliam@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, Gerd Hoffmann
- <kraxel@redhat.com>
-Cc: qemu-ppc@nongnu.org, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Date: Wed, 28 Sep 2022 10:21:48 -0700
-In-Reply-To: <d8f07d3c-933c-adbe-8f83-08a9f45ba631@gmail.com>
-References: <b773b085e1a3bda7aae1b6498216c416b30843bc.camel@redhat.com>
- <20220919044209.u7iy4c6zaibgtlpc@sirius.home.kraxel.org>
- <3aae1641f95503b40341c1130194a19e5e156b51.camel@redhat.com>
- <20220926092649.yjly7pkejttcqdlc@sirius.home.kraxel.org>
- <c6897368-1d0c-dca9-218c-91709a4b27fc@gmail.com>
- <c54fcd41ece548c72e9058300d0fc19f022cd7f0.camel@redhat.com>
- <d8f07d3c-933c-adbe-8f83-08a9f45ba631@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.0 (by Flathub.org)) 
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1odan2-0008IR-A2; Wed, 28 Sep 2022 13:24:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=QpqBz0HoL5IHNOwO12U9HkU/sEd6AyVJIVpjVu/PkiA=; b=XreQwMzBNFiV1JRQsN14k9jmKD
+ APDqzVD1OWS389ZTrMmbdKf+rtdjfBAP12DfJLBAT32iqBE+mS1OLkyzLShUu82968FWHBBii7Rtl
+ RLmdaINixMPJPuxXGS2/QovexBer20JEYl2TdEUVqWnIJ/UDkCX6MsQizcTfivwO0AUJuS6BlcML3
+ ji3cokS++Ko3fK9MTVmO8U8gmzhe0s9qheZknJ2X3Ys2DjXWsNGYnd5Vfc6omb4NrXfDSqyyISmtI
+ 8Q7sjaiBl/Ep+jYFOSmzGjnQimXvHwFB5/l+0fgDRAQUU/epjdy2M0mAlRfSPTxzauzztxat/eLIN
+ vmf0l6V/8jxEiBvwo03C34c/NH9h8z+I4RgScfy87Jvgfl/B1svOrT4a/OauLi4fsPIFRBZUMuT7A
+ hrA/HfK0cHmEvbURs5/hrU8FtcEiGHkRHt/njanCnoaZlSeI43GWWr5eZh7Kn/lOwRwgqWrr/wgNM
+ 5w8pDk+lxR48iQ8nHnl9uNJV1J2OuwQQEG/k85Fkw/yF12T2Ylx00UZ4KkvzHGF72u8V4rhaY60vI
+ Epe5SiLQ60ZIWZh46+rtnYPl+/n2YzJqre3bE1svum+mfgbP/hU7qPUEq/ysMwWLCXrk2iNQlNa2y
+ 49baSLazYSxIFOixJvkupattntNDtqj+z597cUGys=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org, Qemu-block <qemu-block@nongnu.org>
+Cc: Linus Heckemann <git@sphalerite.org>, Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 1/1] 9pfs: avoid iterator invalidation in
+ v9fs_mark_fids_unreclaim
+Date: Wed, 28 Sep 2022 19:24:03 +0200
+Message-ID: <8042021.lWAJiCS524@silver>
+In-Reply-To: <20220927214702.63ac8a7b@bahia>
+References: <20220926124207.1325763-1-git@sphalerite.org>
+ <3675458.bPJFzOz80O@silver> <20220927214702.63ac8a7b@bahia>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=awilliam@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,30 +67,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2022-09-28 at 06:00 -0300, Daniel Henrique Barboza wrote:
-> > Note, it looks like I was just a bit impatient in my manual trials;
-> > looking at some jobs that ran today, they did eventually clear to
-> > the
-> > Fedora installer GUI after about 90-120 seconds. But they
-> > definitely
-> > don't show the bootloader (which our test system expects to see, so
-> > the
-> > test fails). When run without the `-vga none` part, the bootloader
-> > is
-> > shown at the same resolution and using the same fonts as the OFW
-> > interface.
->=20
->=20
-> By "bootloader" you mean grub, correct?
+On Dienstag, 27. September 2022 21:47:02 CEST Greg Kurz wrote:
+> On Tue, 27 Sep 2022 19:14:33 +0200
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > On Dienstag, 27. September 2022 15:05:13 CEST Linus Heckemann wrote:
+> > > One more thing has occurred to me. I think the reclaiming/reopening
+> > > logic will misbehave in the following sequence of events:
+> > > 
+> > > 1. QEMU reclaims an open fid, losing the file handle
+> > > 2. The file referred to by the fid is replaced with a different file
+> > > 
+> > >    (e.g. via rename or symlink) outside QEMU
+> > > 
+> > > 3. The file is accessed again by the guest, causing QEMU to reopen a
+> > > 
+> > >    _different file_ from before without the guest having performed any
+> > >    operations that should cause this to happen.
+> > > 
+> > > This is neither introduced nor resolved by my changes. Am I overlooking
+> > > something that avoids this (be it documentation that directories exposed
+> > > via 9p should not be touched by the host), or is this a real issue? I'm
+> > > thinking one could at least detect it by saving inode numbers in
+> > > V9fsFidState and comparing them when reopening, but recovering from such
+> > > a situation seems difficult.
+> > 
+> > Well, in that specific scenario when rename/move happens outside of QEMU
+> > then yes, this might happen unfortunately. The point of this "reclaim
+> > fid" stuff is to deal with the fact that there is an upper limit on
+> > systems for the max. amount of open file descriptors a process might hold
+> > at a time. And on some systems like macOS I think that limit is quite low
+> > by default (like 100?).
+> > 
+> > There is also another issue pending that affects pure inner-guest
+> > behaviour; the infamous use-after-unlink() use pattern:
+> > https://wiki.qemu.org/Documentation/9p#Implementation_Plans
+> > https://gitlab.com/qemu-project/qemu/-/issues/103
+> > 
+> > It would make sense to look how other file servers deal with the max.
+> > amount of file descriptors limit before starting to just fight the
+> > symptoms. This whole reclaim fid stuff in general is PITA.
+> 
+> Yes this reclaim code is just a best effort tentative to not
+> starve file descriptors. But since its implementation is path
+> based, it gets the per-design limitation that nothing should
+> modify the backing fs outside of the current 9p session.
 
-Yeah, exactly, the grub menu. On our installer images we use it to
-offer various choices (install, run a media check and install, run
-rescue mode...)
---=20
-Adam Williamson
-Fedora QA
-IRC: adamw | Twitter: adamw_ha
-https://www.happyassassin.net
+Sure.
+
+> Note: just like the use-after-unlink() infamous pattern (I love
+> the wording), you can get this with a "pure inner-guest behaviour"
+> using two devices with overlapping backends (shoot in the foot
+> setup) :-)
+
+True.
+
+> Recovering from lost state is impossible but the server should
+> at least try to detect that and return EIO to the client, pretty
+> much like any storage device is expected to do if possible.
+
+Yeah, I agree.
+
+Nevertheless, I just had a glimpse on how this is handled on Samba, and one 
+important aspect they are doing is trying to increase (hard & soft) limits:
+
+https://github.com/samba-team/samba/blob/master/source3/lib/util.c#L1320
+
+Which makes sense, and now I remember commonly doing that on macOS as well due 
+to Apple's very low default limit there.
+
+Samba's anticipated default limit is a max. of 10k open files BTW, which is 
+quite a good ground for not getting into these waters in the first place. 
+Again, not that I would ignore that space.
+
+Best regards,
+Christian Schoenebeck
 
 
 
