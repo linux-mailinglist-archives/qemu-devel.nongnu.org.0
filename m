@@ -2,113 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5BB5EDF42
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 16:54:11 +0200 (CEST)
-Received: from localhost ([::1]:57050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E962C5EDF97
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 17:02:15 +0200 (CEST)
+Received: from localhost ([::1]:45736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odYRu-0004xw-Ug
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 10:54:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37208)
+	id 1odYZi-0002Ii-Ji
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 11:02:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1odX0P-00076z-1g; Wed, 28 Sep 2022 09:21:47 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26064)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odX1k-0007YC-KY
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 09:23:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1odX0M-0007fT-Bm; Wed, 28 Sep 2022 09:21:40 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28SChGX6006075;
- Wed, 28 Sep 2022 13:21:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=vPzLLnjSI8dYz88u2ZUiK+qlhcT6/Tdl8G9dDpLZBTw=;
- b=UrZ3aIdAv3ubpp0AhbIYp+e74Axtnq4PZj/ttcACKdGV7CTyymmRYXeu8di8I1TYKrGf
- 7J4rA5cbm2d7LmAiK9TmlITbhLfPDYUL4iEHNUtSQgd+qiZmsTE5KxOpxAApWzZzaT+x
- ZBu+DEnQCu3dbZ6Ek3x1/Xm8guqbELLPLeqOQL+JU/zDBnV7UWkCcSXTF62HPbULzAhC
- PDpaYvhsP4oOIb4bl7PDV0g2gzqfrOvU8NIfWiPbS7e1qQ30PBxBwSLSpuTShJVlPWeZ
- r2dPu7R/cWc4ue46jduueBkRCJ5Bz+JaS4XjXQwv0ZM7Ubp/LLThnfZi7hbfyr7+X3kO /Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvmtr4fa5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 13:21:33 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28SC4vM1028989;
- Wed, 28 Sep 2022 13:21:32 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jvmtr4f80-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 13:21:32 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28SD7WMQ021143;
- Wed, 28 Sep 2022 13:21:29 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 3jss5j59xu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 28 Sep 2022 13:21:29 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 28SDLQhe64684342
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 28 Sep 2022 13:21:26 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE9044C046;
- Wed, 28 Sep 2022 13:21:26 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9CB084C04A;
- Wed, 28 Sep 2022 13:21:25 +0000 (GMT)
-Received: from [9.171.31.212] (unknown [9.171.31.212])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 28 Sep 2022 13:21:25 +0000 (GMT)
-Message-ID: <724d962a-c11b-c18d-f67f-9010eb2f32e2@linux.ibm.com>
-Date: Wed, 28 Sep 2022 15:21:25 +0200
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1odX1f-0007t3-Ec
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 09:23:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664371378;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fgBV04isna9fymBO+7iaFwn1vcnNwSTtAsRHcxWDoSk=;
+ b=JKXQcV/RLxYCuRGsbhpD5XPH1AQuf9iHPENQobeBhh5AfA7MKm/FLxkOgcSv9qbNBbuU49
+ zZBiUJJcV7vSFhlUKxegnWHpDN2GvWtGzI90oWZrtWL8G4aN4j2rvpTnT01mvbxy4EuK5z
+ XB710sKKoH27l9Ed01bvUErVfs5DOIE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-201-g9IaoYgxNvyS35IC_eoGXg-1; Wed, 28 Sep 2022 09:22:57 -0400
+X-MC-Unique: g9IaoYgxNvyS35IC_eoGXg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ q2-20020adfab02000000b0022cc38d5a8fso1030728wrc.6
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 06:22:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=fgBV04isna9fymBO+7iaFwn1vcnNwSTtAsRHcxWDoSk=;
+ b=bXd/NEisA41ZvekDtVpGIWBDbIvTzjzUMlJOe65RD92abgt26Hq1TAK7CMC2QW7VxP
+ qdLWvAGVYXgOjPR6gTHMqnGLJFZ7zTWumc7pusgGynma3SNeALsZZFq0IC9ppuhUbTY5
+ l3wFpUiDvIRtKnmigTfC5doYjpQ4jnn2Idg+CuLkMzaA1WZcaj9lEsu4koegadecASpi
+ eavONJ40bZ1u1Vqk7Yd+YkIr5bpJYbiRlvnulUIxNVSkNX+Vq0F21lFDijNK6zXhIS/p
+ 4FlxYc+3x0CStwpWSOoR/JYu8C4UxKgib4U7GU/59xTKIUQ3JI9Ep5IWQc6mbXSIZhxI
+ w/OA==
+X-Gm-Message-State: ACrzQf0IOVDdD0LWvR9q1X1Ymtkq1W441e0HaGym8Tl/A6oSsRJTh4Ln
+ 0CO5oClOgUS2gKRKYgDhyAFPHVSwyx2QAF84BVDU7+FTyYRfzud2SgiyZ1AqsQo6EJFEXHn3JYr
+ SS7smE9Aj5Q3KkW4=
+X-Received: by 2002:a1c:c90c:0:b0:3b4:adc7:9766 with SMTP id
+ f12-20020a1cc90c000000b003b4adc79766mr6976781wmb.66.1664371376073; 
+ Wed, 28 Sep 2022 06:22:56 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6mWCgyRwTuLeedAUuarSrDl0JTZxnX7vpf/lJb2zDpiRCbr2v7v/4QPGlNnEQaJL9nDgH2GA==
+X-Received: by 2002:a1c:c90c:0:b0:3b4:adc7:9766 with SMTP id
+ f12-20020a1cc90c000000b003b4adc79766mr6976747wmb.66.1664371375778; 
+ Wed, 28 Sep 2022 06:22:55 -0700 (PDT)
+Received: from redhat.com ([2.55.47.213]) by smtp.gmail.com with ESMTPSA id
+ k17-20020adfe3d1000000b0022af70874a1sm4854185wrm.36.2022.09.28.06.22.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Sep 2022 06:22:55 -0700 (PDT)
+Date: Wed, 28 Sep 2022 09:22:50 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Warner Losh <imp@bsdimp.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ John Snow <jsnow@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, imammedo@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: Why we should avoid new submodules if possible
+Message-ID: <20220928091650-mutt-send-email-mst@kernel.org>
+References: <59150265-44ed-0b14-df1c-42e3f2e97b7e@redhat.com>
+ <CAARzgwzST+3PjEomfbweeB0KYnmO0yoxVJWiV9+9A_h32swnyw@mail.gmail.com>
+ <CAARzgwxcjppQuO65aFzyzNBaFvJer7JEWoJeALaoKON=3XAQhg@mail.gmail.com>
+ <20220628060210-mutt-send-email-mst@kernel.org>
+ <d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com>
+ <20220928052352-mutt-send-email-mst@kernel.org>
+ <YzQVyj5ouhGshZ2+@redhat.com>
+ <20220928054803-mutt-send-email-mst@kernel.org>
+ <YzQam+F1HEu5g52A@redhat.com>
+ <CANCZdfo0iyw3TGOmp=UHgV7dY8ZVX1DVs58Cdj_GufL-QN48zQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v9 01/10] s390x/cpus: Make absence of multithreading clear
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Nico Boehr <nrb@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- frankja@linux.ibm.com
-References: <20220902075531.188916-1-pmorel@linux.ibm.com>
- <20220902075531.188916-2-pmorel@linux.ibm.com>
- <166237756810.5995.16085197397341513582@t14-nrb>
- <c394823e-edd5-a722-486f-438e5fba2c9d@linux.ibm.com>
- <0d3fd34e-d060-c72e-ee19-e9054e06832a@kaod.org>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <0d3fd34e-d060-c72e-ee19-e9054e06832a@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: -mtszjlEy56KIsMK3Dc5_tfkQm-2nudz
-X-Proofpoint-ORIG-GUID: 9wXwODKGJ_Hkj2OfF8B1ymC0WwsadxTm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-28_05,2022-09-28_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxlogscore=999
- phishscore=0 clxscore=1015 priorityscore=1501 mlxscore=0 adultscore=0
- bulkscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209280081
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CANCZdfo0iyw3TGOmp=UHgV7dY8ZVX1DVs58Cdj_GufL-QN48zQ@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,69 +110,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 9/27/22 11:44, CÃ©dric Le Goater wrote:
-> On 9/5/22 17:10, Pierre Morel wrote:
->>
->>
->> On 9/5/22 13:32, Nico Boehr wrote:
->>> Quoting Pierre Morel (2022-09-02 09:55:22)
->>>> S390x do not support multithreading in the guest.
->>>> Do not let admin falsely specify multithreading on QEMU
->>>> smp commandline.
->>>>
->>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>> ---
->>>> Â  hw/s390x/s390-virtio-ccw.c | 3 +++
->>>> Â  1 file changed, 3 insertions(+)
->>>>
->>>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->>>> index 70229b102b..b5ca154e2f 100644
->>>> --- a/hw/s390x/s390-virtio-ccw.c
->>>> +++ b/hw/s390x/s390-virtio-ccw.c
->>>> @@ -86,6 +86,9 @@ static void s390_init_cpus(MachineState *machine)
->>>> Â Â Â Â Â  MachineClass *mc = MACHINE_GET_CLASS(machine);
->>>> Â Â Â Â Â  int i;
->>>> +Â Â Â  /* Explicitely do not support threads */
->>> Â Â Â Â Â Â Â Â Â Â  ^
->>> Â Â Â Â Â Â Â Â Â Â  Explicitly
->>>
->>>> +Â Â Â  assert(machine->smp.threads == 1);
->>>
->>> It might be nicer to give a better error message to the user.
->>> What do you think about something like (broken whitespace ahead):
->>>
->>> Â Â Â Â  if (machine->smp.threads != 1) {if (machine->smp.threads != 1) {
->>> Â Â Â Â Â Â Â Â  error_setg(&error_fatal, "More than one thread specified, 
->>> but multithreading unsupported");
->>> Â Â Â Â Â Â Â Â  return;
->>> Â Â Â Â  }
->>>
->>
->>
->> OK, I think I wanted to do this and I changed my mind, obviously, I do 
->> not recall why.
->> I will do almost the same but after a look at error.h I will use 
->> error_report()/exit() instead of error_setg()/return as in:
->>
->>
->> +Â Â Â  /* Explicitly do not support threads */
->> +Â Â Â  if (machine->smp.threads != 1) {
->> +Â Â Â Â Â Â Â  error_report("More than one thread specified, but 
->> multithreading unsupported");
->> +Â Â Â Â Â Â Â  exit(1);
->> +Â Â Â  }
+On Wed, Sep 28, 2022 at 07:15:53AM -0600, Warner Losh wrote:
 > 
 > 
-> or add an 'Error **errp' parameter to s390_init_cpus() and use error_setg()
-> as initially proposed. s390x_new_cpu() would benefit from it also.
+> On Wed, Sep 28, 2022 at 7:09 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
 > 
-OK, Thanks,
+>     On Wed, Sep 28, 2022 at 05:53:17AM -0400, Michael S. Tsirkin wrote:
+>     > On Wed, Sep 28, 2022 at 10:37:14AM +0100, Daniel P. Berrangé wrote:
+>     > > On Wed, Sep 28, 2022 at 05:26:42AM -0400, Michael S. Tsirkin wrote:
+>     > > > On Tue, Jun 28, 2022 at 12:21:39PM +0200, Thomas Huth wrote:
+>     > > > > On 28/06/2022 12.03, Michael S. Tsirkin wrote:
+>     > > > > [...]
+>     > > > > > For biosbits if we are going this route then I feel a submodule
+>     is much
+>     > > > > > better.  It records which version exactly each qemu version
+>     wants.
+>     > > > >
+>     > > > > As far as I know, you can also specify the version when using pip,
+>     can't
+>     > > > > you? So that's not really an advantage here.
+>     > > > >
+>     > > > > On the contrary, submodules have a couple of disadvantages that I
+>     really
+>     > > > > dislike:
+>     > > > >
+>     > > > > - submodules do not get updated automatically when doing a "git
+>     checkout",
+>     > > > > we have to update them via a script instead. This causes e.g.
+>     trouble if you
+>     > > > > rsync your source tree to a machine that has no access to the
+>     internet and
+>     > > > > you forgot to update the submodule before the sync
+>     > > > >
+>     > > > > - the content of submodules is not added to the tarballs that get
+>     created on
+>     > > > > the git forges automatically. There were lots of requests from
+>     users in the
+>     > > > > past that tried to download a tarball from github and then wondered
+>     why they
+>     > > > > couldn't compile QEMU.
+>     > > > >
+>     > > > > - we include the submodule content in our release tarballs, so
+>     people get
+>     > > > > the impression that hte submodule content is part of the QEMU
+>     sources. This
+>     > > > > has two disadvantages:
+>     > > > >  * We already got bug reports for the code in the submodule,
+>     > > > >    where people did not understand that they should report that
+>     > > > >    rather to the original project instead (i.e. you ship it - you
+>     > > > >    own it)
+>     > > > >  * People get the impression that QEMU is a huge monster
+>     > > > >    application if they count the number of code lines, run
+>     > > > >    their code scanner tools on the tarball contents, etc.
+>     > > > >    Remember "nemu", for example, where one of the main complaints
+>     > > > >    was that QEMU has too many lines of code?
+>     > > > >
+>     > > > > - If programs includes code via submodules, this gets a higher
+>     > > > >   burder for distro maintainers, since they have to patch each
+>     > > > >   and every package when there is a bug, instead of being able to
+>     > > > >   fix it in one central place.
+>     > > > >
+>     > > > > So in my opinion we should avoid new submodules if there is an
+>     alternative.
+>     > > > >
+>     > > > >  Thomas
+>     > > >
+>     > > > So looking at the latest proposals downloading files from CI,
+>     > > > checksumming them etc etc. No auto checkout, not added automatically
+>     > > > either, right?
+>     > > >
+>     > > > This seems to be the only difference:
+>     > > > - we include the submodule content in our release tarballs
+>     > >
+>     > > That's just one of the issues with submodules. Working with them in
+>     general
+>     > > is not a pleasant experiance.
+>     >
+>     > This is what I asked about at the maintainers summit.
+>     > I'd like to map the issues and see if there's anything
+>     > we can do to solve them. In particular we will likely
+>     > keep using submodules where we historically did
+>     > so it's time well spent.
+>     >
+>     > I agree generally but the big question is what to replace these with.
+>     > Below I assume the replacement is a script such as avocado or pytest
+>     > with its own hashing, calling wget internally etc etc.
+>     >
+>     >
+>     > > Thomas pointed out some of the issues, such
+>     > > as 'git checkout' ignoring submodules, requiring extra steps to sync
+>     them.
+>     >
+>     >
+>     > Not different from a home grown SCM as part of test script, right?
+> 
+>     We're not building a home grown SCM as part of a test script, so
+>     this answer is irrelevant.
+> 
+>     > > There's also the perenial problem that developers frequently send
+>     > > patches that mistakenly include submodule changes,
+>     >
+>     > OK, so the thing to do would be to look for ways to exclude submodule
+>     changes
+>     > from git commits.
+> 
+>     If someone wants to make git suck less with submodules great, but needs
+>     someone to actually do the work.
+> 
+> 
+> A big part of the problem is knowing which of the following commands I have to
+> do to undo the uncommitted changes, the committed changes, the staged changes,
+> etc:
+> 
+> git submodule update --init --recursive
+> git submodule update --init
+> git submodule foreach --recursive git reset --hard
+> git submodule foreach --recursive git clean -xfd
+> git submodule foreach --recursive git clean -xfg
+> 
+> (all of these are in my history, I honestly don't know the difference between
+> the last two).
+> And each 'oops' takes time away from upstreaming bsd-user I don't really have
+> that
+> much of. I've wasted hours on this over the past year between all the different
+> ways
+> it can screw up.
+> 
+> To be fair, it is a relatively small fraction of the time, but as you can tell
+> from the
+> animation in my email it inspires much passion.
+> 
+> Warner
+>  
 
-Pierre
+OK this is understandable.
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+I think for what we do in qemu (never change upstream really)
+	git submodule update --checkout testsub
+	git update-index --skip-worktree testsub
+is more or less what most people want.
+
+This assumes you have a script that basically does
+	git submodule deinit XYZ
+	git submodule update --init XYZ
+	git update-index --skip-worktree XYZ
+each time, and do not need to work on the submodule proper.
+
+
+
+
+>     > > I'd really like to see us doing more to eliminate as much use of
+>     submodules
+>     > > as is possible over time.p
+>     >
+>     > Or try to fix the problems, right?
+> 
+>     Again needs someone to actually make it happen.
+> 
+>     Meanwhile  QEMU already has an integrated test harness in the form
+>     of Avocado that does everything needed. If Avocado had just been
+>     used for this biosbits test in the first place, the test would
+>     likely have already been merged to QEMU, instead of us having this
+>     never ending debate on how to re-invent an alternative to what
+>     already avocado does.
+> 
+>     With regards,
+>     Daniel
+>     --
+>     |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange
+>     :|
+>     |: https://libvirt.org         -o-            https://fstop138.berrange.com
+>     :|
+>     |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange
+>     :|
+> 
+> 
+> 
+
 
