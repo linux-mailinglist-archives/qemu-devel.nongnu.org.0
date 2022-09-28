@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A4B5ED17E
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 02:16:18 +0200 (CEST)
-Received: from localhost ([::1]:34362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D7D5ED275
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 03:08:52 +0200 (CEST)
+Received: from localhost ([::1]:49092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odKkL-0006hs-3p
-	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 20:16:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46718)
+	id 1odLZC-0001A3-Tc
+	for lists+qemu-devel@lfdr.de; Tue, 27 Sep 2022 21:08:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1odKhm-0005CK-SD
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 20:13:42 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:37662)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tkng@rivosinc.com>) id 1odKhj-0003Nc-UL
- for qemu-devel@nongnu.org; Tue, 27 Sep 2022 20:13:38 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id d24so10470874pls.4
- for <qemu-devel@nongnu.org>; Tue, 27 Sep 2022 17:13:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=WFa7ZRnqxMN+y/LRs6tJAycIebJhsIaRM+TScBfZG9s=;
- b=6X8+co7XyqBTd0NEDuS1Sbjr9W3FfmEm30xjAwijHTMRoZuMGgrelqE6PGZHZ2ssvM
- vMbZsdqXGF4GYs6G5vFYKdH8XBAHWi9kPb0j2hq1WFi/1v2s+THDbDhx93gKKf5w8MjY
- SbwwCd66paqQpNGUQktB5qrj/ENyTY3yknoCM1hOHbYDlv6N4csZ1SD0kIRuX92HStDj
- /ELo5p6PB8GCVWcasps0cKwINaCrStg68Q4bhBZ5y72tGQDJPTz/78IxagqPCtarZiZr
- EDM0HZB61r1ydRAWXoPRoPB0kqiyo3ifxqaphqxYvbc105WFp0nkM9XiIXgjVwhWDryF
- 8yiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=WFa7ZRnqxMN+y/LRs6tJAycIebJhsIaRM+TScBfZG9s=;
- b=HELQIgd7S+hrJEWkz47QkAEFBVybAGbBoiJfgCcF7CERrsIi2fIqmWBgTqu1YK0KN2
- iecJEhHhr4wtQUn3v4R9CpCb9fOrUto5SmP7GDhbYCRL2GrJtSrMyouJxgSWG/kXVtpR
- bX9jZMqrKsCcOAUr6zDE1FtVQ4k3h5qoBx0qQSGc1xvXidmLOF+RP+RgFaNjjCyz9M3D
- 7ge149rri9aRtAI5xveQbY/oxn0fHevNaG5LmnYAqPOuHWKpQd+l4Dmj6XE6kOPwglxY
- 9+WsmbWwSoWYbd5sFBMJlSz7Zi8g5XWK4BI8XVHqc/BFRX4kWD3BUMN79e0zGZHMbt9c
- cU3Q==
-X-Gm-Message-State: ACrzQf1xXQ77hfrRhAyXn01Om7Yq/SwFM3zXkdaDbPPGgfS3nMG7X1Am
- QQINulN2b1ticqB6/acPs595NQmonqO2DSDpRVdinw==
-X-Google-Smtp-Source: AMsMyM67ORFvbptck9D4JYCtUABqvskmuTEt2hhUHFhOkjsuhk5Afou/aLEd90TxSbKXXJ4X/wO0DDwfe2dvoTnwsXs=
-X-Received: by 2002:a17:90b:3149:b0:202:e9e9:632f with SMTP id
- ip9-20020a17090b314900b00202e9e9632fmr7466352pjb.96.1664324013798; Tue, 27
- Sep 2022 17:13:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1odLWj-0006fc-QT
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 21:06:18 -0400
+Received: from mga07.intel.com ([134.134.136.100]:51515)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1odLWg-0002Os-TP
+ for qemu-devel@nongnu.org; Tue, 27 Sep 2022 21:06:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1664327174; x=1695863174;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=JCh9LK4k+nOzfu32B9UOCi7FRk87mpGfi/GAGo9EwdY=;
+ b=Z/ca7h4gkTTpfZt6/AvTTI7JkvBERr5Me/8rMfdRjvKhfKf784EbYAXG
+ ve7RBlG0vLkjx+fpL/bXekdU2KtGDVkumiQT3vKZAhkbWCniNQvj4XAfn
+ wfepEBtuFFfyXQGfdQ70ciXSgBPsY/Ft/vtVbY8Y5VDWEhZTg2UiW0FlN
+ PXvlV7PySh1oIYMsFXDFA6q0peI7xI1PDB7yvAZpSf51Cy0JWKwiqr2c/
+ 6H4/3wBCZmaLasVBZVPM9vlmRbYJtBM6M86ZrtFbI9/rMeHQrnQmnf7Ls
+ DH2zJuRuQsNjsenryFxYeRFDqdicB+iSE/tko7UIRcoBKb30p+fhw33fy g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="365517646"
+X-IronPort-AV: E=Sophos;i="5.93,350,1654585200"; d="scan'208";a="365517646"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2022 18:06:08 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10483"; a="950499845"
+X-IronPort-AV: E=Sophos;i="5.93,350,1654585200"; d="scan'208";a="950499845"
+Received: from zhaoq1-mobl.ccr.corp.intel.com (HELO [10.255.29.135])
+ ([10.255.29.135])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2022 18:06:06 -0700
+Message-ID: <01bc053e-2809-c585-ef75-3b9acdd09974@intel.com>
+Date: Wed, 28 Sep 2022 09:06:03 +0800
 MIME-Version: 1.0
-References: <CAB88-qOh7dBoFP4SWcM4G5EVp6cumVnZ5j4tNRqSvMT08=dAcA@mail.gmail.com>
- <BL0PR11MB3042E97131ADE38A3535984F8A529@BL0PR11MB3042.namprd11.prod.outlook.com>
- <CAB88-qMZiPgFx-13WiXqJ9+EV04THXuSHkLjFxLqvZxKp5LNkA@mail.gmail.com>
- <BL0PR11MB304295EA40A39F491D8DEFA58A559@BL0PR11MB3042.namprd11.prod.outlook.com>
-In-Reply-To: <BL0PR11MB304295EA40A39F491D8DEFA58A559@BL0PR11MB3042.namprd11.prod.outlook.com>
-From: Tyler Ng <tkng@rivosinc.com>
-Date: Tue, 27 Sep 2022 17:13:22 -0700
-Message-ID: <CAB88-qNCDw3r_oJK+wYhxLuZKtoWYAHkue3U-wWViqipYO=wJA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] hw/watchdog: wdt_ibex_aon.c: Implement the
- watchdog for the OpenTitan
-To: "Dong, Eddie" <eddie.dong@intel.com>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- "Meng, Bin" <bin.meng@windriver.com>, Thomas Huth <thuth@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Laurent Vivier <lvivier@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000a250ba05e9b1a194"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=tkng@rivosinc.com; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.3.0
+Subject: Re: [PATCH v7 1/2] i386: kvm: extend kvm_{get, put}_vcpu_events to
+ support pending triple fault
+To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti
+ <mtosatti@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
+ Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220923073333.23381-1-chenyi.qiang@intel.com>
+ <20220923073333.23381-2-chenyi.qiang@intel.com>
+ <c773b5aa-19b0-20de-5818-67360307abd9@redhat.com>
+Content-Language: en-US
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+In-Reply-To: <c773b5aa-19b0-20de-5818-67360307abd9@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=chenyi.qiang@intel.com; helo=mga07.intel.com
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,143 +86,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a250ba05e9b1a194
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Eddie,
 
 
-On Tue, Sep 27, 2022 at 3:04 PM Dong, Eddie <eddie.dong@intel.com> wrote:
+On 9/27/2022 9:14 PM, Paolo Bonzini wrote:
+> On 9/23/22 09:33, Chenyi Qiang wrote:
+>> For the direct triple faults, i.e. hardware detected and KVM morphed
+>> to VM-Exit, KVM will never lose them. But for triple faults sythesized
+>> by KVM, e.g. the RSM path, if KVM exits to userspace before the request
+>> is serviced, userspace could migrate the VM and lose the triple fault.
+>>
+>> A new flag KVM_VCPUEVENT_VALID_TRIPLE_FAULT is defined to signal that
+>> the event.triple_fault_pending field contains a valid state if the
+>> KVM_CAP_X86_TRIPLE_FAULT_EVENT capability is enabled.
+> 
+> Note that you are not transmitting the field on migration.  You need
+> this on top:
+> 
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index b97d182e28..d4124973ce 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1739,7 +1739,7 @@ typedef struct CPUArchState {
+>       uint8_t has_error_code;
+>       uint8_t exception_has_payload;
+>       uint64_t exception_payload;
+> -    bool triple_fault_pending;
+> +    uint8_t triple_fault_pending;
+>       uint32_t ins_len;
+>       uint32_t sipi_vector;
+>       bool tsc_valid;
+> diff --git a/target/i386/machine.c b/target/i386/machine.c
+> index cecd476e98..310b125235 100644
+> --- a/target/i386/machine.c
+> +++ b/target/i386/machine.c
+> @@ -1562,6 +1562,25 @@ static const VMStateDescription vmstate_arch_lbr = {
+>       }
+>   };
+> 
+> +static bool triple_fault_needed(void *opaque)
+> +{
+> +    X86CPU *cpu = opaque;
+> +    CPUX86State *env = &cpu->env;
+> +
+> +    return env->triple_fault_pending;
+> +}
+> +
+> +static const VMStateDescription vmstate_triple_fault = {
+> +    .name = "cpu/triple_fault",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = triple_fault_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT8(env.triple_fault_pending, X86CPU),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>   const VMStateDescription vmstate_x86_cpu = {
+>       .name = "cpu",
+>       .version_id = 12,
+> @@ -1706,6 +1725,7 @@ const VMStateDescription vmstate_x86_cpu = {
+>           &vmstate_amx_xtile,
+>   #endif
+>           &vmstate_arch_lbr,
+> +        &vmstate_triple_fault,
+>           NULL
+>       }
+>   };
 
-> Hi Tyler:
->
-> > +}
-> > +
-> > +/* Called when the bark timer expires */ static void
-> > +ibex_aon_barker_expired(void *opaque) {
-> This may happen during ibex_aon_update_count(), right?
->
-> > +    IbexAONTimerState *s = IBEX_AON_TIMER(opaque);
-> > +    if (ibex_aon_update_count(s) &&
->         This may happen during ibex_aon_update_count().
->         Nested call may lead to incorrect s->regs[R_WDOG_COUNT] &
-> s->wdog_last.
->
->     Can you elaborate? The timers for bark and bite are not updated in
-> "update_count".
->
-> When 1st ibex_aon_update_count() is executing, and is in the place PPP
-> (after updating s->regs[R_WDOG_COUNT] but before updating s->wdog_last), a
-> timer (barker) may happen.
-> Inside ibex_aon_barker_expired(), it calls ibex_aon_update_count() again
-> (nest call), and update s->regs[R_WDOG_COUNT] & s->wdog_last, with the new
-> value.
-> After the nest execution ends, and returns to the initial point (PPP) ,
-> the s->wdog_last is updated (with the value of 1st execution time), this
-> leads to mismatch of s->regs[R_WDOG_COUNT] & s->wdog_last.
->
-> This case may not be triggered at normal case, but if the guest read
-> A_WDOG_COUNT, the 1st ibex_aon_update_count() does execute, and bring the
-> potential issue.
->
+Thanks Paolo for your review!
 
-I see, I wasn't aware that the virtual clock continued running while the
-device address was being read.
+I'll add this in next version.
 
-
-> I think we can solve the problem, by not updating s->regs[R_WDOG_COUNT] &
-> s->wdog_last in the timer call back API.  The update is not necessary given
-> that the stored value is anyway not the current COUNT. We only need to
-> update when the guest write the COUNT.
->
->
-My initial concern about this is that the HW does the comparison check to
-determine a bark/bite occurred, which is why I think the count should be
-updated on a timer expiration,
-
-
->
-> > +        s->regs[R_WDOG_COUNT] >= s->regs[R_WDOG_BARK_THOLD]) {
-> > +        s->regs[R_INTR_STATE] |= (1 << 1);
-> > +        qemu_irq_raise(s->bark_irq);
-> > +    }
-> > +}
-> > +
->
->
-> THX  Eddie
->
-Thanks,
--Tyler
-
---000000000000a250ba05e9b1a194
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Eddie,<br></div><div dir=3D"ltr"><div dir=3D"ltr">=
-<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
-tr">On Tue, Sep 27, 2022 at 3:04 PM Dong, Eddie &lt;<a href=3D"mailto:eddie=
-.dong@intel.com" target=3D"_blank">eddie.dong@intel.com</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Tyler:<br>
-<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +/* Called when the bark timer expires */ static void<br>
-&gt; +ibex_aon_barker_expired(void *opaque) {<br>
-This may happen during ibex_aon_update_count(), right? <br>
-<br>
-&gt; +=C2=A0 =C2=A0 IbexAONTimerState *s =3D IBEX_AON_TIMER(opaque);<br>
-&gt; +=C2=A0 =C2=A0 if (ibex_aon_update_count(s) &amp;&amp;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 This may happen during ibex_aon_update_count().=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Nested call may lead to incorrect s-&gt;regs[R_=
-WDOG_COUNT] &amp; s-&gt;wdog_last. <br>
-<br>
-=C2=A0 =C2=A0 Can you elaborate? The timers for bark and bite are not updat=
-ed in &quot;update_count&quot;.<br>
-<br>
-When 1st ibex_aon_update_count() is executing, and is in the place PPP (aft=
-er updating s-&gt;regs[R_WDOG_COUNT] but before updating s-&gt;wdog_last), =
-a timer (barker) may happen.<br>
-Inside ibex_aon_barker_expired(), it calls ibex_aon_update_count() again (n=
-est call), and update s-&gt;regs[R_WDOG_COUNT] &amp; s-&gt;wdog_last, with =
-the new value.<br>
-After the nest execution ends, and returns to the initial point (PPP) , the=
- s-&gt;wdog_last is updated (with the value of 1st execution time), this le=
-ads to mismatch of s-&gt;regs[R_WDOG_COUNT] &amp; s-&gt;wdog_last.<br>
-<br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-This case may not be triggered at normal case, but if the guest read A_WDOG=
-_COUNT, the 1st ibex_aon_update_count() does execute, and bring the potenti=
-al issue.<br></blockquote><div><br></div><div>I see, I wasn&#39;t aware tha=
-t the virtual clock continued running while the device address was being re=
-ad.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">
-I think we can solve the problem, by not updating s-&gt;regs[R_WDOG_COUNT] =
-&amp; s-&gt;wdog_last in the timer call back API.=C2=A0 The update is not n=
-ecessary given that the stored value is anyway not the current COUNT. We on=
-ly need to update when the guest write the COUNT.<br>
-<br></blockquote><div><br></div><div>My initial concern about this is that =
-the HW does the comparison check to determine a bark/bite occurred, which i=
-s why I think the count should be updated on a timer expiration,<br></div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_WDOG_COUNT] &gt;=3D s-&gt;re=
-gs[R_WDOG_BARK_THOLD]) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;regs[R_INTR_STATE] |=3D (1 &lt;&lt;=
- 1);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_irq_raise(s-&gt;bark_irq);<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +}<br>
-&gt; +<br>
-<br>
-<br>
-THX=C2=A0 Eddie<br></blockquote><div>Thanks,<br></div><div>-Tyler <br></div=
-></div></div>
-</div>
-
---000000000000a250ba05e9b1a194--
+> 
 
