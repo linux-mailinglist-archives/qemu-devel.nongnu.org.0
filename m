@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685855ED93F
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:35:46 +0200 (CEST)
-Received: from localhost ([::1]:43574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCF95ED8EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:27:55 +0200 (CEST)
+Received: from localhost ([::1]:48082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odTTl-00077L-CS
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:35:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44762)
+	id 1odTMA-0000uG-9V
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRMF-0001Bz-RT
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRMF-0001By-On
  for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58577)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRME-00007a-5V
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRME-00008q-6f
  for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664349588;
+ s=mimecast20190719; t=1664349589;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x9a/iLkvV9nX/Z9hqOhap4cH95/5W49ebk7XBIO4w1A=;
- b=EzT/OBPKWyXdTRAtc7gmzbQMCHCjkoXwc0HjP+dUeEM4hkKR6WUwAjak4BiYRo5B7Wxwup
- rBgNe0uTpbv5KoacQMouo61e9+7bJSHzISYLI3d88wbR29XXWl8jcXx9SbnWhifmKzY9Fw
- nu/+7EwuCLJ9tC49Coo1yhvf9hyCkyU=
+ bh=IkPb1wyoRfWJVk/j9+EPkP7duMGO4u4DTcVAUzqzg+Y=;
+ b=DHQOwvaloiqihCWJe6Mf1BSL+Aa6FM7A9n3b/NsbpUPAUtOh5O7BebHGuuJyUixm1xjfJN
+ YjlL8YeyRu7bFhEdruyN93dDvS0qxH+lqFh28q7yxsZ7sjBXdqTTOamcuCEXhQF5zlJhqN
+ QWbj5QrnGY1bN6FyC2SLbXY8urqmlus=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-161-sXvwVTk-NQKz_Kzk6VMZgw-1; Wed, 28 Sep 2022 03:19:46 -0400
-X-MC-Unique: sXvwVTk-NQKz_Kzk6VMZgw-1
+ us-mta-103-poBs2slVPj2q_4rcxveRig-1; Wed, 28 Sep 2022 03:19:48 -0400
+X-MC-Unique: poBs2slVPj2q_4rcxveRig-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A311882820;
- Wed, 28 Sep 2022 07:19:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8E0E882820;
+ Wed, 28 Sep 2022 07:19:47 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03BDE40C83BB;
- Wed, 28 Sep 2022 07:19:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94D1440C83BB;
+ Wed, 28 Sep 2022 07:19:46 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 33/37] tests/qtest: pflash-cfi02-test: Avoid using hardcoded
- /tmp
-Date: Wed, 28 Sep 2022 09:18:39 +0200
-Message-Id: <20220928071843.1468323-34-thuth@redhat.com>
+Subject: [PULL 34/37] tests/qtest: qmp-test: Avoid using hardcoded /tmp
+Date: Wed, 28 Sep 2022 09:18:40 +0200
+Message-Id: <20220928071843.1468323-35-thuth@redhat.com>
 In-Reply-To: <20220928071843.1468323-1-thuth@redhat.com>
 References: <20220928071843.1468323-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -83,59 +82,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Bin Meng <bin.meng@windriver.com>
 
 This case was written to use hardcoded /tmp directory for temporary
-files. Update to use g_file_open_tmp() for a portable implementation.
+files. Update to use g_dir_make_tmp() for a portable implementation.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Message-Id: <20220927110632.1973965-16-bmeng.cn@gmail.com>
+Message-Id: <20220927110632.1973965-17-bmeng.cn@gmail.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/pflash-cfi02-test.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ tests/qtest/qmp-test.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/pflash-cfi02-test.c b/tests/qtest/pflash-cfi02-test.c
-index 7fce614b64..0b52c2ca5c 100644
---- a/tests/qtest/pflash-cfi02-test.c
-+++ b/tests/qtest/pflash-cfi02-test.c
-@@ -56,7 +56,7 @@ typedef struct {
-     QTestState *qtest;
- } FlashConfig;
+diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
+index 23b2a37942..22957fa49c 100644
+--- a/tests/qtest/qmp-test.c
++++ b/tests/qtest/qmp-test.c
+@@ -163,14 +163,15 @@ static void test_qmp_protocol(void)
  
--static char image_path[] = "/tmp/qtest.XXXXXX";
-+static char *image_path;
+ /* Out-of-band tests */
  
- /*
-  * The pflash implementation allows some parameters to be unspecified. We want
-@@ -608,6 +608,7 @@ static void test_cfi_in_autoselect(const void *opaque)
- static void cleanup(void *opaque)
+-char tmpdir[] = "/tmp/qmp-test-XXXXXX";
++char *tmpdir;
+ char *fifo_name;
+ 
+ static void setup_blocking_cmd(void)
  {
-     unlink(image_path);
-+    g_free(image_path);
- }
- 
- /*
-@@ -635,16 +636,14 @@ static const FlashConfig configuration[] = {
- 
- int main(int argc, char **argv)
- {
--    int fd = mkstemp(image_path);
--    if (fd == -1) {
--        g_printerr("Failed to create temporary file %s: %s\n", image_path,
--                   strerror(errno));
--        exit(EXIT_FAILURE);
+-    if (!g_mkdtemp(tmpdir)) {
+-        g_error("g_mkdtemp: %s", strerror(errno));
 -    }
 +    GError *err = NULL;
-+    int fd = g_file_open_tmp("qtest.XXXXXX", &image_path, &err);
++    tmpdir = g_dir_make_tmp("qmp-test-XXXXXX", &err);
 +    g_assert_no_error(err);
 +
-     if (ftruncate(fd, UNIFORM_FLASH_SIZE) < 0) {
-         int error_code = errno;
-         close(fd);
--        unlink(image_path);
-+        cleanup(NULL);
-         g_printerr("Failed to truncate file %s to %u MB: %s\n", image_path,
-                    UNIFORM_FLASH_SIZE, strerror(error_code));
-         exit(EXIT_FAILURE);
+     fifo_name = g_strdup_printf("%s/fifo", tmpdir);
+     if (mkfifo(fifo_name, 0666)) {
+         g_error("mkfifo: %s", strerror(errno));
+@@ -181,6 +182,7 @@ static void cleanup_blocking_cmd(void)
+ {
+     unlink(fifo_name);
+     rmdir(tmpdir);
++    g_free(tmpdir);
+ }
+ 
+ static void send_cmd_that_blocks(QTestState *s, const char *id)
 -- 
 2.31.1
 
