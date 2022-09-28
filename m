@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE18B5ED972
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:51:15 +0200 (CEST)
-Received: from localhost ([::1]:52350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911BD5ED956
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:42:20 +0200 (CEST)
+Received: from localhost ([::1]:46480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odTik-0008Mc-Hw
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34562)
+	id 1odTa7-0002Kn-L3
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:42:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEL-0008FD-MV
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:52 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:43097)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEI-0008Ef-8a
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:48 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:48711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSED-0008Fi-8E
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:40 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSEC-0008Eq-Fj
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:38 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1My3Mv-1pS0kd47ix-00zXJ7; Wed, 28
- Sep 2022 10:15:33 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MHnZQ-1oPl6e1TNu-00EspI; Wed, 28
+ Sep 2022 10:15:34 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 27/38] linux-user/s390x: Save/restore fpc when handling a signal
-Date: Wed, 28 Sep 2022 10:15:06 +0200
-Message-Id: <20220928081517.734954-28-laurent@vivier.eu>
+Subject: [PULL 30/38] linux-user: Combine do_futex and do_futex_time64
+Date: Wed, 28 Sep 2022 10:15:09 +0200
+Message-Id: <20220928081517.734954-31-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VJd4pE/Ez6uezQQ+HpdqZ5HrIVflV/cv2HmUc81oPrQSt3bipm+
- fzf5j3boPCwccRFLFzXsb6ns3tG2NLOk9hotq+7ta183uZBcsAAHdemndK1ANgeBgZ8wtAG
- VY6Y/PRXpQnVCCcCtNDdn9yR2Vr4wDam3HtX2My8E/tFc7pJ3CIx6sfE5GqPdOH0i234WwY
- FdiOjLwmxt3PxJIQMgcxg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+2afVwXsjaA=:Kky4eThTtiYveYlDOFOPf4
- 6Z8hpYusPzjGHUn7SjaH9rXDFpcHHDX2uy6p0ykBNR+3SLcbdXV2h/r2WN/4rGy+sfskJWxb0
- aSzCauxTbcQoSc3/vJ1655bHMYUDjg1b3fxl+jPO1Y3mhFGexJLSVl9kLq8V0cDJSp3dONzyf
- d2GAqMZWRPg0dyoP/yLwyNURJxw8lNEF/OUolF3TD4rdRaR6L7CMF+CvY2td8K5NOlOSjKElF
- fdef7geu7A77hwUKRU+U8U/5hWRI6O+LD9F/Ro7hqN8wunBgirm9K0RPDapZFIyLBfsC0Jrtj
- 2rFI0Yp2YCnuBB6NTpCGN9q7IHsQN3UpY9xfPadNb8zdY2lLEAhQeN6kS+/i85WY4xcHDqKeD
- d6JglbnoFsflfnCV6B6UN9xrt0+HWPTcbg/XMs1Ej217yZvjBi2BtLALFC5DYG79E1tQE2jpM
- 4gCXzSFpvCNTs0QPVZtKcwmPuFcQvtpfTB9nd4e3lHmkpFfaC6uB8/BKpDa37PHmCf7+Rr5IY
- LgOLg5j/keLLYZoxpCucXO+CFpzfCLBuquTzOqBMxCPk/KUxGiJhGDZTzrpOwX6jVe2AR3E1V
- NXDm7OQqRGWX5wIoOjIYTDvPj7PTmQxk7TlB55X29MvvLycyVgVtAAnTEV5A0apKYtE3wvlNA
- LhEk9+FUNbMwqgAQlLCFU7SinuCSC7Hgesxd+H+VjivY8OwHMrwShUeHnejkKsZR+Swsi+wwA
- onKcMMfKq5CAnupD5cdj8aNsgWbauxEOk+c9YHxOrIbr8x/Ja2LI/hJEnlYB+RRP5nyu/qIWP
- +7RmSWJ
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:SamJiBJS15wz51R/KWLWvc/jxcfEH2F6VLID+yWqWPvWdsSzIEw
+ HGfejNoJvTaq1ExzrUF4kMO24kb9lsa/IGYjAYSk6h4WTkRuUw7xoBx3uqrZOstwdXgAkFn
+ VCy3FWkNNlXJK6XG5NQrwu2/8bZj7aDO9vAghMWFfXrMjrKZ1kiLeEiNeWXGySMYQPpW2Js
+ NxxEXI7qQQXNGiYVfg16w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WtBhKx43KF0=:8BsGNwnM35D+lT0Utjiz3C
+ NzLxxK4SDGduF48NrDbi3Mo4IdBOqzHQerRAvPKSlPYyqcolwLEfNMDP0ZqPm2rPmGyi9W3bx
+ n7bWETMZKkcv4EpHj1JiwdhZ9r18Et9iUPSHEez7ixEObtbFRcE6hN2bokle5zgHd4NCKduIV
+ 7uQtQTmRSjqoJQRimxOtLrHaA73C9rJPS6hOlEAHApszvx5VKXscwEav/1wOyQFKJ0k1Ehwy+
+ fccxyelPV5ywtr1gUg7M4fIbkpjAzD/DF1PdiWevo5AzYYPfBVVkrkfJdwlOCDT1OrdgLTe11
+ LYe84iqlcaiyYKAOWjMmRfC37HLN+48ENz8bqZRew35iCaiIpeLtzRgaIR627ZDzkNaArrcG3
+ DVnm6db6gGGS6gjQeY4/V+1KvcyL5Owu5evAGCxZwp2mz9ilSJOA9B2dz1AAfzelw/eESju/e
+ 9wpD+jISg8a+qLwZ/dlou6SaPH4oxUh4o05FIQTBMivUfX5I2QNCjuDAHWKD2kA01rfn0S4Oy
+ CAN7RVltNu7QRxO6O0K5GcsQ6mYcgrdD4PTTWx5K1sTGIJmfkWLQFGRnYXl/MyqrODSbKYMqB
+ TOvP4WUylgp19TK8LDvEbOZL7VOb0pRzQz76mY/tXADzcRNDFFZd6VA6ECxUdUivmR6r5b5T0
+ iH/g/W2eaIHO7dOTl9ybo0IWomxKfQUJMUn2lJ0HXkAnr2AKo4LgJM1AYr/yhqWQ6jymLA/l/
+ htR09ST7zeCbEGqmCU3n52MaGVF1IL75jWRd/6cP8P9fpa4S9eX3ypsngWk6kDfGHt/7PW+JV
+ re8fLiK
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,41 +71,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Linux kernel does this in fpregs_store() and fpregs_load(), so
-qemu-user should do this as well.
+Pass a boolean to select between time32 and time64.
 
-Found by running valgrind's none/tests/s390x/test_sig.
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220817123902.585623-1-iii@linux.ibm.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20220829021006.67305-2-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/s390x/signal.c | 2 ++
- 1 file changed, 2 insertions(+)
+ linux-user/syscall.c | 67 ++++++++------------------------------------
+ 1 file changed, 11 insertions(+), 56 deletions(-)
 
-diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
-index 4979c4b01791..f72165576f3b 100644
---- a/linux-user/s390x/signal.c
-+++ b/linux-user/s390x/signal.c
-@@ -146,6 +146,7 @@ static void save_sigregs(CPUS390XState *env, target_sigregs *sregs)
-      * We have to store the fp registers to current->thread.fp_regs
-      * to merge them with the emulated registers.
-      */
-+    __put_user(env->fpc, &sregs->fpregs.fpc);
-     for (i = 0; i < 16; i++) {
-         __put_user(*get_freg(env, i), &sregs->fpregs.fprs[i]);
-     }
-@@ -331,6 +332,7 @@ static void restore_sigregs(CPUS390XState *env, target_sigregs *sc)
-     for (i = 0; i < 16; i++) {
-         __get_user(env->aregs[i], &sc->regs.acrs[i]);
-     }
-+    __get_user(env->fpc, &sc->fpregs.fpc);
-     for (i = 0; i < 16; i++) {
-         __get_user(*get_freg(env, i), &sc->fpregs.fprs[i]);
-     }
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index e0e0f058121f..af3a605fc458 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7768,9 +7768,10 @@ static int do_safe_futex(int *uaddr, int op, int val,
+    futexes locally would make futexes shared between multiple processes
+    tricky.  However they're probably useless because guest atomic
+    operations won't work either.  */
+-#if defined(TARGET_NR_futex)
+-static int do_futex(CPUState *cpu, target_ulong uaddr, int op, int val,
+-                    target_ulong timeout, target_ulong uaddr2, int val3)
++#if defined(TARGET_NR_futex) || defined(TARGET_NR_futex_time64)
++static int do_futex(CPUState *cpu, bool time64, target_ulong uaddr,
++                    int op, int val, target_ulong timeout,
++                    target_ulong uaddr2, int val3)
+ {
+     struct timespec ts, *pts;
+     int base_op;
+@@ -7787,7 +7788,11 @@ static int do_futex(CPUState *cpu, target_ulong uaddr, int op, int val,
+     case FUTEX_WAIT_BITSET:
+         if (timeout) {
+             pts = &ts;
+-            target_to_host_timespec(pts, timeout);
++            if (time64
++                ? target_to_host_timespec64(pts, timeout)
++                : target_to_host_timespec(pts, timeout)) {
++                return -TARGET_EFAULT;
++            }
+         } else {
+             pts = NULL;
+         }
+@@ -7817,56 +7822,6 @@ static int do_futex(CPUState *cpu, target_ulong uaddr, int op, int val,
+ }
+ #endif
+ 
+-#if defined(TARGET_NR_futex_time64)
+-static int do_futex_time64(CPUState *cpu, target_ulong uaddr, int op,
+-                           int val, target_ulong timeout,
+-                           target_ulong uaddr2, int val3)
+-{
+-    struct timespec ts, *pts;
+-    int base_op;
+-
+-    /* ??? We assume FUTEX_* constants are the same on both host
+-       and target.  */
+-#ifdef FUTEX_CMD_MASK
+-    base_op = op & FUTEX_CMD_MASK;
+-#else
+-    base_op = op;
+-#endif
+-    switch (base_op) {
+-    case FUTEX_WAIT:
+-    case FUTEX_WAIT_BITSET:
+-        if (timeout) {
+-            pts = &ts;
+-            if (target_to_host_timespec64(pts, timeout)) {
+-                return -TARGET_EFAULT;
+-            }
+-        } else {
+-            pts = NULL;
+-        }
+-        return do_safe_futex(g2h(cpu, uaddr), op,
+-                             tswap32(val), pts, NULL, val3);
+-    case FUTEX_WAKE:
+-        return do_safe_futex(g2h(cpu, uaddr), op, val, NULL, NULL, 0);
+-    case FUTEX_FD:
+-        return do_safe_futex(g2h(cpu, uaddr), op, val, NULL, NULL, 0);
+-    case FUTEX_REQUEUE:
+-    case FUTEX_CMP_REQUEUE:
+-    case FUTEX_WAKE_OP:
+-        /* For FUTEX_REQUEUE, FUTEX_CMP_REQUEUE, and FUTEX_WAKE_OP, the
+-           TIMEOUT parameter is interpreted as a uint32_t by the kernel.
+-           But the prototype takes a `struct timespec *'; insert casts
+-           to satisfy the compiler.  We do not need to tswap TIMEOUT
+-           since it's not compared to guest memory.  */
+-        pts = (struct timespec *)(uintptr_t) timeout;
+-        return do_safe_futex(g2h(cpu, uaddr), op, val, pts, g2h(cpu, uaddr2),
+-                             (base_op == FUTEX_CMP_REQUEUE
+-                              ? tswap32(val3) : val3));
+-    default:
+-        return -TARGET_ENOSYS;
+-    }
+-}
+-#endif
+-
+ #if defined(TARGET_NR_name_to_handle_at) && defined(CONFIG_OPEN_BY_HANDLE)
+ static abi_long do_name_to_handle_at(abi_long dirfd, abi_long pathname,
+                                      abi_long handle, abi_long mount_id,
+@@ -12372,11 +12327,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+ #endif
+ #ifdef TARGET_NR_futex
+     case TARGET_NR_futex:
+-        return do_futex(cpu, arg1, arg2, arg3, arg4, arg5, arg6);
++        return do_futex(cpu, false, arg1, arg2, arg3, arg4, arg5, arg6);
+ #endif
+ #ifdef TARGET_NR_futex_time64
+     case TARGET_NR_futex_time64:
+-        return do_futex_time64(cpu, arg1, arg2, arg3, arg4, arg5, arg6);
++        return do_futex(cpu, true, arg1, arg2, arg3, arg4, arg5, arg6);
+ #endif
+ #ifdef CONFIG_INOTIFY
+ #if defined(TARGET_NR_inotify_init)
 -- 
 2.37.3
 
