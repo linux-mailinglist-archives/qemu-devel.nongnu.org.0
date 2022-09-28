@@ -2,100 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B043B5EDC02
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:49:25 +0200 (CEST)
-Received: from localhost ([::1]:39586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8094B5EDBC2
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 13:29:27 +0200 (CEST)
+Received: from localhost ([::1]:51704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odVZ6-0004AC-LX
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:49:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40480)
+	id 1odVFi-0000u2-Qw
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 07:29:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odSTs-0002co-3C
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:31:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58560)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1odSWI-0004jV-Nt
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:34:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odSTo-0002M9-Pe
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:31:46 -0400
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1odSWG-0002cs-F6
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:34:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664353904;
+ s=mimecast20190719; t=1664354055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0tnte8GB47Iaiscih8tMy/1EAlW98mgSqI0mKkVXnQA=;
- b=cHtyrp8bWoUGerjnzoPaUsGCjqJjmzqqoeRSzvzm+CCh2xkpE7wix0+lUnPmTRYuZzsCMe
- Y/hWmEW7YISO3/Eu1DZqaJ1sn0Cc0i8ET6KN7rpRlzjVYlWVUtBX7jFHoMWX/VPUp2Rzui
- XnezM+h4igIWG9vaVu1uuNqgfUQidfA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-480-A22bmuoWOXKgyi3jWuokLA-1; Wed, 28 Sep 2022 04:31:42 -0400
-X-MC-Unique: A22bmuoWOXKgyi3jWuokLA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- fc12-20020a05600c524c00b003b5054c70d3so6787304wmb.5
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 01:31:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=0tnte8GB47Iaiscih8tMy/1EAlW98mgSqI0mKkVXnQA=;
- b=XrA5MM5sBSj7xH/qRxGZSzMk3GyHt91fT67qKC8cJlFLuaB3Jyr8HwSpmZHnFmGC/x
- 6Bx4xK3/agSagRGEudH9QchgtytiS/gai0xSL8fJqJ98viP5ouB6y4H2AZLe/cVqSNuL
- NsSTKGKfVAqZPF8v4nrIU4IFRBsESQPGDI4yEfrPxmJo9aGmkDniJzrioVj7rovePSI5
- DUo3uUpaDHTTxvnIu1DMKB8Rmy08UkSluBeFcstequyTu3jUONn5vY/uqdmYxlFU+7jd
- +G0Y5SGXH8phdmQkm3F6pDSmwqIZsJ2TYhkKEJEvNCHfuNqgJZLyQI+e64FPhMwlLxFZ
- jxNg==
-X-Gm-Message-State: ACrzQf2pL1bey32upTW5hTNSSN65hWik9ZnBGy4Bh+fzKR3oOKLAJzpA
- vOFYsBqJCR/zZeJnpJlyakea6acK5vxrM0F3LcuP5U0rOC1ZERNCvsPhrp0vVU0jX7wYtwEhZ/q
- Q1sshWx9InaZ1ejw=
-X-Received: by 2002:adf:fb10:0:b0:22a:f1d8:18d2 with SMTP id
- c16-20020adffb10000000b0022af1d818d2mr19764068wrr.483.1664353901754; 
- Wed, 28 Sep 2022 01:31:41 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM69xWzhclj0dfUAoO5sKk7Pci98ZfhgaGFfuL21Xqq+eNrCHjxp4IHONLNWaVD20dpn8usPNw==
-X-Received: by 2002:adf:fb10:0:b0:22a:f1d8:18d2 with SMTP id
- c16-20020adffb10000000b0022af1d818d2mr19764049wrr.483.1664353901501; 
- Wed, 28 Sep 2022 01:31:41 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-89.web.vodafone.de.
- [109.43.176.89]) by smtp.gmail.com with ESMTPSA id
- m35-20020a05600c3b2300b003b47b913901sm5768433wms.1.2022.09.28.01.31.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Sep 2022 01:31:40 -0700 (PDT)
-Message-ID: <2a5c6c18-e0b1-aaf8-78fa-5a12396fef87@redhat.com>
-Date: Wed, 28 Sep 2022 10:31:39 +0200
+ bh=W86nqS16JlvWSTNzoAVxg+EvJ6s67mYaJEwcmQwC0TU=;
+ b=F4tN7/J+M+ANGKiXv1Ur49u63SfuM1l4UnhTaiudhtNDMZTNhBofAp0oOc27m8GsUq6ydG
+ ix6tKGTjYatmeY4/vaauDq+93/Ugm6XJMNZtN35p/fGqTcHSpy5gj0m9FF1M3K/wAOIvxb
+ Bef6SR61x3XaTu9x4qTleAOj9W4IJ7Y=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-42-ApHPdFgwO7eBpbJviDF_Xw-1; Wed, 28 Sep 2022 04:33:04 -0400
+X-MC-Unique: ApHPdFgwO7eBpbJviDF_Xw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 29F542999B55;
+ Wed, 28 Sep 2022 08:33:04 +0000 (UTC)
+Received: from localhost (unknown [10.33.36.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D33BF1415102;
+ Wed, 28 Sep 2022 08:33:03 +0000 (UTC)
+Date: Wed, 28 Sep 2022 10:33:40 +0200
+From: Sergio Lopez <slp@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Colin Walters <walters@verbum.org>,
+ virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
+ Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [Virtio-fs] virtiofsd: Any reason why there's not an "openat2"
+ sandbox mode?
+Message-ID: <20220928083340.eyizwu6mm3cc3bxu@mhamilton>
+References: <4362261a-c762-4666-84e2-03c9daa6c4d9@www.fastmail.com>
+ <YzMmu3xfOtQwuFUx@redhat.com> <YzMrYAJQeSP2hDSs@redhat.com>
+ <CAJh=p+5rQDBJJC8VNGL10KYgDeq-Hg5WK7avONCti03eJGH+ow@mail.gmail.com>
+ <798fe353-9537-44fe-a76a-819e8c93abb5@www.fastmail.com>
+ <YzNZnPiUqySu6sGh@fedora>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
- QEMU bios tables using biosbits
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com, jsnow@redhat.com,
- pbonzini@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
-References: <alpine.DEB.2.22.394.2207271137210.130455@anisinha-lenovo>
- <CAARzgwwpy6yUJfuxxfM2vAUDqh+RyxjLqd+1xARiazqwTLbN9A@mail.gmail.com>
- <20220917162606-mutt-send-email-mst@kernel.org>
- <CAARzgwxoy_E-vkwo-mKo0tbG31Y3E3r9FB6v3H3hgPYW4fb6sA@mail.gmail.com>
- <YzK1VzoU05vnlxY4@redhat.com>
- <CAARzgwxpm-tF3OwK95gHe+9_6qBebiqPFLug-59RUt85aCnuZQ@mail.gmail.com>
- <YzLN3Y1pNO8SVn9M@redhat.com>
- <CAARzgwx+ZitnYKvmkDGA1+Aq3_yPQFSs5GfTvGaAeNmHxUSNOQ@mail.gmail.com>
- <CAARzgwwLXp9rDkQ4OTW2TUgnp_XDyMTXf6OhsKE9qAL1HTuMRQ@mail.gmail.com>
- <YzMahUpNtsas18rN@redhat.com> <20220927172044-mutt-send-email-mst@kernel.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220927172044-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="lmyp75irfhdzyuhx"
+Content-Disposition: inline
+In-Reply-To: <YzNZnPiUqySu6sGh@fedora>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,35 +84,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/09/2022 23.21, Michael S. Tsirkin wrote:
-> On Tue, Sep 27, 2022 at 04:45:09PM +0100, Daniel P. Berrangé wrote:
->> On Tue, Sep 27, 2022 at 07:35:13PM +0530, Ani Sinha wrote:
-...
->>> Alright, .gitlab-ci.yml is produced and the pipeline succeeds.
->>> However, the question still remains, where do we keep the generated
->>> artifacts?
->>
->> The following link will always reflect the published artifacts from
->> the most recently fully successful CI pipeline, on the 'qemu-bits'
->> branch, and 'qemu-bits-build' CI job:
->>
->> https://gitlab.com/qemu-project/biosbits-bits/-/jobs/artifacts/qemu-bits/download?job=qemu-bits-build
->>
->> Tweak as needed if you push the CI to master branch instead. This
->> link can be considered the permanent home of the artifact. I'd just
->> suggest that the QEMU job automatically skip if it fails to download
->> the artifact, as occassionally transient infra errors can impact
->> it.
-> 
-> This just means once we change the test old qemu source can no longer use it.
-> Why is this a good idea? Are we so short on disk space? I thought CPU
-> is the limiting factor?
 
-FYI, we'll soon be short on disk space, gitlab plans to introduce storage 
-limits:
+--lmyp75irfhdzyuhx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  https://about.gitlab.com/pricing/faq-paid-storage-transfer/
+On Tue, Sep 27, 2022 at 04:14:20PM -0400, Stefan Hajnoczi wrote:
+> On Tue, Sep 27, 2022 at 01:51:41PM -0400, Colin Walters wrote:
+> >=20
+> >=20
+> > On Tue, Sep 27, 2022, at 1:27 PM, German Maglione wrote:
+> > >
+> > >> > Now all the development has moved to rust virtiofsd.
+> >=20
+> > Oh, awesome!!  The code there looks great.
+> >=20
+> > > I could work on this for the next major version and see if anything b=
+reaks.
+> > > But I prefer to add this as a compilation feature, instead of a comma=
+nd line
+> > > option that we will then have to maintain for a while.
+> >=20
+> > Hmm, what would be the issue with having the code there by default?  I =
+think rather than any new command line option, we automatically use `openat=
+2+RESOLVE_IN_ROOT` if the process is run as a nonzero uid.
+> >=20
+> > > Also, I don't see it as a sandbox feature, as Stefan mentioned, a com=
+promised
+> > > process can call openat2() without RESOLVE_IN_ROOT.=20
+> >=20
+> > I'm a bit skeptical honestly about how secure the existing namespace co=
+de is against a compromised virtiofsd process.  The primary worry is guest =
+filesystem traversals, right?  openat2+RESOLVE_IN_ROOT addresses that.  Plu=
+s being in Rust makes this dramatically safer.
+> >=20
+> > > I did some test with
+> > > Landlock to lock virtiofsd inside the shared directory, but IIRC it r=
+equires a
+> > > kernel 5.13
+> >=20
+> > But yes, landlock and other things make sense, I just don't see these t=
+hings as strongly linked.  IOW we shouldn't in my opinion block unprivilege=
+d virtiofsd on more sandboxing than openat2 already gives us.
+>=20
+> I think openat2(RESOLVE_IN_ROOT) support should be added unless there is
+> another unprivileged mechanism that is stronger.
+>=20
+> The security implications need to be covered in the user documentation
+> so people can decide whether using this mode is appropriate.
+>=20
+> We should continue to explain the difference between a voluntary
+> mechanism like openat2(RESOLVE_IN_ROOT) and a mandatory mechanism like
+> mount namespaces with pivot_root(2). Rust programs are not immune to
+> arbitrary code execution, but it's less likely than with a C program.
 
-  Thomas
+I agree. Perhaps we could modify the "none" sandbox mode to use
+openat2, if available, and add an "openat2" mode which does basically
+the same thing, but bailing out if openat2 is not available.
+
+And explain this clearly in the docs, of course.
+
+Sergio.
+
+--lmyp75irfhdzyuhx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmM0BuMACgkQ9GknjS8M
+AjXa9RAAmMn37H5nvrK0KlyhPF0aCUNMuALPhvCLC540vQBIsA6fOI8pNEQmfCuY
+coosqUijnp0kW4Pk+O2JdKCYEa1M1ZhX+t7T0rOOEteCt4lw9S3egpQ0K6plVIfC
+BRVDWJ/igh7OExX7Hb84gPLM4UzHqtDcE9/0Dm1feNuqu0pZUqK7jT5uVbu7fSeD
+dj/+Z8u4SNIxobH0G17IZpTjb6r+P3RrgMplByH4PtqtyMf9oueObrBRm7MQmq8P
+bQexURbGmKunHGtled8Zafuw4EB2vbKmTtnQxkV1l//yYmBCZyj74m70Wb3sHda0
+6jiTlQbJxKgTlycmTBbtbkAUtcahQFmXEKCVOI2sIZz9JZ3rfwOvYENBARX6iGDU
+/c91/fm9jGnmiv7aRTWZNyhlUl/xl7boPFPXe/llF+YzVur/M1UBEdZbFKbpbMj/
+/yICFJ4lJQkBPLjB+mIBzo7gfmTchPQ6W/BP6LVoFvGhvcE6dL26x89/8UtdyxQT
+zYiHvZgntqJ6MqXhW5Up8HFmShbVrCln4E6WaJmpEVjop7xTOBEp2oX6Ix3vbL9k
+yTklajDYWfaRpehNUH9Q5fWOCq79kROEQ3mv75KZTc2ke2kf+x2MUJQwz9T3JRhR
+Uq1+7hnLuiXtdDRDiL5oZ5sCxiEqX+znLPt6ao5sAb4p9ANE66A=
+=yhfj
+-----END PGP SIGNATURE-----
+
+--lmyp75irfhdzyuhx--
 
 
