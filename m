@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0565ED7AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 10:27:12 +0200 (CEST)
-Received: from localhost ([::1]:56922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296F95ED952
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 11:41:28 +0200 (CEST)
+Received: from localhost ([::1]:56870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odSPP-0007AL-2y
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 04:27:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38028)
+	id 1odTZG-0001LI-QC
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 05:41:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLh-0000yN-Ng
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLh-0000yQ-Oj
  for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40079)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLY-0008TB-R5
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odRLa-0008TP-Oo
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 03:19:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664349548;
+ s=mimecast20190719; t=1664349550;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CzF0Gr+rnt43R6ngltYl2vSGN3la25xAMhez/ygFCvk=;
- b=KwvCXoXUUpEEQsBE9udseHQ4M82zrMjWk10Mpq7GCmW4GuzkBkLg5nlXn8st5r+qij9lIJ
- Q416Ilgm2XJGDeam4XU/d1Tgaqdkh/Axy1VXOB5jFHumjrZo/dMr8PdWvvjAFtAxBHKJbp
- x+z2jb0mC2ljQEWcxVwT0FY2FCFmCT8=
+ bh=KXRCW//bY6nAjGO76dMuQ3l8tE0Jqz23zyP9s+wwXEo=;
+ b=HrrwNgw+lsFTQcTGjQCA0QMnqGW9tqoS2TLFyN90k7d3+8tfnl7IFoI4vJCCw87ConbygE
+ FHMaTMQHL+GjuWJFIBSOq9GFwHe5jPo4uPjS9JU/SeodRdE/UlKvnZMQJBOU74/GprXtNb
+ Lb9zIzt4P4v89QmpM6c3OXKW2GIaGQk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-93-uzVz7fujN9Ky9sqnhgnX-Q-1; Wed, 28 Sep 2022 03:19:06 -0400
-X-MC-Unique: uzVz7fujN9Ky9sqnhgnX-Q-1
+ us-mta-611-7Zm9VCxYPIiGnwP1NPuCxg-1; Wed, 28 Sep 2022 03:19:08 -0400
+X-MC-Unique: 7Zm9VCxYPIiGnwP1NPuCxg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E01B0882820;
- Wed, 28 Sep 2022 07:19:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2CC6868A21;
+ Wed, 28 Sep 2022 07:19:07 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B42C440C83BB;
- Wed, 28 Sep 2022 07:19:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F86540C83BB;
+ Wed, 28 Sep 2022 07:19:06 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 11/37] tests/qtest: virtio-blk-test: Avoid using hardcoded /tmp
-Date: Wed, 28 Sep 2022 09:18:17 +0200
-Message-Id: <20220928071843.1468323-12-thuth@redhat.com>
+Subject: [PULL 12/37] tests/qtest: virtio-scsi-test: Avoid using hardcoded /tmp
+Date: Wed, 28 Sep 2022 09:18:18 +0200
+Message-Id: <20220928071843.1468323-13-thuth@redhat.com>
 In-Reply-To: <20220928071843.1468323-1-thuth@redhat.com>
 References: <20220928071843.1468323-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -86,29 +86,34 @@ files. Update to use g_file_open_tmp() for a portable implementation.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220925113032.1949844-20-bmeng.cn@gmail.com>
+Message-Id: <20220925113032.1949844-21-bmeng.cn@gmail.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/virtio-blk-test.c | 4 ++--
+ tests/qtest/virtio-scsi-test.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/virtio-blk-test.c b/tests/qtest/virtio-blk-test.c
-index dc5eed31c8..19c01f808b 100644
---- a/tests/qtest/virtio-blk-test.c
-+++ b/tests/qtest/virtio-blk-test.c
-@@ -49,10 +49,10 @@ static void drive_destroy(void *path)
- static char *drive_create(void)
- {
-     int fd, ret;
--    char *t_path = g_strdup("/tmp/qtest.XXXXXX");
-+    char *t_path;
+diff --git a/tests/qtest/virtio-scsi-test.c b/tests/qtest/virtio-scsi-test.c
+index 8ceb12aacd..ceaa7f2415 100644
+--- a/tests/qtest/virtio-scsi-test.c
++++ b/tests/qtest/virtio-scsi-test.c
+@@ -268,7 +268,7 @@ static void test_iothread_attach_node(void *obj, void *data,
+     QVirtioSCSIPCI *scsi_pci = obj;
+     QVirtioSCSI *scsi = &scsi_pci->scsi;
+     QVirtioSCSIQueues *vs;
+-    char tmp_path[] = "/tmp/qtest.XXXXXX";
++    g_autofree char *tmp_path = NULL;
+     int fd;
+     int ret;
  
-     /* Create a temporary raw image */
--    fd = mkstemp(t_path);
-+    fd = g_file_open_tmp("qtest.XXXXXX", &t_path, NULL);
-     g_assert_cmpint(fd, >=, 0);
-     ret = ftruncate(fd, TEST_IMAGE_SIZE);
-     g_assert_cmpint(ret, ==, 0);
+@@ -282,7 +282,7 @@ static void test_iothread_attach_node(void *obj, void *data,
+     vs = qvirtio_scsi_init(scsi->vdev);
+ 
+     /* Create a temporary qcow2 overlay*/
+-    fd = mkstemp(tmp_path);
++    fd = g_file_open_tmp("qtest.XXXXXX", &tmp_path, NULL);
+     g_assert(fd >= 0);
+     close(fd);
+ 
 -- 
 2.31.1
 
