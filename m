@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563AB5ED9D7
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 12:09:37 +0200 (CEST)
-Received: from localhost ([::1]:57532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315835EDA5F
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 12:48:43 +0200 (CEST)
+Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odU0W-00042V-5S
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 06:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33306)
+	id 1odUcM-0001r8-2E
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 06:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE5-00087k-Vy
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:30 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:33311)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE4-00085y-Hc
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:28 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:54657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE3-00089t-No
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:29 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odSE1-00089H-BL
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 04:15:27 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MDQmW-1oU8pd2npO-00ASW9; Wed, 28
- Sep 2022 10:15:19 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1M8QJq-1oZ4VE0ZZA-004T2F; Wed, 28
+ Sep 2022 10:15:20 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 01/38] linux-user: use 'max' instead of 'qemu32' / 'qemu64' by
- default
-Date: Wed, 28 Sep 2022 10:14:40 +0200
-Message-Id: <20220928081517.734954-2-laurent@vivier.eu>
+Cc: Jameson Nash <vtjnash@gmail.com>,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 02/38] linux-user: fix readlinkat handling with magic exe
+ symlink
+Date: Wed, 28 Sep 2022 10:14:41 +0200
+Message-Id: <20220928081517.734954-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928081517.734954-1-laurent@vivier.eu>
 References: <20220928081517.734954-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:e345ae5atdF0YMpk8asE0ffRIPJ41+q9N1OBzYNeq2TVkT/qDtD
- aAMSB0wWLtGvXA4OFt16C53Ii9BGXwHrOprOgmVynbMaXJ6JqWTHQjpEtpa+uDNzZHr2Ycc
- MwoS8qiczEvaU7eY5KeaAy6EGq4wL4YBb2zPf+Rmkn6lBqaljy2ti+CQoHQ4f8ivTNqkATD
- KSVgqK/BkG00PTEDgKsXg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pCR6V7K3E4Y=:RhM5zCHz0wNSjQIpTbM2lo
- GDYtafErBtIw23zYgZERSxjVty8P2uRxjEiWxjGmHBMf21hOWCrOh9ss+Jtc4V5bS/9buq6BC
- L/7a0ChlHZKoNOoclh0U8LhAzUAAL5P6u7JOQOAiJAaOgZU3c1GS0ZcPwhFMa6FuvkDplYNkd
- yZDYUj9mo7w4ZMUt6ho7VJ/m4eCE21RSf1P1u7pawMFQo1th4xKnZ26W7KvciTCYMX91fA283
- Wyj71UgB7h+8A7vhCnamSn09mqTJgrzYUMb1IEucUww0KN7FHE+l5DcTv18ZWkTpL+HZgXSXt
- PdgPLiGxANFbmvTH+VjcvFSVzW9jF2ZzW9r2al62JWBmSRvvbrNjIHgwAhT4xghAG2+qYr5zQ
- Dtmq99WalzPaOvP+dxUJqfnwxPnjQS1QbKyBP+i+EuP2zfgTVHZ3OJIeAJ1naxTiNflc1Xgka
- ooopCmb5gbRo0lcEKm3T9sLH38J7bg3yyMFsjXTd+E9jHSVKM8cN1jU6MTDxwirb2p1VvJ4p/
- 5qtsXDj8CBJbsG8Gs5q4h3fIOhDRDYoWWRiaDG0SA7DwBYrieau6t6FddcRLoS6CiOz30amQu
- VogokSMhyB285Knxw6i6n6uqvY0L78iUZrW/woGleTHW352iHGsozWUSmd2ysu00dPhdUQrA0
- OeIjpucf9/rWowO5Yu4MioqCCqZjiMmZO2JbSYx+dYWZBXzgssIyA/6SeANLCxYSYO/Yyu/+g
- L/elFKHU5FF1IAjjBUcJvyaVE4cFaxa98gKCQ0gQ2EoqIry6DcKc4T8QdGM//PUMlmfOqZCqL
- xoj2fzX
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:dKIcFdxvcq8+kkyyuZxnYokDGGDmh9Fl8qSNLx43uBQuAaavcZP
+ cmA30rrindKYENiBa3xlhcWR0rco314nS8M37XJ67Bmu6TFXdadZSxCmHGkpUcZgmI5OFkM
+ F0rmD3B8SaWqidmZUc0XvuPooZXpD2TyxASXUTXTDWaKFSPS7YRLmWtodieHhHPSRnhWSNg
+ s4Rok00VSQWny/ejxVcVQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:euF2N9/6ybc=:rdWjt5tBdJCNSCQ/cDzDmA
+ ST+EYqHtwMZSL7MDz1cUdjw2VDO8gDkzvxLuZHZKVHCx875w7cuGsdV+XKlVqE1GEA12+rl38
+ jJ61Eno9+fnfn2DFxrAKCG1g2eGtJZkVv9XnCpC6+KFF+tutns59m5Tf6mM1CGPEFiyWmoT9t
+ g/UjxCq/XJoeoblDk9f9s167OmayWj1cEgBo0MttkbYTxJESW2Hmawe1+xgv7RN2FTp35IL2M
+ RL1UlcenwB8AA+gO2tRgX9UaNPVKUV25MFp1AZ20soLLTKgvKxxakoGI60I5S1Me+2Oe0jkff
+ 9BqivrNFeTxT4nvrfgVHpdjN9jFhTWDPI7nsQbUpv9O8MxrHQb24UUgVmbN7vld090pElu2zC
+ Lc1T8TDMgaa4c+5ZMIV25NczyJgZptXuBa0x38/YUwaOXcAeadiZx+JrmbCK8LWjjJ7chHFxf
+ GU2VHJbN2Cu6lJ9jMrrXx8Z/oSX9oBDa4Btf2Pxx9hyMF/am6xTHVmhju/f6QorUvvEO0XimL
+ iz6al9aW9HjFAHS4tehPIgwKCNai/LPMTAb5+w+W9xXa+M59dpuF24cTctj7iu4mb93WkRO6z
+ 9ivqR1ARAo4olzhenYFY2rOYiZaMuonEpMog/1hv/IwIR7umgfu+9yrTHIHmvSVAwEozTFARX
+ 5nwq7QM0JP7/CN5NMEckb8CzM2sTBwHoQ4jWknUCZJ/ce4A7LV483e7C8HdZguKfnonCiHKJO
+ oRdZKXf3JA/dqclR/EG6TyTSxpPbIZv6regdO9Uk/X5Y3C5WQxTjzVAGNx2is667092HIhn67
+ jxuCccw
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,77 +73,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Jameson Nash <vtjnash@gmail.com>
 
-The 'qemu64' CPU model implements the least featureful x86_64 CPU that's
-possible. Historically this hasn't been an issue since it was rare for
-OS distros to build with a higher mandatory CPU baseline.
+Exactly the same as f17f4989fa193fa8279474c5462289a3cfe69aea before was
+for readlink. I suppose this was simply missed at the time.
 
-With RHEL-9, however, the entire distro is built for the x86_64-v2 ABI
-baseline:
-
-  https://developers.redhat.com/blog/2021/01/05/building-red-hat-enterprise-linux-9-for-the-x86-64-v2-microarchitecture-level
-
-It is likely that other distros may take similar steps in the not too
-distant future. For example, it has been suggested for Fedora on a
-number of occasions.
-
-This new baseline is not compatible with the qemu64 CPU model though.
-While it is possible to pass a '-cpu xxx' flag to qemu-x86_64, the
-usage of QEMU doesn't always allow for this. For example, the args
-are typically controlled via binfmt rules that the user has no ability
-to change. This impacts users who are trying to use podman on aarch64
-platforms, to run containers with x86_64 content. There's no arg to
-podman that can be used to change the qemu-x86_64 args, and a non-root
-user of podman can not change binfmt rules without elevating privileges:
-
-  https://github.com/containers/podman/issues/15456#issuecomment-1228210973
-
-Changing to the 'max' CPU model gives 'qemu-x86_64' maximum
-compatibility with binaries it is likely to encounter in the wild,
-and not likely to have a significant downside for existing usage.
-
-Most other architectures already use an 'any' CPU model, which is
-often mapped to 'max' (or similar) already, rather than the oldest
-possible CPU model.
-
-For the sake of consistency the 'i386' architecture is also changed
-from using 'qemu32' to 'max'.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220923110413.70593-1-berrange@redhat.com>
+Signed-off-by: Jameson Nash <vtjnash@gmail.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20220808190727.875155-1-vtjnash@gmail.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/i386/target_elf.h   | 2 +-
- linux-user/x86_64/target_elf.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ linux-user/syscall.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/i386/target_elf.h b/linux-user/i386/target_elf.h
-index 1c6142e7da0d..238a9aba738a 100644
---- a/linux-user/i386/target_elf.h
-+++ b/linux-user/i386/target_elf.h
-@@ -9,6 +9,6 @@
- #define I386_TARGET_ELF_H
- static inline const char *cpu_get_model(uint32_t eflags)
- {
--    return "qemu32";
-+    return "max";
- }
- #endif
-diff --git a/linux-user/x86_64/target_elf.h b/linux-user/x86_64/target_elf.h
-index 7b76a90de880..3f628f8d6619 100644
---- a/linux-user/x86_64/target_elf.h
-+++ b/linux-user/x86_64/target_elf.h
-@@ -9,6 +9,6 @@
- #define X86_64_TARGET_ELF_H
- static inline const char *cpu_get_model(uint32_t eflags)
- {
--    return "qemu64";
-+    return "max";
- }
- #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f4091212027c..abf82bab2a18 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -9912,11 +9912,22 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+             p2 = lock_user(VERIFY_WRITE, arg3, arg4, 0);
+             if (!p || !p2) {
+                 ret = -TARGET_EFAULT;
++            } else if (!arg4) {
++                /* Short circuit this for the magic exe check. */
++                ret = -TARGET_EINVAL;
+             } else if (is_proc_myself((const char *)p, "exe")) {
+                 char real[PATH_MAX], *temp;
+                 temp = realpath(exec_path, real);
+-                ret = temp == NULL ? get_errno(-1) : strlen(real) ;
+-                snprintf((char *)p2, arg4, "%s", real);
++                /* Return value is # of bytes that we wrote to the buffer. */
++                if (temp == NULL) {
++                    ret = get_errno(-1);
++                } else {
++                    /* Don't worry about sign mismatch as earlier mapping
++                     * logic would have thrown a bad address error. */
++                    ret = MIN(strlen(real), arg4);
++                    /* We cannot NUL terminate the string. */
++                    memcpy(p2, real, ret);
++                }
+             } else {
+                 ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
+             }
 -- 
 2.37.3
 
