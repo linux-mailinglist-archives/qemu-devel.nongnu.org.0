@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B910B5EE6AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:40:33 +0200 (CEST)
-Received: from localhost ([::1]:44298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96BDC5EE6A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Sep 2022 22:30:57 +0200 (CEST)
+Received: from localhost ([::1]:48310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oddr3-0008VO-Ql
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:40:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60020)
+	id 1oddho-0005JG-LW
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 16:30:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddek-0007wS-8e
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddek-0007ww-Ea
  for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:46 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:39067)
+Received: from mout.kundenserver.de ([217.72.192.73]:46731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddei-0006N2-AU
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:45 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oddei-0006Mt-Ab
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 16:27:46 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue108
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MLA2e-1ovr1l42xG-00IGQE; Wed, 28
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MK3a4-1owwQE1ZiY-00LYD0; Wed, 28
  Sep 2022 22:27:40 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Jameson Nash <vtjnash@gmail.com>,
+Cc: Helge Deller <deller@gmx.de>,
 	Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 02/37] linux-user: fix readlinkat handling with magic exe
- symlink
-Date: Wed, 28 Sep 2022 22:27:02 +0200
-Message-Id: <20220928202737.793171-3-laurent@vivier.eu>
+Subject: [PULL 03/37] linux-user: Add missing signals in strace output
+Date: Wed, 28 Sep 2022 22:27:03 +0200
+Message-Id: <20220928202737.793171-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220928202737.793171-1-laurent@vivier.eu>
 References: <20220928202737.793171-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:y5LNxxin6TgZD2LbViOEQruAAyLh8MnkAu+bgNMdrQtyUWA4QAQ
- 3yBxqgOQoc7vtM91st7C3kaC6acwYUvRtiVb5LZTC4/lW4E9A9sH8obR34PToDq2SBWdsBN
- lcNkX9BqHneJxEcvYOfFNBe2LgjH3K4RFyxVMUMBGOH3Qig0FZiu/ggpLzR/fy0PFhi5cUB
- rf3N4huH0ikl8+CI0GWyQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:RJrbQmFocrQ=:RR6xWnaKt7KNvQizsDolR7
- Kcxbxb0TEjCPS5cX363MpILIQMPFZLbQOTloAyyd1rTuHgP3P2jtLmJXZZYpwAQbJ0HuO6IWs
- BgIzoNlH8PnrlQHE91fOs5uL/tWjvLD4FO3mh6XKxs1qH1yZk4WLreFqN9DY5Ss7aWW75l1zh
- OUBHSqu+0bfYZrCQU4+vCkfbXrOOLg4UIWV3Woch35xB5x8S5OF8oaz588mgz/L32Iv54jhDz
- cq4AW5/iR4K5I9XaQzimm8daAr4CYFMXF8dDplMLBIcASil9r1UA0K7yylLYqMPXI9+mF63vd
- /LtDcQNuupIBtQkgKDI4T7vQcZT+7gI3VgaIMpoQNhgPmhttD/vltUuwjoyj+zlff6aLZHFCV
- 4OgvM8BRkpdljTVxSftgsRbDuxr309DOWB4qcxZorPeji70hyz2oDkcERsVnQGGrpdgsTW6Yd
- GbmI2M/KAwWurhbuBzmsXpdqk7OBO80NQPv7LNt989TVKwTPumK7Xjd9mduAaxfKemkPtNA/2
- AyzokmguYX6f8UIwbPGv1Xp77sj3Gi7UDKWVed0dRN/aHPrtvi8vPtsMV+FPcnl0afGDmrzIo
- nQ+kfzJpDuI12Ek8OgRIdEi3HJYkyFAHMVlxYKp7OfbPQzNIEuo3oUf52E+GzlqOt05NXt3Ds
- LbN6mNbWrKvlarsE8KmHobtjTOXOv7zxLBUEPjkMhI1v1TJusUOXbghTlyq/brZo4/QNNXUk6
- Op0Oykv6I+p7srXwG80hvjPAg+ZbcpPC71IB9ni9WJjTZ+iS13PhMUIy4VH/EPsoJf1Q/gdkD
- 2dCvHEC
+X-Provags-ID: V03:K1:n5+Z0huhsflpMEKFzJAv42WA7f+6fMAqUi4MQ5Usr7PvWT93wZG
+ By/RWi6xaul+7WmJCUR/5wSvxUqOauBxpUDdtX2b87rv1LsJTAaPVFeI8U838PU3SaGyhX2
+ zbzh7hce9NYN0ALn/2eivfKDbA5M1+lgk/i9OLUNslRNPtn6hDGXkwgAkBEOLEk1TW/fy25
+ Va0f7bmk4yP2tJrjZ7c8w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Swb5jqbKdQs=:mgKqPtVG40HLKBw2d3fAHz
+ ZPKjCChbygY6BUv6vgt3wI9zhxRmcbIYoXzzgodrZu7rx8YPPX2DfPxg+Pe6qrEELHbmmn54e
+ qs1ZhXS8mxdrmvYPwRX9wSVQYDuDWoQ+hy8lR7ijYvKNqDmNypysSJFHuFHpAq21CdLMwuqOd
+ Vv3ouktxW/04TDWNWNX3eF8GAj7Kd3ZvPvhH6jcu7Ru0Y0qVefNysCW/I0dptcsuZOpPcN6y4
+ BlNEHDNaIJuJHjjH+ATn+ny9nnyTp2qu+JE0rH94tUFaUkNikeFuve6buwCHOZa9340FaFnrT
+ LJcdbyuBgpTCYOenfMFPBDtJAhXxjFF9fznpjrSqiFoZLSVkD4oi/0UeQo7hGvU2C+iEd59kW
+ b7w8AWZboNipAf46JldqBY3m6bdwnrtfb3hEBVPAgSZcwVCWTIqaE19TO+2Buud8+4rE0o36z
+ n/rg3Tza+IbjYwrccFa9BnjThgxdtRlHTO8kyFGY5mE7R29PR3iJWceygoM6elVDUoXOf/oVS
+ LoLXk5okPunJY/aT2a/MBZSVKW0Pd69O/DcglB7XkizVYglZYD8icKo5YRAz0qgCaeCY524bU
+ 1dQsvIN2RxF1FD+HDk8m4QoZRU9lwZvlJB5H3ktejH2iA9glI5+d32gOIZ6qLheiwZkTbm+F7
+ YMxUx5V/C4bnaq61ummxnCUHL57yALDhhEGmS0Q681oLt6trTOTJjUA4UV0WDHRW/tTYn+UPX
+ rw8CPUejf3NkCMKYV4/pmcOpsv3S8H/DAcb3r9YWnrM+Dux41eDjCEIaQ15FGGq5dfT9sdIOT
+ TfCV6Ce
 Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -73,48 +72,185 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jameson Nash <vtjnash@gmail.com>
+From: Helge Deller <deller@gmx.de>
 
-Exactly the same as f17f4989fa193fa8279474c5462289a3cfe69aea before was
-for readlink. I suppose this was simply missed at the time.
+Some of the guest signal numbers are currently not converted to
+their representative names in the strace output, e.g. SIGVTALRM.
 
-Signed-off-by: Jameson Nash <vtjnash@gmail.com>
+This patch introduces a smart way to generate and keep in sync the
+host-to-guest and guest-to-host signal conversion tables for usage in
+the qemu signal and strace code. This ensures that any signals
+will now show up in both tables.
+
+There is no functional change in this patch - with the exception that yet
+missing signal names now show up in the strace code too.
+
+Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220808190727.875155-1-vtjnash@gmail.com>
+Message-Id: <20220918194555.83535-2-deller@gmx.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ linux-user/signal-common.h | 46 ++++++++++++++++++++++++++++++++++++++
+ linux-user/signal.c        | 37 +++---------------------------
+ linux-user/strace.c        | 30 +++++++++----------------
+ 3 files changed, 60 insertions(+), 53 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f4091212027c..abf82bab2a18 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -9912,11 +9912,22 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             p2 = lock_user(VERIFY_WRITE, arg3, arg4, 0);
-             if (!p || !p2) {
-                 ret = -TARGET_EFAULT;
-+            } else if (!arg4) {
-+                /* Short circuit this for the magic exe check. */
-+                ret = -TARGET_EINVAL;
-             } else if (is_proc_myself((const char *)p, "exe")) {
-                 char real[PATH_MAX], *temp;
-                 temp = realpath(exec_path, real);
--                ret = temp == NULL ? get_errno(-1) : strlen(real) ;
--                snprintf((char *)p2, arg4, "%s", real);
-+                /* Return value is # of bytes that we wrote to the buffer. */
-+                if (temp == NULL) {
-+                    ret = get_errno(-1);
-+                } else {
-+                    /* Don't worry about sign mismatch as earlier mapping
-+                     * logic would have thrown a bad address error. */
-+                    ret = MIN(strlen(real), arg4);
-+                    /* We cannot NUL terminate the string. */
-+                    memcpy(p2, real, ret);
-+                }
-             } else {
-                 ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
-             }
+diff --git a/linux-user/signal-common.h b/linux-user/signal-common.h
+index 6a7e4a93fc13..3e2dc604c2fb 100644
+--- a/linux-user/signal-common.h
++++ b/linux-user/signal-common.h
+@@ -118,4 +118,50 @@ static inline void finish_sigsuspend_mask(int ret)
+     }
+ }
+ 
++#if defined(SIGSTKFLT) && defined(TARGET_SIGSTKFLT)
++#define MAKE_SIG_ENTRY_SIGSTKFLT        MAKE_SIG_ENTRY(SIGSTKFLT)
++#else
++#define MAKE_SIG_ENTRY_SIGSTKFLT
++#endif
++
++#if defined(SIGIOT) && defined(TARGET_SIGIOT)
++#define MAKE_SIG_ENTRY_SIGIOT           MAKE_SIG_ENTRY(SIGIOT)
++#else
++#define MAKE_SIG_ENTRY_SIGIOT
++#endif
++
++#define MAKE_SIGNAL_LIST \
++        MAKE_SIG_ENTRY(SIGHUP) \
++        MAKE_SIG_ENTRY(SIGINT) \
++        MAKE_SIG_ENTRY(SIGQUIT) \
++        MAKE_SIG_ENTRY(SIGILL) \
++        MAKE_SIG_ENTRY(SIGTRAP) \
++        MAKE_SIG_ENTRY(SIGABRT) \
++        MAKE_SIG_ENTRY(SIGBUS) \
++        MAKE_SIG_ENTRY(SIGFPE) \
++        MAKE_SIG_ENTRY(SIGKILL) \
++        MAKE_SIG_ENTRY(SIGUSR1) \
++        MAKE_SIG_ENTRY(SIGSEGV) \
++        MAKE_SIG_ENTRY(SIGUSR2) \
++        MAKE_SIG_ENTRY(SIGPIPE) \
++        MAKE_SIG_ENTRY(SIGALRM) \
++        MAKE_SIG_ENTRY(SIGTERM) \
++        MAKE_SIG_ENTRY(SIGCHLD) \
++        MAKE_SIG_ENTRY(SIGCONT) \
++        MAKE_SIG_ENTRY(SIGSTOP) \
++        MAKE_SIG_ENTRY(SIGTSTP) \
++        MAKE_SIG_ENTRY(SIGTTIN) \
++        MAKE_SIG_ENTRY(SIGTTOU) \
++        MAKE_SIG_ENTRY(SIGURG) \
++        MAKE_SIG_ENTRY(SIGXCPU) \
++        MAKE_SIG_ENTRY(SIGXFSZ) \
++        MAKE_SIG_ENTRY(SIGVTALRM) \
++        MAKE_SIG_ENTRY(SIGPROF) \
++        MAKE_SIG_ENTRY(SIGWINCH) \
++        MAKE_SIG_ENTRY(SIGIO) \
++        MAKE_SIG_ENTRY(SIGPWR) \
++        MAKE_SIG_ENTRY(SIGSYS) \
++        MAKE_SIG_ENTRY_SIGSTKFLT \
++        MAKE_SIG_ENTRY_SIGIOT
++
+ #endif
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 8d29bfaa6b5c..61c6fa3fcf12 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -53,40 +53,9 @@ abi_ulong default_rt_sigreturn;
+ QEMU_BUILD_BUG_ON(__SIGRTMAX + 1 != _NSIG);
+ #endif
+ static uint8_t host_to_target_signal_table[_NSIG] = {
+-    [SIGHUP] = TARGET_SIGHUP,
+-    [SIGINT] = TARGET_SIGINT,
+-    [SIGQUIT] = TARGET_SIGQUIT,
+-    [SIGILL] = TARGET_SIGILL,
+-    [SIGTRAP] = TARGET_SIGTRAP,
+-    [SIGABRT] = TARGET_SIGABRT,
+-/*    [SIGIOT] = TARGET_SIGIOT,*/
+-    [SIGBUS] = TARGET_SIGBUS,
+-    [SIGFPE] = TARGET_SIGFPE,
+-    [SIGKILL] = TARGET_SIGKILL,
+-    [SIGUSR1] = TARGET_SIGUSR1,
+-    [SIGSEGV] = TARGET_SIGSEGV,
+-    [SIGUSR2] = TARGET_SIGUSR2,
+-    [SIGPIPE] = TARGET_SIGPIPE,
+-    [SIGALRM] = TARGET_SIGALRM,
+-    [SIGTERM] = TARGET_SIGTERM,
+-#ifdef SIGSTKFLT
+-    [SIGSTKFLT] = TARGET_SIGSTKFLT,
+-#endif
+-    [SIGCHLD] = TARGET_SIGCHLD,
+-    [SIGCONT] = TARGET_SIGCONT,
+-    [SIGSTOP] = TARGET_SIGSTOP,
+-    [SIGTSTP] = TARGET_SIGTSTP,
+-    [SIGTTIN] = TARGET_SIGTTIN,
+-    [SIGTTOU] = TARGET_SIGTTOU,
+-    [SIGURG] = TARGET_SIGURG,
+-    [SIGXCPU] = TARGET_SIGXCPU,
+-    [SIGXFSZ] = TARGET_SIGXFSZ,
+-    [SIGVTALRM] = TARGET_SIGVTALRM,
+-    [SIGPROF] = TARGET_SIGPROF,
+-    [SIGWINCH] = TARGET_SIGWINCH,
+-    [SIGIO] = TARGET_SIGIO,
+-    [SIGPWR] = TARGET_SIGPWR,
+-    [SIGSYS] = TARGET_SIGSYS,
++#define MAKE_SIG_ENTRY(sig)     [sig] = TARGET_##sig,
++        MAKE_SIGNAL_LIST
++#undef MAKE_SIG_ENTRY
+     /* next signals stay the same */
+ };
+ 
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 7d882526da03..a4eeef7ae1ca 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -17,6 +17,7 @@
+ #include "qemu.h"
+ #include "user-internals.h"
+ #include "strace.h"
++#include "signal-common.h"
+ 
+ struct syscallname {
+     int nr;
+@@ -141,30 +142,21 @@ if( cmd == val ) { \
+     qemu_log("%d", cmd);
+ }
+ 
++static const char * const target_signal_name[] = {
++#define MAKE_SIG_ENTRY(sig)     [TARGET_##sig] = #sig,
++        MAKE_SIGNAL_LIST
++#undef MAKE_SIG_ENTRY
++};
++
+ static void
+ print_signal(abi_ulong arg, int last)
+ {
+     const char *signal_name = NULL;
+-    switch(arg) {
+-    case TARGET_SIGHUP: signal_name = "SIGHUP"; break;
+-    case TARGET_SIGINT: signal_name = "SIGINT"; break;
+-    case TARGET_SIGQUIT: signal_name = "SIGQUIT"; break;
+-    case TARGET_SIGILL: signal_name = "SIGILL"; break;
+-    case TARGET_SIGABRT: signal_name = "SIGABRT"; break;
+-    case TARGET_SIGFPE: signal_name = "SIGFPE"; break;
+-    case TARGET_SIGKILL: signal_name = "SIGKILL"; break;
+-    case TARGET_SIGSEGV: signal_name = "SIGSEGV"; break;
+-    case TARGET_SIGPIPE: signal_name = "SIGPIPE"; break;
+-    case TARGET_SIGALRM: signal_name = "SIGALRM"; break;
+-    case TARGET_SIGTERM: signal_name = "SIGTERM"; break;
+-    case TARGET_SIGUSR1: signal_name = "SIGUSR1"; break;
+-    case TARGET_SIGUSR2: signal_name = "SIGUSR2"; break;
+-    case TARGET_SIGCHLD: signal_name = "SIGCHLD"; break;
+-    case TARGET_SIGCONT: signal_name = "SIGCONT"; break;
+-    case TARGET_SIGSTOP: signal_name = "SIGSTOP"; break;
+-    case TARGET_SIGTTIN: signal_name = "SIGTTIN"; break;
+-    case TARGET_SIGTTOU: signal_name = "SIGTTOU"; break;
++
++    if (arg < ARRAY_SIZE(target_signal_name)) {
++        signal_name = target_signal_name[arg];
+     }
++
+     if (signal_name == NULL) {
+         print_raw_param("%ld", arg, last);
+         return;
 -- 
 2.37.3
 
