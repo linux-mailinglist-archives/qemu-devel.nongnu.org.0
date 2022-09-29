@@ -2,68 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1799C5EF0A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 10:37:16 +0200 (CEST)
-Received: from localhost ([::1]:43062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622DA5EF05B
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 10:26:16 +0200 (CEST)
+Received: from localhost ([::1]:49608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odp2g-0000Lq-Ow
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 04:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58776)
+	id 1odos3-00015I-FW
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 04:26:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1odoEn-0001FD-Cp; Thu, 29 Sep 2022 03:45:41 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38174)
+ (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
+ id 1odoQc-0002Du-SJ
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:57:55 -0400
+Received: from mail-db3eur04on071f.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0c::71f]:35200
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1odoEl-0008Q6-50; Thu, 29 Sep 2022 03:45:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=s0plKylrRKwoBQgvbEnzYjpBNp0S0OohoY5xAhNxjME=; b=YznhHEfWtu59ZUyQIOn0Rx0pKW
- inLHy1XNlp9LdPL9dsAZ1bWQLSQmu57bzgQn8Nsfnpkd4UIx09O7hMTwjaoBfk10k54vRJwR1k9w1
- Fh1olk53QWzAUfWlPjeFM70qHN41YP0BUsC0WpIH5HD/16g4JKj4UAxvVAvg3K7eYVQiFvi0jAb/u
- 5jj0pCYgUJwtLEUVP3CwgsgNQzyvCtRwSIQgKXfAHZACY78dg2HjDvGco2u8MayWWh/R+IFM16FG7
- AdWiBl75bQVFo7GZTSOxAMvb4yo/8J4GPEcVdYHzl5BQuqAE6QjvV6+dQ5VNLJ5xMXp7lr+cZryHl
- VwDBeARmyjQEPsrDAIR2GvaBVbU2LYQbFmNyxC+jdGdQ/0bUEtwN6jSfCmFi7BDT0twZbao8r4Ccx
- Hu2GUdLHxCG3qR6OMGV4+bQoNB7957xGyHv19pjZzWzb1leBHSoWkpKfiO57gWUjv2EN0JUlMJkRr
- LmD6iZHWqAFOoiyGSjIpXgIEy35aiRMYH4xnYmtEM1ijCvvM8XBAYQw7YlnV0Rv5+Nwuo+9k1ir7y
- cGSdGwzmOlC5fEiaAi0+OAMLBGV0inD55/oA4B56fUrmrFWtV9yGzP3UoH/C7Ix+wgK3TqDCvQOSc
- cWfWbViXkvgpzYPJQ8IYvCy5W3SZqTYl1p5VfOKdg=;
-Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1odoD0-000BiY-EL; Thu, 29 Sep 2022 08:43:54 +0100
-Message-ID: <5ef0c7a2-6529-a0b2-98bc-8e16ae0297df@ilande.co.uk>
-Date: Thu, 29 Sep 2022 08:45:32 +0100
+ (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
+ id 1odoQb-0001ZM-1s
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:57:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KqL3o8NBQmtgWykEdPtx9nIXsfNiQSurTw1/7lC+oCv5FWOGpbDNk5gQldj1n6MKgjbMd2M5Scu+XubX3SbGSw4HzSBTaRq0n93RLWXhi+IlTOSdHzCXKAvEaosGRb97xKaueo5ukmqrV8Q4hA9kpl7Wruoi6qUEia/fqE8G8W9+yAh+I2H76z4xKR8zZqGNg8VJRLqvc1lgHg7zMCYDHnr4dihKLaWdVpw5x/USunqw+wDGM8ybUnC9DapjQ/6EbrZLeupyZBlHHIDMI/atkuaS/W6HMNqju7db2FC/7Pv/UQSC4n9pv0d1qXrFoCTUQavebkC8tYc71X9hk0b4/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VL954Wj266dXjSItYIjXHJCDlAk62V3IAgRYyRi19qI=;
+ b=MIlA+08c5RkcFHbliUFY77OHZaBmt8GCmY4NMFVaOLoRrzKgn/+jmpT40T6NPDb+7DMmjEjilnnBhjtZuznzpiBxMpJSZFueKjqSAOWI62SA/CAPJJodFjp2AO7Nt57eenbxJCH14Z2z/vu1op/fS44CoA0qaBNmjmnhtwjFuS0d+KjXLdycJUcEkfx6XQrGDjfJ+SYt/lebgn5oHkoKWmzfv9gNMMSKFRKQROAmT+AoxzYxs+40u+GSTmF2OZHLZYWNbQGRJ3/uEnhkeuFHpDwGjz+S80tWD5NhB2+lrnYXV3oXD73mGLx36mFWTGj8O64EolrnzGAM3uhwBK00mA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VL954Wj266dXjSItYIjXHJCDlAk62V3IAgRYyRi19qI=;
+ b=og9t9PcQ3pYMPS6DjK9n3WOwgKD2g2NOm8SvJ2ofeA1qRMOtGV9gKDlWpSNUFw/l4UOzYaRDVJu+Enz4GNKDReaPEh8Uy77kNB1RqiOLs9fLLmFjCmhAM6yoVj4usYmrizYOFMa4IhVYT0C51Jf+bFpZ4NF5pelic+eySvwZ0h5o/m2G6f86VF105yaDReckJH30Jnc+/bZGYLUskXVZK+UKjnZ6kwLm5MiwfdatH9XAkMxHyeICqQREfcC8/xobpEB+HOWa5qzIiEN1uDYtF8tk7ohaObdO7QIjAauLQGOX2J818yhRt2t3K+2aJY/xfyI+YI7p4nDFFyyzxkKFlA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
+ by DU0PR08MB9509.eurprd08.prod.outlook.com (2603:10a6:10:44f::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.25; Thu, 29 Sep
+ 2022 07:52:46 +0000
+Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
+ ([fe80::5174:25c7:6df8:741b]) by AS8PR08MB7095.eurprd08.prod.outlook.com
+ ([fe80::5174:25c7:6df8:741b%8]) with mapi id 15.20.5676.020; Thu, 29 Sep 2022
+ 07:52:46 +0000
+From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Cc: den@virtuozzo.com,
+	michael.roth@amd.com,
+	kkostiuk@redhat.com
+Subject: [PATCH v2 0/7] qga: Add FreeBSD support
+Date: Thu, 29 Sep 2022 09:52:32 +0200
+Message-Id: <20220929075239.1675374-1-alexander.ivanov@virtuozzo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AS9PR0301CA0039.eurprd03.prod.outlook.com
+ (2603:10a6:20b:469::8) To AS8PR08MB7095.eurprd08.prod.outlook.com
+ (2603:10a6:20b:402::11)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <cover.1664108862.git.balaton@eik.bme.hu>
- <ed0551ed1d861c50706e27b39f24fd4699429c7e.1664108862.git.balaton@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <ed0551ed1d861c50706e27b39f24fd4699429c7e.1664108862.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 13/13] mac_nvram: Use NVRAM_SIZE constant
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|DU0PR08MB9509:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1cb8e49d-0e09-443a-c895-08daa1ef98da
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Vc3G+hTgEnaTmGS2yEOOe4cq+CYr7IH7URLNza6EvWnJqjDlYqsInie+FREU5tXzPtc7V8uuk7cG/EQxpTXYJPJjT/23q5trt8e5KvsbGmAV+a6KG5YNOMwhmswO6iX8t1qvr1+i+8Dg+USV6wtIKyN8+SgX55u+RduOz67tiABXNVNCPiJt81p+RTW7pFv1LPyqEHjMDx7e4M4/CgBCC1GdomOTISIQbXhfsorUAIpfYLcHks3b92wqItTzE1gKC+1ItAcglrvx7zamMUaU1N9K3sEpp1t8V0N/o7VvHe56+hKfncXgUOx7Aul3FixJEoC+pcVPNldGGJJQwQeuqY/w62DqvC4YfBrndpaTG5gxPHFsnvRhriBVFvuI1kkCF4GxVSXWA5izz796khnSvzrJ2SQ694PzbR2UFFsXAOhsJ/g9V9JtqyhyCcgsf5dccXjmDPvrmE69MZfwD7rw/sBEPVclCjOjxafxPGR/jLzqUwSvunGl9Lnti7qaLHxZvzJ8HkqJ/enLI3mBRB9KrXhe3yDHbD8sP7qEEiF0j4RKBwtXayYz7QENyULW7FvYsTEiLmO67uCoYLNJuHjyS4nDhbhNb4B3TbLqXfQC/gkKJkqlNd/cPkZP81RGhanHS06zJorUfu+TrN/6X1PDeTAOVeTnatEmLnLsGmqopv9YnsAvBEDoeydzyTfVQ2bhYozL+/w/lDpR7jwik82fWjTCD2MX85qotGUglYNH6VArtQSRtPCmlU79aDUuybV6
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(366004)(39850400004)(376002)(396003)(346002)(451199015)(2616005)(38100700002)(38350700002)(86362001)(6486002)(478600001)(8936002)(83380400001)(5660300002)(6506007)(26005)(6512007)(316002)(6666004)(2906002)(6916009)(41300700001)(8676002)(36756003)(52116002)(44832011)(186003)(66476007)(66556008)(66946007)(4326008)(1076003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CJe6rgTVxnLoU0oHbcT/uMWfgxeUsf5UHpH5dRHePTEIOa4bWR/qduHh5i+a?=
+ =?us-ascii?Q?HqEaSqtse86pg/UAMfcM1By60lVx8/LDZohk1jo5Ss7I1YJPojg9xyYcQrUF?=
+ =?us-ascii?Q?RxQTLFuXZzdqXQBOgQ0HTPKpIqn67p4/VMTqclpKYbqWmfZf7Z5+mNDLDiwR?=
+ =?us-ascii?Q?p4Ck+G4UvEjk9yYuXmuHx88mIPz/3RpX2HHKGyqFb6Xe3b+ZSC9MjU4voEvc?=
+ =?us-ascii?Q?S6R0VJbCVySnIp7xovj4uvGRlHjw6vbUlj9kWrRJ7+l1joJiILHn4H97/by3?=
+ =?us-ascii?Q?GFr1IMUurwkK29pHtxTiE2F7I9GjuLZLK7x6RAt7y1gHIQeQVhSlNReUFprE?=
+ =?us-ascii?Q?2kWCHwJU43zhvI3/kj+VpxWioilOEdSbuCsctYhYK+4fCy3dHDpuvAlHHU/F?=
+ =?us-ascii?Q?B1lbgb78tWpbmC8kO8rkVhTzwQl46z6jdoHQ4Y6U35vCncpBSSJj1bzqi0k8?=
+ =?us-ascii?Q?JrJmPqgdZ+3HHYgJ6iHvksIscPtwjpNTitVTaTLuucdhlfB4Ff00c1wpdVWX?=
+ =?us-ascii?Q?ZtH+to+oe3w+Nlwnkb5GGx/0Wl7XvsRR/tWmvVucnFIUqeooNqtEzL1XOHu3?=
+ =?us-ascii?Q?g+UtYqab1PEm6I6B3QRHHPG78gCF0LxdWlkTRjV1ZmU+rsbAn4fEJJCMZgK9?=
+ =?us-ascii?Q?+9tXUIiGUNU1XC+F/D4XNJaWNP3tZ5/B5CVWhzmmZ+cSlzZ920+1EvD44FCW?=
+ =?us-ascii?Q?/xw2IAZS3/6B72wAz/aMER4GjXNFHe9DKS01OAIHa2BeTd7NkS7+YOcRJYld?=
+ =?us-ascii?Q?059x8BA+ykWbV/IcVyx0M2YS2ugc0o8VZLidhtY3UnM3Uj/vEFvCMczgHfjz?=
+ =?us-ascii?Q?ZiuHFLjqU+vOeeFB8zzh6yMTsng4aWsU6psc9fxwptU+K2shs7/LPnrr2Kpu?=
+ =?us-ascii?Q?SdlRe977fOWwJSebNYOovhSdh4p0QKucErZ5igamGVgAa57hb/GfxNOuuTBd?=
+ =?us-ascii?Q?q2MNHQ4gIoJZ4g5hF9CXMjqenm09bjjlqZ7EQ9sHdNsIEqkEt3PTjVZLl1up?=
+ =?us-ascii?Q?V4dWplSQghRbvqIuGHBcRtg9f+yBA8hwuOSqkIZqEOrzlxYpHJm7S2gR1i9J?=
+ =?us-ascii?Q?vySyX6LmIJBwOpUxR3MX8LpNVS0x5m9TlL3kQtpdQwK3Egpxr6ZojuL7dB6N?=
+ =?us-ascii?Q?yjJskgRfKjzg8eFlnMnoHDZ82wkrbjELldyq+Thgt26iGfFwHQ9Yn2w5T3MG?=
+ =?us-ascii?Q?lhRaq8oHlvfd0+CB442ZOvXsryGoWhQ/XK/7p9sT8r/TdLzsare3VK15GYNd?=
+ =?us-ascii?Q?xdIBnqg917RCh7tpimLgbW7DJj7IpjtGnnUhaFioFWVBV9Xn/HyfjcbJnv9R?=
+ =?us-ascii?Q?56T/kY7scdzyNcI+PpWaUdkl40kIxr5e/t7VK7Shctcl62p5s+4nKETcW835?=
+ =?us-ascii?Q?2+E95StslEXZlN5CpeW013eGJJCQVq4plctMHhXC+KOP+L7arfmyvwwOyri3?=
+ =?us-ascii?Q?nYpn+urqOc21DRoP/+zPenJNkp/XuV9jL2PCTSqK3Sx2U89TvQhla2KsulEP?=
+ =?us-ascii?Q?BNMa9sU0DkXK4W7C6SPGTmsaZ/EHuuP4Z0uZ6O0JLOp+MFbOQOn+wkGUdCfE?=
+ =?us-ascii?Q?2oTm4bhNZcw54rg9vPBGxF1VVubcaiNcESrUQ26Tc+CBPGwJcucLXm20ZjQw?=
+ =?us-ascii?Q?mQ=3D=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1cb8e49d-0e09-443a-c895-08daa1ef98da
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 07:52:46.1501 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 43nlE6rw90AB2G7DYA9+H1fm4DENw7dVhKBseXmjDXxccYS+P1uYHWacR5ow5t5fVnfwtFoUDn5xmL2OBCiHCT4ipf+JGDrSN3XBknNub2o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9509
+Received-SPF: pass client-ip=2a01:111:f400:fe0c::71f;
+ envelope-from=alexander.ivanov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,69 +137,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/09/2022 13:38, BALATON Zoltan wrote:
+Add freeze/thaw, shutdown/halt/reboot and password setting support for
+FreeBSD.
 
-> The NVRAM_SIZE constant was defined but not used. Rename it to
-> MACIO_NVRAM_SIZE to match the device model and use it where appropriate.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/misc/macio/macio.c        | 2 +-
->   hw/ppc/mac_newworld.c        | 4 ++--
->   include/hw/nvram/mac_nvram.h | 3 +--
->   3 files changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-> index 93a7c7bbc8..08dbdd7fc0 100644
-> --- a/hw/misc/macio/macio.c
-> +++ b/hw/misc/macio/macio.c
-> @@ -226,7 +226,7 @@ static void macio_oldworld_init(Object *obj)
->   
->       object_initialize_child(OBJECT(s), "nvram", &os->nvram, TYPE_MACIO_NVRAM);
->       dev = DEVICE(&os->nvram);
-> -    qdev_prop_set_uint32(dev, "size", 0x2000);
-> +    qdev_prop_set_uint32(dev, "size", MACIO_NVRAM_SIZE);
->       qdev_prop_set_uint32(dev, "it_shift", 4);
->   
->       for (i = 0; i < 2; i++) {
-> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-> index c0b2173cbd..37fb7845f1 100644
-> --- a/hw/ppc/mac_newworld.c
-> +++ b/hw/ppc/mac_newworld.c
-> @@ -445,12 +445,12 @@ static void ppc_core99_init(MachineState *machine)
->           nvram_addr = 0xFFE00000;
->       }
->       dev = qdev_new(TYPE_MACIO_NVRAM);
-> -    qdev_prop_set_uint32(dev, "size", 0x2000);
-> +    qdev_prop_set_uint32(dev, "size", MACIO_NVRAM_SIZE);
->       qdev_prop_set_uint32(dev, "it_shift", 1);
->       sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->       sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, nvram_addr);
->       nvr = MACIO_NVRAM(dev);
-> -    pmac_format_nvram_partition(nvr, 0x2000);
-> +    pmac_format_nvram_partition(nvr, MACIO_NVRAM_SIZE);
->       /* No PCI init: the BIOS will do it */
->   
->       dev = qdev_new(TYPE_FW_CFG_MEM);
-> diff --git a/include/hw/nvram/mac_nvram.h b/include/hw/nvram/mac_nvram.h
-> index baa9f6a5a6..b780aca470 100644
-> --- a/include/hw/nvram/mac_nvram.h
-> +++ b/include/hw/nvram/mac_nvram.h
-> @@ -29,9 +29,8 @@
->   #include "exec/memory.h"
->   #include "hw/sysbus.h"
->   
-> -#define NVRAM_SIZE        0x2000
-> +#define MACIO_NVRAM_SIZE 0x2000
->   
-> -/* Mac NVRAM */
->   #define TYPE_MACIO_NVRAM "macio-nvram"
->   OBJECT_DECLARE_SIMPLE_TYPE(MacIONVRAMState, MACIO_NVRAM)
+v2:
+1: Reject the idea to move all the Linux-specific code to a separate file.
+   First commit now adds initial support of FreeBSD. Fixed device paths
+   and fixed virtio device initialization (disable echo). Add comment why
+   we should disable the code under HAVE_GETIFADDRS in FreeBSD.
+2: Replace the second commit (which now is the first) by moving
+   Linux-specific freeze/thaw code to a separate file commands-linux.c.
+3: Add error raising if stat() returns error. Replaced strcmp() calls by
+   g_str_equal(). Add a comment explaining why UFSRESUME isn't necessary.
+4: Replace #elifdef by #elif defined().
+5: Now the code doesn't move from one file to aanother but still is
+   moving inside file so the patch doesn't become easier to review. =(
+   Fixed typos.
+6,7: New patches. Add guest-network-get-interfaces command support.
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Alexander Ivanov (7):
+  qga: Add initial FreeBSD support
+  qga: Move Linux-specific FS freeze/thaw code to a separate file
+  qga: Add UFS freeze/thaw support for FreeBSD
+  qga: Add shutdown/halt/reboot support for FreeBSD
+  qga: Add support for user password setting in FreeBSD
+  qga: Move HW address getting to a separate function
+  qga: Add HW address getting for FreeBSD
 
+ meson.build           |   2 +-
+ qga/channel-posix.c   |  14 +
+ qga/commands-bsd.c    | 193 ++++++++++
+ qga/commands-common.h |  52 +++
+ qga/commands-linux.c  | 286 ++++++++++++++
+ qga/commands-posix.c  | 843 ++++++++++++++++--------------------------
+ qga/main.c            |  13 +-
+ qga/meson.build       |   6 +
+ 8 files changed, 867 insertions(+), 542 deletions(-)
+ create mode 100644 qga/commands-bsd.c
+ create mode 100644 qga/commands-linux.c
 
-ATB,
+-- 
+2.34.1
 
-Mark.
 
