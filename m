@@ -2,81 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839A45EEDF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 08:34:05 +0200 (CEST)
-Received: from localhost ([::1]:52230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677265EEDF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 08:35:26 +0200 (CEST)
+Received: from localhost ([::1]:48070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odn7T-0005q6-5H
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 02:34:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60278)
+	id 1odn8m-0006uC-5s
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 02:35:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odmww-0000xc-B5
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:23:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60484)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odn15-0003Qc-9y
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:27:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odmws-0004hb-R8
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:23:08 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odn10-0005Tm-K6
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:27:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664432584;
+ s=mimecast20190719; t=1664432840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nfBnOEJkyAEmbSmjfJKkRj4biMCajXPkc7fP42nBfWg=;
- b=ViKWEVl4RfTrhRlb79Oew25WirT7Px4Mpd9+6vKzYn/mgDMsUkSYlp/pbLxcjl1/1SHky6
- jv0C4nd1cQVfkXEUgiBpBcAiZwLfkKmwh0qNwMTIj2jfuPdyziehhwYr7VBDari+zLyQlM
- 30cHK4Ww0qlqji7oIZfOg8xVE3O5Xkk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-470-oKppohgRNlSKkLuNp9K3ww-1; Thu, 29 Sep 2022 02:23:02 -0400
-X-MC-Unique: oKppohgRNlSKkLuNp9K3ww-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA1BC1C05141;
- Thu, 29 Sep 2022 06:23:01 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 18AB3492CA2;
- Thu, 29 Sep 2022 06:23:01 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 307DA21E691D; Thu, 29 Sep 2022 08:22:58 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: Sam Li <faithilikerun@gmail.com>,  qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,  Dmitry Fomichev
- <Dmitry.Fomichev@wdc.com>,  Hannes Reinecke <hare@suse.de>,  qemu block
- <qemu-block@nongnu.org>,  Hanna Reitz <hreitz@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  Fam Zheng <fam@euphon.net>,  Kevin Wolf
- <kwolf@redhat.com>
-Subject: Re: [PATCH v8 3/7] block: add block layer APIs resembling Linux
- ZonedBlockDevice ioctls
-References: <20220826161704.8076-1-faithilikerun@gmail.com>
- <87h71ugczz.fsf@pond.sub.org>
- <CAAAx-8Kc0UQDVXCTdFWz1E1K1xJTnUoGDko_khxEnHrPH6MYxw@mail.gmail.com>
- <87fshcdd4x.fsf@pond.sub.org>
- <CAAAx-8LN6tK+VkPVDNHM-hCkbpNE2iHZojCK1aO5GKtme1iRNQ@mail.gmail.com>
- <87r10vywg3.fsf@pond.sub.org>
- <2537ba13-e915-1378-4414-ed999dc93a9e@opensource.wdc.com>
-Date: Thu, 29 Sep 2022 08:22:58 +0200
-In-Reply-To: <2537ba13-e915-1378-4414-ed999dc93a9e@opensource.wdc.com> (Damien
- Le Moal's message of "Fri, 2 Sep 2022 11:13:11 +0900")
-Message-ID: <87bkqyvgvx.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=X7UYIYBhMAykrMjGYWJYok9j76dBU5RTmcx2FJRdGLo=;
+ b=dBwqAw/dyzNvnWG3c9tyPnzi5LY0A+uMtqpekmsWHmTsUN2T6mpHQRZmZM/AK6Cs6l/AaZ
+ ZguwZsMB0aiQMr5D2TZZmVaRPbdr1txbB7rPQNuNUMUvo3YdTii83Zt4GJGDxMAqMOMvdc
+ Cd3ylXnkR6XA8IJ8QF579yJPDrmThGY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-533-n_fgGV7tP1yy4_N3vDlrAw-1; Thu, 29 Sep 2022 02:27:19 -0400
+X-MC-Unique: n_fgGV7tP1yy4_N3vDlrAw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ b5-20020a05600c4e0500b003b499f99aceso2515978wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 23:27:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=X7UYIYBhMAykrMjGYWJYok9j76dBU5RTmcx2FJRdGLo=;
+ b=ydrazyyKon3nw7QOQgBTpMmkjKgveq/4SuEZOTknepwTZ8NMcnUSZiRcodQqhrV3l6
+ qe/W8IjgP4Xt755wLXrTjjc34wCn1zOWIlzWLG0sahNj+6bGt404HpSPyYK92AJ9i0o0
+ tfXFD+4yEa0ggNDpk0RNAhPQYnf3CVq8J5hJJ8zB1zyKAg/lshzJYxGuFhb35BBnrmHI
+ EfeV0gnR+VETrpCQ4OOYKSN3jGax7c8i7nHHf/vm+YazLxklVcBbh6Bz1+rofbLII3tm
+ dqYG4lQD1LLMzScLEcSGSmokSP/sOOuoYmMm+97Ikqb02LeQGswl565EpNZfGJR9PjIh
+ u2AQ==
+X-Gm-Message-State: ACrzQf3JoDR7GdfeqJOTxIyYKaMe10P8j5Qim0VykwjGI2riVs1SSqg+
+ irIrUFCs3h/9AMwRE8+/E/TlgWUR9YeIkz3ABWpug4E+SHTv/SIkZgQnQxbvtIRqGZgshjf4q+i
+ ZllW91gkhoNK0+m0=
+X-Received: by 2002:a05:6000:1d83:b0:22c:aa0a:12 with SMTP id
+ bk3-20020a0560001d8300b0022caa0a0012mr916876wrb.471.1664432838197; 
+ Wed, 28 Sep 2022 23:27:18 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4tKEM+xLAn4pWN6ADMXFzit5bgE19aQCG1t37QUvutQdQw8HvsYHS2PqEra6oXiey7L7JnKw==
+X-Received: by 2002:a05:6000:1d83:b0:22c:aa0a:12 with SMTP id
+ bk3-20020a0560001d8300b0022caa0a0012mr916853wrb.471.1664432837952; 
+ Wed, 28 Sep 2022 23:27:17 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-55.web.vodafone.de.
+ [109.43.177.55]) by smtp.gmail.com with ESMTPSA id
+ 26-20020a05600c229a00b003b31fc77407sm3442198wmf.30.2022.09.28.23.27.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Sep 2022 23:27:17 -0700 (PDT)
+Message-ID: <4103733d-3bbe-18bd-a9ea-e2f24cbe8d43@redhat.com>
+Date: Thu, 29 Sep 2022 08:27:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 0/1] Update vfio-user module to the latest
+Content-Language: en-US
+To: Jag Raman <jag.raman@oracle.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>
+Cc: John Levon <levon@movementarian.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "Zhang, Chen" <chen.zhang@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xie Yongji <xieyongji@bytedance.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <cover.1659403195.git.jag.raman@oracle.com>
+ <MWHPR11MB00312737931679069FAAE7AB9B9D9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <e8eab8e6-e6a5-af95-223f-e0ca91b4d833@redhat.com>
+ <YuzT2MA9Q4mAr4eQ@redhat.com> <Yu+WYmwvr/1fBww+@movementarian.org>
+ <abc2219f-9ee6-59aa-fee6-4b0ec29aed2c@redhat.com>
+ <29C30B29-B948-4DCF-AB4A-C0CA6E3041A5@oracle.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <29C30B29-B948-4DCF-AB4A-C0CA6E3041A5@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,143 +115,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Damien Le Moal <damien.lemoal@opensource.wdc.com> writes:
+On 29/09/2022 03.52, Jag Raman wrote:
+> 
+> 
+>> On Aug 29, 2022, at 8:40 AM, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> On 07/08/2022 12.39, John Levon wrote:
+>>> On Fri, Aug 05, 2022 at 09:24:56AM +0100, Daniel P. Berrangé wrote:
+>> [...]
+>>>> If we do add something as a submodule for some reason, I'd like us to
+>>>> say upfront that this is for a fixed time period (ie maximum of 3
+>>>> releases aka 1 year) only after which we'll remove it no matter what.
+>>> I'm not clear on the costs of having the submodule: could you please explain why
+>>> it's an issue exactly?
+>>
+>> Some reasoning can be found here:
+>>
+>> https://lore.kernel.org/qemu-devel/d7a7b28f-a665-2567-0fb6-e31e7ecbb5c8@redhat.com/
+>>
+>>> I can only think of the flaky test issue (for which I'm
+>>> sorry).
+>>
+>> Speaking of that test issue, yes, it would be good to get this patch included now as soon as the 7.1 release has been done. Who's going to send a pull request for this?
+> 
+> Now that QEMU 7.1 has released, could we please pull this patch in - just so no one else has a bad experience when testing?
 
-> On 9/1/22 23:57, Markus Armbruster wrote:
->> Sam Li <faithilikerun@gmail.com> writes:
->>=20
->>> Markus Armbruster <armbru@redhat.com> =E4=BA=8E2022=E5=B9=B48=E6=9C=883=
-1=E6=97=A5=E5=91=A8=E4=B8=89 16:35=E5=86=99=E9=81=93=EF=BC=9A
->>>>
->>>> Sam Li <faithilikerun@gmail.com> writes:
->>>>
->>>>> Markus Armbruster <armbru@redhat.com> =E4=BA=8E2022=E5=B9=B48=E6=9C=
-=8830=E6=97=A5=E5=91=A8=E4=BA=8C 19:57=E5=86=99=E9=81=93=EF=BC=9A
+You are listed as maintainer for subprojects/libvfio-user in the MAINTAINERS 
+file, so I guess you should just go ahead and send a pull request for this?
 
-[...]
-
->>>>> Zoned_host_device is basically host_device + zone operations. It
->>>>> serves for a simple purpose: if the host device is zoned, register
->>>>> zoned_host_device driver; else, register host_device.
->>>>
->>>> Why would I ever want to use host_device instead of zoned_host_device?
->>>>
->>>> To answer this question, we need to understand how their behavior
->>>> differs.
->>>>
->>>> We can ignore the legacy protocol prefix / string filename part.
->>>>
->>>> All that's left seems to be "if the host device is zoned, then using t=
-he
->>>> zoned_host_device driver gets you the zoned features, whereas using the
->>>> host_device driver doesn't".  What am I missing?
->>>
->>> I think that's basically what users need to know about.
->>=20
->> Now answer my previous question, please: why would I ever want to use
->> host_device instead of zoned_host_device?
->>=20
->> Or in other words, why would I ever want to present a zoned host device
->> to a guest as non-zoned device?
->>=20
->>>>>> Notably common is .bdrv_file_open =3D hdev_open.  What happens when =
-you
->>>>>> try to create a zoned_host_device where the @filename argument is no=
-t in
->>>>>> fact a zoned device?
->>>>>
->>>>> If the device is a regular block device, QEMU will still open the
->>>>> device. For instance, I use a loopback device to test zone_report in
->>>>> qemu-io. It returns ENOTTY which indicates Inappropriate ioctl for the
->>>>> device. Meanwhile, if using a regular block device when emulation a
->>>>> zoned device on a guest os, the best case is that the guest can boot
->>>>> but has no emulated block device. In some cases, QEMU just terminates
->>>>> because the block device has not met the alignment requirements.
->>>>
->>>> I'm not sure I understand all of this.  I'm also not sure I have to :)
->>>
->>> Maybe I didn't explain it very well. Which part would you like to know
->>> more about?
->>=20
->> Let's try more specific questions.  Say I configure a zoned_host_device
->> backed by a host device that isn't zoned.
->>=20
->> 1. Is this configuration accepted?
->
-> If we assume we have the special zoned_host_device driver, with the
-> associated command line zoned_host_device option explicitly calling for
-> it, then no, I do not think this should be allowed at all and an error
-> should be returned on startup. That would be consistent with the fact that
-> the options zoned_host_device and host_device are different to make sure
-> we can check that the user knows what he/she/them is doing.
->
-> If we have only host_device as a setup option and driver, the driver
-> methods can be trivially adjusted to do the right thing based on the
-> device type (i.e. zoned vs regular/not zoned). However, that would prevent
-> an interesting future extension of this work to implement a full zone
-> emulation on top of a regular (not zoned) host block device.
->
-> With this in mind, we currently have the following:
->
-> 1) host_device option -> accept only regular non-zoned host block devices
-> 2) zoned_host_device option -> accept only zoned host block devices
-
-2) matches my intuitive expectations for this driver name.
-
-However, if host_device works even with a zoned host device before the
-patch presenting it as non-zoned to the guest, then it needs to continue
-to do so.
-
-> And in the future, we can have:
->
-> 1) host_device option -> accept only regular non-zoned host block devices
-> 2) zoned_host_device option -> accept any host block device type
-> 	a) Use native zone kernel API for zoned host block devices
-> 	b) Use full zone emulation for regular host block devices
-
-Understood.
-
-> But sure, internally, we could have a single driver structure with methods
-> adjusted to do the correct thing based on the device type and option
-> specified. Having a 1:1 mapping between the driver name and driver
-> structure does clarify things I think (even though there are indeed a lot
-> of methods that are identical).
-
-I think this is basically a matter of user interface design.  Let's
-review what we have: host_device and host_cdrom.  I'm only passingly
-familiar with them, so please correct my misunderstandings, if any.
-
-host_device and host_cdrom let you "pass through" a host device to a
-guest.
-
-host_cdrom presents a removable device to the guest.  I appears to
-accept any host block device, even a non-removable one.  What happens
-when you try to use a non-removable host device as removable guest
-device I don't know.
-
-host_device presents a non-removable device to the guest.  It accepts
-any host block device, even a removable one (as long as it has a
-medium).
-
-host_device detects whether the host device is a SCSI generic device.
-Guest devices scsi-hd and scsi-cd reject a SCSI generic host device.
-Guest device scsi-block requires one (I think).
-
-On the one hand, there is precedence for using different driver types
-for different kinds of host devices: host_cdrom for removable ones,
-host_device for non-removable ones.
-
-On the other hand, there is precedence for using a single driver type
-for different kinds of host devices, with dynamic detection: host_device
-both for SCSI generic and for others.
-
-On the third hand, the "different driver type" story is complicated by
-us accepting the "wrong" kind of host device at least in some scenarios.
-
-Kevin, do you have an opinion on how the user interface should be?
-
-Next, do you have one on how it can be, given what we have?
-
-[...]
+  Thomas
 
 
