@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09355EF77E
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:27:19 +0200 (CEST)
-Received: from localhost ([::1]:45882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268B15EF821
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:59:06 +0200 (CEST)
+Received: from localhost ([::1]:54102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oduVS-0003wd-7k
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:27:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48718)
+	id 1odv0C-0007qc-Oe
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:59:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3Q-0000fV-Qy
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:13 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40532)
+ id 1odsD1-0007UN-AN
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:07 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:45603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3J-0002Pi-TM
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:12 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- u16-20020a05600c211000b003b5152ebf09so3057127wml.5
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:50:02 -0700 (PDT)
+ id 1odsCu-0004On-RF
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:06 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ d12-20020a05600c3acc00b003b4c12e47f3so608876wms.4
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 05:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=BsedzBh6Y4TJDrXaXa5qF+9URUKHB7fH5rVkqYS1zZI=;
- b=DfUm2SI+LxnkGgIKagl85FSRNj9k3EtpLUl2tjSnEQs/HCpx2bqB2ZFc6LTgDFpD/B
- hK5cKzcu7GbB4E5Nrp+3hiwQoiDeilR2faDMLHZzusz2B2RdMrRCSO/vfO5KnM92AyOa
- wWBJ7Oq3SCCR79qJjLT2NXEKf3tiI2tQL8GYKGHpKc+7kjlkxCBnLbE5XDDluPR6Vt1j
- mnD7433I9ltpLjZmy/K+h0tiSKV3CxDs52zAeMUP9IjO0h5SHyHUW8htPouE5PDGOXpF
- WR3aqJoV1R+UObbADy/aiVNFvxWKja/d6c46xnRbWevnTnm56bh06JjTJfnmn2P3nrmP
- mmFQ==
+ bh=3gQSShOSw7mXVJmYGT4mj+J2+/RqeX/ZMhykdWqwlSw=;
+ b=VaJBxCICdK8dO8PMD/HcQOteW2Q5XNz3e6zY/2FT8jSgFXZYCgdv8kC8hJr0OXdkMr
+ rC8N5mdgexqCCH8X25ZcJGDTlzVWzw6OFGBFRRZ2eRRaIgI6Dh8JiJgiU3A/EjARRjeH
+ mYF9sRUR9KEQhwnvL/qr609pIKggp1E4Lwa9OERPK2w3a5rNvY2DwM2nnRv4i932TUaM
+ wlQktHgCBaHDNsC0wTIJiM9vasaMh/F7d0Ui6WFVYhByxPDNGR+Yrhs9H7cuQ+mLZomG
+ BTvDVPsSAVg/UMzheqHzEMlOIEolMjh36KiWlVmP4u6sMzApSPrvtfBDRekpp8KuhgqE
+ CEQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=BsedzBh6Y4TJDrXaXa5qF+9URUKHB7fH5rVkqYS1zZI=;
- b=1e9EG7lYk4qzLVFb1xDwaT+1y+miw67euc3BtSQbKz1/+D9ZwWbyRGEV9X/AXd+mah
- T5MQXiajN27XMHQtlufyodejCoDaIPRMs8iDOnblkGW15/3SHJ//J3gJE9BKJPthqnEs
- dCC8BPrkfWpKbVqcn0/rYGiYvG/alP3C3s2OZiysdx4C34CBRw4WXcnPYLUT4F0KPplw
- HLnTtweSiSNP6dWDUqQs/VcyXkQD0tuz57gtAO9qHjI3gCocFZ5V7zqUZADfQgN7gunI
- Lh0quNzITJsP5bNlG0cyINtOemb+BlonbdkIQ0i/DIm1A1E+I5ZTmpqNjiMMxoY1wmv5
- i79w==
-X-Gm-Message-State: ACrzQf2weFf1koFHNc9nTNS9uqvXk1vkr8PsrGCFPvAEjBqwtN/TELBD
- RmqYyEjYma8xOyI9Jru39oNwTQ==
-X-Google-Smtp-Source: AMsMyM4LejfhBvxnDiU7XZ3IoKbmHV6R2aWKxKLU6n0gRNSaz6nQ+nHKLEBzpNs7UIloGf1YS/Ob/Q==
-X-Received: by 2002:a05:600c:20b:b0:3b4:86ff:cd with SMTP id
- 11-20020a05600c020b00b003b486ff00cdmr10453918wmi.35.1664452202013; 
- Thu, 29 Sep 2022 04:50:02 -0700 (PDT)
+ bh=3gQSShOSw7mXVJmYGT4mj+J2+/RqeX/ZMhykdWqwlSw=;
+ b=Jin0rL8+r7sIJ0byCZyytb9fFSeddXhgGIagE3U3BtcT363KqswOF469z0aK7axxf8
+ A4eCaADLkc/PgRnMRhfR34nbzSjXoB26seT2pPl2baIYu9eq2FDuEwGdsanT2fWsIMpO
+ Cx5KhYNQfpE+KXYsSZ2y8lKj8H9tm7h1NPrsEQSIIvfHKVkXj3tS8J9veR4ii1RxC+W6
+ MBNBk8S849JH5nBQQIxigDg2VewUs/KSvfWAEaoewZuf+wSpEmCQBZZky0aGhOwKbTv7
+ cZCYo0/JvDsHcjgPiftjEblbgAbs2mwzlPjBXNgBREnSzbVIxRZDc3hB2sC/HxQOeRCr
+ OVIA==
+X-Gm-Message-State: ACrzQf3for9O6omnwVeFaXzQHJ+Y8QJwP9tTywIv68KtHmgphz2YNMK+
+ p6tOT00g4WRPfiR8R4R0UTxVf8wqmZ2hrw==
+X-Google-Smtp-Source: AMsMyM6iZfyvknRweKg6ydMAXZ0KMtmoAwGE7wm8lic2/c2RoCdLhxoGwlLsKPB6Y9yVdB1iiuoDDQ==
+X-Received: by 2002:a05:600c:282:b0:3b4:76c8:da3c with SMTP id
+ 2-20020a05600c028200b003b476c8da3cmr2122404wmk.153.1664452799239; 
+ Thu, 29 Sep 2022 04:59:59 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- r9-20020adfda49000000b002258235bda3sm6711234wrl.61.2022.09.29.04.49.55
+ j1-20020a5d4481000000b0022ae401e9e0sm6394434wrq.78.2022.09.29.04.59.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:49:58 -0700 (PDT)
+ Thu, 29 Sep 2022 04:59:55 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7EC851FFCA;
+ by zen.linaroharston (Postfix) with ESMTP id B29351FFCB;
  Thu, 29 Sep 2022 12:42:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -66,17 +66,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v1 20/51] tests/tcg: remove -f from Makefile invocation
-Date: Thu, 29 Sep 2022 12:42:00 +0100
-Message-Id: <20220929114231.583801-21-alex.bennee@linaro.org>
+Subject: [PATCH  v1 22/51] tests/tcg: unify ppc64 and ppc64le Makefiles
+Date: Thu, 29 Sep 2022 12:42:02 +0100
+Message-Id: <20220929114231.583801-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,77 +101,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Instead of linking tests/tcg/Makefile.target into the build tree, name
-the symbolic link "Makefile" and create it in every target subdirectory.
-This makes it possible to just invoke "make" in tests/tcg subdirectories.
+Make tests/tcg/ppc64le include tests/tcg/ppc64 instead of duplicating
+the rules.  Because the ppc64le vpath includes tests/tcg/ppc64 but
+not vice versa, the tests have to be moved from tests/tcg/ppc64le/
+to tests/tcg/ppc64.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configure              | 7 ++++---
- tests/Makefile.include | 7 +++----
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ tests/tcg/{ppc64le => ppc64}/bcdsub.c         |  0
+ tests/tcg/{ppc64le => ppc64}/byte_reverse.c   |  0
+ tests/tcg/{ppc64le => ppc64}/mffsce.c         |  0
+ tests/tcg/{ppc64le => ppc64}/mtfsf.c          |  0
+ .../{ppc64le => ppc64}/non_signalling_xscv.c  |  0
+ .../signal_save_restore_xer.c                 |  0
+ tests/tcg/{ppc64le => ppc64}/xxspltw.c        |  0
+ tests/tcg/ppc64/Makefile.target               |  1 -
+ tests/tcg/ppc64le/Makefile.target             | 26 +------------------
+ 9 files changed, 1 insertion(+), 26 deletions(-)
+ rename tests/tcg/{ppc64le => ppc64}/bcdsub.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/byte_reverse.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/mffsce.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/mtfsf.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/non_signalling_xscv.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/signal_save_restore_xer.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/xxspltw.c (100%)
 
-diff --git a/configure b/configure
-index 784b77ae90..a48a731bf4 100755
---- a/configure
-+++ b/configure
-@@ -2282,7 +2282,6 @@ fi
- # tests might fail. Prefer to keep the relevant files in their own
- # directory and symlink the directory instead.
- LINKS="Makefile"
--LINKS="$LINKS tests/tcg/Makefile.target"
- LINKS="$LINKS pc-bios/optionrom/Makefile"
- LINKS="$LINKS pc-bios/s390-ccw/Makefile"
- LINKS="$LINKS pc-bios/vof/Makefile"
-@@ -2529,6 +2528,7 @@ fi
- echo "# Automatically generated by configure - do not modify" > $makefile
+diff --git a/tests/tcg/ppc64le/bcdsub.c b/tests/tcg/ppc64/bcdsub.c
+similarity index 100%
+rename from tests/tcg/ppc64le/bcdsub.c
+rename to tests/tcg/ppc64/bcdsub.c
+diff --git a/tests/tcg/ppc64le/byte_reverse.c b/tests/tcg/ppc64/byte_reverse.c
+similarity index 100%
+rename from tests/tcg/ppc64le/byte_reverse.c
+rename to tests/tcg/ppc64/byte_reverse.c
+diff --git a/tests/tcg/ppc64le/mffsce.c b/tests/tcg/ppc64/mffsce.c
+similarity index 100%
+rename from tests/tcg/ppc64le/mffsce.c
+rename to tests/tcg/ppc64/mffsce.c
+diff --git a/tests/tcg/ppc64le/mtfsf.c b/tests/tcg/ppc64/mtfsf.c
+similarity index 100%
+rename from tests/tcg/ppc64le/mtfsf.c
+rename to tests/tcg/ppc64/mtfsf.c
+diff --git a/tests/tcg/ppc64le/non_signalling_xscv.c b/tests/tcg/ppc64/non_signalling_xscv.c
+similarity index 100%
+rename from tests/tcg/ppc64le/non_signalling_xscv.c
+rename to tests/tcg/ppc64/non_signalling_xscv.c
+diff --git a/tests/tcg/ppc64le/signal_save_restore_xer.c b/tests/tcg/ppc64/signal_save_restore_xer.c
+similarity index 100%
+rename from tests/tcg/ppc64le/signal_save_restore_xer.c
+rename to tests/tcg/ppc64/signal_save_restore_xer.c
+diff --git a/tests/tcg/ppc64le/xxspltw.c b/tests/tcg/ppc64/xxspltw.c
+similarity index 100%
+rename from tests/tcg/ppc64le/xxspltw.c
+rename to tests/tcg/ppc64/xxspltw.c
+diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
+index 331fae628e..7db7a3e2b3 100644
+--- a/tests/tcg/ppc64/Makefile.target
++++ b/tests/tcg/ppc64/Makefile.target
+@@ -3,7 +3,6 @@
+ # ppc64 specific tweaks
  
- config_host_mak=tests/tcg/config-host.mak
-+mkdir -p tests/tcg
- echo "# Automatically generated by configure - do not modify" > $config_host_mak
- echo "SRC_PATH=$source_path" >> $config_host_mak
- echo "HOST_CC=$host_cc" >> $config_host_mak
-@@ -2632,8 +2632,9 @@ for target in $target_list; do
-       got_cross_cc=yes
-   fi
-   if test $got_cross_cc = yes; then
--      mkdir -p tests/tcg/$target
--      ln -sf ../config-$target.mak tests/tcg/$target/config-target.mak
-+      mkdir -p "tests/tcg/$target"
-+      ln -sf "$source_path/tests/tcg/Makefile.target" "tests/tcg/$target/Makefile"
-+      ln -sf "../config-$target.mak" "tests/tcg/$target/config-target.mak"
-       echo "TARGET=$target" >> "$config_target_mak"
-       echo "QEMU=$PWD/$qemu" >> "$config_target_mak"
-       echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> $makefile
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 826b1895f4..caef287957 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -50,20 +50,19 @@ $(foreach TARGET,$(TCG_TESTS_TARGETS), \
- .PHONY: $(TCG_TESTS_TARGETS:%=build-tcg-tests-%)
- $(TCG_TESTS_TARGETS:%=build-tcg-tests-%): build-tcg-tests-%: $(BUILD_DIR)/tests/tcg/config-%.mak
- 	$(call quiet-command, \
--            $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS), \
-+            $(MAKE) -C tests/tcg/$* $(SUBDIR_MAKEFLAGS), \
-         "BUILD","$* guest-tests")
+ VPATH += $(SRC_PATH)/tests/tcg/ppc64
+-VPATH += $(SRC_PATH)/tests/tcg/ppc64le
  
- .PHONY: $(TCG_TESTS_TARGETS:%=run-tcg-tests-%)
- $(TCG_TESTS_TARGETS:%=run-tcg-tests-%): run-tcg-tests-%: build-tcg-tests-%
- 	$(call quiet-command, \
--           $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) \
--                        SPEED=$(SPEED) run, \
-+           $(MAKE) -C tests/tcg/$* $(SUBDIR_MAKEFLAGS) SPEED=$(SPEED) run, \
-         "RUN", "$* guest-tests")
+ ifneq ($(CROSS_CC_HAS_POWER8_VECTOR),)
+ PPC64_TESTS=bcdsub non_signalling_xscv
+diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
+index 6ca3003f02..daad5118a5 100644
+--- a/tests/tcg/ppc64le/Makefile.target
++++ b/tests/tcg/ppc64le/Makefile.target
+@@ -4,28 +4,4 @@
  
- .PHONY: $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%)
- $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%): clean-tcg-tests-%:
- 	$(call quiet-command, \
--           $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) clean, \
-+           $(MAKE) -C tests/tcg/$* $(SUBDIR_MAKEFLAGS) clean, \
-         "CLEAN", "$* guest-tests")
+ VPATH += $(SRC_PATH)/tests/tcg/ppc64le
  
- .PHONY: build-tcg
+-ifneq ($(CROSS_CC_HAS_POWER8_VECTOR),)
+-PPC64LE_TESTS=bcdsub non_signalling_xscv
+-endif
+-$(PPC64LE_TESTS): CFLAGS += -mpower8-vector
+-
+-ifneq ($(CROSS_CC_HAS_POWER10),)
+-PPC64LE_TESTS += byte_reverse sha512-vector
+-endif
+-byte_reverse: CFLAGS += -mcpu=power10
+-run-byte_reverse: QEMU_OPTS+=-cpu POWER10
+-run-plugin-byte_reverse-with-%: QEMU_OPTS+=-cpu POWER10
+-
+-sha512-vector: CFLAGS +=-mcpu=power10 -O3
+-sha512-vector: sha512.c
+-	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+-
+-run-sha512-vector: QEMU_OPTS+=-cpu POWER10
+-run-plugin-sha512-vector-with-%: QEMU_OPTS+=-cpu POWER10
+-
+-PPC64LE_TESTS += mtfsf
+-PPC64LE_TESTS += mffsce
+-PPC64LE_TESTS += signal_save_restore_xer
+-PPC64LE_TESTS += xxspltw
+-
+-TESTS += $(PPC64LE_TESTS)
++include $(SRC_PATH)/tests/tcg/ppc64/Makefile.target
 -- 
 2.34.1
 
