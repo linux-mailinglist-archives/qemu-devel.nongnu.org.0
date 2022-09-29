@@ -2,104 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5C75F0158
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 01:23:55 +0200 (CEST)
-Received: from localhost ([::1]:44806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080515F0160
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 01:26:23 +0200 (CEST)
+Received: from localhost ([::1]:52920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oe2sk-0004lX-Nw
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 19:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37882)
+	id 1oe2v8-0000Mq-5O
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 19:26:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oe2rM-0003En-0T
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 19:22:28 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:44901)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oe2rJ-0008LJ-Vo
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 19:22:27 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- i15-20020a17090a4b8f00b0020073b4ac27so2715497pjh.3
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 16:22:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=SlBvqIbtpL0VufXgwK7uhVH38JuonCmEli0InnRVEwc=;
- b=WuAt0WRwYyROULHsLoKuJv2kXZVaCxvv5se5SYxucmOEgMFUNx2D57LgdDwCei2x1H
- BHZJk6cnqMJ9lpHSGjIAQZn0y8BmTQuG82WIZcNgoFeD7LG4pqgoDjfwNUvpxX0kJLxv
- Dw+WsZzJyUYdaQkT0re+VcE6b51zajqB6Pihs0d5Dm06lt/3y15zlDRlEVhaJYcITjqq
- kxupICcV/19shZioX2psCPJiZdpZ4ysq5/1T3jM0Xx0pSi+GIDFyiPzVO05s6m98CDTT
- tOo/5JDD8RVKU0DNuMgu6l56RXQ8C5tSDlMssCXWcmrz1Q8KJiW+10QJLFQH8nbm/WCu
- b7Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=SlBvqIbtpL0VufXgwK7uhVH38JuonCmEli0InnRVEwc=;
- b=p5I1EsuXH1OGhhXeStWqjyodMBaaGX7xA0Lgsc1kzG5mJUAjnm0bnD5LPouD8IcTeu
- +1pj11BJC+lBfRjHkogiRXX2q1PPXkbtayc3c9ywqQ0OQUHJUzEGaebRNjEZnPrfRYUf
- Sn8FiOkd8/L5RBYE1HFE6SJAxupLVAAfIGn1zN3cwfI02K4zt2wBC0wr7dfwq/X7U0SH
- RiK8R7eyBIyHAXoCxuqUoqjzz4Yp2W/VR11IUHcJAnpKRWAzwFFz9BVID6ihAwqBe8XT
- BrczS5FcYbx95GLg1pzMpymSr0pXGRsk4xXDkvfWV7g87bBK3idUecNggxMSAqIx2yTN
- MB3Q==
-X-Gm-Message-State: ACrzQf03gcM8ha2BvjmWiMH42dMxO2pGV/0lrtuFAvjBxEPfKyLfzWSu
- WfbVfOXqpqPWxn4EuEqSj1ZqJg==
-X-Google-Smtp-Source: AMsMyM75zZcPQQjlBQckiGdn+LExa+Ehm1TbE+ovPavYyibrIT8X85CNF5p+NDaTg0PkeD+6UnKilA==
-X-Received: by 2002:a17:90b:1d81:b0:205:f381:7372 with SMTP id
- pf1-20020a17090b1d8100b00205f3817372mr11503541pjb.165.1664493743484; 
- Thu, 29 Sep 2022 16:22:23 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- g11-20020a17090a290b00b001f319e9b9e5sm4062149pjd.16.2022.09.29.16.22.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 16:22:22 -0700 (PDT)
-Date: Thu, 29 Sep 2022 23:22:19 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Isaku Yamahata <isaku.yamahata@gmail.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <YzYoq/4AcWGS/noD@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
- <20220929224516.GA2260388@ls.amr.corp.intel.com>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org>)
+ id 1oe2sp-0004q7-8U
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 19:23:59 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:50434)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org>)
+ id 1oe2sn-0008VD-Hd
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 19:23:58 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 31759B8267F;
+ Thu, 29 Sep 2022 23:23:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D13EC433C1;
+ Thu, 29 Sep 2022 23:23:52 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="PDjBpkXD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1664493829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=s4iMmrVnKX4fWtisVeaMk48H8te3Kjy/7gY9G+U0Yws=;
+ b=PDjBpkXDpT3TzvY1RJUbLEqYU6B0N2jPyu6aXkuySZM6+tsjvKuL2VGi+iBmPXZB8gb7aj
+ WGW0jdoNHEMgrdlRIKM6fsaCx+S2UwR2RsKjTAAbORhiRpkPbKjH6r/fqNTcyVI44TkgXe
+ 4MHrifYxMApW0WftMQYiulvE/OPAM1E=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 94819b2a
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Thu, 29 Sep 2022 23:23:48 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH 1/6] device-tree: add re-randomization helper function
+Date: Fri, 30 Sep 2022 01:23:34 +0200
+Message-Id: <20220929232339.372813-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220929224516.GA2260388@ls.amr.corp.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=seanjc@google.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,43 +79,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 29, 2022, Isaku Yamahata wrote:
-> On Thu, Sep 15, 2022 at 10:29:07PM +0800,
-> Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > @@ -4645,14 +4672,20 @@ static long kvm_vm_ioctl(struct file *filp,
-> >  		break;
-> >  	}
-> >  	case KVM_SET_USER_MEMORY_REGION: {
-> > -		struct kvm_userspace_memory_region kvm_userspace_mem;
-> > +		struct kvm_user_mem_region mem;
-> > +		unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> > +
-> > +		kvm_sanity_check_user_mem_region_alias();
-> >  
-> >  		r = -EFAULT;
-> > -		if (copy_from_user(&kvm_userspace_mem, argp,
-> > -						sizeof(kvm_userspace_mem)))
-> > +		if (copy_from_user(&mem, argp, size);
-> > +			goto out;
-> > +
-> > +		r = -EINVAL;
-> > +		if (mem.flags & KVM_MEM_PRIVATE)
-> >  			goto out;
-> 
-> Nit:  It's better to check if padding is zero.  Maybe rename it to reserved.
-> 
-> +               if (mem.pad1 || memchr_inv(mem.pad2, 0, sizeof(mem.pad2)))
-> +                       goto out;
+When the system reboots, the rng-seed that the FDT has should be
+re-randomized, so that the new boot gets a new seed. Several
+architectures require this functionality, so export a function for
+injecting a new seed into the given FDT.
 
-No need, KVM has more or less settled on using flags instead "reserving" bytes.
-E.g. if/when another fancy feature comes along, we'll add another KVM_MEM_XYZ
-and only consume the relevant fields when the flag is set.  Reserving bytes
-doesn't work very well because it assumes that '0' is an invalid value, e.g. if
-the future expansion is for a non-private file descriptor, then we'd need a new
-flag even if KVM reserved bytes since fd=0 is valid.
+Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ include/sysemu/device_tree.h |  9 +++++++++
+ softmmu/device_tree.c        | 21 +++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
 
-The only reason to bother with pad2[14] at this time is to avoid having to define
-yet another struct if/when the struct needs to expand again.  The struct definition
-will still need to be changed, but at least we won't end up with struct
-kvm_userspace_memory_region_really_extended.
+diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+index ef060a9759..d552f324b6 100644
+--- a/include/sysemu/device_tree.h
++++ b/include/sysemu/device_tree.h
+@@ -196,6 +196,15 @@ int qemu_fdt_setprop_sized_cells_from_array(void *fdt,
+                                                 qdt_tmp);                 \
+     })
+ 
++
++/**
++ * qemu_fdt_randomize_seeds:
++ * @fdt: device tree blob
++ *
++ * Re-randomize all "rng-seed" properties with new seeds.
++ */
++void qemu_fdt_randomize_seeds(void *fdt);
++
+ #define FDT_PCI_RANGE_RELOCATABLE          0x80000000
+ #define FDT_PCI_RANGE_PREFETCHABLE         0x40000000
+ #define FDT_PCI_RANGE_ALIASED              0x20000000
+diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+index 6ca3fad285..d986c7b7b3 100644
+--- a/softmmu/device_tree.c
++++ b/softmmu/device_tree.c
+@@ -22,6 +22,7 @@
+ #include "qemu/option.h"
+ #include "qemu/bswap.h"
+ #include "qemu/cutils.h"
++#include "qemu/guest-random.h"
+ #include "sysemu/device_tree.h"
+ #include "hw/loader.h"
+ #include "hw/boards.h"
+@@ -643,3 +644,23 @@ out:
+     g_free(propcells);
+     return ret;
+ }
++
++void qemu_fdt_randomize_seeds(void *fdt)
++{
++    int noffset, poffset, len;
++    const char *name;
++    uint8_t *data;
++
++    for (noffset = fdt_next_node(fdt, 0, NULL);
++         noffset >= 0;
++         noffset = fdt_next_node(fdt, noffset, NULL)) {
++        for (poffset = fdt_first_property_offset(fdt, noffset);
++             poffset >= 0;
++             poffset = fdt_next_property_offset(fdt, poffset)) {
++            data = (uint8_t *)fdt_getprop_by_offset(fdt, poffset, &name, &len);
++            if (!data || strcmp(name, "rng-seed"))
++                continue;
++            qemu_guest_getrandom_nofail(data, len);
++        }
++    }
++}
+-- 
+2.37.3
+
 
