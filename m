@@ -2,101 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBCB5EFB77
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:01:38 +0200 (CEST)
-Received: from localhost ([::1]:46020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5025EFBA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:09:36 +0200 (CEST)
+Received: from localhost ([::1]:47450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odwun-0004xQ-5J
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:01:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50848)
+	id 1odx2V-00038K-Gu
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:09:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1odw2L-000661-St
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:05:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28325)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1odw6n-0007Hp-My; Thu, 29 Sep 2022 12:09:57 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:56012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1odw2E-0006Mk-SP
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:05:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664467513;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mKH3ld6QCPV+GiPn+N4tDIKpSO+9MyJoifPvgV6X1Hw=;
- b=LfZlAlp6H4or7gl5j6dk9H7xXn+FkV58ljD6LNkMWntjG+6lTEeuvUym16TMgp3fFkx4is
- P0UGH/OlGgmekz3SNY+A9lXl2yqDaAaTQh3yA1FmC3OwT5duutbE6DXASQONmWWCYBEs+p
- Nx4D4G4X9cY8dMZ0XxaBDgOQpGpmqeA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-497-GaqqJDpjM8GJosjlA2AsyQ-1; Thu, 29 Sep 2022 12:05:12 -0400
-X-MC-Unique: GaqqJDpjM8GJosjlA2AsyQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- t1-20020adfba41000000b0022cc6bcd8dbso701474wrg.4
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 09:05:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date;
- bh=mKH3ld6QCPV+GiPn+N4tDIKpSO+9MyJoifPvgV6X1Hw=;
- b=qHmbauEX9H6NhoNENQjJ9cRk8m9Bgy83EfKHpYpNOiBU2icW7jOHPevYcZL94Qfcos
- GU7oChi7Dp1x9DaFcsbIQaKL3ttmf1CjG1kDai3mrDGbe3Gx8zxe75hxKO7abQLaAj99
- hadlX3hS83ol9nOlMhOvMS7VGLGbIS+SiFuSu2bF5N5Q3W59+PM/9roQRwTOb1nHWJnE
- LtwsNFjWpNDcFl30rZ8qHlr5RxNxP5/AgifQ8M49bEUkAVrqLZW5QiWjfs4U0aRryZYe
- AI8lPfH65YlDPg9Udnw7IZTV5h7mduWG0pBhev3CNxQeJWp/MFMecfI/pP8qTh3Hc+R/
- pZPQ==
-X-Gm-Message-State: ACrzQf0iqH6LM+6Wf7f5XTYv8dbggt8+j4CEl93NqJCCWJJW46tsPnqs
- 592dYTQ8DsEcSiPCoir3L7o7L50OH8+chHQ0Yet010+X+ZsmlhIR3Cdt+YnDcU2NAXcTUOvenTH
- bOisAaJp9VvlMOuk=
-X-Received: by 2002:a7b:cc99:0:b0:3b4:76f2:192b with SMTP id
- p25-20020a7bcc99000000b003b476f2192bmr11563207wma.138.1664467510908; 
- Thu, 29 Sep 2022 09:05:10 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5e3WSyc3rrGTZS+i9wrfvyINPeFPKrs41gdrhxlOHwnWKUaASU/dcX1GDc1luUr1rR22c0RQ==
-X-Received: by 2002:a7b:cc99:0:b0:3b4:76f2:192b with SMTP id
- p25-20020a7bcc99000000b003b476f2192bmr11563167wma.138.1664467510474; 
- Thu, 29 Sep 2022 09:05:10 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c705:ce00:b5d:2b28:1eb5:9245?
- (p200300cbc705ce000b5d2b281eb59245.dip0.t-ipconnect.de.
- [2003:cb:c705:ce00:b5d:2b28:1eb5:9245])
- by smtp.gmail.com with ESMTPSA id
- m17-20020a05600c3b1100b003b476cabf1csm6535989wms.26.2022.09.29.09.05.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Sep 2022 09:05:09 -0700 (PDT)
-Message-ID: <f4389387-078f-3bad-bc2f-1d03362f59fb@redhat.com>
-Date: Thu, 29 Sep 2022 18:05:08 +0200
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1odw6k-0007FD-Pj; Thu, 29 Sep 2022 12:09:55 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C3127611E9;
+ Thu, 29 Sep 2022 16:09:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 865D1C433C1;
+ Thu, 29 Sep 2022 16:09:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1664467790;
+ bh=1W8N06g1sJc8oERjGJ+OejBiZLDcu4E1NN+VyVeKeY0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PmXOV2UBxBDsuxyIW0Ub3xeI8siQwCFNtRcF1LKCZL7rZ0yyVgXRQCKzV/73V2ieF
+ s8LfhD/Q7kMYSDCzrOWyR5VBJC/UQennZlwJWqM815khsgj2RkcM8a8x0N1Adefxh6
+ LYbxl7t8hmAZzIp6bNTckoIY9VuHlk3UmnQVyK2/G020ADoT4IcUylilkaAQSX1XOR
+ Aw5ARQ0KFveJVcbB0JWwFHojFwRM8NHBhCJP3Zj5id3BYcTxuPi57I6CKEBpLBHFHp
+ Zai7tNh+wzXiWHlKVgDVmxoBJUe8rx3kZyiii8XgMcJcNMWg2VUaZdDkwxLgOK/DQP
+ cyEEp/nveu1tg==
+Date: Thu, 29 Sep 2022 10:09:46 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Keith Busch <kbusch@fb.com>
+Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCHv2] block: use the request length for iov alignment
+Message-ID: <YzXDSlksuOucjZm3@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220923153451.3810456-1-kbusch@fb.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v1 3/7] util: Introduce ThreadContext user-creatable object
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Michal Privoznik <mprivozn@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-References: <20220928164542.117952-1-david@redhat.com>
- <20220928164542.117952-4-david@redhat.com> <87fsgatowz.fsf@pond.sub.org>
- <27748202-1370-dff7-29da-7bcf4226c227@redhat.com>
- <87wn9mqsdq.fsf@pond.sub.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <87wn9mqsdq.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -69
-X-Spam_score: -7.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220923153451.3810456-1-kbusch@fb.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=kbusch@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
 X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.099, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,92 +72,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>>> +##
->>>> +# @ThreadContextProperties:
->>>> +#
->>>> +# Properties for thread context objects.
->>>> +#
->>>> +# @cpu-affinity: the CPU affinity for all threads created in the thread
->>>> +#                context (default: QEMU main thread affinity)
->>>> +#
->>>> +# Since: 7.2
->>>> +##
->>>> +{ 'struct': 'ThreadContextProperties',
->>>> +  'data': { '*cpu-affinity': ['uint16'] } }
->>>
->>> I understand this is a list of affinities.  What I poor ignorant me
->>> doesn't understand is the meaning of the list index.  Or in other words,
->>> the list maps some range [0:N] to affinities, but what are the numbers
->>> being mapped there?
->>
->> Assume you have 8 physical CPUs.
->>
->> $ lscpu
->> ...
->>
->> NUMA:
->>    NUMA node(s):          1
->>    NUMA node0 CPU(s):     0-7
->> ...
->>
->> You will provide the CPU IDs here, for example as in patch #7 example:
->>
->> qemu-system-x86_64 -m 1G \
->>   -object thread-context,id=tc1,cpu-affinity=3-4 \
->>   -object memory-backend-ram,id=pc.ram,size=1G,prealloc=on,prealloc-threads=2,prealloc-context=tc1
->> \
->>   -machine memory-backend=pc.ram \
->>   -S -monitor stdio -sandbox enable=on,resourcecontrol=deny
->>
->>
->> Details about CPU affinities in general can be found in the man page of taskset:
->>
->> https://man7.org/linux/man-pages/man1/taskset.1.html
+On Fri, Sep 23, 2022 at 08:34:51AM -0700, Keith Busch wrote:
 > 
-> Is @cpu-affinity a set of CPU numbers?
+> An iov length needs to be aligned to the logical block size, which may
+> be larger than the memory alignment. And since this is only used with
+> file-posix backing storage, move the alignment function to there, where
+> the value of the request_alignment is known to be the file's logical
+> block size.
 
-Yes! For now I added to the description:
-
-...
-     General information about CPU affinities can be found in the man page of
-     taskset:
-         CPU affinity is a scheduler property that "bonds" a process to a given
-         set of CPUs on the system. The Linux scheduler will honor the given CPU
-         affinity and the process will not run on any other CPUs.
-...
-     A simple QEMU example to set the CPU affinity to CPU 0,1,6,7 would be:
-         qemu-system-x86_64 -S \
-           -object thread-context,id=tc1,cpu-affinity=0-1,cpu-affinity=6-7
-     
-     And we can query it via HMP/QMP:
-         (qemu) qom-get tc1 cpu-affinity
-         [
-             0,
-             1,
-             6,
-             7
-         ]
-     
-     But note that due to dynamic library loading this example will not work
-     before we actually make use of thread_context_create_thread() in QEMU
-     code, because the type will otherwise not get registered.
-
-
-
-> 
->> Please let me know how I can further clarify this, that would help, thanks!
-> 
-> What happens when you try to create a thread context object with CPU
-> affinities on a host system that doesn't support CPU affinities?
-
-qemu_thread_set_affinity() will fail and setting the attribute will result
-in a "Setting CPU affinity failed".
-
-Thanks!
-
--- 
-Thanks,
-
-David / dhildenb
-
+Any objections to this version? This is fixing real bug reports that may become
+more frequent without this patch.
 
