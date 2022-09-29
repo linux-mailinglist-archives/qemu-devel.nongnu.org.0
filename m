@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4C45EF748
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:14:59 +0200 (CEST)
-Received: from localhost ([::1]:55106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8C65EF740
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:13:27 +0200 (CEST)
+Received: from localhost ([::1]:60512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oduJW-00022l-Fh
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:14:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36684)
+	id 1oduI2-0001Ml-Sm
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:13:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odsCx-0007Qb-7n
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:03 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44825)
+ id 1ods3C-0000N9-7P
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:05 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odsCr-0004LZ-P7
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:02 -0400
-Received: by mail-wr1-x429.google.com with SMTP id c11so1800017wrp.11
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:59:53 -0700 (PDT)
+ id 1ods38-0002NK-3w
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:49:56 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id l18so1768036wrw.9
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:49:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=Ni3h4Ensb2+EbCS1w58timGRfCJrzPXBUuLWwhQJKIE=;
- b=s9/366AjJ+S9BIXNEDOXYJ5QKu8bTZDN+WUCJ0wRsNxTWBWxvv939/T8zFEOMKsTIj
- 3y7AR0VxpEtLbF3kDyGT5aReyB1uGMJUrU1OI9L6W+pd0LrqHTgMaJ4Evq6p6Uj7hsuz
- upVkZmURETau+TnQi8xZbGJIx/UTedMfPQd0rBJVHsxcPu4YFtJl7EIp1AwxfjN7CkKF
- 0dILer0xyfrVPBGvYkRbMNzGJjhqcnE633O879FqzubR8faGj0wBy3rp/VJ83kwN9B/p
- xtn9uZNymFaqromV7alKol1FVNzTGzZjX16dQ7LUg3NIS00Z0pfiTPlXMfaB1ZNGprEP
- E1YQ==
+ bh=iRY+rdLsNzUlIPl9aP+Ctca98eiNinjQ4tNo5/5rKPg=;
+ b=Ec/1wt1EKGzFt4Zq8wq+TJ/jeVyX7t4uxYd5N9CVf5ruf9MgAcutNPPdSqr01RrVq2
+ 0ZUFVfSxCrsgBD/PD8LwEag/hMPZMp20CZ7VNHpomxszzyitJofkJLx7LzbijIz2dC7C
+ EbkL+SP3JjIF6MO/Ky51BqDjVRuHwt9ecifCu0prIBDqrdz295kHXQCveI/Vg7j+EXIY
+ hp7i9wUzMgvg8J0Qnc9N8uJfgfLNrhrBmYEtJvShzD2Zd0KQaZO7OVsrc5Btutal4JTv
+ eXfXX4T5gKzN9/BcKKkqRC2p0gP/ZwRUw4iqc+LJgpgFlQqCWOdkETmo81rxaGDI0hmV
+ A6OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=Ni3h4Ensb2+EbCS1w58timGRfCJrzPXBUuLWwhQJKIE=;
- b=tpL4oyqaD0bi5zbT0RidYJ0SSd94tveGn3hXUb9MRgb3fFHcnVlooLxJ5GpGSi+OOx
- FIJbJK31q25JY5omYWWdYzmeULUIS4OMiVut1IB2dVk5becEy5jDwY8j5NU98o6dS2J9
- 0rcGQOJVCn5cBA7oK97RNoMHjB3n2W0r11sdZHcbqkWkNRc1cj9mrLgtXM89H92X8VeI
- z3rneOWlfWgHP17Z70ReHrchFml8l5yj00s6wDXjPcYazrpzPXAAzzbU0fs3gPbPiToe
- t4oN0QW1wS/7ZCqQedirnDRndbYOmWt7OJqAgOu6R6sAU/XpGqkuTCJH402AT5iMyYW0
- LYaw==
-X-Gm-Message-State: ACrzQf0B99tsqUCrfwFRShZA/eaZR7chFDZX5zC8o53e5f2VcdOj4alm
- bf4vum4sSFxv8TRs5+OGX/qonA==
-X-Google-Smtp-Source: AMsMyM6Sy1xDcmGOVpEceKfKs/dkhrd5tNjxL9Sww9TG/VS96HJsRz6LAFqRpOQf1P08aQXs9HFlUQ==
-X-Received: by 2002:adf:d0cd:0:b0:22b:1ade:7980 with SMTP id
- z13-20020adfd0cd000000b0022b1ade7980mr1905872wrh.265.1664452792167; 
- Thu, 29 Sep 2022 04:59:52 -0700 (PDT)
+ bh=iRY+rdLsNzUlIPl9aP+Ctca98eiNinjQ4tNo5/5rKPg=;
+ b=ZNSI+oJnliFWQEhdngjtk1PCapFT/9OosMoSxbfoqTjZfIaE+FKz75tPKIRB7n2qcg
+ 0SkrIH2Sc/lR01Cl9zKmsWvm5oO+oLI9Vl42aTBqUtsYL9SMJQ+uEDvYcqrhCAzWeUB/
+ 90i+oJ3vGx1cS6WIqoFOBAyGL00piisId5ChuVk3nGpGN2rcGZKgRUms4/vjIo8au2Kb
+ 3j8+tQwloXhr1nTdUyAveborQ+EKT5TGje3DcE3EUB3bJQo4UtAzNDX2AZxOzDefKkSy
+ 5IzA7vmXBosMr9ZGpTJ/0+6jTTzATDXfFtUwiUAq2CaENIw2mv7gGErIDerKVjcRwve2
+ ofCQ==
+X-Gm-Message-State: ACrzQf1ZrOW7KRWNIan4TJehkCIkZoZ/9W7XY/X5hhe9XiuA9t+qdMC8
+ IjBG1feIzam5LfrIV3LKkheWQQ==
+X-Google-Smtp-Source: AMsMyM6G6AJGnBeEz2ooZ3CdKEMzCYQIsKDaYSs+Sji7ceTE6rYIak2TLBZtnnrw5du++K8ge5Bwkg==
+X-Received: by 2002:adf:d1ef:0:b0:228:a9ee:8f13 with SMTP id
+ g15-20020adfd1ef000000b00228a9ee8f13mr1900280wrd.686.1664452192529; 
+ Thu, 29 Sep 2022 04:49:52 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- r9-20020adfda49000000b002258235bda3sm6731971wrl.61.2022.09.29.04.59.50
+ m13-20020a5d4a0d000000b0021e43b4edf0sm6419674wrq.20.2022.09.29.04.49.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:59:51 -0700 (PDT)
+ Thu, 29 Sep 2022 04:49:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4CC721FFCE;
+ by zen.linaroharston (Postfix) with ESMTP id 96C951FFD1;
  Thu, 29 Sep 2022 12:42:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -65,18 +65,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v1 26/51] configure: unify creation of cross-compilation
- Makefiles
-Date: Thu, 29 Sep 2022 12:42:06 +0100
-Message-Id: <20220929114231.583801-27-alex.bennee@linaro.org>
+Subject: [PATCH  v1 29/51] pc-bios/optionrom: Adopt meson style Make output
+Date: Thu, 29 Sep 2022 12:42:09 +0100
+Message-Id: <20220929114231.583801-30-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,129 +100,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Let write_target_makefile handle both host and container cross compilers.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configure | 94 +++++++++++++++++++++++++------------------------------
- 1 file changed, 43 insertions(+), 51 deletions(-)
+ pc-bios/optionrom/Makefile | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/configure b/configure
-index cbeac99b2b..8b495d4453 100755
---- a/configure
-+++ b/configure
-@@ -2157,51 +2157,49 @@ probe_target_compiler() {
+diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
+index f514e4f84b..b1fff0ba6c 100644
+--- a/pc-bios/optionrom/Makefile
++++ b/pc-bios/optionrom/Makefile
+@@ -12,8 +12,8 @@ NULL :=
+ SPACE := $(NULL) #
+ TARGET_PREFIX := $(patsubst %/,%:$(SPACE),$(TARGET_DIR))
  
- write_target_makefile() {
-   echo "EXTRA_CFLAGS=$target_cflags"
--  if test -n "$target_cc"; then
--    echo "CC=$target_cc"
--    echo "CCAS=$target_ccas"
--  fi
--  if test -n "$target_ar"; then
--    echo "AR=$target_ar"
--  fi
--  if test -n "$target_as"; then
--    echo "AS=$target_as"
--  fi
--  if test -n "$target_ld"; then
--    echo "LD=$target_ld"
--  fi
--  if test -n "$target_nm"; then
--    echo "NM=$target_nm"
--  fi
--  if test -n "$target_objcopy"; then
--    echo "OBJCOPY=$target_objcopy"
--  fi
--  if test -n "$target_ranlib"; then
--    echo "RANLIB=$target_ranlib"
--  fi
--  if test -n "$target_strip"; then
--    echo "STRIP=$target_strip"
--  fi
--}
--
--write_container_target_makefile() {
--  echo "$1: docker-image-$container_image" >> Makefile.prereqs
--  echo "EXTRA_CFLAGS=$target_cflags"
--  if test -n "$container_cross_cc"; then
--    echo "CC=$docker_py cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
--    echo "CCAS=$docker_py cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
-+  if test -z "$target_cc" && test -z "$target_as"; then
-+    test -z "$container_image" && error_exit "Internal error: could not find cross compiler for $1?"
-+    echo "$1: docker-image-$container_image" >> Makefile.prereqs
-+    if test -n "$container_cross_cc"; then
-+      echo "CC=$docker_py cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
-+      echo "CCAS=$docker_py cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
-+    fi
-+    echo "AR=$docker_py cc --cc $container_cross_ar -i qemu/$container_image -s $source_path --"
-+    echo "AS=$docker_py cc --cc $container_cross_as -i qemu/$container_image -s $source_path --"
-+    echo "LD=$docker_py cc --cc $container_cross_ld -i qemu/$container_image -s $source_path --"
-+    echo "NM=$docker_py cc --cc $container_cross_nm -i qemu/$container_image -s $source_path --"
-+    echo "OBJCOPY=$docker_py cc --cc $container_cross_objcopy -i qemu/$container_image -s $source_path --"
-+    echo "RANLIB=$docker_py cc --cc $container_cross_ranlib -i qemu/$container_image -s $source_path --"
-+    echo "STRIP=$docker_py cc --cc $container_cross_strip -i qemu/$container_image -s $source_path --"
-+  else
-+    if test -n "$target_cc"; then
-+      echo "CC=$target_cc"
-+      echo "CCAS=$target_ccas"
-+    fi
-+    if test -n "$target_ar"; then
-+      echo "AR=$target_ar"
-+    fi
-+    if test -n "$target_as"; then
-+      echo "AS=$target_as"
-+    fi
-+    if test -n "$target_ld"; then
-+      echo "LD=$target_ld"
-+    fi
-+    if test -n "$target_nm"; then
-+      echo "NM=$target_nm"
-+    fi
-+    if test -n "$target_objcopy"; then
-+      echo "OBJCOPY=$target_objcopy"
-+    fi
-+    if test -n "$target_ranlib"; then
-+      echo "RANLIB=$target_ranlib"
-+    fi
-+    if test -n "$target_strip"; then
-+      echo "STRIP=$target_strip"
-+    fi
-   fi
--  echo "AR=$docker_py cc --cc $container_cross_ar -i qemu/$container_image -s $source_path --"
--  echo "AS=$docker_py cc --cc $container_cross_as -i qemu/$container_image -s $source_path --"
--  echo "LD=$docker_py cc --cc $container_cross_ld -i qemu/$container_image -s $source_path --"
--  echo "NM=$docker_py cc --cc $container_cross_nm -i qemu/$container_image -s $source_path --"
--  echo "OBJCOPY=$docker_py cc --cc $container_cross_objcopy -i qemu/$container_image -s $source_path --"
--  echo "RANLIB=$docker_py cc --cc $container_cross_ranlib -i qemu/$container_image -s $source_path --"
--  echo "STRIP=$docker_py cc --cc $container_cross_strip -i qemu/$container_image -s $source_path --"
- }
+-quiet-@ = $(if $(V),,@)
+-quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
++quiet-@ = $(if $(V),,@$(if $1,printf "%s\n" "$(TARGET_PREFIX)$1" && ))
++quiet-command = $(call quiet-@,$2 $@)$1
  
--
--
- ##########################################
- # check for vfio_user_server
+ # Flags for dependency generation
+ override CPPFLAGS += -MMD -MP -MT $@ -MF $(@D)/$(*F).d
+@@ -41,19 +41,19 @@ override LDFLAGS = -nostdlib -Wl,-T,$(SRC_DIR)/flat.lds
+ pvh.img: pvh.o pvh_main.o
  
-@@ -2560,15 +2558,9 @@ for target in $target_list; do
-       ;;
-   esac
+ %.o: %.S
+-	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<,"AS","$@")
++	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<,Assembling)
  
--  probe_target_compiler $target
--  if test $got_cross_cc = yes; then
--      write_target_makefile >> "$config_target_mak"
--  elif test -n "$container_image"; then
--      build_static=y
--      write_container_target_makefile build-tcg-tests-$target >> "$config_target_mak"
--      got_cross_cc=yes
--  fi
--  if test $got_cross_cc = yes; then
-+  if probe_target_compiler $target || test -n "$container_image"; then
-+      test -n "$container_image" && build_static=y
-+      write_target_makefile "build-tcg-tests-$target >> "$config_target_mak"
-       mkdir -p "tests/tcg/$target"
-       ln -sf "$source_path/tests/tcg/Makefile.target" "tests/tcg/$target/Makefile"
-       ln -sf "../config-$target.mak" "tests/tcg/$target/config-target.mak"
+ %.o: %.c
+-	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@,"CC","$@")
++	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@,Compiling)
+ 
+ %.img: %.o
+-	$(call quiet-command,$(CC) $(CFLAGS) $(LDFLAGS) -s -o $@ $^,"BUILD","$@")
++	$(call quiet-command,$(CC) $(CFLAGS) $(LDFLAGS) -s -o $@ $^,Linking)
+ 
+ %.raw: %.img
+-	$(call quiet-command,$(OBJCOPY) -O binary -j .text $< $@,"BUILD","$@")
++	$(call quiet-command,$(OBJCOPY) -O binary -j .text $< $@,Extracting raw object)
+ 
+ %.bin: %.raw
+-	$(call quiet-command,$(PYTHON) $(TOPSRC_DIR)/scripts/signrom.py $< $@,"SIGN","$@")
++	$(call quiet-command,$(PYTHON) $(TOPSRC_DIR)/scripts/signrom.py $< $@,Computing checksum into)
+ 
+ include $(wildcard *.d)
+ 
 -- 
 2.34.1
 
