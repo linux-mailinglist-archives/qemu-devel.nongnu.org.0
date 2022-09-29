@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 736585EF99C
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 17:58:12 +0200 (CEST)
-Received: from localhost ([::1]:55012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A775EF865
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 17:11:21 +0200 (CEST)
+Received: from localhost ([::1]:47698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odvvO-0001GZ-UO
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 11:58:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33398)
+	id 1odvC3-0000lQ-Qo
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 11:11:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1odtne-0007CD-Hh
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 09:42:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34036)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1odtnZ-0005T0-U5
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 09:41:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664458916;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=S0/J0TM3OGmhWXQDpKcFz1ELW3OBbyV+Q/NwWwAADug=;
- b=TLGdUcvzjioTJMPejfx3SkoDyaRHVz2nKsGtyXkBJY5O3i/oiD7XrkaTG0naBNpPwLfnYa
- ilOHraCkrdbive5b2+r4glIKxU2XYXIknPBHkyMcVB7zXmKPtCMcyBawgm/xEPZLhXmPo7
- x9M6wrLL2TRK4TnY7cLe2SgiRZTQNj8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-RzDq5_E-NeGqewRSRK8wPQ-1; Thu, 29 Sep 2022 09:41:54 -0400
-X-MC-Unique: RzDq5_E-NeGqewRSRK8wPQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0DF7F185A7AD;
- Thu, 29 Sep 2022 13:41:54 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4444E4EA48;
- Thu, 29 Sep 2022 13:41:52 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: bin.meng@windriver.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH] win32: set threads name
-Date: Thu, 29 Sep 2022 17:41:50 +0400
-Message-Id: <20220929134150.1377690-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odtuI-0007Vf-5a
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 09:48:54 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:43653)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odtuG-0006Ye-3X
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 09:48:53 -0400
+Received: by mail-ej1-x629.google.com with SMTP id lh5so2900574ejb.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 06:48:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=xWVqCTEvkhdiKQSA1p/GWQsJG4PqlnQ0FZ/IfqujimE=;
+ b=QKSHuxJ36iIagzwsNa3pa6FPHa0ji2VewrWxgWe/asICs+16Z7VSmGDjtF9WhCJEzj
+ J8NprVSggFFKCYeXWVDVtTK2o8Q04c7MrI+DGfauoOmDiJOoGuYcfmEinHffjrvmzL8L
+ 4s7MGd12EHQu6tQS4RvyCOwLn7DGxG2Emj5WDaYhL+n1GF0K4IMwrPssDpvSEogDDiHz
+ /jSyMohdx9gz9KfwJNVLq2qxZ8NEg3DnTVpMKoPwa0ZiPXe3zYKJ194dvKeOugIyIglE
+ 99sKQU3KTI3CWdUdr8ROdjBOSFYZnZz3GZJt8u12/8AgwW7XZYwXe4QKuTTGmEaEdwd1
+ YjaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=xWVqCTEvkhdiKQSA1p/GWQsJG4PqlnQ0FZ/IfqujimE=;
+ b=eyJVDQ8TtJhxGa9SI7QbI5VZ5qiO2PlxzmM/3+M1L/7/qESgLRxSxl8XBQWKI1/29x
+ Zse7BpwdMUX//UotvjctgVskpSgNsFF0AXtyEbwB4jFbSwBPS24Z2NeXCvRDp84Q6N7X
+ Itf1/aABrqaFgdwXRPDlYsaI/IGR1dSUP0eCNXcDxFV+ykvnLd3h5c3XWNs1UBtkKAgu
+ KtMf6klyrN9OsJeMou6IqtLIwzrA/SrTHIJwN/TBzbeoovwPntZXyBC6tw//QLQciTlR
+ uvePINDS97wovaTwQRJJulnb6wo9jtdIsK7KMdhJaHvNd+CXf8WqH3bvnQ+/1CTK+KaR
+ SuDA==
+X-Gm-Message-State: ACrzQf1plsKybLbCTy9opwuOxPui5b26hrxnLpdun/j8iQFAKTZsFoyy
+ 5dWy1ETh8f+gffuJVcKRleC/ol8efSQd/b3Tm08CTQ==
+X-Google-Smtp-Source: AMsMyM7CSh1XPwMjYX9pE7zyHXMC2yKveCG9tmXKQFpElZdjqnS8J4gAeJcTvdb5sJ5HArYTQ5K58whCqaiGbcgI37s=
+X-Received: by 2002:a17:907:728e:b0:782:8e91:64c8 with SMTP id
+ dt14-20020a170907728e00b007828e9164c8mr2984226ejc.36.1664459330201; Thu, 29
+ Sep 2022 06:48:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URI_TRY_3LD=1.979 autolearn=no autolearn_force=no
+References: <CAFEAcA9dcDNw6QvKSs8BZgjzueEPi0v6R5LAPpsiJU3J_p=AXw@mail.gmail.com>
+ <20220929133144.4k6dbwopkljrbkqt@sirius.home.kraxel.org>
+In-Reply-To: <20220929133144.4k6dbwopkljrbkqt@sirius.home.kraxel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 29 Sep 2022 14:48:38 +0100
+Message-ID: <CAFEAcA9LiwxQTKfs0G71YQrv17Oynm8SuPFEcxtnuvseTvPxsQ@mail.gmail.com>
+Subject: Re: missing entries from docs/specs/pci-ids.txt ?
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,108 +83,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Thu, 29 Sept 2022 at 14:31, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> On Tue, Sep 27, 2022 at 01:05:36PM +0100, Peter Maydell wrote:
+> > I noticed today that docs/specs/pci-ids.txt doesn't have
+> > an entry for the virtio-iommu, which is defined in pci.h as
+> >
+> > #define PCI_DEVICE_ID_VIRTIO_IOMMU       0x1014
+> >
+> > There seem to be a few other virtio ID values defined in the
+> > header but not in the txt file too -- do we need to update it?
+>
+> Yep.
+>
+> > Conversely, none of the "modern" ID values in the txt file seem
+> > to have a #define. I suspect I'm missing something about how
+> > this works.
+>
+> Added a short paragraph explaining this.
+>
+> Not sure what to do with the modern device list.  Add everything ?
+> Or just point to include/standard-headers/linux/virtio_ids.h ?
 
-As described in:
-https://learn.microsoft.com/en-us/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2022
+At the moment we have entries for 9 of the 41 'modern' devices.
+We should either (a) have entries for all of them or
+(b) delete the existing individual 'modern' entries and instead
+document the range as being used for modern devices with a
+suitable pointer to where to find the list of virtio IDs.
+(How far up does the range go? All the way to 01ef?)
 
-SetThreadDescription() is available since Windows 10, version 1607 and
-in some versions only by "Run Time Dynamic Linking". Its declaration is
-not yet in mingw, so we lookup the function the same way glib does.
+If we are strictly following the virtio-ID-to-modern-PCI-ID
+rule then it seems like we're just making work for ourselves
+if we add a line to this file for every virtio ID, so I
+would favour option b.
 
-Tested with Visual Studio Community 2022 debugger.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- util/qemu-thread-win32.c | 54 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 53 insertions(+), 1 deletion(-)
-
-diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
-index a2d5a6e825..9861ec5b89 100644
---- a/util/qemu-thread-win32.c
-+++ b/util/qemu-thread-win32.c
-@@ -19,12 +19,40 @@
- 
- static bool name_threads;
- 
-+typedef HRESULT (WINAPI *pSetThreadDescription) (HANDLE hThread,
-+                                                 PCWSTR lpThreadDescription);
-+static pSetThreadDescription SetThreadDescriptionFunc = NULL;
-+static HMODULE kernel32_module = NULL;
-+
-+static bool
-+load_set_thread_description(void)
-+{
-+  static gsize _init_once = 0;
-+
-+  if (g_once_init_enter(&_init_once)) {
-+      kernel32_module = LoadLibraryW(L"kernel32.dll");
-+      if (kernel32_module) {
-+          SetThreadDescriptionFunc =
-+              (pSetThreadDescription)GetProcAddress(kernel32_module,
-+                                                    "SetThreadDescription");
-+          if (!SetThreadDescriptionFunc) {
-+              FreeLibrary(kernel32_module);
-+          }
-+      }
-+      g_once_init_leave(&_init_once, 1);
-+  }
-+
-+  return !!SetThreadDescriptionFunc;
-+}
-+
- void qemu_thread_naming(bool enable)
- {
-     /* But note we don't actually name them on Windows yet */
-     name_threads = enable;
- 
--    fprintf(stderr, "qemu: thread naming not supported on this host\n");
-+    if (enable && !load_set_thread_description()) {
-+        fprintf(stderr, "qemu: thread naming not supported on this host\n");
-+    }
- }
- 
- static void error_exit(int err, const char *msg)
-@@ -400,6 +428,26 @@ void *qemu_thread_join(QemuThread *thread)
-     return ret;
- }
- 
-+static bool
-+set_thread_description(HANDLE h, const char *name)
-+{
-+  HRESULT hr;
-+  g_autofree wchar_t *namew = NULL;
-+
-+  if (!load_set_thread_description() || !name) {
-+      return false;
-+  }
-+
-+  namew = g_utf8_to_utf16(name, -1, NULL, NULL, NULL);
-+  if (!namew) {
-+      return false;
-+  }
-+
-+  hr = SetThreadDescriptionFunc(h, namew);
-+
-+  return SUCCEEDED(hr);
-+}
-+
- void qemu_thread_create(QemuThread *thread, const char *name,
-                        void *(*start_routine)(void *),
-                        void *arg, int mode)
-@@ -423,7 +471,11 @@ void qemu_thread_create(QemuThread *thread, const char *name,
-     if (!hThread) {
-         error_exit(GetLastError(), __func__);
-     }
-+    if (name_threads) {
-+        set_thread_description(hThread, name);
-+    }
-     CloseHandle(hThread);
-+
-     thread->data = data;
- }
- 
--- 
-2.37.3
-
+thanks
+-- PMM
 
