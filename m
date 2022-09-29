@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C7F5EEFCB
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 09:57:51 +0200 (CEST)
-Received: from localhost ([::1]:41808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679875EEF5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 09:41:35 +0200 (CEST)
+Received: from localhost ([::1]:42340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odoQY-0001u1-SV
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 03:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37792)
+	id 1odoAo-0004mY-GD
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 03:41:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1odnkC-0004Ba-MK
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:14:05 -0400
-Received: from mga04.intel.com ([192.55.52.120]:1943)
+ id 1odnkE-0004CL-Cp
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:14:11 -0400
+Received: from mga04.intel.com ([192.55.52.120]:1937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1odnkA-0003rv-Lb
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:14:04 -0400
+ id 1odnkC-0003qj-IC
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:14:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664435642; x=1695971642;
+ t=1664435644; x=1695971644;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=/6/VqwylSrczNCuoRPX4zu1X/zz8KeLytqpXmkoMnUA=;
- b=Dwj7gnVWYtK7UyRSk8jOF8DRiVpg35X6pwVMWvSyAzxDgu8u6njeWekp
- jpNrW4A/iFU0NCHHqo+guxC/PwwNNJfSXHIzgm+TlQSUYRO+JdLhKUM72
- BkOzr4Sv1EpH7T34/sdRdOGItNshVT9bbaIwHKhhuR4vRv1di/CgDh/xk
- 5SVi+AFj5NoALGdD+yiJUaowgPplybu9O6BL8ziHqU4JWXj5/HjBUFgIN
- 7stkbEuiSia7xRrs6VxcKcUI9GRaxw6e0zKfTWVksR6zbKlWBoBy9aPa4
- nz6ShQG+38xE3Aa50UJ7669JoVld9RQm0ZW/dk0Y5YwEqdfM0rxWua6US A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="300534110"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="300534110"
+ bh=uQGTvFkRu2suvO/BBfMCi7VX8taOodq9QWl6FH4+5vk=;
+ b=IaO3xdBlcr5onNWFme9JzWN15RHexThxDinHBIMsPjze0HYTeDtyqJpw
+ G8HmWrKDeyeJMoIHlYOa7e+MQuCnuh6Iy+oId9GXRGHMrRS/U66O0lFWt
+ b75PFv2xs/qdz/T8n71yrySs8OgAyMGBBnhcgsRiDEgSWh8a0murSpyyh
+ E7yUPDZX5JG5zgC7SuWHEfGmUb+abknUx/H43PY8Cbq6gODJTaZWLwLmu
+ RfTSt4Q9rRPARZpaDpHA0ObH5F702NkMWmh1Bu1mYU/pCaLOaFue05oi1
+ 4HUdFBM61aYcQ6i2OxBloIQlqxojEdoV9w6SqD/duUoGn5Km5aUaGdZWQ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="300534120"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="300534120"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 00:14:01 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="655440721"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="655440721"
+ 29 Sep 2022 00:14:03 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="655440727"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="655440727"
 Received: from chenyi-pc.sh.intel.com ([10.239.159.53])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 00:13:58 -0700
+ 29 Sep 2022 00:14:01 -0700
 From: Chenyi Qiang <chenyi.qiang@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
  Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Chenyi Qiang <chenyi.qiang@intel.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-Subject: [RESEND PATCH v8 1/4] i386: kvm: extend kvm_{get,
- put}_vcpu_events to support pending triple fault
-Date: Thu, 29 Sep 2022 15:20:11 +0800
-Message-Id: <20220929072014.20705-2-chenyi.qiang@intel.com>
+Cc: qemu-devel@nongnu.org,
+	kvm@vger.kernel.org
+Subject: [RESEND PATCH v8 2/4] kvm: allow target-specific accelerator
+ properties
+Date: Thu, 29 Sep 2022 15:20:12 +0800
+Message-Id: <20220929072014.20705-3-chenyi.qiang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220929072014.20705-1-chenyi.qiang@intel.com>
 References: <20220929072014.20705-1-chenyi.qiang@intel.com>
@@ -78,138 +78,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the direct triple faults, i.e. hardware detected and KVM morphed
-to VM-Exit, KVM will never lose them. But for triple faults sythesized
-by KVM, e.g. the RSM path, if KVM exits to userspace before the request
-is serviced, userspace could migrate the VM and lose the triple fault.
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-A new flag KVM_VCPUEVENT_VALID_TRIPLE_FAULT is defined to signal that
-the event.triple_fault_pending field contains a valid state if the
-KVM_CAP_X86_TRIPLE_FAULT_EVENT capability is enabled.
+Several hypervisor capabilities in KVM are target-specific.  When exposed
+to QEMU users as accelerator properties (i.e. -accel kvm,prop=value), they
+should not be available for all targets.
 
-Acked-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+Add a hook for targets to add their own properties to -accel kvm, for
+now no such property is defined.
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c     |  1 +
- target/i386/cpu.h     |  1 +
- target/i386/kvm/kvm.c | 20 ++++++++++++++++++++
- target/i386/machine.c | 20 ++++++++++++++++++++
- 4 files changed, 42 insertions(+)
+ accel/kvm/kvm-all.c    | 2 ++
+ include/sysemu/kvm.h   | 2 ++
+ target/arm/kvm.c       | 4 ++++
+ target/i386/kvm/kvm.c  | 4 ++++
+ target/mips/kvm.c      | 4 ++++
+ target/ppc/kvm.c       | 4 ++++
+ target/riscv/kvm.c     | 4 ++++
+ target/s390x/kvm/kvm.c | 4 ++++
+ 8 files changed, 28 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 1db1278a59..6e107466b3 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6017,6 +6017,7 @@ static void x86_cpu_reset(DeviceState *dev)
-     env->exception_has_payload = false;
-     env->exception_payload = 0;
-     env->nmi_injected = false;
-+    env->triple_fault_pending = false;
- #if !defined(CONFIG_USER_ONLY)
-     /* We hard-wire the BSP to the first CPU. */
-     apic_designate_bsp(cpu->apic_state, s->cpu_index == 0);
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 82004b65b9..d4124973ce 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1739,6 +1739,7 @@ typedef struct CPUArchState {
-     uint8_t has_error_code;
-     uint8_t exception_has_payload;
-     uint64_t exception_payload;
-+    uint8_t triple_fault_pending;
-     uint32_t ins_len;
-     uint32_t sipi_vector;
-     bool tsc_valid;
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index a1fd1f5379..3838827134 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -132,6 +132,7 @@ static int has_xcrs;
- static int has_pit_state2;
- static int has_sregs2;
- static int has_exception_payload;
-+static int has_triple_fault_event;
- 
- static bool has_msr_mcg_ext_ctl;
- 
-@@ -2483,6 +2484,16 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-         }
-     }
- 
-+    has_triple_fault_event = kvm_check_extension(s, KVM_CAP_X86_TRIPLE_FAULT_EVENT);
-+    if (has_triple_fault_event) {
-+        ret = kvm_vm_enable_cap(s, KVM_CAP_X86_TRIPLE_FAULT_EVENT, 0, true);
-+        if (ret < 0) {
-+            error_report("kvm: Failed to enable triple fault event cap: %s",
-+                         strerror(-ret));
-+            return ret;
-+        }
-+    }
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 5acab1767f..f90c5cb285 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -3737,6 +3737,8 @@ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+         NULL, NULL);
+     object_class_property_set_description(oc, "dirty-ring-size",
+         "Size of KVM dirty page ring buffer (default: 0, i.e. use bitmap)");
 +
-     ret = kvm_get_supported_msrs(s);
-     if (ret < 0) {
-         return ret;
-@@ -4299,6 +4310,11 @@ static int kvm_put_vcpu_events(X86CPU *cpu, int level)
-         }
-     }
- 
-+    if (has_triple_fault_event) {
-+        events.flags |= KVM_VCPUEVENT_VALID_TRIPLE_FAULT;
-+        events.triple_fault.pending = env->triple_fault_pending;
-+    }
-+
-     return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_VCPU_EVENTS, &events);
++    kvm_arch_accel_class_init(oc);
  }
  
-@@ -4368,6 +4384,10 @@ static int kvm_get_vcpu_events(X86CPU *cpu)
-         }
-     }
+ static const TypeInfo kvm_accel_type = {
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index efd6dee818..50868ebf60 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -353,6 +353,8 @@ bool kvm_device_supported(int vmfd, uint64_t type);
  
-+    if (events.flags & KVM_VCPUEVENT_VALID_TRIPLE_FAULT) {
-+        env->triple_fault_pending = events.triple_fault.pending;
-+    }
+ extern const KVMCapabilityInfo kvm_arch_required_capabilities[];
+ 
++void kvm_arch_accel_class_init(ObjectClass *oc);
 +
-     env->sipi_vector = events.sipi_vector;
+ void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run);
+ MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run);
  
-     return 0;
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index cecd476e98..310b125235 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -1562,6 +1562,25 @@ static const VMStateDescription vmstate_arch_lbr = {
-     }
- };
- 
-+static bool triple_fault_needed(void *opaque)
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index e5c1bd50d2..d21603cf28 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -1056,3 +1056,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
+ {
+     return true;
+ }
++
++void kvm_arch_accel_class_init(ObjectClass *oc)
 +{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return env->triple_fault_pending;
 +}
-+
-+static const VMStateDescription vmstate_triple_fault = {
-+    .name = "cpu/triple_fault",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = triple_fault_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(env.triple_fault_pending, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- const VMStateDescription vmstate_x86_cpu = {
-     .name = "cpu",
-     .version_id = 12,
-@@ -1706,6 +1725,7 @@ const VMStateDescription vmstate_x86_cpu = {
-         &vmstate_amx_xtile,
- #endif
-         &vmstate_arch_lbr,
-+        &vmstate_triple_fault,
-         NULL
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 3838827134..eab09833f9 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -5472,3 +5472,7 @@ void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
+         mask &= ~BIT_ULL(bit);
      }
- };
+ }
++
++void kvm_arch_accel_class_init(ObjectClass *oc)
++{
++}
+diff --git a/target/mips/kvm.c b/target/mips/kvm.c
+index caf70decd2..bcb8e06b2c 100644
+--- a/target/mips/kvm.c
++++ b/target/mips/kvm.c
+@@ -1294,3 +1294,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
+ {
+     return true;
+ }
++
++void kvm_arch_accel_class_init(ObjectClass *oc)
++{
++}
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 466d0d2f4c..7c25348b7b 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -2966,3 +2966,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
+ {
+     return true;
+ }
++
++void kvm_arch_accel_class_init(ObjectClass *oc)
++{
++}
+diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+index 70b4cff06f..30f21453d6 100644
+--- a/target/riscv/kvm.c
++++ b/target/riscv/kvm.c
+@@ -532,3 +532,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
+ {
+     return true;
+ }
++
++void kvm_arch_accel_class_init(ObjectClass *oc)
++{
++}
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index 6a8dbadf7e..508c24cfec 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -2581,3 +2581,7 @@ int kvm_s390_get_zpci_op(void)
+ {
+     return cap_zpci_op;
+ }
++
++void kvm_arch_accel_class_init(ObjectClass *oc)
++{
++}
 -- 
 2.17.1
 
