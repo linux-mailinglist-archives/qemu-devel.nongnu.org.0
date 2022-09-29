@@ -2,102 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2175EFB7E
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:05:06 +0200 (CEST)
-Received: from localhost ([::1]:55788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED1C5EFBEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:25:21 +0200 (CEST)
+Received: from localhost ([::1]:38494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odwy9-0000ZM-PS
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:05:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54212)
+	id 1odxHk-0002UM-1X
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:25:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1odwlk-0002c9-Al
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:52:16 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:35653)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1odwwl-0007wn-4s
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:03:47 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1odwlg-0006bH-1x
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:52:15 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- d1-20020a17090a6a4100b002095b319b9aso609045pjm.0
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 09:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=x9smInTAbexJo9FMfDYVJQZwAv5RTV0u/BRwYhuyUIM=;
- b=PwjBr2d/k51WljMRLL/MtzEUzt/CV8BMwu9RVh5Qp64ULy6sMBEfD0X0V19DymfIUD
- thmUX8sJzb/9C05zq+6yW6pJoeUsZ4oBK1z5HZ5tus02z3yu/0eDEWpo+suieXqzpO4y
- g/fMYriQN9IU911un2COmNuISl00RmkN+KNzAFgzWxzHAw8GDOA3b4hBP7FDqUqgkSBk
- x4dDRHxZPQ4cAJRh/OBmcol+Zg9vythYVGgIu2g3K1fkJfpesTKQulYk7WgVpxsd79p2
- EBpRetruvY1JFl2Q68g5TRpODWeocIr50AdShiLZwkkLmH4C5dWh9Zwa9cPFK5EQItUQ
- ndCA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1odwwj-0000VD-3b
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:03:38 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ c192-20020a1c35c9000000b003b51339d350so3600698wma.3
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 10:03:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=ckXOj0kL1mkE6I/gLKJI97zgm9KjLbkvtK6Y9nHNlp0=;
+ b=RMHTsu5rCzrzIfmOavEfZS/hP9UQzAnhI0OvoG2NHVCRSb7c3UFsc3QXxx1jtYzYbY
+ 5jsTMt2j3bBSRzNO0mzi7YfS+YGibIvzqURxikGnxWJC1Y0J0PcuywxnoeEMZ7/6n0vh
+ ukkP6Y/87hCik/pIZnew7YjeOezoAaHPT4AYL7p/CVrnHo3rIxOcHgdVvGjp7oLpqIHD
+ EKMg7KgqRmJ0171TTJ5rGhBKOxCjHHGA9lZtLJxGcyXelzoNr3ac803wlX9VXaV5Pkfa
+ p65L0VfrspEK8NfkrikGDVEsOLGeyhw5BSIOS2i9iYVR0buy5lDPD6H4kzeHPmjM4LzT
+ /wnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=x9smInTAbexJo9FMfDYVJQZwAv5RTV0u/BRwYhuyUIM=;
- b=dUZBg5dkNA1/kA2tAxLsTNnio4UlHDSn2HvaL39ZT2ULh2VjPt5QCXcnylYLa3ijiC
- cxm0pCQIJqS69eeXXuxXj43akKCl9p56XaFFDIWHgMWAzkffDuWxbdmMWzKbTSYfzoIG
- Q+0Zzwjogi9DDx3FN1Wh9CZQr6AVgZzKZOVMhJvGoYeYU4EopNxTDKXA61R1oOdzikev
- lVhXHbHvgPf7BURRFfiyea0wWZhJ2Vmm7lrGGaPTlLfMrzuMykSIra2RO1ni/I09RrUi
- wMahjlS/Ktr9k5UYUXnQIj7iCy9qpex3i+I2SaOWsvlwm5yrHog8+wvDnK9HhAIT0puy
- 82EA==
-X-Gm-Message-State: ACrzQf0QLP8YufwMEa9uBXUgZ1IX3RpOmUhsbJo+qqe82299n/562xiL
- CCHFjqYOKDiT90iQWeWHJU4=
-X-Google-Smtp-Source: AMsMyM6raR6uUEz9DHqlfOrbVWNAKhfnOrks6W/5gYqM980XfqIW8voC8f+sAqt/40JCIMp7SocU0Q==
-X-Received: by 2002:a17:902:b194:b0:17a:ccae:4ceb with SMTP id
- s20-20020a170902b19400b0017accae4cebmr4359490plr.36.1664470329501; 
- Thu, 29 Sep 2022 09:52:09 -0700 (PDT)
-Received: from localhost ([192.55.54.55]) by smtp.gmail.com with ESMTPSA id
- z16-20020a170902ccd000b00176677a893bsm119123ple.82.2022.09.29.09.52.07
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=ckXOj0kL1mkE6I/gLKJI97zgm9KjLbkvtK6Y9nHNlp0=;
+ b=uSWW9Zo6+LOMCHr9hCCYp/CHXJnhhHNqVf48EwM7Y1Bj3Joy0vFlaxBKe2qFtuqJpG
+ KpI6j03A1/m8KJQnIeFf67WiwTfODmX9Om+4doJ0siakNFux8S3vuoByeJb3vBOqZZFD
+ uV+/XZz2ej8mkM8Eu/eAcx7CxM+gExvdXthWV4BY2hAxn6LUJjQUDg+dxM/Smzwt2wum
+ /G6Oq7z/F5jNADOzfL/2QgHQ4tzcmH3hcXNYwPTY5aEYbPvCmfSnDHyMmiRKmxnvA3xy
+ eplKCF94JrQF5cgbJRASdIfJFu8nopCoOlZfmtzQU88Ln1WpTlWfqDchTpAmNc2v3oiD
+ +MLQ==
+X-Gm-Message-State: ACrzQf0SgNxRoxwQA/ENF5R7S9EUZ0wCr44Ikir9xCSg6WyAhrRLW2u6
+ fHwTaIOL/VAuaKG/giz0eXyvuA==
+X-Google-Smtp-Source: AMsMyM6M9pqIhWeFyoB7kCFjxeiBjQwsM4QpEd4dqjmTPqAfT6LIgVWUkVO4Ckvr+MJLaRF6HftP3A==
+X-Received: by 2002:a05:600c:4f89:b0:3b4:a6fc:89e5 with SMTP id
+ n9-20020a05600c4f8900b003b4a6fc89e5mr11109981wmq.149.1664471015413; 
+ Thu, 29 Sep 2022 10:03:35 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ r7-20020adfab47000000b0022ccc22ca95sm3313192wrc.13.2022.09.29.10.03.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 09:52:08 -0700 (PDT)
-Date: Thu, 29 Sep 2022 09:52:06 -0700
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
- isaku.yamahata@gmail.com
-Subject: Re: [PATCH v8 6/8] KVM: Update lpage info when private/shared memory
- are mixed
-Message-ID: <20220929165206.GA1963093@ls.amr.corp.intel.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-7-chao.p.peng@linux.intel.com>
+ Thu, 29 Sep 2022 10:03:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2DC1E1FFB7;
+ Thu, 29 Sep 2022 18:03:34 +0100 (BST)
+References: <20220925105124.82033-1-richard.henderson@linaro.org>
+ <20220925105124.82033-15-richard.henderson@linaro.org>
+ <87k05mz3xa.fsf@linaro.org>
+ <9db697ee-f8e1-1388-7675-42c46ae98fca@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 14/17] include/hw/core: Create struct CPUJumpCache
+Date: Thu, 29 Sep 2022 18:01:42 +0100
+In-reply-to: <9db697ee-f8e1-1388-7675-42c46ae98fca@linaro.org>
+Message-ID: <877d1myuxl.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220915142913.2213336-7-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pj1-x1033.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -115,290 +98,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 15, 2022 at 10:29:11PM +0800,
-Chao Peng <chao.p.peng@linux.intel.com> wrote:
 
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 08abad4f3e6f..a0f198cede3d 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-...
-> @@ -6894,3 +6899,115 @@ void kvm_mmu_pre_destroy_vm(struct kvm *kvm)
->  	if (kvm->arch.nx_lpage_recovery_thread)
->  		kthread_stop(kvm->arch.nx_lpage_recovery_thread);
->  }
-> +
-> +static bool mem_attr_is_mixed(struct kvm *kvm, unsigned int attr,
-> +			      gfn_t start, gfn_t end)
-> +{
-> +	XA_STATE(xas, &kvm->mem_attr_array, start);
-> +	gfn_t gfn = start;
-> +	void *entry;
-> +	bool shared, private;
-> +	bool mixed = false;
-> +
-> +	if (attr == KVM_MEM_ATTR_SHARED) {
-> +		shared = true;
-> +		private = false;
-> +	} else {
-> +		shared = false;
-> +		private = true;
-> +	}
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-We don't have to care the target is shared or private.  We need to check
-only same or not.
+> On 9/29/22 06:46, Alex Benn=C3=A9e wrote:
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>=20
+>>> Wrap the bare TranslationBlock pointer into a structure.
+>>>
+>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   include/hw/core/cpu.h     | 8 ++++++--
+>>>   accel/tcg/cpu-exec.c      | 9 ++++++---
+>>>   accel/tcg/cputlb.c        | 2 +-
+>>>   accel/tcg/translate-all.c | 4 ++--
+>>>   4 files changed, 15 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+>>> index 9e47184513..ee5b75dea0 100644
+>>> --- a/include/hw/core/cpu.h
+>>> +++ b/include/hw/core/cpu.h
+>>> @@ -232,6 +232,10 @@ struct hvf_vcpu_state;
+>>>   #define TB_JMP_CACHE_BITS 12
+>>>   #define TB_JMP_CACHE_SIZE (1 << TB_JMP_CACHE_BITS)
+>>>   +typedef struct {
+>>> +    TranslationBlock *tb;
+>>> +} CPUJumpCache;
+>>> +
+>> I don't quite follow whats going on here. I see we add vaddr pc in a
+>> later patch but I don't quite see why a cache for looking up TBs gets a
+>> sidechan value added later.
+>> Is this because the vaddr will no longer match the tb->pc? Maybe a
+>> comment on the structure is needed?
+>
+> Correct, there will be no tb->pc, so the cpu has to remember the virtual =
+address itself.
+>
+> This patch only wraps the current pointer into a structure.
 
-> +
-> +	rcu_read_lock();
-> +	entry = xas_load(&xas);
-> +	while (gfn < end) {
-> +		if (xas_retry(&xas, entry))
-> +			continue;
-> +
-> +		KVM_BUG_ON(gfn != xas.xa_index, kvm);
-> +
-> +		if (entry)
-> +			private = true;
-> +		else
-> +			shared = true;
-> +
-> +		if (private && shared) {
-> +			mixed = true;
-> +			goto out;
-> +		}
-> +
-> +		entry = xas_next(&xas);
-> +		gfn++;
-> +	}
-> +out:
-> +	rcu_read_unlock();
-> +	return mixed;
-> +}
-> +
-> +static inline void update_mixed(struct kvm_lpage_info *linfo, bool mixed)
-> +{
-> +	if (mixed)
-> +		linfo->disallow_lpage |= KVM_LPAGE_PRIVATE_SHARED_MIXED;
-> +	else
-> +		linfo->disallow_lpage &= ~KVM_LPAGE_PRIVATE_SHARED_MIXED;
-> +}
-> +
-> +static void update_mem_lpage_info(struct kvm *kvm,
-> +				  struct kvm_memory_slot *slot,
-> +				  unsigned int attr,
-> +				  gfn_t start, gfn_t end)
-> +{
-> +	unsigned long lpage_start, lpage_end;
-> +	unsigned long gfn, pages, mask;
-> +	int level;
-> +
-> +	for (level = PG_LEVEL_2M; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
-> +		pages = KVM_PAGES_PER_HPAGE(level);
-> +		mask = ~(pages - 1);
-> +		lpage_start = start & mask;
-> +		lpage_end = (end - 1) & mask;
-> +
-> +		/*
-> +		 * We only need to scan the head and tail page, for middle pages
-> +		 * we know they are not mixed.
-> +		 */
-> +		update_mixed(lpage_info_slot(lpage_start, slot, level),
-> +			     mem_attr_is_mixed(kvm, attr, lpage_start,
-> +							  lpage_start + pages));
-> +
-> +		if (lpage_start == lpage_end)
-> +			return;
-> +
-> +		for (gfn = lpage_start + pages; gfn < lpage_end; gfn += pages)
-> +			update_mixed(lpage_info_slot(gfn, slot, level), false);
+Sure - however we don't expand the comment when vaddr is added later.
+I'm also concerned that now we have two fields there is scope for skew.
+I guess the acquire/release semantics are to ensure we may fail safe but
+never get a false positive?
 
-
-For >2M case, we don't have to check all entry. just check lower level case.
-
-> +
-> +		update_mixed(lpage_info_slot(lpage_end, slot, level),
-> +			     mem_attr_is_mixed(kvm, attr, lpage_end,
-> +							  lpage_end + pages));
-> +	}
-> +}
-> +
-> +void kvm_arch_update_mem_attr(struct kvm *kvm, unsigned int attr,
-> +			      gfn_t start, gfn_t end)
-> +{
-> +	struct kvm_memory_slot *slot;
-> +	struct kvm_memslots *slots;
-> +	struct kvm_memslot_iter iter;
-> +	int i;
-> +
-> +	WARN_ONCE(!(attr & (KVM_MEM_ATTR_PRIVATE | KVM_MEM_ATTR_SHARED)),
-> +			"Unsupported mem attribute.\n");
-> +
-> +	for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
-> +		slots = __kvm_memslots(kvm, i);
-> +
-> +		kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
-> +			slot = iter.slot;
-> +			start = max(start, slot->base_gfn);
-> +			end = min(end, slot->base_gfn + slot->npages);
-> +			if (WARN_ON_ONCE(start >= end))
-> +				continue;
-> +
-> +			update_mem_lpage_info(kvm, slot, attr, start, end);
-> +		}
-> +	}
-> +}
-
-
-Here is my updated version.
-
-bool kvm_mem_attr_is_mixed(struct kvm_memory_slot *slot, gfn_t gfn, int level)
-{
-	gfn_t pages = KVM_PAGES_PER_HPAGE(level);
-	gfn_t mask = ~(pages - 1);
-	struct kvm_lpage_info *linfo = lpage_info_slot(gfn & mask, slot, level);
-
-	WARN_ON_ONCE(level == PG_LEVEL_4K);
-	return linfo->disallow_lpage & KVM_LPAGE_PRIVATE_SHARED_MIXED;
-}
-
-#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM_ATTR
-static void update_mixed(struct kvm_lpage_info *linfo, bool mixed)
-{
-	if (mixed)
-		linfo->disallow_lpage |= KVM_LPAGE_PRIVATE_SHARED_MIXED;
-	else
-		linfo->disallow_lpage &= ~KVM_LPAGE_PRIVATE_SHARED_MIXED;
-}
-
-static bool __mem_attr_is_mixed(struct kvm *kvm, gfn_t start, gfn_t end)
-{
-	XA_STATE(xas, &kvm->mem_attr_array, start);
-	bool mixed = false;
-	gfn_t gfn = start;
-	void *s_entry;
-	void *entry;
-
-	rcu_read_lock();
-	s_entry = xas_load(&xas);
-	entry = s_entry;
-	while (gfn < end) {
-		if (xas_retry(&xas, entry))
-			continue;
-
-		KVM_BUG_ON(gfn != xas.xa_index, kvm);
-
-		entry = xas_next(&xas);
-		if (entry != s_entry) {
-			mixed = true;
-			break;
-		}
-		gfn++;
-	}
-	rcu_read_unlock();
-	return mixed;
-}
-
-static bool mem_attr_is_mixed(struct kvm *kvm,
-			      struct kvm_memory_slot *slot, int level,
-			      gfn_t start, gfn_t end)
-{
-	struct kvm_lpage_info *child_linfo;
-	unsigned long child_pages;
-	bool mixed = false;
-	unsigned long gfn;
-	void *entry;
-
-	if (WARN_ON_ONCE(level == PG_LEVEL_4K))
-		return false;
-
-	if (level == PG_LEVEL_2M)
-		return __mem_attr_is_mixed(kvm, start, end);
-
-	/* This assumes that level - 1 is already updated. */
-	rcu_read_lock();
-	child_pages = KVM_PAGES_PER_HPAGE(level - 1);
-	entry = xa_load(&kvm->mem_attr_array, start);
-	for (gfn = start; gfn < end; gfn += child_pages) {
-		child_linfo = lpage_info_slot(gfn, slot, level - 1);
-		if (child_linfo->disallow_lpage & KVM_LPAGE_PRIVATE_SHARED_MIXED) {
-			mixed = true;
-			break;
-		}
-		if (xa_load(&kvm->mem_attr_array, gfn) != entry) {
-			mixed = true;
-			break;
-		}
-	}
-	rcu_read_unlock();
-	return mixed;
-}
-
-static void update_mem_lpage_info(struct kvm *kvm,
-				  struct kvm_memory_slot *slot,
-				  unsigned int attr,
-				  gfn_t start, gfn_t end)
-{
-	unsigned long lpage_start, lpage_end;
-	unsigned long gfn, pages, mask;
-	int level;
-
-	for (level = PG_LEVEL_2M; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
-		pages = KVM_PAGES_PER_HPAGE(level);
-		mask = ~(pages - 1);
-		lpage_start = start & mask;
-		lpage_end = (end - 1) & mask;
-
-		/*
-		 * We only need to scan the head and tail page, for middle pages
-		 * we know they are not mixed.
-		 */
-		update_mixed(lpage_info_slot(lpage_start, slot, level),
-			     mem_attr_is_mixed(kvm, slot, level,
-					       lpage_start, lpage_start + pages));
-
-		if (lpage_start == lpage_end)
-			return;
-
-		for (gfn = lpage_start + pages; gfn < lpage_end; gfn += pages)
-			update_mixed(lpage_info_slot(gfn, slot, level), false);
-
-		update_mixed(lpage_info_slot(lpage_end, slot, level),
-			     mem_attr_is_mixed(kvm, slot, level,
-					       lpage_end, lpage_end + pages));
-	}
-}
-
-void kvm_arch_update_mem_attr(struct kvm *kvm, unsigned int attr,
-			      gfn_t start, gfn_t end)
-{
-	struct kvm_memory_slot *slot;
-	struct kvm_memslots *slots;
-	struct kvm_memslot_iter iter;
-	int idx;
-	int i;
-
-	WARN_ONCE(!(attr & (KVM_MEM_ATTR_PRIVATE | KVM_MEM_ATTR_SHARED)),
-		  "Unsupported mem attribute.\n");
-
-	idx = srcu_read_lock(&kvm->srcu);
-	for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
-		slots = __kvm_memslots(kvm, i);
-
-		kvm_for_each_memslot_in_gfn_range(&iter, slots, start, end) {
-			slot = iter.slot;
-			start = max(start, slot->base_gfn);
-			end = min(end, slot->base_gfn + slot->npages);
-			if (WARN_ON_ONCE(start >= end))
-				continue;
-
-			update_mem_lpage_info(kvm, slot, attr, start, end);
-		}
-	}
-	srcu_read_unlock(&kvm->srcu, idx);
-}
-#endif
+>
+>
+> r~
+>
+>>=20
+>>>   /* work queue */
+>>>     /* The union type allows passing of 64 bit target pointers on
+>>> 32 bit
+>>> @@ -361,7 +365,7 @@ struct CPUState {
+>>>       IcountDecr *icount_decr_ptr;
+>>>         /* Accessed in parallel; all accesses must be atomic */
+>>> -    TranslationBlock *tb_jmp_cache[TB_JMP_CACHE_SIZE];
+>>> +    CPUJumpCache tb_jmp_cache[TB_JMP_CACHE_SIZE];
+>>>         struct GDBRegisterState *gdb_regs;
+>>>       int gdb_num_regs;
+>>> @@ -452,7 +456,7 @@ static inline void cpu_tb_jmp_cache_clear(CPUState =
+*cpu)
+>>>       unsigned int i;
+>>>         for (i =3D 0; i < TB_JMP_CACHE_SIZE; i++) {
+>>> -        qatomic_set(&cpu->tb_jmp_cache[i], NULL);
+>>> +        qatomic_set(&cpu->tb_jmp_cache[i].tb, NULL);
+>>>       }
+>>>   }
+>>>   diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+>>> index dd58a144a8..c6283d5798 100644
+>>> --- a/accel/tcg/cpu-exec.c
+>>> +++ b/accel/tcg/cpu-exec.c
+>>> @@ -252,7 +252,7 @@ static inline TranslationBlock *tb_lookup(CPUState =
+*cpu, target_ulong pc,
+>>>       tcg_debug_assert(!(cflags & CF_INVALID));
+>>>         hash =3D tb_jmp_cache_hash_func(pc);
+>>> -    tb =3D qatomic_rcu_read(&cpu->tb_jmp_cache[hash]);
+>>> +    tb =3D qatomic_rcu_read(&cpu->tb_jmp_cache[hash].tb);
+>>>         if (likely(tb &&
+>>>                  tb->pc =3D=3D pc &&
+>>> @@ -266,7 +266,7 @@ static inline TranslationBlock *tb_lookup(CPUState =
+*cpu, target_ulong pc,
+>>>       if (tb =3D=3D NULL) {
+>>>           return NULL;
+>>>       }
+>>> -    qatomic_set(&cpu->tb_jmp_cache[hash], tb);
+>>> +    qatomic_set(&cpu->tb_jmp_cache[hash].tb, tb);
+>>>       return tb;
+>>>   }
+>>>   @@ -987,6 +987,8 @@ int cpu_exec(CPUState *cpu)
+>>>                 tb =3D tb_lookup(cpu, pc, cs_base, flags, cflags);
+>>>               if (tb =3D=3D NULL) {
+>>> +                uint32_t h;
+>>> +
+>>>                   mmap_lock();
+>>>                   tb =3D tb_gen_code(cpu, pc, cs_base, flags, cflags);
+>>>                   mmap_unlock();
+>>> @@ -994,7 +996,8 @@ int cpu_exec(CPUState *cpu)
+>>>                    * We add the TB in the virtual pc hash table
+>>>                    * for the fast lookup
+>>>                    */
+>>> -                qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(=
+pc)], tb);
+>>> +                h =3D tb_jmp_cache_hash_func(pc);
+>>> +                qatomic_set(&cpu->tb_jmp_cache[h].tb, tb);
+>>>               }
+>>>     #ifndef CONFIG_USER_ONLY
+>>> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+>>> index f5e6ca2da2..fb8f3087f1 100644
+>>> --- a/accel/tcg/cputlb.c
+>>> +++ b/accel/tcg/cputlb.c
+>>> @@ -103,7 +103,7 @@ static void tb_jmp_cache_clear_page(CPUState *cpu, =
+target_ulong page_addr)
+>>>       unsigned int i, i0 =3D tb_jmp_cache_hash_page(page_addr);
+>>>         for (i =3D 0; i < TB_JMP_PAGE_SIZE; i++) {
+>>> -        qatomic_set(&cpu->tb_jmp_cache[i0 + i], NULL);
+>>> +        qatomic_set(&cpu->tb_jmp_cache[i0 + i].tb, NULL);
+>>>       }
+>>>   }
+>>>   diff --git a/accel/tcg/translate-all.c
+>>> b/accel/tcg/translate-all.c
+>>> index f429d33981..efa479ccf3 100644
+>>> --- a/accel/tcg/translate-all.c
+>>> +++ b/accel/tcg/translate-all.c
+>>> @@ -1187,8 +1187,8 @@ static void do_tb_phys_invalidate(TranslationBloc=
+k *tb, bool rm_from_page_list)
+>>>       /* remove the TB from the hash list */
+>>>       h =3D tb_jmp_cache_hash_func(tb->pc);
+>>>       CPU_FOREACH(cpu) {
+>>> -        if (qatomic_read(&cpu->tb_jmp_cache[h]) =3D=3D tb) {
+>>> -            qatomic_set(&cpu->tb_jmp_cache[h], NULL);
+>>> +        if (qatomic_read(&cpu->tb_jmp_cache[h].tb) =3D=3D tb) {
+>>> +            qatomic_set(&cpu->tb_jmp_cache[h].tb, NULL);
+>>>           }
+>>>       }
+>>=20
 
 
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+--=20
+Alex Benn=C3=A9e
 
