@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3A85EF6EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 15:52:54 +0200 (CEST)
-Received: from localhost ([::1]:35422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D223B5EF6E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 15:48:29 +0200 (CEST)
+Received: from localhost ([::1]:42370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odty9-00031J-Mn
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 09:52:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48702)
+	id 1odtts-0006Z2-Uf
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 09:48:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3K-0000Ow-G0
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:07 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46853)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odryS-00065U-5c
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:45:06 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:45630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3F-0002Ol-Ra
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:06 -0400
-Received: by mail-wr1-x432.google.com with SMTP id bk15so1755919wrb.13
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:49:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odryQ-0001bb-Lp
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:45:03 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id dv25so2188668ejb.12
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=LtaDlUJVGMb2JqoOoenqLWs8g7TzlOytd4Bv6SYv0Bg=;
- b=s68wwXeoGUXbaTVEivYaekkIsgTcCggzkGKwDPe6xghEsNx/G/KDeh84lKTFEoffN8
- KAwFNzRRwNG0qjM7q0ir63kLVAOaqca8E9ATMODvOEX8R4q8etgqOKipOTgLQKlaEbR4
- QcVzWL4BpLMzi8/SEbDJ/ztZzPuPaNgRUQHKSd1io/E8umYMZb/oTrsshKX5Hn+k/dM2
- we7PV5tyWRXcgqFSO8oyGuczLJpwJGX/3ablVjqLJ6zIYmYMTkN6B/rk89EhsMA7HlQF
- ARNS6HKJD1BP9hfuFYgxWqQjwPKpE242/DeEDTdDJ4go8BXTihbJTtOZ2QWQIxNm88Nd
- 0OVg==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=8SuG+DFph+UQuEzJIs4sdUk7OdEe2rwwYl9qbu1x0mg=;
+ b=KcqISa9mhCyLnsHbPqakSD6eqLysrHya8quhFg+Vy4ArPHzyo26kiua4p92hA5Hnd5
+ GD2gGf3pcEIcbB+FyLVPTC7ZLJINi/1/77NfCLY1L4yA3NeQXdHrDJ/3nuOXPhzcOE9c
+ imXXBEGUHAsTSx6y/6gZSIRdN8guwGcE4ZvvxOvgbTqfbFH8qOtDSW3vfxD7ToO/dczd
+ ievuymyM/OVX8ZNHOVpSBnFDG9VfSA4LuJal90jMIisNRr2Ry0OCW3M3dchwPsVOhflj
+ yoLzQxq1kjp0JhOlZ3WtGiOd2C8cPacQcjqnAAitusxwEdO1uFBNObNduIOnNh3WFwC9
+ X83Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=LtaDlUJVGMb2JqoOoenqLWs8g7TzlOytd4Bv6SYv0Bg=;
- b=Yk8QqBXEzA45ts/iQG+LhZYUUG4rmU2/q5010Y7R5OXZa6qvJmnoo4F6EyBlo1lrTh
- sbpq8iCw1UN6HHkWdeFtg0Fc2WwzBexa29D7bMmWgp+B2AS6Q6gnVh2/7+GPpvMmnNVM
- EXRqEIzBcpTKzod3g7oPH+x/54XGfqpv6y1XBn6PzdkFlmzhNXRJKg3FUUvCFmHZwiJV
- p1kP8Ytrp6bEHwZ3G4CyRJ2k8T8mnC7xy9JDuYtetJbFgb2BHMpoLMYNMfx1jwx1MfZ7
- Lf5PpXUpmsKsWtwkSjOTAxGbIThjANnB/F34BzcfinSuwS4XeSSyDFcaBE5d0KRLv+UZ
- VG8w==
-X-Gm-Message-State: ACrzQf3vuJd9BRUya/HmvzXoMEvjc+Ocwutn5nFk0J6gvzQfPIZ4Jwc/
- tREB36EHA7CSeKULAHuPNVTTTA==
-X-Google-Smtp-Source: AMsMyM6S4v+VX4VzNgvxUtLuWFWXF2ZTB9fOWXa2w74ylwnHN9MK2nNCfe959uQy8AH1YMYtBf9BbA==
-X-Received: by 2002:a5d:6c6b:0:b0:225:dde:ab40 with SMTP id
- r11-20020a5d6c6b000000b002250ddeab40mr1983639wrz.690.1664452198312; 
- Thu, 29 Sep 2022 04:49:58 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- w10-20020a05600c474a00b003b4ac05a8a4sm5527858wmo.27.2022.09.29.04.49.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:49:55 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 145711FFE6;
- Thu, 29 Sep 2022 12:42:37 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
- pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
- cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
- robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- WANG Xuerui <git@xen0n.name>
-Subject: [PATCH v1 49/51] contrib/gitdm: add WANG Xuerui to individual
- contributers
-Date: Thu, 29 Sep 2022 12:42:29 +0100
-Message-Id: <20220929114231.583801-50-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
-References: <20220929114231.583801-1-alex.bennee@linaro.org>
+ bh=8SuG+DFph+UQuEzJIs4sdUk7OdEe2rwwYl9qbu1x0mg=;
+ b=h4wxdeN/Ey27YNFwbqAjhuplBr62LUW/CEco46NSwjHAXAgBDdGd6kG6MeZxG96k4l
+ lz1FRLtNC85GoljQoZXsZ1QxYmk43Dit6B2Xfgh2kH4hnDu9wCIKyHExcRrljPnoyqK2
+ TtsGgZaEVAjmv3D+OVN2qp2DuG/3yWlMjFY07pZH36UXS5+L4cknTCkx5OdnlQzJ1z6s
+ Xl9gIDUz72B2m+rV/oBZ8kkRYOHd5K8WGT2gpgJK/cp/hXhGws3C42hW4Q1c3/p1Mg+M
+ A6Ssc/bXyYLONF1+mtGWyogoh0SKLySoINhXgVxbmXisALGQBCWdnVkmQHkVlR49yIBS
+ JOdQ==
+X-Gm-Message-State: ACrzQf0EHlZftriRG2O4vt8EpS+5gUyCIgRISvt5KIKdsn8ZE8ZKEhKo
+ 1/N8OUtwp4jJQMXHT/0sssQH4Q/FA01RL89CyMP60g==
+X-Google-Smtp-Source: AMsMyM45c/ahmP6XuhxaD/ql2uY19WhX42qakphp/ZQQL7FHbICialyzn0paMBzsmsEf7BxzxSMOADwVc8frZr/eQZc=
+X-Received: by 2002:a17:907:728e:b0:782:8e91:64c8 with SMTP id
+ dt14-20020a170907728e00b007828e9164c8mr2537637ejc.36.1664451900905; Thu, 29
+ Sep 2022 04:45:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+References: <20220928164719.655586-1-clg@kaod.org>
+ <20220928164719.655586-2-clg@kaod.org>
+In-Reply-To: <20220928164719.655586-2-clg@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 29 Sep 2022 12:44:49 +0100
+Message-ID: <CAFEAcA831iWjFSYt3UrKT0zA1MBfJn5BVSpEbVrOWj3Yw6yn_Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target/arm: Disable VFPv4-D32 when NEON is not
+ available
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ Richard Henderson <richard.henderson@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,29 +88,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-His blog confirms he is not affiliated with Loongson.
+On Wed, 28 Sept 2022 at 17:47, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> As the Cortex A7 MPCore Technical reference says :
+>
+>   "When FPU option is selected without NEON, the FPU is VFPv4-D16 and
+>   uses 16 double-precision registers. When the FPU is implemented with
+>   NEON, the FPU is VFPv4-D32 and uses 32 double-precision registers.
+>   This register bank is shared with NEON."
+>
+> Modify the mvfr0 register value of the cortex A7 to advertise only 16
+> registers when NEON is not available, and not 32 registers.
+>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  target/arm/cpu.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 7ec3281da9aa..01dc74c32add 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -1684,6 +1684,10 @@ static void arm_cpu_realizefn(DeviceState *dev, Er=
+ror **errp)
+>          cpu->isar.id_isar6 =3D u;
+>
+>          if (!arm_feature(env, ARM_FEATURE_M)) {
+> +            u =3D cpu->isar.mvfr0;
+> +            u =3D FIELD_DP32(u, MVFR0, SIMDREG, 1); /* 16 registers */
+> +            cpu->isar.mvfr0 =3D u;
+> +
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: WANG Xuerui <git@xen0n.name>
-Message-Id: <20220926134609.3301945-5-alex.bennee@linaro.org>
+Architecturally, Neon implies that you must have 32 dp registers,
+but not having Neon does not imply that you must only have 16.
+In particular, the Cortex-A15 always implements VFPv4-D32
+whether Neon is enabled or not.
 
----
-v2
-  - fix spelling of Loongson
----
- contrib/gitdm/group-map-individuals | 1 +
- 1 file changed, 1 insertion(+)
+If you want to be able to turn off D32 and restrict to 16
+registers, I think you need to add a separate property to
+control that.
 
-diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-index 6322b3476d..e19d79626c 100644
---- a/contrib/gitdm/group-map-individuals
-+++ b/contrib/gitdm/group-map-individuals
-@@ -35,3 +35,4 @@ liq3ea@gmail.com
- chetan4windows@gmail.com
- akihiko.odaki@gmail.com
- paul@nowt.org
-+git@xen0n.name
--- 
-2.34.1
-
+thanks
+-- PMM
 
