@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED495EF484
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 13:42:43 +0200 (CEST)
-Received: from localhost ([::1]:58890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D975EF471
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 13:37:52 +0200 (CEST)
+Received: from localhost ([::1]:37406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odrw9-00043U-Ix
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 07:42:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38210)
+	id 1odrrE-00033Z-4Z
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 07:37:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1odrMK-0001F7-Q7
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:05:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58000)
+ id 1odrMn-0001PF-Um
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:06:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1odrMJ-0001yf-AJ
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:05:40 -0400
+ id 1odrMm-00023P-8q
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:06:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664449538;
+ s=mimecast20190719; t=1664449567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7VUhs4rAc5DdkL/r1kEvE47gIjm+3f12pZ7vfN+8Q1c=;
- b=jI/s6CZKj7aQGbr4KFTSvnoGmWoVBbNEXdxUiWo0Xj/WETsE0T+dR3iQfDndxRsV94XCeu
- 7tzjNS7WLoI+aaIH0unrvEyKIGhyPOBph233Mi6IMOFI4VagUvbH4dpTaST5K3+MbNaroH
- 7grWKP5RmjWJ4m//dP/vVhknLMbaznk=
+ bh=Nz0okoqs97AGg9QA1bZOrRakGbAfb/yIQpkpq/jAzbA=;
+ b=USJS4s/pS2U9fz3amyB13aOvQon2rQqOdZq5I8JdZp59srDUzFXnUzzPrwIBKXemF+QcQN
+ GSkLGKSNBeOwxJ9y2WXfE2ET5Gzopf+JcUQj7DbW3iYpZCaXWHKaNgyOpX1XXsGlXCN5KB
+ k7THc6C+t2adzg2bCylyfYmH17ujBaE=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-455-dKGnIhEsMviUouM0psuRiw-1; Thu, 29 Sep 2022 07:05:37 -0400
-X-MC-Unique: dKGnIhEsMviUouM0psuRiw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-35-tOU4JisnOdi6_1YfwJkf6Q-1; Thu, 29 Sep 2022 07:05:55 -0400
+X-MC-Unique: tOU4JisnOdi6_1YfwJkf6Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 065701C05AC0;
- Thu, 29 Sep 2022 11:05:37 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A0C738012CA;
+ Thu, 29 Sep 2022 11:05:42 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2F834099B52;
- Thu, 29 Sep 2022 11:05:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D465C207B34A;
+ Thu, 29 Sep 2022 11:05:39 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Maksim Davydov <davydov-max@yandex-team.ru>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+Cc: stefanha@redhat.com, Guoyi Tu <tugy@chinatelecom.cn>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 6/8] chardev: fix segfault in finalize
-Date: Thu, 29 Sep 2022 15:05:06 +0400
-Message-Id: <20220929110508.1323529-7-marcandre.lureau@redhat.com>
+Subject: [PULL 7/8] oslib-posix: Introduce qemu_socketpair()
+Date: Thu, 29 Sep 2022 15:05:07 +0400
+Message-Id: <20220929110508.1323529-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20220929110508.1323529-1-marcandre.lureau@redhat.com>
 References: <20220929110508.1323529-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -82,54 +82,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maksim Davydov <davydov-max@yandex-team.ru>
+From: Guoyi Tu <tugy@chinatelecom.cn>
 
-If finalize chardev-msmouse or chardev-wctable is called immediately after
-init it cases QEMU to crash with segfault. This happens because of
-QTAILQ_REMOVE in qemu_input_handler_unregister tries to dereference
-NULL pointer.
-For instance, this error can be reproduced via `qom-list-properties`
-command.
+qemu_socketpair() will create a pair of connected sockets
+with FD_CLOEXEC set
 
-Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
+Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Message-Id: <20220825165247.33704-1-davydov-max@yandex-team.ru>
+Message-Id: <17fa1eff729eeabd9a001f4639abccb127ceec81.1661240709.git.tugy@chinatelecom.cn>
 ---
- chardev/msmouse.c  | 4 +++-
- chardev/wctablet.c | 4 +++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ include/qemu/sockets.h | 18 ++++++++++++++++++
+ util/oslib-posix.c     | 19 +++++++++++++++++++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/chardev/msmouse.c b/chardev/msmouse.c
-index 9006703023..ab8fe981d6 100644
---- a/chardev/msmouse.c
-+++ b/chardev/msmouse.c
-@@ -247,7 +247,9 @@ static void char_msmouse_finalize(Object *obj)
- {
-     MouseChardev *mouse = MOUSE_CHARDEV(obj);
- 
--    qemu_input_handler_unregister(mouse->hs);
-+    if (mouse->hs) {
-+        qemu_input_handler_unregister(mouse->hs);
-+    }
-     fifo8_destroy(&mouse->outbuf);
+diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+index 038faa157f..036745e586 100644
+--- a/include/qemu/sockets.h
++++ b/include/qemu/sockets.h
+@@ -14,6 +14,24 @@ int inet_aton(const char *cp, struct in_addr *ia);
+ /* misc helpers */
+ bool fd_is_socket(int fd);
+ int qemu_socket(int domain, int type, int protocol);
++
++#ifndef WIN32
++/**
++ * qemu_socketpair:
++ * @domain: specifies a communication domain, such as PF_UNIX
++ * @type: specifies the socket type.
++ * @protocol: specifies a particular protocol to be used with the  socket
++ * @sv: an array to store the pair of socket created
++ *
++ * Creates an unnamed pair of connected sockets in the specified domain,
++ * of the specified type, and using the optionally specified protocol.
++ * And automatically set the close-on-exec flags on the returned sockets
++ *
++ * Return 0 on success.
++ */
++int qemu_socketpair(int domain, int type, int protocol, int sv[2]);
++#endif
++
+ int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
+ int socket_set_cork(int fd, int v);
+ int socket_set_nodelay(int fd);
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index d55af69c11..827a7aadba 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -253,6 +253,25 @@ void qemu_set_cloexec(int fd)
+     assert(f != -1);
  }
  
-diff --git a/chardev/wctablet.c b/chardev/wctablet.c
-index e8b292c43c..43bdf6b608 100644
---- a/chardev/wctablet.c
-+++ b/chardev/wctablet.c
-@@ -319,7 +319,9 @@ static void wctablet_chr_finalize(Object *obj)
- {
-     TabletChardev *tablet = WCTABLET_CHARDEV(obj);
- 
--    qemu_input_handler_unregister(tablet->hs);
-+    if (tablet->hs) {
-+        qemu_input_handler_unregister(tablet->hs);
++int qemu_socketpair(int domain, int type, int protocol, int sv[2])
++{
++    int ret;
++
++#ifdef SOCK_CLOEXEC
++    ret = socketpair(domain, type | SOCK_CLOEXEC, protocol, sv);
++    if (ret != -1 || errno != EINVAL) {
++        return ret;
 +    }
- }
- 
- static void wctablet_chr_open(Chardev *chr,
++#endif
++    ret = socketpair(domain, type, protocol, sv);;
++    if (ret == 0) {
++        qemu_set_cloexec(sv[0]);
++        qemu_set_cloexec(sv[1]);
++    }
++
++    return ret;
++}
++
+ char *
+ qemu_get_local_state_dir(void)
+ {
 -- 
 2.37.3
 
