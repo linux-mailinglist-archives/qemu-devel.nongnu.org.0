@@ -2,59 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFFBD5EFE39
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 21:57:45 +0200 (CEST)
-Received: from localhost ([::1]:33544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54265EFE6B
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 22:09:12 +0200 (CEST)
+Received: from localhost ([::1]:34246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odzfE-0000RX-EI
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 15:57:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55056)
+	id 1odzqJ-0005P0-Be
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 16:09:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hpoussin@reactos.org>)
- id 1odzbX-0005NN-Gx; Thu, 29 Sep 2022 15:53:55 -0400
-Received: from iserv.reactos.org ([2a01:4f8:1c17:5ae1::1]:47686)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1odzlr-0002H7-H6; Thu, 29 Sep 2022 16:04:41 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:49716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hpoussin@reactos.org>)
- id 1odzbV-0003U2-7Z; Thu, 29 Sep 2022 15:53:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=reactos.org
- ; s=25047;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CjdR/eLdlxbXpUHcHZl6XG6nkl9V/ICd3Uq9XrAuFvY=; b=rENcPWVKbPQMB5npyLe1LdZvOK
- N+VL25g5BUW9i3+EMfKKKeKoPhr5C2cjPn5+KfFiAeimcakJaGibhU7BJctrQd+V3EYHFddVwF7oY
- yAn0Hofk8pjpojbOfYTRAur7BlqkCwzSp81B7Ytd0bBZE91vA8SDQcXWCVJV2YvoYWDg=;
-Received: by iserv.reactos.org with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <hpoussin@reactos.org>)
- id 1odzbQ-0001uQ-LW; Thu, 29 Sep 2022 19:53:48 +0000
-Message-ID: <c61944a2-1b1c-bec1-0253-3335b05d3b43@reactos.org>
-Date: Thu, 29 Sep 2022 21:53:47 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 1/2] vvfat: allow some writes to bootsector
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1odzlo-0005CM-RH; Thu, 29 Sep 2022 16:04:35 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A56F9B82677;
+ Thu, 29 Sep 2022 20:04:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4272FC433D7;
+ Thu, 29 Sep 2022 20:04:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1664481868;
+ bh=/EfjNeSL41O8nsPYm2naA2pOEvaJtYD4w3QkdNtEHis=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=K+GksO0UU7zqMSFFMdBuCIjGY562IKfBfEcXXkSegc366bjYa+SfZTnFXInbaIeiC
+ 7cGf8XBeufYneH84Rh2XSYzfHVIbreag6X9s6khZBswfznx+WK2Qyq/rucZBG3xxAh
+ ehrA6qFnsPwei3xiEcAb8oYOBuVwUo0yDQRJ1rJF81aFpY28RSS4YWI77RhSScUnlO
+ V3l4md0jxZyv/Y8lH+4XeQtD8til6aZ9BXfx1O9lLg6t6BxWV6EcZuRhQ8rVg18ZHB
+ uRqnT5KcJ/KpIlQ5zDp5GpXom9q9ewIrQCGNslUKO6jWHZ39B1RAHsC66DtXPd+frq
+ DT61F8PFMcHbw==
+Date: Thu, 29 Sep 2022 14:04:24 -0600
+From: Keith Busch <kbusch@kernel.org>
 To: Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220903162302.3176003-1-hpoussin@reactos.org>
- <20220903162302.3176003-2-hpoussin@reactos.org> <YzWnWMRKhdzxkdT1@redhat.com>
-From: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
-In-Reply-To: <YzWnWMRKhdzxkdT1@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a01:4f8:1c17:5ae1::1;
- envelope-from=hpoussin@reactos.org; helo=iserv.reactos.org
-X-Spam_score_int: -61
-X-Spam_score: -6.2
-X-Spam_bar: ------
-X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.099,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Cc: Keith Busch <kbusch@fb.com>, qemu-block@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCHv2] block: use the request length for iov alignment
+Message-ID: <YzX6SN8ZavPu/RZ7@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220923153451.3810456-1-kbusch@fb.com>
+ <YzXDSlksuOucjZm3@kbusch-mbp.dhcp.thefacebook.com>
+ <YzXdFhmMkDG5kS8y@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YzXdFhmMkDG5kS8y@redhat.com>
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=kbusch@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,71 +74,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 29/09/2022 à 16:10, Kevin Wolf a écrit :
-> Am 03.09.2022 um 18:23 hat Hervé Poussineau geschrieben:
->> 'reserved1' field in bootsector is used to mark volume dirty, or need to verify.
->> Allow writes to bootsector which only changes the 'reserved1' field.
->>
->> This fixes I/O errors on Windows guests.
->>
->> Resolves: https://bugs.launchpad.net/qemu/+bug/1889421
->> Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
->> ---
->>   block/vvfat.c | 18 +++++++++++++++++-
->>   1 file changed, 17 insertions(+), 1 deletion(-)
->>
->> diff --git a/block/vvfat.c b/block/vvfat.c
->> index d6dd919683d..35057a51c67 100644
->> --- a/block/vvfat.c
->> +++ b/block/vvfat.c
->> @@ -2993,11 +2993,27 @@ DLOG(checkpoint());
->>   
->>       vvfat_close_current_file(s);
->>   
->> +    if (sector_num == s->offset_to_bootsector && nb_sectors == 1) {
->> +        /*
->> +         * Write on bootsector. Allow only changing the reserved1 field,
->> +         * used to mark volume dirtiness
->> +         */
->> +        const unsigned char *initial = s->first_sectors
->> +                                       + s->offset_to_bootsector * 0x200;
->> +        for (i = 0; i < 0x200; i++) {
->> +            if (i != offsetof(bootsector_t, u.fat16.reserved1) &&
+On Thu, Sep 29, 2022 at 07:59:50PM +0200, Kevin Wolf wrote:
+> Am 29.09.2022 um 18:09 hat Keith Busch geschrieben:
+> > On Fri, Sep 23, 2022 at 08:34:51AM -0700, Keith Busch wrote:
+> > > 
+> > > An iov length needs to be aligned to the logical block size, which may
+> > > be larger than the memory alignment. And since this is only used with
+> > > file-posix backing storage, move the alignment function to there, where
+> > > the value of the request_alignment is known to be the file's logical
+> > > block size.
+> > 
+> > Any objections to this version? This is fixing real bug reports that
+> > may become more frequent without this patch.
 > 
-> I think you need to check the FAT version (s->fat_type) before accessing
-> u.fat16. For FAT32, the "reserved" field is at a different offset (but
-> seems to have the same meaning).
+> I think it is okay. Splitting it in two patches would have been nicer
+> (one for moving code, one for making the change), but it's small enough
+> that I can ignore that. I'll probably merge it tomorrow.
 
-I didn't do this, because only fat16 part of bootsector is ever used.
-In init_directories(), only fat16 part is initialized, with the comment:
-	/* LATER TODO: if FAT32, this is wrong */
-I wanted to be consistent between init_directories() and the check.
-
-> 
->> +                initial[i] != buf[i]) {
->> +                fprintf(stderr, "Tried to write to protected bootsector\n");
->> +                return -1;
->> +            }
->> +        }
->> +        return 0;
->> +    }
-> 
-> Should we update s->first_sectors with the new value so that the guest
-> would actually read back what it wrote instead of having the change
-> disappear magically?
-
-Windows guests don't seem to care if the written value disappears. They only want the write to succeed.
-
-> 
->>       /*
->>        * Some sanity checks:
->>        * - do not allow writing to the boot sector
->>        */
->> -
->>       if (sector_num < s->offset_to_fat)
->>           return -1;
-> 
-> Kevin
-> 
-
+I agree that splitting makes the functional change stand out, otherwise a
+casual look may mistake the patch as a simple function move. I'll send you a
+new version.
 
