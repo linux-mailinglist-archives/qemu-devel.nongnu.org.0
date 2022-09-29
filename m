@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126775EF7DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:42:33 +0200 (CEST)
-Received: from localhost ([::1]:51266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7885EF7FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:47:19 +0200 (CEST)
+Received: from localhost ([::1]:33766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odukC-0002MD-35
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:42:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57402)
+	id 1oduoo-0006st-Dg
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:47:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods6B-00022V-PV
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:53:08 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods68-00034D-Es
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:53:03 -0400
-Received: by mail-wr1-x434.google.com with SMTP id h7so1769486wru.10
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=9CKp4+MliHDX49kndl7AwsM9I9vkkBHIOpOCuRYd2sA=;
- b=cpOkTctVuUd5UmzRp4d6HnHjpSw+U70YBdfuBUbwzIhYQov6Ojn/xOCXgXi8qjLiGz
- Lx7D6b7KfpUlJxVZb0cqfLkql20FnYm8iGVKRCbqRxbXZgjZ6Hp0R4RAeoAStpm/envs
- yoc+66tETwMhK6G4eQTxsQwVx7/mV6QcI8+gpg8RNL/XiubhHWkVKy7ZFRkadhUcQaat
- 6856bQcpm4nVcYxJM5WAaEkt53iPqgS65WTafwzYgnqEu8RTuGfv6tnzS1w59nzbKnjU
- oFoA0peNjgKruEQOIw7Fs1sQH3YauZ62ygXyYyaEsSb3grkdTUbpdP8LP4bhbN2BsAJc
- AI/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=9CKp4+MliHDX49kndl7AwsM9I9vkkBHIOpOCuRYd2sA=;
- b=nN/uPF+rRq+hraV9VO2UjkN6K0fN+J7SubdpRZQIj5y6sQq+aJIu2lJrIPPu1cG4AL
- c1Y/jfd/hYSH63S4e/lBAuArQGE5UqjZkurm+HQcwkuoPuNcrIrP9AT1tCDQXm6wvHm9
- Q6axsKfptwYrOHQbN+9Z3IgLcwidS8bPghqcenIW2nkPFUHc0i6OZKJQ/fAkPBtjcd4C
- 3N7YvSOmh5O0yhS+BqNkqN2YT81931YpPCVDTuIzcHJ+0ce+eO/2vundMMktgDLvFu4p
- uHJD+P5tDTQEDegZ1+0utYleQblJ9kR/RvJQEG203yzmopbNJmwlFPXwO77DKSj5Rb1T
- u7dg==
-X-Gm-Message-State: ACrzQf2ISWQ1By5Qk9llsoNTPMTCdcdfha307gphZ7wr6HKee/Le8+FX
- RmQTjepjawW6YcN8ndWfak9Rww==
-X-Google-Smtp-Source: AMsMyM522VFNRg+nrdRZDxke5nFm1X0Md+5Az1TqKXkdTaYRE/5jCB9PEo0DMwC0gZtfgPHb5VTlbw==
-X-Received: by 2002:a05:6000:18d1:b0:22c:c347:8f9d with SMTP id
- w17-20020a05600018d100b0022cc3478f9dmr2197376wrq.358.1664452353896; 
- Thu, 29 Sep 2022 04:52:33 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- n43-20020a05600c502b00b003a83ca67f73sm4430671wmr.3.2022.09.29.04.52.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:52:33 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9AED71FFB8;
- Thu, 29 Sep 2022 12:52:32 +0100 (BST)
-References: <20220925105124.82033-1-richard.henderson@linaro.org>
- <20220925105124.82033-5-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Philippe =?utf-8?Q?Mathieu-D?=
- =?utf-8?Q?aud=C3=A9?= <f4bug@amsat.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 04/17] accel/tcg: Introduce probe_access_full
-Date: Thu, 29 Sep 2022 12:51:45 +0100
-In-reply-to: <20220925105124.82033-5-richard.henderson@linaro.org>
-Message-ID: <87czbe1jpb.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ods8P-0003PM-U4
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:55:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45405)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ods8O-0003a6-3k
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:55:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664452519;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=W2PVy8yW75eKqf2xWdxERQ/sWg3yge3y5Hjk96G2T0Y=;
+ b=R4AT3s5EuCGzsFL4KBN/jYuTuCXwnhGGNYpCeAzpTf760Xlf/rpTlMOR+wJ+kaq/dM9oms
+ vqQ8X0jEoslZv2DdmflsN7wZrKHuahsXYp+MHI6V9jiEByJNMt6QhEkda62xei24E83qtb
+ 0HnOiyGD/sY8oUEbcPx7WL0eh+mGyo8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-450-VipfbthFOC69WmCuadHZzA-1; Thu, 29 Sep 2022 07:55:18 -0400
+X-MC-Unique: VipfbthFOC69WmCuadHZzA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8807185A7A3;
+ Thu, 29 Sep 2022 11:55:17 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6EAE72166B26;
+ Thu, 29 Sep 2022 11:55:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 47F6921E691D; Thu, 29 Sep 2022 13:55:16 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Daniel P . =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Bin Meng <bin.meng@windriver.com>,  Hanna Reitz
+ <hreitz@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org,  qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 2/2] block: Refactor get_tmp_filename()
+References: <20220928144125.1997128-1-bmeng.cn@gmail.com>
+ <20220928144125.1997128-2-bmeng.cn@gmail.com>
+Date: Thu, 29 Sep 2022 13:55:16 +0200
+In-Reply-To: <20220928144125.1997128-2-bmeng.cn@gmail.com> (Bin Meng's message
+ of "Wed, 28 Sep 2022 22:41:25 +0800")
+Message-ID: <87v8p6s8d7.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,44 +84,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Bin Meng <bmeng.cn@gmail.com> writes:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Add an interface to return the CPUTLBEntryFull struct
-> that goes with the lookup.  The result is not intended
-> to be valid across multiple lookups, so the user must
-> use the results immediately.
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/exec-all.h | 11 ++++++++++
->  accel/tcg/cputlb.c      | 47 +++++++++++++++++++++++++----------------
->  2 files changed, 40 insertions(+), 18 deletions(-)
+> At present there are two callers of get_tmp_filename() and they are
+> inconsistent.
 >
-> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> index bcad607c4e..758cf6bcc7 100644
-> --- a/include/exec/exec-all.h
-> +++ b/include/exec/exec-all.h
-> @@ -434,6 +434,17 @@ int probe_access_flags(CPUArchState *env, target_ulo=
-ng addr,
->                         MMUAccessType access_type, int mmu_idx,
->                         bool nonfault, void **phost, uintptr_t retaddr);
->=20=20
-> +#ifndef CONFIG_USER_ONLY
-> +/**
-> + * probe_access_full:
-> + * Like probe_access_flags, except also return into @pfull.
-> + */
+> One does:
+>
+>     /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+>     char *tmp_filename = g_malloc0(PATH_MAX + 1);
+>     ...
+>     ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+>
+> while the other does:
+>
+>     s->qcow_filename = g_malloc(PATH_MAX);
+>     ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
+>
+> As we can see different 'size' arguments are passed. There are also
+> platform specific implementations inside the function, and the use
+> of snprintf is really undesirable.
+>
+> The function name is also misleading. It creates a temporary file,
+> not just a filename.
+>
+> Refactor this routine by changing its name and signature to:
+>
+>     char *create_tmp_file(Error **errp)
+>
+> and use g_file_open_tmp() for a consistent implementation.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-That lifetime requirement on @pfull really should be documented here as
-well as the commit message.
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-Otherwise:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
