@@ -2,78 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566635EFC8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 20:00:09 +0200 (CEST)
-Received: from localhost ([::1]:42290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1081B5EFC30
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:46:38 +0200 (CEST)
+Received: from localhost ([::1]:39336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odxpN-0005X1-IW
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 14:00:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53606)
+	id 1odxcK-0004KC-Qm
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:46:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1odwx4-0007yP-W1
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:04:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21561)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1odxLH-0001Yv-0L
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:28:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1odwww-0000Vd-Lp
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:03:57 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1odxLA-000521-Ik
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:28:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664471029;
+ s=mimecast20190719; t=1664472531;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uqdJKino+WGH39SvgH4nladSze3TiEm6JjOeBEiq17E=;
- b=H6cYxVD5bYnN/J4jfYXwbe2nGnpP/Q6nAIsYXOVxPuzsq2zgpbQqTKjUVMPsd1wSmmOJMF
- xOg9QOuvUWQZnROyJio5VBLn5D5M0EJHNy5sfFjIsTphO+JNfQiWRZv8zVNtsQYWO9gkHd
- KOuHQUU6DcUTXi9+icIlxqXTVoia7Fg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-0_eeVH5pPBSGHOx8paTymA-1; Thu, 29 Sep 2022 13:03:46 -0400
-X-MC-Unique: 0_eeVH5pPBSGHOx8paTymA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8CA5101A528;
- Thu, 29 Sep 2022 17:03:45 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.22.9.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BEC9CC15BB1;
- Thu, 29 Sep 2022 17:03:45 +0000 (UTC)
-Received: by fedora.redhat.com (Postfix, from userid 1000)
- id 5B5204B01F; Thu, 29 Sep 2022 13:03:45 -0400 (EDT)
-Date: Thu, 29 Sep 2022 13:03:45 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Colin Walters <walters@verbum.org>
-Cc: Sergio Lopez <slp@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
- German Maglione <gmaglione@redhat.com>
-Subject: Re: [Virtio-fs] virtiofsd: Any reason why there's not an "openat2"
- sandbox mode?
-Message-ID: <YzXP8XhCG5ta2Dvv@redhat.com>
-References: <YzMmu3xfOtQwuFUx@redhat.com> <YzMrYAJQeSP2hDSs@redhat.com>
- <CAJh=p+5rQDBJJC8VNGL10KYgDeq-Hg5WK7avONCti03eJGH+ow@mail.gmail.com>
- <798fe353-9537-44fe-a76a-819e8c93abb5@www.fastmail.com>
- <YzNZnPiUqySu6sGh@fedora>
- <20220928083340.eyizwu6mm3cc3bxu@mhamilton>
- <YzSgeDdpHOw1hTM0@redhat.com>
- <b963f623-aa85-4285-9bfa-5fcb4744c354@app.fastmail.com>
- <YzWnPZ5Y6ivS8e1v@redhat.com>
- <b1cf0d02-cc45-4f5c-bfef-fda3e750bef3@app.fastmail.com>
+ bh=ee74vZ2+nDWj/8Ky/P/PwQkAspnTrwNqbrRcVZAkfE8=;
+ b=JuUm0x/pU2KmYEsqPOX0MPFtmsb3A+/u7FNgOQNNIDjT9C0BvILohWdUAkzCyDJ7utKh8T
+ 2RNnYNSSwOZEyZbzQoxSWf94gkyRdcX++J9IokSI6W5gk51H+BLwKS8ko7iPUja4IyqImX
+ +uYp9p68fZ6u18gFUynkqa9ekRhBhwk=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-633-nmVXGo2hM7i8d7mtYR6IUQ-1; Thu, 29 Sep 2022 13:28:49 -0400
+X-MC-Unique: nmVXGo2hM7i8d7mtYR6IUQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ y14-20020a056402440e00b0044301c7ccd9so1732177eda.19
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 10:28:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=ee74vZ2+nDWj/8Ky/P/PwQkAspnTrwNqbrRcVZAkfE8=;
+ b=xGc6Czhn7ftpG/tvyDOMzhFQEJXq+iAx3VahbF8QWPXohqnDAOmM6Zi6Dzm9njOAxb
+ AdOzNH/L00HUGjs91urdtey3O2Dg7Omi3sTdwdPHnes0HbzyKhGjyz/mbvW2NMdfRQnZ
+ 37+Go/oJCaUsmNCH55qtbZ28qaGEfSc4UW25VvrvRAohE3Uz7D6r2Hnxn5F4KlVXi1g+
+ wLZfghMFraz0SfKLVW9qONfCPaw0n9Ipr8qSmL0ZB46tFnR1z4VgVFoSC/ZNKtJ9tan+
+ C0K93xCT9d0VyGqwsQ7GNDI2Rb21pmI2SM5hj93L57cdt2WIs/eGgXRtYVUuCizdF9c+
+ dSmA==
+X-Gm-Message-State: ACrzQf12/mEAEp7oQy9IzufNeeHO4xnXJ3QoiD2LYwYtxkvFXgo2DM6w
+ cvcs7zIlE8xUB+VtRXVtF6fhT3JntvobJajNkrme+cZstnbLf5mNZ69VX8rwAs1JU/aOJiS+Fjg
+ v9YfcGAIdDNe66xo=
+X-Received: by 2002:a05:6402:1e8d:b0:441:58db:b6a2 with SMTP id
+ f13-20020a0564021e8d00b0044158dbb6a2mr4182020edf.277.1664472528569; 
+ Thu, 29 Sep 2022 10:28:48 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6Bu9pW2u2b1ouHMGXN6IOcGYu9uUO0uGgZojVl1QDjEoqp3phmNzdNe+OzXBKTdTFjfCFIgQ==
+X-Received: by 2002:a05:6402:1e8d:b0:441:58db:b6a2 with SMTP id
+ f13-20020a0564021e8d00b0044158dbb6a2mr4182003edf.277.1664472528345; 
+ Thu, 29 Sep 2022 10:28:48 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ dk12-20020a0564021d8c00b0044e8d0682b2sm38807edb.71.2022.09.29.10.28.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Sep 2022 10:28:47 -0700 (PDT)
+Message-ID: <d20d8f67-2ad9-7b87-71f6-011aab7b6ba5@redhat.com>
+Date: Thu, 29 Sep 2022 19:28:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b1cf0d02-cc45-4f5c-bfef-fda3e750bef3@app.fastmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=vgoyal@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v8 0/4] Enable notify VM exit
+Content-Language: en-US
+To: Chenyi Qiang <chenyi.qiang@intel.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
+ Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <20220929070341.4846-1-chenyi.qiang@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220929070341.4846-1-chenyi.qiang@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-4.099, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,49 +107,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 29, 2022 at 11:47:32AM -0400, Colin Walters wrote:
+On 9/29/22 09:03, Chenyi Qiang wrote:
+> Notify VM exit is introduced to mitigate the potential DOS attach from
+> malicious VM. This series is the userspace part to enable this feature
+> through a new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT. The detailed
+> info can be seen in Patch 4.
 > 
+> The corresponding KVM support can be found in linux 6.0-rc:
+> (2f4073e08f4c KVM: VMX: Enable Notify VM exit)
+
+Thanks, I will queue this in my next pull request.
+
+Paolo
+
+> ---
+> Change logs:
+> v7 -> v8
+> - Add triple_fault_pending field transmission on migration (Paolo)
+> - Change the notify-vmexit and notify-window to the accelerator property. Add it as
+>    a x86-specific property. (Paolo)
+> - Add a preparation patch to expose struct KVMState in order to add target-specific property.
+> - Define three option for notify-vmexit. Make it on by default. (Paolo)
+> - Raise a KVM internal error instead of triple fault if invalid context of guest VMCS detected.
+> - v7: https://lore.kernel.org/qemu-devel/20220923073333.23381-1-chenyi.qiang@intel.com/
 > 
-> On Thu, Sep 29, 2022, at 10:10 AM, Vivek Goyal wrote:
+> v6 -> v7
+> - Add a warning message when exiting to userspace (Peter Xu)
+> - v6: https://lore.kernel.org/all/20220915092839.5518-1-chenyi.qiang@intel.com/
 > 
-> > What's your use case. How do you plan to use virtiofs.
+> v5 -> v6
+> - Add some info related to the valid range of notify_window in patch 2. (Peter Xu)
+> - Add the doc in qemu-options.hx. (Peter Xu)
+> - v5: https://lore.kernel.org/qemu-devel/20220817020845.21855-1-chenyi.qiang@intel.com/
 > 
-> At the current time, the Kubernetes that we run does not support user namespaces.  We want to do the production builds of our operating system (Fedora CoreOS and RHEL CoreOS) today inside an *unprivileged* Kubernetes pod (actually in OpenShift using anyuid, i.e. random unprivileged uid too), just with /dev/kvm exposed from the host (which is safe).  Operating system builds *and* tests in qemu are just another workload that can be shared with other tenants.
+> ---
 > 
-> qemu works fine in this model, as does 9p.  It's just the virtiofs isolation requires privileges to be used today.
-
-[ cc German ]
-
-Hi Colin,
-
-So rust version of virtiofsd, already supports running unprivileged
-(inside a user namespace).
-
-https://gitlab.com/virtio-fs/virtiofsd/-/blob/main/README.md#running-as-non-privileged-user
-
-host$ podman unshare -- virtiofsd --socket-path=/tmp/vfsd.sock --shared-dir /mnt \
-        --announce-submounts --sandbox chroot &
-
-I think only privileged operation it needs is assigning a range of
-subuid/subgid to the uid you are using on host.
-
-I think that should be usable for you as of now.
-
-Having said that, openat2() and landlock are interesting improvements,
-especially when somebody does not want to use user namespaces. Without
-user namespaces, one will not be able to do arbitrary swithing of uid/gid.
-IOW, inside guest, you will be limited to one uid/gid.
-
-I am hoping German or somebody else can have a look openat2() and landlock
-improvements in near future.
-
-I am assuming you are fine with using user namespaces on host. And by
-assigning subuid/subgid range, it will allow you arbitrary swithching
-of uid/gid inside guest.
-
-Can you give rust virtiofsd (unprivileged) a try.
-
-Thanks
-Vivek
+> Chenyi Qiang (3):
+>    i386: kvm: extend kvm_{get, put}_vcpu_events to support pending triple
+>      fault
+>    kvm: expose struct KVMState
+>    i386: add notify VM exit support
+> 
+> Paolo Bonzini (1):
+>    kvm: allow target-specific accelerator properties
+> 
+>   accel/kvm/kvm-all.c      |  78 ++-----------------------
+>   include/sysemu/kvm.h     |   2 +
+>   include/sysemu/kvm_int.h |  75 ++++++++++++++++++++++++
+>   qapi/run-state.json      |  17 ++++++
+>   qemu-options.hx          |  11 ++++
+>   target/arm/kvm.c         |   4 ++
+>   target/i386/cpu.c        |   1 +
+>   target/i386/cpu.h        |   1 +
+>   target/i386/kvm/kvm.c    | 121 +++++++++++++++++++++++++++++++++++++++
+>   target/i386/machine.c    |  20 +++++++
+>   target/mips/kvm.c        |   4 ++
+>   target/ppc/kvm.c         |   4 ++
+>   target/riscv/kvm.c       |   4 ++
+>   target/s390x/kvm/kvm.c   |   4 ++
+>   14 files changed, 272 insertions(+), 74 deletions(-)
+> 
 
 
