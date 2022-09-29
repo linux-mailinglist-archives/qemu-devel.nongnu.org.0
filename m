@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047F05EF7B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:36:14 +0200 (CEST)
-Received: from localhost ([::1]:47112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFABC5EF7D9
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:41:55 +0200 (CEST)
+Received: from localhost ([::1]:41350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odudp-0004bc-9y
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:36:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60100)
+	id 1oduja-0000av-Ps
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ods48-0001M5-FG
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23279)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ods4G-0001Yj-99
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:51:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ods3w-0002sP-AO
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:55 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ods4E-0002tb-K2
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:51:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664452243;
+ s=mimecast20190719; t=1664452261;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UKAXEe+rektoZxEHcM9MzMeGI6pexiVnrexKX9dg85k=;
- b=fF0R8Yg8X4BcFf0VQhDTptbdOC5FH0B0ofWdHZWqC+d3eu5AiSnrGnUB/8fsUduVd+018/
- sYa975uXtcyMnqgGxUIbVnOf0/EmmSt6Ng1CXfxOUlU7WeoHZLahvUQAcKq3Qi6UB7giF0
- znyONz+MylZBqIrPImRzp2v83RWO/RA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-292-h22guvwyPzKw9yCE1aNF8g-1; Thu, 29 Sep 2022 07:50:35 -0400
-X-MC-Unique: h22guvwyPzKw9yCE1aNF8g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2749185A7AB;
- Thu, 29 Sep 2022 11:50:34 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EBC023177;
- Thu, 29 Sep 2022 11:50:34 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E17E821E691D; Thu, 29 Sep 2022 13:50:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Daniel P . =?utf-8?Q?Berrang=C3=A9?=
- <berrange@redhat.com>,  Bin Meng <bin.meng@windriver.com>,  Hanna Reitz
- <hreitz@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org,  qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 1/2] block: Ignore close() failure in get_tmp_filename()
-References: <20220928144125.1997128-1-bmeng.cn@gmail.com>
-Date: Thu, 29 Sep 2022 13:50:32 +0200
-In-Reply-To: <20220928144125.1997128-1-bmeng.cn@gmail.com> (Bin Meng's message
- of "Wed, 28 Sep 2022 22:41:24 +0800")
-Message-ID: <87zgeis8l3.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=n5vaMBVvnKr9/GhGXeByajIihA5fNeqmM5UP9PB4a0I=;
+ b=bznO91FjX7iC/iBHb2vIsgP9S/44ysiUAzDBen4u7UN26VTumZdC/sAYHSQoP4iImFMoaK
+ Qaz6pvDA1gZGjUONR13igLOjoJoLKzTLg1GSBArucgLR0IuwvbzMwv33Mhka+FQenaYaoW
+ Q1oHcvYSiV9kEgBhg7ut0pYvai6ZpfU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-261-1OYNGBGgNhqBzkkVJi1IwQ-1; Thu, 29 Sep 2022 07:51:00 -0400
+X-MC-Unique: 1OYNGBGgNhqBzkkVJi1IwQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ g8-20020a05600c4ec800b003b4bcbdb63cso558182wmq.7
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:51:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=n5vaMBVvnKr9/GhGXeByajIihA5fNeqmM5UP9PB4a0I=;
+ b=5nMsEzzQWqGIXkbTuzoKsWrbOa+2JCCmGH7OjoE4qSJiHZyH4No0aMupDNy0L53G5M
+ 7RqlK5oci3HaXPw1/lKaPDVNbJtTOo6GKblC49SGgksDGnar+3THFApA0VNHglzRMNUf
+ N/RfXhrd6AtBYIh6w65pGjF27oDK43fEmfEgv4V8DFNXm/5+93rE8p+q5Z9sOpfB40pp
+ SbCj5i7Wd7BO39LeMlYPXzhrUeDcPVzmEeIcI7tbP9L8pstNnGMIXDUxsOlLksRLZaQD
+ rc1UBYvd84Sv4psDf0j0dukHs1zCmK9UmKCq5siqctYUyW4YideMPf0IR/x5ZxJG5m0f
+ 2ccQ==
+X-Gm-Message-State: ACrzQf2azW6OQniRKyJPUpyF9Cn5Jqqgzq65Qb1Zxa0IXGw7KmXqcfIe
+ 2OhwGZcXOiKacgjzj3aAtULoI5kUL2rF4zYMzAdwWAtixA2pAhHmuRTmLjJeqGvMRrRrRYBct0M
+ vR1QgNEszqTcGENY=
+X-Received: by 2002:a05:600c:35d2:b0:3b4:a897:d48 with SMTP id
+ r18-20020a05600c35d200b003b4a8970d48mr10576706wmq.48.1664452259035; 
+ Thu, 29 Sep 2022 04:50:59 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7FUuHFFHlWk9NI4jO8etQrCHS82RTaBQPf1larPUcQ6XJmp6pvykPDp8Tggz+HZzrICPYZWg==
+X-Received: by 2002:a05:600c:35d2:b0:3b4:a897:d48 with SMTP id
+ r18-20020a05600c35d200b003b4a8970d48mr10576697wmq.48.1664452258708; 
+ Thu, 29 Sep 2022 04:50:58 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c705:ce00:b5d:2b28:1eb5:9245?
+ (p200300cbc705ce000b5d2b281eb59245.dip0.t-ipconnect.de.
+ [2003:cb:c705:ce00:b5d:2b28:1eb5:9245])
+ by smtp.gmail.com with ESMTPSA id
+ g14-20020adff3ce000000b0022af9555669sm7593879wrp.99.2022.09.29.04.50.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Sep 2022 04:50:58 -0700 (PDT)
+Message-ID: <4a23fe3b-4d24-50d7-b250-d4188bb51dbd@redhat.com>
+Date: Thu, 29 Sep 2022 13:50:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v5 03/17] accel/tcg: Suppress auto-invalidate in
+ probe_access_internal
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+References: <20220925105124.82033-1-richard.henderson@linaro.org>
+ <20220925105124.82033-4-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220925105124.82033-4-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-4.099, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,44 +105,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bin Meng <bmeng.cn@gmail.com> writes:
-
-> From: Bin Meng <bin.meng@windriver.com>
->
-> The temporary file has been created and is ready for use. Checking
-> return value of close() does not seem useful. The file descriptor
-> is almost certainly closed; see close(2) under "Dealing with error
-> returns from close()".
->
-> Let's simply ignore close() failure here.
->
-> Suggested-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On 25.09.22 12:51, Richard Henderson wrote:
+> When PAGE_WRITE_INV is set when calling tlb_set_page,
+> we immediately set TLB_INVALID_MASK in order to force
+> tlb_fill to be called on the next lookup.  Here in
+> probe_access_internal, we have just called tlb_fill
+> and eliminated true misses, thus the lookup must be valid.
+> 
+> This allows us to remove a warning comment from s390x.
+> There doesn't seem to be a reason to change the code though.
+> 
+> Cc: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->
-> Changes in v5:
-> - new patch: "block: Ignore close() failure in get_tmp_filename()"
->
->  block.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/block.c b/block.c
-> index bc85f46eed..582c205307 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -886,10 +886,7 @@ int get_tmp_filename(char *filename, int size)
->      if (fd < 0) {
->          return -errno;
->      }
-> -    if (close(fd) != 0) {
-> -        unlink(filename);
-> -        return -errno;
-> -    }
-> +    close(fd);
->      return 0;
->  #endif
->  }
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
