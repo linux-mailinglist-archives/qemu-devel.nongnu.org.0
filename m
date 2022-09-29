@@ -2,60 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306A55EFA0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 18:18:06 +0200 (CEST)
-Received: from localhost ([::1]:53884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4256F5EFA9A
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 18:32:32 +0200 (CEST)
+Received: from localhost ([::1]:60848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odwEe-0006aQ-P2
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 12:18:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36344)
+	id 1odwSc-00064t-RI
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 12:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oduen-0005Yd-Lt; Thu, 29 Sep 2022 10:36:58 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:13000)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1odwLO-0004di-QZ
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:25:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oduei-0006b8-W4; Thu, 29 Sep 2022 10:36:55 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id F3238759B50;
- Thu, 29 Sep 2022 16:36:49 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id BFEBE746E06; Thu, 29 Sep 2022 16:36:49 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id BD64D74633D;
- Thu, 29 Sep 2022 16:36:49 +0200 (CEST)
-Date: Thu, 29 Sep 2022 16:36:49 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com, 
- f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com, 
- stefanha@redhat.com, crosa@redhat.com, minyihh@uci.edu, 
- ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu, cota@braap.org, 
- aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com, 
- robhenry@microsoft.com, mahmoudabdalghany@outlook.com, 
- Alexey Kardashevskiy <aik@ozlabs.ru>, 
- =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>, 
- "open list:Virtual Open Firm..." <qemu-ppc@nongnu.org>
-Subject: Re: [PATCH v1 15/51] vof: add distclean target
-In-Reply-To: <20220929114231.583801-16-alex.bennee@linaro.org>
-Message-ID: <b2c5703-6015-a9bc-620-aa124c67b73@eik.bme.hu>
-References: <20220929114231.583801-1-alex.bennee@linaro.org>
- <20220929114231.583801-16-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1odwLL-0001ZK-PZ
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:25:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664468697;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wSv7tlL0SB6dznOVHtLsimBMwlCYGjRAmvq9x0smyzc=;
+ b=ahLI302R9EJ+h/LHMSwY56dUu5aFQTtj/dYKvNvLogRwDOC8zwwGuWdqTL1sjkxNvsDke0
+ vxuugRLobHQKNDN3FODjnU1s/5MH3aZo4q8TQMdYeZt4BNQ5RaS0ngIATmDCeodbb755mF
+ t8AYtPV/LwlYJVLYaZBgbelc2YG/Dzc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-631-DwuzXFjwPnKeBesFlWEetg-1; Thu, 29 Sep 2022 12:24:55 -0400
+X-MC-Unique: DwuzXFjwPnKeBesFlWEetg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 745163826247;
+ Thu, 29 Sep 2022 16:24:55 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0D0A40EFB15;
+ Thu, 29 Sep 2022 16:24:54 +0000 (UTC)
+Date: Thu, 29 Sep 2022 10:48:02 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL 0/1] xen queue 2022-09-27
+Message-ID: <YzWwIkhtjDPoEK0C@fedora>
+References: <20220927133559.30223-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="3866299591-2055951207-1664461999=:6311"
-Content-ID: <9d907ff-90b1-1294-788d-87ca822e332@eik.bme.hu>
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="brGH33VcM4vveD4N"
+Content-Disposition: inline
+In-Reply-To: <20220927133559.30223-1-anthony.perard@citrix.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,45 +79,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-2055951207-1664461999=:6311
-Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <d8133bd1-7a5e-cab-8324-8f6dac76b849@eik.bme.hu>
+--brGH33VcM4vveD4N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 29 Sep 2022, Alex Bennée wrote:
-> From: Paolo Bonzini <pbonzini@redhat.com>
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
-> pc-bios/vof/Makefile | 4 +++-
-> 1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/pc-bios/vof/Makefile b/pc-bios/vof/Makefile
-> index 8809c82768..990f26af31 100644
-> --- a/pc-bios/vof/Makefile
-> +++ b/pc-bios/vof/Makefile
-> @@ -19,4 +19,6 @@ vof.elf: entry.o main.o ci.o bootmem.o libc.o
-> clean:
-> 	rm -f *.o vof.bin vof.elf *~
->
-> -.PHONY: all clean
-> +distclean:
-> +
-> +.PHONY: all clean distclean
+Applied, thanks.
 
-Shouldn't you also do something in this like at least depend on clean? By 
-the way make distclean not in VOF but in QEMU build dir fails for me with:
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
 
-Cleaning... 1 files.
-rm -f config-host.mak qemu-bundle
-rm: cannot remove 'qemu-bundle': Is a directory
-make: *** [Makefile:219: distclean] Error 1
+--brGH33VcM4vveD4N
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
-BALATON Zoltan
---3866299591-2055951207-1664461999=:6311--
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmM1sCIACgkQnKSrs4Gr
+c8ipegf/ewXnaG7sXkV2jxDV4/eXOM7oLLkPp4gwXBX/eZjCbrsKbZHGwrhDrIkm
+OfBqBxk+9P4f5P5S1/CdKVmH83wZd915ruQQkAVcxmELXSGuI60/CSQTtOupEZuN
+yEpi3IsDyrGcgYV1TomVjBsK+KFUsAFBR/uDzncAOoRpJucsZTWOIhVQlvDF4OuL
+gILYMmUtp/41FvKcrZ+tQ/nbR1P5LBkm29eM2RUXPIxz7R5uiqgO/U3EvwoH9oj+
+fwMx6CZAqE+AvAvgIcisnC5IRh2HhCHRpt+Mmp9cX2wi7tNIE+DxIqugb6Hxf5c1
+cVylHijs2pVMAd/Dap/2NvwbVmGkXA==
+=9A/y
+-----END PGP SIGNATURE-----
+
+--brGH33VcM4vveD4N--
+
 
