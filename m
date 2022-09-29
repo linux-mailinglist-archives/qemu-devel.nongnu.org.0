@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E721C5EF268
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 11:44:05 +0200 (CEST)
-Received: from localhost ([::1]:59500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C495EF252
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 11:41:16 +0200 (CEST)
+Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odq5M-0006fr-O5
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 05:44:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53426)
+	id 1odq2b-0004XO-Nr
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 05:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odpsT-0006vo-OU
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:30:49 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:59974)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odpsX-0006wG-EF
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:30:50 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:59988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odpsR-0001Mt-8a
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:30:44 -0400
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odpsR-0001Mv-PW
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:30:45 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AD32A21B7A;
- Thu, 29 Sep 2022 09:30:41 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1027F21E30;
+ Thu, 29 Sep 2022 09:30:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664443841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1664443842; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4L5t01RoSvLFc7n/IRLFdqy9eyH/xhBEeEPfT71PCJI=;
- b=tZlaCsFQFBgpkyp1oI597jo+thrdml/EidW8FBCu+9WTMRwUDPJIfo07qZTrXIkRGqFGZ0
- MCEWo3UWzjbZ49zyrbvJ6Ma+d3gPYTEyYnA9OwV7y4W+kSBeGj7uAVLJtA9FWkt5WBDbTm
- Se91bGz8jCGLsaPaWs8XcRNtzzswCJc=
+ bh=xZw8URokMZJLim+cHFQVnCvncK3rUkOV5vhmMTFhqW0=;
+ b=teYX9EjTNBEOFXknrMktFLv17r0G+cSNOavgmpfQgJlmjrx+eIozSm5etLv6+0RqrynvRL
+ s/VajyzFl5Ee/lsvpQmBzEhtIOSiTfOs3CTUE+APJNOgVJwpv6cpv4iGSexT9j22x201II
+ kD9WH4OuDUdYNWkNMM/luw9hDPxCImk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664443841;
+ s=susede2_ed25519; t=1664443842;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4L5t01RoSvLFc7n/IRLFdqy9eyH/xhBEeEPfT71PCJI=;
- b=G+t10qcUOMHH6UH1ppACxfZhCkt1RXr/bNeENfG4nWNpDrstzuyheGdHblq3HapcrDg/lV
- V9JvTc0r73cHLHBA==
+ bh=xZw8URokMZJLim+cHFQVnCvncK3rUkOV5vhmMTFhqW0=;
+ b=wkQznK9H7qUSCrdasU5dMXfbcQxG3RtzYnDdby236pUuB55vY/tOww1NHsTlfj3JuI3GcO
+ 4kidzwrfmGDEl6AQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 62B251348E;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B57E31348E;
  Thu, 29 Sep 2022 09:30:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IFzHFsFlNWMEOAAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id SDsBK8FlNWMEOAAAMHmgww
  (envelope-from <cfontana@suse.de>); Thu, 29 Sep 2022 09:30:41 +0000
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
@@ -60,9 +60,9 @@ Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Claudio Fontana <cfontana@suse.de>
-Subject: [PATCH v9 1/5] module: removed unused function argument "mayfail"
-Date: Thu, 29 Sep 2022 11:30:31 +0200
-Message-Id: <20220929093035.4231-2-cfontana@suse.de>
+Subject: [PATCH v9 2/5] module: rename module_load_one to module_load
+Date: Thu, 29 Sep 2022 11:30:32 +0200
+Message-Id: <20220929093035.4231-3-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20220929093035.4231-1-cfontana@suse.de>
 References: <20220929093035.4231-1-cfontana@suse.de>
@@ -93,138 +93,243 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mayfail is always passed as false for every invocation throughout the program.
-It controls whether to printf or not to printf an error on
-g_module_open failure.
-
-Remove this unused argument.
-
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/module.h |  8 ++++----
+ audio/audio.c         |  2 +-
+ block.c               |  4 ++--
+ block/dmg.c           |  4 ++--
+ hw/core/qdev.c        |  2 +-
+ include/qemu/module.h | 10 +++++-----
+ qom/object.c          |  4 ++--
  softmmu/qtest.c       |  2 +-
- util/module.c         | 20 +++++++++-----------
- 3 files changed, 14 insertions(+), 16 deletions(-)
+ ui/console.c          |  6 +++---
+ util/module.c         | 14 +++++++-------
+ 9 files changed, 24 insertions(+), 24 deletions(-)
 
+diff --git a/audio/audio.c b/audio/audio.c
+index 76b8735b44..0a682336a0 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -79,7 +79,7 @@ audio_driver *audio_driver_lookup(const char *name)
+         }
+     }
+ 
+-    audio_module_load_one(name);
++    audio_module_load(name);
+     QLIST_FOREACH(d, &audio_drivers, next) {
+         if (strcmp(name, d->name) == 0) {
+             return d;
+diff --git a/block.c b/block.c
+index bc85f46eed..72c7f6d47d 100644
+--- a/block.c
++++ b/block.c
+@@ -464,7 +464,7 @@ BlockDriver *bdrv_find_format(const char *format_name)
+     /* The driver isn't registered, maybe we need to load a module */
+     for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
+         if (!strcmp(block_driver_modules[i].format_name, format_name)) {
+-            block_module_load_one(block_driver_modules[i].library_name);
++            block_module_load(block_driver_modules[i].library_name);
+             break;
+         }
+     }
+@@ -976,7 +976,7 @@ BlockDriver *bdrv_find_protocol(const char *filename,
+     for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
+         if (block_driver_modules[i].protocol_name &&
+             !strcmp(block_driver_modules[i].protocol_name, protocol)) {
+-            block_module_load_one(block_driver_modules[i].library_name);
++            block_module_load(block_driver_modules[i].library_name);
+             break;
+         }
+     }
+diff --git a/block/dmg.c b/block/dmg.c
+index 98db18d82a..007b8d9996 100644
+--- a/block/dmg.c
++++ b/block/dmg.c
+@@ -446,8 +446,8 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+         return -EINVAL;
+     }
+ 
+-    block_module_load_one("dmg-bz2");
+-    block_module_load_one("dmg-lzfse");
++    block_module_load("dmg-bz2");
++    block_module_load("dmg-lzfse");
+ 
+     s->n_chunks = 0;
+     s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 0806d8fcaa..25dfc08468 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -148,7 +148,7 @@ bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp)
+ DeviceState *qdev_new(const char *name)
+ {
+     if (!object_class_by_name(name)) {
+-        module_load_qom_one(name);
++        module_load_qom(name);
+     }
+     return DEVICE(object_new(name));
+ }
 diff --git a/include/qemu/module.h b/include/qemu/module.h
-index bd73607104..8c012bbe03 100644
+index 8c012bbe03..b7911ce791 100644
 --- a/include/qemu/module.h
 +++ b/include/qemu/module.h
-@@ -61,15 +61,15 @@ typedef enum {
+@@ -61,16 +61,16 @@ typedef enum {
  #define fuzz_target_init(function) module_init(function, \
                                                 MODULE_INIT_FUZZ_TARGET)
  #define migration_init(function) module_init(function, MODULE_INIT_MIGRATION)
--#define block_module_load_one(lib) module_load_one("block-", lib, false)
--#define ui_module_load_one(lib) module_load_one("ui-", lib, false)
--#define audio_module_load_one(lib) module_load_one("audio-", lib, false)
-+#define block_module_load_one(lib) module_load_one("block-", lib)
-+#define ui_module_load_one(lib) module_load_one("ui-", lib)
-+#define audio_module_load_one(lib) module_load_one("audio-", lib)
+-#define block_module_load_one(lib) module_load_one("block-", lib)
+-#define ui_module_load_one(lib) module_load_one("ui-", lib)
+-#define audio_module_load_one(lib) module_load_one("audio-", lib)
++#define block_module_load(lib) module_load("block-", lib)
++#define ui_module_load(lib) module_load("ui-", lib)
++#define audio_module_load(lib) module_load("audio-", lib)
  
  void register_module_init(void (*fn)(void), module_init_type type);
  void register_dso_module_init(void (*fn)(void), module_init_type type);
  
  void module_call_init(module_init_type type);
--bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
-+bool module_load_one(const char *prefix, const char *lib_name);
- void module_load_qom_one(const char *type);
+-bool module_load_one(const char *prefix, const char *lib_name);
+-void module_load_qom_one(const char *type);
++bool module_load(const char *prefix, const char *lib_name);
++void module_load_qom(const char *type);
  void module_load_qom_all(void);
  void module_allow_arch(const char *arch);
+ 
+diff --git a/qom/object.c b/qom/object.c
+index d34608558e..4f834f3bf6 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -526,7 +526,7 @@ void object_initialize(void *data, size_t size, const char *typename)
+ 
+ #ifdef CONFIG_MODULES
+     if (!type) {
+-        module_load_qom_one(typename);
++        module_load_qom(typename);
+         type = type_get_by_name(typename);
+     }
+ #endif
+@@ -1033,7 +1033,7 @@ ObjectClass *module_object_class_by_name(const char *typename)
+     oc = object_class_by_name(typename);
+ #ifdef CONFIG_MODULES
+     if (!oc) {
+-        module_load_qom_one(typename);
++        module_load_qom(typename);
+         oc = object_class_by_name(typename);
+     }
+ #endif
 diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-index f8acef2628..76eb7bac56 100644
+index 76eb7bac56..fc5b733c63 100644
 --- a/softmmu/qtest.c
 +++ b/softmmu/qtest.c
 @@ -756,7 +756,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
          g_assert(words[1] && words[2]);
  
          qtest_send_prefix(chr);
--        if (module_load_one(words[1], words[2], false)) {
-+        if (module_load_one(words[1], words[2])) {
+-        if (module_load_one(words[1], words[2])) {
++        if (module_load(words[1], words[2])) {
              qtest_sendf(chr, "OK\n");
          } else {
              qtest_sendf(chr, "FAIL\n");
+diff --git a/ui/console.c b/ui/console.c
+index 765892f84f..4913c55684 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -2632,7 +2632,7 @@ bool qemu_display_find_default(DisplayOptions *opts)
+ 
+     for (i = 0; i < (int)ARRAY_SIZE(prio); i++) {
+         if (dpys[prio[i]] == NULL) {
+-            ui_module_load_one(DisplayType_str(prio[i]));
++            ui_module_load(DisplayType_str(prio[i]));
+         }
+         if (dpys[prio[i]] == NULL) {
+             continue;
+@@ -2650,7 +2650,7 @@ void qemu_display_early_init(DisplayOptions *opts)
+         return;
+     }
+     if (dpys[opts->type] == NULL) {
+-        ui_module_load_one(DisplayType_str(opts->type));
++        ui_module_load(DisplayType_str(opts->type));
+     }
+     if (dpys[opts->type] == NULL) {
+         error_report("Display '%s' is not available.",
+@@ -2680,7 +2680,7 @@ void qemu_display_help(void)
+     printf("none\n");
+     for (idx = DISPLAY_TYPE_NONE; idx < DISPLAY_TYPE__MAX; idx++) {
+         if (!dpys[idx]) {
+-            ui_module_load_one(DisplayType_str(idx));
++            ui_module_load(DisplayType_str(idx));
+         }
+         if (dpys[idx]) {
+             printf("%s\n",  DisplayType_str(dpys[idx]->type));
 diff --git a/util/module.c b/util/module.c
-index 8ddb0e18f5..8563edd626 100644
+index 8563edd626..ad89cd50dc 100644
 --- a/util/module.c
 +++ b/util/module.c
-@@ -144,7 +144,7 @@ static bool module_check_arch(const QemuModinfo *modinfo)
-     return true;
- }
- 
--static int module_load_file(const char *fname, bool mayfail, bool export_symbols)
-+static int module_load_file(const char *fname, bool export_symbols)
- {
-     GModule *g_module;
-     void (*sym)(void);
-@@ -172,10 +172,8 @@ static int module_load_file(const char *fname, bool mayfail, bool export_symbols
-     }
-     g_module = g_module_open(fname, flags);
-     if (!g_module) {
--        if (!mayfail) {
--            fprintf(stderr, "Failed to open module: %s\n",
--                    g_module_error());
--        }
-+        fprintf(stderr, "Failed to open module: %s\n",
-+                g_module_error());
-         ret = -EINVAL;
-         goto out;
-     }
-@@ -208,7 +206,7 @@ out:
+@@ -206,7 +206,7 @@ out:
  }
  #endif
  
--bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-+bool module_load_one(const char *prefix, const char *lib_name)
+-bool module_load_one(const char *prefix, const char *lib_name)
++bool module_load(const char *prefix, const char *lib_name)
  {
      bool success = false;
  
-@@ -256,7 +254,7 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+@@ -254,7 +254,7 @@ bool module_load_one(const char *prefix, const char *lib_name)
              if (strcmp(modinfo->name, module_name) == 0) {
                  /* we depend on other module(s) */
                  for (sl = modinfo->deps; *sl != NULL; sl++) {
--                    module_load_one("", *sl, false);
-+                    module_load_one("", *sl);
+-                    module_load_one("", *sl);
++                    module_load("", *sl);
                  }
              } else {
                  for (sl = modinfo->deps; *sl != NULL; sl++) {
-@@ -287,7 +285,7 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-     for (i = 0; i < n_dirs; i++) {
-         fname = g_strdup_printf("%s/%s%s",
-                 dirs[i], module_name, CONFIG_HOST_DSOSUF);
--        ret = module_load_file(fname, mayfail, export_symbols);
-+        ret = module_load_file(fname, export_symbols);
-         g_free(fname);
-         fname = NULL;
-         /* Try loading until loaded a module file */
-@@ -333,7 +331,7 @@ void module_load_qom_one(const char *type)
+@@ -312,7 +312,7 @@ bool module_load_one(const char *prefix, const char *lib_name)
+ 
+ static bool module_loaded_qom_all;
+ 
+-void module_load_qom_one(const char *type)
++void module_load_qom(const char *type)
+ {
+     const QemuModinfo *modinfo;
+     const char **sl;
+@@ -331,7 +331,7 @@ void module_load_qom_one(const char *type)
          }
          for (sl = modinfo->objs; *sl != NULL; sl++) {
              if (strcmp(type, *sl) == 0) {
--                module_load_one("", modinfo->name, false);
-+                module_load_one("", modinfo->name);
+-                module_load_one("", modinfo->name);
++                module_load("", modinfo->name);
              }
          }
      }
-@@ -354,7 +352,7 @@ void module_load_qom_all(void)
+@@ -352,7 +352,7 @@ void module_load_qom_all(void)
          if (!module_check_arch(modinfo)) {
              continue;
          }
--        module_load_one("", modinfo->name, false);
-+        module_load_one("", modinfo->name);
+-        module_load_one("", modinfo->name);
++        module_load("", modinfo->name);
      }
      module_loaded_qom_all = true;
  }
-@@ -370,7 +368,7 @@ void qemu_load_module_for_opts(const char *group)
+@@ -368,7 +368,7 @@ void qemu_load_module_for_opts(const char *group)
          }
          for (sl = modinfo->opts; *sl != NULL; sl++) {
              if (strcmp(group, *sl) == 0) {
--                module_load_one("", modinfo->name, false);
-+                module_load_one("", modinfo->name);
+-                module_load_one("", modinfo->name);
++                module_load("", modinfo->name);
              }
          }
      }
+@@ -378,7 +378,7 @@ void qemu_load_module_for_opts(const char *group)
+ 
+ void module_allow_arch(const char *arch) {}
+ void qemu_load_module_for_opts(const char *group) {}
+-void module_load_qom_one(const char *type) {}
++void module_load_qom(const char *type) {}
+ void module_load_qom_all(void) {}
+ 
+ #endif
 -- 
 2.26.2
 
