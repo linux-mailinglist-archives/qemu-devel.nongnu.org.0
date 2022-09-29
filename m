@@ -2,70 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F4F55EFCFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 20:24:59 +0200 (CEST)
-Received: from localhost ([::1]:35460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C7D5EFD0C
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 20:29:28 +0200 (CEST)
+Received: from localhost ([::1]:55710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odyDR-0008R2-LW
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 14:24:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34792)
+	id 1odyHn-0003Zj-L1
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 14:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odwn9-0003n6-F5
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:53:45 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:38748)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1odwn6-0006xT-SE
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:53:42 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id nb11so4044082ejc.5
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 09:53:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=cqQBTOYNa/mf3P3HSzg6fb00V0GJS8bk5eliMmLjCBU=;
- b=ybP3VqQFrFP+rEMHM8p7SkNTbgQpKc9hO3jekPy9SgAb+T3NbsIhOQXSn8Nk7mIOhC
- jjql4f/80b8RuppxAx0CSNibKVrRpKvjowjQisSh+ZL7/FDDsGvkN0ip45t9WgdaWMXl
- kuJRtw7geK4DE7UffUJYtB3oGjwblB1SaQubsa8dFR1dURGv0G8iWKU1oKdltMLZsW3L
- g/7cReLz1+4wOYsYqFo9+HG/ONZuhOn871Rw511yC/aOXqsSTXOJR4pWhnCFr7YG2+2x
- /YP5IR2JHxu2OMHrwoFWshCCWthe8kHPeFyXwmf6x/tVG8gvpfuZRtIC+po7zv5ew1o2
- aG5g==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1odx6X-00078K-Ex
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:13:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29219)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1odx6T-0002AI-Sc
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:13:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664471620;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+jP2+V//iwKHWAsMXL2UuJlJ8Pu2Vn0yXrg4O0Po/pQ=;
+ b=Bq8/GiOdRjF3VdDkoCoLRBuUbv4YVZwpOYjD0uRpUACqPwLuwlsXmLVlB/p0VwJwKzoHxE
+ HH3lpo3RYOsIp2Pww0NqLCxp09Yk0e9+kqa2NsCO350ALaGxmNHak9lZ1EcGA+iVJVsgvE
+ qTgumwh8WdfvAVFVSCzYFlkeiGyvMxY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-118-JfHydpyTO4CqlLIJNJrq0Q-1; Thu, 29 Sep 2022 13:13:39 -0400
+X-MC-Unique: JfHydpyTO4CqlLIJNJrq0Q-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ b16-20020a056402279000b0044f1102e6e2so1755101ede.20
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 10:13:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=cqQBTOYNa/mf3P3HSzg6fb00V0GJS8bk5eliMmLjCBU=;
- b=yMCPIWKywomkP5GYr9iIDPw+MU5JAdnVxybsv+0BLcha/IU4Zl0ALl9m8KGHC702/7
- 0tUNz7BWWwznNye6FUszE386CulAvhzoJNavAwSQD7JZZgEfdlGK2LyVXIrvmCTr3KgX
- VuroERs7L56UXoSHayGw2dTZq0wy9beBsJZo+A+NMN/UqtdwTa8G+i0GuIIuLJrnajAu
- X0CwpIjcCpnMTacujvhiVrUwIZFGlhDF3Llz6QLAMN2hpnwR7lINntxdk4JpJaqoui/z
- C8zHZnCYjgag96MNs0nMc248Et2mrrDCB4KkbWPRdFMRDIgR+xbUgBa0Z/ZQFcwKeegO
- OOew==
-X-Gm-Message-State: ACrzQf3UZGo0iebg1u0EMxpfAEgvOelZTmDxkUPj8frPj9r7bAZghhtI
- 5jYquMySwrQTnVjTLEp97oy0UaddEMO5f6Ur/n4HbQ==
-X-Google-Smtp-Source: AMsMyM5QtVTpe1e3smsvCph85EWA9iq/wwg2CHU0E1+4pCC3Tjb65XnGqiRiQA4xYCYsBSlpRHuTgmP8Mzb9ekgAW0E=
-X-Received: by 2002:a17:906:9c83:b0:779:c14c:55e4 with SMTP id
- fj3-20020a1709069c8300b00779c14c55e4mr3323068ejc.619.1664470419015; Thu, 29
- Sep 2022 09:53:39 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=+jP2+V//iwKHWAsMXL2UuJlJ8Pu2Vn0yXrg4O0Po/pQ=;
+ b=HUs8Sjr1c33H6BL2FvmcbJT3T6tioIzv/KFmlWLSyuD61Xs7dOlsE51vyo5JF6LOGL
+ +dUyzAfmnhisS5zZQs0Tj5bVHMQUvm8oilyT8+iYEi3rTciMkBeqwCXIZMGev8UcXEGJ
+ dqzXrUQJ6H9OJS4lvlNVGrZMcgpcQlE6VBOkddtLDAbXbEN2PF9H0g1tAKEDTJEd/0QT
+ TPAj0CjVzU5jvCwztWwepme8EuvOFWSAqGn0b/YLoZ+E0hP3W5Xr6b3OfJWetSLL/Cc7
+ UDKZVOBy1Otms+DcFTZVlQYUXKomZsUXYEXkEeUI24bJogZyL2VX8uVO1PobSZDj1I5u
+ LG2w==
+X-Gm-Message-State: ACrzQf27dUrl6E1Y+mRURKiMcu70A9iwhjHdQgjYDSk2BoFHEXru7sIN
+ yYPpDENIAb7U4Ca6z2ObYvAfmeYwo3wCzSPQBlO3100TOIBkazfvS/23pw2ixNGxNMn6Jg1cS4R
+ bfoK176GVohZhkQw=
+X-Received: by 2002:a05:6402:44c:b0:445:f2f1:4add with SMTP id
+ p12-20020a056402044c00b00445f2f14addmr4278357edw.257.1664471618440; 
+ Thu, 29 Sep 2022 10:13:38 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM55NWq0dd/K0GXYaHWuZoiCkHyATpx7PrXwwgAPZSEWFIFQ+us5fRFF1etkh0JX4vOCrcWxpg==
+X-Received: by 2002:a05:6402:44c:b0:445:f2f1:4add with SMTP id
+ p12-20020a056402044c00b00445f2f14addmr4278338edw.257.1664471618218; 
+ Thu, 29 Sep 2022 10:13:38 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ ss4-20020a170907038400b00781be3e7badsm4263254ejb.53.2022.09.29.10.13.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Sep 2022 10:13:37 -0700 (PDT)
+Message-ID: <0e1eef64-b157-c87d-ef54-3b5a8bae9aad@redhat.com>
+Date: Thu, 29 Sep 2022 19:13:36 +0200
 MIME-Version: 1.0
-References: <20220927100347.176606-1-jean-philippe@linaro.org>
-In-Reply-To: <20220927100347.176606-1-jean-philippe@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 29 Sep 2022 17:53:28 +0100
-Message-ID: <CAFEAcA-X=rm6xB9kp7u7UPudTZQEUGskwSaUD8y+tKGx9QRsiw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] hw/arm/virt: Fix dt-schema warnings
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, robh+dt@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v2] hyperv: fix SynIC SINT assertion failure on guest reset
+Content-Language: en-US
+To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org
+References: <8474c6ca63bbbf85ac7721732a7bbdb033f7aa50.1664378882.git.maciej.szmigiero@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <8474c6ca63bbbf85ac7721732a7bbdb033f7aa50.1664378882.git.maciej.szmigiero@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -62
+X-Spam_score: -6.3
+X-Spam_bar: ------
+X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-4.099, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,41 +108,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Sept 2022 at 11:12, Jean-Philippe Brucker
-<jean-philippe@linaro.org> wrote:
->
-> Fix some warnings thrown by dt-validate for the aarch64 virt devicetree.
->
-> Since v1 [1]:
-> * Submitted more DT bindings changes where appropriate [2]. All of them
->   applied for Linux v6.1 so I dropped the related QEMU changes.
-> * Grouped all node name changes into patch 8
-> * Improved commit messages
->
-> I'm testing by running various virt machine configurations with -M
-> dumpdtb=qemu.dtb, then running dt-validate [3] and dtc:
->
->   dt-validate -s linux/Documentation/devicetree/bindings/ qemu.dtb
->   dtc -O dts qemu.dtb -o qemu.dts
->
-> [1] https://lore.kernel.org/all/20220824155113.286730-1-jean-philippe@linaro.org/
-> [2] SMMU interrupt order https://lore.kernel.org/all/20220916133145.1910549-1-jean-philippe@linaro.org/
->     arch-timer compatible https://lore.kernel.org/all/20220922161149.371565-1-jean-philippe@linaro.org/
->     virtio-iommu https://lore.kernel.org/all/20220923074435.420531-1-jean-philippe@linaro.org/
-> [3] https://github.com/devicetree-org/dt-schema
->
-> Jean-Philippe Brucker (8):
->   hw/arm/virt: Fix devicetree warning about the root node
->   hw/arm/virt: Fix devicetree warning about the GIC node
->   hw/arm/virt: Use "msi-map" devicetree property for PCI
->   hw/arm/virt: Fix devicetree warning about the gpio-key node
->   hw/arm/virt: Fix devicetree warnings about the GPIO node
->   hw/arm/virt: Fix devicetree warning about the SMMU node
->   hw/arm/virt: Fix devicetree warnings about the virtio-iommu node
->   hw/arm/virt: Fix devicetree warnings about node names
+On 9/28/22 18:17, Maciej S. Szmigiero wrote:
+> From: "Maciej S. Szmigiero"<maciej.szmigiero@oracle.com>
+> 
+> Resetting a guest that has Hyper-V VMBus support enabled triggers a QEMU
+> assertion failure:
+> hw/hyperv/hyperv.c:131: synic_reset: Assertion `QLIST_EMPTY(&synic->sint_routes)' failed.
+> 
+> This happens both on normal guest reboot or when using "system_reset" HMP
+> command.
+> 
+> The failing assertion was introduced by commit 64ddecc88bcf ("hyperv: SControl is optional to enable SynIc")
+> to catch dangling SINT routes on SynIC reset.
+> 
+> The root cause of this problem is that the SynIC itself is reset before
+> devices using SINT routes have chance to clean up these routes.
+> 
+> Since there seems to be no existing mechanism to force reset callbacks (or
+> methods) to be executed in specific order let's use a similar method that
+> is already used to reset another interrupt controller (APIC) after devices
+> have been reset - by invoking the SynIC reset from the machine reset
+> handler via a new x86_cpu_after_reset() function co-located with
+> the existing x86_cpu_reset() in target/i386/cpu.c.
+> 
+> Fixes: 64ddecc88bcf ("hyperv: SControl is optional to enable SynIc") # exposed the bug
+> Signed-off-by: Maciej S. Szmigiero<maciej.szmigiero@oracle.com>
 
-I have applied patches 1, 2, 3, and 6 to target-arm.next.
+Thanks, looks good.
 
-thanks
--- PMM
+hw/i386/microvm.c has to be adjusted too, what do you think of this:
+
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index dc929727dc..64eb6374ad 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -485,9 +485,7 @@ static void microvm_machine_reset(MachineState *machine)
+      CPU_FOREACH(cs) {
+          cpu = X86_CPU(cs);
+
+-        if (cpu->apic_state) {
+-            device_legacy_reset(cpu->apic_state);
+-        }
++        x86_cpu_after_reset(cpu);
+      }
+  }
+
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 655439fe62..15a854b149 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1863,10 +1863,6 @@ static void pc_machine_reset(MachineState *machine)
+          cpu = X86_CPU(cs);
+
+          x86_cpu_after_reset(cpu);
+-
+-        if (cpu->apic_state) {
+-            device_legacy_reset(cpu->apic_state);
+-        }
+      }
+  }
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 27ee8c1ced..349bd5d048 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6042,6 +6042,10 @@ void x86_cpu_after_reset(X86CPU *cpu)
+      if (kvm_enabled()) {
+          kvm_arch_after_reset_vcpu(cpu);
+      }
++
++    if (cpu->apic_state) {
++        device_legacy_reset(cpu->apic_state);
++    }
+  #endif
+  }
+
+
 
