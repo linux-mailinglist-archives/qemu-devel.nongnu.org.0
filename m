@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593345EF2F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 12:04:18 +0200 (CEST)
-Received: from localhost ([::1]:47886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 539395EF2FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 12:05:14 +0200 (CEST)
+Received: from localhost ([::1]:50898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odqOv-0001jW-1S
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 06:04:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53434)
+	id 1odqPp-0002QY-1J
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 06:05:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odpsX-0006wO-FS
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:30:50 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:36720)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1odpti-0007Cn-9S; Thu, 29 Sep 2022 05:32:03 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:43666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odpsR-0001N6-Py
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:30:47 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 73E011F8A4;
- Thu, 29 Sep 2022 09:30:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664443842; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PDoxGwJEwqqrI9l1T6YYaf5T/JPivr3tnoBBRj4jv3M=;
- b=lApt+QiDyXnNeghQHLt/KFSj0zqkMTsEfLRjEXff4/fOTv/C+F1yF0rEqno4KZu582J4sA
- G9WcpQsc4ahK7RhE6+7pWVL3d4vIYVD7d7Fit0pQ/spy8BcJtvOveu3DxgoBqvRmH0wrTQ
- 1JFhvagpNGQtt/423wXa12QLbtpVlLY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664443842;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PDoxGwJEwqqrI9l1T6YYaf5T/JPivr3tnoBBRj4jv3M=;
- b=fieJUtt66wurK6VGnZ36RCqZYvN1AUZpfnwmS6v7pmK50P93g6KR8nVSvmu/xgdofPyQ5y
- bKyFOmMLDP2b7fAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 199271348E;
- Thu, 29 Sep 2022 09:30:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SHfhBMJlNWMEOAAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 29 Sep 2022 09:30:42 +0000
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Claudio Fontana <cfontana@suse.de>
-Subject: [PATCH v9 3/5] module: add Error arguments to module_load and
- module_load_qom
-Date: Thu, 29 Sep 2022 11:30:33 +0200
-Message-Id: <20220929093035.4231-4-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20220929093035.4231-1-cfontana@suse.de>
-References: <20220929093035.4231-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1odptf-0001fs-Sq; Thu, 29 Sep 2022 05:32:02 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id z20so764957plb.10;
+ Thu, 29 Sep 2022 02:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=nS+fePgPb9l9LKYDgQQ1IG+bFtMMGO1bmW7YKgJvXrU=;
+ b=jGtvTKyjWjU4WCiMzCkOGESbVOZOv4GdYxnCicC6sumR5dpj7AN5gjiWmMf5ZuFYkj
+ PXgZLKF4ncyFIzGOMr0Km6/l9BIFEjpEV/p77LemXIVTeqR/Ij3GSbkVLzz1aPp2sbhv
+ A/TnvLZ5nQLvCVXJ/08ha9r5G8iMm4BgRctXBTN94TdI/YieKWi3DfjMotKyr9bMPkRP
+ aIZfrfs17hzAnOEY6mINuIRyRNDIX3XjapbXrnu0Y8GmaGy+ADg3kt9zd2NkM5W5bhPw
+ 3UPtj/PJtQl+wUq0O9jlgoFpr9qgz3XaB67fDX+rFS5gibGNy1+uDizmjNGWX6R4L2v6
+ zA8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=nS+fePgPb9l9LKYDgQQ1IG+bFtMMGO1bmW7YKgJvXrU=;
+ b=sEuRsdEDSrZj20t1obkuyB9n468V1Q8T8bj1PNo7rbubF3RWVzramJ6UD4sa15uyI5
+ JbwUYcjPmfhenht8W9q77NjqldYOi7yJ3nmt+FxblCaIhN2IvkX/voQe+a2+qsuQF1Ra
+ H3Hr9rFQyzRUKospg81CRX0veNOAbaSMjYX3ubSBAxsHPzyxh7v7UY0PqOk3QCbUZlf7
+ ufDja0MOrljxIyogVhpf7OXvawFPfOalEosMCBSSzN4xtz9D+QrUFUqPOtjBPRgDhp/O
+ oX7SNqYnRe1QeoebWrBB5Vxql1WvaBd7ftjjgWDiPW78fOYbeDlxoTHdsKU+UkcOsKMH
+ MKpA==
+X-Gm-Message-State: ACrzQf1k2DWw5SAWoO+SXXxFNB23xQOEcsJa6mKT7QGRxThrZHT7KlAT
+ aDX3Makfdd084k3HHRPSS784/IazJ6MfnQ==
+X-Google-Smtp-Source: AMsMyM734F3QOJo4QChNi/OBQEQ7O2arscDtJuGa4Lwcqekd+yM60SYwFNb4wAKaFZoaFZzyzaeSIg==
+X-Received: by 2002:a17:902:82c9:b0:17b:46e6:88d with SMTP id
+ u9-20020a17090282c900b0017b46e6088dmr1548776plz.85.1664443917259; 
+ Thu, 29 Sep 2022 02:31:57 -0700 (PDT)
+Received: from roots.. ([112.44.202.63]) by smtp.gmail.com with ESMTPSA id
+ f4-20020a623804000000b0053e669cc845sm5570537pfa.190.2022.09.29.02.31.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Sep 2022 02:31:57 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Hanna Reitz <hreitz@redhat.com>, damien.lemoal@opensource.wdc.com,
+ Fam Zheng <fam@euphon.net>, stefanha@redhat.com, dmitry.fomichev@wdc.com,
+ hare@suse.de, Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH v2 2/2] block: introduce zone append write for zoned devices
+Date: Thu, 29 Sep 2022 17:31:34 +0800
+Message-Id: <20220929093134.73974-3-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20220929093134.73974-1-faithilikerun@gmail.com>
+References: <20220929093134.73974-1-faithilikerun@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,706 +89,414 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-improve error handling during module load, by changing:
+A zone append command is a write operation that specifies the first
+logical block of a zone as the write position. When writing to a zoned
+block device using zone append, the byte offset of the write is pointing
+to the write pointer of that zone. Upon completion the device will
+respond with the position the data has been written in the zone.
 
-bool module_load(const char *prefix, const char *lib_name);
-void module_load_qom(const char *type);
-
-to:
-
-int module_load(const char *prefix, const char *name, Error **errp);
-int module_load_qom(const char *type, Error **errp);
-
-where the return value is:
-
- -1 on module load error, and errp is set with the error
-  0 on module or one of its dependencies are not installed
-  1 on module load success
-  2 on module load success (module already loaded or built-in)
-
-module_load_qom_one has been introduced in:
-
-commit 28457744c345 ("module: qom module support"), which built on top of
-module_load_one, but discarded the bool return value. Restore it.
-
-Adapt all callers to emit errors, or ignore them, or fail hard,
-as appropriate in each context.
-
-Replace the previous emission of errors via fprintf in _some_ error
-conditions with Error and error_report, so as to emit to the appropriate
-target.
-
-A memory leak is also fixed as part of the module_load changes.
-
-audio: when attempting to load an audio module, report module load errors.
-Note that still for some callers, a single issue may generate multiple
-error reports, and this could be improved further.
-Regarding the audio code itself, audio_add() seems to ignore errors,
-and this should probably be improved.
-
-block: when attempting to load a block module, report module load errors.
-For the code paths that already use the Error API, take advantage of those
-to report module load errors into the Error parameter.
-For the other code paths, we currently emit the error, but this could be
-improved further by adding Error parameters to all possible code paths.
-
-console: when attempting to load a display module, report module load errors.
-
-qdev: when creating a new qdev Device object (DeviceState), report load errors.
-      If a module cannot be loaded to create that device, now abort execution
-      (if no CONFIG_MODULE) or exit (if CONFIG_MODULE).
-
-qom/object.c: when initializing a QOM object, or looking up class_by_name,
-              report module load errors.
-
-qtest: when processing the "module_load" qtest command, report errors
-       in the load of the module.
-
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Sam Li <faithilikerun@gmail.com>
 ---
- audio/audio.c         |  16 ++--
- block.c               |  20 +++-
- block/dmg.c           |  14 ++-
- hw/core/qdev.c        |  17 +++-
- include/qemu/module.h |  37 +++++++-
- qom/object.c          |  18 +++-
- softmmu/qtest.c       |   8 +-
- ui/console.c          |  18 +++-
- util/module.c         | 209 +++++++++++++++++++++++-------------------
- 9 files changed, 234 insertions(+), 123 deletions(-)
+ block/block-backend.c              | 65 ++++++++++++++++++++++++++++++
+ block/file-posix.c                 | 51 +++++++++++++++++++++++
+ block/io.c                         | 21 ++++++++++
+ block/raw-format.c                 |  7 ++++
+ include/block/block-io.h           |  3 ++
+ include/block/block_int-common.h   |  3 ++
+ include/sysemu/block-backend-io.h  |  9 +++++
+ qemu-io-cmds.c                     | 62 ++++++++++++++++++++++++++++
+ tests/qemu-iotests/tests/zoned.out |  7 ++++
+ tests/qemu-iotests/tests/zoned.sh  |  9 +++++
+ 10 files changed, 237 insertions(+)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 0a682336a0..ea51793843 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -72,20 +72,24 @@ void audio_driver_register(audio_driver *drv)
- audio_driver *audio_driver_lookup(const char *name)
- {
-     struct audio_driver *d;
-+    Error *local_err = NULL;
-+    int rv;
+diff --git a/block/block-backend.c b/block/block-backend.c
+index f7f7acd6f4..07a8632af1 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1439,6 +1439,9 @@ typedef struct BlkRwCo {
+         struct {
+             BlockZoneOp op;
+         } zone_mgmt;
++        struct {
++            int64_t *append_sector;
++        } zone_append;
+     };
+ } BlkRwCo;
  
-     QLIST_FOREACH(d, &audio_drivers, next) {
-         if (strcmp(name, d->name) == 0) {
-             return d;
-         }
-     }
--
--    audio_module_load(name);
--    QLIST_FOREACH(d, &audio_drivers, next) {
--        if (strcmp(name, d->name) == 0) {
--            return d;
-+    rv = audio_module_load(name, &local_err);
-+    if (rv > 0) {
-+        QLIST_FOREACH(d, &audio_drivers, next) {
-+            if (strcmp(name, d->name) == 0) {
-+                return d;
-+            }
-         }
-+    } else if (rv < 0) {
-+        error_report_err(local_err);
-     }
--
-     return NULL;
+@@ -1869,6 +1872,47 @@ BlockAIOCB *blk_aio_zone_mgmt(BlockBackend *blk, BlockZoneOp op,
+     return &acb->common;
  }
  
-diff --git a/block.c b/block.c
-index 72c7f6d47d..7a94739aed 100644
---- a/block.c
-+++ b/block.c
-@@ -464,12 +464,18 @@ BlockDriver *bdrv_find_format(const char *format_name)
-     /* The driver isn't registered, maybe we need to load a module */
-     for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
-         if (!strcmp(block_driver_modules[i].format_name, format_name)) {
--            block_module_load(block_driver_modules[i].library_name);
-+            Error *local_err = NULL;
-+            int rv = block_module_load(block_driver_modules[i].library_name,
-+                                       &local_err);
-+            if (rv > 0) {
-+                return bdrv_do_find_format(format_name);
-+            } else if (rv < 0) {
-+                error_report_err(local_err);
-+            }
-             break;
-         }
-     }
--
--    return bdrv_do_find_format(format_name);
-+    return NULL;
++static void blk_aio_zone_append_entry(void *opaque) {
++    BlkAioEmAIOCB *acb = opaque;
++    BlkRwCo *rwco = &acb->rwco;
++
++    rwco->ret = blk_co_zone_append(rwco->blk, rwco->zone_append.append_sector,
++                                   rwco->iobuf, rwco->flags);
++    blk_aio_complete(acb);
++}
++
++BlockAIOCB *blk_aio_zone_append(BlockBackend *blk, int64_t *offset,
++                                QEMUIOVector *qiov, BdrvRequestFlags flags,
++                                BlockCompletionFunc *cb, void *opaque) {
++    BlkAioEmAIOCB *acb;
++    Coroutine *co;
++    IO_CODE();
++
++    blk_inc_in_flight(blk);
++    acb = blk_aio_get(&blk_aio_em_aiocb_info, blk, cb, opaque);
++    acb->rwco = (BlkRwCo) {
++        .blk    = blk,
++        .ret    = NOT_DONE,
++        .flags  = flags,
++        .iobuf  = qiov,
++        .zone_append = {
++                .append_sector = offset,
++        },
++    };
++    acb->has_returned = false;
++
++    co = qemu_coroutine_create(blk_aio_zone_append_entry, acb);
++    bdrv_coroutine_enter(blk_bs(blk), co);
++
++    acb->has_returned = true;
++    if (acb->rwco.ret != NOT_DONE) {
++        replay_bh_schedule_oneshot_event(blk_get_aio_context(blk),
++                                         blk_aio_complete_bh, acb);
++    }
++
++    return &acb->common;
++}
++
+ /*
+  * Send a zone_report command.
+  * offset is a byte offset from the start of the device. No alignment
+@@ -1921,6 +1965,27 @@ int coroutine_fn blk_co_zone_mgmt(BlockBackend *blk, BlockZoneOp op,
+     return ret;
  }
  
- static int bdrv_format_is_whitelisted(const char *format_name, bool read_only)
-@@ -976,12 +982,16 @@ BlockDriver *bdrv_find_protocol(const char *filename,
-     for (i = 0; i < (int)ARRAY_SIZE(block_driver_modules); ++i) {
-         if (block_driver_modules[i].protocol_name &&
-             !strcmp(block_driver_modules[i].protocol_name, protocol)) {
--            block_module_load(block_driver_modules[i].library_name);
-+            int rv = block_module_load(block_driver_modules[i].library_name, errp);
-+            if (rv > 0) {
-+                drv1 = bdrv_do_find_protocol(protocol);
-+            } else if (rv < 0) {
-+                return NULL;
-+            }
-             break;
-         }
-     }
- 
--    drv1 = bdrv_do_find_protocol(protocol);
-     if (!drv1) {
-         error_setg(errp, "Unknown protocol '%s'", protocol);
-     }
-diff --git a/block/dmg.c b/block/dmg.c
-index 007b8d9996..837f18aa20 100644
---- a/block/dmg.c
-+++ b/block/dmg.c
-@@ -445,9 +445,17 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
-     if (!bs->file) {
-         return -EINVAL;
-     }
--
--    block_module_load("dmg-bz2");
--    block_module_load("dmg-lzfse");
-+    /*
-+     * NB: if uncompress submodules are absent,
-+     * ie block_module_load return value == 0, the function pointers
-+     * dmg_uncompress_bz2 and dmg_uncompress_lzfse will be NULL.
-+     */
-+    if (block_module_load("dmg-bz2", errp) < 0) {
-+        return -EINVAL;
++/*
++ * Send a zone_append command.
++ */
++int coroutine_fn blk_co_zone_append(BlockBackend *blk, int64_t *offset,
++        QEMUIOVector *qiov, BdrvRequestFlags flags)
++{
++    int ret;
++    IO_CODE();
++
++    blk_inc_in_flight(blk);
++    blk_wait_while_drained(blk);
++    if (!blk_is_available(blk)) {
++        blk_dec_in_flight(blk);
++        return -ENOMEDIUM;
 +    }
-+    if (block_module_load("dmg-lzfse", errp) < 0) {
-+        return -EINVAL;
-+    }
- 
-     s->n_chunks = 0;
-     s->offsets = s->lengths = s->sectors = s->sectorcounts = NULL;
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 25dfc08468..0145501904 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -147,8 +147,21 @@ bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp)
- 
- DeviceState *qdev_new(const char *name)
++
++    ret = bdrv_co_zone_append(blk_bs(blk), offset, qiov, flags);
++    blk_dec_in_flight(blk);
++    return ret;
++}
++
+ void blk_drain(BlockBackend *blk)
  {
--    if (!object_class_by_name(name)) {
--        module_load_qom(name);
-+    ObjectClass *oc = object_class_by_name(name);
-+#ifdef CONFIG_MODULES
-+    if (!oc) {
-+        int rv = module_load_qom(name, &error_fatal);
-+        if (rv > 0) {
-+            oc = object_class_by_name(name);
-+        } else {
-+            error_report("could not find a module for type '%s'", name);
-+            exit(1);
-+        }
+     BlockDriverState *bs = blk_bs(blk);
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 33e81ac112..24b70f1afe 100755
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -3454,6 +3454,56 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
+ #endif
+ }
+ 
++
++static int coroutine_fn raw_co_zone_append(BlockDriverState *bs,
++                                           int64_t *offset,
++                                           QEMUIOVector *qiov,
++                                           BdrvRequestFlags flags) {
++#if defined(CONFIG_BLKZONED)
++    BDRVRawState *s = bs->opaque;
++    int64_t zone_size_mask = bs->bl.zone_size - 1;
++    int64_t iov_len = 0;
++    int64_t len = 0;
++    RawPosixAIOData acb;
++
++    if (*offset & zone_size_mask) {
++        error_report("sector offset %" PRId64 " is not aligned to zone size "
++                     "%" PRId32 "", *offset / 512, bs->bl.zone_size / 512);
++        return -EINVAL;
 +    }
++
++    int64_t wg = bs->bl.write_granularity;
++    int64_t wg_mask = wg - 1;
++    for (int i = 0; i < qiov->niov; i++) {
++       iov_len = qiov->iov[i].iov_len;
++       if (iov_len & wg_mask) {
++           error_report("len of IOVector[%d] %" PRId64 " is not aligned to block "
++                        "size %" PRId64 "", i, iov_len, wg);
++           return -EINVAL;
++       }
++       len += iov_len;
++    }
++
++    acb = (RawPosixAIOData) {
++        .bs = bs,
++        .aio_fildes = s->fd,
++        .aio_type = QEMU_AIO_ZONE_APPEND,
++        .aio_offset = bs->bl.wps->wp[*offset / bs->bl.zone_size],
++        .aio_nbytes = len,
++        .io = {
++                .iov = qiov->iov,
++                .niov = qiov->niov,
++                .wps = bs->bl.wps,
++                .append_sector = offset,
++        },
++    };
++
++    return raw_thread_pool_submit(bs, handle_aiocb_rw, &acb);
++#else
++    return -ENOTSUP;
 +#endif
-+    if (!oc) {
-+        error_report("unknown type '%s'", name);
-+        abort();
-     }
-     return DEVICE(object_new(name));
- }
-diff --git a/include/qemu/module.h b/include/qemu/module.h
-index b7911ce791..c37ce74b16 100644
---- a/include/qemu/module.h
-+++ b/include/qemu/module.h
-@@ -61,16 +61,43 @@ typedef enum {
- #define fuzz_target_init(function) module_init(function, \
-                                                MODULE_INIT_FUZZ_TARGET)
- #define migration_init(function) module_init(function, MODULE_INIT_MIGRATION)
--#define block_module_load(lib) module_load("block-", lib)
--#define ui_module_load(lib) module_load("ui-", lib)
--#define audio_module_load(lib) module_load("audio-", lib)
-+#define block_module_load(lib, errp) module_load("block-", lib, errp)
-+#define ui_module_load(lib, errp) module_load("ui-", lib, errp)
-+#define audio_module_load(lib, errp) module_load("audio-", lib, errp)
- 
- void register_module_init(void (*fn)(void), module_init_type type);
- void register_dso_module_init(void (*fn)(void), module_init_type type);
- 
- void module_call_init(module_init_type type);
--bool module_load(const char *prefix, const char *lib_name);
--void module_load_qom(const char *type);
++}
 +
-+/*
-+ * module_load: attempt to load a module from a set of directories
-+ *
-+ * directories searched are:
-+ * - getenv("QEMU_MODULE_DIR")
-+ * - get_relocated_path(CONFIG_QEMU_MODDIR);
-+ * - /var/run/qemu/${version_dir}
-+ *
-+ * prefix:         a subsystem prefix, or the empty string ("audio-", ..., "")
-+ * name:           name of the module
-+ * errp:           error to set in case the module is found, but load failed.
-+ *
-+ * Return value:   -1 on error (errp set if not NULL).
-+ *                 0 if module or one of its dependencies are not installed,
-+ *                 1 if the module is found and loaded,
-+ *                 2 if the module is already loaded, or module is built-in.
-+ */
-+int module_load(const char *prefix, const char *name, Error **errp);
-+
-+/*
-+ * module_load_qom: attempt to load a module to provide a QOM type
-+ *
-+ * type:           the type to be provided
-+ * errp:           error to set.
-+ *
-+ * Return value:   as per module_load.
-+ */
-+int module_load_qom(const char *type, Error **errp);
- void module_load_qom_all(void);
- void module_allow_arch(const char *arch);
- 
-diff --git a/qom/object.c b/qom/object.c
-index 4f834f3bf6..45da07980a 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -526,8 +526,13 @@ void object_initialize(void *data, size_t size, const char *typename)
- 
- #ifdef CONFIG_MODULES
-     if (!type) {
--        module_load_qom(typename);
--        type = type_get_by_name(typename);
-+        int rv = module_load_qom(typename, &error_fatal);
-+        if (rv > 0) {
-+            type = type_get_by_name(typename);
-+        } else {
-+            error_report("missing object type '%s'", typename);
-+            exit(1);
-+        }
-     }
+ static coroutine_fn int
+ raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes,
+                 bool blkdev)
+@@ -4229,6 +4279,7 @@ static BlockDriver bdrv_zoned_host_device = {
+     /* zone management operations */
+     .bdrv_co_zone_report = raw_co_zone_report,
+     .bdrv_co_zone_mgmt = raw_co_zone_mgmt,
++    .bdrv_co_zone_append = raw_co_zone_append,
+ };
  #endif
-     if (!type) {
-@@ -1033,8 +1038,13 @@ ObjectClass *module_object_class_by_name(const char *typename)
-     oc = object_class_by_name(typename);
- #ifdef CONFIG_MODULES
-     if (!oc) {
--        module_load_qom(typename);
--        oc = object_class_by_name(typename);
-+        Error *local_err = NULL;
-+        int rv = module_load_qom(typename, &local_err);
-+        if (rv > 0) {
-+            oc = object_class_by_name(typename);
-+        } else if (rv < 0) {
-+            error_report_err(local_err);
-+        }
-     }
- #endif
-     return oc;
-diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-index fc5b733c63..36e28609ff 100644
---- a/softmmu/qtest.c
-+++ b/softmmu/qtest.c
-@@ -753,12 +753,18 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
-         qtest_sendf(chr, "OK %"PRIi64"\n",
-                     (int64_t)qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
-     } else if (strcmp(words[0], "module_load") == 0) {
-+        Error *local_err = NULL;
-+        int rv;
-         g_assert(words[1] && words[2]);
  
-         qtest_send_prefix(chr);
--        if (module_load(words[1], words[2])) {
-+        rv = module_load(words[1], words[2], &local_err);
-+        if (rv > 0) {
-             qtest_sendf(chr, "OK\n");
-         } else {
-+            if (rv < 0) {
-+                error_report_err(local_err);
-+            }
-             qtest_sendf(chr, "FAIL\n");
-         }
-     } else if (qtest_enabled() && strcmp(words[0], "clock_set") == 0) {
-diff --git a/ui/console.c b/ui/console.c
-index 4913c55684..4e53c3c71b 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -2632,7 +2632,11 @@ bool qemu_display_find_default(DisplayOptions *opts)
- 
-     for (i = 0; i < (int)ARRAY_SIZE(prio); i++) {
-         if (dpys[prio[i]] == NULL) {
--            ui_module_load(DisplayType_str(prio[i]));
-+            Error *local_err = NULL;
-+            int rv = ui_module_load(DisplayType_str(prio[i]), &local_err);
-+            if (rv < 0) {
-+                error_report_err(local_err);
-+            }
-         }
-         if (dpys[prio[i]] == NULL) {
-             continue;
-@@ -2650,7 +2654,11 @@ void qemu_display_early_init(DisplayOptions *opts)
-         return;
-     }
-     if (dpys[opts->type] == NULL) {
--        ui_module_load(DisplayType_str(opts->type));
-+        Error *local_err = NULL;
-+        int rv = ui_module_load(DisplayType_str(opts->type), &local_err);
-+        if (rv < 0) {
-+            error_report_err(local_err);
-+        }
-     }
-     if (dpys[opts->type] == NULL) {
-         error_report("Display '%s' is not available.",
-@@ -2680,7 +2688,11 @@ void qemu_display_help(void)
-     printf("none\n");
-     for (idx = DISPLAY_TYPE_NONE; idx < DISPLAY_TYPE__MAX; idx++) {
-         if (!dpys[idx]) {
--            ui_module_load(DisplayType_str(idx));
-+            Error *local_err = NULL;
-+            int rv = ui_module_load(DisplayType_str(idx), &local_err);
-+            if (rv < 0) {
-+                error_report_err(local_err);
-+            }
-         }
-         if (dpys[idx]) {
-             printf("%s\n",  DisplayType_str(dpys[idx]->type));
-diff --git a/util/module.c b/util/module.c
-index ad89cd50dc..32e263163c 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -21,6 +21,7 @@
- #include "qemu/module.h"
- #include "qemu/cutils.h"
- #include "qemu/config-file.h"
-+#include "qapi/error.h"
- #ifdef CONFIG_MODULE_UPGRADES
- #include "qemu-version.h"
- #endif
-@@ -144,25 +145,22 @@ static bool module_check_arch(const QemuModinfo *modinfo)
-     return true;
+diff --git a/block/io.c b/block/io.c
+index 5ab2d169c8..b9dfdf0709 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3239,6 +3239,27 @@ out:
+     return co.ret;
  }
  
--static int module_load_file(const char *fname, bool export_symbols)
-+/*
-+ * module_load_dso: attempt to load an existing dso file
-+ *
-+ * fname:          full pathname of the file to load
-+ * export_symbols: if true, add the symbols to the global name space
-+ * errp:           error to set.
-+ *
-+ * Return value:   true on success, false on error, and errp will be set.
-+ */
-+static bool module_load_dso(const char *fname, bool export_symbols,
-+                            Error **errp)
- {
-     GModule *g_module;
-     void (*sym)(void);
--    const char *dsosuf = CONFIG_HOST_DSOSUF;
--    int len = strlen(fname);
--    int suf_len = strlen(dsosuf);
-     ModuleEntry *e, *next;
--    int ret, flags;
--
--    if (len <= suf_len || strcmp(&fname[len - suf_len], dsosuf)) {
--        /* wrong suffix */
--        ret = -EINVAL;
--        goto out;
--    }
--    if (access(fname, F_OK)) {
--        ret = -ENOENT;
--        goto out;
--    }
-+    int flags;
- 
-     assert(QTAILQ_EMPTY(&dso_init_list));
- 
-@@ -172,46 +170,38 @@ static int module_load_file(const char *fname, bool export_symbols)
-     }
-     g_module = g_module_open(fname, flags);
-     if (!g_module) {
--        fprintf(stderr, "Failed to open module: %s\n",
--                g_module_error());
--        ret = -EINVAL;
--        goto out;
-+        error_setg(errp, "failed to open module: %s", g_module_error());
-+        return false;
-     }
-     if (!g_module_symbol(g_module, DSO_STAMP_FUN_STR, (gpointer *)&sym)) {
--        fprintf(stderr, "Failed to initialize module: %s\n",
--                fname);
--        /* Print some info if this is a QEMU module (but from different build),
--         * this will make debugging user problems easier. */
-+        error_setg(errp, "failed to initialize module: %s", fname);
-+        /*
-+         * Print some info if this is a QEMU module (but from different build),
-+         * this will make debugging user problems easier.
-+         */
-         if (g_module_symbol(g_module, "qemu_module_dummy", (gpointer *)&sym)) {
--            fprintf(stderr,
--                    "Note: only modules from the same build can be loaded.\n");
-+            error_append_hint(errp,
-+                "Only modules from the same build can be loaded.\n");
-         }
-         g_module_close(g_module);
--        ret = -EINVAL;
--    } else {
--        QTAILQ_FOREACH(e, &dso_init_list, node) {
--            e->init();
--            register_module_init(e->init, e->type);
--        }
--        ret = 0;
-+        return false;
-     }
- 
-+    QTAILQ_FOREACH(e, &dso_init_list, node) {
-+        e->init();
-+        register_module_init(e->init, e->type);
-+    }
-     trace_module_load_module(fname);
-     QTAILQ_FOREACH_SAFE(e, &dso_init_list, node, next) {
-         QTAILQ_REMOVE(&dso_init_list, e, node);
-         g_free(e);
-     }
--out:
--    return ret;
-+    return true;
- }
--#endif
- 
--bool module_load(const char *prefix, const char *lib_name)
-+int module_load(const char *prefix, const char *name, Error **errp)
- {
--    bool success = false;
--
--#ifdef CONFIG_MODULES
--    char *fname = NULL;
-+    int rv = -1;
- #ifdef CONFIG_MODULE_UPGRADES
-     char *version_dir;
- #endif
-@@ -219,54 +209,29 @@ bool module_load(const char *prefix, const char *lib_name)
-     char *dirs[5];
-     char *module_name;
-     int i = 0, n_dirs = 0;
--    int ret;
-     bool export_symbols = false;
-     static GHashTable *loaded_modules;
-     const QemuModinfo *modinfo;
-     const char **sl;
- 
-     if (!g_module_supported()) {
--        fprintf(stderr, "Module is not supported by system.\n");
--        return false;
-+        error_setg(errp, "%s", "this platform does not support GLib modules");
-+        return -1;
-     }
- 
-     if (!loaded_modules) {
-         loaded_modules = g_hash_table_new(g_str_hash, g_str_equal);
-     }
- 
--    module_name = g_strdup_printf("%s%s", prefix, lib_name);
-+    /* allocate all resources managed by the out: label here */
-+    module_name = g_strdup_printf("%s%s", prefix, name);
- 
-     if (g_hash_table_contains(loaded_modules, module_name)) {
-         g_free(module_name);
--        return true;
-+        return 2; /* module already loaded */
-     }
-     g_hash_table_add(loaded_modules, module_name);
- 
--    for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
--        if (modinfo->arch) {
--            if (strcmp(modinfo->name, module_name) == 0) {
--                if (!module_check_arch(modinfo)) {
--                    return false;
--                }
--            }
--        }
--        if (modinfo->deps) {
--            if (strcmp(modinfo->name, module_name) == 0) {
--                /* we depend on other module(s) */
--                for (sl = modinfo->deps; *sl != NULL; sl++) {
--                    module_load("", *sl);
--                }
--            } else {
--                for (sl = modinfo->deps; *sl != NULL; sl++) {
--                    if (strcmp(module_name, *sl) == 0) {
--                        /* another module depends on us */
--                        export_symbols = true;
--                    }
--                }
--            }
--        }
--    }
--
-     search_dir = getenv("QEMU_MODULE_DIR");
-     if (search_dir != NULL) {
-         dirs[n_dirs++] = g_strdup_printf("%s", search_dir);
-@@ -279,46 +244,87 @@ bool module_load(const char *prefix, const char *lib_name)
-                              '_');
-     dirs[n_dirs++] = g_strdup_printf("/var/run/qemu/%s", version_dir);
- #endif
--
-     assert(n_dirs <= ARRAY_SIZE(dirs));
- 
--    for (i = 0; i < n_dirs; i++) {
--        fname = g_strdup_printf("%s/%s%s",
--                dirs[i], module_name, CONFIG_HOST_DSOSUF);
--        ret = module_load_file(fname, export_symbols);
--        g_free(fname);
--        fname = NULL;
--        /* Try loading until loaded a module file */
--        if (!ret) {
--            success = true;
--            break;
-+    /* end of resources managed by the out: label */
++int coroutine_fn bdrv_co_zone_append(BlockDriverState *bs, int64_t *offset,
++                        QEMUIOVector *qiov,
++                        BdrvRequestFlags flags)
++{
++    BlockDriver *drv = bs->drv;
++    CoroutineIOCompletion co = {
++            .coroutine = qemu_coroutine_self(),
++    };
++    IO_CODE();
 +
-+    for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
-+        if (modinfo->arch) {
-+            if (strcmp(modinfo->name, module_name) == 0) {
-+                if (!module_check_arch(modinfo)) {
-+                    error_setg(errp, "module arch does not match: "
-+                        "expected '%s', got '%s'", module_arch, modinfo->arch);
-+                    goto out;
-+                }
-+            }
-+        }
-+        if (modinfo->deps) {
-+            if (strcmp(modinfo->name, module_name) == 0) {
-+                /* we depend on other module(s) */
-+                for (sl = modinfo->deps; *sl != NULL; sl++) {
-+                    int subrv = module_load("", *sl, errp);
-+                    if (subrv <= 0) {
-+                        rv = subrv;
-+                        goto out;
-+                    }
-+                }
-+            } else {
-+                for (sl = modinfo->deps; *sl != NULL; sl++) {
-+                    if (strcmp(module_name, *sl) == 0) {
-+                        /* another module depends on us */
-+                        export_symbols = true;
-+                    }
-+                }
-+            }
-         }
-     }
- 
--    if (!success) {
-+    for (i = 0; i < n_dirs; i++) {
-+        char *fname = g_strdup_printf("%s/%s%s",
-+                                      dirs[i], module_name, CONFIG_HOST_DSOSUF);
-+        int ret = access(fname, F_OK);
-+        if (ret != 0 && (errno == ENOENT || errno == ENOTDIR)) {
-+            /*
-+             * if we don't find the module in this dir, try the next one.
-+             * If we don't find it in any dir, that can be fine too: user
-+             * did not install the module. We will return 0 in this case
-+             * with no error set.
-+             */
-+            g_free(fname);
-+            continue;
-+        } else if (ret != 0) {
-+            /* most common is EACCES here */
-+            error_setg_errno(errp, errno, "error trying to access %s", fname);
-+        } else if (module_load_dso(fname, export_symbols, errp)) {
-+            rv = 1; /* module successfully loaded */
-+        }
-+        g_free(fname);
++    bdrv_inc_in_flight(bs);
++    if (!drv || !drv->bdrv_co_zone_append) {
++        co.ret = -ENOTSUP;
 +        goto out;
 +    }
-+    rv = 0; /* module not found */
-+
++    co.ret = drv->bdrv_co_zone_append(bs, offset, qiov, flags);
 +out:
-+    if (rv <= 0) {
-         g_hash_table_remove(loaded_modules, module_name);
-         g_free(module_name);
-     }
--
-     for (i = 0; i < n_dirs; i++) {
-         g_free(dirs[i]);
-     }
--
--#endif
--    return success;
-+    return rv;
- }
- 
--#ifdef CONFIG_MODULES
--
- static bool module_loaded_qom_all;
- 
--void module_load_qom(const char *type)
-+int module_load_qom(const char *type, Error **errp)
++    bdrv_dec_in_flight(bs);
++    return co.ret;
++}
++
+ void *qemu_blockalign(BlockDriverState *bs, size_t size)
  {
-     const QemuModinfo *modinfo;
-     const char **sl;
-+    int rv = 0;
- 
-     if (!type) {
--        return;
-+        error_setg(errp, "%s", "type is NULL");
-+        return -1;
-     }
- 
-     trace_module_lookup_object_type(type);
-@@ -331,15 +337,24 @@ void module_load_qom(const char *type)
-         }
-         for (sl = modinfo->objs; *sl != NULL; sl++) {
-             if (strcmp(type, *sl) == 0) {
--                module_load("", modinfo->name);
-+                if (rv > 0) {
-+                    error_setg(errp, "multiple modules providing '%s'", type);
-+                    return -1;
-+                }
-+                rv = module_load("", modinfo->name, errp);
-+                if (rv < 0) {
-+                    return rv;
-+                }
-             }
-         }
-     }
-+    return rv;
+     IO_CODE();
+diff --git a/block/raw-format.c b/block/raw-format.c
+index 9441536819..df8cc33467 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -325,6 +325,12 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
+     return bdrv_co_zone_mgmt(bs->file->bs, op, offset, len);
  }
  
- void module_load_qom_all(void)
++static int coroutine_fn raw_co_zone_append(BlockDriverState *bs, int64_t *offset,
++                                           QEMUIOVector *qiov,
++                                           BdrvRequestFlags flags) {
++    return bdrv_co_zone_append(bs->file->bs, offset, qiov, flags);
++}
++
+ static int64_t raw_getlength(BlockDriverState *bs)
  {
-     const QemuModinfo *modinfo;
-+    Error *local_err = NULL;
+     int64_t len;
+@@ -628,6 +634,7 @@ BlockDriver bdrv_raw = {
+     .bdrv_co_pdiscard     = &raw_co_pdiscard,
+     .bdrv_co_zone_report  = &raw_co_zone_report,
+     .bdrv_co_zone_mgmt  = &raw_co_zone_mgmt,
++    .bdrv_co_zone_append = &raw_co_zone_append,
+     .bdrv_co_block_status = &raw_co_block_status,
+     .bdrv_co_copy_range_from = &raw_co_copy_range_from,
+     .bdrv_co_copy_range_to  = &raw_co_copy_range_to,
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index 65463b88d9..a792164018 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -94,6 +94,9 @@ int coroutine_fn bdrv_co_zone_report(BlockDriverState *bs, int64_t offset,
+                                      BlockZoneDescriptor *zones);
+ int coroutine_fn bdrv_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
+                                    int64_t offset, int64_t len);
++int coroutine_fn bdrv_co_zone_append(BlockDriverState *bs, int64_t *offset,
++                                     QEMUIOVector *qiov,
++                                     BdrvRequestFlags flags);
  
-     if (module_loaded_qom_all) {
-         return;
-@@ -352,7 +367,9 @@ void module_load_qom_all(void)
-         if (!module_check_arch(modinfo)) {
-             continue;
-         }
--        module_load("", modinfo->name);
-+        if (module_load("", modinfo->name, &local_err) < 0) {
-+            error_report_err(local_err);
-+        }
-     }
-     module_loaded_qom_all = true;
- }
-@@ -368,7 +385,10 @@ void qemu_load_module_for_opts(const char *group)
-         }
-         for (sl = modinfo->opts; *sl != NULL; sl++) {
-             if (strcmp(group, *sl) == 0) {
--                module_load("", modinfo->name);
-+                Error *local_err = NULL;
-+                if (module_load("", modinfo->name, &local_err) < 0) {
-+                    error_report_err(local_err);
-+                }
-             }
-         }
-     }
-@@ -378,7 +398,8 @@ void qemu_load_module_for_opts(const char *group)
+ int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+ bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 59c2d1316d..a7e7db5646 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -701,6 +701,9 @@ struct BlockDriver {
+             BlockZoneDescriptor *zones);
+     int coroutine_fn (*bdrv_co_zone_mgmt)(BlockDriverState *bs, BlockZoneOp op,
+             int64_t offset, int64_t len);
++    int coroutine_fn (*bdrv_co_zone_append)(BlockDriverState *bs,
++            int64_t *offset, QEMUIOVector *qiov,
++            BdrvRequestFlags flags);
  
- void module_allow_arch(const char *arch) {}
- void qemu_load_module_for_opts(const char *group) {}
--void module_load_qom(const char *type) {}
-+int module_load(const char *prefix, const char *name, Error **errp) { return 2; }
-+int module_load_qom(const char *type, Error **errp) { return 2; }
- void module_load_qom_all(void) {}
+     /* removable device specific */
+     bool (*bdrv_is_inserted)(BlockDriverState *bs);
+diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
+index 6835525582..33e35ae5d7 100644
+--- a/include/sysemu/block-backend-io.h
++++ b/include/sysemu/block-backend-io.h
+@@ -51,6 +51,9 @@ BlockAIOCB *blk_aio_zone_report(BlockBackend *blk, int64_t offset,
+ BlockAIOCB *blk_aio_zone_mgmt(BlockBackend *blk, BlockZoneOp op,
+                               int64_t offset, int64_t len,
+                               BlockCompletionFunc *cb, void *opaque);
++BlockAIOCB *blk_aio_zone_append(BlockBackend *blk, int64_t *offset,
++                                QEMUIOVector *qiov, BdrvRequestFlags flags,
++                                BlockCompletionFunc *cb, void *opaque);
+ BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes,
+                              BlockCompletionFunc *cb, void *opaque);
+ void blk_aio_cancel_async(BlockAIOCB *acb);
+@@ -172,6 +175,12 @@ int coroutine_fn blk_co_zone_mgmt(BlockBackend *blk, BlockZoneOp op,
+                                   int64_t offset, int64_t len);
+ int generated_co_wrapper blk_zone_mgmt(BlockBackend *blk, BlockZoneOp op,
+                                        int64_t offset, int64_t len);
++int coroutine_fn blk_co_zone_append(BlockBackend *blk, int64_t *offset,
++                                    QEMUIOVector *qiov,
++                                    BdrvRequestFlags flags);
++int generated_co_wrapper blk_zone_append(BlockBackend *blk, int64_t *offset,
++                                         QEMUIOVector *qiov,
++                                         BdrvRequestFlags flags);
  
- #endif
+ int generated_co_wrapper blk_pdiscard(BlockBackend *blk, int64_t offset,
+                                       int64_t bytes);
+diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+index e56c8d1c30..6cb86de35b 100644
+--- a/qemu-io-cmds.c
++++ b/qemu-io-cmds.c
+@@ -1855,6 +1855,67 @@ static const cmdinfo_t zone_reset_cmd = {
+     .oneline = "reset a zone write pointer in zone block device",
+ };
+ 
++static int do_aio_zone_append(BlockBackend *blk, QEMUIOVector *qiov,
++                              int64_t *offset, int flags, int *total)
++{
++    int async_ret = NOT_DONE;
++
++    blk_aio_zone_append(blk, offset, qiov, flags, aio_rw_done, &async_ret);
++    while (async_ret == NOT_DONE) {
++        main_loop_wait(false);
++    }
++
++    *total = qiov->size;
++    return async_ret < 0 ? async_ret : 1;
++}
++
++static int zone_append_f(BlockBackend *blk, int argc, char **argv) {
++    int ret;
++    int flags = 0;
++    int total = 0;
++    int64_t offset;
++    char *buf;
++    int nr_iov;
++    int pattern = 0xcd;
++    QEMUIOVector qiov;
++
++    if (optind > argc - 2) {
++        return -EINVAL;
++    }
++    optind++;
++    offset = cvtnum(argv[optind]);
++    if (offset < 0) {
++        print_cvtnum_err(offset, argv[optind]);
++        return offset;
++    }
++    optind++;
++    nr_iov = argc - optind;
++    buf = create_iovec(blk, &qiov, &argv[optind], nr_iov, pattern);
++    if (buf == NULL) {
++        return -EINVAL;
++    }
++    ret = do_aio_zone_append(blk, &qiov, &offset, flags, &total);
++    if (ret < 0) {
++        printf("zone append failed: %s\n", strerror(-ret));
++        goto out;
++    }
++
++    out:
++    qemu_iovec_destroy(&qiov);
++    qemu_io_free(buf);
++    return ret;
++}
++
++static const cmdinfo_t zone_append_cmd = {
++    .name = "zone_append",
++    .altname = "zap",
++    .cfunc = zone_append_f,
++    .argmin = 3,
++    .argmax = 3,
++    .args = "offset len [len..]",
++    .oneline = "append write a number of bytes at a specified offset",
++};
++
+ static int truncate_f(BlockBackend *blk, int argc, char **argv);
+ static const cmdinfo_t truncate_cmd = {
+     .name       = "truncate",
+@@ -2652,6 +2713,7 @@ static void __attribute((constructor)) init_qemuio_commands(void)
+     qemuio_add_command(&zone_close_cmd);
+     qemuio_add_command(&zone_finish_cmd);
+     qemuio_add_command(&zone_reset_cmd);
++    qemuio_add_command(&zone_append_cmd);
+     qemuio_add_command(&truncate_cmd);
+     qemuio_add_command(&length_cmd);
+     qemuio_add_command(&info_cmd);
+diff --git a/tests/qemu-iotests/tests/zoned.out b/tests/qemu-iotests/tests/zoned.out
+index 0c8f96deb9..b3b139b4ec 100644
+--- a/tests/qemu-iotests/tests/zoned.out
++++ b/tests/qemu-iotests/tests/zoned.out
+@@ -50,4 +50,11 @@ start: 0x80000, len 0x80000, cap 0x80000, wptr 0x100000, zcond:14, [type: 2]
+ (5) resetting the second zone
+ After resetting a zone:
+ start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:1, [type: 2]
++
++
++(6) append write
++After appending the first zone:
++start: 0x0, len 0x80000, cap 0x80000, wptr 0x18, zcond:2, [type: 2]
++After appending the second zone:
++start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80018, zcond:2, [type: 2]
+ *** done
+diff --git a/tests/qemu-iotests/tests/zoned.sh b/tests/qemu-iotests/tests/zoned.sh
+index fced0194c5..888711eef2 100755
+--- a/tests/qemu-iotests/tests/zoned.sh
++++ b/tests/qemu-iotests/tests/zoned.sh
+@@ -79,6 +79,15 @@ echo "(5) resetting the second zone"
+ sudo $QEMU_IO $IMG -c "zrs 268435456 268435456"
+ echo "After resetting a zone:"
+ sudo $QEMU_IO $IMG -c "zrp 268435456 1"
++echo
++echo
++echo "(6) append write" # physical block size of the device is 4096
++sudo $QEMU_IO $IMG -c "zap 0 0x1000 0x2000"
++echo "After appending the first zone:"
++sudo $QEMU_IO $IMG -c "zrp 0 1"
++sudo $QEMU_IO $IMG -c "zap 268435456 0x1000 0x2000"
++echo "After appending the second zone:"
++sudo $QEMU_IO $IMG -c "zrp 268435456 1"
+ 
+ # success, all done
+ echo "*** done"
 -- 
-2.26.2
+2.37.3
 
 
