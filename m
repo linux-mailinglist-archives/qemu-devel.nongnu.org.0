@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C2C5EF108
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 10:57:37 +0200 (CEST)
-Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2405EF00E
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 10:11:13 +0200 (CEST)
+Received: from localhost ([::1]:58614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odpMO-0003qj-Ii
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 04:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53910)
+	id 1ododR-0000NS-Py
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 04:11:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1odoLq-0004yH-9q
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:53:00 -0400
+ id 1odoLr-0004zq-PE
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:53:03 -0400
 Received: from mail-eopbgr50137.outbound.protection.outlook.com
  ([40.107.5.137]:58243 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1odoLm-0000hg-4s
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:52:57 -0400
+ id 1odoLp-0000hg-QO
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:52:59 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VVuuy6jI7XQa4y5v45HR8+zKHNGq6cp9QhdRTbXOEDnjt+9fws2OO/A5vAnF5lOBSd3/YvWRKii/6+k2ozjNi9z3NLN34U1hyJM+mclLEi4nf9nApI6xS86yNq76WPSuv3/0wmagJCwdrxyEh6tOOi5nzcKMLWe1IrQ7eWLlvNRg2bOq7QBytj/6DnpaIF4RMbEb2wp9zUwrutrq215ILi39jYXMEntMQv5S/aK+/UNtxi3JRi/bBho6SIynac+rdG/7+5tBMfDC1ne93X5e8+I3HEKncTGW8w2AP+g1FlXQ5dJWv/H3exW+RHxkdWmfN71L5joldkAPqnhhm/NtTw==
+ b=mOEtPf5MIj2UTDN62rYpbI9OZNJO8OQlvp7zi+HDHF7kQwLIqq3p7h6cUKAzGCIO3GmhFADxA3O71IdW9rrgVu0lIxvUfiX0dNneWIxnMrJC9ujeegbLJEBaQ4aaeYdQIM9X+qxbP7CzrU+briS/MN6vGvyuqkVFRD9/QvFgTfX0s09gkn8q50RW8k+aX6Sxj6gjN79yR8RzA5pRQPMcZStpVDJWtiNUm6R7nJxQYXgqqNbug/onv7no45nSOEMBEm3xJJ9yVUWdyYkgOUjbRhIweZKPHVxB3aWl7fxngjXbE6DXZLuR4gypBdUpQbxaI/uPf+8ldZBJT9XHWPqYWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8qXr0XSfpeFEa750zuWHJLcULj297xzhC393Kuyr8AU=;
- b=Qf1ssCGAPdkI5vH4GiT9Bi9b8FPXX2aGC1anQLQ1DMnFDvoWEvPqvIDhtHnlodc45zwriPC0umAy3npK6+6mnsxCvOK93YMLLoZE2xTbQWuqE8dSPdx8XvcrwqTv6ys5/vb5JFitgi+zPNTp8NUNjA9AztxPlo6Freb4B0nowZM9pVsdEdUXCAOy+FMMQoG1bg7KfCubR2/CphhO+4TJmzYtq3Q3HFdqKXKvXI7FChOnaIUtb3byUP5vKloJ+DR5yd6wPBGclN/CcCWwqHdByg6Y5KQjyYndHFycLXqdkmXKlsm3gkskj7ZbzW/EUTvVzhnBY5Khn8Y8vLnPOm7/7Q==
+ bh=n6IYw1Yuo9xEANhuQwTiGpnfATLTImxbVXiIyCqZeas=;
+ b=em9QmaRpRAwSTyaKvQeN++q01jiuM9cAjLuk7Fn23GvpjROXoClx6psBaqTxSt/xmsscSG2DiDdbMNJ+7YHx9P2ar59fAQDuQfNp+fjTYThmvZRUxSII4STwcCIorKeSeEV7Sh46A1IiRKs8NxYri6g6V0fsLR8jtGHjXT8Mjpn6CK9GcOf97s3slXdPuAws06V6hCrDZ+cXWeyWeUl1TmMi1xP4nWJubLPrwkWFP4PDUi5bJ4JzTQYBrt16bMCxRtKDljRL00aUrgB9RSxlhsRuhmDKXw87HFQdoRf/aZSgi8idiUIsh+u1n8oeMuN6ouuSgC1xHw3FI4P4YJlVvQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8qXr0XSfpeFEa750zuWHJLcULj297xzhC393Kuyr8AU=;
- b=KFrAxpFbLIi813zpDnHU0/OlTweXnG+iKtThDdg2SWhMeIoknIwgGxGbW9JqCddp6chRK5EFLd327pN9pDCZOQzF+Q5GIs3kjESqvgSbcGijh/kvB2aHZ2nD31PEdKwfQUCQFgfQUsSHajHTvKtYLUQhDSxiB18N9uS6h9QdhP9tZcFU142TuLM9ZCB+L0CrR3hhXjScvqJMJIZsosivlknfLzmVu/c3++RRq7nAAsJYQTpl6Z3whD2aHHbSsFII+R+KgaOpvEk5glAvEdnD4RW63kQYju0SnqY3ce60zqtkz0ZHDgiLCIyu1xFCYDds2Q8ef18p70oeG1PbNaT8Ag==
+ bh=n6IYw1Yuo9xEANhuQwTiGpnfATLTImxbVXiIyCqZeas=;
+ b=jzG+S80lasTlKng5eexs8pLMPg0z+8eJE0iiYiY9j2iU3XAGSY55aWJM7ZyId1OD/R/8nzZgsjne2qeiR8ofp8icqe4iO+F/ruP+eCAPoxNgDdwXKEMa5CHzp+vLs9Dau6EgEK9OrajyRHmGcE9t1nAr9QZz+8s9HBuDcFkamQqT/WByzjOEZLbAa7Dk2SQyHTOGQe1/JhcoTkYioB4NXKrdlS9kGxO5So2BCt8DA/0Hw1JMBN3jNkGRgxH5jhwVw59K2JL4cl99SPTMEBOhsuzz1e7zstZbQIykXE3hXm1uoGpx48aOZ5k5Kd55wsMS5htwMVCrahCroYeaeYNPvw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
@@ -51,9 +51,9 @@ To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com,
 	michael.roth@amd.com,
 	kkostiuk@redhat.com
-Subject: [PATCH 5/7] qga: Add support for user password setting in FreeBSD
-Date: Thu, 29 Sep 2022 09:52:37 +0200
-Message-Id: <20220929075239.1675374-6-alexander.ivanov@virtuozzo.com>
+Subject: [PATCH 6/7] qga: Move HW address getting to a separate function
+Date: Thu, 29 Sep 2022 09:52:38 +0200
+Message-Id: <20220929075239.1675374-7-alexander.ivanov@virtuozzo.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929075239.1675374-1-alexander.ivanov@virtuozzo.com>
 References: <20220929075239.1675374-1-alexander.ivanov@virtuozzo.com>
@@ -65,53 +65,53 @@ X-ClientProxiedBy: AS9PR0301CA0039.eurprd03.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|PAXPR08MB6461:EE_
-X-MS-Office365-Filtering-Correlation-Id: ff203256-e632-4a95-e1a3-08daa1ef9a88
+X-MS-Office365-Filtering-Correlation-Id: 77a16c04-9065-4c08-b3f0-08daa1ef9ade
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GlHvzCWmL0HUHrOelDzlJcGjW9QEnqdJo9Awwb+1jIo1hY8uo9nVJ4kayc+cDcup7TQjxZW/6zGHVCOrvTMYC8z3AkjnU+wyVt1PrenVEpvY9y7AcDCblBcJYIY8ucp1xxFGor1+mSL/boK0EiSQ5btYVPbFV4MyalFSAHsUyf9/OTqm0ptu4X59W0wm45DX9HnwgHs4vonzf6jCWiQdisncrq4CZB6xM0Y/BB0eyjYY34/kSe2RIhi7RhXgy8p5pX/S7QxWBI0dTt2BH29YaiSeLyS+/b6Di/RV/amS42GsBnuz9mKg3QzDe0+N8ZobnGsym2La6cCTPnvxYBbrtgg6TK+Tjb0s3X4xTM6dCpfDL+085lyLbl1aU/qTesUeS3LcfNaSyFpR+um7hkluHA7h4B7b1FyDSQLXvvgl7zBNcaU/I3z7UYJy9TIEmrxqEztL58dEwgnXubkxGhZMXwt+EDTFJ0GtdYGAnduWZ6IAqZ2fX7b5QlxNxo3vZO/VpYoL0Pjs83rR9gdR1vpcW6VPJRCwTAteRMcR4549czg7VEOp58BvGK0TbzzVq20THYvXQ6g7cRPCrx2BGz/DNW4tfFHRiwxhs+fSn7WJRyRbbnAZWzUlXk4Iow4fpu7ibmcJI6muQq4r1CTICNVJS9yCB8fSpTMZdXdrn4CB8FX7AiCuAO1CAl+nUGdAbDx0mp6BHwt9o/eTL+hRZPsM9ZUQq81z2l8FCSrX1vNtj4VHZk1DIN6vvin8UADaAANu2e0J7+xqDzsdJv223a4B5g==
+X-Microsoft-Antispam-Message-Info: 6vdm8xRJL9mIYRsgYkrh7fPJuvCO2Hno4FjQ1E9tqmB1yRaHrlZMPTCoBzh2D8rZgH+CviHPiIC8+O/IT/Zc9VOceJVlAIIuNeXmZXjoUHkhyIfoX4Pc1/SQrjgPGGk/58ghai7fKBTPYL1rAZLwTvhrhywu4u48yfRS0HlbHfPLhYLGLhANHEN8gRQcijxZc0p3RMk1ydhO7BrWvEGu/FrlCe9BLjH3NeNoEzpozOGCrBPWJ6Nw4qt8rXj/ZwvWU14NRipde3ZH9nf1tw5WWygjG80oVoj8LT7E2u4p7sr1Zt+ncS3CnCxds7/hb5TuhPXu0slrhN9N92/wQh1SGZU4rYK1vYGH8nTV6diexc36qGgEKiH0GSqq6KWXhag7gpphc/8bAHprHIWfvS0JKp+RxS6O/0f7+iFvhTijujORgMrCZi20w3zWyuwsZ47s2bVnYSE0cEYwb3D7uyq1ZSmzmdBU8GUUUUTnLgqenCbtWM7dZ3CmouMkhNFiZzpLVMQ6JAVOrcOHRJmrL4d6tsj6nO2ZBslE88yvnoAKI3dDUMAHxQeIBcRUU6lGJ4R6DUVJESbLZDXDM0jMmyTbkGDc0xuLGp5TeOFn2wP1tQgXC6cIWzMdDHCoiTRacd7GtrMHtN5hngHz8PR7ZZ1WmMEGNMou+609VltuGzuSMByx7jMrc8k+6xYhtRFVZ7dR+/SvZMMi7jzfgPNx4dh7XSNgnCZkEQNGt+udLts58WcZCX1nN7ldNnMS60ZqSyKzlge3mzUpxc7S6Vx9cCr6KQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230022)(4636009)(366004)(136003)(346002)(396003)(376002)(39850400004)(451199015)(38350700002)(41300700001)(38100700002)(6666004)(6506007)(478600001)(26005)(186003)(316002)(36756003)(6512007)(44832011)(86362001)(2616005)(52116002)(83380400001)(8936002)(6916009)(6486002)(8676002)(1076003)(5660300002)(4326008)(66556008)(2906002)(66476007)(66946007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZUylDQrtUeGB/BmK1N2C7vm8MxHFCNtPiZWKMcgtQ4mw0fmxeZlJPcyKZpEE?=
- =?us-ascii?Q?yxkbv8Zn/eoupXOfs8c6rULYFp4zaZHQyLw6gxzRDwkOh37mudybVXlcVUcw?=
- =?us-ascii?Q?rXDHVLQDw5SVOWZi7nkHUZU7SZgViK/hZaHmguzJ5TTdR5gLIVZORXWh6tU2?=
- =?us-ascii?Q?ELgPQ0B/ajjK3DHx2AVlZZFblybjRhGKi3Ade+EhXdhYYudLb2B0nRbb5F5g?=
- =?us-ascii?Q?9ohsU2L0eHNclLasDyDNav+7nS4zwf/Z88uSjmO06dmA0Obc8DjVoG48IIeK?=
- =?us-ascii?Q?eYS/xz65weJgPOM9zTrtZCNeEeuwfdZ7gwceC87skibXBbehCGLNoPorP88s?=
- =?us-ascii?Q?Bc1oepOsKvAVXXRB4QK/o6UDvhDr3HU6oIomvYH2qiWK+h2g4iISG4NY5pzo?=
- =?us-ascii?Q?r5bEdRAvyXiq21mYSMeGhlo6sSHUH+nyeHoB6zxv77bfnkP9anUstnlG+2F7?=
- =?us-ascii?Q?88/QKscNK30kYyqClBUV3H8Fk/YhOrzWPtC3+0YSMi03do5ak3wUOp/LI/Sv?=
- =?us-ascii?Q?6ogybWvPhbbyVsTc6l1ircXKPO010nkO/ZwjnpZvZAW2sIGBeKdleZl28uc4?=
- =?us-ascii?Q?QfRku0etsXy+M41mpw4DDbP1g5TMIxgRLAZ1WIKjyksd+BsuD28taIVv7C+H?=
- =?us-ascii?Q?LKHoAzsrPbEvHd9v9Wit4IYC3YEyAdfPSQDCMq/6O9sThPlbDhSBnQaQ9OUU?=
- =?us-ascii?Q?UUU3ofe1ggFlZABo4ZR2w2s+NBz6POW0E710MlRXf3Z4vBtQpkubQ4fFxYT+?=
- =?us-ascii?Q?P0g9n4AvJTUR7t1T+gqBIU0GqoVUZ5lQOHOukaEScm8v+WpWdKlsZ3Kk7gGt?=
- =?us-ascii?Q?D+OsMYZPPspSTSTV0rtk/nQvBnsSJxEzC4huLUJuVL1ED98RwQHR3CTrYJXO?=
- =?us-ascii?Q?dx2Ota9GY3mH8zmgMNnwSceVUQu1r+yd7Vj0vg/8CsDBqjxrfuuWL1p/+rVo?=
- =?us-ascii?Q?28y/e7bMGta4jT74ZJZBTxxF60ta+2HpheE0CLwulxCf2/WigqTet6+t73j4?=
- =?us-ascii?Q?sJ7xDvyecEtIOLkH6RRifTsiR/wghL1Okqap7CEaIbDKcWJ9A4R2Yr7I58v1?=
- =?us-ascii?Q?QnS8hV2CCI0olk5I2phxL9Cimd1zeQY/IeyTz8LKmK5GIbTzMHufUOheta9u?=
- =?us-ascii?Q?dYf0B9VwZ/D6827BZJiCyogyLc/5JM7M8A9C87GOFjTtazJ9EXnX3x5VMsA6?=
- =?us-ascii?Q?AzjuRVE8/Qku7nwTErEThR9z14GEP/qiQRDiPtGGexPXTFhsXqWmA/j90qXB?=
- =?us-ascii?Q?JFWMesga1jOAYymHNorAWGbwHNnRWtg7pWbCJaQHxwXGzomsesAcYHdCf/kf?=
- =?us-ascii?Q?1Da6tiFGzxNdui7Od0p5xhS4dTVN79yKO7Mjf166H/ewPqINgEeFtLCQDjX0?=
- =?us-ascii?Q?+jv6UgRa5GzOJsfKJtrqfICmBXihCoPCcMEbFzkkQKPX9g9yUURE64HeuXr/?=
- =?us-ascii?Q?Omz1T9ujrKq+/9CFzRpWs/CjKfQIJA1MAOzDcKkEBI34+v1HomIhUuBzAlxC?=
- =?us-ascii?Q?RKqmiVVzdMXzGxQzjIHoQ4hCXSDzeUFB0M1105tnvY8dyrDPVF1tQWYvSUcd?=
- =?us-ascii?Q?JN5lDSdM8D2vP8khrKInZpK+LYQ0FOZ5WnoHHo+5VM2bH02bLWqohSf5KSwK?=
- =?us-ascii?Q?2Q=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1vK6vlm6R/NlOOEW97GGVMGuOTHykY0cZe2pwIHY6Dziv7JF6qRWdBLNqzNX?=
+ =?us-ascii?Q?D3RwdAshVGdYzzpqkcHHnGbGaPcBIM5SMn2K7BKLN0kmpkuq5RrWlgNL25VM?=
+ =?us-ascii?Q?RWpMe4m54pS3v7pVC2bMSvhhHCz8dgc+zhwt0hFsjweG1hrYlpXFXp4h0Dnl?=
+ =?us-ascii?Q?3Rfa/QuI5jlaUbWMLPnCs8WTZo6sbrkT56H+zW81NEiBMaAHY43GIZy0jm2w?=
+ =?us-ascii?Q?k9ECIVDyFPhWYn+OxNOIFrHXNcyXEewrtxD/ElT2ygN53sS+ZKSFBVQoEfPJ?=
+ =?us-ascii?Q?JSP8fl26JTHTnxcpqCNY/LzQA+uBfqVhdEE86G9S9mHDa5i08661ezuqXdYF?=
+ =?us-ascii?Q?jd8TWzFXdCibDF/FfNfPsyCvUFbkSrtyjG0481xkn/b7Po0oQwUDTmTwJDaL?=
+ =?us-ascii?Q?SpW38+c3ZtXZG0OfJIpz0J1GcywzTVJgZu/Y+zaQkW94b1+ZzW+kA6FVi/iL?=
+ =?us-ascii?Q?Txv3G3NCE76cFC2NM5k6QATJeKIJ+C7YPNewhAtFmnXuqHX0+lafwaWD3A90?=
+ =?us-ascii?Q?xz6BYOoLW0ojIREzvvURfLyKP5pGwFutC/4/w4GLT+ecs6spIH4FXk5KCkY1?=
+ =?us-ascii?Q?w9EBjGnoNq5fU2WTXNGKjLsThe5aSwU3XIZ34Lr/qqlEQ0/SEB4p/DFxIx5i?=
+ =?us-ascii?Q?XAQhg355p7ztGTNOWNI1ZAeEhb650DYMf4N2+mzxTyo8BGL1+f00TsnV4qXZ?=
+ =?us-ascii?Q?H8ZWqFjgsu67SYoIQEJ/CXdzzjHLfUOzdaMfp52M7ZbOZmxf08V4BGn8iUv4?=
+ =?us-ascii?Q?PuWDpXUP+I/ob4VDspCZStQyqxy1QaIKd6ZPxmbVEbPXFrA4v6vOYpj7N8gQ?=
+ =?us-ascii?Q?E4YUF0b3VhBurd9QhHURmL3Xe+uVC8GmBqdptDgVB0zIN4OZmkQl4v3vchh+?=
+ =?us-ascii?Q?3sGlhGLpxFLpwLLDTDe2zorME4hqi2dQoHJSvhOyCjzbLyBY2Q3+sZqKULop?=
+ =?us-ascii?Q?OBiNDdzBklmTlxY2PbOSgr9PKpF1GVBJBmFVUMDQFj6qDe+b4Z+n8btnqig1?=
+ =?us-ascii?Q?fAw92rykMLbCzqPL6vDT28qYu+iL2XxyP0JHgR/Er+/llupsNqsGjYsuUtFN?=
+ =?us-ascii?Q?c92SZpx5pCaGVcueH/0TUNspsxe/ciMIU78C2M8B8CNwtBKs8c8jGNcMxeog?=
+ =?us-ascii?Q?4kGdrDgUKg5wJ/deovrJ+IgMXFeSXBSWocUjkqNVjBHnJjp6lXyaYrrlrM5r?=
+ =?us-ascii?Q?vO23uolhd0awgeXXL7SQz8jp3P6MdmFEErxSzSSSwv7zX2PZ9hWa54C1quni?=
+ =?us-ascii?Q?vwU5iQa7NlGbg0sMznNpI+opj8Ww5f8CKyLfWxPk9GOZDulSGDRLE/+Ljw1r?=
+ =?us-ascii?Q?gGNJdu92N21fk8zYwsQGbpKOeoNvLWEirFCxEWdXya60sbaBCYwUcGju3Djx?=
+ =?us-ascii?Q?fsQGfx9KgpoqvEusrU8ne9uB6Bf6rG1KSpbH4mwvXRSStH4vXXzt898Q3jvy?=
+ =?us-ascii?Q?P34lOqq1ujEOiQjQgQO0xya1Vhhy7kQdmGqXKOe7e6YbGRcwoO4PsqObxN17?=
+ =?us-ascii?Q?BKSTvgbYa37PkHOxic3ntzccmDnYZATyQmu4+lzQ95ZM39IThqDmgDmmtLHm?=
+ =?us-ascii?Q?jVDLpckmpZC88OEjNOlgcPG/v4Ytg3ZEw638MdRFEYEHNp80dFikRvGgAw4H?=
+ =?us-ascii?Q?0A=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff203256-e632-4a95-e1a3-08daa1ef9a88
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77a16c04-9065-4c08-b3f0-08daa1ef9ade
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 07:52:48.9670 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 07:52:49.5606 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Hm5R6hU8614gFKQY/5CxQlbwk0sKJGQ1LF4vSz+4AGrUg8oOt+9JNaQycHzjOTQn2R4Box1K1Lo6P8sZfMTnrZVpeYyThFeRvaWeoDrIHuI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: KV6jugwKT24eWfX8KDiCQWEfrFQYqHMBy9vhsTfWWqmDo9rDebuchS3CeRVoAAP50YsdXK5CsvO4JG67r2QDKy8B8Ze06MRStHlBo6CtSpA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6461
 Received-SPF: pass client-ip=40.107.5.137;
  envelope-from=alexander.ivanov@virtuozzo.com;
@@ -138,21 +138,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move qmp_guest_set_user_password() from __linux__ condition to
-(__linux__ || __FreeBSD__) condition. Add command and arguments
-for password setting in FreeBSD.
+In the next patch FreeBSD support for guest-network-get-interfaces will be
+added. Previously move Linux-specific code of HW address getting to a
+separate functions and add a dumb function to commands-bsd.c.
 
 Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 ---
- qga/commands-posix.c | 223 +++++++++++++++++++++++--------------------
- 1 file changed, 118 insertions(+), 105 deletions(-)
+ qga/commands-bsd.c    |  18 +++++++
+ qga/commands-common.h |   6 +++
+ qga/commands-posix.c  | 114 +++++++++++++++++++++++-------------------
+ 3 files changed, 87 insertions(+), 51 deletions(-)
 
+diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
+index ca06692179..ca81114171 100644
+--- a/qga/commands-bsd.c
++++ b/qga/commands-bsd.c
+@@ -167,3 +167,21 @@ GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
+     return NULL;
+ }
+ #endif /* CONFIG_FSFREEZE */
++
++#ifdef HAVE_GETIFADDRS
++/*
++ * Fill buf with MAC address by ifaddrs. Pointer buf must point to a
++ * buffer with ETHER_ADDR_LEN length at least.
++ *
++ * Returns -1 in case of an error, 0 if MAC address can't be obtained or
++ * 1 if MAC addres is obtained.
++ */
++int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf, Error **errp)
++{
++    /*
++     * We can't get the hw addr of this interface,
++     * but that's not a fatal error.
++     */
++    return 0;
++}
++#endif /* HAVE_GETIFADDRS */
+diff --git a/qga/commands-common.h b/qga/commands-common.h
+index 2d9878a634..2485a037fd 100644
+--- a/qga/commands-common.h
++++ b/qga/commands-common.h
+@@ -56,6 +56,12 @@ int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,
+ int qmp_guest_fsfreeze_do_thaw(Error **errp);
+ #endif /* CONFIG_FSFREEZE */
+ 
++#ifdef HAVE_GETIFADDRS
++#include <ifaddrs.h>
++
++int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf, Error **errp);
++#endif
++
+ typedef struct GuestFileHandle GuestFileHandle;
+ 
+ GuestFileHandle *guest_file_handle_find(int64_t id, Error **errp);
 diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 88e0d0fe24..6ce894ca6e 100644
+index 6ce894ca6e..0bebd9e690 100644
 --- a/qga/commands-posix.c
 +++ b/qga/commands-posix.c
-@@ -2123,111 +2123,6 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
-     return processed;
+@@ -41,20 +41,12 @@
+ #endif
+ #endif
+ 
+-#ifdef __FreeBSD__
+-/*
+- * The code under HAVE_GETIFADDRS condition can't be compiled in FreeBSD.
+- * Fix it in one of the following patches.
+- */
+-#undef HAVE_GETIFADDRS
+-#endif
+-
+ #ifdef HAVE_GETIFADDRS
+ #include <arpa/inet.h>
+ #include <sys/socket.h>
+ #include <net/if.h>
++#include <net/ethernet.h>
+ #include <sys/types.h>
+-#include <ifaddrs.h>
+ #ifdef CONFIG_SOLARIS
+ #include <sys/sockio.h>
+ #endif
+@@ -2659,14 +2651,6 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+     return -1;
  }
  
 -void qmp_guest_set_user_password(const char *username,
@@ -160,234 +227,146 @@ index 88e0d0fe24..6ce894ca6e 100644
 -                                 bool crypted,
 -                                 Error **errp)
 -{
--    Error *local_err = NULL;
--    char *passwd_path = NULL;
--    pid_t pid;
--    int status;
--    int datafd[2] = { -1, -1 };
--    char *rawpasswddata = NULL;
--    size_t rawpasswdlen;
--    char *chpasswddata = NULL;
--    size_t chpasswdlen;
--
--    rawpasswddata = (char *)qbase64_decode(password, -1, &rawpasswdlen, errp);
--    if (!rawpasswddata) {
--        return;
--    }
--    rawpasswddata = g_renew(char, rawpasswddata, rawpasswdlen + 1);
--    rawpasswddata[rawpasswdlen] = '\0';
--
--    if (strchr(rawpasswddata, '\n')) {
--        error_setg(errp, "forbidden characters in raw password");
--        goto out;
--    }
--
--    if (strchr(username, '\n') ||
--        strchr(username, ':')) {
--        error_setg(errp, "forbidden characters in username");
--        goto out;
--    }
--
--    chpasswddata = g_strdup_printf("%s:%s\n", username, rawpasswddata);
--    chpasswdlen = strlen(chpasswddata);
--
--    passwd_path = g_find_program_in_path("chpasswd");
--
--    if (!passwd_path) {
--        error_setg(errp, "cannot find 'passwd' program in PATH");
--        goto out;
--    }
--
--    if (!g_unix_open_pipe(datafd, FD_CLOEXEC, NULL)) {
--        error_setg(errp, "cannot create pipe FDs");
--        goto out;
--    }
--
--    pid = fork();
--    if (pid == 0) {
--        close(datafd[1]);
--        /* child */
--        setsid();
--        dup2(datafd[0], 0);
--        reopen_fd_to_null(1);
--        reopen_fd_to_null(2);
--
--        if (crypted) {
--            execl(passwd_path, "chpasswd", "-e", NULL);
--        } else {
--            execl(passwd_path, "chpasswd", NULL);
--        }
--        _exit(EXIT_FAILURE);
--    } else if (pid < 0) {
--        error_setg_errno(errp, errno, "failed to create child process");
--        goto out;
--    }
--    close(datafd[0]);
--    datafd[0] = -1;
--
--    if (qemu_write_full(datafd[1], chpasswddata, chpasswdlen) != chpasswdlen) {
--        error_setg_errno(errp, errno, "cannot write new account password");
--        goto out;
--    }
--    close(datafd[1]);
--    datafd[1] = -1;
--
--    ga_wait_child(pid, &status, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        goto out;
--    }
--
--    if (!WIFEXITED(status)) {
--        error_setg(errp, "child process has terminated abnormally");
--        goto out;
--    }
--
--    if (WEXITSTATUS(status)) {
--        error_setg(errp, "child process has failed to set user password");
--        goto out;
--    }
--
--out:
--    g_free(chpasswddata);
--    g_free(rawpasswddata);
--    g_free(passwd_path);
--    if (datafd[0] != -1) {
--        close(datafd[0]);
--    }
--    if (datafd[1] != -1) {
--        close(datafd[1]);
--    }
+-    error_setg(errp, QERR_UNSUPPORTED);
 -}
 -
- static void ga_read_sysfs_file(int dirfd, const char *pathname, char *buf,
-                                int size, Error **errp)
+ GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
  {
-@@ -2793,6 +2688,124 @@ GuestMemoryBlockInfo *qmp_guest_get_memory_block_info(Error **errp)
- 
- #endif
- 
-+#if defined(__linux__) || defined(__FreeBSD__)
+     error_setg(errp, QERR_UNSUPPORTED);
+@@ -2804,7 +2788,15 @@ out:
+         close(datafd[1]);
+     }
+ }
+-#endif
++#else /* __linux__ || __FreeBSD__ */
 +void qmp_guest_set_user_password(const char *username,
 +                                 const char *password,
 +                                 bool crypted,
 +                                 Error **errp)
 +{
-+    Error *local_err = NULL;
-+    char *passwd_path = NULL;
-+    pid_t pid;
-+    int status;
-+    int datafd[2] = { -1, -1 };
-+    char *rawpasswddata = NULL;
-+    size_t rawpasswdlen;
-+    char *chpasswddata = NULL;
-+    size_t chpasswdlen;
-+
-+    rawpasswddata = (char *)qbase64_decode(password, -1, &rawpasswdlen, errp);
-+    if (!rawpasswddata) {
-+        return;
-+    }
-+    rawpasswddata = g_renew(char, rawpasswddata, rawpasswdlen + 1);
-+    rawpasswddata[rawpasswdlen] = '\0';
-+
-+    if (strchr(rawpasswddata, '\n')) {
-+        error_setg(errp, "forbidden characters in raw password");
-+        goto out;
-+    }
-+
-+    if (strchr(username, '\n') ||
-+        strchr(username, ':')) {
-+        error_setg(errp, "forbidden characters in username");
-+        goto out;
-+    }
-+
-+#ifdef __FreeBSD__
-+    chpasswddata = g_strdup(rawpasswddata);
-+    passwd_path = g_find_program_in_path("pw");
-+#else
-+    chpasswddata = g_strdup_printf("%s:%s\n", username, rawpasswddata);
-+    passwd_path = g_find_program_in_path("chpasswd");
-+#endif
-+
-+    chpasswdlen = strlen(chpasswddata);
-+
-+    if (!passwd_path) {
-+        error_setg(errp, "cannot find 'passwd' program in PATH");
-+        goto out;
-+    }
-+
-+    if (!g_unix_open_pipe(datafd, FD_CLOEXEC, NULL)) {
-+        error_setg(errp, "cannot create pipe FDs");
-+        goto out;
-+    }
-+
-+    pid = fork();
-+    if (pid == 0) {
-+        close(datafd[1]);
-+        /* child */
-+        setsid();
-+        dup2(datafd[0], 0);
-+        reopen_fd_to_null(1);
-+        reopen_fd_to_null(2);
-+
-+#ifdef __FreeBSD__
-+        const char *h_arg;
-+        h_arg = (crypted) ? "-H" : "-h";
-+        execl(passwd_path, "pw", "usermod", "-n", username, h_arg, "0", NULL);
-+#else
-+        if (crypted) {
-+            execl(passwd_path, "chpasswd", "-e", NULL);
-+        } else {
-+            execl(passwd_path, "chpasswd", NULL);
-+        }
-+#endif
-+        _exit(EXIT_FAILURE);
-+    } else if (pid < 0) {
-+        error_setg_errno(errp, errno, "failed to create child process");
-+        goto out;
-+    }
-+    close(datafd[0]);
-+    datafd[0] = -1;
-+
-+    if (qemu_write_full(datafd[1], chpasswddata, chpasswdlen) != chpasswdlen) {
-+        error_setg_errno(errp, errno, "cannot write new account password");
-+        goto out;
-+    }
-+    close(datafd[1]);
-+    datafd[1] = -1;
-+
-+    ga_wait_child(pid, &status, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        goto out;
-+    }
-+
-+    if (!WIFEXITED(status)) {
-+        error_setg(errp, "child process has terminated abnormally");
-+        goto out;
-+    }
-+
-+    if (WEXITSTATUS(status)) {
-+        error_setg(errp, "child process has failed to set user password");
-+        goto out;
-+    }
-+
-+out:
-+    g_free(chpasswddata);
-+    g_free(rawpasswddata);
-+    g_free(passwd_path);
-+    if (datafd[0] != -1) {
-+        close(datafd[0]);
-+    }
-+    if (datafd[1] != -1) {
-+        close(datafd[1]);
-+    }
++    error_setg(errp, QERR_UNSUPPORTED);
 +}
-+#endif
-+
++#endif /* __linux__ || __FreeBSD__ */
+ 
  #ifdef HAVE_GETIFADDRS
  static GuestNetworkInterface *
- guest_find_interface(GuestNetworkInterfaceList *head,
+@@ -2887,6 +2879,54 @@ static int guest_get_network_stats(const char *name,
+     return -1;
+ }
+ 
++#ifndef __FreeBSD__
++/*
++ * Fill buf with MAC address by ifaddrs. Pointer buf must point to a
++ * buffer with ETHER_ADDR_LEN length at least.
++ * Returns -1 in case of an error, 0 if MAC address can't be obtained or
++ * 1 if MAC addres is obtained.
++ */
++int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf, Error **errp)
++{
++    struct ifreq ifr;
++    int sock;
++
++    /* we haven't obtained HW address yet */
++    sock = socket(PF_INET, SOCK_STREAM, 0);
++    if (sock == -1) {
++        error_setg_errno(errp, errno, "failed to create socket");
++        return -1;
++    }
++
++    memset(&ifr, 0, sizeof(ifr));
++    pstrcpy(ifr.ifr_name, IF_NAMESIZE, ifa->ifa_name);
++    if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
++        /*
++         * We can't get the hw addr of this interface, but that's not a
++         * fatal error. Don't set info->hardware_address, but keep
++         * going.
++         */
++        if (errno == EADDRNOTAVAIL) {
++            /* The interface doesn't have a hw addr (e.g. loopback). */
++            g_debug("failed to get MAC address of %s: %s",
++                    ifa->ifa_name, strerror(errno));
++        } else{
++            g_warning("failed to get MAC address of %s: %s",
++                      ifa->ifa_name, strerror(errno));
++        }
++        close(sock);
++        return 0;
++    }
++#ifdef CONFIG_SOLARIS
++    memcpy(buf, &ifr.ifr_addr.sa_data, ETHER_ADDR_LEN);
++#else
++    memcpy(buf, &ifr.ifr_hwaddr.sa_data, ETHER_ADDR_LEN);
++#endif
++    close(sock);
++    return 1;
++}
++#endif /* __FreeBSD__ */
++
+ /*
+  * Build information about guest interfaces
+  */
+@@ -2907,10 +2947,9 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+         GuestNetworkInterfaceStat *interface_stat = NULL;
+         char addr4[INET_ADDRSTRLEN];
+         char addr6[INET6_ADDRSTRLEN];
+-        int sock;
+-        struct ifreq ifr;
+-        unsigned char *mac_addr;
++        unsigned char mac_addr[ETHER_ADDR_LEN];
+         void *p;
++        int ret;
+ 
+         g_debug("Processing %s interface", ifa->ifa_name);
+ 
+@@ -2924,45 +2963,18 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+         }
+ 
+         if (!info->has_hardware_address) {
+-            /* we haven't obtained HW address yet */
+-            sock = socket(PF_INET, SOCK_STREAM, 0);
+-            if (sock == -1) {
+-                error_setg_errno(errp, errno, "failed to create socket");
++            ret = guest_get_hw_addr(ifa, mac_addr, errp);
++            if (ret == -1) {
+                 goto error;
+             }
+-
+-            memset(&ifr, 0, sizeof(ifr));
+-            pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->name);
+-            if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
+-                /*
+-                 * We can't get the hw addr of this interface, but that's not a
+-                 * fatal error. Don't set info->hardware_address, but keep
+-                 * going.
+-                 */
+-                if (errno == EADDRNOTAVAIL) {
+-                    /* The interface doesn't have a hw addr (e.g. loopback). */
+-                    g_debug("failed to get MAC address of %s: %s",
+-                            ifa->ifa_name, strerror(errno));
+-                } else{
+-                    g_warning("failed to get MAC address of %s: %s",
+-                              ifa->ifa_name, strerror(errno));
+-                }
+-
+-            } else {
+-#ifdef CONFIG_SOLARIS
+-                mac_addr = (unsigned char *) &ifr.ifr_addr.sa_data;
+-#else
+-                mac_addr = (unsigned char *) &ifr.ifr_hwaddr.sa_data;
+-#endif
++            if (ret == 1) {
+                 info->hardware_address =
+                     g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
+                                     (int) mac_addr[0], (int) mac_addr[1],
+                                     (int) mac_addr[2], (int) mac_addr[3],
+                                     (int) mac_addr[4], (int) mac_addr[5]);
+-
+                 info->has_hardware_address = true;
+             }
+-            close(sock);
+         }
+ 
+         if (ifa->ifa_addr &&
 -- 
 2.34.1
 
