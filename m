@@ -2,97 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F6D5EEE18
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 08:52:17 +0200 (CEST)
-Received: from localhost ([::1]:48056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0905EEE04
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 08:45:24 +0200 (CEST)
+Received: from localhost ([::1]:55982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odnP4-0007UP-Rh
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 02:52:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33816)
+	id 1odnIQ-0005Dp-VT
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 02:45:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odn7n-0006MS-4i
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:34:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44026)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odnAq-0008KA-CV
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:37:34 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:53279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odn7l-0006gR-1K
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:34:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664433259;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dM7yLzXK1uaWhK+TkZbJz9kO3fibSTERbsfdllu4OoE=;
- b=aNG3lSg8V4zsCSvfibw8ZDvtV2awGXY+6U/Is8h11DimbyH99cM4ZHEOMzkWtzKX1wAgHD
- 7gNjsHxr1G27fj2/L/bpLw4Po5a4cFUlUEiwQl1Z1ldTudYpBIxlu8SWXgHt91ACmWJV69
- gW+KGPmpF6Sp9E7nMM4Yn59vWtgvDs4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-488-M59DhmQyO8CFZvg3w2kLPQ-1; Thu, 29 Sep 2022 02:34:16 -0400
-X-MC-Unique: M59DhmQyO8CFZvg3w2kLPQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u20-20020adfc654000000b0022cc05e9119so124001wrg.16
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 23:34:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=dM7yLzXK1uaWhK+TkZbJz9kO3fibSTERbsfdllu4OoE=;
- b=Cii94FL2zYAAHvqAO6b6CEJvmNsPD7kB0TU44cMJpiD5dc/vl6v+U002LPyQM7idXb
- JvL/p/XGACZCKIdmDg6PT2wFZRYZFumcyVNfDDVGSp68S6/yu2GF1mzYb8ANSU+H8cV6
- 8F3/SS9E7W3SGUerag9Kn3ib8ybs8lIbF7qPcwN+BVwT/233ZxR1F/PdNPoO5B14+wJM
- liasMapcdnASJZSEeigwm0H5aT/0SOd32Uw6OdOrFQCTQ9Fw+CS9wOcPANkUG3fYCZro
- wjt3dsAA2wgQt4qlKb8+ALDLXgyazxFr+n9YBtjIJqgC4vro3uRn9zMgKZs+aL87dTNy
- L1Jg==
-X-Gm-Message-State: ACrzQf1Du7zLpjLVj6f0wgOBQSRJFkxkqjN+vY+wNd1z3s4lUstfVb1N
- v4E8abQYwczZjTCjmofDO5QGiX0ogX+qnFuYIwBKJdsQeXuA/4y5dyKOKwunAruCFUYJYxUygT6
- w0XLUnYcCYPqaFLY=
-X-Received: by 2002:a05:600c:2949:b0:3b4:85b2:c1d7 with SMTP id
- n9-20020a05600c294900b003b485b2c1d7mr9339966wmd.183.1664433255712; 
- Wed, 28 Sep 2022 23:34:15 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4koBE8MeTiLLM9wJcfXL+ZZOcjQbc0VQm1wylDLOqnKlQQftNQznzrsHr36nNjog8OyOpo2g==
-X-Received: by 2002:a05:600c:2949:b0:3b4:85b2:c1d7 with SMTP id
- n9-20020a05600c294900b003b485b2c1d7mr9339942wmd.183.1664433255424; 
- Wed, 28 Sep 2022 23:34:15 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-177-55.web.vodafone.de.
- [109.43.177.55]) by smtp.gmail.com with ESMTPSA id
- 8-20020a05600c22c800b003a604a29a34sm432268wmg.35.2022.09.28.23.34.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Sep 2022 23:34:14 -0700 (PDT)
-Message-ID: <a25c238b-dabd-bf20-9aee-7cda4e422536@redhat.com>
-Date: Thu, 29 Sep 2022 08:34:13 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1odnAo-0007EZ-7b
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:37:32 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M277h-1ofhuu19j7-002bbt; Thu, 29 Sep 2022 08:37:25 +0200
+Message-ID: <17166083-0941-7644-9bfe-a57203b69fdd@vivier.eu>
+Date: Thu, 29 Sep 2022 08:37:24 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-discuss <qemu-discuss@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <a7da7e40-6f7b-79a4-709b-da0e71def650@redhat.com>
- <93033078-221d-23d2-23e7-13eab59cd439@amsat.org>
- <CACGkMEsQSn_GOBcs64JEDUHt3T7XOBL3LLM7yvqwwR5xvvD2dg@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: If your networking is failing after updating to the latest git
- version of QEMU...
-In-Reply-To: <CACGkMEsQSn_GOBcs64JEDUHt3T7XOBL3LLM7yvqwwR5xvvD2dg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH qemu v2 1/2] m68k: rework BI_VIRT_RNG_SEED as BI_RNG_SEED
+Content-Language: fr
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-m68k@lists.linux-m68k.org,
+ qemu-devel@nongnu.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220926113900.1256630-1-Jason@zx2c4.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220926113900.1256630-1-Jason@zx2c4.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+X-Provags-ID: V03:K1:OhjtMMm36axRcSmBXt3bsa7U5OdC/7Hk4Bb+hbQeJcqPqhJCbHA
+ l7zTZOttMakxj+Ko3z24/7nvIXYaXPWCW+Lsce2kjBt5mgXt8uJP34wjG1l0t9DcaMf2io/
+ zjUt3qcZrGcUAC1x5f8oFYRWPpCQQgJnQemjU2oCaAslmCoVIbbvUl78+sHKhYa/riT27sJ
+ ADlqgZPdMGeAZ5iQKoxww==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:96LjjmdNpAQ=:YhL/wY+N3oEkyxZyUyIOP5
+ +49TDXCUvjwO8qBqwZAz3Ova7lLEi0KvrrNNTihK8E2GqGMPkI5rZm6Bomjykymw232mmiOF4
+ eoND6Tna3fUEex2KIhx5RtC+rSB9/TgCwzvonIPwQ8yIUkCtvIcZm9wdy/V9vjCScjZXsn2EL
+ SEF/JFurl7O+cpWZhZ0aQUZjIq943k/rOKKFGr3qd4iVJqb3skJpIEBsnPWxZ2bKs0um2pu/x
+ ij7ijmqLHF0psGD54mAokQEnujQXhryfX/BULIXDJvE04jputVdQDyFq29QgvmTidR9wScwDS
+ P6qiNJWLtpxeGpwrZneaUDNn3YbwrDp94CdDyQQamJr1+IlHRh2ggzVe7dOdLeGMErEPynC/i
+ GzUHVCU3Qsm4n58BNG+40K38M9FlTmPFRNh6Fl9C0IK7518Ze4rqY/AUCqPVePJl9vGKy4Y0o
+ EAbTY1vItm74uwOCBVlWv+B68siA/eSJUMi5ZvW+xJxAhwSKjOmtio5D0gm9p+1qfUcR0AbSA
+ cbUInrat+ekGMgV3ZBeLjGXHHzpHYsNhejx1nWk9EcRKwisJS443mkzUdUX6wCDinR6cZYXO/
+ mP4Ud+x03gESsToPDYc+ypmT4PhQW5NxtyTvgjLXAXOoam8fJHZnHjVv7qelQP3Al05B/7tF+
+ k/P5jhHr1rBvR7F4K1UQhtCWGSYegTOWGYfxK6kKv9gydwY0kbxl/B/tNR0i8r6JbIgxR7LBp
+ qgPuUgv3hdpqEejJ0ReplmZKEtO9fZZricq2QrIZ1o3Hy2v16CVd9NsYI9/ppZuVZvHQJYSVx
+ tEBF6be
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.319, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,43 +75,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/09/2022 04.32, Jason Wang wrote:
-> On Thu, Sep 29, 2022 at 1:06 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> On 28/9/22 10:27, Thomas Huth wrote:
->>>
->>> ... it might have happened due to the removal of the "slirp" submodule
->>> from the git repository. For example if you see an error message like this:
->>>
->>>    Parameter 'type' expects a netdev backend type
->>>
->>> this likely means that the "user" mode backend type is not available in
->>> your binary anymore. To fix it, simply install "libslirp-devel" (or
->>> libslirp-dev or however it is called) from your OS distribution and
->>> recompile.
->>
->> Thanks for the hint Thomas. I'm afraid many developers will miss your
->> email.
->>
->> Jason, Marc-André, could we improve the buildsys check or display
->> a more helpful information from the code instead?
+Le 26/09/2022 à 13:38, Jason A. Donenfeld a écrit :
+> Following a change on the kernel side (see link), pass BI_RNG_SEED
+> instead of BI_VIRT_RNG_SEED. This should have no impact on
+> compatibility, as there will simply be no effect if it's an old kernel,
+> which is how things have always been. We then use this as an opportunity
+> to add this to q800, since now we can, which is a nice improvement.
 > 
-> It looks to me we need to improve the build.
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Link: https://lore.kernel.org/lkml/20220923170340.4099226-3-Jason@zx2c4.com/
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>   hw/m68k/q800.c                                    | 7 +++++++
+>   hw/m68k/virt.c                                    | 2 +-
+>   include/standard-headers/asm-m68k/bootinfo-virt.h | 4 +++-
+>   include/standard-headers/asm-m68k/bootinfo.h      | 8 +++++++-
+>   4 files changed, 18 insertions(+), 3 deletions(-)
+> 
 
-I'm not sure there is anything to improve in the build system - 
-configure/meson.build are just doing what they should: Pick the default 
-value for "slirp" if the user did not explicitly specify "--enable-slirp".
+Applied to my m68k-for-7.2 branch
 
-But the error message is not very helpful. It should rather say something 
-like (partly suggested by Daniel in IRC yesterday already):
-
-  Type 'user' is not a supported netdev backend by this QEMU build. Please 
-check the spelling or whether it has been enabled at compilation time.
-
-... or something like this.
-
-Someone interested to write a patch?
-
-  Thomas
+Thanks,
+Laurent
 
 
