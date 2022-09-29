@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5228B5EEC4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 05:08:00 +0200 (CEST)
-Received: from localhost ([::1]:54500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DA65EEC66
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 05:24:43 +0200 (CEST)
+Received: from localhost ([::1]:47932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odju2-0002ez-Vk
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 23:07:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57134)
+	id 1odkAE-0001tR-4p
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 23:24:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1odjsO-0000kJ-5B
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 23:06:16 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:35828)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1odjsM-0008Qc-J6
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 23:06:15 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id i6so278169pfb.2
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 20:06:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=HydTmT9IlZECqNW+k139+szaDo8Sw0aKxqwGzUBe2Qw=;
- b=vLHfiGlW+1n0gYmZspIx6kU7737nI9dYG6LyEiGCKNVhWmyTQG336na0sSzz697RSt
- 40jxZtGMsv9VBN/tm3mFHsxmiZxKGG+jrakVeYH4PtidKj4NWEStJdmeHvGe4FGJtw2j
- fo0RKn1CQ00dEoz8PSySo3uIM2treChq58mwUwGalAdloD04nSY5QBOSlQOGRAaEHYpP
- r0A23haCZe6ArS1GA7ocesdbJeLLqLBrWlff8Fu8ZHXhtKbwlzbn4hRoxf7h+IL0vd9a
- Lvge06hEjk5cbIYWk76EU06WEMD8Nvy5f8SJHLFXn/b1s2+t8aUVZol+rgCj4xymORO+
- VN/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=HydTmT9IlZECqNW+k139+szaDo8Sw0aKxqwGzUBe2Qw=;
- b=DMoT3HoDoOEcRN7xQ3w1oc1vzd7mDfNU3x204lk/KAg6t96JdWmw+ohtv3ZIZNSO92
- IzbPYHyikNw4hicF05uUGnH2NijtHidSeUInNG+eEyBZO2kDCpYldtumX1acP5EBWDlH
- YalNftOskLq/qdiWBNJmA0bmG8LhYarV4w/VEKIZvzyVa+l/baIdfFLCWdLn+X1onM5O
- b7BNyi9P4dW5/VZPrirOqTqfLN7bFwmRMxG9FiSj5yCdCcEbRLkorLI58kNdaWyGaRhS
- teAihFPR8WilZ9LbvIvMcb94VezuqMx+hj4wnlMThlRWcMmk2oSFoYhBIe4yivRxepTE
- t7gQ==
-X-Gm-Message-State: ACrzQf3HaTaNvSx4ALte2LWw2Cfrv7fvBdB+viifcePfNQBhIV2TI3kv
- SWY06m0HIyTGZG0Q4Nj+eKmQrg==
-X-Google-Smtp-Source: AMsMyM6RShGkKjXFDtDFftMuIj4O3k0vMyH2puddomTKqTxjH49of0iJekSj0y/Hjw61YGTY5l4eow==
-X-Received: by 2002:a63:2a02:0:b0:42b:3b16:5759 with SMTP id
- q2-20020a632a02000000b0042b3b165759mr938726pgq.564.1664420773173; 
- Wed, 28 Sep 2022 20:06:13 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:986f:cb56:6709:4057?
- ([2602:47:d49d:ec01:986f:cb56:6709:4057])
- by smtp.gmail.com with ESMTPSA id
- q5-20020a17090311c500b00178b9c997e5sm4655132plh.138.2022.09.28.20.06.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Sep 2022 20:06:12 -0700 (PDT)
-Message-ID: <086890ae-d369-8d4f-3bab-135080edb6ce@linaro.org>
-Date: Wed, 28 Sep 2022 20:06:10 -0700
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1odk8y-0000YO-OV
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 23:23:24 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:46730 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1odk8v-0002K7-Ss
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 23:23:24 -0400
+Received: from [10.20.42.238] (unknown [10.20.42.238])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dx_2uZDzVjk5wjAA--.65406S3; 
+ Thu, 29 Sep 2022 11:23:05 +0800 (CST)
+Subject: Re: [PATCH v2 3/3] hw/intc: Fix LoongArch ipi device emulation
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
+ f4bug@amsat.org, peter.maydell@linaro.org
+References: <20220927061225.3566554-1-yangxiaojuan@loongson.cn>
+ <20220927061225.3566554-4-yangxiaojuan@loongson.cn>
+ <aa5e61d8-0074-9c56-1da3-da120d5ee185@linaro.org>
+From: yangxiaojuan <yangxiaojuan@loongson.cn>
+Message-ID: <d792e3f7-ea97-47b7-e556-8ebf1576d501@loongson.cn>
+Date: Thu, 29 Sep 2022 11:23:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4 3/9] target/arm: Change gen_*set_pc_im to gen_*update_pc
+In-Reply-To: <aa5e61d8-0074-9c56-1da3-da120d5ee185@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------3EB2FE36589169222A1BB3E6"
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20220906100528.343244-1-richard.henderson@linaro.org>
- <20220906100528.343244-4-richard.henderson@linaro.org>
- <CAFEAcA_6+jsQfCvTxxUdmdcisMBSsvzKy_g5pdLq0DZ54VtFSg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA_6+jsQfCvTxxUdmdcisMBSsvzKy_g5pdLq0DZ54VtFSg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+X-CM-TRANSID: AQAAf8Dx_2uZDzVjk5wjAA--.65406S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFWfur4kGw1DAFWxWF48JFb_yoW8JF4Dpr
+ 97AF4ak3ykAa97ta1DX348XF98GF1kXa47CF4ayFyrZw45Xr9Yqr18ur1vgFyqvw4rXryj
+ qr1kA3y8ZF1UJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+ 1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21lYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0E
+ x4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5V
+ A0II8E6IAqYI8I648v4I1l7480Y4vEI4kI2Ix0rVAqx4xJMxk0xIA0c2IEe2xFo4CEbIxv
+ r21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+ 0E5I8CrVAFwI0_JrI_JrWlx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+ AVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
+ CY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
+ wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj
+ fUwYFCUUUUU
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-2.319, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,32 +80,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/22 07:04, Peter Maydell wrote:
-> On Tue, 6 Sept 2022 at 11:13, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
+This is a multi-part message in MIME format.
+--------------3EB2FE36589169222A1BB3E6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+
+在 2022/9/29 上午10:42, Richard Henderson 写道:
+> On 9/26/22 23:12, Xiaojuan Yang wrote:
+>> In ipi_send function, it should not to set irq before
+>> writing data to dest cpu iocsr space, as the irq will
+>> trigger after data writing.
 >>
->> In preparation for TARGET_TB_PCREL, reduce reliance on
->> absolute values by passing in pc difference.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 >> ---
-> 
-> 
-> 
->> @@ -263,14 +263,14 @@ static inline int curr_insn_len(DisasContext *s)
+>>   hw/intc/loongarch_ipi.c | 1 -
+>>   1 file changed, 1 deletion(-)
 >>
->>   #ifdef TARGET_AARCH64
->>   void a64_translate_init(void);
->> -void gen_a64_set_pc_im(uint64_t val);
->> +void gen_a64_update_pc(DisasContext *s, int diff);
-> 
-> AArch64 addresses are 64-bit, so there's no guarantee the diff
-> between two of them will fit in an int... We pass pc values around
-> as uint64_t, so I think we should pass diffs around in int64_t.
+>> diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
+>> index 4f3c58f872..aa4bf9eb74 100644
+>> --- a/hw/intc/loongarch_ipi.c
+>> +++ b/hw/intc/loongarch_ipi.c
+>> @@ -88,7 +88,6 @@ static void ipi_send(uint64_t val)
+>>       cs = qemu_get_cpu(cpuid);
+>>       cpu = LOONGARCH_CPU(cs);
+>>       env = &cpu->env;
+>> -    loongarch_cpu_set_irq(cpu, IRQ_IPI, 1);
+>>       address_space_stl(&env->address_space_iocsr, 0x1008,
+>>                         data, MEMTXATTRS_UNSPECIFIED, NULL);
+>
+> Did you mean to move the call below the set?
+> Otherwise, where does the irq get raised?
+>
+When call this function 'address_space_stl(&env->address_space_iocsr, 
+0x1008, ... ...)',  it will trigger  loongarch_ipi_writel(), the addr 
+arg is 0x1008 ('CORE_SET_OFFSET'), and qemu_irq_raise will be called in 
+this case.
 
-I'll make the change, but it's also true that no single insn can generate a displacement 
-more than INT32_MIN away from pc (adrp).
+Thanks.
+Xiaojuan Yang
 
 
-r~
+--------------3EB2FE36589169222A1BB3E6
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">在 2022/9/29 上午10:42, Richard Henderson
+      写道:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:aa5e61d8-0074-9c56-1da3-da120d5ee185@linaro.org">On
+      9/26/22 23:12, Xiaojuan Yang wrote:
+      <br>
+      <blockquote type="cite">In ipi_send function, it should not to set
+        irq before
+        <br>
+        writing data to dest cpu iocsr space, as the irq will
+        <br>
+        trigger after data writing.
+        <br>
+        <br>
+        Signed-off-by: Xiaojuan Yang <a class="moz-txt-link-rfc2396E" href="mailto:yangxiaojuan@loongson.cn">&lt;yangxiaojuan@loongson.cn&gt;</a>
+        <br>
+        ---
+        <br>
+          hw/intc/loongarch_ipi.c | 1 -
+        <br>
+          1 file changed, 1 deletion(-)
+        <br>
+        <br>
+        diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
+        <br>
+        index 4f3c58f872..aa4bf9eb74 100644
+        <br>
+        --- a/hw/intc/loongarch_ipi.c
+        <br>
+        +++ b/hw/intc/loongarch_ipi.c
+        <br>
+        @@ -88,7 +88,6 @@ static void ipi_send(uint64_t val)
+        <br>
+              cs = qemu_get_cpu(cpuid);
+        <br>
+              cpu = LOONGARCH_CPU(cs);
+        <br>
+              env = &amp;cpu-&gt;env;
+        <br>
+        -    loongarch_cpu_set_irq(cpu, IRQ_IPI, 1);
+        <br>
+              address_space_stl(&amp;env-&gt;address_space_iocsr,
+        0x1008,
+        <br>
+                                data, MEMTXATTRS_UNSPECIFIED, NULL);
+        <br>
+          </blockquote>
+      <br>
+      Did you mean to move the call below the set?
+      <br>
+      Otherwise, where does the irq get raised?
+      <br>
+      <br>
+    </blockquote>
+    <span style="font-family:SimSun;">When call this function
+      'address_space_stl(&amp;env-&gt;address_space_iocsr, 0x1008, ...
+      ...)',  it will trigger  loongarch_ipi_writel(), the addr arg is
+      0x1008 ('CORE_SET_OFFSET'), and qemu_irq_raise will be called in
+      this case.</span><br>
+    <span style="font-family:SimSun;"></span><br>
+    <span style="font-family:SimSun;">Thanks.</span><br>
+    <span style="font-family:SimSun;">Xiaojuan Yang</span><br>
+    <span style="font-family:SimSun;"></span><br>
+  </body>
+</html>
+
+--------------3EB2FE36589169222A1BB3E6--
+
 
