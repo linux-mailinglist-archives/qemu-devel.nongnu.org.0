@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5ED25EF2F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 12:04:02 +0200 (CEST)
-Received: from localhost ([::1]:51382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F8F25EF31C
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 12:14:00 +0200 (CEST)
+Received: from localhost ([::1]:59846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odqOf-0001Q4-7x
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 06:04:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47016)
+	id 1odqYI-0001LV-PW
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 06:13:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1odq1w-000493-P5; Thu, 29 Sep 2022 05:40:39 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:56616)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1odq1e-0003Dg-Rd; Thu, 29 Sep 2022 05:40:22 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 56AE244632;
- Thu, 29 Sep 2022 11:40:11 +0200 (CEST)
-Message-ID: <e3c1c81a-c16c-d5ae-ac2a-97fca0819360@proxmox.com>
-Date: Thu, 29 Sep 2022 11:39:34 +0200
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1odq9n-0001af-LF; Thu, 29 Sep 2022 05:48:40 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:36637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1odq9m-0004IT-6R; Thu, 29 Sep 2022 05:48:39 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ e11-20020a17090a77cb00b00205edbfd646so5437327pjs.1; 
+ Thu, 29 Sep 2022 02:48:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=88a+p4hKtnSbJ9xNcEs7czmAqe//VjXtLSTzwRxNysk=;
+ b=cBn8VtINpL9V9hBM96NHPSLFvaAIJ52mhC8ISjwPkCvZdQr2PRHaYpAe5q3CjG10Rt
+ zhIQYQX/8ceMnCpmtp26CFPMivzqgdYh/2oULVTbpoEF+5ieo/na9S8R1dBFii5vYPXw
+ csl/R/hPm2lem+i6cGHgIPDJxItxvfdH1H2vYKMmouNM8loSPNcV1fFu48jeH0i67qCZ
+ tZuwd9lc9mSyxFGAkjfvh4+m1JJD3BaCEu0kdAYLUDoDNJgBr5PRt00Bj5WXNqCTLv4U
+ HzzUSmis+ni36olacP5sW7HXVcHsFYTlxZ3DDgGEKweLKgFwNjis+k7wg5PPNOwi4h42
+ aPrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=88a+p4hKtnSbJ9xNcEs7czmAqe//VjXtLSTzwRxNysk=;
+ b=kGQ2xHonNbgESIQeYmmukSQN66FUWb1BDSoO4wa0XVFn1XKjofdDevtCeB+HcTECOe
+ 3fl+hoksPdk3DxT1hFy3KpTtK/0C7z5oGJm3P6e3XhCh7BxJdNmEt1ITDwV2goG4shCh
+ Z2fevakk/auJ2Gjz3gK5waOUpcyNLhNVUsQ/K0JAVUiiacutZqnoNUhX5M9q6u2GhfE9
+ H43lFrnUwxK2ljfthRwV4d43p2NA6GglCGTBJ7oOf7nfBi9Spop9jMRU+jLvjkYfgG+5
+ /yRMWBaBBuCln/YnamDB5W6DOJGsKBj6X4agSPvMkAl0jQ+1YLrJoEzs3hMoLDBLDwln
+ VdlQ==
+X-Gm-Message-State: ACrzQf0Ny8zLvWCkNl/dDLoPneOCDbWh7A4vwgdSB9j6kHfLnHApyjef
+ Mtq2wwbKdFKv5LfW6kORnG2u/Fh/6txtJg==
+X-Google-Smtp-Source: AMsMyM6i4x9EQg5XHvAzreRttdYHXBPWx/M4PYJ3TttLNjl+Z2kUOqbi5H+C2Tky8nZYp+zW55WNQg==
+X-Received: by 2002:a17:90b:1b52:b0:202:c1e3:7e9f with SMTP id
+ nv18-20020a17090b1b5200b00202c1e37e9fmr15370495pjb.68.1664444914966; 
+ Thu, 29 Sep 2022 02:48:34 -0700 (PDT)
+Received: from roots.. ([112.44.202.63]) by smtp.gmail.com with ESMTPSA id
+ f4-20020a170902ce8400b00178b06fea7asm5574515plg.148.2022.09.29.02.48.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Sep 2022 02:48:34 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: dmitry.fomichev@wdc.com, damien.lemoal@opensource.wdc.com,
+ qemu-block@nongnu.org, stefanha@redhat.com,
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, hare@suse.de,
+ Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH v2 0/2] Add zoned storage emulation to virtio-blk driver
+Date: Thu, 29 Sep 2022 17:48:19 +0800
+Message-Id: <20220929094821.78596-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: Question regarding live-migration with drive-mirror
-Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, jsnow@redhat.com,
- vsementsov@yandex-team.ru, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, quintela@redhat.com,
- Thomas Lamprecht <t.lamprecht@proxmox.com>,
- =?UTF-8?Q?Fabian_Gr=c3=bcnbichler?= <f.gruenbichler@proxmox.com>,
- Wolfgang Bumiller <w.bumiller@proxmox.com>
-References: <1db7f571-cb7f-c293-04cc-cd856e060c3f@proxmox.com>
- <YzSYPDR0L98Nks4P@work-vm>
-From: Fiona Ebner <f.ebner@proxmox.com>
-In-Reply-To: <YzSYPDR0L98Nks4P@work-vm>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,92 +89,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.09.22 um 20:53 schrieb Dr. David Alan Gilbert:
-> * Fiona Ebner (f.ebner@proxmox.com) wrote:
->> Hi,
->> recently one of our users provided a backtrace[0] for the following
->> assertion failure during a live migration that uses drive-mirror to sync
->> a local disk:
->>> bdrv_co_write_req_prepare: Assertion `!(bs->open_flags & BDRV_O_INACTIVE)' failed
->>
->> The way we do migration with a local disk is essentially:
->> 1. start target instance with a suitable NBD export
->> 2. start drive-mirror on the source side and wait for it to become ready
->> once
->> 3. issue 'migrate' QMP command
->> 4. cancel drive-mirror blockjob after the migration has finished
->>
->> I reproduced the issue with the following fio script running in the
->> guest (to dirty lots of clusters):
->>> fio --name=make-mirror-work --size=100M --direct=1 --rw=randwrite \
->>>     --bs=4k --ioengine=psync --numjobs=5 --runtime=60 --time_based
->>
->> AFAIU, the issue is that nothing guarantees that the drive mirror is
->> ready when the migration inactivates the block drives.
-> 
-> I don't know the block code well enough; I don't think I'd realised
-> that a drive-mirror could become unready.
+v2:
+- change units of emulated zone op coresponding to block layer APIs
+- modify error checking cases [Stefan, Damien]
 
-I actually shouldn't have used "ready" here. Because "ready" just means
-that the job is ready to be completed and indeed, it will stay "ready".
-But with the default copy-mode=background, new guest writes do mean that
-there can be left-over work lying around. Completing/canceling the job
-will do that work, but currently, migration doesn't do that automatically.
+v1:
+- add zoned storage emulation
 
-> 
->> Is using copy-mode=write-blocking for drive-mirror to only way to avoid
->> this issue? There, the downside is that the network (used by the mirror)
->> would become a bottleneck for IO in the guest, while the behavior would
->> really only be needed during the final phase.
-> 
-> It sounds like you need a way to switch to the blocking mode.
+Sam Li (2):
+  include: update virtio_blk headers from Linux 5.19-rc2+
+  virtio-blk: add zoned storage emulation for zoned devices
 
-Yes, that would help. I guess it would be:
-1. wait for the drive-mirror(s) to become ready
-2. switch to blocking mode
-3. wait for the drive-mirror(s) to not have any background work left;
-i.e. ensure that from now we're always in sync
-4. start state migration
+ hw/block/virtio-blk.c                       | 393 ++++++++++++++++++++
+ include/standard-headers/linux/virtio_blk.h | 109 ++++++
+ 2 files changed, 502 insertions(+)
 
-Not sure if step 3 can be achieved currently. The BlockJobInfo object
-has a "busy" field, but I guess it's possible to have background work
-left even if there's no pending IO. At least the comment about draining
-below sounds like that could happen.
-
-Might still not be perfect, because migration with a lot of RAM (or slow
-network) can take a while, so the guest IO would still be bottlenecked
-during that period. But I guess at /some/ point it has to be ;)
-
-> 
->> I guess the assert should be avoided in any case. Here's a few ideas
->> that came to mind:
->> 1. migration should fail gracefully
->> 2. migration should wait for the mirror-jobs to become ready before
->> inactivating the block drives - that would increase the downtime in
->> these situations of course
->> 2A. additionally, drive-mirror could be taken into account when
->> converging the migration somehow?
-> 
-> Does the migration capaibility 'pause-before-switchover' help you here?
-> If enabled, it causes the VM to pause just before the
-> bdrv_inactivate_all (and then use migrate-continue to tell it to carry
-> on)
-> 
-> Dave
-> 
-
-Thank you for the suggestion! Using the capability and canceling the
-block job before issuing 'migrate-continue' is an alternative. I'm just
-a bit worried about the longer downtime, but maybe it's not too bad.
-
-Best Regards,
-Fiona
-
->> I noticed the following comment in the mirror implementation
->>>         /* Note that even when no rate limit is applied we need to yield
->>>          * periodically with no pending I/O so that bdrv_drain_all() returns.
->>>          * We do so every BLKOCK_JOB_SLICE_TIME nanoseconds, or when there is
->>>          * an error, or when the source is clean, whichever comes first. */
-
+-- 
+2.37.3
 
 
