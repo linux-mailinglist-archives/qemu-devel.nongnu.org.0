@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D4D5EF615
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 15:09:35 +0200 (CEST)
-Received: from localhost ([::1]:59634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A96685EF5C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 14:54:59 +0200 (CEST)
+Received: from localhost ([::1]:55984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odtIE-00070K-Ba
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 09:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60250)
+	id 1odt46-0002In-QP
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 08:54:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odrw9-0004Qp-BS
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:41 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37849)
+ id 1odrwB-0004Ue-3Z
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:43 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odrw7-0001Dk-6F
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:41 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- z13-20020a7bc7cd000000b003b5054c6f9bso3057391wmk.2
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:42:38 -0700 (PDT)
+ id 1odrw9-0001EZ-B7
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:42 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id c11so1731940wrp.11
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:42:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=tKgPLnostqoY4L/p2DucxUV0/Pq8eRS4n+qkjOj2vjo=;
- b=cZAwXsXiG8G6gmcWVtx4GoTSyZi2vo4fgCiIX0zZkTWPHCg+lBmvotxC1kTJ3H4Gpb
- 5OOTvq05IUYxUFb+kMIxF1PEIRxCag895EgjZqY4Mni9pujFgHinjvwHt5kkVmP3VgL9
- XQpiSMs/ajwpK2HQ/rWAIK2QbpKOvy8MQFMP+o/LD1MSa3sbpoy+XVVfDD8RnndQ7kai
- 1l1ZI2MlF7q2dIAWxJzcMfFTakB3cHriWTjyJM1Ke5/faFZHXJI66vtt27cxO6xy2b48
- sdLuDaq5xAB6xFGxiVpu6rhuWF6+dMoyyS77vm639gaic684a6zWuhZfj5Z/e76wAY8T
- 1XDg==
+ bh=b19pLmx/0RxOSHcyQbQM8vk8qEN24/JWEcEYJzVYwNg=;
+ b=D3iBeKmTtnFBEixw6SYuxZwDafICEsockz8DiNxOkJHfyZFLJzkIeq6q+sJK0TX1BO
+ wcov+jU5qz+06ydkL1icYhMDL36t9BbrbhMkSDBocis8leFoxpOwX3NuqpimkCJeJiMm
+ USWZoQ5i+uzKN3bdMfXRdxaWNRDeHQ9pVepidP0nCUM5mIAXgpiZbYY+IOWpBZmPHgbs
+ on3cuexlWPqaIwDkcRIUn2piGTh/yWNU3xq980NCtGA6KOTyRiMC6bgHvUc9wWDnlcPS
+ AnuA48hrafVG6DinPBUX1FOv6zLqeHwbAuiTvDDQ1nw1TyZEhnX9/rsxJ605UFFRxqy+
+ Oe+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=tKgPLnostqoY4L/p2DucxUV0/Pq8eRS4n+qkjOj2vjo=;
- b=4xNTk+JwJ4KphtTKKIy7G5F8XIWWgdm5HVxuCjM8dLDstvunLH4wFnB/hAk7rqpkfZ
- Dgv7UpHWic/5yLwPps6Ztem9xTg1SJEDnqNiHCJK47rlzVP3f132Os3DbQw+BfjjXkFu
- Y95tefoCPrzMfEcsUa5aZTrTaS0iMbUS+9oUJcI8gs4mgegVFHvaGDhxvhgv4ZJPKcc0
- xR/GNBzmAY1DfMtnKU0LG54ke/fIGBHcZvpHYM/JqdS3Pq954T/KCjtvtQWYvAL+FOSe
- s98Qh2xP9MwHBp7KzFbXdF+e5deyI/uyA3u0/1XZuyxVMWOpofxspoistbMmaJFr9EFf
- 67Yg==
-X-Gm-Message-State: ACrzQf3Ma+hQKCYExbmqPWll7CQpmnRy5OjKOgQwkvZRvr7pMWbBPkX2
- qgz/7m9TaQ1c/XDwVLE9yiCpMQ==
-X-Google-Smtp-Source: AMsMyM6qCJouxZH5/C/yKqJyL2GZk1ol65IXa+NunUM5cGdDvL106St5aup22FiV1lqiTgo+K0NePA==
-X-Received: by 2002:a05:600c:1e13:b0:3b4:74c3:620b with SMTP id
- ay19-20020a05600c1e1300b003b474c3620bmr10551359wmb.168.1664451757635; 
- Thu, 29 Sep 2022 04:42:37 -0700 (PDT)
+ bh=b19pLmx/0RxOSHcyQbQM8vk8qEN24/JWEcEYJzVYwNg=;
+ b=abgchFbPlK1BN51CCnkOATtAGxLP004GkV/e5XNJvRicCnJJb8CCMXLBJk2QuFywcG
+ IxuB+/BYW7u7n+J6mMnzle7lLX7zsePB859eonEEjrcsX+aL64vbM9OXMptfZrRuHwwe
+ Zn/ra0l76xSxd+dId0k+XgEO6riHKl+RP8Xd+ifN3eYLQN+VCImGWfPpLY3+xWXsCeCl
+ 6jb1ArPtF2r9/6khmiVw63WeraHP+op91O5C6Az3R8urFcf612gppwna8KH4fNcP7lW/
+ rt2cchHiWV4aVS2b+uO5N77ki9L56jKAYSEAKXaxLebBcU2jZnNT1AMO3kkcrqlr9yjt
+ Q88g==
+X-Gm-Message-State: ACrzQf11YnAFLThcbi4bmMbPx2hByO5W6kzlZubwnw9Se66aBBrl7Ykc
+ wa3Y7DLWAYGm9palK+Fi+dkLUA==
+X-Google-Smtp-Source: AMsMyM5XdvclDSG4cpuu3oKfnbfGr9h/JE5iGwhzrFm9PrXojc2tykNUApkazkj3O2aDol0e4jjKOg==
+X-Received: by 2002:a5d:58fc:0:b0:22c:cefc:be99 with SMTP id
+ f28-20020a5d58fc000000b0022ccefcbe99mr1980087wrd.457.1664451759968; 
+ Thu, 29 Sep 2022 04:42:39 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o9-20020a05600c510900b003a845621c5bsm4725676wms.34.2022.09.29.04.42.34
+ z4-20020adfe544000000b0022cdbc76b1bsm460160wrm.82.2022.09.29.04.42.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:42:34 -0700 (PDT)
+ Thu, 29 Sep 2022 04:42:35 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7D0E21FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id 94A0A1FFC3;
  Thu, 29 Sep 2022 12:42:32 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -66,20 +65,18 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v1 10/51] tests/docker: move alpine from edge to tagged release
-Date: Thu, 29 Sep 2022 12:41:50 +0100
-Message-Id: <20220929114231.583801-11-alex.bennee@linaro.org>
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH  v1 11/51] tests/qtest: bump up QOS_PATH_MAX_ELEMENT_SIZE
+Date: Thu, 29 Sep 2022 12:41:51 +0100
+Message-Id: <20220929114231.583801-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,50 +99,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tracking alpine-edge like debian-sid is a moving target. Usually such
-rolling releases are marked as "allow_failure: true" in our CI.
-However as alpine presents a musl based distro and provides useful
-extra coverage lets track a release branch instead to avoid random
-breakages.
+It seems the depth of stack we need to support can vary depending on
+the order of the init constructors getting called. It seems
+--enable-lto shuffles things around just enough to push you over the
+limit.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220929105548.542555-1-alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1186
+Acked-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20220927213501.4069117-1-alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/alpine.docker | 4 ++--
- tests/lcitool/refresh                  | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ tests/qtest/libqos/qgraph.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 7d6e95275a..9b7541261a 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -1,10 +1,10 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile --layers all alpine-edge qemu
-+#  $ lcitool dockerfile --layers all alpine-316 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
+diff --git a/tests/qtest/libqos/qgraph.h b/tests/qtest/libqos/qgraph.h
+index 6e94824d09..5c0046e989 100644
+--- a/tests/qtest/libqos/qgraph.h
++++ b/tests/qtest/libqos/qgraph.h
+@@ -24,7 +24,7 @@
+ #include "libqos-malloc.h"
  
--FROM docker.io/library/alpine:edge
-+FROM docker.io/library/alpine:3.16
+ /* maximum path length */
+-#define QOS_PATH_MAX_ELEMENT_SIZE 50
++#define QOS_PATH_MAX_ELEMENT_SIZE 64
  
- RUN apk update && \
-     apk upgrade && \
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 783497a989..ce0b24c0b1 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -107,7 +107,7 @@ try:
-     #
-     # Standard native builds
-     #
--    generate_dockerfile("alpine", "alpine-edge")
-+    generate_dockerfile("alpine", "alpine-316")
-     generate_dockerfile("centos8", "centos-stream-8")
-     generate_dockerfile("debian-amd64", "debian-11",
-                         trailer="".join(debian11_extras))
+ typedef struct QOSGraphObject QOSGraphObject;
+ typedef struct QOSGraphNode QOSGraphNode;
 -- 
 2.34.1
 
