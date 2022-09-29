@@ -2,97 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9526D5EF98E
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 17:54:20 +0200 (CEST)
-Received: from localhost ([::1]:42702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22155EFA13
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 18:19:01 +0200 (CEST)
+Received: from localhost ([::1]:56946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odvrf-0003c8-87
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 11:54:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45776)
+	id 1odwFY-0007ic-ON
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 12:19:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walters@verbum.org>)
- id 1odvlU-0006Sf-8T
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 11:47:56 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:58427)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walters@verbum.org>)
- id 1odvlS-0002yA-6K
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 11:47:55 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id F21A95C0197;
- Thu, 29 Sep 2022 11:47:52 -0400 (EDT)
-Received: from imap46 ([10.202.2.96])
- by compute5.internal (MEProxy); Thu, 29 Sep 2022 11:47:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verbum.org; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1664466472; x=1664552872; bh=U7nwSGKpL7
- kzmsrtzXcN1vDbSjhTDOzHr0ve0+b3wqo=; b=Rt9jihANFNVqeqXl/6jZcgFkJl
- TXrXf2rlWCYldEjenoea9M+iXsbN10HbGJOD2uRLGO5ubzm9r/ruBgAN5Rwvhx5R
- xAndsuJqD8FnnCiy0iApbcpNtOsh4DALZyex2yPXCFfKt1F6s9F04u1Nfy6aA9CG
- mAwxNMtxc6xlPFahH06C9V2NbIfwwYm2CHgHJEdIm9038qSK0deZBfVv1nFCs2CG
- kYwB0nH0wTQp+z2PNYSYfxVq4hXJzrCYC4navPXLfRg9rdfgnVN/S2fbzzPL2Nqy
- 64N/Oj53jhMheNe2G/Ch9qQklYTf4NDWok9AdZ42QI1pjTvSL7FCwdy2wK7w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1664466472; x=1664552872; bh=U7nwSGKpL7kzmsrtzXcN1vDbSjhT
- DOzHr0ve0+b3wqo=; b=dxLV/mjI73QJL5fs9aBRIly7heSoPQcURioDSbQerzdB
- vkHuwS11dqb3HU4YRRo+oQ63PCiG0EXY4m3wUz1iRUaezHBwXShVEDEb2az6xKSk
- UL6b25iEcC1yxaHm8Q5zqGBuMusXYruD7R08PXU38ZDldGnxl8rLezNzGmPRuZcJ
- rsyQrOpg7md4NiC+NQ6Qm5dAvjM4KnCl5MF9JUPGX5FOhtd1xUovT9h6RuZLxMsv
- 90kJj+busn+8OpK2clmhkgey/Kp4nejqnGpQcsANfoK312mq0TF4xwIrzU2bbOLa
- ejD4quKhFwZaEeVk2tSM7uvc2UyglOkgjC2Nte5ALA==
-X-ME-Sender: <xms:KL41Y1ih0i58MVjmr2Xadm3Sm8d-koZTJRgN-MDFEnBrVLFndAn0Cg>
- <xme:KL41Y6DeuYFKTzIT5nFJbU0j_5R0zdNM_CczoGPDs4mEKycU6KleXmA2pS9WeS9ZB
- iAj2pUo49tlqbti>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeehtddgleegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfveho
- lhhinhcuhggrlhhtvghrshdfuceofigrlhhtvghrshesvhgvrhgsuhhmrdhorhhgqeenuc
- ggtffrrghtthgvrhhnpefhjedutdehtdfgueeuledtkeefkedvgfevieefudetkeehffej
- gfeiheehkeegteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpeifrghlthgvrhhssehvvghrsghumhdrohhrgh
-X-ME-Proxy: <xmx:KL41Y1HiBy1E_kWIFFwjtB92dDd4Iw_ASUnK_VpFXfR5VaLtsS-jwQ>
- <xmx:KL41Y6SOP2fQxjChZKN5-Uxg1tU_X9Eg4YeYVXUDHjZY7UidtZx3AA>
- <xmx:KL41YyzYqgMAsPmiRSR9garkQRfwnBNyHs3G_8Yb8aTf75trF6lESg>
- <xmx:KL41Y98-cORPsfZK1qNoW2Np28mGa5GjNVIM_2m1PyR-z6bQ8wd4Rg>
-Feedback-ID: ibe7c40e9:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id BD4F22A20079; Thu, 29 Sep 2022 11:47:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-968-g04df58079d-fm-20220921.001-g04df5807
-Mime-Version: 1.0
-Message-Id: <b1cf0d02-cc45-4f5c-bfef-fda3e750bef3@app.fastmail.com>
-In-Reply-To: <YzWnPZ5Y6ivS8e1v@redhat.com>
-References: <4362261a-c762-4666-84e2-03c9daa6c4d9@www.fastmail.com>
- <YzMmu3xfOtQwuFUx@redhat.com> <YzMrYAJQeSP2hDSs@redhat.com>
- <CAJh=p+5rQDBJJC8VNGL10KYgDeq-Hg5WK7avONCti03eJGH+ow@mail.gmail.com>
- <798fe353-9537-44fe-a76a-819e8c93abb5@www.fastmail.com>
- <YzNZnPiUqySu6sGh@fedora> <20220928083340.eyizwu6mm3cc3bxu@mhamilton>
- <YzSgeDdpHOw1hTM0@redhat.com>
- <b963f623-aa85-4285-9bfa-5fcb4744c354@app.fastmail.com>
- <YzWnPZ5Y6ivS8e1v@redhat.com>
-Date: Thu, 29 Sep 2022 11:47:32 -0400
-From: "Colin Walters" <walters@verbum.org>
-To: "Vivek Goyal" <vgoyal@redhat.com>
-Cc: "Sergio Lopez" <slp@redhat.com>, "Stefan Hajnoczi" <stefanha@redhat.com>, 
- virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [Virtio-fs] virtiofsd: Any reason why there's not an "openat2"
- sandbox mode?
-Content-Type: text/plain
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=walters@verbum.org;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1odtus-00085J-7f
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 09:49:30 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:43970)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1odtun-0006bX-Ix
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 09:49:28 -0400
+Received: by mail-wr1-x430.google.com with SMTP id h7so2276423wru.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 06:49:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=yZHmJy7jRNhB7Vec2UHN605SDfSo7OTvKbvcJiWHfFA=;
+ b=S+Yt9dpdmBj817rqDvNVnZ4swq1rP8m1H6XXennHZGSqqFa4UcnkhN2RYv+Dr2xypG
+ vqMjNZl+ieJXLUVCntXbh5wEEsxNuAeq+FMkwuN3nyFTQ1br2d5FR+A2jCbR4sInNp1B
+ TgKiCu7ZXMDFBkvsgVhkqn4IS8JjLSw6bRy6zPmr5umhlzr8jIUO4g9XttEy6UWXY0YA
+ kCuWMaVwa+Gh73QTKsguwpcdUpDq6XFKi1BSTS/7UkivVrXZaPW7miLNMlO1DSPBkH1D
+ LJppoU4Qpmf+fvKnyLYhcDw8bkNrORs3l+Fo+9m8SDEgJ/sph8wZ48jpqkb5S4tB+dVN
+ hvbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=yZHmJy7jRNhB7Vec2UHN605SDfSo7OTvKbvcJiWHfFA=;
+ b=EhL91oARCqhSlTxJwWqjheTYrkRVkh60js/7W28+1hTYMcgXgUhTISkVv2G0+VHK6k
+ W5wd0DgAnrjeBbkS5E7JqzMKmIgMKwn/+Kw1RVfXwrEhX679x55yZgqH5ZHkRjMXhAlZ
+ kn/dfctNoovQIa+qSnH6gfJONu32ub2lw/+CbWSsShOKRy8wrapSQtlmm+sgTs+sptpy
+ y6Wdsx5kubKWxgI+Mf7QY3Btelm++nY36kzlQvorIg5xHh49ooy8CoUL5o97EYpmrImV
+ vuxzvLv3eO3AzZAFqLtq6zN/8RO7MVPVTIVwCqMH1VhECv5yr3Cpu5W1RrWloscbdHh8
+ pVgQ==
+X-Gm-Message-State: ACrzQf1dbcedjRwVuXXKGssbvMga0oDVlNeCp1+UkqzjBzZcR3X3dTOI
+ dnkuGztXJDmOsCy48q2vOYd/vA==
+X-Google-Smtp-Source: AMsMyM6k5Tg8T6svUE22h4XuJbjDt4d8oMG7DlJFDFYbbQ9YIL8IH8ZuOW5fPC//9jZXmaYID8luTA==
+X-Received: by 2002:a5d:47c1:0:b0:22a:5858:993b with SMTP id
+ o1-20020a5d47c1000000b0022a5858993bmr2407762wrc.99.1664459362727; 
+ Thu, 29 Sep 2022 06:49:22 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ g14-20020adfe40e000000b0022ae8b862a7sm6657902wrm.35.2022.09.29.06.49.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Sep 2022 06:49:22 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5E7261FFB7;
+ Thu, 29 Sep 2022 14:49:21 +0100 (BST)
+References: <20220925105124.82033-1-richard.henderson@linaro.org>
+ <20220925105124.82033-15-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 14/17] include/hw/core: Create struct CPUJumpCache
+Date: Thu, 29 Sep 2022 14:46:45 +0100
+In-reply-to: <20220925105124.82033-15-richard.henderson@linaro.org>
+Message-ID: <87k05mz3xa.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,14 +96,136 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-On Thu, Sep 29, 2022, at 10:10 AM, Vivek Goyal wrote:
+> Wrap the bare TranslationBlock pointer into a structure.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/hw/core/cpu.h     | 8 ++++++--
+>  accel/tcg/cpu-exec.c      | 9 ++++++---
+>  accel/tcg/cputlb.c        | 2 +-
+>  accel/tcg/translate-all.c | 4 ++--
+>  4 files changed, 15 insertions(+), 8 deletions(-)
+>
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index 9e47184513..ee5b75dea0 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -232,6 +232,10 @@ struct hvf_vcpu_state;
+>  #define TB_JMP_CACHE_BITS 12
+>  #define TB_JMP_CACHE_SIZE (1 << TB_JMP_CACHE_BITS)
+>=20=20
+> +typedef struct {
+> +    TranslationBlock *tb;
+> +} CPUJumpCache;
+> +
 
-> What's your use case. How do you plan to use virtiofs.
+I don't quite follow whats going on here. I see we add vaddr pc in a
+later patch but I don't quite see why a cache for looking up TBs gets a
+sidechan value added later.
 
-At the current time, the Kubernetes that we run does not support user namespaces.  We want to do the production builds of our operating system (Fedora CoreOS and RHEL CoreOS) today inside an *unprivileged* Kubernetes pod (actually in OpenShift using anyuid, i.e. random unprivileged uid too), just with /dev/kvm exposed from the host (which is safe).  Operating system builds *and* tests in qemu are just another workload that can be shared with other tenants.
+Is this because the vaddr will no longer match the tb->pc? Maybe a
+comment on the structure is needed?
 
-qemu works fine in this model, as does 9p.  It's just the virtiofs isolation requires privileges to be used today.
+>  /* work queue */
+>=20=20
+>  /* The union type allows passing of 64 bit target pointers on 32 bit
+> @@ -361,7 +365,7 @@ struct CPUState {
+>      IcountDecr *icount_decr_ptr;
+>=20=20
+>      /* Accessed in parallel; all accesses must be atomic */
+> -    TranslationBlock *tb_jmp_cache[TB_JMP_CACHE_SIZE];
+> +    CPUJumpCache tb_jmp_cache[TB_JMP_CACHE_SIZE];
+>=20=20
+>      struct GDBRegisterState *gdb_regs;
+>      int gdb_num_regs;
+> @@ -452,7 +456,7 @@ static inline void cpu_tb_jmp_cache_clear(CPUState *c=
+pu)
+>      unsigned int i;
+>=20=20
+>      for (i =3D 0; i < TB_JMP_CACHE_SIZE; i++) {
+> -        qatomic_set(&cpu->tb_jmp_cache[i], NULL);
+> +        qatomic_set(&cpu->tb_jmp_cache[i].tb, NULL);
+>      }
+>  }
+>=20=20
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index dd58a144a8..c6283d5798 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -252,7 +252,7 @@ static inline TranslationBlock *tb_lookup(CPUState *c=
+pu, target_ulong pc,
+>      tcg_debug_assert(!(cflags & CF_INVALID));
+>=20=20
+>      hash =3D tb_jmp_cache_hash_func(pc);
+> -    tb =3D qatomic_rcu_read(&cpu->tb_jmp_cache[hash]);
+> +    tb =3D qatomic_rcu_read(&cpu->tb_jmp_cache[hash].tb);
+>=20=20
+>      if (likely(tb &&
+>                 tb->pc =3D=3D pc &&
+> @@ -266,7 +266,7 @@ static inline TranslationBlock *tb_lookup(CPUState *c=
+pu, target_ulong pc,
+>      if (tb =3D=3D NULL) {
+>          return NULL;
+>      }
+> -    qatomic_set(&cpu->tb_jmp_cache[hash], tb);
+> +    qatomic_set(&cpu->tb_jmp_cache[hash].tb, tb);
+>      return tb;
+>  }
+>=20=20
+> @@ -987,6 +987,8 @@ int cpu_exec(CPUState *cpu)
+>=20=20
+>              tb =3D tb_lookup(cpu, pc, cs_base, flags, cflags);
+>              if (tb =3D=3D NULL) {
+> +                uint32_t h;
+> +
+>                  mmap_lock();
+>                  tb =3D tb_gen_code(cpu, pc, cs_base, flags, cflags);
+>                  mmap_unlock();
+> @@ -994,7 +996,8 @@ int cpu_exec(CPUState *cpu)
+>                   * We add the TB in the virtual pc hash table
+>                   * for the fast lookup
+>                   */
+> -                qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc=
+)], tb);
+> +                h =3D tb_jmp_cache_hash_func(pc);
+> +                qatomic_set(&cpu->tb_jmp_cache[h].tb, tb);
+>              }
+>=20=20
+>  #ifndef CONFIG_USER_ONLY
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index f5e6ca2da2..fb8f3087f1 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -103,7 +103,7 @@ static void tb_jmp_cache_clear_page(CPUState *cpu, ta=
+rget_ulong page_addr)
+>      unsigned int i, i0 =3D tb_jmp_cache_hash_page(page_addr);
+>=20=20
+>      for (i =3D 0; i < TB_JMP_PAGE_SIZE; i++) {
+> -        qatomic_set(&cpu->tb_jmp_cache[i0 + i], NULL);
+> +        qatomic_set(&cpu->tb_jmp_cache[i0 + i].tb, NULL);
+>      }
+>  }
+>=20=20
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index f429d33981..efa479ccf3 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -1187,8 +1187,8 @@ static void do_tb_phys_invalidate(TranslationBlock =
+*tb, bool rm_from_page_list)
+>      /* remove the TB from the hash list */
+>      h =3D tb_jmp_cache_hash_func(tb->pc);
+>      CPU_FOREACH(cpu) {
+> -        if (qatomic_read(&cpu->tb_jmp_cache[h]) =3D=3D tb) {
+> -            qatomic_set(&cpu->tb_jmp_cache[h], NULL);
+> +        if (qatomic_read(&cpu->tb_jmp_cache[h].tb) =3D=3D tb) {
+> +            qatomic_set(&cpu->tb_jmp_cache[h].tb, NULL);
+>          }
+>      }
 
 
+--=20
+Alex Benn=C3=A9e
 
