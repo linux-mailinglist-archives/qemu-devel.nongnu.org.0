@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8E15EEE7D
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 09:08:46 +0200 (CEST)
-Received: from localhost ([::1]:40970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B482B5EEE44
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 09:04:14 +0200 (CEST)
+Received: from localhost ([::1]:49678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odnex-0008A3-QG
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 03:08:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37864)
+	id 1odnae-0006NB-Gm
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 03:04:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1odnTZ-0001Wy-5O
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:56:54 -0400
-Received: from mga17.intel.com ([192.55.52.151]:49075)
+ id 1odnTb-0001Xc-Ck
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:56:55 -0400
+Received: from mga17.intel.com ([192.55.52.151]:49072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1odnTW-0001Gt-Jb
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:56:52 -0400
+ id 1odnTZ-0001Gp-4u
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:56:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664434610; x=1695970610;
+ t=1664434613; x=1695970613;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=uQGTvFkRu2suvO/BBfMCi7VX8taOodq9QWl6FH4+5vk=;
- b=RACXLTX1xRgqkcLdv9RHxqvrM8mW65JWNJsSiP86cLZoKB9WHF+MaM5+
- XjmqWg+J0SbOvIVYqotxP0u9lIoxSSdtfomkBWoMLFgoereJgSax87+p9
- 5FOzCdKluSHw+FKCZZaCIqRIWEYGBlde87nGOD6/MF76Hnkdbh3qVSDAT
- OTlzSuk+gc0DpuTDd2mNGtACZvdHl5TQ8+9NJ92s2gWlCcIFSFIdjE0zD
- InJSV0196vpwOlMCeEp8GK9RTvRBKGRhsekdAAZnu5lxywpkkla5etO1r
- VvIdigtYy17NhdOLPQnTmQ8YNkiOLcwLf6rklIJZBYQed1Jrbl3Ksarkl A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="282178266"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="282178266"
+ bh=1HHLTf+mZEpAZdLpZzQsDowRVBDqPVQnup/F4dRvES4=;
+ b=CI7F9Azoa52RNlzrULRkaxASoFL/24iaEgl/g4H6YIbIpMYJ95ZPggnp
+ e+M2mnvOyevEh/EBCr7WZVpZyczL5DoP7kGglu3Yfe81TzFIuMgJ1pRid
+ O/5+To++pOn6wuarhojj+4d1pqWfw83qd9falSELKXSTLlbNrK3fUa2Z4
+ GvsTCyrXjxHxFFQGBa3i4LDQCmgrrQKsh8jw3WHpExIW2kBJxGJnBjm+5
+ n7Bu1shFcSNnl0QJvYUJewFJSKnvICssvqEUJTQJsSOMB6hbK4AXi9vPg
+ riLsGGUKqh7SP6gJPkZ2m6s42/TXGoZXd/HDG2LBdgxAHBg7Fwk9eyMJi w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="282178270"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="282178270"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 23:56:49 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="711268512"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="711268512"
+ 28 Sep 2022 23:56:51 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="711268548"
+X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="711268548"
 Received: from chenyi-pc.sh.intel.com ([10.239.159.53])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 23:56:47 -0700
+ 28 Sep 2022 23:56:49 -0700
 From: Chenyi Qiang <chenyi.qiang@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
  Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: qemu-devel@nongnu.org,
-	kvm@vger.kernel.org
-Subject: [PATCH v8 2/4] kvm: allow target-specific accelerator properties
-Date: Thu, 29 Sep 2022 15:03:39 +0800
-Message-Id: <20220929070341.4846-3-chenyi.qiang@intel.com>
+Cc: Chenyi Qiang <chenyi.qiang@intel.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+Subject: [PATCH v8 3/4] kvm: expose struct KVMState
+Date: Thu, 29 Sep 2022 15:03:40 +0800
+Message-Id: <20220929070341.4846-4-chenyi.qiang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220929070341.4846-1-chenyi.qiang@intel.com>
 References: <20220929070341.4846-1-chenyi.qiang@intel.com>
@@ -77,125 +77,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+Expose struct KVMState out of kvm-all.c so that the field of struct
+KVMState can be accessed when defining target-specific accelerator
+properties.
 
-Several hypervisor capabilities in KVM are target-specific.  When exposed
-to QEMU users as accelerator properties (i.e. -accel kvm,prop=value), they
-should not be available for all targets.
-
-Add a hook for targets to add their own properties to -accel kvm, for
-now no such property is defined.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
 ---
- accel/kvm/kvm-all.c    | 2 ++
- include/sysemu/kvm.h   | 2 ++
- target/arm/kvm.c       | 4 ++++
- target/i386/kvm/kvm.c  | 4 ++++
- target/mips/kvm.c      | 4 ++++
- target/ppc/kvm.c       | 4 ++++
- target/riscv/kvm.c     | 4 ++++
- target/s390x/kvm/kvm.c | 4 ++++
- 8 files changed, 28 insertions(+)
+ accel/kvm/kvm-all.c      | 74 ---------------------------------------
+ include/sysemu/kvm_int.h | 75 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 75 insertions(+), 74 deletions(-)
 
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 5acab1767f..f90c5cb285 100644
+index f90c5cb285..3624ed8447 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -3737,6 +3737,8 @@ static void kvm_accel_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, "dirty-ring-size",
-         "Size of KVM dirty page ring buffer (default: 0, i.e. use bitmap)");
-+
-+    kvm_arch_accel_class_init(oc);
- }
+@@ -77,86 +77,12 @@
+     do { } while (0)
+ #endif
  
- static const TypeInfo kvm_accel_type = {
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index efd6dee818..50868ebf60 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -353,6 +353,8 @@ bool kvm_device_supported(int vmfd, uint64_t type);
+-#define KVM_MSI_HASHTAB_SIZE    256
+-
+ struct KVMParkedVcpu {
+     unsigned long vcpu_id;
+     int kvm_fd;
+     QLIST_ENTRY(KVMParkedVcpu) node;
+ };
  
- extern const KVMCapabilityInfo kvm_arch_required_capabilities[];
+-enum KVMDirtyRingReaperState {
+-    KVM_DIRTY_RING_REAPER_NONE = 0,
+-    /* The reaper is sleeping */
+-    KVM_DIRTY_RING_REAPER_WAIT,
+-    /* The reaper is reaping for dirty pages */
+-    KVM_DIRTY_RING_REAPER_REAPING,
+-};
+-
+-/*
+- * KVM reaper instance, responsible for collecting the KVM dirty bits
+- * via the dirty ring.
+- */
+-struct KVMDirtyRingReaper {
+-    /* The reaper thread */
+-    QemuThread reaper_thr;
+-    volatile uint64_t reaper_iteration; /* iteration number of reaper thr */
+-    volatile enum KVMDirtyRingReaperState reaper_state; /* reap thr state */
+-};
+-
+-struct KVMState
+-{
+-    AccelState parent_obj;
+-
+-    int nr_slots;
+-    int fd;
+-    int vmfd;
+-    int coalesced_mmio;
+-    int coalesced_pio;
+-    struct kvm_coalesced_mmio_ring *coalesced_mmio_ring;
+-    bool coalesced_flush_in_progress;
+-    int vcpu_events;
+-    int robust_singlestep;
+-    int debugregs;
+-#ifdef KVM_CAP_SET_GUEST_DEBUG
+-    QTAILQ_HEAD(, kvm_sw_breakpoint) kvm_sw_breakpoints;
+-#endif
+-    int max_nested_state_len;
+-    int many_ioeventfds;
+-    int intx_set_mask;
+-    int kvm_shadow_mem;
+-    bool kernel_irqchip_allowed;
+-    bool kernel_irqchip_required;
+-    OnOffAuto kernel_irqchip_split;
+-    bool sync_mmu;
+-    uint64_t manual_dirty_log_protect;
+-    /* The man page (and posix) say ioctl numbers are signed int, but
+-     * they're not.  Linux, glibc and *BSD all treat ioctl numbers as
+-     * unsigned, and treating them as signed here can break things */
+-    unsigned irq_set_ioctl;
+-    unsigned int sigmask_len;
+-    GHashTable *gsimap;
+-#ifdef KVM_CAP_IRQ_ROUTING
+-    struct kvm_irq_routing *irq_routes;
+-    int nr_allocated_irq_routes;
+-    unsigned long *used_gsi_bitmap;
+-    unsigned int gsi_count;
+-    QTAILQ_HEAD(, KVMMSIRoute) msi_hashtab[KVM_MSI_HASHTAB_SIZE];
+-#endif
+-    KVMMemoryListener memory_listener;
+-    QLIST_HEAD(, KVMParkedVcpu) kvm_parked_vcpus;
+-
+-    /* For "info mtree -f" to tell if an MR is registered in KVM */
+-    int nr_as;
+-    struct KVMAs {
+-        KVMMemoryListener *ml;
+-        AddressSpace *as;
+-    } *as;
+-    uint64_t kvm_dirty_ring_bytes;  /* Size of the per-vcpu dirty ring */
+-    uint32_t kvm_dirty_ring_size;   /* Number of dirty GFNs per ring */
+-    struct KVMDirtyRingReaper reaper;
+-};
+-
+ KVMState *kvm_state;
+ bool kvm_kernel_irqchip;
+ bool kvm_split_irqchip;
+diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+index 1f5487d9b7..07394744ad 100644
+--- a/include/sysemu/kvm_int.h
++++ b/include/sysemu/kvm_int.h
+@@ -36,6 +36,81 @@ typedef struct KVMMemoryListener {
+     int as_id;
+ } KVMMemoryListener;
  
-+void kvm_arch_accel_class_init(ObjectClass *oc);
++#define KVM_MSI_HASHTAB_SIZE    256
 +
- void kvm_arch_pre_run(CPUState *cpu, struct kvm_run *run);
- MemTxAttrs kvm_arch_post_run(CPUState *cpu, struct kvm_run *run);
++enum KVMDirtyRingReaperState {
++    KVM_DIRTY_RING_REAPER_NONE = 0,
++    /* The reaper is sleeping */
++    KVM_DIRTY_RING_REAPER_WAIT,
++    /* The reaper is reaping for dirty pages */
++    KVM_DIRTY_RING_REAPER_REAPING,
++};
++
++/*
++ * KVM reaper instance, responsible for collecting the KVM dirty bits
++ * via the dirty ring.
++ */
++struct KVMDirtyRingReaper {
++    /* The reaper thread */
++    QemuThread reaper_thr;
++    volatile uint64_t reaper_iteration; /* iteration number of reaper thr */
++    volatile enum KVMDirtyRingReaperState reaper_state; /* reap thr state */
++};
++struct KVMState
++{
++    AccelState parent_obj;
++
++    int nr_slots;
++    int fd;
++    int vmfd;
++    int coalesced_mmio;
++    int coalesced_pio;
++    struct kvm_coalesced_mmio_ring *coalesced_mmio_ring;
++    bool coalesced_flush_in_progress;
++    int vcpu_events;
++    int robust_singlestep;
++    int debugregs;
++#ifdef KVM_CAP_SET_GUEST_DEBUG
++    QTAILQ_HEAD(, kvm_sw_breakpoint) kvm_sw_breakpoints;
++#endif
++    int max_nested_state_len;
++    int many_ioeventfds;
++    int intx_set_mask;
++    int kvm_shadow_mem;
++    bool kernel_irqchip_allowed;
++    bool kernel_irqchip_required;
++    OnOffAuto kernel_irqchip_split;
++    bool sync_mmu;
++    uint64_t manual_dirty_log_protect;
++    /* The man page (and posix) say ioctl numbers are signed int, but
++     * they're not.  Linux, glibc and *BSD all treat ioctl numbers as
++     * unsigned, and treating them as signed here can break things */
++    unsigned irq_set_ioctl;
++    unsigned int sigmask_len;
++    GHashTable *gsimap;
++#ifdef KVM_CAP_IRQ_ROUTING
++    struct kvm_irq_routing *irq_routes;
++    int nr_allocated_irq_routes;
++    unsigned long *used_gsi_bitmap;
++    unsigned int gsi_count;
++    QTAILQ_HEAD(, KVMMSIRoute) msi_hashtab[KVM_MSI_HASHTAB_SIZE];
++#endif
++    KVMMemoryListener memory_listener;
++    QLIST_HEAD(, KVMParkedVcpu) kvm_parked_vcpus;
++
++    /* For "info mtree -f" to tell if an MR is registered in KVM */
++    int nr_as;
++    struct KVMAs {
++        KVMMemoryListener *ml;
++        AddressSpace *as;
++    } *as;
++    uint64_t kvm_dirty_ring_bytes;  /* Size of the per-vcpu dirty ring */
++    uint32_t kvm_dirty_ring_size;   /* Number of dirty GFNs per ring */
++    struct KVMDirtyRingReaper reaper;
++    NotifyVmexitOption notify_vmexit;
++    uint32_t notify_window;
++};
++
+ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+                                   AddressSpace *as, int as_id, const char *name);
  
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index e5c1bd50d2..d21603cf28 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -1056,3 +1056,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
- {
-     return true;
- }
-+
-+void kvm_arch_accel_class_init(ObjectClass *oc)
-+{
-+}
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 3838827134..eab09833f9 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -5472,3 +5472,7 @@ void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
-         mask &= ~BIT_ULL(bit);
-     }
- }
-+
-+void kvm_arch_accel_class_init(ObjectClass *oc)
-+{
-+}
-diff --git a/target/mips/kvm.c b/target/mips/kvm.c
-index caf70decd2..bcb8e06b2c 100644
---- a/target/mips/kvm.c
-+++ b/target/mips/kvm.c
-@@ -1294,3 +1294,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
- {
-     return true;
- }
-+
-+void kvm_arch_accel_class_init(ObjectClass *oc)
-+{
-+}
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 466d0d2f4c..7c25348b7b 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -2966,3 +2966,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
- {
-     return true;
- }
-+
-+void kvm_arch_accel_class_init(ObjectClass *oc)
-+{
-+}
-diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-index 70b4cff06f..30f21453d6 100644
---- a/target/riscv/kvm.c
-+++ b/target/riscv/kvm.c
-@@ -532,3 +532,7 @@ bool kvm_arch_cpu_check_are_resettable(void)
- {
-     return true;
- }
-+
-+void kvm_arch_accel_class_init(ObjectClass *oc)
-+{
-+}
-diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-index 6a8dbadf7e..508c24cfec 100644
---- a/target/s390x/kvm/kvm.c
-+++ b/target/s390x/kvm/kvm.c
-@@ -2581,3 +2581,7 @@ int kvm_s390_get_zpci_op(void)
- {
-     return cap_zpci_op;
- }
-+
-+void kvm_arch_accel_class_init(ObjectClass *oc)
-+{
-+}
 -- 
 2.17.1
 
