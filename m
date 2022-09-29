@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A955EF3C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 12:57:06 +0200 (CEST)
-Received: from localhost ([::1]:44740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27E45EF3EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 13:07:08 +0200 (CEST)
+Received: from localhost ([::1]:33520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odrE1-0005IO-9Y
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 06:57:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40498)
+	id 1odrNh-000269-VY
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 07:07:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odr7N-0003Db-Ft
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 06:50:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60623)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odrCb-0005BB-LH
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 06:55:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odr7J-0006kJ-Nc
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 06:50:11 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odrCV-0007mz-Bd
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 06:55:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664448608;
+ s=mimecast20190719; t=1664448930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3t+DTxQ/kgxuXd9YhgzCIOZmP6QT81bffq/l/1FlaFk=;
- b=aknV8l/KM8u0mfdcC5NEfESPOUoJyZ72knatQMi4myLv6PTwl3L0/kp/fOqaSkxlBgn+VA
- LhBIs+JU7KYIM3AG0a+fPbBuZ2K2QR6x3/GRFbKX7f3KmD5EmZjhHbWfhMF/Auf6YGWucT
- D0bqVTx/sxCG8SoakTZF+KUBGUTDBdQ=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-22-uB6X2nBQMFizDsr5_5qMiw-1; Thu, 29 Sep 2022 06:50:06 -0400
-X-MC-Unique: uB6X2nBQMFizDsr5_5qMiw-1
-Received: by mail-ua1-f69.google.com with SMTP id
- z8-20020ab05648000000b003b48415d88cso335183uaa.10
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 03:50:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=3t+DTxQ/kgxuXd9YhgzCIOZmP6QT81bffq/l/1FlaFk=;
- b=Q1yvEjDOSjup+5shi044dFmEhj7GzbEFZ1s7udDgJN1Q8iXJ5DBFwrBVxVfeLDeYQi
- UCgDiY7P1PC12fZYCNFR6uVk4+7HXV2OowI6DqV1GQ2XxnM/z7fZigyP5l1rUAIPfXna
- GC+r5x6nsI/wXX0RPbJribHrPwX7Z/gytfGqKwWU0RdNpug+Pvy1EcL/cm7Vdc98652c
- jpnctARWZ5jmjSnZDV8xukUaisA9otmXerl2fYoySuWqNFsZP8+hfJUuAWnNPuHSaWjJ
- hOfxUz2omx4oNC6c5x50hqXWSN315/xUbuv5YpEmQn8tL6Se5WCOBv03AtlgU0B+jdH9
- jkTg==
-X-Gm-Message-State: ACrzQf2n7UrCUkAfo3jq2P3A9jyQKQY7hQZW0HC6RZR1Uu2bpSFxaPE7
- LG0FPB8hP14NdEO7olTCqz4vpKVGglO8bca9V0veKxLjnts6+CcUCXuKiX02nJro1QkTUA2XVCC
- On2ew/Urw1chWQ8GQ4S72EmaB5i5B6hw=
-X-Received: by 2002:ab0:6f94:0:b0:3d1:d6e5:5de6 with SMTP id
- f20-20020ab06f94000000b003d1d6e55de6mr1073455uav.51.1664448605504; 
- Thu, 29 Sep 2022 03:50:05 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7AIYTjx3mqE0b7ljJyJgBmdJwNTXvfP24F/B4A/OCklwK/6cn1Vc9o9JJysFY+ywpuP0we2mtws2wMWe2BDqI=
-X-Received: by 2002:ab0:6f94:0:b0:3d1:d6e5:5de6 with SMTP id
- f20-20020ab06f94000000b003d1d6e55de6mr1073408uav.51.1664448604145; Thu, 29
- Sep 2022 03:50:04 -0700 (PDT)
+ bh=v28foEUMrAROtC9/y0SB2k5VMFBg/xOpiGtaNn5oDrg=;
+ b=V5UTTZo2jaLFk6hQB5WJ7a3eU6KABpo5yUJWbLJnWFKkWaqtRp1et6ddiYcjVtcY+Xsgl/
+ CCw8vneUfCMBwPM1b+kFEf0iSMZAeWlmAFG7GYnFKEPWLK2Br7ekoL8OWoCk/6FqvFhy6J
+ YG/QwRd4VfB1j3gTvN/+x7EmXJ8eYAU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-391-L7jz6NaYMtepiD1FePAZcQ-1; Thu, 29 Sep 2022 06:55:26 -0400
+X-MC-Unique: L7jz6NaYMtepiD1FePAZcQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C6EDD800186;
+ Thu, 29 Sep 2022 10:55:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A41149BB61;
+ Thu, 29 Sep 2022 10:55:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2BC4621E691D; Thu, 29 Sep 2022 12:55:22 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  qemu-arm@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,  "Michael S. Tsirkin"
+ <mst@redhat.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  Gerd
+ Hoffmann <kraxel@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,  Eduardo Habkost
+ <eduardo@habkost.net>,  John Snow <jsnow@redhat.com>,  Dmitry Fleytman
+ <dmitry.fleytman@gmail.com>,  Jason Wang <jasowang@redhat.com>,  Stefan
+ Weil <sw@weilnetz.de>,  Keith Busch <kbusch@kernel.org>,  Klaus Jensen
+ <its@irrelevant.dk>,  Peter Maydell <peter.maydell@linaro.org>,  Andrey
+ Smirnov <andrew.smirnov@gmail.com>,  Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Subject: Re: [PATCH v2] pci: Assert that capabilities never overlap
+References: <20220831013236.32937-1-akihiko.odaki@daynix.com>
+ <87tu5qulay.fsf@pond.sub.org>
+ <CAE=JJXdg=Miisek8WeqQ12NqL8obzmuyzD0mbv1SfiJTyVBLuw@mail.gmail.com>
+ <875yi2mat1.fsf@pond.sub.org>
+ <CAE=JJXcRH-0TuM7WgbM35Nb=Ud94K-LUcdzjoyJDMEuK9o=uFw@mail.gmail.com>
+Date: Thu, 29 Sep 2022 12:55:22 +0200
+In-Reply-To: <CAE=JJXcRH-0TuM7WgbM35Nb=Ud94K-LUcdzjoyJDMEuK9o=uFw@mail.gmail.com>
+ (Akihiko Odaki's message of "Mon, 5 Sep 2022 19:11:59 +0900")
+Message-ID: <87mtaitpph.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220928180603.101533-1-venu.busireddy@oracle.com>
-In-Reply-To: <20220928180603.101533-1-venu.busireddy@oracle.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 29 Sep 2022 12:49:51 +0200
-Message-ID: <CABgObfYXMBnVp2NqhyxOGjppDPc81Qk_fKepF6uzTkOBMoj2zA@mail.gmail.com>
-Subject: Re: [PATCH v3] virtio-scsi: Send "REPORTED LUNS CHANGED" sense data
- upon disk hotplug events.
-To: Venu Busireddy <venu.busireddy@oracle.com>
-Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,100 +93,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 8:06 PM Venu Busireddy
-<venu.busireddy@oracle.com> wrote:
+Akihiko Odaki <akihiko.odaki@daynix.com> writes:
+
+> On Mon, Sep 5, 2022 at 6:26 PM Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> Akihiko Odaki <akihiko.odaki@daynix.com> writes:
+>>
+>> > On Fri, Sep 2, 2022 at 7:23 PM Markus Armbruster <armbru@redhat.com> wrote:
+>> >>
+>> >> Akihiko Odaki <akihiko.odaki@daynix.com> writes:
+>> >>
+>> >> > pci_add_capability appears most PCI devices. Its error handling required
+>> >> > lots of code, and led to inconsistent behaviors such as:
+>> >> > - passing error_abort
+>> >> > - passing error_fatal
+>> >> > - asserting the returned value
+>> >> > - propagating the error to the caller
+>> >> > - skipping the rest of the function
+>> >> > - just ignoring
+>> >> >
+>> >> > The code generating errors in pci_add_capability had a comment which
+>> >> > says:
+>> >> >> Verify that capabilities don't overlap.  Note: device assignment
+>> >> >> depends on this check to verify that the device is not broken.
+>> >> >> Should never trigger for emulated devices, but it's helpful for
+>> >> >> debugging these.
+>> >> >
+>> >> > Indeed vfio has some code that passes capability offsets and sizes from
+>> >> > a physical device, but it explicitly pays attention so that the
+>> >> > capabilities never overlap.
+>> >>
+>> >> I can't see that at a glance.  Can you give me a clue?
+>> >>
+>> >> >                             Therefore, we can always assert that
+>> >> > capabilities never overlap when pci_add_capability is called, resolving
+>> >> > these inconsistencies.
+>> >> >
+>> >> > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> >>
+>> >
+>> > Looking at vfio_add_std_cap(), and vfio_add_ext_cap() it seems that
+>> > they are clipping the size of capabilities so that they do not
+>> > overlap, if I read it correctly.
+>>
+>> If we want to deal gracefully with buggy physical devices, we need to
+>> treat pdev->config[] as untrusted input.
+>>
+>> As far as I can tell:
+>>
+>> * vfio_add_capabilities() replicates the physical device's capabilities
+>>   (starting at pdev->config[PCI_CAPABILITY_LIST]) in the virtual device.
+>>
+>> * vfio_add_std_cap() is a helper to add the tail starting at
+>>   pdev->config[pos].
+>>
+>> Could the physical device's capabilities overlap?  If yes, what would
+>> happen before and after your series?
+>>
 >
-> Section 5.6.6.3 of VirtIO specification states, "Events will also
-> be reported via sense codes..." However, no sense data is sent when
-> VIRTIO_SCSI_EVT_RESET_RESCAN or VIRTIO_SCSI_EVT_RESET_REMOVED events
-> are reported (when disk hotplug/hotunplug events occur). SCSI layer
-> on Solaris depends on this sense data, and hence does not handle disk
-> hotplug/hotunplug events.
->
-> When disk inventory changes, return a CHECK_CONDITION status with sense
-> data of 0x06/0x3F/0x0E (sense code REPORTED_LUNS_CHANGED), as per the
-> specifications in Section 5.14 (h) of SAM-4.
->
-> Signed-off-by: Venu Busireddy <venu.busireddy@oracle.com>
->
-> v2 -> v3:
->     - Implement the suggestion from Paolo Bonzini <pbonzini@redhat.com>.
->
-> v1 -> v2:
->     - Send the sense data for VIRTIO_SCSI_EVT_RESET_REMOVED event too.
-> ---
->  hw/scsi/scsi-bus.c              |  1 +
->  hw/scsi/virtio-scsi.c           | 16 ++++++++++++++++
->  include/hw/scsi/scsi.h          |  6 ++++++
->  include/hw/virtio/virtio-scsi.h |  1 +
->  4 files changed, 24 insertions(+)
->
-> diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-> index 4403717c4aaf..b7cb249f2eab 100644
-> --- a/hw/scsi/scsi-bus.c
-> +++ b/hw/scsi/scsi-bus.c
-> @@ -730,6 +730,7 @@ SCSIRequest *scsi_req_new(SCSIDevice *d, uint32_t tag, uint32_t lun,
->            */
->           !(buf[0] == REQUEST_SENSE && d->sense_is_ua))) {
->          ops = &reqops_unit_attention;
-> +        d->clear_reported_luns_changed = true;
+> When the capabilities overlap, vfio_std_cap_max_size() and
+> vfio_ext_cap_max_size(), called by vfio_add_std_cap(),
+> vfio_add_ext_cap() should clip the size of capabilities. Comments in
+> vfio_add_std_cap() and vfio_add_ext_cap() say: "Since QEMU doesn't
+> actually handle many of the config accesses, exact size doesn't seem
+> worthwhile."
 
-Any reason to have this flag, and not just clear
-s->reported_luns_changed after scsi_req_new? Is it to handle the
-invalid opcode case?
+Weird :)
 
-I just reread the code and noticed that there is also a *bus* unit
-attention mechanism, which is unused but seems perfect for this
-usecase. The first device on the bus to execute a command successfully
-will consume it.
+Back to your patch.  Its core is dumbing down of pci_add_capability() so
+it can't fail anymore.  Instead it aborts on overlapping capabilities.
+Note that it already aborts when running out of PCI config space.
 
-You need something like
+The remainder of the patch simplifies callers accordingly.  Some callers
+ignore the error before the patch, some abort on error, and some pass it
+on to their callers.  Too much for me to review in detail.  We can talk
+about ways to split it up if that's desired.
 
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index 4403717c4a..78274e8477 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -1616,6 +1616,24 @@ static int scsi_ua_precedence(SCSISense sense)
-     return (sense.asc << 8) | sense.ascq;
- }
+My one concern is device assignment, which should treat the device's
+capabilities as untrusted input.  If you're right in that such
+capabilities get truncated before they reach pci_add_capability(), then
+your change from failure to abort is okay.
 
-+void scsi_bus_set_ua(SCSIBus *bus, SCSISense sense)
-+{
-+    int prec1, prec2;
-+    if (sense.key != UNIT_ATTENTION) {
-+        return;
-+    }
-+
-+    /*
-+     * Override a pre-existing unit attention condition, except for a more
-+     * important reset condition.
-+    */
-+    prec1 = scsi_ua_precedence(bus->unit_attention);
-+    prec2 = scsi_ua_precedence(sense);
-+    if (prec2 < prec1) {
-+        bus->unit_attention = sense;
-+    }
-+}
-+
- void scsi_device_set_ua(SCSIDevice *sdev, SCSISense sense)
- {
-     int prec1, prec2;
-diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
-index 88e1a48343..0c86d0359f 100644
---- a/include/hw/scsi/scsi.h
-+++ b/include/hw/scsi/scsi.h
-@@ -186,6 +186,7 @@ SCSIDevice *scsi_bus_legacy_add_drive(
-                                       BlockdevOnError rerror,
-                                       BlockdevOnError werror,
-                                       const char *serial, Error **errp);
-+void scsi_bus_set_ua(SCSIBus *bus, SCSISense sense);
- void scsi_bus_legacy_handle_cmdline(SCSIBus *bus);
- void scsi_legacy_handle_cmdline(void);
-
-
-and if you call the new function in the plug/unplug callbacks it
-should just work.
-
-Paolo
+I'd like to leave checking your correctness argument to actual PCI
+experts.
 
 
