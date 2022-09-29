@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D73C5EFBF7
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:27:07 +0200 (CEST)
-Received: from localhost ([::1]:53344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC7D5EFC04
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:29:16 +0200 (CEST)
+Received: from localhost ([::1]:45888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odxJS-0005nv-MD
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:27:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50100)
+	id 1odxLX-0002ID-Ob
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:29:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1odwSs-0006SW-Di
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:32:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38864)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1odwXT-0002EC-IT
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:37:31 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:43550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1odwSp-0003Mi-93
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:32:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664469162;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pexMPmz3ERSDHT4uSVabYUPGRBus7DhQh4pqhnYYf8E=;
- b=S097JSPh0ikjo+eUxTYC7YfcRlSckhTYlxrB9c3lI5VioAFRiUNX8uf2G+JcubSYCRnimy
- /lsyBQsdGJqqT6uX2tyFgVJ9cW7AAJ7V8442AWFgXfrOiQa/YgKE4FG5DJ6w9HJu3e+tP4
- qG7KO6+dbFfuMmFoGYnT01oe7ag791c=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-CNRfL-XhM32Zme2IkKqScg-1; Thu, 29 Sep 2022 12:32:41 -0400
-X-MC-Unique: CNRfL-XhM32Zme2IkKqScg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1odwXR-0004FJ-CW
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:37:30 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B6FED299E779;
- Thu, 29 Sep 2022 16:32:40 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F1821731B;
- Thu, 29 Sep 2022 16:32:39 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: jb-gnumlists@wisemo.com, thuth@redhat.com, jasowang@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH] net: print a more actionable error when slirp is not found
-Date: Thu, 29 Sep 2022 20:32:37 +0400
-Message-Id: <20220929163237.1417215-1-marcandre.lureau@redhat.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 24C4161E6D;
+ Thu, 29 Sep 2022 16:37:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50188C433C1;
+ Thu, 29 Sep 2022 16:37:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1664469446;
+ bh=hzaL69lrZXN9qsUmhHjQ061m+bkJjCOUB4MV0xP7wCs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NF0XqcwGK/lIgQ/kE2OUjjjes4BzMsQnCzlQ5YRZcpgFvi0brjsfadZ7Hq/r7EtaW
+ heDcFKfzGdZmNan1XFC1csss5Ht7wzgbAWAarPn/phu38MbsE/nuVQf8h8PvzKW/tI
+ Pi68pDwViXBSctMYtvHBsFKAy/2TmP6UuIJ5KCbZp0IkBiCMWAVYIDVJcRX9hwCeor
+ s8HkEsNaUSugaZdfNa/4xZ4nY9W4K+CmQYD6vtmlJpYDwGsoY2wXqbHBnKc2CUdB28
+ kHMSri3CwFUrS5Wm7mmnzJ0mRNL6thMrkm+Q9iWSbhqxXISE/VL743etQ7SAGxYSwT
+ AOyvtOIvp26LQ==
+Date: Thu, 29 Sep 2022 10:37:22 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, Kevin Wolf <kwolf@redhat.com>
+Subject: Re: Commit 'iomap: add support for dma aligned direct-io' causes
+ qemu/KVM boot failures
+Message-ID: <YzXJwmP8pa3WABEG@kbusch-mbp.dhcp.thefacebook.com>
+References: <fb869c88bd48ea9018e1cc349918aa7cdd524931.camel@redhat.com>
+ <YzW+Mz12JT1BXoZA@kbusch-mbp.dhcp.thefacebook.com>
+ <a2825beac032fd6a76838164d4e2753d30305897.camel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a2825beac032fd6a76838164d4e2753d30305897.camel@redhat.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=kbusch@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,71 +74,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Thu, Sep 29, 2022 at 07:16:29PM +0300, Maxim Levitsky wrote:
+> On Thu, 2022-09-29 at 09:48 -0600, Keith Busch wrote:
+> > I am aware, and I've submitted the fix to qemu here:
+> > 
+> >   https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00398.html
+> > 
+> 
+> 
+> Thanks for quick response!
+> 
+> Question is though, isn't this an kernel ABI breakage?
 
-If slirp is not found during compile-time, and not manually disabled,
-print a friendly error message, as suggested in the "If your networking
-is failing after updating to the latest git version of QEMU..." thread
-by various people.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- meson.build |  4 ++++
- net/net.c   | 19 +++++++++++++++++--
- 2 files changed, 21 insertions(+), 2 deletions(-)
-
-diff --git a/meson.build b/meson.build
-index 8dc661363f..4f69d7d0b4 100644
---- a/meson.build
-+++ b/meson.build
-@@ -657,6 +657,10 @@ if not get_option('slirp').auto() or have_system
-   endif
- endif
- 
-+if get_option('slirp').disabled()
-+  config_host_data.set('CONFIG_SLIRP_DISABLED', true)
-+endif
-+
- vde = not_found
- if not get_option('vde').auto() or have_system or have_tools
-   vde = cc.find_library('vdeplug', has_headers: ['libvdeplug.h'],
-diff --git a/net/net.c b/net/net.c
-index 2db160e063..e6072a5ddd 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -990,14 +990,29 @@ static int net_init_nic(const Netdev *netdev, const char *name,
-     return idx;
- }
- 
-+#if (defined(CONFIG_SLIRP) || !defined(CONFIG_SLIRP_DISABLED))
-+static int net_init_user(const Netdev *netdev, const char *name,
-+                         NetClientState *peer, Error **errp)
-+{
-+#ifdef CONFIG_SLIRP
-+    return net_init_slirp(netdev, name, peer, errp);
-+#else
-+    error_setg(errp,
-+               "Type 'user' is not a supported netdev backend by this QEMU build "
-+               "because the libslirp development files were not found during build "
-+               "of QEMU.");
-+#endif
-+    return -1;
-+}
-+#endif
- 
- static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
-     const Netdev *netdev,
-     const char *name,
-     NetClientState *peer, Error **errp) = {
-         [NET_CLIENT_DRIVER_NIC]       = net_init_nic,
--#ifdef CONFIG_SLIRP
--        [NET_CLIENT_DRIVER_USER]      = net_init_slirp,
-+#if (defined(CONFIG_SLIRP) || !defined(CONFIG_SLIRP_DISABLED))
-+        [NET_CLIENT_DRIVER_USER]      = net_init_user,
- #endif
-         [NET_CLIENT_DRIVER_TAP]       = net_init_tap,
-         [NET_CLIENT_DRIVER_SOCKET]    = net_init_socket,
--- 
-2.37.3
-
+I don't think so. Memory alignment and length granularity are two completely
+different concepts. If anything, the kernel's ABI had been that the length
+requirement was also required for the memory alignment, not the other way
+around. That usage will continue working with this kernel patch.
 
