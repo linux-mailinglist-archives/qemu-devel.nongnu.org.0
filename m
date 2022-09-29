@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691B45EF35D
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 12:23:52 +0200 (CEST)
-Received: from localhost ([::1]:39116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD475EF38F
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 12:34:32 +0200 (CEST)
+Received: from localhost ([::1]:52486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odqhr-0007cc-1T
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 06:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50232)
+	id 1odqsA-000514-L2
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 06:34:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
- id 1odqRJ-0003ZX-3R; Thu, 29 Sep 2022 06:06:45 -0400
-Received: from mout.gmx.net ([212.227.17.20]:33167)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1odqlj-0001Gr-HD
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 06:27:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
- id 1odqRG-0007EK-Gl; Thu, 29 Sep 2022 06:06:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1664445996;
- bh=R/WRc94PKp3bSDJm3m2WLB5I2cmgH10cW4frwKxV7Hs=;
- h=X-UI-Sender-Class:Date:From:To:Cc:References:Subject:In-Reply-To;
- b=WzdA9TZTfgRslK9tllX0pGe75seFI4P5RLnMJbB0UikAdj36Worln5DiD4ZV80ZeZ
- T7u7VssiGkjLh4iaIvsvcugYxWLyxhWZ9IDiaGqqLshQnu9f1sGoCIkWTwg4iq1/mS
- cM6ndU/a2uIBntvskOYUP90xCTtDm5OJgthcYV9s=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.178.49] ([92.78.251.208]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mw9UK-1pTbg73ufE-00s9bl; Thu, 29
- Sep 2022 12:06:36 +0200
-Message-ID: <7af76d26-0e4e-9ceb-e891-7c02b63deae0@gmx.de>
-Date: Thu, 29 Sep 2022 12:06:35 +0200
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1odqlf-0002ax-M1
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 06:27:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664447266;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=S2MTmuut3UpFN8JM4EGneIMhXbXwpb8297pJeuov8nQ=;
+ b=LFUziYxZdMk2+pMT1kVJ4H7FbCXK6wxcK+rqX73zojjCXhlVE4ivPppRqYAyUL9XL941oH
+ f1AGKDLhQMUvPo7h3cB8YPbD40rLxxH+1mTrukXUZJmWTcuQkqWKDCz740MnOnWnRN/QT9
+ IAWSK9UCQiqjLEgBCjXggJLTKMug3/Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-141-ZID10jGnMYq7njBpvdre5Q-1; Thu, 29 Sep 2022 06:27:40 -0400
+X-MC-Unique: ZID10jGnMYq7njBpvdre5Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB3FE88B7A7;
+ Thu, 29 Sep 2022 10:27:39 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A64A4EA5F;
+ Thu, 29 Sep 2022 10:27:37 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Gavin Shan <gshan@redhat.com>, eric.auger@redhat.com, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, zhenyzha@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org,
+ shan.gavin@gmail.com
+Subject: Re: [PATCH v3 5/5] hw/arm/virt: Add 'highmem-compact' property
+In-Reply-To: <7656c827-58ce-85c2-87fe-e88206d6f022@redhat.com>
+Organization: Red Hat GmbH
+References: <20220921231349.274049-1-gshan@redhat.com>
+ <20220921231349.274049-6-gshan@redhat.com>
+ <2e8ace49-b900-de7e-2d81-7bb6c081146e@redhat.com>
+ <7656c827-58ce-85c2-87fe-e88206d6f022@redhat.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Thu, 29 Sep 2022 12:27:35 +0200
+Message-ID: <87bkqyeaqw.fsf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-From: Arwed Meyer <arwed.meyer@gmx.de>
-Content-Language: de-DE
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220911181840.8933-1-arwed.meyer@gmx.de>
- <20220911181840.8933-2-arwed.meyer@gmx.de>
- <CAJ+F1CLi9pmLywWjxDzMCgLAm-NZx3Otq8okkBt2=Ca6TQjxXg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] msmouse: Handle mouse reset
-In-Reply-To: <CAJ+F1CLi9pmLywWjxDzMCgLAm-NZx3Otq8okkBt2=Ca6TQjxXg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ExTnWJtIP0+XTT+y7n/J7vA8/MyNU+aTcCNTtJBur4rwC1jZfhc
- BDumq73hrc0W1acFlKfS4E4vgMIB2dlx7B0Q61p3OZ8bTT5qm/FQpOogVX2QZbeAdHy2Y4n
- X9socW+Dld6ArKYYdlf4jwg4RXgh8CXX2zjXOv8745jLu4LU+cFVFg2POZ0aTSA0KmdOA4t
- sUADPiOZKmtyzlS2+8c9A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lApXTUmyseA=:yhw0dlk5oWZXOmzjKyvCOT
- O7ua3vycJpUkHFnIoydj4JUvkN6vElk3fI5ecnnw9fm00jCI7rWwIEmORV+DRhLJw9LgTRVd+
- eUOX8Qq82g/jGRWoK9FfJgzq8iyQ0Wi8eI03FeZMD35Mfe+h3xulOuH1ByIsMa6I5JmTOjvWZ
- oW5ENFXmGusFIYMfkbYRqTKbwKL+48oQ1QvtX9jFb5nXDEde+1fXifyNUSJfLt7OsqEyjZV28
- DZG9bfK+HtMkQLSD0rcLtxEUp5Gf9n2bngjsrA+l7Rv+wNecH4ZevPlKdCj5HPmk//qYXfqIf
- WWhB6w11z1gtJ/Ss7yuTiX7TynMUpM4rMY5SRwzVukSZ6uS4z3omMdVK6KrnzAhp8BVEYnRJz
- FyN4vfiAeYv4eV3olH/fnd6QDeL5gIRsQpSXj9FlYtU2c/ZCfFeFQNAZgGwdFy7OH0M7k2Sez
- J9CrkAqSKOezHFN4B8Miu37nVrpsHJvBDZcGtTlWCyBGmYjxEY++eZij1TgtdHX6D/Q62FXaa
- zf4Y9rDSQo1o4Kb4S87UnDoaXCAPOSss5MlqlTaEtfg9jqDoQrQDAOjvgBZAAmqbC8XTsiP98
- 5TkWfMv2+mpha0/5j+2Cx2BD5j1AG29GYvnCYJANsqFY3tcl8sjIXoJd15fAY1TuD2MQawRt9
- xIez2CGA3Edr+/TQycmg6lAJI1c3tVYCMljeWmJxMF0aZ81WRtZLOrc17LyyUfA9PhF1jtoxq
- OtPaUjUrmYROfw8VeTP+Ja7peWOnOIErCLbOmuFVtTKXGUiaODJqv2isxf0wcZ/YHAoZW4mBE
- WUmxtmFU+Ke8Ae9EgyhyW25os6BR+noZ5d/3/R9qNqgF4FIad+A6b5+btxmj0O+D+kM4CCecA
- WsTQlEENVi7ENIIoIUcKf8tdpzPmSIzfpozESkuNa3iBFMFwi4T9oZrAGxx5Kn65XFjs1pam+
- 0Ecy9txDqZxlnvWHRyfFY+/f7IAO0Hn3W2IpJRUsVXxFPLdYUQ2lZQmqDR0X7nuFcgj2tW68R
- zXt4387fVua7v61qc78XS6dYytEWCmy0tWwrxG1hcz5++Dh3G1gGJldCoNxJ0+Cq3MvxhIcXg
- z3fL6NKZRifcWjcJaRTBRAoosDtm2Bz4n0lHV0v0FpfUHGhuS5vMDOQqw8ISYRqjk4I5i8/uO
- r2HDtGGKPKB1Fnmefcu6G3+JZv
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=arwed.meyer@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.319,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,199 +82,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Thu, Sep 29 2022, Gavin Shan <gshan@redhat.com> wrote:
 
-thanks for the reminder and ack. I opened this issue:
-https://gitlab.com/qemu-project/qemu/-/issues/1234
-(wow, it's really 1234)
+> Hi Eric,
+>
+> On 9/28/22 10:22 PM, Eric Auger wrote:
+>> On 9/22/22 01:13, Gavin Shan wrote:
+>>> After the improvement to high memory region address assignment is
+>>> applied, the memory layout is changed. For example, VIRT_HIGH_PCIE_MMIO
+>> s/the memory layout is changed./the memory layout is changed,
+>> introducing possible migration breakage.
+>
+> Ok, much clearer.
+>
+>>> memory region is enabled when the improvement is applied, but it's
+>>> disabled if the improvement isn't applied.
+>>>
+>>>      pa_bits              = 40;
+>>>      vms->highmem_redists = false;
+>>>      vms->highmem_ecam    = false;
+>>>      vms->highmem_mmio    = true;
+>>>
+>>>      # qemu-system-aarch64 -accel kvm -cpu host \
+>>>        -machine virt-7.2 -m 4G,maxmem=511G      \
+>>>        -monitor stdio
+>>>
+>>> In order to keep backwords compatibility, we need to disable the
+>>> optimization on machines, which is virt-7.1 or ealier than it. It
+>>> means the optimization is enabled by default from virt-7.2. Besides,
+>>> 'highmem-compact' property is added so that the optimization can be
+>> I would rather rename the property into compact-highmem even if the vms
+>> field is name highmem_compact to align with other highmem fields
+>
+> Ok, but I would love to know why. Note that we already have
+> 'highmem=on|off'. 'highmem_compact=on|off' seems consistent
+> to me.
 
+FWIW, I initially misread 'highmem_compact' as 'highmem_compat' (and had
+to re-read because I got confused). At least to me, 'compact_highmem'
+has less chance of being parsed incorrectly :) (although that is
+probably a personal thing.)
 
-Best regards,
+>
+>>> explicitly enabled or disabled on all machine types by users.
+>>>
+>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>> ---
+>>>   docs/system/arm/virt.rst |  4 ++++
+>>>   hw/arm/virt.c            | 33 +++++++++++++++++++++++++++++++++
+>>>   include/hw/arm/virt.h    |  2 ++
+>>>   3 files changed, 39 insertions(+)
+>>>
+>>> diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+>>> index 20442ea2c1..f05ec2253b 100644
+>>> --- a/docs/system/arm/virt.rst
+>>> +++ b/docs/system/arm/virt.rst
+>>> @@ -94,6 +94,10 @@ highmem
+>>>     address space above 32 bits. The default is ``on`` for machine types
+>>>     later than ``virt-2.12``.
+>>>   
+>>> +highmem-compact
+>>> +  Set ``on``/``off`` to enable/disable compact space for high memory regions.
+>>> +  The default is ``on`` for machine types later than ``virt-7.2``
+>> I think you should document what is compact layout versus legacy one,
+>> both in the commit msg and maybe as a comment in a code along with the
+>> comment in hw/arm/virt.c starting with 'Highmem IO Regions: '
+>
+> Ok, I will add this into the commit log in v4. I don't think it's necessary
+> to add duplicate comment in the code. People can check the commit log for
+> details if needed.
 
-Arwed
-
-Am 27.09.22 um 11:21 schrieb Marc-Andr=C3=A9 Lureau:
-> Hi
->
-> On Sun, Sep 11, 2022 at 10:39 PM Arwed Meyer <arwed.meyer@gmx.de
-> <mailto:arwed.meyer@gmx.de>> wrote:
->
->     Detect mouse reset via RTS or DTR line:
->     Don't send or process anything while in reset.
->     When coming out of reset, send ID sequence first thing.
->     This allows msmouse to be detected by common mouse drivers.
->
->     Resolves: https://gitlab.com/qemu-project/qemu/-/issues/77
->     <https://gitlab.com/qemu-project/qemu/-/issues/77>
->     Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de
->     <mailto:arwed.meyer@gmx.de>>
->
->
-> lgtm,
-> Acked-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com
-> <mailto:marcandre.lureau@redhat.com>>
->
-> It would be great to open an issue on gitlab wrt migration handling that
-> Peter pointed out in v2
-> (https://patchew.org/QEMU/20220908173120.16779-1-arwed.meyer@gmx.de/2022=
-0908173120.16779-2-arwed.meyer@gmx.de/
-> <https://patchew.org/QEMU/20220908173120.16779-1-arwed.meyer@gmx.de/2022=
-0908173120.16779-2-arwed.meyer@gmx.de/>)
-> and perhaps a comment with this patch that links to the issue?
->
->
->     ---
->      =C2=A0chardev/msmouse.c | 63 ++++++++++++++++++++++++++++++++++++++=
-+++++++--
->      =C2=A01 file changed, 61 insertions(+), 2 deletions(-)
->
->     diff --git a/chardev/msmouse.c b/chardev/msmouse.c
->     index eb9231dcdb..95fa488339 100644
->     --- a/chardev/msmouse.c
->     +++ b/chardev/msmouse.c
->     @@ -25,17 +25,20 @@
->      =C2=A0#include "qemu/osdep.h"
->      =C2=A0#include "qemu/module.h"
->      =C2=A0#include "chardev/char.h"
->     +#include "chardev/char-serial.h"
->      =C2=A0#include "ui/console.h"
->      =C2=A0#include "ui/input.h"
->      =C2=A0#include "qom/object.h"
->
->     -#define MSMOUSE_LO6(n) ((n) & 0x3f)
->     -#define MSMOUSE_HI2(n) (((n) & 0xc0) >> 6)
->     +#define MSMOUSE_LO6(n)=C2=A0 ((n) & 0x3f)
->     +#define MSMOUSE_HI2(n)=C2=A0 (((n) & 0xc0) >> 6)
->     +#define MSMOUSE_PWR(cm) (cm & (CHR_TIOCM_RTS | CHR_TIOCM_DTR))
->
->      =C2=A0struct MouseChardev {
->      =C2=A0 =C2=A0 =C2=A0Chardev parent;
->
->      =C2=A0 =C2=A0 =C2=A0QemuInputHandlerState *hs;
->     +=C2=A0 =C2=A0 int tiocm;
->      =C2=A0 =C2=A0 =C2=A0int axis[INPUT_AXIS__MAX];
->      =C2=A0 =C2=A0 =C2=A0bool btns[INPUT_BUTTON__MAX];
->      =C2=A0 =C2=A0 =C2=A0bool btnc[INPUT_BUTTON__MAX];
->     @@ -109,6 +112,11 @@ static void msmouse_input_event(DeviceState
->     *dev, QemuConsole *src,
->      =C2=A0 =C2=A0 =C2=A0InputMoveEvent *move;
->      =C2=A0 =C2=A0 =C2=A0InputBtnEvent *btn;
->
->     +=C2=A0 =C2=A0 /* Ignore events if serial mouse powered down. */
->     +=C2=A0 =C2=A0 if (!MSMOUSE_PWR(mouse->tiocm)) {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;
->     +=C2=A0 =C2=A0 }
->     +
->      =C2=A0 =C2=A0 =C2=A0switch (evt->type) {
->      =C2=A0 =C2=A0 =C2=A0case INPUT_EVENT_KIND_REL:
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0move =3D evt->u.rel.data;
->     @@ -132,6 +140,11 @@ static void msmouse_input_sync(DeviceState *dev=
-)
->      =C2=A0 =C2=A0 =C2=A0MouseChardev *mouse =3D MOUSE_CHARDEV(dev);
->      =C2=A0 =C2=A0 =C2=A0Chardev *chr =3D CHARDEV(dev);
->
->     +=C2=A0 =C2=A0 /* Ignore events if serial mouse powered down. */
->     +=C2=A0 =C2=A0 if (!MSMOUSE_PWR(mouse->tiocm)) {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;
->     +=C2=A0 =C2=A0 }
->     +
->      =C2=A0 =C2=A0 =C2=A0msmouse_queue_event(mouse);
->      =C2=A0 =C2=A0 =C2=A0msmouse_chr_accept_input(chr);
->      =C2=A0}
->     @@ -142,6 +155,50 @@ static int msmouse_chr_write(struct Chardev *s,
->     const uint8_t *buf, int len)
->      =C2=A0 =C2=A0 =C2=A0return len;
->      =C2=A0}
->
->     +static int msmouse_ioctl(Chardev *chr, int cmd, void *arg)
->     +{
->     +=C2=A0 =C2=A0 MouseChardev *mouse =3D MOUSE_CHARDEV(chr);
->     +=C2=A0 =C2=A0 int c;
->     +=C2=A0 =C2=A0 int *targ =3D (int *)arg;
->     +
->     +=C2=A0 =C2=A0 switch (cmd) {
->     +=C2=A0 =C2=A0 case CHR_IOCTL_SERIAL_SET_TIOCM:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 c =3D mouse->tiocm;
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 mouse->tiocm =3D *(int *)arg;
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (MSMOUSE_PWR(mouse->tiocm)) {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!MSMOUSE_PWR(c)) {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Pow=
-er on after reset: send "M3"
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* cau=
-se we behave like a 3 button logitech
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* mou=
-se.
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mouse->outb=
-uf[0] =3D 'M';
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mouse->outb=
-uf[1] =3D '3';
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mouse->outl=
-en =3D 2;
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Start se=
-nding data to serial. */
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msmouse_chr=
-_accept_input(chr);
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Reset mouse buffers on power do=
-wn.
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Mouse won't send anything witho=
-ut power.
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 mouse->outlen =3D 0;
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(mouse->axis, 0, sizeof(mouse->ax=
-is));
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(mouse->btns, false, sizeof(mouse=
-->btns));
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(mouse->btnc, false, sizeof(mouse=
-->btns));
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;
->     +=C2=A0 =C2=A0 case CHR_IOCTL_SERIAL_GET_TIOCM:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Remember line control status. */
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *targ =3D mouse->tiocm;
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;
->     +=C2=A0 =C2=A0 default:
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -ENOTSUP;
->     +=C2=A0 =C2=A0 }
->     +=C2=A0 =C2=A0 return 0;
->     +}
->     +
->      =C2=A0static void char_msmouse_finalize(Object *obj)
->      =C2=A0{
->      =C2=A0 =C2=A0 =C2=A0MouseChardev *mouse =3D MOUSE_CHARDEV(obj);
->     @@ -166,6 +223,7 @@ static void msmouse_chr_open(Chardev *chr,
->      =C2=A0 =C2=A0 =C2=A0*be_opened =3D false;
->      =C2=A0 =C2=A0 =C2=A0mouse->hs =3D qemu_input_handler_register((Devi=
-ceState *)mouse,
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0&msmouse_handler);
->     +=C2=A0 =C2=A0 mouse->tiocm =3D 0;
->      =C2=A0}
->
->      =C2=A0static void char_msmouse_class_init(ObjectClass *oc, void *da=
-ta)
->     @@ -175,6 +233,7 @@ static void char_msmouse_class_init(ObjectClass
->     *oc, void *data)
->      =C2=A0 =C2=A0 =C2=A0cc->open =3D msmouse_chr_open;
->      =C2=A0 =C2=A0 =C2=A0cc->chr_write =3D msmouse_chr_write;
->      =C2=A0 =C2=A0 =C2=A0cc->chr_accept_input =3D msmouse_chr_accept_inp=
-ut;
->     +=C2=A0 =C2=A0 cc->chr_ioctl =3D msmouse_ioctl;
->      =C2=A0}
->
->      =C2=A0static const TypeInfo char_msmouse_type_info =3D {
->     --
->     2.34.1
->
->
->
->
-> --
-> Marc-Andr=C3=A9 Lureau
+Rather explain it in this file here, maybe? I'd prefer to be able to
+find out what 'compact' means without digging through the commit log.
 
 
