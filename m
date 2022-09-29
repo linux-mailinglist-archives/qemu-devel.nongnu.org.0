@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7145EF5BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 14:52:47 +0200 (CEST)
-Received: from localhost ([::1]:43298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA5F5EF5DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 14:58:27 +0200 (CEST)
+Received: from localhost ([::1]:41300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odt1w-00007s-1a
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 08:52:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60232)
+	id 1odt7S-0006xB-Q7
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 08:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odrw5-0004NZ-Vp
+ id 1odrw6-0004Na-2D
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:39 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46753)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odrw3-0001C1-Cn
+ id 1odrw3-0001CC-DZ
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:37 -0400
-Received: by mail-wr1-x432.google.com with SMTP id bk15so1727074wrb.13
+Received: by mail-wm1-x332.google.com with SMTP id
+ c192-20020a1c35c9000000b003b51339d350so3048814wma.3
  for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:42:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=uPGGdG5dRWC86HcWiL9VqOOjNj0Gz/5VllmDKDHfDFo=;
- b=dr0L9tWxdO+/MeFfIi3Ge1RmGcpH1L2RQXaAh6yhbKlIftd50pooDkTJvfrIFDbG38
- KHA1idTzBQTLpf1sCJFUh/uYFjZqrcAWwbUmu2EEo890UQk/oXUXmPBwbROou14J9QB2
- gNzQzuolicMeSsIJ7lrhKq7++KCjxNC3+Q6GbzAIN2qkcSPsVgRNwkXVh1m9RDVRzzgz
- YbcqrAEKdeXufy1MesgjeHynNDMdWXJOwk9KZra910+KIeQ7DLNeHRP/R1LzC4sG/1Cm
- 8CSliT6ErcUqGz1RBC5esBvc4S6yfnF/mlz32dqXAbLJDZ4gepT+iwWL2cPnj/wIJrQd
- 7GGw==
+ bh=wHR3jK6kXQ31QwdzvCyerN1s1Kpqv3ZTDSaBoALKKnM=;
+ b=j7aV+1R7+2myKSxXMopBfSeXoWJhGN5fjOD8dcJXJp1jikX7pXL1HY6J/K+nUVtDJ5
+ BWXQ/t0pkjlLcRIkkTugZ71Ir4eVbeG3dPQTVT3wWYyqNyw3VWR4EyF0Kh4IZNFmXcXV
+ YCaQ/Cm6TVu9r82FTtSOqPvW/WFVSnHy2HKfxKtbETucl5Uls1Sf7OwafTlljbxx0wY7
+ fm9HKjKdEaCt1jd3twReEmf0VOUnjixM5Nw0CTFWj1Q2k6Zy0vOENdXtxo8mUrCgSxjI
+ 4g9u4hII4W8gO4Q4AtqO2lKZECHwiwTwlwGiKGhfibCNs712ybdWrcaKYC+pbCojlW7Z
+ a/Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=uPGGdG5dRWC86HcWiL9VqOOjNj0Gz/5VllmDKDHfDFo=;
- b=n+IbJsxrstAPG5j4TTXDAJuRJJwuFXSK2XgaR3ninoUPagOrm8fpjnGIcLmNTPfP+e
- wxeNLl/OdWEW/YhCJg5sq7LQZDF6at4XWBMF+ZIx+I3I5OiwCIsidHt7e+stzkqLx4At
- fibACoMCFxS3gIOMpRG7Jajjk27y7ATATF9ILUdnCU/TqY6XjimZZbNTcbrIuGfJ8Oj7
- Y/aEfbn1UYYjIij7FTS4k9U1GP6HRLPYe0+BDvztqzG41F/UeEB7WpiP4+NI5BcMu6q6
- WtgNUY3JWYU6miugVfCri4Swr9eNlizOfUpBfj0F6MAr2RWRbQ9RFAbU41DjutvA5B9q
- WZfg==
-X-Gm-Message-State: ACrzQf2LFDktJsbO0cmV+AgsnVLzCMCdhXDIIE7Vs9fOX7A2OpjjZMIi
- jyxFSvsXsWaWlRX3zvCwtzzhvA==
-X-Google-Smtp-Source: AMsMyM5CVUXrfeVe69pEmcZ/d5RFtWHoV40meE94daijz92IqyKxi2Uv3/LLWUh/bPQw871rIgk2lA==
-X-Received: by 2002:adf:e2c1:0:b0:22c:c2c0:4fa7 with SMTP id
- d1-20020adfe2c1000000b0022cc2c04fa7mr1997936wrj.382.1664451753098; 
+ bh=wHR3jK6kXQ31QwdzvCyerN1s1Kpqv3ZTDSaBoALKKnM=;
+ b=S1LC5+ZZWFW/siyRtQqqdk3Xaj5YYv8zs90Z9qE7rUY4OASOdKiyLW6F3or71xTDwn
+ SPeVj35dLIf63glQRh7flIzduTI3zEnzS1LCAFOjc+JVTpJ+DPS+jFcfadsisXX1j5ZP
+ 3O6vf7N86RcmyHibhTf8GmRfALtqXlhaAzI4T0u+b/HfNF7KoRLIPr3GyFZqB0teHlyb
+ YH1ecKtZEY+77tH+1H2lxyS7MGW7eBLNz9re/KCwuxLI5A6tbFrmLMs/iuEQad88Ae62
+ O/CFZASKZkwtS78Yg0FXpynAVOmQDVglMdSgRkZFl/aQL4LiRtLQ5IDcuWfb1go7BGzP
+ Q02w==
+X-Gm-Message-State: ACrzQf1qBeeKZVIc+KS7qs9P8JXnHPKq02SqCcb6SIvRDBS5ufQF2L54
+ I2A7DgoBIoxdF/JXZuBGdK3RLA==
+X-Google-Smtp-Source: AMsMyM4kV9VUFDxMM2RNN2WrmvpNBjDb814e7HRKVctc7ThXwK/Q8bIoiK8CtrVtcPXw/m3dECtgvg==
+X-Received: by 2002:a7b:c4c2:0:b0:3b4:fdc4:6df9 with SMTP id
+ g2-20020a7bc4c2000000b003b4fdc46df9mr1939967wmk.123.1664451753532; 
  Thu, 29 Sep 2022 04:42:33 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- k15-20020adfd22f000000b0021badf3cb26sm6897349wrh.63.2022.09.29.04.42.31
+ k1-20020a056000004100b00228dbf15072sm1917941wrx.62.2022.09.29.04.42.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 29 Sep 2022 04:42:32 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 531DA1FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id 6A2B51FFBA;
  Thu, 29 Sep 2022 12:42:31 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -69,18 +70,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v1 01/51] scripts/ci/setup: ninja missing from
- build-environment
-Date: Thu, 29 Sep 2022 12:41:41 +0100
-Message-Id: <20220929114231.583801-2-alex.bennee@linaro.org>
+Subject: [PATCH  v1 02/51] scripts/ci/setup: Fix libxen requirements
+Date: Thu, 29 Sep 2022 12:41:42 +0100
+Message-Id: <20220929114231.583801-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -105,29 +105,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-ninja-build is missing from the RHEL environment, so a system prepared
-with that script would still fail to compile QEMU.
-Tested on a Fedora 36
+XEN hypervisor is only available in ARM and x86, but the yaml only
+checked if the architecture is different from s390x, changed it to
+a more accurate test.
+Tested this change on a Ubuntu 20.04 ppc64le.
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-Message-Id: <20220922135516.33627-2-lucas.araujo@eldorado.org.br>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220922135516.33627-3-lucas.araujo@eldorado.org.br>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- scripts/ci/setup/build-environment.yml | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/ci/setup/build-environment.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
-index 232525b91d..b5acaf9118 100644
+index b5acaf9118..49292715d3 100644
 --- a/scripts/ci/setup/build-environment.yml
 +++ b/scripts/ci/setup/build-environment.yml
-@@ -153,6 +153,7 @@
-           - make
-           - mesa-libEGL-devel
-           - nettle-devel
-+          - ninja-build
-           - nmap-ncat
-           - perl-Test-Harness
-           - pixman-devel
+@@ -97,7 +97,7 @@
+         state: present
+       when:
+         - ansible_facts['distribution'] == 'Ubuntu'
+-        - ansible_facts['architecture'] != 's390x'
++        - ansible_facts['architecture'] == 'aarch64' or ansible_facts['architecture'] == 'x86_64'
+ 
+     - name: Install basic packages to build QEMU on Ubuntu 20.04
+       package:
 -- 
 2.34.1
 
