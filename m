@@ -2,132 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB53C5EFB22
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 18:44:24 +0200 (CEST)
-Received: from localhost ([::1]:58768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F235EF9E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 18:12:40 +0200 (CEST)
+Received: from localhost ([::1]:40198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odwe6-0002Bt-Rr
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 12:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49718)
+	id 1odw9M-0000yy-Js
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 12:12:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1oduGh-0008KQ-VV
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 10:12:04 -0400
-Received: from mail-eopbgr80095.outbound.protection.outlook.com
- ([40.107.8.95]:46720 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1odubt-0003Tx-23
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 10:33:57 -0400
+Received: from mail-eopbgr50132.outbound.protection.outlook.com
+ ([40.107.5.132]:23475 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1oduGe-0002T0-KN
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 10:12:03 -0400
+ id 1odubm-00065c-NV
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 10:33:55 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AaoYfgJqbzYLpIeAUjw7O+4a6m9I1mPrDvrqEU+UjmZ0Wbpo7q6PXEhU2xmrsDeY1uiUUBwVzEDg5JbS/IE3d2TMOwI5PjbPmPNgRWGZB+Tn1dRoMnyLkfIFUo7nrO3dcshjYp4w8D5rc3J0bR7LxuFTDTIglCL4QxMPQcAmIHaUJE7EB7n10+UqJzGlp9PSdcY2kNQ8f7mEYiGLeshdjMB5R+7+AwJtorTWRFvEf6NowPwzonBIaVMYYbspTSFRx53Koi8AM1+EvPe/QLM0BMLhVlxjlC7JzsenLY2qznLfuU18ejwNcRwXRt3VjIC3TLbFxe7FEx/QUoWHPKd6Fw==
+ b=iVvUHzfkLEaqJbxVxLxFUTlz2DPHL8ialQJ0UDpgKx5eMfr8TREQuKIJzuy/IFMKTfISNPgduYcyyWzUjx2P0Kx1k86IGhy5P6G2SMfionxGu1pJJuPkdwy9xNrmR1JMKbKoQTUtnnBsKd2XkW5oBhRO6Ajj/gBGMoKBVPv7AJPj6a8CVjZJS2nb82zZ83oADf/5C0ddJ/v+H9rElgk4f6cPy/7UQYvH+/jTP3ZlurzkrpA+Q0B0FqwX2A13V9335dX/36dBBZCX3DAIeEtYUJj9MrsFhY6nARe04VeM7HSDT7bFSaIcOYAeIqCTWjeVsYu+XO/MSFbPJqGm75RAug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jj91h9RzZ++gt0zGw09Gu0A6ipTr/6RMI6PUmVTK8Dk=;
- b=cQpn930GgPOkLHMNGXKcgFpynfsP1TxhFzENtXh5SjGPa2oaesABevhU0mW0+bzsETaqPrQ3y9ZP56C9IUzB6biwKrUujiffD0p1zVBWqNo4ViCoQbbRe75XnxfXCRI+PQy9oKFkQHFPFdB/syhqNpY69AJlE2BuHNVF+fRHOE/dv2wShJ5MRAy1vdFZeIAYZquYPN7B2A9vyFNwQARWDHLfarGIVPl6IS+kwNc23L6DwAFKvlJoYcqlb9pFoEu5U3LFP/Nd4cX+USOInHQllqWsLlzB3A6TjDFZzcjV7lY04RfCAPk6vGzq92YlNHe7X5DZnlogD9B03qJ0VCD6Gg==
+ bh=Yn6PPIBVKpK4SxMzfcG9ehJl3Ka1jT8KpvuLljfsKYA=;
+ b=ZghE292HFzhJsY2vLI7qKrysBjrcu72jfbWvKQcFEW0rw8v/EcYHAaCMK5hd/Pc9B+8y/JZAfArGXNxSC6Z4eyWbOfXWVNrG4Ys6wWm/kzzDWWXxLqHYc/tQeTT2GOSAIK/xQIaGS280DptDZCETnYk0XY5gbt9U58X9ctPN6dHqVn3q0TxajHDvZichJwI63nAZ6BvZw5n40tC34PF4tMHcPyOjtoOUNmNK4NrYf3Km7LQ4JB6YGznQUxVbqETMXqm85jITTlMvUwg/mTL2YvxZM5aabj5PyjL/nkWALXR/hKyrnp3aJoSGm+dJns92yv+mY2lZvHU60NDoAUllsA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jj91h9RzZ++gt0zGw09Gu0A6ipTr/6RMI6PUmVTK8Dk=;
- b=b3nkXHX0LFX5hjyTXNYzlqWljRNR3HFlcnxECiGbxNYeeMI3dhrOutZcojP68oUHUFPaYfn9WTA6/g0pRTRtNhrm+/QHJooGt2dysyv38W1j/XTJsfgJuhTqtw0NYBCrMIuUbC2CYkjGI13c2ch21ngAoAgFDMYuShDjB6fCQafkPWpHVHN7za36pV+IC+K9y6nXRNk3VQgiSeiOnVfT1Vaecnsdjcz0ZK14adKR3qw2ARLcT7kHJk08C8sfXI/rLcuIstq6joselKA18qnJuZFx1LK1NgaayS7f0WVBGpcqYoM0MdVYjW4ODFMLKKpOaJ80eFXsm+s5L+aIDw09hQ==
+ bh=Yn6PPIBVKpK4SxMzfcG9ehJl3Ka1jT8KpvuLljfsKYA=;
+ b=dwWQN2H03Ktt64OvNKXE4rX+iJf75usFy5EKEmRhAiRnCJ2YH1NYkz1l7aRo96afiNPH/F4y9Ur3lWHuWmEBANHZLSTYkdjr4miOQH6/2UdXEgOleYijQcEpUonRA+F/tNxnuPaTvXtL6y1mOHy0LA8SMJaPxSFhpZKQZUh2MDkelVMvFhVd5rksXq8C4KEOZBTkU/slLskkdUhQSp5HYkAaksWMPgahjfA7oF7N70x17GfyNR4SABXeghXAtWc2AjB2S4OVSqvurd//Izb4DexKwbUDxI8YcRlm+hcxxhxWe1k9CJ6GPpRrl/am5uqRP7/q1zdMZ8+FUSKm8lS4Ww==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
- by PAWPR08MB9518.eurprd08.prod.outlook.com (2603:10a6:102:2ed::19)
+ by DU0PR08MB9370.eurprd08.prod.outlook.com (2603:10a6:10:420::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.15; Thu, 29 Sep
- 2022 14:11:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.17; Thu, 29 Sep
+ 2022 14:33:46 +0000
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b]) by AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b%8]) with mapi id 15.20.5676.020; Thu, 29 Sep 2022
- 14:11:55 +0000
-Message-ID: <045fe8ca-cc7b-7b9e-894e-5a4022c44e62@virtuozzo.com>
-Date: Thu, 29 Sep 2022 16:11:51 +0200
+ 14:33:45 +0000
+Message-ID: <fd817f02-aa48-3c95-6ef0-6aa6fa7d96ae@virtuozzo.com>
+Date: Thu, 29 Sep 2022 16:33:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 1/7] qga: Add initial FreeBSD support
+Subject: Re: [PATCH 6/7] qga: Move HW address getting to a separate function
 Content-Language: en-US
 To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
 Cc: qemu-devel@nongnu.org, den@virtuozzo.com, michael.roth@amd.com,
  kkostiuk@redhat.com
 References: <20220929075239.1675374-1-alexander.ivanov@virtuozzo.com>
- <20220929075239.1675374-2-alexander.ivanov@virtuozzo.com>
- <CAJ+F1CK7ksUETpJteO1Uw_uS4VwiH5A9FRNKytvRmMFi0eyPOg@mail.gmail.com>
+ <20220929075239.1675374-7-alexander.ivanov@virtuozzo.com>
+ <CAJ+F1CL1N5uZDHEN-vycDzDMKm=WkB29qfXbigeL5ZLM=71D=A@mail.gmail.com>
 From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-In-Reply-To: <CAJ+F1CK7ksUETpJteO1Uw_uS4VwiH5A9FRNKytvRmMFi0eyPOg@mail.gmail.com>
+In-Reply-To: <CAJ+F1CL1N5uZDHEN-vycDzDMKm=WkB29qfXbigeL5ZLM=71D=A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6PR0502CA0043.eurprd05.prod.outlook.com
- (2603:10a6:20b:56::20) To AS8PR08MB7095.eurprd08.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0117.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a3::8) To AS8PR08MB7095.eurprd08.prod.outlook.com
  (2603:10a6:20b:402::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|PAWPR08MB9518:EE_
-X-MS-Office365-Filtering-Correlation-Id: a5e92a9a-fdd8-466d-8855-08daa2249057
+X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|DU0PR08MB9370:EE_
+X-MS-Office365-Filtering-Correlation-Id: 09736cda-6d2f-4207-12b8-08daa2279da0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FAzjQ+4f5dAk/eZ1gwR8aEHVHpSb43GjVE5K83N4lnSFEkQ5mgfkp2ajpqqWae0I1V0114kdlAtYKQOuub1RilCNCGUH3B17Zp+MCiF9t7H1Y8Tm7+BWQdiftZpogo8x8rXQZHh3u65iE98WKTSMFQbH7cDdPDggE7EnvJg61C0ZPjdxPaE4xbrQCIA1+nm0JWzyUE0c4VtM2EU3vtFdYvM25ujIGXNsOt5BKRDFrTn8S2QrQKK0iTTOyTQkklnM2XTIcTcj6O45zFU1gKAlo6H3IA7mb8KL8CV+Wx3zIWswpd6KWsn/KfIesTjMIcXUuBOyQEgr0VxNFojOOCo/OHr9V28Vlq/uUysHlB91z+G9RmgO5bff+wrFdTOgvRkk43ud1AZ1r2mXFxER7cqqfxmj/6oXib6xRsr4xUFmHGiKHYwhk64LRT+W2KrAzVjG8VEsja+uxLgLi+bV8GfhV1aYjtyU4vdNMTkgI/39MuLX6f3HfEuV68sfFtIw3MRsX5L4CD+fN12H9Q50I5e0LjPq0VqeouJj50a6/a9jSSVTylynTLqjKefIQEBjA2oWHJ15VjBMMkziWPRiy0EUhPlZEN4SGSyJmCwxQq+QUgsHPv1zLafz8DOY9c2bE7bTkPpXEHd0v5nnLIR+wNRDB7U6ELcohYuNJl27N5D/PjRYMnjmQ2QUtklMkdE5BF4DJDLTs4EGz4EqI153YVvd6Lk+w/Z89Jda3yDRULl1ypMX78EERwmte94fqXu0fw37zQ6rvkE8RPzsxbopp4JuCj12mNSCZbfkwjodop8QeXvMVucTA2apzmOb2S8Pjp7bVbECoBX0jpcGqfc/shVtLg==
+X-Microsoft-Antispam-Message-Info: 5ap5Guzxqx/+ccOGjS7JC/w4g8JLKKbQuEdaVgbbkeOSIfaEnY667dFhBwGbpWEX/SMsWU0FGCDBrWkOi2cBriN3UMmpDEEuayJLVlMg+nIEjb/AfvoL+Up9XQPacnJAnZT+sacOT8ztxsgDCvDQpv5AGnhm5IXRdJYGItRXKI8Px4UsTxV9MaIEQ9GI+elsQhknsT8GVHl634dO6Qgqenkj0wf3m87db+ZlJDQYGH8O1Iz72MuyJkzjqwbQ4jd9mXl1cs4nSZRpRVb3DLldTEq153CO2a38QMQvlSmr9JwaOEF00WNBTA6UAwx3648IuXo2jLXmzS3R/UOvC7fKZk7NGXGD2WOsZQwA7A2O8fYsF5Vagz4BYil+SwLjvBky+uMfGuK6cHmrAjGQcbYfMFfr0CtWamR1FB/WoNfXSXE5dgT5L0YfZs1xCpvXuA0hTgE2CPm0fhnlJciDEbjhdFyUdIRiBpYjvEBvbC+f8bSm5qzxubtPPLVopiBjLwoMjckpoX+1tsMkIZR+w8plTPbg8QYvzKHtoW+NotivAvG7vDixtaXyH8T+vvqnPGWtcU1aCjSps1vMM7OEB9Rh2IxnAvNHO5pOK7jxDVWIDWeYDFqfcCXcSZRiJy7Kmb7ysMy1xKWKne+UY9DNCYoGVm7syVJkwVxzJnrhJBWu+WCuUmt6HBXkTQfcNEpdyJFqL6FoS1ko586qRIv9DFuDIXGY65miG8N5ulUKq/A3DC1fJHd2gQnXbN7ir4StUP/wbuiFRsIXn5xZ7u6x5ptRcT+q69iUc1fGS3S/pY4KA8mpWbmdwkrXaBlDGlCilmPkjTUerYgNPO3Rsx4JPVNb7Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(346002)(376002)(396003)(136003)(39850400004)(451199015)(26005)(31686004)(6512007)(2616005)(186003)(44832011)(2906002)(5660300002)(6506007)(8936002)(53546011)(52116002)(83380400001)(66946007)(8676002)(6666004)(36756003)(41300700001)(4326008)(66476007)(66556008)(478600001)(38350700002)(316002)(31696002)(86362001)(6916009)(38100700002)(6486002)(43740500002)(45980500001);
+ SFS:(13230022)(4636009)(376002)(136003)(366004)(396003)(39850400004)(346002)(451199015)(6916009)(316002)(5660300002)(8936002)(2906002)(36756003)(66556008)(31696002)(66946007)(44832011)(66476007)(41300700001)(8676002)(4326008)(2616005)(26005)(38350700002)(186003)(6506007)(478600001)(53546011)(52116002)(6486002)(6512007)(83380400001)(86362001)(38100700002)(31686004)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SHo3M3JjeXB3VlZXdUJjZzBWVlR2WnVlQlZOQVd1K3BZeU9KVEVydzBDTS9U?=
- =?utf-8?B?RUJEODFNOWZuQzV3Q05aaUFYTThKM080RDdJbzVXbXdiL3lqOTVVc3NDQnd4?=
- =?utf-8?B?Z3pUeFAvRTk2NkkwTlhscWxPK2FJUXE2M0VCNEdUVzlmTUt1VEVhYmpJTlpx?=
- =?utf-8?B?S0VVQkt0c0YzL2h6RkR3cXE0VGdDZ281RjZhaGlWeGNWanI2NnBlaXBCaTl5?=
- =?utf-8?B?eWhZM01QQXBuRk10UnhienlkRFg3WGRaeXlUMVNGWmk0cXU5TG42blBRc1N0?=
- =?utf-8?B?SVF6YXptNzVBNXF2ak9IS2MyWEtYSmFLRVlNakg2aGtVTHFZN2hVamtIeERn?=
- =?utf-8?B?MzFHTXNhM1NxNE9lMy8xYlVWelhVNEs3OHpDbURNTFRTa1JMaGdzaXBUODVr?=
- =?utf-8?B?NXJERWtSd21ocmphVktHQURyUWpLemZPbjdrQWszeU8ybWR1Q2JnS0lPMVNk?=
- =?utf-8?B?V3RlWFFRNXZOMy80bkpZQndsa1VPTFR4L0N3VlFSWlJVTUFzSlEwN0l5OHJl?=
- =?utf-8?B?K0thNkpZOURuNUJFUmJqWldSTnpwZjFxUSs3RlJEZ2svbnBOT2FUYnF5eHN3?=
- =?utf-8?B?TncrTWIwVzBZbmVMREYwQlVHWWdROXRFQjNZMnVrbFFPTks5WURaZ3hzQzl3?=
- =?utf-8?B?alh3SHNQQjJmVjQ4WHoybzR2NkR5SVpwNkxaaXhyc3h1S29jRmNkYXZxSklx?=
- =?utf-8?B?M0ZiUWJYVFJ2M0JDc3RlNGowK0M1Z2R6dEMrbWFMcjlqRmxrRHV2eHE4RGxM?=
- =?utf-8?B?NW85dURPbU93VFc1M25tbzdKUlpsa0RORGFnTEIycmowWG4zNnhEVHJGeUVR?=
- =?utf-8?B?N3RVSUlVSjZqK0s3NGFlU20wWUJ3WC83ci9LczZLbVNrVmRzb29OekNCbVNn?=
- =?utf-8?B?Tms1ZnJ4d08zbVUwdWd1Ky9qcFVTRG84Z1kzRGljdzl2V3VaWUhZNlF0NFor?=
- =?utf-8?B?WDdGM1d0dUF5SjFlU0NBcXJudi85cEJIMjRLb3ViWVU5bW9HOUtKa0xFcHAw?=
- =?utf-8?B?N21oSFBMUkNVeUhsK0FMNWwvOWVpdnJVdEI0S3Z4d2tCNGNkUnFkc21pYmJG?=
- =?utf-8?B?WlRtMk4rbjdiRXVNV1BNRHhDRWE0TEVpZWpXQVNkVk1sN3VnTGFjMzVNN2VU?=
- =?utf-8?B?TUlBZS9lZ3dQZ0xyWGhkUW52Y2orUElobEdpc1VIb1VyOU53L1hLRGFUT1Fw?=
- =?utf-8?B?U01YRHAvRVdjMnIweEdSa3gwUVFEUDNFNW51U0tnLzBaSmpkTUN2TEhod0E0?=
- =?utf-8?B?SUFDZkJLRy93U2E3cHdGSThNdnd6Tk80dEh2dlFjL0E1SnlwZUhZSlN4TU01?=
- =?utf-8?B?eFl5TVN4QTUwRVNtd2tkOW9qa2FvZU1iaUVLTlI5c3p3MjR3MDNKZXFIRlNj?=
- =?utf-8?B?SGlWanByb21temV4emxKQ3JOZFE5T2pndnJlNmNiWTF0ck1DNDU2S0duMnBX?=
- =?utf-8?B?bk9rUXhuNlJDSndCOU83MXhpeTl4MTF6ekJYQ1Nxd1ZwWDBkbVphR3BYWnF3?=
- =?utf-8?B?MVNPQndYR0g3d3pJTFl2b0Voa1ZOTWtkaDZudXh5RmIzYncwaGZjeVBwdGVr?=
- =?utf-8?B?d2N4aE56eVlHd2tBTXpoQzhPZi8zSG1YZ2YzUnkzWHFUblRNTjRJclRnVUpI?=
- =?utf-8?B?bmRPSG1DbmNxUEhuajcyVGczSmpzRXJIVmZ6UHcvby9KMjlRZEUrenk3eGd1?=
- =?utf-8?B?clo3TStuWDVHVVNlOWRUNWFxakI2K0gxQ3dFMXloc2tqQ0JFcXU2WTJoY0Q2?=
- =?utf-8?B?U1RJY0h0OFBkVUJlNi9pZ1ZkanE2bmkxYkdnOXRtUFQ2UGowOWlZMUZWYmcy?=
- =?utf-8?B?MW5TbzN6NEpUMjVYOUJWNi95YW84RmJKQmZFRUdiTzMveGQrZTdmbU1tSnJi?=
- =?utf-8?B?MVVERmczUjQ4ZFBzcFlQUWJuTUh1Y3VvalgwR0JLbE9jSU5HM0hpVGJET2NC?=
- =?utf-8?B?NkRuNDFnNHJscVZwR0hwNVZPOSt6Vmg3cWVUTkFSWmtSakE3MkZNTmhZbElt?=
- =?utf-8?B?NjUwMThiejVuZFhUdmtIVzJrY2dIcDR3N1ZpbjVkNEVhanlTYnZuYnNaRXR1?=
- =?utf-8?B?VEQ1WE5QV2p5eFh4NVdtQyt6cUJmb0c5d1BVeGF6eXZWc0hSb0lXb2dJUnlT?=
- =?utf-8?B?Q1FWZnplVHBNQ3NDSzdpSUVOREFBajdoQkNQbURGaDFpaTlESlQvOVVJYndw?=
- =?utf-8?B?b2c9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVVyRUc1by9udy9RZDg3S1VRNDBHbHRhZFZrV08xRXRUQjErRHcwMVpWWW9T?=
+ =?utf-8?B?am9ZNFRETi9FWUJIMmxlTG9HYzZoMkdPaDByTzAyWndaVng4SUNTelZsZzRm?=
+ =?utf-8?B?RWxobDZVQVJacjBQUC9SS0ppMTBMTjJlYXJYaVVuUFhaa0dMNkRUR2Z3YjZn?=
+ =?utf-8?B?UXZXWklUelY0ajdEbTdJVHdZY211dWlReUJ2c3RaSmx2amg4NXpIYm8vcER5?=
+ =?utf-8?B?SW5wcWZMelUrYVVKOWN0bk9TTTAyak9CdmJ0bWJvZWxpdUxnTnNwc0FCMFBx?=
+ =?utf-8?B?MEdmODlPU0c2NGRYd1JpKzRXYm02Sk9maVJpTEwvdUVyKzljSmkzMWY5VFlP?=
+ =?utf-8?B?Nm9Cd3FHM2Fkd21mWm9iR3FEcE44L1VOVUl4cmtNV3h2WUEzYVNTYkdMS2Rl?=
+ =?utf-8?B?VTZqU29VTEkwNDVWR1FhWStOSGt0NFRUMHRzVnFVY3MxYlF2VU9BWW5xY3FY?=
+ =?utf-8?B?eFJ2bjRCc1VqbHFtZ0tjdk5ZV3ZuVitWbXEvL3crSUZwemdjUk1jYTY1RHMy?=
+ =?utf-8?B?SkpPOEppZnpsNWpLdkdzOE9aL0RWck1YMUJDRUZuYUY3SkpCNFh3U0l6a1Nq?=
+ =?utf-8?B?c2F2Y3lPYkw3aDBTK0U5RURCaWFSM3NZUWNnclBqWllYTW81VFJRL0VmdlFm?=
+ =?utf-8?B?WE5BdGlZYzNlcDlIbnRhdXR3RU0vUks3U0ZZMldvVmVIcmlMVU1Jam9nN2R4?=
+ =?utf-8?B?OGlrdjVGNE1DaHBhajg5dmdUakpqNzJsaDluSU1qVUlYVFAvdi9Pb204U1ZD?=
+ =?utf-8?B?cG8vbXBnalJmYWhDRUx4bnZobCtNaU5tTUpRc01ZRzA4N01CTktEVVpvdlB1?=
+ =?utf-8?B?dXZLeTBuNW1YRnZEUlV3RG5Oa2h4czhzQUM5RHZDL1psUEFCZGp0cmtvdHJ6?=
+ =?utf-8?B?OEhCRStKa0thbHEycVl0ZGFPdzhNS0JpL1NPZFg5d2xWZ1FpWXU0elBrdU5C?=
+ =?utf-8?B?OFpHdTR6S3F5VTZkQ24ycmczRzJrSkpoQnlVdVBzTFlKUXFNQmJqRitmQzJh?=
+ =?utf-8?B?S242Vm5XbXZ0K2ljOWpLNGJJSlNkWjlVYzhYcjRaSEMrS2xGQW13SEVOUzlM?=
+ =?utf-8?B?WGwzd2R2QWFTQVAyZ0lQcWNUMTIyQVB1eUlEZmV6Zjc1NEg2M3FqZ21lRDlF?=
+ =?utf-8?B?Zmg4SlYwUmdTamRwUWdtSXliSitoZU5VMG05M2xLR2RPc1N0NVFuclo1MWh0?=
+ =?utf-8?B?REh0UU1McndsWVJpa3ZNUzR1cENSY3c2V2pPSjNLdVRScmJJQk1adVVUNjU0?=
+ =?utf-8?B?MjZha0R1N2FVQmo5VzluU0Z0azg4cmY3ZEcwa0pSWU0wZkFadDFVVFZLWWNo?=
+ =?utf-8?B?Y2swaUhuQU4zWFByN1BHNGpLd0lncVVXTHNPVFg3cVZzTjd0dXJaOStaZFNw?=
+ =?utf-8?B?ellhWmViblBjb2dIR1pyS0lPTHdNSjR6V29tUUZjbUVtM3oraHVmQ2RnOEdF?=
+ =?utf-8?B?RXdTSmJzcWZMdUNoM1VPTUtVb3BoQjFFSEowbWk2M1dmaDBGQXF4alNjaGtN?=
+ =?utf-8?B?L1hrOTdJK3EvazRPUHJXK2l5Z2pvaE85elpZK24xRWhyMXAzS0J6Q0NITUlr?=
+ =?utf-8?B?dzVjVUFLSUdxc0orZ3J5NzVIUmhvT1ZCejFUUnUxOHg2VWdSMHJtc3RCbnV0?=
+ =?utf-8?B?Nk8yUEpKWGJNSE5lbm5PUEREKzVwSzZnTFpEcDRiYk1paklXcERvdkQ2UW0v?=
+ =?utf-8?B?akQyaGtzQ2I3bWtvaDdReUZwZDFxb0p2UUdOZjEvUk84VGw2akFiNDlmMjdo?=
+ =?utf-8?B?S2p6cGhmWkNocXQwcVNLMHNpOEZYWXowaFVhRkJvOEpPdUFGR2xVTGVDVU9q?=
+ =?utf-8?B?Ylg0UGwwd3BKVldFQkRJSS9lenI5TFdkOGhuSEU5S1B4Uy9XNmZlZnZuU1Zz?=
+ =?utf-8?B?Vmt2ZHhXbzdlYW1mZTdHMnpRUVlNdzBsQUgvR0FkdGkxL3JNdEZxYW1EUHhB?=
+ =?utf-8?B?Zkh2WDdyS0dHdDlGY1g5bzg0M2hiK0QvYVBRS05TTDF4ZTBoNmRxcGhOOXo2?=
+ =?utf-8?B?VjJIUTFVR09OZ3RtUnp5UUp4OUo4dndWMmFCNlJoZjkvelVhMGJnSXVvZStl?=
+ =?utf-8?B?WXdpVEM0eGw4d1RpT2R4RVc0UThGeW5Id1NVejhwUGJQWVFERENXQVNpbjFC?=
+ =?utf-8?B?OWcrdW9Gd1ZZcm1ydDVDMG1CVjcxV256dVJpbHpzcllSU3ZtclFEU2Rjdm01?=
+ =?utf-8?Q?m3BZDmSTn4dBlyI1knMqU0I=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5e92a9a-fdd8-466d-8855-08daa2249057
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09736cda-6d2f-4207-12b8-08daa2279da0
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 14:11:55.1930 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 14:33:45.9078 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QpgW21+g8Il37e51A2/taZDcwwGuHpxgzBuMb8X8Wsi0X+sx3bbeFTMGTfuqT5KjfCQk18ryZmu0rB0+/y/2FINmJWdR25HfgVcyLI8v4e8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB9518
-Received-SPF: pass client-ip=40.107.8.95;
+X-MS-Exchange-CrossTenant-UserPrincipalName: bSr1hUU6NouVD0Xn+/STN1crQWVwz+qRCe8R6FXjVzAgtgx3BPg3WVlGWWchT9NxVs1t5SCR7P4tZuKIcyIgxH8rAWC2DftxmRChiyY3m+w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9370
+Received-SPF: pass client-ip=40.107.5.132;
  envelope-from=alexander.ivanov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
+ helo=EUR03-VE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -61
 X-Spam_score: -6.2
 X-Spam_bar: ------
@@ -150,126 +150,284 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Marc-André,
 
-Thank you for the review.
-
-On 29.09.2022 13:29, Marc-André Lureau wrote:
+On 29.09.2022 13:28, Marc-André Lureau wrote:
+> Hi
 >
->
-> On Thu, Sep 29, 2022 at 11:56 AM Alexander Ivanov 
+> On Thu, Sep 29, 2022 at 12:02 PM Alexander Ivanov 
 > <alexander.ivanov@virtuozzo.com> wrote:
 >
->     - Fix device path.
->     - Fix virtio-serial channel initialization.
->     - Make the code buildable in FreeBSD.
+>     In the next patch FreeBSD support for guest-network-get-interfaces
+>     will be
+>     added. Previously move Linux-specific code of HW address getting to a
+>     separate functions and add a dumb function to commands-bsd.c.
 >
 >     Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 >     ---
->      meson.build          |  2 +-
->      qga/channel-posix.c  | 14 ++++++++++++++
->      qga/commands-posix.c |  8 ++++++++
->      qga/main.c           |  6 +++++-
->      4 files changed, 28 insertions(+), 2 deletions(-)
+>      qga/commands-bsd.c    |  18 +++++++
+>      qga/commands-common.h |   6 +++
+>      qga/commands-posix.c  | 114
+>     +++++++++++++++++++++++-------------------
+>      3 files changed, 87 insertions(+), 51 deletions(-)
 >
->     diff --git a/meson.build b/meson.build
->     index 8dc661363f..5c11abc8aa 100644
->     --- a/meson.build
->     +++ b/meson.build
->     @@ -75,7 +75,7 @@ have_tools = get_option('tools') \
->        .allowed()
->      have_ga = get_option('guest_agent') \
->        .disable_auto_if(not have_system and not have_tools) \
->     -  .require(targetos in ['sunos', 'linux', 'windows'],
->     +  .require(targetos in ['sunos', 'linux', 'windows', 'freebsd'],
->                 error_message: 'unsupported OS for QEMU guest agent') \
->        .allowed()
->      have_block = have_system or have_tools
->     diff --git a/qga/channel-posix.c b/qga/channel-posix.c
->     index 6796a02cff..0f14246563 100644
->     --- a/qga/channel-posix.c
->     +++ b/qga/channel-posix.c
->     @@ -149,6 +149,20 @@ static gboolean ga_channel_open(GAChannel *c,
->     const gchar *path,
->                  return false;
->              }
->      #endif
->     +#ifdef __FreeBSD__
->     +        struct termios tio;
->     +        if (tcgetattr(fd, &tio) < 0) {
->     +            error_setg_errno(errp, errno, "error getting channel
->     termios attrs");
->     +            close(fd);
->     +            return false;
->     +        }
->     +        tio.c_lflag &= ~ECHO;
->     +        if (tcsetattr(fd, TCSAFLUSH, &tio) < 0) {
->     +            error_setg_errno(errp, errno, "error setting channel
->     termios attrs");
->     +            close(fd);
->     +            return false;
->     +        }
->     +#endif /* __FreeBSD__ */
->
-It is for echo suppressing. In other way a host client gets in return 
-the commands it sends and raises an error. Will add a comment.
-
-> It could help to document why this is needed. I assume this is 
-> correct, so:
->
-> Acked-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->
->
->
->              ret = ga_channel_client_add(c, fd);
->              if (ret) {
->                  error_setg(errp, "error adding channel to main loop");
->     diff --git a/qga/commands-posix.c b/qga/commands-posix.c
->     index eea819cff0..16d67e9f6d 100644
->     --- a/qga/commands-posix.c
->     +++ b/qga/commands-posix.c
->     @@ -51,6 +51,14 @@
->      #endif
->      #endif
->
->     +#ifdef __FreeBSD__
+>     diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
+>     index ca06692179..ca81114171 100644
+>     --- a/qga/commands-bsd.c
+>     +++ b/qga/commands-bsd.c
+>     @@ -167,3 +167,21 @@ GuestCpuStatsList
+>     *qmp_guest_get_cpustats(Error **errp)
+>          return NULL;
+>      }
+>      #endif /* CONFIG_FSFREEZE */
+>     +
+>     +#ifdef HAVE_GETIFADDRS
 >     +/*
->     + * The code under HAVE_GETIFADDRS condition can't be compiled in
->     FreeBSD.
->     + * Fix it in one of the following patches.
+>     + * Fill buf with MAC address by ifaddrs. Pointer buf must point to a
+>     + * buffer with ETHER_ADDR_LEN length at least.
+>     + *
+>     + * Returns -1 in case of an error, 0 if MAC address can't be
+>     obtained or
+>     + * 1 if MAC addres is obtained.
+>
+>
+> Not a typical Error function return value...
+>
+> Eventually, you could return a bool for error/ok and take an 
+> additional "bool *obtained/valid" argument. Just a suggestion.
+Got it.
+>
 >     + */
->     +#undef HAVE_GETIFADDRS
+>     +int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
+>     Error **errp)
+>     +{
+>     +    /*
+>     +     * We can't get the hw addr of this interface,
+>     +     * but that's not a fatal error.
+>     +     */
+>     +    return 0;
+>     +}
+>     +#endif /* HAVE_GETIFADDRS */
+>     diff --git a/qga/commands-common.h b/qga/commands-common.h
+>     index 2d9878a634..2485a037fd 100644
+>     --- a/qga/commands-common.h
+>     +++ b/qga/commands-common.h
+>     @@ -56,6 +56,12 @@ int64_t qmp_guest_fsfreeze_do_freeze_list(bool
+>     has_mountpoints,
+>      int qmp_guest_fsfreeze_do_thaw(Error **errp);
+>      #endif /* CONFIG_FSFREEZE */
+>
+>     +#ifdef HAVE_GETIFADDRS
+>     +#include <ifaddrs.h>
+>     +
+>     +int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
+>     Error **errp);
 >     +#endif
 >     +
+>      typedef struct GuestFileHandle GuestFileHandle;
+>
+>      GuestFileHandle *guest_file_handle_find(int64_t id, Error **errp);
+>     diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+>     index 6ce894ca6e..0bebd9e690 100644
+>     --- a/qga/commands-posix.c
+>     +++ b/qga/commands-posix.c
+>     @@ -41,20 +41,12 @@
+>      #endif
+>      #endif
+>
+>     -#ifdef __FreeBSD__
+>     -/*
+>     - * The code under HAVE_GETIFADDRS condition can't be compiled in
+>     FreeBSD.
+>     - * Fix it in one of the following patches.
+>     - */
+>     -#undef HAVE_GETIFADDRS
+>     -#endif
+>     -
 >      #ifdef HAVE_GETIFADDRS
 >      #include <arpa/inet.h>
 >      #include <sys/socket.h>
->     diff --git a/qga/main.c b/qga/main.c
->     index 5a9d8252e0..0d27c97d38 100644
->     --- a/qga/main.c
->     +++ b/qga/main.c
->     @@ -45,9 +45,13 @@
+>      #include <net/if.h>
+>     +#include <net/ethernet.h>
+>      #include <sys/types.h>
+>     -#include <ifaddrs.h>
+>      #ifdef CONFIG_SOLARIS
+>      #include <sys/sockio.h>
 >      #endif
+>     @@ -2659,14 +2651,6 @@ int64_t
+>     qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+>          return -1;
+>      }
 >
->      #ifndef _WIN32
->     +#ifdef __FreeBSD__
->     +#define QGA_VIRTIO_PATH_DEFAULT "/dev/vtcon/org.qemu.guest_agent.0"
->     +#else /* __FreeBSD__ */
->      #define QGA_VIRTIO_PATH_DEFAULT
->     "/dev/virtio-ports/org.qemu.guest_agent.0"
->     -#define QGA_STATE_RELATIVE_DIR  "run"
+>     -void qmp_guest_set_user_password(const char *username,
+>     -                                 const char *password,
+>     -                                 bool crypted,
+>     -                                 Error **errp)
+>     -{
+>     -    error_setg(errp, QERR_UNSUPPORTED);
+>     -}
+>     -
+>
+>
+> Why this in this patch?
+Something went wrong when I re-created patches. My bad. Will fix it.
+>
+>      GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
+>      {
+>          error_setg(errp, QERR_UNSUPPORTED);
+>     @@ -2804,7 +2788,15 @@ out:
+>              close(datafd[1]);
+>          }
+>      }
+>     -#endif
+>     +#else /* __linux__ || __FreeBSD__ */
+>     +void qmp_guest_set_user_password(const char *username,
+>     +                                 const char *password,
+>     +                                 bool crypted,
+>     +                                 Error **errp)
+>     +{
+>     +    error_setg(errp, QERR_UNSUPPORTED);
+>     +}
+>     +#endif /* __linux__ || __FreeBSD__ */
+>
+>      #ifdef HAVE_GETIFADDRS
+>      static GuestNetworkInterface *
+>     @@ -2887,6 +2879,54 @@ static int guest_get_network_stats(const
+>     char *name,
+>          return -1;
+>      }
+>
+>     +#ifndef __FreeBSD__
+>     +/*
+>     + * Fill buf with MAC address by ifaddrs. Pointer buf must point to a
+>     + * buffer with ETHER_ADDR_LEN length at least.
+>     + * Returns -1 in case of an error, 0 if MAC address can't be
+>     obtained or
+>     + * 1 if MAC addres is obtained.
+>     + */
+>     +int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
+>     Error **errp)
+>     +{
+>     +    struct ifreq ifr;
+>     +    int sock;
+>     +
+>     +    /* we haven't obtained HW address yet */
+>     +    sock = socket(PF_INET, SOCK_STREAM, 0);
+>     +    if (sock == -1) {
+>     +        error_setg_errno(errp, errno, "failed to create socket");
+>     +        return -1;
+>     +    }
+>     +
+>     +    memset(&ifr, 0, sizeof(ifr));
+>     +    pstrcpy(ifr.ifr_name, IF_NAMESIZE, ifa->ifa_name);
+>     +    if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
+>     +        /*
+>     +         * We can't get the hw addr of this interface, but that's
+>     not a
+>     +         * fatal error. Don't set info->hardware_address, but keep
+>     +         * going.
+>     +         */
+>     +        if (errno == EADDRNOTAVAIL) {
+>     +            /* The interface doesn't have a hw addr (e.g.
+>     loopback). */
+>     +            g_debug("failed to get MAC address of %s: %s",
+>     +                    ifa->ifa_name, strerror(errno));
+>     +        } else{
+>     +            g_warning("failed to get MAC address of %s: %s",
+>     +                      ifa->ifa_name, strerror(errno));
+>     +        }
+>     +        close(sock);
+>     +        return 0;
+>     +    }
+>     +#ifdef CONFIG_SOLARIS
+>     +    memcpy(buf, &ifr.ifr_addr.sa_data, ETHER_ADDR_LEN);
+>     +#else
+>     +    memcpy(buf, &ifr.ifr_hwaddr.sa_data, ETHER_ADDR_LEN);
+>     +#endif
+>     +    close(sock);
+>     +    return 1;
+>     +}
 >     +#endif /* __FreeBSD__ */
->      #define QGA_SERIAL_PATH_DEFAULT "/dev/ttyS0"
->     +#define QGA_STATE_RELATIVE_DIR  "run"
->      #else
->      #define QGA_VIRTIO_PATH_DEFAULT
->     "\\\\.\\Global\\org.qemu.guest_agent.0"
->      #define QGA_STATE_RELATIVE_DIR  "qemu-ga"
+>     +
+>      /*
+>       * Build information about guest interfaces
+>       */
+>     @@ -2907,10 +2947,9 @@ GuestNetworkInterfaceList
+>     *qmp_guest_network_get_interfaces(Error **errp)
+>              GuestNetworkInterfaceStat *interface_stat = NULL;
+>              char addr4[INET_ADDRSTRLEN];
+>              char addr6[INET6_ADDRSTRLEN];
+>     -        int sock;
+>     -        struct ifreq ifr;
+>     -        unsigned char *mac_addr;
+>     +        unsigned char mac_addr[ETHER_ADDR_LEN];
+>              void *p;
+>     +        int ret;
+>
+>              g_debug("Processing %s interface", ifa->ifa_name);
+>
+>     @@ -2924,45 +2963,18 @@ GuestNetworkInterfaceList
+>     *qmp_guest_network_get_interfaces(Error **errp)
+>              }
+>
+>              if (!info->has_hardware_address) {
+>     -            /* we haven't obtained HW address yet */
+>     -            sock = socket(PF_INET, SOCK_STREAM, 0);
+>     -            if (sock == -1) {
+>     -                error_setg_errno(errp, errno, "failed to create
+>     socket");
+>     +            ret = guest_get_hw_addr(ifa, mac_addr, errp);
+>     +            if (ret == -1) {
+>                      goto error;
+>                  }
+>     -
+>     -            memset(&ifr, 0, sizeof(ifr));
+>     -            pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->name);
+>     -            if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
+>     -                /*
+>     -                 * We can't get the hw addr of this interface,
+>     but that's not a
+>     -                 * fatal error. Don't set info->hardware_address,
+>     but keep
+>     -                 * going.
+>     -                 */
+>     -                if (errno == EADDRNOTAVAIL) {
+>     -                    /* The interface doesn't have a hw addr (e.g.
+>     loopback). */
+>     -                    g_debug("failed to get MAC address of %s: %s",
+>     -                            ifa->ifa_name, strerror(errno));
+>     -                } else{
+>     -                    g_warning("failed to get MAC address of %s: %s",
+>     -                              ifa->ifa_name, strerror(errno));
+>     -                }
+>     -
+>     -            } else {
+>     -#ifdef CONFIG_SOLARIS
+>     -                mac_addr = (unsigned char *) &ifr.ifr_addr.sa_data;
+>     -#else
+>     -                mac_addr = (unsigned char *) &ifr.ifr_hwaddr.sa_data;
+>     -#endif
+>     +            if (ret == 1) {
+>                      info->hardware_address =
+>      g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
+>                                          (int) mac_addr[0], (int)
+>     mac_addr[1],
+>                                          (int) mac_addr[2], (int)
+>     mac_addr[3],
+>                                          (int) mac_addr[4], (int)
+>     mac_addr[5]);
+>     -
+>                      info->has_hardware_address = true;
+>                  }
+>     -            close(sock);
+>              }
+>
+>              if (ifa->ifa_addr &&
 >     -- 
 >     2.34.1
 >
 >
 >
+> looks ok to me otherwise
 >
 > -- 
 > Marc-André Lureau
