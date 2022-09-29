@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33355EF718
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:03:18 +0200 (CEST)
-Received: from localhost ([::1]:38646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4C45EF748
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:14:59 +0200 (CEST)
+Received: from localhost ([::1]:55106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odu8D-0003fg-I5
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:03:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47450)
+	id 1oduJW-00022l-Fh
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:14:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3C-0000N8-7O
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:05 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36431)
+ id 1odsCx-0007Qb-7n
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:03 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods39-0002Nh-LF
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:49:57 -0400
-Received: by mail-wr1-x430.google.com with SMTP id v28so1797831wrd.3
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:49:55 -0700 (PDT)
+ id 1odsCr-0004LZ-P7
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:02 -0400
+Received: by mail-wr1-x429.google.com with SMTP id c11so1800017wrp.11
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=bFMnPZI39K0sB6qljzVqyj/PiofPOyUCvNvoHy9FtII=;
- b=H2Y/5hKOM+NSy48gfZkRDqv2/blKE764JkctH3C0hh30XbmeFWnFyd/d6rtAOuONOy
- tYBleGGc900bBPY5BqX1n+QWQDvuNnYpI0oCiHeXHBIUnHPJVOvWC9lQQhhZ16HY675Z
- l25qlJ4iFKnzp9pnWobUS0Pf26pRvF8IGMRSoovq0jni72Ja2u6uXHAmWUVhkjQNjPFd
- QwctNTCvU6P1SxilnXdnerjdb4KKrl0EpC1Wdo3eNNiPrTh7jlYXPtUJN7j7QLjfY3SY
- 2uDWGPmqC+Z/0laQJxutbGHuq+MlUR38LZFkrRh9Tf32OqOwycj4GFShXCOi2te/ANlI
- O5kA==
+ bh=Ni3h4Ensb2+EbCS1w58timGRfCJrzPXBUuLWwhQJKIE=;
+ b=s9/366AjJ+S9BIXNEDOXYJ5QKu8bTZDN+WUCJ0wRsNxTWBWxvv939/T8zFEOMKsTIj
+ 3y7AR0VxpEtLbF3kDyGT5aReyB1uGMJUrU1OI9L6W+pd0LrqHTgMaJ4Evq6p6Uj7hsuz
+ upVkZmURETau+TnQi8xZbGJIx/UTedMfPQd0rBJVHsxcPu4YFtJl7EIp1AwxfjN7CkKF
+ 0dILer0xyfrVPBGvYkRbMNzGJjhqcnE633O879FqzubR8faGj0wBy3rp/VJ83kwN9B/p
+ xtn9uZNymFaqromV7alKol1FVNzTGzZjX16dQ7LUg3NIS00Z0pfiTPlXMfaB1ZNGprEP
+ E1YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=bFMnPZI39K0sB6qljzVqyj/PiofPOyUCvNvoHy9FtII=;
- b=ejV9HZIAObCs48bE2J0bDIVAgGrHm1FYmftax7V4IZCX16x+ImRPNJtnQMiYwZhY9l
- 3cVX5lHtI4KFyvaCIVNfWR/Cn477TRS09unOUKXsfoomQ+5KSG2S53dMbLQtgeQrFONc
- mxD5cTSiyKXH8OIdjLwEXcehRy7nIz1zPMUGOEIw0y9yZ4O7Yiwy4MpmGQKTEKw6TN08
- kC1yHkqHl2asrr2nBHPrTBUpzdwp7tmrTagWkcOlsh6yE2b95G+d6XvyHvKfVLFG8ftA
- meqrXH0xncK6dpadMnpu3zj1ojtnTDjkefwvvlfz/SxQtS1zf3+s3iPlxNEDOOPG2uSQ
- XJsA==
-X-Gm-Message-State: ACrzQf0wxc2nSBFHISnva6Ym95GjL+yzGl26FB5dbJik4ReGIpycUjaj
- H/M2H7pNGx2qqoR9Gl3Oh871a29P6t6H2w==
-X-Google-Smtp-Source: AMsMyM44uf9qbEgVrPP1ZkciFWWUZEJcvRYE3prOpi3G59BpAEIG/x7X7FQZMKGSw6ZE9q6BSzAw3g==
-X-Received: by 2002:adf:ed50:0:b0:22c:c749:8b81 with SMTP id
- u16-20020adfed50000000b0022cc7498b81mr1925896wro.644.1664452194283; 
- Thu, 29 Sep 2022 04:49:54 -0700 (PDT)
+ bh=Ni3h4Ensb2+EbCS1w58timGRfCJrzPXBUuLWwhQJKIE=;
+ b=tpL4oyqaD0bi5zbT0RidYJ0SSd94tveGn3hXUb9MRgb3fFHcnVlooLxJ5GpGSi+OOx
+ FIJbJK31q25JY5omYWWdYzmeULUIS4OMiVut1IB2dVk5becEy5jDwY8j5NU98o6dS2J9
+ 0rcGQOJVCn5cBA7oK97RNoMHjB3n2W0r11sdZHcbqkWkNRc1cj9mrLgtXM89H92X8VeI
+ z3rneOWlfWgHP17Z70ReHrchFml8l5yj00s6wDXjPcYazrpzPXAAzzbU0fs3gPbPiToe
+ t4oN0QW1wS/7ZCqQedirnDRndbYOmWt7OJqAgOu6R6sAU/XpGqkuTCJH402AT5iMyYW0
+ LYaw==
+X-Gm-Message-State: ACrzQf0B99tsqUCrfwFRShZA/eaZR7chFDZX5zC8o53e5f2VcdOj4alm
+ bf4vum4sSFxv8TRs5+OGX/qonA==
+X-Google-Smtp-Source: AMsMyM6Sy1xDcmGOVpEceKfKs/dkhrd5tNjxL9Sww9TG/VS96HJsRz6LAFqRpOQf1P08aQXs9HFlUQ==
+X-Received: by 2002:adf:d0cd:0:b0:22b:1ade:7980 with SMTP id
+ z13-20020adfd0cd000000b0022b1ade7980mr1905872wrh.265.1664452792167; 
+ Thu, 29 Sep 2022 04:59:52 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- b4-20020a05600c150400b003a5c999cd1asm4909352wmg.14.2022.09.29.04.49.51
+ r9-20020adfda49000000b002258235bda3sm6731971wrl.61.2022.09.29.04.59.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:49:51 -0700 (PDT)
+ Thu, 29 Sep 2022 04:59:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 359E51FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 4CC721FFCE;
  Thu, 29 Sep 2022 12:42:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -65,18 +65,18 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v1 25/51] configure: move tests/tcg/Makefile.prereqs to root
- build directory
-Date: Thu, 29 Sep 2022 12:42:05 +0100
-Message-Id: <20220929114231.583801-26-alex.bennee@linaro.org>
+Subject: [PATCH v1 26/51] configure: unify creation of cross-compilation
+ Makefiles
+Date: Thu, 29 Sep 2022 12:42:06 +0100
+Message-Id: <20220929114231.583801-27-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,111 +101,129 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-It will not be specific to tests/tcg anymore, since it will be possible to
-build firmware using container-based cross compilers too.
+Let write_target_makefile handle both host and container cross compilers.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configure              | 15 +++++++--------
- Makefile               |  5 ++++-
- tests/Makefile.include |  3 ---
- 3 files changed, 11 insertions(+), 12 deletions(-)
+ configure | 94 +++++++++++++++++++++++++------------------------------
+ 1 file changed, 43 insertions(+), 51 deletions(-)
 
 diff --git a/configure b/configure
-index ceb1213292..cbeac99b2b 100755
+index cbeac99b2b..8b495d4453 100755
 --- a/configure
 +++ b/configure
-@@ -2185,6 +2185,7 @@ write_target_makefile() {
+@@ -2157,51 +2157,49 @@ probe_target_compiler() {
+ 
+ write_target_makefile() {
+   echo "EXTRA_CFLAGS=$target_cflags"
+-  if test -n "$target_cc"; then
+-    echo "CC=$target_cc"
+-    echo "CCAS=$target_ccas"
+-  fi
+-  if test -n "$target_ar"; then
+-    echo "AR=$target_ar"
+-  fi
+-  if test -n "$target_as"; then
+-    echo "AS=$target_as"
+-  fi
+-  if test -n "$target_ld"; then
+-    echo "LD=$target_ld"
+-  fi
+-  if test -n "$target_nm"; then
+-    echo "NM=$target_nm"
+-  fi
+-  if test -n "$target_objcopy"; then
+-    echo "OBJCOPY=$target_objcopy"
+-  fi
+-  if test -n "$target_ranlib"; then
+-    echo "RANLIB=$target_ranlib"
+-  fi
+-  if test -n "$target_strip"; then
+-    echo "STRIP=$target_strip"
+-  fi
+-}
+-
+-write_container_target_makefile() {
+-  echo "$1: docker-image-$container_image" >> Makefile.prereqs
+-  echo "EXTRA_CFLAGS=$target_cflags"
+-  if test -n "$container_cross_cc"; then
+-    echo "CC=$docker_py cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
+-    echo "CCAS=$docker_py cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
++  if test -z "$target_cc" && test -z "$target_as"; then
++    test -z "$container_image" && error_exit "Internal error: could not find cross compiler for $1?"
++    echo "$1: docker-image-$container_image" >> Makefile.prereqs
++    if test -n "$container_cross_cc"; then
++      echo "CC=$docker_py cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
++      echo "CCAS=$docker_py cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
++    fi
++    echo "AR=$docker_py cc --cc $container_cross_ar -i qemu/$container_image -s $source_path --"
++    echo "AS=$docker_py cc --cc $container_cross_as -i qemu/$container_image -s $source_path --"
++    echo "LD=$docker_py cc --cc $container_cross_ld -i qemu/$container_image -s $source_path --"
++    echo "NM=$docker_py cc --cc $container_cross_nm -i qemu/$container_image -s $source_path --"
++    echo "OBJCOPY=$docker_py cc --cc $container_cross_objcopy -i qemu/$container_image -s $source_path --"
++    echo "RANLIB=$docker_py cc --cc $container_cross_ranlib -i qemu/$container_image -s $source_path --"
++    echo "STRIP=$docker_py cc --cc $container_cross_strip -i qemu/$container_image -s $source_path --"
++  else
++    if test -n "$target_cc"; then
++      echo "CC=$target_cc"
++      echo "CCAS=$target_ccas"
++    fi
++    if test -n "$target_ar"; then
++      echo "AR=$target_ar"
++    fi
++    if test -n "$target_as"; then
++      echo "AS=$target_as"
++    fi
++    if test -n "$target_ld"; then
++      echo "LD=$target_ld"
++    fi
++    if test -n "$target_nm"; then
++      echo "NM=$target_nm"
++    fi
++    if test -n "$target_objcopy"; then
++      echo "OBJCOPY=$target_objcopy"
++    fi
++    if test -n "$target_ranlib"; then
++      echo "RANLIB=$target_ranlib"
++    fi
++    if test -n "$target_strip"; then
++      echo "STRIP=$target_strip"
++    fi
+   fi
+-  echo "AR=$docker_py cc --cc $container_cross_ar -i qemu/$container_image -s $source_path --"
+-  echo "AS=$docker_py cc --cc $container_cross_as -i qemu/$container_image -s $source_path --"
+-  echo "LD=$docker_py cc --cc $container_cross_ld -i qemu/$container_image -s $source_path --"
+-  echo "NM=$docker_py cc --cc $container_cross_nm -i qemu/$container_image -s $source_path --"
+-  echo "OBJCOPY=$docker_py cc --cc $container_cross_objcopy -i qemu/$container_image -s $source_path --"
+-  echo "RANLIB=$docker_py cc --cc $container_cross_ranlib -i qemu/$container_image -s $source_path --"
+-  echo "STRIP=$docker_py cc --cc $container_cross_strip -i qemu/$container_image -s $source_path --"
  }
  
- write_container_target_makefile() {
-+  echo "$1: docker-image-$container_image" >> Makefile.prereqs
-   echo "EXTRA_CFLAGS=$target_cflags"
-   if test -n "$container_cross_cc"; then
-     echo "CC=$docker_py cc --cc $container_cross_cc -i qemu/$container_image -s $source_path --"
-@@ -2297,6 +2298,8 @@ for f in $LINKS ; do
-     fi
- done
- 
-+echo "# Automatically generated by configure - do not modify" > Makefile.prereqs
-+
- # Mac OS X ships with a broken assembler
- roms=
- if test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
-@@ -2524,10 +2527,7 @@ if test "$safe_stack" = "yes"; then
- fi
- 
- # tests/tcg configuration
--(makefile=tests/tcg/Makefile.prereqs
--echo "# Automatically generated by configure - do not modify" > $makefile
 -
--config_host_mak=tests/tcg/config-host.mak
-+(config_host_mak=tests/tcg/config-host.mak
- mkdir -p tests/tcg
- echo "# Automatically generated by configure - do not modify" > $config_host_mak
- echo "SRC_PATH=$source_path" >> $config_host_mak
-@@ -2565,8 +2565,7 @@ for target in $target_list; do
-       write_target_makefile >> "$config_target_mak"
-   elif test -n "$container_image"; then
-       build_static=y
--      echo "build-tcg-tests-$target: docker-image-$container_image" >> $makefile
--      write_container_target_makefile >> "$config_target_mak"
-+      write_container_target_makefile build-tcg-tests-$target >> "$config_target_mak"
-       got_cross_cc=yes
-   fi
-   if test $got_cross_cc = yes; then
-@@ -2576,11 +2575,11 @@ for target in $target_list; do
-       echo "TARGET=$target" >> "$config_target_mak"
-       echo "QEMU=$PWD/$qemu" >> "$config_target_mak"
-       echo "BUILD_STATIC=$build_static" >> "$config_target_mak"
--      echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> $makefile
-+      echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> Makefile.prereqs
-       tcg_tests_targets="$tcg_tests_targets $target"
-   fi
- done
--echo "TCG_TESTS_TARGETS=$tcg_tests_targets" >> $makefile)
-+echo "TCG_TESTS_TARGETS=$tcg_tests_targets" >> config-host.mak)
- 
- if test "$skip_meson" = no; then
-   cross="config-meson.cross.new"
-diff --git a/Makefile b/Makefile
-index 0fcde48bec..357592ad39 100644
---- a/Makefile
-+++ b/Makefile
-@@ -42,6 +42,9 @@ configure: ;
- ifneq ($(wildcard config-host.mak),)
- include config-host.mak
- 
-+include Makefile.prereqs
-+Makefile.prereqs: config-host.mak
-+
- git-submodule-update:
- .git-submodule-status: git-submodule-update config-host.mak
- Makefile: .git-submodule-status
-@@ -217,7 +220,7 @@ qemu-%.tar.bz2:
- 
- distclean: clean recurse-distclean
- 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
--	rm -f config-host.mak qemu-bundle
-+	rm -f config-host.mak Makefile.prereqs qemu-bundle
- 	rm -f tests/tcg/config-*.mak
- 	rm -f config.status
- 	rm -f roms/seabios/config.mak
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 9ed67721e2..9422ddaece 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -36,9 +36,6 @@ export SRC_PATH
- 
- SPEED = quick
- 
---include tests/tcg/Makefile.prereqs
--tests/tcg/Makefile.prereqs: config-host.mak
 -
- # Per guest TCG tests
- BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TCG_TESTS_TARGETS))
- CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TCG_TESTS_TARGETS))
+ ##########################################
+ # check for vfio_user_server
+ 
+@@ -2560,15 +2558,9 @@ for target in $target_list; do
+       ;;
+   esac
+ 
+-  probe_target_compiler $target
+-  if test $got_cross_cc = yes; then
+-      write_target_makefile >> "$config_target_mak"
+-  elif test -n "$container_image"; then
+-      build_static=y
+-      write_container_target_makefile build-tcg-tests-$target >> "$config_target_mak"
+-      got_cross_cc=yes
+-  fi
+-  if test $got_cross_cc = yes; then
++  if probe_target_compiler $target || test -n "$container_image"; then
++      test -n "$container_image" && build_static=y
++      write_target_makefile "build-tcg-tests-$target >> "$config_target_mak"
+       mkdir -p "tests/tcg/$target"
+       ln -sf "$source_path/tests/tcg/Makefile.target" "tests/tcg/$target/Makefile"
+       ln -sf "../config-$target.mak" "tests/tcg/$target/config-target.mak"
 -- 
 2.34.1
 
