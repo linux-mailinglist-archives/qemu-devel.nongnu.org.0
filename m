@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2E15EFC08
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:32:31 +0200 (CEST)
-Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD03C5EFBC1
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:18:06 +0200 (CEST)
+Received: from localhost ([::1]:35176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odxOf-0006qv-8x
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:32:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41318)
+	id 1odxAi-0003JF-3v
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:18:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odwR6-0003mk-TX
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:30:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50074)
+ id 1odwR9-0003oz-Gr
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:30:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odwR5-000389-C0
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:30:56 -0400
+ id 1odwR7-00038T-VW
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:30:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664469054;
+ s=mimecast20190719; t=1664469057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xXxWqtCuAF+FsHQxb4jKS3YZKYzYr+qDiDGVxpCRZYs=;
- b=W7r02gTUccEpgG4arNVmm8Tm+uZoh8WyJrvYeqKbi5XpImK2UJDBg0qNhfyj26DOJBDdDu
- xT98HVF8IyblqtWdHzJWejtRgvKuZlFdDwUvJB71s122WOH8m+8q312rC3Amu9+suDju1F
- haYWO3ih6U5hh7fKX/nRa0dAc9l+hmg=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TxT5Mw8r3lduhbysVF+py45W71A3byvjHK4jNnbC6vo=;
+ b=ND5F+jWxmqNURAK62coPnaVjs5je9qFxw2uegNJ3d487DsaJw2yfEXWbgWfBbXN+9UCZbX
+ pGc2uQa7eSEsnCjnsvliGN//nlsnNFnDEnVvOBMxo6CGqgghOVn0NnB2aHsc6CVnq2aGbv
+ KOrl0QFR9VNo4F+5uXwNJOLvl10OBtQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-187-xW5nPv98N4aSApHtBQgicQ-1; Thu, 29 Sep 2022 12:30:52 -0400
-X-MC-Unique: xW5nPv98N4aSApHtBQgicQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- sb34-20020a1709076da200b00783a5f786easo969924ejc.22
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 09:30:52 -0700 (PDT)
+ us-mta-605-r6pQKZfKNveB2sw4uAzU2g-1; Thu, 29 Sep 2022 12:30:54 -0400
+X-MC-Unique: r6pQKZfKNveB2sw4uAzU2g-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ y9-20020a056402270900b00451dfbbc9b2so1649484edd.12
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 09:30:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=xXxWqtCuAF+FsHQxb4jKS3YZKYzYr+qDiDGVxpCRZYs=;
- b=2EkuNZryQpvbyv/YoaXh9dk/U3bcRQAMe/42YX6tvzfzWOY7RqWxQ6iWiKXVmyR5gF
- SK7Xztp5caJQ+/ygq/QmOBlOcZcFGW07Ejk4cwT9ADaIfgGfDGSrxL6O2XfKMeEzk8AO
- DN5ioBmuRHDzFQgH9SchFZoVGyShF9sUUwy3lYVLnl22oTKdJnnrcJRz3JRw1sM01klw
- KNCNK4YIq3wc7HVN8NidniYvSjTWF+dDj65XRSK/qJASoc1LxbIzNF6WtTc+BJMX0zxX
- OY8OSzozYsFhen6n6mSmmE3/IiuEC/jBWVP2o0Hkj0tZrWipyfEPHwRGxciO4/N25YDK
- fl5A==
-X-Gm-Message-State: ACrzQf23yJ/pfMSYHOy6P73lHeQ5xJ735n87NkdsAaIZI4vMSH6fFttJ
- zk/gOp+V9cFujSsNWsY2xnYAY22F822HMWHtqIbf1Xt0xoU5YRT/4QXXznZ89P+/RyjiehdvGFI
- lDQTgn1scAkQvFK43uQhmOUddzQfG5p7P511yoPt+BAD4pLHde3qVPAtScEmgoJo+Fs0=
-X-Received: by 2002:a17:906:8a4a:b0:781:70ab:e7cb with SMTP id
- gx10-20020a1709068a4a00b0078170abe7cbmr3309099ejc.492.1664469050787; 
- Thu, 29 Sep 2022 09:30:50 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4Bds7YivMfkbnNm4qWAiZ9pAriQOS3UGuBHyLPW4z0By1eqwXXOTmQQLK7SIiBJLgJgzq7cA==
-X-Received: by 2002:a17:906:8a4a:b0:781:70ab:e7cb with SMTP id
- gx10-20020a1709068a4a00b0078170abe7cbmr3309082ejc.492.1664469050435; 
- Thu, 29 Sep 2022 09:30:50 -0700 (PDT)
+ bh=TxT5Mw8r3lduhbysVF+py45W71A3byvjHK4jNnbC6vo=;
+ b=Emu87g/KSwMXBypDaRmNt/h6p0qjvz92mZq68lVai+7+wCvn4s0LA3rKuQYFEC97pj
+ P9zFkwm490LtkfBHY7NA07UH0lJeogm3Qg00PwUVDD/EIGvkxv0PPIHAhL9G4QLNJj3Q
+ TyhuO9hr/P9O92CrdlHkpGK3shIVLy+I68nhDDHQF34RDIIocP6OHECKHyze39HSEDKM
+ 5aKcrmN61Z2IjaK8Aaq3LCziGzhymtahPXBgovnQyJbG+uGvyI62Kpyz7bmsWAAwJPeE
+ VuLLIQRa9shWS7ebSE8vXMOP/g8Ib/K0bMGhJOc/ns7h+U3ZmpPAA58Nud2/KJ5Qd5nn
+ ySxg==
+X-Gm-Message-State: ACrzQf2kWfqwFSBh6lwVt0FZW/1jTdJqNDeujNAOb6GR2ASqFXbAyUR7
+ GjLWPOyDAa64OZUb35g3W7ELKBrKnKOE3T4C6KoO6flvcKOoL84yL7gMXx9aKE3TvYA4VW9ncXF
+ nVtBIvciy/MxaGz6XlDeEqn8pI6NdNkk8Lch7uVIdHbpGHq149eF1qssWEa5AdZ17Kw8=
+X-Received: by 2002:a17:907:8688:b0:782:6637:e8dc with SMTP id
+ qa8-20020a170907868800b007826637e8dcmr3517455ejc.174.1664469053334; 
+ Thu, 29 Sep 2022 09:30:53 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM42OTmo8CQt3z0pTKDO4eDAD1czi1br3ZUddBCYKTBkTA1/cRMoDF1CICNRqNmMngwc2u5ysQ==
+X-Received: by 2002:a17:907:8688:b0:782:6637:e8dc with SMTP id
+ qa8-20020a170907868800b007826637e8dcmr3517436ejc.174.1664469053048; 
+ Thu, 29 Sep 2022 09:30:53 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- f7-20020a17090631c700b007803083a36asm4149159ejf.115.2022.09.29.09.30.49
+ j5-20020aa7de85000000b00455262f83aasm5719102edv.32.2022.09.29.09.30.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 09:30:49 -0700 (PDT)
+ Thu, 29 Sep 2022 09:30:52 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 12/14] configure, meson: move linker flag detection to meson
-Date: Thu, 29 Sep 2022 18:30:12 +0200
-Message-Id: <20220929163014.16950-13-pbonzini@redhat.com>
+Cc: Ray Zhang <zhanglei002@gmail.com>
+Subject: [PULL 13/14] target/i386/kvm: fix kvmclock_current_nsec: Assertion
+ `time.tsc_timestamp <= migration_tsc' failed
+Date: Thu, 29 Sep 2022 18:30:13 +0200
+Message-Id: <20220929163014.16950-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929163014.16950-1-pbonzini@redhat.com>
 References: <20220929163014.16950-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
@@ -84,7 +84,7 @@ X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,89 +101,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Ray Zhang <zhanglei002@gmail.com>
+
+New KVM_CLOCK flags were added in the kernel.(c68dc1b577eabd5605c6c7c08f3e07ae18d30d5d)
+```
++ #define KVM_CLOCK_VALID_FLAGS						\
++	(KVM_CLOCK_TSC_STABLE | KVM_CLOCK_REALTIME | KVM_CLOCK_HOST_TSC)
+
+	case KVM_CAP_ADJUST_CLOCK:
+-		r = KVM_CLOCK_TSC_STABLE;
++		r = KVM_CLOCK_VALID_FLAGS;
+```
+
+kvm_has_adjust_clock_stable needs to handle additional flags,
+so that s->clock_is_reliable can be true and kvmclock_current_nsec doesn't need to be called.
+
+Signed-off-by: Ray Zhang <zhanglei002@gmail.com>
+Message-Id: <20220922100523.2362205-1-zhanglei002@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 16 ----------------
- meson.build | 13 +++++++++++++
- 2 files changed, 13 insertions(+), 16 deletions(-)
+ target/i386/kvm/kvm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 3e3c0f36c9..e032bd0a08 100755
---- a/configure
-+++ b/configure
-@@ -1342,12 +1342,10 @@ EOF
- if test "$static" = "yes"; then
-   if test "$pie" != "no" && compile_prog "-Werror -fPIE -DPIE" "-static-pie"; then
-     CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
--    QEMU_LDFLAGS="-static-pie $QEMU_LDFLAGS"
-     pie="yes"
-   elif test "$pie" = "yes"; then
-     error_exit "-static-pie not available due to missing toolchain support"
-   else
--    QEMU_LDFLAGS="-static $QEMU_LDFLAGS"
-     pie="no"
-   fi
- elif test "$pie" = "no"; then
-@@ -1369,12 +1367,6 @@ else
-   pie="no"
- fi
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index a1fd1f5379..9eeee91c2f 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -157,7 +157,7 @@ bool kvm_has_adjust_clock_stable(void)
+ {
+     int ret = kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
  
--# Detect support for PT_GNU_RELRO + DT_BIND_NOW.
--# The combination is known as "full relro", because .got.plt is read-only too.
--if compile_prog "" "-Wl,-z,relro -Wl,-z,now" ; then
--  QEMU_LDFLAGS="-Wl,-z,relro -Wl,-z,now $QEMU_LDFLAGS"
--fi
--
- ##########################################
- # __sync_fetch_and_and requires at least -march=i486. Many toolchains
- # use i686 as default anyway, but for those that don't, an explicit
-@@ -2242,14 +2234,6 @@ if test "$have_ubsan" = "yes"; then
- fi
+-    return (ret == KVM_CLOCK_TSC_STABLE);
++    return (ret & KVM_CLOCK_TSC_STABLE);
+ }
  
- ##########################################
--
--# Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
--if test "$solaris" = "no" && test "$tsan" = "no"; then
--    if $ld --version 2>/dev/null | grep "GNU ld" >/dev/null 2>/dev/null ; then
--        QEMU_LDFLAGS="-Wl,--warn-common $QEMU_LDFLAGS"
--    fi
--fi
--
- # Guest agent Windows MSI package
- 
- if test "$QEMU_GA_MANUFACTURER" = ""; then
-diff --git a/meson.build b/meson.build
-index a1b265b133..f6962834a3 100644
---- a/meson.build
-+++ b/meson.build
-@@ -183,6 +183,14 @@ qemu_cflags = config_host['QEMU_CFLAGS'].split()
- qemu_objcflags = config_host['QEMU_OBJCFLAGS'].split()
- qemu_ldflags = config_host['QEMU_LDFLAGS'].split()
- 
-+if enable_static
-+  qemu_ldflags += get_option('b_pie') ? '-static-pie' : '-static'
-+endif
-+
-+# Detect support for PT_GNU_RELRO + DT_BIND_NOW.
-+# The combination is known as "full relro", because .got.plt is read-only too.
-+qemu_ldflags += cc.get_supported_link_arguments('-Wl,-z,relro', '-Wl,-z,now')
-+
- if targetos == 'windows'
-   qemu_ldflags += cc.get_supported_link_arguments('-Wl,--no-seh', '-Wl,--nxcompat')
-   # Disable ASLR for debug builds to allow debugging with gdb
-@@ -265,6 +273,11 @@ if add_languages('cpp', required: false, native: false)
-   endif
- endif
- 
-+# Exclude --warn-common with TSan to suppress warnings from the TSan libraries.
-+if targetos != 'sunos' and not config_host.has_key('CONFIG_TSAN')
-+  qemu_ldflags += linker.get_supported_link_arguments('-Wl,--warn-common')
-+endif
-+
- add_global_link_arguments(qemu_ldflags, native: false, language: ['c', 'cpp', 'objc'])
- 
- if targetos == 'linux'
+ bool kvm_has_adjust_clock(void)
 -- 
 2.37.3
 
