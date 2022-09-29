@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE7D5EF048
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 10:22:26 +0200 (CEST)
-Received: from localhost ([::1]:36474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2493E5EF06C
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 10:28:33 +0200 (CEST)
+Received: from localhost ([::1]:52138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odooL-0006H1-On
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 04:22:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40328)
+	id 1odouF-000375-UU
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 04:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1odo8r-0003lp-CT; Thu, 29 Sep 2022 03:39:40 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38144)
+ id 1odoDp-0000OF-0C; Thu, 29 Sep 2022 03:44:41 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1odo8p-0007Sl-Me; Thu, 29 Sep 2022 03:39:33 -0400
+ id 1odoDn-00083s-GV; Thu, 29 Sep 2022 03:44:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=UGkz0tDBiR7v4VTYPIl9NbqXb6odMR264V7ozhtPATo=; b=RQCyC0hHapwY9cz4ZnFHnk5j5f
- g1hxSJy0j6yAoXBcrXdtCqbWz5MJYIEXOnogeiIKwce/QQygvVsl5lfJ6gsc8o33pIEoJ1fp3DVoG
- PC8fC6I21a05nHxGPRDoMVjF+rqJZZc4jTmKYQV6Nd9ceGfDhyUnegAeu0L0IpxgoustJw150bGev
- +DvOzgsA+2ITyJAhnAdQW13ego60nWx6aBjmIrk4/aQsTfnEHYdcDN+VKEsWN9JVZDcCLTGLaPFgA
- gN7028Q2UClO77icMZjfNA4S6ks58CbRTQyzAhAU5IYsCfqfQMkGy0h1HrnKvi5elmr++I7c2kl9B
- 27cU330GuaT95cZiijcX8y5tBn584DazjVQuXWZLmLMF8LssjB5TrdH8V4zrX+lJb8DMjTMg2FvCC
- DfQ6JHwMH71aZl5lwHcwlVJZsbz62iC4doEDTXhSz0Cv50CnLUSMVShx7kw+Bo/13LA9YAVNYEGoQ
- an6Y7E+WcUs4moU09fZ+yx7ST0Lb+qlxX9Is2iMIuCbiDQH7CaNd9hkIUAbWnNfpky5r0nY8jwMNm
- LNzTEXkmAhrIAwT8rNJSoVYbiszX78ibZIXYxYpSMbaJ6jW0FdR1QZtX/uBK0uRtbgHC0kzDqK0YR
- wpnVTLm2ZZ6tvuPWk56hhCwh7DII470IRjMJm/Jn0=;
+ bh=KyJ7OxwXMsSGJ0DKfzQpmxWF5Fj1e57nGDjOWd+VZL0=; b=lhred92xau9nAeV/Ptap0ID4ie
+ imFFs0zfDj5EIlp+gIuEfCCTOC0KECjebuecvDINC0ITUATmWfT3YDqsXTqyhDxdeJhTDfNGOzQbj
+ vs3RxCsV1Eig0NZEbzshXbV1z6/gkIbCr+1s9DeJwXfCx4K3xqam27qyndXPqhvGWg2db7A/Pblba
+ kW/hJeG7ZKlW8U7kLIKkLyGErDoUT44xWMzVoAkYAkBFAJ0G5xBxcrvedc0pNCc7XqovFE7pGO7w9
+ mZs+EfR2fIY909O54hrZzSvmST4Rec+6Mg8+cnJHWbBCFhk5Uv4xWdTcbg4t49/27OB/4o4wntBg9
+ urA00/ghwUUy7jrqXkfkxmmV8cGRY+SiVgLAYBrbSYJ+/7FPKjceW86HKrZkhwI3+1E3lTadeVjCB
+ 7mPlm+QSZaZCTUA1wuV/n5SOyDOl+Cwndpf/T/BpVlFGQXb+TiV7UO93T8TrWh6znx9p+TdJCZkr/
+ 7atalQEN8nzl6QKIcCpIYpkWzzuT8u2PBh5z0yBQ8auTCxbcRVFb4jb1CY+C5Ww6IklvTrkdZc64m
+ osy57qroGiK2KklKj0Ut4AUMk//xtqO4fpGpKSlro/obJMh7/KK61O/I+/mBxuAmsuApggWyXpfik
+ PLsV0m1mwRRFeWkaO0A5BFjTCT3WtB4NPQ69SadN0=;
 Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1odo71-000BfY-Rq; Thu, 29 Sep 2022 08:37:44 +0100
-Message-ID: <fbb38c03-6092-78e2-c1af-e37f1674bad4@ilande.co.uk>
-Date: Thu, 29 Sep 2022 08:39:21 +0100
+ id 1odoC2-000Bhq-Ep; Thu, 29 Sep 2022 08:42:54 +0100
+Message-ID: <197f737f-3ae8-6c73-7605-5bd89721dc3e@ilande.co.uk>
+Date: Thu, 29 Sep 2022 08:44:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -46,15 +46,15 @@ Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 References: <cover.1664108862.git.balaton@eik.bme.hu>
- <4a039abeeddcc6c987065ca526c6fa0457784615.1664108862.git.balaton@eik.bme.hu>
+ <2ff9b0ca151cab09512b37d855d03eee4a62812a.1664108862.git.balaton@eik.bme.hu>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <4a039abeeddcc6c987065ca526c6fa0457784615.1664108862.git.balaton@eik.bme.hu>
+In-Reply-To: <2ff9b0ca151cab09512b37d855d03eee4a62812a.1664108862.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 06/13] mac_newworld: Simplify creation of Uninorth
- devices
+Subject: Re: [PATCH v2 10/13] hw/ppc/mac.h: Move grackle-pcihost declaration
+ out from shared header
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -82,99 +82,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 25/09/2022 13:38, BALATON Zoltan wrote:
 
-> Avoid open coding sysbus_mmio_map() and map regions in ascending
-> otder. Reorganise code a bit to avoid some casts.
+> It is only used by mac_oldworld anyway and it already instantiates
+> a few devices by name so this allows reducing the shared header further.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   hw/ppc/mac_newworld.c | 42 +++++++++++++++++-------------------------
->   1 file changed, 17 insertions(+), 25 deletions(-)
+>   hw/pci-host/grackle.c | 1 +
+>   hw/ppc/mac.h          | 3 ---
+>   hw/ppc/mac_oldworld.c | 2 +-
+>   3 files changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-> index 6bc3bd19be..b4ad43cc05 100644
-> --- a/hw/ppc/mac_newworld.c
-> +++ b/hw/ppc/mac_newworld.c
-> @@ -228,13 +228,6 @@ static void ppc_core99_init(MachineState *machine)
->           }
+> diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
+> index b05facf463..5282123004 100644
+> --- a/hw/pci-host/grackle.c
+> +++ b/hw/pci-host/grackle.c
+> @@ -34,6 +34,7 @@
+>   #include "trace.h"
+>   #include "qom/object.h"
+>   
+> +#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
+>   OBJECT_DECLARE_SIMPLE_TYPE(GrackleState, GRACKLE_PCI_HOST_BRIDGE)
+>   
+>   struct GrackleState {
+> diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+> index 55cb02c990..fe77a6c6db 100644
+> --- a/hw/ppc/mac.h
+> +++ b/hw/ppc/mac.h
+> @@ -35,9 +35,6 @@
+>   #define KERNEL_LOAD_ADDR 0x01000000
+>   #define KERNEL_GAP       0x00100000
+>   
+> -/* Grackle PCI */
+> -#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
+> -
+>   /* Mac NVRAM */
+>   #define TYPE_MACIO_NVRAM "macio-nvram"
+>   OBJECT_DECLARE_SIMPLE_TYPE(MacIONVRAMState, MACIO_NVRAM)
+> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+> index 1fa7b770b7..1355d032ff 100644
+> --- a/hw/ppc/mac_oldworld.c
+> +++ b/hw/ppc/mac_oldworld.c
+> @@ -214,7 +214,7 @@ static void ppc_heathrow_init(MachineState *machine)
 >       }
 >   
-> -    /* UniN init */
-> -    dev = qdev_new(TYPE_UNI_NORTH);
-> -    s = SYS_BUS_DEVICE(dev);
-> -    sysbus_realize_and_unref(s, &error_fatal);
-> -    memory_region_add_subregion(get_system_memory(), 0xf8000000,
-> -                                sysbus_mmio_get_region(s, 0));
-> -
->       openpic_irqs = g_new0(IrqLines, machine->smp.cpus);
->       for (i = 0; i < machine->smp.cpus; i++) {
->           /* Mac99 IRQ connection between OpenPIC outputs pins
-> @@ -275,24 +268,27 @@ static void ppc_core99_init(MachineState *machine)
->           }
->       }
->   
-> +    /* UniN init */
-> +    s = SYS_BUS_DEVICE(qdev_new(TYPE_UNI_NORTH));
-> +    sysbus_realize_and_unref(s, &error_fatal);
-> +    sysbus_mmio_map(s, 0, 0xf8000000);
-> +
->       if (PPC_INPUT(env) == PPC_FLAGS_INPUT_970) {
-> +        machine_arch = ARCH_MAC99_U3;
->           /* 970 gets a U3 bus */
->           /* Uninorth AGP bus */
->           dev = qdev_new(TYPE_U3_AGP_HOST_BRIDGE);
-> -        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->           uninorth_pci = U3_AGP_HOST_BRIDGE(dev);
->           s = SYS_BUS_DEVICE(dev);
-> -        /* PCI hole */
-> -        memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
-> -                                    sysbus_mmio_get_region(s, 2));
-> -        /* Register 8 MB of ISA IO space */
-> -        memory_region_add_subregion(get_system_memory(), 0xf2000000,
-> -                                    sysbus_mmio_get_region(s, 3));
-> +        sysbus_realize_and_unref(s, &error_fatal);
->           sysbus_mmio_map(s, 0, 0xf0800000);
->           sysbus_mmio_map(s, 1, 0xf0c00000);
-> -
-> -        machine_arch = ARCH_MAC99_U3;
-> +        /* PCI hole */
-> +        sysbus_mmio_map(s, 2, 0x80000000);
-> +        /* Register 8 MB of ISA IO space */
-> +        sysbus_mmio_map(s, 3, 0xf2000000);
->       } else {
-> +        machine_arch = ARCH_MAC99;
->           /* Use values found on a real PowerMac */
->           /* Uninorth AGP bus */
->           uninorth_agp_dev = qdev_new(TYPE_UNI_NORTH_AGP_HOST_BRIDGE);
-> @@ -312,19 +308,15 @@ static void ppc_core99_init(MachineState *machine)
->           /* Uninorth main bus */
->           dev = qdev_new(TYPE_UNI_NORTH_PCI_HOST_BRIDGE);
->           qdev_prop_set_uint32(dev, "ofw-addr", 0xf2000000);
-> -        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->           uninorth_pci = UNI_NORTH_PCI_HOST_BRIDGE(dev);
->           s = SYS_BUS_DEVICE(dev);
-> -        /* PCI hole */
-> -        memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
-> -                                    sysbus_mmio_get_region(s, 2));
-> -        /* Register 8 MB of ISA IO space */
-> -        memory_region_add_subregion(get_system_memory(), 0xf2000000,
-> -                                    sysbus_mmio_get_region(s, 3));
-> +        sysbus_realize_and_unref(s, &error_fatal);
->           sysbus_mmio_map(s, 0, 0xf2800000);
->           sysbus_mmio_map(s, 1, 0xf2c00000);
-> -
-> -        machine_arch = ARCH_MAC99;
-> +        /* PCI hole */
-> +        sysbus_mmio_map(s, 2, 0x80000000);
-> +        /* Register 8 MB of ISA IO space */
-> +        sysbus_mmio_map(s, 3, 0xf2000000);
->       }
->   
->       machine->usb |= defaults_enabled() && !machine->usb_disabled;
+>       /* Grackle PCI host bridge */
+> -    grackle_dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
+> +    grackle_dev = qdev_new("grackle-pcihost");
+>       qdev_prop_set_uint32(grackle_dev, "ofw-addr", 0x80000000);
+>       s = SYS_BUS_DEVICE(grackle_dev);
+>       sysbus_realize_and_unref(s, &error_fatal);
 
-Same comment here re: sysbus. Also the patch seems correct here, but it is worth 
-noting that the PCI bus initialisation is order sensitive: the last bus created is 
-the one that becomes the default PCI bus for -device, so changing this would break 
-quite a few command lines...
+Why did you include this patch again in v2 when I nacked it in v1?
 
 
 ATB,
