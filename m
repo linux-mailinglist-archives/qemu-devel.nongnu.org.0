@@ -2,115 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65DB5EED38
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 07:28:21 +0200 (CEST)
-Received: from localhost ([::1]:52806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839A45EEDF1
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 08:34:05 +0200 (CEST)
+Received: from localhost ([::1]:52230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odm5r-0006Bw-7Z
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 01:28:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44822)
+	id 1odn7T-0005q6-5H
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 02:34:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1odlxC-0004LZ-9a
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 01:19:23 -0400
-Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:38704)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odmww-0000xc-B5
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:23:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1odlxA-0003Y3-26
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 01:19:21 -0400
-Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits)
- client-signature RSA-PSS (4096 bits))
- (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 4MdM9K26RFz3x1D
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 05:19:17 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4MdM9K1HhJz3rLh
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 05:19:17 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
- t=1664428757;
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odmws-0004hb-R8
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:23:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664432584;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H7ffEIxUtaoSjzvNq0lJCsnFESlQwxdPN5nvy8VPK14=;
- b=e4rGOngsdL2IMn1UZa7gereN6WuXv+8fhrc5aKHKwjo7MU+rurmMh+aPNzEfOm9IVqYbf1
- dB9pMI9PxXeOgdl9C+k/BajDXkKqi6tMpBojAzw9gQiPR4/QcFEehvZ77L2b4MhN+pS0if
- lVNPA1IfDoKnVfghbSbKVqISBF/7c/zwAl+2OEsPntH1qha9uTGhSTgNdRC0o3uT/LQkw4
- OBpEhBF/X0FqFlsUwHHQiwgYyxAT8XOy1FTbBgdLcVy+l3cFAISTpHwidJIOZTmbhO5Iu/
- laaNP7cRH6TqVdyIcKmKUpftK0HDzokcu/H2gckiDp3OAumIrEtLdvJNcMwI+w==
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
- (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id 4MdM9K0BwxzvhR
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 05:19:17 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: by mail-qt1-f174.google.com with SMTP id gb14so188008qtb.3
- for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 22:19:17 -0700 (PDT)
-X-Gm-Message-State: ACrzQf0klvf/BjSvBYaOuLsEr8bqYveye7aglU70hj9/hjTC/ZC920zV
- DD3LuIJkxq/3e90jC3IUKlY5jY5jQsAtbp63bcw=
-X-Google-Smtp-Source: AMsMyM44Y+uxvMBOY64NF1kErykI7fUDYU81aZ2nKAUj0pycLP84ZN1qq/OdYQrb3Tm4TdyJh1gVlltF52RkeQkbGpY=
-X-Received: by 2002:ac8:5c45:0:b0:35c:cd2c:c8f8 with SMTP id
- j5-20020ac85c45000000b0035ccd2cc8f8mr982052qtj.105.1664428756690; Wed, 28 Sep
- 2022 22:19:16 -0700 (PDT)
+ bh=nfBnOEJkyAEmbSmjfJKkRj4biMCajXPkc7fP42nBfWg=;
+ b=ViKWEVl4RfTrhRlb79Oew25WirT7Px4Mpd9+6vKzYn/mgDMsUkSYlp/pbLxcjl1/1SHky6
+ jv0C4nd1cQVfkXEUgiBpBcAiZwLfkKmwh0qNwMTIj2jfuPdyziehhwYr7VBDari+zLyQlM
+ 30cHK4Ww0qlqji7oIZfOg8xVE3O5Xkk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-470-oKppohgRNlSKkLuNp9K3ww-1; Thu, 29 Sep 2022 02:23:02 -0400
+X-MC-Unique: oKppohgRNlSKkLuNp9K3ww-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA1BC1C05141;
+ Thu, 29 Sep 2022 06:23:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 18AB3492CA2;
+ Thu, 29 Sep 2022 06:23:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 307DA21E691D; Thu, 29 Sep 2022 08:22:58 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: Sam Li <faithilikerun@gmail.com>,  qemu-devel <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,  Dmitry Fomichev
+ <Dmitry.Fomichev@wdc.com>,  Hannes Reinecke <hare@suse.de>,  qemu block
+ <qemu-block@nongnu.org>,  Hanna Reitz <hreitz@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  Fam Zheng <fam@euphon.net>,  Kevin Wolf
+ <kwolf@redhat.com>
+Subject: Re: [PATCH v8 3/7] block: add block layer APIs resembling Linux
+ ZonedBlockDevice ioctls
+References: <20220826161704.8076-1-faithilikerun@gmail.com>
+ <87h71ugczz.fsf@pond.sub.org>
+ <CAAAx-8Kc0UQDVXCTdFWz1E1K1xJTnUoGDko_khxEnHrPH6MYxw@mail.gmail.com>
+ <87fshcdd4x.fsf@pond.sub.org>
+ <CAAAx-8LN6tK+VkPVDNHM-hCkbpNE2iHZojCK1aO5GKtme1iRNQ@mail.gmail.com>
+ <87r10vywg3.fsf@pond.sub.org>
+ <2537ba13-e915-1378-4414-ed999dc93a9e@opensource.wdc.com>
+Date: Thu, 29 Sep 2022 08:22:58 +0200
+In-Reply-To: <2537ba13-e915-1378-4414-ed999dc93a9e@opensource.wdc.com> (Damien
+ Le Moal's message of "Fri, 2 Sep 2022 11:13:11 +0900")
+Message-ID: <87bkqyvgvx.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <YzUoFisbfVsurncb@humpty.home.comstyle.com>
-In-Reply-To: <YzUoFisbfVsurncb@humpty.home.comstyle.com>
-From: Kyle Evans <kevans@freebsd.org>
-Date: Wed, 28 Sep 2022 22:19:05 -0700
-X-Gmail-Original-Message-ID: <CACNAnaHETaJVQ78guba2t-z1bB4qHyEu6zAW5LzCGfdCZ1U8JQ@mail.gmail.com>
-Message-ID: <CACNAnaHETaJVQ78guba2t-z1bB4qHyEu6zAW5LzCGfdCZ1U8JQ@mail.gmail.com>
-Subject: Re: [PATCH] tests: Add sndio to the FreeBSD CI containers / VM
-To: Brad Smith <brad@comstyle.com>
-Cc: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
- Ed Maste <emaste@freebsd.org>, 
- Li-Wen Hsu <lwhsu@freebsd.org>, Alex Benn_e <alex.bennee@linaro.org>, 
- Philippe Mathieu-Daud_ <f4bug@amsat.org>, Thomas Huth <thuth@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
- s=dkim; t=1664428757;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=H7ffEIxUtaoSjzvNq0lJCsnFESlQwxdPN5nvy8VPK14=;
- b=qQFb31ZeSFRL5+3oyUrwGrqWldRhdMnzaGb4jMXhGTynN2vebTzFgF8ttiZEJ62Y1BpqY5
- tyfKkkYPjrMe7cH1vrBQOkM8wOEWY28Mjs1DMlnmpHrbIBnNoYeXQVL4ng5WJn9nGcBXf9
- M6NbRntOHBC1Ti45NnLX+uYgAN8sXAfiUs3CVyUrNi5ukY97XMKBHGx9adQDeo8j4o69Z+
- btF8SsQBlxZ/wJEGAJsemuE9lufonfr0+xzEDR9ZEYRm08UbNNlFkIZpgps6yhlbKM499B
- xb1gz1mc7HVV1nJhiGVxnGbYT8gMh5Q7t9wFR2SonOoqrBA4gi2gU17BZCmEog==
-ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1664428757; a=rsa-sha256; cv=none;
- b=sajRYOnUj6pgtAuRUHhuMrYI3Q4B45lcrRPghEKbAqDU1OskFxiWJE6AuNsx7yzuRn1+nG
- 3zyAztQyF4WP4Yc/5zR/RG+zcX/XUGI3TQJkFASZzd9Z2ysORloZ+8rRuO3vfXBuNsaBwr
- imD3/pxICe9hknl47o65gBc6wG2ZK2tbeetw9N1jvXZAeToyvPjb9Nhvu+FVRhRSi6OtQH
- c1ZeGi/siGdUh0QSuRUc9wYOYrXuI1wpxmhNw2jFj7Y1cFAFiB5GOvT0xvrCI84623hKDv
- /fn+yUQwCAbD67G/kiKrs9PXdXIbRh8wHmEk5kqStkesZN1IrZBnzHU9M7PQzg==
-ARC-Authentication-Results: i=1;
-	mx1.freebsd.org;
-	none
-Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
- envelope-from=kevans@freebsd.org; helo=mx2.freebsd.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -127,91 +93,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 10:07 PM Brad Smith <brad@comstyle.com> wrote:
->
-> tests: Add sndio to the FreeBSD CI containers / VM
->
-> Signed-off-by: Brad Smith <brad@comstyle.com>
-> ---
->  .gitlab-ci.d/cirrus/freebsd-12.vars | 2 +-
->  .gitlab-ci.d/cirrus/freebsd-13.vars | 2 +-
->  tests/vm/freebsd                    | 3 +++
->  3 files changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/fr=
-eebsd-12.vars
-> index 1a5959810f..4a2b41a46c 100644
-> --- a/.gitlab-ci.d/cirrus/freebsd-12.vars
-> +++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
-> @@ -11,6 +11,6 @@ MAKE=3D'/usr/local/bin/gmake'
->  NINJA=3D'/usr/local/bin/ninja'
->  PACKAGING_COMMAND=3D'pkg'
->  PIP3=3D'/usr/local/bin/pip-3.8'
-> -PKGS=3D'alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoim=
-age cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext gi=
-t glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turb=
-o libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses n=
-ettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip=
- py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_ima=
-ge snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd=
-'
-> +PKGS=3D'alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoim=
-age cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext gi=
-t glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turb=
-o libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses n=
-ettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip=
- py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_ima=
-ge snappy sndio spice-protocol tesseract texinfo usbredir virglrenderer vte=
-3 zstd'
->  PYPI_PKGS=3D''
->  PYTHON=3D'/usr/local/bin/python3'
-> diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/fr=
-eebsd-13.vars
-> index 5e5aafd7e5..dc306aa858 100644
-> --- a/.gitlab-ci.d/cirrus/freebsd-13.vars
-> +++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
-> @@ -11,6 +11,6 @@ MAKE=3D'/usr/local/bin/gmake'
->  NINJA=3D'/usr/local/bin/ninja'
->  PACKAGING_COMMAND=3D'pkg'
->  PIP3=3D'/usr/local/bin/pip-3.8'
-> -PKGS=3D'alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoim=
-age cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext gi=
-t glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turb=
-o libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses n=
-ettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip=
- py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_ima=
-ge snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd=
-'
-> +PKGS=3D'alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoim=
-age cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext gi=
-t glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turb=
-o libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses n=
-ettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip=
- py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_ima=
-ge snappy sndio spice-protocol tesseract texinfo usbredir virglrenderer vte=
-3 zstd'
->  PYPI_PKGS=3D''
->  PYTHON=3D'/usr/local/bin/python3'
-> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-> index 3643fe325d..d6ff4461ba 100755
-> --- a/tests/vm/freebsd
-> +++ b/tests/vm/freebsd
-> @@ -66,6 +66,9 @@ class FreeBSDVM(basevm.BaseVM):
->
->          # libs: networking
->          "libslirp",
-> +
-> +        # libs: sndio
-> +        "sndio",
->      ]
->
->      BUILD_SCRIPT =3D """
-> --
+Damien Le Moal <damien.lemoal@opensource.wdc.com> writes:
 
-I'm afraid I'm not at all familiar with qemu's test setup, but sndio's
-a valid pkg name and I can deduce well enough from the context that
-these are indeed names that will be more or less passed to `pkg
-install` and thus, installed in the respective environments. FWIW:
+> On 9/1/22 23:57, Markus Armbruster wrote:
+>> Sam Li <faithilikerun@gmail.com> writes:
+>>=20
+>>> Markus Armbruster <armbru@redhat.com> =E4=BA=8E2022=E5=B9=B48=E6=9C=883=
+1=E6=97=A5=E5=91=A8=E4=B8=89 16:35=E5=86=99=E9=81=93=EF=BC=9A
+>>>>
+>>>> Sam Li <faithilikerun@gmail.com> writes:
+>>>>
+>>>>> Markus Armbruster <armbru@redhat.com> =E4=BA=8E2022=E5=B9=B48=E6=9C=
+=8830=E6=97=A5=E5=91=A8=E4=BA=8C 19:57=E5=86=99=E9=81=93=EF=BC=9A
 
-Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
+[...]
+
+>>>>> Zoned_host_device is basically host_device + zone operations. It
+>>>>> serves for a simple purpose: if the host device is zoned, register
+>>>>> zoned_host_device driver; else, register host_device.
+>>>>
+>>>> Why would I ever want to use host_device instead of zoned_host_device?
+>>>>
+>>>> To answer this question, we need to understand how their behavior
+>>>> differs.
+>>>>
+>>>> We can ignore the legacy protocol prefix / string filename part.
+>>>>
+>>>> All that's left seems to be "if the host device is zoned, then using t=
+he
+>>>> zoned_host_device driver gets you the zoned features, whereas using the
+>>>> host_device driver doesn't".  What am I missing?
+>>>
+>>> I think that's basically what users need to know about.
+>>=20
+>> Now answer my previous question, please: why would I ever want to use
+>> host_device instead of zoned_host_device?
+>>=20
+>> Or in other words, why would I ever want to present a zoned host device
+>> to a guest as non-zoned device?
+>>=20
+>>>>>> Notably common is .bdrv_file_open =3D hdev_open.  What happens when =
+you
+>>>>>> try to create a zoned_host_device where the @filename argument is no=
+t in
+>>>>>> fact a zoned device?
+>>>>>
+>>>>> If the device is a regular block device, QEMU will still open the
+>>>>> device. For instance, I use a loopback device to test zone_report in
+>>>>> qemu-io. It returns ENOTTY which indicates Inappropriate ioctl for the
+>>>>> device. Meanwhile, if using a regular block device when emulation a
+>>>>> zoned device on a guest os, the best case is that the guest can boot
+>>>>> but has no emulated block device. In some cases, QEMU just terminates
+>>>>> because the block device has not met the alignment requirements.
+>>>>
+>>>> I'm not sure I understand all of this.  I'm also not sure I have to :)
+>>>
+>>> Maybe I didn't explain it very well. Which part would you like to know
+>>> more about?
+>>=20
+>> Let's try more specific questions.  Say I configure a zoned_host_device
+>> backed by a host device that isn't zoned.
+>>=20
+>> 1. Is this configuration accepted?
+>
+> If we assume we have the special zoned_host_device driver, with the
+> associated command line zoned_host_device option explicitly calling for
+> it, then no, I do not think this should be allowed at all and an error
+> should be returned on startup. That would be consistent with the fact that
+> the options zoned_host_device and host_device are different to make sure
+> we can check that the user knows what he/she/them is doing.
+>
+> If we have only host_device as a setup option and driver, the driver
+> methods can be trivially adjusted to do the right thing based on the
+> device type (i.e. zoned vs regular/not zoned). However, that would prevent
+> an interesting future extension of this work to implement a full zone
+> emulation on top of a regular (not zoned) host block device.
+>
+> With this in mind, we currently have the following:
+>
+> 1) host_device option -> accept only regular non-zoned host block devices
+> 2) zoned_host_device option -> accept only zoned host block devices
+
+2) matches my intuitive expectations for this driver name.
+
+However, if host_device works even with a zoned host device before the
+patch presenting it as non-zoned to the guest, then it needs to continue
+to do so.
+
+> And in the future, we can have:
+>
+> 1) host_device option -> accept only regular non-zoned host block devices
+> 2) zoned_host_device option -> accept any host block device type
+> 	a) Use native zone kernel API for zoned host block devices
+> 	b) Use full zone emulation for regular host block devices
+
+Understood.
+
+> But sure, internally, we could have a single driver structure with methods
+> adjusted to do the correct thing based on the device type and option
+> specified. Having a 1:1 mapping between the driver name and driver
+> structure does clarify things I think (even though there are indeed a lot
+> of methods that are identical).
+
+I think this is basically a matter of user interface design.  Let's
+review what we have: host_device and host_cdrom.  I'm only passingly
+familiar with them, so please correct my misunderstandings, if any.
+
+host_device and host_cdrom let you "pass through" a host device to a
+guest.
+
+host_cdrom presents a removable device to the guest.  I appears to
+accept any host block device, even a non-removable one.  What happens
+when you try to use a non-removable host device as removable guest
+device I don't know.
+
+host_device presents a non-removable device to the guest.  It accepts
+any host block device, even a removable one (as long as it has a
+medium).
+
+host_device detects whether the host device is a SCSI generic device.
+Guest devices scsi-hd and scsi-cd reject a SCSI generic host device.
+Guest device scsi-block requires one (I think).
+
+On the one hand, there is precedence for using different driver types
+for different kinds of host devices: host_cdrom for removable ones,
+host_device for non-removable ones.
+
+On the other hand, there is precedence for using a single driver type
+for different kinds of host devices, with dynamic detection: host_device
+both for SCSI generic and for others.
+
+On the third hand, the "different driver type" story is complicated by
+us accepting the "wrong" kind of host device at least in some scenarios.
+
+Kevin, do you have an opinion on how the user interface should be?
+
+Next, do you have one on how it can be, given what we have?
+
+[...]
+
 
