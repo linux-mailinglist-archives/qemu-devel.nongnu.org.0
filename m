@@ -2,49 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939DA5EF5C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 14:54:29 +0200 (CEST)
-Received: from localhost ([::1]:45338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F9A95EF6CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 15:42:05 +0200 (CEST)
+Received: from localhost ([::1]:51916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odt3b-0001vR-Oj
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 08:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53878)
+	id 1odtng-0007Bg-GG
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 09:42:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1odrvh-0004Je-AP; Thu, 29 Sep 2022 07:42:15 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:27233)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1odrve-00015k-FK; Thu, 29 Sep 2022 07:42:12 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7648075A0FE;
- Thu, 29 Sep 2022 13:42:06 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 3DAF8746E06; Thu, 29 Sep 2022 13:42:06 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 3C06974633D;
- Thu, 29 Sep 2022 13:42:06 +0200 (CEST)
-Date: Thu, 29 Sep 2022 13:42:06 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v2 10/13] hw/ppc/mac.h: Move grackle-pcihost declaration
- out from shared header
-In-Reply-To: <197f737f-3ae8-6c73-7605-5bd89721dc3e@ilande.co.uk>
-Message-ID: <6cb830fc-1aa8-7ac9-b4a7-a251b9d79a@eik.bme.hu>
-References: <cover.1664108862.git.balaton@eik.bme.hu>
- <2ff9b0ca151cab09512b37d855d03eee4a62812a.1664108862.git.balaton@eik.bme.hu>
- <197f737f-3ae8-6c73-7605-5bd89721dc3e@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ods3C-0000NA-8x
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:05 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43862)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ods38-0002NS-Er
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:49:56 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id h7so1759143wru.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=R5BZF8K6ZhoW9OV4ExNUqQ51TJUdrkSyv1BWAJuhkG0=;
+ b=Tj6VXTWwdEgFtdNeLbHHJ7NyYRbpI2GXgw/U97jw7WBFCoHyvKB6XMA6F2FBtsHBYR
+ cdzCHlAQRcelrSDbZJhLuukZTzoQ5BRxy+RBZB+O2ZVwfE5eMobE87jdFA5X41jKUWmq
+ 2L4EBIBWMTBs6fTCJH9GfaKkJ7zCJA2u894eiStIy5aIOCntPDogms5V1vvG5DKI138c
+ gbr6eXPUev5xUUB0kqRDp7Pmvxbd8qNSP2wcjHomv9LGEvdCWDaHdJT9SkcIoFkc7tqC
+ a8mhSpe0HsqvlhvP5uA1q7nWwih6JeEL1nHoqJoRtlbubfNQFpEDX6uP8FcqAA5la7KF
+ 0/gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=R5BZF8K6ZhoW9OV4ExNUqQ51TJUdrkSyv1BWAJuhkG0=;
+ b=czybk5hg8TOI12cPO3VnsK6/03rXuTTc3dBJjzhjoQmUshxXg+hpZcVTJuFx9yvrTq
+ ZmLiCg/hQMhocd9uwyzagtANT12I29l3Q1brbTsi59H1S3UffTC9E0V0AoVU5z0xnQyc
+ mfHRRMRsewMBv2XpYLkly6Vqb675eTLaVpkZIjkD+nmX+ggAdqhtCstvPvvaoxK+tSiM
+ W6v0vPEnrhUS3TEgbxzU5DVh0un3EjztVFwObj7flg/IGxOSHwvA6Kt4GlKQ7rbHPT/R
+ 5SEH0UlnnanISoSE97dtk1IIyGw3MsfYO8rJ5byk8PTJY0lIvTvm1b9HC29VKQpJb4n/
+ iKIQ==
+X-Gm-Message-State: ACrzQf2bpwaQdNJ79LLcXL8SOBbVWqW/OWmvijGcRbriRxlJpYPZROWy
+ jnu3dze6j1VVbt0OP1l6kt04dA==
+X-Google-Smtp-Source: AMsMyM5Et9B/KV6FLmgkyKpbj2HHbcFfO5JPh7MNbjhcVRbcMDEiWFcMYsLYkp7CrY8U/SfuBxSAYA==
+X-Received: by 2002:adf:dd8f:0:b0:22a:84ab:4be3 with SMTP id
+ x15-20020adfdd8f000000b0022a84ab4be3mr1942252wrl.40.1664452193106; 
+ Thu, 29 Sep 2022 04:49:53 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ h9-20020a1c2109000000b003b4fac020c8sm3996987wmh.16.2022.09.29.04.49.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Sep 2022 04:49:51 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 680C11FFCF;
+ Thu, 29 Sep 2022 12:42:34 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
+ cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v1 27/51] configure: cleanup creation of tests/tcg target
+ config
+Date: Thu, 29 Sep 2022 12:42:07 +0100
+Message-Id: <20220929114231.583801-28-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
+References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,67 +99,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Sep 2022, Mark Cave-Ayland wrote:
-> On 25/09/2022 13:38, BALATON Zoltan wrote:
->
->> It is only used by mac_oldworld anyway and it already instantiates
->> a few devices by name so this allows reducing the shared header further.
->> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/pci-host/grackle.c | 1 +
->>   hw/ppc/mac.h          | 3 ---
->>   hw/ppc/mac_oldworld.c | 2 +-
->>   3 files changed, 2 insertions(+), 4 deletions(-)
->> 
->> diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
->> index b05facf463..5282123004 100644
->> --- a/hw/pci-host/grackle.c
->> +++ b/hw/pci-host/grackle.c
->> @@ -34,6 +34,7 @@
->>   #include "trace.h"
->>   #include "qom/object.h"
->>   +#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
->>   OBJECT_DECLARE_SIMPLE_TYPE(GrackleState, GRACKLE_PCI_HOST_BRIDGE)
->>     struct GrackleState {
->> diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
->> index 55cb02c990..fe77a6c6db 100644
->> --- a/hw/ppc/mac.h
->> +++ b/hw/ppc/mac.h
->> @@ -35,9 +35,6 @@
->>   #define KERNEL_LOAD_ADDR 0x01000000
->>   #define KERNEL_GAP       0x00100000
->>   -/* Grackle PCI */
->> -#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
->> -
->>   /* Mac NVRAM */
->>   #define TYPE_MACIO_NVRAM "macio-nvram"
->>   OBJECT_DECLARE_SIMPLE_TYPE(MacIONVRAMState, MACIO_NVRAM)
->> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
->> index 1fa7b770b7..1355d032ff 100644
->> --- a/hw/ppc/mac_oldworld.c
->> +++ b/hw/ppc/mac_oldworld.c
->> @@ -214,7 +214,7 @@ static void ppc_heathrow_init(MachineState *machine)
->>       }
->>         /* Grackle PCI host bridge */
->> -    grackle_dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
->> +    grackle_dev = qdev_new("grackle-pcihost");
->>       qdev_prop_set_uint32(grackle_dev, "ofw-addr", 0x80000000);
->>       s = SYS_BUS_DEVICE(grackle_dev);
->>       sysbus_realize_and_unref(s, &error_fatal);
->
-> Why did you include this patch again in v2 when I nacked it in v1?
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-You did not nack it just said you'd prefer a header instead. As a reviwer 
-you express your opinion not an absolute decision that can't be discussed. 
-I've replied to that but could not drop this patch as it's needed for 
-later patches to get mac.h cleaned so until we agree on something this has 
-left unchanged. I'm not a fan of one line headers and splitting up files 
-into separate directories that is harder to work with and also think 
-reorganising grackle is a separate clean up out of scope for this series 
-but OK, I'll move the TYPE define in a new header in the next version. 
-I'll wait for your reply on sysbus_mmio_map before sending a new version.
+Remove the symlink to tests/tcg/config-*.mak, which is possible now
+that unused target config files are not created either.
 
-Regards,
-BALATON Zoltan
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ configure   | 12 +++++-------
+ Makefile    |  2 +-
+ meson.build |  2 +-
+ 3 files changed, 7 insertions(+), 9 deletions(-)
+
+diff --git a/configure b/configure
+index 8b495d4453..c175650eb9 100755
+--- a/configure
++++ b/configure
+@@ -2540,10 +2540,6 @@ tcg_tests_targets=
+ for target in $target_list; do
+   arch=${target%%-*}
+ 
+-  config_target_mak=tests/tcg/config-$target.mak
+-
+-  echo "# Automatically generated by configure - do not modify" > $config_target_mak
+-  echo "TARGET_NAME=$arch" >> "$config_target_mak"
+   case $target in
+     xtensa*-linux-user)
+       # the toolchain is not complete with headers, only build softmmu tests
+@@ -2560,13 +2556,15 @@ for target in $target_list; do
+ 
+   if probe_target_compiler $target || test -n "$container_image"; then
+       test -n "$container_image" && build_static=y
+-      write_target_makefile "build-tcg-tests-$target >> "$config_target_mak"
+       mkdir -p "tests/tcg/$target"
++      config_target_mak=tests/tcg/$target/config-target.mak
+       ln -sf "$source_path/tests/tcg/Makefile.target" "tests/tcg/$target/Makefile"
+-      ln -sf "../config-$target.mak" "tests/tcg/$target/config-target.mak"
++      echo "# Automatically generated by configure - do not modify" > "$config_target_mak"
++      echo "TARGET_NAME=$arch" >> "$config_target_mak"
+       echo "TARGET=$target" >> "$config_target_mak"
+-      echo "QEMU=$PWD/$qemu" >> "$config_target_mak"
++      write_target_makefile "build-tcg-tests-$target" >> "$config_target_mak"
+       echo "BUILD_STATIC=$build_static" >> "$config_target_mak"
++      echo "QEMU=$PWD/$qemu" >> "$config_target_mak"
+       echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> Makefile.prereqs
+       tcg_tests_targets="$tcg_tests_targets $target"
+   fi
+diff --git a/Makefile b/Makefile
+index 357592ad39..a48103cc8a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -221,7 +221,7 @@ qemu-%.tar.bz2:
+ distclean: clean recurse-distclean
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
+ 	rm -f config-host.mak Makefile.prereqs qemu-bundle
+-	rm -f tests/tcg/config-*.mak
++	rm -f tests/tcg/*/config-target.mak tests/tcg/config-host.mak
+ 	rm -f config.status
+ 	rm -f roms/seabios/config.mak
+ 	rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
+diff --git a/meson.build b/meson.build
+index 8dc661363f..ac5ef05c21 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3738,7 +3738,7 @@ summary(summary_info, bool_yn: true, section: 'Compilation')
+ summary_info = {}
+ have_cross = false
+ foreach target: target_dirs
+-  tcg_mak = meson.current_build_dir() / 'tests/tcg' / 'config-' + target + '.mak'
++  tcg_mak = meson.current_build_dir() / 'tests/tcg' / target / 'config-target.mak'
+   if fs.exists(tcg_mak)
+     config_cross_tcg = keyval.load(tcg_mak)
+     if 'CC' in config_cross_tcg
+-- 
+2.34.1
+
 
