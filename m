@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A645EF19A
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 11:15:17 +0200 (CEST)
-Received: from localhost ([::1]:41640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A93CE5EF1AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 11:19:19 +0200 (CEST)
+Received: from localhost ([::1]:42528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odpdV-0008Db-2Z
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 05:15:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52642)
+	id 1odphO-0001W1-I7
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 05:19:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1odp2r-0000hr-Pj; Thu, 29 Sep 2022 04:37:25 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:34603)
+ id 1odp33-0000ka-Fb; Thu, 29 Sep 2022 04:38:05 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:45003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1odp2q-0007kq-74; Thu, 29 Sep 2022 04:37:25 -0400
-Received: by mail-pl1-x636.google.com with SMTP id n7so687624plp.1;
- Thu, 29 Sep 2022 01:37:21 -0700 (PDT)
+ id 1odp2w-0007lL-HK; Thu, 29 Sep 2022 04:37:37 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id c7so827192pgt.11;
+ Thu, 29 Sep 2022 01:37:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=57QnA/2Ol0DHKqe6YXTY3Gnm3ly91wDIHKEkFzHSeHU=;
- b=nnBX+pNBJXHXztOORjZ9jTZrBKRjeo3mF2vvl4Gv/87bw9ymnAuoFH7dUEjEevhoCC
- H4RCF9/8LlVrwfMhEqb+0vfH2UadLV/Rpi6X0uI8wDSeNoocXMV/q1D4hzv2e/SW9R+/
- 9l68HMUn2XIBDP2RTS9G94LC4g2kxeG5+TKrZT6yG1aQD+ijn6ypWnK9IwL+SmvcIuhH
- nZn6XSjhCgWgbnWH86mcZfQkIe9GXTmQCsSYr3VGFLeiKomRM4Gu+k9836CWboO1uU8u
- V9rBiLBAl7VnoI1iBA6GtSOClWQN9PL4C327zUOyuia5jJWK17fVchNwqWSyQu/u7s8Y
- KGbg==
+ bh=P5s1r+TdljxsgJm9EoSaBP3Yzp8UWe8irO8JsQPp+oo=;
+ b=qfJAqeI1lnC4OJhQSDPnJFnzmHxTRc5GCTYVoWJ1kCvUFeWt1eSNbGzgAaGVhR5IoP
+ 0omRhPmkWoo/TlviPs8L67uOmQlvSPgn3rrfKYWGRi6CJhpu1SLY+Q/ItznBOopoCBcr
+ 4BRbwqupGjMnrZxREbOfJaQDCRG6yVJcZKXFgGEw/cVSXN6VeBmQg5WpRMILXES8CRQt
+ KZ7FQ86D4ckNLqsTBRq7b2gX3OMD84uWA9qrf4U4hbU4GpO//3luQcdKRAYRnUah+CDB
+ gNmuJh75GdRosn25bXMRyfxb2GsNWsXbxHJBrLt7zBAT+Yc9gyk1blEq7L4h/a9WBrOP
+ YLiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=57QnA/2Ol0DHKqe6YXTY3Gnm3ly91wDIHKEkFzHSeHU=;
- b=dsLcfT6++THTAAXzrUQimBZYZ6Ubx2APhyY9f7mxVTXRgz3y6fUtT8MKgtc0laUh+3
- bbgHp2IoGtAHccZARVX1SutD0ZthQnmHrZVsc9KDW0KMQuF+nRd4+L9TxMLU1laXr9mu
- 8F2i+K1nxGINurJWD2/sfzU5enB5inU8qshBGgxHZjG/FOPqGjgEIdmdhZZ+lmzhZKdr
- NTMbJkIUZK1jHFVXp94uxcKm7B/f+JHBhGRgidJBzAXRXgcudfHPPYy28UmfrpEBmO5x
- i+0kK+rKJSyOg3m8BF65Nglcw6L10Wo3XD54s2t+dmnol+TqOmFpOwAH8FVUDZux5j/O
- sa5w==
-X-Gm-Message-State: ACrzQf0GzFHSjNgo5ABvDYhKokjuYNLt6sr/UHNkwF+awr9o+qpjBiFQ
- jsTglUH2L3RsD0hJc308IQjiUQ8ODMRHbA==
-X-Google-Smtp-Source: AMsMyM5bGU5nurdXPoY6b+eyYBtEKfmEOEDPSiug/iNMRUcKNUbk8/I5w89EWC/x0n4EjwBgc1ZTJw==
-X-Received: by 2002:a17:90b:164b:b0:202:d347:2512 with SMTP id
- il11-20020a17090b164b00b00202d3472512mr2511282pjb.185.1664440640615; 
- Thu, 29 Sep 2022 01:37:20 -0700 (PDT)
+ bh=P5s1r+TdljxsgJm9EoSaBP3Yzp8UWe8irO8JsQPp+oo=;
+ b=k8iR+DqKOuMKImIW7m5pP+Ds9WNhT98HyN61m9x1VukcaN28mR+PTbCl6b5vnV/BAF
+ 3R4rk+52sE8dAW2QMta4VFNy/fmtR1FNZ2thdyx50SPPnT++Miwxa0hXYSOEiciu/oUy
+ cOLDtN7H7tMl21LZeyzeUElNcqrPjDezpSVcod3QN2wV+/IrbqlSX6QM+L2ix5JuAriN
+ eHZxvVbEY/rJszWUPOiHo3SW5AVlj6ioVriQRBLA4YRTGFf0KBWImjbsXE8NsraRWXSV
+ aTPqKSjR9zs1Xreu9tIJtrRKPw5UEjgNPYFtGLcXcGPuRX0QsnsnRiHKOMdP95YH5BUQ
+ 4gSQ==
+X-Gm-Message-State: ACrzQf2UMQ3B6azWi+/l0RDJ916ErIvgtFyZVBkL2GZK9tuoG+1ulxkF
+ 0iXm9BUV5RK0sbrmWLPuGgdGCGXtcag6WA==
+X-Google-Smtp-Source: AMsMyM64n2ldw/7y5Dm//u+CfsWhedgtvRYe5j+ugkEnzz6lgWfx2hDNgk6YGTJRFHR8EsVBrwm64w==
+X-Received: by 2002:a05:6a00:17a1:b0:542:be09:7b23 with SMTP id
+ s33-20020a056a0017a100b00542be097b23mr2347622pfg.12.1664440648377; 
+ Thu, 29 Sep 2022 01:37:28 -0700 (PDT)
 Received: from roots.. ([112.44.202.63]) by smtp.gmail.com with ESMTPSA id
- s5-20020a170902ea0500b0017829a3df46sm5324233plg.204.2022.09.29.01.37.13
+ s5-20020a170902ea0500b0017829a3df46sm5324233plg.204.2022.09.29.01.37.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 01:37:20 -0700 (PDT)
+ Thu, 29 Sep 2022 01:37:28 -0700 (PDT)
 From: Sam Li <faithilikerun@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: damien.lemoal@opensource.wdc.com, Kevin Wolf <kwolf@redhat.com>,
@@ -58,17 +58,16 @@ Cc: damien.lemoal@opensource.wdc.com, Kevin Wolf <kwolf@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
  stefanha@redhat.com, Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
  dmitry.fomichev@wdc.com, Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v10 4/7] raw-format: add zone operations to pass through
- requests
-Date: Thu, 29 Sep 2022 16:36:28 +0800
-Message-Id: <20220929083631.61899-5-faithilikerun@gmail.com>
+Subject: [PATCH v10 5/7] config: add check to block layer
+Date: Thu, 29 Sep 2022 16:36:29 +0800
+Message-Id: <20220929083631.61899-6-faithilikerun@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929083631.61899-1-faithilikerun@gmail.com>
 References: <20220929083631.61899-1-faithilikerun@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=faithilikerun@gmail.com; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,47 +90,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-raw-format driver usually sits on top of file-posix driver. It needs to
-pass through requests of zone commands.
+Putting zoned/non-zoned BlockDrivers on top of each other is not
+allowed.
 
 Signed-off-by: Sam Li <faithilikerun@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 ---
- block/raw-format.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ block.c                          | 17 +++++++++++++++++
+ block/file-posix.c               | 13 +++++++++++++
+ block/raw-format.c               |  1 +
+ include/block/block_int-common.h |  5 +++++
+ 4 files changed, 36 insertions(+)
+ mode change 100644 => 100755 block.c
+ mode change 100644 => 100755 block/file-posix.c
 
+diff --git a/block.c b/block.c
+old mode 100644
+new mode 100755
+index bc85f46eed..bf2f2918e7
+--- a/block.c
++++ b/block.c
+@@ -7947,6 +7947,23 @@ void bdrv_add_child(BlockDriverState *parent_bs, BlockDriverState *child_bs,
+         return;
+     }
+ 
++    /*
++     * Non-zoned block drivers do not follow zoned storage constraints
++     * (i.e. sequential writes to zones). Refuse mixing zoned and non-zoned
++     * drivers in a graph.
++     */
++    if (!parent_bs->drv->supports_zoned_children &&
++        /* The host-aware model allows zoned storage constraints and random
++         * write. Allow mixing host-aware and non-zoned drivers. Using
++         * host-aware device as a regular device. */
++        child_bs->bl.zoned == BLK_Z_HM) {
++        error_setg(errp, "Cannot add a %s child to a %s parent",
++                   child_bs->bl.zoned == BLK_Z_HM ? "zoned" : "non-zoned",
++                   parent_bs->drv->supports_zoned_children ?
++                   "support zoned children" : "not support zoned children");
++        return;
++    }
++
+     if (!QLIST_EMPTY(&child_bs->parents)) {
+         error_setg(errp, "The node %s already has a parent",
+                    child_bs->node_name);
+diff --git a/block/file-posix.c b/block/file-posix.c
+old mode 100644
+new mode 100755
+index 0a6c781201..73656d87f2
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -779,6 +779,19 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+             goto fail;
+         }
+     }
++#ifdef CONFIG_BLKZONED
++    /*
++     * The kernel page cache does not reliably work for writes to SWR zones
++     * of zoned block device because it can not guarantee the order of writes.
++     */
++    if (strcmp(bs->drv->format_name, "zoned_host_device") == 0) {
++        if (!(s->open_flags & O_DIRECT)) {
++            error_setg(errp, "driver=zoned_host_device was specified, but it "
++                             "requires cache.direct=on, which was not specified.");
++            return -EINVAL; /* No host kernel page cache */
++        }
++    }
++#endif
+ 
+     if (S_ISBLK(st.st_mode)) {
+ #ifdef BLKDISCARDZEROES
 diff --git a/block/raw-format.c b/block/raw-format.c
-index 69fd650eaf..6b20bd22ef 100644
+index 6b20bd22ef..9441536819 100644
 --- a/block/raw-format.c
 +++ b/block/raw-format.c
-@@ -314,6 +314,17 @@ static int coroutine_fn raw_co_pdiscard(BlockDriverState *bs,
-     return bdrv_co_pdiscard(bs->file, offset, bytes);
- }
+@@ -614,6 +614,7 @@ static void raw_child_perm(BlockDriverState *bs, BdrvChild *c,
+ BlockDriver bdrv_raw = {
+     .format_name          = "raw",
+     .instance_size        = sizeof(BDRVRawState),
++    .supports_zoned_children = true,
+     .bdrv_probe           = &raw_probe,
+     .bdrv_reopen_prepare  = &raw_reopen_prepare,
+     .bdrv_reopen_commit   = &raw_reopen_commit,
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index cdc06e77a6..37dddc603c 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -127,6 +127,11 @@ struct BlockDriver {
+      */
+     bool is_format;
  
-+static int coroutine_fn raw_co_zone_report(BlockDriverState *bs, int64_t offset,
-+                                           unsigned int *nr_zones,
-+                                           BlockZoneDescriptor *zones) {
-+    return bdrv_co_zone_report(bs->file->bs, offset, nr_zones, zones);
-+}
++    /*
++     * Set to true if the BlockDriver supports zoned children.
++     */
++    bool supports_zoned_children;
 +
-+static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
-+                                         int64_t offset, int64_t len) {
-+    return bdrv_co_zone_mgmt(bs->file->bs, op, offset, len);
-+}
-+
- static int64_t raw_getlength(BlockDriverState *bs)
- {
-     int64_t len;
-@@ -614,6 +625,8 @@ BlockDriver bdrv_raw = {
-     .bdrv_co_pwritev      = &raw_co_pwritev,
-     .bdrv_co_pwrite_zeroes = &raw_co_pwrite_zeroes,
-     .bdrv_co_pdiscard     = &raw_co_pdiscard,
-+    .bdrv_co_zone_report  = &raw_co_zone_report,
-+    .bdrv_co_zone_mgmt  = &raw_co_zone_mgmt,
-     .bdrv_co_block_status = &raw_co_block_status,
-     .bdrv_co_copy_range_from = &raw_co_copy_range_from,
-     .bdrv_co_copy_range_to  = &raw_co_copy_range_to,
+     /*
+      * Drivers not implementing bdrv_parse_filename nor bdrv_open should have
+      * this field set to true, except ones that are defined only by their
 -- 
 2.37.3
 
