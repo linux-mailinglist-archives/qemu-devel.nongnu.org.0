@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4935EF762
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:21:29 +0200 (CEST)
-Received: from localhost ([::1]:53006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C515EF7DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:42:27 +0200 (CEST)
+Received: from localhost ([::1]:35134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oduPo-0008C4-3m
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:21:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47466)
+	id 1oduk4-0001wR-Nr
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:42:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3J-0000NX-53
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:06 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44693)
+ id 1odsD2-0007XO-SY
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:08 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3D-0002OF-Tp
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:03 -0400
-Received: by mail-wr1-x429.google.com with SMTP id c11so1760917wrp.11
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:49:57 -0700 (PDT)
+ id 1odsCs-0004Me-NJ
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:08 -0400
+Received: by mail-wr1-x432.google.com with SMTP id u10so1708291wrq.2
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:59:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=2uVWGDizSikUyJ3V+rUokvNA+pyyWFcnEoJpXpnX15E=;
- b=rBdRTxMoWrf+jXplRsG7YNS0Ig1ZlM3mcZHPC4s4QO2PvSFGbaee2xRbeE+SoSVecC
- HfBpuqkrOoiAo0IvusRkyZSHmdHRzKaGGLD847f07u9InySJ1DERtajyCJqULUnZ5cHh
- 6SHujvyGlwU1pF2Mjc4+7Kdej+xlXQToFSmylSjRgPgZ0o8XOrXV+TCdcr/jmr05Omek
- yGqX9uM7C2YNGtYtTbpywJuzzLtfhK7mVH/+ELTQKeOE7pSjxBF/8WSgFUjkwYZQCY1u
- VcJM1KJcK2phJ4lLwipEXozw6vMt42A2vaxptiQcHklRgbraF/0jQqtYUDq0C9l7YXGO
- UFDg==
+ bh=RThMpAcquckEsmo9M7gWSUy/bG/u2xwngozgZS5qNSs=;
+ b=S1XZE1uLP2UXXLgT81/QSvXAqcZG/Io9mliRlSL6zKPW+/qD78VuO41qA3TyWenOFo
+ 1O4CBzQEs6sfc4+/fVdeS7V1N8UHOcfMsVj6e240+w1GGWjk9P+ODNGo/do0TJf1a11e
+ 339JVlJkRekRZhqfJ49YXQvKAOUpxQdVGcKCU/+Cw25sMuKLY4OqQZaY0oXO82MlwVyF
+ Nh+QQU5/UAQPUWYyfoW/ntZAVu7svBwu1ZFjIAHmmigm8vvOS/kz1WN4Ra+KBHCqeMiS
+ dipwb14T7SOTC9jdqFbU5nq67pNxWMAhjOJCIM8d/Xf7OaWX5hPEVwBqO0oJL1IvYcOx
+ Fs5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=2uVWGDizSikUyJ3V+rUokvNA+pyyWFcnEoJpXpnX15E=;
- b=iXFW0Yjtkiq1/bRpuYFQ2V2PhNz485cGGCLMXr5n0BVCaU25iA35uVCtMQ/VxT1Phv
- XL/AKKODgsum+Ab86/vqJ6kXf9bR3P2fuuqDLw5uQDs1jfMRx/qeoGFogpv2XbkubeZ+
- SjnNQVLBpwy7sW0BZ5flRdkc7nmShw/Hf2GOuKP555rq0z7oLPEBoOkacNwqNEfWZ70u
- zhohNoTq5G6D/zrhskNCR3w0ksG3zIC84blLTNlTPzs/bAOgBK64wdB4JznNxBgew172
- kr6Xywy5wTItJk2nm0zGopzUBKJt3mZXe2PiFxokDzXsmkFvbA4azJOKDB3UWQtjtYuQ
- sikQ==
-X-Gm-Message-State: ACrzQf2BZd0ue2Keadf2yisLBuOxe69f0CG7KJOVfJOJF94+mzMD1tND
- WoEQnnivULjDlMZTyTE0+Td5gg==
-X-Google-Smtp-Source: AMsMyM6yrN4pZLsRYAa94YNWt50ijcDR0A0+pfBy8JMfcKzasgnMJBhUFtqnhJQe5krjQbq//6x8Aw==
-X-Received: by 2002:a05:6000:1806:b0:22c:ca13:20c1 with SMTP id
- m6-20020a056000180600b0022cca1320c1mr1857170wrh.460.1664452196736; 
- Thu, 29 Sep 2022 04:49:56 -0700 (PDT)
+ bh=RThMpAcquckEsmo9M7gWSUy/bG/u2xwngozgZS5qNSs=;
+ b=R50sw65d9pyAiU91yAqboiKJQn8sTAaJB2jEIX6HDtfQr4Te6rxOr3l0Z6I66m7aDv
+ Ywj155X3UBngmEiT28iJXYRjbTdUCeIkaoSo/kvYtHM6+s3FDTdsQxnWqn0fg37XU1zs
+ qTBg7xr86SZkxno4ayRZE2UImG2rmCJaxJZogpWmOWHwIGrdKIDarmdbDvDEAlurLH2l
+ bTI9tdXIzJ/vearCYXBUeYj5exbvrRmi9w/MzsUqARCHIe7dKIv7R7WUsEhenMqJeRrV
+ 3RM10UcDBxTQ5injiQSxjP4Zu+jR1GxrOxuMhgCqWgMmvHlJAU3nzJjjuOBDrxPqtYSt
+ AncA==
+X-Gm-Message-State: ACrzQf3IsG9vYzWa0W7BiTjtDadcsez4QDTsJZl/160ZzePTqi+eYVI6
+ 1yF4HuRiL5u4yyUeqQLcMXtkvQ==
+X-Google-Smtp-Source: AMsMyM5U+hyM9z5UeP85EpiNHR8ivz2X7BUaOL82RthDTMXti2bQ2Qq+ahW/6XXAwgSextGOJlQ9GA==
+X-Received: by 2002:a05:6000:711:b0:22a:e78d:be05 with SMTP id
+ bs17-20020a056000071100b0022ae78dbe05mr2071108wrb.338.1664452796998; 
+ Thu, 29 Sep 2022 04:59:56 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- r7-20020adfda47000000b0021e51c039c5sm6429437wrl.80.2022.09.29.04.49.52
+ q4-20020adf9dc4000000b0022cce7689d3sm2609026wre.36.2022.09.29.04.59.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:49:54 -0700 (PDT)
+ Thu, 29 Sep 2022 04:59:54 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 394EC1FFDC;
+ by zen.linaroharston (Postfix) with ESMTP id A522C1FFDE;
  Thu, 29 Sep 2022 12:42:36 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -65,20 +65,20 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
  Mads Ynddal <mads@ynddal.dk>,
+ Richard Henderson <richard.henderson@linaro.org>,
  kvm@vger.kernel.org (open list:Overall KVM CPUs)
-Subject: [PATCH  v1 43/51] gdbstub: move sstep flags probing into AccelClass
-Date: Thu, 29 Sep 2022 12:42:23 +0100
-Message-Id: <20220929114231.583801-44-alex.bennee@linaro.org>
+Subject: [PATCH  v1 45/51] gdbstub: move guest debug support check to ops
+Date: Thu, 29 Sep 2022 12:42:25 +0100
+Message-Id: <20220929114231.583801-46-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,223 +101,207 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The support of single-stepping is very much dependent on support from
-the accelerator we are using. To avoid special casing in gdbstub move
-the probing out to an AccelClass function so future accelerators can
-put their code there.
+This removes the final hard coding of kvm_enabled() in gdbstub and
+moves the check to an AccelOps.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Cc: Mads Ynddal <mads@ynddal.dk>
-Message-Id: <20220927141504.3886314-13-alex.bennee@linaro.org>
+Message-Id: <20220927141504.3886314-15-alex.bennee@linaro.org>
 ---
- include/qemu/accel.h | 12 ++++++++++++
- include/sysemu/kvm.h |  8 --------
- accel/accel-common.c | 10 ++++++++++
- accel/kvm/kvm-all.c  | 14 +++++++++++++-
- accel/tcg/tcg-all.c  | 17 +++++++++++++++++
- gdbstub/gdbstub.c    | 22 ++++------------------
- 6 files changed, 56 insertions(+), 27 deletions(-)
+ accel/kvm/kvm-cpus.h       | 1 +
+ gdbstub/internals.h        | 1 +
+ include/sysemu/accel-ops.h | 1 +
+ include/sysemu/kvm.h       | 7 -------
+ accel/kvm/kvm-accel-ops.c  | 1 +
+ accel/kvm/kvm-all.c        | 6 ++++++
+ accel/tcg/tcg-accel-ops.c  | 6 ++++++
+ gdbstub/gdbstub.c          | 5 ++---
+ gdbstub/softmmu.c          | 9 +++++++++
+ gdbstub/user.c             | 6 ++++++
+ 10 files changed, 33 insertions(+), 10 deletions(-)
 
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index be56da1b99..ce4747634a 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -43,6 +43,10 @@ typedef struct AccelClass {
-     bool (*has_memory)(MachineState *ms, AddressSpace *as,
-                        hwaddr start_addr, hwaddr size);
- #endif
-+
-+    /* gdbstub related hooks */
-+    int (*gdbstub_supported_sstep_flags)(void);
-+
-     bool *allowed;
-     /*
-      * Array of global properties that would be applied when specific
-@@ -92,4 +96,12 @@ void accel_cpu_instance_init(CPUState *cpu);
-  */
- bool accel_cpu_realizefn(CPUState *cpu, Error **errp);
+diff --git a/accel/kvm/kvm-cpus.h b/accel/kvm/kvm-cpus.h
+index 33e435d62b..fd63fe6a59 100644
+--- a/accel/kvm/kvm-cpus.h
++++ b/accel/kvm/kvm-cpus.h
+@@ -18,6 +18,7 @@ void kvm_destroy_vcpu(CPUState *cpu);
+ void kvm_cpu_synchronize_post_reset(CPUState *cpu);
+ void kvm_cpu_synchronize_post_init(CPUState *cpu);
+ void kvm_cpu_synchronize_pre_loadvm(CPUState *cpu);
++bool kvm_supports_guest_debug(void);
+ int kvm_insert_breakpoint(CPUState *cpu, int type, hwaddr addr, hwaddr len);
+ int kvm_remove_breakpoint(CPUState *cpu, int type, hwaddr addr, hwaddr len);
+ void kvm_remove_all_breakpoints(CPUState *cpu);
+diff --git a/gdbstub/internals.h b/gdbstub/internals.h
+index 41e2e72dbf..eabb0341d1 100644
+--- a/gdbstub/internals.h
++++ b/gdbstub/internals.h
+@@ -9,6 +9,7 @@
+ #ifndef _INTERNALS_H_
+ #define _INTERNALS_H_
  
-+/**
-+ * accel_supported_gdbstub_sstep_flags:
-+ *
-+ * Returns the supported single step modes for the configured
-+ * accelerator.
-+ */
-+int accel_supported_gdbstub_sstep_flags(void);
-+
- #endif /* QEMU_ACCEL_H */
++bool gdb_supports_guest_debug(void);
+ int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len);
+ int gdb_breakpoint_remove(CPUState *cs, int type, hwaddr addr, hwaddr len);
+ void gdb_breakpoint_remove_all(CPUState *cs);
+diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
+index 86794ac273..8cc7996def 100644
+--- a/include/sysemu/accel-ops.h
++++ b/include/sysemu/accel-ops.h
+@@ -47,6 +47,7 @@ struct AccelOpsClass {
+     int64_t (*get_elapsed_ticks)(void);
+ 
+     /* gdbstub hooks */
++    bool (*supports_guest_debug)(void);
+     int (*insert_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwaddr len);
+     int (*remove_breakpoint)(CPUState *cpu, int type, hwaddr addr, hwaddr len);
+     void (*remove_all_breakpoints)(CPUState *cpu);
 diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index efd6dee818..a20ad51aad 100644
+index 21d3f1d01e..6e1bd01725 100644
 --- a/include/sysemu/kvm.h
 +++ b/include/sysemu/kvm.h
-@@ -47,7 +47,6 @@ extern bool kvm_direct_msi_allowed;
+@@ -46,7 +46,6 @@ extern bool kvm_readonly_mem_allowed;
+ extern bool kvm_direct_msi_allowed;
  extern bool kvm_ioeventfd_any_length_allowed;
  extern bool kvm_msi_use_devid;
- extern bool kvm_has_guest_debug;
--extern int kvm_sstep_flags;
+-extern bool kvm_has_guest_debug;
  
  #define kvm_enabled()           (kvm_allowed)
  /**
-@@ -174,12 +173,6 @@ extern int kvm_sstep_flags;
+@@ -168,11 +167,6 @@ extern bool kvm_has_guest_debug;
   */
- #define kvm_supports_guest_debug() (kvm_has_guest_debug)
+ #define kvm_msi_devid_required() (kvm_msi_use_devid)
  
 -/*
-- * kvm_supported_sstep_flags
-- * Returns: SSTEP_* flags that KVM supports for guest debug
+- * Does KVM support guest debugging
 - */
--#define kvm_get_supported_sstep_flags() (kvm_sstep_flags)
+-#define kvm_supports_guest_debug() (kvm_has_guest_debug)
 -
  #else
  
  #define kvm_enabled()           (0)
-@@ -198,7 +191,6 @@ extern int kvm_sstep_flags;
+@@ -190,7 +184,6 @@ extern bool kvm_has_guest_debug;
+ #define kvm_direct_msi_enabled() (false)
  #define kvm_ioeventfd_any_length_enabled() (false)
  #define kvm_msi_devid_required() (false)
- #define kvm_supports_guest_debug() (false)
--#define kvm_get_supported_sstep_flags() (0)
+-#define kvm_supports_guest_debug() (false)
  
  #endif  /* CONFIG_KVM_IS_POSSIBLE */
  
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index 50035bda55..df72cc989a 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -129,6 +129,16 @@ bool accel_cpu_realizefn(CPUState *cpu, Error **errp)
-     return true;
- }
+diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
+index 5c0e37514c..fbf4fe3497 100644
+--- a/accel/kvm/kvm-accel-ops.c
++++ b/accel/kvm/kvm-accel-ops.c
+@@ -99,6 +99,7 @@ static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
+     ops->synchronize_pre_loadvm = kvm_cpu_synchronize_pre_loadvm;
  
-+int accel_supported_gdbstub_sstep_flags(void)
-+{
-+    AccelState *accel = current_accel();
-+    AccelClass *acc = ACCEL_GET_CLASS(accel);
-+    if (acc->gdbstub_supported_sstep_flags) {
-+        return acc->gdbstub_supported_sstep_flags();
-+    }
-+    return 0;
-+}
-+
- static const TypeInfo accel_cpu_type = {
-     .name = TYPE_ACCEL_CPU,
-     .parent = TYPE_OBJECT,
+ #ifdef KVM_CAP_SET_GUEST_DEBUG
++    ops->supports_guest_debug = kvm_supports_guest_debug;
+     ops->insert_breakpoint = kvm_insert_breakpoint;
+     ops->remove_breakpoint = kvm_remove_breakpoint;
+     ops->remove_all_breakpoints = kvm_remove_all_breakpoints;
 diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 5acab1767f..c55938453a 100644
+index b8c734fe3a..6ebff6e5a6 100644
 --- a/accel/kvm/kvm-all.c
 +++ b/accel/kvm/kvm-all.c
-@@ -175,7 +175,7 @@ bool kvm_direct_msi_allowed;
- bool kvm_ioeventfd_any_length_allowed;
- bool kvm_msi_use_devid;
- bool kvm_has_guest_debug;
--int kvm_sstep_flags;
-+static int kvm_sstep_flags;
- static bool kvm_immediate_exit;
- static hwaddr kvm_max_slot_size = ~0;
- 
-@@ -3712,6 +3712,17 @@ static void kvm_accel_instance_init(Object *obj)
-     s->kvm_dirty_ring_size = 0;
+@@ -3287,6 +3287,12 @@ int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap)
+     return data.err;
  }
  
-+/**
-+ * kvm_gdbstub_sstep_flags():
-+ *
-+ * Returns: SSTEP_* flags that KVM supports for guest debug. The
-+ * support is probed during kvm_init()
-+ */
-+static int kvm_gdbstub_sstep_flags(void)
++bool kvm_supports_guest_debug(void)
 +{
-+    return kvm_sstep_flags;
++    /* probed during kvm_init() */
++    return kvm_has_guest_debug;
 +}
 +
- static void kvm_accel_class_init(ObjectClass *oc, void *data)
+ int kvm_insert_breakpoint(CPUState *cpu, int type, hwaddr addr, hwaddr len)
  {
-     AccelClass *ac = ACCEL_CLASS(oc);
-@@ -3719,6 +3730,7 @@ static void kvm_accel_class_init(ObjectClass *oc, void *data)
-     ac->init_machine = kvm_init;
-     ac->has_memory = kvm_accel_has_memory;
-     ac->allowed = &kvm_allowed;
-+    ac->gdbstub_supported_sstep_flags = kvm_gdbstub_sstep_flags;
- 
-     object_class_property_add(oc, "kernel-irqchip", "on|off|split",
-         NULL, kvm_set_kernel_irqchip,
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index 47952eecd7..30b503fb22 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -25,6 +25,7 @@
- 
- #include "qemu/osdep.h"
- #include "sysemu/tcg.h"
-+#include "sysemu/replay.h"
- #include "sysemu/cpu-timers.h"
- #include "tcg/tcg.h"
- #include "qapi/error.h"
-@@ -207,12 +208,28 @@ static void tcg_set_splitwx(Object *obj, bool value, Error **errp)
-     s->splitwx_enabled = value;
+     struct kvm_sw_breakpoint *bp;
+diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
+index 965c2ad581..19cbf1db3a 100644
+--- a/accel/tcg/tcg-accel-ops.c
++++ b/accel/tcg/tcg-accel-ops.c
+@@ -93,6 +93,11 @@ void tcg_handle_interrupt(CPUState *cpu, int mask)
+     }
  }
  
-+static int tcg_gdbstub_supported_sstep_flags(void)
++static bool tcg_supports_guest_debug(void)
 +{
-+    /*
-+     * In replay mode all events will come from the log and can't be
-+     * suppressed otherwise we would break determinism. However as those
-+     * events are tied to the number of executed instructions we won't see
-+     * them occurring every time we single step.
-+     */
-+    if (replay_mode != REPLAY_MODE_NONE) {
-+        return SSTEP_ENABLE;
-+    } else {
-+        return SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
-+    }
++    return true;
 +}
 +
- static void tcg_accel_class_init(ObjectClass *oc, void *data)
+ /* Translate GDB watchpoint type to a flags value for cpu_watchpoint_* */
+ static inline int xlat_gdb_type(CPUState *cpu, int gdbtype)
  {
-     AccelClass *ac = ACCEL_CLASS(oc);
-     ac->name = "tcg";
-     ac->init_machine = tcg_init_machine;
-     ac->allowed = &tcg_allowed;
-+    ac->gdbstub_supported_sstep_flags = tcg_gdbstub_supported_sstep_flags;
+@@ -198,6 +203,7 @@ static void tcg_accel_ops_init(AccelOpsClass *ops)
+         }
+     }
  
-     object_class_property_add_str(oc, "thread",
-                                   tcg_get_thread,
++    ops->supports_guest_debug = tcg_supports_guest_debug;
+     ops->insert_breakpoint = tcg_insert_breakpoint;
+     ops->remove_breakpoint = tcg_remove_breakpoint;
+     ops->remove_all_breakpoints = tcg_remove_all_breakpoints;
 diff --git a/gdbstub/gdbstub.c b/gdbstub/gdbstub.c
-index 7d8fe475b3..a0755e6505 100644
+index ff9f3f9586..be88ca0d71 100644
 --- a/gdbstub/gdbstub.c
 +++ b/gdbstub/gdbstub.c
-@@ -383,27 +383,13 @@ static void init_gdbserver_state(void)
-     gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
+@@ -45,7 +45,6 @@
  
-     /*
--     * In replay mode all events will come from the log and can't be
--     * suppressed otherwise we would break determinism. However as those
--     * events are tied to the number of executed instructions we won't see
--     * them occurring every time we single step.
--     */
--    if (replay_mode != REPLAY_MODE_NONE) {
--        gdbserver_state.supported_sstep_flags = SSTEP_ENABLE;
--    } else if (kvm_enabled()) {
--        gdbserver_state.supported_sstep_flags = kvm_get_supported_sstep_flags();
--    } else {
--        gdbserver_state.supported_sstep_flags =
--            SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
--    }
--
--    /*
--     * By default use no IRQs and no timers while single stepping so as to
--     * make single stepping like an ICE HW step.
-+     * What single-step modes are supported is accelerator dependent.
-+     * By default try to use no IRQs and no timers while single
-+     * stepping so as to make single stepping like a typical ICE HW step.
-      */
-+    gdbserver_state.supported_sstep_flags = accel_supported_gdbstub_sstep_flags();
-     gdbserver_state.sstep_flags = SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
-     gdbserver_state.sstep_flags &= gdbserver_state.supported_sstep_flags;
--
- }
+ #include "qemu/sockets.h"
+ #include "sysemu/hw_accel.h"
+-#include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
+ #include "semihosting/semihost.h"
+ #include "exec/exec-all.h"
+@@ -3447,8 +3446,8 @@ int gdbserver_start(const char *device)
+         return -1;
+     }
  
- #ifndef CONFIG_USER_ONLY
+-    if (kvm_enabled() && !kvm_supports_guest_debug()) {
+-        error_report("gdbstub: KVM doesn't support guest debugging");
++    if (!gdb_supports_guest_debug()) {
++        error_report("gdbstub: current accelerator doesn't support guest debugging");
+         return -1;
+     }
+ 
+diff --git a/gdbstub/softmmu.c b/gdbstub/softmmu.c
+index 4e73890379..f208c6cf15 100644
+--- a/gdbstub/softmmu.c
++++ b/gdbstub/softmmu.c
+@@ -15,6 +15,15 @@
+ #include "sysemu/cpus.h"
+ #include "internals.h"
+ 
++bool gdb_supports_guest_debug(void)
++{
++    const AccelOpsClass *ops = cpus_get_accel();
++    if (ops->supports_guest_debug) {
++        return ops->supports_guest_debug();
++    }
++    return false;
++}
++
+ int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len)
+ {
+     const AccelOpsClass *ops = cpus_get_accel();
+diff --git a/gdbstub/user.c b/gdbstub/user.c
+index 42652b28a7..033e5fdd71 100644
+--- a/gdbstub/user.c
++++ b/gdbstub/user.c
+@@ -14,6 +14,12 @@
+ #include "hw/core/cpu.h"
+ #include "internals.h"
+ 
++bool gdb_supports_guest_debug(void)
++{
++    /* user-mode == TCG == supported */
++    return true;
++}
++
+ int gdb_breakpoint_insert(CPUState *cs, int type, hwaddr addr, hwaddr len)
+ {
+     CPUState *cpu;
 -- 
 2.34.1
 
