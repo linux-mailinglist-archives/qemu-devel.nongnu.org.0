@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA97D5EECFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 07:04:12 +0200 (CEST)
-Received: from localhost ([::1]:43512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6875EED10
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 07:09:13 +0200 (CEST)
+Received: from localhost ([::1]:40000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odliV-0000Ro-Fc
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 01:04:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44772)
+	id 1odlnL-00027A-Vz
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 01:09:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odlej-0006z0-TA
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 01:00:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55291)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odlee-0001Iz-Ei
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 01:00:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664427611;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=13EC812OqoAlIkvPTtn8TWrLU5Hk9ePA8McjdAaF51M=;
- b=ZnD+4kqMVmhlffy4y+1ZCY3Q8x3D3/ShOXBtGReDHZxiQNA2iM8w7YASFfohNeN/vpSBVF
- 0yP0907a8DgGHwh1jopLfXxGgJiD2GwOPEDg2FDk8JtOUb8LOiWb6nVb2SAWH3eFZOUNSi
- dqYQZWRiYDUh1M2wIEFIxAQAQw2UUKs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-wTUyEimAMoumlLz0yJU8Dw-1; Thu, 29 Sep 2022 01:00:06 -0400
-X-MC-Unique: wTUyEimAMoumlLz0yJU8Dw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E177083394A;
- Thu, 29 Sep 2022 05:00:05 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D84940C6EC2;
- Thu, 29 Sep 2022 05:00:05 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4E77421E691D; Thu, 29 Sep 2022 07:00:03 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Kim, Dongwon" <dongwon.kim@intel.com>
-Cc: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,  "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>,  Gerd Hoffmann <kraxel@redhat.com>,  Daniel
- =?utf-8?Q?P=2EBerrang=C3=A9?= <berrange@redhat.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v1 0/3] ui/gtk: Add a new parameter to assign
- connectors/monitors to Guests' windows
-References: <20220917000731.465003-1-vivek.kasireddy@intel.com>
- <87a66uhytr.fsf@pond.sub.org>
- <IA0PR11MB718538F0549024D9D66C2410F84C9@IA0PR11MB7185.namprd11.prod.outlook.com>
- <87pmfpfei8.fsf@pond.sub.org>
- <c18c0afd-9902-cf28-9249-b5df61deda96@intel.com>
-Date: Thu, 29 Sep 2022 07:00:03 +0200
-In-Reply-To: <c18c0afd-9902-cf28-9249-b5df61deda96@intel.com> (Dongwon Kim's
- message of "Wed, 28 Sep 2022 16:29:01 -0700")
-Message-ID: <87tu4qvkq4.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1odlm3-0000lb-Tt
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 01:07:51 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:13040
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1odlm2-000297-5a
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 01:07:51 -0400
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4MdLvq5qXlz8PbN;
+ Thu, 29 Sep 2022 01:07:35 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=date:from
+ :to:cc:subject:message-id:mime-version:content-type; s=default;
+ bh=wrjI9mBFCAcuBKTSpkm7VS8eeLs=; b=BDny3aj/kM48su7a3OednWHqnJUV
+ t7xqZGxCBkEZXkfdS8mSx/agvmtH7p3qKYQFdlYwUFmWvPwxqaiBpoxPs0ZhwXOo
+ GbwbetLkmbjbcwxJnyGCXxL/e+H9/hrcqlf6PwDvebj1MbLqTy5ZrxqvoUjMlW9b
+ VUjWT4rC00y3D1c=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=date:from:to
+ :cc:subject:message-id:mime-version:content-type; q=dns; s=
+ default; b=IH9i5hCg4IbrqOmVlW1TkkBJAdAdc7pz21x/VapXmZHMz8YmHTTWs
+ CKbn4+z+pTXxBxCiHwqvY53d2M1y6DAM/J8erX7sFEBh0tVwxpSbKzbsD2cQjaeF
+ juI3mv+Ypi2Usc3lW5Hoipag26uUMqHoVTJ/KnaEDXoXvWmajDXSQs=
+Received: from humpty.home.comstyle.com (unknown
+ [IPv6:2001:470:b050:3:3479:b627:7275:a1bb])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4MdLvq53Vbz8PbK;
+ Thu, 29 Sep 2022 01:07:35 -0400 (EDT)
+Date: Thu, 29 Sep 2022 01:07:34 -0400
+From: Brad Smith <brad@comstyle.com>
+To: Warner Losh <imp@bsdimp.com>, Kyle Evans <kevans@freebsd.org>,
+ Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ Alex Benn_e <alex.bennee@linaro.org>,
+ Philippe Mathieu-Daud_ <f4bug@amsat.org>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: [PATCH] tests: Add sndio to the FreeBSD CI containers / VM
+Message-ID: <YzUoFisbfVsurncb@humpty.home.comstyle.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,12 +75,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Kim, Dongwon" <dongwon.kim@intel.com> writes:
+tests: Add sndio to the FreeBSD CI containers / VM
 
-> Hi Markus,
->
-> Vivek and I have discussed this already. I am fine with replacing my old series with this.
+Signed-off-by: Brad Smith <brad@comstyle.com>
+---
+ .gitlab-ci.d/cirrus/freebsd-12.vars | 2 +-
+ .gitlab-ci.d/cirrus/freebsd-13.vars | 2 +-
+ tests/vm/freebsd                    | 3 +++
+ 3 files changed, 5 insertions(+), 2 deletions(-)
 
-Good to know, thank you!
+diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
+index 1a5959810f..4a2b41a46c 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-12.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+ PYPI_PKGS=''
+ PYTHON='/usr/local/bin/python3'
+diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
+index 5e5aafd7e5..dc306aa858 100644
+--- a/.gitlab-ci.d/cirrus/freebsd-13.vars
++++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
+@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
+ NINJA='/usr/local/bin/ninja'
+ PACKAGING_COMMAND='pkg'
+ PIP3='/usr/local/bin/pip-3.8'
+-PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
++PKGS='alsa-lib bash bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv perl5 pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
+ PYPI_PKGS=''
+ PYTHON='/usr/local/bin/python3'
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 3643fe325d..d6ff4461ba 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -66,6 +66,9 @@ class FreeBSDVM(basevm.BaseVM):
+ 
+         # libs: networking
+         "libslirp",
++
++        # libs: sndio
++        "sndio",
+     ]
+ 
+     BUILD_SCRIPT = """
+-- 
+2.37.3
 
 
