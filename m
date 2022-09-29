@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A901D5EF6B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 15:35:00 +0200 (CEST)
-Received: from localhost ([::1]:51230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 235325EF63E
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 15:17:53 +0200 (CEST)
+Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odtgp-0008VU-QJ
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 09:34:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34710)
+	id 1odtQG-0005Sc-5S
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 09:17:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odrwE-0004cB-NH
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:46 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33752)
+ id 1ods3B-0000N6-CJ
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:05 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odrwD-0001Bw-3i
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:46 -0400
-Received: by mail-wr1-x429.google.com with SMTP id s14so1793428wro.0
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:42:44 -0700 (PDT)
+ id 1ods37-0002NF-Cv
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:49:55 -0400
+Received: by mail-wr1-x429.google.com with SMTP id n10so1756696wrw.12
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:49:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=TheWSguGhRqniI62gc+1hhanmtlCzZ/ZQDcCAwGaUoc=;
- b=jk6Zb+DC42VJhy/nEo+xrYZ7n5u+jHhrWua+fIxEdF721Mu9IsHsIwUJBICbQ9iQZs
- btE3tyAsCK5EFrDi0Bzc//DGS/5FAW6KUTsLQeKLt3TFhlbgXRQdff1V9hsHDm4OvMz/
- t8Ix7zzzI9Ri6DbmawzfF+KeoxkRO2TR6cPMzkRcu9E8OERX995nnv5lgXGuQblyGTKX
- 8W8N/YTYMoJIYjcnSD8fWW7zvpvb63D/a2nkPthOC48flakCafTXKM9dAHDvk9u6hv+6
- IIh9Xbc5kk1GlGwjPFobBjp4VfFQZkkjpdN4CZ7PamAfnNXOxp2/9SxBarRTV1cTwo5x
- hIfw==
+ bh=LSxM948fp1p1t8Uf4MobowtOCXUoE+CecuNJGsP6k84=;
+ b=dx/Fy5uDXxj7Gn4RYOVjz605cvWjoksGIp+6vOy35s1ROkPj2nLAcO2VQ7KQLULXWs
+ f3xZs2q46I7BlvnyxVvLozZrEnpjCVwZ9U/PrxbzUFLUnueoeA03mIMQaJdR2jxDlEKD
+ PjZ87svJTcfO5bWlvXrVWPv/rooj2Gnf1pYEx1xvFLmTUxDW2KV2k0q7INrNf3RWIBe7
+ GmMV1shpYtLHD2ZLpKcgE+bE1I5UfUGaVPcFspwGPcO86jVqWxX8HBfH7ulCMCzFEeIA
+ cmMegoCGnQw7W9N1k5tx3+IOuxk5iF+0/P58YwxLuS+qMPPCXiRXIb8xPu8mPgqMw1Ic
+ zNMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=TheWSguGhRqniI62gc+1hhanmtlCzZ/ZQDcCAwGaUoc=;
- b=JG4p/YwGvDgHKj0K3zWfGYDt2Ha2aUUIeFLojiGLe/KDrzhODSgBX7E13PDHxGha2y
- IJBebyop3QyKeplHHso8+TTNL3RFx6XqPGkaShrZcjc86KbMo3Cuiu8YBN2nO4r2/3Nb
- fyBqx3IG1aZ24PpJblNewLMvy3gKghGCHdHeJ5iB14Pmz0u5YtUN+XsZ3PVoZsdVxPAP
- qzwJzdQPvoA9h7E1jS7FihZlnS4bJVorvJAkeSnFAvpBqZqgJaGqFHmYzFwyscgRHn/H
- AM0W0DxkhJlVs579VR7tVULVyxhcSoGtPepccc1uuR7JwLosqn+VP0/q4MNeBC4LwzxP
- Fg9w==
-X-Gm-Message-State: ACrzQf1wKdmNddlKo7HspsTSSpksA0+ylpRhirishDy6zhYq7JIDFz50
- fhcu29bnuNaNP7bf3ABGNCaJ0A==
-X-Google-Smtp-Source: AMsMyM52IZpdjVuWkJGRBzfkq5u8WpdVvMJom1LVz/SQgyFmRB0ZW6ZHVRgBhryncswYnEXEIVoVaQ==
-X-Received: by 2002:a05:6000:1f16:b0:22c:cb05:5097 with SMTP id
- bv22-20020a0560001f1600b0022ccb055097mr2042628wrb.591.1664451764319; 
- Thu, 29 Sep 2022 04:42:44 -0700 (PDT)
+ bh=LSxM948fp1p1t8Uf4MobowtOCXUoE+CecuNJGsP6k84=;
+ b=fQMglB3yNAlzpxhFRwGQiSGjKjEjejWgIT9Y+2fiiEk7nBUI6ozfAgjdxhBiLz68U5
+ irvgjwI/GHq+QJ8lWtiQe0gaJ6GAJif6OwRc7ja5yfhwLVJgigH9jiMVEWex1fdPGw+A
+ 2tXYuYqAQ6txyajNy+yXNId1NiM248TD9z1pWMrOLD+3Ly8sov4u5FYILRExf0qd6VSJ
+ shd2pu0LHiSEFdy0IBeqd/0byfBbnxIlgGFmGfraV3amiI//lx17K6OPslUF8eRMbMvq
+ UAT3DwApOXjk0t3gl9p+5z4SvGbAplkLUZKQsjVwL5bbiH4sxlT0wYrtBlirYQlkCxTT
+ 6Ckg==
+X-Gm-Message-State: ACrzQf1aQWgMZVvyt27c3uRp5O1fezHccF3iZsjcDGcOsdpMdgsJnNJx
+ SThOGrmm5RrpxAVrAhup0ewS9g==
+X-Google-Smtp-Source: AMsMyM76dku7eo26xUjLNZQeUk/titwJubIV98IfLGCGemAO20FNfrY/Fk1IvItFJYAFHb3c6c4yBw==
+X-Received: by 2002:a5d:4f81:0:b0:21e:2cd7:25df with SMTP id
+ d1-20020a5d4f81000000b0021e2cd725dfmr2034736wru.439.1664452191691; 
+ Thu, 29 Sep 2022 04:49:51 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- bk8-20020a0560001d8800b0022af865810esm6201145wrb.75.2022.09.29.04.42.37
+ g14-20020adfe40e000000b0022ae8b862a7sm6424485wrm.35.2022.09.29.04.49.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:42:41 -0700 (PDT)
+ Thu, 29 Sep 2022 04:49:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 668FE1FFD6;
+ by zen.linaroharston (Postfix) with ESMTP id 94FF51FFBD;
  Thu, 29 Sep 2022 12:42:35 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,14 +64,11 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- Richard Henderson <richard.henderson@linaro.org>,
- Damien Hedde <damien.hedde@greensocs.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Alexandre Iooss <erdnaxe@crans.org>
-Subject: [PATCH v1 36/51] plugins: Assert mmu_idx in range before use in
- qemu_plugin_get_hwaddr
-Date: Thu, 29 Sep 2022 12:42:16 +0100
-Message-Id: <20220929114231.583801-37-alex.bennee@linaro.org>
+Subject: [PATCH  v1 38/51] docs/devel: move API to end of tcg-plugins.rst
+Date: Thu, 29 Sep 2022 12:42:18 +0100
+Message-Id: <20220929114231.583801-39-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
@@ -102,35 +99,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+The API documentation is quite dry and doesn't flow nicely with the
+rest of the document. Move it to its own section at the bottom along
+with a little leader text to remind people to update it.
 
-Coverity reports out-of-bound accesses here.  This should be a
-false positive due to how the index is decoded from MemOpIdx.
-
-Fixes: Coverity CID 1487201
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-Message-Id: <20220401190233.329360-1-richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220921160801.1490125-7-alex.bennee@linaro.org>
+Message-Id: <20220921160801.1490125-9-alex.bennee@linaro.org>
 ---
- plugins/api.c | 2 ++
- 1 file changed, 2 insertions(+)
+ docs/devel/tcg-plugins.rst | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/plugins/api.c b/plugins/api.c
-index 7bf71b189d..2078b16edb 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -289,6 +289,8 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
-     enum qemu_plugin_mem_rw rw = get_plugin_meminfo_rw(info);
-     hwaddr_info.is_store = (rw & QEMU_PLUGIN_MEM_W) != 0;
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index a6fdde01f8..8b40b2a606 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -110,11 +110,6 @@ details are opaque to plugins. The plugin is able to query select
+ details of instructions and system configuration only through the
+ exported *qemu_plugin* functions.
  
-+    assert(mmu_idx < NB_MMU_MODES);
+-API
+-~~~
+-
+-.. kernel-doc:: include/qemu/qemu-plugin.h
+-
+ Internals
+ ---------
+ 
+@@ -448,3 +443,13 @@ The plugin has a number of arguments, all of them are optional:
+   associativity of the L2 cache, respectively. Setting any of the L2
+   configuration arguments implies ``l2=on``.
+   (default: N = 2097152 (2MB), B = 64, A = 16)
 +
-     if (!tlb_plugin_lookup(cpu, vaddr, mmu_idx,
-                            hwaddr_info.is_store, &hwaddr_info)) {
-         error_report("invalid use of qemu_plugin_get_hwaddr");
++API
++---
++
++The following API is generated from the inline documentation in
++``include/qemu/qemu-plugin.h``. Please ensure any updates to the API
++include the full kernel-doc annotations.
++
++.. kernel-doc:: include/qemu/qemu-plugin.h
++
 -- 
 2.34.1
 
