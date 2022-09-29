@@ -2,91 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412F35EF45E
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 13:33:34 +0200 (CEST)
-Received: from localhost ([::1]:45138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A5D5EF4C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 13:54:11 +0200 (CEST)
+Received: from localhost ([::1]:44794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odrnJ-0001Jm-AG
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 07:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44510)
+	id 1ods7F-0002Fb-C3
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 07:54:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odrNB-0001gP-Qa
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:06:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37310)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odrTA-0004uj-8c
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:12:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1odrN9-0002AX-CG
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:06:32 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1odrT2-0003kD-Gs
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:12:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664449590;
+ s=mimecast20190719; t=1664449954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gZ3jOq6vHhppFCtO94pdjVJ5r95/p708zVoXWbWF0Bw=;
- b=SX1jkLgpW6UdRYrG3vETDacTQpX4Zq/SglANA9K5KGYgII3vGmxc1DKhZmi/B2ToTXC3CC
- itoS5Qc3G1NokTVaNtiD1L2dYKMfgpXF7z3DHxtz4Kak3TQjpdlVi9cgJlsoPGillSOPDw
- wQ5JE30SGTJBHh0S1+Y420Un/udMWbI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-433-OuRrPu6YMQaeYkA7InRGxg-1; Thu, 29 Sep 2022 07:06:29 -0400
-X-MC-Unique: OuRrPu6YMQaeYkA7InRGxg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- v22-20020adf8b56000000b0022af189148bso387206wra.22
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:06:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=gZ3jOq6vHhppFCtO94pdjVJ5r95/p708zVoXWbWF0Bw=;
- b=omUVWkZl9TPPavJEA9YwlRoucvF8NnJqdSCWD4YGIoLV1aGE9HF7nW/eSHYUeNshYi
- wBRUeI8N3OUJCfpT1ydG/SAnYgEPsG6QlrFhoEtQfV26lZC6U9apeSN0ERsEmgcrfyv9
- fJOXIX6VJdz9xrXDZGeWxvT8QDtoW6MeIugHQiXyMHJfx8F9zTsQkHhwEXnGoXYVC/Hf
- XKTNdr6rJziRCP5EpeuAkPjNHJqWFn2d7zc2GstWGjbhuC+WjYl+G18Sdwcqs3TYWbXQ
- CsvI8+ruQtiSnobzDbENS9EAWEFblZXAgf+i17X4/dyF7KkbWsJ4YquVTCN/TQMnY5rV
- zw6A==
-X-Gm-Message-State: ACrzQf3gDzeVt4ZJ/6JmvSPR7nXXsWSW3A4Mk98r2OkqazEOM+YjPbDS
- mkGGOoWbjXCs7Ym/Umk+plt0W+ZnVtOoeFqs9opSawTw834yPfrZNsW8/YRJ4+bYRyIZxH0E8AJ
- 0IzH+QV16nZ6OiyQ=
-X-Received: by 2002:adf:d4cd:0:b0:22c:dc00:7f99 with SMTP id
- w13-20020adfd4cd000000b0022cdc007f99mr402427wrk.260.1664449588289; 
- Thu, 29 Sep 2022 04:06:28 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6muIw7TCQxICw+hM9HbHlLLBS3TPnYNpvFpr/h9edPYmJTHidSLHz9kmA+AWrMnVOR9NYzIQ==
-X-Received: by 2002:adf:d4cd:0:b0:22c:dc00:7f99 with SMTP id
- w13-20020adfd4cd000000b0022cdc007f99mr402404wrk.260.1664449588046; 
- Thu, 29 Sep 2022 04:06:28 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-177-55.web.vodafone.de.
- [109.43.177.55]) by smtp.gmail.com with ESMTPSA id
- 7-20020a05600c020700b003b492753826sm3999102wmi.43.2022.09.29.04.06.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Sep 2022 04:06:27 -0700 (PDT)
-Message-ID: <e3c254d1-ee06-4b05-6521-2bf94dd2e22e@redhat.com>
-Date: Thu, 29 Sep 2022 13:06:25 +0200
+ bh=hQh6tF7xdLjN3X5oTrmfGOaAr5vVIbZm+7rku597Ou4=;
+ b=LkPDA4mDEXV1jjZ1k1zUnLBn6Gbbfv74R6JZ8QOSo6CmfybnYpmc00TpxWKR9KgXLyh2Sd
+ WtZdgpN/xZQhfelBU0x2Lz6b6AgcpnjtKHrmkvWVAAjuwhYXh+wTY932Ew8tbo+OHXuuor
+ B95luWa9XTjGlyYyZzIvukib9zdV9e4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-282-aO5CkUGLPqOpaG30WhLIOw-1; Thu, 29 Sep 2022 07:12:30 -0400
+X-MC-Unique: aO5CkUGLPqOpaG30WhLIOw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D2FD296A62D;
+ Thu, 29 Sep 2022 11:12:29 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6606240FF706;
+ Thu, 29 Sep 2022 11:12:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 279EF21E691D; Thu, 29 Sep 2022 13:12:28 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org,  Michal Privoznik <mprivozn@redhat.com>,  Igor
+ Mammedov <imammedo@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Eduardo Habkost <eduardo@habkost.net>,  "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH v1 3/7] util: Introduce ThreadContext user-creatable object
+References: <20220928164542.117952-1-david@redhat.com>
+ <20220928164542.117952-4-david@redhat.com>
+Date: Thu, 29 Sep 2022 13:12:28 +0200
+In-Reply-To: <20220928164542.117952-4-david@redhat.com> (David Hildenbrand's
+ message of "Wed, 28 Sep 2022 18:45:38 +0200")
+Message-ID: <87fsgatowz.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [RFC PATCH] tests/docker: move alpine from edge to tagged release
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: berrange@redhat.com, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20220929105548.542555-1-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220929105548.542555-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.099, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,55 +86,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/09/2022 12.55, Alex Bennée wrote:
-> Tracking alpine-edge like debian-sid is a moving target. Usually such
-> rolling releases are marked as "allow_failure: true" in our CI.
-> However as alpine presents a musl based and provides useful extra
+David Hildenbrand <david@redhat.com> writes:
 
-"a musl based distro" ?
+> Setting the CPU affinity of QEMU threads is a bit problematic, because
+> QEMU doesn't always have permissions to set the CPU affinity itself,
+> for example, with seccomp after initialized by QEMU:
+>     -sandbox enable=on,resourcecontrol=deny
+>
+> While upper layers are already aware how to handl;e CPU affinities for
 
-> coverage lets track a release branch instead to avoid random
-> breakages.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   tests/docker/dockerfiles/alpine.docker | 4 ++--
->   tests/lcitool/refresh                  | 2 +-
->   2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-> index 7d6e95275a..9b7541261a 100644
-> --- a/tests/docker/dockerfiles/alpine.docker
-> +++ b/tests/docker/dockerfiles/alpine.docker
-> @@ -1,10 +1,10 @@
->   # THIS FILE WAS AUTO-GENERATED
->   #
-> -#  $ lcitool dockerfile --layers all alpine-edge qemu
-> +#  $ lcitool dockerfile --layers all alpine-316 qemu
->   #
->   # https://gitlab.com/libvirt/libvirt-ci
->   
-> -FROM docker.io/library/alpine:edge
-> +FROM docker.io/library/alpine:3.16
->   
->   RUN apk update && \
->       apk upgrade && \
-> diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-> index 783497a989..ce0b24c0b1 100755
-> --- a/tests/lcitool/refresh
-> +++ b/tests/lcitool/refresh
-> @@ -107,7 +107,7 @@ try:
->       #
->       # Standard native builds
->       #
-> -    generate_dockerfile("alpine", "alpine-edge")
-> +    generate_dockerfile("alpine", "alpine-316")
->       generate_dockerfile("centos8", "centos-stream-8")
->       generate_dockerfile("debian-amd64", "debian-11",
->                           trailer="".join(debian11_extras))
+Typo in handle.
 
-Sounds like a good idea.
+> long-lived threads like iothreads or vcpu threads, especially short-lived
+> threads, as used for memory-backend preallocation, are more involved to
+> handle. These threads are created on demand and upper layers are not even
+> able to identify and configure them.
+>
+> Introduce the concept of a ThreadContext, that is essentially a thread
+> used for creating new threads. All threads created via that context
+> thread inherit the configured CPU affinity. Consequently, it's
+> sufficient to create a ThreadContext and configure it once, and have all
+> threads created via that ThreadContext inherit the same CPU affinity.
+>
+> The CPU affinity of a ThreadContext can be configured two ways:
+>
+> (1) Obtaining the thread id via the "thread-id" property and setting the
+>     CPU affinity manually.
+>
+> (2) Setting the "cpu-affinity" property and letting QEMU try set the
+>     CPU affinity itself. This will fail if QEMU doesn't have permissions
+>     to do so anymore after seccomp was initialized.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Could you provide usage examples?
+
+>
+> A ThreadContext can be reused, simply be reconfiguring the CPU affinity.
+>
+> Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+
+[...]
+
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index 80dd419b39..4775a333ed 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -830,6 +830,20 @@
+>              'reduced-phys-bits': 'uint32',
+>              '*kernel-hashes': 'bool' } }
+>  
+> +##
+> +# @ThreadContextProperties:
+> +#
+> +# Properties for thread context objects.
+> +#
+> +# @cpu-affinity: the CPU affinity for all threads created in the thread
+> +#                context (default: QEMU main thread affinity)
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'ThreadContextProperties',
+> +  'data': { '*cpu-affinity': ['uint16'] } }
+
+I understand this is a list of affinities.  What I poor ignorant me
+doesn't understand is the meaning of the list index.  Or in other words,
+the list maps some range [0:N] to affinities, but what are the numbers
+being mapped there?
+
+> +
+> +
+>  ##
+>  # @ObjectType:
+>  #
+> @@ -882,6 +896,7 @@
+>      { 'name': 'secret_keyring',
+>        'if': 'CONFIG_SECRET_KEYRING' },
+>      'sev-guest',
+> +    'thread-context',
+>      's390-pv-guest',
+>      'throttle-group',
+>      'tls-creds-anon',
+> @@ -948,6 +963,7 @@
+>        'secret_keyring':             { 'type': 'SecretKeyringProperties',
+>                                        'if': 'CONFIG_SECRET_KEYRING' },
+>        'sev-guest':                  'SevGuestProperties',
+> +      'thread-context':             'ThreadContextProperties',
+>        'throttle-group':             'ThrottleGroupProperties',
+>        'tls-creds-anon':             'TlsCredsAnonProperties',
+>        'tls-creds-psk':              'TlsCredsPskProperties',
+
+[...]
 
 
