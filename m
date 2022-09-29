@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CED5EEE52
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 09:04:25 +0200 (CEST)
-Received: from localhost ([::1]:54294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28FC5EEF79
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 09:44:17 +0200 (CEST)
+Received: from localhost ([::1]:34696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odnaq-0006bd-Jd
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 03:04:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55094)
+	id 1odoDQ-0007j3-Jf
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 03:44:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1odnTd-0001Zn-4z
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:56:58 -0400
-Received: from mga17.intel.com ([192.55.52.151]:49075)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1odneI-0008Kf-Ri; Thu, 29 Sep 2022 03:08:07 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1odnTb-0001Gt-0m
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 02:56:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664434615; x=1695970615;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=SdArTuMBopFpNPIdNPr3Yg4/CQF85c8UIvdrsLpDT7Y=;
- b=NGFNldxyfNo/Q2mcVHnEsW7UMHq9eCyWrc4svB4dPYlq5yDbX8azjlfn
- 8DOFg3gYUsX5wsPEltFm1YYG+8Tk9GDOTmY56c/+6IVw2cf7MGHN9FeOn
- qEPlZUrAezcfuf25qyV9bgjCCnmzFsWLwlD12DqAeXLmmATUSJUR8d0xL
- 63oIgkdH41mHIiF6+d/uNzd4JuPhJ5ZiMReRypSBAs5khGW9+BZEh0cak
- jcquFeQ9BOtviU9Ntzwy0dreABr9nReHg+oZfmVSmrAvZUHGv7F+f+3C5
- WEXUSTezyd/1vF/psWThP4FXp+wQIHYBhM6l1gJbhIDQ92kFjD5NWo0tg g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="282178274"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="282178274"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 23:56:54 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10484"; a="711268559"
-X-IronPort-AV: E=Sophos;i="5.93,354,1654585200"; d="scan'208";a="711268559"
-Received: from chenyi-pc.sh.intel.com ([10.239.159.53])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2022 23:56:51 -0700
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Chenyi Qiang <chenyi.qiang@intel.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-Subject: [PATCH v8 4/4] i386: add notify VM exit support
-Date: Thu, 29 Sep 2022 15:03:41 +0800
-Message-Id: <20220929070341.4846-5-chenyi.qiang@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220929070341.4846-1-chenyi.qiang@intel.com>
-References: <20220929070341.4846-1-chenyi.qiang@intel.com>
-Received-SPF: pass client-ip=192.55.52.151;
- envelope-from=chenyi.qiang@intel.com; helo=mga17.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1odneH-00032K-6n; Thu, 29 Sep 2022 03:07:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=YDghpLhwSU0AqzWXNI3uhSvG/jlVAautYEu7T8tLD3w=; b=ebvEMFDudKuBpj+QZn/wrrFRQT
+ DnYrwzcVnh4nBUL7p2nW80I0UAYw9XSlLgkHLVYJzwKXWLv+6LkK7h6tS2Jeu7iJc462HAxv8RSDT
+ kizEjMA6Vo6nRGyEz2JcFCEV6DG0H16Tr96uO1nphwIE+lBg76IJWlesAIJI2ACBiUB49Z1q09RSb
+ ZB85ZoVQ+BW3GVOju+SkwwffY+JpXD1gC60DZWUsiCTX9VCplvH1JeWj4YMzgh+iBo0pcs1Lkeqxp
+ i9Wf7FLQbxG7bR1u6XL3Ary8MDFwi2g7C6V6JDejA2m9ikLTAoJ+E0JNzTqL9rnswj1JTsqsOrS2P
+ uJ5lwVY14xxOAa2ANZkFjDBZ5sMkeHoUqBsOPhvrKRAy/stk6xcg7ZGrTq5oWRPXNoKXAgOBsu4Tl
+ olIByN2klFC5qPFAhUQ3UxzxWYYZykBSM0uMQu8wMjTxxJRlI3fd+swsUMIT4praq3otWsmMaJ8kd
+ sTfcI5lgZDSIsfFLkB70YlNQMay3RgWl0XsXdu6X8NQkSX7gWw4X4bgXPQN3MMNIhn/jtmhH8N+Oc
+ a/n+UWW+r2jg2olYGsWfc25S/i8o1eK1euam+WYSCR88I+3GR5oEU70Y1Gw39GsS2LCmnm7CuqTnn
+ /UWTgpW4XRCY0C0D+6ekmdWMByoOu0CSP6cwDKlgk=;
+Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1odncV-000BZG-6N; Thu, 29 Sep 2022 08:06:11 +0100
+Message-ID: <d68d4bd3-f260-7150-e077-7b3fe32abb90@ilande.co.uk>
+Date: Thu, 29 Sep 2022 08:07:49 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <cover.1663368422.git.balaton@eik.bme.hu>
+ <e10a8d11ea424aa8fa727936b2ad6c2fe439b3ad.1663368422.git.balaton@eik.bme.hu>
+ <4e54027f-b74b-6ed0-9c5d-f655e4784630@ilande.co.uk>
+ <97f67cc7-9b4c-cce9-705b-0af5f6eb38@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <97f67cc7-9b4c-cce9-705b-0af5f6eb38@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 08/10] hw/ppc/mac.h: Move grackle-pcihost declaration out
+ from shared header
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,253 +82,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are cases that malicious virtual machine can cause CPU stuck (due
-to event windows don't open up), e.g., infinite loop in microcode when
-nested #AC (CVE-2015-5307). No event window means no event (NMI, SMI and
-IRQ) can be delivered. It leads the CPU to be unavailable to host or
-other VMs. Notify VM exit is introduced to mitigate such kind of
-attacks, which will generate a VM exit if no event window occurs in VM
-non-root mode for a specified amount of time (notify window).
+On 25/09/2022 10:26, BALATON Zoltan wrote:
 
-A new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT is exposed to user space
-so that the user can query the capability and set the expected notify
-window when creating VMs. The format of the argument when enabling this
-capability is as follows:
-  Bit 63:32 - notify window specified in qemu command
-  Bit 31:0  - some flags (e.g. KVM_X86_NOTIFY_VMEXIT_ENABLED is set to
-              enable the feature.)
+> On Sun, 25 Sep 2022, Mark Cave-Ayland wrote:
+>> On 17/09/2022 00:07, BALATON Zoltan wrote:
+>>> It is only used by mac_oldworld anyway and it already instantiates
+>>> a few devices by name so this allows reducing the shared header further.
+>>>
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> ---
+>>>   hw/pci-host/grackle.c | 1 +
+>>>   hw/ppc/mac.h          | 3 ---
+>>>   hw/ppc/mac_oldworld.c | 2 +-
+>>>   3 files changed, 2 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
+>>> index b05facf463..5282123004 100644
+>>> --- a/hw/pci-host/grackle.c
+>>> +++ b/hw/pci-host/grackle.c
+>>> @@ -34,6 +34,7 @@
+>>>   #include "trace.h"
+>>>   #include "qom/object.h"
+>>>   +#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
+>>>   OBJECT_DECLARE_SIMPLE_TYPE(GrackleState, GRACKLE_PCI_HOST_BRIDGE)
+>>>     struct GrackleState {
+>>> diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+>>> index 55cb02c990..fe77a6c6db 100644
+>>> --- a/hw/ppc/mac.h
+>>> +++ b/hw/ppc/mac.h
+>>> @@ -35,9 +35,6 @@
+>>>   #define KERNEL_LOAD_ADDR 0x01000000
+>>>   #define KERNEL_GAP       0x00100000
+>>>   -/* Grackle PCI */
+>>> -#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
+>>> -
+>>>   /* Mac NVRAM */
+>>>   #define TYPE_MACIO_NVRAM "macio-nvram"
+>>>   OBJECT_DECLARE_SIMPLE_TYPE(MacIONVRAMState, MACIO_NVRAM)
+>>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+>>> index f323a49d7a..a4094226bc 100644
+>>> --- a/hw/ppc/mac_oldworld.c
+>>> +++ b/hw/ppc/mac_oldworld.c
+>>> @@ -214,7 +214,7 @@ static void ppc_heathrow_init(MachineState *machine)
+>>>       }
+>>>         /* Grackle PCI host bridge */
+>>> -    grackle_dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
+>>> +    grackle_dev = qdev_new("grackle-pcihost");
+>>>       qdev_prop_set_uint32(grackle_dev, "ofw-addr", 0x80000000);
+>>>       s = SYS_BUS_DEVICE(grackle_dev);
+>>>       sysbus_realize_and_unref(s, &error_fatal);
+>>
+>> This is the wrong way around - we want to move towards using TYPE_ macros 
+>> everywhere for device instantiation instead of hardcoded strings.
+>>
+>> What's really missing here is that the QOM structs and definitions for grackle.c 
+>> should be moved to a new include/hw/pci-host/grackle.h file from mac.h and included 
+>> where necessary.
+> 
+> That could be done any time later, this patch is good enough for now, there are other 
+> devices instantiated this way in mac_oldworld now. I don't want to chnage grackle 
+> here, just clean up the mac.h.
 
-Users can configure the feature by a new (x86 only) accel property:
-    qemu -accel kvm,notify-vmexit=run|internal-error|disable,notify-window=n
+It is a long-standing philosophy for QEMU that if outdated code is touched then there 
+should be a best effort to update it to the latest coding standards. Moving the QOM 
+definition to a separate header file is not too dissimilar to patch 10, so will be a 
+fairly trivial change.
 
-The default option of notify-vmexit is run, which will enable the
-capability and do nothing if the exit happens. The internal-error option
-raises a KVM internal error if it happens. The disable option does not
-enable the capability. The default value of notify-window is 0. It is valid
-only when notify-vmexit is not disabled. The valid range of notify-window
-is non-negative. It is even safe to set it to zero since there's an
-internal hardware threshold to be added to ensure no false positive.
 
-Because a notify VM exit may happen with VM_CONTEXT_INVALID set in exit
-qualification (no cases are anticipated that would set this bit), which
-means VM context is corrupted. It would be reflected in the flags of
-KVM_EXIT_NOTIFY exit. If KVM_NOTIFY_CONTEXT_INVALID bit is set, raise a KVM
-internal error unconditionally.
+ATB,
 
-Acked-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
----
- accel/kvm/kvm-all.c   |  2 +
- qapi/run-state.json   | 17 ++++++++
- qemu-options.hx       | 11 +++++
- target/i386/kvm/kvm.c | 97 +++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 127 insertions(+)
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 3624ed8447..41ba9de3b8 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -3636,6 +3636,8 @@ static void kvm_accel_instance_init(Object *obj)
-     s->kernel_irqchip_split = ON_OFF_AUTO_AUTO;
-     /* KVM dirty ring is by default off */
-     s->kvm_dirty_ring_size = 0;
-+    s->notify_vmexit = NOTIFY_VMEXIT_OPTION_RUN;
-+    s->notify_window = 0;
- }
- 
- static void kvm_accel_class_init(ObjectClass *oc, void *data)
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index 9273ea6516..49989d30e6 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -643,3 +643,20 @@
- { 'struct': 'MemoryFailureFlags',
-   'data': { 'action-required': 'bool',
-             'recursive': 'bool'} }
-+
-+##
-+# @NotifyVmexitOption:
-+#
-+# An enumeration of the options specified when enabling notify VM exit
-+#
-+# @run: enable the feature, do nothing and continue if the notify VM exit happens.
-+#
-+# @internal-error: enable the feature, raise a internal error if the notify
-+#                  VM exit happens.
-+#
-+# @disable: disable the feature.
-+#
-+# Since: 7.2
-+##
-+{ 'enum': 'NotifyVmexitOption',
-+  'data': [ 'run', 'internal-error', 'disable' ] }
-\ No newline at end of file
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 913c71e38f..8f85004a7d 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -191,6 +191,7 @@ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
-     "                split-wx=on|off (enable TCG split w^x mapping)\n"
-     "                tb-size=n (TCG translation block cache size)\n"
-     "                dirty-ring-size=n (KVM dirty ring GFN count, default 0)\n"
-+    "                notify-vmexit=run|internal-error|disable,notify-window=n (enable notify VM exit and set notify window, x86 only)\n"
-     "                thread=single|multi (enable multi-threaded TCG)\n", QEMU_ARCH_ALL)
- SRST
- ``-accel name[,prop=value[,...]]``
-@@ -242,6 +243,16 @@ SRST
-         is disabled (dirty-ring-size=0).  When enabled, KVM will instead
-         record dirty pages in a bitmap.
- 
-+    ``notify-vmexit=run|internal-error|disable,notify-window=n``
-+        Enables or disables notify VM exit support on x86 host and specify
-+        the corresponding notify window to trigger the VM exit if enabled.
-+        ``run`` option enables the feature. It does nothing and continue
-+        if the exit happens. ``internal-error`` option enables the feature.
-+        It raises a internal error. ``disable`` option doesn't enable the feature.
-+        This feature can mitigate the CPU stuck issue due to event windows don't
-+        open up for a specified of time (i.e. notify-window).
-+        Default: notify-vmexit=run,notify-window=0.
-+
- ERST
- 
- DEF("smp", HAS_ARG, QEMU_OPTION_smp,
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index eab09833f9..55f521e4ec 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -15,6 +15,7 @@
- #include "qemu/osdep.h"
- #include "qapi/qapi-events-run-state.h"
- #include "qapi/error.h"
-+#include "qapi/visitor.h"
- #include <sys/ioctl.h>
- #include <sys/utsname.h>
- #include <sys/syscall.h>
-@@ -2599,6 +2600,21 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-         }
-     }
- 
-+    if (s->notify_vmexit != NOTIFY_VMEXIT_OPTION_DISABLE &&
-+        kvm_check_extension(s, KVM_CAP_X86_NOTIFY_VMEXIT)) {
-+            uint64_t notify_window_flags =
-+                ((uint64_t)s->notify_window << 32) |
-+                KVM_X86_NOTIFY_VMEXIT_ENABLED |
-+                KVM_X86_NOTIFY_VMEXIT_USER;
-+            ret = kvm_vm_enable_cap(s, KVM_CAP_X86_NOTIFY_VMEXIT, 0,
-+                                    notify_window_flags);
-+            if (ret < 0) {
-+                error_report("kvm: Failed to enable notify vmexit cap: %s",
-+                             strerror(-ret));
-+                return ret;
-+            }
-+    }
-+
-     return 0;
- }
- 
-@@ -5141,6 +5157,8 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-     X86CPU *cpu = X86_CPU(cs);
-     uint64_t code;
-     int ret;
-+    bool ctx_invalid;
-+    char str[256];
- 
-     switch (run->exit_reason) {
-     case KVM_EXIT_HLT:
-@@ -5196,6 +5214,21 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-         /* already handled in kvm_arch_post_run */
-         ret = 0;
-         break;
-+    case KVM_EXIT_NOTIFY:
-+        KVMState *s = KVM_STATE(current_accel());
-+        ctx_invalid = !!(run->notify.flags & KVM_NOTIFY_CONTEXT_INVALID);
-+        sprintf(str, "Encounter a notify exit with %svalid context in"
-+                     " guest. There can be possible misbehaves in guest."
-+                     " Please have a look.", ctx_invalid ? "in" : "");
-+        if (ctx_invalid ||
-+            s->notify_vmexit == NOTIFY_VMEXIT_OPTION_INTERNAL_ERROR) {
-+            warn_report("KVM internal error: %s", str);
-+            ret = -1;
-+        } else {
-+            warn_report_once("KVM: %s", str);
-+            ret = 0;
-+        }
-+        break;
-     default:
-         fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
-         ret = -1;
-@@ -5473,6 +5506,70 @@ void kvm_request_xsave_components(X86CPU *cpu, uint64_t mask)
-     }
- }
- 
-+static int kvm_arch_get_notify_vmexit(Object *obj, Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    return s->notify_vmexit;
-+}
-+
-+static void kvm_arch_set_notify_vmexit(Object *obj, int value, Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+
-+    if (s->fd != -1) {
-+        error_setg(errp, "Cannot set properties after the accelerator has been initialized");
-+        return;
-+    }
-+
-+    s->notify_vmexit = value;
-+}
-+
-+static void kvm_arch_get_notify_window(Object *obj, Visitor *v,
-+                                       const char *name, void *opaque,
-+                                       Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    uint32_t value = s->notify_window;
-+
-+    visit_type_uint32(v, name, &value, errp);
-+}
-+
-+static void kvm_arch_set_notify_window(Object *obj, Visitor *v,
-+                                       const char *name, void *opaque,
-+                                       Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    Error *error = NULL;
-+    uint32_t value;
-+
-+    if (s->fd != -1) {
-+        error_setg(errp, "Cannot set properties after the accelerator has been initialized");
-+        return;
-+    }
-+
-+    visit_type_uint32(v, name, &value, &error);
-+    if (error) {
-+        error_propagate(errp, error);
-+        return;
-+    }
-+
-+    s->notify_window = value;
-+}
-+
- void kvm_arch_accel_class_init(ObjectClass *oc)
- {
-+    object_class_property_add_enum(oc, "notify-vmexit", "NotifyVMexitOption",
-+                                   &NotifyVmexitOption_lookup,
-+                                   kvm_arch_get_notify_vmexit,
-+                                   kvm_arch_set_notify_vmexit);
-+    object_class_property_set_description(oc, "notify-vmexit",
-+                                          "Enable notify VM exit");
-+
-+    object_class_property_add(oc, "notify-window", "uint32",
-+                              kvm_arch_get_notify_window,
-+                              kvm_arch_set_notify_window,
-+                              NULL, NULL);
-+    object_class_property_set_description(oc, "notify-window",
-+                                          "Clock cycles without an event window "
-+                                          "after which a notification VM exit occurs");
- }
--- 
-2.17.1
-
+Mark.
 
