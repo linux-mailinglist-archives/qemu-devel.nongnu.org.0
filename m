@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26175EFCCD
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 20:15:17 +0200 (CEST)
-Received: from localhost ([::1]:34950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4F55EFCFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 20:24:59 +0200 (CEST)
+Received: from localhost ([::1]:35460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ody44-0003Sy-Pj
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 14:15:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41322)
+	id 1odyDR-0008R2-LW
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 14:24:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odwRB-0003vM-IW
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:31:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30830)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odwR9-00038l-VP
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:31:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664469059;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Blv0482qqGw+iiQWg7x334l3dt4qxtymalbZQfpg5Dg=;
- b=PYICEBp5RJKZ01nfd/TfOoSzGhSIlftwCrjrWvMDhUTUYMBqVi9xn7GsoNYeh+xaeoRHy4
- OEaUuePkA2W5iMdn4qRJm9P58FOgfCxF+Pompt0q7ehnr6URY7Y1P+IuaSFberO3bo62pe
- wWFpAoKYrvYBmqJ9If58FVCDVmp5P0E=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-574-zz-30kF-NT6-9umGUqOpUA-1; Thu, 29 Sep 2022 12:30:57 -0400
-X-MC-Unique: zz-30kF-NT6-9umGUqOpUA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- he8-20020a1709073d8800b007838dd153f4so955691ejc.12
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 09:30:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odwn9-0003n6-F5
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:53:45 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:38748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odwn6-0006xT-SE
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:53:42 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id nb11so4044082ejc.5
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 09:53:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=cqQBTOYNa/mf3P3HSzg6fb00V0GJS8bk5eliMmLjCBU=;
+ b=ybP3VqQFrFP+rEMHM8p7SkNTbgQpKc9hO3jekPy9SgAb+T3NbsIhOQXSn8Nk7mIOhC
+ jjql4f/80b8RuppxAx0CSNibKVrRpKvjowjQisSh+ZL7/FDDsGvkN0ip45t9WgdaWMXl
+ kuJRtw7geK4DE7UffUJYtB3oGjwblB1SaQubsa8dFR1dURGv0G8iWKU1oKdltMLZsW3L
+ g/7cReLz1+4wOYsYqFo9+HG/ONZuhOn871Rw511yC/aOXqsSTXOJR4pWhnCFr7YG2+2x
+ /YP5IR2JHxu2OMHrwoFWshCCWthe8kHPeFyXwmf6x/tVG8gvpfuZRtIC+po7zv5ew1o2
+ aG5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=Blv0482qqGw+iiQWg7x334l3dt4qxtymalbZQfpg5Dg=;
- b=c4YhbUPrkYEF9GUG2y9jQCtS0I3goewQGDq9ae4svPcc+ClRfzGhSRlHAOJYzsseiI
- RuGAi2w2gggIcX9xin3guSGyETeRUoqSqZA9h4hMjnCEfsuyw3whAlLeRv6+8zGGW9z2
- YL2JsMdQPBkVRrND7iYVzIgFmKm6xNy2PMrTnPwkJmOh9MvDgsewSreGkLLVivEsWJxl
- zJZJYPI+8KyCpt+G5ycgZZnqrEN77HIqd3sgGXyZf0CawqBJhovSHdza7nvZgNsZ0wCA
- YA7WzCZ3KNxRlD3MjsML2k1Rvl3w4oV7yTIjA1c8n8TbMb9kGyjvrLffJyDSLhVi5wDt
- vKSQ==
-X-Gm-Message-State: ACrzQf2GlDZ2TUuuBfxXDrvVAfVSmZ3zExroxUAsBl1P2DepCQC57DT+
- dSNewrvXS9Cyq4CEGYi9xU9aWR5iiG66VEWcub8OZF9k3oaPbVwu0VeEa2XmF/Gm9Z12k9rv9k5
- 9XYo8Yr1joAcp/a4rTs+J9iesbRWWVRVkxj1XpSUzLw/fR6/C0zKmA10wDlS0rVZD97o=
-X-Received: by 2002:a17:907:7284:b0:783:ca4d:1c49 with SMTP id
- dt4-20020a170907728400b00783ca4d1c49mr3388763ejc.618.1664469056165; 
- Thu, 29 Sep 2022 09:30:56 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5bTVFSZMEnfDMwHT5hA4kF5AQdBwS/GhB35bFllOVjE8Hixvz4HFlQCAVOG6HtRbGYlEFadw==
-X-Received: by 2002:a17:907:7284:b0:783:ca4d:1c49 with SMTP id
- dt4-20020a170907728400b00783ca4d1c49mr3388742ejc.618.1664469055893; 
- Thu, 29 Sep 2022 09:30:55 -0700 (PDT)
-Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- cn25-20020a0564020cb900b00443d657d8a4sm5666506edb.61.2022.09.29.09.30.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 09:30:55 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PULL 14/14] x86: re-initialize RNG seed when selecting kernel
-Date: Thu, 29 Sep 2022 18:30:14 +0200
-Message-Id: <20220929163014.16950-15-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220929163014.16950-1-pbonzini@redhat.com>
-References: <20220929163014.16950-1-pbonzini@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=cqQBTOYNa/mf3P3HSzg6fb00V0GJS8bk5eliMmLjCBU=;
+ b=yMCPIWKywomkP5GYr9iIDPw+MU5JAdnVxybsv+0BLcha/IU4Zl0ALl9m8KGHC702/7
+ 0tUNz7BWWwznNye6FUszE386CulAvhzoJNavAwSQD7JZZgEfdlGK2LyVXIrvmCTr3KgX
+ VuroERs7L56UXoSHayGw2dTZq0wy9beBsJZo+A+NMN/UqtdwTa8G+i0GuIIuLJrnajAu
+ X0CwpIjcCpnMTacujvhiVrUwIZFGlhDF3Llz6QLAMN2hpnwR7lINntxdk4JpJaqoui/z
+ C8zHZnCYjgag96MNs0nMc248Et2mrrDCB4KkbWPRdFMRDIgR+xbUgBa0Z/ZQFcwKeegO
+ OOew==
+X-Gm-Message-State: ACrzQf3UZGo0iebg1u0EMxpfAEgvOelZTmDxkUPj8frPj9r7bAZghhtI
+ 5jYquMySwrQTnVjTLEp97oy0UaddEMO5f6Ur/n4HbQ==
+X-Google-Smtp-Source: AMsMyM5QtVTpe1e3smsvCph85EWA9iq/wwg2CHU0E1+4pCC3Tjb65XnGqiRiQA4xYCYsBSlpRHuTgmP8Mzb9ekgAW0E=
+X-Received: by 2002:a17:906:9c83:b0:779:c14c:55e4 with SMTP id
+ fj3-20020a1709069c8300b00779c14c55e4mr3323068ejc.619.1664470419015; Thu, 29
+ Sep 2022 09:53:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220927100347.176606-1-jean-philippe@linaro.org>
+In-Reply-To: <20220927100347.176606-1-jean-philippe@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 29 Sep 2022 17:53:28 +0100
+Message-ID: <CAFEAcA-X=rm6xB9kp7u7UPudTZQEUGskwSaUD8y+tKGx9QRsiw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] hw/arm/virt: Fix dt-schema warnings
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, robh+dt@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,44 +82,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+On Tue, 27 Sept 2022 at 11:12, Jean-Philippe Brucker
+<jean-philippe@linaro.org> wrote:
+>
+> Fix some warnings thrown by dt-validate for the aarch64 virt devicetree.
+>
+> Since v1 [1]:
+> * Submitted more DT bindings changes where appropriate [2]. All of them
+>   applied for Linux v6.1 so I dropped the related QEMU changes.
+> * Grouped all node name changes into patch 8
+> * Improved commit messages
+>
+> I'm testing by running various virt machine configurations with -M
+> dumpdtb=qemu.dtb, then running dt-validate [3] and dtc:
+>
+>   dt-validate -s linux/Documentation/devicetree/bindings/ qemu.dtb
+>   dtc -O dts qemu.dtb -o qemu.dts
+>
+> [1] https://lore.kernel.org/all/20220824155113.286730-1-jean-philippe@linaro.org/
+> [2] SMMU interrupt order https://lore.kernel.org/all/20220916133145.1910549-1-jean-philippe@linaro.org/
+>     arch-timer compatible https://lore.kernel.org/all/20220922161149.371565-1-jean-philippe@linaro.org/
+>     virtio-iommu https://lore.kernel.org/all/20220923074435.420531-1-jean-philippe@linaro.org/
+> [3] https://github.com/devicetree-org/dt-schema
+>
+> Jean-Philippe Brucker (8):
+>   hw/arm/virt: Fix devicetree warning about the root node
+>   hw/arm/virt: Fix devicetree warning about the GIC node
+>   hw/arm/virt: Use "msi-map" devicetree property for PCI
+>   hw/arm/virt: Fix devicetree warning about the gpio-key node
+>   hw/arm/virt: Fix devicetree warnings about the GPIO node
+>   hw/arm/virt: Fix devicetree warning about the SMMU node
+>   hw/arm/virt: Fix devicetree warnings about the virtio-iommu node
+>   hw/arm/virt: Fix devicetree warnings about node names
 
-We don't want it to be possible to re-read the RNG seed after ingesting
-it, because this ruins forward secrecy. Currently, however, the setup
-data section can just be re-read. Since the kernel is always read after
-the setup data, use the selection of the kernel as a trigger to
-re-initialize the RNG seed, just like we do on reboot, to preserve
-forward secrecy.
+I have applied patches 1, 2, 3, and 6 to target-arm.next.
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Message-Id: <20220922152847.3670513-1-Jason@zx2c4.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/i386/x86.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index f9a4ddaa4a..1148f70c03 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1112,11 +1112,14 @@ void x86_load_linux(X86MachineState *x86ms,
-         setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
-         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
-         qemu_register_reset(reset_rng_seed, setup_data);
-+        fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_KERNEL_DATA, reset_rng_seed, NULL,
-+                                  setup_data, kernel, kernel_size, true);
-+    } else {
-+        fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
-     }
- 
-     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
-     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
-     sev_load_ctx.kernel_data = (char *)kernel;
-     sev_load_ctx.kernel_size = kernel_size;
- 
--- 
-2.37.3
-
+thanks
+-- PMM
 
