@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660185EEF2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 09:36:38 +0200 (CEST)
-Received: from localhost ([::1]:39672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEAAB5EEF7D
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 09:44:58 +0200 (CEST)
+Received: from localhost ([::1]:58518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odo5z-0002RN-Ge
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 03:36:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59772)
+	id 1odoE5-0000Fm-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 03:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1odnxU-0004Gq-2u
+ id 1odnxT-0004Gp-Vc
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:27:50 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:51114 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:51140 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1odnxQ-0005pa-HI
+ (envelope-from <gaosong@loongson.cn>) id 1odnxQ-0005pt-HM
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:27:47 -0400
 Received: from [10.20.42.238] (unknown [10.20.42.238])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxnmvjSDVjaasjAA--.53107S3; 
- Thu, 29 Sep 2022 15:27:31 +0800 (CST)
-Subject: Re: [PATCH v2 2/4] target/loongarch: bstrins.w need set dest register
- EXT_SIGN
+ AQAAf8DxBOLnSDVjbasjAA--.1681S3; 
+ Thu, 29 Sep 2022 15:27:35 +0800 (CST)
+Subject: Re: [PATCH v2 4/4] target/loongarch: flogb_{s/d} add set
+ float_flag_divbyzero
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: yangxiaojuan@loongson.cn, huqi@loongson.cn, peter.maydell@linaro.org,
  alex.bennee@linaro.org, maobibo@loongson.cn
 References: <20220927064838.3570928-1-gaosong@loongson.cn>
- <20220927064838.3570928-3-gaosong@loongson.cn>
- <fa9bc59a-a617-a243-7bf4-bc1f07db1a46@linaro.org>
+ <20220927064838.3570928-5-gaosong@loongson.cn>
+ <673a8e64-31f4-99a6-2e1d-ffb833237e16@linaro.org>
 From: gaosong <gaosong@loongson.cn>
-Message-ID: <c330da65-8069-4ec9-929e-15b2a1b2c47b@loongson.cn>
-Date: Thu, 29 Sep 2022 15:27:31 +0800
+Message-ID: <6573c025-0fe2-2fea-4ead-0af227676dfd@loongson.cn>
+Date: Thu, 29 Sep 2022 15:27:35 +0800
 User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <fa9bc59a-a617-a243-7bf4-bc1f07db1a46@linaro.org>
+In-Reply-To: <673a8e64-31f4-99a6-2e1d-ffb833237e16@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-CM-TRANSID: AQAAf8BxnmvjSDVjaasjAA--.53107S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7ur1kWF47GryftrWDZFWrKrg_yoW8uF4fpF
- 18CryUGrWUXr97Zr97Za1DXFy7JFs7Kw47WF4I9a4rCay5Xr10grW2g39Igry7tw4kWr4k
- Aan5uryqva15J37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9j1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E
- 87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
- Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
- 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
- 1lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK6svP
- MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
- C2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-CM-TRANSID: AQAAf8DxBOLnSDVjbasjAA--.1681S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrZF1fAw4fuw1fCF4kAr4Dtwb_yoWxCwb_JF
+ WkGr18X3WkJw45Gw4jyw4FqFyUJ3WUtr4UJryUZr1UWr15Jrn5Kr15Wrn5JF98KF45Jry7
+ u3srJFy3Aw1UGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb38Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2
+ jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
+ JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+ ACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE-syl
+ 42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
+ evJa73UjIFyTuYvjfUF9a9DUUUU
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -81,56 +81,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/9/28 下午11:13, Richard Henderson 写道:
+在 2022/9/28 下午11:24, Richard Henderson 写道:
 > On 9/26/22 23:48, Song Gao wrote:
->> Signed-off-by: Song Gao <gaosong@loongson.cn>
->> ---
->>   target/loongarch/insn_trans/trans_bit.c.inc | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/target/loongarch/insn_trans/trans_bit.c.inc 
->> b/target/loongarch/insn_trans/trans_bit.c.inc
->> index 9337714ec4..33e94878fd 100644
->> --- a/target/loongarch/insn_trans/trans_bit.c.inc
->> +++ b/target/loongarch/insn_trans/trans_bit.c.inc
->> @@ -37,7 +37,7 @@ static bool gen_rr_ms_ls(DisasContext *ctx, 
->> arg_rr_ms_ls *a,
->>                            DisasExtend src_ext, DisasExtend dst_ext,
->>                             void (*func)(TCGv, TCGv, unsigned int, 
->> unsigned int))
->>   {
->> -    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
->> +    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
->>       TCGv src1 = gpr_src(ctx, a->rj, src_ext);
->>         if (a->ls > a->ms) {
->> @@ -206,7 +206,7 @@ TRANS(maskeqz, gen_rrr, EXT_NONE, EXT_NONE, 
->> EXT_NONE, gen_maskeqz)
->>   TRANS(masknez, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_masknez)
->>   TRANS(bytepick_w, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_w)
->>   TRANS(bytepick_d, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_d)
->> -TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
->> +TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, gen_bstrins)
+>> if fj ==0 or fj == INT32_MIN/INT64_MIN, LoongArch host set fcsr cause 
+>> exception FP_DIV0,
+>> So we need set exception flags float_flagdivbyzero if fj ==0.
 >
-> These two hunks do opposite things: change dst_ext from NONE to SIGN, 
-> and then ignore the change.
+> You are correct that ieee754 says that logB(0) should raise divbyzero.
+> This should be fixed in softfloat-parts.c.inc, not here, within
 >
-> I assume the first hunk is in fact in error.
+>         case float_class_zero:
 >
-rd is also a src register,    rd should be src_dst.
-
-     TCGv dest = gpr_src(ctx, a->rd, src_dst);   what about this?
-
+>             /* log2(0) = -inf */
+>
+>             a->cls = float_class_inf;
+>
+>             a->sign = 1;
+>
+>             return;
+>
+>
+Ok , I will correct it on v3.
 
 Thanks.
 Song Gao
 >
 > r~
->
->
->>   TRANS(bstrins_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
->>   TRANS(bstrpick_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, 
->> tcg_gen_extract_tl)
->>   TRANS(bstrpick_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, 
->> tcg_gen_extract_tl)
 
 
