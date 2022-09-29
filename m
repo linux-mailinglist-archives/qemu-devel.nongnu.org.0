@@ -2,126 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2405EF00E
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 10:11:13 +0200 (CEST)
-Received: from localhost ([::1]:58614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3958B5EF068
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 10:27:25 +0200 (CEST)
+Received: from localhost ([::1]:51228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ododR-0000NS-Py
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 04:11:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53912)
+	id 1odotA-0001w2-BP
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 04:27:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1odoLr-0004zq-PE
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:53:03 -0400
-Received: from mail-eopbgr50137.outbound.protection.outlook.com
- ([40.107.5.137]:58243 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1odoLp-0000hg-QO
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:52:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mOEtPf5MIj2UTDN62rYpbI9OZNJO8OQlvp7zi+HDHF7kQwLIqq3p7h6cUKAzGCIO3GmhFADxA3O71IdW9rrgVu0lIxvUfiX0dNneWIxnMrJC9ujeegbLJEBaQ4aaeYdQIM9X+qxbP7CzrU+briS/MN6vGvyuqkVFRD9/QvFgTfX0s09gkn8q50RW8k+aX6Sxj6gjN79yR8RzA5pRQPMcZStpVDJWtiNUm6R7nJxQYXgqqNbug/onv7no45nSOEMBEm3xJJ9yVUWdyYkgOUjbRhIweZKPHVxB3aWl7fxngjXbE6DXZLuR4gypBdUpQbxaI/uPf+8ldZBJT9XHWPqYWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n6IYw1Yuo9xEANhuQwTiGpnfATLTImxbVXiIyCqZeas=;
- b=em9QmaRpRAwSTyaKvQeN++q01jiuM9cAjLuk7Fn23GvpjROXoClx6psBaqTxSt/xmsscSG2DiDdbMNJ+7YHx9P2ar59fAQDuQfNp+fjTYThmvZRUxSII4STwcCIorKeSeEV7Sh46A1IiRKs8NxYri6g6V0fsLR8jtGHjXT8Mjpn6CK9GcOf97s3slXdPuAws06V6hCrDZ+cXWeyWeUl1TmMi1xP4nWJubLPrwkWFP4PDUi5bJ4JzTQYBrt16bMCxRtKDljRL00aUrgB9RSxlhsRuhmDKXw87HFQdoRf/aZSgi8idiUIsh+u1n8oeMuN6ouuSgC1xHw3FI4P4YJlVvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n6IYw1Yuo9xEANhuQwTiGpnfATLTImxbVXiIyCqZeas=;
- b=jzG+S80lasTlKng5eexs8pLMPg0z+8eJE0iiYiY9j2iU3XAGSY55aWJM7ZyId1OD/R/8nzZgsjne2qeiR8ofp8icqe4iO+F/ruP+eCAPoxNgDdwXKEMa5CHzp+vLs9Dau6EgEK9OrajyRHmGcE9t1nAr9QZz+8s9HBuDcFkamQqT/WByzjOEZLbAa7Dk2SQyHTOGQe1/JhcoTkYioB4NXKrdlS9kGxO5So2BCt8DA/0Hw1JMBN3jNkGRgxH5jhwVw59K2JL4cl99SPTMEBOhsuzz1e7zstZbQIykXE3hXm1uoGpx48aOZ5k5Kd55wsMS5htwMVCrahCroYeaeYNPvw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
- by PAXPR08MB6461.eurprd08.prod.outlook.com (2603:10a6:102:153::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5654.26; Thu, 29 Sep
- 2022 07:52:49 +0000
-Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
- ([fe80::5174:25c7:6df8:741b]) by AS8PR08MB7095.eurprd08.prod.outlook.com
- ([fe80::5174:25c7:6df8:741b%8]) with mapi id 15.20.5676.020; Thu, 29 Sep 2022
- 07:52:49 +0000
-From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Cc: den@virtuozzo.com,
-	michael.roth@amd.com,
-	kkostiuk@redhat.com
-Subject: [PATCH 6/7] qga: Move HW address getting to a separate function
-Date: Thu, 29 Sep 2022 09:52:38 +0200
-Message-Id: <20220929075239.1675374-7-alexander.ivanov@virtuozzo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220929075239.1675374-1-alexander.ivanov@virtuozzo.com>
-References: <20220929075239.1675374-1-alexander.ivanov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AS9PR0301CA0039.eurprd03.prod.outlook.com
- (2603:10a6:20b:469::8) To AS8PR08MB7095.eurprd08.prod.outlook.com
- (2603:10a6:20b:402::11)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1odoNw-0007S4-Pl
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:55:10 -0400
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:43538)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1odoNt-000118-8x
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:55:08 -0400
+Received: by mail-lj1-x231.google.com with SMTP id b6so639926ljr.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 00:55:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=gLRomvxv5v6qBRyzZhhhIP6glTOoTDPOdh5BwqfIfg4=;
+ b=peQLtPq+aiMCFlUCgx7XPeMm9Hiyuf3g8ZrTpku+ewWymQeZznzCn3PrHsI8cKLN3t
+ 1sGJjZz4u3KuuDb/lydlNRrVrS1XjXvnhKwqffeuaRYPXc3x/JhkibEEcty6G1SI5z1I
+ kpg1EDTK/My5kTBLf3TRrBv175L9YWoJwtevhWmWETshvLBKyuMbgzChNud+65ub2X1G
+ zb5HHMTGPP/F8yKioD6q/LRv1opzLWgMKqrw8MZG7EtygykxAgnnRf4pFnaOgTi8q/ce
+ iFFct2ZzKlej+Cg21v1PzsN7II4ZyiFsSc2d3mNprN5hRPKJb+2frYm/dDJf2cCq2XHY
+ HyNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=gLRomvxv5v6qBRyzZhhhIP6glTOoTDPOdh5BwqfIfg4=;
+ b=BTZaJ6f0CqLP6m5y4kViGKrEwBEStxdH3IMGTsUMYoideX3p5/GIaxOEdClOmFedWU
+ Qy5pPr15IXpKqFip08QjvdZpkOtJi/63birzFwtDe8RGxUEfuCZwX/2QDQDDe9P8247H
+ HC+fRVKeOmC6VSxj8vuVm4LxV0PgxlTyVnu9Uhx+L53K4OZYfOwwBLAnttrU91QYUvif
+ dEXhq6xChXreXegymVtRJpLWUszczZJjKixHbXygc6x8LN5vK/IjIJBhyT95OLQWpBcL
+ Ttt0xB6EdyFF5p1lJbAcn8MMIK4Z1CNQX67mHaYzKBBiILpQG3J3iw0hM8khumL2y3Mq
+ PhCg==
+X-Gm-Message-State: ACrzQf3sT3p21qFU1yTS701dhuln5nsq2T2UocgIt45OPxpXnOF+BIB4
+ ufe58U552HqcgJLv2DRMZRgajyTDLTlCbI5yfT+TvHi5JiE=
+X-Google-Smtp-Source: AMsMyM5ieYECYDjt7kwzNCR1bCzuA9Bs3lrEWnermQ+qunOGLqrZZIVZrS9lGs5pyNE0EKYTasOKPc8kcI/HtuTCq0Y=
+X-Received: by 2002:a2e:9b17:0:b0:26c:4ede:512c with SMTP id
+ u23-20020a2e9b17000000b0026c4ede512cmr676362lji.529.1664438102367; Thu, 29
+ Sep 2022 00:55:02 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|PAXPR08MB6461:EE_
-X-MS-Office365-Filtering-Correlation-Id: 77a16c04-9065-4c08-b3f0-08daa1ef9ade
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6vdm8xRJL9mIYRsgYkrh7fPJuvCO2Hno4FjQ1E9tqmB1yRaHrlZMPTCoBzh2D8rZgH+CviHPiIC8+O/IT/Zc9VOceJVlAIIuNeXmZXjoUHkhyIfoX4Pc1/SQrjgPGGk/58ghai7fKBTPYL1rAZLwTvhrhywu4u48yfRS0HlbHfPLhYLGLhANHEN8gRQcijxZc0p3RMk1ydhO7BrWvEGu/FrlCe9BLjH3NeNoEzpozOGCrBPWJ6Nw4qt8rXj/ZwvWU14NRipde3ZH9nf1tw5WWygjG80oVoj8LT7E2u4p7sr1Zt+ncS3CnCxds7/hb5TuhPXu0slrhN9N92/wQh1SGZU4rYK1vYGH8nTV6diexc36qGgEKiH0GSqq6KWXhag7gpphc/8bAHprHIWfvS0JKp+RxS6O/0f7+iFvhTijujORgMrCZi20w3zWyuwsZ47s2bVnYSE0cEYwb3D7uyq1ZSmzmdBU8GUUUUTnLgqenCbtWM7dZ3CmouMkhNFiZzpLVMQ6JAVOrcOHRJmrL4d6tsj6nO2ZBslE88yvnoAKI3dDUMAHxQeIBcRUU6lGJ4R6DUVJESbLZDXDM0jMmyTbkGDc0xuLGp5TeOFn2wP1tQgXC6cIWzMdDHCoiTRacd7GtrMHtN5hngHz8PR7ZZ1WmMEGNMou+609VltuGzuSMByx7jMrc8k+6xYhtRFVZ7dR+/SvZMMi7jzfgPNx4dh7XSNgnCZkEQNGt+udLts58WcZCX1nN7ldNnMS60ZqSyKzlge3mzUpxc7S6Vx9cCr6KQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(136003)(346002)(396003)(376002)(39850400004)(451199015)(38350700002)(41300700001)(38100700002)(6666004)(6506007)(478600001)(26005)(186003)(316002)(36756003)(6512007)(44832011)(86362001)(2616005)(52116002)(83380400001)(8936002)(6916009)(6486002)(8676002)(1076003)(5660300002)(4326008)(66556008)(2906002)(66476007)(66946007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1vK6vlm6R/NlOOEW97GGVMGuOTHykY0cZe2pwIHY6Dziv7JF6qRWdBLNqzNX?=
- =?us-ascii?Q?D3RwdAshVGdYzzpqkcHHnGbGaPcBIM5SMn2K7BKLN0kmpkuq5RrWlgNL25VM?=
- =?us-ascii?Q?RWpMe4m54pS3v7pVC2bMSvhhHCz8dgc+zhwt0hFsjweG1hrYlpXFXp4h0Dnl?=
- =?us-ascii?Q?3Rfa/QuI5jlaUbWMLPnCs8WTZo6sbrkT56H+zW81NEiBMaAHY43GIZy0jm2w?=
- =?us-ascii?Q?k9ECIVDyFPhWYn+OxNOIFrHXNcyXEewrtxD/ElT2ygN53sS+ZKSFBVQoEfPJ?=
- =?us-ascii?Q?JSP8fl26JTHTnxcpqCNY/LzQA+uBfqVhdEE86G9S9mHDa5i08661ezuqXdYF?=
- =?us-ascii?Q?jd8TWzFXdCibDF/FfNfPsyCvUFbkSrtyjG0481xkn/b7Po0oQwUDTmTwJDaL?=
- =?us-ascii?Q?SpW38+c3ZtXZG0OfJIpz0J1GcywzTVJgZu/Y+zaQkW94b1+ZzW+kA6FVi/iL?=
- =?us-ascii?Q?Txv3G3NCE76cFC2NM5k6QATJeKIJ+C7YPNewhAtFmnXuqHX0+lafwaWD3A90?=
- =?us-ascii?Q?xz6BYOoLW0ojIREzvvURfLyKP5pGwFutC/4/w4GLT+ecs6spIH4FXk5KCkY1?=
- =?us-ascii?Q?w9EBjGnoNq5fU2WTXNGKjLsThe5aSwU3XIZ34Lr/qqlEQ0/SEB4p/DFxIx5i?=
- =?us-ascii?Q?XAQhg355p7ztGTNOWNI1ZAeEhb650DYMf4N2+mzxTyo8BGL1+f00TsnV4qXZ?=
- =?us-ascii?Q?H8ZWqFjgsu67SYoIQEJ/CXdzzjHLfUOzdaMfp52M7ZbOZmxf08V4BGn8iUv4?=
- =?us-ascii?Q?PuWDpXUP+I/ob4VDspCZStQyqxy1QaIKd6ZPxmbVEbPXFrA4v6vOYpj7N8gQ?=
- =?us-ascii?Q?E4YUF0b3VhBurd9QhHURmL3Xe+uVC8GmBqdptDgVB0zIN4OZmkQl4v3vchh+?=
- =?us-ascii?Q?3sGlhGLpxFLpwLLDTDe2zorME4hqi2dQoHJSvhOyCjzbLyBY2Q3+sZqKULop?=
- =?us-ascii?Q?OBiNDdzBklmTlxY2PbOSgr9PKpF1GVBJBmFVUMDQFj6qDe+b4Z+n8btnqig1?=
- =?us-ascii?Q?fAw92rykMLbCzqPL6vDT28qYu+iL2XxyP0JHgR/Er+/llupsNqsGjYsuUtFN?=
- =?us-ascii?Q?c92SZpx5pCaGVcueH/0TUNspsxe/ciMIU78C2M8B8CNwtBKs8c8jGNcMxeog?=
- =?us-ascii?Q?4kGdrDgUKg5wJ/deovrJ+IgMXFeSXBSWocUjkqNVjBHnJjp6lXyaYrrlrM5r?=
- =?us-ascii?Q?vO23uolhd0awgeXXL7SQz8jp3P6MdmFEErxSzSSSwv7zX2PZ9hWa54C1quni?=
- =?us-ascii?Q?vwU5iQa7NlGbg0sMznNpI+opj8Ww5f8CKyLfWxPk9GOZDulSGDRLE/+Ljw1r?=
- =?us-ascii?Q?gGNJdu92N21fk8zYwsQGbpKOeoNvLWEirFCxEWdXya60sbaBCYwUcGju3Djx?=
- =?us-ascii?Q?fsQGfx9KgpoqvEusrU8ne9uB6Bf6rG1KSpbH4mwvXRSStH4vXXzt898Q3jvy?=
- =?us-ascii?Q?P34lOqq1ujEOiQjQgQO0xya1Vhhy7kQdmGqXKOe7e6YbGRcwoO4PsqObxN17?=
- =?us-ascii?Q?BKSTvgbYa37PkHOxic3ntzccmDnYZATyQmu4+lzQ95ZM39IThqDmgDmmtLHm?=
- =?us-ascii?Q?jVDLpckmpZC88OEjNOlgcPG/v4Ytg3ZEw638MdRFEYEHNp80dFikRvGgAw4H?=
- =?us-ascii?Q?0A=3D=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77a16c04-9065-4c08-b3f0-08daa1ef9ade
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2022 07:52:49.5606 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KV6jugwKT24eWfX8KDiCQWEfrFQYqHMBy9vhsTfWWqmDo9rDebuchS3CeRVoAAP50YsdXK5CsvO4JG67r2QDKy8B8Ze06MRStHlBo6CtSpA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6461
-Received-SPF: pass client-ip=40.107.5.137;
- envelope-from=alexander.ivanov@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
+References: <20220905125741.95516-1-marcandre.lureau@redhat.com>
+ <20220905125741.95516-3-marcandre.lureau@redhat.com>
+In-Reply-To: <20220905125741.95516-3-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 29 Sep 2022 11:54:50 +0400
+Message-ID: <CAJ+F1CKi776GYg30XHGdEc650fjBAy3KhvjbdFUf=6CukY=n4A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dump: fix kdump to work over non-aligned blocks
+To: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qiaonuohan@cn.fujitsu.com, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
+Content-Type: multipart/alternative; boundary="000000000000d7a55405e9cc3193"
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x231.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -138,236 +85,427 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the next patch FreeBSD support for guest-network-get-interfaces will be
-added. Previously move Linux-specific code of HW address getting to a
-separate functions and add a dumb function to commands-bsd.c.
+--000000000000d7a55405e9cc3193
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
----
- qga/commands-bsd.c    |  18 +++++++
- qga/commands-common.h |   6 +++
- qga/commands-posix.c  | 114 +++++++++++++++++++++++-------------------
- 3 files changed, 87 insertions(+), 51 deletions(-)
+Hi
 
-diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
-index ca06692179..ca81114171 100644
---- a/qga/commands-bsd.c
-+++ b/qga/commands-bsd.c
-@@ -167,3 +167,21 @@ GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
-     return NULL;
- }
- #endif /* CONFIG_FSFREEZE */
-+
-+#ifdef HAVE_GETIFADDRS
-+/*
-+ * Fill buf with MAC address by ifaddrs. Pointer buf must point to a
-+ * buffer with ETHER_ADDR_LEN length at least.
-+ *
-+ * Returns -1 in case of an error, 0 if MAC address can't be obtained or
-+ * 1 if MAC addres is obtained.
-+ */
-+int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf, Error **errp)
-+{
-+    /*
-+     * We can't get the hw addr of this interface,
-+     * but that's not a fatal error.
-+     */
-+    return 0;
-+}
-+#endif /* HAVE_GETIFADDRS */
-diff --git a/qga/commands-common.h b/qga/commands-common.h
-index 2d9878a634..2485a037fd 100644
---- a/qga/commands-common.h
-+++ b/qga/commands-common.h
-@@ -56,6 +56,12 @@ int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,
- int qmp_guest_fsfreeze_do_thaw(Error **errp);
- #endif /* CONFIG_FSFREEZE */
- 
-+#ifdef HAVE_GETIFADDRS
-+#include <ifaddrs.h>
-+
-+int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf, Error **errp);
-+#endif
-+
- typedef struct GuestFileHandle GuestFileHandle;
- 
- GuestFileHandle *guest_file_handle_find(int64_t id, Error **errp);
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 6ce894ca6e..0bebd9e690 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -41,20 +41,12 @@
- #endif
- #endif
- 
--#ifdef __FreeBSD__
--/*
-- * The code under HAVE_GETIFADDRS condition can't be compiled in FreeBSD.
-- * Fix it in one of the following patches.
-- */
--#undef HAVE_GETIFADDRS
--#endif
--
- #ifdef HAVE_GETIFADDRS
- #include <arpa/inet.h>
- #include <sys/socket.h>
- #include <net/if.h>
-+#include <net/ethernet.h>
- #include <sys/types.h>
--#include <ifaddrs.h>
- #ifdef CONFIG_SOLARIS
- #include <sys/sockio.h>
- #endif
-@@ -2659,14 +2651,6 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
-     return -1;
- }
- 
--void qmp_guest_set_user_password(const char *username,
--                                 const char *password,
--                                 bool crypted,
--                                 Error **errp)
--{
--    error_setg(errp, QERR_UNSUPPORTED);
--}
--
- GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
- {
-     error_setg(errp, QERR_UNSUPPORTED);
-@@ -2804,7 +2788,15 @@ out:
-         close(datafd[1]);
-     }
- }
--#endif
-+#else /* __linux__ || __FreeBSD__ */
-+void qmp_guest_set_user_password(const char *username,
-+                                 const char *password,
-+                                 bool crypted,
-+                                 Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+}
-+#endif /* __linux__ || __FreeBSD__ */
- 
- #ifdef HAVE_GETIFADDRS
- static GuestNetworkInterface *
-@@ -2887,6 +2879,54 @@ static int guest_get_network_stats(const char *name,
-     return -1;
- }
- 
-+#ifndef __FreeBSD__
-+/*
-+ * Fill buf with MAC address by ifaddrs. Pointer buf must point to a
-+ * buffer with ETHER_ADDR_LEN length at least.
-+ * Returns -1 in case of an error, 0 if MAC address can't be obtained or
-+ * 1 if MAC addres is obtained.
-+ */
-+int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf, Error **errp)
-+{
-+    struct ifreq ifr;
-+    int sock;
-+
-+    /* we haven't obtained HW address yet */
-+    sock = socket(PF_INET, SOCK_STREAM, 0);
-+    if (sock == -1) {
-+        error_setg_errno(errp, errno, "failed to create socket");
-+        return -1;
-+    }
-+
-+    memset(&ifr, 0, sizeof(ifr));
-+    pstrcpy(ifr.ifr_name, IF_NAMESIZE, ifa->ifa_name);
-+    if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
-+        /*
-+         * We can't get the hw addr of this interface, but that's not a
-+         * fatal error. Don't set info->hardware_address, but keep
-+         * going.
-+         */
-+        if (errno == EADDRNOTAVAIL) {
-+            /* The interface doesn't have a hw addr (e.g. loopback). */
-+            g_debug("failed to get MAC address of %s: %s",
-+                    ifa->ifa_name, strerror(errno));
-+        } else{
-+            g_warning("failed to get MAC address of %s: %s",
-+                      ifa->ifa_name, strerror(errno));
-+        }
-+        close(sock);
-+        return 0;
-+    }
-+#ifdef CONFIG_SOLARIS
-+    memcpy(buf, &ifr.ifr_addr.sa_data, ETHER_ADDR_LEN);
-+#else
-+    memcpy(buf, &ifr.ifr_hwaddr.sa_data, ETHER_ADDR_LEN);
-+#endif
-+    close(sock);
-+    return 1;
-+}
-+#endif /* __FreeBSD__ */
-+
- /*
-  * Build information about guest interfaces
-  */
-@@ -2907,10 +2947,9 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
-         GuestNetworkInterfaceStat *interface_stat = NULL;
-         char addr4[INET_ADDRSTRLEN];
-         char addr6[INET6_ADDRSTRLEN];
--        int sock;
--        struct ifreq ifr;
--        unsigned char *mac_addr;
-+        unsigned char mac_addr[ETHER_ADDR_LEN];
-         void *p;
-+        int ret;
- 
-         g_debug("Processing %s interface", ifa->ifa_name);
- 
-@@ -2924,45 +2963,18 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
-         }
- 
-         if (!info->has_hardware_address) {
--            /* we haven't obtained HW address yet */
--            sock = socket(PF_INET, SOCK_STREAM, 0);
--            if (sock == -1) {
--                error_setg_errno(errp, errno, "failed to create socket");
-+            ret = guest_get_hw_addr(ifa, mac_addr, errp);
-+            if (ret == -1) {
-                 goto error;
-             }
--
--            memset(&ifr, 0, sizeof(ifr));
--            pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->name);
--            if (ioctl(sock, SIOCGIFHWADDR, &ifr) == -1) {
--                /*
--                 * We can't get the hw addr of this interface, but that's not a
--                 * fatal error. Don't set info->hardware_address, but keep
--                 * going.
--                 */
--                if (errno == EADDRNOTAVAIL) {
--                    /* The interface doesn't have a hw addr (e.g. loopback). */
--                    g_debug("failed to get MAC address of %s: %s",
--                            ifa->ifa_name, strerror(errno));
--                } else{
--                    g_warning("failed to get MAC address of %s: %s",
--                              ifa->ifa_name, strerror(errno));
--                }
--
--            } else {
--#ifdef CONFIG_SOLARIS
--                mac_addr = (unsigned char *) &ifr.ifr_addr.sa_data;
--#else
--                mac_addr = (unsigned char *) &ifr.ifr_hwaddr.sa_data;
--#endif
-+            if (ret == 1) {
-                 info->hardware_address =
-                     g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
-                                     (int) mac_addr[0], (int) mac_addr[1],
-                                     (int) mac_addr[2], (int) mac_addr[3],
-                                     (int) mac_addr[4], (int) mac_addr[5]);
--
-                 info->has_hardware_address = true;
-             }
--            close(sock);
-         }
- 
-         if (ifa->ifa_addr &&
--- 
-2.34.1
+On Mon, Sep 5, 2022 at 5:13 PM <marcandre.lureau@redhat.com> wrote:
 
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Rewrite get_next_page() to work over non-aligned blocks. When it
+> encounters non aligned addresses, it will try to fill a page provided by
+> the caller.
+>
+> This solves a kdump crash with "tpm-crb-cmd" RAM memory region,
+> qemu-kvm: ../dump/dump.c:1162: _Bool get_next_page(GuestPhysBlock **,
+> uint64_t *, uint8_t **, DumpState *): Assertion `(block->target_start &
+> ~target_page_mask) =3D=3D 0' failed.
+>
+> because:
+> guest_phys_block_add_section: target_start=3D00000000fed40080
+> target_end=3D00000000fed41000: added (count: 4)
+>
+> Fixes:
+> https://bugzilla.redhat.com/show_bug.cgi?id=3D2120480
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+
+ping: someone to review/ack this patch?
+
+
+> ---
+>  dump/dump.c | 79 +++++++++++++++++++++++++++++++++++++----------------
+>  1 file changed, 56 insertions(+), 23 deletions(-)
+>
+> diff --git a/dump/dump.c b/dump/dump.c
+> index f465830371..500357bafe 100644
+> --- a/dump/dump.c
+> +++ b/dump/dump.c
+> @@ -1094,50 +1094,81 @@ static uint64_t dump_pfn_to_paddr(DumpState *s,
+> uint64_t pfn)
+>  }
+>
+>  /*
+> - * exam every page and return the page frame number and the address of
+> the page.
+> - * bufptr can be NULL. note: the blocks here is supposed to reflect
+> guest-phys
+> - * blocks, so block->target_start and block->target_end should be intera=
+l
+> - * multiples of the target page size.
+> + * Return the page frame number and the page content in *bufptr. bufptr
+> can be
+> + * NULL. If not NULL, *bufptr must contains a target page size of
+> pre-allocated
+> + * memory. This is not necessarily the memory returned.
+>   */
+>  static bool get_next_page(GuestPhysBlock **blockptr, uint64_t *pfnptr,
+>                            uint8_t **bufptr, DumpState *s)
+>  {
+>      GuestPhysBlock *block =3D *blockptr;
+> -    hwaddr addr, target_page_mask =3D ~((hwaddr)s->dump_info.page_size -=
+ 1);
+> -    uint8_t *buf;
+> +    uint32_t page_size =3D s->dump_info.page_size;
+> +    uint8_t *buf =3D NULL, *hbuf;
+> +    hwaddr addr;
+>
+>      /* block =3D=3D NULL means the start of the iteration */
+>      if (!block) {
+>          block =3D QTAILQ_FIRST(&s->guest_phys_blocks.head);
+>          *blockptr =3D block;
+>          addr =3D block->target_start;
+> +        *pfnptr =3D dump_paddr_to_pfn(s, addr);
+>      } else {
+> -        addr =3D dump_pfn_to_paddr(s, *pfnptr + 1);
+> +        *pfnptr +=3D 1;
+> +        addr =3D dump_pfn_to_paddr(s, *pfnptr);
+>      }
+>      assert(block !=3D NULL);
+>
+> -    if ((addr >=3D block->target_start) &&
+> -        (addr + s->dump_info.page_size <=3D block->target_end)) {
+> -        buf =3D block->host_addr + (addr - block->target_start);
+> -    } else {
+> -        /* the next page is in the next block */
+> -        block =3D QTAILQ_NEXT(block, next);
+> -        *blockptr =3D block;
+> -        if (!block) {
+> -            return false;
+> +    while (1) {
+> +        if (addr >=3D block->target_start && addr < block->target_end) {
+> +            size_t n =3D MIN(block->target_end - addr, page_size - addr =
+%
+> page_size);
+> +            hbuf =3D block->host_addr + (addr - block->target_start);
+> +            if (!buf) {
+> +                if (n =3D=3D page_size) {
+> +                    /* this is a whole target page, go for it */
+> +                    assert(addr % page_size =3D=3D 0);
+> +                    buf =3D hbuf;
+> +                    break;
+> +                } else if (bufptr) {
+> +                    assert(*bufptr);
+> +                    buf =3D *bufptr;
+> +                    memset(buf, 0, page_size);
+> +                } else {
+> +                    return true;
+> +                }
+> +            }
+> +
+> +            memcpy(buf + addr % page_size, hbuf, n);
+> +            addr +=3D n;
+> +            if (addr % page_size =3D=3D 0) {
+> +                /* we filled up the page */
+> +                break;
+> +            }
+> +        } else {
+> +            /* the next page is in the next block */
+> +            *blockptr =3D block =3D QTAILQ_NEXT(block, next);
+> +            if (!block) {
+> +                break;
+> +            }
+> +
+> +            addr =3D block->target_start;
+> +            /* are we still in the same page? */
+> +            if (dump_paddr_to_pfn(s, addr) !=3D *pfnptr) {
+> +                if (buf) {
+> +                    /* no, but we already filled something earlier,
+> return it */
+> +                    break;
+> +                } else {
+> +                    /* else continue from there */
+> +                    *pfnptr =3D dump_paddr_to_pfn(s, addr);
+> +                }
+> +            }
+>          }
+> -        addr =3D block->target_start;
+> -        buf =3D block->host_addr;
+>      }
+>
+> -    assert((block->target_start & ~target_page_mask) =3D=3D 0);
+> -    assert((block->target_end & ~target_page_mask) =3D=3D 0);
+> -    *pfnptr =3D dump_paddr_to_pfn(s, addr);
+>      if (bufptr) {
+>          *bufptr =3D buf;
+>      }
+>
+> -    return true;
+> +    return buf !=3D NULL;
+>  }
+>
+>  static void write_dump_bitmap(DumpState *s, Error **errp)
+> @@ -1275,6 +1306,7 @@ static void write_dump_pages(DumpState *s, Error
+> **errp)
+>      uint8_t *buf;
+>      GuestPhysBlock *block_iter =3D NULL;
+>      uint64_t pfn_iter;
+> +    g_autofree uint8_t *page =3D NULL;
+>
+>      /* get offset of page_desc and page_data in dump file */
+>      offset_desc =3D s->offset_page;
+> @@ -1310,12 +1342,13 @@ static void write_dump_pages(DumpState *s, Error
+> **errp)
+>      }
+>
+>      offset_data +=3D s->dump_info.page_size;
+> +    page =3D g_malloc(s->dump_info.page_size);
+>
+>      /*
+>       * dump memory to vmcore page by page. zero page will all be resided
+> in the
+>       * first page of page section
+>       */
+> -    while (get_next_page(&block_iter, &pfn_iter, &buf, s)) {
+> +    for (buf =3D page; get_next_page(&block_iter, &pfn_iter, &buf, s); b=
+uf
+> =3D page) {
+>          /* check zero page */
+>          if (buffer_is_zero(buf, s->dump_info.page_size)) {
+>              ret =3D write_cache(&page_desc, &pd_zero,
+> sizeof(PageDescriptor),
+> --
+> 2.37.2
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000d7a55405e9cc3193
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 5, 2022 at 5:13 PM &lt;=
+<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">F=
+rom: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.c=
+om" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+<br>
+Rewrite get_next_page() to work over non-aligned blocks. When it<br>
+encounters non aligned addresses, it will try to fill a page provided by<br=
+>
+the caller.<br>
+<br>
+This solves a kdump crash with &quot;tpm-crb-cmd&quot; RAM memory region,<b=
+r>
+qemu-kvm: ../dump/dump.c:1162: _Bool get_next_page(GuestPhysBlock **,<br>
+uint64_t *, uint8_t **, DumpState *): Assertion `(block-&gt;target_start &a=
+mp;<br>
+~target_page_mask) =3D=3D 0&#39; failed.<br>
+<br>
+because:<br>
+guest_phys_block_add_section: target_start=3D00000000fed40080 target_end=3D=
+00000000fed41000: added (count: 4)<br>
+<br>
+Fixes:<br>
+<a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D2120480" rel=3D"no=
+referrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.cgi?id=3D2=
+120480</a><br>
+<br>
+Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
+u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br></bl=
+ockquote><div><br></div><div>ping: someone to review/ack this patch?</div><=
+div>=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0dump/dump.c | 79 +++++++++++++++++++++++++++++++++++++---------------=
+-<br>
+=C2=A01 file changed, 56 insertions(+), 23 deletions(-)<br>
+<br>
+diff --git a/dump/dump.c b/dump/dump.c<br>
+index f465830371..500357bafe 100644<br>
+--- a/dump/dump.c<br>
++++ b/dump/dump.c<br>
+@@ -1094,50 +1094,81 @@ static uint64_t dump_pfn_to_paddr(DumpState *s, uin=
+t64_t pfn)<br>
+=C2=A0}<br>
+<br>
+=C2=A0/*<br>
+- * exam every page and return the page frame number and the address of the=
+ page.<br>
+- * bufptr can be NULL. note: the blocks here is supposed to reflect guest-=
+phys<br>
+- * blocks, so block-&gt;target_start and block-&gt;target_end should be in=
+teral<br>
+- * multiples of the target page size.<br>
++ * Return the page frame number and the page content in *bufptr. bufptr ca=
+n be<br>
++ * NULL. If not NULL, *bufptr must contains a target page size of pre-allo=
+cated<br>
++ * memory. This is not necessarily the memory returned.<br>
+=C2=A0 */<br>
+=C2=A0static bool get_next_page(GuestPhysBlock **blockptr, uint64_t *pfnptr=
+,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0uint8_t **bufptr, DumpState *s)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0GuestPhysBlock *block =3D *blockptr;<br>
+-=C2=A0 =C2=A0 hwaddr addr, target_page_mask =3D ~((hwaddr)s-&gt;dump_info.=
+page_size - 1);<br>
+-=C2=A0 =C2=A0 uint8_t *buf;<br>
++=C2=A0 =C2=A0 uint32_t page_size =3D s-&gt;dump_info.page_size;<br>
++=C2=A0 =C2=A0 uint8_t *buf =3D NULL, *hbuf;<br>
++=C2=A0 =C2=A0 hwaddr addr;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* block =3D=3D NULL means the start of the iteration *=
+/<br>
+=C2=A0 =C2=A0 =C2=A0if (!block) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0block =3D QTAILQ_FIRST(&amp;s-&gt;guest_p=
+hys_blocks.head);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*blockptr =3D block;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr =3D block-&gt;target_start;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 *pfnptr =3D dump_paddr_to_pfn(s, addr);<br>
+=C2=A0 =C2=A0 =C2=A0} else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr =3D dump_pfn_to_paddr(s, *pfnptr + 1);<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 *pfnptr +=3D 1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr =3D dump_pfn_to_paddr(s, *pfnptr);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0assert(block !=3D NULL);<br>
+<br>
+-=C2=A0 =C2=A0 if ((addr &gt;=3D block-&gt;target_start) &amp;&amp;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (addr + s-&gt;dump_info.page_size &lt;=3D bloc=
+k-&gt;target_end)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D block-&gt;host_addr + (addr - block-&g=
+t;target_start);<br>
+-=C2=A0 =C2=A0 } else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* the next page is in the next block */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 block =3D QTAILQ_NEXT(block, next);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 *blockptr =3D block;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!block) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
++=C2=A0 =C2=A0 while (1) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (addr &gt;=3D block-&gt;target_start &amp;&=
+amp; addr &lt; block-&gt;target_end) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size_t n =3D MIN(block-&gt;targe=
+t_end - addr, page_size - addr % page_size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 hbuf =3D block-&gt;host_addr + (=
+addr - block-&gt;target_start);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!buf) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (n =3D=3D page_=
+size) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* t=
+his is a whole target page, go for it */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 asse=
+rt(addr % page_size =3D=3D 0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =
+=3D hbuf;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
+k;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (bufptr)=
+ {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 asse=
+rt(*bufptr);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =
+=3D *bufptr;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mems=
+et(buf, 0, page_size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retu=
+rn true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memcpy(buf + addr % page_size, h=
+buf, n);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr +=3D n;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (addr % page_size =3D=3D 0) {=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* we filled up th=
+e page */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* the next page is in the next =
+block */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *blockptr =3D block =3D QTAILQ_N=
+EXT(block, next);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!block) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr =3D block-&gt;target_start;=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* are we still in the same page=
+? */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dump_paddr_to_pfn(s, addr) !=
+=3D *pfnptr) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (buf) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* n=
+o, but we already filled something earlier, return it */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
+k;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* e=
+lse continue from there */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *pfn=
+ptr =3D dump_paddr_to_pfn(s, addr);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr =3D block-&gt;target_start;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D block-&gt;host_addr;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 assert((block-&gt;target_start &amp; ~target_page_mask) =3D=
+=3D 0);<br>
+-=C2=A0 =C2=A0 assert((block-&gt;target_end &amp; ~target_page_mask) =3D=3D=
+ 0);<br>
+-=C2=A0 =C2=A0 *pfnptr =3D dump_paddr_to_pfn(s, addr);<br>
+=C2=A0 =C2=A0 =C2=A0if (bufptr) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*bufptr =3D buf;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 return true;<br>
++=C2=A0 =C2=A0 return buf !=3D NULL;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static void write_dump_bitmap(DumpState *s, Error **errp)<br>
+@@ -1275,6 +1306,7 @@ static void write_dump_pages(DumpState *s, Error **er=
+rp)<br>
+=C2=A0 =C2=A0 =C2=A0uint8_t *buf;<br>
+=C2=A0 =C2=A0 =C2=A0GuestPhysBlock *block_iter =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0uint64_t pfn_iter;<br>
++=C2=A0 =C2=A0 g_autofree uint8_t *page =3D NULL;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* get offset of page_desc and page_data in dump file *=
+/<br>
+=C2=A0 =C2=A0 =C2=A0offset_desc =3D s-&gt;offset_page;<br>
+@@ -1310,12 +1342,13 @@ static void write_dump_pages(DumpState *s, Error **=
+errp)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0offset_data +=3D s-&gt;dump_info.page_size;<br>
++=C2=A0 =C2=A0 page =3D g_malloc(s-&gt;dump_info.page_size);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/*<br>
+=C2=A0 =C2=A0 =C2=A0 * dump memory to vmcore page by page. zero page will a=
+ll be resided in the<br>
+=C2=A0 =C2=A0 =C2=A0 * first page of page section<br>
+=C2=A0 =C2=A0 =C2=A0 */<br>
+-=C2=A0 =C2=A0 while (get_next_page(&amp;block_iter, &amp;pfn_iter, &amp;bu=
+f, s)) {<br>
++=C2=A0 =C2=A0 for (buf =3D page; get_next_page(&amp;block_iter, &amp;pfn_i=
+ter, &amp;buf, s); buf =3D page) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* check zero page */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (buffer_is_zero(buf, s-&gt;dump_info.p=
+age_size)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D write_cache(&amp;pa=
+ge_desc, &amp;pd_zero, sizeof(PageDescriptor),<br>
+-- <br>
+2.37.2<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000d7a55405e9cc3193--
 
