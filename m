@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550975EF43F
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 13:26:00 +0200 (CEST)
-Received: from localhost ([::1]:47480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED495EF484
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 13:42:43 +0200 (CEST)
+Received: from localhost ([::1]:58890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odrfy-0003ZY-NP
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 07:25:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38208)
+	id 1odrw9-00043U-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 07:42:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1odrMK-0001F6-E4
+ id 1odrMK-0001F7-Q7
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:05:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44497)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1odrMI-0001yY-SH
+ id 1odrMJ-0001yf-AJ
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:05:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1664449538;
@@ -25,38 +25,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oG/PB1KRyUcZqqWhh8GisayAgLoEnGDi0gH30odmnTg=;
- b=If3Z7n95zpcF8jzOe7A3mlxe/z26wqNohK0zNlEeOhEoVSBTFndQZxO/DSuMVdgkcEgCnq
- V86MtE3YytpCiEHI5+YLD/w7JVqAxCBoL4rnb3YAlr1AMjNZDF6ZfL59JwjxmUJx92MpsM
- 4tT7bD3Q5dn5c/tkcLyFtfFjvcuy+hs=
+ bh=7VUhs4rAc5DdkL/r1kEvE47gIjm+3f12pZ7vfN+8Q1c=;
+ b=jI/s6CZKj7aQGbr4KFTSvnoGmWoVBbNEXdxUiWo0Xj/WETsE0T+dR3iQfDndxRsV94XCeu
+ 7tzjNS7WLoI+aaIH0unrvEyKIGhyPOBph233Mi6IMOFI4VagUvbH4dpTaST5K3+MbNaroH
+ 7grWKP5RmjWJ4m//dP/vVhknLMbaznk=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-411-6UEsBaFeOg-CZQ71caUXJw-1; Thu, 29 Sep 2022 07:05:33 -0400
-X-MC-Unique: 6UEsBaFeOg-CZQ71caUXJw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-455-dKGnIhEsMviUouM0psuRiw-1; Thu, 29 Sep 2022 07:05:37 -0400
+X-MC-Unique: dKGnIhEsMviUouM0psuRiw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A631B1C05AC2;
- Thu, 29 Sep 2022 11:05:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 065701C05AC0;
+ Thu, 29 Sep 2022 11:05:37 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DBAC61121339;
- Thu, 29 Sep 2022 11:05:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E2F834099B52;
+ Thu, 29 Sep 2022 11:05:35 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Arwed Meyer <arwed.meyer@gmx.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 5/8] serial: Allow unaligned i/o access
-Date: Thu, 29 Sep 2022 15:05:05 +0400
-Message-Id: <20220929110508.1323529-6-marcandre.lureau@redhat.com>
+Cc: stefanha@redhat.com, Maksim Davydov <davydov-max@yandex-team.ru>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 6/8] chardev: fix segfault in finalize
+Date: Thu, 29 Sep 2022 15:05:06 +0400
+Message-Id: <20220929110508.1323529-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20220929110508.1323529-1-marcandre.lureau@redhat.com>
 References: <20220929110508.1323529-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -82,34 +82,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Arwed Meyer <arwed.meyer@gmx.de>
+From: Maksim Davydov <davydov-max@yandex-team.ru>
 
-Unaligned i/o access on serial UART works on real PCs.
-This is used for example by FreeDOS CTMouse driver. Without this it
-can't reset and detect serial mice.
+If finalize chardev-msmouse or chardev-wctable is called immediately after
+init it cases QEMU to crash with segfault. This happens because of
+QTAILQ_REMOVE in qemu_input_handler_unregister tries to dereference
+NULL pointer.
+For instance, this error can be reproduced via `qom-list-properties`
+command.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/77
-Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de>
+Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220911181840.8933-6-arwed.meyer@gmx.de>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Message-Id: <20220825165247.33704-1-davydov-max@yandex-team.ru>
 ---
- hw/char/serial.c | 3 +++
- 1 file changed, 3 insertions(+)
+ chardev/msmouse.c  | 4 +++-
+ chardev/wctablet.c | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/hw/char/serial.c b/hw/char/serial.c
-index 7061aacbce..41b5e61977 100644
---- a/hw/char/serial.c
-+++ b/hw/char/serial.c
-@@ -961,6 +961,9 @@ void serial_set_frequency(SerialState *s, uint32_t frequency)
- const MemoryRegionOps serial_io_ops = {
-     .read = serial_ioport_read,
-     .write = serial_ioport_write,
-+    .valid = {
-+        .unaligned = 1,
-+    },
-     .impl = {
-         .min_access_size = 1,
-         .max_access_size = 1,
+diff --git a/chardev/msmouse.c b/chardev/msmouse.c
+index 9006703023..ab8fe981d6 100644
+--- a/chardev/msmouse.c
++++ b/chardev/msmouse.c
+@@ -247,7 +247,9 @@ static void char_msmouse_finalize(Object *obj)
+ {
+     MouseChardev *mouse = MOUSE_CHARDEV(obj);
+ 
+-    qemu_input_handler_unregister(mouse->hs);
++    if (mouse->hs) {
++        qemu_input_handler_unregister(mouse->hs);
++    }
+     fifo8_destroy(&mouse->outbuf);
+ }
+ 
+diff --git a/chardev/wctablet.c b/chardev/wctablet.c
+index e8b292c43c..43bdf6b608 100644
+--- a/chardev/wctablet.c
++++ b/chardev/wctablet.c
+@@ -319,7 +319,9 @@ static void wctablet_chr_finalize(Object *obj)
+ {
+     TabletChardev *tablet = WCTABLET_CHARDEV(obj);
+ 
+-    qemu_input_handler_unregister(tablet->hs);
++    if (tablet->hs) {
++        qemu_input_handler_unregister(tablet->hs);
++    }
+ }
+ 
+ static void wctablet_chr_open(Chardev *chr,
 -- 
 2.37.3
 
