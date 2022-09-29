@@ -2,79 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BE35EFED5
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 22:46:20 +0200 (CEST)
-Received: from localhost ([::1]:36108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 354155EFEF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 23:00:04 +0200 (CEST)
+Received: from localhost ([::1]:57528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oe0QF-00060i-MF
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 16:46:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60270)
+	id 1oe0dW-0001Hd-S9
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 17:00:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=1271248072=kbusch@meta.com>)
- id 1odzmu-0002mM-65
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 16:05:42 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:8430)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org>)
+ id 1oe0b5-00080N-LZ; Thu, 29 Sep 2022 16:57:31 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:44476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=1271248072=kbusch@meta.com>)
- id 1odzmr-0005RT-2R
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 16:05:39 -0400
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28TJIXvW002781
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 13:05:28 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=s2048-2021-q4;
- bh=9DUyzCE+9LcliOjaEta+SPjhznTXiuml9lI23qr5Cbc=;
- b=iW/EZPJTit9FOYEhY3RKNVkSyH69kYGgpyRoDIbMs/kmpPPXhBI1SfSTPDsXpv5s2y5Q
- tAUC8B8Z22+pgZTaZecwIe0tWNp0Wx1VhMJwJtQfG99KdUaTGnpxQKytrOCgIGfCLmdH
- S3WOxHToTz5HFZpGPrBaoMMs44GWLZMb0qmj95QaFxbTMm6cJuqlWVJljUSKqSlRoVKC
- /Mx/LoiGFJuLdTXc1vC1NMYWN/am9C9GfdIryjGCs1jTzScQ3LAl5nqEfDdT7xG8zJgf
- arh5fh8wPN6yghGPUjl2d/uVBbUS64stc13+XqI2d0gmbvGgpZroeNZ/dyceZOmus81C DQ== 
-Received: from mail.thefacebook.com ([163.114.132.120])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3jvtn2hv1w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 13:05:28 -0700
-Received: from twshared10425.14.frc2.facebook.com (2620:10d:c085:108::8) by
- mail.thefacebook.com (2620:10d:c085:21d::4) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 29 Sep 2022 13:05:28 -0700
-Received: by devbig007.nao1.facebook.com (Postfix, from userid 544533)
- id 96477930500F; Thu, 29 Sep 2022 13:05:24 -0700 (PDT)
-From: Keith Busch <kbusch@meta.com>
-To: <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
- <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
-CC: Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>, Maxim Levitsky
- <mlevitsk@redhat.com>, <kvm@vger.kernel.org>,
- Keith Busch <kbusch@kernel.org>
-Subject: [PATCHv3 2/2] block: use the request length for iov alignment
-Date: Thu, 29 Sep 2022 13:05:23 -0700
-Message-ID: <20220929200523.3218710-3-kbusch@meta.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220929200523.3218710-1-kbusch@meta.com>
-References: <20220929200523.3218710-1-kbusch@meta.com>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org>)
+ id 1oe0b3-0005Aa-LJ; Thu, 29 Sep 2022 16:57:31 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BE6DE614DB;
+ Thu, 29 Sep 2022 20:57:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1EFEC433C1;
+ Thu, 29 Sep 2022 20:57:26 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=fail reason="signature verification failed" (1024-bit key)
+ header.d=zx2c4.com header.i=@zx2c4.com header.b="TF1MRtd+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1664485045;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QZq0c/MN1dTHZqJYvQQeKzJCy+jRUMqF9RLa0Ov6gus=;
+ b=TF1MRtd+RFfo5ntOjuLA9GgKoIIx6iWKrcuKcWaUpxaIbsw3ErzLpCIPIelgVH+tebscrY
+ Dq0bOj/LRvubY10DD+2FAqVBDtWbfBGICvbAtexxmsV5ILJ2qgWorHhkdDSam5iK43k+18
+ ipKxyTUvZ/mksc2yoy/DLUjSRtP6Tu0=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 974f9b60
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Thu, 29 Sep 2022 20:57:24 +0000 (UTC)
+Date: Thu, 29 Sep 2022 22:57:22 +0200
+To: qemu-devel@nongnu.org, peter.maydell@linaro.org, qemu-arm@nongnu.org
+Subject: Re: [PATCH] arm: re-randomize rng-seed on reboot
+Message-ID: <YzYGsjlGBwh4Hi78@zx2c4.com>
+References: <20220927160742.1773167-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: Hdf2rZFJhIi8hOlpbJyamwZu9aVOeoM5
-X-Proofpoint-ORIG-GUID: Hdf2rZFJhIi8hOlpbJyamwZu9aVOeoM5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-29_11,2022-09-29_03,2022-06-22_01
-Received-SPF: pass client-ip=67.231.145.42;
- envelope-from=prvs=1271248072=kbusch@meta.com; helo=mx0a-00082601.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220927160742.1773167-1-Jason@zx2c4.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -64
+X-Spam_score: -6.5
+X-Spam_bar: ------
+X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 29 Sep 2022 16:42:15 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,40 +73,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Jason A. Donenfeld" <Jason@zx2c4.com>
+From:  "Jason A. Donenfeld" via <qemu-devel@nongnu.org>
 
-From: Keith Busch <kbusch@kernel.org>
+Hi Peter,
 
-An iov length needs to be aligned to the logical block size, which may
-be larger than the memory alignment.
+On Tue, Sep 27, 2022 at 06:07:42PM +0200, Jason A. Donenfeld wrote:
+> When the system reboots, the rng-seed that the FDT has should be
+> re-randomized, so that the new boot gets a new seed. Since the FDT is in
+> the ROM region at this point, we add a hook right after the ROM has been
+> added, so that we have a pointer to that copy of the FDT. When the
+> reboot happens, we then look for RNG seeds and replace their contents
+> with new random data.
+> 
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-Tested-by: Jens Axboe <axboe@kernel.dk>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
----
- block/file-posix.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Just FYI, I'm waiting for your feedback on this approach, first, before
+I add a similar thing for other architectures (at which point perhaps
+rerandomize_fdt_seeds will be moved into device_tree.c or something).
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index e3f3de2780..af994aba2b 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2068,13 +2068,14 @@ static bool bdrv_qiov_is_aligned(BlockDriverState=
- *bs, QEMUIOVector *qiov)
- {
-     int i;
-     size_t alignment =3D bdrv_min_mem_align(bs);
-+    size_t len =3D bs->bl.request_alignment;
-     IO_CODE();
-=20
-     for (i =3D 0; i < qiov->niov; i++) {
-         if ((uintptr_t) qiov->iov[i].iov_base % alignment) {
-             return false;
-         }
--        if (qiov->iov[i].iov_len % alignment) {
-+        if (qiov->iov[i].iov_len % len) {
-             return false;
-         }
-     }
---=20
-2.30.2
+Jason
 
+> ---
+>  hw/arm/boot.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> index ada2717f76..2836db4abb 100644
+> --- a/hw/arm/boot.c
+> +++ b/hw/arm/boot.c
+> @@ -25,6 +25,7 @@
+>  #include "qemu/config-file.h"
+>  #include "qemu/option.h"
+>  #include "qemu/units.h"
+> +#include "qemu/guest-random.h"
+>  
+>  /* Kernel boot protocol is specified in the kernel docs
+>   * Documentation/arm/Booting and Documentation/arm64/booting.txt
+> @@ -529,6 +530,26 @@ static void fdt_add_psci_node(void *fdt)
+>      qemu_fdt_setprop_cell(fdt, "/psci", "migrate", migrate_fn);
+>  }
+>  
+> +static void rerandomize_fdt_seeds(void *fdt)
+> +{
+> +    int noffset, poffset, len;
+> +    const char *name;
+> +    uint8_t *data;
+> +
+> +    for (noffset = fdt_next_node(fdt, 0, NULL);
+> +         noffset >= 0;
+> +         noffset = fdt_next_node(fdt, noffset, NULL)) {
+> +        for (poffset = fdt_first_property_offset(fdt, noffset);
+> +             poffset >= 0;
+> +             poffset = fdt_next_property_offset(fdt, poffset)) {
+> +            data = (uint8_t *)fdt_getprop_by_offset(fdt, poffset, &name, &len);
+> +            if (!data || strcmp(name, "rng-seed"))
+> +                continue;
+> +            qemu_guest_getrandom_nofail(data, len);
+> +        }
+> +    }
+> +}
+> +
+>  int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+>                   hwaddr addr_limit, AddressSpace *as, MachineState *ms)
+>  {
+> @@ -683,6 +704,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+>       * the DTB is copied again upon reset, even if addr points into RAM.
+>       */
+>      rom_add_blob_fixed_as("dtb", fdt, size, addr, as);
+> +    qemu_register_reset(rerandomize_fdt_seeds, rom_ptr_for_as(as, addr, size));
+>  
+>      g_free(fdt);
+>  
+> -- 
+> 2.37.3
+> 
+> 
 
