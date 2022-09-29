@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C24E5EF015
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 10:13:05 +0200 (CEST)
-Received: from localhost ([::1]:59188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE7D5EF048
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 10:22:26 +0200 (CEST)
+Received: from localhost ([::1]:36474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odofI-0000nu-2K
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 04:13:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41526)
+	id 1odooL-0006H1-On
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 04:22:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1odo7Q-0003B6-Na
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:38:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60593)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1odo8r-0003lp-CT; Thu, 29 Sep 2022 03:39:40 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1odo7M-0007Nk-Lp
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 03:38:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664437079;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=umTg/C/f7jmJ8Pmk5d0s46IM8pBCiLG0zmwDUorl/3k=;
- b=XLXrHuOnYhubvoYWp/6XgdrjSjsYL8Q9WxpS98A1kRMourKH4f9jPiIeTv+1HxPBa/uXqe
- Z9G/s12/SIHfFk3Ihh8ZeZo9K2/fYBTGFDbo8KzZDnyVPuTS3aLA32MMaXPgOdeTvBSG7B
- L2QK/T91BJDjwqMKIcWpLbiKmstUzE8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-j6OVUwi7NYqpLxT9L43ivQ-1; Thu, 29 Sep 2022 03:37:50 -0400
-X-MC-Unique: j6OVUwi7NYqpLxT9L43ivQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC6A12932486;
- Thu, 29 Sep 2022 07:37:49 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.194.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 391151400C3B;
- Thu, 29 Sep 2022 07:37:49 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A206D180062C; Thu, 29 Sep 2022 09:37:47 +0200 (CEST)
-Date: Thu, 29 Sep 2022 09:37:47 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Denis V. Lunev" <den@openvz.org>
-Cc: qemu-devel@nongnu.org, Denis Plotnikov <den-plotnikov@yandex-team.ru>,
- Yan Vugenfirer <yvugenfi@redhat.com>
-Subject: Re: [PATCH 1/1] qxl: add subsystem_vendor_id property
-Message-ID: <20220929073747.psazwl2cxwuynt5n@sirius.home.kraxel.org>
-References: <20220928155244.1837455-1-den@openvz.org>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1odo8p-0007Sl-Me; Thu, 29 Sep 2022 03:39:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=UGkz0tDBiR7v4VTYPIl9NbqXb6odMR264V7ozhtPATo=; b=RQCyC0hHapwY9cz4ZnFHnk5j5f
+ g1hxSJy0j6yAoXBcrXdtCqbWz5MJYIEXOnogeiIKwce/QQygvVsl5lfJ6gsc8o33pIEoJ1fp3DVoG
+ PC8fC6I21a05nHxGPRDoMVjF+rqJZZc4jTmKYQV6Nd9ceGfDhyUnegAeu0L0IpxgoustJw150bGev
+ +DvOzgsA+2ITyJAhnAdQW13ego60nWx6aBjmIrk4/aQsTfnEHYdcDN+VKEsWN9JVZDcCLTGLaPFgA
+ gN7028Q2UClO77icMZjfNA4S6ks58CbRTQyzAhAU5IYsCfqfQMkGy0h1HrnKvi5elmr++I7c2kl9B
+ 27cU330GuaT95cZiijcX8y5tBn584DazjVQuXWZLmLMF8LssjB5TrdH8V4zrX+lJb8DMjTMg2FvCC
+ DfQ6JHwMH71aZl5lwHcwlVJZsbz62iC4doEDTXhSz0Cv50CnLUSMVShx7kw+Bo/13LA9YAVNYEGoQ
+ an6Y7E+WcUs4moU09fZ+yx7ST0Lb+qlxX9Is2iMIuCbiDQH7CaNd9hkIUAbWnNfpky5r0nY8jwMNm
+ LNzTEXkmAhrIAwT8rNJSoVYbiszX78ibZIXYxYpSMbaJ6jW0FdR1QZtX/uBK0uRtbgHC0kzDqK0YR
+ wpnVTLm2ZZ6tvuPWk56hhCwh7DII470IRjMJm/Jn0=;
+Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1odo71-000BfY-Rq; Thu, 29 Sep 2022 08:37:44 +0100
+Message-ID: <fbb38c03-6092-78e2-c1af-e37f1674bad4@ilande.co.uk>
+Date: Thu, 29 Sep 2022 08:39:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220928155244.1837455-1-den@openvz.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1664108862.git.balaton@eik.bme.hu>
+ <4a039abeeddcc6c987065ca526c6fa0457784615.1664108862.git.balaton@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <4a039abeeddcc6c987065ca526c6fa0457784615.1664108862.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 06/13] mac_newworld: Simplify creation of Uninorth
+ devices
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,25 +80,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 05:52:44PM +0200, Denis V. Lunev wrote:
-> This property is needed for WHQL/inboxing of Windows drivers. We do need
-> to get drivers to be separated by the hypervisor vendors and that should
-> be done as PCI subvendor ID.
+On 25/09/2022 13:38, BALATON Zoltan wrote:
+
+> Avoid open coding sysbus_mmio_map() and map regions in ascending
+> otder. Reorganise code a bit to avoid some casts.
 > 
-> This patch adds PCI subsystem vendor ID to QXL device to match that
-> convention.
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>   hw/ppc/mac_newworld.c | 42 +++++++++++++++++-------------------------
+>   1 file changed, 17 insertions(+), 25 deletions(-)
+> 
+> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+> index 6bc3bd19be..b4ad43cc05 100644
+> --- a/hw/ppc/mac_newworld.c
+> +++ b/hw/ppc/mac_newworld.c
+> @@ -228,13 +228,6 @@ static void ppc_core99_init(MachineState *machine)
+>           }
+>       }
+>   
+> -    /* UniN init */
+> -    dev = qdev_new(TYPE_UNI_NORTH);
+> -    s = SYS_BUS_DEVICE(dev);
+> -    sysbus_realize_and_unref(s, &error_fatal);
+> -    memory_region_add_subregion(get_system_memory(), 0xf8000000,
+> -                                sysbus_mmio_get_region(s, 0));
+> -
+>       openpic_irqs = g_new0(IrqLines, machine->smp.cpus);
+>       for (i = 0; i < machine->smp.cpus; i++) {
+>           /* Mac99 IRQ connection between OpenPIC outputs pins
+> @@ -275,24 +268,27 @@ static void ppc_core99_init(MachineState *machine)
+>           }
+>       }
+>   
+> +    /* UniN init */
+> +    s = SYS_BUS_DEVICE(qdev_new(TYPE_UNI_NORTH));
+> +    sysbus_realize_and_unref(s, &error_fatal);
+> +    sysbus_mmio_map(s, 0, 0xf8000000);
+> +
+>       if (PPC_INPUT(env) == PPC_FLAGS_INPUT_970) {
+> +        machine_arch = ARCH_MAC99_U3;
+>           /* 970 gets a U3 bus */
+>           /* Uninorth AGP bus */
+>           dev = qdev_new(TYPE_U3_AGP_HOST_BRIDGE);
+> -        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>           uninorth_pci = U3_AGP_HOST_BRIDGE(dev);
+>           s = SYS_BUS_DEVICE(dev);
+> -        /* PCI hole */
+> -        memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
+> -                                    sysbus_mmio_get_region(s, 2));
+> -        /* Register 8 MB of ISA IO space */
+> -        memory_region_add_subregion(get_system_memory(), 0xf2000000,
+> -                                    sysbus_mmio_get_region(s, 3));
+> +        sysbus_realize_and_unref(s, &error_fatal);
+>           sysbus_mmio_map(s, 0, 0xf0800000);
+>           sysbus_mmio_map(s, 1, 0xf0c00000);
+> -
+> -        machine_arch = ARCH_MAC99_U3;
+> +        /* PCI hole */
+> +        sysbus_mmio_map(s, 2, 0x80000000);
+> +        /* Register 8 MB of ISA IO space */
+> +        sysbus_mmio_map(s, 3, 0xf2000000);
+>       } else {
+> +        machine_arch = ARCH_MAC99;
+>           /* Use values found on a real PowerMac */
+>           /* Uninorth AGP bus */
+>           uninorth_agp_dev = qdev_new(TYPE_UNI_NORTH_AGP_HOST_BRIDGE);
+> @@ -312,19 +308,15 @@ static void ppc_core99_init(MachineState *machine)
+>           /* Uninorth main bus */
+>           dev = qdev_new(TYPE_UNI_NORTH_PCI_HOST_BRIDGE);
+>           qdev_prop_set_uint32(dev, "ofw-addr", 0xf2000000);
+> -        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>           uninorth_pci = UNI_NORTH_PCI_HOST_BRIDGE(dev);
+>           s = SYS_BUS_DEVICE(dev);
+> -        /* PCI hole */
+> -        memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
+> -                                    sysbus_mmio_get_region(s, 2));
+> -        /* Register 8 MB of ISA IO space */
+> -        memory_region_add_subregion(get_system_memory(), 0xf2000000,
+> -                                    sysbus_mmio_get_region(s, 3));
+> +        sysbus_realize_and_unref(s, &error_fatal);
+>           sysbus_mmio_map(s, 0, 0xf2800000);
+>           sysbus_mmio_map(s, 1, 0xf2c00000);
+> -
+> -        machine_arch = ARCH_MAC99;
+> +        /* PCI hole */
+> +        sysbus_mmio_map(s, 2, 0x80000000);
+> +        /* Register 8 MB of ISA IO space */
+> +        sysbus_mmio_map(s, 3, 0xf2000000);
+>       }
+>   
+>       machine->usb |= defaults_enabled() && !machine->usb_disabled;
 
-We have pci_default_sub_vendor_id + pci_default_sub_device_id in
-hw/pci/pci.c.  If you want another subsystem id for another vendor
-there is a single place to change it for all devices.
+Same comment here re: sysbus. Also the patch seems correct here, but it is worth 
+noting that the PCI bus initialisation is order sensitive: the last bus created is 
+the one that becomes the default PCI bus for -device, so changing this would break 
+quite a few command lines...
 
-Right now there is no runtime switch for them, so updating it requires
-a two-liner patch for your vendor build.  We can discuss changing that,
-but that should best be coordinated with libvirt folks to make sure
-the management stack actually allows setting the subsystem id without
-needing hacks.
 
-take care,
-  Gerd
+ATB,
 
+Mark.
 
