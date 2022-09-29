@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5325C5EF447
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 13:27:49 +0200 (CEST)
-Received: from localhost ([::1]:59552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A985EF4A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 13:47:05 +0200 (CEST)
+Received: from localhost ([::1]:40724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odrhj-0004qh-0X
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 07:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45832)
+	id 1ods0O-0006ig-Av
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 07:47:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1odrM6-0000zJ-H8
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:05:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28186)
+ id 1odrMA-00016I-Ij
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:05:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1odrM4-0001uv-Ue
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:05:26 -0400
+ id 1odrM8-0001wp-Ng
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:05:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664449524;
+ s=mimecast20190719; t=1664449528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ezD6PhMSMxDyjMv4dDUkY1/CLp8KW3sHOvTJVy2oQGQ=;
- b=c1EpUof355K/2K8UyQpQmJxxD34D9oJDPieui2Yy87egaAIUKxpbCc2iL57b/yaVXlODLN
- Wy2J+rPsneM2RNUkcxef+gsDvGuDTfH/u+lFJ59ZpY3eEfigR/z9o3trtwTBpzTcoyJ5d5
- xkGYN+NnrAOv6Em6OVOlDUhuhZi6WHk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=O3g7x/oeCPDaruCTDr++TyWSFJnjhwc317c14u9ss3w=;
+ b=SdpbghG49MZJPFvMQdsHZtNk5T6cq5YlObF6bVY7kUZE6I88Ak+okSajpXJJoE4XzDRxaH
+ ePITSgktEDwAW4JbaQ18WdEbvzRIrecrB+R75FUyU57TQJyiRiZ9+SeJyTaKIBHDeGzGBt
+ JgGzHlDaRRkkWXs8b69DqSVJ2T36tOs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-EXGbTNIoNaattPQZxovEsg-1; Thu, 29 Sep 2022 07:05:20 -0400
-X-MC-Unique: EXGbTNIoNaattPQZxovEsg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-52-C0PIwqOHO2Cap5IS9aFh3A-1; Thu, 29 Sep 2022 07:05:24 -0400
+X-MC-Unique: C0PIwqOHO2Cap5IS9aFh3A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 618A7185A7A8;
- Thu, 29 Sep 2022 11:05:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 745391C05140;
+ Thu, 29 Sep 2022 11:05:24 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 59F64112132C;
- Thu, 29 Sep 2022 11:05:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CEA5207B34A;
+ Thu, 29 Sep 2022 11:05:23 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, Arwed Meyer <arwed.meyer@gmx.de>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-Subject: [PULL 2/8] chardev: src buffer const for write functions
-Date: Thu, 29 Sep 2022 15:05:02 +0400
-Message-Id: <20220929110508.1323529-3-marcandre.lureau@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PULL 3/8] msmouse: Use fifo8 instead of array
+Date: Thu, 29 Sep 2022 15:05:03 +0400
+Message-Id: <20220929110508.1323529-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20220929110508.1323529-1-marcandre.lureau@redhat.com>
 References: <20220929110508.1323529-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,104 +84,134 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Arwed Meyer <arwed.meyer@gmx.de>
 
-Make source buffers const for char be write functions.
-This allows using buffers returned by fifo as buf parameter and source buffer
-should not be changed by write functions anyway.
+Make use of fifo8 functions instead of implementing own fifo code.
+This makes the code more readable and reduces risk of bugs.
 
 Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220911181840.8933-3-arwed.meyer@gmx.de>
+Message-Id: <20220911181840.8933-4-arwed.meyer@gmx.de>
 ---
- include/chardev/char.h  | 4 ++--
- include/sysemu/replay.h | 2 +-
- chardev/char.c          | 4 ++--
- replay/replay-char.c    | 2 +-
- stubs/replay-tools.c    | 2 +-
- 5 files changed, 7 insertions(+), 7 deletions(-)
+ chardev/msmouse.c | 47 +++++++++++++++++++++++++----------------------
+ 1 file changed, 25 insertions(+), 22 deletions(-)
 
-diff --git a/include/chardev/char.h b/include/chardev/char.h
-index a319b5fdff..44cd82e405 100644
---- a/include/chardev/char.h
-+++ b/include/chardev/char.h
-@@ -186,7 +186,7 @@ int qemu_chr_be_can_write(Chardev *s);
-  * the caller should call @qemu_chr_be_can_write to determine how much data
-  * the front end can currently accept.
-  */
--void qemu_chr_be_write(Chardev *s, uint8_t *buf, int len);
-+void qemu_chr_be_write(Chardev *s, const uint8_t *buf, int len);
+diff --git a/chardev/msmouse.c b/chardev/msmouse.c
+index 95fa488339..5982c15df6 100644
+--- a/chardev/msmouse.c
++++ b/chardev/msmouse.c
+@@ -24,6 +24,7 @@
  
- /**
-  * qemu_chr_be_write_impl:
-@@ -195,7 +195,7 @@ void qemu_chr_be_write(Chardev *s, uint8_t *buf, int len);
-  *
-  * Implementation of back end writing. Used by replay module.
-  */
--void qemu_chr_be_write_impl(Chardev *s, uint8_t *buf, int len);
-+void qemu_chr_be_write_impl(Chardev *s, const uint8_t *buf, int len);
+ #include "qemu/osdep.h"
+ #include "qemu/module.h"
++#include "qemu/fifo8.h"
+ #include "chardev/char.h"
+ #include "chardev/char-serial.h"
+ #include "ui/console.h"
+@@ -34,6 +35,12 @@
+ #define MSMOUSE_HI2(n)  (((n) & 0xc0) >> 6)
+ #define MSMOUSE_PWR(cm) (cm & (CHR_TIOCM_RTS | CHR_TIOCM_DTR))
  
- /**
-  * qemu_chr_be_update_read_handlers:
-diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
-index 73dee9ccdf..7ec0882b50 100644
---- a/include/sysemu/replay.h
-+++ b/include/sysemu/replay.h
-@@ -198,7 +198,7 @@ uint64_t blkreplay_next_id(void);
- /*! Registers char driver to save it's events */
- void replay_register_char_driver(struct Chardev *chr);
- /*! Saves write to char device event to the log */
--void replay_chr_be_write(struct Chardev *s, uint8_t *buf, int len);
-+void replay_chr_be_write(struct Chardev *s, const uint8_t *buf, int len);
- /*! Writes char write return value to the replay log. */
- void replay_char_write_event_save(int res, int offset);
- /*! Reads char write return value from the replay log. */
-diff --git a/chardev/char.c b/chardev/char.c
-index 0169d8dde4..b005df3ccf 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -193,7 +193,7 @@ int qemu_chr_be_can_write(Chardev *s)
-     return be->chr_can_read(be->opaque);
- }
++/* Serial fifo size. */
++#define MSMOUSE_BUF_SZ 64
++
++/* Mouse ID: Send "M3" cause we behave like a 3 button logitech mouse. */
++const uint8_t mouse_id[] = {'M', '3'};
++
+ struct MouseChardev {
+     Chardev parent;
  
--void qemu_chr_be_write_impl(Chardev *s, uint8_t *buf, int len)
-+void qemu_chr_be_write_impl(Chardev *s, const uint8_t *buf, int len)
+@@ -42,8 +49,7 @@ struct MouseChardev {
+     int axis[INPUT_AXIS__MAX];
+     bool btns[INPUT_BUTTON__MAX];
+     bool btnc[INPUT_BUTTON__MAX];
+-    uint8_t outbuf[32];
+-    int outlen;
++    Fifo8 outbuf;
+ };
+ typedef struct MouseChardev MouseChardev;
+ 
+@@ -54,20 +60,18 @@ DECLARE_INSTANCE_CHECKER(MouseChardev, MOUSE_CHARDEV,
+ static void msmouse_chr_accept_input(Chardev *chr)
  {
-     CharBackend *be = s->be;
+     MouseChardev *mouse = MOUSE_CHARDEV(chr);
+-    int len;
++    uint32_t len, avail;
  
-@@ -202,7 +202,7 @@ void qemu_chr_be_write_impl(Chardev *s, uint8_t *buf, int len)
+     len = qemu_chr_be_can_write(chr);
+-    if (len > mouse->outlen) {
+-        len = mouse->outlen;
+-    }
+-    if (!len) {
+-        return;
+-    }
+-
+-    qemu_chr_be_write(chr, mouse->outbuf, len);
+-    mouse->outlen -= len;
+-    if (mouse->outlen) {
+-        memmove(mouse->outbuf, mouse->outbuf + len, mouse->outlen);
++    avail = fifo8_num_used(&mouse->outbuf);
++    while (len > 0 && avail > 0) {
++        const uint8_t *buf;
++        uint32_t size;
++
++        buf = fifo8_pop_buf(&mouse->outbuf, MIN(len, avail), &size);
++        qemu_chr_be_write(chr, buf, size);
++        len = qemu_chr_be_can_write(chr);
++        avail -= size;
      }
  }
  
--void qemu_chr_be_write(Chardev *s, uint8_t *buf, int len)
-+void qemu_chr_be_write(Chardev *s, const uint8_t *buf, int len)
- {
-     if (qemu_chr_replay(s)) {
-         if (replay_mode == REPLAY_MODE_PLAY) {
-diff --git a/replay/replay-char.c b/replay/replay-char.c
-index d2025948cf..a31aded032 100644
---- a/replay/replay-char.c
-+++ b/replay/replay-char.c
-@@ -48,7 +48,7 @@ void replay_register_char_driver(Chardev *chr)
-     char_drivers[drivers_count++] = chr;
+@@ -94,12 +98,11 @@ static void msmouse_queue_event(MouseChardev *mouse)
+         mouse->btnc[INPUT_BUTTON_MIDDLE]) {
+         bytes[3] |= (mouse->btns[INPUT_BUTTON_MIDDLE] ? 0x20 : 0x00);
+         mouse->btnc[INPUT_BUTTON_MIDDLE] = false;
+-        count = 4;
++        count++;
+     }
+ 
+-    if (mouse->outlen <= sizeof(mouse->outbuf) - count) {
+-        memcpy(mouse->outbuf + mouse->outlen, bytes, count);
+-        mouse->outlen += count;
++    if (fifo8_num_free(&mouse->outbuf) >= count) {
++        fifo8_push_all(&mouse->outbuf, bytes, count);
+     } else {
+         /* queue full -> drop event */
+     }
+@@ -172,9 +175,7 @@ static int msmouse_ioctl(Chardev *chr, int cmd, void *arg)
+                  * cause we behave like a 3 button logitech
+                  * mouse.
+                  */
+-                mouse->outbuf[0] = 'M';
+-                mouse->outbuf[1] = '3';
+-                mouse->outlen = 2;
++                fifo8_push_all(&mouse->outbuf, mouse_id, sizeof(mouse_id));
+                 /* Start sending data to serial. */
+                 msmouse_chr_accept_input(chr);
+             }
+@@ -184,7 +185,7 @@ static int msmouse_ioctl(Chardev *chr, int cmd, void *arg)
+          * Reset mouse buffers on power down.
+          * Mouse won't send anything without power.
+          */
+-        mouse->outlen = 0;
++        fifo8_reset(&mouse->outbuf);
+         memset(mouse->axis, 0, sizeof(mouse->axis));
+         memset(mouse->btns, false, sizeof(mouse->btns));
+         memset(mouse->btnc, false, sizeof(mouse->btns));
+@@ -204,6 +205,7 @@ static void char_msmouse_finalize(Object *obj)
+     MouseChardev *mouse = MOUSE_CHARDEV(obj);
+ 
+     qemu_input_handler_unregister(mouse->hs);
++    fifo8_destroy(&mouse->outbuf);
  }
  
--void replay_chr_be_write(Chardev *s, uint8_t *buf, int len)
-+void replay_chr_be_write(Chardev *s, const uint8_t *buf, int len)
- {
-     CharEvent *event = g_new0(CharEvent, 1);
- 
-diff --git a/stubs/replay-tools.c b/stubs/replay-tools.c
-index f2e72bb225..3e8ca3212d 100644
---- a/stubs/replay-tools.c
-+++ b/stubs/replay-tools.c
-@@ -53,7 +53,7 @@ void replay_register_char_driver(struct Chardev *chr)
- {
+ static QemuInputHandler msmouse_handler = {
+@@ -224,6 +226,7 @@ static void msmouse_chr_open(Chardev *chr,
+     mouse->hs = qemu_input_handler_register((DeviceState *)mouse,
+                                             &msmouse_handler);
+     mouse->tiocm = 0;
++    fifo8_create(&mouse->outbuf, MSMOUSE_BUF_SZ);
  }
  
--void replay_chr_be_write(struct Chardev *s, uint8_t *buf, int len)
-+void replay_chr_be_write(struct Chardev *s, const uint8_t *buf, int len)
- {
-     abort();
- }
+ static void char_msmouse_class_init(ObjectClass *oc, void *data)
 -- 
 2.37.3
 
