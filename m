@@ -2,69 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843615EEC72
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 05:26:55 +0200 (CEST)
-Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73ABC5EECAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 06:14:22 +0200 (CEST)
+Received: from localhost ([::1]:43770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odkCM-0003r1-8j
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 23:26:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50330)
+	id 1odkwH-0003h7-4v
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 00:14:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1odkAM-0001yD-Nk
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 23:24:52 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:46880 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1odkA7-0002Pr-NG
- for qemu-devel@nongnu.org; Wed, 28 Sep 2022 23:24:50 -0400
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bx5OHqDzVjwZwjAA--.1856S3; 
- Thu, 29 Sep 2022 11:24:26 +0800 (CST)
-Subject: Re: [PATCH v2 1/4] target/loongarch: ftint_xxx insns set the result
- high 32bit 0xffffffff
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: yangxiaojuan@loongson.cn, huqi@loongson.cn, peter.maydell@linaro.org,
- alex.bennee@linaro.org, maobibo@loongson.cn
-References: <20220927064838.3570928-1-gaosong@loongson.cn>
- <20220927064838.3570928-2-gaosong@loongson.cn>
- <7cedbe66-7fc0-9e4a-c6e1-55aeb76c3e42@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <66479faf-3d15-5bac-24cc-64a0ce008efb@loongson.cn>
-Date: Thu, 29 Sep 2022 11:24:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1odkuN-00012i-Rl
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 00:12:23 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:34705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1odkuM-0001R0-6W
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 00:12:23 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ a5-20020a17090aa50500b002008eeb040eso4500078pjq.1
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 21:12:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=q8ufOPAZnisVmrV1s321IxOLVLLadkosiVYYJQRsKfQ=;
+ b=YzUc1iooosG0yYkCCeIDgdzUrsh2wlFL5yk8N152HICwClioJttzMHvlIoPhssTMew
+ d8TPysBgiCXXTH1WitFzoa4yto7mdYTDJ76cJVkU8BdIEdpqM1BLZxU66+4v1BdPo6br
+ hRHoKkbhk64FYtf/OXhrpgJckKKIJkAISW+Y9/lj2QRuThIvMSRIbndxpJsWOChcRjkU
+ xp9SxttG2cqRWTCDSGE+4+uTpGnJA2o96EqZtH4OYQQuk/kxctH78UMxRqztanzQafMS
+ o6n20QMuu3zGgDE1ehcW3MVzgrSD6ILvVOdGlCpFxtVaqzDtOJjTrXmFnQMDci2X7RR/
+ WoJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=q8ufOPAZnisVmrV1s321IxOLVLLadkosiVYYJQRsKfQ=;
+ b=XHTN+J6Aq4SXodNwlu06vodtCtZWTtFIaf3EDoSMURdgreJ3kJoq6umsHGJnzGEHCm
+ Nm3Te4V1x5EA0xoV8S1qQMAiE8y8WtJJdilL8Jof7rBDcPkh9dyhuoIzaoL/UtQ92WYb
+ CRZqhNO0bjQmaX8JlU4RIFEOX6Y4rL7eGXf6f2Ma2CCSD1Lb1AtVdLLqt0RIiYi684Ej
+ Ch4aNue1q4A48pbv4lcNzMzvGEpO8iiYNz+mhw2+ndFEQv8rTLVUVxOA90puKx0ldT4r
+ wWLO2b3pPws3NdNVJCkKeYlxPo4/y6EMNP9V4MmUX4Djk2Fqvi+VjSOGdUTOOMv2RgSS
+ WQkg==
+X-Gm-Message-State: ACrzQf1qxsWxSYsdonWWSh6qOd3/rFDonYfpFZZ27StHpJLbas7Aed3O
+ gOblPy5Me8RhpFArmlYu1/Cx0w==
+X-Google-Smtp-Source: AMsMyM5VkpFfo6GzXq2KjRbIj/MsAV2eUrRTvTZWN0VxHM/othfd1DVpQ38cdj530Yck9e04z4nI7A==
+X-Received: by 2002:a17:902:b70a:b0:179:f94b:568d with SMTP id
+ d10-20020a170902b70a00b00179f94b568dmr1470778pls.173.1664424739847; 
+ Wed, 28 Sep 2022 21:12:19 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:986f:cb56:6709:4057?
+ ([2602:47:d49d:ec01:986f:cb56:6709:4057])
+ by smtp.gmail.com with ESMTPSA id
+ p63-20020a622942000000b0054223a0185asm4765108pfp.161.2022.09.28.21.12.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Sep 2022 21:12:19 -0700 (PDT)
+Message-ID: <5db38749-bb80-6b51-1959-b6e6216376c2@linaro.org>
+Date: Wed, 28 Sep 2022 21:12:17 -0700
 MIME-Version: 1.0
-In-Reply-To: <7cedbe66-7fc0-9e4a-c6e1-55aeb76c3e42@linaro.org>
-Content-Type: multipart/alternative;
- boundary="------------977BF123B508325951A4E2ED"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 3/3] hw/intc: Fix LoongArch ipi device emulation
 Content-Language: en-US
-X-CM-TRANSID: AQAAf8Bx5OHqDzVjwZwjAA--.1856S3
-X-Coremail-Antispam: 1UD129KBjvdXoW7GFyfZry5Gr47trWkGry7Awb_yoWftrc_CF
- WIyryv9w1jgr4rCFWak3ZrAryxAr42gr1UXr1qqw42q345tws5CF1kXrs3Z3ZIgF4xXF9r
- Jryq9ry3Cw1avjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbVkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
- wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
- vE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2
- jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzx
- vE52x082IY62kv0487McIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8
- JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYx
- C7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVCm-wCF
- 04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26ryrJr1UJwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
- 0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2Kf
- nxnUUI43ZEXa7VU889N3UUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+To: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
+ f4bug@amsat.org, peter.maydell@linaro.org
+References: <20220927061225.3566554-1-yangxiaojuan@loongson.cn>
+ <20220927061225.3566554-4-yangxiaojuan@loongson.cn>
+ <aa5e61d8-0074-9c56-1da3-da120d5ee185@linaro.org>
+ <d792e3f7-ea97-47b7-e556-8ebf1576d501@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <d792e3f7-ea97-47b7-e556-8ebf1576d501@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-2.319, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,94 +99,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------977BF123B508325951A4E2ED
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-
-在 2022/9/28 下午11:14, Richard Henderson 写道:
-> On 9/26/22 23:48, Song Gao wrote:
->> we just set high 32bit 0xffffffff as the other float instructions do.
+On 9/28/22 20:23, yangxiaojuan wrote:
+> 
+> 在 2022/9/29 上午10:42, Richard Henderson 写道:
+>> On 9/26/22 23:12, Xiaojuan Yang wrote:
+>>> In ipi_send function, it should not to set irq before
+>>> writing data to dest cpu iocsr space, as the irq will
+>>> trigger after data writing.
+>>>
+>>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>>> ---
+>>>   hw/intc/loongarch_ipi.c | 1 -
+>>>   1 file changed, 1 deletion(-)
+>>>
+>>> diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
+>>> index 4f3c58f872..aa4bf9eb74 100644
+>>> --- a/hw/intc/loongarch_ipi.c
+>>> +++ b/hw/intc/loongarch_ipi.c
+>>> @@ -88,7 +88,6 @@ static void ipi_send(uint64_t val)
+>>>       cs = qemu_get_cpu(cpuid);
+>>>       cpu = LOONGARCH_CPU(cs);
+>>>       env = &cpu->env;
+>>> -    loongarch_cpu_set_irq(cpu, IRQ_IPI, 1);
+>>>       address_space_stl(&env->address_space_iocsr, 0x1008,
+>>>                         data, MEMTXATTRS_UNSPECIFIED, NULL);
 >>
->> Signed-off-by: Song Gao<gaosong@loongson.cn>
->> ---
->>   target/loongarch/fpu_helper.c | 18 +++++++++---------
->>   1 file changed, 9 insertions(+), 9 deletions(-)
->
-> But the result in these cases is an integer, not a (single-precision) 
-> float.
-> Is this really what hardware does?
->
-The high 32bit value is not fixed  as the manual 3.1.3.1 said:
-     ' When the floating-point register records a single-precision 
-floating-point number or word integer, the data
-     always appears in the [31:0] bits of the floating-point register, 
-at this time the [63:32] bits of the
-     floating-point register can be any value.'
-I do this  just used for RISU test compare these instructions result value.
-As the RISU patches not reviewed,  I can drop this patch.
+>> Did you mean to move the call below the set?
+>> Otherwise, where does the irq get raised?
+>>
+> When call this function 'address_space_stl(&env->address_space_iocsr, 0x1008, ... ...)',  
+> it will trigger  loongarch_ipi_writel(), the addr arg is 0x1008 ('CORE_SET_OFFSET'), and 
+> qemu_irq_raise will be called in this case.
 
-Thanks.
-Song Gao
+Ah, I see now, connected to
 
---------------977BF123B508325951A4E2ED
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+         qdev_connect_gpio_out(ipi, cpu, qdev_get_gpio_in(cpudev, IRQ_IPI));
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">在 2022/9/28 下午11:14, Richard Henderson
-      写道:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:7cedbe66-7fc0-9e4a-c6e1-55aeb76c3e42@linaro.org">On
-      9/26/22 23:48, Song Gao wrote:
-      <br>
-      <blockquote type="cite">we just set high 32bit 0xffffffff as the
-        other float instructions do.
-        <br>
-        <br>
-        Signed-off-by: Song Gao<a class="moz-txt-link-rfc2396E" href="mailto:gaosong@loongson.cn">&lt;gaosong@loongson.cn&gt;</a>
-        <br>
-        ---
-        <br>
-          target/loongarch/fpu_helper.c | 18 +++++++++---------
-        <br>
-          1 file changed, 9 insertions(+), 9 deletions(-)
-        <br>
-      </blockquote>
-      <br>
-      But the result in these cases is an integer, not a
-      (single-precision) float.
-      <br>
-      Is this really what hardware does?
-      <br>
-      <br>
-    </blockquote>
-    The high 32bit value is not fixed  as the manual 3.1.3.1 said<font
-      size="-1">:</font><br>
-    <font size="-1">    ' When the floating-point register records a
-      single-precision floating-point number or word integer, the data
-</font><br>
-    <font size="-1">    always appears in the [31:0] bits of the
-      floating-point register, at this time the [63:32] bits of the
-</font><br>
-    <font size="-1">    floating-point register can be any value.'</font><br>
-    I do this  just used for RISU test compare these instructions result
-    value.  <br>
-    As the RISU patches not reviewed,  I can drop this patch.<br>
-    <br>
-    Thanks.<br>
-    Song Gao<br>
-  </body>
-</html>
 
---------------977BF123B508325951A4E2ED--
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+
+r~
 
