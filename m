@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268B15EF821
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:59:06 +0200 (CEST)
-Received: from localhost ([::1]:54102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84CD55EF754
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:20:21 +0200 (CEST)
+Received: from localhost ([::1]:60434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odv0C-0007qc-Oe
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37764)
+	id 1oduOi-0006Df-9M
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odsD1-0007UN-AN
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:07 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:45603)
+ id 1ods3P-0000ac-Af
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:11 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odsCu-0004On-RF
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:06 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- d12-20020a05600c3acc00b003b4c12e47f3so608876wms.4
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 05:00:00 -0700 (PDT)
+ id 1ods3I-0002Nh-Tp
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:10 -0400
+Received: by mail-wr1-x430.google.com with SMTP id v28so1798384wrd.3
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:50:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=3gQSShOSw7mXVJmYGT4mj+J2+/RqeX/ZMhykdWqwlSw=;
- b=VaJBxCICdK8dO8PMD/HcQOteW2Q5XNz3e6zY/2FT8jSgFXZYCgdv8kC8hJr0OXdkMr
- rC8N5mdgexqCCH8X25ZcJGDTlzVWzw6OFGBFRRZ2eRRaIgI6Dh8JiJgiU3A/EjARRjeH
- mYF9sRUR9KEQhwnvL/qr609pIKggp1E4Lwa9OERPK2w3a5rNvY2DwM2nnRv4i932TUaM
- wlQktHgCBaHDNsC0wTIJiM9vasaMh/F7d0Ui6WFVYhByxPDNGR+Yrhs9H7cuQ+mLZomG
- BTvDVPsSAVg/UMzheqHzEMlOIEolMjh36KiWlVmP4u6sMzApSPrvtfBDRekpp8KuhgqE
- CEQA==
+ bh=HbQrkwUyPqGJSu2Wy+YQt+3XoMfVoU2PXyL9bXdSlBs=;
+ b=j7z/CpnRiRro+njMSRtT313sdVF19Ux1HvLXxMVDpIOxh6FN3jPowIRCm0xzXADGKs
+ ktBmrbtexsfgJV7qDc1dVh1M0ptqbU2gyWR55A5kTosFlqXQfBDsLMBBqDq4aGMSyQ4k
+ vC/arPEQZowVKD/Ne1vUWxmc3IfY59uwTEodsQ5PAoENT3Br9gINsGQE6HR3crCMHwJp
+ 4frvuCyzL/kHUj4J8/tBlG1VeGGRJP8fGJC3B9LvWUafQypc59Ytqw0HbphIq6EmMp+g
+ TVL2j3JLfW50weik94h5RKOP/wXDZBVKyKp589x0u+XDhy5vR/rS/q3AfG2hJIAc/65i
+ MbPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=3gQSShOSw7mXVJmYGT4mj+J2+/RqeX/ZMhykdWqwlSw=;
- b=Jin0rL8+r7sIJ0byCZyytb9fFSeddXhgGIagE3U3BtcT363KqswOF469z0aK7axxf8
- A4eCaADLkc/PgRnMRhfR34nbzSjXoB26seT2pPl2baIYu9eq2FDuEwGdsanT2fWsIMpO
- Cx5KhYNQfpE+KXYsSZ2y8lKj8H9tm7h1NPrsEQSIIvfHKVkXj3tS8J9veR4ii1RxC+W6
- MBNBk8S849JH5nBQQIxigDg2VewUs/KSvfWAEaoewZuf+wSpEmCQBZZky0aGhOwKbTv7
- cZCYo0/JvDsHcjgPiftjEblbgAbs2mwzlPjBXNgBREnSzbVIxRZDc3hB2sC/HxQOeRCr
- OVIA==
-X-Gm-Message-State: ACrzQf3for9O6omnwVeFaXzQHJ+Y8QJwP9tTywIv68KtHmgphz2YNMK+
- p6tOT00g4WRPfiR8R4R0UTxVf8wqmZ2hrw==
-X-Google-Smtp-Source: AMsMyM6iZfyvknRweKg6ydMAXZ0KMtmoAwGE7wm8lic2/c2RoCdLhxoGwlLsKPB6Y9yVdB1iiuoDDQ==
-X-Received: by 2002:a05:600c:282:b0:3b4:76c8:da3c with SMTP id
- 2-20020a05600c028200b003b476c8da3cmr2122404wmk.153.1664452799239; 
- Thu, 29 Sep 2022 04:59:59 -0700 (PDT)
+ bh=HbQrkwUyPqGJSu2Wy+YQt+3XoMfVoU2PXyL9bXdSlBs=;
+ b=QYhR9uj4OjlvNjyA4N7w6Qdd06d3/ajEn9yJtcJknI1gK69kJAKsCw3Eo+mk5lFbg6
+ j0oDtZg2qS/L3XWbPAty9omuXOsxVORu4/bcUXR3W/RN1v6cxs/tvxuM1U3G0ZOCQhN/
+ /dekx8QzEb32zvwfkogukdSW0c1ykXifDEGpfMUk/fMNMaIHfjsYTPezhnJOWG8Qwbah
+ Y/OcMWnYGuSe4dZIKK47Umvh4qfJAmWMSU8l5x5wyx+DkLTWMk/aB9mbbceErmOq4pQ7
+ diOwFPtxhlkTFtCkSh5PdW94//ej+cqOtb3xAAoFLKh8ct1Pyuroxnav/Pa9SgwZMLEX
+ M5fg==
+X-Gm-Message-State: ACrzQf3ms65xdx3h1MjmHizlutA2Z5/O9BBiTiKzRQ9NzDGyhI9rIOPo
+ 1aWG4dKARn0fu5R/Y4Xw82tNAw==
+X-Google-Smtp-Source: AMsMyM4QHqe5he1+Rr5ohzdB6KLirDFXeWmDT6kSnfWgqA2UGa0cc4O5OSTuQNJRzedZtAWh3Glnrw==
+X-Received: by 2002:a5d:64a9:0:b0:22a:c3c3:4943 with SMTP id
+ m9-20020a5d64a9000000b0022ac3c34943mr2049969wrp.655.1664452201553; 
+ Thu, 29 Sep 2022 04:50:01 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- j1-20020a5d4481000000b0022ae401e9e0sm6394434wrq.78.2022.09.29.04.59.53
+ bi16-20020a05600c3d9000b003b4de550e34sm4003452wmb.40.2022.09.29.04.49.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:59:55 -0700 (PDT)
+ Thu, 29 Sep 2022 04:49:58 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B29351FFCB;
+ by zen.linaroharston (Postfix) with ESMTP id E3F3B1FFCC;
  Thu, 29 Sep 2022 12:42:33 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -65,25 +64,32 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v1 22/51] tests/tcg: unify ppc64 and ppc64le Makefiles
-Date: Thu, 29 Sep 2022 12:42:02 +0100
-Message-Id: <20220929114231.583801-23-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ David Hildenbrand <david@redhat.com>,
+ qemu-arm@nongnu.org (open list:ARM TCG CPUs),
+ qemu-s390x@nongnu.org (open list:S390 TCG CPUs)
+Subject: [PATCH  v1 23/51] tests/tcg: clean up calls to run-test
+Date: Thu, 29 Sep 2022 12:42:03 +0100
+Message-Id: <20220929114231.583801-24-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,106 +107,345 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-Make tests/tcg/ppc64le include tests/tcg/ppc64 instead of duplicating
-the rules.  Because the ppc64le vpath includes tests/tcg/ppc64 but
-not vice versa, the tests have to be moved from tests/tcg/ppc64le/
-to tests/tcg/ppc64.
+Almost all invocations of run-test have either "$* on $(TARGET_NAME)"
+or "$< on $(TARGET_NAME)" as the last argument.  So provide a default
+test name, while allowing an escape hatch for custom names.
+
+As an additional simplification, remove the need to do shell quoting.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/{ppc64le => ppc64}/bcdsub.c         |  0
- tests/tcg/{ppc64le => ppc64}/byte_reverse.c   |  0
- tests/tcg/{ppc64le => ppc64}/mffsce.c         |  0
- tests/tcg/{ppc64le => ppc64}/mtfsf.c          |  0
- .../{ppc64le => ppc64}/non_signalling_xscv.c  |  0
- .../signal_save_restore_xer.c                 |  0
- tests/tcg/{ppc64le => ppc64}/xxspltw.c        |  0
- tests/tcg/ppc64/Makefile.target               |  1 -
- tests/tcg/ppc64le/Makefile.target             | 26 +------------------
- 9 files changed, 1 insertion(+), 26 deletions(-)
- rename tests/tcg/{ppc64le => ppc64}/bcdsub.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/byte_reverse.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/mffsce.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/mtfsf.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/non_signalling_xscv.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/signal_save_restore_xer.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/xxspltw.c (100%)
+ tests/tcg/Makefile.target                     | 21 +++++++++----------
+ tests/tcg/aarch64/Makefile.softmmu-target     |  6 ++----
+ tests/tcg/aarch64/Makefile.target             |  6 +++---
+ tests/tcg/arm/Makefile.target                 |  9 ++++----
+ tests/tcg/cris/Makefile.target                |  2 +-
+ tests/tcg/i386/Makefile.softmmu-target        |  3 +--
+ tests/tcg/i386/Makefile.target                |  5 ++---
+ tests/tcg/multiarch/Makefile.target           | 18 +++++++---------
+ .../multiarch/system/Makefile.softmmu-target  |  2 +-
+ tests/tcg/s390x/Makefile.target               |  2 +-
+ tests/tcg/x86_64/Makefile.softmmu-target      |  3 +--
+ 11 files changed, 34 insertions(+), 43 deletions(-)
 
-diff --git a/tests/tcg/ppc64le/bcdsub.c b/tests/tcg/ppc64/bcdsub.c
-similarity index 100%
-rename from tests/tcg/ppc64le/bcdsub.c
-rename to tests/tcg/ppc64/bcdsub.c
-diff --git a/tests/tcg/ppc64le/byte_reverse.c b/tests/tcg/ppc64/byte_reverse.c
-similarity index 100%
-rename from tests/tcg/ppc64le/byte_reverse.c
-rename to tests/tcg/ppc64/byte_reverse.c
-diff --git a/tests/tcg/ppc64le/mffsce.c b/tests/tcg/ppc64/mffsce.c
-similarity index 100%
-rename from tests/tcg/ppc64le/mffsce.c
-rename to tests/tcg/ppc64/mffsce.c
-diff --git a/tests/tcg/ppc64le/mtfsf.c b/tests/tcg/ppc64/mtfsf.c
-similarity index 100%
-rename from tests/tcg/ppc64le/mtfsf.c
-rename to tests/tcg/ppc64/mtfsf.c
-diff --git a/tests/tcg/ppc64le/non_signalling_xscv.c b/tests/tcg/ppc64/non_signalling_xscv.c
-similarity index 100%
-rename from tests/tcg/ppc64le/non_signalling_xscv.c
-rename to tests/tcg/ppc64/non_signalling_xscv.c
-diff --git a/tests/tcg/ppc64le/signal_save_restore_xer.c b/tests/tcg/ppc64/signal_save_restore_xer.c
-similarity index 100%
-rename from tests/tcg/ppc64le/signal_save_restore_xer.c
-rename to tests/tcg/ppc64/signal_save_restore_xer.c
-diff --git a/tests/tcg/ppc64le/xxspltw.c b/tests/tcg/ppc64/xxspltw.c
-similarity index 100%
-rename from tests/tcg/ppc64le/xxspltw.c
-rename to tests/tcg/ppc64/xxspltw.c
-diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
-index 331fae628e..7db7a3e2b3 100644
---- a/tests/tcg/ppc64/Makefile.target
-+++ b/tests/tcg/ppc64/Makefile.target
-@@ -3,7 +3,6 @@
- # ppc64 specific tweaks
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index c14eca82c2..cd0a2ad873 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -41,14 +41,16 @@ endif
+ # for including , in command strings
+ COMMA := ,
  
- VPATH += $(SRC_PATH)/tests/tcg/ppc64
--VPATH += $(SRC_PATH)/tests/tcg/ppc64le
+-quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
++quiet-@ = $(if $(V),,@$(if $1,printf "  %-7s %s\n" "$(strip $1)" "$(strip $2)" && ))
++quiet-command = $(call quiet-@,$2,$3)$1
  
- ifneq ($(CROSS_CC_HAS_POWER8_VECTOR),)
- PPC64_TESTS=bcdsub non_signalling_xscv
-diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
-index 6ca3003f02..daad5118a5 100644
---- a/tests/tcg/ppc64le/Makefile.target
-+++ b/tests/tcg/ppc64le/Makefile.target
-@@ -4,28 +4,4 @@
+ # $1 = test name, $2 = cmd, $3 = desc
+ ifeq ($(filter %-softmmu, $(TARGET)),)
+ run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > $1.out, \
+-	"TEST",$3)
++	TEST,$(or $3, $*, $<) on $(TARGET_NAME))
+ else
+-run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2,"TEST",$3)
++run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2, \
++        TEST,$(or $3, $*, $<) on $(TARGET_NAME))
+ endif
  
- VPATH += $(SRC_PATH)/tests/tcg/ppc64le
+ # $1 = test name, $2 = reference
+@@ -56,7 +58,7 @@ endif
+ # we know it failed and then force failure at the end.
+ diff-out = $(call quiet-command, diff -q $1.out $2 || \
+                                  (diff -u $1.out $2 | head -n 10 && false), \
+-                                 "DIFF","$1.out with $2")
++                                 DIFF,$1.out with $2)
  
--ifneq ($(CROSS_CC_HAS_POWER8_VECTOR),)
--PPC64LE_TESTS=bcdsub non_signalling_xscv
--endif
--$(PPC64LE_TESTS): CFLAGS += -mpower8-vector
--
--ifneq ($(CROSS_CC_HAS_POWER10),)
--PPC64LE_TESTS += byte_reverse sha512-vector
--endif
--byte_reverse: CFLAGS += -mcpu=power10
--run-byte_reverse: QEMU_OPTS+=-cpu POWER10
--run-plugin-byte_reverse-with-%: QEMU_OPTS+=-cpu POWER10
--
--sha512-vector: CFLAGS +=-mcpu=power10 -O3
--sha512-vector: sha512.c
--	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
--
--run-sha512-vector: QEMU_OPTS+=-cpu POWER10
--run-plugin-sha512-vector-with-%: QEMU_OPTS+=-cpu POWER10
--
--PPC64LE_TESTS += mtfsf
--PPC64LE_TESTS += mffsce
--PPC64LE_TESTS += signal_save_restore_xer
--PPC64LE_TESTS += xxspltw
--
--TESTS += $(PPC64LE_TESTS)
-+include $(SRC_PATH)/tests/tcg/ppc64/Makefile.target
+ # $1 = test name, $2 = reason
+ skip-test = @printf "  SKIPPED %s on $(TARGET_NAME) because %s\n" $1 $2
+@@ -155,21 +157,19 @@ RUN_TESTS+=$(EXTRA_RUNS)
+ 
+ ifeq ($(filter %-softmmu, $(TARGET)),)
+ run-%: %
+-	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_NAME)")
++	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<)
+ 
+ run-plugin-%:
+ 	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
+ 		-plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
+ 		-d plugin -D $*.pout \
+-		 $(call strip-plugin,$<), \
+-	"$* on $(TARGET_NAME)")
++		 $(call strip-plugin,$<))
+ else
+ run-%: %
+ 	$(call run-test, $<, \
+ 	  $(QEMU) -monitor none -display none \
+ 		  -chardev file$(COMMA)path=$<.out$(COMMA)id=output \
+-	   	  $(QEMU_OPTS) $<, \
+-	  "$< on $(TARGET_NAME)")
++		  $(QEMU_OPTS) $<)
+ 
+ run-plugin-%:
+ 	$(call run-test, $@, \
+@@ -177,8 +177,7 @@ run-plugin-%:
+ 		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
+ 	   	  -plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
+ 	    	  -d plugin -D $*.pout \
+-	   	  $(QEMU_OPTS) $(call strip-plugin,$<), \
+-	  "$* on $(TARGET_NAME)")
++		  $(QEMU_OPTS) $(call strip-plugin,$<))
+ endif
+ 
+ gdb-%: %
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index f6fcd4829e..84a9990f8d 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -50,8 +50,7 @@ run-memory-record: memory-record memory
+ 	  $(QEMU) -monitor none -display none \
+ 		  -chardev file$(COMMA)path=$<.out$(COMMA)id=output \
+ 		  -icount shift=5$(COMMA)rr=record$(COMMA)rrfile=record.bin \
+-	   	  $(QEMU_OPTS) memory, \
+-	  "$< on $(TARGET_NAME)")
++		  $(QEMU_OPTS) memory)
+ 
+ .PHONY: memory-replay
+ run-memory-replay: memory-replay run-memory-record
+@@ -59,8 +58,7 @@ run-memory-replay: memory-replay run-memory-record
+ 	  $(QEMU) -monitor none -display none \
+ 		  -chardev file$(COMMA)path=$<.out$(COMMA)id=output \
+ 		  -icount shift=5$(COMMA)rr=replay$(COMMA)rrfile=record.bin \
+-	   	  $(QEMU_OPTS) memory, \
+-	  "$< on $(TARGET_NAME)")
++		  $(QEMU_OPTS) memory)
+ 
+ EXTRA_RUNS+=run-memory-replay
+ 
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index d6a74d24dc..9837a809dc 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -55,7 +55,7 @@ sha1-vector: CFLAGS=-O3
+ sha1-vector: sha1.c
+ 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ run-sha1-vector: sha1-vector run-sha1
+-	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_NAME)")
++	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<)
+ 	$(call diff-out, sha1-vector, sha1.out)
+ 
+ TESTS += sha1-vector
+@@ -75,14 +75,14 @@ run-gdbstub-sysregs: sysregs
+ 		--gdb $(HAVE_GDB_BIN) \
+ 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
+ 		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve.py, \
+-	"basic gdbstub SVE support")
++	basic gdbstub SVE support)
+ 
+ run-gdbstub-sve-ioctls: sve-ioctls
+ 	$(call run-test, $@, $(GDB_SCRIPT) \
+ 		--gdb $(HAVE_GDB_BIN) \
+ 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
+ 		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve-ioctl.py, \
+-	"basic gdbstub SVE ZLEN support")
++	basic gdbstub SVE ZLEN support)
+ 
+ EXTRA_RUNS += run-gdbstub-sysregs run-gdbstub-sve-ioctls
+ endif
+diff --git a/tests/tcg/arm/Makefile.target b/tests/tcg/arm/Makefile.target
+index 2f815120a5..b3b1504a1c 100644
+--- a/tests/tcg/arm/Makefile.target
++++ b/tests/tcg/arm/Makefile.target
+@@ -26,7 +26,7 @@ ARM_TESTS += fcvt
+ fcvt: LDFLAGS+=-lm
+ # fcvt: CFLAGS+=-march=armv8.2-a+fp16 -mfpu=neon-fp-armv8
+ run-fcvt: fcvt
+-	$(call run-test,fcvt,$(QEMU) $<,"$< on $(TARGET_NAME)")
++	$(call run-test,fcvt,$(QEMU) $<)
+ 	$(call diff-out,fcvt,$(ARM_SRC)/fcvt.ref)
+ 
+ # PC alignment test
+@@ -44,13 +44,12 @@ semihosting-arm: semihosting.c
+ 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ 
+ run-semihosting-arm: semihosting-arm
+-	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
++	$(call run-test,$<,$(QEMU) $< 2> $<.err)
+ 
+ run-plugin-semihosting-arm-with-%:
+ 	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
+ 		-plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
+-		 $(call strip-plugin,$<) 2> $<.err, \
+-		"$< on $(TARGET_NAME) with $*")
++		 $(call strip-plugin,$<) 2> $<.err)
+ 
+ ARM_TESTS += semiconsole-arm
+ 
+@@ -75,7 +74,7 @@ sha1-vector: CFLAGS=-O3
+ sha1-vector: sha1.c
+ 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ run-sha1-vector: sha1-vector run-sha1
+-	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_NAME)")
++	$(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<)
+ 	$(call diff-out, sha1-vector, sha1.out)
+ 
+ ARM_TESTS += sha1-vector
+diff --git a/tests/tcg/cris/Makefile.target b/tests/tcg/cris/Makefile.target
+index e72d3cbdb2..372287bd03 100644
+--- a/tests/tcg/cris/Makefile.target
++++ b/tests/tcg/cris/Makefile.target
+@@ -56,4 +56,4 @@ SIMG:=cris-axis-linux-gnu-run
+ 
+ # e.g.: make -f ../../tests/tcg/Makefile run-check_orm-on-sim
+ run-%-on-sim:
+-	$(call run-test, $<, $(SIMG) $<, "$< on $(TARGET_NAME) with SIM")
++	$(call run-test, $<, $(SIMG) $<)
+diff --git a/tests/tcg/i386/Makefile.softmmu-target b/tests/tcg/i386/Makefile.softmmu-target
+index 9b9038d0be..ed922d59c8 100644
+--- a/tests/tcg/i386/Makefile.softmmu-target
++++ b/tests/tcg/i386/Makefile.softmmu-target
+@@ -40,8 +40,7 @@ run-plugin-%-with-libinsn.so:
+ 		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
+                   -plugin ../../plugin/libinsn.so$(COMMA)inline=on \
+ 	    	  -d plugin -D $*-with-libinsn.so.pout \
+-	   	  $(QEMU_OPTS) $*, \
+-		  "$* on $(TARGET_NAME)")
++		  $(QEMU_OPTS) $*)
+ 
+ # Running
+ QEMU_OPTS+=-device isa-debugcon,chardev=output -device isa-debug-exit,iobase=0xf4,iosize=0x4 -kernel
+diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
+index 599f192529..8af066efc5 100644
+--- a/tests/tcg/i386/Makefile.target
++++ b/tests/tcg/i386/Makefile.target
+@@ -53,7 +53,7 @@ test-i386-fprem.ref: test-i386-fprem
+ 
+ run-test-i386-fprem: TIMEOUT=60
+ run-test-i386-fprem: test-i386-fprem test-i386-fprem.ref
+-	$(call run-test,test-i386-fprem, $(QEMU) $<,"$< on $(TARGET_NAME)")
++	$(call run-test,test-i386-fprem, $(QEMU) $<)
+ 	$(call diff-out,test-i386-fprem, test-i386-fprem.ref)
+ else
+ SKIP_I386_TESTS+=test-i386-fprem
+@@ -63,8 +63,7 @@ endif
+ run-plugin-%-with-libinsn.so:
+ 	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
+ 	       -plugin ../../plugin/libinsn.so$(COMMA)inline=on \
+-	       -d plugin -D $*-with-libinsn.so.pout $*, \
+-		"$* (inline) on $(TARGET_NAME)")
++	       -d plugin -D $*-with-libinsn.so.pout $*)
+ 
+ # Update TESTS
+ I386_TESTS:=$(filter-out $(SKIP_I386_TESTS), $(ALL_X86_TESTS))
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index 6bba523729..78104f9bbb 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -26,7 +26,7 @@ float_%: float_%.c libs/float_helpers.c
+ 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< $(MULTIARCH_SRC)/libs/float_helpers.c -o $@ $(LDFLAGS)
+ 
+ run-float_%: float_%
+-	$(call run-test,$<, $(QEMU) $(QEMU_OPTS) $<,"$< on $(TARGET_NAME)")
++	$(call run-test,$<, $(QEMU) $(QEMU_OPTS) $<)
+ 	$(call conditional-diff-out,$<,$(SRC_PATH)/tests/tcg/$(TARGET_NAME)/$<.ref)
+ 
+ 
+@@ -42,13 +42,11 @@ signals: LDFLAGS+=-lrt -lpthread
+ 
+ # default case (host page size)
+ run-test-mmap: test-mmap
+-	$(call run-test, test-mmap, $(QEMU) $<, \
+-		"$< (default) on $(TARGET_NAME)")
++	$(call run-test, test-mmap, $(QEMU) $<, $< (default))
+ 
+ # additional page sizes (defined by each architecture adding to EXTRA_RUNS)
+ run-test-mmap-%: test-mmap
+-	$(call run-test, test-mmap-$*, $(QEMU) -p $* $<,\
+-		"$< ($* byte pages) on $(TARGET_NAME)")
++	$(call run-test, test-mmap-$*, $(QEMU) -p $* $<, $< ($* byte pages))
+ 
+ ifneq ($(HAVE_GDB_BIN),)
+ GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+@@ -58,21 +56,21 @@ run-gdbstub-sha1: sha1
+ 		--gdb $(HAVE_GDB_BIN) \
+ 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
+ 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/sha1.py, \
+-	"basic gdbstub support")
++	basic gdbstub support)
+ 
+ run-gdbstub-qxfer-auxv-read: sha1
+ 	$(call run-test, $@, $(GDB_SCRIPT) \
+ 		--gdb $(HAVE_GDB_BIN) \
+ 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
+ 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-qxfer-auxv-read.py, \
+-	"basic gdbstub qXfer:auxv:read support")
++	basic gdbstub qXfer:auxv:read support)
+ 
+ run-gdbstub-thread-breakpoint: testthread
+ 	$(call run-test, $@, $(GDB_SCRIPT) \
+ 		--gdb $(HAVE_GDB_BIN) \
+ 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
+ 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-thread-breakpoint.py, \
+-	"hitting a breakpoint on non-main thread")
++	hitting a breakpoint on non-main thread)
+ 
+ else
+ run-gdbstub-%:
+@@ -94,13 +92,13 @@ VPATH += $(MULTIARCH_SRC)/arm-compat-semi
+ semihosting: CFLAGS+=-I$(SRC_PATH)/tests/tcg/$(TARGET_NAME)
+ 
+ run-semihosting: semihosting
+-	$(call run-test,$<,$(QEMU) $< 2> $<.err, "$< on $(TARGET_NAME)")
++	$(call run-test,$<,$(QEMU) $< 2> $<.err)
+ 
+ run-plugin-semihosting-with-%:
+ 	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
+ 		-plugin $(PLUGIN_LIB)/$(call extract-plugin,$@) \
+ 		 $(call strip-plugin,$<) 2> $<.err, \
+-		"$< on $(TARGET_NAME) with $*")
++		$< with $*)
+ 
+ semiconsole: CFLAGS+=-I$(SRC_PATH)/tests/tcg/$(TARGET_NAME)
+ 
+diff --git a/tests/tcg/multiarch/system/Makefile.softmmu-target b/tests/tcg/multiarch/system/Makefile.softmmu-target
+index 625ed792c6..368b64d531 100644
+--- a/tests/tcg/multiarch/system/Makefile.softmmu-target
++++ b/tests/tcg/multiarch/system/Makefile.softmmu-target
+@@ -25,7 +25,7 @@ run-gdbstub-memory: memory
+ 		--qargs \
+ 		"-monitor none -display none -chardev file$(COMMA)path=$<.out$(COMMA)id=output $(QEMU_OPTS)" \
+ 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/memory.py, \
+-	"softmmu gdbstub support")
++	softmmu gdbstub support)
+ 
+ else
+ run-gdbstub-%:
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 5e13a41c3f..c830313e67 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -41,7 +41,7 @@ run-gdbstub-signals-s390x: signals-s390x
+ 		--gdb $(HAVE_GDB_BIN) \
+ 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
+ 		--bin $< --test $(S390X_SRC)/gdbstub/test-signals-s390x.py, \
+-	"mixing signals and debugging on s390x")
++	mixing signals and debugging)
+ 
+ EXTRA_RUNS += run-gdbstub-signals-s390x
+ endif
+diff --git a/tests/tcg/x86_64/Makefile.softmmu-target b/tests/tcg/x86_64/Makefile.softmmu-target
+index 2afa3298bf..7207fee94c 100644
+--- a/tests/tcg/x86_64/Makefile.softmmu-target
++++ b/tests/tcg/x86_64/Makefile.softmmu-target
+@@ -40,8 +40,7 @@ run-plugin-%-with-libinsn.so:
+ 		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
+                   -plugin ../../plugin/libinsn.so$(COMMA)inline=on \
+ 	    	  -d plugin -D $*-with-libinsn.so.pout \
+-	   	  $(QEMU_OPTS) $*, \
+-		  "$* on $(TARGET_NAME)")
++		  $(QEMU_OPTS) $*)
+ 
+ # Running
+ QEMU_OPTS+=-device isa-debugcon,chardev=output -device isa-debug-exit,iobase=0xf4,iosize=0x4 -kernel
 -- 
 2.34.1
 
