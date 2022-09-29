@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230FA5EF749
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:15:17 +0200 (CEST)
-Received: from localhost ([::1]:43096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE325EF800
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:48:43 +0200 (CEST)
+Received: from localhost ([::1]:52728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oduJo-0002K0-83
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:15:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59958)
+	id 1oduqA-0008Ns-UR
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odsDO-00081r-Jh
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:30 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:46724)
+ id 1odsDs-0008HA-WB
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:01:12 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odsDN-0004vV-0j
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:30 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- n40-20020a05600c3ba800b003b49aefc35fso607766wms.5
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 05:00:28 -0700 (PDT)
+ id 1odsDq-000560-MX
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:59 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id cc5so1826798wrb.6
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 05:00:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=23wpCiJ4V2gEcOEvO8///m/1deUkTXuHYDbU+OR9xwM=;
- b=N3DxQ9qeOOGmdPzAD7UIXtmsxYdBd/bjPiby13/5Sif60Cpb9y+QEjGeVfEGV1Qs4r
- ye1oI2BcKH3dXrKeUIuH4i0UaXyv8dkedLTSBEl1FMVUUansFODf9t620EDcaaco6Njm
- +Ckj59SzIHj+yK32E56OVPI5BhSESO88WdTiEdCDGerqL3v1tOgZr9vKhuoaJzmIpjyJ
- MFy0tsW1qBuniBc3cRAxTY9+wTSAxz+ZVw9L/Te6WmzMJCpZzv6WrHD6kc3kLWZ8DGG4
- ovTN5OgcFDxCzi6P8IaNrVHEg/rY++yV+K1xcnJV4yCSELNCT876DJ7B2FhJyCiyzL9F
- NuKg==
+ bh=cu119da0HjcUuKL/VIvH/HwWjoQGHux1zzUmwlLHBhQ=;
+ b=tqC7ZGxfgwJmJD+QaI1iB+Dmi7PyHxQokTNjmJZcPZ55Pj7ptbpDgDWdEst75NLhCh
+ 9d3GKwUNT4ldIO1/etsCziVpKVwEI4DZ03glL10oZQr5WEuCq1YqVKfSBnFbMPgljedg
+ STnosPKZF3AR/TyRWKZ3sd5mpHrAyP2hiz2sFXe39IvDaAbXGYRLoQ762XhTyuDCeIAi
+ 9LU0GF0S+zcpDo3a4bJTu03kk+mQnEev6VZbcARpBkMZBxPV7YcjvYdje/ogKEar0OH7
+ zcjmO0VSTMcmrudrWt0lU7CkZ8MWZSOqLO4MCiB0En+EaX3Tv1Xnp0fDxyjWitIjRFuG
+ Kpwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date;
- bh=23wpCiJ4V2gEcOEvO8///m/1deUkTXuHYDbU+OR9xwM=;
- b=auUzpMwEGVWbmFQQ+8PhiMxjjunCkjRdS4y22m7W9i4ZQRLvW0UDBYwEwWAQ8ajnNK
- Pgi8zmOc/kWWkU+Be/ACYxa9dmVrBn9iZaf76JGbOtmitt+KQgJF0+Hxvghls0adwAqs
- fF1H1j1ICNPj0l6EPZvBNv3IU5J0Zq2mmQsLsNZ8L/78caqaN5knGtuIt9Z24GXY7Qoy
- B9fg9oYS4cevKskHGGp16i46t/z86zL7hCYpC46uvrGTpuvSpAyzmwi5pyui6nrt8+Gf
- 2Z/ILx0G0JMzSdZ4CWt3DauwQk1zlyf9Cbw1dgGOTGT/TU3EQsVCxKD/c+RcM+OwuMkm
- 0TyA==
-X-Gm-Message-State: ACrzQf0mPx67VgVTYU1t1tuJ2ftD75LM8Fo3xZkd/HZIEeMt9+f0fDGp
- 7D1jlKWoPcT2/8kDDDH4FXibsg==
-X-Google-Smtp-Source: AMsMyM7urQvRGanQYImo7tGujI16+I9XbQmxxpR033CgFK6anBBOgUd4/64FAzr8WRcF8E0fm1GMHg==
-X-Received: by 2002:a7b:cc96:0:b0:3b4:ffb5:6366 with SMTP id
- p22-20020a7bcc96000000b003b4ffb56366mr2023250wma.48.1664452827592; 
- Thu, 29 Sep 2022 05:00:27 -0700 (PDT)
+ bh=cu119da0HjcUuKL/VIvH/HwWjoQGHux1zzUmwlLHBhQ=;
+ b=E3A66GwxQHcXJyqzAm+pY0LFrcNsgZhMONLvlIxstKMfFK7B7lcOmg3SxqXgY63zr+
+ idmqvY9T7plWZAfyKK2tjf1FJDO6l/r/He8+vLnSKJq4Rx+RR4MrIL6rHxAVLrmo85O0
+ sOgs3CnwoJoVlKTCOoo1hk/N7z5qCPg5GueDaPP+tMA9DCwFCeCfmPzeqh2u7OeTLKvo
+ 5qUHsCKPYwH7wMBdfEAm2jLg7+E2mdK0UsKRcHv+OfVptHddo4r7ZB3c0z4Z/eByPI1m
+ qs9O5gH1luhDk2u/R0a83YWR9SmAFv1qE2R7hSOrvr9T3Mx7aNrw8x/ZFm9LFgzzPaRB
+ n6aw==
+X-Gm-Message-State: ACrzQf2VNTVE2rZl2nTgQx5lDHt6Y5pISZHaQIfqMQm+ePnxiHwqVn0Z
+ aGyYKValbFTVEE/z3l5fZCI9JA==
+X-Google-Smtp-Source: AMsMyM6BFxxgbmPM+J+bBe2NoDLrO9ZBXikOB+uYn7pbwaeuri79t7KUeSjOzhkSFMgI/d6hlguRAA==
+X-Received: by 2002:a5d:588e:0:b0:22a:feea:6c09 with SMTP id
+ n14-20020a5d588e000000b0022afeea6c09mr2037830wrf.112.1664452855448; 
+ Thu, 29 Sep 2022 05:00:55 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- h18-20020adfaa92000000b00228dd80d78asm4443837wrc.86.2022.09.29.05.00.26
+ y3-20020a5d4ac3000000b0022ac672654dsm6801058wrs.58.2022.09.29.05.00.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 05:00:26 -0700 (PDT)
+ Thu, 29 Sep 2022 05:00:54 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 51BE21FFB7;
- Thu, 29 Sep 2022 13:00:26 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id EE32D1FFB7;
+ Thu, 29 Sep 2022 13:00:53 +0100 (BST)
 References: <20220925105124.82033-1-richard.henderson@linaro.org>
- <20220925105124.82033-6-richard.henderson@linaro.org>
+ <20220925105124.82033-7-richard.henderson@linaro.org>
 User-agent: mu4e 1.9.0; emacs 28.2.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Philippe =?utf-8?Q?Mathieu-D?=
  =?utf-8?Q?aud=C3=A9?= <f4bug@amsat.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 05/17] accel/tcg: Introduce tlb_set_page_full
-Date: Thu, 29 Sep 2022 13:00:20 +0100
-In-reply-to: <20220925105124.82033-6-richard.henderson@linaro.org>
-Message-ID: <875yh61jc5.fsf@linaro.org>
+Subject: Re: [PATCH v5 06/17] include/exec: Introduce TARGET_PAGE_ENTRY_EXTRA
+Date: Thu, 29 Sep 2022 13:00:48 +0100
+In-reply-to: <20220925105124.82033-7-richard.henderson@linaro.org>
+Message-ID: <871qru1jbe.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,11 +98,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Now that we have collected all of the page data into
-> CPUTLBEntryFull, provide an interface to record that
-> all in one go, instead of using 4 arguments.  This interface
-> allows CPUTLBEntryFull to be extended without having to
-> change the number of arguments.
+> Allow the target to cache items from the guest page tables.
 >
 > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
