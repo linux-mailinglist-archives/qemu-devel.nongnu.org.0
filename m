@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED1C5EFBEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:25:21 +0200 (CEST)
-Received: from localhost ([::1]:38494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47E95EFBC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:19:31 +0200 (CEST)
+Received: from localhost ([::1]:46292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odxHk-0002UM-1X
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:25:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55868)
+	id 1odxC6-00054b-Ro
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odwwl-0007wn-4s
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:03:47 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38820)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odww8-0007Ec-DB
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:03:07 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:45809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odwwj-0000VD-3b
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:03:38 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- c192-20020a1c35c9000000b003b51339d350so3600698wma.3
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 10:03:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1odww6-0000RW-Mu
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 13:03:00 -0400
+Received: by mail-ej1-x636.google.com with SMTP id dv25so4057103ejb.12
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 10:02:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=ckXOj0kL1mkE6I/gLKJI97zgm9KjLbkvtK6Y9nHNlp0=;
- b=RMHTsu5rCzrzIfmOavEfZS/hP9UQzAnhI0OvoG2NHVCRSb7c3UFsc3QXxx1jtYzYbY
- 5jsTMt2j3bBSRzNO0mzi7YfS+YGibIvzqURxikGnxWJC1Y0J0PcuywxnoeEMZ7/6n0vh
- ukkP6Y/87hCik/pIZnew7YjeOezoAaHPT4AYL7p/CVrnHo3rIxOcHgdVvGjp7oLpqIHD
- EKMg7KgqRmJ0171TTJ5rGhBKOxCjHHGA9lZtLJxGcyXelzoNr3ac803wlX9VXaV5Pkfa
- p65L0VfrspEK8NfkrikGDVEsOLGeyhw5BSIOS2i9iYVR0buy5lDPD6H4kzeHPmjM4LzT
- /wnQ==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=edrQRuIR3FERpq08TfqZhQs2evg2oKlpLH9Q8qcrE3s=;
+ b=aqzGyWQU2gBpfeG6pK3Z8QLAMyLRrb9IRCPsos/yCzvpo8QmS4Ek3U411qWVq1s0Dh
+ 1Hoe/JpK55byzKNk5TjC1SR15yAUlZvFkAsHf+jaGIIqHC6DRbXwc8tCor9r/UBew59B
+ 2FG4Gh6t9xQx5PMrM1E3OmoHxDiKvpovSoKwOuSOC+cYnPq/Yc9gBm0Hk59TEdlfgulT
+ b5+soHa/pJ4B+u+rpvHikfv4pwZSyxCQlis7bFk19efGlysgPXgs1aK9dT20njzBnDGW
+ 2v+Fh6JETpDxqIvEXk4+/U8quBys2yiuzzPL3T71kLP7LLxJBFbijRS863K3yAxeX7M7
+ 2aVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=ckXOj0kL1mkE6I/gLKJI97zgm9KjLbkvtK6Y9nHNlp0=;
- b=uSWW9Zo6+LOMCHr9hCCYp/CHXJnhhHNqVf48EwM7Y1Bj3Joy0vFlaxBKe2qFtuqJpG
- KpI6j03A1/m8KJQnIeFf67WiwTfODmX9Om+4doJ0siakNFux8S3vuoByeJb3vBOqZZFD
- uV+/XZz2ej8mkM8Eu/eAcx7CxM+gExvdXthWV4BY2hAxn6LUJjQUDg+dxM/Smzwt2wum
- /G6Oq7z/F5jNADOzfL/2QgHQ4tzcmH3hcXNYwPTY5aEYbPvCmfSnDHyMmiRKmxnvA3xy
- eplKCF94JrQF5cgbJRASdIfJFu8nopCoOlZfmtzQU88Ln1WpTlWfqDchTpAmNc2v3oiD
- +MLQ==
-X-Gm-Message-State: ACrzQf0SgNxRoxwQA/ENF5R7S9EUZ0wCr44Ikir9xCSg6WyAhrRLW2u6
- fHwTaIOL/VAuaKG/giz0eXyvuA==
-X-Google-Smtp-Source: AMsMyM6M9pqIhWeFyoB7kCFjxeiBjQwsM4QpEd4dqjmTPqAfT6LIgVWUkVO4Ckvr+MJLaRF6HftP3A==
-X-Received: by 2002:a05:600c:4f89:b0:3b4:a6fc:89e5 with SMTP id
- n9-20020a05600c4f8900b003b4a6fc89e5mr11109981wmq.149.1664471015413; 
- Thu, 29 Sep 2022 10:03:35 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- r7-20020adfab47000000b0022ccc22ca95sm3313192wrc.13.2022.09.29.10.03.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 10:03:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2DC1E1FFB7;
- Thu, 29 Sep 2022 18:03:34 +0100 (BST)
-References: <20220925105124.82033-1-richard.henderson@linaro.org>
- <20220925105124.82033-15-richard.henderson@linaro.org>
- <87k05mz3xa.fsf@linaro.org>
- <9db697ee-f8e1-1388-7675-42c46ae98fca@linaro.org>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 14/17] include/hw/core: Create struct CPUJumpCache
-Date: Thu, 29 Sep 2022 18:01:42 +0100
-In-reply-to: <9db697ee-f8e1-1388-7675-42c46ae98fca@linaro.org>
-Message-ID: <877d1myuxl.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=edrQRuIR3FERpq08TfqZhQs2evg2oKlpLH9Q8qcrE3s=;
+ b=a9aaEztpUrKbiRAcmrpP2svFN9kzIKv87Yrmxj1MvULs6xHfQSH5a0wG7gCdsvZAl1
+ RDJfR128yjUm1Gi6lJuiv6JrWAX9EnA+EbTPI4Iijn9YKmgbTrW8uEPWXKLr7mIt/ToW
+ odErGRtItR7UcnHn3RsD7kG2etCl2M26SoR0+svjBwf/0w3rlqNgL7MEqCFN+N9Sy5o/
+ o4omYOhLGK9h24TOq8ho11Y5y823YvTUCYlizrh3UDpBzLSWMg+Kko1TXZrNbAGrQtiB
+ qGVm6cxQ99F7TXo8VqStvNixmfCoDB5VlM6/CYKmT29U//uIn2msO9/rD1AhbtXl6hcS
+ QRkQ==
+X-Gm-Message-State: ACrzQf027Q73yg9TxJjWH/GDeKecRZfRK9q5ox99F70Py3K4ad8Xxzl7
+ S+q5WyjE3qFFz6SJP2St0ZY6wJ0kXieZuuv7NsPcOQ==
+X-Google-Smtp-Source: AMsMyM5+kYEWtLj+WdnBsU07M55Z21Sv4TOu9gV5q2uPpZ3xh6TIKTQJ+buWukht9W7qTc66D97tHaoWVw97m4eRniw=
+X-Received: by 2002:a17:906:9c83:b0:779:c14c:55e4 with SMTP id
+ fj3-20020a1709069c8300b00779c14c55e4mr3353287ejc.619.1664470977232; Thu, 29
+ Sep 2022 10:02:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+References: <20220927120058.670901-1-jerome.forissier@linaro.org>
+ <e2fa6d88-2457-983d-43da-dd341eeae693@linaro.org>
+In-Reply-To: <e2fa6d88-2457-983d-43da-dd341eeae693@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 29 Sep 2022 18:02:46 +0100
+Message-ID: <CAFEAcA-D2L1Ncrp86sgXdN4xQ9Y0CQ1y86bfL-3K_bWitjXn2w@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: mark SP_EL1 with ARM_CP_EL3_NO_EL2_KEEP
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Jerome Forissier <jerome.forissier@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, qemu-stable <qemu-stable@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,143 +84,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> On 9/29/22 06:46, Alex Benn=C3=A9e wrote:
->> Richard Henderson <richard.henderson@linaro.org> writes:
->>=20
->>> Wrap the bare TranslationBlock pointer into a structure.
->>>
->>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>   include/hw/core/cpu.h     | 8 ++++++--
->>>   accel/tcg/cpu-exec.c      | 9 ++++++---
->>>   accel/tcg/cputlb.c        | 2 +-
->>>   accel/tcg/translate-all.c | 4 ++--
->>>   4 files changed, 15 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
->>> index 9e47184513..ee5b75dea0 100644
->>> --- a/include/hw/core/cpu.h
->>> +++ b/include/hw/core/cpu.h
->>> @@ -232,6 +232,10 @@ struct hvf_vcpu_state;
->>>   #define TB_JMP_CACHE_BITS 12
->>>   #define TB_JMP_CACHE_SIZE (1 << TB_JMP_CACHE_BITS)
->>>   +typedef struct {
->>> +    TranslationBlock *tb;
->>> +} CPUJumpCache;
->>> +
->> I don't quite follow whats going on here. I see we add vaddr pc in a
->> later patch but I don't quite see why a cache for looking up TBs gets a
->> sidechan value added later.
->> Is this because the vaddr will no longer match the tb->pc? Maybe a
->> comment on the structure is needed?
+On Wed, 28 Sept 2022 at 15:56, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Correct, there will be no tb->pc, so the cpu has to remember the virtual =
-address itself.
+> On 9/27/22 05:00, Jerome Forissier wrote:
+> > SP_EL1 must be kept when EL3 is present but EL2 is not. Therefore mark
+> > it with ARM_CP_EL3_NO_EL2_KEEP.
+> >
+> > Fixes: 696ba3771894 ("target/arm: Handle cpreg registration for missing EL")
+> > Signed-off-by: Jerome Forissier <jerome.forissier@linaro.org>
 >
-> This patch only wraps the current pointer into a structure.
-
-Sure - however we don't expand the comment when vaddr is added later.
-I'm also concerned that now we have two fields there is scope for skew.
-I guess the acquire/release semantics are to ensure we may fail safe but
-never get a false positive?
-
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 >
->
-> r~
->
->>=20
->>>   /* work queue */
->>>     /* The union type allows passing of 64 bit target pointers on
->>> 32 bit
->>> @@ -361,7 +365,7 @@ struct CPUState {
->>>       IcountDecr *icount_decr_ptr;
->>>         /* Accessed in parallel; all accesses must be atomic */
->>> -    TranslationBlock *tb_jmp_cache[TB_JMP_CACHE_SIZE];
->>> +    CPUJumpCache tb_jmp_cache[TB_JMP_CACHE_SIZE];
->>>         struct GDBRegisterState *gdb_regs;
->>>       int gdb_num_regs;
->>> @@ -452,7 +456,7 @@ static inline void cpu_tb_jmp_cache_clear(CPUState =
-*cpu)
->>>       unsigned int i;
->>>         for (i =3D 0; i < TB_JMP_CACHE_SIZE; i++) {
->>> -        qatomic_set(&cpu->tb_jmp_cache[i], NULL);
->>> +        qatomic_set(&cpu->tb_jmp_cache[i].tb, NULL);
->>>       }
->>>   }
->>>   diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
->>> index dd58a144a8..c6283d5798 100644
->>> --- a/accel/tcg/cpu-exec.c
->>> +++ b/accel/tcg/cpu-exec.c
->>> @@ -252,7 +252,7 @@ static inline TranslationBlock *tb_lookup(CPUState =
-*cpu, target_ulong pc,
->>>       tcg_debug_assert(!(cflags & CF_INVALID));
->>>         hash =3D tb_jmp_cache_hash_func(pc);
->>> -    tb =3D qatomic_rcu_read(&cpu->tb_jmp_cache[hash]);
->>> +    tb =3D qatomic_rcu_read(&cpu->tb_jmp_cache[hash].tb);
->>>         if (likely(tb &&
->>>                  tb->pc =3D=3D pc &&
->>> @@ -266,7 +266,7 @@ static inline TranslationBlock *tb_lookup(CPUState =
-*cpu, target_ulong pc,
->>>       if (tb =3D=3D NULL) {
->>>           return NULL;
->>>       }
->>> -    qatomic_set(&cpu->tb_jmp_cache[hash], tb);
->>> +    qatomic_set(&cpu->tb_jmp_cache[hash].tb, tb);
->>>       return tb;
->>>   }
->>>   @@ -987,6 +987,8 @@ int cpu_exec(CPUState *cpu)
->>>                 tb =3D tb_lookup(cpu, pc, cs_base, flags, cflags);
->>>               if (tb =3D=3D NULL) {
->>> +                uint32_t h;
->>> +
->>>                   mmap_lock();
->>>                   tb =3D tb_gen_code(cpu, pc, cs_base, flags, cflags);
->>>                   mmap_unlock();
->>> @@ -994,7 +996,8 @@ int cpu_exec(CPUState *cpu)
->>>                    * We add the TB in the virtual pc hash table
->>>                    * for the fast lookup
->>>                    */
->>> -                qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(=
-pc)], tb);
->>> +                h =3D tb_jmp_cache_hash_func(pc);
->>> +                qatomic_set(&cpu->tb_jmp_cache[h].tb, tb);
->>>               }
->>>     #ifndef CONFIG_USER_ONLY
->>> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
->>> index f5e6ca2da2..fb8f3087f1 100644
->>> --- a/accel/tcg/cputlb.c
->>> +++ b/accel/tcg/cputlb.c
->>> @@ -103,7 +103,7 @@ static void tb_jmp_cache_clear_page(CPUState *cpu, =
-target_ulong page_addr)
->>>       unsigned int i, i0 =3D tb_jmp_cache_hash_page(page_addr);
->>>         for (i =3D 0; i < TB_JMP_PAGE_SIZE; i++) {
->>> -        qatomic_set(&cpu->tb_jmp_cache[i0 + i], NULL);
->>> +        qatomic_set(&cpu->tb_jmp_cache[i0 + i].tb, NULL);
->>>       }
->>>   }
->>>   diff --git a/accel/tcg/translate-all.c
->>> b/accel/tcg/translate-all.c
->>> index f429d33981..efa479ccf3 100644
->>> --- a/accel/tcg/translate-all.c
->>> +++ b/accel/tcg/translate-all.c
->>> @@ -1187,8 +1187,8 @@ static void do_tb_phys_invalidate(TranslationBloc=
-k *tb, bool rm_from_page_list)
->>>       /* remove the TB from the hash list */
->>>       h =3D tb_jmp_cache_hash_func(tb->pc);
->>>       CPU_FOREACH(cpu) {
->>> -        if (qatomic_read(&cpu->tb_jmp_cache[h]) =3D=3D tb) {
->>> -            qatomic_set(&cpu->tb_jmp_cache[h], NULL);
->>> +        if (qatomic_read(&cpu->tb_jmp_cache[h].tb) =3D=3D tb) {
->>> +            qatomic_set(&cpu->tb_jmp_cache[h].tb, NULL);
->>>           }
->>>       }
->>=20
+> This certainly looks right, as how else would EL3 set up EL1 as desired. I suppose this
+> error comes from a slight mis-read of R_RJFFP, in that SP_EL1 may be considered
+> "associated" with EL1 and not EL[23].
 
+Oops. Applied to target-arm.next, and
+Cc: qemu-stable@nongnu.org
+since this bug made it into 7.1 :-(
 
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
