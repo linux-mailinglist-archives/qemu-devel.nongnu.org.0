@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD475EF38F
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 12:34:32 +0200 (CEST)
-Received: from localhost ([::1]:52486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A955EF3C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 12:57:06 +0200 (CEST)
+Received: from localhost ([::1]:44740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odqsA-000514-L2
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 06:34:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42558)
+	id 1odrE1-0005IO-9Y
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 06:57:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1odqlj-0001Gr-HD
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 06:27:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50180)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1odr7N-0003Db-Ft
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 06:50:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1odqlf-0002ax-M1
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 06:27:49 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1odr7J-0006kJ-Nc
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 06:50:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664447266;
+ s=mimecast20190719; t=1664448608;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=S2MTmuut3UpFN8JM4EGneIMhXbXwpb8297pJeuov8nQ=;
- b=LFUziYxZdMk2+pMT1kVJ4H7FbCXK6wxcK+rqX73zojjCXhlVE4ivPppRqYAyUL9XL941oH
- f1AGKDLhQMUvPo7h3cB8YPbD40rLxxH+1mTrukXUZJmWTcuQkqWKDCz740MnOnWnRN/QT9
- IAWSK9UCQiqjLEgBCjXggJLTKMug3/Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-141-ZID10jGnMYq7njBpvdre5Q-1; Thu, 29 Sep 2022 06:27:40 -0400
-X-MC-Unique: ZID10jGnMYq7njBpvdre5Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB3FE88B7A7;
- Thu, 29 Sep 2022 10:27:39 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A64A4EA5F;
- Thu, 29 Sep 2022 10:27:37 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Gavin Shan <gshan@redhat.com>, eric.auger@redhat.com, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, maz@kernel.org, zhenyzha@redhat.com,
- richard.henderson@linaro.org, peter.maydell@linaro.org,
- shan.gavin@gmail.com
-Subject: Re: [PATCH v3 5/5] hw/arm/virt: Add 'highmem-compact' property
-In-Reply-To: <7656c827-58ce-85c2-87fe-e88206d6f022@redhat.com>
-Organization: Red Hat GmbH
-References: <20220921231349.274049-1-gshan@redhat.com>
- <20220921231349.274049-6-gshan@redhat.com>
- <2e8ace49-b900-de7e-2d81-7bb6c081146e@redhat.com>
- <7656c827-58ce-85c2-87fe-e88206d6f022@redhat.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Thu, 29 Sep 2022 12:27:35 +0200
-Message-ID: <87bkqyeaqw.fsf@redhat.com>
+ bh=3t+DTxQ/kgxuXd9YhgzCIOZmP6QT81bffq/l/1FlaFk=;
+ b=aknV8l/KM8u0mfdcC5NEfESPOUoJyZ72knatQMi4myLv6PTwl3L0/kp/fOqaSkxlBgn+VA
+ LhBIs+JU7KYIM3AG0a+fPbBuZ2K2QR6x3/GRFbKX7f3KmD5EmZjhHbWfhMF/Auf6YGWucT
+ D0bqVTx/sxCG8SoakTZF+KUBGUTDBdQ=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-22-uB6X2nBQMFizDsr5_5qMiw-1; Thu, 29 Sep 2022 06:50:06 -0400
+X-MC-Unique: uB6X2nBQMFizDsr5_5qMiw-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ z8-20020ab05648000000b003b48415d88cso335183uaa.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 03:50:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=3t+DTxQ/kgxuXd9YhgzCIOZmP6QT81bffq/l/1FlaFk=;
+ b=Q1yvEjDOSjup+5shi044dFmEhj7GzbEFZ1s7udDgJN1Q8iXJ5DBFwrBVxVfeLDeYQi
+ UCgDiY7P1PC12fZYCNFR6uVk4+7HXV2OowI6DqV1GQ2XxnM/z7fZigyP5l1rUAIPfXna
+ GC+r5x6nsI/wXX0RPbJribHrPwX7Z/gytfGqKwWU0RdNpug+Pvy1EcL/cm7Vdc98652c
+ jpnctARWZ5jmjSnZDV8xukUaisA9otmXerl2fYoySuWqNFsZP8+hfJUuAWnNPuHSaWjJ
+ hOfxUz2omx4oNC6c5x50hqXWSN315/xUbuv5YpEmQn8tL6Se5WCOBv03AtlgU0B+jdH9
+ jkTg==
+X-Gm-Message-State: ACrzQf2n7UrCUkAfo3jq2P3A9jyQKQY7hQZW0HC6RZR1Uu2bpSFxaPE7
+ LG0FPB8hP14NdEO7olTCqz4vpKVGglO8bca9V0veKxLjnts6+CcUCXuKiX02nJro1QkTUA2XVCC
+ On2ew/Urw1chWQ8GQ4S72EmaB5i5B6hw=
+X-Received: by 2002:ab0:6f94:0:b0:3d1:d6e5:5de6 with SMTP id
+ f20-20020ab06f94000000b003d1d6e55de6mr1073455uav.51.1664448605504; 
+ Thu, 29 Sep 2022 03:50:05 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7AIYTjx3mqE0b7ljJyJgBmdJwNTXvfP24F/B4A/OCklwK/6cn1Vc9o9JJysFY+ywpuP0we2mtws2wMWe2BDqI=
+X-Received: by 2002:ab0:6f94:0:b0:3d1:d6e5:5de6 with SMTP id
+ f20-20020ab06f94000000b003d1d6e55de6mr1073408uav.51.1664448604145; Thu, 29
+ Sep 2022 03:50:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+References: <20220928180603.101533-1-venu.busireddy@oracle.com>
+In-Reply-To: <20220928180603.101533-1-venu.busireddy@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 29 Sep 2022 12:49:51 +0200
+Message-ID: <CABgObfYXMBnVp2NqhyxOGjppDPc81Qk_fKepF6uzTkOBMoj2zA@mail.gmail.com>
+Subject: Re: [PATCH v3] virtio-scsi: Send "REPORTED LUNS CHANGED" sense data
+ upon disk hotplug events.
+To: Venu Busireddy <venu.busireddy@oracle.com>
+Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>, 
+ "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,77 +93,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 29 2022, Gavin Shan <gshan@redhat.com> wrote:
+On Wed, Sep 28, 2022 at 8:06 PM Venu Busireddy
+<venu.busireddy@oracle.com> wrote:
+>
+> Section 5.6.6.3 of VirtIO specification states, "Events will also
+> be reported via sense codes..." However, no sense data is sent when
+> VIRTIO_SCSI_EVT_RESET_RESCAN or VIRTIO_SCSI_EVT_RESET_REMOVED events
+> are reported (when disk hotplug/hotunplug events occur). SCSI layer
+> on Solaris depends on this sense data, and hence does not handle disk
+> hotplug/hotunplug events.
+>
+> When disk inventory changes, return a CHECK_CONDITION status with sense
+> data of 0x06/0x3F/0x0E (sense code REPORTED_LUNS_CHANGED), as per the
+> specifications in Section 5.14 (h) of SAM-4.
+>
+> Signed-off-by: Venu Busireddy <venu.busireddy@oracle.com>
+>
+> v2 -> v3:
+>     - Implement the suggestion from Paolo Bonzini <pbonzini@redhat.com>.
+>
+> v1 -> v2:
+>     - Send the sense data for VIRTIO_SCSI_EVT_RESET_REMOVED event too.
+> ---
+>  hw/scsi/scsi-bus.c              |  1 +
+>  hw/scsi/virtio-scsi.c           | 16 ++++++++++++++++
+>  include/hw/scsi/scsi.h          |  6 ++++++
+>  include/hw/virtio/virtio-scsi.h |  1 +
+>  4 files changed, 24 insertions(+)
+>
+> diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+> index 4403717c4aaf..b7cb249f2eab 100644
+> --- a/hw/scsi/scsi-bus.c
+> +++ b/hw/scsi/scsi-bus.c
+> @@ -730,6 +730,7 @@ SCSIRequest *scsi_req_new(SCSIDevice *d, uint32_t tag, uint32_t lun,
+>            */
+>           !(buf[0] == REQUEST_SENSE && d->sense_is_ua))) {
+>          ops = &reqops_unit_attention;
+> +        d->clear_reported_luns_changed = true;
 
-> Hi Eric,
->
-> On 9/28/22 10:22 PM, Eric Auger wrote:
->> On 9/22/22 01:13, Gavin Shan wrote:
->>> After the improvement to high memory region address assignment is
->>> applied, the memory layout is changed. For example, VIRT_HIGH_PCIE_MMIO
->> s/the memory layout is changed./the memory layout is changed,
->> introducing possible migration breakage.
->
-> Ok, much clearer.
->
->>> memory region is enabled when the improvement is applied, but it's
->>> disabled if the improvement isn't applied.
->>>
->>>      pa_bits              = 40;
->>>      vms->highmem_redists = false;
->>>      vms->highmem_ecam    = false;
->>>      vms->highmem_mmio    = true;
->>>
->>>      # qemu-system-aarch64 -accel kvm -cpu host \
->>>        -machine virt-7.2 -m 4G,maxmem=511G      \
->>>        -monitor stdio
->>>
->>> In order to keep backwords compatibility, we need to disable the
->>> optimization on machines, which is virt-7.1 or ealier than it. It
->>> means the optimization is enabled by default from virt-7.2. Besides,
->>> 'highmem-compact' property is added so that the optimization can be
->> I would rather rename the property into compact-highmem even if the vms
->> field is name highmem_compact to align with other highmem fields
->
-> Ok, but I would love to know why. Note that we already have
-> 'highmem=on|off'. 'highmem_compact=on|off' seems consistent
-> to me.
+Any reason to have this flag, and not just clear
+s->reported_luns_changed after scsi_req_new? Is it to handle the
+invalid opcode case?
 
-FWIW, I initially misread 'highmem_compact' as 'highmem_compat' (and had
-to re-read because I got confused). At least to me, 'compact_highmem'
-has less chance of being parsed incorrectly :) (although that is
-probably a personal thing.)
+I just reread the code and noticed that there is also a *bus* unit
+attention mechanism, which is unused but seems perfect for this
+usecase. The first device on the bus to execute a command successfully
+will consume it.
 
->
->>> explicitly enabled or disabled on all machine types by users.
->>>
->>> Signed-off-by: Gavin Shan <gshan@redhat.com>
->>> ---
->>>   docs/system/arm/virt.rst |  4 ++++
->>>   hw/arm/virt.c            | 33 +++++++++++++++++++++++++++++++++
->>>   include/hw/arm/virt.h    |  2 ++
->>>   3 files changed, 39 insertions(+)
->>>
->>> diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
->>> index 20442ea2c1..f05ec2253b 100644
->>> --- a/docs/system/arm/virt.rst
->>> +++ b/docs/system/arm/virt.rst
->>> @@ -94,6 +94,10 @@ highmem
->>>     address space above 32 bits. The default is ``on`` for machine types
->>>     later than ``virt-2.12``.
->>>   
->>> +highmem-compact
->>> +  Set ``on``/``off`` to enable/disable compact space for high memory regions.
->>> +  The default is ``on`` for machine types later than ``virt-7.2``
->> I think you should document what is compact layout versus legacy one,
->> both in the commit msg and maybe as a comment in a code along with the
->> comment in hw/arm/virt.c starting with 'Highmem IO Regions: '
->
-> Ok, I will add this into the commit log in v4. I don't think it's necessary
-> to add duplicate comment in the code. People can check the commit log for
-> details if needed.
+You need something like
 
-Rather explain it in this file here, maybe? I'd prefer to be able to
-find out what 'compact' means without digging through the commit log.
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index 4403717c4a..78274e8477 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -1616,6 +1616,24 @@ static int scsi_ua_precedence(SCSISense sense)
+     return (sense.asc << 8) | sense.ascq;
+ }
+
++void scsi_bus_set_ua(SCSIBus *bus, SCSISense sense)
++{
++    int prec1, prec2;
++    if (sense.key != UNIT_ATTENTION) {
++        return;
++    }
++
++    /*
++     * Override a pre-existing unit attention condition, except for a more
++     * important reset condition.
++    */
++    prec1 = scsi_ua_precedence(bus->unit_attention);
++    prec2 = scsi_ua_precedence(sense);
++    if (prec2 < prec1) {
++        bus->unit_attention = sense;
++    }
++}
++
+ void scsi_device_set_ua(SCSIDevice *sdev, SCSISense sense)
+ {
+     int prec1, prec2;
+diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+index 88e1a48343..0c86d0359f 100644
+--- a/include/hw/scsi/scsi.h
++++ b/include/hw/scsi/scsi.h
+@@ -186,6 +186,7 @@ SCSIDevice *scsi_bus_legacy_add_drive(
+                                       BlockdevOnError rerror,
+                                       BlockdevOnError werror,
+                                       const char *serial, Error **errp);
++void scsi_bus_set_ua(SCSIBus *bus, SCSISense sense);
+ void scsi_bus_legacy_handle_cmdline(SCSIBus *bus);
+ void scsi_legacy_handle_cmdline(void);
+
+
+and if you call the new function in the plug/unplug callbacks it
+should just work.
+
+Paolo
 
 
