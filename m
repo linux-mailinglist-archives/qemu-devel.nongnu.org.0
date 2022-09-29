@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A93CE5EF1AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 11:19:19 +0200 (CEST)
-Received: from localhost ([::1]:42528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C455EF14C
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 11:07:50 +0200 (CEST)
+Received: from localhost ([::1]:59306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odphO-0001W1-I7
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 05:19:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49830)
+	id 1odpWF-0003GR-Oe
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 05:07:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1odp33-0000ka-Fb; Thu, 29 Sep 2022 04:38:05 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:45003)
+ id 1odp36-0000kg-1C; Thu, 29 Sep 2022 04:38:05 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:56174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1odp2w-0007lL-HK; Thu, 29 Sep 2022 04:37:37 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id c7so827192pgt.11;
- Thu, 29 Sep 2022 01:37:29 -0700 (PDT)
+ id 1odp34-0007lh-97; Thu, 29 Sep 2022 04:37:39 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id cv6so676173pjb.5;
+ Thu, 29 Sep 2022 01:37:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=P5s1r+TdljxsgJm9EoSaBP3Yzp8UWe8irO8JsQPp+oo=;
- b=qfJAqeI1lnC4OJhQSDPnJFnzmHxTRc5GCTYVoWJ1kCvUFeWt1eSNbGzgAaGVhR5IoP
- 0omRhPmkWoo/TlviPs8L67uOmQlvSPgn3rrfKYWGRi6CJhpu1SLY+Q/ItznBOopoCBcr
- 4BRbwqupGjMnrZxREbOfJaQDCRG6yVJcZKXFgGEw/cVSXN6VeBmQg5WpRMILXES8CRQt
- KZ7FQ86D4ckNLqsTBRq7b2gX3OMD84uWA9qrf4U4hbU4GpO//3luQcdKRAYRnUah+CDB
- gNmuJh75GdRosn25bXMRyfxb2GsNWsXbxHJBrLt7zBAT+Yc9gyk1blEq7L4h/a9WBrOP
- YLiA==
+ bh=7U200FudwbpHutc22Z/SL8svBLcZPO5nI24IbArJq+8=;
+ b=TB4FxhRLeBEjkLQmUlbDihQ3Ysb2ub7V4XsN5ZZWwzjubrbUYxhcgZUbeHgOM0wpt6
+ wXefHh7lHbxSvOxnTy0fcCE4AWMehTLxnVKBX5+UCS9MsOSjvyCbfTbeENIJ4TJNcm2X
+ YoNegNDdobW4VkrHdqZW425+qxM0suRHFv1ruSphHOs7wKEL2gpmxcRgQSm3H/uIRGcL
+ NlSnYsGfv8A8gxNxTyGSNaQbylRwJ/UasbOnWihTJFu3vGgarEfwlb+w2MId/xrE28pT
+ /kOBc0LIhxQ+4OYiv0N/SvnGzpBXwGHtnu9OvNvH5h2y1l4dC4YN/b+EP01vFQQzMfUX
+ 2jAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=P5s1r+TdljxsgJm9EoSaBP3Yzp8UWe8irO8JsQPp+oo=;
- b=k8iR+DqKOuMKImIW7m5pP+Ds9WNhT98HyN61m9x1VukcaN28mR+PTbCl6b5vnV/BAF
- 3R4rk+52sE8dAW2QMta4VFNy/fmtR1FNZ2thdyx50SPPnT++Miwxa0hXYSOEiciu/oUy
- cOLDtN7H7tMl21LZeyzeUElNcqrPjDezpSVcod3QN2wV+/IrbqlSX6QM+L2ix5JuAriN
- eHZxvVbEY/rJszWUPOiHo3SW5AVlj6ioVriQRBLA4YRTGFf0KBWImjbsXE8NsraRWXSV
- aTPqKSjR9zs1Xreu9tIJtrRKPw5UEjgNPYFtGLcXcGPuRX0QsnsnRiHKOMdP95YH5BUQ
- 4gSQ==
-X-Gm-Message-State: ACrzQf2UMQ3B6azWi+/l0RDJ916ErIvgtFyZVBkL2GZK9tuoG+1ulxkF
- 0iXm9BUV5RK0sbrmWLPuGgdGCGXtcag6WA==
-X-Google-Smtp-Source: AMsMyM64n2ldw/7y5Dm//u+CfsWhedgtvRYe5j+ugkEnzz6lgWfx2hDNgk6YGTJRFHR8EsVBrwm64w==
-X-Received: by 2002:a05:6a00:17a1:b0:542:be09:7b23 with SMTP id
- s33-20020a056a0017a100b00542be097b23mr2347622pfg.12.1664440648377; 
- Thu, 29 Sep 2022 01:37:28 -0700 (PDT)
+ bh=7U200FudwbpHutc22Z/SL8svBLcZPO5nI24IbArJq+8=;
+ b=rc3Pf9ff/tVDDf2a54rbPWJNC2qxh0v8xIdpYKqm5gewLfAGH1y6o5jHNaSrCisrnN
+ ItxOCxPTrIoHEJeL85XPLBouIUkYyoSBqiYqykRHzfnGnVnBfwOr3lh7knwJD/YZ/lF+
+ qU5lGPUk0Gu5Z9SH0qiClp0JLC2SY1cYWkJ4JDWQbvk7Eq11+8YBdBJ8b4yEyYugYExC
+ D6DL72i+ZJp+UKCtDXrIE2PPvISCzbLunC+vn/soo6pagdvSqW4aP/vV3zML5RFTRtzh
+ I/LgDcUsQy4NmolHbJwrRBC9rgEE6ZgRR3l7tzG3ouu7g6si0rgUpuaQfplZZFYPwLmB
+ P6xA==
+X-Gm-Message-State: ACrzQf0sWPdzw2ebgJpqhQO7vi5gCEskbwPlQ5wrmBjeeGFr/lEOx447
+ 221apX1iWVwVg9BSHqEYX51zNNgcjYgcQA==
+X-Google-Smtp-Source: AMsMyM50fuEEPN+cWyc+FtyknQXNmFTnluoXKwq2ETCyaVehpktaZH7FWLpjBJaBxlNp3aXaHUuoGw==
+X-Received: by 2002:a17:902:f68f:b0:179:e82d:a0a2 with SMTP id
+ l15-20020a170902f68f00b00179e82da0a2mr2404327plg.16.1664440656247; 
+ Thu, 29 Sep 2022 01:37:36 -0700 (PDT)
 Received: from roots.. ([112.44.202.63]) by smtp.gmail.com with ESMTPSA id
- s5-20020a170902ea0500b0017829a3df46sm5324233plg.204.2022.09.29.01.37.21
+ s5-20020a170902ea0500b0017829a3df46sm5324233plg.204.2022.09.29.01.37.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 01:37:28 -0700 (PDT)
+ Thu, 29 Sep 2022 01:37:36 -0700 (PDT)
 From: Sam Li <faithilikerun@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: damien.lemoal@opensource.wdc.com, Kevin Wolf <kwolf@redhat.com>,
@@ -58,16 +58,16 @@ Cc: damien.lemoal@opensource.wdc.com, Kevin Wolf <kwolf@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
  stefanha@redhat.com, Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
  dmitry.fomichev@wdc.com, Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v10 5/7] config: add check to block layer
-Date: Thu, 29 Sep 2022 16:36:29 +0800
-Message-Id: <20220929083631.61899-6-faithilikerun@gmail.com>
+Subject: [PATCH v10 6/7] qemu-iotests: test new zone operations
+Date: Thu, 29 Sep 2022 16:36:30 +0800
+Message-Id: <20220929083631.61899-7-faithilikerun@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929083631.61899-1-faithilikerun@gmail.com>
 References: <20220929083631.61899-1-faithilikerun@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,104 +90,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Putting zoned/non-zoned BlockDrivers on top of each other is not
-allowed.
+We have added new block layer APIs of zoned block devices. Test it with:
+Create a null_blk device, run each zone operation on it and see
+whether reporting right zone information.
 
 Signed-off-by: Sam Li <faithilikerun@gmail.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block.c                          | 17 +++++++++++++++++
- block/file-posix.c               | 13 +++++++++++++
- block/raw-format.c               |  1 +
- include/block/block_int-common.h |  5 +++++
- 4 files changed, 36 insertions(+)
- mode change 100644 => 100755 block.c
- mode change 100644 => 100755 block/file-posix.c
+ tests/qemu-iotests/tests/zoned.out | 53 ++++++++++++++++++
+ tests/qemu-iotests/tests/zoned.sh  | 86 ++++++++++++++++++++++++++++++
+ 2 files changed, 139 insertions(+)
+ create mode 100644 tests/qemu-iotests/tests/zoned.out
+ create mode 100755 tests/qemu-iotests/tests/zoned.sh
 
-diff --git a/block.c b/block.c
-old mode 100644
-new mode 100755
-index bc85f46eed..bf2f2918e7
---- a/block.c
-+++ b/block.c
-@@ -7947,6 +7947,23 @@ void bdrv_add_child(BlockDriverState *parent_bs, BlockDriverState *child_bs,
-         return;
-     }
- 
-+    /*
-+     * Non-zoned block drivers do not follow zoned storage constraints
-+     * (i.e. sequential writes to zones). Refuse mixing zoned and non-zoned
-+     * drivers in a graph.
-+     */
-+    if (!parent_bs->drv->supports_zoned_children &&
-+        /* The host-aware model allows zoned storage constraints and random
-+         * write. Allow mixing host-aware and non-zoned drivers. Using
-+         * host-aware device as a regular device. */
-+        child_bs->bl.zoned == BLK_Z_HM) {
-+        error_setg(errp, "Cannot add a %s child to a %s parent",
-+                   child_bs->bl.zoned == BLK_Z_HM ? "zoned" : "non-zoned",
-+                   parent_bs->drv->supports_zoned_children ?
-+                   "support zoned children" : "not support zoned children");
-+        return;
-+    }
+diff --git a/tests/qemu-iotests/tests/zoned.out b/tests/qemu-iotests/tests/zoned.out
+new file mode 100644
+index 0000000000..0c8f96deb9
+--- /dev/null
++++ b/tests/qemu-iotests/tests/zoned.out
+@@ -0,0 +1,53 @@
++QA output created by zoned.sh
++Testing a null_blk device:
++Simple cases: if the operations work
++(1) report the first zone:
++start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:1, [type: 2]
 +
-     if (!QLIST_EMPTY(&child_bs->parents)) {
-         error_setg(errp, "The node %s already has a parent",
-                    child_bs->node_name);
-diff --git a/block/file-posix.c b/block/file-posix.c
-old mode 100644
-new mode 100755
-index 0a6c781201..73656d87f2
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -779,6 +779,19 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-             goto fail;
-         }
-     }
-+#ifdef CONFIG_BLKZONED
-+    /*
-+     * The kernel page cache does not reliably work for writes to SWR zones
-+     * of zoned block device because it can not guarantee the order of writes.
-+     */
-+    if (strcmp(bs->drv->format_name, "zoned_host_device") == 0) {
-+        if (!(s->open_flags & O_DIRECT)) {
-+            error_setg(errp, "driver=zoned_host_device was specified, but it "
-+                             "requires cache.direct=on, which was not specified.");
-+            return -EINVAL; /* No host kernel page cache */
-+        }
-+    }
-+#endif
- 
-     if (S_ISBLK(st.st_mode)) {
- #ifdef BLKDISCARDZEROES
-diff --git a/block/raw-format.c b/block/raw-format.c
-index 6b20bd22ef..9441536819 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -614,6 +614,7 @@ static void raw_child_perm(BlockDriverState *bs, BdrvChild *c,
- BlockDriver bdrv_raw = {
-     .format_name          = "raw",
-     .instance_size        = sizeof(BDRVRawState),
-+    .supports_zoned_children = true,
-     .bdrv_probe           = &raw_probe,
-     .bdrv_reopen_prepare  = &raw_reopen_prepare,
-     .bdrv_reopen_commit   = &raw_reopen_commit,
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index cdc06e77a6..37dddc603c 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -127,6 +127,11 @@ struct BlockDriver {
-      */
-     bool is_format;
- 
-+    /*
-+     * Set to true if the BlockDriver supports zoned children.
-+     */
-+    bool supports_zoned_children;
++report the first 10 zones
++start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:1, [type: 2]
++start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:1, [type: 2]
++start: 0x100000, len 0x80000, cap 0x80000, wptr 0x100000, zcond:1, [type: 2]
++start: 0x180000, len 0x80000, cap 0x80000, wptr 0x180000, zcond:1, [type: 2]
++start: 0x200000, len 0x80000, cap 0x80000, wptr 0x200000, zcond:1, [type: 2]
++start: 0x280000, len 0x80000, cap 0x80000, wptr 0x280000, zcond:1, [type: 2]
++start: 0x300000, len 0x80000, cap 0x80000, wptr 0x300000, zcond:1, [type: 2]
++start: 0x380000, len 0x80000, cap 0x80000, wptr 0x380000, zcond:1, [type: 2]
++start: 0x400000, len 0x80000, cap 0x80000, wptr 0x400000, zcond:1, [type: 2]
++start: 0x480000, len 0x80000, cap 0x80000, wptr 0x480000, zcond:1, [type: 2]
 +
-     /*
-      * Drivers not implementing bdrv_parse_filename nor bdrv_open should have
-      * this field set to true, except ones that are defined only by their
++report the last zone:
++start: 0x1f380000, len 0x80000, cap 0x80000, wptr 0x1f380000, zcond:1, [type: 2]
++
++
++(2) opening the first zone
++report after:
++start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:3, [type: 2]
++
++opening the second zone
++report after:
++start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:3, [type: 2]
++
++opening the last zone
++report after:
++start: 0x1f380000, len 0x80000, cap 0x80000, wptr 0x1f380000, zcond:3, [type: 2]
++
++
++(3) closing the first zone
++report after:
++start: 0x0, len 0x80000, cap 0x80000, wptr 0x0, zcond:1, [type: 2]
++
++closing the last zone
++report after:
++start: 0x1f380000, len 0x80000, cap 0x80000, wptr 0x1f380000, zcond:1, [type: 2]
++
++
++(4) finishing the second zone
++After finishing a zone:
++start: 0x80000, len 0x80000, cap 0x80000, wptr 0x100000, zcond:14, [type: 2]
++
++
++(5) resetting the second zone
++After resetting a zone:
++start: 0x80000, len 0x80000, cap 0x80000, wptr 0x80000, zcond:1, [type: 2]
++*** done
+diff --git a/tests/qemu-iotests/tests/zoned.sh b/tests/qemu-iotests/tests/zoned.sh
+new file mode 100755
+index 0000000000..fced0194c5
+--- /dev/null
++++ b/tests/qemu-iotests/tests/zoned.sh
+@@ -0,0 +1,86 @@
++#!/usr/bin/env bash
++#
++# Test zone management operations.
++#
++
++seq="$(basename $0)"
++echo "QA output created by $seq"
++status=1 # failure is the default!
++
++_cleanup()
++{
++  _cleanup_test_img
++  sudo rmmod null_blk
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++. ./common.qemu
++
++# This test only runs on Linux hosts with raw image files.
++_supported_fmt raw
++_supported_proto file
++_supported_os Linux
++
++QEMU_IO="build/qemu-io"
++IMG="--image-opts -n driver=zoned_host_device,filename=/dev/nullb0"
++QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
++
++echo "Testing a null_blk device:"
++echo "case 1: if the operations work"
++sudo modprobe null_blk nr_devices=1 zoned=1
++
++echo "(1) report the first zone:"
++sudo $QEMU_IO $IMG -c "zrp 0 1"
++echo
++echo "report the first 10 zones"
++sudo $QEMU_IO $IMG -c "zrp 0 10"
++echo
++echo "report the last zone:"
++sudo $QEMU_IO $IMG -c "zrp 0x3e70000000 2" # 0x3e70000000 / 512 = 0x1f380000
++echo
++echo
++echo "(2) opening the first zone"
++sudo $QEMU_IO $IMG -c "zo 0 268435456"  # 268435456 / 512 = 524288
++echo "report after:"
++sudo $QEMU_IO $IMG -c "zrp 0 1"
++echo
++echo "opening the second zone"
++sudo $QEMU_IO $IMG -c "zo 268435456 268435456" #
++echo "report after:"
++sudo $QEMU_IO $IMG -c "zrp 268435456 1"
++echo
++echo "opening the last zone"
++sudo $QEMU_IO $IMG -c "zo 0x3e70000000 268435456"
++echo "report after:"
++sudo $QEMU_IO $IMG -c "zrp 0x3e70000000 2"
++echo
++echo
++echo "(3) closing the first zone"
++sudo $QEMU_IO $IMG -c "zc 0 268435456"
++echo "report after:"
++sudo $QEMU_IO $IMG -c "zrp 0 1"
++echo
++echo "closing the last zone"
++sudo $QEMU_IO $IMG -c "zc 0x3e70000000 268435456"
++echo "report after:"
++sudo $QEMU_IO $IMG -c "zrp 0x3e70000000 2"
++echo
++echo
++echo "(4) finishing the second zone"
++sudo $QEMU_IO $IMG -c "zf 268435456 268435456"
++echo "After finishing a zone:"
++sudo $QEMU_IO $IMG -c "zrp 268435456 1"
++echo
++echo
++echo "(5) resetting the second zone"
++sudo $QEMU_IO $IMG -c "zrs 268435456 268435456"
++echo "After resetting a zone:"
++sudo $QEMU_IO $IMG -c "zrp 268435456 1"
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
 -- 
 2.37.3
 
