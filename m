@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F035EFCC3
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 20:13:36 +0200 (CEST)
-Received: from localhost ([::1]:55188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A26175EFCCD
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 20:15:17 +0200 (CEST)
+Received: from localhost ([::1]:34950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ody2R-0000Oh-Io
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 14:13:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50824)
+	id 1ody44-0003Sy-Pj
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 14:15:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odwR1-0003kB-JL
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:30:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28577)
+ id 1odwRB-0003vM-IW
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:31:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1odwQv-00037I-Qk
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:30:51 -0400
+ id 1odwR9-00038l-VP
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:31:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664469045;
+ s=mimecast20190719; t=1664469059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UjY/Jq0lPx63CQPxnhr1RzSewXNLSU5XzcmJxfZ8oUE=;
- b=htfrPPjLDKJpW7e50yV0k8ip88bDC4gsOwidpGXSGX3M0q0JEOvh80H8TYujMK2EcxP5XT
- G6mWRiGIFw0lfv9gdfL1piSU8K7XAOYO4LjJcOapz949Qs55/cU2lbuylJ28Mx/WTgxo9f
- 3Y4ZOB4g+YANXAikCxp5OqsSYrfBiaI=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Blv0482qqGw+iiQWg7x334l3dt4qxtymalbZQfpg5Dg=;
+ b=PYICEBp5RJKZ01nfd/TfOoSzGhSIlftwCrjrWvMDhUTUYMBqVi9xn7GsoNYeh+xaeoRHy4
+ OEaUuePkA2W5iMdn4qRJm9P58FOgfCxF+Pompt0q7ehnr6URY7Y1P+IuaSFberO3bo62pe
+ wWFpAoKYrvYBmqJ9If58FVCDVmp5P0E=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-481-Kpp0_TqCMheyqodmI1ZCLw-1; Thu, 29 Sep 2022 12:30:43 -0400
-X-MC-Unique: Kpp0_TqCMheyqodmI1ZCLw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- s17-20020a056402521100b004511c8d59e3so1670666edd.11
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 09:30:43 -0700 (PDT)
+ us-mta-574-zz-30kF-NT6-9umGUqOpUA-1; Thu, 29 Sep 2022 12:30:57 -0400
+X-MC-Unique: zz-30kF-NT6-9umGUqOpUA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ he8-20020a1709073d8800b007838dd153f4so955691ejc.12
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 09:30:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=UjY/Jq0lPx63CQPxnhr1RzSewXNLSU5XzcmJxfZ8oUE=;
- b=n3YKLAvG8GT4dJsbOhtSPY8NrIyIcJ8Kj7s8e4m5Fvapm0mXnQAlygH4e0wyEqcCBx
- u5RdTutv7XMGyEEzYyPWmQ3teNbcvqtmcDMHryRXXbVQbdJEvAPfUMeoC709WP4bDXV/
- MyF6gHqBG4pZrCh+o7x2xSr7WfXd8TgebyThmua3W3GjmJU9IjgAE7h0yrjwgI+fj5lv
- nVX9F+T5IAR6ZrRGPRqNrQucte5yl42cq5uVyHkvSLIHYiR8vgPwoJhw7JN4BnNAa72Y
- d/v1h7gE6Lec9RQ4i1+Su+y89QhMciGRsZ5LJVZvVXgWGZwOAeuVpu6Ce2+TYotdE9MA
- salw==
-X-Gm-Message-State: ACrzQf3h6/ni7k1KANixHVqDKQLcH5zL5rYP8LNfuddEPsvnJKap1BWs
- cl5OLzKq08TqT/XcRHHBazk3CuowhUjkpnRGB0+mu6MAecA1Gz38RRW3hzpv1vpFymEecSx1/ju
- aw66D8mQqRIaer5tVHBgLGgu7gnuct6HL67tPJhb5fljMrN9oUUvDUc0kx+jCBwuv0VQ=
-X-Received: by 2002:a17:907:3e03:b0:722:e694:438 with SMTP id
- hp3-20020a1709073e0300b00722e6940438mr3382677ejc.755.1664469042195; 
- Thu, 29 Sep 2022 09:30:42 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4CQ6YbL+xTRBMZazjs7x2AwSEkrJDEzsLYsSmlKxbw+0b6OlqdrIhmCuGnuISqIBhM63zDNw==
-X-Received: by 2002:a17:907:3e03:b0:722:e694:438 with SMTP id
- hp3-20020a1709073e0300b00722e6940438mr3382654ejc.755.1664469041950; 
- Thu, 29 Sep 2022 09:30:41 -0700 (PDT)
+ bh=Blv0482qqGw+iiQWg7x334l3dt4qxtymalbZQfpg5Dg=;
+ b=c4YhbUPrkYEF9GUG2y9jQCtS0I3goewQGDq9ae4svPcc+ClRfzGhSRlHAOJYzsseiI
+ RuGAi2w2gggIcX9xin3guSGyETeRUoqSqZA9h4hMjnCEfsuyw3whAlLeRv6+8zGGW9z2
+ YL2JsMdQPBkVRrND7iYVzIgFmKm6xNy2PMrTnPwkJmOh9MvDgsewSreGkLLVivEsWJxl
+ zJZJYPI+8KyCpt+G5ycgZZnqrEN77HIqd3sgGXyZf0CawqBJhovSHdza7nvZgNsZ0wCA
+ YA7WzCZ3KNxRlD3MjsML2k1Rvl3w4oV7yTIjA1c8n8TbMb9kGyjvrLffJyDSLhVi5wDt
+ vKSQ==
+X-Gm-Message-State: ACrzQf2GlDZ2TUuuBfxXDrvVAfVSmZ3zExroxUAsBl1P2DepCQC57DT+
+ dSNewrvXS9Cyq4CEGYi9xU9aWR5iiG66VEWcub8OZF9k3oaPbVwu0VeEa2XmF/Gm9Z12k9rv9k5
+ 9XYo8Yr1joAcp/a4rTs+J9iesbRWWVRVkxj1XpSUzLw/fR6/C0zKmA10wDlS0rVZD97o=
+X-Received: by 2002:a17:907:7284:b0:783:ca4d:1c49 with SMTP id
+ dt4-20020a170907728400b00783ca4d1c49mr3388763ejc.618.1664469056165; 
+ Thu, 29 Sep 2022 09:30:56 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5bTVFSZMEnfDMwHT5hA4kF5AQdBwS/GhB35bFllOVjE8Hixvz4HFlQCAVOG6HtRbGYlEFadw==
+X-Received: by 2002:a17:907:7284:b0:783:ca4d:1c49 with SMTP id
+ dt4-20020a170907728400b00783ca4d1c49mr3388742ejc.618.1664469055893; 
+ Thu, 29 Sep 2022 09:30:55 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
  by smtp.gmail.com with ESMTPSA id
- dk9-20020a0564021d8900b0043df042bfc6sm5633028edb.47.2022.09.29.09.30.41
+ cn25-20020a0564020cb900b00443d657d8a4sm5666506edb.61.2022.09.29.09.30.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 09:30:41 -0700 (PDT)
+ Thu, 29 Sep 2022 09:30:55 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 09/14] meson: require 0.61.3
-Date: Thu, 29 Sep 2022 18:30:09 +0200
-Message-Id: <20220929163014.16950-10-pbonzini@redhat.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: [PULL 14/14] x86: re-initialize RNG seed when selecting kernel
+Date: Thu, 29 Sep 2022 18:30:14 +0200
+Message-Id: <20220929163014.16950-15-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20220929163014.16950-1-pbonzini@redhat.com>
 References: <20220929163014.16950-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,87 +100,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This removes the dependency of dbus-display on --enable-modules.  It also allows
-cleanups in modinfo collection and allows moving C++ compiler detection to
-meson.build.
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 
-Because it is now deprecated to use install_subdir to create an empty directory,
-replace it with install_emptydir.
+We don't want it to be possible to re-read the RNG seed after ingesting
+it, because this ruins forward secrecy. Currently, however, the setup
+data section can just be re-read. Since the kernel is always read after
+the setup data, use the selection of the kernel as a trigger to
+re-initialize the RNG seed, just like we do on reboot, to preserve
+forward secrecy.
 
-Updating the Meson submodule to 0.61.5 also removes the message
-
-    WARNING: Broken python installation detected. Python files installed
-    by Meson might not be found by python interpreter.
-
-unless using system meson is forced with --meson.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/873
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/848
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Message-Id: <20220922152847.3670513-1-Jason@zx2c4.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure       | 2 +-
- meson           | 2 +-
- meson.build     | 5 +----
- qga/meson.build | 2 +-
- 4 files changed, 4 insertions(+), 7 deletions(-)
+ hw/i386/x86.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 894e37310f..c5069775db 100755
---- a/configure
-+++ b/configure
-@@ -1114,7 +1114,7 @@ fi
- python="$python -B"
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index f9a4ddaa4a..1148f70c03 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1112,11 +1112,14 @@ void x86_load_linux(X86MachineState *x86ms,
+         setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
+         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
+         qemu_register_reset(reset_rng_seed, setup_data);
++        fw_cfg_add_bytes_callback(fw_cfg, FW_CFG_KERNEL_DATA, reset_rng_seed, NULL,
++                                  setup_data, kernel, kernel_size, true);
++    } else {
++        fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
+     }
  
- if test -z "$meson"; then
--    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.59.3; then
-+    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.61.5; then
-         meson=meson
-     elif test "$git_submodules_action" != 'ignore' ; then
-         meson=git
-diff --git a/meson b/meson
-index 12f9f04ba0..3a9b285a55 160000
---- a/meson
-+++ b/meson
-@@ -1 +1 @@
--Subproject commit 12f9f04ba0decfda425dbbf9a501084c153a2d18
-+Subproject commit 3a9b285a55b91b53b2acda987192274352ecb5be
-diff --git a/meson.build b/meson.build
-index 3885fc1076..8c1139a82b 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1,4 +1,4 @@
--project('qemu', ['c'], meson_version: '>=0.59.3',
-+project('qemu', ['c'], meson_version: '>=0.61.3',
-         default_options: ['warning_level=1', 'c_std=gnu11', 'cpp_std=gnu++11', 'b_colorout=auto',
-                           'b_staticpic=false', 'stdsplit=false', 'optimization=2', 'b_pie=true'],
-         version: files('VERSION'))
-@@ -1669,12 +1669,9 @@ endif
- have_host_block_device = (targetos != 'darwin' or
-     cc.has_header('IOKit/storage/IOMedia.h'))
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
+-    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
+     sev_load_ctx.kernel_data = (char *)kernel;
+     sev_load_ctx.kernel_size = kernel_size;
  
--# FIXME enable_modules shouldn't be necessary, but: https://github.com/mesonbuild/meson/issues/8333
- dbus_display = get_option('dbus_display') \
-   .require(gio.version().version_compare('>=2.64'),
-            error_message: '-display dbus requires glib>=2.64') \
--  .require(enable_modules,
--           error_message: '-display dbus requires --enable-modules') \
-   .require(gdbus_codegen.found(),
-            error_message: '-display dbus requires gdbus-codegen') \
-   .require(opengl.found() and gbm.found(),
-diff --git a/qga/meson.build b/qga/meson.build
-index 65c1e93846..a0ffd6d268 100644
---- a/qga/meson.build
-+++ b/qga/meson.build
-@@ -138,7 +138,7 @@ else
-   if get_option('guest_agent_msi').enabled()
-     error('MSI guest agent package is available only for MinGW Windows cross-compilation')
-   endif
--  install_subdir('run', install_dir: get_option('localstatedir'))
-+  install_emptydir(get_option('localstatedir') / 'run')
- endif
- 
- alias_target('qemu-ga', all_qga)
 -- 
 2.37.3
 
