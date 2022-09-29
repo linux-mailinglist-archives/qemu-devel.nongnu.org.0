@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96EA25EF2FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 12:05:31 +0200 (CEST)
-Received: from localhost ([::1]:52994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 691B45EF35D
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 12:23:52 +0200 (CEST)
+Received: from localhost ([::1]:39116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odqQ6-0002sI-LF
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 06:05:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53996)
+	id 1odqhr-0007cc-1T
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 06:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1odq9z-0001cp-8r; Thu, 29 Sep 2022 05:48:54 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:45701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1odq9w-0004Jq-Dx; Thu, 29 Sep 2022 05:48:50 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id r62so965219pgr.12;
- Thu, 29 Sep 2022 02:48:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=K1ntGVwpQwsU1bse0bYbK8dSP/GMyhTPpVHaJElj3ts=;
- b=ObDRiWbAei0Htgy14JQQ28BWfeNrE0Yb0osOkxHFZ6hOC60nhMgzRHHjGhy4htNTwE
- A+KYFyteJYFTmgCc8pBhLou2l6hd/QDgXAyz83BM6NUVhH3dgdDZZ+DEohpjvww1ZUGq
- /0To/LVPsZe9L3m/+vKJxDAR0w+jkQKpyDMh9nRsg5tvim8UcE37tgAGO2cGKF2FG207
- SqJTOkTLaCdClKkeKVq6N3PXC/TG9TpCWforolzYvmXvcmLvXuuPyEOW1rVbBBJlWZqY
- vD4s3YP5JH7n1lPV9a9CSKh9rtOd9McU5+XVYjflY46tnRrK0+TjbdkZq8k97DQnacR+
- LXDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=K1ntGVwpQwsU1bse0bYbK8dSP/GMyhTPpVHaJElj3ts=;
- b=hB7CxgP+uZEM/hjvGL8t4C79ilNs4zm85K4ZXnBsaw6T0hw1z9yI43FmzvrCr8RhUT
- xerwA9gf8aDvmQM5ZOahET+q8heBi8ZqVZsNmoeHAiQvrdK3a2RS/ScJqWcz4EIZnVXm
- v3rEt2oy3Wg9ibXPjPmdELPDOhF9Q6W9cI2RAWb9J4Aq7R/x4HfMxzCnlkIkp8nUSu/R
- WuWboPunfnwRiVZY8tPUvbwYb6wgsYrPhzZTUbdvHlW/ICKr3RUNvqCrwBfyIPbtt5Wu
- FaNxXnTI615bhNWaGxAI/wJjkFC/XQOG2InWUrKGk+CQXsOEzxfcmON4nuQ0UsyLXGaB
- nA6g==
-X-Gm-Message-State: ACrzQf3EZGNnuHaNUyCSzwIr56I1MKa91ptHgJegnwv3wt3ZgJ+eFFT5
- FJDQiqlnzOhzq9lsPbbFfnUDvasr16oMyA==
-X-Google-Smtp-Source: AMsMyM6XCdPz3KCFaa8vN2J6WWAEQk81tS+98mtYz0k04yyGzVhU0VpwMaUu1OLvQbM8nXBizRfFLw==
-X-Received: by 2002:a63:5a0b:0:b0:434:4748:4e7a with SMTP id
- o11-20020a635a0b000000b0043447484e7amr2083517pgb.561.1664444926232; 
- Thu, 29 Sep 2022 02:48:46 -0700 (PDT)
-Received: from roots.. ([112.44.202.63]) by smtp.gmail.com with ESMTPSA id
- f4-20020a170902ce8400b00178b06fea7asm5574515plg.148.2022.09.29.02.48.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 02:48:46 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: dmitry.fomichev@wdc.com, damien.lemoal@opensource.wdc.com,
- qemu-block@nongnu.org, stefanha@redhat.com,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, hare@suse.de,
- Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v2 2/2] virtio-blk: add zoned storage emulation for zoned
- devices
-Date: Thu, 29 Sep 2022 17:48:21 +0800
-Message-Id: <20220929094821.78596-3-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220929094821.78596-1-faithilikerun@gmail.com>
-References: <20220929094821.78596-1-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
+ id 1odqRJ-0003ZX-3R; Thu, 29 Sep 2022 06:06:45 -0400
+Received: from mout.gmx.net ([212.227.17.20]:33167)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <arwed.meyer@gmx.de>)
+ id 1odqRG-0007EK-Gl; Thu, 29 Sep 2022 06:06:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1664445996;
+ bh=R/WRc94PKp3bSDJm3m2WLB5I2cmgH10cW4frwKxV7Hs=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:References:Subject:In-Reply-To;
+ b=WzdA9TZTfgRslK9tllX0pGe75seFI4P5RLnMJbB0UikAdj36Worln5DiD4ZV80ZeZ
+ T7u7VssiGkjLh4iaIvsvcugYxWLyxhWZ9IDiaGqqLshQnu9f1sGoCIkWTwg4iq1/mS
+ cM6ndU/a2uIBntvskOYUP90xCTtDm5OJgthcYV9s=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.178.49] ([92.78.251.208]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1Mw9UK-1pTbg73ufE-00s9bl; Thu, 29
+ Sep 2022 12:06:36 +0200
+Message-ID: <7af76d26-0e4e-9ceb-e891-7c02b63deae0@gmx.de>
+Date: Thu, 29 Sep 2022 12:06:35 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+From: Arwed Meyer <arwed.meyer@gmx.de>
+Content-Language: de-DE
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220911181840.8933-1-arwed.meyer@gmx.de>
+ <20220911181840.8933-2-arwed.meyer@gmx.de>
+ <CAJ+F1CLi9pmLywWjxDzMCgLAm-NZx3Otq8okkBt2=Ca6TQjxXg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] msmouse: Handle mouse reset
+In-Reply-To: <CAJ+F1CLi9pmLywWjxDzMCgLAm-NZx3Otq8okkBt2=Ca6TQjxXg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ExTnWJtIP0+XTT+y7n/J7vA8/MyNU+aTcCNTtJBur4rwC1jZfhc
+ BDumq73hrc0W1acFlKfS4E4vgMIB2dlx7B0Q61p3OZ8bTT5qm/FQpOogVX2QZbeAdHy2Y4n
+ X9socW+Dld6ArKYYdlf4jwg4RXgh8CXX2zjXOv8745jLu4LU+cFVFg2POZ0aTSA0KmdOA4t
+ sUADPiOZKmtyzlS2+8c9A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lApXTUmyseA=:yhw0dlk5oWZXOmzjKyvCOT
+ O7ua3vycJpUkHFnIoydj4JUvkN6vElk3fI5ecnnw9fm00jCI7rWwIEmORV+DRhLJw9LgTRVd+
+ eUOX8Qq82g/jGRWoK9FfJgzq8iyQ0Wi8eI03FeZMD35Mfe+h3xulOuH1ByIsMa6I5JmTOjvWZ
+ oW5ENFXmGusFIYMfkbYRqTKbwKL+48oQ1QvtX9jFb5nXDEde+1fXifyNUSJfLt7OsqEyjZV28
+ DZG9bfK+HtMkQLSD0rcLtxEUp5Gf9n2bngjsrA+l7Rv+wNecH4ZevPlKdCj5HPmk//qYXfqIf
+ WWhB6w11z1gtJ/Ss7yuTiX7TynMUpM4rMY5SRwzVukSZ6uS4z3omMdVK6KrnzAhp8BVEYnRJz
+ FyN4vfiAeYv4eV3olH/fnd6QDeL5gIRsQpSXj9FlYtU2c/ZCfFeFQNAZgGwdFy7OH0M7k2Sez
+ J9CrkAqSKOezHFN4B8Miu37nVrpsHJvBDZcGtTlWCyBGmYjxEY++eZij1TgtdHX6D/Q62FXaa
+ zf4Y9rDSQo1o4Kb4S87UnDoaXCAPOSss5MlqlTaEtfg9jqDoQrQDAOjvgBZAAmqbC8XTsiP98
+ 5TkWfMv2+mpha0/5j+2Cx2BD5j1AG29GYvnCYJANsqFY3tcl8sjIXoJd15fAY1TuD2MQawRt9
+ xIez2CGA3Edr+/TQycmg6lAJI1c3tVYCMljeWmJxMF0aZ81WRtZLOrc17LyyUfA9PhF1jtoxq
+ OtPaUjUrmYROfw8VeTP+Ja7peWOnOIErCLbOmuFVtTKXGUiaODJqv2isxf0wcZ/YHAoZW4mBE
+ WUmxtmFU+Ke8Ae9EgyhyW25os6BR+noZ5d/3/R9qNqgF4FIad+A6b5+btxmj0O+D+kM4CCecA
+ WsTQlEENVi7ENIIoIUcKf8tdpzPmSIzfpozESkuNa3iBFMFwi4T9oZrAGxx5Kn65XFjs1pam+
+ 0Ecy9txDqZxlnvWHRyfFY+/f7IAO0Hn3W2IpJRUsVXxFPLdYUQ2lZQmqDR0X7nuFcgj2tW68R
+ zXt4387fVua7v61qc78XS6dYytEWCmy0tWwrxG1hcz5++Dh3G1gGJldCoNxJ0+Cq3MvxhIcXg
+ z3fL6NKZRifcWjcJaRTBRAoosDtm2Bz4n0lHV0v0FpfUHGhuS5vMDOQqw8ISYRqjk4I5i8/uO
+ r2HDtGGKPKB1Fnmefcu6G3+JZv
+Received-SPF: pass client-ip=212.227.17.20; envelope-from=arwed.meyer@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.319,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,485 +92,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch extends virtio-blk emulation to handle zoned device commands
-by calling the new block layer APIs to perform zoned device I/O on
-behalf of the guest. It supports Report Zone, four zone oparations (open,
-close, finish, reset), and Append Zone.
+Hi,
 
-The VIRTIO_BLK_F_ZONED feature bit will only be set if the host does
-support zoned block devices. Regular block devices(conventional zones)
-will not be set.
+thanks for the reminder and ack. I opened this issue:
+https://gitlab.com/qemu-project/qemu/-/issues/1234
+(wow, it's really 1234)
 
-The guest os having zoned device support can use blkzone(8) to test those
-commands. Furthermore, using zonefs to test zone append write is also
-supported.
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
----
- hw/block/virtio-blk.c | 393 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 393 insertions(+)
+Best regards,
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index e9ba752f6b..1c2535bfeb 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -26,6 +26,9 @@
- #include "hw/virtio/virtio-blk.h"
- #include "dataplane/virtio-blk.h"
- #include "scsi/constants.h"
-+#if defined(CONFIG_BLKZONED)
-+#include <linux/blkzoned.h>
-+#endif
- #ifdef __linux__
- # include <scsi/sg.h>
- #endif
-@@ -46,6 +49,8 @@ static const VirtIOFeature feature_sizes[] = {
-      .end = endof(struct virtio_blk_config, discard_sector_alignment)},
-     {.flags = 1ULL << VIRTIO_BLK_F_WRITE_ZEROES,
-      .end = endof(struct virtio_blk_config, write_zeroes_may_unmap)},
-+    {.flags = 1ULL << VIRTIO_BLK_F_ZONED,
-+     .end = endof(struct virtio_blk_config, zoned)},
-     {}
- };
- 
-@@ -614,6 +619,340 @@ err:
-     return err_status;
- }
- 
-+typedef struct ZoneCmdData {
-+    VirtIOBlockReq *req;
-+    union {
-+        struct {
-+            unsigned int nr_zones;
-+            BlockZoneDescriptor *zones;
-+        } zone_report_data;
-+        struct {
-+            int64_t append_sector;
-+        } zone_append_data;
-+    };
-+} ZoneCmdData;
-+
-+/*
-+ * check zoned_request: error checking before issuing requests. If all checks
-+ * passed, return true.
-+ * append: true if only zone append requests issued.
-+ */
-+static bool check_zoned_request(VirtIOBlock *s, int64_t offset, int64_t len,
-+                             bool append, uint8_t *status) {
-+    BlockDriverState *bs = blk_bs(s->blk);
-+    int index = offset / bs->bl.zone_size;
-+
-+    if (offset < 0 || offset + len > bs->bl.capacity) {
-+        *status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+        return false;
-+    }
-+
-+    if (!virtio_has_feature(s->host_features, VIRTIO_BLK_F_ZONED)) {
-+        *status = VIRTIO_BLK_S_UNSUPP;
-+        return false;
-+    }
-+
-+    if (append) {
-+        if ((offset % bs->bl.write_granularity) != 0) {
-+            *status = VIRTIO_BLK_S_ZONE_UNALIGNED_WP;
-+            return false;
-+        }
-+
-+        if (!BDRV_ZT_IS_SWR(bs->bl.wps->wp[index])) {
-+            *status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+            return false;
-+        }
-+
-+        if (len / 512 > bs->bl.max_append_sectors) {
-+            if (bs->bl.max_append_sectors == 0) {
-+                *status = VIRTIO_BLK_S_UNSUPP;
-+            } else {
-+                *status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+            }
-+            return false;
-+        }
-+    }
-+    return true;
-+}
-+
-+static void virtio_blk_zone_report_complete(void *opaque, int ret)
-+{
-+    ZoneCmdData *data = opaque;
-+    VirtIOBlockReq *req = data->req;
-+    VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(req->dev);
-+    struct iovec *in_iov = req->elem.in_sg;
-+    unsigned in_num = req->elem.in_num;
-+    int64_t zrp_size, nz, n, j = 0;
-+    int8_t err_status = VIRTIO_BLK_S_OK;
-+
-+    if (ret) {
-+        err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+        goto out;
-+    }
-+
-+    nz = data->zone_report_data.nr_zones;
-+    struct virtio_blk_zone_report zrp_hdr = (struct virtio_blk_zone_report) {
-+            .nr_zones = cpu_to_le64(nz),
-+    };
-+
-+    zrp_size = sizeof(struct virtio_blk_zone_report)
-+               + sizeof(struct virtio_blk_zone_descriptor) * nz;
-+    n = iov_from_buf(in_iov, in_num, 0, &zrp_hdr, sizeof(zrp_hdr));
-+    if (n != sizeof(zrp_hdr)) {
-+        virtio_error(vdev, "Driver provided intput buffer that is too small!");
-+        err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+        goto out;
-+    }
-+
-+    for (size_t i = sizeof(zrp_hdr); i < zrp_size; i += sizeof(struct virtio_blk_zone_descriptor), ++j) {
-+        struct virtio_blk_zone_descriptor desc =
-+                (struct virtio_blk_zone_descriptor) {
-+                        .z_start = cpu_to_le64(data->zone_report_data.zones[j].start) >> BDRV_SECTOR_BITS,
-+                        .z_cap = cpu_to_le64(data->zone_report_data.zones[j].cap) >> BDRV_SECTOR_BITS,
-+                        .z_wp = cpu_to_le64(data->zone_report_data.zones[j].wp) >> BDRV_SECTOR_BITS,
-+                };
-+
-+        switch (data->zone_report_data.zones[j].type) {
-+        case BLK_ZT_CONV:
-+            desc.z_type = BLK_ZONE_TYPE_CONVENTIONAL;
-+            break;
-+        case BLK_ZT_SWR:
-+            desc.z_type = BLK_ZONE_TYPE_SEQWRITE_REQ;
-+            break;
-+        case BLK_ZT_SWP:
-+            desc.z_type = BLK_ZONE_TYPE_SEQWRITE_PREF;
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-+
-+        switch (data->zone_report_data.zones[j].cond) {
-+        case BLK_ZS_RDONLY:
-+            desc.z_state = BLK_ZONE_COND_READONLY;
-+            break;
-+        case BLK_ZS_OFFLINE:
-+            desc.z_state = BLK_ZONE_COND_OFFLINE;
-+            break;
-+        case BLK_ZS_EMPTY:
-+            desc.z_state = BLK_ZONE_COND_EMPTY;
-+            break;
-+        case BLK_ZS_CLOSED:
-+            desc.z_state = BLK_ZONE_COND_CLOSED;
-+            break;
-+        case BLK_ZS_FULL:
-+            desc.z_state = BLK_ZONE_COND_FULL;
-+            break;
-+        case BLK_ZS_EOPEN:
-+            desc.z_state = BLK_ZONE_COND_EXP_OPEN;
-+            break;
-+        case BLK_ZS_IOPEN:
-+            desc.z_state = BLK_ZONE_COND_IMP_OPEN;
-+            break;
-+        case BLK_ZS_NOT_WP:
-+            desc.z_state = BLK_ZONE_COND_NOT_WP;
-+            break;
-+        default:
-+            g_assert_not_reached();
-+            break;
-+        }
-+
-+        /* TODO: it takes O(n^2) time complexity. Optimizations required here. */
-+        n = iov_from_buf(in_iov, in_num, i, &desc, sizeof(desc));
-+        if (n != sizeof(desc)) {
-+            virtio_error(vdev, "Driver provided input buffer "
-+                               "for descriptors that is too small!");
-+            err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+            goto out;
-+        }
-+    }
-+    goto out;
-+
-+out:
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, err_status);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    g_free(data->zone_report_data.zones);
-+    g_free(data);
-+}
-+
-+static int virtio_blk_handle_zone_report(VirtIOBlockReq *req) {
-+    VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(s);
-+    unsigned int nr_zones;
-+    ZoneCmdData *data;
-+    int64_t zone_size, offset;
-+    uint8_t err_status;
-+
-+    if (req->in_len < sizeof(struct virtio_blk_inhdr) +
-+            sizeof(struct virtio_blk_zone_report) +
-+            sizeof(struct virtio_blk_zone_descriptor)) {
-+        virtio_error(vdev, "in buffer too small for zone report");
-+        return -1;
-+    }
-+
-+    /* start byte offset of the zone report */
-+    offset = virtio_ldq_p(vdev, &req->out.sector) * 512;
-+    if (!check_zoned_request(s, offset, 0, false, &err_status)) {
-+        goto out;
-+    }
-+
-+    nr_zones = (req->in_len - sizeof(struct virtio_blk_inhdr) -
-+                sizeof(struct virtio_blk_zone_report)) /
-+               sizeof(struct virtio_blk_zone_descriptor);
-+
-+    zone_size = sizeof(BlockZoneDescriptor) * nr_zones;
-+    data = g_malloc(sizeof(ZoneCmdData));
-+    data->req = req;
-+    data->zone_report_data.nr_zones = nr_zones;
-+    data->zone_report_data.zones = g_malloc(zone_size),
-+
-+    blk_aio_zone_report(s->blk, offset, &data->zone_report_data.nr_zones,
-+                        data->zone_report_data.zones,
-+                        virtio_blk_zone_report_complete, data);
-+    return 0;
-+
-+out:
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, err_status);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    return err_status;
-+}
-+
-+static void virtio_blk_zone_mgmt_complete(void *opaque, int ret) {
-+    ZoneCmdData *data = opaque;
-+    VirtIOBlockReq *req = data->req;
-+    VirtIOBlock *s = req->dev;
-+    int8_t err_status = VIRTIO_BLK_S_OK;
-+
-+    if (ret) {
-+        err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+        goto out;
-+    }
-+    goto out;
-+
-+out:
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, err_status);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    g_free(data);
-+}
-+
-+static int virtio_blk_handle_zone_mgmt(VirtIOBlockReq *req, BlockZoneOp op) {
-+    VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(s);
-+    BlockDriverState *bs = blk_bs(s->blk);
-+    int64_t offset = virtio_ldq_p(vdev, &req->out.sector) * 512;
-+    uint64_t len;
-+    uint32_t type;
-+    uint8_t err_status = VIRTIO_BLK_S_OK;
-+
-+    if (!check_zoned_request(s, offset, 0, false, &err_status)) {
-+        goto out;
-+    }
-+
-+    ZoneCmdData *data = g_malloc(sizeof(ZoneCmdData));
-+    data->req = req;
-+
-+    type = virtio_ldl_p(vdev, &req->out.type);
-+    if (type == VIRTIO_BLK_T_ZONE_RESET_ALL) {
-+        /* Entire drive capacity */
-+        offset = 0;
-+        len = bs->bl.capacity;
-+    } else {
-+        if (bs->bl.zone_size * bs->bl.nr_zones == bs->bl.capacity) {
-+            len = bs->bl.zone_size;
-+        } else {
-+            /* when the SWR drive has one last small zone, calculate its len */
-+            len = bs->bl.capacity - bs->bl.zone_size * (bs->bl.nr_zones - 1);
-+        }
-+        if (offset + len > bs->bl.capacity) {
-+            err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+            goto out;
-+        }
-+    }
-+
-+    blk_aio_zone_mgmt(s->blk, op, offset, len,
-+                      virtio_blk_zone_mgmt_complete, data);
-+
-+    return 0;
-+out:
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, err_status);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    return err_status;
-+}
-+
-+static void virtio_blk_zone_append_complete(void *opaque, int ret) {
-+    ZoneCmdData *data = opaque;
-+    VirtIOBlockReq *req = data->req;
-+    VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(req->dev);
-+    int64_t append_sector, n;
-+    struct iovec *out_iov = req->elem.out_sg;
-+    unsigned out_num = req->elem.out_num;
-+    uint8_t err_status = VIRTIO_BLK_S_OK;
-+
-+    if (ret) {
-+        err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+        goto out;
-+    }
-+
-+    virtio_stl_p(vdev, &append_sector, data->zone_append_data.append_sector);
-+    n = iov_to_buf(out_iov, out_num, 0, &append_sector, sizeof(append_sector));
-+    if (n != sizeof(append_sector)) {
-+        virtio_error(vdev, "Driver provided input buffer less than size of "
-+                     "append_sector");
-+        err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-+        goto out;
-+    }
-+    goto out;
-+
-+out:
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, err_status);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    g_free(data);
-+}
-+
-+static int virtio_blk_handle_zone_append(VirtIOBlockReq *req) {
-+    VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(s);
-+    uint64_t niov = req->elem.out_num;
-+    struct iovec *out_iov = req->elem.out_sg;
-+    uint8_t err_status = VIRTIO_BLK_S_OK;
-+
-+    int64_t offset = virtio_ldq_p(vdev, &req->out.sector) * 512;
-+    int64_t len = 0;
-+    for (int i = 1; i < niov; ++i) {
-+        len += out_iov[i].iov_len;
-+    }
-+
-+    if (!check_zoned_request(s, offset, len, true, &err_status)) {
-+        goto out;
-+    }
-+
-+    ZoneCmdData *data = g_malloc(sizeof(ZoneCmdData));
-+    data->req = req;
-+    data->zone_append_data.append_sector = offset;
-+    qemu_iovec_init_external(&req->qiov, &out_iov[1], niov-1);
-+    blk_aio_zone_append(s->blk, &data->zone_append_data.append_sector, &req->qiov, 0,
-+                        virtio_blk_zone_append_complete, data);
-+    return 0;
-+
-+out:
-+    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-+    virtio_blk_req_complete(req, err_status);
-+    virtio_blk_free_request(req);
-+    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-+    return err_status;
-+}
-+
- static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
- {
-     uint32_t type;
-@@ -700,6 +1039,24 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
-     case VIRTIO_BLK_T_FLUSH:
-         virtio_blk_handle_flush(req, mrb);
-         break;
-+    case VIRTIO_BLK_T_ZONE_REPORT:
-+        virtio_blk_handle_zone_report(req);
-+        break;
-+    case VIRTIO_BLK_T_ZONE_OPEN:
-+        virtio_blk_handle_zone_mgmt(req, BLK_ZO_OPEN);
-+        break;
-+    case VIRTIO_BLK_T_ZONE_CLOSE:
-+        virtio_blk_handle_zone_mgmt(req, BLK_ZO_CLOSE);
-+        break;
-+    case VIRTIO_BLK_T_ZONE_FINISH:
-+        virtio_blk_handle_zone_mgmt(req, BLK_ZO_FINISH);
-+        break;
-+    case VIRTIO_BLK_T_ZONE_RESET:
-+        virtio_blk_handle_zone_mgmt(req, BLK_ZO_RESET);
-+        break;
-+    case VIRTIO_BLK_T_ZONE_RESET_ALL:
-+        virtio_blk_handle_zone_mgmt(req, BLK_ZO_RESET_ALL);
-+        break;
-     case VIRTIO_BLK_T_SCSI_CMD:
-         virtio_blk_handle_scsi(req);
-         break;
-@@ -718,6 +1075,9 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
-         virtio_blk_free_request(req);
-         break;
-     }
-+   case VIRTIO_BLK_T_ZONE_APPEND & ~VIRTIO_BLK_T_OUT:
-+       virtio_blk_handle_zone_append(req);
-+       break;
-     /*
-      * VIRTIO_BLK_T_DISCARD and VIRTIO_BLK_T_WRITE_ZEROES are defined with
-      * VIRTIO_BLK_T_OUT flag set. We masked this flag in the switch statement,
-@@ -917,6 +1277,7 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
- {
-     VirtIOBlock *s = VIRTIO_BLK(vdev);
-     BlockConf *conf = &s->conf.conf;
-+    BlockDriverState *bs = blk_bs(s->blk);
-     struct virtio_blk_config blkcfg;
-     uint64_t capacity;
-     int64_t length;
-@@ -976,6 +1337,30 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
-         blkcfg.write_zeroes_may_unmap = 1;
-         virtio_stl_p(vdev, &blkcfg.max_write_zeroes_seg, 1);
-     }
-+    if (bs->bl.zoned != BLK_Z_NONE) {
-+        switch (bs->bl.zoned) {
-+        case BLK_Z_HM:
-+            blkcfg.zoned.model = VIRTIO_BLK_Z_HM;
-+            break;
-+        case BLK_Z_HA:
-+            blkcfg.zoned.model = VIRTIO_BLK_Z_HA;
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-+
-+        virtio_stl_p(vdev, &blkcfg.zoned.zone_sectors,
-+                     bs->bl.zone_size / 512);
-+        virtio_stl_p(vdev, &blkcfg.zoned.max_active_zones,
-+                     bs->bl.max_active_zones);
-+        virtio_stl_p(vdev, &blkcfg.zoned.max_open_zones,
-+                     bs->bl.max_open_zones);
-+        virtio_stl_p(vdev, &blkcfg.zoned.write_granularity, blk_size);
-+        virtio_stl_p(vdev, &blkcfg.zoned.max_append_sectors,
-+                     bs->bl.max_append_sectors);
-+    } else {
-+        blkcfg.zoned.model = VIRTIO_BLK_Z_NONE;
-+    }
-     memcpy(config, &blkcfg, s->config_size);
- }
- 
-@@ -1140,6 +1525,7 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtIOBlock *s = VIRTIO_BLK(dev);
-     VirtIOBlkConf *conf = &s->conf;
-+    BlockDriverState *bs = blk_bs(conf->conf.blk);
-     Error *err = NULL;
-     unsigned i;
- 
-@@ -1185,6 +1571,13 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
-+    if (bs->bl.zoned != BLK_Z_NONE) {
-+        virtio_add_feature(&s->host_features, VIRTIO_BLK_F_ZONED);
-+        if (bs->bl.zoned == BLK_Z_HM) {
-+            virtio_clear_feature(&s->host_features, VIRTIO_BLK_F_DISCARD);
-+        }
-+    }
-+
-     if (virtio_has_feature(s->host_features, VIRTIO_BLK_F_DISCARD) &&
-         (!conf->max_discard_sectors ||
-          conf->max_discard_sectors > BDRV_REQUEST_MAX_SECTORS)) {
--- 
-2.37.3
+Arwed
+
+Am 27.09.22 um 11:21 schrieb Marc-Andr=C3=A9 Lureau:
+> Hi
+>
+> On Sun, Sep 11, 2022 at 10:39 PM Arwed Meyer <arwed.meyer@gmx.de
+> <mailto:arwed.meyer@gmx.de>> wrote:
+>
+>     Detect mouse reset via RTS or DTR line:
+>     Don't send or process anything while in reset.
+>     When coming out of reset, send ID sequence first thing.
+>     This allows msmouse to be detected by common mouse drivers.
+>
+>     Resolves: https://gitlab.com/qemu-project/qemu/-/issues/77
+>     <https://gitlab.com/qemu-project/qemu/-/issues/77>
+>     Signed-off-by: Arwed Meyer <arwed.meyer@gmx.de
+>     <mailto:arwed.meyer@gmx.de>>
+>
+>
+> lgtm,
+> Acked-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com
+> <mailto:marcandre.lureau@redhat.com>>
+>
+> It would be great to open an issue on gitlab wrt migration handling that
+> Peter pointed out in v2
+> (https://patchew.org/QEMU/20220908173120.16779-1-arwed.meyer@gmx.de/2022=
+0908173120.16779-2-arwed.meyer@gmx.de/
+> <https://patchew.org/QEMU/20220908173120.16779-1-arwed.meyer@gmx.de/2022=
+0908173120.16779-2-arwed.meyer@gmx.de/>)
+> and perhaps a comment with this patch that links to the issue?
+>
+>
+>     ---
+>      =C2=A0chardev/msmouse.c | 63 ++++++++++++++++++++++++++++++++++++++=
++++++++--
+>      =C2=A01 file changed, 61 insertions(+), 2 deletions(-)
+>
+>     diff --git a/chardev/msmouse.c b/chardev/msmouse.c
+>     index eb9231dcdb..95fa488339 100644
+>     --- a/chardev/msmouse.c
+>     +++ b/chardev/msmouse.c
+>     @@ -25,17 +25,20 @@
+>      =C2=A0#include "qemu/osdep.h"
+>      =C2=A0#include "qemu/module.h"
+>      =C2=A0#include "chardev/char.h"
+>     +#include "chardev/char-serial.h"
+>      =C2=A0#include "ui/console.h"
+>      =C2=A0#include "ui/input.h"
+>      =C2=A0#include "qom/object.h"
+>
+>     -#define MSMOUSE_LO6(n) ((n) & 0x3f)
+>     -#define MSMOUSE_HI2(n) (((n) & 0xc0) >> 6)
+>     +#define MSMOUSE_LO6(n)=C2=A0 ((n) & 0x3f)
+>     +#define MSMOUSE_HI2(n)=C2=A0 (((n) & 0xc0) >> 6)
+>     +#define MSMOUSE_PWR(cm) (cm & (CHR_TIOCM_RTS | CHR_TIOCM_DTR))
+>
+>      =C2=A0struct MouseChardev {
+>      =C2=A0 =C2=A0 =C2=A0Chardev parent;
+>
+>      =C2=A0 =C2=A0 =C2=A0QemuInputHandlerState *hs;
+>     +=C2=A0 =C2=A0 int tiocm;
+>      =C2=A0 =C2=A0 =C2=A0int axis[INPUT_AXIS__MAX];
+>      =C2=A0 =C2=A0 =C2=A0bool btns[INPUT_BUTTON__MAX];
+>      =C2=A0 =C2=A0 =C2=A0bool btnc[INPUT_BUTTON__MAX];
+>     @@ -109,6 +112,11 @@ static void msmouse_input_event(DeviceState
+>     *dev, QemuConsole *src,
+>      =C2=A0 =C2=A0 =C2=A0InputMoveEvent *move;
+>      =C2=A0 =C2=A0 =C2=A0InputBtnEvent *btn;
+>
+>     +=C2=A0 =C2=A0 /* Ignore events if serial mouse powered down. */
+>     +=C2=A0 =C2=A0 if (!MSMOUSE_PWR(mouse->tiocm)) {
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;
+>     +=C2=A0 =C2=A0 }
+>     +
+>      =C2=A0 =C2=A0 =C2=A0switch (evt->type) {
+>      =C2=A0 =C2=A0 =C2=A0case INPUT_EVENT_KIND_REL:
+>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0move =3D evt->u.rel.data;
+>     @@ -132,6 +140,11 @@ static void msmouse_input_sync(DeviceState *dev=
+)
+>      =C2=A0 =C2=A0 =C2=A0MouseChardev *mouse =3D MOUSE_CHARDEV(dev);
+>      =C2=A0 =C2=A0 =C2=A0Chardev *chr =3D CHARDEV(dev);
+>
+>     +=C2=A0 =C2=A0 /* Ignore events if serial mouse powered down. */
+>     +=C2=A0 =C2=A0 if (!MSMOUSE_PWR(mouse->tiocm)) {
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;
+>     +=C2=A0 =C2=A0 }
+>     +
+>      =C2=A0 =C2=A0 =C2=A0msmouse_queue_event(mouse);
+>      =C2=A0 =C2=A0 =C2=A0msmouse_chr_accept_input(chr);
+>      =C2=A0}
+>     @@ -142,6 +155,50 @@ static int msmouse_chr_write(struct Chardev *s,
+>     const uint8_t *buf, int len)
+>      =C2=A0 =C2=A0 =C2=A0return len;
+>      =C2=A0}
+>
+>     +static int msmouse_ioctl(Chardev *chr, int cmd, void *arg)
+>     +{
+>     +=C2=A0 =C2=A0 MouseChardev *mouse =3D MOUSE_CHARDEV(chr);
+>     +=C2=A0 =C2=A0 int c;
+>     +=C2=A0 =C2=A0 int *targ =3D (int *)arg;
+>     +
+>     +=C2=A0 =C2=A0 switch (cmd) {
+>     +=C2=A0 =C2=A0 case CHR_IOCTL_SERIAL_SET_TIOCM:
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 c =3D mouse->tiocm;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 mouse->tiocm =3D *(int *)arg;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (MSMOUSE_PWR(mouse->tiocm)) {
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!MSMOUSE_PWR(c)) {
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Pow=
+er on after reset: send "M3"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* cau=
+se we behave like a 3 button logitech
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* mou=
+se.
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mouse->outb=
+uf[0] =3D 'M';
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mouse->outb=
+uf[1] =3D '3';
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mouse->outl=
+en =3D 2;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Start se=
+nding data to serial. */
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msmouse_chr=
+_accept_input(chr);
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Reset mouse buffers on power do=
+wn.
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Mouse won't send anything witho=
+ut power.
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 mouse->outlen =3D 0;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(mouse->axis, 0, sizeof(mouse->ax=
+is));
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(mouse->btns, false, sizeof(mouse=
+->btns));
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(mouse->btnc, false, sizeof(mouse=
+->btns));
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;
+>     +=C2=A0 =C2=A0 case CHR_IOCTL_SERIAL_GET_TIOCM:
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Remember line control status. */
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *targ =3D mouse->tiocm;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;
+>     +=C2=A0 =C2=A0 default:
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -ENOTSUP;
+>     +=C2=A0 =C2=A0 }
+>     +=C2=A0 =C2=A0 return 0;
+>     +}
+>     +
+>      =C2=A0static void char_msmouse_finalize(Object *obj)
+>      =C2=A0{
+>      =C2=A0 =C2=A0 =C2=A0MouseChardev *mouse =3D MOUSE_CHARDEV(obj);
+>     @@ -166,6 +223,7 @@ static void msmouse_chr_open(Chardev *chr,
+>      =C2=A0 =C2=A0 =C2=A0*be_opened =3D false;
+>      =C2=A0 =C2=A0 =C2=A0mouse->hs =3D qemu_input_handler_register((Devi=
+ceState *)mouse,
+>      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0&msmouse_handler);
+>     +=C2=A0 =C2=A0 mouse->tiocm =3D 0;
+>      =C2=A0}
+>
+>      =C2=A0static void char_msmouse_class_init(ObjectClass *oc, void *da=
+ta)
+>     @@ -175,6 +233,7 @@ static void char_msmouse_class_init(ObjectClass
+>     *oc, void *data)
+>      =C2=A0 =C2=A0 =C2=A0cc->open =3D msmouse_chr_open;
+>      =C2=A0 =C2=A0 =C2=A0cc->chr_write =3D msmouse_chr_write;
+>      =C2=A0 =C2=A0 =C2=A0cc->chr_accept_input =3D msmouse_chr_accept_inp=
+ut;
+>     +=C2=A0 =C2=A0 cc->chr_ioctl =3D msmouse_ioctl;
+>      =C2=A0}
+>
+>      =C2=A0static const TypeInfo char_msmouse_type_info =3D {
+>     --
+>     2.34.1
+>
+>
+>
+>
+> --
+> Marc-Andr=C3=A9 Lureau
 
 
