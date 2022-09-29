@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ADC75EF5E0
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 14:58:29 +0200 (CEST)
-Received: from localhost ([::1]:41302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3DD5EF587
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 14:36:33 +0200 (CEST)
+Received: from localhost ([::1]:37126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odt7T-0006y2-0E
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 08:58:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60238)
+	id 1odsmE-0004Qt-7e
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 08:36:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odrw7-0004Nj-BW
+ id 1odrw7-0004Nl-C9
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:39 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:51053)
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odrw3-0001CM-Vr
+ id 1odrw4-0001Cr-S2
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:38 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id ay36so781840wmb.0
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:42:35 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id h7so1730540wru.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=g36e2wLY9UUYXFbTpJgshX42etL7qePtKpco9+krQd8=;
- b=AjQSKKUUdq3KVvLyrYvx7b4wc6SiVANiklRFEnKdxdyN91t8cnX64YXg55u+5adKxw
- lVwdmnB9zA0WVCfNmv2UBZ0ssboeQniVsEw8SG0WbCeDT3L00NQbFlcKC2XiTk8cwJdg
- DxHRvky8QQh+bgL/c5pWoiuH7e87upwqfaG4ehy/94Psyxz6ufgQP1cvtiafhOh7HHSy
- esaxu9SUiR+UECC3tZ6S1mmyCvbTiG18+hZtoPZiB7hnSSUs1Vs6MpC5k4bLzcfqajoF
- KMiwOqDyn5SsVE2i6kpRsXJDdCW6nveVBVDKdNQLNkG3DPgzQj/zl3GWIs9/GUlHPYmM
- 35vQ==
+ bh=Diq8ZN9f6nzxeYGGdF9jWCCGVvSqsoLnUON4PzOL4RU=;
+ b=hHSrXGgaXoh/Z9nPkPbKaSxA0TDdRNbrHh6XUDKnV5Z8MXOESHRjdWdPBIon6H8LWv
+ BxpKtia6metZZxukF2+HKg2VGIfUHO5xem1NUXXQcoK0usSBVyEecL7MogwNtLBy6xD2
+ h8LjI3Wt1CGU8VZgj2P+FeraX+3r0+5sR8dfPUqTfELN3N53afn8Wt+WM5gJU2Mf9wZp
+ JxGPymUQc8f8cNTUi7FfzpVm0w03Eel3lzcFMG4Y6hvhMqAuxqRWrYRbz8o5FGnrQFT+
+ kQkrjfu8ZBKqbC5Vby5+2JTQ6mZGMVkT4x/GLFHp3+bVjdOGPKtL7tjJBf4pOSH0PY47
+ I3uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=g36e2wLY9UUYXFbTpJgshX42etL7qePtKpco9+krQd8=;
- b=yVwRR2w4kdm06wTwJk/DMnNF5p+EUkurACc/SLg90V2AN1Hk+HvYjvtPTb6EvIctmB
- aP6qGCs7b1PNb0zY4tAoEImJNUa5BAyppnRvaWHGdxXVlloxi6KFQ117TelV6iRohnjh
- Inu5EBV0ePdZ/EVaqiwz/WJ5upYlzOWdzvJuKLT9yTxwgWp24bYI+N5likviVmbIoVek
- OE2ZmGR9d2aCIKXmjZUDg+xSPTlSTeZRP/QW7nrAbnP7wNjafG4VAgcTvo34J8c8zmJ3
- D09dk2GQVZG/P5evAybMNnKDnP2RfymsiGIQbx2Ptk+Dap3l8c2dikdZGZWpSb9ad5V9
- 6ysg==
-X-Gm-Message-State: ACrzQf3u/ew/5Zi5WpQ0TTVBPUQqKFohe9L1iykyV1xYTqVa+r5SIfTj
- VzmjspUeY/VWl9EbOCumT7SOxg==
-X-Google-Smtp-Source: AMsMyM4q7Me3Ue4YpX7HwJnNxj+flihw3gr32WgqUNLbY5MyOt4ZbOeUXHTyiTYysY0VnuXhGjjuxw==
-X-Received: by 2002:a05:600c:282:b0:3b4:76c8:da3c with SMTP id
- 2-20020a05600c028200b003b476c8da3cmr2067801wmk.153.1664451754566; 
- Thu, 29 Sep 2022 04:42:34 -0700 (PDT)
+ bh=Diq8ZN9f6nzxeYGGdF9jWCCGVvSqsoLnUON4PzOL4RU=;
+ b=pr2Lj/Y4ftffx97pw8BkEc1Ef9EaEhxETQyK764hrZRcMjcJOnPaUOIPNpL0B4GkhT
+ 4eHCTWz8vxB3qVkr0iNaMmFlAkSiu2a15NkvSBCXsDH1jmaaDaiPSCHmrgkddAc2DksA
+ jXdha+xUa5aBzxhJFGJMgxr3ApBO08aT/76NOhLPwTZCOCHPp8x5U+BzsLVNWD/ufN+W
+ /6kTKr7G445j6mF4+0D8BAnzIv+UzBw6Mi8MDWNMkZvpHDWCT+XQ4GFsqJFMVMTg2MJc
+ AGOxEct8BmAvGiw8HCpJ3pdRbVb0tBlurbgXgoOzW54SsyiEva+w67OwIqVGEPxCSlpq
+ yLkQ==
+X-Gm-Message-State: ACrzQf3ilCJLgBH4KK3955/SBMVdZ1frQbXbYyl2TgP7OVj1bWJnVu9/
+ nosJOXOdN4BVZ+KrPcA+wEDGNw==
+X-Google-Smtp-Source: AMsMyM4v/yKnDypGAffugw+eCVCEMo/ewOdnVjMM9MAdCs+I8l8BOkJGjQrdb31dB3qu+jqTdxwBaA==
+X-Received: by 2002:a5d:6dad:0:b0:22c:cedf:8e56 with SMTP id
+ u13-20020a5d6dad000000b0022ccedf8e56mr2060567wrs.596.1664451755531; 
+ Thu, 29 Sep 2022 04:42:35 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- c11-20020a5d528b000000b00228dc37ce2asm6195879wrv.57.2022.09.29.04.42.32
+ t14-20020a1c770e000000b003a5ffec0b91sm4092411wmi.30.2022.09.29.04.42.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:42:33 -0700 (PDT)
+ Thu, 29 Sep 2022 04:42:34 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 999951FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id B1B581FFBD;
  Thu, 29 Sep 2022 12:42:31 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,23 +64,18 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v1 04/51] tests/docker: run script use realpath instead of
- readlink
-Date: Thu, 29 Sep 2022 12:41:44 +0100
-Message-Id: <20220929114231.583801-5-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v1 05/51] configure: move detected gdb to TCG's config-host.mak
+Date: Thu, 29 Sep 2022 12:41:45 +0100
+Message-Id: <20220929114231.583801-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,33 +98,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+When tests/tcg gained it's own config-host.mak we forgot to move the
+GDB detection.
 
-The alpine docker image only comes with busybox, which doesn't have the
-'-e' option on its readlink, so change it to 'realpath' to avoid that
-problem.
-
-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-Message-Id: <20220922135516.33627-5-lucas.araujo@eldorado.org.br>
+Fixes: 544f4a2578 (tests/tcg: isolate from QEMU's config-host.mak)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220922145832.1934429-6-alex.bennee@linaro.org>
 ---
- tests/docker/run | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/docker/run b/tests/docker/run
-index 421393046b..9eb96129da 100755
---- a/tests/docker/run
-+++ b/tests/docker/run
-@@ -15,7 +15,7 @@ if test -n "$V"; then
-     set -x
+diff --git a/configure b/configure
+index dc53e4df03..52ae4adffc 100755
+--- a/configure
++++ b/configure
+@@ -2453,6 +2453,8 @@ if test -n "$gdb_bin"; then
+     gdb_version=$($gdb_bin --version | head -n 1)
+     if version_ge ${gdb_version##* } 9.1; then
+         echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
++    else
++        gdb_bin=""
+     fi
  fi
  
--BASE="$(dirname $(readlink -e $0))"
-+BASE="$(dirname $(realpath $0))"
+@@ -2537,6 +2539,11 @@ echo "# Automatically generated by configure - do not modify" > $config_host_mak
+ echo "SRC_PATH=$source_path" >> $config_host_mak
+ echo "HOST_CC=$host_cc" >> $config_host_mak
  
- # Prepare the environment
- export PATH=/usr/lib/ccache:/usr/lib64/ccache:$PATH
++# versioned checked in the main config_host.mak above
++if test -n "$gdb_bin"; then
++    echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
++fi
++
+ tcg_tests_targets=
+ for target in $target_list; do
+   arch=${target%%-*}
 -- 
 2.34.1
 
