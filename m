@@ -2,58 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E105EFDFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 21:34:28 +0200 (CEST)
-Received: from localhost ([::1]:53194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 932A45EFE10
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 21:36:26 +0200 (CEST)
+Received: from localhost ([::1]:49506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odzIh-00007C-Iq
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 15:34:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40366)
+	id 1odzKb-0001Bm-GA
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 15:36:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1odzF4-0005eq-J1; Thu, 29 Sep 2022 15:30:42 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:38923)
+ id 1odzH3-0007BQ-Am; Thu, 29 Sep 2022 15:32:45 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:42041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1odzF2-0000M4-RS; Thu, 29 Sep 2022 15:30:42 -0400
+ id 1odzH1-0000UR-In; Thu, 29 Sep 2022 15:32:45 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
  (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mwfj0-1pSutz40zq-00yBlX; Thu, 29 Sep 2022 21:30:14 +0200
-Message-ID: <8d3d3fd5-8223-89d9-b384-c06faa0a4b01@vivier.eu>
-Date: Thu, 29 Sep 2022 21:30:10 +0200
+ 1MlwBf-1p4UGb3ewF-00iyqd; Thu, 29 Sep 2022 21:32:31 +0200
+Message-ID: <be8beef7-7b80-bacb-3ebf-247f03c55374@vivier.eu>
+Date: Thu, 29 Sep 2022 21:32:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH] Use g_new() & friends where that makes obvious sense
+Subject: Re: [PATCH] docs: Update TPM documentation for usage of a TPM 2
 Content-Language: fr
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: elena.ufimtseva@oracle.com, jag.raman@oracle.com,
- john.g.johnson@oracle.com, pizhenwei@bytedance.com, arei.gonglei@huawei.com,
- mst@redhat.com, huangy81@chinatelecom.cn, quintela@redhat.com,
- dgilbert@redhat.com, qemu-trivial@nongnu.org
-References: <20220923084254.4173111-1-armbru@redhat.com>
+To: Stefan Berger <stefanb@linux.ibm.com>, qemu-trivial@nongnu.org,
+ marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org
+References: <20220927122146.2787854-1-stefanb@linux.ibm.com>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220923084254.4173111-1-armbru@redhat.com>
+In-Reply-To: <20220927122146.2787854-1-stefanb@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nRzP9sTmzRfXxeF3VXrmIf0xEel0WbsDj4/EZu3h5jzPlfDEDhf
- XXTPQu+t3r5RwbWxG6BvZPOtW/pV4GxxtO6tHim7OvSD5JNvnHJsI3MlZ6gr4tECqkwX43M
- sc7Z7Lime89rWttHxSx/wQ9VCVvKtyyMUbQmIG204sRt3Rc2tY1B+NLwxJjyfwzmT+4ihy6
- 1A1DfUm7aA9wuexAj/2pg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+XUcC6GFR4U=:FGn7/YG9qu4gKK4fmhjo29
- aBsHmL+JCgJo1ck75Ec05ncxEDOCZzRuojy0HHLUhjcctbyJ9MwuzmjZlAbpPwnRBhN+xBMjG
- qyLosa3gPjAc7zxrD+HRbY7A4WFUxJKuxeZqbyCJeSMM/lE/bFe7cmrbj1hR4V/jPNWe5MhmZ
- WIQsaFow7JA9yOM+BgdKLwg+kDeGRxJ5ReOO0UywoPAGqWxHoTF7N3xHQ+MT6b8PAf96bIAvx
- F0HfP0tuZJG/vl0B1rKsWfcZFNa0hFQ+N6ELMfzzmJY8KfNxj6jjHARYwVjmPdp1w5d1jJ307
- QKMQfqiGeoym+t2WuJLJ806bzLdPcYHmKkKmB3wszjPACFEIcwfXDwkNaWX7fNrNIPdgBBtAr
- l/X27doqSTF3+Ax9PpY+xtOwBzFjvCd6YemSSWu3LkvhdcVFe/JdEL+m8KOvX1x8SmMRRsygX
- k80cCU0GXCoW2V/kbYsht3OpzvIR8tkGFQxmA36L03ioQcXCzUy/WJ+ByWemuPwsAoZQOzLi2
- yn/99AkepehSpSOag5LzK2/o7HH/6+V1EzbIahxxaF7hg2X2Xvc5pkPmBXsSeqUWpBQ7AzlnW
- V1eQF3bGj95jOfXEsHHadp+amJSzOJ7Yg5agKCOa6MrPY7bjGBIg+gVXxF8uJ4QKjDOlWZzmR
- iKthp599G3vaK5XFc2q5YSrpqkRMwQQZ0C4s6I42LJvVRKNz+Ln6Lf5LZ7eNpDeRuuchYsYUq
- fccZweNOVN7BCjTz/8LIjiVdh5zJTgveXCXNhEsH0n1vJhITDy5qML8de/ofqtvTHtYnOBJB0
- zOigYmV
+X-Provags-ID: V03:K1:cfL69kB2Iz7MMRk9pqUpufHu3JHZivc1zVgQI/5B1oZmsoxddT9
+ A1WDVk03t8FfGlDm4WrNgR4dC2eSiN2/R7yOSvoWC72P9g1lzHtpomu4BnsJVsOJfDcRDSq
+ wPItuBibYT1Lh0AefyefLmnDkbqcH+tMXHk4tyznh1PlRpGQlj01v5/lm/VjU/o0m0VEe7J
+ oRtYmXVseKva7H1Vg/hwA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:p4Amm9zq5rw=:3FFBrSaZKmdLXong38W5E4
+ dBP0Kxv3b72KlgBZsOHzuM1gqhn7STyLFdMmeTtNrT798O9hzcoxHtlQnQJK3XCghlFDNLBxh
+ GJYedq7W7iFuCXKwWT34d/cU3SepzJnRxRE+i1uSEAIWOTRuEOdWU1isqWfNGENb6rOYImSiK
+ AzoPF9PkjsGpJbl1qXmBBYBslMFQYmIBkogO8mqznmAwtTFezobIFoi8CTGA5NF75+tL8hbqr
+ CGqwKEzQhyOVA+4HoiZsQIAon55JaCLZDbf3tiG1VVzW5/espG9HQwlfetbfEiEMm2XD19+5/
+ eZ+P6K4kebgtsw5T9AQhblEVEAxFZ2b0VpOBUOCo/31Aw4CIojelkoCFfWkz1qKCMHTMYxPXc
+ Wj1KtLkgoE3eJVtXOiIemz5u3uFNg4Qgwm4DB7krvDQI3ffQafwXaDJy24as+XqR6Ji8Liuz6
+ KYfVE2NDUbVDTzAEPnboHAT3uLhHGSvVK8kKCkt63k4R3/Xo4qEstpQa1aCJzjwtds3K/SGpi
+ elSmx/j3X8DhgskjA13IVfPmUPC4avwb5t1dL9uFbi3dVh54LHXY6MJZnGimtZ8GI2zaxGwy0
+ pAgeJjbOP3Jwmh8JzS3hqo08zuKA9aK2xhNv+ISGE6I8Va1O19PykCMmBzp6HKp7NjrgNEEk5
+ B8XfujKXvO1VfeRevRJ2m3xnZoyNV02ppQMuOP5B+CEKUQ0c6KmraliAKFoOfA8iyccBqMpr+
+ pfiHJQ/htFjAn1E5LbaNUE1b2Lo3fHoS2G4pV5UYa7C5igLEmokAA7cIERqoQFellVFiVnJMv
+ kcqfIi6
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -59
@@ -77,98 +75,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/09/2022 à 10:42, Markus Armbruster a écrit :
-> g_new(T, n) is neater than g_malloc(sizeof(T) * n).  It's also safer,
-> for two reasons.  One, it catches multiplication overflowing size_t.
-> Two, it returns T * rather than void *, which lets the compiler catch
-> more type errors.
+Le 27/09/2022 à 14:21, Stefan Berger a écrit :
+> Update the TPM documentation for usage of a TPM 2 rather than a TPM 1.2.
+> Adjust the command lines and expected outputs inside the VM accordingly.
+> Update the command line to start a TPM 2 with swtpm.
 > 
-> This commit only touches allocations with size arguments of the form
-> sizeof(T).
-> 
-> Patch created mechanically with:
-> 
->      $ spatch --in-place --sp-file scripts/coccinelle/use-g_new-etc.cocci \
-> 	     --macro-file scripts/cocci-macro-file.h FILES...
-> 
-> The previous iteration was commit a95942b50c.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 > ---
->   hw/remote/iommu.c         | 2 +-
->   hw/virtio/virtio-crypto.c | 2 +-
->   migration/dirtyrate.c     | 4 ++--
->   softmmu/dirtylimit.c      | 4 ++--
->   4 files changed, 6 insertions(+), 6 deletions(-)
+>   docs/specs/tpm.rst | 44 ++++++++++++++++++++++++--------------------
+>   1 file changed, 24 insertions(+), 20 deletions(-)
 > 
-> diff --git a/hw/remote/iommu.c b/hw/remote/iommu.c
-> index fd723d91f3..1391dd712c 100644
-> --- a/hw/remote/iommu.c
-> +++ b/hw/remote/iommu.c
-> @@ -47,7 +47,7 @@ static AddressSpace *remote_iommu_find_add_as(PCIBus *pci_bus,
->       elem = g_hash_table_lookup(iommu->elem_by_devfn, INT2VOIDP(devfn));
+> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+> index 3be190343a..535912a92b 100644
+> --- a/docs/specs/tpm.rst
+> +++ b/docs/specs/tpm.rst
+> @@ -250,24 +250,25 @@ hardware TPM ``/dev/tpm0``:
 >   
->       if (!elem) {
-> -        elem = g_malloc0(sizeof(RemoteIommuElem));
-> +        elem = g_new0(RemoteIommuElem, 1);
->           g_hash_table_insert(iommu->elem_by_devfn, INT2VOIDP(devfn), elem);
->       }
+>   The following commands should result in similar output inside the VM
+>   with a Linux kernel that either has the TPM TIS driver built-in or
+> -available as a module:
+> +available as a module (assuming a TPM 2 is passed through):
 >   
-> diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-> index c1243c3f93..df4bde210b 100644
-> --- a/hw/virtio/virtio-crypto.c
-> +++ b/hw/virtio/virtio-crypto.c
-> @@ -710,7 +710,7 @@ virtio_crypto_handle_asym_req(VirtIOCrypto *vcrypto,
->       uint8_t *src = NULL;
->       uint8_t *dst = NULL;
+>   .. code-block:: console
 >   
-> -    asym_op_info = g_malloc0(sizeof(CryptoDevBackendAsymOpInfo));
-> +    asym_op_info = g_new0(CryptoDevBackendAsymOpInfo, 1);
->       src_len = ldl_le_p(&req->para.src_data_len);
->       dst_len = ldl_le_p(&req->para.dst_data_len);
+>     # dmesg | grep -i tpm
+> -  [    0.711310] tpm_tis 00:06: 1.2 TPM (device=id 0x1, rev-id 1)
+> -
+> -  # dmesg | grep TCPA
+> -  [    0.000000] ACPI: TCPA 0x0000000003FFD191C 000032 (v02 BOCHS  \
+> -      BXPCTCPA 0000001 BXPC 00000001)
+> +  [    0.012560] ACPI: TPM2 0x000000000BFFD1900 00004C (v04 BOCHS  \
+> +      BXPC     0000001 BXPC 00000001)
 >   
-> diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-> index 795fab5c37..d6f1e01a70 100644
-> --- a/migration/dirtyrate.c
-> +++ b/migration/dirtyrate.c
-> @@ -119,9 +119,9 @@ static DirtyPageRecord *vcpu_dirty_stat_alloc(VcpuStat *stat)
->       }
+>     # ls -l /dev/tpm*
+> -  crw-------. 1 root root 10, 224 Jul 11 10:11 /dev/tpm0
+> +  crw-rw----. 1 tss root  10,   224 Sep  6 12:36 /dev/tpm0
+> +  crw-rw----. 1 tss rss  253, 65536 Sep  6 12:36 /dev/tpmrm0
 >   
->       stat->nvcpu = nvcpu;
-> -    stat->rates = g_malloc0(sizeof(DirtyRateVcpu) * nvcpu);
-> +    stat->rates = g_new0(DirtyRateVcpu, nvcpu);
+> -  # find /sys/devices/ | grep pcrs$ | xargs cat
+> -  PCR-00: 35 4E 3B CE 23 9F 38 59 ...
+> +  Starting with Linux 5.12 there are PCR entries for TPM 2 in sysfs:
+> +  # find /sys/devices/ -type f | grep pcr-sha
+> +  ...
+> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/1
+> +  ...
+> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/9
+>     ...
+> -  PCR-23: 00 00 00 00 00 00 00 00 ...
 >   
-> -    records = g_malloc0(sizeof(DirtyPageRecord) * nvcpu);
-> +    records = g_new0(DirtyPageRecord, nvcpu);
+>   The QEMU TPM emulator device
+>   ----------------------------
+> @@ -304,6 +305,7 @@ a socket interface. They do not need to be run as root.
+>     mkdir /tmp/mytpm1
+>     swtpm socket --tpmstate dir=/tmp/mytpm1 \
+>       --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock \
+> +    --tpm2 \
+>       --log level=20
 >   
->       return records;
->   }
-> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-> index 8d98cb7f2c..12668555f2 100644
-> --- a/softmmu/dirtylimit.c
-> +++ b/softmmu/dirtylimit.c
-> @@ -154,7 +154,7 @@ void vcpu_dirty_rate_stat_initialize(void)
+>   Command line to start QEMU with the TPM emulator device communicating
+> @@ -365,19 +367,20 @@ available as a module:
+>   .. code-block:: console
 >   
->       vcpu_dirty_rate_stat->stat.nvcpu = max_cpus;
->       vcpu_dirty_rate_stat->stat.rates =
-> -        g_malloc0(sizeof(DirtyRateVcpu) * max_cpus);
-> +        g_new0(DirtyRateVcpu, max_cpus);
+>     # dmesg | grep -i tpm
+> -  [    0.711310] tpm_tis 00:06: 1.2 TPM (device=id 0x1, rev-id 1)
+> -
+> -  # dmesg | grep TCPA
+> -  [    0.000000] ACPI: TCPA 0x0000000003FFD191C 000032 (v02 BOCHS  \
+> -      BXPCTCPA 0000001 BXPC 00000001)
+> +  [    0.012560] ACPI: TPM2 0x000000000BFFD1900 00004C (v04 BOCHS  \
+> +      BXPC     0000001 BXPC 00000001)
 >   
->       vcpu_dirty_rate_stat->running = false;
->   }
-> @@ -198,7 +198,7 @@ void dirtylimit_state_initialize(void)
->       dirtylimit_state = g_malloc0(sizeof(*dirtylimit_state));
+>     # ls -l /dev/tpm*
+> -  crw-------. 1 root root 10, 224 Jul 11 10:11 /dev/tpm0
+> +  crw-rw----. 1 tss root  10,   224 Sep  6 12:36 /dev/tpm0
+> +  crw-rw----. 1 tss rss  253, 65536 Sep  6 12:36 /dev/tpmrm0
 >   
->       dirtylimit_state->states =
-> -            g_malloc0(sizeof(VcpuDirtyLimitState) * max_cpus);
-> +            g_new0(VcpuDirtyLimitState, max_cpus);
+> -  # find /sys/devices/ | grep pcrs$ | xargs cat
+> -  PCR-00: 35 4E 3B CE 23 9F 38 59 ...
+> +  Starting with Linux 5.12 there are PCR entries for TPM 2 in sysfs:
+> +  # find /sys/devices/ -type f | grep pcr-sha
+> +  ...
+> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/1
+> +  ...
+> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/9
+>     ...
+> -  PCR-23: 00 00 00 00 00 00 00 00 ...
 >   
->       for (i = 0; i < max_cpus; i++) {
->           dirtylimit_state->states[i].cpu_index = i;
+>   Migration with the TPM emulator
+>   ===============================
+> @@ -398,7 +401,8 @@ In a 1st terminal start an instance of a swtpm using the following command:
+>     mkdir /tmp/mytpm1
+>     swtpm socket --tpmstate dir=/tmp/mytpm1 \
+>       --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock \
+> -    --log level=20 --tpm2
+> +    --tpm2 \
+> +    --log level=20
+>   
+>   In a 2nd terminal start the VM:
+>   
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
 
