@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC8C65EF740
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:13:27 +0200 (CEST)
-Received: from localhost ([::1]:60512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A9A25EF801
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:50:20 +0200 (CEST)
+Received: from localhost ([::1]:38666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oduI2-0001Ml-Sm
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:13:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47452)
+	id 1odurj-0001P9-D0
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:50:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3C-0000N9-7P
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:05 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42519)
+ id 1odsD0-0007TG-6f
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:06 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:35490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods38-0002NK-3w
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:49:56 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id l18so1768036wrw.9
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:49:53 -0700 (PDT)
+ id 1odsCs-0004N5-Q4
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 08:00:05 -0400
+Received: by mail-wr1-x429.google.com with SMTP id u10so1708344wrq.2
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:59:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=iRY+rdLsNzUlIPl9aP+Ctca98eiNinjQ4tNo5/5rKPg=;
- b=Ec/1wt1EKGzFt4Zq8wq+TJ/jeVyX7t4uxYd5N9CVf5ruf9MgAcutNPPdSqr01RrVq2
- 0ZUFVfSxCrsgBD/PD8LwEag/hMPZMp20CZ7VNHpomxszzyitJofkJLx7LzbijIz2dC7C
- EbkL+SP3JjIF6MO/Ky51BqDjVRuHwt9ecifCu0prIBDqrdz295kHXQCveI/Vg7j+EXIY
- hp7i9wUzMgvg8J0Qnc9N8uJfgfLNrhrBmYEtJvShzD2Zd0KQaZO7OVsrc5Btutal4JTv
- eXfXX4T5gKzN9/BcKKkqRC2p0gP/ZwRUw4iqc+LJgpgFlQqCWOdkETmo81rxaGDI0hmV
- A6OQ==
+ bh=PobWf7yOB0RYiCJawLepi7wEAh6rZnGVT96VCMWAonk=;
+ b=Z0dzGm/3p1BCHcuVFOYOr23R/jEJgWXbDM49ANT9i0kWzPJ9TQVBPNcwS0Nm+fIP5Y
+ XCQE3LYqOuIhb0k/dEqMfnfBAfaBU2eWIsbCDPOwaxhIXJHLZuSTaAV6kiy5H/C3j3vF
+ JL/L18AZRCVJXmea/iOdiZyXJjGP4LrtE4DpovM9NhamckfvQa4kZXIxZykDJ1me2yJi
+ p9q/yyaXQ9jwCQ1k9Y5+lwNLspOaA7/kXZhFWtUVtuRiBDEwkwp7BFXfKhAXGn+iFbF5
+ YARJCYwzMB4s1ZPUuu8u4Fn5odbmOgP6zYYNZWXsogYh+uVX9WFkzCadTPZIap5JCMYI
+ d5YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=iRY+rdLsNzUlIPl9aP+Ctca98eiNinjQ4tNo5/5rKPg=;
- b=ZNSI+oJnliFWQEhdngjtk1PCapFT/9OosMoSxbfoqTjZfIaE+FKz75tPKIRB7n2qcg
- 0SkrIH2Sc/lR01Cl9zKmsWvm5oO+oLI9Vl42aTBqUtsYL9SMJQ+uEDvYcqrhCAzWeUB/
- 90i+oJ3vGx1cS6WIqoFOBAyGL00piisId5ChuVk3nGpGN2rcGZKgRUms4/vjIo8au2Kb
- 3j8+tQwloXhr1nTdUyAveborQ+EKT5TGje3DcE3EUB3bJQo4UtAzNDX2AZxOzDefKkSy
- 5IzA7vmXBosMr9ZGpTJ/0+6jTTzATDXfFtUwiUAq2CaENIw2mv7gGErIDerKVjcRwve2
- ofCQ==
-X-Gm-Message-State: ACrzQf1ZrOW7KRWNIan4TJehkCIkZoZ/9W7XY/X5hhe9XiuA9t+qdMC8
- IjBG1feIzam5LfrIV3LKkheWQQ==
-X-Google-Smtp-Source: AMsMyM6G6AJGnBeEz2ooZ3CdKEMzCYQIsKDaYSs+Sji7ceTE6rYIak2TLBZtnnrw5du++K8ge5Bwkg==
-X-Received: by 2002:adf:d1ef:0:b0:228:a9ee:8f13 with SMTP id
- g15-20020adfd1ef000000b00228a9ee8f13mr1900280wrd.686.1664452192529; 
- Thu, 29 Sep 2022 04:49:52 -0700 (PDT)
+ bh=PobWf7yOB0RYiCJawLepi7wEAh6rZnGVT96VCMWAonk=;
+ b=tfoJybAWc3u7SiL6PEMIDhv9WOTS8hp07MAA9yPUzMvKnDt01ywHedOvkTZ8IyJPUP
+ pHNy0Jk06dXMYJ/EAhjGg4yYWKrDCHuitv3MSAC07/SOHjTgenuqGmkKzk3D4hKx07Wy
+ XWk2DyvEPSsU6V3OTDHx8727h+L9EUQpJJAgJlLZSOaQwbt6f0QJWgzzgzrr76bGWBoU
+ rDFtWxrEIa6kLr8XC99DnwCaIg+5OTGXG1GSIfeAwtucZ/CDlvi0sKBiJzCIyW/R7bD0
+ pH9KH8tiM6TS4u3lYq1oxEbDVO8SGmBPa4zRTnUs2XxVNH1iXOTLucGwNiEdNiZEPF3u
+ sQeA==
+X-Gm-Message-State: ACrzQf3C7ocLjrqAzKWnJrFRsrYAmnmeK48zBJJd52FMWLct6VZCuiaF
+ eDlaEaap1+a6ZFa5lIsPf0URiQ==
+X-Google-Smtp-Source: AMsMyM4wOOP055lwNGPyrTsyaGfsOywsxEHZCODWiZ15b7HehMjZvv70Cl9JpVJo4AvnGBTqjs0x7w==
+X-Received: by 2002:a05:6000:144d:b0:22a:f4ef:c900 with SMTP id
+ v13-20020a056000144d00b0022af4efc900mr2037632wrx.678.1664452797382; 
+ Thu, 29 Sep 2022 04:59:57 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m13-20020a5d4a0d000000b0021e43b4edf0sm6419674wrq.20.2022.09.29.04.49.50
+ a3-20020a5d4d43000000b0022762b0e2a2sm6536441wru.6.2022.09.29.04.59.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:49:51 -0700 (PDT)
+ Thu, 29 Sep 2022 04:59:54 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 96C951FFD1;
+ by zen.linaroharston (Postfix) with ESMTP id B255C1FFBC;
  Thu, 29 Sep 2022 12:42:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,25 +64,28 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v1 29/51] pc-bios/optionrom: Adopt meson style Make output
-Date: Thu, 29 Sep 2022 12:42:09 +0100
-Message-Id: <20220929114231.583801-30-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ qemu-s390x@nongnu.org (open list:S390 general arch...)
+Subject: [PATCH  v1 30/51] pc-bios/s390-ccw: Adopt meson style Make output
+Date: Thu, 29 Sep 2022 12:42:10 +0100
+Message-Id: <20220929114231.583801-31-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,14 +106,79 @@ From: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- pc-bios/optionrom/Makefile | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ pc-bios/s390-ccw/netboot.mak | 20 ++++++++++----------
+ pc-bios/s390-ccw/Makefile    | 12 ++++++------
+ 2 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-index f514e4f84b..b1fff0ba6c 100644
---- a/pc-bios/optionrom/Makefile
-+++ b/pc-bios/optionrom/Makefile
-@@ -12,8 +12,8 @@ NULL :=
+diff --git a/pc-bios/s390-ccw/netboot.mak b/pc-bios/s390-ccw/netboot.mak
+index ee59a5f4de..046aa35587 100644
+--- a/pc-bios/s390-ccw/netboot.mak
++++ b/pc-bios/s390-ccw/netboot.mak
+@@ -11,10 +11,10 @@ NETLDFLAGS := $(LDFLAGS) -Wl,-Ttext=0x7800000
+ $(NETOBJS): EXTRA_CFLAGS += $(LIBC_INC) $(LIBNET_INC)
+ 
+ s390-netboot.elf: $(NETOBJS) libnet.a libc.a
+-	$(call quiet-command,$(CC) $(NETLDFLAGS) -o $@ $^,"BUILD","$(TARGET_DIR)$@")
++	$(call quiet-command,$(CC) $(NETLDFLAGS) -o $@ $^,Linking)
+ 
+ s390-netboot.img: s390-netboot.elf
+-	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARGET_DIR)$@")
++	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,Stripping $< into)
+ 
+ # libc files:
+ 
+@@ -23,30 +23,30 @@ LIBC_CFLAGS = $(EXTRA_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
+ 
+ CTYPE_OBJS = isdigit.o isxdigit.o toupper.o
+ %.o : $(SLOF_DIR)/lib/libc/ctype/%.c
+-	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
++	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,Compiling)
+ 
+ STRING_OBJS = strcat.o strchr.o strrchr.o strcpy.o strlen.o strncpy.o \
+ 	      strcmp.o strncmp.o strcasecmp.o strncasecmp.o strstr.o \
+ 	      memset.o memcpy.o memmove.o memcmp.o
+ %.o : $(SLOF_DIR)/lib/libc/string/%.c
+-	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
++	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,Compiling)
+ 
+ STDLIB_OBJS = atoi.o atol.o strtoul.o strtol.o rand.o malloc.o free.o
+ %.o : $(SLOF_DIR)/lib/libc/stdlib/%.c
+-	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
++	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,Compiling)
+ 
+ STDIO_OBJS = sprintf.o snprintf.o vfprintf.o vsnprintf.o vsprintf.o fprintf.o \
+ 	     printf.o putc.o puts.o putchar.o stdchnls.o fileno.o
+ %.o : $(SLOF_DIR)/lib/libc/stdio/%.c
+-	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
++	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,Compiling)
+ 
+ sbrk.o: $(SLOF_DIR)/slof/sbrk.c
+-	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
++	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,Compiling)
+ 
+ LIBCOBJS := $(STRING_OBJS) $(CTYPE_OBJS) $(STDLIB_OBJS) $(STDIO_OBJS) sbrk.o
+ 
+ libc.a: $(LIBCOBJS)
+-	$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
++	$(call quiet-command,$(AR) -rc $@ $^,Creating static library)
+ 
+ # libnet files:
+ 
+@@ -56,7 +56,7 @@ LIBNETCFLAGS = $(EXTRA_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
+ 	       -DDHCPARCH=0x1F -MMD -MP -MT $@ -MF $(@:%.o=%.d)
+ 
+ %.o : $(SLOF_DIR)/lib/libnet/%.c
+-	$(call quiet-command,$(CC) $(LIBNETCFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
++	$(call quiet-command,$(CC) $(LIBNETCFLAGS) -c -o $@ $<,Compiling)
+ 
+ libnet.a: $(LIBNETOBJS)
+-	$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
++	$(call quiet-command,$(AR) -rc $@ $^,Creating static library)
+diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
+index 965e633f43..10e8f5cb63 100644
+--- a/pc-bios/s390-ccw/Makefile
++++ b/pc-bios/s390-ccw/Makefile
+@@ -10,8 +10,8 @@ NULL :=
  SPACE := $(NULL) #
  TARGET_PREFIX := $(patsubst %/,%:$(SPACE),$(TARGET_DIR))
  
@@ -119,32 +187,34 @@ index f514e4f84b..b1fff0ba6c 100644
 +quiet-@ = $(if $(V),,@$(if $1,printf "%s\n" "$(TARGET_PREFIX)$1" && ))
 +quiet-command = $(call quiet-@,$2 $@)$1
  
- # Flags for dependency generation
- override CPPFLAGS += -MMD -MP -MT $@ -MF $(@D)/$(*F).d
-@@ -41,19 +41,19 @@ override LDFLAGS = -nostdlib -Wl,-T,$(SRC_DIR)/flat.lds
- pvh.img: pvh.o pvh_main.o
- 
- %.o: %.S
--	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<,"AS","$@")
-+	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<,Assembling)
+ VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
+ set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath $(PATTERN) $1)))
+@@ -22,11 +22,11 @@ QEMU_DGFLAGS = -MMD -MP -MT $@ -MF $(@D)/$(*F).d
  
  %.o: %.c
--	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@,"CC","$@")
-+	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@,Compiling)
+ 	$(call quiet-command,$(CC) $(EXTRA_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
+-	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
++	       -c -o $@ $<,Compiling)
  
- %.img: %.o
--	$(call quiet-command,$(CC) $(CFLAGS) $(LDFLAGS) -s -o $@ $^,"BUILD","$@")
-+	$(call quiet-command,$(CC) $(CFLAGS) $(LDFLAGS) -s -o $@ $^,Linking)
+ %.o: %.S
+ 	$(call quiet-command,$(CCAS) $(EXTRA_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
+-	       -c -o $@ $<,"CCAS","$(TARGET_DIR)$@")
++	       -c -o $@ $<,Assembling)
  
- %.raw: %.img
--	$(call quiet-command,$(OBJCOPY) -O binary -j .text $< $@,"BUILD","$@")
-+	$(call quiet-command,$(OBJCOPY) -O binary -j .text $< $@,Extracting raw object)
+ .PHONY : all clean build-all distclean
  
- %.bin: %.raw
--	$(call quiet-command,$(PYTHON) $(TOPSRC_DIR)/scripts/signrom.py $< $@,"SIGN","$@")
-+	$(call quiet-command,$(PYTHON) $(TOPSRC_DIR)/scripts/signrom.py $< $@,Computing checksum into)
+@@ -58,10 +58,10 @@ LDFLAGS += -Wl,-pie -nostdlib
+ build-all: s390-ccw.img s390-netboot.img
  
- include $(wildcard *.d)
+ s390-ccw.elf: $(OBJECTS)
+-	$(call quiet-command,$(CC) $(LDFLAGS) -o $@ $(OBJECTS),"BUILD","$(TARGET_DIR)$@")
++	$(call quiet-command,$(CC) $(LDFLAGS) -o $@ $(OBJECTS),Linking)
+ 
+ s390-ccw.img: s390-ccw.elf
+-	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARGET_DIR)$@")
++	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,Stripping $< into)
+ 
+ $(OBJECTS): Makefile
  
 -- 
 2.34.1
