@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3DD5EF587
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 14:36:33 +0200 (CEST)
-Received: from localhost ([::1]:37126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2F95EF5A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 14:44:54 +0200 (CEST)
+Received: from localhost ([::1]:43026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odsmE-0004Qt-7e
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 08:36:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60242)
+	id 1odsuL-0002CP-Vl
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 08:44:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odrw7-0004Nl-C9
+ id 1odrw7-0004Nk-CB
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:39 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43771)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:55024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1odrw4-0001Cr-S2
+ id 1odrw4-0001Ch-Hm
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:42:38 -0400
-Received: by mail-wr1-x431.google.com with SMTP id h7so1730540wru.10
+Received: by mail-wm1-x331.google.com with SMTP id iv17so767334wmb.4
  for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=Diq8ZN9f6nzxeYGGdF9jWCCGVvSqsoLnUON4PzOL4RU=;
- b=hHSrXGgaXoh/Z9nPkPbKaSxA0TDdRNbrHh6XUDKnV5Z8MXOESHRjdWdPBIon6H8LWv
- BxpKtia6metZZxukF2+HKg2VGIfUHO5xem1NUXXQcoK0usSBVyEecL7MogwNtLBy6xD2
- h8LjI3Wt1CGU8VZgj2P+FeraX+3r0+5sR8dfPUqTfELN3N53afn8Wt+WM5gJU2Mf9wZp
- JxGPymUQc8f8cNTUi7FfzpVm0w03Eel3lzcFMG4Y6hvhMqAuxqRWrYRbz8o5FGnrQFT+
- kQkrjfu8ZBKqbC5Vby5+2JTQ6mZGMVkT4x/GLFHp3+bVjdOGPKtL7tjJBf4pOSH0PY47
- I3uQ==
+ bh=/XRSkW0C7jayMRrat52qAwjXUjYVSmaLK9PMjNjbqoY=;
+ b=NiCbuhAfgD611DVFtOiV433p34ngOWQs+e60199kzXV/MbTELqaLxd0/BsZG5UPJdm
+ vVyn4hNaN6G3iC1lkAOAJZ5fXoTOkr325YDakI7YA/BQBWmud5AxM3abBz3szQFbdm5L
+ DdmUs1prkYCoLhGWKBHBfotavwWNwUsvLd/xcy35Da1hjJUCF+5fmJLET66IO4KUXcVQ
+ z1p4w0BrIAgxS8m/Y9Fw/zEOHXW3CTaekiSF+M4dltdVzA04CG0sfwHmwyoHrgx23P2B
+ 9xtjg440VfT9tUkW8RabVqI65ueYpwoHaqLQ6KfzqIh8yotId+3wGZpv3B4Dt/JNev5n
+ m2zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=Diq8ZN9f6nzxeYGGdF9jWCCGVvSqsoLnUON4PzOL4RU=;
- b=pr2Lj/Y4ftffx97pw8BkEc1Ef9EaEhxETQyK764hrZRcMjcJOnPaUOIPNpL0B4GkhT
- 4eHCTWz8vxB3qVkr0iNaMmFlAkSiu2a15NkvSBCXsDH1jmaaDaiPSCHmrgkddAc2DksA
- jXdha+xUa5aBzxhJFGJMgxr3ApBO08aT/76NOhLPwTZCOCHPp8x5U+BzsLVNWD/ufN+W
- /6kTKr7G445j6mF4+0D8BAnzIv+UzBw6Mi8MDWNMkZvpHDWCT+XQ4GFsqJFMVMTg2MJc
- AGOxEct8BmAvGiw8HCpJ3pdRbVb0tBlurbgXgoOzW54SsyiEva+w67OwIqVGEPxCSlpq
- yLkQ==
-X-Gm-Message-State: ACrzQf3ilCJLgBH4KK3955/SBMVdZ1frQbXbYyl2TgP7OVj1bWJnVu9/
- nosJOXOdN4BVZ+KrPcA+wEDGNw==
-X-Google-Smtp-Source: AMsMyM4v/yKnDypGAffugw+eCVCEMo/ewOdnVjMM9MAdCs+I8l8BOkJGjQrdb31dB3qu+jqTdxwBaA==
-X-Received: by 2002:a5d:6dad:0:b0:22c:cedf:8e56 with SMTP id
- u13-20020a5d6dad000000b0022ccedf8e56mr2060567wrs.596.1664451755531; 
+ bh=/XRSkW0C7jayMRrat52qAwjXUjYVSmaLK9PMjNjbqoY=;
+ b=iufkbTsKiGR5gov9Fkts230io798d1usr4vIemXSawlKtLVpLpZe7crI87Jt8FQx5U
+ xlnH7cB51EfkewbTZ7z62a2seVnihcsog3EKxM7z8oiMwcUcTIHtcOJUOjth2aB0dkW4
+ GppYbi1Qw9n8vk0oKGgbzRSxMMP8ygC3ZA8NaRkE1rN+Ct9TPvQp6m8Wt9tiIZrUJSKo
+ Kex5x0c1/MTtWMzhYk3LADFnVXd+BvxBAWB9QFnsLhCQ1RaJLoQQjZOGEFik7YrCfhNU
+ rX7YeRZ+q+AYOFN/EhQYtcrlrF+JbgivCMPqa5RJZLUW1fGCSU3oeafd3dq9Wz4SmR5r
+ Zfdg==
+X-Gm-Message-State: ACrzQf0/N3ePkk0LGoxbgfeKcqx4o8nv78lbwa+qU4w4FT/6NCyEjXoY
+ Yky81CNDw1cm7N9+Lo6WxLccSw==
+X-Google-Smtp-Source: AMsMyM67NGT6Zeb1zueByAYR4f+OmvozJojrsRE+xEp9NKIrsACSKD3PAyvAENeb8vUYZ6ZNJs67AA==
+X-Received: by 2002:a05:600c:3b12:b0:3b4:a6ea:1399 with SMTP id
+ m18-20020a05600c3b1200b003b4a6ea1399mr10218273wms.49.1664451755158; 
  Thu, 29 Sep 2022 04:42:35 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- t14-20020a1c770e000000b003a5ffec0b91sm4092411wmi.30.2022.09.29.04.42.33
+ j1-20020a5d4481000000b0022ae401e9e0sm6361567wrq.78.2022.09.29.04.42.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 29 Sep 2022 04:42:34 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B1B581FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id C8A471FFBE;
  Thu, 29 Sep 2022 12:42:31 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,18 +64,23 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v1 05/51] configure: move detected gdb to TCG's config-host.mak
-Date: Thu, 29 Sep 2022 12:41:45 +0100
-Message-Id: <20220929114231.583801-6-alex.bennee@linaro.org>
+ Anton Johansson <anjo@rev.ng>, Alessandro Di Federico <ale@rev.ng>,
+ Paolo Montesel <babush@rev.ng>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH  v1 06/51] target/hexagon: add flex/bison/glib2 to qemu.yml
+Date: Thu, 29 Sep 2022 12:41:46 +0100
+Message-Id: <20220929114231.583801-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,41 +103,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When tests/tcg gained it's own config-host.mak we forgot to move the
-GDB detection.
+From: Anton Johansson <anjo@rev.ng>
 
-Fixes: 544f4a2578 (tests/tcg: isolate from QEMU's config-host.mak)
+Note, the glib2-native mapping exists separately from the normal glib2
+mapping. The latter uses a `foreign` cross-policy-default, and
+libvirt-ci is not able to support package mappings for multiple
+cross-compilation policies.
+
+This will probably change in the future.
+
+Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+Signed-off-by: Paolo Montesel <babush@rev.ng>
+Signed-off-by: Anton Johansson <anjo@rev.ng>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220922145832.1934429-6-alex.bennee@linaro.org>
+Message-Id: <20220804115548.13024-9-anjo@rev.ng>
 ---
- configure | 7 +++++++
- 1 file changed, 7 insertions(+)
+ tests/lcitool/projects/qemu.yml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/configure b/configure
-index dc53e4df03..52ae4adffc 100755
---- a/configure
-+++ b/configure
-@@ -2453,6 +2453,8 @@ if test -n "$gdb_bin"; then
-     gdb_version=$($gdb_bin --version | head -n 1)
-     if version_ge ${gdb_version##* } 9.1; then
-         echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
-+    else
-+        gdb_bin=""
-     fi
- fi
- 
-@@ -2537,6 +2539,11 @@ echo "# Automatically generated by configure - do not modify" > $config_host_mak
- echo "SRC_PATH=$source_path" >> $config_host_mak
- echo "HOST_CC=$host_cc" >> $config_host_mak
- 
-+# versioned checked in the main config_host.mak above
-+if test -n "$gdb_bin"; then
-+    echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
-+fi
-+
- tcg_tests_targets=
- for target in $target_list; do
-   arch=${target%%-*}
+diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
+index d9f826f8eb..0d92819249 100644
+--- a/tests/lcitool/projects/qemu.yml
++++ b/tests/lcitool/projects/qemu.yml
+@@ -3,6 +3,7 @@ packages:
+  - alsa
+  - bash
+  - bc
++ - bison
+  - brlapi
+  - bzip2
+  - bzip2-libs
+@@ -19,6 +20,7 @@ packages:
+  - diffutils
+  - dtrace
+  - findutils
++ - flex
+  - fuse3
+  - g++
+  - gcc
+@@ -26,6 +28,7 @@ packages:
+  - gettext
+  - genisoimage
+  - glib2
++ - glib2-native
+  - glib2-static
+  - glusterfs
+  - gnutls
 -- 
 2.34.1
 
