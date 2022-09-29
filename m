@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5025EFBA6
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:09:36 +0200 (CEST)
-Received: from localhost ([::1]:47450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C615EFC50
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 19:52:36 +0200 (CEST)
+Received: from localhost ([::1]:44698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odx2V-00038K-Gu
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:09:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49794)
+	id 1odxi7-0003d7-4T
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 13:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1odw6n-0007Hp-My; Thu, 29 Sep 2022 12:09:57 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:56012)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1odwDL-0005lm-0M
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:16:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1odw6k-0007FD-Pj; Thu, 29 Sep 2022 12:09:55 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1odwDH-0008Vi-Ej
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 12:16:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664468198;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SK8jnl25GfBurW867juBk8Hvi+Y8sy3LVuiGjVel2EA=;
+ b=F4Jv+4lt1BjkwBzSD/C2MEZ28gEhAcJeLaPT4XNwfnq0+1Cw+sfoKuIX37PRimghQovoEc
+ TxOw7YtFDyx4yMfnFMnHW5wALwssxgPD2SrjwsMvXUrjkm+177aShXei6oKgJnCbjtQYk4
+ pxXvhqSU+QgSaP9tok+6rPCAAQPYxg8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-590-tWxvPbKKOv-UAw5fd6zNXg-1; Thu, 29 Sep 2022 12:16:32 -0400
+X-MC-Unique: tWxvPbKKOv-UAw5fd6zNXg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C3127611E9;
- Thu, 29 Sep 2022 16:09:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 865D1C433C1;
- Thu, 29 Sep 2022 16:09:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1664467790;
- bh=1W8N06g1sJc8oERjGJ+OejBiZLDcu4E1NN+VyVeKeY0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PmXOV2UBxBDsuxyIW0Ub3xeI8siQwCFNtRcF1LKCZL7rZ0yyVgXRQCKzV/73V2ieF
- s8LfhD/Q7kMYSDCzrOWyR5VBJC/UQennZlwJWqM815khsgj2RkcM8a8x0N1Adefxh6
- LYbxl7t8hmAZzIp6bNTckoIY9VuHlk3UmnQVyK2/G020ADoT4IcUylilkaAQSX1XOR
- Aw5ARQ0KFveJVcbB0JWwFHojFwRM8NHBhCJP3Zj5id3BYcTxuPi57I6CKEBpLBHFHp
- Zai7tNh+wzXiWHlKVgDVmxoBJUe8rx3kZyiii8XgMcJcNMWg2VUaZdDkwxLgOK/DQP
- cyEEp/nveu1tg==
-Date: Thu, 29 Sep 2022 10:09:46 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Keith Busch <kbusch@fb.com>
-Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCHv2] block: use the request length for iov alignment
-Message-ID: <YzXDSlksuOucjZm3@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220923153451.3810456-1-kbusch@fb.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5441868A2E;
+ Thu, 29 Sep 2022 16:16:31 +0000 (UTC)
+Received: from starship (unknown [10.40.193.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 33A50140EBF4;
+ Thu, 29 Sep 2022 16:16:30 +0000 (UTC)
+Message-ID: <a2825beac032fd6a76838164d4e2753d30305897.camel@redhat.com>
+Subject: Re: Commit 'iomap: add support for dma aligned direct-io' causes
+ qemu/KVM boot failures
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, Christoph
+ Hellwig <hch@lst.de>, qemu-devel@nongnu.org, kvm@vger.kernel.org
+Date: Thu, 29 Sep 2022 19:16:29 +0300
+In-Reply-To: <YzW+Mz12JT1BXoZA@kbusch-mbp.dhcp.thefacebook.com>
+References: <fb869c88bd48ea9018e1cc349918aa7cdd524931.camel@redhat.com>
+ <YzW+Mz12JT1BXoZA@kbusch-mbp.dhcp.thefacebook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220923153451.3810456-1-kbusch@fb.com>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=kbusch@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,14 +83,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 23, 2022 at 08:34:51AM -0700, Keith Busch wrote:
+On Thu, 2022-09-29 at 09:48 -0600, Keith Busch wrote:
+> I am aware, and I've submitted the fix to qemu here:
 > 
-> An iov length needs to be aligned to the logical block size, which may
-> be larger than the memory alignment. And since this is only used with
-> file-posix backing storage, move the alignment function to there, where
-> the value of the request_alignment is known to be the file's logical
-> block size.
+>   https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00398.html
+> 
 
-Any objections to this version? This is fixing real bug reports that may become
-more frequent without this patch.
+
+Thanks for quick response!
+
+Question is though, isn't this an kernel ABI breakage?
+
+(I myself don't care, I would be happy to patch my qemu), 
+
+but I afraid that this will break *lots* of users that only updated the kernel
+and not the qemu.
+
+What do you think?
+
+Best regards,
+	Maxim Levitsky
+
 
