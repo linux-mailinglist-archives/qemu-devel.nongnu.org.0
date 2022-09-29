@@ -2,88 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0015EF224
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 11:34:29 +0200 (CEST)
-Received: from localhost ([::1]:57964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316FD5EF25D
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 11:43:02 +0200 (CEST)
+Received: from localhost ([::1]:46138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odpw4-0008Ts-5M
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 05:34:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55086)
+	id 1odq4D-0006C6-A4
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 05:42:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1odpnm-0004WF-KO
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:25:54 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:42630)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odpsS-0006vQ-Jq
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:30:45 -0400
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:44672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1odpnk-0000MV-Kr
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:25:54 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id x92so1125973ede.9
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 02:25:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=A3Oy43Qdq+TsIWtVdEhsHV1+HzXdLgornpIO4q3Bbb0=;
- b=bZx6yqf2518J3YzVWR1gTWml4DAkGI6qA9LnSneNXe6/4NFGZnKPXCov2XJVvg8cNT
- DPLnvJcZ4lSfE32V/0Ylz/LG4cJeMWoW98N3EKWa2vWurLFPaghB3tLltaYJlUNUExxq
- /bwj1FcKqcoBIx2IVECJZiibWfcLMSS1x4sceB4Enw6LCUVzSpZi6z1f2uapCP24AR7B
- KPOdmJ8lu1W4fuLjeVWqUKvgxFDbsuvUGSca5Lsg4mME5DNviUAtShekrm1832UYXJHd
- f1hS2KlhM9FZ4WUFaC6RcFGlrQli9ExJnvraLZgcaKzVk6MoXDocFul6A7SQ/FW2sQC5
- ffig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=A3Oy43Qdq+TsIWtVdEhsHV1+HzXdLgornpIO4q3Bbb0=;
- b=Ib5CvX8etZsKsdCrm4aM5Xf9WAXNiFryzq3C3NZMD3YqMQL9MM5dYKqyfFalECHawL
- BJO7wv08KszTGbFcBc7sbE0ZboL7MNqwrZJvdBNCTBdFYLgGZTf0YvgIntdljJZ1L7GW
- kvGPMF/zhxhsjzrA9u4xa9QYkzsaiL/ezS1xVCSZqEjbd7h6vdTeXMsIC9wT+DaXRTJx
- NZvUUfSbq049wvIYxahshe795GlMTsSTb3fmi9Zroe1ng00WQzw131D3X9jrJeIb7nxC
- IPEs79iBygmTnbjN/EuYPej2QkJgp0wxV9Q43JGbpXrki02GOZB0AjrPMuePSTBMs+ga
- wQlQ==
-X-Gm-Message-State: ACrzQf00uB8u4fPRsMl+9suXMnKQGHtb8PmenRzp2rEPrcMAPwdbSS1q
- zq5bGBk4UfiD1UiaKn6r9hRpML/lYupq7/+pWKH/0Q==
-X-Google-Smtp-Source: AMsMyM4utj58T+rtfnj1+UGoorLLh+T4P9U84tY3CMR91F/Zcbqf/iPTkZl7uS5ijcX6UMpIaWWgSS66fHger7jusiw=
-X-Received: by 2002:a05:6402:400e:b0:458:29c3:ba34 with SMTP id
- d14-20020a056402400e00b0045829c3ba34mr1563901eda.294.1664443550596; Thu, 29
- Sep 2022 02:25:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odpsQ-0001Ms-UV
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:30:44 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5B8C31F855;
+ Thu, 29 Sep 2022 09:30:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1664443841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tmUKOqXkGHRtqdxn8gjSXbNnAkPjtUOmPDIjBkPespw=;
+ b=YJ/zfgAAVwBVxzwMZI2AOwpMRM4XvPZECw+Wag4y5yXB4iwcg6/6WOruFzTfKkjhm70iGv
+ vir/NZXhsLoRRskjVGMXQFVoG3K7ipH0Rb3ps5+pbwIvaSlmhSw2PKgaiBDyt4HsJxHPWE
+ EFssgywdY4KZdcTzxKf7e4fmZr/o8Ks=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1664443841;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tmUKOqXkGHRtqdxn8gjSXbNnAkPjtUOmPDIjBkPespw=;
+ b=ajZ+qjdeJncnLJwfeGXUa1WBPb8gzkH+p+VEhEX9BAe9iZzhC7BxOq4z8Ix1JLM9N9yjNX
+ 8lQ9LMUs5u7Sd9Cw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0770C1348E;
+ Thu, 29 Sep 2022 09:30:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id taYVAMFlNWMEOAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 29 Sep 2022 09:30:40 +0000
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Claudio Fontana <cfontana@suse.de>
+Subject: [PATCH v9 0/5] improve error handling for module load
+Date: Thu, 29 Sep 2022 11:30:30 +0200
+Message-Id: <20220929093035.4231-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20220831013236.32937-1-akihiko.odaki@daynix.com>
- <87tu5qulay.fsf@pond.sub.org>
- <CAE=JJXdg=Miisek8WeqQ12NqL8obzmuyzD0mbv1SfiJTyVBLuw@mail.gmail.com>
- <875yi2mat1.fsf@pond.sub.org>
- <CAE=JJXcRH-0TuM7WgbM35Nb=Ud94K-LUcdzjoyJDMEuK9o=uFw@mail.gmail.com>
-In-Reply-To: <CAE=JJXcRH-0TuM7WgbM35Nb=Ud94K-LUcdzjoyJDMEuK9o=uFw@mail.gmail.com>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-Date: Thu, 29 Sep 2022 18:25:39 +0900
-Message-ID: <CAE=JJXcsPkQyfPY0SAam6uCu3CQze6rOr3kWuo8pk1qiMr_7VA@mail.gmail.com>
-Subject: Re: [PATCH v2] pci: Assert that capabilities never overlap
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org, 
- Alex Williamson <alex.williamson@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>, 
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>, 
- Stefan Weil <sw@weilnetz.de>, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>, 
- Peter Maydell <peter.maydell@linaro.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, 
- Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::52f;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:67c:2178:6::1d;
+ envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,76 +89,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 5, 2022 at 7:11 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->
-> On Mon, Sep 5, 2022 at 6:26 PM Markus Armbruster <armbru@redhat.com> wrote:
-> >
-> > Akihiko Odaki <akihiko.odaki@daynix.com> writes:
-> >
-> > > On Fri, Sep 2, 2022 at 7:23 PM Markus Armbruster <armbru@redhat.com> wrote:
-> > >>
-> > >> Akihiko Odaki <akihiko.odaki@daynix.com> writes:
-> > >>
-> > >> > pci_add_capability appears most PCI devices. Its error handling required
-> > >> > lots of code, and led to inconsistent behaviors such as:
-> > >> > - passing error_abort
-> > >> > - passing error_fatal
-> > >> > - asserting the returned value
-> > >> > - propagating the error to the caller
-> > >> > - skipping the rest of the function
-> > >> > - just ignoring
-> > >> >
-> > >> > The code generating errors in pci_add_capability had a comment which
-> > >> > says:
-> > >> >> Verify that capabilities don't overlap.  Note: device assignment
-> > >> >> depends on this check to verify that the device is not broken.
-> > >> >> Should never trigger for emulated devices, but it's helpful for
-> > >> >> debugging these.
-> > >> >
-> > >> > Indeed vfio has some code that passes capability offsets and sizes from
-> > >> > a physical device, but it explicitly pays attention so that the
-> > >> > capabilities never overlap.
-> > >>
-> > >> I can't see that at a glance.  Can you give me a clue?
-> > >>
-> > >> >                             Therefore, we can always assert that
-> > >> > capabilities never overlap when pci_add_capability is called, resolving
-> > >> > these inconsistencies.
-> > >> >
-> > >> > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> > >>
-> > >
-> > > Looking at vfio_add_std_cap(), and vfio_add_ext_cap() it seems that
-> > > they are clipping the size of capabilities so that they do not
-> > > overlap, if I read it correctly.
-> >
-> > If we want to deal gracefully with buggy physical devices, we need to
-> > treat pdev->config[] as untrusted input.
-> >
-> > As far as I can tell:
-> >
-> > * vfio_add_capabilities() replicates the physical device's capabilities
-> >   (starting at pdev->config[PCI_CAPABILITY_LIST]) in the virtual device.
-> >
-> > * vfio_add_std_cap() is a helper to add the tail starting at
-> >   pdev->config[pos].
-> >
-> > Could the physical device's capabilities overlap?  If yes, what would
-> > happen before and after your series?
-> >
->
-> When the capabilities overlap, vfio_std_cap_max_size() and
-> vfio_ext_cap_max_size(), called by vfio_add_std_cap(),
-> vfio_add_ext_cap() should clip the size of capabilities. Comments in
-> vfio_add_std_cap() and vfio_add_ext_cap() say: "Since QEMU doesn't
-> actually handle many of the config accesses, exact size doesn't seem
-> worthwhile."
->
-> Regards,
-> Akihiko Odaki
+CHANGELOG:
 
-Hi, please check the last reply I have sent if you have not yet.
+v8 -> v9:
 
-Regards,
-Akihiko Odaki
+* add Signed-off-by tag for Kevin's commit
+* fully reviewed, added tags.
+
+v7 -> v8:
+
+* fix a problem in module_load, where the module_name in v7 was mistakenly freed
+  via g_free() also in the success code path, and instead module_name memory
+  is owned by g_hash_table afer g_hash_table_add.
+
+* add more text to the commit message to indicate areas of further improvements,
+  and more details about changes.
+
+* in PATCH 5/5, change the commit message to align with the change in v7,
+  ie, we exit(), we do not abort().
+
+v6 -> v7:
+
+* changed instances of abort() to exit(1), for the CONFIG_MODULES case (Philippe).
+
+* dmg: do not use a separate local error, use the existing errp (Kevin)
+
+* block: do not use a separate local error, use the existing errp for
+  bdrv_find_protocol (Markus)
+
+v5 -> v6:
+
+* added a patch by Kevin to handle the dmg warning about missing
+  decompression submodules. (Kevin)
+
+* added more verbose comments about all the affected callers of module_load
+  and module_load_qom (Markus)
+
+(OPEN ISSUE): change abort() to exit() when type not present even after loading module?
+
+(Philippe)
+
+v4 -> v5:
+
+* added a patch to rename module_load_one and friends to module_load
+
+* qdev_new: just reuse module_object_class_by_name, to avoid duplicating code
+
+* changed return value of module_load to an int:
+  -1 error (Error **errp set).
+   0 module or dependencies not installed,
+   1 loaded
+   2 already loaded (or built-in)
+
+   Adapted all callers.
+
+* module_load: fixed some pre-existing memory leaks, used an out: label
+  to do the cleanup.
+
+v3 -> v4: (Richard)
+
+* module_object_class_by_name: return NULL immediately on load error.
+* audio_driver_lookup: same.
+* bdrv_find_format: same.
+
+* dmg_open: handle optional compression submodules better: f.e.,
+  if "dmg-bz2" is not present, continue but offer a warning.
+  If "dmg-bz2" load fails with error, error out and return.
+
+* module_load_dso: add newline to error_append_hint.
+
+v2 -> v3:
+
+* take the file existence check outside of module_load_file,
+  rename module_load_file to module_load_dso, will be called only on
+  an existing file. This will simplify the return value. (Richard)
+
+* move exported function documentation into header files (Richard)
+
+v1 -> v2:
+
+* do not treat the display help text any differently and do report
+  module load _errors_. If the module does not exist (ENOENT, ENOTDIR),
+  no error will be produced.
+
+DESCRIPTION:
+
+while investigating a permission issue in accel, where accel-tcg-x86_64.so
+was not accessible, I noticed that no errors were produced regarding the
+module load failure.
+
+This series attempts to improve module_load_one and module_load_qom_one
+to handle the error cases better and produce some errors.
+
+Patch 1 is already reviewed and is about removing an unused existing
+argument "mayfail" from the call stack.
+
+Patch 2 is the real meat, and that one I would say is RFC.
+Will follow up with comments on the specific questions I have.
+
+Patch 3 finally adds a simple check in accel/, aborting if a module
+is not found, but relying on the existing error report from
+module_load_qom_one.
+
+Claudio Fontana (4):
+  module: removed unused function argument "mayfail"
+  module: rename module_load_one to module_load
+  module: add Error arguments to module_load and module_load_qom
+  accel: abort if we fail to load the accelerator plugin
+
+Kevin Wolf (1):
+  dmg: warn when opening dmg images containing blocks of unknown type
+
+ accel/accel-softmmu.c |   8 +-
+ audio/audio.c         |  16 ++--
+ block.c               |  20 +++-
+ block/dmg.c           |  33 ++++++-
+ hw/core/qdev.c        |  17 +++-
+ include/qemu/module.h |  37 +++++++-
+ qom/object.c          |  18 +++-
+ softmmu/qtest.c       |   8 +-
+ ui/console.c          |  18 +++-
+ util/module.c         | 211 +++++++++++++++++++++++-------------------
+ 10 files changed, 260 insertions(+), 126 deletions(-)
+
+-- 
+2.26.2
+
 
