@@ -2,64 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6515EFDA4
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 21:11:20 +0200 (CEST)
-Received: from localhost ([::1]:35984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE5C95EFDD8
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 21:21:39 +0200 (CEST)
+Received: from localhost ([::1]:46618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odywI-0001W3-Mt
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 15:11:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57842)
+	id 1odz6F-0005mh-Hq
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 15:21:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1odytq-0008KO-N9; Thu, 29 Sep 2022 15:08:48 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:36317)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1odz26-0002HR-1w
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 15:17:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1odyto-00059j-0Y; Thu, 29 Sep 2022 15:08:46 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N6KpF-1pJGrz2RAn-016c4R; Thu, 29 Sep 2022 21:08:34 +0200
-Message-ID: <4190fa52-e785-e780-0d41-cb51f8d9e1cc@vivier.eu>
-Date: Thu, 29 Sep 2022 21:08:33 +0200
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1odz21-0006ZQ-5i
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 15:17:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664479014;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kU2rD5nS6myoYoaYf1Npo3rZffBXeAh6IQzrtj2xA1o=;
+ b=LDZ34mgSlFb+NvtcQtOxnY3lTXpBwPYG0lajEY0qgWXr0J5nFQJAHeuSwwer2hHWri4yrE
+ jm+SaLGWA1IZLCB9eNMSAbNDrFT7DdgxSO++rWFGpXLITxUM+FnH24+dq3PbR9XRuHrkYm
+ HPGjuBH8EgOZP1482uhVh7jtUHvrK/I=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-211-gF4I2656Mi2c79FMvgr9vQ-1; Thu, 29 Sep 2022 15:16:52 -0400
+X-MC-Unique: gF4I2656Mi2c79FMvgr9vQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c2-20020a1c3502000000b003b535aacc0bso3359735wma.2
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 12:16:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=kU2rD5nS6myoYoaYf1Npo3rZffBXeAh6IQzrtj2xA1o=;
+ b=s+vHhCs0GAtP1AtLcwxfKzEOpegTmhBcHikT7YUr4s+p2DauoAUddmpGX94vvbBVQt
+ S3AORr9VsiiRgQYZHrUtLYPxNIbkm0PG/8PWGq7t0Gxq8OC354ShI6/udRF+0VwhbFxS
+ zeNENj0ObY+Y9+M3vcdlpbIvr8bTcpDljbZMM/egaVWfB6oiHywdF0g400rHXNS99aKb
+ L1OTOUBDkjckAYwAxlNPLNfosW8VUvMlQUXCGpYsw3k3zm5at/UCB/vuiEj2Gvb8iKG6
+ LuH3Jbx/mNqKmT4qRl2HoSEFBvdiA2mWYRny4HgZtLr1+hisTGqJ5O+z4M+WZgNJj3l4
+ 7kgw==
+X-Gm-Message-State: ACrzQf02UjhTHhOEjtZRd/CozLGh/mSXF/w0xfUGW3Q5mRRgaP+Rk2Py
+ ronKnkfoyCNlQJv36eYTdpP/NujSfajOMA0EN/Rmngz7I2e70mePD0eUIAq1RhFMLLYd8nL/IYA
+ szcrqYi696vqM6p8=
+X-Received: by 2002:a05:600c:4e52:b0:3b4:a828:1d84 with SMTP id
+ e18-20020a05600c4e5200b003b4a8281d84mr11525994wmq.143.1664479011748; 
+ Thu, 29 Sep 2022 12:16:51 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6EUrU6vPDoT+JOaA8mXEsvSYYyj4q5BsUL0pLkC6ypcXEddR0lIhMQzZRA4yI536oUr2TL5w==
+X-Received: by 2002:a05:600c:4e52:b0:3b4:a828:1d84 with SMTP id
+ e18-20020a05600c4e5200b003b4a8281d84mr11525980wmq.143.1664479011424; 
+ Thu, 29 Sep 2022 12:16:51 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ t1-20020a0560001a4100b0022cd539ce5esm166490wry.50.2022.09.29.12.16.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Sep 2022 12:16:50 -0700 (PDT)
+Date: Thu, 29 Sep 2022 20:16:48 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Palmer Dabbelt <palmer@rivosinc.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] RISC-V: Add support for Ztso
+Message-ID: <YzXvIKVeFcHQ3ZQI@work-vm>
+References: <20220902034412.8918-1-palmer@rivosinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v2] hw/virtio/vhost-shadow-virtqueue: Silence GCC error
- "maybe-uninitialized"
-Content-Language: fr
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220910151117.6665-1-shentey@gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220910151117.6665-1-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GT2/AZsiuumhkCx70Bid2+HhaVQNAJpgYJECVw5DhedcxJzmcGB
- Y8bidFO4aYY6yvWs/HvviaZ4UZgXmeFyn8wF7cMaddO9oe3DDCkIrHF5ncCIRx+t+ADzxTH
- 7Dywh6xJ8yKvVKQSQtkuthh9snkF7fq09vLvYW20s/dLeTl0PtxGxTDV/NYz619eFXC3KR5
- qnTMhPQ0M/mO5Ol0z+BTQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ULmHLlA7A0g=:gmAlA+3Y17L26JJBai127M
- bWyY27geC3NnIRrRvJKYFzEaF7AjObZ4pIoUxlYObDOTLROiTwV3LkAtM1PSoRXeqPLF7vuQ+
- dF3+DDtbj4dWNQERTW7g9wx76cyN3lTuiGys8R+X353AvVluNOMxFSU608GrOvbWUo3/arEEU
- 26dSlc9DcZVwsyCRbpQmTxKiL9nD/ypSF57MZ0TctVC2iNxqS55j2uePAWM1z+fOe93VHlPVX
- IGICnvYWPWUmGVU/a0+eL6MchobQYkzpEBjXgIwy/K+5OYRRqtLlJbVQSNGa3MkksEaX0jt7C
- LDSTSg5LuKps/JCFm2v7Vn0w+24RS7vT5vtFCAQhUObOkXVUsy/ZjnHer40W4AiLuXQ3Fsar7
- NgJ1MyRzJA6IsUrnGPsnTOPUO1oiqwuvR5k614UlTWcs0eVQ5pIyuD90S9/hI5HjRNeVhtTI4
- sCcH22NVQBUS4UXqRYWc6jNUJCC5RsQzcniUGflEs/dS9SbS4xi5UKfwqxqWXTpVgUZL6cNS3
- uFZ2VRP9UwpCs6AeWbuPQnJMiPy7OQIcd8bl3VN/ufgl8DpbwkRxgTre7e1+18mO3+voZdPIj
- svRyzQekBWDOFtnB6YhtyAZzDstJD/zfkkcZZntH3a3Wq2GI2DKRyQQM1Uv6A/UqoAQkjSEBC
- z8/Gu7NIOnyKJiCImCTKQKVO352SO7MtmPRA1KZOGXUiujH4vKzxqCZifLOS09nurc2Y5NCB9
- OaLAilYGMyxg0Z5te52t/D4N/BnLdC4UVn9YSrQMRKxcbdM6dhQlfrOc4yRjjywe4Y3Oz328A
- y4qwY3R
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.099,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220902034412.8918-1-palmer@rivosinc.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,53 +99,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 10/09/2022 à 17:11, Bernhard Beschow a écrit :
-> GCC issues a false positive warning, resulting in build failure with -Werror:
+* Palmer Dabbelt (palmer@rivosinc.com) wrote:
+> Ztso, the RISC-V extension that provides the TSO memory model, was
+> recently frozen.  This provides support for Ztso on targets that are
+> themselves TSO.
 > 
->    In file included from /usr/include/glib-2.0/glib.h:114,
->                     from src/include/glib-compat.h:32,
->                     from src/include/qemu/osdep.h:144,
->                     from ../src/hw/virtio/vhost-shadow-virtqueue.c:10:
->    In function ‘g_autoptr_cleanup_generic_gfree’,
->        inlined from ‘vhost_handle_guest_kick’ at ../src/hw/virtio/vhost-shadow-virtqueue.c:292:42:
->    /usr/include/glib-2.0/glib/glib-autocleanups.h:28:3: error: ‘elem’ may be used uninitialized [-Werror=maybe-uninitialized]
->       28 |   g_free (*pp);
->          |   ^~~~~~~~~~~~
->    ../src/hw/virtio/vhost-shadow-virtqueue.c: In function ‘vhost_handle_guest_kick’:
->    ../src/hw/virtio/vhost-shadow-virtqueue.c:292:42: note: ‘elem’ was declared here
->      292 |             g_autofree VirtQueueElement *elem;
->          |                                          ^~~~
->    cc1: all warnings being treated as errors
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 > 
-> There is actually no problem since "elem" is initialized in both branches.
-> Silence the warning by initializig it with "NULL".
-> 
-> $ gcc --version
-> gcc (GCC) 12.2.0
-> 
-> Fixes: 9c2ab2f1ec333be8614cc12272d4b91960704dbe ("vhost: stop transfer elem ownership in vhost_handle_guest_kick")
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   hw/virtio/vhost-shadow-virtqueue.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-> index e8e5bbc368..596d4434d2 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -289,7 +289,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
->           virtio_queue_set_notification(svq->vq, false);
->   
->           while (true) {
-> -            g_autofree VirtQueueElement *elem;
-> +            g_autofree VirtQueueElement *elem = NULL;
->               int r;
->   
->               if (svq->next_guest_avail_elem) {
 
-Applied to my trivial-patches branch.
+> diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+> index 00fcbe297d..2a43d54fcd 100644
+> --- a/tcg/i386/tcg-target.h
+> +++ b/tcg/i386/tcg-target.h
+> @@ -236,6 +236,7 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+>  #include "tcg/tcg-mo.h"
+>  
+>  #define TCG_TARGET_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
+> +#define TCG_TARGET_SUPPORTS_MCTCG_RVTSO 1
 
-Thanks,
-Laurent
+Is x86's brand of memory ordering strong enough for Ztso?
+I thought x86 had an optimisation where it was allowed to store forward
+within the current CPU causing stores not to be quite strictly ordered.
+
+Dave
+
+>  #define TCG_TARGET_HAS_MEMORY_BSWAP  have_movbe
+>  
+> diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
+> index 23e2063667..f423c124a0 100644
+> --- a/tcg/s390x/tcg-target.h
+> +++ b/tcg/s390x/tcg-target.h
+> @@ -171,6 +171,7 @@ extern uint64_t s390_facilities[3];
+>  #define TCG_TARGET_HAS_MEMORY_BSWAP   1
+>  
+>  #define TCG_TARGET_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
+> +#define TCG_TARGET_SUPPORTS_MCTCG_RVTSO 1
+>  
+>  static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+>                                              uintptr_t jmp_rw, uintptr_t addr)
+> -- 
+> 2.34.1
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
