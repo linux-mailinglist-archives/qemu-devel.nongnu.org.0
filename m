@@ -2,93 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFABC5EF7D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:41:55 +0200 (CEST)
-Received: from localhost ([::1]:41350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126775EF7DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:42:33 +0200 (CEST)
+Received: from localhost ([::1]:51266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oduja-0000av-Ps
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60106)
+	id 1odukC-0002MD-35
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:42:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ods4G-0001Yj-99
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:51:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32232)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ods4E-0002tb-K2
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:51:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664452261;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n5vaMBVvnKr9/GhGXeByajIihA5fNeqmM5UP9PB4a0I=;
- b=bznO91FjX7iC/iBHb2vIsgP9S/44ysiUAzDBen4u7UN26VTumZdC/sAYHSQoP4iImFMoaK
- Qaz6pvDA1gZGjUONR13igLOjoJoLKzTLg1GSBArucgLR0IuwvbzMwv33Mhka+FQenaYaoW
- Q1oHcvYSiV9kEgBhg7ut0pYvai6ZpfU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-261-1OYNGBGgNhqBzkkVJi1IwQ-1; Thu, 29 Sep 2022 07:51:00 -0400
-X-MC-Unique: 1OYNGBGgNhqBzkkVJi1IwQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- g8-20020a05600c4ec800b003b4bcbdb63cso558182wmq.7
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:51:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ods6B-00022V-PV
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:53:08 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43906)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ods68-00034D-Es
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:53:03 -0400
+Received: by mail-wr1-x434.google.com with SMTP id h7so1769486wru.10
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:52:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=9CKp4+MliHDX49kndl7AwsM9I9vkkBHIOpOCuRYd2sA=;
+ b=cpOkTctVuUd5UmzRp4d6HnHjpSw+U70YBdfuBUbwzIhYQov6Ojn/xOCXgXi8qjLiGz
+ Lx7D6b7KfpUlJxVZb0cqfLkql20FnYm8iGVKRCbqRxbXZgjZ6Hp0R4RAeoAStpm/envs
+ yoc+66tETwMhK6G4eQTxsQwVx7/mV6QcI8+gpg8RNL/XiubhHWkVKy7ZFRkadhUcQaat
+ 6856bQcpm4nVcYxJM5WAaEkt53iPqgS65WTafwzYgnqEu8RTuGfv6tnzS1w59nzbKnjU
+ oFoA0peNjgKruEQOIw7Fs1sQH3YauZ62ygXyYyaEsSb3grkdTUbpdP8LP4bhbN2BsAJc
+ AI/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date;
- bh=n5vaMBVvnKr9/GhGXeByajIihA5fNeqmM5UP9PB4a0I=;
- b=5nMsEzzQWqGIXkbTuzoKsWrbOa+2JCCmGH7OjoE4qSJiHZyH4No0aMupDNy0L53G5M
- 7RqlK5oci3HaXPw1/lKaPDVNbJtTOo6GKblC49SGgksDGnar+3THFApA0VNHglzRMNUf
- N/RfXhrd6AtBYIh6w65pGjF27oDK43fEmfEgv4V8DFNXm/5+93rE8p+q5Z9sOpfB40pp
- SbCj5i7Wd7BO39LeMlYPXzhrUeDcPVzmEeIcI7tbP9L8pstNnGMIXDUxsOlLksRLZaQD
- rc1UBYvd84Sv4psDf0j0dukHs1zCmK9UmKCq5siqctYUyW4YideMPf0IR/x5ZxJG5m0f
- 2ccQ==
-X-Gm-Message-State: ACrzQf2azW6OQniRKyJPUpyF9Cn5Jqqgzq65Qb1Zxa0IXGw7KmXqcfIe
- 2OhwGZcXOiKacgjzj3aAtULoI5kUL2rF4zYMzAdwWAtixA2pAhHmuRTmLjJeqGvMRrRrRYBct0M
- vR1QgNEszqTcGENY=
-X-Received: by 2002:a05:600c:35d2:b0:3b4:a897:d48 with SMTP id
- r18-20020a05600c35d200b003b4a8970d48mr10576706wmq.48.1664452259035; 
- Thu, 29 Sep 2022 04:50:59 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7FUuHFFHlWk9NI4jO8etQrCHS82RTaBQPf1larPUcQ6XJmp6pvykPDp8Tggz+HZzrICPYZWg==
-X-Received: by 2002:a05:600c:35d2:b0:3b4:a897:d48 with SMTP id
- r18-20020a05600c35d200b003b4a8970d48mr10576697wmq.48.1664452258708; 
- Thu, 29 Sep 2022 04:50:58 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c705:ce00:b5d:2b28:1eb5:9245?
- (p200300cbc705ce000b5d2b281eb59245.dip0.t-ipconnect.de.
- [2003:cb:c705:ce00:b5d:2b28:1eb5:9245])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=9CKp4+MliHDX49kndl7AwsM9I9vkkBHIOpOCuRYd2sA=;
+ b=nN/uPF+rRq+hraV9VO2UjkN6K0fN+J7SubdpRZQIj5y6sQq+aJIu2lJrIPPu1cG4AL
+ c1Y/jfd/hYSH63S4e/lBAuArQGE5UqjZkurm+HQcwkuoPuNcrIrP9AT1tCDQXm6wvHm9
+ Q6axsKfptwYrOHQbN+9Z3IgLcwidS8bPghqcenIW2nkPFUHc0i6OZKJQ/fAkPBtjcd4C
+ 3N7YvSOmh5O0yhS+BqNkqN2YT81931YpPCVDTuIzcHJ+0ce+eO/2vundMMktgDLvFu4p
+ uHJD+P5tDTQEDegZ1+0utYleQblJ9kR/RvJQEG203yzmopbNJmwlFPXwO77DKSj5Rb1T
+ u7dg==
+X-Gm-Message-State: ACrzQf2ISWQ1By5Qk9llsoNTPMTCdcdfha307gphZ7wr6HKee/Le8+FX
+ RmQTjepjawW6YcN8ndWfak9Rww==
+X-Google-Smtp-Source: AMsMyM522VFNRg+nrdRZDxke5nFm1X0Md+5Az1TqKXkdTaYRE/5jCB9PEo0DMwC0gZtfgPHb5VTlbw==
+X-Received: by 2002:a05:6000:18d1:b0:22c:c347:8f9d with SMTP id
+ w17-20020a05600018d100b0022cc3478f9dmr2197376wrq.358.1664452353896; 
+ Thu, 29 Sep 2022 04:52:33 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- g14-20020adff3ce000000b0022af9555669sm7593879wrp.99.2022.09.29.04.50.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Sep 2022 04:50:58 -0700 (PDT)
-Message-ID: <4a23fe3b-4d24-50d7-b250-d4188bb51dbd@redhat.com>
-Date: Thu, 29 Sep 2022 13:50:57 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v5 03/17] accel/tcg: Suppress auto-invalidate in
- probe_access_internal
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
+ n43-20020a05600c502b00b003a83ca67f73sm4430671wmr.3.2022.09.29.04.52.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Sep 2022 04:52:33 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9AED71FFB8;
+ Thu, 29 Sep 2022 12:52:32 +0100 (BST)
 References: <20220925105124.82033-1-richard.henderson@linaro.org>
- <20220925105124.82033-4-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220925105124.82033-4-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -69
-X-Spam_score: -7.0
-X-Spam_bar: -------
-X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.099, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ <20220925105124.82033-5-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Philippe =?utf-8?Q?Mathieu-D?=
+ =?utf-8?Q?aud=C3=A9?= <f4bug@amsat.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 04/17] accel/tcg: Introduce probe_access_full
+Date: Thu, 29 Sep 2022 12:51:45 +0100
+In-reply-to: <20220925105124.82033-5-richard.henderson@linaro.org>
+Message-ID: <87czbe1jpb.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,26 +95,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.09.22 12:51, Richard Henderson wrote:
-> When PAGE_WRITE_INV is set when calling tlb_set_page,
-> we immediately set TLB_INVALID_MASK in order to force
-> tlb_fill to be called on the next lookup.  Here in
-> probe_access_internal, we have just called tlb_fill
-> and eliminated true misses, thus the lookup must be valid.
-> 
-> This allows us to remove a warning comment from s390x.
-> There doesn't seem to be a reason to change the code though.
-> 
-> Cc: David Hildenbrand <david@redhat.com>
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Add an interface to return the CPUTLBEntryFull struct
+> that goes with the lookup.  The result is not intended
+> to be valid across multiple lookups, so the user must
+> use the results immediately.
+>
 > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
+>  include/exec/exec-all.h | 11 ++++++++++
+>  accel/tcg/cputlb.c      | 47 +++++++++++++++++++++++++----------------
+>  2 files changed, 40 insertions(+), 18 deletions(-)
+>
+> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> index bcad607c4e..758cf6bcc7 100644
+> --- a/include/exec/exec-all.h
+> +++ b/include/exec/exec-all.h
+> @@ -434,6 +434,17 @@ int probe_access_flags(CPUArchState *env, target_ulo=
+ng addr,
+>                         MMUAccessType access_type, int mmu_idx,
+>                         bool nonfault, void **phost, uintptr_t retaddr);
+>=20=20
+> +#ifndef CONFIG_USER_ONLY
+> +/**
+> + * probe_access_full:
+> + * Like probe_access_flags, except also return into @pfull.
+> + */
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+That lifetime requirement on @pfull really should be documented here as
+well as the commit message.
 
--- 
-Thanks,
+Otherwise:
 
-David / dhildenb
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
