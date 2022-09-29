@@ -2,102 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F3865F00F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 00:48:41 +0200 (CEST)
-Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 090F55F0148
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 01:20:38 +0200 (CEST)
+Received: from localhost ([::1]:47876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oe2Ke-00063p-HO
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 18:48:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58754)
+	id 1oe2pY-0002zm-LB
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 19:20:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1oe2HU-0003E9-4B
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 18:45:24 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:41771)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1oe2HS-0003Vt-8D
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 18:45:23 -0400
-Received: by mail-pg1-x535.google.com with SMTP id q9so2661333pgq.8
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 15:45:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=ByScpYkyRiCU42lbuVk6qEFlopY8wZGmivn5KTd4TkE=;
- b=lCAg7J5XBsmL67S4ZX++/AHEh9LqfKfUqfXAwLH9JogkhvyRO83RZ1Du9C4di0rODz
- kLZh/NE3uWWM/16Hp3uljQIoX0MFNKNuV3C68eln7snytpYC2ZwiQ/V0cLeGd1eHLwBC
- xZUPST6xsPprIa2dWHCykDOU91y140Q5KWomGApBmM0iNB3o1LdjW/DQ7VqhYIf1E8u2
- h43ebHa7BCSKFwUduXxQhPuT5TwVny9wTPKsyTwC1K3cE1PDMdpfFs5LAi7yM1CLwhBA
- SRQHTIlNp9clZhJVcQu1Dmhn2ngA/E21LXi/BXNoOBp9H7PEa/hZUshHWpvqrAmmDNji
- +OWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=ByScpYkyRiCU42lbuVk6qEFlopY8wZGmivn5KTd4TkE=;
- b=wt/FaXXfOf/oQNDNax3RsOFtS0oIQIS+lhfHS+nin2DcJtAFuRVhxfnnmvi41Ldl3P
- MYOztvMKcKzsdZ4ftnk5r3Cqrxl9aLeTolGI1jVEWhu3EStIWCBj3pxV0ISPyrWM4IH9
- hdynNindv0h4Nf7QZWPpYPQc5mhPse9hdJMZGoxPaU7degqaHb4yEDwJYcbGbC0RlUa7
- +EWWrYogTXTJJslpmR/7zdYbHnAsW/NS4Z0Grrytk68/I+VhVYKDhR3xR7Se9k6JJTXh
- VQYPB+u5wA6TUudopgEwYyqHg5JCIZ3HKy8Fory6yKsk/PEEPJxpYGlUu1317qdmoiLJ
- xppg==
-X-Gm-Message-State: ACrzQf1/6k8MXcsDxExogGiEo1xH5vMtOOIcil8f0sWSDfMYZZ3QEKTv
- oE5PHuASoKScBONmlO8+QSo=
-X-Google-Smtp-Source: AMsMyM6MQvFe701ujja7rvZea79ByiauTnUf8YlkU9ZkqGQBYquDrfuLbNd+uGgJ3lljB5PQecL3LA==
-X-Received: by 2002:a63:4d4:0:b0:438:ce28:757f with SMTP id
- 203-20020a6304d4000000b00438ce28757fmr4873802pge.441.1664491520310; 
- Thu, 29 Sep 2022 15:45:20 -0700 (PDT)
-Received: from localhost ([192.55.54.55]) by smtp.gmail.com with ESMTPSA id
- u11-20020a170903124b00b001754cfb5e21sm415508plh.96.2022.09.29.15.45.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 15:45:18 -0700 (PDT)
-Date: Thu, 29 Sep 2022 15:45:16 -0700
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com,
- isaku.yamahata@gmail.com
-Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <20220929224516.GA2260388@ls.amr.corp.intel.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org>)
+ id 1oe2nz-0001BZ-BN; Thu, 29 Sep 2022 19:18:59 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:40834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org>)
+ id 1oe2nx-0007vA-5y; Thu, 29 Sep 2022 19:18:59 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7D465B8267F;
+ Thu, 29 Sep 2022 23:18:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFB8FC433C1;
+ Thu, 29 Sep 2022 23:18:52 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="ZhXtdz51"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1664493530;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hF9rYpsMRu8iOlbcHGs9P0pihfhi1JnBQIDJPmBi7NA=;
+ b=ZhXtdz51ay/cKdp/0jcr2iIwNciYY0Ki1+5GOwUYR9kbtuLPOubOjkchkOBi8R02JPngtE
+ 5ot4xYYPyiGnxc5SGzumOo4HgOK1FHGeXN17ItVlC5FHmUlKBBS2kEzLvV4QD1a+CwsJHg
+ GERqKOMplnc9UrVyJZukU1UwRSJA5HY=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2906c4f9
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Thu, 29 Sep 2022 23:18:50 +0000 (UTC)
+Date: Fri, 30 Sep 2022 01:18:48 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: qemu-devel@nongnu.org, peter.maydell@linaro.org, qemu-arm@nongnu.org
+Subject: Re: [PATCH] arm: re-randomize rng-seed on reboot
+Message-ID: <YzYn2EJPpfF1HbV4@zx2c4.com>
+References: <20220927160742.1773167-1-Jason@zx2c4.com>
+ <YzYGsjlGBwh4Hi78@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YzYGsjlGBwh4Hi78@zx2c4.com>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,72 +77,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 15, 2022 at 10:29:07PM +0800,
-Chao Peng <chao.p.peng@linux.intel.com> wrote:
-...
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 584a5bab3af3..12dc0dc57b06 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-...
-> @@ -4622,6 +4622,33 @@ static int kvm_vm_ioctl_get_stats_fd(struct kvm *kvm)
->  	return fd;
->  }
->  
-> +#define SANITY_CHECK_MEM_REGION_FIELD(field)					\
-> +do {										\
-> +	BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=		\
-> +		     offsetof(struct kvm_userspace_memory_region, field));	\
-> +	BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=		\
-> +		     sizeof_field(struct kvm_userspace_memory_region, field));	\
-> +} while (0)
-> +
-> +#define SANITY_CHECK_MEM_REGION_EXT_FIELD(field)					\
-> +do {											\
-> +	BUILD_BUG_ON(offsetof(struct kvm_user_mem_region, field) !=			\
-> +		     offsetof(struct kvm_userspace_memory_region_ext, field));		\
-> +	BUILD_BUG_ON(sizeof_field(struct kvm_user_mem_region, field) !=			\
-> +		     sizeof_field(struct kvm_userspace_memory_region_ext, field));	\
-> +} while (0)
-> +
-> +static void kvm_sanity_check_user_mem_region_alias(void)
-> +{
-> +	SANITY_CHECK_MEM_REGION_FIELD(slot);
-> +	SANITY_CHECK_MEM_REGION_FIELD(flags);
-> +	SANITY_CHECK_MEM_REGION_FIELD(guest_phys_addr);
-> +	SANITY_CHECK_MEM_REGION_FIELD(memory_size);
-> +	SANITY_CHECK_MEM_REGION_FIELD(userspace_addr);
-> +	SANITY_CHECK_MEM_REGION_EXT_FIELD(private_offset);
-> +	SANITY_CHECK_MEM_REGION_EXT_FIELD(private_fd);
-> +}
-> +
->  static long kvm_vm_ioctl(struct file *filp,
->  			   unsigned int ioctl, unsigned long arg)
->  {
-> @@ -4645,14 +4672,20 @@ static long kvm_vm_ioctl(struct file *filp,
->  		break;
->  	}
->  	case KVM_SET_USER_MEMORY_REGION: {
-> -		struct kvm_userspace_memory_region kvm_userspace_mem;
-> +		struct kvm_user_mem_region mem;
-> +		unsigned long size = sizeof(struct kvm_userspace_memory_region);
-> +
-> +		kvm_sanity_check_user_mem_region_alias();
->  
->  		r = -EFAULT;
-> -		if (copy_from_user(&kvm_userspace_mem, argp,
-> -						sizeof(kvm_userspace_mem)))
-> +		if (copy_from_user(&mem, argp, size);
-> +			goto out;
-> +
-> +		r = -EINVAL;
-> +		if (mem.flags & KVM_MEM_PRIVATE)
->  			goto out;
+On Thu, Sep 29, 2022 at 10:57:22PM +0200, Jason A. Donenfeld via wrote:
+> Hi Peter,
+> 
+> On Tue, Sep 27, 2022 at 06:07:42PM +0200, Jason A. Donenfeld wrote:
+> > When the system reboots, the rng-seed that the FDT has should be
+> > re-randomized, so that the new boot gets a new seed. Since the FDT is in
+> > the ROM region at this point, we add a hook right after the ROM has been
+> > added, so that we have a pointer to that copy of the FDT. When the
+> > reboot happens, we then look for RNG seeds and replace their contents
+> > with new random data.
+> > 
+> > Cc: Peter Maydell <peter.maydell@linaro.org>
+> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> 
+> Just FYI, I'm waiting for your feedback on this approach, first, before
+> I add a similar thing for other architectures (at which point perhaps
+> rerandomize_fdt_seeds will be moved into device_tree.c or something).
 
-Nit:  It's better to check if padding is zero.  Maybe rename it to reserved.
+Actually, I think I'll generalize it now, and then we can evaluate it
+all together. It actually looks a bit nicer split into patches. So I'll
+have a replacement series for you shortly.
 
-+               if (mem.pad1 || memchr_inv(mem.pad2, 0, sizeof(mem.pad2)))
-+                       goto out;
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+Jason
 
