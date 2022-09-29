@@ -2,64 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932A45EFE10
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 21:36:26 +0200 (CEST)
-Received: from localhost ([::1]:49506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFBD5EFE39
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 21:57:45 +0200 (CEST)
+Received: from localhost ([::1]:33544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odzKb-0001Bm-GA
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 15:36:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53762)
+	id 1odzfE-0000RX-EI
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 15:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1odzH3-0007BQ-Am; Thu, 29 Sep 2022 15:32:45 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:42041)
+ (Exim 4.90_1) (envelope-from <hpoussin@reactos.org>)
+ id 1odzbX-0005NN-Gx; Thu, 29 Sep 2022 15:53:55 -0400
+Received: from iserv.reactos.org ([2a01:4f8:1c17:5ae1::1]:47686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1odzH1-0000UR-In; Thu, 29 Sep 2022 15:32:45 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MlwBf-1p4UGb3ewF-00iyqd; Thu, 29 Sep 2022 21:32:31 +0200
-Message-ID: <be8beef7-7b80-bacb-3ebf-247f03c55374@vivier.eu>
-Date: Thu, 29 Sep 2022 21:32:27 +0200
+ (Exim 4.90_1) (envelope-from <hpoussin@reactos.org>)
+ id 1odzbV-0003U2-7Z; Thu, 29 Sep 2022 15:53:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=reactos.org
+ ; s=25047;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=CjdR/eLdlxbXpUHcHZl6XG6nkl9V/ICd3Uq9XrAuFvY=; b=rENcPWVKbPQMB5npyLe1LdZvOK
+ N+VL25g5BUW9i3+EMfKKKeKoPhr5C2cjPn5+KfFiAeimcakJaGibhU7BJctrQd+V3EYHFddVwF7oY
+ yAn0Hofk8pjpojbOfYTRAur7BlqkCwzSp81B7Ytd0bBZE91vA8SDQcXWCVJV2YvoYWDg=;
+Received: by iserv.reactos.org with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <hpoussin@reactos.org>)
+ id 1odzbQ-0001uQ-LW; Thu, 29 Sep 2022 19:53:48 +0000
+Message-ID: <c61944a2-1b1c-bec1-0253-3335b05d3b43@reactos.org>
+Date: Thu, 29 Sep 2022 21:53:47 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] docs: Update TPM documentation for usage of a TPM 2
-Content-Language: fr
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-trivial@nongnu.org,
- marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org
-References: <20220927122146.2787854-1-stefanb@linux.ibm.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220927122146.2787854-1-stefanb@linux.ibm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 1/2] vvfat: allow some writes to bootsector
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220903162302.3176003-1-hpoussin@reactos.org>
+ <20220903162302.3176003-2-hpoussin@reactos.org> <YzWnWMRKhdzxkdT1@redhat.com>
+From: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+In-Reply-To: <YzWnWMRKhdzxkdT1@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:cfL69kB2Iz7MMRk9pqUpufHu3JHZivc1zVgQI/5B1oZmsoxddT9
- A1WDVk03t8FfGlDm4WrNgR4dC2eSiN2/R7yOSvoWC72P9g1lzHtpomu4BnsJVsOJfDcRDSq
- wPItuBibYT1Lh0AefyefLmnDkbqcH+tMXHk4tyznh1PlRpGQlj01v5/lm/VjU/o0m0VEe7J
- oRtYmXVseKva7H1Vg/hwA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:p4Amm9zq5rw=:3FFBrSaZKmdLXong38W5E4
- dBP0Kxv3b72KlgBZsOHzuM1gqhn7STyLFdMmeTtNrT798O9hzcoxHtlQnQJK3XCghlFDNLBxh
- GJYedq7W7iFuCXKwWT34d/cU3SepzJnRxRE+i1uSEAIWOTRuEOdWU1isqWfNGENb6rOYImSiK
- AzoPF9PkjsGpJbl1qXmBBYBslMFQYmIBkogO8mqznmAwtTFezobIFoi8CTGA5NF75+tL8hbqr
- CGqwKEzQhyOVA+4HoiZsQIAon55JaCLZDbf3tiG1VVzW5/espG9HQwlfetbfEiEMm2XD19+5/
- eZ+P6K4kebgtsw5T9AQhblEVEAxFZ2b0VpOBUOCo/31Aw4CIojelkoCFfWkz1qKCMHTMYxPXc
- Wj1KtLkgoE3eJVtXOiIemz5u3uFNg4Qgwm4DB7krvDQI3ffQafwXaDJy24as+XqR6Ji8Liuz6
- KYfVE2NDUbVDTzAEPnboHAT3uLhHGSvVK8kKCkt63k4R3/Xo4qEstpQa1aCJzjwtds3K/SGpi
- elSmx/j3X8DhgskjA13IVfPmUPC4avwb5t1dL9uFbi3dVh54LHXY6MJZnGimtZ8GI2zaxGwy0
- pAgeJjbOP3Jwmh8JzS3hqo08zuKA9aK2xhNv+ISGE6I8Va1O19PykCMmBzp6HKp7NjrgNEEk5
- B8XfujKXvO1VfeRevRJ2m3xnZoyNV02ppQMuOP5B+CEKUQ0c6KmraliAKFoOfA8iyccBqMpr+
- pfiHJQ/htFjAn1E5LbaNUE1b2Lo3fHoS2G4pV5UYa7C5igLEmokAA7cIERqoQFellVFiVnJMv
- kcqfIi6
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -59
-X-Spam_score: -6.0
+Received-SPF: pass client-ip=2a01:4f8:1c17:5ae1::1;
+ envelope-from=hpoussin@reactos.org; helo=iserv.reactos.org
+X-Spam_score_int: -61
+X-Spam_score: -6.2
 X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.099,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.099,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,109 +70,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/09/2022 à 14:21, Stefan Berger a écrit :
-> Update the TPM documentation for usage of a TPM 2 rather than a TPM 1.2.
-> Adjust the command lines and expected outputs inside the VM accordingly.
-> Update the command line to start a TPM 2 with swtpm.
+Le 29/09/2022 à 16:10, Kevin Wolf a écrit :
+> Am 03.09.2022 um 18:23 hat Hervé Poussineau geschrieben:
+>> 'reserved1' field in bootsector is used to mark volume dirty, or need to verify.
+>> Allow writes to bootsector which only changes the 'reserved1' field.
+>>
+>> This fixes I/O errors on Windows guests.
+>>
+>> Resolves: https://bugs.launchpad.net/qemu/+bug/1889421
+>> Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
+>> ---
+>>   block/vvfat.c | 18 +++++++++++++++++-
+>>   1 file changed, 17 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/block/vvfat.c b/block/vvfat.c
+>> index d6dd919683d..35057a51c67 100644
+>> --- a/block/vvfat.c
+>> +++ b/block/vvfat.c
+>> @@ -2993,11 +2993,27 @@ DLOG(checkpoint());
+>>   
+>>       vvfat_close_current_file(s);
+>>   
+>> +    if (sector_num == s->offset_to_bootsector && nb_sectors == 1) {
+>> +        /*
+>> +         * Write on bootsector. Allow only changing the reserved1 field,
+>> +         * used to mark volume dirtiness
+>> +         */
+>> +        const unsigned char *initial = s->first_sectors
+>> +                                       + s->offset_to_bootsector * 0x200;
+>> +        for (i = 0; i < 0x200; i++) {
+>> +            if (i != offsetof(bootsector_t, u.fat16.reserved1) &&
 > 
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> ---
->   docs/specs/tpm.rst | 44 ++++++++++++++++++++++++--------------------
->   1 file changed, 24 insertions(+), 20 deletions(-)
+> I think you need to check the FAT version (s->fat_type) before accessing
+> u.fat16. For FAT32, the "reserved" field is at a different offset (but
+> seems to have the same meaning).
+
+I didn't do this, because only fat16 part of bootsector is ever used.
+In init_directories(), only fat16 part is initialized, with the comment:
+	/* LATER TODO: if FAT32, this is wrong */
+I wanted to be consistent between init_directories() and the check.
+
 > 
-> diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
-> index 3be190343a..535912a92b 100644
-> --- a/docs/specs/tpm.rst
-> +++ b/docs/specs/tpm.rst
-> @@ -250,24 +250,25 @@ hardware TPM ``/dev/tpm0``:
->   
->   The following commands should result in similar output inside the VM
->   with a Linux kernel that either has the TPM TIS driver built-in or
-> -available as a module:
-> +available as a module (assuming a TPM 2 is passed through):
->   
->   .. code-block:: console
->   
->     # dmesg | grep -i tpm
-> -  [    0.711310] tpm_tis 00:06: 1.2 TPM (device=id 0x1, rev-id 1)
-> -
-> -  # dmesg | grep TCPA
-> -  [    0.000000] ACPI: TCPA 0x0000000003FFD191C 000032 (v02 BOCHS  \
-> -      BXPCTCPA 0000001 BXPC 00000001)
-> +  [    0.012560] ACPI: TPM2 0x000000000BFFD1900 00004C (v04 BOCHS  \
-> +      BXPC     0000001 BXPC 00000001)
->   
->     # ls -l /dev/tpm*
-> -  crw-------. 1 root root 10, 224 Jul 11 10:11 /dev/tpm0
-> +  crw-rw----. 1 tss root  10,   224 Sep  6 12:36 /dev/tpm0
-> +  crw-rw----. 1 tss rss  253, 65536 Sep  6 12:36 /dev/tpmrm0
->   
-> -  # find /sys/devices/ | grep pcrs$ | xargs cat
-> -  PCR-00: 35 4E 3B CE 23 9F 38 59 ...
-> +  Starting with Linux 5.12 there are PCR entries for TPM 2 in sysfs:
-> +  # find /sys/devices/ -type f | grep pcr-sha
-> +  ...
-> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/1
-> +  ...
-> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/9
->     ...
-> -  PCR-23: 00 00 00 00 00 00 00 00 ...
->   
->   The QEMU TPM emulator device
->   ----------------------------
-> @@ -304,6 +305,7 @@ a socket interface. They do not need to be run as root.
->     mkdir /tmp/mytpm1
->     swtpm socket --tpmstate dir=/tmp/mytpm1 \
->       --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock \
-> +    --tpm2 \
->       --log level=20
->   
->   Command line to start QEMU with the TPM emulator device communicating
-> @@ -365,19 +367,20 @@ available as a module:
->   .. code-block:: console
->   
->     # dmesg | grep -i tpm
-> -  [    0.711310] tpm_tis 00:06: 1.2 TPM (device=id 0x1, rev-id 1)
-> -
-> -  # dmesg | grep TCPA
-> -  [    0.000000] ACPI: TCPA 0x0000000003FFD191C 000032 (v02 BOCHS  \
-> -      BXPCTCPA 0000001 BXPC 00000001)
-> +  [    0.012560] ACPI: TPM2 0x000000000BFFD1900 00004C (v04 BOCHS  \
-> +      BXPC     0000001 BXPC 00000001)
->   
->     # ls -l /dev/tpm*
-> -  crw-------. 1 root root 10, 224 Jul 11 10:11 /dev/tpm0
-> +  crw-rw----. 1 tss root  10,   224 Sep  6 12:36 /dev/tpm0
-> +  crw-rw----. 1 tss rss  253, 65536 Sep  6 12:36 /dev/tpmrm0
->   
-> -  # find /sys/devices/ | grep pcrs$ | xargs cat
-> -  PCR-00: 35 4E 3B CE 23 9F 38 59 ...
-> +  Starting with Linux 5.12 there are PCR entries for TPM 2 in sysfs:
-> +  # find /sys/devices/ -type f | grep pcr-sha
-> +  ...
-> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/1
-> +  ...
-> +  /sys/devices/LNXSYSTEM:00/LNXSYBUS:00/MSFT0101:00/tpm/tpm0/pcr-sha256/9
->     ...
-> -  PCR-23: 00 00 00 00 00 00 00 00 ...
->   
->   Migration with the TPM emulator
->   ===============================
-> @@ -398,7 +401,8 @@ In a 1st terminal start an instance of a swtpm using the following command:
->     mkdir /tmp/mytpm1
->     swtpm socket --tpmstate dir=/tmp/mytpm1 \
->       --ctrl type=unixio,path=/tmp/mytpm1/swtpm-sock \
-> -    --log level=20 --tpm2
-> +    --tpm2 \
-> +    --log level=20
->   
->   In a 2nd terminal start the VM:
->   
+>> +                initial[i] != buf[i]) {
+>> +                fprintf(stderr, "Tried to write to protected bootsector\n");
+>> +                return -1;
+>> +            }
+>> +        }
+>> +        return 0;
+>> +    }
+> 
+> Should we update s->first_sectors with the new value so that the guest
+> would actually read back what it wrote instead of having the change
+> disappear magically?
 
-Applied to my trivial-patches branch.
+Windows guests don't seem to care if the written value disappears. They only want the write to succeed.
 
-Thanks,
-Laurent
-
+> 
+>>       /*
+>>        * Some sanity checks:
+>>        * - do not allow writing to the boot sector
+>>        */
+>> -
+>>       if (sector_num < s->offset_to_fat)
+>>           return -1;
+> 
+> Kevin
+> 
 
 
