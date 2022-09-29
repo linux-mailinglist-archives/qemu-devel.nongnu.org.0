@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC00E5EEB79
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 04:12:58 +0200 (CEST)
-Received: from localhost ([::1]:54058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E7C5EEB96
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 04:18:43 +0200 (CEST)
+Received: from localhost ([::1]:39568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odj2n-0006pI-CL
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 22:12:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47906)
+	id 1odj8L-0001W8-MK
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 22:18:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1odizt-00059H-Bk; Wed, 28 Sep 2022 22:09:57 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44892)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1odj6k-00009F-RZ
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 22:17:05 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1odizq-0007vb-Ph; Wed, 28 Sep 2022 22:09:57 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id c11so22322342wrp.11;
- Wed, 28 Sep 2022 19:09:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=B1pfu69ui5Tj2U6pHvBeXeW/vQQ4GR/AM72AWuyVQyg=;
- b=Ithgil0u7cUMiHyDeoetTt2vgB+o8UCpoVE29np7r8xlhh1+0OQxqGUM081CK/wuCS
- WbUl0+5vVHPWF+ca/xRyGu2NvAT4UoC3UGvB9l+HGeWIJ1zKQIxY1Wiv1tk6RzadGfIV
- 4lNjkdGZrx6tb35vmi9l3XhFjGLYgRmhLyBpI=
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1odj6j-0000cb-1V
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 22:17:02 -0400
+Received: by mail-pf1-x432.google.com with SMTP id y136so202387pfb.3
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 19:17:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:cc:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=AW6fX97A/+VZzqUllx5Pwq1kstnxmVFXzWYYUOqwdio=;
+ b=EsDcxs/dNzGCyl6ZlETFmoIcP+i1prMJbo/PcXklcpWJdTsigX2ZjZVQNv3CvdqyME
+ SI49tGXlgCJJ3uhAnSqKO+kDUNNg3TSueaQJMmmwGLp2AFDf96/BXUmr4eJtLgSp05sz
+ 41Dxs/neTfb9lTsq+qAnNnpPJp5gQbdOs4sj1vzYVLDKVJbHwG0EgrrZUjkYJOoeKFSv
+ RXPZUVR/A8mx/KDmkCVcVa1eaclgrzv6FZgOVVACphaBPFoiiYaeNkbAcQ6SYUTlOSYP
+ LP42vHLn08Eo6fw4R5oegwcYPk5hjjvza3j54QJweQbrIM03xpvYEwG2MqaHeb1zYfnH
+ XLWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=B1pfu69ui5Tj2U6pHvBeXeW/vQQ4GR/AM72AWuyVQyg=;
- b=u4iGOLtARbizb421tswAMERyWUew67aeK6K4VAurr7ehAQ5oa/bzA/yoB38Bd9qlgY
- cNNkg4NcuX+WNjneiTm7k4zg/qArhmrqdj/2MpQLvQ9c3UOSZbusShLqLsHIMNQMF6eu
- 0/fa4/gYCz0FOxs7WHsXNG2n0pgpD+3O5dl8c78fFB+NwjUwjN4y/EcJUiaLYoQSywlW
- ++ul9L7hgJbDItGjce+MkQ8s/Y4xJ2cIM96hsIk7HA4Ip7dsXVsI4xHRNZ2dAFIeTXDy
- EwGZ17H3wviRT463tW33TRNfdB4sx/Vm1WlhoJCe7ehI1oHC2s+HCAFiYgP7DjyVkzSf
- ewgw==
-X-Gm-Message-State: ACrzQf0PWoKxpDnzVBLiatzqUVLIVF5XDnZjnYG5KPuly1GNsE77HZIC
- ZT6d+dtf94Co/z668X13TDxcLo/PPUVBe2a4RTA=
-X-Google-Smtp-Source: AMsMyM7PNN1odiO19BQXVQQyADDz7j71T2YBXf4pqmrJjsZ5/fR+wzR8RrcjUkXtcPSYq8AAG631FfrFed0osYgsvQ8=
-X-Received: by 2002:a5d:52c9:0:b0:22c:c9e0:8547 with SMTP id
- r9-20020a5d52c9000000b0022cc9e08547mr424720wrv.3.1664417392191; Wed, 28 Sep
- 2022 19:09:52 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:cc:references:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=AW6fX97A/+VZzqUllx5Pwq1kstnxmVFXzWYYUOqwdio=;
+ b=r+EqNuTLp03ddZIwem8POXgfxH3Ah2H07ES++KbJFcaSP24e8eYZRE5ncOQGWsZiPZ
+ Y3Eo9cfmc/lewH/OYSnaunH8KJtti1lRkPiisRFWqIrdcUFa+WEo8fCnxxCZpArl1Z6H
+ h3z3trs1innZQYZVe+udBCBigd00f9izl2DMT0kHw29wWOH+W2r/i415RhM64Yze8wNz
+ RT7NOeT3SP0mcoUEuXFvnHkQ/1Mx7TAQQJIg1kFg0mPJ6a5JHrryMe8RqfvGWs0FYFOl
+ MNeOt67MEtnXbFUf4Iw0G3TodUC2seRndkAqPAQNSqOfjBGan8tg/WaoWa6nft04HR1F
+ c4+w==
+X-Gm-Message-State: ACrzQf188kvYz58q/UcwnHeSKQRmYmt8+3/bmMUkhWhysqqZmjDzSWdq
+ d3ibEgnHTEbGK2s4M6yDNQTjJIoJ5piOpQ==
+X-Google-Smtp-Source: AMsMyM6PAgHz4V2EYvWyJ+tHqpEywRmGb5rat2bClBNgoib6PsN3+P9YaJuljyMww094oZdjFPPxAg==
+X-Received: by 2002:a63:5246:0:b0:42b:e4a5:7252 with SMTP id
+ s6-20020a635246000000b0042be4a57252mr766208pgl.566.1664417819574; 
+ Wed, 28 Sep 2022 19:16:59 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:986f:cb56:6709:4057?
+ ([2602:47:d49d:ec01:986f:cb56:6709:4057])
+ by smtp.gmail.com with ESMTPSA id
+ c8-20020a170902d48800b001786b712f0esm4501838plg.227.2022.09.28.19.16.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Sep 2022 19:16:59 -0700 (PDT)
+Message-ID: <788dbfca-75ae-154d-f4ff-c1abeb3adef7@linaro.org>
+Date: Wed, 28 Sep 2022 19:16:57 -0700
 MIME-Version: 1.0
-References: <20220928164719.655586-1-clg@kaod.org>
- <20220928164719.655586-3-clg@kaod.org>
-In-Reply-To: <20220928164719.655586-3-clg@kaod.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 29 Sep 2022 02:09:39 +0000
-Message-ID: <CACPK8XckTGxZ6H=0kMkaS7yfxJG2gkPVtRrZYCGBJH=3ZyLxiA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ast2600: Drop NEON from the CPU features
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=joel.stan@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v5 00/17] tcg: CPUTLBEntryFull and TARGET_TB_PCREL
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20220925105124.82033-1-richard.henderson@linaro.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20220925105124.82033-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.319,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,22 +95,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 28 Sept 2022 at 16:47, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> Currently, the CPU features exposed to the AST2600 QEMU machines are :
->
->   half thumb fastmult vfp edsp neon vfpv3 tls vfpv4 idiva idivt
->   vfpd32 lpae evtstrm
->
-> But, the features of the Cortex A7 CPU on the Aspeed AST2600 A3 SoC
-> are :
->
->   half thumb fastmult vfp edsp vfpv3 vfpv3d16 tls vfpv4 idiva idivt
->   lpae evtstrm
->
-> Drop NEON support in the Aspeed AST2600 SoC.
->
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+On 9/25/22 03:51, Richard Henderson wrote:
+> Smooshing these two patch sets back together for review bandwidth.
+> I hope to make this the next tcg-next pull.
+> 
+> There are three from the first half, tlbentryfull, which are new.
+> These are following a hallway conversation with Peter about bits
+> in MemTxAttrs that are not actually related to memory transactions,
+> and infrastructure to address a to-do in an Arm patch set.
+> 
+> There are a few patches from the second half, pcrel, that have not
+> been reviewed.
+> 
+>    07-target-sparc-Use-tlb_set_page_full.patch
+>    08-accel-tcg-Move-byte_swap-from-MemTxAttrs-to-CPUTL.patch
+>    09-accel-tcg-Add-force_aligned-to-CPUTLBEntryFull.patch
+>    10-accel-tcg-Remove-PageDesc-code_bitmap.patch
+>    13-accel-tcg-Do-not-align-tb-page_addr-0.patch
+>    15-accel-tcg-Introduce-tb_pc-and-tb_pc_log.patch
+>    16-accel-tcg-Introduce-TARGET_TB_PCREL.patch
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+FWIW, the target/sparc patch fails (the peril of insufficiently tested airport updates), 
+so I'm going to drop 7+8 until I have time to investigate.  I'm also going to drop patch 9 
+for now, and present it alongside the Arm patch that will use it.
+
+But otherwise, gentle ping.
+
+
+r~
 
