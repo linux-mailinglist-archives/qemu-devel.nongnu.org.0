@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA635EF2C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 11:53:48 +0200 (CEST)
-Received: from localhost ([::1]:48572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBBD85EF2C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 11:53:58 +0200 (CEST)
+Received: from localhost ([::1]:32950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odqEl-00042r-Mk
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 05:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53430)
+	id 1odqEv-0004M9-S5
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 05:53:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odpsV-0006vs-0p
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:30:49 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:44684)
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1odptW-0007Bl-Ha; Thu, 29 Sep 2022 05:31:59 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:35350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1odpsS-0001NE-8K
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 05:30:45 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 318C91F8D3;
- Thu, 29 Sep 2022 09:30:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1664443843; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R6T8kiXEFNJEHznxsn2jM0RB4ZpVuiVkxLuwnThSOgo=;
- b=s7bYYJFodK0cBFvSuiqbwMTkGlT9m4UTDt2deDA145sjeO4Q9uxZ1tn1NPhbsIa7gvc4MF
- S0R4kBqEwdbuReCcOqvV1mPe2/RdRmRRlHPI4430xAV5ge2n8hPbPubpSXIihYesjXwcb5
- P3peAywb3y4jtGeoLHvJ62zbypvq/IY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1664443843;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R6T8kiXEFNJEHznxsn2jM0RB4ZpVuiVkxLuwnThSOgo=;
- b=3GjI+44NAErsS86aHMv0oUGvxjB8eKzEkX0nHC0sEHnywhC1KiutGrkYF1JkTS4kDEiQLw
- 6MMp7j+dKe8YYqBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D3B431348E;
- Thu, 29 Sep 2022 09:30:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WPg7MsJlNWMEOAAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 29 Sep 2022 09:30:42 +0000
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-devel@nongnu.org, dinechin@redhat.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Claudio Fontana <cfontana@suse.de>
-Subject: [PATCH v9 5/5] accel: abort if we fail to load the accelerator plugin
-Date: Thu, 29 Sep 2022 11:30:35 +0200
-Message-Id: <20220929093035.4231-6-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20220929093035.4231-1-cfontana@suse.de>
-References: <20220929093035.4231-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1odptU-0001eS-Om; Thu, 29 Sep 2022 05:31:50 -0400
+Received: by mail-pf1-x435.google.com with SMTP id i6so955785pfb.2;
+ Thu, 29 Sep 2022 02:31:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=NmH17nRzTUhEoYe3POY8usj9frv4jTI4OAQ62LBdoG8=;
+ b=qUxBB7rVfLyxcMhYgIVWoH9Pd5l0V5VGZlPUiXWtKPzhhCdDehkuHxf66Ew1ge3QCc
+ wkq2GljJGTbq00hk1W4CZvFgDZcXmbgCYyw7BfxIUN7MJZzHMputP+pFlStIaY2GHT4m
+ +Up5qDJZ/CPoHD50SWoFN/mLCAVKtINY95esNhwRUlmKf7UTbnwGjlnlcT/ZgR+OwaL3
+ TJ/56ey5BqRqfVPdJjo/ED0O6dXfsYfw3dHAbXjAGV4jKOsE6UxC+vW7431cfJOLr8Qf
+ +2vo/lRm7rkYBlxj9bFoKGHO9z6IuNcXPhRjtQJVpAQQNG72EWaLF6dSH9q24lpqIZ1D
+ pkmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=NmH17nRzTUhEoYe3POY8usj9frv4jTI4OAQ62LBdoG8=;
+ b=vhc93uRIKGUTlE/4YUUVcv2MWaokHDj/fY7pdE9Jj2W+Ac2cdJQxEk4dEbVS17T5Eb
+ zCVQKFq9Vi/uBf5hWVyGk+XDBDTAxnm0jcmDL9IHuspKDfIMe+eGeN1vSFopuhqs+b/M
+ ofVgkdC+Ods/+Wrm0HQ5n5YgJxfvrnsRDn8lm7tczn+9LjIgkAb3gldacOOuxn0GAuyo
+ Un/iec4CUiOXsPkhxVP9V/UEVqCe9eT8t2u/5SCtCou7khJwD0g8tLcbfOr0dC2hJzN1
+ NsaqV4GWpKOoF/N3frLQw9RgggIbE6CHhe+KhDDVbIKJzUOqsAfsh1YplEEUgOwmwtSE
+ Tybw==
+X-Gm-Message-State: ACrzQf39FkGCgiz4Zn8Iw5U3IjCC2OKnkbfF6XgLYwYorYjs/yTmIev6
+ TlRxtJ6Xq2U/AaKIEEj4+f3jLOnSK86wVw==
+X-Google-Smtp-Source: AMsMyM5N0Ms9CHFUi49jR9+vBX/gTRsTa2V2Tdeve2Tnu+unVpD/Y1q31jn+csv3fTQjDUaHVJlCKA==
+X-Received: by 2002:a63:1d22:0:b0:439:3e7c:8af7 with SMTP id
+ d34-20020a631d22000000b004393e7c8af7mr2150580pgd.78.1664443906453; 
+ Thu, 29 Sep 2022 02:31:46 -0700 (PDT)
+Received: from roots.. ([112.44.202.63]) by smtp.gmail.com with ESMTPSA id
+ f4-20020a623804000000b0053e669cc845sm5570537pfa.190.2022.09.29.02.31.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Sep 2022 02:31:46 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Hanna Reitz <hreitz@redhat.com>, damien.lemoal@opensource.wdc.com,
+ Fam Zheng <fam@euphon.net>, stefanha@redhat.com, dmitry.fomichev@wdc.com,
+ hare@suse.de, Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH v2 0/2] add zone append write for zoned device
+Date: Thu, 29 Sep 2022 17:31:32 +0800
+Message-Id: <20220929093134.73974-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=cfontana@suse.de; helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,49 +87,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-if QEMU is configured with modules enabled, it is possible that the
-load of an accelerator module will fail.
-Exit in this case, relying on module_object_class_by_name to report
-the specific load error if any.
+v2:
+- split patch to two patches for better reviewing
+- change BlockZoneWps's structure to an array of integers
+- use only mutex lock on locking conditions of zone wps
+- coding styles and clean-ups
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+v1:
+- introduce zone append write
 
-[claudio: changed abort() to exit(1)]
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
----
- accel/accel-softmmu.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Sam Li (2):
+  file-posix: add the tracking of the zones wp
+  block: introduce zone append write for zoned devices
 
-diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
-index 67276e4f52..f9cdafb148 100644
---- a/accel/accel-softmmu.c
-+++ b/accel/accel-softmmu.c
-@@ -66,6 +66,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
- {
-     const char *ac_name;
-     char *ops_name;
-+    ObjectClass *oc;
-     AccelOpsClass *ops;
- 
-     ac_name = object_class_get_name(OBJECT_CLASS(ac));
-@@ -73,8 +74,13 @@ void accel_init_ops_interfaces(AccelClass *ac)
- 
-     ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
-     ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
-+    oc = module_object_class_by_name(ops_name);
-+    if (!oc) {
-+        error_report("fatal: could not load module for type '%s'", ops_name);
-+        exit(1);
-+    }
-     g_free(ops_name);
--
-+    ops = ACCEL_OPS_CLASS(oc);
-     /*
-      * all accelerators need to define ops, providing at least a mandatory
-      * non-NULL create_vcpu_thread operation.
+ block/block-backend.c              |  65 ++++++++++
+ block/file-posix.c                 | 189 ++++++++++++++++++++++++++++-
+ block/io.c                         |  21 ++++
+ block/raw-format.c                 |   7 ++
+ include/block/block-common.h       |  16 +++
+ include/block/block-io.h           |   3 +
+ include/block/block_int-common.h   |   8 ++
+ include/block/raw-aio.h            |   4 +-
+ include/sysemu/block-backend-io.h  |   9 ++
+ qemu-io-cmds.c                     |  62 ++++++++++
+ tests/qemu-iotests/tests/zoned.out |   7 ++
+ tests/qemu-iotests/tests/zoned.sh  |   9 ++
+ 12 files changed, 396 insertions(+), 4 deletions(-)
+
 -- 
-2.26.2
+2.37.3
 
 
