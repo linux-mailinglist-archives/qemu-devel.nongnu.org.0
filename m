@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F735EEAC8
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 03:14:39 +0200 (CEST)
-Received: from localhost ([::1]:33858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F3D5EEAF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 03:29:52 +0200 (CEST)
+Received: from localhost ([::1]:45662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odi8M-0006Kr-2a
-	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 21:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53734)
+	id 1odiN5-0002gS-AL
+	for lists+qemu-devel@lfdr.de; Wed, 28 Sep 2022 21:29:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1odi3T-0001Ol-Ta; Wed, 28 Sep 2022 21:09:35 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:40912 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1odi3Q-00080D-LK; Wed, 28 Sep 2022 21:09:35 -0400
-Received: from [192.168.124.8] (unknown [139.227.114.201])
- by APP-05 (Coremail) with SMTP id zQCowADn7aE_8DRjaz13Ag--.64484S2;
- Thu, 29 Sep 2022 09:09:20 +0800 (CST)
-Message-ID: <be7628b4-ed39-aebb-0eed-6fdd899185c0@iscas.ac.cn>
-Date: Thu, 29 Sep 2022 09:09:19 +0800
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1odiLp-0001B8-Qr
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 21:28:33 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:37687)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1odiLo-0002Aj-5V
+ for qemu-devel@nongnu.org; Wed, 28 Sep 2022 21:28:33 -0400
+Received: by mail-pf1-x435.google.com with SMTP id a80so126525pfa.4
+ for <qemu-devel@nongnu.org>; Wed, 28 Sep 2022 18:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=tfN21X8c5D9bkWguatDNcu/DcWR/PtQE4cNsvwI4uT8=;
+ b=cqsQbE0t5EH6myrY86e9tJB0TcRqf7yrTM4+YyZVUOSTXd+nyMGQYnetPma5QrbA9l
+ 8FcMqQTCd/OXtNHhNOvq5wiywzkuP44Xr0MjlddRfTgSJE9QL3K9yVdRveyC2IHl0ZIA
+ NPsoJCeTFeXU1zlgU+jW01GoaOxvHBHWrqu93+eJTHhY9FXpxjn4nfeLgGsl7lHv8Bsj
+ m0wtQnXfpdvAqC0rvx7uTCm+WpVtgj68+wiQm6uxHREMn0JW+wzSdK91Ugbr4fREXSfJ
+ IERLsC5IfPByRkCi8vJCg8ZLcgOxgIGpm4cxKfn9MwRKpdlIbjah1hGN5Rn7QikL4nUs
+ qa+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=tfN21X8c5D9bkWguatDNcu/DcWR/PtQE4cNsvwI4uT8=;
+ b=cI4q/n3nSswo2ssjPOV8mzstRGdXj5l59zV6I9q3XDI4QQ7PW5BPAI6PP5KxnGEiLw
+ R+Jmqbe9a331s47ikTZ+FHdkGFNLZoG8bWOSJ4WZDpEvu+XhvacxTnvwTD2k4vNgGkNZ
+ wv53oI0wJ3UP0pdyYoW7LoZa4PpIOUbVBTO4A8waV3gPPbGbh+MTmrc2GhkvSRTc76iK
+ 0ySGeaELyyWq8oS57HCWZglvMadn8itwGBmtjqjjNI6Tqfdv5RqDC6DPFrSggat22LGW
+ RwRUflXUqYYQqIxNnO7kBPHq9r7Hp+Vd6i4Ogggd8SldV8dHS25lDafxIeLLNaw/ZXIE
+ KUug==
+X-Gm-Message-State: ACrzQf1S+hj7Djrc6lVZFJ4pizfKOO4jvE90cysUboUHkOBWvq5JlUnz
+ WQ0hyue4A1mKH6t4+RHJ1F37+MqcbcbEWLFqmfA=
+X-Google-Smtp-Source: AMsMyM6gHwpdeqLhddHKM0iY7B4frYyY2UnSbPUhep2xLkvbLWBxZIbk5nkDDGmJVObe3fcARWonTChNBr2QC/tZ6IA=
+X-Received: by 2002:a05:6a00:1496:b0:546:2856:6cf5 with SMTP id
+ v22-20020a056a00149600b0054628566cf5mr610260pfu.31.1664414909443; Wed, 28 Sep
+ 2022 18:28:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v9 3/4] target/riscv: smstateen check for fcsr
-Content-Language: en-US
-To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Cc: alistair.francis@wdc.com, liweiwei@iscas.ac.cn
-References: <20220919062908.643945-1-mchitale@ventanamicro.com>
- <20220919062908.643945-4-mchitale@ventanamicro.com>
-From: weiwei <liweiwei@iscas.ac.cn>
-In-Reply-To: <20220919062908.643945-4-mchitale@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADn7aE_8DRjaz13Ag--.64484S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtF43JFWrGrW5CF45ZF4UXFb_yoW7Aryfp3
- y8CFW3C3s5tryIya1fJFn8AFnxtws7G3yIk3Zrtw1kJa9rKrWFgF4kt347Kr9rXFy8Wr1S
- vayjvFsxCr47AFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
- 4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
- Yx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
- WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07Al
- zVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
- 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1l
- IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
- AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
- 6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbWCJP
- UUUUU==
-X-Originating-IP: [139.227.114.201]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.319,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220920081517.25401-1-frasse.iglesias@gmail.com>
+In-Reply-To: <20220920081517.25401-1-frasse.iglesias@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 29 Sep 2022 11:28:02 +1000
+Message-ID: <CAKmqyKMX-UdspdDkRsF+e3cMHHW5=_79_AEngeniH=M1LxMseA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] hw/arm/xlnx-zynqmp: Connect ZynqMP's USB
+ controllers
+To: Francisco Iglesias <frasse.iglesias@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Edgar Iglesias <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>, fkonrad@amd.com, 
+ sai.pavan.boddu@amd.com, francisco.iglesias@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,195 +88,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2022/9/19 14:29, Mayuresh Chitale wrote:
-> If smstateen is implemented and sstateen0.fcsr is clear then the floating point
-> operations must return illegal instruction exception or virtual instruction
-> trap, if relevant.
+On Tue, Sep 20, 2022 at 6:23 PM Francisco Iglesias
+<frasse.iglesias@gmail.com> wrote:
 >
-> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> From: Francisco Iglesias <francisco.iglesias@amd.com>
+>
+> Connect ZynqMP's USB controllers.
+>
+> Signed-off-by: Francisco Iglesias <francisco.iglesias@amd.com>
+
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->   target/riscv/csr.c                        | 23 +++++++++++++
->   target/riscv/insn_trans/trans_rvf.c.inc   | 40 +++++++++++++++++++++--
->   target/riscv/insn_trans/trans_rvzfh.c.inc | 12 +++++++
->   3 files changed, 72 insertions(+), 3 deletions(-)
+>  hw/arm/xlnx-zynqmp.c         | 36 ++++++++++++++++++++++++++++++++++++
+>  include/hw/arm/xlnx-zynqmp.h |  3 +++
+>  2 files changed, 39 insertions(+)
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 59d5aa74ee..edaecf53ce 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -84,6 +84,10 @@ static RISCVException fs(CPURISCVState *env, int csrno)
->           !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
->           return RISCV_EXCP_ILLEGAL_INST;
->       }
+> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+> index 383e177a00..335cfc417d 100644
+> --- a/hw/arm/xlnx-zynqmp.c
+> +++ b/hw/arm/xlnx-zynqmp.c
+> @@ -143,6 +143,14 @@ static const int adma_ch_intr[XLNX_ZYNQMP_NUM_ADMA_CH] = {
+>      77, 78, 79, 80, 81, 82, 83, 84
+>  };
+>
+> +static const uint64_t usb_addr[XLNX_ZYNQMP_NUM_USB] = {
+> +    0xFE200000, 0xFE300000
+> +};
 > +
-> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
+> +static const int usb_intr[XLNX_ZYNQMP_NUM_USB] = {
+> +    65, 70
+> +};
+> +
+>  typedef struct XlnxZynqMPGICRegion {
+>      int region_index;
+>      uint32_t address;
+> @@ -428,6 +436,10 @@ static void xlnx_zynqmp_init(Object *obj)
+>      object_initialize_child(obj, "qspi-dma", &s->qspi_dma, TYPE_XLNX_CSU_DMA);
+>      object_initialize_child(obj, "qspi-irq-orgate",
+>                              &s->qspi_irq_orgate, TYPE_OR_IRQ);
+> +
+> +    for (i = 0; i < XLNX_ZYNQMP_NUM_USB; i++) {
+> +        object_initialize_child(obj, "usb[*]", &s->usb[i], TYPE_USB_DWC3);
 > +    }
->   #endif
->       return RISCV_EXCP_NONE;
->   }
-> @@ -2024,6 +2028,9 @@ static RISCVException write_mstateen0(CPURISCVState *env, int csrno,
->                                         target_ulong new_val)
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
+>  }
+>
+>  static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+> @@ -814,6 +826,30 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+>          object_property_add_alias(OBJECT(s), bus_name,
+>                                    OBJECT(&s->qspi), target_bus);
+>      }
+> +
+> +    for (i = 0; i < XLNX_ZYNQMP_NUM_USB; i++) {
+> +        if (!object_property_set_link(OBJECT(&s->usb[i].sysbus_xhci), "dma",
+> +                                      OBJECT(system_memory), errp)) {
+> +            return;
+> +        }
+> +
+> +        qdev_prop_set_uint32(DEVICE(&s->usb[i].sysbus_xhci), "intrs", 4);
+> +        qdev_prop_set_uint32(DEVICE(&s->usb[i].sysbus_xhci), "slots", 2);
+> +
+> +        if (!sysbus_realize(SYS_BUS_DEVICE(&s->usb[i]), errp)) {
+> +            return;
+> +        }
+> +
+> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->usb[i]), 0, usb_addr[i]);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->usb[i].sysbus_xhci), 0,
+> +                           gic_spi[usb_intr[i]]);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->usb[i].sysbus_xhci), 1,
+> +                           gic_spi[usb_intr[i] + 1]);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->usb[i].sysbus_xhci), 2,
+> +                           gic_spi[usb_intr[i] + 2]);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->usb[i].sysbus_xhci), 3,
+> +                           gic_spi[usb_intr[i] + 3]);
 > +    }
->   
->       return write_mstateen(env, csrno, wr_mask, new_val);
->   }
-> @@ -2072,6 +2079,10 @@ static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_mstateenh(env, csrno, wr_mask, new_val);
->   }
->   
-> @@ -2121,6 +2132,10 @@ static RISCVException write_hstateen0(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_hstateen(env, csrno, wr_mask, new_val);
->   }
->   
-> @@ -2172,6 +2187,10 @@ static RISCVException write_hstateen0h(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_hstateenh(env, csrno, wr_mask, new_val);
->   }
->   
-> @@ -2231,6 +2250,10 @@ static RISCVException write_sstateen0(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_sstateen(env, csrno, wr_mask, new_val);
->   }
->   
-> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
-> index a1d3eb52ad..ce8a0cc34b 100644
-> --- a/target/riscv/insn_trans/trans_rvf.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
-> @@ -24,9 +24,43 @@
->               return false; \
->   } while (0)
->   
-> -#define REQUIRE_ZFINX_OR_F(ctx) do {\
-> -    if (!ctx->cfg_ptr->ext_zfinx) { \
-> -        REQUIRE_EXT(ctx, RVF); \
-> +#ifndef CONFIG_USER_ONLY
-> +static inline bool smstateen_check(DisasContext *ctx, int index)
-> +{
-> +    CPUState *cpu = ctx->cs;
-> +    CPURISCVState *env = cpu->env_ptr;
-> +    uint64_t stateen = env->mstateen[index];
-> +
-> +    if (!ctx->cfg_ptr->ext_smstateen || env->priv == PRV_M) {
-> +        return true;
-> +    }
-> +
-> +    if (ctx->virt_enabled) {
-> +        stateen &= env->hstateen[index];
-> +    }
-> +
-> +    if (env->priv == PRV_U && has_ext(ctx, RVS)) {
-> +        stateen &= env->sstateen[index];
-> +    }
-> +
-> +    if (!(stateen & SMSTATEEN0_FCSR)) {
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +#else
-> +#define smstateen_check(ctx, index) (true)
-> +#endif
-> +
-> +#define REQUIRE_ZFINX_OR_F(ctx) do { \
-> +    if (!has_ext(ctx, RVF)) { \
-> +        if (!ctx->cfg_ptr->ext_zfinx) { \
-> +            return false; \
-> +        } \
-> +        if (!smstateen_check(ctx, 0)) { \
-> +            return false; \
-> +        } \
->       } \
->   } while (0)
-
-I think the potential exception triggered by smstateen_check is not 
-correct here:
-
-"return false"  can only trigger illegal instruction exception.
-
-However, smstateen_check  is for accessing fcsr CSR, It may trigger 
-illegal or  virtual instruction exception
-
-based on the privilege mode and Xstateen CSRs.
-
-Regards,
-
-Weiwei Li
-
->   
-> diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> index 5d07150cd0..44d962c920 100644
-> --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> @@ -20,18 +20,27 @@
->       if (!ctx->cfg_ptr->ext_zfh) {      \
->           return false;         \
->       }                         \
-> +    if (!smstateen_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->   } while (0)
->   
->   #define REQUIRE_ZHINX_OR_ZFH(ctx) do { \
->       if (!ctx->cfg_ptr->ext_zhinx && !ctx->cfg_ptr->ext_zfh) { \
->           return false;                  \
->       }                                  \
-> +    if (!smstateen_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->   } while (0)
->   
->   #define REQUIRE_ZFH_OR_ZFHMIN(ctx) do {       \
->       if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin)) { \
->           return false;                         \
->       }                                         \
-> +    if (!smstateen_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->   } while (0)
->   
->   #define REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx) do { \
-> @@ -39,6 +48,9 @@
->             ctx->cfg_ptr->ext_zhinx || ctx->cfg_ptr->ext_zhinxmin)) {     \
->           return false;                                        \
->       }                                                        \
-> +    if (!smstateen_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->   } while (0)
->   
->   static bool trans_flh(DisasContext *ctx, arg_flh *a)
-
+>  }
+>
+>  static Property xlnx_zynqmp_props[] = {
+> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+> index 85fd9f53da..20bdf894aa 100644
+> --- a/include/hw/arm/xlnx-zynqmp.h
+> +++ b/include/hw/arm/xlnx-zynqmp.h
+> @@ -42,6 +42,7 @@
+>  #include "hw/misc/xlnx-zynqmp-apu-ctrl.h"
+>  #include "hw/misc/xlnx-zynqmp-crf.h"
+>  #include "hw/timer/cadence_ttc.h"
+> +#include "hw/usb/hcd-dwc3.h"
+>
+>  #define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
+>  OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+> @@ -56,6 +57,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+>  #define XLNX_ZYNQMP_NUM_SPIS 2
+>  #define XLNX_ZYNQMP_NUM_GDMA_CH 8
+>  #define XLNX_ZYNQMP_NUM_ADMA_CH 8
+> +#define XLNX_ZYNQMP_NUM_USB 2
+>
+>  #define XLNX_ZYNQMP_NUM_QSPI_BUS 2
+>  #define XLNX_ZYNQMP_NUM_QSPI_BUS_CS 2
+> @@ -132,6 +134,7 @@ struct XlnxZynqMPState {
+>      XlnxZynqMPAPUCtrl apu_ctrl;
+>      XlnxZynqMPCRF crf;
+>      CadenceTTCState ttc[XLNX_ZYNQMP_NUM_TTC];
+> +    USBDWC3 usb[XLNX_ZYNQMP_NUM_USB];
+>
+>      char *boot_cpu;
+>      ARMCPU *boot_cpu_ptr;
+> --
+> 2.20.1
+>
+>
 
