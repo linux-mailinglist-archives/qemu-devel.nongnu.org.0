@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F64B5EF791
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:32:29 +0200 (CEST)
-Received: from localhost ([::1]:59660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309B35EF787
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:28:52 +0200 (CEST)
+Received: from localhost ([::1]:35464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oduaS-0002F5-OH
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:32:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48720)
+	id 1oduWx-0006bY-3z
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:28:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3Q-0000fd-TA
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:13 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42519)
+ id 1ods3X-0000kW-Rg
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:20 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3K-0002NK-0H
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:12 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id l18so1768582wrw.9
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:50:01 -0700 (PDT)
+ id 1ods3I-0002NF-St
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:19 -0400
+Received: by mail-wr1-x429.google.com with SMTP id n10so1757523wrw.12
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:50:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=iXjhbGFiizhYgxb67PGBdW+eyz6XqT6azX1gHARCrNQ=;
- b=ld3QHLog7HE/sJ7fEbxfh9V7wvcKor0nicTUo7Gpe+N6No5Jhbs3uvCvZEQjYeom+X
- A+zBwA7N57e0ucbYWqGVe5enOghIyJcK3FmOlKbOHyeaocQDGwYSV6nCmDYwdNQZKrwj
- XNknr4lernKuBTduMdlFk+1ekyA27bFOSm4h1Xvk92wgyffFWnUFe4mIBJ1CXteePKZu
- PPjLUSPU6rbdfIcjGUKpj/eWLl3l+bPmcf5MAldUhGGdxtsJ8Rw4ybeOn3e1faQpiGQM
- glRaJ95dAe07E6yrtglDYgHIiajXxQLQ/FfB+kFJ3oGEX1zUNnE4fjp5R8ZGugc82xHg
- +DSg==
+ bh=CtbYQsfls7HKk9T4QA6Y6Rsyc/LAyFcunfAWWUDR2rM=;
+ b=RZBb0tR97Q0MsnS7WYstLsjwQKAG8UX8QTe+Mrk5fcWD51A2bC1YrS75ww898AfDLO
+ NrLUbhJ9MASjm0jmwaloEPkUQhbqFzqzzmr4+SwVsg96tevD+v3mCzMwEBwTNksUl4zl
+ B9e/xedssgjScdd6yejK9u+H2tOCa2Bgvm9tbj0dzrq3GkTfuwKRx+uHK/b6CaPRDSGp
+ fEnujl+y20irATJi6ndOLWnh+Xzt6PTfURdgjoSXWEl4xH53pOuFELk1z9cj4+Qm4NNp
+ fS1xexhnegabuK30BU98gqfBjyvxneT+mZWaqyzj6n04JTPeoXFiWSc/2uyR3KlLc4DF
+ dJUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=iXjhbGFiizhYgxb67PGBdW+eyz6XqT6azX1gHARCrNQ=;
- b=awOl+BF4JPo8Vr3ZgtoC2eAXTc5fWVF4Kkffbsjdi9zD3zwWXrbOuenh60njbu1egt
- DUAFWUAc4ogWSl3dj0swrGfdQzH1dA0yeJX/+dbmlvnBOIWPHXFckOCokv/VPk/3hI7B
- T7zPaLea6O1zb4CfhgovutAd3AUsXiFcvI1Dl9WwE+zfM/L4E4TmHEIQjF+cLh8vbv8m
- ndBQDasBZTT9j1mIUgnWPlryjIyuwTfE+vSvDqPLssZxFKDOVJC8K+FnyrPq5QMAltlD
- x02FTEbhUBhRw+H+ZFu2XMwCFXjokoRQBxZA06u0SmT4laUZ4qpFYafLtlhboh9KISUU
- rAjQ==
-X-Gm-Message-State: ACrzQf0JflmMfL9zh/Apieg1LPy/cf6YhiOr0xlZHLd0whCpG9L6TUiT
- GA9MZkwcqVwgBEyBJ9amKsgVAA==
-X-Google-Smtp-Source: AMsMyM5EYFV+ghKOhXwUQxZ4Z6Kw3T5bxszuwaZgiRGC+QWhuRubozBKR5ghLeSmhAd1rGNPrVuJIg==
-X-Received: by 2002:a05:6000:184e:b0:228:bb9d:f98a with SMTP id
- c14-20020a056000184e00b00228bb9df98amr1858327wri.479.1664452201095; 
- Thu, 29 Sep 2022 04:50:01 -0700 (PDT)
+ bh=CtbYQsfls7HKk9T4QA6Y6Rsyc/LAyFcunfAWWUDR2rM=;
+ b=b8i0OH5g92J7rYaADLb8b+Wekr3j2/On60uBAIk+oUsvgfGbKGCXrTxc9vamXhOllh
+ UH+0E3wvQbfdeBC1lcAVuDn85efW+AFiT/Phmdrf3dlk/KC2D4Ll5Dnw284QKxHZxpJa
+ y9MGKc2hqespTB38wgfoiwW2be1eZMq7gV5WtC5vW/XC6J9r8lBgXNBPK+Rbtp7+8uxw
+ pQQ6sSXr1N5z9CQItkGQdL0EidLm/3jWBDkVOPawSIxPtNKpsh6/NRFUHt3H8CETFCyX
+ siCDvGLOuFnuTcSe/SGiZ3yRNWzqd08kRRP+iP+jDzzsmXG3Xw1QT1GEpigU3Be+Mxaf
+ fsbg==
+X-Gm-Message-State: ACrzQf1bKd583iE2FwVRbjWH/Kl2LRnaynLKPbsYJWx3eUgWKhWnPcG3
+ MT1G/WXtWeTUR1W31DFj9PiQcA==
+X-Google-Smtp-Source: AMsMyM7epQMXhOnv+2YeREg/OGo4DRvLGJOGxiqhvZHmLVwO6sfGtxeWrCbVNQb6uRWnnHquiZkZxA==
+X-Received: by 2002:a5d:668a:0:b0:22c:c79f:6a3c with SMTP id
+ l10-20020a5d668a000000b0022cc79f6a3cmr2085372wru.252.1664452203183; 
+ Thu, 29 Sep 2022 04:50:03 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- w1-20020a5d5441000000b0022cc0a2cbecsm6154159wrv.15.2022.09.29.04.49.54
+ bi16-20020a05600c3d9000b003b4de550e34sm4003457wmb.40.2022.09.29.04.49.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 29 Sep 2022 04:49:58 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F23771FFE5;
- Thu, 29 Sep 2022 12:42:36 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 2E6171FFE7;
+ Thu, 29 Sep 2022 12:42:37 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
@@ -65,18 +65,18 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
  robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paul Brook <paul@nowt.org>
-Subject: [PATCH  v1 48/51] contrib/gitdm: add Paul to individual contributors
-Date: Thu, 29 Sep 2022 12:42:28 +0100
-Message-Id: <20220929114231.583801-49-alex.bennee@linaro.org>
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH  v1 50/51] contrib/gitdm: add ISCAS to the academics group
+Date: Thu, 29 Sep 2022 12:42:30 +0100
+Message-Id: <20220929114231.583801-51-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
 References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,41 +99,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also map his old codesourcery address to his canonical address.
+The English website (http://english.is.cas.cn/) in on a slightly
+different domain but has the same logo as http://www.iscas.ac.cn/.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Paul Brook <paul@nowt.org>
-Message-Id: <20220926134609.3301945-4-alex.bennee@linaro.org>
-
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-Id: <20220926134609.3301945-6-alex.bennee@linaro.org>
 ---
-v2
-  - also .mailmap
----
- .mailmap                            | 1 +
- contrib/gitdm/group-map-individuals | 1 +
- 2 files changed, 2 insertions(+)
+ contrib/gitdm/group-map-academics | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/.mailmap b/.mailmap
-index 8c326709cf..1f7319b70b 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -65,6 +65,7 @@ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
- Leif Lindholm <quic_llindhol@quicinc.com> <leif.lindholm@linaro.org>
- Leif Lindholm <quic_llindhol@quicinc.com> <leif@nuviainc.com>
- Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
-+Paul Brook <paul@nowt.org> <paul@codesourcery.com>
- Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
- Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
- Paul Burton <paulburton@kernel.org> <paul@archlinuxmips.org>
-diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-index f816aa8770..6322b3476d 100644
---- a/contrib/gitdm/group-map-individuals
-+++ b/contrib/gitdm/group-map-individuals
-@@ -34,3 +34,4 @@ bmeng.cn@gmail.com
- liq3ea@gmail.com
- chetan4windows@gmail.com
- akihiko.odaki@gmail.com
-+paul@nowt.org
+diff --git a/contrib/gitdm/group-map-academics b/contrib/gitdm/group-map-academics
+index 44745ca85b..877a11e69b 100644
+--- a/contrib/gitdm/group-map-academics
++++ b/contrib/gitdm/group-map-academics
+@@ -19,3 +19,6 @@ edu.cn
+ 
+ # Boston University
+ bu.edu
++
++# Institute of Software Chinese Academy of Sciences
++iscas.ac.cn
 -- 
 2.34.1
 
