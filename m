@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A205EF6C9
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 15:41:55 +0200 (CEST)
-Received: from localhost ([::1]:53604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09355EF77E
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 16:27:19 +0200 (CEST)
+Received: from localhost ([::1]:45882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odtnW-0006ds-6f
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 09:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48716)
+	id 1oduVS-0003wd-7k
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 10:27:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3Q-0000eP-HP
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:12 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:41572)
+ id 1ods3Q-0000fV-Qy
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:13 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ods3J-0002aR-VZ
+ id 1ods3J-0002Pi-TM
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 07:50:12 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- fn7-20020a05600c688700b003b4fb113b86so610681wmb.0
- for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:50:05 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id
+ u16-20020a05600c211000b003b5152ebf09so3057127wml.5
+ for <qemu-devel@nongnu.org>; Thu, 29 Sep 2022 04:50:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=1wpJNgQ0MU+WvqFLhY2OaZLQ48Gr+9b6C+/OuYwYzto=;
- b=J753ytiaJtKAUJmugDSmaFvRewfHTZCy1/359nVgc57Oswj2BHE1TvFDp+Mm32hVJP
- Sjl6LJ+aZX/r699RPdWSNFiPMcpIH35+kLTuWAH+qXdZnqG8PyN+AOYuE80hqflD1jdV
- fIccz6H6Y0RJ+LsaeoAa9pENttHzNZwfpO9ao3zCmpDMLmW62VhSTQuIFLseavD4/EQA
- YNJzkJZodSw+baJYVQjCarC+SCG2nB0EOErk/5mygsxl891nxpI99aDWhu+FzpvrM2MH
- ZMnAhxp8c6hSwvpzUwnbv1JzjSyAZkjCtdWOM5KrPjoi18OQ8Fq+VksidO5rO6/AiAdA
- gnVQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=BsedzBh6Y4TJDrXaXa5qF+9URUKHB7fH5rVkqYS1zZI=;
+ b=DfUm2SI+LxnkGgIKagl85FSRNj9k3EtpLUl2tjSnEQs/HCpx2bqB2ZFc6LTgDFpD/B
+ hK5cKzcu7GbB4E5Nrp+3hiwQoiDeilR2faDMLHZzusz2B2RdMrRCSO/vfO5KnM92AyOa
+ wWBJ7Oq3SCCR79qJjLT2NXEKf3tiI2tQL8GYKGHpKc+7kjlkxCBnLbE5XDDluPR6Vt1j
+ mnD7433I9ltpLjZmy/K+h0tiSKV3CxDs52zAeMUP9IjO0h5SHyHUW8htPouE5PDGOXpF
+ WR3aqJoV1R+UObbADy/aiVNFvxWKja/d6c46xnRbWevnTnm56bh06JjTJfnmn2P3nrmP
+ mmFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=1wpJNgQ0MU+WvqFLhY2OaZLQ48Gr+9b6C+/OuYwYzto=;
- b=Qf/svkIv8mWUOwbs6TGiwtKHZwRKSvNtaa6a3AEy+7m7ElwB9/p1/tJMkEdIExJ4oF
- L6eViWGnjMt8BxjQxgopZ41/oLMhTF/AKYzX6q6AniKxfvHOJmclWvp2bjFXeIvWyOlk
- kczxHtsPxhjIQjqk17YCpbH2OYFPwo5BSSsU7qH/144TCNI5fdDCCL+pI35G3X/t17o7
- VMsmCsuWIU1sYCQ+V1XOkWRKNhbSN+4NVidv4euqq99I+nuMKteczFMw5jkcEtRffHAg
- X8q6nWWroxWn9PufeiW4hHb5eJmQKMsH0tPF66plsSoQu++WWVj+5z361znp8XGcDicB
- hkoA==
-X-Gm-Message-State: ACrzQf0xEfYS3sYEF6iTlNQ5awyGL8RnpdypxJqIBj18FZbCA2t39lBj
- ci7WLZBksMVIjVOFpVyTY607qFlbCmbODA==
-X-Google-Smtp-Source: AMsMyM4RVvWtShnKM0SOcjCqX6gLPAuioXwW9wxizzVGenhLPBLBZjIyXhBkX0ucdBjGCYg21ADcfw==
-X-Received: by 2002:a7b:ce97:0:b0:3b3:4136:59fe with SMTP id
- q23-20020a7bce97000000b003b3413659femr2030521wmj.24.1664452204311; 
- Thu, 29 Sep 2022 04:50:04 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=BsedzBh6Y4TJDrXaXa5qF+9URUKHB7fH5rVkqYS1zZI=;
+ b=1e9EG7lYk4qzLVFb1xDwaT+1y+miw67euc3BtSQbKz1/+D9ZwWbyRGEV9X/AXd+mah
+ T5MQXiajN27XMHQtlufyodejCoDaIPRMs8iDOnblkGW15/3SHJ//J3gJE9BKJPthqnEs
+ dCC8BPrkfWpKbVqcn0/rYGiYvG/alP3C3s2OZiysdx4C34CBRw4WXcnPYLUT4F0KPplw
+ HLnTtweSiSNP6dWDUqQs/VcyXkQD0tuz57gtAO9qHjI3gCocFZ5V7zqUZADfQgN7gunI
+ Lh0quNzITJsP5bNlG0cyINtOemb+BlonbdkIQ0i/DIm1A1E+I5ZTmpqNjiMMxoY1wmv5
+ i79w==
+X-Gm-Message-State: ACrzQf2weFf1koFHNc9nTNS9uqvXk1vkr8PsrGCFPvAEjBqwtN/TELBD
+ RmqYyEjYma8xOyI9Jru39oNwTQ==
+X-Google-Smtp-Source: AMsMyM4LejfhBvxnDiU7XZ3IoKbmHV6R2aWKxKLU6n0gRNSaz6nQ+nHKLEBzpNs7UIloGf1YS/Ob/Q==
+X-Received: by 2002:a05:600c:20b:b0:3b4:86ff:cd with SMTP id
+ 11-20020a05600c020b00b003b486ff00cdmr10453918wmi.35.1664452202013; 
+ Thu, 29 Sep 2022 04:50:02 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- bk8-20020a0560001d8800b0022af865810esm6215897wrb.75.2022.09.29.04.50.00
+ r9-20020adfda49000000b002258235bda3sm6711234wrl.61.2022.09.29.04.49.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Sep 2022 04:50:03 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6FCDD1FFB8;
- Thu, 29 Sep 2022 12:50:00 +0100 (BST)
-References: <20220925105124.82033-1-richard.henderson@linaro.org>
- <20220925105124.82033-4-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: David Hildenbrand <david@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 03/17] accel/tcg: Suppress auto-invalidate in
- probe_access_internal
-Date: Thu, 29 Sep 2022 12:49:55 +0100
-In-reply-to: <20220925105124.82033-4-richard.henderson@linaro.org>
-Message-ID: <87h70q1jtj.fsf@linaro.org>
+ Thu, 29 Sep 2022 04:49:58 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7EC851FFCA;
+ Thu, 29 Sep 2022 12:42:33 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ minyihh@uci.edu, ma.mandourr@gmail.com, Luke.Craig@ll.mit.edu,
+ cota@braap.org, aaron@os.amperecomputing.com, kuhn.chenqun@huawei.com,
+ robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v1 20/51] tests/tcg: remove -f from Makefile invocation
+Date: Thu, 29 Sep 2022 12:42:00 +0100
+Message-Id: <20220929114231.583801-21-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220929114231.583801-1-alex.bennee@linaro.org>
+References: <20220929114231.583801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,24 +99,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Instead of linking tests/tcg/Makefile.target into the build tree, name
+the symbolic link "Makefile" and create it in every target subdirectory.
+This makes it possible to just invoke "make" in tests/tcg subdirectories.
 
-> When PAGE_WRITE_INV is set when calling tlb_set_page,
-> we immediately set TLB_INVALID_MASK in order to force
-> tlb_fill to be called on the next lookup.  Here in
-> probe_access_internal, we have just called tlb_fill
-> and eliminated true misses, thus the lookup must be valid.
->
-> This allows us to remove a warning comment from s390x.
-> There doesn't seem to be a reason to change the code though.
->
-> Cc: David Hildenbrand <david@redhat.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ configure              | 7 ++++---
+ tests/Makefile.include | 7 +++----
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+diff --git a/configure b/configure
+index 784b77ae90..a48a731bf4 100755
+--- a/configure
++++ b/configure
+@@ -2282,7 +2282,6 @@ fi
+ # tests might fail. Prefer to keep the relevant files in their own
+ # directory and symlink the directory instead.
+ LINKS="Makefile"
+-LINKS="$LINKS tests/tcg/Makefile.target"
+ LINKS="$LINKS pc-bios/optionrom/Makefile"
+ LINKS="$LINKS pc-bios/s390-ccw/Makefile"
+ LINKS="$LINKS pc-bios/vof/Makefile"
+@@ -2529,6 +2528,7 @@ fi
+ echo "# Automatically generated by configure - do not modify" > $makefile
+ 
+ config_host_mak=tests/tcg/config-host.mak
++mkdir -p tests/tcg
+ echo "# Automatically generated by configure - do not modify" > $config_host_mak
+ echo "SRC_PATH=$source_path" >> $config_host_mak
+ echo "HOST_CC=$host_cc" >> $config_host_mak
+@@ -2632,8 +2632,9 @@ for target in $target_list; do
+       got_cross_cc=yes
+   fi
+   if test $got_cross_cc = yes; then
+-      mkdir -p tests/tcg/$target
+-      ln -sf ../config-$target.mak tests/tcg/$target/config-target.mak
++      mkdir -p "tests/tcg/$target"
++      ln -sf "$source_path/tests/tcg/Makefile.target" "tests/tcg/$target/Makefile"
++      ln -sf "../config-$target.mak" "tests/tcg/$target/config-target.mak"
+       echo "TARGET=$target" >> "$config_target_mak"
+       echo "QEMU=$PWD/$qemu" >> "$config_target_mak"
+       echo "run-tcg-tests-$target: $qemu\$(EXESUF)" >> $makefile
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 826b1895f4..caef287957 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -50,20 +50,19 @@ $(foreach TARGET,$(TCG_TESTS_TARGETS), \
+ .PHONY: $(TCG_TESTS_TARGETS:%=build-tcg-tests-%)
+ $(TCG_TESTS_TARGETS:%=build-tcg-tests-%): build-tcg-tests-%: $(BUILD_DIR)/tests/tcg/config-%.mak
+ 	$(call quiet-command, \
+-            $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS), \
++            $(MAKE) -C tests/tcg/$* $(SUBDIR_MAKEFLAGS), \
+         "BUILD","$* guest-tests")
+ 
+ .PHONY: $(TCG_TESTS_TARGETS:%=run-tcg-tests-%)
+ $(TCG_TESTS_TARGETS:%=run-tcg-tests-%): run-tcg-tests-%: build-tcg-tests-%
+ 	$(call quiet-command, \
+-           $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) \
+-                        SPEED=$(SPEED) run, \
++           $(MAKE) -C tests/tcg/$* $(SUBDIR_MAKEFLAGS) SPEED=$(SPEED) run, \
+         "RUN", "$* guest-tests")
+ 
+ .PHONY: $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%)
+ $(TCG_TESTS_TARGETS:%=clean-tcg-tests-%): clean-tcg-tests-%:
+ 	$(call quiet-command, \
+-           $(MAKE) -C tests/tcg/$* -f ../Makefile.target $(SUBDIR_MAKEFLAGS) clean, \
++           $(MAKE) -C tests/tcg/$* $(SUBDIR_MAKEFLAGS) clean, \
+         "CLEAN", "$* guest-tests")
+ 
+ .PHONY: build-tcg
+-- 
+2.34.1
 
---=20
-Alex Benn=C3=A9e
 
