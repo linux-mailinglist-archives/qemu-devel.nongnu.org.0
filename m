@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080515F0160
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 01:26:23 +0200 (CEST)
-Received: from localhost ([::1]:52920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D0A5F0163
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 01:28:12 +0200 (CEST)
+Received: from localhost ([::1]:48788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oe2v8-0000Mq-5O
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 19:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40968)
+	id 1oe2wt-0003bd-Gt
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 19:28:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org>)
- id 1oe2sp-0004q7-8U
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 19:23:59 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:50434)
+ id 1oe2sq-0004qn-FZ; Thu, 29 Sep 2022 19:24:00 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:43618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org>)
- id 1oe2sn-0008VD-Hd
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 19:23:58 -0400
+ id 1oe2sn-0008VC-MH; Thu, 29 Sep 2022 19:24:00 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 31759B8267F;
+ by ams.source.kernel.org (Postfix) with ESMTPS id F2E24B825AC;
+ Thu, 29 Sep 2022 23:23:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32C28C433D7;
  Thu, 29 Sep 2022 23:23:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D13EC433C1;
- Thu, 29 Sep 2022 23:23:52 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="PDjBpkXD"
+ header.b="nHI+vwbn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664493829;
+ t=1664493833;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=s4iMmrVnKX4fWtisVeaMk48H8te3Kjy/7gY9G+U0Yws=;
- b=PDjBpkXDpT3TzvY1RJUbLEqYU6B0N2jPyu6aXkuySZM6+tsjvKuL2VGi+iBmPXZB8gb7aj
- WGW0jdoNHEMgrdlRIKM6fsaCx+S2UwR2RsKjTAAbORhiRpkPbKjH6r/fqNTcyVI44TkgXe
- 4MHrifYxMApW0WftMQYiulvE/OPAM1E=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 94819b2a
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=49FxQV60TFmBCPm/S/dzlRLa4PG449vmaa8+eDrLBqM=;
+ b=nHI+vwbnrnSlY0A5detab0BPBB8qnZ9fP3geHIkXzT7TRr9bSz7zXyvosSE/H7nnT3O5xn
+ 675CjBbRRSfWMi5pxZ4HTEiFJf88O0r8hB+3Z3DW0N4ha9lBpGU96V6GiyCuS8fkx2hGJm
+ KjNc5fT4gJsvNwnzxt2xJkw1ocLxJxY=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 18a64c57
  (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Thu, 29 Sep 2022 23:23:48 +0000 (UTC)
+ Thu, 29 Sep 2022 23:23:52 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 1/6] device-tree: add re-randomization helper function
-Date: Fri, 30 Sep 2022 01:23:34 +0200
-Message-Id: <20220929232339.372813-1-Jason@zx2c4.com>
+	qemu-arm@nongnu.org
+Subject: [PATCH 2/6] arm: re-randomize rng-seed on reboot
+Date: Fri, 30 Sep 2022 01:23:35 +0200
+Message-Id: <20220929232339.372813-2-Jason@zx2c4.com>
+In-Reply-To: <20220929232339.372813-1-Jason@zx2c4.com>
+References: <20220929232339.372813-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=145.40.68.75;
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
  envelope-from=SRS0=kpRN=2A=zx2c4.com=Jason@kernel.org;
  helo=ams.source.kernel.org
 X-Spam_score_int: -67
@@ -80,74 +80,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 When the system reboots, the rng-seed that the FDT has should be
-re-randomized, so that the new boot gets a new seed. Several
-architectures require this functionality, so export a function for
-injecting a new seed into the given FDT.
+re-randomized, so that the new boot gets a new seed. Since the FDT is in
+the ROM region at this point, we add a hook right after the ROM has been
+added, so that we have a pointer to that copy of the FDT.
 
-Cc: Alistair Francis <alistair.francis@wdc.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- include/sysemu/device_tree.h |  9 +++++++++
- softmmu/device_tree.c        | 21 +++++++++++++++++++++
- 2 files changed, 30 insertions(+)
+ hw/arm/boot.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-index ef060a9759..d552f324b6 100644
---- a/include/sysemu/device_tree.h
-+++ b/include/sysemu/device_tree.h
-@@ -196,6 +196,15 @@ int qemu_fdt_setprop_sized_cells_from_array(void *fdt,
-                                                 qdt_tmp);                 \
-     })
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index ada2717f76..6a6f4c92c2 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -683,6 +683,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+      * the DTB is copied again upon reset, even if addr points into RAM.
+      */
+     rom_add_blob_fixed_as("dtb", fdt, size, addr, as);
++    qemu_register_reset(qemu_fdt_randomize_seeds, rom_ptr_for_as(as, addr, size));
  
-+
-+/**
-+ * qemu_fdt_randomize_seeds:
-+ * @fdt: device tree blob
-+ *
-+ * Re-randomize all "rng-seed" properties with new seeds.
-+ */
-+void qemu_fdt_randomize_seeds(void *fdt);
-+
- #define FDT_PCI_RANGE_RELOCATABLE          0x80000000
- #define FDT_PCI_RANGE_PREFETCHABLE         0x40000000
- #define FDT_PCI_RANGE_ALIASED              0x20000000
-diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-index 6ca3fad285..d986c7b7b3 100644
---- a/softmmu/device_tree.c
-+++ b/softmmu/device_tree.c
-@@ -22,6 +22,7 @@
- #include "qemu/option.h"
- #include "qemu/bswap.h"
- #include "qemu/cutils.h"
-+#include "qemu/guest-random.h"
- #include "sysemu/device_tree.h"
- #include "hw/loader.h"
- #include "hw/boards.h"
-@@ -643,3 +644,23 @@ out:
-     g_free(propcells);
-     return ret;
- }
-+
-+void qemu_fdt_randomize_seeds(void *fdt)
-+{
-+    int noffset, poffset, len;
-+    const char *name;
-+    uint8_t *data;
-+
-+    for (noffset = fdt_next_node(fdt, 0, NULL);
-+         noffset >= 0;
-+         noffset = fdt_next_node(fdt, noffset, NULL)) {
-+        for (poffset = fdt_first_property_offset(fdt, noffset);
-+             poffset >= 0;
-+             poffset = fdt_next_property_offset(fdt, poffset)) {
-+            data = (uint8_t *)fdt_getprop_by_offset(fdt, poffset, &name, &len);
-+            if (!data || strcmp(name, "rng-seed"))
-+                continue;
-+            qemu_guest_getrandom_nofail(data, len);
-+        }
-+    }
-+}
+     g_free(fdt);
+ 
 -- 
 2.37.3
 
