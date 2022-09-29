@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D5B5EFDEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 21:29:25 +0200 (CEST)
-Received: from localhost ([::1]:43434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719375EFDF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Sep 2022 21:31:41 +0200 (CEST)
+Received: from localhost ([::1]:55032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1odzDo-0004Ol-1r
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 15:29:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37212)
+	id 1odzG0-0006I3-J4
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 15:31:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1odzBq-0001nb-BB; Thu, 29 Sep 2022 15:27:22 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:55023)
+ id 1odzDZ-0003to-G1; Thu, 29 Sep 2022 15:29:09 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:49369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1odzBo-000829-Jm; Thu, 29 Sep 2022 15:27:21 -0400
+ id 1odzDX-0008OU-OV; Thu, 29 Sep 2022 15:29:09 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MT9v5-1oo4US17UN-00UYTL; Thu, 29 Sep 2022 21:27:11 +0200
-Message-ID: <0025c80e-9183-d22c-79a4-fd0b5b9cbf4d@vivier.eu>
-Date: Thu, 29 Sep 2022 21:27:09 +0200
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MFKbB-1oSfSv02HJ-00FkNH; Thu, 29 Sep 2022 21:29:00 +0200
+Message-ID: <cbc7643d-40e3-a083-828a-2fafd79f34d2@vivier.eu>
+Date: Thu, 29 Sep 2022 21:28:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH] block/qcow2-bitmap: Add missing cast to silent GCC error
+Subject: Re: [PATCH] Drop superfluous conditionals around g_free()
 Content-Language: fr
-To: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-Cc: qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-trivial@nongnu.org, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>
-References: <20220919182755.51967-1-f4bug@amsat.org>
- <YyyBMe72wjTK3l0x@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: pavel.dovgaluk@ispras.ru, pbonzini@redhat.com, mtosatti@redhat.com,
+ sunilmut@microsoft.com, qemu-trivial@nongnu.org
+References: <20220923090428.93529-1-armbru@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <YyyBMe72wjTK3l0x@redhat.com>
+In-Reply-To: <20220923090428.93529-1-armbru@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Tm72X2NlxzmTuCtk6CFJ/VSJ8TnaP+roNGqtNoPCM7oIpKF7ype
- BCna/MZ4OHBLHW9Fl/1JHp6O+Z0gsA4ECD+i4F+5e2zYWSidVttfTT0QH00SKnV2XLGSZyd
- 7rHRezgax/UToxfhQPHzH3t/eimyRv5Dbc9TQp38yDLTgedhmpqdzVruPYJMrwRexZ7vDWT
- cBJ+Ywy7WiVYECxtdHCLg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:S1ZnzNZWJ20=:YA07r9bth1cLSggu/oUkJR
- ue7hRcO0E+ZaLNN0BNE50LFymwtnttN/y3pCRbMloWCNNEqplmtUKwIZybCfLHysEcnuL+ueU
- N7qo+7TOTikvQuw3NdQ4hP7opOTzwuURdnJp80aGpQkJ5czIvTbSWP9Yf/s4pqTIDqFcm6Ut9
- BiZ8V/k+zQrfrdQiCHQZwgAyMG1pAGkJ6uCT99QlQpefAiUHM0f9PbO3kGeYUKyctxGmh6Y8B
- AkkaFSrIhMjWjqvcm3bdL8HMzkcHoLHiQL6aNg/XxKrO7g6Ad163r9QFK4lbNZT3HE7sqLmYY
- jp/Yvp8l13nVpjwm/e8V6hQq2jjO58EplzJJEMnNDO2sx6wQaLjflNZrLDpT3V0lOhyHgPe4v
- aUO+9FqtFXY7Daet8Wbwf8Q4lnDZKP1xElwTW95X+XP8o60XIAeCJa28ss6pqJg0BTCXvJx31
- ztIHPR37BnILjOqntzyO71iAXvZJCKk8US+Gyvdwy3tgSQeFhN4ouaITu5eODgeImnbnTiau4
- Ok8sG5URlylY/q0XvYO+XkACLXSa1tIAQg/Yia1NOqrJOXT4ltbNySzc4lkD9if0qiFM3s7jR
- 9iOeh5DEF+384etg76RnOXIPGMTMT+8ufHKYo3XVNEFOMrRHk78PXxZssza2vmnMJ0bzX8fsy
- uNaqc34QFdR0qQFX8IQauut9BkHif91qpCwzdqtNkUpMRELPbXHpErLGRaixfCQEISzDSiHSL
- Q3zSkRX2BKHpg6ZdD+ZsAPifP8p/3xu4hhO+TOkbA6EfOMikRtNGJR9tskefwUp0ebiL/ypLS
- K2JNtAM
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ylFc4fLbCgq5fTHebFJbVmSVX6RExaIu+ClYh1r3V9clTwZUKFg
+ gKM76+5UdLjKNyyeH61wIuCElnefR7PCooV22Lz09UxRvny/ewf32r2oYtvg778fqf5slbd
+ Vx/ksfrq7a609PB7mGNncV02tC0rFiHnTYKgQykUug0ODJfB0w25vv8YCcsSIX3+eYN0hvv
+ HKGRd4NOHSGd88FhZ9nPw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ktj2herafiE=:ae33yk3u96zKaDEsnXjEJ7
+ hUcNiotsMLFGe0Jzz1i8ELLf5rIxt4aQOMYWYLXI0eqVab+yUPER+wwQJKU4b5UfxiQbI69Vd
+ NrZcORy59MxVgjfzXXJSXS+HyiiJveM2eGlyWBz65JqThYDBGaNO3s4+yDWwpq4vkAEV2lCxz
+ UjQV8zsydokB5Qwhqpe0JIbNA3NvJUXFC+WkHCSicUjfTlEYexSM+zGwZ+FJp6LKZ5X1qyXuB
+ Imm91SFNaiX8d/qBL/cdt8+PTQG7MHCpqHm7POawzLCQYwN4h3NFi9qFO8mxMQ87K0Oka1Mw2
+ SlCw+ADAONW0kdhPiG3wj4rYvEOmblM7MpxxtIHMEUphsqapLhIQX8+H52U/VPKi3Xd7PT4TI
+ x2cveoGz9o9vLMU2KSg5l6Okkqi7MYdcOVQjTHLxzEzpl8x9CLvKvv5WhgBo+yYKWG+70YKT3
+ ZouPA/3wFdgr9nxVDl40T1uD1sDsFpmJ+S9aRIR8Bdbyz1EJJUjiwQgemt+x3dEAvfEqNrQUj
+ iOQBM7eCbxsI3j4CrSokdg4Gnbww8w1uezp8nfU8yagVzbij3yF1BssfVmcCqWZgfNwR+G7AA
+ jjMmmykH05+KnilwgdE07aaOkkenq6Gyr1gXCuAMIXZYRJyOVGIxt3cGprKBceoGgC6l+TtxG
+ /7sNBWTeczuFZGFZZT/U6Ef9EBsmtYTzp8xuH1tJg6grdWNbECB0zluchhFYzKa+4ZNG7K67m
+ sMRMp/Y9Gi6rIWKWwrEltcI2oIHl+yTanoIBX+f6MVFm6g1OdqUoDNqJDNWFoBfZr9JPWXeNp
+ UvpCPwe
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -59
 X-Spam_score: -6.0
@@ -82,50 +75,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 22/09/2022 à 17:37, Kevin Wolf a écrit :
-> Am 19.09.2022 um 20:27 hat Philippe Mathieu-Daudé geschrieben:
->> Commit d1258dd0c8 ("qcow2: autoloading dirty bitmaps") added the
->> set_readonly_helper() GFunc handler, correctly casting the gpointer
->> user_data in both the g_slist_foreach() caller and the handler.
->> Few commits later (commit 1b6b0562db), the handler is reused in
->> qcow2_reopen_bitmaps_rw() but missing the gpointer cast, resulting
->> in the following error when using Homebrew GCC 12.2.0:
->>
->>    [2/658] Compiling C object libblock.fa.p/block_qcow2-bitmap.c.o
->>    ../../block/qcow2-bitmap.c: In function 'qcow2_reopen_bitmaps_rw':
->>    ../../block/qcow2-bitmap.c:1211:60: error: incompatible type for argument 3 of 'g_slist_foreach'
->>     1211 |     g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
->>          |                                                            ^~~~~
->>          |                                                            |
->>          |                                                            _Bool
->>    In file included from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/gmain.h:26,
->>                     from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/giochannel.h:33,
->>                     from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib.h:54,
->>                     from /Users/philmd/source/qemu/include/glib-compat.h:32,
->>                     from /Users/philmd/source/qemu/include/qemu/osdep.h:144,
->>                     from ../../block/qcow2-bitmap.c:28:
->>    /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/gslist.h:127:61: note: expected 'gpointer' {aka 'void *'} but argument is of type '_Bool'
->>      127 |                                           gpointer          user_data);
->>          |                                           ~~~~~~~~~~~~~~~~~~^~~~~~~~~
->>    At top level:
->>    FAILED: libblock.fa.p/block_qcow2-bitmap.c.o
->>
->> Fix by adding the missing gpointer cast.
->>
->> Fixes: 1b6b0562db ("qcow2: support .bdrv_reopen_bitmaps_rw")
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Le 23/09/2022 à 11:04, Markus Armbruster a écrit :
+> There is no need to guard g_free(P) with if (P): g_free(NULL) is safe.
 > 
-> Thanks, applied to the block branch. And in case qemu-trivial picks it
-> up anyway:
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   replay/replay.c             |  6 ++----
+>   target/i386/kvm/kvm.c       | 12 ++++--------
+>   target/i386/whpx/whpx-all.c | 14 ++++++--------
+>   3 files changed, 12 insertions(+), 20 deletions(-)
 > 
-> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-> 
-> 
+> diff --git a/replay/replay.c b/replay/replay.c
+> index 4c396bb376..9a0dc1cf44 100644
+> --- a/replay/replay.c
+> +++ b/replay/replay.c
+> @@ -366,10 +366,8 @@ void replay_finish(void)
+>           fclose(replay_file);
+>           replay_file = NULL;
+>       }
+> -    if (replay_filename) {
+> -        g_free(replay_filename);
+> -        replay_filename = NULL;
+> -    }
+> +    g_free(replay_filename);
+> +    replay_filename = NULL;
+>   
+>       g_free(replay_snapshot);
+>       replay_snapshot = NULL;
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index a1fd1f5379..9603bf265a 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -2176,15 +2176,11 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
+>   
+>       g_free(env->xsave_buf);
+>   
+> -    if (cpu->kvm_msr_buf) {
+> -        g_free(cpu->kvm_msr_buf);
+> -        cpu->kvm_msr_buf = NULL;
+> -    }
+> +    g_free(cpu->kvm_msr_buf);
+> +    cpu->kvm_msr_buf = NULL;
+>   
+> -    if (env->nested_state) {
+> -        g_free(env->nested_state);
+> -        env->nested_state = NULL;
+> -    }
+> +    g_free(env->nested_state);
+> +    env->nested_state = NULL;
+>   
+>       qemu_del_vm_change_state_handler(cpu->vmsentry);
+>   
+> diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+> index b22a3314b4..8e4969edeb 100644
+> --- a/target/i386/whpx/whpx-all.c
+> +++ b/target/i386/whpx/whpx-all.c
+> @@ -1225,14 +1225,12 @@ static void whpx_translate_cpu_breakpoints(
+>           }
+>       }
+>   
+> -    if (breakpoints->breakpoints) {
+> -        /*
+> -         * Free the previous breakpoint list. This can be optimized by keeping
+> -         * it as shadow buffer for the next computation instead of freeing
+> -         * it immediately.
+> -         */
+> -        g_free(breakpoints->breakpoints);
+> -    }
+> +    /*
+> +     * Free the previous breakpoint list. This can be optimized by keeping
+> +     * it as shadow buffer for the next computation instead of freeing
+> +     * it immediately.
+> +     */
+> +    g_free(breakpoints->breakpoints);
+>   
+>       breakpoints->breakpoints = new_breakpoints;
+>   }
 
-It doesn't seem to be merged yet. Applied to my trivial-patches branch.
-
-If you push it first I will remove it.
+Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
