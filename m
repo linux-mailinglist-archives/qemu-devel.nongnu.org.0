@@ -2,94 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409865F0D9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:34:40 +0200 (CEST)
-Received: from localhost ([::1]:43352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3A65F0DBC
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:40:47 +0200 (CEST)
+Received: from localhost ([::1]:38436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeH66-0005gw-EI
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:34:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58096)
+	id 1oeHC1-0001HO-2m
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oeGuO-0002SA-RL
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:22:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49652)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1oeH5y-0005dA-OH; Fri, 30 Sep 2022 10:34:32 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oeGuK-00061A-Au
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:22:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664547746;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JcuLWc6BfFOhOPcqOp9E0Xk4IHLCKSvmXMOrkUKJBzk=;
- b=LrYIz+eeWRonqVyqAlXpeS36QmD1/VoDtP4DjnMxlD8IybdpYqbUnqaF4MHOVkQhNLOvDU
- lEomVF1I2BWzpTyske2Ab11OJIyJNkHaB38HU8fWnXBAAyqljGJNPo+hccYD40c/UP7Cc7
- YyTRnZN4S39dQT63rr0qR6hluJsl/QQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-583-At8pDkswOOCAmmWiBtQ75g-1; Fri, 30 Sep 2022 10:22:24 -0400
-X-MC-Unique: At8pDkswOOCAmmWiBtQ75g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- k6-20020adfc706000000b0022cc19d5dd2so1601126wrg.7
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 07:22:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date;
- bh=JcuLWc6BfFOhOPcqOp9E0Xk4IHLCKSvmXMOrkUKJBzk=;
- b=qGhs9YJljItcShfy9ZYc7soWKdII0oCI5n+g/t/kHwlNtZmiWRBazIkXkn7lbPldhV
- RWKqPAu1po1+MLT/5t4YJYW9+ln4mbhE0ROcFtZ0aSu0GcQFVKDCjhl008LtUQI+rHO1
- 2luvZP8OKFp04ze1DnUK+vcyXI+JH0JAxl2uiirMtW9BB6n/+/q31p4gMK5jU3Kd70Ue
- O6V85PiRQV/HdsP3D2cL+MG+donuHeNRTJtfY4ECqyPDN36CJpXsv7UOl87REfg6DtLe
- t8i3GObGnRIHGVkH0+yjqpyuyaZ5UadhPR7mpmV5u1643rfDwj2EgVD3txG6lzvISzrz
- ItvA==
-X-Gm-Message-State: ACrzQf1pXE3o7UGmbFsddIO/s+Y4tLerfaGLu5MN39DDsB+ECjS+R4vZ
- YRYXM6ibAx4LC90nRRso1S53xuXpiK928CBLgqpjy3nMS7uxPpEF3roFjr0/G1I5QZIjX3Mr+/X
- anhU1Sc3UhbSrlKE=
-X-Received: by 2002:a05:600c:a195:b0:3b4:fc79:f778 with SMTP id
- id21-20020a05600ca19500b003b4fc79f778mr14200475wmb.177.1664547743512; 
- Fri, 30 Sep 2022 07:22:23 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4gtMzQpe/A9W1k7Wp5K1yl1fp+eqMLrTj3LEqkU4WuFvpDVMq6OG8BAZq9F6G4iGjg+aGmOg==
-X-Received: by 2002:a05:600c:a195:b0:3b4:fc79:f778 with SMTP id
- id21-20020a05600ca19500b003b4fc79f778mr14200461wmb.177.1664547743252; 
- Fri, 30 Sep 2022 07:22:23 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70c:c00:48b:b68a:f9e0:ebce?
- (p200300cbc70c0c00048bb68af9e0ebce.dip0.t-ipconnect.de.
- [2003:cb:c70c:c00:48b:b68a:f9e0:ebce])
- by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c2cd200b003a63a3b55c3sm7640985wmc.14.2022.09.30.07.22.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Sep 2022 07:22:22 -0700 (PDT)
-Message-ID: <4f186b7a-79b6-8253-c886-e8b24310ab8a@redhat.com>
-Date: Fri, 30 Sep 2022 16:22:21 +0200
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1oeH5w-0008MR-5N; Fri, 30 Sep 2022 10:34:30 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28UENoKO036193;
+ Fri, 30 Sep 2022 14:33:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=izNMAZuQS+XeeGo92VA3Gdlo7NtRZ+Kjird7PUMPyKY=;
+ b=IOPq3fFZRudgWt2SPUUVaoLfrE1XRATn01FdHP+dtGiIFi//TdkLytYO6XhHOgRNSGmE
+ 0fz5M8zrMz0JWUG+Xo6/OlpJwsDM0s26O1ZCwvKvi2k5naPXr0yr8qN3e7fvPOx8PS2N
+ JQQIuH1jRoUsnwrd3O5Y6LuUPUsCfuTpDb7Mf9ilegA2S/TQJ/ytyUDzpBWpZvFiEwSs
+ hLbA+09VGDX46qL4uzcb6NtlP548kko4IOwIwzJoPqObCEchuv76KRH/QuqHcszTqnHG
+ GSzSQDRxZHtqIFEeVAuwlYUDvhMxq7+cEfNC8LoSOlidQ3liGZScrALtIRp7Df1tB0NU Ew== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jx261g7ra-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Sep 2022 14:33:08 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28UEOjPJ040765;
+ Fri, 30 Sep 2022 14:33:07 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jx261g7gm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Sep 2022 14:33:07 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28UEKoQB020858;
+ Fri, 30 Sep 2022 14:32:44 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 3jssha0vh9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Sep 2022 14:32:44 +0000
+Received: from smtpav04.wdc07v.mail.ibm.com ([9.208.128.116])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 28UEWhLS20448170
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 30 Sep 2022 14:32:43 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D00CE58050;
+ Fri, 30 Sep 2022 14:32:42 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1E0515805E;
+ Fri, 30 Sep 2022 14:32:42 +0000 (GMT)
+Received: from localhost (unknown [9.160.76.206])
+ by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
+ Fri, 30 Sep 2022 14:32:41 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
+ Ferst <matheus.ferst@eldorado.org.br>
+Subject: Re: [RFC PATCH v2 02/29] target/ppc: always use ppc_set_irq to set
+ env->pending_interrupts
+In-Reply-To: <20220927201544.4088567-3-matheus.ferst@eldorado.org.br>
+References: <20220927201544.4088567-1-matheus.ferst@eldorado.org.br>
+ <20220927201544.4088567-3-matheus.ferst@eldorado.org.br>
+Date: Fri, 30 Sep 2022 11:32:39 -0300
+Message-ID: <87wn9l53w8.fsf@linux.ibm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v2 0/5] pci-ids: virtio cleanup
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Cc: Eric Auger <eric.auger@redhat.com>, peter.maydell@linaro.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220930135810.1892149-1-kraxel@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220930135810.1892149-1-kraxel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.583, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: PJV-h_8Z8hyO4Qh0WkhCQa9CCvyWW4iB
+X-Proofpoint-GUID: bnzT_6joygm-Q4eORL7JHN3r7LTUGTjB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-09-30_04,2022-09-29_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ spamscore=0 phishscore=0 mlxlogscore=424 impostorscore=0 bulkscore=0
+ adultscore=0 mlxscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209300092
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,23 +112,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.09.22 15:58, Gerd Hoffmann wrote:
-> Drop legacy ids for virtio 1.0 devices, they are not needed
-> and will be overridden anyway by generic virtio pci code.
-> 
-> Improve modern virtio id documentation.
-> 
-> Gerd Hoffmann (5):
->    pci-ids: drop PCI_DEVICE_ID_VIRTIO_IOMMU
->    pci-ids: drop PCI_DEVICE_ID_VIRTIO_MEM
+Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
 
-I remember that for some weird reason, this was required for Linux to 
-actually make use of the device. I never figured out why -- maybe that 
-changed.
+> Use ppc_set_irq to raise/clear interrupts to ensure CPU_INTERRUPT_HARD
+> will be set/reset accordingly.
+>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
--- 
-Thanks,
-
-David / dhildenb
-
+Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
 
