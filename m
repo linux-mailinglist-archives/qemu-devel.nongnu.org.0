@@ -2,73 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A855F01E3
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 02:48:31 +0200 (CEST)
-Received: from localhost ([::1]:42818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C8C5F0241
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 03:32:58 +0200 (CEST)
+Received: from localhost ([::1]:55464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oe4Cb-00053s-Mm
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 20:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47962)
+	id 1oe4td-0005u9-Sh
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 21:32:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1oe4BH-0003gy-GE
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 20:47:07 -0400
-Received: from mga09.intel.com ([134.134.136.24]:7220)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
- id 1oe4BD-0002jx-28
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 20:47:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1664498823; x=1696034823;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=FbPamp3DuDN8VaeGpowUIlPIvBY9RjYb9w4a2lGRpuE=;
- b=QtSlpSwtMzbSFrfQ9Sl7kIvLpqQiCBPUvxLVhBO+Xzf0OHpW9jckLdc6
- Kifssx9ayYYIAw8puyzSs6a0JkrIB285sL6sQeORmTsRmlZqIQ70JjBxG
- rIMKbFy2+LFMlt3tIOrjFZU1TD++oRfOMZnqArRY3mWZJ7hJQzUqkScD7
- v5PNnUDNlj/x/r4zYNjQfjyTjCUE3MYE2exRDxRyyryY0b6cbiM5SXOF5
- 0Z+yVFYQCu/nu8ZJdLEvLECOgogPhaX4V0X/FOQek2znqobFsT6gbPNa6
- 8ykX4E2LnBPXxIdk/UQIjQL7yXbpW6R6sLySJOjreg9kbF+c+O2qA7QXb Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="302979932"
-X-IronPort-AV: E=Sophos;i="5.93,356,1654585200"; d="scan'208";a="302979932"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 17:42:44 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10485"; a="691051266"
-X-IronPort-AV: E=Sophos;i="5.93,356,1654585200"; d="scan'208";a="691051266"
-Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.249.168.175])
- ([10.249.168.175])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2022 17:42:41 -0700
-Message-ID: <13f628d5-3ac7-3ddb-d151-d9b22085fde0@intel.com>
-Date: Fri, 30 Sep 2022 08:42:39 +0800
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oe4ld-0001qJ-SJ; Thu, 29 Sep 2022 21:24:41 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:39482 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oe4lZ-00080k-O8; Thu, 29 Sep 2022 21:24:41 -0400
+Received: from localhost.localdomain (unknown [139.227.114.201])
+ by APP-05 (Coremail) with SMTP id zQCowABHOHVJRTZjaraNAg--.3616S2;
+ Fri, 30 Sep 2022 09:24:27 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [RFC 0/8] support subsets of code size reduction extension
+Date: Fri, 30 Sep 2022 09:23:37 +0800
+Message-Id: <20220930012345.5248-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.3.0
-Subject: Re: [PATCH v8 0/4] Enable notify VM exit
-To: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti
- <mtosatti@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <20220929070341.4846-1-chenyi.qiang@intel.com>
- <d20d8f67-2ad9-7b87-71f6-011aab7b6ba5@redhat.com>
-Content-Language: en-US
-From: Chenyi Qiang <chenyi.qiang@intel.com>
-In-Reply-To: <d20d8f67-2ad9-7b87-71f6-011aab7b6ba5@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.24;
- envelope-from=chenyi.qiang@intel.com; helo=mga09.intel.com
-X-Spam_score_int: -85
-X-Spam_score: -8.6
-X-Spam_bar: --------
-X-Spam_report: (-8.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.099, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-CM-TRANSID: zQCowABHOHVJRTZjaraNAg--.3616S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uryDKFykCrWDXw4ruw4DArb_yoW8AF45pr
+ 48G3yakrZ8JFZ7Jw4ftF1UGr15Ars5Wr45Awn7tw18Ja13ArW5JrnrKw13G3W7JF18WrnI
+ 93WUCr13uw45JFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+ JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
+ W8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
+ McIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7
+ v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI
+ 7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+ Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY
+ 6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6x
+ AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
+ 1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-Originating-IP: [139.227.114.201]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,85 +71,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patchset implements RISC-V Zc* extension v1.0.0.RC5.6 version instructions. 
 
+Specification:
+https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
 
-On 9/30/2022 1:28 AM, Paolo Bonzini wrote:
-> On 9/29/22 09:03, Chenyi Qiang wrote:
->> Notify VM exit is introduced to mitigate the potential DOS attach from
->> malicious VM. This series is the userspace part to enable this feature
->> through a new KVM capability KVM_CAP_X86_NOTIFY_VMEXIT. The detailed
->> info can be seen in Patch 4.
->>
->> The corresponding KVM support can be found in linux 6.0-rc:
->> (2f4073e08f4c KVM: VMX: Enable Notify VM exit)
-> 
-> Thanks, I will queue this in my next pull request.
-> 
-> Paolo
-> 
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream
 
-Thanks Paolo!
+To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true" and "x-zcd=true" (or "x-zcmp=true,x-zcmt=true") to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extension support. 
 
-Please take the resend version at 
-https://lore.kernel.org/qemu-devel/20220929072014.20705-1-chenyi.qiang@intel.com/
+This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
 
-There's a minor compile issue in this one.
+Weiwei Li (8):
+  target/riscv: add cfg properties for Zc* extension
+  target/riscv: add support for Zca, Zcf and Zcd extension
+  target/riscv: add support for Zcb extension
+  target/riscv: add support for Zcmp extension
+  target/riscv: add support for Zcmt extension
+  target/riscv: delete redundant check for zcd instructions in
+    decode_opc
+  target/riscv: expose properties for Zc* extension
+  disas/riscv.c: add disasm support for Zc*
 
-Chenyi
+ disas/riscv.c                             | 287 +++++++++++++++++++++-
+ target/riscv/cpu.c                        |  37 +++
+ target/riscv/cpu.h                        |   8 +
+ target/riscv/cpu_bits.h                   |   6 +
+ target/riscv/csr.c                        |  28 +++
+ target/riscv/helper.h                     |   7 +
+ target/riscv/insn16.decode                |  52 +++-
+ target/riscv/insn_trans/trans_rvi.c.inc   |   5 +-
+ target/riscv/insn_trans/trans_rvzce.c.inc | 279 +++++++++++++++++++++
+ target/riscv/machine.c                    |  19 ++
+ target/riscv/meson.build                  |   3 +-
+ target/riscv/translate.c                  |  25 +-
+ target/riscv/zce_helper.c                 | 244 ++++++++++++++++++
+ 13 files changed, 990 insertions(+), 10 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
+ create mode 100644 target/riscv/zce_helper.c
 
->> ---
->> Change logs:
->> v7 -> v8
->> - Add triple_fault_pending field transmission on migration (Paolo)
->> - Change the notify-vmexit and notify-window to the accelerator 
->> property. Add it as
->>    a x86-specific property. (Paolo)
->> - Add a preparation patch to expose struct KVMState in order to add 
->> target-specific property.
->> - Define three option for notify-vmexit. Make it on by default. (Paolo)
->> - Raise a KVM internal error instead of triple fault if invalid 
->> context of guest VMCS detected.
->> - v7: 
->> https://lore.kernel.org/qemu-devel/20220923073333.23381-1-chenyi.qiang@intel.com/
->>
->> v6 -> v7
->> - Add a warning message when exiting to userspace (Peter Xu)
->> - v6: 
->> https://lore.kernel.org/all/20220915092839.5518-1-chenyi.qiang@intel.com/
->>
->> v5 -> v6
->> - Add some info related to the valid range of notify_window in patch 
->> 2. (Peter Xu)
->> - Add the doc in qemu-options.hx. (Peter Xu)
->> - v5: 
->> https://lore.kernel.org/qemu-devel/20220817020845.21855-1-chenyi.qiang@intel.com/
->>
->> ---
->>
->> Chenyi Qiang (3):
->>    i386: kvm: extend kvm_{get, put}_vcpu_events to support pending triple
->>      fault
->>    kvm: expose struct KVMState
->>    i386: add notify VM exit support
->>
->> Paolo Bonzini (1):
->>    kvm: allow target-specific accelerator properties
->>
->>   accel/kvm/kvm-all.c      |  78 ++-----------------------
->>   include/sysemu/kvm.h     |   2 +
->>   include/sysemu/kvm_int.h |  75 ++++++++++++++++++++++++
->>   qapi/run-state.json      |  17 ++++++
->>   qemu-options.hx          |  11 ++++
->>   target/arm/kvm.c         |   4 ++
->>   target/i386/cpu.c        |   1 +
->>   target/i386/cpu.h        |   1 +
->>   target/i386/kvm/kvm.c    | 121 +++++++++++++++++++++++++++++++++++++++
->>   target/i386/machine.c    |  20 +++++++
->>   target/mips/kvm.c        |   4 ++
->>   target/ppc/kvm.c         |   4 ++
->>   target/riscv/kvm.c       |   4 ++
->>   target/s390x/kvm/kvm.c   |   4 ++
->>   14 files changed, 272 insertions(+), 74 deletions(-)
->>
-> 
+-- 
+2.25.1
+
 
