@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2815F0794
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 11:29:56 +0200 (CEST)
-Received: from localhost ([::1]:53708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CAF05F07A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 11:31:45 +0200 (CEST)
+Received: from localhost ([::1]:42172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeCLD-00064Z-UP
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 05:29:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33994)
+	id 1oeCMy-0007ek-FL
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 05:31:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oeCFQ-0001jU-Kv
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:23:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56004)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oeCFO-0005Zx-Mv
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:23:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664529833;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bopeWtXmg6RzjROBxjbDBB300HisEUI39hRJit7zbT8=;
- b=NbPENgMW0Z8opS2Gr/E8ADzOXMU5c1kcgP6aWg3JaMFncuGIVnZPJwK+2EtLUjxB0cWRly
- bopCexIL+t7FNC63yZUkuu2wDr992TkB1/suleAZmoD8dPEALGE9BS3qtxeCRZoLK/v4ts
- M/PEu6vj2IbaGpL8HuD7teshQnpDQj8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-619-5I1aLiGsP-m4kAYAma8V_w-1; Fri, 30 Sep 2022 05:23:51 -0400
-X-MC-Unique: 5I1aLiGsP-m4kAYAma8V_w-1
-Received: by mail-ed1-f71.google.com with SMTP id
- h13-20020a056402280d00b004581108ba90so3186341ede.2
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 02:23:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oeCLB-00065V-5D
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:29:53 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:36840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oeCL9-0006VU-Dg
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:29:52 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id 13so7847535ejn.3
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 02:29:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=EsCSbfAPVUWC4yvF36053OfNVRiKeHKVLuD1hNI1SA4=;
+ b=kT6uot83W+wM3fwKYVk9YSSgAQG4IU4dc5yz51rDOs8f26tL5hpZta3Pm9j5N3xzEI
+ ZvkLLW7QFGhLs4chMUFr7lB/mqxogytnh7CpYhlGcQl85EjfbaowFDr5S6KUuEM2owRj
+ 4sm/CIlHM2hFNOw+5ZL9ALVvzS5J6SB1bomtlXESpMoV+jjcX36MHEiqLT68RZL/6Nk6
+ Ujn2SdPzplcA+F5zA9r6wL5SvKPVT6y0a6bj+X7bjPNc0K4MdLy7WiCsML1TltmU7/06
+ VQBr3OHuJ6nCxeUGaw3ecrpCLMcF+serbCqdw/hdn9HWSAsvvd4RfWZAGpl2iO1VRy4o
+ huDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=bopeWtXmg6RzjROBxjbDBB300HisEUI39hRJit7zbT8=;
- b=Wf+hLjK59tugGOe07DWedKkSyB2+Y/CW9w8vndvN4XOY7tJ+Z9VheKs436/Cqn0r8k
- SvxYkHS4cr4Ya/0D81ev4IR/hZr+O3+WzBkfVAHCWn8Ef1e1QQYZ5e6yoMDL3M9T2HXu
- H2BWzCk+HfAlUIr4ZopsbG9/4cIfQxNXDcrXLZbDg2gz+9w12Eb2FDuLi4kUY7kkl4h/
- uAgJwZnFTCNMn1pXSHyc3TWIKCAZ3NViEXQNt9aKKgs1I/01wgfe5laVgBJUQdmOTnQ4
- BQHKYdEocGwRaWN0eMIdF/BUoAMaMUGhStuow2bo9UeqbHeEtG56fPVbeDcn08U7Qs3U
- zaVA==
-X-Gm-Message-State: ACrzQf3lN87dbv7PpIekVFKFrfmKEIzC87doCxyIoVInlUlkTwbGiyT9
- 3fI6iV6AjilFgWcKLiPt6Af+dg8ztg5PGRaEcFxP6kCj2u1mgdZ+6lYkkC01uIasRIH2Lc433vt
- G44Nr6ed2SCqES/0=
-X-Received: by 2002:a05:6402:3582:b0:451:3f7b:a7c5 with SMTP id
- y2-20020a056402358200b004513f7ba7c5mr7310211edc.63.1664529830602; 
- Fri, 30 Sep 2022 02:23:50 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7d5amNyBGV6AcWVnPvMEaNOiKRPniSEUHMxuduYI9UqrT9MYJu1pTYjYkZZGP4wbvOo+qvlw==
-X-Received: by 2002:a05:6402:3582:b0:451:3f7b:a7c5 with SMTP id
- y2-20020a056402358200b004513f7ba7c5mr7310204edc.63.1664529830356; 
- Fri, 30 Sep 2022 02:23:50 -0700 (PDT)
-Received: from redhat.com ([147.235.214.102]) by smtp.gmail.com with ESMTPSA id
- g17-20020a170906539100b0073d70df6e56sm880329ejo.138.2022.09.30.02.23.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Sep 2022 02:23:49 -0700 (PDT)
-Date: Fri, 30 Sep 2022 05:22:33 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- peter.maydell@linaro.org
-Subject: Re: [PATCH] pci-ids: sync docs + header
-Message-ID: <20220930051235-mutt-send-email-mst@kernel.org>
-References: <20220930073553.1626190-1-kraxel@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=EsCSbfAPVUWC4yvF36053OfNVRiKeHKVLuD1hNI1SA4=;
+ b=2XoLL8wxf2atz9mJtkXY7qPKGP+JjGbKks0q3bXOzkwoJlMa5DDQ2KhOk7HkLtbMHP
+ ezynL5DYi6R91IGfDDpa0Yk8/syq/llMgnIBFN+C3tGvaTZ8BqWshlwRL7L+50KKjN3Y
+ JhX/15jPRUvoI0Z+R7RZcLGw32BVk63ZQsq+fjTyC/j126XzGKQyTzyrdCU/eXE30QOZ
+ brZpZ4zcEzDf/6lpcyLI9yLyVwMJtnvgN7oOicFkBuC6VnR/EcDYnD+6UpaoOqw9Fp87
+ xOhR/vyX2O/6RfTxC/KAdKVMA/z7nkXvO6OVvDvSUUWjInk3Ja2W8PpSCHbyeAiS8b6g
+ lHiw==
+X-Gm-Message-State: ACrzQf0XSXTgTxj0QwONa7+ctmQbJIYkrEcBGOxixBXqSPX626LkTECy
+ GsRbWyJwnRbnO6oReCedtrbbxDCR8bgRH2+jYjeaXQ==
+X-Google-Smtp-Source: AMsMyM4k+fW0D5rAeWIJJhoEtO/nE0sdHqfdSIFOuU0TrIl9HhwW1eYhOua01D1IKHwcN2o5kljUq3YVeQiLRTc5Wc4=
+X-Received: by 2002:a17:907:724b:b0:782:f2bb:24d3 with SMTP id
+ ds11-20020a170907724b00b00782f2bb24d3mr5742068ejc.555.1664530189790; Fri, 30
+ Sep 2022 02:29:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20220930073553.1626190-1-kraxel@redhat.com>
 In-Reply-To: <20220930073553.1626190-1-kraxel@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 30 Sep 2022 10:29:38 +0100
+Message-ID: <CAFEAcA9sOemC56_icMxS9rp7ZiCe00v+WpeWpEzJWdWqjnbXZQ@mail.gmail.com>
+Subject: Re: [PATCH] pci-ids: sync docs + header
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,19 +83,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 30, 2022 at 09:35:53AM +0200, Gerd Hoffmann wrote:
+On Fri, 30 Sept 2022 at 08:35, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
 > docs/specs/pci-ids.txt and include/hw/pci/pci.h are out of sync,
 > fix that.  Try improve the comment which points to pci-ids.txt.
-> 
+>
 > Also drop the list of modern virtio devices and explain how they
 > are calculated instead.
-> 
+>
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
 >  docs/specs/pci-ids.txt | 19 ++++++++++---------
 >  include/hw/pci/pci.h   |  7 ++++++-
 >  2 files changed, 16 insertions(+), 10 deletions(-)
-> 
+>
 > diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
 > index dd6859d039d0..6be7bc108d66 100644
 > --- a/docs/specs/pci-ids.txt
@@ -120,13 +109,7 @@ On Fri, Sep 30, 2022 at 09:35:53AM +0200, Gerd Hoffmann wrote:
 > +1af4:1013  pmem device (legacy)
 > +1af4:1014  iommu device (legacy)
 > +1af4:1015  mem device (legacy)
-
-
-Wait, how come we have legacy vsock/pmem/iommu/mem?
-They were only introduced after 1.0.
-
-
->  
+>
 > -1af4:1041  network device (modern)
 > -1af4:1042  block device (modern)
 > -1af4:1043  console device (modern)
@@ -142,28 +125,17 @@ They were only introduced after 1.0.
 > +           specification.  The linux kernel has a header file with
 > +           defines for all virtio ids (linux/virtio_ids.h), qemu has a
 > +           copy in include/standard-headers/.
->  
+
+I think you should also specify the end point of this range, in the
+same way that the "experimental usage" range has both a defined
+start and end point. Otherwise we have no way to know how much
+(if any) of the space before 10f0 is available for other uses.
+
+Nits: capitalization: ID, PCI, Linux.
+
 >  1af4:10f0  Available for experimental usage without registration.  Must get
 >     to      official ID when the code leaves the test lab (i.e. when seeking
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index b54b6ef88fc3..3b852199660c 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -71,7 +71,12 @@ extern bool pci_available;
->  #define PCI_DEVICE_ID_INTEL_82557        0x1229
->  #define PCI_DEVICE_ID_INTEL_82801IR      0x2922
->  
-> -/* Red Hat / Qumranet (for QEMU) -- see pci-ids.txt */
-> +/*
-> + * Red Hat / Qumranet (for QEMU)
-> + *
-> + * These are documented in docs/specs/pci-ids.txt
-> + * PLEASE KEEP HEADER + DOCS IN SYNC
-> + */
->  #define PCI_VENDOR_ID_REDHAT_QUMRANET    0x1af4
->  #define PCI_SUBVENDOR_ID_REDHAT_QUMRANET 0x1af4
->  #define PCI_SUBDEVICE_ID_QEMU            0x1100
-> -- 
-> 2.37.3
 
+thanks
+-- PMM
 
