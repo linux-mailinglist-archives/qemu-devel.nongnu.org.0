@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6275F0C9B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:42:36 +0200 (CEST)
-Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 264DC5F0CA2
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:45:02 +0200 (CEST)
+Received: from localhost ([::1]:51554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeGHh-00066C-Rk
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:42:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34814)
+	id 1oeGK5-0003Dq-6R
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:45:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeGAU-0008RV-Hj
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:11 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:36484)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oeGAh-00007e-V5
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:21 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeGAS-0006R4-Se
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:06 -0400
-Received: by mail-pl1-x635.google.com with SMTP id c24so4006152plo.3
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 06:35:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oeGAf-0006TJ-54
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:18 -0400
+Received: by mail-wr1-x434.google.com with SMTP id f11so4225672wrm.6
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 06:35:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=9l6tzQ6Pz+VBkBtMS9ZzmjsOG4L1UCUcrjMNHuNJQTw=;
- b=h+tVhs5eWKECeuYepVUiigOn56vabsGMwt9/TNNcLjvHYegiA5guAWcGIVfDKejd5U
- jqi7Ek48v5MR4zb0nZVV9E59syvhQs6UurC9Wq5O64KXxTQ5Egse7SR+tE1/evqcuZ+b
- ICVR9271PSx6f/7sjkxVef3N6EMX/Au8earJet639fzVsMhSCU6H/jjYm4IDOuvpb0fS
- s03iy4s/Its3qg5JDt7+pfwuhfFBY+NFKnAqxX5fTP42BPn5YLk4lB+KdybQ+cUrINax
- yn45CzIihlFPC5nDEc1Rb/5tfrxFt4r8kKSHz/wQ2+Nk9XOlAbgaD2FQRQWJO5jCssrA
- o/dA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date;
+ bh=qXjvnFqlcj1oGUt7FPt68kfyCx7LXoJuTxfpZUjysL8=;
+ b=p+XcNklmJMWhg434RQyO/bmmKl129qhtAQeJiuP8eD8k2hUgFQs+JLs5I8ZxprMGTL
+ zR2cVG5ubpIKQbd10wdYAXCGHUuHHLrjXbjW6UByovTLRbNgWFdtjZACQyefM1cMszAK
+ NuPCv9HyNLeq10kcexXZvP10Gk9LOyngn3+bJCPA61XBXeLV892lHRJp46wjaWLBR9Yd
+ vZMhaATTtdE0zvvpAAj91wRWicdyqgzhf5at/NTJxtU1FQJ9muVKMWUSvet4TUEaw++v
+ SGei4yqddTdb7eZGaoyrz+pnQKbqhpZFDzWdFu9eYk9Jm+Gf+RnKbWGjWEjHuq2EflV4
+ cPtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=9l6tzQ6Pz+VBkBtMS9ZzmjsOG4L1UCUcrjMNHuNJQTw=;
- b=h+oddaUHk8qWjhFDObIin2H9snLK/oNXfvFQmLPSlv1U4j9szq93XVhjgDuDUlclMb
- SumVhZ+ucb5isGH8eIkM3VG3x2iaVWsnTFEJ8Jogu0PWVti+s1+wdZpqXJyCIN5hQjXy
- jRFp5+2ur+N7Odv61bXEL90ELU0OTwtgJCt2tehQ1KxdpJBHE7kBmxQzPcQvsciFFLru
- l+bYPj4+Rm8XsdXg+1BU0w61RbhcSGsPC5ny9ilnVj5sE9u3LKXslRQKxjnWK23mEGSN
- zErnHz4atMUNMR0jn3OxAVAndRfkHxLNK2dUzow8OxCCpnjtJdQN/2gMFhr5inBSWes/
- N8Jg==
-X-Gm-Message-State: ACrzQf1mQySt4h4XIrkqCA7XCVecFQFbUmRnqwpU3x3d+PnEDactaB/F
- 2Re0ly14TaNVs6rBzmB0MysAXQ==
-X-Google-Smtp-Source: AMsMyM6kqnczOZ0Qay8Poy8I/L7nhDDreu39y3KGaXH16JVDZfyBqZPPVKqedmn/6iCtBLMwbyfCiQ==
-X-Received: by 2002:a17:902:da8a:b0:179:e022:5f6 with SMTP id
- j10-20020a170902da8a00b00179e02205f6mr8916369plx.80.1664544903065; 
- Fri, 30 Sep 2022 06:35:03 -0700 (PDT)
-Received: from [192.168.74.154] ([50.200.230.211])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date;
+ bh=qXjvnFqlcj1oGUt7FPt68kfyCx7LXoJuTxfpZUjysL8=;
+ b=M0MEPPlExn4OpGY9zTYSEpYUxeN75ChpbUnIugVRkFPlP+25AfVIGH33C3kvxsPYgm
+ HF6oh/6tG5F192LkOKzhtZ7VBm1gZf39izeD1z15P46sSJjaYRgncEvDq4+7wUKVtLmz
+ jNmkph1GnRgfzpCn/7pvms7/NomgNeIGqd2VmO6KXOoSB8EPkKDn15n4Uey5sU/mF/02
+ UZpOAiHB6EpIVL2CX43BCJ30Huwr8sgQo/xEFtDj2A7GfzYXXojEdIqrm9PLbX9sPb1q
+ aeeC5+TuqJ58xcwLlZv85Kt37J7DNJOtpid+ZAcQtQrKrRvvCLf/DNSC9rrRirUuT8r0
+ PkhA==
+X-Gm-Message-State: ACrzQf1pLnB/AlmDoezpKZ4w2fCw8bxBhni0KOiJFexk2DZMVZWzMAjg
+ 5fLJ5R6xAMV/lRoeTaFLm7g6WXmSEujAvw==
+X-Google-Smtp-Source: AMsMyM62sfSkW82YtsCendtfFGAjnkDxrybwaejn/gI5lWbfljlMhLj6S28gcofmbGeE338iCh3cNA==
+X-Received: by 2002:a5d:5846:0:b0:22a:f7d2:9045 with SMTP id
+ i6-20020a5d5846000000b0022af7d29045mr6125698wrf.250.1664544914088; 
+ Fri, 30 Sep 2022 06:35:14 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- i19-20020a17090320d300b00179f442519csm1877181plb.40.2022.09.30.06.35.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Sep 2022 06:35:02 -0700 (PDT)
-Message-ID: <2a7907c0-752a-e262-7088-83958ede1916@linaro.org>
-Date: Fri, 30 Sep 2022 06:34:59 -0700
+ q12-20020adfcd8c000000b0021e4829d359sm1982551wrj.39.2022.09.30.06.35.13
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Sep 2022 06:35:13 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/10] target-arm queue
+Date: Fri, 30 Sep 2022 14:35:01 +0100
+Message-Id: <20220930133511.2112734-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] win32: set threads name
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel@nongnu.org, bin.meng@windriver.com, Stefan Weil <sw@weilnetz.de>
-References: <20220929134150.1377690-1-marcandre.lureau@redhat.com>
- <5d7e7c01-7739-9a04-9a4a-becb3c550885@linaro.org>
- <CAJ+F1CLNzwTOB2-wxbnJw9VaCVBFUkgC5c-nYaczL14RLVwaCg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAJ+F1CLNzwTOB2-wxbnJw9VaCVBFUkgC5c-nYaczL14RLVwaCg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.583,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,55 +87,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/30/22 01:08, Marc-André Lureau wrote:
-> Hi
-> 
-> On Thu, Sep 29, 2022 at 9:53 PM Richard Henderson <richard.henderson@linaro.org 
-> <mailto:richard.henderson@linaro.org>> wrote:
-> 
->     On 9/29/22 06:41, marcandre.lureau@redhat.com <mailto:marcandre.lureau@redhat.com> wrote:
->      >   void qemu_thread_naming(bool enable)
->      >   {
->      >       /* But note we don't actually name them on Windows yet */
->      >       name_threads = enable;
->      >
->      > -    fprintf(stderr, "qemu: thread naming not supported on this host\n");
->      > +    if (enable && !load_set_thread_description()) {
->      > +        fprintf(stderr, "qemu: thread naming not supported on this host\n");
->      > +    }
->      >   }
-> 
->     Comment is out of date, and I think it would be better to *not* set name_threads if not
->     supported, rather than...
-> 
-> 
-> Comment removed.
-> 
-> 
-> 
->      > +static bool
->      > +set_thread_description(HANDLE h, const char *name)
->      > +{
->      > +  HRESULT hr;
->      > +  g_autofree wchar_t *namew = NULL;
->      > +
->      > +  if (!load_set_thread_description() || !name) {
->      > +      return false;
->      > +  }
-> 
->     ... have to re-query load_set_thread_description later.
-> 
-> 
-> The load_set_thread_description() function is actually a "one-time" function, it doesn't 
-> re-load.
+Hi; not so many patches in this one, but notably it includes the
+fix for various Avocado CI tests failing (incorrectly reported by
+Avocado as a timeout, but really a QEMU exit-with-error).
 
-You're calling it again.  That has some cost in the mutex/spinlock that's behind that 
-one-time operation, when you're already making the call to set_thread_description conditional.
+thanks
+-- PMM
 
-> Right, maybe it should warn if it failed to set the name?
+The following changes since commit c8de6ec63d766ca1998c5af468483ce912fdc0c2:
 
-After you've already printed an error in qemu_thread_naming()?  Doesn't seem useful.  Or 
-did you mean in the case we think it should work, but didn't?
+  Merge tag 'pull-request-2022-09-28' of https://gitlab.com/thuth/qemu into staging (2022-09-28 17:04:11 -0400)
 
-r~
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220930
+
+for you to fetch changes up to beeec926d24aac28f95cc7694ef3837d7a4cd3bb:
+
+  target/arm: mark SP_EL1 with ARM_CP_EL3_NO_EL2_KEEP (2022-09-29 18:01:09 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Fix breakage of icount mode when guest touches MDCR_EL3, MDCR_EL2,
+   PMCNTENSET_EL0 or PMCNTENCLR_EL0
+ * Make writes to MDCR_EL3 use PMU start/finish calls
+ * Let AArch32 write to SDCR.SCCD
+ * Rearrange cpu64.c so all the CPU initfns are together
+ * hw/arm/xlnx-zynqmp: Connect ZynqMP's USB controllers
+ * hw/arm/virt: fix some minor issues with generated device tree
+ * Fix regression where EL3 could not write to SP_EL1 if there is no EL2
+
+----------------------------------------------------------------
+Francisco Iglesias (1):
+      hw/arm/xlnx-zynqmp: Connect ZynqMP's USB controllers
+
+Jean-Philippe Brucker (4):
+      hw/arm/virt: Fix devicetree warning about the root node
+      hw/arm/virt: Fix devicetree warning about the GIC node
+      hw/arm/virt: Use "msi-map" devicetree property for PCI
+      hw/arm/virt: Fix devicetree warning about the SMMU node
+
+Jerome Forissier (1):
+      target/arm: mark SP_EL1 with ARM_CP_EL3_NO_EL2_KEEP
+
+Peter Maydell (4):
+      target/arm: Mark registers which call pmu_op_start() as ARM_CP_IO
+      target/arm: Make writes to MDCR_EL3 use PMU start/finish calls
+      target/arm: Update SDCR_VALID_MASK to include SCCD
+      target/arm: Rearrange cpu64.c so all the CPU initfns are together
+
+ include/hw/arm/xlnx-zynqmp.h |   3 +
+ target/arm/cpu.h             |   8 +-
+ hw/arm/virt.c                |   8 +-
+ hw/arm/xlnx-zynqmp.c         |  36 +++
+ target/arm/cpu64.c           | 712 +++++++++++++++++++++----------------------
+ target/arm/helper.c          |  32 +-
+ 6 files changed, 427 insertions(+), 372 deletions(-)
 
