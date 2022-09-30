@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BEBC5F0D7B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:25:56 +0200 (CEST)
-Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A065F0D30
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:14:31 +0200 (CEST)
+Received: from localhost ([::1]:58094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeGxf-0005aL-LE
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:25:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37488)
+	id 1oeGmc-0001Ho-N4
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oeGX2-000454-QD
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:58:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oeGWv-0002OF-QH
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:58:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664546297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hit5reDY+zV0s5xPyqJVxKPNxv5xgy3vfjKZttxQXHY=;
- b=YAaHdrGfwO2pLcgOekz3JpIUtuvLX56gdoGVQNKVJmw9VRlPCTj04QxIR0c02BHvIxLpYQ
- 2JsNIr4KgTNrFQG+nL2v8rLoK8K2bzrV84pbpvTBhHafHqICvGeQ5VgP3ZBnUp118BdcKr
- lreuV2Cf68Q+g63nqAxZlHfz244k4kA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-cAtD_9Q1MMqEUKAIxtvo-g-1; Fri, 30 Sep 2022 09:58:15 -0400
-X-MC-Unique: cAtD_9Q1MMqEUKAIxtvo-g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F6F32A2AD7A;
- Fri, 30 Sep 2022 13:58:15 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.194.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FBC817582;
- Fri, 30 Sep 2022 13:58:15 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 321441800634; Fri, 30 Sep 2022 15:58:11 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Eric Auger <eric.auger@redhat.com>, David Hildenbrand <david@redhat.com>,
- peter.maydell@linaro.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 5/5] pci-ids: drop list of modern virtio devices
-Date: Fri, 30 Sep 2022 15:58:10 +0200
-Message-Id: <20220930135810.1892149-6-kraxel@redhat.com>
-In-Reply-To: <20220930135810.1892149-1-kraxel@redhat.com>
-References: <20220930135810.1892149-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oeGZZ-0006qv-Mf
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:01:03 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:33624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oeGZX-0003GB-MZ
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:01:01 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ bu5-20020a17090aee4500b00202e9ca2182so7366488pjb.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 07:00:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=W7fMm3sijk2IpTNyxvCCdY2IO7aZ1NGEz6j4O5jK+d0=;
+ b=POAE8SWa4TsbI/vVswpvI0lElaTg/nVWW+/9uzlb25hX2Ual6EWaGKEJoI6GvQ8jhX
+ gXV97Vr3Dwrq7Qjt0mY8+9Wf7sRDQVEXtz1M06ifydJq0JkXOYjkspDsce50QTF0LNgA
+ qwQUsyhFY0TrWOm3+tIKNVZOys0U5MiUyKEv7kH8Ktik2IqP+RyU6/+R1z7nbvAIu3HH
+ 8zv+J+kHu+MYioUCyogQaWpNBz4kwU22kflmI0XZVqtD82o6I3di4aKJS84KHBfEBG7Y
+ MsrxuwAV2cpa3fstKwi2/yRv92FtYjWw+ErbQv65LLU3uZlpCgbgd8U5jnBIhxmQimXx
+ oq2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=W7fMm3sijk2IpTNyxvCCdY2IO7aZ1NGEz6j4O5jK+d0=;
+ b=Pemfjs95mI8cZliiQkm+QYwZLUzPgqLUYS9EDDqp31WQy8/sp0LX9i2KEeRNpkDRyK
+ pTQtv5h0kzVpJQoyMAzWaHmyi7hds/m2yo5ey9LMmZ+hX9C7wzgnbF5pFTcXVOxKhfWn
+ yTgGeakMPrwJjQ0phPTKRGTHwKLkvMGAFthbaEGCxdrtBiNPheEmli3DNI9p050sPnQQ
+ dox4m4QGc+iiVR0YI9hGVbFKMxQE486ywO6VMpEUDQlZz8JwEpD9BfmFEHMvNFumEok9
+ r2AS75Ap6fgzQVCszhOqznD4rbXaKpp8paWrn0g1X4ExLO/tOrd6/pai6CBqbPQKWTbn
+ 43zA==
+X-Gm-Message-State: ACrzQf2U1L/X6Lw9GbN4avjv1+NT4C6n24S066zYFBWDEsJiqVKvgSyN
+ Xx6GClRWHRxOyHjYOoNm2fiacQ==
+X-Google-Smtp-Source: AMsMyM5Pwn/ZqXgE21UqLDZWbxaD9nWnCekbAcz2XhPVmhm9AgEiS56w81uYW+QMxjQHdQlBtPTHBA==
+X-Received: by 2002:a17:90b:1d08:b0:200:823f:9745 with SMTP id
+ on8-20020a17090b1d0800b00200823f9745mr9753582pjb.84.1664546457878; 
+ Fri, 30 Sep 2022 07:00:57 -0700 (PDT)
+Received: from [192.168.74.154] ([50.200.230.211])
+ by smtp.gmail.com with ESMTPSA id
+ h19-20020a656393000000b0042c0ffa0e62sm1739090pgv.47.2022.09.30.07.00.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Sep 2022 07:00:57 -0700 (PDT)
+Message-ID: <68c87f3a-6868-af5b-0167-14d79e2a1677@linaro.org>
+Date: Fri, 30 Sep 2022 07:00:55 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] win32: set threads name
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: bin.meng@windriver.com, Stefan Weil <sw@weilnetz.de>
+References: <20220930135701.1681390-1-marcandre.lureau@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220930135701.1681390-1-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.583,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,41 +94,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop the list of modern virtio devices and explain how they
-are calculated instead.
+On 9/30/22 06:57, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> As described in:
+> https://learn.microsoft.com/en-us/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2022
+> 
+> SetThreadDescription() is available since Windows 10, version 1607 and
+> in some versions only by "Run Time Dynamic Linking". Its declaration is
+> not yet in mingw, so we lookup the function the same way glib does.
+> 
+> Tested with Visual Studio Community 2022 debugger.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   util/qemu-thread-win32.c | 56 ++++++++++++++++++++++++++++++++++++++--
+>   1 file changed, 54 insertions(+), 2 deletions(-)
+> 
+> diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
+> index a2d5a6e825..e2d681fe7d 100644
+> --- a/util/qemu-thread-win32.c
+> +++ b/util/qemu-thread-win32.c
+> @@ -19,12 +19,40 @@
+>   
+>   static bool name_threads;
+>   
+> +typedef HRESULT (WINAPI *pSetThreadDescription) (HANDLE hThread,
+> +                                                 PCWSTR lpThreadDescription);
+> +static pSetThreadDescription SetThreadDescriptionFunc = NULL;
+> +static HMODULE kernel32_module = NULL;
+> +
+> +static bool
+> +load_set_thread_description(void)
+> +{
+> +  static gsize _init_once = 0;
+> +
+> +  if (g_once_init_enter(&_init_once)) {
+> +      kernel32_module = LoadLibraryW(L"kernel32.dll");
+> +      if (kernel32_module) {
+> +          SetThreadDescriptionFunc =
+> +              (pSetThreadDescription)GetProcAddress(kernel32_module,
+> +                                                    "SetThreadDescription");
+> +          if (!SetThreadDescriptionFunc) {
+> +              FreeLibrary(kernel32_module);
+> +          }
+> +      }
+> +      g_once_init_leave(&_init_once, 1);
+> +  }
+> +
+> +  return !!SetThreadDescriptionFunc;
+> +}
+> +
+>   void qemu_thread_naming(bool enable)
+>   {
+> -    /* But note we don't actually name them on Windows yet */
+>       name_threads = enable;
+>   
+> -    fprintf(stderr, "qemu: thread naming not supported on this host\n");
+> +    if (enable && !load_set_thread_description()) {
+> +        fprintf(stderr, "qemu: thread naming not supported on this host\n");
+> +        name_threads = false;
+> +    }
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- docs/specs/pci-ids.txt | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+Excellent.
 
-diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
-index dd6859d039d0..a289d2de6521 100644
---- a/docs/specs/pci-ids.txt
-+++ b/docs/specs/pci-ids.txt
-@@ -23,15 +23,12 @@ maintained as part of the virtio specification.
- 1af4:1005  entropy generator device (legacy)
- 1af4:1009  9p filesystem device (legacy)
- 
--1af4:1041  network device (modern)
--1af4:1042  block device (modern)
--1af4:1043  console device (modern)
--1af4:1044  entropy generator device (modern)
--1af4:1045  balloon device (modern)
--1af4:1048  SCSI host bus adapter device (modern)
--1af4:1049  9p filesystem device (modern)
--1af4:1050  virtio gpu device (modern)
--1af4:1052  virtio input device (modern)
-+1af4:1040  Start of ID range for modern virtio devices.  The PCI device
-+   to      ID is calculated from the virtio device ID by adding the
-+1af4:10ef  0x1040 offset.  The virtio IDs are defined in the virtio
-+           specification.  The Linux kernel has a header file with
-+           defines for all virtio IDs (linux/virtio_ids.h), qemu has a
-+           copy in include/standard-headers/.
- 
- 1af4:10f0  Available for experimental usage without registration.  Must get
-    to      official ID when the code leaves the test lab (i.e. when seeking
--- 
-2.37.3
+> +static bool
+> +set_thread_description(HANDLE h, const char *name)
+> +{
+> +  HRESULT hr;
+> +  g_autofree wchar_t *namew = NULL;
+> +
+> +  if (!load_set_thread_description() || !name) {
 
+You no longer need this call.  And !name is not...
+
+> @@ -423,7 +471,11 @@ void qemu_thread_create(QemuThread *thread, const char *name,
+>       if (!hThread) {
+>           error_exit(GetLastError(), __func__);
+>       }
+> +    if (name_threads && !set_thread_description(hThread, name)) {
+> +        fprintf(stderr, "Failed to set thread description: %s\n", name);
+> +    }
+
+... an error.  If you want to log an error, you should:
+
+    if (name_threads && name && !set_thread_description(...)) {
+    }
+
+
+r~
 
