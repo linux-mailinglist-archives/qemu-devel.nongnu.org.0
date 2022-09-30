@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA755F0814
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 11:58:40 +0200 (CEST)
-Received: from localhost ([::1]:48720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E4F5F080C
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 11:57:06 +0200 (CEST)
+Received: from localhost ([::1]:55274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeCn1-0002hp-Om
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 05:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35234)
+	id 1oeClV-00010C-Hs
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 05:57:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1oeCgW-0004BG-0D
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:51:56 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:34718 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1oeCgS-0001U6-0B
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:51:55 -0400
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Bx32srvDZjkCYkAA--.63057S4; 
- Fri, 30 Sep 2022 17:51:44 +0800 (CST)
-From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
- mark.cave-ayland@ilande.co.uk, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: [PATCH v4 2/2] hw/intc: Fix LoongArch ipi device emulation
-Date: Fri, 30 Sep 2022 17:51:39 +0800
-Message-Id: <20220930095139.867115-3-yangxiaojuan@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220930095139.867115-1-yangxiaojuan@loongson.cn>
-References: <20220930095139.867115-1-yangxiaojuan@loongson.cn>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oeCj4-00063D-JD
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:54:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60553)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oeCiv-0001g0-Uj
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:54:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664531664;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=e6DnGAkohTrSVWAu6Css++Q0YgNkfGf0e7aD1GEj5Vc=;
+ b=GhteMDE7zD8Ef/TlSpNHQvXefu16FlHIB4AmgRuV9O94fqpG48Oz91o7sJxVXrVI9nEQ2i
+ Atu+Z37QcbxlckqGVZULDxt17MF/q6vagYriO8jm3mKCBnxZlzOrgAzbocT1PCs0Qnr9TK
+ k3hDiQcofTFUUoMZbTNqXmzU9kLi5Ss=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-674-6iUaGlsmNxKqSdaB8AzeUg-1; Fri, 30 Sep 2022 05:54:20 -0400
+X-MC-Unique: 6iUaGlsmNxKqSdaB8AzeUg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4949A800186;
+ Fri, 30 Sep 2022 09:54:20 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.194.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1550B112131B;
+ Fri, 30 Sep 2022 09:54:20 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C18FF180039F; Fri, 30 Sep 2022 11:54:18 +0200 (CEST)
+Date: Fri, 30 Sep 2022 11:54:18 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ peter.maydell@linaro.org
+Subject: Re: [PATCH] pci-ids: sync docs + header
+Message-ID: <20220930095418.eq6bwrunzypdhrmt@sirius.home.kraxel.org>
+References: <20220930073553.1626190-1-kraxel@redhat.com>
+ <20220930051235-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bx32srvDZjkCYkAA--.63057S4
-X-Coremail-Antispam: 1UD129KBjvdXoW7XF1DZFy8Gr4ftF4fKw47XFb_yoWDGrc_XF
- 1xKF97Gw42k3Wj9w1Fqr45Z3W8uw4ruF1fCF97ZFWfK345XrZ8Xrs7X3yYvwnrtrW5Zr98
- J3y2kr45Ar1q9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
-X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163;
- envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220930051235-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,33 +80,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In ipi_send function, it should not to set irq before
-writing data to dest cpu iocsr space, as the irq will
-trigger after data writing.
-When call this function 'address_space_stl()', it will
-trigger loongarch_ipi_writel(), the addr arg is 0x1008
-('CORE_SET_OFF'), and qemu_irq_raise will be called in
-this case.
+On Fri, Sep 30, 2022 at 05:22:33AM -0400, Michael S. Tsirkin wrote:
+> On Fri, Sep 30, 2022 at 09:35:53AM +0200, Gerd Hoffmann wrote:
+> > docs/specs/pci-ids.txt and include/hw/pci/pci.h are out of sync,
+> > fix that.  Try improve the comment which points to pci-ids.txt.
+> > 
+> > Also drop the list of modern virtio devices and explain how they
+> > are calculated instead.
+> > 
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > ---
+> >  docs/specs/pci-ids.txt | 19 ++++++++++---------
+> >  include/hw/pci/pci.h   |  7 ++++++-
+> >  2 files changed, 16 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
+> > index dd6859d039d0..6be7bc108d66 100644
+> > --- a/docs/specs/pci-ids.txt
+> > +++ b/docs/specs/pci-ids.txt
+> > @@ -22,16 +22,17 @@ maintained as part of the virtio specification.
+> >  1af4:1004  SCSI host bus adapter device (legacy)
+> >  1af4:1005  entropy generator device (legacy)
+> >  1af4:1009  9p filesystem device (legacy)
+> > +1af4:1012  vsock device (legacy)
+> > +1af4:1013  pmem device (legacy)
+> > +1af4:1014  iommu device (legacy)
+> > +1af4:1015  mem device (legacy)
+> 
+> Wait, how come we have legacy vsock/pmem/iommu/mem?
+> They were only introduced after 1.0.
 
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- hw/intc/loongarch_ipi.c | 1 -
- 1 file changed, 1 deletion(-)
+I've just synced with the header file, and the #defines there
+seem to be actually used:
 
-diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
-index 4f3c58f872..aa4bf9eb74 100644
---- a/hw/intc/loongarch_ipi.c
-+++ b/hw/intc/loongarch_ipi.c
-@@ -88,7 +88,6 @@ static void ipi_send(uint64_t val)
-     cs = qemu_get_cpu(cpuid);
-     cpu = LOONGARCH_CPU(cs);
-     env = &cpu->env;
--    loongarch_cpu_set_irq(cpu, IRQ_IPI, 1);
-     address_space_stl(&env->address_space_iocsr, 0x1008,
-                       data, MEMTXATTRS_UNSPECIFIED, NULL);
- 
--- 
-2.31.1
+kraxel@sirius ~/projects/qemu (pci-ids)# git grep PCI_DEVICE_ID_VIRTIO_IOMMU
+hw/virtio/virtio-iommu-pci.c:    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_IOMMU;
+include/hw/pci/pci.h:#define PCI_DEVICE_ID_VIRTIO_IOMMU       0x1014
+
+But, yes, the question is valid.  1.0-only devices should not need
+a legacy id.  Dunno how that happened ...
+
+take care,
+  Gerd
 
 
