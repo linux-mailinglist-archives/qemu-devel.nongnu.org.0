@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2DD5F0773
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 11:21:18 +0200 (CEST)
-Received: from localhost ([::1]:55668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB2535F0778
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 11:22:28 +0200 (CEST)
+Received: from localhost ([::1]:60464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeCCr-0007J9-Ql
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 05:21:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45308)
+	id 1oeCDz-0008EQ-OO
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 05:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oeC3e-00061g-Gd
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:11:46 -0400
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:40799)
+ id 1oeC3g-00067T-V6
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:11:48 -0400
+Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:38741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oeC3d-0003uN-0p
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:11:46 -0400
-Received: by mail-qt1-x832.google.com with SMTP id cj27so2283003qtb.7
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 02:11:44 -0700 (PDT)
+ id 1oeC3e-0003uj-GH
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:11:47 -0400
+Received: by mail-qt1-x835.google.com with SMTP id y2so2288435qtv.5
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 02:11:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=vt800HVFZ2EUM0ENOfNIqBnivHW/clmiTdxxdUw/uLQ=;
- b=GNHXSrfU2ZmNXpKdX6Oc2lhciv5TJuDoiUPoB5hczKjt0kddct/Rpc8OqL23wQtfge
- Vx9DQIAisI6vn13ENUcEcNLr9mKh9AWHAlqS41e5ds/p22QPPtNWYhU2kHcLAqLqeLGX
- vfkeRRuS+OxemvdTnO+JARrfrZjZ1R5uz4XP3bIcGshjMCfD3pjy/LxftwfPnGat3TTU
- I0V71yab0gy4x+RkCIARB9zhYq6XzI81uwuDw73LQ3i7rh2bkwK23BxMk2jJz/6A9gXB
- mSe/u+w6wDXmYMic73QFL9Fgj7/Fe2/sJMLSqhk19z80K9RNyDyXUnHT5eafeKqrI4/Q
- DbIQ==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=raOQZ3KnZEEZ4rjwGZKf41SY+F1g2t7H5ygN0T62SQ8=;
+ b=K9fLL9H57rWJcxd/hzDdSjvRuTUqZIWWXaTYKA4yc/xvrYkY0y8Lwk2pUpbZDDncYp
+ QAuhZcLidCDO4dT3T2S5dEDahJxMTQRtmpj2XNRFnAzR9O1eViUOH9PJzV15G/Oon8pC
+ NdNkHYAaGHBA301tAesRUSMaiGm9d+hbSrFWSdDwCeAQaiuAAoIhPfW9MF+46NK8A+YB
+ GJqS3QeA6cN4qCqgUEGawZu5taHiqczfXKm53H7dNOK6HjJXO4heb08mEuogeqdLOURR
+ 1nPGopjtiVoW3oEoWhEGwBseg5p9lTQSfYyvD/i8a0h80ZrNI4rrflqGIRdrZuVT1Mw0
+ a5Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=vt800HVFZ2EUM0ENOfNIqBnivHW/clmiTdxxdUw/uLQ=;
- b=b5ZkBI99mLKZLKB2ei+PmRlz8DXrIDr+Jv7fk6bwiNWYGSD5jArG70N6tMClBwAHoa
- Pz5JUhFu0Y3wCZJy7MRFQjFFi3k/cJJJ6VJs24OFzldcUby2IQgGNWY6ODoIK/azTcg7
- GsW6Yr28WkycdTVv/0cHXeNvYrEPOWsRT4WnPMuxhzymq3EjxWzFAgbmfQxk2zh72i+5
- waFFrvSUvxNQm2jqQdI/NAW+8nRBC2UEQkQTiW4hHvSgy7K8O+AdvYjD4uyyE0z4MlDO
- SG/htBAEypxJUK77ZRLLXv76vHTDacIFR3wUBX0AHavc2FeuUuNn219ZZ4Nkhz3lzb1J
- EaXg==
-X-Gm-Message-State: ACrzQf3vVFqUGz23iuF8I5WpJwkbMN0w06DZ7brhpDqSDYlWiBWKJh/x
- jkpH7XrVe6XCo6TioQHqsgyoKcC7OPGjXMaaQcc=
-X-Google-Smtp-Source: AMsMyM5uEa6rwHumrP/pLSR/i6JZe3+AN3KCHAaKdvE+P7P5e84c8/6Xnk9GBKTWyozZWMlytT2QYUJJ9JeDf7+C3mA=
-X-Received: by 2002:a05:622a:46:b0:35d:51c1:ee70 with SMTP id
- y6-20020a05622a004600b0035d51c1ee70mr5819087qtw.365.1664529103848; Fri, 30
- Sep 2022 02:11:43 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=raOQZ3KnZEEZ4rjwGZKf41SY+F1g2t7H5ygN0T62SQ8=;
+ b=fQ6BPdP1X+Brz75Dg9DO22dHZtShHDnTdYFaTm+jfaEvnQx9yNbnR48tJrLdez6BWE
+ gv3Ly+seE/neDrJkrBGNrR4LMm9+Kl8A7jGg7A8nXIi01TqHWczHUHbUoMUcLN/NxkC4
+ LGkhccdSWOE8zyf/zBfQ8N1q/R+bE3L0RTf28zmnqTiRhml5axMkexqI5IxPldVOB1xd
+ fdP9T6v5RzUr1wKtGTcyRyddR2QTqFNHHNjotSYvbcWnnvhXHJ4JZAEqyxmr3oxA+HFU
+ OqrL0MvmymYeNytx/2PaccvFUbsjhn4vX42CUPJ8x8k/LTl4Hd/Bx00G1qEU/NxtuI4E
+ Vglw==
+X-Gm-Message-State: ACrzQf1zOWBaDsNJpkHe3Qcl+NG8LId4cBO4eN7RCkqWTOCT+WZ1bRtE
+ /16+qJnSv8HG9E+v3DgbaaVaCZAyrN3TwvJYWrc=
+X-Google-Smtp-Source: AMsMyM5wG3o3gE4Sd+/w7ZetTuTLfhtgncgTaBY9EJi+y4RKJp/pvjD7qVK8oY48eofuJ6KrzFt1mICKH8YK0DftrhQ=
+X-Received: by 2002:a05:622a:92:b0:35d:58bc:4a4a with SMTP id
+ o18-20020a05622a009200b0035d58bc4a4amr5936866qtw.391.1664529105672; Fri, 30
+ Sep 2022 02:11:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220929232339.372813-1-Jason@zx2c4.com>
- <20220929232339.372813-5-Jason@zx2c4.com>
-In-Reply-To: <20220929232339.372813-5-Jason@zx2c4.com>
+ <20220929232339.372813-6-Jason@zx2c4.com>
+In-Reply-To: <20220929232339.372813-6-Jason@zx2c4.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 30 Sep 2022 17:11:31 +0800
-Message-ID: <CAEUhbmWtfxo0UWjgtdWEW=QTArYpCyxH9AnwdEgjTbo90a4avg@mail.gmail.com>
-Subject: Re: [PATCH 5/6] rx: re-randomize rng-seed on reboot
+Date: Fri, 30 Sep 2022 17:11:33 +0800
+Message-ID: <CAEUhbmUY9troieynifO04G_aG0L7E8GhWM739i5NuM0=CD7Vmg@mail.gmail.com>
+Subject: Re: [PATCH 6/6] mips: re-randomize rng-seed on reboot
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Peter Maydell <peter.maydell@linaro.org>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paul Burton <paulburton@kernel.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x832.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x835.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,17 +89,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 30, 2022 at 7:24 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+On Fri, Sep 30, 2022 at 7:28 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
 >
 > When the system reboots, the rng-seed that the FDT has should be
 > re-randomized, so that the new boot gets a new seed. Since the FDT is in
 > the ROM region at this point, we add a hook right after the ROM has been
 > added, so that we have a pointer to that copy of the FDT.
 >
-> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+> Cc: Paul Burton <paulburton@kernel.org>
+> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 > ---
->  hw/rx/rx-gdbsim.c | 3 +++
+>  hw/mips/boston.c | 3 +++
 >  1 file changed, 3 insertions(+)
 >
 
