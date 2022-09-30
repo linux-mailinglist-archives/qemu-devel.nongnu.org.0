@@ -2,79 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22A75F0E90
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 17:14:41 +0200 (CEST)
-Received: from localhost ([::1]:48916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237B85F0EC1
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 17:26:25 +0200 (CEST)
+Received: from localhost ([::1]:32896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeHiq-00009b-G6
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 11:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40406)
+	id 1oeHuB-0001Zg-TR
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 11:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeHfF-0005Cw-NZ
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 11:10:57 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:38454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeHfD-0006CN-JR
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 11:10:57 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id nb11so9677314ejc.5
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 08:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=+UXzsQ4mxQEbYY/YKVDWD3zpEclhcCN53dbIzlORkmY=;
- b=HJ7VyEj0++HeUEu9mEtmVBNLGW0lvalLqBl2/NthwjsZ95M+VgiuaQ1+LdA4Ezth7I
- i4d/U+B01+9G2ODwyZmxDDTWMUfr3+0e+7Qsn/3lwKnipua+Wjx1Pax5XXgklGJOAbuq
- f6+bsa1wH6o8kZ6k4f3WmuodNAFqu/BdbJrCs1U9yaZKeuTO6auWgSFq+IvAbyoHe72M
- IgFothI6F32qeUchW1KbW2ard8c7SDsTv4gjxc4sLZJX/SETfWLJBUdHaWvOiqNZGom3
- 9D1fWx6K9XkEHiZBu5Wv44cvDEEqJ7AN45qTdAoE0hUSZLHqG7k9/5rZ4yHVKMw7fiCd
- mgGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=+UXzsQ4mxQEbYY/YKVDWD3zpEclhcCN53dbIzlORkmY=;
- b=7G4eP2CQMK9cy99ZqkjiDQaRWNMrUd4SMnT8a7m34PDpaDx5DubS7x+tUVDaS0ivZn
- e9SAwaPubLZ1vVFtdI3bU55khD9IHBTLCVl8EpTn1uG3rHd30aC087UTq7bOT6w+RkNH
- lfI1t6aFF0OBnAvjzM4xCnMQoluE1oUnyaXNQTAqyevUm1CDd5RJHXD2slRBsU8SMceo
- gAiRjUEXY+r+7kA2BRQ8RWj90qEWsQl3AiILcYjd56mu8tnTpxBsrmkJWJIwDofe/9Dm
- cYMI1K6LaUZY68Y3vQnKg17ttPirkNZo3LoBoM+/B+rMHdW6nJuAeS67yuECRfR4Szck
- FB3w==
-X-Gm-Message-State: ACrzQf0RImvYg0gIgti/DxuR5Iyp1whT7SRnBrN/+n84n+iaySQlp4Y+
- 07az1UXs3W5+1beLXtNoVNE6Kt0M3qJs//BzOmuuww==
-X-Google-Smtp-Source: AMsMyM6PHA0SZXE5cLa5xyrHtYyT8gPh65MXh+sLwoq6qriCFWtgbItXvwki57gQq4brVQDawayOL/caR9BON2Jhr6E=
-X-Received: by 2002:a17:906:730d:b0:782:a4e0:bb54 with SMTP id
- di13-20020a170906730d00b00782a4e0bb54mr7060872ejc.659.1664550654130; Fri, 30
- Sep 2022 08:10:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1oeHnu-0004to-O2
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 11:20:05 -0400
+Received: from mail-mw2nam12on20600.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5a::600]:9569
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1oeHns-0007PY-Dj
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 11:19:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nvFlIFLlXtyEWK5VClJco2FswDY6rESuz7hetIIiTvGR1UVf9XY9wtRjN5Ww4zsdTHivfzdV0JabkpQGgOL7roFfOEHIiSxXLurJ136M/HQn4qtxpKdSIzW09Z7kAscKOkIjDx7kdyBVUGP/0uVfASUwqSHDbZrkqZdZaxn7D8P94U9zUzAM+PA953XhqjFOA0EWS0WVD/Nqn6TO2O15P/hFF2IljcDEwwq5BFQl2648EvZdqc2GnOe5x5uXPf295LG3VKLWCiLRGV8+WQ0pnYg8ebvdf3bJr+5tRSY3fn4mU0BUuVV+tCBO9vt5VdC5UIZ81zhTY2/JJXtcUAfrRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ny+56CN+17o+RsA99DTfkXUsCfsprdCXJprhUGwsgYU=;
+ b=ZhdGzl65I3r6itSqiWzapNxfAJNHBNmT33byqh8HSIwxO3rFmg5T7ReP6Pd3e0ze7FU2EYUBWCjP32jR30MRIwzS/0ZvgzDg1Bz/15DUT7hX+BDIW+UoQigLg5b5J83DY70Hjkq0q8DPazN+NQf/fmHr5boDpr5AzIBnMOSvYwU+Sg4RJEefSfcyLB4Maia77B9c+3QzVsJ3C0q4BfCpyrVfye/4JeZAa6WZ7vR/Y/+KXukWXp2Udb4TIaj/KbDKWllFFMp5bFq/C3xni1EKVcnjcJ4e3xctmGdckKK/mjnXyVn8p7SCVMH+UfDBKrE6muECJ5ANUSgzXUB3TkgSlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ny+56CN+17o+RsA99DTfkXUsCfsprdCXJprhUGwsgYU=;
+ b=IWivGri9e9IJj4OZCQqEjJyEHWhjGTRqKUd5cwWIw+J6Rqk7EkPRDSyjLzxhYnq4GDjvKup6JyGSWY28eDpGgcoAz579Uv7JjgJO5viTPvUP35cs1to1ctw4drFmB6iDfhl2xyLbQ1QsRczXM5OToFz2YhDHRHkjGUEnrYFvAh0=
+Received: from DM6PR13CA0049.namprd13.prod.outlook.com (2603:10b6:5:134::26)
+ by BN9PR12MB5365.namprd12.prod.outlook.com (2603:10b6:408:102::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Fri, 30 Sep
+ 2022 15:14:45 +0000
+Received: from DM6NAM11FT054.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:134:cafe::35) by DM6PR13CA0049.outlook.office365.com
+ (2603:10b6:5:134::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.15 via Frontend
+ Transport; Fri, 30 Sep 2022 15:14:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT054.mail.protection.outlook.com (10.13.173.95) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5676.17 via Frontend Transport; Fri, 30 Sep 2022 15:14:45 +0000
+Received: from tlendack-t1.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Fri, 30 Sep
+ 2022 10:14:43 -0500
+From: Tom Lendacky <thomas.lendacky@amd.com>
+To: <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
+CC: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>, Michael Roth
+ <michael.roth@amd.com>
+Subject: [PATCH 0/4] Qemu SEV reduced-phys-bits fixes
+Date: Fri, 30 Sep 2022 10:14:26 -0500
+Message-ID: <cover.1664550870.git.thomas.lendacky@amd.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20220928164719.655586-1-clg@kaod.org>
- <20220928164719.655586-2-clg@kaod.org>
- <CAFEAcA831iWjFSYt3UrKT0zA1MBfJn5BVSpEbVrOWj3Yw6yn_Q@mail.gmail.com>
- <229f555d-5f69-1c40-c65d-552a0ed8a39d@kaod.org>
-In-Reply-To: <229f555d-5f69-1c40-c65d-552a0ed8a39d@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Sep 2022 16:10:42 +0100
-Message-ID: <CAFEAcA9qJjMQyMDYFjTRTZ5uXK5NxzVu-ySqcqjTji5z8cRm-w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] target/arm: Disable VFPv4-D32 when NEON is not
- available
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT054:EE_|BN9PR12MB5365:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e3cd187-e28e-454b-9036-08daa2f6824e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EOWTUvPdWBs1GQy5PlOIPZXhxFAwcOeIfLsR9B5uJT4Ur3MWCyCLCWCVydSwIgVUNRRl+oW3cKDwhxaCsUDFyqRXRIicSmrO4XPNCRYZbIkvpLzXoAw3fKYVZ4GMrYFuFlqJlov94JKTRo0t2dS1zbKiOOt9uvFNWWpT2+GgI1KTxzqd5SFPhVPRCidoid8edag+Zy0wIW7juKmOeRQL1c6E52zqpZYD7+yI5G7KRuQhFWw2zpnBTXrVI8gT/b4H7W97Ks5+WrREwvfrCxaP7yfwuNnbLrnIPNQqNY9OegzFwJWQCSjyQsDrEK5ra/da4EB1G/EGQlJ4/GkVT+icUxwx2Rg8SlANZkGeLqt4x4YclFdgVFn6GaGFUK+aJW08BrxziSgr+GpDLJFPEv72MoKBKetE1x/5Yf0OD+TZsQjGqQwnVXlj4m70NrcoXZIysE4K9Pv8cS4m08PxA+8t+kU10WJdLcqJmKA9RpRYCHs/lEqE+Xt0TiTXXjVyhc2QbsSP9//F6iUkXlRLLIzVo2NBY8WD5LWQ3fFIplbWlArrbNMucbE+vJjN28ECe1QoGaryVOeReoJvh+OwIMApqU5Vj8gYsHPl7UZSXsoQ71PTOkOkCHV1RB5mHYINi3GMGmwWqZmaeOYayRT001OgKhmIa/msmB4CRgWpEcR1IxjNTkiveEZxvPqq70ez15CQcBse3bDefIqNaJEARLq3vWwuJ/SsR7Mbp2Vx89mOtQOVHUUQwa9jChx0NXZlTjjdNXy0whOUgro3HksiplWuBk/ddzZ2PmMY319lAdqxvxouu8Tm4lUg7/Q10JcDHMog41XFmphm+5vE0/NiNV5yhw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(376002)(396003)(346002)(136003)(451199015)(46966006)(40470700004)(36840700001)(40480700001)(356005)(83380400001)(478600001)(81166007)(966005)(82740400003)(82310400005)(36756003)(26005)(8936002)(6666004)(2906002)(47076005)(5660300002)(186003)(16526019)(316002)(4326008)(426003)(8676002)(36860700001)(2616005)(70206006)(70586007)(86362001)(7696005)(41300700001)(110136005)(54906003)(336012)(40460700003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2022 15:14:45.7094 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e3cd187-e28e-454b-9036-08daa2f6824e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT054.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5365
+Received-SPF: softfail client-ip=2a01:111:f400:fe5a::600;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,18 +123,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Sept 2022 at 15:59, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> On 9/29/22 13:44, Peter Maydell wrote:
-> > If you want to be able to turn off D32 and restrict to 16
-> > registers, I think you need to add a separate property to
-> > control that.
->
-> Something like "vfp-d16" ?
+This patch series fixes up and tries to remove some confusion around the
+SEV reduced-phys-bits parameter.
 
-That ends up being a sort of negative-polarity feature.
-Maybe "vfp-d32" for "have 32 dregs", with 'no' meaning "only 16" ?
+Based on the "AMD64 Architecture Programmer's Manual Volume 2: System
+Programming", section "15.34.6 Page Table Support" [1], a guest should
+only ever see a maximum of 1 bit of physical address space reduction.
 
-thanks
--- PMM
+- Update the documentation, to change the default value from 5 to 1.
+- Update the validation of the parameter to ensure the parameter value
+  is within the range of the CPUID field that it is reported in. To allow
+  for backwards compatibility, especially to support the previously
+  documented value of 5, allow the full range of values from 1 to 63
+  (0 was never allowed).
+- Update the setting of CPUID 0x8000001F_EBX to limit the values to the
+  field width that they are setting as an additional safeguard.
+
+[1] https://www.amd.com/system/files/TechDocs/24593.pdf
+
+Tom Lendacky (4):
+  qapi, i386/sev: Change the reduced-phys-bits value from 5 to 1
+  qemu-options.hx: Update the reduced-phys-bits documentation
+  i386/sev: Update checks and information related to reduced-phys-bits
+  i386/cpu: Update how the EBX register of CPUID 0x8000001F is set
+
+ qapi/misc-target.json |  2 +-
+ qemu-options.hx       |  4 ++--
+ target/i386/cpu.c     |  4 ++--
+ target/i386/sev.c     | 17 ++++++++++++++---
+ 4 files changed, 19 insertions(+), 8 deletions(-)
+
+-- 
+2.37.3
+
 
