@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD3B5F1133
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:54:21 +0200 (CEST)
-Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8235F112F
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:54:03 +0200 (CEST)
+Received: from localhost ([::1]:44710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeKDM-0007JC-32
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:54:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
+	id 1oeKD4-0006lL-W3
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeK8H-00029d-0R
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 13:49:05 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39836)
+ id 1oeK8I-0002AM-Nc
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 13:49:07 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeK8F-0006nT-4b
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 13:49:04 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- e10-20020a05600c4e4a00b003b4eff4ab2cso5474020wmq.4
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 10:49:01 -0700 (PDT)
+ id 1oeK8F-0006nn-CV
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 13:49:06 -0400
+Received: by mail-wr1-x431.google.com with SMTP id h7so7908166wru.10
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 10:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date;
- bh=vpzGp1lGWR+eI558Yg4wTFQVUNx1KY1mfCK5wMthB7o=;
- b=boAQeHS1Q+fR3MEt/qXE1nOjjSeXXcxPY86hweEzXKoIZz21rp2HPdNHbhoPZC77H+
- 4AgR53ook26pURagZdj0AMHLi3QbWTnp5k0SMdLsezCJDUnknrmwSe5/cBWyo5C58R1G
- LXTLaLge8HFko8lqL8Kl7n74vVK4uJPWAVSBmfECLgKpd3e5XAHdKpF/GYjrHZJXC2U+
- z4Q+oPZ1k24lBfvfwCmKuI5jOqkowyiOjoTWdx9KcmkckysizvH0czFAXHyvul/RUut7
- IvK1lLRhtJugMLEd6uxrqNyF1+YUsRyeyU5UW192m9dActEqHDfbLYxe71+o/0Zt3llp
- ab9Q==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date;
+ bh=/9aml6Xo1y4AfMcUR0XNUPmVm5TaV/G11ZEgQ+fDz6w=;
+ b=vMDPDXner1I4x+FGio4WgkJhVXcO6yP4Id7vB/6ok2ejQiAOeiO5Gz7wEJ/WJJ16Zh
+ uQJgs7U7JljZww/qhvA1Yp3DrSCxRlry3PuJFqCnOaxG7NutLxmly9+YPfpUSWGqesA3
+ kuLjmm3suC/Z8VX3RI21Am6Qfua6ASKFjQBQTa8OwysFkpJfR1z/QsBDvuhQOj9J6cQM
+ +ANVrM1x0Q7RyCZ10dDEHObn0EcKVjxUNhetrGdoV5VAlOKaMpHPQB5xEf1w/dJm8v0u
+ i0ol9yGhho8gK4UPT50MMFadmiJPUsolXUWfURQCgjjQTI1kbleMyhgr8h23xtfxryqC
+ xHUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date;
- bh=vpzGp1lGWR+eI558Yg4wTFQVUNx1KY1mfCK5wMthB7o=;
- b=CuKQHGIwcBU1w7ZWy3JJkNWVyaQDwGCUr72CvxqLkyCp5wS0aRpeYp0btX+Aq0eEBX
- 3+EMffCGH2h3eZmRRyNkUlSvEzHE1Drc2bupJ0l47DeOPFaNda2Z6vrBBj4ot27Up4Dr
- NPPFrFla4gGUjD4gKzEEM5e7uRcbUXfRImQKSmQ2jV8TKiBj0gAkPAXhXVFWAG8brKDk
- aOA7+TgXKwaDcnliK84tOpm3daxzk/qyiQL7JZzWoX5C9VbLffeWUzKWKBr/rWY6vhG0
- PN0NyQDebiTrMOoRX3a/l+15a9s8JYhogR6UbAHLdOQcJwv3ZgVAAvojybJiO4juqrIA
- GxSA==
-X-Gm-Message-State: ACrzQf3Gp/k4RjXYr1Hfl5iEFim6imRTSzxu3lz4oEAWL1Uw/QC0FAbM
- 1GDSusp7PH4j+G3XnbjY4cYiVbuMUBIDlA==
-X-Google-Smtp-Source: AMsMyM5MCGz4B580SnJpgAS3FmhzVtJeej73EqDN3WOI98R+tcmSh+nuyDfAnkbyJAZWuxk/C6+71w==
-X-Received: by 2002:a05:600c:218d:b0:3b4:7749:c920 with SMTP id
- e13-20020a05600c218d00b003b47749c920mr15568512wme.190.1664560139882; 
- Fri, 30 Sep 2022 10:48:59 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=/9aml6Xo1y4AfMcUR0XNUPmVm5TaV/G11ZEgQ+fDz6w=;
+ b=gZAYsYearJf7uBA7aTdI4lu9RFNg7SLpX4Qjw9Qy7ykCu2KE71WE+zt81SAXVSOw+E
+ mIuya4DWTu8e5fwKIutHYAzlpRtnz89oxNLw9c3ogSGIm6r3dQSpjzRxOHSrQS5xttvh
+ fixO7haTn6nixDITXF91MrhHLW0StcUWcTv0/VkQYDLBJ4wt1Lvpp9+6ee9tx4z4fDY1
+ y01hILVVmMhbtYN7Rj9kQg3ofbOXtVb6vkRx26ktwoJv3+YdMQm9w+p4uYhwhvenCRoD
+ NQcRtbaDlf0RtebkdIOIP5W0pS1xXmLcUrQGyoMj9t2zuspAXhyWrP579brBJLMBoZIw
+ oKaQ==
+X-Gm-Message-State: ACrzQf3kErkueI3w0asOZWUp3gYEgWGRBO42be/vyJQwd/7kOOAKtbUz
+ GSg7FL9hHZEa4aubW7BOzjDe3Q==
+X-Google-Smtp-Source: AMsMyM4WAzjIMCSkHxIbt27n+JbeELOX4pDuIoYadPtBYUny83sjxPkBnGvoVONTF9dG7O+f0Rmqcw==
+X-Received: by 2002:a05:6000:144b:b0:22c:9161:76b4 with SMTP id
+ v11-20020a056000144b00b0022c916176b4mr6224193wrx.145.1664560140918; 
+ Fri, 30 Sep 2022 10:49:00 -0700 (PDT)
 Received: from orth.archaic.org.uk ([2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  e16-20020a05600c2dd000b003b47e8a5d22sm7703541wmh.23.2022.09.30.10.48.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Sep 2022 10:48:59 -0700 (PDT)
+ Fri, 30 Sep 2022 10:49:00 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] target/arm: Enforce implemented granule size limits
-Date: Fri, 30 Sep 2022 18:48:51 +0100
-Message-Id: <20220930174853.2233633-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/2] target/arm: Don't allow guest to use unimplemented
+ granule sizes
+Date: Fri, 30 Sep 2022 18:48:52 +0100
+Message-Id: <20220930174853.2233633-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220930174853.2233633-1-peter.maydell@linaro.org>
+References: <20220930174853.2233633-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,28 +100,217 @@ Currently we don't implement this, and instead let the guest use any
 granule size, even if the CPU ID register fields say it isn't
 present.
 
-Patch 1 in this series makes us enforce this architectural
-requirement (the main effect will be that we stop incorrectly
-implementing 16K granules on most of the non-cpu-max CPUs).
+Make aa64_va_parameters() check against the supported granule size
+and force use of a different one if it is not implemented.
 
-Patch 2 adds FEAT_GTG to the list of supported features, because
-all this feature really is is the definition of the separate
-fields for stage1 and stage2 granule support in ID_AA64MMFR0_EL1,
-and we already updated -cpu max to report its granule support
-that way when we were adding the LPA2 support.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Unusually, the architecture would allow us to do this sanitizing
+when the TCR_ELx register is written, because it permits that the
+value of the register read back can be one corresponding to the
+IMPDEF chosen size rather than having to be the value written.
+But I opted to do the handling in aa64_va_parameters() anyway,
+on the assumption that this isn't critically in the fast path.
+---
+ target/arm/cpu.h    |  33 +++++++++++++
+ target/arm/helper.c | 110 ++++++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 135 insertions(+), 8 deletions(-)
 
-thanks
--- PMM
-
-Peter Maydell (2):
-  target/arm: Don't allow guest to use unimplemented granule sizes
-  docs/system/arm/emulation.rst: Report FEAT_GTG support
-
- docs/system/arm/emulation.rst |   1 +
- target/arm/cpu.h              |  33 ++++++++++
- target/arm/helper.c           | 110 +++++++++++++++++++++++++++++++---
- 3 files changed, 136 insertions(+), 8 deletions(-)
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 33cdbc0143e..6d39d27378d 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -4103,6 +4103,39 @@ static inline bool isar_feature_aa64_tgran16_2_lpa2(const ARMISARegisters *id)
+     return t >= 3 || (t == 0 && isar_feature_aa64_tgran16_lpa2(id));
+ }
+ 
++static inline bool isar_feature_aa64_tgran4(const ARMISARegisters *id)
++{
++    return FIELD_SEX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN4) >= 0;
++}
++
++static inline bool isar_feature_aa64_tgran16(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN16) >= 1;
++}
++
++static inline bool isar_feature_aa64_tgran64(const ARMISARegisters *id)
++{
++    return FIELD_SEX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN64) >= 0;
++}
++
++static inline bool isar_feature_aa64_tgran4_2(const ARMISARegisters *id)
++{
++    unsigned t = FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN4_2);
++    return t >= 2 || (t == 0 && isar_feature_aa64_tgran4(id));
++}
++
++static inline bool isar_feature_aa64_tgran16_2(const ARMISARegisters *id)
++{
++    unsigned t = FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN16_2);
++    return t >= 2 || (t == 0 && isar_feature_aa64_tgran16(id));
++}
++
++static inline bool isar_feature_aa64_tgran64_2(const ARMISARegisters *id)
++{
++    unsigned t = FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, TGRAN64_2);
++    return t >= 2 || (t == 0 && isar_feature_aa64_tgran64(id));
++}
++
+ static inline bool isar_feature_aa64_ccidx(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, CCIDX) != 0;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index b5dac651e75..7c4eea58739 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10289,20 +10289,113 @@ static int aa64_va_parameter_tcma(uint64_t tcr, ARMMMUIdx mmu_idx)
+     }
+ }
+ 
++typedef enum GranuleSize {
++    /* Same order as TG0 encoding */
++    Gran4K,
++    Gran64K,
++    Gran16K,
++    GranInvalid,
++} GranuleSize;
++
++static GranuleSize tg0_to_gran_size(int tg)
++{
++    switch (tg) {
++    case 0:
++        return Gran4K;
++    case 1:
++        return Gran64K;
++    case 2:
++        return Gran16K;
++    default:
++        return GranInvalid;
++    }
++}
++
++static GranuleSize tg1_to_gran_size(int tg)
++{
++    switch (tg) {
++    case 1:
++        return Gran16K;
++    case 2:
++        return Gran4K;
++    case 3:
++        return Gran64K;
++    default:
++        return GranInvalid;
++    }
++}
++
++static inline bool have4k(ARMCPU *cpu, bool stage2)
++{
++    return stage2 ? cpu_isar_feature(aa64_tgran4_2, cpu)
++        : cpu_isar_feature(aa64_tgran4, cpu);
++}
++
++static inline bool have16k(ARMCPU *cpu, bool stage2)
++{
++    return stage2 ? cpu_isar_feature(aa64_tgran16_2, cpu)
++        : cpu_isar_feature(aa64_tgran16, cpu);
++}
++
++static inline bool have64k(ARMCPU *cpu, bool stage2)
++{
++    return stage2 ? cpu_isar_feature(aa64_tgran64_2, cpu)
++        : cpu_isar_feature(aa64_tgran64, cpu);
++}
++
++static GranuleSize sanitize_gran_size(ARMCPU *cpu, GranuleSize gran,
++                                      bool stage2)
++{
++    switch (gran) {
++    case Gran4K:
++        if (have4k(cpu, stage2)) {
++            return gran;
++        }
++        break;
++    case Gran16K:
++        if (have16k(cpu, stage2)) {
++            return gran;
++        }
++        break;
++    case Gran64K:
++        if (have64k(cpu, stage2)) {
++            return gran;
++        }
++        break;
++    case GranInvalid:
++        break;
++    }
++    /*
++     * If the guest selects a granule size that isn't implemented,
++     * the architecture requires that we behave as if it selected one
++     * that is (with an IMPDEF choice of which one to pick). We choose
++     * to implement the smallest supported granule size.
++     */
++    if (have4k(cpu, stage2)) {
++        return Gran4K;
++    }
++    if (have16k(cpu, stage2)) {
++        return Gran16K;
++    }
++    assert(have64k(cpu, stage2));
++    return Gran64K;
++}
++
+ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+                                    ARMMMUIdx mmu_idx, bool data)
+ {
+     uint64_t tcr = regime_tcr(env, mmu_idx);
+     bool epd, hpd, using16k, using64k, tsz_oob, ds;
+     int select, tsz, tbi, max_tsz, min_tsz, ps, sh;
++    GranuleSize gran;
+     ARMCPU *cpu = env_archcpu(env);
++    bool stage2 = mmu_idx == ARMMMUIdx_Stage2 || mmu_idx == ARMMMUIdx_Stage2_S;
+ 
+     if (!regime_has_2_ranges(mmu_idx)) {
+         select = 0;
+         tsz = extract32(tcr, 0, 6);
+-        using64k = extract32(tcr, 14, 1);
+-        using16k = extract32(tcr, 15, 1);
+-        if (mmu_idx == ARMMMUIdx_Stage2 || mmu_idx == ARMMMUIdx_Stage2_S) {
++        gran = tg0_to_gran_size(extract32(tcr, 14, 2));
++        if (stage2) {
+             /* VTCR_EL2 */
+             hpd = false;
+         } else {
+@@ -10320,16 +10413,13 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+         select = extract64(va, 55, 1);
+         if (!select) {
+             tsz = extract32(tcr, 0, 6);
++            gran = tg0_to_gran_size(extract32(tcr, 14, 2));
+             epd = extract32(tcr, 7, 1);
+             sh = extract32(tcr, 12, 2);
+-            using64k = extract32(tcr, 14, 1);
+-            using16k = extract32(tcr, 15, 1);
+             hpd = extract64(tcr, 41, 1);
+         } else {
+-            int tg = extract32(tcr, 30, 2);
+-            using16k = tg == 1;
+-            using64k = tg == 3;
+             tsz = extract32(tcr, 16, 6);
++            gran = tg1_to_gran_size(extract32(tcr, 30, 2));
+             epd = extract32(tcr, 23, 1);
+             sh = extract32(tcr, 28, 2);
+             hpd = extract64(tcr, 42, 1);
+@@ -10338,6 +10428,10 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+         ds = extract64(tcr, 59, 1);
+     }
+ 
++    gran = sanitize_gran_size(cpu, gran, stage2);
++    using64k = gran == Gran64K;
++    using16k = gran == Gran16K;
++
+     if (cpu_isar_feature(aa64_st, cpu)) {
+         max_tsz = 48 - using64k;
+     } else {
 -- 
 2.25.1
 
