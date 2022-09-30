@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CAF05F07A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 11:31:45 +0200 (CEST)
-Received: from localhost ([::1]:42172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 166C25F07C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 11:36:59 +0200 (CEST)
+Received: from localhost ([::1]:60164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeCMy-0007ek-FL
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 05:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34768)
+	id 1oeCS2-0000wq-7M
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 05:36:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeCLB-00065V-5D
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:29:53 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:36840)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeCL9-0006VU-Dg
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:29:52 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id 13so7847535ejn.3
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 02:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=EsCSbfAPVUWC4yvF36053OfNVRiKeHKVLuD1hNI1SA4=;
- b=kT6uot83W+wM3fwKYVk9YSSgAQG4IU4dc5yz51rDOs8f26tL5hpZta3Pm9j5N3xzEI
- ZvkLLW7QFGhLs4chMUFr7lB/mqxogytnh7CpYhlGcQl85EjfbaowFDr5S6KUuEM2owRj
- 4sm/CIlHM2hFNOw+5ZL9ALVvzS5J6SB1bomtlXESpMoV+jjcX36MHEiqLT68RZL/6Nk6
- Ujn2SdPzplcA+F5zA9r6wL5SvKPVT6y0a6bj+X7bjPNc0K4MdLy7WiCsML1TltmU7/06
- VQBr3OHuJ6nCxeUGaw3ecrpCLMcF+serbCqdw/hdn9HWSAsvvd4RfWZAGpl2iO1VRy4o
- huDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=EsCSbfAPVUWC4yvF36053OfNVRiKeHKVLuD1hNI1SA4=;
- b=2XoLL8wxf2atz9mJtkXY7qPKGP+JjGbKks0q3bXOzkwoJlMa5DDQ2KhOk7HkLtbMHP
- ezynL5DYi6R91IGfDDpa0Yk8/syq/llMgnIBFN+C3tGvaTZ8BqWshlwRL7L+50KKjN3Y
- JhX/15jPRUvoI0Z+R7RZcLGw32BVk63ZQsq+fjTyC/j126XzGKQyTzyrdCU/eXE30QOZ
- brZpZ4zcEzDf/6lpcyLI9yLyVwMJtnvgN7oOicFkBuC6VnR/EcDYnD+6UpaoOqw9Fp87
- xOhR/vyX2O/6RfTxC/KAdKVMA/z7nkXvO6OVvDvSUUWjInk3Ja2W8PpSCHbyeAiS8b6g
- lHiw==
-X-Gm-Message-State: ACrzQf0XSXTgTxj0QwONa7+ctmQbJIYkrEcBGOxixBXqSPX626LkTECy
- GsRbWyJwnRbnO6oReCedtrbbxDCR8bgRH2+jYjeaXQ==
-X-Google-Smtp-Source: AMsMyM4k+fW0D5rAeWIJJhoEtO/nE0sdHqfdSIFOuU0TrIl9HhwW1eYhOua01D1IKHwcN2o5kljUq3YVeQiLRTc5Wc4=
-X-Received: by 2002:a17:907:724b:b0:782:f2bb:24d3 with SMTP id
- ds11-20020a170907724b00b00782f2bb24d3mr5742068ejc.555.1664530189790; Fri, 30
- Sep 2022 02:29:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220930073553.1626190-1-kraxel@redhat.com>
-In-Reply-To: <20220930073553.1626190-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Sep 2022 10:29:38 +0100
-Message-ID: <CAFEAcA9sOemC56_icMxS9rp7ZiCe00v+WpeWpEzJWdWqjnbXZQ@mail.gmail.com>
-Subject: Re: [PATCH] pci-ids: sync docs + header
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1oeCPQ-0007pb-P6
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:34:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56953)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1oeCPM-0007Nt-6O
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:34:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664530451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zq7NCbfMOJqZqV31ZrqgSbCL1Guyl6Zlj7nTw+j2nuQ=;
+ b=abHec1pA8kRgMICR50n9dUWTZLRUXeQBARFn0Lu8VfLmgKN5E8S4ZZEIiGpyHN6K3VO59s
+ 48YK5s9uksZMD7r3zMvYwyH6yQZgYTrIMGtTUjEo47NrR2INKi+xAxo3asd8WTGVsoB9+S
+ YWc1FHUPNW4ZcajWD/eQj/BUWx5+4/o=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-500-eC8ILeH7N7G-BD6i5jYfWg-1; Fri, 30 Sep 2022 05:34:09 -0400
+X-MC-Unique: eC8ILeH7N7G-BD6i5jYfWg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49182857F90;
+ Fri, 30 Sep 2022 09:34:09 +0000 (UTC)
+Received: from pinwheel (unknown [10.39.194.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D9A4D40C6EC2;
+ Fri, 30 Sep 2022 09:34:07 +0000 (UTC)
+Date: Fri, 30 Sep 2022 11:34:05 +0200
+From: Kashyap Chamarthy <kchamart@redhat.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Cc: qemu-devel@nongnu.org, libvir-list@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] docs: add firmware feature flags
+Message-ID: <Yza4DT3MYFwxjeXI@pinwheel>
+References: <20220930091833.1648504-1-kraxel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220930091833.1648504-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kchamart@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,59 +80,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Sept 2022 at 08:35, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> docs/specs/pci-ids.txt and include/hw/pci/pci.h are out of sync,
-> fix that.  Try improve the comment which points to pci-ids.txt.
->
-> Also drop the list of modern virtio devices and explain how they
-> are calculated instead.
->
+On Fri, Sep 30, 2022 at 11:18:33AM +0200, Gerd Hoffmann wrote:
+> Add new firmware feature flags for the recently added confidential
+> computing operating modes by amd and intel.
+> 
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  docs/specs/pci-ids.txt | 19 ++++++++++---------
->  include/hw/pci/pci.h   |  7 ++++++-
->  2 files changed, 16 insertions(+), 10 deletions(-)
->
-> diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
-> index dd6859d039d0..6be7bc108d66 100644
-> --- a/docs/specs/pci-ids.txt
-> +++ b/docs/specs/pci-ids.txt
-> @@ -22,16 +22,17 @@ maintained as part of the virtio specification.
->  1af4:1004  SCSI host bus adapter device (legacy)
->  1af4:1005  entropy generator device (legacy)
->  1af4:1009  9p filesystem device (legacy)
-> +1af4:1012  vsock device (legacy)
-> +1af4:1013  pmem device (legacy)
-> +1af4:1014  iommu device (legacy)
-> +1af4:1015  mem device (legacy)
->
-> -1af4:1041  network device (modern)
-> -1af4:1042  block device (modern)
-> -1af4:1043  console device (modern)
-> -1af4:1044  entropy generator device (modern)
-> -1af4:1045  balloon device (modern)
-> -1af4:1048  SCSI host bus adapter device (modern)
-> -1af4:1049  9p filesystem device (modern)
-> -1af4:1050  virtio gpu device (modern)
-> -1af4:1052  virtio input device (modern)
-> +1af4:1040  Start of id range for modern virtio devices.  The pci device
-> +           id is is calculated from the virtio device id by adding the
-> +           0x1040 offset.  The virtio ids are defined in the virtio
-> +           specification.  The linux kernel has a header file with
-> +           defines for all virtio ids (linux/virtio_ids.h), qemu has a
-> +           copy in include/standard-headers/.
+>  docs/interop/firmware.json | 17 ++++++++++++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
+> 
+> diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
+> index 4e049b1c7ca0..657082b78b83 100644
+> --- a/docs/interop/firmware.json
+> +++ b/docs/interop/firmware.json
+> @@ -121,6 +121,15 @@
+>  #              related to this feature are documented in
+>  #              "docs/amd-memory-encryption.txt".
 
-I think you should also specify the end point of this range, in the
-same way that the "experimental usage" range has both a defined
-start and end point. Otherwise we have no way to know how much
-(if any) of the space before 10f0 is available for other uses.
+Nit: This is pre-existing, but the location and the file format of the
+above file seems to have changed; it's now at: 
 
-Nits: capitalization: ID, PCI, Linux.
+    ./system/i386/amd-memory-encryption.rst
 
->  1af4:10f0  Available for experimental usage without registration.  Must get
->     to      official ID when the code leaves the test lab (i.e. when seeking
+Cornelia rSTified that doc in this[1] commit.
 
-thanks
--- PMM
+[1] 96a46def58 (docs: rstfy confidential guest documentation, 2022-02-09)
+
+>  #
+> +# @amd-sev-snp: The firmware supports running under AMD Secure Encrypted
+> +#               Virtualization - Secure Nested Paging, as specified in the
+> +#               AMD64 Architecture Programmer's Manual. QEMU command line
+> +#               options related to this feature are documented in
+> +#               "docs/amd-memory-encryption.txt".
+
+Here too: ./system/i386/amd-memory-encryption.rst
+
+> +#
+> +# @intel-tdx: The firmware supports running under Intel Trust Domain
+> +#             Extensions (TDX).
+> +#
+>  # @enrolled-keys: The variable store (NVRAM) template associated with
+>  #                 the firmware binary has the UEFI Secure Boot
+>  #                 operational mode turned on, with certificates
+> @@ -185,9 +194,11 @@
+>  # Since: 3.0
+>  ##
+>  { 'enum' : 'FirmwareFeature',
+> -  'data' : [ 'acpi-s3', 'acpi-s4', 'amd-sev', 'amd-sev-es', 'enrolled-keys',
+> -             'requires-smm', 'secure-boot', 'verbose-dynamic',
+> -             'verbose-static' ] }
+> +  'data' : [ 'acpi-s3', 'acpi-s4',
+> +             'amd-sev', 'amd-sev-es', 'amd-sev-snp',
+> +             'intel-tdx',
+> +             'enrolled-keys', 'requires-smm', 'secure-boot',
+> +             'verbose-dynamic', 'verbose-static' ] }
+
+With the above tiny nits fixed:
+
+Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>    
+
+>  ##
+>  # @FirmwareFlashFile:
+> -- 
+> 2.37.3
+> 
+
+-- 
+/kashyap
+
 
