@@ -2,72 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48665F0B5A
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 14:09:46 +0200 (CEST)
-Received: from localhost ([::1]:52036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65EBD5F0BAA
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 14:24:35 +0200 (CEST)
+Received: from localhost ([::1]:45532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeEpt-0004fs-AT
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 08:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53622)
+	id 1oeF4E-0000yV-4j
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 08:24:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeEjD-00018l-9j
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 08:02:51 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:45631)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeEjB-0006SQ-BK
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 08:02:50 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id m3so5660298eda.12
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 05:02:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=VvFUal7USceGgmmUaNEQtoUAzWn/9vlr13TQQSMIhsA=;
- b=zEPEmxhXxL2zChD1QQr5/SIw6D4fO/VgyvOm58BDVQE/g4E4MJlCQ1Oi2OQnTIqTJE
- sA3HzPe2T3ZXZozem2lw3pCJkDl9loUU+CW6mmpQq+/QvRg1G9nCCbxGipN/pw+E7rWB
- 4jfqZzicqw2YDRb6GNeTiAZdMzKs//m+ynM/88cHxi1ZBPiVq0NCp5FoBFGyxafs5S4y
- yGM9bG7gyzpmx1/vtDm/VcsNbBhkYr2Wd4K02z9xxiH2GQDuPspE5tPnlq3Q/4iyPfPC
- NWjY7vMxVZQ3ehIAMh3NzEIn+7/g1c6S8/uUPF1PYb+/j6pVvMnbv5yekW5yUUVdK8z8
- 1i6A==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oeExh-0006U6-7T
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 08:17:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30378)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oeExd-0000US-76
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 08:17:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664540264;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0JPycV5ZBkxpTP+XunwnARJ0smTZnHWPmjHnDA7Djv4=;
+ b=jQm7VyWs6K4h7cIiiWilkiZG422Z68bAEhkKVH9dAGHf9CAImydOVOQelAs++cOn9crBUT
+ ZAHlLK6W/r95a/8RxI2vntyGzDv8BjnsOhBm1mIfe1p2MBFAoQL4mX/GwZCV260TUO8+jk
+ fH5CBa5f373htcvm2HmU2HgVpghEFUU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-265-AQ1JOKRjPgmQI1Zpfj8gug-1; Fri, 30 Sep 2022 08:17:43 -0400
+X-MC-Unique: AQ1JOKRjPgmQI1Zpfj8gug-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ e28-20020adfa45c000000b0022cc7d071b4so1494778wra.23
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 05:17:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=VvFUal7USceGgmmUaNEQtoUAzWn/9vlr13TQQSMIhsA=;
- b=hVZ8SAs4W1gZy59MjAe+/R/1gOGetkVMvK5N1C5+OsDOyur3tAMkLGJeMkuBKc1kJ2
- W5dwXG+Xk74mA1QsssiURl73mE3P5f7f061xnIsqJ11BaLci0in1b451aa1dzNexrpY7
- cjQ6qDeUjEfz+JAva17kYTNg7DGKwedV1h/7qUp3Zn/8uMKtahM+OJ1QcJgv3RIObnX5
- fzYZHfJKcUumdpItylRM/Eg0d8TWcb/JrBQN0Bs2+P1zcVnqjZaiJS/P9TmseZCIRHwZ
- mfyIxmRG9iaS5Iwe6pthRqLE1I8p+6iBtqjNxDPMDOSFJAGHHrWguAEDYIMDkoRLBdfq
- EaBg==
-X-Gm-Message-State: ACrzQf1Vhe2rHGLRqeXdE1mEtWCb8HrIELn2vxHpvUxRPHmECqmVpnQu
- mSnaBDMzC8u7HhizZXM8wsJnVSUvkt1PxxyYdE1m8SkUYwM=
-X-Google-Smtp-Source: AMsMyM5w0J1NV3OhCjCodxkr/v37La6p0BgH1mE2vjpn0TI2Jw0fhsI9WR+MhYEmvRi5BT0O4qXwD7VoFGk4Tuz0h6U=
-X-Received: by 2002:a05:6402:350b:b0:452:2b68:90db with SMTP id
- b11-20020a056402350b00b004522b6890dbmr7607783edd.255.1664539367192; Fri, 30
- Sep 2022 05:02:47 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=0JPycV5ZBkxpTP+XunwnARJ0smTZnHWPmjHnDA7Djv4=;
+ b=KjA/0FKbpd6W/jEdkzpaqzt8cJyWiDwTcWLcbOzDWiM73K+KP33g5VftAdMODpkNff
+ mkjiMBJWDEl1Yi4mslOCIJak+ayG2n/T2vnDqtnYcM7QgQisckSKcL/pskmI+qtzdgKB
+ Rua9j12YAYtJRqf4lSl3Yfih6Gg7UzaqBgJ2Mo6dhQNIgdLDW2uxu8sQf/ZUcZU3vo3m
+ WyutJGA6CVdpweQuz3DSd40jYvs30SlDohUja1EQG9XgWo5vEEHEjyK0lQbCmi9rKY2G
+ v8zqjucK+Z1kITVxdyAUPswWp61xyklY7BE1aEFWj+HiJqSlaQUJRj0ji/T7DQwrTqTL
+ O2/A==
+X-Gm-Message-State: ACrzQf3DNBNkb4E7ulHDN2mOaGdlDmSAc4To93ldK8/fk5BpfEB0SLNR
+ rhqL/0cTv3mxYVot8kM0pOtQEejEmt2fh4iBnQ1CbHEFxHMCUJ2xIUvA7sOPCwA/sGtS3ELXe6A
+ 4KBFjgTtmrYvC3P8=
+X-Received: by 2002:a05:600c:35cf:b0:3b4:c0c2:d213 with SMTP id
+ r15-20020a05600c35cf00b003b4c0c2d213mr14517236wmq.162.1664540260789; 
+ Fri, 30 Sep 2022 05:17:40 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7Sq2LEgDIdzZYRQa8/BfXAlJ5YtpjW0HAdhoMKST28S81WD0cQj+brjHcEpGJaOM4RlOiiaQ==
+X-Received: by 2002:a05:600c:35cf:b0:3b4:c0c2:d213 with SMTP id
+ r15-20020a05600c35cf00b003b4c0c2d213mr14517212wmq.162.1664540260423; 
+ Fri, 30 Sep 2022 05:17:40 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ p3-20020a5d4e03000000b002238ea5750csm937637wrt.72.2022.09.30.05.17.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Sep 2022 05:17:39 -0700 (PDT)
+Message-ID: <29c33add-81ca-5a16-a02a-d2a0c5bfaf88@redhat.com>
+Date: Fri, 30 Sep 2022 14:17:38 +0200
 MIME-Version: 1.0
-References: <20220925105124.82033-1-richard.henderson@linaro.org>
- <20220925105124.82033-17-richard.henderson@linaro.org>
-In-Reply-To: <20220925105124.82033-17-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Sep 2022 13:02:35 +0100
-Message-ID: <CAFEAcA-WzwA6zzDFezBqUz8U7ZT6q9bCP0Jj1iXfHydDe1nvZQ@mail.gmail.com>
-Subject: Re: [PATCH v5 16/17] accel/tcg: Introduce TARGET_TB_PCREL
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 2/2] thread-pool: use ThreadPool from the running thread
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220609134452.1146309-1-eesposit@redhat.com>
+ <20220609134452.1146309-3-eesposit@redhat.com> <YzW6FkfT9LT7aE7d@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <YzW6FkfT9LT7aE7d@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.583, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,49 +107,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 25 Sept 2022 at 12:15, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Prepare for targets to be able to produce TBs that can
-> run in more than one virtual context.
 
-> -/* Similarly, but for logs. */
-> +/*
-> + * Similarly, but for logs. In this case, when the virtual pc
-> + * is not available, use the physical address.
-> + */
->  static inline target_ulong tb_pc_log(const TranslationBlock *tb)
->  {
-> +#if TARGET_TB_PCREL
-> +    return tb->page_addr[0];
-> +#else
->      return tb->pc;
-> +#endif
->  }
 
-This is going to break previously working setups involving
-the "filter logging to a particular address range" and also
-anybody post-processing logfiles and expecting to see
-the virtual address in -d exec logging, I think.
+Am 29/09/2022 um 17:30 schrieb Kevin Wolf:
+> Am 09.06.2022 um 15:44 hat Emanuele Giuseppe Esposito geschrieben:
+>> Remove usage of aio_context_acquire by always submitting work items
+>> to the current thread's ThreadPool.
+>>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> 
+> The thread pool is used by things outside of the file-* block drivers,
+> too. Even outside the block layer. Not all of these seem to submit work
+> in the same thread.
+> 
+> 
+> For example:
+> 
+> postcopy_ram_listen_thread() -> qemu_loadvm_state_main() ->
+> qemu_loadvm_section_start_full() -> vmstate_load() ->
+> vmstate_load_state() -> spapr_nvdimm_flush_post_load(), which has:
+> 
+> ThreadPool *pool = aio_get_thread_pool(qemu_get_aio_context());
+> ...
+> thread_pool_submit_aio(pool, flush_worker_cb, state,
+>                        spapr_nvdimm_flush_completion_cb, state);
+> 
+> So it seems to me that we may be submitting work for the main thread
+> from a postcopy migration thread.
+> 
+> I believe the other direct callers of thread_pool_submit_aio() all
+> submit work for the main thread and also run in the main thread.
+> 
+> 
+> For thread_pool_submit_co(), pr_manager_execute() calls it with the pool
+> it gets passed as a parameter. This is still bdrv_get_aio_context(bs) in
+> hdev_co_ioctl() and should probably be changed the same way as for the
+> AIO call in file-posix, i.e. use qemu_get_current_aio_context().
+> 
+> 
+> We could consider either asserting in thread_pool_submit_aio() that we
+> are really in the expected thread, or like I suggested for LinuxAio drop
+> the pool parameter and always get it from the current thread (obviously
+> this is only possible if migration could in fact schedule the work on
+> its current thread - if it schedules it on the main thread and then
+> exits the migration thread (which destroys the thread pool), that
+> wouldn't be good).
 
-For the exec logging, we surely must know the actual
-virtual PC at the point of TB execution -- we were
-previously just using tb->pc as a convenient architecture
-independent place to get that from, but should now do
-something else.
+Dumb question: why not extend the already-existing poll->lock to cover
+also the necessary fields like pool->head that are accessed by other
+threads (only case I could find with thread_pool_submit_aio is the one
+you pointed above)?
 
-For places where logging a virtual PC becomes meaningless,
-we should at least indicate whether we're logging a
-physaddr or a vaddr, because now depending on the config
-we might do either.
+Thank you,
+Emanuele
 
-For the range-filter stuff, I'm not sure what to do.
-Alex, any ideas?
-
-(I see the -dfilter option documentation doesn't say
-whether it's intending to work on physical or virtual
-addresses...)
-
-thanks
--- PMM
 
