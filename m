@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754CB5F0C82
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:35:52 +0200 (CEST)
-Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BBC5F0C9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:42:35 +0200 (CEST)
+Received: from localhost ([::1]:55970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeGBD-0000xu-0L
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:35:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58056)
+	id 1oeGHg-00062g-QH
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:42:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeG1n-0000Kh-To
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:26:08 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:45644)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeG1m-0004dq-2g
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:26:07 -0400
-Received: by mail-ej1-x635.google.com with SMTP id dv25so8999400ejb.12
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 06:26:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=wk+M8yI53R91Z9Uq4Hj8qxpXLZOye7EmHbtxXy3z9pg=;
- b=ORnXB7klSDwgtWxmPVzZ3FTKVV4YEl0tNjxG6nXyaLxNyGjUxG52I2u5TowPdWCOrq
- Dd46ZIl3Wt2Y4xA+WAkaCYD+q1T32JRct/ASexy9YjpxkrD7PdYB+3i4CBAJlTRNAGWa
- iQ8E9GJjdlyhxa3rhPHlqJy6r3Yk8lCDH4ATfBhmH6macZ6DiaycXjexBLPhSQ9G1Ta7
- wmbX7WmChv/SK+gOKVIvVIHwWIXyK+95uBMphc7Rk382vUMew9m+NGcZEeAygc6N2RnO
- CDeOSeUBeV8hKcX+NkAaJ9Uw8GLX+n6vqn/EE4QNtevWtXibZSeD7BFZNh+sFNzELG/i
- 260g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=wk+M8yI53R91Z9Uq4Hj8qxpXLZOye7EmHbtxXy3z9pg=;
- b=f4SAP/ozGdXhUg0OTHMY7KcK8StnMDPwXJfMVsQbTj5i6VUX0UyoVlWNGglTLJ2vBF
- Ee+T4Pb7XjaV9Ef/VPAUijsEnjMRbHlsZ/usMbl2s9/d0GdXv829gDpVOzYyKn16Zc+T
- pKc0FRsk+iSqP/bWYjy3LAhVB6O7ROsyOg0yCHTMeCV6fzQRH1jIJi6SuSbeQOQnIkOx
- Yw+APapnw9NIgkIcFSTy3popf+aATbg/11cYPJqWA51Wz64vAScuLCjGbgyYLgwka+2y
- zUGPu2yMa9SQcIZb353PmyCTsgmtubtGpdolQ/C124pkLvcWco8eI8a43YnEzl+Qa5yX
- 6t0Q==
-X-Gm-Message-State: ACrzQf3wDhs7BLkzG9i4/Am7hxrAe/dDGjXRCdaaMs2GhayzmDCNKpbW
- b0bIgJMUUiaTqlopOt0AUkLZOF+H0+kbbFZN9URDaJsVVt4=
-X-Google-Smtp-Source: AMsMyM5iRte3YI95/n0TYTgva8RflNAkFFQ0ExShMBLYhl/AfyeM83BLl5Hrf8v5DjD3IC/iclQS6nWMAfOgtBTvH7g=
-X-Received: by 2002:a17:907:2bd5:b0:76f:591c:466b with SMTP id
- gv21-20020a1709072bd500b0076f591c466bmr6209983ejc.504.1664544364004; Fri, 30
- Sep 2022 06:26:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oeG7z-0006Ud-PM
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:32:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.145.221.124]:56089)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oeG7v-0005yS-0Q
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:32:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664544744;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ngF6sWh1u7k641vVqdDTTSsxphkySaSPjKFhJWyYpbs=;
+ b=FMoQMOzOGZ1lv/uzGYNuhiBGi94uD80LoLdEOogjyqVXUpVJg01mJx0QHJ3WGxPXRnYE+z
+ gK84zYp4DOjv6VGWaikOOb0zskdcLv1sfgoUrByRGsUpzscCfkOwosbJeC0umSl1ZmU06L
+ nZ7LmJyu8znaBPBPwtVErRXu59mH4WE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-2-HvMhouFzMI6lzCDzIF3hYw-1; Fri, 30 Sep 2022 09:32:23 -0400
+X-MC-Unique: HvMhouFzMI6lzCDzIF3hYw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E76E6185A7AE;
+ Fri, 30 Sep 2022 13:32:22 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.194.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AB2F740C6EC2;
+ Fri, 30 Sep 2022 13:32:22 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id E81A1180039F; Fri, 30 Sep 2022 15:32:20 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ libvir-list@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2] docs: add firmware feature flags
+Date: Fri, 30 Sep 2022 15:32:20 +0200
+Message-Id: <20220930133220.1771336-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20220925105124.82033-1-richard.henderson@linaro.org>
- <20220925105124.82033-17-richard.henderson@linaro.org>
- <CAFEAcA-WzwA6zzDFezBqUz8U7ZT6q9bCP0Jj1iXfHydDe1nvZQ@mail.gmail.com>
- <87pmfdxagx.fsf@linaro.org>
-In-Reply-To: <87pmfdxagx.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Sep 2022 14:25:52 +0100
-Message-ID: <CAFEAcA8c2_U7YMBej-9Me43bTLz=f8e6oemNy-kFkPfAwZ-+=g@mail.gmail.com>
-Subject: Re: [PATCH v5 16/17] accel/tcg: Introduce TARGET_TB_PCREL
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: permerror client-ip=216.145.221.124;
+ envelope-from=kraxel@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_FAIL=0.001, SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,37 +77,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Sept 2022 at 14:23, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > This is going to break previously working setups involving
-> > the "filter logging to a particular address range" and also
-> > anybody post-processing logfiles and expecting to see
-> > the virtual address in -d exec logging, I think.
->
-> To be honest I've never found -exec logging that useful for system
-> emulation (beyond check-tcg tests) because it just generates so much
-> data.
+Add new firmware feature flags for the recently added confidential
+computing operating modes by amd and intel.
 
-It can be very useful for "give me a list of all the
-PC values where we executed an instruction", for shorter
-test cases. You can then (given several of these) look at
-where two runs diverge, and similar things. I use it,
-so please don't break it :-)
+While being at it also fix the path to the amd sev documentation.
 
-> > For the range-filter stuff, I'm not sure what to do.
-> > Alex, any ideas?
-> >
-> > (I see the -dfilter option documentation doesn't say
-> > whether it's intending to work on physical or virtual
-> > addresses...)
->
-> I have a feeling for system emulation phys-pc is the most natural but we
-> could extend the filter spec to be explicit.
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
+---
+ docs/interop/firmware.json | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-...isn't it currently based on virtual addresses, though ?
+diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
+index 4e049b1c7ca0..56814f02b3c0 100644
+--- a/docs/interop/firmware.json
++++ b/docs/interop/firmware.json
+@@ -113,13 +113,22 @@
+ #           Virtualization, as specified in the AMD64 Architecture
+ #           Programmer's Manual. QEMU command line options related to
+ #           this feature are documented in
+-#           "docs/amd-memory-encryption.txt".
++#           "docs/system/i386/amd-memory-encryption.rst".
+ #
+ # @amd-sev-es: The firmware supports running under AMD Secure Encrypted
+ #              Virtualization - Encrypted State, as specified in the AMD64
+ #              Architecture Programmer's Manual. QEMU command line options
+ #              related to this feature are documented in
+-#              "docs/amd-memory-encryption.txt".
++#              "docs/system/i386/amd-memory-encryption.rst".
++#
++# @amd-sev-snp: The firmware supports running under AMD Secure Encrypted
++#               Virtualization - Secure Nested Paging, as specified in the
++#               AMD64 Architecture Programmer's Manual. QEMU command line
++#               options related to this feature are documented in
++#               "docs/system/i386/amd-memory-encryption.rst".
++#
++# @intel-tdx: The firmware supports running under Intel Trust Domain
++#             Extensions (TDX).
+ #
+ # @enrolled-keys: The variable store (NVRAM) template associated with
+ #                 the firmware binary has the UEFI Secure Boot
+@@ -185,9 +194,11 @@
+ # Since: 3.0
+ ##
+ { 'enum' : 'FirmwareFeature',
+-  'data' : [ 'acpi-s3', 'acpi-s4', 'amd-sev', 'amd-sev-es', 'enrolled-keys',
+-             'requires-smm', 'secure-boot', 'verbose-dynamic',
+-             'verbose-static' ] }
++  'data' : [ 'acpi-s3', 'acpi-s4',
++             'amd-sev', 'amd-sev-es', 'amd-sev-snp',
++             'intel-tdx',
++             'enrolled-keys', 'requires-smm', 'secure-boot',
++             'verbose-dynamic', 'verbose-static' ] }
+ 
+ ##
+ # @FirmwareFlashFile:
+-- 
+2.37.3
 
--- PMM
 
