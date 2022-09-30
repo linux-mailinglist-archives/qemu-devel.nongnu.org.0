@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC775F0CA8
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:45:17 +0200 (CEST)
-Received: from localhost ([::1]:49152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBB75F0CB3
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:47:18 +0200 (CEST)
+Received: from localhost ([::1]:47818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeGKJ-0003eA-LY
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:45:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51938)
+	id 1oeGMH-0005dK-9l
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:47:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeGAm-00008y-Hd
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:24 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33422)
+ id 1oeGAn-0000Bi-Mo
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:25 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeGAh-0006UG-M7
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:22 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id s14so6930326wro.0
+ id 1oeGAi-0006UR-9U
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:25 -0400
+Received: by mail-wr1-x433.google.com with SMTP id n10so6873169wrw.12
  for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 06:35:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=zIYyLttiMxXsI1PS6r70HgPPTwCLHw1LURXuIZ6Iitc=;
- b=QigvXEk6SMIrIYF5Kf0axRlLVotO0sGhoMnpvDRTGaTBxuRppp2zCzR/Ly7F+Kmsek
- fP0kOMH2oVUyE4jHg8Jk/ZA9A95PsiYziJdopUoxehasqTFOT0JndtvXE8Awd7+AsnJN
- gXiWLlOd4G3ehVy66RFuHfOWU+Dy67EYwqkUpK9FqsfOS8fuSkCksV8ae/mSRXxPYapr
- Ll7FRaMfxWd1WJk74mC4GlaPsaYVVA/grN25NIO06RhdT8uNlHMaYPVdEZW9O5mFSnKC
- X7AZ92xyCLF6+1tCqaEDTNNQqR3WIEHHrMoHqY6VL68FhuVVwIFy98uV6MP7Gcmkk+VX
- E8Xw==
+ bh=N8vtTQ3zUp3DG5L43ho2EWTv6EglyCyi6wXcYwDvg7k=;
+ b=HqTz1bK8LmMkNYcls62PQCWGNuVOdKneH1qEBlLcHcHzlcd95H+WlL4MFBmxL+g+qY
+ VAtxCCDZ0bFt15969MJQ+9f+bFkNeSSl2e1x0DJO/bzFSX1MDSbmRtFjLRCd5FQ0Rsw0
+ G9Ks6iEBQnuXkH7x0+DOVOPSCZiQqyVMzpih6XDZ1ZwUt0PvrlR44vQysFszs+4mks4g
+ eqOPf8IFaxn7cTQ1CIV3dfaKBkZ2Hu4G24p/S8e6MKL3E6Zz0+j5tHDIAnVh5k/N3eA1
+ OOrHYq0TdowooFYR/D30qWuk7VBJ37xYd47NNEENfYrs4eryynsBtCvSddQ7Edsr8LxZ
+ uNdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=zIYyLttiMxXsI1PS6r70HgPPTwCLHw1LURXuIZ6Iitc=;
- b=XEYTrk17HLs1ualD/O8xsENYUfJ0GSpk92MLTrqRlVzE/oswjwG4VHX1RGwXYV3TBb
- pU8D8ZPd0k9KGbGtL61AuSSfMzTvfKpuQU1H2cQvhNMIzs+jha8vYEhDaLLxcUNvaxkH
- 7Sqxxvg/7Mty048PvA0aejgl4hka3W2Obx5xm+oA4AH61PRbO04PvVNzvEuuFJkYpXpk
- y3HWge0dPCSYnNYoxGwMvy6iRBJLdUFuQIWZnnm2N2Tj9hYwQ5siHTRn8+18ntrVbJB4
- ONMJb6iJ+hIWB+swbT+KuPiwXzBACov8kn3BFmVyq48PgK2iniFafJqrH4wTO3Cv99V/
- u17g==
-X-Gm-Message-State: ACrzQf0RnO0b/yiI7upiNXZ9+zMq7yWEdIQ0PbtgzPnNsTxCNQp4ZYHK
- 4e0+2dpBWWVWa5KbuUl1WaHpLci5GhnxHA==
-X-Google-Smtp-Source: AMsMyM6ciPc5Bak5y3IrfplPWvgJkq7iVdhPSwz97PWGWGRX8q0Cjgk8C9aD9NerMjJs9svjkClfAQ==
-X-Received: by 2002:adf:f58b:0:b0:22e:3c4:cf83 with SMTP id
- f11-20020adff58b000000b0022e03c4cf83mr1362985wro.379.1664544917879; 
- Fri, 30 Sep 2022 06:35:17 -0700 (PDT)
+ bh=N8vtTQ3zUp3DG5L43ho2EWTv6EglyCyi6wXcYwDvg7k=;
+ b=OS8ZZaZAfM3KQ5Ycp4ixUCgGKe5pIdXP2OXBnBlk/6WsuCPIC1JTHZE8P8m0D9trPs
+ ICFPYLykC5y8KTeVN345NjIj/nfGHOz2nARJjohbfOp1adpjwJcNaOixsYCpSyVWeuSp
+ sb+7EKs/rctLe7MvW88hVOGcS594XbTENOkdHowChXSE4a9KwRBsSiupKCP/j/lsXGo7
+ T2V0EJKFqKm/7WkFFRfjpLe8bFRpSDrtAtmMmBd8Oz5DkFlf+2M0sq7ZBMGiKARzkmaD
+ Cvc1lPJVWKZ8A2PjeLGFpwyZSywr4J87ipXvD4W3bsaOYyJ0mn5/YPY8SvTay4Kkjipm
+ fEJg==
+X-Gm-Message-State: ACrzQf23bgg62vJDtRyzxL15N02k2V4A8I1vL+Kj+XwZUftOV+d5Efsk
+ ZX029hvQPSatoaSrDofOILNvJ6PLSLiQEg==
+X-Google-Smtp-Source: AMsMyM5HAU9Ob0GzFuWKQouZ5kHXpgs0oGH5tHKQmcTelmvXKYvTypsY1Fy+cgKZOxwVxMrRQlHi3w==
+X-Received: by 2002:a5d:5611:0:b0:228:e1d2:81d with SMTP id
+ l17-20020a5d5611000000b00228e1d2081dmr5979429wrv.210.1664544918499; 
+ Fri, 30 Sep 2022 06:35:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- q12-20020adfcd8c000000b0021e4829d359sm1982551wrj.39.2022.09.30.06.35.16
+ q12-20020adfcd8c000000b0021e4829d359sm1982551wrj.39.2022.09.30.06.35.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Sep 2022 06:35:17 -0700 (PDT)
+ Fri, 30 Sep 2022 06:35:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/10] target/arm: Rearrange cpu64.c so all the CPU initfns are
- together
-Date: Fri, 30 Sep 2022 14:35:05 +0100
-Message-Id: <20220930133511.2112734-5-peter.maydell@linaro.org>
+Subject: [PULL 05/10] hw/arm/xlnx-zynqmp: Connect ZynqMP's USB controllers
+Date: Fri, 30 Sep 2022 14:35:06 +0100
+Message-Id: <20220930133511.2112734-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220930133511.2112734-1-peter.maydell@linaro.org>
 References: <20220930133511.2112734-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,764 +89,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu64.c has ended up in a slightly odd order -- it starts with the
-initfns for most of the models-real-hardware CPUs; after that comes a
-bunch of support code for SVE, SME, pauth and LPA2 properties.  Then
-come the initfns for the 'host' and 'max' CPU types, and then after
-that one more models-real-hardware CPU initfn, for a64fx.  (This
-ordering is partly historical and partly required because a64fx needs
-the SVE properties.)
+From: Francisco Iglesias <francisco.iglesias@amd.com>
 
-Reorder the file into:
- * CPU property support functions
- * initfns for real hardware CPUs
- * initfns for host and max
- * class boilerplate
+Connect ZynqMP's USB controllers.
 
+Signed-off-by: Francisco Iglesias <francisco.iglesias@amd.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20220920081517.25401-1-frasse.iglesias@gmail.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu64.c | 712 ++++++++++++++++++++++-----------------------
- 1 file changed, 356 insertions(+), 356 deletions(-)
+ include/hw/arm/xlnx-zynqmp.h |  3 +++
+ hw/arm/xlnx-zynqmp.c         | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index e6314e86d20..85e0d1daf1c 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -116,313 +116,6 @@ static void aarch64_a35_initfn(Object *obj)
-     define_cortex_a72_a57_a53_cp_reginfo(cpu);
+diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+index 85fd9f53daa..20bdf894aa0 100644
+--- a/include/hw/arm/xlnx-zynqmp.h
++++ b/include/hw/arm/xlnx-zynqmp.h
+@@ -42,6 +42,7 @@
+ #include "hw/misc/xlnx-zynqmp-apu-ctrl.h"
+ #include "hw/misc/xlnx-zynqmp-crf.h"
+ #include "hw/timer/cadence_ttc.h"
++#include "hw/usb/hcd-dwc3.h"
+ 
+ #define TYPE_XLNX_ZYNQMP "xlnx-zynqmp"
+ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+@@ -56,6 +57,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+ #define XLNX_ZYNQMP_NUM_SPIS 2
+ #define XLNX_ZYNQMP_NUM_GDMA_CH 8
+ #define XLNX_ZYNQMP_NUM_ADMA_CH 8
++#define XLNX_ZYNQMP_NUM_USB 2
+ 
+ #define XLNX_ZYNQMP_NUM_QSPI_BUS 2
+ #define XLNX_ZYNQMP_NUM_QSPI_BUS_CS 2
+@@ -132,6 +134,7 @@ struct XlnxZynqMPState {
+     XlnxZynqMPAPUCtrl apu_ctrl;
+     XlnxZynqMPCRF crf;
+     CadenceTTCState ttc[XLNX_ZYNQMP_NUM_TTC];
++    USBDWC3 usb[XLNX_ZYNQMP_NUM_USB];
+ 
+     char *boot_cpu;
+     ARMCPU *boot_cpu_ptr;
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index 383e177a001..335cfc417d7 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -143,6 +143,14 @@ static const int adma_ch_intr[XLNX_ZYNQMP_NUM_ADMA_CH] = {
+     77, 78, 79, 80, 81, 82, 83, 84
+ };
+ 
++static const uint64_t usb_addr[XLNX_ZYNQMP_NUM_USB] = {
++    0xFE200000, 0xFE300000
++};
++
++static const int usb_intr[XLNX_ZYNQMP_NUM_USB] = {
++    65, 70
++};
++
+ typedef struct XlnxZynqMPGICRegion {
+     int region_index;
+     uint32_t address;
+@@ -428,6 +436,10 @@ static void xlnx_zynqmp_init(Object *obj)
+     object_initialize_child(obj, "qspi-dma", &s->qspi_dma, TYPE_XLNX_CSU_DMA);
+     object_initialize_child(obj, "qspi-irq-orgate",
+                             &s->qspi_irq_orgate, TYPE_OR_IRQ);
++
++    for (i = 0; i < XLNX_ZYNQMP_NUM_USB; i++) {
++        object_initialize_child(obj, "usb[*]", &s->usb[i], TYPE_USB_DWC3);
++    }
  }
  
--static void aarch64_a57_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cpu->dtb_compatible = "arm,cortex-a57";
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
--    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
--    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
--    set_feature(&cpu->env, ARM_FEATURE_EL2);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
--    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A57;
--    cpu->midr = 0x411fd070;
--    cpu->revidr = 0x00000000;
--    cpu->reset_fpsid = 0x41034070;
--    cpu->isar.mvfr0 = 0x10110222;
--    cpu->isar.mvfr1 = 0x12111111;
--    cpu->isar.mvfr2 = 0x00000043;
--    cpu->ctr = 0x8444c004;
--    cpu->reset_sctlr = 0x00c50838;
--    cpu->isar.id_pfr0 = 0x00000131;
--    cpu->isar.id_pfr1 = 0x00011011;
--    cpu->isar.id_dfr0 = 0x03010066;
--    cpu->id_afr0 = 0x00000000;
--    cpu->isar.id_mmfr0 = 0x10101105;
--    cpu->isar.id_mmfr1 = 0x40000000;
--    cpu->isar.id_mmfr2 = 0x01260000;
--    cpu->isar.id_mmfr3 = 0x02102211;
--    cpu->isar.id_isar0 = 0x02101110;
--    cpu->isar.id_isar1 = 0x13112111;
--    cpu->isar.id_isar2 = 0x21232042;
--    cpu->isar.id_isar3 = 0x01112131;
--    cpu->isar.id_isar4 = 0x00011142;
--    cpu->isar.id_isar5 = 0x00011121;
--    cpu->isar.id_isar6 = 0;
--    cpu->isar.id_aa64pfr0 = 0x00002222;
--    cpu->isar.id_aa64dfr0 = 0x10305106;
--    cpu->isar.id_aa64isar0 = 0x00011120;
--    cpu->isar.id_aa64mmfr0 = 0x00001124;
--    cpu->isar.dbgdidr = 0x3516d000;
--    cpu->isar.dbgdevid = 0x01110f13;
--    cpu->isar.dbgdevid1 = 0x2;
--    cpu->isar.reset_pmcr_el0 = 0x41013000;
--    cpu->clidr = 0x0a200023;
--    cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
--    cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
--    cpu->ccsidr[2] = 0x70ffe07a; /* 2048KB L2 cache */
--    cpu->dcz_blocksize = 4; /* 64 bytes */
--    cpu->gic_num_lrs = 4;
--    cpu->gic_vpribits = 5;
--    cpu->gic_vprebits = 5;
--    cpu->gic_pribits = 5;
--    define_cortex_a72_a57_a53_cp_reginfo(cpu);
--}
--
--static void aarch64_a53_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cpu->dtb_compatible = "arm,cortex-a53";
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
--    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
--    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
--    set_feature(&cpu->env, ARM_FEATURE_EL2);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
--    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A53;
--    cpu->midr = 0x410fd034;
--    cpu->revidr = 0x00000000;
--    cpu->reset_fpsid = 0x41034070;
--    cpu->isar.mvfr0 = 0x10110222;
--    cpu->isar.mvfr1 = 0x12111111;
--    cpu->isar.mvfr2 = 0x00000043;
--    cpu->ctr = 0x84448004; /* L1Ip = VIPT */
--    cpu->reset_sctlr = 0x00c50838;
--    cpu->isar.id_pfr0 = 0x00000131;
--    cpu->isar.id_pfr1 = 0x00011011;
--    cpu->isar.id_dfr0 = 0x03010066;
--    cpu->id_afr0 = 0x00000000;
--    cpu->isar.id_mmfr0 = 0x10101105;
--    cpu->isar.id_mmfr1 = 0x40000000;
--    cpu->isar.id_mmfr2 = 0x01260000;
--    cpu->isar.id_mmfr3 = 0x02102211;
--    cpu->isar.id_isar0 = 0x02101110;
--    cpu->isar.id_isar1 = 0x13112111;
--    cpu->isar.id_isar2 = 0x21232042;
--    cpu->isar.id_isar3 = 0x01112131;
--    cpu->isar.id_isar4 = 0x00011142;
--    cpu->isar.id_isar5 = 0x00011121;
--    cpu->isar.id_isar6 = 0;
--    cpu->isar.id_aa64pfr0 = 0x00002222;
--    cpu->isar.id_aa64dfr0 = 0x10305106;
--    cpu->isar.id_aa64isar0 = 0x00011120;
--    cpu->isar.id_aa64mmfr0 = 0x00001122; /* 40 bit physical addr */
--    cpu->isar.dbgdidr = 0x3516d000;
--    cpu->isar.dbgdevid = 0x00110f13;
--    cpu->isar.dbgdevid1 = 0x1;
--    cpu->isar.reset_pmcr_el0 = 0x41033000;
--    cpu->clidr = 0x0a200023;
--    cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
--    cpu->ccsidr[1] = 0x201fe00a; /* 32KB L1 icache */
--    cpu->ccsidr[2] = 0x707fe07a; /* 1024KB L2 cache */
--    cpu->dcz_blocksize = 4; /* 64 bytes */
--    cpu->gic_num_lrs = 4;
--    cpu->gic_vpribits = 5;
--    cpu->gic_vprebits = 5;
--    cpu->gic_pribits = 5;
--    define_cortex_a72_a57_a53_cp_reginfo(cpu);
--}
--
--static void aarch64_a72_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cpu->dtb_compatible = "arm,cortex-a72";
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
--    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
--    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
--    set_feature(&cpu->env, ARM_FEATURE_EL2);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
--    cpu->midr = 0x410fd083;
--    cpu->revidr = 0x00000000;
--    cpu->reset_fpsid = 0x41034080;
--    cpu->isar.mvfr0 = 0x10110222;
--    cpu->isar.mvfr1 = 0x12111111;
--    cpu->isar.mvfr2 = 0x00000043;
--    cpu->ctr = 0x8444c004;
--    cpu->reset_sctlr = 0x00c50838;
--    cpu->isar.id_pfr0 = 0x00000131;
--    cpu->isar.id_pfr1 = 0x00011011;
--    cpu->isar.id_dfr0 = 0x03010066;
--    cpu->id_afr0 = 0x00000000;
--    cpu->isar.id_mmfr0 = 0x10201105;
--    cpu->isar.id_mmfr1 = 0x40000000;
--    cpu->isar.id_mmfr2 = 0x01260000;
--    cpu->isar.id_mmfr3 = 0x02102211;
--    cpu->isar.id_isar0 = 0x02101110;
--    cpu->isar.id_isar1 = 0x13112111;
--    cpu->isar.id_isar2 = 0x21232042;
--    cpu->isar.id_isar3 = 0x01112131;
--    cpu->isar.id_isar4 = 0x00011142;
--    cpu->isar.id_isar5 = 0x00011121;
--    cpu->isar.id_aa64pfr0 = 0x00002222;
--    cpu->isar.id_aa64dfr0 = 0x10305106;
--    cpu->isar.id_aa64isar0 = 0x00011120;
--    cpu->isar.id_aa64mmfr0 = 0x00001124;
--    cpu->isar.dbgdidr = 0x3516d000;
--    cpu->isar.dbgdevid = 0x01110f13;
--    cpu->isar.dbgdevid1 = 0x2;
--    cpu->isar.reset_pmcr_el0 = 0x41023000;
--    cpu->clidr = 0x0a200023;
--    cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
--    cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
--    cpu->ccsidr[2] = 0x707fe07a; /* 1MB L2 cache */
--    cpu->dcz_blocksize = 4; /* 64 bytes */
--    cpu->gic_num_lrs = 4;
--    cpu->gic_vpribits = 5;
--    cpu->gic_vprebits = 5;
--    cpu->gic_pribits = 5;
--    define_cortex_a72_a57_a53_cp_reginfo(cpu);
--}
--
--static void aarch64_a76_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cpu->dtb_compatible = "arm,cortex-a76";
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
--    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
--    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
--    set_feature(&cpu->env, ARM_FEATURE_EL2);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
--
--    /* Ordered by B2.4 AArch64 registers by functional group */
--    cpu->clidr = 0x82000023;
--    cpu->ctr = 0x8444C004;
--    cpu->dcz_blocksize = 4;
--    cpu->isar.id_aa64dfr0  = 0x0000000010305408ull;
--    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
--    cpu->isar.id_aa64isar1 = 0x0000000000100001ull;
--    cpu->isar.id_aa64mmfr0 = 0x0000000000101122ull;
--    cpu->isar.id_aa64mmfr1 = 0x0000000010212122ull;
--    cpu->isar.id_aa64mmfr2 = 0x0000000000001011ull;
--    cpu->isar.id_aa64pfr0  = 0x1100000010111112ull; /* GIC filled in later */
--    cpu->isar.id_aa64pfr1  = 0x0000000000000010ull;
--    cpu->id_afr0       = 0x00000000;
--    cpu->isar.id_dfr0  = 0x04010088;
--    cpu->isar.id_isar0 = 0x02101110;
--    cpu->isar.id_isar1 = 0x13112111;
--    cpu->isar.id_isar2 = 0x21232042;
--    cpu->isar.id_isar3 = 0x01112131;
--    cpu->isar.id_isar4 = 0x00010142;
--    cpu->isar.id_isar5 = 0x01011121;
--    cpu->isar.id_isar6 = 0x00000010;
--    cpu->isar.id_mmfr0 = 0x10201105;
--    cpu->isar.id_mmfr1 = 0x40000000;
--    cpu->isar.id_mmfr2 = 0x01260000;
--    cpu->isar.id_mmfr3 = 0x02122211;
--    cpu->isar.id_mmfr4 = 0x00021110;
--    cpu->isar.id_pfr0  = 0x10010131;
--    cpu->isar.id_pfr1  = 0x00010000; /* GIC filled in later */
--    cpu->isar.id_pfr2  = 0x00000011;
--    cpu->midr = 0x414fd0b1;          /* r4p1 */
--    cpu->revidr = 0;
--
--    /* From B2.18 CCSIDR_EL1 */
--    cpu->ccsidr[0] = 0x701fe01a; /* 64KB L1 dcache */
--    cpu->ccsidr[1] = 0x201fe01a; /* 64KB L1 icache */
--    cpu->ccsidr[2] = 0x707fe03a; /* 512KB L2 cache */
--
--    /* From B2.93 SCTLR_EL3 */
--    cpu->reset_sctlr = 0x30c50838;
--
--    /* From B4.23 ICH_VTR_EL2 */
--    cpu->gic_num_lrs = 4;
--    cpu->gic_vpribits = 5;
--    cpu->gic_vprebits = 5;
--    cpu->gic_pribits = 5;
--
--    /* From B5.1 AdvSIMD AArch64 register summary */
--    cpu->isar.mvfr0 = 0x10110222;
--    cpu->isar.mvfr1 = 0x13211111;
--    cpu->isar.mvfr2 = 0x00000043;
--
--    /* From D5.1 AArch64 PMU register summary */
--    cpu->isar.reset_pmcr_el0 = 0x410b3000;
--}
--
--static void aarch64_neoverse_n1_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cpu->dtb_compatible = "arm,neoverse-n1";
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
--    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
--    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
--    set_feature(&cpu->env, ARM_FEATURE_EL2);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
--
--    /* Ordered by B2.4 AArch64 registers by functional group */
--    cpu->clidr = 0x82000023;
--    cpu->ctr = 0x8444c004;
--    cpu->dcz_blocksize = 4;
--    cpu->isar.id_aa64dfr0  = 0x0000000110305408ull;
--    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
--    cpu->isar.id_aa64isar1 = 0x0000000000100001ull;
--    cpu->isar.id_aa64mmfr0 = 0x0000000000101125ull;
--    cpu->isar.id_aa64mmfr1 = 0x0000000010212122ull;
--    cpu->isar.id_aa64mmfr2 = 0x0000000000001011ull;
--    cpu->isar.id_aa64pfr0  = 0x1100000010111112ull; /* GIC filled in later */
--    cpu->isar.id_aa64pfr1  = 0x0000000000000020ull;
--    cpu->id_afr0       = 0x00000000;
--    cpu->isar.id_dfr0  = 0x04010088;
--    cpu->isar.id_isar0 = 0x02101110;
--    cpu->isar.id_isar1 = 0x13112111;
--    cpu->isar.id_isar2 = 0x21232042;
--    cpu->isar.id_isar3 = 0x01112131;
--    cpu->isar.id_isar4 = 0x00010142;
--    cpu->isar.id_isar5 = 0x01011121;
--    cpu->isar.id_isar6 = 0x00000010;
--    cpu->isar.id_mmfr0 = 0x10201105;
--    cpu->isar.id_mmfr1 = 0x40000000;
--    cpu->isar.id_mmfr2 = 0x01260000;
--    cpu->isar.id_mmfr3 = 0x02122211;
--    cpu->isar.id_mmfr4 = 0x00021110;
--    cpu->isar.id_pfr0  = 0x10010131;
--    cpu->isar.id_pfr1  = 0x00010000; /* GIC filled in later */
--    cpu->isar.id_pfr2  = 0x00000011;
--    cpu->midr = 0x414fd0c1;          /* r4p1 */
--    cpu->revidr = 0;
--
--    /* From B2.23 CCSIDR_EL1 */
--    cpu->ccsidr[0] = 0x701fe01a; /* 64KB L1 dcache */
--    cpu->ccsidr[1] = 0x201fe01a; /* 64KB L1 icache */
--    cpu->ccsidr[2] = 0x70ffe03a; /* 1MB L2 cache */
--
--    /* From B2.98 SCTLR_EL3 */
--    cpu->reset_sctlr = 0x30c50838;
--
--    /* From B4.23 ICH_VTR_EL2 */
--    cpu->gic_num_lrs = 4;
--    cpu->gic_vpribits = 5;
--    cpu->gic_vprebits = 5;
--    cpu->gic_pribits = 5;
--
--    /* From B5.1 AdvSIMD AArch64 register summary */
--    cpu->isar.mvfr0 = 0x10110222;
--    cpu->isar.mvfr1 = 0x13211111;
--    cpu->isar.mvfr2 = 0x00000043;
--
--    /* From D5.1 AArch64 PMU register summary */
--    cpu->isar.reset_pmcr_el0 = 0x410c3000;
--}
--
- void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
- {
-     /*
-@@ -985,6 +678,362 @@ void arm_cpu_lpa2_finalize(ARMCPU *cpu, Error **errp)
-     cpu->isar.id_aa64mmfr0 = t;
+ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+@@ -814,6 +826,30 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+         object_property_add_alias(OBJECT(s), bus_name,
+                                   OBJECT(&s->qspi), target_bus);
+     }
++
++    for (i = 0; i < XLNX_ZYNQMP_NUM_USB; i++) {
++        if (!object_property_set_link(OBJECT(&s->usb[i].sysbus_xhci), "dma",
++                                      OBJECT(system_memory), errp)) {
++            return;
++        }
++
++        qdev_prop_set_uint32(DEVICE(&s->usb[i].sysbus_xhci), "intrs", 4);
++        qdev_prop_set_uint32(DEVICE(&s->usb[i].sysbus_xhci), "slots", 2);
++
++        if (!sysbus_realize(SYS_BUS_DEVICE(&s->usb[i]), errp)) {
++            return;
++        }
++
++        sysbus_mmio_map(SYS_BUS_DEVICE(&s->usb[i]), 0, usb_addr[i]);
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->usb[i].sysbus_xhci), 0,
++                           gic_spi[usb_intr[i]]);
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->usb[i].sysbus_xhci), 1,
++                           gic_spi[usb_intr[i] + 1]);
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->usb[i].sysbus_xhci), 2,
++                           gic_spi[usb_intr[i] + 2]);
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->usb[i].sysbus_xhci), 3,
++                           gic_spi[usb_intr[i] + 3]);
++    }
  }
  
-+static void aarch64_a57_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a57";
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A57;
-+    cpu->midr = 0x411fd070;
-+    cpu->revidr = 0x00000000;
-+    cpu->reset_fpsid = 0x41034070;
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x12111111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+    cpu->ctr = 0x8444c004;
-+    cpu->reset_sctlr = 0x00c50838;
-+    cpu->isar.id_pfr0 = 0x00000131;
-+    cpu->isar.id_pfr1 = 0x00011011;
-+    cpu->isar.id_dfr0 = 0x03010066;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x10101105;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01260000;
-+    cpu->isar.id_mmfr3 = 0x02102211;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232042;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00011142;
-+    cpu->isar.id_isar5 = 0x00011121;
-+    cpu->isar.id_isar6 = 0;
-+    cpu->isar.id_aa64pfr0 = 0x00002222;
-+    cpu->isar.id_aa64dfr0 = 0x10305106;
-+    cpu->isar.id_aa64isar0 = 0x00011120;
-+    cpu->isar.id_aa64mmfr0 = 0x00001124;
-+    cpu->isar.dbgdidr = 0x3516d000;
-+    cpu->isar.dbgdevid = 0x01110f13;
-+    cpu->isar.dbgdevid1 = 0x2;
-+    cpu->isar.reset_pmcr_el0 = 0x41013000;
-+    cpu->clidr = 0x0a200023;
-+    cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
-+    cpu->ccsidr[2] = 0x70ffe07a; /* 2048KB L2 cache */
-+    cpu->dcz_blocksize = 4; /* 64 bytes */
-+    cpu->gic_num_lrs = 4;
-+    cpu->gic_vpribits = 5;
-+    cpu->gic_vprebits = 5;
-+    cpu->gic_pribits = 5;
-+    define_cortex_a72_a57_a53_cp_reginfo(cpu);
-+}
-+
-+static void aarch64_a53_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a53";
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A53;
-+    cpu->midr = 0x410fd034;
-+    cpu->revidr = 0x00000000;
-+    cpu->reset_fpsid = 0x41034070;
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x12111111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+    cpu->ctr = 0x84448004; /* L1Ip = VIPT */
-+    cpu->reset_sctlr = 0x00c50838;
-+    cpu->isar.id_pfr0 = 0x00000131;
-+    cpu->isar.id_pfr1 = 0x00011011;
-+    cpu->isar.id_dfr0 = 0x03010066;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x10101105;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01260000;
-+    cpu->isar.id_mmfr3 = 0x02102211;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232042;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00011142;
-+    cpu->isar.id_isar5 = 0x00011121;
-+    cpu->isar.id_isar6 = 0;
-+    cpu->isar.id_aa64pfr0 = 0x00002222;
-+    cpu->isar.id_aa64dfr0 = 0x10305106;
-+    cpu->isar.id_aa64isar0 = 0x00011120;
-+    cpu->isar.id_aa64mmfr0 = 0x00001122; /* 40 bit physical addr */
-+    cpu->isar.dbgdidr = 0x3516d000;
-+    cpu->isar.dbgdevid = 0x00110f13;
-+    cpu->isar.dbgdevid1 = 0x1;
-+    cpu->isar.reset_pmcr_el0 = 0x41033000;
-+    cpu->clidr = 0x0a200023;
-+    cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe00a; /* 32KB L1 icache */
-+    cpu->ccsidr[2] = 0x707fe07a; /* 1024KB L2 cache */
-+    cpu->dcz_blocksize = 4; /* 64 bytes */
-+    cpu->gic_num_lrs = 4;
-+    cpu->gic_vpribits = 5;
-+    cpu->gic_vprebits = 5;
-+    cpu->gic_pribits = 5;
-+    define_cortex_a72_a57_a53_cp_reginfo(cpu);
-+}
-+
-+static void aarch64_a72_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a72";
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+    cpu->midr = 0x410fd083;
-+    cpu->revidr = 0x00000000;
-+    cpu->reset_fpsid = 0x41034080;
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x12111111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+    cpu->ctr = 0x8444c004;
-+    cpu->reset_sctlr = 0x00c50838;
-+    cpu->isar.id_pfr0 = 0x00000131;
-+    cpu->isar.id_pfr1 = 0x00011011;
-+    cpu->isar.id_dfr0 = 0x03010066;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x10201105;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01260000;
-+    cpu->isar.id_mmfr3 = 0x02102211;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232042;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00011142;
-+    cpu->isar.id_isar5 = 0x00011121;
-+    cpu->isar.id_aa64pfr0 = 0x00002222;
-+    cpu->isar.id_aa64dfr0 = 0x10305106;
-+    cpu->isar.id_aa64isar0 = 0x00011120;
-+    cpu->isar.id_aa64mmfr0 = 0x00001124;
-+    cpu->isar.dbgdidr = 0x3516d000;
-+    cpu->isar.dbgdevid = 0x01110f13;
-+    cpu->isar.dbgdevid1 = 0x2;
-+    cpu->isar.reset_pmcr_el0 = 0x41023000;
-+    cpu->clidr = 0x0a200023;
-+    cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
-+    cpu->ccsidr[2] = 0x707fe07a; /* 1MB L2 cache */
-+    cpu->dcz_blocksize = 4; /* 64 bytes */
-+    cpu->gic_num_lrs = 4;
-+    cpu->gic_vpribits = 5;
-+    cpu->gic_vprebits = 5;
-+    cpu->gic_pribits = 5;
-+    define_cortex_a72_a57_a53_cp_reginfo(cpu);
-+}
-+
-+static void aarch64_a76_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a76";
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+
-+    /* Ordered by B2.4 AArch64 registers by functional group */
-+    cpu->clidr = 0x82000023;
-+    cpu->ctr = 0x8444C004;
-+    cpu->dcz_blocksize = 4;
-+    cpu->isar.id_aa64dfr0  = 0x0000000010305408ull;
-+    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
-+    cpu->isar.id_aa64isar1 = 0x0000000000100001ull;
-+    cpu->isar.id_aa64mmfr0 = 0x0000000000101122ull;
-+    cpu->isar.id_aa64mmfr1 = 0x0000000010212122ull;
-+    cpu->isar.id_aa64mmfr2 = 0x0000000000001011ull;
-+    cpu->isar.id_aa64pfr0  = 0x1100000010111112ull; /* GIC filled in later */
-+    cpu->isar.id_aa64pfr1  = 0x0000000000000010ull;
-+    cpu->id_afr0       = 0x00000000;
-+    cpu->isar.id_dfr0  = 0x04010088;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232042;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00010142;
-+    cpu->isar.id_isar5 = 0x01011121;
-+    cpu->isar.id_isar6 = 0x00000010;
-+    cpu->isar.id_mmfr0 = 0x10201105;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01260000;
-+    cpu->isar.id_mmfr3 = 0x02122211;
-+    cpu->isar.id_mmfr4 = 0x00021110;
-+    cpu->isar.id_pfr0  = 0x10010131;
-+    cpu->isar.id_pfr1  = 0x00010000; /* GIC filled in later */
-+    cpu->isar.id_pfr2  = 0x00000011;
-+    cpu->midr = 0x414fd0b1;          /* r4p1 */
-+    cpu->revidr = 0;
-+
-+    /* From B2.18 CCSIDR_EL1 */
-+    cpu->ccsidr[0] = 0x701fe01a; /* 64KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe01a; /* 64KB L1 icache */
-+    cpu->ccsidr[2] = 0x707fe03a; /* 512KB L2 cache */
-+
-+    /* From B2.93 SCTLR_EL3 */
-+    cpu->reset_sctlr = 0x30c50838;
-+
-+    /* From B4.23 ICH_VTR_EL2 */
-+    cpu->gic_num_lrs = 4;
-+    cpu->gic_vpribits = 5;
-+    cpu->gic_vprebits = 5;
-+    cpu->gic_pribits = 5;
-+
-+    /* From B5.1 AdvSIMD AArch64 register summary */
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x13211111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+
-+    /* From D5.1 AArch64 PMU register summary */
-+    cpu->isar.reset_pmcr_el0 = 0x410b3000;
-+}
-+
-+static void aarch64_a64fx_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,a64fx";
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+    cpu->midr = 0x461f0010;
-+    cpu->revidr = 0x00000000;
-+    cpu->ctr = 0x86668006;
-+    cpu->reset_sctlr = 0x30000180;
-+    cpu->isar.id_aa64pfr0 =   0x0000000101111111; /* No RAS Extensions */
-+    cpu->isar.id_aa64pfr1 = 0x0000000000000000;
-+    cpu->isar.id_aa64dfr0 = 0x0000000010305408;
-+    cpu->isar.id_aa64dfr1 = 0x0000000000000000;
-+    cpu->id_aa64afr0 = 0x0000000000000000;
-+    cpu->id_aa64afr1 = 0x0000000000000000;
-+    cpu->isar.id_aa64mmfr0 = 0x0000000000001122;
-+    cpu->isar.id_aa64mmfr1 = 0x0000000011212100;
-+    cpu->isar.id_aa64mmfr2 = 0x0000000000001011;
-+    cpu->isar.id_aa64isar0 = 0x0000000010211120;
-+    cpu->isar.id_aa64isar1 = 0x0000000000010001;
-+    cpu->isar.id_aa64zfr0 = 0x0000000000000000;
-+    cpu->clidr = 0x0000000080000023;
-+    cpu->ccsidr[0] = 0x7007e01c; /* 64KB L1 dcache */
-+    cpu->ccsidr[1] = 0x2007e01c; /* 64KB L1 icache */
-+    cpu->ccsidr[2] = 0x70ffe07c; /* 8MB L2 cache */
-+    cpu->dcz_blocksize = 6; /* 256 bytes */
-+    cpu->gic_num_lrs = 4;
-+    cpu->gic_vpribits = 5;
-+    cpu->gic_vprebits = 5;
-+    cpu->gic_pribits = 5;
-+
-+    /* The A64FX supports only 128, 256 and 512 bit vector lengths */
-+    aarch64_add_sve_properties(obj);
-+    cpu->sve_vq.supported = (1 << 0)  /* 128bit */
-+                          | (1 << 1)  /* 256bit */
-+                          | (1 << 3); /* 512bit */
-+
-+    cpu->isar.reset_pmcr_el0 = 0x46014040;
-+
-+    /* TODO:  Add A64FX specific HPC extension registers */
-+}
-+
-+static void aarch64_neoverse_n1_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,neoverse-n1";
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+
-+    /* Ordered by B2.4 AArch64 registers by functional group */
-+    cpu->clidr = 0x82000023;
-+    cpu->ctr = 0x8444c004;
-+    cpu->dcz_blocksize = 4;
-+    cpu->isar.id_aa64dfr0  = 0x0000000110305408ull;
-+    cpu->isar.id_aa64isar0 = 0x0000100010211120ull;
-+    cpu->isar.id_aa64isar1 = 0x0000000000100001ull;
-+    cpu->isar.id_aa64mmfr0 = 0x0000000000101125ull;
-+    cpu->isar.id_aa64mmfr1 = 0x0000000010212122ull;
-+    cpu->isar.id_aa64mmfr2 = 0x0000000000001011ull;
-+    cpu->isar.id_aa64pfr0  = 0x1100000010111112ull; /* GIC filled in later */
-+    cpu->isar.id_aa64pfr1  = 0x0000000000000020ull;
-+    cpu->id_afr0       = 0x00000000;
-+    cpu->isar.id_dfr0  = 0x04010088;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232042;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00010142;
-+    cpu->isar.id_isar5 = 0x01011121;
-+    cpu->isar.id_isar6 = 0x00000010;
-+    cpu->isar.id_mmfr0 = 0x10201105;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01260000;
-+    cpu->isar.id_mmfr3 = 0x02122211;
-+    cpu->isar.id_mmfr4 = 0x00021110;
-+    cpu->isar.id_pfr0  = 0x10010131;
-+    cpu->isar.id_pfr1  = 0x00010000; /* GIC filled in later */
-+    cpu->isar.id_pfr2  = 0x00000011;
-+    cpu->midr = 0x414fd0c1;          /* r4p1 */
-+    cpu->revidr = 0;
-+
-+    /* From B2.23 CCSIDR_EL1 */
-+    cpu->ccsidr[0] = 0x701fe01a; /* 64KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe01a; /* 64KB L1 icache */
-+    cpu->ccsidr[2] = 0x70ffe03a; /* 1MB L2 cache */
-+
-+    /* From B2.98 SCTLR_EL3 */
-+    cpu->reset_sctlr = 0x30c50838;
-+
-+    /* From B4.23 ICH_VTR_EL2 */
-+    cpu->gic_num_lrs = 4;
-+    cpu->gic_vpribits = 5;
-+    cpu->gic_vprebits = 5;
-+    cpu->gic_pribits = 5;
-+
-+    /* From B5.1 AdvSIMD AArch64 register summary */
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x13211111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+
-+    /* From D5.1 AArch64 PMU register summary */
-+    cpu->isar.reset_pmcr_el0 = 0x410c3000;
-+}
-+
- static void aarch64_host_initfn(Object *obj)
- {
- #if defined(CONFIG_KVM)
-@@ -1188,55 +1237,6 @@ static void aarch64_max_initfn(Object *obj)
-     qdev_property_add_static(DEVICE(obj), &arm_cpu_lpa2_property);
- }
- 
--static void aarch64_a64fx_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cpu->dtb_compatible = "arm,a64fx";
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
--    set_feature(&cpu->env, ARM_FEATURE_AARCH64);
--    set_feature(&cpu->env, ARM_FEATURE_EL2);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
--    cpu->midr = 0x461f0010;
--    cpu->revidr = 0x00000000;
--    cpu->ctr = 0x86668006;
--    cpu->reset_sctlr = 0x30000180;
--    cpu->isar.id_aa64pfr0 =   0x0000000101111111; /* No RAS Extensions */
--    cpu->isar.id_aa64pfr1 = 0x0000000000000000;
--    cpu->isar.id_aa64dfr0 = 0x0000000010305408;
--    cpu->isar.id_aa64dfr1 = 0x0000000000000000;
--    cpu->id_aa64afr0 = 0x0000000000000000;
--    cpu->id_aa64afr1 = 0x0000000000000000;
--    cpu->isar.id_aa64mmfr0 = 0x0000000000001122;
--    cpu->isar.id_aa64mmfr1 = 0x0000000011212100;
--    cpu->isar.id_aa64mmfr2 = 0x0000000000001011;
--    cpu->isar.id_aa64isar0 = 0x0000000010211120;
--    cpu->isar.id_aa64isar1 = 0x0000000000010001;
--    cpu->isar.id_aa64zfr0 = 0x0000000000000000;
--    cpu->clidr = 0x0000000080000023;
--    cpu->ccsidr[0] = 0x7007e01c; /* 64KB L1 dcache */
--    cpu->ccsidr[1] = 0x2007e01c; /* 64KB L1 icache */
--    cpu->ccsidr[2] = 0x70ffe07c; /* 8MB L2 cache */
--    cpu->dcz_blocksize = 6; /* 256 bytes */
--    cpu->gic_num_lrs = 4;
--    cpu->gic_vpribits = 5;
--    cpu->gic_vprebits = 5;
--    cpu->gic_pribits = 5;
--
--    /* The A64FX supports only 128, 256 and 512 bit vector lengths */
--    aarch64_add_sve_properties(obj);
--    cpu->sve_vq.supported = (1 << 0)  /* 128bit */
--                          | (1 << 1)  /* 256bit */
--                          | (1 << 3); /* 512bit */
--
--    cpu->isar.reset_pmcr_el0 = 0x46014040;
--
--    /* TODO:  Add A64FX specific HPC extension registers */
--}
--
- static const ARMCPUInfo aarch64_cpus[] = {
-     { .name = "cortex-a35",         .initfn = aarch64_a35_initfn },
-     { .name = "cortex-a57",         .initfn = aarch64_a57_initfn },
+ static Property xlnx_zynqmp_props[] = {
 -- 
 2.25.1
 
