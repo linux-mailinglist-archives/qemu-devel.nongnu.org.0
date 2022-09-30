@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D70E5F15D0
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 00:10:21 +0200 (CEST)
-Received: from localhost ([::1]:42996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13E65F15CE
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 00:10:09 +0200 (CEST)
+Received: from localhost ([::1]:44580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeOD5-0003o2-Pv
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 18:10:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53350)
+	id 1oeOCu-0003NE-UZ
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 18:10:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeO6P-0001fx-8X
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 18:03:27 -0400
-Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:33306)
+ id 1oeO6T-0001jH-K4
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 18:03:29 -0400
+Received: from mail-qv1-xf2b.google.com ([2607:f8b0:4864:20::f2b]:37418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeO6M-0002YJ-1F
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 18:03:23 -0400
-Received: by mail-qk1-x72b.google.com with SMTP id h28so3681525qka.0
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 15:03:21 -0700 (PDT)
+ id 1oeO6N-0002Ye-UW
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 18:03:29 -0400
+Received: by mail-qv1-xf2b.google.com with SMTP id jy22so3094904qvb.4
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 15:03:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=+B8rOtkjvONjZSA2MWgoQbv6N8UN3QaAqQ4YsJ87nAo=;
- b=DZ018cOhANM3iGgmBtCGePN2toJxeG6/s7RKRUZOhyFh7d9ADLk6lZVNrVzQPvwaCH
- 5ClrJ2/QILcOmeyktRuEMLp3q4cvPG0smt6bZbE1Ly8Xip9KDZjHLK/C8NpF5aKiDXKQ
- ZdL2NsTlsaLBkRwsIz7KaS04FpSlfoz8L+1cQ4tD6Vwt51MUPKFo0QZfKy+kLtkrs7xN
- 3jmyCRJqjxnF6uz187VzVxR9x+7sZXHyKVTal8LZpLgvI+N4kFbdAtm9J8sAtTwRKOKl
- 4QOi+DEC8/pZM9YbixPRTb/SI7lV43JNzDVC6hiPxZXd2drRpstXhY5WBizcciX+fDww
- 8l4Q==
+ bh=f1Po5le8MyIkVpmSBO1IOtHFtuAYm1c/MbSae2bI718=;
+ b=qqUyelGX8wwVhm0sYj6c3cDsfYXGFP3hQ9cCX7DrSYl5l+1CBcYo4gOZVbjyTgqUNn
+ 8Zv/5d+CpgEcyhw8QvF1JBT5Gqdf9B9e0NoAAs+asRBODnkX/Y1ehdoguqc3eq7cJdvb
+ 6ACpwv1p8EmuLkS4yGXxnH8emiPbitmgtvvp/4wqhbBKyos6smaUoNWueAjad61wbYmO
+ E96FK28LxN0DztAsstWded8atK4N4tUM8zNBkIjevfpi7JcibZ83aXnH/eX29rhuN0w1
+ aw3g8k0SmDA8PaHZC6HpFhxMnMXL/F/jYs4SjpmXtoBSKh9qj69vQodmn9Ji3VqEXH1V
+ ntNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=+B8rOtkjvONjZSA2MWgoQbv6N8UN3QaAqQ4YsJ87nAo=;
- b=uOiMhSV+zGHw4fb86RkKsdbtldRlWX2XeARnM9r78SKcPjvnpqVmPSft7brBBC9krz
- Ctqn4dcdlE9QROjjcjYuVS1qpmuiZsiGaqECpRSUka9Av6wCCYBN3QXl/X+Kk6fUIp9/
- h/TcCISDAKQtjYLJD9sGeFXIRDtjHy2C776OdQ4PH6G2MEVQfmz+P1RJYVqNq69PC1wU
- fMSUz6cjEY7co/zt8lRJg5I82hQ/LgJ6xfVQ3+E/0t57ab33asMOGaI/SX+Gf9K+0d7N
- u/uHDDtjhD0pQs3EqM79Yi8NVxUB82k2B7Ql7h/gxsiAlsZH+hrgWIK3w/keIsYmsCaM
- wH7g==
-X-Gm-Message-State: ACrzQf1NNslhgIdDX1kzJisbP5ABD0OpqcCQyL894jhW32JFPIRBuTcq
- aRweTn6XYuHLPSFVNwv+GgCVeRGyHRYGjg==
-X-Google-Smtp-Source: AMsMyM77BysssAp68b4o2gWvKpF+bfKB2m3wgdWldmgJwNImP50cmGP1T33hKYVSDHInILoBUJvDDQ==
-X-Received: by 2002:a05:620a:151b:b0:6ce:1584:49f2 with SMTP id
- i27-20020a05620a151b00b006ce158449f2mr7769142qkk.195.1664575400937; 
- Fri, 30 Sep 2022 15:03:20 -0700 (PDT)
+ bh=f1Po5le8MyIkVpmSBO1IOtHFtuAYm1c/MbSae2bI718=;
+ b=U1rQxiMiDSTM4vAet0YuBLtJIGx0LAHnDHXYF9KNUeFp1bxvTmU5Iz6uUuawlrzTNS
+ V2VuDXeJg3RyYZ//G8L5DaQLtZylS8hwTiENhMWW6C1L9mOQnnzhUN5byj4WdP3iPJHI
+ kWRBBoTXNvD2l8SozLH572ocamhvc8jiDWBHdKzgGn+ooEfxUBqYBkW32GspedMy9wKm
+ VsQiSVUiFYvUnQqeS+Pk/vBRslphPNdrJjjd08eHNbRgvKipUPW2W6/NUaT+khzragBl
+ 42K73mzgtKO9AA9Cn6ehE6QGSWHipgSDNMkHr/MjI4nPGNMEhjtA9Cq7xGGHhCAFH/vG
+ 62Kw==
+X-Gm-Message-State: ACrzQf3nsvCGdBBempuZEOvM+3uH00gN/g8QIVI48ATpoFvfRLQF4rr3
+ GuoXoDLw3lBvHEKQMFsuM6p25ja2X3MBJw==
+X-Google-Smtp-Source: AMsMyM5ANT2SeG+G9B15w+yLIGDaMIcIJQkTEEWxDL8dZryVZDVo9rdLixPQPMTP5UmktLEdiSGGoA==
+X-Received: by 2002:ad4:5d68:0:b0:4af:af07:580b with SMTP id
+ fn8-20020ad45d68000000b004afaf07580bmr7940822qvb.14.1664575402511; 
+ Fri, 30 Sep 2022 15:03:22 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:80a1:5a60:d0d7:468b:5667:114b])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a05620a22cf00b006bb78d095c5sm3196055qki.79.2022.09.30.15.03.19
+ o15-20020a05620a22cf00b006bb78d095c5sm3196055qki.79.2022.09.30.15.03.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Sep 2022 15:03:20 -0700 (PDT)
+ Fri, 30 Sep 2022 15:03:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v5 2/9] target/arm: Change gen_goto_tb to work on displacements
-Date: Fri, 30 Sep 2022 15:03:05 -0700
-Message-Id: <20220930220312.135327-3-richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org
+Subject: [PATCH v5 3/9] target/arm: Change gen_*set_pc_im to gen_*update_pc
+Date: Fri, 30 Sep 2022 15:03:06 -0700
+Message-Id: <20220930220312.135327-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220930220312.135327-1-richard.henderson@linaro.org>
 References: <20220930220312.135327-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,208 +89,480 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
+In preparation for TARGET_TB_PCREL, reduce reliance on
+absolute values by passing in pc difference.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c | 40 ++++++++++++++++++++------------------
- target/arm/translate.c     | 10 ++++++----
- 2 files changed, 27 insertions(+), 23 deletions(-)
+ target/arm/translate-a32.h |  2 +-
+ target/arm/translate.h     |  6 ++--
+ target/arm/translate-a64.c | 32 +++++++++---------
+ target/arm/translate-vfp.c |  2 +-
+ target/arm/translate.c     | 68 ++++++++++++++++++++------------------
+ 5 files changed, 56 insertions(+), 54 deletions(-)
 
+diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
+index 78a84c1414..5339c22f1e 100644
+--- a/target/arm/translate-a32.h
++++ b/target/arm/translate-a32.h
+@@ -40,7 +40,7 @@ void write_neon_element64(TCGv_i64 src, int reg, int ele, MemOp memop);
+ TCGv_i32 add_reg_for_lit(DisasContext *s, int reg, int ofs);
+ void gen_set_cpsr(TCGv_i32 var, uint32_t mask);
+ void gen_set_condexec(DisasContext *s);
+-void gen_set_pc_im(DisasContext *s, target_ulong val);
++void gen_update_pc(DisasContext *s, target_long diff);
+ void gen_lookup_tb(DisasContext *s);
+ long vfp_reg_offset(bool dp, unsigned reg);
+ long neon_full_reg_offset(unsigned reg);
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 90bf7c57fc..d651044855 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -254,7 +254,7 @@ static inline int curr_insn_len(DisasContext *s)
+  * For instructions which want an immediate exit to the main loop, as opposed
+  * to attempting to use lookup_and_goto_ptr.  Unlike DISAS_UPDATE_EXIT, this
+  * doesn't write the PC on exiting the translation loop so you need to ensure
+- * something (gen_a64_set_pc_im or runtime helper) has done so before we reach
++ * something (gen_a64_update_pc or runtime helper) has done so before we reach
+  * return from cpu_tb_exec.
+  */
+ #define DISAS_EXIT      DISAS_TARGET_9
+@@ -263,14 +263,14 @@ static inline int curr_insn_len(DisasContext *s)
+ 
+ #ifdef TARGET_AARCH64
+ void a64_translate_init(void);
+-void gen_a64_set_pc_im(uint64_t val);
++void gen_a64_update_pc(DisasContext *s, target_long diff);
+ extern const TranslatorOps aarch64_translator_ops;
+ #else
+ static inline void a64_translate_init(void)
+ {
+ }
+ 
+-static inline void gen_a64_set_pc_im(uint64_t val)
++static inline void gen_a64_update_pc(DisasContext *s, target_long diff)
+ {
+ }
+ #endif
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 78b2d91ed4..8f5c2675f7 100644
+index 8f5c2675f7..914c789187 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -378,8 +378,10 @@ static inline bool use_goto_tb(DisasContext *s, uint64_t dest)
-     return translator_use_goto_tb(&s->base, dest);
+@@ -148,9 +148,9 @@ static void reset_btype(DisasContext *s)
+     }
  }
  
--static inline void gen_goto_tb(DisasContext *s, int n, uint64_t dest)
-+static void gen_goto_tb(DisasContext *s, int n, int64_t diff)
+-void gen_a64_set_pc_im(uint64_t val)
++void gen_a64_update_pc(DisasContext *s, target_long diff)
  {
-+    uint64_t dest = s->pc_curr + diff;
-+
+-    tcg_gen_movi_i64(cpu_pc, val);
++    tcg_gen_movi_i64(cpu_pc, s->pc_curr + diff);
+ }
+ 
+ /*
+@@ -342,14 +342,14 @@ static void gen_exception_internal(int excp)
+ 
+ static void gen_exception_internal_insn(DisasContext *s, uint64_t pc, int excp)
+ {
+-    gen_a64_set_pc_im(pc);
++    gen_a64_update_pc(s, pc - s->pc_curr);
+     gen_exception_internal(excp);
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+ static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syndrome)
+ {
+-    gen_a64_set_pc_im(s->pc_curr);
++    gen_a64_update_pc(s, 0);
+     gen_helper_exception_bkpt_insn(cpu_env, tcg_constant_i32(syndrome));
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+@@ -384,11 +384,11 @@ static void gen_goto_tb(DisasContext *s, int n, int64_t diff)
+ 
      if (use_goto_tb(s, dest)) {
          tcg_gen_goto_tb(n);
-         gen_a64_set_pc_im(dest);
-@@ -1362,7 +1364,7 @@ static inline AArch64DecodeFn *lookup_disas_fn(const AArch64DecodeTable *table,
-  */
- static void disas_uncond_b_imm(DisasContext *s, uint32_t insn)
- {
--    uint64_t addr = s->pc_curr + sextract32(insn, 0, 26) * 4;
-+    int64_t diff = sextract32(insn, 0, 26) * 4;
- 
-     if (insn & (1U << 31)) {
-         /* BL Branch with link */
-@@ -1371,7 +1373,7 @@ static void disas_uncond_b_imm(DisasContext *s, uint32_t insn)
- 
-     /* B Branch / BL Branch with link */
-     reset_btype(s);
--    gen_goto_tb(s, 0, addr);
-+    gen_goto_tb(s, 0, diff);
- }
- 
- /* Compare and branch (immediate)
-@@ -1383,14 +1385,14 @@ static void disas_uncond_b_imm(DisasContext *s, uint32_t insn)
- static void disas_comp_b_imm(DisasContext *s, uint32_t insn)
- {
-     unsigned int sf, op, rt;
--    uint64_t addr;
-+    int64_t diff;
-     TCGLabel *label_match;
-     TCGv_i64 tcg_cmp;
- 
-     sf = extract32(insn, 31, 1);
-     op = extract32(insn, 24, 1); /* 0: CBZ; 1: CBNZ */
-     rt = extract32(insn, 0, 5);
--    addr = s->pc_curr + sextract32(insn, 5, 19) * 4;
-+    diff = sextract32(insn, 5, 19) * 4;
- 
-     tcg_cmp = read_cpu_reg(s, rt, sf);
-     label_match = gen_new_label();
-@@ -1399,9 +1401,9 @@ static void disas_comp_b_imm(DisasContext *s, uint32_t insn)
-     tcg_gen_brcondi_i64(op ? TCG_COND_NE : TCG_COND_EQ,
-                         tcg_cmp, 0, label_match);
- 
--    gen_goto_tb(s, 0, s->base.pc_next);
-+    gen_goto_tb(s, 0, 4);
-     gen_set_label(label_match);
--    gen_goto_tb(s, 1, addr);
-+    gen_goto_tb(s, 1, diff);
- }
- 
- /* Test and branch (immediate)
-@@ -1413,13 +1415,13 @@ static void disas_comp_b_imm(DisasContext *s, uint32_t insn)
- static void disas_test_b_imm(DisasContext *s, uint32_t insn)
- {
-     unsigned int bit_pos, op, rt;
--    uint64_t addr;
-+    int64_t diff;
-     TCGLabel *label_match;
-     TCGv_i64 tcg_cmp;
- 
-     bit_pos = (extract32(insn, 31, 1) << 5) | extract32(insn, 19, 5);
-     op = extract32(insn, 24, 1); /* 0: TBZ; 1: TBNZ */
--    addr = s->pc_curr + sextract32(insn, 5, 14) * 4;
-+    diff = sextract32(insn, 5, 14) * 4;
-     rt = extract32(insn, 0, 5);
- 
-     tcg_cmp = tcg_temp_new_i64();
-@@ -1430,9 +1432,9 @@ static void disas_test_b_imm(DisasContext *s, uint32_t insn)
-     tcg_gen_brcondi_i64(op ? TCG_COND_NE : TCG_COND_EQ,
-                         tcg_cmp, 0, label_match);
-     tcg_temp_free_i64(tcg_cmp);
--    gen_goto_tb(s, 0, s->base.pc_next);
-+    gen_goto_tb(s, 0, 4);
-     gen_set_label(label_match);
--    gen_goto_tb(s, 1, addr);
-+    gen_goto_tb(s, 1, diff);
- }
- 
- /* Conditional branch (immediate)
-@@ -1444,13 +1446,13 @@ static void disas_test_b_imm(DisasContext *s, uint32_t insn)
- static void disas_cond_b_imm(DisasContext *s, uint32_t insn)
- {
-     unsigned int cond;
--    uint64_t addr;
-+    int64_t diff;
- 
-     if ((insn & (1 << 4)) || (insn & (1 << 24))) {
-         unallocated_encoding(s);
-         return;
-     }
--    addr = s->pc_curr + sextract32(insn, 5, 19) * 4;
-+    diff = sextract32(insn, 5, 19) * 4;
-     cond = extract32(insn, 0, 4);
- 
-     reset_btype(s);
-@@ -1458,12 +1460,12 @@ static void disas_cond_b_imm(DisasContext *s, uint32_t insn)
-         /* genuinely conditional branches */
-         TCGLabel *label_match = gen_new_label();
-         arm_gen_test_cc(cond, label_match);
--        gen_goto_tb(s, 0, s->base.pc_next);
-+        gen_goto_tb(s, 0, 4);
-         gen_set_label(label_match);
--        gen_goto_tb(s, 1, addr);
-+        gen_goto_tb(s, 1, diff);
+-        gen_a64_set_pc_im(dest);
++        gen_a64_update_pc(s, diff);
+         tcg_gen_exit_tb(s->base.tb, n);
+         s->base.is_jmp = DISAS_NORETURN;
      } else {
-         /* 0xe and 0xf are both "always" conditions */
--        gen_goto_tb(s, 0, addr);
-+        gen_goto_tb(s, 0, diff);
+-        gen_a64_set_pc_im(dest);
++        gen_a64_update_pc(s, diff);
+         if (s->ss_active) {
+             gen_step_complete_exception(s);
+         } else {
+@@ -1960,7 +1960,7 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+         uint32_t syndrome;
+ 
+         syndrome = syn_aa64_sysregtrap(op0, op1, op2, crn, crm, rt, isread);
+-        gen_a64_set_pc_im(s->pc_curr);
++        gen_a64_update_pc(s, 0);
+         gen_helper_access_check_cp_reg(cpu_env,
+                                        tcg_constant_ptr(ri),
+                                        tcg_constant_i32(syndrome),
+@@ -1970,7 +1970,7 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+          * The readfn or writefn might raise an exception;
+          * synchronize the CPU state in case it does.
+          */
+-        gen_a64_set_pc_im(s->pc_curr);
++        gen_a64_update_pc(s, 0);
      }
- }
  
-@@ -1637,7 +1639,7 @@ static void handle_sync(DisasContext *s, uint32_t insn,
-          * any pending interrupts immediately.
+     /* Handle special cases first */
+@@ -2180,7 +2180,7 @@ static void disas_exc(DisasContext *s, uint32_t insn)
+             /* The pre HVC helper handles cases when HVC gets trapped
+              * as an undefined insn by runtime configuration.
+              */
+-            gen_a64_set_pc_im(s->pc_curr);
++            gen_a64_update_pc(s, 0);
+             gen_helper_pre_hvc(cpu_env);
+             gen_ss_advance(s);
+             gen_exception_insn_el(s, s->base.pc_next, EXCP_HVC,
+@@ -2191,7 +2191,7 @@ static void disas_exc(DisasContext *s, uint32_t insn)
+                 unallocated_encoding(s);
+                 break;
+             }
+-            gen_a64_set_pc_im(s->pc_curr);
++            gen_a64_update_pc(s, 0);
+             gen_helper_pre_smc(cpu_env, tcg_constant_i32(syn_aa64_smc(imm16)));
+             gen_ss_advance(s);
+             gen_exception_insn_el(s, s->base.pc_next, EXCP_SMC,
+@@ -14944,7 +14944,7 @@ static void aarch64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
           */
-         reset_btype(s);
--        gen_goto_tb(s, 0, s->base.pc_next);
-+        gen_goto_tb(s, 0, 4);
-         return;
- 
-     case 7: /* SB */
-@@ -1649,7 +1651,7 @@ static void handle_sync(DisasContext *s, uint32_t insn,
-          * MB and end the TB instead.
-          */
-         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
--        gen_goto_tb(s, 0, s->base.pc_next);
-+        gen_goto_tb(s, 0, 4);
-         return;
- 
-     default:
-@@ -14955,7 +14957,7 @@ static void aarch64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
          switch (dc->base.is_jmp) {
-         case DISAS_NEXT:
-         case DISAS_TOO_MANY:
--            gen_goto_tb(dc, 1, dc->base.pc_next);
-+            gen_goto_tb(dc, 1, 4);
+         default:
+-            gen_a64_set_pc_im(dc->base.pc_next);
++            gen_a64_update_pc(dc, 4);
+             /* fall through */
+         case DISAS_EXIT:
+         case DISAS_JUMP:
+@@ -14961,13 +14961,13 @@ static void aarch64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
              break;
          default:
          case DISAS_UPDATE_EXIT:
+-            gen_a64_set_pc_im(dc->base.pc_next);
++            gen_a64_update_pc(dc, 4);
+             /* fall through */
+         case DISAS_EXIT:
+             tcg_gen_exit_tb(NULL, 0);
+             break;
+         case DISAS_UPDATE_NOCHAIN:
+-            gen_a64_set_pc_im(dc->base.pc_next);
++            gen_a64_update_pc(dc, 4);
+             /* fall through */
+         case DISAS_JUMP:
+             tcg_gen_lookup_and_goto_ptr();
+@@ -14976,11 +14976,11 @@ static void aarch64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+         case DISAS_SWI:
+             break;
+         case DISAS_WFE:
+-            gen_a64_set_pc_im(dc->base.pc_next);
++            gen_a64_update_pc(dc, 4);
+             gen_helper_wfe(cpu_env);
+             break;
+         case DISAS_YIELD:
+-            gen_a64_set_pc_im(dc->base.pc_next);
++            gen_a64_update_pc(dc, 4);
+             gen_helper_yield(cpu_env);
+             break;
+         case DISAS_WFI:
+@@ -14988,7 +14988,7 @@ static void aarch64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+              * This is a special case because we don't want to just halt
+              * the CPU if trying to debug across a WFI.
+              */
+-            gen_a64_set_pc_im(dc->base.pc_next);
++            gen_a64_update_pc(dc, 4);
+             gen_helper_wfi(cpu_env, tcg_constant_i32(4));
+             /*
+              * The helper doesn't necessarily throw an exception, but we
+diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
+index 94cc1e4b77..070f465b17 100644
+--- a/target/arm/translate-vfp.c
++++ b/target/arm/translate-vfp.c
+@@ -856,7 +856,7 @@ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
+         case ARM_VFP_FPSID:
+             if (s->current_el == 1) {
+                 gen_set_condexec(s);
+-                gen_set_pc_im(s, s->pc_curr);
++                gen_update_pc(s, 0);
+                 gen_helper_check_hcr_el2_trap(cpu_env,
+                                               tcg_constant_i32(a->rt),
+                                               tcg_constant_i32(a->reg));
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 42e11102f7..6855128fb1 100644
+index 6855128fb1..01b7536c7e 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -2594,8 +2594,10 @@ static void gen_goto_ptr(void)
-  * cpu_loop_exec. Any live exit_requests will be processed as we
-  * enter the next TB.
-  */
--static void gen_goto_tb(DisasContext *s, int n, target_ulong dest)
-+static void gen_goto_tb(DisasContext *s, int n, int diff)
+@@ -772,9 +772,9 @@ void gen_set_condexec(DisasContext *s)
+     }
+ }
+ 
+-void gen_set_pc_im(DisasContext *s, target_ulong val)
++void gen_update_pc(DisasContext *s, target_long diff)
  {
-+    target_ulong dest = s->pc_curr + diff;
-+
+-    tcg_gen_movi_i32(cpu_R[15], val);
++    tcg_gen_movi_i32(cpu_R[15], s->pc_curr + diff);
+ }
+ 
+ /* Set PC and Thumb state from var.  var is marked as dead.  */
+@@ -866,7 +866,7 @@ static inline void gen_bxns(DisasContext *s, int rm)
+ 
+     /* The bxns helper may raise an EXCEPTION_EXIT exception, so in theory
+      * we need to sync state before calling it, but:
+-     *  - we don't need to do gen_set_pc_im() because the bxns helper will
++     *  - we don't need to do gen_update_pc() because the bxns helper will
+      *    always set the PC itself
+      *  - we don't need to do gen_set_condexec() because BXNS is UNPREDICTABLE
+      *    unless it's outside an IT block or the last insn in an IT block,
+@@ -887,7 +887,7 @@ static inline void gen_blxns(DisasContext *s, int rm)
+      * We do however need to set the PC, because the blxns helper reads it.
+      * The blxns helper may throw an exception.
+      */
+-    gen_set_pc_im(s, s->base.pc_next);
++    gen_update_pc(s, curr_insn_len(s));
+     gen_helper_v7m_blxns(cpu_env, var);
+     tcg_temp_free_i32(var);
+     s->base.is_jmp = DISAS_EXIT;
+@@ -1055,7 +1055,7 @@ static inline void gen_hvc(DisasContext *s, int imm16)
+      * as an undefined insn by runtime configuration (ie before
+      * the insn really executes).
+      */
+-    gen_set_pc_im(s, s->pc_curr);
++    gen_update_pc(s, 0);
+     gen_helper_pre_hvc(cpu_env);
+     /* Otherwise we will treat this as a real exception which
+      * happens after execution of the insn. (The distinction matters
+@@ -1063,7 +1063,7 @@ static inline void gen_hvc(DisasContext *s, int imm16)
+      * for single stepping.)
+      */
+     s->svc_imm = imm16;
+-    gen_set_pc_im(s, s->base.pc_next);
++    gen_update_pc(s, curr_insn_len(s));
+     s->base.is_jmp = DISAS_HVC;
+ }
+ 
+@@ -1072,16 +1072,16 @@ static inline void gen_smc(DisasContext *s)
+     /* As with HVC, we may take an exception either before or after
+      * the insn executes.
+      */
+-    gen_set_pc_im(s, s->pc_curr);
++    gen_update_pc(s, 0);
+     gen_helper_pre_smc(cpu_env, tcg_constant_i32(syn_aa32_smc()));
+-    gen_set_pc_im(s, s->base.pc_next);
++    gen_update_pc(s, curr_insn_len(s));
+     s->base.is_jmp = DISAS_SMC;
+ }
+ 
+ static void gen_exception_internal_insn(DisasContext *s, uint32_t pc, int excp)
+ {
+     gen_set_condexec(s);
+-    gen_set_pc_im(s, pc);
++    gen_update_pc(s, pc - s->pc_curr);
+     gen_exception_internal(excp);
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+@@ -1107,10 +1107,10 @@ static void gen_exception_insn_el_v(DisasContext *s, uint64_t pc, int excp,
+                                     uint32_t syn, TCGv_i32 tcg_el)
+ {
+     if (s->aarch64) {
+-        gen_a64_set_pc_im(pc);
++        gen_a64_update_pc(s, pc - s->pc_curr);
+     } else {
+         gen_set_condexec(s);
+-        gen_set_pc_im(s, pc);
++        gen_update_pc(s, pc - s->pc_curr);
+     }
+     gen_exception_el_v(excp, syn, tcg_el);
+     s->base.is_jmp = DISAS_NORETURN;
+@@ -1125,10 +1125,10 @@ void gen_exception_insn_el(DisasContext *s, uint64_t pc, int excp,
+ void gen_exception_insn(DisasContext *s, uint64_t pc, int excp, uint32_t syn)
+ {
+     if (s->aarch64) {
+-        gen_a64_set_pc_im(pc);
++        gen_a64_update_pc(s, pc - s->pc_curr);
+     } else {
+         gen_set_condexec(s);
+-        gen_set_pc_im(s, pc);
++        gen_update_pc(s, pc - s->pc_curr);
+     }
+     gen_exception(excp, syn);
+     s->base.is_jmp = DISAS_NORETURN;
+@@ -1137,7 +1137,7 @@ void gen_exception_insn(DisasContext *s, uint64_t pc, int excp, uint32_t syn)
+ static void gen_exception_bkpt_insn(DisasContext *s, uint32_t syn)
+ {
+     gen_set_condexec(s);
+-    gen_set_pc_im(s, s->pc_curr);
++    gen_update_pc(s, 0);
+     gen_helper_exception_bkpt_insn(cpu_env, tcg_constant_i32(syn));
+     s->base.is_jmp = DISAS_NORETURN;
+ }
+@@ -2600,10 +2600,10 @@ static void gen_goto_tb(DisasContext *s, int n, int diff)
+ 
      if (translator_use_goto_tb(&s->base, dest)) {
          tcg_gen_goto_tb(n);
-         gen_set_pc_im(s, dest);
-@@ -2629,7 +2631,7 @@ static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
+-        gen_set_pc_im(s, dest);
++        gen_update_pc(s, diff);
+         tcg_gen_exit_tb(s->base.tb, n);
+     } else {
+-        gen_set_pc_im(s, dest);
++        gen_update_pc(s, diff);
+         gen_goto_ptr();
+     }
+     s->base.is_jmp = DISAS_NORETURN;
+@@ -2612,9 +2612,11 @@ static void gen_goto_tb(DisasContext *s, int n, int diff)
+ /* Jump, specifying which TB number to use if we gen_goto_tb() */
+ static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
+ {
++    int diff = dest - s->pc_curr;
++
+     if (unlikely(s->ss_active)) {
+         /* An indirect jump so that we still trigger the debug exception.  */
+-        gen_set_pc_im(s, dest);
++        gen_update_pc(s, diff);
+         s->base.is_jmp = DISAS_JUMP;
+         return;
+     }
+@@ -2631,7 +2633,7 @@ static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
           *    gen_jmp();
           * on the second call to gen_jmp().
           */
--        gen_goto_tb(s, tbno, dest);
-+        gen_goto_tb(s, tbno, dest - s->pc_curr);
+-        gen_goto_tb(s, tbno, dest - s->pc_curr);
++        gen_goto_tb(s, tbno, diff);
          break;
      case DISAS_UPDATE_NOCHAIN:
      case DISAS_UPDATE_EXIT:
-@@ -9798,7 +9800,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-         switch (dc->base.is_jmp) {
-         case DISAS_NEXT:
+@@ -2640,7 +2642,7 @@ static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
+          * Avoid using goto_tb so we really do exit back to the main loop
+          * and don't chain to another TB.
+          */
+-        gen_set_pc_im(s, dest);
++        gen_update_pc(s, diff);
+         gen_goto_ptr();
+         s->base.is_jmp = DISAS_NORETURN;
+         break;
+@@ -2908,7 +2910,7 @@ static void gen_msr_banked(DisasContext *s, int r, int sysm, int rn)
+ 
+     /* Sync state because msr_banked() can raise exceptions */
+     gen_set_condexec(s);
+-    gen_set_pc_im(s, s->pc_curr);
++    gen_update_pc(s, 0);
+     tcg_reg = load_reg(s, rn);
+     gen_helper_msr_banked(cpu_env, tcg_reg,
+                           tcg_constant_i32(tgtmode),
+@@ -2928,7 +2930,7 @@ static void gen_mrs_banked(DisasContext *s, int r, int sysm, int rn)
+ 
+     /* Sync state because mrs_banked() can raise exceptions */
+     gen_set_condexec(s);
+-    gen_set_pc_im(s, s->pc_curr);
++    gen_update_pc(s, 0);
+     tcg_reg = tcg_temp_new_i32();
+     gen_helper_mrs_banked(tcg_reg, cpu_env,
+                           tcg_constant_i32(tgtmode),
+@@ -4749,7 +4751,7 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
+             }
+ 
+             gen_set_condexec(s);
+-            gen_set_pc_im(s, s->pc_curr);
++            gen_update_pc(s, 0);
+             gen_helper_access_check_cp_reg(cpu_env,
+                                            tcg_constant_ptr(ri),
+                                            tcg_constant_i32(syndrome),
+@@ -4760,7 +4762,7 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
+              * synchronize the CPU state in case it does.
+              */
+             gen_set_condexec(s);
+-            gen_set_pc_im(s, s->pc_curr);
++            gen_update_pc(s, 0);
+         }
+ 
+         /* Handle special cases first */
+@@ -4774,7 +4776,7 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
+                 unallocated_encoding(s);
+                 return;
+             }
+-            gen_set_pc_im(s, s->base.pc_next);
++            gen_update_pc(s, curr_insn_len(s));
+             s->base.is_jmp = DISAS_WFI;
+             return;
+         default:
+@@ -5161,7 +5163,7 @@ static void gen_srs(DisasContext *s,
+     addr = tcg_temp_new_i32();
+     /* get_r13_banked() will raise an exception if called from System mode */
+     gen_set_condexec(s);
+-    gen_set_pc_im(s, s->pc_curr);
++    gen_update_pc(s, 0);
+     gen_helper_get_r13_banked(addr, cpu_env, tcg_constant_i32(mode));
+     switch (amode) {
+     case 0: /* DA */
+@@ -6230,7 +6232,7 @@ static bool trans_YIELD(DisasContext *s, arg_YIELD *a)
+      * scheduling of other vCPUs.
+      */
+     if (!(tb_cflags(s->base.tb) & CF_PARALLEL)) {
+-        gen_set_pc_im(s, s->base.pc_next);
++        gen_update_pc(s, curr_insn_len(s));
+         s->base.is_jmp = DISAS_YIELD;
+     }
+     return true;
+@@ -6246,7 +6248,7 @@ static bool trans_WFE(DisasContext *s, arg_WFE *a)
+      * implemented so we can't sleep like WFI does.
+      */
+     if (!(tb_cflags(s->base.tb) & CF_PARALLEL)) {
+-        gen_set_pc_im(s, s->base.pc_next);
++        gen_update_pc(s, curr_insn_len(s));
+         s->base.is_jmp = DISAS_WFE;
+     }
+     return true;
+@@ -6255,7 +6257,7 @@ static bool trans_WFE(DisasContext *s, arg_WFE *a)
+ static bool trans_WFI(DisasContext *s, arg_WFI *a)
+ {
+     /* For WFI, halt the vCPU until an IRQ. */
+-    gen_set_pc_im(s, s->base.pc_next);
++    gen_update_pc(s, curr_insn_len(s));
+     s->base.is_jmp = DISAS_WFI;
+     return true;
+ }
+@@ -8765,7 +8767,7 @@ static bool trans_SVC(DisasContext *s, arg_SVC *a)
+         (a->imm == semihost_imm)) {
+         gen_exception_internal_insn(s, s->pc_curr, EXCP_SEMIHOST);
+     } else {
+-        gen_set_pc_im(s, s->base.pc_next);
++        gen_update_pc(s, curr_insn_len(s));
+         s->svc_imm = a->imm;
+         s->base.is_jmp = DISAS_SWI;
+     }
+@@ -9779,7 +9781,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
          case DISAS_TOO_MANY:
--            gen_goto_tb(dc, 1, dc->base.pc_next);
-+            gen_goto_tb(dc, 1, curr_insn_len(dc));
+         case DISAS_UPDATE_EXIT:
+         case DISAS_UPDATE_NOCHAIN:
+-            gen_set_pc_im(dc, dc->base.pc_next);
++            gen_update_pc(dc, curr_insn_len(dc));
+             /* fall through */
+         default:
+             /* FIXME: Single stepping a WFI insn will not halt the CPU. */
+@@ -9803,13 +9805,13 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+             gen_goto_tb(dc, 1, curr_insn_len(dc));
              break;
          case DISAS_UPDATE_NOCHAIN:
-             gen_set_pc_im(dc, dc->base.pc_next);
-@@ -9850,7 +9852,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
-             gen_set_pc_im(dc, dc->base.pc_next);
+-            gen_set_pc_im(dc, dc->base.pc_next);
++            gen_update_pc(dc, curr_insn_len(dc));
+             /* fall through */
+         case DISAS_JUMP:
+             gen_goto_ptr();
+             break;
+         case DISAS_UPDATE_EXIT:
+-            gen_set_pc_im(dc, dc->base.pc_next);
++            gen_update_pc(dc, curr_insn_len(dc));
+             /* fall through */
+         default:
+             /* indicate that the hash table must be used to find the next TB */
+@@ -9849,7 +9851,7 @@ static void arm_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+         gen_set_label(dc->condlabel);
+         gen_set_condexec(dc);
+         if (unlikely(dc->ss_active)) {
+-            gen_set_pc_im(dc, dc->base.pc_next);
++            gen_update_pc(dc, curr_insn_len(dc));
              gen_singlestep_exception(dc);
          } else {
--            gen_goto_tb(dc, 1, dc->base.pc_next);
-+            gen_goto_tb(dc, 1, curr_insn_len(dc));
-         }
-     }
- }
+             gen_goto_tb(dc, 1, curr_insn_len(dc));
 -- 
 2.34.1
 
