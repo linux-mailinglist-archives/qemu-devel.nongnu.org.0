@@ -2,66 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BBC5F0C9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:42:35 +0200 (CEST)
-Received: from localhost ([::1]:55970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6275F0C9B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:42:36 +0200 (CEST)
+Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeGHg-00062g-QH
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:42:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59580)
+	id 1oeGHh-00066C-Rk
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oeG7z-0006Ud-PM
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:32:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.145.221.124]:56089)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oeG7v-0005yS-0Q
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:32:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664544744;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=ngF6sWh1u7k641vVqdDTTSsxphkySaSPjKFhJWyYpbs=;
- b=FMoQMOzOGZ1lv/uzGYNuhiBGi94uD80LoLdEOogjyqVXUpVJg01mJx0QHJ3WGxPXRnYE+z
- gK84zYp4DOjv6VGWaikOOb0zskdcLv1sfgoUrByRGsUpzscCfkOwosbJeC0umSl1ZmU06L
- nZ7LmJyu8znaBPBPwtVErRXu59mH4WE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-2-HvMhouFzMI6lzCDzIF3hYw-1; Fri, 30 Sep 2022 09:32:23 -0400
-X-MC-Unique: HvMhouFzMI6lzCDzIF3hYw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E76E6185A7AE;
- Fri, 30 Sep 2022 13:32:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.194.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AB2F740C6EC2;
- Fri, 30 Sep 2022 13:32:22 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E81A1180039F; Fri, 30 Sep 2022 15:32:20 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- libvir-list@redhat.com, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2] docs: add firmware feature flags
-Date: Fri, 30 Sep 2022 15:32:20 +0200
-Message-Id: <20220930133220.1771336-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oeGAU-0008RV-Hj
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:11 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:36484)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oeGAS-0006R4-Se
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:06 -0400
+Received: by mail-pl1-x635.google.com with SMTP id c24so4006152plo.3
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 06:35:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=9l6tzQ6Pz+VBkBtMS9ZzmjsOG4L1UCUcrjMNHuNJQTw=;
+ b=h+tVhs5eWKECeuYepVUiigOn56vabsGMwt9/TNNcLjvHYegiA5guAWcGIVfDKejd5U
+ jqi7Ek48v5MR4zb0nZVV9E59syvhQs6UurC9Wq5O64KXxTQ5Egse7SR+tE1/evqcuZ+b
+ ICVR9271PSx6f/7sjkxVef3N6EMX/Au8earJet639fzVsMhSCU6H/jjYm4IDOuvpb0fS
+ s03iy4s/Its3qg5JDt7+pfwuhfFBY+NFKnAqxX5fTP42BPn5YLk4lB+KdybQ+cUrINax
+ yn45CzIihlFPC5nDEc1Rb/5tfrxFt4r8kKSHz/wQ2+Nk9XOlAbgaD2FQRQWJO5jCssrA
+ o/dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=9l6tzQ6Pz+VBkBtMS9ZzmjsOG4L1UCUcrjMNHuNJQTw=;
+ b=h+oddaUHk8qWjhFDObIin2H9snLK/oNXfvFQmLPSlv1U4j9szq93XVhjgDuDUlclMb
+ SumVhZ+ucb5isGH8eIkM3VG3x2iaVWsnTFEJ8Jogu0PWVti+s1+wdZpqXJyCIN5hQjXy
+ jRFp5+2ur+N7Odv61bXEL90ELU0OTwtgJCt2tehQ1KxdpJBHE7kBmxQzPcQvsciFFLru
+ l+bYPj4+Rm8XsdXg+1BU0w61RbhcSGsPC5ny9ilnVj5sE9u3LKXslRQKxjnWK23mEGSN
+ zErnHz4atMUNMR0jn3OxAVAndRfkHxLNK2dUzow8OxCCpnjtJdQN/2gMFhr5inBSWes/
+ N8Jg==
+X-Gm-Message-State: ACrzQf1mQySt4h4XIrkqCA7XCVecFQFbUmRnqwpU3x3d+PnEDactaB/F
+ 2Re0ly14TaNVs6rBzmB0MysAXQ==
+X-Google-Smtp-Source: AMsMyM6kqnczOZ0Qay8Poy8I/L7nhDDreu39y3KGaXH16JVDZfyBqZPPVKqedmn/6iCtBLMwbyfCiQ==
+X-Received: by 2002:a17:902:da8a:b0:179:e022:5f6 with SMTP id
+ j10-20020a170902da8a00b00179e02205f6mr8916369plx.80.1664544903065; 
+ Fri, 30 Sep 2022 06:35:03 -0700 (PDT)
+Received: from [192.168.74.154] ([50.200.230.211])
+ by smtp.gmail.com with ESMTPSA id
+ i19-20020a17090320d300b00179f442519csm1877181plb.40.2022.09.30.06.35.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Sep 2022 06:35:02 -0700 (PDT)
+Message-ID: <2a7907c0-752a-e262-7088-83958ede1916@linaro.org>
+Date: Fri, 30 Sep 2022 06:34:59 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] win32: set threads name
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org, bin.meng@windriver.com, Stefan Weil <sw@weilnetz.de>
+References: <20220929134150.1377690-1-marcandre.lureau@redhat.com>
+ <5d7e7c01-7739-9a04-9a4a-becb3c550885@linaro.org>
+ <CAJ+F1CLNzwTOB2-wxbnJw9VaCVBFUkgC5c-nYaczL14RLVwaCg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAJ+F1CLNzwTOB2-wxbnJw9VaCVBFUkgC5c-nYaczL14RLVwaCg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: permerror client-ip=216.145.221.124;
- envelope-from=kraxel@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_FAIL=0.001, SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.583,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,62 +95,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add new firmware feature flags for the recently added confidential
-computing operating modes by amd and intel.
+On 9/30/22 01:08, Marc-André Lureau wrote:
+> Hi
+> 
+> On Thu, Sep 29, 2022 at 9:53 PM Richard Henderson <richard.henderson@linaro.org 
+> <mailto:richard.henderson@linaro.org>> wrote:
+> 
+>     On 9/29/22 06:41, marcandre.lureau@redhat.com <mailto:marcandre.lureau@redhat.com> wrote:
+>      >   void qemu_thread_naming(bool enable)
+>      >   {
+>      >       /* But note we don't actually name them on Windows yet */
+>      >       name_threads = enable;
+>      >
+>      > -    fprintf(stderr, "qemu: thread naming not supported on this host\n");
+>      > +    if (enable && !load_set_thread_description()) {
+>      > +        fprintf(stderr, "qemu: thread naming not supported on this host\n");
+>      > +    }
+>      >   }
+> 
+>     Comment is out of date, and I think it would be better to *not* set name_threads if not
+>     supported, rather than...
+> 
+> 
+> Comment removed.
+> 
+> 
+> 
+>      > +static bool
+>      > +set_thread_description(HANDLE h, const char *name)
+>      > +{
+>      > +  HRESULT hr;
+>      > +  g_autofree wchar_t *namew = NULL;
+>      > +
+>      > +  if (!load_set_thread_description() || !name) {
+>      > +      return false;
+>      > +  }
+> 
+>     ... have to re-query load_set_thread_description later.
+> 
+> 
+> The load_set_thread_description() function is actually a "one-time" function, it doesn't 
+> re-load.
 
-While being at it also fix the path to the amd sev documentation.
+You're calling it again.  That has some cost in the mutex/spinlock that's behind that 
+one-time operation, when you're already making the call to set_thread_description conditional.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
----
- docs/interop/firmware.json | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+> Right, maybe it should warn if it failed to set the name?
 
-diff --git a/docs/interop/firmware.json b/docs/interop/firmware.json
-index 4e049b1c7ca0..56814f02b3c0 100644
---- a/docs/interop/firmware.json
-+++ b/docs/interop/firmware.json
-@@ -113,13 +113,22 @@
- #           Virtualization, as specified in the AMD64 Architecture
- #           Programmer's Manual. QEMU command line options related to
- #           this feature are documented in
--#           "docs/amd-memory-encryption.txt".
-+#           "docs/system/i386/amd-memory-encryption.rst".
- #
- # @amd-sev-es: The firmware supports running under AMD Secure Encrypted
- #              Virtualization - Encrypted State, as specified in the AMD64
- #              Architecture Programmer's Manual. QEMU command line options
- #              related to this feature are documented in
--#              "docs/amd-memory-encryption.txt".
-+#              "docs/system/i386/amd-memory-encryption.rst".
-+#
-+# @amd-sev-snp: The firmware supports running under AMD Secure Encrypted
-+#               Virtualization - Secure Nested Paging, as specified in the
-+#               AMD64 Architecture Programmer's Manual. QEMU command line
-+#               options related to this feature are documented in
-+#               "docs/system/i386/amd-memory-encryption.rst".
-+#
-+# @intel-tdx: The firmware supports running under Intel Trust Domain
-+#             Extensions (TDX).
- #
- # @enrolled-keys: The variable store (NVRAM) template associated with
- #                 the firmware binary has the UEFI Secure Boot
-@@ -185,9 +194,11 @@
- # Since: 3.0
- ##
- { 'enum' : 'FirmwareFeature',
--  'data' : [ 'acpi-s3', 'acpi-s4', 'amd-sev', 'amd-sev-es', 'enrolled-keys',
--             'requires-smm', 'secure-boot', 'verbose-dynamic',
--             'verbose-static' ] }
-+  'data' : [ 'acpi-s3', 'acpi-s4',
-+             'amd-sev', 'amd-sev-es', 'amd-sev-snp',
-+             'intel-tdx',
-+             'enrolled-keys', 'requires-smm', 'secure-boot',
-+             'verbose-dynamic', 'verbose-static' ] }
- 
- ##
- # @FirmwareFlashFile:
--- 
-2.37.3
+After you've already printed an error in qemu_thread_naming()?  Doesn't seem useful.  Or 
+did you mean in the case we think it should work, but didn't?
 
+r~
 
