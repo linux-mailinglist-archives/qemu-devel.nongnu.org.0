@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40335F0FF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 18:29:15 +0200 (CEST)
-Received: from localhost ([::1]:45524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7BC5F104C
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 18:53:38 +0200 (CEST)
+Received: from localhost ([::1]:34968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeIt0-0006cb-BK
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 12:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57876)
+	id 1oeJGZ-0007yT-WB
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 12:53:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1oeIpx-0001z2-2S
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:26:05 -0400
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:46762)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1oeIpt-0001Xf-2E
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:26:02 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id a8so7612558lff.13
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 09:26:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=UrrD0Exi77GioeeFnA5EPj6klL2csA7S4Gu7HiZ2ciA=;
- b=eZBKt1XOsRgfVx0tfnjaqG45lgVmnH6kzV+V+DuAoQeVQPuUTObn6otZtjqpHnL+Rc
- jhRBeP6sqTb5JBZbnxaacSAt+JKKUvlKBzYPMleXkfOl3Ni30OtmUzz0McxNr83xb1Uj
- zAZNs94yUxSNNyR63rjM+bVUggu1jXuENG7Tayw78Xc4eTzajPVEwmpzjSbY2XNemkv1
- aVD/4YwX98yC778JF8f/FTSyhzE/5WouoQ5Ff7lSrHnEzzTs/IoDjCMtymKIgtcprPlU
- mhs4JEOyhrUGxZ37VWl883GAwmqg1j+Q9+R8MmRzYR1JZvH39VaBaO3fvSbfIkPqc40+
- zJgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=UrrD0Exi77GioeeFnA5EPj6klL2csA7S4Gu7HiZ2ciA=;
- b=uW3HGd4PCuJeBEQn1TXlOvjAwrRaM0X4809G1zyNQ/Q58s6Y2yaSXooOmsrrsgccKH
- HpgpkMhzfKm4WS64kQadvc5F1pEi1WCs0Wv+X4x/3/YATxamyqKWQgTUq3JwwXE7XQ6E
- r/cg4FkzHcLfT6boD+Fv+2i6d/6sMc4cLm+YsX0mNdrwHkFWvbfVXSRmhu5a56CmmFpQ
- 0BKWVvE2cbSy9c2YpvwNP38UzByJaA6slCe3uufpeMY8dcy/o/SYjneq5v0SrXf+wa4M
- AmipCYtKf8VV0502YtAXZpHLYRGYNnfRLctcsskubKQ1XpRB2vIBtRw9C+bwyuP+vXoC
- R0zg==
-X-Gm-Message-State: ACrzQf1+wxdq5p0L9DCuucqzEsOhWCWP9b5Rg4DSRYc7KZCUgIrB6wn9
- va67LZmyChWcQZANU4ckclfinAsh+CI42w==
-X-Google-Smtp-Source: AMsMyM5jR5BVQY9BI1gKKhnaV8x9xmdJKc+mmEAxWbDptt7CrRN7fV9a3tfVoEm+Gp2p3IGyfyKJgA==
-X-Received: by 2002:ac2:5bc3:0:b0:498:ff9:1cd1 with SMTP id
- u3-20020ac25bc3000000b004980ff91cd1mr3691976lfn.479.1664555158170; 
- Fri, 30 Sep 2022 09:25:58 -0700 (PDT)
-Received: from localhost.localdomain (31-208-27-151.cust.bredband2.com.
- [31.208.27.151]) by smtp.gmail.com with ESMTPSA id
- g22-20020a05651222d600b0048b143c09c2sm332465lfu.259.2022.09.30.09.25.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Sep 2022 09:25:56 -0700 (PDT)
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-X-Google-Original-From: Francisco Iglesias <francisco.iglesias@amd.com>
-To: qemu-devel@nongnu.org
-Cc: frasse.iglesias@gmail.com, francisco.iglesias@amd.com,
- alistair@alistair23.me, hreitz@redhat.com, kwolf@redhat.com,
- peter.maydell@linaro.org, edgar.iglesias@amd.com, fkonrad@amd.com,
- sai.pavan.boddu@amd.com
-Subject: [PATCH v1 1/1] hw/block/m25p80: Micron Xccela mt35xu01g flash Octal
- command support
-Date: Fri, 30 Sep 2022 18:25:55 +0200
-Message-Id: <20220930162555.3765-1-francisco.iglesias@amd.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oeJEX-0005ET-I2
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:51:30 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:39477)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oeJEV-0006Ty-GF
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:51:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=6gLtfxVVkSS+fmuuuBClzkfwpv46NPzPSm7mVFSnWhY=; b=DNkNqTpTJg/6KusAd9QsqRi7R2
+ agUqhBG2X1Q4bQSqoMZbFX0jPN6l5ycinhnbhcRaloRgqlV+MpYsOtqaXxExH8iK43WTedjN3AZnN
+ mplRwDhk8Wd7EPJoFDSoXc5PLoQhzT8wt5CysxqMlCMFj90wvF3l1Y/U6lmbR2dPKEng6X3AOfMg+
+ r3UJztQmo+T79sMq4c9Q8Dc2+E/RxjPzefwOjFOoMnCFn+55fxO3Wqu5/zxhXnAgfxE4NSCWuGK7D
+ 4BeuYjciCSK9e6UkDjlDxolzvOCq4qU73XdxQ8pDHtzP7NC0p3wrZQQiU7I7fMfeXvgNEPQlUfuKw
+ PSz6mrE6F0CSk4j2+mNWF7NHRqnZgHSqnfs2ubFyZmKfdiegtkGzKyiGC8kz4A+ho+BrAe9duXESB
+ hRnruFtvhZSBw9Gm+cXNHVtSESzsL202j9aTBwQ10YU1VkrFEmcelTRah4qczxybG6blefK17Nzxq
+ u+vxFwk/LYAYNCPyyRlsCDmFHbgb8P3iQzSUkuXPJgFgMm5rqzjqXnhVd/xhIzxYFhFwxBEkMGbDG
+ 74k2I8yBnZuuliSBGMs2SwgF28TVolFNO1+e8FKg9A9f7OI/QG3xBzHnRIdWaJxvxPp6q9L/ju/la
+ QZ2K4e3iUxrtAI7Ht4CWihadKe8c0xMdN3BC/jfuo=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Warner Losh <imp@bsdimp.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 for-7.2 0/6] Drop libslirp submodule
+Date: Fri, 30 Sep 2022 18:50:20 +0200
+Message-ID: <30266128.I4sqonfujN@silver>
+In-Reply-To: <20220824151122.704946-1-thuth@redhat.com>
+References: <20220824151122.704946-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x12f.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,168 +71,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide the Micron Xccela flash mt35xu01g with Octal command support.
+On Mittwoch, 24. August 2022 17:11:16 CEST Thomas Huth wrote:
+> At the point in time we're going to release QEMU 7.2, all supported
+> host OS distributions will have a libslirp package available, so
+> there is no need anymore for us to ship the slirp submodule. Thus
+> let's clean up the related tests and finally remove the submodule now.
+> 
+> v2:
+> - Added patches to clean up and adapt the tests
+> - Rebased the removal patch to the latest version of the master branch
+> 
+> Thomas Huth (6):
+>   tests/docker: Update the debian-all-test-cross container to Debian 11
+>   tests/vm: Add libslirp to the VM tests
+>   tests/lcitool/libvirt-ci: Update the lcitool module to the latest
+>     version
+>   tests: Refresh dockerfiles and FreeBSD vars with lcitool
+>   tests/avocado: Do not run tests that require libslirp if it is not
+>     available
+>   Remove the slirp submodule (i.e. compile only with an external
+>     libslirp)
 
-Signed-off-by: Francisco Iglesias <francisco.iglesias@amd.com>
----
- hw/block/m25p80.c | 57 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+And I was wondering (bisecting) why network silently stopped working here.
 
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index a8d2519141..79e26424ec 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -360,6 +360,8 @@ typedef enum {
-     READ4 = 0x13,
-     FAST_READ = 0x0b,
-     FAST_READ4 = 0x0c,
-+    O_FAST_READ = 0x9d,
-+    O_FAST_READ4 = 0xfd,
-     DOR = 0x3b,
-     DOR4 = 0x3c,
-     QOR = 0x6b,
-@@ -368,6 +370,10 @@ typedef enum {
-     DIOR4 = 0xbc,
-     QIOR = 0xeb,
-     QIOR4 = 0xec,
-+    OOR = 0x8b,
-+    OOR4 = 0x7c,
-+    OIOR = 0xcb,
-+    OIOR4 = 0xcc,
- 
-     PP = 0x02,
-     PP4 = 0x12,
-@@ -375,6 +381,10 @@ typedef enum {
-     DPP = 0xa2,
-     QPP = 0x32,
-     QPP_4 = 0x34,
-+    OPP = 0x82,
-+    OPP4 = 0x84,
-+    EOPP = 0xc2,
-+    EOPP4 = 0x8e,
-     RDID_90 = 0x90,
-     RDID_AB = 0xab,
-     AAI_WP = 0xad,
-@@ -430,6 +440,7 @@ typedef enum {
-     MAN_WINBOND,
-     MAN_SST,
-     MAN_ISSI,
-+    MAN_MICRON_OCTAL,
-     MAN_GENERIC,
- } Manufacturer;
- 
-@@ -514,6 +525,8 @@ static inline Manufacturer get_man(Flash *s)
-         return MAN_SST;
-     case 0x9D:
-         return MAN_ISSI;
-+    case 0x2C:
-+        return MAN_MICRON_OCTAL;
-     default:
-         return MAN_GENERIC;
-     }
-@@ -682,15 +695,20 @@ static inline int get_addr_length(Flash *s)
-    case PP4:
-    case PP4_4:
-    case QPP_4:
-+   case OPP4:
-+   case EOPP4:
-    case READ4:
-    case QIOR4:
-    case ERASE4_4K:
-    case ERASE4_32K:
-    case ERASE4_SECTOR:
-    case FAST_READ4:
-+   case O_FAST_READ4:
-    case DOR4:
-    case QOR4:
-    case DIOR4:
-+   case OOR4:
-+   case OIOR4:
-        return 4;
-    default:
-        return s->four_bytes_address_mode ? 4 : 3;
-@@ -722,6 +740,10 @@ static void complete_collecting_data(Flash *s)
-     case PP:
-     case PP4:
-     case PP4_4:
-+    case OPP:
-+    case OPP4:
-+    case EOPP:
-+    case EOPP4:
-         s->state = STATE_PAGE_PROGRAM;
-         break;
-     case AAI_WP:
-@@ -741,6 +763,12 @@ static void complete_collecting_data(Flash *s)
-     case DIOR4:
-     case QIOR:
-     case QIOR4:
-+    case OOR:
-+    case OOR4:
-+    case OIOR:
-+    case OIOR4:
-+    case O_FAST_READ:
-+    case O_FAST_READ4:
-         s->state = STATE_READ;
-         break;
-     case ERASE_4K:
-@@ -963,6 +991,9 @@ static void decode_fast_read_cmd(Flash *s)
-                                     SPANSION_DUMMY_CLK_LEN
-                                     );
-         break;
-+    case MAN_MICRON_OCTAL:
-+        s->needed_bytes += 8;
-+        break;
-     case MAN_ISSI:
-         /*
-          * The Fast Read instruction code is followed by address bytes and
-@@ -1117,6 +1148,10 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-     case ERASE4_SECTOR:
-     case PP:
-     case PP4:
-+    case OPP:
-+    case OPP4:
-+    case EOPP:
-+    case EOPP4:
-     case DIE_ERASE:
-     case RDID_90:
-     case RDID_AB:
-@@ -1184,6 +1219,15 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-                           "DIO mode\n", s->cmd_in_progress);
-         }
-         break;
-+    case OOR:
-+    case OOR4:
-+    case O_FAST_READ:
-+        if (get_man(s) == MAN_MICRON_OCTAL) {
-+            decode_fast_read_cmd(s);
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Unknown cmd %x\n", value);
-+        }
-+        break;
- 
-     case DIOR:
-     case DIOR4:
-@@ -1204,6 +1248,19 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-                           "DIO mode\n", s->cmd_in_progress);
-         }
-         break;
-+    case OIOR:
-+    case OIOR4:
-+    case O_FAST_READ4:
-+        if (get_man(s) == MAN_MICRON_OCTAL) {
-+            s->needed_bytes = get_addr_length(s);
-+            s->needed_bytes += 16;
-+            s->pos = 0;
-+            s->len = 0;
-+            s->state = STATE_COLLECTING_DATA;
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Unknown cmd %x\n", value);
-+        }
-+        break;
- 
-     case WRSR:
-         /*
--- 
-2.20.1
+While I understand the motivation for this change, it's probably not a user 
+friendly situation to just silently decease functionality. As slirp was the 
+default networking (i.e. not just some exotic QEMU feature), wouldn't it make 
+sense then to make missing libslirp a build-time error by default?
+
+Best regards,
+Christian Schoenebeck
+
 
 
