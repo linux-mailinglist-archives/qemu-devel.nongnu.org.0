@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430BF5F109D
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:16:40 +0200 (CEST)
-Received: from localhost ([::1]:57232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE6A5F10AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:22:26 +0200 (CEST)
+Received: from localhost ([::1]:36524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeJct-0004LD-9L
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:16:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45518)
+	id 1oeJiT-0000pp-Lt
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:22:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFv-0006lS-TV
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42743)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oeJfR-0006oK-Km
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 13:19:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFt-0006hn-V1
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:55 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oeJfO-0002EE-P2
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 13:19:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664556773;
+ s=mimecast20190719; t=1664558352;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VRlEUOM1qeE9+nvz4hF5vEgRMiGWQ0qR7RFnjxXiuB8=;
- b=BtaIDZbLWFc3i7rDCHGHR72ED0L8QU7sgP9c99zNpUPSx4XdUoCpXeOUufMFxMrn+xJebc
- qnPdgmapMwR+bmsblym9fd2i9u89X8Ph4N5586L4zI6rtSQWbBbkM/w0QJA014Sb1QR8Vx
- oVEGGFeb+UkW0frutxSIl6gPpHASHkY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yJ52BDAzQVR2LH49wQwnGdqoJG6yjR+AiVz5LrXsbg8=;
+ b=b+w1IYa489+5nkW+7bJSQjUq7P2l9Q8dZ1rxY4rZSJ5x9T6vxDtzth6CX4olcC0mnLWxAb
+ 2ISsm50KZnCKhb1tplFJHoSYgFKK9odNVaGv7Uw8MFPJvFk3JP2bv3skYv6gqlidEN/cv0
+ zvQT9xeNC3GluEjZpvq6QB5sjmeuUYQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-224-nnhQVtpLNuayQOZLURytvw-1; Fri, 30 Sep 2022 12:52:52 -0400
-X-MC-Unique: nnhQVtpLNuayQOZLURytvw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-468-GLJuikC8PrasVLTgipgNWw-1; Fri, 30 Sep 2022 13:19:11 -0400
+X-MC-Unique: GLJuikC8PrasVLTgipgNWw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D19693C10226;
- Fri, 30 Sep 2022 16:52:51 +0000 (UTC)
-Received: from merkur.fritz.box (unknown [10.39.192.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1DC0417582;
- Fri, 30 Sep 2022 16:52:51 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com,
-	stefanha@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PULL 18/18] hw/ide/core.c: Implement ATA
- INITIALIZE_DEVICE_PARAMETERS command
-Date: Fri, 30 Sep 2022 18:52:22 +0200
-Message-Id: <20220930165222.249716-19-kwolf@redhat.com>
-In-Reply-To: <20220930165222.249716-1-kwolf@redhat.com>
-References: <20220930165222.249716-1-kwolf@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99050833948
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 17:19:11 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C41C207AD4C;
+ Fri, 30 Sep 2022 17:19:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 92A9521E691D; Fri, 30 Sep 2022 19:19:08 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: victortoso@redhat.com,
+	kwolf@redhat.com
+Subject: [PATCH] Revert "qapi: fix examples of blockdev-add with qcow2"
+Date: Fri, 30 Sep 2022 19:19:08 +0200
+Message-Id: <20220930171908.846769-1-armbru@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -79,138 +77,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lev Kujawski <lkujaw@member.fsf.org>
+This reverts commit b6522938327141235b97ab38e40c6c4512587373.
 
-CHS-based disk utilities and operating systems may adjust the logical
-geometry of a hard drive to cope with the expectations or limitations
-of software using the ATA INITIALIZE_DEVICE_PARAMETERS command.
+Kevin Wolf NAKed this patch, because:
 
-Prior to this patch, INITIALIZE_DEVICE_PARAMETERS was a nop that
-always returned success, raising the possibility of data loss or
-corruption if the CHS<->LBA translation redirected a write to the
-wrong sector.
+    'file' is a required member (defined in BlockdevOptionsGenericFormat),
+    removing it makes the example invalid. 'data-file' is only an additional
+    optional member to be used for external data files (i.e. when the guest
+    data is kept separate from the metadata in the .qcow2 file).
 
-* hw/ide/core.c
-ide_reset():
-  Reset the logical CHS geometry of the hard disk when the power-on
-  defaults feature is enabled.
-cmd_specify():
-  a) New function implementing INITIALIZE_DEVICE_PARAMETERS.
-  b) Ignore calls for empty or ATAPI devices.
-cmd_set_features():
-  Implement the power-on defaults enable and disable features.
-struct ide_cmd_table:
-  Switch WIN_SPECIFY from cmd_nop() to cmd_specify().
-ide_init_drive():
-  Set new fields 'drive_heads' and 'drive_sectors' based upon the
-  actual disk geometry.
+However, it had already been merged then.  Revert.
 
-* include/hw/ide/internal.h
-struct IDEState:
-a) Store the actual drive CHS values within the new fields
-   'drive_heads' and 'drive_sectors.'
-b) Track whether a soft IDE reset should also reset the logical CHS
-   geometry of the hard disk within the new field 'reset_reverts'.
-
-Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
-Message-Id: <20220707031140.158958-7-lkujaw@member.fsf.org>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/hw/ide/internal.h |  3 +++
- hw/ide/core.c             | 29 ++++++++++++++++++++++++++---
- 2 files changed, 29 insertions(+), 3 deletions(-)
+ qapi/block-core.json | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 97e7e59dc5..b17f36df95 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -375,6 +375,7 @@ struct IDEState {
-     uint8_t unit;
-     /* ide config */
-     IDEDriveKind drive_kind;
-+    int drive_heads, drive_sectors;
-     int cylinders, heads, sectors, chs_trans;
-     int64_t nb_sectors;
-     int mult_sectors;
-@@ -401,6 +402,8 @@ struct IDEState {
-     uint8_t select;
-     uint8_t status;
- 
-+    bool reset_reverts;
-+
-     /* set for lba48 access */
-     uint8_t lba48;
-     BlockBackend *blk;
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index b747191ebf..39afdc0006 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -1340,6 +1340,11 @@ static void ide_reset(IDEState *s)
-         s->pio_aiocb = NULL;
-     }
- 
-+    if (s->reset_reverts) {
-+        s->reset_reverts = false;
-+        s->heads         = s->drive_heads;
-+        s->sectors       = s->drive_sectors;
-+    }
-     if (s->drive_kind == IDE_CFATA)
-         s->mult_sectors = 0;
-     else
-@@ -1618,6 +1623,20 @@ static bool cmd_check_power_mode(IDEState *s, uint8_t cmd)
-     return true;
- }
- 
-+/* INITIALIZE DEVICE PARAMETERS */
-+static bool cmd_specify(IDEState *s, uint8_t cmd)
-+{
-+    if (s->blk && s->drive_kind != IDE_CD) {
-+        s->heads = (s->select & (ATA_DEV_HS)) + 1;
-+        s->sectors = s->nsector;
-+        ide_set_irq(s->bus);
-+    } else {
-+        ide_abort_command(s);
-+    }
-+
-+    return true;
-+}
-+
- static bool cmd_set_features(IDEState *s, uint8_t cmd)
- {
-     uint16_t *identify_data;
-@@ -1641,7 +1660,11 @@ static bool cmd_set_features(IDEState *s, uint8_t cmd)
-         ide_flush_cache(s);
-         return false;
-     case 0xcc: /* reverting to power-on defaults enable */
-+        s->reset_reverts = true;
-+        return true;
-     case 0x66: /* reverting to power-on defaults disable */
-+        s->reset_reverts = false;
-+        return true;
-     case 0xaa: /* read look-ahead enable */
-     case 0x55: /* read look-ahead disable */
-     case 0x05: /* set advanced power management mode */
-@@ -2051,7 +2074,7 @@ static const struct {
-     [WIN_SEEK]                    = { cmd_seek, HD_CFA_OK | SET_DSC },
-     [CFA_TRANSLATE_SECTOR]        = { cmd_cfa_translate_sector, CFA_OK },
-     [WIN_DIAGNOSE]                = { cmd_exec_dev_diagnostic, ALL_OK },
--    [WIN_SPECIFY]                 = { cmd_nop, HD_CFA_OK | SET_DSC },
-+    [WIN_SPECIFY]                 = { cmd_specify, HD_CFA_OK | SET_DSC },
-     [WIN_STANDBYNOW2]             = { cmd_nop, HD_CFA_OK },
-     [WIN_IDLEIMMEDIATE2]          = { cmd_nop, HD_CFA_OK },
-     [WIN_STANDBY2]                = { cmd_nop, HD_CFA_OK },
-@@ -2541,8 +2564,8 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
- 
-     blk_get_geometry(blk, &nb_sectors);
-     s->cylinders = cylinders;
--    s->heads = heads;
--    s->sectors = secs;
-+    s->heads = s->drive_heads = heads;
-+    s->sectors = s->drive_sectors = secs;
-     s->chs_trans = chs_trans;
-     s->nb_sectors = nb_sectors;
-     s->wwn = wwn;
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index f21fa235f2..882b266532 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1541,8 +1541,8 @@
+ # -> { "execute": "blockdev-add",
+ #      "arguments": { "driver": "qcow2",
+ #                     "node-name": "node1534",
+-#                     "data-file": { "driver": "file",
+-#                                    "filename": "hd1.qcow2" },
++#                     "file": { "driver": "file",
++#                               "filename": "hd1.qcow2" },
+ #                     "backing": null } }
+ #
+ # <- { "return": {} }
+@@ -4378,7 +4378,7 @@
+ #      "arguments": {
+ #           "driver": "qcow2",
+ #           "node-name": "test1",
+-#           "data-file": {
++#           "file": {
+ #               "driver": "file",
+ #               "filename": "test.qcow2"
+ #            }
+@@ -4395,7 +4395,7 @@
+ #           "cache": {
+ #              "direct": true
+ #            },
+-#           "data-file": {
++#            "file": {
+ #              "driver": "file",
+ #              "filename": "/tmp/test.qcow2"
+ #            },
+@@ -4477,7 +4477,7 @@
+ #      "arguments": {
+ #           "driver": "qcow2",
+ #           "node-name": "node0",
+-#           "data-file": {
++#           "file": {
+ #               "driver": "file",
+ #               "filename": "test.qcow2"
+ #           }
 -- 
-2.37.3
+2.37.2
 
 
