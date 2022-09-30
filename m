@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469DC5F1085
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:08:25 +0200 (CEST)
-Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796F05F1089
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:10:15 +0200 (CEST)
+Received: from localhost ([::1]:42374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeJUu-00006n-9v
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:08:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55226)
+	id 1oeJWg-000238-85
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:10:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFq-0006fv-Dj
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFs-0006g7-7X
  for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55798)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFn-0006fH-9l
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:50 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFq-0006gF-1L
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664556766;
+ s=mimecast20190719; t=1664556769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EATsgcPDROPq71RM8IC/bVo8kXlnm3xcjVtnYiLq1es=;
- b=f9ZNN/uUmLLj1X7bAdbQfBADG+TCH9FawhK4f2kVDsjXEK1GyZ4FoPgLYOAkqEzdhpXlQL
- rCq6OxbkAIxc4ozVsiGBzpZxhcDCIKQ7LeGPu+Twx3K3Smdo0Otk0f27Hy2hhWuBlO7w/h
- PSzggAr8aGqksFu+vhkCArkH5xpoO6k=
+ bh=94mQ6MvpdlUf4Z02g1zIymucwp0QBlCPiasoMcG5Bug=;
+ b=Hx8Gl7DOhP8HMQAthJQxxTaa98dMRxDN3B8+t6o8Si4sIYzY8B6RN7VQJlTlU/ww0KsxD+
+ 0wcWEyVgXPEFpKY/cb8wYvdqQrd3z9YOyunrB+aVruDLFhdlBSfNTLg+DuZ/OtFEVFoRLx
+ 1Y3d2Jl+eUGwlcJEy8sBNt/gIxnZ6P0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-28-_B-fQeXFNwyxR1N9jEwLoA-1; Fri, 30 Sep 2022 12:52:45 -0400
-X-MC-Unique: _B-fQeXFNwyxR1N9jEwLoA-1
+ us-mta-558-cFJ1JLTJNwO-89vbKhIcBQ-1; Fri, 30 Sep 2022 12:52:46 -0400
+X-MC-Unique: cFJ1JLTJNwO-89vbKhIcBQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D36D5101CC6E;
- Fri, 30 Sep 2022 16:52:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CD1EB882824;
+ Fri, 30 Sep 2022 16:52:45 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.192.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F1A817582;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 17FA817582;
  Fri, 30 Sep 2022 16:52:44 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 11/18] iotests/backing-file-invalidation: Add new test
-Date: Fri, 30 Sep 2022 18:52:15 +0200
-Message-Id: <20220930165222.249716-12-kwolf@redhat.com>
+Subject: [PULL 12/18] block: move bdrv_qiov_is_aligned to file-posix
+Date: Fri, 30 Sep 2022 18:52:16 +0200
+Message-Id: <20220930165222.249716-13-kwolf@redhat.com>
 In-Reply-To: <20220930165222.249716-1-kwolf@redhat.com>
 References: <20220930165222.249716-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -62,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,192 +78,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hanna Reitz <hreitz@redhat.com>
+From: Keith Busch <kbusch@kernel.org>
 
-Add a new test to see what happens when you migrate a VM with a backing
-chain that has json:{} backing file strings, which, when opened, will be
-resolved to plain filenames.
+There is only user of bdrv_qiov_is_aligned(), so move the alignment
+function to there and make it static.
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220803144446.20723-4-hreitz@redhat.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
+Message-Id: <20220929200523.3218710-2-kbusch@meta.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- .../tests/backing-file-invalidation           | 152 ++++++++++++++++++
- .../tests/backing-file-invalidation.out       |   5 +
- 2 files changed, 157 insertions(+)
- create mode 100755 tests/qemu-iotests/tests/backing-file-invalidation
- create mode 100644 tests/qemu-iotests/tests/backing-file-invalidation.out
+ include/block/block-io.h |  1 -
+ block/file-posix.c       | 21 +++++++++++++++++++++
+ block/io.c               | 21 ---------------------
+ 3 files changed, 21 insertions(+), 22 deletions(-)
 
-diff --git a/tests/qemu-iotests/tests/backing-file-invalidation b/tests/qemu-iotests/tests/backing-file-invalidation
-new file mode 100755
-index 0000000000..4eccc80153
---- /dev/null
-+++ b/tests/qemu-iotests/tests/backing-file-invalidation
-@@ -0,0 +1,152 @@
-+#!/usr/bin/env python3
-+# group: rw migration
-+#
-+# Migrate a VM with a BDS with backing nodes, which runs
-+# bdrv_invalidate_cache(), which for qcow2 and qed triggers reading the
-+# backing file string from the image header.  Check whether this
-+# interferes with bdrv_backing_overridden().
-+#
-+# Copyright (C) 2022 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index fd25ffa9be..492f95fc05 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -150,7 +150,6 @@ void *qemu_blockalign(BlockDriverState *bs, size_t size);
+ void *qemu_blockalign0(BlockDriverState *bs, size_t size);
+ void *qemu_try_blockalign(BlockDriverState *bs, size_t size);
+ void *qemu_try_blockalign0(BlockDriverState *bs, size_t size);
+-bool bdrv_qiov_is_aligned(BlockDriverState *bs, QEMUIOVector *qiov);
+ 
+ void bdrv_enable_copy_on_read(BlockDriverState *bs);
+ void bdrv_disable_copy_on_read(BlockDriverState *bs);
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 256de1f456..989dfc4586 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2061,6 +2061,27 @@ static int coroutine_fn raw_thread_pool_submit(BlockDriverState *bs,
+     return thread_pool_submit_co(pool, func, arg);
+ }
+ 
++/*
++ * Check if all memory in this vector is sector aligned.
++ */
++static bool bdrv_qiov_is_aligned(BlockDriverState *bs, QEMUIOVector *qiov)
++{
++    int i;
++    size_t alignment = bdrv_min_mem_align(bs);
++    IO_CODE();
 +
-+import json
-+import os
-+from typing import Optional
-+
-+import iotests
-+from iotests import qemu_img_create, qemu_img_info
-+
-+
-+image_size = 1 * 1024 * 1024
-+imgs = [os.path.join(iotests.test_dir, f'{i}.img') for i in range(0, 4)]
-+
-+mig_sock = os.path.join(iotests.sock_dir, 'mig.sock')
-+
-+
-+class TestPostMigrateFilename(iotests.QMPTestCase):
-+    vm_s: Optional[iotests.VM] = None
-+    vm_d: Optional[iotests.VM] = None
-+
-+    def setUp(self) -> None:
-+        # Create backing chain of three images, where the backing file strings
-+        # are json:{} filenames
-+        qemu_img_create('-f', iotests.imgfmt, imgs[0], str(image_size))
-+        for i in range(1, 3):
-+            backing = {
-+                'driver': iotests.imgfmt,
-+                'file': {
-+                    'driver': 'file',
-+                    'filename': imgs[i - 1]
-+                }
-+            }
-+            qemu_img_create('-f', iotests.imgfmt, '-F', iotests.imgfmt,
-+                            '-b', 'json:' + json.dumps(backing),
-+                            imgs[i], str(image_size))
-+
-+    def tearDown(self) -> None:
-+        if self.vm_s is not None:
-+            self.vm_s.shutdown()
-+        if self.vm_d is not None:
-+            self.vm_d.shutdown()
-+
-+        for img in imgs:
-+            try:
-+                os.remove(img)
-+            except OSError:
-+                pass
-+        try:
-+            os.remove(mig_sock)
-+        except OSError:
-+            pass
-+
-+    def test_migration(self) -> None:
-+        """
-+        Migrate a VM with the backing chain created in setUp() attached.  At
-+        the end of the migration process, the destination will run
-+        bdrv_invalidate_cache(), which for some image formats (qcow2 and qed)
-+        means the backing file string is re-read from the image header.  If
-+        this overwrites bs->auto_backing_file, doing so may cause
-+        bdrv_backing_overridden() to become true: The image header reports a
-+        json:{} filename, but when opening it, bdrv_refresh_filename() will
-+        simplify it to a plain simple filename; and when bs->auto_backing_file
-+        and bs->backing->bs->filename differ, bdrv_backing_overridden() becomes
-+        true.
-+        If bdrv_backing_overridden() is true, the BDS will be forced to get a
-+        json:{} filename, which in general is not the end of the world, but not
-+        great.  Check whether that happens, i.e. whether migration changes the
-+        node's filename.
-+        """
-+
-+        blockdev = {
-+            'node-name': 'node0',
-+            'driver': iotests.imgfmt,
-+            'file': {
-+                'driver': 'file',
-+                'filename': imgs[2]
-+            }
++    for (i = 0; i < qiov->niov; i++) {
++        if ((uintptr_t) qiov->iov[i].iov_base % alignment) {
++            return false;
 +        }
++        if (qiov->iov[i].iov_len % alignment) {
++            return false;
++        }
++    }
 +
-+        self.vm_s = iotests.VM(path_suffix='a') \
-+                           .add_blockdev(json.dumps(blockdev))
-+        self.vm_d = iotests.VM(path_suffix='b') \
-+                           .add_blockdev(json.dumps(blockdev)) \
-+                           .add_incoming(f'unix:{mig_sock}')
++    return true;
++}
 +
-+        assert self.vm_s is not None
-+        assert self.vm_d is not None
-+
-+        self.vm_s.launch()
-+        self.vm_d.launch()
-+
-+        pre_mig_filename = self.vm_s.node_info('node0')['file']
-+
-+        self.vm_s.qmp('migrate', uri=f'unix:{mig_sock}')
-+
-+        # Wait for migration to be done
-+        self.vm_s.event_wait('STOP')
-+        self.vm_d.event_wait('RESUME')
-+
-+        post_mig_filename = self.vm_d.node_info('node0')['file']
-+
-+        # Verify that the filename hasn't changed from before the migration
-+        self.assertEqual(pre_mig_filename, post_mig_filename)
-+
-+        self.vm_s.shutdown()
-+        self.vm_s = None
-+
-+        # For good measure, try creating an overlay and check its backing
-+        # chain below.  This is how the issue was originally found.
-+        result = self.vm_d.qmp('blockdev-snapshot-sync',
-+                               format=iotests.imgfmt,
-+                               snapshot_file=imgs[3],
-+                               node_name='node0',
-+                               snapshot_node_name='node0-overlay')
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.vm_d.shutdown()
-+        self.vm_d = None
-+
-+        # Check the newly created overlay's backing chain
-+        chain = qemu_img_info('--backing-chain', imgs[3])
-+        for index, image in enumerate(chain):
-+            self.assertEqual(image['filename'], imgs[3 - index])
-+
-+
-+if __name__ == '__main__':
-+    # These are the image formats that run their open() function from their
-+    # .bdrv_co_invaliate_cache() implementations, so test them
-+    iotests.main(supported_fmts=['qcow2', 'qed'],
-+                 supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/tests/backing-file-invalidation.out b/tests/qemu-iotests/tests/backing-file-invalidation.out
-new file mode 100644
-index 0000000000..ae1213e6f8
---- /dev/null
-+++ b/tests/qemu-iotests/tests/backing-file-invalidation.out
-@@ -0,0 +1,5 @@
-+.
-+----------------------------------------------------------------------
-+Ran 1 tests
-+
-+OK
+ static int coroutine_fn raw_co_prw(BlockDriverState *bs, uint64_t offset,
+                                    uint64_t bytes, QEMUIOVector *qiov, int type)
+ {
+diff --git a/block/io.c b/block/io.c
+index 51d8f943a4..c3200bcdff 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -3227,27 +3227,6 @@ void *qemu_try_blockalign0(BlockDriverState *bs, size_t size)
+     return mem;
+ }
+ 
+-/*
+- * Check if all memory in this vector is sector aligned.
+- */
+-bool bdrv_qiov_is_aligned(BlockDriverState *bs, QEMUIOVector *qiov)
+-{
+-    int i;
+-    size_t alignment = bdrv_min_mem_align(bs);
+-    IO_CODE();
+-
+-    for (i = 0; i < qiov->niov; i++) {
+-        if ((uintptr_t) qiov->iov[i].iov_base % alignment) {
+-            return false;
+-        }
+-        if (qiov->iov[i].iov_len % alignment) {
+-            return false;
+-        }
+-    }
+-
+-    return true;
+-}
+-
+ void bdrv_io_plug(BlockDriverState *bs)
+ {
+     BdrvChild *child;
 -- 
 2.37.3
 
