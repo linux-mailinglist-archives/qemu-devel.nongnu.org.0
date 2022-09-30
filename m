@@ -2,85 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81335F1458
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 23:08:03 +0200 (CEST)
-Received: from localhost ([::1]:44226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1905F1395
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 22:23:28 +0200 (CEST)
+Received: from localhost ([::1]:39208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeNEo-00032w-Po
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 17:08:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49860)
+	id 1oeMXf-0007DT-Nv
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 16:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeNCe-0000Fp-RW
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 17:05:48 -0400
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:34670)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeNCd-0002Yi-60
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 17:05:48 -0400
-Received: by mail-qk1-x72a.google.com with SMTP id g2so3593076qkk.1
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 14:05:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=A/otbw6KAlpXQOy5Op0Q2AvCLsWSi1dH/8t3Ao2V1mo=;
- b=nfpoToD87Axl+lPIaJvvE5cfhVJF31JGDc9zEjP9jQKDELKDmyi+0+qFyL0PBaloTc
- c7CKaNTnocLiYTlpXjshK/PUWBfJvYLOfp0yZpYiONBHUD4UaLrUatjTTebjPi8WsjfW
- TMLYSmdi4/RytaXI+1jNi5fq4yFcYHeiEVipzGsCIsvcdt7xB0lUZY5w1OjQiqpeOHnM
- ki8+VgI+UomTbsdLoE5gaH5TcIE0wxzdEE4XM2Kyy7OGRv/pF2X1vBjUNhP9K5Y0o661
- fgs73VImu1O8OUpH1pTWUmB1FB/V+UoVmML72cLDY/Rqi+bJdrzK749Wcehlx/GUan5e
- gLNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=A/otbw6KAlpXQOy5Op0Q2AvCLsWSi1dH/8t3Ao2V1mo=;
- b=qKvQuL21cThcO9th73L5pkKAvl/i4jtZpQDBSdAXmkib0Ig71XaodApPyn1M9+qjIS
- hSFGN6lST+dSsSeOgVruSRr3lTqEPIutmufZCThs7A1T/cjJ6Sl24JAKgv8QJdNNO4YZ
- RsLlnOkNZJjtxs7p0EORIiPj90psB9xm0sPhYTyYbOPwmqt7BSiGeRqhLCJtQI7HVvZy
- TDeteEzZRXoa6jjstH/K2Si/hdR2bm1F+0W0B2RubJt5kpmFZJYuqmRgw95gLsGgrG84
- 8sD+yBtaId6Zu4ijMnmfUXZ3bVYBeZ0HxK7IXSXlOUM/6Q2GYXbXCkI3A9HWHG4ezQ/T
- NnlA==
-X-Gm-Message-State: ACrzQf3YM8PU7HqTZ+0RCXOay6wkNU7VSCsI+ssdOEYpBt2xdpkT78c0
- bcpR9t57c4F+VTtj+u2vqfFNNAIUz+iOZg==
-X-Google-Smtp-Source: AMsMyM6+goNDBRwwFsc6XTd3zIW9Ih2x2Z6im+yyt4H9uhqwpxl4gHLjoNbeMMZsGb2Zka5XDvuUxw==
-X-Received: by 2002:a37:aa4d:0:b0:6cd:7fc7:7217 with SMTP id
- t74-20020a37aa4d000000b006cd7fc77217mr7430797qke.193.1664571946324; 
- Fri, 30 Sep 2022 14:05:46 -0700 (PDT)
-Received: from ?IPV6:2605:ef80:80a1:5a60:d0d7:468b:5667:114b?
- ([2605:ef80:80a1:5a60:d0d7:468b:5667:114b])
- by smtp.gmail.com with ESMTPSA id
- t2-20020a05620a450200b006b61b2cb1d2sm3252106qkp.46.2022.09.30.14.05.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Sep 2022 14:05:45 -0700 (PDT)
-Message-ID: <236d72a7-c7e8-cb63-339c-acd0adcaaa71@linaro.org>
-Date: Fri, 30 Sep 2022 13:16:22 -0700
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1oeMWB-0004WI-UJ; Fri, 30 Sep 2022 16:21:55 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:32967)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1oeMWA-0004aq-4n; Fri, 30 Sep 2022 16:21:55 -0400
+Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue109
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MvJsF-1pUx0F1VLt-00rFwl; Fri, 30
+ Sep 2022 22:21:46 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 0/8] Trivial branch for 7.2 patches
+Date: Fri, 30 Sep 2022 22:21:36 +0200
+Message-Id: <20220930202144.1109310-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] Hexagon (gen_tcg_funcs.py): avoid duplicated tcg code on
- A_CVI_NEW
-Content-Language: en-US
-To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>,
- qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com
-References: <fa706b192b2a3a0ffbd399fa8dbf0d5b2c5b82d9.1664568492.git.quic_mathbern@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <fa706b192b2a3a0ffbd399fa8dbf0d5b2c5b82d9.1664568492.git.quic_mathbern@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72a.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.583,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:B4vW5OmhCq6SyGacy58LbFS0/QJMlWvimpYsl3Qmu011c/cEYaS
+ eIvod/jJChK3V+VN7UhyNVkLmwxIj9hOapGTc+ZMEwdMt4Oxp5RoFaFpZtwIUjQMT8CaI3Q
+ q675An8CG/q73z+v3140ATfZCCwn+NkH3kO1Pl5GgdcHwXM3QGL7hUeNuZpnq2d7am7W4CQ
+ LzhjQOPOeXMpyJZHTCBcg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cMnAHlUWubE=:XtUmd69tPEn+233WN77/1g
+ jsLjEJH0FKPaoRbCd7ZTUWirdvcIWnvMEOCe8sVdujTreTVR27ygRO6yaB9p2a6uZByk9vmzu
+ NAshfSfJf9vVa9K/xZlPCta06lDPbIagmJUnLI0thcWjfkzVN22jobAT2dM9t0+BIzmWsO9c4
+ 4hhx7Kgd9gtqVFY/dTa4rq4J1ZQOY4amM7VjNmDW1uLJ+5o2QsyF1n9LXEOsAA078EvOYYFAU
+ YV0MeDcR8Po6aaY+Y5D4EsoHdXdioRuUVbihUwIcSRMbTIMsl1eY8KuWJxtaF0M+yoqowedo4
+ KOLIdw3jVWqSjyeh+QDJTLdnbiDoE6yA+DqRIZoJeARQiId3bSqVHhYS6XYVG4w0z3y7lTlxj
+ R5Uigf0iYXImrY1YhjivLlS14PztikFIJbvJ+eGYp5n+JCYSCxQt+srlbVEwI0OlCXO7/k722
+ OxgY3la5JD9uMNEN6oVHXT/rRuulhvv41Z01OIjHX0QtMbHNXmnPmqBr9oQCyMa/mel50jqn6
+ RbBsFGE0M5TriSAN1Qp8WJT/0fWUyjMeSMPgThHaRum2ZibtlCeCgphiupNTKD4QF4jMMqrve
+ khUhb+U9hCQA/a/TKG1l5rfJRw4aCmP/sAiX61D2yIWbII0av/7I8x9WIGnQRuv02LlG0ePNA
+ aPFprVmsG0n1csevTT/4TZZScV0+rMoS5sumzRaTIcw6xB5Wij7eJgf79ISrlzh9krEWE9AZ7
+ agCa31BWL6RgpPROGsassnGTf7Ss8c7w3CewwtnW0qtDhjreI6QBs+39CdFtwEUE/7dVhXZYm
+ Sdobr0I
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,36 +70,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/30/22 13:08, Matheus Tavares Bernardino wrote:
-> Hexagon instructions with the A_CVI_NEW attribute produce a vector value
-> that can be used in the same packet. The python function responsible for
-> generating code for such instructions has a typo ("if" instead of
-> "elif"), which makes genptr_dst_write_ext() be executed twice, thus also
-> generating the same tcg code twice. Fortunately, this doesn't cause any
-> problems for correctness, but it is less efficient than it could be. Fix
-> it by using an "elif" and avoiding the unnecessary extra code gen.
-> 
-> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
-> ---
->   target/hexagon/gen_tcg_funcs.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/hexagon/gen_tcg_funcs.py b/target/hexagon/gen_tcg_funcs.py
-> index d72c689ad7..6dea02b0b9 100755
-> --- a/target/hexagon/gen_tcg_funcs.py
-> +++ b/target/hexagon/gen_tcg_funcs.py
-> @@ -548,7 +548,7 @@ def genptr_dst_write_opn(f,regtype, regid, tag):
->           if (hex_common.is_hvx_reg(regtype)):
->               if (hex_common.is_new_result(tag)):
->                   genptr_dst_write_ext(f, tag, regtype, regid, "EXT_NEW")
-> -            if (hex_common.is_tmp_result(tag)):
-> +            elif (hex_common.is_tmp_result(tag)):
->                   genptr_dst_write_ext(f, tag, regtype, regid, "EXT_TMP")
->               else:
->                   genptr_dst_write_ext(f, tag, regtype, regid, "EXT_DFL")
+The following changes since commit c8de6ec63d766ca1998c5af468483ce912fdc0c2:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Merge tag 'pull-request-2022-09-28' of https://gitlab.com/thuth/qemu into staging (2022-09-28 17:04:11 -0400)
 
+are available in the Git repository at:
 
-r~
+  https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-7.2-pull-request
+
+for you to fetch changes up to a40ee29bbf3c169597d85f0871d189398b667d9f:
+
+  docs: Update TPM documentation for usage of a TPM 2 (2022-09-29 21:31:56 +0200)
+
+----------------------------------------------------------------
+Pull request trivial patches branch 20220930
+
+----------------------------------------------------------------
+
+Bernhard Beschow (1):
+  hw/virtio/vhost-shadow-virtqueue: Silence GCC error
+    "maybe-uninitialized"
+
+Markus Armbruster (2):
+  Drop superfluous conditionals around g_free()
+  Use g_new() & friends where that makes obvious sense
+
+Matheus Tavares Bernardino (1):
+  checkpatch: ignore target/hexagon/imported/* files
+
+Philippe Mathieu-Daudé via (1):
+  block/qcow2-bitmap: Add missing cast to silent GCC error
+
+Stefan Berger (1):
+  docs: Update TPM documentation for usage of a TPM 2
+
+Tong Zhang (1):
+  mem/cxl_type3: fix GPF DVSEC
+
+Wang, Lei (1):
+  .gitignore: add .cache/ to .gitignore
+
+ .gitignore                         |  1 +
+ block/qcow2-bitmap.c               |  2 +-
+ docs/specs/tpm.rst                 | 44 ++++++++++++++++--------------
+ hw/mem/cxl_type3.c                 |  2 +-
+ hw/remote/iommu.c                  |  2 +-
+ hw/virtio/vhost-shadow-virtqueue.c |  2 +-
+ hw/virtio/virtio-crypto.c          |  2 +-
+ migration/dirtyrate.c              |  4 +--
+ replay/replay.c                    |  6 ++--
+ scripts/checkpatch.pl              |  1 +
+ softmmu/dirtylimit.c               |  4 +--
+ target/i386/kvm/kvm.c              | 12 +++-----
+ target/i386/whpx/whpx-all.c        | 14 ++++------
+ 13 files changed, 47 insertions(+), 49 deletions(-)
+
+-- 
+2.37.3
+
 
