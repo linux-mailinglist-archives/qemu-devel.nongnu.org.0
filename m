@@ -2,101 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B095F11B8
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 20:41:08 +0200 (CEST)
-Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7025F11C2
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 20:44:48 +0200 (CEST)
+Received: from localhost ([::1]:46862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeKwd-0006CD-CF
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 14:41:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49360)
+	id 1oeL0B-00031c-Am
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 14:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1oeKuP-0004FG-Kf; Fri, 30 Sep 2022 14:38:49 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15360)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1oeKxc-0006i3-Vg
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 14:42:09 -0400
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131]:14312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1oeKuM-00066V-VP; Fri, 30 Sep 2022 14:38:48 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28UHFEPb013035;
- Fri, 30 Sep 2022 18:38:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=vSZ8Cy34SKqAVqgX9fIzge5QMYBkDb8vn7qVn+sN6hQ=;
- b=EDm+MNUr1kXvvVql1pnTU6VyQh5a4n7ZMzZxg9SqCtpqlA+hGcWCnuVxQcuZFhdq6L0+
- iwSMOgiIb8JSvvSEx4bt4s3ywHo7PsMQwy+eoi36fBplrJJtHvIygVALWl1jP+HJDVH2
- gAVqH923m2cSaihcX5KVvIvj06ipMtInGQjmXRmDU3EFZECeiEuL5WyP237NTTr02+lt
- N0wJBx4/1h5KrbBihvGw9g1uOhoGtFb6L28tYFwYv5/Whk5T0l7R3R1vzkIyI8whhaXM
- 5wiAlAR4ngj3IsWivqqdRpAZQ5fTG0QryvxNnV/ulwTAzsMLEL/2v4qZttaOlRCLj7Ry iA== 
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1oeKxa-0006Zg-Ct
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 14:42:07 -0400
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28UI1Xji018536;
+ Fri, 30 Sep 2022 18:42:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=Q4QGeJWOvfEP3b7XuAH/cVYJO4BBOzCzxYJrowtZe7w=;
+ b=H0y3UIafng0c3fyxHGS86m/QCNOCKC21OvsISe6Z04Y8xYxUhagwUkwsO3yyrRmvc/Oa
+ gaP6BsOUfxaFZoBEcsTLu2qMO2n2Rk2gqw1Q8UmUhxt/vQEGxCK1DR9TEBdYUqIPRE1Y
+ q50cpu0+N75Mb3X18MqDEiKPaQYBYgZRLAbXQHLq2sbqKaHnoB9V/I7VftdqBx+V3Asr
+ aS8t4IxJG1+z2oU6L/OpmbQ4h4c+w7bt0tSGihE8EarJ1EfMxr+BqYplBEUvinZYGQb1
+ xq96T5PF3XyQeogs6BZjG42nfqXoRn0IeXKI8+tyKyKcnfkdsGi49sCqs91VNnqNqhzI bw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jwegf40c7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Sep 2022 18:42:01 +0000
+Received: from pps.filterd (NALASPPMTA03.qualcomm.com [127.0.0.1])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 28UIbcQ1031462; 
+ Fri, 30 Sep 2022 18:42:00 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jx4pkj1bj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Sep 2022 18:38:35 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28UIXCLd008803;
- Fri, 30 Sep 2022 18:38:35 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3jx4pkj1ba-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Sep 2022 18:38:35 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28UIabI8008473;
- Fri, 30 Sep 2022 18:38:34 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma04dal.us.ibm.com with ESMTP id 3jsshbmm8c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Sep 2022 18:38:34 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com ([9.208.128.116])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 28UIcX551507952
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Sep 2022 18:38:33 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C99F158050;
- Fri, 30 Sep 2022 18:38:32 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1E45C58045;
- Fri, 30 Sep 2022 18:38:32 +0000 (GMT)
-Received: from localhost (unknown [9.160.76.206])
- by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
- Fri, 30 Sep 2022 18:38:31 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
- Ferst <matheus.ferst@eldorado.org.br>
-Subject: Re: [RFC PATCH v2 11/29] target/ppc: add power-saving interrupt
- masking logic to p9_next_unmasked_interrupt
-In-Reply-To: <20220927201544.4088567-12-matheus.ferst@eldorado.org.br>
-References: <20220927201544.4088567-1-matheus.ferst@eldorado.org.br>
- <20220927201544.4088567-12-matheus.ferst@eldorado.org.br>
-Date: Fri, 30 Sep 2022 15:38:29 -0300
-Message-ID: <87o7uw672y.fsf@linux.ibm.com>
+ by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 3jwt90jxr4-1;
+ Fri, 30 Sep 2022 18:42:00 +0000
+Received: from NALASPPMTA03.qualcomm.com (NALASPPMTA03.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28UIg01Y003505;
+ Fri, 30 Sep 2022 18:42:00 GMT
+Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
+ [10.47.235.220])
+ by NALASPPMTA03.qualcomm.com (PPS) with ESMTP id 28UIg0WI003498;
+ Fri, 30 Sep 2022 18:42:00 +0000
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
+ id 07E325000A7; Fri, 30 Sep 2022 11:42:00 -0700 (PDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, f4bug@amsat.org,
+ peter.maydell@linaro.org, bcain@quicinc.com, quic_mathbern@quicinc.com,
+ stefanha@redhat.com
+Subject: [PULL v2 0/3] Hexagon (target/hexagon) improve store handling
+Date: Fri, 30 Sep 2022 11:41:54 -0700
+Message-Id: <20220930184157.30429-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 2sTCjqGDX8nLPku1QwIUTo5xn8sy2Gdh
-X-Proofpoint-ORIG-GUID: -QIYb1HMKWv8NWuCoUf1O8eoQ4iV9DOz
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: i6OoyiD49xi5GZA_L4r-u5SfWAlmmzby
+X-Proofpoint-ORIG-GUID: i6OoyiD49xi5GZA_L4r-u5SfWAlmmzby
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
  definitions=2022-09-30_04,2022-09-29_03,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 phishscore=0 mlxscore=0
- spamscore=0 clxscore=1015 adultscore=0 impostorscore=0 mlxlogscore=582
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209300116
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ bulkscore=0 mlxscore=0
+ lowpriorityscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
+ impostorscore=0 mlxlogscore=432 suspectscore=0 phishscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2209300117
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=tsimpson@qualcomm.com; helo=mx0b-0031df01.pphosted.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,145 +106,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
-
-> Export p9_interrupt_powersave and use it in p9_next_unmasked_interrupt.
->
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
-> Temporarily putting the prototype in internal.h for lack of a better place,
-> we will un-export p9_interrupt_powersave in future patches.
-> ---
->  target/ppc/cpu_init.c    |  2 +-
->  target/ppc/excp_helper.c | 46 ++++++++++++++++++++++++++++------------
->  target/ppc/internal.h    |  4 ++++
->  3 files changed, 38 insertions(+), 14 deletions(-)
->
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 1f8f6c6ef2..7889158c52 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -6351,7 +6351,7 @@ static bool ppc_pvr_match_power9(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
->      return false;
->  }
->  
-> -static int p9_interrupt_powersave(CPUPPCState *env)
-> +int p9_interrupt_powersave(CPUPPCState *env)
->  {
->      /* External Exception */
->      if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 67e73f30ab..5a0d2c11a2 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -1686,28 +1686,39 @@ void ppc_cpu_do_interrupt(CPUState *cs)
->  
->  static int p9_next_unmasked_interrupt(CPUPPCState *env)
->  {
-> -    bool async_deliver;
-> +    PowerPCCPU *cpu = env_archcpu(env);
-> +    CPUState *cs = CPU(cpu);
-> +    /* Ignore MSR[EE] when coming out of some power management states */
-> +    bool msr_ee = FIELD_EX64(env->msr, MSR, EE) || env->resume_as_sreset;
->  
->      assert((env->pending_interrupts & P9_UNUSED_INTERRUPTS) == 0);
->  
-> +    if (cs->halted) {
-> +        if (env->spr[SPR_PSSCR] & PSSCR_EC) {
-> +            /*
-> +             * When PSSCR[EC] is set, LPCR[PECE] controls which interrupts can
-> +             * wakeup the processor
-> +             */
-> +            return p9_interrupt_powersave(env);
-> +        } else {
-> +            /*
-> +             * When it's clear, any system-caused exception exits power-saving
-> +             * mode, even the ones that gate on MSR[EE].
-> +             */
-> +            msr_ee = true;
-> +        }
-> +    }
-> +
->      /* Machine check exception */
->      if (env->pending_interrupts & PPC_INTERRUPT_MCK) {
->          return PPC_INTERRUPT_MCK;
->      }
->  
-> -    /*
-> -     * For interrupts that gate on MSR:EE, we need to do something a
-> -     * bit more subtle, as we need to let them through even when EE is
-> -     * clear when coming out of some power management states (in order
-> -     * for them to become a 0x100).
-> -     */
-> -    async_deliver = FIELD_EX64(env->msr, MSR, EE) || env->resume_as_sreset;
-> -
-
-You could simplify the code below if you bail early here when !msr_ee.
-
->      /* Hypervisor decrementer exception */
->      if (env->pending_interrupts & PPC_INTERRUPT_HDECR) {
->          /* LPCR will be clear when not supported so this will work */
->          bool hdice = !!(env->spr[SPR_LPCR] & LPCR_HDICE);
-> -        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hdice) {
-> +        if ((msr_ee || !FIELD_EX64_HV(env->msr)) && hdice) {
->              /* HDEC clears on delivery */
->              return PPC_INTERRUPT_HDECR;
->          }
-> @@ -1717,7 +1728,7 @@ static int p9_next_unmasked_interrupt(CPUPPCState *env)
->      if (env->pending_interrupts & PPC_INTERRUPT_HVIRT) {
->          /* LPCR will be clear when not supported so this will work */
->          bool hvice = !!(env->spr[SPR_LPCR] & LPCR_HVICE);
-> -        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hvice) {
-> +        if ((msr_ee || !FIELD_EX64_HV(env->msr)) && hvice) {
->              return PPC_INTERRUPT_HVIRT;
->          }
->      }
-> @@ -1727,13 +1738,13 @@ static int p9_next_unmasked_interrupt(CPUPPCState *env)
->          bool lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
->          bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
->          /* HEIC blocks delivery to the hypervisor */
-> -        if ((async_deliver && !(heic && FIELD_EX64_HV(env->msr) &&
-> +        if ((msr_ee && !(heic && FIELD_EX64_HV(env->msr) &&
->              !FIELD_EX64(env->msr, MSR, PR))) ||
->              (env->has_hv_mode && !FIELD_EX64_HV(env->msr) && !lpes0)) {
->              return PPC_INTERRUPT_EXT;
->          }
->      }
-> -    if (async_deliver != 0) {
-> +    if (msr_ee != 0) {
->          /* Decrementer exception */
->          if (env->pending_interrupts & PPC_INTERRUPT_DECR) {
->              return PPC_INTERRUPT_DECR;
-> @@ -1895,6 +1906,15 @@ static void p9_deliver_interrupt(CPUPPCState *env, int interrupt)
->      PowerPCCPU *cpu = env_archcpu(env);
->      CPUState *cs = env_cpu(env);
->  
-> +    if (cs->halted && !(env->spr[SPR_PSSCR] & PSSCR_EC) &&
-> +        !FIELD_EX64(env->msr, MSR, EE)) {
-> +        /*
-> +         * A pending interrupt took us out of power-saving, but MSR[EE] says
-> +         * that we should return to NIP+4 instead of delivering it.
-> +         */
-> +        return;
-
-How will the NIP be advanced in this case?
-
-> +    }
-> +
->      switch (interrupt) {
->      case PPC_INTERRUPT_MCK: /* Machine check exception */
->          env->pending_interrupts &= ~PPC_INTERRUPT_MCK;
-> diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-> index 337a362205..41e79adfdb 100644
-> --- a/target/ppc/internal.h
-> +++ b/target/ppc/internal.h
-> @@ -306,4 +306,8 @@ static inline int ger_pack_masks(int pmsk, int ymsk, int xmsk)
->      return msk;
->  }
->  
-> +#if defined(TARGET_PPC64)
-> +int p9_interrupt_powersave(CPUPPCState *env);
-> +#endif
-> +
->  #endif /* PPC_INTERNAL_H */
+VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCBjOGRlNmVjNjNkNzY2Y2ExOTk4YzVh
+ZjQ2ODQ4M2NlOTEyZmRjMGMyOgoKICBNZXJnZSB0YWcgJ3B1bGwtcmVxdWVzdC0yMDIyLTA5LTI4
+JyBvZiBodHRwczovL2dpdGxhYi5jb20vdGh1dGgvcWVtdSBpbnRvIHN0YWdpbmcgKDIwMjItMDkt
+MjggMTc6MDQ6MTEgLTA0MDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBh
+dDoKCiAgaHR0cHM6Ly9naXRodWIuY29tL3F1aWMvcWVtdSB0YWdzL3B1bGwtaGV4LTIwMjIwOTMw
+Cgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gNjYxYWQ5OTljNTU0ZDFjYzk5ZmY5NmIz
+YmFmM2ZmNGFjYmUyZWNlZToKCiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIG1vdmUgc3RvcmUg
+c2l6ZSB0cmFja2luZyB0byB0cmFuc2xhdGlvbiAoMjAyMi0wOS0zMCAxMToyNTozNyAtMDcwMCkK
+Ci0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0KTWFrZSBzdG9yZSBoYW5kbGluZyBmYXN0ZXIgYW5kIG1vcmUgcm9idXN0CgotLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tClRheWxvciBTaW1wc29uICgzKToKICAgICAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIGFk
+ZCBpbnN0cnVjdGlvbiBhdHRyaWJ1dGVzIGZyb20gYXJjaGxpYgogICAgICBIZXhhZ29uICh0YXJn
+ZXQvaGV4YWdvbikgQ2hhbmdlIGRlY2lzaW9uIHRvIHNldCBwa3RfaGFzX3N0b3JlX3NbMDFdCiAg
+ICAgIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBtb3ZlIHN0b3JlIHNpemUgdHJhY2tpbmcgdG8g
+dHJhbnNsYXRpb24KCiB0YXJnZXQvaGV4YWdvbi9tYWNyb3MuaCAgICAgICAgICAgICAgIHwgICA4
+ICstLQogdGFyZ2V0L2hleGFnb24vYXR0cmlic19kZWYuaC5pbmMgICAgICB8ICAzOCArKysrKysr
+KysrLQogdGFyZ2V0L2hleGFnb24vZGVjb2RlLmMgICAgICAgICAgICAgICB8ICAxMyArKy0tCiB0
+YXJnZXQvaGV4YWdvbi9nZW5wdHIuYyAgICAgICAgICAgICAgIHwgIDM2ICsrKystLS0tLS0KIHRh
+cmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5jICAgICAgICAgICAgfCAgMzUgKysrKysrKystLQogdGFy
+Z2V0L2hleGFnb24vaGV4X2NvbW1vbi5weSAgICAgICAgICB8ICAgMyArLQogdGFyZ2V0L2hleGFn
+b24vaW1wb3J0ZWQvbGRzdC5pZGVmICAgICB8IDEyMiArKysrKysrKysrKysrKysrKy0tLS0tLS0t
+LS0tLS0tLS0tCiB0YXJnZXQvaGV4YWdvbi9pbXBvcnRlZC9zdWJpbnNucy5pZGVmIHwgIDcyICsr
+KysrKysrKystLS0tLS0tLS0tCiA4IGZpbGVzIGNoYW5nZWQsIDE5MSBpbnNlcnRpb25zKCspLCAx
+MzYgZGVsZXRpb25zKC0pCg==
 
