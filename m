@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1B35F02F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 04:48:23 +0200 (CEST)
-Received: from localhost ([::1]:33240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024915F02F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 04:51:06 +0200 (CEST)
+Received: from localhost ([::1]:52506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oe64c-0006tC-2E
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 22:48:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56512)
+	id 1oe67F-0001Q7-4L
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 22:51:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oe61f-00045L-NU
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 22:45:19 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:49234 helo=loongson.cn)
+ id 1oe61g-00045g-Ta
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 22:45:20 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:49242 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oe61d-0002jV-4k
- for qemu-devel@nongnu.org; Thu, 29 Sep 2022 22:45:19 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1oe61d-0002jW-F7
+ for qemu-devel@nongnu.org; Thu, 29 Sep 2022 22:45:20 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxFeI2WDZjJAckAA--.4665S3; 
+ AQAAf8AxFeI2WDZjJAckAA--.4665S4; 
  Fri, 30 Sep 2022 10:45:13 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
  alex.bennee@linaro.org, yangxiaojuan@loongson.cn, maobibo@Loongson.cn,
  huqi@loongson.cn
-Subject: [PATCH v3 1/3] target/loongarch: bstrins.w src register need EXT_NONE
-Date: Fri, 30 Sep 2022 10:45:08 +0800
-Message-Id: <20220930024510.800005-2-gaosong@loongson.cn>
+Subject: [PATCH v3 2/3] target/loongarch: Fix fnm{sub/add}_{s/d} set wrong
+ flags
+Date: Fri, 30 Sep 2022 10:45:09 +0800
+Message-Id: <20220930024510.800005-3-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220930024510.800005-1-gaosong@loongson.cn>
 References: <20220930024510.800005-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxFeI2WDZjJAckAA--.4665S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxXFykJFyrKrWrJrW8Xw1rXrb_yoW5XFW5pF
- yUCry8Kr4UXas3Zr92va1DuFnrXFs5Kw47WayIk34rCay5Xr1jgr4xK39I9ry8trs5X3yv
- yFs5uryjga1UJ37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf8AxFeI2WDZjJAckAA--.4665S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFWDCr1UXrWkGr1xWF13CFg_yoW8Ww4xpr
+ 17CrnrKr4UJay8ZwnFgasFyr97Xr4qqw10q3Z7tFyYyr4Yqa9F9ayrKayq9FWruw10gF48
+ Aa1jkw12kws8GFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -63,75 +64,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-use gen_bstrins/gen_bstrpic to replace gen_rr_ms_ls.
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/insn_trans/trans_bit.c.inc | 36 +++++++++++++--------
- 1 file changed, 22 insertions(+), 14 deletions(-)
+ target/loongarch/insn_trans/trans_farith.c.inc | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/target/loongarch/insn_trans/trans_bit.c.inc b/target/loongarch/insn_trans/trans_bit.c.inc
-index 9337714ec4..b01e4aeb23 100644
---- a/target/loongarch/insn_trans/trans_bit.c.inc
-+++ b/target/loongarch/insn_trans/trans_bit.c.inc
-@@ -27,26 +27,34 @@ static void gen_bytepick_d(TCGv dest, TCGv src1, TCGv src2, target_long sa)
-     tcg_gen_extract2_i64(dest, src1, src2, (64 - sa * 8));
- }
- 
--static void gen_bstrins(TCGv dest, TCGv src1,
--                        unsigned int ls, unsigned int len)
-+static bool gen_bstrins(DisasContext *ctx, arg_rr_ms_ls *a,
-+                        DisasExtend dst_ext)
- {
--    tcg_gen_deposit_tl(dest, dest, src1, ls, len);
-+    TCGv src1 = gpr_src(ctx, a->rd, EXT_NONE);
-+    TCGv src2 = gpr_src(ctx, a->rj, EXT_NONE);
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+
-+    if (a->ls > a->ms) {
-+        return false;
-+    }
-+
-+    tcg_gen_deposit_tl(dest, src1, src2, a->ls, a->ms - a->ls + 1);
-+    gen_set_gpr(a->rd, dest, dst_ext);
-+    return true;
- }
- 
--static bool gen_rr_ms_ls(DisasContext *ctx, arg_rr_ms_ls *a,
--                         DisasExtend src_ext, DisasExtend dst_ext,
--                         void (*func)(TCGv, TCGv, unsigned int, unsigned int))
-+static bool gen_bstrpick(DisasContext *ctx, arg_rr_ms_ls *a,
-+                         DisasExtend dst_ext)
- {
--    TCGv dest = gpr_dst(ctx, a->rd, dst_ext);
--    TCGv src1 = gpr_src(ctx, a->rj, src_ext);
-+    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-+    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
- 
-     if (a->ls > a->ms) {
-         return false;
-     }
- 
--    func(dest, src1, a->ls, a->ms - a->ls + 1);
-+    tcg_gen_extract_tl(dest, src1, a->ls, a->ms - a->ls + 1);
-     gen_set_gpr(a->rd, dest, dst_ext);
--
-     return true;
- }
- 
-@@ -206,7 +214,7 @@ TRANS(maskeqz, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_maskeqz)
- TRANS(masknez, gen_rrr, EXT_NONE, EXT_NONE, EXT_NONE, gen_masknez)
- TRANS(bytepick_w, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_w)
- TRANS(bytepick_d, gen_rrr_sa, EXT_NONE, EXT_NONE, gen_bytepick_d)
--TRANS(bstrins_w, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
--TRANS(bstrins_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, gen_bstrins)
--TRANS(bstrpick_w, gen_rr_ms_ls, EXT_NONE, EXT_SIGN, tcg_gen_extract_tl)
--TRANS(bstrpick_d, gen_rr_ms_ls, EXT_NONE, EXT_NONE, tcg_gen_extract_tl)
-+TRANS(bstrins_w, gen_bstrins, EXT_SIGN)
-+TRANS(bstrins_d, gen_bstrins, EXT_NONE)
-+TRANS(bstrpick_w, gen_bstrpick, EXT_SIGN)
-+TRANS(bstrpick_d, gen_bstrpick, EXT_NONE)
+diff --git a/target/loongarch/insn_trans/trans_farith.c.inc b/target/loongarch/insn_trans/trans_farith.c.inc
+index 65ad2ffab8..7bb3f41aee 100644
+--- a/target/loongarch/insn_trans/trans_farith.c.inc
++++ b/target/loongarch/insn_trans/trans_farith.c.inc
+@@ -97,9 +97,9 @@ TRANS(fmadd_s, gen_muladd, gen_helper_fmuladd_s, 0)
+ TRANS(fmadd_d, gen_muladd, gen_helper_fmuladd_d, 0)
+ TRANS(fmsub_s, gen_muladd, gen_helper_fmuladd_s, float_muladd_negate_c)
+ TRANS(fmsub_d, gen_muladd, gen_helper_fmuladd_d, float_muladd_negate_c)
+-TRANS(fnmadd_s, gen_muladd, gen_helper_fmuladd_s,
+-      float_muladd_negate_product | float_muladd_negate_c)
+-TRANS(fnmadd_d, gen_muladd, gen_helper_fmuladd_d,
+-      float_muladd_negate_product | float_muladd_negate_c)
+-TRANS(fnmsub_s, gen_muladd, gen_helper_fmuladd_s, float_muladd_negate_product)
+-TRANS(fnmsub_d, gen_muladd, gen_helper_fmuladd_d, float_muladd_negate_product)
++TRANS(fnmadd_s, gen_muladd, gen_helper_fmuladd_s, float_muladd_negate_result)
++TRANS(fnmadd_d, gen_muladd, gen_helper_fmuladd_d, float_muladd_negate_result)
++TRANS(fnmsub_s, gen_muladd, gen_helper_fmuladd_s,
++      float_muladd_negate_c | float_muladd_negate_result)
++TRANS(fnmsub_d, gen_muladd, gen_helper_fmuladd_d,
++      float_muladd_negate_c | float_muladd_negate_result)
 -- 
 2.31.1
 
