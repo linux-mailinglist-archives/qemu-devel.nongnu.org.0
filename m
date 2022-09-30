@@ -2,102 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57EE65F0F62
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 17:58:15 +0200 (CEST)
-Received: from localhost ([::1]:35262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669145F0FC8
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 18:21:23 +0200 (CEST)
+Received: from localhost ([::1]:40418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeIP0-0000ak-6D
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 11:58:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59654)
+	id 1oeIlM-00068p-Nf
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 12:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1oeIN9-0007NL-JE; Fri, 30 Sep 2022 11:56:19 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6530
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1oeIN7-0004jH-4S; Fri, 30 Sep 2022 11:56:19 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28UFonYa004436;
- Fri, 30 Sep 2022 15:55:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=sTx6ifex173AYEMzEDBvFk0iLRWjHnOfaOaQWveyL2Q=;
- b=Gd3eJCEpVZYf23dUhhUdcgMKOwJoqvYVg7NJm2ROMFGckr+C/VWWZS6Od+s8ffSnha2U
- RDyCgJbgfjxH1sWlwOedXKjvg347y2PsizmXSfVyjyknqL60IUSCYDoOIXRJA3JTZ/Wg
- MRUhruJoT0nakPmh2+Us97h5R/kha2QZiQSXlPoDakqOrzGbYm8KnUP9pBeIAz6FQR1N
- 2T+dGvbqLx4N1RFy4NInJ5NxwdCV5uPvO4KHEdcwMkbQxsIMovcc+gJmqFP6H7kBxG3Q
- kY9hhACD5mLgEBtJ+aYHN7zaLXZt5VRPBS9aXGXdbglSJjkQX3SsCYX2f7rbHZlrVzvf Dw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3jx3f5g4a4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Sep 2022 15:55:58 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28UFstiK022224;
- Fri, 30 Sep 2022 15:55:57 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3jx3f5g49r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Sep 2022 15:55:57 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 28UFpO3h019832;
- Fri, 30 Sep 2022 15:55:57 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma05wdc.us.ibm.com with ESMTP id 3jssha9bvf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Sep 2022 15:55:57 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com ([9.208.128.115])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 28UFttha3277382
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Sep 2022 15:55:56 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BA9E758055;
- Fri, 30 Sep 2022 15:55:55 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0A8AE5804E;
- Fri, 30 Sep 2022 15:55:55 +0000 (GMT)
-Received: from localhost (unknown [9.160.76.206])
- by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
- Fri, 30 Sep 2022 15:55:54 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
- Ferst <matheus.ferst@eldorado.org.br>
-Subject: Re: [RFC PATCH v2 03/29] target/ppc: split interrupt masking and
- delivery from ppc_hw_interrupt
-In-Reply-To: <20220927201544.4088567-4-matheus.ferst@eldorado.org.br>
-References: <20220927201544.4088567-1-matheus.ferst@eldorado.org.br>
- <20220927201544.4088567-4-matheus.ferst@eldorado.org.br>
-Date: Fri, 30 Sep 2022 12:55:52 -0300
-Message-ID: <87tu4o6elz.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1oeIfJ-0003Ix-J0
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:15:05 -0400
+Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:35354)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1oeIfF-0007W9-0i
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:15:02 -0400
+Received: by mail-lj1-x22a.google.com with SMTP id x29so5314220ljq.2
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 09:14:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=GtlSJkLXw2SNcPVROAD1SJDnwutfnbZAayHj4onnywk=;
+ b=DOMyGYFKf+TZsvY4xp2ON3TIpgoHPlU49dDhE2e+lblBc8uIrSThwS/2igACfNwrxT
+ B80A327TY7zTQhfHZWcTomLg9RP5BFCafC1G5Xq0tQ7fwoJvvStDoxT0G2gxcG663JP2
+ Fs7G3g4B/VZpF4ch3hxit7Ug+GQ+GOdS/DQOAl43rZESxPq8F6OkxZ3VQDuWTfhZaVv4
+ SIQHFtGYvuP6RLRGuDR8p9bpU8nbzmLRHnOHWxhEywjmhLPHJS0aPcx7Quodth6mnW/e
+ VlopEFYGcfN96ScGyCOubqRcKtcTue5tCsqbI81iqfPNUwyTk6FXx34dym02k3Ilq/RK
+ sZ/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=GtlSJkLXw2SNcPVROAD1SJDnwutfnbZAayHj4onnywk=;
+ b=Pq3TqQ99TKKivp0/BLeqLyZMycW53XFlc7f1BNdssfV6BjObdgDQjAh61ulztkcCFr
+ /WC1V3BaUn9qJYWlQBa7LcR5pDxTbBlCAOHYaUXyhi6lOwPSX+qFYBk79Da8WBWpzp64
+ Vxd66iuOKz+rlVWVr44sL/8Bo3Jhaf/vS0oCeTbvI6boVECTY+zJ/1z/I/XVkrS/KmBV
+ pFjIXmBSpOgnJ5zW0R/N8akxtqahC4aZ6mT9JdTO3buug7ohiApNFPBepCp+zJcJX1Oi
+ rNYv1Ffum+aPzjOvdqUw8WpL10T3/4p3WO5O7gWKUkTLuPC13EeIcpxSKNgRDjpXYB7Z
+ Berw==
+X-Gm-Message-State: ACrzQf0stm631ZS3eS1dkTm5eIEAr/YkNbpBOxsUvYtg8W+UrnOOzELm
+ O4VJBA9Ufj5TE1UWh0YRxIigU8OAcsndaX+fA1NJFw==
+X-Google-Smtp-Source: AMsMyM7jpq+XBzS300JrKAbZeYDxFloAXMmPfSxwUISYLv3b6zRl+QtVRiHq6i7/nDDb8l/3nFMe7wpgyR1WcsBFjoI=
+X-Received: by 2002:a05:651c:1508:b0:26c:622e:abe1 with SMTP id
+ e8-20020a05651c150800b0026c622eabe1mr3044232ljf.228.1664554497777; Fri, 30
+ Sep 2022 09:14:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 1ksFxukfUoUXt31w7iy_4KWj0RSzYZSA
-X-Proofpoint-ORIG-GUID: 7YdSnGakhYfQS8G-T5ZospvG5Unhuzbc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-30_04,2022-09-29_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- lowpriorityscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
- phishscore=0 suspectscore=0 adultscore=0 clxscore=1015 spamscore=0
- mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209300099
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Fri, 30 Sep 2022 17:14:00 +0100
+Message-ID: <CA+EHjTyrexb_LX7Jm9-MGwm4DBvfjCrADH4oumFyAvs2_0oSYw@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
+ Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, 
+ dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, 
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
+ envelope-from=tabba@google.com; helo=mail-lj1-x22a.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,176 +106,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
+Hi,
 
-> Split ppc_hw_interrupt into an interrupt masking method,
-> ppc_next_unmasked_interrupt, and an interrupt processing method,
-> ppc_deliver_interrupt.
->
+<...>
 
-<snip>
-
-> @@ -1822,20 +1782,106 @@ static void ppc_hw_interrupt(CPUPPCState *env)
->               */
->              if (FIELD_EX64(env->msr, MSR, PR) &&
->                  (env->spr[SPR_BESCR] & BESCR_GE)) {
-> -                env->pending_interrupts &= ~PPC_INTERRUPT_EBB;
-> -
-> -                if (env->spr[SPR_BESCR] & BESCR_PMEO) {
-> -                    powerpc_excp(cpu, POWERPC_EXCP_PERFM_EBB);
-> -                } else if (env->spr[SPR_BESCR] & BESCR_EEO) {
-> -                    powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL_EBB);
-> -                }
-> -
-> -                return;
-> +                return PPC_INTERRUPT_EBB;
->              }
->          }
->      }
->  
-> -    if (env->resume_as_sreset) {
-> +    return 0;
+> diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
+> new file mode 100644
+> index 000000000000..2d33cbdd9282
+> --- /dev/null
+> +++ b/mm/memfd_inaccessible.c
+> @@ -0,0 +1,219 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include "linux/sbitmap.h"
+> +#include <linux/memfd.h>
+> +#include <linux/pagemap.h>
+> +#include <linux/pseudo_fs.h>
+> +#include <linux/shmem_fs.h>
+> +#include <uapi/linux/falloc.h>
+> +#include <uapi/linux/magic.h>
+> +
+> +struct inaccessible_data {
+> +       struct mutex lock;
+> +       struct file *memfd;
+> +       struct list_head notifiers;
+> +};
+> +
+> +static void inaccessible_notifier_invalidate(struct inaccessible_data *data,
+> +                                pgoff_t start, pgoff_t end)
+> +{
+> +       struct inaccessible_notifier *notifier;
+> +
+> +       mutex_lock(&data->lock);
+> +       list_for_each_entry(notifier, &data->notifiers, list) {
+> +               notifier->ops->invalidate(notifier, start, end);
+> +       }
+> +       mutex_unlock(&data->lock);
 > +}
 > +
-> +static void ppc_deliver_interrupt(CPUPPCState *env, int interrupt)
+> +static int inaccessible_release(struct inode *inode, struct file *file)
 > +{
-> +    PowerPCCPU *cpu = env_archcpu(env);
-> +    CPUState *cs = env_cpu(env);
+> +       struct inaccessible_data *data = inode->i_mapping->private_data;
 > +
-> +    switch (interrupt) {
-> +    case PPC_INTERRUPT_RESET: /* External reset */
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_RESET;
-> +        powerpc_excp(cpu, POWERPC_EXCP_RESET);
-> +        break;
-> +    case PPC_INTERRUPT_MCK: /* Machine check exception */
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_MCK;
-> +        powerpc_excp(cpu, POWERPC_EXCP_MCHECK);
-> +        break;
-> +#if 0 /* TODO */
-> +    case PPC_INTERRUPT_DEBUG: /* External debug exception */
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_DEBUG;
-> +        powerpc_excp(cpu, POWERPC_EXCP_DEBUG);
-> +        break;
-> +#endif
+> +       fput(data->memfd);
+> +       kfree(data);
+> +       return 0;
+> +}
 > +
-> +    case PPC_INTERRUPT_HDECR: /* Hypervisor decrementer exception */
-> +        /* HDEC clears on delivery */
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_HDECR;
-> +        powerpc_excp(cpu, POWERPC_EXCP_HDECR);
-> +        break;
-> +    case PPC_INTERRUPT_HVIRT: /* Hypervisor virtualization interrupt */
-> +        powerpc_excp(cpu, POWERPC_EXCP_HVIRT);
-> +        break;
+> +static long inaccessible_fallocate(struct file *file, int mode,
+> +                                  loff_t offset, loff_t len)
+> +{
+> +       struct inaccessible_data *data = file->f_mapping->private_data;
+> +       struct file *memfd = data->memfd;
+> +       int ret;
 > +
-> +    case PPC_INTERRUPT_EXT:
-> +        if (books_vhyp_promotes_external_to_hvirt(cpu)) {
-> +            powerpc_excp(cpu, POWERPC_EXCP_HVIRT);
-> +        } else {
-> +            powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL);
-> +        }
-> +        break;
-> +    case PPC_INTERRUPT_CEXT: /* External critical interrupt */
-> +        powerpc_excp(cpu, POWERPC_EXCP_CRITICAL);
-> +        break;
+> +       if (mode & FALLOC_FL_PUNCH_HOLE) {
+> +               if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> +                       return -EINVAL;
+> +       }
 > +
-> +    case PPC_INTERRUPT_WDT: /* Watchdog timer on embedded PowerPC */
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_WDT;
-> +        powerpc_excp(cpu, POWERPC_EXCP_WDT);
-> +        break;
-> +    case PPC_INTERRUPT_CDOORBELL:
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_CDOORBELL;
-> +        powerpc_excp(cpu, POWERPC_EXCP_DOORCI);
-> +        break;
-> +    case PPC_INTERRUPT_FIT: /* Fixed interval timer on embedded PowerPC */
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_FIT;
-> +        powerpc_excp(cpu, POWERPC_EXCP_FIT);
-> +        break;
-> +    case PPC_INTERRUPT_PIT: /* Programmable interval timer on embedded PowerPC */
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_PIT;
-> +        powerpc_excp(cpu, POWERPC_EXCP_PIT);
-> +        break;
-> +    case PPC_INTERRUPT_DECR: /* Decrementer exception */
-> +        if (ppc_decr_clear_on_delivery(env)) {
-> +            env->pending_interrupts &= ~PPC_INTERRUPT_DECR;
-> +        }
-> +        powerpc_excp(cpu, POWERPC_EXCP_DECR);
-> +        break;
-> +    case PPC_INTERRUPT_DOORBELL:
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_DOORBELL;
-> +        if (is_book3s_arch2x(env)) {
-> +            powerpc_excp(cpu, POWERPC_EXCP_SDOOR);
-> +        } else {
-> +            powerpc_excp(cpu, POWERPC_EXCP_DOORI);
-> +        }
-> +        break;
-> +    case PPC_INTERRUPT_HDOORBELL:
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_HDOORBELL;
-> +        powerpc_excp(cpu, POWERPC_EXCP_SDOOR_HV);
-> +        break;
-> +    case PPC_INTERRUPT_PERFM:
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_PERFM;
-> +        powerpc_excp(cpu, POWERPC_EXCP_PERFM);
-> +        break;
-> +    case PPC_INTERRUPT_THERM:  /* Thermal interrupt */
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_THERM;
-> +        powerpc_excp(cpu, POWERPC_EXCP_THERM);
-> +        break;
-> +    case PPC_INTERRUPT_EBB: /* EBB exception */
-> +        env->pending_interrupts &= ~PPC_INTERRUPT_EBB;
-> +        if (env->spr[SPR_BESCR] & BESCR_PMEO) {
-> +            powerpc_excp(cpu, POWERPC_EXCP_PERFM_EBB);
-> +        } else if (env->spr[SPR_BESCR] & BESCR_EEO) {
-> +            powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL_EBB);
-> +        }
-> +        break;
-> +    case 0:
->          /*
->           * This is a bug ! It means that has_work took us out of halt without
->           * anything to deliver while in a PM state that requires getting
-> @@ -1847,8 +1893,10 @@ static void ppc_hw_interrupt(CPUPPCState *env)
->           * It generally means a discrepancy between the wakeup conditions in the
->           * processor has_work implementation and the logic in this function.
->           */
-> -        cpu_abort(env_cpu(env),
-> -                  "Wakeup from PM state but interrupt Undelivered");
-> +        assert(env->resume_as_sreset != 0);
+> +       ret = memfd->f_op->fallocate(memfd, mode, offset, len);
 
-This should be: assert(!env->resume_as_sreset);
+I think that shmem_file_operations.fallocate is only set if
+CONFIG_TMPFS is enabled (shmem.c). Should there be a check at
+initialization that fallocate is set, or maybe a config dependency, or
+can we count on it always being enabled?
 
-> +        break;
-> +    default:
-> +        cpu_abort(cs, "Invalid PowerPC interrupt %d. Aborting\n", interrupt);
->      }
->  }
->  
-> @@ -1884,15 +1932,22 @@ bool ppc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
->  {
->      PowerPCCPU *cpu = POWERPC_CPU(cs);
->      CPUPPCState *env = &cpu->env;
-> +    int interrupt;
->  
-> -    if (interrupt_request & CPU_INTERRUPT_HARD) {
-> -        ppc_hw_interrupt(env);
-> -        if (env->pending_interrupts == 0) {
-> -            cs->interrupt_request &= ~CPU_INTERRUPT_HARD;
-> -        }
-> -        return true;
-> +    if ((interrupt_request & CPU_INTERRUPT_HARD) == 0) {
-> +        return false;
->      }
-> -    return false;
+> +       inaccessible_notifier_invalidate(data, offset, offset + len);
+> +       return ret;
+> +}
 > +
-> +    interrupt = ppc_next_unmasked_interrupt(env);
-> +    if (interrupt == 0) {
-> +        return false;
-> +    }
+
+<...>
+
+> +void inaccessible_register_notifier(struct file *file,
+> +                                   struct inaccessible_notifier *notifier)
+> +{
+> +       struct inaccessible_data *data = file->f_mapping->private_data;
 > +
-> +    ppc_deliver_interrupt(env, interrupt);
-> +    if (env->pending_interrupts == 0) {
-> +        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-> +    }
-> +    return true;
->  }
->  
->  #endif /* !CONFIG_USER_ONLY */
+> +       mutex_lock(&data->lock);
+> +       list_add(&notifier->list, &data->notifiers);
+> +       mutex_unlock(&data->lock);
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_register_notifier);
+
+If the memfd wasn't marked as inaccessible, or more generally
+speaking, if the file isn't a memfd_inaccessible file, this ends up
+accessing an uninitialized pointer for the notifier list. Should there
+be a check for that here, and have this function return an error if
+that's not the case?
+
+Thanks,
+/fuad
+
+
+
+> +
+> +void inaccessible_unregister_notifier(struct file *file,
+> +                                     struct inaccessible_notifier *notifier)
+> +{
+> +       struct inaccessible_data *data = file->f_mapping->private_data;
+> +
+> +       mutex_lock(&data->lock);
+> +       list_del(&notifier->list);
+> +       mutex_unlock(&data->lock);
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_unregister_notifier);
+> +
+> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
+> +                        int *order)
+> +{
+> +       struct inaccessible_data *data = file->f_mapping->private_data;
+> +       struct file *memfd = data->memfd;
+> +       struct page *page;
+> +       int ret;
+> +
+> +       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
+> +       if (ret)
+> +               return ret;
+> +
+> +       *pfn = page_to_pfn_t(page);
+> +       *order = thp_order(compound_head(page));
+> +       SetPageUptodate(page);
+> +       unlock_page(page);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
+> +
+> +void inaccessible_put_pfn(struct file *file, pfn_t pfn)
+> +{
+> +       struct page *page = pfn_t_to_page(pfn);
+> +
+> +       if (WARN_ON_ONCE(!page))
+> +               return;
+> +
+> +       put_page(page);
+> +}
+> +EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
+> --
+> 2.25.1
+>
 
