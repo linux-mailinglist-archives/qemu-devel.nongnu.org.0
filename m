@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDBE55F0E7A
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 17:12:28 +0200 (CEST)
-Received: from localhost ([::1]:41574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D525F0E7B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 17:12:45 +0200 (CEST)
+Received: from localhost ([::1]:54080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeHgh-0006QZ-0Z
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 11:12:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49930)
+	id 1oeHgy-00075D-8w
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 11:12:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=ugbF=2B=zx2c4.com=Jason@kernel.org>)
- id 1oeHbj-0002rM-3l
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 11:07:31 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:60672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=ugbF=2B=zx2c4.com=Jason@kernel.org>)
- id 1oeHbg-0005aM-7H
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 11:07:18 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id ECA2A62381
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 15:07:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04D6CC433B5
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 15:07:10 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="Xbkpch6F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664550428;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LEyFcgtZGIiGooRpKsvHgtuWFkINKFFg7D7j5zCnnLM=;
- b=Xbkpch6FHkzad7J5YBuweK73ek6IqXOOu/tBfNpsU38+4qziLXSr5eYFTnGam1WQm0M81E
- kc9fKbTCAojf9Ujj28KkX46z/6MhdKcmd8Xd9lsnWYYOWgffsoXNNNjFRRQ9lY09tf5O+Z
- zRY2L6qnKMl/BLmNasYCr1O1HqlULng=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c06c2f44
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Fri, 30 Sep 2022 15:07:08 +0000 (UTC)
-Received: by mail-vs1-f48.google.com with SMTP id u189so5102543vsb.4
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 08:07:07 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2g4f6jXGcXRD63JPKgER2wbD4qPUB6zNpl114e8gl8UlqVrn+5
- k9fqWXCe1R5kA9vgvjNqI/QuU61nfugH1R1tOr0=
-X-Google-Smtp-Source: AMsMyM4UksCenNSTEknv4X/R2dX3E1eRDx9zO4fgYlYQIn1QTmYxAj2XjmP1+DJWuCvDw0IxRRsrXVY3+74WIhXmTUg=
-X-Received: by 2002:a05:6102:2908:b0:398:ac40:d352 with SMTP id
- cz8-20020a056102290800b00398ac40d352mr3824386vsb.55.1664550425919; Fri, 30
- Sep 2022 08:07:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oeHdc-0003bO-SE
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 11:09:17 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:33420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oeHdY-0005rl-77
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 11:09:13 -0400
+Received: by mail-ej1-x632.google.com with SMTP id lc7so9713634ejb.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 08:09:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=hAaHtJNIozf9FH9bn/Yb3K5QkMsMZY15DXRTddBhJwU=;
+ b=SmqhjqOUAECiIIptAHkc6fGw/lTTFtAoeykoUiZfuDJFffdwAotngfisHf7n9cSG0a
+ 3gzDT/cn4NVhIoVlRg1ae56aFY323RhdHy4FRyJZ9EMYmo6J2Y4k98Xp8Wahq4Dmq6Yg
+ pZV2DoLc7W2I74148nTAkvjmC/qgixTzIzoSOW5PDMVRDcELFgurFqiriwIuCfFPo+Fq
+ 3+UWNaFTizNQtjFyg0P7YeMbVoPI4WOCrBy3IKaV6HnVSpzUVjVteb8eqwFSpK5vqleo
+ RsU3K8nxsaomv6+bKdtaHgVEdSjiLxSbjuwD0P7ZOj5YtbjQJ3GomcVu4ucQUr5tNDw8
+ CL4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=hAaHtJNIozf9FH9bn/Yb3K5QkMsMZY15DXRTddBhJwU=;
+ b=4KrWuxTQeVEH5n4cjOUnrRf4IKXi7QK0Q/AxTCA7vBNHHQJX7HG1llu1sbGYVJlVOz
+ stCbgrgN8dQ9ozvXjS2W3GIrvHD8UWg5R+IybhgfRp0wz2N51zW5CW6F4r/1epJBkg1p
+ 9lHzwPFSVUncaLrr/TATm9W4GZ8dfRgcokdeAsNEnzV8GKoyMviMk5rq7sWYfGjrIXO9
+ 6SNXP6GKA96/t5fbmRAhTbKXDNbnR04BPPcEEdcoAoRjoKeIKibJ+07xEqyX6WbDhOeF
+ UjxL6mk13Lf9AqQFVLIGriYWo40AX4MfEDp81SB1t78kPC7d1fxzVQMcCIPkbhbMgmI4
+ lXgw==
+X-Gm-Message-State: ACrzQf0Omo0NfUFFtsurfD7leUdnptuN/lFu2gx62WyGcNvLxeiF6yzI
+ Zl8FPqQ9IDpbD09/LX/OzlN1+YJh/ceboPrIQQx+Zw==
+X-Google-Smtp-Source: AMsMyM7H5/xnOjFIrX3jx9JxnfPHXV1DajGkuzr14IOVuPTaw+WBv1q+gvbB/q2Sao8FMOlyO1ScQ3xWKy6FfO6syWI=
+X-Received: by 2002:a17:907:728e:b0:782:8e91:64c8 with SMTP id
+ dt14-20020a170907728e00b007828e9164c8mr7029151ejc.36.1664550549518; Fri, 30
+ Sep 2022 08:09:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220930140520.576374-1-Jason@zx2c4.com>
- <YzcFpYL9W1O6olJ3@redhat.com>
-In-Reply-To: <YzcFpYL9W1O6olJ3@redhat.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Fri, 30 Sep 2022 17:06:54 +0200
-X-Gmail-Original-Message-ID: <CAHmME9oapu2OBGuCJ53XnyGd8nFMEWq7K=Nst2kZWa_-oFG1Dw@mail.gmail.com>
-Message-ID: <CAHmME9oapu2OBGuCJ53XnyGd8nFMEWq7K=Nst2kZWa_-oFG1Dw@mail.gmail.com>
-Subject: Re: [PATCH qemu] mips/malta: pass RNG seed to to kernel via env var
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: f4bug@amsat.org, aurelien@aurel32.net, qemu-devel@nongnu.org, 
- tsbogend@alpha.franken.de
+References: <20220925105124.82033-1-richard.henderson@linaro.org>
+ <20220925105124.82033-17-richard.henderson@linaro.org>
+ <CAFEAcA-WzwA6zzDFezBqUz8U7ZT6q9bCP0Jj1iXfHydDe1nvZQ@mail.gmail.com>
+ <87pmfdxagx.fsf@linaro.org>
+ <CAFEAcA8c2_U7YMBej-9Me43bTLz=f8e6oemNy-kFkPfAwZ-+=g@mail.gmail.com>
+ <87leq0yklp.fsf@linaro.org>
+In-Reply-To: <87leq0yklp.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 30 Sep 2022 16:08:57 +0100
+Message-ID: <CAFEAcA9_sbe2JYjZ0OA0bqrQtsYrVM2vWpWXvrPv9OWDqR0vBg@mail.gmail.com>
+Subject: Re: [PATCH v5 16/17] accel/tcg: Introduce TARGET_TB_PCREL
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=ugbF=2B=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,10 +89,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 30, 2022 at 5:05 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
-> The +1 suggests you're intending to NUL terminate, but nothing
-> in this patch ever initializes this last byte.
+On Fri, 30 Sept 2022 at 15:59, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> > It can be very useful for "give me a list of all the
+> > PC values where we executed an instruction", for shorter
+> > test cases. You can then (given several of these) look at
+> > where two runs diverge, and similar things. I use it,
+> > so please don't break it :-)
+>
+> ack.
+>
+> FWIW you can also do that with:
+>
+>    -plugin ./contrib/plugins/libexeclog.so,ifilter=3D"instruction"
+>
+> and avoid having to reduce a bunch of massive logs.
 
-Incorrect. sprintf("%02x") writes 3 bytes, the last of which is 0.
+Yes, but if you needed the logs anyway (for the -d cpu output,
+for instance) then it's simpler to use the exec logging and filter.
+
+thanks
+-- PMM
 
