@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024915F02F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 04:51:06 +0200 (CEST)
-Received: from localhost ([::1]:52506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338315F02F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 04:51:03 +0200 (CEST)
+Received: from localhost ([::1]:59282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oe67F-0001Q7-4L
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 22:51:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56516)
+	id 1oe67C-0001J3-AX
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 22:51:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oe61g-00045g-Ta
+ id 1oe61g-00045b-Mz
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 22:45:20 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:49242 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:49252 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oe61d-0002jW-F7
+ (envelope-from <gaosong@loongson.cn>) id 1oe61d-0002jX-BO
  for qemu-devel@nongnu.org; Thu, 29 Sep 2022 22:45:20 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxFeI2WDZjJAckAA--.4665S4; 
+ AQAAf8AxFeI2WDZjJAckAA--.4665S5; 
  Fri, 30 Sep 2022 10:45:13 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
  alex.bennee@linaro.org, yangxiaojuan@loongson.cn, maobibo@Loongson.cn,
  huqi@loongson.cn
-Subject: [PATCH v3 2/3] target/loongarch: Fix fnm{sub/add}_{s/d} set wrong
- flags
-Date: Fri, 30 Sep 2022 10:45:09 +0800
-Message-Id: <20220930024510.800005-3-gaosong@loongson.cn>
+Subject: [PATCH v3 3/3] softfloat: logB(0) should raise divideByZero exception
+Date: Fri, 30 Sep 2022 10:45:10 +0800
+Message-Id: <20220930024510.800005-4-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220930024510.800005-1-gaosong@loongson.cn>
 References: <20220930024510.800005-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxFeI2WDZjJAckAA--.4665S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7WFWDCr1UXrWkGr1xWF13CFg_yoW8Ww4xpr
- 17CrnrKr4UJay8ZwnFgasFyr97Xr4qqw10q3Z7tFyYyr4Yqa9F9ayrKayq9FWruw10gF48
- Aa1jkw12kws8GFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf8AxFeI2WDZjJAckAA--.4665S5
+X-Coremail-Antispam: 1UD129KBjvdXoWrKF4rtFyUXry3uF1UWFWfZrb_yoW3Jwb_ZF
+ yDGrn7uw4DurW7Ca1ay3y8JFWDWa1fZFsxXw4qqw1xWa98Cr1fJ3yvqF1UXrWrWr4UW3sr
+ WasIgF4Skws7JjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -64,32 +63,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+logB(0) should raise divideByZero exception from IEEE 754-2008 spec 7.3
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/loongarch/insn_trans/trans_farith.c.inc | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ fpu/softfloat-parts.c.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/loongarch/insn_trans/trans_farith.c.inc b/target/loongarch/insn_trans/trans_farith.c.inc
-index 65ad2ffab8..7bb3f41aee 100644
---- a/target/loongarch/insn_trans/trans_farith.c.inc
-+++ b/target/loongarch/insn_trans/trans_farith.c.inc
-@@ -97,9 +97,9 @@ TRANS(fmadd_s, gen_muladd, gen_helper_fmuladd_s, 0)
- TRANS(fmadd_d, gen_muladd, gen_helper_fmuladd_d, 0)
- TRANS(fmsub_s, gen_muladd, gen_helper_fmuladd_s, float_muladd_negate_c)
- TRANS(fmsub_d, gen_muladd, gen_helper_fmuladd_d, float_muladd_negate_c)
--TRANS(fnmadd_s, gen_muladd, gen_helper_fmuladd_s,
--      float_muladd_negate_product | float_muladd_negate_c)
--TRANS(fnmadd_d, gen_muladd, gen_helper_fmuladd_d,
--      float_muladd_negate_product | float_muladd_negate_c)
--TRANS(fnmsub_s, gen_muladd, gen_helper_fmuladd_s, float_muladd_negate_product)
--TRANS(fnmsub_d, gen_muladd, gen_helper_fmuladd_d, float_muladd_negate_product)
-+TRANS(fnmadd_s, gen_muladd, gen_helper_fmuladd_s, float_muladd_negate_result)
-+TRANS(fnmadd_d, gen_muladd, gen_helper_fmuladd_d, float_muladd_negate_result)
-+TRANS(fnmsub_s, gen_muladd, gen_helper_fmuladd_s,
-+      float_muladd_negate_c | float_muladd_negate_result)
-+TRANS(fnmsub_d, gen_muladd, gen_helper_fmuladd_d,
-+      float_muladd_negate_c | float_muladd_negate_result)
+diff --git a/fpu/softfloat-parts.c.inc b/fpu/softfloat-parts.c.inc
+index a9f268fcab..247400031c 100644
+--- a/fpu/softfloat-parts.c.inc
++++ b/fpu/softfloat-parts.c.inc
+@@ -1436,6 +1436,7 @@ static void partsN(log2)(FloatPartsN *a, float_status *s, const FloatFmt *fmt)
+             parts_return_nan(a, s);
+             return;
+         case float_class_zero:
++            float_raise(float_flag_divbyzero, s);
+             /* log2(0) = -inf */
+             a->cls = float_class_inf;
+             a->sign = 1;
 -- 
 2.31.1
 
