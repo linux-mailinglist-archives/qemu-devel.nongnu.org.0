@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B145F1086
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:08:30 +0200 (CEST)
-Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430BF5F109D
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:16:40 +0200 (CEST)
+Received: from localhost ([::1]:57232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeJUz-0000Lz-8k
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:08:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45520)
+	id 1oeJct-0004LD-9L
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:16:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFv-0006lT-Tv
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFv-0006lS-TV
  for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42021)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFu-0006hp-3f
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFt-0006hn-V1
  for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1664556773;
@@ -23,47 +23,47 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pFwjcaI0F4VIP1QtiTFozGdGUPbdW+CMJkISUquQgdI=;
- b=doBdOUi8q8dmDrjLMxXaMrMOnwuPdshrWTY+nTLGm5nhNOpMmYnKwX52XKRng18PvqKdZI
- ZnttugCX2Bkn+9cdd5NkwxvZ+KC8Qb5rtqt+7nQ0Q9wQsrSWMyBgY5WHKufkbJcROD2U89
- FW2aGVONvqXA2rOOTJ01Rz81baNrv6U=
+ bh=VRlEUOM1qeE9+nvz4hF5vEgRMiGWQ0qR7RFnjxXiuB8=;
+ b=BtaIDZbLWFc3i7rDCHGHR72ED0L8QU7sgP9c99zNpUPSx4XdUoCpXeOUufMFxMrn+xJebc
+ qnPdgmapMwR+bmsblym9fd2i9u89X8Ph4N5586L4zI6rtSQWbBbkM/w0QJA014Sb1QR8Vx
+ oVEGGFeb+UkW0frutxSIl6gPpHASHkY=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-171-5yjY2rfuPNaWAISTUaNXDA-1; Fri, 30 Sep 2022 12:52:51 -0400
-X-MC-Unique: 5yjY2rfuPNaWAISTUaNXDA-1
+ us-mta-224-nnhQVtpLNuayQOZLURytvw-1; Fri, 30 Sep 2022 12:52:52 -0400
+X-MC-Unique: nnhQVtpLNuayQOZLURytvw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D73093C10224;
- Fri, 30 Sep 2022 16:52:50 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D19693C10226;
+ Fri, 30 Sep 2022 16:52:51 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.192.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2370617582;
- Fri, 30 Sep 2022 16:52:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DC0417582;
+ Fri, 30 Sep 2022 16:52:51 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 17/18] tests/qtest/ide-test: Verify that DIAGNOSTIC clears DEV
- to zero
-Date: Fri, 30 Sep 2022 18:52:21 +0200
-Message-Id: <20220930165222.249716-18-kwolf@redhat.com>
+Subject: [PULL 18/18] hw/ide/core.c: Implement ATA
+ INITIALIZE_DEVICE_PARAMETERS command
+Date: Fri, 30 Sep 2022 18:52:22 +0200
+Message-Id: <20220930165222.249716-19-kwolf@redhat.com>
 In-Reply-To: <20220930165222.249716-1-kwolf@redhat.com>
 References: <20220930165222.249716-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,75 +81,135 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lev Kujawski <lkujaw@member.fsf.org>
 
-Verify correction of EXECUTE DEVICE DIAGNOSTIC introduced in commit
-72423831c3 (hw/ide/core: Clear LBA and drive bits for EXECUTE DEVICE
-DIAGNOSTIC, 2022-05-28).
+CHS-based disk utilities and operating systems may adjust the logical
+geometry of a hard drive to cope with the expectations or limitations
+of software using the ATA INITIALIZE_DEVICE_PARAMETERS command.
+
+Prior to this patch, INITIALIZE_DEVICE_PARAMETERS was a nop that
+always returned success, raising the possibility of data loss or
+corruption if the CHS<->LBA translation redirected a write to the
+wrong sector.
+
+* hw/ide/core.c
+ide_reset():
+  Reset the logical CHS geometry of the hard disk when the power-on
+  defaults feature is enabled.
+cmd_specify():
+  a) New function implementing INITIALIZE_DEVICE_PARAMETERS.
+  b) Ignore calls for empty or ATAPI devices.
+cmd_set_features():
+  Implement the power-on defaults enable and disable features.
+struct ide_cmd_table:
+  Switch WIN_SPECIFY from cmd_nop() to cmd_specify().
+ide_init_drive():
+  Set new fields 'drive_heads' and 'drive_sectors' based upon the
+  actual disk geometry.
+
+* include/hw/ide/internal.h
+struct IDEState:
+a) Store the actual drive CHS values within the new fields
+   'drive_heads' and 'drive_sectors.'
+b) Track whether a soft IDE reset should also reset the logical CHS
+   geometry of the hard disk within the new field 'reset_reverts'.
 
 Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
-Message-Id: <20220707031140.158958-4-lkujaw@member.fsf.org>
+Message-Id: <20220707031140.158958-7-lkujaw@member.fsf.org>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qtest/ide-test.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ include/hw/ide/internal.h |  3 +++
+ hw/ide/core.c             | 29 ++++++++++++++++++++++++++---
+ 2 files changed, 29 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-index 93b4416023..dbe1563b23 100644
---- a/tests/qtest/ide-test.c
-+++ b/tests/qtest/ide-test.c
-@@ -90,6 +90,7 @@ enum {
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index 97e7e59dc5..b17f36df95 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -375,6 +375,7 @@ struct IDEState {
+     uint8_t unit;
+     /* ide config */
+     IDEDriveKind drive_kind;
++    int drive_heads, drive_sectors;
+     int cylinders, heads, sectors, chs_trans;
+     int64_t nb_sectors;
+     int mult_sectors;
+@@ -401,6 +402,8 @@ struct IDEState {
+     uint8_t select;
+     uint8_t status;
  
- enum {
-     CMD_DSM         = 0x06,
-+    CMD_DIAGNOSE    = 0x90,
-     CMD_READ_DMA    = 0xc8,
-     CMD_WRITE_DMA   = 0xca,
-     CMD_FLUSH_CACHE = 0xe7,
-@@ -614,6 +615,36 @@ static void test_identify(void)
-     free_pci_device(dev);
++    bool reset_reverts;
++
+     /* set for lba48 access */
+     uint8_t lba48;
+     BlockBackend *blk;
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index b747191ebf..39afdc0006 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -1340,6 +1340,11 @@ static void ide_reset(IDEState *s)
+         s->pio_aiocb = NULL;
+     }
+ 
++    if (s->reset_reverts) {
++        s->reset_reverts = false;
++        s->heads         = s->drive_heads;
++        s->sectors       = s->drive_sectors;
++    }
+     if (s->drive_kind == IDE_CFATA)
+         s->mult_sectors = 0;
+     else
+@@ -1618,6 +1623,20 @@ static bool cmd_check_power_mode(IDEState *s, uint8_t cmd)
+     return true;
  }
  
-+static void test_diagnostic(void)
++/* INITIALIZE DEVICE PARAMETERS */
++static bool cmd_specify(IDEState *s, uint8_t cmd)
 +{
-+    QTestState *qts;
-+    QPCIDevice *dev;
-+    QPCIBar bmdma_bar, ide_bar;
-+    uint8_t data;
++    if (s->blk && s->drive_kind != IDE_CD) {
++        s->heads = (s->select & (ATA_DEV_HS)) + 1;
++        s->sectors = s->nsector;
++        ide_set_irq(s->bus);
++    } else {
++        ide_abort_command(s);
++    }
 +
-+    qts = ide_test_start(
-+        "-blockdev driver=file,node-name=hda,filename=%s "
-+        "-blockdev driver=file,node-name=hdb,filename=%s "
-+        "-device ide-hd,drive=hda,bus=ide.0,unit=0 "
-+        "-device ide-hd,drive=hdb,bus=ide.0,unit=1 ",
-+        tmp_path[0], tmp_path[1]);
-+
-+    dev = get_pci_device(qts, &bmdma_bar, &ide_bar);
-+
-+    /* DIAGNOSE command on device 1 */
-+    qpci_io_writeb(dev, ide_bar, reg_device, DEV);
-+    data = qpci_io_readb(dev, ide_bar, reg_device);
-+    g_assert_cmphex(data & DEV, ==, DEV);
-+    qpci_io_writeb(dev, ide_bar, reg_command, CMD_DIAGNOSE);
-+
-+    /* Verify that DEVICE is now 0 */
-+    data = qpci_io_readb(dev, ide_bar, reg_device);
-+    g_assert_cmphex(data & DEV, ==, 0);
-+
-+    ide_test_quit(qts);
-+    free_pci_device(dev);
++    return true;
 +}
 +
- /*
-  * Write sector 1 with random data to make IDE storage dirty
-  * Needed for flush tests so that flushes actually go though the block layer
-@@ -1050,6 +1081,8 @@ int main(int argc, char **argv)
+ static bool cmd_set_features(IDEState *s, uint8_t cmd)
+ {
+     uint16_t *identify_data;
+@@ -1641,7 +1660,11 @@ static bool cmd_set_features(IDEState *s, uint8_t cmd)
+         ide_flush_cache(s);
+         return false;
+     case 0xcc: /* reverting to power-on defaults enable */
++        s->reset_reverts = true;
++        return true;
+     case 0x66: /* reverting to power-on defaults disable */
++        s->reset_reverts = false;
++        return true;
+     case 0xaa: /* read look-ahead enable */
+     case 0x55: /* read look-ahead disable */
+     case 0x05: /* set advanced power management mode */
+@@ -2051,7 +2074,7 @@ static const struct {
+     [WIN_SEEK]                    = { cmd_seek, HD_CFA_OK | SET_DSC },
+     [CFA_TRANSLATE_SECTOR]        = { cmd_cfa_translate_sector, CFA_OK },
+     [WIN_DIAGNOSE]                = { cmd_exec_dev_diagnostic, ALL_OK },
+-    [WIN_SPECIFY]                 = { cmd_nop, HD_CFA_OK | SET_DSC },
++    [WIN_SPECIFY]                 = { cmd_specify, HD_CFA_OK | SET_DSC },
+     [WIN_STANDBYNOW2]             = { cmd_nop, HD_CFA_OK },
+     [WIN_IDLEIMMEDIATE2]          = { cmd_nop, HD_CFA_OK },
+     [WIN_STANDBY2]                = { cmd_nop, HD_CFA_OK },
+@@ -2541,8 +2564,8 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
  
-     qtest_add_func("/ide/identify", test_identify);
- 
-+    qtest_add_func("/ide/diagnostic", test_diagnostic);
-+
-     qtest_add_func("/ide/bmdma/simple_rw", test_bmdma_simple_rw);
-     qtest_add_func("/ide/bmdma/trim", test_bmdma_trim);
-     qtest_add_func("/ide/bmdma/various_prdts", test_bmdma_various_prdts);
+     blk_get_geometry(blk, &nb_sectors);
+     s->cylinders = cylinders;
+-    s->heads = heads;
+-    s->sectors = secs;
++    s->heads = s->drive_heads = heads;
++    s->sectors = s->drive_sectors = secs;
+     s->chs_trans = chs_trans;
+     s->nb_sectors = nb_sectors;
+     s->wwn = wwn;
 -- 
 2.37.3
 
