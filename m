@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C143D5F10A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:17:37 +0200 (CEST)
-Received: from localhost ([::1]:39240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B145F1086
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:08:30 +0200 (CEST)
+Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeJdo-0005Kr-M2
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:17:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45516)
+	id 1oeJUz-0000Lz-8k
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:08:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFv-0006lN-OR
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFv-0006lT-Tv
  for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32747)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFu-0006hu-2T
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFu-0006hp-3f
  for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1664556773;
@@ -23,33 +23,33 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1YsrwgLcvwjDIyMR8akXLwq8hwEVoeLRMqMQtUyX6hE=;
- b=DZIXLxTuvkfUJKJ1p9BW2K+P4slrkdzWmKmcszihrIXrjY4QeeMWXW2whWouSed5QF0VC4
- v81Q42DOpbuyVlLLkFNNt6PeYdDdaQbd61EEwRYnsZ2HWV1XTM0uw6L5gRooIQEkvXKHtP
- 0vgh0yp5BW/6W9M/Vt92GXUAycI01vk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pFwjcaI0F4VIP1QtiTFozGdGUPbdW+CMJkISUquQgdI=;
+ b=doBdOUi8q8dmDrjLMxXaMrMOnwuPdshrWTY+nTLGm5nhNOpMmYnKwX52XKRng18PvqKdZI
+ ZnttugCX2Bkn+9cdd5NkwxvZ+KC8Qb5rtqt+7nQ0Q9wQsrSWMyBgY5WHKufkbJcROD2U89
+ FW2aGVONvqXA2rOOTJ01Rz81baNrv6U=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-307-JzOERFpiMBG24PsqgvROjQ-1; Fri, 30 Sep 2022 12:52:50 -0400
-X-MC-Unique: JzOERFpiMBG24PsqgvROjQ-1
+ us-mta-171-5yjY2rfuPNaWAISTUaNXDA-1; Fri, 30 Sep 2022 12:52:51 -0400
+X-MC-Unique: 5yjY2rfuPNaWAISTUaNXDA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDCA4811E67;
- Fri, 30 Sep 2022 16:52:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D73093C10224;
+ Fri, 30 Sep 2022 16:52:50 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.192.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 250AF17582;
- Fri, 30 Sep 2022 16:52:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2370617582;
+ Fri, 30 Sep 2022 16:52:50 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 16/18] hw/ide/core: Clear LBA and drive bits for EXECUTE DEVICE
- DIAGNOSTIC
-Date: Fri, 30 Sep 2022 18:52:20 +0200
-Message-Id: <20220930165222.249716-17-kwolf@redhat.com>
+Subject: [PULL 17/18] tests/qtest/ide-test: Verify that DIAGNOSTIC clears DEV
+ to zero
+Date: Fri, 30 Sep 2022 18:52:21 +0200
+Message-Id: <20220930165222.249716-18-kwolf@redhat.com>
 In-Reply-To: <20220930165222.249716-1-kwolf@redhat.com>
 References: <20220930165222.249716-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -81,42 +81,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lev Kujawski <lkujaw@member.fsf.org>
 
-Prior to this patch, cmd_exec_dev_diagnostic relied upon
-ide_set_signature to clear the device register.  While the
-preservation of the drive bit by ide_set_signature is necessary for
-the DEVICE RESET, IDENTIFY DEVICE, and READ SECTOR commands,
-ATA/ATAPI-6 specifies that "DEV shall be cleared to zero" for EXECUTE
-DEVICE DIAGNOSTIC.
-
-This deviation was uncovered by the ATACT Device Testing Program
-written by Hale Landis.
+Verify correction of EXECUTE DEVICE DIAGNOSTIC introduced in commit
+72423831c3 (hw/ide/core: Clear LBA and drive bits for EXECUTE DEVICE
+DIAGNOSTIC, 2022-05-28).
 
 Signed-off-by: Lev Kujawski <lkujaw@member.fsf.org>
-Message-Id: <20220707031140.158958-3-lkujaw@member.fsf.org>
+Message-Id: <20220707031140.158958-4-lkujaw@member.fsf.org>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/ide/core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/qtest/ide-test.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 7cbc0a54a7..b747191ebf 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -1704,8 +1704,14 @@ static bool cmd_identify_packet(IDEState *s, uint8_t cmd)
-     return false;
+diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
+index 93b4416023..dbe1563b23 100644
+--- a/tests/qtest/ide-test.c
++++ b/tests/qtest/ide-test.c
+@@ -90,6 +90,7 @@ enum {
+ 
+ enum {
+     CMD_DSM         = 0x06,
++    CMD_DIAGNOSE    = 0x90,
+     CMD_READ_DMA    = 0xc8,
+     CMD_WRITE_DMA   = 0xca,
+     CMD_FLUSH_CACHE = 0xe7,
+@@ -614,6 +615,36 @@ static void test_identify(void)
+     free_pci_device(dev);
  }
  
-+/* EXECUTE DEVICE DIAGNOSTIC */
- static bool cmd_exec_dev_diagnostic(IDEState *s, uint8_t cmd)
- {
-+    /*
-+     * Clear the device register per the ATA (v6) specification,
-+     * because ide_set_signature does not clear LBA or drive bits.
-+     */
-+    s->select = (ATA_DEV_ALWAYS_ON);
-     ide_set_signature(s);
++static void test_diagnostic(void)
++{
++    QTestState *qts;
++    QPCIDevice *dev;
++    QPCIBar bmdma_bar, ide_bar;
++    uint8_t data;
++
++    qts = ide_test_start(
++        "-blockdev driver=file,node-name=hda,filename=%s "
++        "-blockdev driver=file,node-name=hdb,filename=%s "
++        "-device ide-hd,drive=hda,bus=ide.0,unit=0 "
++        "-device ide-hd,drive=hdb,bus=ide.0,unit=1 ",
++        tmp_path[0], tmp_path[1]);
++
++    dev = get_pci_device(qts, &bmdma_bar, &ide_bar);
++
++    /* DIAGNOSE command on device 1 */
++    qpci_io_writeb(dev, ide_bar, reg_device, DEV);
++    data = qpci_io_readb(dev, ide_bar, reg_device);
++    g_assert_cmphex(data & DEV, ==, DEV);
++    qpci_io_writeb(dev, ide_bar, reg_command, CMD_DIAGNOSE);
++
++    /* Verify that DEVICE is now 0 */
++    data = qpci_io_readb(dev, ide_bar, reg_device);
++    g_assert_cmphex(data & DEV, ==, 0);
++
++    ide_test_quit(qts);
++    free_pci_device(dev);
++}
++
+ /*
+  * Write sector 1 with random data to make IDE storage dirty
+  * Needed for flush tests so that flushes actually go though the block layer
+@@ -1050,6 +1081,8 @@ int main(int argc, char **argv)
  
-     if (s->drive_kind == IDE_CD) {
+     qtest_add_func("/ide/identify", test_identify);
+ 
++    qtest_add_func("/ide/diagnostic", test_diagnostic);
++
+     qtest_add_func("/ide/bmdma/simple_rw", test_bmdma_simple_rw);
+     qtest_add_func("/ide/bmdma/trim", test_bmdma_trim);
+     qtest_add_func("/ide/bmdma/various_prdts", test_bmdma_various_prdts);
 -- 
 2.37.3
 
