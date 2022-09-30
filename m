@@ -2,70 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576FF5F0827
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 12:00:55 +0200 (CEST)
-Received: from localhost ([::1]:33832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A48C5F0837
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 12:04:04 +0200 (CEST)
+Received: from localhost ([::1]:36332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeCpC-00050G-F0
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 06:00:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52506)
+	id 1oeCsF-000753-7x
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 06:04:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeClp-0001fu-6x
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:57:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28787)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oeCor-0004v2-85
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 06:00:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeCln-0002PJ-Mn
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 05:57:24 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oeCoo-00034w-VN
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 06:00:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664531843;
+ s=mimecast20190719; t=1664532030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9FPi2sLWoL7hi+LrLp3iOmz9sd6skbALQJ4g9wYAekc=;
- b=a9GmjL6ztBBmeXC7FIVBd1js0y2/nINNuyATeY0QxKayCryVeOJBlMcyI0ZIovs9DfXrQt
- bYtfFKMA4lQu0DhHkQM2CfcM56CZvzA7vcrvh+PUx9sqQmsUfLizZ7F4wX8rxi/w1c4jYe
- lAmi61epz6sfHUX0ruGvUOO9w/ifUJ8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-364-4Ptu_-NaNfmjiIf_R2QfWA-1; Fri, 30 Sep 2022 05:57:18 -0400
-X-MC-Unique: 4Ptu_-NaNfmjiIf_R2QfWA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F5601019C89;
- Fri, 30 Sep 2022 09:57:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D271C2166B26;
- Fri, 30 Sep 2022 09:57:17 +0000 (UTC)
-Date: Fri, 30 Sep 2022 11:57:16 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/2] vvfat: allow some writes to bootsector
-Message-ID: <Yza9fKBtUW/qqscb@redhat.com>
-References: <20220903162302.3176003-1-hpoussin@reactos.org>
- <20220903162302.3176003-2-hpoussin@reactos.org>
- <YzWnWMRKhdzxkdT1@redhat.com>
- <c61944a2-1b1c-bec1-0253-3335b05d3b43@reactos.org>
+ bh=hdzF+ff0NiigFDP+vj05gHt4sG9+KiwRzQlo0CUyrJ0=;
+ b=Ri0HWiXGp1/G90OSmj++n3F4ro8Eu+yOUHasf/WjMGSSAKHpQDAi++FoHF4kuYLUO1L7Gn
+ sS4CUw3DVVOXFrXNsY/Gn4U4uYt82bvzZRm+w6l1PQty2TgVCCZJywuiafWEZZxo0iOPas
+ STjaFI/qq/Cl1XCwGGrdgOjvGWMKjtU=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-125-virZnDtjOVaPGsGHk1BemQ-1; Fri, 30 Sep 2022 06:00:28 -0400
+X-MC-Unique: virZnDtjOVaPGsGHk1BemQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ bj42-20020a05620a192a00b006cf663bca6aso3347956qkb.3
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 03:00:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=hdzF+ff0NiigFDP+vj05gHt4sG9+KiwRzQlo0CUyrJ0=;
+ b=Un6Mkjz8tbS9cCcLj2K3acpwr9TJL3pw4FvfpPXROpeCIp423aUrD3596fpCBgtxpw
+ CBdi54OammbRr1c+pS04Ncc2kSmPimlCjOVZ3w73IaVd8+XBpble1GkPvYk1VSdjB9sI
+ gVecx/8NpA8zQNlQXxxpeDLv44g6rBv9iDJrc+aeSiK8wUX0FE3nSbrxKOs2Gu09QsjH
+ /m1NiI6z6x5soVzaEOtls9T8YBand3cW+r73p1qkZxAj+0zUsCnAW132RPNatvfOj3YP
+ aBdj6ywlEEZPcxm99x0+BfpPtUj26LuYQ1n66U9Fx6q38/DGdtYlZ5u9PZOBp+ZSQUD7
+ 2mzw==
+X-Gm-Message-State: ACrzQf0IMry094ExOO028D4aIBMKawZoXWz9I/3DPUfKlNOfLeWmEPrA
+ WsYJgQmsYxqktzVyJ3yb1BdkmRJpS0j2U3oPcGpB5/Q1800XIgJq+8KAca5SStns7s/EvcVY6zF
+ mVq/3678jFWvHtuo=
+X-Received: by 2002:a05:6214:1c89:b0:4af:664e:553b with SMTP id
+ ib9-20020a0562141c8900b004af664e553bmr6155360qvb.18.1664532028010; 
+ Fri, 30 Sep 2022 03:00:28 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7viUuRE43VLTc/yygPQcQB4+BJz4Lw1rUiyR0IWNkfFV7z8NnsHSN2tLKZc4wjfz9wW5uS4w==
+X-Received: by 2002:a05:6214:1c89:b0:4af:664e:553b with SMTP id
+ ib9-20020a0562141c8900b004af664e553bmr6155340qvb.18.1664532027762; 
+ Fri, 30 Sep 2022 03:00:27 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ j3-20020a05620a410300b006b5bf5d45casm2281816qko.27.2022.09.30.03.00.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Sep 2022 03:00:27 -0700 (PDT)
+Message-ID: <9ca32c64-43cb-7c77-9cb3-d6516a157c23@redhat.com>
+Date: Fri, 30 Sep 2022 12:00:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c61944a2-1b1c-bec1-0253-3335b05d3b43@reactos.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 1/2] linux-aio: use LinuxAioState from the running thread
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220609134452.1146309-1-eesposit@redhat.com>
+ <20220609134452.1146309-2-eesposit@redhat.com> <YzWxJo0vDiupS0fO@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <YzWxJo0vDiupS0fO@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.08,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-4.099, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,66 +107,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 29.09.2022 um 21:53 hat Hervé Poussineau geschrieben:
-> Le 29/09/2022 à 16:10, Kevin Wolf a écrit :
-> > Am 03.09.2022 um 18:23 hat Hervé Poussineau geschrieben:
-> > > 'reserved1' field in bootsector is used to mark volume dirty, or need to verify.
-> > > Allow writes to bootsector which only changes the 'reserved1' field.
-> > > 
-> > > This fixes I/O errors on Windows guests.
-> > > 
-> > > Resolves: https://bugs.launchpad.net/qemu/+bug/1889421
-> > > Signed-off-by: Hervé Poussineau <hpoussin@reactos.org>
-> > > ---
-> > >   block/vvfat.c | 18 +++++++++++++++++-
-> > >   1 file changed, 17 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/block/vvfat.c b/block/vvfat.c
-> > > index d6dd919683d..35057a51c67 100644
-> > > --- a/block/vvfat.c
-> > > +++ b/block/vvfat.c
-> > > @@ -2993,11 +2993,27 @@ DLOG(checkpoint());
-> > >       vvfat_close_current_file(s);
-> > > +    if (sector_num == s->offset_to_bootsector && nb_sectors == 1) {
-> > > +        /*
-> > > +         * Write on bootsector. Allow only changing the reserved1 field,
-> > > +         * used to mark volume dirtiness
-> > > +         */
-> > > +        const unsigned char *initial = s->first_sectors
-> > > +                                       + s->offset_to_bootsector * 0x200;
-> > > +        for (i = 0; i < 0x200; i++) {
-> > > +            if (i != offsetof(bootsector_t, u.fat16.reserved1) &&
-> > 
-> > I think you need to check the FAT version (s->fat_type) before accessing
-> > u.fat16. For FAT32, the "reserved" field is at a different offset (but
-> > seems to have the same meaning).
+
+
+Am 29/09/2022 um 16:52 schrieb Kevin Wolf:
+> Am 09.06.2022 um 15:44 hat Emanuele Giuseppe Esposito geschrieben:
+>> From: Paolo Bonzini <pbonzini@redhat.com>
+>>
+>> Remove usage of aio_context_acquire by always submitting asynchronous
+>> AIO to the current thread's LinuxAioState.
+>>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>  block/file-posix.c  |  3 ++-
+>>  block/linux-aio.c   | 13 ++++++-------
+>>  include/block/aio.h |  4 ----
+>>  3 files changed, 8 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/block/file-posix.c b/block/file-posix.c
+>> index 48cd096624..33f92f004a 100644
+>> --- a/block/file-posix.c
+>> +++ b/block/file-posix.c
+>> @@ -2086,7 +2086,8 @@ static int coroutine_fn raw_co_prw(BlockDriverState *bs, uint64_t offset,
+>>  #endif
+>>  #ifdef CONFIG_LINUX_AIO
+>>      } else if (s->use_linux_aio) {
+>> -        LinuxAioState *aio = aio_get_linux_aio(bdrv_get_aio_context(bs));
+>> +        AioContext *ctx = qemu_get_current_aio_context();
+>> +        LinuxAioState *aio = aio_get_linux_aio(ctx);
+>>          assert(qiov->size == bytes);
+>>          return laio_co_submit(bs, aio, s->fd, offset, qiov, type,
+>>                                s->aio_max_batch);
 > 
-> I didn't do this, because only fat16 part of bootsector is ever used.
-> In init_directories(), only fat16 part is initialized, with the comment:
-> 	/* LATER TODO: if FAT32, this is wrong */
-> I wanted to be consistent between init_directories() and the check.
-
-Oh, indeed. I guess this means FAT32 is completely broken... Fair
-enough, though maybe we could add a similar comment here, then.
-
-> > > +                initial[i] != buf[i]) {
-> > > +                fprintf(stderr, "Tried to write to protected bootsector\n");
-> > > +                return -1;
-> > > +            }
-> > > +        }
-> > > +        return 0;
-> > > +    }
-> > 
-> > Should we update s->first_sectors with the new value so that the guest
-> > would actually read back what it wrote instead of having the change
-> > disappear magically?
+> raw_aio_plug() and raw_aio_unplug() need the same change.
 > 
-> Windows guests don't seem to care if the written value disappears.
-> They only want the write to succeed.
+> I wonder if we should actually better remove the 'aio' parameter from
+> the functions that linux-aio.c offers to avoid suggesting that any
+> LinuxAioState works for any thread. Getting it from the current
+> AioContext is something it can do by itself. But this would be code
+> cleanup for a separate patch.
 
-But it would be arguably more correct, wouldn't it? Some other OS might
-care.
+I do not think that this would work. At least not for all functions of
+the API. I tried removing the ctx parameter from aio_setup_linux_aio and
+it's already problematic, as it used by raw_aio_attach_aio_context()
+which is a .bdrv_attach_aio_context() callback, which should be called
+by the main thread. So that function needs the aiocontext parameter.
 
-Kevin
+So maybe for now just simplify aio_get_linux_aio()? In a separate patch.
+> 
+>> diff --git a/block/linux-aio.c b/block/linux-aio.c
+>> index 4c423fcccf..1d3cc767d1 100644
+>> --- a/block/linux-aio.c
+>> +++ b/block/linux-aio.c
+>> @@ -16,6 +16,9 @@
+>>  #include "qemu/coroutine.h"
+>>  #include "qapi/error.h"
+>>  
+>> +/* Only used for assertions.  */
+>> +#include "qemu/coroutine_int.h"
+>> +
+>>  #include <libaio.h>
+>>  
+>>  /*
+>> @@ -56,10 +59,8 @@ struct LinuxAioState {
+>>      io_context_t ctx;
+>>      EventNotifier e;
+>>  
+>> -    /* io queue for submit at batch.  Protected by AioContext lock. */
+>> +    /* All data is only used in one I/O thread.  */
+>>      LaioQueue io_q;
+>> -
+>> -    /* I/O completion processing.  Only runs in I/O thread.  */
+>>      QEMUBH *completion_bh;
+>>      int event_idx;
+>>      int event_max;
+>> @@ -102,9 +103,8 @@ static void qemu_laio_process_completion(struct qemu_laiocb *laiocb)
+>>       * later.  Coroutines cannot be entered recursively so avoid doing
+>>       * that!
+>>       */
+>> -    if (!qemu_coroutine_entered(laiocb->co)) {
+>> -        aio_co_wake(laiocb->co);
+>> -    }
+>> +    assert(laiocb->co->ctx == laiocb->ctx->aio_context);
+>> +    qemu_coroutine_enter_if_inactive(laiocb->co);
+>>  }
+>>  
+>>  /**
+>> @@ -238,7 +238,6 @@ static void qemu_laio_process_completions_and_submit(LinuxAioState *s)
+>>      if (!s->io_q.plugged && !QSIMPLEQ_EMPTY(&s->io_q.pending)) {
+>>          ioq_submit(s);
+>>      }
+>> -    aio_context_release(s->aio_context);
+>>  }
+> 
+> I certainly expected the aio_context_acquire() in the same function to
+> go away, too! Am I missing something?
+
+ops
+
+Emanuele
 
 
