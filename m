@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10EC85F0C68
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:28:52 +0200 (CEST)
-Received: from localhost ([::1]:37624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11AC05F0C43
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:14:10 +0200 (CEST)
+Received: from localhost ([::1]:45224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeG4Q-0003Uz-Md
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60164)
+	id 1oeFqC-0007ij-FZ
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:14:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oeFz3-00062U-0h
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:23:19 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39724)
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1oeFli-0003qg-Jb
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:09:31 -0400
+Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32]:33507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oeFz1-0004C8-76
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:23:16 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id f11so4174377wrm.6
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 06:23:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=w9icf1R5z71HoYa3R9ov9zygm2EAE7Z+AJHg2syC9Jc=;
- b=haIO2tHCFjIHGobJ5t5PPpvCMqR4zuHoNFZSCpLE0iQZc3WGkTWdKS4Fdm7ddMVt5R
- yzKupgvgtdiGSyrmePcZRWC7qqINxJ2WWAWUsE/MboRw32FDIxSXEWb0AFtmcoAKgoSF
- cd1pBtfmZDhLA9GqiGQ9HdUBARvKMFFiFC9UApTRLRkdRFdEV0v7ALwxhB1B3jBSJB6x
- CGaI7zS259w3MuvUdxZoj0ht4Qqj/uLikK2YQT7Vvj1zWnR8L3aizoVU5oaCOY3SM4BY
- iaiAbNiNazr+q7g8AT63eENzefR+u0fXhK8DMgbpShy7C7kkQ9XZM6JgGNO4VeGA0Py9
- qp9w==
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1oeFlg-00023j-QU
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:09:30 -0400
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-131dda37dddso4391021fac.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 06:09:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=zgXwLiMeTBAtMDDDK72360hBDz52tjw6sLjNB7sOKuE=;
+ b=NaDWdOU8zMEABosvP9uTuDBhb6rp/pkbFNGbFy5tGGlXcvvDwsjvnSYHF3SX95/Q+J
+ 1SKam5LOBN74cNyCQnNdQ5gjIPsd2Tcy8DIXa6wWnCpcYR7EKnfBiw8h0LkZHXV1TlKC
+ zGHLqDfKDULRr9bIaDr2vMWs0dszetHOzwxXsusfLvvJCx+fzTECKCW3c4UCE8V/TKay
+ iTnG4sXIVc1GScYUPj3ZhjI96XtoksLezNmX28fhScv+Rz22aG0cPIzahN3p0jAW53eW
+ 725GqNe2jp+em9W41zKTa9LH1xV+Nugt2EfdilcV6B1U+B+98rj0kavQ7bb/COQfMryi
+ 8Ryg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=w9icf1R5z71HoYa3R9ov9zygm2EAE7Z+AJHg2syC9Jc=;
- b=dQGjZpKUqz7Nf7zDbpZgZQnh42IF2X0l0q8E6NDuq5FscKIQG3lj6uQLahYQ5gRBJl
- pq2/Kg08TMbax75FxiJuDdrgGAPVWx9XYAjbnPj8d7j3eqJf/QDA8rij/ncMMsbHVgs1
- /gUSoJIrt7YB7kEbZ2J69wFST3lstJZJBxs1ggA15+jhyfJPhwl/pcHxWwW/edyVeViq
- 4a/9WidNRxlNe38FSzSSc6HJ17CggolPmsdAHhdYLEqo5V1KTgHBZVsRufZaGUpYzKg9
- obSpWr94bI5A00nNkb1mul2RNsFfIbZboya8FignCl0YD3J++tqOe+8bkooivkIWi83p
- OjOQ==
-X-Gm-Message-State: ACrzQf1h7SI35fN1SDRhI+mq7OZ9YfFZ2VxXOIwoG4++Ck60VohgaoEU
- 4w7mSczrjhTtdh4Iba65NbZ59A==
-X-Google-Smtp-Source: AMsMyM6mIp1cLAmd4yKEoCQyOf2AIs/Ju4WIYSeCYaxhbYSe7bHQHVwIv23epwAGlL7vNmGwzbsH9w==
-X-Received: by 2002:a05:6000:1882:b0:22a:f402:c975 with SMTP id
- a2-20020a056000188200b0022af402c975mr5840474wri.532.1664544192579; 
- Fri, 30 Sep 2022 06:23:12 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- v129-20020a1cac87000000b003a845621c5bsm2007640wme.34.2022.09.30.06.23.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Sep 2022 06:23:11 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DB4D21FFB7;
- Fri, 30 Sep 2022 14:23:10 +0100 (BST)
-References: <20220925105124.82033-1-richard.henderson@linaro.org>
- <20220925105124.82033-17-richard.henderson@linaro.org>
- <CAFEAcA-WzwA6zzDFezBqUz8U7ZT6q9bCP0Jj1iXfHydDe1nvZQ@mail.gmail.com>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 16/17] accel/tcg: Introduce TARGET_TB_PCREL
-Date: Fri, 30 Sep 2022 13:59:16 +0100
-In-reply-to: <CAFEAcA-WzwA6zzDFezBqUz8U7ZT6q9bCP0Jj1iXfHydDe1nvZQ@mail.gmail.com>
-Message-ID: <87pmfdxagx.fsf@linaro.org>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=zgXwLiMeTBAtMDDDK72360hBDz52tjw6sLjNB7sOKuE=;
+ b=l5xOSEBCUtZnSYMMC0BwAuI/zYwYvCZa7DOdm4WMUzOkaa/IAKITmwAlUE1J4JX1mo
+ zBfvJDKRj5jmTv+MXsVp3b2eJxPJyt4RlGDVG1WTwy0J/fa+RDQn/Hy6LqBl3Dkl9l5q
+ jzdCLWtRLmkDhtqWsDd3iN/HFn0Wj1txWNlJeR+OGra4WzkiY7+BY8PLkEtc8jBUUDzb
+ PW3+u82O9+23bpRfdVl35baQz4ICFNRCbGLDANHxG+8ibgPKsvIJ8ieb/gL8VxHc9NCs
+ y5KV6XAhyHUQpGsURYpufNcasWnDsC9bNDxEVFa7lB1GwOTeD9MQz+IpZMt+EWNROw1u
+ 2mAA==
+X-Gm-Message-State: ACrzQf0B3v0LIboUyyQ3tyrksdTnwfZR0UCtsUMVFl8cQ//nO9/Rqd5Y
+ KJzSlzgdDcx4HrdNJLpHAEU0JpmWG2EjY59PACSTig==
+X-Google-Smtp-Source: AMsMyM7btOcGj3mEhpHwjUJdwPGxvJZlylZgdAwYNi+guYabBW+reW9Phlb8yCnrl2rDlAuuCeuMBllz7azWxCTY/yI=
+X-Received: by 2002:a05:6870:a2c7:b0:131:d098:9e37 with SMTP id
+ w7-20020a056870a2c700b00131d0989e37mr4209511oak.152.1664543367011; Fri, 30
+ Sep 2022 06:09:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220930123239.15515-1-jim.shu@sifive.com>
+ <20220930123239.15515-3-jim.shu@sifive.com>
+ <CAJ307Ehp8Juy74EpmxyOTq6sVuPF+d-uLYD3T93ba4ZtRLxdBA@mail.gmail.com>
+In-Reply-To: <CAJ307Ehp8Juy74EpmxyOTq6sVuPF+d-uLYD3T93ba4ZtRLxdBA@mail.gmail.com>
+From: Jim Shu <jim.shu@sifive.com>
+Date: Fri, 30 Sep 2022 21:09:15 +0800
+Message-ID: <CALw707rDW8GwB8fQHyARgY87ZRjPxOV387kZLKWOzqKVZj4=8w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/intc: sifive_plic: change interrupt priority
+ register to WARL field
+To: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::32;
+ envelope-from=jim.shu@sifive.com; helo=mail-oa1-x32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,66 +90,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+hi Cl=C3=A9ment,
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Thank you very much.
+I'll fix it in the next version patch.
 
-> On Sun, 25 Sept 2022 at 12:15, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Prepare for targets to be able to produce TBs that can
->> run in more than one virtual context.
+Thanks,
+Jim Shu
+
+
+
+On Fri, Sep 30, 2022 at 8:58 PM Cl=C3=A9ment Chigot <chigot@adacore.com> wr=
+ote:
 >
->> -/* Similarly, but for logs. */
->> +/*
->> + * Similarly, but for logs. In this case, when the virtual pc
->> + * is not available, use the physical address.
->> + */
->>  static inline target_ulong tb_pc_log(const TranslationBlock *tb)
->>  {
->> +#if TARGET_TB_PCREL
->> +    return tb->page_addr[0];
->> +#else
->>      return tb->pc;
->> +#endif
->>  }
+> Hi Jim,
 >
-> This is going to break previously working setups involving
-> the "filter logging to a particular address range" and also
-> anybody post-processing logfiles and expecting to see
-> the virtual address in -d exec logging, I think.
-
-To be honest I've never found -exec logging that useful for system
-emulation (beyond check-tcg tests) because it just generates so much
-data.
-
-> For the exec logging, we surely must know the actual
-> virtual PC at the point of TB execution -- we were
-> previously just using tb->pc as a convenient architecture
-> independent place to get that from, but should now do
-> something else.
+> On Fri, Sep 30, 2022 at 2:32 PM Jim Shu <jim.shu@sifive.com> wrote:
+> >
+> > PLIC spec [1] requires interrupt source priority registers are WARL
+> > field and the number of supported priority is power-of-2 to simplify SW
+> > discovery.
+> >
+> > Existing QEMU RISC-V machine (e.g. shakti_c) don't strictly follow PLIC
+> > spec, whose number of supported priority is not power-of-2. Just change
+> > each bit of interrupt priority register to WARL field when the number o=
+f
+> > supported priority is power-of-2.
+> >
+> > [1] https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.ado=
+c#interrupt-priorities
+> >
+> > Signed-off-by: Jim Shu <jim.shu@sifive.com>
+> > ---
+> >  hw/intc/sifive_plic.c | 21 +++++++++++++++++++--
+> >  1 file changed, 19 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> > index f864efa761..218ccff8bd 100644
+> > --- a/hw/intc/sifive_plic.c
+> > +++ b/hw/intc/sifive_plic.c
+> > @@ -180,7 +180,15 @@ static void sifive_plic_write(void *opaque, hwaddr=
+ addr, uint64_t value,
+> >      if (addr_between(addr, plic->priority_base, plic->num_sources << 2=
+)) {
+> >          uint32_t irq =3D ((addr - plic->priority_base) >> 2) + 1;
+> >
+> > -        if (value <=3D plic->num_priorities) {
+> > +        if ((plic->num_priorities + 1) & (plic->num_priorities)) {
 >
-> For places where logging a virtual PC becomes meaningless,
-> we should at least indicate whether we're logging a
-> physaddr or a vaddr, because now depending on the config
-> we might do either.
-
-Yes we should extend the logging to say phys-pc or virt-pc=20
-
-> For the range-filter stuff, I'm not sure what to do.
-> Alex, any ideas?
+> That's the opposite. If n is a power of 2, n & (n-1) =3D=3D 0 (eg 8 & 7 =
+=3D=3D
+>  0, 9 & 8 =3D=3D 8).
+> Note that n must be positive too. But I'm not sure it matters here.
+> I'll let you decide.
 >
-> (I see the -dfilter option documentation doesn't say
-> whether it's intending to work on physical or virtual
-> addresses...)
-
-I have a feeling for system emulation phys-pc is the most natural but we
-could extend the filter spec to be explicit.
-
+> > +            /*
+> > +             * if "num_priorities + 1" is power-of-2, make each regist=
+er bit of
+> > +             * interrupt priority WARL (Write-Any-Read-Legal). Just fi=
+lter
+> > +             * out the access to unsupported priority bits.
+> > +             */
+> > +            plic->source_priority[irq] =3D value % (plic->num_prioriti=
+es + 1);
+> > +            sifive_plic_update(plic);
+> > +        } else if (value <=3D plic->num_priorities) {
+> >              plic->source_priority[irq] =3D value;
+> >              sifive_plic_update(plic);
+> >          }
+> > @@ -207,7 +215,16 @@ static void sifive_plic_write(void *opaque, hwaddr=
+ addr, uint64_t value,
+> >          uint32_t contextid =3D (addr & (plic->context_stride - 1));
+> >
+> >          if (contextid =3D=3D 0) {
+> > -            if (value <=3D plic->num_priorities) {
+> > +            if ((plic->num_priorities + 1) & (plic->num_priorities)) {
 >
-> thanks
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
+> Same.
+>
+> > +                /*
+> > +                 * if "num_priorities + 1" is power-of-2, each registe=
+r bit of
+> > +                 * interrupt priority is WARL (Write-Any-Read-Legal). =
+Just
+> > +                 * filter out the access to unsupported priority bits.
+> > +                 */
+> > +                plic->target_priority[addrid] =3D value %
+> > +                                                (plic->num_priorities =
++ 1);
+> > +                sifive_plic_update(plic);
+> > +            } else if (value <=3D plic->num_priorities) {
+> >                  plic->target_priority[addrid] =3D value;
+> >                  sifive_plic_update(plic);
+> >              }
+> > --
+> > 2.17.1
+>
+> Cl=C3=A9ment
 
