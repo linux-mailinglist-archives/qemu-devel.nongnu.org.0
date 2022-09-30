@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CDE55F0CC3
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:51:35 +0200 (CEST)
-Received: from localhost ([::1]:52930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34585F0CCB
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:53:37 +0200 (CEST)
+Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeGQQ-0002od-Ca
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51880)
+	id 1oeGSO-0006Ph-Kl
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:53:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeGAo-0000GK-TY
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:26 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41556)
+ id 1oeGAp-0000HS-6q
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:27 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oeGAk-0006Vw-G9
+ id 1oeGAl-0006WR-Sa
  for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:35:26 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id r6so6900918wru.8
+Received: by mail-wr1-x42f.google.com with SMTP id j7so1512148wrr.3
  for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 06:35:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date;
- bh=c+FYVmj0JEyf0MfnmUSKTWHaE3vpV75V3WufrP8RknE=;
- b=y8U8iaSI72QCuJuIz1uL/WKFmpJDBIxQZxGn/MTH6byzgzaRH2AbkeTJ5XgbfrwFOE
- vzNB7yu5FZrnhiv1GlgAiqaNoVusgPdWyuc0koprKr5vcMPrqlmUqnPSuk9PlHg4Ndjn
- hHWYA9Ca6Rmy93WU8/Lm8TZ7NMjO2KA+7dgDgt3o8Whw1CjV9l8P/XLmLQ2HyHSENYq5
- 6ofq4u9rCmWgG5tVnnnFQmNTYiNvG1WXfA4FTsU0qqWPixS/ulCzUAuGqFpIen/h0aqV
- 5gUA7cFGdhSlBS3M6rLswYyuAJcFatpph+FjjcjYdkS57X+z58lQEhRAeadUlXN2+Ubj
- uWJw==
+ bh=NhqIrzhBpcl574rWKiDGts78z115WmBNREKOX97NyXE=;
+ b=xYIhCA1lDFNWkEalEw6EWIGnRJMJNdPQFwGza0I9HnF+tEJs/UClkxTrE4kbWXljx8
+ o17nqeKFXFhXUAGas13qsh9n8OFQTLSNpCRJvQJPOxPqLq+DLwr34NCCuSoyD/qQ4Q0H
+ AlBFhrS4G25BrNTxy3y6bkOmtCkZPpQl7ljtc3gBKhaR6xr1q/UQBUv0s8WRr7JnG0sN
+ EMjM7MLomQRAevsKlfYQ1uWrM2bFwG/91vVN9SNh0zfLffI81rcVBCzYnRw2c5JhFytx
+ E6bR97eAWR7D+RlUn+k/gOrfPBoLlQFxHAUvt1YqDQG0sxVQaJvUGApL/5DmndLZth5t
+ JBWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=c+FYVmj0JEyf0MfnmUSKTWHaE3vpV75V3WufrP8RknE=;
- b=uELLOSafRW+YsR+aK+jHGkdYN5spXvC/eRULR1OAStE5UgIWTnLBMwh3O9X0vV/iHb
- 4e/Adj7dhHVW0E9jl3li829XH96x/uNWJ/0tnliUrYpQxlVOKMRCYD/t8WpYdqFeW2Zm
- +Xu4ZXcJdD4cj0OLFlBqyDMjYOKPPllQ4vJsEr+T5imNLHBYJuKymO64FisXYHf8/fLd
- X+SxDVjsjUjaPMjNwB57yWh8xwa9mbUnYq+EcMUG1cRc5jiPwzMkHFF08CqYXjWEyTZh
- UfqhCGx5sTml2PTC/qsYveiTXwwBTumZ3PhdNnyg2S8/QeKd/mA9uLyQVCNKhPzUqpx4
- oQlw==
-X-Gm-Message-State: ACrzQf2navrjfhDBfNT1zZzxKzFCsD/uXp/SUTlr/G/V1zBRQron2Ran
- R/Auu3By4VnWFa4XxYuKU0tjw5JznlHt6g==
-X-Google-Smtp-Source: AMsMyM56qTEggK89qCCyuf8YkYyndoYp3HZwRL/3DUoeXpCKigQWmLrY3vU4AS714rFpG++M9k4eTQ==
-X-Received: by 2002:a05:6000:69d:b0:22a:fa56:86b9 with SMTP id
- bo29-20020a056000069d00b0022afa5686b9mr5944894wrb.193.1664544921074; 
+ bh=NhqIrzhBpcl574rWKiDGts78z115WmBNREKOX97NyXE=;
+ b=DSt/CfoRc6Vadciz6ooYUIre/kit6paq324Nq5Wmdh1/qzd5kh2y0Vy11laynxfdXu
+ PZBARsxgLnCJh0NkzTS2qxltRl/6fJAMTSZ3yUqSxkAOtsNyl2/Iam6vSGeG5fUC9RS7
+ G0SrlscIOpWPPtgX49+9719UXeA2/x8vF6bKTDLT+uYEHPByyDkIyvLcCWEad7BJqt+p
+ d015SkVOVKIsYqjeCzXcEsqUGaWHPTHVME+i/IvPp4M16proTLCBEWblOhdf929OdxvV
+ e7jOr0h9Stx36Jgdh3v8Cyk/VkkFXdlNP1DWLtE+u5srTu2ImS3upkFbynOk3MkJCZnq
+ 5lTw==
+X-Gm-Message-State: ACrzQf2/iW3w16H2KpFypFukFBAKlQDuT/GULeSaEGdWDPCeGxqDhoQc
+ gXtGZGj1H4JY/2uz0mXvYSIakvRqfzRhVQ==
+X-Google-Smtp-Source: AMsMyM7Oh5IYSfARUm4xRrfwvr8VuQ5EqEAW6dltwOjPcnLSIVNY7kOgChvTAD+S00D/evozETJvFg==
+X-Received: by 2002:a05:6000:1881:b0:22b:262f:ee2a with SMTP id
+ a1-20020a056000188100b0022b262fee2amr5811470wri.432.1664544921851; 
  Fri, 30 Sep 2022 06:35:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- q12-20020adfcd8c000000b0021e4829d359sm1982551wrj.39.2022.09.30.06.35.20
+ q12-20020adfcd8c000000b0021e4829d359sm1982551wrj.39.2022.09.30.06.35.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Sep 2022 06:35:20 -0700 (PDT)
+ Fri, 30 Sep 2022 06:35:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/10] hw/arm/virt: Fix devicetree warning about the SMMU node
-Date: Fri, 30 Sep 2022 14:35:10 +0100
-Message-Id: <20220930133511.2112734-10-peter.maydell@linaro.org>
+Subject: [PULL 10/10] target/arm: mark SP_EL1 with ARM_CP_EL3_NO_EL2_KEEP
+Date: Fri, 30 Sep 2022 14:35:11 +0100
+Message-Id: <20220930133511.2112734-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220930133511.2112734-1-peter.maydell@linaro.org>
 References: <20220930133511.2112734-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,37 +89,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+From: Jerome Forissier <jerome.forissier@linaro.org>
 
-The SMMUv3 node isn't expected to have clock properties
-(unlike the SMMUv2). Fix the corresponding dt-validate warning:
+SP_EL1 must be kept when EL3 is present but EL2 is not. Therefore mark
+it with ARM_CP_EL3_NO_EL2_KEEP.
 
-  smmuv3@9050000: 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
-  From schema: linux/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml
-
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-[PMM: tweaked commit message as suggested by Eric]
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20220927100347.176606-7-jean-philippe@linaro.org
+Cc: qemu-stable@nongnu.org
+Fixes: 696ba3771894 ("target/arm: Handle cpreg registration for missing EL")
+Signed-off-by: Jerome Forissier <jerome.forissier@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20220927120058.670901-1-jerome.forissier@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/arm/helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index b67ba0f2a10..cda9defe8f0 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1361,8 +1361,6 @@ static void create_smmu(const VirtMachineState *vms,
-     qemu_fdt_setprop(ms->fdt, node, "interrupt-names", irq_names,
-                      sizeof(irq_names));
- 
--    qemu_fdt_setprop_cell(ms->fdt, node, "clocks", vms->clock_phandle);
--    qemu_fdt_setprop_string(ms->fdt, node, "clock-names", "apb_pclk");
-     qemu_fdt_setprop(ms->fdt, node, "dma-coherent", NULL, 0);
- 
-     qemu_fdt_setprop_cell(ms->fdt, node, "#iommu-cells", 1);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 24c592ffef8..db3b1ea72da 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -5088,7 +5088,7 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
+       .fieldoffset = offsetof(CPUARMState, sp_el[0]) },
+     { .name = "SP_EL1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 4, .crn = 4, .crm = 1, .opc2 = 0,
+-      .access = PL2_RW, .type = ARM_CP_ALIAS,
++      .access = PL2_RW, .type = ARM_CP_ALIAS | ARM_CP_EL3_NO_EL2_KEEP,
+       .fieldoffset = offsetof(CPUARMState, sp_el[1]) },
+     { .name = "SPSel", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 0, .crn = 4, .crm = 2, .opc2 = 0,
 -- 
 2.25.1
 
