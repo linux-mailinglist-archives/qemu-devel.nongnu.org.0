@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B135F0D5B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:21:19 +0200 (CEST)
-Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9735F0D82
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:28:32 +0200 (CEST)
+Received: from localhost ([::1]:47186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeGtC-0000o9-DQ
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40426)
+	id 1oeH0A-000133-IQ
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:28:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=ugbF=2B=zx2c4.com=Jason@kernel.org>)
- id 1oeGe4-0001hI-DA
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:05:40 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:48108)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=ugbF=2B=zx2c4.com=Jason@kernel.org>)
- id 1oeGe1-0003pB-Qe
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:05:39 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9201FB828F0;
- Fri, 30 Sep 2022 14:05:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF1C3C433C1;
- Fri, 30 Sep 2022 14:05:30 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="kgZym1BX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664546728;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=vep5nrxTm+IGrp39dQvVdZTB+ey0J1KFVywzWMSBFd0=;
- b=kgZym1BXIqDZk2VXY82rB/eT66zCEf61r/056J2tas2F6BPgm2+/LeFi2PtseIbzISgIGh
- yJGHgW9OwgpEc1oO6NvWqAmwq2BQcZpVJ+gg//l1ONgRmMeonujj7GgldpWyVopD2Nknfh
- Y4eQw33K8Iqx5YFbhquqvDFp+g6HSeQ=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4965eafb
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Fri, 30 Sep 2022 14:05:28 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: f4bug@amsat.org, aurelien@aurel32.net, qemu-devel@nongnu.org,
- tsbogend@alpha.franken.de
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH qemu] mips/malta: pass RNG seed to to kernel via env var
-Date: Fri, 30 Sep 2022 16:05:20 +0200
-Message-Id: <20220930140520.576374-1-Jason@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oeGh2-0004G5-Nx
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:08:49 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:33672)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oeGh0-00049U-Up
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:08:44 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id f193so4318105pgc.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 07:08:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=W5ZJKgp69M5RK4BB3AgmyWZMvgT/zIaRglKyNBzBnNs=;
+ b=MPT9uNVROX9OC6EhafC+LNQmCFfE5efTvBonfscgGTKLWjaIEqtJfh1fUfMqUgUM5H
+ 02PM/YyC6Gl365D7LIRCepa+WCf0gdoS+QWq8iVg+FLebr+eF6l7T9QZpikBruG+9sXB
+ OEZmehCUhmlSqqpHDUfmbBSmJoZgUH1727E2k0OoWaG1Ic+uZiURRCftq8+ffUvOXyGm
+ BQfxYumdhYWxAN9XXQ/OFtdBuvwtHAK4HJgr+Nj7lnHYM0OSld/6mec3Ev9e3JOmYSMf
+ 0LvXlTQAtEXuQ080xrcBXlNl6xVrGF6PsXHX+HgUMNV/lD8iDLtoeLxd6ZuHdgM7IE5p
+ hvOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=W5ZJKgp69M5RK4BB3AgmyWZMvgT/zIaRglKyNBzBnNs=;
+ b=R8CclO3ngBJDFAKp3P+k5pcnmFpjpV5qz+VElTSqm738itjFCJUslR6hvHKD8ltVTW
+ uGAW4er5E3IOMwY6GhFs6Mz4Mg+MqsGlai0VUfqGhnA+gvE+xe6BXRLOENfAEzsFykYF
+ ip0NeymSX0rpnqwWQ3eON4GCpoZtVMc1Y+d3wvMbNbR3lvPGy6777MSbI+1PAIyPGVw3
+ eKMcTdh0TAW92aVKcyBxF2jh58vqk12YIJgCBaTqqioQ8JP6I60iFmGo0QK4u7So5Efo
+ 3KoV89qMu51v+WrbQs2XYd2p+XpMIZVP2veJLJI1ecAX4GsnLqNoqkVFwLiVhZNDBsSC
+ XNlA==
+X-Gm-Message-State: ACrzQf2IhOselNbn5Lcni/3+hUD+8EUy8szuR+loxxhLaf5bBUJ6vyqQ
+ ZU1tFcQRaWC8WhHM9QbphzGetw==
+X-Google-Smtp-Source: AMsMyM5UNFPJ7rxp6n7hGr5C/KpQPIdgmfCbf/ZCK02qDOB14pAopXHSjCsJSltU8uXGBOGNAvMyDg==
+X-Received: by 2002:a05:6a00:4287:b0:543:7bae:55f7 with SMTP id
+ bx7-20020a056a00428700b005437bae55f7mr9297741pfb.58.1664546921174; 
+ Fri, 30 Sep 2022 07:08:41 -0700 (PDT)
+Received: from [192.168.74.154] ([50.200.230.211])
+ by smtp.gmail.com with ESMTPSA id
+ 204-20020a6216d5000000b00537eb00850asm1823530pfw.130.2022.09.30.07.08.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Sep 2022 07:08:40 -0700 (PDT)
+Message-ID: <d2d717d7-bce7-4121-cf0a-d3b357f9d264@linaro.org>
+Date: Fri, 30 Sep 2022 07:08:38 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=ugbF=2B=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 1/2] hw/intc: Fix LoongArch extioi function
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
+ f4bug@amsat.org, peter.maydell@linaro.org
+References: <20220930095139.867115-1-yangxiaojuan@loongson.cn>
+ <20220930095139.867115-2-yangxiaojuan@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220930095139.867115-2-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.583,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,77 +95,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the kernel patch linked below, Linux ingests a RNG seed
-passed from the hypervisor. So, pass this for the Malta platform, and
-reinitialize it on reboot too, so that it's always fresh.
+On 9/30/22 02:51, Xiaojuan Yang wrote:
+> 1.When cpu read or write extioi COREISR reg, it should access
+> the reg belonged to itself, so the index of 's->coreisr' is
+> current cpu number. Using MemTxAttrs' requester_type and id
+> to get the cpu index.
+> 2.Remove the unused extioi system memory region and we only
+> support the extioi iocsr memory region now.
+> 
+> Based-on:<20220927141504.3886314-1-alex.bennee@linaro.org>
+> Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
+> ---
+>   hw/intc/loongarch_extioi.c      | 51 +++++++++++++++++++--------------
+>   hw/intc/trace-events            |  2 +-
+>   target/loongarch/iocsr_helper.c | 16 +++++------
+>   3 files changed, 38 insertions(+), 31 deletions(-)
 
-Link: https://lore.kernel.org/linux-mips/20220930140138.575751-1-Jason@zx2c4.com/
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/mips/malta.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 0e932988e0..9d793b3c17 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -26,6 +26,7 @@
- #include "qemu/units.h"
- #include "qemu/bitops.h"
- #include "qemu/datadir.h"
-+#include "qemu/guest-random.h"
- #include "hw/clock.h"
- #include "hw/southbridge/piix.h"
- #include "hw/isa/superio.h"
-@@ -1017,6 +1018,17 @@ static void G_GNUC_PRINTF(3, 4) prom_set(uint32_t *prom_buf, int index,
-     va_end(ap);
- }
- 
-+static void reinitialize_rng_seed(void *opaque)
-+{
-+    char *rng_seed_hex = opaque;
-+    uint8_t rng_seed[32];
-+
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
-+        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
-+    }
-+}
-+
- /* Kernel */
- static uint64_t load_kernel(void)
- {
-@@ -1028,6 +1040,8 @@ static uint64_t load_kernel(void)
-     long prom_size;
-     int prom_index = 0;
-     uint64_t (*xlate_to_kseg0) (void *opaque, uint64_t addr);
-+    uint8_t rng_seed[32];
-+    char rng_seed_hex[sizeof(rng_seed) * 2 + 1];
- 
- #if TARGET_BIG_ENDIAN
-     big_endian = 1;
-@@ -1115,9 +1129,20 @@ static uint64_t load_kernel(void)
- 
-     prom_set(prom_buf, prom_index++, "modetty0");
-     prom_set(prom_buf, prom_index++, "38400n8r");
-+
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
-+        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
-+    }
-+    prom_set(prom_buf, prom_index++, "rngseed");
-+    prom_set(prom_buf, prom_index++, "%s", rng_seed_hex);
-+
-     prom_set(prom_buf, prom_index++, NULL);
- 
-     rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
-+    qemu_register_reset(reinitialize_rng_seed,
-+                        memmem(rom_ptr(ENVP_PADDR, prom_size), prom_size,
-+                               rng_seed_hex, sizeof(rng_seed_hex)));
- 
-     g_free(prom_buf);
-     return kernel_entry;
--- 
-2.37.3
+For future reference, the Based-on: tag belongs in the cover letter.
 
+
+r~
 
