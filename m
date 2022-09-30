@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DABA25F0BEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 14:47:58 +0200 (CEST)
-Received: from localhost ([::1]:55448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB235F0C4A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:15:26 +0200 (CEST)
+Received: from localhost ([::1]:59106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeFQr-0000Wv-GZ
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 08:47:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43964)
+	id 1oeFrR-000138-A9
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:15:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oeFFC-0007aV-00; Fri, 30 Sep 2022 08:36:01 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:59275
- helo=gandalf.ozlabs.org)
+ (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
+ id 1oeEZl-0007Vb-4E
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 07:53:05 -0400
+Received: from wp530.webpack.hosteurope.de
+ ([2a01:488:42:1000:50ed:8234::]:59994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1oeFF6-0003uo-Vz; Fri, 30 Sep 2022 08:35:53 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Mf8pB5q8Lz4xGT; Fri, 30 Sep 2022 22:35:30 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1664541330;
- bh=ee1pBljzWkpbUXWXP7yqiExn3TUmXmcLksMqyumVWBE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=P+UDUtpSTd6cjtrwZBqZP0eB+74XIv5dGLvPU3EEUPEd94x6No5oyHNKAzrHqITmk
- rCU1n9VrBnylFYK7Y6u4TWZlkGXFmUQ4sD3jOxuGoYLbs5/qELfvtS5T1okLg/9See
- ae9WvahIZFWQvpB69Dta6NPj+SP9/nEZaY+4dQLg=
-Date: Fri, 30 Sep 2022 11:34:35 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] MAINTAINERS: step back from PPC
-Message-ID: <YzZHq0mVCW0iTF3P@yekko>
-References: <20220929180946.848721-1-clg@kaod.org>
- <20220929201340.76e1096f@bahia>
+ (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
+ id 1oeEZh-0004bE-ML
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 07:53:03 -0400
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+ by wp530.webpack.hosteurope.de running ExIM with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1oeEZd-0005wF-Di; Fri, 30 Sep 2022 13:52:57 +0200
+Message-ID: <99249078-2026-c76c-87eb-8e3ac5dde73d@leemhuis.info>
+Date: Fri, 30 Sep 2022 13:52:55 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cvcewmzRYseXGEXY"
-Content-Disposition: inline
-In-Reply-To: <20220929201340.76e1096f@bahia>
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: Commit 'iomap: add support for dma aligned direct-io' causes
+ qemu/KVM boot failures
+Content-Language: en-US, de-DE
+To: linux-kernel@vger.kernel.org,
+ "regressions@lists.linux.dev" <regressions@lists.linux.dev>
+Cc: linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org, kvm@vger.kernel.org
+References: <fb869c88bd48ea9018e1cc349918aa7cdd524931.camel@redhat.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <fb869c88bd48ea9018e1cc349918aa7cdd524931.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1664538781;
+ 16d3f3be; 
+X-HE-SMSGID: 1oeEZd-0005wF-Di
+Received-SPF: pass client-ip=2a01:488:42:1000:50ed:8234::;
+ envelope-from=regressions@leemhuis.info; helo=wp530.webpack.hosteurope.de
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.583,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 30 Sep 2022 09:08:39 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,115 +66,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+TWIMC: this mail is primarily send for documentation purposes and for
+regzbot, my Linux kernel regression tracking bot. These mails usually
+contain '#forregzbot' in the subject, to make them easy to spot and filter.
 
---cvcewmzRYseXGEXY
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[TLDR: I'm adding this regression report to the list of tracked
+regressions; all text from me you find below is based on a few templates
+paragraphs you might have encountered already already in similar form.]
 
-On Thu, Sep 29, 2022 at 08:13:40PM +0200, Greg Kurz wrote:
-> On Thu, 29 Sep 2022 20:09:46 +0200
-> C=E9dric Le Goater <clg@kaod.org> wrote:
->=20
-> > I am not active anymore on the PPC maintainership, degrade my self as
-> > standard Reviewer. Also degrade PowerNV and XIVE status since I am not
-> > funded for this work.
-> >=20
-> > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > ---
->=20
-> End of an era. Thank you for all the dedication and accomplishments !
+Hi, this is your Linux kernel regression tracker. This might be a Qemu
+bug, but it's exposed by kernel change, so I at least want to have it in
+the tracking. I'll simply remove it in a few weeks, if it turns out that
+nobody except Maxim hits this.
 
-Seconded.
+On 29.09.22 17:41, Maxim Levitsky wrote:
+> Hi!
+>  
+> Recently I noticed that this commit broke the boot of some of the VMs that I run on my dev machine.
+>  
+> It seems that I am not the first to notice this but in my case it is a bit different
+>  
+> https://lore.kernel.org/all/e0038866ac54176beeac944c9116f7a9bdec7019.camel@linux.ibm.com/
+>  
+> My VM is a normal x86 VM, and it uses virtio-blk in the guest to access the virtual disk,
+> which is a qcow2 file stored on ext4 filesystem which is stored on NVME drive with 4K sectors.
+> (however I was also able to reproduce this on a raw file)
+>  
+> It seems that the only two things that is needed to reproduce the issue are:
+>  
+> 1. The qcow2/raw file has to be located on a drive which has 4K hardware block size.
+> 2. Qemu needs to use direct IO (both aio and 'threads' reproduce this). 
+>  
+> I did some debugging and I isolated the kernel change in behavior from qemu point of view:
+>  
+>  
+> Qemu, when using direct IO, 'probes' the underlying file.
+>  
+> It probes two things:
+>  
+> 1. It probes the minimum block size it can read.
+>    It does so by trying to read 1, 512, 1024, 2048 and 4096 bytes at offset 0,
+>    using a 4096 bytes aligned buffer, and notes the first read that works as the hardware block size.
+>  
+>    (The relevant function is 'raw_probe_alignment' in src/block/file-posix.c in qemu source code).
+>  
+>  
+> 2. It probes the buffer alignment by reading 4096 bytes also at file offset 0,
+>    this time using a buffer that is 1, 512, 1024, 2048 and 4096 aligned
+>    (this is done by allocating a buffer which is 4K aligned and adding 1/512 and so on to its address)
+>  
+>    First successful read is saved as the required buffer alignment. 
+>  
+>  
+> Before the patch, both probes would yield 4096 and everything would work fine.
+> (The file in question is stored on 4K block device)
+>  
+>  
+> After the patch the buffer alignment probe succeeds at 512 bytes.
+> This means that the kernel now allows to read 4K of data at file offset 0 with a buffer that
+> is only 512 bytes aligned. 
+>  
+> It is worth to note that the probe was done using 'pread' syscall.
+>  
+>  
+> Later on, qemu likely reads the 1st 512 sector of the drive.
+>  
+> It uses preadv with 2 io vectors:
+>  
+> First one is for 512 bytes and it seems to have 0xC00 offset into page 
+> (likely depends on debug session but seems to be consistent)
+>  
+> Second one is for 3584 bytes and also has a buffer that is not 4K aligned.
+> (0x200 page offset this time)
+>  
+> This means that the qemu does respect the 4K block size but only respects 512 bytes buffer alignment,
+> which is consistent with the result of the probing.
+>  
+> And that preadv fails with -EINVAL
+>  
+> Forcing qemu to use 4K buffer size fixes the issue, as well as reverting the offending commit.
+>  
+> Any patches, suggestions are welcome.
+> 
+> I use 6.0-rc7, using mainline master branch as yesterday.
+>  
+> Best regards,
+> 	Maxim Levitsky
+> 
+Thanks for the report. To be sure below issue doesn't fall through the
+cracks unnoticed, I'm adding it to regzbot, my Linux kernel regression
+tracking bot:
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+#regzbot ^introduced bf8d08532bc1
+#regzbot ignore-activity
 
->=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
->=20
-> >  MAINTAINERS | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 1729c0901cea..40f4984b439b 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -267,8 +267,8 @@ F: hw/openrisc/
-> >  F: tests/tcg/openrisc/
-> > =20
-> >  PowerPC TCG CPUs
-> > -M: C=E9dric Le Goater <clg@kaod.org>
-> >  M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > +R: C=E9dric Le Goater <clg@kaod.org>
-> >  R: David Gibson <david@gibson.dropbear.id.au>
-> >  R: Greg Kurz <groug@kaod.org>
-> >  L: qemu-ppc@nongnu.org
-> > @@ -392,8 +392,8 @@ F: target/mips/kvm*
-> >  F: target/mips/sysemu/
-> > =20
-> >  PPC KVM CPUs
-> > -M: C=E9dric Le Goater <clg@kaod.org>
-> >  M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > +R: C=E9dric Le Goater <clg@kaod.org>
-> >  R: David Gibson <david@gibson.dropbear.id.au>
-> >  R: Greg Kurz <groug@kaod.org>
-> >  S: Maintained
-> > @@ -1365,8 +1365,8 @@ F: include/hw/rtc/m48t59.h
-> >  F: tests/avocado/ppc_prep_40p.py
-> > =20
-> >  sPAPR (pseries)
-> > -M: C=E9dric Le Goater <clg@kaod.org>
-> >  M: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > +R: C=E9dric Le Goater <clg@kaod.org>
-> >  R: David Gibson <david@gibson.dropbear.id.au>
-> >  R: Greg Kurz <groug@kaod.org>
-> >  L: qemu-ppc@nongnu.org
-> > @@ -1387,7 +1387,7 @@ F: tests/avocado/ppc_pseries.py
-> >  PowerNV (Non-Virtualized)
-> >  M: C=E9dric Le Goater <clg@kaod.org>
-> >  L: qemu-ppc@nongnu.org
-> > -S: Maintained
-> > +S: Odd Fixes
-> >  F: docs/system/ppc/powernv.rst
-> >  F: hw/ppc/pnv*
-> >  F: hw/intc/pnv*
-> > @@ -2321,7 +2321,7 @@ T: git https://github.com/philmd/qemu.git fw_cfg-=
-next
-> >  XIVE
-> >  M: C=E9dric Le Goater <clg@kaod.org>
-> >  L: qemu-ppc@nongnu.org
-> > -S: Supported
-> > +S: Odd Fixes
-> >  F: hw/*/*xive*
-> >  F: include/hw/*/*xive*
-> >  F: docs/*/*xive*
->=20
+This isn't a regression? This issue or a fix for it are already
+discussed somewhere else? It was fixed already? You want to clarify when
+the regression started to happen? Or point out I got the title or
+something else totally wrong? Then just reply -- ideally with also
+telling regzbot about it, as explained here:
+https://linux-regtracking.leemhuis.info/tracked-regression/
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Reminder for developers: When fixing the issue, add 'Link:' tags
+pointing to the report (the mail this one replies to), as explained for
+in the Linux kernel's documentation; above webpage explains why this is
+important for tracked regressions.
 
---cvcewmzRYseXGEXY
-Content-Type: application/pgp-signature; name="signature.asc"
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmM2R6IACgkQgypY4gEw
-YSIzTg//YGDEUGZmnualCaH3Epj19tobkPOq/Sbf3u+8WuzwMdun7cq2ioKu4iFv
-3gvBVM8WEkuKWjb6ddm08NvxegIkIxKjJdGNAC5YJuF7TAEGYvOAdgKMxD6HedH6
-5ZYqEe/2vSDOnsYZHzoIyfwiwy85rZf/SCJ/aIa6boaxlWizqUbAKVER9+5d+Vru
-s+Z6H7/dSI3/Meh/ekoAhCh08YParOIk7kd06qCMQ4DLFjOmGsSB2X0l2UB9NHBq
-ytO2ffLcFxiXpz7FSuWGS4PWD4uowfpWgui+zm08Ux4bHTKepEhogYgpBkA2PboW
-it1HgsZGqPu36xdGgr+fLrA9ckyM/Ls1j4yt3+r1/Ns8CcGy5i6OPl3b23cHEs9O
-MPsksq2fyItB1t+0rPrZH9WduE2EgdfpxXlQMAuDLkoRC2amuRiEDFxx8ll1gB4c
-/5WaT8LfzxhmWsipJny6BxGcWUqVEUh5NL4S1oO4/dwj884F0Ln+aiM1wDbT+X/E
-50Uog+Yqe0/Bg7ut4/uWK/3UhMw6UOk+Vaad5bH9i2xKttAFpu7vKBI6vRE16bLg
-W0KHjD+GpfZvGGlNK/3YrjlScEKY1zNzq+eXTL8Hm5oe7wrgeRN1mIHK/8atKp2b
-rHUSY56oxTN+8b9neMfnar8MsvpCz93m5tjIHDbj64KPZVllA9g=
-=hXl6
------END PGP SIGNATURE-----
-
---cvcewmzRYseXGEXY--
+P.S.: As the Linux kernel's regression tracker I deal with a lot of
+reports and sometimes miss something important when writing mails like
+this. If that's the case here, don't hesitate to tell me in a public
+reply, it's in everyone's interest to set the public record straight.
 
