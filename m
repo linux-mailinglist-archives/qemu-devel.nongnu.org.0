@@ -2,77 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D81DB5F0C29
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:03:29 +0200 (CEST)
-Received: from localhost ([::1]:34910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F10895F0C2B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:05:53 +0200 (CEST)
+Received: from localhost ([::1]:60778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeFfn-0000ts-Te
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:03:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48902)
+	id 1oeFiD-0002AI-1G
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1oeFas-0005w8-Mc
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 08:58:19 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:46027)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1oeFaq-0000Bq-N7
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 08:58:18 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-357208765adso2299627b3.12
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 05:58:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=KoLu5WkdXhx7hLmkR4lLA85JNYlpdlccvZ6ubucH6bQ=;
- b=ZfT/RH2KwTNu/80gp+t9CR0nGGgj8ST4YBgZookrEZt0aT8OPyCuhcL3CHPr+vENLB
- udjMY24DxJFGGJW1FiW5/Z9f6jftE2NNXfoqbTxN2bXRCAoGXO+MyykMm7H6ua8z6XHR
- fSAzOowQZQMBkuH3Erk2Cey+f4BfIQvdj0qp8vKCUVZMmvgHVvQY2UwJDfDdSkczi4Kw
- l+c2w/Yrq/NgurPr7U4vNs7h/m6DSliaoy5V5jsuZCLpLtOJrpwMPCe2g1dCmA7m/Xpx
- EmpbhjzSAl44oT+/wJUYhqwOfhLZku/AtA7ERuW9IVdoMcJUvNNN8b/BH/AfUSSDnEM9
- q77A==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1oeFbv-0006ri-7Y
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 08:59:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40962)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1oeFbs-0000Hd-2L
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 08:59:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664542755;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SIPpLvVsXyGSV/6hVBfNJb7FroTAcs3NYjH1ggKZrgg=;
+ b=L856nh9rxtZHon/8yh/7GRVc+1xVnkgVFc+VnKwDT7Jd0aqgANNxsK2p0EaC2nQ3ADlsYl
+ vE2WNT6K0MiJqiwepnW3HajU2YUu+4fy3RMNd/KK5Kn5IFuduDSTsbwJRcIaNiwplYSR5J
+ 8LP0ZlK/Yn3/YBXKMzO//CZHd40Ph+Q=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-482-47x-GCYPMaiO_0c6NVgz_Q-1; Fri, 30 Sep 2022 08:59:13 -0400
+X-MC-Unique: 47x-GCYPMaiO_0c6NVgz_Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g8-20020a05600c4ec800b003b4bcbdb63cso2038356wmq.7
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 05:59:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=KoLu5WkdXhx7hLmkR4lLA85JNYlpdlccvZ6ubucH6bQ=;
- b=yd3i5g6nfkvJXCAfTIYyLXXbd+yBtyxRkjZiW3woF1U9waRg63/ohh9i2LrKkkQIw3
- fFtsUi17azGv9SK97UWznISeF9j5dJXcqk6DO/JSBBk+3GHFwgs3Kh03pb4XISbrzUn4
- PlRfE0oIOlIEQGZ76mnpqwPNAZVYE6M/VrP/W5GF3zbocZrXeGE1q0oJQ7BSf9d7V6vq
- HYEkZ1i29bqZ/K9N8QBldxRlrFvU1KxK5hzTHLUCfmnvUaEbMy6tQn+ubEan10aqNp9M
- Q5lB7TuTmO8kXtEpxYmmBrk+chTb34kdIrqCqBujfGprTl3qUy9kpG/7Rj7mlP7o57Vp
- 7yVg==
-X-Gm-Message-State: ACrzQf3TjvHamdyvTC5SsasNBu88ylHdUz4MZCbztNef+lIPXRnc9401
- CxaFL29Zndd4T17L08GhEs+UCyr59KDA1c3wqTQ9xw==
-X-Google-Smtp-Source: AMsMyM527OMWKxTvz8Ae04ZJpdu+3r3Q9fSiWzzFvN9DlOE1diyuDVg0nbzAlxCAlG6Hbb51O8P45SMYmVvtx74IzNo=
-X-Received: by 2002:a81:2513:0:b0:350:5c50:3d9e with SMTP id
- l19-20020a812513000000b003505c503d9emr8764016ywl.454.1664542693933; Fri, 30
- Sep 2022 05:58:13 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=SIPpLvVsXyGSV/6hVBfNJb7FroTAcs3NYjH1ggKZrgg=;
+ b=l7BfNOmMdNpM2kQpEu8rHkqtflk0CNedSjE2k7G+wcUEMpgw3cOScFGXZEiCnsr7ii
+ a4xHHg0/TutNUpV2Zqa8jDQm0xdbHJqZpRc9jO7z6c6wBOZxFS85yXSaqyvsMshLZBoR
+ wkDCVRqg61j3gUgY+aJXBAcP282iSjXrHNO312IMg07LwBHfOEqaud7LE1Vi04HEqR6/
+ MDSFFTzqqFLCy22E8b6XqPXBO5S+x6k5JQPq+Z5ha8aK03STrxsm7qQwP1yEiFXUJMTO
+ uUw22+8Dx/mESW5bsnBikhdhbaRJkP/hIalzl5vmTIjlEQ78m+ZOFkszmddQST2X/yPW
+ ItZA==
+X-Gm-Message-State: ACrzQf1K683wuRDg1eXTf2r9s44weLBsTOYMO5Xsl1ZbrSg9vsALQE1L
+ yvIbL00h927D3gx3r/2/f4H0tbEnz0LYKIk7w0iQt1uLEkxfpGlMY7M0ZYhZtBKy7BpLaLtTpeK
+ uOkn4hlTHigeDEsg=
+X-Received: by 2002:adf:fb0e:0:b0:21a:34a2:5ca9 with SMTP id
+ c14-20020adffb0e000000b0021a34a25ca9mr5791609wrr.472.1664542752045; 
+ Fri, 30 Sep 2022 05:59:12 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5nqbJQN6NOVoL/OIsoWfxzOqUxyiopcx1NPh6B3rqkCtlhpWO97v1ZcrdAJlozPLBkxLy/Jg==
+X-Received: by 2002:adf:fb0e:0:b0:21a:34a2:5ca9 with SMTP id
+ c14-20020adffb0e000000b0021a34a25ca9mr5791583wrr.472.1664542751681; 
+ Fri, 30 Sep 2022 05:59:11 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ k18-20020a05600c1c9200b003b5054c6cd2sm9042899wms.36.2022.09.30.05.59.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Sep 2022 05:59:11 -0700 (PDT)
+Message-ID: <7387a737-21c0-ebf3-2756-b865c7dca04f@redhat.com>
+Date: Fri, 30 Sep 2022 14:59:09 +0200
 MIME-Version: 1.0
-References: <20220930123239.15515-1-jim.shu@sifive.com>
- <20220930123239.15515-3-jim.shu@sifive.com>
-In-Reply-To: <20220930123239.15515-3-jim.shu@sifive.com>
-From: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
-Date: Fri, 30 Sep 2022 14:58:03 +0200
-Message-ID: <CAJ307Ehp8Juy74EpmxyOTq6sVuPF+d-uLYD3T93ba4ZtRLxdBA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] hw/intc: sifive_plic: change interrupt priority
- register to WARL field
-To: Jim Shu <jim.shu@sifive.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=chigot@adacore.com; helo=mail-yw1-x112a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3] target/arm/kvm: Retry KVM_CREATE_VM call if it fails
+ EINTR
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Vitaly Chikunov <vt@altlinux.org>, Marc Zyngier <maz@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20220930113824.1933293-1-peter.maydell@linaro.org>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <20220930113824.1933293-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.583, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,90 +104,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jim,
+Hi Peter,
 
-On Fri, Sep 30, 2022 at 2:32 PM Jim Shu <jim.shu@sifive.com> wrote:
+On 9/30/22 13:38, Peter Maydell wrote:
+> Occasionally the KVM_CREATE_VM ioctl can return EINTR, even though
+> there is no pending signal to be taken. In commit 94ccff13382055
+> we added a retry-on-EINTR loop to the KVM_CREATE_VM call in the
+> generic KVM code. Adopt the same approach for the use of the
+> ioctl in the Arm-specific KVM code (where we use it to create a
+> scratch VM for probing for various things).
 >
-> PLIC spec [1] requires interrupt source priority registers are WARL
-> field and the number of supported priority is power-of-2 to simplify SW
-> discovery.
+> For more information, see the mailing list thread:
+> https://lore.kernel.org/qemu-devel/8735e0s1zw.wl-maz@kernel.org/
 >
-> Existing QEMU RISC-V machine (e.g. shakti_c) don't strictly follow PLIC
-> spec, whose number of supported priority is not power-of-2. Just change
-> each bit of interrupt priority register to WARL field when the number of
-> supported priority is power-of-2.
->
-> [1] https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.adoc#=
-interrupt-priorities
->
-> Signed-off-by: Jim Shu <jim.shu@sifive.com>
+> Reported-by: Vitaly Chikunov <vt@altlinux.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/intc/sifive_plic.c | 21 +++++++++++++++++++--
->  1 file changed, 19 insertions(+), 2 deletions(-)
+> The view in the thread seems to be that this is a kernel bug (because
+> in QEMU's case there shouldn't be a signal to be delivered at this
+> point because of our signal handling strategy); so I've adopted the
+> same "just retry-on-EINTR for this specific ioctl" approach that
+> commit 94ccff13 did, rather than, for instance, something wider like
+> "make kvm_ioctl() and friends always retry on EINTR".
 >
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index f864efa761..218ccff8bd 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -180,7 +180,15 @@ static void sifive_plic_write(void *opaque, hwaddr a=
-ddr, uint64_t value,
->      if (addr_between(addr, plic->priority_base, plic->num_sources << 2))=
- {
->          uint32_t irq =3D ((addr - plic->priority_base) >> 2) + 1;
+> v2: correctly check for -1 and errno is EINTR...
+> v3: really correctly check errno. This time for sure!
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+Thanks
+
+Eric
+> ---
+>  target/arm/kvm.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> -        if (value <=3D plic->num_priorities) {
-> +        if ((plic->num_priorities + 1) & (plic->num_priorities)) {
+> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+> index e5c1bd50d29..1e4de9b42e3 100644
+> --- a/target/arm/kvm.c
+> +++ b/target/arm/kvm.c
+> @@ -79,7 +79,9 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
+>      if (max_vm_pa_size < 0) {
+>          max_vm_pa_size = 0;
+>      }
+> -    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
+> +    do {
+> +        vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
+> +    } while (vmfd == -1 && errno == EINTR);
+>      if (vmfd < 0) {
+>          goto err;
+>      }
 
-That's the opposite. If n is a power of 2, n & (n-1) =3D=3D 0 (eg 8 & 7 =3D=
-=3D
- 0, 9 & 8 =3D=3D 8).
-Note that n must be positive too. But I'm not sure it matters here.
-I'll let you decide.
-
-> +            /*
-> +             * if "num_priorities + 1" is power-of-2, make each register=
- bit of
-> +             * interrupt priority WARL (Write-Any-Read-Legal). Just filt=
-er
-> +             * out the access to unsupported priority bits.
-> +             */
-> +            plic->source_priority[irq] =3D value % (plic->num_priorities=
- + 1);
-> +            sifive_plic_update(plic);
-> +        } else if (value <=3D plic->num_priorities) {
->              plic->source_priority[irq] =3D value;
->              sifive_plic_update(plic);
->          }
-> @@ -207,7 +215,16 @@ static void sifive_plic_write(void *opaque, hwaddr a=
-ddr, uint64_t value,
->          uint32_t contextid =3D (addr & (plic->context_stride - 1));
->
->          if (contextid =3D=3D 0) {
-> -            if (value <=3D plic->num_priorities) {
-> +            if ((plic->num_priorities + 1) & (plic->num_priorities)) {
-
-Same.
-
-> +                /*
-> +                 * if "num_priorities + 1" is power-of-2, each register =
-bit of
-> +                 * interrupt priority is WARL (Write-Any-Read-Legal). Ju=
-st
-> +                 * filter out the access to unsupported priority bits.
-> +                 */
-> +                plic->target_priority[addrid] =3D value %
-> +                                                (plic->num_priorities + =
-1);
-> +                sifive_plic_update(plic);
-> +            } else if (value <=3D plic->num_priorities) {
->                  plic->target_priority[addrid] =3D value;
->                  sifive_plic_update(plic);
->              }
-> --
-> 2.17.1
-
-Cl=C3=A9ment
 
