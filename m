@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6722F5F1055
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 18:57:23 +0200 (CEST)
-Received: from localhost ([::1]:47688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D555F1062
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:01:48 +0200 (CEST)
+Received: from localhost ([::1]:32794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeJKE-0003X5-5W
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 12:57:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59222)
+	id 1oeJOV-0000ox-Ih
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:01:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFg-0006JK-TF
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50627)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFh-0006Jg-3u
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFe-0006bI-VA
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFf-0006cH-9c
  for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1664556758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qtC+bYqylEWZqUE3sXcCHnbwV3E91M1xWus5hdYfSQw=;
- b=X1KCcU01RZDpUzo/qDzAZhijB3uZ3zffvc0fuDKUwGxl9458YhMdm2Tptc588EzfriUagh
- EcLXKuZ1K2QjKA8w0+4g+aBovZ6NiLdTCOTGWw4RDDvOW5iB87WcaYEfvKX5BaogDARSx6
- jas6S6kMgQ/x4gd7iDksQdCLsHl+eW0=
+ bh=8qSo02TotYw46cBXRjZ8qmCKqDqS+X3AiZQSOMsYcYU=;
+ b=K77d8USe9mu5XlImB6sVHCBrXUeJC/GeZfW6Cx9pWiq+qPbiNiIdC/kVLfrNcH6OtP382r
+ RIvydOYm0ghi/wqpT15kh3grOzK70891l1p9OZBOGc9pMM6UFMu6sEMwi38iREelCjmB77
+ CX7nvszSdYlrZiJdDUy44LNSa5hSxYY=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317-Dm2pV7hENF2UoLo9FCSyIg-1; Fri, 30 Sep 2022 12:52:36 -0400
-X-MC-Unique: Dm2pV7hENF2UoLo9FCSyIg-1
+ us-mta-411-m4ZEjpOqNsyytJhyO6wOzw-1; Fri, 30 Sep 2022 12:52:37 -0400
+X-MC-Unique: m4ZEjpOqNsyytJhyO6wOzw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 01D042A5954A;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EFF473C10228;
  Fri, 30 Sep 2022 16:52:36 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.192.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4132C17583;
- Fri, 30 Sep 2022 16:52:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B67217582;
+ Fri, 30 Sep 2022 16:52:36 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 02/18] block/qcow2-bitmap: Add missing cast to silent GCC error
-Date: Fri, 30 Sep 2022 18:52:06 +0200
-Message-Id: <20220930165222.249716-3-kwolf@redhat.com>
+Subject: [PULL 03/18] qemu-img: Wean documentation and help output off '?' for
+ help
+Date: Fri, 30 Sep 2022 18:52:07 +0200
+Message-Id: <20220930165222.249716-4-kwolf@redhat.com>
 In-Reply-To: <20220930165222.249716-1-kwolf@redhat.com>
 References: <20220930165222.249716-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
@@ -79,59 +79,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Markus Armbruster <armbru@redhat.com>
 
-Commit d1258dd0c8 ("qcow2: autoloading dirty bitmaps") added the
-set_readonly_helper() GFunc handler, correctly casting the gpointer
-user_data in both the g_slist_foreach() caller and the handler.
-Few commits later (commit 1b6b0562db), the handler is reused in
-qcow2_reopen_bitmaps_rw() but missing the gpointer cast, resulting
-in the following error when using Homebrew GCC 12.2.0:
+'?' for help is deprecated since commit c8057f951d "Support 'help' as
+a synonym for '?' in command line options", v1.2.0.  We neglected to
+update output of qemu-img --help and the manual.  Do that now.
 
-  [2/658] Compiling C object libblock.fa.p/block_qcow2-bitmap.c.o
-  ../../block/qcow2-bitmap.c: In function 'qcow2_reopen_bitmaps_rw':
-  ../../block/qcow2-bitmap.c:1211:60: error: incompatible type for argument 3 of 'g_slist_foreach'
-   1211 |     g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
-        |                                                            ^~~~~
-        |                                                            |
-        |                                                            _Bool
-  In file included from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/gmain.h:26,
-                   from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/giochannel.h:33,
-                   from /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib.h:54,
-                   from /Users/philmd/source/qemu/include/glib-compat.h:32,
-                   from /Users/philmd/source/qemu/include/qemu/osdep.h:144,
-                   from ../../block/qcow2-bitmap.c:28:
-  /opt/homebrew/Cellar/glib/2.72.3_1/include/glib-2.0/glib/gslist.h:127:61: note: expected 'gpointer' {aka 'void *'} but argument is of type '_Bool'
-    127 |                                           gpointer          user_data);
-        |                                           ~~~~~~~~~~~~~~~~~~^~~~~~~~~
-  At top level:
-  FAILED: libblock.fa.p/block_qcow2-bitmap.c.o
-
-Fix by adding the missing gpointer cast.
-
-Fixes: 1b6b0562db ("qcow2: support .bdrv_reopen_bitmaps_rw")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220919182755.51967-1-f4bug@amsat.org>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20220908130842.641410-1-armbru@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/qcow2-bitmap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/tools/qemu-img.rst | 2 +-
+ qemu-img.c              | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index ff3309846c..7197754843 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -1208,7 +1208,7 @@ int qcow2_reopen_bitmaps_rw(BlockDriverState *bs, Error **errp)
-         }
-     }
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index 85a6e05b35..15aeddc6d8 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -57,7 +57,7 @@ cases. See below for a description of the supported disk formats.
+ *OUTPUT_FMT* is the destination format.
  
--    g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, false);
-+    g_slist_foreach(ro_dirty_bitmaps, set_readonly_helper, (gpointer)false);
-     ret = 0;
+ *OPTIONS* is a comma separated list of format specific options in a
+-name=value format. Use ``-o ?`` for an overview of the options supported
++name=value format. Use ``-o help`` for an overview of the options supported
+ by the used format or see the format descriptions below for details.
  
- out:
+ *SNAPSHOT_PARAM* is param used for internal snapshot, format is
+diff --git a/qemu-img.c b/qemu-img.c
+index 7d4b33b3da..cab9776f42 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -164,8 +164,8 @@ void help(void)
+            "  'output_filename' is the destination disk image filename\n"
+            "  'output_fmt' is the destination format\n"
+            "  'options' is a comma separated list of format specific options in a\n"
+-           "    name=value format. Use -o ? for an overview of the options supported by the\n"
+-           "    used format\n"
++           "    name=value format. Use -o help for an overview of the options supported by\n"
++           "    the used format\n"
+            "  'snapshot_param' is param used for internal snapshot, format\n"
+            "    is 'snapshot.id=[ID],snapshot.name=[NAME]', or\n"
+            "    '[ID_OR_NAME]'\n"
 -- 
 2.37.3
 
