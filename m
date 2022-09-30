@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85465F023D
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 03:29:35 +0200 (CEST)
-Received: from localhost ([::1]:50798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DAB5F023E
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 03:29:37 +0200 (CEST)
+Received: from localhost ([::1]:35130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oe4qM-0002lr-TL
-	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 21:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53796)
+	id 1oe4qO-0002qA-4C
+	for lists+qemu-devel@lfdr.de; Thu, 29 Sep 2022 21:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oe4le-0001re-VO; Thu, 29 Sep 2022 21:24:43 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:39480 helo=cstnet.cn)
+ id 1oe4ld-0001qH-QT; Thu, 29 Sep 2022 21:24:41 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:39478 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oe4la-00080l-8Y; Thu, 29 Sep 2022 21:24:42 -0400
+ id 1oe4lZ-00080j-P6; Thu, 29 Sep 2022 21:24:41 -0400
 Received: from localhost.localdomain (unknown [139.227.114.201])
- by APP-05 (Coremail) with SMTP id zQCowABHOHVJRTZjaraNAg--.3616S3;
- Fri, 30 Sep 2022 09:24:27 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowABHOHVJRTZjaraNAg--.3616S4;
+ Fri, 30 Sep 2022 09:24:28 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [RFC 1/8] target/riscv: add cfg properties for Zc* extension
-Date: Fri, 30 Sep 2022 09:23:38 +0800
-Message-Id: <20220930012345.5248-2-liweiwei@iscas.ac.cn>
+Subject: [RFC 2/8] target/riscv: add support for Zca, Zcf and Zcd extension
+Date: Fri, 30 Sep 2022 09:23:39 +0800
+Message-Id: <20220930012345.5248-3-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220930012345.5248-1-liweiwei@iscas.ac.cn>
 References: <20220930012345.5248-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowABHOHVJRTZjaraNAg--.3616S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF1kWr18trWDJF1kXwb_yoW8Aw45pr
- 4rG3yYkrWDXry7Ca1fJF1UW3Z5Wwn7CayIg392g3WxWrW3ArW3XFnYkw1UWF43JF4rJF4a
- 9F1UCFy5Cr47JFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9K14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
- x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+X-CM-TRANSID: zQCowABHOHVJRTZjaraNAg--.3616S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxWF45Gry7KFW8Aw1rJrWDurg_yoW5WryDpF
+ y8Cr4jgryDJF93Aa93GF4qqr15tr4fCr4kJwsFqwn3tFW3Xr45Xa1DKryft3yUJFnaqr1F
+ 9FZxAFy5ur4xXa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9K14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+ x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
  Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
  A2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWx
  Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
@@ -49,7 +49,7 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7CF1kWr18trWDJF1kXwb_yoW8Aw45pr
  67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
  8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
  wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
- v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU5SoXUUUUU
+ v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU8BMNUUUUU
 X-Originating-IP: [139.227.114.201]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
@@ -74,68 +74,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add properties for Zca,Zcb,Zcf,Zcd,Zcmp,Zcmt extension
-Add check for these properties
+Add check for Zca, Zcf and Zcd extensions in decode_opc
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- target/riscv/cpu.c | 24 ++++++++++++++++++++++++
- target/riscv/cpu.h |  6 ++++++
- 2 files changed, 30 insertions(+)
+ target/riscv/insn_trans/trans_rvi.c.inc |  5 +++--
+ target/riscv/translate.c                | 23 +++++++++++++++++++++--
+ 2 files changed, 24 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index b29c88b9f0..7da3de1725 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -782,6 +782,30 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-             }
-         }
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index c49dbec0eb..d178da89f9 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -56,7 +56,7 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+     tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
  
-+        if (env->misa_mxl_max != MXL_RV32 && cpu->cfg.ext_zcf) {
-+            error_setg(errp, "Zcf is only relevant to RV32");
-+            return;
-+        }
-+
-+        if ((cpu->cfg.ext_zcf || cpu->cfg.ext_zcd || cpu->cfg.ext_zcb ||
-+             cpu->cfg.ext_zcmp || cpu->cfg.ext_zcmt) && !cpu->cfg.ext_zca) {
-+            error_setg(errp, "Zcf/Zcd/Zcb/Zcmp/Zcmt require Zca extension");
-+            return;
-+        }
-+
-+        if ((((env->misa_ext & RVD) && (env->misa_ext & RVC)) ||
-+             cpu->cfg.ext_zcd) && (cpu->cfg.ext_zcmp || cpu->cfg.ext_zcmt)) {
-+            error_setg(errp,
-+                       "Zcmp/Zcmt are incompatible with Zcd, which is "
-+                       "included when C and D extensions are both present");
-+            return;
-+        }
-+
-+        if (cpu->cfg.ext_zcmt && !cpu->cfg.ext_icsr) {
-+            error_setg(errp, "Zcmt extension requires Zicsr");
-+            return;
-+        }
-+
-         if (cpu->cfg.ext_zk) {
-             cpu->cfg.ext_zkn = true;
-             cpu->cfg.ext_zkr = true;
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index b131fa8c8e..db3eca1d8a 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -428,6 +428,12 @@ struct RISCVCPUConfig {
-     bool ext_zbkc;
-     bool ext_zbkx;
-     bool ext_zbs;
-+    bool ext_zca;
-+    bool ext_zcb;
-+    bool ext_zcd;
-+    bool ext_zcf;
-+    bool ext_zcmp;
-+    bool ext_zcmt;
-     bool ext_zk;
-     bool ext_zkn;
-     bool ext_zknd;
+     gen_set_pc(ctx, cpu_pc);
+-    if (!has_ext(ctx, RVC)) {
++    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca) {
+         TCGv t0 = tcg_temp_new();
+ 
+         misaligned = gen_new_label();
+@@ -178,7 +178,8 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+ 
+     gen_set_label(l); /* branch taken */
+ 
+-    if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
++    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca &&
++        ((ctx->base.pc_next + a->imm) & 0x3)) {
+         /* misaligned */
+         gen_exception_inst_addr_mis(ctx);
+     } else {
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index db123da5ec..a257f0123e 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -526,7 +526,7 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+ 
+     /* check misaligned: */
+     next_pc = ctx->base.pc_next + imm;
+-    if (!has_ext(ctx, RVC)) {
++    if (!has_ext(ctx, RVC) && !ctx->cfg_ptr->ext_zca) {
+         if ((next_pc & 0x3) != 0) {
+             gen_exception_inst_addr_mis(ctx);
+             return;
+@@ -1064,7 +1064,26 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+ 
+     /* Check for compressed insn */
+     if (insn_len(opcode) == 2) {
+-        if (!has_ext(ctx, RVC)) {
++        /*
++         * Zca support all of the existing C extension, excluding all
++         * compressed floating point loads and stores
++         * Zcf(RV32 only) support c.flw, c.flwsp, c.fsw, c.fswsp
++         * Zcd support c.fld, c.fldsp, c.fsd, c.fsdsp
++         */
++        if (!(has_ext(ctx, RVC) || ctx->cfg_ptr->ext_zca)) {
++            gen_exception_illegal(ctx);
++        } else if ((get_xl_max(ctx) == MXL_RV32) &&
++            !(has_ext(ctx, RVC) || ctx->cfg_ptr->ext_zcf) &&
++            (((opcode & 0xe003) == 0x6000) ||
++             ((opcode & 0xe003) == 0x6002) ||
++             ((opcode & 0xe003) == 0xe000) ||
++             ((opcode & 0xe003) == 0xe002))) {
++            gen_exception_illegal(ctx);
++        } else if (!(has_ext(ctx, RVC) || ctx->cfg_ptr->ext_zcd) &&
++                   (((opcode & 0xe003) == 0x2000) ||
++                    ((opcode & 0xe003) == 0x2002) ||
++                    ((opcode & 0xe003) == 0xa000) ||
++                    ((opcode & 0xe003) == 0xa002))) {
+             gen_exception_illegal(ctx);
+         } else {
+             ctx->opcode = opcode;
 -- 
 2.25.1
 
