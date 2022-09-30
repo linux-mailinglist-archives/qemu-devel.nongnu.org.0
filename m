@@ -2,95 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10895F0C2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:05:53 +0200 (CEST)
-Received: from localhost ([::1]:60778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10EC85F0C68
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 15:28:52 +0200 (CEST)
+Received: from localhost ([::1]:37624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeFiD-0002AI-1G
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:05:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39662)
+	id 1oeG4Q-0003Uz-Md
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 09:28:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1oeFbv-0006ri-7Y
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 08:59:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40962)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1oeFbs-0000Hd-2L
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 08:59:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664542755;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SIPpLvVsXyGSV/6hVBfNJb7FroTAcs3NYjH1ggKZrgg=;
- b=L856nh9rxtZHon/8yh/7GRVc+1xVnkgVFc+VnKwDT7Jd0aqgANNxsK2p0EaC2nQ3ADlsYl
- vE2WNT6K0MiJqiwepnW3HajU2YUu+4fy3RMNd/KK5Kn5IFuduDSTsbwJRcIaNiwplYSR5J
- 8LP0ZlK/Yn3/YBXKMzO//CZHd40Ph+Q=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-482-47x-GCYPMaiO_0c6NVgz_Q-1; Fri, 30 Sep 2022 08:59:13 -0400
-X-MC-Unique: 47x-GCYPMaiO_0c6NVgz_Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g8-20020a05600c4ec800b003b4bcbdb63cso2038356wmq.7
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 05:59:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oeFz3-00062U-0h
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:23:19 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39724)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oeFz1-0004C8-76
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 09:23:16 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id f11so4174377wrm.6
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 06:23:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=w9icf1R5z71HoYa3R9ov9zygm2EAE7Z+AJHg2syC9Jc=;
+ b=haIO2tHCFjIHGobJ5t5PPpvCMqR4zuHoNFZSCpLE0iQZc3WGkTWdKS4Fdm7ddMVt5R
+ yzKupgvgtdiGSyrmePcZRWC7qqINxJ2WWAWUsE/MboRw32FDIxSXEWb0AFtmcoAKgoSF
+ cd1pBtfmZDhLA9GqiGQ9HdUBARvKMFFiFC9UApTRLRkdRFdEV0v7ALwxhB1B3jBSJB6x
+ CGaI7zS259w3MuvUdxZoj0ht4Qqj/uLikK2YQT7Vvj1zWnR8L3aizoVU5oaCOY3SM4BY
+ iaiAbNiNazr+q7g8AT63eENzefR+u0fXhK8DMgbpShy7C7kkQ9XZM6JgGNO4VeGA0Py9
+ qp9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date;
- bh=SIPpLvVsXyGSV/6hVBfNJb7FroTAcs3NYjH1ggKZrgg=;
- b=l7BfNOmMdNpM2kQpEu8rHkqtflk0CNedSjE2k7G+wcUEMpgw3cOScFGXZEiCnsr7ii
- a4xHHg0/TutNUpV2Zqa8jDQm0xdbHJqZpRc9jO7z6c6wBOZxFS85yXSaqyvsMshLZBoR
- wkDCVRqg61j3gUgY+aJXBAcP282iSjXrHNO312IMg07LwBHfOEqaud7LE1Vi04HEqR6/
- MDSFFTzqqFLCy22E8b6XqPXBO5S+x6k5JQPq+Z5ha8aK03STrxsm7qQwP1yEiFXUJMTO
- uUw22+8Dx/mESW5bsnBikhdhbaRJkP/hIalzl5vmTIjlEQ78m+ZOFkszmddQST2X/yPW
- ItZA==
-X-Gm-Message-State: ACrzQf1K683wuRDg1eXTf2r9s44weLBsTOYMO5Xsl1ZbrSg9vsALQE1L
- yvIbL00h927D3gx3r/2/f4H0tbEnz0LYKIk7w0iQt1uLEkxfpGlMY7M0ZYhZtBKy7BpLaLtTpeK
- uOkn4hlTHigeDEsg=
-X-Received: by 2002:adf:fb0e:0:b0:21a:34a2:5ca9 with SMTP id
- c14-20020adffb0e000000b0021a34a25ca9mr5791609wrr.472.1664542752045; 
- Fri, 30 Sep 2022 05:59:12 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5nqbJQN6NOVoL/OIsoWfxzOqUxyiopcx1NPh6B3rqkCtlhpWO97v1ZcrdAJlozPLBkxLy/Jg==
-X-Received: by 2002:adf:fb0e:0:b0:21a:34a2:5ca9 with SMTP id
- c14-20020adffb0e000000b0021a34a25ca9mr5791583wrr.472.1664542751681; 
- Fri, 30 Sep 2022 05:59:11 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=w9icf1R5z71HoYa3R9ov9zygm2EAE7Z+AJHg2syC9Jc=;
+ b=dQGjZpKUqz7Nf7zDbpZgZQnh42IF2X0l0q8E6NDuq5FscKIQG3lj6uQLahYQ5gRBJl
+ pq2/Kg08TMbax75FxiJuDdrgGAPVWx9XYAjbnPj8d7j3eqJf/QDA8rij/ncMMsbHVgs1
+ /gUSoJIrt7YB7kEbZ2J69wFST3lstJZJBxs1ggA15+jhyfJPhwl/pcHxWwW/edyVeViq
+ 4a/9WidNRxlNe38FSzSSc6HJ17CggolPmsdAHhdYLEqo5V1KTgHBZVsRufZaGUpYzKg9
+ obSpWr94bI5A00nNkb1mul2RNsFfIbZboya8FignCl0YD3J++tqOe+8bkooivkIWi83p
+ OjOQ==
+X-Gm-Message-State: ACrzQf1h7SI35fN1SDRhI+mq7OZ9YfFZ2VxXOIwoG4++Ck60VohgaoEU
+ 4w7mSczrjhTtdh4Iba65NbZ59A==
+X-Google-Smtp-Source: AMsMyM6mIp1cLAmd4yKEoCQyOf2AIs/Ju4WIYSeCYaxhbYSe7bHQHVwIv23epwAGlL7vNmGwzbsH9w==
+X-Received: by 2002:a05:6000:1882:b0:22a:f402:c975 with SMTP id
+ a2-20020a056000188200b0022af402c975mr5840474wri.532.1664544192579; 
+ Fri, 30 Sep 2022 06:23:12 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- k18-20020a05600c1c9200b003b5054c6cd2sm9042899wms.36.2022.09.30.05.59.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Sep 2022 05:59:11 -0700 (PDT)
-Message-ID: <7387a737-21c0-ebf3-2756-b865c7dca04f@redhat.com>
-Date: Fri, 30 Sep 2022 14:59:09 +0200
+ v129-20020a1cac87000000b003a845621c5bsm2007640wme.34.2022.09.30.06.23.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Sep 2022 06:23:11 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DB4D21FFB7;
+ Fri, 30 Sep 2022 14:23:10 +0100 (BST)
+References: <20220925105124.82033-1-richard.henderson@linaro.org>
+ <20220925105124.82033-17-richard.henderson@linaro.org>
+ <CAFEAcA-WzwA6zzDFezBqUz8U7ZT6q9bCP0Jj1iXfHydDe1nvZQ@mail.gmail.com>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 16/17] accel/tcg: Introduce TARGET_TB_PCREL
+Date: Fri, 30 Sep 2022 13:59:16 +0100
+In-reply-to: <CAFEAcA-WzwA6zzDFezBqUz8U7ZT6q9bCP0Jj1iXfHydDe1nvZQ@mail.gmail.com>
+Message-ID: <87pmfdxagx.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3] target/arm/kvm: Retry KVM_CREATE_VM call if it fails
- EINTR
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Vitaly Chikunov <vt@altlinux.org>, Marc Zyngier <maz@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220930113824.1933293-1-peter.maydell@linaro.org>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <20220930113824.1933293-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.583, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,58 +92,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
 
-On 9/30/22 13:38, Peter Maydell wrote:
-> Occasionally the KVM_CREATE_VM ioctl can return EINTR, even though
-> there is no pending signal to be taken. In commit 94ccff13382055
-> we added a retry-on-EINTR loop to the KVM_CREATE_VM call in the
-> generic KVM code. Adopt the same approach for the use of the
-> ioctl in the Arm-specific KVM code (where we use it to create a
-> scratch VM for probing for various things).
->
-> For more information, see the mailing list thread:
-> https://lore.kernel.org/qemu-devel/8735e0s1zw.wl-maz@kernel.org/
->
-> Reported-by: Vitaly Chikunov <vt@altlinux.org>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> The view in the thread seems to be that this is a kernel bug (because
-> in QEMU's case there shouldn't be a signal to be delivered at this
-> point because of our signal handling strategy); so I've adopted the
-> same "just retry-on-EINTR for this specific ioctl" approach that
-> commit 94ccff13 did, rather than, for instance, something wider like
-> "make kvm_ioctl() and friends always retry on EINTR".
->
-> v2: correctly check for -1 and errno is EINTR...
-> v3: really correctly check errno. This time for sure!
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Thanks
-
-Eric
-> ---
->  target/arm/kvm.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> On Sun, 25 Sept 2022 at 12:15, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Prepare for targets to be able to produce TBs that can
+>> run in more than one virtual context.
 >
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index e5c1bd50d29..1e4de9b42e3 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -79,7 +79,9 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
->      if (max_vm_pa_size < 0) {
->          max_vm_pa_size = 0;
->      }
-> -    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-> +    do {
-> +        vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-> +    } while (vmfd == -1 && errno == EINTR);
->      if (vmfd < 0) {
->          goto err;
->      }
+>> -/* Similarly, but for logs. */
+>> +/*
+>> + * Similarly, but for logs. In this case, when the virtual pc
+>> + * is not available, use the physical address.
+>> + */
+>>  static inline target_ulong tb_pc_log(const TranslationBlock *tb)
+>>  {
+>> +#if TARGET_TB_PCREL
+>> +    return tb->page_addr[0];
+>> +#else
+>>      return tb->pc;
+>> +#endif
+>>  }
+>
+> This is going to break previously working setups involving
+> the "filter logging to a particular address range" and also
+> anybody post-processing logfiles and expecting to see
+> the virtual address in -d exec logging, I think.
 
+To be honest I've never found -exec logging that useful for system
+emulation (beyond check-tcg tests) because it just generates so much
+data.
+
+> For the exec logging, we surely must know the actual
+> virtual PC at the point of TB execution -- we were
+> previously just using tb->pc as a convenient architecture
+> independent place to get that from, but should now do
+> something else.
+>
+> For places where logging a virtual PC becomes meaningless,
+> we should at least indicate whether we're logging a
+> physaddr or a vaddr, because now depending on the config
+> we might do either.
+
+Yes we should extend the logging to say phys-pc or virt-pc=20
+
+> For the range-filter stuff, I'm not sure what to do.
+> Alex, any ideas?
+>
+> (I see the -dfilter option documentation doesn't say
+> whether it's intending to work on physical or virtual
+> addresses...)
+
+I have a feeling for system emulation phys-pc is the most natural but we
+could extend the filter spec to be explicit.
+
+>
+> thanks
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
 
