@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A065F0D30
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:14:31 +0200 (CEST)
-Received: from localhost ([::1]:58094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF8A5F0D3B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:18:41 +0200 (CEST)
+Received: from localhost ([::1]:58916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeGmc-0001Ho-N4
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:14:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49840)
+	id 1oeGqd-0006XL-CW
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:18:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeGZZ-0006qv-Mf
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:01:03 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:33624)
+ id 1oeGaV-0007vU-TZ
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:01:59 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:41501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeGZX-0003GB-MZ
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:01:01 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- bu5-20020a17090aee4500b00202e9ca2182so7366488pjb.0
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 07:00:59 -0700 (PDT)
+ id 1oeGaU-0003Lk-Bh
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:01:59 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ x32-20020a17090a38a300b00209dced49cfso1772997pjb.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 07:01:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=W7fMm3sijk2IpTNyxvCCdY2IO7aZ1NGEz6j4O5jK+d0=;
- b=POAE8SWa4TsbI/vVswpvI0lElaTg/nVWW+/9uzlb25hX2Ual6EWaGKEJoI6GvQ8jhX
- gXV97Vr3Dwrq7Qjt0mY8+9Wf7sRDQVEXtz1M06ifydJq0JkXOYjkspDsce50QTF0LNgA
- qwQUsyhFY0TrWOm3+tIKNVZOys0U5MiUyKEv7kH8Ktik2IqP+RyU6/+R1z7nbvAIu3HH
- 8zv+J+kHu+MYioUCyogQaWpNBz4kwU22kflmI0XZVqtD82o6I3di4aKJS84KHBfEBG7Y
- MsrxuwAV2cpa3fstKwi2/yRv92FtYjWw+ErbQv65LLU3uZlpCgbgd8U5jnBIhxmQimXx
- oq2Q==
+ bh=mqkv2wEudCDCoUIms9Y83HSsoDrbWensBx6L5N7rL/g=;
+ b=PoxtiAP7g3VPgsVHFTU/3xASO9/XOwUiLcGa6v6rzLvbp38ANu7PMQH374faBXJT/g
+ U5OqBQEXLdB5xkjaFwI1bEQ3gAhvtyqMjYyU/iq4/w+1KFJs6jgAAPj7A2LwDd+ug7iz
+ qvrfxRtvsapfr8wvHGSRJSWqic/12hC80U9C/xkrs6kcRch0PMcTKEK8wn32bCxt+0yl
+ LyZyWOApesOq1QyNBh2U0a/bwFF6nMVZXYs+rLDYMfAZARsx1Wbe1V3Z0p0vH307M8Dn
+ 8BMqYp4PnF0yilH+epHmqdffXJF9lUUQHU6YKd4ViRebuLNzXEXALUt7OnyPCoFxM7CZ
+ Xjbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=W7fMm3sijk2IpTNyxvCCdY2IO7aZ1NGEz6j4O5jK+d0=;
- b=Pemfjs95mI8cZliiQkm+QYwZLUzPgqLUYS9EDDqp31WQy8/sp0LX9i2KEeRNpkDRyK
- pTQtv5h0kzVpJQoyMAzWaHmyi7hds/m2yo5ey9LMmZ+hX9C7wzgnbF5pFTcXVOxKhfWn
- yTgGeakMPrwJjQ0phPTKRGTHwKLkvMGAFthbaEGCxdrtBiNPheEmli3DNI9p050sPnQQ
- dox4m4QGc+iiVR0YI9hGVbFKMxQE486ywO6VMpEUDQlZz8JwEpD9BfmFEHMvNFumEok9
- r2AS75Ap6fgzQVCszhOqznD4rbXaKpp8paWrn0g1X4ExLO/tOrd6/pai6CBqbPQKWTbn
- 43zA==
-X-Gm-Message-State: ACrzQf2U1L/X6Lw9GbN4avjv1+NT4C6n24S066zYFBWDEsJiqVKvgSyN
- Xx6GClRWHRxOyHjYOoNm2fiacQ==
-X-Google-Smtp-Source: AMsMyM5Pwn/ZqXgE21UqLDZWbxaD9nWnCekbAcz2XhPVmhm9AgEiS56w81uYW+QMxjQHdQlBtPTHBA==
-X-Received: by 2002:a17:90b:1d08:b0:200:823f:9745 with SMTP id
- on8-20020a17090b1d0800b00200823f9745mr9753582pjb.84.1664546457878; 
- Fri, 30 Sep 2022 07:00:57 -0700 (PDT)
+ bh=mqkv2wEudCDCoUIms9Y83HSsoDrbWensBx6L5N7rL/g=;
+ b=Z9nn4HJr/J6vew1l3vGjWyM0oG2qLMGF2YXbspsJ5MaD1w17LZJgxJ17YnvacuoLvd
+ qDtoJXaJMfR6dmD2urD8It7/B+01qluFRzjNyyjv/PkIrkFy/J8IFI52A9XMhBfF1Enr
+ PX0uZYggPnZC1Qm7PO6S1np9tkGgiC+tNRu4Ae9pP6wFfKGcMI918y+MArPYIJPpuhms
+ H1q8ekR2CiI54uipulXA7K5ER7zoZqUO7FNDHPT9bpzcxzd/ye/wfi5JQWZZHwg1EEqo
+ R1VV0nrzU6fK9cDtykYxlW4djWOjgsoDvQsnXh2MIeGbHCmBd/Qm+HKWkdgPf8bG/OUH
+ AqHQ==
+X-Gm-Message-State: ACrzQf1TZCRYLJ8LC9iqws8MZtoLpAQE+WaUFaLo3ySBSIImFVOYFgch
+ A/lw7Z30YSBJJ5tJcRKgov796Q==
+X-Google-Smtp-Source: AMsMyM4D8+zb/JX2UKfbfGt/7yDyhZLEa1BpSWydLciITMSpZPw0uGLfxVURRxXWQ8YL2DVeEpSW8A==
+X-Received: by 2002:a17:90a:64c8:b0:202:6d4a:90f8 with SMTP id
+ i8-20020a17090a64c800b002026d4a90f8mr10048705pjm.11.1664546516921; 
+ Fri, 30 Sep 2022 07:01:56 -0700 (PDT)
 Received: from [192.168.74.154] ([50.200.230.211])
  by smtp.gmail.com with ESMTPSA id
- h19-20020a656393000000b0042c0ffa0e62sm1739090pgv.47.2022.09.30.07.00.56
+ m1-20020a17090a3f8100b001fe39bda429sm1662702pjc.38.2022.09.30.07.01.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Sep 2022 07:00:57 -0700 (PDT)
-Message-ID: <68c87f3a-6868-af5b-0167-14d79e2a1677@linaro.org>
-Date: Fri, 30 Sep 2022 07:00:55 -0700
+ Fri, 30 Sep 2022 07:01:56 -0700 (PDT)
+Message-ID: <035065ea-d192-0652-9f2a-d0672169ff3d@linaro.org>
+Date: Fri, 30 Sep 2022 07:01:53 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2] win32: set threads name
+Subject: Re: [PATCH v3 1/3] target/loongarch: bstrins.w src register need
+ EXT_NONE
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: bin.meng@windriver.com, Stefan Weil <sw@weilnetz.de>
-References: <20220930135701.1681390-1-marcandre.lureau@redhat.com>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org,
+ yangxiaojuan@loongson.cn, maobibo@Loongson.cn, huqi@loongson.cn
+References: <20220930024510.800005-1-gaosong@loongson.cn>
+ <20220930024510.800005-2-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220930135701.1681390-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20220930024510.800005-2-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -94,93 +97,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/30/22 06:57, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 9/29/22 19:45, Song Gao wrote:
+> use gen_bstrins/gen_bstrpic to replace gen_rr_ms_ls.
 > 
-> As described in:
-> https://learn.microsoft.com/en-us/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2022
-> 
-> SetThreadDescription() is available since Windows 10, version 1607 and
-> in some versions only by "Run Time Dynamic Linking". Its declaration is
-> not yet in mingw, so we lookup the function the same way glib does.
-> 
-> Tested with Visual Studio Community 2022 debugger.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
 > ---
->   util/qemu-thread-win32.c | 56 ++++++++++++++++++++++++++++++++++++++--
->   1 file changed, 54 insertions(+), 2 deletions(-)
-> 
-> diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
-> index a2d5a6e825..e2d681fe7d 100644
-> --- a/util/qemu-thread-win32.c
-> +++ b/util/qemu-thread-win32.c
-> @@ -19,12 +19,40 @@
->   
->   static bool name_threads;
->   
-> +typedef HRESULT (WINAPI *pSetThreadDescription) (HANDLE hThread,
-> +                                                 PCWSTR lpThreadDescription);
-> +static pSetThreadDescription SetThreadDescriptionFunc = NULL;
-> +static HMODULE kernel32_module = NULL;
-> +
-> +static bool
-> +load_set_thread_description(void)
-> +{
-> +  static gsize _init_once = 0;
-> +
-> +  if (g_once_init_enter(&_init_once)) {
-> +      kernel32_module = LoadLibraryW(L"kernel32.dll");
-> +      if (kernel32_module) {
-> +          SetThreadDescriptionFunc =
-> +              (pSetThreadDescription)GetProcAddress(kernel32_module,
-> +                                                    "SetThreadDescription");
-> +          if (!SetThreadDescriptionFunc) {
-> +              FreeLibrary(kernel32_module);
-> +          }
-> +      }
-> +      g_once_init_leave(&_init_once, 1);
-> +  }
-> +
-> +  return !!SetThreadDescriptionFunc;
-> +}
-> +
->   void qemu_thread_naming(bool enable)
->   {
-> -    /* But note we don't actually name them on Windows yet */
->       name_threads = enable;
->   
-> -    fprintf(stderr, "qemu: thread naming not supported on this host\n");
-> +    if (enable && !load_set_thread_description()) {
-> +        fprintf(stderr, "qemu: thread naming not supported on this host\n");
-> +        name_threads = false;
-> +    }
+>   target/loongarch/insn_trans/trans_bit.c.inc | 36 +++++++++++++--------
+>   1 file changed, 22 insertions(+), 14 deletions(-)
 
-Excellent.
-
-> +static bool
-> +set_thread_description(HANDLE h, const char *name)
-> +{
-> +  HRESULT hr;
-> +  g_autofree wchar_t *namew = NULL;
-> +
-> +  if (!load_set_thread_description() || !name) {
-
-You no longer need this call.  And !name is not...
-
-> @@ -423,7 +471,11 @@ void qemu_thread_create(QemuThread *thread, const char *name,
->       if (!hThread) {
->           error_exit(GetLastError(), __func__);
->       }
-> +    if (name_threads && !set_thread_description(hThread, name)) {
-> +        fprintf(stderr, "Failed to set thread description: %s\n", name);
-> +    }
-
-... an error.  If you want to log an error, you should:
-
-    if (name_threads && name && !set_thread_description(...)) {
-    }
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
