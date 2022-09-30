@@ -2,81 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9966F5F0D8B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:29:47 +0200 (CEST)
-Received: from localhost ([::1]:50970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 409865F0D9C
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:34:40 +0200 (CEST)
+Received: from localhost ([::1]:43352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeH1O-0002kh-Fb
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:29:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52884)
+	id 1oeH66-0005gw-EI
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:34:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeGiH-0005OZ-Ac
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:10:01 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:39437)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeGiF-0004E3-2r
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:10:00 -0400
-Received: by mail-pl1-x630.google.com with SMTP id f23so4083549plr.6
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 07:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=B7FR6/SANsHiFqOk63H637XSZLvd2rBAOsSMWlUxaHk=;
- b=NBPwK0GHEiT3OTxM+W0fg+oqxaEHURfu5htz6JdT4b0yRtQNy6XU2kGtOPmRkOyjZj
- qQOzx8UDDta7hQZePXCBbGAgeYCrjMWmbcdkcYCLXpsHCbxRWeQTT9y3fVzMs6WY06ti
- 1KkFUTJbuDi8kQqnvhI3G2Xf3tz5BOsOtKVeptTicWeOG3tt/8rjRZdLvp11Hftb/Ycp
- g2BZx2BbcLDrHdCU+kUTfMVeTEvYjOfWxCuefGqo7gUbCOz2YnyzO6XZcDiI9DdqAWXl
- xOXhW7HpQ8Rt6FwLqU1Vr+2uvG70H8hfeRLwBZdhLS7wi6BymvD5M3IChJ61Bocru0Iw
- IF5g==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oeGuO-0002SA-RL
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:22:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oeGuK-00061A-Au
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:22:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664547746;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JcuLWc6BfFOhOPcqOp9E0Xk4IHLCKSvmXMOrkUKJBzk=;
+ b=LrYIz+eeWRonqVyqAlXpeS36QmD1/VoDtP4DjnMxlD8IybdpYqbUnqaF4MHOVkQhNLOvDU
+ lEomVF1I2BWzpTyske2Ab11OJIyJNkHaB38HU8fWnXBAAyqljGJNPo+hccYD40c/UP7Cc7
+ YyTRnZN4S39dQT63rr0qR6hluJsl/QQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-583-At8pDkswOOCAmmWiBtQ75g-1; Fri, 30 Sep 2022 10:22:24 -0400
+X-MC-Unique: At8pDkswOOCAmmWiBtQ75g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ k6-20020adfc706000000b0022cc19d5dd2so1601126wrg.7
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 07:22:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=B7FR6/SANsHiFqOk63H637XSZLvd2rBAOsSMWlUxaHk=;
- b=KsVUm9PFHjCwW8hTVNVLxO1FAzkcbgFIQH5F0PJ8kq9m+pyX5igkuo1VrHlvQT+VFT
- x159isPgXGMELw5TinOPlJkho3+Vgj28F6WnGprn3svaFHrwmARzcZE40zCyqC8UWI7c
- IY4jne2ITl50iqqXe2ocItzML9PcLubauRgV4morx2qB0UNq0lYS+w8IsEb+1eceQ6kG
- /A0MTOMQqpN607CalDVgUNN4fwmU9AvKZRoNBNs9BjiIedjMDkqwhjeb3T7E/BnF6xBH
- /u5xFo4ulyzU3dxeTQp/3KxQkD5tDEIvO/J26NfMEw2Ww+70H3ENMRAx8trvibSqgirc
- kb3A==
-X-Gm-Message-State: ACrzQf1XJhpysdNrVTNHBSoVTrgxAzFB71DN0aGBGUpv7wJFQh9mpKVG
- XQ4XICQCwI8GGXtlXpeFTwLWsw==
-X-Google-Smtp-Source: AMsMyM6TF9iqu/kfHwlJ3bDYdo1byTSRMsreqm1SU6oJtCjYSCqhan3/lsiwqsTvrN+aQBuQ54+J/w==
-X-Received: by 2002:a17:902:d4d2:b0:17a:a33:e334 with SMTP id
- o18-20020a170902d4d200b0017a0a33e334mr9119191plg.17.1664546997568; 
- Fri, 30 Sep 2022 07:09:57 -0700 (PDT)
-Received: from [192.168.74.154] ([50.200.230.211])
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=JcuLWc6BfFOhOPcqOp9E0Xk4IHLCKSvmXMOrkUKJBzk=;
+ b=qGhs9YJljItcShfy9ZYc7soWKdII0oCI5n+g/t/kHwlNtZmiWRBazIkXkn7lbPldhV
+ RWKqPAu1po1+MLT/5t4YJYW9+ln4mbhE0ROcFtZ0aSu0GcQFVKDCjhl008LtUQI+rHO1
+ 2luvZP8OKFp04ze1DnUK+vcyXI+JH0JAxl2uiirMtW9BB6n/+/q31p4gMK5jU3Kd70Ue
+ O6V85PiRQV/HdsP3D2cL+MG+donuHeNRTJtfY4ECqyPDN36CJpXsv7UOl87REfg6DtLe
+ t8i3GObGnRIHGVkH0+yjqpyuyaZ5UadhPR7mpmV5u1643rfDwj2EgVD3txG6lzvISzrz
+ ItvA==
+X-Gm-Message-State: ACrzQf1pXE3o7UGmbFsddIO/s+Y4tLerfaGLu5MN39DDsB+ECjS+R4vZ
+ YRYXM6ibAx4LC90nRRso1S53xuXpiK928CBLgqpjy3nMS7uxPpEF3roFjr0/G1I5QZIjX3Mr+/X
+ anhU1Sc3UhbSrlKE=
+X-Received: by 2002:a05:600c:a195:b0:3b4:fc79:f778 with SMTP id
+ id21-20020a05600ca19500b003b4fc79f778mr14200475wmb.177.1664547743512; 
+ Fri, 30 Sep 2022 07:22:23 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4gtMzQpe/A9W1k7Wp5K1yl1fp+eqMLrTj3LEqkU4WuFvpDVMq6OG8BAZq9F6G4iGjg+aGmOg==
+X-Received: by 2002:a05:600c:a195:b0:3b4:fc79:f778 with SMTP id
+ id21-20020a05600ca19500b003b4fc79f778mr14200461wmb.177.1664547743252; 
+ Fri, 30 Sep 2022 07:22:23 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70c:c00:48b:b68a:f9e0:ebce?
+ (p200300cbc70c0c00048bb68af9e0ebce.dip0.t-ipconnect.de.
+ [2003:cb:c70c:c00:48b:b68a:f9e0:ebce])
  by smtp.gmail.com with ESMTPSA id
- t4-20020a1709027fc400b00176dee43e0dsm1841226plb.285.2022.09.30.07.09.56
+ l18-20020a05600c2cd200b003a63a3b55c3sm7640985wmc.14.2022.09.30.07.22.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Sep 2022 07:09:57 -0700 (PDT)
-Message-ID: <80e410e5-f151-65ce-63a0-956fae528700@linaro.org>
-Date: Fri, 30 Sep 2022 07:09:55 -0700
+ Fri, 30 Sep 2022 07:22:22 -0700 (PDT)
+Message-ID: <4f186b7a-79b6-8253-c886-e8b24310ab8a@redhat.com>
+Date: Fri, 30 Sep 2022 16:22:21 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3] win32: set threads name
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v2 0/5] pci-ids: virtio cleanup
 Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: bin.meng@windriver.com, Stefan Weil <sw@weilnetz.de>
-References: <20220930140354.1684652-1-marcandre.lureau@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220930140354.1684652-1-marcandre.lureau@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: Eric Auger <eric.auger@redhat.com>, peter.maydell@linaro.org,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220930135810.1892149-1-kraxel@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220930135810.1892149-1-kraxel@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.583,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.583, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,20 +105,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/30/22 07:03, marcandre.lureau@redhat.com wrote:
-> +static bool
-> +set_thread_description(HANDLE h, const char *name)
-> +{
-> +  HRESULT hr;
-> +  g_autofree wchar_t *namew = NULL;
-> +
-> +  if (!load_set_thread_description()) {
-> +      return false;
-> +  }
+On 30.09.22 15:58, Gerd Hoffmann wrote:
+> Drop legacy ids for virtio 1.0 devices, they are not needed
+> and will be overridden anyway by generic virtio pci code.
+> 
+> Improve modern virtio id documentation.
+> 
+> Gerd Hoffmann (5):
+>    pci-ids: drop PCI_DEVICE_ID_VIRTIO_IOMMU
+>    pci-ids: drop PCI_DEVICE_ID_VIRTIO_MEM
 
-I don't understand why you're retaining this.
-What is your logic?
+I remember that for some weird reason, this was required for Linux to 
+actually make use of the device. I never figured out why -- maybe that 
+changed.
 
+-- 
+Thanks,
 
-r~
+David / dhildenb
+
 
