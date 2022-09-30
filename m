@@ -2,78 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B792C5F061D
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 09:56:55 +0200 (CEST)
-Received: from localhost ([::1]:49392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 504335F061F
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 09:58:46 +0200 (CEST)
+Received: from localhost ([::1]:39552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeAtC-0005BH-Bm
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 03:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39926)
+	id 1oeAuz-0007JP-2a
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 03:58:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oeAq0-0003dO-UD
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 03:53:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58313)
+ (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1oeArR-0004aO-4h
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 03:55:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oeApx-0000KX-Gh
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 03:53:34 -0400
+ (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1oeArP-0000SV-Ig
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 03:55:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664524411;
+ s=mimecast20190719; t=1664524501;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gHHO0DjemfB7RSxNl1glJzR8isMW171LuqjGDSpt6Yk=;
- b=hsAb5DUS3mzLTfo3UPKGuJb4Np2MzFZPXxiXGxrSqj6m05P5fdEeWQq07lzlah11FKj3zG
- gqjNrXdTf3bSSO1xc+3SC2Bfe7g6Ufg2uwQL49+3aOpOlMIJ0UjmI4MjzKhb8iLwkaZKch
- aVYlCeMx+qDoxiqsQZaTsSxmwjAkUtU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-427-ZMSafck2MyCr0pdtypyCTA-1; Fri, 30 Sep 2022 03:53:29 -0400
-X-MC-Unique: ZMSafck2MyCr0pdtypyCTA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- hr29-20020a1709073f9d00b0078333782c48so1492718ejc.10
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 00:53:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=gHHO0DjemfB7RSxNl1glJzR8isMW171LuqjGDSpt6Yk=;
- b=bZeyCqSktQiCkRCwHBMuvwqtomOp/wPu08CLvhJ3pZDfVjPxEcW5w0RCQFTy3SIPpE
- GjMb/wcDn219GSdMDJullpv2b0iCVGYqVVyQeZHaPdx680Dqzd6JF8Yxff/V+IKn00P9
- /hgNHD6zG8pFG4nt2669QNC5oRuGQJkzOUn6ZuhJnETYGZujp5GYayGnjjmfk5Yv5pSP
- c6KRRMBGqidsUsU+QU9jKI/h2uN3lw7cqXKb0q2GRWYN3MVRDrsex8laPo+Nh/eg7Peh
- nICyLi8iGnLhdrCZMfB9X7S90KNkJtX2R0s46L2mhdChUzBW+FKWg4nm2iYgFZXd4KDn
- 87ig==
-X-Gm-Message-State: ACrzQf1mnWgDDnTGCxb2Xh3McsWDCKi/gp2s1UsS8YEgdsgf7zPnI53c
- ko/M2BKquD6VxbaPkllU6A25EMjw9UyBwTSJYzoOR+d8pzErM28f/a/RLPbE2GR2xZf3vXMS2Yy
- uH9hiRThXb3lOFPEo8GahYdSGHQVOuIjRosROnUZmC4lKLmYFPULHF5UVp4ksQvwh9Jw=
-X-Received: by 2002:a17:906:9752:b0:783:96ed:2e1d with SMTP id
- o18-20020a170906975200b0078396ed2e1dmr5761683ejy.166.1664524408209; 
- Fri, 30 Sep 2022 00:53:28 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4+Nv9E1SB9Uvz0S5MyH9S/GpbqHG2akwFmBM9VOiUAxqLwnToOCxF8ym3QoUTx1rnFN7hKnQ==
-X-Received: by 2002:a17:906:9752:b0:783:96ed:2e1d with SMTP id
- o18-20020a170906975200b0078396ed2e1dmr5761667ejy.166.1664524407888; 
- Fri, 30 Sep 2022 00:53:27 -0700 (PDT)
-Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- y1-20020a1709063da100b0073a20469f31sm795702ejh.41.2022.09.30.00.53.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Sep 2022 00:53:27 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com,
-	marcandre.lureau@redhat.com
-Subject: [PATCH] meson: -display dbus and CFI are incompatible
-Date: Fri, 30 Sep 2022 09:53:24 +0200
-Message-Id: <20220930075324.13550-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.37.3
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1RObLdzCYmiMH6a+mT6g54tHLRcid0x4V/z/pnMMGi4=;
+ b=aHaqPJfL2QUtS1O74SAeGpooqO1Z98WEgp7i+16QsDzEkMOdDpOHGI3JYYULnmCjY6rUZd
+ +eRDV9Gtv99AjuKXe9HcEjh0GdQHBh0qz/axIzt6K72oAYafDj6tHbL9cyDnt0l+ELeFtQ
+ /XdeylieYHI5RXAEiVnfyWXkhn3zA5U=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-316-V6vU1-YfPMOlqGy6gy0VYw-1; Fri, 30 Sep 2022 03:53:30 -0400
+X-MC-Unique: V6vU1-YfPMOlqGy6gy0VYw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C82129324BA;
+ Fri, 30 Sep 2022 07:53:30 +0000 (UTC)
+Received: from fedora (unknown [10.43.2.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CBEF440C6EC2;
+ Fri, 30 Sep 2022 07:53:28 +0000 (UTC)
+Date: Fri, 30 Sep 2022 09:53:26 +0200
+From: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
+To: dinglimin <dinglimin@cmss.chinamobile.com>
+Cc: qemu-devel@nongnu.org, thuth@redhat.com
+Subject: Re: [PATCH] tests/migration: remove the unused local variable
+Message-ID: <YzagdkDhECXpG2Md@fedora>
+References: <20220928080555.2263-1-dinglimin@cmss.chinamobile.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+In-Reply-To: <20220928080555.2263-1-dinglimin@cmss.chinamobile.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jtomko@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -97,53 +78,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The generated skeletons for DBus call the finalize method of the parent
-type using code like
+On a Wednesday in 2022, dinglimin wrote:
+>From: "dinglimin@cmss.chinamobile.com" <dinglimin@cmss.chinamobile.com>
+>
+>Remove the unused local variable "records".
+>
+>Signed-off-by: dinglimin <dinglimin@cmss.chinamobile.com>
+>---
+> tests/migration/guestperf/engine.py | 1 -
+> 1 file changed, 1 deletion(-)
 
-    G_OBJECT_CLASS (qemu_dbus_display1_chardev_skeleton_parent_class)->finalize (object);
+Unused since its introduction in 409437e16df273fc5f78f6cd1cb53023eaeb9b72
 
-However, the finalize method is defined in a shared library that is not
-compiled with CFI.  Do not enable anything that uses gdbus-codegen if
---enable-cfi was specified.
+Reviewed-by: Ján Tomko <jtomko@redhat.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/meson.build b/meson.build
-index f6962834a3..6106daf267 100644
---- a/meson.build
-+++ b/meson.build
-@@ -515,6 +515,7 @@ meson.override_dependency('glib-2.0', glib)
- 
- gio = not_found
- gdbus_codegen = not_found
-+gdbus_codegen_error = '@0@ requires gdbus-codegen, please install libgio'
- if not get_option('gio').auto() or have_system
-   gio = dependency('gio-2.0', required: get_option('gio'),
-                    method: 'pkg-config', kwargs: static_kwargs)
-@@ -539,6 +540,10 @@ if not get_option('gio').auto() or have_system
-                              version: gio.version())
-   endif
- endif
-+if gdbus_codegen.found() and get_option('cfi')
-+  gdbus_codegen = not_found
-+  gdbus_codegen_error = '@0@ uses gdbus-codegen, which does not support control flow integrity')
-+endif
- 
- lttng = not_found
- if 'ust' in get_option('trace_backends')
-@@ -1697,7 +1702,7 @@ dbus_display = get_option('dbus_display') \
-   .require(gio.version().version_compare('>=2.64'),
-            error_message: '-display dbus requires glib>=2.64') \
-   .require(gdbus_codegen.found(),
--           error_message: '-display dbus requires gdbus-codegen') \
-+           error_message: gdbus_codegen_error.format('-display dbus')) \
-   .require(opengl.found() and gbm.found(),
-            error_message: '-display dbus requires epoxy/egl and gbm') \
-   .allowed()
--- 
-2.37.3
+Jano
 
 
