@@ -2,97 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2766C5F11C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 20:44:51 +0200 (CEST)
-Received: from localhost ([::1]:49182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351635F12FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 21:50:05 +0200 (CEST)
+Received: from localhost ([::1]:46356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeL0E-000380-83
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 14:44:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40968)
+	id 1oeM1L-00035H-Pn
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 15:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1oeKxd-0006it-O7
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 14:42:09 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131]:12648)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oeLzN-0001d6-TS
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 15:48:02 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:51187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1oeKxa-0006Zw-JD
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 14:42:09 -0400
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 28UBxMcu002423;
- Fri, 30 Sep 2022 18:42:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=jAWVdZs1kStDcKRQzh73cZQlbwtQN/sUIuW/wOtFCu0=;
- b=eZMMuFT0puc22tsECw6H4dUnsgro2gboxYp8N67Rr4vIbRVHSOdN090gkhs6ami1OhTU
- lUL8N9JZ0VBhYjUNVzlEwFQEwL1ZZGPGGa/a+j5jCX6Nvcsi23F7t8ZowsSB1L3hdbUE
- h2+yH34PlcAg5DSTQvu8XGbLN1+se6Gc3AvLTmHMZeLMnTZVrGHJefgMno7JcA2I282z
- nPq8h+PTRDRbQi2R49zACoMFBfGN2KgQIBeu9fDnwDab62pgT6JfWVPxLW2Y3hRqhfne
- OXW1LTJtoilcoevI9/1eLSRrNfv56UWdquImWpWl1juzLhph7vQxoH6y8XjQ9oLscerH Ig== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3jwr49k59j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Sep 2022 18:42:01 +0000
-Received: from pps.filterd (NALASPPMTA02.qualcomm.com [127.0.0.1])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 28UIc5po003089; 
- Fri, 30 Sep 2022 18:42:00 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA02.qualcomm.com (PPS) with ESMTP id 3jwhmvmmky-1;
- Fri, 30 Sep 2022 18:42:00 +0000
-Received: from NALASPPMTA02.qualcomm.com (NALASPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 28UIg0xp007021;
- Fri, 30 Sep 2022 18:42:00 GMT
-Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
- [10.47.235.220])
- by NALASPPMTA02.qualcomm.com (PPS) with ESMTP id 28UIg0lI007010;
- Fri, 30 Sep 2022 18:42:00 +0000
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
- id 0F2F95000AF; Fri, 30 Sep 2022 11:42:00 -0700 (PDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oeLzM-00083e-3y
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 15:48:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=yOj5xmBnxUZfk1Sl1vMFa/R2SEyjCWjEYJOAl3UkJHY=; b=C5Q3es9id8FfWFPfTFQMe4Ly5m
+ n9vi8sa8eQjGVBrV9O7XvRa7dn8wZyYe5N6h94c8e9Kq2bxGK0nObdBL6NUCgGLmiw+OJDrimTzOn
+ lvgYIowDx8J3sHtMR+iDTVd8OHBwik6rLvO4pmK0uuAI+aygxxwu0oA73TWHMPGuWqiIqW8ISo+k7
+ zoEdxvYd8LZsNBwm0TVGR+bghvzVlJVz+2rDzrvnWEjgFtLhQbL728gBhTFasc7tBgEOx9rmzR0/Q
+ tQzZu8FJIJbnIFCGy7ht5rjzilTK5kxGtQudDB0E31H9dBEM8Dbhe02s/kZOQYMVvLPaHytzyfKFc
+ glAVKHzy0lZVrckQhIzpZPwMTVVF34V5a8zYVwUr6xKSr5DLTnNCSACAlbXp82EObQb/ykDZKhrgh
+ w6jkVVGDrO6/ktumOCnUtvlJ5naRmPq5YD7hH1G8mEUHpKYFYUAPKc4WQt6VmVe1RbHny3szEihss
+ i1KWZwIJlAFMXvMdGcpWvldoewxY575hUgZ6d7eqMcKHS/eQ/8L0eoAMFsktnYBrEr066sj7h7wb+
+ kACrV1/X4hD+e5GgirCijXmGGgCE0Hp9i/YobUHJqoMS7W3jgCHhBPEaSKXarU120F8T/WRiQ7trc
+ TV89v0EfOR9lbynAIqGjVY5NX6sior5k4pSPsTMjc=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, f4bug@amsat.org,
- peter.maydell@linaro.org, bcain@quicinc.com, quic_mathbern@quicinc.com,
- stefanha@redhat.com
-Subject: [PULL v2 3/3] Hexagon (target/hexagon) move store size tracking to
- translation
-Date: Fri, 30 Sep 2022 11:41:57 -0700
-Message-Id: <20220930184157.30429-4-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220930184157.30429-1-tsimpson@quicinc.com>
-References: <20220930184157.30429-1-tsimpson@quicinc.com>
+Cc: jb-gnumlists@wisemo.com, thuth@redhat.com, jasowang@redhat.com,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH] net: print a more actionable error when slirp is not found
+Date: Fri, 30 Sep 2022 21:47:29 +0200
+Message-ID: <2973900.g0HVWOepMQ@silver>
+In-Reply-To: <20220929163237.1417215-1-marcandre.lureau@redhat.com>
+References: <20220929163237.1417215-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: rNJ4k1XZsqyFvnUadprnzFIeY2-tVSO-
-X-Proofpoint-ORIG-GUID: rNJ4k1XZsqyFvnUadprnzFIeY2-tVSO-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-09-30_04,2022-09-29_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- malwarescore=0 spamscore=0 suspectscore=0 phishscore=0 adultscore=0
- mlxlogscore=776 lowpriorityscore=0 impostorscore=0 clxscore=1015
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2209300117
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=tsimpson@qualcomm.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,129 +68,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhlIHN0b3JlIHdpZHRoIGlzIG5lZWRlZCBmb3IgcGFja2V0IGNvbW1pdCwgc28gaXQgaXMgc3Rv
-cmVkIGluCmN0eC0+c3RvcmVfd2lkdGguICBDdXJyZW50bHksIGl0IGlzIHNldCB3aGVuIGEgc3Rv
-cmUgaGFzIGEgVENHCm92ZXJyaWRlIGluc3RlYWQgb2YgYSBRRU1VIGhlbHBlci4gIEluIHRoZSBR
-RU1VIGhlbHBlciBjYXNlLCB0aGUKY3R4LT5zdG9yZV93aWR0aCBpcyBub3Qgc2V0LCB3ZSBpbnZv
-a2UgYSBoZWxwZXIgZHVyaW5nIHBhY2tldCBjb21taXQKdGhhdCB1c2VzIHRoZSBydW50aW1lIHN0
-b3JlIHdpZHRoLgoKVGhpcyBwYXRjaCBlbnN1cmVzIGN0eC0+c3RvcmVfd2lkdGggaXMgc2V0IGZv
-ciBhbGwgc3RvcmUgaW5zdHJ1Y3Rpb25zLApzbyBwZXJmb3JtYW5jZSBpcyBpbXByb3ZlZCBiZWNh
-dXNlIHBhY2tldCBjb21taXQgY2FuIGdlbmVyYXRlIHRoZSBwcm9wZXIKVENHIHN0b3JlIHJhdGhl
-ciB0aGFuIHRoZSBnZW5lcmljIGhlbHBlci4KCldlIGRvIHRoaXMgYnkKLSBVc2UgdGhlIGF0dHJp
-YnV0ZXMgZnJvbSB0aGUgaW5zdHJ1Y3Rpb25zIGR1cmluZyB0cmFuc2xhdGlvbiB0bwogIHNldCBj
-dHgtPnN0b3JlX3dpZHRoCi0gUmVtb3ZlIHNldHRpbmcgb2YgY3R4LT5zdG9yZV93aWR0aCBmcm9t
-IGdlbnB0ci5jCgpTaWduZWQtb2ZmLWJ5OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2lu
-Yy5jb20+ClJldmlld2VkLWJ5OiBSaWNoYXJkIEhlbmRlcnNvbiA8cmljaGFyZC5oZW5kZXJzb25A
-bGluYXJvLm9yZz4KTWVzc2FnZS1JZDogPDIwMjIwOTIwMDgwNzQ2LjI2NzkxLTMtdHNpbXBzb25A
-cXVpY2luYy5jb20+Ci0tLQogdGFyZ2V0L2hleGFnb24vbWFjcm9zLmggICAgfCAgOCArKysrLS0t
-LQogdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMgICAgfCAzNiArKysrKysrKysrKystLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0KIHRhcmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5jIHwgMjUgKysrKysrKysr
-KysrKysrKysrKysrKysrKwogMyBmaWxlcyBjaGFuZ2VkLCA0MSBpbnNlcnRpb25zKCspLCAyOCBk
-ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS90YXJnZXQvaGV4YWdvbi9tYWNyb3MuaCBiL3Rhcmdl
-dC9oZXhhZ29uL21hY3Jvcy5oCmluZGV4IDkyZWI4YmJmMDUuLmM4ODA1YmRhZWIgMTAwNjQ0Ci0t
-LSBhL3RhcmdldC9oZXhhZ29uL21hY3Jvcy5oCisrKyBiL3RhcmdldC9oZXhhZ29uL21hY3Jvcy5o
-CkBAIC0xNTYsNyArMTU2LDcgQEAKICAgICAgICAgX19idWlsdGluX2Nob29zZV9leHByKFRZUEVf
-VENHVihYKSwgXAogICAgICAgICAgICAgZ2VuX3N0b3JlMSwgKHZvaWQpMCkpCiAjZGVmaW5lIE1F
-TV9TVE9SRTEoVkEsIERBVEEsIFNMT1QpIFwKLSAgICBNRU1fU1RPUkUxX0ZVTkMoREFUQSkoY3B1
-X2VudiwgVkEsIERBVEEsIGN0eCwgU0xPVCkKKyAgICBNRU1fU1RPUkUxX0ZVTkMoREFUQSkoY3B1
-X2VudiwgVkEsIERBVEEsIFNMT1QpCiAKICNkZWZpbmUgTUVNX1NUT1JFMl9GVU5DKFgpIFwKICAg
-ICBfX2J1aWx0aW5fY2hvb3NlX2V4cHIoVFlQRV9JTlQoWCksIFwKQEAgLTE2NCw3ICsxNjQsNyBA
-QAogICAgICAgICBfX2J1aWx0aW5fY2hvb3NlX2V4cHIoVFlQRV9UQ0dWKFgpLCBcCiAgICAgICAg
-ICAgICBnZW5fc3RvcmUyLCAodm9pZCkwKSkKICNkZWZpbmUgTUVNX1NUT1JFMihWQSwgREFUQSwg
-U0xPVCkgXAotICAgIE1FTV9TVE9SRTJfRlVOQyhEQVRBKShjcHVfZW52LCBWQSwgREFUQSwgY3R4
-LCBTTE9UKQorICAgIE1FTV9TVE9SRTJfRlVOQyhEQVRBKShjcHVfZW52LCBWQSwgREFUQSwgU0xP
-VCkKIAogI2RlZmluZSBNRU1fU1RPUkU0X0ZVTkMoWCkgXAogICAgIF9fYnVpbHRpbl9jaG9vc2Vf
-ZXhwcihUWVBFX0lOVChYKSwgXApAQCAtMTcyLDcgKzE3Miw3IEBACiAgICAgICAgIF9fYnVpbHRp
-bl9jaG9vc2VfZXhwcihUWVBFX1RDR1YoWCksIFwKICAgICAgICAgICAgIGdlbl9zdG9yZTQsICh2
-b2lkKTApKQogI2RlZmluZSBNRU1fU1RPUkU0KFZBLCBEQVRBLCBTTE9UKSBcCi0gICAgTUVNX1NU
-T1JFNF9GVU5DKERBVEEpKGNwdV9lbnYsIFZBLCBEQVRBLCBjdHgsIFNMT1QpCisgICAgTUVNX1NU
-T1JFNF9GVU5DKERBVEEpKGNwdV9lbnYsIFZBLCBEQVRBLCBTTE9UKQogCiAjZGVmaW5lIE1FTV9T
-VE9SRThfRlVOQyhYKSBcCiAgICAgX19idWlsdGluX2Nob29zZV9leHByKFRZUEVfSU5UKFgpLCBc
-CkBAIC0xODAsNyArMTgwLDcgQEAKICAgICAgICAgX19idWlsdGluX2Nob29zZV9leHByKFRZUEVf
-VENHVl9JNjQoWCksIFwKICAgICAgICAgICAgIGdlbl9zdG9yZTgsICh2b2lkKTApKQogI2RlZmlu
-ZSBNRU1fU1RPUkU4KFZBLCBEQVRBLCBTTE9UKSBcCi0gICAgTUVNX1NUT1JFOF9GVU5DKERBVEEp
-KGNwdV9lbnYsIFZBLCBEQVRBLCBjdHgsIFNMT1QpCisgICAgTUVNX1NUT1JFOF9GVU5DKERBVEEp
-KGNwdV9lbnYsIFZBLCBEQVRBLCBTTE9UKQogI2Vsc2UKICNkZWZpbmUgTUVNX0xPQUQxcyhWQSkg
-KChpbnQ4X3QpbWVtX2xvYWQxKGVudiwgc2xvdCwgVkEpKQogI2RlZmluZSBNRU1fTE9BRDF1KFZB
-KSAoKHVpbnQ4X3QpbWVtX2xvYWQxKGVudiwgc2xvdCwgVkEpKQpkaWZmIC0tZ2l0IGEvdGFyZ2V0
-L2hleGFnb24vZ2VucHRyLmMgYi90YXJnZXQvaGV4YWdvbi9nZW5wdHIuYwppbmRleCA4YTMzNGJh
-MDdiLi44MDZkMDk3NGZmIDEwMDY0NAotLS0gYS90YXJnZXQvaGV4YWdvbi9nZW5wdHIuYworKysg
-Yi90YXJnZXQvaGV4YWdvbi9nZW5wdHIuYwpAQCAtNDAxLDYyICs0MDEsNTAgQEAgc3RhdGljIGlu
-bGluZSB2b2lkIGdlbl9zdG9yZTMyKFRDR3YgdmFkZHIsIFRDR3Ygc3JjLCBpbnQgd2lkdGgsIGlu
-dCBzbG90KQogICAgIHRjZ19nZW5fbW92X3RsKGhleF9zdG9yZV92YWwzMltzbG90XSwgc3JjKTsK
-IH0KIAotc3RhdGljIGlubGluZSB2b2lkIGdlbl9zdG9yZTEoVENHdl9lbnYgY3B1X2VudiwgVENH
-diB2YWRkciwgVENHdiBzcmMsCi0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEaXNhc0Nv
-bnRleHQgKmN0eCwgaW50IHNsb3QpCitzdGF0aWMgaW5saW5lIHZvaWQgZ2VuX3N0b3JlMShUQ0d2
-X2VudiBjcHVfZW52LCBUQ0d2IHZhZGRyLCBUQ0d2IHNyYywgaW50IHNsb3QpCiB7CiAgICAgZ2Vu
-X3N0b3JlMzIodmFkZHIsIHNyYywgMSwgc2xvdCk7Ci0gICAgY3R4LT5zdG9yZV93aWR0aFtzbG90
-XSA9IDE7CiB9CiAKLXN0YXRpYyBpbmxpbmUgdm9pZCBnZW5fc3RvcmUxaShUQ0d2X2VudiBjcHVf
-ZW52LCBUQ0d2IHZhZGRyLCBpbnQzMl90IHNyYywKLSAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBEaXNhc0NvbnRleHQgKmN0eCwgaW50IHNsb3QpCitzdGF0aWMgaW5saW5lIHZvaWQgZ2Vu
-X3N0b3JlMWkoVENHdl9lbnYgY3B1X2VudiwgVENHdiB2YWRkciwgaW50MzJfdCBzcmMsIGludCBz
-bG90KQogewogICAgIFRDR3YgdG1wID0gdGNnX2NvbnN0YW50X3RsKHNyYyk7Ci0gICAgZ2VuX3N0
-b3JlMShjcHVfZW52LCB2YWRkciwgdG1wLCBjdHgsIHNsb3QpOworICAgIGdlbl9zdG9yZTEoY3B1
-X2VudiwgdmFkZHIsIHRtcCwgc2xvdCk7CiB9CiAKLXN0YXRpYyBpbmxpbmUgdm9pZCBnZW5fc3Rv
-cmUyKFRDR3ZfZW52IGNwdV9lbnYsIFRDR3YgdmFkZHIsIFRDR3Ygc3JjLAotICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgRGlzYXNDb250ZXh0ICpjdHgsIGludCBzbG90KQorc3RhdGljIGlu
-bGluZSB2b2lkIGdlbl9zdG9yZTIoVENHdl9lbnYgY3B1X2VudiwgVENHdiB2YWRkciwgVENHdiBz
-cmMsIGludCBzbG90KQogewogICAgIGdlbl9zdG9yZTMyKHZhZGRyLCBzcmMsIDIsIHNsb3QpOwot
-ICAgIGN0eC0+c3RvcmVfd2lkdGhbc2xvdF0gPSAyOwogfQogCi1zdGF0aWMgaW5saW5lIHZvaWQg
-Z2VuX3N0b3JlMmkoVENHdl9lbnYgY3B1X2VudiwgVENHdiB2YWRkciwgaW50MzJfdCBzcmMsCi0g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRGlzYXNDb250ZXh0ICpjdHgsIGludCBzbG90
-KQorc3RhdGljIGlubGluZSB2b2lkIGdlbl9zdG9yZTJpKFRDR3ZfZW52IGNwdV9lbnYsIFRDR3Yg
-dmFkZHIsIGludDMyX3Qgc3JjLCBpbnQgc2xvdCkKIHsKICAgICBUQ0d2IHRtcCA9IHRjZ19jb25z
-dGFudF90bChzcmMpOwotICAgIGdlbl9zdG9yZTIoY3B1X2VudiwgdmFkZHIsIHRtcCwgY3R4LCBz
-bG90KTsKKyAgICBnZW5fc3RvcmUyKGNwdV9lbnYsIHZhZGRyLCB0bXAsIHNsb3QpOwogfQogCi1z
-dGF0aWMgaW5saW5lIHZvaWQgZ2VuX3N0b3JlNChUQ0d2X2VudiBjcHVfZW52LCBUQ0d2IHZhZGRy
-LCBUQ0d2IHNyYywKLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERpc2FzQ29udGV4dCAq
-Y3R4LCBpbnQgc2xvdCkKK3N0YXRpYyBpbmxpbmUgdm9pZCBnZW5fc3RvcmU0KFRDR3ZfZW52IGNw
-dV9lbnYsIFRDR3YgdmFkZHIsIFRDR3Ygc3JjLCBpbnQgc2xvdCkKIHsKICAgICBnZW5fc3RvcmUz
-Mih2YWRkciwgc3JjLCA0LCBzbG90KTsKLSAgICBjdHgtPnN0b3JlX3dpZHRoW3Nsb3RdID0gNDsK
-IH0KIAotc3RhdGljIGlubGluZSB2b2lkIGdlbl9zdG9yZTRpKFRDR3ZfZW52IGNwdV9lbnYsIFRD
-R3YgdmFkZHIsIGludDMyX3Qgc3JjLAotICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERp
-c2FzQ29udGV4dCAqY3R4LCBpbnQgc2xvdCkKK3N0YXRpYyBpbmxpbmUgdm9pZCBnZW5fc3RvcmU0
-aShUQ0d2X2VudiBjcHVfZW52LCBUQ0d2IHZhZGRyLCBpbnQzMl90IHNyYywgaW50IHNsb3QpCiB7
-CiAgICAgVENHdiB0bXAgPSB0Y2dfY29uc3RhbnRfdGwoc3JjKTsKLSAgICBnZW5fc3RvcmU0KGNw
-dV9lbnYsIHZhZGRyLCB0bXAsIGN0eCwgc2xvdCk7CisgICAgZ2VuX3N0b3JlNChjcHVfZW52LCB2
-YWRkciwgdG1wLCBzbG90KTsKIH0KIAotc3RhdGljIGlubGluZSB2b2lkIGdlbl9zdG9yZTgoVENH
-dl9lbnYgY3B1X2VudiwgVENHdiB2YWRkciwgVENHdl9pNjQgc3JjLAotICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgRGlzYXNDb250ZXh0ICpjdHgsIGludCBzbG90KQorc3RhdGljIGlubGlu
-ZSB2b2lkIGdlbl9zdG9yZTgoVENHdl9lbnYgY3B1X2VudiwgVENHdiB2YWRkciwgVENHdl9pNjQg
-c3JjLCBpbnQgc2xvdCkKIHsKICAgICB0Y2dfZ2VuX21vdl90bChoZXhfc3RvcmVfYWRkcltzbG90
-XSwgdmFkZHIpOwogICAgIHRjZ19nZW5fbW92aV90bChoZXhfc3RvcmVfd2lkdGhbc2xvdF0sIDgp
-OwogICAgIHRjZ19nZW5fbW92X2k2NChoZXhfc3RvcmVfdmFsNjRbc2xvdF0sIHNyYyk7Ci0gICAg
-Y3R4LT5zdG9yZV93aWR0aFtzbG90XSA9IDg7CiB9CiAKLXN0YXRpYyBpbmxpbmUgdm9pZCBnZW5f
-c3RvcmU4aShUQ0d2X2VudiBjcHVfZW52LCBUQ0d2IHZhZGRyLCBpbnQ2NF90IHNyYywKLSAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBEaXNhc0NvbnRleHQgKmN0eCwgaW50IHNsb3QpCitz
-dGF0aWMgaW5saW5lIHZvaWQgZ2VuX3N0b3JlOGkoVENHdl9lbnYgY3B1X2VudiwgVENHdiB2YWRk
-ciwgaW50NjRfdCBzcmMsIGludCBzbG90KQogewogICAgIFRDR3ZfaTY0IHRtcCA9IHRjZ19jb25z
-dGFudF9pNjQoc3JjKTsKLSAgICBnZW5fc3RvcmU4KGNwdV9lbnYsIHZhZGRyLCB0bXAsIGN0eCwg
-c2xvdCk7CisgICAgZ2VuX3N0b3JlOChjcHVfZW52LCB2YWRkciwgdG1wLCBzbG90KTsKIH0KIAog
-c3RhdGljIFRDR3YgZ2VuXzhiaXRzb2YoVENHdiByZXN1bHQsIFRDR3YgdmFsdWUpCmRpZmYgLS1n
-aXQgYS90YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuYyBiL3RhcmdldC9oZXhhZ29uL3RyYW5zbGF0
-ZS5jCmluZGV4IGI2YjgzNGI0ZWUuLjIzMjkxNzc1MzcgMTAwNjQ0Ci0tLSBhL3RhcmdldC9oZXhh
-Z29uL3RyYW5zbGF0ZS5jCisrKyBiL3RhcmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5jCkBAIC0zMjcs
-NiArMzI3LDMwIEBAIHN0YXRpYyB2b2lkIG1hcmtfaW1wbGljaXRfcHJlZF93cml0ZXMoRGlzYXND
-b250ZXh0ICpjdHgsIEluc24gKmluc24pCiAgICAgbWFya19pbXBsaWNpdF9wcmVkX3dyaXRlKGN0
-eCwgaW5zbiwgQV9JTVBMSUNJVF9XUklURVNfUDMsIDMpOwogfQogCitzdGF0aWMgdm9pZCBtYXJr
-X3N0b3JlX3dpZHRoKERpc2FzQ29udGV4dCAqY3R4LCBJbnNuICppbnNuKQoreworICAgIHVpbnQx
-Nl90IG9wY29kZSA9IGluc24tPm9wY29kZTsKKyAgICB1aW50MzJfdCBzbG90ID0gaW5zbi0+c2xv
-dDsKKyAgICB1aW50OF90IHdpZHRoID0gMDsKKworICAgIGlmIChHRVRfQVRUUklCKG9wY29kZSwg
-QV9TQ0FMQVJfU1RPUkUpKSB7CisgICAgICAgIGlmIChHRVRfQVRUUklCKG9wY29kZSwgQV9NRU1T
-SVpFXzFCKSkgeworICAgICAgICAgICAgd2lkdGggfD0gMTsKKyAgICAgICAgfQorICAgICAgICBp
-ZiAoR0VUX0FUVFJJQihvcGNvZGUsIEFfTUVNU0laRV8yQikpIHsKKyAgICAgICAgICAgIHdpZHRo
-IHw9IDI7CisgICAgICAgIH0KKyAgICAgICAgaWYgKEdFVF9BVFRSSUIob3Bjb2RlLCBBX01FTVNJ
-WkVfNEIpKSB7CisgICAgICAgICAgICB3aWR0aCB8PSA0OworICAgICAgICB9CisgICAgICAgIGlm
-IChHRVRfQVRUUklCKG9wY29kZSwgQV9NRU1TSVpFXzhCKSkgeworICAgICAgICAgICAgd2lkdGgg
-fD0gODsKKyAgICAgICAgfQorICAgICAgICB0Y2dfZGVidWdfYXNzZXJ0KGlzX3Bvd2VyX29mXzIo
-d2lkdGgpKTsKKyAgICAgICAgY3R4LT5zdG9yZV93aWR0aFtzbG90XSA9IHdpZHRoOworICAgIH0K
-K30KKwogc3RhdGljIHZvaWQgZ2VuX2luc24oQ1BVSGV4YWdvblN0YXRlICplbnYsIERpc2FzQ29u
-dGV4dCAqY3R4LAogICAgICAgICAgICAgICAgICAgICAgSW5zbiAqaW5zbiwgUGFja2V0ICpwa3Qp
-CiB7CkBAIC0zMzQsNiArMzU4LDcgQEAgc3RhdGljIHZvaWQgZ2VuX2luc24oQ1BVSGV4YWdvblN0
-YXRlICplbnYsIERpc2FzQ29udGV4dCAqY3R4LAogICAgICAgICBtYXJrX2ltcGxpY2l0X3JlZ193
-cml0ZXMoY3R4LCBpbnNuKTsKICAgICAgICAgaW5zbi0+Z2VuZXJhdGUoZW52LCBjdHgsIGluc24s
-IHBrdCk7CiAgICAgICAgIG1hcmtfaW1wbGljaXRfcHJlZF93cml0ZXMoY3R4LCBpbnNuKTsKKyAg
-ICAgICAgbWFya19zdG9yZV93aWR0aChjdHgsIGluc24pOwogICAgIH0gZWxzZSB7CiAgICAgICAg
-IGdlbl9leGNlcHRpb25fZW5kX3RiKGN0eCwgSEVYX0VYQ1BfSU5WQUxJRF9PUENPREUpOwogICAg
-IH0KLS0gCjIuMTcuMQoK
+On Donnerstag, 29. September 2022 18:32:37 CEST Marc-Andr=E9 Lureau wrote:
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>=20
+> If slirp is not found during compile-time, and not manually disabled,
+> print a friendly error message, as suggested in the "If your networking
+> is failing after updating to the latest git version of QEMU..." thread
+> by various people.
+>=20
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  meson.build |  4 ++++
+>  net/net.c   | 19 +++++++++++++++++--
+>  2 files changed, 21 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meson.build b/meson.build
+> index 8dc661363f..4f69d7d0b4 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -657,6 +657,10 @@ if not get_option('slirp').auto() or have_system
+>    endif
+>  endif
+>=20
+> +if get_option('slirp').disabled()
+> +  config_host_data.set('CONFIG_SLIRP_DISABLED', true)
+> +endif
+> +
+>  vde =3D not_found
+>  if not get_option('vde').auto() or have_system or have_tools
+>    vde =3D cc.find_library('vdeplug', has_headers: ['libvdeplug.h'],
+> diff --git a/net/net.c b/net/net.c
+> index 2db160e063..e6072a5ddd 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -990,14 +990,29 @@ static int net_init_nic(const Netdev *netdev, const
+> char *name, return idx;
+>  }
+>=20
+> +#if (defined(CONFIG_SLIRP) || !defined(CONFIG_SLIRP_DISABLED))
+> +static int net_init_user(const Netdev *netdev, const char *name,
+> +                         NetClientState *peer, Error **errp)
+> +{
+> +#ifdef CONFIG_SLIRP
+> +    return net_init_slirp(netdev, name, peer, errp);
+> +#else
+> +    error_setg(errp,
+> +               "Type 'user' is not a supported netdev backend by this QE=
+MU
+> build " +               "because the libslirp development files were not
+> found during build " +               "of QEMU.");
+> +#endif
+> +    return -1;
+> +}
+> +#endif
+
+I just tried this, but somehow it is not working for me. net_init_user() is=
+=20
+never called and therefore I don't get the error message. That should be=20
+working if the user launched QEMU without any networking arg, right?
+
+And still, I would find it better if there was also a clear build-time erro=
+r=20
+if there was no libslirp and slirp feature was not explicitly disabled.
+
+>=20
+>  static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+>      const Netdev *netdev,
+>      const char *name,
+>      NetClientState *peer, Error **errp) =3D {
+>          [NET_CLIENT_DRIVER_NIC]       =3D net_init_nic,
+> -#ifdef CONFIG_SLIRP
+> -        [NET_CLIENT_DRIVER_USER]      =3D net_init_slirp,
+> +#if (defined(CONFIG_SLIRP) || !defined(CONFIG_SLIRP_DISABLED))
+> +        [NET_CLIENT_DRIVER_USER]      =3D net_init_user,
+>  #endif
+>          [NET_CLIENT_DRIVER_TAP]       =3D net_init_tap,
+>          [NET_CLIENT_DRIVER_SOCKET]    =3D net_init_socket,
+
+
+
+
 
