@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7BC5F104C
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 18:53:38 +0200 (CEST)
-Received: from localhost ([::1]:34968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1F45F108A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 19:11:16 +0200 (CEST)
+Received: from localhost ([::1]:33662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeJGZ-0007yT-WB
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 12:53:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36976)
+	id 1oeJXf-0003Wa-8r
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 13:11:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oeJEX-0005ET-I2
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:51:30 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:39477)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFi-0006JL-77
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oeJEV-0006Ty-GF
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:51:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=6gLtfxVVkSS+fmuuuBClzkfwpv46NPzPSm7mVFSnWhY=; b=DNkNqTpTJg/6KusAd9QsqRi7R2
- agUqhBG2X1Q4bQSqoMZbFX0jPN6l5ycinhnbhcRaloRgqlV+MpYsOtqaXxExH8iK43WTedjN3AZnN
- mplRwDhk8Wd7EPJoFDSoXc5PLoQhzT8wt5CysxqMlCMFj90wvF3l1Y/U6lmbR2dPKEng6X3AOfMg+
- r3UJztQmo+T79sMq4c9Q8Dc2+E/RxjPzefwOjFOoMnCFn+55fxO3Wqu5/zxhXnAgfxE4NSCWuGK7D
- 4BeuYjciCSK9e6UkDjlDxolzvOCq4qU73XdxQ8pDHtzP7NC0p3wrZQQiU7I7fMfeXvgNEPQlUfuKw
- PSz6mrE6F0CSk4j2+mNWF7NHRqnZgHSqnfs2ubFyZmKfdiegtkGzKyiGC8kz4A+ho+BrAe9duXESB
- hRnruFtvhZSBw9Gm+cXNHVtSESzsL202j9aTBwQ10YU1VkrFEmcelTRah4qczxybG6blefK17Nzxq
- u+vxFwk/LYAYNCPyyRlsCDmFHbgb8P3iQzSUkuXPJgFgMm5rqzjqXnhVd/xhIzxYFhFwxBEkMGbDG
- 74k2I8yBnZuuliSBGMs2SwgF28TVolFNO1+e8FKg9A9f7OI/QG3xBzHnRIdWaJxvxPp6q9L/ju/la
- QZ2K4e3iUxrtAI7Ht4CWihadKe8c0xMdN3BC/jfuo=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Warner Losh <imp@bsdimp.com>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- "Daniel P . Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 for-7.2 0/6] Drop libslirp submodule
-Date: Fri, 30 Sep 2022 18:50:20 +0200
-Message-ID: <30266128.I4sqonfujN@silver>
-In-Reply-To: <20220824151122.704946-1-thuth@redhat.com>
-References: <20220824151122.704946-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oeJFe-0006bE-Gp
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 12:52:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664556757;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sInYL51cL/VaqtSBVahUQEsnKf25uyZ7iRtuTT4MGsU=;
+ b=EDE7mGHGuXUHe+YMsRLLcTo/Ne2zYoTUvvq1zb1pMSKlY/mnn/oKmty/xZwhI/W/n+tZaJ
+ K0hKO7XXQ831vIIBkK2VdJge3PahvOOEjgTfBpBuylDoIz4wU7QY9RbSPcERMK8WWiO6mw
+ vdEJPWxgyGoaFSa/SxgG1L6xxTJCxTk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-458-fXDWON9-NuCpYpO0uIMdgQ-1; Fri, 30 Sep 2022 12:52:34 -0400
+X-MC-Unique: fXDWON9-NuCpYpO0uIMdgQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E77D52A59556;
+ Fri, 30 Sep 2022 16:52:33 +0000 (UTC)
+Received: from merkur.fritz.box (unknown [10.39.192.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D66117583;
+ Fri, 30 Sep 2022 16:52:33 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com,
+	stefanha@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PULL 00/18] Block layer patches
+Date: Fri, 30 Sep 2022 18:52:04 +0200
+Message-Id: <20220930165222.249716-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,36 +76,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 24. August 2022 17:11:16 CEST Thomas Huth wrote:
-> At the point in time we're going to release QEMU 7.2, all supported
-> host OS distributions will have a libslirp package available, so
-> there is no need anymore for us to ship the slirp submodule. Thus
-> let's clean up the related tests and finally remove the submodule now.
-> 
-> v2:
-> - Added patches to clean up and adapt the tests
-> - Rebased the removal patch to the latest version of the master branch
-> 
-> Thomas Huth (6):
->   tests/docker: Update the debian-all-test-cross container to Debian 11
->   tests/vm: Add libslirp to the VM tests
->   tests/lcitool/libvirt-ci: Update the lcitool module to the latest
->     version
->   tests: Refresh dockerfiles and FreeBSD vars with lcitool
->   tests/avocado: Do not run tests that require libslirp if it is not
->     available
->   Remove the slirp submodule (i.e. compile only with an external
->     libslirp)
+The following changes since commit c8de6ec63d766ca1998c5af468483ce912fdc0c2:
 
-And I was wondering (bisecting) why network silently stopped working here.
+  Merge tag 'pull-request-2022-09-28' of https://gitlab.com/thuth/qemu into staging (2022-09-28 17:04:11 -0400)
 
-While I understand the motivation for this change, it's probably not a user 
-friendly situation to just silently decease functionality. As slirp was the 
-default networking (i.e. not just some exotic QEMU feature), wouldn't it make 
-sense then to make missing libslirp a build-time error by default?
+are available in the Git repository at:
 
-Best regards,
-Christian Schoenebeck
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
 
+for you to fetch changes up to 176e4961bb33d559da1af441fb0ee2e0cb8245ae:
+
+  hw/ide/core.c: Implement ATA INITIALIZE_DEVICE_PARAMETERS command (2022-09-30 18:43:44 +0200)
+
+----------------------------------------------------------------
+Block layer patches
+
+- Fix missing block_acct_setup() with -blockdev
+- Keep auto_backing_file post-migration
+- file-posix: Fixed O_DIRECT memory alignment
+- ide: Fix state after EXECUTE DEVICE DIAGNOSTIC and implement
+  INITIALIZE DEVICE PARAMETERS
+- qemu-img: Wean documentation and help output off '?' for help
+- qcow2: fix memory leak and compiler warning
+- Code cleanups
+
+----------------------------------------------------------------
+Denis V. Lunev (4):
+      block: pass OnOffAuto instead of bool to block_acct_setup()
+      block: add missed block_acct_setup with new block device init procedure
+      block: use bdrv_is_sg() helper instead of raw bs->sg reading
+      block: make serializing requests functions 'void'
+
+Hanna Reitz (3):
+      block/qcow2: Keep auto_backing_file if possible
+      block/qed: Keep auto_backing_file if possible
+      iotests/backing-file-invalidation: Add new test
+
+Keith Busch (2):
+      block: move bdrv_qiov_is_aligned to file-posix
+      block: use the request length for iov alignment
+
+Lev Kujawski (5):
+      piix_ide_reset: Use pci_set_* functions instead of direct access
+      tests/qtest/ide-test.c: Create disk image for use as a secondary
+      hw/ide/core: Clear LBA and drive bits for EXECUTE DEVICE DIAGNOSTIC
+      tests/qtest/ide-test: Verify that DIAGNOSTIC clears DEV to zero
+      hw/ide/core.c: Implement ATA INITIALIZE_DEVICE_PARAMETERS command
+
+Markus Armbruster (1):
+      qemu-img: Wean documentation and help output off '?' for help
+
+Philippe Mathieu-Daudé (1):
+      block/qcow2-bitmap: Add missing cast to silent GCC error
+
+Stefan Hajnoczi (1):
+      gluster: stop using .bdrv_needs_filename
+
+lu zhipeng (1):
+      qcow2: fix memory leak in qcow2_read_extensions
+
+ docs/tools/qemu-img.rst                            |   2 +-
+ include/block/accounting.h                         |   6 +-
+ include/block/block-io.h                           |   1 -
+ include/block/block_int-io.h                       |   2 +-
+ include/hw/block/block.h                           |   7 +-
+ include/hw/ide/internal.h                          |   3 +
+ block/accounting.c                                 |  26 +++-
+ block/file-posix.c                                 |  24 +++-
+ block/gluster.c                                    |   4 -
+ block/io.c                                         |  44 +-----
+ block/iscsi.c                                      |   2 +-
+ block/qcow2-bitmap.c                               |   2 +-
+ block/qcow2.c                                      |  22 ++-
+ block/qed.c                                        |  15 +-
+ block/raw-format.c                                 |   4 +-
+ blockdev.c                                         |  17 ++-
+ hw/block/block.c                                   |   2 +
+ hw/ide/core.c                                      |  35 ++++-
+ hw/ide/piix.c                                      |  17 +--
+ qemu-img.c                                         |   4 +-
+ tests/qtest/ide-test.c                             |  72 +++++++---
+ tests/qemu-iotests/172.out                         |  76 +++++++++++
+ tests/qemu-iotests/227.out                         |   4 +-
+ tests/qemu-iotests/tests/backing-file-invalidation | 152 +++++++++++++++++++++
+ .../tests/backing-file-invalidation.out            |   5 +
+ 25 files changed, 447 insertions(+), 101 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/backing-file-invalidation
+ create mode 100644 tests/qemu-iotests/tests/backing-file-invalidation.out
 
 
