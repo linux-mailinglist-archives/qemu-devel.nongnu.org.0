@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB74D5F0D74
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:23:04 +0200 (CEST)
-Received: from localhost ([::1]:37098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 114595F0D79
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:25:11 +0200 (CEST)
+Received: from localhost ([::1]:50040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeGuu-0002wa-0i
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47110)
+	id 1oeGws-00050T-Md
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:25:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeGbA-00088h-NM
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:02:41 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:42753)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeGb1-0003Mo-0t
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:02:40 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- r8-20020a17090a560800b00205eaaba073so4339253pjf.1
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 07:02:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=Qxuf3VlWLSO1XaAx3psaOiPMVQhtyHFUi+T19ENvRRA=;
- b=KJObGf0Ky0ur+bVCHq4uf8GHPBv0Yer0a3oVJVtfX657zFHoBlNAysWVzZRToPxjNw
- bnnxQ/4NIXBvBgv0YbvHTqJFfR0cTy3jxb71C3/h76R7bTOBsXySqslZ925dKCvjKVZh
- tPb8a5qhrDzV0Vsy7Bzsq8752GWUbWx5gtLanbVfO6ibaW0cjkZTmPGPpNWQGEUX+6sv
- pK3DBWvcbU1ApNWMWhS0HlOfXY0bYMoMQUodmVGTgB/cG9sDkxvB6rvdmvphhBZ1aMqR
- 0n1cwhMSk2lXLGnZzE6laEQ4SOTPctXy1yY/zI+ddtQJw2msNIW3zQl4Uw3QtZJuBLe7
- nnxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=Qxuf3VlWLSO1XaAx3psaOiPMVQhtyHFUi+T19ENvRRA=;
- b=AKT2m3PH/e03xqJ/Kd6Ro3ee3c+x1Jx9FYis3p2F2YJebHyq6HekvQb4VTtLfdv9gZ
- 9ip43lBZbPWoigsVNMT+NouzMVkt5zCxG9Mo++chWHWX+Vj7qCPylC+KWuWri6H6MK/n
- l7iLdSNvflJvbnDTvfgrCD2uaE6QAULXXV2IuHrDe3MP1XqxRWgL0bp+eLUGSe/PtSzf
- jhZ+RKKvUMCeu/5ZxtPjyPjHXw49vryju+TDjWyd40pzWT/b5V4J8g+7nHTv8x2KC1VR
- K8VhAeY7wIHgEQgR5ZBN8tYJijVvJMeY5RVgmnB6Tb1WOsYUqx0JDMxY5wiQyZxKpwrO
- V/NA==
-X-Gm-Message-State: ACrzQf05tW1Wt55VRy1lA86pV2zTSlwCpVsf2Hu/MMkT1RC3z5W6PxFm
- PavlBDyeoFXe/udPHDuCJ4oJYg==
-X-Google-Smtp-Source: AMsMyM7ATNblxeVs//aHvaIu8oYm9jDkVIK3KQ4VPMTKxk73afAZGwF1vuXLnF5maNrjfeMJFla4SA==
-X-Received: by 2002:a17:902:db0a:b0:178:32b9:6f51 with SMTP id
- m10-20020a170902db0a00b0017832b96f51mr8925073plx.145.1664546541212; 
- Fri, 30 Sep 2022 07:02:21 -0700 (PDT)
-Received: from [192.168.74.154] ([50.200.230.211])
- by smtp.gmail.com with ESMTPSA id
- 3-20020a17090a01c300b001fb1de10a4dsm1669581pjd.33.2022.09.30.07.02.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Sep 2022 07:02:20 -0700 (PDT)
-Message-ID: <0e4b61fc-0553-8f9d-5b84-ff23166ab0b4@linaro.org>
-Date: Fri, 30 Sep 2022 07:02:18 -0700
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oeGcf-0000gp-Lb
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:04:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oeGcV-0003UW-7e
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:04:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664546642;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VifYCRRDBVSvFMC5AAZ5sD245iW+LIJ+vXBmZDiLlck=;
+ b=b7a58ZJWgj3g0bT6RENi13No42jEN7GlwvqfRuBzlNJxvQ/FogfTAHEX6YXCwZkARlJNK6
+ Gxgnd6dxkPaFMQ6ne5eeon6LtlD8Jsr4d85Dm6R6EwyrHZhNe4qIzY+pm11dHZlMDche6P
+ xe3Ae9gFtgMFcimGnLnQtPbIrnutq+g=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-592-nL9jXqHcMY6PfL8Hua8DTA-1; Fri, 30 Sep 2022 10:03:58 -0400
+X-MC-Unique: nL9jXqHcMY6PfL8Hua8DTA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA0F5185A794;
+ Fri, 30 Sep 2022 14:03:57 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2A2D82166B26;
+ Fri, 30 Sep 2022 14:03:56 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH v3] win32: set threads name
+Date: Fri, 30 Sep 2022 18:03:54 +0400
+Message-Id: <20220930140354.1684652-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 3/3] softfloat: logB(0) should raise divideByZero
- exception
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org,
- yangxiaojuan@loongson.cn, maobibo@Loongson.cn, huqi@loongson.cn
-References: <20220930024510.800005-1-gaosong@loongson.cn>
- <20220930024510.800005-4-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220930024510.800005-4-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.583,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URI_TRY_3LD=1.982 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,17 +79,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/29/22 19:45, Song Gao wrote:
-> logB(0) should raise divideByZero exception from IEEE 754-2008 spec 7.3
-> 
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
-> ---
->   fpu/softfloat-parts.c.inc | 1 +
->   1 file changed, 1 insertion(+)
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+As described in:
+https://learn.microsoft.com/en-us/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2022
 
+SetThreadDescription() is available since Windows 10, version 1607 and
+in some versions only by "Run Time Dynamic Linking". Its declaration is
+not yet in mingw, so we lookup the function the same way glib does.
 
-r~
+Tested with Visual Studio Community 2022 debugger.
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ util/qemu-thread-win32.c | 56 ++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 54 insertions(+), 2 deletions(-)
+
+diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
+index a2d5a6e825..90c9fa614b 100644
+--- a/util/qemu-thread-win32.c
++++ b/util/qemu-thread-win32.c
+@@ -19,12 +19,40 @@
+ 
+ static bool name_threads;
+ 
++typedef HRESULT (WINAPI *pSetThreadDescription) (HANDLE hThread,
++                                                 PCWSTR lpThreadDescription);
++static pSetThreadDescription SetThreadDescriptionFunc = NULL;
++static HMODULE kernel32_module = NULL;
++
++static bool
++load_set_thread_description(void)
++{
++  static gsize _init_once = 0;
++
++  if (g_once_init_enter(&_init_once)) {
++      kernel32_module = LoadLibraryW(L"kernel32.dll");
++      if (kernel32_module) {
++          SetThreadDescriptionFunc =
++              (pSetThreadDescription)GetProcAddress(kernel32_module,
++                                                    "SetThreadDescription");
++          if (!SetThreadDescriptionFunc) {
++              FreeLibrary(kernel32_module);
++          }
++      }
++      g_once_init_leave(&_init_once, 1);
++  }
++
++  return !!SetThreadDescriptionFunc;
++}
++
+ void qemu_thread_naming(bool enable)
+ {
+-    /* But note we don't actually name them on Windows yet */
+     name_threads = enable;
+ 
+-    fprintf(stderr, "qemu: thread naming not supported on this host\n");
++    if (enable && !load_set_thread_description()) {
++        fprintf(stderr, "qemu: thread naming not supported on this host\n");
++        name_threads = false;
++    }
+ }
+ 
+ static void error_exit(int err, const char *msg)
+@@ -400,6 +428,26 @@ void *qemu_thread_join(QemuThread *thread)
+     return ret;
+ }
+ 
++static bool
++set_thread_description(HANDLE h, const char *name)
++{
++  HRESULT hr;
++  g_autofree wchar_t *namew = NULL;
++
++  if (!load_set_thread_description()) {
++      return false;
++  }
++
++  namew = g_utf8_to_utf16(name, -1, NULL, NULL, NULL);
++  if (!namew) {
++      return false;
++  }
++
++  hr = SetThreadDescriptionFunc(h, namew);
++
++  return SUCCEEDED(hr);
++}
++
+ void qemu_thread_create(QemuThread *thread, const char *name,
+                        void *(*start_routine)(void *),
+                        void *arg, int mode)
+@@ -423,7 +471,11 @@ void qemu_thread_create(QemuThread *thread, const char *name,
+     if (!hThread) {
+         error_exit(GetLastError(), __func__);
+     }
++    if (name_threads && name && !set_thread_description(hThread, name)) {
++        fprintf(stderr, "qemu: failed to set thread description: %s\n", name);
++    }
+     CloseHandle(hThread);
++
+     thread->data = data;
+ }
+ 
+-- 
+2.37.3
+
 
