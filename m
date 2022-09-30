@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 114595F0D79
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:25:11 +0200 (CEST)
-Received: from localhost ([::1]:50040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B135F0D5B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Sep 2022 16:21:19 +0200 (CEST)
+Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeGws-00050T-Md
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:25:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53868)
+	id 1oeGtC-0000o9-DQ
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 10:21:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oeGcf-0000gp-Lb
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:04:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23694)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=ugbF=2B=zx2c4.com=Jason@kernel.org>)
+ id 1oeGe4-0001hI-DA
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:05:40 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:48108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1oeGcV-0003UW-7e
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:04:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664546642;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=VifYCRRDBVSvFMC5AAZ5sD245iW+LIJ+vXBmZDiLlck=;
- b=b7a58ZJWgj3g0bT6RENi13No42jEN7GlwvqfRuBzlNJxvQ/FogfTAHEX6YXCwZkARlJNK6
- Gxgnd6dxkPaFMQ6ne5eeon6LtlD8Jsr4d85Dm6R6EwyrHZhNe4qIzY+pm11dHZlMDche6P
- xe3Ae9gFtgMFcimGnLnQtPbIrnutq+g=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-592-nL9jXqHcMY6PfL8Hua8DTA-1; Fri, 30 Sep 2022 10:03:58 -0400
-X-MC-Unique: nL9jXqHcMY6PfL8Hua8DTA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1)
+ (envelope-from <SRS0=ugbF=2B=zx2c4.com=Jason@kernel.org>)
+ id 1oeGe1-0003pB-Qe
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 10:05:39 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA0F5185A794;
- Fri, 30 Sep 2022 14:03:57 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A2D82166B26;
- Fri, 30 Sep 2022 14:03:56 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Cc: bin.meng@windriver.com, richard.henderson@linaro.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH v3] win32: set threads name
-Date: Fri, 30 Sep 2022 18:03:54 +0400
-Message-Id: <20220930140354.1684652-1-marcandre.lureau@redhat.com>
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9201FB828F0;
+ Fri, 30 Sep 2022 14:05:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF1C3C433C1;
+ Fri, 30 Sep 2022 14:05:30 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="kgZym1BX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1664546728;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vep5nrxTm+IGrp39dQvVdZTB+ey0J1KFVywzWMSBFd0=;
+ b=kgZym1BXIqDZk2VXY82rB/eT66zCEf61r/056J2tas2F6BPgm2+/LeFi2PtseIbzISgIGh
+ yJGHgW9OwgpEc1oO6NvWqAmwq2BQcZpVJ+gg//l1ONgRmMeonujj7GgldpWyVopD2Nknfh
+ Y4eQw33K8Iqx5YFbhquqvDFp+g6HSeQ=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4965eafb
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Fri, 30 Sep 2022 14:05:28 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: f4bug@amsat.org, aurelien@aurel32.net, qemu-devel@nongnu.org,
+ tsbogend@alpha.franken.de
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: [PATCH qemu] mips/malta: pass RNG seed to to kernel via env var
+Date: Fri, 30 Sep 2022 16:05:20 +0200
+Message-Id: <20220930140520.576374-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URI_TRY_3LD=1.982 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=ugbF=2B=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,108 +77,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+With the kernel patch linked below, Linux ingests a RNG seed
+passed from the hypervisor. So, pass this for the Malta platform, and
+reinitialize it on reboot too, so that it's always fresh.
 
-As described in:
-https://learn.microsoft.com/en-us/visualstudio/debugger/how-to-set-a-thread-name-in-native-code?view=vs-2022
-
-SetThreadDescription() is available since Windows 10, version 1607 and
-in some versions only by "Run Time Dynamic Linking". Its declaration is
-not yet in mingw, so we lookup the function the same way glib does.
-
-Tested with Visual Studio Community 2022 debugger.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Link: https://lore.kernel.org/linux-mips/20220930140138.575751-1-Jason@zx2c4.com/
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- util/qemu-thread-win32.c | 56 ++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 54 insertions(+), 2 deletions(-)
+ hw/mips/malta.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
-index a2d5a6e825..90c9fa614b 100644
---- a/util/qemu-thread-win32.c
-+++ b/util/qemu-thread-win32.c
-@@ -19,12 +19,40 @@
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 0e932988e0..9d793b3c17 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -26,6 +26,7 @@
+ #include "qemu/units.h"
+ #include "qemu/bitops.h"
+ #include "qemu/datadir.h"
++#include "qemu/guest-random.h"
+ #include "hw/clock.h"
+ #include "hw/southbridge/piix.h"
+ #include "hw/isa/superio.h"
+@@ -1017,6 +1018,17 @@ static void G_GNUC_PRINTF(3, 4) prom_set(uint32_t *prom_buf, int index,
+     va_end(ap);
+ }
  
- static bool name_threads;
- 
-+typedef HRESULT (WINAPI *pSetThreadDescription) (HANDLE hThread,
-+                                                 PCWSTR lpThreadDescription);
-+static pSetThreadDescription SetThreadDescriptionFunc = NULL;
-+static HMODULE kernel32_module = NULL;
-+
-+static bool
-+load_set_thread_description(void)
++static void reinitialize_rng_seed(void *opaque)
 +{
-+  static gsize _init_once = 0;
++    char *rng_seed_hex = opaque;
++    uint8_t rng_seed[32];
 +
-+  if (g_once_init_enter(&_init_once)) {
-+      kernel32_module = LoadLibraryW(L"kernel32.dll");
-+      if (kernel32_module) {
-+          SetThreadDescriptionFunc =
-+              (pSetThreadDescription)GetProcAddress(kernel32_module,
-+                                                    "SetThreadDescription");
-+          if (!SetThreadDescriptionFunc) {
-+              FreeLibrary(kernel32_module);
-+          }
-+      }
-+      g_once_init_leave(&_init_once, 1);
-+  }
-+
-+  return !!SetThreadDescriptionFunc;
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
++        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
++    }
 +}
 +
- void qemu_thread_naming(bool enable)
+ /* Kernel */
+ static uint64_t load_kernel(void)
  {
--    /* But note we don't actually name them on Windows yet */
-     name_threads = enable;
+@@ -1028,6 +1040,8 @@ static uint64_t load_kernel(void)
+     long prom_size;
+     int prom_index = 0;
+     uint64_t (*xlate_to_kseg0) (void *opaque, uint64_t addr);
++    uint8_t rng_seed[32];
++    char rng_seed_hex[sizeof(rng_seed) * 2 + 1];
  
--    fprintf(stderr, "qemu: thread naming not supported on this host\n");
-+    if (enable && !load_set_thread_description()) {
-+        fprintf(stderr, "qemu: thread naming not supported on this host\n");
-+        name_threads = false;
+ #if TARGET_BIG_ENDIAN
+     big_endian = 1;
+@@ -1115,9 +1129,20 @@ static uint64_t load_kernel(void)
+ 
+     prom_set(prom_buf, prom_index++, "modetty0");
+     prom_set(prom_buf, prom_index++, "38400n8r");
++
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
++        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
 +    }
- }
++    prom_set(prom_buf, prom_index++, "rngseed");
++    prom_set(prom_buf, prom_index++, "%s", rng_seed_hex);
++
+     prom_set(prom_buf, prom_index++, NULL);
  
- static void error_exit(int err, const char *msg)
-@@ -400,6 +428,26 @@ void *qemu_thread_join(QemuThread *thread)
-     return ret;
- }
+     rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
++    qemu_register_reset(reinitialize_rng_seed,
++                        memmem(rom_ptr(ENVP_PADDR, prom_size), prom_size,
++                               rng_seed_hex, sizeof(rng_seed_hex)));
  
-+static bool
-+set_thread_description(HANDLE h, const char *name)
-+{
-+  HRESULT hr;
-+  g_autofree wchar_t *namew = NULL;
-+
-+  if (!load_set_thread_description()) {
-+      return false;
-+  }
-+
-+  namew = g_utf8_to_utf16(name, -1, NULL, NULL, NULL);
-+  if (!namew) {
-+      return false;
-+  }
-+
-+  hr = SetThreadDescriptionFunc(h, namew);
-+
-+  return SUCCEEDED(hr);
-+}
-+
- void qemu_thread_create(QemuThread *thread, const char *name,
-                        void *(*start_routine)(void *),
-                        void *arg, int mode)
-@@ -423,7 +471,11 @@ void qemu_thread_create(QemuThread *thread, const char *name,
-     if (!hThread) {
-         error_exit(GetLastError(), __func__);
-     }
-+    if (name_threads && name && !set_thread_description(hThread, name)) {
-+        fprintf(stderr, "qemu: failed to set thread description: %s\n", name);
-+    }
-     CloseHandle(hThread);
-+
-     thread->data = data;
- }
- 
+     g_free(prom_buf);
+     return kernel_entry;
 -- 
 2.37.3
 
