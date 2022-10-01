@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C765F1DDB
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 18:50:43 +0200 (CEST)
-Received: from localhost ([::1]:46412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D178D5F1DD2
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 18:44:58 +0200 (CEST)
+Received: from localhost ([::1]:36674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oefhK-00046K-GM
-	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 12:50:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41562)
+	id 1oefbl-0006AN-UB
+	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 12:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oefHb-0006lK-FL
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 12:24:07 -0400
-Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:37498)
+ id 1oefHe-0006mq-Ba
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 12:24:10 -0400
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:40490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oefHZ-0006Gt-ST
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 12:24:07 -0400
-Received: by mail-qk1-x72b.google.com with SMTP id s9so4542409qkg.4
- for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 09:24:05 -0700 (PDT)
+ id 1oefHb-0006DP-TS
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 12:24:09 -0400
+Received: by mail-qt1-x831.google.com with SMTP id cj27so4336958qtb.7
+ for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 09:24:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=LeO8wVc8x9qKMAPYpXMUEdsFvPVUI/smjTgJR5ckIew=;
- b=cBXj6+j56XUXm/Eq9UNrfPJ/f3BwV/G1hLpwcIJi3cmGGiyKeYE86AoWug+/XYxm6K
- eW2pwWcswEIFtfQzl9ZQSSrZkMla8IkQIbFkkloplC3rKRcBZSN7834pQ356HiTO3M/F
- GosCzdvOWPtXXR2Ha4veEKWOOQBSaEStMXVdckBSbEAc5aHGn4EVDUm55wvXvbcgiXeU
- GolRxoRSjcN6dlB/ApKp8QV7VFX5GfbuK1IalcxlfQaYVfeeuBylifeAfPbFn4IFadJ1
- 1r2FL28jmydKDLfOOq6SwaBM+ft6dgw7/DkyYdh4JFuXbvPreRkFE96MMnRlQoleeIdF
- MQfg==
+ bh=nVf0XoPBuFuQPXtT3jzdB8OzBoWMzBFYm3DKP93Thek=;
+ b=Nm8jHM29wOTokPOMRAZcF4uyA0asZGULi+kSEv5C5K6cwB6ccKk4yZqLI6yQZ54TiF
+ lHYKjycZQbUYAaXO4ouVRgYiNJFWUalmkok3fMpvMunrVI9lu+9Sy92dfWVkpxKs8NB3
+ koPa0dDJ1QjG2fyz4SpkXdX2lTZ2mp7O6h4q11XzKhDblKYlLXvD8F54y/idB4kU1Dyb
+ Knaq5Rr8acvj4w6300Fax05kA6/VuQTkkb2KRSBLu0m9BxtsCeUcY38hhNc4ajoTRtGA
+ ROh7b3ov8KKKjPRVginE0SIE3tG+OZ1BxK5CrURvh3w0w0apZ2+sRVJFCjdyRhryq2KW
+ prnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=LeO8wVc8x9qKMAPYpXMUEdsFvPVUI/smjTgJR5ckIew=;
- b=8ONUa66nVLHEOzzaz4srbXxrDM2yMNBZ5NxMz21InLmFG2fMiXh4SzzsAiobkGztDP
- gzWqcnx1m7GX2hFro0iFFgRAK/bEhiOXvxx33ciw7An5qwCll7iZgruudcymizXiSEeB
- IM0liIT5SnfvE36f2jMdJV95OHPnUC3hIyNErfcBVB9uh2VrRVYacAxqGhM7ISztuVU8
- 1DG0MRdGnol/mOVh4nNl3nkcYh4IpT0cdQ3FWPcrMR7sY5qNbqIEjq3wC4Z36GEyyNU8
- b/LsM6BFyiRyD5StdD/Q6PItyZ2REMwF0LSL0rhlJ/+WNS12RMT/onZLCoMUwRdpigRw
- EVDQ==
-X-Gm-Message-State: ACrzQf2bR5hMAOSC9SvdWcceTEMf7cW9nCYjBGrUIWY1s18pU8brDoa8
- /h9gGlPPHYUACl9o9XShe8o51Hzkkswv9Q==
-X-Google-Smtp-Source: AMsMyM7AIs5S4FEhSvCCCNWmiWY3uESiBemXe4qpxyZJnxyvv/WZMBObXDXoLw8POhw8e3dj028Hyw==
-X-Received: by 2002:a05:620a:2406:b0:6cf:38fd:654b with SMTP id
- d6-20020a05620a240600b006cf38fd654bmr9842558qkn.417.1664641444770; 
- Sat, 01 Oct 2022 09:24:04 -0700 (PDT)
+ bh=nVf0XoPBuFuQPXtT3jzdB8OzBoWMzBFYm3DKP93Thek=;
+ b=UDA66ya/WN78ae5Rn6LuVmbVKHpc+rzH6+ec/A/cMHBPIL6NY8P+PMQET/lhG9DcMw
+ qUL/LSo3T9ak0Mx0U80cbsnLbx0XKuH+R3OFN4tFC7pe+UZhFioe+UywqsvkU+NO0Z1p
+ hz7PPeBAJHhhQmFH78whXqp/fMudjziAbDxiYKpMvUB7cwtCr6U6aAMfxdArNcpG8CRz
+ 3YS6CeOC60GoV5M0uo34IoL1epCAFRXGWAaNjJtB7zqAGbGtl6Sj3819b3Tdospud3Yl
+ G+uW9LeqNn7K6rCmHkuiNhpIVODEkSnS9eSrs/ixlaViakdEwUfKTGuCTMHWjGSPkuk9
+ brdw==
+X-Gm-Message-State: ACrzQf3wjUHzbqab5vYlt4EVpJy/q4yuH1r0MxoPsIfZDUGxS+/A9b6I
+ OC/tZ+0irKFNze0gdE50U6GG+SLrO2XrWQ==
+X-Google-Smtp-Source: AMsMyM6QGSI9G/mQkt1LpRpuyOcBIL6yqIDBMzcvgiJrwqqDLZPhkMTr5HY56ZxBevacU/325XsZ4w==
+X-Received: by 2002:ac8:4e48:0:b0:35d:5831:af31 with SMTP id
+ e8-20020ac84e48000000b0035d5831af31mr11204447qtw.188.1664641447117; 
+ Sat, 01 Oct 2022 09:24:07 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:8084:91a4:f7cb:db31:c505:b931])
  by smtp.gmail.com with ESMTPSA id
- t4-20020a37ea04000000b006d1d8fdea8asm4387445qkj.85.2022.10.01.09.24.02
+ t4-20020a37ea04000000b006d1d8fdea8asm4387445qkj.85.2022.10.01.09.24.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Oct 2022 09:24:04 -0700 (PDT)
+ Sat, 01 Oct 2022 09:24:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v3 17/42] target/arm: Fix ATS12NSO* from S PL1
-Date: Sat,  1 Oct 2022 09:22:53 -0700
-Message-Id: <20221001162318.153420-18-richard.henderson@linaro.org>
+Subject: [PATCH v3 18/42] target/arm: Split out get_phys_addr_disabled
+Date: Sat,  1 Oct 2022 09:22:54 -0700
+Message-Id: <20221001162318.153420-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221001162318.153420-1-richard.henderson@linaro.org>
 References: <20221001162318.153420-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x831.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,57 +90,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use arm_hcr_el2_eff_secstate instead of arm_hcr_el2_eff, so
-that we use is_secure instead of the current security state.
-These AT* operations have been broken since arm_hcr_el2_eff
-gained a check for "el2 enabled" for Secure EL2.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/ptw.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/arm/ptw.c | 138 +++++++++++++++++++++++++----------------------
+ 1 file changed, 74 insertions(+), 64 deletions(-)
 
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index a0dce9c313..7bf79779da 100644
+index 7bf79779da..e494a9de67 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -146,7 +146,7 @@ static bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx,
-         }
+@@ -2272,6 +2272,78 @@ static ARMCacheAttrs combine_cacheattrs(uint64_t hcr,
+     return ret;
+ }
+ 
++/*
++ * MMU disabled.  S1 addresses within aa64 translation regimes are
++ * still checked for bounds -- see AArch64.S1DisabledOutput().
++ */
++static bool get_phys_addr_disabled(CPUARMState *env, target_ulong address,
++                                   MMUAccessType access_type,
++                                   ARMMMUIdx mmu_idx, bool is_secure,
++                                   GetPhysAddrResult *result,
++                                   ARMMMUFaultInfo *fi)
++{
++    uint64_t hcr;
++    uint8_t memattr;
++
++    if (mmu_idx != ARMMMUIdx_Stage2 && mmu_idx != ARMMMUIdx_Stage2_S) {
++        int r_el = regime_el(env, mmu_idx);
++        if (arm_el_is_aa64(env, r_el)) {
++            int pamax = arm_pamax(env_archcpu(env));
++            uint64_t tcr = env->cp15.tcr_el[r_el];
++            int addrtop, tbi;
++
++            tbi = aa64_va_parameter_tbi(tcr, mmu_idx);
++            if (access_type == MMU_INST_FETCH) {
++                tbi &= ~aa64_va_parameter_tbid(tcr, mmu_idx);
++            }
++            tbi = (tbi >> extract64(address, 55, 1)) & 1;
++            addrtop = (tbi ? 55 : 63);
++
++            if (extract64(address, pamax, addrtop - pamax + 1) != 0) {
++                fi->type = ARMFault_AddressSize;
++                fi->level = 0;
++                fi->stage2 = false;
++                return 1;
++            }
++
++            /*
++             * When TBI is disabled, we've just validated that all of the
++             * bits above PAMax are zero, so logically we only need to
++             * clear the top byte for TBI.  But it's clearer to follow
++             * the pseudocode set of addrdesc.paddress.
++             */
++            address = extract64(address, 0, 52);
++        }
++    }
++
++    result->phys = address;
++    result->prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
++    result->page_size = TARGET_PAGE_SIZE;
++
++    /* Fill in cacheattr a-la AArch64.TranslateAddressS1Off. */
++    hcr = arm_hcr_el2_eff_secstate(env, is_secure);
++    result->cacheattrs.shareability = 0;
++    result->cacheattrs.is_s2_format = false;
++    if (hcr & HCR_DC) {
++        if (hcr & HCR_DCT) {
++            memattr = 0xf0;  /* Tagged, Normal, WB, RWA */
++        } else {
++            memattr = 0xff;  /* Normal, WB, RWA */
++        }
++    } else if (access_type == MMU_INST_FETCH) {
++        if (regime_sctlr(env, mmu_idx) & SCTLR_I) {
++            memattr = 0xee;  /* Normal, WT, RA, NT */
++        } else {
++            memattr = 0x44;  /* Normal, NC, No */
++        }
++        result->cacheattrs.shareability = 2; /* outer sharable */
++    } else {
++        memattr = 0x00;      /* Device, nGnRnE */
++    }
++    result->cacheattrs.attrs = memattr;
++    return 0;
++}
++
+ bool get_phys_addr_with_secure(CPUARMState *env, target_ulong address,
+                                MMUAccessType access_type, ARMMMUIdx mmu_idx,
+                                bool is_secure, GetPhysAddrResult *result,
+@@ -2432,71 +2504,9 @@ bool get_phys_addr_with_secure(CPUARMState *env, target_ulong address,
+     /* Definitely a real MMU, not an MPU */
+ 
+     if (regime_translation_disabled(env, mmu_idx, is_secure)) {
+-        uint64_t hcr;
+-        uint8_t memattr;
+-
+-        /*
+-         * MMU disabled.  S1 addresses within aa64 translation regimes are
+-         * still checked for bounds -- see AArch64.TranslateAddressS1Off.
+-         */
+-        if (mmu_idx != ARMMMUIdx_Stage2 && mmu_idx != ARMMMUIdx_Stage2_S) {
+-            int r_el = regime_el(env, mmu_idx);
+-            if (arm_el_is_aa64(env, r_el)) {
+-                int pamax = arm_pamax(env_archcpu(env));
+-                uint64_t tcr = env->cp15.tcr_el[r_el];
+-                int addrtop, tbi;
+-
+-                tbi = aa64_va_parameter_tbi(tcr, mmu_idx);
+-                if (access_type == MMU_INST_FETCH) {
+-                    tbi &= ~aa64_va_parameter_tbid(tcr, mmu_idx);
+-                }
+-                tbi = (tbi >> extract64(address, 55, 1)) & 1;
+-                addrtop = (tbi ? 55 : 63);
+-
+-                if (extract64(address, pamax, addrtop - pamax + 1) != 0) {
+-                    fi->type = ARMFault_AddressSize;
+-                    fi->level = 0;
+-                    fi->stage2 = false;
+-                    return 1;
+-                }
+-
+-                /*
+-                 * When TBI is disabled, we've just validated that all of the
+-                 * bits above PAMax are zero, so logically we only need to
+-                 * clear the top byte for TBI.  But it's clearer to follow
+-                 * the pseudocode set of addrdesc.paddress.
+-                 */
+-                address = extract64(address, 0, 52);
+-            }
+-        }
+-        result->phys = address;
+-        result->prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+-        result->page_size = TARGET_PAGE_SIZE;
+-
+-        /* Fill in cacheattr a-la AArch64.TranslateAddressS1Off. */
+-        hcr = arm_hcr_el2_eff_secstate(env, is_secure);
+-        result->cacheattrs.shareability = 0;
+-        result->cacheattrs.is_s2_format = false;
+-        if (hcr & HCR_DC) {
+-            if (hcr & HCR_DCT) {
+-                memattr = 0xf0;  /* Tagged, Normal, WB, RWA */
+-            } else {
+-                memattr = 0xff;  /* Normal, WB, RWA */
+-            }
+-        } else if (access_type == MMU_INST_FETCH) {
+-            if (regime_sctlr(env, mmu_idx) & SCTLR_I) {
+-                memattr = 0xee;  /* Normal, WT, RA, NT */
+-            } else {
+-                memattr = 0x44;  /* Normal, NC, No */
+-            }
+-            result->cacheattrs.shareability = 2; /* outer sharable */
+-        } else {
+-            memattr = 0x00;      /* Device, nGnRnE */
+-        }
+-        result->cacheattrs.attrs = memattr;
+-        return 0;
++        return get_phys_addr_disabled(env, address, access_type, mmu_idx,
++                                      is_secure, result, fi);
      }
- 
--    hcr_el2 = arm_hcr_el2_eff(env);
-+    hcr_el2 = arm_hcr_el2_eff_secstate(env, is_secure);
- 
-     switch (mmu_idx) {
-     case ARMMMUIdx_Stage2:
-@@ -230,7 +230,7 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
-             return ~0;
-         }
- 
--        hcr = arm_hcr_el2_eff(env);
-+        hcr = arm_hcr_el2_eff_secstate(env, is_secure);
-         if ((hcr & HCR_PTW) && ptw_attrs_are_device(hcr, s2.cacheattrs)) {
-             /*
-              * PTW set and S1 walk touched S2 Device memory:
-@@ -2341,7 +2341,7 @@ bool get_phys_addr_with_secure(CPUARMState *env, target_ulong address,
-             }
- 
-             /* Combine the S1 and S2 cache attributes. */
--            hcr = arm_hcr_el2_eff(env);
-+            hcr = arm_hcr_el2_eff_secstate(env, is_secure);
-             if (hcr & HCR_DC) {
-                 /*
-                  * HCR.DC forces the first stage attributes to
-@@ -2474,7 +2474,7 @@ bool get_phys_addr_with_secure(CPUARMState *env, target_ulong address,
-         result->page_size = TARGET_PAGE_SIZE;
- 
-         /* Fill in cacheattr a-la AArch64.TranslateAddressS1Off. */
--        hcr = arm_hcr_el2_eff(env);
-+        hcr = arm_hcr_el2_eff_secstate(env, is_secure);
-         result->cacheattrs.shareability = 0;
-         result->cacheattrs.is_s2_format = false;
-         if (hcr & HCR_DC) {
+-
+     if (regime_using_lpae_format(env, mmu_idx)) {
+         return get_phys_addr_lpae(env, address, access_type, mmu_idx,
+                                   is_secure, false, result, fi);
 -- 
 2.34.1
 
