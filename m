@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C67A5F19B2
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 05:50:42 +0200 (CEST)
-Received: from localhost ([::1]:54858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AEE95F19B4
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 05:50:59 +0200 (CEST)
+Received: from localhost ([::1]:50554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeTWT-0000xy-Kk
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 23:50:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50868)
+	id 1oeTWk-0001PK-Cf
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 23:50:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oeTUO-0006T8-Bg
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 23:48:32 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:43934)
+ id 1oeTVD-0007QZ-Qf
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 23:49:23 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:35346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oeTUM-00015E-Rr
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 23:48:31 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-333a4a5d495so61167727b3.10
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 20:48:30 -0700 (PDT)
+ id 1oeTVC-0001Cp-A9
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 23:49:23 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id l76so4466447ybl.2
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 20:49:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date;
- bh=sg7nQDWFv8QTnCDLWBHVfBzuWWmIPQGEJXnMHQdf71Q=;
- b=Gxh5kdDiUCgWwgdQOBghjQCPftYFgQD/AWeIvBkDL3SMBfVmjSkykJKFV8Hm++HCNF
- Kxkohep+cWzfKFFJhaSc/Mx75MhVFhEJh1rcR3doGPuqtP/J737dJZqjwpke7DeesW4j
- n9TRi6avAY/Cu/qqdyCTTWxrhZVYMz3pkgjHgt9I6rWZofzPWFSOV7fsBuqHCIbHE+Nd
- uEHJL2GMTo1VO47NMk65B3r33sstlB8EgeLBGBuyObK7n4AKPijiSfEYkMUeHz2TzJzV
- v2TTeCJP8476HEVKQ6Fr53CRCq8N0zaLSVvedObVDA6gBa7Gf/eJPn8UCq6GOalHfSYb
- K2uw==
+ bh=VZsJih2cJ2pR+/MdOZm3ElJveI1wsDVuEP5l3lQoExs=;
+ b=I8gx45r9TK07nirRmkNDA0RhyLL/hY4XEekRMGLPmedlsyLKffLaOoPCR9P9vmaeoz
+ 0ZZeX7nNSQaDzIG1WLin/4LPDbLcCrwv2ujWUPKuDk1a3qVg3l8+fue3wEbJGY2nxu+r
+ Tvz7iuBhBlwAJ5hPjRjc9Bj7MW+xsnJzdGy9NbGjGgYH7lDa9mzVkGivEldVVL2Oc9lL
+ KaLFqKjpqhGj1/hqivyu+BtSHbxXSoTeF9dYQOpCiYdepqSpbiLnL3cikV9ApYRkCwEf
+ kkZpqqDbvkJAf3SBFI9DySVR/B1MwlefBcVfp7AG2h6qxsH2O/WXdaVfI2UNWmf99ege
+ Bk9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=sg7nQDWFv8QTnCDLWBHVfBzuWWmIPQGEJXnMHQdf71Q=;
- b=xOrwrXL59O7LvWxgcqQpaGZYTPyH6yCfEouctHJsvxmBl5DcrCjgFkvhtqioMJK01o
- T49qypweZGcfYDeg8AVPfbu3uH6qa7UpmGwVUxsWN9cGaTOzZ5df0XQuTNDVmziv1nws
- NEjvLdRPO385I/Wj+l/Ml0zxrgRvHuUGwn/y2aM7e9TCl6vKo3CKhB6lR7h1bBPa678T
- FQRsTCMinaqf5UFlFKYrnXxoEjDBw/Kpq/09FlIqnfrH3TzeEjU4yaj4cIG8auwhQOKh
- r1iaNq0g1plwy6IetA/6z5/NCv+cye7/QRAe0C61DbAtSWBgz2h4dlcAs6uC9RPxAwqu
- N5+Q==
-X-Gm-Message-State: ACrzQf2m6Y/4H6gilKqliIIbunntaZwWHcJYgj65gjqr+9k/IGgb2upU
- aWo+I5orgPB11sPU55F0jqln2m4MFLrJFFoRpx0HPMaf
-X-Google-Smtp-Source: AMsMyM75dhOFYtUqMj7JfP7ehvNHPdGAb7d1loCSAJ4iIyD+nuTO2LkhAk/8QwEUX7Dw3/Tyb5dG+QNanKIYnP3AXTY=
-X-Received: by 2002:a0d:d684:0:b0:355:5627:e39b with SMTP id
- y126-20020a0dd684000000b003555627e39bmr9208488ywd.43.1664596109529; Fri, 30
- Sep 2022 20:48:29 -0700 (PDT)
+ bh=VZsJih2cJ2pR+/MdOZm3ElJveI1wsDVuEP5l3lQoExs=;
+ b=gT//ZjGlrQHHneDcD8Si/HIzEou66dIObCyTVYxXK9VnYA6yMTbK3EHcYAgPOybUKx
+ JuUBos6lp+cRpYlv7xuZYw8NIkM6zuaUPEvlBCkpfEjd1lmiS61KQkFCYbAfqAU1Fh4Z
+ y6uYgoOAnnTqqrE1Mm7Bie9YLNXHe+Xa0X+HBNu314hJeoDSupr0wSYarrVWOf+IvUlA
+ rZw9TQvkq7abz6/ytvtb0+lcgZnrKQH+B79pmGsP6cxjs95mf7M4Wl2AfAL3g6F6YoqN
+ lNvuLKkv7zI+q+jvY6kbhneTWfWCuj8kPhjlh0M5iivXqLX9cn4qMUZkMDSIqnnl9nes
+ e2og==
+X-Gm-Message-State: ACrzQf0Z1StdkJoh9cmOb1ou+6cmvLkkQ0P7KTS4HZBeidJ81TrkTuSe
+ mhgddDOclOBM3dd8r6Q26QSNXSuoSAtcoyhO9DaGfyQv
+X-Google-Smtp-Source: AMsMyM6yBiaXNSCJM+r7F/6DfnJNfTQoBrWzP++vHt9w5Qoi7LyG809OL6G/BU7H0+ScaR9CsshGl1nboIxq9wLcJGY=
+X-Received: by 2002:a05:6902:105:b0:6bc:fb54:f4da with SMTP id
+ o5-20020a056902010500b006bcfb54f4damr4635997ybh.284.1664596161153; Fri, 30
+ Sep 2022 20:49:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
- <20220927110632.1973965-27-bmeng.cn@gmail.com>
-In-Reply-To: <20220927110632.1973965-27-bmeng.cn@gmail.com>
+ <20220927110632.1973965-28-bmeng.cn@gmail.com>
+In-Reply-To: <20220927110632.1973965-28-bmeng.cn@gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 1 Oct 2022 11:48:18 +0800
-Message-ID: <CAEUhbmVGiifLE-ZAe0bxX8JDOcBX41Qg3=5g6Yr36uW=Ws=Srw@mail.gmail.com>
-Subject: Re: [PATCH v4 26/54] fsdev/virtfs-proxy-helper: Use g_mkdir()
-To: qemu-devel@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>, 
- Greg Kurz <groug@kaod.org>
+Date: Sat, 1 Oct 2022 11:49:10 +0800
+Message-ID: <CAEUhbmUsW6t4d0Rj7DfJ-duBDL1j4PTXEFksvgC4WNYnar-enA@mail.gmail.com>
+Subject: Re: [PATCH v4 27/54] hw/usb: dev-mtp: Use g_mkdir()
+To: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
  Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yw1-x112e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,7 +84,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Christian,
+Hi Gerd,
 
 On Tue, Sep 27, 2022 at 7:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
@@ -95,7 +93,7 @@ On Tue, Sep 27, 2022 at 7:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 > Use g_mkdir() to create a directory on all platforms.
 >
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
 >
 > (no changes since v2)
@@ -103,8 +101,8 @@ On Tue, Sep 27, 2022 at 7:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 > Changes in v2:
 > - Change to use g_mkdir()
 >
->  fsdev/virtfs-proxy-helper.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  hw/usb/dev-mtp.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
 
 Would you pick up this patch in your queue?
