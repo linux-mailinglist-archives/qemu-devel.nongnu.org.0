@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A5F5F1F9A
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 23:04:42 +0200 (CEST)
-Received: from localhost ([::1]:33446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1434A5F1FD1
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 23:35:24 +0200 (CEST)
+Received: from localhost ([::1]:50004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oejf7-0000bC-Gs
-	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 17:04:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58132)
+	id 1oek8o-000775-MI
+	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 17:35:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <commandspider12@gmail.com>)
- id 1oejaX-0006WY-Ee
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 16:59:57 -0400
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:37661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <commandspider12@gmail.com>)
- id 1oejaV-0001FH-QU
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 16:59:57 -0400
-Received: by mail-qk1-x730.google.com with SMTP id s9so4765889qkg.4
- for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 13:59:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date;
- bh=wY97w5G35XM9tl907bjhApiyq1nwIj16TXEhCmc4VDo=;
- b=n8txCughHL1pum9aWgYmo0w1yGRBrx2kNbw2TuJWnzqPU2doJYId6r4S0e+FGcN242
- s/lza6dkZpfWV/1hQa2ZRkd/pG/psX+TjJhsopn6rOyhRWSL/iIYQYvXCAyKusCy/llC
- f/jvK1SWYTsj3keTNUeo5Kk1mgfr+3g8OL6lWW9BA50ZPAqAHlEO72gMuZCFPQZW0cXZ
- cxrPqHd35zdAFzepemjDnRgoNK5wiFiUYZ+ON0EwZe0mfh0ltK2BOnY5xIzN7eZBkWGr
- BGWOkx89M6oj8I484BglimbQPnYJEL9GwolwhKQXII5OVfUuzEFm2UBDs0Qh/ZtkTutc
- WKMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date;
- bh=wY97w5G35XM9tl907bjhApiyq1nwIj16TXEhCmc4VDo=;
- b=eRiiSDhlu10MnlXv1EVjvWJkS9X1comA/2eNKGSWYBWMyFkm2EE9ickwlrjDzmxOrT
- tuD+sj3deTlBn5UBVWt5IwFlcV6ESjlsh0ZNE+zYnuGFarjhPC2M/khl6VHW/TLUKUJR
- jkwnvliY9kUDBlEFlZMLQh/yN0+naxsnEkWNOWkT/eh9/2z0aY0h4C245aZvxFA2JqMZ
- DN4toxHo5uFrskvV8EqYFC7vLXb5ohnL3RnPRP47U3thzzUoCV5G+maNm40MphCzsKKy
- lc5Mzj/IR1E661c7TphRG+PDojSQdB989gQXvJY5nP8kRfWaF6tRxf2VJ67jsXv6zbfV
- jjsQ==
-X-Gm-Message-State: ACrzQf1tLJJ7Ia8IUr1DKT2NFqqZuHnfZRp+42D1WZg+DoBmp53qpsqQ
- iYu8DTEl6sikL0ipIVaCBARZZT3r3WMEdqkJPp0=
-X-Google-Smtp-Source: AMsMyM69lB0jmwdKHkKWECNWaqyhDMx21upe9amOHlxMf6t9AqToTjiqrBXQs4n3lVl5sU9aaaoPkN5YJ3vtjMEsD3Q=
-X-Received: by 2002:a05:620a:4143:b0:6ce:87a7:77cb with SMTP id
- k3-20020a05620a414300b006ce87a777cbmr10252866qko.230.1664657993504; Sat, 01
- Oct 2022 13:59:53 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=SdrU=2C=zx2c4.com=Jason@kernel.org>)
+ id 1oek6u-0005GT-Vk
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 17:33:24 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:43296)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=SdrU=2C=zx2c4.com=Jason@kernel.org>)
+ id 1oek6s-0005Y3-SW
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 17:33:24 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 05223B80920
+ for <qemu-devel@nongnu.org>; Sat,  1 Oct 2022 21:33:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70B85C43470
+ for <qemu-devel@nongnu.org>; Sat,  1 Oct 2022 21:33:18 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="FSJ86M+W"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1664659995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xCqDv1qIFwr7qk8/RW2THguPKAV1YNvQXitrNSGz7kU=;
+ b=FSJ86M+WD2yc0Qqr1ClwLFUL+VW0n4sczeYQ2YqBQpitH3KXmkm1uSAyl2tUVYnFpcsI1y
+ GDZ6OykjH8lBhxpWiXW7L4k//jAYnrnEQ42/fJoPKDvNLy7zyR/PR71Konw2CREuw+z53A
+ SWvF176NYZ9FY8f9SUFq6bonquEoMfY=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f3bcd48e
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Sat, 1 Oct 2022 21:33:14 +0000 (UTC)
+Received: by mail-vk1-f178.google.com with SMTP id bj3so726027vkb.5
+ for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 14:33:14 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3lnaNysYcPiFryFvYnVDedsZddXNHwM5IRZi9zWo+Q/wKTcf3X
+ pRB1qG7InGaaudpDfQIEgOB3gn0QGcjfdGGqVQw=
+X-Google-Smtp-Source: AMsMyM5Mv8sWi6dBUIowC4RsM2XkofAO2tFoOSS7rOSGTSqTYo0FtLByU7KZ5favj08KanMCTfiOzRRbv2RnaW/7tNY=
+X-Received: by 2002:a1f:24b:0:b0:3a3:ad4:a3b2 with SMTP id
+ 72-20020a1f024b000000b003a30ad4a3b2mr6854392vkc.13.1664659993213; 
+ Sat, 01 Oct 2022 14:33:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <CABVhSWP7XjNvCXUvawXLcOkP4vXQ8wbMObKbxc+jN6gv0wzawQ@mail.gmail.com>
- <3ca717d7-fbc9-b2f9-71cc-01ef459da257@linaro.org>
-In-Reply-To: <3ca717d7-fbc9-b2f9-71cc-01ef459da257@linaro.org>
-From: BitFriends <commandspider12@gmail.com>
-Date: Sat, 1 Oct 2022 22:59:42 +0200
-Message-ID: <CABVhSWPT5adYQqN-d3WgCz=RcHxt1tEvM8d0GWeixRAo4OZHzg@mail.gmail.com>
-Subject: Re: access guest address from within instruction
-To: richard.henderson@linaro.org, qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000601bbd05e9ff641a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=commandspider12@gmail.com; helo=mail-qk1-x730.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20220930140520.576374-1-Jason@zx2c4.com>
+ <YziPyCqwl5KIE2cf@zx2c4.com> <20221001213204.3362db80@nbbrfq>
+In-Reply-To: <20221001213204.3362db80@nbbrfq>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Sat, 1 Oct 2022 23:33:01 +0200
+X-Gmail-Original-Message-ID: <CAHmME9r9j5F7uS83sHk_9E5Y9vRzAxbcKMgZJ8me14RP11=o-A@mail.gmail.com>
+Message-ID: <CAHmME9r9j5F7uS83sHk_9E5Y9vRzAxbcKMgZJ8me14RP11=o-A@mail.gmail.com>
+Subject: Re: [PATCH qemu] mips/malta: pass RNG seed to to kernel via env var
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+Cc: f4bug@amsat.org, aurelien@aurel32.net, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=SdrU=2C=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,88 +88,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000601bbd05e9ff641a
-Content-Type: text/plain; charset="UTF-8"
-
-well, it doesn't give errors, but warnings because of unsigned longs being
-converted to TCGv_i64, which exact definiton I cannot find in the qemu
-repo. Where is it located? When stepping through the instructions' code,
-the value that should be read isn't read. Maybe that'll work when fixing
-the warnings.
-
-Regards
-
-Am Sa., 1. Okt. 2022 um 22:23 Uhr schrieb Richard Henderson <
-richard.henderson@linaro.org>:
-
-> On 10/1/22 13:10, BitFriends wrote:
-> > Hello,
+On Sat, Oct 1, 2022 at 9:32 PM Bernhard Reutner-Fischer
+<rep.dot.nop@gmail.com> wrote:
+>
+> On Sat, 1 Oct 2022 21:06:48 +0200
+> "Jason A. Donenfeld" <Jason@zx2c4.com> wrote:
+>
+> > On Fri, Sep 30, 2022 at 04:05:20PM +0200, Jason A. Donenfeld wrote:
+> > > With the kernel patch linked below, Linux ingests a RNG seed
+> > > passed from the hypervisor. So, pass this for the Malta platform, and
+> > > reinitialize it on reboot too, so that it's always fresh.
+> > >
+> > > Link: https://lore.kernel.org/linux-mips/20220930140138.575751-1-Jason@zx2c4.com/
 > >
-> > I am trying to create a custom instruction that accesses guest memory
-> specified by an
-> > address in a register. I specifically want to read from that address. So
-> I tried to do
-> > that using "tcg_gen_qemu_ld_i64(&res, env->regs[R_EDI], 0, MO_LEUQ);",
-> but that doesn't
-> > save any result in res.
+> > The kernel side of this has now landed, so we can move ahead on the QEMU
+> > side:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git/commit/?id=056a68cea01edfa78b3474af1bfa39cc6bcc7bee
+> >
 >
-> This statement should have given you compilation errors, so I don't know
-> what you mean by
-> "doesn't save any result".  There's clearly a disconnect between what you
-> describe and
-> what you actually attempted.
+> s/a RNG/an RNG/
 >
-> Anyway, by the name you can see that function "gen"erates a "tcg"
-> operation, which is then
-> later compiled by the jit, the output of which is later executed to
-> produce a result.
-> Which is, in general, what you want for implementing a custom instruction.
->
->
-> r~
->
+> What about rngseed=""?
+> len=min(4711,0)
+> hex2bin(..0) will return false so ok.
+> rndseed="0" is problably fine, but is it worthy and desired? 00, 0x0.
+> Other than that, sounds plausible. IMHO.
+> thanks,
 
---000000000000601bbd05e9ff641a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Not sure I understand the substantive part of your message. You're
+wondering whether it's okay to ingest length 1 (or one half?) inputs?
+The kernel will take whatever the firmware gives it; that's by design.
+The firmware in turn provides whatever it can, optimally 32 bytes as
+QEMU does with this patch.
 
-<div dir=3D"ltr"><div>well, it doesn&#39;t give errors, but warnings becaus=
-e of unsigned longs being converted to TCGv_i64, which exact definiton I ca=
-nnot find in the qemu repo. Where is it located? When stepping through the =
-instructions&#39; code, the value that should be read isn&#39;t read. Maybe=
- that&#39;ll work when fixing the warnings.<br></div><div><br></div><div>Re=
-gards<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">Am Sa., 1. Okt. 2022 um 22:23=C2=A0Uhr schrieb Richard Hend=
-erson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.henderson=
-@linaro.org</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">On 10/1/22 13:10, BitFriends wrote:<br>
-&gt; Hello,<br>
-&gt; <br>
-&gt; I am trying to create a custom instruction that accesses guest memory =
-specified by an <br>
-&gt; address in a register. I specifically want to read from that address. =
-So I tried to do <br>
-&gt; that using &quot;tcg_gen_qemu_ld_i64(&amp;res, env-&gt;regs[R_EDI], 0,=
- MO_LEUQ);&quot;, but that doesn&#39;t <br>
-&gt; save any result in res.<br>
-<br>
-This statement should have given you compilation errors, so I don&#39;t kno=
-w what you mean by <br>
-&quot;doesn&#39;t save any result&quot;.=C2=A0 There&#39;s clearly a discon=
-nect between what you describe and <br>
-what you actually attempted.<br>
-<br>
-Anyway, by the name you can see that function &quot;gen&quot;erates a &quot=
-;tcg&quot; operation, which is then <br>
-later compiled by the jit, the output of which is later executed to produce=
- a result. <br>
-Which is, in general, what you want for implementing a custom instruction.<=
-br>
-<br>
-<br>
-r~<br>
-</blockquote></div>
+Maybe you could use some more words to describe what your thoughts are?
 
---000000000000601bbd05e9ff641a--
+Jason
 
