@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0955B5F19A8
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 05:42:51 +0200 (CEST)
-Received: from localhost ([::1]:49766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6CAD5F19A9
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 05:43:53 +0200 (CEST)
+Received: from localhost ([::1]:37350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeTOr-0002Q8-Hk
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 23:42:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37120)
+	id 1oeTPs-0003no-TV
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 23:43:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oeTNT-0000y3-8G
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 23:41:23 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:45820)
+ id 1oeTOb-0002CJ-Nd
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 23:42:34 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:41552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oeTNR-0000ON-OJ
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 23:41:22 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id f189so7345240yba.12
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 20:41:21 -0700 (PDT)
+ id 1oeTOa-0000S1-DH
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 23:42:33 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id j7so7360386ybb.8
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 20:42:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=VfA8IAAo81rmMyGjQuypewia1eI22FmyjLjAgjfE8Gw=;
- b=a3Bflfp+2x3Fqm0m10j0bScf5sWGE/69tE1W/jGJrrlOUjIuTaJZJq2UhId3I2IDOZ
- d39czWMkSviEDvmDHSTPzLdJ9r2yLXKc/tnH3FNLxxUzamNNyvVOWwbpnt7rVxSx+mKr
- 2N5RcsxPHvSkOWuJNnM1zgErHJLaGjKRJ+lti8tNvz9DQO1dHD7nIXWMzrdvDXiRZKsQ
- zLrNNwPOLyY0S3XguYFKAqoHnwFkoYtCFzCPpe9U6VC7tlKmqKiwuSjCsv7Y+AlKb64o
- m+1u+38m46IToMozyzEkEW8reBH+bw9k5iOs+VT6mDzvzJ2jK9bbeQGVsZdAmTCJpa9X
- csag==
+ bh=dvVCB7KmVp1nNKnUrk5d7d11vfvfdSgyW5f29ysma/g=;
+ b=Zfom34sSmtwRiyla+2B64sNpGfR/9UClNsTi9tsbSvHzeENT1PfT1fxDEg/FyrtnBW
+ u2XvoHrd5jEzZZS3zkdnBc50m5ja8HiF1kK883aRw4TxeArOxPG0lN+L/MK2N5scJ1ZR
+ M92PXFIYuT1Fv2FSm6VqCko8wCR+15XuRlgksK8kckL0wXS4X1dli4jb1gJSjM6yM8Gy
+ zh/EVz0fUhUzv8FqW2CtBwcKRiHE3IFfJkVInk/qzPVfC1k+E+o3YNgW98jh+qDzMRaW
+ 3AH/18WE2lMKZPE9dhA2zsSuesUwtpNFb/AknINZJJwsYpi4LoWXBx+/KQ/+gwFEazpU
+ OF2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=VfA8IAAo81rmMyGjQuypewia1eI22FmyjLjAgjfE8Gw=;
- b=SlnDu365V5TZbD7b8JU8TqydEm6LrLSPHZ4EHRbLIBU1cxphc86LQdtwbn8b/g7aeh
- FUdUoClblJUYU2+Y7TuDNye8GWCpujZdAzcu+h00zpw9PzWAqVrMsC/J968uY/V5veFt
- uFfTv9JvEeXq1f1DygovHuQwmZxVYY42/r4cwoS7TL2ks54sL0h94YzFLZkOlt0zxBNh
- ZaLCwfdtBE75+qouWYfDBX5K2DOEWcSAYE1boLrefN2RO49Bj51A2OjwvbCQTeeZGN7o
- yzQPuR845EjwdW5Jwwk32Cp7cCgL012RfjCwzTeXO0sUV9DjJAOSteBq6ZHa7Jot9+vz
- h0kw==
-X-Gm-Message-State: ACrzQf0DuJY0z9qDIQ6ULP6n9mG15HNvwqGgtx6Er/qRwC/R/9HGSR4B
- eka16eCgMyb5TNpAUnl/TeZsy3z2oV5EAj2dFEbmzlKf
-X-Google-Smtp-Source: AMsMyM7BKBNG+hg9SU880IiyJitcu9sy9D0SCicyQ72HZ+XD4ZRpXkb9bdl9B7Kii3M8IuHxz3w8+pn/DK8uM6TnVaI=
-X-Received: by 2002:a05:6902:105:b0:6bc:fb54:f4da with SMTP id
- o5-20020a056902010500b006bcfb54f4damr4622734ybh.284.1664595680524; Fri, 30
- Sep 2022 20:41:20 -0700 (PDT)
+ bh=dvVCB7KmVp1nNKnUrk5d7d11vfvfdSgyW5f29ysma/g=;
+ b=DJYkogYLQUzx86BXF2n9Bw7fAxxldKDLrl2VVxYynKPUrGBEh6RPo/MNdqv+MhVNzb
+ VJz/Tqn6kf/DEGJ5/yhkznp/E+L2SugijuRunJ1VxOLx2aEdorcue8yMnV0b9t8MZPkQ
+ vZEJ+N3WLzJ1xk2OcmXqV9cOcj+rPpdUd2+FDZQbc5v0KaZjz+9RQ/YXsf383epf6ssI
+ qsywj4k0AvUceXhgtz+lsxf/wl2Uf9eC/V61PXg6IpAB9PTS2fzKsw+XQ6PHjJ6FxZ/I
+ qsE8hDWKt1XwfJBrFIuynBaBvlAaNbaElJPx2MHM30Bw4wYtx5mdOjEX3XPif/HluBPm
+ 7h0w==
+X-Gm-Message-State: ACrzQf2x9cs1gb8+24P/TPnnsPf7m1PoHKsWMlbr6Fd8tD3kmw3mJcxi
+ 91G1qVX2pawr1+EgKKBaKsw/0TEygYy1jbJs+IZ/RTPK
+X-Google-Smtp-Source: AMsMyM67RHJc58attpiWptWdmqHJfGA/OnGSe1PcM8ODb3dVosqXWdl254Vj3pByaqb3oGhV+FfA2ZT5+6C6tLZQC0A=
+X-Received: by 2002:a25:3b04:0:b0:695:dc29:c206 with SMTP id
+ i4-20020a253b04000000b00695dc29c206mr10459238yba.523.1664595751139; Fri, 30
+ Sep 2022 20:42:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
- <20220927110632.1973965-3-bmeng.cn@gmail.com>
-In-Reply-To: <20220927110632.1973965-3-bmeng.cn@gmail.com>
+ <20220927110632.1973965-4-bmeng.cn@gmail.com>
+In-Reply-To: <20220927110632.1973965-4-bmeng.cn@gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 1 Oct 2022 11:41:09 +0800
-Message-ID: <CAEUhbmWAM45nRRSF+p8PPLbUOqeuz0g2W=Ytke_K+xk8Bpaokw@mail.gmail.com>
-Subject: Re: [PATCH v4 02/54] semihosting/arm-compat-semi: Avoid using
- hardcoded /tmp
+Date: Sat, 1 Oct 2022 11:42:19 +0800
+Message-ID: <CAEUhbmVt+tbWexF1A08-p5XiZ3yZFNEMTMEOmPVAX86jVpj7rw@mail.gmail.com>
+Subject: Re: [PATCH v4 03/54] tcg: Avoid using hardcoded /tmp
 To: qemu-devel@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>
 Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
  Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,7 +88,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+Hi Alex, Richard,
 
 On Tue, Sep 27, 2022 at 7:06 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
@@ -97,10 +97,17 @@ On Tue, Sep 27, 2022 at 7:06 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 > Use g_get_tmp_dir() to get the directory to use for temporary files.
 >
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
 >
-> (no changes since v1)
+> (no changes since v2)
+>
+> Changes in v2:
+> - Use g_autofree to declare the variable
+>
+>  tcg/tcg.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
 
 Would you pick up this patch in your queue?
