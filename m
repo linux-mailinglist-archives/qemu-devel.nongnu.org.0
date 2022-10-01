@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4165F1EF1
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 21:09:11 +0200 (CEST)
-Received: from localhost ([::1]:52700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116995F1EFC
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 21:25:32 +0200 (CEST)
+Received: from localhost ([::1]:46846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oehrK-0004hf-5U
-	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 15:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40134)
+	id 1oei78-0002Lh-MB
+	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 15:25:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=SdrU=2C=zx2c4.com=Jason@kernel.org>)
- id 1oehpK-0003CE-VW
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 15:07:07 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:49264)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oei64-0000v7-HY
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 15:24:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=SdrU=2C=zx2c4.com=Jason@kernel.org>)
- id 1oehpI-0003FK-3t
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 15:07:06 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E3276B8076C;
- Sat,  1 Oct 2022 19:06:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DE40C433D6;
- Sat,  1 Oct 2022 19:06:53 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="djC69XvF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664651210;
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oei60-0005Gv-2G
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 15:24:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664652258;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QA7zGuQENk3BtqiO1ewrxq6jDrOsMoeud+ZCWa/6X7A=;
- b=djC69XvFHgJ7XreoEuHy083/puuBsioylXHlHvkK/8lFprs604kRGIGSZNIsYI6glpZmvs
- zocKWloOEL0G+rCFpKqLeZm63nB9WHqclacAlzHRl9pbnupGuAsVhR2kCs7qXUSf8TNxVh
- 47HcvMtD9srlGebMq1x2jaTc5/WUgs4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 8fb22790
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Sat, 1 Oct 2022 19:06:50 +0000 (UTC)
-Date: Sat, 1 Oct 2022 21:06:48 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: f4bug@amsat.org, aurelien@aurel32.net, qemu-devel@nongnu.org
-Subject: Re: [PATCH qemu] mips/malta: pass RNG seed to to kernel via env var
-Message-ID: <YziPyCqwl5KIE2cf@zx2c4.com>
-References: <20220930140520.576374-1-Jason@zx2c4.com>
+ bh=BNeWKLB2bo1ku3Cpvj3RwF/+yi87drxHaenYIfcft9o=;
+ b=h0zRbn6ZkllyvT/RKahzsw/0Rj2YpkMqpylKJMN7j+LNplXl/irIYLLzXbLCjY3adinXAS
+ BuRX64MhBInsGUTd7jSfcazO05C9qZsAAtaAXHZAB5/GNQ483MrFlRq03IweOBmfrYQ1cY
+ mH74i//xL0ZlImh51ZYqSHyhHrtap4U=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-512-It-VB7noPKymCQI8lQjpRg-1; Sat, 01 Oct 2022 15:24:16 -0400
+X-MC-Unique: It-VB7noPKymCQI8lQjpRg-1
+Received: by mail-vk1-f198.google.com with SMTP id
+ f197-20020a1f38ce000000b003aa0a881820so57650vka.0
+ for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 12:24:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=BNeWKLB2bo1ku3Cpvj3RwF/+yi87drxHaenYIfcft9o=;
+ b=TAGV+SoFqncEBPwlFofGaZxKRznPzYEAQOta3+XMDP/qrbzkpWCVISAtJX3pWBjeB2
+ muMG/ksl1JYCoYIHXyrBXEMsg63XUjYAPkqbjob/QEiZ7Ku09TVitQspVhQIEmCYtw9E
+ sa4nF1EAqJlQ+FCzaos+1/EYtvNXAs9YklOrbCbnltM6M7t/tTDLQhbZJxWsupmluRJh
+ f9ahheU+dhrB+Ze98qe8Yb3JSml58yHztIEXQ4FNn7S31zAxLIFNNPKFCIgQofO1f913
+ TtX0X6rD71j2Z2yLztK/E8sOyfFCxAOtrAuvmnrK6/gUwkM8C+qCXhtosFOf1hUFU0EH
+ 8BqQ==
+X-Gm-Message-State: ACrzQf3Vvtrx6pjliu71O6H4WrFEUHwdIvcHrcg6vf5Txwerujc+QjQI
+ VWf/y+Jcs1NzhmUWddO505kXz8zz+Gt3bG1BL1yn29hmcBHWAhiDMCcjB3Gfx8NSFbmX7Nq75kr
+ vAPsb176D/m4QOZNYxZHBYtHJKH5wMUc=
+X-Received: by 2002:a05:6102:348:b0:3a6:4240:6d3e with SMTP id
+ e8-20020a056102034800b003a642406d3emr930541vsa.16.1664652256119; 
+ Sat, 01 Oct 2022 12:24:16 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM47N5LLFf7xl0PjCv0URWxuXgte71sL0MpdilKs1r31y2M03VXiaX6KWSycjB1RhE5KG81hwAcIpoMX514HvDE=
+X-Received: by 2002:a05:6102:348:b0:3a6:4240:6d3e with SMTP id
+ e8-20020a056102034800b003a642406d3emr930539vsa.16.1664652255808; Sat, 01 Oct
+ 2022 12:24:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220930140520.576374-1-Jason@zx2c4.com>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=SdrU=2C=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+References: <20220930091033.34379-1-pbonzini@redhat.com>
+ <CAJSP0QUCtok_yXm5T+V7CCo1puznR_qLxuGvT6UXo0WpCo-oow@mail.gmail.com>
+In-Reply-To: <CAJSP0QUCtok_yXm5T+V7CCo1puznR_qLxuGvT6UXo0WpCo-oow@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Sat, 1 Oct 2022 21:24:04 +0200
+Message-ID: <CABgObfb_zH_iBO5BrBa083vh1JkM8TYh+84YMH0oz+S47tnU+Q@mail.gmail.com>
+Subject: Re: [PULL v2 00/15] x86 + misc changes for 2022-09-29
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,14 +92,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 30, 2022 at 04:05:20PM +0200, Jason A. Donenfeld wrote:
-> With the kernel patch linked below, Linux ingests a RNG seed
-> passed from the hypervisor. So, pass this for the Malta platform, and
-> reinitialize it on reboot too, so that it's always fresh.
-> 
-> Link: https://lore.kernel.org/linux-mips/20220930140138.575751-1-Jason@zx2c4.com/
+On Sat, Oct 1, 2022 at 1:01 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> This pull request doesn't build:
+>
+> ../meson.build:545:95: ERROR: Expecting endif got rparen.
+> gdbus_codegen_error = '@0@ uses gdbus-codegen, which does not support
+> control flow integrity')
+>
+> https://gitlab.com/qemu-project/qemu/-/jobs/3112498668
 
-The kernel side of this has now landed, so we can move ahead on the QEMU
-side:
-https://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git/commit/?id=056a68cea01edfa78b3474af1bfa39cc6bcc7bee
+I'm really sorry. :( I have now pushed the delta, but I'll wait for CI
+to pass and send a pull request on Monday.
+
+Paolo
+
 
