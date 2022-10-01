@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D069D5F1E28
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 19:08:23 +0200 (CEST)
-Received: from localhost ([::1]:45192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86AEA5F1EA3
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 20:37:28 +0200 (CEST)
+Received: from localhost ([::1]:53938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oefyQ-0006iZ-VO
-	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 13:08:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58886)
+	id 1oehMd-0007Sn-4w
+	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 14:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oefLW-0008F9-5U
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 12:28:10 -0400
-Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:44972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oefLU-00074s-I9
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 12:28:09 -0400
-Received: by mail-qt1-x82a.google.com with SMTP id f26so4337870qto.11
- for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 09:28:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=iKmDVfGqOt9FVdwkjo2E3YIFL8ZFEk46sXJgTciBX1Q=;
- b=WeqX6DrD6GjetwekiLJvwL2oQP0X/CVIfAeIX/AnA4utc/2GL/R0RCSwNliLrrcvhv
- hCByEvsiGkFAHaNu5IDG1nfB5l55FH9AMan7bhHkh6Mg88lTvao2C2fHq9ONAgQ7wKRr
- VleA79+9N+DWDXtLAV1GkpwKFPmGbiWKVbyLQpSh/y0eLG5DiRu36JRvDcbmvqXOFR3i
- NXYfiekrT/0zYEvpVvMTIuD+t457LHe/qtLzDakmBlJToC6DjHHnGG1vwAnRh2/R8ksH
- eRXY1uHO/kPIt+OAaOAgfMQNWg+EbT+QwfR5kdCT46DSU6mmiirSf9JvwYnyhO0bDwwS
- vFoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=iKmDVfGqOt9FVdwkjo2E3YIFL8ZFEk46sXJgTciBX1Q=;
- b=ve2g1JxUe2/UPwKTKp91Y4bCk+M3vN5wrZ14tfNJUwu+SXSTcegQ2w4txr++Uev6Ji
- dl9qu2MoxVaGO7rf6OfMFuKnju70z5FwJCLBU/runkjlTQYyjGqu9H4d552b7aXo/9F+
- EsYHwbVCO5UGq/RQpYWkSSfU/6YmYXvszQvsTGvU4fjywhoyPeSppgp3gMhVy7Vi762R
- M+04tDTI3Va6jgRFbzyGKZ8L6ACRGbYUv8Z37JIQUM7a/9gPF59zmzWQspbpAlI5qncU
- A6DGlUHRMLc5xxci+GLvOhQcf2aWb4/I2Wkg23rCJ65u4HuZVkdJShVAfcC0ww3ECoQe
- vcrA==
-X-Gm-Message-State: ACrzQf3vGf7hzAgt9IlFjFgKpoYveVg/5xz0LbM+xs1HuSSIrG/m3J5Q
- wQ1LazF/CRTPbmFVxqN17IqWLbzEl253Og==
-X-Google-Smtp-Source: AMsMyM7u4ymHwfOHhyhZQdJKNntM4ObsrFfNAktErztb3ICTxYWT/zMabg6McHFPvAaphxUfHibhew==
-X-Received: by 2002:ac8:5909:0:b0:35b:ce5c:ed73 with SMTP id
- 9-20020ac85909000000b0035bce5ced73mr10918232qty.635.1664641687726; 
- Sat, 01 Oct 2022 09:28:07 -0700 (PDT)
-Received: from stoup.. ([2605:ef80:8084:91a4:f7cb:db31:c505:b931])
- by smtp.gmail.com with ESMTPSA id
- i19-20020a05620a249300b006b5e296452csm6403305qkn.54.2022.10.01.09.28.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Oct 2022 09:28:07 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org,
-	Marc Zyngier <maz@kernel.org>
-Subject: [PATCH v3 42/42] target/arm: Use the max page size in a 2-stage ptw
-Date: Sat,  1 Oct 2022 09:23:18 -0700
-Message-Id: <20221001162318.153420-43-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221001162318.153420-1-richard.henderson@linaro.org>
-References: <20221001162318.153420-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oehH1-0004yJ-Lj
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 14:31:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60229)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oehGy-00071B-5a
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 14:31:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664649094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3NsYykO/WF8k8jez6M2MN/LHa8YYfXuLVcpKItVPq94=;
+ b=NvFx9HVR2t4+np0nhtm9IratmoIpGwjePc/Z8G/iR/+clmbYYWbVwAk8GnUjD4vg3AS8ve
+ Tf13myMgikny5F7cfmBizeUhb0D/TeyDCKkVvBIBX007ZwdYvMQ++aAUX/jyF/8ljoAgSv
+ tXqDHb3JB1j5+iV/MvckA8gVd1mZUoU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-263-seaHLdVUNzO1N2HDPEemiQ-1; Sat, 01 Oct 2022 14:31:31 -0400
+X-MC-Unique: seaHLdVUNzO1N2HDPEemiQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9974929AB3E7;
+ Sat,  1 Oct 2022 18:31:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 62B30140EBF4;
+ Sat,  1 Oct 2022 18:31:27 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4E0D321E691D; Sat,  1 Oct 2022 20:31:25 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: huangy81@chinatelecom.cn
+Cc: qemu-devel <qemu-devel@nongnu.org>,  Peter Xu <peterx@redhat.com>,  Juan
+ Quintela <quintela@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Eric Blake <eblake@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>,  Laurent Vivier <lvivier@redhat.com>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  "Daniel P. Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH v1 5/8] migration: Export dirty-limit time info
+References: <cover.1662052189.git.huangy81@chinatelecom.cn>
+ <cover.1662052189.git.huangy81@chinatelecom.cn>
+ <5ca0b4ae2aa787c1547d798521ab0e67867437a8.1662052189.git.huangy81@chinatelecom.cn>
+Date: Sat, 01 Oct 2022 20:31:25 +0200
+In-Reply-To: <5ca0b4ae2aa787c1547d798521ab0e67867437a8.1662052189.git.huangy81@chinatelecom.cn>
+ (huangy's message of "Fri, 2 Sep 2022 01:22:33 +0800")
+Message-ID: <87o7uvjszm.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.083,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,56 +87,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We had only been reporting the stage2 page size.  This causes
-problems if stage1 is using a larger page size (16k, 2M, etc),
-but stage2 is using a smaller page size, because cputlb does
-not set large_page_{addr,mask} properly.
+huangy81@chinatelecom.cn writes:
 
-Fix by using the max of the two page sizes.
+> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+>
+> Export dirty limit throttle time and estimated ring full
+> time, through which we can observe the process of dirty
+> limit during live migration.
+>
+> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
 
-Reported-by: Marc Zyngier <maz@kernel.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/ptw.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+[...]
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 14ab56d1b5..985a5703c3 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -2550,7 +2550,7 @@ static bool get_phys_addr_twostage(CPUARMState *env, target_ulong address,
-                                    ARMMMUFaultInfo *fi)
- {
-     hwaddr ipa;
--    int s1_prot;
-+    int s1_prot, s1_lgpgsz;
-     bool ret, ipa_secure, s2walk_secure;
-     ARMCacheAttrs cacheattrs1;
-     ARMMMUIdx s2_mmu_idx, s2_ptw_idx;
-@@ -2592,6 +2592,7 @@ static bool get_phys_addr_twostage(CPUARMState *env, target_ulong address,
-      * Save the stage1 results so that we may merge prot and cacheattrs later.
-      */
-     s1_prot = result->f.prot;
-+    s1_lgpgsz = result->f.lg_page_size;
-     cacheattrs1 = result->cacheattrs;
-     memset(result, 0, sizeof(*result));
- 
-@@ -2607,6 +2608,14 @@ static bool get_phys_addr_twostage(CPUARMState *env, target_ulong address,
-         return ret;
-     }
- 
-+    /*
-+     * Use the maximum of the S1 & S2 page size, so that invalidation
-+     * of pages > TARGET_PAGE_SIZE works correctly.
-+     */
-+    if (result->f.lg_page_size < s1_lgpgsz) {
-+        result->f.lg_page_size = s1_lgpgsz;
-+    }
-+
-     /* Combine the S1 and S2 cache attributes. */
-     hcr = arm_hcr_el2_eff_secstate(env, is_secure);
-     if (hcr & HCR_DC) {
--- 
-2.34.1
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index bc4bc96..c263d54 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -242,6 +242,12 @@
+>  #                   Present and non-empty when migration is blocked.
+>  #                   (since 6.0)
+>  #
+> +# @dirty-limit-throttle-us-per-full: Throttle time (us) during the perio=
+d of
+> +#                                    dirty ring full (since 7.0)
+> +#
+> +# @dirty-limit-us-ring-full: Estimated periodic time (us) of dirty ring =
+full.
+> +#                            (since 7.0)
+> +#
+
+Can you explain what is measured here a bit more verbosely?
+
+>  # Since: 0.14
+>  ##
+>  { 'struct': 'MigrationInfo',
+> @@ -259,7 +265,9 @@
+>             '*postcopy-blocktime' : 'uint32',
+>             '*postcopy-vcpu-blocktime': ['uint32'],
+>             '*compression': 'CompressionStats',
+> -           '*socket-address': ['SocketAddress'] } }
+> +           '*socket-address': ['SocketAddress'],
+> +           '*dirty-limit-throttle-us-per-full': 'int64',
+> +           '*dirty-limit-us-ring-full': 'int64'} }
+>=20=20
+>  ##
+>  # @query-migrate:
+
+[...]
 
 
