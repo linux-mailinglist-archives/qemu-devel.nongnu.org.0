@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C065F1CE0
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 16:37:32 +0200 (CEST)
-Received: from localhost ([::1]:42112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974A95F1CBC
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 16:27:06 +0200 (CEST)
+Received: from localhost ([::1]:51140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oedcR-000554-Ct
-	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 10:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36288)
+	id 1oedSL-0004tR-Jj
+	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 10:27:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oedCA-0003Aw-D6
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:25 -0400
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:45601)
+ id 1oedCO-0003JR-Uk
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:38 -0400
+Received: from mail-qv1-xf33.google.com ([2607:f8b0:4864:20::f33]:45588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oedC8-0004G7-LA
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:22 -0400
-Received: by mail-qk1-x730.google.com with SMTP id i17so4401822qkk.12
- for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 07:10:20 -0700 (PDT)
+ id 1oedCB-0004GN-94
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:36 -0400
+Received: by mail-qv1-xf33.google.com with SMTP id g9so701508qvo.12
+ for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 07:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=7viKvjcXaJUmhs/jWaqdA+F5KcYGZ9/wwoS7PEa0LGk=;
- b=xlu/zBoerwn3J0ipLwfI88KsTRacDBFIYJMTM+HCyp6Sxfx60xRt3WX8Ld2AgNttTj
- 610E7ZZv7D7M/aOGv1Mt49ostMIv4Ges4IDod9We6QO5UxkC2oo/OOQ52V7U8Tb9M9z6
- 98O0Z0k9q/hwjbxT5SstM8gDdTQIQUbJuOm3k02aiQLt25/NDpJycNHrrHoX/5ru9b9S
- zMt/At0L20JNCpjzkXd0NaltpZ7CvSHqz5Vu6e1GaajFFqee1UEycI6XxQcB6abp8Zbq
- fkq9M7lYLkb1JwXlt1lacM4V0kvsszP9rKC/gCzU5qYsM4cknHtwSqL2caqKj/+Z9pr7
- qQjA==
+ bh=Sbxg82I33kangQoaaEprEXBXR1plScSSjYL6tuL9DM4=;
+ b=Q0/4Lmz1KefSV3rYj/lTor+PoylS5e5Xj1w30YQK5cGfb0heL0R33kEHiE+OohOf8u
+ rvWGt7jRRezoNU/5z9oxJMiW6GBiVAXf7IUHD7dZB5m9Xf7AtL+8jVKX8tCX6/s+a7Ft
+ sWXaV2gK8wPCya/GFW3nplMMxm3xI67tqIKw321qPr+Cw+xrnKRXNv8TyomsPcTkA3aO
+ xV1fM2r1EfQCjXSphK0o+6I1SftgKZpJbNnUb4EeMbVdh12Krp68Ar0OkPUPAZxbNv83
+ AAkVhoPDvVUQ0pJ8xAKkGOun8ewy2WI6ZSl9qEEvrCRVWrOZsHH7Qtr08JemInMoIvwb
+ yYZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=7viKvjcXaJUmhs/jWaqdA+F5KcYGZ9/wwoS7PEa0LGk=;
- b=pPM8beKp8MQyNIDi/nI9Bg/L9iVkK52bDuZsZdSL8BijbhK76t+ho9pIBZhbEL+22a
- isnwHdr/LjAF03rSMVUwg4AwKFmwFItWJSnpYT7HO6zyyUOQm8vmro3gMfA7Q46ApCNf
- d+CD4Rz9Da2qbW9oSIPhviYOPSkphWmq1itGbiJFN3tJcCQMzsebahagdTAdAIzsOQ+6
- j6xTMcDD8+k3kN7WtZY4L9JxftCx/l4nwIy3WEHuXn0lyzONDfvOebYEBlgMQGB/IgoD
- ZI/VzcB5E1MVLDG4y4fLCGzHQ5cPbcJkQlA6zwLN1NjmfChWV4P0OH9SByAT2n6NVhcs
- kDQQ==
-X-Gm-Message-State: ACrzQf1PhxeHXxhGAAtwv9YI6ZP621Er4mdp6GvgC7xMJdRS30mtstaf
- HI2MCDDNbKc5FkaM8J3TJgURG1lGp4WYgx1g
-X-Google-Smtp-Source: AMsMyM6kRBt2zLwf0KrX6dcSXqlWfPlfJx9bsTAKw97w8NC914BO+GQxYqgRnEaDI/YOfwIxMikNig==
-X-Received: by 2002:a37:5343:0:b0:6cf:9ee8:7cda with SMTP id
- h64-20020a375343000000b006cf9ee87cdamr9366003qkb.528.1664633419758; 
- Sat, 01 Oct 2022 07:10:19 -0700 (PDT)
+ bh=Sbxg82I33kangQoaaEprEXBXR1plScSSjYL6tuL9DM4=;
+ b=sHdA/QNgbuNrih0OVU7QW7xKa2oru6tg6E8CIg+6s7D4WX34NSY3XBdWlAddSiAbv5
+ bKh6OVZZXyCUc/o4RblUCGdP0T408pkbOA1/CQnVqgvrGAL7Zy3aMfH1p3umZHueTbE3
+ kBZw98AfA/UQlQMsSyFCVCnB7d1OSFEuyjh6aAqx3dhu/Qf5LpRJ7j//lxhfWwOix4hK
+ mhQUkmCe/jPDtWkQ3v0GICMr0gh1aRVcVZ0TqwzclZVC1lElzy7FaYXywBMW6+s1eyfF
+ br06u/lUM7BGdw5thFbZFC/v65K/KFmH4BPClxjkrqwauivlP5wqg/M1qgfsv0IpkZCk
+ UxQA==
+X-Gm-Message-State: ACrzQf20gmVWPyy+5M99sL/zQx8o9H/xwNO9EHhPhS4ge2AoPZ9eVB/c
+ r0PEhB0UP8TshHrfDydh+Pe90ItFqOiR6xyu
+X-Google-Smtp-Source: AMsMyM43nCFCMwWsaZFZVfMJ2tiUk8mLnIqkKgTl6NifD5Kj5+eKFwxGzxDzXddT56BPF34HE3sfLw==
+X-Received: by 2002:ad4:5d4d:0:b0:4af:9a4f:af5b with SMTP id
+ jk13-20020ad45d4d000000b004af9a4faf5bmr10994206qvb.95.1664633422107; 
+ Sat, 01 Oct 2022 07:10:22 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:8080:8162:afc7:8362:2616:ac15])
  by smtp.gmail.com with ESMTPSA id
- j16-20020a05620a289000b006b615cd8c13sm6075914qkp.106.2022.10.01.07.10.17
+ j16-20020a05620a289000b006b615cd8c13sm6075914qkp.106.2022.10.01.07.10.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Oct 2022 07:10:19 -0700 (PDT)
+ Sat, 01 Oct 2022 07:10:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v3 16/26] target/i386: Use DISAS_TOO_MANY to exit after
- gen_io_start
-Date: Sat,  1 Oct 2022 07:09:25 -0700
-Message-Id: <20221001140935.465607-17-richard.henderson@linaro.org>
+Subject: [PATCH v3 17/26] target/i386: Create gen_jmp_rel
+Date: Sat,  1 Oct 2022 07:09:26 -0700
+Message-Id: <20221001140935.465607-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221001140935.465607-1-richard.henderson@linaro.org>
 References: <20221001140935.465607-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x730.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,175 +88,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can set is_jmp early, using only one if, and let that
-be overwritten by gen_rep*'s calls to gen_jmp_tb.
+Create a common helper for pc-relative branches.  The jmp jb insn
+was missing a mask for CODE32.  In all cases the CODE64 check was
+incorrectly placed, allowing PREFIX_DATA to truncate %rip to 16 bits.
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 42 +++++++++----------------------------
- 1 file changed, 10 insertions(+), 32 deletions(-)
+ target/i386/tcg/translate.c | 58 ++++++++++++++++++-------------------
+ 1 file changed, 29 insertions(+), 29 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index be29ea7a03..11aaba8a65 100644
+index 11aaba8a65..ba1bd7c707 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -5660,14 +5660,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-             }
-             if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-                 gen_io_start();
-+                s->base.is_jmp = DISAS_TOO_MANY;
-             }
-             gen_helper_rdrand(s->T0, cpu_env);
-             rm = (modrm & 7) | REX_B(s);
-             gen_op_mov_reg_v(s, dflag, rm, s->T0);
-             set_cc_op(s, CC_OP_EFLAGS);
--            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                gen_jmp(s, s->pc - s->cs_base);
+@@ -226,6 +226,7 @@ static void gen_eob(DisasContext *s);
+ static void gen_jr(DisasContext *s);
+ static void gen_jmp(DisasContext *s, target_ulong eip);
+ static void gen_jmp_tb(DisasContext *s, target_ulong eip, int tb_num);
++static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num);
+ static void gen_op(DisasContext *s1, int op, MemOp ot, int d);
+ static void gen_exception_gpf(DisasContext *s);
+ 
+@@ -2792,6 +2793,21 @@ static void gen_jmp_tb(DisasContext *s, target_ulong eip, int tb_num)
+     }
+ }
+ 
++static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num)
++{
++    target_ulong dest = s->pc - s->cs_base + diff;
++
++    /* In 64-bit mode, operand size is fixed at 64 bits. */
++    if (!CODE64(s)) {
++        if (ot == MO_16) {
++            dest &= 0xffff;
++        } else {
++            dest &= 0xffffffff;
++        }
++    }
++    gen_jmp_tb(s, dest, tb_num);
++}
++
+ static void gen_jmp(DisasContext *s, target_ulong eip)
+ {
+     gen_jmp_tb(s, eip, 0);
+@@ -6862,20 +6878,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+         break;
+     case 0xe8: /* call im */
+         {
+-            if (dflag != MO_16) {
+-                tval = (int32_t)insn_get(env, s, MO_32);
+-            } else {
+-                tval = (int16_t)insn_get(env, s, MO_16);
 -            }
-             break;
- 
-         default:
-@@ -6704,15 +6702,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-         }
-         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-             gen_io_start();
-+            s->base.is_jmp = DISAS_TOO_MANY;
-         }
-         if (prefixes & (PREFIX_REPZ | PREFIX_REPNZ)) {
-             gen_repz_ins(s, ot);
--            /* jump generated by gen_repz_ins */
-         } else {
-             gen_ins(s, ot);
--            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                gen_jmp(s, s->pc - s->cs_base);
+-            tval += s->pc - s->cs_base;
+-            if (dflag == MO_16) {
+-                tval &= 0xffff;
+-            } else if (!CODE64(s)) {
+-                tval &= 0xffffffff;
 -            }
++            int diff = (dflag != MO_16
++                        ? (int32_t)insn_get(env, s, MO_32)
++                        : (int16_t)insn_get(env, s, MO_16));
+             gen_push_v(s, eip_next_tl(s));
+             gen_bnd_jmp(s);
+-            gen_jmp(s, tval);
++            gen_jmp_rel(s, dflag, diff, 0);
          }
          break;
-     case 0x6e: /* outsS */
-@@ -6725,15 +6720,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x9a: /* lcall im */
+@@ -6893,19 +6901,13 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
          }
-         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-             gen_io_start();
-+            s->base.is_jmp = DISAS_TOO_MANY;
+         goto do_lcall;
+     case 0xe9: /* jmp im */
+-        if (dflag != MO_16) {
+-            tval = (int32_t)insn_get(env, s, MO_32);
+-        } else {
+-            tval = (int16_t)insn_get(env, s, MO_16);
++        {
++            int diff = (dflag != MO_16
++                        ? (int32_t)insn_get(env, s, MO_32)
++                        : (int16_t)insn_get(env, s, MO_16));
++            gen_bnd_jmp(s);
++            gen_jmp_rel(s, dflag, diff, 0);
          }
-         if (prefixes & (PREFIX_REPZ | PREFIX_REPNZ)) {
-             gen_repz_outs(s, ot);
--            /* jump generated by gen_repz_outs */
-         } else {
-             gen_outs(s, ot);
--            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                gen_jmp(s, s->pc - s->cs_base);
--            }
-         }
-         break;
- 
-@@ -6750,13 +6742,11 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-         }
-         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-             gen_io_start();
-+            s->base.is_jmp = DISAS_TOO_MANY;
-         }
-         gen_helper_in_func(ot, s->T1, s->tmp2_i32);
-         gen_op_mov_reg_v(s, ot, R_EAX, s->T1);
-         gen_bpt_io(s, s->tmp2_i32, ot);
--        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--            gen_jmp(s, s->pc - s->cs_base);
+-        tval += s->pc - s->cs_base;
+-        if (dflag == MO_16) {
+-            tval &= 0xffff;
+-        } else if (!CODE64(s)) {
+-            tval &= 0xffffffff;
 -        }
+-        gen_bnd_jmp(s);
+-        gen_jmp(s, tval);
          break;
-     case 0xe6:
-     case 0xe7:
-@@ -6768,14 +6758,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+     case 0xea: /* ljmp im */
+         {
+@@ -6922,12 +6924,10 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
          }
-         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-             gen_io_start();
-+            s->base.is_jmp = DISAS_TOO_MANY;
+         goto do_ljmp;
+     case 0xeb: /* jmp Jb */
+-        tval = (int8_t)insn_get(env, s, MO_8);
+-        tval += s->pc - s->cs_base;
+-        if (dflag == MO_16) {
+-            tval &= 0xffff;
++        {
++            int diff = (int8_t)insn_get(env, s, MO_8);
++            gen_jmp_rel(s, dflag, diff, 0);
          }
-         gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
-         tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
-         gen_helper_out_func(ot, s->tmp2_i32, s->tmp3_i32);
-         gen_bpt_io(s, s->tmp2_i32, ot);
--        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--            gen_jmp(s, s->pc - s->cs_base);
--        }
+-        gen_jmp(s, tval);
          break;
-     case 0xec:
-     case 0xed:
-@@ -6787,13 +6775,11 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-         }
-         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-             gen_io_start();
-+            s->base.is_jmp = DISAS_TOO_MANY;
-         }
-         gen_helper_in_func(ot, s->T1, s->tmp2_i32);
-         gen_op_mov_reg_v(s, ot, R_EAX, s->T1);
-         gen_bpt_io(s, s->tmp2_i32, ot);
--        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--            gen_jmp(s, s->pc - s->cs_base);
--        }
-         break;
-     case 0xee:
-     case 0xef:
-@@ -6805,14 +6791,12 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-         }
-         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-             gen_io_start();
-+            s->base.is_jmp = DISAS_TOO_MANY;
-         }
-         gen_op_mov_v_reg(s, ot, s->T1, R_EAX);
-         tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
-         gen_helper_out_func(ot, s->tmp2_i32, s->tmp3_i32);
-         gen_bpt_io(s, s->tmp2_i32, ot);
--        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--            gen_jmp(s, s->pc - s->cs_base);
--        }
-         break;
- 
-         /************************/
-@@ -7478,11 +7462,9 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-         gen_update_eip_cur(s);
-         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-             gen_io_start();
-+            s->base.is_jmp = DISAS_TOO_MANY;
-         }
-         gen_helper_rdtsc(cpu_env);
--        if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--            gen_jmp(s, s->pc - s->cs_base);
--        }
-         break;
-     case 0x133: /* rdpmc */
-         gen_update_cc_op(s);
-@@ -7939,11 +7921,9 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-             gen_update_eip_cur(s);
-             if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-                 gen_io_start();
-+                s->base.is_jmp = DISAS_TOO_MANY;
-             }
-             gen_helper_rdtscp(cpu_env);
--            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                gen_jmp(s, s->pc - s->cs_base);
--            }
-             break;
- 
-         default:
-@@ -8307,6 +8287,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
- 
-         if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-             gen_io_start();
-+            s->base.is_jmp = DISAS_TOO_MANY;
-         }
-         if (b & 2) {
-             gen_svm_check_intercept(s, SVM_EXIT_WRITE_CR0 + reg);
-@@ -8317,9 +8298,6 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-             gen_svm_check_intercept(s, SVM_EXIT_READ_CR0 + reg);
-             gen_helper_read_crN(s->T0, cpu_env, tcg_constant_i32(reg));
-             gen_op_mov_reg_v(s, ot, rm, s->T0);
--            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
--                gen_jmp(s, s->pc - s->cs_base);
--            }
-         }
-         break;
- 
+     case 0x70 ... 0x7f: /* jcc Jb */
+         tval = (int8_t)insn_get(env, s, MO_8);
 -- 
 2.34.1
 
