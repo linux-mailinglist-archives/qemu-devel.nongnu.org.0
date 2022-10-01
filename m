@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D534F5F1CCA
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 16:33:01 +0200 (CEST)
-Received: from localhost ([::1]:52600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B08D45F1CDF
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 16:37:26 +0200 (CEST)
+Received: from localhost ([::1]:42106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oedY4-0006F4-Sj
-	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 10:33:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37500)
+	id 1oedcL-0004pd-OA
+	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 10:37:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oedCQ-0003JY-8x
+ id 1oedCQ-0003JZ-91
  for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:39 -0400
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30]:40839)
+Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:39797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oedCF-0003zX-JW
+ id 1oedCF-0004Gd-Ji
  for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:38 -0400
-Received: by mail-qv1-xf30.google.com with SMTP id h10so2805337qvq.7
- for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 07:10:24 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id x18so4406262qkn.6
+ for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 07:10:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=yUBX+GiCjhWeGfhxd+AJVciwu72rM90hc2ACBcF3wCA=;
- b=oMiFAh97TnoM56gQ6JzDl20HJWAeQhPsyhZqgdqOqGvqCHsc1C4Y3ACekBMzHI8r/8
- wXUzv5Dfppefq86rAMcyWGw9vsz1kIX3qzOdw99mxq34dAPq3SPc9QgO6b0+fzvmf9+d
- FJ+KshlVgNu9yqDUdWt4Hdd2HEPh+zSVCN3/AnzIVuJNIyRrPLF49IDXWs/qm7V1Hvx9
- 6GhVd+qHr02RovakQDi4CN5Y4fyhvItc9pnT6wOdaP3o85YBxrTJloir567vAez2T51q
- hRh04pjgM49MCZBk3tdjmHIHegi52CRHCwERU7HznlDW2S507wuZmhjyXJz9kTlzH5Wd
- rZjA==
+ bh=mIF77OthLavLtQuqetJUdz3FJ5349hd9QtJO8fQT4pE=;
+ b=qIN1PCuiKZQVnko3Ah7AdwlOZjKTtYdhBH5n5jhlKSDTkjjKc+MvzbyEl8fRG07Okj
+ LWwRutVhIyNDX+uQOehXNJyEB55Fq5flh4JGPySmpk0jB+gorWNLInPhVJsHBV3GhOtD
+ etSUW/uJYPJPkCVPZ9lx+rpG0kLIarRW5Q4SanYVQzaGQAqqJC9hbbQYpaVJounjJtYn
+ c7u9javN8V5JduhFyxwMXFBMj+B+HMc0yTOlhe6TzCu60QxbDmkBJSlW+4cfff+IPbbE
+ fCNTo9ptzCg7uhxNwBTJwfvCQb46ULE5ZCNUM6Um1zxCktgAaOwJ3S4qTBkhVYfk9hLT
+ 1LUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=yUBX+GiCjhWeGfhxd+AJVciwu72rM90hc2ACBcF3wCA=;
- b=yQm0wgbGhAMiIYxNE39wvK2Zw7OlNun3HPOsjpEc3z26w8lw7BXYBg3H83Jb4TmE+9
- 0jRS03Ircle9V7mxlLBvqFXygpFPFpOSN4JZje4R1XM9Kpdz4c+eg3kXkQbMBORwG+Lr
- LTydOCz+tllmj+60z24ibWEcJd6/EFzQCL3Dq9QbSpq1S6uLxYRsZ+AmYYSr8rRRwmNR
- 27J9dUeRHXM3EfwV711CbyoQEF7JJmk7UGtPEcHnwr5EOkZXjjicYzkyPO0VEDnI0p62
- cyZHbEbi3ekgIF48Qzdf4hTKaEoi3MhOrd6KHzuMHStlHf+7cjTBEN+3Xmx9/thk96xa
- zijQ==
-X-Gm-Message-State: ACrzQf3fMm3kCNIihypElYlfKOFT0Ny6HdwOq5rArOvLSidW605OZy+I
- qu3h/kIpO85RDddkmYX+tYV5x/VuXuIt9vRf
-X-Google-Smtp-Source: AMsMyM58Fw838zxYH5/7xZaHDzv/TruOtenoUol9yM78R3M0q6izS/TODtYNkUV043IAtALGuGqauQ==
-X-Received: by 2002:a05:6214:21a9:b0:4aa:b0e6:c6f5 with SMTP id
- t9-20020a05621421a900b004aab0e6c6f5mr10782257qvc.19.1664633424264; 
- Sat, 01 Oct 2022 07:10:24 -0700 (PDT)
+ bh=mIF77OthLavLtQuqetJUdz3FJ5349hd9QtJO8fQT4pE=;
+ b=xZT99tGDmkY6xtETm5ab5Si9FE4Lz2hjAr6XL+t0LA27Y3wic8u51DmWWCYLX57JeY
+ 3/NpN4sEy7+YaSmIXoutsSYVTUeOOa0Je3EPhSoEuuQBdfTQ4gnQ802dGTMX6VJH1v60
+ mFWn3JqbxwymGF6mMadNZxHEbilp/DuaDTz5xgZtzxI1GfNxmgFRThGlXa0701sLmYE7
+ 721/rb0V0ttrA6AeDXTms5trxjMl8eCG6NHPhMEnG1ykjU6LXBcXL1x0Zb/MpPLS9ncx
+ SxUzXrCv+5AOaMG5Mudve4d7dLh+MjID/mtHd/yxHWnIvsDuJ8ymbp9Gfr4wKant4wUL
+ 2lIw==
+X-Gm-Message-State: ACrzQf3xNqcWTmBAAPqfw6NDDUJLZ50TsY4gIH7oUENnFIx4vIhGsnJs
+ FtWDs3zPm6u+nJDVdb3eX9ow9m6MsV6xVi2H
+X-Google-Smtp-Source: AMsMyM68mkTx3egFYCtZZUAy96BrhOSA0dav6gUpxhQz6by6URp6io8XPG/Qd1zm07y1Sw3sAC3xog==
+X-Received: by 2002:a05:620a:1214:b0:6cd:f5da:f1b9 with SMTP id
+ u20-20020a05620a121400b006cdf5daf1b9mr9168540qkj.283.1664633426584; 
+ Sat, 01 Oct 2022 07:10:26 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:8080:8162:afc7:8362:2616:ac15])
  by smtp.gmail.com with ESMTPSA id
- j16-20020a05620a289000b006b615cd8c13sm6075914qkp.106.2022.10.01.07.10.22
+ j16-20020a05620a289000b006b615cd8c13sm6075914qkp.106.2022.10.01.07.10.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Oct 2022 07:10:23 -0700 (PDT)
+ Sat, 01 Oct 2022 07:10:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v3 18/26] target/i386: Use gen_jmp_rel for loop, repz,
- jecxz insns
-Date: Sat,  1 Oct 2022 07:09:27 -0700
-Message-Id: <20221001140935.465607-19-richard.henderson@linaro.org>
+Subject: [PATCH v3 19/26] target/i386: Use gen_jmp_rel for gen_jcc
+Date: Sat,  1 Oct 2022 07:09:28 -0700
+Message-Id: <20221001140935.465607-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221001140935.465607-1-richard.henderson@linaro.org>
 References: <20221001140935.465607-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
- envelope-from=richard.henderson@linaro.org; helo=mail-qv1-xf30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x730.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,125 +89,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With gen_jmp_rel, we may chain to the next tb instead of merely
-writing to eip and exiting.  For repz, subtract cur_insn_len to
-restart the current insn.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 36 +++++++++++++++---------------------
- 1 file changed, 15 insertions(+), 21 deletions(-)
+ target/i386/tcg/translate.c | 57 ++++++++++++-------------------------
+ 1 file changed, 18 insertions(+), 39 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index ba1bd7c707..434a6ad6cd 100644
+index 434a6ad6cd..5b84be4975 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -224,9 +224,9 @@ STUB_HELPER(wrmsr, TCGv_env env)
- 
- static void gen_eob(DisasContext *s);
- static void gen_jr(DisasContext *s);
--static void gen_jmp(DisasContext *s, target_ulong eip);
- static void gen_jmp_tb(DisasContext *s, target_ulong eip, int tb_num);
- static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num);
-+static void gen_jmp_rel_csize(DisasContext *s, int diff, int tb_num);
- static void gen_op(DisasContext *s1, int op, MemOp ot, int d);
- static void gen_exception_gpf(DisasContext *s);
- 
-@@ -1185,7 +1185,7 @@ static TCGLabel *gen_jz_ecx_string(DisasContext *s)
-     TCGLabel *l2 = gen_new_label();
-     gen_op_jnz_ecx(s, s->aflag, l1);
-     gen_set_label(l2);
--    gen_jmp_tb(s, s->pc - s->cs_base, 1);
-+    gen_jmp_rel_csize(s, 0, 1);
-     gen_set_label(l1);
-     return l2;
- }
-@@ -1288,7 +1288,7 @@ static void gen_repz(DisasContext *s, MemOp ot,
-     if (s->repz_opt) {
-         gen_op_jz_ecx(s, s->aflag, l2);
-     }
--    gen_jmp(s, s->base.pc_next - s->cs_base);
-+    gen_jmp_rel_csize(s, -cur_insn_len(s), 0);
- }
- 
- #define GEN_REPZ(op) \
-@@ -1308,7 +1308,7 @@ static void gen_repz2(DisasContext *s, MemOp ot, int nz,
-     if (s->repz_opt) {
-         gen_op_jz_ecx(s, s->aflag, l2);
-     }
--    gen_jmp(s, s->base.pc_next - s->cs_base);
-+    gen_jmp_rel_csize(s, -cur_insn_len(s), 0);
- }
- 
- #define GEN_REPZ2(op) \
-@@ -2793,6 +2793,7 @@ static void gen_jmp_tb(DisasContext *s, target_ulong eip, int tb_num)
+@@ -2409,32 +2409,14 @@ static void gen_goto_tb(DisasContext *s, int tb_num, target_ulong eip)
      }
  }
  
-+/* Jump to eip+diff, truncating the result to OT. */
- static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num)
+-static inline void gen_jcc(DisasContext *s, int b,
+-                           target_ulong val, target_ulong next_eip)
++static void gen_jcc(DisasContext *s, int b, int diff)
  {
-     target_ulong dest = s->pc - s->cs_base + diff;
-@@ -2808,9 +2809,11 @@ static void gen_jmp_rel(DisasContext *s, MemOp ot, int diff, int tb_num)
-     gen_jmp_tb(s, dest, tb_num);
- }
+-    TCGLabel *l1, *l2;
++    TCGLabel *l1 = gen_new_label();
  
--static void gen_jmp(DisasContext *s, target_ulong eip)
-+/* Jump to eip+diff, truncating to the current code size. */
-+static void gen_jmp_rel_csize(DisasContext *s, int diff, int tb_num)
- {
--    gen_jmp_tb(s, eip, 0);
-+    /* CODE64 ignores the OT argument, so we need not consider it. */
-+    gen_jmp_rel(s, CODE32(s) ? MO_32 : MO_16, diff, tb_num);
- }
- 
- static inline void gen_ldq_env_A0(DisasContext *s, int offset)
-@@ -7404,24 +7407,18 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-     case 0xe2: /* loop */
-     case 0xe3: /* jecxz */
-         {
--            TCGLabel *l1, *l2, *l3;
+-    if (s->jmp_opt) {
+-        l1 = gen_new_label();
+-        gen_jcc1(s, b, l1);
 -
--            tval = (int8_t)insn_get(env, s, MO_8);
--            tval += s->pc - s->cs_base;
--            if (dflag == MO_16) {
--                tval &= 0xffff;
--            }
-+            TCGLabel *l1, *l2;
-+            int diff = (int8_t)insn_get(env, s, MO_8);
+-        gen_goto_tb(s, 0, next_eip);
+-
+-        gen_set_label(l1);
+-        gen_goto_tb(s, 1, val);
+-    } else {
+-        l1 = gen_new_label();
+-        l2 = gen_new_label();
+-        gen_jcc1(s, b, l1);
+-
+-        gen_jmp_im(s, next_eip);
+-        tcg_gen_br(l2);
+-
+-        gen_set_label(l1);
+-        gen_jmp_im(s, val);
+-        gen_set_label(l2);
+-        gen_eob(s);
+-    }
++    gen_jcc1(s, b, l1);
++    gen_jmp_rel_csize(s, 0, 1);
++    gen_set_label(l1);
++    gen_jmp_rel(s, s->dflag, diff, 0);
+ }
  
-             l1 = gen_new_label();
-             l2 = gen_new_label();
--            l3 = gen_new_label();
-             gen_update_cc_op(s);
-             b &= 3;
-             switch(b) {
-             case 0: /* loopnz */
-             case 1: /* loopz */
-                 gen_op_add_reg_im(s, s->aflag, R_ECX, -1);
--                gen_op_jz_ecx(s, s->aflag, l3);
-+                gen_op_jz_ecx(s, s->aflag, l2);
-                 gen_jcc1(s, (JCC_Z << 1) | (b ^ 1), l1);
-                 break;
-             case 2: /* loop */
-@@ -7434,14 +7431,11 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-                 break;
-             }
+ static void gen_cmovcc1(CPUX86State *env, DisasContext *s, MemOp ot, int b,
+@@ -4780,7 +4762,6 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+     int shift;
+     MemOp ot, aflag, dflag;
+     int modrm, reg, rm, mod, op, opreg, val;
+-    target_ulong next_eip, tval;
+     bool orig_cc_op_dirty = s->cc_op_dirty;
+     CCOp orig_cc_op = s->cc_op;
  
--            gen_set_label(l3);
--            gen_update_eip_next(s);
--            tcg_gen_br(l2);
-+            gen_set_label(l2);
-+            gen_jmp_rel_csize(s, 0, 1);
- 
-             gen_set_label(l1);
--            gen_jmp_im(s, tval);
--            gen_set_label(l2);
--            s->base.is_jmp = DISAS_EOB_ONLY;
-+            gen_jmp_rel(s, dflag, diff, 0);
+@@ -6933,22 +6914,20 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
          }
          break;
-     case 0x130: /* wrmsr */
+     case 0x70 ... 0x7f: /* jcc Jb */
+-        tval = (int8_t)insn_get(env, s, MO_8);
+-        goto do_jcc;
++        {
++            int diff = (int8_t)insn_get(env, s, MO_8);
++            gen_bnd_jmp(s);
++            gen_jcc(s, b, diff);
++        }
++        break;
+     case 0x180 ... 0x18f: /* jcc Jv */
+-        if (dflag != MO_16) {
+-            tval = (int32_t)insn_get(env, s, MO_32);
+-        } else {
+-            tval = (int16_t)insn_get(env, s, MO_16);
++        {
++            int diff = (dflag != MO_16
++                        ? (int32_t)insn_get(env, s, MO_32)
++                        : (int16_t)insn_get(env, s, MO_16));
++            gen_bnd_jmp(s);
++            gen_jcc(s, b, diff);
+         }
+-    do_jcc:
+-        next_eip = s->pc - s->cs_base;
+-        tval += next_eip;
+-        if (dflag == MO_16) {
+-            tval &= 0xffff;
+-        }
+-        gen_bnd_jmp(s);
+-        gen_jcc(s, b, tval, next_eip);
+         break;
+ 
+     case 0x190 ... 0x19f: /* setcc Gv */
 -- 
 2.34.1
 
