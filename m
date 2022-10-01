@@ -2,60 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F1D5F1C11
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 14:14:30 +0200 (CEST)
-Received: from localhost ([::1]:37824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E8A5F1C54
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 15:16:22 +0200 (CEST)
+Received: from localhost ([::1]:53572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oebO1-0006UZ-Im
-	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 08:14:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55986)
+	id 1oecLt-0001X8-6B
+	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 09:16:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oebMZ-00056P-2E
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 08:12:59 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:48091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oebMX-0002Yi-I4
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 08:12:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=8f40Zb788bfDUq1r1pesVUH5AYz5MqrIcraO4LBAvas=; b=BQ8SlT0LQnuYwsH/r9AyFJnEUZ
- ybs6unFTWtOUmrKSBB23Zs3PpuUuqiTkoIPzB+31POHflf1R1cCzuu2eEiCH5zS68fIvxXlr9r9pL
- 3i8YvLg0p4TMxxY5qSjk+xIAlHweJd4dNdVsHBFPhDHIH1q7sO9ZzzrNPkcA7nxxXBFHrO/TkylqV
- NR2CYjhgKA79kfX6aOZm9QW5cXbeJZ8Q90r2NRKV/AWS65sQLUkeFxEreE8LsE5I/6kpC9+vN1WeJ
- QN6bwSbhulZfcmYme36fP39TKliL9f6v2QY6mEwBt2eadiiqGyOw2y2Lh8DnydFMYgIFpiB3qMqse
- q8NRvtKq75kiPocmeFykItmGJhFOt8WhzxsytyzFAXly4FeyISn/RjZ4vSYaYNRSi74P8Z6phmP4O
- 6k/QsbzRxqik0lz65Xb1R2HepN6JJkGcZShS7I3KEFgYU4ciJgr/E/XCsL/iQvH9k/spAXJj4NhOU
- ZJf9y2IhYf2mc9N/FTSCmOQpS1x8n8KdoeBmetk55BTeK9MctnHOgp00DHPNhLOadMQkmGtHfltSY
- Q+U2pC+bOGdTXbKTScGO4ClLEw4KDZdsaNbVktL1qYiRXkWRCKdmcomZOxa57dWBa/CIJ12nOeh4u
- E8WR+l95TiRYKIOTNiF28xCXPsdWVfxjGMLIBGp2A=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>,
- =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v4 26/54] fsdev/virtfs-proxy-helper: Use g_mkdir()
-Date: Sat, 01 Oct 2022 14:12:49 +0200
-Message-ID: <1776150.AVl4R6B0cj@silver>
-In-Reply-To: <CAEUhbmVGiifLE-ZAe0bxX8JDOcBX41Qg3=5g6Yr36uW=Ws=Srw@mail.gmail.com>
-References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
- <20220927110632.1973965-27-bmeng.cn@gmail.com>
- <CAEUhbmVGiifLE-ZAe0bxX8JDOcBX41Qg3=5g6Yr36uW=Ws=Srw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1oecJl-0008SP-Tj
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 09:14:09 -0400
+Received: from hsmtpd-def.xspmail.jp ([202.238.198.237]:50934)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1oecJk-00041S-5s
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 09:14:09 -0400
+X-Country-Code: JP
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23])
+ by hsmtpd-out-1.asahinet.cluster.xspmail.jp (Halon) with ESMTPA
+ id 7b15c719-9a7f-4ee3-aed4-7f93b05a2757;
+ Sat, 01 Oct 2022 22:13:59 +0900 (JST)
+Received: from SIOS1075.ysato.ml (ZM005235.ppp.dion.ne.jp [222.8.5.235])
+ by sakura.ysato.name (Postfix) with ESMTPSA id DBA111C0075;
+ Sat,  1 Oct 2022 22:13:57 +0900 (JST)
+Date: Sat, 01 Oct 2022 22:13:55 +0900
+Message-ID: <87zgef1yb0.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: Re: [PATCH 5/6] rx: re-randomize rng-seed on reboot
+In-Reply-To: <20220929232339.372813-5-Jason@zx2c4.com>
+References: <20220929232339.372813-1-Jason@zx2c4.com>
+ <20220929232339.372813-5-Jason@zx2c4.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/27.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: softfail client-ip=202.238.198.237;
+ envelope-from=ysato@users.sourceforge.jp; helo=hsmtpd-def.xspmail.jp
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,45 +65,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Samstag, 1. Oktober 2022 05:48:18 CEST Bin Meng wrote:
-> Hi Christian,
+On Fri, 30 Sep 2022 08:23:38 +0900,
+Jason A. Donenfeld wrote:
 > 
-> On Tue, Sep 27, 2022 at 7:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> > 
-> > Use g_mkdir() to create a directory on all platforms.
-> > 
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > ---
-> > 
-> > (no changes since v2)
-> > 
-> > Changes in v2:
-> > - Change to use g_mkdir()
-> > 
-> >  fsdev/virtfs-proxy-helper.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> When the system reboots, the rng-seed that the FDT has should be
+> re-randomized, so that the new boot gets a new seed. Since the FDT is in
+> the ROM region at this point, we add a hook right after the ROM has been
+> added, so that we have a pointer to that copy of the FDT.
 > 
-> Would you pick up this patch in your queue?
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>  hw/rx/rx-gdbsim.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> Regards,
-> Bin
+> diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
+> index 8ffe1b8035..198d048964 100644
+> --- a/hw/rx/rx-gdbsim.c
+> +++ b/hw/rx/rx-gdbsim.c
+> @@ -25,6 +25,7 @@
+>  #include "hw/rx/rx62n.h"
+>  #include "sysemu/qtest.h"
+>  #include "sysemu/device_tree.h"
+> +#include "sysemu/reset.h"
+>  #include "hw/boards.h"
+>  #include "qom/object.h"
+>  
+> @@ -148,6 +149,8 @@ static void rx_gdbsim_init(MachineState *machine)
+>              dtb_offset = ROUND_DOWN(machine->ram_size - dtb_size, 16);
+>              rom_add_blob_fixed("dtb", dtb, dtb_size,
+>                                 SDRAM_BASE + dtb_offset);
+> +            qemu_register_reset(qemu_fdt_randomize_seeds,
+> +                                rom_ptr(SDRAM_BASE + dtb_offset, dtb_size));
+>              /* Set dtb address to R1 */
+>              RX_CPU(first_cpu)->env.regs[1] = SDRAM_BASE + dtb_offset;
+>          }
+> -- 
+> 2.37.3
+> 
 
-Queued on 9p.next:
-https://github.com/cschoenebeck/qemu/commits/9p.next
+Reviewed-by: Yoshinori Sato <ysato@user.sourceforge.jp>
 
-Thanks!
-
-Note that I currently don't have much in my queue yet, so it will probably 
-take at least one week or two before I send the next PR.
-
-Also note that I plan more refactoring on the 9p tests in the upcoming days. 
-So if you have plans for 9p test changes, better wait for my next PR to avoid 
-conflicts.
-
-Best regards,
-Christian Schoenebeck
-
-
+-- 
+Yosinori Sato
 
