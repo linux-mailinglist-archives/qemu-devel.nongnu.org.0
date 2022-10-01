@@ -2,55 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A435F1C10
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 14:11:28 +0200 (CEST)
-Received: from localhost ([::1]:47594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F1D5F1C11
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 14:14:30 +0200 (CEST)
+Received: from localhost ([::1]:37824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oebL5-0004ti-KG
-	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 08:11:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55858)
+	id 1oebO1-0006UZ-Im
+	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 08:14:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1oebIf-0002Iy-Bi
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 08:08:57 -0400
-Received: from mailout11.t-online.de ([194.25.134.85]:52250)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oebMZ-00056P-2E
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 08:12:59 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:48091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1oebId-000278-F2
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 08:08:57 -0400
-Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
- by mailout11.t-online.de (Postfix) with SMTP id 057BA1BA89;
- Sat,  1 Oct 2022 14:08:50 +0200 (CEST)
-Received: from [192.168.211.200] ([84.175.228.229]) by fwd79.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1oebIX-3TVOPR0; Sat, 1 Oct 2022 14:08:49 +0200
-Message-ID: <52bc0473-ee76-f13a-4e01-5b5c9f2ec894@t-online.de>
-Date: Sat, 1 Oct 2022 14:08:49 +0200
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oebMX-0002Yi-I4
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 08:12:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=8f40Zb788bfDUq1r1pesVUH5AYz5MqrIcraO4LBAvas=; b=BQ8SlT0LQnuYwsH/r9AyFJnEUZ
+ ybs6unFTWtOUmrKSBB23Zs3PpuUuqiTkoIPzB+31POHflf1R1cCzuu2eEiCH5zS68fIvxXlr9r9pL
+ 3i8YvLg0p4TMxxY5qSjk+xIAlHweJd4dNdVsHBFPhDHIH1q7sO9ZzzrNPkcA7nxxXBFHrO/TkylqV
+ NR2CYjhgKA79kfX6aOZm9QW5cXbeJZ8Q90r2NRKV/AWS65sQLUkeFxEreE8LsE5I/6kpC9+vN1WeJ
+ QN6bwSbhulZfcmYme36fP39TKliL9f6v2QY6mEwBt2eadiiqGyOw2y2Lh8DnydFMYgIFpiB3qMqse
+ q8NRvtKq75kiPocmeFykItmGJhFOt8WhzxsytyzFAXly4FeyISn/RjZ4vSYaYNRSi74P8Z6phmP4O
+ 6k/QsbzRxqik0lz65Xb1R2HepN6JJkGcZShS7I3KEFgYU4ciJgr/E/XCsL/iQvH9k/spAXJj4NhOU
+ ZJf9y2IhYf2mc9N/FTSCmOQpS1x8n8KdoeBmetk55BTeK9MctnHOgp00DHPNhLOadMQkmGtHfltSY
+ Q+U2pC+bOGdTXbKTScGO4ClLEw4KDZdsaNbVktL1qYiRXkWRCKdmcomZOxa57dWBa/CIJ12nOeh4u
+ E8WR+l95TiRYKIOTNiF28xCXPsdWVfxjGMLIBGp2A=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>,
+ =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v4 26/54] fsdev/virtfs-proxy-helper: Use g_mkdir()
+Date: Sat, 01 Oct 2022 14:12:49 +0200
+Message-ID: <1776150.AVl4R6B0cj@silver>
+In-Reply-To: <CAEUhbmVGiifLE-ZAe0bxX8JDOcBX41Qg3=5g6Yr36uW=Ws=Srw@mail.gmail.com>
+References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
+ <20220927110632.1973965-27-bmeng.cn@gmail.com>
+ <CAEUhbmVGiifLE-ZAe0bxX8JDOcBX41Qg3=5g6Yr36uW=Ws=Srw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 11/12] audio: fix sw->buf size for audio recording
-Content-Language: de-DE
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <38d7417a-fc26-be39-6a63-99c79ee15fc9@t-online.de>
- <20220923183640.8314-11-vr_qemu@t-online.de>
- <CAJ+F1CLnjL80zO7_FHDQp-w2_rkXa2-U1pgVOTmAsJLP23DT1A@mail.gmail.com>
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-In-Reply-To: <CAJ+F1CLnjL80zO7_FHDQp-w2_rkXa2-U1pgVOTmAsJLP23DT1A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1664626129-09691417-E7E6FE44/0/0 CLEAN NORMAL
-X-TOI-MSGID: be67d7dd-59e1-4515-9ced-398151d9bf10
-Received-SPF: none client-ip=194.25.134.85; envelope-from=vr_qemu@t-online.de;
- helo=mailout11.t-online.de
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-2.743, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,46 +71,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.09.22 um 13:54 schrieb Marc-André Lureau:
+On Samstag, 1. Oktober 2022 05:48:18 CEST Bin Meng wrote:
+> Hi Christian,
+> 
+> On Tue, Sep 27, 2022 at 7:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > From: Bin Meng <bin.meng@windriver.com>
+> > 
+> > Use g_mkdir() to create a directory on all platforms.
+> > 
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> > 
+> > (no changes since v2)
+> > 
+> > Changes in v2:
+> > - Change to use g_mkdir()
+> > 
+> >  fsdev/virtfs-proxy-helper.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> Would you pick up this patch in your queue?
+> 
+> Regards,
+> Bin
 
->
-> On Fri, Sep 23, 2022 at 10:48 PM Volker Rümelin <vr_qemu@t-online.de> 
-> wrote:
->
->     The calculation of the buffer size needed to store audio samples
->     after resampling is wrong for audio recording. For audio recording
->     sw->ratio is calculated as
->
->     sw->ratio = frontend sample rate / backend sample rate.
->
->     >From this follows
->
->     frontend samples = frontend sample rate / backend sample rate
->      * backend samples
->     frontend samples = sw->ratio * backend samples
->
->     In 2 of 3 places in the audio recording code where sw->ratio
->     is used in a calculation to get the number of frontend frames,
->     the calculation is wrong. Fix this. The 3rd formula in
->     audio_pcm_sw_read() is correct.
->
->     Resolves: https://gitlab.com/qemu-project/qemu/-/issues/71
->     Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
->
->
-> Would you mind adding the test to qtest?
->
-> lgtm
-> Acked-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->
+Queued on 9p.next:
+https://github.com/cschoenebeck/qemu/commits/9p.next
 
-Hi Marc-André,
+Thanks!
 
-I will give it a try. But it will be a separate patch, because the test 
-from issue #71 now checks for the error at 
-https://lists.nongnu.org/archive/html/qemu-devel/2022-09/msg02347.html 
-and not the one from issue #71.
+Note that I currently don't have much in my queue yet, so it will probably 
+take at least one week or two before I send the next PR.
 
-With best regards,
-Volker
+Also note that I plan more refactoring on the 9p tests in the upcoming days. 
+So if you have plans for 9p test changes, better wait for my next PR to avoid 
+conflicts.
+
+Best regards,
+Christian Schoenebeck
+
+
 
