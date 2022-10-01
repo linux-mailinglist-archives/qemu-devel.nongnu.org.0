@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5A95F1CC9
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 16:31:45 +0200 (CEST)
-Received: from localhost ([::1]:52876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F27F55F1CCE
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 16:35:10 +0200 (CEST)
+Received: from localhost ([::1]:50366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oedWp-0004s2-M3
-	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 10:31:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36284)
+	id 1oeda9-0000jJ-Vv
+	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 10:35:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oedC5-0002uq-7v
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:17 -0400
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:36819)
+ id 1oedC7-00034J-LP
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:19 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:33586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oedC3-0004Di-EA
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:16 -0400
-Received: by mail-qk1-x72f.google.com with SMTP id i3so4421547qkl.3
- for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 07:10:15 -0700 (PDT)
+ id 1oedC5-0004F7-TV
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:19 -0400
+Received: by mail-qk1-x735.google.com with SMTP id h28so4429403qka.0
+ for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 07:10:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=AZ0dGRYodrffbhoE2FtdP+WtEJ39nROJL21LulCmqEM=;
- b=U6wVHHvkwSJwOztpGLZng6521uiEeqNsOsZ5yOYvfxJM5GbX9aRcPCQA2sHerwy8FI
- ktuw7r0eWo2bQyauDkAkFeo9ysAJ7qIML64mAWvQ64F+6l6Cu/trL1ISRk8T+zN0Ac03
- PM3+BJUgCx/YkDHV3+faMHFHov9s9JPyqExBORU8Ug+u/gmZQfd57UK9kod5K5bu+Mvs
- TOzjDDKyypXRELdZ77wquUztpDrAqpQu3peNXD+KPYLZ7mXVdhYhLHaducjoWzXpipkY
- 1Zu9kBNZ9W8cjNLD9I6d5Cf1RdecrhycF0SH17uTRtZpJpCnOvWtq5at4yAYNNYblbmN
- 3cbg==
+ bh=FYbyb3P7MQzycJWSUdzIEkO4+A5NeCGxIS9iNLSrvuo=;
+ b=vwsUF6rmE83/tkWPHByYzr7WrIVsvhfT7/JhC3Cy9W8vhthnyipB2Ugzm9X129EqCz
+ H80r9VB/mCvicKCP6hl6a7QvLgdAsOkrBigZa1UH1RuYZLp/xjT1b/jwzXWkK7mlLQT9
+ swm5YvlbDVOT8ombqVEZqoMy+uZ5EjaYZJID95z0sv/+scj7IiQjxZKSsPV23loWZy5F
+ THhqPp36L/tqpvdwUBkNB1OmnVHmScIE7Y8l2MiYf1i85V0lU70xsxM1PkWWtflZOnoQ
+ igsPTIEbvj8OwsLxD+i0MT3/FRc8e+KUucgIwdHXEkcVdw7zdxD0LH05H8HdUkHNWejp
+ dSTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=AZ0dGRYodrffbhoE2FtdP+WtEJ39nROJL21LulCmqEM=;
- b=OZqeaYW4jF5U+ulZvF/zZVv8XJ4sRRu7H0tgTLxTjoScofn23cq8ICjHNuIe4Con9w
- s3rdc9cRGEIWnDDma0LZZkrPhQhNGgYEayF0iIiC2fdpRMyoqNNf9moE8RGFh/VYxeoT
- s1JfJAmhMuVy+y/yRJ0KPwnYl7WO+4FzGATTRDy6yiiD+XhFDon9zqzcC7UkrVQlOfNw
- t+uoALGcU4707zuQwwaJzjffSLN+wUYElWDi/1a3GVrbQXh3iJCyEC9YAGGkid0Nl2Q6
- d5db5nPz0D87+p8vFURh9gep1XmTjgTXT+ptrn5PO2fcvD7Vuh/BP9hCmQh/SEJoLGGz
- dwwQ==
-X-Gm-Message-State: ACrzQf1otfUzsvJAC+d1RWZvGN9C+Xm2pB1rWf9niukxjAB7Q3zT8ABz
- i577Thl5uPNcuooQt7b8q5/i0e9knYVeUb8T
-X-Google-Smtp-Source: AMsMyM4CC4ET9klf23U/5pS1CudVB/wYppQGm3BsWwHtnN/UUNq5RB//7AJvSd1SPpGijpTAi8+ACg==
-X-Received: by 2002:a05:620a:12f0:b0:6ce:4076:a80e with SMTP id
- f16-20020a05620a12f000b006ce4076a80emr9470857qkl.541.1664633414545; 
- Sat, 01 Oct 2022 07:10:14 -0700 (PDT)
+ bh=FYbyb3P7MQzycJWSUdzIEkO4+A5NeCGxIS9iNLSrvuo=;
+ b=vHsMkAxSnzxp8L07BBAf21vcTK6eYgKACc9hgN47sW2gVhM/MsJmx96KMvLFQGDmdS
+ XEaC3SaPPoXZZftMbRC4FpImSVJmFvbf6vjYvU89AnatN/APKMWnGJrxx3nZEX7Vm1KU
+ YYbiN65HK6eX6sJ2jy8WsfjZdwBwHhgFPJy7YDWnnFmXprrGV0REXpI/B6BEI/KMR387
+ Tb4p0KrsfNzR0UbTBKKXYm3L3NWzq0+gjHw3t3W+9DE+xQQR9pwbJKQkHtyilEv+L2jP
+ hdTlCuedSVLfOo4rnI6kF0077A2hBtgEzcqlOeuKs73d+IwQsvRsvTmVmgTlui3Shu9V
+ o0Ww==
+X-Gm-Message-State: ACrzQf0xYvVhZpXSFwja99/F2l1M1rPyhS5QJTRo/JyHboM8QDIpzk5+
+ JUyOCvKiUAdHPhPrMCtqaBePYeQQnwfgj6As
+X-Google-Smtp-Source: AMsMyM6ByPQtJT1Zvss5V137diBbiFEGxuJoKSxOt2fEKUgK4mDYMKqC1ayN7unpGaftayXqTTLFgA==
+X-Received: by 2002:a05:620a:4052:b0:6ce:d5bc:a905 with SMTP id
+ i18-20020a05620a405200b006ced5bca905mr9606260qko.629.1664633417031; 
+ Sat, 01 Oct 2022 07:10:17 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:8080:8162:afc7:8362:2616:ac15])
  by smtp.gmail.com with ESMTPSA id
- j16-20020a05620a289000b006b615cd8c13sm6075914qkp.106.2022.10.01.07.10.12
+ j16-20020a05620a289000b006b615cd8c13sm6075914qkp.106.2022.10.01.07.10.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Oct 2022 07:10:14 -0700 (PDT)
+ Sat, 01 Oct 2022 07:10:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v3 14/26] target/i386: Truncate values for lcall_real to i32
-Date: Sat,  1 Oct 2022 07:09:23 -0700
-Message-Id: <20221001140935.465607-15-richard.henderson@linaro.org>
+Subject: [PATCH v3 15/26] target/i386: Create eip_next_*
+Date: Sat,  1 Oct 2022 07:09:24 -0700
+Message-Id: <20221001140935.465607-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221001140935.465607-1-richard.henderson@linaro.org>
 References: <20221001140935.465607-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x735.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,63 +89,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use i32 not int or tl for eip and cs arguments.
+Create helpers for loading the address of the next insn.
+Use tcg_constant_* in adjacent code where convenient.
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/helper.h         | 2 +-
- target/i386/tcg/seg_helper.c | 6 ++----
- target/i386/tcg/translate.c  | 3 ++-
- 3 files changed, 5 insertions(+), 6 deletions(-)
+ target/i386/tcg/translate.c | 55 +++++++++++++++++++++++--------------
+ 1 file changed, 34 insertions(+), 21 deletions(-)
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index ac3b4d1ee3..39a3c24182 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -37,7 +37,7 @@ DEF_HELPER_2(lldt, void, env, int)
- DEF_HELPER_2(ltr, void, env, int)
- DEF_HELPER_3(load_seg, void, env, int, int)
- DEF_HELPER_4(ljmp_protected, void, env, int, tl, tl)
--DEF_HELPER_5(lcall_real, void, env, int, tl, int, int)
-+DEF_HELPER_5(lcall_real, void, env, i32, i32, int, i32)
- DEF_HELPER_5(lcall_protected, void, env, int, tl, int, tl)
- DEF_HELPER_2(iret_real, void, env, int)
- DEF_HELPER_3(iret_protected, void, env, int, int)
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index bffd82923f..539189b4d1 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -1504,14 +1504,12 @@ void helper_ljmp_protected(CPUX86State *env, int new_cs, target_ulong new_eip,
- }
- 
- /* real mode call */
--void helper_lcall_real(CPUX86State *env, int new_cs, target_ulong new_eip1,
--                       int shift, int next_eip)
-+void helper_lcall_real(CPUX86State *env, uint32_t new_cs, uint32_t new_eip,
-+                       int shift, uint32_t next_eip)
- {
--    int new_eip;
-     uint32_t esp, esp_mask;
-     target_ulong ssp;
- 
--    new_eip = new_eip1;
-     esp = env->regs[R_ESP];
-     esp_mask = get_sp_mask(env->segs[R_SS].flags);
-     ssp = env->segs[R_SS].base;
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 7db6f617a1..1aa5b37ea6 100644
+index 1aa5b37ea6..be29ea7a03 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -5346,7 +5346,8 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-                                            tcg_const_tl(s->pc - s->cs_base));
+@@ -541,6 +541,27 @@ static TCGv_i32 cur_insn_len_i32(DisasContext *s)
+     return tcg_constant_i32(cur_insn_len(s));
+ }
+ 
++static TCGv_i32 eip_next_i32(DisasContext *s)
++{
++    /*
++     * This function has two users: lcall_real (always 16-bit mode), and
++     * iret_protected (16, 32, or 64-bit mode).  IRET only uses the value
++     * when EFLAGS.NT is set, which is illegal in 64-bit mode, which is
++     * why passing a 32-bit value isn't broken.  To avoid using this where
++     * we shouldn't, return -1 in 64-bit mode so that execution goes into
++     * the weeds quickly.
++     */
++    if (CODE64(s)) {
++        return tcg_constant_i32(-1);
++    }
++    return tcg_constant_i32(s->pc - s->cs_base);
++}
++
++static TCGv eip_next_tl(DisasContext *s)
++{
++    return tcg_constant_tl(s->pc - s->cs_base);
++}
++
+ /* Compute SEG:REG into A0.  SEG is selected from the override segment
+    (OVR_SEG) and the default segment (DEF_SEG).  OVR_SEG may be -1 to
+    indicate no override.  */
+@@ -1213,12 +1234,9 @@ static void gen_bpt_io(DisasContext *s, TCGv_i32 t_port, int ot)
+         /* user-mode cpu should not be in IOBPT mode */
+         g_assert_not_reached();
+ #else
+-        TCGv_i32 t_size = tcg_const_i32(1 << ot);
+-        TCGv t_next = tcg_const_tl(s->pc - s->cs_base);
+-
++        TCGv_i32 t_size = tcg_constant_i32(1 << ot);
++        TCGv t_next = eip_next_tl(s);
+         gen_helper_bpt_io(cpu_env, t_port, t_size, t_next);
+-        tcg_temp_free_i32(t_size);
+-        tcg_temp_free(t_next);
+ #endif /* CONFIG_USER_ONLY */
+     }
+ }
+@@ -5324,9 +5342,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+             if (dflag == MO_16) {
+                 tcg_gen_ext16u_tl(s->T0, s->T0);
+             }
+-            next_eip = s->pc - s->cs_base;
+-            tcg_gen_movi_tl(s->T1, next_eip);
+-            gen_push_v(s, s->T1);
++            gen_push_v(s, eip_next_tl(s));
+             gen_op_jmp_v(s->T0);
+             gen_bnd_jmp(s);
+             s->base.is_jmp = DISAS_JUMP;
+@@ -5342,14 +5358,14 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+             if (PE(s) && !VM86(s)) {
+                 tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
+                 gen_helper_lcall_protected(cpu_env, s->tmp2_i32, s->T1,
+-                                           tcg_const_i32(dflag - 1),
+-                                           tcg_const_tl(s->pc - s->cs_base));
++                                           tcg_constant_i32(dflag - 1),
++                                           eip_next_tl(s));
              } else {
                  tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
--                gen_helper_lcall_real(cpu_env, s->tmp2_i32, s->T1,
-+                tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
-+                gen_helper_lcall_real(cpu_env, s->tmp2_i32, s->tmp3_i32,
-                                       tcg_const_i32(dflag - 1),
-                                       tcg_const_i32(s->pc - s->cs_base));
+                 tcg_gen_trunc_tl_i32(s->tmp3_i32, s->T1);
+                 gen_helper_lcall_real(cpu_env, s->tmp2_i32, s->tmp3_i32,
+-                                      tcg_const_i32(dflag - 1),
+-                                      tcg_const_i32(s->pc - s->cs_base));
++                                      tcg_constant_i32(dflag - 1),
++                                      eip_next_i32(s));
+             }
+             s->base.is_jmp = DISAS_JUMP;
+             break;
+@@ -5372,7 +5388,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+             if (PE(s) && !VM86(s)) {
+                 tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
+                 gen_helper_ljmp_protected(cpu_env, s->tmp2_i32, s->T1,
+-                                          tcg_const_tl(s->pc - s->cs_base));
++                                          eip_next_tl(s));
+             } else {
+                 gen_op_movl_seg_T0_vm(s, R_CS);
+                 gen_op_jmp_v(s->T1);
+@@ -6854,8 +6870,8 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+             }
+             gen_helper_iret_real(cpu_env, tcg_const_i32(dflag - 1));
+         } else {
+-            gen_helper_iret_protected(cpu_env, tcg_const_i32(dflag - 1),
+-                                      tcg_const_i32(s->pc - s->cs_base));
++            gen_helper_iret_protected(cpu_env, tcg_constant_i32(dflag - 1),
++                                      eip_next_i32(s));
+         }
+         set_cc_op(s, CC_OP_EFLAGS);
+         s->base.is_jmp = DISAS_EOB_ONLY;
+@@ -6867,15 +6883,13 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+             } else {
+                 tval = (int16_t)insn_get(env, s, MO_16);
+             }
+-            next_eip = s->pc - s->cs_base;
+-            tval += next_eip;
++            tval += s->pc - s->cs_base;
+             if (dflag == MO_16) {
+                 tval &= 0xffff;
+             } else if (!CODE64(s)) {
+                 tval &= 0xffffffff;
+             }
+-            tcg_gen_movi_tl(s->T0, next_eip);
+-            gen_push_v(s, s->T0);
++            gen_push_v(s, eip_next_tl(s));
+             gen_bnd_jmp(s);
+             gen_jmp(s, tval);
+         }
+@@ -7409,8 +7423,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
+             TCGLabel *l1, *l2, *l3;
+ 
+             tval = (int8_t)insn_get(env, s, MO_8);
+-            next_eip = s->pc - s->cs_base;
+-            tval += next_eip;
++            tval += s->pc - s->cs_base;
+             if (dflag == MO_16) {
+                 tval &= 0xffff;
              }
 -- 
 2.34.1
