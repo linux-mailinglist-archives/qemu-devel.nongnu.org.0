@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5D25F1889
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 03:52:52 +0200 (CEST)
-Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0955B5F19A8
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 05:42:51 +0200 (CEST)
+Received: from localhost ([::1]:49766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeRgQ-0003EZ-St
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 21:52:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46686)
+	id 1oeTOr-0002Q8-Hk
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 23:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeRfP-0001nG-FR
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 21:51:47 -0400
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:39615)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oeTNT-0000y3-8G
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 23:41:23 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:45820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeRfN-0001sE-Ut
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 21:51:47 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id x18so3873077qkn.6
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 18:51:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=qyUrMffRXMJgL2CLVCnYQxAa2toiS/OzoHc0SuL9Gaw=;
- b=c53/j9dyVM8u89weDcAcrROq1cNVvvnl5+dyPS/QrMCiRrB+W6trzUqCrPwvm1zVo3
- 9jGp4UurSMpFeiEO30Adif8db17HOxQ+ZR5TNKTmvNo1/kLiMaiVZhxKeN8yAfzTOxkI
- A7/0pjJGL6wEWkLIIo/HAWKk9+TaC6SGEiBd2yRgNEeGB3wB212MscFCQMUYWCEgyfbN
- AQYWTf3mNgNXURoG/5qjT6a0AJVZRsvQVd8E1XXGG3IyqC6BG1EgFWQiabn7fwDBF6JJ
- 5d2gf3/if2VXqQDJaXJzUPsqb7nDunqDUEOoYFkM5bEJ7nNbrHof0QCASofDzO9XHiMB
- 3fBw==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oeTNR-0000ON-OJ
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 23:41:22 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id f189so7345240yba.12
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 20:41:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=VfA8IAAo81rmMyGjQuypewia1eI22FmyjLjAgjfE8Gw=;
+ b=a3Bflfp+2x3Fqm0m10j0bScf5sWGE/69tE1W/jGJrrlOUjIuTaJZJq2UhId3I2IDOZ
+ d39czWMkSviEDvmDHSTPzLdJ9r2yLXKc/tnH3FNLxxUzamNNyvVOWwbpnt7rVxSx+mKr
+ 2N5RcsxPHvSkOWuJNnM1zgErHJLaGjKRJ+lti8tNvz9DQO1dHD7nIXWMzrdvDXiRZKsQ
+ zLrNNwPOLyY0S3XguYFKAqoHnwFkoYtCFzCPpe9U6VC7tlKmqKiwuSjCsv7Y+AlKb64o
+ m+1u+38m46IToMozyzEkEW8reBH+bw9k5iOs+VT6mDzvzJ2jK9bbeQGVsZdAmTCJpa9X
+ csag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=qyUrMffRXMJgL2CLVCnYQxAa2toiS/OzoHc0SuL9Gaw=;
- b=hdKaQe1RgZKmN/DzoJLsW+gP2Ww0pExlppiDZa/+3gXAblRv+LKhIhR3VGRcBDqOY/
- gd+q4Dk2DxZ3BXLX8+du2Mqhjnv0OgMI6S9HRy22svZFJauik2hpkvdHeypXTqwEy4bS
- dx/gz06WNYYexf6CwdGw7k/LNa4+nP610ChzljhmN3SWi1Y7211mKvyNsGLhYeD1Velh
- otuf94Qn0Z4R0P3Wk7mFNclcGefYOuKfIpmD6ViH6cyt4+06ppMrRKKPNJl1Il1qk1eH
- o2Qzj0AA5NeMxBkkxQ35IsgFkfcsVlPICLr+Iv40DQUIwK60LGKzsgftbdlmsS502Tx3
- Ffvg==
-X-Gm-Message-State: ACrzQf0csf/Ek6aMiQHznwon4j4pSc/WmMWTX80e3PIfXyUwHzTwPiik
- J7M0/ZaudPaeaKZKzZMutpPLbQ==
-X-Google-Smtp-Source: AMsMyM6plYQ/ZekN6xozcKJctPMFdgoBJ1yAlWmPU7KtAERrosHgjrxl0Te0fUk/Kt8NfqWX6KMyUg==
-X-Received: by 2002:a05:620a:1aa3:b0:6ce:3c85:d9d7 with SMTP id
- bl35-20020a05620a1aa300b006ce3c85d9d7mr8091148qkb.225.1664589104654; 
- Fri, 30 Sep 2022 18:51:44 -0700 (PDT)
-Received: from ?IPV6:2605:ef80:8093:866e:708f:f41c:9c24:8383?
- ([2605:ef80:8093:866e:708f:f41c:9c24:8383])
- by smtp.gmail.com with ESMTPSA id
- y15-20020a05620a25cf00b006ce515196a7sm4338292qko.8.2022.09.30.18.51.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Sep 2022 18:51:44 -0700 (PDT)
-Message-ID: <16fc3a92-b4f0-a3a6-0159-903f14c9dfff@linaro.org>
-Date: Fri, 30 Sep 2022 18:51:39 -0700
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=VfA8IAAo81rmMyGjQuypewia1eI22FmyjLjAgjfE8Gw=;
+ b=SlnDu365V5TZbD7b8JU8TqydEm6LrLSPHZ4EHRbLIBU1cxphc86LQdtwbn8b/g7aeh
+ FUdUoClblJUYU2+Y7TuDNye8GWCpujZdAzcu+h00zpw9PzWAqVrMsC/J968uY/V5veFt
+ uFfTv9JvEeXq1f1DygovHuQwmZxVYY42/r4cwoS7TL2ks54sL0h94YzFLZkOlt0zxBNh
+ ZaLCwfdtBE75+qouWYfDBX5K2DOEWcSAYE1boLrefN2RO49Bj51A2OjwvbCQTeeZGN7o
+ yzQPuR845EjwdW5Jwwk32Cp7cCgL012RfjCwzTeXO0sUV9DjJAOSteBq6ZHa7Jot9+vz
+ h0kw==
+X-Gm-Message-State: ACrzQf0DuJY0z9qDIQ6ULP6n9mG15HNvwqGgtx6Er/qRwC/R/9HGSR4B
+ eka16eCgMyb5TNpAUnl/TeZsy3z2oV5EAj2dFEbmzlKf
+X-Google-Smtp-Source: AMsMyM7BKBNG+hg9SU880IiyJitcu9sy9D0SCicyQ72HZ+XD4ZRpXkb9bdl9B7Kii3M8IuHxz3w8+pn/DK8uM6TnVaI=
+X-Received: by 2002:a05:6902:105:b0:6bc:fb54:f4da with SMTP id
+ o5-20020a056902010500b006bcfb54f4damr4622734ybh.284.1664595680524; Fri, 30
+ Sep 2022 20:41:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 23/23] target/i386: Enable TARGET_TB_PCREL
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <20220906100932.343523-1-richard.henderson@linaro.org>
- <20220906100932.343523-24-richard.henderson@linaro.org>
- <CABgObfan_71HjR5L4qsE3r4Paq_=XRQa9Z0tN02fitzX=JBTtQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CABgObfan_71HjR5L4qsE3r4Paq_=XRQa9Z0tN02fitzX=JBTtQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72d.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
+ <20220927110632.1973965-3-bmeng.cn@gmail.com>
+In-Reply-To: <20220927110632.1973965-3-bmeng.cn@gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sat, 1 Oct 2022 11:41:09 +0800
+Message-ID: <CAEUhbmWAM45nRRSF+p8PPLbUOqeuz0g2W=Ytke_K+xk8Bpaokw@mail.gmail.com>
+Subject: Re: [PATCH v4 02/54] semihosting/arm-compat-semi: Avoid using
+ hardcoded /tmp
+To: qemu-devel@nongnu.org,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.583,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,66 +88,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/22 06:31, Paolo Bonzini wrote:
-> On Tue, Sep 6, 2022 at 12:10 PM Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>   static void gen_update_eip_cur(DisasContext *s)
->>   {
->>       gen_jmp_im(s, s->base.pc_next - s->cs_base);
->> +    s->pc_save = s->base.pc_next;
-> 
-> s->pc_save is not valid after all gen_jmp_im() calls. Is it worth
-> noting after each call to gen_jmp_im() why this is not a problem?
-> 
->>   }
->>
->>   static void gen_update_eip_next(DisasContext *s)
->>   {
->>       gen_jmp_im(s, s->pc - s->cs_base);
->> +    s->pc_save = s->pc;
->> +}
->> +
->> +static TCGv gen_eip_cur(DisasContext *s)
->> +{
->> +    if (TARGET_TB_PCREL) {
->> +        gen_update_eip_cur(s);
->> +        return cpu_eip;
->> +    } else {
->> +        return tcg_constant_tl(s->base.pc_next - s->cs_base);
->> +    }
-> 
-> Ok, now I see why you called it gen_eip_cur(), but it's still a bit
-> disconcerting to see the difference in behavior between the
-> TARGET_TB_PCREL and !TARGET_TB_PCREL cases, one of them updating
-> cpu_eip and other not.
-> 
-> Perhaps gen_jmp_im() and gen_update_eip_cur() could be rewritten to
-> return the destination instead:
-> 
-> static TCGv gen_jmp_im(DisasContext *s, target_ulong eip)
-> {
->      if (TARGET_TB_PCREL) {
->          target_ulong eip_save = s->pc_save - s->cs_base;
->          tcg_gen_addi_tl(cpu_eip, cpu_eip, eip - eip_save);
->          return cpu_eip;
->      } else {
->          TCGv dest = tcg_constant_tl(eip);
->          tcg_gen_mov_tl(cpu_eip, dest);
->          return dest;
->      }
-> }
-> 
-> static TCGv gen_update_eip_cur(DisasContext *s)
-> {
->      TCGv dest = gen_jmp_im(s, s->base.pc_next - s->cs_base);
->      s->pc_save = s->base.pc_next;
->      return dest;
-> }
+Hi Alex,
 
-I don't see what I'd do with the return values.  But I see your point about gen_eip_cur 
-only updating eip sometimes.  I have changed the name to eip_cur_tl, as suggested, and it 
-writes to a temporary, like eip_next_tl.
+On Tue, Sep 27, 2022 at 7:06 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> Use g_get_tmp_dir() to get the directory to use for temporary files.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>
+> (no changes since v1)
+>
 
+Would you pick up this patch in your queue?
 
-r~
+Regards,
+Bin
 
