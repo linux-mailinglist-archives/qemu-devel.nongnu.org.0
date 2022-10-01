@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2035F1F07
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 21:43:22 +0200 (CEST)
-Received: from localhost ([::1]:46572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A90AE5F1F0E
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 21:54:16 +0200 (CEST)
+Received: from localhost ([::1]:60654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeiOP-0007U0-2W
-	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 15:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44660)
+	id 1oeiYx-0001pw-K6
+	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 15:54:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rep.dot.nop@gmail.com>)
- id 1oeiDd-00041u-Bb
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 15:32:13 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:41874)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oeiXH-0000SI-Tj
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 15:52:32 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rep.dot.nop@gmail.com>)
- id 1oeiDb-0006cD-IM
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 15:32:13 -0400
-Received: by mail-ej1-x636.google.com with SMTP id hy2so15166686ejc.8
- for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 12:32:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date;
- bh=J2rjqDa6jSpTxg2nz+lgFOvoPSmTr65s6Dj4MQ4jSLU=;
- b=YR510hGG9zqoqGTSthSAgHrz6KMAMH/4/M9qEkVmt/t4xM+4WCLIfugo9RTXtA9k9K
- Y1bIa0de4ALNkYcOOsZWbI62IKndmhGT2kmWg5o061+93zLCfbCKDxryyp8SrVYh8Lf/
- q6retirh8tngYGmAOzqq6fYPbyrkuj/mGuOQffQxKH8NW0oIfwGlri5aI/ouhJgQszi4
- oizNdax3MzV9FG2XkzcVStuRgd/6Q1lV0e3NsUSMxlXcMCr2+CXfs3v8ibKbYsXyjnlC
- CFAn14hlFzKcZih1p8bEHjCELsuuXratxvTK+I1JuSzkIOGtXWqw1zTfjR2znA0cgV0o
- /hbw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oeiXF-0000jU-08
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 15:52:30 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id bv17so2566459wrb.10
+ for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 12:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=gq4rDrQMDJE7Bs0u6slRVh2LWDqUjh7Ekyold8xzjtQ=;
+ b=gWcqhcxumZViM1rWKwUwQOgV5xInbgqz5zqSfCWG6P+PD6blsZZxAikksmJpXUgTAS
+ SZCLcNcgd6KPdvHYB9JeNrlb/MVfHL15pofxtEY7Gj3YwXXw+YUh3t+DKzi1fMsrWsMC
+ 4jH9sAImjdSyKGU151FBXznF8NZdIcbDm302DfaiJzzEhQIhIES8CDY4N6kbbUES9e/1
+ +iDmw8bSt8HLXtkY2d5+BW5EiDGZxgZExummrYYi2luDLhyhT2rw9XoZIIsLxoTnRqn4
+ cERR1wQgyjpq3VfpHMnTW6nRFt3G5a0P1yd10MgyIokOsa8Z+kT+mRXEfbuXw6TKqYl4
+ B5mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=J2rjqDa6jSpTxg2nz+lgFOvoPSmTr65s6Dj4MQ4jSLU=;
- b=Ed6Rz257e7TG837NKAjbGgc2r/3f335IU3wdGhD82xTCmimPkeUKY7jYrzcdhrxnrY
- S2e27Nh2wWvoJMWs8G1yatRU7mpuTBYX/mN6aJ8TkXz3D9yMQ3TamxtQQvuWZTE2B/PO
- 0VyJAJssgUIg9rCOdV2XXOpgxQxaIRBj05kN3rsmblxC4cUh/afkeIJSlb7TcM8eY1fK
- /V4Oi6t1TtLURfsNTHgJXoF+puahqx8Fyo/hSmC+P2RQqb1139RIx/eu7NACGVnEjV/D
- qrh5Jwa/XMkp+f724PRQ4NVUmSIcyjgRsQBLmDtOIbGz0aUyhmtnsx6fsKZI6Qv6decj
- X8kA==
-X-Gm-Message-State: ACrzQf0oCQtluNePiDAmkEVcKXLAjLq7QTtLhEIeYwppnEfZBrIdm0C+
- u4iTo4SyZblLjx1H/oeu4mI=
-X-Google-Smtp-Source: AMsMyM4dpeOIDkbtxuSsywsx/CUsGdipCgRWijIiPauFUYx1e+HHXg9E877rKQrUrigP2XJTQCJZzA==
-X-Received: by 2002:a17:906:5d10:b0:784:b6c5:78d0 with SMTP id
- g16-20020a1709065d1000b00784b6c578d0mr10499569ejt.348.1664652729378; 
- Sat, 01 Oct 2022 12:32:09 -0700 (PDT)
-Received: from nbbrfq ([2001:871:227:1d92:3b3f:9f87:ac65:9ebc])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=gq4rDrQMDJE7Bs0u6slRVh2LWDqUjh7Ekyold8xzjtQ=;
+ b=RwOs/Czz+QNH7prPwQHNjWSJEHxeO31+/NWc4Rtw5+6gbOzzvn0nQOkQSHypLkGI7c
+ 2yr1ziVd5iYRx1OMQEUGARsLnYpW1RJp0elfpEwtXKmhHCGI3wBkDPCXmnj81XwPeJZY
+ B4hi7gZRIPAJi1Ok6/6LyyVst1CcIlW706kyb7JEazGSwABVGitnVwWxj2Hxd3Ny1LP+
+ Y6i3oBccfjdPkXeDBZH5DIo3k+tUHFmCmfJhi1g3Hj4k0G9JRwBeXq3T96M8DNynV+T6
+ g3UYdmNg0kRr3zjI76IYD+CFMvt/OLqzAygWSHvvtBWk3QxcPm1ioGsZb9y04OQypc16
+ rDaQ==
+X-Gm-Message-State: ACrzQf1RVyoBfOFvqgMQKyh7u9iP2HVJ7zaIJGI8GQnpuq+PpM2HHjHB
+ 7k/ONJ3xsGidNtDMxL35+DhEeyNONDWYGQ==
+X-Google-Smtp-Source: AMsMyM5mtXflz5oN1iNW9aRJt/1pF0+rRuVkxHurc/t6fqzQGrXnpoH/Aki4tyCukWWY+/cfBnWuBA==
+X-Received: by 2002:adf:db03:0:b0:22a:dd80:4b45 with SMTP id
+ s3-20020adfdb03000000b0022add804b45mr8867434wri.111.1664653946454; 
+ Sat, 01 Oct 2022 12:52:26 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- pk5-20020a170906d7a500b0077016f4c6d4sm3115626ejb.55.2022.10.01.12.32.08
+ m28-20020adfa3dc000000b0022860e8ae7csm5927832wrb.77.2022.10.01.12.52.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Oct 2022 12:32:09 -0700 (PDT)
-Date: Sat, 1 Oct 2022 21:32:04 +0200
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: rep.dot.nop@gmail.com, f4bug@amsat.org, aurelien@aurel32.net,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH qemu] mips/malta: pass RNG seed to to kernel via env var
-Message-ID: <20221001213204.3362db80@nbbrfq>
-In-Reply-To: <YziPyCqwl5KIE2cf@zx2c4.com>
-References: <20220930140520.576374-1-Jason@zx2c4.com>
- <YziPyCqwl5KIE2cf@zx2c4.com>
+ Sat, 01 Oct 2022 12:52:25 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH] tests/avocado: Add missing require_netdev('user') checks
+Date: Sat,  1 Oct 2022 20:52:24 +0100
+Message-Id: <20221001195224.2453581-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=rep.dot.nop@gmail.com; helo=mail-ej1-x636.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 01 Oct 2022 15:41:40 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,27 +89,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 1 Oct 2022 21:06:48 +0200
-"Jason A. Donenfeld" <Jason@zx2c4.com> wrote:
+Some avocado tests fail if QEMU was built without libslirp. Add
+require_netdev('user') checks where necessary:
 
-> On Fri, Sep 30, 2022 at 04:05:20PM +0200, Jason A. Donenfeld wrote:
-> > With the kernel patch linked below, Linux ingests a RNG seed
-> > passed from the hypervisor. So, pass this for the Malta platform, and
-> > reinitialize it on reboot too, so that it's always fresh.
-> > 
-> > Link: https://lore.kernel.org/linux-mips/20220930140138.575751-1-Jason@zx2c4.com/  
-> 
-> The kernel side of this has now landed, so we can move ahead on the QEMU
-> side:
-> https://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git/commit/?id=056a68cea01edfa78b3474af1bfa39cc6bcc7bee
-> 
+These tests try to ping 10.0.2.2 and expect it to succeed:
+  boot_linux_console.py:BootLinuxConsole.test_arm_emcraft_sf2
+  boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
+  ppc_bamboo.py:BambooMachine.test_ppc_bamboo
 
-s/a RNG/an RNG/
+These tests run a commandline that includes '-net user':
+  machine_aspeed.py:AST2x00Machine.test_arm_ast2500_evb_builroot
+  (and others that use the do_test_arm_aspeed_buidroot_start()
+  or do_test_arm_aspeed_sdk_start() helper functions)
 
-What about rngseed=""?
-len=min(4711,0)
-hex2bin(..0) will return false so ok.
-rndseed="0" is problably fine, but is it worthy and desired? 00, 0x0.
-Other than that, sounds plausible. IMHO.
-thanks,
+These changes seem to be sufficient for 'make check-avocado'
+to not fail on a --disable-slirp build.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ tests/avocado/boot_linux_console.py | 4 ++++
+ tests/avocado/machine_aspeed.py     | 3 +++
+ tests/avocado/ppc_bamboo.py         | 1 +
+ 3 files changed, 8 insertions(+)
+
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index f26e036ab58..ca9d09b0d7c 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -381,6 +381,8 @@ def test_arm_emcraft_sf2(self):
+         :avocado: tags=u-boot
+         :avocado: tags=accel:tcg
+         """
++        self.require_netdev('user')
++
+         uboot_url = ('https://raw.githubusercontent.com/'
+                      'Subbaraya-Sundeep/qemu-test-binaries/'
+                      'fe371d32e50ca682391e1e70ab98c2942aeffb01/u-boot')
+@@ -779,6 +781,8 @@ def test_arm_orangepi_sd(self):
+         :avocado: tags=machine:orangepi-pc
+         :avocado: tags=device:sd
+         """
++        self.require_netdev('user')
++
+         deb_url = ('https://apt.armbian.com/pool/main/l/'
+                    'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
+         deb_hash = '9fa84beda245cabf0b4fa84cf6eaa7738ead1da0'
+diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
+index 0f64eb636c2..124649a24b5 100644
+--- a/tests/avocado/machine_aspeed.py
++++ b/tests/avocado/machine_aspeed.py
+@@ -93,6 +93,8 @@ def test_arm_ast2500_romulus_openbmc_v2_9_0(self):
+         self.do_test_arm_aspeed(image_path)
+ 
+     def do_test_arm_aspeed_buidroot_start(self, image, cpu_id):
++        self.require_netdev('user')
++
+         self.vm.set_console()
+         self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
+                          '-net', 'nic', '-net', 'user')
+@@ -193,6 +195,7 @@ def wait_for_console_pattern(self, success_message, vm=None):
+                                  vm=vm)
+ 
+     def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
++        self.require_netdev('user')
+         self.vm.set_console()
+         self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
+                          '-net', 'nic', '-net', 'user')
+diff --git a/tests/avocado/ppc_bamboo.py b/tests/avocado/ppc_bamboo.py
+index 102ff252dff..a81be3d6088 100644
+--- a/tests/avocado/ppc_bamboo.py
++++ b/tests/avocado/ppc_bamboo.py
+@@ -23,6 +23,7 @@ def test_ppc_bamboo(self):
+         :avocado: tags=accel:tcg
+         """
+         self.require_accelerator("tcg")
++        self.require_netdev('user')
+         tar_url = ('http://landley.net/aboriginal/downloads/binaries/'
+                    'system-image-powerpc-440fp.tar.gz')
+         tar_hash = '53e5f16414b195b82d2c70272f81c2eedb39bad9'
+-- 
+2.25.1
+
 
