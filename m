@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08D45F1CDF
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 16:37:26 +0200 (CEST)
-Received: from localhost ([::1]:42106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB68F5F1CCC
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 16:34:58 +0200 (CEST)
+Received: from localhost ([::1]:41446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oedcL-0004pd-OA
-	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 10:37:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37502)
+	id 1oedZq-0000Yj-H0
+	for lists+qemu-devel@lfdr.de; Sat, 01 Oct 2022 10:34:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oedCQ-0003JZ-91
+ id 1oedCQ-0003JW-2q
  for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:39 -0400
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:39797)
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:47014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oedCF-0004Gd-Ji
- for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:38 -0400
-Received: by mail-qk1-x730.google.com with SMTP id x18so4406262qkn.6
- for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 07:10:27 -0700 (PDT)
+ id 1oedCH-0004D8-TA
+ for qemu-devel@nongnu.org; Sat, 01 Oct 2022 10:10:37 -0400
+Received: by mail-qk1-x729.google.com with SMTP id d17so4396049qko.13
+ for <qemu-devel@nongnu.org>; Sat, 01 Oct 2022 07:10:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=mIF77OthLavLtQuqetJUdz3FJ5349hd9QtJO8fQT4pE=;
- b=qIN1PCuiKZQVnko3Ah7AdwlOZjKTtYdhBH5n5jhlKSDTkjjKc+MvzbyEl8fRG07Okj
- LWwRutVhIyNDX+uQOehXNJyEB55Fq5flh4JGPySmpk0jB+gorWNLInPhVJsHBV3GhOtD
- etSUW/uJYPJPkCVPZ9lx+rpG0kLIarRW5Q4SanYVQzaGQAqqJC9hbbQYpaVJounjJtYn
- c7u9javN8V5JduhFyxwMXFBMj+B+HMc0yTOlhe6TzCu60QxbDmkBJSlW+4cfff+IPbbE
- fCNTo9ptzCg7uhxNwBTJwfvCQb46ULE5ZCNUM6Um1zxCktgAaOwJ3S4qTBkhVYfk9hLT
- 1LUw==
+ bh=3tGSokHcZxWgS/slVzVzDsrcZh0LFR0wODhgUvI0NQw=;
+ b=wYWFVGYPAnRqyCAKBz4JJTSzwM2xJAT9c/WE7xk8YSolBtM/5UQZEg7oKMKp9Zoumt
+ a2DWy9FRKSaCRySfPj36bOwTHUWDpsFdjiHAt9fD9oEc1JvkEIhl1UGw9NzsxgVyyw96
+ WDfSERrsfrT/MEb72UXN5YicttMb99USqOvKPaQX7YRbBmv+LivU5UbXKrLciKNg0yJ1
+ fwBPhKZhot4uPd6MqsgkpPgGR0kAN0TwrgwMtCxzXYwENozJRkWNteNSfiXe5hVkXdil
+ hi+BOgaXcQKaAX0Bml7ON/hIsyBrcPMz0MbYd0bV5tdg0ftL0aisrqMbeOoZxpZ67EkD
+ 5RMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=mIF77OthLavLtQuqetJUdz3FJ5349hd9QtJO8fQT4pE=;
- b=xZT99tGDmkY6xtETm5ab5Si9FE4Lz2hjAr6XL+t0LA27Y3wic8u51DmWWCYLX57JeY
- 3/NpN4sEy7+YaSmIXoutsSYVTUeOOa0Je3EPhSoEuuQBdfTQ4gnQ802dGTMX6VJH1v60
- mFWn3JqbxwymGF6mMadNZxHEbilp/DuaDTz5xgZtzxI1GfNxmgFRThGlXa0701sLmYE7
- 721/rb0V0ttrA6AeDXTms5trxjMl8eCG6NHPhMEnG1ykjU6LXBcXL1x0Zb/MpPLS9ncx
- SxUzXrCv+5AOaMG5Mudve4d7dLh+MjID/mtHd/yxHWnIvsDuJ8ymbp9Gfr4wKant4wUL
- 2lIw==
-X-Gm-Message-State: ACrzQf3xNqcWTmBAAPqfw6NDDUJLZ50TsY4gIH7oUENnFIx4vIhGsnJs
- FtWDs3zPm6u+nJDVdb3eX9ow9m6MsV6xVi2H
-X-Google-Smtp-Source: AMsMyM68mkTx3egFYCtZZUAy96BrhOSA0dav6gUpxhQz6by6URp6io8XPG/Qd1zm07y1Sw3sAC3xog==
-X-Received: by 2002:a05:620a:1214:b0:6cd:f5da:f1b9 with SMTP id
- u20-20020a05620a121400b006cdf5daf1b9mr9168540qkj.283.1664633426584; 
- Sat, 01 Oct 2022 07:10:26 -0700 (PDT)
+ bh=3tGSokHcZxWgS/slVzVzDsrcZh0LFR0wODhgUvI0NQw=;
+ b=XaHOPJ3kXt+1IjAj/dEqmO7MV+dR/Z+p8bJp4PSSrNb/Bwm3tZgPKV8QNUbXzKEI7D
+ rQIuzC/6mN4boDRHEsmSj/9rGtmm2dI0T7Z8BO64Pv97sKOss2GB1n/zFnNlEidCXad5
+ 0RbeIxp2VNf7EBtTcSSrKiO+nJ+ughLIZGsPVw/FSL6VbCWq1bun0Uevzqmrgw9sBL5I
+ ORHcq5amgVLQ2BcyHW/j2gLddCwhVM4/e+0+aqtEFszMXG+wA9JIDg6si2XfYOmAv1PS
+ LbqgO37ytQSWFkz6+SDQh7qJT0wKbb81yBQUM5enxN+jrTapafK4P7SPAdOhhW2Vm9Zk
+ jZGw==
+X-Gm-Message-State: ACrzQf32VybUVcX5u2FPfxxVDyGqq3DzqiI7VXZQEh+gzrdubh0SA3M5
+ 4kso2M0qhK7hJBeKLnall/OFeCz83k7HKWay
+X-Google-Smtp-Source: AMsMyM5jhjNBur2PNKk7NX9/2xvePEYLjm/LwU7KurxsWGa0Zo5IHXvlQbiYQwk2g26wfEIXvjTvxg==
+X-Received: by 2002:a05:620a:1017:b0:6ce:d89f:8988 with SMTP id
+ z23-20020a05620a101700b006ced89f8988mr9349356qkj.187.1664633428461; 
+ Sat, 01 Oct 2022 07:10:28 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:8080:8162:afc7:8362:2616:ac15])
  by smtp.gmail.com with ESMTPSA id
- j16-20020a05620a289000b006b615cd8c13sm6075914qkp.106.2022.10.01.07.10.24
+ j16-20020a05620a289000b006b615cd8c13sm6075914qkp.106.2022.10.01.07.10.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Oct 2022 07:10:26 -0700 (PDT)
+ Sat, 01 Oct 2022 07:10:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v3 19/26] target/i386: Use gen_jmp_rel for gen_jcc
-Date: Sat,  1 Oct 2022 07:09:28 -0700
-Message-Id: <20221001140935.465607-20-richard.henderson@linaro.org>
+Subject: [PATCH v3 20/26] target/i386: Use gen_jmp_rel for DISAS_TOO_MANY
+Date: Sat,  1 Oct 2022 07:09:29 -0700
+Message-Id: <20221001140935.465607-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221001140935.465607-1-richard.henderson@linaro.org>
 References: <20221001140935.465607-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x730.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x729.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,97 +89,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+With gen_jmp_rel, we may chain between two translation blocks
+which may only be separated because of TB size limits.
+
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 57 ++++++++++++-------------------------
- 1 file changed, 18 insertions(+), 39 deletions(-)
+ target/i386/tcg/translate.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 434a6ad6cd..5b84be4975 100644
+index 5b84be4975..cf23ae6e5e 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -2409,32 +2409,14 @@ static void gen_goto_tb(DisasContext *s, int tb_num, target_ulong eip)
-     }
- }
- 
--static inline void gen_jcc(DisasContext *s, int b,
--                           target_ulong val, target_ulong next_eip)
-+static void gen_jcc(DisasContext *s, int b, int diff)
- {
--    TCGLabel *l1, *l2;
-+    TCGLabel *l1 = gen_new_label();
- 
--    if (s->jmp_opt) {
--        l1 = gen_new_label();
--        gen_jcc1(s, b, l1);
--
--        gen_goto_tb(s, 0, next_eip);
--
--        gen_set_label(l1);
--        gen_goto_tb(s, 1, val);
--    } else {
--        l1 = gen_new_label();
--        l2 = gen_new_label();
--        gen_jcc1(s, b, l1);
--
--        gen_jmp_im(s, next_eip);
--        tcg_gen_br(l2);
--
--        gen_set_label(l1);
--        gen_jmp_im(s, val);
--        gen_set_label(l2);
--        gen_eob(s);
--    }
-+    gen_jcc1(s, b, l1);
-+    gen_jmp_rel_csize(s, 0, 1);
-+    gen_set_label(l1);
-+    gen_jmp_rel(s, s->dflag, diff, 0);
- }
- 
- static void gen_cmovcc1(CPUX86State *env, DisasContext *s, MemOp ot, int b,
-@@ -4780,7 +4762,6 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-     int shift;
-     MemOp ot, aflag, dflag;
-     int modrm, reg, rm, mod, op, opreg, val;
--    target_ulong next_eip, tval;
-     bool orig_cc_op_dirty = s->cc_op_dirty;
-     CCOp orig_cc_op = s->cc_op;
- 
-@@ -6933,22 +6914,20 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
-         }
+@@ -8798,6 +8798,9 @@ static void i386_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
+     case DISAS_NORETURN:
          break;
-     case 0x70 ... 0x7f: /* jcc Jb */
--        tval = (int8_t)insn_get(env, s, MO_8);
--        goto do_jcc;
-+        {
-+            int diff = (int8_t)insn_get(env, s, MO_8);
-+            gen_bnd_jmp(s);
-+            gen_jcc(s, b, diff);
-+        }
+     case DISAS_TOO_MANY:
++        gen_update_cc_op(dc);
++        gen_jmp_rel_csize(dc, 0, 0);
 +        break;
-     case 0x180 ... 0x18f: /* jcc Jv */
--        if (dflag != MO_16) {
--            tval = (int32_t)insn_get(env, s, MO_32);
--        } else {
--            tval = (int16_t)insn_get(env, s, MO_16);
-+        {
-+            int diff = (dflag != MO_16
-+                        ? (int32_t)insn_get(env, s, MO_32)
-+                        : (int16_t)insn_get(env, s, MO_16));
-+            gen_bnd_jmp(s);
-+            gen_jcc(s, b, diff);
-         }
--    do_jcc:
--        next_eip = s->pc - s->cs_base;
--        tval += next_eip;
--        if (dflag == MO_16) {
--            tval &= 0xffff;
--        }
--        gen_bnd_jmp(s);
--        gen_jcc(s, b, tval, next_eip);
-         break;
- 
-     case 0x190 ... 0x19f: /* setcc Gv */
+     case DISAS_EOB_NEXT:
+         gen_update_cc_op(dc);
+         gen_update_eip_cur(dc);
 -- 
 2.34.1
 
