@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B1EB5F17F6
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 03:05:37 +0200 (CEST)
-Received: from localhost ([::1]:35272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5D25F1889
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Oct 2022 03:52:52 +0200 (CEST)
+Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oeQwi-0001Ei-FF
-	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 21:05:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55962)
+	id 1oeRgQ-0003EZ-St
+	for lists+qemu-devel@lfdr.de; Fri, 30 Sep 2022 21:52:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeQvJ-0008FS-1r
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 21:04:09 -0400
-Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734]:42540)
+ id 1oeRfP-0001nG-FR
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 21:51:47 -0400
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:39615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oeQvH-0003Qk-Dc
- for qemu-devel@nongnu.org; Fri, 30 Sep 2022 21:04:08 -0400
-Received: by mail-qk1-x734.google.com with SMTP id d15so3832256qka.9
- for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 18:04:05 -0700 (PDT)
+ id 1oeRfN-0001sE-Ut
+ for qemu-devel@nongnu.org; Fri, 30 Sep 2022 21:51:47 -0400
+Received: by mail-qk1-x72d.google.com with SMTP id x18so3873077qkn.6
+ for <qemu-devel@nongnu.org>; Fri, 30 Sep 2022 18:51:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=bz7eVjrV74gCiz8P6gz2YkKN3TC7ZcytX8PLOjE4apg=;
- b=nyhDfqXczB/SG/Y5lm4RxyCXc89vRBv4dZ+jScXOz+c45M/ZDT/my8jZqHz2R1lE2Z
- UMD9AWN4tPTY4nYVGzi5GQukAztxgx1cZEOmbD+EZAhJ+/ZxCWFpV6HSdDuNWaJyQZlk
- sbwS3kB7HBO8ZRJOxBKQUDG1kkvhr8jcPHVNWVnasWPcrQCsZz3ZASiBrOoKJ169nQe3
- bwJyytm/+QDqhrTEj2WtDlTJVzldk7HN5l2kOxOA1sphGzSGA4iwp43MJsivL0Yk0Fgs
- 4F93NPLHFhm8pWHjevzZqYcE3Pw7pTAWkYyWEvWSLLHUbqXDoLqD6XyFgYpzcEFi+oy3
- NmQQ==
+ bh=qyUrMffRXMJgL2CLVCnYQxAa2toiS/OzoHc0SuL9Gaw=;
+ b=c53/j9dyVM8u89weDcAcrROq1cNVvvnl5+dyPS/QrMCiRrB+W6trzUqCrPwvm1zVo3
+ 9jGp4UurSMpFeiEO30Adif8db17HOxQ+ZR5TNKTmvNo1/kLiMaiVZhxKeN8yAfzTOxkI
+ A7/0pjJGL6wEWkLIIo/HAWKk9+TaC6SGEiBd2yRgNEeGB3wB212MscFCQMUYWCEgyfbN
+ AQYWTf3mNgNXURoG/5qjT6a0AJVZRsvQVd8E1XXGG3IyqC6BG1EgFWQiabn7fwDBF6JJ
+ 5d2gf3/if2VXqQDJaXJzUPsqb7nDunqDUEOoYFkM5bEJ7nNbrHof0QCASofDzO9XHiMB
+ 3fBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=bz7eVjrV74gCiz8P6gz2YkKN3TC7ZcytX8PLOjE4apg=;
- b=H1+vPCTqpsX5RgIATV1mndPDDAy/r9NvUHW8/cgP7YOL3y0lJTvBEAz7q8WRsvQ2W1
- ZiaoRVkivCSaWBl4mR6eAuFqzIPxy7uARfxx1eU4x/aXhCwHaa6Jjt7W5BCnCS6I/kI4
- rSnf1E+jthiq1X3s2wEffJGPfMzOM2AOKR7thyuNBmRTavX9eNin6IZGVDvDlaQVOiqj
- lGcs8fnyVTWxRauuDQIP89IzfdKj98e8xYk0gwt2B6UfSm67lomiL7hIo+8wwA3+8qQE
- JQAWZJczhpd0zY/PtFcDrWlWkMhCc535z21X8aBbm3n5so2v8hEhrlX6bUKltZbKGZpa
- sBwA==
-X-Gm-Message-State: ACrzQf35ngVV0cuKtf9F5gzA5DkCheOpwHg//qTCI6GVVfsCV0wxp6yq
- vfu/jVCcthzW4CA+Bz4cVS3dhg==
-X-Google-Smtp-Source: AMsMyM57H7NLCmvj33uzyUnu3UUHtFQWyMAHzMXhVd0Z9mkVPLzQwr8xsG43WcDsbqruXWjTFdpjZA==
-X-Received: by 2002:a37:a17:0:b0:6cd:dbef:1e83 with SMTP id
- 23-20020a370a17000000b006cddbef1e83mr8088077qkk.624.1664586244986; 
- Fri, 30 Sep 2022 18:04:04 -0700 (PDT)
+ bh=qyUrMffRXMJgL2CLVCnYQxAa2toiS/OzoHc0SuL9Gaw=;
+ b=hdKaQe1RgZKmN/DzoJLsW+gP2Ww0pExlppiDZa/+3gXAblRv+LKhIhR3VGRcBDqOY/
+ gd+q4Dk2DxZ3BXLX8+du2Mqhjnv0OgMI6S9HRy22svZFJauik2hpkvdHeypXTqwEy4bS
+ dx/gz06WNYYexf6CwdGw7k/LNa4+nP610ChzljhmN3SWi1Y7211mKvyNsGLhYeD1Velh
+ otuf94Qn0Z4R0P3Wk7mFNclcGefYOuKfIpmD6ViH6cyt4+06ppMrRKKPNJl1Il1qk1eH
+ o2Qzj0AA5NeMxBkkxQ35IsgFkfcsVlPICLr+Iv40DQUIwK60LGKzsgftbdlmsS502Tx3
+ Ffvg==
+X-Gm-Message-State: ACrzQf0csf/Ek6aMiQHznwon4j4pSc/WmMWTX80e3PIfXyUwHzTwPiik
+ J7M0/ZaudPaeaKZKzZMutpPLbQ==
+X-Google-Smtp-Source: AMsMyM6plYQ/ZekN6xozcKJctPMFdgoBJ1yAlWmPU7KtAERrosHgjrxl0Te0fUk/Kt8NfqWX6KMyUg==
+X-Received: by 2002:a05:620a:1aa3:b0:6ce:3c85:d9d7 with SMTP id
+ bl35-20020a05620a1aa300b006ce3c85d9d7mr8091148qkb.225.1664589104654; 
+ Fri, 30 Sep 2022 18:51:44 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:8093:866e:708f:f41c:9c24:8383?
  ([2605:ef80:8093:866e:708f:f41c:9c24:8383])
  by smtp.gmail.com with ESMTPSA id
- v1-20020a05620a0f0100b006bb8b5b79efsm4503381qkl.129.2022.09.30.18.04.03
+ y15-20020a05620a25cf00b006ce515196a7sm4338292qko.8.2022.09.30.18.51.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Sep 2022 18:04:04 -0700 (PDT)
-Message-ID: <fba2a072-e50f-4321-d923-07500d969b33@linaro.org>
-Date: Fri, 30 Sep 2022 18:04:00 -0700
+ Fri, 30 Sep 2022 18:51:44 -0700 (PDT)
+Message-ID: <16fc3a92-b4f0-a3a6-0159-903f14c9dfff@linaro.org>
+Date: Fri, 30 Sep 2022 18:51:39 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 19/23] target/i386: Use gen_jmp_rel for gen_jcc
+Subject: Re: [PATCH v2 23/23] target/i386: Enable TARGET_TB_PCREL
 Content-Language: en-US
 To: Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org
 References: <20220906100932.343523-1-richard.henderson@linaro.org>
- <20220906100932.343523-20-richard.henderson@linaro.org>
- <CABgObfa3RE3o6cfUk-7qagubCcxUO7J3sFfp63O5z08-RQHBiQ@mail.gmail.com>
+ <20220906100932.343523-24-richard.henderson@linaro.org>
+ <CABgObfan_71HjR5L4qsE3r4Paq_=XRQa9Z0tN02fitzX=JBTtQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CABgObfa3RE3o6cfUk-7qagubCcxUO7J3sFfp63O5z08-RQHBiQ@mail.gmail.com>
+In-Reply-To: <CABgObfan_71HjR5L4qsE3r4Paq_=XRQa9Z0tN02fitzX=JBTtQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x734.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x72d.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -96,46 +96,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/22 06:09, Paolo Bonzini wrote:
-> On Tue, Sep 6, 2022 at 12:09 PM Richard Henderson
+On 9/21/22 06:31, Paolo Bonzini wrote:
+> On Tue, Sep 6, 2022 at 12:10 PM Richard Henderson
 > <richard.henderson@linaro.org> wrote:
->> -static inline void gen_jcc(DisasContext *s, int b,
->> -                           target_ulong val, target_ulong next_eip)
->> +static void gen_jcc(DisasContext *s, MemOp ot, int b, int diff)
+>>   static void gen_update_eip_cur(DisasContext *s)
 >>   {
->> -    TCGLabel *l1, *l2;
->> +    TCGLabel *l1 = gen_new_label();
->>
->> -    if (s->jmp_opt) {
->> -        l1 = gen_new_label();
->> -        gen_jcc1(s, b, l1);
->> -
->> -        gen_goto_tb(s, 0, next_eip);
->> -
->> -        gen_set_label(l1);
->> -        gen_goto_tb(s, 1, val);
->> -    } else {
->> -        l1 = gen_new_label();
->> -        l2 = gen_new_label();
->> -        gen_jcc1(s, b, l1);
->> -
->> -        gen_jmp_im(s, next_eip);
->> -        tcg_gen_br(l2);
->> -
->> -        gen_set_label(l1);
->> -        gen_jmp_im(s, val);
->> -        gen_set_label(l2);
->> -        gen_eob(s);
->> -    }
->> +    gen_jcc1(s, b, l1);
->> +    gen_jmp_rel(s, ot, 0, 1);
->> +    gen_set_label(l1);
->> +    gen_jmp_rel(s, ot, diff, 0);
+>>       gen_jmp_im(s, s->base.pc_next - s->cs_base);
+>> +    s->pc_save = s->base.pc_next;
 > 
-> Might be worth a comment that jumps with 16-bit operand size truncate
-> EIP even if the jump is not taken.
+> s->pc_save is not valid after all gen_jmp_im() calls. Is it worth
+> noting after each call to gen_jmp_im() why this is not a problem?
+> 
+>>   }
+>>
+>>   static void gen_update_eip_next(DisasContext *s)
+>>   {
+>>       gen_jmp_im(s, s->pc - s->cs_base);
+>> +    s->pc_save = s->pc;
+>> +}
+>> +
+>> +static TCGv gen_eip_cur(DisasContext *s)
+>> +{
+>> +    if (TARGET_TB_PCREL) {
+>> +        gen_update_eip_cur(s);
+>> +        return cpu_eip;
+>> +    } else {
+>> +        return tcg_constant_tl(s->base.pc_next - s->cs_base);
+>> +    }
+> 
+> Ok, now I see why you called it gen_eip_cur(), but it's still a bit
+> disconcerting to see the difference in behavior between the
+> TARGET_TB_PCREL and !TARGET_TB_PCREL cases, one of them updating
+> cpu_eip and other not.
+> 
+> Perhaps gen_jmp_im() and gen_update_eip_cur() could be rewritten to
+> return the destination instead:
+> 
+> static TCGv gen_jmp_im(DisasContext *s, target_ulong eip)
+> {
+>      if (TARGET_TB_PCREL) {
+>          target_ulong eip_save = s->pc_save - s->cs_base;
+>          tcg_gen_addi_tl(cpu_eip, cpu_eip, eip - eip_save);
+>          return cpu_eip;
+>      } else {
+>          TCGv dest = tcg_constant_tl(eip);
+>          tcg_gen_mov_tl(cpu_eip, dest);
+>          return dest;
+>      }
+> }
+> 
+> static TCGv gen_update_eip_cur(DisasContext *s)
+> {
+>      TCGv dest = gen_jmp_im(s, s->base.pc_next - s->cs_base);
+>      s->pc_save = s->base.pc_next;
+>      return dest;
+> }
 
-Hmm.  But is that correct?  That's not reflected by the pseudocode for Jcc.
+I don't see what I'd do with the return values.  But I see your point about gen_eip_cur 
+only updating eip sometimes.  I have changed the name to eip_cur_tl, as suggested, and it 
+writes to a temporary, like eip_next_tl.
 
 
 r~
