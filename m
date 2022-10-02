@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504BB5F225C
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 11:41:11 +0200 (CEST)
-Received: from localhost ([::1]:45256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A46BE5F22A5
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 12:39:11 +0200 (CEST)
+Received: from localhost ([::1]:56608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oevTC-0006F4-0G
-	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 05:41:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33114)
+	id 1oewNK-00071L-Bl
+	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 06:39:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oevQp-0004hK-FS; Sun, 02 Oct 2022 05:38:43 -0400
-Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d]:46049)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oevQm-0004cA-PZ; Sun, 02 Oct 2022 05:38:43 -0400
-Received: by mail-qv1-xf2d.google.com with SMTP id g9so1633299qvo.12;
- Sun, 02 Oct 2022 02:38:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=NzrPzA5/YcLYZVAtGdl+A494NBI4H/rJishUCxtUm6I=;
- b=cC7z24ewT+9t+HGT8RAJQ1KuN5Kl/PGakfhp6lCQkX4aWw6csxJTZYmc5yaBc/Y7dx
- yQjre/3Kl5MvYxNeNrqnjd69zOjufFMn/wdTWLA7x8AE4TFYBDnS7pvJ+xllu25O4baK
- jFfIfBWqylYbyGYXAPz1IXPQg/otxeSUXFZ2B7APJVU4WN3lF3wYZEMq2S3kecYLpPwu
- Ky3DA3npLhxDbFEJs0Ho3x9rK4ONyax551NUjICGZdiSq3VclOGw8r78K+9syI5yOTOC
- sLyWJGbGiBOQYCWtZWtD+6lAojPYPjAOt042CIp5GKYFuU8AJ2/WEilzZRVIRXhgfO25
- U/Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=NzrPzA5/YcLYZVAtGdl+A494NBI4H/rJishUCxtUm6I=;
- b=Kt4eIHCgYAUG12ej45nutH2xxYv+8N+FPps65S76oxVtHEIFR1JxwpKPtGqXYt6/Zr
- isWlR6M4Zp5zybS+IhzCZW1j8wJffyO6i7rZy6iAzG3TCS9P1GD4+ARV7/B0APLMLrmq
- e4l5FXUMxnqS1Omvo8AN4k2BQWxQVgxK7FgGn8+Mnzozv5CBbtcb0S6u29Mka/7m7iO3
- h8NpvIKT7f9Blkx6mAvAPoTG2b2SGQZxEo6J+Jj+AvZTjDofD52Vq6JWhHsx6m5nM5V7
- jBEjSIffHBpahEnt9fUPSntKVF84yWPCQNDOYKSxQoei0JxNgRo00YrdIvTtcuj84/fr
- lFQw==
-X-Gm-Message-State: ACrzQf3oj4EzDb5YMk1rov4ewF5nvC3wPQv42D/qNNCpPoOVftbruqan
- eKJI2dIr4RC30r75nuT2KsqTZWdvinYepFN0QVU=
-X-Google-Smtp-Source: AMsMyM7uckyQCfs3o9oPbKsIcMub8pHgrUibLFiafo/4q97GJ3ifGSZMJJHMu7Fz6JcJgY8hesqvyt7jjPm8iKie7GY=
-X-Received: by 2002:a05:6214:e85:b0:4b1:7e5a:3604 with SMTP id
- hf5-20020a0562140e8500b004b17e5a3604mr3697440qvb.114.1664703518715; Sun, 02
- Oct 2022 02:38:38 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=7BIb=2D=zx2c4.com=Jason@kernel.org>)
+ id 1oewLY-0005Zg-QY
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 06:37:20 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:34554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=7BIb=2D=zx2c4.com=Jason@kernel.org>)
+ id 1oewLV-0003eN-RK
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 06:37:19 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EBA1D60DF1;
+ Sun,  2 Oct 2022 10:37:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCA30C433D6;
+ Sun,  2 Oct 2022 10:37:13 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="JoEY3n5Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1664707031;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LiIzOKPhS8yBC/CGS8tjsOVVISQNG22SAmj8In0pC14=;
+ b=JoEY3n5QBGQ51vBTKq2DiZr9pTEP/1Ms1GXLXa5S/mgbbMdOIKp9ixIfM/DEjxWznR0Teb
+ S7bGRqsWPTUSE0cxLYdu5d/R3Gc6vkvbJUvkBaxdR3sWtbIJQl0fYPgrc+R75W8wnuSHyG
+ TyMnFEp43JrKSEb9T8QrmEXcXtqpOYc=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9a282e4e
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Sun, 2 Oct 2022 10:37:11 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: laurent@vivier.eu,
+	qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH v2] m68k: write bootinfo as rom section and re-randomize on
+ reboot
+Date: Sun,  2 Oct 2022 12:37:07 +0200
+Message-Id: <20221002103707.909560-1-Jason@zx2c4.com>
+In-Reply-To: <20220929183904.262958-1-Jason@zx2c4.com>
+References: <20220929183904.262958-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-References: <20220928144125.1997128-1-bmeng.cn@gmail.com>
- <20220928144125.1997128-2-bmeng.cn@gmail.com>
- <YzbBM7Qc3p+Hiyvo@redhat.com>
-In-Reply-To: <YzbBM7Qc3p+Hiyvo@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 2 Oct 2022 17:38:27 +0800
-Message-ID: <CAEUhbmXH_y4ZuR2Z_HU2PoKX9A_P1VWUyF0eMVGbtvmvoPO4uw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] block: Refactor get_tmp_filename()
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Bin Meng <bin.meng@windriver.com>, 
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=7BIb=2D=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,176 +82,362 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kevin,
+Rather than poking directly into RAM, add the bootinfo block as a proper
+ROM, so that it's restored when rebooting the system. This way, if the
+guest corrupts any of the bootinfo items, but then tries to reboot,
+it'll still be restored back to normal as expected. This assumes the
+bootinfo block won't exceed 1k.
 
-On Fri, Sep 30, 2022 at 6:13 PM Kevin Wolf <kwolf@redhat.com> wrote:
->
-> Am 28.09.2022 um 16:41 hat Bin Meng geschrieben:
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > At present there are two callers of get_tmp_filename() and they are
-> > inconsistent.
-> >
-> > One does:
-> >
-> >     /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
-> >     char *tmp_filename = g_malloc0(PATH_MAX + 1);
-> >     ...
-> >     ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
-> >
-> > while the other does:
-> >
-> >     s->qcow_filename = g_malloc(PATH_MAX);
-> >     ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
-> >
-> > As we can see different 'size' arguments are passed. There are also
-> > platform specific implementations inside the function, and the use
-> > of snprintf is really undesirable.
-> >
-> > The function name is also misleading. It creates a temporary file,
-> > not just a filename.
-> >
-> > Refactor this routine by changing its name and signature to:
-> >
-> >     char *create_tmp_file(Error **errp)
-> >
-> > and use g_file_open_tmp() for a consistent implementation.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > ---
-> >
-> > Changes in v5:
-> > - minor change in the commit message
-> > - add some notes in the function comment block
-> > - add g_autofree for tmp_filename
-> >
-> > Changes in v4:
-> > - Rename the function to create_tmp_file() and take "Error **errp" as
-> >   a parameter, so that callers can pass errp all the way down to this
-> >   routine.
-> > - Commit message updated to reflect the latest change
-> >
-> > Changes in v3:
-> > - Do not use errno directly, instead still let get_tmp_filename() return
-> >   a negative number to indicate error
-> >
-> > Changes in v2:
-> > - Use g_autofree and g_steal_pointer
-> >
-> >  include/block/block_int-common.h |  2 +-
-> >  block.c                          | 45 ++++++++++++--------------------
-> >  block/vvfat.c                    |  7 +++--
-> >  3 files changed, 20 insertions(+), 34 deletions(-)
-> >
-> > diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-> > index 8947abab76..d7c0a7e96f 100644
-> > --- a/include/block/block_int-common.h
-> > +++ b/include/block/block_int-common.h
-> > @@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
-> >  }
-> >
-> >  int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
-> > -int get_tmp_filename(char *filename, int size);
-> > +char *create_tmp_file(Error **errp);
-> >  void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
-> >                                        QDict *options);
-> >
-> > diff --git a/block.c b/block.c
-> > index 582c205307..bd3006d85d 100644
-> > --- a/block.c
-> > +++ b/block.c
-> > @@ -860,35 +860,25 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
-> >
-> >  /*
-> >   * Create a uniquely-named empty temporary file.
-> > - * Return 0 upon success, otherwise a negative errno value.
-> > + * Return the actual file name used upon success, otherwise NULL.
-> > + * This string should be freed with g_free() when not needed any longer.
-> > + *
-> > + * Note: creating a temporary file for the caller to (re)open is
-> > + * inherently racy. Use g_file_open_tmp() instead whenever practical.
-> >   */
-> > -int get_tmp_filename(char *filename, int size)
-> > +char *create_tmp_file(Error **errp)
-> >  {
-> > -#ifdef _WIN32
-> > -    char temp_dir[MAX_PATH];
-> > -    /* GetTempFileName requires that its output buffer (4th param)
-> > -       have length MAX_PATH or greater.  */
-> > -    assert(size >= MAX_PATH);
-> > -    return (GetTempPath(MAX_PATH, temp_dir)
-> > -            && GetTempFileName(temp_dir, "qem", 0, filename)
->
-> We're using different prefixes on Windows and on Linux. This patch
-> unifies both paths to use the Linux name. Nobody should rely on the name
-> of temporary files, so there is hope it won't break anything.
->
-> > -            ? 0 : -GetLastError());
-> > -#else
-> > +    g_autofree char *name = NULL;
-> > +    g_autoptr(GError) err = NULL;
-> >      int fd;
-> > -    const char *tmpdir;
-> > -    tmpdir = getenv("TMPDIR");
-> > -    if (!tmpdir) {
-> > -        tmpdir = "/var/tmp";
-> > -    }
-> > -    if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
-> > -        return -EOVERFLOW;
-> > -    }
-> > -    fd = mkstemp(filename);
-> > +
-> > +    fd = g_file_open_tmp("vl.XXXXXX", &name, &err);
->
-> This implicitly reverts commit 69bef7931e8, g_file_open_tmp() uses /tmp
-> as the default instead of /var/tmp as this function does before the
-> patch.
+Then, since the RNG seed needs to be fresh on each boot, regenerate the
+RNG seed in the ROM when reseting the CPU.
 
-Oops, thanks for the pointer. Commit message of 69bef7931e8 does not
-explicitely explain why to change from /tmp to /var/tmp. Is that
-because QEMU block codes write a huge size of data to this file in
-/tmp?
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ hw/m68k/bootinfo.h | 48 +++++++++++++++++-----------------
+ hw/m68k/q800.c     | 65 ++++++++++++++++++++++++++++++++--------------
+ hw/m68k/virt.c     | 45 +++++++++++++++++++++-----------
+ 3 files changed, 99 insertions(+), 59 deletions(-)
 
-> This is probably not a good idea, we should keep the /var/tmp default.
->
-> But if we did want to do this, it's definitely a change in behaviour
-> that should be mentioned in the commit message at least.
->
-
-If we have to keep /var/tmp, how about this?
-
-diff --git a/block.c b/block.c
-index bd3006d85d..d964ceaeac 100644
---- a/block.c
-+++ b/block.c
-@@ -24,6 +24,7 @@
-  */
-
- #include "qemu/osdep.h"
-+#include <glib/gstdio.h>
- #include "block/trace.h"
- #include "block/block_int.h"
- #include "block/blockjob.h"
-@@ -878,7 +879,20 @@ char *create_tmp_file(Error **errp)
-         return NULL;
-     }
-     close(fd);
-+#ifdef _WIN32
-     return g_steal_pointer(&name);
-+#else
-+    g_autofree char *base = NULL;
-+    char *newname;
+diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
+index 897162b818..eb92937cf6 100644
+--- a/hw/m68k/bootinfo.h
++++ b/hw/m68k/bootinfo.h
+@@ -12,66 +12,66 @@
+ #ifndef HW_M68K_BOOTINFO_H
+ #define HW_M68K_BOOTINFO_H
+ 
+-#define BOOTINFO0(as, base, id) \
++#define BOOTINFO0(base, id) \
+     do { \
+-        stw_phys(as, base, id); \
++        stw_p(base, id); \
+         base += 2; \
+-        stw_phys(as, base, sizeof(struct bi_record)); \
++        stw_p(base, sizeof(struct bi_record)); \
+         base += 2; \
+     } while (0)
+ 
+-#define BOOTINFO1(as, base, id, value) \
++#define BOOTINFO1(base, id, value) \
+     do { \
+-        stw_phys(as, base, id); \
++        stw_p(base, id); \
+         base += 2; \
+-        stw_phys(as, base, sizeof(struct bi_record) + 4); \
++        stw_p(base, sizeof(struct bi_record) + 4); \
+         base += 2; \
+-        stl_phys(as, base, value); \
++        stl_p(base, value); \
+         base += 4; \
+     } while (0)
+ 
+-#define BOOTINFO2(as, base, id, value1, value2) \
++#define BOOTINFO2(base, id, value1, value2) \
+     do { \
+-        stw_phys(as, base, id); \
++        stw_p(base, id); \
+         base += 2; \
+-        stw_phys(as, base, sizeof(struct bi_record) + 8); \
++        stw_p(base, sizeof(struct bi_record) + 8); \
+         base += 2; \
+-        stl_phys(as, base, value1); \
++        stl_p(base, value1); \
+         base += 4; \
+-        stl_phys(as, base, value2); \
++        stl_p(base, value2); \
+         base += 4; \
+     } while (0)
+ 
+-#define BOOTINFOSTR(as, base, id, string) \
++#define BOOTINFOSTR(base, id, string) \
+     do { \
+         int i; \
+-        stw_phys(as, base, id); \
++        stw_p(base, id); \
+         base += 2; \
+-        stw_phys(as, base, \
++        stw_p(base, \
+                  (sizeof(struct bi_record) + strlen(string) + \
+                   1 /* null termination */ + 3 /* padding */) & ~3); \
+         base += 2; \
+         for (i = 0; string[i]; i++) { \
+-            stb_phys(as, base++, string[i]); \
++            stb_p(base++, string[i]); \
+         } \
+-        stb_phys(as, base++, 0); \
+-        base = (base + 3) & ~3; \
++        stb_p(base++, 0); \
++        base = (void *)(((unsigned long)base + 3) & ~3); \
+     } while (0)
+ 
+-#define BOOTINFODATA(as, base, id, data, len) \
++#define BOOTINFODATA(base, id, data, len) \
+     do { \
+         int i; \
+-        stw_phys(as, base, id); \
++        stw_p(base, id); \
+         base += 2; \
+-        stw_phys(as, base, \
++        stw_p(base, \
+                  (sizeof(struct bi_record) + len + \
+                   2 /* length field */ + 3 /* padding */) & ~3); \
+         base += 2; \
+-        stw_phys(as, base, len); \
++        stw_p(base, len); \
+         base += 2; \
+         for (i = 0; i < len; ++i) { \
+-            stb_phys(as, base++, data[i]); \
++            stb_p(base++, data[i]); \
+         } \
+-        base = (base + 3) & ~3; \
++        base = (void *)(((unsigned long)base + 3) & ~3); \
+     } while (0)
+ #endif
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index a4590c2cb0..d94da38cde 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -321,11 +321,22 @@ static const TypeInfo glue_info = {
+     },
+ };
+ 
++typedef struct {
++    M68kCPU *cpu;
++    struct bi_record *rng_seed;
++} ResetInfo;
 +
-+    base = g_path_get_basename(name);
-+    newname = g_strdup_printf("/var/tmp/%s", base);
-+    if (g_rename(name, newname) < 0) {
-+        error_setg_errno(errp, -errno, "Could not create file");
-+        return NULL;
+ static void main_cpu_reset(void *opaque)
+ {
+-    M68kCPU *cpu = opaque;
++    ResetInfo *reset_info = opaque;
++    M68kCPU *cpu = reset_info->cpu;
+     CPUState *cs = CPU(cpu);
+ 
++    if (reset_info->rng_seed) {
++        qemu_guest_getrandom_nofail((void *)reset_info->rng_seed->data + 2,
++            be16_to_cpu(*(uint16_t *)reset_info->rng_seed->data));
 +    }
-+    return newname;
-+#endif
++
+     cpu_reset(cs);
+     cpu->env.aregs[7] = ldl_phys(cs->as, 0);
+     cpu->env.pc = ldl_phys(cs->as, 4);
+@@ -386,6 +397,7 @@ static void q800_init(MachineState *machine)
+     NubusBus *nubus;
+     DeviceState *glue;
+     DriveInfo *dinfo;
++    ResetInfo *reset_info;
+     uint8_t rng_seed[32];
+ 
+     linux_boot = (kernel_filename != NULL);
+@@ -396,9 +408,12 @@ static void q800_init(MachineState *machine)
+         exit(1);
+     }
+ 
++    reset_info = g_new0(ResetInfo, 1);
++
+     /* init CPUs */
+     cpu = M68K_CPU(cpu_create(machine->cpu_type));
+-    qemu_register_reset(main_cpu_reset, cpu);
++    reset_info->cpu = cpu;
++    qemu_register_reset(main_cpu_reset, reset_info);
+ 
+     /* RAM */
+     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+@@ -598,6 +613,8 @@ static void q800_init(MachineState *machine)
+     cs = CPU(cpu);
+     if (linux_boot) {
+         uint64_t high;
++        void *param_blob = g_malloc(1024), *param_ptr, *param_rng_seed;
++
+         kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
+                                &elf_entry, NULL, &high, NULL, 1,
+                                EM_68K, 0, 0);
+@@ -607,23 +624,24 @@ static void q800_init(MachineState *machine)
+         }
+         stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
+         parameters_base = (high + 1) & ~1;
+-
+-        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_MAC);
+-        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_CPUID, CPUB_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_MODEL, MAC_MODEL_Q800);
+-        BOOTINFO1(cs->as, parameters_base,
++        param_ptr = param_blob;
++
++        BOOTINFO1(param_ptr, BI_MACHTYPE, MACH_MAC);
++        BOOTINFO1(param_ptr, BI_FPUTYPE, FPU_68040);
++        BOOTINFO1(param_ptr, BI_MMUTYPE, MMU_68040);
++        BOOTINFO1(param_ptr, BI_CPUTYPE, CPU_68040);
++        BOOTINFO1(param_ptr, BI_MAC_CPUID, CPUB_68040);
++        BOOTINFO1(param_ptr, BI_MAC_MODEL, MAC_MODEL_Q800);
++        BOOTINFO1(param_ptr,
+                   BI_MAC_MEMSIZE, ram_size >> 20); /* in MB */
+-        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_VADDR,
++        BOOTINFO2(param_ptr, BI_MEMCHUNK, 0, ram_size);
++        BOOTINFO1(param_ptr, BI_MAC_VADDR,
+                   VIDEO_BASE + macfb_mode->offset);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDEPTH, graphic_depth);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDIM,
++        BOOTINFO1(param_ptr, BI_MAC_VDEPTH, graphic_depth);
++        BOOTINFO1(param_ptr, BI_MAC_VDIM,
+                   (graphic_height << 16) | graphic_width);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_VROW, macfb_mode->stride);
+-        BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE, SCC_BASE);
++        BOOTINFO1(param_ptr, BI_MAC_VROW, macfb_mode->stride);
++        BOOTINFO1(param_ptr, BI_MAC_SCCBASE, SCC_BASE);
+ 
+         rom = g_malloc(sizeof(*rom));
+         memory_region_init_ram_ptr(rom, NULL, "m68k_fake_mac.rom",
+@@ -632,13 +650,14 @@ static void q800_init(MachineState *machine)
+         memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom);
+ 
+         if (kernel_cmdline) {
+-            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
++            BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
+                         kernel_cmdline);
+         }
+ 
+         /* Pass seed to RNG. */
++        param_rng_seed = param_ptr;
+         qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+-        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
++        BOOTINFODATA(param_ptr, BI_RNG_SEED,
+                      rng_seed, sizeof(rng_seed));
+ 
+         /* load initrd */
+@@ -653,13 +672,19 @@ static void q800_init(MachineState *machine)
+             initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
+             load_image_targphys(initrd_filename, initrd_base,
+                                 ram_size - initrd_base);
+-            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
++            BOOTINFO2(param_ptr, BI_RAMDISK, initrd_base,
+                       initrd_size);
+         } else {
+             initrd_base = 0;
+             initrd_size = 0;
+         }
+-        BOOTINFO0(cs->as, parameters_base, BI_LAST);
++        BOOTINFO0(param_ptr, BI_LAST);
++        rom_add_blob_fixed_as("bootinfo", param_blob, param_ptr - param_blob,
++                              parameters_base, cs->as);
++        reset_info->rng_seed = rom_ptr_for_as(cs->as, parameters_base,
++                                              param_ptr - param_blob) +
++                               (param_rng_seed - param_blob);
++        g_free(param_blob);
+     } else {
+         uint8_t *ptr;
+         /* allocate and load BIOS */
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index f7b903ea1b..1b9771442d 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -89,6 +89,7 @@ typedef struct {
+     M68kCPU *cpu;
+     hwaddr initial_pc;
+     hwaddr initial_stack;
++    struct bi_record *rng_seed;
+ } ResetInfo;
+ 
+ static void main_cpu_reset(void *opaque)
+@@ -97,6 +98,11 @@ static void main_cpu_reset(void *opaque)
+     M68kCPU *cpu = reset_info->cpu;
+     CPUState *cs = CPU(cpu);
+ 
++    if (reset_info->rng_seed) {
++        qemu_guest_getrandom_nofail((void *)reset_info->rng_seed->data + 2,
++            be16_to_cpu(*(uint16_t *)reset_info->rng_seed->data));
++    }
++
+     cpu_reset(cs);
+     cpu->env.aregs[7] = reset_info->initial_stack;
+     cpu->env.pc = reset_info->initial_pc;
+@@ -212,6 +218,7 @@ static void virt_init(MachineState *machine)
+     if (kernel_filename) {
+         CPUState *cs = CPU(cpu);
+         uint64_t high;
++        void *param_blob = g_malloc(1024), *param_ptr, *param_rng_seed;
+ 
+         kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
+                                &elf_entry, NULL, &high, NULL, 1,
+@@ -222,35 +229,37 @@ static void virt_init(MachineState *machine)
+         }
+         reset_info->initial_pc = elf_entry;
+         parameters_base = (high + 1) & ~1;
++        param_ptr = param_blob;
+ 
+-        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_VIRT);
+-        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
+-        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
+-        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
++        BOOTINFO1(param_ptr, BI_MACHTYPE, MACH_VIRT);
++        BOOTINFO1(param_ptr, BI_FPUTYPE, FPU_68040);
++        BOOTINFO1(param_ptr, BI_MMUTYPE, MMU_68040);
++        BOOTINFO1(param_ptr, BI_CPUTYPE, CPU_68040);
++        BOOTINFO2(param_ptr, BI_MEMCHUNK, 0, ram_size);
+ 
+-        BOOTINFO1(cs->as, parameters_base, BI_VIRT_QEMU_VERSION,
++        BOOTINFO1(param_ptr, BI_VIRT_QEMU_VERSION,
+                   ((QEMU_VERSION_MAJOR << 24) | (QEMU_VERSION_MINOR << 16) |
+                    (QEMU_VERSION_MICRO << 8)));
+-        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_PIC_BASE,
++        BOOTINFO2(param_ptr, BI_VIRT_GF_PIC_BASE,
+                   VIRT_GF_PIC_MMIO_BASE, VIRT_GF_PIC_IRQ_BASE);
+-        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_RTC_BASE,
++        BOOTINFO2(param_ptr, BI_VIRT_GF_RTC_BASE,
+                   VIRT_GF_RTC_MMIO_BASE, VIRT_GF_RTC_IRQ_BASE);
+-        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_TTY_BASE,
++        BOOTINFO2(param_ptr, BI_VIRT_GF_TTY_BASE,
+                   VIRT_GF_TTY_MMIO_BASE, VIRT_GF_TTY_IRQ_BASE);
+-        BOOTINFO2(cs->as, parameters_base, BI_VIRT_CTRL_BASE,
++        BOOTINFO2(param_ptr, BI_VIRT_CTRL_BASE,
+                   VIRT_CTRL_MMIO_BASE, VIRT_CTRL_IRQ_BASE);
+-        BOOTINFO2(cs->as, parameters_base, BI_VIRT_VIRTIO_BASE,
++        BOOTINFO2(param_ptr, BI_VIRT_VIRTIO_BASE,
+                   VIRT_VIRTIO_MMIO_BASE, VIRT_VIRTIO_IRQ_BASE);
+ 
+         if (kernel_cmdline) {
+-            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
++            BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
+                         kernel_cmdline);
+         }
+ 
+         /* Pass seed to RNG. */
++        param_rng_seed = param_ptr;
+         qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+-        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
++        BOOTINFODATA(param_ptr, BI_RNG_SEED,
+                      rng_seed, sizeof(rng_seed));
+ 
+         /* load initrd */
+@@ -265,13 +274,19 @@ static void virt_init(MachineState *machine)
+             initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
+             load_image_targphys(initrd_filename, initrd_base,
+                                 ram_size - initrd_base);
+-            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
++            BOOTINFO2(param_ptr, BI_RAMDISK, initrd_base,
+                       initrd_size);
+         } else {
+             initrd_base = 0;
+             initrd_size = 0;
+         }
+-        BOOTINFO0(cs->as, parameters_base, BI_LAST);
++        BOOTINFO0(param_ptr, BI_LAST);
++        rom_add_blob_fixed_as("bootinfo", param_blob, param_ptr - param_blob,
++                              parameters_base, cs->as);
++        reset_info->rng_seed = rom_ptr_for_as(cs->as, parameters_base,
++                                              param_ptr - param_blob) +
++                               (param_rng_seed - param_blob);
++        g_free(param_blob);
+     }
  }
+ 
+-- 
+2.37.3
 
-Regards,
-Bin
 
