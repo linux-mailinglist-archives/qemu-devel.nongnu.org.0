@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770895F2572
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 23:22:29 +0200 (CEST)
-Received: from localhost ([::1]:55998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 775125F25F3
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 00:23:06 +0200 (CEST)
+Received: from localhost ([::1]:43198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1of6Pq-0005d3-DG
-	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 17:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47192)
+	id 1of7MX-0003y1-69
+	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 18:23:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1of6OE-0004Ds-6q
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 17:20:46 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:43692)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1of7LB-0002cj-Rc
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 18:21:41 -0400
+Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:35347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
- id 1of6OC-0004ap-4d
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 17:20:45 -0400
-Received: by mail-pl1-x630.google.com with SMTP id z20so1618913plb.10
- for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 14:20:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date;
- bh=PrwAygBnHP9oKS84foELH69eMjhkyfHiC3xJCCz9iq8=;
- b=ls4yfO0RqzgzBnDDEFyNyWcMiDckbnqmmFAtNNoQWUwtjLSzO8E/OsxvFial4KPZtF
- kc7QMBmFt4lG+8nnSFkK8x2ICZA7kwPv+5dHwyA2bKL5KerS3TMOlyP6oL0RP38G81mB
- WcgGhZtMK5i2SLJzDXdyJAGzsEUuFLfCnOvyyQlrJUjLkQ/ERuHmvf5by5OZGIEt3fHj
- VpUUX6SL18fy5hyVlOmeH59cUxdV8zPGDXYl49K2y5VSeVuMP1orusXb02olqYfcUoTf
- PQHwt+y6cqtU0/t7d8vRWDEVXISrcwGIKaALkeS4US4VneCi57lRqfWtbSXd8YyRPwtg
- BEHQ==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1of7LA-0004Cq-BV
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 18:21:41 -0400
+Received: by mail-qt1-x835.google.com with SMTP id g23so5541084qtu.2
+ for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 15:21:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=eL+fUXoW0gnyMSOvq0eh7833x/ohkbAqDoacch1Oe5s=;
+ b=YGR6MBYpCiJAglY6eB61ZoyA/larwKD+0uhUpstOwyZQ601vnDE/r6vDFLhNDcBTmt
+ vDyrXyUdU0PO8ERxk8L+kiaN6kKHbrxNp1NEH4ocAFSDsVMgYdASaZYX/nSyieGwQYZb
+ wN57ZSrAkpd8hErk/pzdTXlqIhcMUNMp4+6uNFdofbGo7M3E0yDO/b1YCRClrstIOAwQ
+ TRf5g/vyeqrWWWzqpEmGKefNGk6yiGFr9fm3ovlMkDUh6PmWqxoCPvR2Cg8OhTr65jjk
+ IDq1HtF9KG9P08aEqYQML1sqVnGWFUtRBbf5gFnvPFKD6HKgT5f0g1BbqG21naEpZo27
+ HL5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date;
- bh=PrwAygBnHP9oKS84foELH69eMjhkyfHiC3xJCCz9iq8=;
- b=KAV2CbmnSb1DcffYcKqHRTVoXmRbbJS/3prgwgSAKNdxvdOdMaEQ5ndNiwWHFr5BoY
- LTXo28P3F9YTc5z28uL1cBl2ySQ8yXfxiu8j2JXSyU0Ven1Yn1/bnWnlHhn1wXm8t2cC
- qi0HN9Z4heZH9d+/j5NMEo+vLWupVxtb7ew8xSaAOGtlzOXTcq+WyopsWjOGTXg7vxNi
- GK7p9PhWJL1rCkXT/pIEQwJyYftf/UAMOaWTCDr328PD3nZfmfubEO8D19K3PRSgrXfq
- aVJ1DZmkC1SzG2mbRG7qSju1FoyLK36UulTxuMAiyfFD6GytXfPbB1M1S7rgypkmwNJ6
- txYg==
-X-Gm-Message-State: ACrzQf1eNp5+2GwZR5oVqtODrDesC8ew9xicGF/HG/F2nt0Xw1IUcoMW
- uoPyYtiXwp43rxgKPDN8TPKmBl+A/bO6ZA==
-X-Google-Smtp-Source: AMsMyM5Xv5mZ6Jr5Ho2ZS5nVS8d5bnKJ4K4+LOldR0YruAg6GGgeRKVdiqN4jBq2Y5R8U9bVTHrJqQ==
-X-Received: by 2002:a17:90b:4a8a:b0:202:8eec:b87a with SMTP id
- lp10-20020a17090b4a8a00b002028eecb87amr9070001pjb.48.1664745641882; 
- Sun, 02 Oct 2022 14:20:41 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
- [76.210.143.223]) by smtp.gmail.com with ESMTPSA id
- r13-20020a63204d000000b00438b79c7049sm5268040pgm.42.2022.10.02.14.20.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Oct 2022 14:20:41 -0700 (PDT)
-Date: Sun, 02 Oct 2022 14:20:41 -0700 (PDT)
-X-Google-Original-Date: Sun, 02 Oct 2022 14:20:39 PDT (-0700)
-Subject: Re: [PATCH] RISC-V: Add support for Ztso
-In-Reply-To: <YzXvIKVeFcHQ3ZQI@work-vm>
-CC: qemu-devel@nongnu.org
-From: Palmer Dabbelt <palmer@rivosinc.com>
-To: dgilbert@redhat.com
-Message-ID: <mhng-36837e18-1883-443f-85a7-69010d5d38ef@palmer-ri-x1c9>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=palmer@rivosinc.com; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=eL+fUXoW0gnyMSOvq0eh7833x/ohkbAqDoacch1Oe5s=;
+ b=szNq5+59ONq3LIg6T96Oi3OZKBwGA7X7MMSqs2Cn9OqXAhb04uFrGITyG0zc7HfR5d
+ To2uEdzcVQWtw3drJWnTTiKvDilJPY7RaMkRYflKLYCH2jijcz3MIMJycAzbL7CM8Bb5
+ pv1MxA6qWyWNCNdGdXly2AC/twHv+cXJ9XL/eTF2f8ZN5aRhyHCqu/rpI+tIWla1zdE5
+ p1SDpsR5js9nRuFK+pUVvSrlCcwbxmpAFtnX2fgVO408IuApZLUGCIczps46fA+KTtl0
+ 9VdtiABs5CyeI7/wcr88AF35D4IrQOT7d6y4BoK1sKuakzk7FqcDyTpMS0UFZ40h2Q8y
+ +Kew==
+X-Gm-Message-State: ACrzQf33QSgTy6X9AwHCnE6EaRfo+m4LJ2Vq1dOaR9wB1yR320pY72m3
+ 5JGNC3u/VGNa0aQG1HqyZq23Bl1Wj5628QqPE1U=
+X-Google-Smtp-Source: AMsMyM7MChqeMm4QoT6kXRPktrbsM0SgXIRKJoKhP+WL5BlOR1ESADwPVDaRkA5EgkgXmp2JPm0HexDytHs8PMBYr5Y=
+X-Received: by 2002:a05:622a:1803:b0:35b:aff1:aba0 with SMTP id
+ t3-20020a05622a180300b0035baff1aba0mr14389167qtc.334.1664749298984; Sun, 02
+ Oct 2022 15:21:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220824085231.1630804-1-bmeng.cn@gmail.com>
+ <CAJ+F1CKjLyV4HJKQ7fWXgzHq6t9yFMA+s6Afwk-tv1Nq806V2Q@mail.gmail.com>
+ <CAEUhbmUh+PfqhbXT=tdTd7i2kr3KLA14JjsnPkw5BKBS0A-gqw@mail.gmail.com>
+In-Reply-To: <CAEUhbmUh+PfqhbXT=tdTd7i2kr3KLA14JjsnPkw5BKBS0A-gqw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 3 Oct 2022 06:21:28 +0800
+Message-ID: <CAEUhbmXsMCxPk9fvptDu8moyCRdkTc=tB6dL6rYhijnwqmCOSg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] util/main-loop: Fix maximum number of wait objects
+ for win32
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x835.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,65 +88,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Sep 2022 12:16:48 PDT (-0700), dgilbert@redhat.com wrote:
-> * Palmer Dabbelt (palmer@rivosinc.com) wrote:
->> Ztso, the RISC-V extension that provides the TSO memory model, was
->> recently frozen.  This provides support for Ztso on targets that are
->> themselves TSO.
->>
->> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
->>
->> ---
->>
->
->> diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
->> index 00fcbe297d..2a43d54fcd 100644
->> --- a/tcg/i386/tcg-target.h
->> +++ b/tcg/i386/tcg-target.h
->> @@ -236,6 +236,7 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
->>  #include "tcg/tcg-mo.h"
->>
->>  #define TCG_TARGET_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
->> +#define TCG_TARGET_SUPPORTS_MCTCG_RVTSO 1
->
-> Is x86's brand of memory ordering strong enough for Ztso?
-> I thought x86 had an optimisation where it was allowed to store forward
-> within the current CPU causing stores not to be quite strictly ordered.
+Hi Paolo,
 
-I'm actually not sure: my understanding of the Intel memory model was 
-that there's a bunch of subtle bits that don't match the various TSO 
-formalizations, but the RISC-V folks are pretty adamant that Intel is 
-exactly TSO.  I've gotten yelled at enough times on this one that I kind 
-of just stopped caring, but that's not a good reason to have broken code 
-so I'm happy to go fix it.
-
-That said, when putting together the v2 (which has TCG barriers in the 
-RISC-V front-end) I couldn't even really figure out how the TCG memory 
-model works in any formal capacity -- I essentially just added the 
-fences necessary for Ztso on RVWMO, but that's not a good proxy for Ztso 
-on arm64 (and I guess not on x86, either).  Also happy to go take a 
-crack at that one, but I'm not really a formal memory model person so it 
-might not be the best result.
-
+On Sun, Sep 25, 2022 at 9:07 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Dave
+> Hi Paolo,
 >
->>  #define TCG_TARGET_HAS_MEMORY_BSWAP  have_movbe
->>
->> diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
->> index 23e2063667..f423c124a0 100644
->> --- a/tcg/s390x/tcg-target.h
->> +++ b/tcg/s390x/tcg-target.h
->> @@ -171,6 +171,7 @@ extern uint64_t s390_facilities[3];
->>  #define TCG_TARGET_HAS_MEMORY_BSWAP   1
->>
->>  #define TCG_TARGET_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
->> +#define TCG_TARGET_SUPPORTS_MCTCG_RVTSO 1
->>
->>  static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
->>                                              uintptr_t jmp_rw, uintptr_t addr)
->> --
->> 2.34.1
->>
->>
+> On Tue, Sep 13, 2022 at 5:52 PM Marc-Andr=C3=A9 Lureau
+> <marcandre.lureau@gmail.com> wrote:
+> >
+> > Hi
+> >
+> > On Wed, Aug 24, 2022 at 12:52 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >>
+> >> From: Bin Meng <bin.meng@windriver.com>
+> >>
+> >> The maximum number of wait objects for win32 should be
+> >> MAXIMUM_WAIT_OBJECTS, not MAXIMUM_WAIT_OBJECTS + 1.
+> >>
+> >> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >> ---
+> >>
+> >> Changes in v3:
+> >> - move the check of adding the same HANDLE twice to a separete patch
+> >>
+> >> Changes in v2:
+> >> - fix the logic in qemu_add_wait_object() to avoid adding
+> >>   the same HANDLE twice
+> >>
+> >>  util/main-loop.c | 11 +++++++----
+> >>  1 file changed, 7 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/util/main-loop.c b/util/main-loop.c
+> >> index f00a25451b..cb018dc33c 100644
+> >> --- a/util/main-loop.c
+> >> +++ b/util/main-loop.c
+> >> @@ -363,10 +363,10 @@ void qemu_del_polling_cb(PollingFunc *func, void=
+ *opaque)
+> >>  /* Wait objects support */
+> >>  typedef struct WaitObjects {
+> >>      int num;
+> >> -    int revents[MAXIMUM_WAIT_OBJECTS + 1];
+> >> -    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
+> >> -    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS + 1];
+> >> -    void *opaque[MAXIMUM_WAIT_OBJECTS + 1];
+> >> +    int revents[MAXIMUM_WAIT_OBJECTS];
+> >> +    HANDLE events[MAXIMUM_WAIT_OBJECTS];
+> >> +    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS];
+> >> +    void *opaque[MAXIMUM_WAIT_OBJECTS];
+> >>  } WaitObjects;
+> >>
+> >>  static WaitObjects wait_objects =3D {0};
+> >> @@ -395,6 +395,9 @@ void qemu_del_wait_object(HANDLE handle, WaitObjec=
+tFunc *func, void *opaque)
+> >>          if (w->events[i] =3D=3D handle) {
+> >>              found =3D 1;
+> >>          }
+> >> +        if (i =3D=3D MAXIMUM_WAIT_OBJECTS - 1) {
+> >> +            break;
+> >> +        }
+> >
+> >
+> > hmm
+> >
+> >>
+> >>          if (found) {
+> >>              w->events[i] =3D w->events[i + 1];
+> >>              w->func[i] =3D w->func[i + 1];
+> >
+> >
+> > The way deletion works is by moving the i+1 element (which is always ze=
+roed for i =3D=3D MAXIMUM_WAIT_OBJECTS) to i.
+> >
+> > After your patch, for i =3D=3D MAXIMUM_WAIT_OBJECTS, we no longer clear=
+ the last value, and instead rely simply on updated w->num:
+> >
+> >     if (found) {
+> >         w->num--;
+> >     }
+> >
+> >  So your patch looks ok to me, but I prefer the current code.
+> >
+> > Paolo, what do you say?
+>
+> Ping?
+>
+
+Ping?
+
+Regards,
+Bin
 
