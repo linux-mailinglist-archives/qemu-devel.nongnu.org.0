@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46BE5F22A5
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 12:39:11 +0200 (CEST)
-Received: from localhost ([::1]:56608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F46D5F2370
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 15:51:09 +0200 (CEST)
+Received: from localhost ([::1]:45540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oewNK-00071L-Bl
-	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 06:39:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32890)
+	id 1oezN4-0006nq-2A
+	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 09:51:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=7BIb=2D=zx2c4.com=Jason@kernel.org>)
- id 1oewLY-0005Zg-QY
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 06:37:20 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:34554)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oezLt-00054v-5C
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 09:49:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=7BIb=2D=zx2c4.com=Jason@kernel.org>)
- id 1oewLV-0003eN-RK
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 06:37:19 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EBA1D60DF1;
- Sun,  2 Oct 2022 10:37:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCA30C433D6;
- Sun,  2 Oct 2022 10:37:13 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="JoEY3n5Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664707031;
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oezLo-00008R-FW
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 09:49:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664718586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LiIzOKPhS8yBC/CGS8tjsOVVISQNG22SAmj8In0pC14=;
- b=JoEY3n5QBGQ51vBTKq2DiZr9pTEP/1Ms1GXLXa5S/mgbbMdOIKp9ixIfM/DEjxWznR0Teb
- S7bGRqsWPTUSE0cxLYdu5d/R3Gc6vkvbJUvkBaxdR3sWtbIJQl0fYPgrc+R75W8wnuSHyG
- TyMnFEp43JrKSEb9T8QrmEXcXtqpOYc=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9a282e4e
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Sun, 2 Oct 2022 10:37:11 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: laurent@vivier.eu,
-	qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH v2] m68k: write bootinfo as rom section and re-randomize on
- reboot
-Date: Sun,  2 Oct 2022 12:37:07 +0200
-Message-Id: <20221002103707.909560-1-Jason@zx2c4.com>
-In-Reply-To: <20220929183904.262958-1-Jason@zx2c4.com>
-References: <20220929183904.262958-1-Jason@zx2c4.com>
+ bh=9FpKqC49jB3dmZAiK1OQzQ0PpZa/27KRog+nRo4UibY=;
+ b=FIerdbq4CJCPnNzuKLlYfqshGBUFbChp2o6/tESxPJXQb3/qKfRnKS2GemlBgB4gfzACnP
+ zEA0DZ08R1kAayZI5hoKpS0zCQFSIcpbWlt9b12fdU97HUJoKCG41/WpRWBsAfp25RQqeK
+ nAR+WKouNg3HytJr7Vn/1vtVdE1mGH4=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-593-1uO5pZzoO0GoXG6xH1YQrg-1; Sun, 02 Oct 2022 09:49:44 -0400
+X-MC-Unique: 1uO5pZzoO0GoXG6xH1YQrg-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-13193fb45b9so5461896fac.1
+ for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 06:49:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=9FpKqC49jB3dmZAiK1OQzQ0PpZa/27KRog+nRo4UibY=;
+ b=P0IVIxaWEpNNb+NyPQhL+AK3vDymEqU2hrfhqwLEGNuVuSyCxXXrAqnxILXReRCQ6b
+ Kgsga4oe3Q1gZUcy5gcaeZaPNV/0maXhulb4Tb2cd/xqPpBuqvfz3NO902/LbeSIkeCO
+ vvjXrKn0oGoapwVl2vUYgjFxvc0X9TmM+5PzxHAdVrBzFR5vpL8Jpm0+nQeHusQnCqvv
+ eQRzbuLkpYQnuz3qfvJzTJYTV2LZvNMCWm+WA2iUFRDlIX1uejgp+bD+kOykrXHyuHtQ
+ 1nWNbijc9dZQ4pqRwIuZasZRdNifisVzklYKLPGk8NvseSPq7hD1/1QhG21ntEqZxIhk
+ 1f0Q==
+X-Gm-Message-State: ACrzQf3Fqc1p+7c+wvEtmW0Sk67cFOIc5V2IUJa6aQonaT2wXBRg2Noc
+ RmCCYJDx1O9CEuGf2MhfXzUbGS5TbYf0ijcWko0N4Q2Oe6PRU41EjqR3VriQkLB8d2qK4uxd5W2
+ HK+AJO7jyoPJTTxNtGO3D4t91jc0jhws=
+X-Received: by 2002:a05:6808:21a3:b0:350:cca1:9f40 with SMTP id
+ be35-20020a05680821a300b00350cca19f40mr2577846oib.205.1664718584186; 
+ Sun, 02 Oct 2022 06:49:44 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4Qcdno2Pab+UEwaR/FbKz6aAg4RBgHNvmG3OHo/3NXpfqQJDDbVxsHqxR3+6e1suwo/GU3gU4dW5ARH7JFP1w=
+X-Received: by 2002:a05:6808:21a3:b0:350:cca1:9f40 with SMTP id
+ be35-20020a05680821a300b00350cca19f40mr2577840oib.205.1664718583925; Sun, 02
+ Oct 2022 06:49:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=7BIb=2D=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+References: <20220929163237.1417215-1-marcandre.lureau@redhat.com>
+ <2973900.g0HVWOepMQ@silver>
+In-Reply-To: <2973900.g0HVWOepMQ@silver>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Sun, 2 Oct 2022 17:49:32 +0400
+Message-ID: <CAMxuvawttTSHMwzaUYpmKNCh8fauR1xCgEhaQD3C2GJDKFyZ5Q@mail.gmail.com>
+Subject: Re: [PATCH] net: print a more actionable error when slirp is not found
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org, jb-gnumlists@wisemo.com, thuth@redhat.com, 
+ jasowang@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,362 +96,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than poking directly into RAM, add the bootinfo block as a proper
-ROM, so that it's restored when rebooting the system. This way, if the
-guest corrupts any of the bootinfo items, but then tries to reboot,
-it'll still be restored back to normal as expected. This assumes the
-bootinfo block won't exceed 1k.
+Hi
 
-Then, since the RNG seed needs to be fresh on each boot, regenerate the
-RNG seed in the ROM when reseting the CPU.
+On Fri, Sep 30, 2022 at 11:49 PM Christian Schoenebeck
+<qemu_oss@crudebyte.com> wrote:
+>
+> On Donnerstag, 29. September 2022 18:32:37 CEST Marc-Andr=C3=A9 Lureau wr=
+ote:
+> > From: Marc-Andr=C3=83=C2=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > If slirp is not found during compile-time, and not manually disabled,
+> > print a friendly error message, as suggested in the "If your networking
+> > is failing after updating to the latest git version of QEMU..." thread
+> > by various people.
+> >
+> > Signed-off-by: Marc-Andr=C3=83=C2=A9 Lureau <marcandre.lureau@redhat.co=
+m>
+> > ---
+> >  meson.build |  4 ++++
+> >  net/net.c   | 19 +++++++++++++++++--
+> >  2 files changed, 21 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meson.build b/meson.build
+> > index 8dc661363f..4f69d7d0b4 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -657,6 +657,10 @@ if not get_option('slirp').auto() or have_system
+> >    endif
+> >  endif
+> >
+> > +if get_option('slirp').disabled()
+> > +  config_host_data.set('CONFIG_SLIRP_DISABLED', true)
+> > +endif
+> > +
+> >  vde =3D not_found
+> >  if not get_option('vde').auto() or have_system or have_tools
+> >    vde =3D cc.find_library('vdeplug', has_headers: ['libvdeplug.h'],
+> > diff --git a/net/net.c b/net/net.c
+> > index 2db160e063..e6072a5ddd 100644
+> > --- a/net/net.c
+> > +++ b/net/net.c
+> > @@ -990,14 +990,29 @@ static int net_init_nic(const Netdev *netdev, con=
+st
+> > char *name, return idx;
+> >  }
+> >
+> > +#if (defined(CONFIG_SLIRP) || !defined(CONFIG_SLIRP_DISABLED))
+> > +static int net_init_user(const Netdev *netdev, const char *name,
+> > +                         NetClientState *peer, Error **errp)
+> > +{
+> > +#ifdef CONFIG_SLIRP
+> > +    return net_init_slirp(netdev, name, peer, errp);
+> > +#else
+> > +    error_setg(errp,
+> > +               "Type 'user' is not a supported netdev backend by this =
+QEMU
+> > build " +               "because the libslirp development files were no=
+t
+> > found during build " +               "of QEMU.");
+> > +#endif
+> > +    return -1;
+> > +}
+> > +#endif
+>
+> I just tried this, but somehow it is not working for me. net_init_user() =
+is
+> never called and therefore I don't get the error message. That should be
+> working if the user launched QEMU without any networking arg, right?
+>
 
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/m68k/bootinfo.h | 48 +++++++++++++++++-----------------
- hw/m68k/q800.c     | 65 ++++++++++++++++++++++++++++++++--------------
- hw/m68k/virt.c     | 45 +++++++++++++++++++++-----------
- 3 files changed, 99 insertions(+), 59 deletions(-)
+That's because vl.c has:
+if (default_net) {
+...
+#ifdef CONFIG_SLIRP
+        qemu_opts_parse(net, "user", true, &error_abort);
+#endif
 
-diff --git a/hw/m68k/bootinfo.h b/hw/m68k/bootinfo.h
-index 897162b818..eb92937cf6 100644
---- a/hw/m68k/bootinfo.h
-+++ b/hw/m68k/bootinfo.h
-@@ -12,66 +12,66 @@
- #ifndef HW_M68K_BOOTINFO_H
- #define HW_M68K_BOOTINFO_H
- 
--#define BOOTINFO0(as, base, id) \
-+#define BOOTINFO0(base, id) \
-     do { \
--        stw_phys(as, base, id); \
-+        stw_p(base, id); \
-         base += 2; \
--        stw_phys(as, base, sizeof(struct bi_record)); \
-+        stw_p(base, sizeof(struct bi_record)); \
-         base += 2; \
-     } while (0)
- 
--#define BOOTINFO1(as, base, id, value) \
-+#define BOOTINFO1(base, id, value) \
-     do { \
--        stw_phys(as, base, id); \
-+        stw_p(base, id); \
-         base += 2; \
--        stw_phys(as, base, sizeof(struct bi_record) + 4); \
-+        stw_p(base, sizeof(struct bi_record) + 4); \
-         base += 2; \
--        stl_phys(as, base, value); \
-+        stl_p(base, value); \
-         base += 4; \
-     } while (0)
- 
--#define BOOTINFO2(as, base, id, value1, value2) \
-+#define BOOTINFO2(base, id, value1, value2) \
-     do { \
--        stw_phys(as, base, id); \
-+        stw_p(base, id); \
-         base += 2; \
--        stw_phys(as, base, sizeof(struct bi_record) + 8); \
-+        stw_p(base, sizeof(struct bi_record) + 8); \
-         base += 2; \
--        stl_phys(as, base, value1); \
-+        stl_p(base, value1); \
-         base += 4; \
--        stl_phys(as, base, value2); \
-+        stl_p(base, value2); \
-         base += 4; \
-     } while (0)
- 
--#define BOOTINFOSTR(as, base, id, string) \
-+#define BOOTINFOSTR(base, id, string) \
-     do { \
-         int i; \
--        stw_phys(as, base, id); \
-+        stw_p(base, id); \
-         base += 2; \
--        stw_phys(as, base, \
-+        stw_p(base, \
-                  (sizeof(struct bi_record) + strlen(string) + \
-                   1 /* null termination */ + 3 /* padding */) & ~3); \
-         base += 2; \
-         for (i = 0; string[i]; i++) { \
--            stb_phys(as, base++, string[i]); \
-+            stb_p(base++, string[i]); \
-         } \
--        stb_phys(as, base++, 0); \
--        base = (base + 3) & ~3; \
-+        stb_p(base++, 0); \
-+        base = (void *)(((unsigned long)base + 3) & ~3); \
-     } while (0)
- 
--#define BOOTINFODATA(as, base, id, data, len) \
-+#define BOOTINFODATA(base, id, data, len) \
-     do { \
-         int i; \
--        stw_phys(as, base, id); \
-+        stw_p(base, id); \
-         base += 2; \
--        stw_phys(as, base, \
-+        stw_p(base, \
-                  (sizeof(struct bi_record) + len + \
-                   2 /* length field */ + 3 /* padding */) & ~3); \
-         base += 2; \
--        stw_phys(as, base, len); \
-+        stw_p(base, len); \
-         base += 2; \
-         for (i = 0; i < len; ++i) { \
--            stb_phys(as, base++, data[i]); \
-+            stb_p(base++, data[i]); \
-         } \
--        base = (base + 3) & ~3; \
-+        base = (void *)(((unsigned long)base + 3) & ~3); \
-     } while (0)
- #endif
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index a4590c2cb0..d94da38cde 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -321,11 +321,22 @@ static const TypeInfo glue_info = {
-     },
- };
- 
-+typedef struct {
-+    M68kCPU *cpu;
-+    struct bi_record *rng_seed;
-+} ResetInfo;
-+
- static void main_cpu_reset(void *opaque)
- {
--    M68kCPU *cpu = opaque;
-+    ResetInfo *reset_info = opaque;
-+    M68kCPU *cpu = reset_info->cpu;
-     CPUState *cs = CPU(cpu);
- 
-+    if (reset_info->rng_seed) {
-+        qemu_guest_getrandom_nofail((void *)reset_info->rng_seed->data + 2,
-+            be16_to_cpu(*(uint16_t *)reset_info->rng_seed->data));
-+    }
-+
-     cpu_reset(cs);
-     cpu->env.aregs[7] = ldl_phys(cs->as, 0);
-     cpu->env.pc = ldl_phys(cs->as, 4);
-@@ -386,6 +397,7 @@ static void q800_init(MachineState *machine)
-     NubusBus *nubus;
-     DeviceState *glue;
-     DriveInfo *dinfo;
-+    ResetInfo *reset_info;
-     uint8_t rng_seed[32];
- 
-     linux_boot = (kernel_filename != NULL);
-@@ -396,9 +408,12 @@ static void q800_init(MachineState *machine)
-         exit(1);
-     }
- 
-+    reset_info = g_new0(ResetInfo, 1);
-+
-     /* init CPUs */
-     cpu = M68K_CPU(cpu_create(machine->cpu_type));
--    qemu_register_reset(main_cpu_reset, cpu);
-+    reset_info->cpu = cpu;
-+    qemu_register_reset(main_cpu_reset, reset_info);
- 
-     /* RAM */
-     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
-@@ -598,6 +613,8 @@ static void q800_init(MachineState *machine)
-     cs = CPU(cpu);
-     if (linux_boot) {
-         uint64_t high;
-+        void *param_blob = g_malloc(1024), *param_ptr, *param_rng_seed;
-+
-         kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
-                                &elf_entry, NULL, &high, NULL, 1,
-                                EM_68K, 0, 0);
-@@ -607,23 +624,24 @@ static void q800_init(MachineState *machine)
-         }
-         stl_phys(cs->as, 4, elf_entry); /* reset initial PC */
-         parameters_base = (high + 1) & ~1;
--
--        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_MAC);
--        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
--        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
--        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
--        BOOTINFO1(cs->as, parameters_base, BI_MAC_CPUID, CPUB_68040);
--        BOOTINFO1(cs->as, parameters_base, BI_MAC_MODEL, MAC_MODEL_Q800);
--        BOOTINFO1(cs->as, parameters_base,
-+        param_ptr = param_blob;
-+
-+        BOOTINFO1(param_ptr, BI_MACHTYPE, MACH_MAC);
-+        BOOTINFO1(param_ptr, BI_FPUTYPE, FPU_68040);
-+        BOOTINFO1(param_ptr, BI_MMUTYPE, MMU_68040);
-+        BOOTINFO1(param_ptr, BI_CPUTYPE, CPU_68040);
-+        BOOTINFO1(param_ptr, BI_MAC_CPUID, CPUB_68040);
-+        BOOTINFO1(param_ptr, BI_MAC_MODEL, MAC_MODEL_Q800);
-+        BOOTINFO1(param_ptr,
-                   BI_MAC_MEMSIZE, ram_size >> 20); /* in MB */
--        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
--        BOOTINFO1(cs->as, parameters_base, BI_MAC_VADDR,
-+        BOOTINFO2(param_ptr, BI_MEMCHUNK, 0, ram_size);
-+        BOOTINFO1(param_ptr, BI_MAC_VADDR,
-                   VIDEO_BASE + macfb_mode->offset);
--        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDEPTH, graphic_depth);
--        BOOTINFO1(cs->as, parameters_base, BI_MAC_VDIM,
-+        BOOTINFO1(param_ptr, BI_MAC_VDEPTH, graphic_depth);
-+        BOOTINFO1(param_ptr, BI_MAC_VDIM,
-                   (graphic_height << 16) | graphic_width);
--        BOOTINFO1(cs->as, parameters_base, BI_MAC_VROW, macfb_mode->stride);
--        BOOTINFO1(cs->as, parameters_base, BI_MAC_SCCBASE, SCC_BASE);
-+        BOOTINFO1(param_ptr, BI_MAC_VROW, macfb_mode->stride);
-+        BOOTINFO1(param_ptr, BI_MAC_SCCBASE, SCC_BASE);
- 
-         rom = g_malloc(sizeof(*rom));
-         memory_region_init_ram_ptr(rom, NULL, "m68k_fake_mac.rom",
-@@ -632,13 +650,14 @@ static void q800_init(MachineState *machine)
-         memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom);
- 
-         if (kernel_cmdline) {
--            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
-+            BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
-                         kernel_cmdline);
-         }
- 
-         /* Pass seed to RNG. */
-+        param_rng_seed = param_ptr;
-         qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
--        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
-+        BOOTINFODATA(param_ptr, BI_RNG_SEED,
-                      rng_seed, sizeof(rng_seed));
- 
-         /* load initrd */
-@@ -653,13 +672,19 @@ static void q800_init(MachineState *machine)
-             initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
-             load_image_targphys(initrd_filename, initrd_base,
-                                 ram_size - initrd_base);
--            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
-+            BOOTINFO2(param_ptr, BI_RAMDISK, initrd_base,
-                       initrd_size);
-         } else {
-             initrd_base = 0;
-             initrd_size = 0;
-         }
--        BOOTINFO0(cs->as, parameters_base, BI_LAST);
-+        BOOTINFO0(param_ptr, BI_LAST);
-+        rom_add_blob_fixed_as("bootinfo", param_blob, param_ptr - param_blob,
-+                              parameters_base, cs->as);
-+        reset_info->rng_seed = rom_ptr_for_as(cs->as, parameters_base,
-+                                              param_ptr - param_blob) +
-+                               (param_rng_seed - param_blob);
-+        g_free(param_blob);
-     } else {
-         uint8_t *ptr;
-         /* allocate and load BIOS */
-diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-index f7b903ea1b..1b9771442d 100644
---- a/hw/m68k/virt.c
-+++ b/hw/m68k/virt.c
-@@ -89,6 +89,7 @@ typedef struct {
-     M68kCPU *cpu;
-     hwaddr initial_pc;
-     hwaddr initial_stack;
-+    struct bi_record *rng_seed;
- } ResetInfo;
- 
- static void main_cpu_reset(void *opaque)
-@@ -97,6 +98,11 @@ static void main_cpu_reset(void *opaque)
-     M68kCPU *cpu = reset_info->cpu;
-     CPUState *cs = CPU(cpu);
- 
-+    if (reset_info->rng_seed) {
-+        qemu_guest_getrandom_nofail((void *)reset_info->rng_seed->data + 2,
-+            be16_to_cpu(*(uint16_t *)reset_info->rng_seed->data));
-+    }
-+
-     cpu_reset(cs);
-     cpu->env.aregs[7] = reset_info->initial_stack;
-     cpu->env.pc = reset_info->initial_pc;
-@@ -212,6 +218,7 @@ static void virt_init(MachineState *machine)
-     if (kernel_filename) {
-         CPUState *cs = CPU(cpu);
-         uint64_t high;
-+        void *param_blob = g_malloc(1024), *param_ptr, *param_rng_seed;
- 
-         kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
-                                &elf_entry, NULL, &high, NULL, 1,
-@@ -222,35 +229,37 @@ static void virt_init(MachineState *machine)
-         }
-         reset_info->initial_pc = elf_entry;
-         parameters_base = (high + 1) & ~1;
-+        param_ptr = param_blob;
- 
--        BOOTINFO1(cs->as, parameters_base, BI_MACHTYPE, MACH_VIRT);
--        BOOTINFO1(cs->as, parameters_base, BI_FPUTYPE, FPU_68040);
--        BOOTINFO1(cs->as, parameters_base, BI_MMUTYPE, MMU_68040);
--        BOOTINFO1(cs->as, parameters_base, BI_CPUTYPE, CPU_68040);
--        BOOTINFO2(cs->as, parameters_base, BI_MEMCHUNK, 0, ram_size);
-+        BOOTINFO1(param_ptr, BI_MACHTYPE, MACH_VIRT);
-+        BOOTINFO1(param_ptr, BI_FPUTYPE, FPU_68040);
-+        BOOTINFO1(param_ptr, BI_MMUTYPE, MMU_68040);
-+        BOOTINFO1(param_ptr, BI_CPUTYPE, CPU_68040);
-+        BOOTINFO2(param_ptr, BI_MEMCHUNK, 0, ram_size);
- 
--        BOOTINFO1(cs->as, parameters_base, BI_VIRT_QEMU_VERSION,
-+        BOOTINFO1(param_ptr, BI_VIRT_QEMU_VERSION,
-                   ((QEMU_VERSION_MAJOR << 24) | (QEMU_VERSION_MINOR << 16) |
-                    (QEMU_VERSION_MICRO << 8)));
--        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_PIC_BASE,
-+        BOOTINFO2(param_ptr, BI_VIRT_GF_PIC_BASE,
-                   VIRT_GF_PIC_MMIO_BASE, VIRT_GF_PIC_IRQ_BASE);
--        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_RTC_BASE,
-+        BOOTINFO2(param_ptr, BI_VIRT_GF_RTC_BASE,
-                   VIRT_GF_RTC_MMIO_BASE, VIRT_GF_RTC_IRQ_BASE);
--        BOOTINFO2(cs->as, parameters_base, BI_VIRT_GF_TTY_BASE,
-+        BOOTINFO2(param_ptr, BI_VIRT_GF_TTY_BASE,
-                   VIRT_GF_TTY_MMIO_BASE, VIRT_GF_TTY_IRQ_BASE);
--        BOOTINFO2(cs->as, parameters_base, BI_VIRT_CTRL_BASE,
-+        BOOTINFO2(param_ptr, BI_VIRT_CTRL_BASE,
-                   VIRT_CTRL_MMIO_BASE, VIRT_CTRL_IRQ_BASE);
--        BOOTINFO2(cs->as, parameters_base, BI_VIRT_VIRTIO_BASE,
-+        BOOTINFO2(param_ptr, BI_VIRT_VIRTIO_BASE,
-                   VIRT_VIRTIO_MMIO_BASE, VIRT_VIRTIO_IRQ_BASE);
- 
-         if (kernel_cmdline) {
--            BOOTINFOSTR(cs->as, parameters_base, BI_COMMAND_LINE,
-+            BOOTINFOSTR(param_ptr, BI_COMMAND_LINE,
-                         kernel_cmdline);
-         }
- 
-         /* Pass seed to RNG. */
-+        param_rng_seed = param_ptr;
-         qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
--        BOOTINFODATA(cs->as, parameters_base, BI_RNG_SEED,
-+        BOOTINFODATA(param_ptr, BI_RNG_SEED,
-                      rng_seed, sizeof(rng_seed));
- 
-         /* load initrd */
-@@ -265,13 +274,19 @@ static void virt_init(MachineState *machine)
-             initrd_base = (ram_size - initrd_size) & TARGET_PAGE_MASK;
-             load_image_targphys(initrd_filename, initrd_base,
-                                 ram_size - initrd_base);
--            BOOTINFO2(cs->as, parameters_base, BI_RAMDISK, initrd_base,
-+            BOOTINFO2(param_ptr, BI_RAMDISK, initrd_base,
-                       initrd_size);
-         } else {
-             initrd_base = 0;
-             initrd_size = 0;
-         }
--        BOOTINFO0(cs->as, parameters_base, BI_LAST);
-+        BOOTINFO0(param_ptr, BI_LAST);
-+        rom_add_blob_fixed_as("bootinfo", param_blob, param_ptr - param_blob,
-+                              parameters_base, cs->as);
-+        reset_info->rng_seed = rom_ptr_for_as(cs->as, parameters_base,
-+                                              param_ptr - param_blob) +
-+                               (param_rng_seed - param_blob);
-+        g_free(param_blob);
-     }
- }
- 
--- 
-2.37.3
+Iow, it doesn't try to use slirp by default if it's not found at
+compile time. We can eventually change that, but that might break
+existing users who don't build with slirp.
+
+Alternatively, it could error out only if slirp was not explicitly
+disabled at configure time.
+
+> And still, I would find it better if there was also a clear build-time er=
+ror
+> if there was no libslirp and slirp feature was not explicitly disabled.
+
+That's not the typical way we deal with dependencies, but I can try to
+do that as well.
+
+>
+> >
+> >  static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+> >      const Netdev *netdev,
+> >      const char *name,
+> >      NetClientState *peer, Error **errp) =3D {
+> >          [NET_CLIENT_DRIVER_NIC]       =3D net_init_nic,
+> > -#ifdef CONFIG_SLIRP
+> > -        [NET_CLIENT_DRIVER_USER]      =3D net_init_slirp,
+> > +#if (defined(CONFIG_SLIRP) || !defined(CONFIG_SLIRP_DISABLED))
+> > +        [NET_CLIENT_DRIVER_USER]      =3D net_init_user,
+> >  #endif
+> >          [NET_CLIENT_DRIVER_TAP]       =3D net_init_tap,
+> >          [NET_CLIENT_DRIVER_SOCKET]    =3D net_init_socket,
+>
+>
+>
+>
 
 
