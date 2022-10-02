@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F46D5F2370
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 15:51:09 +0200 (CEST)
-Received: from localhost ([::1]:45540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C4E5F2376
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 15:58:06 +0200 (CEST)
+Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oezN4-0006nq-2A
-	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 09:51:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58822)
+	id 1oezTp-0003pf-6N
+	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 09:58:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oezLt-00054v-5C
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 09:49:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30221)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1oezSm-0002Mv-SR
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 09:57:00 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:46034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oezLo-00008R-FW
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 09:49:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664718586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9FpKqC49jB3dmZAiK1OQzQ0PpZa/27KRog+nRo4UibY=;
- b=FIerdbq4CJCPnNzuKLlYfqshGBUFbChp2o6/tESxPJXQb3/qKfRnKS2GemlBgB4gfzACnP
- zEA0DZ08R1kAayZI5hoKpS0zCQFSIcpbWlt9b12fdU97HUJoKCG41/WpRWBsAfp25RQqeK
- nAR+WKouNg3HytJr7Vn/1vtVdE1mGH4=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-593-1uO5pZzoO0GoXG6xH1YQrg-1; Sun, 02 Oct 2022 09:49:44 -0400
-X-MC-Unique: 1uO5pZzoO0GoXG6xH1YQrg-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-13193fb45b9so5461896fac.1
- for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 06:49:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=9FpKqC49jB3dmZAiK1OQzQ0PpZa/27KRog+nRo4UibY=;
- b=P0IVIxaWEpNNb+NyPQhL+AK3vDymEqU2hrfhqwLEGNuVuSyCxXXrAqnxILXReRCQ6b
- Kgsga4oe3Q1gZUcy5gcaeZaPNV/0maXhulb4Tb2cd/xqPpBuqvfz3NO902/LbeSIkeCO
- vvjXrKn0oGoapwVl2vUYgjFxvc0X9TmM+5PzxHAdVrBzFR5vpL8Jpm0+nQeHusQnCqvv
- eQRzbuLkpYQnuz3qfvJzTJYTV2LZvNMCWm+WA2iUFRDlIX1uejgp+bD+kOykrXHyuHtQ
- 1nWNbijc9dZQ4pqRwIuZasZRdNifisVzklYKLPGk8NvseSPq7hD1/1QhG21ntEqZxIhk
- 1f0Q==
-X-Gm-Message-State: ACrzQf3Fqc1p+7c+wvEtmW0Sk67cFOIc5V2IUJa6aQonaT2wXBRg2Noc
- RmCCYJDx1O9CEuGf2MhfXzUbGS5TbYf0ijcWko0N4Q2Oe6PRU41EjqR3VriQkLB8d2qK4uxd5W2
- HK+AJO7jyoPJTTxNtGO3D4t91jc0jhws=
-X-Received: by 2002:a05:6808:21a3:b0:350:cca1:9f40 with SMTP id
- be35-20020a05680821a300b00350cca19f40mr2577846oib.205.1664718584186; 
- Sun, 02 Oct 2022 06:49:44 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4Qcdno2Pab+UEwaR/FbKz6aAg4RBgHNvmG3OHo/3NXpfqQJDDbVxsHqxR3+6e1suwo/GU3gU4dW5ARH7JFP1w=
-X-Received: by 2002:a05:6808:21a3:b0:350:cca1:9f40 with SMTP id
- be35-20020a05680821a300b00350cca19f40mr2577840oib.205.1664718583925; Sun, 02
- Oct 2022 06:49:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1oezSk-0001aG-Np
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 09:57:00 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 86862B80C99;
+ Sun,  2 Oct 2022 13:56:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D2ECC433D7;
+ Sun,  2 Oct 2022 13:56:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1664719014;
+ bh=qO3hIZW9pTAXKAlh4vUiIdwgn5hVGFl9JsBQtCk2vTY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OwTEsbDGZpJUFCshG3OmtnH8tG8GH3WveLWD6/uaCyoziZPNRIPBOJ6itJLW0CqDm
+ rcBimG+xXPNxIwM5zT/DeJZLUYLSTK+DqFkVJdZa37DeGFP7QtEEUrTpdY8JsGcBfS
+ 7OaosCYqWKT9GqDYG5JNul2enF1/Rd3Ukdk+3u7v4wpXexzgepeYmvggtOSCqoD0Gn
+ JX4JLriIBKxKnKWyVp65fPRi7BltatpYYIzIm7vToyctgL6TKCz6HyucyRjkKCOKWl
+ M5UFVEbr0AkgGAI7pUCBFlR2UFzwDoZeS3u9rr6V+HTIE38YOKTr2lPWHvIzweAo7D
+ cQWR+aHvJxfjA==
+Date: Sun, 2 Oct 2022 07:56:50 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Christoph Hellwig <hch@lst.de>,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org, Kevin Wolf <kwolf@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
+Subject: Re: Commit 'iomap: add support for dma aligned direct-io' causes
+ qemu/KVM boot failures
+Message-ID: <YzmYojlHKZ79mseE@kbusch-mbp>
+References: <fb869c88bd48ea9018e1cc349918aa7cdd524931.camel@redhat.com>
+ <YzW+Mz12JT1BXoZA@kbusch-mbp.dhcp.thefacebook.com>
+ <a2825beac032fd6a76838164d4e2753d30305897.camel@redhat.com>
+ <YzXJwmP8pa3WABEG@kbusch-mbp.dhcp.thefacebook.com>
+ <20220929163931.GA10232@lst.de>
+ <32db4f89-a83f-aac4-5d27-0801bdca60bf@redhat.com>
+ <28ce86c01271c1b9b8f96a7783b55a8d458325d2.camel@redhat.com>
 MIME-Version: 1.0
-References: <20220929163237.1417215-1-marcandre.lureau@redhat.com>
- <2973900.g0HVWOepMQ@silver>
-In-Reply-To: <2973900.g0HVWOepMQ@silver>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Sun, 2 Oct 2022 17:49:32 +0400
-Message-ID: <CAMxuvawttTSHMwzaUYpmKNCh8fauR1xCgEhaQD3C2GJDKFyZ5Q@mail.gmail.com>
-Subject: Re: [PATCH] net: print a more actionable error when slirp is not found
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: qemu-devel@nongnu.org, jb-gnumlists@wisemo.com, thuth@redhat.com, 
- jasowang@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <28ce86c01271c1b9b8f96a7783b55a8d458325d2.camel@redhat.com>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=kbusch@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,113 +79,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Sun, Oct 02, 2022 at 11:59:42AM +0300, Maxim Levitsky wrote:
+> On Thu, 2022-09-29 at 19:35 +0200, Paolo Bonzini wrote:
+> > On 9/29/22 18:39, Christoph Hellwig wrote:
+> > > On Thu, Sep 29, 2022 at 10:37:22AM -0600, Keith Busch wrote:
+> > > > > I am aware, and I've submitted the fix to qemu here:
+> > > > > 
+> > > > >   https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00398.html
+> > > > 
+> > > > I don't think so. Memory alignment and length granularity are two completely
+> > > > different concepts. If anything, the kernel's ABI had been that the length
+> > > > requirement was also required for the memory alignment, not the other way
+> > > > around. That usage will continue working with this kernel patch.
+> 
+> Yes, this is how I also understand it - for example for O_DIRECT on a file which
+> resides on 4K block device, you have to use page aligned buffers.
+> 
+> But here after the patch, 512 aligned buffer starts working as well - If I
+> understand you correctly the ABI didn't guarantee that such usage would fail,
+> but rather that it might fail.
 
-On Fri, Sep 30, 2022 at 11:49 PM Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
->
-> On Donnerstag, 29. September 2022 18:32:37 CEST Marc-Andr=C3=A9 Lureau wr=
-ote:
-> > From: Marc-Andr=C3=83=C2=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > If slirp is not found during compile-time, and not manually disabled,
-> > print a friendly error message, as suggested in the "If your networking
-> > is failing after updating to the latest git version of QEMU..." thread
-> > by various people.
-> >
-> > Signed-off-by: Marc-Andr=C3=83=C2=A9 Lureau <marcandre.lureau@redhat.co=
-m>
-> > ---
-> >  meson.build |  4 ++++
-> >  net/net.c   | 19 +++++++++++++++++--
-> >  2 files changed, 21 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meson.build b/meson.build
-> > index 8dc661363f..4f69d7d0b4 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -657,6 +657,10 @@ if not get_option('slirp').auto() or have_system
-> >    endif
-> >  endif
-> >
-> > +if get_option('slirp').disabled()
-> > +  config_host_data.set('CONFIG_SLIRP_DISABLED', true)
-> > +endif
-> > +
-> >  vde =3D not_found
-> >  if not get_option('vde').auto() or have_system or have_tools
-> >    vde =3D cc.find_library('vdeplug', has_headers: ['libvdeplug.h'],
-> > diff --git a/net/net.c b/net/net.c
-> > index 2db160e063..e6072a5ddd 100644
-> > --- a/net/net.c
-> > +++ b/net/net.c
-> > @@ -990,14 +990,29 @@ static int net_init_nic(const Netdev *netdev, con=
-st
-> > char *name, return idx;
-> >  }
-> >
-> > +#if (defined(CONFIG_SLIRP) || !defined(CONFIG_SLIRP_DISABLED))
-> > +static int net_init_user(const Netdev *netdev, const char *name,
-> > +                         NetClientState *peer, Error **errp)
-> > +{
-> > +#ifdef CONFIG_SLIRP
-> > +    return net_init_slirp(netdev, name, peer, errp);
-> > +#else
-> > +    error_setg(errp,
-> > +               "Type 'user' is not a supported netdev backend by this =
-QEMU
-> > build " +               "because the libslirp development files were no=
-t
-> > found during build " +               "of QEMU.");
-> > +#endif
-> > +    return -1;
-> > +}
-> > +#endif
->
-> I just tried this, but somehow it is not working for me. net_init_user() =
-is
-> never called and therefore I don't get the error message. That should be
-> working if the user launched QEMU without any networking arg, right?
->
+The kernel patch will allow buffer alignment to work with whatever the hardware
+reports it can support. It could even as low as byte aligned if that's the
+hardware can use that.
 
-That's because vl.c has:
-if (default_net) {
-...
-#ifdef CONFIG_SLIRP
-        qemu_opts_parse(net, "user", true, &error_abort);
-#endif
+The patch aligns direct-io with the same criteria blk_rq_map_user() has always
+used to know if the user space buffer is compatible with the hardware's dma
+requirements. Prior to this patch, the direct-io memory alignment was an
+artificial software constraint, and that constraint creates a lot of
+unnecessary memory pressure.
 
-Iow, it doesn't try to use slirp by default if it's not found at
-compile time. We can eventually change that, but that might break
-existing users who don't build with slirp.
+As has always been the case, each segment needs to be a logical block length
+granularity. QEMU assumed a buffer's page offset also defined the logical block
+size instead of using the actual logical block size that it had previously
+discovered directly.
 
-Alternatively, it could error out only if slirp was not explicitly
-disabled at configure time.
-
-> And still, I would find it better if there was also a clear build-time er=
-ror
-> if there was no libslirp and slirp feature was not explicitly disabled.
-
-That's not the typical way we deal with dependencies, but I can try to
-do that as well.
-
+> If I understand that correctly, after the patch in question, 
+> qemu is able to use just 512 bytes aligned buffer to read a single 4K block from the disk,
+> which supposed to fail but wasn't guarnteed to fail.
+> 
+> Later qemu it submits iovec which also reads a 4K block but in two parts,
+> and if I understand that correctly, each part (iov) is considered
+> to be a separate IO operation,  and thus each has to be in my case 4K in size, 
+> and its memory buffer *should* also be 4K aligned.
 >
-> >
-> >  static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
-> >      const Netdev *netdev,
-> >      const char *name,
-> >      NetClientState *peer, Error **errp) =3D {
-> >          [NET_CLIENT_DRIVER_NIC]       =3D net_init_nic,
-> > -#ifdef CONFIG_SLIRP
-> > -        [NET_CLIENT_DRIVER_USER]      =3D net_init_slirp,
-> > +#if (defined(CONFIG_SLIRP) || !defined(CONFIG_SLIRP_DISABLED))
-> > +        [NET_CLIENT_DRIVER_USER]      =3D net_init_user,
-> >  #endif
-> >          [NET_CLIENT_DRIVER_TAP]       =3D net_init_tap,
-> >          [NET_CLIENT_DRIVER_SOCKET]    =3D net_init_socket,
->
->
->
->
+> (but it can work with smaller alignement as well).
 
+Right. The iov length needs to match the logical block size. The iov's memory
+offset needs to align to the queue's dma_alignment attribute. The memory
+alignment may be smaller than a block size.
+ 
+> Assuming that I understand all of this correctly, I agree with Paolo that this is qemu
+> bug, but I do fear that it can cause quite some problems for users,
+> especially for users that use outdated qemu version.
+> 
+> It might be too much to ask, but maybe add a Kconfig option to keep legacy behavier
+> for those that need it?
+
+Kconfig doesn't sound right.
+
+The block layer exports all the attributes user space needs to know about for
+direct io.
+
+  iov length:    /sys/block/<block-dev>/queue/logical_block_size
+  iov mem align: /sys/block/<block-dev>/queue/dma_alignment
+
+If you really want to change the behavior, I think maybe we could make the
+dma_alignment attribute writeable (or perhaps add a new attribute specifically
+for dio_alignment) so the user can request something larger.
 
