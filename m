@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B015F224F
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 11:22:34 +0200 (CEST)
-Received: from localhost ([::1]:59856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 504BB5F225C
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 11:41:11 +0200 (CEST)
+Received: from localhost ([::1]:45256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oevBB-0003OI-AN
-	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 05:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59652)
+	id 1oevTC-0006F4-0G
+	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 05:41:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <commandspider12@gmail.com>)
- id 1oev9G-0001ux-UQ
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 05:20:34 -0400
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:35559)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oevQp-0004hK-FS; Sun, 02 Oct 2022 05:38:43 -0400
+Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d]:46049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <commandspider12@gmail.com>)
- id 1oev9F-0002D3-4M
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 05:20:34 -0400
-Received: by mail-qk1-x72a.google.com with SMTP id u28so5202381qku.2
- for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 02:20:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oevQm-0004cA-PZ; Sun, 02 Oct 2022 05:38:43 -0400
+Received: by mail-qv1-xf2d.google.com with SMTP id g9so1633299qvo.12;
+ Sun, 02 Oct 2022 02:38:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date;
- bh=Tpr+hsQdE7Z3tc/b1pBStw2C9eHWGD8k4gxe0LhhhdU=;
- b=kjlZQlWldMRdaUWqPHjja4mRbWBOzFUOmfdo7zXN/y+sUzSxz7tyI/vk8v5qiRe9ZT
- OBr+lPPLXcfm0bWgipWP1qNk3tpRpGF1VXcoPxW8pXfuHR2pqvW9Hn/rN9m4Xno5tTTU
- ZXN3xTT/Rt8vNlBQsNutHDJTmaD/ftaf/RVfvOVZYZvPgb/81e8yb+0OsD9tbrDuBKfD
- jFbfq+HE5BSLn6qp9E0cdsqPcvqfgELoc5KtiaB2pxAZ+fSVaxirAD2O7BQYEangVE8E
- /gZw3vQlF2xypQXFr9AOI4NFTJO7poekKV3Oz+taqwX1wkMw4BKAXiRoQQAN+6O1TNPv
- f+Pg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=NzrPzA5/YcLYZVAtGdl+A494NBI4H/rJishUCxtUm6I=;
+ b=cC7z24ewT+9t+HGT8RAJQ1KuN5Kl/PGakfhp6lCQkX4aWw6csxJTZYmc5yaBc/Y7dx
+ yQjre/3Kl5MvYxNeNrqnjd69zOjufFMn/wdTWLA7x8AE4TFYBDnS7pvJ+xllu25O4baK
+ jFfIfBWqylYbyGYXAPz1IXPQg/otxeSUXFZ2B7APJVU4WN3lF3wYZEMq2S3kecYLpPwu
+ Ky3DA3npLhxDbFEJs0Ho3x9rK4ONyax551NUjICGZdiSq3VclOGw8r78K+9syI5yOTOC
+ sLyWJGbGiBOQYCWtZWtD+6lAojPYPjAOt042CIp5GKYFuU8AJ2/WEilzZRVIRXhgfO25
+ U/Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date;
- bh=Tpr+hsQdE7Z3tc/b1pBStw2C9eHWGD8k4gxe0LhhhdU=;
- b=0cKUjN/9NEqKjFj7hqjyPbChXp+8SPQuAg3GIrLIE+FwX8cgRedMMMGAr2jpe9qgR1
- KDWnVV+VX78/1nAeL7iDZ9dFKAWDzhJAJ7bzvRWdtk801yh6pXD5G+PJKrOJFIDcI7v5
- Q+doreQXu8Yv3y190BSra3OVoXteT0V8obo2AGSw8QYT6VIjjGQq0NwZYQPFWPAV2Ess
- f5O34m7KvdJO60eZ2epPOEYGaup/VwsT2iSACURI26CWAwIPg/ycJYB2oL9R+6xHpZgp
- Ag6pY2ecxurQbF7RA5WgJkP6/qn/1ctjnkqA5Nrm4sIdqME0Lb0oShSICNJzlh7JlJZF
- BxcA==
-X-Gm-Message-State: ACrzQf24VOBRGOohwJANuT1ng6eBKtf4HtQI0H34PFikEbvcxBNwwL3W
- sh7Dxzx95QrT9sSYq+60V2oW+YcFsGDDfzuUD58=
-X-Google-Smtp-Source: AMsMyM6ZTthRPKyZDTCCKy2TYfhZy9JoSZydyysipf92iRTxiIBaEKgIdfWonsCw6u8RPj/FIaXeMsUPromc+aUmK1A=
-X-Received: by 2002:a05:620a:1254:b0:6cd:4e36:481d with SMTP id
- a20-20020a05620a125400b006cd4e36481dmr10830201qkl.661.1664702431712; Sun, 02
- Oct 2022 02:20:31 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=NzrPzA5/YcLYZVAtGdl+A494NBI4H/rJishUCxtUm6I=;
+ b=Kt4eIHCgYAUG12ej45nutH2xxYv+8N+FPps65S76oxVtHEIFR1JxwpKPtGqXYt6/Zr
+ isWlR6M4Zp5zybS+IhzCZW1j8wJffyO6i7rZy6iAzG3TCS9P1GD4+ARV7/B0APLMLrmq
+ e4l5FXUMxnqS1Omvo8AN4k2BQWxQVgxK7FgGn8+Mnzozv5CBbtcb0S6u29Mka/7m7iO3
+ h8NpvIKT7f9Blkx6mAvAPoTG2b2SGQZxEo6J+Jj+AvZTjDofD52Vq6JWhHsx6m5nM5V7
+ jBEjSIffHBpahEnt9fUPSntKVF84yWPCQNDOYKSxQoei0JxNgRo00YrdIvTtcuj84/fr
+ lFQw==
+X-Gm-Message-State: ACrzQf3oj4EzDb5YMk1rov4ewF5nvC3wPQv42D/qNNCpPoOVftbruqan
+ eKJI2dIr4RC30r75nuT2KsqTZWdvinYepFN0QVU=
+X-Google-Smtp-Source: AMsMyM7uckyQCfs3o9oPbKsIcMub8pHgrUibLFiafo/4q97GJ3ifGSZMJJHMu7Fz6JcJgY8hesqvyt7jjPm8iKie7GY=
+X-Received: by 2002:a05:6214:e85:b0:4b1:7e5a:3604 with SMTP id
+ hf5-20020a0562140e8500b004b17e5a3604mr3697440qvb.114.1664703518715; Sun, 02
+ Oct 2022 02:38:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <CABVhSWP7XjNvCXUvawXLcOkP4vXQ8wbMObKbxc+jN6gv0wzawQ@mail.gmail.com>
- <3ca717d7-fbc9-b2f9-71cc-01ef459da257@linaro.org>
-In-Reply-To: <3ca717d7-fbc9-b2f9-71cc-01ef459da257@linaro.org>
-From: BitFriends <commandspider12@gmail.com>
-Date: Sun, 2 Oct 2022 11:20:20 +0200
-Message-ID: <CABVhSWNkCn-V=ZzUTEi7+hO_a4KJgfpv7N_MW_t+jKRtmTh08A@mail.gmail.com>
-Subject: Re: access guest address from within instruction
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Content-Type: multipart/mixed; boundary="00000000000019b44b05ea09bdc3"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=commandspider12@gmail.com; helo=mail-qk1-x72a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+References: <20220928144125.1997128-1-bmeng.cn@gmail.com>
+ <20220928144125.1997128-2-bmeng.cn@gmail.com>
+ <YzbBM7Qc3p+Hiyvo@redhat.com>
+In-Reply-To: <YzbBM7Qc3p+Hiyvo@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sun, 2 Oct 2022 17:38:27 +0800
+Message-ID: <CAEUhbmXH_y4ZuR2Z_HU2PoKX9A_P1VWUyF0eMVGbtvmvoPO4uw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] block: Refactor get_tmp_filename()
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, Bin Meng <bin.meng@windriver.com>, 
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,132 +85,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000019b44b05ea09bdc3
-Content-Type: multipart/alternative; boundary="00000000000019b44905ea09bdc1"
+Hi Kevin,
 
---00000000000019b44905ea09bdc1
-Content-Type: text/plain; charset="UTF-8"
-
-I now came up with this code:
-
-TCGv_i64 res = 0;
-TCGv_i64 addr = (TCGv_i64)(env->regs[R_EDI]);
-
-tcg_gen_qemu_ld_i64(res, addr, 0, MO_LEUQ);
-
-env->regs[R_EAX] = (target_ulong)res;
-
-However this crashes afterwards in test_bit. Maybe this is caused by an
-invalid access? Anything wrong about the code? This still gives some
-warnings, like TCGv_i32 expected (and when you use TCGv_i32, it says
-TCGv_i64 expected) plus some casting warnings.
-
-Am Sa., 1. Okt. 2022 um 22:23 Uhr schrieb Richard Henderson <
-richard.henderson@linaro.org>:
-
-> On 10/1/22 13:10, BitFriends wrote:
-> > Hello,
+On Fri, Sep 30, 2022 at 6:13 PM Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> Am 28.09.2022 um 16:41 hat Bin Meng geschrieben:
+> > From: Bin Meng <bin.meng@windriver.com>
 > >
-> > I am trying to create a custom instruction that accesses guest memory
-> specified by an
-> > address in a register. I specifically want to read from that address. So
-> I tried to do
-> > that using "tcg_gen_qemu_ld_i64(&res, env->regs[R_EDI], 0, MO_LEUQ);",
-> but that doesn't
-> > save any result in res.
+> > At present there are two callers of get_tmp_filename() and they are
+> > inconsistent.
+> >
+> > One does:
+> >
+> >     /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+> >     char *tmp_filename = g_malloc0(PATH_MAX + 1);
+> >     ...
+> >     ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+> >
+> > while the other does:
+> >
+> >     s->qcow_filename = g_malloc(PATH_MAX);
+> >     ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
+> >
+> > As we can see different 'size' arguments are passed. There are also
+> > platform specific implementations inside the function, and the use
+> > of snprintf is really undesirable.
+> >
+> > The function name is also misleading. It creates a temporary file,
+> > not just a filename.
+> >
+> > Refactor this routine by changing its name and signature to:
+> >
+> >     char *create_tmp_file(Error **errp)
+> >
+> > and use g_file_open_tmp() for a consistent implementation.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >
+> > Changes in v5:
+> > - minor change in the commit message
+> > - add some notes in the function comment block
+> > - add g_autofree for tmp_filename
+> >
+> > Changes in v4:
+> > - Rename the function to create_tmp_file() and take "Error **errp" as
+> >   a parameter, so that callers can pass errp all the way down to this
+> >   routine.
+> > - Commit message updated to reflect the latest change
+> >
+> > Changes in v3:
+> > - Do not use errno directly, instead still let get_tmp_filename() return
+> >   a negative number to indicate error
+> >
+> > Changes in v2:
+> > - Use g_autofree and g_steal_pointer
+> >
+> >  include/block/block_int-common.h |  2 +-
+> >  block.c                          | 45 ++++++++++++--------------------
+> >  block/vvfat.c                    |  7 +++--
+> >  3 files changed, 20 insertions(+), 34 deletions(-)
+> >
+> > diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+> > index 8947abab76..d7c0a7e96f 100644
+> > --- a/include/block/block_int-common.h
+> > +++ b/include/block/block_int-common.h
+> > @@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
+> >  }
+> >
+> >  int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
+> > -int get_tmp_filename(char *filename, int size);
+> > +char *create_tmp_file(Error **errp);
+> >  void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+> >                                        QDict *options);
+> >
+> > diff --git a/block.c b/block.c
+> > index 582c205307..bd3006d85d 100644
+> > --- a/block.c
+> > +++ b/block.c
+> > @@ -860,35 +860,25 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
+> >
+> >  /*
+> >   * Create a uniquely-named empty temporary file.
+> > - * Return 0 upon success, otherwise a negative errno value.
+> > + * Return the actual file name used upon success, otherwise NULL.
+> > + * This string should be freed with g_free() when not needed any longer.
+> > + *
+> > + * Note: creating a temporary file for the caller to (re)open is
+> > + * inherently racy. Use g_file_open_tmp() instead whenever practical.
+> >   */
+> > -int get_tmp_filename(char *filename, int size)
+> > +char *create_tmp_file(Error **errp)
+> >  {
+> > -#ifdef _WIN32
+> > -    char temp_dir[MAX_PATH];
+> > -    /* GetTempFileName requires that its output buffer (4th param)
+> > -       have length MAX_PATH or greater.  */
+> > -    assert(size >= MAX_PATH);
+> > -    return (GetTempPath(MAX_PATH, temp_dir)
+> > -            && GetTempFileName(temp_dir, "qem", 0, filename)
 >
-> This statement should have given you compilation errors, so I don't know
-> what you mean by
-> "doesn't save any result".  There's clearly a disconnect between what you
-> describe and
-> what you actually attempted.
+> We're using different prefixes on Windows and on Linux. This patch
+> unifies both paths to use the Linux name. Nobody should rely on the name
+> of temporary files, so there is hope it won't break anything.
 >
-> Anyway, by the name you can see that function "gen"erates a "tcg"
-> operation, which is then
-> later compiled by the jit, the output of which is later executed to
-> produce a result.
-> Which is, in general, what you want for implementing a custom instruction.
+> > -            ? 0 : -GetLastError());
+> > -#else
+> > +    g_autofree char *name = NULL;
+> > +    g_autoptr(GError) err = NULL;
+> >      int fd;
+> > -    const char *tmpdir;
+> > -    tmpdir = getenv("TMPDIR");
+> > -    if (!tmpdir) {
+> > -        tmpdir = "/var/tmp";
+> > -    }
+> > -    if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
+> > -        return -EOVERFLOW;
+> > -    }
+> > -    fd = mkstemp(filename);
+> > +
+> > +    fd = g_file_open_tmp("vl.XXXXXX", &name, &err);
 >
+> This implicitly reverts commit 69bef7931e8, g_file_open_tmp() uses /tmp
+> as the default instead of /var/tmp as this function does before the
+> patch.
+
+Oops, thanks for the pointer. Commit message of 69bef7931e8 does not
+explicitely explain why to change from /tmp to /var/tmp. Is that
+because QEMU block codes write a huge size of data to this file in
+/tmp?
+
+> This is probably not a good idea, we should keep the /var/tmp default.
 >
-> r~
+> But if we did want to do this, it's definitely a change in behaviour
+> that should be mentioned in the commit message at least.
 >
 
---00000000000019b44905ea09bdc1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+If we have to keep /var/tmp, how about this?
 
-<div dir=3D"ltr"><div>I now came up with this code:</div><div><br></div><di=
-v>TCGv_i64 res =3D 0;<br>TCGv_i64 addr =3D (TCGv_i64)(env-&gt;regs[R_EDI]);=
-<br><br>tcg_gen_qemu_ld_i64(res, addr, 0, MO_LEUQ);<br><br>env-&gt;regs[R_E=
-AX] =3D (target_ulong)res;</div><div><br></div><div>However this crashes af=
-terwards in test_bit. Maybe this is caused by an invalid access? Anything w=
-rong about the code? This still gives some warnings, like TCGv_i32 expected=
- (and when you use TCGv_i32, it says TCGv_i64 expected) plus some casting w=
-arnings. <br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">Am Sa., 1. Okt. 2022 um 22:23=C2=A0Uhr schrieb Richard H=
-enderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hender=
-son@linaro.org</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On 10/1/22 13:10, BitFriends wrote:<br>
-&gt; Hello,<br>
-&gt; <br>
-&gt; I am trying to create a custom instruction that accesses guest memory =
-specified by an <br>
-&gt; address in a register. I specifically want to read from that address. =
-So I tried to do <br>
-&gt; that using &quot;tcg_gen_qemu_ld_i64(&amp;res, env-&gt;regs[R_EDI], 0,=
- MO_LEUQ);&quot;, but that doesn&#39;t <br>
-&gt; save any result in res.<br>
-<br>
-This statement should have given you compilation errors, so I don&#39;t kno=
-w what you mean by <br>
-&quot;doesn&#39;t save any result&quot;.=C2=A0 There&#39;s clearly a discon=
-nect between what you describe and <br>
-what you actually attempted.<br>
-<br>
-Anyway, by the name you can see that function &quot;gen&quot;erates a &quot=
-;tcg&quot; operation, which is then <br>
-later compiled by the jit, the output of which is later executed to produce=
- a result. <br>
-Which is, in general, what you want for implementing a custom instruction.<=
-br>
-<br>
-<br>
-r~<br>
-</blockquote></div>
+diff --git a/block.c b/block.c
+index bd3006d85d..d964ceaeac 100644
+--- a/block.c
++++ b/block.c
+@@ -24,6 +24,7 @@
+  */
 
---00000000000019b44905ea09bdc1--
+ #include "qemu/osdep.h"
++#include <glib/gstdio.h>
+ #include "block/trace.h"
+ #include "block/block_int.h"
+ #include "block/blockjob.h"
+@@ -878,7 +879,20 @@ char *create_tmp_file(Error **errp)
+         return NULL;
+     }
+     close(fd);
++#ifdef _WIN32
+     return g_steal_pointer(&name);
++#else
++    g_autofree char *base = NULL;
++    char *newname;
++
++    base = g_path_get_basename(name);
++    newname = g_strdup_printf("/var/tmp/%s", base);
++    if (g_rename(name, newname) < 0) {
++        error_setg_errno(errp, -errno, "Could not create file");
++        return NULL;
++    }
++    return newname;
++#endif
+ }
 
---00000000000019b44b05ea09bdc3
-Content-Type: application/octet-stream; name=bt
-Content-Disposition: attachment; filename=bt
-Content-Transfer-Encoding: base64
-Content-ID: <f_l8r4qt700>
-X-Attachment-Id: f_l8r4qt700
-
-IzAgIDB4MDAwMDU1NTU1NWI1NWM5ZCBpbiB0ZXN0X2JpdCAoYWRkcj0weDdmZmZmNWZhZTUyMCwg
-bnI9MHhiNmRiNmRiNmRiNmRiNmNiKSBhdCAvcHdkL215X2Z1enplci90b29scy9xZW11LTcuMS4w
-L2luY2x1ZGUvcWVtdS9iaXRvcHMuaDoxMzUKIzEgIGluaXRfdHNfaW5mbyAoY3R4PWN0eEBlbnRy
-eT0weDdmZmZmNWZhZTUxMCwgdHM9MHg3ZmZmZWMwMDBiNjApIGF0IC4uL3RjZy9vcHRpbWl6ZS5j
-OjE1MgojMiAgMHgwMDAwNTU1NTU1YjU2M2JkIGluIGluaXRfYXJndW1lbnRzIChuYl9hcmdzPTxv
-cHRpbWl6ZWQgb3V0Piwgb3A9MHg3ZmZmZWMwMGFkMzgsIGN0eD0weDdmZmZmNWZhZTUxMCkgYXQg
-Li4vdGNnL29wdGltaXplLmM6NjcxCiMzICB0Y2dfb3B0aW1pemUgKHM9c0BlbnRyeT0weDdmZmZl
-YzAwMGI2MCkgYXQgLi4vdGNnL29wdGltaXplLmM6MjA1NAojNCAgMHgwMDAwNTU1NTU1YjYxMDQ1
-IGluIHRjZ19nZW5fY29kZSAocz0weDdmZmZlYzAwMGI2MCwgdGI9dGJAZW50cnk9MHg3ZmZmYTlj
-OTAxNDAgPGNvZGVfZ2VuX2J1ZmZlcisyOTk1MDIyNz4pIGF0IC4uL3RjZy90Y2cuYzo0MjU0CiM1
-ICAweDAwMDA1NTU1NTViYTBlN2UgaW4gdGJfZ2VuX2NvZGUgKGNwdT1jcHVAZW50cnk9MHg1NTU1
-NTY4NDkwMTAsIHBjPXBjQGVudHJ5PTB4NDAxY2I1LCBjc19iYXNlPWNzX2Jhc2VAZW50cnk9MHgw
-LCBmbGFncz1mbGFnc0BlbnRyeT0weGMwYzJiMywgY2ZsYWdzPTB4ZmYwODAwMDApIGF0MwojNiAg
-MHgwMDAwNTU1NTU1YjlhYWU1IGluIGNwdV9leGVjIChjcHU9Y3B1QGVudHJ5PTB4NTU1NTU2ODQ5
-MDEwKSBhdCAuLi9hY2NlbC90Y2cvY3B1LWV4ZWMuYzo5ODIKIzcgIDB4MDAwMDU1NTU1NWJiOWQ4
-NCBpbiB0Y2dfY3B1c19leGVjIChjcHU9Y3B1QGVudHJ5PTB4NTU1NTU2ODQ5MDEwKSBhdCAuLi9h
-Y2NlbC90Y2cvdGNnLWFjY2VsLW9wcy5jOjY3CiM4ICAweDAwMDA1NTU1NTViYjllZjMgaW4gbXR0
-Y2dfY3B1X3RocmVhZF9mbiAoYXJnPWFyZ0BlbnRyeT0weDU1NTU1Njg0OTAxMCkgYXQgLi4vYWNj
-ZWwvdGNnL3RjZy1hY2NlbC1vcHMtbXR0Y2cuYzo5NwojOSAgMHgwMDAwNTU1NTU1ZDE4MTEzIGlu
-IHFlbXVfdGhyZWFkX3N0YXJ0IChhcmdzPTxvcHRpbWl6ZWQgb3V0PikgYXQgLi4vdXRpbC9xZW11
-LXRocmVhZC1wb3NpeC5jOjUwNAojMTAgMHgwMDAwN2ZmZmY3OTkyNjA5IGluIHN0YXJ0X3RocmVh
-ZCAoYXJnPTxvcHRpbWl6ZWQgb3V0PikgYXQgcHRocmVhZF9jcmVhdGUuYzo0NzcKIzExIDB4MDAw
-MDdmZmZmNzhiNTEzMyBpbiBjbG9uZSAoKSBhdCAuLi9zeXNkZXBzL3VuaXgvc3lzdi9saW51eC94
-ODZfNjQvY2xvbmUuUzo5NQo=
---00000000000019b44b05ea09bdc3--
+Regards,
+Bin
 
