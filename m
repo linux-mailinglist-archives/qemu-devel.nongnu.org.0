@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EA55F2454
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 19:42:31 +0200 (CEST)
-Received: from localhost ([::1]:37520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FDB5F244E
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 19:37:55 +0200 (CEST)
+Received: from localhost ([::1]:46482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1of2z0-0006M0-NZ
-	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 13:42:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59418)
+	id 1of2uY-00017V-SH
+	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 13:37:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1of2nX-0005Sj-Jc
+ id 1of2nX-0005Si-Jk
  for qemu-devel@nongnu.org; Sun, 02 Oct 2022 13:30:43 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:45679)
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:40615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1of2nT-0006Bf-5M
+ id 1of2nV-0006Bk-Mz
  for qemu-devel@nongnu.org; Sun, 02 Oct 2022 13:30:39 -0400
-Received: by mail-pf1-x433.google.com with SMTP id c3so3518788pfb.12
- for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 10:30:34 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ h8-20020a17090a054800b00205ccbae31eso13366461pjf.5
+ for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 10:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=T8uWtBP3TZO6X3XhGgQrKyuC5IL3sIGd/gd8Mwr3t5A=;
- b=gdnpXsQwP2Zz4uU7G4xib6P+/8iqrRFcqnnOzRVlfo0jad+Ow+PWObSIoXoBw5/ExN
- gRxHXGM1cFg1IGGfavP4CWyX1iFpcTaYivnXzh+PPbzlA5jldBHRQ2CTsZdMXZS3uHew
- aAiXq6DAW/Zaw9xwvjmnkbs5gt1hWgSDv1r0Y8AlyXccCQ5sFat7Kt5v2FrMvMWmBR4X
- nJiCD+j3HQV6BT7G68TX7U2+sM2fmOcRrgoWiCzv7mDyeJGdxIPOspyAhRx8xiPcKR2k
- QEpD7jGZJe11ZNTrf7RJuX5Vecf8GwpMFMri/N+aSOXZocm/P+JIerSOrOPyJAl38c32
- DCvQ==
+ bh=8xeA2rOgse1n4eSQHAkt+kpvv0Pcr9kLnEHTHU5z+Ak=;
+ b=tZjk9ECuK2UPYrCjgWWw0LHv5oQD43xAITwpk7sV/StsqlI6EfZyJJECZtc869F8Ik
+ K8TaozFzcuOeAX7kMY8Ee0o+YSLFbtI5696VrayD1ikVjzZy0nuS4VisCfJjXKGTNLNX
+ XLYdQeN6snkhEmeSEvepPSOhSwUkpcVb1rsbMJm+f3OYg5+kL9udHeo+0ONA4t6SCa8s
+ AFp/zcivYIAf/jgEF5YFUH8UCFTd2rInXp3XSYlx/tPp6Yn9zNjp/JxvzchgBjoSKblD
+ l9lwggJf/MBTTJyRD7CNe7pdlZvmTiK7Ds+erFhxswcCIhRlZbtCsZZikz3AxMKiJS8w
+ /cKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=T8uWtBP3TZO6X3XhGgQrKyuC5IL3sIGd/gd8Mwr3t5A=;
- b=fRmi6vnnaFDSvY2Mm1I3+pNAQACu0qVxZfR6t75JFFBSO+Te8jREtJVdflbSWHiWgI
- LGkLdWAd4/XFV7rOrGGNw9VE9YIxiyI7Yo90vxVVlzqru9khIIGbmDFotVWKRKjcj6hS
- 2nSWAOCmuPphOg1rw48dTWORCuGrG/TzjhWJNAGe5CIFvAbKNscNzWLMqkRzVj01+mTz
- R508uPrDkd+43hLb+4JfvmzvQULXhzz2mEE3PYizMlUscXOyV/5GLIteGT5uUREs4fBk
- k3v9qyPIKryBlI4zp/hmOB/lQAXMnbfS+s5ZfY7jrFR5mrZ1IPHBsk4VChigK/bqjAiD
- jgsA==
-X-Gm-Message-State: ACrzQf1Eq5ykDtOM3rca2jWLnXSdUErikD5GOZntzevpStJ/reux4BLE
- bjnOAWS/hidaPrgRz3eLqSVWqHHKSuivbg==
-X-Google-Smtp-Source: AMsMyM6Ppshro29vaIdbl9Hxjr1TyhbCMoGwYFMDUY7PrPICYvjkhA0yFy/QQsNdq4wrAMjPzhnpnQ==
-X-Received: by 2002:a05:6a00:1f05:b0:540:6552:dfbf with SMTP id
- be5-20020a056a001f0500b005406552dfbfmr18860159pfb.65.1664731833706; 
- Sun, 02 Oct 2022 10:30:33 -0700 (PDT)
+ bh=8xeA2rOgse1n4eSQHAkt+kpvv0Pcr9kLnEHTHU5z+Ak=;
+ b=uFpDq3SoaL3eqlckeN8YWXOeMmtohhN3Xab0Qb3d+D6mEGWkvG3jOww3l+vKHwo7p9
+ QIo6o8SOa1GSrm+jiBle5536z8lEgSCBaimJdtAvArKQk5ULlEERniutVfVAuIEB4llg
+ HauCkS7B+EPcMwxMiaR5OL4eSs+9Dj+Wb1YyixiYH5Bz5R9Q7H+hgramSAA2laM18SCq
+ gFHhk5tqVXuM35KMObWrM5Oa3aU9b7Cd8A5JRLfjrq4f1x+6RkIZI9ZH5oLc+0Yirebq
+ 5kNkr9UTM9MkcoERlYsn6qUmXPKp8zIpbn/R6Ia8lVBCmMEMlDBgKQ4nEoQxVoJhijyQ
+ buEg==
+X-Gm-Message-State: ACrzQf3jra9KXdL5cuQhOJAqcE3mqXBL3XcKyLpZwwMIo+WTWf68bV40
+ DF6TAtXveK56GMilXGfUJSr8Gvvelw0ZUw==
+X-Google-Smtp-Source: AMsMyM6qgJeBxvuMZpFb4EQChgvAKf98Ah21x1FZn4OzPF9g6QgpaiQDuAE5vs/YopXQTmRPLIuQFw==
+X-Received: by 2002:a17:90a:1096:b0:202:c5a9:bf1e with SMTP id
+ c22-20020a17090a109600b00202c5a9bf1emr8567887pja.3.1664731835683; 
+ Sun, 02 Oct 2022 10:30:35 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:8002:3cad:72cd:dd96:98f6:c3cf])
  by smtp.gmail.com with ESMTPSA id
- 135-20020a62168d000000b0056025ccc3bbsm2749783pfw.146.2022.10.02.10.30.31
+ 135-20020a62168d000000b0056025ccc3bbsm2749783pfw.146.2022.10.02.10.30.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Oct 2022 10:30:32 -0700 (PDT)
+ Sun, 02 Oct 2022 10:30:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v2 4/9] target/i386: Reorg GET_HPHYS
-Date: Sun,  2 Oct 2022 10:29:51 -0700
-Message-Id: <20221002172956.265735-5-richard.henderson@linaro.org>
+Subject: [PATCH v2 5/9] target/i386: Add MMU_PHYS_IDX and MMU_NESTED_IDX
+Date: Sun,  2 Oct 2022 10:29:52 -0700
+Message-Id: <20221002172956.265735-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221002172956.265735-1-richard.henderson@linaro.org>
 References: <20221002172956.265735-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,267 +90,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace with PTE_HPHYS for the page table walk, and a direct call
-to mmu_translate for the final stage2 translation.  Hoist the check
-for HF2_NPT_MASK out to get_physical_address, which avoids the
-recursive call when stage2 is disabled.
-
-We can now return all the way out to x86_cpu_tlb_fill before raising
-an exception, which means probe works.
+These new mmu indexes will be helpful for improving
+paging and code throughout the target.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/sysemu/excp_helper.c | 123 +++++++++++++++++++++------
- 1 file changed, 95 insertions(+), 28 deletions(-)
+ target/i386/cpu-param.h              |  2 +-
+ target/i386/cpu.h                    |  3 +
+ target/i386/tcg/sysemu/excp_helper.c | 82 ++++++++++++++++++----------
+ target/i386/tcg/sysemu/svm_helper.c  |  3 +
+ 4 files changed, 60 insertions(+), 30 deletions(-)
 
+diff --git a/target/i386/cpu-param.h b/target/i386/cpu-param.h
+index 9740bd7abd..abad52af20 100644
+--- a/target/i386/cpu-param.h
++++ b/target/i386/cpu-param.h
+@@ -23,6 +23,6 @@
+ # define TARGET_VIRT_ADDR_SPACE_BITS  32
+ #endif
+ #define TARGET_PAGE_BITS 12
+-#define NB_MMU_MODES 3
++#define NB_MMU_MODES 5
+ 
+ #endif
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 82004b65b9..9a40b54ae5 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -2144,6 +2144,9 @@ uint64_t cpu_get_tsc(CPUX86State *env);
+ #define MMU_KSMAP_IDX   0
+ #define MMU_USER_IDX    1
+ #define MMU_KNOSMAP_IDX 2
++#define MMU_NESTED_IDX  3
++#define MMU_PHYS_IDX    4
++
+ static inline int cpu_mmu_index(CPUX86State *env, bool ifetch)
+ {
+     return (env->hflags & HF_CPL_MASK) == 3 ? MMU_USER_IDX :
 diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index 00ce4cf253..816b307547 100644
+index 816b307547..494dc6d00c 100644
 --- a/target/i386/tcg/sysemu/excp_helper.c
 +++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -37,18 +37,43 @@ typedef struct TranslateResult {
-     int page_size;
- } TranslateResult;
- 
-+typedef enum TranslateFaultStage2 {
-+    S2_NONE,
-+    S2_GPA,
-+    S2_GPT,
-+} TranslateFaultStage2;
-+
- typedef struct TranslateFault {
-     int exception_index;
-     int error_code;
-     target_ulong cr2;
-+    TranslateFaultStage2 stage2;
- } TranslateFault;
- 
--#define GET_HPHYS(cs, gpa, access_type, prot)  \
--	(in->use_stage2 ? get_hphys(cs, gpa, access_type, prot) : gpa)
-+#define PTE_HPHYS(ADDR)                                         \
-+    do {                                                        \
-+        if (in->use_stage2) {                                   \
-+            nested_in.addr = (ADDR);                            \
-+            if (!mmu_translate(env, &nested_in, out, err)) {    \
-+                err->stage2 = S2_GPT;                           \
-+                return false;                                   \
-+            }                                                   \
-+            (ADDR) = out->paddr;                                \
-+        }                                                       \
-+    } while (0)
- 
- static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
-                           TranslateResult *out, TranslateFault *err)
+@@ -448,41 +448,65 @@ static bool get_physical_address(CPUX86State *env, vaddr addr,
+                                  MMUAccessType access_type, int mmu_idx,
+                                  TranslateResult *out, TranslateFault *err)
  {
-+    TranslateParams nested_in = {
-+        /* Use store for page table entries, to allow A/D flag updates. */
-+        .access_type = MMU_DATA_STORE,
-+        .cr3 = env->nested_cr3,
-+        .pg_mode = env->nested_pg_mode,
-+        .mmu_idx = MMU_USER_IDX,
-+        .use_stage2 = false,
-+    };
+-    if (!(env->cr[0] & CR0_PG_MASK)) {
+-        out->paddr = addr & x86_get_a20_mask(env);
++    TranslateParams in;
++    bool use_stage2 = env->hflags2 & HF2_NPT_MASK;
+ 
+-#ifdef TARGET_X86_64
+-        if (!(env->hflags & HF_LMA_MASK)) {
+-            /* Without long mode we can only address 32bits in real mode */
+-            out->paddr = (uint32_t)out->paddr;
+-        }
+-#endif
+-        out->prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+-        out->page_size = TARGET_PAGE_SIZE;
+-        return true;
+-    } else {
+-        TranslateParams in = {
+-            .addr = addr,
+-            .cr3 = env->cr[3],
+-            .pg_mode = get_pg_mode(env),
+-            .mmu_idx = mmu_idx,
+-            .access_type = access_type,
+-            .use_stage2 = env->hflags2 & HF2_NPT_MASK,
+-        };
++    in.addr = addr;
++    in.access_type = access_type;
+ 
+-        if (in.pg_mode & PG_MODE_LMA) {
+-            /* test virtual address sign extension */
+-            int shift = in.pg_mode & PG_MODE_LA57 ? 56 : 47;
+-            int64_t sext = (int64_t)addr >> shift;
+-            if (sext != 0 && sext != -1) {
+-                err->exception_index = EXCP0D_GPF;
+-                err->error_code = 0;
+-                err->cr2 = addr;
++    switch (mmu_idx) {
++    case MMU_PHYS_IDX:
++        break;
 +
-     CPUState *cs = env_cpu(env);
-     X86CPU *cpu = env_archcpu(env);
-     const int32_t a20_mask = x86_get_a20_mask(env);
-@@ -79,7 +104,7 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
-             if (la57) {
-                 pml5e_addr = ((in->cr3 & ~0xfff) +
-                         (((addr >> 48) & 0x1ff) << 3)) & a20_mask;
--                pml5e_addr = GET_HPHYS(cs, pml5e_addr, MMU_DATA_STORE, NULL);
-+                PTE_HPHYS(pml5e_addr);
-                 pml5e = x86_ldq_phys(cs, pml5e_addr);
-                 if (!(pml5e & PG_PRESENT_MASK)) {
-                     goto do_fault;
-@@ -99,7 +124,7 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
- 
-             pml4e_addr = ((pml5e & PG_ADDRESS_MASK) +
-                     (((addr >> 39) & 0x1ff) << 3)) & a20_mask;
--            pml4e_addr = GET_HPHYS(cs, pml4e_addr, MMU_DATA_STORE, NULL);
-+            PTE_HPHYS(pml4e_addr);
-             pml4e = x86_ldq_phys(cs, pml4e_addr);
-             if (!(pml4e & PG_PRESENT_MASK)) {
-                 goto do_fault;
-@@ -114,7 +139,7 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
-             ptep &= pml4e ^ PG_NX_MASK;
-             pdpe_addr = ((pml4e & PG_ADDRESS_MASK) + (((addr >> 30) & 0x1ff) << 3)) &
-                 a20_mask;
--            pdpe_addr = GET_HPHYS(cs, pdpe_addr, MMU_DATA_STORE, NULL);
-+            PTE_HPHYS(pdpe_addr);
-             pdpe = x86_ldq_phys(cs, pdpe_addr);
-             if (!(pdpe & PG_PRESENT_MASK)) {
-                 goto do_fault;
-@@ -140,7 +165,7 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
-             /* XXX: load them when cr3 is loaded ? */
-             pdpe_addr = ((in->cr3 & ~0x1f) + ((addr >> 27) & 0x18)) &
-                 a20_mask;
--            pdpe_addr = GET_HPHYS(cs, pdpe_addr, MMU_DATA_STORE, NULL);
-+            PTE_HPHYS(pdpe_addr);
-             pdpe = x86_ldq_phys(cs, pdpe_addr);
-             if (!(pdpe & PG_PRESENT_MASK)) {
-                 goto do_fault;
-@@ -154,7 +179,7 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
- 
-         pde_addr = ((pdpe & PG_ADDRESS_MASK) + (((addr >> 21) & 0x1ff) << 3)) &
-             a20_mask;
--        pde_addr = GET_HPHYS(cs, pde_addr, MMU_DATA_STORE, NULL);
-+        PTE_HPHYS(pde_addr);
-         pde = x86_ldq_phys(cs, pde_addr);
-         if (!(pde & PG_PRESENT_MASK)) {
-             goto do_fault;
-@@ -177,7 +202,7 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
++    case MMU_NESTED_IDX:
++        if (likely(use_stage2)) {
++            in.cr3 = env->nested_cr3;
++            in.pg_mode = env->nested_pg_mode;
++            in.mmu_idx = MMU_USER_IDX;
++            in.use_stage2 = false;
++
++            if (!mmu_translate(env, &in, out, err)) {
++                err->stage2 = S2_GPA;
+                 return false;
+             }
++            return true;
          }
-         pte_addr = ((pde & PG_ADDRESS_MASK) + (((addr >> 12) & 0x1ff) << 3)) &
-             a20_mask;
--        pte_addr = GET_HPHYS(cs, pte_addr, MMU_DATA_STORE, NULL);
-+        PTE_HPHYS(pte_addr);
-         pte = x86_ldq_phys(cs, pte_addr);
-         if (!(pte & PG_PRESENT_MASK)) {
-             goto do_fault;
-@@ -194,7 +219,7 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
-         /* page directory entry */
-         pde_addr = ((in->cr3 & ~0xfff) + ((addr >> 20) & 0xffc)) &
-             a20_mask;
--        pde_addr = GET_HPHYS(cs, pde_addr, MMU_DATA_STORE, NULL);
-+        PTE_HPHYS(pde_addr);
-         pde = x86_ldl_phys(cs, pde_addr);
-         if (!(pde & PG_PRESENT_MASK)) {
-             goto do_fault;
-@@ -222,7 +247,7 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
-         /* page directory entry */
-         pte_addr = ((pde & ~0xfff) + ((addr >> 10) & 0xffc)) &
-             a20_mask;
--        pte_addr = GET_HPHYS(cs, pte_addr, MMU_DATA_STORE, NULL);
-+        PTE_HPHYS(pte_addr);
-         pte = x86_ldl_phys(cs, pte_addr);
-         if (!(pte & PG_PRESENT_MASK)) {
-             goto do_fault;
-@@ -303,13 +328,31 @@ do_check_protect_pse36:
-         assert(access_type != MMU_DATA_STORE);
-         prot &= ~PAGE_WRITE;
-     }
--    out->prot = prot;
--    out->page_size = page_size;
- 
-     /* align to page_size */
-     out->paddr = (pte & a20_mask & PG_ADDRESS_MASK & ~(page_size - 1))
-                | (addr & (page_size - 1));
--    out->paddr = GET_HPHYS(cs, out->paddr, access_type, &out->prot);
-+
-+    if (in->use_stage2) {
-+        nested_in.addr = out->paddr;
-+        nested_in.access_type = access_type;
-+
-+        if (!mmu_translate(env, &nested_in, out, err)) {
-+            err->stage2 = S2_GPA;
-+            return false;
-+        }
-+
-+        /* Merge stage1 & stage2 protection bits. */
-+        prot &= out->prot;
-+
-+        /* Re-verify resulting protection. */
-+        if ((prot & (1 << access_type)) == 0) {
-+            goto do_fault_protect;
-+        }
-+    }
-+
-+    out->prot = prot;
-+    out->page_size = page_size;
-     return true;
- 
-     int error_code;
-@@ -344,13 +387,36 @@ do_check_protect_pse36:
-     err->exception_index = EXCP0E_PAGE;
-     err->error_code = error_code;
-     err->cr2 = addr;
-+    err->stage2 = S2_NONE;
-     return false;
- }
- 
-+static G_NORETURN void raise_stage2(CPUX86State *env, TranslateFault *err,
-+                                    uintptr_t retaddr)
-+{
-+    uint64_t exit_info_1 = err->error_code;
-+
-+    switch (err->stage2) {
-+    case S2_GPT:
-+        exit_info_1 |= SVM_NPTEXIT_GPT;
+-        return mmu_translate(env, &in, out, err);
 +        break;
-+    case S2_GPA:
-+        exit_info_1 |= SVM_NPTEXIT_GPA;
-+        break;
++
 +    default:
-+        g_assert_not_reached();
-+    }
++        in.cr3 = env->cr[3];
++        in.mmu_idx = mmu_idx;
++        in.use_stage2 = use_stage2;
++        in.pg_mode = get_pg_mode(env);
 +
-+    x86_stq_phys(env_cpu(env),
-+                 env->vm_vmcb + offsetof(struct vmcb, control.exit_info_2),
-+                 err->cr2);
-+    cpu_vmexit(env, SVM_EXIT_NPF, exit_info_1, retaddr);
-+}
-+
- hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
-                  int *prot)
- {
--    CPUX86State *env = &X86_CPU(cs)->env;
-+    CPUX86State *env = cs->env_ptr;
- 
-     if (likely(!(env->hflags2 & HF2_NPT_MASK))) {
-         return gphys;
-@@ -365,20 +431,16 @@ hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
-         };
-         TranslateResult out;
-         TranslateFault err;
--        uint64_t exit_info_1;
- 
--        if (mmu_translate(env, &in, &out, &err)) {
--            if (prot) {
--                *prot &= out.prot;
--            }
--            return out.paddr;
-+        if (!mmu_translate(env, &in, &out, &err)) {
-+            err.stage2 = prot ? SVM_NPTEXIT_GPA : SVM_NPTEXIT_GPT;
-+            raise_stage2(env, &err, env->retaddr);
-         }
- 
--        x86_stq_phys(cs, env->vm_vmcb +
--                     offsetof(struct vmcb, control.exit_info_2), gphys);
--        exit_info_1 = err.error_code
--                    | (prot ? SVM_NPTEXIT_GPA : SVM_NPTEXIT_GPT);
--        cpu_vmexit(env, SVM_EXIT_NPF, exit_info_1, env->retaddr);
-+        if (prot) {
-+            *prot &= out.prot;
++        if (likely(in.pg_mode)) {
++            if (in.pg_mode & PG_MODE_LMA) {
++                /* test virtual address sign extension */
++                int shift = in.pg_mode & PG_MODE_LA57 ? 56 : 47;
++                int64_t sext = (int64_t)addr >> shift;
++                if (sext != 0 && sext != -1) {
++                    err->exception_index = EXCP0D_GPF;
++                    err->error_code = 0;
++                    err->cr2 = addr;
++                    return false;
++                }
++            }
++            return mmu_translate(env, &in, out, err);
 +        }
-+        return out.paddr;
++        break;
      }
++
++    /* Translation disabled. */
++    out->paddr = addr & x86_get_a20_mask(env);
++#ifdef TARGET_X86_64
++    if (!(env->hflags & HF_LMA_MASK)) {
++        /* Without long mode we can only address 32bits in real mode */
++        out->paddr = (uint32_t)out->paddr;
++    }
++#endif
++    out->prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
++    out->page_size = TARGET_PAGE_SIZE;
++    return true;
  }
  
-@@ -405,7 +467,7 @@ static bool get_physical_address(CPUX86State *env, vaddr addr,
-             .pg_mode = get_pg_mode(env),
-             .mmu_idx = mmu_idx,
-             .access_type = access_type,
--            .use_stage2 = true
-+            .use_stage2 = env->hflags2 & HF2_NPT_MASK,
-         };
+ bool x86_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+index 2b6f450af9..85b7741d94 100644
+--- a/target/i386/tcg/sysemu/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -271,6 +271,8 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+         env->hflags2 |= HF2_NPT_MASK;
  
-         if (in.pg_mode & PG_MODE_LMA) {
-@@ -444,8 +506,13 @@ bool x86_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-         return true;
+         env->nested_pg_mode = get_pg_mode(env) & PG_MODE_SVM_MASK;
++
++        tlb_flush_by_mmuidx(cs, 1 << MMU_NESTED_IDX);
      }
  
--    /* FIXME: On error in get_hphys we have already jumped out.  */
--    g_assert(!probe);
-+    if (probe) {
-+        return false;
-+    }
-+
-+    if (err.stage2 != S2_NONE) {
-+        raise_stage2(env, &err, retaddr);
-+    }
+     /* enable intercepts */
+@@ -720,6 +722,7 @@ void do_vmexit(CPUX86State *env)
+                  env->vm_vmcb + offsetof(struct vmcb, control.int_state), 0);
+     }
+     env->hflags2 &= ~HF2_NPT_MASK;
++    tlb_flush_by_mmuidx(cs, 1 << MMU_NESTED_IDX);
  
-     if (env->intercept_exceptions & (1 << err.exception_index)) {
-         /* cr2 is not modified in case of exceptions */
+     /* Save the VM state in the vmcb */
+     svm_save_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.es),
 -- 
 2.34.1
 
