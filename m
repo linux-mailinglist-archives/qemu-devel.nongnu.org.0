@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E255F244B
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 19:35:37 +0200 (CEST)
-Received: from localhost ([::1]:39896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677C15F244A
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 19:34:23 +0200 (CEST)
+Received: from localhost ([::1]:46056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1of2sK-0004IM-3p
-	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 13:35:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59420)
+	id 1of2r8-0001I0-Gn
+	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 13:34:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1of2nZ-0005Sn-NS
+ id 1of2na-0005Su-N7
  for qemu-devel@nongnu.org; Sun, 02 Oct 2022 13:30:43 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:41765)
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:38819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1of2nW-0006CJ-Vk
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 13:30:41 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- x32-20020a17090a38a300b00209dced49cfso5631201pjb.0
- for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 10:30:38 -0700 (PDT)
+ id 1of2nY-0006Dx-Ke
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 13:30:42 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ x1-20020a17090ab00100b001fda21bbc90so13381615pjq.3
+ for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 10:30:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=mA/6AxMDVCI5iP1gqwmW0DujQCJiMlB/8O7xo0e5vos=;
- b=qjl1E3wj1Xz7mszB9+N60Mc+YblUTTNQmxA1mTl5jGFuNjcbc59jrTz6cGg69Q2hBi
- aBapz1JdKJO+rzhBJITVpPRAOoR9nCIURx6LYLUlBj4oESFaBP9odosfjJROtdV2rkLM
- xZ1QpBsW0wBwAAYQps0bp/T+PUGW7RdJVP3Q1Dsb9chrvKCklRp0Txi77vGd3mjHAv/T
- 4ZaVVAhpM+Nq9/IoHgZ/gqcuRiTMkPO+G4oGo9JmPOIz6cVoFszFH2yjni8oRVNyH4bZ
- nWFohZbmBs4V0SWRAy8G7IBxUhqyyBE/73ofhYEviVy60NEQgGKXOOBz550tRBrRfr/W
- VRzg==
+ bh=VyGbb/0J0vMK6bF+G0mq3pXbWvnyBKF6qVOQJ948d5w=;
+ b=OcVHO8gYbcZyTJueMVSMFHDFYDsVbHbhmW0nDfnF2c+sVjZqQo49hWDBcuPNs98jeI
+ D85EDZPn4K+HqfW2TtA+9dS2ITrymJf3IIF8dH0HEEi4KrUvhC4QwIyWscXysTQjolGX
+ A7/x58/wbXgp/bmmlSZQPvcGz0j+HbD0GCWbHRYQ709K3qz04PNUhdha3ZiC2n8v6Jwe
+ 6HzXbYbcmzqySQ/SMU8upMVw1ZiB50PIwIwBqAudkmhG8eRiOVzr6rZNycV0UZmy173e
+ 6kXbiNsSViPPUJZCKk35bXNLITLWW/t3Y49BUQa8UyWcqRt2/mnECGcMJiRah2kz9AHY
+ m1Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=mA/6AxMDVCI5iP1gqwmW0DujQCJiMlB/8O7xo0e5vos=;
- b=BOyw5WoBCrqwd4NkFxEdlqnjdhPu9P3fdP5JKPnNknHavMXZkDJPgsjuAUwlYV+uWc
- vOI2LfrXq/oLBpDvZN+D7NULPpgbpgdgX4jev02mfAdpvgK3cSwg0jYcvvpRSwOqpUZv
- Dina/zL/avjWxEnroEfiZeTeuMUo71qaxe7QeZgVQBV9q+sy3+mLJyqsMUhG71DSq9SD
- FwIOzIsRcJQGoxoPG3cNwTAxLPkkRPpPsxJwAZpmh5AurKbp+duXm0+Ga0rWaVIbvV8Z
- dkZ5l1VUJfK8vMqy2yd0FkpJb8aDKUYiNJ/ET6YUa8mES49X6vEzMOfGTWVzekTP+9Hy
- EyeQ==
-X-Gm-Message-State: ACrzQf0/Bq1gvRWneKlOIXCi9XvQ52IaCLJcXpm6x8vFEQjkwx81qZMF
- 73awNWGy5ktczH1kU4BOlwSyAK9ZlwjL5g==
-X-Google-Smtp-Source: AMsMyM4fzaaa26N/Jf39Q/Y4/r8Zac9c+gXwfZKVmYm0mZYxIMiA812u6Lj9Igqe2gYwJMP1LRS8TQ==
-X-Received: by 2002:a17:902:7c0d:b0:178:a6ca:1dbc with SMTP id
- x13-20020a1709027c0d00b00178a6ca1dbcmr18801341pll.115.1664731837480; 
- Sun, 02 Oct 2022 10:30:37 -0700 (PDT)
+ bh=VyGbb/0J0vMK6bF+G0mq3pXbWvnyBKF6qVOQJ948d5w=;
+ b=IuN+IxiZcBC0hcNy8tcaSziqSnivl7/hZ4nqlSOBP763aidT7Mxjz+my/mam8/hSV+
+ M33ApQstEWY5qm6zIx2ak4JHo9NgtbxkhuiCSKa+araPyildEYnlYzRW/v/N8CIgHk3E
+ toIrbdlIlGtw9OGUvPGHkK/7N6+plQyDe4UUyupeC4/NuV+sVCzEpHGf20m+5X/D5fB/
+ jRuZ3pl4KevpZbDYdg0UAaNv+JlcrLtLAYWHNWcZ9zGHiDHXcigCDukT61kog69KQ/De
+ wbZWMG0iCiDmrT1sFLb3YD1Cs2cmdbXWtRZvU260lMSrnwioMD9+4T2KvvQJoPFQuOah
+ PdFA==
+X-Gm-Message-State: ACrzQf3YEAOT2HOZGcww0gg9LDm67nDqTCl+vf2d7rHnWso7gzjvres7
+ jahfNL9peEsKS0Iw4gYdjc+ZA+K8z4zNnQ==
+X-Google-Smtp-Source: AMsMyM6IqDcWUCBD7I7zgFOA28krWoXBkMq1JpuZuMOmFq7E+SLqxKnGEWdD+H4SOjVq/V8eFU06Mg==
+X-Received: by 2002:a17:90b:3b47:b0:202:d9d4:23f7 with SMTP id
+ ot7-20020a17090b3b4700b00202d9d423f7mr8376560pjb.56.1664731839214; 
+ Sun, 02 Oct 2022 10:30:39 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:8002:3cad:72cd:dd96:98f6:c3cf])
  by smtp.gmail.com with ESMTPSA id
- 135-20020a62168d000000b0056025ccc3bbsm2749783pfw.146.2022.10.02.10.30.35
+ 135-20020a62168d000000b0056025ccc3bbsm2749783pfw.146.2022.10.02.10.30.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Oct 2022 10:30:36 -0700 (PDT)
+ Sun, 02 Oct 2022 10:30:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: pbonzini@redhat.com
-Subject: [PATCH v2 6/9] target/i386: Use MMU_NESTED_IDX for vmload/vmsave
-Date: Sun,  2 Oct 2022 10:29:53 -0700
-Message-Id: <20221002172956.265735-7-richard.henderson@linaro.org>
+Subject: [PATCH v2 7/9] target/i386: Combine 5 sets of variables in
+ mmu_translate
+Date: Sun,  2 Oct 2022 10:29:54 -0700
+Message-Id: <20221002172956.265735-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221002172956.265735-1-richard.henderson@linaro.org>
 References: <20221002172956.265735-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,409 +91,275 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use MMU_NESTED_IDX for each memory access, rather than
-just a single translation to physical.  Adjust svm_save_seg
-and svm_load_seg to pass in mmu_idx.
-
-This removes the last use of get_hphys so remove it.
+We don't need one variable set per translation level,
+which requires copying into pte/pte_addr for huge pages.
+Standardize on pte/pte_addr for all levels.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/cpu.h                    |   2 -
- target/i386/tcg/sysemu/excp_helper.c |  31 ----
- target/i386/tcg/sysemu/svm_helper.c  | 231 +++++++++++++++------------
- 3 files changed, 126 insertions(+), 138 deletions(-)
+ target/i386/tcg/sysemu/excp_helper.c | 178 ++++++++++++++-------------
+ 1 file changed, 91 insertions(+), 87 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 9a40b54ae5..10a5e79774 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -2381,8 +2381,6 @@ static inline bool ctl_has_irq(CPUX86State *env)
-     return (env->int_ctl & V_IRQ_MASK) && (int_prio >= tpr);
- }
- 
--hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
--                        int *prot);
- #if defined(TARGET_X86_64) && \
-     defined(CONFIG_USER_ONLY) && \
-     defined(CONFIG_LINUX)
 diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index 494dc6d00c..86b3014196 100644
+index 86b3014196..d6b7de6eea 100644
 --- a/target/i386/tcg/sysemu/excp_helper.c
 +++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -413,37 +413,6 @@ static G_NORETURN void raise_stage2(CPUX86State *env, TranslateFault *err,
-     cpu_vmexit(env, SVM_EXIT_NPF, exit_info_1, retaddr);
- }
+@@ -82,7 +82,7 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
+     const bool is_user = (in->mmu_idx == MMU_USER_IDX);
+     const MMUAccessType access_type = in->access_type;
+     uint64_t ptep, pte;
+-    hwaddr pde_addr, pte_addr;
++    hwaddr pte_addr;
+     uint64_t rsvd_mask = PG_ADDRESS_MASK & ~MAKE_64BIT_MASK(0, cpu->phys_bits);
+     uint32_t pkr;
+     int page_size;
+@@ -92,116 +92,122 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
+     }
  
--hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
--                 int *prot)
--{
--    CPUX86State *env = cs->env_ptr;
+     if (pg_mode & PG_MODE_PAE) {
+-        uint64_t pde, pdpe;
+-        target_ulong pdpe_addr;
 -
--    if (likely(!(env->hflags2 & HF2_NPT_MASK))) {
--        return gphys;
--    } else {
--        TranslateParams in = {
--            .addr = gphys,
--            .cr3 = env->nested_cr3,
--            .pg_mode = env->nested_pg_mode,
--            .mmu_idx = MMU_USER_IDX,
--            .access_type = access_type,
--            .use_stage2 = false,
--        };
--        TranslateResult out;
--        TranslateFault err;
+ #ifdef TARGET_X86_64
+         if (pg_mode & PG_MODE_LMA) {
+-            bool la57 = pg_mode & PG_MODE_LA57;
+-            uint64_t pml5e_addr, pml5e;
+-            uint64_t pml4e_addr, pml4e;
 -
--        if (!mmu_translate(env, &in, &out, &err)) {
--            err.stage2 = prot ? SVM_NPTEXIT_GPA : SVM_NPTEXIT_GPT;
--            raise_stage2(env, &err, env->retaddr);
--        }
--
--        if (prot) {
--            *prot &= out.prot;
--        }
--        return out.paddr;
--    }
--}
--
- static bool get_physical_address(CPUX86State *env, vaddr addr,
-                                  MMUAccessType access_type, int mmu_idx,
-                                  TranslateResult *out, TranslateFault *err)
-diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index 85b7741d94..8e88567399 100644
---- a/target/i386/tcg/sysemu/svm_helper.c
-+++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -27,19 +27,19 @@
+-            if (la57) {
+-                pml5e_addr = ((in->cr3 & ~0xfff) +
+-                        (((addr >> 48) & 0x1ff) << 3)) & a20_mask;
+-                PTE_HPHYS(pml5e_addr);
+-                pml5e = x86_ldq_phys(cs, pml5e_addr);
+-                if (!(pml5e & PG_PRESENT_MASK)) {
++            if (pg_mode & PG_MODE_LA57) {
++                /*
++                 * Page table level 5
++                 */
++                pte_addr = ((in->cr3 & ~0xfff) +
++                            (((addr >> 48) & 0x1ff) << 3)) & a20_mask;
++                PTE_HPHYS(pte_addr);
++                pte = x86_ldq_phys(cs, pte_addr);
++                if (!(pte & PG_PRESENT_MASK)) {
+                     goto do_fault;
+                 }
+-                if (pml5e & (rsvd_mask | PG_PSE_MASK)) {
++                if (pte & (rsvd_mask | PG_PSE_MASK)) {
+                     goto do_fault_rsvd;
+                 }
+-                if (!(pml5e & PG_ACCESSED_MASK)) {
+-                    pml5e |= PG_ACCESSED_MASK;
+-                    x86_stl_phys_notdirty(cs, pml5e_addr, pml5e);
++                if (!(pte & PG_ACCESSED_MASK)) {
++                    pte |= PG_ACCESSED_MASK;
++                    x86_stl_phys_notdirty(cs, pte_addr, pte);
+                 }
+-                ptep = pml5e ^ PG_NX_MASK;
++                ptep = pte ^ PG_NX_MASK;
+             } else {
+-                pml5e = in->cr3;
++                pte = in->cr3;
+                 ptep = PG_NX_MASK | PG_USER_MASK | PG_RW_MASK;
+             }
  
- /* Secure Virtual Machine helpers */
- 
--static inline void svm_save_seg(CPUX86State *env, hwaddr addr,
--                                const SegmentCache *sc)
-+static void svm_save_seg(CPUX86State *env, int mmu_idx, hwaddr addr,
-+                         const SegmentCache *sc)
- {
--    CPUState *cs = env_cpu(env);
--
--    x86_stw_phys(cs, addr + offsetof(struct vmcb_seg, selector),
--             sc->selector);
--    x86_stq_phys(cs, addr + offsetof(struct vmcb_seg, base),
--             sc->base);
--    x86_stl_phys(cs, addr + offsetof(struct vmcb_seg, limit),
--             sc->limit);
--    x86_stw_phys(cs, addr + offsetof(struct vmcb_seg, attrib),
--             ((sc->flags >> 8) & 0xff) | ((sc->flags >> 12) & 0x0f00));
-+    cpu_stw_mmuidx_ra(env, addr + offsetof(struct vmcb_seg, selector),
-+                      sc->selector, mmu_idx, 0);
-+    cpu_stq_mmuidx_ra(env, addr + offsetof(struct vmcb_seg, base),
-+                      sc->base, mmu_idx, 0);
-+    cpu_stl_mmuidx_ra(env, addr + offsetof(struct vmcb_seg, limit),
-+                      sc->limit, mmu_idx, 0);
-+    cpu_stw_mmuidx_ra(env, addr + offsetof(struct vmcb_seg, attrib),
-+                      ((sc->flags >> 8) & 0xff)
-+                      | ((sc->flags >> 12) & 0x0f00),
-+                      mmu_idx, 0);
- }
- 
- /*
-@@ -52,29 +52,36 @@ static inline void svm_canonicalization(CPUX86State *env, target_ulong *seg_base
-     *seg_base = ((((long) *seg_base) << shift_amt) >> shift_amt);
- }
- 
--static inline void svm_load_seg(CPUX86State *env, hwaddr addr,
--                                SegmentCache *sc)
-+static void svm_load_seg(CPUX86State *env, int mmu_idx, hwaddr addr,
-+                         SegmentCache *sc)
- {
--    CPUState *cs = env_cpu(env);
-     unsigned int flags;
- 
--    sc->selector = x86_lduw_phys(cs,
--                             addr + offsetof(struct vmcb_seg, selector));
--    sc->base = x86_ldq_phys(cs, addr + offsetof(struct vmcb_seg, base));
--    sc->limit = x86_ldl_phys(cs, addr + offsetof(struct vmcb_seg, limit));
--    flags = x86_lduw_phys(cs, addr + offsetof(struct vmcb_seg, attrib));
-+    sc->selector =
-+        cpu_lduw_mmuidx_ra(env, addr + offsetof(struct vmcb_seg, selector),
-+                           mmu_idx, 0);
-+    sc->base =
-+        cpu_ldq_mmuidx_ra(env, addr + offsetof(struct vmcb_seg, base),
-+                          mmu_idx, 0);
-+    sc->limit =
-+        cpu_ldl_mmuidx_ra(env, addr + offsetof(struct vmcb_seg, limit),
-+                          mmu_idx, 0);
-+    flags =
-+        cpu_lduw_mmuidx_ra(env, addr + offsetof(struct vmcb_seg, attrib),
-+                           mmu_idx, 0);
-     sc->flags = ((flags & 0xff) << 8) | ((flags & 0x0f00) << 12);
+-            pml4e_addr = ((pml5e & PG_ADDRESS_MASK) +
+-                    (((addr >> 39) & 0x1ff) << 3)) & a20_mask;
+-            PTE_HPHYS(pml4e_addr);
+-            pml4e = x86_ldq_phys(cs, pml4e_addr);
+-            if (!(pml4e & PG_PRESENT_MASK)) {
++            /*
++             * Page table level 4
++             */
++            pte_addr = ((pte & PG_ADDRESS_MASK) +
++                        (((addr >> 39) & 0x1ff) << 3)) & a20_mask;
++            PTE_HPHYS(pte_addr);
++            pte = x86_ldq_phys(cs, pte_addr);
++            if (!(pte & PG_PRESENT_MASK)) {
+                 goto do_fault;
+             }
+-            if (pml4e & (rsvd_mask | PG_PSE_MASK)) {
++            if (pte & (rsvd_mask | PG_PSE_MASK)) {
+                 goto do_fault_rsvd;
+             }
+-            if (!(pml4e & PG_ACCESSED_MASK)) {
+-                pml4e |= PG_ACCESSED_MASK;
+-                x86_stl_phys_notdirty(cs, pml4e_addr, pml4e);
++            if (!(pte & PG_ACCESSED_MASK)) {
++                pte |= PG_ACCESSED_MASK;
++                x86_stl_phys_notdirty(cs, pte_addr, pte);
+             }
+-            ptep &= pml4e ^ PG_NX_MASK;
+-            pdpe_addr = ((pml4e & PG_ADDRESS_MASK) + (((addr >> 30) & 0x1ff) << 3)) &
+-                a20_mask;
+-            PTE_HPHYS(pdpe_addr);
+-            pdpe = x86_ldq_phys(cs, pdpe_addr);
+-            if (!(pdpe & PG_PRESENT_MASK)) {
++            ptep &= pte ^ PG_NX_MASK;
 +
-     svm_canonicalization(env, &sc->base);
- }
- 
--static inline void svm_load_seg_cache(CPUX86State *env, hwaddr addr,
--                                      int seg_reg)
-+static void svm_load_seg_cache(CPUX86State *env, int mmu_idx,
-+                               hwaddr addr, int seg_reg)
- {
--    SegmentCache sc1, *sc = &sc1;
-+    SegmentCache sc;
- 
--    svm_load_seg(env, addr, sc);
--    cpu_x86_load_seg_cache(env, seg_reg, sc->selector,
--                           sc->base, sc->limit, sc->flags);
-+    svm_load_seg(env, mmu_idx, addr, &sc);
-+    cpu_x86_load_seg_cache(env, seg_reg, sc.selector,
-+                           sc.base, sc.limit, sc.flags);
- }
- 
- static inline bool is_efer_invalid_state (CPUX86State *env)
-@@ -199,13 +206,17 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-              env->vm_hsave + offsetof(struct vmcb, save.rflags),
-              cpu_compute_eflags(env));
- 
--    svm_save_seg(env, env->vm_hsave + offsetof(struct vmcb, save.es),
-+    svm_save_seg(env, MMU_PHYS_IDX,
-+                 env->vm_hsave + offsetof(struct vmcb, save.es),
-                  &env->segs[R_ES]);
--    svm_save_seg(env, env->vm_hsave + offsetof(struct vmcb, save.cs),
-+    svm_save_seg(env, MMU_PHYS_IDX,
-+                 env->vm_hsave + offsetof(struct vmcb, save.cs),
-                  &env->segs[R_CS]);
--    svm_save_seg(env, env->vm_hsave + offsetof(struct vmcb, save.ss),
-+    svm_save_seg(env, MMU_PHYS_IDX,
-+                 env->vm_hsave + offsetof(struct vmcb, save.ss),
-                  &env->segs[R_SS]);
--    svm_save_seg(env, env->vm_hsave + offsetof(struct vmcb, save.ds),
-+    svm_save_seg(env, MMU_PHYS_IDX,
-+                 env->vm_hsave + offsetof(struct vmcb, save.ds),
-                  &env->segs[R_DS]);
- 
-     x86_stq_phys(cs, env->vm_hsave + offsetof(struct vmcb, save.rip),
-@@ -325,18 +336,18 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-                                                           save.rflags)),
-                     ~(CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C | DF_MASK));
- 
--    svm_load_seg_cache(env, env->vm_vmcb + offsetof(struct vmcb, save.es),
--                       R_ES);
--    svm_load_seg_cache(env, env->vm_vmcb + offsetof(struct vmcb, save.cs),
--                       R_CS);
--    svm_load_seg_cache(env, env->vm_vmcb + offsetof(struct vmcb, save.ss),
--                       R_SS);
--    svm_load_seg_cache(env, env->vm_vmcb + offsetof(struct vmcb, save.ds),
--                       R_DS);
--    svm_load_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.idtr),
--                       &env->idt);
--    svm_load_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.gdtr),
--                       &env->gdt);
-+    svm_load_seg_cache(env, MMU_PHYS_IDX,
-+                       env->vm_vmcb + offsetof(struct vmcb, save.es), R_ES);
-+    svm_load_seg_cache(env, MMU_PHYS_IDX,
-+                       env->vm_vmcb + offsetof(struct vmcb, save.cs), R_CS);
-+    svm_load_seg_cache(env, MMU_PHYS_IDX,
-+                       env->vm_vmcb + offsetof(struct vmcb, save.ss), R_SS);
-+    svm_load_seg_cache(env, MMU_PHYS_IDX,
-+                       env->vm_vmcb + offsetof(struct vmcb, save.ds), R_DS);
-+    svm_load_seg(env, MMU_PHYS_IDX,
-+                 env->vm_vmcb + offsetof(struct vmcb, save.idtr), &env->idt);
-+    svm_load_seg(env, MMU_PHYS_IDX,
-+                 env->vm_vmcb + offsetof(struct vmcb, save.gdtr), &env->gdt);
- 
-     env->eip = x86_ldq_phys(cs,
-                         env->vm_vmcb + offsetof(struct vmcb, save.rip));
-@@ -451,9 +462,8 @@ void helper_vmmcall(CPUX86State *env)
- 
- void helper_vmload(CPUX86State *env, int aflag)
- {
--    CPUState *cs = env_cpu(env);
-+    int mmu_idx = MMU_PHYS_IDX;
-     target_ulong addr;
--    int prot;
- 
-     cpu_svm_check_intercept_param(env, SVM_EXIT_VMLOAD, 0, GETPC());
- 
-@@ -464,43 +474,52 @@ void helper_vmload(CPUX86State *env, int aflag)
-     }
- 
-     if (virtual_vm_load_save_enabled(env, SVM_EXIT_VMLOAD, GETPC())) {
--        addr = get_hphys(cs, addr, MMU_DATA_LOAD, &prot);
-+        mmu_idx = MMU_NESTED_IDX;
-     }
- 
--    qemu_log_mask(CPU_LOG_TB_IN_ASM, "vmload! " TARGET_FMT_lx
--                  "\nFS: %016" PRIx64 " | " TARGET_FMT_lx "\n",
--                  addr, x86_ldq_phys(cs, addr + offsetof(struct vmcb,
--                                                          save.fs.base)),
--                  env->segs[R_FS].base);
--
--    svm_load_seg_cache(env, addr + offsetof(struct vmcb, save.fs), R_FS);
--    svm_load_seg_cache(env, addr + offsetof(struct vmcb, save.gs), R_GS);
--    svm_load_seg(env, addr + offsetof(struct vmcb, save.tr), &env->tr);
--    svm_load_seg(env, addr + offsetof(struct vmcb, save.ldtr), &env->ldt);
-+    svm_load_seg_cache(env, mmu_idx,
-+                       addr + offsetof(struct vmcb, save.fs), R_FS);
-+    svm_load_seg_cache(env, mmu_idx,
-+                       addr + offsetof(struct vmcb, save.gs), R_GS);
-+    svm_load_seg(env, mmu_idx,
-+                 addr + offsetof(struct vmcb, save.tr), &env->tr);
-+    svm_load_seg(env, mmu_idx,
-+                 addr + offsetof(struct vmcb, save.ldtr), &env->ldt);
- 
- #ifdef TARGET_X86_64
--    env->kernelgsbase = x86_ldq_phys(cs, addr + offsetof(struct vmcb,
--                                                 save.kernel_gs_base));
--    env->lstar = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.lstar));
--    env->cstar = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.cstar));
--    env->fmask = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.sfmask));
-+    env->kernelgsbase =
-+        cpu_ldq_mmuidx_ra(env,
-+                          addr + offsetof(struct vmcb, save.kernel_gs_base),
-+                          mmu_idx, 0);
-+    env->lstar =
-+        cpu_ldq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.lstar),
-+                          mmu_idx, 0);
-+    env->cstar =
-+        cpu_ldq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.cstar),
-+                          mmu_idx, 0);
-+    env->fmask =
-+        cpu_ldq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.sfmask),
-+                          mmu_idx, 0);
-     svm_canonicalization(env, &env->kernelgsbase);
++            /*
++             * Page table level 3
++             */
++            pte_addr = ((pte & PG_ADDRESS_MASK) +
++                        (((addr >> 30) & 0x1ff) << 3)) & a20_mask;
++            PTE_HPHYS(pte_addr);
++            pte = x86_ldq_phys(cs, pte_addr);
++            if (!(pte & PG_PRESENT_MASK)) {
+                 goto do_fault;
+             }
+-            if (pdpe & rsvd_mask) {
++            if (pte & rsvd_mask) {
+                 goto do_fault_rsvd;
+             }
+-            ptep &= pdpe ^ PG_NX_MASK;
+-            if (!(pdpe & PG_ACCESSED_MASK)) {
+-                pdpe |= PG_ACCESSED_MASK;
+-                x86_stl_phys_notdirty(cs, pdpe_addr, pdpe);
++            ptep &= pte ^ PG_NX_MASK;
++            if (!(pte & PG_ACCESSED_MASK)) {
++                pte |= PG_ACCESSED_MASK;
++                x86_stl_phys_notdirty(cs, pte_addr, pte);
+             }
+-            if (pdpe & PG_PSE_MASK) {
++            if (pte & PG_PSE_MASK) {
+                 /* 1 GB page */
+                 page_size = 1024 * 1024 * 1024;
+-                pte_addr = pdpe_addr;
+-                pte = pdpe;
+                 goto do_check_protect;
+             }
+         } else
  #endif
--    env->star = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.star));
--    env->sysenter_cs = x86_ldq_phys(cs,
--                                addr + offsetof(struct vmcb, save.sysenter_cs));
--    env->sysenter_esp = x86_ldq_phys(cs, addr + offsetof(struct vmcb,
--                                                 save.sysenter_esp));
--    env->sysenter_eip = x86_ldq_phys(cs, addr + offsetof(struct vmcb,
--                                                 save.sysenter_eip));
+         {
+-            /* XXX: load them when cr3 is loaded ? */
+-            pdpe_addr = ((in->cr3 & ~0x1f) + ((addr >> 27) & 0x18)) &
+-                a20_mask;
+-            PTE_HPHYS(pdpe_addr);
+-            pdpe = x86_ldq_phys(cs, pdpe_addr);
+-            if (!(pdpe & PG_PRESENT_MASK)) {
++            /*
++             * Page table level 3
++             */
++            pte_addr = ((in->cr3 & ~0x1f) + ((addr >> 27) & 0x18)) & a20_mask;
++            PTE_HPHYS(pte_addr);
++            pte = x86_ldq_phys(cs, pte_addr);
++            if (!(pte & PG_PRESENT_MASK)) {
+                 goto do_fault;
+             }
+             rsvd_mask |= PG_HI_USER_MASK;
+-            if (pdpe & (rsvd_mask | PG_NX_MASK)) {
++            if (pte & (rsvd_mask | PG_NX_MASK)) {
+                 goto do_fault_rsvd;
+             }
+             ptep = PG_NX_MASK | PG_USER_MASK | PG_RW_MASK;
+         }
+ 
+-        pde_addr = ((pdpe & PG_ADDRESS_MASK) + (((addr >> 21) & 0x1ff) << 3)) &
+-            a20_mask;
+-        PTE_HPHYS(pde_addr);
+-        pde = x86_ldq_phys(cs, pde_addr);
+-        if (!(pde & PG_PRESENT_MASK)) {
++        /*
++         * Page table level 2
++         */
++        pte_addr = ((pte & PG_ADDRESS_MASK) +
++                    (((addr >> 21) & 0x1ff) << 3)) & a20_mask;
++        PTE_HPHYS(pte_addr);
++        pte = x86_ldq_phys(cs, pte_addr);
++        if (!(pte & PG_PRESENT_MASK)) {
+             goto do_fault;
+         }
+-        if (pde & rsvd_mask) {
++        if (pte & rsvd_mask) {
+             goto do_fault_rsvd;
+         }
+-        ptep &= pde ^ PG_NX_MASK;
+-        if (pde & PG_PSE_MASK) {
++        ptep &= pte ^ PG_NX_MASK;
++        if (pte & PG_PSE_MASK) {
+             /* 2 MB page */
+             page_size = 2048 * 1024;
+-            pte_addr = pde_addr;
+-            pte = pde;
+             goto do_check_protect;
+         }
+-        /* 4 KB page */
+-        if (!(pde & PG_ACCESSED_MASK)) {
+-            pde |= PG_ACCESSED_MASK;
+-            x86_stl_phys_notdirty(cs, pde_addr, pde);
++        if (!(pte & PG_ACCESSED_MASK)) {
++            pte |= PG_ACCESSED_MASK;
++            x86_stl_phys_notdirty(cs, pte_addr, pte);
+         }
+-        pte_addr = ((pde & PG_ADDRESS_MASK) + (((addr >> 12) & 0x1ff) << 3)) &
+-            a20_mask;
++
++        /*
++         * Page table level 1
++         */
++        pte_addr = ((pte & PG_ADDRESS_MASK) +
++                    (((addr >> 12) & 0x1ff) << 3)) & a20_mask;
+         PTE_HPHYS(pte_addr);
+         pte = x86_ldq_phys(cs, pte_addr);
+         if (!(pte & PG_PRESENT_MASK)) {
+@@ -214,39 +220,37 @@ static bool mmu_translate(CPUX86State *env, const TranslateParams *in,
+         ptep &= pte ^ PG_NX_MASK;
+         page_size = 4096;
+     } else {
+-        uint32_t pde;
 -
-+    env->star =
-+        cpu_ldq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.star),
-+                          mmu_idx, 0);
-+    env->sysenter_cs =
-+        cpu_ldq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.sysenter_cs),
-+                          mmu_idx, 0);
-+    env->sysenter_esp =
-+        cpu_ldq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.sysenter_esp),
-+                          mmu_idx, 0);
-+    env->sysenter_eip =
-+        cpu_ldq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.sysenter_eip),
-+                          mmu_idx, 0);
- }
+-        /* page directory entry */
+-        pde_addr = ((in->cr3 & ~0xfff) + ((addr >> 20) & 0xffc)) &
+-            a20_mask;
+-        PTE_HPHYS(pde_addr);
+-        pde = x86_ldl_phys(cs, pde_addr);
+-        if (!(pde & PG_PRESENT_MASK)) {
++        /*
++         * Page table level 2
++         */
++        pte_addr = ((in->cr3 & ~0xfff) + ((addr >> 20) & 0xffc)) & a20_mask;
++        PTE_HPHYS(pte_addr);
++        pte = x86_ldl_phys(cs, pte_addr);
++        if (!(pte & PG_PRESENT_MASK)) {
+             goto do_fault;
+         }
+-        ptep = pde | PG_NX_MASK;
++        ptep = pte | PG_NX_MASK;
  
- void helper_vmsave(CPUX86State *env, int aflag)
- {
--    CPUState *cs = env_cpu(env);
-+    int mmu_idx = MMU_PHYS_IDX;
-     target_ulong addr;
--    int prot;
- 
-     cpu_svm_check_intercept_param(env, SVM_EXIT_VMSAVE, 0, GETPC());
- 
-@@ -511,38 +530,36 @@ void helper_vmsave(CPUX86State *env, int aflag)
-     }
- 
-     if (virtual_vm_load_save_enabled(env, SVM_EXIT_VMSAVE, GETPC())) {
--        addr = get_hphys(cs, addr, MMU_DATA_STORE, &prot);
-+        mmu_idx = MMU_NESTED_IDX;
-     }
- 
--    qemu_log_mask(CPU_LOG_TB_IN_ASM, "vmsave! " TARGET_FMT_lx
--                  "\nFS: %016" PRIx64 " | " TARGET_FMT_lx "\n",
--                  addr, x86_ldq_phys(cs,
--                                 addr + offsetof(struct vmcb, save.fs.base)),
--                  env->segs[R_FS].base);
+         /* if PSE bit is set, then we use a 4MB page */
+-        if ((pde & PG_PSE_MASK) && (pg_mode & PG_MODE_PSE)) {
++        if ((pte & PG_PSE_MASK) && (pg_mode & PG_MODE_PSE)) {
+             page_size = 4096 * 1024;
+-            pte_addr = pde_addr;
 -
--    svm_save_seg(env, addr + offsetof(struct vmcb, save.fs),
-+    svm_save_seg(env, mmu_idx, addr + offsetof(struct vmcb, save.fs),
-                  &env->segs[R_FS]);
--    svm_save_seg(env, addr + offsetof(struct vmcb, save.gs),
-+    svm_save_seg(env, mmu_idx, addr + offsetof(struct vmcb, save.gs),
-                  &env->segs[R_GS]);
--    svm_save_seg(env, addr + offsetof(struct vmcb, save.tr),
-+    svm_save_seg(env, mmu_idx, addr + offsetof(struct vmcb, save.tr),
-                  &env->tr);
--    svm_save_seg(env, addr + offsetof(struct vmcb, save.ldtr),
-+    svm_save_seg(env, mmu_idx, addr + offsetof(struct vmcb, save.ldtr),
-                  &env->ldt);
+-            /* Bits 20-13 provide bits 39-32 of the address, bit 21 is reserved.
++            /*
++             * Bits 20-13 provide bits 39-32 of the address, bit 21 is reserved.
+              * Leave bits 20-13 in place for setting accessed/dirty bits below.
+              */
+-            pte = pde | ((pde & 0x1fe000LL) << (32 - 13));
++            pte = (uint32_t)pte | ((pte & 0x1fe000LL) << (32 - 13));
+             rsvd_mask = 0x200000;
+             goto do_check_protect_pse36;
+         }
+-
+-        if (!(pde & PG_ACCESSED_MASK)) {
+-            pde |= PG_ACCESSED_MASK;
+-            x86_stl_phys_notdirty(cs, pde_addr, pde);
++        if (!(pte & PG_ACCESSED_MASK)) {
++            pte |= PG_ACCESSED_MASK;
++            x86_stl_phys_notdirty(cs, pte_addr, pte);
+         }
  
- #ifdef TARGET_X86_64
--    x86_stq_phys(cs, addr + offsetof(struct vmcb, save.kernel_gs_base),
--             env->kernelgsbase);
--    x86_stq_phys(cs, addr + offsetof(struct vmcb, save.lstar), env->lstar);
--    x86_stq_phys(cs, addr + offsetof(struct vmcb, save.cstar), env->cstar);
--    x86_stq_phys(cs, addr + offsetof(struct vmcb, save.sfmask), env->fmask);
-+    cpu_stq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.kernel_gs_base),
-+                      env->kernelgsbase, mmu_idx, 0);
-+    cpu_stq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.lstar),
-+                      env->lstar, mmu_idx, 0);
-+    cpu_stq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.cstar),
-+                      env->cstar, mmu_idx, 0);
-+    cpu_stq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.sfmask),
-+                      env->fmask, mmu_idx, 0);
- #endif
--    x86_stq_phys(cs, addr + offsetof(struct vmcb, save.star), env->star);
--    x86_stq_phys(cs,
--             addr + offsetof(struct vmcb, save.sysenter_cs), env->sysenter_cs);
--    x86_stq_phys(cs, addr + offsetof(struct vmcb, save.sysenter_esp),
--             env->sysenter_esp);
--    x86_stq_phys(cs, addr + offsetof(struct vmcb, save.sysenter_eip),
--             env->sysenter_eip);
-+    cpu_stq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.star),
-+                      env->star, mmu_idx, 0);
-+    cpu_stq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.sysenter_cs),
-+                      env->sysenter_cs, mmu_idx, 0);
-+    cpu_stq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.sysenter_esp),
-+                      env->sysenter_esp, mmu_idx, 0);
-+    cpu_stq_mmuidx_ra(env, addr + offsetof(struct vmcb, save.sysenter_eip),
-+                      env->sysenter_eip, mmu_idx, 0);
- }
- 
- void helper_stgi(CPUX86State *env)
-@@ -725,13 +742,17 @@ void do_vmexit(CPUX86State *env)
-     tlb_flush_by_mmuidx(cs, 1 << MMU_NESTED_IDX);
- 
-     /* Save the VM state in the vmcb */
--    svm_save_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.es),
-+    svm_save_seg(env, MMU_PHYS_IDX,
-+                 env->vm_vmcb + offsetof(struct vmcb, save.es),
-                  &env->segs[R_ES]);
--    svm_save_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.cs),
-+    svm_save_seg(env, MMU_PHYS_IDX,
-+                 env->vm_vmcb + offsetof(struct vmcb, save.cs),
-                  &env->segs[R_CS]);
--    svm_save_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.ss),
-+    svm_save_seg(env, MMU_PHYS_IDX,
-+                 env->vm_vmcb + offsetof(struct vmcb, save.ss),
-                  &env->segs[R_SS]);
--    svm_save_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.ds),
-+    svm_save_seg(env, MMU_PHYS_IDX,
-+                 env->vm_vmcb + offsetof(struct vmcb, save.ds),
-                  &env->segs[R_DS]);
- 
-     x86_stq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.gdtr.base),
-@@ -812,14 +833,14 @@ void do_vmexit(CPUX86State *env)
-                     ~(CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C | DF_MASK |
-                       VM_MASK));
- 
--    svm_load_seg_cache(env, env->vm_hsave + offsetof(struct vmcb, save.es),
--                       R_ES);
--    svm_load_seg_cache(env, env->vm_hsave + offsetof(struct vmcb, save.cs),
--                       R_CS);
--    svm_load_seg_cache(env, env->vm_hsave + offsetof(struct vmcb, save.ss),
--                       R_SS);
--    svm_load_seg_cache(env, env->vm_hsave + offsetof(struct vmcb, save.ds),
--                       R_DS);
-+    svm_load_seg_cache(env, MMU_PHYS_IDX,
-+                       env->vm_hsave + offsetof(struct vmcb, save.es), R_ES);
-+    svm_load_seg_cache(env, MMU_PHYS_IDX,
-+                       env->vm_hsave + offsetof(struct vmcb, save.cs), R_CS);
-+    svm_load_seg_cache(env, MMU_PHYS_IDX,
-+                       env->vm_hsave + offsetof(struct vmcb, save.ss), R_SS);
-+    svm_load_seg_cache(env, MMU_PHYS_IDX,
-+                       env->vm_hsave + offsetof(struct vmcb, save.ds), R_DS);
- 
-     env->eip = x86_ldq_phys(cs,
-                         env->vm_hsave + offsetof(struct vmcb, save.rip));
+-        /* page directory entry */
+-        pte_addr = ((pde & ~0xfff) + ((addr >> 10) & 0xffc)) &
+-            a20_mask;
++        /*
++         * Page table level 1
++         */
++        pte_addr = ((pte & ~0xfffu) + ((addr >> 10) & 0xffc)) & a20_mask;
+         PTE_HPHYS(pte_addr);
+         pte = x86_ldl_phys(cs, pte_addr);
+         if (!(pte & PG_PRESENT_MASK)) {
 -- 
 2.34.1
 
