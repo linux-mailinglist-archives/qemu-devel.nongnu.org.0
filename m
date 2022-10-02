@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C325F23A8
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 16:41:56 +0200 (CEST)
-Received: from localhost ([::1]:41768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA4D5F23B1
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 16:49:18 +0200 (CEST)
+Received: from localhost ([::1]:36440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1of0AE-0008LY-Nh
-	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 10:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38994)
+	id 1of0HK-0004Lg-DF
+	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 10:49:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1of09A-0006vh-Lk
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 10:40:48 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:52867)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1of0E0-0001ph-7n
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 10:45:48 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:37686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1of099-0008Gd-0M
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 10:40:48 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id l12so7770550pjh.2
- for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 07:40:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1of0Dy-0000PW-9P
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 10:45:47 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id a41so11530483edf.4
+ for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 07:45:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=jjBwZSTb+h339RRe2L2hbqTuxufAHAKum+3LEfxQn1k=;
- b=uuSpJCs3RMsko/DOO6wyzQMApOYROMUqdfesEaOdyjY62RFHAjVxcWAAIEQzgO7qR2
- kNIfllQa0tkbHF6WR0e/qq/CSzslXl+lZ9gChvu92sBDqBQq5eHNYRcUtinTFVfB0aW0
- kAN4R40mhA972e+mAh2S5Cpw5n5ThQcQpRs1vPNcuG/73CI8e0C/id/ui8kTXa0tEe10
- wyVywXrEFBcgSdOuwDixiqZvLJKBpctryLay6TpQ0fD635B/tPEw2SKmTn0WdZ6eBuHR
- /EtC6bT/DHWCS5EcWZQEbLv3hOBKG9KEitNA96kbL8JZxIS3jaaSqzuAX0sBM0C0txdL
- D4xA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=gGpaR8d9j1nZPkVQKdGE6surX0mzpNbyWEbeIwzJShA=;
+ b=gbUQwJagl8pZDyNPICH4v2wWjSQ9KpTb5WLurCF0ctGsFxY30k+LG/pFR8ZOnhRbA8
+ l4s98SVy5OXxz3/+3RIa2aFbj5qD7KBjV2stlcMW6klVxCNJDgJxlk0ZXG6SPLqk8ybW
+ DuyY7f5HyX2zksJOzPbLc5F3/YFscTEG84qBNLdwtVK4kSqiS5dNS0akxdlwmZGX3izg
+ 128qylvXi2StuqUVYHobws4J92UgWLEcrZyxvzaQkYu0pr/WPtGstPgS6kH7iF6CAPiK
+ fA1auUu6CrgwgrJVtg5Cq4x+WqB+5s54RVQlXFRgJrQ3el/K7e0oKfIOuE0896/1zG8Y
+ Gz2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=jjBwZSTb+h339RRe2L2hbqTuxufAHAKum+3LEfxQn1k=;
- b=rowyZFlRqAmDyFHtnP+Lem35Dna4OoWSD5oNEQ2t55kd/LUtYAJ3lH91Kn6uKjRt52
- Sj6F7qlWsgL/Na7i3HKgskttze7o+IgYebCvu3H1mpHThCnPcsygLFwEkOguJ9PCI2sz
- Ep54fMSE3yTcZClfkQO+Amm2Sbuxsa+DqfMJyZJ4/egvwUhY7FDTJEYvxlWZJfd1i04g
- 03UZjPAzGcN/6C0zYjsgQpX8ubSv/cx8SSgpxxptSWYzZsv+Kgf2YAokxjey8cGSjs0g
- CN7Dn2JiwaBdnTmIPp+ix6ACxkce489r32ElAKRn8FsrlFrDwcNeRLsRQ43D0V2aq/7+
- SwUQ==
-X-Gm-Message-State: ACrzQf3sIjDQtCi6VyGTJwfYXd3kQx7uoB4bPTJ3coEDsFVlIuAoC1c+
- YuFG4KUXamdZRwmEo/LwClkLyg==
-X-Google-Smtp-Source: AMsMyM55QUkuwfd0AhYcfpZuaSxHVAT478KYPJOyb8oQyU5kA4uMdM2sc7mpJ+g0c10rhmwG6zSa9w==
-X-Received: by 2002:a17:90a:8c8e:b0:202:883b:2644 with SMTP id
- b14-20020a17090a8c8e00b00202883b2644mr7806298pjo.89.1664721645439; 
- Sun, 02 Oct 2022 07:40:45 -0700 (PDT)
-Received: from ?IPV6:2605:ef80:8002:3cad:d8f7:9399:9b96:97af?
- ([2605:ef80:8002:3cad:d8f7:9399:9b96:97af])
- by smtp.gmail.com with ESMTPSA id
- k15-20020a170902c40f00b0017eb2d62bbesm1291516plk.99.2022.10.02.07.40.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 02 Oct 2022 07:40:43 -0700 (PDT)
-Message-ID: <e1538b70-8e32-a6b7-4132-77a7ea6a60fa@linaro.org>
-Date: Sun, 2 Oct 2022 07:40:38 -0700
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=gGpaR8d9j1nZPkVQKdGE6surX0mzpNbyWEbeIwzJShA=;
+ b=Ckyx6VoYtVOrCNLHtT99oa5gSWpdGntAfk84eB07g898GomHUgWSeR6EMzUeglVlhd
+ XMHMtyG/jhwEcf6D9DjbFta/yHSpaerV0gceolB2otulmqwRDkf4omLrddfZCBg6klrT
+ a5wfnW0IrGjXYy1zUGiT3rpsD6sjRJEkRN6wA/yl4eq6Ggc9j7cLD7BVxgNc4aWzjAkq
+ HnuH/CMdTXAkmgZZ6dBkXKE/fo2uEQ7lu/iqjKt7ouF+a+AwB/6DuhiwVdhbSgDQnvLV
+ yijIA9RfcTsX0LmPf9Sqw4B7mygd7r9veN9ouZAoyvwv917hmHmS37KzftaXsTYYat3b
+ QDLQ==
+X-Gm-Message-State: ACrzQf29yEhpCylr3aWBNvoM9FtmBE7PcfHUZUbUIcpL9TPFhX/I642y
+ ag3x1A3HK/GrpN4LcSSW2vM5sy/LFlGGXrmEYSkRbw==
+X-Google-Smtp-Source: AMsMyM7upAbyWcP0TS4TRDvSamioA5SaSTZ99pz536rRu4kZGc8wQQ3njVw3vgv979kjY0Ih2l8xzhpeEU/uAlWDOfI=
+X-Received: by 2002:a05:6402:350b:b0:452:2b68:90db with SMTP id
+ b11-20020a056402350b00b004522b6890dbmr15481188edd.255.1664721937209; Sun, 02
+ Oct 2022 07:45:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: access guest address from within instruction
-Content-Language: en-US
-To: BitFriends <commandspider12@gmail.com>, qemu-devel@nongnu.org
 References: <CABVhSWP7XjNvCXUvawXLcOkP4vXQ8wbMObKbxc+jN6gv0wzawQ@mail.gmail.com>
  <3ca717d7-fbc9-b2f9-71cc-01ef459da257@linaro.org>
  <CABVhSWNkCn-V=ZzUTEi7+hO_a4KJgfpv7N_MW_t+jKRtmTh08A@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <CABVhSWNkCn-V=ZzUTEi7+hO_a4KJgfpv7N_MW_t+jKRtmTh08A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.086,
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 2 Oct 2022 15:45:25 +0100
+Message-ID: <CAFEAcA-JztxsEQ-RMAtnkQxVZOFcRXxg-+Csa+uEeQWH73PQzg@mail.gmail.com>
+Subject: Re: access guest address from within instruction
+To: BitFriends <commandspider12@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,50 +84,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/2/22 02:20, BitFriends wrote:
+On Sun, 2 Oct 2022 at 10:22, BitFriends <commandspider12@gmail.com> wrote:
 > I now came up with this code:
-> 
+>
 > TCGv_i64 res = 0;
 > TCGv_i64 addr = (TCGv_i64)(env->regs[R_EDI]);
-> 
+>
 > tcg_gen_qemu_ld_i64(res, addr, 0, MO_LEUQ);
-> 
+>
 > env->regs[R_EAX] = (target_ulong)res;
-> 
-> However this crashes afterwards in test_bit. Maybe this is caused by an invalid access? 
-> Anything wrong about the code? This still gives some warnings, like TCGv_i32 expected (and 
-> when you use TCGv_i32, it says TCGv_i64 expected) plus some casting warnings.
 
-It is as if you did not read the second paragraph of my response at all.
-tcg_gen_qemu_ld_i64 is for generating code, not performing a direct action.
-Can you see how your code differs from *all* of the code around it?
+This is wrong, because you cannot read or write env->regs[] at
+translate time. The "translate time" vs "run time" distinction
+in a JIT is critical to understand:
 
-r~
+ * translate time is when we read guest instructions,
+   and output TCG ops. We do this once, the first time
+   we encounter a particular piece of guest code. At
+   this point you cannot directly access the state of the
+   guest CPU. This is because the exact value of EDI
+   will be *different* each time the generated code is run.
+ * run time is when we are actually emulating the guest
+   CPU, by executing the code built from the TCG ops.
+   At run time the CPU state is known and can be updated.
 
-> 
-> Am Sa., 1. Okt. 2022 um 22:23 Uhr schrieb Richard Henderson <richard.henderson@linaro.org 
-> <mailto:richard.henderson@linaro.org>>:
-> 
->     On 10/1/22 13:10, BitFriends wrote:
->      > Hello,
->      >
->      > I am trying to create a custom instruction that accesses guest memory specified by an
->      > address in a register. I specifically want to read from that address. So I tried to do
->      > that using "tcg_gen_qemu_ld_i64(&res, env->regs[R_EDI], 0, MO_LEUQ);", but that
->     doesn't
->      > save any result in res.
-> 
->     This statement should have given you compilation errors, so I don't know what you mean by
->     "doesn't save any result".  There's clearly a disconnect between what you describe and
->     what you actually attempted.
-> 
->     Anyway, by the name you can see that function "gen"erates a "tcg" operation, which is
->     then
->     later compiled by the jit, the output of which is later executed to produce a result.
->     Which is, in general, what you want for implementing a custom instruction.
-> 
-> 
->     r~
-> 
+You should look at how existing instructions in the x86
+translator generate code to read and write registers --
+you will see that they use cpu_regs[], which is an array
+of TCGv which correspond to the CPU registers (so they can
+say "generate code which will read EDI"), and they
+never use env->regs[] (which would be "read EDI right now").
 
+More generally, "read guest memory and get the result into
+a guest CPU register" is a common thing in existing x86
+instructions. So find how we implement one of those
+existing insns that's similar to what you want, and see
+how that is handled.
+
+(NB: so far you haven't said why your custom instruction
+would be any different from a normal load instruction
+that x86 already has...)
+
+thanks
+-- PMM
 
