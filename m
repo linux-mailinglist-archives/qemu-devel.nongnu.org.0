@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C4E5F2376
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 15:58:06 +0200 (CEST)
-Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B16175F2377
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Oct 2022 15:59:42 +0200 (CEST)
+Received: from localhost ([::1]:58958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oezTp-0003pf-6N
-	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 09:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36410)
+	id 1oezVN-0005Jw-Oq
+	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 09:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1oezSm-0002Mv-SR
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 09:57:00 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:46034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>) id 1oezSk-0001aG-Np
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 09:57:00 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 86862B80C99;
- Sun,  2 Oct 2022 13:56:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D2ECC433D7;
- Sun,  2 Oct 2022 13:56:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1664719014;
- bh=qO3hIZW9pTAXKAlh4vUiIdwgn5hVGFl9JsBQtCk2vTY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OwTEsbDGZpJUFCshG3OmtnH8tG8GH3WveLWD6/uaCyoziZPNRIPBOJ6itJLW0CqDm
- rcBimG+xXPNxIwM5zT/DeJZLUYLSTK+DqFkVJdZa37DeGFP7QtEEUrTpdY8JsGcBfS
- 7OaosCYqWKT9GqDYG5JNul2enF1/Rd3Ukdk+3u7v4wpXexzgepeYmvggtOSCqoD0Gn
- JX4JLriIBKxKnKWyVp65fPRi7BltatpYYIzIm7vToyctgL6TKCz6HyucyRjkKCOKWl
- M5UFVEbr0AkgGAI7pUCBFlR2UFzwDoZeS3u9rr6V+HTIE38YOKTr2lPWHvIzweAo7D
- cQWR+aHvJxfjA==
-Date: Sun, 2 Oct 2022 07:56:50 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Christoph Hellwig <hch@lst.de>,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- qemu-devel@nongnu.org, kvm@vger.kernel.org, Kevin Wolf <kwolf@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
-Subject: Re: Commit 'iomap: add support for dma aligned direct-io' causes
- qemu/KVM boot failures
-Message-ID: <YzmYojlHKZ79mseE@kbusch-mbp>
-References: <fb869c88bd48ea9018e1cc349918aa7cdd524931.camel@redhat.com>
- <YzW+Mz12JT1BXoZA@kbusch-mbp.dhcp.thefacebook.com>
- <a2825beac032fd6a76838164d4e2753d30305897.camel@redhat.com>
- <YzXJwmP8pa3WABEG@kbusch-mbp.dhcp.thefacebook.com>
- <20220929163931.GA10232@lst.de>
- <32db4f89-a83f-aac4-5d27-0801bdca60bf@redhat.com>
- <28ce86c01271c1b9b8f96a7783b55a8d458325d2.camel@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oezTP-0003FZ-BZ
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 09:57:39 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:45849)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oezTN-0001d7-N1
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 09:57:38 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ d12-20020a05600c3acc00b003b4c12e47f3so4518941wms.4
+ for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 06:57:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=EnpVKHQ8us4re3zQwACarhym1pVA582lVUjm1eEDnW8=;
+ b=ymkAiJWPTrtV0XZMLqk3/94v9tFFpq9tuO3422Vr7+9mLe0FYr0NDVTqExd8n+ore3
+ sac05d/PNoEJvtPozE+O+LtTzcffs0q+5tARaaBXZnR8YyLBoQujLMNPeB+VcazYFEEg
+ Pf5OdkyhxKpTBqoNW/GOcpRSFi9VkNAoINp+7kiomfT8Q3Udul+GnXfV+sypGEfwpUM6
+ r1oFGYRgpv459YoRsa1l56m2Gi1S4B7+zjTOgn7BjYW7O7LYouDn8u1yEbqikKIr4zt8
+ pX15R2vLufcY8wElbrjYz5BmTaHhz7E3vGFhfDU/9J2q5ZvQt2cNL2gGUhzWMIlw4vdj
+ YrMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=EnpVKHQ8us4re3zQwACarhym1pVA582lVUjm1eEDnW8=;
+ b=qQ53hv0LAKYA5DNgSC6A8MXKTUK4R+GWbYlk6V/QuDsQl/1GKSROrlE1So39JVt+8T
+ RJK1ToarMdhQ2MdKX6fjwqG7THg64x4rCx2NubMxuqXzfl0vSsm2Gz82UlMfYVQ/cm/g
+ 84exW/TUNw/dqR5Gv11IKQQmDCcAdDYbhXWdkHPMGPC54nHVmZFZASSZwdpPJehE+XLd
+ 7dJooyCwdPsX5t0nr5VvvpmRIpQFhx3ffg3p3/HUCmO1ARo2tWV3cNRKBIJY+nZNC4IC
+ 0FPUf5rDL3wJjyckN80ggf3EM9JbbgVlpxJmFBNk9Amts9Byjcr4Nx8mxnXiYOsdv6QJ
+ 7t3g==
+X-Gm-Message-State: ACrzQf1g+NJISsO4ahFZLjc6AFzlfStnmVtHewLvCCk+VkysvJKknMCl
+ hxhJVBiHspIRVCd5XU/jUlGp+g==
+X-Google-Smtp-Source: AMsMyM4tg4CYh/X0gzK0SucIpn2P7t0+eMwpuTrnSyCTrx6+WeLxD8wFRJ6Da8vH3yRLOJbHv6eb8w==
+X-Received: by 2002:a7b:cd96:0:b0:3b4:856a:28f7 with SMTP id
+ y22-20020a7bcd96000000b003b4856a28f7mr4371862wmj.117.1664719055362; 
+ Sun, 02 Oct 2022 06:57:35 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ t3-20020a5d6a43000000b0022cc0a2cbecsm7349015wrw.15.2022.10.02.06.57.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 02 Oct 2022 06:57:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 984781FFB7;
+ Sun,  2 Oct 2022 14:57:33 +0100 (BST)
+References: <CABVhSWP7XjNvCXUvawXLcOkP4vXQ8wbMObKbxc+jN6gv0wzawQ@mail.gmail.com>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: BitFriends <commandspider12@gmail.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: access guest address from within instruction
+Date: Sun, 02 Oct 2022 14:56:52 +0100
+In-reply-to: <CABVhSWP7XjNvCXUvawXLcOkP4vXQ8wbMObKbxc+jN6gv0wzawQ@mail.gmail.com>
+Message-ID: <87lepywcoi.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <28ce86c01271c1b9b8f96a7783b55a8d458325d2.camel@redhat.com>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=kbusch@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,72 +94,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 02, 2022 at 11:59:42AM +0300, Maxim Levitsky wrote:
-> On Thu, 2022-09-29 at 19:35 +0200, Paolo Bonzini wrote:
-> > On 9/29/22 18:39, Christoph Hellwig wrote:
-> > > On Thu, Sep 29, 2022 at 10:37:22AM -0600, Keith Busch wrote:
-> > > > > I am aware, and I've submitted the fix to qemu here:
-> > > > > 
-> > > > >   https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00398.html
-> > > > 
-> > > > I don't think so. Memory alignment and length granularity are two completely
-> > > > different concepts. If anything, the kernel's ABI had been that the length
-> > > > requirement was also required for the memory alignment, not the other way
-> > > > around. That usage will continue working with this kernel patch.
-> 
-> Yes, this is how I also understand it - for example for O_DIRECT on a file which
-> resides on 4K block device, you have to use page aligned buffers.
-> 
-> But here after the patch, 512 aligned buffer starts working as well - If I
-> understand you correctly the ABI didn't guarantee that such usage would fail,
-> but rather that it might fail.
 
-The kernel patch will allow buffer alignment to work with whatever the hardware
-reports it can support. It could even as low as byte aligned if that's the
-hardware can use that.
+BitFriends <commandspider12@gmail.com> writes:
 
-The patch aligns direct-io with the same criteria blk_rq_map_user() has always
-used to know if the user space buffer is compatible with the hardware's dma
-requirements. Prior to this patch, the direct-io memory alignment was an
-artificial software constraint, and that constraint creates a lot of
-unnecessary memory pressure.
-
-As has always been the case, each segment needs to be a logical block length
-granularity. QEMU assumed a buffer's page offset also defined the logical block
-size instead of using the actual logical block size that it had previously
-discovered directly.
-
-> If I understand that correctly, after the patch in question, 
-> qemu is able to use just 512 bytes aligned buffer to read a single 4K block from the disk,
-> which supposed to fail but wasn't guarnteed to fail.
-> 
-> Later qemu it submits iovec which also reads a 4K block but in two parts,
-> and if I understand that correctly, each part (iov) is considered
-> to be a separate IO operation,  and thus each has to be in my case 4K in size, 
-> and its memory buffer *should* also be 4K aligned.
+> Hello,
 >
-> (but it can work with smaller alignement as well).
+> I am trying to create a custom instruction that accesses guest memory spe=
+cified by an address in a register. I specifically
+> want to read from that address. So I tried to do that using "tcg_gen_qemu=
+_ld_i64(&res, env->regs[R_EDI], 0,
+> MO_LEUQ);", but that doesn't save any result in res. So either my call is=
+ wrong, or I need to translate that guest address
+> to a usable host address. I can't find much about this stuff in the
+> docs. Could anyone help me out with that?
 
-Right. The iov length needs to match the logical block size. The iov's memory
-offset needs to align to the queue's dma_alignment attribute. The memory
-alignment may be smaller than a block size.
- 
-> Assuming that I understand all of this correctly, I agree with Paolo that this is qemu
-> bug, but I do fear that it can cause quite some problems for users,
-> especially for users that use outdated qemu version.
-> 
-> It might be too much to ask, but maybe add a Kconfig option to keep legacy behavier
-> for those that need it?
+I still think you could solve your problem using semihosting (which
+exactly exposes a "fake" instruction to make semihosting calls to save
+data on the host system).
 
-Kconfig doesn't sound right.
+>
+> Cheers
+>
+> BitFriends
 
-The block layer exports all the attributes user space needs to know about for
-direct io.
 
-  iov length:    /sys/block/<block-dev>/queue/logical_block_size
-  iov mem align: /sys/block/<block-dev>/queue/dma_alignment
-
-If you really want to change the behavior, I think maybe we could make the
-dma_alignment attribute writeable (or perhaps add a new attribute specifically
-for dio_alignment) so the user can request something larger.
+--=20
+Alex Benn=C3=A9e
 
