@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788D75F31CA
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 16:12:23 +0200 (CEST)
-Received: from localhost ([::1]:37482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A045F31D0
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 16:17:56 +0200 (CEST)
+Received: from localhost ([::1]:39614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofMBC-0000UX-Ft
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 10:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60656)
+	id 1ofMGZ-00052S-1r
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 10:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ofM53-0002ie-BX; Mon, 03 Oct 2022 10:06:09 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39469)
+ id 1ofM6V-0003xp-Ia
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 10:07:31 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:45928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ofM4z-0005IM-5J; Mon, 03 Oct 2022 10:05:58 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- e10-20020a05600c4e4a00b003b4eff4ab2cso9121400wmq.4; 
- Mon, 03 Oct 2022 07:05:55 -0700 (PDT)
+ id 1ofM6T-0005TU-TE
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 10:07:31 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id a10so4575908wrm.12
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 07:07:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=jM0YJ6jjSw4m0NN/AxTBkuU7bfMeLhlxa4/Vm9A4qqI=;
- b=fQ6Pjt8aQYi2QeNCayyQ9TqBNQF/ZVaFyaF4cwUO8kNrHGIAheH+IC/JPzvpKv2wTV
- Kb46v/RgkpXTWOXNYmb6a/aie9es7eUKdksjL6GeBAnlIzVREBxbIXXDLKoJrJYCka/+
- ryLj/pliR8omPGnTuPydZKz8YgVrDd0yLMVStQu5y/gRpAf3M+8j7XGeDhh4mopvDWpw
- nRHOMak/5pYeCXK3TFLtJI/H4+3q8N2dIFIlgNPxsQ9XkvjD8jRvUnNDKSbcGiS+hdXo
- MVqH23NZaOZFqmp7fXuDGa7IozwQc+g0V/MurV+xcvRBCc0O+ByYMw/KPiwUKF0hV/Av
- 3M8g==
+ bh=HOTpNRcufhY33Z8NGRfGefj77azSd+8Ioke9dsiKv1A=;
+ b=kAHKlDaIVYRYCajMd/6D5KscrC8tUswV2yE0zNd2WDBZ9hghpYTnewycpYmx4l0bSz
+ cy63eHxDxKa3axUFdeJUFIBu8fTCBfUBHsgEOnPG6cL+b85WpliHPoaLBNnDE5MHxX41
+ BFXmvqSuyh+ryG/t15qdiUdumNCpsMLFtCpn7Jy5Bjahr8SJW+WsRDVuno882n0X4L2X
+ +5IdeiDfWq4wKbtHj+dQcp0zfkvNiNtQlADDEN+SEeOyRXqxh7IyMi9Se4hmL3/c4mFd
+ jQAuWafMbIFRQ2ugod6W2wvagu8UWDzsFrfh/aMYIp93hJlgs5AMMsgn+sCSHLoBNWR6
+ Bdgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=jM0YJ6jjSw4m0NN/AxTBkuU7bfMeLhlxa4/Vm9A4qqI=;
- b=EgNE7OGsCiJudtW3bMDOTLgvScyCVwsCsVlUh4gceTMSrA5GIJmujrVvsjhcAanRLH
- 7nRo2fzWJIgAJkPy9tMJ0LRPN85h29bSKts6QPdcb+n4dLkV6quq0gQbhZFqsAbunAGj
- ZjONidGF6vrh1gdIyIRnOO7MINHRyaWGfeOEPPlPoyP4c7k7ClLgq72mxc+q6UkTO8lE
- UGmKdwtttgvZ6XiYIwAmaRDBiTH71XGgeaEduFIsVm6eED6+fF7Cv0vP5Hde/HkfHX4t
- ks9qdLPuxWIhSMT28DQz7H/3R58QAJ6M+Kr0b+OkNTXBGR9sWq0rcybzrD7ARR4jpKa5
- ADyQ==
-X-Gm-Message-State: ACrzQf0UKq4VBdGFV6HNGSWsacFvAP5+3iB4l2r7SmdJdTpHKUe69Xcx
- grripcbt1twxwQB9dYbhmhE=
-X-Google-Smtp-Source: AMsMyM4kClhJ2YI/4dLrVD/aYLeFTw6H2LWNu3K0kgl6nq2flHCfU/NDGtGKbBmMWXFTnmS6cZlKKg==
-X-Received: by 2002:a05:600c:4352:b0:3b4:84c0:2006 with SMTP id
- r18-20020a05600c435200b003b484c02006mr7015689wme.205.1664805953908; 
- Mon, 03 Oct 2022 07:05:53 -0700 (PDT)
+ bh=HOTpNRcufhY33Z8NGRfGefj77azSd+8Ioke9dsiKv1A=;
+ b=xE7mikB2v7wyhkZytSVznJR2QKoRvS6IUzm7mOTo06Xk6ipiVMrQ0x5ZQ2lj5dAM/0
+ 2xUZVSRoP+nRjVHkau/4TJYdxH87bnhvA1q91fTQgTm4dba9PBOnaXE+eVIpPPJaKCQ2
+ ti/wZ/afyCgWkqZtnRAJP4dAiYVA+SQv20mnVZ5+92D2RYmdBSN08IDy51spqnZGD3gz
+ 3uVtD91R58L3FCb1J+NczL+tGVx7VZ8Y5SMnZEODmgTZTM5ZY1Iy1s785ltxTFLcWCw1
+ SOd6jItVnWKNPwu2yITCuNj2/SZ3/9761e6a8XAAhshbhVl9J0/rhamSMXd2vdDU86gP
+ DjBw==
+X-Gm-Message-State: ACrzQf0WvswPFz2oEkujPPQNx7NPAj6+lz/IAVpHMOFnLGZfetpyFtIu
+ PN4A0roKL01KKmAkB06mn/KJj9eHquY=
+X-Google-Smtp-Source: AMsMyM64oGc7loG7jExghmlLg7gAhTT7J15tS10dXNOcJrm1gCG4gfDUI2Xzgn0ezmTgizctLbITdA==
+X-Received: by 2002:a05:6000:1882:b0:22a:f402:c975 with SMTP id
+ a2-20020a056000188200b0022af402c975mr13328289wri.532.1664806046757; 
+ Mon, 03 Oct 2022 07:07:26 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- b1-20020a5d45c1000000b0022ac119fcc5sm9806669wrs.60.2022.10.03.07.05.50
+ m24-20020adfa3d8000000b0022ae401e9e0sm9656638wrb.78.2022.10.03.07.07.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Oct 2022 07:05:52 -0700 (PDT)
-Message-ID: <76294919-528e-4174-b8df-8e97c10c788a@amsat.org>
-Date: Mon, 3 Oct 2022 16:05:49 +0200
+ Mon, 03 Oct 2022 07:07:26 -0700 (PDT)
+Message-ID: <a5c6c02f-18a2-a08c-70d6-a41ee40f9587@amsat.org>
+Date: Mon, 3 Oct 2022 16:07:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v2 06/13] mac_newworld: Simplify creation of Uninorth
- devices
+Subject: =?UTF-8?Q?Re=3a_=5bPATCH_v1_6/7=5d_contrib/gitdm=3a_add_Universit?=
+ =?UTF-8?Q?=c3=a9_Grenoble_Alpes?=
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <cover.1664108862.git.balaton@eik.bme.hu>
- <4a039abeeddcc6c987065ca526c6fa0457784615.1664108862.git.balaton@eik.bme.hu>
- <fbb38c03-6092-78e2-c1af-e37f1674bad4@ilande.co.uk>
-In-Reply-To: <fbb38c03-6092-78e2-c1af-e37f1674bad4@ilande.co.uk>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+References: <20220926134609.3301945-1-alex.bennee@linaro.org>
+ <20220926134609.3301945-7-alex.bennee@linaro.org>
+In-Reply-To: <20220926134609.3301945-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -100,24 +99,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Cc'ing CLI refactor team.
-
-On 29/9/22 09:39, Mark Cave-Ayland wrote:
-> On 25/09/2022 13:38, BALATON Zoltan wrote:
+On 26/9/22 15:46, Alex Bennée wrote:
+> again to the academic group map.
 > 
->> Avoid open coding sysbus_mmio_map() and map regions in ascending
->> otder. Reorganise code a bit to avoid some casts.
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/ppc/mac_newworld.c | 42 +++++++++++++++++-------------------------
->>   1 file changed, 17 insertions(+), 25 deletions(-)
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+> ---
+>   contrib/gitdm/group-map-academics | 3 +++
+>   1 file changed, 3 insertions(+)
 
-> Same comment here re: sysbus. Also the patch seems correct here, but it 
-> is worth noting that the PCI bus initialisation is order sensitive: the 
-> last bus created is the one that becomes the default PCI bus for 
-> -device, so changing this would break quite a few command lines...
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Eh, I was not aware of this API fragility. So when using -device without
-expliciting the 'bus' key, the default is the latest bus created... OK.
 
