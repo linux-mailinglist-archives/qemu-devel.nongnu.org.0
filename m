@@ -2,78 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776BA5F28FD
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 09:10:20 +0200 (CEST)
-Received: from localhost ([::1]:46834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63665F2ABF
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 09:40:24 +0200 (CEST)
+Received: from localhost ([::1]:58236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofFal-0006c1-9j
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 03:10:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56370)
+	id 1ofG3r-0004Jf-II
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 03:40:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1ofFXp-0004Bf-KT
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:07:18 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:39795)
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1ofFxd-0007wa-UV
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:33:58 -0400
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:35583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
- id 1ofFXn-0004na-0J
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:07:16 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-356abb37122so64561017b3.6
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 00:07:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=f87hFez6sBrcu4TouxT0x54d5mtW/mDiIhMa9fsI03E=;
- b=VJnqh2Bu6Y6bmouqBjMldo2Voua/YelZTbj/0L3uOc4/2G/RCMO8j0LYhMLkO3O3so
- 8mWLURUQAqtoZmVGdK6/LlxImGsgTmd2PtEHh+K8fKBeYluckwlomcZoFUy9xcEoaFlw
- CJQTUDQYkCsCiEqLW0S/odeDZNEOjf9P/OUQnvOkd6CLZqqobAMrSUtPTuqW6IdViDin
- hU104FcvFin3wV86+4bk4E0QJdo6C+UqxeNqYwxGu3NUaCZMCDm1ZPOaqHcgEQTZxw5H
- 0jwzUAujeVdOhD25soOuF5Nh7Jvcjl94Gp7iGEe1AnHjVemvuGwf039+wU/cEbOmNbdx
- csQQ==
+ (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1ofFxY-0008PV-Iu
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:33:57 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id z4so15348949lft.2
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 00:33:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=cTF3AiWCQzUZJV3DQOd8YpyAQ0uZN+oT26/EmVI5Gno=;
+ b=DvdRFGG3GDv+8INZlnRFdJ/8sk5eEa7AareONRXiJEau+xbhzZax6uLRyfYITFWbZf
+ 3NqpZEEzMP/hKmEkCARYJ5G9gzbOE0q7McTWIAngIxaTuYC1o8lT6E0RUJP/MLnLpZ7d
+ Qu+1Vd0FUnf6Z7BDCSiXfOB3Lp6wjhae3evjWtqy1Hvhcufb4H2zsgnTlazKt2OEhd79
+ BA6ZEelvKbFypTSJOPXKwWi6F96cJdE1vUQrd76EmQ0Smui1y+dlW96zT/pi7JhI5c/2
+ 8NZeHRiN3xgZc7P9e5p+GcKW4B3xAZ9Q9xeU6JSlAtM3mdUAbXU1rYpnUGpgYkW0Wdos
+ uORw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=f87hFez6sBrcu4TouxT0x54d5mtW/mDiIhMa9fsI03E=;
- b=VYohNhRu1x5waD6auctzGA+tacAM6sAJby5K2jOSH0IH9PdQvu7t1cikndl6bTV2Ma
- /Hfv/xFG0pmFWMwbEIXIbQ0oCaUqDMVypxQnR9HHLMBBEZuTRZU4jV5lT9A/O7lND5k8
- 7xIa02I1uL5+kCT3OGYDQKorUBgYjiT31GgHL63n0BsKEZEuqUVP9fgWAO2TbwUSE5DP
- yVsaUXOgqavmSXk9XzbTZN/Qvt0YgilPUIP1MqrRo3I9cqYVHHN2uQkrI6F3avAjeTlx
- zKBA++e6hx4fUkwr0rCMb0DHnBnuP2BEiG7Ja/qzzExW94zCFyTx7SgWsc7G7+6hqjc1
- EUGA==
-X-Gm-Message-State: ACrzQf2S47XGlXe1Pj4em6BLMS2VfM9gvIU+WZg8AiI4bFGvhyXv36ks
- Dwl9+2VgFoDCCxwEUw0vzmtTw4kbjgFIKF5mTcJfQA==
-X-Google-Smtp-Source: AMsMyM5frKgTZe73/HU7EDZ4dEdc3wZkM2vuh5IXMZhrYsS846JXd4IdpGq0WRzbTinb0JJGgAAFujrC8ZbvYDaFh/k=
-X-Received: by 2002:a0d:db11:0:b0:355:c221:6164 with SMTP id
- d17-20020a0ddb11000000b00355c2216164mr15364249ywe.248.1664780833361; Mon, 03
- Oct 2022 00:07:13 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=cTF3AiWCQzUZJV3DQOd8YpyAQ0uZN+oT26/EmVI5Gno=;
+ b=GyMkqWj0u7tDLZNdcyajtQhSc4O1Bai45YWKStNi+WIzRkniLPHmpsnuG1edAhPtaF
+ y94cJDPE38dePMfSRzZ3ld0Z+ocaFRuy4S0EFwoujP6pZcaykPR92eeccgV7m2Mcqu0x
+ 8/EUAvAfPWXoErIHetrfRueyc+eXmFzx4rjIYguUc0XCdA4wLTwR0IH7gMD3Sg7W/D37
+ n3CFeebHvU2YzNmKrQ/HNEwePwdEdCdQ1QIod2bSWHDnUy0Yz9Jql8iba3aVAvtVWGpu
+ muUjqJfejpPBI8Cue6XZDZ9IN06ER0VMR2Bd1uBFo/q5DLksSZs5QswXTG9L9kFTn3sF
+ /SBA==
+X-Gm-Message-State: ACrzQf0402KPzWHuRY624nOtD8+in1Fa+hjXgWOuIEvcakK2uCYIHxES
+ 3l0VIOivuo0d3EY7cDFDnf+KPujpU9wFoy9aE9Oilw==
+X-Google-Smtp-Source: AMsMyM54UDKb/wQylYbThizMTNEzG/N4GHFJjCY1YMNV55ssdwv1emM1/33fLKcW7+Q244fzhfIJ6l3JiIpmQNO4rxw=
+X-Received: by 2002:a05:6512:261b:b0:4a1:abd7:3129 with SMTP id
+ bt27-20020a056512261b00b004a1abd73129mr7271284lfb.637.1664782430012; Mon, 03
+ Oct 2022 00:33:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221003041440.2320-1-jim.shu@sifive.com>
- <20221003041440.2320-3-jim.shu@sifive.com>
-In-Reply-To: <20221003041440.2320-3-jim.shu@sifive.com>
-From: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
-Date: Mon, 3 Oct 2022 09:07:02 +0200
-Message-ID: <CAJ307EjG0j8ydXk8_y5j0jsdmhqY3Fm1FqohMAY1J1hpfmvVMw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] hw/intc: sifive_plic: change interrupt priority
- register to WARL field
-To: Jim Shu <jim.shu@sifive.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <CA+EHjTyrexb_LX7Jm9-MGwm4DBvfjCrADH4oumFyAvs2_0oSYw@mail.gmail.com>
+ <20220930162301.i226o523teuikygq@box.shutemov.name>
+In-Reply-To: <20220930162301.i226o523teuikygq@box.shutemov.name>
+From: Fuad Tabba <tabba@google.com>
+Date: Mon, 3 Oct 2022 08:33:13 +0100
+Message-ID: <CA+EHjTyphrouY1FV2NQOBLDG81JYhiHFGBNKjT1K2j+pVNij+A@mail.gmail.com>
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+To: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
+ Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, 
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>, 
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, 
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ luto@kernel.org, 
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com, 
+ david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
+ dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com, 
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=chigot@adacore.com; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=tabba@google.com; helo=mail-lf1-x12d.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,77 +108,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 3, 2022 at 6:14 AM Jim Shu <jim.shu@sifive.com> wrote:
->
-> PLIC spec [1] requires interrupt source priority registers are WARL
-> field and the number of supported priority is power-of-2 to simplify SW
-> discovery.
->
-> Existing QEMU RISC-V machine (e.g. shakti_c) don't strictly follow PLIC
-> spec, whose number of supported priority is not power-of-2. Just change
-> each bit of interrupt priority register to WARL field when the number of
-> supported priority is power-of-2.
->
-> [1] https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.adoc#=
-interrupt-priorities
->
-> Signed-off-by: Jim Shu <jim.shu@sifive.com>
-> ---
->  hw/intc/sifive_plic.c | 21 +++++++++++++++++++--
->  1 file changed, 19 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index f864efa761..c2dfacf028 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -180,7 +180,15 @@ static void sifive_plic_write(void *opaque, hwaddr a=
-ddr, uint64_t value,
->      if (addr_between(addr, plic->priority_base, plic->num_sources << 2))=
- {
->          uint32_t irq =3D ((addr - plic->priority_base) >> 2) + 1;
->
-> -        if (value <=3D plic->num_priorities) {
-> +        if (((plic->num_priorities + 1) & plic->num_priorities) =3D=3D 0=
-) {
-> +            /*
-> +             * if "num_priorities + 1" is power-of-2, make each register=
- bit of
-> +             * interrupt priority WARL (Write-Any-Read-Legal). Just filt=
-er
-> +             * out the access to unsupported priority bits.
-> +             */
-> +            plic->source_priority[irq] =3D value % (plic->num_priorities=
- + 1);
-> +            sifive_plic_update(plic);
-> +        } else if (value <=3D plic->num_priorities) {
->              plic->source_priority[irq] =3D value;
->              sifive_plic_update(plic);
->          }
-> @@ -207,7 +215,16 @@ static void sifive_plic_write(void *opaque, hwaddr a=
-ddr, uint64_t value,
->          uint32_t contextid =3D (addr & (plic->context_stride - 1));
->
->          if (contextid =3D=3D 0) {
-> -            if (value <=3D plic->num_priorities) {
-> +            if (((plic->num_priorities + 1) & plic->num_priorities) =3D=
-=3D 0) {
-> +                /*
-> +                 * if "num_priorities + 1" is power-of-2, each register =
-bit of
-> +                 * interrupt priority is WARL (Write-Any-Read-Legal). Ju=
-st
-> +                 * filter out the access to unsupported priority bits.
-> +                 */
-> +                plic->target_priority[addrid] =3D value %
-> +                                                (plic->num_priorities + =
-1);
-> +                sifive_plic_update(plic);
-> +            } else if (value <=3D plic->num_priorities) {
->                  plic->target_priority[addrid] =3D value;
->                  sifive_plic_update(plic);
->              }
-> --
-> 2.17.1
+Hi
 
-Reviewed-by: Cl=C3=A9ment Chigot <chigot@adacore.com>
+On Fri, Sep 30, 2022 at 5:23 PM Kirill A . Shutemov
+<kirill.shutemov@linux.intel.com> wrote:
+>
+> On Fri, Sep 30, 2022 at 05:14:00PM +0100, Fuad Tabba wrote:
+> > Hi,
+> >
+> > <...>
+> >
+> > > diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
+> > > new file mode 100644
+> > > index 000000000000..2d33cbdd9282
+> > > --- /dev/null
+> > > +++ b/mm/memfd_inaccessible.c
+> > > @@ -0,0 +1,219 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +#include "linux/sbitmap.h"
+> > > +#include <linux/memfd.h>
+> > > +#include <linux/pagemap.h>
+> > > +#include <linux/pseudo_fs.h>
+> > > +#include <linux/shmem_fs.h>
+> > > +#include <uapi/linux/falloc.h>
+> > > +#include <uapi/linux/magic.h>
+> > > +
+> > > +struct inaccessible_data {
+> > > +       struct mutex lock;
+> > > +       struct file *memfd;
+> > > +       struct list_head notifiers;
+> > > +};
+> > > +
+> > > +static void inaccessible_notifier_invalidate(struct inaccessible_data *data,
+> > > +                                pgoff_t start, pgoff_t end)
+> > > +{
+> > > +       struct inaccessible_notifier *notifier;
+> > > +
+> > > +       mutex_lock(&data->lock);
+> > > +       list_for_each_entry(notifier, &data->notifiers, list) {
+> > > +               notifier->ops->invalidate(notifier, start, end);
+> > > +       }
+> > > +       mutex_unlock(&data->lock);
+> > > +}
+> > > +
+> > > +static int inaccessible_release(struct inode *inode, struct file *file)
+> > > +{
+> > > +       struct inaccessible_data *data = inode->i_mapping->private_data;
+> > > +
+> > > +       fput(data->memfd);
+> > > +       kfree(data);
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static long inaccessible_fallocate(struct file *file, int mode,
+> > > +                                  loff_t offset, loff_t len)
+> > > +{
+> > > +       struct inaccessible_data *data = file->f_mapping->private_data;
+> > > +       struct file *memfd = data->memfd;
+> > > +       int ret;
+> > > +
+> > > +       if (mode & FALLOC_FL_PUNCH_HOLE) {
+> > > +               if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+> > > +                       return -EINVAL;
+> > > +       }
+> > > +
+> > > +       ret = memfd->f_op->fallocate(memfd, mode, offset, len);
+> >
+> > I think that shmem_file_operations.fallocate is only set if
+> > CONFIG_TMPFS is enabled (shmem.c). Should there be a check at
+> > initialization that fallocate is set, or maybe a config dependency, or
+> > can we count on it always being enabled?
+>
+> It is already there:
+>
+>         config MEMFD_CREATE
+>                 def_bool TMPFS || HUGETLBFS
+>
+> And we reject inaccessible memfd_create() for HUGETLBFS.
+>
+> But if we go with a separate syscall, yes, we need the dependency.
+
+I missed that, thanks.
+
+>
+> > > +       inaccessible_notifier_invalidate(data, offset, offset + len);
+> > > +       return ret;
+> > > +}
+> > > +
+> >
+> > <...>
+> >
+> > > +void inaccessible_register_notifier(struct file *file,
+> > > +                                   struct inaccessible_notifier *notifier)
+> > > +{
+> > > +       struct inaccessible_data *data = file->f_mapping->private_data;
+> > > +
+> > > +       mutex_lock(&data->lock);
+> > > +       list_add(&notifier->list, &data->notifiers);
+> > > +       mutex_unlock(&data->lock);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(inaccessible_register_notifier);
+> >
+> > If the memfd wasn't marked as inaccessible, or more generally
+> > speaking, if the file isn't a memfd_inaccessible file, this ends up
+> > accessing an uninitialized pointer for the notifier list. Should there
+> > be a check for that here, and have this function return an error if
+> > that's not the case?
+>
+> I think it is "don't do that" category. inaccessible_register_notifier()
+> caller has to know what file it operates on, no?
+
+The thing is, you could oops the kernel from userspace. For that, all
+you have to do is a memfd_create without the MFD_INACCESSIBLE,
+followed by a KVM_SET_USER_MEMORY_REGION using that as the private_fd.
+I ran into this using my port of this patch series to arm64.
+
+Cheers,
+/fuad
+
+
+> --
+>   Kiryl Shutsemau / Kirill A. Shutemov
 
