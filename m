@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A3C5F27FE
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 06:21:15 +0200 (CEST)
-Received: from localhost ([::1]:42928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8D75F27FD
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 06:20:41 +0200 (CEST)
+Received: from localhost ([::1]:38358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofCx6-0001dm-DG
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 00:21:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55174)
+	id 1ofCwa-0000ey-Qi
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 00:20:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ofCr2-0003XB-E4
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 00:14:56 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:38482)
+ id 1ofCr4-0003Xk-4x
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 00:15:03 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:33466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ofCqy-0006TF-Vx
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 00:14:54 -0400
-Received: by mail-pl1-x631.google.com with SMTP id x1so8661216plv.5
- for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 21:14:52 -0700 (PDT)
+ id 1ofCr2-0006TP-M2
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 00:14:57 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id 10so5045252pli.0
+ for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 21:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=F7tdRk4Qrtb9mSNRqDP+OGNI6gDixPQRApuBKw62yjM=;
- b=Hh2GOPWc4NUsj6Of/i3k9A3sZXpfOPPxjE8KvEN64dNxuvde9B7vg7hZBNx/nPRV6j
- n/1hLLeIhZ8DDin+Pfbh+4+SR9hj19UyRraloquFS1J2Wi0OwDzRiN20kIt89eaTSOva
- /b/TGiBqhcpeZ4AEufZvcaUnfQ2HOC6IOHhw9Q7k0XbTgIdCVTXcGFetldmXuZbGmDf/
- qKmGeZUxl2MFjoq+uue1kw6Vvu4aM7L9lYyqFeRR4VfLv6pSozS00lLc2MvUkyyvZNa1
- dObfJoY2asz4a5hpa6dUT7h4pl/l/R4kyQE/Cnpfp7sz0zZIZEzllc7GekLQRhpFZbbg
- LISQ==
+ h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+ :cc:subject:date;
+ bh=6zUl2HU3Z5FB+WM/KgUcWz+nUT78Ab2AAKdW88gdUHQ=;
+ b=ZHwJ7nmSA/HhiRQZq0meor3/TLygrMmciw6ONBwKishhaJTkeuqYbK2J2lcW2SSPRd
+ JEZl3pnCZJSlnSFqFi2Ga/CrGVZZUE60nalxHOQzlNcLaXny7GMZiFmr9IqRTlM7i5J5
+ aUkqsLm23rHIQMjzjoxUUDfqQcLZkd1B1g+DcBUH3S50ReHY5NNYnVKYVVaP5Pln27oN
+ zSvMdeHB0Iw5d3p/kDASy3HubSYE/YsqIo5eNeRWD41jtaAdBj3f77OvlwG6bWSP4F9W
+ +HzL+cASZ3fUuiPwaVe5NeBvG13jPbGGJu+Ewa54Mmo7Gk3wjffnn+EEAP/STQMtQ0xB
+ 2XaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=F7tdRk4Qrtb9mSNRqDP+OGNI6gDixPQRApuBKw62yjM=;
- b=OhZtCUVbR3dgYmHoPsTdofqSZGnReZXkTVROnqtAa/hdeFYqjPw0Sy2ii4gXbUwGK3
- bRIjRuacJgusRWlrKXjaWvNQD3Wd4lVlubM2Wxqz9LZVYJDi6ikqTwFp9tj59fLliyEN
- ArnL1RpANCRJTFrWlAFM5azUMbowcaRKWSUiYHUSaHyMhDdM3H2Nl4XfuS7ktYZOa5vz
- J+qIiodtkyTsNZgFRX2bfEX5D8DMuiFe2EfKZAqWYUl3hjACKQoppocS6AERVYveSCk3
- vX5y1cggVbezm2mcFAmdaCaIlaVX9lQVb0EICm60vPtHHyJJH77tZ/CKIEZ/GNdfs/7w
- msBQ==
-X-Gm-Message-State: ACrzQf2sw1YeU8sNx4aPJB0G2ESZOLCG24knGR3Xy+Z7QWnr/YtU9NnM
- rfPQ8s2dT5ZPIhxXtxnGvCYoJLvIKF66i5O8L4uYbLojkXoL2zp4kE3g5KCg4o3OvmXl7br7eYN
- 30BpjfE3IMK2PvSGineEnQjhn64FT4U4kU+PWQ6jaFtgcYd+93PbZnk3x1R5OISAe70s=
-X-Google-Smtp-Source: AMsMyM4YECLzCPHM/GZC2uYllDhomQ2/NGzFQGs3GqnK4bPixJKuBD8s3X8vg9nYgszB0P4+z0itaw==
-X-Received: by 2002:a17:902:7c8f:b0:176:cdd8:7258 with SMTP id
- y15-20020a1709027c8f00b00176cdd87258mr19534594pll.49.1664770491323; 
- Sun, 02 Oct 2022 21:14:51 -0700 (PDT)
+ h=references:in-reply-to:message-id:date:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=6zUl2HU3Z5FB+WM/KgUcWz+nUT78Ab2AAKdW88gdUHQ=;
+ b=l1AEAGVasjAm8RFdjaDY4ct0k3DVrSRTgo1AH/H0Q3wuKMNCiEuSkKemFeQ4ll10l2
+ 4M+GlNLJxIzgd0RU2HjOLVj68Eluckae8seEkj8nKOvycVO9vZ78Pl28pvRLBgCTA9gI
+ cGEAEMtdPJMFe/W6EviVDmxxfTWTDBbwa0qMm8XX+qiWLhexOtM3+Tv8KSsCIwliz13n
+ NlehPe0zM/2pI8MznREXAyaPtkob24SDNqGkbXo6EefwAv2Kwpw7DRw5e2+w52KIKkFD
+ /7w9+RS7OSF5EkZDp6dV+0G3813kTxy8g7nY1hkFznBH96D+z4AJAwCqi+/IFyV2458u
+ 22WA==
+X-Gm-Message-State: ACrzQf1mRNVg30Yo5oXqb/xrqfjJI6jQ8hm3foURkNt+LxZPzkFUoxLI
+ 2rxnTlqPIELOPhgexlI1BpKFbe0C30cbSj51Ug3DMNxroIO9me0GtH6JT0WMOCnY4xATv/zYHB4
+ umdy2cAqb8SX0Du06ydlXVXcB4fvIJHPAfZGfNDVpUqfb4HT3E0xrmeveqlw66tbIOT8=
+X-Google-Smtp-Source: AMsMyM5C7v5e7Vq+P9HStNYrUbEzAsgAD/JLSNB+ubeDAn4BIcg5ZlFLau3xkHncfaNlC+cHa+5F4Q==
+X-Received: by 2002:a17:90b:33c9:b0:200:a0ca:e6c8 with SMTP id
+ lk9-20020a17090b33c900b00200a0cae6c8mr10176264pjb.147.1664770495169; 
+ Sun, 02 Oct 2022 21:14:55 -0700 (PDT)
 Received: from hsinchu25.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
  by smtp.gmail.com with ESMTPSA id
- d12-20020a170902cecc00b0017732e4003bsm6108596plg.141.2022.10.02.21.14.49
+ d12-20020a170902cecc00b0017732e4003bsm6108596plg.141.2022.10.02.21.14.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Oct 2022 21:14:51 -0700 (PDT)
+ Sun, 02 Oct 2022 21:14:54 -0700 (PDT)
 From: Jim Shu <jim.shu@sifive.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
 Cc: Alistair Francis <Alistair.Francis@wdc.com>,
  Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- chigot@adacore.com, Jim Shu <jim.shu@sifive.com>
-Subject: [PATCH v3 0/2] Enhance maximum priority support of PLIC
-Date: Mon,  3 Oct 2022 04:14:38 +0000
-Message-Id: <20221003041440.2320-1-jim.shu@sifive.com>
+ chigot@adacore.com, Jim Shu <jim.shu@sifive.com>,
+ Emmanuel Blot <emmanuel.blot@sifive.com>
+Subject: [PATCH v3 1/2] hw/intc: sifive_plic: fix hard-coded max priority level
+Date: Mon,  3 Oct 2022 04:14:39 +0000
+Message-Id: <20221003041440.2320-2-jim.shu@sifive.com>
 X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=jim.shu@sifive.com; helo=mail-pl1-x631.google.com
+In-Reply-To: <20221003041440.2320-1-jim.shu@sifive.com>
+References: <20221003041440.2320-1-jim.shu@sifive.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=jim.shu@sifive.com; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,25 +92,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset fixes hard-coded maximum priority of interrupt priority
-register and also changes this register to WARL field to align the PLIC
-spec.
+The maximum priority level is hard-coded when writing to interrupt
+priority register. However, when writing to priority threshold register,
+the maximum priority level is from num_priorities Property which is
+configured by platform.
 
-Changelog:
+Also change interrupt priority register to use num_priorities Property
+in maximum priority level.
 
-v3:
-  * fix opposite of power-of-2 max priority checking expression.
+Signed-off-by: Emmanuel Blot <emmanuel.blot@sifive.com>
+Signed-off-by: Jim Shu <jim.shu@sifive.com>
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
+---
+ hw/intc/sifive_plic.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-v2:
-  * change interrupt priority register to WARL field.
-
-Jim Shu (2):
-  hw/intc: sifive_plic: fix hard-coded max priority level
-  hw/intc: sifive_plic: change interrupt priority register to WARL field
-
- hw/intc/sifive_plic.c | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
-
+diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+index af4ae3630e..f864efa761 100644
+--- a/hw/intc/sifive_plic.c
++++ b/hw/intc/sifive_plic.c
+@@ -180,8 +180,10 @@ static void sifive_plic_write(void *opaque, hwaddr addr, uint64_t value,
+     if (addr_between(addr, plic->priority_base, plic->num_sources << 2)) {
+         uint32_t irq = ((addr - plic->priority_base) >> 2) + 1;
+ 
+-        plic->source_priority[irq] = value & 7;
+-        sifive_plic_update(plic);
++        if (value <= plic->num_priorities) {
++            plic->source_priority[irq] = value;
++            sifive_plic_update(plic);
++        }
+     } else if (addr_between(addr, plic->pending_base,
+                             plic->num_sources >> 3)) {
+         qemu_log_mask(LOG_GUEST_ERROR,
 -- 
 2.17.1
 
