@@ -2,124 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886085F2E8C
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 11:58:40 +0200 (CEST)
-Received: from localhost ([::1]:56878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AF25F2E58
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 11:44:38 +0200 (CEST)
+Received: from localhost ([::1]:59676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofIDf-00053w-LZ
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 05:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54038)
+	id 1ofI05-0002Oi-Bh
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 05:44:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1ofHvL-0006Rs-9t
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 05:39:43 -0400
+ id 1ofHvN-0006TS-CU
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 05:39:45 -0400
 Received: from mail-eopbgr80119.outbound.protection.outlook.com
  ([40.107.8.119]:34208 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1ofHvJ-0002U6-O1
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 05:39:43 -0400
+ id 1ofHvL-0002U6-KY
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 05:39:45 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iptPtbUwQPAN96G85M8VdqwMf7HG3OG3p84P4sRL2uYXwo5lgUOiPN1hDVS0HfQG+imDUo1xIdI2Y4MzRXxGv/Vm9QipS2q1MNAGqstTQKHcug0k07e6V5IMRlJon/9vZ88dy3oHmdqkrdBWTPqQ2UQ5qmtDpvT7DB5ErImTNqDQ3bpbJjhFCwaFaEMCY5FkzFl6H7K6Ky5FZNGpdC+/zMfCbdLgnNgIy1tWXVGk2+q2a6JEFRnjRfJsx0fpl7iux5475t5oaDGt75+5qobPEupguQPPM81vAzBCv5H3NrFjAnw+/PlKfRsJpTbjGkMxOwOqe1dyaXOE0pLcVF/V4w==
+ b=Ja/g3xOduAAiV7MKbCcVRlmqDP91UWbf/YNLjVj7LN0nONsmVycquRknBT7ff7EX7RyveALg1Xx59gXgfNJQnmeKz3L7Cx8kU9nSTn4X9qNZWoylolZ58oSwt17gVZGlDiFT1/J3bZBJy8KhgBHr+cSPh06S8D86rmtjxiaENTqUqBhOfBytuVTlYiG+iUYjDHU6yoTWnouQ1N8DvrNfUAdza//+9SF7RaFng7PdkkZghjtKLL5TV/HZLUTWLMvj83aiaDRH44B03aXIqfVxYCN1xTmcuXHSGx59AQNQAndo7ZtIQKFavcWcuflw9sifz91RvLEX2/5pX/+rpEXz1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Gwi7mqwrkktrvF2e3NWIDyzILu4okqwx7LzXpwqJwjI=;
- b=l7Wsv4/5xIx+n3QPu9zPkUgroglc59APGcVobePYavkiQ/jeYww7JXbAMw+vUus9bIzIoAj6VxyEmG4UqGl6q3nZGHAPiU5SiNwjqkoHdQLILGNVouJTwAJFFuv88ShDRHcevYjMyDpKlgFba2ZLUrGPab+ORw/l9UsyR+EusUbjJ2Sdrw9g6I1LnV2TvyCp6Wpn5/rvWSxjaaMfhQhVp7nyrfufuOILOMjqg0H+627Qon2BjFGwBaZQie39VF+NUxb4e1jO4uSswQB2XdnsGU/HWYrJ/pTAurWmOfNKyTgXAlEV7x8SZ74bvcUXBVmYZ2sw/53AS+3eVA3yKozTqA==
+ bh=3AyknErPEb2iK1T9/eiwdanI8x8WzfCDcmkPNgBXRe8=;
+ b=B+yiHTCGsMSzkn2fIdQ68u/EM8wjcROlvFujBuKIwcemzJ5ZWwLoz0Q3sBLjUvKapTSAo6xLBdixVl7UNtSn9G6IZb+VGT/1tndn5GXPF8v1sbLkW5ayZ5MxM5Ckx5wJsU8RrSfSB6/SWncrOC2taPoe3vQzi4YGaH9pVRvFuktqkfWxx4/4KyGUWjbP629oMaxEAyxwU5QqxnzyhfClswmtR7LfXOcPGxhixSHhQInEMSEGxqD9A0TX8qWBxk2GeS18dIgD6M2tAkAMmjo8Tfx+cNLfE6sM6a52jBskglRt/K3DW1hS5/mFvt3lKxSWZ8RP3YHLhi3ASXtdNPSv3Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gwi7mqwrkktrvF2e3NWIDyzILu4okqwx7LzXpwqJwjI=;
- b=n4zBocGPmjwCdBdDYy5NIXYwqq+gd6/WbILttJx1L6/MhbDqRNaTdnx3Vkx7aDEZycijRzNLStP3MEj8YPpLl4CLZO7hKAK8gEPMQ+PHgXuUImI9gbSCqJ27KHT8a2Obszqv5jCr0v0Z5XWGEPAclvDMl3DL+zHIye6bTxx3Qn5xAWtM1sGjLlgn/NSBzrZL8dz0UHhNHkILJgpAy9g1ZCai+oqp5QXRImwl0yZTuMHfF0yK4d112XVzKpPzkjBChsKKquksk8q5DXICRnK7hn85tgQijaKCbShWL9C0eFDbWIEJqABMbf7x+He86qjm18ddztz5wCnyDnOAvhJCpA==
+ bh=3AyknErPEb2iK1T9/eiwdanI8x8WzfCDcmkPNgBXRe8=;
+ b=nmhWMmAhmTxV2T/nSi8iY87e/J2QKyfQQhHyhRi/2A9eqnYR4bGXoeD5D6u0wEGWw5bYWIlWOk3NfrZ86KQjldd3h4Oo7TPZPMYNq962ucMFOWhTKkctftZuq131kjdRz4MKYBARR45ma92dgqz4XVGcVxuFU2/Hsi5Bes55j3KK8bhaRzQ34VR5K/cHy5HVNSG2eEdXepfJh4HrIT+UkEml3aoWvinTbv3yBFkYWLn0VhL/LzH8Bhs+EQXWdY8Q4yALposBu76zw/p/hoVfkUtTENv/RUZrbxtzOfa2C3GGR+zmMp8x4gmIETAgCuksbBYqxhYEFYXwF3vPlN8Gfg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
  by DB9PR08MB8203.eurprd08.prod.outlook.com (2603:10a6:10:39e::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.17; Mon, 3 Oct
- 2022 09:39:23 +0000
+ 2022 09:39:24 +0000
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b]) by AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b%8]) with mapi id 15.20.5676.028; Mon, 3 Oct 2022
- 09:39:23 +0000
+ 09:39:24 +0000
 From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com, michael.roth@amd.com, kkostiuk@redhat.com,
  marcandre.lureau@gmail.com
-Subject: [PATCH v3 4/7] qga: Add shutdown/halt/reboot support for FreeBSD
-Date: Mon,  3 Oct 2022 11:39:08 +0200
-Message-Id: <20221003093911.1844031-5-alexander.ivanov@virtuozzo.com>
+Subject: [PATCH v3 5/7] qga: Add support for user password setting in FreeBSD
+Date: Mon,  3 Oct 2022 11:39:09 +0200
+Message-Id: <20221003093911.1844031-6-alexander.ivanov@virtuozzo.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221003093911.1844031-1-alexander.ivanov@virtuozzo.com>
 References: <20221003093911.1844031-1-alexander.ivanov@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: FR3P281CA0096.DEUP281.PROD.OUTLOOK.COM
  (2603:10a6:d10:a1::8) To AS8PR08MB7095.eurprd08.prod.outlook.com
  (2603:10a6:20b:402::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|DB9PR08MB8203:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7edd238b-0eb3-455f-bf97-08daa5232782
+X-MS-Office365-Filtering-Correlation-Id: 5f5ecf0f-08dd-4efe-5715-08daa52327dd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sUWuf/1bt9Fon3Ro5rkgi7NOXDIsIw14dZnsxXkeq8/ik8QXNhXUFoT5m5ImDvoDHyuusvy3piPmUnqB7W0ZNPzGdBNfuLciJD39QA8W929vVqTOUA1RzFBCIQ2GjOBy1YkmLK7+U5zVjy4mmDFqjCsqJBTahiSVzx0mvdjy8GKSpYZkCec1edd35cHVA9ZgevZ1W+IUXC4hip8MOqk6evaN8CshyErfIQMtGz6OIzGstq9fEOkPFntljQsayldEixIUoysfwOwMkKLW+h5+f9qPxH1Z30ZtBn3a9mhPTJO7gsyDcd2ctfD8WyOik5+eOcRbjoN58l9CAgi3EOjdW/PhI1sxhcfiaZmaOa1D6XpznvF4BBLKqaIhvVOiTUeVHzbdfbQHG+/pV4G6UHSVTLuKCQjgaMd2ehC9nctB9qPOS3O0mpNSYZBw8SwqeEX6xLQLDDbD24N3hb7HfNCrLza2FeTsH64C2w662pvIuBjLYj8pSi18JkmDafZ+J1Ruqpa64sN6+8NoQ7egsXzAXTRxMNc7xuMT0jbghlvBewnDXk0GVNx1OHn1lyaX2AwNR18P4O7UeBK2OuFSnrX75i+Lc/oOaPcpDcJ7LbqZSv12rftLALYxFNUkMvGjtAU/8p6BZucZq39xA8+FfJ+Sc9HIluXLtIW8GP+1IJJIAvFFr9rZeU+g2DWY7kDgFumv4CZscGgsuSciu1pF+Gfb9eCJ7LM8fTorquE2H8/PrVMsuGKnaGtaw0vwjHgEh4wzgDWtkPFzCIF6kwBEb7vmuQ==
+X-Microsoft-Antispam-Message-Info: VFhFPQCFN0wUrfrL5WYNOnPw2CCpMOm+OvvNCCT+wYKD9lCXDvjjADO4Y+Z60LeOjbj3mYK/saC46GBI4WxQTB2G45YP9fSkSXb8qUgomLgR7gXZArwACHqomqh4bQ95VzbSci2GeGjLYg864+kODwbIBEj4oSAVCz5S+w9qVWw/UhsY5y2+/WpjDPPhliaM1+mJz6/rwzRmpCCFj5p6Xi3VEP8e8YLwVZ648/6xK6bss7mDNrtHRRezu7url/qcXeTTlnTtx1knamyf0RMGsIgvzihDZIybL7CW8lukwnaj5lZEwc11V60skAGLvKY8skAgDHbetLVNcolrZvCh4EG4efMGF41LouNXeqXaiXOJ52tqeqJnKjNhjKS7pGvXZHNnWIL6ugJ0PvcHVmdHYPLVnCfCeEI3D3/WTfX/kXKYnOrLXpVr20J7IkGAS4zb6M6PIWJkjE+/tt01duBYZtBMGo0qMkXwuY5KgN+QaSDt7VbBdVDfqiUzhrWf8qYEDeexn2ZhpNlcRuSaHBNhtYh91jroQWoV6bu9hyiiitlMIgdIDemMThVdm0BivObi+E37moymVD91DcUKtFjIjgW8Z/nCt8aMYwhKFxmEyboU3P87nEaNDZn3CVUbQD9wI3l9MmiQXW0EkaCjNHgRpUOHlbEsNFFP6WNrkDrj1I5ke3wu+wwYVBdvAWz0gM4Ef/pYzE2zICdkEWNv84NC0ofwos/DDnMTjjVdYUZgq8eXKjN5cUEVq46gQ+6vJp36
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(366004)(136003)(346002)(39850400004)(376002)(396003)(451199015)(6666004)(316002)(66476007)(66556008)(26005)(4326008)(8676002)(6512007)(6506007)(52116002)(2616005)(6916009)(478600001)(6486002)(66946007)(36756003)(38350700002)(38100700002)(86362001)(186003)(1076003)(44832011)(41300700001)(8936002)(5660300002)(2906002);
+ SFS:(13230022)(4636009)(366004)(136003)(346002)(39850400004)(376002)(396003)(451199015)(6666004)(316002)(66476007)(66556008)(26005)(4326008)(8676002)(6512007)(6506007)(52116002)(2616005)(6916009)(478600001)(6486002)(66946007)(36756003)(38350700002)(38100700002)(86362001)(186003)(83380400001)(1076003)(44832011)(41300700001)(8936002)(5660300002)(2906002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N0dZelpvU3gwOThTWmZCOXMwU0dkbjdGY3hUc200eHFCV3c1dUw1MXBETmJk?=
- =?utf-8?B?Y3J0bkUrYUFJcnp3c2tUUXc2Vml1T0tUN09kOXpxa2VGL0I4ZkZ3NTlvWW10?=
- =?utf-8?B?ZE9qMEVTZVhEc2thbmxzVDJ0dElqeDVFbHZkNng1b3RmS3gwK0FxRzJHM1l6?=
- =?utf-8?B?RmJoVjNzQ1pPVkZiV2V2bGxtVjRCeVdiSWZRZTU4OEpiWVBCM28yUHQ3SDZH?=
- =?utf-8?B?N1Fia2dYbzNhdDVXSGpRRlQxRW1ONmdCOGoxT0VTLzNmaGxROW9IMjhmbC9X?=
- =?utf-8?B?ZUR4VXE5WTJRZSt5ZUkwTTFqR203NFB2Ym42RVRlcFRhSllqM3FWWUN6QVJn?=
- =?utf-8?B?blNlS3pWN2ttSGJLSWV4MHdZbkZqdCtxZDgrZFAzdHFrejhodVhvR2hESU95?=
- =?utf-8?B?YjdraFFKaWhIaWpKWTZncklYb1VGUy9TbGUySmVoaHFjTmlqWnN0elRVRDBt?=
- =?utf-8?B?OFdPSUFwOU10Sk5ONFVzd2RrVENDRUh3UDJzd3h6NmgvS01SRDFtMGlHOFlD?=
- =?utf-8?B?YnA5SUUyODh2eHNyc2dxVWl3MkhyN1l3enYxZ1ROYk1zS0Uyc3NyN3NTUXBI?=
- =?utf-8?B?SU9GQjNsNGxhTzY3Zzg1TGFuUVA5U0M4K2FLTXUzWmNyTEVleWxkOEpBVDVS?=
- =?utf-8?B?OGdrN0dFTTJaTElJSm9tMUpHRzNuRC9Uak9GQlZyMVAxQTJadHJ3Um9xZEwv?=
- =?utf-8?B?WFQ3a1FEeE1zT0h6RkkwaEhKMXFVaHZTaTNUWEQxVUNjdUllZCtPbGtEaDlC?=
- =?utf-8?B?Tm43eHhSTXFnbWwvZUx3NEs1M20rS21XUTRjMjdrQk0xMlc3Zm1uaFVYQ08y?=
- =?utf-8?B?OUVpRUU0bC9kdWxUeXVyUDVrR25KZHdLQ2c3YUJuM2ZNSUttM3Y4dDBuMVQv?=
- =?utf-8?B?TGxTZ3dRMkVBWFJqQ0doVGdEQkJmekJJeFpJY0hLOW5BRXJPc2ZqZ3RpRDEw?=
- =?utf-8?B?bWozNGUvTFdWQzBNeFNqMVN5RmtJOWIrOVBMUFlNUUsxK2cyZitZMXlXeTNM?=
- =?utf-8?B?OWFUWHFKWDQybG5UVFQ1UG9HY3c3MmNFbUU1Sy9POTFYbXJDTEdrQjd2Ry9G?=
- =?utf-8?B?RFYxRXp0dUdLQzI5SlcxY0lTMGVrNWtySXo1Qld6ZmNKZ0MwYmlVUG52N1B6?=
- =?utf-8?B?OGU5czhPVy9wZko1eXRYbkNLVitiNDB2YW5ETWNrT2RPQ2NSNHYvOGI1SkdJ?=
- =?utf-8?B?bk1NUUpoWm9VdXpJMzZHaW42UmQzRVRNcm9oZ2tOWSsyQ0V0OHlWazhCUmpu?=
- =?utf-8?B?ZngxTFJwWDhHT3RBemtYQU5nck40WUFkeFJ2RlByaU55Y1U3MVFxbG9CVCth?=
- =?utf-8?B?NU1KcVc2U1pLU1N0d0lzZkszRTl4K2VNSldOaHNzUERpai9OYnhiREtab0VW?=
- =?utf-8?B?czBsM2s5MWE0cnlYYlJDanozMlFYRGtuejhRcGpHQ2xXU1NoTDdoZktqVk5z?=
- =?utf-8?B?N0FiRmU4UjRTR0VUMlZFa0U0S3FERHdteWN4dEN6REgxdVJBUDU1NEthSFZD?=
- =?utf-8?B?bDllV04rOXVBQytSb0szdmdhaGVZR3pRYVZlOXM2OEpHNm5BWmY0QjBvSUdF?=
- =?utf-8?B?S2lkR3pvako3SXBkWkhackpvYStWRVh5TVJrWGh4VTZ5UlErYk5WUVl3aVR2?=
- =?utf-8?B?NU5mOE8yMnQvUVFtTGQycVB4S0FNQTllZXhnUzRxOGt1NGVuZDZuVUJWTzV2?=
- =?utf-8?B?ak93bW9Uc3V1REFoU1BLWlRKaUhxV2YzN1RMN3RkK01DQVM4alJQMjc3ajVy?=
- =?utf-8?B?RHMycEdHZS9FbEhZd2c5MUtQTXNBOWFXZFdRVXEvVzRXbFN4U0VON2d6cVA4?=
- =?utf-8?B?dk1uVnVldFFENE5tQ205ajRCUG45ZE9YbEhsdVc3dUNVZ05hSE83OC9HMm1M?=
- =?utf-8?B?ZjNSK3MzVkZDdzNWMkhWVCtZUlNIbVg3QVpqSlJUN20vRHhyd0N6MVp1L2RQ?=
- =?utf-8?B?YVZxU1RMMEJPMVpIQ2dqWlZBQk5KeUh1QjlIVTVUb3MramlyRmVZNVpzcVpL?=
- =?utf-8?B?QThwZTd0K3NYdDZHV2dnUFhFak40SisrVDJaMkM1MzVORk9qWUtrcUNwNzNy?=
- =?utf-8?B?YldjUnRVMnJwSElubXptRHVTQVA1WnkrMXJzTXV0dDNWWjZ4K05NY3V4d3dl?=
- =?utf-8?B?T3Z6QmtDZmErbWJLNzkvVlFZMCs4a2svMy9DR2FpTldGYWNTNmdXOTAzSzVP?=
- =?utf-8?B?R2c9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/WefOAu8DQzqIYLWqZJozUIf8AO+oMsnhZxjrbdMxpOB0PiRyZuPJDxHrj4K?=
+ =?us-ascii?Q?y7owJMUWb1vJVjFWReDTWKkzecnq9JsGjm5mtk23lri/jlvHdrmYIWc2QLyE?=
+ =?us-ascii?Q?octnaXrFJJhVsHSCicYsW53ZvuVpG3UzAA2mFhJvRJ+EzIaACZWdQS6Eh9jA?=
+ =?us-ascii?Q?eLlD7H06fDfHrklLD+MwhQ0Y+Q9WG3KQz5ZoiaUAzFU8SKiBiXK6lM75Q5/w?=
+ =?us-ascii?Q?ckxjwf5VfG3jhTpVSEaAwoQ39kfi+h/k8Tt5i7kc9GGQpjHh/6R9iJ4/QuAG?=
+ =?us-ascii?Q?HPH7vA/QZzE1+UfzVg1MW80ZAF3CJ2RFN7e5bGGepuPT2KfRUYZ0bwywLgFu?=
+ =?us-ascii?Q?OQDQtB/evqGvRjI18/k8PVDG8LIKetEi2SjdUXMnjmOWL3/pWKjR0svWuJDA?=
+ =?us-ascii?Q?tsD+4NzTrcscoGuKjjIMD4nsccHeO1fRW3kp0Anpm2lxJWFjJZRafMrrrNHd?=
+ =?us-ascii?Q?4QPJ79df/6QrQTXM4fVB5x7teNrW4ul/5HVXsVI939M3fz1vkxmm72MSLO2N?=
+ =?us-ascii?Q?lNKRRB4xVv11kEiTl98FAL6pLYRhSOMdLUVmoQsbl5P0tumcyaJBq6cISsHM?=
+ =?us-ascii?Q?rbNgM5HhrHgfI/QzyZHaD0KJs2zFtniLhyjOTvV+qnbkEBJElDb/NzCDXtBZ?=
+ =?us-ascii?Q?XG2sKz/OpEqbO80zCIf9LhgRljG51hcivW6VA3UGhSQyF+f0SsaCkZvId7XK?=
+ =?us-ascii?Q?7F1d3UnyjPsJ0gkUzWXivVLwi9j4/Tiwpqchh0DnIB1qPTvO/t3NcIdePcmx?=
+ =?us-ascii?Q?ARwDItFkzXOSfN0e2fTqufjEf+muKQR8SjIlzzbGdmTisXpBgv1rIRtGqgDq?=
+ =?us-ascii?Q?pv7MSDlWZpN5J2pQH3Mf5a8G0BKWEtd7Clsxo9AuI8mOEW4LxRth2Ne73B1d?=
+ =?us-ascii?Q?ywXSqg0hFKaTORxfv+eNgrxHhGCSK7uyBdTrST0/5ju863ZZcQgprch3HTB8?=
+ =?us-ascii?Q?Twe5WXqmACPCkfRSaz3Mc+XN6g78mwDAPEt1tAufIRaxZKongdzNFKTtlBiT?=
+ =?us-ascii?Q?xsUB8GUEi6+8l5H1nT4iBmKcwPiTB2T918lEJSp6KmiXdsByIoV9fl/zi6sd?=
+ =?us-ascii?Q?duw/zEviWiQ2EJ/xi+/5MfckIR8W7M8cUnHBuwTdxYQEw6DKJUQ/A2MrQugi?=
+ =?us-ascii?Q?kIp3prgnCmXjXVHqYTW2FBBZeZRagJq4sHz1zLex1YjnCye4smat6tl5cP/v?=
+ =?us-ascii?Q?EN6gnqQHrt5WRrTJjD/tV5yBaBAQxsoN1lMPTj0TIABpyiYHDJ9grQNv72Xc?=
+ =?us-ascii?Q?82By4aTO56u4DTdpFx3w0E6bcal2ZHI/UPq/OFAmoLEeJHH19quIROk/dpVP?=
+ =?us-ascii?Q?jT0uBHAvPM9n1+nn/nXfJut+wXcEVYj2PijwNqZCsOj1WOL7SqFDVhVFTRfC?=
+ =?us-ascii?Q?B7XlweWXRGgw06SX8m6vjl5iLPOuyEWm7Is/ygCGIeIYR4M66R+lmF3VKMQz?=
+ =?us-ascii?Q?RUlmftlMUKkh5XpCp3PfXsde+G4zdV875ZfNp4EJttCLeY+FXpZPfGhyYxEW?=
+ =?us-ascii?Q?VfTH20ZDbeDONiY+L50Tdy7dujPh10LaEEk4HHzgctPvA+UDsbAlBls8w5g0?=
+ =?us-ascii?Q?r0ZTOA+OfAl73p2J/T5DmClUf6qfsysWDQfh9uMpzltbS1eUJcosxnjiqGxf?=
+ =?us-ascii?Q?2w=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7edd238b-0eb3-455f-bf97-08daa5232782
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f5ecf0f-08dd-4efe-5715-08daa52327dd
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2022 09:39:23.2914 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2022 09:39:23.8695 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5XF4tj7J2DEOZEeUuIfhtJfAT84nKrECXY19fmGedWoAh/Z2YuWibZgjRmq82OHpE2/ZWGFGWvNcvRTDqTiimoVFsGnePfxMQ2EtVjVbmQY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: udYl6pZF1ijJMsft3ldIRkrv2G+qJynRdUDUjvvdDY4ZMPF43cPLb6ApO6nHQSSBu56mODAa8qDU1bseLjcWq9ZGTJlAcNnxMtQhu7itodM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB8203
 Received-SPF: pass client-ip=40.107.8.119;
  envelope-from=alexander.ivanov@virtuozzo.com;
@@ -146,40 +137,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add appropriate shutdown command arguments to qmp_guest_shutdown()
-for FreeBSD.
+Move qmp_guest_set_user_password() from __linux__ condition to
+(__linux__ || __FreeBSD__) condition. Add command and arguments
+for password setting in FreeBSD.
 
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 ---
- qga/commands-posix.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ qga/commands-posix.c | 35 +++++++++++++++++++++++++----------
+ 1 file changed, 25 insertions(+), 10 deletions(-)
 
 diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 49f9996a9c..88e0d0fe24 100644
+index 88e0d0fe24..f5b9e5c530 100644
 --- a/qga/commands-posix.c
 +++ b/qga/commands-posix.c
-@@ -90,6 +90,10 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
-     const char *powerdown_flag = "-i5";
-     const char *halt_flag = "-i0";
-     const char *reboot_flag = "-i6";
-+#elif defined(CONFIG_BSD)
-+    const char *powerdown_flag = "-p";
-+    const char *halt_flag = "-h";
-+    const char *reboot_flag = "-r";
- #else
-     const char *powerdown_flag = "-P";
-     const char *halt_flag = "-H";
-@@ -120,6 +124,9 @@ void qmp_guest_shutdown(bool has_mode, const char *mode, Error **errp)
- #ifdef CONFIG_SOLARIS
-         execl("/sbin/shutdown", "shutdown", shutdown_flag, "-g0", "-y",
-               "hypervisor initiated shutdown", (char *)NULL);
-+#elif defined(CONFIG_BSD)
-+        execl("/sbin/shutdown", "shutdown", shutdown_flag, "+0",
-+               "hypervisor initiated shutdown", (char *)NULL);
- #else
-         execl("/sbin/shutdown", "shutdown", "-h", shutdown_flag, "+0",
-                "hypervisor initiated shutdown", (char *)NULL);
+@@ -2122,7 +2122,9 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+ 
+     return processed;
+ }
++#endif /* __linux__ */
+ 
++#if defined(__linux__) || defined(__FreeBSD__)
+ void qmp_guest_set_user_password(const char *username,
+                                  const char *password,
+                                  bool crypted,
+@@ -2156,10 +2158,15 @@ void qmp_guest_set_user_password(const char *username,
+         goto out;
+     }
+ 
++#ifdef __FreeBSD__
++    chpasswddata = g_strdup(rawpasswddata);
++    passwd_path = g_find_program_in_path("pw");
++#else
+     chpasswddata = g_strdup_printf("%s:%s\n", username, rawpasswddata);
+-    chpasswdlen = strlen(chpasswddata);
+-
+     passwd_path = g_find_program_in_path("chpasswd");
++#endif
++
++    chpasswdlen = strlen(chpasswddata);
+ 
+     if (!passwd_path) {
+         error_setg(errp, "cannot find 'passwd' program in PATH");
+@@ -2180,11 +2187,17 @@ void qmp_guest_set_user_password(const char *username,
+         reopen_fd_to_null(1);
+         reopen_fd_to_null(2);
+ 
++#ifdef __FreeBSD__
++        const char *h_arg;
++        h_arg = (crypted) ? "-H" : "-h";
++        execl(passwd_path, "pw", "usermod", "-n", username, h_arg, "0", NULL);
++#else
+         if (crypted) {
+             execl(passwd_path, "chpasswd", "-e", NULL);
+         } else {
+             execl(passwd_path, "chpasswd", NULL);
+         }
++#endif
+         _exit(EXIT_FAILURE);
+     } else if (pid < 0) {
+         error_setg_errno(errp, errno, "failed to create child process");
+@@ -2227,7 +2240,17 @@ out:
+         close(datafd[1]);
+     }
+ }
++#else /* __linux__ || __FreeBSD__ */
++void qmp_guest_set_user_password(const char *username,
++                                 const char *password,
++                                 bool crypted,
++                                 Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++}
++#endif /* __linux__ || __FreeBSD__ */
+ 
++#ifdef __linux__
+ static void ga_read_sysfs_file(int dirfd, const char *pathname, char *buf,
+                                int size, Error **errp)
+ {
+@@ -2764,14 +2787,6 @@ int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+     return -1;
+ }
+ 
+-void qmp_guest_set_user_password(const char *username,
+-                                 const char *password,
+-                                 bool crypted,
+-                                 Error **errp)
+-{
+-    error_setg(errp, QERR_UNSUPPORTED);
+-}
+-
+ GuestMemoryBlockList *qmp_guest_get_memory_blocks(Error **errp)
+ {
+     error_setg(errp, QERR_UNSUPPORTED);
 -- 
 2.34.1
 
