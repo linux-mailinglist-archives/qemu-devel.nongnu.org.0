@@ -2,57 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3DF5F30AF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 15:08:41 +0200 (CEST)
-Received: from localhost ([::1]:60984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410E25F30A5
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 15:03:06 +0200 (CEST)
+Received: from localhost ([::1]:46156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofLBX-0000Rk-M5
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 09:08:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60906)
+	id 1ofL68-0007I8-E8
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 09:03:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ofKpn-0007yw-5X
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 08:46:25 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:38889)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ofKpj-0001MM-Uc
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 08:46:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=nsDbrWPIQJhAU4dSBB2FCtnixWsxFC4IIhIqIiIF2ZU=; b=wyAkfwNuI5N4exXYff2WXp42Fv
- SMAfaVnG1aknq2bEHz0d9rVlHpU4mk5mxKCjgS7kE5ppV2TUOCE1CdINYBwGFQB124f4fNGfHFbvO
- BI+7Ftz+t9nL+vajr7xL42AYrqOCwYaGvEN9ZMTpLbBa3lYdqXHQI15gGdWqfySTYm3+bJdJ9+OeW
- SMVG0VeT+9vYPRIpdeP5BxFGxNhpZ6CrgsQ0hfLhNtIe4qeOQzXXgFyKO/OdqIdCtvlCXqEhHYjCa
- qTkILyCi69PiOGDnnPk6SngKZ4KHDP/EseRn4Eh1Y+EXbGbMIsgXeZQXyyTzF8E751A5pIWN2Qy7B
- O2Hqx4z0R3cAxER2hQaxgzZFV8wZanbYh6fL/L91T1wE8JGZHwuN6o4jiYwxtD8f619X/G9HuI/hx
- uuoxRlKaVQbfPCLQsCD/Z3nmd3Xw6kxpnmf9Yc8I87yr8jepLqlE4B24dK97c5UTCGCxEbgQgskDs
- ed+3eUwdObsIxA3lxbFpPfwasOnm+wugvLfamiQp+tIBjGB+DwcMwtR0mb92u7jNBh997GBEfp5LN
- Yokr0grbSraUqZYR+thlJkmlvIgvXWuyFickxFoUzt5mKuKA20QFJNGVhKYHInEtsyMRtqvXqnYyw
- AOe1d+YgKhVzFB8GjW45gY23//whz1lzD32DOtrE0=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] net: improve error message for missing netdev backend
-Date: Mon, 03 Oct 2022 14:46:04 +0200
-Message-ID: <2257290.J6gMhxssjS@silver>
-In-Reply-To: <20221003100612.596845-1-berrange@redhat.com>
-References: <20221003100612.596845-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofKti-0001JQ-OE
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 08:50:19 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37528)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofKtf-0001yz-73
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 08:50:14 -0400
+Received: by mail-wr1-x434.google.com with SMTP id bq9so16589184wrb.4
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 05:50:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=O3TARe3H30GzqDTT/rkdXcZL67B5vvR4YT2FtijE/yY=;
+ b=COq58mRhgXp1ZNYgpT7ef9+bKRTyQqWvi3Y1oaqkSaZeTyikTpoEE0+lr3XjTUv3TX
+ 3/UnxywhPwJNSba40BcoRYSlu2KVq2OEY9lipksGBYCeGPGWHXLZFPGB6kQYC/CQjgvo
+ UdNWT1AxMr+oDCH89cG54rYrmGQUxUOXP61xt8F18xlfz0YrYXXtOT3/sbNZUmAy92Eh
+ Lk4JGgbb8GvV5VvykxeklOi7elCf1jpR1TaP4xqIyOKdYhBDp7e2fhYIeaYguO99C1PK
+ wr9k7RgLF4lnBvZywOZSQT9x2xr6LypNvbyQTZU5rvJh0I288VNLRYmStV5PPlNwNyth
+ Q1uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=O3TARe3H30GzqDTT/rkdXcZL67B5vvR4YT2FtijE/yY=;
+ b=I/kkwlIkN3ZzWHuGFXmDN7VW2qN2As9rpIbhkJLw/3a0dmZrXFsQhEOUsoc56cW4Ar
+ G8oaaF6rFMT4K2IvlF3dDPJgWO8HHIXKH0cUHwwcSc8r2zu9LMl3vbBhv9nqXp4gPrYO
+ Eqb1C7tg9+dqNfCNXw2tXAeTS4dGZSxYZ8RCcqXhny3ZdeD4O/oYhgXLu3XMKfO160U+
+ 5xClv9f1pRHtcGTZDbs4MAuDaFZ4pb218JyzR7PYSonkqQ9wjhX0XpuC5HlzVVqcQVsg
+ oCS1MTMqYOlUKHwiQaRxXjyRpO1f7bDgMJTQrwgiTiD64W6wsjSdfWr5xpxUSpa4llBe
+ oB1g==
+X-Gm-Message-State: ACrzQf1Yz9Houty8ncYAX6q1FudNH6LgoTsipL3Ke0zdtNizT/h90Fpy
+ fSJh41ycQETlP8pNO5C80jHRPQ==
+X-Google-Smtp-Source: AMsMyM4OX7Z+nr5h/UM3DobjY/BnO/PDVWbyQDq6iqk6PzHBLfwkmX1v16N2eLXU/UofYmn3SI5ttQ==
+X-Received: by 2002:adf:d4c3:0:b0:22e:326f:e8ef with SMTP id
+ w3-20020adfd4c3000000b0022e326fe8efmr5242564wrk.242.1664801407955; 
+ Mon, 03 Oct 2022 05:50:07 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ i7-20020adffdc7000000b0022e3d7c9887sm3056839wrs.101.2022.10.03.05.50.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Oct 2022 05:50:07 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9D65F1FFB7;
+ Mon,  3 Oct 2022 13:50:06 +0100 (BST)
+References: <20220930212622.108363-1-richard.henderson@linaro.org>
+ <20220930212622.108363-14-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: peter.maydell@linux.org, alex.bennee@linux.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 13/18] accel/tcg: Do not align tb->page_addr[0]
+Date: Mon, 03 Oct 2022 13:47:15 +0100
+In-reply-to: <20220930212622.108363-14-richard.henderson@linaro.org>
+Message-ID: <87fsg5nkap.fsf@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,94 +94,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 3. Oktober 2022 12:06:12 CEST Daniel P. Berrang=E9 wrote:
-> The current message when using '-net user...' with SLIRP disabled at
-> compile time is:
->=20
->   qemu-system-x86_64: -net user: Parameter 'type' expects a net backend t=
-ype
-> (maybe it is not compiled into this binary)
 
-Is this intended as alternative to Marc-Andr=E9's previous patch? If yes, t=
-hen=20
-same applies here: what about people not passing any networking arg to QEMU=
-?=20
-They would not get any error message at all, right?
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-https://lore.kernel.org/all/2973900.g0HVWOepMQ@silver/
-
-> An observation is that we're using the 'netdev->type' field here which
-> is an enum value, produced after QAPI has converted from its string
-> form.
->=20
-> IOW, at this point in the code, we know that the user's specified
-> type name was a valid network backend. The only possible scenario that
-> can make the backend init function be NULL, is if support for that
-> backend was disabled at build time. Given this, we don't need to caveat
-> our error message with a 'maybe' hint, we can be totally explicit.
->=20
-> The use of QERR_INVALID_PARAMETER_VALUE doesn't really lend itself to
-> user friendly error message text. Since this is not used to set a
-> specific QAPI error class, we can simply stop using this pre-formatted
-> error text and provide something better.
->=20
-> Thus the new message is:
->=20
->   qemu-system-x86_64: -net user: network backend 'user' is not compiled i=
-nto
-> this binary
-
-And why not naming the child, i.e. that QEMU was built without slirp?
-
-> The case of passing 'hubport' for -net is also given a message reminding
-> people they should have used -netdev/-nic instead, as this backend type
-> is only valid for the modern syntax.
->=20
-> Signed-off-by: Daniel P. Berrang=E9 <berrange@redhat.com>
+> Let tb->page_addr[0] contain the offset within the page of the
+> start of the translation block.  We need to recover this value
+> anyway at various points, and it is easier to discard the page
+> offset when it's not needed, which happens naturally via the
+> existing find_page shift.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->=20
-> NB, this does not make any difference to people who were relying on the
-> QEMU built-in default hub that was created if you don't list any -net /
-> -netdev / -nic argument, only those using explicit args.
->=20
->  net/net.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
->=20
-> diff --git a/net/net.c b/net/net.c
-> index 2db160e063..8ddafacf13 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -1036,19 +1036,23 @@ static int net_client_init1(const Netdev *netdev,
-> bool is_netdev, Error **errp) if (is_netdev) {
->          if (netdev->type =3D=3D NET_CLIENT_DRIVER_NIC ||
->              !net_client_init_fun[netdev->type]) {
-> -            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "type",
-> -                       "a netdev backend type");
-> +            error_setg(errp, "network backend '%s' is not compiled into
-> this binary", +                       NetClientDriver_str(netdev->type));
->              return -1;
->          }
->      } else {
->          if (netdev->type =3D=3D NET_CLIENT_DRIVER_NONE) {
->              return 0; /* nothing to do */
->          }
-> -        if (netdev->type =3D=3D NET_CLIENT_DRIVER_HUBPORT ||
-> -            !net_client_init_fun[netdev->type]) {
-> -            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "type",
-> -                       "a net backend type (maybe it is not compiled "
-> -                       "into this binary)");
-> +        if (netdev->type =3D=3D NET_CLIENT_DRIVER_HUBPORT) {
-> +            error_setg(errp, "network backend '%s' is only supported with
-> -netdev/-nic", +                       NetClientDriver_str(netdev->type));
-> +            return -1;
-> +        }
-> +
-> +        if (!net_client_init_fun[netdev->type]) {
-> +            error_setg(errp, "network backend '%s' is not compiled into
-> this binary", +                       NetClientDriver_str(netdev->type));
->              return -1;
->          }
+>  accel/tcg/cpu-exec.c      | 16 ++++++++--------
+>  accel/tcg/cputlb.c        |  3 ++-
+>  accel/tcg/translate-all.c |  9 +++++----
+>  3 files changed, 15 insertions(+), 13 deletions(-)
+>
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index 5f43b9769a..dd58a144a8 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -174,7 +174,7 @@ struct tb_desc {
+>      target_ulong pc;
+>      target_ulong cs_base;
+>      CPUArchState *env;
+> -    tb_page_addr_t phys_page1;
+> +    tb_page_addr_t page_addr0;
 
+We don't actually document that this is an offset here (or indeed in
+TranslationBlock) and the definition of tb_page_addr_t:
 
+  /* Page tracking code uses ram addresses in system mode, and virtual
+     addresses in userspace mode.  Define tb_page_addr_t to be an appropria=
+te
+     type.  */
+  #if defined(CONFIG_USER_ONLY)
+  typedef abi_ulong tb_page_addr_t;
+  #define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
+  #else
+  typedef ram_addr_t tb_page_addr_t;
+  #define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
+  #endif
 
+implies these are full size pointers into the guests address space.
+Either we need a new type (tb_page_offset_t) or to properly comment the
+structures with what they mean.
+
+Otherwise:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
