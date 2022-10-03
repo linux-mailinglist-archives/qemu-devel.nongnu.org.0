@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5BD5F3141
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 15:30:01 +0200 (CEST)
-Received: from localhost ([::1]:33544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E455F313A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 15:28:48 +0200 (CEST)
+Received: from localhost ([::1]:39332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofLWC-0005NG-EQ
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 09:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59830)
+	id 1ofLV0-0003Qa-Q3
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 09:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ofLPF-0003hN-Ao
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:22:49 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:41750)
+ id 1ofLRA-00068M-S9
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:24:48 -0400
+Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:36565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ofLPC-0006xO-Nr
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:22:49 -0400
-Received: by mail-qt1-x829.google.com with SMTP id c11so6288868qtw.8
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 06:22:46 -0700 (PDT)
+ id 1ofLR9-00078J-BX
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:24:48 -0400
+Received: by mail-qt1-x82e.google.com with SMTP id gb14so6291726qtb.3
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 06:24:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=bkqIJ7NKSR831PTRIY9MGha4enu9pWS2k9iFtWbBtxM=;
- b=UvLoc38HDI83pv/qSLiaz47ax/yrW34wUPC60CAg5WUM3qmWgqpGUGTK5T1hjYyigS
- yxmSbJLA4l4bC+gZwGIlRHJ7dmVlp8EAVIt4p7UpuBYHx+VgEUaQd0ZbPL5OqMsqdWU/
- I+nG2yWu1Qk/tmdwv4+C/4qJzllHAlyOJk92C53aAreVA3MkfGoACGKwZH5ZH8+0uZqT
- yOclgK5bNoMq3uOvCpO3neniKZqmheJrRj9ua3+OipB7bN1lUmY/pW2iRxBms4uYkdtR
- /mZbD3b6jnWBoiJldz6qHFhHcM60y4yb7xtK8xg6mQfZvNNVnwsb+2bO6JKtSbWfaHA8
- VGIA==
+ bh=pjEF5iNaPzB+eIhR120Ykc4OSBL+OzQWaFKR3JMIaWU=;
+ b=PlQpXoUWvTfHM62ECqvHCXApVsvykgaBPnxrZP9Vd5i4KNGca6hqdLhdOUjj76cJh8
+ jl5loPpI3fo1FEFa3MzrtwdORV2WdG46cBdoLNCUq6RcfJD+cUhJL8lwKaf1q8oUSm7A
+ a6K3pnLEE4LhmXROoHuBeUBdW7yEL/D1OIJ4h2n7f524iI4CJsUG07MqyoVmSX0IDAPZ
+ uuQX8rV4OxId79YXuC6QvBJ13nQ+LAV8FhRcfBp85Uz0vtUjkI2SdI0u5J0L79VP3AzP
+ f0vuNjZjG+aw1CBvhR9Nc9cVF/UgnXyB+c5UPmVDYE7tdtrP+YBRGc7vzszc5K1Z0PBr
+ o2nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date;
- bh=bkqIJ7NKSR831PTRIY9MGha4enu9pWS2k9iFtWbBtxM=;
- b=2tJEk27utb6Uh9v4TQGwMM1ARaN3HJBm3rbSrsV+1lC4wsO2UoF5ZOEKveQtWYSj06
- V0QxPvFV04k5GfXXVu5zpieYtsOlvqtfiynCLqV8q6QStiwgyaH59CW+y5RmYqtQw6vJ
- V8FjHpe4xwBZ6QNaKqS+9lhBkrdnev/nN42KA7W/Wb72mHYVKV05Fuo8g/Ku7LgOKSJ4
- bYZDvjGH+TJpHjTqSaMmnriUng5VHJFuyuxBppqjs187pEQVSRK6+VL7pkEt8ALir54o
- Vk+XRwBvgqAhX807/JgY1T/sDylD/hTcn/16szjeC2C1+mZnVUGgePXtPk9eZkm3qBhL
- tPdw==
-X-Gm-Message-State: ACrzQf2Cv6FHUa6XTczwEZVcGvJh3H+saAYIQYOP+2vWCD9Lzm5zuuXU
- nEAcsNjk5TPOVuBbIbj/Bltv89L3ZEf/lLDYyMY=
-X-Google-Smtp-Source: AMsMyM5qXyeW05emg69p/FhZ/FpHXpxG12KqJq/9qyvOt2XGSmw/dP0ovoZWMJsrJ+lk3os0pSemljq2RV+LTECrQdU=
-X-Received: by 2002:a05:622a:4ca:b0:35d:539f:a35 with SMTP id
- q10-20020a05622a04ca00b0035d539f0a35mr15623775qtx.543.1664803365676; Mon, 03
- Oct 2022 06:22:45 -0700 (PDT)
+ bh=pjEF5iNaPzB+eIhR120Ykc4OSBL+OzQWaFKR3JMIaWU=;
+ b=xtaT37NngkYhQ3RfbL19sALPV/57o/VBIfTRKoLdg/nnFxTNPPuXXvuSIp4wh18MH1
+ DtJ1Q/t1yXvZWkZdwev/punbWlbfpL8EWLvqjtG3zqZRHOgoOPiRiKTLH0k8Egfxt0LR
+ nAAl4kIron/i8qIEr28XDfUER9oUCuOJMpNkBZHo5+4d1p6D28eNR+n1HJE6TT2LgL5u
+ f4Dn583WDbJTA4tqKjPxXxIDbgPZhuqAORXGtJ+BtprW6MpwqKwKKuiCg+eXzpkEzIWy
+ rHd8wA6NIggQ2e5jo4XbqFF9A4hpKhuFAGprXD26BFufhCJ14F8BbyEmF7ML22y9Fi7D
+ 6EJQ==
+X-Gm-Message-State: ACrzQf111kmGABdn5loRPgdysaPO5mOsMaeFt9e+/5VSyHaMNAoB49Os
+ hNj/1Pi7vq1khw7uCtzLhIuAjEXVKC2TidV1YqU=
+X-Google-Smtp-Source: AMsMyM7VKYlQFFK1WWyBRr/arEu0KB1I/FS+HXWRHzi1rhkCa9jgeLjpvJB6YJJbEqE0S9dEvHrAURanJhqsrdt5rw8=
+X-Received: by 2002:ac8:57ca:0:b0:35b:b51f:94fc with SMTP id
+ w10-20020ac857ca000000b0035bb51f94fcmr15833682qta.276.1664803483854; Mon, 03
+ Oct 2022 06:24:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221003102718.600058-1-berrange@redhat.com>
- <20221003102718.600058-2-berrange@redhat.com>
-In-Reply-To: <20221003102718.600058-2-berrange@redhat.com>
+ <20221003102718.600058-3-berrange@redhat.com>
+In-Reply-To: <20221003102718.600058-3-berrange@redhat.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 3 Oct 2022 21:22:35 +0800
-Message-ID: <CAEUhbmXB1vL6p3kAZnH6=hvP0MsZ+tM_b1qVUt=b1cROSRjnWA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] crypto: check for and report errors setting PSK
- credentials
+Date: Mon, 3 Oct 2022 21:24:33 +0800
+Message-ID: <CAEUhbmXAOirFnJZ0YRAnd3f-Uii1=-3UUjcCsdqvgW8QOz9hpQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] tests: avoid DOS line endings in PSK file
 To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x829.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x82e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,13 +88,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, Oct 3, 2022 at 6:27 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
 > wrote:
 >
-> If setting credentials fails, the handshake will later fail to complete
-> with an obscure error message which is hard to diagnose.
+> Using FILE * APIs for writing the PSK file results in translation from
+> UNIX to DOS line endings on Windows. When the crypto PSK code later
+> loads the credentials the stray \r will result in failure to load the
+> PSK credentials into GNUTLS.
+>
+> Rather than switching the FILE* APIs to open in binary format, just
+> switch to the more concise g_file_set_contents API.
 >
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  crypto/tlscredspsk.c | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
+>  tests/unit/crypto-tls-psk-helpers.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
