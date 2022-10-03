@@ -2,84 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5EE95F3907
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 00:29:07 +0200 (CEST)
-Received: from localhost ([::1]:41768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC665F3928
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 00:35:41 +0200 (CEST)
+Received: from localhost ([::1]:58346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofTvu-0008NI-II
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 18:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41738)
+	id 1ofU2G-0005fw-BF
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 18:35:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ofT7b-0002Fc-QP; Mon, 03 Oct 2022 17:37:11 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:53076)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ofT7Z-0006xc-N5; Mon, 03 Oct 2022 17:37:07 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id l12so10813503pjh.2;
- Mon, 03 Oct 2022 14:37:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=yru/y/hCtiNBzjxWpDaSRN+rTvh+8or5nZb4bMGDreo=;
- b=qOOIakDMUsjEOZ2lubxWuiawamJHyFFmOlE+oZifZWUylG9vMb2SZ8gLT2tPMKQJbW
- r0lHE6/LsEo7fgO6HFoX0Q2XPemtcN60slRb+vSuayVonhdc2/rzZ+WrE6gYEOeWTLkS
- nCR08QvTqbzw94a0qM8VIWyEddEbEpgRi+k1KHDTLaw06QaHf3BMwRAb3XSH+JctQebo
- vwzlQQsbR9B83xfmVzBxss/SbPbhoBzgXnFrAY3VONqIKf2bpFK2scK46d1RY8uS4JRU
- HCVceDb0LyaLb89irLmb1yt/V99YDpZ2gaIM0iqW0u7AzQ8AJV7W9y4jELmutrg4ESSh
- 6Y/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=yru/y/hCtiNBzjxWpDaSRN+rTvh+8or5nZb4bMGDreo=;
- b=qKj5+S8/smrZv79DlDwkjiHMeGbYeotfRbC2GIKgoFvYwrPI05SRAFkUEdcnsvTRO+
- KTUcc62DGtaI3eKFwtJWMZC+RHW7ofJC58F/6KcNxwoq/zDwx2z/wHXMdcdPVMSKJdl0
- Gvxe1530C7+bomGqBmmdkJ0R7Sj208hAFeiMh1drTEJDw5Flck9dQqsMKtFiEJyrQ4b3
- aW3IaFmPoKKLGn6CGxtkeQzvI+4Nw0WkX6QrwtrnEOb9GMWX4WntvUj6n2c8FQA198OX
- t39tZPi/BwUjZgWp4D+r47oG455l2AjrQePr2WNqU9J0ojAm8qooJhL6fC3JhSUqdibz
- d8GA==
-X-Gm-Message-State: ACrzQf3ilBA8BNN6DYUu782RM9l4xnO3E2Uvmfsl+rSyCwxWVohYjBrr
- hjMsfTw1DVpLpqlGaI9YjhE=
-X-Google-Smtp-Source: AMsMyM5sCVyHmw1fWBmVmrpbPFL1lDqBxS2G0BNA5Inh3uJlpbCKeMt6kIKaU5rA6rua/xYdjrQLzA==
-X-Received: by 2002:a17:90a:d151:b0:205:f2a4:f898 with SMTP id
- t17-20020a17090ad15100b00205f2a4f898mr14444926pjw.118.1664833022646; 
- Mon, 03 Oct 2022 14:37:02 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- n17-20020a170902d2d100b0016be834d54asm7689720plc.306.2022.10.03.14.36.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Oct 2022 14:37:02 -0700 (PDT)
-Message-ID: <fca0b9b4-e9ce-e79a-077a-1c2029f712f4@amsat.org>
-Date: Mon, 3 Oct 2022 23:36:57 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ofTcK-0005K5-6I; Mon, 03 Oct 2022 18:08:55 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:44276)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ofTcC-0005HP-CB; Mon, 03 Oct 2022 18:08:51 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 6E093746335;
+ Tue,  4 Oct 2022 00:08:37 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 2676174632C; Tue,  4 Oct 2022 00:08:37 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 24E7C746324;
+ Tue,  4 Oct 2022 00:08:37 +0200 (CEST)
+Date: Tue, 4 Oct 2022 00:08:37 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH 03/10] mac_{old|new}world: Set default values for some
+ local variables
+In-Reply-To: <aa31b36f-8e81-1fec-e4ae-66a26a4c9680@ilande.co.uk>
+Message-ID: <ca129c-e8d1-6c2d-9ac2-f364314ba285@eik.bme.hu>
+References: <cover.1663368422.git.balaton@eik.bme.hu>
+ <f6b04802d0a62668ba99c0086d0dda8ad103a65d.1663368422.git.balaton@eik.bme.hu>
+ <861b0aed-f6c3-93f3-187f-90ef721b18df@ilande.co.uk>
+ <23dc642e-cf89-a7f2-6f54-d13d1ec95a19@eik.bme.hu>
+ <aa31b36f-8e81-1fec-e4ae-66a26a4c9680@ilande.co.uk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v2 07/13] hw/ppc/e500: Remove if statement which is now
- always true
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Kevin Wolf <kwolf@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
-References: <20221003203142.24355-1-shentey@gmail.com>
- <20221003203142.24355-8-shentey@gmail.com>
-In-Reply-To: <20221003203142.24355-8-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.467,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-702341427-1664834917=:77348"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,57 +63,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 3/10/22 22:31, Bernhard Beschow wrote:
-> Now that the MPC8544DS board also has a platform bus, the if statement
-> is always true.
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   hw/ppc/e500.c      | 30 ++++++++++++++----------------
->   hw/ppc/e500.h      |  1 -
->   hw/ppc/e500plat.c  |  1 -
->   hw/ppc/mpc8544ds.c |  1 -
->   4 files changed, 14 insertions(+), 19 deletions(-)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
->       /* Platform Bus Device */
-> -    if (pmc->has_platform_bus) {
-> -        dev = qdev_new(TYPE_PLATFORM_BUS_DEVICE);
-> -        dev->id = g_strdup(TYPE_PLATFORM_BUS_DEVICE);
-> -        qdev_prop_set_uint32(dev, "num_irqs", pmc->platform_bus_num_irqs);
-> -        qdev_prop_set_uint32(dev, "mmio_size", pmc->platform_bus_size);
-> -        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> -        pms->pbus_dev = PLATFORM_BUS_DEVICE(dev);
-> -
-> -        s = SYS_BUS_DEVICE(pms->pbus_dev);
-> -        for (i = 0; i < pmc->platform_bus_num_irqs; i++) {
-> -            int irqn = pmc->platform_bus_first_irq + i;
-> -            sysbus_connect_irq(s, i, qdev_get_gpio_in(mpicdev, irqn));
-> -        }
-> +    dev = qdev_new(TYPE_PLATFORM_BUS_DEVICE);
-> +    dev->id = g_strdup(TYPE_PLATFORM_BUS_DEVICE);
-> +    qdev_prop_set_uint32(dev, "num_irqs", pmc->platform_bus_num_irqs);
-> +    qdev_prop_set_uint32(dev, "mmio_size", pmc->platform_bus_size);
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+--3866299591-702341427-1664834917=:77348
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Should we abort(pmc->platform_bus_size > 0) now?
+On Thu, 29 Sep 2022, Mark Cave-Ayland wrote:
+> On 25/09/2022 10:16, BALATON Zoltan wrote:
+>> On Sun, 25 Sep 2022, Mark Cave-Ayland wrote:
+>>> On 17/09/2022 00:07, BALATON Zoltan wrote:
+>>>> Some lines can be dropped making the code flow simpler and easier to
+>>>> follow by setting default values at variable declaration for some
+>>>> variables in both mac_oldworld.c and mac_newworld.c.
+>>>> 
+>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>> ---
+>>>>   hw/ppc/mac_newworld.c | 28 +++++-----------------------
+>>>>   hw/ppc/mac_oldworld.c | 27 +++++----------------------
+>>>>   2 files changed, 10 insertions(+), 45 deletions(-)
+>>>> 
+>>>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+>>>> index 27e4e8d136..6bc3bd19be 100644
+>>>> --- a/hw/ppc/mac_newworld.c
+>>>> +++ b/hw/ppc/mac_newworld.c
+>>>> @@ -111,11 +111,11 @@ static void ppc_core99_init(MachineState *machine)
+>>>>       CPUPPCState *env = NULL;
+>>>>       char *filename;
+>>>>       IrqLines *openpic_irqs;
+>>>> -    int i, j, k, ppc_boot_device, machine_arch, bios_size;
+>>>> +    int i, j, k, ppc_boot_device, machine_arch, bios_size = -1;
+>>>>       const char *bios_name = machine->firmware ?: PROM_FILENAME;
+>>>>       MemoryRegion *bios = g_new(MemoryRegion, 1);
+>>>> -    hwaddr kernel_base, initrd_base, cmdline_base = 0;
+>>>> -    long kernel_size, initrd_size;
+>>>> +    hwaddr kernel_base = 0, initrd_base = 0, cmdline_base = 0;
+>>>> +    long kernel_size = 0, initrd_size = 0;
+>>>>       UNINHostState *uninorth_pci;
+>>>>       PCIBus *pci_bus;
+>>>>       PCIDevice *macio;
+>>>> @@ -130,7 +130,7 @@ static void ppc_core99_init(MachineState *machine)
+>>>>       DeviceState *dev, *pic_dev;
+>>>>       DeviceState *uninorth_internal_dev = NULL, *uninorth_agp_dev = 
+>>>> NULL;
+>>>>       hwaddr nvram_addr = 0xFFF04000;
+>>>> -    uint64_t tbfreq;
+>>>> +    uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
+>>>>         /* init CPUs */
+>>>>       for (i = 0; i < machine->smp.cpus; i++) {
+>>>> @@ -165,8 +165,6 @@ static void ppc_core99_init(MachineState *machine)
+>>>>               bios_size = load_image_targphys(filename, PROM_BASE, 
+>>>> PROM_SIZE);
+>>>>           }
+>>>>           g_free(filename);
+>>>> -    } else {
+>>>> -        bios_size = -1;
+>>>>       }
+>>>>       if (bios_size < 0 || bios_size > PROM_SIZE) {
+>>>>           error_report("could not load PowerPC bios '%s'", bios_name);
+>>>> @@ -174,15 +172,12 @@ static void ppc_core99_init(MachineState *machine)
+>>>>       }
+>>>>         if (machine->kernel_filename) {
+>>>> -        int bswap_needed;
+>>>> +        int bswap_needed = 0;
+>>>>     #ifdef BSWAP_NEEDED
+>>>>           bswap_needed = 1;
+>>>> -#else
+>>>> -        bswap_needed = 0;
+>>>>   #endif
+>>>>           kernel_base = KERNEL_LOAD_ADDR;
+>>>> -
+>>>>           kernel_size = load_elf(machine->kernel_filename, NULL,
+>>>>                                  translate_kernel_address, NULL, NULL, 
+>>>> NULL,
+>>>>                                  NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+>>>> @@ -212,16 +207,10 @@ static void ppc_core99_init(MachineState *machine)
+>>>>               }
+>>>>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + 
+>>>> initrd_size);
+>>>>           } else {
+>>>> -            initrd_base = 0;
+>>>> -            initrd_size = 0;
+>>> 
+>>> This bit seems a bit odd...
+>>> 
+>>>>               cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size 
+>>>> + KERNEL_GAP);
+>>>>           }
+>>>>           ppc_boot_device = 'm';
+>>>>       } else {
+>>>> -        kernel_base = 0;
+>>>> -        kernel_size = 0;
+>>>> -        initrd_base = 0;
+>>>> -        initrd_size = 0;
+>>> 
+>>> and also here. The only reason I can think that someone would explicitly 
+>>> set these variables back to 0 would be if there are cases in the load_*() 
+>>> functions where non-zero values could be returned for failure. It's worth 
+>>> having a look to confirm this and see if this also needs some additional 
+>>> tweaks to the logic flow here.
+>> 
+>> They aren't set back to 0 but set here the first time. Nothing touches 
+>> these variables before this if-else do this patch just moves the zero init 
+>> to the variable declaration and only leaves the cases which set a value 
+>> different than zero here which I think is easier to follow.
+>
+> Okay - in that case if you can test with a non-kernel ELF to verify this, and 
+> add a note confirming that everything still works for the error paths then 
+> that will be fine.
 
-> +    pms->pbus_dev = PLATFORM_BUS_DEVICE(dev);
->   
-> -        memory_region_add_subregion(address_space_mem,
-> -                                    pmc->platform_bus_base,
-> -                                    &pms->pbus_dev->mmio);
-> +    s = SYS_BUS_DEVICE(pms->pbus_dev);
-> +    for (i = 0; i < pmc->platform_bus_num_irqs; i++) {
-> +        int irqn = pmc->platform_bus_first_irq + i;
-> +        sysbus_connect_irq(s, i, qdev_get_gpio_in(mpicdev, irqn));
->       }
->   
-> +    memory_region_add_subregion(address_space_mem,
-> +                                pmc->platform_bus_base,
-> +                                &pms->pbus_dev->mmio);
+I've originally added non-elf loading to be able to use -bios macrom.bin 
+which I've now verified that it still works so this should be OK. I've 
+also split this patch up to more parts for easier review in the later 
+versions of the series but what it does is basically instead of
+
+int x;
+if (cond) {
+   x = a;
+} else {
+   x = 0;
+}
+
+we do
+
+int x = 0;
+if (cond) {
+   x = a;
+}
+
+which I thought would be simple to review.
+
+Regards,
+BALATON Zoltan
+--3866299591-702341427-1664834917=:77348--
 
