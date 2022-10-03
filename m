@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432BF5F3190
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 15:57:34 +0200 (CEST)
-Received: from localhost ([::1]:46654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD0B5F3197
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 15:59:53 +0200 (CEST)
+Received: from localhost ([::1]:32844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofLwq-0002wI-23
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 09:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51740)
+	id 1ofLz5-0006Zy-W0
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 09:59:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ofLp6-0001TE-K9
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:49:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58366)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ofLp4-0002uT-2Q
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:49:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664804969;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XrGPEeRFqKp9ccg+KQX6Qdn+sSsSjAQVIO+1kvnrJNU=;
- b=YF5kPgq3vYtWWARnvMK0Yq1M70YakjkGQixtp7DSpcSs/JnwYmyBxUBZRCuwp0fW8UYVX9
- WY5pu2B+uYU8ZO+7aNyZa/VgADoYwsphrMz07BQeBWtKhCSDpLf+zjFHFsZSU3Y9aFc7pF
- T5vb7Ncwj6XTyTCZ1zWR5Po5dN3rjBo=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-668-Aasdw7pRMY-RZWTh_EWMSg-1; Mon, 03 Oct 2022 09:49:27 -0400
-X-MC-Unique: Aasdw7pRMY-RZWTh_EWMSg-1
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-355ae0f4d3dso98679017b3.14
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 06:49:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ofLuu-0000dA-BE
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:55:35 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ofLus-0003vc-Qu
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:55:32 -0400
+Received: by mail-wr1-x429.google.com with SMTP id bk15so16849512wrb.13
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 06:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=aAI5S5SxPMv6ZZagGXWT327avLA/q8tqDJgag2Wshyk=;
+ b=mjfnOTfmJMvxCQEP3GrhAeBz3OU3e16UXiU+1FkALybNGwqJL8Nm3npNpAxYIzI+8A
+ 1NwhMhDWyjTOm8XBn7jU/9iB9y0sIJgRLkgjqrGcKOkMlbNNvoDpQk95Ea5kOiG8WnFx
+ 6eX+uy6ciU9N/Ny3WxyKnQNLrlsSWYandIBT5ibFl+8bxAVL0pnf9IhN5u9WPQkF3gUt
+ GR2Saxok6nx6VN9YcqSrxitkz1ZErPj26ELOIt91FhJ7oPkHspDrfM1oLPc24SKXglWG
+ 8dHqHPUq/9C0UBNxsVARZoK4KTrEV1svlieS1NfbPXDWKqqf/Q0C8+Ejhp7g9eabI8aV
+ MQgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=XrGPEeRFqKp9ccg+KQX6Qdn+sSsSjAQVIO+1kvnrJNU=;
- b=j/SBMj9ODotlaXtOjipsdZ+TTx0yFmVP7ThxA1wghwj5ig2BudViheEtegVHCZSQVw
- KeQY/COwQBTYtVYKL4ydkjTZ1vWX8ltgfLV1PHNzYtQ3bdqy/9xwpG11yFFDhh5SoTcH
- Nil15y0Zgqe+KA87U2gFL4obqWwMFiTh+piKrA+pIGsOLpAmSkip8+4Xh9LJLToVJFY3
- wzjSoj+c/74RXTlMuiWD19996ARs2txUM21SvBa/8L69HcV36DR+LQ0G2pqYvEukmyHM
- HVHp+xAj0q6fAlXNjA0B271On3VXb1nvKxynUYunro6wgClVPwR249iVYTpYos9sAM/e
- h0xw==
-X-Gm-Message-State: ACrzQf2UIOHrFHVjnmze+g3qfEmwbcuz+CtuXcc3uIK3z03F2X7jGwEX
- lsrH8TkqzxjRFmOfEtY6vTlRRTW9ZDTAKUNkut+BdHnnpuYMK2gdfgZxciSkawCDxjU6oe80R/n
- w/gzOwUaImaxbDDjYnuFtedJPptH5xZA=
-X-Received: by 2002:a25:b74b:0:b0:6b7:76a:6a5 with SMTP id
- e11-20020a25b74b000000b006b7076a06a5mr20594564ybm.432.1664804967198; 
- Mon, 03 Oct 2022 06:49:27 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6oW1spPHVOJFa6OzqjZB3mk2w57UAN3aZ9QlEk4TFdflU50NBDThwO7OLUt6pgyyZMS3ycRLSwy9mqZZiq3zg=
-X-Received: by 2002:a25:b74b:0:b0:6b7:76a:6a5 with SMTP id
- e11-20020a25b74b000000b006b7076a06a5mr20594553ybm.432.1664804966988; 
- Mon, 03 Oct 2022 06:49:26 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=aAI5S5SxPMv6ZZagGXWT327avLA/q8tqDJgag2Wshyk=;
+ b=6z0BENgGz0ylA7VRynhEDQtBcaQcDUALijF5QDFhVkSgW36RHz8roYEeqQTv8nT1P7
+ ff/Ir4Pl4ACjBDJh/omdAiVe6SBXk/Qn0RXEo8lm0Z2cmy2ET8JQrNT8NfxOoxQ/rOeb
+ TZQ2EWmj8lONMKmGE/w+b79qN0zVGY+RJZJ6Sojf7FYukUCnHg1o1aL76xgmc+EI+Ja6
+ VCiNLfZmyazS3CtIs5ouhSxVwLeap3MIOJWn+VdwU/Jtthsg8D7vdZ0XDdIB5KTXwV2C
+ bbqa9JDVPLM0Knp86CeBlLlmH0C9V0b0zNq4HGQ+8dCywfPm9b4LFkpm0QdIOz1lzDVW
+ ivUQ==
+X-Gm-Message-State: ACrzQf2TgyybSP+dhKW/j10k7uj70AKa+ZzORIgqHFKRwUFBCZQ1j5bp
+ EV6r6JjcuZbwUC7FUbdAP5I=
+X-Google-Smtp-Source: AMsMyM6XDx0z1l4U69Qp69kUzt9iWvGo6jHa9OhxP5OIcXK2cONKaFtrSeUFnAuf1LAck0riRe9nxA==
+X-Received: by 2002:a5d:6c6b:0:b0:225:dde:ab40 with SMTP id
+ r11-20020a5d6c6b000000b002250ddeab40mr13236354wrz.690.1664805329281; 
+ Mon, 03 Oct 2022 06:55:29 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ h6-20020adfe986000000b0022cd6e852a2sm12170127wrm.45.2022.10.03.06.55.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Oct 2022 06:55:28 -0700 (PDT)
+Message-ID: <03e6e9f9-3a71-533d-074e-44064e5ad286@amsat.org>
+Date: Mon, 3 Oct 2022 15:55:26 +0200
 MIME-Version: 1.0
-References: <20221003093911.1844031-1-alexander.ivanov@virtuozzo.com>
- <20221003093911.1844031-8-alexander.ivanov@virtuozzo.com>
-In-Reply-To: <20221003093911.1844031-8-alexander.ivanov@virtuozzo.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Mon, 3 Oct 2022 16:49:15 +0300
-Message-ID: <CAPMcbCpLOGm4Q4H=ygSnN=puqFtnL3LBBxSOG2kMzcnKxU7B7g@mail.gmail.com>
-Subject: Re: [PATCH v3 7/7] qga: Add HW address getting for FreeBSD
-To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-Cc: qemu-devel@nongnu.org, den@virtuozzo.com, michael.roth@amd.com, 
- marcandre.lureau@gmail.com
-Content-Type: multipart/alternative; boundary="000000000000ad93f305ea219c97"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH 2/2] tests: avoid DOS line endings in PSK file
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Bin Meng <bmeng.cn@gmail.com>
+References: <20221003102718.600058-1-berrange@redhat.com>
+ <20221003102718.600058-3-berrange@redhat.com>
+In-Reply-To: <20221003102718.600058-3-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.467,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,129 +94,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
---000000000000ad93f305ea219c97
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-
-On Mon, Oct 3, 2022 at 12:39 PM Alexander Ivanov <
-alexander.ivanov@virtuozzo.com> wrote:
-
-> Replace a dumb function in commands-bsd.c by the code of HW address
-> getting.
->
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+On 3/10/22 12:27, Daniel P. Berrangé wrote:
+> Using FILE * APIs for writing the PSK file results in translation from
+> UNIX to DOS line endings on Windows. When the crypto PSK code later
+> loads the credentials the stray \r will result in failure to load the
+> PSK credentials into GNUTLS.
+> 
+> Rather than switching the FILE* APIs to open in binary format, just
+> switch to the more concise g_file_set_contents API.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  qga/commands-bsd.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
-> index 40f7ec7600..5f423a4710 100644
-> --- a/qga/commands-bsd.c
-> +++ b/qga/commands-bsd.c
-> @@ -20,6 +20,8 @@
->  #include <sys/param.h>
->  #include <sys/ucred.h>
->  #include <sys/mount.h>
-> +#include <net/if_dl.h>
-> +#include <net/ethernet.h>
->  #include <paths.h>
->
->  #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
-> @@ -179,7 +181,19 @@ GuestCpuStatsList *qmp_guest_get_cpustats(Error
-> **errp)
->  int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
->                        bool *obtained, Error **errp)
->  {
-> +    struct sockaddr_dl *sdp;
-> +
->      *obtained =3D false;
-> +    if (ifa->ifa_addr->sa_family !=3D AF_LINK) {
-> +        /* We can get HW address only for AF_LINK family. */
-> +        g_debug("failed to get MAC address of %s", ifa->ifa_name);
-> +        return 0;
-> +    }
-> +
-> +    sdp =3D (struct sockaddr_dl *)ifa->ifa_addr;
-> +    memcpy(buf, sdp->sdl_data + sdp->sdl_nlen, ETHER_ADDR_LEN);
-> +    *obtained =3D true;
-> +
->      return 0;
->  }
->  #endif /* HAVE_GETIFADDRS */
-> --
-> 2.34.1
->
->
+>   tests/unit/crypto-tls-psk-helpers.c | 11 +++++------
+>   1 file changed, 5 insertions(+), 6 deletions(-)
 
---000000000000ad93f305ea219c97
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
-tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 3=
-, 2022 at 12:39 PM Alexander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@=
-virtuozzo.com">alexander.ivanov@virtuozzo.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">Replace a dumb function in com=
-mands-bsd.c by the code of HW address<br>
-getting.<br>
-<br>
-Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-Signed-off-by: Alexander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@virt=
-uozzo.com" target=3D"_blank">alexander.ivanov@virtuozzo.com</a>&gt;<br>
----<br>
-=C2=A0qga/commands-bsd.c | 14 ++++++++++++++<br>
-=C2=A01 file changed, 14 insertions(+)<br>
-<br>
-diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c<br>
-index 40f7ec7600..5f423a4710 100644<br>
---- a/qga/commands-bsd.c<br>
-+++ b/qga/commands-bsd.c<br>
-@@ -20,6 +20,8 @@<br>
-=C2=A0#include &lt;sys/param.h&gt;<br>
-=C2=A0#include &lt;sys/ucred.h&gt;<br>
-=C2=A0#include &lt;sys/mount.h&gt;<br>
-+#include &lt;net/if_dl.h&gt;<br>
-+#include &lt;net/ethernet.h&gt;<br>
-=C2=A0#include &lt;paths.h&gt;<br>
-<br>
-=C2=A0#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)<br>
-@@ -179,7 +181,19 @@ GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp=
-)<br>
-=C2=A0int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0bool *obtained, Error **errp)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 struct sockaddr_dl *sdp;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0*obtained =3D false;<br>
-+=C2=A0 =C2=A0 if (ifa-&gt;ifa_addr-&gt;sa_family !=3D AF_LINK) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* We can get HW address only for AF_LINK fami=
-ly. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;failed to get MAC address of %s&=
-quot;, ifa-&gt;ifa_name);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 sdp =3D (struct sockaddr_dl *)ifa-&gt;ifa_addr;<br>
-+=C2=A0 =C2=A0 memcpy(buf, sdp-&gt;sdl_data + sdp-&gt;sdl_nlen, ETHER_ADDR_=
-LEN);<br>
-+=C2=A0 =C2=A0 *obtained =3D true;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-=C2=A0#endif /* HAVE_GETIFADDRS */<br>
--- <br>
-2.34.1<br>
-<br>
-</blockquote></div>
-
---000000000000ad93f305ea219c97--
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
