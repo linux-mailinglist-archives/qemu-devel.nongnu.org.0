@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72345F31F6
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 16:28:57 +0200 (CEST)
-Received: from localhost ([::1]:44824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BF15F3206
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 16:37:01 +0200 (CEST)
+Received: from localhost ([::1]:36282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofMRE-0008NW-F8
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 10:28:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35332)
+	id 1ofMZ2-0004Jn-FH
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 10:37:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ofML2-0000cB-S5; Mon, 03 Oct 2022 10:22:32 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:41503)
+ id 1ofMNl-00042f-2r
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 10:25:21 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ofML1-0007ow-D4; Mon, 03 Oct 2022 10:22:32 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- fn7-20020a05600c688700b003b4fb113b86so5944033wmb.0; 
- Mon, 03 Oct 2022 07:22:30 -0700 (PDT)
+ id 1ofMNi-0008Kw-I0
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 10:25:20 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id b7so9387393wrq.9
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 07:25:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date;
- bh=ruftJfDTsQy8mpz59In5NxaGnciYDBSuMJMvRoqVi+0=;
- b=oWEO41HaCCWO6nNGgdgnC/kzifvHyG4oBA7c+W0dvX5pOPXP0PdNdV99GALgVxBDn7
- HYIGVmKXyoMktp67kflfpzARotp7UXoRLydOzKiPGWl4QPIjatBFW97WVJpHouxlC6LO
- EGI7B5SBwwZYphc1FEL/ZjEu2RkdYU2qsZEH1MbLqaoOU6Boe+4g6KLwzhSp+BoaxVWj
- LlyRwlBSSUZT7dg10VtE+2i9Ld5v1aefdOMarT6hYHTyv0ccee9dZxTFqbquZ/5nOd3E
- j0llnXz5P9T1md5gv+nQpTxOmtGI0/NcKoIV3JPGhDnJHzhNQO8fzzR1NHzFjqExdXzn
- eMYQ==
+ bh=ckh4LpF/A1SpuWt25MOlLv5GtschqWHTfmzSCL57Y3w=;
+ b=GWURA5kltpAmHrd/8A8HPmNW91b0eHcB3AIPCpcrwrf8MWAbdvzgYJYvgCifQhAa9F
+ coclkph4MTdckrZrwMTOeVGk5nrFyKkA8w9XZWFRF6wUUCLG4dVyUct0VixroDldTqPJ
+ KRuKBbMaYZ5ka/S6TREC+BtoWEbBJBJAiP7LADVq9vbos/6fRkBrw4lCIvtlzaKhS3N3
+ Civ6xtbeIDdWbNI87Z5EsEukbgPczxlNGN7MJfXcCL8NasVC7WKBM5crIyeou/4Hastc
+ 1loJAPyx0uHyLPVpQhAhycjL4Hj7GsInIn8i5EEeDk22CCfEPan9/t44W3bOHc8aHm0f
+ pZNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=ruftJfDTsQy8mpz59In5NxaGnciYDBSuMJMvRoqVi+0=;
- b=ykVrPxNLSBnS4QTyLU4SfvniwVPgN5BYcINt6ceQ1M1+gRgz0EtTiKwxTgX/o8Yple
- KkMVjanNqMFpvE9/FludCDxtrpV+Cy167foRBXS7efNd1mh+QYh0frvThLMeWcgTJZbP
- 0cY2Wzf4yq7/B69ljXSvWQJEnAawFEb3e04cEHRRF9dbh1fEpwXvRVygYhfeb1WW2mVI
- 4iaSLZjTVdIwL72AhRRjtqAC0ADGaX1WKDQx7hz+ylGj1jy3b/rFVpOUpfsKpAPfiH7z
- 1Rq+XaSO8JNqAdyNCFnrqT9vPnrKKMftwszI49lReclBKt+HV4kbFumYPymnnWoGOjYL
- eUVw==
-X-Gm-Message-State: ACrzQf0iOiXT45meJ9+TaVVIRk7hnCmtik/S7PDv0zWhTSI7//ko2MX5
- ME+WCaC+sdLaKLcAaYMMsXw=
-X-Google-Smtp-Source: AMsMyM790py0XoYzAyBGUKzJylkrgkskj+CAt8a6KhfGz/IacXZiU3JEpBT0UukxBuAUKIy4jjKR9w==
-X-Received: by 2002:a7b:c050:0:b0:3b4:fae1:6bce with SMTP id
- u16-20020a7bc050000000b003b4fae16bcemr6873795wmc.131.1664806949602; 
- Mon, 03 Oct 2022 07:22:29 -0700 (PDT)
+ bh=ckh4LpF/A1SpuWt25MOlLv5GtschqWHTfmzSCL57Y3w=;
+ b=KnMTR+bg9MUMXRoZIQ347guezwqVYDmISc6BBSlKLkTCSqF9ftknQnQrNSWhBcnQSU
+ B7FaCJFn9D/S3T4KumDcaaz3GNW7+bYolXUzglN2HwoZWPBRexvBQhAy0u+VkcYOLR5m
+ 9JAidf+lOE6VfvthMwpDc9CE3rdetlD8gwoMuifS5zSStdxr5zBlgIMb3JmhVAULW7fQ
+ J3yAjOk9rT+6otgaT09TS0xa86tjZHaBInQJza5Jydv/6Dk1QJCttqohgUGUkNZS2cC9
+ 6zAcjtKlpT/sigcX8XhZHDpGNOaXrbNW+UUatXAVZq8ES8zho8WVdHNBzJ1yF7OG0jZE
+ v2sw==
+X-Gm-Message-State: ACrzQf3lpMN7wUWcAOb5+/xGNiugTLuCsZ3uBl4LH5YKmXCF+R/V88RJ
+ KYZmqEuDEB9D6kFV1U//DzE=
+X-Google-Smtp-Source: AMsMyM4/lhMorkCMutsYpOWf1O53XPTJ9bLCJmDnhA9RRjJ7Ai+PbiXCDnuhbpo87xlJq5I1vj3amw==
+X-Received: by 2002:a5d:5a16:0:b0:22c:a07c:649e with SMTP id
+ bq22-20020a5d5a16000000b0022ca07c649emr12467648wrb.107.1664807116407; 
+ Mon, 03 Oct 2022 07:25:16 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- e16-20020a05600c2dd000b003a83ca67f73sm12094711wmh.3.2022.10.03.07.22.28
+ r15-20020adfe68f000000b00228daaa84aesm9927127wrm.25.2022.10.03.07.25.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Oct 2022 07:22:28 -0700 (PDT)
-Message-ID: <e011bb71-2ff3-616f-5554-4845e8800f1e@amsat.org>
-Date: Mon, 3 Oct 2022 16:22:27 +0200
+ Mon, 03 Oct 2022 07:25:15 -0700 (PDT)
+Message-ID: <663a81da-8901-0bb8-826e-e2201077e10c@amsat.org>
+Date: Mon, 3 Oct 2022 16:25:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v5 5/9] target/arm: Remove gen_exception_internal_insn pc
- argument
+Subject: Re: [PATCH] Hexagon (gen_tcg_funcs.py): avoid duplicated tcg code on
+ A_CVI_NEW
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-References: <20220930220312.135327-1-richard.henderson@linaro.org>
- <20220930220312.135327-6-richard.henderson@linaro.org>
-In-Reply-To: <20220930220312.135327-6-richard.henderson@linaro.org>
+To: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>,
+ qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com
+References: <fa706b192b2a3a0ffbd399fa8dbf0d5b2c5b82d9.1664568492.git.quic_mathbern@quicinc.com>
+In-Reply-To: <fa706b192b2a3a0ffbd399fa8dbf0d5b2c5b82d9.1664568492.git.quic_mathbern@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -96,15 +97,20 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/10/22 00:03, Richard Henderson wrote:
-> In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
-> Since we always pass dc->pc_curr, fold the arithmetic to zero displacement.
+On 30/9/22 22:08, Matheus Tavares Bernardino wrote:
+> Hexagon instructions with the A_CVI_NEW attribute produce a vector value
+> that can be used in the same packet. The python function responsible for
+> generating code for such instructions has a typo ("if" instead of
+> "elif"), which makes genptr_dst_write_ext() be executed twice, thus also
+> generating the same tcg code twice. Fortunately, this doesn't cause any
+> problems for correctness, but it is less efficient than it could be. Fix
+> it by using an "elif" and avoiding the unnecessary extra code gen.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Matheus Tavares Bernardino <quic_mathbern@quicinc.com>
 > ---
->   target/arm/translate-a64.c |  6 +++---
->   target/arm/translate.c     | 10 +++++-----
->   2 files changed, 8 insertions(+), 8 deletions(-)
+>   target/hexagon/gen_tcg_funcs.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
