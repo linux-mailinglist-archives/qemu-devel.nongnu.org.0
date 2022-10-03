@@ -2,36 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4CA5F3758
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 22:52:26 +0200 (CEST)
-Received: from localhost ([::1]:51862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDDD95F380B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 23:47:03 +0200 (CEST)
+Received: from localhost ([::1]:44736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofSQL-0001NU-6s
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 16:52:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51418)
+	id 1ofTHC-00079E-Uk
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 17:47:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ofRok-00055q-UV; Mon, 03 Oct 2022 16:13:42 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:20462)
+ id 1ofRtT-0005X8-NO; Mon, 03 Oct 2022 16:18:28 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:51057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ofRoi-00010a-KU; Mon, 03 Oct 2022 16:13:34 -0400
+ id 1ofRtR-0001em-2I; Mon, 03 Oct 2022 16:18:27 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A795975A168;
- Mon,  3 Oct 2022 22:13:27 +0200 (CEST)
+ by localhost (Postfix) with SMTP id E0B5074633D;
+ Mon,  3 Oct 2022 22:18:17 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 86CCF75A167; Mon,  3 Oct 2022 22:13:27 +0200 (CEST)
-Message-Id: <63d4cc99f5ba33e12a586ed99c1f9cc6bcd1cd3c.1664827008.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1664827008.git.balaton@eik.bme.hu>
-References: <cover.1664827008.git.balaton@eik.bme.hu>
+ id A6758746335; Mon,  3 Oct 2022 22:18:17 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id A50EB746324;
+ Mon,  3 Oct 2022 22:18:17 +0200 (CEST)
+Date: Mon, 3 Oct 2022 22:18:17 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v3 13/13] mac_nvram: Use NVRAM_SIZE constant
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Mon,  3 Oct 2022 22:13:27 +0200 (CEST)
-X-Spam-Probability: 8%
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH v2 05/13] mac_oldworld: Do not open code sysbus_mmio_map()
+In-Reply-To: <abb304ac-62d4-be01-4977-23b8e37e9b1b@ilande.co.uk>
+Message-ID: <f9f057f3-b57a-d193-f2cd-afc1ed031ba@eik.bme.hu>
+References: <cover.1664108862.git.balaton@eik.bme.hu>
+ <f6b0aa3528e9bd538c7111cd29e89a0c3623fbe5.1664108862.git.balaton@eik.bme.hu>
+ <7bc0d445-009e-ba7c-d79f-5c67e5b9ddd3@ilande.co.uk>
+ <41707493-e27f-53b3-dcde-4543670b7c@eik.bme.hu>
+ <abb304ac-62d4-be01-4977-23b8e37e9b1b@ilande.co.uk>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="3866299591-1496363534-1664828297=:51946"
+X-Spam-Probability: 9%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
 X-Spam_score_int: -41
@@ -54,65 +63,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The NVRAM_SIZE constant was defined but not used. Rename it to
-MACIO_NVRAM_SIZE to match the device model and use it where appropriate.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- hw/misc/macio/macio.c        | 2 +-
- hw/ppc/mac_newworld.c        | 4 ++--
- include/hw/nvram/mac_nvram.h | 3 +--
- 3 files changed, 4 insertions(+), 5 deletions(-)
+--3866299591-1496363534-1664828297=:51946
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 93a7c7bbc8..08dbdd7fc0 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -226,7 +226,7 @@ static void macio_oldworld_init(Object *obj)
- 
-     object_initialize_child(OBJECT(s), "nvram", &os->nvram, TYPE_MACIO_NVRAM);
-     dev = DEVICE(&os->nvram);
--    qdev_prop_set_uint32(dev, "size", 0x2000);
-+    qdev_prop_set_uint32(dev, "size", MACIO_NVRAM_SIZE);
-     qdev_prop_set_uint32(dev, "it_shift", 4);
- 
-     for (i = 0; i < 2; i++) {
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 7a12949fc1..50bbd86099 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -451,12 +451,12 @@ static void ppc_core99_init(MachineState *machine)
-         nvram_addr = 0xFFE00000;
-     }
-     dev = qdev_new(TYPE_MACIO_NVRAM);
--    qdev_prop_set_uint32(dev, "size", 0x2000);
-+    qdev_prop_set_uint32(dev, "size", MACIO_NVRAM_SIZE);
-     qdev_prop_set_uint32(dev, "it_shift", 1);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, nvram_addr);
-     nvr = MACIO_NVRAM(dev);
--    pmac_format_nvram_partition(nvr, 0x2000);
-+    pmac_format_nvram_partition(nvr, MACIO_NVRAM_SIZE);
-     /* No PCI init: the BIOS will do it */
- 
-     dev = qdev_new(TYPE_FW_CFG_MEM);
-diff --git a/include/hw/nvram/mac_nvram.h b/include/hw/nvram/mac_nvram.h
-index baa9f6a5a6..b780aca470 100644
---- a/include/hw/nvram/mac_nvram.h
-+++ b/include/hw/nvram/mac_nvram.h
-@@ -29,9 +29,8 @@
- #include "exec/memory.h"
- #include "hw/sysbus.h"
- 
--#define NVRAM_SIZE        0x2000
-+#define MACIO_NVRAM_SIZE 0x2000
- 
--/* Mac NVRAM */
- #define TYPE_MACIO_NVRAM "macio-nvram"
- OBJECT_DECLARE_SIMPLE_TYPE(MacIONVRAMState, MACIO_NVRAM)
- 
--- 
-2.30.4
+On Mon, 3 Oct 2022, Mark Cave-Ayland wrote:
+> On 29/09/2022 12:32, BALATON Zoltan wrote:
+>
+>> On Thu, 29 Sep 2022, Mark Cave-Ayland wrote:
+>>> On 25/09/2022 13:38, BALATON Zoltan wrote:
+>>> 
+>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>> ---
+>>>>   hw/ppc/mac_oldworld.c | 8 ++------
+>>>>   1 file changed, 2 insertions(+), 6 deletions(-)
+>>>> 
+>>>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+>>>> index cb67e44081..75fbd2a7df 100644
+>>>> --- a/hw/ppc/mac_oldworld.c
+>>>> +++ b/hw/ppc/mac_oldworld.c
+>>>> @@ -218,16 +218,12 @@ static void ppc_heathrow_init(MachineState 
+>>>> *machine)
+>>>>       qdev_prop_set_uint32(grackle_dev, "ofw-addr", 0x80000000);
+>>>>       s = SYS_BUS_DEVICE(grackle_dev);
+>>>>       sysbus_realize_and_unref(s, &error_fatal);
+>>>> -
+>>>>       sysbus_mmio_map(s, 0, GRACKLE_BASE);
+>>>>       sysbus_mmio_map(s, 1, GRACKLE_BASE + 0x200000);
+>>>>       /* PCI hole */
+>>>> -    memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
+>>>> -                                sysbus_mmio_get_region(s, 2));
+>>>> +    sysbus_mmio_map(s, 2, 0x80000000);
+>>>>       /* Register 2 MB of ISA IO space */
+>>>> -    memory_region_add_subregion(get_system_memory(), 0xfe000000,
+>>>> -                                sysbus_mmio_get_region(s, 3));
+>>>> -
+>>>> +    sysbus_mmio_map(s, 3, 0xfe000000);
+>>>>       pci_bus = PCI_HOST_BRIDGE(grackle_dev)->bus;
+>>>>         /* MacIO */
+>>> 
+>>> Please drop this patch for now. The code was written on assumption that 
+>>> both sysbus and sysbus devices would be going away soon, and there are 
+>>> certainly discussions under way about coming up with a migration strategy 
+>>> to allow them to be completely removed.
+>> 
+>> This patch actually simplifies transition from sysbus to whatever else will 
+>> be decided because then you'll surely have a way to replace 
+>> sysbus_mmio_map() that's used everywhere else with something. This file now 
+>> has both sysbus_mmio_map and sysbus mmio_get_region so using only one will 
+>> make it easier to convert it and until then it's easier to read so I don't 
+>> agree with this suggestion and want to stick to these patches (same with 
+>> uninorth). Please reconsider your decision.
+>
+> When sysbus eventually goes then mapping devices will most likely be handled 
+> by the memory API as above rather than using an explicit _map() API, so let's 
+> keep that rather than converting everything to use sysbus_mmio_map().
 
+Hopefully not as that would make code very unreadable and hard to get for 
+people unfamiliar with QOM so to not scare off potential contributors 
+please invent an easier way, at least define a macro or a function for 
+such common operation when sysus goes away. But it may be a long time 
+until sysbus will be gone and until then we leave this code inconsistent 
+now using two ways to map areaswhich I don't agree with but since you 
+cannot be convinced I've dropped these changes for now.
+
+Regards,
+BALATON Zoltan
+--3866299591-1496363534-1664828297=:51946--
 
