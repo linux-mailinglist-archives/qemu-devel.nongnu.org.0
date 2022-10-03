@@ -2,97 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C885F2C92
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 10:57:37 +0200 (CEST)
-Received: from localhost ([::1]:36470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8765B5F2CCC
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 11:08:01 +0200 (CEST)
+Received: from localhost ([::1]:46144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofHGZ-0006jo-OE
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 04:57:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40784)
+	id 1ofHQe-0004mq-8F
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 05:08:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ofHBr-0002A1-TH
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 04:52:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52129)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ofHBp-0003m8-N8
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 04:52:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664787160;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BNgMC5014HTxMbDrKRAmpGh1V5voXrR8mGN+O3bwnt8=;
- b=A7RC4MzqpH/WwrV+OqPWX1V7v7V+Ib5CpLUNpbB8nSACSAQTkNsHIk9wUBz6+rDOSHgRF6
- U7gNfmMdVvqzNGhR1BhbxEsJL8QLGCuWlTQC9pZjUsOdyZOPZTnzP/UesZZlUOJ1hfQel4
- g/JEBTtPOcM0mUgNqzg21anYsYsWtlY=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-421-hAnoJcfLPDu4tuHvKbcyQw-1; Mon, 03 Oct 2022 04:52:39 -0400
-X-MC-Unique: hAnoJcfLPDu4tuHvKbcyQw-1
-Received: by mail-qt1-f197.google.com with SMTP id
- h7-20020ac85047000000b0035a6794699bso6834147qtm.3
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 01:52:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofHEf-0005Yk-RH
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 04:55:38 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36376)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofHEd-0004Ho-L7
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 04:55:37 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id j7so10298238wrr.3
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 01:55:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=08HwBk9q/bKHJzTRL/aaEMzixoYjRm41e3KZTsLNYR8=;
+ b=xN+/eUvpbzSIrlfSnCdHQteLLFPXm87uk8RO+8s/nkrWlrJDD0bl+iz6Zp3S/sxuM5
+ 8duk7ry1S+78/H3xlONWqlGE1Jd+qJJNnIYnJVW7eCuLeki0Cf7erJA7qYjFDj3jDPiI
+ cDX1igEQQhBZxkUcycP03UmuXXDjPmDaYgCJGYrhaXIWm5IgpRkPMEdJcJmyX9bFATXD
+ wzGSKzci5Hv5HcUXIP9O6YCyuV6hlayO+PsezwNzQoB/wp9hkhDMo4Aq3Yv3947CCwN6
+ hOknDJe6pS9wRFfPdm9Kaz1gJ8ojpYxs+ir9fX6M/OSkUn7Wo+u3n23KKR+fx6cGbyPv
+ 9drQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=BNgMC5014HTxMbDrKRAmpGh1V5voXrR8mGN+O3bwnt8=;
- b=aqfKvhFZO7bnKuzw0nJFF+CAJ+AkFAy2hjM6yBGAi7FA+ZySwBdrT3fVg8iZENq7yk
- T+WOdUbIDqr4PCH2uQxKrsWnPyMzDqgG/Ngu+w4EKTrKmPbu3zepmnO9eoDPnrpR7Nzj
- dYzhmgIdj8zdIQV26rZJblOM+nzXNyypyuIUHt3reny1iw1p0rgZOpbH3fmXGXW78x5A
- AqX+K0uVKOLkSlt5BtiRKO4I0vTYnsnkCWLs0tIbEgThKX3emaKnyO1e3CzOqFh1js14
- /5y54YWHM42zccTiDF/OaE/Q+lgLXJKmMHdNOxHLsjRZOwXVhnVlmmYpyDirgjToIrF/
- mUpQ==
-X-Gm-Message-State: ACrzQf1twzOzTSGtyQH9PyJn9xp7d9eZFybXb36AktY2TbKnDjQiR0Vu
- Erl0kbj0aq3tkHg7CjuLJxcRw7mA7jaRfs8F8nFGVzVqIYykpExbKe79+k29L250HO5cPs62xX6
- uzqSaOfO0iHDunMU=
-X-Received: by 2002:a05:620a:16ba:b0:6ce:d74f:8268 with SMTP id
- s26-20020a05620a16ba00b006ced74f8268mr12982577qkj.370.1664787158751; 
- Mon, 03 Oct 2022 01:52:38 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4xXL05mL1UTaiZ5uT7+5LOf9RQhEvRMlaQ/x1/5guBjhWQtjxr7k+Dl2CFKTbAJXcOSxlGjg==
-X-Received: by 2002:a05:620a:16ba:b0:6ce:d74f:8268 with SMTP id
- s26-20020a05620a16ba00b006ced74f8268mr12982574qkj.370.1664787158501; 
- Mon, 03 Oct 2022 01:52:38 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=08HwBk9q/bKHJzTRL/aaEMzixoYjRm41e3KZTsLNYR8=;
+ b=rVL3DuVEaJxxLCCnlk3urEDE2kYKrP+qdqkwyJOs5qqbibWe4IFWS7GGaCCU2VADUy
+ mqNWV/8mr7U0WouIlow55DzN1+ra36hELZNwO0p9TZ8BINxR/wmjd2ZHye7oEQRrYIqC
+ hdjaT50WzoNLfyPZtfPKGVYyXmpb9Woa8shtyCZIFnjS0s2A6X7LRRuPBXvKMk8eEsIm
+ d4pfClCPfxIS4L1MymwMzieQcDRCf6SifUoMch9nQo5yk5SxuG9ou7drxGtDeI7jt4+T
+ Jrx/M2VwudqWX2XkAFHrBfBqZchGAXwgqycHx+ReMWXVL5aOhpMJFji86f17Fa9k64Xw
+ tLug==
+X-Gm-Message-State: ACrzQf38PEtG/suKr9HLNxSrtpl3R7ND72LL6lySQJ8USB/fWcPILs2I
+ rZEUwBmHZiA1LWSYVJrDWWDizQ==
+X-Google-Smtp-Source: AMsMyM4bPfq0dvy/dsnZvTCTqQJvXB8wrUyHE0bieDYgI9GSh/Xdz9n02waiHods7vtWHTXjkhZoew==
+X-Received: by 2002:a5d:47c5:0:b0:22a:6c7a:10f3 with SMTP id
+ o5-20020a5d47c5000000b0022a6c7a10f3mr11743570wrc.523.1664787333888; 
+ Mon, 03 Oct 2022 01:55:33 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m13-20020a05620a24cd00b006cbcdc6efedsm10776508qkn.41.2022.10.03.01.52.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Oct 2022 01:52:37 -0700 (PDT)
-Message-ID: <dc4bf265-4cd9-ef29-2e3f-d15e779bd8db@redhat.com>
-Date: Mon, 3 Oct 2022 10:52:33 +0200
+ q16-20020a7bce90000000b003b3401f1e24sm10978196wmj.28.2022.10.03.01.55.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Oct 2022 01:55:33 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 906BC1FFB7;
+ Mon,  3 Oct 2022 09:55:32 +0100 (BST)
+References: <20220822132358.3524971-1-peter.maydell@linaro.org>
+ <20220822132358.3524971-4-peter.maydell@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-arm@nongnu.org
+Subject: Re: [PATCH v2 03/10] target/arm: Don't mishandle count when
+ enabling or disabling PMU counters
+Date: Mon, 03 Oct 2022 09:54:30 +0100
+In-reply-to: <20220822132358.3524971-4-peter.maydell@linaro.org>
+Message-ID: <87sfk5nv5n.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 2/2] thread-pool: use ThreadPool from the running thread
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org
-References: <20220609134452.1146309-1-eesposit@redhat.com>
- <20220609134452.1146309-3-eesposit@redhat.com> <YzW6FkfT9LT7aE7d@redhat.com>
- <29c33add-81ca-5a16-a02a-d2a0c5bfaf88@redhat.com>
- <YzcPBFcf3idA4MLH@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YzcPBFcf3idA4MLH@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.086, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,89 +97,153 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Am 30/09/2022 um 17:45 schrieb Kevin Wolf:
-> Am 30.09.2022 um 14:17 hat Emanuele Giuseppe Esposito geschrieben:
->> Am 29/09/2022 um 17:30 schrieb Kevin Wolf:
->>> Am 09.06.2022 um 15:44 hat Emanuele Giuseppe Esposito geschrieben:
->>>> Remove usage of aio_context_acquire by always submitting work items
->>>> to the current thread's ThreadPool.
->>>>
->>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>>
->>> The thread pool is used by things outside of the file-* block drivers,
->>> too. Even outside the block layer. Not all of these seem to submit work
->>> in the same thread.
->>>
->>>
->>> For example:
->>>
->>> postcopy_ram_listen_thread() -> qemu_loadvm_state_main() ->
->>> qemu_loadvm_section_start_full() -> vmstate_load() ->
->>> vmstate_load_state() -> spapr_nvdimm_flush_post_load(), which has:
->>>
->>> ThreadPool *pool = aio_get_thread_pool(qemu_get_aio_context());
->>> ...
->>> thread_pool_submit_aio(pool, flush_worker_cb, state,
->>>                        spapr_nvdimm_flush_completion_cb, state);
->>>
->>> So it seems to me that we may be submitting work for the main thread
->>> from a postcopy migration thread.
->>>
->>> I believe the other direct callers of thread_pool_submit_aio() all
->>> submit work for the main thread and also run in the main thread.
->>>
->>>
->>> For thread_pool_submit_co(), pr_manager_execute() calls it with the pool
->>> it gets passed as a parameter. This is still bdrv_get_aio_context(bs) in
->>> hdev_co_ioctl() and should probably be changed the same way as for the
->>> AIO call in file-posix, i.e. use qemu_get_current_aio_context().
->>>
->>>
->>> We could consider either asserting in thread_pool_submit_aio() that we
->>> are really in the expected thread, or like I suggested for LinuxAio drop
->>> the pool parameter and always get it from the current thread (obviously
->>> this is only possible if migration could in fact schedule the work on
->>> its current thread - if it schedules it on the main thread and then
->>> exits the migration thread (which destroys the thread pool), that
->>> wouldn't be good).
->>
->> Dumb question: why not extend the already-existing poll->lock to cover
->> also the necessary fields like pool->head that are accessed by other
->> threads (only case I could find with thread_pool_submit_aio is the one
->> you pointed above)?
-> 
-> Other people are more familiar with this code, but I believe this could
-> have performance implications. I seem to remember that this code is
-> careful to avoid locking to synchronise between worker threads and the
-> main thread.
-> 
-> But looking at the patch again, I have actually a dumb question, too:
-> The locking you're removing is in thread_pool_completion_bh(). As this
-> is a BH, it's running the the ThreadPool's context either way, no matter
-> which thread called thread_pool_submit_aio().
-> 
-> I'm not sure what this aio_context_acquire/release pair is actually
-> supposed to protect. Paolo's commit 1919631e6b5 introduced it. Was it
-> just more careful than it needs to be?
-> 
+> The PMU cycle and event counter infrastructure design requires that
+> operations on the PMU register fields are wrapped in pmu_op_start()
+> and pmu_op_finish() calls (or their more specific pmmcntr and
+> pmevcntr equivalents).  This includes any changes to registers which
+> affect whether the counter should be enabled or disabled, but we
+> forgot to do this.
+>
+> The effect of this bug is that in sequences like:
+>  * disable the cycle counter (PMCCNTR) using the PMCNTEN register
+>  * write a value such as 0xfffff000 to the PMCCNTR
+>  * restart the counter by writing to PMCNTEN
+> the value written to the cycle counter is corrupted, and it starts
+> counting from the wrong place. (Essentially, we fail to record that
+> the QEMU_CLOCK_VIRTUAL timestamp when the counter should be considered
+> to have started counting is the point when PMCNTEN is written to enable
+> the counter.)
+>
+> Add the necessary bracketing calls, so that updates to the various
+> registers which affect whether the PMU is counting are handled
+> correctly.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-I think the goal is still to protect pool->head, but if so the
-aiocontext lock is put in the wrong place, because as you said the bh is
-always run in the thread pool context. Otherwise it seems to make no sense.
+I'm not sure why but this commit seems to be breaking a bunch of avocado
+tests for me, including the TCG plugin ones:
 
-On the other side, thread_pool_submit_aio could be called by other
-threads on behalf of the main loop, which means pool->head could be
-modified (iothread calls thread_pool_submit_aio) while being read by the
-main loop (another worker thread schedules thread_pool_completion_bh).
+  =E2=9E=9C  ./tests/venv/bin/avocado run tests/avocado/tcg_plugins.py:test=
+_aarch64_virt_insn_icount
+  JOB ID     : 0f5647d95f678e73fc01730cf9f8d7f80118443e
+  JOB LOG    : /home/alex/avocado/job-results/job-2022-10-02T20.19-0f5647d/=
+job.log
+   (1/1) tests/avocado/tcg_plugins.py:PluginKernelNormal.test_aarch64_virt_=
+insn_icount: INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurre=
+d: Timeout reached\nOrigi
+  nal status: ERROR\n{'name': '1-tests/avocado/tcg_plugins.py:PluginKernelN=
+ormal.test_aarch64_virt_insn_icount', 'logdir': '/home/alex/avocado/job-res=
+ults/job-2022-10-02T20.19
+  -0f5647d/te... (120.43 s)
+  RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 1 | =
+CANCEL 0
+  JOB TIME   : 120.72 s
 
-What are the performance implications? I mean, if the aiocontext lock in
-the bh is actually useful and the bh really has to wait to take it,
-being taken in much more places throughout the block layer won't be
-better than extending the poll->lock I guess.
+> ---
+> v1->v2: fixed comment typo
+> ---
+>  target/arm/helper.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 45 insertions(+)
+>
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 87c89748954..59e1280a9cd 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -1079,6 +1079,14 @@ static CPAccessResult pmreg_access_ccntr(CPUARMSta=
+te *env,
+>      return pmreg_access(env, ri, isread);
+>  }
+>=20=20
+> +/*
+> + * Bits in MDCR_EL2 and MDCR_EL3 which pmu_counter_enabled() looks at.
+> + * We use these to decide whether we need to wrap a write to MDCR_EL2
+> + * or MDCR_EL3 in pmu_op_start()/pmu_op_finish() calls.
+> + */
+> +#define MDCR_EL2_PMU_ENABLE_BITS (MDCR_HPME | MDCR_HPMD | MDCR_HPMN)
+> +#define MDCR_EL3_PMU_ENABLE_BITS (MDCR_SPME)
+> +
+>  /* Returns true if the counter (pass 31 for PMCCNTR) should count events=
+ using
+>   * the current EL, security state, and register configuration.
+>   */
+> @@ -1432,15 +1440,19 @@ static uint64_t pmccfiltr_read_a32(CPUARMState *e=
+nv, const ARMCPRegInfo *ri)
+>  static void pmcntenset_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>                              uint64_t value)
+>  {
+> +    pmu_op_start(env);
+>      value &=3D pmu_counter_mask(env);
+>      env->cp15.c9_pmcnten |=3D value;
+> +    pmu_op_finish(env);
+>  }
+>=20=20
+>  static void pmcntenclr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>                               uint64_t value)
+>  {
+> +    pmu_op_start(env);
+>      value &=3D pmu_counter_mask(env);
+>      env->cp15.c9_pmcnten &=3D ~value;
+> +    pmu_op_finish(env);
+>  }
+>=20=20
+>  static void pmovsr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+> @@ -4681,7 +4693,39 @@ static void sctlr_write(CPUARMState *env, const AR=
+MCPRegInfo *ri,
+>  static void sdcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>                         uint64_t value)
+>  {
+> +    /*
+> +     * Some MDCR_EL3 bits affect whether PMU counters are running:
+> +     * if we are trying to change any of those then we must
+> +     * bracket this update with PMU start/finish calls.
+> +     */
+> +    bool pmu_op =3D (env->cp15.mdcr_el3 ^ value) & MDCR_EL3_PMU_ENABLE_B=
+ITS;
+> +
+> +    if (pmu_op) {
+> +        pmu_op_start(env);
+> +    }
+>      env->cp15.mdcr_el3 =3D value & SDCR_VALID_MASK;
+> +    if (pmu_op) {
+> +        pmu_op_finish(env);
+> +    }
+> +}
+> +
+> +static void mdcr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
+> +                           uint64_t value)
+> +{
+> +    /*
+> +     * Some MDCR_EL2 bits affect whether PMU counters are running:
+> +     * if we are trying to change any of those then we must
+> +     * bracket this update with PMU start/finish calls.
+> +     */
+> +    bool pmu_op =3D (env->cp15.mdcr_el2 ^ value) & MDCR_EL2_PMU_ENABLE_B=
+ITS;
+> +
+> +    if (pmu_op) {
+> +        pmu_op_start(env);
+> +    }
+> +    env->cp15.mdcr_el2 =3D value;
+> +    if (pmu_op) {
+> +        pmu_op_finish(env);
+> +    }
+>  }
+>=20=20
+>  static const ARMCPRegInfo v8_cp_reginfo[] =3D {
+> @@ -7669,6 +7713,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+>          ARMCPRegInfo mdcr_el2 =3D {
+>              .name =3D "MDCR_EL2", .state =3D ARM_CP_STATE_BOTH,
+>              .opc0 =3D 3, .opc1 =3D 4, .crn =3D 1, .crm =3D 1, .opc2 =3D =
+1,
+> +            .writefn =3D mdcr_el2_write,
+>              .access =3D PL2_RW, .resetvalue =3D pmu_num_counters(env),
+>              .fieldoffset =3D offsetof(CPUARMState, cp15.mdcr_el2),
+>          };
 
-Thank you,
-Emanuele
 
+--=20
+Alex Benn=C3=A9e
 
