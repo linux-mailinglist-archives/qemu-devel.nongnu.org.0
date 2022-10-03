@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED965F27CF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 05:23:53 +0200 (CEST)
-Received: from localhost ([::1]:54764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AC0C5F27FA
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 06:18:09 +0200 (CEST)
+Received: from localhost ([::1]:57708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofC3d-0001xU-05
-	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 23:23:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60438)
+	id 1ofCu7-0005Ig-QK
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 00:18:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ofBwd-00061N-GL
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 23:16:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38940)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ofBwb-0007Yv-VG
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 23:16:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664766996;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DSlfKfX7T5ftvQhXO6YGaAgDqum1wou6/eQjCrOiJa4=;
- b=gJYXwi9ZuyiE1IGNBcMedX19pJ5QCaFR4Ym1a3OgAA6ASf63DwQEEjXKAVoc+F+yoVV6wE
- iWbVgCyxvyWQx7zbX0q8hXuanv+7l2m6DRIPYL0WDyqKWB8Vohqxn7ePMAW0Wrqj775CUJ
- xJSXopgkyG+eX50OLJEQrPHtcshKo5M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-219-a64570PfN1G7FGkV3o39pg-1; Sun, 02 Oct 2022 23:16:31 -0400
-X-MC-Unique: a64570PfN1G7FGkV3o39pg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA8AE85A583;
- Mon,  3 Oct 2022 03:16:30 +0000 (UTC)
-Received: from secure.mitica (unknown [10.39.192.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 875C940C206B;
- Mon,  3 Oct 2022 03:16:27 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Laurent Vivier <lvivier@redhat.com>, John Snow <jsnow@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Juan Quintela <quintela@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
-Subject: [RFC 7/7] migration: call qemu_savevm_state_pending_exact() with the
- guest stopped
-Date: Mon,  3 Oct 2022 05:16:00 +0200
-Message-Id: <20221003031600.20084-8-quintela@redhat.com>
-In-Reply-To: <20221003031600.20084-1-quintela@redhat.com>
-References: <20221003031600.20084-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1ofCps-0002YJ-5b
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 00:13:44 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:40519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1ofCpn-0006OV-GP
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 00:13:43 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-131fd187e35so8012894fac.7
+ for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 21:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=2s5aA7H/DcyAT0yC6i5cBhTjtpvMub8e5tlko1mxwZo=;
+ b=BNpG+wWoo3kE3uUnQ2djg0kLMicrjxZeufeb16Gs75DPQRpTIk97DCjeq9JkfTJPfO
+ XvB4RIq0eNyENx9bu0Z0PUVtgSi4qPSiUEpcTs/UJIYXNsLdbhUYo89KWS6swdL3dLd1
+ d83EDlkX4SpPdP2hl7F1tUvlEiJXYEfC+OOMxGbvAaGpy99jl0dM4r9Pv4cf5yDN+xTM
+ CvNJ0wcBKIFoMkDk5mFbzxAzlICMTwF5Fm7XkW/3/pYlKkGT0p0D+ZPxxEX5G9qSZgF/
+ ACDFhSaKBGTvegiYAqbZKszFX/FYkOqecIDh37ig6YfnI3KsEOKI0FtgmWb8p1dhlCMm
+ dTwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=2s5aA7H/DcyAT0yC6i5cBhTjtpvMub8e5tlko1mxwZo=;
+ b=qW9juNBeJ+Wg04sR+0Hh4EKB8OnnP8LJUxl5YDob7KJeiKSi5sXGGh98ZjVZ7Szdjf
+ nbjby7gMsY1Pir7xiKKIlIuQzVP84zDqKN7LEysYfVGKGbw9FxFVjuxUXlnic1RSIlzm
+ wWIKhTXG1c/nigbbFoow6wV3Rk5Gd3jttklGDMCtqd80I2sVFHC1Hh09eHgDcIfXLgH1
+ wHbtyjbxDc6YSN8JNG33u/AxRQ5u4bU0Wlzf7oTECQ3gsLB7FK5mxfXkog7sa7Ua4yVX
+ XT/YarrbqLV6eDZ2yTZLv5c3dMau5QaDcjUbCguf6Vt43VraOFteaLW46r+gTgM+C0CQ
+ DnHQ==
+X-Gm-Message-State: ACrzQf0TGUrHJP3+8M/xpr8Q8Sl3gb3L9UjRluCgLCryywvm93IumozK
+ svwuirfjTlbAf5zS2sXsCtzhB6eRiOnn/nD3Q6TNSg==
+X-Google-Smtp-Source: AMsMyM7bcvpJ/O7Vz890v16Rmex3t6CufY3oUw+ZZ1xIOawCvB0vih1RSb1dXlOvWwZCqI216zxhaHeNxTHKb+Byy5A=
+X-Received: by 2002:a05:6870:a91f:b0:131:bb72:7313 with SMTP id
+ eq31-20020a056870a91f00b00131bb727313mr4432316oab.90.1664770417546; Sun, 02
+ Oct 2022 21:13:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220930123239.15515-1-jim.shu@sifive.com>
+ <20220930123239.15515-3-jim.shu@sifive.com>
+ <CAJ307Ehp8Juy74EpmxyOTq6sVuPF+d-uLYD3T93ba4ZtRLxdBA@mail.gmail.com>
+ <CALw707rDW8GwB8fQHyARgY87ZRjPxOV387kZLKWOzqKVZj4=8w@mail.gmail.com>
+In-Reply-To: <CALw707rDW8GwB8fQHyARgY87ZRjPxOV387kZLKWOzqKVZj4=8w@mail.gmail.com>
+From: Jim Shu <jim.shu@sifive.com>
+Date: Mon, 3 Oct 2022 12:13:26 +0800
+Message-ID: <CALw707qgv6T8ybYEF+zwmDLFjNLqhr5+7Wrf0GrdsGM6bbim5Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hw/intc: sifive_plic: change interrupt priority
+ register to WARL field
+To: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=jim.shu@sifive.com; helo=mail-oa1-x2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,76 +91,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-HACK ahead.
+Hi Cl=C3=A9ment,
 
-There are devices that require the guest to be stopped to tell us what
-is the size of its state.  So we need to stop the vm "before" we
-cal the functions.
+> > > @@ -180,7 +180,15 @@ static void sifive_plic_write(void *opaque, hwad=
+dr addr, uint64_t value,
+> > >      if (addr_between(addr, plic->priority_base, plic->num_sources <<=
+ 2)) {
+> > >          uint32_t irq =3D ((addr - plic->priority_base) >> 2) + 1;
+> > >
+> > > -        if (value <=3D plic->num_priorities) {
+> > > +        if ((plic->num_priorities + 1) & (plic->num_priorities)) {
+> >
+> > That's the opposite. If n is a power of 2, n & (n-1) =3D=3D 0 (eg 8 & 7=
+ =3D=3D
+> >  0, 9 & 8 =3D=3D 8).
+> > Note that n must be positive too. But I'm not sure it matters here.
+> > I'll let you decide.
+> >
 
-It is a hack because:
-- we are "starting" the guest again to stop it in migration_complete()
-  I know, I know, but it is not trivial to get all the information
-  easily to migration_complete(), so this hack.
-
-- auto_converge test fails with this hack.  I think that it is related
-  to previous problem.  We start the guest when it is supposed to be
-  stopped for convergence reasons.
-
-- All experiments that I did to do the proper thing failed with having
-  the iothread_locked() or try to unlock() it when not locked.
-
-- several of the pending functions are using the iothread lock
-  themselves, so I need to split it to have two versions (one for the
-  _estimate() case with the iothread lock), and another for the
-  _exact() case without the iothread_lock().  I want comments about
-  this approach before I try to continue on this direction.
-
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/migration.c        | 13 +++++++++++++
- tests/qtest/migration-test.c |  3 ++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index 35e512887a..7374884818 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3742,7 +3742,20 @@ static MigIterateState migration_iteration_run(MigrationState *s)
-     trace_migrate_pending_estimate(pending_size, s->threshold_size, pend_pre, pend_post);
- 
-     if (pend_pre <= s->threshold_size) {
-+        int old_state = s->state;
-+        qemu_mutex_lock_iothread();
-+        // is this really necessary?  it works for me both ways.
-+        qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, NULL);
-+        s->vm_was_running = runstate_is_running();
-+        vm_stop_force_state(RUN_STATE_FINISH_MIGRATE);
-+        qemu_mutex_unlock_iothread();
-         qemu_savevm_state_pending_exact(&pend_pre, &pend_post);
-+        qemu_mutex_lock_iothread();
-+        runstate_set(old_state);
-+        if (s->vm_was_running) {
-+            vm_start();
-+        }
-+        qemu_mutex_unlock_iothread();
-         pending_size = pend_pre + pend_post;
-         trace_migrate_pending_exact(pending_size, s->threshold_size, pend_pre, pend_post);
-     }
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 0d153d6b5e..0541a842ec 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2564,7 +2564,8 @@ int main(int argc, char **argv)
-     qtest_add_func("/migration/validate_uuid_dst_not_set",
-                    test_validate_uuid_dst_not_set);
- 
--    qtest_add_func("/migration/auto_converge", test_migrate_auto_converge);
-+    if (0)
-+        qtest_add_func("/migration/auto_converge", test_migrate_auto_converge);
-     qtest_add_func("/migration/multifd/tcp/plain/none",
-                    test_multifd_tcp_none);
-     qtest_add_func("/migration/multifd/tcp/plain/cancel",
--- 
-2.37.2
-
+num_priorities is a uint32_t variable so that n is always positive.
 
