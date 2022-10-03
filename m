@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFAAE5F3171
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 15:46:10 +0200 (CEST)
-Received: from localhost ([::1]:58270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E62E95F3186
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 15:53:24 +0200 (CEST)
+Received: from localhost ([::1]:48798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofLlp-0007lT-JZ
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 09:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42214)
+	id 1ofLsp-0005fx-DY
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 09:53:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ofLic-0003FG-6L
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:42:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33939)
+ id 1ofLiu-0003eM-Ia
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:43:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ofLiX-00029I-QD
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:42:49 -0400
+ id 1ofLir-0002AU-7q
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:43:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664804563;
+ s=mimecast20190719; t=1664804584;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BGuZDw112TjBg2S0K+E19kIcnwQk6O9F4w0Y79yt7A0=;
- b=fcxAakcdgY916d6dpVkMYCI7vVYYjHH88Fd2Ysmg1vKLs8W2e0n6Jmy966+7lYnf0nvIBE
- YiFbiq6fHGn6/x8i3z4nRQLNrPk3dEjCmqTOch3ux+0JshqejKxLr57T5BJytilXB86QrZ
- ClIIWcn4MVWHq0AGW0ZaTCpgTvf+5tM=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qnPx8+rCl52gl2SNVSATWjrrGx7tS2IIKr6N6MbqG68=;
+ b=dnmEFdZu9tuiqQ5kVMZa8MV9J6SiD/Byq/di3XrEh3gUMCuVKPoQG2fEm/BDBylyid42WA
+ XAACJE3RcSu8rcDaMkq4lWdA1yIutuEdfcKjCROtT4rljoZjtLiSBBTEpskoNufwOAUnKZ
+ bXNpikRZ8F59oo022EOvK7ddSUkKN2c=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-551-ltfhzjzRMAe5WNkIlXwa0g-1; Mon, 03 Oct 2022 09:42:42 -0400
-X-MC-Unique: ltfhzjzRMAe5WNkIlXwa0g-1
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-349423f04dbso111297277b3.13
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 06:42:41 -0700 (PDT)
+ us-mta-376--Dw7Hhq4MN-a263-qqmQdw-1; Mon, 03 Oct 2022 09:43:03 -0400
+X-MC-Unique: -Dw7Hhq4MN-a263-qqmQdw-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ v17-20020a259d91000000b006b4c31c0640so10309650ybp.18
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 06:43:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=BGuZDw112TjBg2S0K+E19kIcnwQk6O9F4w0Y79yt7A0=;
- b=O5oMRsRwp2lTQ7xUOah5dVDV1vYhf8L+pwa9ID41XadK7bOfCqHiXVVMkiechJ1uOk
- WBr4a2UHioGUwlJHSLMeX/6vokmuLMY+qaJHz/G+0VqXZ+NdhbmdC9PY26cXC2n9stCV
- u9QUStaz+WfvT+Xsud461PyG673IceRvyBzkL8q//jrx1TkpcF3/BgkpSh2mHKV2Inck
- 4uyyQcPoqv/gB7ypxNFuCk8fEIkF6ujhoRPEZx2HFcI3Q0SzUYkYY+zHViPdglGJCiiD
- +eqsi3h4ji2VYgkk/7U8QIq6z0jSDgBBHJQu/8cwNIzkFsgPY6aAEkyWHeLZLsCUMUEA
- WGqw==
-X-Gm-Message-State: ACrzQf0FJ7V06LajUaOSrfv4hcWm3k7dfZ+AUnmNai1XT8xBP2137WDg
- vWAecNE4GRgqVWg17lT29IXZBb0bHyzKjcylsAQOYVORFJ7jvfPZkiuRJ7uovgNxYGjpF7HLAGJ
- tasKiYbeinUWQZ0S+SFby04slOg7CD54=
-X-Received: by 2002:a81:606:0:b0:352:2af5:cc70 with SMTP id
- 6-20020a810606000000b003522af5cc70mr19906071ywg.385.1664804561178; 
- Mon, 03 Oct 2022 06:42:41 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4UU8WHT1grs4AkbjkZmntBDrnfhWX5nGYiVj1tHVqHm105vTsH2QCO6DnICaOvbAkVASrzBLXli5L0JGBotps=
-X-Received: by 2002:a81:606:0:b0:352:2af5:cc70 with SMTP id
- 6-20020a810606000000b003522af5cc70mr19906053ywg.385.1664804560919; Mon, 03
- Oct 2022 06:42:40 -0700 (PDT)
+ bh=qnPx8+rCl52gl2SNVSATWjrrGx7tS2IIKr6N6MbqG68=;
+ b=kUFSSuEyLBQosxye2nX0OUUSmv3e0UUn6+06i3iFaahjSoJPJnibBnqrdMCxlXcMm1
+ 4vqSosIrJHJn55VGa0HlU2ygZPALuqujop+RvSivNXcEjVbJviT1LB8GOy+m9VewS3CD
+ 5iG68pVun4f9VnJTvU2Or6kngpGeH+hilTcHzMPLZSvRJbF2o6wI6JmrIjlAQJ128KxG
+ xBZWryYMln0i9Nv6Lx4qzZanbTHtX7IBAzmCqKHOEty7kogCBYNCTrYzaXxu2vv972e0
+ +P4eRBMkX+dfff3Iyv3UHw5cmgvukPSzFZQQzmPomU2rI4t4YrHfGsTxMy9lV6GGdqLn
+ xN8Q==
+X-Gm-Message-State: ACrzQf2X5Ov40Qqde48iniDW0lcWemX/zH9Lw9J3iPdjMidRlYEPNHQG
+ jn4wfe+i2kYZ/TGJpDWTEgifWRnjWOnk6MDQGVa6T71a2Ai96kKCN/hr1ViUJi0ALmw3NdgRWJX
+ WY31hZ5xN2K59J4e325SsHBzihg4QV0s=
+X-Received: by 2002:a5b:c8e:0:b0:6bb:f8b5:47ec with SMTP id
+ i14-20020a5b0c8e000000b006bbf8b547ecmr19598394ybq.14.1664804582842; 
+ Mon, 03 Oct 2022 06:43:02 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM53O+vIrVO7Yp7mEsVHYkw/RsUc1BKCmNNTA9iZPPwIeSmPVNZfkwUgFN5e0VdsAfCUe0PmFTzamgipFeyEyiU=
+X-Received: by 2002:a5b:c8e:0:b0:6bb:f8b5:47ec with SMTP id
+ i14-20020a5b0c8e000000b006bbf8b547ecmr19598369ybq.14.1664804582556; Mon, 03
+ Oct 2022 06:43:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221003093911.1844031-1-alexander.ivanov@virtuozzo.com>
- <20221003093911.1844031-3-alexander.ivanov@virtuozzo.com>
-In-Reply-To: <20221003093911.1844031-3-alexander.ivanov@virtuozzo.com>
+ <20221003093911.1844031-4-alexander.ivanov@virtuozzo.com>
+In-Reply-To: <20221003093911.1844031-4-alexander.ivanov@virtuozzo.com>
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Mon, 3 Oct 2022 16:42:29 +0300
-Message-ID: <CAPMcbCr5VJG0PjNQXJ=yN_z3E9vQ-8ZyZCundB1z9Sy8b5oLUQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/7] qga: Move Linux-specific FS freeze/thaw code to a
- separate file
+Date: Mon, 3 Oct 2022 16:42:51 +0300
+Message-ID: <CAPMcbCryR8O+_aVGcLdXXQHG5XJgs_dPow9_FCO96=9YKoPG+A@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] qga: Add UFS freeze/thaw support for FreeBSD
 To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 Cc: qemu-devel@nongnu.org, den@virtuozzo.com, michael.roth@amd.com, 
  marcandre.lureau@gmail.com
-Content-Type: multipart/alternative; boundary="0000000000007971ee05ea218463"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000c3a48405ea2185ab"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,7 +93,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007971ee05ea218463
+--000000000000c3a48405ea2185ab
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -103,89 +102,35 @@ Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 On Mon, Oct 3, 2022 at 12:39 PM Alexander Ivanov <
 alexander.ivanov@virtuozzo.com> wrote:
 
-> In the next patches we are going to add FreeBSD support for QEMU Guest
-> Agent. In the result, code in commands-posix.c will be too cumbersome.
+> UFS supports FS freezing through ioctl UFSSUSPEND on /dev/ufssuspend.
+> Frozen FS can be thawed by closing /dev/ufssuspend file descriptior.
 >
-> Move Linux-specific FS freeze/thaw code to a separate file commands-linux=
-.c
-> keeping common POSIX code in commands-posix.c.
+> Use getmntinfo to get a list of mounted FS.
 >
 > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 > ---
->  qga/commands-common.h |  35 +++++
->  qga/commands-linux.c  | 286 +++++++++++++++++++++++++++++++++++++++++
->  qga/commands-posix.c  | 289 +++---------------------------------------
+>  qga/commands-bsd.c    | 169 +++++++++++++++++++++++
+>  qga/commands-common.h |  11 ++
+>  qga/commands-posix.c  | 308 ++++++++++++++++++++----------------------
+>  qga/main.c            |   7 +-
 >  qga/meson.build       |   3 +
->  4 files changed, 340 insertions(+), 273 deletions(-)
->  create mode 100644 qga/commands-linux.c
+>  5 files changed, 334 insertions(+), 164 deletions(-)
+>  create mode 100644 qga/commands-bsd.c
 >
-> diff --git a/qga/commands-common.h b/qga/commands-common.h
-> index d0e4a9696f..181fc330aa 100644
-> --- a/qga/commands-common.h
-> +++ b/qga/commands-common.h
-> @@ -10,6 +10,40 @@
->  #define QGA_COMMANDS_COMMON_H
->
->  #include "qga-qapi-types.h"
-> +#include "guest-agent-core.h"
-> +#include "qemu/queue.h"
-> +
-> +#if defined(__linux__)
-> +#include <linux/fs.h>
-> +#ifdef FIFREEZE
-> +#define CONFIG_FSFREEZE
-> +#endif
-> +#ifdef FITRIM
-> +#define CONFIG_FSTRIM
-> +#endif
-> +#endif /* __linux__ */
-> +
-> +#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
-> +typedef struct FsMount {
-> +    char *dirname;
-> +    char *devtype;
-> +    unsigned int devmajor, devminor;
-> +    QTAILQ_ENTRY(FsMount) next;
-> +} FsMount;
-> +
-> +typedef QTAILQ_HEAD(FsMountList, FsMount) FsMountList;
-> +
-> +bool build_fs_mount_list(FsMountList *mounts, Error **errp);
-> +void free_fs_mount_list(FsMountList *mounts);
-> +#endif /* CONFIG_FSFREEZE || CONFIG_FSTRIM */
-> +
-> +#if defined(CONFIG_FSFREEZE)
-> +int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,
-> +                                          strList *mountpoints,
-> +                                          FsMountList mounts,
-> +                                          Error **errp);
-> +int qmp_guest_fsfreeze_do_thaw(Error **errp);
-> +#endif /* CONFIG_FSFREEZE */
->
->  typedef struct GuestFileHandle GuestFileHandle;
->
-> @@ -29,4 +63,5 @@ GuestFileRead *guest_file_read_unsafe(GuestFileHandle
-> *gfh,
->   */
->  char *qga_get_host_name(Error **errp);
->
-> +void ga_wait_child(pid_t pid, int *status, Error **errp);
->  #endif
-> diff --git a/qga/commands-linux.c b/qga/commands-linux.c
+> diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
 > new file mode 100644
-> index 0000000000..214e408fcd
+> index 0000000000..ca06692179
 > --- /dev/null
-> +++ b/qga/commands-linux.c
-> @@ -0,0 +1,286 @@
+> +++ b/qga/commands-bsd.c
+> @@ -0,0 +1,169 @@
 > +/*
-> + * QEMU Guest Agent Linux-specific command implementations
+> + * QEMU Guest Agent BSD-specific command implementations
 > + *
-> + * Copyright IBM Corp. 2011
+> + * Copyright (c) Virtuozzo International GmbH.
 > + *
 > + * Authors:
-> + *  Michael Roth      <mdroth@linux.vnet.ibm.com>
-> + *  Michal Privoznik  <mprivozn@redhat.com>
+> + *  Alexander Ivanov  <alexander.ivanov@virtuozzo.com>
 > + *
 > + * This work is licensed under the terms of the GNU GPL, version 2 or
 > later.
@@ -193,193 +138,88 @@ alexander.ivanov@virtuozzo.com> wrote:
 > + */
 > +
 > +#include "qemu/osdep.h"
+> +#include "qga-qapi-commands.h"
+> +#include "qapi/qmp/qerror.h"
 > +#include "qapi/error.h"
+> +#include "qemu/queue.h"
 > +#include "commands-common.h"
-> +#include "cutils.h"
-> +#include <mntent.h>
 > +#include <sys/ioctl.h>
+> +#include <sys/param.h>
+> +#include <sys/ucred.h>
+> +#include <sys/mount.h>
+> +#include <paths.h>
 > +
 > +#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
-> +static int dev_major_minor(const char *devpath,
-> +                           unsigned int *devmajor, unsigned int *devmino=
-r)
-> +{
-> +    struct stat st;
-> +
-> +    *devmajor =3D 0;
-> +    *devminor =3D 0;
-> +
-> +    if (stat(devpath, &st) < 0) {
-> +        slog("failed to stat device file '%s': %s", devpath,
-> strerror(errno));
-> +        return -1;
-> +    }
-> +    if (S_ISDIR(st.st_mode)) {
-> +        /* It is bind mount */
-> +        return -2;
-> +    }
-> +    if (S_ISBLK(st.st_mode)) {
-> +        *devmajor =3D major(st.st_rdev);
-> +        *devminor =3D minor(st.st_rdev);
-> +        return 0;
-> +    }
-> +    return -1;
-> +}
-> +
-> +static bool build_fs_mount_list_from_mtab(FsMountList *mounts, Error
-> **errp)
-> +{
-> +    struct mntent *ment;
-> +    FsMount *mount;
-> +    char const *mtab =3D "/proc/self/mounts";
-> +    FILE *fp;
-> +    unsigned int devmajor, devminor;
-> +
-> +    fp =3D setmntent(mtab, "r");
-> +    if (!fp) {
-> +        error_setg(errp, "failed to open mtab file: '%s'", mtab);
-> +        return false;
-> +    }
-> +
-> +    while ((ment =3D getmntent(fp))) {
-> +        /*
-> +         * An entry which device name doesn't start with a '/' is
-> +         * either a dummy file system or a network file system.
-> +         * Add special handling for smbfs and cifs as is done by
-> +         * coreutils as well.
-> +         */
-> +        if ((ment->mnt_fsname[0] !=3D '/') ||
-> +            (strcmp(ment->mnt_type, "smbfs") =3D=3D 0) ||
-> +            (strcmp(ment->mnt_type, "cifs") =3D=3D 0)) {
-> +            continue;
-> +        }
-> +        if (dev_major_minor(ment->mnt_fsname, &devmajor, &devminor) =3D=
-=3D
-> -2) {
-> +            /* Skip bind mounts */
-> +            continue;
-> +        }
-> +
-> +        mount =3D g_new0(FsMount, 1);
-> +        mount->dirname =3D g_strdup(ment->mnt_dir);
-> +        mount->devtype =3D g_strdup(ment->mnt_type);
-> +        mount->devmajor =3D devmajor;
-> +        mount->devminor =3D devminor;
-> +
-> +        QTAILQ_INSERT_TAIL(mounts, mount, next);
-> +    }
-> +
-> +    endmntent(fp);
-> +    return true;
-> +}
-> +
-> +static void decode_mntname(char *name, int len)
-> +{
-> +    int i, j =3D 0;
-> +    for (i =3D 0; i <=3D len; i++) {
-> +        if (name[i] !=3D '\\') {
-> +            name[j++] =3D name[i];
-> +        } else if (name[i + 1] =3D=3D '\\') {
-> +            name[j++] =3D '\\';
-> +            i++;
-> +        } else if (name[i + 1] >=3D '0' && name[i + 1] <=3D '3' &&
-> +                   name[i + 2] >=3D '0' && name[i + 2] <=3D '7' &&
-> +                   name[i + 3] >=3D '0' && name[i + 3] <=3D '7') {
-> +            name[j++] =3D (name[i + 1] - '0') * 64 +
-> +                        (name[i + 2] - '0') * 8 +
-> +                        (name[i + 3] - '0');
-> +            i +=3D 3;
-> +        } else {
-> +            name[j++] =3D name[i];
-> +        }
-> +    }
-> +}
-> +
-> +/*
-> + * Walk the mount table and build a list of local file systems
-> + */
 > +bool build_fs_mount_list(FsMountList *mounts, Error **errp)
 > +{
 > +    FsMount *mount;
-> +    char const *mountinfo =3D "/proc/self/mountinfo";
-> +    FILE *fp;
-> +    char *line =3D NULL, *dash;
-> +    size_t n;
-> +    char check;
-> +    unsigned int devmajor, devminor;
-> +    int ret, dir_s, dir_e, type_s, type_e, dev_s, dev_e;
+> +    struct statfs *mntbuf, *mntp;
+> +    struct stat statbuf;
+> +    int i, count, ret;
 > +
-> +    fp =3D fopen(mountinfo, "r");
-> +    if (!fp) {
-> +        return build_fs_mount_list_from_mtab(mounts, errp);
+> +    count =3D getmntinfo(&mntbuf, MNT_NOWAIT);
+> +    if (count =3D=3D 0) {
+> +        error_setg_errno(errp, errno, "getmntinfo failed");
+> +        return false;
 > +    }
 > +
-> +    while (getline(&line, &n, fp) !=3D -1) {
-> +        ret =3D sscanf(line, "%*u %*u %u:%u %*s %n%*s%n%c",
-> +                     &devmajor, &devminor, &dir_s, &dir_e, &check);
-> +        if (ret < 3) {
-> +            continue;
-> +        }
-> +        dash =3D strstr(line + dir_e, " - ");
-> +        if (!dash) {
-> +            continue;
-> +        }
-> +        ret =3D sscanf(dash, " - %n%*s%n %n%*s%n%c",
-> +                     &type_s, &type_e, &dev_s, &dev_e, &check);
-> +        if (ret < 1) {
-> +            continue;
-> +        }
-> +        line[dir_e] =3D 0;
-> +        dash[type_e] =3D 0;
-> +        dash[dev_e] =3D 0;
-> +        decode_mntname(line + dir_s, dir_e - dir_s);
-> +        decode_mntname(dash + dev_s, dev_e - dev_s);
-> +        if (devmajor =3D=3D 0) {
-> +            /* btrfs reports major number =3D 0 */
-> +            if (strcmp("btrfs", dash + type_s) !=3D 0 ||
-> +                dev_major_minor(dash + dev_s, &devmajor, &devminor) < 0)=
- {
-> +                continue;
-> +            }
+> +    for (i =3D 0; i < count; i++) {
+> +        mntp =3D &mntbuf[i];
+> +        ret =3D stat(mntp->f_mntonname, &statbuf);
+> +        if (ret !=3D 0) {
+> +            error_setg_errno(errp, errno, "stat failed on %s",
+> +                             mntp->f_mntonname);
+> +            return false;
 > +        }
 > +
 > +        mount =3D g_new0(FsMount, 1);
-> +        mount->dirname =3D g_strdup(line + dir_s);
-> +        mount->devtype =3D g_strdup(dash + type_s);
-> +        mount->devmajor =3D devmajor;
-> +        mount->devminor =3D devminor;
+> +
+> +        mount->dirname =3D g_strdup(mntp->f_mntonname);
+> +        mount->devtype =3D g_strdup(mntp->f_fstypename);
+> +        mount->devmajor =3D major(mount->dev);
+> +        mount->devminor =3D minor(mount->dev);
+> +        mount->fsid =3D mntp->f_fsid;
+> +        mount->dev =3D statbuf.st_dev;
 > +
 > +        QTAILQ_INSERT_TAIL(mounts, mount, next);
 > +    }
-> +    free(line);
-> +
-> +    fclose(fp);
 > +    return true;
 > +}
 > +#endif /* CONFIG_FSFREEZE || CONFIG_FSTRIM */
 > +
-> +#ifdef CONFIG_FSFREEZE
-> +/*
-> + * Walk list of mounted file systems in the guest, and freeze the ones
-> which
-> + * are real local file systems.
-> + */
+> +#if defined(CONFIG_FSFREEZE)
+> +static int ufssuspend_fd =3D -1;
+> +static int ufssuspend_cnt;
+> +
 > +int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,
 > +                                          strList *mountpoints,
 > +                                          FsMountList mounts,
 > +                                          Error **errp)
 > +{
-> +    struct FsMount *mount;
+> +    int ret;
 > +    strList *list;
-> +    int fd, ret, i =3D 0;
+> +    struct FsMount *mount;
+> +
+> +    if (ufssuspend_fd !=3D -1) {
+> +        error_setg(errp, "filesystems have already frozen");
+> +        return -1;
+> +    }
+> +
+> +    ufssuspend_cnt =3D 0;
+> +    ufssuspend_fd =3D qemu_open(_PATH_UFSSUSPEND, O_RDWR, errp);
+> +    if (ufssuspend_fd =3D=3D -1) {
+> +        return -1;
+> +    }
 > +
 > +    QTAILQ_FOREACH_REVERSE(mount, &mounts, next) {
-> +        /* To issue fsfreeze in the reverse order of mounts, check if th=
+> +        /*
+> +         * To issue fsfreeze in the reverse order of mounts, check if th=
 e
-> +         * mount is listed in the list here */
+> +         * mount is listed in the list here
+> +         */
 > +        if (has_mountpoints) {
 > +            for (list =3D mountpoints; list; list =3D list->next) {
-> +                if (strcmp(list->value, mount->dirname) =3D=3D 0) {
+> +                if (g_str_equal(list->value, mount->dirname)) {
 > +                    break;
 > +                }
 > +            }
@@ -388,52 +228,235 @@ e
 > +            }
 > +        }
 > +
-> +        fd =3D qga_open_cloexec(mount->dirname, O_RDONLY, 0);
-> +        if (fd =3D=3D -1) {
-> +            error_setg_errno(errp, errno, "failed to open %s",
-> mount->dirname);
-> +            return -1;
+> +        /* Only UFS supports suspend */
+> +        if (!g_str_equal(mount->devtype, "ufs")) {
+> +            continue;
 > +        }
 > +
-> +        /* we try to cull filesystems we know won't work in advance, but
-> other
-> +         * filesystems may not implement fsfreeze for less obvious
-> reasons.
-> +         * these will report EOPNOTSUPP. we simply ignore these when
-> tallying
-> +         * the number of frozen filesystems.
-> +         * if a filesystem is mounted more than once (aka bind mount) a
-> +         * consecutive attempt to freeze an already frozen filesystem wi=
-ll
-> +         * return EBUSY.
-> +         *
-> +         * any other error means a failure to freeze a filesystem we
-> +         * expect to be freezable, so return an error in those cases
-> +         * and return system to thawed state.
-> +         */
-> +        ret =3D ioctl(fd, FIFREEZE);
+> +        ret =3D ioctl(ufssuspend_fd, UFSSUSPEND, &mount->fsid);
 > +        if (ret =3D=3D -1) {
-> +            if (errno !=3D EOPNOTSUPP && errno !=3D EBUSY) {
-> +                error_setg_errno(errp, errno, "failed to freeze %s",
-> +                                 mount->dirname);
-> +                close(fd);
-> +                return -1;
+> +            /*
+> +             * ioctl returns EBUSY for all the FS except the first one
+> +             * that was suspended
+> +             */
+> +            if (errno =3D=3D EBUSY) {
+> +                continue;
 > +            }
-> +        } else {
-> +            i++;
+> +            error_setg_errno(errp, errno, "failed to freeze %s",
+> +                             mount->dirname);
+> +            goto error;
 > +        }
-> +        close(fd);
+> +        ufssuspend_cnt++;
 > +    }
-> +    return i;
+> +    return ufssuspend_cnt;
+> +error:
+> +    close(ufssuspend_fd);
+> +    ufssuspend_fd =3D -1;
+> +    return -1;
+> +
 > +}
 > +
+> +/*
+> + * We don't need to call UFSRESUME ioctl because all the frozen FS
+> + * are thawed on /dev/ufssuspend closing.
+> + */
 > +int qmp_guest_fsfreeze_do_thaw(Error **errp)
+> +{
+> +    int ret =3D ufssuspend_cnt;
+> +    ufssuspend_cnt =3D 0;
+> +    if (ufssuspend_fd !=3D -1) {
+> +        close(ufssuspend_fd);
+> +        ufssuspend_fd =3D -1;
+> +    }
+> +    return ret;
+> +}
+> +
+> +GuestFilesystemInfoList *qmp_guest_get_fsinfo(Error **errp)
+> +{
+> +    error_setg(errp, QERR_UNSUPPORTED);
+> +    return NULL;
+> +}
+> +
+> +GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+> +{
+> +    error_setg(errp, QERR_UNSUPPORTED);
+> +    return NULL;
+> +}
+> +
+> +GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)
+> +{
+> +    error_setg(errp, QERR_UNSUPPORTED);
+> +    return NULL;
+> +}
+> +
+> +GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)
+> +{
+> +    error_setg(errp, QERR_UNSUPPORTED);
+> +    return NULL;
+> +}
+> +#endif /* CONFIG_FSFREEZE */
+> diff --git a/qga/commands-common.h b/qga/commands-common.h
+> index 181fc330aa..2d9878a634 100644
+> --- a/qga/commands-common.h
+> +++ b/qga/commands-common.h
+> @@ -23,11 +23,22 @@
+>  #endif
+>  #endif /* __linux__ */
+>
+> +#ifdef __FreeBSD__
+> +#include <ufs/ffs/fs.h>
+> +#ifdef UFSSUSPEND
+> +#define CONFIG_FSFREEZE
+> +#endif
+> +#endif /* __FreeBSD__ */
+> +
+>  #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
+>  typedef struct FsMount {
+>      char *dirname;
+>      char *devtype;
+>      unsigned int devmajor, devminor;
+> +#if defined(__FreeBSD__)
+> +    dev_t dev;
+> +    fsid_t fsid;
+> +#endif
+>      QTAILQ_ENTRY(FsMount) next;
+>  } FsMount;
+>
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index 9574b83c92..49f9996a9c 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -33,20 +33,12 @@
+>
+>  #if defined(__linux__)
+>  #include <mntent.h>
+> -#include <linux/fs.h>
+>  #include <sys/statvfs.h>
+>  #include <linux/nvme_ioctl.h>
+>
+>  #ifdef CONFIG_LIBUDEV
+>  #include <libudev.h>
+>  #endif
+> -
+> -#ifdef FIFREEZE
+> -#define CONFIG_FSFREEZE
+> -#endif
+> -#ifdef FITRIM
+> -#define CONFIG_FSTRIM
+> -#endif
+>  #endif
+>
+>  #ifdef __FreeBSD__
+> @@ -623,9 +615,6 @@ void qmp_guest_file_flush(int64_t handle, Error **err=
+p)
+>      }
+>  }
+>
+> -/* linux-specific implementations. avoid this if at all possible. */
+> -#if defined(__linux__)
+> -
+>  #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
+>  void free_fs_mount_list(FsMountList *mounts)
+>  {
+> @@ -644,6 +633,156 @@ void free_fs_mount_list(FsMountList *mounts)
+>  }
+>  #endif
+>
+> +#if defined(CONFIG_FSFREEZE)
+> +typedef enum {
+> +    FSFREEZE_HOOK_THAW =3D 0,
+> +    FSFREEZE_HOOK_FREEZE,
+> +} FsfreezeHookArg;
+> +
+> +static const char *fsfreeze_hook_arg_string[] =3D {
+> +    "thaw",
+> +    "freeze",
+> +};
+> +
+> +static void execute_fsfreeze_hook(FsfreezeHookArg arg, Error **errp)
+> +{
+> +    int status;
+> +    pid_t pid;
+> +    const char *hook;
+> +    const char *arg_str =3D fsfreeze_hook_arg_string[arg];
+> +    Error *local_err =3D NULL;
+> +
+> +    hook =3D ga_fsfreeze_hook(ga_state);
+> +    if (!hook) {
+> +        return;
+> +    }
+> +    if (access(hook, X_OK) !=3D 0) {
+> +        error_setg_errno(errp, errno, "can't access fsfreeze hook '%s'",
+> hook);
+> +        return;
+> +    }
+> +
+> +    slog("executing fsfreeze hook with arg '%s'", arg_str);
+> +    pid =3D fork();
+> +    if (pid =3D=3D 0) {
+> +        setsid();
+> +        reopen_fd_to_null(0);
+> +        reopen_fd_to_null(1);
+> +        reopen_fd_to_null(2);
+> +
+> +        execl(hook, hook, arg_str, NULL);
+> +        _exit(EXIT_FAILURE);
+> +    } else if (pid < 0) {
+> +        error_setg_errno(errp, errno, "failed to create child process");
+> +        return;
+> +    }
+> +
+> +    ga_wait_child(pid, &status, &local_err);
+> +    if (local_err) {
+> +        error_propagate(errp, local_err);
+> +        return;
+> +    }
+> +
+> +    if (!WIFEXITED(status)) {
+> +        error_setg(errp, "fsfreeze hook has terminated abnormally");
+> +        return;
+> +    }
+> +
+> +    status =3D WEXITSTATUS(status);
+> +    if (status) {
+> +        error_setg(errp, "fsfreeze hook has failed with status %d",
+> status);
+> +        return;
+> +    }
+> +}
+> +
+> +/*
+> + * Return status of freeze/thaw
+> + */
+> +GuestFsfreezeStatus qmp_guest_fsfreeze_status(Error **errp)
+> +{
+> +    if (ga_is_frozen(ga_state)) {
+> +        return GUEST_FSFREEZE_STATUS_FROZEN;
+> +    }
+> +
+> +    return GUEST_FSFREEZE_STATUS_THAWED;
+> +}
+> +
+> +int64_t qmp_guest_fsfreeze_freeze(Error **errp)
+> +{
+> +    return qmp_guest_fsfreeze_freeze_list(false, NULL, errp);
+> +}
+> +
+> +int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
+> +                                       strList *mountpoints,
+> +                                       Error **errp)
 > +{
 > +    int ret;
 > +    FsMountList mounts;
-> +    FsMount *mount;
-> +    int fd, i =3D 0, logged;
 > +    Error *local_err =3D NULL;
+> +
+> +    slog("guest-fsfreeze called");
+> +
+> +    execute_fsfreeze_hook(FSFREEZE_HOOK_FREEZE, &local_err);
+> +    if (local_err) {
+> +        error_propagate(errp, local_err);
+> +        return -1;
+> +    }
 > +
 > +    QTAILQ_INIT(&mounts);
 > +    if (!build_fs_mount_list(&mounts, &local_err)) {
@@ -441,451 +464,249 @@ ll
 > +        return -1;
 > +    }
 > +
-> +    QTAILQ_FOREACH(mount, &mounts, next) {
-> +        logged =3D false;
-> +        fd =3D qga_open_cloexec(mount->dirname, O_RDONLY, 0);
-> +        if (fd =3D=3D -1) {
-> +            continue;
-> +        }
-> +        /* we have no way of knowing whether a filesystem was actually
-> unfrozen
-> +         * as a result of a successful call to FITHAW, only that if an
-> error
-> +         * was returned the filesystem was *not* unfrozen by that
-> particular
-> +         * call.
-> +         *
-> +         * since multiple preceding FIFREEZEs require multiple calls to
-> FITHAW
-> +         * to unfreeze, continuing issuing FITHAW until an error is
-> returned,
-> +         * in which case either the filesystem is in an unfreezable
-> state, or,
-> +         * more likely, it was thawed previously (and remains so
-> afterward).
-> +         *
-> +         * also, since the most recent successful call is the one that d=
-id
-> +         * the actual unfreeze, we can use this to provide an accurate
-> count
-> +         * of the number of filesystems unfrozen by guest-fsfreeze-thaw,
-> which
-> +         * may * be useful for determining whether a filesystem was
-> unfrozen
-> +         * during the freeze/thaw phase by a process other than qemu-ga.
-> +         */
-> +        do {
-> +            ret =3D ioctl(fd, FITHAW);
-> +            if (ret =3D=3D 0 && !logged) {
-> +                i++;
-> +                logged =3D true;
-> +            }
-> +        } while (ret =3D=3D 0);
-> +        close(fd);
-> +    }
-> +
-> +    free_fs_mount_list(&mounts);
-> +
-> +    return i;
-> +}
-> +#endif /* CONFIG_FSFREEZE */
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 16d67e9f6d..9574b83c92 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -16,11 +16,9 @@
->  #include <sys/utsname.h>
->  #include <sys/wait.h>
->  #include <dirent.h>
-> -#include "guest-agent-core.h"
->  #include "qga-qapi-commands.h"
->  #include "qapi/error.h"
->  #include "qapi/qmp/qerror.h"
-> -#include "qemu/queue.h"
->  #include "qemu/host-utils.h"
->  #include "qemu/sockets.h"
->  #include "qemu/base64.h"
-> @@ -70,7 +68,7 @@
->  #endif
->  #endif
->
-> -static void ga_wait_child(pid_t pid, int *status, Error **errp)
-> +void ga_wait_child(pid_t pid, int *status, Error **errp)
->  {
->      pid_t rpid;
->
-> @@ -629,16 +627,7 @@ void qmp_guest_file_flush(int64_t handle, Error
-> **errp)
->  #if defined(__linux__)
->
->  #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
-> -typedef struct FsMount {
-> -    char *dirname;
-> -    char *devtype;
-> -    unsigned int devmajor, devminor;
-> -    QTAILQ_ENTRY(FsMount) next;
-> -} FsMount;
-> -
-> -typedef QTAILQ_HEAD(FsMountList, FsMount) FsMountList;
-> -
-> -static void free_fs_mount_list(FsMountList *mounts)
-> +void free_fs_mount_list(FsMountList *mounts)
->  {
->       FsMount *mount, *temp;
->
-> @@ -653,157 +642,6 @@ static void free_fs_mount_list(FsMountList *mounts)
->           g_free(mount);
->       }
->  }
-> -
-> -static int dev_major_minor(const char *devpath,
-> -                           unsigned int *devmajor, unsigned int *devmino=
-r)
-> -{
-> -    struct stat st;
-> -
-> -    *devmajor =3D 0;
-> -    *devminor =3D 0;
-> -
-> -    if (stat(devpath, &st) < 0) {
-> -        slog("failed to stat device file '%s': %s", devpath,
-> strerror(errno));
-> -        return -1;
-> -    }
-> -    if (S_ISDIR(st.st_mode)) {
-> -        /* It is bind mount */
-> -        return -2;
-> -    }
-> -    if (S_ISBLK(st.st_mode)) {
-> -        *devmajor =3D major(st.st_rdev);
-> -        *devminor =3D minor(st.st_rdev);
-> -        return 0;
-> -    }
-> -    return -1;
-> -}
-> -
-> -/*
-> - * Walk the mount table and build a list of local file systems
-> - */
-> -static bool build_fs_mount_list_from_mtab(FsMountList *mounts, Error
-> **errp)
-> -{
-> -    struct mntent *ment;
-> -    FsMount *mount;
-> -    char const *mtab =3D "/proc/self/mounts";
-> -    FILE *fp;
-> -    unsigned int devmajor, devminor;
-> -
-> -    fp =3D setmntent(mtab, "r");
-> -    if (!fp) {
-> -        error_setg(errp, "failed to open mtab file: '%s'", mtab);
-> -        return false;
-> -    }
-> -
-> -    while ((ment =3D getmntent(fp))) {
-> -        /*
-> -         * An entry which device name doesn't start with a '/' is
-> -         * either a dummy file system or a network file system.
-> -         * Add special handling for smbfs and cifs as is done by
-> -         * coreutils as well.
-> -         */
-> -        if ((ment->mnt_fsname[0] !=3D '/') ||
-> -            (strcmp(ment->mnt_type, "smbfs") =3D=3D 0) ||
-> -            (strcmp(ment->mnt_type, "cifs") =3D=3D 0)) {
-> -            continue;
-> -        }
-> -        if (dev_major_minor(ment->mnt_fsname, &devmajor, &devminor) =3D=
-=3D
-> -2) {
-> -            /* Skip bind mounts */
-> -            continue;
-> -        }
-> -
-> -        mount =3D g_new0(FsMount, 1);
-> -        mount->dirname =3D g_strdup(ment->mnt_dir);
-> -        mount->devtype =3D g_strdup(ment->mnt_type);
-> -        mount->devmajor =3D devmajor;
-> -        mount->devminor =3D devminor;
-> -
-> -        QTAILQ_INSERT_TAIL(mounts, mount, next);
-> -    }
-> -
-> -    endmntent(fp);
-> -    return true;
-> -}
-> -
-> -static void decode_mntname(char *name, int len)
-> -{
-> -    int i, j =3D 0;
-> -    for (i =3D 0; i <=3D len; i++) {
-> -        if (name[i] !=3D '\\') {
-> -            name[j++] =3D name[i];
-> -        } else if (name[i + 1] =3D=3D '\\') {
-> -            name[j++] =3D '\\';
-> -            i++;
-> -        } else if (name[i + 1] >=3D '0' && name[i + 1] <=3D '3' &&
-> -                   name[i + 2] >=3D '0' && name[i + 2] <=3D '7' &&
-> -                   name[i + 3] >=3D '0' && name[i + 3] <=3D '7') {
-> -            name[j++] =3D (name[i + 1] - '0') * 64 +
-> -                        (name[i + 2] - '0') * 8 +
-> -                        (name[i + 3] - '0');
-> -            i +=3D 3;
-> -        } else {
-> -            name[j++] =3D name[i];
-> -        }
-> -    }
-> -}
-> -
-> -static bool build_fs_mount_list(FsMountList *mounts, Error **errp)
-> -{
-> -    FsMount *mount;
-> -    char const *mountinfo =3D "/proc/self/mountinfo";
-> -    FILE *fp;
-> -    char *line =3D NULL, *dash;
-> -    size_t n;
-> -    char check;
-> -    unsigned int devmajor, devminor;
-> -    int ret, dir_s, dir_e, type_s, type_e, dev_s, dev_e;
-> -
-> -    fp =3D fopen(mountinfo, "r");
-> -    if (!fp) {
-> -        return build_fs_mount_list_from_mtab(mounts, errp);
-> -    }
-> -
-> -    while (getline(&line, &n, fp) !=3D -1) {
-> -        ret =3D sscanf(line, "%*u %*u %u:%u %*s %n%*s%n%c",
-> -                     &devmajor, &devminor, &dir_s, &dir_e, &check);
-> -        if (ret < 3) {
-> -            continue;
-> -        }
-> -        dash =3D strstr(line + dir_e, " - ");
-> -        if (!dash) {
-> -            continue;
-> -        }
-> -        ret =3D sscanf(dash, " - %n%*s%n %n%*s%n%c",
-> -                     &type_s, &type_e, &dev_s, &dev_e, &check);
-> -        if (ret < 1) {
-> -            continue;
-> -        }
-> -        line[dir_e] =3D 0;
-> -        dash[type_e] =3D 0;
-> -        dash[dev_e] =3D 0;
-> -        decode_mntname(line + dir_s, dir_e - dir_s);
-> -        decode_mntname(dash + dev_s, dev_e - dev_s);
-> -        if (devmajor =3D=3D 0) {
-> -            /* btrfs reports major number =3D 0 */
-> -            if (strcmp("btrfs", dash + type_s) !=3D 0 ||
-> -                dev_major_minor(dash + dev_s, &devmajor, &devminor) < 0)=
- {
-> -                continue;
-> -            }
-> -        }
-> -
-> -        mount =3D g_new0(FsMount, 1);
-> -        mount->dirname =3D g_strdup(line + dir_s);
-> -        mount->devtype =3D g_strdup(dash + type_s);
-> -        mount->devmajor =3D devmajor;
-> -        mount->devminor =3D devminor;
-> -
-> -        QTAILQ_INSERT_TAIL(mounts, mount, next);
-> -    }
-> -    free(line);
-> -
-> -    fclose(fp);
-> -    return true;
-> -}
->  #endif
->
->  #if defined(CONFIG_FSFREEZE)
-> @@ -1708,20 +1546,13 @@ int64_t qmp_guest_fsfreeze_freeze(Error **errp)
->      return qmp_guest_fsfreeze_freeze_list(false, NULL, errp);
->  }
->
-> -/*
-> - * Walk list of mounted file systems in the guest, and freeze the ones
-> which
-> - * are real local file systems.
-> - */
->  int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
->                                         strList *mountpoints,
->                                         Error **errp)
->  {
-> -    int ret =3D 0, i =3D 0;
-> -    strList *list;
-> +    int ret;
->      FsMountList mounts;
-> -    struct FsMount *mount;
->      Error *local_err =3D NULL;
-> -    int fd;
->
->      slog("guest-fsfreeze called");
->
-> @@ -1740,122 +1571,34 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool
-> has_mountpoints,
->      /* cannot risk guest agent blocking itself on a write in this state =
+> +    /* cannot risk guest agent blocking itself on a write in this state =
 */
->      ga_set_frozen(ga_state);
->
-> -    QTAILQ_FOREACH_REVERSE(mount, &mounts, next) {
-> -        /* To issue fsfreeze in the reverse order of mounts, check if th=
-e
-> -         * mount is listed in the list here */
-> -        if (has_mountpoints) {
-> -            for (list =3D mountpoints; list; list =3D list->next) {
-> -                if (strcmp(list->value, mount->dirname) =3D=3D 0) {
-> -                    break;
-> -                }
-> -            }
-> -            if (!list) {
-> -                continue;
-> -            }
-> -        }
-> -
-> -        fd =3D qga_open_cloexec(mount->dirname, O_RDONLY, 0);
-> -        if (fd =3D=3D -1) {
-> -            error_setg_errno(errp, errno, "failed to open %s",
-> mount->dirname);
-> -            goto error;
-> -        }
-> -
-> -        /* we try to cull filesystems we know won't work in advance, but
-> other
-> -         * filesystems may not implement fsfreeze for less obvious
-> reasons.
-> -         * these will report EOPNOTSUPP. we simply ignore these when
-> tallying
-> -         * the number of frozen filesystems.
-> -         * if a filesystem is mounted more than once (aka bind mount) a
-> -         * consecutive attempt to freeze an already frozen filesystem wi=
-ll
-> -         * return EBUSY.
-> -         *
-> -         * any other error means a failure to freeze a filesystem we
-> -         * expect to be freezable, so return an error in those cases
-> -         * and return system to thawed state.
-> -         */
-> -        ret =3D ioctl(fd, FIFREEZE);
-> -        if (ret =3D=3D -1) {
-> -            if (errno !=3D EOPNOTSUPP && errno !=3D EBUSY) {
-> -                error_setg_errno(errp, errno, "failed to freeze %s",
-> -                                 mount->dirname);
-> -                close(fd);
-> -                goto error;
-> -            }
-> -        } else {
-> -            i++;
-> -        }
-> -        close(fd);
-> -    }
+> +    ga_set_frozen(ga_state);
+> +
 > +    ret =3D qmp_guest_fsfreeze_do_freeze_list(has_mountpoints, mountpoin=
 ts,
 > +                                            mounts, errp);
->
->      free_fs_mount_list(&mounts);
->      /* We may not issue any FIFREEZE here.
->       * Just unset ga_state here and ready for the next call.
->       */
-> -    if (i =3D=3D 0) {
+> +
+> +    free_fs_mount_list(&mounts);
+> +    /* We may not issue any FIFREEZE here.
+> +     * Just unset ga_state here and ready for the next call.
+> +     */
 > +    if (ret =3D=3D 0) {
->          ga_unset_frozen(ga_state);
+> +        ga_unset_frozen(ga_state);
 > +    } else if (ret < 0) {
 > +        qmp_guest_fsfreeze_thaw(NULL);
->      }
-> -    return i;
-> -
-> -error:
-> -    free_fs_mount_list(&mounts);
-> -    qmp_guest_fsfreeze_thaw(NULL);
-> -    return 0;
+> +    }
 > +    return ret;
->  }
->
-> -/*
-> - * Walk list of frozen file systems in the guest, and thaw them.
-> - */
->  int64_t qmp_guest_fsfreeze_thaw(Error **errp)
->  {
->      int ret;
-> -    FsMountList mounts;
-> -    FsMount *mount;
-> -    int fd, i =3D 0, logged;
-> -    Error *local_err =3D NULL;
->
-> -    QTAILQ_INIT(&mounts);
-> -    if (!build_fs_mount_list(&mounts, &local_err)) {
-> -        error_propagate(errp, local_err);
-> -        return 0;
+> +}
+> +
+> +int64_t qmp_guest_fsfreeze_thaw(Error **errp)
+> +{
+> +    int ret;
+> +
 > +    ret =3D qmp_guest_fsfreeze_do_thaw(errp);
 > +    if (ret >=3D 0) {
 > +        ga_unset_frozen(ga_state);
 > +        execute_fsfreeze_hook(FSFREEZE_HOOK_THAW, errp);
 > +    } else {
 > +        ret =3D 0;
->      }
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +static void guest_fsfreeze_cleanup(void)
+> +{
+> +    Error *err =3D NULL;
+> +
+> +    if (ga_is_frozen(ga_state) =3D=3D GUEST_FSFREEZE_STATUS_FROZEN) {
+> +        qmp_guest_fsfreeze_thaw(&err);
+> +        if (err) {
+> +            slog("failed to clean up frozen filesystems: %s",
+> +                 error_get_pretty(err));
+> +            error_free(err);
+> +        }
+> +    }
+> +}
+> +#endif
+> +
+> +/* linux-specific implementations. avoid this if at all possible. */
+> +#if defined(__linux__)
+>  #if defined(CONFIG_FSFREEZE)
 >
-> -    QTAILQ_FOREACH(mount, &mounts, next) {
-> -        logged =3D false;
-> -        fd =3D qga_open_cloexec(mount->dirname, O_RDONLY, 0);
-> -        if (fd =3D=3D -1) {
-> -            continue;
-> -        }
-> -        /* we have no way of knowing whether a filesystem was actually
-> unfrozen
-> -         * as a result of a successful call to FITHAW, only that if an
-> error
-> -         * was returned the filesystem was *not* unfrozen by that
-> particular
-> -         * call.
-> -         *
-> -         * since multiple preceding FIFREEZEs require multiple calls to
-> FITHAW
-> -         * to unfreeze, continuing issuing FITHAW until an error is
-> returned,
-> -         * in which case either the filesystem is in an unfreezable
-> state, or,
-> -         * more likely, it was thawed previously (and remains so
-> afterward).
-> -         *
-> -         * also, since the most recent successful call is the one that d=
-id
-> -         * the actual unfreeze, we can use this to provide an accurate
-> count
-> -         * of the number of filesystems unfrozen by guest-fsfreeze-thaw,
-> which
-> -         * may * be useful for determining whether a filesystem was
-> unfrozen
-> -         * during the freeze/thaw phase by a process other than qemu-ga.
-> -         */
-> -        do {
-> -            ret =3D ioctl(fd, FITHAW);
-> -            if (ret =3D=3D 0 && !logged) {
-> -                i++;
-> -                logged =3D true;
-> -            }
-> -        } while (ret =3D=3D 0);
-> -        close(fd);
+>  static char *get_pci_driver(char const *syspath, int pathlen, Error
+> **errp)
+> @@ -1467,153 +1606,6 @@ GuestFilesystemInfoList
+> *qmp_guest_get_fsinfo(Error **errp)
+>      free_fs_mount_list(&mounts);
+>      return ret;
+>  }
+> -
+> -
+> -typedef enum {
+> -    FSFREEZE_HOOK_THAW =3D 0,
+> -    FSFREEZE_HOOK_FREEZE,
+> -} FsfreezeHookArg;
+> -
+> -static const char *fsfreeze_hook_arg_string[] =3D {
+> -    "thaw",
+> -    "freeze",
+> -};
+> -
+> -static void execute_fsfreeze_hook(FsfreezeHookArg arg, Error **errp)
+> -{
+> -    int status;
+> -    pid_t pid;
+> -    const char *hook;
+> -    const char *arg_str =3D fsfreeze_hook_arg_string[arg];
+> -    Error *local_err =3D NULL;
+> -
+> -    hook =3D ga_fsfreeze_hook(ga_state);
+> -    if (!hook) {
+> -        return;
+> -    }
+> -    if (access(hook, X_OK) !=3D 0) {
+> -        error_setg_errno(errp, errno, "can't access fsfreeze hook '%s'",
+> hook);
+> -        return;
 > -    }
 > -
-> -    ga_unset_frozen(ga_state);
+> -    slog("executing fsfreeze hook with arg '%s'", arg_str);
+> -    pid =3D fork();
+> -    if (pid =3D=3D 0) {
+> -        setsid();
+> -        reopen_fd_to_null(0);
+> -        reopen_fd_to_null(1);
+> -        reopen_fd_to_null(2);
+> -
+> -        execl(hook, hook, arg_str, NULL);
+> -        _exit(EXIT_FAILURE);
+> -    } else if (pid < 0) {
+> -        error_setg_errno(errp, errno, "failed to create child process");
+> -        return;
+> -    }
+> -
+> -    ga_wait_child(pid, &status, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return;
+> -    }
+> -
+> -    if (!WIFEXITED(status)) {
+> -        error_setg(errp, "fsfreeze hook has terminated abnormally");
+> -        return;
+> -    }
+> -
+> -    status =3D WEXITSTATUS(status);
+> -    if (status) {
+> -        error_setg(errp, "fsfreeze hook has failed with status %d",
+> status);
+> -        return;
+> -    }
+> -}
+> -
+> -/*
+> - * Return status of freeze/thaw
+> - */
+> -GuestFsfreezeStatus qmp_guest_fsfreeze_status(Error **errp)
+> -{
+> -    if (ga_is_frozen(ga_state)) {
+> -        return GUEST_FSFREEZE_STATUS_FROZEN;
+> -    }
+> -
+> -    return GUEST_FSFREEZE_STATUS_THAWED;
+> -}
+> -
+> -int64_t qmp_guest_fsfreeze_freeze(Error **errp)
+> -{
+> -    return qmp_guest_fsfreeze_freeze_list(false, NULL, errp);
+> -}
+> -
+> -int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,
+> -                                       strList *mountpoints,
+> -                                       Error **errp)
+> -{
+> -    int ret;
+> -    FsMountList mounts;
+> -    Error *local_err =3D NULL;
+> -
+> -    slog("guest-fsfreeze called");
+> -
+> -    execute_fsfreeze_hook(FSFREEZE_HOOK_FREEZE, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return -1;
+> -    }
+> -
+> -    QTAILQ_INIT(&mounts);
+> -    if (!build_fs_mount_list(&mounts, &local_err)) {
+> -        error_propagate(errp, local_err);
+> -        return -1;
+> -    }
+> -
+> -    /* cannot risk guest agent blocking itself on a write in this state =
+*/
+> -    ga_set_frozen(ga_state);
+> -
+> -    ret =3D qmp_guest_fsfreeze_do_freeze_list(has_mountpoints, mountpoin=
+ts,
+> -                                            mounts, errp);
+> -
 > -    free_fs_mount_list(&mounts);
+> -    /* We may not issue any FIFREEZE here.
+> -     * Just unset ga_state here and ready for the next call.
+> -     */
+> -    if (ret =3D=3D 0) {
+> -        ga_unset_frozen(ga_state);
+> -    } else if (ret < 0) {
+> -        qmp_guest_fsfreeze_thaw(NULL);
+> -    }
+> -    return ret;
+> -}
 > -
-> -    execute_fsfreeze_hook(FSFREEZE_HOOK_THAW, errp);
+> -int64_t qmp_guest_fsfreeze_thaw(Error **errp)
+> -{
+> -    int ret;
 > -
-> -    return i;
-> +    return ret;
->  }
+> -    ret =3D qmp_guest_fsfreeze_do_thaw(errp);
+> -    if (ret >=3D 0) {
+> -        ga_unset_frozen(ga_state);
+> -        execute_fsfreeze_hook(FSFREEZE_HOOK_THAW, errp);
+> -    } else {
+> -        ret =3D 0;
+> -    }
+> -
+> -    return ret;
+> -}
+> -
+> -static void guest_fsfreeze_cleanup(void)
+> -{
+> -    Error *err =3D NULL;
+> -
+> -    if (ga_is_frozen(ga_state) =3D=3D GUEST_FSFREEZE_STATUS_FROZEN) {
+> -        qmp_guest_fsfreeze_thaw(&err);
+> -        if (err) {
+> -            slog("failed to clean up frozen filesystems: %s",
+> -                 error_get_pretty(err));
+> -            error_free(err);
+> -        }
+> -    }
+> -}
+>  #endif /* CONFIG_FSFREEZE */
 >
->  static void guest_fsfreeze_cleanup(void)
+>  #if defined(CONFIG_FSTRIM)
+> diff --git a/qga/main.c b/qga/main.c
+> index 0d27c97d38..b3580508fa 100644
+> --- a/qga/main.c
+> +++ b/qga/main.c
+> @@ -37,12 +37,7 @@
+>  #include "qga/service-win32.h"
+>  #include "qga/vss-win32.h"
+>  #endif
+> -#ifdef __linux__
+> -#include <linux/fs.h>
+> -#ifdef FIFREEZE
+> -#define CONFIG_FSFREEZE
+> -#endif
+> -#endif
+> +#include "commands-common.h"
+>
+>  #ifndef _WIN32
+>  #ifdef __FreeBSD__
 > diff --git a/qga/meson.build b/qga/meson.build
-> index 65c1e93846..409f49a000 100644
+> index 409f49a000..456ba4c29f 100644
 > --- a/qga/meson.build
 > +++ b/qga/meson.build
-> @@ -72,6 +72,9 @@ qga_ss.add(when: 'CONFIG_POSIX', if_true: files(
->    'commands-posix.c',
->    'commands-posix-ssh.c',
+> @@ -75,6 +75,9 @@ qga_ss.add(when: 'CONFIG_POSIX', if_true: files(
+>  qga_ss.add(when: 'CONFIG_LINUX', if_true: files(
+>    'commands-linux.c',
 >  ))
-> +qga_ss.add(when: 'CONFIG_LINUX', if_true: files(
-> +  'commands-linux.c',
+> +qga_ss.add(when: 'CONFIG_BSD', if_true: files(
+> +  'commands-bsd.c',
 > +))
 >  qga_ss.add(when: 'CONFIG_WIN32', if_true: files(
 >    'channel-win32.c',
@@ -895,112 +716,51 @@ id
 >
 >
 
---0000000000007971ee05ea218463
+--000000000000c3a48405ea2185ab
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a hr=
-ef=3D"mailto:kkostiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>=
-&gt;</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
-tr">On Mon, Oct 3, 2022 at 12:39 PM Alexander Ivanov &lt;<a href=3D"mailto:=
-alexander.ivanov@virtuozzo.com">alexander.ivanov@virtuozzo.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">In the next p=
-atches we are going to add FreeBSD support for QEMU Guest<br>
-Agent. In the result, code in commands-posix.c will be too cumbersome.<br>
+<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
+tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 3=
+, 2022 at 12:39 PM Alexander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@=
+virtuozzo.com">alexander.ivanov@virtuozzo.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">UFS supports FS freezing throu=
+gh ioctl UFSSUSPEND on /dev/ufssuspend.<br>
+Frozen FS can be thawed by closing /dev/ufssuspend file descriptior.<br>
 <br>
-Move Linux-specific FS freeze/thaw code to a separate file commands-linux.c=
-<br>
-keeping common POSIX code in commands-posix.c.<br>
+Use getmntinfo to get a list of mounted FS.<br>
 <br>
 Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
 redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
 Signed-off-by: Alexander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@virt=
 uozzo.com" target=3D"_blank">alexander.ivanov@virtuozzo.com</a>&gt;<br>
 ---<br>
-=C2=A0qga/commands-common.h |=C2=A0 35 +++++<br>
-=C2=A0qga/commands-linux.c=C2=A0 | 286 ++++++++++++++++++++++++++++++++++++=
-+++++<br>
-=C2=A0qga/commands-posix.c=C2=A0 | 289 +++---------------------------------=
+=C2=A0qga/commands-bsd.c=C2=A0 =C2=A0 | 169 +++++++++++++++++++++++<br>
+=C2=A0qga/commands-common.h |=C2=A0 11 ++<br>
+=C2=A0qga/commands-posix.c=C2=A0 | 308 ++++++++++++++++++++----------------=
 ------<br>
+=C2=A0qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A07 +=
+-<br>
 =C2=A0qga/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 +<br>
-=C2=A04 files changed, 340 insertions(+), 273 deletions(-)<br>
-=C2=A0create mode 100644 qga/commands-linux.c<br>
+=C2=A05 files changed, 334 insertions(+), 164 deletions(-)<br>
+=C2=A0create mode 100644 qga/commands-bsd.c<br>
 <br>
-diff --git a/qga/commands-common.h b/qga/commands-common.h<br>
-index d0e4a9696f..181fc330aa 100644<br>
---- a/qga/commands-common.h<br>
-+++ b/qga/commands-common.h<br>
-@@ -10,6 +10,40 @@<br>
-=C2=A0#define QGA_COMMANDS_COMMON_H<br>
-<br>
-=C2=A0#include &quot;qga-qapi-types.h&quot;<br>
-+#include &quot;guest-agent-core.h&quot;<br>
-+#include &quot;qemu/queue.h&quot;<br>
-+<br>
-+#if defined(__linux__)<br>
-+#include &lt;linux/fs.h&gt;<br>
-+#ifdef FIFREEZE<br>
-+#define CONFIG_FSFREEZE<br>
-+#endif<br>
-+#ifdef FITRIM<br>
-+#define CONFIG_FSTRIM<br>
-+#endif<br>
-+#endif /* __linux__ */<br>
-+<br>
-+#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)<br>
-+typedef struct FsMount {<br>
-+=C2=A0 =C2=A0 char *dirname;<br>
-+=C2=A0 =C2=A0 char *devtype;<br>
-+=C2=A0 =C2=A0 unsigned int devmajor, devminor;<br>
-+=C2=A0 =C2=A0 QTAILQ_ENTRY(FsMount) next;<br>
-+} FsMount;<br>
-+<br>
-+typedef QTAILQ_HEAD(FsMountList, FsMount) FsMountList;<br>
-+<br>
-+bool build_fs_mount_list(FsMountList *mounts, Error **errp);<br>
-+void free_fs_mount_list(FsMountList *mounts);<br>
-+#endif /* CONFIG_FSFREEZE || CONFIG_FSTRIM */<br>
-+<br>
-+#if defined(CONFIG_FSFREEZE)<br>
-+int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s=
-trList *mountpoints,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 F=
-sMountList mounts,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 E=
-rror **errp);<br>
-+int qmp_guest_fsfreeze_do_thaw(Error **errp);<br>
-+#endif /* CONFIG_FSFREEZE */<br>
-<br>
-=C2=A0typedef struct GuestFileHandle GuestFileHandle;<br>
-<br>
-@@ -29,4 +63,5 @@ GuestFileRead *guest_file_read_unsafe(GuestFileHandle *gf=
-h,<br>
-=C2=A0 */<br>
-=C2=A0char *qga_get_host_name(Error **errp);<br>
-<br>
-+void ga_wait_child(pid_t pid, int *status, Error **errp);<br>
-=C2=A0#endif<br>
-diff --git a/qga/commands-linux.c b/qga/commands-linux.c<br>
+diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c<br>
 new file mode 100644<br>
-index 0000000000..214e408fcd<br>
+index 0000000000..ca06692179<br>
 --- /dev/null<br>
-+++ b/qga/commands-linux.c<br>
-@@ -0,0 +1,286 @@<br>
++++ b/qga/commands-bsd.c<br>
+@@ -0,0 +1,169 @@<br>
 +/*<br>
-+ * QEMU Guest Agent Linux-specific command implementations<br>
++ * QEMU Guest Agent BSD-specific command implementations<br>
 + *<br>
-+ * Copyright IBM Corp. 2011<br>
++ * Copyright (c) Virtuozzo International GmbH.<br>
 + *<br>
 + * Authors:<br>
-+ *=C2=A0 Michael Roth=C2=A0 =C2=A0 =C2=A0 &lt;<a href=3D"mailto:mdroth@lin=
-ux.vnet.ibm.com" target=3D"_blank">mdroth@linux.vnet.ibm.com</a>&gt;<br>
-+ *=C2=A0 Michal Privoznik=C2=A0 &lt;<a href=3D"mailto:mprivozn@redhat.com"=
- target=3D"_blank">mprivozn@redhat.com</a>&gt;<br>
++ *=C2=A0 Alexander Ivanov=C2=A0 &lt;<a href=3D"mailto:alexander.ivanov@vir=
+tuozzo.com" target=3D"_blank">alexander.ivanov@virtuozzo.com</a>&gt;<br>
 + *<br>
 + * This work is licensed under the terms of the GNU GPL, version 2 or late=
 r.<br>
@@ -1008,207 +768,67 @@ r.<br>
 + */<br>
 +<br>
 +#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qga-qapi-commands.h&quot;<br>
++#include &quot;qapi/qmp/qerror.h&quot;<br>
 +#include &quot;qapi/error.h&quot;<br>
++#include &quot;qemu/queue.h&quot;<br>
 +#include &quot;commands-common.h&quot;<br>
-+#include &quot;cutils.h&quot;<br>
-+#include &lt;mntent.h&gt;<br>
 +#include &lt;sys/ioctl.h&gt;<br>
++#include &lt;sys/param.h&gt;<br>
++#include &lt;sys/ucred.h&gt;<br>
++#include &lt;sys/mount.h&gt;<br>
++#include &lt;paths.h&gt;<br>
 +<br>
 +#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)<br>
-+static int dev_major_minor(const char *devpath,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0unsigned int *devmajor, unsigned int *devminor)<br>
-+{<br>
-+=C2=A0 =C2=A0 struct stat st;<br>
-+<br>
-+=C2=A0 =C2=A0 *devmajor =3D 0;<br>
-+=C2=A0 =C2=A0 *devminor =3D 0;<br>
-+<br>
-+=C2=A0 =C2=A0 if (stat(devpath, &amp;st) &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 slog(&quot;failed to stat device file &#39;%s&=
-#39;: %s&quot;, devpath, strerror(errno));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 if (S_ISDIR(st.st_mode)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* It is bind mount */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -2;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 if (S_ISBLK(st.st_mode)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *devmajor =3D major(st.st_rdev);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *devminor =3D minor(st.st_rdev);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 return -1;<br>
-+}<br>
-+<br>
-+static bool build_fs_mount_list_from_mtab(FsMountList *mounts, Error **err=
-p)<br>
-+{<br>
-+=C2=A0 =C2=A0 struct mntent *ment;<br>
-+=C2=A0 =C2=A0 FsMount *mount;<br>
-+=C2=A0 =C2=A0 char const *mtab =3D &quot;/proc/self/mounts&quot;;<br>
-+=C2=A0 =C2=A0 FILE *fp;<br>
-+=C2=A0 =C2=A0 unsigned int devmajor, devminor;<br>
-+<br>
-+=C2=A0 =C2=A0 fp =3D setmntent(mtab, &quot;r&quot;);<br>
-+=C2=A0 =C2=A0 if (!fp) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;failed to open mtab fil=
-e: &#39;%s&#39;&quot;, mtab);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 while ((ment =3D getmntent(fp))) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* An entry which device name doesn&#39;t=
- start with a &#39;/&#39; is<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* either a dummy file system or a networ=
-k file system.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Add special handling for smbfs and cif=
-s as is done by<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* coreutils as well.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((ment-&gt;mnt_fsname[0] !=3D &#39;/&#39;) =
-||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (strcmp(ment-&gt;mnt_type, &quot=
-;smbfs&quot;) =3D=3D 0) ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (strcmp(ment-&gt;mnt_type, &quot=
-;cifs&quot;) =3D=3D 0)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dev_major_minor(ment-&gt;mnt_fsname, &amp;=
-devmajor, &amp;devminor) =3D=3D -2) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Skip bind mounts */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount =3D g_new0(FsMount, 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;dirname =3D g_strdup(ment-&gt;mnt_di=
-r);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devtype =3D g_strdup(ment-&gt;mnt_ty=
-pe);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devmajor =3D devmajor;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devminor =3D devminor;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 QTAILQ_INSERT_TAIL(mounts, mount, next);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 endmntent(fp);<br>
-+=C2=A0 =C2=A0 return true;<br>
-+}<br>
-+<br>
-+static void decode_mntname(char *name, int len)<br>
-+{<br>
-+=C2=A0 =C2=A0 int i, j =3D 0;<br>
-+=C2=A0 =C2=A0 for (i =3D 0; i &lt;=3D len; i++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (name[i] !=3D &#39;\\&#39;) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name[j++] =3D name[i];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (name[i + 1] =3D=3D &#39;\\&#39;) {<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name[j++] =3D &#39;\\&#39;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (name[i + 1] &gt;=3D &#39;0&#39; &am=
-p;&amp; name[i + 1] &lt;=3D &#39;3&#39; &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name[=
-i + 2] &gt;=3D &#39;0&#39; &amp;&amp; name[i + 2] &lt;=3D &#39;7&#39; &amp;=
-&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name[=
-i + 3] &gt;=3D &#39;0&#39; &amp;&amp; name[i + 3] &lt;=3D &#39;7&#39;) {<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name[j++] =3D (name[i + 1] - &#3=
-9;0&#39;) * 64 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 (name[i + 2] - &#39;0&#39;) * 8 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 (name[i + 3] - &#39;0&#39;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i +=3D 3;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name[j++] =3D name[i];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+/*<br>
-+ * Walk the mount table and build a list of local file systems<br>
-+ */<br>
 +bool build_fs_mount_list(FsMountList *mounts, Error **errp)<br>
 +{<br>
 +=C2=A0 =C2=A0 FsMount *mount;<br>
-+=C2=A0 =C2=A0 char const *mountinfo =3D &quot;/proc/self/mountinfo&quot;;<=
-br>
-+=C2=A0 =C2=A0 FILE *fp;<br>
-+=C2=A0 =C2=A0 char *line =3D NULL, *dash;<br>
-+=C2=A0 =C2=A0 size_t n;<br>
-+=C2=A0 =C2=A0 char check;<br>
-+=C2=A0 =C2=A0 unsigned int devmajor, devminor;<br>
-+=C2=A0 =C2=A0 int ret, dir_s, dir_e, type_s, type_e, dev_s, dev_e;<br>
++=C2=A0 =C2=A0 struct statfs *mntbuf, *mntp;<br>
++=C2=A0 =C2=A0 struct stat statbuf;<br>
++=C2=A0 =C2=A0 int i, count, ret;<br>
 +<br>
-+=C2=A0 =C2=A0 fp =3D fopen(mountinfo, &quot;r&quot;);<br>
-+=C2=A0 =C2=A0 if (!fp) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return build_fs_mount_list_from_mtab(mounts, e=
-rrp);<br>
++=C2=A0 =C2=A0 count =3D getmntinfo(&amp;mntbuf, MNT_NOWAIT);<br>
++=C2=A0 =C2=A0 if (count =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;getmntinfo=
+ failed&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
 +=C2=A0 =C2=A0 }<br>
 +<br>
-+=C2=A0 =C2=A0 while (getline(&amp;line, &amp;n, fp) !=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D sscanf(line, &quot;%*u %*u %u:%u %*s %=
-n%*s%n%c&quot;,<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; count; i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mntp =3D &amp;mntbuf[i];<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D stat(mntp-&gt;f_mntonname, &amp;statbu=
+f);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret !=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;stat failed on %s&quot;,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&amp;devmajor, &amp;devminor, &amp;dir_s, &amp;dir_e, &amp;check);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret &lt; 3) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 dash =3D strstr(line + dir_e, &quot; - &quot;)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!dash) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D sscanf(dash, &quot; - %n%*s%n %n%*s%n%=
-c&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&amp;type_s, &amp;type_e, &amp;dev_s, &amp;dev_e, &amp;check);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret &lt; 1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 line[dir_e] =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 dash[type_e] =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 dash[dev_e] =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 decode_mntname(line + dir_s, dir_e - dir_s);<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 decode_mntname(dash + dev_s, dev_e - dev_s);<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (devmajor =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* btrfs reports major number =
-=3D 0 */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(&quot;btrfs&quot;, da=
-sh + type_s) !=3D 0 ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev_major_minor(da=
-sh + dev_s, &amp;devmajor, &amp;devminor) &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mntp-&gt;f_mntonname);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 +<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount =3D g_new0(FsMount, 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;dirname =3D g_strdup(line + dir_s);<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devtype =3D g_strdup(dash + type_s);=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devmajor =3D devmajor;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devminor =3D devminor;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;dirname =3D g_strdup(mntp-&gt;f_mnto=
+nname);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devtype =3D g_strdup(mntp-&gt;f_fsty=
+pename);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devmajor =3D major(mount-&gt;dev);<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devminor =3D minor(mount-&gt;dev);<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;fsid =3D mntp-&gt;f_fsid;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;dev =3D statbuf.st_dev;<br>
 +<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 QTAILQ_INSERT_TAIL(mounts, mount, next);<br>
 +=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 free(line);<br>
-+<br>
-+=C2=A0 =C2=A0 fclose(fp);<br>
 +=C2=A0 =C2=A0 return true;<br>
 +}<br>
 +#endif /* CONFIG_FSFREEZE || CONFIG_FSTRIM */<br>
 +<br>
-+#ifdef CONFIG_FSFREEZE<br>
-+/*<br>
-+ * Walk list of mounted file systems in the guest, and freeze the ones whi=
-ch<br>
-+ * are real local file systems.<br>
-+ */<br>
++#if defined(CONFIG_FSFREEZE)<br>
++static int ufssuspend_fd =3D -1;<br>
++static int ufssuspend_cnt;<br>
++<br>
 +int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mountpoints,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s=
@@ -1220,20 +840,34 @@ sMountList mounts,<br>
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 E=
 rror **errp)<br>
 +{<br>
-+=C2=A0 =C2=A0 struct FsMount *mount;<br>
++=C2=A0 =C2=A0 int ret;<br>
 +=C2=A0 =C2=A0 strList *list;<br>
-+=C2=A0 =C2=A0 int fd, ret, i =3D 0;<br>
++=C2=A0 =C2=A0 struct FsMount *mount;<br>
++<br>
++=C2=A0 =C2=A0 if (ufssuspend_fd !=3D -1) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;filesystems have alread=
+y frozen&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 ufssuspend_cnt =3D 0;<br>
++=C2=A0 =C2=A0 ufssuspend_fd =3D qemu_open(_PATH_UFSSUSPEND, O_RDWR, errp);=
+<br>
++=C2=A0 =C2=A0 if (ufssuspend_fd =3D=3D -1) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 }<br>
 +<br>
 +=C2=A0 =C2=A0 QTAILQ_FOREACH_REVERSE(mount, &amp;mounts, next) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* To issue fsfreeze in the reverse order of m=
-ounts, check if the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* mount is listed in the list here */<br=
->
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* To issue fsfreeze in the reverse order=
+ of mounts, check if the<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* mount is listed in the list here<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (has_mountpoints) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (list =3D mountpoints; list;=
  list =3D list-&gt;next) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(list-&g=
-t;value, mount-&gt;dirname) =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_str_equal(li=
+st-&gt;value, mount-&gt;dirname)) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
 k;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
@@ -1243,59 +877,249 @@ k;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qga_open_cloexec(mount-&gt;dirname, O_R=
-DONLY, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
-uot;failed to open %s&quot;, mount-&gt;dirname);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Only UFS supports suspend */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!g_str_equal(mount-&gt;devtype, &quot;ufs&=
+quot;)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* we try to cull filesystems we know won&#39;=
-t work in advance, but other<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* filesystems may not implement fsfreeze=
- for less obvious reasons.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* these will report EOPNOTSUPP. we simpl=
-y ignore these when tallying<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* the number of frozen filesystems.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* if a filesystem is mounted more than o=
-nce (aka bind mount) a<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* consecutive attempt to freeze an alrea=
-dy frozen filesystem will<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* return EBUSY.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* any other error means a failure to fre=
-eze a filesystem we<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* expect to be freezable, so return an e=
-rror in those cases<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* and return system to thawed state.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ioctl(fd, FIFREEZE);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ioctl(ufssuspend_fd, UFSSUSPEND, &amp;=
+mount-&gt;fsid);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno !=3D EOPNOTSUPP &amp;&=
-amp; errno !=3D EBUSY) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(e=
-rrp, errno, &quot;failed to freeze %s&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mount-&gt;dirname);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* ioctl returns EBUSY for =
+all the FS except the first one<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* that was suspended<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno =3D=3D EBUSY) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i++;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;failed to freeze %s&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mount-&gt;dirname);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto error;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ufssuspend_cnt++;<br>
 +=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 return i;<br>
++=C2=A0 =C2=A0 return ufssuspend_cnt;<br>
++error:<br>
++=C2=A0 =C2=A0 close(ufssuspend_fd);<br>
++=C2=A0 =C2=A0 ufssuspend_fd =3D -1;<br>
++=C2=A0 =C2=A0 return -1;<br>
++<br>
 +}<br>
 +<br>
++/*<br>
++ * We don&#39;t need to call UFSRESUME ioctl because all the frozen FS<br>
++ * are thawed on /dev/ufssuspend closing.<br>
++ */<br>
 +int qmp_guest_fsfreeze_do_thaw(Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 int ret =3D ufssuspend_cnt;<br>
++=C2=A0 =C2=A0 ufssuspend_cnt =3D 0;<br>
++=C2=A0 =C2=A0 if (ufssuspend_fd !=3D -1) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(ufssuspend_fd);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ufssuspend_fd =3D -1;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 return ret;<br>
++}<br>
++<br>
++GuestFilesystemInfoList *qmp_guest_get_fsinfo(Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
++=C2=A0 =C2=A0 return NULL;<br>
++}<br>
++<br>
++GuestDiskInfoList *qmp_guest_get_disks(Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
++=C2=A0 =C2=A0 return NULL;<br>
++}<br>
++<br>
++GuestDiskStatsInfoList *qmp_guest_get_diskstats(Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
++=C2=A0 =C2=A0 return NULL;<br>
++}<br>
++<br>
++GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 error_setg(errp, QERR_UNSUPPORTED);<br>
++=C2=A0 =C2=A0 return NULL;<br>
++}<br>
++#endif /* CONFIG_FSFREEZE */<br>
+diff --git a/qga/commands-common.h b/qga/commands-common.h<br>
+index 181fc330aa..2d9878a634 100644<br>
+--- a/qga/commands-common.h<br>
++++ b/qga/commands-common.h<br>
+@@ -23,11 +23,22 @@<br>
+=C2=A0#endif<br>
+=C2=A0#endif /* __linux__ */<br>
+<br>
++#ifdef __FreeBSD__<br>
++#include &lt;ufs/ffs/fs.h&gt;<br>
++#ifdef UFSSUSPEND<br>
++#define CONFIG_FSFREEZE<br>
++#endif<br>
++#endif /* __FreeBSD__ */<br>
++<br>
+=C2=A0#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)<br>
+=C2=A0typedef struct FsMount {<br>
+=C2=A0 =C2=A0 =C2=A0char *dirname;<br>
+=C2=A0 =C2=A0 =C2=A0char *devtype;<br>
+=C2=A0 =C2=A0 =C2=A0unsigned int devmajor, devminor;<br>
++#if defined(__FreeBSD__)<br>
++=C2=A0 =C2=A0 dev_t dev;<br>
++=C2=A0 =C2=A0 fsid_t fsid;<br>
++#endif<br>
+=C2=A0 =C2=A0 =C2=A0QTAILQ_ENTRY(FsMount) next;<br>
+=C2=A0} FsMount;<br>
+<br>
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
+index 9574b83c92..49f9996a9c 100644<br>
+--- a/qga/commands-posix.c<br>
++++ b/qga/commands-posix.c<br>
+@@ -33,20 +33,12 @@<br>
+<br>
+=C2=A0#if defined(__linux__)<br>
+=C2=A0#include &lt;mntent.h&gt;<br>
+-#include &lt;linux/fs.h&gt;<br>
+=C2=A0#include &lt;sys/statvfs.h&gt;<br>
+=C2=A0#include &lt;linux/nvme_ioctl.h&gt;<br>
+<br>
+=C2=A0#ifdef CONFIG_LIBUDEV<br>
+=C2=A0#include &lt;libudev.h&gt;<br>
+=C2=A0#endif<br>
+-<br>
+-#ifdef FIFREEZE<br>
+-#define CONFIG_FSFREEZE<br>
+-#endif<br>
+-#ifdef FITRIM<br>
+-#define CONFIG_FSTRIM<br>
+-#endif<br>
+=C2=A0#endif<br>
+<br>
+=C2=A0#ifdef __FreeBSD__<br>
+@@ -623,9 +615,6 @@ void qmp_guest_file_flush(int64_t handle, Error **errp)=
+<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
+-/* linux-specific implementations. avoid this if at all possible. */<br>
+-#if defined(__linux__)<br>
+-<br>
+=C2=A0#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)<br>
+=C2=A0void free_fs_mount_list(FsMountList *mounts)<br>
+=C2=A0{<br>
+@@ -644,6 +633,156 @@ void free_fs_mount_list(FsMountList *mounts)<br>
+=C2=A0}<br>
+=C2=A0#endif<br>
+<br>
++#if defined(CONFIG_FSFREEZE)<br>
++typedef enum {<br>
++=C2=A0 =C2=A0 FSFREEZE_HOOK_THAW =3D 0,<br>
++=C2=A0 =C2=A0 FSFREEZE_HOOK_FREEZE,<br>
++} FsfreezeHookArg;<br>
++<br>
++static const char *fsfreeze_hook_arg_string[] =3D {<br>
++=C2=A0 =C2=A0 &quot;thaw&quot;,<br>
++=C2=A0 =C2=A0 &quot;freeze&quot;,<br>
++};<br>
++<br>
++static void execute_fsfreeze_hook(FsfreezeHookArg arg, Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 int status;<br>
++=C2=A0 =C2=A0 pid_t pid;<br>
++=C2=A0 =C2=A0 const char *hook;<br>
++=C2=A0 =C2=A0 const char *arg_str =3D fsfreeze_hook_arg_string[arg];<br>
++=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
++<br>
++=C2=A0 =C2=A0 hook =3D ga_fsfreeze_hook(ga_state);<br>
++=C2=A0 =C2=A0 if (!hook) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 if (access(hook, X_OK) !=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;can&#39;t =
+access fsfreeze hook &#39;%s&#39;&quot;, hook);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 slog(&quot;executing fsfreeze hook with arg &#39;%s&#39;&quo=
+t;, arg_str);<br>
++=C2=A0 =C2=A0 pid =3D fork();<br>
++=C2=A0 =C2=A0 if (pid =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 setsid();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 reopen_fd_to_null(0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 reopen_fd_to_null(1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 reopen_fd_to_null(2);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 execl(hook, hook, arg_str, NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 _exit(EXIT_FAILURE);<br>
++=C2=A0 =C2=A0 } else if (pid &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;failed to =
+create child process&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 ga_wait_child(pid, &amp;status, &amp;local_err);<br>
++=C2=A0 =C2=A0 if (local_err) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (!WIFEXITED(status)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;fsfreeze hook has termi=
+nated abnormally&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 status =3D WEXITSTATUS(status);<br>
++=C2=A0 =C2=A0 if (status) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;fsfreeze hook has faile=
+d with status %d&quot;, status);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++/*<br>
++ * Return status of freeze/thaw<br>
++ */<br>
++GuestFsfreezeStatus qmp_guest_fsfreeze_status(Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 if (ga_is_frozen(ga_state)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return GUEST_FSFREEZE_STATUS_FROZEN;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return GUEST_FSFREEZE_STATUS_THAWED;<br>
++}<br>
++<br>
++int64_t qmp_guest_fsfreeze_freeze(Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 return qmp_guest_fsfreeze_freeze_list(false, NULL, errp);<br=
+>
++}<br>
++<br>
++int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0strList *=
+mountpoints,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **e=
+rrp)<br>
 +{<br>
 +=C2=A0 =C2=A0 int ret;<br>
 +=C2=A0 =C2=A0 FsMountList mounts;<br>
-+=C2=A0 =C2=A0 FsMount *mount;<br>
-+=C2=A0 =C2=A0 int fd, i =3D 0, logged;<br>
 +=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
++<br>
++=C2=A0 =C2=A0 slog(&quot;guest-fsfreeze called&quot;);<br>
++<br>
++=C2=A0 =C2=A0 execute_fsfreeze_hook(FSFREEZE_HOOK_FREEZE, &amp;local_err);=
+<br>
++=C2=A0 =C2=A0 if (local_err) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 }<br>
 +<br>
 +=C2=A0 =C2=A0 QTAILQ_INIT(&amp;mounts);<br>
 +=C2=A0 =C2=A0 if (!build_fs_mount_list(&amp;mounts, &amp;local_err)) {<br>
@@ -1303,434 +1127,33 @@ rrp, errno, &quot;failed to freeze %s&quot;,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
 +=C2=A0 =C2=A0 }<br>
 +<br>
-+=C2=A0 =C2=A0 QTAILQ_FOREACH(mount, &amp;mounts, next) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 logged =3D false;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qga_open_cloexec(mount-&gt;dirname, O_R=
-DONLY, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* we have no way of knowing whether a filesys=
-tem was actually unfrozen<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* as a result of a successful call to FI=
-THAW, only that if an error<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* was returned the filesystem was *not* =
-unfrozen by that particular<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* call.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* since multiple preceding FIFREEZEs req=
-uire multiple calls to FITHAW<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* to unfreeze, continuing issuing FITHAW=
- until an error is returned,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* in which case either the filesystem is=
- in an unfreezable state, or,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* more likely, it was thawed previously =
-(and remains so afterward).<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* also, since the most recent successful=
- call is the one that did<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* the actual unfreeze, we can use this t=
-o provide an accurate count<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* of the number of filesystems unfrozen =
-by guest-fsfreeze-thaw, which<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* may * be useful for determining whethe=
-r a filesystem was unfrozen<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* during the freeze/thaw phase by a proc=
-ess other than qemu-ga.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 do {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ioctl(fd, FITHAW);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D 0 &amp;&amp; !log=
-ged) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i++;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logged =3D true;<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } while (ret =3D=3D 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
-+=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 /* cannot risk guest agent blocking itself on a write in thi=
+s state */<br>
++=C2=A0 =C2=A0 ga_set_frozen(ga_state);<br>
 +<br>
-+=C2=A0 =C2=A0 free_fs_mount_list(&amp;mounts);<br>
-+<br>
-+=C2=A0 =C2=A0 return i;<br>
-+}<br>
-+#endif /* CONFIG_FSFREEZE */<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index 16d67e9f6d..9574b83c92 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -16,11 +16,9 @@<br>
-=C2=A0#include &lt;sys/utsname.h&gt;<br>
-=C2=A0#include &lt;sys/wait.h&gt;<br>
-=C2=A0#include &lt;dirent.h&gt;<br>
--#include &quot;guest-agent-core.h&quot;<br>
-=C2=A0#include &quot;qga-qapi-commands.h&quot;<br>
-=C2=A0#include &quot;qapi/error.h&quot;<br>
-=C2=A0#include &quot;qapi/qmp/qerror.h&quot;<br>
--#include &quot;qemu/queue.h&quot;<br>
-=C2=A0#include &quot;qemu/host-utils.h&quot;<br>
-=C2=A0#include &quot;qemu/sockets.h&quot;<br>
-=C2=A0#include &quot;qemu/base64.h&quot;<br>
-@@ -70,7 +68,7 @@<br>
-=C2=A0#endif<br>
-=C2=A0#endif<br>
-<br>
--static void ga_wait_child(pid_t pid, int *status, Error **errp)<br>
-+void ga_wait_child(pid_t pid, int *status, Error **errp)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0pid_t rpid;<br>
-<br>
-@@ -629,16 +627,7 @@ void qmp_guest_file_flush(int64_t handle, Error **errp=
-)<br>
-=C2=A0#if defined(__linux__)<br>
-<br>
-=C2=A0#if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)<br>
--typedef struct FsMount {<br>
--=C2=A0 =C2=A0 char *dirname;<br>
--=C2=A0 =C2=A0 char *devtype;<br>
--=C2=A0 =C2=A0 unsigned int devmajor, devminor;<br>
--=C2=A0 =C2=A0 QTAILQ_ENTRY(FsMount) next;<br>
--} FsMount;<br>
--<br>
--typedef QTAILQ_HEAD(FsMountList, FsMount) FsMountList;<br>
--<br>
--static void free_fs_mount_list(FsMountList *mounts)<br>
-+void free_fs_mount_list(FsMountList *mounts)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 FsMount *mount, *temp;<br>
-<br>
-@@ -653,157 +642,6 @@ static void free_fs_mount_list(FsMountList *mounts)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(mount);<br>
-=C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0}<br>
--<br>
--static int dev_major_minor(const char *devpath,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0unsigned int *devmajor, unsigned int *devminor)<br>
--{<br>
--=C2=A0 =C2=A0 struct stat st;<br>
--<br>
--=C2=A0 =C2=A0 *devmajor =3D 0;<br>
--=C2=A0 =C2=A0 *devminor =3D 0;<br>
--<br>
--=C2=A0 =C2=A0 if (stat(devpath, &amp;st) &lt; 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 slog(&quot;failed to stat device file &#39;%s&=
-#39;: %s&quot;, devpath, strerror(errno));<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 if (S_ISDIR(st.st_mode)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* It is bind mount */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -2;<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 if (S_ISBLK(st.st_mode)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *devmajor =3D major(st.st_rdev);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 *devminor =3D minor(st.st_rdev);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 return -1;<br>
--}<br>
--<br>
--/*<br>
-- * Walk the mount table and build a list of local file systems<br>
-- */<br>
--static bool build_fs_mount_list_from_mtab(FsMountList *mounts, Error **err=
-p)<br>
--{<br>
--=C2=A0 =C2=A0 struct mntent *ment;<br>
--=C2=A0 =C2=A0 FsMount *mount;<br>
--=C2=A0 =C2=A0 char const *mtab =3D &quot;/proc/self/mounts&quot;;<br>
--=C2=A0 =C2=A0 FILE *fp;<br>
--=C2=A0 =C2=A0 unsigned int devmajor, devminor;<br>
--<br>
--=C2=A0 =C2=A0 fp =3D setmntent(mtab, &quot;r&quot;);<br>
--=C2=A0 =C2=A0 if (!fp) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;failed to open mtab fil=
-e: &#39;%s&#39;&quot;, mtab);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 while ((ment =3D getmntent(fp))) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* An entry which device name doesn&#39;t=
- start with a &#39;/&#39; is<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* either a dummy file system or a networ=
-k file system.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Add special handling for smbfs and cif=
-s as is done by<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* coreutils as well.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((ment-&gt;mnt_fsname[0] !=3D &#39;/&#39;) =
-||<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (strcmp(ment-&gt;mnt_type, &quot=
-;smbfs&quot;) =3D=3D 0) ||<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (strcmp(ment-&gt;mnt_type, &quot=
-;cifs&quot;) =3D=3D 0)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dev_major_minor(ment-&gt;mnt_fsname, &amp;=
-devmajor, &amp;devminor) =3D=3D -2) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Skip bind mounts */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount =3D g_new0(FsMount, 1);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;dirname =3D g_strdup(ment-&gt;mnt_di=
-r);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devtype =3D g_strdup(ment-&gt;mnt_ty=
-pe);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devmajor =3D devmajor;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devminor =3D devminor;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 QTAILQ_INSERT_TAIL(mounts, mount, next);<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 endmntent(fp);<br>
--=C2=A0 =C2=A0 return true;<br>
--}<br>
--<br>
--static void decode_mntname(char *name, int len)<br>
--{<br>
--=C2=A0 =C2=A0 int i, j =3D 0;<br>
--=C2=A0 =C2=A0 for (i =3D 0; i &lt;=3D len; i++) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (name[i] !=3D &#39;\\&#39;) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name[j++] =3D name[i];<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (name[i + 1] =3D=3D &#39;\\&#39;) {<=
-br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name[j++] =3D &#39;\\&#39;;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i++;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (name[i + 1] &gt;=3D &#39;0&#39; &am=
-p;&amp; name[i + 1] &lt;=3D &#39;3&#39; &amp;&amp;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name[=
-i + 2] &gt;=3D &#39;0&#39; &amp;&amp; name[i + 2] &lt;=3D &#39;7&#39; &amp;=
-&amp;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name[=
-i + 3] &gt;=3D &#39;0&#39; &amp;&amp; name[i + 3] &lt;=3D &#39;7&#39;) {<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name[j++] =3D (name[i + 1] - &#3=
-9;0&#39;) * 64 +<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 (name[i + 2] - &#39;0&#39;) * 8 +<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 (name[i + 3] - &#39;0&#39;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i +=3D 3;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name[j++] =3D name[i];<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 }<br>
--}<br>
--<br>
--static bool build_fs_mount_list(FsMountList *mounts, Error **errp)<br>
--{<br>
--=C2=A0 =C2=A0 FsMount *mount;<br>
--=C2=A0 =C2=A0 char const *mountinfo =3D &quot;/proc/self/mountinfo&quot;;<=
-br>
--=C2=A0 =C2=A0 FILE *fp;<br>
--=C2=A0 =C2=A0 char *line =3D NULL, *dash;<br>
--=C2=A0 =C2=A0 size_t n;<br>
--=C2=A0 =C2=A0 char check;<br>
--=C2=A0 =C2=A0 unsigned int devmajor, devminor;<br>
--=C2=A0 =C2=A0 int ret, dir_s, dir_e, type_s, type_e, dev_s, dev_e;<br>
--<br>
--=C2=A0 =C2=A0 fp =3D fopen(mountinfo, &quot;r&quot;);<br>
--=C2=A0 =C2=A0 if (!fp) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return build_fs_mount_list_from_mtab(mounts, e=
-rrp);<br>
--=C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 while (getline(&amp;line, &amp;n, fp) !=3D -1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D sscanf(line, &quot;%*u %*u %u:%u %*s %=
-n%*s%n%c&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&amp;devmajor, &amp;devminor, &amp;dir_s, &amp;dir_e, &amp;check);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret &lt; 3) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 dash =3D strstr(line + dir_e, &quot; - &quot;)=
-;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!dash) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D sscanf(dash, &quot; - %n%*s%n %n%*s%n%=
-c&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&amp;type_s, &amp;type_e, &amp;dev_s, &amp;dev_e, &amp;check);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret &lt; 1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 line[dir_e] =3D 0;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 dash[type_e] =3D 0;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 dash[dev_e] =3D 0;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 decode_mntname(line + dir_s, dir_e - dir_s);<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 decode_mntname(dash + dev_s, dev_e - dev_s);<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (devmajor =3D=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* btrfs reports major number =
-=3D 0 */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(&quot;btrfs&quot;, da=
-sh + type_s) !=3D 0 ||<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dev_major_minor(da=
-sh + dev_s, &amp;devmajor, &amp;devminor) &lt; 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount =3D g_new0(FsMount, 1);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;dirname =3D g_strdup(line + dir_s);<=
-br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devtype =3D g_strdup(dash + type_s);=
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devmajor =3D devmajor;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 mount-&gt;devminor =3D devminor;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 QTAILQ_INSERT_TAIL(mounts, mount, next);<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 free(line);<br>
--<br>
--=C2=A0 =C2=A0 fclose(fp);<br>
--=C2=A0 =C2=A0 return true;<br>
--}<br>
-=C2=A0#endif<br>
-<br>
-=C2=A0#if defined(CONFIG_FSFREEZE)<br>
-@@ -1708,20 +1546,13 @@ int64_t qmp_guest_fsfreeze_freeze(Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0return qmp_guest_fsfreeze_freeze_list(false, NULL, errp=
-);<br>
-=C2=A0}<br>
-<br>
--/*<br>
-- * Walk list of mounted file systems in the guest, and freeze the ones whi=
-ch<br>
-- * are real local file systems.<br>
-- */<br>
-=C2=A0int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 strList =
-*mountpoints,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **=
-errp)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 int ret =3D 0, i =3D 0;<br>
--=C2=A0 =C2=A0 strList *list;<br>
-+=C2=A0 =C2=A0 int ret;<br>
-=C2=A0 =C2=A0 =C2=A0FsMountList mounts;<br>
--=C2=A0 =C2=A0 struct FsMount *mount;<br>
-=C2=A0 =C2=A0 =C2=A0Error *local_err =3D NULL;<br>
--=C2=A0 =C2=A0 int fd;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0slog(&quot;guest-fsfreeze called&quot;);<br>
-<br>
-@@ -1740,122 +1571,34 @@ int64_t qmp_guest_fsfreeze_freeze_list(bool has_mo=
-untpoints,<br>
-=C2=A0 =C2=A0 =C2=A0/* cannot risk guest agent blocking itself on a write i=
-n this state */<br>
-=C2=A0 =C2=A0 =C2=A0ga_set_frozen(ga_state);<br>
-<br>
--=C2=A0 =C2=A0 QTAILQ_FOREACH_REVERSE(mount, &amp;mounts, next) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* To issue fsfreeze in the reverse order of m=
-ounts, check if the<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* mount is listed in the list here */<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (has_mountpoints) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (list =3D mountpoints; list;=
- list =3D list-&gt;next) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(list-&g=
-t;value, mount-&gt;dirname) =3D=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
-k;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!list) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qga_open_cloexec(mount-&gt;dirname, O_R=
-DONLY, 0);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
-uot;failed to open %s&quot;, mount-&gt;dirname);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto error;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* we try to cull filesystems we know won&#39;=
-t work in advance, but other<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* filesystems may not implement fsfreeze=
- for less obvious reasons.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* these will report EOPNOTSUPP. we simpl=
-y ignore these when tallying<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* the number of frozen filesystems.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* if a filesystem is mounted more than o=
-nce (aka bind mount) a<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* consecutive attempt to freeze an alrea=
-dy frozen filesystem will<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* return EBUSY.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* any other error means a failure to fre=
-eze a filesystem we<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* expect to be freezable, so return an e=
-rror in those cases<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* and return system to thawed state.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ioctl(fd, FIFREEZE);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D -1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno !=3D EOPNOTSUPP &amp;&=
-amp; errno !=3D EBUSY) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(e=
-rrp, errno, &quot;failed to freeze %s&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mount-&gt;dirname);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto error;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i++;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
--=C2=A0 =C2=A0 }<br>
 +=C2=A0 =C2=A0 ret =3D qmp_guest_fsfreeze_do_freeze_list(has_mountpoints, m=
 ountpoints,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
 =C2=A0 mounts, errp);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0free_fs_mount_list(&amp;mounts);<br>
-=C2=A0 =C2=A0 =C2=A0/* We may not issue any FIFREEZE here.<br>
-=C2=A0 =C2=A0 =C2=A0 * Just unset ga_state here and ready for the next call=
++<br>
++=C2=A0 =C2=A0 free_fs_mount_list(&amp;mounts);<br>
++=C2=A0 =C2=A0 /* We may not issue any FIFREEZE here.<br>
++=C2=A0 =C2=A0 =C2=A0* Just unset ga_state here and ready for the next call=
 .<br>
-=C2=A0 =C2=A0 =C2=A0 */<br>
--=C2=A0 =C2=A0 if (i =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
 +=C2=A0 =C2=A0 if (ret =3D=3D 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ga_unset_frozen(ga_state);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ga_unset_frozen(ga_state);<br>
 +=C2=A0 =C2=A0 } else if (ret &lt; 0) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qmp_guest_fsfreeze_thaw(NULL);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 return i;<br>
--<br>
--error:<br>
--=C2=A0 =C2=A0 free_fs_mount_list(&amp;mounts);<br>
--=C2=A0 =C2=A0 qmp_guest_fsfreeze_thaw(NULL);<br>
--=C2=A0 =C2=A0 return 0;<br>
++=C2=A0 =C2=A0 }<br>
 +=C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
-<br>
--/*<br>
-- * Walk list of frozen file systems in the guest, and thaw them.<br>
-- */<br>
-=C2=A0int64_t qmp_guest_fsfreeze_thaw(Error **errp)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0int ret;<br>
--=C2=A0 =C2=A0 FsMountList mounts;<br>
--=C2=A0 =C2=A0 FsMount *mount;<br>
--=C2=A0 =C2=A0 int fd, i =3D 0, logged;<br>
--=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
-<br>
--=C2=A0 =C2=A0 QTAILQ_INIT(&amp;mounts);<br>
--=C2=A0 =C2=A0 if (!build_fs_mount_list(&amp;mounts, &amp;local_err)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
++}<br>
++<br>
++int64_t qmp_guest_fsfreeze_thaw(Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 int ret;<br>
++<br>
 +=C2=A0 =C2=A0 ret =3D qmp_guest_fsfreeze_do_thaw(errp);<br>
 +=C2=A0 =C2=A0 if (ret &gt;=3D 0) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ga_unset_frozen(ga_state);<br>
@@ -1738,76 +1161,239 @@ ountpoints,<br>
 );<br>
 +=C2=A0 =C2=A0 } else {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return ret;<br>
++}<br>
++<br>
++static void guest_fsfreeze_cleanup(void)<br>
++{<br>
++=C2=A0 =C2=A0 Error *err =3D NULL;<br>
++<br>
++=C2=A0 =C2=A0 if (ga_is_frozen(ga_state) =3D=3D GUEST_FSFREEZE_STATUS_FROZ=
+EN) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qmp_guest_fsfreeze_thaw(&amp;err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 slog(&quot;failed to clean up fr=
+ozen filesystems: %s&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_get_pr=
+etty(err));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_free(err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++#endif<br>
++<br>
++/* linux-specific implementations. avoid this if at all possible. */<br>
++#if defined(__linux__)<br>
+=C2=A0#if defined(CONFIG_FSFREEZE)<br>
 <br>
--=C2=A0 =C2=A0 QTAILQ_FOREACH(mount, &amp;mounts, next) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 logged =3D false;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 fd =3D qga_open_cloexec(mount-&gt;dirname, O_R=
-DONLY, 0);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd =3D=3D -1) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* we have no way of knowing whether a filesys=
-tem was actually unfrozen<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* as a result of a successful call to FI=
-THAW, only that if an error<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* was returned the filesystem was *not* =
-unfrozen by that particular<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* call.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* since multiple preceding FIFREEZEs req=
-uire multiple calls to FITHAW<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* to unfreeze, continuing issuing FITHAW=
- until an error is returned,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* in which case either the filesystem is=
- in an unfreezable state, or,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* more likely, it was thawed previously =
-(and remains so afterward).<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* also, since the most recent successful=
- call is the one that did<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* the actual unfreeze, we can use this t=
-o provide an accurate count<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* of the number of filesystems unfrozen =
-by guest-fsfreeze-thaw, which<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* may * be useful for determining whethe=
-r a filesystem was unfrozen<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* during the freeze/thaw phase by a proc=
-ess other than qemu-ga.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 do {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ioctl(fd, FITHAW);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D 0 &amp;&amp; !log=
-ged) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i++;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logged =3D true;<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 } while (ret =3D=3D 0);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
+=C2=A0static char *get_pci_driver(char const *syspath, int pathlen, Error *=
+*errp)<br>
+@@ -1467,153 +1606,6 @@ GuestFilesystemInfoList *qmp_guest_get_fsinfo(Error=
+ **errp)<br>
+=C2=A0 =C2=A0 =C2=A0free_fs_mount_list(&amp;mounts);<br>
+=C2=A0 =C2=A0 =C2=A0return ret;<br>
+=C2=A0}<br>
+-<br>
+-<br>
+-typedef enum {<br>
+-=C2=A0 =C2=A0 FSFREEZE_HOOK_THAW =3D 0,<br>
+-=C2=A0 =C2=A0 FSFREEZE_HOOK_FREEZE,<br>
+-} FsfreezeHookArg;<br>
+-<br>
+-static const char *fsfreeze_hook_arg_string[] =3D {<br>
+-=C2=A0 =C2=A0 &quot;thaw&quot;,<br>
+-=C2=A0 =C2=A0 &quot;freeze&quot;,<br>
+-};<br>
+-<br>
+-static void execute_fsfreeze_hook(FsfreezeHookArg arg, Error **errp)<br>
+-{<br>
+-=C2=A0 =C2=A0 int status;<br>
+-=C2=A0 =C2=A0 pid_t pid;<br>
+-=C2=A0 =C2=A0 const char *hook;<br>
+-=C2=A0 =C2=A0 const char *arg_str =3D fsfreeze_hook_arg_string[arg];<br>
+-=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
+-<br>
+-=C2=A0 =C2=A0 hook =3D ga_fsfreeze_hook(ga_state);<br>
+-=C2=A0 =C2=A0 if (!hook) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 if (access(hook, X_OK) !=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;can&#39;t =
+access fsfreeze hook &#39;%s&#39;&quot;, hook);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
 -=C2=A0 =C2=A0 }<br>
 -<br>
--=C2=A0 =C2=A0 ga_unset_frozen(ga_state);<br>
--=C2=A0 =C2=A0 free_fs_mount_list(&amp;mounts);<br>
+-=C2=A0 =C2=A0 slog(&quot;executing fsfreeze hook with arg &#39;%s&#39;&quo=
+t;, arg_str);<br>
+-=C2=A0 =C2=A0 pid =3D fork();<br>
+-=C2=A0 =C2=A0 if (pid =3D=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 setsid();<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 reopen_fd_to_null(0);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 reopen_fd_to_null(1);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 reopen_fd_to_null(2);<br>
 -<br>
--=C2=A0 =C2=A0 execute_fsfreeze_hook(FSFREEZE_HOOK_THAW, errp);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 execl(hook, hook, arg_str, NULL);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 _exit(EXIT_FAILURE);<br>
+-=C2=A0 =C2=A0 } else if (pid &lt; 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;failed to =
+create child process&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 }<br>
 -<br>
--=C2=A0 =C2=A0 return i;<br>
-+=C2=A0 =C2=A0 return ret;<br>
-=C2=A0}<br>
+-=C2=A0 =C2=A0 ga_wait_child(pid, &amp;status, &amp;local_err);<br>
+-=C2=A0 =C2=A0 if (local_err) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 if (!WIFEXITED(status)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;fsfreeze hook has termi=
+nated abnormally&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 status =3D WEXITSTATUS(status);<br>
+-=C2=A0 =C2=A0 if (status) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;fsfreeze hook has faile=
+d with status %d&quot;, status);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 }<br>
+-}<br>
+-<br>
+-/*<br>
+- * Return status of freeze/thaw<br>
+- */<br>
+-GuestFsfreezeStatus qmp_guest_fsfreeze_status(Error **errp)<br>
+-{<br>
+-=C2=A0 =C2=A0 if (ga_is_frozen(ga_state)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return GUEST_FSFREEZE_STATUS_FROZEN;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 return GUEST_FSFREEZE_STATUS_THAWED;<br>
+-}<br>
+-<br>
+-int64_t qmp_guest_fsfreeze_freeze(Error **errp)<br>
+-{<br>
+-=C2=A0 =C2=A0 return qmp_guest_fsfreeze_freeze_list(false, NULL, errp);<br=
+>
+-}<br>
+-<br>
+-int64_t qmp_guest_fsfreeze_freeze_list(bool has_mountpoints,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0strList *=
+mountpoints,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **e=
+rrp)<br>
+-{<br>
+-=C2=A0 =C2=A0 int ret;<br>
+-=C2=A0 =C2=A0 FsMountList mounts;<br>
+-=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
+-<br>
+-=C2=A0 =C2=A0 slog(&quot;guest-fsfreeze called&quot;);<br>
+-<br>
+-=C2=A0 =C2=A0 execute_fsfreeze_hook(FSFREEZE_HOOK_FREEZE, &amp;local_err);=
 <br>
-=C2=A0static void guest_fsfreeze_cleanup(void)<br>
+-=C2=A0 =C2=A0 if (local_err) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 QTAILQ_INIT(&amp;mounts);<br>
+-=C2=A0 =C2=A0 if (!build_fs_mount_list(&amp;mounts, &amp;local_err)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 /* cannot risk guest agent blocking itself on a write in thi=
+s state */<br>
+-=C2=A0 =C2=A0 ga_set_frozen(ga_state);<br>
+-<br>
+-=C2=A0 =C2=A0 ret =3D qmp_guest_fsfreeze_do_freeze_list(has_mountpoints, m=
+ountpoints,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 mounts, errp);<br>
+-<br>
+-=C2=A0 =C2=A0 free_fs_mount_list(&amp;mounts);<br>
+-=C2=A0 =C2=A0 /* We may not issue any FIFREEZE here.<br>
+-=C2=A0 =C2=A0 =C2=A0* Just unset ga_state here and ready for the next call=
+.<br>
+-=C2=A0 =C2=A0 =C2=A0*/<br>
+-=C2=A0 =C2=A0 if (ret =3D=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ga_unset_frozen(ga_state);<br>
+-=C2=A0 =C2=A0 } else if (ret &lt; 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qmp_guest_fsfreeze_thaw(NULL);<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 return ret;<br>
+-}<br>
+-<br>
+-int64_t qmp_guest_fsfreeze_thaw(Error **errp)<br>
+-{<br>
+-=C2=A0 =C2=A0 int ret;<br>
+-<br>
+-=C2=A0 =C2=A0 ret =3D qmp_guest_fsfreeze_do_thaw(errp);<br>
+-=C2=A0 =C2=A0 if (ret &gt;=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ga_unset_frozen(ga_state);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 execute_fsfreeze_hook(FSFREEZE_HOOK_THAW, errp=
+);<br>
+-=C2=A0 =C2=A0 } else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D 0;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 return ret;<br>
+-}<br>
+-<br>
+-static void guest_fsfreeze_cleanup(void)<br>
+-{<br>
+-=C2=A0 =C2=A0 Error *err =3D NULL;<br>
+-<br>
+-=C2=A0 =C2=A0 if (ga_is_frozen(ga_state) =3D=3D GUEST_FSFREEZE_STATUS_FROZ=
+EN) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qmp_guest_fsfreeze_thaw(&amp;err);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (err) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 slog(&quot;failed to clean up fr=
+ozen filesystems: %s&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_get_pr=
+etty(err));<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_free(err);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 }<br>
+-}<br>
+=C2=A0#endif /* CONFIG_FSFREEZE */<br>
+<br>
+=C2=A0#if defined(CONFIG_FSTRIM)<br>
+diff --git a/qga/main.c b/qga/main.c<br>
+index 0d27c97d38..b3580508fa 100644<br>
+--- a/qga/main.c<br>
++++ b/qga/main.c<br>
+@@ -37,12 +37,7 @@<br>
+=C2=A0#include &quot;qga/service-win32.h&quot;<br>
+=C2=A0#include &quot;qga/vss-win32.h&quot;<br>
+=C2=A0#endif<br>
+-#ifdef __linux__<br>
+-#include &lt;linux/fs.h&gt;<br>
+-#ifdef FIFREEZE<br>
+-#define CONFIG_FSFREEZE<br>
+-#endif<br>
+-#endif<br>
++#include &quot;commands-common.h&quot;<br>
+<br>
+=C2=A0#ifndef _WIN32<br>
+=C2=A0#ifdef __FreeBSD__<br>
 diff --git a/qga/meson.build b/qga/meson.build<br>
-index 65c1e93846..409f49a000 100644<br>
+index 409f49a000..456ba4c29f 100644<br>
 --- a/qga/meson.build<br>
 +++ b/qga/meson.build<br>
-@@ -72,6 +72,9 @@ qga_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: files(<=
+@@ -75,6 +75,9 @@ qga_ss.add(when: &#39;CONFIG_POSIX&#39;, if_true: files(<=
 br>
-=C2=A0 =C2=A0&#39;commands-posix.c&#39;,<br>
-=C2=A0 =C2=A0&#39;commands-posix-ssh.c&#39;,<br>
+=C2=A0qga_ss.add(when: &#39;CONFIG_LINUX&#39;, if_true: files(<br>
+=C2=A0 =C2=A0&#39;commands-linux.c&#39;,<br>
 =C2=A0))<br>
-+qga_ss.add(when: &#39;CONFIG_LINUX&#39;, if_true: files(<br>
-+=C2=A0 &#39;commands-linux.c&#39;,<br>
++qga_ss.add(when: &#39;CONFIG_BSD&#39;, if_true: files(<br>
++=C2=A0 &#39;commands-bsd.c&#39;,<br>
 +))<br>
 =C2=A0qga_ss.add(when: &#39;CONFIG_WIN32&#39;, if_true: files(<br>
 =C2=A0 =C2=A0&#39;channel-win32.c&#39;,<br>
@@ -1815,8 +1401,8 @@ br>
 -- <br>
 2.34.1<br>
 <br>
-</blockquote></div></div>
+</blockquote></div>
 
---0000000000007971ee05ea218463--
+--000000000000c3a48405ea2185ab--
 
 
