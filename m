@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D405F2B77
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 10:13:57 +0200 (CEST)
-Received: from localhost ([::1]:42262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2545F2B7F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 10:16:41 +0200 (CEST)
+Received: from localhost ([::1]:50064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofGaK-0000D0-DN
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 04:13:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59018)
+	id 1ofGcy-0001z2-Ld
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 04:16:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ofGS7-0006DN-H8
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 04:05:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21433)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ofGYN-0007vv-4g; Mon, 03 Oct 2022 04:11:59 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ofGS4-0005vR-H9
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 04:05:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664784323;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jzh3pBGbp7vNDKyCAkOPrG5Mmk5K5VTk4qKwSIsBTRY=;
- b=YGMtjUQyxE2sR40lG6hrmkQ+jdXOVcsduh4C9TjnI3UlEZgAsKyjJlGGMl72LBKGL51pWW
- E9hICmfOTyVRMcePd9x5MIp9cyq03gSHWZBBqHH/v3SIOENJoYaA0tdDYpi9q5+aMnJKQw
- Xv8fa9TDd/bWkAD6EKWpiComVzIMts4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-xoT3IO_CMsyxICFcHFbB9w-1; Mon, 03 Oct 2022 04:05:22 -0400
-X-MC-Unique: xoT3IO_CMsyxICFcHFbB9w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C7296101CC67;
- Mon,  3 Oct 2022 08:05:21 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 194C42027061;
- Mon,  3 Oct 2022 08:05:19 +0000 (UTC)
-Date: Mon, 3 Oct 2022 09:05:14 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, jb-gnumlists@wisemo.com, thuth@redhat.com,
- jasowang@redhat.com, qemu_oss@crudebyte.com
-Subject: Re: [PATCH] build-sys: error when slirp is not found and not disabled
-Message-ID: <YzqXuhJWloERf6Wm@redhat.com>
-References: <20221003070534.2180380-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ofGYL-0006k4-Nc; Mon, 03 Oct 2022 04:11:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vST+N63r+OH896JzByvZ1ANE6YCL3ZVP/fn8wMmPrxY=; b=BvjYdjZgaEzBiGOMUwXPkMFQ04
+ NZtuSyP4045jk/dmEc+4SNtNEEMZgnkN4i7VoB8Fnu8B8qQDqKdnZSUHpoetlLKhb/X46M3vW5CMF
+ QWSqMCmobVMBu3LFA3mqrc5kOqgzweTmzH/U2a+ug8Ead0lp/Ll3TlMLxapodj3Z4XToqR7ugg/bw
+ t6gymkVFCGcRKV96XdIoRi0Rn+/JP1yThNmAM/G3Iar/qpMT1exGfDUil+aRmdtWT+dU+trEV/ac3
+ fXReYlpOr1IUV4VM8yJB8x3z6oi96RsCh51XIREehwDcCPc3S/YE1kam3BWMgiGG3gN0nzCISVJbk
+ 4A1CRmvMViNl/M2gooieayaAnPB0DIFuYJwdkCUkukADokOC8bHM5/Qrk7+MCRJXxXFXZbRWDojMI
+ qKzvJzjq64IL++VNsyv4gsG8NO9qCj5fx47LrgZLlcNLPE2Av7MDBHq5AVNZiG8MoqeWtX98gqIMu
+ 7CQ+PYPAsMjyvg/CFsI6YfGgdaMjPTxRO9qZY2o5vaUYX3OtUwhhw8fjTPkWt1nt1KUAN7vagY47s
+ MpFZC0h+4nLGWS0K2+6eLsme8+pJRru+vgNAALaUov8AZby+MjM9qdgG6Vs09/ASjnmbwczNHplDC
+ diostoX1zewSyhGx/ZUv2daYKj9UW5SgRKYzp28+s=;
+Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ofGWa-0005UT-Kf; Mon, 03 Oct 2022 09:10:04 +0100
+Message-ID: <349b1151-6c05-5e7c-9819-d6345cb53434@ilande.co.uk>
+Date: Mon, 3 Oct 2022 09:11:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221003070534.2180380-1-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1664108862.git.balaton@eik.bme.hu>
+ <6d15737b-bcfd-9fdf-2072-d906acf05a9c@gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <6d15737b-bcfd-9fdf-2072-d906acf05a9c@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 00/13] Misc ppc/mac machines clean up
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.086,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,54 +77,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 03, 2022 at 11:05:34AM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> This is an alternative configure-time solution to "[PATCH] net:
-> print a more actionable error when slirp is not found".
-> 
-> See also "If your networking is failing after updating to the latest git
-> version of QEMU..." ML thread.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  meson.build | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/meson.build b/meson.build
-> index 8dc661363f..565096001d 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -657,6 +657,12 @@ if not get_option('slirp').auto() or have_system
->    endif
->  endif
+On 26/09/2022 22:40, Daniel Henrique Barboza wrote:
+
+> Mark,
 >  
-> +if not get_option('slirp').disabled() and not slirp.found()
-> +  error('libslirp is not explicitely disabled and was not found. ' +
-> +        'Since qemu 7.2, libslirp is no longer included as a submodule ' +
-> +        'fallback, you must install it on your system or --disable-libslirp.')
-> +endif
+> It seems that you're usually push mac changes via a qemu-macppc PR (git log
+> says that the last one was Jan 2021), so feel free to keep doing so.
+> 
+> If it's convenient for you I can pick them via ppc-next as well. Just let me
+> know.
+> 
+> Thanks,
+> 
+> Daniel
 
-I understand the motivation, but this goes against the main principal
-of our build time detection, which is to "do the right thing" automatically.
-If libslirp is not present on the host, then I would consider the need to
-pass --disable-libslirp to be a bug.
-
-I think this pain that people see of loosing slirp support is going to be
-a pretty short term problem. IMHO it suffices to print a warning message
-right at the very end of configure, after everything else, just for one
-or two releases.
+Thanks Daniel, I really appreciate the offer of help - I'll let you know if I need to 
+take you up on it :)
 
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+ATB,
 
+Mark.
 
