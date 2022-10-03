@@ -2,101 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F08D5F31E8
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 16:23:58 +0200 (CEST)
-Received: from localhost ([::1]:48166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABC65F31E7
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 16:23:54 +0200 (CEST)
+Received: from localhost ([::1]:54170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofMMP-0002An-1G
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 10:23:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50380)
+	id 1ofMMK-0001xm-Pm
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 10:23:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ofMCW-0001RY-UF; Mon, 03 Oct 2022 10:13:44 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4652)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ofMCQ-0006ST-Hv; Mon, 03 Oct 2022 10:13:40 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 293DM0s5003613;
- Mon, 3 Oct 2022 14:13:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=uMyOAmiRtlrurRie55GAVZ2k099txYBQhB16t1ealfk=;
- b=NFquJywIR2qvOd4e8/1LCW0xhEpJgTHr+O8bxX4fN9Lx/3L1A4ygvVETfkf1Xv2Nway5
- jpEuZP+5IDtSPUgdFhWP0m7Lhf/ZzVPNnOAuJNFypt27hzYsSOmKLHwo5DkG0u87wKwc
- K3ePp3kNhSnIk5h7UOyqqI9r7VII89y2XMfMAUag9y1Am57+m5DqJlz+Hbgc4whtpS2G
- R/5pLdqRoo8r20TlDungNJoDzcf1hIJGwpJLKWToEw42QXSa9X0Mu8GBVsNASPmFxbDl
- qp0ZqUoXUtYp607gMp7Bb3fG2RZ/7aRvN1klGT1/9Jjmy6LG/BvH+bE5hHf9RoiOfH7Q +A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k00jd1m7u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Oct 2022 14:13:22 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 293DMR8S005034;
- Mon, 3 Oct 2022 14:13:22 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k00jd1m75-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Oct 2022 14:13:21 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 293E6jxR026754;
- Mon, 3 Oct 2022 14:13:20 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma04wdc.us.ibm.com with ESMTP id 3jxd69dkwv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Oct 2022 14:13:20 +0000
-Received: from smtpav05.wdc07v.mail.ibm.com ([9.208.128.117])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 293EDJ4765798526
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 3 Oct 2022 14:13:20 GMT
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 63BB058053;
- Mon,  3 Oct 2022 14:13:19 +0000 (GMT)
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9BA9658043;
- Mon,  3 Oct 2022 14:13:18 +0000 (GMT)
-Received: from localhost (unknown [9.160.178.216])
- by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
- Mon,  3 Oct 2022 14:13:18 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org, Matheus
- Ferst <matheus.ferst@eldorado.org.br>
-Subject: Re: [RFC PATCH v2 29/29] target/ppc: move the
- p*_interrupt_powersave methods to excp_helper.c
-In-Reply-To: <20220927201544.4088567-30-matheus.ferst@eldorado.org.br>
-References: <20220927201544.4088567-1-matheus.ferst@eldorado.org.br>
- <20220927201544.4088567-30-matheus.ferst@eldorado.org.br>
-Date: Mon, 03 Oct 2022 11:13:16 -0300
-Message-ID: <87fsg5572b.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ofMHZ-0005w1-9b; Mon, 03 Oct 2022 10:18:57 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42521)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ofMHW-0007Bd-Bv; Mon, 03 Oct 2022 10:18:56 -0400
+Received: by mail-wr1-x434.google.com with SMTP id b7so9359640wrq.9;
+ Mon, 03 Oct 2022 07:18:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=RAcORxq9RdBQCcHgDexiQJOT4k3i/ts62UqVX+4RK48=;
+ b=GGDEwTGe+3/oFdLiSfITqxHVZrZ+LsZjAa9W330uGANJW5Nz5MHOR4KG4lbe04owUl
+ Y+HgNhfSOGBgBcf/0m67w7AviyGB+5n1OeR2ABO42lExDdoXTDw/Sr3wPuxVmWaU6OXD
+ Q1waV+7rfunavVQAVx/u+vXm6fgQmoBEViy9637WXKaB6ms3kAPijlIxrdBunmLbC5Rd
+ oK9i3w54zQE3wa2l4qaoO1wc1pfqZfYwWClcteuCe2jnTS0SqPMElWpwN1JdYcKSmCvR
+ H6KwUlM5hVBe+F0TJZSLnuGOQtgK3/o4MQTjPkxW8Om+v1ApB+DtgNMLJrv4Z/D0SWdK
+ SBlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=RAcORxq9RdBQCcHgDexiQJOT4k3i/ts62UqVX+4RK48=;
+ b=A7O1QMtfEynzVBoXqflBjGUPFX73BkxqChfWLXLM/avqf8XjvLJQcng+uAY2hz2KIj
+ iAuxeuZCeTwGCruE3SRT0j4ZetJrfbTzKPQQLWdzQjVNrOn2ZGOjpIyrxDQIsOPoJPUu
+ 0TBksPyadKEcxTPUd2gqpiNllOlXfUR1vL6xSMd6OmF/00q0cowrBUgGx3+I334GW6DO
+ YDsph1Qszrh15JOiF25TfyjFqOB/TVcltakW+Acna7gD7YiupX2IWHpSU75y5KcfYSOT
+ O4My7xRNkiz5ZAaRWofyVbGUbp/FzwGCXZ14Ii7Qel8Om94koQF0mRkbzyVTXQR/M6SO
+ oM7w==
+X-Gm-Message-State: ACrzQf15/qeDTUR13dPESeKGHsR/RkwKrMPR7ufUU1W3gO+0Q9czihvk
+ 8HhbqHn+eOMowA76XYnz3S0=
+X-Google-Smtp-Source: AMsMyM7DyV9mcfKC6LDI3QeWTQBueyG6hlEtpYxNC/VDpFQXigtNWyhXBT27lZtBIR4vKOvXatTjbA==
+X-Received: by 2002:a5d:5050:0:b0:22c:dbba:9ab1 with SMTP id
+ h16-20020a5d5050000000b0022cdbba9ab1mr11974765wrt.341.1664806731963; 
+ Mon, 03 Oct 2022 07:18:51 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ m10-20020adfe0ca000000b0022e36c1113fsm4247950wri.13.2022.10.03.07.18.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Oct 2022 07:18:51 -0700 (PDT)
+Message-ID: <e2440ba1-b41c-3d75-d1e3-f58ae5a93322@amsat.org>
+Date: Mon, 3 Oct 2022 16:18:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: N_7YFMIhMkwOSsR_-7We_l6NhCzO0fOc
-X-Proofpoint-ORIG-GUID: hSkLKPMT_wjM5uQHlAmIOcuyR9zmXjdW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-03_02,2022-09-29_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- lowpriorityscore=0 mlxscore=0 malwarescore=0 impostorscore=0 phishscore=0
- priorityscore=1501 mlxlogscore=950 bulkscore=0 clxscore=1015 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210030085
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH v5 3/9] target/arm: Change gen_*set_pc_im to gen_*update_pc
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org
+References: <20220930220312.135327-1-richard.henderson@linaro.org>
+ <20220930220312.135327-4-richard.henderson@linaro.org>
+In-Reply-To: <20220930220312.135327-4-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.467,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,288 +91,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
-
-> Move the methods to excp_helper.c and make them static.
->
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
-
+On 1/10/22 00:03, Richard Henderson wrote:
+> In preparation for TARGET_TB_PCREL, reduce reliance on
+> absolute values by passing in pc difference.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/ppc/cpu_init.c    | 102 ---------------------------------------
->  target/ppc/excp_helper.c | 102 +++++++++++++++++++++++++++++++++++++++
->  target/ppc/internal.h    |   6 ---
->  3 files changed, 102 insertions(+), 108 deletions(-)
->
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 4d0064c7a5..a9c2726d51 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -5960,30 +5960,6 @@ static bool ppc_pvr_match_power7(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
->      return true;
->  }
->  
-> -int p7_interrupt_powersave(CPUPPCState *env)
-> -{
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
-> -        (env->spr[SPR_LPCR] & LPCR_P7_PECE0)) {
-> -        return PPC_INTERRUPT_EXT;
-> -    }
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
-> -        (env->spr[SPR_LPCR] & LPCR_P7_PECE1)) {
-> -        return PPC_INTERRUPT_DECR;
-> -    }
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
-> -        (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
-> -        return PPC_INTERRUPT_MCK;
-> -    }
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
-> -        (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
-> -        return PPC_INTERRUPT_HMI;
-> -    }
-> -    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
-> -        return PPC_INTERRUPT_RESET;
-> -    }
-> -    return 0;
-> -}
-> -
->  POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(oc);
-> @@ -6120,38 +6096,6 @@ static bool ppc_pvr_match_power8(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
->      return true;
->  }
->  
-> -int p8_interrupt_powersave(CPUPPCState *env)
-> -{
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
-> -        (env->spr[SPR_LPCR] & LPCR_P8_PECE2)) {
-> -        return PPC_INTERRUPT_EXT;
-> -    }
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
-> -        (env->spr[SPR_LPCR] & LPCR_P8_PECE3)) {
-> -        return PPC_INTERRUPT_DECR;
-> -    }
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
-> -        (env->spr[SPR_LPCR] & LPCR_P8_PECE4)) {
-> -        return PPC_INTERRUPT_MCK;
-> -    }
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
-> -        (env->spr[SPR_LPCR] & LPCR_P8_PECE4)) {
-> -        return PPC_INTERRUPT_HMI;
-> -    }
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_DOORBELL) &&
-> -        (env->spr[SPR_LPCR] & LPCR_P8_PECE0)) {
-> -        return PPC_INTERRUPT_DOORBELL;
-> -    }
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) &&
-> -        (env->spr[SPR_LPCR] & LPCR_P8_PECE1)) {
-> -        return PPC_INTERRUPT_HDOORBELL;
-> -    }
-> -    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
-> -        return PPC_INTERRUPT_RESET;
-> -    }
-> -    return 0;
-> -}
-> -
->  POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(oc);
-> @@ -6325,52 +6269,6 @@ static bool ppc_pvr_match_power9(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
->      return false;
->  }
->  
-> -int p9_interrupt_powersave(CPUPPCState *env)
-> -{
-> -    /* External Exception */
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
-> -        (env->spr[SPR_LPCR] & LPCR_EEE)) {
-> -        bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
-> -        if (!heic || !FIELD_EX64_HV(env->msr) ||
-> -            FIELD_EX64(env->msr, MSR, PR)) {
-> -            return PPC_INTERRUPT_EXT;
-> -        }
-> -    }
-> -    /* Decrementer Exception */
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
-> -        (env->spr[SPR_LPCR] & LPCR_DEE)) {
-> -        return PPC_INTERRUPT_DECR;
-> -    }
-> -    /* Machine Check or Hypervisor Maintenance Exception */
-> -    if (env->spr[SPR_LPCR] & LPCR_OEE) {
-> -        if (env->pending_interrupts & PPC_INTERRUPT_MCK) {
-> -            return PPC_INTERRUPT_MCK;
-> -        }
-> -        if (env->pending_interrupts & PPC_INTERRUPT_HMI) {
-> -            return PPC_INTERRUPT_HMI;
-> -        }
-> -    }
-> -    /* Privileged Doorbell Exception */
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_DOORBELL) &&
-> -        (env->spr[SPR_LPCR] & LPCR_PDEE)) {
-> -        return PPC_INTERRUPT_DOORBELL;
-> -    }
-> -    /* Hypervisor Doorbell Exception */
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) &&
-> -        (env->spr[SPR_LPCR] & LPCR_HDEE)) {
-> -        return PPC_INTERRUPT_HDOORBELL;
-> -    }
-> -    /* Hypervisor virtualization exception */
-> -    if ((env->pending_interrupts & PPC_INTERRUPT_HVIRT) &&
-> -        (env->spr[SPR_LPCR] & LPCR_HVEE)) {
-> -        return PPC_INTERRUPT_HVIRT;
-> -    }
-> -    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
-> -        return PPC_INTERRUPT_RESET;
-> -    }
-> -    return 0;
-> -}
-> -
->  POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(oc);
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 9708f82b30..57937956e4 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -1686,6 +1686,30 @@ void ppc_cpu_do_interrupt(CPUState *cs)
->       PPC_INTERRUPT_PIT | PPC_INTERRUPT_DOORBELL | PPC_INTERRUPT_HDOORBELL | \
->       PPC_INTERRUPT_THERM | PPC_INTERRUPT_EBB)
->  
-> +static int p7_interrupt_powersave(CPUPPCState *env)
-> +{
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
-> +        (env->spr[SPR_LPCR] & LPCR_P7_PECE0)) {
-> +        return PPC_INTERRUPT_EXT;
-> +    }
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
-> +        (env->spr[SPR_LPCR] & LPCR_P7_PECE1)) {
-> +        return PPC_INTERRUPT_DECR;
-> +    }
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
-> +        (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
-> +        return PPC_INTERRUPT_MCK;
-> +    }
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
-> +        (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
-> +        return PPC_INTERRUPT_HMI;
-> +    }
-> +    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
-> +        return PPC_INTERRUPT_RESET;
-> +    }
-> +    return 0;
-> +}
-> +
->  static int p7_next_unmasked_interrupt(CPUPPCState *env)
->  {
->      PowerPCCPU *cpu = env_archcpu(env);
-> @@ -1751,6 +1775,38 @@ static int p7_next_unmasked_interrupt(CPUPPCState *env)
->      PPC_INTERRUPT_FIT | PPC_INTERRUPT_PIT | PPC_INTERRUPT_DOORBELL |    \
->      PPC_INTERRUPT_HDOORBELL | PPC_INTERRUPT_THERM)
->  
-> +static int p8_interrupt_powersave(CPUPPCState *env)
-> +{
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
-> +        (env->spr[SPR_LPCR] & LPCR_P8_PECE2)) {
-> +        return PPC_INTERRUPT_EXT;
-> +    }
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
-> +        (env->spr[SPR_LPCR] & LPCR_P8_PECE3)) {
-> +        return PPC_INTERRUPT_DECR;
-> +    }
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
-> +        (env->spr[SPR_LPCR] & LPCR_P8_PECE4)) {
-> +        return PPC_INTERRUPT_MCK;
-> +    }
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
-> +        (env->spr[SPR_LPCR] & LPCR_P8_PECE4)) {
-> +        return PPC_INTERRUPT_HMI;
-> +    }
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_DOORBELL) &&
-> +        (env->spr[SPR_LPCR] & LPCR_P8_PECE0)) {
-> +        return PPC_INTERRUPT_DOORBELL;
-> +    }
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) &&
-> +        (env->spr[SPR_LPCR] & LPCR_P8_PECE1)) {
-> +        return PPC_INTERRUPT_HDOORBELL;
-> +    }
-> +    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
-> +        return PPC_INTERRUPT_RESET;
-> +    }
-> +    return 0;
-> +}
-> +
->  static int p8_next_unmasked_interrupt(CPUPPCState *env)
->  {
->      PowerPCCPU *cpu = env_archcpu(env);
-> @@ -1820,6 +1876,52 @@ static int p8_next_unmasked_interrupt(CPUPPCState *env)
->       PPC_INTERRUPT_WDT | PPC_INTERRUPT_CDOORBELL | PPC_INTERRUPT_FIT |  \
->       PPC_INTERRUPT_PIT | PPC_INTERRUPT_THERM)
->  
-> +static int p9_interrupt_powersave(CPUPPCState *env)
-> +{
-> +    /* External Exception */
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
-> +        (env->spr[SPR_LPCR] & LPCR_EEE)) {
-> +        bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
-> +        if (!heic || !FIELD_EX64_HV(env->msr) ||
-> +            FIELD_EX64(env->msr, MSR, PR)) {
-> +            return PPC_INTERRUPT_EXT;
-> +        }
-> +    }
-> +    /* Decrementer Exception */
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
-> +        (env->spr[SPR_LPCR] & LPCR_DEE)) {
-> +        return PPC_INTERRUPT_DECR;
-> +    }
-> +    /* Machine Check or Hypervisor Maintenance Exception */
-> +    if (env->spr[SPR_LPCR] & LPCR_OEE) {
-> +        if (env->pending_interrupts & PPC_INTERRUPT_MCK) {
-> +            return PPC_INTERRUPT_MCK;
-> +        }
-> +        if (env->pending_interrupts & PPC_INTERRUPT_HMI) {
-> +            return PPC_INTERRUPT_HMI;
-> +        }
-> +    }
-> +    /* Privileged Doorbell Exception */
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_DOORBELL) &&
-> +        (env->spr[SPR_LPCR] & LPCR_PDEE)) {
-> +        return PPC_INTERRUPT_DOORBELL;
-> +    }
-> +    /* Hypervisor Doorbell Exception */
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) &&
-> +        (env->spr[SPR_LPCR] & LPCR_HDEE)) {
-> +        return PPC_INTERRUPT_HDOORBELL;
-> +    }
-> +    /* Hypervisor virtualization exception */
-> +    if ((env->pending_interrupts & PPC_INTERRUPT_HVIRT) &&
-> +        (env->spr[SPR_LPCR] & LPCR_HVEE)) {
-> +        return PPC_INTERRUPT_HVIRT;
-> +    }
-> +    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
-> +        return PPC_INTERRUPT_RESET;
-> +    }
-> +    return 0;
-> +}
-> +
->  static int p9_next_unmasked_interrupt(CPUPPCState *env)
->  {
->      PowerPCCPU *cpu = env_archcpu(env);
-> diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-> index 25827ebf6f..337a362205 100644
-> --- a/target/ppc/internal.h
-> +++ b/target/ppc/internal.h
-> @@ -306,10 +306,4 @@ static inline int ger_pack_masks(int pmsk, int ymsk, int xmsk)
->      return msk;
->  }
->  
-> -#if defined(TARGET_PPC64)
-> -int p9_interrupt_powersave(CPUPPCState *env);
-> -int p8_interrupt_powersave(CPUPPCState *env);
-> -int p7_interrupt_powersave(CPUPPCState *env);
-> -#endif
-> -
->  #endif /* PPC_INTERNAL_H */
+>   target/arm/translate-a32.h |  2 +-
+>   target/arm/translate.h     |  6 ++--
+>   target/arm/translate-a64.c | 32 +++++++++---------
+>   target/arm/translate-vfp.c |  2 +-
+>   target/arm/translate.c     | 68 ++++++++++++++++++++------------------
+>   5 files changed, 56 insertions(+), 54 deletions(-)
+
+> -void gen_a64_set_pc_im(uint64_t val)
+> +void gen_a64_update_pc(DisasContext *s, target_long diff)
+>   {
+> -    tcg_gen_movi_i64(cpu_pc, val);
+> +    tcg_gen_movi_i64(cpu_pc, s->pc_curr + diff);
+>   }
+
+> @@ -384,11 +384,11 @@ static void gen_goto_tb(DisasContext *s, int n, int64_t diff)
+>   
+
+Adding more context from previous patch to ease review:
+
+ >       uint64_t dest = s->pc_curr + diff;
+
+>       if (use_goto_tb(s, dest)) {
+>           tcg_gen_goto_tb(n);
+> -        gen_a64_set_pc_im(dest);
+> +        gen_a64_update_pc(s, diff);
+>           tcg_gen_exit_tb(s->base.tb, n);
+>           s->base.is_jmp = DISAS_NORETURN;
+>       } else {
+> -        gen_a64_set_pc_im(dest);
+> +        gen_a64_update_pc(s, diff);
+>           if (s->ss_active) {
+>               gen_step_complete_exception(s);
+>           } else {
+
+> diff --git a/target/arm/translate.c b/target/arm/translate.c
+> index 6855128fb1..01b7536c7e 100644
+> --- a/target/arm/translate.c
+> +++ b/target/arm/translate.c
+> @@ -772,9 +772,9 @@ void gen_set_condexec(DisasContext *s)
+>       }
+>   }
+>   
+> -void gen_set_pc_im(DisasContext *s, target_ulong val)
+> +void gen_update_pc(DisasContext *s, target_long diff)
+>   {
+> -    tcg_gen_movi_i32(cpu_R[15], val);
+> +    tcg_gen_movi_i32(cpu_R[15], s->pc_curr + diff);
+>   }
+
+> @@ -2600,10 +2600,10 @@ static void gen_goto_tb(DisasContext *s, int n, int diff)
+>   
+
+Ditto:
+
+ >       target_ulong dest = s->pc_curr + diff;
+
+>       if (translator_use_goto_tb(&s->base, dest)) {
+>           tcg_gen_goto_tb(n);
+> -        gen_set_pc_im(s, dest);
+> +        gen_update_pc(s, diff);
+>           tcg_gen_exit_tb(s->base.tb, n);
+>       } else {
+> -        gen_set_pc_im(s, dest);
+> +        gen_update_pc(s, diff);
+>           gen_goto_ptr();
+>       }
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
