@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B1F85F2EEC
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:40:19 +0200 (CEST)
-Received: from localhost ([::1]:38866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0797F5F2EF9
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:43:58 +0200 (CEST)
+Received: from localhost ([::1]:59152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofIry-0004de-Jc
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:40:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52952)
+	id 1ofIvV-00088D-5L
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:43:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ofIod-0000Y6-LZ
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:36:51 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:41500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ofIob-0002as-Rt
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:36:51 -0400
-Received: by mail-ej1-x635.google.com with SMTP id hy2so21148706ejc.8
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 03:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=ka5OYBnMt7AR2fv41XuoUKjcHrfJHPkQwKJlaNNL2Pg=;
- b=lMM8YOiEUnfEL30VKGBNb3libh9hG+dFS2YxXbLNyAikvwx0/x7AXa0Vsa34GWkZGl
- cfF0RKOEpEYhEZ7Naukurh7vj+H3G0BvrVnEWKTJt6zC1qo4JCIGGYjyhtVFdEZ58jS4
- iEzOuwKw6tgR8RyFFKwyy4FPYvwQ7c5BfP3SoBv4uPZyFlQc1BNZBvmmZvMyy+GviyYy
- 3ud1AjqRakmbQCjsWNquR//J8RnoHHZIAJXuKfLQRsQcgyCBzWZaRubREnkV6V4XYfGK
- JU+Rotf+28BpRwy4OnMRU9MHR3/H8scOwuLnje/EZIyutAf+G4z/ds2qIBweJ/R0vtmT
- FO4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=ka5OYBnMt7AR2fv41XuoUKjcHrfJHPkQwKJlaNNL2Pg=;
- b=1E/7+Af4eV/H3WmHzAoOLYwI5fthnhzt1g/uyhsYybQ/bj5oMmc10NsKKBKQh4bQri
- sXcssbPp92LSDKDMi89/+vYDZwcdNdyYCHUA318hk5mpJaemDqKQQzlYXHBWBaAG2cC9
- +BmiqiMc0ZQbynK9uk5OhjN8Yg3GbAeSJ1fYL7hAqgGHTGzIJwSHcC0iWoFYd6QJWQJ/
- Tow6lKb1rFhvfE8M/izHVP8v4tzWEdsJ8mL8/WUNSUI2Ohzf6QtOnvw1/pS3jkwDmOCt
- Ty0SQXxyjn3NdF9pBbBefhyfQuOPhxdC15mCcnP7BFei+kQRJMUoex7diI+vJfldTwId
- HE7w==
-X-Gm-Message-State: ACrzQf3orMmFGWxxL+qNlvxnCazAGLEyInCJiO4JgQYKiLNe4qW9ScFV
- /t5UpJ5WcFpFLEcnLlsJoaKCSArkr9O7Kpp1MpTjCQ==
-X-Google-Smtp-Source: AMsMyM4SEsN+P6cZTdpA8WBV0xQ4BEGfH3KkS8qdNF/957rs2/xH54cGJ0A7VsYJsOWZJCmHKo8U7z8BlYpEXJ0WY4g=
-X-Received: by 2002:a17:906:db05:b0:741:5730:270e with SMTP id
- xj5-20020a170906db0500b007415730270emr14364199ejb.609.1664793407930; Mon, 03
- Oct 2022 03:36:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ofIqp-0002wO-F0
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:39:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53755)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ofIqh-0002gk-6s
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:39:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664793538;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9udo0lZU8k2JVUUajgGpYSUEIvzy1k9ik8eRYnGYrYI=;
+ b=b6AHyJwRQpcY60YcldvhLFIOAL3njbvKSA6IT71MFM552mi9go0hhcs5Dmk8lldDDCUnem
+ UJGixYBWCjR+KrxjCCavUogzDm+l6EF7DWr0JSjL6QdPwh1hXxzuFwyxcjJ7+6aveha4RD
+ +9TSeMXb68rGHFc7LD3ysqw1Y0kimh0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-367-TJD9dDsOOJGSUBiZm3QrCw-1; Mon, 03 Oct 2022 06:38:57 -0400
+X-MC-Unique: TJD9dDsOOJGSUBiZm3QrCw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2B0B87B2A3
+ for <qemu-devel@nongnu.org>; Mon,  3 Oct 2022 10:38:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 431512027061;
+ Mon,  3 Oct 2022 10:38:56 +0000 (UTC)
+Date: Mon, 3 Oct 2022 11:38:53 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 1/3] io/command: use glib GSpawn, instead of
+ open-coding fork/exec
+Message-ID: <Yzq7vemQN5k44qNK@redhat.com>
+References: <20220902111900.3029260-1-marcandre.lureau@redhat.com>
+ <20220902111900.3029260-2-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <a7da7e40-6f7b-79a4-709b-da0e71def650@redhat.com>
- <93033078-221d-23d2-23e7-13eab59cd439@amsat.org>
- <CACGkMEsQSn_GOBcs64JEDUHt3T7XOBL3LLM7yvqwwR5xvvD2dg@mail.gmail.com>
- <a25c238b-dabd-bf20-9aee-7cda4e422536@redhat.com> <87o7utnuzp.fsf@linaro.org>
- <CAFEAcA9YyN802x43+K27Hv1-rvkBbxE2r5sfxxahwmJtFAEP=Q@mail.gmail.com>
- <87k05hnr0f.fsf@linaro.org>
-In-Reply-To: <87k05hnr0f.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 3 Oct 2022 11:36:36 +0100
-Message-ID: <CAFEAcA9ks8Hv3N9gp3BgVm+Nu7AM2KnHrbik9uE+MMvvgmX=rA@mail.gmail.com>
-Subject: Re: If your networking is failing after updating to the latest git
- version of QEMU...
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- QEMU Developers <qemu-devel@nongnu.org>,
- "Daniel P. Berrange" <berrange@redhat.com>, 
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-discuss@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220902111900.3029260-2-marcandre.lureau@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,77 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 3 Oct 2022 at 11:25, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Mon, 3 Oct 2022 at 10:09, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
-> >>
-> >>
-> >> Thomas Huth <thuth@redhat.com> writes:
-> >>
-> >> > On 29/09/2022 04.32, Jason Wang wrote:
-> >> >> On Thu, Sep 29, 2022 at 1:06 AM Philippe Mathieu-Daud=C3=A9 <f4bug@=
-amsat.org> wrote:
-> >> >>> Jason, Marc-Andr=C3=A9, could we improve the buildsys check or dis=
-play
-> >> >>> a more helpful information from the code instead?
-> >> >> It looks to me we need to improve the build.
-> >> >
-> >> > I'm not sure there is anything to improve in the build system -
-> >> > configure/meson.build are just doing what they should: Pick the
-> >> > default value for "slirp" if the user did not explicitly specify
-> >> > "--enable-slirp".
-> >>
-> >> Shouldn't it be the other way round and fail to configure unless the
-> >> user explicitly calls --disable-slirp?
-> >
-> > Our standard pattern for configure options is:
-> >  --enable-foo : check for foo; if it can't be enabled, fail configure
-> >  --disable-foo : don't even check for foo, and don't build it in
-> >  no option given : check for foo, decide whether to build in support if
-> >                    it's present
->
-> Don't we make a distinction between libs that are truly optional and
-> those you probably need.
+On Fri, Sep 02, 2022 at 03:18:58PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Simplify qio_channel_command_new_spawn() with GSpawn API. This will
+> allow to build for WIN32 in the following patches.
 
-Yes. If something is truly mandatory then configure will always
-fail. This is true for zlib and glib, for instance...
+There a change in semantics here too. The current code only touches
+stdin/stdout/stderr. Any other  FDs which do NOT have O_CLOEXEC set
+will be inherited.  With the new code, all FDs except stdin/out/err
+will be explicitly closed, because we don't set the flag
+G_SPAWN_LEAVE_DESCRIPTORS_OPEN.
 
-> It seems missing working networking is one of
-> those things we should be telling the user about unless explicitly
-> disabled. It is after all how we worked before, we would silently
-> checkout libslirp and build it for you.
+The only place we use QIOChannelCommand today is the migration
+exec: protocol, and that is only declared to use stdin/stdout.
 
-...but building without libslirp is perfectly reasonable for some
-configurations, eg where you know you're going to be using QEMU
-in a TAP network config, and you don't want to have libslirp in
-your binary so you don't have to think about whether you need to
-act on security advisories relating to it. "no slirp" isn't like
-"no zlib", where you can't build a QEMU at all. I think it's more
-like gtk support, where we will happily configure without gtk/sdl/etc
-and only build in the VNC frontend -- that's a working configuration
-in some sense, but for the inexperienced user a QEMU which doesn't
-produce a GUI window is almost certainly not what they wanted.
+IOW, this is a good improvement, but we should call this out in
+the commit message as a behaviour change.
 
-So we could:
- * say that we will opt for consistency, and have the slirp
-   detection behave like every other optional library
- * say that slirp is a special case purely because we used to
-   ship it as a submodule and so users are used to it being present
- * say that slirp is a special case because it's "optional but
-   only experts will want to disable it", and think about what
-   other configure options (like GUI support) we might want to
-   move into this category
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>  include/io/channel-command.h |   2 +-
+>  io/channel-command.c         | 105 ++++++-----------------------------
+>  2 files changed, 19 insertions(+), 88 deletions(-)
 
-I don't think there's an obvious right answer here...
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-thanks
--- PMM
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
