@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064FD5F2EEB
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:40:18 +0200 (CEST)
-Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1F85F2EEC
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:40:19 +0200 (CEST)
+Received: from localhost ([::1]:38866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofIrx-0004bF-2z
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:40:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52948)
+	id 1ofIry-0004de-Jc
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:40:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=zLWo=2E=zx2c4.com=Jason@kernel.org>)
- id 1ofIoc-0000WW-65
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:36:50 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:45332)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=zLWo=2E=zx2c4.com=Jason@kernel.org>)
- id 1ofIoZ-0002Zd-Vy
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:36:49 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C3AC8B81049;
- Mon,  3 Oct 2022 10:36:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C629BC433D7;
- Mon,  3 Oct 2022 10:36:36 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="m7aazLT6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664793394;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YWpTi6KXCYsZeLyOVNUk5wppfEu/zvy60LaU2Vg9PJI=;
- b=m7aazLT6O+O0spQEbFjdG58rbVYdUTRoF1v62WzPDK0B5SO4i/a8fcf9oDl/8oh60ORzky
- RRKdtq+VS+HyxLuSgOw7ANT3F6ARlRUlArmGgvOIxRHOvUr5lTBYb3bUpGXO0rvsClHl2J
- +FgZ+2FXjr2vj36gomYoIQyhvZ62pKI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6e5db381
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Mon, 3 Oct 2022 10:36:34 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
-Subject: [PATCH v2] mips/malta: pass RNG seed to to kernel via env var
-Date: Mon,  3 Oct 2022 12:36:27 +0200
-Message-Id: <20221003103627.947985-1-Jason@zx2c4.com>
-In-Reply-To: <YziPyCqwl5KIE2cf@zx2c4.com>
-References: <YziPyCqwl5KIE2cf@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ofIod-0000Y6-LZ
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:36:51 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:41500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ofIob-0002as-Rt
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:36:51 -0400
+Received: by mail-ej1-x635.google.com with SMTP id hy2so21148706ejc.8
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 03:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=ka5OYBnMt7AR2fv41XuoUKjcHrfJHPkQwKJlaNNL2Pg=;
+ b=lMM8YOiEUnfEL30VKGBNb3libh9hG+dFS2YxXbLNyAikvwx0/x7AXa0Vsa34GWkZGl
+ cfF0RKOEpEYhEZ7Naukurh7vj+H3G0BvrVnEWKTJt6zC1qo4JCIGGYjyhtVFdEZ58jS4
+ iEzOuwKw6tgR8RyFFKwyy4FPYvwQ7c5BfP3SoBv4uPZyFlQc1BNZBvmmZvMyy+GviyYy
+ 3ud1AjqRakmbQCjsWNquR//J8RnoHHZIAJXuKfLQRsQcgyCBzWZaRubREnkV6V4XYfGK
+ JU+Rotf+28BpRwy4OnMRU9MHR3/H8scOwuLnje/EZIyutAf+G4z/ds2qIBweJ/R0vtmT
+ FO4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=ka5OYBnMt7AR2fv41XuoUKjcHrfJHPkQwKJlaNNL2Pg=;
+ b=1E/7+Af4eV/H3WmHzAoOLYwI5fthnhzt1g/uyhsYybQ/bj5oMmc10NsKKBKQh4bQri
+ sXcssbPp92LSDKDMi89/+vYDZwcdNdyYCHUA318hk5mpJaemDqKQQzlYXHBWBaAG2cC9
+ +BmiqiMc0ZQbynK9uk5OhjN8Yg3GbAeSJ1fYL7hAqgGHTGzIJwSHcC0iWoFYd6QJWQJ/
+ Tow6lKb1rFhvfE8M/izHVP8v4tzWEdsJ8mL8/WUNSUI2Ohzf6QtOnvw1/pS3jkwDmOCt
+ Ty0SQXxyjn3NdF9pBbBefhyfQuOPhxdC15mCcnP7BFei+kQRJMUoex7diI+vJfldTwId
+ HE7w==
+X-Gm-Message-State: ACrzQf3orMmFGWxxL+qNlvxnCazAGLEyInCJiO4JgQYKiLNe4qW9ScFV
+ /t5UpJ5WcFpFLEcnLlsJoaKCSArkr9O7Kpp1MpTjCQ==
+X-Google-Smtp-Source: AMsMyM4SEsN+P6cZTdpA8WBV0xQ4BEGfH3KkS8qdNF/957rs2/xH54cGJ0A7VsYJsOWZJCmHKo8U7z8BlYpEXJ0WY4g=
+X-Received: by 2002:a17:906:db05:b0:741:5730:270e with SMTP id
+ xj5-20020a170906db0500b007415730270emr14364199ejb.609.1664793407930; Mon, 03
+ Oct 2022 03:36:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=zLWo=2E=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <a7da7e40-6f7b-79a4-709b-da0e71def650@redhat.com>
+ <93033078-221d-23d2-23e7-13eab59cd439@amsat.org>
+ <CACGkMEsQSn_GOBcs64JEDUHt3T7XOBL3LLM7yvqwwR5xvvD2dg@mail.gmail.com>
+ <a25c238b-dabd-bf20-9aee-7cda4e422536@redhat.com> <87o7utnuzp.fsf@linaro.org>
+ <CAFEAcA9YyN802x43+K27Hv1-rvkBbxE2r5sfxxahwmJtFAEP=Q@mail.gmail.com>
+ <87k05hnr0f.fsf@linaro.org>
+In-Reply-To: <87k05hnr0f.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 3 Oct 2022 11:36:36 +0100
+Message-ID: <CAFEAcA9ks8Hv3N9gp3BgVm+Nu7AM2KnHrbik9uE+MMvvgmX=rA@mail.gmail.com>
+Subject: Re: If your networking is failing after updating to the latest git
+ version of QEMU...
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>, 
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-discuss@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,84 +95,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As of the kernel commit linked below, Linux ingests an RNG seed
-passed from the hypervisor. So, pass this for the Malta platform, and
-reinitialize it on reboot too, so that it's always fresh.
+On Mon, 3 Oct 2022 at 11:25, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > On Mon, 3 Oct 2022 at 10:09, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+> >>
+> >>
+> >> Thomas Huth <thuth@redhat.com> writes:
+> >>
+> >> > On 29/09/2022 04.32, Jason Wang wrote:
+> >> >> On Thu, Sep 29, 2022 at 1:06 AM Philippe Mathieu-Daud=C3=A9 <f4bug@=
+amsat.org> wrote:
+> >> >>> Jason, Marc-Andr=C3=A9, could we improve the buildsys check or dis=
+play
+> >> >>> a more helpful information from the code instead?
+> >> >> It looks to me we need to improve the build.
+> >> >
+> >> > I'm not sure there is anything to improve in the build system -
+> >> > configure/meson.build are just doing what they should: Pick the
+> >> > default value for "slirp" if the user did not explicitly specify
+> >> > "--enable-slirp".
+> >>
+> >> Shouldn't it be the other way round and fail to configure unless the
+> >> user explicitly calls --disable-slirp?
+> >
+> > Our standard pattern for configure options is:
+> >  --enable-foo : check for foo; if it can't be enabled, fail configure
+> >  --disable-foo : don't even check for foo, and don't build it in
+> >  no option given : check for foo, decide whether to build in support if
+> >                    it's present
+>
+> Don't we make a distinction between libs that are truly optional and
+> those you probably need.
 
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: Aurelien Jarno <aurelien@aurel32.net>
-Link: https://git.kernel.org/mips/c/056a68cea01
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
-Changes v1->v2:
-- Update commit message.
-- No code changes.
+Yes. If something is truly mandatory then configure will always
+fail. This is true for zlib and glib, for instance...
 
- hw/mips/malta.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+> It seems missing working networking is one of
+> those things we should be telling the user about unless explicitly
+> disabled. It is after all how we worked before, we would silently
+> checkout libslirp and build it for you.
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 0e932988e0..9d793b3c17 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -26,6 +26,7 @@
- #include "qemu/units.h"
- #include "qemu/bitops.h"
- #include "qemu/datadir.h"
-+#include "qemu/guest-random.h"
- #include "hw/clock.h"
- #include "hw/southbridge/piix.h"
- #include "hw/isa/superio.h"
-@@ -1017,6 +1018,17 @@ static void G_GNUC_PRINTF(3, 4) prom_set(uint32_t *prom_buf, int index,
-     va_end(ap);
- }
- 
-+static void reinitialize_rng_seed(void *opaque)
-+{
-+    char *rng_seed_hex = opaque;
-+    uint8_t rng_seed[32];
-+
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
-+        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
-+    }
-+}
-+
- /* Kernel */
- static uint64_t load_kernel(void)
- {
-@@ -1028,6 +1040,8 @@ static uint64_t load_kernel(void)
-     long prom_size;
-     int prom_index = 0;
-     uint64_t (*xlate_to_kseg0) (void *opaque, uint64_t addr);
-+    uint8_t rng_seed[32];
-+    char rng_seed_hex[sizeof(rng_seed) * 2 + 1];
- 
- #if TARGET_BIG_ENDIAN
-     big_endian = 1;
-@@ -1115,9 +1129,20 @@ static uint64_t load_kernel(void)
- 
-     prom_set(prom_buf, prom_index++, "modetty0");
-     prom_set(prom_buf, prom_index++, "38400n8r");
-+
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
-+        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
-+    }
-+    prom_set(prom_buf, prom_index++, "rngseed");
-+    prom_set(prom_buf, prom_index++, "%s", rng_seed_hex);
-+
-     prom_set(prom_buf, prom_index++, NULL);
- 
-     rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
-+    qemu_register_reset(reinitialize_rng_seed,
-+                        memmem(rom_ptr(ENVP_PADDR, prom_size), prom_size,
-+                               rng_seed_hex, sizeof(rng_seed_hex)));
- 
-     g_free(prom_buf);
-     return kernel_entry;
--- 
-2.37.3
+...but building without libslirp is perfectly reasonable for some
+configurations, eg where you know you're going to be using QEMU
+in a TAP network config, and you don't want to have libslirp in
+your binary so you don't have to think about whether you need to
+act on security advisories relating to it. "no slirp" isn't like
+"no zlib", where you can't build a QEMU at all. I think it's more
+like gtk support, where we will happily configure without gtk/sdl/etc
+and only build in the VNC frontend -- that's a working configuration
+in some sense, but for the inexperienced user a QEMU which doesn't
+produce a GUI window is almost certainly not what they wanted.
 
+So we could:
+ * say that we will opt for consistency, and have the slirp
+   detection behave like every other optional library
+ * say that slirp is a special case purely because we used to
+   ship it as a submodule and so users are used to it being present
+ * say that slirp is a special case because it's "optional but
+   only experts will want to disable it", and think about what
+   other configure options (like GUI support) we might want to
+   move into this category
+
+I don't think there's an obvious right answer here...
+
+thanks
+-- PMM
 
