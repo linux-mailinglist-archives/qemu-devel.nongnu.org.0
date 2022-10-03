@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB375F3786
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 23:14:12 +0200 (CEST)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8B25F378D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 23:18:49 +0200 (CEST)
+Received: from localhost ([::1]:36962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofSlP-0007wg-J8
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 17:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53736)
+	id 1ofSpp-0003bg-Gd
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 17:18:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ofS6y-0001V7-Ey; Mon, 03 Oct 2022 16:32:27 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:40603)
+ id 1ofS7b-0001zd-QH; Mon, 03 Oct 2022 16:33:05 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:44028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ofS6w-0003wO-M2; Mon, 03 Oct 2022 16:32:24 -0400
-Received: by mail-ej1-x636.google.com with SMTP id f1so7158268ejw.7;
- Mon, 03 Oct 2022 13:32:21 -0700 (PDT)
+ id 1ofS7Y-00041f-2d; Mon, 03 Oct 2022 16:33:03 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id y8so16164831edc.10;
+ Mon, 03 Oct 2022 13:32:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=tRuCXofapoGrKWRPVlYzCza+WIgeEkPwJI2EISlGE0s=;
- b=PwdqaDqLWKDyMkYCHhkpV4biclLB7iS6iSmLUrv+oeZVlu8yh2777/O2yOrk2iPAp+
- itFfCL4lvJxqAAegevLe5OkvLv+4CrvPav4NSSWzObx04enfYi2s0JF6Zc8OhWFkwP9E
- hMIERKiM8pDbKabd5dk68aOWX+hefaE6RTOjfZZHzcLE0KhXONJPlQYMLjYKqzFzSAMQ
- 1snXAilLKPitvx3e3LX0idruVaWj8GDbmd1jwhancvSlEhEHv94VOdPKiCfh7VpJ0iHm
- InRzvW2kIVgsLZ1xvFUlsNN2iJWC2U2NKUtWn0ciKMFP1ta6Nz8ONzbv8h5EKZ5+p/wp
- RJ5A==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=9b5vMTAI3YAEZ9E6MgO2I1pyQYA0NxY1asETD+oGIfM=;
+ b=Y4NK3MVjG6kYAFoM4KER53kMH46xM+bbzLPcXWbSUpHgtsz+qHth+d4o2I1yuvGBj2
+ Txu0dpuEYMKB9dFFlC0oDl+5nfo6swiQcQW5+BbwLm66N5uECht71FW5pSsljdggMx5L
+ /qlcU4qLX6PUxbm2K1+GQKV+VxLk/Wg0whMMd49oxYq+5GcLm+/1oTxUd2RzZRCt3qQV
+ N+00kdNI6s178y8A1OSogTc97BIxX0df9Zl0ApBV0bHP1L1YtRv78WV0pcCPb6tQFXfi
+ U6F2l5gTgXKCuUKGRmVq8JXsrLrDuW8zen7vqU+N3j2nt5jP5HxFTU6w/K1MRZJzH4XY
+ HnAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=tRuCXofapoGrKWRPVlYzCza+WIgeEkPwJI2EISlGE0s=;
- b=p/mThMvO3roZX38bybs8GA2O8+BW/NOQXTdYeUesR9h2+hF08uhIa0015iK2GueEse
- 3dbImY6v3j3iyrlwnxdxLAE2eJWK44ajSnFbUdoA0l0mza7pWIfFN8REZvEpD35IbPKc
- hgk4+GpCjPU6LpnTb2nucVSL7ug5BSRo5RnsSx03Mgavz1OoRe4yBwZdhaQpcYm1blNV
- +HFdGeCIuG+y3t3wn0xiojeQdUGFPdptOujS6CrMKgHZuWdMLq46hhKeXHDJoWnSVdVO
- nuv48WtzHHmTZt4elQ8tiqQEobL7WAJR6dykxlSgkNk9VHyyoo15It0TXD3IC3S4GYIb
- ceMA==
-X-Gm-Message-State: ACrzQf3odhLZmAfPBhT5ywBX9BG1aUkK8UlYFd4MLBw33OKCFK3wM/ue
- zAbdWLdW1zzQjGgQ7NNREHjWxbHfREE=
-X-Google-Smtp-Source: AMsMyM56j0RWgRtaqiD9+vwHPvD8A532K5B/zceOiod/8vy1cW7/aZBh5VWqRj3ed+6TJCu87B96IQ==
-X-Received: by 2002:a17:906:7315:b0:782:66dc:4b76 with SMTP id
- di21-20020a170906731500b0078266dc4b76mr16280012ejc.751.1664829139401; 
- Mon, 03 Oct 2022 13:32:19 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=9b5vMTAI3YAEZ9E6MgO2I1pyQYA0NxY1asETD+oGIfM=;
+ b=ERRphSHETLNoOQ3UIo2f3aR9SXitWim2GBcmk0mgtdOcWGmuSTILKqEziPcc4MWwRw
+ dbwLG7O0LQb2aWmBorc4EhDPlTX3m9cIH9svyYGF3xIp1QXiLOmm46viUPkpG2GJ2+ke
+ +3RfwYB5eyBMDeDaw6GB/9Jo0iykLYLdsJwQyJRQr+UlgEcREVH3lhNahgGmmPApiGsb
+ PriHXtOTmx33cjWWnL/LawKVGoEyzCrYuizS4yDMAEwcUtikwN1YvejTpnahEaKKwHdQ
+ +Ijf+bgJxK/FL5Aj9Facf/NHvcEcJcT5qrKAwyRHHNbPb9/C/0TB59a2zl6r+uYRvYI2
+ Mq2w==
+X-Gm-Message-State: ACrzQf2QSmh/epL91viPaOzg4Ft+aqEA+VQ5kR2NCoD0yHSaABrs/XO7
+ t2G+ZVMGq6lmxbvR2rRD+t5BDVcURDQ=
+X-Google-Smtp-Source: AMsMyM4mzi+/5sa/UAJcSQzavqaP4nofhHh4toAZemhLeT31yddNrtote9uYEDCRP06PCSxU28R7dg==
+X-Received: by 2002:a05:6402:142:b0:458:5d74:f4f4 with SMTP id
+ s2-20020a056402014200b004585d74f4f4mr16683314edu.44.1664829177578; 
+ Mon, 03 Oct 2022 13:32:57 -0700 (PDT)
 Received: from localhost.localdomain ([46.183.103.8])
  by smtp.gmail.com with ESMTPSA id
- lb9-20020a170907784900b0073ddd36ba8csm5978087ejc.145.2022.10.03.13.32.17
+ lb9-20020a170907784900b0073ddd36ba8csm5978087ejc.145.2022.10.03.13.32.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Oct 2022 13:32:18 -0700 (PDT)
+ Mon, 03 Oct 2022 13:32:57 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 00/13] ppc/e500: Add support for two types of flash, cleanup
-Date: Mon,  3 Oct 2022 22:31:29 +0200
-Message-Id: <20221003203142.24355-1-shentey@gmail.com>
+ Bernhard Beschow <shentey@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: [PATCH v2 01/13] hw/ppc/meson: Allow e500 boards to be enabled
+ separately
+Date: Mon,  3 Oct 2022 22:31:30 +0200
+Message-Id: <20221003203142.24355-2-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221003203142.24355-1-shentey@gmail.com>
+References: <20221003203142.24355-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x636.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -89,95 +93,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cover letter:=0D
-~~~~~~~~~~~~~=0D
-=0D
-This series adds support for -pflash and direct SD card access to the=0D
-PPC e500 boards. The idea is to increase compatibility with "real" firmware=
-=0D
-images where only the bare minimum of drivers is compiled in.=0D
-=0D
-The series is structured as follows:=0D
-=0D
-Patches 1-5 perform some general cleanup which paves the way for the rest o=
-f=0D
-the series.=0D
-=0D
-Patches 6-9 add -pflash handling where memory-mapped flash can be added on=
-=0D
-user's behalf. That is, the flash memory region in the eLBC is only added i=
-f=0D
-the -pflash argument is supplied. Note that the cfi01 device model becomes=
-=0D
-stricter in checking the size of the emulated flash space.=0D
-=0D
-Patches 10-13 add a new device model - the Freescale eSDHC - to the e500=0D
-boards which was missing so far.=0D
-=0D
-User documentation is also added as the new features become available.=0D
-=0D
-Tesing done:=0D
-* `qemu-system-ppc -M ppce500 -cpu e500mc -m 256 -kernel uImage -append=0D
-"console=3DttyS0 rootwait root=3D/dev/mtdblock0 nokaslr" -drive=0D
-if=3Dpflash,file=3Drootfs.ext2,format=3Draw`=0D
-* `qemu-system-ppc -M ppce500 -cpu e500mc -m 256 -kernel uImage -append=0D
-"console=3DttyS0 rootwait root=3D/dev/mmcblk0" -device sd-card,drive=3Dmydr=
-ive -drive=0D
-id=3Dmydrive,if=3Dnone,file=3Drootfs.ext2,format=3Draw`=0D
-=0D
-The load was created using latest Buildroot with `make=0D
-qemu_ppc_e500mc_defconfig` where the rootfs was configured to be of ext2 ty=
-pe.=0D
-In both cases it was possible to log in and explore the root file system.=0D
-=0D
-v2:=0D
-~~~=0D
-Bin:=0D
-- Add source for MPC8544DS platform bus' memory map in commit message.=0D
-- Keep "ESDHC" in comment referring to Linux driver.=0D
-- Use "qemu-system-ppc{64|32} in documentation.=0D
-- Use g_autofree in device tree code.=0D
-- Remove unneeded device tree properties.=0D
-- Error out if pflash size doesn't fit into eLBC memory window.=0D
-- Remove unused ESDHC defines.=0D
-- Define macro ESDHC_WML for register offset with magic constant.=0D
-- Fix some whitespace issues when adding eSDHC device to e500.=0D
-=0D
-Phil:=0D
-- Fix tense in commit message.=0D
-=0D
-Bernhard Beschow (13):=0D
-  hw/ppc/meson: Allow e500 boards to be enabled separately=0D
-  hw/gpio/meson: Introduce dedicated config switch for hw/gpio/mpc8xxx=0D
-  docs/system/ppc/ppce500: Add heading for networking chapter=0D
-  hw/ppc/e500: Reduce usage of sysbus API=0D
-  hw/ppc/mpc8544ds: Rename wrongly named method=0D
-  hw/ppc/mpc8544ds: Add platform bus=0D
-  hw/ppc/e500: Remove if statement which is now always true=0D
-  hw/block/pflash_cfi01: Error out if device length isn't a power of two=0D
-  hw/ppc/e500: Implement pflash handling=0D
-  hw/sd/sdhci-internal: Unexport ESDHC defines=0D
-  hw/sd/sdhci: Rename ESDHC_* defines to USDHC_*=0D
-  hw/sd/sdhci: Implement Freescale eSDHC device model=0D
-  hw/ppc/e500: Add Freescale eSDHC to e500 boards=0D
-=0D
- configs/devices/ppc-softmmu/default.mak |   3 +-=0D
- docs/system/ppc/ppce500.rst             |  28 ++++=0D
- hw/block/pflash_cfi01.c                 |   8 +-=0D
- hw/gpio/Kconfig                         |   3 +=0D
- hw/gpio/meson.build                     |   2 +-=0D
- hw/ppc/Kconfig                          |  11 ++=0D
- hw/ppc/e500.c                           | 133 +++++++++++++--=0D
- hw/ppc/e500.h                           |   1 -=0D
- hw/ppc/e500plat.c                       |   1 -=0D
- hw/ppc/meson.build                      |   6 +-=0D
- hw/ppc/mpc8544ds.c                      |   9 +-=0D
- hw/sd/sdhci-internal.h                  |  20 ---=0D
- hw/sd/sdhci.c                           | 210 +++++++++++++++++++++---=0D
- include/hw/sd/sdhci.h                   |   3 +=0D
- 14 files changed, 368 insertions(+), 70 deletions(-)=0D
-=0D
--- =0D
-2.37.3=0D
-=0D
+Gives users more fine-grained control over what should be compiled into
+QEMU.
+
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ configs/devices/ppc-softmmu/default.mak | 3 ++-
+ hw/ppc/Kconfig                          | 8 ++++++++
+ hw/ppc/meson.build                      | 6 ++----
+ 3 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/configs/devices/ppc-softmmu/default.mak b/configs/devices/ppc-softmmu/default.mak
+index 658a454426..a887f5438b 100644
+--- a/configs/devices/ppc-softmmu/default.mak
++++ b/configs/devices/ppc-softmmu/default.mak
+@@ -1,7 +1,8 @@
+ # Default configuration for ppc-softmmu
+ 
+ # For embedded PPCs:
+-CONFIG_E500=y
++CONFIG_E500PLAT=y
++CONFIG_MPC8544DS=y
+ CONFIG_PPC405=y
+ CONFIG_PPC440=y
+ CONFIG_VIRTEX=y
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index 3a4418a69e..22a64745d4 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -132,6 +132,14 @@ config E500
+     select FDT_PPC
+     select DS1338
+ 
++config E500PLAT
++    bool
++    select E500
++
++config MPC8544DS
++    bool
++    select E500
++
+ config VIRTEX
+     bool
+     select PPC4XX
+diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+index 62801923f3..32babc9b48 100644
+--- a/hw/ppc/meson.build
++++ b/hw/ppc/meson.build
+@@ -71,12 +71,10 @@ ppc_ss.add(when: 'CONFIG_MAC_OLDWORLD', if_true: files('mac_oldworld.c'))
+ # NewWorld PowerMac
+ ppc_ss.add(when: 'CONFIG_MAC_NEWWORLD', if_true: files('mac_newworld.c'))
+ # e500
++ppc_ss.add(when: 'CONFIG_E500PLAT', if_true: files('e500plat.c'))
++ppc_ss.add(when: 'CONFIG_MPC8544DS', if_true: files('mpc8544ds.c'))
+ ppc_ss.add(when: 'CONFIG_E500', if_true: files(
+   'e500.c',
+-  'mpc8544ds.c',
+-  'e500plat.c'
+-))
+-ppc_ss.add(when: 'CONFIG_E500', if_true: files(
+   'mpc8544_guts.c',
+   'ppce500_spin.c'
+ ))
+-- 
+2.37.3
+
 
