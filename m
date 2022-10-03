@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE9A5F38F8
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 00:26:04 +0200 (CEST)
-Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8007B5F38AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 00:14:47 +0200 (CEST)
+Received: from localhost ([::1]:57444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofTsx-0005O1-5i
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 18:26:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58760)
+	id 1ofTi2-000478-JQ
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 18:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ofT2s-00082H-Dp
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 17:32:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20610)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ofSWf-0005Dz-0U
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 16:58:57 -0400
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:41637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ofT2p-0006D8-Bp
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 17:32:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664832730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WyJJ2FzJrDN4Y29SDxUEPGCuBekc4KziQ+5yZ8f9tJU=;
- b=DttcieX4WV8W/X/TLlsx02uPf6CGhIEF4prtOC52C6/g5E7TLqbrZcSRz09jW1T+RN16PW
- Hgp2Q8X819k9kbFci50zgoiF7SqUl9nV6MSfL2U8BgVCV7NIFz0wbYNUWnzTHqeVRK3Cm7
- 5hljfSXK7AotTiBrIQppEMMwpnyWLQo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-jX31pjvoO_GnSwv5xXLG8A-1; Mon, 03 Oct 2022 17:32:09 -0400
-X-MC-Unique: jX31pjvoO_GnSwv5xXLG8A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E27DD85A59D;
- Mon,  3 Oct 2022 21:32:08 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA00C2027061;
- Mon,  3 Oct 2022 21:32:07 +0000 (UTC)
-Date: Mon, 3 Oct 2022 15:53:41 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: io-uring@vger.kernel.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, Kirill Tkhai <kirill.tkhai@openvz.org>,
- Manuel Bentele <development@manuel-bentele.de>,
- qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- rjones@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
- "Denis V. Lunev" <den@openvz.org>, Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: ublk-qcow2: ublk-qcow2 is available
-Message-ID: <Yzs9xQlVuW41TuNC@fedora>
-References: <Yza1u1KfKa7ycQm0@T590>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ofSWb-0007k3-Fs
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 16:58:56 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.118])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 86E2212ECEABF;
+ Mon,  3 Oct 2022 22:58:42 +0200 (CEST)
+Received: from kaod.org (37.59.142.110) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Mon, 3 Oct
+ 2022 22:58:40 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-110S004029eb2e1-1d47-424a-a554-97c63aa5f93f,
+ 946AF8A8FBD866D5F75487F1C01A9C4B3B50863B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <a3653269-8d10-f8b0-a7f2-1ca2a5860d28@kaod.org>
+Date: Mon, 3 Oct 2022 22:58:35 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bJI59MQn0KJiUKNL"
-Content-Disposition: inline
-In-Reply-To: <Yza1u1KfKa7ycQm0@T590>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URI_DOTEDU=1.999 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [RFC PATCH v2 00/29] PowerPC interrupt rework
+Content-Language: en-US
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
+ <qemu-devel@nongnu.org>, <qemu-ppc@nongnu.org>
+CC: <danielhb413@gmail.com>, <david@gibson.dropbear.id.au>, <groug@kaod.org>, 
+ <fbarrat@linux.ibm.com>, <alex.bennee@linaro.org>, <farosas@linux.ibm.com>
+References: <20220927201544.4088567-1-matheus.ferst@eldorado.org.br>
+ <9b310cf0-6140-a397-0f7d-a752b1ba4072@kaod.org>
+ <03ad8964-a7c1-5b26-00aa-3b028296e0d0@eldorado.org.br>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <03ad8964-a7c1-5b26-00aa-3b028296e0d0@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.110]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 47ef7e9d-6248-4ff8-a7e7-838c83636596
+X-Ovh-Tracer-Id: 5548716218569296687
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeehledgudehhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdduuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhgpdfovfetjfhoshhtpehmohehvdel
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.467,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,144 +76,223 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+> (qemu) info pic
+> info pic
+> CPU[0000]:   QW   NSR CPPR IPB LSMFB ACK# INC AGE PIPR  W2
+> CPU[0000]: USER    00   00  00    00   00  00  00   00  00000000
+> CPU[0000]:   OS    00   00  00    ff   ff  00  ff   ff  00000000
+> CPU[0000]: POOL    00   00  00    ff   00  00  00   00  00000000
+> CPU[0000]: PHYS    00   ff  00    00   00  00  00   ff  80000000
+> CPU[0001]:   QW   NSR CPPR IPB LSMFB ACK# INC AGE PIPR  W2
+> CPU[0001]: USER    00   00  00    00   00  00  00   00  00000000
+> CPU[0001]:   OS    00   00  00    ff   ff  00  ff   ff  00000000
+> CPU[0001]: POOL    00   00  00    ff   00  00  00   00  00000001
+> CPU[0001]: PHYS    00   ff  00    00   00  00  00   ff  80000000
+> CPU[0002]:   QW   NSR CPPR IPB LSMFB ACK# INC AGE PIPR  W2
+> CPU[0002]: USER    00   00  00    00   00  00  00   00  00000000
+> CPU[0002]:   OS    00   00  00    ff   ff  00  ff   ff  00000000
+> CPU[0002]: POOL    00   00  00    ff   00  00  00   00  00000002
+> CPU[0002]: PHYS    00   ff  00    00   00  00  00   ff  80000000
+> CPU[0003]:   QW   NSR CPPR IPB LSMFB ACK# INC AGE PIPR  W2
+> CPU[0003]: USER    00   00  00    00   00  00  00   00  00000000
+> CPU[0003]:   OS    00   ff  00    00   ff  00  ff   ff  00000004
 
---bJI59MQn0KJiUKNL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+vCPU 4 was scheduled to run on this CPU at some point, but it is not
+anymore : no VALID bit.
 
-On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
-> ublk-qcow2 is available now.
+> CPU[0003]: POOL    00   00  00    ff   00  00  00   00  00000003
+> CPU[0003]: PHYS    00   ff  00    00   00  00  00   ff  80000000
+> XIVE[0] #0 Source 00000000 .. 000fffff
+>    00000014 MSI --
+>    00000015 MSI --
+>    00000016 MSI --
+>    00000017 MSI --
+>    00000018 MSI --
+>    00000019 MSI --
+>    0000001a MSI --
+>    0000001b MSI --
+>    0000001e MSI P-
 
-Cool, thanks for sharing!
+The 0x1E HW interrupt (virtual device) is pending. And not queued.
 
->=20
-> So far it provides basic read/write function, and compression and snapshot
-> aren't supported yet. The target/backend implementation is completely
-> based on io_uring, and share the same io_uring with ublk IO command
-> handler, just like what ublk-loop does.
->=20
-> Follows the main motivations of ublk-qcow2:
->=20
-> - building one complicated target from scratch helps libublksrv APIs/func=
-tions
->   become mature/stable more quickly, since qcow2 is complicated and needs=
- more
->   requirement from libublksrv compared with other simple ones(loop, null)
->=20
-> - there are several attempts of implementing qcow2 driver in kernel, such=
- as
->   ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`` [4], so ubl=
-k-qcow2
->   might useful be for covering requirement in this field
->=20
-> - performance comparison with qemu-nbd, and it was my 1st thought to eval=
-uate
->   performance of ublk/io_uring backend by writing one ublk-qcow2 since ub=
-lksrv
->   is started
->=20
-> - help to abstract common building block or design pattern for writing ne=
-w ublk
->   target/backend
->=20
-> So far it basically passes xfstest(XFS) test by using ublk-qcow2 block
-> device as TEST_DEV, and kernel building workload is verified too. Also
-> soft update approach is applied in meta flushing, and meta data
-> integrity is guaranteed, 'make test T=3Dqcow2/040' covers this kind of
-> test, and only cluster leak is reported during this test.
->=20
-> The performance data looks much better compared with qemu-nbd, see
-> details in commit log[1], README[5] and STATUS[6]. And the test covers bo=
-th
-> empty image and pre-allocated image, for example of pre-allocated qcow2
-> image(8GB):
->=20
-> - qemu-nbd (make test T=3Dqcow2/002)
+>    00000023 MSI --
+>    00000024 MSI --
+>    00000025 MSI --
+>    00000026 MSI --
+> XIVE[0] #0 EAT 00000000 .. 000fffff
+>    00000014   end:00/000f data:00000010
+>    00000015   end:00/0017 data:00000010
+>    00000016   end:00/001f data:00000010
+>    00000017   end:00/0027 data:00000010 -> 0x10 == CPU IPI 
+>    00000018   end:00/004e data:00000010 -> This is the vCPU IPI 
+>    00000019   end:00/004e data:00000012
+>    0000001a   end:00/004e data:0000001b
+>    0000001b   end:00/004e data:00000013
+>    0000001e   end:00/004e data:00000016
 
-Single queue?
+notificationd of 0x1E HW interrupts will be pushed on vCPU 0 queue 0x4e,
+with (Linux) effective interrupt number 0x16, the console may be.
 
-> 	randwrite(4k): jobs 1, iops 24605
-> 	randread(4k): jobs 1, iops 30938
-> 	randrw(4k): jobs 1, iops read 13981 write 14001
-> 	rw(512k): jobs 1, iops read 724 write 728
+>    00000023   end:00/004e data:00000017
+>    00000024   end:00/004e data:00000018
+>    00000025   end:00/004e data:00000019
+>    00000026   end:00/004e data:0000001a
 
-Please try qemu-storage-daemon's VDUSE export type as well. The
-command-line should be similar to this:
+Follow the PHB interrupts, MSI and LSIs.
 
-  # modprobe virtio_vdpa # attaches vDPA devices to host kernel
-  # modprobe vduse
-  # qemu-storage-daemon \
-      --blockdev file,filename=3Dtest.qcow2,cache.direct=3Dof|off,aio=3Dnat=
-ive,node-name=3Dfile \
-      --blockdev qcow2,file=3Dfile,node-name=3Dqcow2 \
-      --object iothread,id=3Diothread0 \
-      --export vduse-blk,id=3Dvduse0,name=3Dvduse0,num-queues=3D$(nproc),no=
-de-name=3Dqcow2,writable=3Don,iothread=3Diothread0
-  # vdpa dev add name vduse0 mgmtdev vduse
+>    000fb000   end:00/001f data:00000030
+>    000fb001   end:00/0027 data:00000031
+>    000fb002   end:00/000f data:00000032
+>    000fb003   end:00/000f data:00000033
+>    000fb004   end:00/0017 data:00000034
+>    000fb005   end:00/001f data:00000035
+>    000fb006   end:00/0027 data:00000036
+>    000fb7fe   end:00/000f data:00000029
+>    000fb7ff   end:00/0017 data:0000002a
+>    000fbffe   end:00/001f data:00000027
+>    000fbfff   end:00/0027 data:00000028
+>    000fcffe   end:00/000f data:00000025
+>    000fcfff   end:00/0017 data:00000026
+>    000fd000   end:00/001f data:00000037
+>    000fd001   end:00/000f data:00000038
+>    000fd002   end:00/0017 data:00000039
+>    000fd003   end:00/001f data:0000003a
+>    000fd004   end:00/0027 data:0000003b
+>    000fd7fe   end:00/001f data:00000023
+>    000fd7ff   end:00/0027 data:00000024
+>    000fdffe   end:00/000f data:00000021
+>    000fdfff   end:00/0017 data:00000022
+>    000feffe   end:00/001f data:0000001f
+>    000fefff   end:00/0027 data:00000020
 
-A virtio-blk device should appear and xfstests can be run on it
-(typically /dev/vda unless you already have other virtio-blk devices).
+opal events are after
 
-Afterwards you can destroy the device using:
+>    000ffff0   end:00/000f data:00000011 
+>    000ffff1   end:00/0017 data:00000012
+>    000ffff2   end:00/001f data:00000013 
+>    000ffff3   end:00/0027 data:00000014 # opal-psi#0:lpchc
+>    000ffff4   end:00/000f data:00000015
+>    000ffff5   end:00/0017 data:00000016
+>    000ffff6   end:00/001f data:00000017
+>    000ffff7   end:00/0027 data:00000018
+>    000ffff8   end:00/000f data:00000019
+>    000ffff9   end:00/0017 data:0000001a
+>    000ffffa   end:00/001f data:0000001b
+>    000ffffb   end:00/0027 data:0000001c
+>    000ffffc   end:00/000f data:0000001d
+>    000ffffd   end:00/0017 data:0000001e # opal-psi#0:psu ? 
+> XIVE[0] #0 ENDT
+>    0000000f -Q vqnb---f prio:7 nvt:00/0080 eq:@03400000   825/16384 ^1 [ 8000004f 8000004f 8000004f 8000004f 8000004f ^00000000 ]
 
-  # vdpa dev del vduse0
+event queue of host CPU 0 is filling up with escalation interrupt
+numbers, 0x4f.
 
->=20
-> - ublk-qcow2 (make test T=3Dqcow2/022)
+host CPU 0 (queue 0xf) is serving its own IPI, some MSIs, some EEH PCI
+interrupts, and some OPAL events.
 
-There are a lot of other factors not directly related to NBD vs ublk. In
-order to get an apples-to-apples comparison with qemu-* a ublk export
-type is needed in qemu-storage-daemon. That way only the difference is
-the ublk interface and the rest of the code path is identical, making it
-possible to compare NBD, VDUSE, ublk, etc more precisely.
+>    00000017 -Q vqnb---f prio:7 nvt:00/0084 eq:@03750000  1048/16384 ^1 [ 8000001e 8000001e 8000001e 8000001e 8000001e ^00000000 ]
 
-I think that comparison is interesting before comparing different qcow2
-implementations because qcow2 sits on top of too much other code. It's
-hard to know what should be accounted to configuration differences,
-implementation differences, or fundamental differences that cannot be
-overcome (this is the interesting part!).
+hmm, host CPU 1 is serving 0xffffd = opal-psi#0:psu. May be too much.
 
-> 	randwrite(4k): jobs 1, iops 104481
-> 	randread(4k): jobs 1, iops 114937
-> 	randrw(4k): jobs 1, iops read 53630 write 53577
-> 	rw(512k): jobs 1, iops read 1412 write 1423
->=20
-> Also ublk-qcow2 aligns queue's chunk_sectors limit with qcow2's cluster s=
-ize,
-> which is 64KB at default, this way simplifies backend io handling, but
-> it could be increased to 512K or more proper size for improving sequential
-> IO perf, just need one coroutine to handle more than one IOs.
->=20
->=20
-> [1] https://github.com/ming1/ubdsrv/commit/9faabbec3a92ca83ddae92335c66ea=
-bbeff654e7
-> [2] https://upcommons.upc.edu/bitstream/handle/2099.1/9619/65757.pdf?sequ=
-ence=3D1&isAllowed=3Dy
-> [3] https://lwn.net/Articles/889429/
-> [4] https://lab.ks.uni-freiburg.de/projects/kernel-qcow2/repository
-> [5] https://github.com/ming1/ubdsrv/blob/master/qcow2/README.rst
-> [6] https://github.com/ming1/ubdsrv/blob/master/qcow2/STATUS.rst
->=20
-> Thanks,
-> Ming
->=20
+>    0000001f -Q vqnb---f prio:7 nvt:00/0088 eq:@037f0000   154/16384 ^1 [ 8000003a 8000003a 8000003a 8000003a 8000003a ^00000000 ]
 
---bJI59MQn0KJiUKNL
-Content-Type: application/pgp-signature; name="signature.asc"
+0x3a is an MSI.
 
------BEGIN PGP SIGNATURE-----
+>    00000027 -Q vqnb---f prio:7 nvt:00/008c eq:@038a0000   340/16384 ^1 [ 80000014 80000014 80000014 80000014 8000003b ^00000000 ]
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmM7PcUACgkQnKSrs4Gr
-c8i93AgAib2dawkTdAYrOmjuCQb+qNpv+e7Zq8oKjll/V+/Gw8MFTcfmruW0vMex
-zgWcQ4oWWarMgU/YbP0rYTGpTRNG3NWbw4gozRrdT6akOfYD7I6pyZxIcXu9KNTM
-qInj7AqgdQxmwwVCH1s3zDuK0acVUt6cq6lIC+yt4/0FvSuQdqNmYXgwEimFGgaO
-RptJk6qB57zOAeOy8Y3c2N8ZLuqOEcNiOeh74ahVJsaPmBNOOg22ltzkNRJbfTuU
-oyaPqKKjGNZepksZoaSaWPdWbFrF/inEtwyRFWutd5wdyDX3gfkEFCKh3csgku3E
-BciwRjNcVdsrkTiv/Nnd4XRurHCEqA==
-=7gpZ
------END PGP SIGNATURE-----
+This is the console 0x14 and 0x3b is an MSI
 
---bJI59MQn0KJiUKNL--
+>    0000004e -Q vqnbeu-- prio:6 nvt:00/0004 eq:@1d170000  1104/16384 ^1 [ 80000016 80000016 80000016 80000016 80000016 ^00000000 ]
 
+0x4e (0x48 + 6) is the event queue number of guest's vCPU 0 prio 6.
+0x16 is the Linux interrupt number in the guest of HW interrupt 0x1e,
+the one pending.
+
+>    0000004f -Q v--be-s- prio:0 nvt:00/0000
+
+0x4f is the escalation queue of vCPU 0 (when vCPU is not dispatched on any
+HW threads) 0x4f is also a source interrupt number for escalations.
+
+> XIVE[0] #0 END Escalation EAT
+>    0000004e -Q    end:00/004f data:00000000
+>    0000004f P-    end:00/000f data:0000004f
+
+0x4f interrupt number is pending. vPCU 0 should be dispatched but the
+escalation interrupt has not being served by the hypervisor at this
+point in time. Since it is not queued, we may have reached some deadlock ?
+
+> XIVE[0] #0 NVTT 00000000 .. 0007ffff
+>    00000000 end:00/0028 IPB:00
+>    00000001 end:00/0030 IPB:00
+>    00000002 end:00/0038 IPB:00
+>    00000003 end:00/0040 IPB:00
+>    00000004 end:00/0048 IPB:02
+
+         ^
+
+0x4 is the vCPU0 notification virtual target number and an interrupt is
+pending on prio 6. vCPU 0 did not acknowledge it yet, because vCPU 0 (NVT=4)
+has not been dispatched on any HW thread because the escalation interrupt
+was not handled on the host (CPU 0 should). Question is what is CPU 0 up to?
+
+
+>    00000080 end:00/0008 IPB:00
+>    00000084 end:00/0010 IPB:00
+>    00000088 end:00/0018 IPB:00
+>    0000008c end:00/0020 IPB:00
+> PSIHB Source 000ffff0 .. 000ffffd
+>    000ffff0 LSI --
+>    000ffff1 LSI --
+>    000ffff2 LSI --
+>    000ffff3 LSI --
+>    000ffff4 LSI --
+>    000ffff5 LSI --
+>    000ffff6 LSI --
+>    000ffff7 LSI --
+>    000ffff8 LSI --
+>    000ffff9 LSI --
+>    000ffffa LSI --
+>    000ffffb LSI --
+>    000ffffc LSI --
+>    000ffffd LSI --
+> PHB4[0:0] Source 000fe000 .. 000fefff  @6030203110100
+>    00000ffe LSI --
+>    00000fff LSI --
+> PHB4[0:5] Source 000fb000 .. 000fb7ff  @6030203110228
+>    00000000 MSI --
+>    00000001 MSI --
+>    00000002 MSI --
+>    00000003 MSI --
+>    00000004 MSI --
+>    00000005 MSI --
+>    00000006 MSI --
+>    000007fe LSI --
+>    000007ff LSI --
+> PHB4[0:4] Source 000fb800 .. 000fbfff  @6030203110220
+>    000007fe LSI --
+>    000007ff LSI --
+> PHB4[0:3] Source 000fc000 .. 000fcfff  @6030203110218
+>    00000ffe LSI --
+>    00000fff LSI --
+> PHB4[0:2] Source 000fd000 .. 000fd7ff  @6030203110210
+>    00000000 MSI --
+>    00000001 MSI --
+>    00000002 MSI --
+>    00000003 MSI --
+>    00000004 MSI --
+>    000007fe LSI --
+>    000007ff LSI --
+> PHB4[0:1] Source 000fd800 .. 000fdfff  @6030203110208
+>    000007fe LSI --
+>    000007ff LSI --
+> 
+>> Could you please check with powersave=off in the host kernel also ?
+>>
+> 
+> It still hangs with this option.
+
+This is going to need some serious digging to solve. It might not be worse
+the time :/
+
+C.
 
