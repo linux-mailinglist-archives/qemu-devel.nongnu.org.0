@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF14C5F2EFB
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:44:27 +0200 (CEST)
-Received: from localhost ([::1]:55858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D7C5F2ED6
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:35:11 +0200 (CEST)
+Received: from localhost ([::1]:40336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofIvz-0000Os-0W
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:44:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
+	id 1ofIn0-0007Xy-1P
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:35:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ofIgl-0003zy-UT
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:28:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37942)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ofIgk-0001LH-6H
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:28:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664792921;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=omZyxFzYM4I1wAnbeXo0qmFnpL2BMWivkqM+z419xtg=;
- b=da4L+SK6w0MZc8iVGvd9nkC6i87cCq3+6N1jXY72Kq+zLI17qsAhJ91yl2l3an9VX8WOLQ
- aqSMgUpk5RHOfvCJ0SJ0R7DFnr9dCcz9JccBYcZ1ymzZQrznJc60oxn2S+BBnLDHNWi/7y
- HvwJJfLWad9ts4IQ0W4orzybLO7ZHjM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-YgaF9BiwPrGFdbxcj3i0ew-1; Mon, 03 Oct 2022 06:28:40 -0400
-X-MC-Unique: YgaF9BiwPrGFdbxcj3i0ew-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DE9F1C05143;
- Mon,  3 Oct 2022 10:28:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D57623177;
- Mon,  3 Oct 2022 10:28:38 +0000 (UTC)
-Date: Mon, 3 Oct 2022 11:28:36 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v4 04/54] util/qemu-sockets: Use g_get_tmp_dir() to get
- the directory for temporary files
-Message-ID: <Yzq5VMoTQrtSU7l/@redhat.com>
-References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
- <20220927110632.1973965-5-bmeng.cn@gmail.com>
- <CAEUhbmXuu54L7LkNKDpBnNBysTHPqdtSEQNja2S94EGfjPc0sA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ofIgx-0004GN-Kk
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:28:55 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ofIgv-0001Lz-3L
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:28:54 -0400
+Received: by mail-ed1-x531.google.com with SMTP id s30so10232200eds.1
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 03:28:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=iYWPdbX0XJJ/cmLOGry3A7D88+6pMlRTxl6D1mZ+wuM=;
+ b=Z1JNLswhngiP6nCTJTZJlsudDnhQRdQ19+1Vq7GVMpnY0LQ+OB/FqO/FfsI02DuYoK
+ t1gYzXCoomFKB/v967xGL1K3+dBedT7ZqT+Q7b8EO6afN9iV3LBRiVAbJeaR3rJM4gy9
+ BI0bYmq3jmme+Ejg6+vfS9/OJO68u/ZhWF6Knd9pHkNofrPU6HYzHXCojLoeN7knthN5
+ A88IApBY2RQleRwKqtBKBBI8G1wMpHmF0n/1oz8qsdo7DBghQXzFL9NV8BzxZ2AOVTxM
+ I6je3BJpmC/le22ebHh0GJr5zDEYcFO24tRWUtmJzOpl9dwoRBJIfC9JI3ffaG8i9pS/
+ zSbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=iYWPdbX0XJJ/cmLOGry3A7D88+6pMlRTxl6D1mZ+wuM=;
+ b=DOrKk+fpRRjWKmAcm78mqrY2nRaZsptl96VfqlQMWFZVAmL3khKliM9RilkNusHokL
+ rX62s6p5VG3tFg7iNO2A0uI4a8MgfvU2UhnyoGJlJ6X0TU/j3NRi+G7cyggUTGbKM9Zl
+ mekO6CJD2pvKNx3LATBc8hCnaBxnWq77ddT36Gg0rTOg9LzSOPUj1Gnj09IvyGVk6WP/
+ UTGN42HXYCl+gqmr/IXIYU6MAFtdEZxNpw2gbEJo2dxJ3SHBSHMhNutAPnvuv9RL2Fky
+ dRSwLAVuXbSkZyz4YlRTu6GIZy23WIzhcXjtfD1adWK3kK0ROT877AdSjCg/UAhikNju
+ RHLw==
+X-Gm-Message-State: ACrzQf2yzJqBCmY8xWcJ3Fi+8USK0CWgZQF1AJ6oxRpG6RXKXKJUfPsJ
+ iIZHNH8athfv72NKZ4BWRcASO7yVGW73J3RmNL6WYQ==
+X-Google-Smtp-Source: AMsMyM5ggJdLpQeWx+LU8ieEAcTZPcbOva1qpZ2uk0YS259N5wcp/+HzmyQnqbi7skur2Bk0a6K6J6VkwnZ3PCogtnw=
+X-Received: by 2002:a05:6402:2787:b0:451:d655:9269 with SMTP id
+ b7-20020a056402278700b00451d6559269mr18152712ede.375.1664792931593; Mon, 03
+ Oct 2022 03:28:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEUhbmXuu54L7LkNKDpBnNBysTHPqdtSEQNja2S94EGfjPc0sA@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20220930174853.2233633-1-peter.maydell@linaro.org>
+ <20220930174853.2233633-2-peter.maydell@linaro.org>
+ <3ebee616-2a99-10b5-0902-d41eccbec1f2@linaro.org>
+In-Reply-To: <3ebee616-2a99-10b5-0902-d41eccbec1f2@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 3 Oct 2022 11:28:40 +0100
+Message-ID: <CAFEAcA9SzEge=PUKJ4gW71gF14NS8aH3JwHwmpVeDXnd18XvFA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target/arm: Don't allow guest to use unimplemented
+ granule sizes
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,39 +82,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 01, 2022 at 11:44:09AM +0800, Bin Meng wrote:
-> Hi Daniel,
-> 
-> On Tue, Sep 27, 2022 at 7:06 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Fri, 30 Sept 2022 at 22:05, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 9/30/22 10:48, Peter Maydell wrote:
+> > @@ -10289,20 +10289,113 @@ static int aa64_va_parameter_tcma(uint64_t tcr, ARMMMUIdx mmu_idx)
+> >       }
+> >   }
 > >
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > Replace the existing logic to get the directory for temporary files
-> > with g_get_tmp_dir(), which works for win32 too.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >
-> > (no changes since v1)
-> >
-> >  util/qemu-sockets.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-> >
-> 
-> Would you pick up this patch in your queue?
+> > +typedef enum GranuleSize {
+> > +    /* Same order as TG0 encoding */
+> > +    Gran4K,
+> > +    Gran64K,
+> > +    Gran16K,
+> > +    GranInvalid,
+> > +} GranuleSize;
+>
+> It might be worth using this in ARMVAParameters. Even if you don't do that now, it would
+> be worth putting this typedef in internals.h.
 
-Yes, added to me queue.
+I'd assumed you had a reason for using two bools rather than
+an enum in ARMVAParameters, so I left that alone :-) But it would
+make more sense to consistently use GranuleSize. (I guess for
+putting it in internals.h it ought to be named ARMGranSize.)
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Putting GranuleSize into ARMVAParameters brings us into the
+area of enums in bitfields, where I'm not sure exactly what
+the standard says or our supported compilers allow as an
+impdef extension.
+ GranuleSize gsize : 2;
+seems to work, but is it portable? Or should I just put
+ GranuleSize gsize;
+and accept that that means the ARMVAParameters goes from
+4 bytes to 8 bytes in size?
 
+thanks
+-- PMM
 
