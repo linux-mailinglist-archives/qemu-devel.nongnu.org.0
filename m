@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B75FE5F3002
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 14:07:53 +0200 (CEST)
-Received: from localhost ([::1]:43476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32A15F3064
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 14:41:52 +0200 (CEST)
+Received: from localhost ([::1]:57390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofKEi-0006AF-B9
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 08:07:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46490)
+	id 1ofKlb-0004ez-Kg
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 08:41:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1ofJvD-0000vY-IM
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 07:47:44 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:45038)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ofKcW-0006jE-1i
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 08:32:28 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1ofJvB-0005nE-RJ
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 07:47:43 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id x6so4173069pll.11
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 04:47:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=UM5MexKR+cyBVNhqEZgvUagmw+jjLNQaHh2G7H7AC+Q=;
- b=V2dk8IWEis3whfqRCBM0VdkFwt7PVHX3fmi0NcAXzJ/V46C8vUwphjnJuynponcnLW
- XAj2jc7+POlxy1WMDenY88DEdobMUVpCK9FgKSRj1Lp4vq3VxOwjEkmI6VpzVHFHKrwf
- UNTfuP7zIFb1iPBLkuBfqgar6wtM1WpP9CyWwta2Ts8W66bd21mtPRjkZKuD76kcst5b
- fCHu8dW8ftfuNqA0Pvf7CoSHlZEQZstt5ZcTmIXxY9U1r42mCHoDl0qa9yJszr9x8xZf
- whMJw4nc1r08esA6vtdif8f149QQc4NvC/AMF9MSrSiCZDNeZGT/p0uLhsh+5Sv0C0IP
- E7nA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ofKcS-0006Tc-UM
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 08:32:27 -0400
+Received: by mail-wr1-x431.google.com with SMTP id j16so4570493wrh.5
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 05:32:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date;
+ bh=6U9AukISGNaP8Y8Q79iqTXHBUM9+xawYkjoVVPHHQgE=;
+ b=qXWxslr5LSQEwhL2Dsdl6k0jumJAeJQsYEuTu2KVDyacJAjQMWQlZCFxJQwNGggtEt
+ LsHCMOOYi3nKGnDohVyxqpdAlO47wrWnuzUsMOPfbsodh90LrJCHzDeohpfYVGE2hpck
+ N9nAhqEFFYPc7IPxafcq/PjTKNSC36CiNDvRD0hN6eZk3KFtjfiMz4Ka8ubTkWzyeUml
+ fu95ASe4xFnLas12VsiasoQwQQTYTnxru8YQ+zCjIJh87BjxTEIchmdaPzPExmvihhOL
+ NHkQV7oNR4vpWVqYUDjAH2UP1Mw55s73cKrAuH13QB8Jt2zd8E8z/0ZAYeWmCnNljVtp
+ djEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date;
- bh=UM5MexKR+cyBVNhqEZgvUagmw+jjLNQaHh2G7H7AC+Q=;
- b=JnFWmqEMoz7LjRuQB7J6UUQfrQH7ofZ3g044i0wA07927Khlz2+I6dZQyBe0QoO612
- BR3+UPFXITAj/gylalBaW88ZtGYy0r3UmaxHs7xkckc6gfZU96l+inkDG9Ngp5x+KzU7
- pDxj+pfhtCMAjLK2xjuxpRtWsAl6Bk+tbNuY4XvjAiHYa7CQiSK2ZYLjxdMHJZUBUfe5
- phgyGCSH7hfMyaKzYJYERwSN/zjSOZtcoqlY1zAaOuXPK3yEW/5Af11S3AFWTmF0WYkv
- hwdyqrPCX7c/i+ATP2SNPBbwCMAhhoX61dmW05raB+MCoab2+Q/iGHsUibP7OqZvwGZn
- k93w==
-X-Gm-Message-State: ACrzQf28ixvBNVxDlbelENP6WkSvpwESbT1Ge8dIi406PKpwLOVhZ+79
- nKVeUzQV4ZX6X+GY0AkpVtyFFA11ZNb6xg==
-X-Google-Smtp-Source: AMsMyM7D8DJWz615pFxor4nrfj1kJw2B9v4kzIhr2T+QnnUpfUfQIXjE+cpLSIGPq+G3uShz0j930Q==
-X-Received: by 2002:a17:90b:3b47:b0:202:a81f:4059 with SMTP id
- ot7-20020a17090b3b4700b00202a81f4059mr11880559pjb.150.1664797660248; 
- Mon, 03 Oct 2022 04:47:40 -0700 (PDT)
-Received: from ThinkPad-T490.dc1.ventanamicro.com ([103.97.165.210])
- by smtp.googlemail.com with ESMTPSA id
- ix17-20020a170902f81100b001789b724712sm6979753plb.232.2022.10.03.04.47.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Oct 2022 04:47:39 -0700 (PDT)
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
-	alistair.francis@wdc.com
-Subject: [PATCH v10 4/5] target/riscv: smstateen check for fcsr
-Date: Mon,  3 Oct 2022 17:17:17 +0530
-Message-Id: <20221003114718.30659-5-mchitale@ventanamicro.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221003114718.30659-1-mchitale@ventanamicro.com>
-References: <20221003114718.30659-1-mchitale@ventanamicro.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date;
+ bh=6U9AukISGNaP8Y8Q79iqTXHBUM9+xawYkjoVVPHHQgE=;
+ b=T7vcE8UK3yfmJ+MJ0l21EQClGgngwAvv+i8u5Y/vLJWO0YNJtSimIyBr2IwxXV6czi
+ HCHlD2fXJRJgAaTkQ3qUOs/IUMapYMj/upROmHesZD6dBUpg2iEFKVAWEkYpIlkfVG4Y
+ ncWJ/+l+HyO5EJskEH7nkQ+CAs7JqCeWaVqC6PIUvKbQRjjJqoLOOKY4IFwPog5THvn8
+ esCJErifpZfuD5+M69xfH6MHKBlT7UQ1vNDDppBh5t2hQKwjPyZIFQn/hxTIWDRed3S8
+ eP1DvGnN1uentb/IbXgznng2vekbs1GO3tMtPwV45k49cZTbZk1lQ09M/12WNKkyE4nU
+ 6/kQ==
+X-Gm-Message-State: ACrzQf3szbaGloW6f9rs5r4RB+3pHnV3w2K4hk73zseV8Mpy6RfQimnb
+ 2Y0VmwVCvEPmI/ik1nuFAdU=
+X-Google-Smtp-Source: AMsMyM4Wq05lCfZUHA7RxGfGSpMRltXlVFg+TgrHWTRZT+ofpfzmP9GSaEAxOWu+9Yn1XnooyGh4GA==
+X-Received: by 2002:a5d:46d0:0:b0:22c:de2a:23e with SMTP id
+ g16-20020a5d46d0000000b0022cde2a023emr11262648wrs.12.1664800341599; 
+ Mon, 03 Oct 2022 05:32:21 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ h5-20020a05600c350500b003b491f99a25sm17458195wmq.22.2022.10.03.05.32.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Oct 2022 05:32:20 -0700 (PDT)
+Message-ID: <84e9db71-7c59-c92b-4640-af0b7e679dab@amsat.org>
+Date: Mon, 3 Oct 2022 14:32:18 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH] tests/avocado: Add missing require_netdev('user') checks
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20221001195224.2453581-1-peter.maydell@linaro.org>
+In-Reply-To: <20221001195224.2453581-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=mchitale@ventanamicro.com; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.467,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,184 +94,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-If smstateen is implemented and sstateen0.fcsr is clear then the floating point
-operations must return illegal instruction exception or virtual instruction
-trap, if relevant.
+On 1/10/22 21:52, Peter Maydell wrote:
+> Some avocado tests fail if QEMU was built without libslirp. Add
+> require_netdev('user') checks where necessary:
+> 
+> These tests try to ping 10.0.2.2 and expect it to succeed:
+>    boot_linux_console.py:BootLinuxConsole.test_arm_emcraft_sf2
+>    boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
+>    ppc_bamboo.py:BambooMachine.test_ppc_bamboo
+> 
+> These tests run a commandline that includes '-net user':
+>    machine_aspeed.py:AST2x00Machine.test_arm_ast2500_evb_builroot
+>    (and others that use the do_test_arm_aspeed_buidroot_start()
+>    or do_test_arm_aspeed_sdk_start() helper functions)
+> 
+> These changes seem to be sufficient for 'make check-avocado'
+> to not fail on a --disable-slirp build.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   tests/avocado/boot_linux_console.py | 4 ++++
+>   tests/avocado/machine_aspeed.py     | 3 +++
+>   tests/avocado/ppc_bamboo.py         | 1 +
+>   3 files changed, 8 insertions(+)
 
-Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
----
- target/riscv/csr.c                        | 23 ++++++++++++
- target/riscv/insn_trans/trans_rvf.c.inc   | 43 +++++++++++++++++++++--
- target/riscv/insn_trans/trans_rvzfh.c.inc | 12 +++++++
- 3 files changed, 75 insertions(+), 3 deletions(-)
-
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 71236f2b5d..8b25f885ec 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -84,6 +84,10 @@ static RISCVException fs(CPURISCVState *env, int csrno)
-         !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
-+
-+    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-+        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
-+    }
- #endif
-     return RISCV_EXCP_NONE;
- }
-@@ -2023,6 +2027,9 @@ static RISCVException write_mstateen0(CPURISCVState *env, int csrno,
-                                       target_ulong new_val)
- {
-     uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-+    if (!riscv_has_ext(env, RVF)) {
-+        wr_mask |= SMSTATEEN0_FCSR;
-+    }
- 
-     return write_mstateen(env, csrno, wr_mask, new_val);
- }
-@@ -2059,6 +2066,10 @@ static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
- {
-     uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
- 
-+    if (!riscv_has_ext(env, RVF)) {
-+        wr_mask |= SMSTATEEN0_FCSR;
-+    }
-+
-     return write_mstateenh(env, csrno, wr_mask, new_val);
- }
- 
-@@ -2096,6 +2107,10 @@ static RISCVException write_hstateen0(CPURISCVState *env, int csrno,
- {
-     uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
- 
-+    if (!riscv_has_ext(env, RVF)) {
-+        wr_mask |= SMSTATEEN0_FCSR;
-+    }
-+
-     return write_hstateen(env, csrno, wr_mask, new_val);
- }
- 
-@@ -2135,6 +2150,10 @@ static RISCVException write_hstateen0h(CPURISCVState *env, int csrno,
- {
-     uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
- 
-+    if (!riscv_has_ext(env, RVF)) {
-+        wr_mask |= SMSTATEEN0_FCSR;
-+    }
-+
-     return write_hstateenh(env, csrno, wr_mask, new_val);
- }
- 
-@@ -2182,6 +2201,10 @@ static RISCVException write_sstateen0(CPURISCVState *env, int csrno,
- {
-     uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
- 
-+    if (!riscv_has_ext(env, RVF)) {
-+        wr_mask |= SMSTATEEN0_FCSR;
-+    }
-+
-     return write_sstateen(env, csrno, wr_mask, new_val);
- }
- 
-diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
-index a1d3eb52ad..93657680c6 100644
---- a/target/riscv/insn_trans/trans_rvf.c.inc
-+++ b/target/riscv/insn_trans/trans_rvf.c.inc
-@@ -24,9 +24,46 @@
-             return false; \
- } while (0)
- 
--#define REQUIRE_ZFINX_OR_F(ctx) do {\
--    if (!ctx->cfg_ptr->ext_zfinx) { \
--        REQUIRE_EXT(ctx, RVF); \
-+#ifndef CONFIG_USER_ONLY
-+static inline bool smstateen_fcsr_check(DisasContext *ctx, int index)
-+{
-+    CPUState *cpu = ctx->cs;
-+    CPURISCVState *env = cpu->env_ptr;
-+    uint64_t stateen = env->mstateen[index];
-+
-+    if (!ctx->cfg_ptr->ext_smstateen || env->priv == PRV_M) {
-+        return true;
-+    }
-+
-+    if (ctx->virt_enabled) {
-+        stateen &= env->hstateen[index];
-+    }
-+
-+    if (env->priv == PRV_U && has_ext(ctx, RVS)) {
-+        stateen &= env->sstateen[index];
-+    }
-+
-+    if (!(stateen & SMSTATEEN0_FCSR)) {
-+        if (ctx->virt_enabled) {
-+            ctx->virt_inst_excp = true;
-+        }
-+        return false;
-+    }
-+
-+    return true;
-+}
-+#else
-+#define smstateen_fcsr_check(ctx, index) (true)
-+#endif
-+
-+#define REQUIRE_ZFINX_OR_F(ctx) do { \
-+    if (!has_ext(ctx, RVF)) { \
-+        if (!ctx->cfg_ptr->ext_zfinx) { \
-+            return false; \
-+        } \
-+        if (!smstateen_fcsr_check(ctx, 0)) { \
-+            return false; \
-+        } \
-     } \
- } while (0)
- 
-diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
-index 5d07150cd0..6c2e338c0a 100644
---- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-@@ -20,18 +20,27 @@
-     if (!ctx->cfg_ptr->ext_zfh) {      \
-         return false;         \
-     }                         \
-+    if (!smstateen_fcsr_check(ctx, 0)) { \
-+        return false; \
-+    } \
- } while (0)
- 
- #define REQUIRE_ZHINX_OR_ZFH(ctx) do { \
-     if (!ctx->cfg_ptr->ext_zhinx && !ctx->cfg_ptr->ext_zfh) { \
-         return false;                  \
-     }                                  \
-+    if (!smstateen_fcsr_check(ctx, 0)) { \
-+        return false; \
-+    } \
- } while (0)
- 
- #define REQUIRE_ZFH_OR_ZFHMIN(ctx) do {       \
-     if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin)) { \
-         return false;                         \
-     }                                         \
-+    if (!smstateen_fcsr_check(ctx, 0)) { \
-+        return false; \
-+    } \
- } while (0)
- 
- #define REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx) do { \
-@@ -39,6 +48,9 @@
-           ctx->cfg_ptr->ext_zhinx || ctx->cfg_ptr->ext_zhinxmin)) {     \
-         return false;                                        \
-     }                                                        \
-+    if (!smstateen_fcsr_check(ctx, 0)) { \
-+        return false; \
-+    } \
- } while (0)
- 
- static bool trans_flh(DisasContext *ctx, arg_flh *a)
--- 
-2.25.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
