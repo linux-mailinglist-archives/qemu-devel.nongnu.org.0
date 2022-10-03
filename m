@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D7C5F2ED6
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:35:11 +0200 (CEST)
-Received: from localhost ([::1]:40336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064FD5F2EEB
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:40:18 +0200 (CEST)
+Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofIn0-0007Xy-1P
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:35:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43496)
+	id 1ofIrx-0004bF-2z
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:40:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ofIgx-0004GN-Kk
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:28:55 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34711)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ofIgv-0001Lz-3L
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:28:54 -0400
-Received: by mail-ed1-x531.google.com with SMTP id s30so10232200eds.1
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 03:28:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=iYWPdbX0XJJ/cmLOGry3A7D88+6pMlRTxl6D1mZ+wuM=;
- b=Z1JNLswhngiP6nCTJTZJlsudDnhQRdQ19+1Vq7GVMpnY0LQ+OB/FqO/FfsI02DuYoK
- t1gYzXCoomFKB/v967xGL1K3+dBedT7ZqT+Q7b8EO6afN9iV3LBRiVAbJeaR3rJM4gy9
- BI0bYmq3jmme+Ejg6+vfS9/OJO68u/ZhWF6Knd9pHkNofrPU6HYzHXCojLoeN7knthN5
- A88IApBY2RQleRwKqtBKBBI8G1wMpHmF0n/1oz8qsdo7DBghQXzFL9NV8BzxZ2AOVTxM
- I6je3BJpmC/le22ebHh0GJr5zDEYcFO24tRWUtmJzOpl9dwoRBJIfC9JI3ffaG8i9pS/
- zSbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=iYWPdbX0XJJ/cmLOGry3A7D88+6pMlRTxl6D1mZ+wuM=;
- b=DOrKk+fpRRjWKmAcm78mqrY2nRaZsptl96VfqlQMWFZVAmL3khKliM9RilkNusHokL
- rX62s6p5VG3tFg7iNO2A0uI4a8MgfvU2UhnyoGJlJ6X0TU/j3NRi+G7cyggUTGbKM9Zl
- mekO6CJD2pvKNx3LATBc8hCnaBxnWq77ddT36Gg0rTOg9LzSOPUj1Gnj09IvyGVk6WP/
- UTGN42HXYCl+gqmr/IXIYU6MAFtdEZxNpw2gbEJo2dxJ3SHBSHMhNutAPnvuv9RL2Fky
- dRSwLAVuXbSkZyz4YlRTu6GIZy23WIzhcXjtfD1adWK3kK0ROT877AdSjCg/UAhikNju
- RHLw==
-X-Gm-Message-State: ACrzQf2yzJqBCmY8xWcJ3Fi+8USK0CWgZQF1AJ6oxRpG6RXKXKJUfPsJ
- iIZHNH8athfv72NKZ4BWRcASO7yVGW73J3RmNL6WYQ==
-X-Google-Smtp-Source: AMsMyM5ggJdLpQeWx+LU8ieEAcTZPcbOva1qpZ2uk0YS259N5wcp/+HzmyQnqbi7skur2Bk0a6K6J6VkwnZ3PCogtnw=
-X-Received: by 2002:a05:6402:2787:b0:451:d655:9269 with SMTP id
- b7-20020a056402278700b00451d6559269mr18152712ede.375.1664792931593; Mon, 03
- Oct 2022 03:28:51 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=zLWo=2E=zx2c4.com=Jason@kernel.org>)
+ id 1ofIoc-0000WW-65
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:36:50 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:45332)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=zLWo=2E=zx2c4.com=Jason@kernel.org>)
+ id 1ofIoZ-0002Zd-Vy
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:36:49 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C3AC8B81049;
+ Mon,  3 Oct 2022 10:36:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C629BC433D7;
+ Mon,  3 Oct 2022 10:36:36 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="m7aazLT6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1664793394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YWpTi6KXCYsZeLyOVNUk5wppfEu/zvy60LaU2Vg9PJI=;
+ b=m7aazLT6O+O0spQEbFjdG58rbVYdUTRoF1v62WzPDK0B5SO4i/a8fcf9oDl/8oh60ORzky
+ RRKdtq+VS+HyxLuSgOw7ANT3F6ARlRUlArmGgvOIxRHOvUr5lTBYb3bUpGXO0rvsClHl2J
+ +FgZ+2FXjr2vj36gomYoIQyhvZ62pKI=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 6e5db381
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Mon, 3 Oct 2022 10:36:34 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
+Subject: [PATCH v2] mips/malta: pass RNG seed to to kernel via env var
+Date: Mon,  3 Oct 2022 12:36:27 +0200
+Message-Id: <20221003103627.947985-1-Jason@zx2c4.com>
+In-Reply-To: <YziPyCqwl5KIE2cf@zx2c4.com>
+References: <YziPyCqwl5KIE2cf@zx2c4.com>
 MIME-Version: 1.0
-References: <20220930174853.2233633-1-peter.maydell@linaro.org>
- <20220930174853.2233633-2-peter.maydell@linaro.org>
- <3ebee616-2a99-10b5-0902-d41eccbec1f2@linaro.org>
-In-Reply-To: <3ebee616-2a99-10b5-0902-d41eccbec1f2@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 3 Oct 2022 11:28:40 +0100
-Message-ID: <CAFEAcA9SzEge=PUKJ4gW71gF14NS8aH3JwHwmpVeDXnd18XvFA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] target/arm: Don't allow guest to use unimplemented
- granule sizes
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=zLWo=2E=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,40 +83,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Sept 2022 at 22:05, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 9/30/22 10:48, Peter Maydell wrote:
-> > @@ -10289,20 +10289,113 @@ static int aa64_va_parameter_tcma(uint64_t tcr, ARMMMUIdx mmu_idx)
-> >       }
-> >   }
-> >
-> > +typedef enum GranuleSize {
-> > +    /* Same order as TG0 encoding */
-> > +    Gran4K,
-> > +    Gran64K,
-> > +    Gran16K,
-> > +    GranInvalid,
-> > +} GranuleSize;
->
-> It might be worth using this in ARMVAParameters. Even if you don't do that now, it would
-> be worth putting this typedef in internals.h.
+As of the kernel commit linked below, Linux ingests an RNG seed
+passed from the hypervisor. So, pass this for the Malta platform, and
+reinitialize it on reboot too, so that it's always fresh.
 
-I'd assumed you had a reason for using two bools rather than
-an enum in ARMVAParameters, so I left that alone :-) But it would
-make more sense to consistently use GranuleSize. (I guess for
-putting it in internals.h it ought to be named ARMGranSize.)
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Link: https://git.kernel.org/mips/c/056a68cea01
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+Changes v1->v2:
+- Update commit message.
+- No code changes.
 
-Putting GranuleSize into ARMVAParameters brings us into the
-area of enums in bitfields, where I'm not sure exactly what
-the standard says or our supported compilers allow as an
-impdef extension.
- GranuleSize gsize : 2;
-seems to work, but is it portable? Or should I just put
- GranuleSize gsize;
-and accept that that means the ARMVAParameters goes from
-4 bytes to 8 bytes in size?
+ hw/mips/malta.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-thanks
--- PMM
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 0e932988e0..9d793b3c17 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -26,6 +26,7 @@
+ #include "qemu/units.h"
+ #include "qemu/bitops.h"
+ #include "qemu/datadir.h"
++#include "qemu/guest-random.h"
+ #include "hw/clock.h"
+ #include "hw/southbridge/piix.h"
+ #include "hw/isa/superio.h"
+@@ -1017,6 +1018,17 @@ static void G_GNUC_PRINTF(3, 4) prom_set(uint32_t *prom_buf, int index,
+     va_end(ap);
+ }
+ 
++static void reinitialize_rng_seed(void *opaque)
++{
++    char *rng_seed_hex = opaque;
++    uint8_t rng_seed[32];
++
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
++        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
++    }
++}
++
+ /* Kernel */
+ static uint64_t load_kernel(void)
+ {
+@@ -1028,6 +1040,8 @@ static uint64_t load_kernel(void)
+     long prom_size;
+     int prom_index = 0;
+     uint64_t (*xlate_to_kseg0) (void *opaque, uint64_t addr);
++    uint8_t rng_seed[32];
++    char rng_seed_hex[sizeof(rng_seed) * 2 + 1];
+ 
+ #if TARGET_BIG_ENDIAN
+     big_endian = 1;
+@@ -1115,9 +1129,20 @@ static uint64_t load_kernel(void)
+ 
+     prom_set(prom_buf, prom_index++, "modetty0");
+     prom_set(prom_buf, prom_index++, "38400n8r");
++
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
++        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
++    }
++    prom_set(prom_buf, prom_index++, "rngseed");
++    prom_set(prom_buf, prom_index++, "%s", rng_seed_hex);
++
+     prom_set(prom_buf, prom_index++, NULL);
+ 
+     rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
++    qemu_register_reset(reinitialize_rng_seed,
++                        memmem(rom_ptr(ENVP_PADDR, prom_size), prom_size,
++                               rng_seed_hex, sizeof(rng_seed_hex)));
+ 
+     g_free(prom_buf);
+     return kernel_entry;
+-- 
+2.37.3
+
 
