@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F5E5F323C
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 16:59:57 +0200 (CEST)
-Received: from localhost ([::1]:52898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5566B5F3257
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 17:08:47 +0200 (CEST)
+Received: from localhost ([::1]:41138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofMvC-0007IK-S1
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 10:59:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54926)
+	id 1ofN3m-0003Ji-7q
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 11:08:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jerome.forissier@linaro.org>)
- id 1ofMsb-0005LV-Mp
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 10:57:13 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39850)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofMwc-000879-Ck
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 11:01:24 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:45627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jerome.forissier@linaro.org>)
- id 1ofMsZ-0004rx-S3
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 10:57:13 -0400
-Received: by mail-wr1-x433.google.com with SMTP id f11so14495411wrm.6
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 07:57:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofMwa-0005V2-Du
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 11:01:22 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ d12-20020a05600c3acc00b003b4c12e47f3so5991091wms.4
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 08:01:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=RV/X+WaJqNZO6nQexO9aMZi9OCWlE8Q3vDFCU19ehgg=;
- b=YcBNWgCzGgKluIVRv7kN/epE6GoK2NdrFIZeLZmi5o7vDBwZPVC4G+28FM+UF0Ne5D
- O9+5VywFmi035TNVRZKNGPyVGBdhYbNC9EB0kcrq7B5xEsF4s4XvGjjVk2cFqqkoL92O
- nh+U0eLxcpulGDcFJvkei4i0wnQauuY60cFAnvA8nLU0fTUQsr+xaQVqPpcWadV3ZJzW
- E70FE83xrow75jhRGdT58Wa9cwiU+8bSxdGjGfGR6CbWSQL31msxvCwl5ZwRE9INlIsl
- RDspmAZ7AJWaBEpxVONRr8863nAVOve7am22frKjLPSRxQk8RH3TUfq4fVVKJ4HPfhuQ
- LX3A==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=QDRvEj3KXpQGDLxvnHjNRgjFBdV4ogspQgruOucaDMA=;
+ b=bjRZZ0l1WUZHIWyvamSEqj4Jw9sj2mX7VtGA1d5BYiFBPSgjRuCa1OR8eD4b7/e892
+ PZSLWZ7DXwurk4NKK+cZKKWwCO48o58ms41P0K72/52TH7tX9fRJB8RFri6hWtQVNz8L
+ C2hqq4qQwlRI2D5Mj0J3qja68fRk/YuFctXzr1gM1MbwYkDIx87gUgVwkozM/T4mutlt
+ yW6lW8xTXJk3uL9wLxlnj12/Ax3BCl0YleZrLHiymBIoAFO5UdMsFOqzdOSnrQK7coei
+ 99V4K9zI55uKNsOc84wpjLU8dVPX/a6DWTKEWJPqtYLXWgW5b7SuFKLBA+kgUzd/3Nrx
+ uruQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=RV/X+WaJqNZO6nQexO9aMZi9OCWlE8Q3vDFCU19ehgg=;
- b=fOu58V9qBQHawlC6rHTCEE2QXkry2PWmzVjhNAgPvkzNfZ5rGRrv6wJs51SqFKdQfQ
- X/kdCPNw0UYB9mcg7LqXV6dH2jOwRMKCsI0EeTUTUgJEJ+POOYh4toyYWObqkTGN/rbQ
- N78OHKDGTdCHPgAHF6rSwxUAdnMPDlx5bohvY0PkNS9RplCgMSvb9Nk7XO110DJMO/9W
- jaljb53Dm0vxJV2TfskdAkRE613kjeLvhgNCf+x6BUJnHxpdsdmd2JX/Iyo9yFlmydwH
- f7WswE4wA5DoogkUYaIn74RQlW8vZP9XAo3ZlIuk6RNi7Vgj80hQ7lGbBNGJQXLtnAHo
- F+dg==
-X-Gm-Message-State: ACrzQf3Jrmt4t+5mPgEJF/sHgjC9Vko63/fKOlr3tKGjWHoPFDo0wXSm
- heuWL/HwDrsrYyFV8QJIJi+yLA==
-X-Google-Smtp-Source: AMsMyM7QW9KLxx1ok39dnt2to5KSw60xi9NAvZUh7CvtW7D3VgINZAFArT/GT0jl4RLkQngyEaBn3w==
-X-Received: by 2002:a5d:69c6:0:b0:22c:dbb2:d84 with SMTP id
- s6-20020a5d69c6000000b0022cdbb20d84mr12881189wrw.190.1664809029566; 
- Mon, 03 Oct 2022 07:57:09 -0700 (PDT)
-Received: from jerome-XPS-13-9310.. ([2a01:e0a:3cb:7bb0:5860:99c5:7ff3:cb36])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=QDRvEj3KXpQGDLxvnHjNRgjFBdV4ogspQgruOucaDMA=;
+ b=YQo9bV68D2fxHS1Y8Hf5P63S5Eb7Q4+w2T2hLeagmbAwAzymTBMl+7f3tiV+486K88
+ p2hQxOnVvqXLSaT8QOXnR4czT9vHJuaSARmcPww6UDxzoXg6r/MvqkG2Qs9SyYqGv2MT
+ UwYpTcOtxdFnDUWsBlwo+z1GYEdbNMgRfAiU0dVOUNvt0s9sHTLp3G5ni1B4BXJN9Xnn
+ oFfuhuTGE/7WG1Vz9tlJbk/v7KPRN3+MUAdRYmbe5awHjHJsaHcwk0wuyB3w0n8g2aGr
+ F3chBrrC5yrGzJGkKyt9eXURWBEN98cN6bkNnr7TTSMUvT24V9vjDXWUQtOS4o6ZEyo+
+ AAdw==
+X-Gm-Message-State: ACrzQf1M6Hs2TvFSRSZS6WwFfl254qDILOVW1Lwg/Cb/Pi1mFCkwyL5+
+ pfXdWaIOHJKmsB1HCTrLjSj0M0r+o8Wz8Q==
+X-Google-Smtp-Source: AMsMyM6VzjzmsZ8km1vOCKCdhZWo2JMOd2UnjNT0sNW6egOkQzOZxulDWlWq/mgkfr5DPyD0x/tIAA==
+X-Received: by 2002:a05:600c:3d15:b0:3b4:8bd9:3905 with SMTP id
+ bh21-20020a05600c3d1500b003b48bd93905mr7095452wmb.173.1664809278080; 
+ Mon, 03 Oct 2022 08:01:18 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- z6-20020adfec86000000b0022b1d74dc56sm10040365wrn.79.2022.10.03.07.57.08
+ x24-20020a05600c189800b003b4727d199asm11182466wmp.15.2022.10.03.08.01.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Oct 2022 07:57:09 -0700 (PDT)
-From: Jerome Forissier <jerome.forissier@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Jerome Forissier <jerome.forissier@linaro.org>, qemu-stable@nongnu.org
-Subject: [PATCH] hw/arm/boot: set CPTR_EL3.ESM and SCR_EL3.EnTP2 when booting
- Linux with EL3
-Date: Mon,  3 Oct 2022 16:56:41 +0200
-Message-Id: <20221003145641.1921467-1-jerome.forissier@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ Mon, 03 Oct 2022 08:01:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 023871FFB7;
+ Mon,  3 Oct 2022 16:01:16 +0100 (BST)
+References: <20220930212622.108363-1-richard.henderson@linaro.org>
+ <20220930212622.108363-14-richard.henderson@linaro.org>
+ <87fsg5nkap.fsf@linaro.org>
+ <cab82ec5-88c4-1624-8fff-a9f45a282470@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: peter.maydell@linux.org, alex.bennee@linux.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 13/18] accel/tcg: Do not align tb->page_addr[0]
+Date: Mon, 03 Oct 2022 15:59:49 +0100
+In-reply-to: <cab82ec5-88c4-1624-8fff-a9f45a282470@linaro.org>
+Message-ID: <87tu4llzno.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=jerome.forissier@linaro.org; helo=mail-wr1-x433.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,35 +97,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the Linux kernel booting.rst [1], CPTR_EL3.ESM and
-SCR_EL3.EnTP2 must be initialized to 1 when EL3 is present and FEAT_SME
-is advertised. This has to be taken care of when QEMU boots directly
-into the kernel (i.e., "-M virt,secure=on -cpu max -kernel Image").
 
-Cc: qemu-stable@nongnu.org
-Fixes: 78cb9776662a ("target/arm: Enable SME for -cpu max")
-Link: [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/arm64/booting.rst?h=v6.0#n321
-Signed-off-by: Jerome Forissier <jerome.forissier@linaro.org>
----
- hw/arm/boot.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index ada2717f76..ee3858b673 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -763,6 +763,10 @@ static void do_cpu_reset(void *opaque)
-                     if (cpu_isar_feature(aa64_sve, cpu)) {
-                         env->cp15.cptr_el[3] |= R_CPTR_EL3_EZ_MASK;
-                     }
-+                    if (cpu_isar_feature(aa64_sme, cpu)) {
-+                        env->cp15.cptr_el[3] |= R_CPTR_EL3_ESM_MASK;
-+                        env->cp15.scr_el3 |= SCR_ENTP2;
-+                    }
-                     /* AArch64 kernels never boot in secure mode */
-                     assert(!info->secure_boot);
-                     /* This hook is only supported for AArch32 currently:
--- 
-2.34.1
+> On 10/3/22 05:47, Alex Benn=C3=A9e wrote:
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>=20
+>>> Let tb->page_addr[0] contain the offset within the page of the
+>>> start of the translation block.  We need to recover this value
+>>> anyway at various points, and it is easier to discard the page
+>>> offset when it's not needed, which happens naturally via the
+>>> existing find_page shift.
+>>>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   accel/tcg/cpu-exec.c      | 16 ++++++++--------
+>>>   accel/tcg/cputlb.c        |  3 ++-
+>>>   accel/tcg/translate-all.c |  9 +++++----
+>>>   3 files changed, 15 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+>>> index 5f43b9769a..dd58a144a8 100644
+>>> --- a/accel/tcg/cpu-exec.c
+>>> +++ b/accel/tcg/cpu-exec.c
+>>> @@ -174,7 +174,7 @@ struct tb_desc {
+>>>       target_ulong pc;
+>>>       target_ulong cs_base;
+>>>       CPUArchState *env;
+>>> -    tb_page_addr_t phys_page1;
+>>> +    tb_page_addr_t page_addr0;
+>> We don't actually document that this is an offset here (or indeed in
+>> TranslationBlock) and the definition of tb_page_addr_t:
+>>    /* Page tracking code uses ram addresses in system mode, and
+>> virtual
+>>       addresses in userspace mode.  Define tb_page_addr_t to be an appro=
+priate
+>>       type.  */
+>>    #if defined(CONFIG_USER_ONLY)
+>>    typedef abi_ulong tb_page_addr_t;
+>>    #define TB_PAGE_ADDR_FMT TARGET_ABI_FMT_lx
+>>    #else
+>>    typedef ram_addr_t tb_page_addr_t;
+>>    #define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
+>>    #endif
+>> implies these are full size pointers into the guests address space.
+>
+> And that's what I've got.  What we we were storing in phys_page1
+> before was a full size pointer that was page aligned.  I'm now
+> dropping the page alignment and having a full size pointer to the
+> exact first byte of the translated code.
 
+OK then I'm confused by the commit message which says:
+
+  Let tb->page_addr[0] contain the offset within the page of the
+  start of the translation block
+
+> Is that clearer?  How would you improve the wording?
+>
+>
+> r~
+>
+>> Either we need a new type (tb_page_offset_t) or to properly comment the
+>> structures with what they mean.
+>> Otherwise:
+>> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>=20
+
+
+--=20
+Alex Benn=C3=A9e
 
