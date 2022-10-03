@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8CD5F31B9
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 16:03:48 +0200 (CEST)
-Received: from localhost ([::1]:54030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B477C5F31BA
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 16:04:10 +0200 (CEST)
+Received: from localhost ([::1]:49374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofM2t-0000bT-Sf
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 10:03:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38822)
+	id 1ofM3A-0001o3-JZ
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 10:04:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofLpy-0003nb-Vx
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:50:34 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofLpw-00039o-IB
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:50:26 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id a3so4572765wrt.0
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 06:50:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=DqhahMheD2f6MxxH/HmT28BtA5XnXgyRgBr70YiSXuw=;
- b=wSYHBmRW70rHLIZ3jEcBSDjdaL3l66mvd4/Hi4D38/y5LX28nac0ka5qI9Jxy47jk+
- Ko7Wcu9ee3RbCRsP6SCo4HzMOGq190FghvVS5gxp1fOGgOKl74RD6EeMgpMyKOGcesCw
- aAuSMcCMKt13kuGCqo1YsY6ikaKMzQyugafAEW1ODnZq+llI2mWqUv5/h+qG0ApTVJU6
- A2lXt3NznA2gHFmvoiRKYfggHe+brFyeIsnSXLFdAgsvIpMa86Cy0+C7sPDdEGu35cOz
- l6Fdb4lFsvna+vYj713/oL7cQ6PT+5iq6+yawQnCEXAc8+00iuLbhqcesZQ3UC4Gp09o
- Op/g==
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1ofLoh-00019S-Bl
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:49:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51669)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1ofLoe-0002sO-8u
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:49:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664804943;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jApz3ABCalOVapMC5hd2GHol8lR4V6pmxFgeNFFII+M=;
+ b=M1EddHoOI/Bb/t3BRWiGKz739+1k1t9bINr8grRn7KDEDya5+td5yR4TxVKCFuDtZx7juJ
+ NNuCC0z9WciU95IyR8NZqseBPa0teZR1NW50wPNlsOt+Q7OPJWBYb5zx3pDh25tN7vp8VU
+ xEsVND1SZVxcBuuIf0OhVlBgWKD0JpY=
+Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
+ [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-518-kBWQvfZZNu6lgNOFL6dgxw-1; Mon, 03 Oct 2022 09:49:02 -0400
+X-MC-Unique: kBWQvfZZNu6lgNOFL6dgxw-1
+Received: by mail-yb1-f200.google.com with SMTP id
+ a2-20020a5b0002000000b006b48689da76so10303954ybp.16
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 06:49:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=DqhahMheD2f6MxxH/HmT28BtA5XnXgyRgBr70YiSXuw=;
- b=D5/tXSe9TC6u9DbbPnKNbfT+IHjvpgbaVfPnFQYgHkixwVYFy7LGGNefoQqFw88kDj
- ZYhZV3egooHp8B8BBXdds6yEnrIygYlV1YVsMdGxuFn1DwzQwAlaEfZDt33BrWEUj4CX
- u0F9asViRyo0YVbpKkPBvIJjS8K6iU658P7uwdVxWztGQYC08By1kA7rMxl2+WKQJZyB
- ydxRKEl/p5uKBeDSbJvMn9PbJqYDAHRaUFhtmtxddiEN1m7614w4ophh2LHAMOQKsSwC
- /j/3in/liJiXd8FUIOWxcM2tlerNcERDt5pAFyjdKp3vnC/9PRRmlhTf4c6y/Te8x5ou
- +Xrg==
-X-Gm-Message-State: ACrzQf33eOjl4nLTRrxxcNFu4OZedk5aTzugZBDoNQFoaUyJU7NDjdRG
- XUYTLvGkMQLnubhw47mrS6nOtg==
-X-Google-Smtp-Source: AMsMyM7y9d+SnkCGW44dQHZt4nH3tjOKgLsBtLbZwjQvzkTHEbpWoM+Wr2F52kLjsOO1JM5C/Wuhzg==
-X-Received: by 2002:a05:6000:144d:b0:22a:f4ef:c900 with SMTP id
- v13-20020a056000144d00b0022af4efc900mr13570209wrx.678.1664805022551; 
- Mon, 03 Oct 2022 06:50:22 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- z2-20020a05600c0a0200b003b48dac344esm18035154wmp.43.2022.10.03.06.50.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Oct 2022 06:50:21 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 18DFD1FFB7;
- Mon,  3 Oct 2022 14:50:21 +0100 (BST)
-References: <20220930212622.108363-1-richard.henderson@linaro.org>
- <20220930212622.108363-19-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: peter.maydell@linux.org, alex.bennee@linux.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 18/18] accel/tcg: Introduce TARGET_TB_PCREL
-Date: Mon, 03 Oct 2022 14:46:28 +0100
-In-reply-to: <20220930212622.108363-19-richard.henderson@linaro.org>
-Message-ID: <87y1txm2xu.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=jApz3ABCalOVapMC5hd2GHol8lR4V6pmxFgeNFFII+M=;
+ b=SBKFT6Wzp495W6t6Fp3/hzGB+Kn8SR2wQ/NZ7+OtMEDQaOwIm/1E6lxMIaDHu781d0
+ 68KXQsen7sLxXDDfn3XDLPewIB9k9vqYqp43Bu6DsbnM2JF3wNYxUo0izPHsXOUavF7r
+ xFEgDVANdw6oNYLD7Fa5p2XpuZSVhxwwlWQX8x8xsvbSsk+XQ+nkoRM2Iq6+lLeqg4Y+
+ EVE/AkpXcjZIHmJHVKxdtXjN6tYvf6qKARRVu7ywR0Uh4kAgXsS4k5jzgz6RFXlghhFK
+ 17x1UvWuK9zvf/scrIHIXc9rrZdTQxr056Vx1casPAJ1fePDG/cMfsAUsCadlgwUEysd
+ hqGA==
+X-Gm-Message-State: ACrzQf3DNh+IpbGV0CfqcOxupU1RrudjXCPOy7aluFZ8CiDOiTvhpTZG
+ geFEuV8UYgPPgikBS/obcrqENKnqHgbLEEkiFRn+l4IC4S4zcJ/AXOjGXRPlRbpUfwz8Sm56u2t
+ 8Pq2KsW0YK0w6/aj2HNpwFWk89Vl5Udw=
+X-Received: by 2002:a0d:e201:0:b0:354:1e40:be19 with SMTP id
+ l1-20020a0de201000000b003541e40be19mr19510554ywe.244.1664804941155; 
+ Mon, 03 Oct 2022 06:49:01 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4aHIhFHrl49WwYxUFbi0dApNxlsJrXtlSAKghlQsmYuAQOZQjNp6ka4zAWJP5Ey3/X2dQ6QQqJFd+263A24AE=
+X-Received: by 2002:a0d:e201:0:b0:354:1e40:be19 with SMTP id
+ l1-20020a0de201000000b003541e40be19mr19510537ywe.244.1664804940934; Mon, 03
+ Oct 2022 06:49:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+References: <20221003093911.1844031-1-alexander.ivanov@virtuozzo.com>
+ <20221003093911.1844031-7-alexander.ivanov@virtuozzo.com>
+ <CAJ+F1CKNAXXuqSVDGFBCnN0xgsf3vczrz-0zgY=8UPCUhOse=g@mail.gmail.com>
+In-Reply-To: <CAJ+F1CKNAXXuqSVDGFBCnN0xgsf3vczrz-0zgY=8UPCUhOse=g@mail.gmail.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Mon, 3 Oct 2022 16:48:49 +0300
+Message-ID: <CAPMcbCpbZJGRv2eoJbutH+2A+jgAJ64LKbOjSii3tc83p0t=Ww@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] qga: Move HW address getting to a separate function
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org, 
+ den@virtuozzo.com, michael.roth@amd.com
+Content-Type: multipart/alternative; boundary="000000000000200bf905ea219b02"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,373 +94,538 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000200bf905ea219b02
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+On Mon, Oct 3, 2022 at 12:58 PM Marc-Andr=C3=A9 Lureau <
+marcandre.lureau@gmail.com> wrote:
 
-> Prepare for targets to be able to produce TBs that can
-> run in more than one virtual context.
+> Hi
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  accel/tcg/internal.h      |  4 +++
->  accel/tcg/tb-jmp-cache.h  |  5 ++++
->  include/exec/cpu-defs.h   |  3 +++
->  include/exec/exec-all.h   | 32 ++++++++++++++++++++--
->  accel/tcg/cpu-exec.c      | 56 +++++++++++++++++++++++++++++++--------
->  accel/tcg/translate-all.c | 50 +++++++++++++++++++++-------------
->  6 files changed, 119 insertions(+), 31 deletions(-)
+> On Mon, Oct 3, 2022 at 1:39 PM Alexander Ivanov <
+> alexander.ivanov@virtuozzo.com> wrote:
 >
-> diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-> index a3875a3b5a..dc800fd485 100644
-> --- a/accel/tcg/internal.h
-> +++ b/accel/tcg/internal.h
-> @@ -21,7 +21,11 @@ void tb_htable_init(void);
->  /* Return the current PC from CPU, which may be cached in TB. */
->  static inline target_ulong log_pc(CPUState *cpu, const TranslationBlock =
-*tb)
->  {
-> +#if TARGET_TB_PCREL
-> +    return cpu->cc->get_pc(cpu);
-> +#else
->      return tb_pc(tb);
-> +#endif
->  }
->=20=20
->  #endif /* ACCEL_TCG_INTERNAL_H */
-> diff --git a/accel/tcg/tb-jmp-cache.h b/accel/tcg/tb-jmp-cache.h
-> index 2d8fbb1bfe..a7288150bc 100644
-> --- a/accel/tcg/tb-jmp-cache.h
-> +++ b/accel/tcg/tb-jmp-cache.h
-> @@ -14,10 +14,15 @@
->=20=20
->  /*
->   * Accessed in parallel; all accesses to 'tb' must be atomic.
-> + * For TARGET_TB_PCREL, accesses to 'pc' must be protected by
-> + * a load_acquire/store_release to 'tb'.
->   */
->  struct CPUJumpCache {
->      struct {
->          TranslationBlock *tb;
-> +#if TARGET_TB_PCREL
-> +        target_ulong pc;
-> +#endif
->      } array[TB_JMP_CACHE_SIZE];
->  };
->=20=20
-> diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
-> index 67239b4e5e..21309cf567 100644
-> --- a/include/exec/cpu-defs.h
-> +++ b/include/exec/cpu-defs.h
-> @@ -54,6 +54,9 @@
->  #  error TARGET_PAGE_BITS must be defined in cpu-param.h
->  # endif
->  #endif
-> +#ifndef TARGET_TB_PCREL
-> +# define TARGET_TB_PCREL 0
-> +#endif
->=20=20
->  #define TARGET_LONG_SIZE (TARGET_LONG_BITS / 8)
->=20=20
-> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> index 7ea6026ba9..e5f8b224a5 100644
-> --- a/include/exec/exec-all.h
-> +++ b/include/exec/exec-all.h
-> @@ -496,8 +496,32 @@ struct tb_tc {
->  };
->=20=20
->  struct TranslationBlock {
-> -    target_ulong pc;   /* simulated PC corresponding to this block (EIP =
-+ CS base) */
-> -    target_ulong cs_base; /* CS base for this block */
-> +#if !TARGET_TB_PCREL
-> +    /*
-> +     * Guest PC corresponding to this block.  This must be the true
-> +     * virtual address.  Therefore e.g. x86 stores EIP + CS_BASE, and
-> +     * targets like Arm, MIPS, HP-PA, which reuse low bits for ISA or
-> +     * privilege, must store those bits elsewhere.
-> +     *
-> +     * If TARGET_TB_PCREL, the opcodes for the TranslationBlock are
-> +     * written such that the TB is associated only with the physical
-> +     * page and may be run in any virtual address context.  In this case,
-> +     * PC must always be taken from ENV in a target-specific manner.
-> +     * Unwind information is taken as offsets from the page, to be
-> +     * deposited into the "current" PC.
-> +     */
-> +    target_ulong pc;
-> +#endif
-> +
-> +    /*
-> +     * Target-specific data associated with the TranslationBlock, e.g.:
-> +     * x86: the original user, the Code Segment virtual base,
-> +     * arm: an extension of tb->flags,
-> +     * s390x: instruction data for EXECUTE,
-> +     * sparc: the next pc of the instruction queue (for delay slots).
-> +     */
-> +    target_ulong cs_base;
-> +
->      uint32_t flags; /* flags defining in which context the code was gene=
-rated */
->      uint32_t cflags;    /* compile flags */
->=20=20
-> @@ -573,7 +597,11 @@ struct TranslationBlock {
->  /* Hide the read to avoid ifdefs for TARGET_TB_PCREL. */
->  static inline target_ulong tb_pc(const TranslationBlock *tb)
->  {
-> +#if TARGET_TB_PCREL
-> +    qemu_build_not_reached();
-> +#else
->      return tb->pc;
-> +#endif
->  }
->=20=20
->  /* Hide the qatomic_read to make code a little easier on the eyes */
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 8b3f8435fb..acb5646b03 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -186,7 +186,7 @@ static bool tb_lookup_cmp(const void *p, const void *=
-d)
->      const TranslationBlock *tb =3D p;
->      const struct tb_desc *desc =3D d;
->=20=20
-> -    if (tb_pc(tb) =3D=3D desc->pc &&
-> +    if ((TARGET_TB_PCREL || tb_pc(tb) =3D=3D desc->pc) &&
->          tb->page_addr[0] =3D=3D desc->page_addr0 &&
->          tb->cs_base =3D=3D desc->cs_base &&
->          tb->flags =3D=3D desc->flags &&
-> @@ -237,7 +237,8 @@ static TranslationBlock *tb_htable_lookup(CPUState *c=
-pu, target_ulong pc,
->          return NULL;
->      }
->      desc.page_addr0 =3D phys_pc;
-> -    h =3D tb_hash_func(phys_pc, pc, flags, cflags, *cpu->trace_dstate);
-> +    h =3D tb_hash_func(phys_pc, (TARGET_TB_PCREL ? 0 : pc),
-> +                     flags, cflags, *cpu->trace_dstate);
->      return qht_lookup_custom(&tb_ctx.htable, &desc, h, tb_lookup_cmp);
->  }
->=20=20
-> @@ -247,27 +248,52 @@ static inline TranslationBlock *tb_lookup(CPUState =
-*cpu, target_ulong pc,
->                                            uint32_t flags, uint32_t cflag=
-s)
->  {
->      TranslationBlock *tb;
-> +    CPUJumpCache *jc;
->      uint32_t hash;
->=20=20
->      /* we should never be trying to look up an INVALID tb */
->      tcg_debug_assert(!(cflags & CF_INVALID));
->=20=20
->      hash =3D tb_jmp_cache_hash_func(pc);
-> -    tb =3D qatomic_rcu_read(&cpu->tb_jmp_cache->array[hash].tb);
-> +    jc =3D cpu->tb_jmp_cache;
-> +#if TARGET_TB_PCREL
-> +    /* Use acquire to ensure current load of pc from jc. */
-> +    tb =3D qatomic_load_acquire(&jc->array[hash].tb);
-> +#else
-> +    /* Use rcu_read to ensure current load of pc from *tb. */
-> +    tb =3D qatomic_rcu_read(&jc->array[hash].tb);
-> +#endif
-
-You could further hide the #ifdef nastiness by wrapping this load and
-the store further down into appropriate inline helpers in tb-jmp-cache.h.
-
->=20=20
-> -    if (likely(tb &&
-> -               tb->pc =3D=3D pc &&
-> -               tb->cs_base =3D=3D cs_base &&
-> -               tb->flags =3D=3D flags &&
-> -               tb->trace_vcpu_dstate =3D=3D *cpu->trace_dstate &&
-> -               tb_cflags(tb) =3D=3D cflags)) {
-> -        return tb;
-> +    if (likely(tb)) {
-> +        target_ulong jmp_pc;
-> +
-> +#if TARGET_TB_PCREL
-> +        jmp_pc =3D jc->array[hash].pc;
-> +#else
-> +        jmp_pc =3D tb_pc(tb);
-> +#endif
-> +        if (jmp_pc =3D=3D pc &&
-> +            tb->cs_base =3D=3D cs_base &&
-> +            tb->flags =3D=3D flags &&
-> +            tb->trace_vcpu_dstate =3D=3D *cpu->trace_dstate &&
-> +            tb_cflags(tb) =3D=3D cflags) {
-> +            return tb;
-> +        }
->      }
-> +
->      tb =3D tb_htable_lookup(cpu, pc, cs_base, flags, cflags);
->      if (tb =3D=3D NULL) {
->          return NULL;
->      }
-> -    qatomic_set(&cpu->tb_jmp_cache->array[hash].tb, tb);
-> +
-> +#if TARGET_TB_PCREL
-> +    jc->array[hash].pc =3D pc;
-> +    /* Use store_release on tb to ensure pc is written first. */
-> +    qatomic_store_release(&jc->array[hash].tb, tb);
-> +#else
-> +    qatomic_set(&jc->array[hash].tb, tb);
-> +#endif
-> +
->      return tb;
->  }
->=20=20
-> @@ -453,6 +479,7 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int=
- *tb_exit)
->          if (cc->tcg_ops->synchronize_from_tb) {
->              cc->tcg_ops->synchronize_from_tb(cpu, last_tb);
->          } else {
-> +            assert(!TARGET_TB_PCREL);
->              assert(cc->set_pc);
->              cc->set_pc(cpu, tb_pc(last_tb));
->          }
-> @@ -1002,7 +1029,14 @@ int cpu_exec(CPUState *cpu)
->                   * for the fast lookup
->                   */
->                  h =3D tb_jmp_cache_hash_func(pc);
-
-And re-use the helper here as well.
-
-> +
-> +#if TARGET_TB_PCREL
-> +                cpu->tb_jmp_cache->array[h].pc =3D pc;
-> +                /* Use store_release on tb to ensure pc is current. */
-> +                qatomic_store_release(&cpu->tb_jmp_cache->array[h].tb, t=
-b);
-> +#else
->                  qatomic_set(&cpu->tb_jmp_cache->array[h].tb, tb);
-> +#endif
->              }
->=20=20
->  #ifndef CONFIG_USER_ONLY
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index 13c964dcd8..776ac9efe4 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -299,7 +299,7 @@ static int encode_search(TranslationBlock *tb, uint8_=
-t *block)
->=20=20
->          for (j =3D 0; j < TARGET_INSN_START_WORDS; ++j) {
->              if (i =3D=3D 0) {
-> -                prev =3D (j =3D=3D 0 ? tb_pc(tb) : 0);
-> +                prev =3D (!TARGET_TB_PCREL && j =3D=3D 0 ? tb_pc(tb) : 0=
+>> In the next patch FreeBSD support for guest-network-get-interfaces will =
+be
+>> added. Previously move Linux-specific code of HW address getting to a
+>> separate functions and add a dumb function to commands-bsd.c.
+>>
+>> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+>> ---
+>>  qga/commands-bsd.c    |  16 +++++++
+>>  qga/commands-common.h |   6 +++
+>>  qga/commands-posix.c  | 100 ++++++++++++++++++++++++------------------
+>>  3 files changed, 80 insertions(+), 42 deletions(-)
+>>
+>> diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
+>> index ca06692179..40f7ec7600 100644
+>> --- a/qga/commands-bsd.c
+>> +++ b/qga/commands-bsd.c
+>> @@ -167,3 +167,19 @@ GuestCpuStatsList *qmp_guest_get_cpustats(Error
+>> **errp)
+>>      return NULL;
+>>  }
+>>  #endif /* CONFIG_FSFREEZE */
+>> +
+>> +#ifdef HAVE_GETIFADDRS
+>> +/*
+>> + * Fill "buf" with MAC address by ifaddrs. Pointer buf must point to a
+>> + * buffer with ETHER_ADDR_LEN length at least.
+>> + *
+>> + * Returns -1 in case of an error, otherwise 0. "obtained" arguument is
+>> + * true if a MAC address was obtained successful, otherwise false.
+>> + */
+>> +int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
+>> +                      bool *obtained, Error **errp)
+>> +{
+>> +    *obtained =3D false;
+>> +    return 0;
+>> +}
+>> +#endif /* HAVE_GETIFADDRS */
+>> diff --git a/qga/commands-common.h b/qga/commands-common.h
+>> index 2d9878a634..a9cdaf7278 100644
+>> --- a/qga/commands-common.h
+>> +++ b/qga/commands-common.h
+>> @@ -56,6 +56,12 @@ int64_t qmp_guest_fsfreeze_do_freeze_list(bool
+>> has_mountpoints,
+>>  int qmp_guest_fsfreeze_do_thaw(Error **errp);
+>>  #endif /* CONFIG_FSFREEZE */
+>>
+>> +#ifdef HAVE_GETIFADDRS
+>> +#include <ifaddrs.h>
+>> +int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
+>> +                      bool *obtained, Error **errp);
+>> +#endif
+>> +
+>>  typedef struct GuestFileHandle GuestFileHandle;
+>>
+>>  GuestFileHandle *guest_file_handle_find(int64_t id, Error **errp);
+>> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+>> index f5b9e5c530..2a172c6492 100644
+>> --- a/qga/commands-posix.c
+>> +++ b/qga/commands-posix.c
+>> @@ -41,20 +41,12 @@
+>>  #endif
+>>  #endif
+>>
+>> -#ifdef __FreeBSD__
+>> -/*
+>> - * The code under HAVE_GETIFADDRS condition can't be compiled in FreeBS=
+D.
+>> - * Fix it in one of the following patches.
+>> - */
+>> -#undef HAVE_GETIFADDRS
+>> -#endif
+>> -
+>>  #ifdef HAVE_GETIFADDRS
+>>  #include <arpa/inet.h>
+>>  #include <sys/socket.h>
+>>  #include <net/if.h>
+>> +#include <net/ethernet.h>
+>>  #include <sys/types.h>
+>> -#include <ifaddrs.h>
+>>  #ifdef CONFIG_SOLARIS
+>>  #include <sys/sockio.h>
+>>  #endif
+>> @@ -2889,6 +2881,57 @@ static int guest_get_network_stats(const char
+>> *name,
+>>      return -1;
+>>  }
+>>
+>> +#ifndef __FreeBSD__
+>> +/*
+>> + * Fill "buf" with MAC address by ifaddrs. Pointer buf must point to a
+>> + * buffer with ETHER_ADDR_LEN length at least.
+>> + *
+>> + * Returns -1 in case of an error, otherwise 0. "obtained" arguument is
+>> + * true if a MAC address was obtained successful, otherwise false.
+>> + */
+>>
+>
+> In include/qapi/error.h, we recommend returning a bool for success/failur=
+e.
+>
+> +int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
+>> +                      bool *obtained, Error **errp)
+>> +{
+>> +    struct ifreq ifr;
+>> +    int sock;
+>> +
+>> +    *obtained =3D false;
+>> +
+>> +    /* we haven't obtained HW address yet */
+>> +    sock =3D socket(PF_INET, SOCK_STREAM, 0);
+>> +    if (sock =3D=3D -1) {
+>> +        error_setg_errno(errp, errno, "failed to create socket");
+>> +        return -1;
+>> +    }
+>> +
+>> +    memset(&ifr, 0, sizeof(ifr));
+>> +    pstrcpy(ifr.ifr_name, IF_NAMESIZE, ifa->ifa_name);
+>> +    if (ioctl(sock, SIOCGIFHWADDR, &ifr) =3D=3D -1) {
+>> +        /*
+>> +         * We can't get the hw addr of this interface, but that's not a
+>> +         * fatal error.
+>> +         */
+>> +        if (errno =3D=3D EADDRNOTAVAIL) {
+>> +            /* The interface doesn't have a hw addr (e.g. loopback). */
+>> +            g_debug("failed to get MAC address of %s: %s",
+>> +                    ifa->ifa_name, strerror(errno));
+>> +        } else{
+>> +            g_warning("failed to get MAC address of %s: %s",
+>> +                      ifa->ifa_name, strerror(errno));
+>> +        }
+>> +    } else {
+>> +#ifdef CONFIG_SOLARIS
+>> +        memcpy(buf, &ifr.ifr_addr.sa_data, ETHER_ADDR_LEN);
+>> +#else
+>> +        memcpy(buf, &ifr.ifr_hwaddr.sa_data, ETHER_ADDR_LEN);
+>> +#endif
+>> +        *obtained =3D true;
+>> +    }
+>> +    close(sock);
+>> +    return 0;
+>> +}
+>> +#endif /* __FreeBSD__ */
+>> +
+>>  /*
+>>   * Build information about guest interfaces
+>>   */
+>> @@ -2909,9 +2952,9 @@ GuestNetworkInterfaceList
+>> *qmp_guest_network_get_interfaces(Error **errp)
+>>          GuestNetworkInterfaceStat *interface_stat =3D NULL;
+>>          char addr4[INET_ADDRSTRLEN];
+>>          char addr6[INET6_ADDRSTRLEN];
+>> -        int sock;
+>> -        struct ifreq ifr;
+>> -        unsigned char *mac_addr;
+>> +        unsigned char mac_addr[ETHER_ADDR_LEN];
+>> +        int ret;
+>> +        bool obtained;
+>>          void *p;
+>>
+>>          g_debug("Processing %s interface", ifa->ifa_name);
+>> @@ -2926,45 +2969,18 @@ GuestNetworkInterfaceList
+>> *qmp_guest_network_get_interfaces(Error **errp)
+>>          }
+>>
+>>          if (!info->has_hardware_address) {
+>> -            /* we haven't obtained HW address yet */
+>> -            sock =3D socket(PF_INET, SOCK_STREAM, 0);
+>> -            if (sock =3D=3D -1) {
+>> -                error_setg_errno(errp, errno, "failed to create socket"=
 );
->              } else {
->                  prev =3D tcg_ctx->gen_insn_data[i - 1][j];
->              }
-> @@ -327,7 +327,7 @@ static int encode_search(TranslationBlock *tb, uint8_=
-t *block)
->  static int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->                                       uintptr_t searched_pc, bool reset_i=
-count)
->  {
-> -    target_ulong data[TARGET_INSN_START_WORDS] =3D { tb_pc(tb) };
-> +    target_ulong data[TARGET_INSN_START_WORDS];
->      uintptr_t host_pc =3D (uintptr_t)tb->tc.ptr;
->      CPUArchState *env =3D cpu->env_ptr;
->      const uint8_t *p =3D tb->tc.ptr + tb->tc.size;
-> @@ -343,6 +343,11 @@ static int cpu_restore_state_from_tb(CPUState *cpu, =
-TranslationBlock *tb,
->          return -1;
->      }
->=20=20
-> +    memset(data, 0, sizeof(data));
-> +    if (!TARGET_TB_PCREL) {
-> +        data[0] =3D tb_pc(tb);
-> +    }
-> +
->      /* Reconstruct the stored insn data while looking for the point at
->         which the end of the insn exceeds the searched_pc.  */
->      for (i =3D 0; i < num_insns; ++i) {
-> @@ -885,13 +890,13 @@ static bool tb_cmp(const void *ap, const void *bp)
->      const TranslationBlock *a =3D ap;
->      const TranslationBlock *b =3D bp;
->=20=20
-> -    return tb_pc(a) =3D=3D tb_pc(b) &&
-> -        a->cs_base =3D=3D b->cs_base &&
-> -        a->flags =3D=3D b->flags &&
-> -        (tb_cflags(a) & ~CF_INVALID) =3D=3D (tb_cflags(b) & ~CF_INVALID)=
- &&
-> -        a->trace_vcpu_dstate =3D=3D b->trace_vcpu_dstate &&
-> -        a->page_addr[0] =3D=3D b->page_addr[0] &&
-> -        a->page_addr[1] =3D=3D b->page_addr[1];
-> +    return ((TARGET_TB_PCREL || tb_pc(a) =3D=3D tb_pc(b)) &&
-> +            a->cs_base =3D=3D b->cs_base &&
-> +            a->flags =3D=3D b->flags &&
-> +            (tb_cflags(a) & ~CF_INVALID) =3D=3D (tb_cflags(b) & ~CF_INVA=
-LID) &&
-> +            a->trace_vcpu_dstate =3D=3D b->trace_vcpu_dstate &&
-> +            a->page_addr[0] =3D=3D b->page_addr[0] &&
-> +            a->page_addr[1] =3D=3D b->page_addr[1]);
->  }
->=20=20
->  void tb_htable_init(void)
-> @@ -1170,8 +1175,8 @@ static void do_tb_phys_invalidate(TranslationBlock =
-*tb, bool rm_from_page_list)
->=20=20
->      /* remove the TB from the hash list */
->      phys_pc =3D tb->page_addr[0];
-> -    h =3D tb_hash_func(phys_pc, tb_pc(tb), tb->flags, orig_cflags,
-> -                     tb->trace_vcpu_dstate);
-> +    h =3D tb_hash_func(phys_pc, (TARGET_TB_PCREL ? 0 : tb_pc(tb)),
-> +                     tb->flags, orig_cflags, tb->trace_vcpu_dstate);
->      if (!qht_remove(&tb_ctx.htable, tb, h)) {
->          return;
->      }
-> @@ -1187,11 +1192,18 @@ static void do_tb_phys_invalidate(TranslationBloc=
-k *tb, bool rm_from_page_list)
->      }
->=20=20
->      /* remove the TB from the hash list */
-> -    h =3D tb_jmp_cache_hash_func(tb->pc);
-> -    CPU_FOREACH(cpu) {
-> -        CPUJumpCache *jc =3D cpu->tb_jmp_cache;
-> -        if (qatomic_read(&jc->array[h].tb) =3D=3D tb) {
-> -            qatomic_set(&jc->array[h].tb, NULL);
-> +    if (TARGET_TB_PCREL) {
-> +        /* A TB may be at any virtual address */
-> +        CPU_FOREACH(cpu) {
-> +            tcg_flush_jmp_cache(cpu);
-> +        }
-> +    } else {
-> +        h =3D tb_jmp_cache_hash_func(tb_pc(tb));
-> +        CPU_FOREACH(cpu) {
-> +            CPUJumpCache *jc =3D cpu->tb_jmp_cache;
-> +            if (qatomic_read(&jc->array[h].tb) =3D=3D tb) {
-> +                qatomic_set(&jc->array[h].tb, NULL);
-> +            }
->          }
-
-This code should also be a inline helper.
-
->      }
->=20=20
-> @@ -1302,8 +1314,8 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t p=
-hys_pc,
->      }
->=20=20
->      /* add in the hash table */
-> -    h =3D tb_hash_func(phys_pc, tb_pc(tb), tb->flags, tb->cflags,
-> -                     tb->trace_vcpu_dstate);
-> +    h =3D tb_hash_func(phys_pc, (TARGET_TB_PCREL ? 0 : tb_pc(tb)),
-> +                     tb->flags, tb->cflags, tb->trace_vcpu_dstate);
->      qht_insert(&tb_ctx.htable, tb, h, &existing_tb);
->=20=20
->      /* remove TB from the page(s) if we couldn't insert it */
-> @@ -1373,7 +1385,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->=20=20
->      gen_code_buf =3D tcg_ctx->code_gen_ptr;
->      tb->tc.ptr =3D tcg_splitwx_to_rx(gen_code_buf);
-> +#if !TARGET_TB_PCREL
->      tb->pc =3D pc;
-> +#endif
->      tb->cs_base =3D cs_base;
->      tb->flags =3D flags;
->      tb->cflags =3D cflags;
+>> +            ret =3D guest_get_hw_addr(ifa, mac_addr, &obtained, errp);
+>> +            if (ret =3D=3D -1) {
+>>                  goto error;
+>>              }
+>> -
+>> -            memset(&ifr, 0, sizeof(ifr));
+>> -            pstrcpy(ifr.ifr_name, IF_NAMESIZE, info->name);
+>> -            if (ioctl(sock, SIOCGIFHWADDR, &ifr) =3D=3D -1) {
+>> -                /*
+>> -                 * We can't get the hw addr of this interface, but
+>> that's not a
+>> -                 * fatal error. Don't set info->hardware_address, but
+>> keep
+>> -                 * going.
+>> -                 */
+>> -                if (errno =3D=3D EADDRNOTAVAIL) {
+>> -                    /* The interface doesn't have a hw addr (e.g.
+>> loopback). */
+>> -                    g_debug("failed to get MAC address of %s: %s",
+>> -                            ifa->ifa_name, strerror(errno));
+>> -                } else{
+>> -                    g_warning("failed to get MAC address of %s: %s",
+>> -                              ifa->ifa_name, strerror(errno));
+>> -                }
+>> -
+>> -            } else {
+>> -#ifdef CONFIG_SOLARIS
+>> -                mac_addr =3D (unsigned char *) &ifr.ifr_addr.sa_data;
+>> -#else
+>> -                mac_addr =3D (unsigned char *) &ifr.ifr_hwaddr.sa_data;
+>> -#endif
+>> +            if (obtained) {
+>>                  info->hardware_address =3D
+>>                      g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
+>>                                      (int) mac_addr[0], (int) mac_addr[1=
+],
+>>                                      (int) mac_addr[2], (int) mac_addr[3=
+],
+>>                                      (int) mac_addr[4], (int)
+>> mac_addr[5]);
+>> -
+>>                  info->has_hardware_address =3D true;
+>>              }
+>> -            close(sock);
+>>          }
+>>
+>>          if (ifa->ifa_addr &&
+>> --
+>> 2.34.1
+>>
+>>
+> otherwise, lgtm
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+>
+in win32 parts, we have similar behavior, so lgtm
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
 
---=20
-Alex Benn=C3=A9e
+>
+>
+> --
+> Marc-Andr=C3=A9 Lureau
+>
+
+--000000000000200bf905ea219b02
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">On Mon, Oct 3, 2022 at 12:58 PM Marc-Andr=C3=A9 Lureau &lt;<a hr=
+ef=3D"mailto:marcandre.lureau@gmail.com">marcandre.lureau@gmail.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 3, 2022 at 1:39 PM Alexander Iv=
+anov &lt;<a href=3D"mailto:alexander.ivanov@virtuozzo.com" target=3D"_blank=
+">alexander.ivanov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">In the next patch FreeBSD support for gues=
+t-network-get-interfaces will be<br>
+added. Previously move Linux-specific code of HW address getting to a<br>
+separate functions and add a dumb function to commands-bsd.c.<br>
+<br>
+Signed-off-by: Alexander Ivanov &lt;<a href=3D"mailto:alexander.ivanov@virt=
+uozzo.com" target=3D"_blank">alexander.ivanov@virtuozzo.com</a>&gt;<br>
+---<br>
+=C2=A0qga/commands-bsd.c=C2=A0 =C2=A0 |=C2=A0 16 +++++++<br>
+=C2=A0qga/commands-common.h |=C2=A0 =C2=A06 +++<br>
+=C2=A0qga/commands-posix.c=C2=A0 | 100 ++++++++++++++++++++++++------------=
+------<br>
+=C2=A03 files changed, 80 insertions(+), 42 deletions(-)<br>
+<br>
+diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c<br>
+index ca06692179..40f7ec7600 100644<br>
+--- a/qga/commands-bsd.c<br>
++++ b/qga/commands-bsd.c<br>
+@@ -167,3 +167,19 @@ GuestCpuStatsList *qmp_guest_get_cpustats(Error **errp=
+)<br>
+=C2=A0 =C2=A0 =C2=A0return NULL;<br>
+=C2=A0}<br>
+=C2=A0#endif /* CONFIG_FSFREEZE */<br>
++<br>
++#ifdef HAVE_GETIFADDRS<br>
++/*<br>
++ * Fill &quot;buf&quot; with MAC address by ifaddrs. Pointer buf must poin=
+t to a<br>
++ * buffer with ETHER_ADDR_LEN length at least.<br>
++ *<br>
++ * Returns -1 in case of an error, otherwise 0. &quot;obtained&quot; arguu=
+ment is<br>
++ * true if a MAC address was obtained successful, otherwise false.<br>
++ */<br>
++int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 bool *obtained, Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 *obtained =3D false;<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
++#endif /* HAVE_GETIFADDRS */<br>
+diff --git a/qga/commands-common.h b/qga/commands-common.h<br>
+index 2d9878a634..a9cdaf7278 100644<br>
+--- a/qga/commands-common.h<br>
++++ b/qga/commands-common.h<br>
+@@ -56,6 +56,12 @@ int64_t qmp_guest_fsfreeze_do_freeze_list(bool has_mount=
+points,<br>
+=C2=A0int qmp_guest_fsfreeze_do_thaw(Error **errp);<br>
+=C2=A0#endif /* CONFIG_FSFREEZE */<br>
+<br>
++#ifdef HAVE_GETIFADDRS<br>
++#include &lt;ifaddrs.h&gt;<br>
++int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 bool *obtained, Error **errp);<br>
++#endif<br>
++<br>
+=C2=A0typedef struct GuestFileHandle GuestFileHandle;<br>
+<br>
+=C2=A0GuestFileHandle *guest_file_handle_find(int64_t id, Error **errp);<br=
+>
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
+index f5b9e5c530..2a172c6492 100644<br>
+--- a/qga/commands-posix.c<br>
++++ b/qga/commands-posix.c<br>
+@@ -41,20 +41,12 @@<br>
+=C2=A0#endif<br>
+=C2=A0#endif<br>
+<br>
+-#ifdef __FreeBSD__<br>
+-/*<br>
+- * The code under HAVE_GETIFADDRS condition can&#39;t be compiled in FreeB=
+SD.<br>
+- * Fix it in one of the following patches.<br>
+- */<br>
+-#undef HAVE_GETIFADDRS<br>
+-#endif<br>
+-<br>
+=C2=A0#ifdef HAVE_GETIFADDRS<br>
+=C2=A0#include &lt;arpa/inet.h&gt;<br>
+=C2=A0#include &lt;sys/socket.h&gt;<br>
+=C2=A0#include &lt;net/if.h&gt;<br>
++#include &lt;net/ethernet.h&gt;<br>
+=C2=A0#include &lt;sys/types.h&gt;<br>
+-#include &lt;ifaddrs.h&gt;<br>
+=C2=A0#ifdef CONFIG_SOLARIS<br>
+=C2=A0#include &lt;sys/sockio.h&gt;<br>
+=C2=A0#endif<br>
+@@ -2889,6 +2881,57 @@ static int guest_get_network_stats(const char *name,=
+<br>
+=C2=A0 =C2=A0 =C2=A0return -1;<br>
+=C2=A0}<br>
+<br>
++#ifndef __FreeBSD__<br>
++/*<br>
++ * Fill &quot;buf&quot; with MAC address by ifaddrs. Pointer buf must poin=
+t to a<br>
++ * buffer with ETHER_ADDR_LEN length at least.<br>
++ *<br>
++ * Returns -1 in case of an error, otherwise 0. &quot;obtained&quot; arguu=
+ment is<br>
++ * true if a MAC address was obtained successful, otherwise false.<br>
++ */<br></blockquote><div><br></div><div>In include/qapi/error.h, we recomm=
+end returning a bool for success/failure.</div><div><br> </div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">
++int guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 bool *obtained, Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 struct ifreq ifr;<br>
++=C2=A0 =C2=A0 int sock;<br>
++<br>
++=C2=A0 =C2=A0 *obtained =3D false;<br>
++<br>
++=C2=A0 =C2=A0 /* we haven&#39;t obtained HW address yet */<br>
++=C2=A0 =C2=A0 sock =3D socket(PF_INET, SOCK_STREAM, 0);<br>
++=C2=A0 =C2=A0 if (sock =3D=3D -1) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;failed to =
+create socket&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 memset(&amp;ifr, 0, sizeof(ifr));<br>
++=C2=A0 =C2=A0 pstrcpy(ifr.ifr_name, IF_NAMESIZE, ifa-&gt;ifa_name);<br>
++=C2=A0 =C2=A0 if (ioctl(sock, SIOCGIFHWADDR, &amp;ifr) =3D=3D -1) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* We can&#39;t get the hw addr of this i=
+nterface, but that&#39;s not a<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* fatal error.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno =3D=3D EADDRNOTAVAIL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* The interface doesn&#39;t hav=
+e a hw addr (e.g. loopback). */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;failed to get MAC =
+address of %s: %s&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ifa-=
+&gt;ifa_name, strerror(errno));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else{<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_warning(&quot;failed to get MA=
+C address of %s: %s&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ifa-&gt;ifa_name, strerror(errno));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 } else {<br>
++#ifdef CONFIG_SOLARIS<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 memcpy(buf, &amp;ifr.ifr_addr.sa_data, ETHER_A=
+DDR_LEN);<br>
++#else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 memcpy(buf, &amp;ifr.ifr_hwaddr.sa_data, ETHER=
+_ADDR_LEN);<br>
++#endif<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 *obtained =3D true;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 close(sock);<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
++#endif /* __FreeBSD__ */<br>
++<br>
+=C2=A0/*<br>
+=C2=A0 * Build information about guest interfaces<br>
+=C2=A0 */<br>
+@@ -2909,9 +2952,9 @@ GuestNetworkInterfaceList *qmp_guest_network_get_inte=
+rfaces(Error **errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GuestNetworkInterfaceStat *interface_stat=
+ =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char addr4[INET_ADDRSTRLEN];<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char addr6[INET6_ADDRSTRLEN];<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int sock;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct ifreq ifr;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned char *mac_addr;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned char mac_addr[ETHER_ADDR_LEN];<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool obtained;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *p;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_debug(&quot;Processing %s interface&quo=
+t;, ifa-&gt;ifa_name);<br>
+@@ -2926,45 +2969,18 @@ GuestNetworkInterfaceList *qmp_guest_network_get_in=
+terfaces(Error **errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!info-&gt;has_hardware_address) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* we haven&#39;t obtained HW ad=
+dress yet */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sock =3D socket(PF_INET, SOCK_ST=
+REAM, 0);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sock =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(e=
+rrp, errno, &quot;failed to create socket&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D guest_get_hw_addr(ifa, m=
+ac_addr, &amp;obtained, errp);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D -1) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto error;<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memset(&amp;ifr, 0, sizeof(ifr))=
+;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pstrcpy(ifr.ifr_name, IF_NAMESIZ=
+E, info-&gt;name);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ioctl(sock, SIOCGIFHWADDR, &=
+amp;ifr) =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* We can&#39=
+;t get the hw addr of this interface, but that&#39;s not a<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* fatal erro=
+r. Don&#39;t set info-&gt;hardware_address, but keep<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* going.<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno =3D=3D E=
+ADDRNOTAVAIL) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* T=
+he interface doesn&#39;t have a hw addr (e.g. loopback). */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_de=
+bug(&quot;failed to get MAC address of %s: %s&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 ifa-&gt;ifa_name, strerror(errno));<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else{<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_wa=
+rning(&quot;failed to get MAC address of %s: %s&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ifa-&gt;ifa_name, strerror(errno));<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+-#ifdef CONFIG_SOLARIS<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mac_addr =3D (unsi=
+gned char *) &amp;ifr.ifr_addr.sa_data;<br>
+-#else<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mac_addr =3D (unsi=
+gned char *) &amp;ifr.ifr_hwaddr.sa_data;<br>
+-#endif<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (obtained) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info-&gt;hard=
+ware_address =3D<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0g_strdup_printf(&quot;%02x:%02x:%02x:%02x:%02x:%02x&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(int) mac_addr[0=
+], (int) mac_addr[1],<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(int) mac_addr[2=
+], (int) mac_addr[3],<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(int) mac_addr[4=
+], (int) mac_addr[5]);<br>
+-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info-&gt;has_=
+hardware_address =3D true;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(sock);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ifa-&gt;ifa_addr &amp;&amp;<br>
+-- <br>
+2.34.1<br>
+<br>
+</blockquote></div><div><br></div><div>otherwise, lgtm</div><div>Reviewed-b=
+y: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com=
+" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br><br></div></div>=
+</blockquote><div><br></div><div>in win32 parts, we have similar behavior, =
+so lgtm</div><div>Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kko=
+stiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
+tr"><div><br></div><br>-- <br><div dir=3D"ltr">Marc-Andr=C3=A9 Lureau<br></=
+div></div>
+</blockquote></div></div>
+
+--000000000000200bf905ea219b02--
+
 
