@@ -2,97 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63665F2ABF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 09:40:24 +0200 (CEST)
-Received: from localhost ([::1]:58236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B985F2A9B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 09:38:20 +0200 (CEST)
+Received: from localhost ([::1]:37288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofG3r-0004Jf-II
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 03:40:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43438)
+	id 1ofG1q-00037B-Rr
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 03:38:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1ofFxd-0007wa-UV
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:33:58 -0400
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:35583)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1ofFxY-0008PV-Iu
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:33:57 -0400
-Received: by mail-lf1-x12d.google.com with SMTP id z4so15348949lft.2
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 00:33:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=cTF3AiWCQzUZJV3DQOd8YpyAQ0uZN+oT26/EmVI5Gno=;
- b=DvdRFGG3GDv+8INZlnRFdJ/8sk5eEa7AareONRXiJEau+xbhzZax6uLRyfYITFWbZf
- 3NqpZEEzMP/hKmEkCARYJ5G9gzbOE0q7McTWIAngIxaTuYC1o8lT6E0RUJP/MLnLpZ7d
- Qu+1Vd0FUnf6Z7BDCSiXfOB3Lp6wjhae3evjWtqy1Hvhcufb4H2zsgnTlazKt2OEhd79
- BA6ZEelvKbFypTSJOPXKwWi6F96cJdE1vUQrd76EmQ0Smui1y+dlW96zT/pi7JhI5c/2
- 8NZeHRiN3xgZc7P9e5p+GcKW4B3xAZ9Q9xeU6JSlAtM3mdUAbXU1rYpnUGpgYkW0Wdos
- uORw==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1ofFxm-0007zx-00
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:34:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53908)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1ofFxi-0008Rd-Ji
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:34:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664782441;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iL3fab5ZauitX2hi6w/Xtns+xEU+sop91v0WZfVEfk4=;
+ b=Usoy/uBDr/mwKl/oL8TsvX++DTWmBpBxgcoPQ0PUzgSeiu9JCnKzFnE5pMDm40GwqcIzy0
+ Ja3xfh0AkT43FlocDvSg5lJ6LBmhzUcYUI5+NWraVYJEOJ/ca3OUbfnStcbtibXvi7yHqh
+ Uaa6Sgl1U7Z2sBQh++0BYhVdAsz9J2w=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-54-uRWNipRdPvSSa6T4_xvVnQ-1; Mon, 03 Oct 2022 03:34:00 -0400
+X-MC-Unique: uRWNipRdPvSSa6T4_xvVnQ-1
+Received: by mail-oo1-f70.google.com with SMTP id
+ a21-20020a4ad1d5000000b004757a8a97ddso5780616oos.6
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 00:34:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=cTF3AiWCQzUZJV3DQOd8YpyAQ0uZN+oT26/EmVI5Gno=;
- b=GyMkqWj0u7tDLZNdcyajtQhSc4O1Bai45YWKStNi+WIzRkniLPHmpsnuG1edAhPtaF
- y94cJDPE38dePMfSRzZ3ld0Z+ocaFRuy4S0EFwoujP6pZcaykPR92eeccgV7m2Mcqu0x
- 8/EUAvAfPWXoErIHetrfRueyc+eXmFzx4rjIYguUc0XCdA4wLTwR0IH7gMD3Sg7W/D37
- n3CFeebHvU2YzNmKrQ/HNEwePwdEdCdQ1QIod2bSWHDnUy0Yz9Jql8iba3aVAvtVWGpu
- muUjqJfejpPBI8Cue6XZDZ9IN06ER0VMR2Bd1uBFo/q5DLksSZs5QswXTG9L9kFTn3sF
- /SBA==
-X-Gm-Message-State: ACrzQf0402KPzWHuRY624nOtD8+in1Fa+hjXgWOuIEvcakK2uCYIHxES
- 3l0VIOivuo0d3EY7cDFDnf+KPujpU9wFoy9aE9Oilw==
-X-Google-Smtp-Source: AMsMyM54UDKb/wQylYbThizMTNEzG/N4GHFJjCY1YMNV55ssdwv1emM1/33fLKcW7+Q244fzhfIJ6l3JiIpmQNO4rxw=
-X-Received: by 2002:a05:6512:261b:b0:4a1:abd7:3129 with SMTP id
- bt27-20020a056512261b00b004a1abd73129mr7271284lfb.637.1664782430012; Mon, 03
- Oct 2022 00:33:50 -0700 (PDT)
+ bh=iL3fab5ZauitX2hi6w/Xtns+xEU+sop91v0WZfVEfk4=;
+ b=FLdYKo/e42oV/ikPrLdZvahuRXRGn2El75VoO3exCedzYjxh1zZgbg0rl7/bCg05OQ
+ 6dbVdauMFB5PSLtEUQPfRkzqPueU+wCX+8neWyKAlwIlK5iUCJFWrSpNnN7tEQN9Op6l
+ FU9r2vosLMOyoSjsifmuA+LCQpcV/e1qr5skCWymwD01ambo0ca0LdvpeLP5oVPaaMCl
+ uxPV2/DqIyjlUwGExTXzoGFHBIiuFp3BVz5aQc1+vjM+Umz0P/TenDHHnfB5pNRw3Ww7
+ 8t+ic++K5yfAAD7EmZaGpIzTpS3P8twlCPgljKLhQeejicQ7QhjeIMYo2Y6PJxIwL5eW
+ 2/YQ==
+X-Gm-Message-State: ACrzQf2ggqonqcedIDuSmaALkIxRkPw8h9DYnH47xneYmQEXQzANG6qX
+ 8pDMcMW6QNvgQYGk5Bs16JtNTqnbM2rhF532B12VVCdlU+c7AaVrL9NC08boCxLKzQNughfpE/4
+ x4kSAmmut/k3tIPtDkaMGaCU6VnEVbR8=
+X-Received: by 2002:a4a:928e:0:b0:476:6c03:f0c5 with SMTP id
+ i14-20020a4a928e000000b004766c03f0c5mr7245294ooh.78.1664782439587; 
+ Mon, 03 Oct 2022 00:33:59 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM62oHnUreRD21BYsjr+4NaxphwPoRqgU9vfrr3jBq/ioTczbxk9yAMFNjhID8ZEMtrq1sCYEg9BBZq+6klO+CY=
+X-Received: by 2002:a4a:928e:0:b0:476:6c03:f0c5 with SMTP id
+ i14-20020a4a928e000000b004766c03f0c5mr7245290ooh.78.1664782439396; Mon, 03
+ Oct 2022 00:33:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <CA+EHjTyrexb_LX7Jm9-MGwm4DBvfjCrADH4oumFyAvs2_0oSYw@mail.gmail.com>
- <20220930162301.i226o523teuikygq@box.shutemov.name>
-In-Reply-To: <20220930162301.i226o523teuikygq@box.shutemov.name>
-From: Fuad Tabba <tabba@google.com>
-Date: Mon, 3 Oct 2022 08:33:13 +0100
-Message-ID: <CA+EHjTyphrouY1FV2NQOBLDG81JYhiHFGBNKjT1K2j+pVNij+A@mail.gmail.com>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-To: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, 
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- luto@kernel.org, 
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com, 
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com, 
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>, 
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, 
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+References: <20220930140354.1684652-1-marcandre.lureau@redhat.com>
+ <80e410e5-f151-65ce-63a0-956fae528700@linaro.org>
+In-Reply-To: <80e410e5-f151-65ce-63a0-956fae528700@linaro.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 3 Oct 2022 11:33:48 +0400
+Message-ID: <CAMxuvazpsWDk8Bz4dLSyXHmAx=ZZxvf5n+5w_NBY8me5NazFHA@mail.gmail.com>
+Subject: Re: [PATCH v3] win32: set threads name
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, bin.meng@windriver.com, 
+ Stefan Weil <sw@weilnetz.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
- envelope-from=tabba@google.com; helo=mail-lf1-x12d.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,125 +93,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Hi Richard
 
-On Fri, Sep 30, 2022 at 5:23 PM Kirill A . Shutemov
-<kirill.shutemov@linux.intel.com> wrote:
+On Fri, Sep 30, 2022 at 6:10 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On Fri, Sep 30, 2022 at 05:14:00PM +0100, Fuad Tabba wrote:
-> > Hi,
-> >
-> > <...>
-> >
-> > > diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
-> > > new file mode 100644
-> > > index 000000000000..2d33cbdd9282
-> > > --- /dev/null
-> > > +++ b/mm/memfd_inaccessible.c
-> > > @@ -0,0 +1,219 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +#include "linux/sbitmap.h"
-> > > +#include <linux/memfd.h>
-> > > +#include <linux/pagemap.h>
-> > > +#include <linux/pseudo_fs.h>
-> > > +#include <linux/shmem_fs.h>
-> > > +#include <uapi/linux/falloc.h>
-> > > +#include <uapi/linux/magic.h>
-> > > +
-> > > +struct inaccessible_data {
-> > > +       struct mutex lock;
-> > > +       struct file *memfd;
-> > > +       struct list_head notifiers;
-> > > +};
-> > > +
-> > > +static void inaccessible_notifier_invalidate(struct inaccessible_data *data,
-> > > +                                pgoff_t start, pgoff_t end)
-> > > +{
-> > > +       struct inaccessible_notifier *notifier;
-> > > +
-> > > +       mutex_lock(&data->lock);
-> > > +       list_for_each_entry(notifier, &data->notifiers, list) {
-> > > +               notifier->ops->invalidate(notifier, start, end);
-> > > +       }
-> > > +       mutex_unlock(&data->lock);
-> > > +}
-> > > +
-> > > +static int inaccessible_release(struct inode *inode, struct file *file)
-> > > +{
-> > > +       struct inaccessible_data *data = inode->i_mapping->private_data;
-> > > +
-> > > +       fput(data->memfd);
-> > > +       kfree(data);
-> > > +       return 0;
-> > > +}
-> > > +
-> > > +static long inaccessible_fallocate(struct file *file, int mode,
-> > > +                                  loff_t offset, loff_t len)
-> > > +{
-> > > +       struct inaccessible_data *data = file->f_mapping->private_data;
-> > > +       struct file *memfd = data->memfd;
-> > > +       int ret;
-> > > +
-> > > +       if (mode & FALLOC_FL_PUNCH_HOLE) {
-> > > +               if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
-> > > +                       return -EINVAL;
-> > > +       }
-> > > +
-> > > +       ret = memfd->f_op->fallocate(memfd, mode, offset, len);
-> >
-> > I think that shmem_file_operations.fallocate is only set if
-> > CONFIG_TMPFS is enabled (shmem.c). Should there be a check at
-> > initialization that fallocate is set, or maybe a config dependency, or
-> > can we count on it always being enabled?
+> On 9/30/22 07:03, marcandre.lureau@redhat.com wrote:
+> > +static bool
+> > +set_thread_description(HANDLE h, const char *name)
+> > +{
+> > +  HRESULT hr;
+> > +  g_autofree wchar_t *namew = NULL;
+> > +
+> > +  if (!load_set_thread_description()) {
+> > +      return false;
+> > +  }
 >
-> It is already there:
->
->         config MEMFD_CREATE
->                 def_bool TMPFS || HUGETLBFS
->
-> And we reject inaccessible memfd_create() for HUGETLBFS.
->
-> But if we go with a separate syscall, yes, we need the dependency.
+> I don't understand why you're retaining this.
+> What is your logic?
 
-I missed that, thanks.
+The function should be MT-safe that way (load_set_thread_description
+should be too). But since we changed the way we invoke it, by relying
+on non-protected "name_threads" and we set it to false when the
+function cannot be loaded, we can just drop this. We can also drop
+g_once usage from load_set_thread_description. There is no explicit
+guarantee on when qemu_thread_naming() is called, and I am pretty sure
+qemu_thread_create() is called from different threads too.
 
->
-> > > +       inaccessible_notifier_invalidate(data, offset, offset + len);
-> > > +       return ret;
-> > > +}
-> > > +
-> >
-> > <...>
-> >
-> > > +void inaccessible_register_notifier(struct file *file,
-> > > +                                   struct inaccessible_notifier *notifier)
-> > > +{
-> > > +       struct inaccessible_data *data = file->f_mapping->private_data;
-> > > +
-> > > +       mutex_lock(&data->lock);
-> > > +       list_add(&notifier->list, &data->notifiers);
-> > > +       mutex_unlock(&data->lock);
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(inaccessible_register_notifier);
-> >
-> > If the memfd wasn't marked as inaccessible, or more generally
-> > speaking, if the file isn't a memfd_inaccessible file, this ends up
-> > accessing an uninitialized pointer for the notifier list. Should there
-> > be a check for that here, and have this function return an error if
-> > that's not the case?
->
-> I think it is "don't do that" category. inaccessible_register_notifier()
-> caller has to know what file it operates on, no?
-
-The thing is, you could oops the kernel from userspace. For that, all
-you have to do is a memfd_create without the MFD_INACCESSIBLE,
-followed by a KVM_SET_USER_MEMORY_REGION using that as the private_fd.
-I ran into this using my port of this patch series to arm64.
-
-Cheers,
-/fuad
-
-
-> --
->   Kiryl Shutsemau / Kirill A. Shutemov
 
