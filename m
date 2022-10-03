@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92095F2729
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 01:14:54 +0200 (CEST)
-Received: from localhost ([::1]:48508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0355F27C7
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 05:18:30 +0200 (CEST)
+Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1of8Af-0003xG-IG
-	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 19:14:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39744)
+	id 1ofByP-0000up-HQ
+	for lists+qemu-devel@lfdr.de; Sun, 02 Oct 2022 23:18:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <simon@simonsafar.com>)
- id 1of89M-0002c4-UG
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 19:13:33 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:51113)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ofBwD-0004i3-5c
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 23:16:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <simon@simonsafar.com>)
- id 1of89K-00020v-GV
- for qemu-devel@nongnu.org; Sun, 02 Oct 2022 19:13:32 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 1DAF75C0058;
- Sun,  2 Oct 2022 19:13:27 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
- by compute4.internal (MEProxy); Sun, 02 Oct 2022 19:13:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=simonsafar.com;
- h=cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1664752407; x=
- 1664838807; bh=MH0CTP0Eaic+1a+3r9dplazd6HxTYNnXVstwtnrX7JA=; b=l
- ArqP8vWIMIc0BKdaPZ66ngLyI9mnXAPNLGKfcj6uRKe2T0XDvS+ImrjZ6dyI5XiK
- I/a7wnbwlAEhZ9OoGo+L/d4XxQDzQYVbocy964SbhKT/d3NvVO0brXBnc0GntN5U
- BRCuh7ccsOzoxtPJYVgSr9h9n6jliuv/ppnlcUzFSYfAXT/fSNeAha4TIc4JMWGM
- EI2MJL19S1kUBTh2X9GBqHcNzP9M8X8UdGlzhQ6SXATgQQf8SOcohJt3748clCUq
- Fzt0Z1ebls2osJbO5mLEcUsm6eew/SDTA8bFGZ6tkJd/TDECcLjt9ABLHD4rKwIx
- KM/bfq40oVE14VaOrzh4w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:date:feedback-id:feedback-id:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm2; t=1664752407; x=1664838807; bh=M
- H0CTP0Eaic+1a+3r9dplazd6HxTYNnXVstwtnrX7JA=; b=NldMhzgWU7mZlVev3
- ZCpbVfWv1wzYyz5fLl2kHOcud+w9RoVDcOEjpxVKqLHlxMl3Id8VwtiWzoTTsGXj
- TEUu6i08bIq/lKZ9f5NAWfac1VPwUmnCE4gvDPs/VI4/Njr6jxFeKxMnltvM9kBD
- vTKXZWl8I1CU2CDlIBI5PDjRtQvuu7qwCNxuSGVNdmkweHTZVnfxsxM1kEjaOPyp
- E/rIYEZeA0HRZRvj5msdZUloHQsFvNXrCHt/jhKkpITpbnMPJZ4BcOuKQxYEIp1P
- dbVRefnIV8aRzKtf5A/9gpCDyVJYAEktJEcmmgZsa4FxoRpKLHdXKBaeu00qCvoV
- Rfk4w==
-X-ME-Sender: <xms:Fhs6Y85z4e6JoLe-pVpWmRXj8NKMRi5z4qohg91Kw9Lh5LFYIstczw>
- <xme:Fhs6Y95-5_GTwY6FnPzb9i1No5vrvDP3pxGYtaYq2oM8lP7rokIqlwB82w2bff78V
- dCr5uz3hW2KT59uwhk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeehkedgvddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedfufhi
- mhhonhcuufgrfhgrrhdfuceoshhimhhonhesshhimhhonhhsrghfrghrrdgtohhmqeenuc
- ggtffrrghtthgvrhhnpeffieeifeelheffvdfhffdvgedvgffgvdfhveeihfetffdvtddu
- geeutdfhheegheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpehsihhmohhnsehsihhmohhnshgrfhgrrhdrtghomh
-X-ME-Proxy: <xmx:Fhs6Y7fQlGvSgypgKFUr5aEHvDmquH5AX4HU-AMMBxPkA0z-jjuNmA>
- <xmx:Fhs6YxK0eOG1ffnIjKAV22zwbOz-3iwGR-ZXEyYctHEv1xl1_f9ayA>
- <xmx:Fhs6YwKcCEunhzHfpl82c7cnZ33Fyxuv2Y-_QlhI8JkF59qYKReGtA>
- <xmx:Fxs6Y3lvfZ7YaAMig2lUaz5gT6VhXEZv6QT0SfBjebnkhuCnLhPzKg>
-Feedback-ID: i4ed14706:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id D039E1700086; Sun,  2 Oct 2022 19:13:26 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-968-g04df58079d-fm-20220921.001-g04df5807
-Mime-Version: 1.0
-Message-Id: <5e956bc4-12f2-43f1-973d-494cd9f5f647@app.fastmail.com>
-In-Reply-To: <20220926134609.3301945-2-alex.bennee@linaro.org>
-References: <20220926134609.3301945-1-alex.bennee@linaro.org>
- <20220926134609.3301945-2-alex.bennee@linaro.org>
-Date: Sun, 02 Oct 2022 16:13:04 -0700
-To: =?UTF-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v1 1/7] contrib/gitdm: add Simon to individual contributors
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=simon@simonsafar.com;
- helo=out1-smtp.messagingengine.com
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ofBwA-0007UP-5h
+ for qemu-devel@nongnu.org; Sun, 02 Oct 2022 23:16:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664766969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uNLaIgbCdiUGNU6L6dDiJjxEwtuVQMA3jmqYq/T8Y+w=;
+ b=cR6HZz+s33YqTJHAdKl0APmfVzujmpQq0rWgZLTneWVbukBoTxKFvBjq6tRegFxrraQgr9
+ 7tujxOx5vLIsbpyvu7iTw4xSCPAQ6KklJxispqueSXqZyQy2TT3FQYIaZpH2zxNwO8b+PU
+ rKbT6tfE2z6nuoFNt8F9KcPh4ZKin4k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-207-nfX_jiOgOy2xjDHvNzFvgg-1; Sun, 02 Oct 2022 23:16:06 -0400
+X-MC-Unique: nfX_jiOgOy2xjDHvNzFvgg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90CDB87B2A2;
+ Mon,  3 Oct 2022 03:16:05 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD86040C206B;
+ Mon,  3 Oct 2022 03:16:01 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Laurent Vivier <lvivier@redhat.com>, John Snow <jsnow@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Juan Quintela <quintela@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+Subject: [RFC 0/7] migration patches for VFIO
+Date: Mon,  3 Oct 2022 05:15:53 +0200
+Message-Id: <20221003031600.20084-1-quintela@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,38 +87,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Simon Safar" <simon@simonsafar.com>
-From:  "Simon Safar" via <qemu-devel@nongnu.org>
 
-Hi Alex,
+Hi
 
-On Mon, Sep 26, 2022, at 6:46 AM, Alex Benn=C3=A9e wrote:
-> Please confirm this is the correct mapping for you.
+VFIO migration has several requirements:
+- the size of the state is only known when the guest is stopped
+- they need to send possible lots of data.
 
-it's the correct mapping, thanks for adding it! (... & sorry for the mul=
-ti-day latency!)
+this series only address the 1st set of problems.
 
-Reviewed-by: Simon Safar <simon@simonsafar.com>
+What they do:
+- res_compatible parameter was not used anywhere, just add that information to res_postcopy.
+- Remove QEMUFILE parameter from save_live_pending
+- Split save_live_pending into
+  * save_pending_estimate(): the pending state size without trying too hard
+  * save_pending_exact(): the real pending state size, it is called with the guest stopped.
+- Now save_pending_* don't need the threshold parameter
+- HACK a way to stop the guest before moving there.
 
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Simon Safar <simon@simonsafar.com>
-> ---
-> contrib/gitdm/group-map-individuals | 1 +
-> 1 file changed, 1 insertion(+)
->=20
-> diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group=
--map-individuals
-> index f816aa8770..d5b05041bc 100644
-> --- a/contrib/gitdm/group-map-individuals
-> +++ b/contrib/gitdm/group-map-individuals
-> @@ -34,3 +34,4 @@ bmeng.cn@gmail.com
->  liq3ea@gmail.com
->  chetan4windows@gmail.com
->  akihiko.odaki@gmail.com
-> +simon@simonsafar.com
-> --=20
-> 2.34.1
->=20
->=20
+ToDo:
+- autoconverge test is broken, no real clue why, but it is possible that the test is wrong.
+
+- Make an artifact to be able to send massive amount of data in the save state stage (probably more multifd channels).
+
+- Be able to not having to start the guest between cheking the state pending size and migration_completion().
+
+Please review.
+
+Thanks, Juan.
+
+Juan Quintela (7):
+  migration: Remove res_compatible parameter
+  migration: No save_live_pending() method uses the QEMUFile parameter
+  migration: Block migration comment or code is wrong
+  migration: Split save_live_pending() into state_pending_*
+  migration: Remove unused threshold_size parameter
+  migration: simplify migration_iteration_run()
+  migration: call qemu_savevm_state_pending_exact() with the guest
+    stopped
+
+ docs/devel/migration.rst       | 18 ++++++------
+ docs/devel/vfio-migration.rst  |  4 +--
+ include/migration/register.h   | 29 ++++++++++---------
+ migration/savevm.h             |  8 +++---
+ hw/s390x/s390-stattrib.c       | 11 ++++---
+ hw/vfio/migration.c            | 17 +++++------
+ migration/block-dirty-bitmap.c | 14 ++++-----
+ migration/block.c              | 17 ++++++-----
+ migration/migration.c          | 52 ++++++++++++++++++++++------------
+ migration/ram.c                | 35 ++++++++++++++++-------
+ migration/savevm.c             | 37 +++++++++++++++++-------
+ tests/qtest/migration-test.c   |  3 +-
+ hw/vfio/trace-events           |  2 +-
+ migration/trace-events         |  7 +++--
+ 14 files changed, 148 insertions(+), 106 deletions(-)
+
+-- 
+2.37.2
+
 
