@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024765F2FDA
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 13:53:49 +0200 (CEST)
-Received: from localhost ([::1]:49104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 373675F2FF0
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 13:58:48 +0200 (CEST)
+Received: from localhost ([::1]:36444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofK15-0005lw-Ih
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 07:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46482)
+	id 1ofK5v-0002Y0-Ag
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 07:58:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1ofJvA-0000uy-W4
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 07:47:42 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:42794)
+ id 1ofJvG-0000zO-1j
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 07:47:46 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:43898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1ofJv8-0005mB-KT
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 07:47:39 -0400
-Received: by mail-pg1-x536.google.com with SMTP id e129so9446016pgc.9
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 04:47:38 -0700 (PDT)
+ id 1ofJvE-0005mj-DY
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 07:47:45 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id z20so2922300plb.10
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 04:47:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=bIKmY3V4/R3k1fDtd2l4CmQgMRf9EaJEkusDrzEo5to=;
- b=WhqhwvMJMc+DhUmeQaT/6d2LA71NjgPHlNCE5B7/1ctSUkmT7hGRuvJ+O0OLiumZb0
- +Jblpo8nLXewtrGQIGN408V8Is1GVT0cqlvQTZBHrJ/1uy8/WK+JAC2lTO7M4k6u5sCn
- lZ3aQd4Z5e+MmjRk9K9YD/kODsjJUiukybXA6xhJTUryU9zrfgPvsZN9hEHNKWxOKvUP
- dDq9x7XKGqCrdWFJOT4kYCaJyK74A2w+2ifjSxc71l74wBfPqT2U04wCdDAozBjQ7uXx
- QdzPO2KKjJvWIdsvpEQX4QgL2WR2jOVjctJPVLmrkKqfJPK9Q1f5gGBIGNN3UYGwkdX8
- TBPQ==
+ bh=CpL67v/QuEdwqwhAKdFo9b4ObOFi1m7vj+5ABrNK4JQ=;
+ b=WNTfpj/HbTU1mAHzij/nYf/IdhxtqkrSw3fRe4u7JMduAHE8xgzTWs0wqBTk7OWH9t
+ w4w4NHttg6A+JiXxk0jwCbkInfRreCYcRHDtihbR3Wiq6VrsPo1QyUQTNs1MHL6Rr3P+
+ Y6wtnaQVF+sU2SrPejAkhsQa5JRU9W6yZ3e3V0DAFldJLfh+K6RgnDdi8OiSwUtRJUKS
+ tsyM9ZzdSukZJSgGg3notANEu5L+g42yLY2ExaGmWKq5ID7OU9NpFfu5co9e2xL0YmX7
+ OYSWH/oVGl5rZH7T7y9zmBoFcnzrtHt7KJr8/GEJeNMZaGYrgKwU+KBGKEX9nATpzcie
+ VhKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=bIKmY3V4/R3k1fDtd2l4CmQgMRf9EaJEkusDrzEo5to=;
- b=OtRyDrwBnK8X6LZcl8idOrffzrjnt2WXZRZKawH9tyLFGZMXJ7rtAAT8HVKC6w3Wpm
- th/R8DM1RQ4zIQGVA4c2i0YHMu5YfamTipsfJdAh4681M4eHAHPPlXGFswRgspPK3Imu
- DPO0GWg1LPB9TKan1EQ62Qij9zNxh5tEjf9JKNkV/AoBmrmb4LCh7S/A9BiMDUlBHLiR
- kaAEPhT0xh4D5PA5BHZbArVH2br2S6Cst+l1iZ6sGfQAIEg+AdI6NTSw5IpNK4Tu7hHb
- Rosqpg2eYChhOpootgkeyIJLT5p1nKROCENIVyA/Mn6NJXNZ+FIiW3QKX3K63L0Xnv2V
- eToA==
-X-Gm-Message-State: ACrzQf13q5B7jYn3uhmAfmna9by7A9P6oG8ZRpIIFC5/nzfKFD7sPRHg
- 79fShUugoFAI11KVAQThSP/peEvlmOgHPw==
-X-Google-Smtp-Source: AMsMyM42wcAPsgq63tCR4IB4n3Xj5lPYU9DU+IrCX8k55mftfqTUD8aYAxGW7ODS4Pb3EmSmk/ofoA==
-X-Received: by 2002:a63:fc4e:0:b0:449:5355:292 with SMTP id
- r14-20020a63fc4e000000b0044953550292mr8509298pgk.193.1664797657170; 
- Mon, 03 Oct 2022 04:47:37 -0700 (PDT)
+ bh=CpL67v/QuEdwqwhAKdFo9b4ObOFi1m7vj+5ABrNK4JQ=;
+ b=71cJXctSquT0n9Jr0SXWGLfle3egMPYpc9NTxDYbnHhRdwgv/RZQD1RR5q8+rh5ejF
+ i2NeCZjPRyJM+DyCXS7b2WchOocjHZIELPb8EwNvS+kTHNbk1MTZgPxGNsEODZFFoXfk
+ 0KsrIFV3mkCjPWwfXDMSO4XbQdp+iHTSOGMt4TdSUm0IYK7ZZB98Vs7AyyY/Xe4n64N0
+ hXYCWHao3shhdixSbk9gVuhOqPf2BPmsaWX6x7h8EcUOSEvZg5PbmklMXfV6d63DJXIT
+ U1kRXwuxMPrS5KSvQ3Z3YuEVikLhtJ2iYaw3+RS4jY5x1Cw9ySQYNFtGUoDwDlI95DAT
+ TmXQ==
+X-Gm-Message-State: ACrzQf3z3QxXEL9JoLD1X/WNf4EKMMvgF9pO76+X1M2Rd4u5yOzKUtq6
+ VbN4yv6sAp2YDA9JhvQ0Oq5WfRj3TkR69Q==
+X-Google-Smtp-Source: AMsMyM5ZanqgqDvTot1W93uxoQW/DrgCfBHb+8imHKmCyhHgB22sMb6muFDdQUc5j+wSSNPeC13mbg==
+X-Received: by 2002:a17:90b:3811:b0:202:9e26:bc00 with SMTP id
+ mq17-20020a17090b381100b002029e26bc00mr11987659pjb.223.1664797663323; 
+ Mon, 03 Oct 2022 04:47:43 -0700 (PDT)
 Received: from ThinkPad-T490.dc1.ventanamicro.com ([103.97.165.210])
  by smtp.googlemail.com with ESMTPSA id
- ix17-20020a170902f81100b001789b724712sm6979753plb.232.2022.10.03.04.47.34
+ ix17-20020a170902f81100b001789b724712sm6979753plb.232.2022.10.03.04.47.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Oct 2022 04:47:36 -0700 (PDT)
+ Mon, 03 Oct 2022 04:47:42 -0700 (PDT)
 From: Mayuresh Chitale <mchitale@ventanamicro.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
-	alistair.francis@wdc.com
-Subject: [PATCH v10 3/5] target/riscv: generate virtual instruction exception
-Date: Mon,  3 Oct 2022 17:17:16 +0530
-Message-Id: <20221003114718.30659-4-mchitale@ventanamicro.com>
+Cc: Mayuresh Chitale <mchitale@ventanamicro.com>, alistair.francis@wdc.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v10 5/5] target/riscv: smstateen knobs
+Date: Mon,  3 Oct 2022 17:17:18 +0530
+Message-Id: <20221003114718.30659-6-mchitale@ventanamicro.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221003114718.30659-1-mchitale@ventanamicro.com>
 References: <20221003114718.30659-1-mchitale@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=mchitale@ventanamicro.com; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,56 +92,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a mechanism to generate a virtual instruction
-instruction exception instead of an illegal instruction exception
-during instruction decode when virt is enabled.
+Add knobs to allow users to enable smstateen and also export it via the
+ISA extension string.
 
 Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+Reviewed-by: Weiwei Li<liweiwei@iscas.ac.cn>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/translate.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ target/riscv/cpu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index db123da5ec..6926b639de 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -76,6 +76,7 @@ typedef struct DisasContext {
-        to reset this known value.  */
-     int frm;
-     RISCVMXL ol;
-+    bool virt_inst_excp;
-     bool virt_enabled;
-     const RISCVCPUConfig *cfg_ptr;
-     bool hlsx;
-@@ -243,7 +244,11 @@ static void gen_exception_illegal(DisasContext *ctx)
- {
-     tcg_gen_st_i32(tcg_constant_i32(ctx->opcode), cpu_env,
-                    offsetof(CPURISCVState, bins));
--    generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
-+    if (ctx->virt_inst_excp) {
-+        generate_exception(ctx, RISCV_EXCP_VIRT_INSTRUCTION_FAULT);
-+    } else {
-+        generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
-+    }
- }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index b29c88b9f0..6f065f4e5f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -102,6 +102,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
+     ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
++    ISA_EXT_DATA_ENTRY(smstateen, true, PRIV_VERSION_1_12_0, ext_smstateen),
+     ISA_EXT_DATA_ENTRY(ssaia, true, PRIV_VERSION_1_12_0, ext_ssaia),
+     ISA_EXT_DATA_ENTRY(sscofpmf, true, PRIV_VERSION_1_12_0, ext_sscofpmf),
+     ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
+@@ -1012,6 +1013,7 @@ static Property riscv_cpu_extensions[] = {
+     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
  
- static void gen_exception_inst_addr_mis(DisasContext *ctx)
-@@ -1067,6 +1072,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-         if (!has_ext(ctx, RVC)) {
-             gen_exception_illegal(ctx);
-         } else {
-+            ctx->virt_inst_excp = false;
-             ctx->opcode = opcode;
-             ctx->pc_succ_insn = ctx->base.pc_next + 2;
-             if (decode_insn16(ctx, opcode)) {
-@@ -1078,6 +1084,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-         opcode32 = deposit32(opcode32, 16, 16,
-                              translator_lduw(env, &ctx->base,
-                                              ctx->base.pc_next + 2));
-+        ctx->virt_inst_excp = false;
-         ctx->opcode = opcode32;
-         ctx->pc_succ_insn = ctx->base.pc_next + 4;
- 
++    DEFINE_PROP_BOOL("smstateen", RISCVCPU, cfg.ext_smstateen, false),
+     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
+     DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
 -- 
 2.25.1
 
