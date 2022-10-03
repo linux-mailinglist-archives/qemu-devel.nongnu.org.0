@@ -2,57 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987AE5F2F26
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:55:39 +0200 (CEST)
-Received: from localhost ([::1]:40578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D5C5F2F4B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 13:08:35 +0200 (CEST)
+Received: from localhost ([::1]:48038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofJ6o-0006C6-EN
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:55:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47574)
+	id 1ofJJI-0003yN-Oc
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 07:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ofJ07-0002pp-29
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:48:44 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:49699)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=zLWo=2E=zx2c4.com=Jason@kernel.org>)
+ id 1ofJCP-0008Ut-CY
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 07:01:29 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:56310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ofJ04-00041b-SH
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:48:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=r3t4cbEsF03a0u2uPL/2MC0MiBlirWfXpJ2kmZQ64mk=; b=ohp6up0nbE5xTKkouwgyYfSgyB
- f7+pHgc4T03dHzccJBp9SDPqviFRCjq+Q47/0eaeybCOFcYaRta8rOAgBF4kapsl1S4WqNWkaQQjI
- RtZvWDxC0016+PygRa6lLR5walTQW66OSPZukaqW9WxjOZQ8e1MgQVZj3m7L9ma/gPMQ7VRl+z8Xx
- 0JOtPb6oCzOa7cbdDeXQwp6bke7/fLwTJBt3xuL6TgF5lQfU1s3X22BF3SD36ECO9wBk8J709xChs
- dizziDzQnwhie0HBZp/Lj9uzu0KXG1HjyV9QrlUkjCPb2YVvRqSXQsGBfOsOQHkdZvQVoI+/FvEA2
- qzLe0kldf+ZIp3DEoeLE6wGg4j3QmKRCJmN+P4TLZTH0YzEkjPmSH8eZwnKb0aHLwTl0EKhwuKgcA
- i9MogDv9FIPEzRoG5MZRnt9Jg/FRaM1Ebt1aXxlbA82NhC1fbUZy/27hsO2ZKi/TTs9z1uD+tuNSL
- qnIlgD4a3gdSe7EYmkY2b3dNJcV1ifEanIfo63gRFM3uruwH4+IomfbI3ezSW499Ca8RBu13ttkdj
- aUt1n3L2kmO/sJupcGVO35VCe3JklUi6yOKhVtJCl/lkffgxawu8qfCL/KeAf97/qv0ZIJ2jhC8zF
- JPopSGAaThGDNnX5kuaxsUgVpNsxV1/omCOaJJ6Ng=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, jb-gnumlists@wisemo.com
-Cc: thuth@redhat.com, jasowang@redhat.com,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] build-sys: error when slirp is not found and not disabled
-Date: Mon, 03 Oct 2022 12:48:35 +0200
-Message-ID: <832398553.RmnqxNm477@silver>
-In-Reply-To: <YzqXuhJWloERf6Wm@redhat.com>
-References: <20221003070534.2180380-1-marcandre.lureau@redhat.com>
- <YzqXuhJWloERf6Wm@redhat.com>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=zLWo=2E=zx2c4.com=Jason@kernel.org>)
+ id 1ofJCL-00061M-OJ
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 07:01:24 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 55728B8105D;
+ Mon,  3 Oct 2022 11:01:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECE00C43141;
+ Mon,  3 Oct 2022 11:01:16 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="g7Pz5w32"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1664794875;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EyZqE4kZzK1B3EQpjmPP5SV6n215i9BCsiMlfzZTN7Y=;
+ b=g7Pz5w32RsNf3nxXrYWRsrlBvFvvvn4DVvTFOS/DpbIi80b4ZaLc+8puuAyHWpsw6OsyQp
+ 0hPx+hbUu1A6iwQAZRUZRKhaVw5Q15tda5YDXMBmRyWfZN09xGELVSXeh2nInX/UCR2fbQ
+ Y+Z6a0CULcSYCWBhS7R9+bo5AOcfHLE=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id ddba5930
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Mon, 3 Oct 2022 11:01:15 +0000 (UTC)
+Date: Mon, 3 Oct 2022 13:01:13 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com, marcandre.lureau@redhat.com
+Subject: Re: [PATCH] meson: -display dbus and CFI are incompatible
+Message-ID: <YzrA+bybdokCN6nX@zx2c4.com>
+References: <20220930075324.13550-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220930075324.13550-1-pbonzini@redhat.com>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=zLWo=2E=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,80 +79,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 3. Oktober 2022 10:05:14 CEST Daniel P. Berrang=E9 wrote:
-> On Mon, Oct 03, 2022 at 11:05:34AM +0400, marcandre.lureau@redhat.com wro=
-te:
-> > From: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> >=20
-> > This is an alternative configure-time solution to "[PATCH] net:
-> > print a more actionable error when slirp is not found".
-> >=20
-> > See also "If your networking is failing after updating to the latest git
-> > version of QEMU..." ML thread.
-> >=20
-> > Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >=20
-> >  meson.build | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >=20
-> > diff --git a/meson.build b/meson.build
-> > index 8dc661363f..565096001d 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -657,6 +657,12 @@ if not get_option('slirp').auto() or have_system
-> >=20
-> >    endif
-> > =20
-> >  endif
-> >=20
-> > +if not get_option('slirp').disabled() and not slirp.found()
-> > +  error('libslirp is not explicitely disabled and was not found. ' +
-> > +        'Since qemu 7.2, libslirp is no longer included as a submodule=
- '
-> > +
-> > +        'fallback, you must install it on your system or
-> > --disable-libslirp.') +endif
->=20
-> I understand the motivation, but this goes against the main principal
-> of our build time detection, which is to "do the right thing" automatical=
-ly.
-> If libslirp is not present on the host, then I would consider the need to
-> pass --disable-libslirp to be a bug.
->=20
-> I think this pain that people see of loosing slirp support is going to be
-> a pretty short term problem. IMHO it suffices to print a warning message
-> right at the very end of configure, after everything else, just for one
-> or two releases.
+On Fri, Sep 30, 2022 at 09:53:24AM +0200, Paolo Bonzini wrote:
+> The generated skeletons for DBus call the finalize method of the parent
+> type using code like
+> 
+>     G_OBJECT_CLASS (qemu_dbus_display1_chardev_skeleton_parent_class)->finalize (object);
+> 
+> However, the finalize method is defined in a shared library that is not
+> compiled with CFI.  Do not enable anything that uses gdbus-codegen if
+> --enable-cfi was specified.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  meson.build | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meson.build b/meson.build
+> index f6962834a3..6106daf267 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -515,6 +515,7 @@ meson.override_dependency('glib-2.0', glib)
+>  
+>  gio = not_found
+>  gdbus_codegen = not_found
+> +gdbus_codegen_error = '@0@ requires gdbus-codegen, please install libgio'
+>  if not get_option('gio').auto() or have_system
+>    gio = dependency('gio-2.0', required: get_option('gio'),
+>                     method: 'pkg-config', kwargs: static_kwargs)
+> @@ -539,6 +540,10 @@ if not get_option('gio').auto() or have_system
+>                               version: gio.version())
+>    endif
+>  endif
+> +if gdbus_codegen.found() and get_option('cfi')
+> +  gdbus_codegen = not_found
+> +  gdbus_codegen_error = '@0@ uses gdbus-codegen, which does not support control flow integrity')
 
-I guess that many users would find it a bug as well if this core feature ju=
-st=20
-stops working. Even if you add a warning; what will probably happen is that=
-=20
-packages are first built without. You want to risk that backlash, users fil=
-ing=20
-reports, etc?
+FYI, you've got a trailing paren here that will break.
 
-What about using this error for couple releases and then restoring symmetry?
-
-Independent of this particular patch here, there is probably still somethin=
-g=20
-wrong with slirp detection.
-
-=2D in the first run it detected correctly that slirp was not installed
-=2D then I installed slirp and it detected correctly that it was installed
-=2D then I uninstalled slirp-dev and slirp and build system still said:
-
-slirp support                : YES 4.4.0
-
-=2E.. causing ...
-
-=2E./net/slirp.c:41:10: fatal error: libslirp.h: No such file or directory
-   41 | #include <libslirp.h>
-      |          ^~~~~~~~~~~~
-
-Best regards,
-Christian Schoenebeck
-
-
+Jason
 
