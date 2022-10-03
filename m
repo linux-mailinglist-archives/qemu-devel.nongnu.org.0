@@ -2,56 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8221F5F330E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 18:03:28 +0200 (CEST)
-Received: from localhost ([::1]:41046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CEA5F33C2
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 18:41:42 +0200 (CEST)
+Received: from localhost ([::1]:52556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofNug-0001Lh-NV
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 12:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40096)
+	id 1ofOVg-0002s6-OP
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 12:41:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1ofNdj-0007Sv-Og; Mon, 03 Oct 2022 11:45:57 -0400
-Received: from [200.168.210.66] (port=42785 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1ofNdf-0003RP-MZ; Mon, 03 Oct 2022 11:45:54 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 3 Oct 2022 12:45:45 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 21A328002C5;
- Mon,  3 Oct 2022 12:45:45 -0300 (-03)
-Message-ID: <b891d13a-fcdf-c182-4941-7ccfa4e2335d@eldorado.org.br>
-Date: Mon, 3 Oct 2022 12:45:45 -0300
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofODz-0007qh-42
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 12:23:23 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:35413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofODr-0000Fv-99
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 12:23:22 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 130-20020a1c0288000000b003b494ffc00bso8825737wmc.0
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 09:23:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=y7MPD/0u539Yy7E8xJIA0xSc/2vP4Wf3XjCF7UVvwoE=;
+ b=Ogguem1iHlEth/J65PgW88WmkPN0irY0aejWnQrPbKLy+BtYWHrjUL0ON1kSO9cqm8
+ XS/s4aX6FNVOPluJy4COMRP4LXLVxYZ3qdnBwVdyGlHC0eSXysYTb4bPOfY2W9xEINAX
+ hDOFvvpuE/Ftex2/IdQL+yHyweflR2LH4P/vvkPFXQGD2Fa7EfaSKtacamZrJfzzIEjP
+ oR/SOupHoOb9DZAoMrb46WYAu+4+APCjI4Xf9S5yRfXPEaTOtdkibW0sJ1TNp0Fb2ZP+
+ Jn0hWppjt49FEnBp/ZAI49NKReTy4cjqIgCtP/NSoaU9Da03oho9MG/KzuoALGdr6Asq
+ Ol6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=y7MPD/0u539Yy7E8xJIA0xSc/2vP4Wf3XjCF7UVvwoE=;
+ b=RVpukIC77ZrXsMXq8rbGT7N/o1lEUgd4x9bcR2zWlyDzHjRVEjpsPFFsyo/NX/HUsE
+ TxmN94EGEgd7WByYQSOqZ5lgM9Q95eY3Ecvy4f3bUM+bcjUMNi5JrRNRk3Z0gVC9S9VB
+ JSVKnZClXK7rU+ki9GGOD1iLnqVJJL2hA05UaThCLXGBuRBnXLLuGlCVUq6fMA25/4J+
+ J2ENb/YSGssuai+5tkQO+XdFK6S8sx7tbc7FWmnZlNSAU2Dq2XZzVbOGa1RaB/w4MqW2
+ IT0xwTpoHdt9hZ7bwQSiAFmWQhsNOWcyrcKLAKwemuAVEduuedfYWxzJa+Om83ZdRIxG
+ jjtw==
+X-Gm-Message-State: ACrzQf3P7GhHFUDyftd3BK0fj6zQCzYr12NljFJrWi+Cx1DVAqDyLu3+
+ AKKR2TYxmSI0hk4PZbd8utL7fQ==
+X-Google-Smtp-Source: AMsMyM5bAud05ueYtFVqHamfXazsXxF6HenXpNYESujVkpfJH+67wGqlWAty0R/dYTlIdtnIU3ZhDw==
+X-Received: by 2002:a05:600c:41c3:b0:3b4:9668:655a with SMTP id
+ t3-20020a05600c41c300b003b49668655amr7379447wmh.36.1664814193400; 
+ Mon, 03 Oct 2022 09:23:13 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ c63-20020a1c3542000000b003a6a3595edasm12149926wma.27.2022.10.03.09.23.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Oct 2022 09:23:12 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5A6901FFB7;
+ Mon,  3 Oct 2022 17:23:11 +0100 (BST)
+References: <20220930212622.108363-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: peter.maydell@linux.org, alex.bennee@linux.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 00/18] tcg: CPUTLBEntryFull and TARGET_TB_PCREL
+Date: Mon, 03 Oct 2022 17:22:44 +0100
+In-reply-to: <20220930212622.108363-1-richard.henderson@linaro.org>
+Message-ID: <87h70knafk.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC PATCH v2 09/29] target/ppc: remove generic architecture
- checks from p9_deliver_interrupt
-Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, fbarrat@linux.ibm.com, alex.bennee@linaro.org
-References: <20220927201544.4088567-1-matheus.ferst@eldorado.org.br>
- <20220927201544.4088567-10-matheus.ferst@eldorado.org.br>
- <87r0zs688j.fsf@linux.ibm.com>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-In-Reply-To: <87r0zs688j.fsf@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-OriginalArrivalTime: 03 Oct 2022 15:45:45.0497 (UTC)
- FILETIME=[33893090:01D8D73F]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.467,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,41 +94,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/09/2022 15:13, Fabiano Rosas wrote:
-> Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
-> 
->> No functional change intended.
->>
->> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
->> ---
->>   target/ppc/excp_helper.c | 9 +--------
->>   1 file changed, 1 insertion(+), 8 deletions(-)
->>
->> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->> index 603c956588..67e73f30ab 100644
->> --- a/target/ppc/excp_helper.c
->> +++ b/target/ppc/excp_helper.c
->> @@ -1919,18 +1919,11 @@ static void p9_deliver_interrupt(CPUPPCState *env, int interrupt)
->>           break;
->>
->>       case PPC_INTERRUPT_DECR: /* Decrementer exception */
->> -        if (ppc_decr_clear_on_delivery(env)) {
->> -            env->pending_interrupts &= ~PPC_INTERRUPT_DECR;
->> -        }
-> 
-> Maybe I'm missing something, but this should continue to clear the bit,
-> no? Same comment for P8.
-> 
 
-ppc_decr_clear_on_delivery returns true if (env->tb_env->flags & 
-(PPC_DECR_UNDERFLOW_TRIGGERED | PPC_DECR_UNDERFLOW_LEVEL)) ==
-PPC_DECR_UNDERFLOW_TRIGGERED, i.e., PPC_DECR_UNDERFLOW_TRIGGERED is set 
-and PPC_DECR_UNDERFLOW_LEVEL is clear. All Book3S CPU have a level 
-triggered interrupt, so the method return false.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Thanks,
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+> Changes for v6:
+>   * CPUTLBEntryFull is now completely reviewed.
+
+You should try a --disable-tcg build because I saw that failing in CI.
+
+--=20
+Alex Benn=C3=A9e
 
