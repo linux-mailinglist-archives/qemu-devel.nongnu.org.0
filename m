@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C885F27FC
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 06:20:30 +0200 (CEST)
-Received: from localhost ([::1]:45472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E345F28FC
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 09:09:29 +0200 (CEST)
+Received: from localhost ([::1]:50600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofCwP-0000D8-L6
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 00:20:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55184)
+	id 1ofFZv-0005fe-RP
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 03:09:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ofCr8-0003YW-1w
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 00:15:03 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:39572)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1ofCr5-0006Tq-Sk
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 00:15:01 -0400
-Received: by mail-pg1-x535.google.com with SMTP id b5so8724585pgb.6
- for <qemu-devel@nongnu.org>; Sun, 02 Oct 2022 21:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
- :cc:subject:date;
- bh=F+mjQgSIAnozHseNrNKmVtq1cIhjeBBYAbGF2zpCiHk=;
- b=casen/B75ua/AN1X/YMfDM+FAcr5wke3RSjmNvTO3zcVlcjuixOQFb/vSQ+q3yU/6L
- 4/4SR8gFEnnci5HXxPUp1qs0I1iBhZvG0YU/BiCYQbXw9Ks5hUYkyMhR3oQ9jeA9zn9z
- 5yO0r6WHzd38+IMMr6foYTL1O4tPwZt86AP/bA6Bqm29oBbMsOzk3BZMcboWFTzDBKME
- CUXFxjiT9SMg+qdE3h+y8ZRXCmQAJzjZMRuDT2ZsWb+JxMjhDkWOn2qjfbZw0yqjRYxH
- B7HA/qCKFmFGbIYIbOkbX55OIJGlewufIg30yD3iTVHit/0zlr/I7i6U/lkRvzl1RhZ2
- zDWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=references:in-reply-to:message-id:date:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date;
- bh=F+mjQgSIAnozHseNrNKmVtq1cIhjeBBYAbGF2zpCiHk=;
- b=JSpq6gZO/lhZx0vz5bjzHwpYRAE40Nv6JFtjj4YxVzkzQNuqKMx4lzX5CRN+om0Zy4
- VQLv2C/rWEX1A7FpMZOGc2rFeuhGP3/31gF0eliMY1hSo+rU6kH48Nb37HkyERL+bATY
- 6n6loMYZBPhKgENPkr6W6eswipzk4uNN3ExBJl8iYpdX7NgoBveze3Bkc56vN+XMVpcB
- LK2h44tuzGvSMnWL6Cx54vwTmcOcgE4lnogqrKJqU/3+5UYuXW6vNjpZl/80EfVBw0Us
- G80/dpdkNyUjWXTVaWj8qhrmFADJ5ytBN6c1uyplTeaB16nbkdD7FrlNh5W70S5FIV4/
- HOEg==
-X-Gm-Message-State: ACrzQf2E673bBfkGcmrOpAuxaZ714YPI6lVsoKVePbuG7I9XhU9qO7+0
- Nbab3Ww1rDlGI1r1FYcItnLLHttAGKFcVcNJ6BFnBHVpaXd0Ojblfg+kUMl78rdficVKFqCMyT3
- s+gru3GHCkvVTzPIvAT8fzSTDNc+ILlAjG2zWmgtCi6OL30mSlhFSR3YhPpkyrKq2HJk=
-X-Google-Smtp-Source: AMsMyM6igbQ0Se816vi8zq5Px9W2pNLp3EF0yiD9tCWpm/16qcmmUvr7272YseSfpbErnWy6qcXo5Q==
-X-Received: by 2002:a05:6a00:24d2:b0:542:f6e3:e18d with SMTP id
- d18-20020a056a0024d200b00542f6e3e18dmr20397910pfv.36.1664770498221; 
- Sun, 02 Oct 2022 21:14:58 -0700 (PDT)
-Received: from hsinchu25.internal.sifive.com
- (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id
- d12-20020a170902cecc00b0017732e4003bsm6108596plg.141.2022.10.02.21.14.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Oct 2022 21:14:57 -0700 (PDT)
-From: Jim Shu <jim.shu@sifive.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- chigot@adacore.com, Jim Shu <jim.shu@sifive.com>
-Subject: [PATCH v3 2/2] hw/intc: sifive_plic: change interrupt priority
- register to WARL field
-Date: Mon,  3 Oct 2022 04:14:40 +0000
-Message-Id: <20221003041440.2320-3-jim.shu@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20221003041440.2320-1-jim.shu@sifive.com>
-References: <20221003041440.2320-1-jim.shu@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=jim.shu@sifive.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ofFWS-0003Pg-Cs
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:05:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ofFWL-0004YN-L5
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:05:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664780741;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=egaj1fcf/WoJTXCBb40TAoJRsBRtAB3MnpTrpECqxro=;
+ b=Inqg+WYHS+ff8Bo818bGnW1uSjJFoa22BZmOtpPg+uAGFyP1aNRim+lE4/16/pPfRjEuOl
+ gpHTD7auvl/yvhDtJXcTymAN9eKv5UKIuiJcAoLDXXPR4wvItxId7SzfL9MzpgDs0onAlM
+ ElKJy4qw+Jn6bwGA4dCEXEmzNrK15oo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-303-gKZZ_c4ZMgmFQF_n7taCfA-1; Mon, 03 Oct 2022 03:05:38 -0400
+X-MC-Unique: gKZZ_c4ZMgmFQF_n7taCfA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 343D885A59D;
+ Mon,  3 Oct 2022 07:05:38 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1471A2166B26;
+ Mon,  3 Oct 2022 07:05:36 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: jb-gnumlists@wisemo.com, thuth@redhat.com, jasowang@redhat.com,
+ qemu_oss@crudebyte.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH] build-sys: error when slirp is not found and not disabled
+Date: Mon,  3 Oct 2022 11:05:34 +0400
+Message-Id: <20221003070534.2180380-1-marcandre.lureau@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,62 +79,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PLIC spec [1] requires interrupt source priority registers are WARL
-field and the number of supported priority is power-of-2 to simplify SW
-discovery.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Existing QEMU RISC-V machine (e.g. shakti_c) don't strictly follow PLIC
-spec, whose number of supported priority is not power-of-2. Just change
-each bit of interrupt priority register to WARL field when the number of
-supported priority is power-of-2.
+This is an alternative configure-time solution to "[PATCH] net:
+print a more actionable error when slirp is not found".
 
-[1] https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.adoc#interrupt-priorities
+See also "If your networking is failing after updating to the latest git
+version of QEMU..." ML thread.
 
-Signed-off-by: Jim Shu <jim.shu@sifive.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/intc/sifive_plic.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ meson.build | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index f864efa761..c2dfacf028 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -180,7 +180,15 @@ static void sifive_plic_write(void *opaque, hwaddr addr, uint64_t value,
-     if (addr_between(addr, plic->priority_base, plic->num_sources << 2)) {
-         uint32_t irq = ((addr - plic->priority_base) >> 2) + 1;
+diff --git a/meson.build b/meson.build
+index 8dc661363f..565096001d 100644
+--- a/meson.build
++++ b/meson.build
+@@ -657,6 +657,12 @@ if not get_option('slirp').auto() or have_system
+   endif
+ endif
  
--        if (value <= plic->num_priorities) {
-+        if (((plic->num_priorities + 1) & plic->num_priorities) == 0) {
-+            /*
-+             * if "num_priorities + 1" is power-of-2, make each register bit of
-+             * interrupt priority WARL (Write-Any-Read-Legal). Just filter
-+             * out the access to unsupported priority bits.
-+             */
-+            plic->source_priority[irq] = value % (plic->num_priorities + 1);
-+            sifive_plic_update(plic);
-+        } else if (value <= plic->num_priorities) {
-             plic->source_priority[irq] = value;
-             sifive_plic_update(plic);
-         }
-@@ -207,7 +215,16 @@ static void sifive_plic_write(void *opaque, hwaddr addr, uint64_t value,
-         uint32_t contextid = (addr & (plic->context_stride - 1));
- 
-         if (contextid == 0) {
--            if (value <= plic->num_priorities) {
-+            if (((plic->num_priorities + 1) & plic->num_priorities) == 0) {
-+                /*
-+                 * if "num_priorities + 1" is power-of-2, each register bit of
-+                 * interrupt priority is WARL (Write-Any-Read-Legal). Just
-+                 * filter out the access to unsupported priority bits.
-+                 */
-+                plic->target_priority[addrid] = value %
-+                                                (plic->num_priorities + 1);
-+                sifive_plic_update(plic);
-+            } else if (value <= plic->num_priorities) {
-                 plic->target_priority[addrid] = value;
-                 sifive_plic_update(plic);
-             }
++if not get_option('slirp').disabled() and not slirp.found()
++  error('libslirp is not explicitely disabled and was not found. ' +
++        'Since qemu 7.2, libslirp is no longer included as a submodule ' +
++        'fallback, you must install it on your system or --disable-libslirp.')
++endif
++
+ vde = not_found
+ if not get_option('vde').auto() or have_system or have_tools
+   vde = cc.find_library('vdeplug', has_headers: ['libvdeplug.h'],
 -- 
-2.17.1
+2.37.3
 
 
