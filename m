@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CEA5F33C2
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 18:41:42 +0200 (CEST)
-Received: from localhost ([::1]:52556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFBD15F3399
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 18:31:03 +0200 (CEST)
+Received: from localhost ([::1]:53858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofOVg-0002s6-OP
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 12:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52340)
+	id 1ofOLO-0004vc-2x
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 12:31:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofODz-0007qh-42
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 12:23:23 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:35413)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ofOE4-0007sQ-3p
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 12:23:28 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:56147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofODr-0000Fv-99
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 12:23:22 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- 130-20020a1c0288000000b003b494ffc00bso8825737wmc.0
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 09:23:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ofODv-0000GI-6n
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 12:23:27 -0400
+Received: by mail-wm1-x330.google.com with SMTP id t4so7350065wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 09:23:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=y7MPD/0u539Yy7E8xJIA0xSc/2vP4Wf3XjCF7UVvwoE=;
- b=Ogguem1iHlEth/J65PgW88WmkPN0irY0aejWnQrPbKLy+BtYWHrjUL0ON1kSO9cqm8
- XS/s4aX6FNVOPluJy4COMRP4LXLVxYZ3qdnBwVdyGlHC0eSXysYTb4bPOfY2W9xEINAX
- hDOFvvpuE/Ftex2/IdQL+yHyweflR2LH4P/vvkPFXQGD2Fa7EfaSKtacamZrJfzzIEjP
- oR/SOupHoOb9DZAoMrb46WYAu+4+APCjI4Xf9S5yRfXPEaTOtdkibW0sJ1TNp0Fb2ZP+
- Jn0hWppjt49FEnBp/ZAI49NKReTy4cjqIgCtP/NSoaU9Da03oho9MG/KzuoALGdr6Asq
- Ol6Q==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date;
+ bh=lCZHg5x4HGzTZDn3BalI2idxXb7plNTlyEM9gtVZfKw=;
+ b=TubP/lmUcxD1ZHcVPJeSi948QQMZK+VtJdHvLaguR8qoDwUXhNd9shXGIaOhyUn7UD
+ 8Mj1DbbEu7Ya/IbrXnpey5ZUgMa9opouk50w/dDvRW6Gj6eC1RrJXR7lvoV21dC4mIej
+ oCYwdLOMJ3PokgHtbRjVphz0D0ji0KNaJNHR1IT5Ndn03VEJAA6LnGcnaDmIkoz09I0J
+ 6kPQZspVp/N9yLi+8IuTaR8+XtMx8nWfoEneJczatHEqQhalVngmg4Ftr8WeZ+8qh2KK
+ YINyQOpYD27stKqL38PVA0+qt3Eh+jwuxLm1hncGEvrNmCa16Toy+OI3Wr6ONvbmiRBD
+ fB9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=y7MPD/0u539Yy7E8xJIA0xSc/2vP4Wf3XjCF7UVvwoE=;
- b=RVpukIC77ZrXsMXq8rbGT7N/o1lEUgd4x9bcR2zWlyDzHjRVEjpsPFFsyo/NX/HUsE
- TxmN94EGEgd7WByYQSOqZ5lgM9Q95eY3Ecvy4f3bUM+bcjUMNi5JrRNRk3Z0gVC9S9VB
- JSVKnZClXK7rU+ki9GGOD1iLnqVJJL2hA05UaThCLXGBuRBnXLLuGlCVUq6fMA25/4J+
- J2ENb/YSGssuai+5tkQO+XdFK6S8sx7tbc7FWmnZlNSAU2Dq2XZzVbOGa1RaB/w4MqW2
- IT0xwTpoHdt9hZ7bwQSiAFmWQhsNOWcyrcKLAKwemuAVEduuedfYWxzJa+Om83ZdRIxG
- jjtw==
-X-Gm-Message-State: ACrzQf3P7GhHFUDyftd3BK0fj6zQCzYr12NljFJrWi+Cx1DVAqDyLu3+
- AKKR2TYxmSI0hk4PZbd8utL7fQ==
-X-Google-Smtp-Source: AMsMyM5bAud05ueYtFVqHamfXazsXxF6HenXpNYESujVkpfJH+67wGqlWAty0R/dYTlIdtnIU3ZhDw==
-X-Received: by 2002:a05:600c:41c3:b0:3b4:9668:655a with SMTP id
- t3-20020a05600c41c300b003b49668655amr7379447wmh.36.1664814193400; 
- Mon, 03 Oct 2022 09:23:13 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date;
+ bh=lCZHg5x4HGzTZDn3BalI2idxXb7plNTlyEM9gtVZfKw=;
+ b=KwhZKNuSFZ0U0HWW/nDhQ/KMPLdEvE7eWImV57jOumNihA/g565kSRa05NgsN96V+X
+ Y0e/fo0P2aVhP79y8xL8qtWQQWRpEQ3mqX2/+lgNsJruR1end4+e0JkV17NJlyRWkiin
+ KGj+fGLormHAia6ymzGDpz4vtZb9O1vCIYTRCgy1uWIsDyd53EYl9fXj3E5gzRnbriBc
+ 4uBWSINwarLPHnivKJ1h4f+VYe1f0zHRJoOYHwgg4tYKPRdGk/WW42WtiE7lUZB8vtE0
+ ZaYFyQ6rjPjXS+rmi3CxvBcgJbC4meh+61V/4Kv7doe53Rzr8mGwvOwRt3XffXfIcITx
+ W1Pw==
+X-Gm-Message-State: ACrzQf0kXbe4gzizOH+hXAqmSjohMcTk9mRNk0cQx/8Y9UQ60fW2hGVD
+ TXZSGW/nJPNjG9rMQ9so0piTzmDIE57U6A==
+X-Google-Smtp-Source: AMsMyM6aS/aE896UVLmMkLuX7IWgTWdaqRPrl458VjIqevFaxAWsqkF6Vcj4L8grSYa1RkhwePFROg==
+X-Received: by 2002:a05:600c:27d1:b0:3b4:5e9c:23ed with SMTP id
+ l17-20020a05600c27d100b003b45e9c23edmr7150650wmb.180.1664814197511; 
+ Mon, 03 Oct 2022 09:23:17 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- c63-20020a1c3542000000b003a6a3595edasm12149926wma.27.2022.10.03.09.23.12
+ o2-20020a5d62c2000000b0022afce9ea93sm9897856wrv.40.2022.10.03.09.23.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Oct 2022 09:23:12 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5A6901FFB7;
- Mon,  3 Oct 2022 17:23:11 +0100 (BST)
-References: <20220930212622.108363-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: peter.maydell@linux.org, alex.bennee@linux.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 00/18] tcg: CPUTLBEntryFull and TARGET_TB_PCREL
-Date: Mon, 03 Oct 2022 17:22:44 +0100
-In-reply-to: <20220930212622.108363-1-richard.henderson@linaro.org>
-Message-ID: <87h70knafk.fsf@linaro.org>
+ Mon, 03 Oct 2022 09:23:16 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] target/arm: Enforce implemented granule size limits
+Date: Mon,  3 Oct 2022 17:23:12 +0100
+Message-Id: <20221003162315.2833797-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,14 +86,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Arm CPUs support some subset of the granule (page) sizes 4K, 16K and
+64K.  The guest selects the one it wants using bits in the TCR_ELx
+registers.  If it tries to program these registers with a value that
+is either reserved or which requests a size that the CPU does not
+implement, the architecture requires that the CPU behaves as if the
+field was programmed to some size that has been implemented.
+Currently we don't implement this, and instead let the guest use any
+granule size, even if the CPU ID register fields say it isn't
+present.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Patch 1 in this series makes us enforce this architectural
+requirement (the main effect will be that we stop incorrectly
+implementing 16K granules on most of the non-cpu-max CPUs).
 
-> Changes for v6:
->   * CPUTLBEntryFull is now completely reviewed.
+Patch 2 is new in v2, and extends the use of the new ARMGranuleSize
+enum to the ARMVAParameters struct.
 
-You should try a --disable-tcg build because I saw that failing in CI.
+Patch 3 adds FEAT_GTG to the list of supported features, because
+all this feature really is is the definition of the separate
+fields for stage1 and stage2 granule support in ID_AA64MMFR0_EL1,
+and we already updated -cpu max to report its granule support
+that way when we were adding the LPA2 support.
 
---=20
-Alex Benn=C3=A9e
+v1->v2 changes:
+ * renamed the enum to ARMGranuleSize, moved it to internals.h
+ * new patch 2
+
+Patch 2 is the only unreviewed one.
+
+thanks
+-- PMM
+
+Peter Maydell (3):
+  target/arm: Don't allow guest to use unimplemented granule sizes
+  target/arm: Use ARMGranuleSize in ARMVAParameters
+  docs/system/arm/emulation.rst: Report FEAT_GTG support
+
+ docs/system/arm/emulation.rst |   1 +
+ target/arm/cpu.h              |  33 ++++++++
+ target/arm/internals.h        |  32 +++++++-
+ target/arm/helper.c           | 137 +++++++++++++++++++++++++++++-----
+ target/arm/ptw.c              |   8 +-
+ 5 files changed, 185 insertions(+), 26 deletions(-)
+
+-- 
+2.25.1
+
 
