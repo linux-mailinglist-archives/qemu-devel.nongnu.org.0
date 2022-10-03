@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07A25F379C
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 23:22:28 +0200 (CEST)
-Received: from localhost ([::1]:32932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100C55F37A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 23:24:45 +0200 (CEST)
+Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofStP-0006Xw-Ns
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 17:22:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51402)
+	id 1ofSvc-0002Az-5N
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 17:24:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ofRog-00055Y-QJ; Mon, 03 Oct 2022 16:13:38 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:20432)
+ id 1ofRoh-00055a-1O; Mon, 03 Oct 2022 16:13:38 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:20434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ofRoa-0000y7-Lw; Mon, 03 Oct 2022 16:13:28 -0400
+ id 1ofRoa-0000yB-NA; Mon, 03 Oct 2022 16:13:30 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2B298759B50;
- Mon,  3 Oct 2022 22:13:17 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 3F2F275A154;
+ Mon,  3 Oct 2022 22:13:18 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0A8D9746324; Mon,  3 Oct 2022 22:13:17 +0200 (CEST)
-Message-Id: <76704ea91a1d74565f424a6ea2b4030efbdb5f92.1664827008.git.balaton@eik.bme.hu>
+ id 18944746324; Mon,  3 Oct 2022 22:13:18 +0200 (CEST)
+Message-Id: <96555558e7189f26fd530e7ff3f406806a258884.1664827008.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1664827008.git.balaton@eik.bme.hu>
 References: <cover.1664827008.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v3 03/13] mac_{old|new}world: Set tbfreq at declaration
+Subject: [PATCH v3 04/13] mac_{old|new}world: Avoid else branch by setting
+ default value
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Mon,  3 Oct 2022 22:13:17 +0200 (CEST)
+Date: Mon,  3 Oct 2022 22:13:18 +0200 (CEST)
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,71 +55,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tbfreq variable is only set once in an if-else which can be done
-at the variable declaration saving some lines of code and making it
-simpler.
+Several variables are set in if-else branches where the else branch
+can be removed by setting a default value at the variable declaration
+which leads to simlpler code that is easier to follow.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/ppc/mac_newworld.c | 9 +--------
- hw/ppc/mac_oldworld.c | 9 +--------
- 2 files changed, 2 insertions(+), 16 deletions(-)
+ hw/ppc/mac_newworld.c | 19 ++++---------------
+ hw/ppc/mac_oldworld.c | 18 ++++--------------
+ 2 files changed, 8 insertions(+), 29 deletions(-)
 
 diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 27e4e8d136..6327694f85 100644
+index 6327694f85..6bc3bd19be 100644
 --- a/hw/ppc/mac_newworld.c
 +++ b/hw/ppc/mac_newworld.c
-@@ -130,7 +130,7 @@ static void ppc_core99_init(MachineState *machine)
-     DeviceState *dev, *pic_dev;
-     DeviceState *uninorth_internal_dev = NULL, *uninorth_agp_dev = NULL;
-     hwaddr nvram_addr = 0xFFF04000;
--    uint64_t tbfreq;
-+    uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
- 
-     /* init CPUs */
-     for (i = 0; i < machine->smp.cpus; i++) {
-@@ -343,13 +343,6 @@ static void ppc_core99_init(MachineState *machine)
-     has_adb = (core99_machine->via_config == CORE99_VIA_CONFIG_CUDA ||
-                core99_machine->via_config == CORE99_VIA_CONFIG_PMU_ADB);
- 
--    /* Timebase Frequency */
--    if (kvm_enabled()) {
--        tbfreq = kvmppc_get_tbfreq();
--    } else {
--        tbfreq = TBFREQ;
--    }
--
-     /* init basic PC hardware */
-     pci_bus = PCI_HOST_BRIDGE(uninorth_pci)->bus;
- 
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 86512d31ad..5cabc410e7 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -99,7 +99,7 @@ static void ppc_heathrow_init(MachineState *machine)
-     uint16_t ppc_boot_device;
-     DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
-     void *fw_cfg;
--    uint64_t tbfreq;
-+    uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
- 
-     /* init CPUs */
-     for (i = 0; i < machine->smp.cpus; i++) {
-@@ -223,13 +223,6 @@ static void ppc_heathrow_init(MachineState *machine)
+@@ -111,11 +111,11 @@ static void ppc_core99_init(MachineState *machine)
+     CPUPPCState *env = NULL;
+     char *filename;
+     IrqLines *openpic_irqs;
+-    int i, j, k, ppc_boot_device, machine_arch, bios_size;
++    int i, j, k, ppc_boot_device, machine_arch, bios_size = -1;
+     const char *bios_name = machine->firmware ?: PROM_FILENAME;
+     MemoryRegion *bios = g_new(MemoryRegion, 1);
+-    hwaddr kernel_base, initrd_base, cmdline_base = 0;
+-    long kernel_size, initrd_size;
++    hwaddr kernel_base = 0, initrd_base = 0, cmdline_base = 0;
++    long kernel_size = 0, initrd_size = 0;
+     UNINHostState *uninorth_pci;
+     PCIBus *pci_bus;
+     PCIDevice *macio;
+@@ -165,8 +165,6 @@ static void ppc_core99_init(MachineState *machine)
+             bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
          }
+         g_free(filename);
+-    } else {
+-        bios_size = -1;
+     }
+     if (bios_size < 0 || bios_size > PROM_SIZE) {
+         error_report("could not load PowerPC bios '%s'", bios_name);
+@@ -174,15 +172,12 @@ static void ppc_core99_init(MachineState *machine)
      }
  
--    /* Timebase Frequency */
--    if (kvm_enabled()) {
--        tbfreq = kvmppc_get_tbfreq();
--    } else {
--        tbfreq = TBFREQ;
--    }
+     if (machine->kernel_filename) {
+-        int bswap_needed;
++        int bswap_needed = 0;
+ 
+ #ifdef BSWAP_NEEDED
+         bswap_needed = 1;
+-#else
+-        bswap_needed = 0;
+ #endif
+         kernel_base = KERNEL_LOAD_ADDR;
 -
-     /* Grackle PCI host bridge */
-     grackle_dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
-     qdev_prop_set_uint32(grackle_dev, "ofw-addr", 0x80000000);
+         kernel_size = load_elf(machine->kernel_filename, NULL,
+                                translate_kernel_address, NULL, NULL, NULL,
+                                NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+@@ -212,16 +207,10 @@ static void ppc_core99_init(MachineState *machine)
+             }
+             cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
+         } else {
+-            initrd_base = 0;
+-            initrd_size = 0;
+             cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
+         }
+         ppc_boot_device = 'm';
+     } else {
+-        kernel_base = 0;
+-        kernel_size = 0;
+-        initrd_base = 0;
+-        initrd_size = 0;
+         ppc_boot_device = '\0';
+         /* We consider that NewWorld PowerMac never have any floppy drive
+          * For now, OHW cannot boot from the network.
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 5cabc410e7..cb67e44081 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -84,11 +84,11 @@ static void ppc_heathrow_init(MachineState *machine)
+     PowerPCCPU *cpu = NULL;
+     CPUPPCState *env = NULL;
+     char *filename;
+-    int i, bios_size;
++    int i, bios_size = -1;
+     MemoryRegion *bios = g_new(MemoryRegion, 1);
+     uint64_t bios_addr;
+-    uint32_t kernel_base, initrd_base, cmdline_base = 0;
+-    int32_t kernel_size, initrd_size;
++    uint32_t kernel_base = 0, initrd_base = 0, cmdline_base = 0;
++    int32_t kernel_size = 0, initrd_size = 0;
+     PCIBus *pci_bus;
+     PCIDevice *macio;
+     MACIOIDEState *macio_ide;
+@@ -139,8 +139,6 @@ static void ppc_heathrow_init(MachineState *machine)
+             bios_addr = PROM_BASE;
+         }
+         g_free(filename);
+-    } else {
+-        bios_size = -1;
+     }
+     if (bios_size < 0 || bios_addr - PROM_BASE + bios_size > PROM_SIZE) {
+         error_report("could not load PowerPC bios '%s'", bios_name);
+@@ -148,12 +146,10 @@ static void ppc_heathrow_init(MachineState *machine)
+     }
+ 
+     if (machine->kernel_filename) {
+-        int bswap_needed;
++        int bswap_needed = 0;
+ 
+ #ifdef BSWAP_NEEDED
+         bswap_needed = 1;
+-#else
+-        bswap_needed = 0;
+ #endif
+         kernel_base = KERNEL_LOAD_ADDR;
+         kernel_size = load_elf(machine->kernel_filename, NULL,
+@@ -186,16 +182,10 @@ static void ppc_heathrow_init(MachineState *machine)
+             }
+             cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
+         } else {
+-            initrd_base = 0;
+-            initrd_size = 0;
+             cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
+         }
+         ppc_boot_device = 'm';
+     } else {
+-        kernel_base = 0;
+-        kernel_size = 0;
+-        initrd_base = 0;
+-        initrd_size = 0;
+         ppc_boot_device = '\0';
+         for (i = 0; machine->boot_config.order[i] != '\0'; i++) {
+             /*
 -- 
 2.30.4
 
