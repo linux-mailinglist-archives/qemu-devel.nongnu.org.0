@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7085F3623
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 21:08:48 +0200 (CEST)
-Received: from localhost ([::1]:45922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202895F3645
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 21:26:59 +0200 (CEST)
+Received: from localhost ([::1]:60670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofQo3-0007OD-1Z
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 15:08:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44460)
+	id 1ofR5c-0006kG-UK
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 15:26:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ofQkQ-0002l2-9O; Mon, 03 Oct 2022 15:05:02 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:33776)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ofQkM-0008BY-QU; Mon, 03 Oct 2022 15:05:00 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-354c7abf786so115748297b3.0; 
- Mon, 03 Oct 2022 12:04:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=esBiXswA+5QoGiY+j9rDHgI1CxhwYwh/qhah7CMJWWU=;
- b=UPa6VAXIHYLpBVle+g04jSZoeiOz0GlYd0ynBSe3r0cgSs5PVlMcM9P4awHOaS5Y0+
- a7QqUwUerwR3xcoa0mc8Pzl72GPSxgrTYlsUzMXttwmJ9uxfUk/HAkHUJXYmbIC5DulE
- jTLWwrUI65jpteq4GEJA+aXKCCQB+ghpGbYRMNM63tGZSy41PXl6RwvovPyf9ad0dGAS
- DXS5/Z8G9TdYtQUF0yxyem6nSXBI6Go8r01QLSj14ux0OrWjQAJYtKHiHQt79SaLs1zO
- 8hMPXynRMSo/QhPGVfTult4iJoN9zH1U89MzylBPRZ+2qHlwI3sXgZ/oPPGbn1KP+nhW
- XCiw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ofQuT-0001KK-Ah
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 15:15:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ofQuJ-0001Xp-Bj
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 15:15:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664824510;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tn9AqdXf2Fs2yIlUD0Cux1P58GDXC0sz8tZggJOAgFk=;
+ b=dLOU2oia0dz07yKkg/dis3pOwnEdcrHNe+uiXvo3iN2DpQFVxhvjfyCIZh3ELFh9yfWt1R
+ MAP8XvsGwMWnZ+j+WrSgRxBuWf8dNCuStBbTxpJoYkAnQrRj3xltoKjmMl2Bww1NNzGjm+
+ pV2HHTobRC/7hXLpXn8yOaDnEe5RfT0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-618-gaNBzPDNO4WZSZCogRE-jg-1; Mon, 03 Oct 2022 15:15:08 -0400
+X-MC-Unique: gaNBzPDNO4WZSZCogRE-jg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v130-20020a1cac88000000b003b56eabdf04so8573866wme.7
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 12:15:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=esBiXswA+5QoGiY+j9rDHgI1CxhwYwh/qhah7CMJWWU=;
- b=pdPAmk/zyqRfbWXbrP/GqUOC/WLKN3/vyG7Zmak6qW4UAobbb5Q7e2OURwPW/YPyKk
- lkRUaYWVFUhVxC1cunFZ0PgIUpyD4QgwMqOtQaSuEbdkDrROn3d3vqyjfya2zAbWIuca
- 0nJ+YYNvWnNkJO5SqraMe3HifmTj/efS2jRYQR83uBQfGuL03A7TRaY9s3133yKcwpJ/
- R/Rks8Ia+4JK7fumZZTC9GW/og2XebdxMfJNvbfPqq+FTk4vycBpEN3v3CaXXk83U2kF
- wGJc3vhaSpqf8Zc/WdNOYGHUL9dXQJZnNUg48Ms/wDg4O/meo4fQ0dNX+gcbcSaAtinX
- JdXA==
-X-Gm-Message-State: ACrzQf1gjjq+yEPIncUxpk+DUd6IqlyBdqj7pwVZjYUnLBneZRurDDJw
- s40lwrxVeqLep1N7h1ZI8KrGh02xlWcCJ6+vDqtBFwq/b7U=
-X-Google-Smtp-Source: AMsMyM4YfWsdnuXTLYanE4EsSynbdOCdBb9Hp2vB7kEg/i09J8BxsveEzyDP76FmbKa8nLv+pHl0I/7IWoR/Ock5Iu0=
-X-Received: by 2002:a81:14cc:0:b0:356:4ab:7b08 with SMTP id
- 195-20020a8114cc000000b0035604ab7b08mr16666123ywu.62.1664823897048; Mon, 03
- Oct 2022 12:04:57 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date;
+ bh=tn9AqdXf2Fs2yIlUD0Cux1P58GDXC0sz8tZggJOAgFk=;
+ b=RRwOWh1Ny98ykPF5h8X7klxxynXslzPuUTLDvOONy3oqnFZotHqdPAgHRvg4oJg27F
+ 4wRgUDM4TYDCSlSqciU2Julsu9vjDoH/59ICvHBHxOZhz1vw0PLAhjR/kKknCV8nSK38
+ QesU4anSafZ54Adf1od7ADCbCp+EeG+IBHemouKuS2pS5q99EHzGKMuxY1DUMSrYEi/W
+ g9uMtLvD1eGVeUCUNvPAQvbKISAM5X69PnDbypKSwws4uOKGbA1crl9L0HQ9UJYQqAMZ
+ nnG3KRqkdAt6eAsBteKfHyBO5xx9WzXPHc5ANVSxjn3VJtKf2csMVMs4YZf4WktCyskt
+ xqnA==
+X-Gm-Message-State: ACrzQf0U55J/+dQqJnfd1bag4EjfULCMCdOVAFPoingmXjenQhWLyfCM
+ sZaMgkoZ/Ldsp5zvHXMb5058+vErryO9ntBQul+48fIvdLD3Ikk+250Bj8LRo8IOBxw4PoFydX4
+ GRqB0E7qG4mOHeby7GHNBQCuh4x/c9gCzBXQgeMBQfnUv+BNaFZis2Rf5GEzkUHV+1mo=
+X-Received: by 2002:adf:a3da:0:b0:22c:d73b:38a5 with SMTP id
+ m26-20020adfa3da000000b0022cd73b38a5mr13187037wrb.541.1664824507452; 
+ Mon, 03 Oct 2022 12:15:07 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM58KY9SfDRsHa0zCFOYCuRultPnLquaWiyhywKrbtnKAcmOw3jwQCI52La/YDQ3IERKDa9CHQ==
+X-Received: by 2002:adf:a3da:0:b0:22c:d73b:38a5 with SMTP id
+ m26-20020adfa3da000000b0022cd73b38a5mr13187016wrb.541.1664824506903; 
+ Mon, 03 Oct 2022 12:15:06 -0700 (PDT)
+Received: from avogadro.local ([66.187.232.65])
+ by smtp.gmail.com with ESMTPSA id
+ y25-20020a1c4b19000000b003b5054c6f87sm12375700wma.21.2022.10.03.12.15.05
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Oct 2022 12:15:06 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v3 00/15] x86 + misc changes for 2022-09-29
+Date: Mon,  3 Oct 2022 21:15:03 +0200
+Message-Id: <20221003191504.203181-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-References: <20220930202144.1109310-1-laurent@vivier.eu>
-In-Reply-To: <20220930202144.1109310-1-laurent@vivier.eu>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 3 Oct 2022 15:04:45 -0400
-Message-ID: <CAJSP0QWbDj42NmV=Yk3DMt7_Skt4k7x+jsJpetWdnr=bbYW2oA@mail.gmail.com>
-Subject: Re: [PULL 0/8] Trivial branch for 7.2 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1136.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,18 +97,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Sept 2022 at 16:22, Laurent Vivier <laurent@vivier.eu> wrote:
-> Philippe Mathieu-Daud=C3=A9 via (1):
->   block/qcow2-bitmap: Add missing cast to silent GCC error
+The following changes since commit 99d6b11b5b44d7dd64f4cb1973184e40a4a174f8:
 
-Hi Laurent,
-This commit uses a mailing list email, probably due to DKIM/SPF issues:
-Author: Philippe Mathieu-Daud=C3=A9 via <qemu-devel@nongnu.org>
+  Merge tag 'pull-target-arm-20220922' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-09-26 13:38:26 -0400)
 
-I think the policy is to reject such pull requests and fix the
-authorship. Could you update your pull request and resend?
+are available in the Git repository at:
 
-Thanks!
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-Stefan
+for you to fetch changes up to cc63374a5a7c240b7d3be734ef589dabbefc7527:
+
+  x86: re-initialize RNG seed when selecting kernel (2022-10-01 21:16:36 +0200)
+
+----------------------------------------------------------------
+* x86: re-enable rng seeding via SetupData
+* x86: reinitialize RNG seed on system reboot and after kernel load
+* qboot: rebuild based on latest commit
+* watchdog: remove -watchdog option
+* update Meson to 0.61.5, move more configure tests
+
+----------------------------------------------------------------
+Jason A. Donenfeld (5):
+      x86: return modified setup_data only if read as memory, not as file
+      x86: use typedef for SetupData struct
+      x86: reinitialize RNG seed on system reboot
+      x86: re-enable rng seeding via SetupData
+      x86: re-initialize RNG seed when selecting kernel
+
+Paolo Bonzini (9):
+      qboot: rebuild based on latest commit
+      configure: do not invoke as/ld directly for pc-bios/optionrom
+      watchdog: remove -watchdog option
+      ui: fix path to dbus-display1.h
+      meson: -display dbus and CFI are incompatible
+      meson: require 0.61.3
+      meson: multiple names can be passed to dependency()
+      configure, meson: move C++ compiler detection to meson.build
+      configure, meson: move linker flag detection to meson
+
+Ray Zhang (1):
+      target/i386/kvm: fix kvmclock_current_nsec: Assertion `time.tsc_timestamp <= migration_tsc' failed
+
+ configure                       |  97 +++-------------------------------------
+ docs/about/deprecated.rst       |   5 ---
+ docs/about/removed-features.rst |   5 +++
+ hw/i386/microvm.c               |   2 +-
+ hw/i386/pc_piix.c               |   3 +-
+ hw/i386/pc_q35.c                |   3 +-
+ hw/i386/x86.c                   |  70 ++++++++++++++++++++++-------
+ hw/nvram/fw_cfg.c               |  12 ++---
+ hw/watchdog/sbsa_gwdt.c         |   6 ---
+ hw/watchdog/watchdog.c          |  43 ------------------
+ hw/watchdog/wdt_aspeed.c        |   6 ---
+ hw/watchdog/wdt_diag288.c       |   6 ---
+ hw/watchdog/wdt_i6300esb.c      |   6 ---
+ hw/watchdog/wdt_ib700.c         |   6 ---
+ hw/watchdog/wdt_imx2.c          |   6 ---
+ include/hw/nvram/fw_cfg.h       |  22 +++++++++
+ include/sysemu/watchdog.h       |  12 -----
+ meson                           |   2 +-
+ meson.build                     |  74 ++++++++++++++++++++----------
+ pc-bios/optionrom/Makefile      |  12 ++---
+ pc-bios/qboot.rom               | Bin 65536 -> 65536 bytes
+ qemu-options.hx                 |  33 +-------------
+ qga/meson.build                 |   2 +-
+ scripts/main.c                  |   1 +
+ softmmu/vl.c                    |  16 -------
+ target/i386/kvm/kvm.c           |   2 +-
+ tests/qtest/dbus-display-test.c |   2 +-
+ ui/dbus.h                       |   2 +-
+ 28 files changed, 159 insertions(+), 297 deletions(-)
+ mode change 100644 => 100755 pc-bios/qboot.rom
+ create mode 100644 scripts/main.c
+-- 
+2.37.3
+
 
