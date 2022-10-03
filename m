@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95385F2B4D
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 09:56:52 +0200 (CEST)
-Received: from localhost ([::1]:53080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BBD5F2B59
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 09:59:43 +0200 (CEST)
+Received: from localhost ([::1]:44454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofGJn-0001rQ-8Q
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 03:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35662)
+	id 1ofGMX-0003eF-BG
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 03:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ofGHI-0000Kl-ED; Mon, 03 Oct 2022 03:54:16 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43170)
+ id 1ofGKx-00028E-Bb; Mon, 03 Oct 2022 03:58:03 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ofGHG-00045I-SQ; Mon, 03 Oct 2022 03:54:16 -0400
+ id 1ofGKv-0004iI-RL; Mon, 03 Oct 2022 03:58:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=AQpoMP+lcXIVYvd/nRIfgIFRAHwG6PZ1jx2Ub33vI+M=; b=LK3IMcU82WATJSV2MPbkuUIFnt
- eEgw7xOH0U4kaA/aeWlbnYDZ9RdLvImfGIPkRWoJ95n7T7CPlcyN+G/1kOxw6OIgYFbU4cZHmm8om
- He3Enq0w/PjC2nKk6b092dVyj7u6KCKl5fIcqZoQHfiOLOKN2r1s8XNuaJ4II2BIYuY/tciOEGlt3
- FkM2f7eekOsd0ZKzxZZ39wTfUIW6j6e8RO8gRQomrp18oB6GHwkWOB4UJF4dP1ygOBug23maQ7e9d
- uZADvU2Iy4RqHmkQ0AxZpe8Eg8UOYgW6AUIeyHIaAyB/JPYBu5IbRdw9yZKUr+TauB1eWguuIJW2f
- TUXgsYoLpvQ8G/KvuLy23fxkmtRu63c5o3OdA3wUJR6CiBWNklwBF66lEYj5e64dfcRURC0WxX2UW
- nSfOgZ0UQc60VTNMu5tnsWFUwP+JI6dMiCHPTwOXoJqBv0DLoiWfxXmTABKHNEpLESnSRLAapzBPW
- Et07F6smqvjgplR6StyNKjrith0zGX8+EruJQ9HLYow63f9Th8pxL8H7ZGXPGvJs4nrtfroj63Vir
- pP2CGOJlasYQGcpk6cBa9ycijAhqZK8DBp2WYxAu63yEatCbzOaLeV1918iFkTWHnse6xE8exhN8x
- 5cN7Di/I/nbkEQvSKGe64T2V1IE9tYmEj25jgqxnc=;
+ bh=AVb6MAdRI2Tg+gQO7fqQKC8nWpNZ0QWKvYNLpJPYXDU=; b=YWeTt/vtXXW9bp5+RG5J1iQ1Sp
+ zbkM4EMZhiMh+jBvxnPPPkBSDLQtkkmBcjaQHqoKffLnXpDpON/rxt5Fqsgk34jm7/Lu4dO6KxMtR
+ DsCSII/VvhxXwGks45mvvA+JFET5uMy3+DFyFost6hlMQsQmjSRml6eboRxVBnHLJYLPyeb3c+Lh2
+ u6+5er1ViF3QG38EM0aV8S7JcF3qk0/4+L1v01rx5EE1H9wVgRd8HinPSzPZ136ldC0kFM09nkIEN
+ NM150Wa59k0c/H30QMiaIoT6JRiotzeApVfNhxWy50nGMWyTcAc9KoELYYpWA1OdS0bgLByKQySBS
+ ENuiyZA4oKEq1EeYqAfmbwnDZNLFAi3tx0e3bQZiYZqY/YhAFpEQK/L3X9LuwnpPeoySsQUm7GJsi
+ WoErP2udz/vDJwTZq1U1yW7puUPv+0bo2utqdwd58xVz7MPf34hbcR86Euscv0UCNBFNpGCqduFmQ
+ P4gIegDuflE176CIG/KlxlL+eJAy3THGnkMEvkeMVrE/qUVOoDu0Tk0BRoax0T6UBjfJ56HrIhYpA
+ q/sIwB7vpsRBHmOD3VTBKY7cFOvf/fNx7ZFh2UTUduyNbkNqjJb6gTlCiCRZJk1+ZclxSHZDXwJwt
+ lFPVbXTJvd16R/oFB0VK5TpQ5rbO3o8iQdxsZwpOM=;
 Received: from [2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ofGFQ-0005OL-EX; Mon, 03 Oct 2022 08:52:24 +0100
-Message-ID: <abb304ac-62d4-be01-4977-23b8e37e9b1b@ilande.co.uk>
-Date: Mon, 3 Oct 2022 08:54:03 +0100
+ id 1ofGJ9-0005PC-LI; Mon, 03 Oct 2022 08:56:15 +0100
+Message-ID: <cbdf0f47-6fa7-a0a3-271c-b209a53250b1@ilande.co.uk>
+Date: Mon, 3 Oct 2022 08:57:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -46,16 +46,17 @@ Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>
 Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <cover.1664108862.git.balaton@eik.bme.hu>
- <f6b0aa3528e9bd538c7111cd29e89a0c3623fbe5.1664108862.git.balaton@eik.bme.hu>
- <7bc0d445-009e-ba7c-d79f-5c67e5b9ddd3@ilande.co.uk>
- <41707493-e27f-53b3-dcde-4543670b7c@eik.bme.hu>
+ <2ff9b0ca151cab09512b37d855d03eee4a62812a.1664108862.git.balaton@eik.bme.hu>
+ <197f737f-3ae8-6c73-7605-5bd89721dc3e@ilande.co.uk>
+ <6cb830fc-1aa8-7ac9-b4a7-a251b9d79a@eik.bme.hu>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <41707493-e27f-53b3-dcde-4543670b7c@eik.bme.hu>
+In-Reply-To: <6cb830fc-1aa8-7ac9-b4a7-a251b9d79a@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba7:8700:f0a2:2ba9:489e:6915
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 05/13] mac_oldworld: Do not open code sysbus_mmio_map()
+Subject: Re: [PATCH v2 10/13] hw/ppc/mac.h: Move grackle-pcihost declaration
+ out from shared header
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -81,54 +82,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/09/2022 12:32, BALATON Zoltan wrote:
+On 29/09/2022 12:42, BALATON Zoltan wrote:
 
 > On Thu, 29 Sep 2022, Mark Cave-Ayland wrote:
 >> On 25/09/2022 13:38, BALATON Zoltan wrote:
 >>
+>>> It is only used by mac_oldworld anyway and it already instantiates
+>>> a few devices by name so this allows reducing the shared header further.
+>>>
 >>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 >>> ---
->>>   hw/ppc/mac_oldworld.c | 8 ++------
->>>   1 file changed, 2 insertions(+), 6 deletions(-)
+>>>   hw/pci-host/grackle.c | 1 +
+>>>   hw/ppc/mac.h          | 3 ---
+>>>   hw/ppc/mac_oldworld.c | 2 +-
+>>>   3 files changed, 2 insertions(+), 4 deletions(-)
 >>>
+>>> diff --git a/hw/pci-host/grackle.c b/hw/pci-host/grackle.c
+>>> index b05facf463..5282123004 100644
+>>> --- a/hw/pci-host/grackle.c
+>>> +++ b/hw/pci-host/grackle.c
+>>> @@ -34,6 +34,7 @@
+>>>   #include "trace.h"
+>>>   #include "qom/object.h"
+>>>   +#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
+>>>   OBJECT_DECLARE_SIMPLE_TYPE(GrackleState, GRACKLE_PCI_HOST_BRIDGE)
+>>>     struct GrackleState {
+>>> diff --git a/hw/ppc/mac.h b/hw/ppc/mac.h
+>>> index 55cb02c990..fe77a6c6db 100644
+>>> --- a/hw/ppc/mac.h
+>>> +++ b/hw/ppc/mac.h
+>>> @@ -35,9 +35,6 @@
+>>>   #define KERNEL_LOAD_ADDR 0x01000000
+>>>   #define KERNEL_GAP       0x00100000
+>>>   -/* Grackle PCI */
+>>> -#define TYPE_GRACKLE_PCI_HOST_BRIDGE "grackle-pcihost"
+>>> -
+>>>   /* Mac NVRAM */
+>>>   #define TYPE_MACIO_NVRAM "macio-nvram"
+>>>   OBJECT_DECLARE_SIMPLE_TYPE(MacIONVRAMState, MACIO_NVRAM)
 >>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
->>> index cb67e44081..75fbd2a7df 100644
+>>> index 1fa7b770b7..1355d032ff 100644
 >>> --- a/hw/ppc/mac_oldworld.c
 >>> +++ b/hw/ppc/mac_oldworld.c
->>> @@ -218,16 +218,12 @@ static void ppc_heathrow_init(MachineState *machine)
+>>> @@ -214,7 +214,7 @@ static void ppc_heathrow_init(MachineState *machine)
+>>>       }
+>>>         /* Grackle PCI host bridge */
+>>> -    grackle_dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
+>>> +    grackle_dev = qdev_new("grackle-pcihost");
 >>>       qdev_prop_set_uint32(grackle_dev, "ofw-addr", 0x80000000);
 >>>       s = SYS_BUS_DEVICE(grackle_dev);
 >>>       sysbus_realize_and_unref(s, &error_fatal);
->>> -
->>>       sysbus_mmio_map(s, 0, GRACKLE_BASE);
->>>       sysbus_mmio_map(s, 1, GRACKLE_BASE + 0x200000);
->>>       /* PCI hole */
->>> -    memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
->>> -                                sysbus_mmio_get_region(s, 2));
->>> +    sysbus_mmio_map(s, 2, 0x80000000);
->>>       /* Register 2 MB of ISA IO space */
->>> -    memory_region_add_subregion(get_system_memory(), 0xfe000000,
->>> -                                sysbus_mmio_get_region(s, 3));
->>> -
->>> +    sysbus_mmio_map(s, 3, 0xfe000000);
->>>       pci_bus = PCI_HOST_BRIDGE(grackle_dev)->bus;
->>>         /* MacIO */
 >>
->> Please drop this patch for now. The code was written on assumption that both sysbus 
->> and sysbus devices would be going away soon, and there are certainly discussions 
->> under way about coming up with a migration strategy to allow them to be completely 
->> removed.
+>> Why did you include this patch again in v2 when I nacked it in v1?
 > 
-> This patch actually simplifies transition from sysbus to whatever else will be 
-> decided because then you'll surely have a way to replace sysbus_mmio_map() that's 
-> used everywhere else with something. This file now has both sysbus_mmio_map and 
-> sysbus mmio_get_region so using only one will make it easier to convert it and until 
-> then it's easier to read so I don't agree with this suggestion and want to stick to 
-> these patches (same with uninorth). Please reconsider your decision.
+> You did not nack it just said you'd prefer a header instead. As a reviwer you express 
+> your opinion not an absolute decision that can't be discussed. I've replied to that 
+> but could not drop this patch as it's needed for later patches to get mac.h cleaned 
+> so until we agree on something this has left unchanged. I'm not a fan of one line 
+> headers and splitting up files into separate directories that is harder to work with 
+> and also think reorganising grackle is a separate clean up out of scope for this 
+> series but OK, I'll move the TYPE define in a new header in the next version. I'll 
+> wait for your reply on sysbus_mmio_map before sending a new version.
 
-When sysbus eventually goes then mapping devices will most likely be handled by the 
-memory API as above rather than using an explicit _map() API, so let's keep that 
-rather than converting everything to use sysbus_mmio_map().
+I should add this obviously also includes moving the GrackleState struct to the new 
+header file at the same time, as per typical QOM practice.
 
 
 ATB,
