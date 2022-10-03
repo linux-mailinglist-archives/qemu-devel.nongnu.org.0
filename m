@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1BF5F34E2
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 19:53:12 +0200 (CEST)
-Received: from localhost ([::1]:33240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D665F34DF
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 19:53:05 +0200 (CEST)
+Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofPct-0007IB-5w
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 13:53:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38572)
+	id 1ofPcj-0007Dg-96
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 13:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3CB47YwcKClEEx6CDAxz77z4x.v759x5D-wxEx4676z6D.7Az@flex--venture.bounces.google.com>)
- id 1ofPOW-0000Ea-TM
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 13:38:21 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:33706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3CB47YwcKClEEx6CDAxz77z4x.v759x5D-wxEx4676z6D.7Az@flex--venture.bounces.google.com>)
- id 1ofPOU-0003Sz-RH
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 13:38:20 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id
- e8-20020a5b0cc8000000b006bca0fa3ab6so10829587ybr.0
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 10:38:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
- :date; bh=sxJXfZ008cDPK0oNi+eJPi7CzUgpg2BylU6cUpmEcCk=;
- b=W1lfgmCX6wFAMMmHKdZX9gS8g90mvFSmZ4Z4HFp5heQZJzuKnaPC68xZZROFqPFGFa
- /j2YeSexGq3uoUqSeBAyMH+P0+8+Mdf0rg/7bFDXtGcwRDgyjYp8LO6Yi2BrklZ/BGbr
- WNwC9tMhcCxZHQyLbiWHuMlCNoIa9OYfw8BiaitCx3ZRfA59hWN8XtaQG0jE0YWJ1gWe
- PxSST4fn1mu6kH/q/bakRi4rv25DChwOZGexXplBQ3XEPNm1TQmB3+D/mmdp2NKpwHYj
- E5ODV+M/q1XhPb8IxOI6FHBn7kjRD4/65CW4uIcV0NB0Optv4utWMXHpyu5HnMLoSqBy
- QQUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
- :from:to:cc:subject:date;
- bh=sxJXfZ008cDPK0oNi+eJPi7CzUgpg2BylU6cUpmEcCk=;
- b=JLhc+EoGOstFooIzlTm+0VINYiR/G9J4nZrCWrftfG4wzO1eZr24zTxNeyOTzaA9rG
- Yigg0FmFB/P0Uo3bzViRh4tLQPR3vn4aKc7fRytxqEHv8UBXL/XwOnonGOPitks6GFp7
- pL4axGwrx6a0UlNJwuz82ee1pQ56eaRX2Do7nItJ4MrIqbGUvQTZNV/WGUnI0Dt5aGT+
- zj7TdDFSUoAmN746ewmEhhpF7HyL/d2BDrv78bzIG/rVCPsyRPA1keJZ2ls7MnHjzuXY
- uRb9+vq1dCUHIQHVnYecFchyBhbIprP+m2dJQaqYOZP+cRJ2iuXwmgBHAPLx+j37NbYM
- JJIw==
-X-Gm-Message-State: ACrzQf3opeYVGcEuw+EzTczIH4ABmyEAMqzxRT+wOXgwr7hO5iwL/OUA
- HuOPaIRQ3yiuZlaqkiaWqXitFFiEuOLk
-X-Google-Smtp-Source: AMsMyM5fZEKxh0O+CNc22n4RkFXFmcIWI54ZrJAQRcsPTmXzA8T9jgkTpZsiHqLTNqon48I4E4tNLuMUvYw4
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:201:39ac:b4b:8b32:a988])
- (user=venture job=sendgmr) by 2002:a25:b812:0:b0:6af:662c:9fa with SMTP id
- v18-20020a25b812000000b006af662c09famr20069572ybj.224.1664818696120; Mon, 03
- Oct 2022 10:38:16 -0700 (PDT)
-Date: Mon,  3 Oct 2022 10:38:10 -0700
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.38.0.rc1.362.ged0d419d3c-goog
-Message-ID: <20221003173810.1933849-1-venture@google.com>
-Subject: [PATCH v2] hw/net: npcm7xx_emc: set MAC in register space
-From: Patrick Venture <venture@google.com>
-To: hskinnemoen@google.com, kfting@nuvoton.com, peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, jasowang@redhat.com, 
- Patrick Venture <venture@google.com>, Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3CB47YwcKClEEx6CDAxz77z4x.v759x5D-wxEx4676z6D.7Az@flex--venture.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ofPOu-0000U6-4v
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 13:38:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29350)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ofPOq-0003Vu-6v
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 13:38:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664818719;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type: content-transfer-encoding:content-transfer-encoding;
+ bh=iwetfxWw0HWOxGvCyqesbjfN8JrO8/azbCX1GE9YGhc=;
+ b=MnwidmQ0w/RWqPpXsuv7mnsllcG2fuMN10xbbGUDEGuvd7B2pr9LICenZ3TmblyZe0wGrt
+ xx1Ul0E9UCuJO2v+qNjB2n2fP85toFNPS9Oz/7sCcC6UiQzmj57eLbvCeH57bHLLw047cL
+ zYPhvtf2wYS0UlyqPOc+VTJDTBlkbRk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-369-QmnJma2iPk-WuW8udxYCcQ-1; Mon, 03 Oct 2022 13:38:37 -0400
+X-MC-Unique: QmnJma2iPk-WuW8udxYCcQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 79833862FDF
+ for <qemu-devel@nongnu.org>; Mon,  3 Oct 2022 17:38:37 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E5EF32027061
+ for <qemu-devel@nongnu.org>; Mon,  3 Oct 2022 17:38:36 +0000 (UTC)
+Date: Mon, 3 Oct 2022 18:38:34 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Conserving GitLab CI minutes - check your repo is a true fork
+Message-ID: <YzseGmKLRblf+hmt@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,85 +74,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MAC address set from Qemu wasn't being saved into the register space.
+Last week the /qemu-project namespace got added to the GitLab Open Source
+Program. This gives repos under that namespace extra CI minutes (50,000)
+and a cost factor of 0.5, meaning in effect 100,000 minutes per month.
+Primarily this applies to CI pipelines jobs the merge coordinator runs
+for pull requests via the upstream staging branch.
 
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Signed-off-by: Patrick Venture <venture@google.com>
----
-v2: only set the registers from qemu on reset
-    once registers set, only read and write to them
----
- hw/net/npcm7xx_emc.c | 30 +++++++++++++++++++++++-------
- 1 file changed, 23 insertions(+), 7 deletions(-)
 
-diff --git a/hw/net/npcm7xx_emc.c b/hw/net/npcm7xx_emc.c
-index 7c86bb52e5..a33f8c7b23 100644
---- a/hw/net/npcm7xx_emc.c
-+++ b/hw/net/npcm7xx_emc.c
-@@ -112,6 +112,16 @@ static void emc_reset(NPCM7xxEMCState *emc)
- 
-     emc->tx_active = false;
-     emc->rx_active = false;
-+
-+    /* Set the MAC address in the register space. */
-+    uint32_t value = (emc->conf.macaddr.a[0] << 24) |
-+        (emc->conf.macaddr.a[1] << 16) |
-+        (emc->conf.macaddr.a[2] << 8) |
-+        emc->conf.macaddr.a[3];
-+    emc->regs[REG_CAMM_BASE] = value;
-+
-+    value = (emc->conf.macaddr.a[4] << 24) | (emc->conf.macaddr.a[5] << 16);
-+    emc->regs[REG_CAML_BASE] = value;
- }
- 
- static void npcm7xx_emc_reset(DeviceState *dev)
-@@ -432,13 +442,25 @@ static bool emc_receive_filter1(NPCM7xxEMCState *emc, const uint8_t *buf,
-         }
-     case ETH_PKT_UCAST: {
-         bool matches;
-+        uint32_t value;
-+        struct MACAddr mac;
-         if (emc->regs[REG_CAMCMR] & REG_CAMCMR_AUP) {
-             return true;
-         }
-+
-+        value = emc->regs[REG_CAMM_BASE];
-+        mac.a[0] = value >> 24;
-+        mac.a[1] = value >> 16;
-+        mac.a[2] = value >> 8;
-+        mac.a[3] = value >> 0;
-+        value = emc->regs[REG_CAML_BASE];
-+        mac.a[4] = value >> 24;
-+        mac.a[5] = value >> 16;
-+
-         matches = ((emc->regs[REG_CAMCMR] & REG_CAMCMR_ECMP) &&
-                    /* We only support one CAM register, CAM0. */
-                    (emc->regs[REG_CAMEN] & (1 << 0)) &&
--                   memcmp(buf, emc->conf.macaddr.a, ETH_ALEN) == 0);
-+                   memcmp(buf, mac.a, ETH_ALEN) == 0);
-         if (emc->regs[REG_CAMCMR] & REG_CAMCMR_CCAM) {
-             *fail_reason = "MACADDR matched, comparison complemented";
-             return !matches;
-@@ -661,15 +683,9 @@ static void npcm7xx_emc_write(void *opaque, hwaddr offset,
-         break;
-     case REG_CAMM_BASE + 0:
-         emc->regs[reg] = value;
--        emc->conf.macaddr.a[0] = value >> 24;
--        emc->conf.macaddr.a[1] = value >> 16;
--        emc->conf.macaddr.a[2] = value >> 8;
--        emc->conf.macaddr.a[3] = value >> 0;
-         break;
-     case REG_CAML_BASE + 0:
-         emc->regs[reg] = value;
--        emc->conf.macaddr.a[4] = value >> 24;
--        emc->conf.macaddr.a[5] = value >> 16;
-         break;
-     case REG_MCMDR: {
-         uint32_t prev;
+Joining the OSS program also, however, has a benefit for people who have
+forks of the /qemu-project/qemu repository.
+
+Each user with the free plan normally gets 400 minutes of CI quota per
+month [1], though some people with older gitlab.com user accounts may still
+get 2,000 CI minutes / month. Note this quota is across all repos under
+your /$USERNAME path in gitlab, NOT per repo.
+
+You can check your allowance and usage at:
+
+   https://gitlab.com/-/profile/usage_quotas#pipelines-quota-tab
+
+Where things get complicated is the CI cost factor, which varies depending
+on repo context[2].
+
+Provided your QEMU repo is a fork of /qemu-project/qemu, its CI cost factor
+should be 0.008.  IOW, if you have 400 minutes quota and only run pipelines
+for QEMU, you should be able to use 50,000 minutes of wall-clock time on
+shared runners.
+
+If your QEMU repo is NOT a fork of /qemu-project/qemu, your CI cost factor
+will likely be 1.  IOW, if you have 400 minutes quota you'll only get 400
+minutes of wall-clock time. A QEMU CI pipeline will devour those 400 minutes
+almost instantly.
+
+IOW, it is absolutely critical that your repository is considered a fork
+of /qemu-project/qemu if you intend to use CI, as it will mean you consume
+CI quota x125 more slowly.
+
+For the majority of contributors this won't be a problem, but a few may
+have created their QEMU repo before /qemu-project existed on GitLab, and
+thus not be considerd a fork.
+
+To check this, go to the Gitlab web UI for your repo and check that the
+header says:
+
+    " Forked from QEMU / QEMU "
+
+just underneath the repo description.
+
+If it does not say that, then you'll need to rename your existing repo to
+a different path, and fork from /qemu-project/qemu again.
+
+NB, if you exhaust your CI quota, it resets on the 1st of each month.
+
+
+Even with the reduced 0.008 cost factor, QEMU pipelines can consume CI time
+pretty quickly, so be prudent with what jobs you run.
+
+Ensure ***ALL*** your branches are rebased to post v7.1.0 release, before
+pushing to gitlab, such that they include this commit:
+
+  commit 28357dc525b4798cdef1101cbb459afcd7233280
+  Author: Daniel P. Berrangé <berrange@redhat.com>
+  Date:   Fri May 27 16:36:02 2022 +0100
+
+    gitlab: don't run CI jobs in forks by default
+
+This prevents CI pipelines being created merely by pushing the branch.
+
+Also avoiding setting 'QEMU_CI=2' when running pipelines, as that triggers
+every job which will burn alot of CI quota. Best is to use 'QEMU_CI=1'
+which creates the pipeline but marks all jobs as manual, so you can choose
+exactly which subset to run.
+
+BTW, this largely all applies to other projects on gitlab that use CI
+too. In libvirt we're switching off CI on push events too, and have also
+joined the OSS Program to get forks to benefit from reduced cost factor
+for CI.
+
+With regards,
+Daniel
+
+[1] https://about.gitlab.com/pricing/
+
+[2] https://docs.gitlab.com/ee/ci/pipelines/cicd_minutes.html#cost-factor
 -- 
-2.38.0.rc1.362.ged0d419d3c-goog
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
