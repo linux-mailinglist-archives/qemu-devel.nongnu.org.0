@@ -2,88 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5A15F2C7A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 10:53:40 +0200 (CEST)
-Received: from localhost ([::1]:45886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9B15F2C95
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 10:58:46 +0200 (CEST)
+Received: from localhost ([::1]:41620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofHCk-00033s-TQ
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 04:53:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46262)
+	id 1ofHHg-0007t1-SK
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 04:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ofH4Q-0007Cg-Ue
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 04:45:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51999)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1ofH4W-0007Dc-T0
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 04:45:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ofH4M-0002ca-IN
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 04:45:01 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1ofH4U-0002oV-FE
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 04:45:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664786696;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1664786705;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1vKOWjRJ+AmUK0WmSTSwHBRb7yL24oPxr4qBWAjue4c=;
- b=PbAofXfSbZtV/qMwD7EVOZeCb7XdUyVoJC998gc8n6elwnd8NpcRw09WRnhvc2W4IvVzhV
- 4hyd3Tm5LkUBHJctFGfZZFtIgENPGqyXMqL/0T++D2JZ1/Wqe/G/8glU+jm5wrO3YigmfI
- P2MVqxkg7/7gZhPZ2RxizLHAmuDEOv8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4V/i+l9/sq/mF1tL9S2pIjImKoIeYL66SPoerZSUsMg=;
+ b=THpNoLAM87xUuWpiZ8eDdDcwehZGQK6mU0P323EfHYsqT7i/W3GsEVntahKbf8r/8Ad4D2
+ oK4UpnlasMQjZH0nTlw4lb8Wpt5XOE7fA1Vlod9kxt3ApTkSy5iV7hgpGAGTX2pG8Xr6Lh
+ KNbvL4AfZSWM2i00WwHyDD9GlxLes9c=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-96-8A6V8eT-M86eK_zeKBW-Mw-1; Mon, 03 Oct 2022 04:44:53 -0400
-X-MC-Unique: 8A6V8eT-M86eK_zeKBW-Mw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c130-20020a1c3588000000b003b56be513e1so6009123wma.0
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 01:44:52 -0700 (PDT)
+ us-mta-55-UcsMNCt_NMOYoROqpvCQJw-1; Mon, 03 Oct 2022 04:45:04 -0400
+X-MC-Unique: UcsMNCt_NMOYoROqpvCQJw-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ c1-20020a0cfb01000000b00495ad218c74so6624814qvp.20
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 01:45:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=1vKOWjRJ+AmUK0WmSTSwHBRb7yL24oPxr4qBWAjue4c=;
- b=Mb2M9FIaXm8ff8UgEqDFYt1pp82AqfZ/MeAespjxW86WcLGizSjUtFS9iKSOFg/a1N
- 5GOoJHgKPK8NCHpAgYxb0rwts6eag8SLa5bLFC9h4F0ONJVplANEYoeMiPC3oqX5Ejbw
- jse3gmMfrfqiPr6ZLQlkZLE9cqWZii/n3qcH3AUoVm7tbRxl4sCUKdatHC+6FpZSff78
- 1skxc8QHQLPG99rV3B3Fzvq5C549Z85SssidCyRleefxV6ZsPcEAnLG2WhCg8YTld3NW
- TOSFyNTXldwTmJNk2v3YdjbzXoTtsCu6x3YsHGLL8JEKKvybQV2OkLUFjMTb0UlsUgFC
- XE9Q==
-X-Gm-Message-State: ACrzQf2O/nTxAzVG7aIqSylNbZqcRbF8YPcGVDVayKeLwPUHMs8OfdFr
- 0wfMv2kcr69ejx4p8GfbgyVV3vn5T7b41+iwkbVU8fhVmWdx2WgxjlJdgVjKG35k2C5ex2dmoB+
- hqpQtaLNyhGnRuHw=
-X-Received: by 2002:a05:6000:c9:b0:22e:4055:559c with SMTP id
- q9-20020a05600000c900b0022e4055559cmr1374222wrx.438.1664786691863; 
- Mon, 03 Oct 2022 01:44:51 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6T1VezPF54jV+Zv61OrxEbosPkRfGpnu3t0aFbtZHQzxw15jUbxWQ8QEtO6jzYBd/hDehr7g==
-X-Received: by 2002:a05:6000:c9:b0:22e:4055:559c with SMTP id
- q9-20020a05600000c900b0022e4055559cmr1374202wrx.438.1664786691601; 
- Mon, 03 Oct 2022 01:44:51 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- j13-20020a5d452d000000b00228a6ce17b4sm9242095wra.37.2022.10.03.01.44.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Oct 2022 01:44:51 -0700 (PDT)
-Date: Mon, 3 Oct 2022 09:44:49 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Palmer Dabbelt <palmer@rivosinc.com>, alex.bennee@linaro.org
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] RISC-V: Add support for Ztso
-Message-ID: <YzqhAdsGwC0so55O@work-vm>
-References: <YzXvIKVeFcHQ3ZQI@work-vm>
- <mhng-36837e18-1883-443f-85a7-69010d5d38ef@palmer-ri-x1c9>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=4V/i+l9/sq/mF1tL9S2pIjImKoIeYL66SPoerZSUsMg=;
+ b=EYcLWTwzeqyTN8K9ZuQV1urhtEjgVvWsRcFgG0p1Biq031MaWxuV1Co5pHR4PuCzK7
+ 9haULdjfBpUlj9Jl5lmnpx6sLlmNDD4ftL1DmFhheX+7Iwe5bDx9srTAd33AoCXWrUMX
+ 72q7QE6udGz4zZuisdF08nwwuWMait4wPZ6OP5IE0g4g9hR0kNnZ6YDOdUKxVuxbNZFQ
+ 67pqIFaWo4waZ4hLqg/OL30vMImI/5UPJNsXBwy8O3+AR/hQn/WmupxAj9UYYVLDlcnL
+ oVtlyaS5JYeHwAR27Fd4HPR0m+oK+lbX/ZgSBEtJi8BGBNH3qIDIR5xcvNE7zCSMTh8N
+ z3Tg==
+X-Gm-Message-State: ACrzQf3jVsRd5goIpSuJpCsZkB2XLfgzU0fB4VP+FDEG0GqWADnqZ6lc
+ uDA4Tt3lToWGpmnMQwSUrgVZyoQPJOMm0Dt8I4WLhFt310tnbdunlqCsEc12Ttq2aIAHnCrpHvJ
+ BN+27iYQ7H0GdCEA=
+X-Received: by 2002:a05:622a:28e:b0:35d:498f:583a with SMTP id
+ z14-20020a05622a028e00b0035d498f583amr15392762qtw.176.1664786703946; 
+ Mon, 03 Oct 2022 01:45:03 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6mfqDmFvg4cWLdJ/sVHE35/4iQs6unuOSnT8hT8vTawQVMuJFMg79/A14Op6F31EFKMjRfYw==
+X-Received: by 2002:a05:622a:28e:b0:35d:498f:583a with SMTP id
+ z14-20020a05622a028e00b0035d498f583amr15392755qtw.176.1664786703696; 
+ Mon, 03 Oct 2022 01:45:03 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ v3-20020a05620a440300b006a6ab259261sm11553290qkp.29.2022.10.03.01.45.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Oct 2022 01:45:03 -0700 (PDT)
+Message-ID: <8ff4a537-3050-7c28-4f2d-8e1771e1e3a4@redhat.com>
+Date: Mon, 3 Oct 2022 10:44:59 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <mhng-36837e18-1883-443f-85a7-69010d5d38ef@palmer-ri-x1c9>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 4/5] hw/arm/virt: Improve high memory region address
+ assignment
+Content-Language: en-US
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, cohuck@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org,
+ shan.gavin@gmail.com
+References: <20220921231349.274049-1-gshan@redhat.com>
+ <20220921231349.274049-5-gshan@redhat.com>
+ <6c9a644a-6add-af29-8463-eddb101c1c99@redhat.com>
+ <580f5f69-d794-3792-2c99-5cb367a5e8c0@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <580f5f69-d794-3792-2c99-5cb367a5e8c0@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-1.086, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,100 +107,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Palmer Dabbelt (palmer@rivosinc.com) wrote:
-> On Thu, 29 Sep 2022 12:16:48 PDT (-0700), dgilbert@redhat.com wrote:
-> > * Palmer Dabbelt (palmer@rivosinc.com) wrote:
-> > > Ztso, the RISC-V extension that provides the TSO memory model, was
-> > > recently frozen.  This provides support for Ztso on targets that are
-> > > themselves TSO.
-> > > 
-> > > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> > > 
-> > > ---
-> > > 
-> > 
-> > > diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-> > > index 00fcbe297d..2a43d54fcd 100644
-> > > --- a/tcg/i386/tcg-target.h
-> > > +++ b/tcg/i386/tcg-target.h
-> > > @@ -236,6 +236,7 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
-> > >  #include "tcg/tcg-mo.h"
-> > > 
-> > >  #define TCG_TARGET_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
-> > > +#define TCG_TARGET_SUPPORTS_MCTCG_RVTSO 1
-> > 
-> > Is x86's brand of memory ordering strong enough for Ztso?
-> > I thought x86 had an optimisation where it was allowed to store forward
-> > within the current CPU causing stores not to be quite strictly ordered.
-> 
-> I'm actually not sure: my understanding of the Intel memory model was that
-> there's a bunch of subtle bits that don't match the various TSO
-> formalizations, but the RISC-V folks are pretty adamant that Intel is
-> exactly TSO.  I've gotten yelled at enough times on this one that I kind of
-> just stopped caring, but that's not a good reason to have broken code so I'm
-> happy to go fix it.
+Hi Gavin,
 
-Many people make that mistake, please refer them to the Intel docs; the
-big 'Intel 64 and IA-32 Architecture Software Developer's Manual,
-Combined Volumes: 1,2A, 2B, 2C, 2D, 3A, 3B, 3C, 3D and 4'; in the recent
-version I've got (April 2022) section 8.2 covers memory ordering and
-8.2.2 Memory Ordering in P6 and More Recent Processor Families says on
-page 8-7 (page 3090 ish):
+On 9/29/22 01:37, Gavin Shan wrote:
+> Hi Eric,
+>
+> On 9/28/22 10:51 PM, Eric Auger wrote:
+>> On 9/22/22 01:13, Gavin Shan wrote:
+>>> There are three high memory regions, which are VIRT_HIGH_REDIST2,
+>>> VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
+>>> are floating on highest RAM address. However, they can be disabled
+>>> in several cases.
+>>>
+>>> (1) One specific high memory region is disabled by developer by
+>>>      toggling vms->highmem_{redists, ecam, mmio}.
+>>>
+>>> (2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
+>>>      'virt-2.12' or ealier than it.
+>>>
+>>> (3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
+>>>      on 32-bits system.
+>>>
+>>> (4) One specific high memory region is disabled when it breaks the
+>>>      PA space limit.
+>>>
+>>> The current implementation of virt_set_memmap() isn't comprehensive
+>>> because the space for one specific high memory region is always
+>>> reserved from the PA space for case (1), (2) and (3). In the code,
+>>> 'base' and 'vms->highest_gpa' are always increased for those three
+>>> cases. It's unnecessary since the assigned space of the disabled
+>>> high memory region won't be used afterwards.
+>>>
+>>> This improves the address assignment for those three high memory
+>>> region by skipping the address assignment for one specific high
+>>> memory region if it has been disabled in case (1), (2) and (3).
+>>>
+>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>> ---
+>>>   hw/arm/virt.c | 44 ++++++++++++++++++++++++++------------------
+>>>   1 file changed, 26 insertions(+), 18 deletions(-)
+>>>
+>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>>> index b0b679d1f4..b702f8f2b5 100644
+>>> --- a/hw/arm/virt.c
+>>> +++ b/hw/arm/virt.c
+>>> @@ -1693,15 +1693,31 @@ static void
+>>> virt_set_high_memmap(VirtMachineState *vms,
+>>>                                    hwaddr base, int pa_bits)
+>>>   {
+>>>       hwaddr region_base, region_size;
+>>> -    bool fits;
+>>> +    bool *region_enabled, fits;
+>> IDo you really need a pointer? If the region is unknown this is a bug in
+>> virt code.
+>
+> The pointer is needed so that we can disable the region by setting
+> 'false'
+> to it at later point. Yeah, I think you're correct that 'unknown region'
+> is a bug and we need to do assert(region_enabled), or something like
+> below.
+Yeah I don't think using a pointer here is useful.
+>
+>>>       int i;
+>>>         for (i = VIRT_LOWMEMMAP_LAST; i <
+>>> ARRAY_SIZE(extended_memmap); i++) {
+>>>           region_base = ROUND_UP(base, extended_memmap[i].size);
+>>>           region_size = extended_memmap[i].size;
+>>>   -        vms->memmap[i].base = region_base;
+>>> -        vms->memmap[i].size = region_size;
+>>> +        switch (i) {
+>>> +        case VIRT_HIGH_GIC_REDIST2:
+>>> +            region_enabled = &vms->highmem_redists;
+>>> +            break;
+>>> +        case VIRT_HIGH_PCIE_ECAM:
+>>> +            region_enabled = &vms->highmem_ecam;
+>>> +            break;
+>>> +        case VIRT_HIGH_PCIE_MMIO:
+>>> +            region_enabled = &vms->highmem_mmio;
+>>> +            break;
+>> While we are at it I would change the vms fields dealing with those
+>> highmem regions and turn those fields into an array of bool indexed
+>> using i - VIRT_LOWMEMMAP_LAST (using a macro or something alike). We
+>> would not be obliged to have this switch, now duplicated.
+>
+> It makes sense to me. How about to have something like below in v4?
+>
+> static inline bool *virt_get_high_memmap_enabled(VirtMachineState
+> *vms, int index)
+> {
+>     bool *enabled_array[] = {
+>           &vms->highmem_redists,
+>           &vms->highmem_ecam,
+>           &vms->highmem_mmio,
+>     };
+>
+>     assert(index - VIRT_LOWMEMMAP_LAST < ARRAY_SIZE(enabled_array));
+>
+>     return enabled_array[index - VIRT_LOWMEMMAP_LAST];
+> } 
+I was rather thinking as directly using a vms->highmem_flags[] but your
+proposal may work as well.
+>
+>>> +        default:
+>>> +            region_enabled = NULL;
+>>> +        }
+>>> +
+>>> +        /* Skip unknown region */
+>>> +        if (!region_enabled) {
+>>> +            continue;
+>>> +        }
+>>>             /*
+>>>            * Check each device to see if they fit in the PA space,
+>>> @@ -1710,23 +1726,15 @@ static void
+>>> virt_set_high_memmap(VirtMachineState *vms,
+>>>            * For each device that doesn't fit, disable it.
+>>>            */
+>>>           fits = (region_base + region_size) <= BIT_ULL(pa_bits);
+>>> -        if (fits) {
+>>> -            vms->highest_gpa = region_base + region_size - 1;
+>>> -        }
+>>> +        if (*region_enabled && fits) {
+>>> +            vms->memmap[i].base = region_base;
+>>> +            vms->memmap[i].size = region_size;
+>>>   -        switch (i) {
+>>> -        case VIRT_HIGH_GIC_REDIST2:
+>>> -            vms->highmem_redists &= fits;
+>>> -            break;
+>>> -        case VIRT_HIGH_PCIE_ECAM:
+>>> -            vms->highmem_ecam &= fits;
+>>> -            break;
+>>> -        case VIRT_HIGH_PCIE_MMIO:
+>>> -            vms->highmem_mmio &= fits;
+>>> -            break;
+>>> +            vms->highest_gpa = region_base + region_size - 1;
+>>> +            base = region_base + region_size;
+>>> +        } else {
+>>> +            *region_enabled = false;
+what's the purpose to update the region_enabled here? Is it used anywhere?
 
-  In a multiple-processor system, the following ordering principles apply:
-....
-  Writes from an individual processor are NOT ordered with respect to the writes from other processors.
-....
-  Any two stores are seen in a consistent order by processors other than those performing the stores
+The fact you do not update vms->highmem_* flags may introduce
+regressions I think as the resulting flag may be used in some places
+such as:
+virt_gicv3_redist_region_count().
 
-then a bit further down, '8.2.3.5 Intra-Processor Forwarding Is Allowed'
-has an example and says
+>>> -
+>>> -        base = region_base + region_size;
+>>>       }
+>>>   }
+>>>   
+>
+> Thanks,
+> Gavin
+>
+Thanks
 
-    'The memory-ordering model allows concurrent stores by two processors to be seen in
-    different orders by those two processors; specifically, each processor may perceive
-    its own store occurring before that of the other.'
-
-Having said that, I remember it's realyl difficult to trigger; it's ~10
-years since I saw an example to trigger it, and can't remember it.
-
-> That said, when putting together the v2 (which has TCG barriers in the
-> RISC-V front-end) I couldn't even really figure out how the TCG memory model
-> works in any formal capacity -- I essentially just added the fences
-> necessary for Ztso on RVWMO, but that's not a good proxy for Ztso on arm64
-> (and I guess not on x86, either).  Also happy to go take a crack at that
-> one, but I'm not really a formal memory model person so it might not be the
-> best result.
-
-Oh I don't know TCG's model, copying in Alex.
-
-Dave
-
-> > 
-> > Dave
-> > 
-> > >  #define TCG_TARGET_HAS_MEMORY_BSWAP  have_movbe
-> > > 
-> > > diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-> > > index 23e2063667..f423c124a0 100644
-> > > --- a/tcg/s390x/tcg-target.h
-> > > +++ b/tcg/s390x/tcg-target.h
-> > > @@ -171,6 +171,7 @@ extern uint64_t s390_facilities[3];
-> > >  #define TCG_TARGET_HAS_MEMORY_BSWAP   1
-> > > 
-> > >  #define TCG_TARGET_DEFAULT_MO (TCG_MO_ALL & ~TCG_MO_ST_LD)
-> > > +#define TCG_TARGET_SUPPORTS_MCTCG_RVTSO 1
-> > > 
-> > >  static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
-> > >                                              uintptr_t jmp_rw, uintptr_t addr)
-> > > --
-> > > 2.34.1
-> > > 
-> > > 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Eric
 
 
