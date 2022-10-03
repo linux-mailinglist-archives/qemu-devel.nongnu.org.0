@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1FD5F3807
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 23:46:25 +0200 (CEST)
-Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95D45F37D1
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 23:32:47 +0200 (CEST)
+Received: from localhost ([::1]:41040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofTGV-0006M4-Rc
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 17:46:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
+	id 1ofT3O-0008AL-6F
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 17:32:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ofS7e-00020y-HS; Mon, 03 Oct 2022 16:33:06 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:33771)
+ id 1ofS7g-00022Z-EW; Mon, 03 Oct 2022 16:33:14 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:34812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ofS7c-00042C-WE; Mon, 03 Oct 2022 16:33:06 -0400
-Received: by mail-ed1-x529.google.com with SMTP id a13so16217193edj.0;
- Mon, 03 Oct 2022 13:33:04 -0700 (PDT)
+ id 1ofS7e-00042l-Vv; Mon, 03 Oct 2022 16:33:08 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id s30so12488379eds.1;
+ Mon, 03 Oct 2022 13:33:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=3X2MOrCfQF2nnuG3xIYe1F069ucsNj4Si496a65t0z8=;
- b=ZLxykCAGmZIX1kF61doHVkObPXvztmtsi39S3TP3VD4y0Yc9l3g7BCsP0Si9wmD1rt
- bepys7ODVG7lx26PFOKm3tH6pMyyBjcvDYlcm17+12xZF065T88kCM0pKC+a2kdfNjpl
- qUo34hzvNDX1afAMll/0BTbgpymY7lqKYUz7rpkpEyTfZf71s2FPAD6/ag46ErEFed0B
- ivjOWO/RiTGWDIPggT3EBmUcTaJlgF5reDNdH3hEnGeQd9ib2l1BVw7baFYDOdAfAf1v
- je7FNGSSKv0xA1lXxrrumsT0FeAjirTyRcwil2zSUBlRWQOOTBRHJeZpd+IiJL6Sq6ph
- dLyA==
+ bh=esjrdO6tFoXNdgvQ5sf5q9mcRjXABjPQ0oasuQnbjLo=;
+ b=Ke2rzTfMNylrmC+FuF8s2MFomuZWXD8l3jLTc7cNAESJrICBpqyCAw2CmHzAjQ825x
+ dKw4I8YDYyWJEif21lFgCzvCkqhx4yYVaei6z/x0Zj0GksU4v9G2gH6kuscbJAqLusbl
+ qGWVooDpmyqn3iuksMjnN2gTeDhR/AO9Gwm9QvOF2vMSCRVMb2TeyGm6pOaX4GuUxvMQ
+ narH6pAxC4A2F5bFj1TI7Ima/iMRqqPtsAZNvH4jDvQN3rzyunaogbuE490r0K2bzsRg
+ PP/7fTjz3puAtgu5lExiCoIYxVFO9IhPuVT9eCQQau1WG3sNh5ivmkN4IxMQn8f9jSmL
+ WWJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=3X2MOrCfQF2nnuG3xIYe1F069ucsNj4Si496a65t0z8=;
- b=IAKFVzAvs/tqTdXnRyE1oGSB84ddFzulMMsxwQf/ROhyYQbOmQF9DCbmcI9CQqYptF
- 46zS9fyDFsh4SrrMPBQxhgIrCyUNN9fPc+O70FeW3PeiQXag+7nl1tOeOL4laSyRQSEk
- xlJT9cbCmxysru86/j+IZoH/Pu4WkPfyJ34ZLB7hvlL3BffSVS3bXYjpjJ4abkxNA+XQ
- /eMlV3RBVed3lDkTrY7XiwOzOW5fRnEcroVecJVMqEZiDFJzm7MQTB7DUl5QVklTUO9d
- 471sXqC9nlkFYQN+wlM4ALVaNzSETpfwVJDpcvHb/SWyRD1Y0YNs3CNJ3yM8bJW4TCk0
- hv5w==
-X-Gm-Message-State: ACrzQf2mFhN1voJapdMShx/KHcU1sAdlwTUki244/nLTJRnUaNr9BxKG
- sGTNj6AMIzahK7NNxbg888akOp82uGA=
-X-Google-Smtp-Source: AMsMyM4hBNamiahg6JwabKefo8ezc0qQVWvw39rdpGJsLlc1dM5ff6cZVXM2tQB5M8yueH61WnsLhA==
-X-Received: by 2002:a05:6402:154f:b0:458:9e48:1650 with SMTP id
- p15-20020a056402154f00b004589e481650mr12786396edx.201.1664829182645; 
- Mon, 03 Oct 2022 13:33:02 -0700 (PDT)
+ bh=esjrdO6tFoXNdgvQ5sf5q9mcRjXABjPQ0oasuQnbjLo=;
+ b=OaNd7QGj1EFTFziSovF5PqQLOYo21wmrTI90n0WectlQikJGeT7L6L/9KDb4lEIGsx
+ JViXCcX3hVz0gf1pMwZzgtFZIhbkQrTkPly1p5Fu+Pvllei2LbmEwKqfIr6uCAxesT6M
+ ERIE6nGAqaRdT2PgynFOYT/PE7FyPAtLHUddgKEQPauu37tQXBpa04t3Fjn6MKg542rW
+ LLaD8EvNMhgAmPgM7CQnHNf3mo/TtFy77liexEQYqvg6kueCIZNNbA6QAdf8AxKygiWk
+ cdAFmtHX7CHTzvKD7YHAqelu1ueZPBVjWacPKeV3+JTwEayPlXmXOGF4RPSrO7xqKoAn
+ yonA==
+X-Gm-Message-State: ACrzQf1vihqyNF6fCPdo8bIwuubOA/aL4Rz+t3HFvJNTXPMyUv7ZmjgB
+ iA84XVYqCnCxLwhnvseJKTN1j/evtIk=
+X-Google-Smtp-Source: AMsMyM7QJY+tawzLtVodSKUEXCGCqhPA8YqsxxvULghsVqw9UyhTEWlU6bQA3ndFpW21DbzQhnJvGg==
+X-Received: by 2002:a05:6402:164c:b0:459:1e2e:e742 with SMTP id
+ s12-20020a056402164c00b004591e2ee742mr3630524edx.125.1664829184448; 
+ Mon, 03 Oct 2022 13:33:04 -0700 (PDT)
 Received: from localhost.localdomain ([46.183.103.8])
  by smtp.gmail.com with ESMTPSA id
- lb9-20020a170907784900b0073ddd36ba8csm5978087ejc.145.2022.10.03.13.33.00
+ lb9-20020a170907784900b0073ddd36ba8csm5978087ejc.145.2022.10.03.13.33.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Oct 2022 13:33:02 -0700 (PDT)
+ Mon, 03 Oct 2022 13:33:03 -0700 (PDT)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v2 03/13] docs/system/ppc/ppce500: Add heading for networking
- chapter
-Date: Mon,  3 Oct 2022 22:31:32 +0200
-Message-Id: <20221003203142.24355-4-shentey@gmail.com>
+ Bernhard Beschow <shentey@gmail.com>
+Subject: [PATCH v2 04/13] hw/ppc/e500: Reduce usage of sysbus API
+Date: Mon,  3 Oct 2022 22:31:33 +0200
+Message-Id: <20221003203142.24355-5-shentey@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221003203142.24355-1-shentey@gmail.com>
 References: <20221003203142.24355-1-shentey@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -93,31 +91,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sudden change of topics is slightly confusing and makes the
-networking information less visible. So separate the networking chapter
-to improve comprehensibility.
+PlatformBusDevice has an mmio attribute which gets aliased to
+SysBusDevice::mmio[0]. So PlatformbusDevice::mmio can be used directly,
+avoiding the sysbus API.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- docs/system/ppc/ppce500.rst | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/ppc/e500.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
-index 9beef39171..ba6bcb7314 100644
---- a/docs/system/ppc/ppce500.rst
-+++ b/docs/system/ppc/ppce500.rst
-@@ -146,6 +146,9 @@ You can specify a real world SoC device that QEMU has built-in support but all
- these SoCs are e500v2 based MPC85xx series, hence you cannot test anything
- built for P4080 (e500mc), P5020 (e5500) and T2080 (e6500).
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 32495d0123..496c61b612 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -1023,7 +1023,7 @@ void ppce500_init(MachineState *machine)
  
-+Networking
-+----------
-+
- By default a VirtIO standard PCI networking device is connected as an ethernet
- interface at PCI address 0.1.0, but we can switch that to an e1000 NIC by:
+         memory_region_add_subregion(address_space_mem,
+                                     pmc->platform_bus_base,
+-                                    sysbus_mmio_get_region(s, 0));
++                                    &pms->pbus_dev->mmio);
+     }
  
+     /*
 -- 
 2.37.3
 
