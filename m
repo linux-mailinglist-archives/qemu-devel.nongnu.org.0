@@ -2,132 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB83C5F2E85
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 11:53:21 +0200 (CEST)
-Received: from localhost ([::1]:43740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C0B5F2E8B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 11:56:35 +0200 (CEST)
+Received: from localhost ([::1]:50892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofI8W-0000FI-PD
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 05:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60634)
+	id 1ofIBd-0002MV-S9
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 05:56:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1ofI0C-0002jV-S2
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 05:44:44 -0400
-Received: from mail-vi1eur04on0720.outbound.protection.outlook.com
- ([2a01:111:f400:fe0e::720]:39936
- helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ id 1ofHvB-0006Oo-Fm
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 05:39:35 -0400
+Received: from mail-eopbgr80119.outbound.protection.outlook.com
+ ([40.107.8.119]:34208 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1ofHzx-00037S-So
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 05:44:44 -0400
+ id 1ofHv7-0002U6-UL
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 05:39:31 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nXjufbWktJrQlIzQXEDrCBDqlWQTB/iF1y38P6TJ6PkXkA2tlDVaQ3kDWXZignU6qmTTzc3g/kr5tt7jCJPXC2IuOZeEQWXXTlYHjV/jnO7itYC+IAhv7KzeRaVSlNlQRtNOuoEOf3cnrxL2uKFGLJnvMNj3P2dZereWiw+zH2ujqlhEzSsqHTTG9Ra5Anr6IVNECnEiGLWXhb4XxZzDA0LhS8UV2vtS17EO9CGSaMXzQKT1a54T+Z2z6CjRCujgJWT4Gq7bPhmjzuRTL3M3125s29hApcW0ep1iz5nAtSmMnYgXR1aZ1XuLkB3O1rixL3w901UdeaDiUVNjhTioWA==
+ b=Ux8oBh1f6EBlyGTF8wBZZtbi6Fk9dHAM5pMVu+wiwr/lCcwq64eH3Fprj6P8CMhYk5RrSo4czl7jU8kob0nzkxWqnrISkKRnCjp54+wubMc6CJWScvl4Yu3vdy3DHewlN2t3bAYIAr9yNoM4pnHLlMbLyNpUoGmbkCcj/myeMtjwHf5CoClmk6ycA7Smtk2Q3xXnUMOSM8ZynlDi87xoJweI3X6n5wa+BOataKCqMijvgT/vEfolN1Lm02pMI0d2VTeSZVU+42wONfI66aG/HjT6whGJwb4Siwrao3Wd9fogrTKPul92EIhVDLBrcx7TOb9r7TaU5mjxgDX+g5MHoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6wbQv9yT1R98RJKvjbCzDkzZTeysbvBj08a5ZMEBRyQ=;
- b=cFmyUsKpAgkLWTdTWm8H1ioaSNhC4BDV7GgHaVRfA62qJ5xnuhKBqsJFoMO/3PiRw5WOd1GAL3ZXOPp7a2Ee/pEXFEJdolq1MWWbXaW4SRwMYJ3LFiSJD94tzCcFxKxORQAgEb8WmDFZ4Sxs8yKEEpTqrW1FwVBZdLLIaAla/VP5Ahk3Ea+MMrg+/xj8awLK/TP4uI6O6bG+POvcsiW80UlIAMIGcX2Zxxc9sySlR/ICyHeDVOkqbgsd9+nPlT9xovR3Za0mbKo/mrsvhMZ7SxlGos1LRp7f3+OxvN9dZKbz4Bsg+reUAECdiUGHIEXbyPznZozZutqGTpdRg8Vucw==
+ bh=T/82Gl6voQJFtnW6vuop4f0r45SnstBbJM5MVYGtscM=;
+ b=aoLGrA4LvGofQQUvNplA34koRcWadNuNpCIJEewUG2d2InOM/AOKe6JC+OgNlKt91jqkJvs2wK4WW5LdTPQ4whC+AnZK8VbavIDXgFW37CxnTeOWLsiXFQQR6mbNubV43MwhLWNqn055kzspIw38fqDiifLeFX5T3ST6A5J0rC1tnuAQbCFHqq5h3En8UX+2OdTXjnojeoYYDGTTK3wc9/mIupOqq5PoJsmZAFQZx5oiEkksiW6ni41SvpmQHoc+5lU80MbMPLqeSgMxrG+E0gqgcAAMusy4PJHzCy6YdLfpZKx+39NmaK6GPRf4XThwVcvPGBtuMaepv0j5dAk0Zw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6wbQv9yT1R98RJKvjbCzDkzZTeysbvBj08a5ZMEBRyQ=;
- b=m351HJ5vJZq7pkG5uyL4vHpVyl06lCejNFhFGAIb8PH+qUBszV1fzODDajevY3PCxqCF2OsCbBvM+Xbd4KlqR/BwjeMNEkzlL2VBasDVMRAkXzpw3ZbWskMBzrSecgGtM+99+FDSY5M+JEChFNl95WXxBw3q491XU4tvqkvYSS10wgN102hvru5Ef8G0IJ+gxICTlrPUQG9fFelUkzEOEbPPB6Yo11z+BkUma6Zw1osPmfA86gs6CreNzsuq8pktcDqgbd2kJfMReY2pC/JFho2WzbzSnlDGzPLl80ANkeI97djZ2qCJ+Eoxp2NJ2qc71ddlW1OuHvmMzfEXcz3qmA==
+ bh=T/82Gl6voQJFtnW6vuop4f0r45SnstBbJM5MVYGtscM=;
+ b=EU7fTeUopTQCipHEahLyDTgUm647tyTYwAr7OAPc7psPAB/DwHvUXNu3oDp3vidCrZJOE0gWUhJ5WQrWfiS/jlzHwpl+9qWGh07UiO/GPAQvWgNRSce3A/Wywfn7tS5AePRb1ZVbK2NnmfMvxfmxtzTeF9u9BRyS5ao6dKiSqHZntIyIUYNaMOfr2GivOpDjRoUzEH/ui+E6cgitA5dlwLnYNHWxSINaQwD2caVpBHUGwU/Mv/JMfsU16cyB4AnNw/htmgrok+m+mM6EbpJeSkwefdLkH8pXJBeLFF22nnAzsOIt8qqjFhn1pHln1I/KEx5wmmI4/gKcY6swnvBPAw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
  by DB9PR08MB8203.eurprd08.prod.outlook.com (2603:10a6:10:39e::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.17; Mon, 3 Oct
- 2022 09:39:20 +0000
+ 2022 09:39:21 +0000
 Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b]) by AS8PR08MB7095.eurprd08.prod.outlook.com
  ([fe80::5174:25c7:6df8:741b%8]) with mapi id 15.20.5676.028; Mon, 3 Oct 2022
- 09:39:20 +0000
+ 09:39:21 +0000
 From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: den@virtuozzo.com, michael.roth@amd.com, kkostiuk@redhat.com,
  marcandre.lureau@gmail.com
-Subject: [PATCH v3 0/7] qga: Add FreeBSD support
-Date: Mon,  3 Oct 2022 11:39:04 +0200
-Message-Id: <20221003093911.1844031-1-alexander.ivanov@virtuozzo.com>
+Subject: [PATCH v3 1/7] qga: Add initial FreeBSD support
+Date: Mon,  3 Oct 2022 11:39:05 +0200
+Message-Id: <20221003093911.1844031-2-alexander.ivanov@virtuozzo.com>
 X-Mailer: git-send-email 2.34.1
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20221003093911.1844031-1-alexander.ivanov@virtuozzo.com>
+References: <20221003093911.1844031-1-alexander.ivanov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-ClientProxiedBy: FR3P281CA0096.DEUP281.PROD.OUTLOOK.COM
  (2603:10a6:d10:a1::8) To AS8PR08MB7095.eurprd08.prod.outlook.com
  (2603:10a6:20b:402::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|DB9PR08MB8203:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0821718a-d7a4-4ad8-0d5f-08daa52325b6
+X-MS-Office365-Filtering-Correlation-Id: bd3df395-eb79-4c2d-0ba7-08daa523262b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +ajTyUZkGFp+0JzbgjbUSCSmhZ3EEIbwEbcI4+f9ztAZDClLA4iZJjmjCO6giMZbeWBvvAY/8+KZvUab4tXMGXZeD+7+hun/c+DXZbq/Vaz6TO84Wys8Z3JFP4qy/bQrJx359PYeLA2Kw0m0QGAlS0VMQyTKItiw1xg7JD6/e09ZF+89WTcgKXuGgNbsOuTpMWRr4NdWE62f0t2KyWbV53UBtifVbRf4j8qT4g7tg1L3qRjcwIztL/G95WVU7/PPzend4w3YzpHcdUVP08ZLUyshiVvcvFQAbV/4oigQ0HPpIgmf8OCcUHpWEdetTUl2wSqympBHF2tr2LvcfknounpCTKvroZldg2p41GZYYz05Rv/33vV6wfEV3omkiK4uRb/eiqWH0smhsAwHrk1UUjnekwahkxnrm6Bpra2ddSf711+Y7UI5kV9EPoEOU9Ddu2Oc6CpsOUitwTyA7DyIt1Yy5LJydVfe1KycYEoUmef/AHx6mmf1WOti53GWOB73bOmwktsIYGGAkAQpFkaZR8sNyP2ikZwmmiz+so3ttWmEq3+OLlrozjyXeo/AESdveOJhc1lvYGMJZ0o2xI+qMuXztKESoHhIg1XQXstQ9OrShdAKrp3j9VPFkk+42N7Fj4cpnZILINwXTgWmylArizA0F26seIYgadI08Y1wD4v0cG68PI2FVbVivf82C6OfS3BAspGt6mI5aoDm6P0yLZ9nMWbNhjk+ko0N6XV9Tc0yXS9GocMcjFQLZ09Yy6j008XOvu90Ri5ZGFb1G3HAfA==
+X-Microsoft-Antispam-Message-Info: QowE5Djl3zDKrLCbribcnCjz5PODm8Izlg+6tXl+vPGiVGm8ojxG0o5RtzGQPGcCcR71C26wTpbbj85BL1SpI7CjwJvlPGb1u+4KyifHMMlJbc1wq6emPHF7bMyqFQ38z/STx70Mpu/ivat8o6LfpOsi8APXKTj5Ve5iy8svwh9981FXJ+6sJCVqpCgu7osIRdFqh5T1LFeEH/bzMbmbkmIT77TyEOtq3P7A1R10MsgBO63WAfqZcFzWboxSrIrdkWqiGa1wDZ1ZY1sxmN2Z2wb7pHqwR5aU8MXHuaBMfBuxtBB4XFVrm9AFqmAg7MI7lraR9V3CrbapJlh3sEzdSKFeDC1McKPD9BanvxcyNQyLwA3YmVGioeprWWF7G2WQ8WGumV0DJVTJCa5v0np4isuEEmLPOaAwzSSVTEwDxj9zrdkERQpQQyzbVNxzXDI+zRg59r0pMVZfwK3Oq7iQyJn9MJrvBnyeivKkyn6efVKvLPDlCEtAh4LG8JwPJcX+0s6zVJ3b5jbxVqU48hNIsPi5xKFk9zncsxtUeaL4KCQ0UWY3uZ9ZsPwtBTgJOdj11c89asK6guosP41XWRBwEVOv2At1lJREA2KFMJN/dgZ4SyXKoBOY6MOrZ2H2l+fVUx28HnKF2Jg0NWL0xyRDb2NFRx6pJuh56SLlYgUlLJGhWJYGG4RVmJOx9Sp3AdvSvuzr9bJaG0nFTMpieaFNGzdmMCbXTFydxRebPMEZGCsBTx8MGht+gmyD4ckxxkpH7jsyn9RmAj1EMa+WuqHndg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230022)(4636009)(366004)(136003)(346002)(39850400004)(376002)(396003)(451199015)(6666004)(316002)(66476007)(66556008)(26005)(4326008)(8676002)(6512007)(6506007)(52116002)(2616005)(6916009)(478600001)(6486002)(66946007)(36756003)(38350700002)(38100700002)(86362001)(186003)(83380400001)(1076003)(44832011)(41300700001)(8936002)(5660300002)(2906002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWNEMVJBK3pkUFNnNkE5SndZbGltV0RUQzBxV3BPSmV6d2pRZVFtbEdmZXRi?=
- =?utf-8?B?RjBaNlZSLzFwNzBVcDNrcE1qMVpFZmZ2SnRLTURTSjFLVmh5ckJWN1oycnYx?=
- =?utf-8?B?ZGRHSU82Tkg1WjlabytrRkJxVm1QSmZDdmlJbXJaNitJOS9nQmNURmUwVXFR?=
- =?utf-8?B?eDZoTWwycVFnYitIb1Vob3ZGZWlhRjRBaUNtZHFaL0xHWlU0OW9nc1VxUnVM?=
- =?utf-8?B?VHJMQndERlhESmYwbkpHV1NURjJUNHN6TlJ3M29EZ1ZyMFpUdnFuVWVBZEJ0?=
- =?utf-8?B?ZkxRUXZzdFNnZnR6azdjVmg2OXJHUllMWU1LL1R3Q1BJbVZyQXNNdU9WMW1U?=
- =?utf-8?B?MnJEVkxvQm1pYjZVNE0xbVMvMk96Q0dMZkxVWmFUcmkrY1FFU0Zpd3d6dkxz?=
- =?utf-8?B?VjhwMzQ1QmE5S0UrRURGOXFWbVRMYUdObVgzQUlRYTNrSUc1bThkQWVaUlg3?=
- =?utf-8?B?REJad1RlMFdMTEtUOU1qcTF0QU4vaUtFRHlieVNKN3FmOG5uS1NWekNQL3pt?=
- =?utf-8?B?cE1VQzJHYkNHWk5Va01vQkxYSmtjTUNTZERXY2V6My8zcEFJWUJYd0RJL1lU?=
- =?utf-8?B?bzE5NFUrcDh4NXAwNEhLdzF1QWZxOC9DU0I4SU1ZTzIvSGFMMktGd0toQUVY?=
- =?utf-8?B?QjNLK1c4dUhqUjI3UEhpY2dyZjJxSkpCcGk1WjdxVVBrQlR4OWxyRmlEdzIw?=
- =?utf-8?B?dkxnVDdmeUJHQjh1R0xvNFJKd1JHUDZWQWNBeE9acHdUK2RqNnhDYVZXUWUz?=
- =?utf-8?B?dDgwcTJEKzBqd0dCTStQUU82N0t6bG1CUzhmS1JUQVlOcW1mb1JpN2gwUFA4?=
- =?utf-8?B?ZVBtdzQwOGJsZnJnNi9uWjJLd2VvNXNtNVZFU0J3N0dwVFU1Y2tSZ1A0emRC?=
- =?utf-8?B?RzFRNWZxUER6ZXpPYnNIRWo2dFdTME5hZHlhY256clZtQWxwcDNhNUJNTVNt?=
- =?utf-8?B?dWhRSFlkM1Zkam9Fa3Y3MHBXQTFHL1lRNjNoclZ2aUwzeXY2WGc4QlBoR2w4?=
- =?utf-8?B?MHBaUUh0M0REQ2lscUFWbGJTaFVVZTNLcWxabWdkSHNvbDJ6RVdGYkhUTzRS?=
- =?utf-8?B?UzkxSENSUXBQN3FvaWUzYUxhdGJqNklRQnBkYS9KQ09WNjMrMHoxaFRCSFh1?=
- =?utf-8?B?ZnJtMkt2M0RpalR4ak8wMkdHQlhaSmFPTU5OaGExek5FbTQxRTJKaldKSVVl?=
- =?utf-8?B?dlVNWkxRdFJsdm80VFdaR2VNWmlFUXVMQU1RelBIcVJwS3RZOWVSWGZyT2pI?=
- =?utf-8?B?UWIyM1djcllNWkwvejhnWS9rTDd0ZlZRTmlLOXFpUGpXMWVvV3FMd3A5SUFH?=
- =?utf-8?B?WnNBQU9RMUpZZGY2eVdjMEJCcmE1RXhPdHFXak1lOENwUnQ5clhnd1dwS1Rm?=
- =?utf-8?B?M0JlNjN1a01qdlBvR2FQWHU0OExyWDdMMjlPeTBOYktabmh5MnUxUUxBWjVD?=
- =?utf-8?B?SWUzZHNHWkhZTTgxbXNpdyt3a2k5L0Voa3l6UjB2bTNJblZjcWEwd0dHVW1k?=
- =?utf-8?B?cjFaYkRkdHBFMUxtN0lIampvclpWZEl2MU8vOXNDZ2tFemdNK1NMSnlaYmls?=
- =?utf-8?B?cm91RG5icXVtU0lGUElCZjhUOUQvV2hMeDVHa01oZ01DTHRPc1lsSFpsK0xL?=
- =?utf-8?B?N0kvTTNEYUQ3cEcxb1Z3ZmV1WnFSQU9TRHZhUFFjVTIxd0hLSTErZTFOVE9i?=
- =?utf-8?B?UWxKeWVEb1lQOVRkbnpNdnFCSnhZN2d1RVZGYXZUaWVJSnNmSnlTZldXdWNL?=
- =?utf-8?B?dVc4U3JVTm9zTGRNOGc3aHhodzVBdUNYZGEwWjZQTUNFeWpma3IzcjNNTzFp?=
- =?utf-8?B?cUJ0R3ppN2RSRVo0cGl1eVp6SWlKT2NkdUEyd0lLS1VrK2cra0c1dThRaHMw?=
- =?utf-8?B?VW8xY3IxMy9zY2NlLzZ0aGhGZ29UQ0xrTVNiUTFEajZrNEVjQ2JzZFNBZ3R1?=
- =?utf-8?B?SG5tSGRBREJGMkJZR3FGeGRXaDZHV1pENFpTNkROaUYvR3ZoaEdZMjROV2lW?=
- =?utf-8?B?KzlLY1VJZ1BTTGJNeVhhSzY1K1RpRi85U1lOTGQxTGNGcnlmeFREWWIvengz?=
- =?utf-8?B?V0ZhbVByUUdkMlY5L1lBZ2xEVTlFSmdVTm9LSXEyZVRySSsvb0sycysxcFJ4?=
- =?utf-8?B?ZHhadSt1bmNaWVFtYWhpZ3dVMVdSRWZCcHlMNU9XVmpaYVZoM01qTytRNDlu?=
- =?utf-8?B?Wmc9PQ==?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7B4OJt2Ztl7t6CasEoVyGY7DpHtQANTUeUt+ydUxG6c1+Ee2RVJ+xe6N95OY?=
+ =?us-ascii?Q?Uq2WqxSj5kLSLx4+zU06MzuquEDtNSHWRJ8oZ0eX9G97r0twOpaPkDHUyHWn?=
+ =?us-ascii?Q?88LaIR2qaO1jfbFnZwC/Xoej2KKENLO4LeKmx7MC4CAzgnEacENgRH0atP8R?=
+ =?us-ascii?Q?xqJdAmUa32lu0cEXQe7tlvEZiX1OXa12hInvtQ/FZUpGwc71RGJqLyPIjOEd?=
+ =?us-ascii?Q?nZ7vAeOJvcSToSYjK7d+RvKj/mm9BUVMTKESY4hi15PwIHZT2K2F8TcviPMf?=
+ =?us-ascii?Q?kuXtiXNyGmnRVV8SGXu9XXQMRLZXS/QH1ptulDRS2bd0GcA2+JonY82eO5JT?=
+ =?us-ascii?Q?v0e07RgX/kLyGgczC/w64AsfQmJTuGPDn/YYFdQU+Jb7NYQayNDM8V03ESHB?=
+ =?us-ascii?Q?WMB+E/2FIY7SF/5Z4tOjTWkxpeYLOmQXlPZLHPWMqGnEYPTIgiZpbiHHIDKA?=
+ =?us-ascii?Q?hxp5KBFcCuI2ynbfTgkTmB2LiVcxwR2LvgeXMxQavyrmtCUZQFLs9tRxkTZQ?=
+ =?us-ascii?Q?2x64iXESba0J3gU8bvtdwuzU0ncjA5fkbreA0bWUDWZTTiq4zEMG9iU5ZQ9t?=
+ =?us-ascii?Q?wpOQiYWclfg18RHIaCHaG58EL1QSCcH8d8v/vzWy8G68HEcRPHs3lGDPIZwm?=
+ =?us-ascii?Q?EhMQHAwGfVPh6O/bPpSq+tvO7lSQTimU1W+X/QABPo3SUSr6w7M+I4JKw1Rg?=
+ =?us-ascii?Q?L3fZAdjmSq59cxlgs4q8s340IUNRtaYek8UXJGQpRvg+WCMEmIViRQtnq3fQ?=
+ =?us-ascii?Q?ItzdW/IDq9zhULttBHecd+J+/L1bjusYd1ZW06y2o+zNI6WbUb+3kNd/FiqO?=
+ =?us-ascii?Q?5u5I3y0gfwq/Mg9GwD8aN7iTlCa2fb4Vfy0ujvqtVlrhDcnInbokzzOD9wVX?=
+ =?us-ascii?Q?JxASYdd/gB9dF2IZvx7oX/VkbRTiZXIU4SIFDoOk1IuPlZpZebORd3C20Khb?=
+ =?us-ascii?Q?qJywfJmN4YMEqVy6O7JpM/KQ5FIW9zFnJq8wM6g5FyHXDGSf7Ol7R20+pa92?=
+ =?us-ascii?Q?09XNa5iOZzUa57smxvAx5VgqYlqHIiQsKZx6Xr+ey9n8FtzvZkCgT3YPhlz1?=
+ =?us-ascii?Q?m/WIKJ6IP1VHqks/Unwks1sZPPvAKfyTCN4StlFc4e2ybuOC3wpuN1DbSg+B?=
+ =?us-ascii?Q?INRigF6fPm1u4ACT4xMs98BqeLgHUqUIoS6apRhRMVt0nyJwq98aA9PMzg1c?=
+ =?us-ascii?Q?4eohThA8HBjz+xnWSme7PNglQCEQ8apTL6AqsDSCSC1W3Hjj6HNlUtVQ1hcN?=
+ =?us-ascii?Q?gJ98qhXnsJoGcgP9Dddoa59euGQOG7tZ8taotnM1ckCtTE7TSd7rfOtRAbUh?=
+ =?us-ascii?Q?W7bFu2rkxLA309m00tkSNIiySt0RkNjk+U0/6HxK1A71bmlyEQuQTLcjmAew?=
+ =?us-ascii?Q?uJtWCoDm5j/wbhDWZdhwRmArmeiOGyOiYn2jAuKtBIgWPC8YeqyqO8kvHHBk?=
+ =?us-ascii?Q?/m1JFXmODzNIEUafl9iLdrXKZDE8W90erdMA49RjVLWzaMljxGgkjAixSJ7o?=
+ =?us-ascii?Q?CsVg1fBLoRJ87Ctg6BhGacT59JiR1PKvEbH9JRk0B04SuffRnEQ4GhDd3S7O?=
+ =?us-ascii?Q?AgCeEMQRAoeJp/7+qScPiQspztacIuPDi/tIVJE9cTkdVxxbyri7S2h7OrDu?=
+ =?us-ascii?Q?zQ=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0821718a-d7a4-4ad8-0d5f-08daa52325b6
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd3df395-eb79-4c2d-0ba7-08daa523262b
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2022 09:39:20.2878 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2022 09:39:21.3997 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nHySP3/tbp/QruZ5uesBXhRjlu+42FPiWI1hTn3XLtocqHldPmxGn0ykrNmdkFghdOXE22AQmwBkTGqdkFKIfJh+ImBGxwyua1N6lQbDsLE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: NtDZMVaOvDuggAf1g3DLKQTjYPKz69MK/3iA8yXi4ux8kp6g8lrWKTv573XeCRSYyt3R8AZjaE9vYrY2ModqpUmaQEYA8OXTk5WnnTWEvCg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB8203
-Received-SPF: pass client-ip=2a01:111:f400:fe0e::720;
+Received-SPF: pass client-ip=40.107.8.119;
  envelope-from=alexander.ivanov@virtuozzo.com;
  helo=EUR04-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -144,53 +137,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add freeze/thaw, shutdown/halt/reboot, password setting and
-guest-network-get-interfaces command support for FreeBSD.
+- Fix device path.
+- Fix virtio-serial channel initialization.
+- Make the code buildable in FreeBSD.
 
-v3:
-1: Add a comment about echo suppressing.
-5: Replace code moving by splitting the code into a few blocks under
-   architecture conditions.
-5,6: Move actions with dumb qmp_guest_set_user_password() to
-     the appropriate patch.
-6: Fix error/obtained return.
+Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+---
+ meson.build          |  2 +-
+ qga/channel-posix.c  | 19 +++++++++++++++++++
+ qga/commands-posix.c |  8 ++++++++
+ qga/main.c           |  6 +++++-
+ 4 files changed, 33 insertions(+), 2 deletions(-)
 
-v2:
-1: Reject the idea to move all the Linux-specific code to a separate file.
-   First commit now adds initial support of FreeBSD. Fixed device paths
-   and fixed virtio device initialization (disable echo). Add comment why
-   we should disable the code under HAVE_GETIFADDRS in FreeBSD.
-2: Replace the second commit (which now is the first) by moving
-   Linux-specific freeze/thaw code to a separate file commands-linux.c.
-3: Add error raising if stat() returns error. Replaced strcmp() calls by
-   g_str_equal(). Add a comment explaining why UFSRESUME isn't necessary.
-4: Replace #elifdef by #elif defined().
-5: Now the code doesn't move from one file to aanother but still is
-   moving inside file so the patch doesn't become easier to review. =(
-   Fixed typos.
-6,7: New patches. Add guest-network-get-interfaces command support.
-
-Alexander Ivanov (7):
-  qga: Add initial FreeBSD support
-  qga: Move Linux-specific FS freeze/thaw code to a separate file
-  qga: Add UFS freeze/thaw support for FreeBSD
-  qga: Add shutdown/halt/reboot support for FreeBSD
-  qga: Add support for user password setting in FreeBSD
-  qga: Move HW address getting to a separate function
-  qga: Add HW address getting for FreeBSD
-
- meson.build           |   2 +-
- qga/channel-posix.c   |  19 ++
- qga/commands-bsd.c    | 199 +++++++++++++
- qga/commands-common.h |  52 ++++
- qga/commands-linux.c  | 286 +++++++++++++++++++
- qga/commands-posix.c  | 643 ++++++++++++++----------------------------
- qga/main.c            |  13 +-
- qga/meson.build       |   6 +
- 8 files changed, 781 insertions(+), 439 deletions(-)
- create mode 100644 qga/commands-bsd.c
- create mode 100644 qga/commands-linux.c
-
+diff --git a/meson.build b/meson.build
+index 8dc661363f..5c11abc8aa 100644
+--- a/meson.build
++++ b/meson.build
+@@ -75,7 +75,7 @@ have_tools = get_option('tools') \
+   .allowed()
+ have_ga = get_option('guest_agent') \
+   .disable_auto_if(not have_system and not have_tools) \
+-  .require(targetos in ['sunos', 'linux', 'windows'],
++  .require(targetos in ['sunos', 'linux', 'windows', 'freebsd'],
+            error_message: 'unsupported OS for QEMU guest agent') \
+   .allowed()
+ have_block = have_system or have_tools
+diff --git a/qga/channel-posix.c b/qga/channel-posix.c
+index 6796a02cff..568350ded4 100644
+--- a/qga/channel-posix.c
++++ b/qga/channel-posix.c
+@@ -149,6 +149,25 @@ static gboolean ga_channel_open(GAChannel *c, const gchar *path,
+             return false;
+         }
+ #endif
++#ifdef __FreeBSD__
++        /*
++         * In the default state channel sends echo of every command to a
++         * client. The client programm doesn't expect this and raises an
++         * error. Suppress echo by resetting ECHO terminal flag.
++         */
++        struct termios tio;
++        if (tcgetattr(fd, &tio) < 0) {
++            error_setg_errno(errp, errno, "error getting channel termios attrs");
++            close(fd);
++            return false;
++        }
++        tio.c_lflag &= ~ECHO;
++        if (tcsetattr(fd, TCSAFLUSH, &tio) < 0) {
++            error_setg_errno(errp, errno, "error setting channel termios attrs");
++            close(fd);
++            return false;
++        }
++#endif /* __FreeBSD__ */
+         ret = ga_channel_client_add(c, fd);
+         if (ret) {
+             error_setg(errp, "error adding channel to main loop");
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index eea819cff0..16d67e9f6d 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -51,6 +51,14 @@
+ #endif
+ #endif
+ 
++#ifdef __FreeBSD__
++/*
++ * The code under HAVE_GETIFADDRS condition can't be compiled in FreeBSD.
++ * Fix it in one of the following patches.
++ */
++#undef HAVE_GETIFADDRS
++#endif
++
+ #ifdef HAVE_GETIFADDRS
+ #include <arpa/inet.h>
+ #include <sys/socket.h>
+diff --git a/qga/main.c b/qga/main.c
+index 5a9d8252e0..0d27c97d38 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -45,9 +45,13 @@
+ #endif
+ 
+ #ifndef _WIN32
++#ifdef __FreeBSD__
++#define QGA_VIRTIO_PATH_DEFAULT "/dev/vtcon/org.qemu.guest_agent.0"
++#else /* __FreeBSD__ */
+ #define QGA_VIRTIO_PATH_DEFAULT "/dev/virtio-ports/org.qemu.guest_agent.0"
+-#define QGA_STATE_RELATIVE_DIR  "run"
++#endif /* __FreeBSD__ */
+ #define QGA_SERIAL_PATH_DEFAULT "/dev/ttyS0"
++#define QGA_STATE_RELATIVE_DIR  "run"
+ #else
+ #define QGA_VIRTIO_PATH_DEFAULT "\\\\.\\Global\\org.qemu.guest_agent.0"
+ #define QGA_STATE_RELATIVE_DIR  "qemu-ga"
 -- 
 2.34.1
 
