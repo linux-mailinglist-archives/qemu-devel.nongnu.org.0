@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F985F2EBA
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:23:43 +0200 (CEST)
-Received: from localhost ([::1]:48422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAB15F2ECB
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:28:42 +0200 (CEST)
+Received: from localhost ([::1]:50588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofIbu-000113-Fj
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:23:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50996)
+	id 1ofIgj-0003tR-0i
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:28:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1ofISM-0004jI-9e
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:13:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1ofISI-0007CC-Uq
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:13:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664792025;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QDFE4hWKiGIoEWEycfYjOqCKF3pB1knVwiEANmltENM=;
- b=AS2KYSceKTwCxGfx5B2VrhC84o9GGVtIWdAR7bqRRRXbnXWfw9jmIhrHQUpXXgk/oKA1uA
- zBNQLw6Qt4GQc0zfmhtGH5ip0DxhMPKVy+D79Odz96XvDsZiZ5aBgb9GV9lMOJdoUQoYR8
- nyNwRqxZAJCo+yxKFf7ArhJxXVl/GZQ=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-673-U9UawYUtOC2itibCffPGMg-1; Mon, 03 Oct 2022 06:13:44 -0400
-X-MC-Unique: U9UawYUtOC2itibCffPGMg-1
-Received: by mail-oo1-f71.google.com with SMTP id
- n5-20020a4a3445000000b004728fe7a331so6036868oof.23
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 03:13:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofIdP-0001GS-S0
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:25:16 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofIdK-0000NN-VP
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:25:14 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id u10so15884996wrq.2
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 03:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=k9+FDhBPVB1Vrx7EmfII3ij47GLb7oYuvlJVulScN5s=;
+ b=MaFsP1VLpLVNAh3oiMMvKDR6VrCp+OmkE5o3gsBU2Pvs4aS4GVHdX37vmcjvkAWoTV
+ AnLHlAGtQZXM4Ehs1wCtINbMjI/BV4EiioUpyweGYYArxQykOV+Kp1ylCxDr2wm5QErO
+ jXR+ZJY8twPl+B19fraDJPkdCAPJEiXSBqioofFS8JPQaMmbgF3ozoFdNm0OV6XXioYR
+ IL9S3jY/nDLpN4rE1oIV/Ucz4a34LjiOizqInCu1tTsTNdifYFXyHFr9teiAmiqn/CLc
+ GJsMj3YUM5+11frzMFHgsbFDNalnl0ug/r5wrewrsDxWWSQxeBJbQstWi3SLE9eI1WjR
+ QEYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=QDFE4hWKiGIoEWEycfYjOqCKF3pB1knVwiEANmltENM=;
- b=r10BEM8fLyOVEbnxmRgddhghFgpFugZGqHc072C7aihy8KEMSFZn3To/tCMn8iI7Uw
- v/mNiGNIxyTmTdaTIZdyOpea2Qokgk9HC1rVeP24w/ePoheJylLibQ411qlkJlc5G3y9
- 4ap4vza2SJPJ42rDBK/TkViUUpnQvjyVCoO2PNvdaS9zRp3fvE7UWZZxM5xSequISCp5
- jjvrQ06HgAaRZ66QxMtg+6n+lvon0uW5WIaHvJ8kkXtkPnAcvq3eWeHh777BLRvkwc3H
- mK9dA3hAMokzCcF7CFl0AoTSIpCOiwExp87Gzq8pshhbtAxekO3PvI6R6IExBfDA5Hwy
- kUXw==
-X-Gm-Message-State: ACrzQf085NYNI24YF3JPlV1fDrXTx9SU6bPnzLZbuU3LC1ltAHNWZ/xv
- dPyfrEn86s94AtNmOjbR0VUz/odvlbdEfMmubCkEYlzQnLe5I+7AiLnNlq9jogrhwlt9h2hLKc3
- QAGXx2C0sBAebWyHALjPEjDW0G8ZLRfw=
-X-Received: by 2002:a05:6830:b8d:b0:65f:22fb:be09 with SMTP id
- a13-20020a0568300b8d00b0065f22fbbe09mr3195090otv.38.1664792023926; 
- Mon, 03 Oct 2022 03:13:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5Bs1/vfWX4SyahpaIPuRrZJTtmPCWurS4lydAvnO/KaJmhXWXxeghe062OJjyNijRdUutUZQBp+rGhVfcCKkU=
-X-Received: by 2002:a05:6830:b8d:b0:65f:22fb:be09 with SMTP id
- a13-20020a0568300b8d00b0065f22fbbe09mr3195081otv.38.1664792023715; Mon, 03
- Oct 2022 03:13:43 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=k9+FDhBPVB1Vrx7EmfII3ij47GLb7oYuvlJVulScN5s=;
+ b=hG7AUtlR+eo03/s6IjdDzxJFcP/cPzQmiheRPEG53FUPku+F2CW6NWDW10TZLZ0dqL
+ OmrmrQsb9ZYdiIiIQxKBo9CmW6qB5CjJkokH6VSyzcXjdepkZSysPKDcPKfuvuHra8v3
+ 9LXoMcHwQj4+OpvgMFPMCYWEe3U6Pi6lb3bcr3l03cNR6DzTERbj0uxH0doMReSBsdpc
+ AIDMqzlrp31RwmIC7tKVGI9yjUXgVvXLYVSVWtVb3SFhlFnaorHvu3UuA46Nj7WfZEqk
+ NXuV2BiOYF+4Mn6ZtLbBTPfG8BFgMz+bhXDwJIVQzSAGJKKuJMcnC5fDhCWPa9/ve8gQ
+ heDA==
+X-Gm-Message-State: ACrzQf2dWQ0Y0GK0jXgpmdhn55ZShcpB1Kgq0UP5sDI/RRtVAq0WDQ/+
+ /356NygcqaquOYfDKAE5sK36+g==
+X-Google-Smtp-Source: AMsMyM6PHogbl3vrgp8J+SQ+uWFOWRvZl9l7zdJjeU1Lqz2CZtakUnNN5oh1MwHr6xwx7AjKXRN9aA==
+X-Received: by 2002:adf:9dd0:0:b0:22c:d6cc:b387 with SMTP id
+ q16-20020adf9dd0000000b0022cd6ccb387mr13252961wre.353.1664792705939; 
+ Mon, 03 Oct 2022 03:25:05 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ d10-20020a5d6dca000000b0022917d58603sm9411346wrz.32.2022.10.03.03.25.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Oct 2022 03:25:05 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 78ABF1FFB7;
+ Mon,  3 Oct 2022 11:25:04 +0100 (BST)
+References: <a7da7e40-6f7b-79a4-709b-da0e71def650@redhat.com>
+ <93033078-221d-23d2-23e7-13eab59cd439@amsat.org>
+ <CACGkMEsQSn_GOBcs64JEDUHt3T7XOBL3LLM7yvqwwR5xvvD2dg@mail.gmail.com>
+ <a25c238b-dabd-bf20-9aee-7cda4e422536@redhat.com>
+ <87o7utnuzp.fsf@linaro.org>
+ <CAFEAcA9YyN802x43+K27Hv1-rvkBbxE2r5sfxxahwmJtFAEP=Q@mail.gmail.com>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, =?utf-8?Q?Marc?=
+ =?utf-8?Q?-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Mark Cave-Ayland
+ <mark.cave-ayland@ilande.co.uk>, qemu-discuss@nongnu.org
+Subject: Re: If your networking is failing after updating to the latest git
+ version of QEMU...
+Date: Mon, 03 Oct 2022 11:22:27 +0100
+In-reply-to: <CAFEAcA9YyN802x43+K27Hv1-rvkBbxE2r5sfxxahwmJtFAEP=Q@mail.gmail.com>
+Message-ID: <87k05hnr0f.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20221003100612.596845-1-berrange@redhat.com>
-In-Reply-To: <20221003100612.596845-1-berrange@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 3 Oct 2022 14:13:32 +0400
-Message-ID: <CAMxuvax3KKWeYkD59ZeYWOa1-GqOdNxJLhHfxzPEmuRcLn8y4A@mail.gmail.com>
-Subject: Re: [PATCH] net: improve error message for missing netdev backend
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>, 
- Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,97 +104,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
 
-On Mon, Oct 3, 2022 at 2:06 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
-> wrote:
->
-> The current message when using '-net user...' with SLIRP disabled at
-> compile time is:
->
->   qemu-system-x86_64: -net user: Parameter 'type' expects a net backend t=
-ype (maybe it is not compiled into this binary)
->
-> An observation is that we're using the 'netdev->type' field here which
-> is an enum value, produced after QAPI has converted from its string
-> form.
->
-> IOW, at this point in the code, we know that the user's specified
-> type name was a valid network backend. The only possible scenario that
-> can make the backend init function be NULL, is if support for that
-> backend was disabled at build time. Given this, we don't need to caveat
-> our error message with a 'maybe' hint, we can be totally explicit.
->
-> The use of QERR_INVALID_PARAMETER_VALUE doesn't really lend itself to
-> user friendly error message text. Since this is not used to set a
-> specific QAPI error class, we can simply stop using this pre-formatted
-> error text and provide something better.
->
-> Thus the new message is:
->
->   qemu-system-x86_64: -net user: network backend 'user' is not compiled i=
-nto this binary
->
-> The case of passing 'hubport' for -net is also given a message reminding
-> people they should have used -netdev/-nic instead, as this backend type
-> is only valid for the modern syntax.
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-lgtm
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> On Mon, 3 Oct 2022 at 10:09, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>>
+>>
+>> Thomas Huth <thuth@redhat.com> writes:
+>>
+>> > On 29/09/2022 04.32, Jason Wang wrote:
+>> >> On Thu, Sep 29, 2022 at 1:06 AM Philippe Mathieu-Daud=C3=A9 <f4bug@am=
+sat.org> wrote:
+>> >>> Jason, Marc-Andr=C3=A9, could we improve the buildsys check or displ=
+ay
+>> >>> a more helpful information from the code instead?
+>> >> It looks to me we need to improve the build.
+>> >
+>> > I'm not sure there is anything to improve in the build system -
+>> > configure/meson.build are just doing what they should: Pick the
+>> > default value for "slirp" if the user did not explicitly specify
+>> > "--enable-slirp".
+>>
+>> Shouldn't it be the other way round and fail to configure unless the
+>> user explicitly calls --disable-slirp?
+>
+> Our standard pattern for configure options is:
+>  --enable-foo : check for foo; if it can't be enabled, fail configure
+>  --disable-foo : don't even check for foo, and don't build it in
+>  no option given : check for foo, decide whether to build in support if
+>                    it's present
+
+Don't we make a distinction between libs that are truly optional and
+those you probably need. It seems missing working networking is one of
+those things we should be telling the user about unless explicitly
+disabled. It is after all how we worked before, we would silently
+checkout libslirp and build it for you.
+
+>
+> -- PMM
 
 
-> ---
->
-> NB, this does not make any difference to people who were relying on the
-> QEMU built-in default hub that was created if you don't list any -net /
-> -netdev / -nic argument, only those using explicit args.
->
->  net/net.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
->
-> diff --git a/net/net.c b/net/net.c
-> index 2db160e063..8ddafacf13 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -1036,19 +1036,23 @@ static int net_client_init1(const Netdev *netdev,=
- bool is_netdev, Error **errp)
->      if (is_netdev) {
->          if (netdev->type =3D=3D NET_CLIENT_DRIVER_NIC ||
->              !net_client_init_fun[netdev->type]) {
-> -            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "type",
-> -                       "a netdev backend type");
-> +            error_setg(errp, "network backend '%s' is not compiled into =
-this binary",
-> +                       NetClientDriver_str(netdev->type));
->              return -1;
->          }
->      } else {
->          if (netdev->type =3D=3D NET_CLIENT_DRIVER_NONE) {
->              return 0; /* nothing to do */
->          }
-> -        if (netdev->type =3D=3D NET_CLIENT_DRIVER_HUBPORT ||
-> -            !net_client_init_fun[netdev->type]) {
-> -            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "type",
-> -                       "a net backend type (maybe it is not compiled "
-> -                       "into this binary)");
-> +        if (netdev->type =3D=3D NET_CLIENT_DRIVER_HUBPORT) {
-> +            error_setg(errp, "network backend '%s' is only supported wit=
-h -netdev/-nic",
-> +                       NetClientDriver_str(netdev->type));
-> +            return -1;
-> +        }
-> +
-> +        if (!net_client_init_fun[netdev->type]) {
-> +            error_setg(errp, "network backend '%s' is not compiled into =
-this binary",
-> +                       NetClientDriver_str(netdev->type));
->              return -1;
->          }
->
-> --
-> 2.37.3
->
-
+--=20
+Alex Benn=C3=A9e
 
