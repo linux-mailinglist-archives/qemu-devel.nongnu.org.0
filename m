@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336E75F2926
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 09:14:40 +0200 (CEST)
-Received: from localhost ([::1]:36036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 776BA5F28FD
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 09:10:20 +0200 (CEST)
+Received: from localhost ([::1]:46834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofFex-0000mH-0A
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 03:14:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58050)
+	id 1ofFal-0006c1-9j
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 03:10:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1ofFcT-0006xt-Ii
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:12:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1ofFcQ-0005KG-R6
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:12:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664781121;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I0LXfsSyKXGjmai9f263mAbHu12AmzCqqawR+zfFGBM=;
- b=AjzRq3FBS8LXWiDQdr+/Qs4l5fKDfko7lbmWgC38pRWn4zeOnSP6rcjVvcnY1T4PWrJ0Mo
- NlJIdhvtmNJmqJ8DbWWTeMsPrxxd8YS6YPl64X4RpAWSy8ZWzqA9wTt6XmIsyB8vgxwOnU
- d1+BCVVFb7ee0FLawTDNN6UhTBOZ2m0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-477-GNJWiLMGNs6-wrhEm2uRtw-1; Mon, 03 Oct 2022 03:11:59 -0400
-X-MC-Unique: GNJWiLMGNs6-wrhEm2uRtw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F28D85A59D;
- Mon,  3 Oct 2022 07:11:59 +0000 (UTC)
-Received: from starship (unknown [10.40.193.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED50440C6EC2;
- Mon,  3 Oct 2022 07:11:56 +0000 (UTC)
-Message-ID: <2a9fe4f9759b9971e76f719f4c1295eed41ed50c.camel@redhat.com>
-Subject: Re: Commit 'iomap: add support for dma aligned direct-io' causes
- qemu/KVM boot failures
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Christoph Hellwig <hch@lst.de>, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- qemu-devel@nongnu.org, kvm@vger.kernel.org, Kevin Wolf <kwolf@redhat.com>, 
- Michael Roth <mdroth@linux.vnet.ibm.com>
-In-Reply-To: <YzmYojlHKZ79mseE@kbusch-mbp>
-References: <fb869c88bd48ea9018e1cc349918aa7cdd524931.camel@redhat.com>
- <YzW+Mz12JT1BXoZA@kbusch-mbp.dhcp.thefacebook.com>
- <a2825beac032fd6a76838164d4e2753d30305897.camel@redhat.com>
- <YzXJwmP8pa3WABEG@kbusch-mbp.dhcp.thefacebook.com>
- <20220929163931.GA10232@lst.de>
- <32db4f89-a83f-aac4-5d27-0801bdca60bf@redhat.com>
- <28ce86c01271c1b9b8f96a7783b55a8d458325d2.camel@redhat.com>
- <YzmYojlHKZ79mseE@kbusch-mbp>
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
+ id 1ofFXp-0004Bf-KT
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:07:18 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:39795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chigot@adacore.com>)
+ id 1ofFXn-0004na-0J
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 03:07:16 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-356abb37122so64561017b3.6
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 00:07:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=f87hFez6sBrcu4TouxT0x54d5mtW/mDiIhMa9fsI03E=;
+ b=VJnqh2Bu6Y6bmouqBjMldo2Voua/YelZTbj/0L3uOc4/2G/RCMO8j0LYhMLkO3O3so
+ 8mWLURUQAqtoZmVGdK6/LlxImGsgTmd2PtEHh+K8fKBeYluckwlomcZoFUy9xcEoaFlw
+ CJQTUDQYkCsCiEqLW0S/odeDZNEOjf9P/OUQnvOkd6CLZqqobAMrSUtPTuqW6IdViDin
+ hU104FcvFin3wV86+4bk4E0QJdo6C+UqxeNqYwxGu3NUaCZMCDm1ZPOaqHcgEQTZxw5H
+ 0jwzUAujeVdOhD25soOuF5Nh7Jvcjl94Gp7iGEe1AnHjVemvuGwf039+wU/cEbOmNbdx
+ csQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=f87hFez6sBrcu4TouxT0x54d5mtW/mDiIhMa9fsI03E=;
+ b=VYohNhRu1x5waD6auctzGA+tacAM6sAJby5K2jOSH0IH9PdQvu7t1cikndl6bTV2Ma
+ /Hfv/xFG0pmFWMwbEIXIbQ0oCaUqDMVypxQnR9HHLMBBEZuTRZU4jV5lT9A/O7lND5k8
+ 7xIa02I1uL5+kCT3OGYDQKorUBgYjiT31GgHL63n0BsKEZEuqUVP9fgWAO2TbwUSE5DP
+ yVsaUXOgqavmSXk9XzbTZN/Qvt0YgilPUIP1MqrRo3I9cqYVHHN2uQkrI6F3avAjeTlx
+ zKBA++e6hx4fUkwr0rCMb0DHnBnuP2BEiG7Ja/qzzExW94zCFyTx7SgWsc7G7+6hqjc1
+ EUGA==
+X-Gm-Message-State: ACrzQf2S47XGlXe1Pj4em6BLMS2VfM9gvIU+WZg8AiI4bFGvhyXv36ks
+ Dwl9+2VgFoDCCxwEUw0vzmtTw4kbjgFIKF5mTcJfQA==
+X-Google-Smtp-Source: AMsMyM5frKgTZe73/HU7EDZ4dEdc3wZkM2vuh5IXMZhrYsS846JXd4IdpGq0WRzbTinb0JJGgAAFujrC8ZbvYDaFh/k=
+X-Received: by 2002:a0d:db11:0:b0:355:c221:6164 with SMTP id
+ d17-20020a0ddb11000000b00355c2216164mr15364249ywe.248.1664780833361; Mon, 03
+ Oct 2022 00:07:13 -0700 (PDT)
 MIME-Version: 1.0
-Date: Mon, 03 Oct 2022 10:06:48 +0300
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20221003041440.2320-1-jim.shu@sifive.com>
+ <20221003041440.2320-3-jim.shu@sifive.com>
+In-Reply-To: <20221003041440.2320-3-jim.shu@sifive.com>
+From: =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Date: Mon, 3 Oct 2022 09:07:02 +0200
+Message-ID: <CAJ307EjG0j8ydXk8_y5j0jsdmhqY3Fm1FqohMAY1J1hpfmvVMw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] hw/intc: sifive_plic: change interrupt priority
+ register to WARL field
+To: Jim Shu <jim.shu@sifive.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, 
+ Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=chigot@adacore.com; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,86 +89,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 2022-10-02 at 07:56 -0600, Keith Busch wrote:
-> On Sun, Oct 02, 2022 at 11:59:42AM +0300, Maxim Levitsky wrote:
-> > On Thu, 2022-09-29 at 19:35 +0200, Paolo Bonzini wrote:
-> > > On 9/29/22 18:39, Christoph Hellwig wrote:
-> > > > On Thu, Sep 29, 2022 at 10:37:22AM -0600, Keith Busch wrote:
-> > > > > > I am aware, and I've submitted the fix to qemu here:
-> > > > > > 
-> > > > > >   https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00398.html
-> > > > > 
-> > > > > I don't think so. Memory alignment and length granularity are two completely
-> > > > > different concepts. If anything, the kernel's ABI had been that the length
-> > > > > requirement was also required for the memory alignment, not the other way
-> > > > > around. That usage will continue working with this kernel patch.
-> > 
-> > Yes, this is how I also understand it - for example for O_DIRECT on a file which
-> > resides on 4K block device, you have to use page aligned buffers.
-> > 
-> > But here after the patch, 512 aligned buffer starts working as well - If I
-> > understand you correctly the ABI didn't guarantee that such usage would fail,
-> > but rather that it might fail.
-> 
-> The kernel patch will allow buffer alignment to work with whatever the hardware
-> reports it can support. It could even as low as byte aligned if that's the
-> hardware can use that.
-> 
-> The patch aligns direct-io with the same criteria blk_rq_map_user() has always
-> used to know if the user space buffer is compatible with the hardware's dma
-> requirements. Prior to this patch, the direct-io memory alignment was an
-> artificial software constraint, and that constraint creates a lot of
-> unnecessary memory pressure.
-> 
-> As has always been the case, each segment needs to be a logical block length
-> granularity. QEMU assumed a buffer's page offset also defined the logical block
-> size instead of using the actual logical block size that it had previously
-> discovered directly.
-> 
-> > If I understand that correctly, after the patch in question, 
-> > qemu is able to use just 512 bytes aligned buffer to read a single 4K block from the disk,
-> > which supposed to fail but wasn't guarnteed to fail.
-> > 
-> > Later qemu it submits iovec which also reads a 4K block but in two parts,
-> > and if I understand that correctly, each part (iov) is considered
-> > to be a separate IO operation,  and thus each has to be in my case 4K in size, 
-> > and its memory buffer *should* also be 4K aligned.
-> > 
-> > (but it can work with smaller alignement as well).
-> 
-> Right. The iov length needs to match the logical block size. The iov's memory
-> offset needs to align to the queue's dma_alignment attribute. The memory
-> alignment may be smaller than a block size.
->  
-> > Assuming that I understand all of this correctly, I agree with Paolo that this is qemu
-> > bug, but I do fear that it can cause quite some problems for users,
-> > especially for users that use outdated qemu version.
-> > 
-> > It might be too much to ask, but maybe add a Kconfig option to keep legacy behavier
-> > for those that need it?
-> 
-> Kconfig doesn't sound right.
-> 
-> The block layer exports all the attributes user space needs to know about for
-> direct io.
-> 
->   iov length:    /sys/block/<block-dev>/queue/logical_block_size
->   iov mem align: /sys/block/<block-dev>/queue/dma_alignment
-> 
-> If you really want to change the behavior, I think maybe we could make the
-> dma_alignment attribute writeable (or perhaps add a new attribute specifically
-> for dio_alignment) so the user can request something larger.
-> 
-All makes sense now. 
+On Mon, Oct 3, 2022 at 6:14 AM Jim Shu <jim.shu@sifive.com> wrote:
+>
+> PLIC spec [1] requires interrupt source priority registers are WARL
+> field and the number of supported priority is power-of-2 to simplify SW
+> discovery.
+>
+> Existing QEMU RISC-V machine (e.g. shakti_c) don't strictly follow PLIC
+> spec, whose number of supported priority is not power-of-2. Just change
+> each bit of interrupt priority register to WARL field when the number of
+> supported priority is power-of-2.
+>
+> [1] https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.adoc#=
+interrupt-priorities
+>
+> Signed-off-by: Jim Shu <jim.shu@sifive.com>
+> ---
+>  hw/intc/sifive_plic.c | 21 +++++++++++++++++++--
+>  1 file changed, 19 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> index f864efa761..c2dfacf028 100644
+> --- a/hw/intc/sifive_plic.c
+> +++ b/hw/intc/sifive_plic.c
+> @@ -180,7 +180,15 @@ static void sifive_plic_write(void *opaque, hwaddr a=
+ddr, uint64_t value,
+>      if (addr_between(addr, plic->priority_base, plic->num_sources << 2))=
+ {
+>          uint32_t irq =3D ((addr - plic->priority_base) >> 2) + 1;
+>
+> -        if (value <=3D plic->num_priorities) {
+> +        if (((plic->num_priorities + 1) & plic->num_priorities) =3D=3D 0=
+) {
+> +            /*
+> +             * if "num_priorities + 1" is power-of-2, make each register=
+ bit of
+> +             * interrupt priority WARL (Write-Any-Read-Legal). Just filt=
+er
+> +             * out the access to unsupported priority bits.
+> +             */
+> +            plic->source_priority[irq] =3D value % (plic->num_priorities=
+ + 1);
+> +            sifive_plic_update(plic);
+> +        } else if (value <=3D plic->num_priorities) {
+>              plic->source_priority[irq] =3D value;
+>              sifive_plic_update(plic);
+>          }
+> @@ -207,7 +215,16 @@ static void sifive_plic_write(void *opaque, hwaddr a=
+ddr, uint64_t value,
+>          uint32_t contextid =3D (addr & (plic->context_stride - 1));
+>
+>          if (contextid =3D=3D 0) {
+> -            if (value <=3D plic->num_priorities) {
+> +            if (((plic->num_priorities + 1) & plic->num_priorities) =3D=
+=3D 0) {
+> +                /*
+> +                 * if "num_priorities + 1" is power-of-2, each register =
+bit of
+> +                 * interrupt priority is WARL (Write-Any-Read-Legal). Ju=
+st
+> +                 * filter out the access to unsupported priority bits.
+> +                 */
+> +                plic->target_priority[addrid] =3D value %
+> +                                                (plic->num_priorities + =
+1);
+> +                sifive_plic_update(plic);
+> +            } else if (value <=3D plic->num_priorities) {
+>                  plic->target_priority[addrid] =3D value;
+>                  sifive_plic_update(plic);
+>              }
+> --
+> 2.17.1
 
-New attribute could make sense I guess, and can be set by an udev rule or something.
-
-
-Anyway I won't worry about this for now, and if there are issues I'll see how we could work
-around them.
-
-Thanks for everything,
-Best regards,
-	Maxim Levitsky
-
+Reviewed-by: Cl=C3=A9ment Chigot <chigot@adacore.com>
 
