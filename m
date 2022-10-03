@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DBD5F310E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 15:20:30 +0200 (CEST)
-Received: from localhost ([::1]:46868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B06975F3107
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 15:17:47 +0200 (CEST)
+Received: from localhost ([::1]:32934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofLMz-0001On-GE
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 09:20:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58112)
+	id 1ofLKM-0007cJ-PK
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 09:17:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ofKxZ-00036r-DH
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 08:54:13 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:42585)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofL64-0007TP-JB
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:03:02 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ofKxX-0002Xe-7S
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 08:54:13 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- o20-20020a05600c4fd400b003b4a516c479so5786743wmq.1
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 05:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date;
- bh=hyiaRcH+k0xc4PNTJ8nDGG+si/hLIoM9ExAWSZUj+/Y=;
- b=oSAta5NJeRLnxTebFFkHoRT/rcOJKzk4UVew+RFYuRMBTjr1UXCqsHJW64+eSOXyop
- CqtD8QJT5C1Zy1BQTWokwtvKYzjgEmrwfBib6LAGXQTxC7bfN2A40V7RN69eDBfypsj9
- l36GLwXI42h5KnPzZQnL4tWpQ8wEQYajQfb5MG/4oDboB/gyNbaz8PakZ8M1JIBeYwuH
- YHMF2Zn+4lYEBDhexNPGCBwIZxTiCjm3WWMnT+PRE26JcwPALWK2hepm5CgDUdKLDZ+v
- sAETOnFy1BJaFh3PHxK7Bhz0f8lpg89J/N8ElZLXrwv9u37QocLtP6WLaKaffmn8Pkei
- cRvQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofL62-00044y-Kk
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 09:03:00 -0400
+Received: by mail-wr1-x430.google.com with SMTP id c11so16641815wrp.11
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 06:02:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=yLwSwJJPueYvAqx6uVkPALY3KBGjmQuCH7c6hjnnb7k=;
+ b=w2SshreiBOtP2DpK3XC8cp+avv9nVXQ0GHdWmKsHA0qCpgxFP0sqrJn1D4IJI9sXzl
+ 2u9F6XbTolWcqClGZhYCTUV+yPrX8IWtf19PffhSKBXoU3A74wAAAsXg+Guvr7xMjh3k
+ SpRgIkGIXzQX4+Zx9tIR/QBuVMhEDjnfPLpL0PYSaIHjV0D92wbWUPx3U18s7xq2M8ha
+ S6cRUE93pVyQD0p2fC+YFv9OL3YyD/4uHe+P9ykhBzN4gt/TfJrWCqmfc0kpgM4XO572
+ c8UEINeX7zEISoH+18TdMHVJLjE+JgtxbQnKQ/WmVu33leZ82DI5y3XqRnGHn54B5USd
+ UnEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date;
- bh=hyiaRcH+k0xc4PNTJ8nDGG+si/hLIoM9ExAWSZUj+/Y=;
- b=us+s/sbjZd8pap5XqGzsksUOsNZ7gBCqklgG7ThLdeR7tceBWnfle5r/fjK1TtqDvT
- +u4xnhpmnEcmWGNObpNB5IWcRvG/kqu55LO8gHQQebhgNYlxKc39o+busKpJVsLueUIP
- QUiMFHp5lM1k/2VDqegNDTLzrNAFWerAGbnbyaZP+R0OIE0kUQR2ettxQDOj5+elKwi/
- BYDbjmNeMQ2VGyC2FULDzjUZhldW2V+yJjSHklHZjT0n4PUrqV3J61VtkxHGaaZ/Xs27
- yEhCox3MZ/XsP0uybv6RdZ3sPK0NXKuadytxapX5YS1NahMUwEznNUCFJ0bIvCwrHa5i
- PWwg==
-X-Gm-Message-State: ACrzQf2LtdpTKXewxqCGY1fd/OEIIx2g/phTIJir1N77Enz17dIiA+SR
- Xs9p0G+YPmIdy4DYji+M4gE=
-X-Google-Smtp-Source: AMsMyM4lPVpjOORVwp2ErRFd8vYva+O1uvo/ufKh2xNBDxVgA4JMozrxmWA0xTX9YdFJKvIrhHK3SA==
-X-Received: by 2002:a1c:440b:0:b0:3b3:330d:88d8 with SMTP id
- r11-20020a1c440b000000b003b3330d88d8mr7103568wma.31.1664801648363; 
- Mon, 03 Oct 2022 05:54:08 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=yLwSwJJPueYvAqx6uVkPALY3KBGjmQuCH7c6hjnnb7k=;
+ b=A6qh1DErqqJda+Yoz4ND6LrMXZlqYbLVSoWVYKu0qphglURj7+Lj1BZaZpxxehxDOF
+ //6IBuY0TQ4XM0pQoHX21PmMWeZPhubWiDrE5If8SSfaVeeh5a02unfhhVfKEZvDYOFv
+ YU8exip5KTsUxmyHYWrS34JgfBNtaozGmgCFL3vXKiBxTg6dIMu55LrVGvH/5PmWOsqZ
+ qMx9Vu5AW0Np2BA40hlBuXimAMBi7rBp9XIKcdoNAkEpJM8oc89EfS+tUoqi3yhSLuvk
+ ZWV02cRmUcmzrodHJDMNHSVTsCx60J/+Lr+3amar6Tgizrw6j/ToM7ki3QvKZvgTnGFT
+ MaRw==
+X-Gm-Message-State: ACrzQf22CRSx5lczs2xPqNZJj3jaBp3mbkzQi9VSgPYZF9XE3vitRi7L
+ xwIPt9hAhKjq+SARfxSj1t8W+g==
+X-Google-Smtp-Source: AMsMyM5AjAowFbgAvADI9zQBcxxgdqxqzk0eqnrOjFmRI1bqcchUSNyYvBAt8VlBtjmI9z/Cm9JzvA==
+X-Received: by 2002:a5d:6c6f:0:b0:22e:46ad:c3d6 with SMTP id
+ r15-20020a5d6c6f000000b0022e46adc3d6mr1109980wrz.677.1664802174999; 
+ Mon, 03 Oct 2022 06:02:54 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c2cd200b003a63a3b55c3sm17435044wmc.14.2022.10.03.05.54.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Oct 2022 05:54:07 -0700 (PDT)
-Message-ID: <73834ee7-a7bc-64b0-d7c4-1be3a7687e2a@amsat.org>
-Date: Mon, 3 Oct 2022 14:54:06 +0200
+ r18-20020a05600c35d200b003a84375d0d1sm17306173wmq.44.2022.10.03.06.02.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Oct 2022 06:02:53 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F3CF81FFB7;
+ Mon,  3 Oct 2022 14:02:52 +0100 (BST)
+References: <20220930212622.108363-1-richard.henderson@linaro.org>
+ <20220930212622.108363-16-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: peter.maydell@linux.org, alex.bennee@linux.org, Philippe =?utf-8?Q?Mat?=
+ =?utf-8?Q?hieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 15/18] include/hw/core: Create struct CPUJumpCache
+Date: Mon, 03 Oct 2022 13:57:19 +0100
+In-reply-to: <20220930212622.108363-16-richard.henderson@linaro.org>
+Message-ID: <877d1hnjpf.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH v3 1/2] hw/intc: Fix LoongArch extioi function
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
- mark.cave-ayland@ilande.co.uk, peter.maydell@linaro.org
-References: <20220930071045.848674-1-yangxiaojuan@loongson.cn>
- <20220930071045.848674-2-yangxiaojuan@loongson.cn>
-In-Reply-To: <20220930071045.848674-2-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.467,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,154 +94,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Hi,
 
-On 30/9/22 09:10, Xiaojuan Yang wrote:
-> 1.When cpu read or write extioi COREISR reg, it should access
-> the reg belonged to itself, so the index of 's->coreisr' is
-> current cpu number. Using MemTxAttrs' requester_type and id
-> to get the cpu index.
-> 2.Remove the unused extioi system memory region and we only
-> support the extioi iocsr memory region now.
-> 
-> Based-on: <20220927141504.3886314-1-alex.bennee@linaro.org>
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Wrap the bare TranslationBlock pointer into a structure.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/intc/loongarch_extioi.c      | 51 +++++++++++++++++++--------------
->   hw/intc/trace-events            |  2 +-
->   target/loongarch/iocsr_helper.c | 16 +++++------
->   3 files changed, 38 insertions(+), 31 deletions(-)
+>  accel/tcg/tb-hash.h       |  1 +
+>  accel/tcg/tb-jmp-cache.h  | 24 ++++++++++++++++++++++++
+>  include/exec/cpu-common.h |  1 +
+>  include/hw/core/cpu.h     | 15 +--------------
+>  include/qemu/typedefs.h   |  1 +
+>  accel/tcg/cpu-exec.c      | 10 +++++++---
+>  accel/tcg/cputlb.c        |  9 +++++----
+>  accel/tcg/translate-all.c | 28 +++++++++++++++++++++++++---
+>  hw/core/cpu-common.c      |  3 +--
+>  plugins/core.c            |  2 +-
+>  trace/control-target.c    |  2 +-
+>  11 files changed, 68 insertions(+), 28 deletions(-)
+>  create mode 100644 accel/tcg/tb-jmp-cache.h
+>
+> diff --git a/accel/tcg/tb-hash.h b/accel/tcg/tb-hash.h
+> index 0a273d9605..83dc610e4c 100644
+> --- a/accel/tcg/tb-hash.h
+> +++ b/accel/tcg/tb-hash.h
+> @@ -23,6 +23,7 @@
+>  #include "exec/cpu-defs.h"
+>  #include "exec/exec-all.h"
+>  #include "qemu/xxhash.h"
+> +#include "tb-jmp-cache.h"
+>=20=20
+>  #ifdef CONFIG_SOFTMMU
+>=20=20
+> diff --git a/accel/tcg/tb-jmp-cache.h b/accel/tcg/tb-jmp-cache.h
+> new file mode 100644
+> index 0000000000..2d8fbb1bfe
+> --- /dev/null
+> +++ b/accel/tcg/tb-jmp-cache.h
+> @@ -0,0 +1,24 @@
+> +/*
+> + * The per-CPU TranslationBlock jump cache.
+> + *
+> + *  Copyright (c) 2003 Fabrice Bellard
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#ifndef ACCEL_TCG_TB_JMP_CACHE_H
+> +#define ACCEL_TCG_TB_JMP_CACHE_H
+> +
+> +#define TB_JMP_CACHE_BITS 12
+> +#define TB_JMP_CACHE_SIZE (1 << TB_JMP_CACHE_BITS)
+> +
+> +/*
+> + * Accessed in parallel; all accesses to 'tb' must be atomic.
+> + */
+> +struct CPUJumpCache {
+> +    struct {
+> +        TranslationBlock *tb;
+> +    } array[TB_JMP_CACHE_SIZE];
+> +};
+> +
+> +#endif /* ACCEL_TCG_TB_JMP_CACHE_H */
 
-> -static uint64_t extioi_readw(void *opaque, hwaddr addr, unsigned size)
-> +static MemTxResult extioi_readw(void *opaque, hwaddr addr, uint64_t *data,
-> +                                unsigned size, MemTxAttrs attrs)
->   {
->       LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
->       unsigned long offset = addr & 0xffff;
-> -    uint32_t index, cpu, ret = 0;
-> +    uint32_t index, cpu;
->   
->       switch (offset) {
->       case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
->           index = (offset - EXTIOI_NODETYPE_START) >> 2;
-> -        ret = s->nodetype[index];
-> +        *data = s->nodetype[index];
->           break;
->       case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
->           index = (offset - EXTIOI_IPMAP_START) >> 2;
-> -        ret = s->ipmap[index];
-> +        *data = s->ipmap[index];
->           break;
->       case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
->           index = (offset - EXTIOI_ENABLE_START) >> 2;
-> -        ret = s->enable[index];
-> +        *data = s->enable[index];
->           break;
->       case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
->           index = (offset - EXTIOI_BOUNCE_START) >> 2;
-> -        ret = s->bounce[index];
-> +        *data = s->bounce[index];
->           break;
->       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
-> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
-> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
-> -        ret = s->coreisr[cpu][index];
-> +        index = (offset - EXTIOI_COREISR_START) >> 2;
-> +        /* using attrs to get current cpu index */
-> +        if (attrs.requester_type != MTRT_CPU) {
+When I saw this I wondered if...
 
-We now miss the trace event. Should we add another one for errors?
+> diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+> index d909429427..c493510ee9 100644
+> --- a/include/exec/cpu-common.h
+> +++ b/include/exec/cpu-common.h
+> @@ -38,6 +38,7 @@ void cpu_list_unlock(void);
+>  unsigned int cpu_list_generation_id_get(void);
+>=20=20
+>  void tcg_flush_softmmu_tlb(CPUState *cs);
+> +void tcg_flush_jmp_cache(CPUState *cs);
 
-> +            return MEMTX_ACCESS_ERROR;
+this helper and ....
+
+<snip>
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index 3a63113c41..63ecc15236 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+<snip>
+
+.. this one should be moved into accel/tcg/tb-jmp-cache.c so we can keep
+all the jmp cache stuff nicely contained (and cut down the grab bag of
+content to translate-all a bit)?
+
+>=20=20
+> +/*
+> + * Called by generic code at e.g. cpu reset after cpu creation,
+> + * therefore we must be prepared to allocate the jump cache.
+> + */
+> +void tcg_flush_jmp_cache(CPUState *cpu)
+> +{
+> +    CPUJumpCache *jc =3D cpu->tb_jmp_cache;
+> +
+> +    if (likely(jc)) {
+> +        for (int i =3D 0; i < TB_JMP_CACHE_SIZE; i++) {
+> +            qatomic_set(&jc->array[i].tb, NULL);
 > +        }
-> +        cpu = attrs.requester_id;
-> +        *data = s->coreisr[cpu][index];
->           break;
->       case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
->           index = (offset - EXTIOI_COREMAP_START) >> 2;
-> -        ret = s->coremap[index];
-> +        *data = s->coremap[index];
->           break;
->       default:
->           break;
->       }
->   
-> -    trace_loongarch_extioi_readw(addr, ret);
-> -    return ret;
-> +    trace_loongarch_extioi_readw(addr, *data);
-> +    return MEMTX_OK;
->   }
->   
->   static inline void extioi_enable_irq(LoongArchExtIOI *s, int index,\
-> @@ -127,8 +131,9 @@ static inline void extioi_enable_irq(LoongArchExtIOI *s, int index,\
->       }
->   }
->   
-> -static void extioi_writew(void *opaque, hwaddr addr,
-> -                          uint64_t val, unsigned size)
-> +static MemTxResult extioi_writew(void *opaque, hwaddr addr,
-> +                          uint64_t val, unsigned size,
-> +                          MemTxAttrs attrs)
->   {
->       LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
->       int i, cpu, index, old_data, irq;
-> @@ -183,8 +188,12 @@ static void extioi_writew(void *opaque, hwaddr addr,
->           s->bounce[index] = val;
->           break;
->       case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
-> -        index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
-> -        cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
-> +        index = (offset - EXTIOI_COREISR_START) >> 2;
-> +        /* using attrs to get current cpu index */
-> +        if (attrs.requester_type != MTRT_CPU) {
-> +            return MEMTX_ACCESS_ERROR;
+> +    } else {
+> +        /* This should happen once during realize, and thus never race. =
+*/
+> +        jc =3D g_new0(CPUJumpCache, 1);
+> +        jc =3D qatomic_xchg(&cpu->tb_jmp_cache, jc);
+> +        assert(jc =3D=3D NULL);
+> +    }
+> +}
+> +
+<snip>
 
-Ditto trace event.
+Anyway:
 
-> +        }
-> +        cpu = attrs.requester_id;
->           old_data = s->coreisr[cpu][index];
->           s->coreisr[cpu][index] = old_data & ~val;
->           /* write 1 to clear interrrupt */
-> @@ -231,11 +240,12 @@ static void extioi_writew(void *opaque, hwaddr addr,
->       default:
->           break;
->       }
-> +    return MEMTX_OK;
->   }
->   
->   static const MemoryRegionOps extioi_ops = {
-> -    .read = extioi_readw,
-> -    .write = extioi_writew,
-> +    .read_with_attrs = extioi_readw,
-> +    .write_with_attrs = extioi_writew,
->       .impl.min_access_size = 4,
->       .impl.max_access_size = 4,
->       .valid.min_access_size = 4,
-> @@ -284,9 +294,6 @@ static void loongarch_extioi_instance_init(Object *obj)
->               qdev_init_gpio_out(DEVICE(obj), &s->parent_irq[cpu][pin], 1);
->           }
->       }
-> -    memory_region_init_io(&s->extioi_system_mem, OBJECT(s), &extioi_ops,
-> -                          s, "extioi_system_mem", 0x900);
-> -    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->extioi_system_mem);
->   }
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-I am confused, isn't this used in loongarch_irq_init()?
 
-510         /* extioi iocsr memory region */
-511         memory_region_add_subregion(&env->system_iocsr, APIC_BASE,
-512 
-sysbus_mmio_get_region(SYS_BUS_DEVICE(extioi),
-513                                 cpu));
-
-Anyhow this is a separate logical change, so must go in a separate
-patch/commit.
-
-Regards,
-
-Phil.
+--=20
+Alex Benn=C3=A9e
 
