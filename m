@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAEB05F2ED4
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:32:49 +0200 (CEST)
-Received: from localhost ([::1]:53744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF14C5F2EFB
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Oct 2022 12:44:27 +0200 (CEST)
+Received: from localhost ([::1]:55858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofIki-0006pm-6g
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56128)
+	id 1ofIvz-0000Os-0W
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 06:44:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ofIfY-0002TO-DN
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:27:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29321)
+ id 1ofIgl-0003zy-UT
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:28:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ofIfV-0001H3-RC
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:27:27 -0400
+ id 1ofIgk-0001LH-6H
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 06:28:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664792845;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1664792921;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6fpSUZbksCW6EQjdoXztd45/o2mS9GsG5oWqvRNljks=;
- b=TtABExDhBeYz3c8UQvFTwWpGjkZlIXJ3NAMI9/Vhxw6HMJtTCpOJDi0EnGgDTuq3D4Ce9t
- M5OCsgmlJfKCuAN/lOMeZUD1W5Lem/b/lx1hXWFKAEov8Dsmi/5CXP4JSOM6uDH9BFHZEM
- 64hAuMQ0nXZDkjkIbSEeJsPbJycuzHU=
+ bh=omZyxFzYM4I1wAnbeXo0qmFnpL2BMWivkqM+z419xtg=;
+ b=da4L+SK6w0MZc8iVGvd9nkC6i87cCq3+6N1jXY72Kq+zLI17qsAhJ91yl2l3an9VX8WOLQ
+ aqSMgUpk5RHOfvCJ0SJ0R7DFnr9dCcz9JccBYcZ1ymzZQrznJc60oxn2S+BBnLDHNWi/7y
+ HvwJJfLWad9ts4IQ0W4orzybLO7ZHjM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-343-bdoLJ5rRMHC71m_4jWZFLQ-1; Mon, 03 Oct 2022 06:27:23 -0400
-X-MC-Unique: bdoLJ5rRMHC71m_4jWZFLQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-642-YgaF9BiwPrGFdbxcj3i0ew-1; Mon, 03 Oct 2022 06:28:40 -0400
+X-MC-Unique: YgaF9BiwPrGFdbxcj3i0ew-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F77B3C138A0;
- Mon,  3 Oct 2022 10:27:23 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B1B4E492B06;
- Mon,  3 Oct 2022 10:27:22 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 2/2] tests: avoid DOS line endings in PSK file
-Date: Mon,  3 Oct 2022 11:27:18 +0100
-Message-Id: <20221003102718.600058-3-berrange@redhat.com>
-In-Reply-To: <20221003102718.600058-1-berrange@redhat.com>
-References: <20221003102718.600058-1-berrange@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DE9F1C05143;
+ Mon,  3 Oct 2022 10:28:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D57623177;
+ Mon,  3 Oct 2022 10:28:38 +0000 (UTC)
+Date: Mon, 3 Oct 2022 11:28:36 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v4 04/54] util/qemu-sockets: Use g_get_tmp_dir() to get
+ the directory for temporary files
+Message-ID: <Yzq5VMoTQrtSU7l/@redhat.com>
+References: <20220927110632.1973965-1-bmeng.cn@gmail.com>
+ <20220927110632.1973965-5-bmeng.cn@gmail.com>
+ <CAEUhbmXuu54L7LkNKDpBnNBysTHPqdtSEQNja2S94EGfjPc0sA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <CAEUhbmXuu54L7LkNKDpBnNBysTHPqdtSEQNja2S94EGfjPc0sA@mail.gmail.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,48 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using FILE * APIs for writing the PSK file results in translation from
-UNIX to DOS line endings on Windows. When the crypto PSK code later
-loads the credentials the stray \r will result in failure to load the
-PSK credentials into GNUTLS.
+On Sat, Oct 01, 2022 at 11:44:09AM +0800, Bin Meng wrote:
+> Hi Daniel,
+> 
+> On Tue, Sep 27, 2022 at 7:06 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > Replace the existing logic to get the directory for temporary files
+> > with g_get_tmp_dir(), which works for win32 too.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >
+> > (no changes since v1)
+> >
+> >  util/qemu-sockets.c | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> 
+> Would you pick up this patch in your queue?
 
-Rather than switching the FILE* APIs to open in binary format, just
-switch to the more concise g_file_set_contents API.
+Yes, added to me queue.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/unit/crypto-tls-psk-helpers.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
-
-diff --git a/tests/unit/crypto-tls-psk-helpers.c b/tests/unit/crypto-tls-psk-helpers.c
-index 511e08cc9c..c6cc740772 100644
---- a/tests/unit/crypto-tls-psk-helpers.c
-+++ b/tests/unit/crypto-tls-psk-helpers.c
-@@ -27,15 +27,14 @@
- static void
- test_tls_psk_init_common(const char *pskfile, const char *user, const char *key)
- {
--    FILE *fp;
-+    g_autoptr(GError) gerr = NULL;
-+    g_autofree char *line = g_strdup_printf("%s:%s\n", user, key);
- 
--    fp = fopen(pskfile, "w");
--    if (fp == NULL) {
--        g_critical("Failed to create pskfile %s: %s", pskfile, strerror(errno));
-+    g_file_set_contents(pskfile, line, strlen(line), &gerr);
-+    if (gerr != NULL) {
-+        g_critical("Failed to create pskfile %s: %s", pskfile, gerr->message);
-         abort();
-     }
--    fprintf(fp, "%s:%s\n", user, key);
--    fclose(fp);
- }
- 
- void test_tls_psk_init(const char *pskfile)
+With regards,
+Daniel
 -- 
-2.37.3
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
