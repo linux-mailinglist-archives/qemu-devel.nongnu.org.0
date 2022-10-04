@@ -2,139 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDC15F3A54
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 02:05:22 +0200 (CEST)
-Received: from localhost ([::1]:42638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023465F3AB3
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 02:34:01 +0200 (CEST)
+Received: from localhost ([::1]:34038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofVR2-0002qe-NY
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 20:05:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49926)
+	id 1ofVsm-0005wD-3Q
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 20:34:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1ofVOv-0001D5-Ey
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 20:03:09 -0400
-Received: from mail-db5eur02on2072c.outbound.protection.outlook.com
- ([2a01:111:f400:fe12::72c]:14976
- helo=EUR02-DB5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1ofVlj-0007on-GL
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 20:26:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1ofVOk-0005vi-EL
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 20:03:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FQVQlrTGfq49zPDlMEIhrX6Sr+MKkTjNl3p5jJT+QIe9LWeLwYEcIwP98DRRj12oTamD3CsBWKm3bI9039LEmGNy4+meRXw3+azUXCIGRtZbR/X62cGCcR/lz1SIG48+Ch5CIjNBr0VMk4qFW/ljA4Jh6XcwiMXl2fTfqJiGUbs6yizZzdOguFozaQFAyyopD5iD7ZvpAKffc7vzrFn1pmMi3eEvifzF+HL6idL5JsU1Q569LAVUw3EmPkDZPfEgqimN2yQBdjDkBSyqstiPj+I7aNeYFt+26O43h7cgbl3MrmUJHdGgB6ROuWdaAkpkN9WNXHnwZHKotC2NP6QJFw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=24oYFCIIY7f1lMnXJe1thIBZaXHh0J67hGTR13NE+G0=;
- b=GzIuFCW5I3QJJnDujqZ5y19P4ZXbJtxCzJIAttVRHextCMaG5DxtdqUTH59eWo39WhjD+/Pd5d8gHQXGl7tJgxn9C9Npo0S7uDKcRTavi4dO+qEACjBjkb/dWQ6nsTKRxxgqs/ydfjCAEzrTDNexbvW8sU3T/zJQI9CtLbbpGQhz30mlX0ww/LXNwM+aGyB/rQgJnW/Atgy7f4cFG0lIavaWff0YUr4rFfzbFZ4qDuDnPDyXVFaS4/GQ/2LGc89z/TLS1p5GpX8qXM8d4CGTyBBfRcm8NtFxnHor94TMHqbcgxs2V8gcNOmc9Uew4PtaUNzMPtqQBIHDs+/O1QerHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=24oYFCIIY7f1lMnXJe1thIBZaXHh0J67hGTR13NE+G0=;
- b=JGEm5foci57LCJIJwyy4b+hi1s941J2O2lXSMtpQ1FfqjxlB9WepBhp4ykm2oGZHzHdaKhVQQ7XdhfQQDz79xLX+ob42cKiq3nKMxq/54+JfS7fRD1y8TMhohVt34024koqGs/u7jY/izetRZ8ZkOZHaYrW36W0C203vkK4j7cRfCBpUn3z8nlD6PSFoOcQ4bKcB7wXZok/EQo0ne92qddsR+q+M3+zIf5h+M0ykwSF2uwzvjan2nd5QPgOGk+l93u7mMVCT5FPsmkt7evNJM6PLqVol3rXNvAMh42Bz6by3/PyVgAntaU8rmMyYn0W7om+RNvKjVO1UcIAaeVp67g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
- by AS8PR08MB5943.eurprd08.prod.outlook.com (2603:10a6:20b:23e::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.24; Mon, 3 Oct
- 2022 23:57:52 +0000
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::c82b:333d:9400:dbc9]) by PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::c82b:333d:9400:dbc9%5]) with mapi id 15.20.5676.031; Mon, 3 Oct 2022
- 23:57:52 +0000
-Message-ID: <6659a0d5-60ab-9ac7-d25d-b4ff1940c6ab@virtuozzo.com>
-Date: Tue, 4 Oct 2022 01:57:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: ublk-qcow2: ublk-qcow2 is available
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, Ming Lei <tom.leiming@gmail.com>
-Cc: io-uring@vger.kernel.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, Kirill Tkhai <kirill.tkhai@openvz.org>,
- Manuel Bentele <development@manuel-bentele.de>, qemu-devel@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, rjones@redhat.com,
- Xie Yongji <xieyongji@bytedance.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
-From: "Denis V. Lunev" <den@virtuozzo.com>
-In-Reply-To: <Yzs9xQlVuW41TuNC@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1PR0302CA0002.eurprd03.prod.outlook.com
- (2603:10a6:800:e9::12) To PAXPR08MB6956.eurprd08.prod.outlook.com
- (2603:10a6:102:1db::9)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1ofVlf-0004r6-Cu
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 20:26:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664843197;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0I/lEiOBQ3COXqfsbRBTyni/ySvMDvCrmKW7u9qW9ZA=;
+ b=SHPPf8y4beuHGgb5urE2RUIbCcZr8Qx1NamYbLArUVR+A4Twvsa+9+e4zjHaROj8qvUHxl
+ 3XmTg3Js+1+GFdsK3ZlsuWUOj1EVWWTsX8Gd1NNwmbtw3jVLarqIoflCOG389L1W6HTG5z
+ 3V8MG+0FdlHXAqaXuX8NgAbOEAPpsog=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-68-opumObTUO9GHnQRQECEEvQ-1; Mon, 03 Oct 2022 20:26:34 -0400
+X-MC-Unique: opumObTUO9GHnQRQECEEvQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2BA71C05197;
+ Tue,  4 Oct 2022 00:26:33 +0000 (UTC)
+Received: from gshan.redhat.com (vpn2-54-56.bne.redhat.com [10.64.54.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D84F40C206B;
+ Tue,  4 Oct 2022 00:26:30 +0000 (UTC)
+From: Gavin Shan <gshan@redhat.com>
+To: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
+ cohuck@redhat.com, zhenyzha@redhat.com, richard.henderson@linaro.org,
+ peter.maydell@linaro.org, shan.gavin@gmail.com
+Subject: [PATCH v4 0/6] hw/arm/virt: Improve address assignment for high
+ memory regions
+Date: Tue,  4 Oct 2022 08:26:21 +0800
+Message-Id: <20221004002627.59172-1-gshan@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR08MB6956:EE_|AS8PR08MB5943:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ba94df7-c124-4dc5-6c72-08daa59b1538
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: c4ZrHYs2I+z0Tpxj6Ou1/13dI4X9nH5MqFf6VsZYR96jMhQ7EiurKnMq8XapApKCpjxWxevJYgFCQ99rc5TEKHQbvpWkyp9n/3H4ROETIAwnPXTt60VR0KSAqpZ95u/KW2vjQfzcYVmQpXYEDH8J0zb+ilY+prdXjUbGTGPFL926S2yuhQbV3Y7Mr3IbbrTHsQKjO39C8R2h29xFaEzUTfzu/XFaULYnWJx7o0AbCHo27Ft1ZBagKVSvxYdG9isF4Z82Qpxjo47suL2YqiRd6ujk3owHlNQ64py9WpVSIKbA0POlrwl7EEVNcU5bKLdBZfbzYrvBT8vIAcDQE96BSVgdceroBJT0ZLcSz2ai7p3S7EnHGUxBDpPBLZCz7cxnuCjQFWiPYrXvllmOW6YGatfnyZtzcp2kiVfCh2ndY1ihGwLr29dcCA02rA3oqK2ZObMAnoVGrOjqaUpmYJXX6otH5zGwpmcw1sxqpwLZT6k4+BLeeN6+kBPgJPRP32MFbE+DAtwVECbriSTSubOVZSZRA1f58X60xWQMV7MMNmSqknaAF20Si1HeNBd1qWbRqBPRfx38znFCmpxwUBlvmZUFEtsbFIwjob6j8jUkjoAn3UUQThooMqR6yLrVHYNuAQT3XFWsRujEgGdctar8D3tIteSOY3XRAkEx9yXHeOnc3PYHUwqC8NlHkIKsTA+OtX/byDduYSaYvzGrEJ0Of6g09Dy7LgYsf8XsVosl/S20XfaoQqtkWKv3gqyNgZhHgaKSL7X3v50BC2j/NZ2C5DjpbW2jOgX+ccF9Ll3KAvRyxE2qetoeRHbIbwhYgcnlAZjVNU5d+dvsLa32wfgoCUCLB2nDUlr4SBanfI2bo+SfmNkJ/QZGQDynjSJqLNYr3QQ2YpXM1m1K/51TIWuuJA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(376002)(39850400004)(396003)(366004)(346002)(451199015)(83380400001)(31686004)(36756003)(6506007)(86362001)(2906002)(31696002)(26005)(53546011)(6512007)(52116002)(38350700002)(38100700002)(110136005)(7416002)(66946007)(8936002)(41300700001)(66476007)(66556008)(5660300002)(4326008)(8676002)(186003)(2616005)(966005)(316002)(478600001)(6486002)(54906003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NGxuakY2a2pNRmtkcWI3RzJEbXdRSitHUFV3ZnhLQUVKRjAwUEZVaS9RMzlK?=
- =?utf-8?B?QzdqWWVCRkd6cTloQWk1T3d1dERRYldMamJvNHJmNFFYemhpV21oaGFXdEc2?=
- =?utf-8?B?NCtkTGFzMlduN2Y1NmprS095SXlsK2cwUG9WOTFPdlVEZ0F5UXVOY3ZVYlBV?=
- =?utf-8?B?OGIwZW5EK1dkV2Z3c2NVNWpYZTkvQ2o0eXh6QlNpSWlrOTN6WU5yYTkzTmFJ?=
- =?utf-8?B?ZXUxZVFVTnRNbjRlSDBzazhRajF1cllObW96MHpTVnZoYUE5a2tNb2hGemtF?=
- =?utf-8?B?RFRZcTBBMklwaGE0RzlVcERIeTlmdEJPSUNJN3BkZXY1TUxSeVJ6MnRjbGxr?=
- =?utf-8?B?YkU3emRKNFhEaGUzZElUMXRjdzNXT2JQRktVb2hZeDdVdGRBRDRsWTFRb1By?=
- =?utf-8?B?cDVjcGlUOUxXaHZJanpqbXJPWE80L2JmQmRmRTBVMEs3UHZlZ1J3MXhSclFl?=
- =?utf-8?B?WnZhMjRxeFA4SGtYalZpVFJWUUdyVng0R1VFWUpTWEZTLzJMRkFLcHFJc2lr?=
- =?utf-8?B?S2duTUtYRWJqMjVRZGE5emNrejVHNldkWXFaSVE5bW85STF1Z3VzOFBpOXRu?=
- =?utf-8?B?c1NrWHdNKys4eTNTVU9MVkJGRlRYZyt3L1gxTm1HM1FORmMwSitFRFpDNHJ3?=
- =?utf-8?B?N0orQzB4TEJZemxHNC81NEF6WDU2UU5QUU52a2NSY2ovbUdMbTVVYzBXREMr?=
- =?utf-8?B?dGwxQ1lSQ0hnSmRXK0R3MU8zcS9FSnBZMytFSytjSzZuSnpxMXd6MHl5NzU4?=
- =?utf-8?B?WlhPckZ6RGcyRTluSi9GOHNBT0dPbGpZNzVwZHRsdnlpWFR1ZjR1c0c4ckVD?=
- =?utf-8?B?bDF3QkFrN3c1YkJicUFMcUdaWUhzNnpqMWd0ZkRldVdNRHZEVDZkM2xUTGRL?=
- =?utf-8?B?L3NZT0lTR240d0JBOWZqZ3J6ekpUK1czd2J6MzJQL2Q0Snp0NGdFemdLTVhB?=
- =?utf-8?B?YmgweThrTHNVTlVTRmNXdUFTT0YzS0tvQUV6UmVjUVl4SmxIc3l0OUxLTEpi?=
- =?utf-8?B?czBnaDRTcTRweUhoZm9LQVFLMWYyUU1CcGhzRHpMbTFqcVNCdUxrcTJyb1hP?=
- =?utf-8?B?L1FZREpzK2JBTlNJRHc5NmVaL3drcCtvR0JGRXd2a2I1TTBIdlJPV3ZHK21J?=
- =?utf-8?B?SkF2L2NyTkp1SDZzdHgxNjVwaGpaRGFTOVBSeXNtUkIvSjZ0QVhnSHJxbUU3?=
- =?utf-8?B?cTBGQnVKWE1tMWRPMzdoYzVZTDA4NHZCa0FML0tia09WOUJDNWFQajgvS3Bq?=
- =?utf-8?B?dWV1blhIQ3l0a3ZmSmVLRmNBR2JyL2tWaWJZRjA3K1kxZzdpVzJCKzBZWTN0?=
- =?utf-8?B?dHFVb2VxSXloVjUzY2ZWRDVXUklLYmsrYmxnL0tUaEdwN0JnVDJrbGpiVEdo?=
- =?utf-8?B?NVNVMDhmdkg0UkFqNGF4cjI4VzZBb2h5aStLMXY0M1ZYdTFkWTI2K0s4K1pk?=
- =?utf-8?B?Y25QQkE2ZHpiYlYxeVgzVlJydVNzU01MTjJZemMveHNtTTRybEVxWjdlUVVX?=
- =?utf-8?B?T2hlRXRHRWpGUnU3amF4bXN6eXgvdGVNS1FYN2lYeFhFK1lGQlA1MDVSdExQ?=
- =?utf-8?B?NUNSUTFCR2NLWjgxazg4N3Nic3FlbTdkRTFvNFZaa2tHclNhMWxlZm9leXlD?=
- =?utf-8?B?RHNheWp3UzFzWE5Uc3lTZGFyNlREbms4OVI2WXVYaW50Q1RuaXptcDF3UXFP?=
- =?utf-8?B?bHMyUVlXSE9yZVQ5d2Jna21ldklnZWNhUUZ0ajZsVUxRV05scU5DNDcrYlFW?=
- =?utf-8?B?WTdObzdlMWpnWHhLWjRtanJSYXo0NC8xbElDd2xic1RDQkJlUnRURk10dWhs?=
- =?utf-8?B?bk1wOG1OWk1FTWJ2NjNJMzF1U1lDTDYvaTE0OC9JNG5DSklWWmhCVDBSdkt4?=
- =?utf-8?B?b2Zqdjh2WDB1Wlo5K3hWUzgrVFpwdk95aWNyTS9TVEZjMDhWYm9VZ1FldEV0?=
- =?utf-8?B?YW5aeXJjNmVZd2ZxTEZBSHBwMEg0RTFmV2JsNndsSDhrVlE5U01JRHdQNUNK?=
- =?utf-8?B?WmdqSkhEVk5pdEhIa1BZYk1IVjJseGk1Z0VoK0tUZ1R6NXhUT2pzNVcrOXky?=
- =?utf-8?B?N0JSTjhaOVBSVDJTNHpCTTNiUVQ5U1RFT1FYTFpVbWNzV0dQbHc1YUxPTXZ0?=
- =?utf-8?Q?DrBm/otXu5/1NGElqdfV8iD8v?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ba94df7-c124-4dc5-6c72-08daa59b1538
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2022 23:57:52.2598 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bIwb+gYny3fXvy3+pLK5B1oFcsfMjRp6gEDVpfuOWxBHVwDBCftdJSX1cnzXsN8eMUYNK40q1Z4s2hF/NW45uA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5943
-Received-SPF: pass client-ip=2a01:111:f400:fe12::72c;
- envelope-from=den@virtuozzo.com;
- helo=EUR02-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.467,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URI_DOTEDU=1.999 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -150,118 +77,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/3/22 21:53, Stefan Hajnoczi wrote:
-> On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
->> ublk-qcow2 is available now.
-> Cool, thanks for sharing!
-yep
+There are three high memory regions, which are VIRT_HIGH_REDIST2,
+VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
+are floating on highest RAM address. However, they can be disabled
+in several cases.
 
->> So far it provides basic read/write function, and compression and snapshot
->> aren't supported yet. The target/backend implementation is completely
->> based on io_uring, and share the same io_uring with ublk IO command
->> handler, just like what ublk-loop does.
->>
->> Follows the main motivations of ublk-qcow2:
->>
->> - building one complicated target from scratch helps libublksrv APIs/functions
->>    become mature/stable more quickly, since qcow2 is complicated and needs more
->>    requirement from libublksrv compared with other simple ones(loop, null)
->>
->> - there are several attempts of implementing qcow2 driver in kernel, such as
->>    ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`` [4], so ublk-qcow2
->>    might useful be for covering requirement in this field
-There is one important thing to keep in mind about all partly-userspace
-implementations though:
-* any single allocation happened in the context of the
-    userspace daemon through try_to_free_pages() in
-    kernel has a possibility to trigger the operation,
-    which will require userspace daemon action, which
-    is inside the kernel now.
-* the probability of this is higher in the overcommitted
-    environment
+(1) One specific high memory region is disabled by developer by
+    toggling vms->highmem_{redists, ecam, mmio}.
 
-This was the main motivation of us in favor for the in-kernel
-implementation.
+(2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
+    'virt-2.12' or ealier than it.
 
->> - performance comparison with qemu-nbd, and it was my 1st thought to evaluate
->>    performance of ublk/io_uring backend by writing one ublk-qcow2 since ublksrv
->>    is started
->>
->> - help to abstract common building block or design pattern for writing new ublk
->>    target/backend
->>
->> So far it basically passes xfstest(XFS) test by using ublk-qcow2 block
->> device as TEST_DEV, and kernel building workload is verified too. Also
->> soft update approach is applied in meta flushing, and meta data
->> integrity is guaranteed, 'make test T=qcow2/040' covers this kind of
->> test, and only cluster leak is reported during this test.
->>
->> The performance data looks much better compared with qemu-nbd, see
->> details in commit log[1], README[5] and STATUS[6]. And the test covers both
->> empty image and pre-allocated image, for example of pre-allocated qcow2
->> image(8GB):
->>
->> - qemu-nbd (make test T=qcow2/002)
-> Single queue?
->
->> 	randwrite(4k): jobs 1, iops 24605
->> 	randread(4k): jobs 1, iops 30938
->> 	randrw(4k): jobs 1, iops read 13981 write 14001
->> 	rw(512k): jobs 1, iops read 724 write 728
-> Please try qemu-storage-daemon's VDUSE export type as well. The
-> command-line should be similar to this:
->
->    # modprobe virtio_vdpa # attaches vDPA devices to host kernel
->    # modprobe vduse
->    # qemu-storage-daemon \
->        --blockdev file,filename=test.qcow2,cache.direct=of|off,aio=native,node-name=file \
->        --blockdev qcow2,file=file,node-name=qcow2 \
->        --object iothread,id=iothread0 \
->        --export vduse-blk,id=vduse0,name=vduse0,num-queues=$(nproc),node-name=qcow2,writable=on,iothread=iothread0
->    # vdpa dev add name vduse0 mgmtdev vduse
->
-> A virtio-blk device should appear and xfstests can be run on it
-> (typically /dev/vda unless you already have other virtio-blk devices).
->
-> Afterwards you can destroy the device using:
->
->    # vdpa dev del vduse0
-but this would be anyway limited by a single thread doing AIO in
-qemu-storage-daemon, I believe.
+(3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
+    on 32-bits system.
 
+(4) One specific high memory region is disabled when it breaks the
+    PA space limit.
 
->> - ublk-qcow2 (make test T=qcow2/022)
-> There are a lot of other factors not directly related to NBD vs ublk. In
-> order to get an apples-to-apples comparison with qemu-* a ublk export
-> type is needed in qemu-storage-daemon. That way only the difference is
-> the ublk interface and the rest of the code path is identical, making it
-> possible to compare NBD, VDUSE, ublk, etc more precisely.
->
-> I think that comparison is interesting before comparing different qcow2
-> implementations because qcow2 sits on top of too much other code. It's
-> hard to know what should be accounted to configuration differences,
-> implementation differences, or fundamental differences that cannot be
-> overcome (this is the interesting part!).
->
->> 	randwrite(4k): jobs 1, iops 104481
->> 	randread(4k): jobs 1, iops 114937
->> 	randrw(4k): jobs 1, iops read 53630 write 53577
->> 	rw(512k): jobs 1, iops read 1412 write 1423
->>
->> Also ublk-qcow2 aligns queue's chunk_sectors limit with qcow2's cluster size,
->> which is 64KB at default, this way simplifies backend io handling, but
->> it could be increased to 512K or more proper size for improving sequential
->> IO perf, just need one coroutine to handle more than one IOs.
->>
->>
->> [1] https://github.com/ming1/ubdsrv/commit/9faabbec3a92ca83ddae92335c66eabbeff654e7
->> [2] https://upcommons.upc.edu/bitstream/handle/2099.1/9619/65757.pdf?sequence=1&isAllowed=y
->> [3] https://lwn.net/Articles/889429/
->> [4] https://lab.ks.uni-freiburg.de/projects/kernel-qcow2/repository
->> [5] https://github.com/ming1/ubdsrv/blob/master/qcow2/README.rst
->> [6] https://github.com/ming1/ubdsrv/blob/master/qcow2/STATUS.rst
+The current implementation of virt_set_memmap() isn't comprehensive
+because the space for one specific high memory region is always
+reserved from the PA space for case (1), (2) and (3). In the code,
+'base' and 'vms->highest_gpa' are always increased for those three
+cases. It's unnecessary since the assigned space of the disabled
+high memory region won't be used afterwards.
 
-interesting...
+The series intends to improve the address assignment for these
+high memory regions.
 
-Den
+PATCH[1-4] preparatory work for the improvment
+PATCH[5]   improve high memory region address assignment
+PATCH[6]   adds 'compact-highmem' to enable or disable the optimization
+
+History
+=======
+v3: https://lists.nongnu.org/archive/html/qemu-arm/2022-09/msg00258.html
+v2: https://lore.kernel.org/all/20220815062958.100366-1-gshan@redhat.com/T/
+v1: https://lists.nongnu.org/archive/html/qemu-arm/2022-08/msg00013.html
+
+Changelog
+==========
+v4:
+  * Add virt_get_high_memmap_enabled() helper                  (Eric)
+  * Move 'vms->highmem_compact' and related logic from
+    PATCH[v4 6/6] to PATCH[v4 5/6] to avoid git-bisect
+    breakage                                                   (Eric)
+  * Document the legacy and optimized high memory region
+    layout in commit log and source code                       (Eric)
+v3:
+  * Reorder the patches                                        (Gavin)
+  * Add 'highmem-compact' property for backwards compatibility (Eric)
+v2:
+  * Split the patches for easier review                        (Gavin)
+  * Improved changelog                                         (Marc)
+  * Use 'bool fits' in virt_set_high_memmap()                  (Eric)
+
+Gavin Shan (6):
+  hw/arm/virt: Introduce virt_set_high_memmap() helper
+  hw/arm/virt: Rename variable size to region_size in
+    virt_set_high_memmap()
+  hw/arm/virt: Introduce variable region_base in virt_set_high_memmap()
+  hw/arm/virt: Introduce virt_get_high_memmap_enabled() helper
+  hw/arm/virt: Improve high memory region address
+  hw/arm/virt: Add 'compact-highmem' property
+
+ docs/system/arm/virt.rst |   4 ++
+ hw/arm/virt.c            | 131 +++++++++++++++++++++++++++++----------
+ include/hw/arm/virt.h    |   2 +
+ 3 files changed, 104 insertions(+), 33 deletions(-)
+
+-- 
+2.23.0
+
 
