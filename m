@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750265F49F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 21:58:09 +0200 (CEST)
-Received: from localhost ([::1]:57456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1465F49F5
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 21:59:31 +0200 (CEST)
+Received: from localhost ([::1]:41476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofo3L-0007hc-Rt
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 15:58:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41256)
+	id 1ofo4g-0001Ne-3p
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 15:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofnyA-0001hE-VM
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 15:52:47 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:33661)
+ id 1ofnyC-0001hR-5d
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 15:52:48 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:45666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofny8-0000F3-Bj
+ id 1ofny8-0000F8-RF
  for qemu-devel@nongnu.org; Tue, 04 Oct 2022 15:52:46 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- bu5-20020a17090aee4500b00202e9ca2182so1954740pjb.0
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 12:52:43 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id r18so446926pgr.12
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 12:52:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=3RBM8NyGboVoRk3jOiO6rEyHjw9N5wA6yHvtDwtV/u0=;
- b=LphNH8qoP8qIsNgKDO/5RN7LcTwq5kkxKR3X3Rjdnh1gs9L9kdr6XGMpTka9ANPqAO
- /pHGj+yTk0dA2yL38QpWAnQ8e3mA1jBceeNWlXnhS/dcsfcFiDKzY0Ft4blT9c6zaf/2
- T3Rs9YiGtzyg29xDmprzagU3duntEsGlp4YdXtPXn8T3Ei8B/K6fvpqvbtYJDjfR3sTF
- UV+Rk7w25kqUsJuYUFIiXYmo/Pc0QpSnKKuJdARdHmeNhz+yqE4wwFXexkNVn820vI/+
- ybF1Q1aVelUNFwuBjgVuuYNW5zQbVH5rUJea86q9jN/OSYD+Afy9MRXIBdVkzxu4yP6I
- ZJ/w==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=nRMEXB7YPadVE5hdI4341oxvhxYYKiN9qf3uVsx6pus=;
+ b=Ovr8LVjxTZV4jPUkhmNVH/mkP4ioR74o75OUxxB7YAzmGKP+yEx8B2HyRPgvBcubo+
+ ZjhA450AErjI0/ZdHO7XfKlU5bfxJcX+O38N3FO1YD3JE/0ZFIFoauOdAM+ga367jBVo
+ AIK4sbKwse3aTuLqsq3ASj59GOA8FRKm09LKNHV0qx/APAIJT09QMX6AgxvP4nm/zzL9
+ VdwMXytkGaNpgYTUkmDkMb6wWRZqX3wapmaf7z5PlufRFMSBsAOuWBhz8zJ4flq6r/5p
+ Pf94sLuWUxeiXEgIW6nhFBtpJKxYV+iTtBozCjBEZTprjPDbDmhbY0OIN/Vz0SKM04sP
+ DScA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=3RBM8NyGboVoRk3jOiO6rEyHjw9N5wA6yHvtDwtV/u0=;
- b=e+uBTjd0MT4bZjYy0ARWxFusDqni4w9Y9NLEYpyGQD8xTAa3TfqTW4vtMVZCWM7rRq
- CWGlBN03Ld4SkGS3eFIG2nAvw4zfrr1AIlvqh/7DwLLmj62hFlVTCsjMZBDfRTJVZyia
- roOHRcLYuDrRIjaakz6pkvKJZkwV9ztAKy0Qb4bzK6VxlPxCTDktynFWHffudj+GN6aW
- Ml+S+lDD/7fHP4Bkt/OoF73hsutTYlP3q1JCLzI1wxpjFM0ZMpPqPJU2ncXzSnnn2801
- WdsNbHW5a1Wtax/sS7kQuiNPhVwsDKkIApQF+GfuD1SWNJzQ3a9eCsOcXywGbbfvF53B
- W3Vg==
-X-Gm-Message-State: ACrzQf1EsPKJjHR9sixw+6TB2Vr4GZY6sfYIWIXoO5BEBR/bG5HdoeXm
- xt24H0ZxBE894AVdscvWlCAUgwVxPeUujA==
-X-Google-Smtp-Source: AMsMyM6cvYueWbSCGiP4qBhrUgwbzHYnTGuI+/NDiT3hCpE8/id1KwTywKnbzYRY7hHITEea+oqI9g==
-X-Received: by 2002:a17:902:8549:b0:178:6399:3e0f with SMTP id
- d9-20020a170902854900b0017863993e0fmr28904950plo.35.1664913162650; 
- Tue, 04 Oct 2022 12:52:42 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=nRMEXB7YPadVE5hdI4341oxvhxYYKiN9qf3uVsx6pus=;
+ b=VZr0RD54+vUGepN4mwIbsnRZSybqhuJ5wjjRIy/IpYJ+qLQFV+AZ4QYhjr8vZHePHD
+ R4VCqg6cVXRKrdt4hAnekEV5Ia7gUX6AaJ6U2mMvUeVNHHjdN/cFVwThm6VrQtdc10RP
+ JATvd1iM2+b+wdFarx5MBZQIezN+XQIUoKq3O0g2/z3NRssfMFXOHzfr1MjdMJwlrqpm
+ hjobe1WD40A4iXD6AMy77NPD4lmaKzLDtvQ939ADIXIZtZ5fOMHqZ1yLL00iRj5eW/+H
+ uLGHxyxeHwOuzWTOAGg/o3zQFpKFaNx4FNWmPw91YhxtP4V9Xe/oCLMlMXI/OxdxHTQt
+ N8lg==
+X-Gm-Message-State: ACrzQf0kUKtpJYe21mTphWpIpxUlz14t6hexhOCYSptCUk6fjV5fg5S4
+ et6FRj7FTi/j5poqpsXtDhJwqkpN7LKSCw==
+X-Google-Smtp-Source: AMsMyM6kNK9ny1qiTxf01FTX49ldjKcCPs6qbFn2OIL66cUxRscvrLI2nFnL1h9xJHGKdP56DUkyMw==
+X-Received: by 2002:a05:6a00:2449:b0:528:3a29:e79d with SMTP id
+ d9-20020a056a00244900b005283a29e79dmr29488266pfj.39.1664913163539; 
+ Tue, 04 Oct 2022 12:52:43 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:526e:3326:a84e:e5e3])
  by smtp.gmail.com with ESMTPSA id
- u23-20020a1709026e1700b00172973d3cd9sm9293406plk.55.2022.10.04.12.52.41
+ u23-20020a1709026e1700b00172973d3cd9sm9293406plk.55.2022.10.04.12.52.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 12:52:42 -0700 (PDT)
+ Tue, 04 Oct 2022 12:52:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com
-Subject: [PULL 00/20] tcg patch queue
-Date: Tue,  4 Oct 2022 12:52:21 -0700
-Message-Id: <20221004195241.46491-1-richard.henderson@linaro.org>
+Cc: stefanha@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 01/20] cpu: cache CPUClass in CPUState for hot code paths
+Date: Tue,  4 Oct 2022 12:52:22 -0700
+Message-Id: <20221004195241.46491-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221004195241.46491-1-richard.henderson@linaro.org>
+References: <20221004195241.46491-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,114 +92,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TCG patch queue, plus one target/sh4 patch that
-Yoshinori Sato asked me to process.
+From: Alex Bennée <alex.bennee@linaro.org>
 
+The class cast checkers are quite expensive and always on (unlike the
+dynamic case who's checks are gated by CONFIG_QOM_CAST_DEBUG). To
+avoid the overhead of repeatedly checking something which should never
+change we cache the CPUClass reference for use in the hot code paths.
 
-r~
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220811151413.3350684-3-alex.bennee@linaro.org>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20220923084803.498337-3-clg@kaod.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/hw/core/cpu.h | 9 +++++++++
+ cpu.c                 | 9 ++++-----
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 500503da13..1a7e1a9380 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -51,6 +51,13 @@ typedef int (*WriteCoreDumpFunction)(const void *buf, size_t size,
+  */
+ #define CPU(obj) ((CPUState *)(obj))
+ 
++/*
++ * The class checkers bring in CPU_GET_CLASS() which is potentially
++ * expensive given the eventual call to
++ * object_class_dynamic_cast_assert(). Because of this the CPUState
++ * has a cached value for the class in cs->cc which is set up in
++ * cpu_exec_realizefn() for use in hot code paths.
++ */
+ typedef struct CPUClass CPUClass;
+ DECLARE_CLASS_CHECKERS(CPUClass, CPU,
+                        TYPE_CPU)
+@@ -317,6 +324,8 @@ struct qemu_work_item;
+ struct CPUState {
+     /*< private >*/
+     DeviceState parent_obj;
++    /* cache to avoid expensive CPU_GET_CLASS */
++    CPUClass *cc;
+     /*< public >*/
+ 
+     int nr_cores;
+diff --git a/cpu.c b/cpu.c
+index 584ac78baf..14365e36f3 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -131,9 +131,8 @@ const VMStateDescription vmstate_cpu_common = {
+ 
+ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+ {
+-#ifndef CONFIG_USER_ONLY
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
+-#endif
++    /* cache the cpu class for the hotpath */
++    cpu->cc = CPU_GET_CLASS(cpu);
+ 
+     cpu_list_add(cpu);
+     if (!accel_cpu_realizefn(cpu, errp)) {
+@@ -151,8 +150,8 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
+         vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
+     }
+-    if (cc->sysemu_ops->legacy_vmsd != NULL) {
+-        vmstate_register(NULL, cpu->cpu_index, cc->sysemu_ops->legacy_vmsd, cpu);
++    if (cpu->cc->sysemu_ops->legacy_vmsd != NULL) {
++        vmstate_register(NULL, cpu->cpu_index, cpu->cc->sysemu_ops->legacy_vmsd, cpu);
+     }
+ #endif /* CONFIG_USER_ONLY */
+ }
+-- 
+2.34.1
 
-The following changes since commit efbf38d73e5dcc4d5f8b98c6e7a12be1f3b91745:
-
-  Merge tag 'for-upstream' of git://repo.or.cz/qemu/kevin into staging (2022-10-03 15:06:07 -0400)
-
-are available in the Git repository at:
-
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20221004
-
-for you to fetch changes up to ab419fd8a035a65942de4e63effcd55ccbf1a9fe:
-
-  target/sh4: Fix TB_FLAG_UNALIGN (2022-10-04 12:33:05 -0700)
-
-----------------------------------------------------------------
-Cache CPUClass for use in hot code paths.
-Add CPUTLBEntryFull, probe_access_full, tlb_set_page_full.
-Add generic support for TARGET_TB_PCREL.
-tcg/ppc: Optimize 26-bit jumps using STQ for POWER 2.07
-target/sh4: Fix TB_FLAG_UNALIGN
-
-----------------------------------------------------------------
-Alex Bennée (3):
-      cpu: cache CPUClass in CPUState for hot code paths
-      hw/core/cpu-sysemu: used cached class in cpu_asidx_from_attrs
-      cputlb: used cached CPUClass in our hot-paths
-
-Leandro Lupori (1):
-      tcg/ppc: Optimize 26-bit jumps
-
-Richard Henderson (16):
-      accel/tcg: Rename CPUIOTLBEntry to CPUTLBEntryFull
-      accel/tcg: Drop addr member from SavedIOTLB
-      accel/tcg: Suppress auto-invalidate in probe_access_internal
-      accel/tcg: Introduce probe_access_full
-      accel/tcg: Introduce tlb_set_page_full
-      include/exec: Introduce TARGET_PAGE_ENTRY_EXTRA
-      accel/tcg: Remove PageDesc code_bitmap
-      accel/tcg: Use bool for page_find_alloc
-      accel/tcg: Use DisasContextBase in plugin_gen_tb_start
-      accel/tcg: Do not align tb->page_addr[0]
-      accel/tcg: Inline tb_flush_jmp_cache
-      include/hw/core: Create struct CPUJumpCache
-      hw/core: Add CPUClass.get_pc
-      accel/tcg: Introduce tb_pc and log_pc
-      accel/tcg: Introduce TARGET_TB_PCREL
-      target/sh4: Fix TB_FLAG_UNALIGN
-
- accel/tcg/internal.h                    |  10 ++
- accel/tcg/tb-hash.h                     |   1 +
- accel/tcg/tb-jmp-cache.h                |  65 ++++++++
- include/exec/cpu-common.h               |   1 +
- include/exec/cpu-defs.h                 |  48 ++++--
- include/exec/exec-all.h                 |  75 ++++++++-
- include/exec/plugin-gen.h               |   7 +-
- include/hw/core/cpu.h                   |  28 ++--
- include/qemu/typedefs.h                 |   2 +
- include/tcg/tcg.h                       |   2 +-
- target/sh4/cpu.h                        |  56 ++++---
- accel/stubs/tcg-stub.c                  |   4 +
- accel/tcg/cpu-exec.c                    |  80 +++++-----
- accel/tcg/cputlb.c                      | 259 ++++++++++++++++++--------------
- accel/tcg/plugin-gen.c                  |  22 +--
- accel/tcg/translate-all.c               | 214 ++++++++++++--------------
- accel/tcg/translator.c                  |   2 +-
- cpu.c                                   |   9 +-
- hw/core/cpu-common.c                    |   3 +-
- hw/core/cpu-sysemu.c                    |   5 +-
- linux-user/sh4/signal.c                 |   6 +-
- plugins/core.c                          |   2 +-
- target/alpha/cpu.c                      |   9 ++
- target/arm/cpu.c                        |  17 ++-
- target/arm/mte_helper.c                 |  14 +-
- target/arm/sve_helper.c                 |   4 +-
- target/arm/translate-a64.c              |   2 +-
- target/avr/cpu.c                        |  10 +-
- target/cris/cpu.c                       |   8 +
- target/hexagon/cpu.c                    |  10 +-
- target/hppa/cpu.c                       |  12 +-
- target/i386/cpu.c                       |   9 ++
- target/i386/tcg/tcg-cpu.c               |   2 +-
- target/loongarch/cpu.c                  |  11 +-
- target/m68k/cpu.c                       |   8 +
- target/microblaze/cpu.c                 |  10 +-
- target/mips/cpu.c                       |   8 +
- target/mips/tcg/exception.c             |   2 +-
- target/mips/tcg/sysemu/special_helper.c |   2 +-
- target/nios2/cpu.c                      |   9 ++
- target/openrisc/cpu.c                   |  10 +-
- target/ppc/cpu_init.c                   |   8 +
- target/riscv/cpu.c                      |  17 ++-
- target/rx/cpu.c                         |  10 +-
- target/s390x/cpu.c                      |   8 +
- target/s390x/tcg/mem_helper.c           |   4 -
- target/sh4/cpu.c                        |  18 ++-
- target/sh4/helper.c                     |   6 +-
- target/sh4/translate.c                  |  90 +++++------
- target/sparc/cpu.c                      |  10 +-
- target/tricore/cpu.c                    |  11 +-
- target/xtensa/cpu.c                     |   8 +
- tcg/tcg.c                               |   8 +-
- trace/control-target.c                  |   2 +-
- tcg/ppc/tcg-target.c.inc                | 119 +++++++++++----
- 55 files changed, 915 insertions(+), 462 deletions(-)
- create mode 100644 accel/tcg/tb-jmp-cache.h
 
