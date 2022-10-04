@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40625F41D0
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 13:14:26 +0200 (CEST)
-Received: from localhost ([::1]:58538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3905F4200
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 13:29:43 +0200 (CEST)
+Received: from localhost ([::1]:57088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1offsY-0000Ey-48
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 07:14:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40516)
+	id 1ofg7K-0008TX-5T
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 07:29:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org>)
- id 1offov-0005Mw-OZ
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 07:10:41 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:44964)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1offz5-0005ga-Mv
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 07:21:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org>)
- id 1offot-0005pP-QR
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 07:10:41 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8A46261329
- for <qemu-devel@nongnu.org>; Tue,  4 Oct 2022 11:10:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7E90C433D6
- for <qemu-devel@nongnu.org>; Tue,  4 Oct 2022 11:10:35 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="RbPV9pZh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664881833;
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1offz0-0007fc-L8
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 07:21:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664882465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ajBRTUqWYq/z16/huV0n8Gpu7U+LrPQQWNIxTi9igwE=;
- b=RbPV9pZhKiaNu2vUFot+rletGTf/dZiNwMQ6GfirtAqbQSlhtqn/eyeW595oiK9SgyIQLT
- y+qVvyHGd+wzRNjWU69zWhtu5jfxwLx8dXHzOjm5hQs8kWtZK+3lXcAMsvBpuCURzrpOzD
- C2jHvWKKHq+aK2pZ5sTvHCcCVyiuJzw=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9fa73634
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Tue, 4 Oct 2022 11:10:33 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id p4so2930885uao.0
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 04:10:32 -0700 (PDT)
-X-Gm-Message-State: ACrzQf2Sxdf2iOipKECJxafDYuPlr6qtf0hceMW1U+8M1seUjGbVwj3n
- 29G2XPcLZl0M381HW23ThbMR/0QcekPHq2MSk1w=
-X-Google-Smtp-Source: AMsMyM7DVIxxPkp0Lz8qvkNYFm/cvlfmn+NmBE7zmMD51WOMVMRia/+Jif0CtqlJgBm/cX49zhZSqB64Y6oWaU0Jprg=
-X-Received: by 2002:ab0:6154:0:b0:398:c252:23d8 with SMTP id
- w20-20020ab06154000000b00398c25223d8mr12012501uan.65.1664881831677; Tue, 04
- Oct 2022 04:10:31 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=H7HThnAMN0fWHosrDqPzDLG2YSUpRlrMvNbw81l/jCQ=;
+ b=DGkPP5U8JHi43zJQhd6EkhGdv0hP6jFYZwPr2jd50RDzuAJgXnQQdSSNQOkB1r1ZtQUuum
+ ZfysQfUgsI0Orvd9n2/FJ227Dp/TSMoBmitefliLMEgyG69UnwYkgKAVjqo/w+7tGuZLcC
+ /MbRD8tfYrvFTPpFKb1iA/VMZ1JgN5U=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-381-8-Hl_4Z2NMGibJIMzJVQXw-1; Tue, 04 Oct 2022 07:21:02 -0400
+X-MC-Unique: 8-Hl_4Z2NMGibJIMzJVQXw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA6293833283;
+ Tue,  4 Oct 2022 11:21:01 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A5C71C15BA4;
+ Tue,  4 Oct 2022 11:21:01 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 654DE18000B3; Tue,  4 Oct 2022 13:21:00 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ peter.maydell@linaro.org, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v3 0/5] pci-ids: virtio cleanup
+Date: Tue,  4 Oct 2022 13:20:55 +0200
+Message-Id: <20221004112100.301935-1-kraxel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <YziPyCqwl5KIE2cf@zx2c4.com>
- <20221003103627.947985-1-Jason@zx2c4.com>
- <b529059a-7819-e49d-e4dc-7ae79ee21ec5@amsat.org>
- <CAHmME9pUuduiEcmi2xaY3cd87D_GNX1bkVeXNqVq6AL_e=Kt+Q@mail.gmail.com>
- <YzwM+KhUG0bg+P2e@zx2c4.com>
- <CAFEAcA9KsooNnYxiqQG-RHustSx0Q3-F8ibpQbXbwxDCA+2Fhg@mail.gmail.com>
- <CAHmME9qmSX=QmBa-k4T1U=Gnz-EtahnYxLmOewpN85H9TqNSmA@mail.gmail.com>
- <CAFEAcA9-_qmtJgy_WRJT5TUKMm_60U53Mb9a+_BqUnQSS7PPcg@mail.gmail.com>
-In-Reply-To: <CAFEAcA9-_qmtJgy_WRJT5TUKMm_60U53Mb9a+_BqUnQSS7PPcg@mail.gmail.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Tue, 4 Oct 2022 13:10:20 +0200
-X-Gmail-Original-Message-ID: <CAHmME9qDN_m6+6R3OiNueHc0qEcvptpO9+0HxZ713knZ=8fkoQ@mail.gmail.com>
-Message-ID: <CAHmME9qDN_m6+6R3OiNueHc0qEcvptpO9+0HxZ713knZ=8fkoQ@mail.gmail.com>
-Subject: Re: [PATCH v2] mips/malta: pass RNG seed to to kernel via env var
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Aurelien Jarno <aurelien@aurel32.net>, kvm-devel <kvm@vger.kernel.org>, 
- Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,38 +79,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 4, 2022 at 1:03 PM Peter Maydell <peter.maydell@linaro.org> wrote:
-> What I'm asking, I guess, is why you're messing with this board
-> model at all if you haven't added this functionality to u-boot.
-> This is just an emulation of an ancient bit of MIPS hardware, which
-> nobody really cares about very much I hope.
+Drop legacy ids for virtio 1.0 devices, they are not needed
+and will be overridden anyway by generic virtio pci code.
 
-I think most people emulating MIPS would disagree. This is basically a
-reference platform for most intents and purposes. As I mentioned, this
-involves `-kernel` -- the thing that's used when you explicitly opt-in
-to not using a bootloader, so when you sign up for QEMU arranging the
-kernel image and its environment. Neglecting to pass an RNG seed would
-be a grave mistake.
+Improve modern virtio id documentation.
 
-> I'm not saying this is a bad patch -- I'm just saying that
-> QEMU should not be in the business of defining bootloader-to-kernel
-> interfaces if it can avoid it, so usually the expectation is
-> that we are just implementing interfaces that are already
-> defined, documented and implemented by a real bootloader and kernel.
+v3:
+ - add review + test tags
+ - more verbose commit messages.
+ - drop vsock (#define needed for bug compatibility reasons).
+ - added comment to pci.h, trying to avoid this happening again.
 
-Except that's not really the way things have ever worked here. The
-kernel now has the "rngseed" env var functionality, which is useful
-for a variety of scenarios -- kexec, firmware, and *most importantly*
-for QEMU. Don't block progress here.
+Gerd Hoffmann (5):
+  pci-ids: drop PCI_DEVICE_ID_VIRTIO_IOMMU
+  pci-ids: drop PCI_DEVICE_ID_VIRTIO_MEM
+  pci-ids: drop PCI_DEVICE_ID_VIRTIO_PMEM
+  pci-ids: drop list of modern virtio devices
+  pci-ids: document modern virtio-pci ids in pci.h too
 
-> -kernel generally means "emulate the platform's boot loader"
+ docs/specs/pci-ids.txt       | 16 +++++++---------
+ include/hw/pci/pci.h         | 13 ++++++++++---
+ hw/virtio/virtio-iommu-pci.c |  4 +---
+ hw/virtio/virtio-mem-pci.c   |  2 --
+ hw/virtio/virtio-pci.c       |  2 +-
+ hw/virtio/virtio-pmem-pci.c  |  2 --
+ 6 files changed, 19 insertions(+), 20 deletions(-)
 
-And here, a platform bootloader could pass this, just as is the case
-with m68k's BI_RNG_SEED or x86's setup_data RNG SEED or device tree's
-rng-seed or EFI's LINUX_EFI_RANDOM_SEED_TABLE_GUID or MIPS' "rngseed"
-fw environment variable. These are important facilities to have.
-Bootloaders and hypervisors alike must implement them. *Do not block
-progress here.*
+-- 
+2.37.3
 
-Jason
 
