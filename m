@@ -2,40 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E14E5F4B0F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 23:43:51 +0200 (CEST)
-Received: from localhost ([::1]:48024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080ED5F4AD9
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 23:24:21 +0200 (CEST)
+Received: from localhost ([::1]:55058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofphe-0000Qh-Al
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 17:43:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53090)
+	id 1ofpOg-0003jH-DM
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 17:24:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <0f80141cde3904ed0591354059da49d1d60bcdbc@lizzy.crudebyte.com>)
- id 1ofpMq-0007hb-Er
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 17:22:21 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:53557)
+ id 1ofpKs-0006D0-8l
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 17:20:18 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:54263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <0f80141cde3904ed0591354059da49d1d60bcdbc@lizzy.crudebyte.com>)
- id 1ofpMo-0002rG-TN
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 17:22:20 -0400
+ id 1ofpKn-0002Hi-JB
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 17:20:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=B85oV3I79gym6QZTLeX83GlkTP+Mp33vVUVty9UPNaE=; b=dPN5Z
- CwCpkN9tGaPqe4/TokeviyHnIo/2uGRYVgnqjoL0JFmSAllwOMTus5/u0wrhfg0R5u+fn7xxakQnB
- wNjtPJ6ZYoFOSC2xpxR3U0XMZ28r1lBdTt2/hec2R0kYqEwBDH+Px/DrVq+YpWN34ndISxiGLs7YG
- 9t8Z/ddj5VhxEhqmS/Rop7ebQ/jJAtmixmBrbPJlKp1XuGCKHIWalFlbbv32fvJJ3oLn/rHGvjWWA
- erar94IIRSRMUHw1DrxtbSGdO96Jh+aFGoUYL4UgmxBMN2Z/311FwYgaT1x4LTnl806NR/PYWioPy
- erwLQdhiGrKSgJRVf0ioB/3CHZvNg==;
-Message-Id: <0f80141cde3904ed0591354059da49d1d60bcdbc.1664917004.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1664917004.git.qemu_oss@crudebyte.com>
-References: <cover.1664917004.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=fVKeFPjfDnv1jjDVv1SWj2m4wSmf1yNLPYcUjLKYRXM=; b=R/uYk
+ k+g6Hd/NtH2w/ZFHSNMuQT1jl1/ybMacq1iU4f3oRqnnyHSAanQad4PoHOFjcKovfvWAxQuJGG2UX
+ 2IwGLMdzv5UoqfgdVaXMgVjkp/vldgKCpnssFspIT1G6y7m52Ci2lKoQHoi0BnTsdyfhCMfa9dnG1
+ JMAGuFSVDuNHkCsN7+Vqv2+9FAAOdaZbTqdkk4FDWHGplDVxiKh0crojY4BEVJEDjQqGUOrYtV2Bb
+ W5yxOGgV4dacqG7UAvoAY2R9enwBo0Jfx7vlE8coOPvm4LymRkguf7pjBWrXPbsamoOmgL+42vlC5
+ 051INulPWN5iskXBPr1URXr+q5Qwg==;
+Message-Id: <cover.1664917004.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 4 Oct 2022 22:54:30 +0200
-Subject: [PATCH 20/20] tests/9p: remove unnecessary g_strdup() calls
+Date: Tue, 4 Oct 2022 22:56:44 +0200
+Subject: [PATCH 00/20] tests/9p: introduce declarative function calls
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
@@ -62,100 +60,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a leftover from before the recent function merge and
-refactoring patches:
+This series converts relevant 9p (test) client functions to use named
+function arguments. For instance
 
-As these functions do not return control to the caller in
-between, it is not necessary to duplicate strings passed to them.
+    do_walk_expect_error(v9p, "non-existent", ENOENT);
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- tests/qtest/libqos/virtio-9p-client.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+becomes
 
-diff --git a/tests/qtest/libqos/virtio-9p-client.c b/tests/qtest/libqos/virtio-9p-client.c
-index e017e030ec..e4a368e036 100644
---- a/tests/qtest/libqos/virtio-9p-client.c
-+++ b/tests/qtest/libqos/virtio-9p-client.c
-@@ -770,7 +770,6 @@ TMkdirRes v9fs_tmkdir(TMkdirOpt opt)
- {
-     P9Req *req;
-     uint32_t err;
--    g_autofree char *name = g_strdup(opt.name);
- 
-     g_assert(opt.client);
-     /* expecting either hi-level atPath or low-level dfid, but not both */
-@@ -788,14 +787,14 @@ TMkdirRes v9fs_tmkdir(TMkdirOpt opt)
-     }
- 
-     uint32_t body_size = 4 + 4 + 4;
--    uint16_t string_size = v9fs_string_size(name);
-+    uint16_t string_size = v9fs_string_size(opt.name);
- 
-     g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
-     body_size += string_size;
- 
-     req = v9fs_req_init(opt.client, body_size, P9_TMKDIR, opt.tag);
-     v9fs_uint32_write(req, opt.dfid);
--    v9fs_string_write(req, name);
-+    v9fs_string_write(req, opt.name);
-     v9fs_uint32_write(req, opt.mode);
-     v9fs_uint32_write(req, opt.gid);
-     v9fs_req_send(req);
-@@ -831,7 +830,6 @@ TlcreateRes v9fs_tlcreate(TlcreateOpt opt)
- {
-     P9Req *req;
-     uint32_t err;
--    g_autofree char *name = g_strdup(opt.name);
- 
-     g_assert(opt.client);
-     /* expecting either hi-level atPath or low-level fid, but not both */
-@@ -849,14 +847,14 @@ TlcreateRes v9fs_tlcreate(TlcreateOpt opt)
-     }
- 
-     uint32_t body_size = 4 + 4 + 4 + 4;
--    uint16_t string_size = v9fs_string_size(name);
-+    uint16_t string_size = v9fs_string_size(opt.name);
- 
-     g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
-     body_size += string_size;
- 
-     req = v9fs_req_init(opt.client, body_size, P9_TLCREATE, opt.tag);
-     v9fs_uint32_write(req, opt.fid);
--    v9fs_string_write(req, name);
-+    v9fs_string_write(req, opt.name);
-     v9fs_uint32_write(req, opt.flags);
-     v9fs_uint32_write(req, opt.mode);
-     v9fs_uint32_write(req, opt.gid);
-@@ -896,8 +894,6 @@ TsymlinkRes v9fs_tsymlink(TsymlinkOpt opt)
- {
-     P9Req *req;
-     uint32_t err;
--    g_autofree char *name = g_strdup(opt.name);
--    g_autofree char *symtgt = g_strdup(opt.symtgt);
- 
-     g_assert(opt.client);
-     /* expecting either hi-level atPath or low-level fid, but not both */
-@@ -911,15 +907,16 @@ TsymlinkRes v9fs_tsymlink(TsymlinkOpt opt)
-     }
- 
-     uint32_t body_size = 4 + 4;
--    uint16_t string_size = v9fs_string_size(name) + v9fs_string_size(symtgt);
-+    uint16_t string_size = v9fs_string_size(opt.name) +
-+                           v9fs_string_size(opt.symtgt);
- 
-     g_assert_cmpint(body_size, <=, UINT32_MAX - string_size);
-     body_size += string_size;
- 
-     req = v9fs_req_init(opt.client, body_size, P9_TSYMLINK, opt.tag);
-     v9fs_uint32_write(req, opt.fid);
--    v9fs_string_write(req, name);
--    v9fs_string_write(req, symtgt);
-+    v9fs_string_write(req, opt.name);
-+    v9fs_string_write(req, opt.symtgt);
-     v9fs_uint32_write(req, opt.gid);
-     v9fs_req_send(req);
- 
+    twalk({
+        .client = v9p, .path = "non-existent", .expectErr = ENOENT
+    });
+
+The intention is to make the actual 9p test code more readable, and easier
+to maintain on the long-term.
+
+Not only makes it clear what a literal passed to a function is supposed to
+do, it also makes the order and selection of arguments very liberal, and
+allows to merge multiple, similar functions into one single function.
+
+This is basically just refactoring, it does not change behaviour.
+
+PREREQUISITES
+=============
+
+This series requires the following additional patch to work correctly:
+
+https://lore.kernel.org/all/E1odrya-0004Fv-97@lizzy.crudebyte.com/
+https://github.com/cschoenebeck/qemu/commit/23d01367fc7a4f27be323ed6d195c527bec9ede1
+
+Christian Schoenebeck (20):
+  tests/9p: merge *walk*() functions
+  tests/9p: simplify callers of twalk()
+  tests/9p: merge v9fs_tversion() and do_version()
+  tests/9p: merge v9fs_tattach(), do_attach(), do_attach_rqid()
+  tests/9p: simplify callers of tattach()
+  tests/9p: convert v9fs_tgetattr() to declarative arguments
+  tests/9p: simplify callers of tgetattr()
+  tests/9p: convert v9fs_treaddir() to declarative arguments
+  tests/9p: simplify callers of treaddir()
+  tests/9p: convert v9fs_tlopen() to declarative arguments
+  tests/9p: simplify callers of tlopen()
+  tests/9p: convert v9fs_twrite() to declarative arguments
+  tests/9p: simplify callers of twrite()
+  tests/9p: convert v9fs_tflush() to declarative arguments
+  tests/9p: merge v9fs_tmkdir() and do_mkdir()
+  tests/9p: merge v9fs_tlcreate() and do_lcreate()
+  tests/9p: merge v9fs_tsymlink() and do_symlink()
+  tests/9p: merge v9fs_tlink() and do_hardlink()
+  tests/9p: merge v9fs_tunlinkat() and do_unlinkat()
+  tests/9p: remove unnecessary g_strdup() calls
+
+ tests/qtest/libqos/virtio-9p-client.c | 569 +++++++++++++++++++++-----
+ tests/qtest/libqos/virtio-9p-client.h | 408 ++++++++++++++++--
+ tests/qtest/virtio-9p-test.c          | 529 ++++++++----------------
+ 3 files changed, 1031 insertions(+), 475 deletions(-)
+
 -- 
 2.30.2
 
