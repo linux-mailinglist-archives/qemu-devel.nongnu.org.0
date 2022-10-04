@@ -2,90 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B5A5F3D17
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 09:16:18 +0200 (CEST)
-Received: from localhost ([::1]:34618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 496FC5F3D30
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 09:25:26 +0200 (CEST)
+Received: from localhost ([::1]:50750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofc9x-000533-Mr
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 03:16:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54778)
+	id 1ofcIu-0001mQ-Fq
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 03:25:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ofbxI-0006JZ-Bh
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:03:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58900)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1ofc2K-0008SK-Lu
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:08:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ofbxE-0008IB-Dq
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:03:02 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1ofc2D-0000gg-Gt
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:08:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664866979;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1664867288;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MtvklpyHUzSrlEaEGpF3mOsEQGBkyVf9bgX9/vl0PNs=;
- b=gUxHKUK08eiujsaTyPvFGqrA/kXukszuvMncpNrOSHVWC8D1zci7rQCQYN3UORXpO+OnYh
- Znvo1LM+22T1iDhsQ4PeZkgetZylWdJ5SA3yQqNXWsVFmTTKWHxoCPqh6fa94Y4BlBEXJj
- Vam1nkBwkvTXW6XR5ruTfuEt8gJGUko=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=24pPHrnkLb0aWxjIp/iDi3EMMaQCsBgeayHK6js39bA=;
+ b=c8qbrZAqF/bfT2bLqs5GIYGqVs1EJOYXC+WZMDuWDIgaub+SkGQtnY8NnPaFIB2cRXByBe
+ 9tm9f6m2qaw91ykrMxcosP+Sj5FFF3BvknoLyyZUACISU+laHcHs5c20B85FI3Gksv8pAn
+ Ct/zuFEpMdrS157yVXt5ZsRHfURFq4I=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-27-C1L0TXnoNZKL9KOvHgiW7Q-1; Tue, 04 Oct 2022 03:02:58 -0400
-X-MC-Unique: C1L0TXnoNZKL9KOvHgiW7Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w11-20020adfbacb000000b0022e4273f1a9so1244062wrg.20
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 00:02:57 -0700 (PDT)
+ us-mta-68-BCYb5deJNN6zSFwKfmZpRg-1; Tue, 04 Oct 2022 03:08:07 -0400
+X-MC-Unique: BCYb5deJNN6zSFwKfmZpRg-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ b13-20020ac87fcd000000b0035cbe5d58afso8692947qtk.9
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 00:08:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=MtvklpyHUzSrlEaEGpF3mOsEQGBkyVf9bgX9/vl0PNs=;
- b=pmtV4E+4mB3Gv/1SBxo9TSgwoxGSJJHFAqbR5Md6XHGUbXddCpWkg8khRaxu6iXW8/
- 1Y4PV5xHJFTsWjFcwp24iq5CGxcOTF1d3f1ZaIoRmRBe2gD/GV599JBWdOUTQXnz4+Ge
- fwjYPuqk3z+p/dbBrp/0NIoVqlWafa+f3/16/tGtiH4HpG3WujlcvMXEn1UIaecaaLNO
- 9sTRdEGyrPyVY09QXyn0507lWaLnSUB5AXC/tTUpoi9Pb1GiLmU6fsnx9drvrOtPDQS/
- UoECU3AHUxncZI0WfL2ireunHi60seCWLPudHfusXI4FX8IskOVavqRpugjgUr2sCwD4
- YI/w==
-X-Gm-Message-State: ACrzQf1jUMcAFkcPQUZ2mX+REPko3LMtVmcIguWRdi2pkk7jrGUjHsMT
- MgViCiz5e7YAAdccqPAPtj+aT1G0cs12BgTwq5XLaGxJdNrARdDYNnZESL+jw7/WwxVMYABxaaC
- K8nkdAr/SXRBobKU=
-X-Received: by 2002:a5d:588c:0:b0:22b:1b41:6b83 with SMTP id
- n12-20020a5d588c000000b0022b1b416b83mr14329664wrf.283.1664866976822; 
- Tue, 04 Oct 2022 00:02:56 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4KID1cTMqiWfxqmCggwBZamQJMhHR+ZcMaDddMWXjD55TVW2U8gzXwEqtFhlMFmmaRNhx8Ow==
-X-Received: by 2002:a5d:588c:0:b0:22b:1b41:6b83 with SMTP id
- n12-20020a5d588c000000b0022b1b416b83mr14329648wrf.283.1664866976597; 
- Tue, 04 Oct 2022 00:02:56 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-178-246.web.vodafone.de.
- [109.43.178.246]) by smtp.gmail.com with ESMTPSA id
- v11-20020a05600c444b00b003a682354f63sm19306114wmn.11.2022.10.04.00.02.55
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date;
+ bh=24pPHrnkLb0aWxjIp/iDi3EMMaQCsBgeayHK6js39bA=;
+ b=2+hZhz/854ShNXO0O7HhaeOzpZMACiHyLmMKa1nmawNHir2ePSWCDB5cSegbueJ5K9
+ aAlCsK8RKaQEEHAEnlRIlylzqP/D3vffLcpyy8zrqYsj1f3U6z7Lt4BARUcsATaaEHXH
+ nxZx/I+6Ys7MdqxSfeloDvuNVxDfYwHwhYynBNcQFYLKy+BqvPEZ9T7TZz6UA1rsd0hL
+ iOGLdyyFHrqmJOZbIVHxoaTkVvhIBQ4nNOPqliIlmg2MolJCLg+nexgQxN5UkuflOyqB
+ L/O2BofFBGCyLzKOP8yW9FlFZkqBiZn3MkxtMI7sXAY/okxnNMl4tFQaGbbcn6nLIppj
+ vhCA==
+X-Gm-Message-State: ACrzQf08LZhsoB0EsOsxaIfSUm2VEaMJWBxeclC5qyR5J0ratHhQAN5c
+ 6yp/K3uizO/W2Hb5Nn7gLma/kQhJRbT7s7/OSeyFFIElNPsqX2LNWirUuq7yKycZLJhFYb82tu/
+ WCwczOY70fnpsJiU=
+X-Received: by 2002:ac8:5f09:0:b0:35c:dc80:93c1 with SMTP id
+ x9-20020ac85f09000000b0035cdc8093c1mr18645710qta.657.1664867287012; 
+ Tue, 04 Oct 2022 00:08:07 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4nhECYNxvDenk4ZDif96UB2aD6/xptvdKCTlqSDsHiiULrG7j20oKHnoEslASQqwfNpzo+lw==
+X-Received: by 2002:ac8:5f09:0:b0:35c:dc80:93c1 with SMTP id
+ x9-20020ac85f09000000b0035cdc8093c1mr18645693qta.657.1664867286734; 
+ Tue, 04 Oct 2022 00:08:06 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ l5-20020ac80785000000b0035cf31005e2sm11215529qth.73.2022.10.04.00.06.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Oct 2022 00:02:55 -0700 (PDT)
-Message-ID: <05adc9f2-ba31-0a58-206f-aa25377f1f55@redhat.com>
-Date: Tue, 4 Oct 2022 09:02:54 +0200
+ Tue, 04 Oct 2022 00:07:22 -0700 (PDT)
+Message-ID: <7223907c-5c2f-4e49-d111-d6f167e15ee2@redhat.com>
+Date: Tue, 4 Oct 2022 09:06:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests/avocado: Add missing require_netdev('user') checks
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 4/5] hw/arm/virt: Improve high memory region address
+ assignment
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221001195224.2453581-1-peter.maydell@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221001195224.2453581-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, cohuck@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org,
+ shan.gavin@gmail.com
+References: <20220921231349.274049-1-gshan@redhat.com>
+ <20220921231349.274049-5-gshan@redhat.com>
+ <6c9a644a-6add-af29-8463-eddb101c1c99@redhat.com>
+ <580f5f69-d794-3792-2c99-5cb367a5e8c0@redhat.com>
+ <8ff4a537-3050-7c28-4f2d-8e1771e1e3a4@redhat.com>
+ <b6447520-7642-503b-1565-37fcfe633d0f@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <b6447520-7642-503b-1565-37fcfe633d0f@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.467, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-1.467, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,93 +109,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/10/2022 21.52, Peter Maydell wrote:
-> Some avocado tests fail if QEMU was built without libslirp. Add
-> require_netdev('user') checks where necessary:
-> 
-> These tests try to ping 10.0.2.2 and expect it to succeed:
->    boot_linux_console.py:BootLinuxConsole.test_arm_emcraft_sf2
->    boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
->    ppc_bamboo.py:BambooMachine.test_ppc_bamboo
-> 
-> These tests run a commandline that includes '-net user':
->    machine_aspeed.py:AST2x00Machine.test_arm_ast2500_evb_builroot
->    (and others that use the do_test_arm_aspeed_buidroot_start()
->    or do_test_arm_aspeed_sdk_start() helper functions)
-> 
-> These changes seem to be sufficient for 'make check-avocado'
-> to not fail on a --disable-slirp build.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   tests/avocado/boot_linux_console.py | 4 ++++
->   tests/avocado/machine_aspeed.py     | 3 +++
->   tests/avocado/ppc_bamboo.py         | 1 +
->   3 files changed, 8 insertions(+)
-> 
-> diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-> index f26e036ab58..ca9d09b0d7c 100644
-> --- a/tests/avocado/boot_linux_console.py
-> +++ b/tests/avocado/boot_linux_console.py
-> @@ -381,6 +381,8 @@ def test_arm_emcraft_sf2(self):
->           :avocado: tags=u-boot
->           :avocado: tags=accel:tcg
->           """
-> +        self.require_netdev('user')
-> +
->           uboot_url = ('https://raw.githubusercontent.com/'
->                        'Subbaraya-Sundeep/qemu-test-binaries/'
->                        'fe371d32e50ca682391e1e70ab98c2942aeffb01/u-boot')
-> @@ -779,6 +781,8 @@ def test_arm_orangepi_sd(self):
->           :avocado: tags=machine:orangepi-pc
->           :avocado: tags=device:sd
->           """
-> +        self.require_netdev('user')
-> +
->           deb_url = ('https://apt.armbian.com/pool/main/l/'
->                      'linux-5.10.16-sunxi/linux-image-current-sunxi_21.02.2_armhf.deb')
->           deb_hash = '9fa84beda245cabf0b4fa84cf6eaa7738ead1da0'
-> diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-> index 0f64eb636c2..124649a24b5 100644
-> --- a/tests/avocado/machine_aspeed.py
-> +++ b/tests/avocado/machine_aspeed.py
-> @@ -93,6 +93,8 @@ def test_arm_ast2500_romulus_openbmc_v2_9_0(self):
->           self.do_test_arm_aspeed(image_path)
->   
->       def do_test_arm_aspeed_buidroot_start(self, image, cpu_id):
-> +        self.require_netdev('user')
-> +
->           self.vm.set_console()
->           self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
->                            '-net', 'nic', '-net', 'user')
-> @@ -193,6 +195,7 @@ def wait_for_console_pattern(self, success_message, vm=None):
->                                    vm=vm)
->   
->       def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
-> +        self.require_netdev('user')
->           self.vm.set_console()
->           self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
->                            '-net', 'nic', '-net', 'user')
-> diff --git a/tests/avocado/ppc_bamboo.py b/tests/avocado/ppc_bamboo.py
-> index 102ff252dff..a81be3d6088 100644
-> --- a/tests/avocado/ppc_bamboo.py
-> +++ b/tests/avocado/ppc_bamboo.py
-> @@ -23,6 +23,7 @@ def test_ppc_bamboo(self):
->           :avocado: tags=accel:tcg
->           """
->           self.require_accelerator("tcg")
-> +        self.require_netdev('user')
->           tar_url = ('http://landley.net/aboriginal/downloads/binaries/'
->                      'system-image-powerpc-440fp.tar.gz')
->           tar_hash = '53e5f16414b195b82d2c70272f81c2eedb39bad9'
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-... and sorry that I missed them in commit 0fc389fe9208f0bfd ... many 
-Avocado tests still refuse to run properly on my laptop, so I only fixed 
-those that were failing in the gitlab-CI :-/
+On 10/4/22 00:17, Gavin Shan wrote:
+> Hi Eric,
+>
+> On 10/3/22 4:44 PM, Eric Auger wrote:
+>> On 9/29/22 01:37, Gavin Shan wrote:
+>>> On 9/28/22 10:51 PM, Eric Auger wrote:
+>>>> On 9/22/22 01:13, Gavin Shan wrote:
+>>>>> There are three high memory regions, which are VIRT_HIGH_REDIST2,
+>>>>> VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
+>>>>> are floating on highest RAM address. However, they can be disabled
+>>>>> in several cases.
+>>>>>
+>>>>> (1) One specific high memory region is disabled by developer by
+>>>>>       toggling vms->highmem_{redists, ecam, mmio}.
+>>>>>
+>>>>> (2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
+>>>>>       'virt-2.12' or ealier than it.
+>>>>>
+>>>>> (3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
+>>>>>       on 32-bits system.
+>>>>>
+>>>>> (4) One specific high memory region is disabled when it breaks the
+>>>>>       PA space limit.
+>>>>>
+>>>>> The current implementation of virt_set_memmap() isn't comprehensive
+>>>>> because the space for one specific high memory region is always
+>>>>> reserved from the PA space for case (1), (2) and (3). In the code,
+>>>>> 'base' and 'vms->highest_gpa' are always increased for those three
+>>>>> cases. It's unnecessary since the assigned space of the disabled
+>>>>> high memory region won't be used afterwards.
+>>>>>
+>>>>> This improves the address assignment for those three high memory
+>>>>> region by skipping the address assignment for one specific high
+>>>>> memory region if it has been disabled in case (1), (2) and (3).
+>>>>>
+>>>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>>>> ---
+>>>>>    hw/arm/virt.c | 44 ++++++++++++++++++++++++++------------------
+>>>>>    1 file changed, 26 insertions(+), 18 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>>>>> index b0b679d1f4..b702f8f2b5 100644
+>>>>> --- a/hw/arm/virt.c
+>>>>> +++ b/hw/arm/virt.c
+>>>>> @@ -1693,15 +1693,31 @@ static void
+>>>>> virt_set_high_memmap(VirtMachineState *vms,
+>>>>>                                     hwaddr base, int pa_bits)
+>>>>>    {
+>>>>>        hwaddr region_base, region_size;
+>>>>> -    bool fits;
+>>>>> +    bool *region_enabled, fits;
+>>>> IDo you really need a pointer? If the region is unknown this is a
+>>>> bug in
+>>>> virt code.
+>>>
+>>> The pointer is needed so that we can disable the region by setting
+>>> 'false'
+>>> to it at later point. Yeah, I think you're correct that 'unknown
+>>> region'
+>>> is a bug and we need to do assert(region_enabled), or something like
+>>> below.
+>> Yeah I don't think using a pointer here is useful.
+>
+> When the high memory region can't fit into the PA space, it is disabled
+> by toggling the corresponding flag (vms->highmem_{redists, ecam, mmio})
+> to false. It's part of the original implementation, as below. We either
+> need a 'switch ... case' or a pointer. A pointer is more convenient since
+> we need check and possibly update to the value.
+>
+>        switch (i) {
+>         case VIRT_HIGH_GIC_REDIST2:
+>             vms->highmem_redists &= fits;
+>             break;
+>         case VIRT_HIGH_PCIE_ECAM:
+>             vms->highmem_ecam &= fits;
+>             break;
+>         case VIRT_HIGH_PCIE_MMIO:
+>             vms->highmem_mmio &= fits;
+>             break;
+>         }
+>
+>>>
+>>>>>        int i;
+>>>>>          for (i = VIRT_LOWMEMMAP_LAST; i <
+>>>>> ARRAY_SIZE(extended_memmap); i++) {
+>>>>>            region_base = ROUND_UP(base, extended_memmap[i].size);
+>>>>>            region_size = extended_memmap[i].size;
+>>>>>    -        vms->memmap[i].base = region_base;
+>>>>> -        vms->memmap[i].size = region_size;
+>>>>> +        switch (i) {
+>>>>> +        case VIRT_HIGH_GIC_REDIST2:
+>>>>> +            region_enabled = &vms->highmem_redists;
+>>>>> +            break;
+>>>>> +        case VIRT_HIGH_PCIE_ECAM:
+>>>>> +            region_enabled = &vms->highmem_ecam;
+>>>>> +            break;
+>>>>> +        case VIRT_HIGH_PCIE_MMIO:
+>>>>> +            region_enabled = &vms->highmem_mmio;
+>>>>> +            break;
+>>>> While we are at it I would change the vms fields dealing with those
+>>>> highmem regions and turn those fields into an array of bool indexed
+>>>> using i - VIRT_LOWMEMMAP_LAST (using a macro or something alike). We
+>>>> would not be obliged to have this switch, now duplicated.
+>>>
+>>> It makes sense to me. How about to have something like below in v4?
+>>>
+>>> static inline bool *virt_get_high_memmap_enabled(VirtMachineState
+>>> *vms, int index)
+>>> {
+>>>      bool *enabled_array[] = {
+>>>            &vms->highmem_redists,
+>>>            &vms->highmem_ecam,
+>>>            &vms->highmem_mmio,
+>>>      };
+>>>
+>>>      assert(index - VIRT_LOWMEMMAP_LAST < ARRAY_SIZE(enabled_array));
+>>>
+>>>      return enabled_array[index - VIRT_LOWMEMMAP_LAST];
+>>> }
+>> I was rather thinking as directly using a vms->highmem_flags[] but your
+>> proposal may work as well.
+>
+> Ok. I will use my proposed change in next revision.
+>
+>>>
+>>>>> +        default:
+>>>>> +            region_enabled = NULL;
+>>>>> +        }
+>>>>> +
+>>>>> +        /* Skip unknown region */
+>>>>> +        if (!region_enabled) {
+>>>>> +            continue;
+>>>>> +        }
+>>>>>              /*
+>>>>>             * Check each device to see if they fit in the PA space,
+>>>>> @@ -1710,23 +1726,15 @@ static void
+>>>>> virt_set_high_memmap(VirtMachineState *vms,
+>>>>>             * For each device that doesn't fit, disable it.
+>>>>>             */
+>>>>>            fits = (region_base + region_size) <= BIT_ULL(pa_bits);
+>>>>> -        if (fits) {
+>>>>> -            vms->highest_gpa = region_base + region_size - 1;
+>>>>> -        }
+>>>>> +        if (*region_enabled && fits) {
+>>>>> +            vms->memmap[i].base = region_base;
+>>>>> +            vms->memmap[i].size = region_size;
+>>>>>    -        switch (i) {
+>>>>> -        case VIRT_HIGH_GIC_REDIST2:
+>>>>> -            vms->highmem_redists &= fits;
+>>>>> -            break;
+>>>>> -        case VIRT_HIGH_PCIE_ECAM:
+>>>>> -            vms->highmem_ecam &= fits;
+>>>>> -            break;
+>>>>> -        case VIRT_HIGH_PCIE_MMIO:
+>>>>> -            vms->highmem_mmio &= fits;
+>>>>> -            break;
+>>>>> +            vms->highest_gpa = region_base + region_size - 1;
+>>>>> +            base = region_base + region_size;
+>>>>> +        } else {
+>>>>> +            *region_enabled = false;
+>> what's the purpose to update the region_enabled here? Is it used
+>> anywhere?
+>>
+>> The fact you do not update vms->highmem_* flags may introduce
+>> regressions I think as the resulting flag may be used in some places
+>> such as:
+>> virt_gicv3_redist_region_count().
+>>
+>
+> 'region_enabled' points to 'vms->highmem_{redist2, ecam, mmio}'. They
+> are same thing.
+Oh OK. Sorry for the noise.
+
+Eric
+>
+>>>>> -
+>>>>> -        base = region_base + region_size;
+>>>>>        }
+>>>>>    }
+>>>>>    
+>
+> Thanks,
+> Gavin
+>
 
 
