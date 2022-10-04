@@ -2,87 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3992D5F44E3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:56:25 +0200 (CEST)
-Received: from localhost ([::1]:51590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4225F44F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:58:46 +0200 (CEST)
+Received: from localhost ([::1]:56154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofiPI-0006nr-Aq
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60876)
+	id 1ofiRa-00031t-2W
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:58:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhgU-0007gn-Er
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:10:06 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:34560)
+ id 1ofhq5-0001JB-3a
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:20:05 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhgS-00008e-8x
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:10:06 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- n35-20020a05600c502300b003b4924c6868so703722wmr.1
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:10:03 -0700 (PDT)
+ id 1ofhq2-0001qh-5x
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:20:00 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id a3so9023416wrt.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:19:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=bZH8OiYeAig/0Y57xFpjpCyBQW7+CsoHCu1FGMGd9fQ=;
- b=sDALifZz16bpE5E47/RnASG0yZ4Y+wm7mXhSK5ptrOxiOgUVF70HCzSvIk8JK7cLOm
- 7EhIHU+V5MfNPQy96c5rep1oGcROkbm8a3H7YgrWtsQOdAd9lfaTc9qWZahhJ7410ZiQ
- swhy2YXwdPAojmuhPe3CkkgXztvaKIzrTem27hOiPnMQL34+6DsHksfYAzQ/RJfjixwr
- NiYS0MKOBNOe/LqAyImbyQhy9p7oDizlfw+cePQtU5JBKr1uwxJ6TAqRg4pfXt2zV2tS
- 0TNJKSHewZEuVPYGWj/DBUVBAClKgvyZLPHyU2xOM0eNybPWWFfM7fO9d89jG+FiJY1B
- DCeQ==
+ bh=aKeHgRFwv3oSjMfFr7eWFeJbuWz2pkBpX1773QJGL+I=;
+ b=XRV8QPNwZuFpcGAnIOFZ93pT4wd6nfGzbsdc5Z28wSsWyQrL3tE9wz2gZjpG1k4Tv2
+ g8YN6lQHSJIAKyZp/fQVww8oc80YX4xbVfiJMvUk+Jlt+BdjBk+WCboOOYsCpqH4P1VT
+ z662dYmdBdy2mK95XgbzQTx/JPvxfUfYeKlaj7z4SLbO4KuD1u/U1/DtRekvc0cjRQRt
+ RAJGkT0Rellmbfeh0azpRKBb0BpMNef/Wf2/0wTD78/FHSuQot9ISceYJ2P29nlqUiOB
+ A0dOoMjPLTTdT/dEFUmdKjBNpTBqhra8lpf3JDeP7KlrxoDfZbW7EZaKnbtz6dYKvD51
+ rO8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=bZH8OiYeAig/0Y57xFpjpCyBQW7+CsoHCu1FGMGd9fQ=;
- b=QVB49pCP4nqT1nqQPubV6eV528r09/Df6peTbW7+6762FGSqaM2zWFwWVe/Y+OrsrW
- v/qwRYY/8ZGwW4NUsKqVQCig2MwuCT4Av+0CivHIM5itIn0PWe9CWtagI4AEYE4LfV+G
- AUE6OBzhU2OxWgiI8X6E2S5RSzp5d7Te2lMkhln3o/387rnpcYPUuiSX8KFbws49Ow4a
- PUKztz2hC9fpgfj+ILbqdYOANjcAmKy44Ti+PTqZ3BTsACaQ5MoS95Hjvs1ga945uXEj
- 3oF++Fpt4LGBIptrPVXRykeGLHD8xJoWo90fTSEOMZts0vNpaGkJkk6epsCm90jC9+g/
- 9kgA==
-X-Gm-Message-State: ACrzQf3qOKvOri3kL5pOHKBHZ77SNc25muLiaxNNQrideLlpGtA4qMaZ
- xcfN8HTbeNZX1ea5njViFWTwaw==
-X-Google-Smtp-Source: AMsMyM5ffEE6wr4rwgG5usDBquq3r79NBPLcIx4zrWTD2pXnmgiW4mXMalJWyVuhqqS82jdceni4PQ==
-X-Received: by 2002:a05:600c:1d2a:b0:3b4:6e31:92da with SMTP id
- l42-20020a05600c1d2a00b003b46e3192damr9739173wms.103.1664889003436; 
- Tue, 04 Oct 2022 06:10:03 -0700 (PDT)
+ bh=aKeHgRFwv3oSjMfFr7eWFeJbuWz2pkBpX1773QJGL+I=;
+ b=6kjvfV7ayhfH+OagQno5XF/LC/51rZ7cUX7FKzuGFvJsmWIR4kShCKFJ1chq8PpBEi
+ 9szaoQOkKeMeqtEyfaOq+70Lq4JRNWGPuBJieFoV8127/03lkPh5vjaelZMfX06QjYF8
+ eH6ZVz6GzqLzCGTXOF+jyWXkHPQYgAJo0/Q/ZfEPkHos7NROLVvKxE//EYbzwabt6pMM
+ 1n0Riav147W7gJiamCTOLld36uX3hx8EByIsX1TcMoHgXV64r81UD7p95+5rRWHf0MGq
+ 2ig0x3igHWw6w0NohRmKzIISGwe+maKoxA3dasBerb8OB8zBny7oR7NKXuwGmO3tBZOj
+ T9Mg==
+X-Gm-Message-State: ACrzQf1sShK7AKW42ErgfF5PTrL3/1+jq7ZGwHkHRcxuKgum0Yj1Go1a
+ O3E3wk2mlTLEDtAYrS7u+kUD9A==
+X-Google-Smtp-Source: AMsMyM7tJ6wc93+6FaOukFhQ3EFlebQIUTMrmD7YiWuLuCqbwlEOFaNDnd/GRPqiQMVts8mAzDVYzg==
+X-Received: by 2002:a5d:62d2:0:b0:22e:4a7:1ab6 with SMTP id
+ o18-20020a5d62d2000000b0022e04a71ab6mr11684750wrv.334.1664889594626; 
+ Tue, 04 Oct 2022 06:19:54 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o20-20020a05600c339400b003a5c999cd1asm17714365wmp.14.2022.10.04.06.09.56
+ g20-20020a05600c4ed400b003b4931eb435sm21382589wmq.26.2022.10.04.06.19.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 06:10:02 -0700 (PDT)
+ Tue, 04 Oct 2022 06:19:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B89191FFD2;
- Tue,  4 Oct 2022 14:01:41 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 07D661FFD4;
+ Tue,  4 Oct 2022 14:01:42 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-s390x@nongnu.org (open list:S390-ccw boot)
-Subject: [PULL 30/54] pc-bios/s390-ccw: Adopt meson style Make output
-Date: Tue,  4 Oct 2022 14:01:14 +0100
-Message-Id: <20221004130138.2299307-31-alex.bennee@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-block@nongnu.org (open list:Block layer core),
+ qemu-ppc@nongnu.org (open list:New World (mac99))
+Subject: [PULL 32/54] monitor: expose monitor_puts to rest of code
+Date: Tue,  4 Oct 2022 14:01:16 +0100
+Message-Id: <20221004130138.2299307-33-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004130138.2299307-1-alex.bennee@linaro.org>
 References: <20221004130138.2299307-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,118 +102,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+This helps us construct strings elsewhere before echoing to the
+monitor. It avoids having to jump through hoops like:
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+  monitor_printf(mon, "%s", s->str);
+
+It will be useful in following patches but for now convert all
+existing plain "%s" printfs to use the _puts api.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220929114231.583801-31-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220929114231.583801-33-alex.bennee@linaro.org>
 
-diff --git a/pc-bios/s390-ccw/netboot.mak b/pc-bios/s390-ccw/netboot.mak
-index ee59a5f4de..046aa35587 100644
---- a/pc-bios/s390-ccw/netboot.mak
-+++ b/pc-bios/s390-ccw/netboot.mak
-@@ -11,10 +11,10 @@ NETLDFLAGS := $(LDFLAGS) -Wl,-Ttext=0x7800000
- $(NETOBJS): EXTRA_CFLAGS += $(LIBC_INC) $(LIBNET_INC)
+diff --git a/docs/devel/writing-monitor-commands.rst b/docs/devel/writing-monitor-commands.rst
+index 4aa2bb904d..2fefedcd98 100644
+--- a/docs/devel/writing-monitor-commands.rst
++++ b/docs/devel/writing-monitor-commands.rst
+@@ -716,7 +716,7 @@ message. Here's the implementation of the "info roms" HMP command::
+      if (hmp_handle_error(mon, err)) {
+          return;
+      }
+-     monitor_printf(mon, "%s", info->human_readable_text);
++     monitor_puts(mon, info->human_readable_text);
+  }
  
- s390-netboot.elf: $(NETOBJS) libnet.a libc.a
--	$(call quiet-command,$(CC) $(NETLDFLAGS) -o $@ $^,"BUILD","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(CC) $(NETLDFLAGS) -o $@ $^,Linking)
+ Also, you have to add the function's prototype to the hmp.h file.
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index a4b40e8391..737e750670 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -31,6 +31,7 @@ void monitor_resume(Monitor *mon);
+ int monitor_get_fd(Monitor *mon, const char *fdname, Error **errp);
+ int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp);
  
- s390-netboot.img: s390-netboot.elf
--	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,Stripping $< into)
++int monitor_puts(Monitor *mon, const char *str);
+ int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap)
+     G_GNUC_PRINTF(2, 0);
+ int monitor_printf(Monitor *mon, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
+diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+index caa2e90ef2..a2cdbbf646 100644
+--- a/monitor/monitor-internal.h
++++ b/monitor/monitor-internal.h
+@@ -174,7 +174,6 @@ extern int mon_refcount;
  
- # libc files:
+ extern HMPCommand hmp_cmds[];
  
-@@ -23,30 +23,30 @@ LIBC_CFLAGS = $(EXTRA_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
+-int monitor_puts(Monitor *mon, const char *str);
+ void monitor_data_init(Monitor *mon, bool is_qmp, bool skip_flush,
+                        bool use_io_thread);
+ void monitor_data_destroy(Monitor *mon);
+diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
+index bfb3c043a0..939a520d17 100644
+--- a/block/monitor/block-hmp-cmds.c
++++ b/block/monitor/block-hmp-cmds.c
+@@ -638,16 +638,16 @@ static void print_block_info(Monitor *mon, BlockInfo *info,
+     assert(!info || !info->has_inserted || info->inserted == inserted);
  
- CTYPE_OBJS = isdigit.o isxdigit.o toupper.o
- %.o : $(SLOF_DIR)/lib/libc/ctype/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,Compiling)
+     if (info && *info->device) {
+-        monitor_printf(mon, "%s", info->device);
++        monitor_puts(mon, info->device);
+         if (inserted && inserted->has_node_name) {
+             monitor_printf(mon, " (%s)", inserted->node_name);
+         }
+     } else {
+         assert(info || inserted);
+-        monitor_printf(mon, "%s",
+-                       inserted && inserted->has_node_name ? inserted->node_name
+-                       : info && info->has_qdev ? info->qdev
+-                       : "<anonymous>");
++        monitor_puts(mon,
++                     inserted && inserted->has_node_name ? inserted->node_name
++                     : info && info->has_qdev ? info->qdev
++                     : "<anonymous>");
+     }
  
- STRING_OBJS = strcat.o strchr.o strrchr.o strcpy.o strlen.o strncpy.o \
- 	      strcmp.o strncmp.o strcasecmp.o strncasecmp.o strstr.o \
- 	      memset.o memcpy.o memmove.o memcmp.o
- %.o : $(SLOF_DIR)/lib/libc/string/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,Compiling)
+     if (inserted) {
+diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+index f9e646350e..fe38c44426 100644
+--- a/hw/misc/mos6522.c
++++ b/hw/misc/mos6522.c
+@@ -595,7 +595,7 @@ void hmp_info_via(Monitor *mon, const QDict *qdict)
+     if (hmp_handle_error(mon, err)) {
+         return;
+     }
+-    monitor_printf(mon, "%s", info->human_readable_text);
++    monitor_puts(mon, info->human_readable_text);
+ }
  
- STDLIB_OBJS = atoi.o atol.o strtoul.o strtol.o rand.o malloc.o free.o
- %.o : $(SLOF_DIR)/lib/libc/stdlib/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,Compiling)
+ static const MemoryRegionOps mos6522_ops = {
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index c6cd6f91dd..f90eea8d01 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -730,7 +730,7 @@ static void hmp_info_pci_device(Monitor *mon, const PciDeviceInfo *dev)
+     monitor_printf(mon, "    ");
  
- STDIO_OBJS = sprintf.o snprintf.o vfprintf.o vsnprintf.o vsprintf.o fprintf.o \
- 	     printf.o putc.o puts.o putchar.o stdchnls.o fileno.o
- %.o : $(SLOF_DIR)/lib/libc/stdio/%.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,Compiling)
+     if (dev->class_info->has_desc) {
+-        monitor_printf(mon, "%s", dev->class_info->desc);
++        monitor_puts(mon, dev->class_info->desc);
+     } else {
+         monitor_printf(mon, "Class %04" PRId64, dev->class_info->q_class);
+     }
+@@ -2258,12 +2258,12 @@ static void print_stats_schema_value(Monitor *mon, StatsSchemaValue *value)
+     if (unit && value->base == 10 &&
+         value->exponent >= -18 && value->exponent <= 18 &&
+         value->exponent % 3 == 0) {
+-        monitor_printf(mon, "%s", si_prefix(value->exponent));
++        monitor_puts(mon, si_prefix(value->exponent));
+     } else if (unit && value->base == 2 &&
+                value->exponent >= 0 && value->exponent <= 60 &&
+                value->exponent % 10 == 0) {
  
- sbrk.o: $(SLOF_DIR)/slof/sbrk.c
--	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(CC) $(LIBC_CFLAGS) -c -o $@ $<,Compiling)
+-        monitor_printf(mon, "%s", iec_binary_prefix(value->exponent));
++        monitor_puts(mon, iec_binary_prefix(value->exponent));
+     } else if (value->exponent) {
+         /* Use exponential notation and write the unit's English name */
+         monitor_printf(mon, "* %d^%d%s",
+@@ -2273,7 +2273,7 @@ static void print_stats_schema_value(Monitor *mon, StatsSchemaValue *value)
+     }
  
- LIBCOBJS := $(STRING_OBJS) $(CTYPE_OBJS) $(STDLIB_OBJS) $(STDIO_OBJS) sbrk.o
+     if (value->has_unit) {
+-        monitor_printf(mon, "%s", unit ? unit : StatsUnit_str(value->unit));
++        monitor_puts(mon, unit ? unit : StatsUnit_str(value->unit));
+     }
  
- libc.a: $(LIBCOBJS)
--	$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(AR) -rc $@ $^,Creating static library)
+     /* Print bucket size for linear histograms */
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index a3375d0341..43fd69f984 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -1094,7 +1094,7 @@ static void hmp_info_human_readable_text(Monitor *mon,
+         return;
+     }
  
- # libnet files:
+-    monitor_printf(mon, "%s", info->human_readable_text);
++    monitor_puts(mon, info->human_readable_text);
+ }
  
-@@ -56,7 +56,7 @@ LIBNETCFLAGS = $(EXTRA_CFLAGS) $(CFLAGS) $(LIBC_INC) $(LIBNET_INC) \
- 	       -DDHCPARCH=0x1F -MMD -MP -MT $@ -MF $(@:%.o=%.d)
- 
- %.o : $(SLOF_DIR)/lib/libnet/%.c
--	$(call quiet-command,$(CC) $(LIBNETCFLAGS) -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(CC) $(LIBNETCFLAGS) -c -o $@ $<,Compiling)
- 
- libnet.a: $(LIBNETOBJS)
--	$(call quiet-command,$(AR) -rc $@ $^,"AR","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(AR) -rc $@ $^,Creating static library)
-diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
-index 965e633f43..10e8f5cb63 100644
---- a/pc-bios/s390-ccw/Makefile
-+++ b/pc-bios/s390-ccw/Makefile
-@@ -10,8 +10,8 @@ NULL :=
- SPACE := $(NULL) #
- TARGET_PREFIX := $(patsubst %/,%:$(SPACE),$(TARGET_DIR))
- 
--quiet-@ = $(if $(V),,@)
--quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
-+quiet-@ = $(if $(V),,@$(if $1,printf "%s\n" "$(TARGET_PREFIX)$1" && ))
-+quiet-command = $(call quiet-@,$2 $@)$1
- 
- VPATH_SUFFIXES = %.c %.h %.S %.m %.mak %.sh %.rc Kconfig% %.json.in
- set-vpath = $(if $1,$(foreach PATTERN,$(VPATH_SUFFIXES),$(eval vpath $(PATTERN) $1)))
-@@ -22,11 +22,11 @@ QEMU_DGFLAGS = -MMD -MP -MT $@ -MF $(@D)/$(*F).d
- 
- %.o: %.c
- 	$(call quiet-command,$(CC) $(EXTRA_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
--	       -c -o $@ $<,"CC","$(TARGET_DIR)$@")
-+	       -c -o $@ $<,Compiling)
- 
- %.o: %.S
- 	$(call quiet-command,$(CCAS) $(EXTRA_CFLAGS) $(QEMU_DGFLAGS) $(CFLAGS) \
--	       -c -o $@ $<,"CCAS","$(TARGET_DIR)$@")
-+	       -c -o $@ $<,Assembling)
- 
- .PHONY : all clean build-all distclean
- 
-@@ -58,10 +58,10 @@ LDFLAGS += -Wl,-pie -nostdlib
- build-all: s390-ccw.img s390-netboot.img
- 
- s390-ccw.elf: $(OBJECTS)
--	$(call quiet-command,$(CC) $(LDFLAGS) -o $@ $(OBJECTS),"BUILD","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(CC) $(LDFLAGS) -o $@ $(OBJECTS),Linking)
- 
- s390-ccw.img: s390-ccw.elf
--	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,"STRIP","$(TARGET_DIR)$@")
-+	$(call quiet-command,$(STRIP) --strip-unneeded $< -o $@,Stripping $< into)
- 
- $(OBJECTS): Makefile
- 
+ static void handle_hmp_command_exec(Monitor *mon,
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index fa409e9c44..b954ccda50 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -415,7 +415,7 @@ static void do_inject_x86_mce(CPUState *cs, run_on_cpu_data data)
+         if (need_reset) {
+             emit_guest_memory_failure(MEMORY_FAILURE_ACTION_RESET, ar,
+                                       recursive);
+-            monitor_printf(params->mon, "%s", msg);
++            monitor_puts(params->mon, msg);
+             qemu_log_mask(CPU_LOG_RESET, "%s\n", msg);
+             qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+             return;
 -- 
 2.34.1
 
