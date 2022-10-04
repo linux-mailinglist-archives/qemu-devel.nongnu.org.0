@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E3B5F3B91
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 05:03:53 +0200 (CEST)
-Received: from localhost ([::1]:54000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D521C5F3BE6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 05:54:41 +0200 (CEST)
+Received: from localhost ([::1]:48934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofYDn-0002j9-OP
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 23:03:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56836)
+	id 1ofZ0y-0003Iu-ET
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 23:54:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ofYBB-0001HQ-UH
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 23:01:12 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:43546)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ofYof-0004vU-Aa
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 23:41:57 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ofYB8-0003re-Uf
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 23:01:09 -0400
-Received: by mail-pf1-x432.google.com with SMTP id 83so5001679pfw.10
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 20:01:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ofYmh-00065Z-Hh
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 23:41:55 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ x1-20020a17090ab00100b001fda21bbc90so17402315pjq.3
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 20:39:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=8chpKPOU/iOby7d4jYTkAyJ1a6jhveqUSMXzG0oQcyU=;
- b=tOxaubuwNSk2+WtDCBM71XIswLH6ygX8E6Clzhh9nkNzltYUkGjahhtK1Z8Mi6DDDe
- QJq9nb5/F5ve0R48K+RrEaW+mtGKXVO9swYhj9C4OASylkaZJ3kX3lQS34qQHNh0Xtc4
- nG0J9SH7fLRtL+EGiOjWeOEdi8EcujvzEqMwN1L109Ncgxrgs6yKLYkR8kwSD/UAfV5S
- A+DfcNZ/s4+8o8v+Ix+qXRD+SC69/IghQgfRe/4Leta9LySa+SVhniL+WL/ezgZMMIzD
- k8fLWWelRiVvj02Icb+967oscLf2vinKgLTbCO4O0HiJoFKEfuMZpnYCgBfhIhQK+Fli
- 4T5A==
+ bh=NrsqlHT+SWorq2vMGLKkcJ9jxUhHgPTnKBoMnpFY1yI=;
+ b=BqMdwXFoE8RJ7aPMF27LGIvI3DDDCazkvNPS9Fb864+fzi4P88LJ4Md+IpKHF9PSfP
+ HIQJRQzrpz3W19w/TG69s4rW8WX9S5zm3bwsYXFDlLMtY+Kx1zHRIpaC30uvI5+I9Kdu
+ q3E4ZVbMqGWGjenfm+JO8r27x9BoA0+IqcuMRlfVdOE+HebVoHT2edlrATuc+SrWpRgH
+ i2w6LKymT7SKMxBR0tMXCLuDX1ahPo6YxA558tu4LNZPlvSvMUOMUQgHE5UXuacULPXj
+ CVT02KKFuVfr5lQygMgw/IabZVPkRXiTXKJ9e7PoVYJSMVb8Q8iiG9aySur6ZsTD8eBj
+ /R3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=8chpKPOU/iOby7d4jYTkAyJ1a6jhveqUSMXzG0oQcyU=;
- b=Jzy7H4QarzbfDkBc/unIeBpf/CF8Zzo1QZ8ngaXDtSm76ADOLPOYpSika6W2X0YTpp
- OvJftjuRO+c2/JIwIazu5hQuRbOqvYyzY6THKl9jT2ELhOVNTJg5mSAo4ElSG03Vz5lD
- fWUpicR5HfJ5t5LeFYvpNqWZlnE8rKOfJ5EKUBJMd1co+L3ZZ2NgXAtI7Z1OOk+5MSqB
- t7QRVTvGVwv6MbYAf9arPGO6KDFnMtlMzcwmiWY0UUMY7ACxNoKYgz1PLozD2cONKfvR
- hQRbn1ylemk+P84qn1LsmZg0ZhqujjZZtnpz9KHuNsP/hvRNymuyzURNV4YRW/1t4ENO
- tseg==
-X-Gm-Message-State: ACrzQf1XJJqx2UdH+wORRJxAYSYUYzgRryxNqDC2WQUlDlyrSHWbu19/
- 5MLAebzyHe2xsIAbJXF8RVhkr+lrXQ3YfQ==
-X-Google-Smtp-Source: AMsMyM4Ld5NobBhnWMwXbB4ZhjYmh3o665Ehh2kenpbPURDkVvElowx2p3Nzc1F/fTruwdmyuHVv1A==
-X-Received: by 2002:a62:52cf:0:b0:561:60a8:5257 with SMTP id
- g198-20020a6252cf000000b0056160a85257mr8458047pfb.13.1664852462995; 
- Mon, 03 Oct 2022 20:01:02 -0700 (PDT)
-Received: from [192.168.10.153]
- (ppp121-45-204-168.cbr-trn-nor-bras38.tpg.internode.on.net. [121.45.204.168])
+ bh=NrsqlHT+SWorq2vMGLKkcJ9jxUhHgPTnKBoMnpFY1yI=;
+ b=mLNEheZYujiEtybHDi7wLPwU4edIuHS0JH8DU9iPf/r6I+22LwEv6sYhlY0FOeC2aa
+ fnxItq9PyQvthBF2PgtFKDL562w9UbsRNfyKWfJtCLz8rLmRjWG2KCVrxUQv7FewzRkJ
+ s7SDVhoHfmH8rPZZ6KNiWAZ8F9lxgSz402MbBiq0s2LNH8nyXBWS21p5Rbhs0gQBm/I4
+ 9MvHurmcc+iOiQF1zhbENldKqNAzFS7fveHVKPxsS+QM6efX/VCF4GcC1pG5MAxLngw4
+ kZKhE5DkfkxkpqZ2QJ+SGxztSnt1SXp/3/h5iQdn2pWGGffs8zHCRVE8iENkFczBwJzP
+ 6A/g==
+X-Gm-Message-State: ACrzQf3aAPiohwB36lv5hr9eaZdAf67iCMYtA21Jv0c8PKSfoBHtD+eV
+ M1pXGUjr2IjgcUEoR5Y2bQui7Q==
+X-Google-Smtp-Source: AMsMyM6vtutTWzNeebsaS8zWBvEja0bLSFkmmPbq91SGJuY/7Kn1Q7qBJZPAxw+fymD/vnPVv+m1gQ==
+X-Received: by 2002:a17:902:f64d:b0:178:a963:d400 with SMTP id
+ m13-20020a170902f64d00b00178a963d400mr25788383plg.6.1664854793904; 
+ Mon, 03 Oct 2022 20:39:53 -0700 (PDT)
+Received: from ?IPV6:2605:ef80:8013:3067:f071:7cf1:b2a:fad?
+ ([2605:ef80:8013:3067:f071:7cf1:b2a:fad])
  by smtp.gmail.com with ESMTPSA id
- b7-20020a170902bd4700b00176ca74c58bsm3340804plx.245.2022.10.03.20.01.00
+ 200-20020a6214d1000000b0055abc22a1absm5593470pfu.209.2022.10.03.20.39.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Oct 2022 20:01:02 -0700 (PDT)
-Message-ID: <e293f12d-0ecf-77d1-28ce-b67c620c953a@ozlabs.ru>
-Date: Tue, 4 Oct 2022 14:00:58 +1100
+ Mon, 03 Oct 2022 20:39:53 -0700 (PDT)
+Message-ID: <95da790c-e4f8-9d4b-d6aa-e06f4ec40ddd@linaro.org>
+Date: Mon, 3 Oct 2022 20:39:49 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101
- Thunderbird/104.0
-Subject: Re: x86, pflash, unassigned memory access
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 2/3] target/arm: Use ARMGranuleSize in ARMVAParameters
 Content-Language: en-US
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-To: qemu-devel@nongnu.org
-Cc: nikunj@amd.com, "Roth, Michael" <Michael.Roth@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <89d24ddd-bff8-53dd-19c9-66ac43ab0b63@ozlabs.ru>
-In-Reply-To: <89d24ddd-bff8-53dd-19c9-66ac43ab0b63@ozlabs.ru>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20221003162315.2833797-1-peter.maydell@linaro.org>
+ <20221003162315.2833797-3-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221003162315.2833797-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=aik@ozlabs.ru; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-1.467, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
-X-Spam_action: no action
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,103 +88,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Anyone, ping?
+On 10/3/22 09:23, Peter Maydell wrote:
+> Now we have an enum for the granule size, use it in the
+> ARMVAParameters struct instead of the using16k/using64k bools.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/internals.h | 23 +++++++++++++++++++++--
+>   target/arm/helper.c    | 39 ++++++++++++++++++++++++++++-----------
+>   target/arm/ptw.c       |  8 +-------
+>   3 files changed, 50 insertions(+), 20 deletions(-)
 
-On 27/09/2022 12:35, Alexey Kardashevskiy wrote:
-> Hi!
-> 
-> I am trying qemu-system-x86_64 with OVMF with the q35 machine, the 
-> complete command line is below.
-> 
-> It works fine (including SEV on AMD EPYC), but these 2 parameters make 
-> me wonder if I miss something:
-> 
-> -drive 
-> if=pflash,format=raw,unit=0,file=/home/aik/OVMF_CODE.fd,readonly=on,id=MYPF \
-> -d guest_errors
-> 
-> With this, I see a bunch of
-> ===
-> Invalid access at addr 0xFFC00000, size 1, region '(null)', reason: 
-> rejected
-> Invalid access at addr 0xFFC00001, size 1, region '(null)', reason: 
-> rejected
-> Invalid access at addr 0xFFC00002, size 1, region '(null)', reason: 
-> rejected
-> ...
-> Invalid access at addr 0xFFC00FFF, size 1, region '(null)', reason: 
-> rejected
-> QEMU Flash: Failed to find probe location
-> QEMU flash was not detected. Writable FVB is not being installed.
-> ===
-> 
-> These are the indication of unassigned memory access which always meant 
-> a bug in my past experience (which is POWERPC so not so relevant here 
-> but nevertheless).
-> 
-> OVMF is probing the flash at 0xFFC00000 (hardcoded in OVMF) in
-> https://github.com/tianocore/edk2/blob/master/OvmfPkg/QemuFlashFvbServicesRuntimeDxe/QemuFlash.c#L65
-> but cannot succeed - "info mtree -f" says that at no point there is 
-> anything at 0xFFC00000:
-> 
-> ===
-> ...
-> 00000000fed1c000-00000000fed1ffff (prio 1, i/o): lpc-rcrb-mmio
-> 00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
-> 00000000ffc84000-00000000ffffffff (prio 0, romd): system.flash0 KVM
-> 0000000800000000-0000000800000fff (prio 0, i/o): 
-> virtio-pci-common-virtio-net
-> ...
-> ===
-> 
-> hw/block/pflash_cfi01.c suggests QEMU implements this protocol via 
-> pflash_cfi01_ops but it is never called as:
-> - it is the same memory region as the OVMF code and
-> - it is mapped at 0xffc84000 (which is 4G - 
-> size("./Build/OvmfX64/DEBUG_GCC5/FV/OVMF_CODE.fd"), not where OVMF 
-> expects it) and
-> - it has romd==true, it is a KVM memory slot and IO is never emulated in 
-> QEMU.
-> 
-> Adding another IO memory region with pflash_cfi01_ops and mapping it at 
-> 0xFFC00000 makes it loop in OVMF somewhere.
-> 
-> OVMF code is linked to hardcoded 0xffc84000 (FD_SIZE_IN_KB==4096).
-> 
-> 
-> So I wonder - are these illegal accesses a bug of some sort in QEMU or 
-> OVMF or command line? Thanks,
-> 
-> 
-> 
-> 
-> The complete command line is:
-> 
-> /home/aik/pbuild/qemu-snp-localhost-x86_64/qemu-system-x86_64 \
-> -enable-kvm \
-> -m 2G \
-> -smp 2 \
-> -netdev user,id=USER0,hostfwd=tcp::2223-:22 \
-> -device 
-> virtio-net-pci,id=vnet0,iommu_platform=on,disable-legacy=on,romfile=,netdev=USER0 \
-> -machine q35 \
-> -device 
-> virtio-scsi-pci,id=vscsi0,iommu_platform=on,disable-modern=off,disable-legacy=on \
-> -drive 
-> id=DRIVE0,if=none,file=img/u2204_128G_aikbook_sev.qcow2,format=qcow2 \
-> -device scsi-hd,id=scsi-hd0,drive=DRIVE0 \
-> -drive 
-> if=pflash,format=raw,unit=0,file=/home/aik/OVMF_CODE.fd,readonly=on,id=MYPF \
-> -nographic \
-> -chardev stdio,id=STDIO0,signal=off,mux=on \
-> -device isa-serial,id=isa-serial0,chardev=STDIO0 \
-> -mon id=MON0,chardev=STDIO0,mode=readline \
-> -kernel /boot/vmlinuz \
-> -append console=ttyS0,115200n1 earlyprintk root=/dev/sda3 \
-> -d guest_errors
-> 
-> 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- 
-Alexey
+r~
 
