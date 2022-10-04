@@ -2,81 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4157C5F3CFD
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 09:03:30 +0200 (CEST)
-Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D26A5F3D1F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 09:20:15 +0200 (CEST)
+Received: from localhost ([::1]:48844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofbxe-0006Iy-8N
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 03:03:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56582)
+	id 1ofcDu-0007Ma-8c
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 03:20:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1ofbmd-0000Oj-TC
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 02:52:09 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:51185)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1ofbmY-0000iQ-Ut
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 02:52:03 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id lx7so12115935pjb.0
- for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 23:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:user-agent:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date; bh=uYcUCfxcK1MsH06I3SCNIhSOaFuiEdHlYJWDpClgBKU=;
- b=FT26xavB0fWj1KfUarEyUpvl3QPebtCZX/jc+rDKfshN04qKn+obcfubSfcA03C0V3
- mKaz0XIqO+Pys0qvKYRRJAcPrI7fKGTv7nZ5vZyGD2nkRF2kPz87SXIpRovMy6No7Fv4
- yqFS6PU8Duc6Y5WkBT+Re03X1D2X7gJOd8FTCoXG/NcdqZ3rYNeCGXFsVOWkKsS/JMV2
- h1bf9PnefhEewhF54v5z2TXbM/N+/U5QpMvm8I+vzvGUcgyTGemI9Ohaa7+OH7aQ5E87
- lD9vLD8Lx590AbeHYDgcgY4f2nSvWoxlyLvWUmzEptZFJEmQA23KEZZBNQAeIiva+vcn
- oebQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ofbnD-0000jF-VP
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 02:52:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43535)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ofbnA-0000nH-FK
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 02:52:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664866354;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tyObtag/yBtjXw6foTuUEyDZTiYK9vBZ1Cwr1sB4Ib0=;
+ b=GzZaXnOIeZ+7UhHQBpo4BPstmdMShgdtHlvD4fIzor5bdJmSenpjkirTFHcRSr0IBcL9CH
+ 6jKlza0iOfZncAVr9EMtOOl97x8oTSb4WwdvQcSAX/fIU5c8k0/faTvSd7LrlxoJz7Gumg
+ N+LfJJQUa5u75fseigLR4yW4IxL/4tQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-590-zDu1PtGAOxW7g6K2n53s6w-1; Tue, 04 Oct 2022 02:52:33 -0400
+X-MC-Unique: zDu1PtGAOxW7g6K2n53s6w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5-20020a05600c028500b003b4d2247d3eso269540wmk.0
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 23:52:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:user-agent:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date;
- bh=uYcUCfxcK1MsH06I3SCNIhSOaFuiEdHlYJWDpClgBKU=;
- b=eS9tzbtIAoJ2P1gEsXp1KKRokpU3cuYc0HN2lrQRzH5CZbi8YS3oW0OYlrH/tT4NW2
- 92B02lEf0hxJFMac5UGL3eVUMbAsk0/a2xNpDz5BXOECzmf0wqOxrSSKukwba9JxZRcx
- z1k3pi1ZdPe1KmT4gV2jbZKJckGu+wLkEdY1c2cx5RwKZgCiiH6F8biXiCD2iSWrdIy4
- EZ+YPwE9ymyd9+uwBqou3dJanojZpH0L5rWhxCBtK1El/BOw3cCQe2UK1GUTJQxrx0uG
- 7vt8LMBi+KvnIYoFuvQM2urIis037VecdyYgrF6D0mfxq9DPSpDd2ASwT/C59ijmn00y
- 9sfQ==
-X-Gm-Message-State: ACrzQf0Wwlyv2ibKHT1f4Lpg9BEPZnLSVfMwGE76pfWF02NXFFisiMNU
- qEY2WBvrhm3AB97zS/zYyam2bA==
-X-Google-Smtp-Source: AMsMyM5+LxEs1kxMKv0naHeU7OjRVWL/Ss+/jvcypjViBgApXTtWnhnI8jzq3cODRq12b2tLWZqnnA==
-X-Received: by 2002:a17:90b:3903:b0:202:affa:1c9f with SMTP id
- ob3-20020a17090b390300b00202affa1c9fmr16266598pjb.27.1664866317144; 
- Mon, 03 Oct 2022 23:51:57 -0700 (PDT)
-Received: from [192.168.1.5] ([103.97.165.210])
- by smtp.gmail.com with ESMTPSA id
- b15-20020a1709027e0f00b001752216ca51sm1194562plm.39.2022.10.03.23.51.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Oct 2022 23:51:56 -0700 (PDT)
-Message-ID: <d7c8fc4fc255a23850d78da6c937e57e85ce09c7.camel@ventanamicro.com>
-Subject: Re: [PATCH v10 4/5] target/riscv: smstateen check for fcsr
-From: mchitale@ventanamicro.com
-To: weiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Cc: alistair.francis@wdc.com
-Date: Tue, 04 Oct 2022 12:21:51 +0530
-In-Reply-To: <404205f5-9626-23b3-d388-b2288293c7d1@iscas.ac.cn>
-References: <20221003114718.30659-1-mchitale@ventanamicro.com>
- <20221003114718.30659-5-mchitale@ventanamicro.com>
- <404205f5-9626-23b3-d388-b2288293c7d1@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=tyObtag/yBtjXw6foTuUEyDZTiYK9vBZ1Cwr1sB4Ib0=;
+ b=xU2iGVbDaMvI0FvE96102Nzxr96cSO5Xomucn3W3d1PcWXhX9jeNrOlImzhhMqjDhp
+ /lxRTpL0dFYB6if9m12mu4Yan7RvqJHGEjuLXhSICpp2HZSEpP27YsjV94+qLup6qYg8
+ BQ4+X3CFKtCqpeQZtAlOk0hFSgeWhEWs5wKQ2T+2t1ouU+ty/8H80npB2p6Ayaub9xrO
+ Mm/rfk+NmqhyR+Y6hwb4aXWkHtxZf8Z0atDc2OIq7a1IRYSCUezTqAwAh4rzOepibgQd
+ ZF8SezMxNqxkr69fHiG6AcwbjmO8JUQV3pKxoE7/U9Y3+E+c7JOsYvuluQbUYhUFI7q3
+ KV7w==
+X-Gm-Message-State: ACrzQf3DbXpitmVSE2JrpR4qpAWoMT75lvnm2RvePcHSBdMgOKCuuZUO
+ PJUULecdVtBt/AfUvN4ux95dgJIaeSPK317wyTtql3N+o1Za11cwKtv2LvaiH7HPNPa/cWCbIGN
+ j7+JWQKA/0ygouWU=
+X-Received: by 2002:a5d:47cc:0:b0:22c:86fe:ad94 with SMTP id
+ o12-20020a5d47cc000000b0022c86fead94mr15770455wrc.599.1664866352459; 
+ Mon, 03 Oct 2022 23:52:32 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6hHwUKRpL+NRHqNKrYRBsUiUnUNNZQdaWLOxEyoC9/MD+ypszmb9CcWE52qjwkm/4A6bU0FA==
+X-Received: by 2002:a5d:47cc:0:b0:22c:86fe:ad94 with SMTP id
+ o12-20020a5d47cc000000b0022c86fead94mr15770441wrc.599.1664866352245; 
+ Mon, 03 Oct 2022 23:52:32 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-178-246.web.vodafone.de.
+ [109.43.178.246]) by smtp.gmail.com with ESMTPSA id
+ o30-20020adf8b9e000000b0022da3977ec5sm11226861wra.113.2022.10.03.23.52.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Oct 2022 23:52:31 -0700 (PDT)
+Message-ID: <8600412e-587a-b28e-cc21-81f4018b7187@redhat.com>
+Date: Tue, 4 Oct 2022 08:52:30 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=mchitale@ventanamicro.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] build-sys: error when slirp is not found and not disabled
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ marcandre.lureau@redhat.com, qemu-devel@nongnu.org, jb-gnumlists@wisemo.com
+Cc: jasowang@redhat.com, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20221003070534.2180380-1-marcandre.lureau@redhat.com>
+ <YzqXuhJWloERf6Wm@redhat.com> <832398553.RmnqxNm477@silver>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <832398553.RmnqxNm477@silver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.467, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,212 +103,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2022-10-03 at 21:02 +0800, weiwei wrote:
-> On 2022/10/3 19:47, Mayuresh Chitale wrote:
-> > If smstateen is implemented and sstateen0.fcsr is clear then the
-> > floating point
-> > operations must return illegal instruction exception or virtual
-> > instruction
-> > trap, if relevant.
-> > 
-> > Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> > ---
-> >   target/riscv/csr.c                        | 23 ++++++++++++
-> >   target/riscv/insn_trans/trans_rvf.c.inc   | 43
-> > +++++++++++++++++++++--
-> >   target/riscv/insn_trans/trans_rvzfh.c.inc | 12 +++++++
-> >   3 files changed, 75 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index 71236f2b5d..8b25f885ec 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -84,6 +84,10 @@ static RISCVException fs(CPURISCVState *env, int
-> > csrno)
-> >           !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
-> >           return RISCV_EXCP_ILLEGAL_INST;
-> >       }
-> > +
-> > +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> > +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
-> > +    }
-> >   #endif
-> >       return RISCV_EXCP_NONE;
-> >   }
-> > @@ -2023,6 +2027,9 @@ static RISCVException
-> > write_mstateen0(CPURISCVState *env, int csrno,
-> >                                         target_ulong new_val)
-> >   {
-> >       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> > +    if (!riscv_has_ext(env, RVF)) {
-> > +        wr_mask |= SMSTATEEN0_FCSR;
-> > +    }
-> >   
-> >       return write_mstateen(env, csrno, wr_mask, new_val);
-> >   }
-> > @@ -2059,6 +2066,10 @@ static RISCVException
-> > write_mstateen0h(CPURISCVState *env, int csrno,
-> >   {
-> >       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >   
-> > +    if (!riscv_has_ext(env, RVF)) {
-> > +        wr_mask |= SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >       return write_mstateenh(env, csrno, wr_mask, new_val);
-> >   }
-> >   
-> > @@ -2096,6 +2107,10 @@ static RISCVException
-> > write_hstateen0(CPURISCVState *env, int csrno,
-> >   {
-> >       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >   
-> > +    if (!riscv_has_ext(env, RVF)) {
-> > +        wr_mask |= SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >       return write_hstateen(env, csrno, wr_mask, new_val);
-> >   }
-> >   
-> > @@ -2135,6 +2150,10 @@ static RISCVException
-> > write_hstateen0h(CPURISCVState *env, int csrno,
-> >   {
-> >       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >   
-> > +    if (!riscv_has_ext(env, RVF)) {
-> > +        wr_mask |= SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >       return write_hstateenh(env, csrno, wr_mask, new_val);
-> >   }
-> >   
-> > @@ -2182,6 +2201,10 @@ static RISCVException
-> > write_sstateen0(CPURISCVState *env, int csrno,
-> >   {
-> >       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> >   
-> > +    if (!riscv_has_ext(env, RVF)) {
-> > +        wr_mask |= SMSTATEEN0_FCSR;
-> > +    }
-> > +
-> >       return write_sstateen(env, csrno, wr_mask, new_val);
-> >   }
-> >   
-> > diff --git a/target/riscv/insn_trans/trans_rvf.c.inc
-> > b/target/riscv/insn_trans/trans_rvf.c.inc
-> > index a1d3eb52ad..93657680c6 100644
-> > --- a/target/riscv/insn_trans/trans_rvf.c.inc
-> > +++ b/target/riscv/insn_trans/trans_rvf.c.inc
-> > @@ -24,9 +24,46 @@
-> >               return false; \
-> >   } while (0)
-> >   
-> > -#define REQUIRE_ZFINX_OR_F(ctx) do {\
-> > -    if (!ctx->cfg_ptr->ext_zfinx) { \
-> > -        REQUIRE_EXT(ctx, RVF); \
-> > +#ifndef CONFIG_USER_ONLY
-> > +static inline bool smstateen_fcsr_check(DisasContext *ctx, int
-> > index)
-> > +{
-> > +    CPUState *cpu = ctx->cs;
-> > +    CPURISCVState *env = cpu->env_ptr;
-> > +    uint64_t stateen = env->mstateen[index];
-> > +
-> > +    if (!ctx->cfg_ptr->ext_smstateen || env->priv == PRV_M) {
-> > +        return true;
-> > +    }
-> > +
-> > +    if (ctx->virt_enabled) {
-> > +        stateen &= env->hstateen[index];
-> > +    }
-> > +
-> > +    if (env->priv == PRV_U && has_ext(ctx, RVS)) {
-> > +        stateen &= env->sstateen[index];
-> > +    }
-> > +
-> > +    if (!(stateen & SMSTATEEN0_FCSR)) {
-> > +        if (ctx->virt_enabled) {
-> > +            ctx->virt_inst_excp = true;
-> > +        }
-> 
-> Are there any considerations for adding  virt_inst_excp instead of
-> directly
-> 
-> "generate_exception(ctx, RISCV_EXCP_VIRT_INSTRUCTION_FAULT)" here?
-> 
-> Regards,
-> 
-> Weiwei Li
+On 03/10/2022 12.48, Christian Schoenebeck wrote:
+> On Montag, 3. Oktober 2022 10:05:14 CEST Daniel P. Berrangé wrote:
+>> On Mon, Oct 03, 2022 at 11:05:34AM +0400, marcandre.lureau@redhat.com wrote:
+>>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>>
+>>> This is an alternative configure-time solution to "[PATCH] net:
+>>> print a more actionable error when slirp is not found".
+>>>
+>>> See also "If your networking is failing after updating to the latest git
+>>> version of QEMU..." ML thread.
+>>>
+>>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+>>> ---
+>>>
+>>>   meson.build | 6 ++++++
+>>>   1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/meson.build b/meson.build
+>>> index 8dc661363f..565096001d 100644
+>>> --- a/meson.build
+>>> +++ b/meson.build
+>>> @@ -657,6 +657,12 @@ if not get_option('slirp').auto() or have_system
+>>>
+>>>     endif
+>>>   
+>>>   endif
+>>>
+>>> +if not get_option('slirp').disabled() and not slirp.found()
+>>> +  error('libslirp is not explicitely disabled and was not found. ' +
+>>> +        'Since qemu 7.2, libslirp is no longer included as a submodule '
+>>> +
+>>> +        'fallback, you must install it on your system or
+>>> --disable-libslirp.') +endif
 
-I had considered it but I think this is a simpler approach as the rest
-of the code path stays the same as generating an illegal instruction
-exception, for e.g setting the bins value (tval). Also we need to
-return true from all the caller trans_* functions even if the smstateen
-check has failed.
+s/--disable-libslirp/--disable-slirp/
+
+>> I understand the motivation, but this goes against the main principal
+>> of our build time detection, which is to "do the right thing" automatically.
+>> If libslirp is not present on the host, then I would consider the need to
+>> pass --disable-libslirp to be a bug.
+>>
+>> I think this pain that people see of loosing slirp support is going to be
+>> a pretty short term problem. IMHO it suffices to print a warning message
+>> right at the very end of configure, after everything else, just for one
+>> or two releases.
 > 
-> > +        return false;
-> > +    }
-> > +
-> > +    return true;
-> > +}
-> > +#else
-> > +#define smstateen_fcsr_check(ctx, index) (true)
-> > +#endif
-> > +
-> > +#define REQUIRE_ZFINX_OR_F(ctx) do { \
-> > +    if (!has_ext(ctx, RVF)) { \
-> > +        if (!ctx->cfg_ptr->ext_zfinx) { \
-> > +            return false; \
-> > +        } \
-> > +        if (!smstateen_fcsr_check(ctx, 0)) { \
-> > +            return false; \
-> > +        } \
-> >       } \
-> >   } while (0)
-> >   
-> > diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc
-> > b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> > index 5d07150cd0..6c2e338c0a 100644
-> > --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-> > +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> > @@ -20,18 +20,27 @@
-> >       if (!ctx->cfg_ptr->ext_zfh) {      \
-> >           return false;         \
-> >       }                         \
-> > +    if (!smstateen_fcsr_check(ctx, 0)) { \
-> > +        return false; \
-> > +    } \
-> >   } while (0)
-> >   
-> >   #define REQUIRE_ZHINX_OR_ZFH(ctx) do { \
-> >       if (!ctx->cfg_ptr->ext_zhinx && !ctx->cfg_ptr->ext_zfh) { \
-> >           return false;                  \
-> >       }                                  \
-> > +    if (!smstateen_fcsr_check(ctx, 0)) { \
-> > +        return false; \
-> > +    } \
-> >   } while (0)
-> >   
-> >   #define REQUIRE_ZFH_OR_ZFHMIN(ctx) do {       \
-> >       if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin)) { \
-> >           return false;                         \
-> >       }                                         \
-> > +    if (!smstateen_fcsr_check(ctx, 0)) { \
-> > +        return false; \
-> > +    } \
-> >   } while (0)
-> >   
-> >   #define REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx) do { \
-> > @@ -39,6 +48,9 @@
-> >             ctx->cfg_ptr->ext_zhinx || ctx->cfg_ptr->ext_zhinxmin)) 
-> > {     \
-> >           return false;                                        \
-> >       }                                                        \
-> > +    if (!smstateen_fcsr_check(ctx, 0)) { \
-> > +        return false; \
-> > +    } \
-> >   } while (0)
-> >   
-> >   static bool trans_flh(DisasContext *ctx, arg_flh *a)
+> I guess that many users would find it a bug as well if this core feature just
+> stops working. Even if you add a warning; what will probably happen is that
+> packages are first built without. You want to risk that backlash, users filing
+> reports, etc?
+> 
+> What about using this error for couple releases and then restoring symmetry?
+
+I think that's a good compromise. Marc-André, could you maybe add a comment 
+in front of your new code, saying something like "This is a temporary 
+solution, remove after QEMU 8.1 has been released"?
+
+  Thomas
 
 
