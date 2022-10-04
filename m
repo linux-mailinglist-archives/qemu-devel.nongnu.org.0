@@ -2,61 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9986B5F4263
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 13:52:00 +0200 (CEST)
-Received: from localhost ([::1]:57790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078CB5F426A
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 13:54:34 +0200 (CEST)
+Received: from localhost ([::1]:58258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofgSs-0006JJ-CJ
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 07:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38240)
+	id 1ofgVN-0007rK-1j
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 07:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ofgHK-0006gm-0g
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 07:40:03 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:11203)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ofgHE-00084E-QY
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 07:40:00 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7177274632C;
- Tue,  4 Oct 2022 13:39:52 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0601274632B; Tue,  4 Oct 2022 13:39:52 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 03082746307;
- Tue,  4 Oct 2022 13:39:52 +0200 (CEST)
-Date: Tue, 4 Oct 2022 13:39:51 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-cc: Peter Maydell <peter.maydell@linaro.org>, 
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
- qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Aurelien Jarno <aurelien@aurel32.net>, kvm-devel <kvm@vger.kernel.org>, 
- Laurent Vivier <lvivier@redhat.com>, 
- =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2] mips/malta: pass RNG seed to to kernel via env var
-In-Reply-To: <CAHmME9qDN_m6+6R3OiNueHc0qEcvptpO9+0HxZ713knZ=8fkoQ@mail.gmail.com>
-Message-ID: <e687e447-c790-5628-377a-fa3ee8ad3@eik.bme.hu>
-References: <YziPyCqwl5KIE2cf@zx2c4.com>
- <20221003103627.947985-1-Jason@zx2c4.com>
- <b529059a-7819-e49d-e4dc-7ae79ee21ec5@amsat.org>
- <CAHmME9pUuduiEcmi2xaY3cd87D_GNX1bkVeXNqVq6AL_e=Kt+Q@mail.gmail.com>
- <YzwM+KhUG0bg+P2e@zx2c4.com>
- <CAFEAcA9KsooNnYxiqQG-RHustSx0Q3-F8ibpQbXbwxDCA+2Fhg@mail.gmail.com>
- <CAHmME9qmSX=QmBa-k4T1U=Gnz-EtahnYxLmOewpN85H9TqNSmA@mail.gmail.com>
- <CAFEAcA9-_qmtJgy_WRJT5TUKMm_60U53Mb9a+_BqUnQSS7PPcg@mail.gmail.com>
- <CAHmME9qDN_m6+6R3OiNueHc0qEcvptpO9+0HxZ713knZ=8fkoQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofgTR-0006ST-Nx
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 07:52:33 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:37864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofgTP-0001qO-I0
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 07:52:33 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ z13-20020a7bc7cd000000b003b5054c6f9bso10687426wmk.2
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 04:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=Fhd1uL9cZ5nuv6sVBgm7UzbxQkwvwqsikXE40wb1KsU=;
+ b=XXMkw5mJZerKefwBia+4xbDzuU59en4EMjcsadz1BxAFS+vT10Qby68ud81ZwvDs+H
+ ufwAHUnXwdOM8dwPuAFKAO+Z1DYJW6RB82ztiOz7+1mRtbFCOmf0sET7VDdNMBTMYOG7
+ wX6FaNDdXTZ5IyUC9LnhUQyXY+itjbTomE64h4rZbjoy9Tz09k5yupu/l28J7cRttAYp
+ qxwdyoVZhu0Bcze6Q6ALA+3VLD8tSnhaj9hIp5/9peF8NoNM7xsr/N+F1BrGGefrNyeL
+ AzT7W4v4Y0vHTkby4VJUF5U7KjS21gYO4r6UwdU44k44Dw6+ziHCdNMTfp+uSluwiHgM
+ VacQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=Fhd1uL9cZ5nuv6sVBgm7UzbxQkwvwqsikXE40wb1KsU=;
+ b=UAhoC6YJhqfcMYiWJpVpeVaNJiAbfSnxTvBZWNlqtp39iW9ke0OuOT8K7wxV6CXzl4
+ 8ccM0/U7zoKO+daTLL+MBsV8kkt5ihhdA4w5Xin31np6Bgxd4n4vp0ylkLwu3Hg+MXPo
+ p9q0mxFn/EZyp62uOPSp7PIFQn+NqD45ar/UXgicA3SxRRPHFRO/GhU4XWsXpuh4SItj
+ X/pmi80APTUWEkqPECjyORwbgjG1bYcAY6O8+ZllLxgXbyJMEmzRAaKkrzQ9RSro5Epf
+ kqm+31DvqpkUSNkjvFEA9odTKObvyBXJsjfnMA8CCr3NNBcgLqEYETyYINULVtvLNKUt
+ 3BVw==
+X-Gm-Message-State: ACrzQf2noZfy3FdP2rJgWB6aGxYdbH7a3HiVEboEnPnIBLhY2Kry0Xof
+ faPr2gyh0gTtXEDTPHBuPJkBhg==
+X-Google-Smtp-Source: AMsMyM4pbrn6BU1Xqy9tyWjum6RilbDB2zj/XOu4c5IvhOhYbbuzgeq0End4JSCZp9lDj4Zwz3wPAQ==
+X-Received: by 2002:a05:600c:43d3:b0:3b3:2f1c:f01c with SMTP id
+ f19-20020a05600c43d300b003b32f1cf01cmr9868602wmn.152.1664884346078; 
+ Tue, 04 Oct 2022 04:52:26 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ bn23-20020a056000061700b0022e55f40bc7sm1032962wrb.82.2022.10.04.04.52.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Oct 2022 04:52:25 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CE1BE1FFB7;
+ Tue,  4 Oct 2022 12:52:24 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, ncopa@alpinelinux.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: [RFC PATCH v2] plugins: add [pre|post]fork helpers to linux-user
+ [!TESTED]
+Date: Tue,  4 Oct 2022 12:52:21 +0100
+Message-Id: <20221004115221.2174499-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,50 +95,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Oct 2022, Jason A. Donenfeld wrote:
-> On Tue, Oct 4, 2022 at 1:03 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->> What I'm asking, I guess, is why you're messing with this board
->> model at all if you haven't added this functionality to u-boot.
->> This is just an emulation of an ancient bit of MIPS hardware, which
->> nobody really cares about very much I hope.
->
-> I think most people emulating MIPS would disagree. This is basically a
-> reference platform for most intents and purposes. As I mentioned, this
-> involves `-kernel` -- the thing that's used when you explicitly opt-in
-> to not using a bootloader, so when you sign up for QEMU arranging the
-> kernel image and its environment. Neglecting to pass an RNG seed would
-> be a grave mistake.
->
->> I'm not saying this is a bad patch -- I'm just saying that
->> QEMU should not be in the business of defining bootloader-to-kernel
->> interfaces if it can avoid it, so usually the expectation is
->> that we are just implementing interfaces that are already
->> defined, documented and implemented by a real bootloader and kernel.
->
-> Except that's not really the way things have ever worked here. The
-> kernel now has the "rngseed" env var functionality, which is useful
-> for a variety of scenarios -- kexec, firmware, and *most importantly*
-> for QEMU. Don't block progress here.
->
->> -kernel generally means "emulate the platform's boot loader"
->
-> And here, a platform bootloader could pass this, just as is the case
-> with m68k's BI_RNG_SEED or x86's setup_data RNG SEED or device tree's
-> rng-seed or EFI's LINUX_EFI_RANDOM_SEED_TABLE_GUID or MIPS' "rngseed"
-> fw environment variable. These are important facilities to have.
-> Bootloaders and hypervisors alike must implement them. *Do not block
-> progress here.*
+Special care needs to be taken in ensuring locks are in a consistent
+state across fork events. Add helpers so the plugin system can ensure
+that.
 
-Cool dowm. Peter does not want to block progress here. What he said was 
-that the malta is (or should be) emulating a real piece of hardware so 
-adding some stuff to it which is not on that real hardware may not be 
-preferred. If you want to experiment with generic mips hardware maybe you 
-need a virt board instead that is free from such restrictions to emulate a 
-real hardware. Some archs already have such board and there seems to be 
-loongson3-virt but no generic mips virt machine yet. Defining and 
-implementing such board may be more than you want to do for this but maybe 
-that would be a better way to go.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/358
 
-Regards,
-BALATON Zoltan
+---
+v2
+  - fix null inline prototypes
+---
+ include/qemu/plugin.h | 24 ++++++++++++++++++++++++
+ linux-user/main.c     |  2 ++
+ plugins/core.c        | 20 ++++++++++++++++++++
+ 3 files changed, 46 insertions(+)
+
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index 145f8a221a..a772e14193 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -224,6 +224,23 @@ void qemu_plugin_disable_mem_helpers(CPUState *cpu);
+  */
+ void qemu_plugin_user_exit(void);
+ 
++/**
++ * qemu_plugin_user_prefork_lock(): take plugin lock before forking
++ *
++ * This is a user-mode only helper to take the internal plugin lock
++ * before a fork event. This is ensure a consistent lock state
++ */
++void qemu_plugin_user_prefork_lock(void);
++
++/**
++ * qemu_plugin_user_postfork(): reset the plugin lock
++ * @is_child: is this thread the child
++ *
++ * This user-mode only helper resets the lock state after a fork so we
++ * can continue using the plugin interface.
++ */
++void qemu_plugin_user_postfork(bool is_child);
++
+ #else /* !CONFIG_PLUGIN */
+ 
+ static inline void qemu_plugin_add_opts(void)
+@@ -287,6 +304,13 @@ static inline void qemu_plugin_disable_mem_helpers(CPUState *cpu)
+ 
+ static inline void qemu_plugin_user_exit(void)
+ { }
++
++static inline void qemu_plugin_user_prefork_lock(void)
++{ }
++
++static inline void qemu_plugin_user_postfork(bool is_child)
++{ }
++
+ #endif /* !CONFIG_PLUGIN */
+ 
+ #endif /* QEMU_PLUGIN_H */
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 88fccfe261..a17fed045b 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -142,10 +142,12 @@ void fork_start(void)
+     start_exclusive();
+     mmap_fork_start();
+     cpu_list_lock();
++    qemu_plugin_user_prefork_lock();
+ }
+ 
+ void fork_end(int child)
+ {
++    qemu_plugin_user_postfork(child);
+     mmap_fork_end(child);
+     if (child) {
+         CPUState *cpu, *next_cpu;
+diff --git a/plugins/core.c b/plugins/core.c
+index c3ae284994..ccb770a485 100644
+--- a/plugins/core.c
++++ b/plugins/core.c
+@@ -526,6 +526,26 @@ void qemu_plugin_user_exit(void)
+     qemu_plugin_atexit_cb();
+ }
+ 
++/*
++ * Helpers for *-user to ensure locks are sane across fork() events.
++ */
++
++void qemu_plugin_user_prefork_lock(void)
++{
++    qemu_rec_mutex_lock(&plugin.lock);
++}
++
++void qemu_plugin_user_postfork(bool is_child)
++{
++    if (is_child) {
++        /* should we just reset via plugin_init? */
++        qemu_rec_mutex_init(&plugin.lock);
++    } else {
++        qemu_rec_mutex_unlock(&plugin.lock);
++    }
++}
++
++
+ /*
+  * Call this function after longjmp'ing to the main loop. It's possible that the
+  * last instruction of a TB might have used helpers, and therefore the
+-- 
+2.34.1
+
 
