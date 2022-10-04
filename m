@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2BA5F4AB3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 23:10:07 +0200 (CEST)
-Received: from localhost ([::1]:41500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5449B5F4ABA
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 23:13:31 +0200 (CEST)
+Received: from localhost ([::1]:54726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofpB0-0006eo-DP
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 17:10:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55814)
+	id 1ofpEI-0002c0-EJ
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 17:13:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1ofp5U-0000L8-IS
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 17:04:24 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:51258)
+ id 1ofp65-0000cc-79
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 17:05:01 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:42778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <si-wei.liu@oracle.com>)
- id 1ofp5Q-00088Y-JL
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 17:04:24 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 294L44Bn008389;
- Tue, 4 Oct 2022 21:04:15 GMT
+ id 1ofp62-0008Cq-LR
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 17:05:00 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 294L4C39007455;
+ Tue, 4 Oct 2022 21:04:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id; s=corp-2022-7-12;
  bh=0HpfF3mR6/vcXLfv21Li9DA1zK03IWlg2iDz9cmWwxA=;
- b=WZflX+tZaxqPzoGydnwJuo4dmxZ4lXF4LvHdEzUqpOzKv8XhUWgyne35Jg1i0OS5RsFn
- u/Wm9pGidogzmPzTclaHK0z3J5a8K7HNqWIfZjyqDho/MvavTnyH9VvNux2F21yn6fDw
- lUiQ+YqPm9Fjom1IlxxTth0of4za8Dy+8QIAt1ilCvHjfia9eP5v1v4pyXRDwwSrqPkg
- kQey36GwonJvVGH81kPO+dwoFpps7AyB/yz1fHDzy00jWC8GqXAAuQbcXuV03KVUU0Mj
- /91rLxW6rRf2BIzMVA2/F0dDyQy4q/fdrM92g3ZvAvpGc6xGF4hXW1MC/vkh3TjJ2nfs JA== 
+ b=cbYiVRPuQ4IQrR7tVT1gwWbNTPUois9ZdMD6UYfxymwnNcmODrmiPMo4ufEkodFKZEs6
+ dqqw3EEERlVQVIZULXS7BYwLbAjUeDIZYn9wjmW92Zjy0K9BtJ/oExDfxd4XliB7dDBy
+ gODGMtGnqsarVfuK2oDxohOdr2T5dy0vfo+Yp6sEK0T+WIbPXxhVGRy2JsFFcr2sbfFU
+ QQRGw8lMrIayyF+XZ4Ra0UrdYjYh+xcUhgqX5ON6SlIRSNFY7GWY7EuvVgURF2p7x5Q5
+ FiqE3MiI9o2CQlKfohfUP1vCEjdf3cdJ3hPgqQcPKH20mgEHIsuQMPmYeYnQV/gbtnDY iw== 
 Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jxbyn7etw-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jxe3tqvhx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 04 Oct 2022 21:04:15 +0000
+ Tue, 04 Oct 2022 21:04:56 +0000
 Received: from pps.filterd
  (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 294KpkUh033831; Tue, 4 Oct 2022 21:04:14 GMT
+ with ESMTP id 294KpfnJ034000; Tue, 4 Oct 2022 21:04:54 GMT
 Received: from ban25x6uut24.us.oracle.com (ban25x6uut24.us.oracle.com
  [10.153.73.24])
  by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3jxc04m447-1; Tue, 04 Oct 2022 21:04:14 +0000
+ 3jxc04m4k9-1; Tue, 04 Oct 2022 21:04:54 +0000
 From: Si-Wei Liu <si-wei.liu@oracle.com>
 To: qemu-devel@nongnu.org
-Cc: jasowang@redhat.com, eblake@redhat.com, armbru@redhat.com
+Cc: jasowang@redhat.com, eperezma@redhat.com
 Subject: [PATCH] vhost-vdpa: fix assert
  !virtio_net_get_subqueue(nc)->async_tx.elem in virtio_net_reset
-Date: Tue,  4 Oct 2022 12:58:43 -0700
-Message-Id: <1664913523-3287-1-git-send-email-si-wei.liu@oracle.com>
+Date: Tue,  4 Oct 2022 12:59:23 -0700
+Message-Id: <1664913563-3351-1-git-send-email-si-wei.liu@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
@@ -60,10 +60,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
  suspectscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
  definitions=main-2210040136
-X-Proofpoint-GUID: 6q07QZ_83WoLldiOfesOatMvL5XzAWp5
-X-Proofpoint-ORIG-GUID: 6q07QZ_83WoLldiOfesOatMvL5XzAWp5
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=si-wei.liu@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-ORIG-GUID: v2eUgGNL4UonsiFtde6XPNq0CbncegRO
+X-Proofpoint-GUID: v2eUgGNL4UonsiFtde6XPNq0CbncegRO
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=si-wei.liu@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
