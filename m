@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0EC5F3E55
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 10:28:53 +0200 (CEST)
-Received: from localhost ([::1]:46472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE20A5F3E57
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 10:29:14 +0200 (CEST)
+Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofdIJ-0006oz-EO
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 04:28:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40506)
+	id 1ofdIf-0007JB-Uc
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 04:29:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ofcbf-0004jd-JF
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:44:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51432)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ofcjO-00070S-Ll
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:52:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ofcbb-0004RN-KX
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:44:44 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1ofcjG-0005oU-IB
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:52:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664869482;
+ s=mimecast20190719; t=1664869957;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=W4hbuB9mF+gVQ/rzUoBvuEc8JBFaB+mTi/rZG8hJR2k=;
- b=IHxEvcug10qyJmfsoRuRCGQAb2lDcGwsenBiKk7xngmAx96dy4wrJKO40V2BQoGmJ/9HFN
- e8GwDMhAeUWbQ8ABwwGARoILoXNgnM3kq9V62qtRppodZkStfp3gwjXnrGOAxxMPUce2Yi
- sBRLqGH3rNnbLrU4k6VfcIW9jSo1Ajw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qVgNdUHzdU2FevsD+lP2R5rBrPM4irkEAds3Z6KxYbY=;
+ b=CPaL/25XbwIVgPUpjHtnlIfpE0NBCdUR+MA92eOeoCkgU0csHgEhY1KUv5WbTX1fMnK1Tk
+ fNnsx596pLVXjlFzmMogloEU8+PXgKboKYJuVhF/rDq6GOu75HMDVIJ22SxFHFekgg6lng
+ f0IuMkH5InBSPP3/VKASzGY3s5yy32U=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-6Y4KgUUDOTujDPpYDk2ojQ-1; Tue, 04 Oct 2022 03:44:40 -0400
-X-MC-Unique: 6Y4KgUUDOTujDPpYDk2ojQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-232-O-LUtEyFMXC-fkR-8HfyUg-1; Tue, 04 Oct 2022 03:52:35 -0400
+X-MC-Unique: O-LUtEyFMXC-fkR-8HfyUg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75DC2811E87;
- Tue,  4 Oct 2022 07:44:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A25E63C0F420;
+ Tue,  4 Oct 2022 07:52:35 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 200302027061;
- Tue,  4 Oct 2022 07:44:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 658C940C6EC2;
+ Tue,  4 Oct 2022 07:52:35 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C65FE1800082; Tue,  4 Oct 2022 09:44:38 +0200 (CEST)
-Date: Tue, 4 Oct 2022 09:44:38 +0200
+ id 2328A1800082; Tue,  4 Oct 2022 09:52:34 +0200 (CEST)
+Date: Tue, 4 Oct 2022 09:52:34 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: David Hildenbrand <david@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
 Cc: qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- peter.maydell@linaro.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ David Hildenbrand <david@redhat.com>, peter.maydell@linaro.org,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 0/5] pci-ids: virtio cleanup
-Message-ID: <20221004074438.b6v5dsatrlgfzs3c@sirius.home.kraxel.org>
+Subject: Re: [PATCH v2 4/5] pci-ids: drop PCI_DEVICE_ID_VIRTIO_VSOCK
+Message-ID: <20221004075234.5dtq72pa4myay7ny@sirius.home.kraxel.org>
 References: <20220930135810.1892149-1-kraxel@redhat.com>
- <4f186b7a-79b6-8253-c886-e8b24310ab8a@redhat.com>
+ <20220930135810.1892149-5-kraxel@redhat.com>
+ <20221004073030.nbi632tchiokqfv5@sgarzare-redhat>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4f186b7a-79b6-8253-c886-e8b24310ab8a@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+In-Reply-To: <20221004073030.nbi632tchiokqfv5@sgarzare-redhat>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,38 +83,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 30, 2022 at 04:22:21PM +0200, David Hildenbrand wrote:
-> On 30.09.22 15:58, Gerd Hoffmann wrote:
-> > Drop legacy ids for virtio 1.0 devices, they are not needed
-> > and will be overridden anyway by generic virtio pci code.
-> > 
-> > Improve modern virtio id documentation.
-> > 
-> > Gerd Hoffmann (5):
-> >    pci-ids: drop PCI_DEVICE_ID_VIRTIO_IOMMU
-> >    pci-ids: drop PCI_DEVICE_ID_VIRTIO_MEM
+> > diff --git a/hw/virtio/vhost-vsock-pci.c b/hw/virtio/vhost-vsock-pci.c
+> > index 9f34414d3814..170a806b6765 100644
+> > --- a/hw/virtio/vhost-vsock-pci.c
+> > +++ b/hw/virtio/vhost-vsock-pci.c
+> > @@ -65,8 +65,6 @@ static void vhost_vsock_pci_class_init(ObjectClass *klass, void *data)
+> >     k->realize = vhost_vsock_pci_realize;
+> >     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> >     device_class_set_props(dc, vhost_vsock_pci_properties);
+> > -    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
+> > -    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_VSOCK;
+> >     pcidev_k->revision = 0x00;
+> >     pcidev_k->class_id = PCI_CLASS_COMMUNICATION_OTHER;
+> > }
 > 
-> I remember that for some weird reason, this was required for Linux to
-> actually make use of the device. I never figured out why -- maybe that
-> changed.
+> Could we have migration issues with this change?
+> 
+> This reminded me that we've had issues already with vsock being incorrectly
+> exported as legacy, that we discovered when we added commit 9b3a35ec82
+> ("virtio: verify that legacy support is not accidentally on").
+> 
+> Then we needed commit d55f518248 ("virtio: skip legacy support check on
+> machine types less than 5.1") to avoid migration issues.
+> 
+> And we merged the following commits to force 1.0 in virtio-vsock devices for
+> machine types >= 5.1 :
+> - 6209070503 ("vhost-vsock-pci: force virtio version 1")
+> - 27eda699f5 ("vhost-user-vsock-pci: force virtio version 1")
 
-Looking at 'info pci' the mem + pmem devices look identical with and
-without this series ...
+Oh, the virtio_pci_force_virtio_1() call is conditional.  Hmm.
 
-  Bus  0, device   3, function 0:
-    Class 0255: PCI device 1af4:1058
-      PCI subsystem 1af4:1100
-      IRQ 11, pin A
-      BAR4: 64 bit prefetchable memory at 0xfe000000 [0xfe003fff].
-      id ""
-  Bus  0, device   4, function 0:
-    Class 0255: PCI device 1af4:105b
-      PCI subsystem 1af4:1100
-      IRQ 10, pin A
-      BAR4: 64 bit prefetchable memory at 0xfe004000 [0xfe007fff].
-      id ""
-
-... and the PCI ID conforms virtio 1.0 (aka 0x1040 + virtio id).
+The change will break vsock devices in legacy/transitional mode.  So, if
+that is allowed for old machine types for backward compatibility reasons
+I guess I should better drop this patch.
 
 take care,
   Gerd
