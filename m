@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D3F5F4123
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 12:56:38 +0200 (CEST)
-Received: from localhost ([::1]:32878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 204795F4136
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 12:58:01 +0200 (CEST)
+Received: from localhost ([::1]:38374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1offbI-0004Wo-Hb
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 06:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55074)
+	id 1offce-0005Qb-3M
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 06:58:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1offYQ-000100-7J
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:53:38 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:34420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1offYN-0004mf-UE
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:53:37 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id au23so7238772ejc.1
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 03:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=Kpr+mrMrUQdkMJEhiv+SFh/OrvTKodmrvfpQjEfgfn8=;
- b=dMEUSEhPJSTOWFW3fZq0MJAhwejlXm+cde6mvgLeWXYox1JlE/QtkV+G9RlZCrQ9dR
- 6wGx1eFGmA+sIqSi9IufI+thDnlKP9kMpbU+r8zNK6oVwoJUCjz98iE0V1bD6F5BdUeN
- 273KYjYw8NtgLJrrsqrZFJftB9gvSeLg3dPydF7nL5vMUdchQSC2/yS8m3EToGg8m5ZO
- uzkH0ICgbnHKr2hEh7Yn/W1iMXqDo6SW+ib2UBX/D+f8OOvrTcLvB306kDbT8HwUwUaF
- A1xYpM7C3Fj+K0xsFUq1nPP+LMKiYEXz+B73O1TbMBA1SN5Vc0+uM6TGNfAnCZw2ekqL
- 8HJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=Kpr+mrMrUQdkMJEhiv+SFh/OrvTKodmrvfpQjEfgfn8=;
- b=soHiXdmRRAmzXUydBesULCq9FdQzl7/DlPzehczQVNSdjh3iDEheQDiALfbtKfxiwo
- 9dxo9Ixh9+awIHMbdTOMpIMc6CYnCN+Ljo8ZsnZxL5oUxDvsNZK/0DquBImDrXtkm2wb
- 3wisHLCht2f429ZvZ7mzUwvQBkwnonAzA5uUQ9VfGgqGEQZKsQj3p18sH89V69GekOg2
- jjT4Y8DV//9jGDm9DqOwjQUNBve5wm256g/UipJ22/526ySlIFEKjO9lBwxXm0YkAe3f
- AFkH12J/wtjhx3BBfYHZEfMFCajWl8HqFghg5z4fKCPqJuodk4ojkkAMQU+a+WjxHiXw
- kw/A==
-X-Gm-Message-State: ACrzQf17PwQ2lgmhKolzab8xjTxgLg/RqSXxlK6THC7OFML02kr2cfVV
- HIlYqSSVCtbC1I9TK7kPJa/7EEdUWMzu8bXaOMznfg==
-X-Google-Smtp-Source: AMsMyM5kJpSL758b27/OfCCBDLYfam4LM2nL8cqTs9ozZffOQGjTIOVCC2Rc9YPGS3GZ3wWhhO+oyBLJ4MYrip82ICI=
-X-Received: by 2002:a17:907:2bd5:b0:76f:591c:466b with SMTP id
- gv21-20020a1709072bd500b0076f591c466bmr18007019ejc.504.1664880814044; Tue, 04
- Oct 2022 03:53:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1offYl-0001Kw-TE
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:53:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1offYh-0004pX-Dy
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:53:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664880833;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MGoewGI2tIAIhQV36B5JUf6B4O/mb6qTfQ9wwL1whKM=;
+ b=g//8BLhoOD3esmQGzT0u0FhjUVt4drKjIcUh5xp+/LlPcpgmcRfzx8zLVq0huVkXovLJgU
+ mW35oqgUvUXSsPYU29ocPdvb47q/aOuIOdjEV+GjaAb5Q6dmOuYK6BHiv7/0fYsO9qd50k
+ kGa9Hh5O4Vs+sVLOepmkeYwqQwkE3RE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-639-k02VsSOgNFu2ICsG6vyfNA-1; Tue, 04 Oct 2022 06:53:52 -0400
+X-MC-Unique: k02VsSOgNFu2ICsG6vyfNA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C06B385A583;
+ Tue,  4 Oct 2022 10:53:51 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E5E62027061;
+ Tue,  4 Oct 2022 10:53:51 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org,
+ peter.maydell@linaro.org, shan.gavin@gmail.com
+Subject: Re: [PATCH v4 5/6] hw/arm/virt: Improve high memory region address
+In-Reply-To: <20221004002627.59172-6-gshan@redhat.com>
+Organization: Red Hat GmbH
+References: <20221004002627.59172-1-gshan@redhat.com>
+ <20221004002627.59172-6-gshan@redhat.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Tue, 04 Oct 2022 12:53:48 +0200
+Message-ID: <87bkqroo5f.fsf@redhat.com>
 MIME-Version: 1.0
-References: <YziPyCqwl5KIE2cf@zx2c4.com>
- <20221003103627.947985-1-Jason@zx2c4.com>
- <b529059a-7819-e49d-e4dc-7ae79ee21ec5@amsat.org>
- <CAHmME9pUuduiEcmi2xaY3cd87D_GNX1bkVeXNqVq6AL_e=Kt+Q@mail.gmail.com>
- <YzwM+KhUG0bg+P2e@zx2c4.com>
-In-Reply-To: <YzwM+KhUG0bg+P2e@zx2c4.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 Oct 2022 11:53:22 +0100
-Message-ID: <CAFEAcA9KsooNnYxiqQG-RHustSx0Q3-F8ibpQbXbwxDCA+2Fhg@mail.gmail.com>
-Subject: Re: [PATCH v2] mips/malta: pass RNG seed to to kernel via env var
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Aurelien Jarno <aurelien@aurel32.net>, kvm-devel <kvm@vger.kernel.org>, 
- Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,41 +80,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Oct 2022 at 11:40, Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->
-> And just to give you some idea that this truly is possible from firmware
-> and I'm not just making it up, consider this patch to U-Boot:
->
-> u-boot:
-> diff --git a/arch/mips/lib/bootm.c b/arch/mips/lib/bootm.c
-> index cab8da4860..27f3ee68c0 100644
-> --- a/arch/mips/lib/bootm.c
-> +++ b/arch/mips/lib/bootm.c
-> @@ -211,6 +211,8 @@ static void linux_env_legacy(bootm_headers_t *images)
->                 sprintf(env_buf, "%un8r", gd->baudrate);
->                 linux_env_set("modetty0", env_buf);
->         }
-> +
-> +       linux_env_set("rngseed", "4142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f60");
->  }
->
+On Tue, Oct 04 2022, Gavin Shan <gshan@redhat.com> wrote:
 
+> There are three high memory regions, which are VIRT_HIGH_REDIST2,
+> VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
+> are floating on highest RAM address. However, they can be disabled
+> in several cases.
 >
-> So, as you can see, it works perfectly. Thus, setting this in QEMU
-> follows *exactly* *the* *same* *pattern* as every other architecture
-> that allows for this kind of mechanism. There's nothing weird or unusual
-> or out of place happening here.
+> (1) One specific high memory region is disabled by developer by
+>     toggling vms->highmem_{redists, ecam, mmio}.
+>
+> (2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
+>     'virt-2.12' or ealier than it.
+>
+> (3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
+>     on 32-bits system.
+>
+> (4) One specific high memory region is disabled when it breaks the
+>     PA space limit.
+>
+> The current implementation of virt_set_memmap() isn't comprehensive
+> because the space for one specific high memory region is always
+> reserved from the PA space for case (1), (2) and (3). In the code,
+> 'base' and 'vms->highest_gpa' are always increased for those three
+> cases. It's unnecessary since the assigned space of the disabled
+> high memory region won't be used afterwards.
+>
+> This improves the address assignment for those three high memory
+> region by skipping the address assignment for one specific high
+> memory region if it has been disabled in case (1), (2) and (3).
+> 'vms->high_compact' is false for now, meaning that we don't have
+> any behavior changes until it becomes configurable through property
+> 'compact-highmem' in next patch.
+>
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  hw/arm/virt.c         | 19 ++++++++++++-------
+>  include/hw/arm/virt.h |  1 +
+>  2 files changed, 13 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 59de7b78b5..4164da49e9 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1715,9 +1715,6 @@ static void virt_set_high_memmap(VirtMachineState *vms,
+>          region_base = ROUND_UP(base, extended_memmap[i].size);
+>          region_size = extended_memmap[i].size;
+>  
+> -        vms->memmap[i].base = region_base;
+> -        vms->memmap[i].size = region_size;
+> -
+>          /*
+>           * Check each device to see if they fit in the PA space,
+>           * moving highest_gpa as we go.
 
-I think the unusual thing here is that this patch isn't
-"this facility is implemented by u-boot [commit whatever,
-docs whatever], and here is the patch adding it to QEMU's
-handling of the same interface". That is, for boards like
-Malta the general expectation is that we're emulating
-a piece of real hardware and the firmware/bootloader
-that it would be running, so "this is a patch that
-implements an interface that the real bootloader doesn't
-have" is a bit odd.
+Maybe tweak this comment?
 
-thanks
--- PMM
+"Check each enabled device to see if they fit in the PA space,
+moving highest_gpa as we go. For compatibility, move highest_gpa
+for disabled fitting devices as well, if the compact layout has
+been disabled."
+
+(Or would that be overkill?)
+
 
