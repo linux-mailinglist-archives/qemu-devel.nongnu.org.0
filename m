@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E105F46D5
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 17:40:21 +0200 (CEST)
-Received: from localhost ([::1]:52564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDB75F46E5
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 17:45:38 +0200 (CEST)
+Received: from localhost ([::1]:51882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofk1r-0000SX-J9
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 11:40:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38536)
+	id 1ofk6z-0007eX-24
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 11:45:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofjLR-000690-RX
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:56:31 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:41842)
+ id 1ofjOI-0002oZ-Eq
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:59:26 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:35536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofjLK-0004qy-FI
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:56:25 -0400
-Received: by mail-pl1-x630.google.com with SMTP id d11so12885968pll.8
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 07:56:22 -0700 (PDT)
+ id 1ofjOG-0006qh-H3
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:59:26 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ i7-20020a17090a65c700b0020ad9666a86so2101765pjs.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 07:59:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=iZ0cofXLxuRRDTPqpx4FQqq4MZ/4+VlnHfKHprwzS7M=;
- b=DaKH/KfUUsHrVTZzzM9nhE77yW0VSSF9MqsYw65lv8sypnVcfTG4zmbCtI5FVIRxxG
- qOJHeez8ajOx2kGApo/hHbZGGFzE9GxOXgQFo9R6lJp0TQS+Vu7lyVsjoAXYRJ2UdN2V
- VBZ9+fJyC/lrstIBPYlZPSKh0YjZZJ86UELqMIO/wjjxPvsfpH0p4/Fypm8GscylhwWy
- QS3Qf3tkEdA7SmHnq30nF91gM9eGh+YVon7x2Eu8X3oWXsuzPOJxG/kATjaCPPDMeaVr
- tnkvVasdgfINlyLzmdWVxseJ9DyPtpthOgompozxvrP/C1BUbvLWs3CFSidQreYaiUJW
- qrNw==
+ bh=PdgwjQnlGzoDtYo8oSbTotMhvFeXuOY5x0cLYHLdj2M=;
+ b=uUjC2HT6RlQbYOAUAASRht9X28+hO/DSpxjakpAkUbhqACzTa07Nhfc5aQsBQq9FOE
+ jrjlzB3Q2hiI/AUxWi2DWnr9P6MZC8Fl68+VIYc3xgASqcNtV0I6MpaR7lBe2sE+q9Ye
+ n09VtaSOa1cw7lNvE7Ieg2ntegfhcMXDF+i1BMqS5y/ZgXZcdLUnZTfzf5Kacygcr2Et
+ 9Q5Zv7MzBhlOf8cuuLtpAVXob3onJBpRW5RNHH4Fct7Tt49DdymPGOKncgqQlScCOl+t
+ AskTcgtgG5rd8F0le8rNjTm8AnUKSzHDBcvsE8qeCSYaKgXDtKfHifx2s1MNj5lDa/Nk
+ LBcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=iZ0cofXLxuRRDTPqpx4FQqq4MZ/4+VlnHfKHprwzS7M=;
- b=5LlH++iAvrY5B2duzArJCSAB09eLF2xmOcXrmsMot8jMfMoZ64mb83f06tIgQjwZBr
- +egqZEMKX4ktVYSJPe0pQPn+veoy0TlUoXUDv9Q32dvyxM0tlMNdENO41Cd2D/x9eY5t
- AHSrU+/R2JqIbRiR1H0aGUn+wLkJqZvkEazO4W22jRSAFLUFzYwfsgGUzwag8v6Awbrk
- zY4sSx4SweObB4XGhwWdJzr4k+F+TM7TyGzynhXYXbhmuO+u0MZHBolzoN7TZJ12yQTc
- bzlrj2iBlov4+KC7CgDfUZZmYbstCepLNVCnqYtw57JPDIfpqVWOYdKdfS6pmK9WTU0D
- IGUg==
-X-Gm-Message-State: ACrzQf2tTXZyxJU/WtKvbivXYqj7IQc7ihL/USfsJrhWz1YBqmR/XheO
- C3IgbG80URIIAvZqCfdEAHEb7Q==
-X-Google-Smtp-Source: AMsMyM7fUdxRwZVfeK4gHgiE0CWi/aKNrGUthTCxiOERE40snX14G1Zf7oyZjT9glKyn+v/oA4XmOA==
-X-Received: by 2002:a17:90a:1a49:b0:205:df65:e802 with SMTP id
- 9-20020a17090a1a4900b00205df65e802mr135161pjl.59.1664895380831; 
- Tue, 04 Oct 2022 07:56:20 -0700 (PDT)
+ bh=PdgwjQnlGzoDtYo8oSbTotMhvFeXuOY5x0cLYHLdj2M=;
+ b=Qe1kqIbtO09c5o4hyPrRHG9q358JFjM8eSnhDhnFbGwh1OMbHq/XkpyXAfTvqbJ8xV
+ qz5HgdldVlK8Q7J/k32srm48TJsT0Bp3qmF/Zlhlm85tkGtZ3UWjFeIqVItDZNc6HarS
+ av5h8rBtMfAiQCdUQVlPgypVGaGZesgkPQtpkZgLPLPZBPahZvGy/04avw0c5Di40+du
+ dFwU+RIK7pI9pnDowXAAYIU5Ls7XNjmD9fxqeHaW/3G8yvpvHFO3kcZq+0RLMRNwOiiu
+ B4+MRMWEeiXuwpeVlSSer6tzCPRdArEd7FzvB1x2ruvFGk9AiKhy6ahBMQ8hrjjqhYn1
+ FPQA==
+X-Gm-Message-State: ACrzQf0A88+vq0g0D2AUlWTdQEweo1oBIeRiv4qsGj2eVsdKXVbqf7cs
+ oPvh9fVuwCQdDTmfiy+4m/5muA==
+X-Google-Smtp-Source: AMsMyM6U9Cbu/jbR0/2kCbbmaw0wxEBWh2wsD81qq2VtR3vfifNun2Gmxfar+XxlqzyKFDYM3vsclQ==
+X-Received: by 2002:a17:902:e884:b0:178:2065:5c29 with SMTP id
+ w4-20020a170902e88400b0017820655c29mr27981282plg.114.1664895563075; 
+ Tue, 04 Oct 2022 07:59:23 -0700 (PDT)
 Received: from ?IPV6:2605:ef80:8015:12b0:403e:a15b:ff5e:d439?
  ([2605:ef80:8015:12b0:403e:a15b:ff5e:d439])
  by smtp.gmail.com with ESMTPSA id
- q18-20020a17090311d200b00174c0dd29f0sm9063632plh.144.2022.10.04.07.56.19
+ z125-20020a623383000000b0053e38ac0ff4sm9347821pfz.115.2022.10.04.07.59.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Oct 2022 07:56:20 -0700 (PDT)
-Message-ID: <ed34b9a4-5470-786d-9958-dfd1df398ef0@linaro.org>
-Date: Tue, 4 Oct 2022 07:56:16 -0700
+ Tue, 04 Oct 2022 07:59:22 -0700 (PDT)
+Message-ID: <5c5849a3-6830-8577-c427-02cb3244ba8c@linaro.org>
+Date: Tue, 4 Oct 2022 07:59:18 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] target/arm: allow setting SCR_EL3.EnTP2 when FEAT_SME is
- implemented
+Subject: Re: [PATCH] linux-user,bsd-user: re-exec with G_SLICE=always-malloc
 Content-Language: en-US
-To: Jerome Forissier <jerome.forissier@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org
-References: <20221004072354.27037-1-jerome.forissier@linaro.org>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, ncopa@alpinelinux.org,
+ Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20221004120047.857591-1-berrange@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221004072354.27037-1-jerome.forissier@linaro.org>
+In-Reply-To: <20221004120047.857591-1-berrange@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
@@ -96,26 +99,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/4/22 00:23, Jerome Forissier wrote:
-> Updates write_scr() to allow setting SCR_EL3.EnTP2 when FEAT_SME is
-> implemented. SCR_EL3 being a 64-bit register, valid_mask is changed
-> to uint64_t and the SCR_* constants in target/arm/cpu.h are extended
-> to 64-bit so that masking and bitwise not (~) behave as expected.
-> 
-> This enables booting Linux with Trusted Firmware-A at EL3 with
-> "-M virt,secure=on -cpu max".
-> 
-> Cc:qemu-stable@nongnu.org
-> Fixes: 78cb9776662a ("target/arm: Enable SME for -cpu max")
-> Signed-off-by: Jerome Forissier<jerome.forissier@linaro.org>
-> ---
->   target/arm/cpu.h    | 54 ++++++++++++++++++++++-----------------------
->   target/arm/helper.c |  5 ++++-
->   2 files changed, 31 insertions(+), 28 deletions(-)
+On 10/4/22 05:00, Daniel P. Berrangé wrote:
+> g_slice uses a one-time initializer to check the G_SLICE env variable
+> making it hard for QEMU to set the env before any GLib API call has
+> triggered the initializer. Even attribute((constructor)) is not
+> sufficient as QEMU has many constructors and there is no ordering
+> guarantee between them.
 
-Whoops, sorry about that.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+There are orderings for constructors, see __attribute__((constructor(priority))).
 
 
 r~
