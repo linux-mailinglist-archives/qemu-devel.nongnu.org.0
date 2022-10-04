@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3C55F4521
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 16:06:23 +0200 (CEST)
-Received: from localhost ([::1]:59390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303485F4534
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 16:12:07 +0200 (CEST)
+Received: from localhost ([::1]:42910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofiYv-0002qW-Lu
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 10:06:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47804)
+	id 1ofieT-0003dA-9a
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 10:12:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhqB-0001Lr-52
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:20:08 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43774)
+ id 1ofhq3-0001J1-Ht
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:20:03 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhq6-0001sD-Kl
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:20:05 -0400
-Received: by mail-wr1-x433.google.com with SMTP id n12so1703696wrp.10
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:20:01 -0700 (PDT)
+ id 1ofhq0-0001pm-RI
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:19:58 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id bu30so1403122wrb.8
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:19:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=+EAMPNccITJT6MPq/SX1010khU+nXYZGC3lTu1OYiqA=;
- b=h7T5CIptIHcQJPhYsS1IrQ7pWxNJ4a/uUfSTQJgZS2YjArZWgcxaLzasTpbUq2vzsJ
- xdxxAPZ4rOBe3DQb4kU7sgLRkvX19I3Xn26zje5IyHLcgdHzJDBalv1tmD27s2xiFErt
- PCtioQw/6o1QmXENHc6QjjTmMJHx9vixtv8CBWp7xxlAh+02rUaVeWysH4f16aG3sFHX
- PFRsp2ad0dqObaqwBrvdAl2xYazy9wD4+tRWiOC5UgbG8lNq6rtPLMXrBKOcwKczTLtj
- 2kYtoTM06xm157pdEjW5VgRxJUlDPbjikoSh6X9YLSpxMXXp2bwtHHE7BM9rHyCcJy2z
- 6v1g==
+ bh=9LqzuxSgRUEWhI49Vb5gMhdtkHKyysd2sMCsQOX6w2Q=;
+ b=lIHIeBrqv7USjW7i7efOXs46rVW/DvGIO3QBl8zayH1LDJ5nDGGXRuXN6f5UaKvWgj
+ FCnPP66IotfsUSFKPn6paCvbGXFktCoIxOZcCssD0Q+RI1NFVvVrsXrRo5ZG08brvoXY
+ YjXOF+eulpN52DIZQ05W8vOqi0z8cyFOZB1OLQATpQktPQje4ljR5EEfulE1FIhTL63s
+ 1UHsm63Sohlnlbcg4PbGZ46lmbVVKnFiAe9xZTLh1XdnZMXuj4AlQRo2xK4TzyBpPn4o
+ zEaAZqEyg861eUdL3j2y5a2haWfPl2qXdMTgeHXA+wGPEOtR5LrcSfP8udCZ72GV4XtR
+ PAiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=+EAMPNccITJT6MPq/SX1010khU+nXYZGC3lTu1OYiqA=;
- b=Q/qfXZX5+0HFdoABqipzrsq8j3e5GRq1kcrw6q6GHb7PEIa8ykxIfy13r/dRrbNB1d
- h2hswF+TdTll8hrfeiRIUWdtsrvQWWbCHaUSDs3RNDbNl0FTBT30F1DYHNGYqisOdXF0
- L9aBcCfXO3dcRgkch0bR4EYZBX4sp0537aoO8M2qP8P3QpbktJy/ZDg1iO/qLqxeRT1X
- w/VUnqHWnNE/2iW2zjw1xchx09J+yxxABR1A1iDlss4sSEWfd20QSCvWWEZz0wFPsCnV
- apUKhoK346EXi8FCGgEpCAacolc+ZO7aPTCZJOk/scVTNDeVrP4406SPiIFaG7myGBZf
- W64A==
-X-Gm-Message-State: ACrzQf235P1ylkrmI+pokHXq0lPFwP52ZkH9SY8xvmHIT4RJCX2aXs83
- x7mLQWjLgqHMsuxa+43Bo3VBpA==
-X-Google-Smtp-Source: AMsMyM5K2NdTgVRbRESyKlPawCuOhtJCCjTzooNdaUHIRX4n03CIoCqDhm1Gd2aK0yC2gztT5wz/0g==
-X-Received: by 2002:adf:fb05:0:b0:228:6463:b15d with SMTP id
- c5-20020adffb05000000b002286463b15dmr16395546wrr.534.1664889599471; 
- Tue, 04 Oct 2022 06:19:59 -0700 (PDT)
+ bh=9LqzuxSgRUEWhI49Vb5gMhdtkHKyysd2sMCsQOX6w2Q=;
+ b=vzjqXL7+uZNVozkBrWgCNr4Cbm93iAFPN3kLj9YzHIygm+pROW/0a4RFnozenlcsZD
+ DQNGYNagESSv+D1nAZWhx7NYvcRx1+ot2jVc7RNu3IX3Q7D5dPswZ50jh5cWM57c9Zov
+ 8L0o+ic/Rc1LsWmP1vhLixdqlOXGq9b0Kchm12+V4igDOdCphfMoEYqdB6yKFYFMBA/c
+ q23UmqfqrPILrHpvAAvtucH7gXoQrdeG0puOQ13q9M0XVZC9PGxi3pUd93JOnTgTqxY8
+ 4HA7KEqaVbtDYb6aKmOxregU+AjWf574fyMbRGNpi0siMppOV1cUssp2p3g+pn/9gXYb
+ w9sw==
+X-Gm-Message-State: ACrzQf3pzLaJI4RlfRhY91wZiGRByN8Gzq96pt4dVbp5pKCe5pCBLbYw
+ kH0Y1+7W8qpjG0bQpqIH30B0WQ==
+X-Google-Smtp-Source: AMsMyM4RgtiZ9lUpD7pw5zDh7OETibbJ20oI2iYYRWXqoBNBPYrd7nychy9G5dMJaZsaXw4s4iyvgg==
+X-Received: by 2002:a5d:5944:0:b0:22e:3c67:75de with SMTP id
+ e4-20020a5d5944000000b0022e3c6775demr6636044wri.5.1664889596059; 
+ Tue, 04 Oct 2022 06:19:56 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- r18-20020a05600c35d200b003a84375d0d1sm20615327wmq.44.2022.10.04.06.19.54
+ o20-20020a05600c339400b003a5c999cd1asm17742276wmp.14.2022.10.04.06.19.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 06:19:55 -0700 (PDT)
+ Tue, 04 Oct 2022 06:19:54 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7F2C71FFD9;
+ by zen.linaroharston (Postfix) with ESMTP id AD3961FFDB;
  Tue,  4 Oct 2022 14:01:42 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Alexandre Iooss <erdnaxe@crans.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: [PULL 37/54] docs/devel: clean-up qemu invocations in tcg-plugins
-Date: Tue,  4 Oct 2022 14:01:21 +0100
-Message-Id: <20221004130138.2299307-38-alex.bennee@linaro.org>
+Subject: [PULL 39/54] contrib/plugins: reset skip when matching in execlog
+Date: Tue,  4 Oct 2022 14:01:23 +0100
+Message-Id: <20221004130138.2299307-40-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004130138.2299307-1-alex.bennee@linaro.org>
 References: <20221004130138.2299307-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,89 +98,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently have the final binaries in the root of the build dir so
-the build prefix is superfluous. Additionally add a shell prompt to be
-more in line with the rest of the code.
+The purpose of the matches was to only track the execution of
+instructions we care about. Without resetting skip to the value at the
+start of the block we end up dumping all instructions after the match
+with the consequent load on the instrumentation.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Alexandre Iooss <erdnaxe@crans.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220929114231.583801-38-alex.bennee@linaro.org>
+Message-Id: <20220929114231.583801-40-alex.bennee@linaro.org>
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index a503d44cee..a6fdde01f8 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -172,7 +172,7 @@ slightly faster (but not thread safe) counters.
+diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
+index e659ac9cbb..1b3bb7ebba 100644
+--- a/contrib/plugins/execlog.c
++++ b/contrib/plugins/execlog.c
+@@ -88,7 +88,7 @@ static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
+ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ {
+     struct qemu_plugin_insn *insn;
+-    bool skip = (imatches || amatches) ? true : false;
++    bool skip = (imatches || amatches);
  
- Example::
+     size_t n = qemu_plugin_tb_n_insns(tb);
+     for (size_t i = 0; i < n; i++) {
+@@ -147,6 +147,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+             /* Register callback on instruction */
+             qemu_plugin_register_vcpu_insn_exec_cb(insn, vcpu_insn_exec,
+                                                    QEMU_PLUGIN_CB_NO_REGS, output);
++
++            /* reset skip */
++            skip = (imatches || amatches);
+         }
  
--  ./aarch64-linux-user/qemu-aarch64 \
-+  $ qemu-aarch64 \
-     -plugin contrib/plugins/libhotblocks.so -d plugin \
-     ./tests/tcg/aarch64-linux-user/sha1
-   SHA1=15dd99a1991e0b3826fede3deffc1feba42278e6
-@@ -186,7 +186,7 @@ Example::
- 
- Similar to hotblocks but this time tracks memory accesses::
- 
--  ./aarch64-linux-user/qemu-aarch64 \
-+  $ qemu-aarch64 \
-     -plugin contrib/plugins/libhotpages.so -d plugin \
-     ./tests/tcg/aarch64-linux-user/sha1
-   SHA1=15dd99a1991e0b3826fede3deffc1feba42278e6
-@@ -220,7 +220,7 @@ counted. You can give a value to the ``count`` argument for a class of
- instructions to break it down fully, so for example to see all the system
- registers accesses::
- 
--  ./aarch64-softmmu/qemu-system-aarch64 $(QEMU_ARGS) \
-+  $ qemu-system-aarch64 $(QEMU_ARGS) \
-     -append "root=/dev/sda2 systemd.unit=benchmark.service" \
-     -smp 4 -plugin ./contrib/plugins/libhowvec.so,count=sreg -d plugin
- 
-@@ -288,10 +288,10 @@ for the plugin is a path for the socket the two instances will
- communicate over::
- 
- 
--  ./sparc-softmmu/qemu-system-sparc -monitor none -parallel none \
-+  $ qemu-system-sparc -monitor none -parallel none \
-     -net none -M SS-20 -m 256 -kernel day11/zImage.elf \
-     -plugin ./contrib/plugins/liblockstep.so,sockpath=lockstep-sparc.sock \
--  -d plugin,nochain
-+    -d plugin,nochain
- 
- which will eventually report::
- 
-@@ -348,7 +348,7 @@ Please be aware that this will generate a lot of output.
- 
- The plugin needs default argument::
- 
--  qemu-system-arm $(QEMU_ARGS) \
-+  $ qemu-system-arm $(QEMU_ARGS) \
-     -plugin ./contrib/plugins/libexeclog.so -d plugin
- 
- which will output an execution trace following this structure::
-@@ -365,10 +365,10 @@ which will output an execution trace following this structure::
-   0, 0x10c8, 0xfff96c43, "ldr r3, [r0, #0x44]", load, 0x200000e4, RAM
- 
- the output can be filtered to only track certain instructions or
--addresses using the `ifilter` or `afilter` options. You can stack the
-+addresses using the ``ifilter`` or ``afilter`` options. You can stack the
- arguments if required::
- 
--  qemu-system-arm $(QEMU_ARGS) \
-+  $ qemu-system-arm $(QEMU_ARGS) \
-     -plugin ./contrib/plugins/libexeclog.so,ifilter=st1w,afilter=0x40001808 -d plugin
- 
- - contrib/plugins/cache.c
-@@ -377,7 +377,7 @@ Cache modelling plugin that measures the performance of a given L1 cache
- configuration, and optionally a unified L2 per-core cache when a given working
- set is run::
- 
--    qemu-x86_64 -plugin ./contrib/plugins/libcache.so \
-+  $ qemu-x86_64 -plugin ./contrib/plugins/libcache.so \
-       -d plugin -D cache.log ./tests/tcg/x86_64-linux-user/float_convs
- 
- will report the following::
+     }
 -- 
 2.34.1
 
