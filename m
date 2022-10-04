@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D925F4A9F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 23:03:43 +0200 (CEST)
-Received: from localhost ([::1]:44206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CD05F4AB9
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 23:13:20 +0200 (CEST)
+Received: from localhost ([::1]:44388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofp4o-0007ub-CT
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 17:03:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36776)
+	id 1ofpE8-0002Hj-1q
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 17:13:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofozD-0004W5-2N
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 16:57:55 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:45048)
+ id 1ofpAi-0006Xj-RT
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 17:09:48 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:37784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofozB-0004kx-FL
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 16:57:54 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id v186so14154498pfv.11
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 13:57:52 -0700 (PDT)
+ id 1ofpAh-0000gW-0z
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 17:09:48 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ p3-20020a17090a284300b0020a85fa3ffcso31493pjf.2
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 14:09:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date;
- bh=ZSGix+CXe915kUcR4ZkEPmpsvfA2G7w9nVAv7owBwyk=;
- b=kjeXmX/4NiedPADGsM/xjmsod3jNXHxDv/gJw6lMrVh59i0dltXvw7lNFso6PeH0ma
- Fo6z+esdLPo2cb+zCtl94J2OqfWe/HfJdl613higIzKDWPRE7yB/OO5p9vfWTNJzjbGM
- 6fVAkne1cKbvTV9PwqFpdnmlCFxqqg/xr9122+Q8ABdx7h/+6N8kglyXNLZ0HASK5p0L
- LTHyJiWvbxhwvwJsyCNoswpQGhz1NNk6NFEG1GbDS08q6khMbSg0P5K47ofnZ3hVL0dp
- RHSE/YSb1WUBtpsH2sAXDwYBZLpkwUX+fnqkxdZehR3unccW/WIEQyxcMCpiFobH4vyk
- RdZQ==
+ bh=8uyzRXVyhKHXmSnF2MNgOvlGG/59hYvIzUCwWgTjKQw=;
+ b=DOhuONF/bhHGnknzbCSuYvjU8xLh+a+9Kr3si8pnw+iGL7Q7xnIsDyN3qZlFsyI4SG
+ Drs2rX74bDLV5MJV13AXezPNhiNkyx4+tMghHwRnJIlqmG0nSZc6NNdrmuASvDcBic1k
+ rSeBleNHIGzrrn2TznzrJqpgam6xRizZ0bRO353a3lFGLxnAeTImQ6Uf7on09QE3VcUN
+ IhjuW3oDR02irrNGM4tmI73C0LmdThJo3QW413xpL7GI9Pv7Uq/ZcoOzONhA9rHM64wc
+ PvKDJRdDT+90DpNC49x9E+8Iaoy9gTdNleCWtyNMEIn8igelx8DYPtllexEDtmcupXSx
+ DOHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=ZSGix+CXe915kUcR4ZkEPmpsvfA2G7w9nVAv7owBwyk=;
- b=RsR5r81b1zfy9i3ErWwUDJvLjovvevywZVuZ2sRfbWZz2npj5mnItkrcipbgGsFKCq
- +jZMmEqyuLqMJE6PmS4xeb8E31McZQb+RDCvobgy7Wtdjoj5B+GLx0ll4pIS0u9112BZ
- 4YKQeuPXgOn3VMmGyZwgWkn+CwUJ0O/uMQ48JHmJ93TfCbzBLQtaahgoflyMwimCIS5Y
- EGlYRtVEPqm1O1ldf3GgC5ThX3HyrL0CAN+wjfRBQa8cz3Jn4N1Yar0uQATe7gr5S7LS
- iiEZdUeiWv1YEerxNm2Z2e249FIDa6SsfRsFNlBNwcTvbzzYyT7me3Hqs5sjCuVGuj5f
- bmiQ==
-X-Gm-Message-State: ACrzQf3ZhtpBwwo9tIHZ706cVGtoI4jycU3tw+e55q9ql1LUbHMEvG/D
- JpRhJbeN/KG1kqPUuIbQAf1Bbw==
-X-Google-Smtp-Source: AMsMyM4cBpsz4B/Zx3/EODtgpWvUih22um4Zmv2Kn3eRxBna/3WdhrpkMhPthLCTwMnOV1FdpMkHmA==
-X-Received: by 2002:a05:6a00:238c:b0:544:c42d:8a67 with SMTP id
- f12-20020a056a00238c00b00544c42d8a67mr29169724pfc.21.1664917071564; 
- Tue, 04 Oct 2022 13:57:51 -0700 (PDT)
+ bh=8uyzRXVyhKHXmSnF2MNgOvlGG/59hYvIzUCwWgTjKQw=;
+ b=mt5VReA1sGFvS84yJyAd2dtafHKKvAjuKgylNRCty9dabf6GzEazR3+jDW0BZhRW83
+ GFxdwcF72gJUpK601YcEZFNotU6DpaMYoY0fWG3rgpV/uH3ji0NG+sAf9FauQ9mhh8xm
+ ToHfjvMp6jc5kdXh/vyFbUl2vJ80G8V8cvyEZBFfH3su3z666UwOF9FrHTSzzPapznsU
+ g0J1x8/wLprk7TcKMzbWns5EZex80Mgd+NTgbZcL8va5tfKBuy67LzgOgZPpnjymhejb
+ 0RRj2DvRQ95Kxcfj3xyWUoglW3/38+BsHECZKC7WFux1jOfwm/ArSRpIfhB4NwwwCawQ
+ s6tw==
+X-Gm-Message-State: ACrzQf2uu6xdPgIJui02U6USK+YWV+Zdnm2U+Rqk1r6Fv85X93sFCEcZ
+ PDYeyuCkJTqfRkMwgqA5CPXgKw==
+X-Google-Smtp-Source: AMsMyM4YjPlIaEcgF3y1KlbDtjQK9eVVftyBftAtpOuqifICu4cjY0ZF6Dv2mrCYH5/MXqI+nweVQA==
+X-Received: by 2002:a17:90b:4a4f:b0:202:5bbb:b76f with SMTP id
+ lb15-20020a17090b4a4f00b002025bbbb76fmr1625961pjb.230.1664917785202; 
+ Tue, 04 Oct 2022 14:09:45 -0700 (PDT)
 Received: from ?IPV6:2602:47:d49d:ec01:526e:3326:a84e:e5e3?
  ([2602:47:d49d:ec01:526e:3326:a84e:e5e3])
  by smtp.gmail.com with ESMTPSA id
- w25-20020aa79559000000b00561c1101217sm2034708pfq.11.2022.10.04.13.57.50
+ e6-20020a170902ef4600b0016d1b70872asm547508plx.134.2022.10.04.14.09.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Oct 2022 13:57:50 -0700 (PDT)
-Message-ID: <c91da352-f27a-d81d-59e9-43fabd604e8f@linaro.org>
-Date: Tue, 4 Oct 2022 13:57:49 -0700
+ Tue, 04 Oct 2022 14:09:44 -0700 (PDT)
+Message-ID: <7a2c6a64-87f7-fd8f-d406-6a0b50164f0b@linaro.org>
+Date: Tue, 4 Oct 2022 14:09:43 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v5 6/9] target/arm: Change gen_jmp* to work on
- displacements
+Subject: Re: [PATCH v5 9/9] target/arm: Enable TARGET_TB_PCREL
 Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
 To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 References: <20220930220312.135327-1-richard.henderson@linaro.org>
- <20220930220312.135327-7-richard.henderson@linaro.org>
- <CAFEAcA-hH=kqGfPQ3d6wJfo-ti_UvdMAs6pZx6A79QO5Mi-Q=w@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA-hH=kqGfPQ3d6wJfo-ti_UvdMAs6pZx6A79QO5Mi-Q=w@mail.gmail.com>
+ <20220930220312.135327-10-richard.henderson@linaro.org>
+ <CAFEAcA_x9zJQy1_9_ySO+TNnnXnYPC3Uq37AN1jP65SuEMvJZw@mail.gmail.com>
+ <d1196e9c-c983-0b74-9141-ac10154429cd@linaro.org>
+In-Reply-To: <d1196e9c-c983-0b74-9141-ac10154429cd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
@@ -97,46 +98,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/4/22 08:58, Peter Maydell wrote:
-> On Fri, 30 Sept 2022 at 23:10, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
+On 10/4/22 12:27, Richard Henderson wrote:
+> On 10/4/22 09:23, Peter Maydell wrote:
+>>>   void arm_cpu_synchronize_from_tb(CPUState *cs,
+>>>                                    const TranslationBlock *tb)
+>>>   {
+>>> -    ARMCPU *cpu = ARM_CPU(cs);
+>>> -    CPUARMState *env = &cpu->env;
+>>> -
+>>> -    /*
+>>> -     * It's OK to look at env for the current mode here, because it's
+>>> -     * never possible for an AArch64 TB to chain to an AArch32 TB.
+>>> -     */
+>>> -    if (is_a64(env)) {
+>>> -        env->pc = tb_pc(tb);
+>>> -    } else {
+>>> -        env->regs[15] = tb_pc(tb);
+>>> +    /* The program counter is always up to date with TARGET_TB_PCREL. */
 >>
->> In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
+>> I was confused for a bit about this, but it works because
+>> although the synchronize_from_tb hook has a name that implies
+>> it's comparatively general purpose, in fact we use it only
+>> in the special case of "we abandoned execution at the start of
+>> this TB without executing any of it".
+> 
+> Correct.
+> 
+>>> @@ -347,16 +354,22 @@ static void gen_exception_internal(int excp)
+>>>
+>>>   static void gen_exception_internal_insn(DisasContext *s, int excp)
+>>>   {
+>>> +    target_ulong pc_save = s->pc_save;
+>>> +
+>>>       gen_a64_update_pc(s, 0);
+>>>       gen_exception_internal(excp);
+>>>       s->base.is_jmp = DISAS_NORETURN;
+>>> +    s->pc_save = pc_save;
 >>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   target/arm/translate.c | 37 +++++++++++++++++++++----------------
->>   1 file changed, 21 insertions(+), 16 deletions(-)
+>> What is trashing s->pc_save that we have to work around like this,
+>> here and in the other similar changes ?
 > 
->> @@ -8368,7 +8372,8 @@ static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
->>       }
->>       tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
->>       store_cpu_field_constant(!s->thumb, thumb);
->> -    gen_jmp(s, (read_pc(s) & ~3) + a->imm);
->> +    /* This difference computes a page offset so ok for TARGET_TB_PCREL. */
->> +    gen_jmp(s, (read_pc(s) & ~3) - s->pc_curr + a->imm);
+> gen_a64_update_pc trashes pc_save.
 > 
-> Could we just calculate the offset of the jump target instead?
-> read_pc() returns s->pc_curr + a constant, so the s->pc_curr cancels
-> out anyway:
-> 
->    (read_pc(s) & ~3) - s->pc_curr + a->imm
-> ==
->      (pc_curr + (s->thumb ? 4 : 8) & ~3) - pc_curr + imm
-> ==  pc_curr - pc_curr_low_bits - pc_curr + 4-or-8 + imm
-> ==  imm + 4-or-8 - low_bits_of_pc
-> 
-> That's then more obviously not dependent on the absolute value
-> of the PC.
+> Off of the top of my head, I can't remember what conditionally uses exceptions (single 
+> step?).
 
-Yes, this works:
+Oh, duh, any conditional a32 instruction.
 
--    gen_jmp(s, (read_pc(s) & ~3) + a->imm);
+To some extent this instance duplicates s->pc_cond_save, but the usage pattern there is
 
-+    /* This jump is computed from an aligned PC: subtract off the low bits. */
+     brcond(..., s->condlabel);
+     s->pc_cond_save = s->pc_save;
 
-+    gen_jmp(s, jmp_diff(s, a->imm - (s->pc_curr & 3)));
+     gen_update_pc(s, 0);  /* pc_save = pc_curr */
+     raise_exception;
 
+     if (s->pc_cond_save != s->pc_save) {
+         gen_update_pc(s->pc_save - s->pc_cond_save);
+     }
+     /* s->pc_save now matches the state at brcond */
+
+condlabel:
+
+
+So, we have exited the TB via exception, and the second gen_update_pc would be deleted as 
+dead code, it's just as easy to keep s->pc_save unchanged so that the second gen_update_pc 
+is not emitted.  We certainly *must* update s->pc_save around indirect branches, so that 
+we don't wind up with an assert on s->pc_save != -1.
 
 
 r~
