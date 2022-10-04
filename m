@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961415F40E9
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 12:35:29 +0200 (CEST)
-Received: from localhost ([::1]:47290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCEA5F40F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 12:40:38 +0200 (CEST)
+Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1offGq-00040y-AE
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 06:35:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54558)
+	id 1offLp-0008Oj-CY
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 06:40:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1offFF-0002eM-3m
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:33:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59727)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org>)
+ id 1offJN-0005ex-BB
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:38:05 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:58564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1offFB-00017I-RR
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:33:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664879624;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org>)
+ id 1offJK-0001oj-MS
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:38:05 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A0626B819A2;
+ Tue,  4 Oct 2022 10:37:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A43FC433C1;
+ Tue,  4 Oct 2022 10:37:50 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="I+yr63xM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1664879868;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=u+pibj+VQa8kaM9aphRs4qSnJc3zubI6UP9X2GSNl+Y=;
- b=JPUiF1bACh5ylVs65bx1WNGIhmFgBqahsJEV8Gs5BFNpTALB5SD82Kgwt+vgNd170H5MpO
- zPSooihHvFmFJ/KsyDt6T4VCQ22v5Y/CU9QQ9IRpI1PmzS0YVW2eYcskMhvn6s8R7Gvkw6
- qntE+BDrDwughEWxkxkWA//OCHc4LzA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-562-UpL027o1Pq6gUrbNH8PUxg-1; Tue, 04 Oct 2022 06:33:42 -0400
-X-MC-Unique: UpL027o1Pq6gUrbNH8PUxg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- u20-20020adfc654000000b0022cc05e9119so3897270wrg.16
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 03:33:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=u+pibj+VQa8kaM9aphRs4qSnJc3zubI6UP9X2GSNl+Y=;
- b=FgAA9yn1XcpaC7lGDnTXeIgXS2mTKBDLpThIshkx3ozO2OtdEScyH7ym704BuAORI2
- YyRsa3pwbYlPVBqts8CA3kF88uoilzxURGlKk8EVvsbp/EHrKhk+UXt0deiTE6PpAQ3G
- rm2LUZDCOyrvic1Fiql5ehcBMO72gUC+O1MKxzpbYHFg+FQTEk9LD8FMHHZC9wzyN+bF
- V0ML29EBV9/lQ/3kQidSAFthyM/SmxNvsj0qHEZcI4P0v0R/KbPWZCNvcWxYTcBGjwZQ
- eTwMJM2ODHRv40TpTIC3p4SlqQgICH9kSX9UE8UnrCN7Q9ZWWRaiehXrucBUWj8g5DcV
- kwNg==
-X-Gm-Message-State: ACrzQf2/GtBTehQj12GdKdtbjIt1/Uei1/QscVG31sU5/KmoKCcrFg2c
- JWyKHB7qpHWFX1Br8px1q91SaULrFnKq5aUqu7ava8+RtQdZWJSHArD+NhpCwsvvUqk0G3Xj03N
- 58yw7BAbUJ/bLvFg=
-X-Received: by 2002:a05:6000:682:b0:22e:2d5f:ba9e with SMTP id
- bo2-20020a056000068200b0022e2d5fba9emr9070795wrb.226.1664879621303; 
- Tue, 04 Oct 2022 03:33:41 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5Gl8df5FOPJAi5wigm2RJWh7+gh2FrXTXdLM9zXxNqcDWbmfdpj7XnqSxe245ZHA1+qpZCZw==
-X-Received: by 2002:a05:6000:682:b0:22e:2d5f:ba9e with SMTP id
- bo2-20020a056000068200b0022e2d5fba9emr9070776wrb.226.1664879620959; 
- Tue, 04 Oct 2022 03:33:40 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- m64-20020a1ca343000000b003a6125562e1sm14326477wme.46.2022.10.04.03.33.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 03:33:40 -0700 (PDT)
-Date: Tue, 4 Oct 2022 11:33:37 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Manish Mishra <manish.mishra@nutanix.com>,
- Juan Quintela <quintela@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>, ani@anisinha.ca,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH 02/14] migration: Cleanup xbzrle zero page cache update
- logic
-Message-ID: <YzwMAeEW/spmeJwZ@work-vm>
-References: <20220920225106.48451-1-peterx@redhat.com>
- <20220920225106.48451-3-peterx@redhat.com>
+ bh=+uuXyz6ODMCn8eE/GSnCUiibQIaNdSdi0qY50roQ2TY=;
+ b=I+yr63xM6MVGbU/ja/1NoHxtBP1PUMlIoOYTgwPsGHRtNZOlO03qK1aHf5Jwl0qVrixt05
+ QynFlZexNrSPne85nzKqPpqEdqXVq9/YR9lOmXAfwdByPpPVB3gW+SFZpDHc9TbZCZkEKy
+ kmmcUGT/wWd8TnMlAX6uV8kf8vHrzvM=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 869645c6
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Tue, 4 Oct 2022 10:37:48 +0000 (UTC)
+Date: Tue, 4 Oct 2022 12:37:44 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, kvm-devel <kvm@vger.kernel.org>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v2] mips/malta: pass RNG seed to to kernel via env var
+Message-ID: <YzwM+KhUG0bg+P2e@zx2c4.com>
+References: <YziPyCqwl5KIE2cf@zx2c4.com>
+ <20221003103627.947985-1-Jason@zx2c4.com>
+ <b529059a-7819-e49d-e4dc-7ae79ee21ec5@amsat.org>
+ <CAHmME9pUuduiEcmi2xaY3cd87D_GNX1bkVeXNqVq6AL_e=Kt+Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220920225106.48451-3-peterx@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAHmME9pUuduiEcmi2xaY3cd87D_GNX1bkVeXNqVq6AL_e=Kt+Q@mail.gmail.com>
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,63 +85,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> The major change is to replace "!save_page_use_compression()" with
-> "xbzrle_enabled" to make it clear.
-> 
-> Reasonings:
-> 
-> (1) When compression enabled, "!save_page_use_compression()" is exactly the
->     same as checking "xbzrle_enabled".
-> 
-> (2) When compression disabled, "!save_page_use_compression()" always return
->     true.  We used to try calling the xbzrle code, but after this change we
->     won't, and we shouldn't need to.
-> 
-> Since at it, drop the xbzrle_enabled check in xbzrle_cache_zero_page()
-> because with this change it's not needed anymore.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+And just to give you some idea that this truly is possible from firmware
+and I'm not just making it up, consider this patch to U-Boot:
 
-Yes, I think that's right - it took me a bit of thinking to check it.
-The important thing is that once xbzrle is enaled then we must always
-take in the zero pages to squash old data in the cache.
+u-boot:
+diff --git a/arch/mips/lib/bootm.c b/arch/mips/lib/bootm.c
+index cab8da4860..27f3ee68c0 100644
+--- a/arch/mips/lib/bootm.c
++++ b/arch/mips/lib/bootm.c
+@@ -211,6 +211,8 @@ static void linux_env_legacy(bootm_headers_t *images)
+ 		sprintf(env_buf, "%un8r", gd->baudrate);
+ 		linux_env_set("modetty0", env_buf);
+ 	}
++
++	linux_env_set("rngseed", "4142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f60");
+ }
 
+ static int boot_reloc_fdt(bootm_headers_t *images)
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Now, obviously that seed should be generated from some real method (a
+seed file in flash, a hardware RNG U-Boot knows about, etc), but for the
+purposes of showing that this is how things are passed to Linux, the
+above suffices. To show that this ingested by Linux, let's then add:
 
-> ---
->  migration/ram.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index d8cf7cc901..fc59c052cf 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -741,10 +741,6 @@ void mig_throttle_counter_reset(void)
->   */
->  static void xbzrle_cache_zero_page(RAMState *rs, ram_addr_t current_addr)
->  {
-> -    if (!rs->xbzrle_enabled) {
-> -        return;
-> -    }
-> -
->      /* We don't care if this fails to allocate a new cache page
->       * as long as it updated an old one */
->      cache_insert(XBZRLE.cache, current_addr, XBZRLE.zero_target_page,
-> @@ -2301,7 +2297,7 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
->          /* Must let xbzrle know, otherwise a previous (now 0'd) cached
->           * page would be stale
->           */
-> -        if (!save_page_use_compression(rs)) {
-> +        if (rs->xbzrle_enabled) {
->              XBZRLE_cache_lock();
->              xbzrle_cache_zero_page(rs, block->offset + offset);
->              XBZRLE_cache_unlock();
-> -- 
-> 2.32.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+linux:
+diff --git a/drivers/char/random.c b/drivers/char/random.c
+index a007e3dad80f..05d5b8bcb7e9 100644
+--- a/drivers/char/random.c
++++ b/drivers/char/random.c
+@@ -890,6 +890,7 @@ EXPORT_SYMBOL_GPL(add_hwgenerator_randomness);
+  */
+ void __init add_bootloader_randomness(const void *buf, size_t len)
+ {
++	print_hex_dump(KERN_ERR, "SARU seed: ", DUMP_PREFIX_OFFSET, 16, 1, buf, len, 1);
+ 	mix_pool_bytes(buf, len);
+ 	if (trust_bootloader)
+ 		credit_init_bits(len * 8);
 
+And now let's boot it:
+
+$ qemu-system-mips -nographic -bios ./u-boot.bin -m 1G -netdev user,tftp=arch/mips/boot,bootfile=/uImage,id=net -device pcnet,netdev=net
+
+U-Boot 2022.10-dirty (Oct 04 2022 - 12:31:05 +0200)
+
+Board: MIPS Malta CoreLV
+DRAM:  256 MiB
+Core:  3 devices, 3 uclasses, devicetree: separate
+PCI: Failed autoconfig bar 10
+PCI: Failed autoconfig bar 14
+PCI: Failed autoconfig bar 18
+PCI: Failed autoconfig bar 1c
+PCI: Failed autoconfig bar 20
+PCI: Failed autoconfig bar 24
+Flash: 4 MiB
+Loading Environment from Flash... *** Warning - bad CRC, using default environment
+
+In:    serial@3f8
+Out:   serial@3f8
+Err:   serial@3f8
+Net:   eth0: pcnet#0
+IDE:   Bus 0: not available
+malta # bootp
+BOOTP broadcast 1
+DHCP client bound to address 10.0.2.15 (1 ms)
+Using pcnet#0 device
+TFTP from server 10.0.2.2; our IP address is 10.0.2.15
+Filename '/uImage'.
+Load address: 0x81000000
+Loading: #################################################################
+         #################################################################
+         #################################################################
+         #################################################################
+         ####################################################
+         169.6 MiB/s
+done
+Bytes transferred = 4446702 (43d9ee hex)
+malta # bootm
+## Booting kernel from Legacy Image at 81000000 ...
+   Image Name:   Linux-6.0.0-rc6+
+   Created:      2022-10-04  10:23:27 UTC
+   Image Type:   MIPS Linux Kernel Image (gzip compressed)
+   Data Size:    4446638 Bytes = 4.2 MiB
+   Load Address: 80100000
+   Entry Point:  8054939c
+   Verifying Checksum ... OK
+   Uncompressing Kernel Image
+[    0.000000] Linux version 6.0.0-rc6+ (zx2c4@thinkpad) (mips-linux-musl-gcc (GCC) 11.2.1 20211120, GNU ld (GNU Binutils) 2.37) #5 SMP PREEMPT Fri Jun 5 15:58:00 CEST 2015
+[    0.000000] earlycon: uart8250 at I/O port 0x3f8 (options '38400n8')
+[    0.000000] printk: bootconsole [uart8250] enabled
+[    0.000000] Config serial console: console=ttyS0,38400n8r
+[    0.000000] MIPS CPS SMP unable to proceed without a CM
+[    0.000000] CPU0 revision is: 00019300 (MIPS 24Kc)
+[    0.000000] FPU revision is: 00739300
+[    0.000000] OF: fdt: No chosen node found, continuing without
+[    0.000000] OF: fdt: Ignoring memory range 0x100000000 - 0x17ffff000
+[    0.000000] MIPS: machine is mti,malta
+[    0.000000] Software DMA cache coherency enabled
+[    0.000000] Initrd not found or empty - disabling initrd
+[    0.000000] Primary instruction cache 2kB, VIPT, 2-way, linesize 16 bytes.
+[    0.000000] Primary data cache 2kB, 2-way, VIPT, no aliases, linesize 16 bytes
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000000000000-0x0000000000ffffff]
+[    0.000000]   Normal   [mem 0x0000000001000000-0x000000001fffffff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000000000000-0x000000000fffffff]
+[    0.000000]   node   0: [mem 0x0000000090000000-0x00000000ffffefff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000000000000-0x00000000ffffefff]
+[    0.000000] SARU seed: 00000000: 41 42 43 44 45 46 47 48 49 4a 4b 4c 4d 4e 4f 50  ABCDEFGHIJKLMNOP
+[    0.000000] SARU seed: 00000010: 51 52 53 54 55 56 57 58 59 5a 5b 5c 5d 5e 5f 60  QRSTUVWXYZ[\]^_`
+[    0.000000] random: crng init done
+...
+
+So, as you can see, it works perfectly. Thus, setting this in QEMU
+follows *exactly* *the* *same* *pattern* as every other architecture
+that allows for this kind of mechanism. There's nothing weird or unusual
+or out of place happening here.
+
+Hope this helps clarify.
+
+Regards,
+Jason
 
