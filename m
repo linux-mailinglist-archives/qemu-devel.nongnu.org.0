@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22DF15F47A0
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 18:32:34 +0200 (CEST)
-Received: from localhost ([::1]:45506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B415F4749
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 18:15:24 +0200 (CEST)
+Received: from localhost ([::1]:37472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofkqN-0006vZ-A6
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 12:32:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59240)
+	id 1ofkZm-0007Zr-Ny
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 12:15:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofjw2-0002Aj-EF
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 11:34:24 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:33719)
+ id 1ofk0w-0007W5-ER
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 11:39:25 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofjvz-0007FC-Hs
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 11:34:17 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- ay7-20020a05600c1e0700b003b49861bf48so996980wmb.0
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 08:34:14 -0700 (PDT)
+ id 1ofk0u-0008K3-Mt
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 11:39:21 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id bq9so21951871wrb.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 08:39:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=qGwVVZARQtt1ggYvn8UACv1SxmqjKJMNFmd8pFmwv0Y=;
- b=E84Gb5xUIvXq337xaov7nQK/9OOyNVIcoGJ5Fq1FsiYJgtaYyulQlS20+uySVArtRF
- RY8nfDwntP0fcV2xv/De52w9zGa0UMdqIggrXEJeN003wsso+Umgff5fGHlos/i9Zn2P
- LFTYdMjtyedivTSgf5FLo+RUcYw3k0S/5/ncQW7QHbd1kFULHtSVSwxH8kOY+u0VWlKx
- Nsgc2GPsd4WuCvsozM2RwwivQ2H0vbO8t3/Z5e6xY2hmecjhe7PSRhqAT5CoLW+iYNv8
- ZOLdOtGUHhUQL1rvyxxH3PbKu6F5mQbpCZsIz1MCaVAVb++4boapLUluwXtNmTje7/ea
- J00w==
+ bh=hKSsljcEh/enogYmEY7rOwjF4eFhGNqTCu2ssPEtmvs=;
+ b=oAOoTZgka0UFIoHfrVv/Nce2mj1WmjiXOrVaoUKKlCk//UkMLLxjaEcX0ooJk32uMl
+ awHRGBBrdlW/jp1b+uTDdCgP1kqUuqwBzxmrjJdU8jkXVx43VQtKNPJqfDih5ThLL7wd
+ 1LHzgtqk1Ms04Vr2o4UwPsGK6NGVNaVnvm6Ad2BTNOTfqXlGLPPNDXMmLW6O7x4lfaFQ
+ pWeZhm3nXxlBVurfpdonhpTlrN5sUAI77dJbi98/z/YvKhHNWeclO8ds6NSfMUsdV2mq
+ hKgo8eWsJUpgo5+485XH8aiPiToE9VVPd2TOUVmoW5/ym33mmVoK6GPzm/G3Nj13VxFP
+ +kTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date;
- bh=qGwVVZARQtt1ggYvn8UACv1SxmqjKJMNFmd8pFmwv0Y=;
- b=Cz9lpFp5xIH/jy4T3njFI0a0YTZAhlVMIeGnR1lo8ErmqUsI+w8g8g89YB1r7CIHWZ
- 8/1jAMBLuHqmUIbQpXo4pKiCUe+mTpBTL9ym30ZUpiVpFqoZFnH8hW2UKLC4rYBPKrDs
- dFuMGA9n2W8BMRQ0fGWw+7HpJ+jcFTP5/+dXkdpsnv9EqK6Z39vm4FQSCOvAG5jnXaqt
- pEDCARbVwt/EBl2XEQBbZ4W8+8oDNk6HfZA2x8uqHiHQePVjdstrvh3ln2aRsvjo7QFX
- sP1oVMz9dVB+027THa4knYnEdAFMGIMegT6DkE9vDqjHyreNB8lL1cVcAD0u5D8E1y1/
- uHyg==
-X-Gm-Message-State: ACrzQf3Lcyi6U5y0qydr3TlxKtZlzDtkBu3/DbYWaYNHHcSw69z1An9S
- Sy4Hfo6aA9g67KziQozYhYUfVA==
-X-Google-Smtp-Source: AMsMyM4cG48p5rlY0PUvu6+KP3HRpoUkOKWR3eiRSofDeqOfGS0jBdvEt+N04q7jmqjtI851yaQGdw==
-X-Received: by 2002:a05:600c:2241:b0:3b4:88aa:dcba with SMTP id
- a1-20020a05600c224100b003b488aadcbamr221926wmm.203.1664897653403; 
- Tue, 04 Oct 2022 08:34:13 -0700 (PDT)
+ bh=hKSsljcEh/enogYmEY7rOwjF4eFhGNqTCu2ssPEtmvs=;
+ b=zIVuWi//IjyG2M4g83oACYZ98cbnd+iaIc+Bs5zsfL/6eixoY6vVAql/ZCSt1ZvZnk
+ 6zfTaOmN9Bdgxl6Azcg4m+6ShJA+/xX6RpN2iSno4SgZiW3TJ/arZp4sfYYxs89zUFdH
+ HYhOzraYPr+bfknimvJC4K0efzVpWMdmE7oTniJZzROaJDsd4cabWAH8y+3ZEhzmEW4S
+ 1ollgP4psv3pHkQ2pCyOm+nWFALW0pJ8sPONBVISp52ROUBVev2IHIh0zYLAxA27QJiX
+ iD6YaJeAInXisGNPrJgVrhNetXCa8/tF1kuJLa/zCe+O/16OVynfceamQStOFmwO61Et
+ UEoQ==
+X-Gm-Message-State: ACrzQf3/dA/myL09vp4FyOXl+uX1+AeU/CpUtNVvyB8NNTIPnTJ83OiC
+ IcEFavXddAGGTawbWtefG06WgA==
+X-Google-Smtp-Source: AMsMyM7Pcjoaefm/zCkaocCUNsrxP7NIfNm7Hw3pB03ompo5EwWAcbMk3QTbLaqMkKVeWCU74vgL9Q==
+X-Received: by 2002:a5d:58c8:0:b0:22e:41b1:fb00 with SMTP id
+ o8-20020a5d58c8000000b0022e41b1fb00mr5453401wrf.542.1664897959006; 
+ Tue, 04 Oct 2022 08:39:19 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m38-20020a05600c3b2600b003b4ff30e566sm4682237wms.3.2022.10.04.08.34.12
+ l13-20020a5d4bcd000000b00226dba960b4sm12743053wrt.3.2022.10.04.08.39.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 08:34:12 -0700 (PDT)
+ Tue, 04 Oct 2022 08:39:18 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 39AC81FFB7;
- Tue,  4 Oct 2022 16:34:12 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 78B351FFB7;
+ Tue,  4 Oct 2022 16:39:17 +0100 (BST)
 References: <20221004141051.110653-1-richard.henderson@linaro.org>
- <20221004141051.110653-14-richard.henderson@linaro.org>
+ <20221004141051.110653-18-richard.henderson@linaro.org>
 User-agent: mu4e 1.9.0; emacs 28.2.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v7 13/18] accel/tcg: Do not align tb->page_addr[0]
-Date: Tue, 04 Oct 2022 16:34:07 +0100
-In-reply-to: <20221004141051.110653-14-richard.henderson@linaro.org>
-Message-ID: <875ygzli17.fsf@linaro.org>
+Subject: Re: [PATCH v7 17/18] accel/tcg: Introduce tb_pc and log_pc
+Date: Tue, 04 Oct 2022 16:39:11 +0100
+In-reply-to: <20221004141051.110653-18-richard.henderson@linaro.org>
+Message-ID: <871qrnlhsq.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,11 +97,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Let tb->page_addr[0] contain the address of the first byte of the
-> translated block, rather than the address of the page containing the
-> start of the translated block.  We need to recover this value anyway
-> at various points, and it is easier to discard a page offset when it
-> is not needed, which happens naturally via the existing find_page shift.
+> The availability of tb->pc will shortly be conditional.
+> Introduce accessor functions to minimize ifdefs.
+>
+> Pass around a known pc to places like tcg_gen_code,
+> where the caller must already have the value.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
