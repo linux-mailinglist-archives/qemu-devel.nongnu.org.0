@@ -2,62 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76935F40D3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 12:30:15 +0200 (CEST)
-Received: from localhost ([::1]:52266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81BA75F40BE
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 12:28:40 +0200 (CEST)
+Received: from localhost ([::1]:41444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1offBm-0001wI-Tc
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 06:30:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52292)
+	id 1offAF-0007dO-Ap
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 06:28:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1off7X-00052Q-76
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1off7X-00052O-6L
  for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:25:51 -0400
-Received: from pv50p00im-ztdg10021901.me.com ([17.58.6.55]:49458)
+Received: from pv50p00im-ztdg10021901.me.com ([17.58.6.55]:49702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1off7N-0004Bn-Ka
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:25:42 -0400
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1off7N-0004NQ-Ka
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:25:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1664879136; bh=irS+IMj7fxUkA3LyldGd+V+KREAfBoo4MYjatluiGoY=;
+ t=1664879139; bh=+B7IsfEP9clHsLTHWL2KWswD6d2kq73Gw6oQ20/UQNk=;
  h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=YHCKcP+ivmDMcpuNWxQx4sV5UV/DOUt1MHzIXu/Wa8t3EALQUmVgG/YvFTBHorxaH
- 0Ugl2BqMAQKVolV4mnnceuCTrlYGv022i99U92J9kEwpP9gJkQKjzi/IqdHdX/gh3z
- pwRZlu1DgwA++4bp1mBPkqB0BfQw8+r/UrQwP3ycpD1cJ/yGF9Hgv1wHWeBLUpyhZ7
- qWDo7HHiF85H7jm6fg3nweu+mxgIoLL0Kt0LGkeWg1iG8efSodgat/Tw2wGpJsWW6n
- alyowHJFmbKwyX68FAUwJPxAN4dptdFxrCITa+o9gVw1v2s9tTmEdsNX9wdTTwRDsX
- gzW/xDlKg86wA==
+ b=AWuaI8lKNKUTbhPnHbaT5AEqO7XSQjiNxJ9j6IJcYT/I4HKyNvNhoLzeYzPeUeM0c
+ ABaD/Py3DrStVCa9Jij39wnjnQkSkGgDcjpKXQxKXBGCTpx3yWFUmqJTAlT2WkJ/WQ
+ sQOZAo3xKzMxpmCnO9c2+Gn47/qKzo0QcIbYFop68vx8s6dOeaJoy9iptFHtHOJXui
+ tFvhmNrDlEY9qp/r+xehMwZueD5rdAKovi7YaxoX2l8HVrRvVmxJ/HySZjFgYWrai7
+ gx3b3iFdXXRNZBIT/SdV7AmBeD41o3EPtomX+xwGoQZntnQ8QqgbMcNv5RT61lYMZm
+ cdmMUA0BOd2lQ==
 Received: from smtpclient.apple (pv50p00im-dlb-asmtp-mailmevip.me.com
  [17.56.9.10])
- by pv50p00im-ztdg10021901.me.com (Postfix) with ESMTPSA id 28A5081A09;
- Tue,  4 Oct 2022 10:25:32 +0000 (UTC)
+ by pv50p00im-ztdg10021901.me.com (Postfix) with ESMTPSA id E175D81BDD;
+ Tue,  4 Oct 2022 10:25:36 +0000 (UTC)
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: [PATCH  v3 12/15] gdbstub: move sstep flags probing into
- AccelClass
+Subject: Re: [PATCH  v3 03/15] target/arm: ensure HVF traps set appropriate
+ MemTxAttrs
 From: Mads Ynddal <mads@ynddal.dk>
-In-Reply-To: <20220927141504.3886314-13-alex.bennee@linaro.org>
-Date: Tue, 4 Oct 2022 12:25:30 +0200
-Cc: qemu-devel@nongnu.org, "open list:ARM cores" <qemu-arm@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "open list:Overall KVM CPUs" <kvm@vger.kernel.org>
+In-Reply-To: <20220927141504.3886314-4-alex.bennee@linaro.org>
+Date: Tue, 4 Oct 2022 12:25:31 +0200
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Alexander Graf <agraf@csgraf.de>, Peter Maydell <peter.maydell@linaro.org>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <84FB206A-5BFF-403F-84B9-2AC9F353096B@ynddal.dk>
+Message-Id: <B685DFF5-137E-4CA0-B360-CF9D340FDC1A@ynddal.dk>
 References: <20220927141504.3886314-1-alex.bennee@linaro.org>
- <20220927141504.3886314-13-alex.bennee@linaro.org>
+ <20220927141504.3886314-4-alex.bennee@linaro.org>
 To: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
 X-Mailer: Apple Mail (2.3696.120.41.1.1)
-X-Proofpoint-GUID: JimXms5MbrMWolMGRiZc5txqLU-VC4hy
-X-Proofpoint-ORIG-GUID: JimXms5MbrMWolMGRiZc5txqLU-VC4hy
+X-Proofpoint-GUID: FzCPH9dG4XbLN-ypDyy6djJ4KuHeTzJy
+X-Proofpoint-ORIG-GUID: FzCPH9dG4XbLN-ypDyy6djJ4KuHeTzJy
 X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
  =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.11.64.514.0000000_definitions?=
  =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2022-02-23?=
  =?UTF-8?Q?=5F01_signatures=3D0?=
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  spamscore=0
- mlxlogscore=818 adultscore=0 mlxscore=0 suspectscore=0 clxscore=1030
+ mlxlogscore=635 adultscore=0 mlxscore=0 suspectscore=0 clxscore=1030
  bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2209130000 definitions=main-2210040067
 Received-SPF: pass client-ip=17.58.6.55; envelope-from=mads@ynddal.dk;
@@ -68,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,23 +82,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-> The support of single-stepping is very much dependent on support from
-> the accelerator we are using. To avoid special casing in gdbstub move
-> the probing out to an AccelClass function so future accelerators can
-> put their code there.
+> As most HVF devices are done purely in software we need to make sure
+> we properly encode the source CPU in MemTxAttrs. This will allow the
+> device emulations to use those attributes rather than relying on
+> current_cpu (although current_cpu will still be correct in this case).
 >=20
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Acked-by: Alexander Graf <agraf@csgraf.de>
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > Cc: Mads Ynddal <mads@ynddal.dk>
+>=20
 > ---
-> include/qemu/accel.h | 12 ++++++++++++
-> include/sysemu/kvm.h |  8 --------
-> accel/accel-common.c | 10 ++++++++++
-> accel/kvm/kvm-all.c  | 14 +++++++++++++-
-> accel/tcg/tcg-all.c  | 17 +++++++++++++++++
-> gdbstub/gdbstub.c    | 22 ++++------------------
-> 6 files changed, 56 insertions(+), 27 deletions(-)
+> v2
+>  - update MEMTXATTRS macro
+> ---
+> target/arm/hvf/hvf.c | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Mads Ynddal <mads@ynddal.dk>=
 
