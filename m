@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFD85F4582
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 16:31:47 +0200 (CEST)
-Received: from localhost ([::1]:45564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9B75F45F8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 16:55:23 +0200 (CEST)
+Received: from localhost ([::1]:42698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofixW-0003TV-DH
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 10:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44188)
+	id 1ofjKM-0004tq-80
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 10:55:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ofiOJ-0005hq-Pd
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:55:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ofiOF-00063N-UO
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:55:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664891718;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=s0LiOhogjHqkYTazvm90ozpckrrkfzXSlVjhe9B4VJs=;
- b=Pa/wMl/+nhyF5oba4X4eV7WYzOOb/9+P4JZPtH+29ipIhUFk34fwU94H8ybWabusDC/2Bd
- rD5K3iC1ODqO09kbsYPqNcnnZv8kh99pgKPBS6fiEYMN2xufGYLEXwI4972TgLUM++YFZd
- Hc2+n56BkaapjcbuZqE0/8j82Os15bk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-517-RP1l-OSnOnWCtddTqZfPnw-1; Tue, 04 Oct 2022 09:55:14 -0400
-X-MC-Unique: RP1l-OSnOnWCtddTqZfPnw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- e14-20020adf9bce000000b0022d18139c79so3193868wrc.5
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:55:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ofidO-0001zK-EK
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:10:58 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:42657)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ofidM-0004Ha-K4
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:10:58 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id q7so5652636pfl.9
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 07:10:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=IKveQ/m0E5RysQc4pboDJ3G4kcoJin+r5T1Hiv1sZXM=;
+ b=xxyS+0Gz6q1MW/EFTKDHC4RqDulXXkNKqbbX8Q7++Rh/Najj+cJwG4BC0vbupZG5UX
+ 12ezHfPoHn6dZ7Edi8aqWPoOXeKzNZHsRPOtk1Uxh2qLeW7Zu/lUAXXV3GQgmJe/Al7E
+ AgOpGaFe+XLrXRdF4z7NJcc6tVJBbrEo7SXCxrMwywnOgozPdFRV3d0qOtR6OM4OHJHo
+ JzAr54C3fIMuR/52NaoJcF3rcNTMIJt7XvA0BAeU3tVkaN8y7ZT3x8pxE8crPLdJT/dt
+ 4wa+aYuESbRmPFgTihr4GGriOnht/RHR3UT9wJ75P1bKNv+XB9Y9XaEDLPllc59dy3qL
+ c6BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=s0LiOhogjHqkYTazvm90ozpckrrkfzXSlVjhe9B4VJs=;
- b=P5phBKbVB4Cr7hrrS4Wez27CVoCN7MhTTz4Wv2OT2KkI2J6VOcgU78dG127UKXekZL
- EEdl93x1A/GUv6xuQd2qc5yrMIuKI1nVSTC5Jlo0kgnZgBvuNB0lQDDy+yaNpn8dHW/n
- 0dGjnGdPUYxeagLyi5TNvcb0EzBOjpHEpqrN5OU5ffWX0Jc5QPipphWqkt6+TUldMza7
- YQ+Y+4oaCUuh90KTNZLaNGyti8ss3FXPUe0+wwYWOgc60bt3oevud1kD6bPiNxBgNffk
- dSQ9xh90KvUnrBI287lqudUHPFKu7DpW4sYa5FL0DnQ583wuM4VQc1mDVKhC+3mAxMiM
- iedA==
-X-Gm-Message-State: ACrzQf0vuavxXK3K/m5lrSZRrxtzdvMfPsd2uVx1OjAFoDn6eeTVp6JQ
- yN/QPtkbqm4t/V3iC8OAE2hZJE2V0TieZl/NwID1zJCba4TZimKDno1C1TaXk+tMuUw+WcBsQJd
- N5Mk0ZW/yJVjpoCY=
-X-Received: by 2002:a05:600c:358f:b0:3b4:a699:3121 with SMTP id
- p15-20020a05600c358f00b003b4a6993121mr10518280wmq.166.1664891713681; 
- Tue, 04 Oct 2022 06:55:13 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6E63iLqQ2RtcdAFz0ZXuD8MAmKb3M1kMKGawz5vTJ1fzTmCqDUNqYEEyR5j9zvJDNYU8jRvA==
-X-Received: by 2002:a05:600c:358f:b0:3b4:a699:3121 with SMTP id
- p15-20020a05600c358f00b003b4a6993121mr10518273wmq.166.1664891713446; 
- Tue, 04 Oct 2022 06:55:13 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- z6-20020adfec86000000b0022b1d74dc56sm12539927wrn.79.2022.10.04.06.55.12
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=IKveQ/m0E5RysQc4pboDJ3G4kcoJin+r5T1Hiv1sZXM=;
+ b=uY7o76yN/tPH7GqWnPUc1ACPkCXJAjPGvnDaGGFqlCsp7jy/Whp4eCO4tTwn1zZHWg
+ fP1lgXiL+xyjHz3+PQt6g68m25/nQy533IYdZJx8EReWwDhBNT1gSnWO0gW3p1mm+ETt
+ z6/7mTtAdmS/Pjxy6qQ8cLAAQs+Xcmf5feoYYseGE65bM0vNW7gxpaWlJ81GFyUEHE74
+ 67HUBj864l9uGEpRDEf7iVll+oig0AI8Is1lKKzRztz6h0895DMzQ/lULnLymm9R6V73
+ /h3P1N9KF2u5+NhEhy0nQqdVURhRG0gsMz4ztq0oEj6IasbeEj93oz4/rtdC5BLclNor
+ 8kcg==
+X-Gm-Message-State: ACrzQf2Ydawz+0mqpl+CVYsEDeZmvDgJuFwQ4/B0Y2X3BY3cTRvFBhMR
+ ibOxV3MnGt1+csSTAf7Yqu5guZ+/KR2gHQ==
+X-Google-Smtp-Source: AMsMyM42ga1crS8i0FiHNWsyT1OYCJforQ8tif8QdZLhGDyt2UOg7KeC/Ir4ZN2GwFvcliiZyfe3Rw==
+X-Received: by 2002:a63:5762:0:b0:43c:c1b5:3e75 with SMTP id
+ h34-20020a635762000000b0043cc1b53e75mr22886723pgm.380.1664892654582; 
+ Tue, 04 Oct 2022 07:10:54 -0700 (PDT)
+Received: from stoup.. ([2605:ef80:8015:12b0:403e:a15b:ff5e:d439])
+ by smtp.gmail.com with ESMTPSA id
+ y5-20020aa79ae5000000b00561382a5a25sm1240357pfp.26.2022.10.04.07.10.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 06:55:12 -0700 (PDT)
-Date: Tue, 4 Oct 2022 14:55:10 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Manish Mishra <manish.mishra@nutanix.com>,
- Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH 05/14] migration: Yield bitmap_mutex properly when
- sending/sleeping
-Message-ID: <Yzw7Po4Qg/0WJNke@work-vm>
-References: <20220920225106.48451-1-peterx@redhat.com>
- <20220920225210.48732-1-peterx@redhat.com>
+ Tue, 04 Oct 2022 07:10:53 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
+Subject: [PATCH v7 00/18] tcg: CPUTLBEntryFull and TARGET_TB_PCREL
+Date: Tue,  4 Oct 2022 07:10:33 -0700
+Message-Id: <20221004141051.110653-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220920225210.48732-1-peterx@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,112 +87,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Don't take the bitmap mutex when sending pages, or when being throttled by
-> migration_rate_limit() (which is a bit tricky to call it here in ram code,
-> but seems still helpful).
-> 
-> It prepares for the possibility of concurrently sending pages in >1 threads
-> using the function ram_save_host_page() because all threads may need the
-> bitmap_mutex to operate on bitmaps, so that either sendmsg() or any kind of
-> qemu_sem_wait() blocking for one thread will not block the other from
-> progressing.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+Changes for v7:
+  * Added stub for --disable-tcg (stsquad)
+  * Re-worded the commit for patch 13 (stsquad)
+  * Split out some more helpers around ifdefs in patch 18 (stsquad)
 
-I generally dont like taking locks conditionally; but this kind of looks
-OK; I think it needs a big comment on the start of the function saying
-that it's called and left with the lock held but that it might drop it
-temporarily.
-
-> ---
->  migration/ram.c | 42 +++++++++++++++++++++++++++++++-----------
->  1 file changed, 31 insertions(+), 11 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 8303252b6d..6e7de6087a 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -2463,6 +2463,7 @@ static void postcopy_preempt_reset_channel(RAMState *rs)
->   */
->  static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
->  {
-> +    bool page_dirty, release_lock = postcopy_preempt_active();
-
-Could you rename that to something like 'drop_lock' - you are taking the
-lock at the end even when you have 'release_lock' set - which is a bit
-strange naming.
-
->      int tmppages, pages = 0;
->      size_t pagesize_bits =
->          qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
-> @@ -2486,22 +2487,41 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
->              break;
->          }
->  
-> +        page_dirty = migration_bitmap_clear_dirty(rs, pss->block, pss->page);
-> +        /*
-> +         * Properly yield the lock only in postcopy preempt mode because
-> +         * both migration thread and rp-return thread can operate on the
-> +         * bitmaps.
-> +         */
-> +        if (release_lock) {
-> +            qemu_mutex_unlock(&rs->bitmap_mutex);
-> +        }
-
-Shouldn't the unlock/lock move inside the 'if (page_dirty) {' ?
+Patches needing review:
+  13-accel-tcg-Do-not-align-tb-page_addr-0.patch
+  17-accel-tcg-Introduce-tb_pc-and-log_pc.patch
+  18-accel-tcg-Introduce-TARGET_TB_PCREL.patch
 
 
->          /* Check the pages is dirty and if it is send it */
-> -        if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
-> +        if (page_dirty) {
->              tmppages = ram_save_target_page(rs, pss);
-> -            if (tmppages < 0) {
-> -                return tmppages;
-> +            if (tmppages >= 0) {
-> +                pages += tmppages;
-> +                /*
-> +                 * Allow rate limiting to happen in the middle of huge pages if
-> +                 * something is sent in the current iteration.
-> +                 */
-> +                if (pagesize_bits > 1 && tmppages > 0) {
-> +                    migration_rate_limit();
+r~
 
-This feels interesting, I know it's no change from before, and it's
-difficult to do here, but it seems odd to hold the lock around the
-sleeping in the rate limit.
 
-Dave
+Alex Bennée (3):
+  cpu: cache CPUClass in CPUState for hot code paths
+  hw/core/cpu-sysemu: used cached class in cpu_asidx_from_attrs
+  cputlb: used cached CPUClass in our hot-paths
 
-> +                }
->              }
-> +        } else {
-> +            tmppages = 0;
-> +        }
->  
-> -            pages += tmppages;
-> -            /*
-> -             * Allow rate limiting to happen in the middle of huge pages if
-> -             * something is sent in the current iteration.
-> -             */
-> -            if (pagesize_bits > 1 && tmppages > 0) {
-> -                migration_rate_limit();
-> -            }
-> +        if (release_lock) {
-> +            qemu_mutex_lock(&rs->bitmap_mutex);
->          }
-> +
-> +        if (tmppages < 0) {
-> +            return tmppages;
-> +        }
-> +
->          pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
->      } while ((pss->page < hostpage_boundary) &&
->               offset_in_ramblock(pss->block,
-> -- 
-> 2.32.0
-> 
+Richard Henderson (15):
+  accel/tcg: Rename CPUIOTLBEntry to CPUTLBEntryFull
+  accel/tcg: Drop addr member from SavedIOTLB
+  accel/tcg: Suppress auto-invalidate in probe_access_internal
+  accel/tcg: Introduce probe_access_full
+  accel/tcg: Introduce tlb_set_page_full
+  include/exec: Introduce TARGET_PAGE_ENTRY_EXTRA
+  accel/tcg: Remove PageDesc code_bitmap
+  accel/tcg: Use bool for page_find_alloc
+  accel/tcg: Use DisasContextBase in plugin_gen_tb_start
+  accel/tcg: Do not align tb->page_addr[0]
+  accel/tcg: Inline tb_flush_jmp_cache
+  include/hw/core: Create struct CPUJumpCache
+  hw/core: Add CPUClass.get_pc
+  accel/tcg: Introduce tb_pc and log_pc
+  accel/tcg: Introduce TARGET_TB_PCREL
+
+ accel/tcg/internal.h                    |  10 +
+ accel/tcg/tb-hash.h                     |   1 +
+ accel/tcg/tb-jmp-cache.h                |  65 ++++++
+ include/exec/cpu-common.h               |   1 +
+ include/exec/cpu-defs.h                 |  48 ++++-
+ include/exec/exec-all.h                 |  75 ++++++-
+ include/exec/plugin-gen.h               |   7 +-
+ include/hw/core/cpu.h                   |  28 ++-
+ include/qemu/typedefs.h                 |   2 +
+ include/tcg/tcg.h                       |   2 +-
+ accel/stubs/tcg-stub.c                  |   4 +
+ accel/tcg/cpu-exec.c                    |  80 ++++----
+ accel/tcg/cputlb.c                      | 259 ++++++++++++++----------
+ accel/tcg/plugin-gen.c                  |  22 +-
+ accel/tcg/translate-all.c               | 214 +++++++++-----------
+ accel/tcg/translator.c                  |   2 +-
+ cpu.c                                   |   9 +-
+ hw/core/cpu-common.c                    |   3 +-
+ hw/core/cpu-sysemu.c                    |   5 +-
+ plugins/core.c                          |   2 +-
+ target/alpha/cpu.c                      |   9 +
+ target/arm/cpu.c                        |  17 +-
+ target/arm/mte_helper.c                 |  14 +-
+ target/arm/sve_helper.c                 |   4 +-
+ target/arm/translate-a64.c              |   2 +-
+ target/avr/cpu.c                        |  10 +-
+ target/cris/cpu.c                       |   8 +
+ target/hexagon/cpu.c                    |  10 +-
+ target/hppa/cpu.c                       |  12 +-
+ target/i386/cpu.c                       |   9 +
+ target/i386/tcg/tcg-cpu.c               |   2 +-
+ target/loongarch/cpu.c                  |  11 +-
+ target/m68k/cpu.c                       |   8 +
+ target/microblaze/cpu.c                 |  10 +-
+ target/mips/cpu.c                       |   8 +
+ target/mips/tcg/exception.c             |   2 +-
+ target/mips/tcg/sysemu/special_helper.c |   2 +-
+ target/nios2/cpu.c                      |   9 +
+ target/openrisc/cpu.c                   |  10 +-
+ target/ppc/cpu_init.c                   |   8 +
+ target/riscv/cpu.c                      |  17 +-
+ target/rx/cpu.c                         |  10 +-
+ target/s390x/cpu.c                      |   8 +
+ target/s390x/tcg/mem_helper.c           |   4 -
+ target/sh4/cpu.c                        |  12 +-
+ target/sparc/cpu.c                      |  10 +-
+ target/tricore/cpu.c                    |  11 +-
+ target/xtensa/cpu.c                     |   8 +
+ tcg/tcg.c                               |   8 +-
+ trace/control-target.c                  |   2 +-
+ 50 files changed, 739 insertions(+), 355 deletions(-)
+ create mode 100644 accel/tcg/tb-jmp-cache.h
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.34.1
 
 
