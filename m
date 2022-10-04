@@ -2,73 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9515F462C
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 17:08:15 +0200 (CEST)
-Received: from localhost ([::1]:44584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C045F463C
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 17:12:53 +0200 (CEST)
+Received: from localhost ([::1]:40938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofjWo-0001zm-1e
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 11:08:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41394)
+	id 1ofjbI-0007vj-GN
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 11:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofidn-0002wj-0L
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:11:23 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:37884)
+ id 1ofidr-00030F-4k
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:11:28 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:42657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofidk-0004SZ-UI
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:11:22 -0400
-Received: by mail-pg1-x533.google.com with SMTP id bh13so12814866pgb.4
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 07:11:20 -0700 (PDT)
+ id 1ofido-0004Ha-7r
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:11:26 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id q7so5653833pfl.9
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 07:11:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=ecQCsvnTHICeRKHhQnmBF1bwYTnzG7vyEXDoUtOl6rE=;
- b=xwVG/ytLdPuSU/K3s9buQqPUCQsGOZvwZa+mpcty8sE9x7nO/yPdoqvVPilPyqGhfX
- SnBlExWSUmkUcb/8riyVj0pFL11W/Hkqtk6OEtj2g6wFJ4qR1krme/FXyWh2ZdpphWXr
- 2uP67/BUeUscKdFGTUmEBZ2HT2YlBeRf1kLRkanQvRpLN6y6nlye4u/yNVM+semmM6Z0
- /e5k0I1FK81nF1/gZk/NvR1w0+FJU/6OWW6FKW7DDWzX0Z9NXW9LGh56w8nDTQUL0jDT
- EolPRh36+5h5afiHfWFzotXMCxu9OBhx05ATtoDISIfxElyvBm2D3jdISjNmDwpPv4mM
- 7hWg==
+ bh=ct0u9b3qDBsxUF0JVELTeHrR9q6ArXqosWhP8E36ZjU=;
+ b=fv9qEFljh+wNVdxMLoJ5B3JLQZzEiM7DVHSi1AGcnXFOgP3THYctusAtjAOay3t8xt
+ Sw7BBpOBNJI7MFciZnsYPd3eldD9rQL6PNjxHdCTnV6fgtBlRMuKQwnYnvLvi+LxYqn8
+ 7Wl5o8mjzkePR/7tD6fG8Kl7s8lJeloj6tuIkRALqpiEFZgRAHC/q+qesRX4nZ+nNsYZ
+ 8tCZGRFPUCsPYdVEO1ef55du3jE2NpLeDawVO8DKkWtoYaC+3COm2OcCz2AVLiBFV2Ee
+ 6fIZlvmwQohUKgFN7VoYoYh983gsGlJdUFB/+WbAcSplL+auA6aiWLN6Xd6c/0w1ztoE
+ 4B3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=ecQCsvnTHICeRKHhQnmBF1bwYTnzG7vyEXDoUtOl6rE=;
- b=IvB+Tl22f2KKnjlp+4zOixIg+515795+J4fqHoGCB+cE01g65Mupzayg8qkywKGyH0
- tmUX4UPEN3g64GDkdGNUg3e2sgz/fACO2YrlyMcXNsJP19oFoaxQwf5P+x8Ct3bwHDdf
- H9IWxIfoIqAzo4MbZEWuqNWNfo8xop7O5miiItzdlqDFJvpn+Q/fuRZwu1JhaEj+YP54
- AoB4DWR9RVi6Pf2OAv8UtJ5EZ0Fv/XKo8GFtgCpYmkWeRE905qbr9t/jcZnA0QG3oJXJ
- xsYh5igOujG0eGM4Fn0ncH5tJHredjyxtlLCqg0w9URPEnFGul7IRP8C9amp1w+q/J4B
- 5FiA==
-X-Gm-Message-State: ACrzQf3QJOlO25TdCNBBBikaXv7MN6iLirJayEdEYXiu4jtzfwjrCBbV
- wg8VP70+FmN2EvL0MndBW8zkQLV5eUpX5A==
-X-Google-Smtp-Source: AMsMyM7jvehP9RcE4tSFtjj48ct4LfCtz7Pnfkzg+0YPrDC04otHs/cyNrFAZnV7Aub+S9Aa4wyPLA==
-X-Received: by 2002:a63:3dc9:0:b0:44d:5196:772d with SMTP id
- k192-20020a633dc9000000b0044d5196772dmr6803940pga.499.1664892679591; 
- Tue, 04 Oct 2022 07:11:19 -0700 (PDT)
+ bh=ct0u9b3qDBsxUF0JVELTeHrR9q6ArXqosWhP8E36ZjU=;
+ b=iCcr6AOnkkgLYT5e4O6lSqG4bGik8He9RndFEKCRiP198iUPQx5+2LKKD+FalrC3BU
+ OLXqA+unJaifE3Pp2WLYnpW2mbTZa8DHBwdVz0Rt3OtBJAHLqyF06l+NXLjDnF3zU2Vb
+ zSk3I/PRT4lGogfg/Po0fG4vqDqe7AwLdh2wB3suQGPooAIeTu8zLFnRLpGLjDUayGTU
+ oh6OiuqadtW8XgexD+hwwhkpnyhEHTxwcHrWU3pPOkA0WjxF7vkpOEtz3zD4HDtP1k2Z
+ k8ffzgOCIt7Ib69CubNshXMFZ4aACNX/x3RN8F5FfY3Va6pw5rgC2ddLxkDsGFGhjtSg
+ cxxw==
+X-Gm-Message-State: ACrzQf2+gV+KBDTQFjXO64qdfOPPrZD+i/PBXeukZ/j4d1hZPnN0zBNx
+ lTB30sX6400OOrwJVBLUfwJ2x7NLb7pWKw==
+X-Google-Smtp-Source: AMsMyM7vnBkBEXWL6LLlfa6hE1oSRu6iXKnEjYjOmd3yWzq6Eo0km7CjG6uMfnX6Rs5dNbv8z8zFAg==
+X-Received: by 2002:a65:604d:0:b0:43c:9d8c:813a with SMTP id
+ a13-20020a65604d000000b0043c9d8c813amr24021711pgp.572.1664892683364; 
+ Tue, 04 Oct 2022 07:11:23 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:8015:12b0:403e:a15b:ff5e:d439])
  by smtp.gmail.com with ESMTPSA id
- y5-20020aa79ae5000000b00561382a5a25sm1240357pfp.26.2022.10.04.07.11.18
+ y5-20020aa79ae5000000b00561382a5a25sm1240357pfp.26.2022.10.04.07.11.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 07:11:18 -0700 (PDT)
+ Tue, 04 Oct 2022 07:11:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v7 15/18] include/hw/core: Create struct CPUJumpCache
-Date: Tue,  4 Oct 2022 07:10:48 -0700
-Message-Id: <20221004141051.110653-16-richard.henderson@linaro.org>
+Cc: alex.bennee@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Michael Rolnik <mrolnik@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Laurent Vivier <laurent@vivier.eu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
+ Stafford Horne <shorne@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Max Filippov <jcmvbkbc@gmail.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, qemu-riscv@nongnu.org, qemu-s390x@nongnu.org
+Subject: [PATCH v7 16/18] hw/core: Add CPUClass.get_pc
+Date: Tue,  4 Oct 2022 07:10:49 -0700
+Message-Id: <20221004141051.110653-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004141051.110653-1-richard.henderson@linaro.org>
 References: <20221004141051.110653-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,333 +105,645 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wrap the bare TranslationBlock pointer into a structure.
+Populate this new method for all targets.  Always match
+the result that would be given by cpu_get_tb_cpu_state,
+as we will want these values to correspond in the logs.
 
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> (target/sparc)
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/tb-hash.h       |  1 +
- accel/tcg/tb-jmp-cache.h  | 24 ++++++++++++++++++++++++
- include/exec/cpu-common.h |  1 +
- include/hw/core/cpu.h     | 15 +--------------
- include/qemu/typedefs.h   |  1 +
- accel/stubs/tcg-stub.c    |  4 ++++
- accel/tcg/cpu-exec.c      | 10 +++++++---
- accel/tcg/cputlb.c        |  9 +++++----
- accel/tcg/translate-all.c | 28 +++++++++++++++++++++++++---
- hw/core/cpu-common.c      |  3 +--
- plugins/core.c            |  2 +-
- trace/control-target.c    |  2 +-
- 12 files changed, 72 insertions(+), 28 deletions(-)
- create mode 100644 accel/tcg/tb-jmp-cache.h
+Cc: Eduardo Habkost <eduardo@habkost.net> (supporter:Machine core)
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com> (supporter:Machine core)
+Cc: "Philippe Mathieu-Daudé" <f4bug@amsat.org> (reviewer:Machine core)
+Cc: Yanan Wang <wangyanan55@huawei.com> (reviewer:Machine core)
+Cc: Michael Rolnik <mrolnik@gmail.com> (maintainer:AVR TCG CPUs)
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com> (maintainer:CRIS TCG CPUs)
+Cc: Taylor Simpson <tsimpson@quicinc.com> (supporter:Hexagon TCG CPUs)
+Cc: Song Gao <gaosong@loongson.cn> (maintainer:LoongArch TCG CPUs)
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn> (maintainer:LoongArch TCG CPUs)
+Cc: Laurent Vivier <laurent@vivier.eu> (maintainer:M68K TCG CPUs)
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com> (reviewer:MIPS TCG CPUs)
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com> (reviewer:MIPS TCG CPUs)
+Cc: Chris Wulff <crwulff@gmail.com> (maintainer:NiosII TCG CPUs)
+Cc: Marek Vasut <marex@denx.de> (maintainer:NiosII TCG CPUs)
+Cc: Stafford Horne <shorne@gmail.com> (odd fixer:OpenRISC TCG CPUs)
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp> (reviewer:RENESAS RX CPUs)
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> (maintainer:SPARC TCG CPUs)
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de> (maintainer:TriCore TCG CPUs)
+Cc: Max Filippov <jcmvbkbc@gmail.com> (maintainer:Xtensa TCG CPUs)
+Cc: qemu-arm@nongnu.org (open list:ARM TCG CPUs)
+Cc: qemu-ppc@nongnu.org (open list:PowerPC TCG CPUs)
+Cc: qemu-riscv@nongnu.org (open list:RISC-V TCG CPUs)
+Cc: qemu-s390x@nongnu.org (open list:S390 TCG CPUs)
+---
+ include/hw/core/cpu.h   |  3 +++
+ target/alpha/cpu.c      |  9 +++++++++
+ target/arm/cpu.c        | 13 +++++++++++++
+ target/avr/cpu.c        |  8 ++++++++
+ target/cris/cpu.c       |  8 ++++++++
+ target/hexagon/cpu.c    |  8 ++++++++
+ target/hppa/cpu.c       |  8 ++++++++
+ target/i386/cpu.c       |  9 +++++++++
+ target/loongarch/cpu.c  |  9 +++++++++
+ target/m68k/cpu.c       |  8 ++++++++
+ target/microblaze/cpu.c |  8 ++++++++
+ target/mips/cpu.c       |  8 ++++++++
+ target/nios2/cpu.c      |  9 +++++++++
+ target/openrisc/cpu.c   |  8 ++++++++
+ target/ppc/cpu_init.c   |  8 ++++++++
+ target/riscv/cpu.c      | 13 +++++++++++++
+ target/rx/cpu.c         |  8 ++++++++
+ target/s390x/cpu.c      |  8 ++++++++
+ target/sh4/cpu.c        |  8 ++++++++
+ target/sparc/cpu.c      |  8 ++++++++
+ target/tricore/cpu.c    |  9 +++++++++
+ target/xtensa/cpu.c     |  8 ++++++++
+ 22 files changed, 186 insertions(+)
 
-diff --git a/accel/tcg/tb-hash.h b/accel/tcg/tb-hash.h
-index 0a273d9605..83dc610e4c 100644
---- a/accel/tcg/tb-hash.h
-+++ b/accel/tcg/tb-hash.h
-@@ -23,6 +23,7 @@
- #include "exec/cpu-defs.h"
- #include "exec/exec-all.h"
- #include "qemu/xxhash.h"
-+#include "tb-jmp-cache.h"
- 
- #ifdef CONFIG_SOFTMMU
- 
-diff --git a/accel/tcg/tb-jmp-cache.h b/accel/tcg/tb-jmp-cache.h
-new file mode 100644
-index 0000000000..2d8fbb1bfe
---- /dev/null
-+++ b/accel/tcg/tb-jmp-cache.h
-@@ -0,0 +1,24 @@
-+/*
-+ * The per-CPU TranslationBlock jump cache.
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#ifndef ACCEL_TCG_TB_JMP_CACHE_H
-+#define ACCEL_TCG_TB_JMP_CACHE_H
-+
-+#define TB_JMP_CACHE_BITS 12
-+#define TB_JMP_CACHE_SIZE (1 << TB_JMP_CACHE_BITS)
-+
-+/*
-+ * Accessed in parallel; all accesses to 'tb' must be atomic.
-+ */
-+struct CPUJumpCache {
-+    struct {
-+        TranslationBlock *tb;
-+    } array[TB_JMP_CACHE_SIZE];
-+};
-+
-+#endif /* ACCEL_TCG_TB_JMP_CACHE_H */
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index d909429427..c493510ee9 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -38,6 +38,7 @@ void cpu_list_unlock(void);
- unsigned int cpu_list_generation_id_get(void);
- 
- void tcg_flush_softmmu_tlb(CPUState *cs);
-+void tcg_flush_jmp_cache(CPUState *cs);
- 
- void tcg_iommu_init_notifier_list(CPUState *cpu);
- void tcg_iommu_free_notifier_list(CPUState *cpu);
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 009dc0d336..18ca701b44 100644
+index 18ca701b44..f9b58773f7 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -236,9 +236,6 @@ struct kvm_run;
- struct hax_vcpu_state;
- struct hvf_vcpu_state;
- 
--#define TB_JMP_CACHE_BITS 12
--#define TB_JMP_CACHE_SIZE (1 << TB_JMP_CACHE_BITS)
--
- /* work queue */
- 
- /* The union type allows passing of 64 bit target pointers on 32 bit
-@@ -369,8 +366,7 @@ struct CPUState {
-     CPUArchState *env_ptr;
-     IcountDecr *icount_decr_ptr;
- 
--    /* Accessed in parallel; all accesses must be atomic */
--    TranslationBlock *tb_jmp_cache[TB_JMP_CACHE_SIZE];
-+    CPUJumpCache *tb_jmp_cache;
- 
-     struct GDBRegisterState *gdb_regs;
-     int gdb_num_regs;
-@@ -456,15 +452,6 @@ extern CPUTailQ cpus;
- 
- extern __thread CPUState *current_cpu;
- 
--static inline void cpu_tb_jmp_cache_clear(CPUState *cpu)
--{
--    unsigned int i;
--
--    for (i = 0; i < TB_JMP_CACHE_SIZE; i++) {
--        qatomic_set(&cpu->tb_jmp_cache[i], NULL);
--    }
--}
--
- /**
-  * qemu_tcg_mttcg_enabled:
-  * Check whether we are running MultiThread TCG or not.
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index a4aee238c7..5f95169827 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -41,6 +41,7 @@ typedef struct CoMutex CoMutex;
- typedef struct ConfidentialGuestSupport ConfidentialGuestSupport;
- typedef struct CPUAddressSpace CPUAddressSpace;
- typedef struct CPUArchState CPUArchState;
-+typedef struct CPUJumpCache CPUJumpCache;
- typedef struct CPUState CPUState;
- typedef struct CPUTLBEntryFull CPUTLBEntryFull;
- typedef struct DeviceListener DeviceListener;
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index 6ce8a34228..c1b05767c0 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -21,6 +21,10 @@ void tlb_set_dirty(CPUState *cpu, target_ulong vaddr)
- {
+@@ -115,6 +115,8 @@ struct SysemuCPUOps;
+  *       If the target behaviour here is anything other than "set
+  *       the PC register to the value passed in" then the target must
+  *       also implement the synchronize_from_tb hook.
++ * @get_pc: Callback for getting the Program Counter register.
++ *       As above, with the semantics of the target architecture.
+  * @gdb_read_register: Callback for letting GDB read a register.
+  * @gdb_write_register: Callback for letting GDB write a register.
+  * @gdb_adjust_breakpoint: Callback for adjusting the address of a
+@@ -151,6 +153,7 @@ struct CPUClass {
+     void (*dump_state)(CPUState *cpu, FILE *, int flags);
+     int64_t (*get_arch_id)(CPUState *cpu);
+     void (*set_pc)(CPUState *cpu, vaddr value);
++    vaddr (*get_pc)(CPUState *cpu);
+     int (*gdb_read_register)(CPUState *cpu, GByteArray *buf, int reg);
+     int (*gdb_write_register)(CPUState *cpu, uint8_t *buf, int reg);
+     vaddr (*gdb_adjust_breakpoint)(CPUState *cpu, vaddr addr);
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index a8990d401b..979a629d59 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -33,6 +33,14 @@ static void alpha_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
  }
  
-+void tcg_flush_jmp_cache(CPUState *cpu)
++static vaddr alpha_cpu_get_pc(CPUState *cs)
 +{
++    AlphaCPU *cpu = ALPHA_CPU(cs);
++
++    return cpu->env.pc;
 +}
 +
- int probe_access_flags(CPUArchState *env, target_ulong addr,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool nonfault, void **phost, uintptr_t retaddr)
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index dd58a144a8..2d7e610ee2 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -42,6 +42,7 @@
- #include "sysemu/replay.h"
- #include "sysemu/tcg.h"
- #include "exec/helper-proto.h"
-+#include "tb-jmp-cache.h"
- #include "tb-hash.h"
- #include "tb-context.h"
- #include "internal.h"
-@@ -252,7 +253,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
-     tcg_debug_assert(!(cflags & CF_INVALID));
- 
-     hash = tb_jmp_cache_hash_func(pc);
--    tb = qatomic_rcu_read(&cpu->tb_jmp_cache[hash]);
-+    tb = qatomic_rcu_read(&cpu->tb_jmp_cache->array[hash].tb);
- 
-     if (likely(tb &&
-                tb->pc == pc &&
-@@ -266,7 +267,7 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
-     if (tb == NULL) {
-         return NULL;
-     }
--    qatomic_set(&cpu->tb_jmp_cache[hash], tb);
-+    qatomic_set(&cpu->tb_jmp_cache->array[hash].tb, tb);
-     return tb;
- }
- 
-@@ -987,6 +988,8 @@ int cpu_exec(CPUState *cpu)
- 
-             tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
-             if (tb == NULL) {
-+                uint32_t h;
 +
-                 mmap_lock();
-                 tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
-                 mmap_unlock();
-@@ -994,7 +997,8 @@ int cpu_exec(CPUState *cpu)
-                  * We add the TB in the virtual pc hash table
-                  * for the fast lookup
-                  */
--                qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc)], tb);
-+                h = tb_jmp_cache_hash_func(pc);
-+                qatomic_set(&cpu->tb_jmp_cache->array[h].tb, tb);
-             }
- 
- #ifndef CONFIG_USER_ONLY
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index c7909fb619..6f1c00682b 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -100,10 +100,11 @@ static void tlb_window_reset(CPUTLBDesc *desc, int64_t ns,
- 
- static void tb_jmp_cache_clear_page(CPUState *cpu, target_ulong page_addr)
+ static bool alpha_cpu_has_work(CPUState *cs)
  {
--    unsigned int i, i0 = tb_jmp_cache_hash_page(page_addr);
-+    int i, i0 = tb_jmp_cache_hash_page(page_addr);
-+    CPUJumpCache *jc = cpu->tb_jmp_cache;
- 
-     for (i = 0; i < TB_JMP_PAGE_SIZE; i++) {
--        qatomic_set(&cpu->tb_jmp_cache[i0 + i], NULL);
-+        qatomic_set(&jc->array[i0 + i].tb, NULL);
+     /* Here we are checking to see if the CPU should wake up from HALT.
+@@ -244,6 +252,7 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
+     cc->has_work = alpha_cpu_has_work;
+     cc->dump_state = alpha_cpu_dump_state;
+     cc->set_pc = alpha_cpu_set_pc;
++    cc->get_pc = alpha_cpu_get_pc;
+     cc->gdb_read_register = alpha_cpu_gdb_read_register;
+     cc->gdb_write_register = alpha_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 7ec3281da9..fa67ba6647 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -60,6 +60,18 @@ static void arm_cpu_set_pc(CPUState *cs, vaddr value)
      }
  }
  
-@@ -356,7 +357,7 @@ static void tlb_flush_by_mmuidx_async_work(CPUState *cpu, run_on_cpu_data data)
- 
-     qemu_spin_unlock(&env_tlb(env)->c.lock);
- 
--    cpu_tb_jmp_cache_clear(cpu);
-+    tcg_flush_jmp_cache(cpu);
- 
-     if (to_clean == ALL_MMUIDX_BITS) {
-         qatomic_set(&env_tlb(env)->c.full_flush_count,
-@@ -785,7 +786,7 @@ static void tlb_flush_range_by_mmuidx_async_0(CPUState *cpu,
-      * longer to clear each entry individually than it will to clear it all.
-      */
-     if (d.len >= (TARGET_PAGE_SIZE * TB_JMP_CACHE_SIZE)) {
--        cpu_tb_jmp_cache_clear(cpu);
-+        tcg_flush_jmp_cache(cpu);
-         return;
-     }
- 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 3a63113c41..63ecc15236 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -58,6 +58,7 @@
- #include "sysemu/tcg.h"
- #include "qapi/error.h"
- #include "hw/core/tcg-cpu-ops.h"
-+#include "tb-jmp-cache.h"
- #include "tb-hash.h"
- #include "tb-context.h"
- #include "internal.h"
-@@ -967,7 +968,7 @@ static void do_tb_flush(CPUState *cpu, run_on_cpu_data tb_flush_count)
-     }
- 
-     CPU_FOREACH(cpu) {
--        cpu_tb_jmp_cache_clear(cpu);
-+        tcg_flush_jmp_cache(cpu);
-     }
- 
-     qht_reset_size(&tb_ctx.htable, CODE_GEN_HTABLE_SIZE);
-@@ -1187,8 +1188,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
-     /* remove the TB from the hash list */
-     h = tb_jmp_cache_hash_func(tb->pc);
-     CPU_FOREACH(cpu) {
--        if (qatomic_read(&cpu->tb_jmp_cache[h]) == tb) {
--            qatomic_set(&cpu->tb_jmp_cache[h], NULL);
-+        CPUJumpCache *jc = cpu->tb_jmp_cache;
-+        if (qatomic_read(&jc->array[h].tb) == tb) {
-+            qatomic_set(&jc->array[h].tb, NULL);
-         }
-     }
- 
-@@ -2443,6 +2445,26 @@ int page_unprotect(target_ulong address, uintptr_t pc)
- }
- #endif /* CONFIG_USER_ONLY */
- 
-+/*
-+ * Called by generic code at e.g. cpu reset after cpu creation,
-+ * therefore we must be prepared to allocate the jump cache.
-+ */
-+void tcg_flush_jmp_cache(CPUState *cpu)
++static vaddr arm_cpu_get_pc(CPUState *cs)
 +{
-+    CPUJumpCache *jc = cpu->tb_jmp_cache;
++    ARMCPU *cpu = ARM_CPU(cs);
++    CPUARMState *env = &cpu->env;
 +
-+    if (likely(jc)) {
-+        for (int i = 0; i < TB_JMP_CACHE_SIZE; i++) {
-+            qatomic_set(&jc->array[i].tb, NULL);
-+        }
++    if (is_a64(env)) {
++        return env->pc;
 +    } else {
-+        /* This should happen once during realize, and thus never race. */
-+        jc = g_new0(CPUJumpCache, 1);
-+        jc = qatomic_xchg(&cpu->tb_jmp_cache, jc);
-+        assert(jc == NULL);
++        return env->regs[15];
 +    }
 +}
 +
- /* This is a wrapper for common code that can not use CONFIG_SOFTMMU */
- void tcg_flush_softmmu_tlb(CPUState *cs)
- {
-diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
-index 9e3241b430..f9fdd46b9d 100644
---- a/hw/core/cpu-common.c
-+++ b/hw/core/cpu-common.c
-@@ -137,8 +137,7 @@ static void cpu_common_reset(DeviceState *dev)
-     cpu->cflags_next_tb = -1;
+ #ifdef CONFIG_TCG
+ void arm_cpu_synchronize_from_tb(CPUState *cs,
+                                  const TranslationBlock *tb)
+@@ -2172,6 +2184,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+     cc->has_work = arm_cpu_has_work;
+     cc->dump_state = arm_cpu_dump_state;
+     cc->set_pc = arm_cpu_set_pc;
++    cc->get_pc = arm_cpu_get_pc;
+     cc->gdb_read_register = arm_cpu_gdb_read_register;
+     cc->gdb_write_register = arm_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+index 05b992ff73..6900444d03 100644
+--- a/target/avr/cpu.c
++++ b/target/avr/cpu.c
+@@ -32,6 +32,13 @@ static void avr_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc_w = value / 2; /* internally PC points to words */
+ }
  
-     if (tcg_enabled()) {
--        cpu_tb_jmp_cache_clear(cpu);
--
-+        tcg_flush_jmp_cache(cpu);
-         tcg_flush_softmmu_tlb(cpu);
++static vaddr avr_cpu_get_pc(CPUState *cs)
++{
++    AVRCPU *cpu = AVR_CPU(cs);
++
++    return cpu->env.pc_w * 2;
++}
++
+ static bool avr_cpu_has_work(CPUState *cs)
+ {
+     AVRCPU *cpu = AVR_CPU(cs);
+@@ -214,6 +221,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
+     cc->has_work = avr_cpu_has_work;
+     cc->dump_state = avr_cpu_dump_state;
+     cc->set_pc = avr_cpu_set_pc;
++    cc->get_pc = avr_cpu_get_pc;
+     dc->vmsd = &vms_avr_cpu;
+     cc->sysemu_ops = &avr_sysemu_ops;
+     cc->disas_set_info = avr_cpu_disas_set_info;
+diff --git a/target/cris/cpu.c b/target/cris/cpu.c
+index ed6c781342..22f5c70f39 100644
+--- a/target/cris/cpu.c
++++ b/target/cris/cpu.c
+@@ -35,6 +35,13 @@ static void cris_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
+ }
+ 
++static vaddr cris_cpu_get_pc(CPUState *cs)
++{
++    CRISCPU *cpu = CRIS_CPU(cs);
++
++    return cpu->env.pc;
++}
++
+ static bool cris_cpu_has_work(CPUState *cs)
+ {
+     return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
+@@ -297,6 +304,7 @@ static void cris_cpu_class_init(ObjectClass *oc, void *data)
+     cc->has_work = cris_cpu_has_work;
+     cc->dump_state = cris_cpu_dump_state;
+     cc->set_pc = cris_cpu_set_pc;
++    cc->get_pc = cris_cpu_get_pc;
+     cc->gdb_read_register = cris_cpu_gdb_read_register;
+     cc->gdb_write_register = cris_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
+index fa9bd702d6..04a497db5e 100644
+--- a/target/hexagon/cpu.c
++++ b/target/hexagon/cpu.c
+@@ -251,6 +251,13 @@ static void hexagon_cpu_set_pc(CPUState *cs, vaddr value)
+     env->gpr[HEX_REG_PC] = value;
+ }
+ 
++static vaddr hexagon_cpu_get_pc(CPUState *cs)
++{
++    HexagonCPU *cpu = HEXAGON_CPU(cs);
++    CPUHexagonState *env = &cpu->env;
++    return env->gpr[HEX_REG_PC];
++}
++
+ static void hexagon_cpu_synchronize_from_tb(CPUState *cs,
+                                             const TranslationBlock *tb)
+ {
+@@ -337,6 +344,7 @@ static void hexagon_cpu_class_init(ObjectClass *c, void *data)
+     cc->has_work = hexagon_cpu_has_work;
+     cc->dump_state = hexagon_dump_state;
+     cc->set_pc = hexagon_cpu_set_pc;
++    cc->get_pc = hexagon_cpu_get_pc;
+     cc->gdb_read_register = hexagon_gdb_read_register;
+     cc->gdb_write_register = hexagon_gdb_write_register;
+     cc->gdb_num_core_regs = TOTAL_PER_THREAD_REGS + NUM_VREGS + NUM_QREGS;
+diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+index a6f52caf14..e25d3db6d5 100644
+--- a/target/hppa/cpu.c
++++ b/target/hppa/cpu.c
+@@ -36,6 +36,13 @@ static void hppa_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.iaoq_b = value + 4;
+ }
+ 
++static vaddr hppa_cpu_get_pc(CPUState *cs)
++{
++    HPPACPU *cpu = HPPA_CPU(cs);
++
++    return cpu->env.iaoq_f;
++}
++
+ static void hppa_cpu_synchronize_from_tb(CPUState *cs,
+                                          const TranslationBlock *tb)
+ {
+@@ -168,6 +175,7 @@ static void hppa_cpu_class_init(ObjectClass *oc, void *data)
+     cc->has_work = hppa_cpu_has_work;
+     cc->dump_state = hppa_cpu_dump_state;
+     cc->set_pc = hppa_cpu_set_pc;
++    cc->get_pc = hppa_cpu_get_pc;
+     cc->gdb_read_register = hppa_cpu_gdb_read_register;
+     cc->gdb_write_register = hppa_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 1db1278a59..ad623d91e4 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6824,6 +6824,14 @@ static void x86_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.eip = value;
+ }
+ 
++static vaddr x86_cpu_get_pc(CPUState *cs)
++{
++    X86CPU *cpu = X86_CPU(cs);
++
++    /* Match cpu_get_tb_cpu_state. */
++    return cpu->env.eip + cpu->env.segs[R_CS].base;
++}
++
+ int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+@@ -7106,6 +7114,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+     cc->has_work = x86_cpu_has_work;
+     cc->dump_state = x86_cpu_dump_state;
+     cc->set_pc = x86_cpu_set_pc;
++    cc->get_pc = x86_cpu_get_pc;
+     cc->gdb_read_register = x86_cpu_gdb_read_register;
+     cc->gdb_write_register = x86_cpu_gdb_write_register;
+     cc->get_arch_id = x86_cpu_get_arch_id;
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 941e2772bc..20a92ea56c 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -82,6 +82,14 @@ static void loongarch_cpu_set_pc(CPUState *cs, vaddr value)
+     env->pc = value;
+ }
+ 
++static vaddr loongarch_cpu_get_pc(CPUState *cs)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++
++    return env->pc;
++}
++
+ #ifndef CONFIG_USER_ONLY
+ #include "hw/loongarch/virt.h"
+ 
+@@ -680,6 +688,7 @@ static void loongarch_cpu_class_init(ObjectClass *c, void *data)
+     cc->has_work = loongarch_cpu_has_work;
+     cc->dump_state = loongarch_cpu_dump_state;
+     cc->set_pc = loongarch_cpu_set_pc;
++    cc->get_pc = loongarch_cpu_get_pc;
+ #ifndef CONFIG_USER_ONLY
+     dc->vmsd = &vmstate_loongarch_cpu;
+     cc->sysemu_ops = &loongarch_sysemu_ops;
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index 25d610db21..1e902e1ef0 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -31,6 +31,13 @@ static void m68k_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
+ }
+ 
++static vaddr m68k_cpu_get_pc(CPUState *cs)
++{
++    M68kCPU *cpu = M68K_CPU(cs);
++
++    return cpu->env.pc;
++}
++
+ static bool m68k_cpu_has_work(CPUState *cs)
+ {
+     return cs->interrupt_request & CPU_INTERRUPT_HARD;
+@@ -540,6 +547,7 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
+     cc->has_work = m68k_cpu_has_work;
+     cc->dump_state = m68k_cpu_dump_state;
+     cc->set_pc = m68k_cpu_set_pc;
++    cc->get_pc = m68k_cpu_get_pc;
+     cc->gdb_read_register = m68k_cpu_gdb_read_register;
+     cc->gdb_write_register = m68k_cpu_gdb_write_register;
+ #if defined(CONFIG_SOFTMMU)
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index aed200dcff..73af51769e 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -84,6 +84,13 @@ static void mb_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.iflags = 0;
+ }
+ 
++static vaddr mb_cpu_get_pc(CPUState *cs)
++{
++    MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
++
++    return cpu->env.pc;
++}
++
+ static void mb_cpu_synchronize_from_tb(CPUState *cs,
+                                        const TranslationBlock *tb)
+ {
+@@ -391,6 +398,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
+ 
+     cc->dump_state = mb_cpu_dump_state;
+     cc->set_pc = mb_cpu_set_pc;
++    cc->get_pc = mb_cpu_get_pc;
+     cc->gdb_read_register = mb_cpu_gdb_read_register;
+     cc->gdb_write_register = mb_cpu_gdb_write_register;
+ 
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index c15c955367..da58eb8892 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -128,6 +128,13 @@ static void mips_cpu_set_pc(CPUState *cs, vaddr value)
+     mips_env_set_pc(&cpu->env, value);
+ }
+ 
++static vaddr mips_cpu_get_pc(CPUState *cs)
++{
++    MIPSCPU *cpu = MIPS_CPU(cs);
++
++    return cpu->env.active_tc.PC;
++}
++
+ static bool mips_cpu_has_work(CPUState *cs)
+ {
+     MIPSCPU *cpu = MIPS_CPU(cs);
+@@ -557,6 +564,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
+     cc->has_work = mips_cpu_has_work;
+     cc->dump_state = mips_cpu_dump_state;
+     cc->set_pc = mips_cpu_set_pc;
++    cc->get_pc = mips_cpu_get_pc;
+     cc->gdb_read_register = mips_cpu_gdb_read_register;
+     cc->gdb_write_register = mips_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
+index 19b2409974..2b28429c08 100644
+--- a/target/nios2/cpu.c
++++ b/target/nios2/cpu.c
+@@ -34,6 +34,14 @@ static void nios2_cpu_set_pc(CPUState *cs, vaddr value)
+     env->pc = value;
+ }
+ 
++static vaddr nios2_cpu_get_pc(CPUState *cs)
++{
++    Nios2CPU *cpu = NIOS2_CPU(cs);
++    CPUNios2State *env = &cpu->env;
++
++    return env->pc;
++}
++
+ static bool nios2_cpu_has_work(CPUState *cs)
+ {
+     return cs->interrupt_request & CPU_INTERRUPT_HARD;
+@@ -362,6 +370,7 @@ static void nios2_cpu_class_init(ObjectClass *oc, void *data)
+     cc->has_work = nios2_cpu_has_work;
+     cc->dump_state = nios2_cpu_dump_state;
+     cc->set_pc = nios2_cpu_set_pc;
++    cc->get_pc = nios2_cpu_get_pc;
+     cc->disas_set_info = nios2_cpu_disas_set_info;
+ #ifndef CONFIG_USER_ONLY
+     cc->sysemu_ops = &nios2_sysemu_ops;
+diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+index cb9f35f408..33cf717210 100644
+--- a/target/openrisc/cpu.c
++++ b/target/openrisc/cpu.c
+@@ -31,6 +31,13 @@ static void openrisc_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.dflag = 0;
+ }
+ 
++static vaddr openrisc_cpu_get_pc(CPUState *cs)
++{
++    OpenRISCCPU *cpu = OPENRISC_CPU(cs);
++
++    return cpu->env.pc;
++}
++
+ static void openrisc_cpu_synchronize_from_tb(CPUState *cs,
+                                              const TranslationBlock *tb)
+ {
+@@ -218,6 +225,7 @@ static void openrisc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->has_work = openrisc_cpu_has_work;
+     cc->dump_state = openrisc_cpu_dump_state;
+     cc->set_pc = openrisc_cpu_set_pc;
++    cc->get_pc = openrisc_cpu_get_pc;
+     cc->gdb_read_register = openrisc_cpu_gdb_read_register;
+     cc->gdb_write_register = openrisc_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 6e080ebda0..763a8431be 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -7214,6 +7214,13 @@ static void ppc_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.nip = value;
+ }
+ 
++static vaddr ppc_cpu_get_pc(CPUState *cs)
++{
++    PowerPCCPU *cpu = POWERPC_CPU(cs);
++
++    return cpu->env.nip;
++}
++
+ static bool ppc_cpu_has_work(CPUState *cs)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+@@ -7472,6 +7479,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->has_work = ppc_cpu_has_work;
+     cc->dump_state = ppc_cpu_dump_state;
+     cc->set_pc = ppc_cpu_set_pc;
++    cc->get_pc = ppc_cpu_get_pc;
+     cc->gdb_read_register = ppc_cpu_gdb_read_register;
+     cc->gdb_write_register = ppc_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index b29c88b9f0..6ca05c6eaf 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -462,6 +462,18 @@ static void riscv_cpu_set_pc(CPUState *cs, vaddr value)
      }
  }
-diff --git a/plugins/core.c b/plugins/core.c
-index 792262da08..c3ae284994 100644
---- a/plugins/core.c
-+++ b/plugins/core.c
-@@ -56,7 +56,7 @@ struct qemu_plugin_ctx *plugin_id_to_ctx_locked(qemu_plugin_id_t id)
- static void plugin_cpu_update__async(CPUState *cpu, run_on_cpu_data data)
+ 
++static vaddr riscv_cpu_get_pc(CPUState *cs)
++{
++    RISCVCPU *cpu = RISCV_CPU(cs);
++    CPURISCVState *env = &cpu->env;
++
++    /* Match cpu_get_tb_cpu_state. */
++    if (env->xl == MXL_RV32) {
++        return env->pc & UINT32_MAX;
++    }
++    return env->pc;
++}
++
+ static void riscv_cpu_synchronize_from_tb(CPUState *cs,
+                                           const TranslationBlock *tb)
  {
-     bitmap_copy(cpu->plugin_mask, &data.host_ulong, QEMU_PLUGIN_EV_MAX);
--    cpu_tb_jmp_cache_clear(cpu);
-+    tcg_flush_jmp_cache(cpu);
+@@ -1154,6 +1166,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+     cc->has_work = riscv_cpu_has_work;
+     cc->dump_state = riscv_cpu_dump_state;
+     cc->set_pc = riscv_cpu_set_pc;
++    cc->get_pc = riscv_cpu_get_pc;
+     cc->gdb_read_register = riscv_cpu_gdb_read_register;
+     cc->gdb_write_register = riscv_cpu_gdb_write_register;
+     cc->gdb_num_core_regs = 33;
+diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+index fb30080ac4..134b4b6bb6 100644
+--- a/target/rx/cpu.c
++++ b/target/rx/cpu.c
+@@ -32,6 +32,13 @@ static void rx_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
  }
  
- static void plugin_cpu_update__locked(gpointer k, gpointer v, gpointer udata)
-diff --git a/trace/control-target.c b/trace/control-target.c
-index 8418673c18..232c97a4a1 100644
---- a/trace/control-target.c
-+++ b/trace/control-target.c
-@@ -65,7 +65,7 @@ static void trace_event_synchronize_vcpu_state_dynamic(
++static vaddr rx_cpu_get_pc(CPUState *cs)
++{
++    RXCPU *cpu = RX_CPU(cs);
++
++    return cpu->env.pc;
++}
++
+ static void rx_cpu_synchronize_from_tb(CPUState *cs,
+                                        const TranslationBlock *tb)
  {
-     bitmap_copy(vcpu->trace_dstate, vcpu->trace_dstate_delayed,
-                 CPU_TRACE_DSTATE_MAX_EVENTS);
--    cpu_tb_jmp_cache_clear(vcpu);
-+    tcg_flush_jmp_cache(vcpu);
+@@ -208,6 +215,7 @@ static void rx_cpu_class_init(ObjectClass *klass, void *data)
+     cc->has_work = rx_cpu_has_work;
+     cc->dump_state = rx_cpu_dump_state;
+     cc->set_pc = rx_cpu_set_pc;
++    cc->get_pc = rx_cpu_get_pc;
+ 
+ #ifndef CONFIG_USER_ONLY
+     cc->sysemu_ops = &rx_sysemu_ops;
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index c31bb2351f..df00040e95 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -88,6 +88,13 @@ static void s390_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.psw.addr = value;
  }
  
- void trace_event_set_vcpu_state_dynamic(CPUState *vcpu,
++static vaddr s390_cpu_get_pc(CPUState *cs)
++{
++    S390CPU *cpu = S390_CPU(cs);
++
++    return cpu->env.psw.addr;
++}
++
+ static bool s390_cpu_has_work(CPUState *cs)
+ {
+     S390CPU *cpu = S390_CPU(cs);
+@@ -297,6 +304,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
+     cc->has_work = s390_cpu_has_work;
+     cc->dump_state = s390_cpu_dump_state;
+     cc->set_pc = s390_cpu_set_pc;
++    cc->get_pc = s390_cpu_get_pc;
+     cc->gdb_read_register = s390_cpu_gdb_read_register;
+     cc->gdb_write_register = s390_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index 06b2691dc4..4bafbf8596 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -34,6 +34,13 @@ static void superh_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
+ }
+ 
++static vaddr superh_cpu_get_pc(CPUState *cs)
++{
++    SuperHCPU *cpu = SUPERH_CPU(cs);
++
++    return cpu->env.pc;
++}
++
+ static void superh_cpu_synchronize_from_tb(CPUState *cs,
+                                            const TranslationBlock *tb)
+ {
+@@ -261,6 +268,7 @@ static void superh_cpu_class_init(ObjectClass *oc, void *data)
+     cc->has_work = superh_cpu_has_work;
+     cc->dump_state = superh_cpu_dump_state;
+     cc->set_pc = superh_cpu_set_pc;
++    cc->get_pc = superh_cpu_get_pc;
+     cc->gdb_read_register = superh_cpu_gdb_read_register;
+     cc->gdb_write_register = superh_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index 55268ed2a1..1b2afb0cb8 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -693,6 +693,13 @@ static void sparc_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.npc = value + 4;
+ }
+ 
++static vaddr sparc_cpu_get_pc(CPUState *cs)
++{
++    SPARCCPU *cpu = SPARC_CPU(cs);
++
++    return cpu->env.pc;
++}
++
+ static void sparc_cpu_synchronize_from_tb(CPUState *cs,
+                                           const TranslationBlock *tb)
+ {
+@@ -896,6 +903,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->memory_rw_debug = sparc_cpu_memory_rw_debug;
+ #endif
+     cc->set_pc = sparc_cpu_set_pc;
++    cc->get_pc = sparc_cpu_get_pc;
+     cc->gdb_read_register = sparc_cpu_gdb_read_register;
+     cc->gdb_write_register = sparc_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
+index b95682b7f0..91b16bdefc 100644
+--- a/target/tricore/cpu.c
++++ b/target/tricore/cpu.c
+@@ -41,6 +41,14 @@ static void tricore_cpu_set_pc(CPUState *cs, vaddr value)
+     env->PC = value & ~(target_ulong)1;
+ }
+ 
++static vaddr tricore_cpu_get_pc(CPUState *cs)
++{
++    TriCoreCPU *cpu = TRICORE_CPU(cs);
++    CPUTriCoreState *env = &cpu->env;
++
++    return env->PC;
++}
++
+ static void tricore_cpu_synchronize_from_tb(CPUState *cs,
+                                             const TranslationBlock *tb)
+ {
+@@ -176,6 +184,7 @@ static void tricore_cpu_class_init(ObjectClass *c, void *data)
+ 
+     cc->dump_state = tricore_cpu_dump_state;
+     cc->set_pc = tricore_cpu_set_pc;
++    cc->get_pc = tricore_cpu_get_pc;
+     cc->sysemu_ops = &tricore_sysemu_ops;
+     cc->tcg_ops = &tricore_tcg_ops;
+ }
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index fd553fdfb5..cbbe0e84a2 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -44,6 +44,13 @@ static void xtensa_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
+ }
+ 
++static vaddr xtensa_cpu_get_pc(CPUState *cs)
++{
++    XtensaCPU *cpu = XTENSA_CPU(cs);
++
++    return cpu->env.pc;
++}
++
+ static bool xtensa_cpu_has_work(CPUState *cs)
+ {
+ #ifndef CONFIG_USER_ONLY
+@@ -233,6 +240,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
+     cc->has_work = xtensa_cpu_has_work;
+     cc->dump_state = xtensa_cpu_dump_state;
+     cc->set_pc = xtensa_cpu_set_pc;
++    cc->get_pc = xtensa_cpu_get_pc;
+     cc->gdb_read_register = xtensa_cpu_gdb_read_register;
+     cc->gdb_write_register = xtensa_cpu_gdb_write_register;
+     cc->gdb_stop_before_watchpoint = true;
 -- 
 2.34.1
 
