@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889A15F4957
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 20:39:25 +0200 (CEST)
-Received: from localhost ([::1]:55618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D73A5F4949
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 20:30:20 +0200 (CEST)
+Received: from localhost ([::1]:39904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofmpA-0002Jr-Lt
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 14:39:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33698)
+	id 1ofmgN-0003ko-5d
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 14:30:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ofmb1-0007Sj-FV
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 14:24:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28965)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ofmaz-0007SS-Mr
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 14:24:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ofmaq-0005df-Ch
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 14:24:40 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ofmaq-0005dh-Do
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 14:24:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664907873;
+ s=mimecast20190719; t=1664907875;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ISLkWt2w3iGliymeTL4S7G40avE00UQHalAL2FcMB28=;
- b=irptILTiGxJLT6W5d1aD7PTtI5g5WleiCu0p396ufXpjRLifUNweD4Kby+cAi9K6zYI9Z/
- r2VqGKLMY8hTXcR+Yedb5DnpxS2xSjYh9cS30yGFUp5Sc0hRKiUE+bzUCpFeJl71GT648u
- biSkANU1BeNInvKnDm1/5ZcbHCrxYx4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TYjTCxwzaR6k7X+/FwHHerSAsgrOKjvz+lTgu/qcCzM=;
+ b=M+zFfMrwm5K4CM4HOPBZf45gvkxkHiEKsOq18MMzY57O0hHMQO9LR/rehBzlxhX0G4bZj7
+ MD4Q9tdc57mD3BCC6EqmdNdVcN9rgfYCC5oA8cSg2VLVDgluddRoa+ciss4H1MVx8hVmXd
+ KVY6I3s+ISUw2j9mJg/3mcpnc3uYiJk=
 Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
  [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-260-1CeTzdOLN1mgmypwmwPfsQ-1; Tue, 04 Oct 2022 14:24:33 -0400
-X-MC-Unique: 1CeTzdOLN1mgmypwmwPfsQ-1
+ us-mta-379-IZxmu4K6MzyV76XcarZJAw-1; Tue, 04 Oct 2022 14:24:34 -0400
+X-MC-Unique: IZxmu4K6MzyV76XcarZJAw-1
 Received: by mail-qk1-f197.google.com with SMTP id
- bs33-20020a05620a472100b006cef8cfabe2so12299547qkb.12
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 11:24:33 -0700 (PDT)
+ bm21-20020a05620a199500b006cf6a722b16so12270082qkb.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 11:24:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=ISLkWt2w3iGliymeTL4S7G40avE00UQHalAL2FcMB28=;
- b=EeeNCjIi5tU8nOR8xOD02qH3WU1HR+uA+miWQsS+MGgBeVKgW+pHeSa1mB3uQXDS7h
- oQen+DX5T0uCP6VGBBHHD30M10fye281MLE6DsDOXz0OucXvHfj1jBpx2Ph4CEN82O/+
- 1kwuIf2OCR0Ue0TFFSpbBuHAvcAo1GROny9y9A5n9/sh0/GX4vdTlWiRP1bwEQrcNWcL
- Eof34y3dyxY8Z59VeEjk4ccSievcUKrXe8tsnbNzoEQg69/AWtaSMaDLYQzfAdz2ZFWd
- SmiQhx1a/5QWI7Hay24SmDK65AEWSsucz3xOZaM3+fwYUfJkrONWwQeWXAu5Yj7O8mJ7
- E4MA==
-X-Gm-Message-State: ACrzQf1gMOEGFZFlUYBc8k2y16J93Br26t8RXJ0HOH3Xgb9mOpaOy1Ft
- e5IfSZHPCOQWg4LXQTzD3KnyQVqIAZv0gNR7ijqp5K4C9IR8frKUr89jZD+9yeegvFkxzox5aPg
- N8jiKUYnXiHqMB6wFkwZKggEsXq5a5ALKYtL53/cy9ovnTFzCU1I6GukJcuWjNKjv
-X-Received: by 2002:a0c:f343:0:b0:4b1:7016:667e with SMTP id
- e3-20020a0cf343000000b004b17016667emr15756573qvm.105.1664907872368; 
- Tue, 04 Oct 2022 11:24:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6p6kzCjwEYAYX7yw9Vjf8BH8IfouqNSjw2glKQqXZIKpYYwkZPPQxkpZhMwt2lUoMcu2pMzQ==
-X-Received: by 2002:a0c:f343:0:b0:4b1:7016:667e with SMTP id
- e3-20020a0cf343000000b004b17016667emr15756554qvm.105.1664907872074; 
- Tue, 04 Oct 2022 11:24:32 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=TYjTCxwzaR6k7X+/FwHHerSAsgrOKjvz+lTgu/qcCzM=;
+ b=wIFrfdR8zP3lO3f3OCQ/UR5XCOubOGQDYPgS38WY81m2sESb1FPnpVArf326nd0An+
+ PyAXd1lk2tld3YQpdOM+Ee45Aux2gqups2lbRhYYvG9tzaXt++r+z/t1U7cpmUa5sett
+ Rtlgu7dGSpFvJRhLax5+rLGsZvcj4ZVwKnY+L3LMBXt2DdYkv1ZkpoMYcEndVv7uqk1L
+ Es2CAZJtBsnZwEEBaV12KXwQpNrWroqkYeZTFZ+w4gJbreWF9tU2erhi6dLLfQ7CJK36
+ GIUCJXHbsBr3ekjI31DG4+WMc828qMwlEuGoxkvlcYbe3U/j8KAokHG0ZppffKPsXKUx
+ RDAg==
+X-Gm-Message-State: ACrzQf0SMahbGKzod5EjNcpDdGSFl/LcEviZHWvLYD6dkO22TOy6xC9+
+ +phr4s73VJao4fY6tYdSdysVkMLVJaD8ylBuNtDHY/oHIrAbAeVlFu6JvaKPds2+4NA2N17NSMa
+ 5OkehRiPf5B6UOyrzNn/MDb96MA4ZP3HTIFW+wv0T+Rz8k3EWFw2e7NEmeQnCL0s1
+X-Received: by 2002:a05:622a:13:b0:35d:5558:6bfa with SMTP id
+ x19-20020a05622a001300b0035d55586bfamr20881802qtw.160.1664907873425; 
+ Tue, 04 Oct 2022 11:24:33 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7dj/2WfYeorJZ3cW8Sn154yvieu/l5+dREPEcbwBTzMt/QJ1rkxJ7Bn7t+8DNfqqQ2YO56ZA==
+X-Received: by 2002:a05:622a:13:b0:35d:5558:6bfa with SMTP id
+ x19-20020a05622a001300b0035d55586bfamr20881780qtw.160.1664907873176; 
+ Tue, 04 Oct 2022 11:24:33 -0700 (PDT)
 Received: from x1n.redhat.com
  (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca. [70.31.27.79])
  by smtp.gmail.com with ESMTPSA id
- i1-20020ac813c1000000b0035c1e18762csm12334514qtj.84.2022.10.04.11.24.31
+ i1-20020ac813c1000000b0035c1e18762csm12334514qtj.84.2022.10.04.11.24.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 11:24:31 -0700 (PDT)
+ Tue, 04 Oct 2022 11:24:32 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Daniel P . Berrange" <berrange@redhat.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
  Juan Quintela <quintela@redhat.com>
-Subject: [PATCH v2 0/5] migration: Bug fixes (prepare for preempt-full)
-Date: Tue,  4 Oct 2022 14:24:25 -0400
-Message-Id: <20221004182430.97638-1-peterx@redhat.com>
+Subject: [PATCH v2 1/5] migration: Fix possible infinite loop of ram save
+ process
+Date: Tue,  4 Oct 2022 14:24:26 -0400
+Message-Id: <20221004182430.97638-2-peterx@redhat.com>
 X-Mailer: git-send-email 2.37.3
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20221004182430.97638-1-peterx@redhat.com>
+References: <20221004182430.97638-1-peterx@redhat.com>
 MIME-Version: 1.0
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,33 +103,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
-- Drop patch "migration: Disallow xbzrle with postcopy" [Dave]
-- Added patch "migration: Disable multifd explicitly with compression"
-  (according to the comment in the other series) [Dave]
-- s/deadloop/infinite loop/ in patch 1 subject [Dave]
+When starting ram saving procedure (especially at the completion phase),
+always set last_seen_block to non-NULL to make sure we can always correctly
+detect the case where "we've migrated all the dirty pages".
 
-v1: https://lore.kernel.org/qemu-devel/20220920223800.47467-1-peterx@redhat.com
+Then we'll guarantee both last_seen_block and pss.block will be valid
+always before the loop starts.
 
-This patchset does bug fixes that I found when testing preempt-full.
-Please refer to each of the patch on the purpose.  Thanks,
+See the comment in the code for some details.
 
-Peter Xu (5):
-  migration: Fix possible infinite loop of ram save process
-  migration: Fix race on qemu_file_shutdown()
-  migration: Disallow postcopy preempt to be used with compress
-  migration: Use non-atomic ops for clear log bitmap
-  migration: Disable multifd explicitly with compression
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ migration/ram.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
- include/exec/ram_addr.h | 11 +++++-----
- include/exec/ramblock.h |  3 +++
- include/qemu/bitmap.h   |  1 +
- migration/migration.c   | 18 +++++++++++++++++
- migration/qemu-file.c   | 27 ++++++++++++++++++++++---
- migration/ram.c         | 27 ++++++++++++++++---------
- util/bitmap.c           | 45 +++++++++++++++++++++++++++++++++++++++++
- 7 files changed, 114 insertions(+), 18 deletions(-)
-
+diff --git a/migration/ram.c b/migration/ram.c
+index dc1de9ddbc..1d42414ecc 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2546,14 +2546,22 @@ static int ram_find_and_save_block(RAMState *rs)
+         return pages;
+     }
+ 
++    /*
++     * Always keep last_seen_block/last_page valid during this procedure,
++     * because find_dirty_block() relies on these values (e.g., we compare
++     * last_seen_block with pss.block to see whether we searched all the
++     * ramblocks) to detect the completion of migration.  Having NULL value
++     * of last_seen_block can conditionally cause below loop to run forever.
++     */
++    if (!rs->last_seen_block) {
++        rs->last_seen_block = QLIST_FIRST_RCU(&ram_list.blocks);
++        rs->last_page = 0;
++    }
++
+     pss.block = rs->last_seen_block;
+     pss.page = rs->last_page;
+     pss.complete_round = false;
+ 
+-    if (!pss.block) {
+-        pss.block = QLIST_FIRST_RCU(&ram_list.blocks);
+-    }
+-
+     do {
+         again = true;
+         found = get_queued_page(rs, &pss);
 -- 
 2.37.3
 
