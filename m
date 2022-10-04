@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E23C5F3E95
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 10:41:23 +0200 (CEST)
-Received: from localhost ([::1]:38792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8375F3EF6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 10:57:25 +0200 (CEST)
+Received: from localhost ([::1]:44344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofdUP-000759-Nm
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 04:41:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49644)
+	id 1ofdju-0002KG-Mm
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 04:57:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1ofd3a-0001xD-GV
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 04:13:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54920)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ofdbC-0004aF-De
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 04:48:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1ofd3M-00072c-QG
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 04:13:35 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ofdb8-000250-GS
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 04:48:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664871201;
+ s=mimecast20190719; t=1664873297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=q/Z4B5NIEXqoR81UfxKB23lVvlF77Gt/fnO1VkG6ZAA=;
- b=YpzTQXQzcHx1tVTzD6xk3acUvqYwIfrnBricILPa7TfxkaDRQFxyP1332RWZtvpw7TSGj4
- Zw2RNEKcsp53s6kW3T1QeBxT1o4mBYeJ/TcSC1C3NWO24JPdtBjyNT6cGw2pDISx3POopW
- dDXMs8Pkl+PLQdRVuWZHqVNcWoPUIi4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OJm2XtAPEaSkSyu0BlGdhOIWQQS2pwaFcS0nxTGISaw=;
+ b=YB14v9XICyuwjjjsu3k7UMNk5q2+TB+VDelk0talsMhuS3ET8y3wwgeiS0mHaIxkJXcMdf
+ 6vlpeDD5nLLz+VzwTWchFlR0HIDFXmZxSTS5jlk5MHJI1UiHQmEGxIjmgMd4aJ7Bo5FsPH
+ gio3+o5Ln7bFoQAV6C10uMHtvH9zlpI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-SRpQykvVOV6grrl18lqbNg-1; Tue, 04 Oct 2022 04:13:19 -0400
-X-MC-Unique: SRpQykvVOV6grrl18lqbNg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-638-gMVwFbF7MCeL0aBBLxD7vQ-1; Tue, 04 Oct 2022 04:48:08 -0400
+X-MC-Unique: gMVwFbF7MCeL0aBBLxD7vQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 026E6299E74F
- for <qemu-devel@nongnu.org>; Tue,  4 Oct 2022 08:13:19 +0000 (UTC)
-Received: from localhost (unknown [10.40.194.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F2731415137;
- Tue,  4 Oct 2022 08:13:18 +0000 (UTC)
-Date: Tue, 4 Oct 2022 10:13:17 +0200
-From: Victor Toso <victortoso@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com
-Subject: Re: [PATCH] Revert "qapi: fix examples of blockdev-add with qcow2"
-Message-ID: <20221004081317.m7zewxcqbwabntkr@tapioca>
-References: <20220930171908.846769-1-armbru@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D504802801;
+ Tue,  4 Oct 2022 08:48:08 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ECD28C15BA4;
+ Tue,  4 Oct 2022 08:48:06 +0000 (UTC)
+Date: Tue, 4 Oct 2022 10:48:05 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 2/2] block: Refactor get_tmp_filename()
+Message-ID: <YzvzRVCCSrZknZF4@redhat.com>
+References: <20220928144125.1997128-1-bmeng.cn@gmail.com>
+ <20220928144125.1997128-2-bmeng.cn@gmail.com>
+ <YzbBM7Qc3p+Hiyvo@redhat.com>
+ <CAEUhbmXH_y4ZuR2Z_HU2PoKX9A_P1VWUyF0eMVGbtvmvoPO4uw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="w2mnxtnrvvaf37pu"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220930171908.846769-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+In-Reply-To: <CAEUhbmXH_y4ZuR2Z_HU2PoKX9A_P1VWUyF0eMVGbtvmvoPO4uw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,125 +83,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 02.10.2022 um 11:38 hat Bin Meng geschrieben:
+> Hi Kevin,
+> 
+> On Fri, Sep 30, 2022 at 6:13 PM Kevin Wolf <kwolf@redhat.com> wrote:
+> >
+> > Am 28.09.2022 um 16:41 hat Bin Meng geschrieben:
+> > > From: Bin Meng <bin.meng@windriver.com>
+> > >
+> > > At present there are two callers of get_tmp_filename() and they are
+> > > inconsistent.
+> > >
+> > > One does:
+> > >
+> > >     /* TODO: extra byte is a hack to ensure MAX_PATH space on Windows. */
+> > >     char *tmp_filename = g_malloc0(PATH_MAX + 1);
+> > >     ...
+> > >     ret = get_tmp_filename(tmp_filename, PATH_MAX + 1);
+> > >
+> > > while the other does:
+> > >
+> > >     s->qcow_filename = g_malloc(PATH_MAX);
+> > >     ret = get_tmp_filename(s->qcow_filename, PATH_MAX);
+> > >
+> > > As we can see different 'size' arguments are passed. There are also
+> > > platform specific implementations inside the function, and the use
+> > > of snprintf is really undesirable.
+> > >
+> > > The function name is also misleading. It creates a temporary file,
+> > > not just a filename.
+> > >
+> > > Refactor this routine by changing its name and signature to:
+> > >
+> > >     char *create_tmp_file(Error **errp)
+> > >
+> > > and use g_file_open_tmp() for a consistent implementation.
+> > >
+> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > ---
+> > >
+> > > Changes in v5:
+> > > - minor change in the commit message
+> > > - add some notes in the function comment block
+> > > - add g_autofree for tmp_filename
+> > >
+> > > Changes in v4:
+> > > - Rename the function to create_tmp_file() and take "Error **errp" as
+> > >   a parameter, so that callers can pass errp all the way down to this
+> > >   routine.
+> > > - Commit message updated to reflect the latest change
+> > >
+> > > Changes in v3:
+> > > - Do not use errno directly, instead still let get_tmp_filename() return
+> > >   a negative number to indicate error
+> > >
+> > > Changes in v2:
+> > > - Use g_autofree and g_steal_pointer
+> > >
+> > >  include/block/block_int-common.h |  2 +-
+> > >  block.c                          | 45 ++++++++++++--------------------
+> > >  block/vvfat.c                    |  7 +++--
+> > >  3 files changed, 20 insertions(+), 34 deletions(-)
+> > >
+> > > diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+> > > index 8947abab76..d7c0a7e96f 100644
+> > > --- a/include/block/block_int-common.h
+> > > +++ b/include/block/block_int-common.h
+> > > @@ -1230,7 +1230,7 @@ static inline BlockDriverState *child_bs(BdrvChild *child)
+> > >  }
+> > >
+> > >  int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
+> > > -int get_tmp_filename(char *filename, int size);
+> > > +char *create_tmp_file(Error **errp);
+> > >  void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+> > >                                        QDict *options);
+> > >
+> > > diff --git a/block.c b/block.c
+> > > index 582c205307..bd3006d85d 100644
+> > > --- a/block.c
+> > > +++ b/block.c
+> > > @@ -860,35 +860,25 @@ int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo)
+> > >
+> > >  /*
+> > >   * Create a uniquely-named empty temporary file.
+> > > - * Return 0 upon success, otherwise a negative errno value.
+> > > + * Return the actual file name used upon success, otherwise NULL.
+> > > + * This string should be freed with g_free() when not needed any longer.
+> > > + *
+> > > + * Note: creating a temporary file for the caller to (re)open is
+> > > + * inherently racy. Use g_file_open_tmp() instead whenever practical.
+> > >   */
+> > > -int get_tmp_filename(char *filename, int size)
+> > > +char *create_tmp_file(Error **errp)
+> > >  {
+> > > -#ifdef _WIN32
+> > > -    char temp_dir[MAX_PATH];
+> > > -    /* GetTempFileName requires that its output buffer (4th param)
+> > > -       have length MAX_PATH or greater.  */
+> > > -    assert(size >= MAX_PATH);
+> > > -    return (GetTempPath(MAX_PATH, temp_dir)
+> > > -            && GetTempFileName(temp_dir, "qem", 0, filename)
+> >
+> > We're using different prefixes on Windows and on Linux. This patch
+> > unifies both paths to use the Linux name. Nobody should rely on the name
+> > of temporary files, so there is hope it won't break anything.
+> >
+> > > -            ? 0 : -GetLastError());
+> > > -#else
+> > > +    g_autofree char *name = NULL;
+> > > +    g_autoptr(GError) err = NULL;
+> > >      int fd;
+> > > -    const char *tmpdir;
+> > > -    tmpdir = getenv("TMPDIR");
+> > > -    if (!tmpdir) {
+> > > -        tmpdir = "/var/tmp";
+> > > -    }
+> > > -    if (snprintf(filename, size, "%s/vl.XXXXXX", tmpdir) >= size) {
+> > > -        return -EOVERFLOW;
+> > > -    }
+> > > -    fd = mkstemp(filename);
+> > > +
+> > > +    fd = g_file_open_tmp("vl.XXXXXX", &name, &err);
+> >
+> > This implicitly reverts commit 69bef7931e8, g_file_open_tmp() uses /tmp
+> > as the default instead of /var/tmp as this function does before the
+> > patch.
+> 
+> Oops, thanks for the pointer. Commit message of 69bef7931e8 does not
+> explicitely explain why to change from /tmp to /var/tmp. Is that
+> because QEMU block codes write a huge size of data to this file in
+> /tmp?
 
---w2mnxtnrvvaf37pu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes, this function is used to create temporary disk images (like for
+-snapshot), so the files can become very large. /tmp is often a tmpfs
+where as /var/tmp is usually on a disk, so more appropriate for disk
+images.
 
-Hi,
+> > This is probably not a good idea, we should keep the /var/tmp default.
+> >
+> > But if we did want to do this, it's definitely a change in behaviour
+> > that should be mentioned in the commit message at least.
+> >
+> 
+> If we have to keep /var/tmp, how about this?
+> 
+> diff --git a/block.c b/block.c
+> index bd3006d85d..d964ceaeac 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -24,6 +24,7 @@
+>   */
+> 
+>  #include "qemu/osdep.h"
+> +#include <glib/gstdio.h>
+>  #include "block/trace.h"
+>  #include "block/block_int.h"
+>  #include "block/blockjob.h"
+> @@ -878,7 +879,20 @@ char *create_tmp_file(Error **errp)
+>          return NULL;
+>      }
+>      close(fd);
+> +#ifdef _WIN32
+>      return g_steal_pointer(&name);
+> +#else
+> +    g_autofree char *base = NULL;
+> +    char *newname;
+> +
+> +    base = g_path_get_basename(name);
+> +    newname = g_strdup_printf("/var/tmp/%s", base);
+> +    if (g_rename(name, newname) < 0) {
+> +        error_setg_errno(errp, -errno, "Could not create file");
+> +        return NULL;
+> +    }
+> +    return newname;
+> +#endif
+>  }
 
-Sorry taking some time to reply.
+I don't think this works correctly. It first finds an unused filename in
+/tmp, and then uses that filename in /var/tmp without checking if it's
+already in use there. It's also not simpler than the original code.
 
-On Fri, Sep 30, 2022 at 07:19:08PM +0200, Markus Armbruster wrote:
-> This reverts commit b6522938327141235b97ab38e40c6c4512587373.
+We should probably stick with g_mkstemp(), which however can be shared
+between Windows and Linux. Just finding the directory is still going to
+use an #ifdef.
 
-Which is:
-```
-  qapi: fix examples of blockdev-add with qcow2
+But the more important point of your patch was the external interface of
+the function anyway, and you can keep that as it is.
 
-  The examples use "qcow2" driver with the wrong member name for
-  BlockdevRef alternate type. This patch changes all wrong member names
-  from "file" to "data-file" which is the correct member name in
-  BlockdevOptionsQcow2 for the BlockdevRef field.
-
-  Problem was noticed when using the example as a test case for Go
-  bindings.
-```
-
-> Kevin Wolf NAKed this patch, because:
->
->     'file' is a required member (defined in BlockdevOptionsGenericFormat),
->     removing it makes the example invalid. 'data-file' is only an additio=
-nal
->     optional member to be used for external data files (i.e. when the gue=
-st
->     data is kept separate from the metadata in the .qcow2 file).
-
-You are correct. I apologize for the mistake. I trusted a bit too
-much on the Go bindings and didn't realize that @file member was
-actually present:
-    @BlockdevOptionsQcow2 >
-    @BlockdevOptionsGenericCOWFormat >
-    @BlockdevOptionsGenericCOWFormat >
-    @BlockdevOptionsGenericFormat
-
-> However, it had already been merged then.  Revert.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-
-Acked-by: Victor Toso <victortoso@redhat.com>
-
-> ---
->  qapi/block-core.json | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index f21fa235f2..882b266532 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -1541,8 +1541,8 @@
->  # -> { "execute": "blockdev-add",
->  #      "arguments": { "driver": "qcow2",
->  #                     "node-name": "node1534",
-> -#                     "data-file": { "driver": "file",
-> -#                                    "filename": "hd1.qcow2" },
-> +#                     "file": { "driver": "file",
-> +#                               "filename": "hd1.qcow2" },
->  #                     "backing": null } }
->  #
->  # <- { "return": {} }
-> @@ -4378,7 +4378,7 @@
->  #      "arguments": {
->  #           "driver": "qcow2",
->  #           "node-name": "test1",
-> -#           "data-file": {
-> +#           "file": {
->  #               "driver": "file",
->  #               "filename": "test.qcow2"
->  #            }
-> @@ -4395,7 +4395,7 @@
->  #           "cache": {
->  #              "direct": true
->  #            },
-> -#           "data-file": {
-> +#            "file": {
->  #              "driver": "file",
->  #              "filename": "/tmp/test.qcow2"
->  #            },
-> @@ -4477,7 +4477,7 @@
->  #      "arguments": {
->  #           "driver": "qcow2",
->  #           "node-name": "node0",
-> -#           "data-file": {
-> +#           "file": {
->  #               "driver": "file",
->  #               "filename": "test.qcow2"
->  #           }
-> --=20
-> 2.37.2
->=20
-
---w2mnxtnrvvaf37pu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEIG07NS9WbzsOZXLpl9kSPeN6SE8FAmM76x0ACgkQl9kSPeN6
-SE/COQ/9HG2bLlVmZVCLqDLBlLwN5g2N3yXbMmaZB54OshxEvM9L9vE44nn0nqTy
-b1pRAss6M5Mi3yn+H37+jq+0XoOOF9C+d4tv1PU2rjg3Vc+TtmVzQ7C2Npt0dr2+
-S81IlR0pdVS92OYZhDJhhkdDSivdIjGogqkYlxnjctk6bX0eFXrLiXmMBTyTRn+s
-a7IdCqRF6r/JvPNqaiB/ugv5A4/wn2NTH+pn7fzH9W9wg6so31qQdcer646GsDsW
-Vgs1JIAKy6JPG9QZSd0jl/08TxKdWUE/FTruG1vwt2pmKWxrO/e/ns1F0DN0O+3S
-B7gv0Dz2gUwrsIr1QAFtkosUfqW8YzwtKcFWj1hDaNURG6toOGoQcTlYTmK7ES2Q
-dafv1rDhcv1rczBeK+Swc7Bto0TOC24EeZbS4kwz7dhkaWbbpwDTRGe8nrId59AW
-ena2DreDcY/BoYNZpluZskxgFOO0FXj57HExgVK7+tlLqW/xPhXmq0ldPBACZ/J1
-LL6saX1BwAx16Zi5kz3O76icNHgH77M4fgmVsB9Y4jtCI6ZyumcGDpC6gWbmFcot
-r0EfJ/o3gOiWXDD8gvSJ2JGUSo2spgyJsxA6sP4AxlanQRrzJxGQqQZkGwLb0KM9
-0q72+XRfiPc6D7viKJmrLq8IcP/FuuGynjyIblMsjiuwkw5ebp0=
-=b133
------END PGP SIGNATURE-----
-
---w2mnxtnrvvaf37pu--
+Kevin
 
 
