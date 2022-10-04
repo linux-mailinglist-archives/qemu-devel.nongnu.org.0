@@ -2,61 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204795F4136
+	by mail.lfdr.de (Postfix) with ESMTPS id 4510A5F4137
 	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 12:58:01 +0200 (CEST)
-Received: from localhost ([::1]:38374 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:38376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1offce-0005Qb-3M
+	id 1offce-0005Qi-1G
 	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 06:58:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60590)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1offYl-0001Kw-TE
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:53:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54827)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1offYy-0001Vj-UW
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:54:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1offYh-0004pX-Dy
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:53:57 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1offYx-0004qv-15
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:54:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664880833;
+ s=mimecast20190719; t=1664880850;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MGoewGI2tIAIhQV36B5JUf6B4O/mb6qTfQ9wwL1whKM=;
- b=g//8BLhoOD3esmQGzT0u0FhjUVt4drKjIcUh5xp+/LlPcpgmcRfzx8zLVq0huVkXovLJgU
- mW35oqgUvUXSsPYU29ocPdvb47q/aOuIOdjEV+GjaAb5Q6dmOuYK6BHiv7/0fYsO9qd50k
- kGa9Hh5O4Vs+sVLOepmkeYwqQwkE3RE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-k02VsSOgNFu2ICsG6vyfNA-1; Tue, 04 Oct 2022 06:53:52 -0400
-X-MC-Unique: k02VsSOgNFu2ICsG6vyfNA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C06B385A583;
- Tue,  4 Oct 2022 10:53:51 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E5E62027061;
- Tue,  4 Oct 2022 10:53:51 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
- zhenyzha@redhat.com, richard.henderson@linaro.org,
- peter.maydell@linaro.org, shan.gavin@gmail.com
-Subject: Re: [PATCH v4 5/6] hw/arm/virt: Improve high memory region address
-In-Reply-To: <20221004002627.59172-6-gshan@redhat.com>
-Organization: Red Hat GmbH
-References: <20221004002627.59172-1-gshan@redhat.com>
- <20221004002627.59172-6-gshan@redhat.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Tue, 04 Oct 2022 12:53:48 +0200
-Message-ID: <87bkqroo5f.fsf@redhat.com>
+ bh=PUHfO2Mh69k9a8osXZXmsb1fwGn2T7H9oRzERsWZ6zg=;
+ b=cO/khiTFQfgCpeaJyLiKpMjfwlAAjQTNDaxOs5FINnPHm3A4Be1AghwTWbgBoCl5APWdjd
+ L3SXTSiOey4B8fZ4bASPKX2c/6JpCDVm5QoGZ60YSBbjJkEvZNZtwmMddD7o8qmQoZQWpv
+ koB7aEBv6uPizqmsJEyuSEu3oWJdHu0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-563-c3LxKxqRML2KzDYZwmWxgg-1; Tue, 04 Oct 2022 06:54:07 -0400
+X-MC-Unique: c3LxKxqRML2KzDYZwmWxgg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ e14-20020adf9bce000000b0022d18139c79so3006144wrc.5
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 03:54:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=PUHfO2Mh69k9a8osXZXmsb1fwGn2T7H9oRzERsWZ6zg=;
+ b=6f/RfrpxgW8jU/gRlF7fJ06eG1Q59YZZBbdHtgqOTKnpS18pGuRJd8waIjZAcR6rMW
+ 4Va/396I4vir7pA2wjnrQfD50wcPJfCIaVM4MMrcRYcYNteFWFyZwzA2zNrYCzFw+I+1
+ JHjksfuIqApOnS3+s8Thx5SzVbiUjlBJDZwpdV/+lrJYYSLVy0j3PL1DX2XM9nxGXP7s
+ rrSSuoKisKwd6O2mmJpXfwnw1acWaJaDPKYAwCJm8Ki+ILS0qYTqRgbzBOOrDsn4uWjP
+ Y2pfTl35y/60O7vFemcaotA12Fu5WS61XMkjjlq/53BYk1FXSJaAHP2hJ8NtQ/Q/WTur
+ DLqQ==
+X-Gm-Message-State: ACrzQf1l3c7r4xdCNVjgrHFsodJZne9Wro8czjfhjUh4KQuyCPkVjUK2
+ iaHYexf8KdRfojKy7pg3LruIsK4+B1eyyuEX5liInqUIvR043PvjTEaIAfLgyK2/guZlBZYz731
+ f8A1WJGSIfbiUAeM=
+X-Received: by 2002:a7b:c8d5:0:b0:3b4:76bc:5dae with SMTP id
+ f21-20020a7bc8d5000000b003b476bc5daemr9859827wml.122.1664880845063; 
+ Tue, 04 Oct 2022 03:54:05 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4BP2z6v5bN1grKr6NdyMq1npuOulwCuiDGzFZAtc1gWuFilAe43/etHsrfIfe8pEWe2Si30A==
+X-Received: by 2002:a7b:c8d5:0:b0:3b4:76bc:5dae with SMTP id
+ f21-20020a7bc8d5000000b003b476bc5daemr9859810wml.122.1664880844828; 
+ Tue, 04 Oct 2022 03:54:04 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ i16-20020adff310000000b0022e344a63c7sm7512922wro.92.2022.10.04.03.54.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Oct 2022 03:54:04 -0700 (PDT)
+Date: Tue, 4 Oct 2022 11:54:02 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Manish Mishra <manish.mishra@nutanix.com>,
+ Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>, ani@anisinha.ca,
+ "Daniel P . Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH 04/14] migration: Remove RAMState.f references in
+ compression code
+Message-ID: <YzwQyty0Ds935+wr@work-vm>
+References: <20220920225106.48451-1-peterx@redhat.com>
+ <20220920225106.48451-5-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220920225106.48451-5-peterx@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,67 +104,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 04 2022, Gavin Shan <gshan@redhat.com> wrote:
+* Peter Xu (peterx@redhat.com) wrote:
+> Removing referencing to RAMState.f in compress_page_with_multi_thread() and
+> flush_compressed_data().
+> 
+> Compression code by default isn't compatible with having >1 channels (or it
+> won't currently know which channel to flush the compressed data), so to
+> make it simple we always flush on the default to_dst_file port until
+> someone wants to add >1 ports support, as rs->f right now can really
+> change (after postcopy preempt is introduced).
+> 
+> There should be no functional change at all after patch applied, since as
+> long as rs->f referenced in compression code, it must be to_dst_file.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-> There are three high memory regions, which are VIRT_HIGH_REDIST2,
-> VIRT_HIGH_PCIE_ECAM and VIRT_HIGH_PCIE_MMIO. Their base addresses
-> are floating on highest RAM address. However, they can be disabled
-> in several cases.
->
-> (1) One specific high memory region is disabled by developer by
->     toggling vms->highmem_{redists, ecam, mmio}.
->
-> (2) VIRT_HIGH_PCIE_ECAM region is disabled on machine, which is
->     'virt-2.12' or ealier than it.
->
-> (3) VIRT_HIGH_PCIE_ECAM region is disabled when firmware is loaded
->     on 32-bits system.
->
-> (4) One specific high memory region is disabled when it breaks the
->     PA space limit.
->
-> The current implementation of virt_set_memmap() isn't comprehensive
-> because the space for one specific high memory region is always
-> reserved from the PA space for case (1), (2) and (3). In the code,
-> 'base' and 'vms->highest_gpa' are always increased for those three
-> cases. It's unnecessary since the assigned space of the disabled
-> high memory region won't be used afterwards.
->
-> This improves the address assignment for those three high memory
-> region by skipping the address assignment for one specific high
-> memory region if it has been disabled in case (1), (2) and (3).
-> 'vms->high_compact' is false for now, meaning that we don't have
-> any behavior changes until it becomes configurable through property
-> 'compact-highmem' in next patch.
->
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
+Yes, I think that's true - although I think we need to add checks to
+stop someone trying to enable compression+multifd?
+
+
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+
 > ---
->  hw/arm/virt.c         | 19 ++++++++++++-------
->  include/hw/arm/virt.h |  1 +
->  2 files changed, 13 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 59de7b78b5..4164da49e9 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1715,9 +1715,6 @@ static void virt_set_high_memmap(VirtMachineState *vms,
->          region_base = ROUND_UP(base, extended_memmap[i].size);
->          region_size = extended_memmap[i].size;
+>  migration/ram.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 62ff2c1469..8303252b6d 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -1461,6 +1461,7 @@ static bool save_page_use_compression(RAMState *rs);
 >  
-> -        vms->memmap[i].base = region_base;
-> -        vms->memmap[i].size = region_size;
-> -
->          /*
->           * Check each device to see if they fit in the PA space,
->           * moving highest_gpa as we go.
-
-Maybe tweak this comment?
-
-"Check each enabled device to see if they fit in the PA space,
-moving highest_gpa as we go. For compatibility, move highest_gpa
-for disabled fitting devices as well, if the compact layout has
-been disabled."
-
-(Or would that be overkill?)
+>  static void flush_compressed_data(RAMState *rs)
+>  {
+> +    MigrationState *ms = migrate_get_current();
+>      int idx, len, thread_count;
+>  
+>      if (!save_page_use_compression(rs)) {
+> @@ -1479,7 +1480,7 @@ static void flush_compressed_data(RAMState *rs)
+>      for (idx = 0; idx < thread_count; idx++) {
+>          qemu_mutex_lock(&comp_param[idx].mutex);
+>          if (!comp_param[idx].quit) {
+> -            len = qemu_put_qemu_file(rs->f, comp_param[idx].file);
+> +            len = qemu_put_qemu_file(ms->to_dst_file, comp_param[idx].file);
+>              /*
+>               * it's safe to fetch zero_page without holding comp_done_lock
+>               * as there is no further request submitted to the thread,
+> @@ -1498,11 +1499,11 @@ static inline void set_compress_params(CompressParam *param, RAMBlock *block,
+>      param->offset = offset;
+>  }
+>  
+> -static int compress_page_with_multi_thread(RAMState *rs, RAMBlock *block,
+> -                                           ram_addr_t offset)
+> +static int compress_page_with_multi_thread(RAMBlock *block, ram_addr_t offset)
+>  {
+>      int idx, thread_count, bytes_xmit = -1, pages = -1;
+>      bool wait = migrate_compress_wait_thread();
+> +    MigrationState *ms = migrate_get_current();
+>  
+>      thread_count = migrate_compress_threads();
+>      qemu_mutex_lock(&comp_done_lock);
+> @@ -1510,7 +1511,8 @@ retry:
+>      for (idx = 0; idx < thread_count; idx++) {
+>          if (comp_param[idx].done) {
+>              comp_param[idx].done = false;
+> -            bytes_xmit = qemu_put_qemu_file(rs->f, comp_param[idx].file);
+> +            bytes_xmit = qemu_put_qemu_file(ms->to_dst_file,
+> +                                            comp_param[idx].file);
+>              qemu_mutex_lock(&comp_param[idx].mutex);
+>              set_compress_params(&comp_param[idx], block, offset);
+>              qemu_cond_signal(&comp_param[idx].cond);
+> @@ -2263,7 +2265,7 @@ static bool save_compress_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
+>          return false;
+>      }
+>  
+> -    if (compress_page_with_multi_thread(rs, block, offset) > 0) {
+> +    if (compress_page_with_multi_thread(block, offset) > 0) {
+>          return true;
+>      }
+>  
+> -- 
+> 2.32.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
