@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024415F44E4
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:56:45 +0200 (CEST)
-Received: from localhost ([::1]:44780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7D75F44DF
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:55:37 +0200 (CEST)
+Received: from localhost ([::1]:38692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofiPc-0007jX-35
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:56:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54804)
+	id 1ofiOW-0005gE-8y
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:55:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhgO-0007Ql-OA
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:10:00 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37566)
+ id 1ofhq1-0001In-90
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:20:01 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhgM-00008v-PP
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:10:00 -0400
-Received: by mail-wr1-x432.google.com with SMTP id bq9so21256454wrb.4
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:09:58 -0700 (PDT)
+ id 1ofhpy-0001pn-Te
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:19:56 -0400
+Received: by mail-wr1-x435.google.com with SMTP id a10so8947005wrm.12
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:19:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=JNiearaQvDip8JsM9PGb/nIll+VrO2KHIn0XRGgSTuQ=;
- b=neXO3YFEdcl2gBA6Zme+NlHbDVlKkoRf3aAA+F4mIc6R/yWPS5vjOFlCGZgFCskmEM
- 0mk4fP0U555eWZX+1cD1nQtztm+uBmGezF6FDk/QjUuTfDolV8xH9CEb6lkdO9jcGIYN
- YnuUaU2QX2oLbpYTp6dOl5FEI6oo/t7r4xn9YlJWgbct1GfoTLqbNLE5MFxJN7Ke9hRS
- ll4cMXh/ALzyke0Svl3Q6DJzNgSbpG8+t0jGSzeeQJF9jdfBqkefIzLYS8BFcd7KHHSv
- ZbGBZhoYi47uGvV4HXgpS0AO+ukgviCFi87n019cGYP7YrKKmfXJ4FUQmiEtVp0FdJVQ
- C4kw==
+ bh=3w+bjpM8X7ClsceEYaojlv3+SvzK1wDqMMAZn+rwyHQ=;
+ b=zMwMbHo1G4HS2zeRRBTX+Q3zu1ksrD3Cjgn2CJHScem9ihLH2LIXPnkJToGYLgrKha
+ 0AqbXKW97k5qDPMz0YTLwfiaWXQuTWlZtAzeyT/ug3fEkn7f3K+tza7RweHEtYOfOUFN
+ VTIFM7E8c9VqDsTgjg3QZepCSqiSRFwP8mZ1QPumPYJn+XEDRfrrMArL7NHHZXjfVaux
+ y40sRdACd+2EesAwfl5X8qZAW0WVsOkfsolD/4sGOJPwMQ7wyGlluT2Bqr95QNfMMIhg
+ ZWUB7pbpTKePc5eUxmuUwE65o27I+KfpUyat8QZRxuHYGPvkeEjjvH6j4+O86geIWvQ7
+ oCIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=JNiearaQvDip8JsM9PGb/nIll+VrO2KHIn0XRGgSTuQ=;
- b=L4VUd/cxEDrF27TTAMbYnDEIue4X8+J/hxw+z+aN5QwhBD4h3Z9ZbDT8y1BrzGqGT+
- +nw7soFaL+aln6VIrL6hbFma2WkZMxyEjaLaSfqaSc2qaAm2FGU0XRsAbDvbFCzmyj9z
- fZnzg5iVWVjdPQ88AhUnUDN6HHOaa/Zuca2zFf5rAwvSx1PAodhv7uyyyueTlqw0fMuD
- TgFPc/pcszItXgFiObZsqMn8E5EcxqJ3+AxMr/O8RkNru9+aXdkTk3LxN8goU7FiZLRo
- x+saXzQZYSZnliwSYTlPfhyuecLQf9AeUu2GmMREPu1A7hFTtzFu72b3WhtvDbMW5Wxz
- uxiQ==
-X-Gm-Message-State: ACrzQf0dei1+FbluAu19X5/O88wEz3pHjiCRNjVKrCBIo1SPd8p/lcSK
- D4Id7kkdCfxlFlVvi4xC5il1ZjbQYmQfOg==
-X-Google-Smtp-Source: AMsMyM5mfWAwy1De+JzrEG6AypGQQX6cuv3TwDAW8RHllQ2yAlIDNyUFCLnX9C6DIVAGuSoXpIaA1A==
-X-Received: by 2002:a05:6000:184d:b0:22a:7428:3ae8 with SMTP id
- c13-20020a056000184d00b0022a74283ae8mr15286845wri.441.1664888997218; 
- Tue, 04 Oct 2022 06:09:57 -0700 (PDT)
+ bh=3w+bjpM8X7ClsceEYaojlv3+SvzK1wDqMMAZn+rwyHQ=;
+ b=wTvBnpEvCNfN6u4i6HPss8baV+/WMNYBn8N5onXHiGGL9DR4f125Hqg1g4Kwr2mJpw
+ NCTq2HbwUFJTbE/gGmR7HqbkS7TUACPviqrqyQQYRLp8vVUamqqEv11sdD38yM3yldPP
+ 4p1vX+eMTIUYjL9pwQoIdU2iT5I4MTqBkYQ1Ca+w3jq4yew56lhq3n7FPezs+F+PHTHO
+ FUuvHxYpVILsOuaq2AthTRXQrj4C+hSdAgczTN+uOLQV6lITir/vXlqb3FD5fDwY5y3N
+ kkiYJ6ynNZGYuvIlGrbHSrlY4KId/xWBKfv1Y4xFqDKetMJqMUDvjl1rtX3Ob/SdArQN
+ eJCg==
+X-Gm-Message-State: ACrzQf0Z2CGalPZ+s6VGsDYI83BAMYtN+J212f/8EMQ6qfzHe84e99AU
+ iWYD3QWvNooyZU1ddmEkIPIgZA==
+X-Google-Smtp-Source: AMsMyM6fC+WG/3jxU+MRzYJ+V3nGbGVx146jItfFRBN4qvTxF9iE9OkFKE2eAyD288fyMCZX7mRqvQ==
+X-Received: by 2002:a5d:4748:0:b0:22e:32c1:d11e with SMTP id
+ o8-20020a5d4748000000b0022e32c1d11emr9036725wrs.672.1664889592330; 
+ Tue, 04 Oct 2022 06:19:52 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- n41-20020a05600c3ba900b003b3401f1e24sm1723574wms.28.2022.10.04.06.09.53
+ t20-20020a05600c199400b003b4fe03c881sm20234700wmq.48.2022.10.04.06.19.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 06:09:54 -0700 (PDT)
+ Tue, 04 Oct 2022 06:19:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 347EA1FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id 4DCF61FFC8;
  Tue,  4 Oct 2022 14:01:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 17/54] configure: return status code from probe_target_compiler
-Date: Tue,  4 Oct 2022 14:01:01 +0100
-Message-Id: <20221004130138.2299307-18-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PULL 18/54] configure: store container engine in config-host.mak
+Date: Tue,  4 Oct 2022 14:01:02 +0100
+Message-Id: <20221004130138.2299307-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004130138.2299307-1-alex.bennee@linaro.org>
 References: <20221004130138.2299307-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,59 +100,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-For now, return 1 for container-based compilers.  This will change as
-soon as ROMs will be buildable with them.
+In preparation for removing $(DOCKER_SCRIPT) from the tests/tcg configuration
+files, have Make use the same container engine that had been probed at
+configure time.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220929114231.583801-18-alex.bennee@linaro.org>
+Message-Id: <20220929114231.583801-19-alex.bennee@linaro.org>
 
 diff --git a/configure b/configure
-index aaa09fb957..f3984bb193 100755
+index f3984bb193..ad70c81bfe 100755
 --- a/configure
 +++ b/configure
-@@ -2147,6 +2147,7 @@ probe_target_compiler() {
-     target_ranlib=
-     target_strip=
-   fi
-+  test -n "$target_cc"
- }
+@@ -1810,9 +1810,11 @@ fi
  
- write_target_makefile() {
-@@ -2294,10 +2295,9 @@ done
- 
- # Mac OS X ships with a broken assembler
- roms=
--probe_target_compiler i386-softmmu
--if test -n "$target_cc" &&
--        test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
--        test "$targetos" != "haiku" && test "$softmmu" = yes ; then
-+if test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
-+        test "$targetos" != "haiku" && test "$softmmu" = yes && \
-+        probe_target_compiler i386-softmmu; then
-     roms="pc-bios/optionrom"
-     config_mak=pc-bios/optionrom/config.mak
-     echo "# Automatically generated by configure - do not modify" > $config_mak
-@@ -2305,8 +2305,7 @@ if test -n "$target_cc" &&
-     write_target_makefile >> $config_mak
+ container="no"
+ if test $use_containers = "yes"; then
+-    if has "docker" || has "podman"; then
+-        container=$($python "$source_path"/tests/docker/docker.py probe)
+-    fi
++    case $($python "$source_path"/tests/docker/docker.py probe) in
++        *docker) container=docker ;;
++        podman) container=podman ;;
++        no) container=no ;;
++    esac
  fi
  
--probe_target_compiler ppc-softmmu
--if test -n "$target_cc" && test "$softmmu" = yes; then
-+if test "$softmmu" = yes && probe_target_compiler ppc-softmmu; then
-     roms="$roms pc-bios/vof"
-     config_mak=pc-bios/vof/config.mak
-     echo "# Automatically generated by configure - do not modify" > $config_mak
-@@ -2316,8 +2315,7 @@ fi
+ # cross compilers defaults, can be overridden with --cross-cc-ARCH
+@@ -2444,6 +2446,9 @@ if test -n "$gdb_bin"; then
+     fi
+ fi
  
- # Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
- # (which is the lowest architecture level that Clang supports)
--probe_target_compiler s390x-softmmu
--if test -n "$target_cc" && test "$softmmu" = yes; then
-+if test "$softmmu" = yes && probe_target_compiler s390x-softmmu; then
-   write_c_skeleton
-   do_compiler "$target_cc" $target_cc_cflags -march=z900 -o $TMPO -c $TMPC
-   has_z900=$?
++if test "$container" != no; then
++    echo "ENGINE=$container" >> $config_host_mak
++fi
+ echo "ROMS=$roms" >> $config_host_mak
+ echo "MAKE=$make" >> $config_host_mak
+ echo "PYTHON=$python" >> $config_host_mak
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 270e99786e..c87f14477a 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -14,7 +14,7 @@ DOCKER_DEFAULT_REGISTRY := registry.gitlab.com/qemu-project/qemu
+ endif
+ DOCKER_REGISTRY := $(if $(REGISTRY),$(REGISTRY),$(DOCKER_DEFAULT_REGISTRY))
+ 
+-ENGINE := auto
++ENGINE ?= auto
+ DOCKER_SCRIPT=$(SRC_PATH)/tests/docker/docker.py --engine $(ENGINE)
+ 
+ CUR_TIME := $(shell date +%Y-%m-%d-%H.%M.%S.$$$$)
 -- 
 2.34.1
 
