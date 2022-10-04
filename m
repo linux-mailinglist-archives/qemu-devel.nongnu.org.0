@@ -2,51 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27A25F41EB
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 13:24:11 +0200 (CEST)
-Received: from localhost ([::1]:40830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F40625F41D0
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 13:14:26 +0200 (CEST)
+Received: from localhost ([::1]:58538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofg1y-0008U1-7a
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 07:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42184)
+	id 1offsY-0000Ey-48
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 07:14:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andre.przywara@arm.com>)
- id 1offlw-0002vc-BY; Tue, 04 Oct 2022 07:07:38 -0400
-Received: from foss.arm.com ([217.140.110.172]:50854)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andre.przywara@arm.com>)
- id 1offlq-0004hF-KL; Tue, 04 Oct 2022 07:07:33 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02B1011FB;
- Tue,  4 Oct 2022 04:07:34 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5726A3F67D;
- Tue,  4 Oct 2022 04:07:26 -0700 (PDT)
-Date: Tue, 4 Oct 2022 12:07:22 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jerome Forissier <jerome.forissier@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-stable@nongnu.org
-Subject: Re: [PATCH] target/arm: allow setting SCR_EL3.EnTP2 when FEAT_SME
- is implemented
-Message-ID: <20221004120722.65767188@donnerap.cambridge.arm.com>
-In-Reply-To: <20221004072354.27037-1-jerome.forissier@linaro.org>
-References: <20221004072354.27037-1-jerome.forissier@linaro.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org>)
+ id 1offov-0005Mw-OZ
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 07:10:41 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:44964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org>)
+ id 1offot-0005pP-QR
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 07:10:41 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8A46261329
+ for <qemu-devel@nongnu.org>; Tue,  4 Oct 2022 11:10:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7E90C433D6
+ for <qemu-devel@nongnu.org>; Tue,  4 Oct 2022 11:10:35 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="RbPV9pZh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1664881833;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ajBRTUqWYq/z16/huV0n8Gpu7U+LrPQQWNIxTi9igwE=;
+ b=RbPV9pZhKiaNu2vUFot+rletGTf/dZiNwMQ6GfirtAqbQSlhtqn/eyeW595oiK9SgyIQLT
+ y+qVvyHGd+wzRNjWU69zWhtu5jfxwLx8dXHzOjm5hQs8kWtZK+3lXcAMsvBpuCURzrpOzD
+ C2jHvWKKHq+aK2pZ5sTvHCcCVyiuJzw=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9fa73634
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Tue, 4 Oct 2022 11:10:33 +0000 (UTC)
+Received: by mail-ua1-f54.google.com with SMTP id p4so2930885uao.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 04:10:32 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2Sxdf2iOipKECJxafDYuPlr6qtf0hceMW1U+8M1seUjGbVwj3n
+ 29G2XPcLZl0M381HW23ThbMR/0QcekPHq2MSk1w=
+X-Google-Smtp-Source: AMsMyM7DVIxxPkp0Lz8qvkNYFm/cvlfmn+NmBE7zmMD51WOMVMRia/+Jif0CtqlJgBm/cX49zhZSqB64Y6oWaU0Jprg=
+X-Received: by 2002:ab0:6154:0:b0:398:c252:23d8 with SMTP id
+ w20-20020ab06154000000b00398c25223d8mr12012501uan.65.1664881831677; Tue, 04
+ Oct 2022 04:10:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=andre.przywara@arm.com; helo=foss.arm.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <YziPyCqwl5KIE2cf@zx2c4.com>
+ <20221003103627.947985-1-Jason@zx2c4.com>
+ <b529059a-7819-e49d-e4dc-7ae79ee21ec5@amsat.org>
+ <CAHmME9pUuduiEcmi2xaY3cd87D_GNX1bkVeXNqVq6AL_e=Kt+Q@mail.gmail.com>
+ <YzwM+KhUG0bg+P2e@zx2c4.com>
+ <CAFEAcA9KsooNnYxiqQG-RHustSx0Q3-F8ibpQbXbwxDCA+2Fhg@mail.gmail.com>
+ <CAHmME9qmSX=QmBa-k4T1U=Gnz-EtahnYxLmOewpN85H9TqNSmA@mail.gmail.com>
+ <CAFEAcA9-_qmtJgy_WRJT5TUKMm_60U53Mb9a+_BqUnQSS7PPcg@mail.gmail.com>
+In-Reply-To: <CAFEAcA9-_qmtJgy_WRJT5TUKMm_60U53Mb9a+_BqUnQSS7PPcg@mail.gmail.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Tue, 4 Oct 2022 13:10:20 +0200
+X-Gmail-Original-Message-ID: <CAHmME9qDN_m6+6R3OiNueHc0qEcvptpO9+0HxZ713knZ=8fkoQ@mail.gmail.com>
+Message-ID: <CAHmME9qDN_m6+6R3OiNueHc0qEcvptpO9+0HxZ713knZ=8fkoQ@mail.gmail.com>
+Subject: Re: [PATCH v2] mips/malta: pass RNG seed to to kernel via env var
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Aurelien Jarno <aurelien@aurel32.net>, kvm-devel <kvm@vger.kernel.org>, 
+ Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,123 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  4 Oct 2022 09:23:54 +0200
-Jerome Forissier <jerome.forissier@linaro.org> wrote:
+On Tue, Oct 4, 2022 at 1:03 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> What I'm asking, I guess, is why you're messing with this board
+> model at all if you haven't added this functionality to u-boot.
+> This is just an emulation of an ancient bit of MIPS hardware, which
+> nobody really cares about very much I hope.
 
-Hi,
+I think most people emulating MIPS would disagree. This is basically a
+reference platform for most intents and purposes. As I mentioned, this
+involves `-kernel` -- the thing that's used when you explicitly opt-in
+to not using a bootloader, so when you sign up for QEMU arranging the
+kernel image and its environment. Neglecting to pass an RNG seed would
+be a grave mistake.
 
-> Updates write_scr() to allow setting SCR_EL3.EnTP2 when FEAT_SME is
-> implemented. SCR_EL3 being a 64-bit register, valid_mask is changed
-> to uint64_t and the SCR_* constants in target/arm/cpu.h are extended
-> to 64-bit so that masking and bitwise not (~) behave as expected.
-> 
-> This enables booting Linux with Trusted Firmware-A at EL3 with
-> "-M virt,secure=on -cpu max".
-> 
-> Cc: qemu-stable@nongnu.org
-> Fixes: 78cb9776662a ("target/arm: Enable SME for -cpu max")
-> Signed-off-by: Jerome Forissier <jerome.forissier@linaro.org>
+> I'm not saying this is a bad patch -- I'm just saying that
+> QEMU should not be in the business of defining bootloader-to-kernel
+> interfaces if it can avoid it, so usually the expectation is
+> that we are just implementing interfaces that are already
+> defined, documented and implemented by a real bootloader and kernel.
 
-Good catch!
-So I can confirm that this fixes the issue, given a TF-A patch to actually
-enable SME (and SVE).
-Checked against the ARM ARM, also verified that the
-defines don't accidentally changed their values.
+Except that's not really the way things have ever worked here. The
+kernel now has the "rngseed" env var functionality, which is useful
+for a variety of scenarios -- kexec, firmware, and *most importantly*
+for QEMU. Don't block progress here.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> -kernel generally means "emulate the platform's boot loader"
 
-> ---
->  target/arm/cpu.h    | 54 ++++++++++++++++++++++-----------------------
->  target/arm/helper.c |  5 ++++-
->  2 files changed, 31 insertions(+), 28 deletions(-)
-> 
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 5168e3d837..d5e9949eb6 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -1653,33 +1653,33 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
->  
->  #define HPFAR_NS      (1ULL << 63)
->  
-> -#define SCR_NS                (1U << 0)
-> -#define SCR_IRQ               (1U << 1)
-> -#define SCR_FIQ               (1U << 2)
-> -#define SCR_EA                (1U << 3)
-> -#define SCR_FW                (1U << 4)
-> -#define SCR_AW                (1U << 5)
-> -#define SCR_NET               (1U << 6)
-> -#define SCR_SMD               (1U << 7)
-> -#define SCR_HCE               (1U << 8)
-> -#define SCR_SIF               (1U << 9)
-> -#define SCR_RW                (1U << 10)
-> -#define SCR_ST                (1U << 11)
-> -#define SCR_TWI               (1U << 12)
-> -#define SCR_TWE               (1U << 13)
-> -#define SCR_TLOR              (1U << 14)
-> -#define SCR_TERR              (1U << 15)
-> -#define SCR_APK               (1U << 16)
-> -#define SCR_API               (1U << 17)
-> -#define SCR_EEL2              (1U << 18)
-> -#define SCR_EASE              (1U << 19)
-> -#define SCR_NMEA              (1U << 20)
-> -#define SCR_FIEN              (1U << 21)
-> -#define SCR_ENSCXT            (1U << 25)
-> -#define SCR_ATA               (1U << 26)
-> -#define SCR_FGTEN             (1U << 27)
-> -#define SCR_ECVEN             (1U << 28)
-> -#define SCR_TWEDEN            (1U << 29)
-> +#define SCR_NS                (1ULL << 0)
-> +#define SCR_IRQ               (1ULL << 1)
-> +#define SCR_FIQ               (1ULL << 2)
-> +#define SCR_EA                (1ULL << 3)
-> +#define SCR_FW                (1ULL << 4)
-> +#define SCR_AW                (1ULL << 5)
-> +#define SCR_NET               (1ULL << 6)
-> +#define SCR_SMD               (1ULL << 7)
-> +#define SCR_HCE               (1ULL << 8)
-> +#define SCR_SIF               (1ULL << 9)
-> +#define SCR_RW                (1ULL << 10)
-> +#define SCR_ST                (1ULL << 11)
-> +#define SCR_TWI               (1ULL << 12)
-> +#define SCR_TWE               (1ULL << 13)
-> +#define SCR_TLOR              (1ULL << 14)
-> +#define SCR_TERR              (1ULL << 15)
-> +#define SCR_APK               (1ULL << 16)
-> +#define SCR_API               (1ULL << 17)
-> +#define SCR_EEL2              (1ULL << 18)
-> +#define SCR_EASE              (1ULL << 19)
-> +#define SCR_NMEA              (1ULL << 20)
-> +#define SCR_FIEN              (1ULL << 21)
-> +#define SCR_ENSCXT            (1ULL << 25)
-> +#define SCR_ATA               (1ULL << 26)
-> +#define SCR_FGTEN             (1ULL << 27)
-> +#define SCR_ECVEN             (1ULL << 28)
-> +#define SCR_TWEDEN            (1ULL << 29)
->  #define SCR_TWEDEL            MAKE_64BIT_MASK(30, 4)
->  #define SCR_TME               (1ULL << 34)
->  #define SCR_AMVOFFEN          (1ULL << 35)
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index d7bc467a2a..5cde8a0425 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -1669,7 +1669,7 @@ static void vbar_write(CPUARMState *env, const ARMCPRegInfo *ri,
->  static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
->  {
->      /* Begin with base v8.0 state.  */
-> -    uint32_t valid_mask = 0x3fff;
-> +    uint64_t valid_mask = 0x3fff;
->      ARMCPU *cpu = env_archcpu(env);
->  
->      /*
-> @@ -1706,6 +1706,9 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
->          if (cpu_isar_feature(aa64_doublefault, cpu)) {
->              valid_mask |= SCR_EASE | SCR_NMEA;
->          }
-> +        if (cpu_isar_feature(aa64_sme, cpu)) {
-> +            valid_mask |= SCR_ENTP2;
-> +        }
->      } else {
->          valid_mask &= ~(SCR_RW | SCR_ST);
->          if (cpu_isar_feature(aa32_ras, cpu)) {
+And here, a platform bootloader could pass this, just as is the case
+with m68k's BI_RNG_SEED or x86's setup_data RNG SEED or device tree's
+rng-seed or EFI's LINUX_EFI_RANDOM_SEED_TABLE_GUID or MIPS' "rngseed"
+fw environment variable. These are important facilities to have.
+Bootloaders and hypervisors alike must implement them. *Do not block
+progress here.*
 
+Jason
 
