@@ -2,68 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5726D5F3AC0
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 02:39:37 +0200 (CEST)
-Received: from localhost ([::1]:44162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E3B5F3B91
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 05:03:53 +0200 (CEST)
+Received: from localhost ([::1]:54000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofVyC-0003uZ-FH
-	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 20:39:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47510)
+	id 1ofYDn-0002j9-OP
+	for lists+qemu-devel@lfdr.de; Mon, 03 Oct 2022 23:03:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1ofVm6-0008EG-AM
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 20:27:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31971)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1ofVm4-0004wH-JA
- for qemu-devel@nongnu.org; Mon, 03 Oct 2022 20:27:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664843224;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rRi4Hk58Gd7gcvdQY51cHkNMV/C6OXjM1h5tLeypFjI=;
- b=gZ+nnONt/s9Mlw0/6hglV5DFimoafxYgC8bvH3WZBjnjDeRf64Htqdbsmh1dued+C9owrq
- GDa/Cc3FzSzrT8tvNfvPtsudHPNcMIBLOe8liygY3BXoIJzV7rL7Md8I24wI/arAneyEx3
- F4gvEr0UYUdwnPQnBNQF9LFUXerr5+g=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-394-UAVtZgmRPqSa0VE98nJlnA-1; Mon, 03 Oct 2022 20:26:59 -0400
-X-MC-Unique: UAVtZgmRPqSa0VE98nJlnA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F6BF3C0F661;
- Tue,  4 Oct 2022 00:26:59 +0000 (UTC)
-Received: from gshan.redhat.com (vpn2-54-56.bne.redhat.com [10.64.54.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 30F2C40C206B;
- Tue,  4 Oct 2022 00:26:55 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
- cohuck@redhat.com, zhenyzha@redhat.com, richard.henderson@linaro.org,
- peter.maydell@linaro.org, shan.gavin@gmail.com
-Subject: [PATCH v4 6/6] hw/arm/virt: Add 'compact-highmem' property
-Date: Tue,  4 Oct 2022 08:26:27 +0800
-Message-Id: <20221004002627.59172-7-gshan@redhat.com>
-In-Reply-To: <20221004002627.59172-1-gshan@redhat.com>
-References: <20221004002627.59172-1-gshan@redhat.com>
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ofYBB-0001HQ-UH
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 23:01:12 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:43546)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1ofYB8-0003re-Uf
+ for qemu-devel@nongnu.org; Mon, 03 Oct 2022 23:01:09 -0400
+Received: by mail-pf1-x432.google.com with SMTP id 83so5001679pfw.10
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 20:01:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=8chpKPOU/iOby7d4jYTkAyJ1a6jhveqUSMXzG0oQcyU=;
+ b=tOxaubuwNSk2+WtDCBM71XIswLH6ygX8E6Clzhh9nkNzltYUkGjahhtK1Z8Mi6DDDe
+ QJq9nb5/F5ve0R48K+RrEaW+mtGKXVO9swYhj9C4OASylkaZJ3kX3lQS34qQHNh0Xtc4
+ nG0J9SH7fLRtL+EGiOjWeOEdi8EcujvzEqMwN1L109Ncgxrgs6yKLYkR8kwSD/UAfV5S
+ A+DfcNZ/s4+8o8v+Ix+qXRD+SC69/IghQgfRe/4Leta9LySa+SVhniL+WL/ezgZMMIzD
+ k8fLWWelRiVvj02Icb+967oscLf2vinKgLTbCO4O0HiJoFKEfuMZpnYCgBfhIhQK+Fli
+ 4T5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=8chpKPOU/iOby7d4jYTkAyJ1a6jhveqUSMXzG0oQcyU=;
+ b=Jzy7H4QarzbfDkBc/unIeBpf/CF8Zzo1QZ8ngaXDtSm76ADOLPOYpSika6W2X0YTpp
+ OvJftjuRO+c2/JIwIazu5hQuRbOqvYyzY6THKl9jT2ELhOVNTJg5mSAo4ElSG03Vz5lD
+ fWUpicR5HfJ5t5LeFYvpNqWZlnE8rKOfJ5EKUBJMd1co+L3ZZ2NgXAtI7Z1OOk+5MSqB
+ t7QRVTvGVwv6MbYAf9arPGO6KDFnMtlMzcwmiWY0UUMY7ACxNoKYgz1PLozD2cONKfvR
+ hQRbn1ylemk+P84qn1LsmZg0ZhqujjZZtnpz9KHuNsP/hvRNymuyzURNV4YRW/1t4ENO
+ tseg==
+X-Gm-Message-State: ACrzQf1XJJqx2UdH+wORRJxAYSYUYzgRryxNqDC2WQUlDlyrSHWbu19/
+ 5MLAebzyHe2xsIAbJXF8RVhkr+lrXQ3YfQ==
+X-Google-Smtp-Source: AMsMyM4Ld5NobBhnWMwXbB4ZhjYmh3o665Ehh2kenpbPURDkVvElowx2p3Nzc1F/fTruwdmyuHVv1A==
+X-Received: by 2002:a62:52cf:0:b0:561:60a8:5257 with SMTP id
+ g198-20020a6252cf000000b0056160a85257mr8458047pfb.13.1664852462995; 
+ Mon, 03 Oct 2022 20:01:02 -0700 (PDT)
+Received: from [192.168.10.153]
+ (ppp121-45-204-168.cbr-trn-nor-bras38.tpg.internode.on.net. [121.45.204.168])
+ by smtp.gmail.com with ESMTPSA id
+ b7-20020a170902bd4700b00176ca74c58bsm3340804plx.245.2022.10.03.20.01.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Oct 2022 20:01:02 -0700 (PDT)
+Message-ID: <e293f12d-0ecf-77d1-28ce-b67c620c953a@ozlabs.ru>
+Date: Tue, 4 Oct 2022 14:00:58 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101
+ Thunderbird/104.0
+Subject: Re: x86, pflash, unassigned memory access
+Content-Language: en-US
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+To: qemu-devel@nongnu.org
+Cc: nikunj@amd.com, "Roth, Michael" <Michael.Roth@amd.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <89d24ddd-bff8-53dd-19c9-66ac43ab0b63@ozlabs.ru>
+In-Reply-To: <89d24ddd-bff8-53dd-19c9-66ac43ab0b63@ozlabs.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=aik@ozlabs.ru; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-1.467, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,157 +93,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After the improvement to high memory region address assignment is
-applied, the memory layout can be changed, introducing possible
-migration breakage. For example, VIRT_HIGH_PCIE_MMIO memory region
-is disabled or enabled when the optimization is applied or not, with
-the following configuration.
+Anyone, ping?
 
-  pa_bits              = 40;
-  vms->highmem_redists = false;
-  vms->highmem_ecam    = false;
-  vms->highmem_mmio    = true;
+On 27/09/2022 12:35, Alexey Kardashevskiy wrote:
+> Hi!
+> 
+> I am trying qemu-system-x86_64 with OVMF with the q35 machine, the 
+> complete command line is below.
+> 
+> It works fine (including SEV on AMD EPYC), but these 2 parameters make 
+> me wonder if I miss something:
+> 
+> -drive 
+> if=pflash,format=raw,unit=0,file=/home/aik/OVMF_CODE.fd,readonly=on,id=MYPF \
+> -d guest_errors
+> 
+> With this, I see a bunch of
+> ===
+> Invalid access at addr 0xFFC00000, size 1, region '(null)', reason: 
+> rejected
+> Invalid access at addr 0xFFC00001, size 1, region '(null)', reason: 
+> rejected
+> Invalid access at addr 0xFFC00002, size 1, region '(null)', reason: 
+> rejected
+> ...
+> Invalid access at addr 0xFFC00FFF, size 1, region '(null)', reason: 
+> rejected
+> QEMU Flash: Failed to find probe location
+> QEMU flash was not detected. Writable FVB is not being installed.
+> ===
+> 
+> These are the indication of unassigned memory access which always meant 
+> a bug in my past experience (which is POWERPC so not so relevant here 
+> but nevertheless).
+> 
+> OVMF is probing the flash at 0xFFC00000 (hardcoded in OVMF) in
+> https://github.com/tianocore/edk2/blob/master/OvmfPkg/QemuFlashFvbServicesRuntimeDxe/QemuFlash.c#L65
+> but cannot succeed - "info mtree -f" says that at no point there is 
+> anything at 0xFFC00000:
+> 
+> ===
+> ...
+> 00000000fed1c000-00000000fed1ffff (prio 1, i/o): lpc-rcrb-mmio
+> 00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
+> 00000000ffc84000-00000000ffffffff (prio 0, romd): system.flash0 KVM
+> 0000000800000000-0000000800000fff (prio 0, i/o): 
+> virtio-pci-common-virtio-net
+> ...
+> ===
+> 
+> hw/block/pflash_cfi01.c suggests QEMU implements this protocol via 
+> pflash_cfi01_ops but it is never called as:
+> - it is the same memory region as the OVMF code and
+> - it is mapped at 0xffc84000 (which is 4G - 
+> size("./Build/OvmfX64/DEBUG_GCC5/FV/OVMF_CODE.fd"), not where OVMF 
+> expects it) and
+> - it has romd==true, it is a KVM memory slot and IO is never emulated in 
+> QEMU.
+> 
+> Adding another IO memory region with pflash_cfi01_ops and mapping it at 
+> 0xFFC00000 makes it loop in OVMF somewhere.
+> 
+> OVMF code is linked to hardcoded 0xffc84000 (FD_SIZE_IN_KB==4096).
+> 
+> 
+> So I wonder - are these illegal accesses a bug of some sort in QEMU or 
+> OVMF or command line? Thanks,
+> 
+> 
+> 
+> 
+> The complete command line is:
+> 
+> /home/aik/pbuild/qemu-snp-localhost-x86_64/qemu-system-x86_64 \
+> -enable-kvm \
+> -m 2G \
+> -smp 2 \
+> -netdev user,id=USER0,hostfwd=tcp::2223-:22 \
+> -device 
+> virtio-net-pci,id=vnet0,iommu_platform=on,disable-legacy=on,romfile=,netdev=USER0 \
+> -machine q35 \
+> -device 
+> virtio-scsi-pci,id=vscsi0,iommu_platform=on,disable-modern=off,disable-legacy=on \
+> -drive 
+> id=DRIVE0,if=none,file=img/u2204_128G_aikbook_sev.qcow2,format=qcow2 \
+> -device scsi-hd,id=scsi-hd0,drive=DRIVE0 \
+> -drive 
+> if=pflash,format=raw,unit=0,file=/home/aik/OVMF_CODE.fd,readonly=on,id=MYPF \
+> -nographic \
+> -chardev stdio,id=STDIO0,signal=off,mux=on \
+> -device isa-serial,id=isa-serial0,chardev=STDIO0 \
+> -mon id=MON0,chardev=STDIO0,mode=readline \
+> -kernel /boot/vmlinuz \
+> -append console=ttyS0,115200n1 earlyprintk root=/dev/sda3 \
+> -d guest_errors
+> 
+> 
 
-  # qemu-system-aarch64 -accel kvm -cpu host    \
-    -machine virt-7.2,compact-highmem={on, off} \
-    -m 4G,maxmem=511G -monitor stdio
-
-  Region            compact-highmem=off         compact-highmem=on
-  ----------------------------------------------------------------
-  RAM               [1GB         512GB]        [1GB         512GB]
-  HIGH_GIC_REDISTS  [512GB       512GB+64MB]   [disabled]
-  HIGH_PCIE_ECAM    [512GB+256MB 512GB+512MB]  [disabled]
-  HIGH_PCIE_MMIO    [disabled]                 [512GB       1TB]
-
-In order to keep backwords compatibility, we need to disable the
-optimization on machines, which is virt-7.1 or ealier than it. It
-means the optimization is enabled by default from virt-7.2. Besides,
-'compact-highmem' property is added so that the optimization can be
-explicitly enabled or disabled on all machine types by users.
-
-Signed-off-by: Gavin Shan <gshan@redhat.com>
----
- docs/system/arm/virt.rst |  4 ++++
- hw/arm/virt.c            | 47 ++++++++++++++++++++++++++++++++++++++++
- include/hw/arm/virt.h    |  1 +
- 3 files changed, 52 insertions(+)
-
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 20442ea2c1..75bf5a4994 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -94,6 +94,10 @@ highmem
-   address space above 32 bits. The default is ``on`` for machine types
-   later than ``virt-2.12``.
- 
-+compact-highmem
-+  Set ``on``/``off`` to enable/disable compact space for high memory regions.
-+  The default is ``on`` for machine types later than ``virt-7.2``
-+
- gic-version
-   Specify the version of the Generic Interrupt Controller (GIC) to provide.
-   Valid values are:
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 4164da49e9..9fe65a2ae1 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -174,6 +174,27 @@ static const MemMapEntry base_memmap[] = {
-  * Note the extended_memmap is sized so that it eventually also includes the
-  * base_memmap entries (VIRT_HIGH_GIC_REDIST2 index is greater than the last
-  * index of base_memmap).
-+ *
-+ * The addresses assigned to these regions are affected by 'compact-highmem'
-+ * property, which is to enable or disable the compact space in the Highmem
-+ * IO regions. For example, VIRT_HIGH_PCIE_MMIO can be disabled or enabled
-+ * depending on the property in the following scenario.
-+ *
-+ * pa_bits              = 40;
-+ * vms->highmem_redists = false;
-+ * vms->highmem_ecam    = false;
-+ * vms->highmem_mmio    = true;
-+ *
-+ * # qemu-system-aarch64 -accel kvm -cpu host    \
-+ *   -machine virt-7.2,compact-highmem={on, off} \
-+ *   -m 4G,maxmem=511G -monitor stdio
-+ *
-+ * Region            compact-highmem=off        compact-highmem=on
-+ * ----------------------------------------------------------------
-+ * RAM               [1GB         512GB]        [1GB         512GB]
-+ * HIGH_GIC_REDISTS  [512GB       512GB+64MB]   [disabled]
-+ * HIGH_PCIE_ECAM    [512GB+256GB 512GB+512MB]  [disabled]
-+ * HIGH_PCIE_MMIO    [disabled]                 [512GB       1TB]
-  */
- static MemMapEntry extended_memmap[] = {
-     /* Additional 64 MB redist region (can contain up to 512 redistributors) */
-@@ -2349,6 +2370,20 @@ static void virt_set_highmem(Object *obj, bool value, Error **errp)
-     vms->highmem = value;
- }
- 
-+static bool virt_get_compact_highmem(Object *obj, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    return vms->highmem_compact;
-+}
-+
-+static void virt_set_compact_highmem(Object *obj, bool value, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    vms->highmem_compact = value;
-+}
-+
- static bool virt_get_its(Object *obj, Error **errp)
- {
-     VirtMachineState *vms = VIRT_MACHINE(obj);
-@@ -2967,6 +3002,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-                                           "Set on/off to enable/disable using "
-                                           "physical address space above 32 bits");
- 
-+    object_class_property_add_bool(oc, "compact-highmem",
-+                                   virt_get_compact_highmem,
-+                                   virt_set_compact_highmem);
-+    object_class_property_set_description(oc, "compact-highmem",
-+                                          "Set on/off to enable/disable compact "
-+                                          "space for high memory regions");
-+
-     object_class_property_add_str(oc, "gic-version", virt_get_gic_version,
-                                   virt_set_gic_version);
-     object_class_property_set_description(oc, "gic-version",
-@@ -3051,6 +3093,7 @@ static void virt_instance_init(Object *obj)
- 
-     /* High memory is enabled by default */
-     vms->highmem = true;
-+    vms->highmem_compact = !vmc->no_highmem_compact;
-     vms->gic_version = VIRT_GIC_VERSION_NOSEL;
- 
-     vms->highmem_ecam = !vmc->no_highmem_ecam;
-@@ -3120,8 +3163,12 @@ DEFINE_VIRT_MACHINE_AS_LATEST(7, 2)
- 
- static void virt_machine_7_1_options(MachineClass *mc)
- {
-+    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-+
-     virt_machine_7_2_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
-+    /* Compact space for high memory regions was introduced with 7.2 */
-+    vmc->no_highmem_compact = true;
- }
- DEFINE_VIRT_MACHINE(7, 1)
- 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 709f623741..c7dd59d7f1 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -125,6 +125,7 @@ struct VirtMachineClass {
-     bool no_pmu;
-     bool claim_edge_triggered_timers;
-     bool smbios_old_sys_ver;
-+    bool no_highmem_compact;
-     bool no_highmem_ecam;
-     bool no_ged;   /* Machines < 4.2 have no support for ACPI GED device */
-     bool kvm_no_adjvtime;
 -- 
-2.23.0
-
+Alexey
 
