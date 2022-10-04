@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B4A5F42B3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 14:09:22 +0200 (CEST)
-Received: from localhost ([::1]:34802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306525F42BA
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 14:10:27 +0200 (CEST)
+Received: from localhost ([::1]:48828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofgjh-0001G2-Q2
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 08:09:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41562)
+	id 1ofgkk-00027H-2v
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 08:10:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ofggj-00073L-JR
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 08:06:17 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ofggh-000224-IN
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 08:06:17 -0400
-Received: by mail-ej1-x629.google.com with SMTP id v22so508452ejw.8
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 05:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date;
- bh=dc/HQVcdyiNoDBDGtEqc+AZUdjJ6nEogJs3TtwPWF30=;
- b=M43vmVLOuj+1WCSh6yBIwXSWN2Z9y+0XG9neGs372kFv9BUwOXrkm9f9b+PDJgjizP
- HXclHTOWVdOvC59VWZ9two6e9QUX85q3R3558r73gPTBE/ELxSKnoq612Oge7qwWl+GS
- h+B2ljVjL3C4z3LwXqGmxSGk8odeRpeTjo1u9QmGhl4dUW9F8jp0dhr8xxLpx+gFdrrH
- 0fJktqhtWJ1CWGKqHjY7XUwosHOfKj1GxSdSdDS0xP6a5kO49Cinb2CiMNvc7wPgFx1G
- NxEnM2PBGI54Nu6feirwlvwjAjtNXfsRO0BYNSlQFrMhvft8olQu625jvaeQ4IjB2u3k
- v94A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date;
- bh=dc/HQVcdyiNoDBDGtEqc+AZUdjJ6nEogJs3TtwPWF30=;
- b=D3R+K7pWj9OnS9OVASMZuMzUsSS+SlZmONAHBAwodd/XS8ei/zqFGBUXDrsLegOE6y
- ovvyQz/7fUEK8Pn45JGaBAaJMMOD4tHVo4LmDGgEDsUne+oGd7SmcnGBfVJLtiekHFPQ
- PMpVkKa4/V4jlh05YZtv41IYy7L9AWtBsjHxCzwttwe0a7ZB/sHC/zsbMSE2dk6tS4JS
- kF8kK0EGGKjQ48V8b504h3QleBaDGjY+0gopd6Qe1080ykq0D8EKa4Hqzel4ZuJr7QZW
- I9PNH//zL6EV9b8zs6fqam/T5SMc02XwQoGk5aqv1vsXHNufmqQlyrDg3vmwobpS1Sda
- 5evw==
-X-Gm-Message-State: ACrzQf2XYGssBEPdkN2qJ+06cUJ0RJfSWBDbDpYk4vo79ypFt6XY3MY9
- VR5NVogd5B9zwpZY5M2d6GtA9KvNrqZe+6WYooaFsyDpg4c=
-X-Google-Smtp-Source: AMsMyM6OKYfYxL6/ub2xOPeFcVVQch090FpEUl7/VSBx/VZwr1mWH+jPDI9T45RNgeWe2r9NQ+3IyeFqlFDb97LzhtA=
-X-Received: by 2002:a17:906:9c83:b0:779:c14c:55e4 with SMTP id
- fj3-20020a1709069c8300b00779c14c55e4mr18399167ejc.619.1664885170187; Tue, 04
- Oct 2022 05:06:10 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org>)
+ id 1ofgiu-0008Kk-0T
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 08:08:32 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:33832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org>)
+ id 1ofgir-0002Mw-Q8
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 08:08:31 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5CDE961411
+ for <qemu-devel@nongnu.org>; Tue,  4 Oct 2022 12:08:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 771C3C433D7
+ for <qemu-devel@nongnu.org>; Tue,  4 Oct 2022 12:08:27 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="gRviq8OZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1664885304;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1WYt3tfkX9Y5rRqCgl8ykZPiYtnObjXtCPj2ZYZkv2E=;
+ b=gRviq8OZXumIsHKAp+55iJ6mhFOLS4w0Iy8PYuDrNuWCXspASxGMgIhjGgPujY7bDgvPIk
+ LICpvGQb/S+wYvMoQcyAIcpy+CcZv9mVfQnYT0gIHQ18RruTryuq/E37u8yh2NuJQl/AWh
+ KTfc02vBOXDGrcQBaVk9dNy8cUxpB9U=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 94f46a6a
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Tue, 4 Oct 2022 12:08:24 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id m15so18491058edb.13
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 05:08:24 -0700 (PDT)
+X-Gm-Message-State: ACrzQf2UYbieDDYE4owU2XuVMGc3ndR/9I1YWc5QkAqF8tLnuTGmEJBf
+ gGnCT6jbVUJcxev4le4p2XbvMveEDA0TXPuD328=
+X-Google-Smtp-Source: AMsMyM6BMdjJJcr8LU8PJBRqQCcMaMFITxM1njNh6QZDxPUMM/LicFeGQoUwzFKZkTo397iDntXyFpo+B3LTBokdWbc=
+X-Received: by 2002:a50:c31b:0:b0:458:cc93:8000 with SMTP id
+ a27-20020a50c31b000000b00458cc938000mr12939127edb.264.1664885301896; Tue, 04
+ Oct 2022 05:08:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221004120047.857591-1-berrange@redhat.com>
-In-Reply-To: <20221004120047.857591-1-berrange@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 Oct 2022 13:05:58 +0100
-Message-ID: <CAFEAcA-u929TDTdq4F4o80mA-RxBKBVjO751_pP--3FMSLSEWQ@mail.gmail.com>
-Subject: Re: [PATCH] linux-user,bsd-user: re-exec with G_SLICE=always-malloc
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Laurent Vivier <laurent@vivier.eu>, ncopa@alpinelinux.org,
- Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>
+References: <YziPyCqwl5KIE2cf@zx2c4.com>
+ <20221003103627.947985-1-Jason@zx2c4.com>
+ <b529059a-7819-e49d-e4dc-7ae79ee21ec5@amsat.org>
+ <CAHmME9pUuduiEcmi2xaY3cd87D_GNX1bkVeXNqVq6AL_e=Kt+Q@mail.gmail.com>
+ <YzwM+KhUG0bg+P2e@zx2c4.com>
+ <CAFEAcA9KsooNnYxiqQG-RHustSx0Q3-F8ibpQbXbwxDCA+2Fhg@mail.gmail.com>
+ <CAHmME9qmSX=QmBa-k4T1U=Gnz-EtahnYxLmOewpN85H9TqNSmA@mail.gmail.com>
+ <CAFEAcA9-_qmtJgy_WRJT5TUKMm_60U53Mb9a+_BqUnQSS7PPcg@mail.gmail.com>
+ <CAHmME9qDN_m6+6R3OiNueHc0qEcvptpO9+0HxZ713knZ=8fkoQ@mail.gmail.com>
+ <e687e447-c790-5628-377a-fa3ee8ad3@eik.bme.hu>
+In-Reply-To: <e687e447-c790-5628-377a-fa3ee8ad3@eik.bme.hu>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Tue, 4 Oct 2022 14:08:09 +0200
+X-Gmail-Original-Message-ID: <CAHmME9o+wbEVXdP1jK3z5s+U5JM2Ljrky_daCfpNr3A7dRw09A@mail.gmail.com>
+Message-ID: <CAHmME9o+wbEVXdP1jK3z5s+U5JM2Ljrky_daCfpNr3A7dRw09A@mail.gmail.com>
+Subject: Re: [PATCH v2] mips/malta: pass RNG seed to to kernel via env var
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Aurelien Jarno <aurelien@aurel32.net>, kvm-devel <kvm@vger.kernel.org>, 
+ Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,82 +101,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Oct 2022 at 13:00, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
+On Tue, Oct 4, 2022 at 1:39 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
 >
-> The g_slice custom allocator is not async signal safe with its
-> mutexes. When a multithreaded program running in the qemu user
-> emulator forks, it can end up deadlocking in the g_slice
-> allocator
+> On Tue, 4 Oct 2022, Jason A. Donenfeld wrote:
+> > On Tue, Oct 4, 2022 at 1:03 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >> What I'm asking, I guess, is why you're messing with this board
+> >> model at all if you haven't added this functionality to u-boot.
+> >> This is just an emulation of an ancient bit of MIPS hardware, which
+> >> nobody really cares about very much I hope.
+> >
+> > I think most people emulating MIPS would disagree. This is basically a
+> > reference platform for most intents and purposes. As I mentioned, this
+> > involves `-kernel` -- the thing that's used when you explicitly opt-in
+> > to not using a bootloader, so when you sign up for QEMU arranging the
+> > kernel image and its environment. Neglecting to pass an RNG seed would
+> > be a grave mistake.
+> >
+> >> I'm not saying this is a bad patch -- I'm just saying that
+> >> QEMU should not be in the business of defining bootloader-to-kernel
+> >> interfaces if it can avoid it, so usually the expectation is
+> >> that we are just implementing interfaces that are already
+> >> defined, documented and implemented by a real bootloader and kernel.
+> >
+> > Except that's not really the way things have ever worked here. The
+> > kernel now has the "rngseed" env var functionality, which is useful
+> > for a variety of scenarios -- kexec, firmware, and *most importantly*
+> > for QEMU. Don't block progress here.
+> >
+> >> -kernel generally means "emulate the platform's boot loader"
+> >
+> > And here, a platform bootloader could pass this, just as is the case
+> > with m68k's BI_RNG_SEED or x86's setup_data RNG SEED or device tree's
+> > rng-seed or EFI's LINUX_EFI_RANDOM_SEED_TABLE_GUID or MIPS' "rngseed"
+> > fw environment variable. These are important facilities to have.
+> > Bootloaders and hypervisors alike must implement them. *Do not block
+> > progress here.*
 >
->   Thread 1:
->   #0 syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
->   #1 0x00007f54e190c77c in g_mutex_lock_slowpath (mutex=3Dmutex@entry=3D0=
-x7f54e1dc7600 <allocator+96>) at ../glib/gthread-posix.c:1462
->   #2 0x00007f54e190d222 in g_mutex_lock (mutex=3Dmutex@entry=3D0x7f54e1dc=
-7600 <allocator+96>) at ../glib/gthread-posix.c:1486
->   #3 0x00007f54e18e39f2 in magazine_cache_pop_magazine (countp=3D0x7f5428=
-0e6638, ix=3D2) at ../glib/gslice.c:769
->   #4 thread_memory_magazine1_reload (ix=3D2, tmem=3D0x7f54280e6600) at ..=
-/glib/gslice.c:845
->   #5 g_slice_alloc (mem_size=3Dmem_size@entry=3D40) at ../glib/gslice.c:1=
-058
->   #6 0x00007f54e18f06fa in g_tree_node_new (value=3D0x7f54d4066540 <code_=
-gen_buffer+419091>, key=3D0x7f54d4066560 <code_gen_buffer+419123>) at ../gl=
-ib/gtree.c:517
->   #7 g_tree_insert_internal (tree=3D0x555556aed800, key=3D0x7f54d4066560 =
-<code_gen_buffer+419123>, value=3D0x7f54d4066540 <code_gen_buffer+419091>, =
-replace=3D0) at ../glib/gtree.c:517
->   #8 0x00007f54e186b755 in tcg_tb_insert (tb=3D0x7f54d4066540 <code_gen_b=
-uffer+419091>) at ../tcg/tcg.c:534
->   #9 0x00007f54e1820545 in tb_gen_code (cpu=3D0x7f54980b4b60, pc=3D274906=
-407438, cs_base=3D0, flags=3D24832, cflags=3D-16252928) at ../accel/tcg/tra=
-nslate-all.c:2118
->   #10 0x00007f54e18034a5 in tb_find (cpu=3D0x7f54980b4b60, last_tb=3D0x7f=
-54d4066440 <code_gen_buffer+418835>, tb_exit=3D0, cf_mask=3D524288) at ../a=
-ccel/tcg/cpu-exec.c:462
->   #11 0x00007f54e1803bd9 in cpu_exec (cpu=3D0x7f54980b4b60) at ../accel/t=
-cg/cpu-exec.c:818
->   #12 0x00007f54e1735a4c in cpu_loop (env=3D0x7f54980bce40) at ../linux-u=
-ser/riscv/cpu_loop.c:37
->   #13 0x00007f54e1844b22 in clone_func (arg=3D0x7f5402f3b080) at ../linux=
--user/syscall.c:6422
->   #14 0x00007f54e191950a in start_thread (arg=3D<optimized out>) at pthre=
-ad_create.c:477
->   #15 0x00007f54e19a52a3 in clone () at ../sysdeps/unix/sysv/linux/x86_64=
-/clone.S:95
->
-> The only known workaround for this problem is to disable the g_slice
-> custom allocator, in favor of system malloc which is believed to be
-> async signal safe on all platforms QEMU officially targets.
->
-> g_slice uses a one-time initializer to check the G_SLICE env variable
-> making it hard for QEMU to set the env before any GLib API call has
-> triggered the initializer. Even attribute((constructor)) is not
-> sufficient as QEMU has many constructors and there is no ordering
-> guarantee between them.
->
-> This patch attempts to workaround this by re-exec()ing the QEMU user
-> emulators if the G_SLICE env variable is not already set. This means
-> the env variable will be inherited down the process tree spawned
-> from there onwards. There is a possibility this could have unexpected
-> consequences, but this has to be balanced against the real known
-> problem of QEMU user emulators randomly deadlocking.
->
-> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/285
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->
-> Can't say I especially like this but I'm out of other ideas for how
-> to guarantee a solution. Users can't set env vars prior to launching
-> QEMU user emulators when using binfmt.
->
-> NB, I tested the linux-user impl and it stops the hangs in my
-> testing. I've not even compiled tested the bsd-user impl, just
-> blindly copied the linux-user code.
+> Cool dowm. Peter does not want to block progress here. What he said was
+> that the malta is (or should be) emulating a real piece of hardware so
+> adding some stuff to it which is not on that real hardware may not be
+> preferred. If you want to experiment with generic mips hardware maybe you
+> need a virt board instead that is free from such restrictions to emulate a
+> real hardware. Some archs already have such board and there seems to be
+> loongson3-virt but no generic mips virt machine yet. Defining and
+> implementing such board may be more than you want to do for this but maybe
+> that would be a better way to go.
 
-I suspect a simple re-exec won't play nicely with all the possible
-ways you can use binfmt-misc...
+This is the bikeshed suggestion that puts along the path of nothing
+ever getting done. This is an interface that's available for real
+firmware; there's no reason not to implement it here. It's the same
+situation as the MIPS boston board setting the rng-seed device tree
+property. There's nothing new or unusual about this, and it fits with
+how things work elsewhere on the architecture and QEMU at large.
+Besides, "malta" is the de facto platform used for emulating MIPS.
 
--- PMM
+Again, this is obvious progress blocking in action. Look how it's done
+elsewhere; look at how it's done in this patch; there's no difference.
+This patch is boring and unoffensive. We don't need to waste time
+bikeshedding it.
+
+Jason
 
