@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1E95F4449
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:33:21 +0200 (CEST)
-Received: from localhost ([::1]:49284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024415F44E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:56:45 +0200 (CEST)
+Received: from localhost ([::1]:44780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofi2y-00013i-Bx
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:33:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40506)
+	id 1ofiPc-0007jX-35
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:56:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhYe-0008Ny-73
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:02:01 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36533)
+ id 1ofhgO-0007Ql-OA
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:10:00 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhYb-0007Qo-4A
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:01:59 -0400
-Received: by mail-wr1-x434.google.com with SMTP id j7so15849650wrr.3
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:01:56 -0700 (PDT)
+ id 1ofhgM-00008v-PP
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:10:00 -0400
+Received: by mail-wr1-x432.google.com with SMTP id bq9so21256454wrb.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:09:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=UN7L9+SUgDtohTUMYtICnL8liPbJxVd92fjTJihycdQ=;
- b=CbUbbRW4pETjp8SOPiJGkzfJRPsHY8G6W3CQGZluGjUH/AnSp7JzUDb8ZeLjHva3s5
- 3ImtWdXWM7ivihresVqW286+YWI5VVMbFStZANJl0WTHdx7CQURjRpnlgVthjZxnSDxS
- CJHjrvi2EpSajQC6rk5TeXi+wURmoL9e4v4gdLsVkrQFNNZMyN0KmxuWjtEic9CkZCY5
- nRgYXXGZoOjPaf+VBc7rjsEsiKtZV7ISKmAhV8247ZKBsOfNMqaU+xwhGe1ER/a1PBeH
- yLYYIneGhkt+IeePkQY+Od+5IDqkJCHuGB9FXi65SMVW+hLP8AMtRLXnfosOSaIWvxWt
- XnBA==
+ bh=JNiearaQvDip8JsM9PGb/nIll+VrO2KHIn0XRGgSTuQ=;
+ b=neXO3YFEdcl2gBA6Zme+NlHbDVlKkoRf3aAA+F4mIc6R/yWPS5vjOFlCGZgFCskmEM
+ 0mk4fP0U555eWZX+1cD1nQtztm+uBmGezF6FDk/QjUuTfDolV8xH9CEb6lkdO9jcGIYN
+ YnuUaU2QX2oLbpYTp6dOl5FEI6oo/t7r4xn9YlJWgbct1GfoTLqbNLE5MFxJN7Ke9hRS
+ ll4cMXh/ALzyke0Svl3Q6DJzNgSbpG8+t0jGSzeeQJF9jdfBqkefIzLYS8BFcd7KHHSv
+ ZbGBZhoYi47uGvV4HXgpS0AO+ukgviCFi87n019cGYP7YrKKmfXJ4FUQmiEtVp0FdJVQ
+ C4kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=UN7L9+SUgDtohTUMYtICnL8liPbJxVd92fjTJihycdQ=;
- b=hkR3pbd7VBTD537YHlEi+j9+iAsDEOeudlV058Rv7tZJtmWvWdobm8NuBhqdHHZqPq
- D7SLWbIyc2+4uA9H/kZOcK2LVcoNi9jQ3YdD+CTGwoO5zgH0PH1XAnz5fyAhrOSd7sEU
- Yv4pRAt44xYcXji9RpHkPCgSc7gR+xY5AMbjadcui3WAIQcnxnVnWxHnq1QHLnKxHan+
- MadUeggMsrLPLeAOxvwSArvHK7Mjfs317BY+VR+syvyn+6LuT/CJ32jAKesE0W4kPeCt
- NVT5CrXvuX0Pe2qksytTdBEg7qQ0Ic3pwpPshwPyjzqb6vebDv+1LJ50t5UMHer7qNof
- LpYw==
-X-Gm-Message-State: ACrzQf0vt30yvKAxPiMHklndNqX8hMbYZEKw0CjBSAHDXqosfoEpP8FM
- NWkT8H2o7hsJ2jtEg0tz9OKJKA==
-X-Google-Smtp-Source: AMsMyM6cGcTvc1fUzf/o7+/JClLe3kJe7myqjuIQDxMWd225eB0UPAeazDV4spYQ8hHVcdpe+lzCSg==
-X-Received: by 2002:a5d:5010:0:b0:22a:cb71:9493 with SMTP id
- e16-20020a5d5010000000b0022acb719493mr16459894wrt.514.1664888515689; 
- Tue, 04 Oct 2022 06:01:55 -0700 (PDT)
+ bh=JNiearaQvDip8JsM9PGb/nIll+VrO2KHIn0XRGgSTuQ=;
+ b=L4VUd/cxEDrF27TTAMbYnDEIue4X8+J/hxw+z+aN5QwhBD4h3Z9ZbDT8y1BrzGqGT+
+ +nw7soFaL+aln6VIrL6hbFma2WkZMxyEjaLaSfqaSc2qaAm2FGU0XRsAbDvbFCzmyj9z
+ fZnzg5iVWVjdPQ88AhUnUDN6HHOaa/Zuca2zFf5rAwvSx1PAodhv7uyyyueTlqw0fMuD
+ TgFPc/pcszItXgFiObZsqMn8E5EcxqJ3+AxMr/O8RkNru9+aXdkTk3LxN8goU7FiZLRo
+ x+saXzQZYSZnliwSYTlPfhyuecLQf9AeUu2GmMREPu1A7hFTtzFu72b3WhtvDbMW5Wxz
+ uxiQ==
+X-Gm-Message-State: ACrzQf0dei1+FbluAu19X5/O88wEz3pHjiCRNjVKrCBIo1SPd8p/lcSK
+ D4Id7kkdCfxlFlVvi4xC5il1ZjbQYmQfOg==
+X-Google-Smtp-Source: AMsMyM5mfWAwy1De+JzrEG6AypGQQX6cuv3TwDAW8RHllQ2yAlIDNyUFCLnX9C6DIVAGuSoXpIaA1A==
+X-Received: by 2002:a05:6000:184d:b0:22a:7428:3ae8 with SMTP id
+ c13-20020a056000184d00b0022a74283ae8mr15286845wri.441.1664888997218; 
+ Tue, 04 Oct 2022 06:09:57 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- y14-20020adfe6ce000000b0022c96d3b6f2sm15723482wrm.54.2022.10.04.06.01.44
+ n41-20020a05600c3ba900b003b3401f1e24sm1723574wms.28.2022.10.04.06.09.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 06:01:51 -0700 (PDT)
+ Tue, 04 Oct 2022 06:09:54 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1E7DD1FFC7;
+ by zen.linaroharston (Postfix) with ESMTP id 347EA1FFBA;
  Tue,  4 Oct 2022 14:01:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 16/54] build: add recursive distclean rules
-Date: Tue,  4 Oct 2022 14:01:00 +0100
-Message-Id: <20221004130138.2299307-17-alex.bennee@linaro.org>
+Subject: [PULL 17/54] configure: return status code from probe_target_compiler
+Date: Tue,  4 Oct 2022 14:01:01 +0100
+Message-Id: <20221004130138.2299307-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004130138.2299307-1-alex.bennee@linaro.org>
 References: <20221004130138.2299307-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,40 +96,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
+For now, return 1 for container-based compilers.  This will change as
+soon as ROMs will be buildable with them.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220929114231.583801-17-alex.bennee@linaro.org>
+Message-Id: <20220929114231.583801-18-alex.bennee@linaro.org>
 
-diff --git a/Makefile b/Makefile
-index b576cba5a8..0fcde48bec 100644
---- a/Makefile
-+++ b/Makefile
-@@ -186,7 +186,7 @@ include $(SRC_PATH)/tests/Makefile.include
+diff --git a/configure b/configure
+index aaa09fb957..f3984bb193 100755
+--- a/configure
++++ b/configure
+@@ -2147,6 +2147,7 @@ probe_target_compiler() {
+     target_ranlib=
+     target_strip=
+   fi
++  test -n "$target_cc"
+ }
  
- all: recurse-all
+ write_target_makefile() {
+@@ -2294,10 +2295,9 @@ done
  
--ROMS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROMS)))
-+ROMS_RULES=$(foreach t, all clean distclean, $(addsuffix /$(t), $(ROMS)))
- .PHONY: $(ROMS_RULES)
- $(ROMS_RULES):
- 	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" $(notdir $@),)
-@@ -194,6 +194,7 @@ $(ROMS_RULES):
- .PHONY: recurse-all recurse-clean
- recurse-all: $(addsuffix /all, $(ROMS))
- recurse-clean: $(addsuffix /clean, $(ROMS))
-+recurse-distclean: $(addsuffix /distclean, $(ROMS))
+ # Mac OS X ships with a broken assembler
+ roms=
+-probe_target_compiler i386-softmmu
+-if test -n "$target_cc" &&
+-        test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
+-        test "$targetos" != "haiku" && test "$softmmu" = yes ; then
++if test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
++        test "$targetos" != "haiku" && test "$softmmu" = yes && \
++        probe_target_compiler i386-softmmu; then
+     roms="pc-bios/optionrom"
+     config_mak=pc-bios/optionrom/config.mak
+     echo "# Automatically generated by configure - do not modify" > $config_mak
+@@ -2305,8 +2305,7 @@ if test -n "$target_cc" &&
+     write_target_makefile >> $config_mak
+ fi
  
- ######################################################################
+-probe_target_compiler ppc-softmmu
+-if test -n "$target_cc" && test "$softmmu" = yes; then
++if test "$softmmu" = yes && probe_target_compiler ppc-softmmu; then
+     roms="$roms pc-bios/vof"
+     config_mak=pc-bios/vof/config.mak
+     echo "# Automatically generated by configure - do not modify" > $config_mak
+@@ -2316,8 +2315,7 @@ fi
  
-@@ -214,7 +215,7 @@ dist: qemu-$(VERSION).tar.bz2
- qemu-%.tar.bz2:
- 	$(SRC_PATH)/scripts/make-release "$(SRC_PATH)" "$(patsubst qemu-%.tar.bz2,%,$@)"
- 
--distclean: clean
-+distclean: clean recurse-distclean
- 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
- 	rm -f config-host.mak qemu-bundle
- 	rm -f tests/tcg/config-*.mak
+ # Only build s390-ccw bios if the compiler has -march=z900 or -march=z10
+ # (which is the lowest architecture level that Clang supports)
+-probe_target_compiler s390x-softmmu
+-if test -n "$target_cc" && test "$softmmu" = yes; then
++if test "$softmmu" = yes && probe_target_compiler s390x-softmmu; then
+   write_c_skeleton
+   do_compiler "$target_cc" $target_cc_cflags -march=z900 -o $TMPO -c $TMPC
+   has_z900=$?
 -- 
 2.34.1
 
