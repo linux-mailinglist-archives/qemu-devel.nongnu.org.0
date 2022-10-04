@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFE85F4529
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 16:08:32 +0200 (CEST)
-Received: from localhost ([::1]:42176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCA85F45DA
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 16:45:57 +0200 (CEST)
+Received: from localhost ([::1]:53682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofib1-0006b1-7L
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 10:08:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47806)
+	id 1ofjBD-0003Rp-DJ
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 10:45:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhqB-0001Ls-RX
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:20:08 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54009)
+ id 1ofi9L-0001dC-Av
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:39:55 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhq3-0001q6-8c
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:20:07 -0400
-Received: by mail-wm1-x331.google.com with SMTP id e18so8862276wmq.3
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:19:58 -0700 (PDT)
+ id 1ofi9J-00023Y-8u
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:39:54 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id iv17so8907534wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:39:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=zUf9fzZkXh5cu60bmTDrP95OL++X52bXG+2ep3dVX1g=;
- b=kqFeYsxwWp7YQ+mxxRu7iMJHrEzNBNfbwWYi4toTQEZbI1kbx0wIrTWld6PHJ3WJ+i
- PBeRcuy3GS/X2PitXisI2oEvs+21F0GraCDwFg5JESs/RAH5ZXCFtK4trdT0UCObUR86
- OAaaieP9M7xjQpTPPiaE1Y5PO+fgwiqSNwPk35olhUtzOaQ+Ysl5MKXpvKZQfpPiVdE2
- GbTkTQXttvhI7Eb/XsvBnImP5o22Ouf7cZ2AAYH1E2JbCfGo9uKzfGoBYosKXIePBxdo
- OZf84pmxVUWp4ZZms+rRcXf/NEhqFIW1F1vTAFGtomIcfmKukNDZz61VkbliMno52t0h
- A11g==
+ bh=/9Y6bpIHZhQdKfRF3tpCFZOqNt538z/9rXtxQM4vg68=;
+ b=ZxfLpC+NyrTYle0l7hQPZpiMBUw1aMhslEnk+H0uD+MLtPbyOG/XxxqzQsd9R3V84W
+ +zrD4JDw8j4EsXNLzC25R+ZIZNd5QBLhgde9ZJA0aXbJD/NfiPgTF2MTnNaPPjIaOnVc
+ kxu31hzrGGcRRP69IQb4q/SMvhpGckVNxfHPAQ1oABF0YDMcGH0bvGGn4HZQg+Ilf28+
+ +BwLwUbTQu1Auj//gf8N9LrdgCCLvdh7oF4v+5HJB3nj9CFoO4ipravv8L1dB+eFbSbM
+ Rc7zSkcrw/p3QmXk5RkmZ6BPDrObfK04TeUJ8m23xYVzheFpRNelJ6mF/YKP/m8iCjao
+ pVcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=zUf9fzZkXh5cu60bmTDrP95OL++X52bXG+2ep3dVX1g=;
- b=e2MXls8fMQ1OfugvKSqj3xkZrZJdOoNs4KAt5zOP4/gZaUZB0CYSSR8+JYTvsPRC+5
- iLjga/MgPnMPHdARLnOIi8VJDXI6Wg8C9hXkOWyZH697SkUjg4Ysp01nd+UJ2XBSbzi1
- eg7BBGS9LcGuzJvZECsoSFJUSo6HC2skCuxcm02X6v+fCbw9g5VROY2LB81/wuNU3L0O
- j8RMlSK6rq6i3kY1liQT19xifTS8FKT2ICfTVf5h4fR0Vv116GmspVKmAToM5b3YMNJR
- mSg4AHUY8Ocm+OQ38wrD0HhwuUJ0OXfnv5kx997afS6pB8R+tDOzLLzlkZoeVnsXtia7
- V+2A==
-X-Gm-Message-State: ACrzQf0HLyb8th7v9iCQJILmTiC3zXduwclBPYQgpXzjh8F1hDEwRIKo
- yePVEtZ0/uXTayhb35Z0XX+3YQ==
-X-Google-Smtp-Source: AMsMyM6UWjd6QIuQvwfZtywlydlwWVqnYkSsy40YAdsqmHZHQu3WOBua8tL0DdT33xcRWuTfG+YUFA==
-X-Received: by 2002:a05:600c:1d28:b0:3b4:91f4:897d with SMTP id
- l40-20020a05600c1d2800b003b491f4897dmr10147910wms.137.1664889598114; 
- Tue, 04 Oct 2022 06:19:58 -0700 (PDT)
+ bh=/9Y6bpIHZhQdKfRF3tpCFZOqNt538z/9rXtxQM4vg68=;
+ b=vz6BRugCDQABipPZZU8osmOByWX/1lLi2asOguuZ5nQhvAx8hRadDp/IQiTrZkGjb7
+ zasysbQdl6pfbjt6c/P617meG+JwJsepzjYqCGMNf/GlZhDIQjmQfDpbsoNDosbTHxAS
+ sbXXHMUtNy44H1SjXa5cokQtlLt2s0B+0AjWnzNwewN34O5KuhB2EVRz1JyPqg7F9NL9
+ XBlfoRznbER7sVi5wXWpDM8VkPhpPNTymZO9EbewqJIu9TWFcFDEuslI1FSrFZ0Mz5Sj
+ JFVXq4MKQWtXZGBM6YLyOjzRLtGM9/OfS5l3IeidkcCgM7M1kV/UvBBpZz72kD+F0v+V
+ CH1Q==
+X-Gm-Message-State: ACrzQf1PyU+Kzvdavyv0KOk1Q9JfIC8ixliumRy2q8S/aCIjplBpIkpK
+ Bd9PivLYWVBgRm+26aD711SMEg==
+X-Google-Smtp-Source: AMsMyM7UAo4gvNuYtU0hBWXxF4X0NelWULqR8Zg3oPdcoVqTsh0/q9uMuNgIfaDs4ZQPPsTwez0gdw==
+X-Received: by 2002:a05:600c:3d17:b0:3b4:adc7:976c with SMTP id
+ bh23-20020a05600c3d1700b003b4adc7976cmr9959018wmb.108.1664890791397; 
+ Tue, 04 Oct 2022 06:39:51 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m38-20020a05600c3b2600b003b4ff30e566sm4133411wms.3.2022.10.04.06.19.53
+ r5-20020adfe685000000b0022878c0cc5esm12415603wrm.69.2022.10.04.06.39.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 06:19:54 -0700 (PDT)
+ Tue, 04 Oct 2022 06:39:50 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E072E1FFE2;
- Tue,  4 Oct 2022 14:01:43 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 74CE91FFBD;
+ Tue,  4 Oct 2022 14:01:44 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paul Brook <paul@nowt.org>
-Subject: [PULL 48/54] contrib/gitdm: add Paul to individual contributors
-Date: Tue,  4 Oct 2022 14:01:32 +0100
-Message-Id: <20221004130138.2299307-49-alex.bennee@linaro.org>
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: [PULL 54/54] plugins: add [pre|post]fork helpers to linux-user
+Date: Tue,  4 Oct 2022 14:01:38 +0100
+Message-Id: <20221004130138.2299307-55-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004130138.2299307-1-alex.bennee@linaro.org>
 References: <20221004130138.2299307-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,33 +97,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also map his old codesourcery address to his canonical address.
+Special care needs to be taken in ensuring locks are in a consistent
+state across fork events. Add helpers so the plugin system can ensure
+that.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Paul Brook <paul@nowt.org>
-Message-Id: <20220929114231.583801-49-alex.bennee@linaro.org>
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/358
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Tested-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20221004115221.2174499-1-alex.bennee@linaro.org>
 
-diff --git a/.mailmap b/.mailmap
-index 8c326709cf..1f7319b70b 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -65,6 +65,7 @@ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
- Leif Lindholm <quic_llindhol@quicinc.com> <leif.lindholm@linaro.org>
- Leif Lindholm <quic_llindhol@quicinc.com> <leif@nuviainc.com>
- Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
-+Paul Brook <paul@nowt.org> <paul@codesourcery.com>
- Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
- Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
- Paul Burton <paulburton@kernel.org> <paul@archlinuxmips.org>
-diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-index f816aa8770..6322b3476d 100644
---- a/contrib/gitdm/group-map-individuals
-+++ b/contrib/gitdm/group-map-individuals
-@@ -34,3 +34,4 @@ bmeng.cn@gmail.com
- liq3ea@gmail.com
- chetan4windows@gmail.com
- akihiko.odaki@gmail.com
-+paul@nowt.org
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index 145f8a221a..a772e14193 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -224,6 +224,23 @@ void qemu_plugin_disable_mem_helpers(CPUState *cpu);
+  */
+ void qemu_plugin_user_exit(void);
+ 
++/**
++ * qemu_plugin_user_prefork_lock(): take plugin lock before forking
++ *
++ * This is a user-mode only helper to take the internal plugin lock
++ * before a fork event. This is ensure a consistent lock state
++ */
++void qemu_plugin_user_prefork_lock(void);
++
++/**
++ * qemu_plugin_user_postfork(): reset the plugin lock
++ * @is_child: is this thread the child
++ *
++ * This user-mode only helper resets the lock state after a fork so we
++ * can continue using the plugin interface.
++ */
++void qemu_plugin_user_postfork(bool is_child);
++
+ #else /* !CONFIG_PLUGIN */
+ 
+ static inline void qemu_plugin_add_opts(void)
+@@ -287,6 +304,13 @@ static inline void qemu_plugin_disable_mem_helpers(CPUState *cpu)
+ 
+ static inline void qemu_plugin_user_exit(void)
+ { }
++
++static inline void qemu_plugin_user_prefork_lock(void)
++{ }
++
++static inline void qemu_plugin_user_postfork(bool is_child)
++{ }
++
+ #endif /* !CONFIG_PLUGIN */
+ 
+ #endif /* QEMU_PLUGIN_H */
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 88fccfe261..a17fed045b 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -142,10 +142,12 @@ void fork_start(void)
+     start_exclusive();
+     mmap_fork_start();
+     cpu_list_lock();
++    qemu_plugin_user_prefork_lock();
+ }
+ 
+ void fork_end(int child)
+ {
++    qemu_plugin_user_postfork(child);
+     mmap_fork_end(child);
+     if (child) {
+         CPUState *cpu, *next_cpu;
+diff --git a/plugins/core.c b/plugins/core.c
+index 792262da08..532cbaa94d 100644
+--- a/plugins/core.c
++++ b/plugins/core.c
+@@ -526,6 +526,26 @@ void qemu_plugin_user_exit(void)
+     qemu_plugin_atexit_cb();
+ }
+ 
++/*
++ * Helpers for *-user to ensure locks are sane across fork() events.
++ */
++
++void qemu_plugin_user_prefork_lock(void)
++{
++    qemu_rec_mutex_lock(&plugin.lock);
++}
++
++void qemu_plugin_user_postfork(bool is_child)
++{
++    if (is_child) {
++        /* should we just reset via plugin_init? */
++        qemu_rec_mutex_init(&plugin.lock);
++    } else {
++        qemu_rec_mutex_unlock(&plugin.lock);
++    }
++}
++
++
+ /*
+  * Call this function after longjmp'ing to the main loop. It's possible that the
+  * last instruction of a TB might have used helpers, and therefore the
 -- 
 2.34.1
 
