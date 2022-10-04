@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7380A5F44A8
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:48:06 +0200 (CEST)
-Received: from localhost ([::1]:45702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFEF5F4481
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:42:53 +0200 (CEST)
+Received: from localhost ([::1]:53274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofiHF-0004xW-7T
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54810)
+	id 1ofiCB-0007XS-SB
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:42:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhgP-0007T8-K5
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:10:01 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:36406)
+ id 1ofhgN-0007NY-5r
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:09:59 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:33782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhgN-000095-IO
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:10:01 -0400
+ id 1ofhgK-00008Z-Su
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:09:58 -0400
 Received: by mail-wm1-x32f.google.com with SMTP id
- c3-20020a1c3503000000b003bd21e3dd7aso753069wma.1
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:09:59 -0700 (PDT)
+ ay7-20020a05600c1e0700b003b49861bf48so834144wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:09:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=JWHCVViNcRApsXs2Lz0jpQ9zDW3pHhm3wfNG9Nif7M4=;
- b=K82ItZRNgakVbF87rkVPR6LOCJ3Fhf/IgAdbfkYPlOTlRLiwfgxAQpRnDXD0vvmEzi
- NMY7OvT8gOOKht+lsIJQPW/iA4oIK1ZCHonAWuLQGAovPHE8QKoFEfVhJxep5lh68hF7
- UJmu4MmhnTRvwnFfVQjIWIVJI0BMYQ10f/f4ZejnprQIxXFMOBSBeBShfqTZgYCn8GbA
- lw5ZYAU469SpIn0YNXfAtGg5Z9WN8Cd/7Gm3ytJKLXGkGg4RKfZBmKRrD8FrBtylEZ2V
- AKuGi2LuBAmqFgCckzbO+2Fg3BE82F17wZpaRucC2pf1hj/b6P2OQRA08iQygQAKD+pY
- 1oxA==
+ bh=cg1QwHqN+jCY5zkl3QujLvRrL1CwHp+I/MfC8up7J2c=;
+ b=jFK5fDtt4HC88zQvZFxWGESmwECbu1vu0NdcFWecU5Hj/BlRYs2pnE/zJcxja93s2E
+ WD+J2vsHZgKq9KtZ8mEUZuJRra064WZAm/pJkd/fkMftkR+0Jg9FV9JThGcE48ZnSBcv
+ P7CrrlzWN9ejlzscR/B/N0zIKFcFr5Kkd+I8M0QHbNC/YLBm2M3XWzi9scYM7Awj2l6s
+ +eV7yhmVC4/4q/aJ3uk1gEvNkAoUY2iKSm5kMKpPCrokmbRnbLiVYK1Igz80ids5YHNH
+ gK95w7sYaWS3j5RsyN0Fi08oj2mRmcIqkAgNK/g3WA+hNWfg8OPWwQRzNH7m45syr+He
+ YaSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=JWHCVViNcRApsXs2Lz0jpQ9zDW3pHhm3wfNG9Nif7M4=;
- b=g+nj9vmx7Rt+epOVCfHM5F0zsFUT0v2+ryRA4LgOmiHsLu4yuH1RcHZHlncCz/3asz
- 6DeB17VcnVKiCyuWxTNgJvEFz1ZTtG5ahnumJyygSy+czQ6kRZXKEdhhFTFXD1zHnmIA
- egcfUb9UPXoASOc1e7pewxLYbdhPWNU9HVJii6XYNtufTn0WZVG4tvoJp/S2dxF5mz1L
- DOacZEGi272x+28xO7luAHBoFRRs0PncdAE3HDjfoY1f+ovnHkMKwOA5qlOpPcVKFi79
- Jjjy+8hm0OdCu75C5210jbSYiT0Ak3mBVMkaM38adNMXwfkx8vRprfQsUFpjdNKi6PdU
- mBIA==
-X-Gm-Message-State: ACrzQf1Qemt6aSeeKJj1hOzUzA1OV3eJFGTPcR1nOPoaX6L6+orP/zT9
- 2LNfSKjdGpfYKufEQ60xjQpvBhcdZj0YRQ==
-X-Google-Smtp-Source: AMsMyM6TRSynoWDap9jjuym+xcJfLXj7NzpWizZMRBwNutxSOFdB3eE+aFtbAmZK98iFSp3DK85Z/Q==
-X-Received: by 2002:a05:600c:3511:b0:3b4:bb85:f1e3 with SMTP id
- h17-20020a05600c351100b003b4bb85f1e3mr10307717wmq.0.1664888998223; 
- Tue, 04 Oct 2022 06:09:58 -0700 (PDT)
+ bh=cg1QwHqN+jCY5zkl3QujLvRrL1CwHp+I/MfC8up7J2c=;
+ b=lIkwAswCdILNj/RDh3mFE+rRSyANzSdzLim96/xMSJ4bj8w35V/xg7G3R0yOywbS1G
+ TX0hwVG2h6ghyv50ycJzor/dtLioxJgjOUUDQzz5gHK7CmI9ZIbm46YOKfBob8S3eHR/
+ 6WjxpDKfK9ldQefDefOa/Ff/jJtY9uvEI5ch63RLxuxDlA7zIcvvtMT9x5Ng0TAMY5q7
+ hC3oc+DJ24zz3Q/xowjEOep8yIAwGrt8z4kiKCjynQrxoiZPEHZqWdxS6KTLrO0mVIjF
+ ROEUuify84mg3b3NbPAiFKwtv/c/GAYdDfIbCQC7FqMc99b9lkAYwlIvfjONp4TeqBEg
+ wYUw==
+X-Gm-Message-State: ACrzQf2Td4cPzVJUgDHKD/N9Xe1xJkWngz7TpZh8XzJK762DNqbFWP2X
+ OuxvpOUi3p3VP3NRg0XPj6z74g==
+X-Google-Smtp-Source: AMsMyM4u0Pj2LY7mDU45EWWQgIyzMGTDbEGZYLXxjwPXBo4ju8tkttWvyhdxuxkqksqAVvdObeGBUg==
+X-Received: by 2002:a05:600c:4e8b:b0:3b4:c8ce:be87 with SMTP id
+ f11-20020a05600c4e8b00b003b4c8cebe87mr10692031wmq.157.1664888994556; 
+ Tue, 04 Oct 2022 06:09:54 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o9-20020a05600c510900b003a5c244fc13sm21402872wms.2.2022.10.04.06.09.54
+ a5-20020adfeec5000000b0022e2c38f8basm10051013wrp.14.2022.10.04.06.09.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 06:09:54 -0700 (PDT)
+ Tue, 04 Oct 2022 06:09:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 389C61FFD6;
+ by zen.linaroharston (Postfix) with ESMTP id 527911FFD7;
  Tue,  4 Oct 2022 14:01:42 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 34/54] disas: use result of ->read_memory_func
-Date: Tue,  4 Oct 2022 14:01:18 +0100
-Message-Id: <20221004130138.2299307-35-alex.bennee@linaro.org>
+ Alexandre Iooss <erdnaxe@crans.org>, Robert Henry <robhenry@microsoft.com>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: [PULL 35/54] plugins: extend execlog to filter matches
+Date: Tue,  4 Oct 2022 14:01:19 +0100
+Message-Id: <20221004130138.2299307-36-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004130138.2299307-1-alex.bennee@linaro.org>
 References: <20221004130138.2299307-1-alex.bennee@linaro.org>
@@ -97,151 +98,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This gets especially confusing if you start plugging in host addresses
-from a trace and you wonder why the output keeps changing. Report when
-read_memory_func fails instead of blindly disassembling the buffer
-contents.
+Sometimes the whole execlog is just two much so add the ability to
+filter by instruction opcode or address.
+
+[AJB: this shows for example
+
+ qemu-system-aarch64 -display none -serial mon:stdio \
+   -M virt -cpu max \
+   -semihosting-config enable=on \
+   -kernel ./tests/tcg/aarch64-softmmu/memory-sve \
+   -plugin ./contrib/plugins/libexeclog.so,ifilter=st1w,afilter=0x40001808 -d plugin -D plugin.out
+
+the st1w SVE instruction is not instrumenting its stores.]
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220929114231.583801-35-alex.bennee@linaro.org>
+Reviewed-by: Alexandre Iooss <erdnaxe@crans.org>
+Cc: Robert Henry <robhenry@microsoft.com>
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
+Message-Id: <20220929114231.583801-36-alex.bennee@linaro.org>
 
-diff --git a/disas.c b/disas.c
-index f07b6e760b..94d3b45042 100644
---- a/disas.c
-+++ b/disas.c
-@@ -83,18 +83,18 @@ static int print_insn_objdump(bfd_vma pc, disassemble_info *info,
-                               const char *prefix)
- {
-     int i, n = info->buffer_length;
--    uint8_t *buf = g_malloc(n);
--
--    info->read_memory_func(pc, buf, n, info);
--
--    for (i = 0; i < n; ++i) {
--        if (i % 32 == 0) {
--            info->fprintf_func(info->stream, "\n%s: ", prefix);
-+    g_autofree uint8_t *buf = g_malloc(n);
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index a7cc44aa20..a503d44cee 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -346,7 +346,7 @@ The execlog tool traces executed instructions with memory access. It can be used
+ for debugging and security analysis purposes.
+ Please be aware that this will generate a lot of output.
+ 
+-The plugin takes no argument::
++The plugin needs default argument::
+ 
+   qemu-system-arm $(QEMU_ARGS) \
+     -plugin ./contrib/plugins/libexeclog.so -d plugin
+@@ -364,6 +364,13 @@ which will output an execution trace following this structure::
+   0, 0xd34, 0xf9c8f000, "bl #0x10c8"
+   0, 0x10c8, 0xfff96c43, "ldr r3, [r0, #0x44]", load, 0x200000e4, RAM
+ 
++the output can be filtered to only track certain instructions or
++addresses using the `ifilter` or `afilter` options. You can stack the
++arguments if required::
 +
-+    if (info->read_memory_func(pc, buf, n, info) == 0) {
-+        for (i = 0; i < n; ++i) {
-+            if (i % 32 == 0) {
-+                info->fprintf_func(info->stream, "\n%s: ", prefix);
++  qemu-system-arm $(QEMU_ARGS) \
++    -plugin ./contrib/plugins/libexeclog.so,ifilter=st1w,afilter=0x40001808 -d plugin
++
+ - contrib/plugins/cache.c
+ 
+ Cache modelling plugin that measures the performance of a given L1 cache
+diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
+index a5275dcc15..e659ac9cbb 100644
+--- a/contrib/plugins/execlog.c
++++ b/contrib/plugins/execlog.c
+@@ -20,6 +20,9 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+ /* Store last executed instruction on each vCPU as a GString */
+ GArray *last_exec;
+ 
++static GPtrArray *imatches;
++static GArray *amatches;
++
+ /**
+  * Add memory read or write information to current instruction log
+  */
+@@ -85,12 +88,13 @@ static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
+ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+ {
+     struct qemu_plugin_insn *insn;
+-    uint64_t insn_vaddr;
+-    uint32_t insn_opcode;
+-    char *insn_disas;
++    bool skip = (imatches || amatches) ? true : false;
+ 
+     size_t n = qemu_plugin_tb_n_insns(tb);
+     for (size_t i = 0; i < n; i++) {
++        char *insn_disas;
++        uint64_t insn_vaddr;
++
+         /*
+          * `insn` is shared between translations in QEMU, copy needed data here.
+          * `output` is never freed as it might be used multiple times during
+@@ -99,20 +103,52 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+          * a limitation for CISC architectures.
+          */
+         insn = qemu_plugin_tb_get_insn(tb, i);
+-        insn_vaddr = qemu_plugin_insn_vaddr(insn);
+-        insn_opcode = *((uint32_t *)qemu_plugin_insn_data(insn));
+         insn_disas = qemu_plugin_insn_disas(insn);
+-        char *output = g_strdup_printf("0x%"PRIx64", 0x%"PRIx32", \"%s\"",
+-                                       insn_vaddr, insn_opcode, insn_disas);
++        insn_vaddr = qemu_plugin_insn_vaddr(insn);
++
++        /*
++         * If we are filtering we better check out if we have any
++         * hits. The skip "latches" so we can track memory accesses
++         * after the instruction we care about.
++         */
++        if (skip && imatches) {
++            int j;
++            for (j = 0; j < imatches->len && skip; j++) {
++                char *m = g_ptr_array_index(imatches, j);
++                if (g_str_has_prefix(insn_disas, m)) {
++                    skip = false;
++                }
 +            }
-+            info->fprintf_func(info->stream, "%02x", buf[i]);
-         }
--        info->fprintf_func(info->stream, "%02x", buf[i]);
-+    } else {
-+        info->fprintf_func(info->stream, "unable to read memory");
++        }
++
++        if (skip && amatches) {
++            int j;
++            for (j = 0; j < amatches->len && skip; j++) {
++                uint64_t v = g_array_index(amatches, uint64_t, j);
++                if (v == insn_vaddr) {
++                    skip = false;
++                }
++            }
++        }
+ 
+-        /* Register callback on memory read or write */
+-        qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem,
+-                                         QEMU_PLUGIN_CB_NO_REGS,
+-                                         QEMU_PLUGIN_MEM_RW, NULL);
++        if (skip) {
++            g_free(insn_disas);
++        } else {
++            uint32_t insn_opcode;
++            insn_opcode = *((uint32_t *)qemu_plugin_insn_data(insn));
++            char *output = g_strdup_printf("0x%"PRIx64", 0x%"PRIx32", \"%s\"",
++                                           insn_vaddr, insn_opcode, insn_disas);
++
++            /* Register callback on memory read or write */
++            qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem,
++                                             QEMU_PLUGIN_CB_NO_REGS,
++                                             QEMU_PLUGIN_MEM_RW, NULL);
++
++            /* Register callback on instruction */
++            qemu_plugin_register_vcpu_insn_exec_cb(insn, vcpu_insn_exec,
++                                                   QEMU_PLUGIN_CB_NO_REGS, output);
++        }
+ 
+-        /* Register callback on instruction */
+-        qemu_plugin_register_vcpu_insn_exec_cb(insn, vcpu_insn_exec,
+-                                               QEMU_PLUGIN_CB_NO_REGS, output);
      }
--
--    g_free(buf);
-     return n;
  }
  
-diff --git a/disas/capstone.c b/disas/capstone.c
-index 20bc8f9669..fe3efb0d3c 100644
---- a/disas/capstone.c
-+++ b/disas/capstone.c
-@@ -191,37 +191,43 @@ bool cap_disas_target(disassemble_info *info, uint64_t pc, size_t size)
-         size_t tsize = MIN(sizeof(cap_buf) - csize, size);
-         const uint8_t *cbuf = cap_buf;
- 
--        info->read_memory_func(pc + csize, cap_buf + csize, tsize, info);
--        csize += tsize;
--        size -= tsize;
-+        if (info->read_memory_func(pc + csize, cap_buf + csize, tsize, info) == 0) {
-+            csize += tsize;
-+            size -= tsize;
- 
--        while (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
--            cap_dump_insn(info, insn);
--        }
-+            while (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
-+                cap_dump_insn(info, insn);
-+            }
-+
-+            /* If the target memory is not consumed, go back for more... */
-+            if (size != 0) {
-+                /*
-+                 * ... taking care to move any remaining fractional insn
-+                 * to the beginning of the buffer.
-+                 */
-+                if (csize != 0) {
-+                    memmove(cap_buf, cbuf, csize);
-+                }
-+                continue;
-+            }
- 
--        /* If the target memory is not consumed, go back for more... */
--        if (size != 0) {
-             /*
--             * ... taking care to move any remaining fractional insn
--             * to the beginning of the buffer.
-+             * Since the target memory is consumed, we should not have
-+             * a remaining fractional insn.
-              */
-             if (csize != 0) {
--                memmove(cap_buf, cbuf, csize);
-+                info->fprintf_func(info->stream,
-+                                   "Disassembler disagrees with translator "
-+                                   "over instruction decoding\n"
-+                                   "Please report this to qemu-devel@nongnu.org\n");
-             }
--            continue;
--        }
-+            break;
- 
--        /*
--         * Since the target memory is consumed, we should not have
--         * a remaining fractional insn.
--         */
--        if (csize != 0) {
-+        } else {
-             info->fprintf_func(info->stream,
--                "Disassembler disagrees with translator "
--                "over instruction decoding\n"
--                "Please report this to qemu-devel@nongnu.org\n");
-+                               "0x%08" PRIx64 ": unable to read memory\n", pc);
-+            break;
-         }
--        break;
+@@ -132,6 +168,25 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
      }
+ }
  
-     cs_close(&handle);
-@@ -286,16 +292,23 @@ bool cap_disas_monitor(disassemble_info *info, uint64_t pc, int count)
- 
-         /* Make certain that we can make progress.  */
-         assert(tsize != 0);
--        info->read_memory_func(pc + csize, cap_buf + csize, tsize, info);
--        csize += tsize;
--
--        if (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
--            cap_dump_insn(info, insn);
--            if (--count <= 0) {
--                break;
-+        if (info->read_memory_func(pc + csize, cap_buf + csize,
-+                                   tsize, info) == 0)
-+        {
-+            csize += tsize;
++/* Add a match to the array of matches */
++static void parse_insn_match(char *match)
++{
++    if (!imatches) {
++        imatches = g_ptr_array_new();
++    }
++    g_ptr_array_add(imatches, match);
++}
 +
-+            if (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
-+                cap_dump_insn(info, insn);
-+                if (--count <= 0) {
-+                    break;
-+                }
-             }
-+            memmove(cap_buf, cbuf, csize);
-+        } else {
-+            info->fprintf_func(info->stream,
-+                               "0x%08" PRIx64 ": unable to read memory\n", pc);
-+            break;
-         }
--        memmove(cap_buf, cbuf, csize);
-     }
++static void parse_vaddr_match(char *match)
++{
++    uint64_t v = g_ascii_strtoull(match, NULL, 16);
++
++    if (!amatches) {
++        amatches = g_array_new(false, true, sizeof(uint64_t));
++    }
++    g_array_append_val(amatches, v);
++}
++
+ /**
+  * Install the plugin
+  */
+@@ -145,6 +200,19 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+      */
+     last_exec = g_array_new(FALSE, FALSE, sizeof(GString *));
  
-     cs_close(&handle);
++    for (int i = 0; i < argc; i++) {
++        char *opt = argv[i];
++        g_autofree char **tokens = g_strsplit(opt, "=", 2);
++        if (g_strcmp0(tokens[0], "ifilter") == 0) {
++            parse_insn_match(tokens[1]);
++        } else if (g_strcmp0(tokens[0], "afilter") == 0) {
++            parse_vaddr_match(tokens[1]);
++        } else {
++            fprintf(stderr, "option parsing failed: %s\n", opt);
++            return -1;
++        }
++    }
++
+     /* Register translation block and exit callbacks */
+     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
+     qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
 -- 
 2.34.1
 
