@@ -2,55 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9535E5F4402
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:15:05 +0200 (CEST)
-Received: from localhost ([::1]:52828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 383525F4472
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:40:49 +0200 (CEST)
+Received: from localhost ([::1]:39344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofhlI-00056B-I7
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:15:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
+	id 1ofiAC-0002v6-9h
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:40:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ofhRN-0002ER-P5; Tue, 04 Oct 2022 08:54:29 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:40667)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ofhRK-0000X6-Vh; Tue, 04 Oct 2022 08:54:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=7nicvJ+7yEkILsn5bZnpWTnAXHKCWKZFa0gJXrh7NxA=; b=w0W1OXYgeAw1/igrxcHwkYoqKr
- SVA+gGRb9sYJP31hF0E3v/yXrM3lYHWVXDEGyc+AXUtkW6c7I6G7LFnGbthBHTOrz88Y3HKvnjDZr
- MlzAKNWVNsJVrbiFD0En5GtxLgO9MDUyq+LF81HIrwqIgtoYWb9L635jX7mqyZyZd+BDIZJ8zea+W
- a33EqdiIOZogZPugZiR8aVIeKs5dhkTL0mu7Mf9S+PRq2RFtvTc/BctqByH5ReyuVAiit2dq2PMgR
- 8b/86bAoHUoRbe9LaSbDxC84p+bC/D9XPxvGubd8znkKRliv0vvp4ErufnX+5QU1wyesiApMc9W3z
- pX+Ns2kwGj5rV4ysFBiyqVHka9h0oxxS9Wen5gQLYTF+PMjsTjGBKABWK8fBRK1U/qC2DkV/AuhQb
- JU7e7L5fQY4qtcmP4HnT9WoH2ky+N8w9t8mMWbaEoW0f8Iw5tCQyuZF0+ydlvVgkolr8fWez6mEaB
- 3CmbdiFw1tZq/O5LZhXTAeOSvPoYDdlJGbtWxuI+wYKO13+OkE/cs6Za3CYQhHpq+OHODT4Zugxv5
- a4O5cvUQcuS+tPjYd7tMZmKALKQRfHGWogAGlZqkhMAIInlV4XQ6HpwdbNT4yemCUINvhTWJ1j3rP
- KQFzJ1KT1YTuNtNXU5xx5/cuojn1djCkusy9IndMg=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofhYR-0008FX-K8
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:01:52 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:34530)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofhYM-0007Mf-BJ
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:01:45 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ n35-20020a05600c502300b003b4924c6868so693900wmr.1
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date;
+ bh=tBHYkl0tnnYge8Ee3MuZ9CuYnUkL87nC+JSD/vZke3o=;
+ b=FOabqVPBqdGUV7HnM+WpnoqsK7ucD6/yc3WI82t0f/HBpbVURvwK14u/OFrhUlqpH/
+ wS8U1znWFnVhJCjb+RCMJ8R32vLzhEgpBaL2lvkngW8XtOeqF0ZGZFVg3438Y0Rv7OF5
+ 0cs84NOzW67o9KM0CsACvWSa5XVHBXtd1/EP/b0+M+i+9F0jxs0Rkc52hADeoJWxMGw9
+ dXFXWLJF+/P1YwxGshjHsoChqxGQTHs2owh7KCniFRfVSxdCLjHYueuNmI+780XzeIRC
+ AQZ7zH12V6AtABEnob/2BLt73E857dDgOossQZqOsaPETAf1xoIEwwkYDlwwxACFo40q
+ U71A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date;
+ bh=tBHYkl0tnnYge8Ee3MuZ9CuYnUkL87nC+JSD/vZke3o=;
+ b=ECi0urxMO3itTqzHgJW3z4UKsWxbghVJFY2AwsHxbFXCU2K9Aa7rkotKO81k6Gyqyz
+ UR0cbMJwNaiSkcVGIgz2OmJLcfNWLAs+W6k4bsrDEgtEZUVfWra2GvRoBukPV6zXBDed
+ WS0wPmTjKxDcOR31sZCHN5Ds5CupHnUroTyF49uBnqLOSgKb+noAbgxYoKJdUwZohBrX
+ NyHD8BUBBLof3eCOCZ4oVFNBG5V7znpoUh1VZ4jHxbDSGmgW5Vwq9wMRwNfFC2chSLpD
+ SRwL1afDPJKKq8v6ZFQcfCfdNQ5z5FxjbBWXYa0d190JvttDlt5MhUM4nwIWLAJmllLi
+ iz+g==
+X-Gm-Message-State: ACrzQf1WNtdU8pu3xRFY4CLLylNf+lxl9WwlKELhlbPY0pfmlKhSjkVd
+ GNy+1svUhntHHKZj4rROspSx386TM0Dyyw==
+X-Google-Smtp-Source: AMsMyM7DzZJPFIbQniwiyuiQu/mJhjb3ngw8EUYPZa4sfRbBRbETq+ckC8O8AR/qrjNhKCKbUR/ZqA==
+X-Received: by 2002:a05:600c:22d6:b0:3b4:9f2e:9e33 with SMTP id
+ 22-20020a05600c22d600b003b49f2e9e33mr10293009wmg.163.1664888500765; 
+ Tue, 04 Oct 2022 06:01:40 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ p26-20020a7bcc9a000000b003bd83d8c0f2sm795289wma.16.2022.10.04.06.01.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Oct 2022 06:01:39 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 590B41FFB7;
+ Tue,  4 Oct 2022 14:01:38 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Qemu-block <qemu-block@nongnu.org>,
- Linus Heckemann <git@sphalerite.org>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v6] 9pfs: use GHashTable for fid table
-Date: Tue, 04 Oct 2022 14:54:16 +0200
-Message-ID: <19360658.4YNXD89StS@silver>
-In-Reply-To: <20221004104121.713689-1-git@sphalerite.org>
-References: <20221004104121.713689-1-git@sphalerite.org>
+Cc: stefanha@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 00/54] testing, gdbstub, plugin and gitdm updates
+Date: Tue,  4 Oct 2022 14:00:44 +0100
+Message-Id: <20221004130138.2299307-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,465 +92,220 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 4. Oktober 2022 12:41:21 CEST Linus Heckemann wrote:
-> The previous implementation would iterate over the fid table for
-> lookup operations, resulting in an operation with O(n) complexity on
-> the number of open files and poor cache locality -- for every open,
-> stat, read, write, etc operation.
->=20
-> This change uses a hashtable for this instead, significantly improving
-> the performance of the 9p filesystem. The runtime of NixOS's simple
-> installer test, which copies ~122k files totalling ~1.8GiB from 9p,
-> decreased by a factor of about 10.
->=20
-> Signed-off-by: Linus Heckemann <git@sphalerite.org>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> Message-Id: <20220908112353.289267-1-git@sphalerite.org>
-> [CS: - Retain BUG_ON(f->clunked) in get_fid().
->      - Add TODO comment in clunk_fid(). ]
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
+The following changes since commit efbf38d73e5dcc4d5f8b98c6e7a12be1f3b91745:
 
-In general: LGTM now, but I will definitely go for some longer test runs=20
-before queuing this patch. Some minor side notes below ...
+  Merge tag 'for-upstream' of git://repo.or.cz/qemu/kevin into staging (2022-10-03 15:06:07 -0400)
 
-> Christian Schoenebeck writes:
-> > Not a big deal, but I start thinking whether to keep BUG_ON() here as
-> > well.
-> > That would require using g_hash_table_lookup() here instead of
-> > g_hash_table_contains(). Not that I would insist.
->=20
-> Done.
->=20
-> > checkpatch.pl
->=20
-> Fixed.
->=20
-> > OK, I get it that you squashed your previous patch and that you ended up
-> > with this comment instead. But if you read the old comment version here,
-> > you'll notice that it describes the actual problem more accurately:
-> > especially that v9fs_reopen_fid() and put_fid() are the 2 functions that
-> > may cause the coroutine to "yield" here. That's an important information
-> > to be retained in this comment here as it's not obvious.
->=20
-> Reworded to mention these functions explicitly.
->=20
-> >  I would not move this to the 2nd loop. I would still set the
-> >=20
-> > FID_NON_RECLAIMABLE flag here, for the same reasons that you are bumping
-> > the refcount already in the first loop below.
->=20
-> Good point! Fixed.
->=20
-> >  ... that's not the same behaviour as before, is it? Old behaviour was =
-to
-> >  put>=20
-> > the respective (last) fid only on error. And this would now put all fid=
-s.
->=20
-> Indeed it isn't the old behaviour, but I believe it's correct: since
-> before we only incremented the reference counter for each one when we
-> started reopening it. Now, we increment _all_ their refcounts, so we
-> need to put all of them back as well.
+are available in the Git repository at:
 
-Yeah, commented in v9fs_mark_fids_unreclaim() changes below ...
+  https://github.com/stsquad/qemu.git tags/pull-testing-gdbstub-plugins-gitdm-041022-1
 
-> >  Wasn't there something like GLIST_FOREACH()? Then you wouldn't need to
-> >  add
-> >=20
-> > that variable.
->=20
-> glib does provide g_list_foreach, but that requires a function
-> pointer. I'm not aware of a macro for this. I could change this to use
-> a QLIST (for which we do have a macro) instead of a GList if you
-> insist, but I'd default to leaving this as is.
+for you to fetch changes up to 3450eff8bef9a97121c373c60b8abf7d79bd1fe9:
 
-That's better handled by a future cleanup patch. Right now I find it=20
-prioritized to get this performance fix merged ASAP, as it provides a=20
-significant improvement for a lot of people.
+  plugins: add [pre|post]fork helpers to linux-user (2022-10-04 13:52:57 +0100)
 
-I have seen GLIST_FOREACH macros (without function pointer) in other projec=
-ts,=20
-but I guess that macro was defined locally by those projects.
+[AJB: I've run out of gitlab minutes this month to run this tag
+through CI but the previous series was clean]
 
-> Thanks for your repeated reviews and patience!
->=20
-> Linus
->=20
->=20
->  hw/9pfs/9p.c | 195 +++++++++++++++++++++++++++++----------------------
->  hw/9pfs/9p.h |   2 +-
->  2 files changed, 113 insertions(+), 84 deletions(-)
->=20
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index aebadeaa03..729d3181e0 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -256,7 +256,8 @@ static size_t v9fs_string_size(V9fsString *str)
->  }
->=20
->  /*
-> - * returns 0 if fid got re-opened, 1 if not, < 0 on error */
-> + * returns 0 if fid got re-opened, 1 if not, < 0 on error
-> + */
->  static int coroutine_fn v9fs_reopen_fid(V9fsPDU *pdu, V9fsFidState *f)
->  {
->      int err =3D 1;
-> @@ -282,33 +283,32 @@ static V9fsFidState *coroutine_fn get_fid(V9fsPDU
-> *pdu, int32_t fid) V9fsFidState *f;
->      V9fsState *s =3D pdu->s;
->=20
-> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> +    f =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-> +    if (f) {
->          BUG_ON(f->clunked);
-> -        if (f->fid =3D=3D fid) {
-> -            /*
-> -             * Update the fid ref upfront so that
-> -             * we don't get reclaimed when we yield
-> -             * in open later.
-> -             */
-> -            f->ref++;
-> -            /*
-> -             * check whether we need to reopen the
-> -             * file. We might have closed the fd
-> -             * while trying to free up some file
-> -             * descriptors.
-> -             */
-> -            err =3D v9fs_reopen_fid(pdu, f);
-> -            if (err < 0) {
-> -                f->ref--;
-> -                return NULL;
-> -            }
-> -            /*
-> -             * Mark the fid as referenced so that the LRU
-> -             * reclaim won't close the file descriptor
-> -             */
-> -            f->flags |=3D FID_REFERENCED;
-> -            return f;
-> +        /*
-> +         * Update the fid ref upfront so that
-> +         * we don't get reclaimed when we yield
-> +         * in open later.
-> +         */
-> +        f->ref++;
-> +        /*
-> +         * check whether we need to reopen the
-> +         * file. We might have closed the fd
-> +         * while trying to free up some file
-> +         * descriptors.
-> +         */
-> +        err =3D v9fs_reopen_fid(pdu, f);
-> +        if (err < 0) {
-> +            f->ref--;
-> +            return NULL;
->          }
-> +        /*
-> +         * Mark the fid as referenced so that the LRU
-> +         * reclaim won't close the file descriptor
-> +         */
-> +        f->flags |=3D FID_REFERENCED;
-> +        return f;
->      }
->      return NULL;
->  }
-> @@ -317,12 +317,11 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
-> fid) {
->      V9fsFidState *f;
->=20
-> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> +    f =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-> +    if (f) {
->          /* If fid is already there return NULL */
->          BUG_ON(f->clunked);
-> -        if (f->fid =3D=3D fid) {
-> -            return NULL;
-> -        }
-> +        return NULL;
->      }
->      f =3D g_new0(V9fsFidState, 1);
->      f->fid =3D fid;
-> @@ -333,7 +332,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
-> fid) * reclaim won't close the file descriptor
->       */
->      f->flags |=3D FID_REFERENCED;
-> -    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
-> +    g_hash_table_insert(s->fids, GINT_TO_POINTER(fid), f);
->=20
->      v9fs_readdir_init(s->proto_version, &f->fs.dir);
->      v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
-> @@ -424,12 +423,12 @@ static V9fsFidState *clunk_fid(V9fsState *s, int32_t
-> fid) {
->      V9fsFidState *fidp;
->=20
-> -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
-> -        if (fidp->fid =3D=3D fid) {
-> -            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
-> -            fidp->clunked =3D true;
-> -            return fidp;
-> -        }
-> +    /* TODO: Use g_hash_table_steal_extended() instead? */
-> +    fidp =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-> +    if (fidp) {
-> +        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
-> +        fidp->clunked =3D true;
-> +        return fidp;
->      }
->      return NULL;
->  }
-> @@ -439,10 +438,15 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
->      int reclaim_count =3D 0;
->      V9fsState *s =3D pdu->s;
->      V9fsFidState *f;
-> +    GHashTableIter iter;
-> +    gpointer fid;
-> +
-> +    g_hash_table_iter_init(&iter, s->fids);
-> +
->      QSLIST_HEAD(, V9fsFidState) reclaim_list =3D
->          QSLIST_HEAD_INITIALIZER(reclaim_list);
->=20
-> -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &f)) {
->          /*
->           * Unlink fids cannot be reclaimed. Check
->           * for them and skip them. Also skip fids
-> @@ -514,72 +518,86 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
->      }
->  }
->=20
-> +/*
-> + * This is used when a path is removed from the directory tree. Any
-> + * fids that still reference it must not be closed from then on, since
-> + * they cannot be reopened.
-> + */
->  static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath
-> *path) {
-> -    int err;
-> +    int err =3D 0;
+----------------------------------------------------------------
+testing, gdbstub, plugin and gitdm updates
 
-Not really necessary as `err` was and is never used unitialized, but OK.
+  - cleanup scripts/ci/setup in advance of ppc64 runner
+  - ensure detected gdb reported to TCG tests
+  - update hexagon container with build deps
+  - generate fedora-win[32|64]-cross with lcitool
+  - move alpine container to tagged release
+  - fix overflow during qos-test test tree iteration
+  - allow bios blobs to be built with test cross compilers
+  - introduce monitor_puts for plain strings
+  - share disas code between monitor and plugins
+  - fix bug in execlog plugin
+  - add more tcg plugin documentation, reorg
+  - fix link to semihosting spec
+  - re-factor gdbstub to use AccelClass/Ops
+  - many gitdm updates
+  - fix race with plugin mutex lock and linux-user fork()
 
->      V9fsState *s =3D pdu->s;
-> -    V9fsFidState *fidp, *fidp_next;
-> +    V9fsFidState *fidp;
-> +    gpointer fid;
-> +    GHashTableIter iter;
-> +    /*
-> +     * The most common case is probably that we have exactly one
-> +     * fid for the given path, so preallocate exactly one.
-> +     */
-> +    g_autoptr(GArray) to_reopen =3D g_array_sized_new(FALSE, FALSE,
-> +            sizeof(V9fsFidState *), 1);
-> +    gint i;
->=20
-> -    fidp =3D QSIMPLEQ_FIRST(&s->fid_list);
-> -    if (!fidp) {
-> -        return 0;
-> -    }
-> +    g_hash_table_iter_init(&iter, s->fids);
->=20
->      /*
-> -     * v9fs_reopen_fid() can yield : a reference on the fid must be held
-> -     * to ensure its pointer remains valid and we can safely pass it to
-> -     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
-> -     * we must keep a reference on the next fid as well. So the logic he=
-re
-> -     * is to get a reference on a fid and only put it back during the ne=
-xt
-> -     * iteration after we could get a reference on the next fid. Start w=
-ith
-> -     * the first one.
-> +     * We iterate over the fid table looking for the entries we need
-> +     * to reopen, and store them in to_reopen. This is because
-> +     * v9fs_reopen_fid() and put_fid() yield. This allows the fid table
-> +     * to be modified in the meantime, invalidating our iterator.
->       */
-> -    for (fidp->ref++; fidp; fidp =3D fidp_next) {
-> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &fidp)) {
->          if (fidp->path.size =3D=3D path->size &&
->              !memcmp(fidp->path.data, path->data, path->size)) {
-> -            /* Mark the fid non reclaimable. */
-> -            fidp->flags |=3D FID_NON_RECLAIMABLE;
-> -
-> -            /* reopen the file/dir if already closed */
-> -            err =3D v9fs_reopen_fid(pdu, fidp);
-> -            if (err < 0) {
-> -                put_fid(pdu, fidp);
-> -                return err;
-> -            }
-> -        }
-> -
-> -        fidp_next =3D QSIMPLEQ_NEXT(fidp, next);
-> -
-> -        if (fidp_next) {
->              /*
-> -             * Ensure the next fid survives a potential clunk request
-> during
-> -             * put_fid() below and v9fs_reopen_fid() in the next
-> iteration.
-> +             * Ensure the fid survives a potential clunk
-> request during
-> +             * v9fs_reopen_fid or put_fid.
->               */
-> -            fidp_next->ref++;
-> +            fidp->ref++;
-> +            fidp->flags |=3D FID_NON_RECLAIMABLE;
-> +            g_array_append_val(to_reopen, fidp);
->          }
-> +    }
->=20
-> -        /* We're done with this fid */
-> -        put_fid(pdu, fidp);
-> +    for (i =3D 0; i < to_reopen->len; i++) {
-> +        fidp =3D g_array_index(to_reopen, V9fsFidState*, i);
-> +        /* reopen the file/dir if already closed */
-> +        err =3D v9fs_reopen_fid(pdu, fidp);
-> +        if (err < 0) {
-> +            goto out;
+----------------------------------------------------------------
+Alex Bennée (26):
+      configure: move detected gdb to TCG's config-host.mak
+      tests/docker: update fedora-win[32|64]-cross with lcitool
+      tests/docker: move alpine from edge to tagged release
+      tests/qtest: bump up QOS_PATH_MAX_ELEMENT_SIZE
+      monitor: expose monitor_puts to rest of code
+      disas: generalise plugin_printf and use for monitor_disas
+      disas: use result of ->read_memory_func
+      plugins: extend execlog to filter matches
+      docs/devel: clean-up qemu invocations in tcg-plugins
+      docs/devel: move API to end of tcg-plugins.rst
+      contrib/plugins: reset skip when matching in execlog
+      docs/devel: document the test plugins
+      semihosting: update link to spec
+      gdbstub: move into its own sub directory
+      gdbstub: move sstep flags probing into AccelClass
+      gdbstub: move breakpoint logic to accel ops
+      gdbstub: move guest debug support check to ops
+      accel/kvm: move kvm_update_guest_debug to inline stub
+      contrib/gitdm: add mapping for Loongson Technology
+      contrib/gitdm: add Paul to individual contributors
+      contrib/gitdm: add WANG Xuerui to individual contributers
+      contrib/gitdm: add ISCAS to the academics group
+      contrib/gitdm: add China Telecom to the domain map
+      contrib/gitdm: add Simon to individual contributors
+      contrib/gitdm: add Université Grenoble Alpes
+      plugins: add [pre|post]fork helpers to linux-user
 
-Looks like a simple `break;` here and dropping the `out:` label below is=20
-sufficient. But I can do that on my end.
+Anton Johansson (3):
+      target/hexagon: add flex/bison/glib2 to qemu.yml
+      target/hexagon: regenerate docker/cirrus files
+      target/hexagon: manually add flex/bison/glib2 to remaining containers
 
-> +        }
->      }
->=20
-> -    return 0;
-> + out:
-> +    for (i =3D 0; i < to_reopen->len; i++) {
-> +        put_fid(pdu, g_array_index(to_reopen, V9fsFidState*, i));
-> +    }
-> +    return err;
->  }
+Lucas Mateus Castro (alqotel) (4):
+      scripts/ci/setup: ninja missing from build-environment
+      scripts/ci/setup: Fix libxen requirements
+      scripts/ci/setup: spice-server only on x86 aarch64
+      tests/docker: run script use realpath instead of readlink
 
-=2E.. so yeah, I think that simple put_fid() loop is fine. Probably I overl=
-ooked=20
-the 2nd put_fid() call in the original code. So basically the old =3D=3D ne=
-w=20
-behaviour was and is: the sum of refcount increments/decrements after=20
-returning from this function is exactly neutral/zero for each fid, without =
-any=20
-exception.
+Paolo Bonzini (20):
+      configure: do not invoke as/ld directly for pc-bios/optionrom
+      pc-bios/optionrom: detect CC options just once
+      pc-bios/s390-ccw: detect CC options just once
+      vof: add distclean target
+      build: add recursive distclean rules
+      configure: return status code from probe_target_compiler
+      configure: store container engine in config-host.mak
+      tests: simplify Makefile invocation for tests/tcg
+      tests/tcg: remove -f from Makefile invocation
+      tests/tcg: add distclean rule
+      tests/tcg: unify ppc64 and ppc64le Makefiles
+      tests/tcg: clean up calls to run-test
+      tests/tcg: move compiler tests to Makefiles
+      configure: move tests/tcg/Makefile.prereqs to root build directory
+      configure: unify creation of cross-compilation Makefiles
+      configure: cleanup creation of tests/tcg target config
+      configure: build ROMs with container-based cross compilers
+      pc-bios/optionrom: Adopt meson style Make output
+      pc-bios/s390-ccw: Adopt meson style Make output
+      pc-bios/vof: Adopt meson style Make output
 
->=20
->  static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
->  {
->      V9fsState *s =3D pdu->s;
->      V9fsFidState *fidp;
-> +    GList *freeing;
-> +    /*
-> +     * Get a list of all the values (fid states) in the table, which
-> +     * we then...
-> +     */
-> +    g_autoptr(GList) fids =3D g_hash_table_get_values(s->fids);
->=20
-> -    /* Free all fids */
-> -    while (!QSIMPLEQ_EMPTY(&s->fid_list)) {
-> -        /* Get fid */
-> -        fidp =3D QSIMPLEQ_FIRST(&s->fid_list);
-> -        fidp->ref++;
-> +    /* ... remove from the table, taking over ownership. */
-> +    g_hash_table_steal_all(s->fids);
->=20
-> -        /* Clunk fid */
-> -        QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
-> +    /*
-> +     * This allows us to release our references to them asynchronously
-> without
-> +     * iterating over the hash table and risking iterator
-> invalidation
-> +     * through concurrent modifications.
-> +     */
-> +    for (freeing =3D fids; freeing; freeing =3D freeing->next) {
-> +        fidp =3D freeing->data;
-> +        fidp->ref++;
->          fidp->clunked =3D true;
-> -
->          put_fid(pdu, fidp);
->      }
->  }
-> @@ -3205,6 +3223,8 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU
-> *pdu, V9fsFidState *fidp, V9fsFidState *tfidp;
->      V9fsState *s =3D pdu->s;
->      V9fsFidState *dirfidp =3D NULL;
-> +    GHashTableIter iter;
-> +    gpointer fid;
->=20
->      v9fs_path_init(&new_path);
->      if (newdirfid !=3D -1) {
-> @@ -3238,11 +3258,13 @@ static int coroutine_fn v9fs_complete_rename(V9fs=
-PDU
-> *pdu, V9fsFidState *fidp, if (err < 0) {
->          goto out;
->      }
-> +
->      /*
->       * Fixup fid's pointing to the old name to
->       * start pointing to the new name
->       */
-> -    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-> +    g_hash_table_iter_init(&iter, s->fids);
-> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
->          if (v9fs_path_is_ancestor(&fidp->path, &tfidp->path)) {
->              /* replace the name */
->              v9fs_fix_path(&tfidp->path, &new_path,
-> strlen(fidp->path.data)); @@ -3320,6 +3342,8 @@ static int coroutine_fn
-> v9fs_fix_fid_paths(V9fsPDU *pdu, V9fsPath *olddir, V9fsPath oldpath,
-> newpath;
->      V9fsState *s =3D pdu->s;
->      int err;
-> +    GHashTableIter iter;
-> +    gpointer fid;
->=20
->      v9fs_path_init(&oldpath);
->      v9fs_path_init(&newpath);
-> @@ -3336,7 +3360,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU
-> *pdu, V9fsPath *olddir, * Fixup fid's pointing to the old name to
->       * start pointing to the new name
->       */
-> -    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-> +    g_hash_table_iter_init(&iter, s->fids);
-> +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
->          if (v9fs_path_is_ancestor(&oldpath, &tfidp->path)) {
->              /* replace the name */
->              v9fs_fix_path(&tfidp->path, &newpath, strlen(oldpath.data));
-> @@ -4226,7 +4251,7 @@ int v9fs_device_realize_common(V9fsState *s, const
-> V9fsTransport *t, s->ctx.fmode =3D fse->fmode;
->      s->ctx.dmode =3D fse->dmode;
->=20
-> -    QSIMPLEQ_INIT(&s->fid_list);
-> +    s->fids =3D g_hash_table_new(NULL, NULL);
->      qemu_co_rwlock_init(&s->rename_lock);
->=20
->      if (s->ops->init(&s->ctx, errp) < 0) {
-> @@ -4286,6 +4311,10 @@ void v9fs_device_unrealize_common(V9fsState *s)
->      if (s->ctx.fst) {
->          fsdev_throttle_cleanup(s->ctx.fst);
->      }
-> +    if (s->fids) {
-> +        g_hash_table_destroy(s->fids);
-> +        s->fids =3D NULL;
-> +    }
->      g_free(s->tag);
->      qp_table_destroy(&s->qpd_table);
->      qp_table_destroy(&s->qpp_table);
-> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> index 994f952600..10fd2076c2 100644
-> --- a/hw/9pfs/9p.h
-> +++ b/hw/9pfs/9p.h
-> @@ -339,7 +339,7 @@ typedef struct {
->  struct V9fsState {
->      QLIST_HEAD(, V9fsPDU) free_list;
->      QLIST_HEAD(, V9fsPDU) active_list;
-> -    QSIMPLEQ_HEAD(, V9fsFidState) fid_list;
-> +    GHashTable *fids;
->      FileOperations *ops;
->      FsContext ctx;
->      char *tag;
-> --
-> 2.36.2
+Richard Henderson (1):
+      plugins: Assert mmu_idx in range before use in qemu_plugin_get_hwaddr
 
+ docs/devel/tcg-plugins.rst                         | 175 ++++++++++++--
+ docs/devel/writing-monitor-commands.rst            |   2 +-
+ configure                                          | 258 ++++++++-------------
+ Makefile                                           |  12 +-
+ pc-bios/s390-ccw/netboot.mak                       |  27 +--
+ meson.build                                        |   6 +-
+ accel/kvm/kvm-cpus.h                               |   4 +
+ gdbstub/internals.h                                |  17 ++
+ gdbstub/trace.h                                    |   1 +
+ include/monitor/monitor.h                          |   1 +
+ include/qemu/accel.h                               |  12 +
+ include/qemu/plugin.h                              |  24 ++
+ include/sysemu/accel-ops.h                         |   7 +
+ include/sysemu/cpus.h                              |   3 +
+ include/sysemu/kvm.h                               |  36 ++-
+ monitor/monitor-internal.h                         |   1 -
+ tests/qtest/libqos/qgraph.h                        |   2 +-
+ accel/accel-common.c                               |  10 +
+ accel/kvm/kvm-accel-ops.c                          |   9 +
+ accel/kvm/kvm-all.c                                |  48 ++--
+ accel/stubs/kvm-stub.c                             |  21 --
+ accel/tcg/tcg-accel-ops.c                          |  98 ++++++++
+ accel/tcg/tcg-all.c                                |  17 ++
+ block/monitor/block-hmp-cmds.c                     |  10 +-
+ contrib/plugins/execlog.c                          |  99 ++++++--
+ disas.c                                            |  43 ++--
+ disas/capstone.c                                   |  73 +++---
+ gdbstub.c => gdbstub/gdbstub.c                     | 156 ++-----------
+ gdbstub/softmmu.c                                  |  51 ++++
+ gdbstub/user.c                                     |  68 ++++++
+ hw/misc/mos6522.c                                  |   2 +-
+ linux-user/main.c                                  |   2 +
+ monitor/hmp-cmds.c                                 |   8 +-
+ monitor/hmp.c                                      |   2 +-
+ plugins/api.c                                      |   2 +
+ plugins/core.c                                     |  20 ++
+ semihosting/arm-compat-semi.c                      |   2 +-
+ softmmu/cpus.c                                     |   7 +
+ target/i386/helper.c                               |   2 +-
+ tests/tcg/{ppc64le => ppc64}/bcdsub.c              |   0
+ tests/tcg/{ppc64le => ppc64}/byte_reverse.c        |   0
+ tests/tcg/{ppc64le => ppc64}/mffsce.c              |   0
+ tests/tcg/{ppc64le => ppc64}/mtfsf.c               |   0
+ tests/tcg/{ppc64le => ppc64}/non_signalling_xscv.c |   0
+ .../{ppc64le => ppc64}/signal_save_restore_xer.c   |   0
+ tests/tcg/{ppc64le => ppc64}/xxspltw.c             |   0
+ .gitlab-ci.d/cirrus/freebsd-12.vars                |   2 +-
+ .gitlab-ci.d/cirrus/freebsd-13.vars                |   2 +-
+ .gitlab-ci.d/cirrus/macos-11.vars                  |   2 +-
+ .gitlab-ci.d/windows.yml                           |   6 +-
+ .mailmap                                           |   1 +
+ MAINTAINERS                                        |   2 +-
+ contrib/gitdm/domain-map                           |   2 +
+ contrib/gitdm/group-map-academics                  |   6 +
+ contrib/gitdm/group-map-individuals                |   3 +
+ gdbstub/meson.build                                |   9 +
+ gdbstub/trace-events                               |  29 +++
+ pc-bios/optionrom/Makefile                         |  51 ++--
+ pc-bios/s390-ccw/Makefile                          |  43 ++--
+ pc-bios/vof/Makefile                               |  19 +-
+ scripts/ci/setup/build-environment.yml             |  15 +-
+ tests/Makefile.include                             |  24 +-
+ tests/docker/Makefile.include                      |   2 +-
+ tests/docker/dockerfiles/alpine.docker             |   6 +-
+ tests/docker/dockerfiles/centos8.docker            |   2 +
+ tests/docker/dockerfiles/debian-amd64-cross.docker |   3 +
+ tests/docker/dockerfiles/debian-amd64.docker       |   2 +
+ tests/docker/dockerfiles/debian-arm64-cross.docker |   3 +
+ tests/docker/dockerfiles/debian-armel-cross.docker |   3 +
+ tests/docker/dockerfiles/debian-armhf-cross.docker |   3 +
+ .../dockerfiles/debian-mips64el-cross.docker       |   3 +
+ .../docker/dockerfiles/debian-mipsel-cross.docker  |   3 +
+ .../docker/dockerfiles/debian-ppc64el-cross.docker |   3 +
+ .../docker/dockerfiles/debian-riscv64-cross.docker |   3 +
+ tests/docker/dockerfiles/debian-s390x-cross.docker |   3 +
+ tests/docker/dockerfiles/fedora-i386-cross.docker  |   2 +
+ tests/docker/dockerfiles/fedora-win32-cross.docker | 136 ++++++++---
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 134 ++++++++---
+ tests/docker/dockerfiles/fedora.docker             |   2 +
+ tests/docker/dockerfiles/opensuse-leap.docker      |   2 +
+ tests/docker/dockerfiles/ubuntu2004.docker         |   2 +
+ tests/docker/run                                   |   2 +-
+ tests/lcitool/projects/qemu.yml                    |   3 +
+ tests/lcitool/refresh                              |  50 ++--
+ tests/tcg/Makefile.target                          |  34 ++-
+ tests/tcg/aarch64/Makefile.softmmu-target          |  11 +-
+ tests/tcg/aarch64/Makefile.target                  |  15 +-
+ tests/tcg/arm/Makefile.target                      |   9 +-
+ tests/tcg/cris/Makefile.target                     |   2 +-
+ tests/tcg/i386/Makefile.softmmu-target             |   3 +-
+ tests/tcg/i386/Makefile.target                     |  11 +-
+ tests/tcg/multiarch/Makefile.target                |  18 +-
+ tests/tcg/multiarch/system/Makefile.softmmu-target |   2 +-
+ tests/tcg/ppc64/Makefile.target                    |   8 +-
+ tests/tcg/ppc64le/Makefile.target                  |  26 +--
+ tests/tcg/s390x/Makefile.target                    |   2 +-
+ tests/tcg/x86_64/Makefile.softmmu-target           |   3 +-
+ trace-events                                       |  28 ---
+ 98 files changed, 1361 insertions(+), 737 deletions(-)
+ create mode 100644 gdbstub/internals.h
+ create mode 100644 gdbstub/trace.h
+ rename gdbstub.c => gdbstub/gdbstub.c (95%)
+ create mode 100644 gdbstub/softmmu.c
+ create mode 100644 gdbstub/user.c
+ rename tests/tcg/{ppc64le => ppc64}/bcdsub.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/byte_reverse.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/mffsce.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/mtfsf.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/non_signalling_xscv.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/signal_save_restore_xer.c (100%)
+ rename tests/tcg/{ppc64le => ppc64}/xxspltw.c (100%)
+ create mode 100644 gdbstub/meson.build
+ create mode 100644 gdbstub/trace-events
 
+-- 
+2.34.1
 
 
