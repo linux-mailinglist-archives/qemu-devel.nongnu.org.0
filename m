@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D860B5F45CC
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 16:41:29 +0200 (CEST)
-Received: from localhost ([::1]:60028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 772F35F45D1
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 16:41:55 +0200 (CEST)
+Received: from localhost ([::1]:58572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofj6u-0006TP-Tj
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 10:41:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58780)
+	id 1ofj7K-00074F-IP
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 10:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofi34-0001Ut-JE
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:33:27 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37381)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ofiMr-0004lU-CJ
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:53:53 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:36714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofi32-0001AH-Sd
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:33:26 -0400
-Received: by mail-wr1-x432.google.com with SMTP id bq9so21356618wrb.4
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:33:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
- bh=fUsWM0F2RZwMC7/m5LNFaa4MnGnHgn83OTM1RrqS+fQ=;
- b=HJrB3ruTgjuA6NxZiFR3nqXwvzwlwU8PmbxvxHdb/Fsmp8xRNgt+3bPeTN1Fk9I8br
- Vpzb4obfHEqqvKMtlfuTrlYLzslzTsD1tSwUoXQSAUBMpgoOkmdXbukoXed2b5+4Df+8
- oSziIbsHf0pggYtl94+J1nao84zGht/V09vM/GrXXv/p7T99fb+NGjbDtN12+G6GTqwH
- eyPkh6HqKJ3nHM+kmK1557SNJgdZ1F4jPWiG8eI/w9KTd9QCGNB0PmYro8qPVw5DkVdR
- GxeC1zJq1RGqMsiB3807hNzpZOWYT+ISiNBV5e7Iet7uGFQoLNgz0fMiNRFmRqAQVh2z
- HGXg==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ofiMp-0004IO-CQ
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:53:52 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id 126so16863993ybw.3
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:53:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=Hs3jvXYRoW9cue3NWCTKTBo720DcB8K81r/kuPpiKLg=;
+ b=NKVA9fTuWcg09Dku5bT/SxrAfaWTl4KWWCzK5e1YEmWxMcBMAtGeke6u6Uzeys0MpG
+ orqbTldkVSP4mEZ8pETdfFsIDjm3bdLtsGBnnVcs/0AXfagv8f4hTMz5TA+pYUNezVR9
+ x8B+dJxYJ2XAwOxtZDxCBt8/hC128iqbGxU0GCOPcd4Ga5TqAjZftpXyK2ofqDnwrWS9
+ nAYxOQDRUb7XuRKggMq9a7V4oh3Qjmytldrn5bEOpmMJGrPcTr8wx8zlH/xspYCjhwD4
+ 2xOYNNERdQPKQ6fEQFdKFUl7h2mgA8nxiAO7+O8VgotTWu8yHzRHPuuhawFfZ6UEVlio
+ pX0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date;
- bh=fUsWM0F2RZwMC7/m5LNFaa4MnGnHgn83OTM1RrqS+fQ=;
- b=Fu/G1FJC/BKcBiydI3PG2vGsXul9Rk/1CzLmDpLF3VAOaDTMBOMptbyvvfIX1ACkmE
- OO7I3idJ0OHrlXK34PgdKQ5JeRY8a5e6LZQfZmg0vNUNug2cnNvu5yUoXvVwl2iz0v5K
- w/C5BLZCvmhznJX5miZW15xZfq7Kc8ultewvohu9+0JFWzIXVl22Gv7NYV/ExHQjP8Mp
- QNPjbGA6NgaYlVuiK/hdPDBhROjbyzd4WD1yRLH+c/ncU98cIf59osX8sa3k4e4Eg7np
- kuYVRX6H8bDELP/KU9NR62SoT344wKPFYKdHZsIqfPHpvY1sVr3LKqjXJap92bsNKyG8
- c/Lw==
-X-Gm-Message-State: ACrzQf3ZmlcmDMVAinTE/gy57akDUunS6XppzQuG6pZ8dxelGQKTnXbY
- 08yBY0VC/Tza1tcwvhQmXGSRVQ==
-X-Google-Smtp-Source: AMsMyM5kjANVUmPp1OVarrETwAQZFBtDPkN8W++LoqLrkyCF2s7kJjAIkuw4jGI4yWMp9ybuYYOBKw==
-X-Received: by 2002:a5d:6483:0:b0:22e:4804:8be4 with SMTP id
- o3-20020a5d6483000000b0022e48048be4mr3848721wri.528.1664890402959; 
- Tue, 04 Oct 2022 06:33:22 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- h17-20020adff191000000b0022cd0c8c696sm12207965wro.103.2022.10.04.06.33.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 06:33:22 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9B48E1FFBA;
- Tue,  4 Oct 2022 14:33:21 +0100 (BST)
-References: <20220927141504.3886314-1-alex.bennee@linaro.org>
- <20220927141504.3886314-2-alex.bennee@linaro.org>
- <769e0e8a-7787-b02b-9e26-87eca955666b@linaro.org>
- <CAFEAcA-0zoNS0nWrYu6hM1=8tG4i4GkjHLL2v4OMmJv5GaDAMg@mail.gmail.com>
-User-agent: mu4e 1.9.0; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, Peter Xu
- <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH v3 01/15] hw: encode accessing CPU index in MemTxAttrs
-Date: Tue, 04 Oct 2022 14:32:12 +0100
-In-reply-to: <CAFEAcA-0zoNS0nWrYu6hM1=8tG4i4GkjHLL2v4OMmJv5GaDAMg@mail.gmail.com>
-Message-ID: <87r0znlnmm.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=Hs3jvXYRoW9cue3NWCTKTBo720DcB8K81r/kuPpiKLg=;
+ b=uRWBMoRqai39JcGLFpRuE7KBucc9G3htdZNs7iTPlSL3BxE45dI8Q/M9kQPnmpFio9
+ mPVNzqvw9tKEeptZMsjzF4K+TKGXVMvbVM+GTzNBLKFmkoX9+lkKBCY5nfcpSWQ+ZKea
+ qtuYSop0w1luKxnngQVsSB+gLwI8K97Gw1/nNT9JTCsqDtIUpGQ8Vhwg0acnXzjsnvI+
+ AQIIWtHUP+osyEJzEki9dnzCUeoVmL+Ij5UD5pilRljOKmWkb2dJa9fvjuagqf/NNmad
+ MCmyacvcreU4s8EJNaVe5zslEzVEz4ihRewhm4LztvAFe0iYUag7P3cvyaIVI0k6qFVq
+ SjXQ==
+X-Gm-Message-State: ACrzQf1QbDU6+4bQsia6pAybsdKe0vfDzREqicIclU/odiZL5ZmI3RyG
+ CCQvNJ0M7BWSsF9f+XS0a4bUqVtPFPqACBNagUA=
+X-Google-Smtp-Source: AMsMyM6+zGsuKsj2AwyUhlrPTvcMauXh5gjI+oX3NcpIaTUUvACKUgqczJK/iCDAJc9ZZht8ZphALvXUKQeyqyY04SE=
+X-Received: by 2002:a05:6902:44:b0:6af:f412:cfb7 with SMTP id
+ m4-20020a056902004400b006aff412cfb7mr23782496ybh.366.1664891624610; Tue, 04
+ Oct 2022 06:53:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
+ <YzwARuAZdaoGTUfP@T590>
+In-Reply-To: <YzwARuAZdaoGTUfP@T590>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 4 Oct 2022 09:53:32 -0400
+Message-ID: <CAJSP0QXVK=wUy_JgJ9NmNMtKTRoRX0MwOZUuFWU-1mVWWKij8A@mail.gmail.com>
+Subject: Re: ublk-qcow2: ublk-qcow2 is available
+To: Ming Lei <tom.leiming@gmail.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, io-uring@vger.kernel.org, 
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kirill Tkhai <kirill.tkhai@openvz.org>,
+ Manuel Bentele <development@manuel-bentele.de>, 
+ qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>, rjones@redhat.com, 
+ Xie Yongji <xieyongji@bytedance.com>, "Denis V. Lunev" <den@openvz.org>, 
+ Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,52 +89,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Wed, 28 Sept 2022 at 17:42, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 9/27/22 07:14, Alex Benn=C3=A9e wrote:
->> > --- a/hw/misc/tz-msc.c
->> > +++ b/hw/misc/tz-msc.c
->> > @@ -137,11 +137,11 @@ static MemTxResult tz_msc_read(void *opaque, hwa=
-ddr addr, uint64_t *pdata,
->> >           return MEMTX_OK;
->> >       case MSCAllowSecure:
->> >           attrs.secure =3D 1;
->> > -        attrs.unspecified =3D 0;
->> > +        attrs.requester_type =3D MTRT_CPU;
->> >           break;
->> >       case MSCAllowNonSecure:
->> >           attrs.secure =3D 0;
->> > -        attrs.unspecified =3D 0;
->> > +        attrs.requester_type =3D MTRT_CPU;
->> >           break;
->>
->> This is surely incomplete.  You can't just set "cpu" without saying wher=
-e it's from.
->>
->> Since this device is only used by the ARMSSE machine, I would hope that =
-attrs.unspecified
->> should never be set before the patch, and thus MTRT_CPU should be set af=
-terward.
+On Tue, 4 Oct 2022 at 05:44, Ming Lei <tom.leiming@gmail.com> wrote:
 >
-> The MSC is in the address map like most other stuff, and thus there is
-> no restriction on whether it can be accessed by other things than CPUs
-> (DMAing to it would be silly but is perfectly possible).
+> On Mon, Oct 03, 2022 at 03:53:41PM -0400, Stefan Hajnoczi wrote:
+> > On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
+> > > ublk-qcow2 is available now.
+> >
+> > Cool, thanks for sharing!
+> >
+> > >
+> > > So far it provides basic read/write function, and compression and snapshot
+> > > aren't supported yet. The target/backend implementation is completely
+> > > based on io_uring, and share the same io_uring with ublk IO command
+> > > handler, just like what ublk-loop does.
+> > >
+> > > Follows the main motivations of ublk-qcow2:
+> > >
+> > > - building one complicated target from scratch helps libublksrv APIs/functions
+> > >   become mature/stable more quickly, since qcow2 is complicated and needs more
+> > >   requirement from libublksrv compared with other simple ones(loop, null)
+> > >
+> > > - there are several attempts of implementing qcow2 driver in kernel, such as
+> > >   ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`` [4], so ublk-qcow2
+> > >   might useful be for covering requirement in this field
+> > >
+> > > - performance comparison with qemu-nbd, and it was my 1st thought to evaluate
+> > >   performance of ublk/io_uring backend by writing one ublk-qcow2 since ublksrv
+> > >   is started
+> > >
+> > > - help to abstract common building block or design pattern for writing new ublk
+> > >   target/backend
+> > >
+> > > So far it basically passes xfstest(XFS) test by using ublk-qcow2 block
+> > > device as TEST_DEV, and kernel building workload is verified too. Also
+> > > soft update approach is applied in meta flushing, and meta data
+> > > integrity is guaranteed, 'make test T=qcow2/040' covers this kind of
+> > > test, and only cluster leak is reported during this test.
+> > >
+> > > The performance data looks much better compared with qemu-nbd, see
+> > > details in commit log[1], README[5] and STATUS[6]. And the test covers both
+> > > empty image and pre-allocated image, for example of pre-allocated qcow2
+> > > image(8GB):
+> > >
+> > > - qemu-nbd (make test T=qcow2/002)
+> >
+> > Single queue?
 >
-> The intent of the code is "pass this transaction through, but force
-> it to be Secure/NonSecure regardless of what it was before". That
-> should not involve a change of the requester type.
+> Yeah.
+>
+> >
+> > >     randwrite(4k): jobs 1, iops 24605
+> > >     randread(4k): jobs 1, iops 30938
+> > >     randrw(4k): jobs 1, iops read 13981 write 14001
+> > >     rw(512k): jobs 1, iops read 724 write 728
+> >
+> > Please try qemu-storage-daemon's VDUSE export type as well. The
+> > command-line should be similar to this:
+> >
+> >   # modprobe virtio_vdpa # attaches vDPA devices to host kernel
+>
+> Not found virtio_vdpa module even though I enabled all the following
+> options:
+>
+>         --- vDPA drivers
+>           <M>   vDPA device simulator core
+>           <M>     vDPA simulator for networking device
+>           <M>     vDPA simulator for block device
+>           <M>   VDUSE (vDPA Device in Userspace) support
+>           <M>   Intel IFC VF vDPA driver
+>           <M>   Virtio PCI bridge vDPA driver
+>           <M>   vDPA driver for Alibaba ENI
+>
+> BTW, my test environment is VM and the shared data is done in VM too, and
+> can virtio_vdpa be used inside VM?
 
-Should we assert (or warn) when the requester_type is unspecified?
+I hope Xie Yongji can help explain how to benchmark VDUSE.
+
+virtio_vdpa is available inside guests too. Please check that
+VIRTIO_VDPA ("vDPA driver for virtio devices") is enabled in "Virtio
+drivers" menu.
 
 >
-> thanks
-> -- PMM
+> >   # modprobe vduse
+> >   # qemu-storage-daemon \
+> >       --blockdev file,filename=test.qcow2,cache.direct=of|off,aio=native,node-name=file \
+> >       --blockdev qcow2,file=file,node-name=qcow2 \
+> >       --object iothread,id=iothread0 \
+> >       --export vduse-blk,id=vduse0,name=vduse0,num-queues=$(nproc),node-name=qcow2,writable=on,iothread=iothread0
+> >   # vdpa dev add name vduse0 mgmtdev vduse
+> >
+> > A virtio-blk device should appear and xfstests can be run on it
+> > (typically /dev/vda unless you already have other virtio-blk devices).
+> >
+> > Afterwards you can destroy the device using:
+> >
+> >   # vdpa dev del vduse0
+> >
+> > >
+> > > - ublk-qcow2 (make test T=qcow2/022)
+> >
+> > There are a lot of other factors not directly related to NBD vs ublk. In
+> > order to get an apples-to-apples comparison with qemu-* a ublk export
+> > type is needed in qemu-storage-daemon. That way only the difference is
+> > the ublk interface and the rest of the code path is identical, making it
+> > possible to compare NBD, VDUSE, ublk, etc more precisely.
+>
+> Maybe not true.
+>
+> ublk-qcow2 uses io_uring to handle all backend IO(include meta IO) completely,
+> and so far single io_uring/pthread is for handling all qcow2 IOs and IO
+> command.
 
+qemu-nbd doesn't use io_uring to handle the backend IO, so we don't
+know whether the benchmark demonstrates that ublk is faster than NBD,
+that the ublk-qcow2 implementation is faster than qemu-nbd's qcow2,
+whether there are miscellaneous implementation differences between
+ublk-qcow2 and qemu-nbd (like using the same io_uring context for both
+ublk and backend IO), or something else.
 
---=20
-Alex Benn=C3=A9e
+I'm suggesting measuring changes to just 1 variable at a time.
+Otherwise it's hard to reach a conclusion about the root cause of the
+performance difference. Let's learn why ublk-qcow2 performs well.
+
+Stefan
 
