@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C675F4A4F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 22:29:24 +0200 (CEST)
-Received: from localhost ([::1]:54442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0505F4A58
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 22:35:07 +0200 (CEST)
+Received: from localhost ([::1]:59850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofoXb-0000Q8-VX
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 16:29:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51632)
+	id 1ofod8-0006LQ-1v
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 16:35:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofnyU-0002DR-Eg
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 15:53:07 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:35346)
+ id 1ofnyW-0002Ei-WD
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 15:53:10 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofnyR-0000J2-Uj
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 15:53:06 -0400
-Received: by mail-pg1-x529.google.com with SMTP id j71so7399473pge.2
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 12:53:03 -0700 (PDT)
+ id 1ofnyS-0000JM-R8
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 15:53:07 -0400
+Received: by mail-pl1-x630.google.com with SMTP id x1so13564547plv.5
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 12:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=DJ375f2f0/rpFxGusvoYB185jN+EVbOYzd0NkFA5EM0=;
- b=ZEsEgFjw4OVDPVJd6e/SCBU8fq5ZSkSOe5fpOQQa0JyHteqOlAB0Qg3SH1Ysnt2GEC
- gRZcCk3oMznYA0zh9CcUd/whi2wJKtj9ZKRFnGqyTfBl6S/t+tFdr2WAopKPS4Khluf5
- YJ4vS+VfdnRewZ/Npibdk5PbOMgdviBTo0YQ3Ix93XWSd0zlBLXgVL6CkUXARP8CNpx0
- DVw+gNNpnMXcahh6ctSli+iMBEH8Ev4yeX4D3ly76rwb7y2sq/Ewd5RvsuL227Z4qXKT
- CKje+d+0rUbAZeFiRaGHJvFW+aZktqyzyHGZdIx16l3bGgBxgWzlSc53u2h7iy5bIudh
- ZX/g==
+ bh=HLcUorCJlB4lSvVTCc9YU9rdFfxf313/xQ83iKPFDkY=;
+ b=po5HvnpOQF1VJWF6Lx8qW00fMOq+Ut7aItfQtoLTDLAogxOzfphSqnD5f29rsXoMUb
+ Kz8ChcYRvGIyHXWqWF2agoQ8aqQXnuKVZR8ra+BMOk75ZeaU4Pj0s9zEnubA2+REQnCt
+ btZWNWka45fWGCtY431R3NkWcWkm/V3l2qmMCb/dqfaYvy6s+8nHeZV6XiYq76HbXT9Z
+ GnIH3XkmhKE6jYHfOhOUjy49Eh6ypayc4AWuQyWaw6pjWkzM/61YRMj9FpnHCuMEl2lu
+ 5TAxpnV84fOEJ4csO9S04Zh7l6moJKCvuMyegXSrztsZ4mlsRnCnVz6jd67r4cBN626r
+ NHDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=DJ375f2f0/rpFxGusvoYB185jN+EVbOYzd0NkFA5EM0=;
- b=cCGP5JHowjrarARcmNW4mzGnIW4sDCY9wQhwrlPi9o+ixldVjG6sKEit/W+DB53IpQ
- x5P1eaq81qxhzGKwshBpWg3uFKLfeJ6EE0lj3dldh8tNFY+IIW2JgGBCaLvQvHUKrQgb
- PcZiRX2Wbidq/UuT1TvI+XK3/ZcgpU7E1UYe8dZ7/GdpRaoDWXCCl6dvInC/Pgawx0yN
- 4nljZU8ZWZXKRDqyPHQxWWtcYa55aCNRquProI49lK3ci8gdEhF0r3ZKswly/U+/OoGe
- 0+mFRfYRUcNL4two/tOhShP/7Ll/9uBHtWTGe5+zldzvOkyYtieIhq60112cbP4SxeGz
- RrTg==
-X-Gm-Message-State: ACrzQf2Come4uJPr9WZvhH/9GZTorOAhFcOy+iM16d4jt6TMjlCJGo4q
- SZmw2us4YxcZqz0TX8ZAw0ie+UwpGlEvdw==
-X-Google-Smtp-Source: AMsMyM4Omh/DAsXxLFKSq+cDkkCMDAlku5C75tdBP6LL7npHzpQfysX8R6MPJnTuqfvUsJNWS1F3Ow==
-X-Received: by 2002:a65:6e0d:0:b0:42d:707c:94ee with SMTP id
- bd13-20020a656e0d000000b0042d707c94eemr24001410pgb.260.1664913182471; 
- Tue, 04 Oct 2022 12:53:02 -0700 (PDT)
+ bh=HLcUorCJlB4lSvVTCc9YU9rdFfxf313/xQ83iKPFDkY=;
+ b=KR4AGTPaT6MJDZDooO42EqHfDhg6KtrUzq40Ezd2tALPWtwxt7SwqBEOtnjx8NQ1Sz
+ 8TqBuQAtTcZqQ/a+avBqgYRYFWb4FVeRh67RqFM9v7UofJTlr+50gr1BkZ+MIpgHj1V0
+ Fiv9zS6W2DHJyp+YjDjI+GXNCza6mFUniWOB5pZU1TfqBX56qgGu27i1O6JkleRW2dXB
+ 6bkPiqHNVm76uUmPabQ8KIturxcVZZ8yzoD5g+AO+H99bh+USWsyGhojPqac0uCQZZrh
+ /yj6yWtvdqP7TzzSC7x1yr6da4Nd7QZiK6Yw1qAiVpGCt/YXe34ugUCp2pxHRmB0GaPs
+ SKOA==
+X-Gm-Message-State: ACrzQf2b2xTDE/kTMGD61CM6gecEgf/RzKVelgx68t+2fTEWWN/0ZaBc
+ Pqszs5UfaWsznXqN9At9UrT8OuXJgNU07w==
+X-Google-Smtp-Source: AMsMyM7P94nVJT8XGC1m7L1Ax9ETrZwj3rxhEVcs4Tyr/HSsCOmpAwULBevE544qVhLX9JU/8gBMaA==
+X-Received: by 2002:a17:90a:fe13:b0:20a:8fc8:60ec with SMTP id
+ ck19-20020a17090afe1300b0020a8fc860ecmr1314006pjb.69.1664913183440; 
+ Tue, 04 Oct 2022 12:53:03 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:526e:3326:a84e:e5e3])
  by smtp.gmail.com with ESMTPSA id
- u23-20020a1709026e1700b00172973d3cd9sm9293406plk.55.2022.10.04.12.53.01
+ u23-20020a1709026e1700b00172973d3cd9sm9293406plk.55.2022.10.04.12.53.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 12:53:01 -0700 (PDT)
+ Tue, 04 Oct 2022 12:53:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
-	Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: [PULL 19/20] tcg/ppc: Optimize 26-bit jumps
-Date: Tue,  4 Oct 2022 12:52:40 -0700
-Message-Id: <20221004195241.46491-20-richard.henderson@linaro.org>
+	Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: [PULL 20/20] target/sh4: Fix TB_FLAG_UNALIGN
+Date: Tue,  4 Oct 2022 12:52:41 -0700
+Message-Id: <20221004195241.46491-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004195241.46491-1-richard.henderson@linaro.org>
 References: <20221004195241.46491-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,171 +90,491 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leandro Lupori <leandro.lupori@eldorado.org.br>
+The value previously chosen overlaps GUSA_MASK.
 
-PowerPC64 processors handle direct branches better than indirect
-ones, resulting in less stalled cycles and branch misses.
+Rename all DELAY_SLOT_* and GUSA_* defines to emphasize
+that they are included in TB_FLAGs.  Add aliases for the
+FPSCR and SR bits that are included in TB_FLAGS, so that
+we don't accidentally reassign those bits.
 
-However, PPC's tb_target_set_jmp_target() was only using direct
-branches for 16-bit jumps, while PowerPC64's unconditional branch
-instructions are able to handle displacements of up to 26 bits.
-To take advantage of this, now jumps whose displacements fit in
-between 17 and 26 bits are also converted to direct branches.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
-[rth: Expanded some commentary.]
+Fixes: 4da06fb3062 ("target/sh4: Implement prctl_unalign_sigbus")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/856
+Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/ppc/tcg-target.c.inc | 119 +++++++++++++++++++++++++++++----------
- 1 file changed, 88 insertions(+), 31 deletions(-)
+ target/sh4/cpu.h        | 56 +++++++++++++------------
+ linux-user/sh4/signal.c |  6 +--
+ target/sh4/cpu.c        |  6 +--
+ target/sh4/helper.c     |  6 +--
+ target/sh4/translate.c  | 90 ++++++++++++++++++++++-------------------
+ 5 files changed, 88 insertions(+), 76 deletions(-)
 
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 1cbd047ab3..e3dba47697 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -1847,44 +1847,101 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
-     tcg_out32(s, insn);
- }
+diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+index 9f15ef913c..727b829598 100644
+--- a/target/sh4/cpu.h
++++ b/target/sh4/cpu.h
+@@ -78,26 +78,33 @@
+ #define FPSCR_RM_NEAREST       (0 << 0)
+ #define FPSCR_RM_ZERO          (1 << 0)
  
-+static inline uint64_t make_pair(tcg_insn_unit i1, tcg_insn_unit i2)
-+{
-+    if (HOST_BIG_ENDIAN) {
-+        return (uint64_t)i1 << 32 | i2;
-+    }
-+    return (uint64_t)i2 << 32 | i1;
-+}
-+
-+static inline void ppc64_replace2(uintptr_t rx, uintptr_t rw,
-+                                  tcg_insn_unit i0, tcg_insn_unit i1)
-+{
-+#if TCG_TARGET_REG_BITS == 64
-+    qatomic_set((uint64_t *)rw, make_pair(i0, i1));
-+    flush_idcache_range(rx, rw, 8);
-+#else
-+    qemu_build_not_reached();
-+#endif
-+}
-+
-+static inline void ppc64_replace4(uintptr_t rx, uintptr_t rw,
-+                                  tcg_insn_unit i0, tcg_insn_unit i1,
-+                                  tcg_insn_unit i2, tcg_insn_unit i3)
-+{
-+    uint64_t p[2];
-+
-+    p[!HOST_BIG_ENDIAN] = make_pair(i0, i1);
-+    p[HOST_BIG_ENDIAN] = make_pair(i2, i3);
-+
-+    /*
-+     * There's no convenient way to get the compiler to allocate a pair
-+     * of registers at an even index, so copy into r6/r7 and clobber.
-+     */
-+    asm("mr  %%r6, %1\n\t"
-+        "mr  %%r7, %2\n\t"
-+        "stq %%r6, %0"
-+        : "=Q"(*(__int128 *)rw) : "r"(p[0]), "r"(p[1]) : "r6", "r7");
-+    flush_idcache_range(rx, rw, 16);
-+}
-+
- void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
-                               uintptr_t jmp_rw, uintptr_t addr)
- {
--    if (TCG_TARGET_REG_BITS == 64) {
--        tcg_insn_unit i1, i2;
--        intptr_t tb_diff = addr - tc_ptr;
--        intptr_t br_diff = addr - (jmp_rx + 4);
--        uint64_t pair;
-+    tcg_insn_unit i0, i1, i2, i3;
-+    intptr_t tb_diff = addr - tc_ptr;
-+    intptr_t br_diff = addr - (jmp_rx + 4);
-+    intptr_t lo, hi;
+-#define DELAY_SLOT_MASK        0x7
+-#define DELAY_SLOT             (1 << 0)
+-#define DELAY_SLOT_CONDITIONAL (1 << 1)
+-#define DELAY_SLOT_RTE         (1 << 2)
++#define TB_FLAG_DELAY_SLOT       (1 << 0)
++#define TB_FLAG_DELAY_SLOT_COND  (1 << 1)
++#define TB_FLAG_DELAY_SLOT_RTE   (1 << 2)
++#define TB_FLAG_PENDING_MOVCA    (1 << 3)
++#define TB_FLAG_GUSA_SHIFT       4                      /* [11:4] */
++#define TB_FLAG_GUSA_EXCLUSIVE   (1 << 12)
++#define TB_FLAG_UNALIGN          (1 << 13)
++#define TB_FLAG_SR_FD            (1 << SR_FD)           /* 15 */
++#define TB_FLAG_FPSCR_PR         FPSCR_PR               /* 19 */
++#define TB_FLAG_FPSCR_SZ         FPSCR_SZ               /* 20 */
++#define TB_FLAG_FPSCR_FR         FPSCR_FR               /* 21 */
++#define TB_FLAG_SR_RB            (1 << SR_RB)           /* 29 */
++#define TB_FLAG_SR_MD            (1 << SR_MD)           /* 30 */
  
--        /* This does not exercise the range of the branch, but we do
--           still need to be able to load the new value of TCG_REG_TB.
--           But this does still happen quite often.  */
--        if (tb_diff == (int16_t)tb_diff) {
--            i1 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, tb_diff);
--            i2 = B | (br_diff & 0x3fffffc);
--        } else {
--            intptr_t lo = (int16_t)tb_diff;
--            intptr_t hi = (int32_t)(tb_diff - lo);
--            assert(tb_diff == hi + lo);
--            i1 = ADDIS | TAI(TCG_REG_TB, TCG_REG_TB, hi >> 16);
--            i2 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, lo);
--        }
--#if HOST_BIG_ENDIAN
--        pair = (uint64_t)i1 << 32 | i2;
+-#define TB_FLAG_PENDING_MOVCA  (1 << 3)
+-#define TB_FLAG_UNALIGN        (1 << 4)
+-
+-#define GUSA_SHIFT             4
+-#ifdef CONFIG_USER_ONLY
+-#define GUSA_EXCLUSIVE         (1 << 12)
+-#define GUSA_MASK              ((0xff << GUSA_SHIFT) | GUSA_EXCLUSIVE)
 -#else
--        pair = (uint64_t)i2 << 32 | i1;
+-/* Provide dummy versions of the above to allow tests against tbflags
+-   to be elided while avoiding ifdefs.  */
+-#define GUSA_EXCLUSIVE         0
+-#define GUSA_MASK              0
 -#endif
 -
--        /* As per the enclosing if, this is ppc64.  Avoid the _Static_assert
--           within qatomic_set that would fail to build a ppc32 host.  */
--        qatomic_set__nocheck((uint64_t *)jmp_rw, pair);
--        flush_idcache_range(jmp_rx, jmp_rw, 8);
--    } else {
-+    if (TCG_TARGET_REG_BITS == 32) {
-         intptr_t diff = addr - jmp_rx;
-         tcg_debug_assert(in_range_b(diff));
-         qatomic_set((uint32_t *)jmp_rw, B | (diff & 0x3fffffc));
-         flush_idcache_range(jmp_rx, jmp_rw, 4);
-+        return;
-     }
-+
-+    /*
-+     * For 16-bit displacements, we can use a single add + branch.
-+     * This happens quite often.
-+     */
-+    if (tb_diff == (int16_t)tb_diff) {
-+        i0 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, tb_diff);
-+        i1 = B | (br_diff & 0x3fffffc);
-+        ppc64_replace2(jmp_rx, jmp_rw, i0, i1);
-+        return;
-+    }
-+
-+    lo = (int16_t)tb_diff;
-+    hi = (int32_t)(tb_diff - lo);
-+    assert(tb_diff == hi + lo);
-+    i0 = ADDIS | TAI(TCG_REG_TB, TCG_REG_TB, hi >> 16);
-+    i1 = ADDI | TAI(TCG_REG_TB, TCG_REG_TB, lo);
-+
-+    /*
-+     * Without stq from 2.07, we can only update two insns,
-+     * and those must be the ones that load the target address.
-+     */
-+    if (!have_isa_2_07) {
-+        ppc64_replace2(jmp_rx, jmp_rw, i0, i1);
-+        return;
-+    }
-+
-+    /*
-+     * For 26-bit displacements, we can use a direct branch.
-+     * Otherwise we still need the indirect branch, which we
-+     * must restore after a potential direct branch write.
-+     */
-+    br_diff -= 4;
-+    if (in_range_b(br_diff)) {
-+        i2 = B | (br_diff & 0x3fffffc);
-+        i3 = NOP;
-+    } else {
-+        i2 = MTSPR | RS(TCG_REG_TB) | CTR;
-+        i3 = BCCTR | BO_ALWAYS;
-+    }
-+    ppc64_replace4(jmp_rx, jmp_rw, i0, i1, i2, i3);
+-#define TB_FLAG_ENVFLAGS_MASK  (DELAY_SLOT_MASK | GUSA_MASK)
++#define TB_FLAG_DELAY_SLOT_MASK  (TB_FLAG_DELAY_SLOT |       \
++                                  TB_FLAG_DELAY_SLOT_COND |  \
++                                  TB_FLAG_DELAY_SLOT_RTE)
++#define TB_FLAG_GUSA_MASK        ((0xff << TB_FLAG_GUSA_SHIFT) | \
++                                  TB_FLAG_GUSA_EXCLUSIVE)
++#define TB_FLAG_FPSCR_MASK       (TB_FLAG_FPSCR_PR | \
++                                  TB_FLAG_FPSCR_SZ | \
++                                  TB_FLAG_FPSCR_FR)
++#define TB_FLAG_SR_MASK          (TB_FLAG_SR_FD | \
++                                  TB_FLAG_SR_RB | \
++                                  TB_FLAG_SR_MD)
++#define TB_FLAG_ENVFLAGS_MASK    (TB_FLAG_DELAY_SLOT_MASK | \
++                                  TB_FLAG_GUSA_MASK)
+ 
+ typedef struct tlb_t {
+     uint32_t vpn;		/* virtual page number */
+@@ -258,7 +265,7 @@ static inline int cpu_mmu_index (CPUSH4State *env, bool ifetch)
+ {
+     /* The instruction in a RTE delay slot is fetched in privileged
+        mode, but executed in user mode.  */
+-    if (ifetch && (env->flags & DELAY_SLOT_RTE)) {
++    if (ifetch && (env->flags & TB_FLAG_DELAY_SLOT_RTE)) {
+         return 0;
+     } else {
+         return (env->sr & (1u << SR_MD)) == 0 ? 1 : 0;
+@@ -366,11 +373,10 @@ static inline void cpu_get_tb_cpu_state(CPUSH4State *env, target_ulong *pc,
+ {
+     *pc = env->pc;
+     /* For a gUSA region, notice the end of the region.  */
+-    *cs_base = env->flags & GUSA_MASK ? env->gregs[0] : 0;
+-    *flags = env->flags /* TB_FLAG_ENVFLAGS_MASK: bits 0-2, 4-12 */
+-            | (env->fpscr & (FPSCR_FR | FPSCR_SZ | FPSCR_PR))  /* Bits 19-21 */
+-            | (env->sr & ((1u << SR_MD) | (1u << SR_RB)))      /* Bits 29-30 */
+-            | (env->sr & (1u << SR_FD))                        /* Bit 15 */
++    *cs_base = env->flags & TB_FLAG_GUSA_MASK ? env->gregs[0] : 0;
++    *flags = env->flags
++            | (env->fpscr & TB_FLAG_FPSCR_MASK)
++            | (env->sr & TB_FLAG_SR_MASK)
+             | (env->movcal_backup ? TB_FLAG_PENDING_MOVCA : 0); /* Bit 3 */
+ #ifdef CONFIG_USER_ONLY
+     *flags |= TB_FLAG_UNALIGN * !env_cpu(env)->prctl_unalign_sigbus;
+diff --git a/linux-user/sh4/signal.c b/linux-user/sh4/signal.c
+index f6a18bc6b5..c4ba962708 100644
+--- a/linux-user/sh4/signal.c
++++ b/linux-user/sh4/signal.c
+@@ -161,7 +161,7 @@ static void restore_sigcontext(CPUSH4State *regs, struct target_sigcontext *sc)
+     __get_user(regs->fpul, &sc->sc_fpul);
+ 
+     regs->tra = -1;         /* disable syscall checks */
+-    regs->flags &= ~(DELAY_SLOT_MASK | GUSA_MASK);
++    regs->flags = 0;
  }
  
- static void tcg_out_call_int(TCGContext *s, int lk,
-@@ -2574,8 +2631,8 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         if (s->tb_jmp_insn_offset) {
-             /* Direct jump. */
-             if (TCG_TARGET_REG_BITS == 64) {
--                /* Ensure the next insns are 8-byte aligned. */
--                if ((uintptr_t)s->code_ptr & 7) {
-+                /* Ensure the next insns are 8 or 16-byte aligned. */
-+                while ((uintptr_t)s->code_ptr & (have_isa_2_07 ? 15 : 7)) {
-                     tcg_out32(s, NOP);
-                 }
-                 s->tb_jmp_insn_offset[args[0]] = tcg_current_code_size(s);
+ void setup_frame(int sig, struct target_sigaction *ka,
+@@ -199,7 +199,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+     regs->gregs[5] = 0;
+     regs->gregs[6] = frame_addr += offsetof(typeof(*frame), sc);
+     regs->pc = (unsigned long) ka->_sa_handler;
+-    regs->flags &= ~(DELAY_SLOT_MASK | GUSA_MASK);
++    regs->flags &= ~(TB_FLAG_DELAY_SLOT_MASK | TB_FLAG_GUSA_MASK);
+ 
+     unlock_user_struct(frame, frame_addr, 1);
+     return;
+@@ -251,7 +251,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     regs->gregs[5] = frame_addr + offsetof(typeof(*frame), info);
+     regs->gregs[6] = frame_addr + offsetof(typeof(*frame), uc);
+     regs->pc = (unsigned long) ka->_sa_handler;
+-    regs->flags &= ~(DELAY_SLOT_MASK | GUSA_MASK);
++    regs->flags &= ~(TB_FLAG_DELAY_SLOT_MASK | TB_FLAG_GUSA_MASK);
+ 
+     unlock_user_struct(frame, frame_addr, 1);
+     return;
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index a65a66de43..56c50530da 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -47,7 +47,7 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
+     SuperHCPU *cpu = SUPERH_CPU(cs);
+ 
+     cpu->env.pc = tb_pc(tb);
+-    cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
++    cpu->env.flags = tb->flags;
+ }
+ 
+ #ifndef CONFIG_USER_ONLY
+@@ -57,10 +57,10 @@ static bool superh_io_recompile_replay_branch(CPUState *cs,
+     SuperHCPU *cpu = SUPERH_CPU(cs);
+     CPUSH4State *env = &cpu->env;
+ 
+-    if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
++    if ((env->flags & (TB_FLAG_DELAY_SLOT | TB_FLAG_DELAY_SLOT_COND))
+         && env->pc != tb_pc(tb)) {
+         env->pc -= 2;
+-        env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
++        env->flags &= ~(TB_FLAG_DELAY_SLOT | TB_FLAG_DELAY_SLOT_COND);
+         return true;
+     }
+     return false;
+diff --git a/target/sh4/helper.c b/target/sh4/helper.c
+index 6a620e36fc..e02e7af607 100644
+--- a/target/sh4/helper.c
++++ b/target/sh4/helper.c
+@@ -147,11 +147,11 @@ void superh_cpu_do_interrupt(CPUState *cs)
+     env->sr |= (1u << SR_BL) | (1u << SR_MD) | (1u << SR_RB);
+     env->lock_addr = -1;
+ 
+-    if (env->flags & DELAY_SLOT_MASK) {
++    if (env->flags & TB_FLAG_DELAY_SLOT_MASK) {
+         /* Branch instruction should be executed again before delay slot. */
+ 	env->spc -= 2;
+ 	/* Clear flags for exception/interrupt routine. */
+-        env->flags &= ~DELAY_SLOT_MASK;
++        env->flags &= ~TB_FLAG_DELAY_SLOT_MASK;
+     }
+ 
+     if (do_exp) {
+@@ -786,7 +786,7 @@ bool superh_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+         CPUSH4State *env = &cpu->env;
+ 
+         /* Delay slots are indivisible, ignore interrupts */
+-        if (env->flags & DELAY_SLOT_MASK) {
++        if (env->flags & TB_FLAG_DELAY_SLOT_MASK) {
+             return false;
+         } else {
+             superh_cpu_do_interrupt(cs);
+diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+index 01056571c3..26231b2a5a 100644
+--- a/target/sh4/translate.c
++++ b/target/sh4/translate.c
+@@ -175,13 +175,13 @@ void superh_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+ 		    i, env->gregs[i], i + 1, env->gregs[i + 1],
+ 		    i + 2, env->gregs[i + 2], i + 3, env->gregs[i + 3]);
+     }
+-    if (env->flags & DELAY_SLOT) {
++    if (env->flags & TB_FLAG_DELAY_SLOT) {
+         qemu_printf("in delay slot (delayed_pc=0x%08x)\n",
+ 		    env->delayed_pc);
+-    } else if (env->flags & DELAY_SLOT_CONDITIONAL) {
++    } else if (env->flags & TB_FLAG_DELAY_SLOT_COND) {
+         qemu_printf("in conditional delay slot (delayed_pc=0x%08x)\n",
+ 		    env->delayed_pc);
+-    } else if (env->flags & DELAY_SLOT_RTE) {
++    } else if (env->flags & TB_FLAG_DELAY_SLOT_RTE) {
+         qemu_fprintf(f, "in rte delay slot (delayed_pc=0x%08x)\n",
+                      env->delayed_pc);
+     }
+@@ -223,7 +223,7 @@ static inline void gen_save_cpu_state(DisasContext *ctx, bool save_pc)
+ 
+ static inline bool use_exit_tb(DisasContext *ctx)
+ {
+-    return (ctx->tbflags & GUSA_EXCLUSIVE) != 0;
++    return (ctx->tbflags & TB_FLAG_GUSA_EXCLUSIVE) != 0;
+ }
+ 
+ static bool use_goto_tb(DisasContext *ctx, target_ulong dest)
+@@ -276,12 +276,12 @@ static void gen_conditional_jump(DisasContext *ctx, target_ulong dest,
+     TCGLabel *l1 = gen_new_label();
+     TCGCond cond_not_taken = jump_if_true ? TCG_COND_EQ : TCG_COND_NE;
+ 
+-    if (ctx->tbflags & GUSA_EXCLUSIVE) {
++    if (ctx->tbflags & TB_FLAG_GUSA_EXCLUSIVE) {
+         /* When in an exclusive region, we must continue to the end.
+            Therefore, exit the region on a taken branch, but otherwise
+            fall through to the next instruction.  */
+         tcg_gen_brcondi_i32(cond_not_taken, cpu_sr_t, 0, l1);
+-        tcg_gen_movi_i32(cpu_flags, ctx->envflags & ~GUSA_MASK);
++        tcg_gen_movi_i32(cpu_flags, ctx->envflags & ~TB_FLAG_GUSA_MASK);
+         /* Note that this won't actually use a goto_tb opcode because we
+            disallow it in use_goto_tb, but it handles exit + singlestep.  */
+         gen_goto_tb(ctx, 0, dest);
+@@ -307,14 +307,14 @@ static void gen_delayed_conditional_jump(DisasContext * ctx)
+     tcg_gen_mov_i32(ds, cpu_delayed_cond);
+     tcg_gen_discard_i32(cpu_delayed_cond);
+ 
+-    if (ctx->tbflags & GUSA_EXCLUSIVE) {
++    if (ctx->tbflags & TB_FLAG_GUSA_EXCLUSIVE) {
+         /* When in an exclusive region, we must continue to the end.
+            Therefore, exit the region on a taken branch, but otherwise
+            fall through to the next instruction.  */
+         tcg_gen_brcondi_i32(TCG_COND_EQ, ds, 0, l1);
+ 
+         /* Leave the gUSA region.  */
+-        tcg_gen_movi_i32(cpu_flags, ctx->envflags & ~GUSA_MASK);
++        tcg_gen_movi_i32(cpu_flags, ctx->envflags & ~TB_FLAG_GUSA_MASK);
+         gen_jump(ctx);
+ 
+         gen_set_label(l1);
+@@ -361,8 +361,8 @@ static inline void gen_store_fpr64(DisasContext *ctx, TCGv_i64 t, int reg)
+ #define XHACK(x) ((((x) & 1 ) << 4) | ((x) & 0xe))
+ 
+ #define CHECK_NOT_DELAY_SLOT \
+-    if (ctx->envflags & DELAY_SLOT_MASK) {  \
+-        goto do_illegal_slot;               \
++    if (ctx->envflags & TB_FLAG_DELAY_SLOT_MASK) {  \
++        goto do_illegal_slot;                       \
+     }
+ 
+ #define CHECK_PRIVILEGED \
+@@ -436,7 +436,7 @@ static void _decode_opc(DisasContext * ctx)
+     case 0x000b:		/* rts */
+ 	CHECK_NOT_DELAY_SLOT
+ 	tcg_gen_mov_i32(cpu_delayed_pc, cpu_pr);
+-        ctx->envflags |= DELAY_SLOT;
++        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+ 	ctx->delayed_pc = (uint32_t) - 1;
+ 	return;
+     case 0x0028:		/* clrmac */
+@@ -458,7 +458,7 @@ static void _decode_opc(DisasContext * ctx)
+ 	CHECK_NOT_DELAY_SLOT
+         gen_write_sr(cpu_ssr);
+ 	tcg_gen_mov_i32(cpu_delayed_pc, cpu_spc);
+-        ctx->envflags |= DELAY_SLOT_RTE;
++        ctx->envflags |= TB_FLAG_DELAY_SLOT_RTE;
+ 	ctx->delayed_pc = (uint32_t) - 1;
+         ctx->base.is_jmp = DISAS_STOP;
+ 	return;
+@@ -513,12 +513,15 @@ static void _decode_opc(DisasContext * ctx)
+ 	return;
+     case 0xe000:		/* mov #imm,Rn */
+ #ifdef CONFIG_USER_ONLY
+-        /* Detect the start of a gUSA region.  If so, update envflags
+-           and end the TB.  This will allow us to see the end of the
+-           region (stored in R0) in the next TB.  */
++        /*
++         * Detect the start of a gUSA region (mov #-n, r15).
++         * If so, update envflags and end the TB.  This will allow us
++         * to see the end of the region (stored in R0) in the next TB.
++         */
+         if (B11_8 == 15 && B7_0s < 0 &&
+             (tb_cflags(ctx->base.tb) & CF_PARALLEL)) {
+-            ctx->envflags = deposit32(ctx->envflags, GUSA_SHIFT, 8, B7_0s);
++            ctx->envflags =
++                deposit32(ctx->envflags, TB_FLAG_GUSA_SHIFT, 8, B7_0s);
+             ctx->base.is_jmp = DISAS_STOP;
+         }
+ #endif
+@@ -544,13 +547,13 @@ static void _decode_opc(DisasContext * ctx)
+     case 0xa000:		/* bra disp */
+ 	CHECK_NOT_DELAY_SLOT
+         ctx->delayed_pc = ctx->base.pc_next + 4 + B11_0s * 2;
+-        ctx->envflags |= DELAY_SLOT;
++        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+ 	return;
+     case 0xb000:		/* bsr disp */
+ 	CHECK_NOT_DELAY_SLOT
+         tcg_gen_movi_i32(cpu_pr, ctx->base.pc_next + 4);
+         ctx->delayed_pc = ctx->base.pc_next + 4 + B11_0s * 2;
+-        ctx->envflags |= DELAY_SLOT;
++        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+ 	return;
+     }
+ 
+@@ -1194,7 +1197,7 @@ static void _decode_opc(DisasContext * ctx)
+ 	CHECK_NOT_DELAY_SLOT
+         tcg_gen_xori_i32(cpu_delayed_cond, cpu_sr_t, 1);
+         ctx->delayed_pc = ctx->base.pc_next + 4 + B7_0s * 2;
+-        ctx->envflags |= DELAY_SLOT_CONDITIONAL;
++        ctx->envflags |= TB_FLAG_DELAY_SLOT_COND;
+ 	return;
+     case 0x8900:		/* bt label */
+ 	CHECK_NOT_DELAY_SLOT
+@@ -1204,7 +1207,7 @@ static void _decode_opc(DisasContext * ctx)
+ 	CHECK_NOT_DELAY_SLOT
+         tcg_gen_mov_i32(cpu_delayed_cond, cpu_sr_t);
+         ctx->delayed_pc = ctx->base.pc_next + 4 + B7_0s * 2;
+-        ctx->envflags |= DELAY_SLOT_CONDITIONAL;
++        ctx->envflags |= TB_FLAG_DELAY_SLOT_COND;
+ 	return;
+     case 0x8800:		/* cmp/eq #imm,R0 */
+         tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sr_t, REG(0), B7_0s);
+@@ -1388,14 +1391,14 @@ static void _decode_opc(DisasContext * ctx)
+     case 0x0023:		/* braf Rn */
+ 	CHECK_NOT_DELAY_SLOT
+         tcg_gen_addi_i32(cpu_delayed_pc, REG(B11_8), ctx->base.pc_next + 4);
+-        ctx->envflags |= DELAY_SLOT;
++        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+ 	ctx->delayed_pc = (uint32_t) - 1;
+ 	return;
+     case 0x0003:		/* bsrf Rn */
+ 	CHECK_NOT_DELAY_SLOT
+         tcg_gen_movi_i32(cpu_pr, ctx->base.pc_next + 4);
+ 	tcg_gen_add_i32(cpu_delayed_pc, REG(B11_8), cpu_pr);
+-        ctx->envflags |= DELAY_SLOT;
++        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+ 	ctx->delayed_pc = (uint32_t) - 1;
+ 	return;
+     case 0x4015:		/* cmp/pl Rn */
+@@ -1411,14 +1414,14 @@ static void _decode_opc(DisasContext * ctx)
+     case 0x402b:		/* jmp @Rn */
+ 	CHECK_NOT_DELAY_SLOT
+ 	tcg_gen_mov_i32(cpu_delayed_pc, REG(B11_8));
+-        ctx->envflags |= DELAY_SLOT;
++        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+ 	ctx->delayed_pc = (uint32_t) - 1;
+ 	return;
+     case 0x400b:		/* jsr @Rn */
+ 	CHECK_NOT_DELAY_SLOT
+         tcg_gen_movi_i32(cpu_pr, ctx->base.pc_next + 4);
+ 	tcg_gen_mov_i32(cpu_delayed_pc, REG(B11_8));
+-        ctx->envflags |= DELAY_SLOT;
++        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+ 	ctx->delayed_pc = (uint32_t) - 1;
+ 	return;
+     case 0x400e:		/* ldc Rm,SR */
+@@ -1839,7 +1842,7 @@ static void _decode_opc(DisasContext * ctx)
+     fflush(stderr);
+ #endif
+  do_illegal:
+-    if (ctx->envflags & DELAY_SLOT_MASK) {
++    if (ctx->envflags & TB_FLAG_DELAY_SLOT_MASK) {
+  do_illegal_slot:
+         gen_save_cpu_state(ctx, true);
+         gen_helper_raise_slot_illegal_instruction(cpu_env);
+@@ -1852,7 +1855,7 @@ static void _decode_opc(DisasContext * ctx)
+ 
+  do_fpu_disabled:
+     gen_save_cpu_state(ctx, true);
+-    if (ctx->envflags & DELAY_SLOT_MASK) {
++    if (ctx->envflags & TB_FLAG_DELAY_SLOT_MASK) {
+         gen_helper_raise_slot_fpu_disable(cpu_env);
+     } else {
+         gen_helper_raise_fpu_disable(cpu_env);
+@@ -1867,23 +1870,23 @@ static void decode_opc(DisasContext * ctx)
+ 
+     _decode_opc(ctx);
+ 
+-    if (old_flags & DELAY_SLOT_MASK) {
++    if (old_flags & TB_FLAG_DELAY_SLOT_MASK) {
+         /* go out of the delay slot */
+-        ctx->envflags &= ~DELAY_SLOT_MASK;
++        ctx->envflags &= ~TB_FLAG_DELAY_SLOT_MASK;
+ 
+         /* When in an exclusive region, we must continue to the end
+            for conditional branches.  */
+-        if (ctx->tbflags & GUSA_EXCLUSIVE
+-            && old_flags & DELAY_SLOT_CONDITIONAL) {
++        if (ctx->tbflags & TB_FLAG_GUSA_EXCLUSIVE
++            && old_flags & TB_FLAG_DELAY_SLOT_COND) {
+             gen_delayed_conditional_jump(ctx);
+             return;
+         }
+         /* Otherwise this is probably an invalid gUSA region.
+            Drop the GUSA bits so the next TB doesn't see them.  */
+-        ctx->envflags &= ~GUSA_MASK;
++        ctx->envflags &= ~TB_FLAG_GUSA_MASK;
+ 
+         tcg_gen_movi_i32(cpu_flags, ctx->envflags);
+-        if (old_flags & DELAY_SLOT_CONDITIONAL) {
++        if (old_flags & TB_FLAG_DELAY_SLOT_COND) {
+ 	    gen_delayed_conditional_jump(ctx);
+         } else {
+             gen_jump(ctx);
+@@ -2223,7 +2226,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
+     }
+ 
+     /* The entire region has been translated.  */
+-    ctx->envflags &= ~GUSA_MASK;
++    ctx->envflags &= ~TB_FLAG_GUSA_MASK;
+     ctx->base.pc_next = pc_end;
+     ctx->base.num_insns += max_insns - 1;
+     return;
+@@ -2234,7 +2237,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
+ 
+     /* Restart with the EXCLUSIVE bit set, within a TB run via
+        cpu_exec_step_atomic holding the exclusive lock.  */
+-    ctx->envflags |= GUSA_EXCLUSIVE;
++    ctx->envflags |= TB_FLAG_GUSA_EXCLUSIVE;
+     gen_save_cpu_state(ctx, false);
+     gen_helper_exclusive(cpu_env);
+     ctx->base.is_jmp = DISAS_NORETURN;
+@@ -2267,17 +2270,19 @@ static void sh4_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+                   (tbflags & (1 << SR_RB))) * 0x10;
+     ctx->fbank = tbflags & FPSCR_FR ? 0x10 : 0;
+ 
+-    if (tbflags & GUSA_MASK) {
++#ifdef CONFIG_USER_ONLY
++    if (tbflags & TB_FLAG_GUSA_MASK) {
++        /* In gUSA exclusive region. */
+         uint32_t pc = ctx->base.pc_next;
+         uint32_t pc_end = ctx->base.tb->cs_base;
+-        int backup = sextract32(ctx->tbflags, GUSA_SHIFT, 8);
++        int backup = sextract32(ctx->tbflags, TB_FLAG_GUSA_SHIFT, 8);
+         int max_insns = (pc_end - pc) / 2;
+ 
+         if (pc != pc_end + backup || max_insns < 2) {
+             /* This is a malformed gUSA region.  Don't do anything special,
+                since the interpreter is likely to get confused.  */
+-            ctx->envflags &= ~GUSA_MASK;
+-        } else if (tbflags & GUSA_EXCLUSIVE) {
++            ctx->envflags &= ~TB_FLAG_GUSA_MASK;
++        } else if (tbflags & TB_FLAG_GUSA_EXCLUSIVE) {
+             /* Regardless of single-stepping or the end of the page,
+                we must complete execution of the gUSA region while
+                holding the exclusive lock.  */
+@@ -2285,6 +2290,7 @@ static void sh4_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+             return;
+         }
+     }
++#endif
+ 
+     /* Since the ISA is fixed-width, we can bound by the number
+        of instructions remaining on the page.  */
+@@ -2309,8 +2315,8 @@ static void sh4_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+ 
+ #ifdef CONFIG_USER_ONLY
+-    if (unlikely(ctx->envflags & GUSA_MASK)
+-        && !(ctx->envflags & GUSA_EXCLUSIVE)) {
++    if (unlikely(ctx->envflags & TB_FLAG_GUSA_MASK)
++        && !(ctx->envflags & TB_FLAG_GUSA_EXCLUSIVE)) {
+         /* We're in an gUSA region, and we have not already fallen
+            back on using an exclusive region.  Attempt to parse the
+            region into a single supported atomic operation.  Failure
+@@ -2330,9 +2336,9 @@ static void sh4_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+ 
+-    if (ctx->tbflags & GUSA_EXCLUSIVE) {
++    if (ctx->tbflags & TB_FLAG_GUSA_EXCLUSIVE) {
+         /* Ending the region of exclusivity.  Clear the bits.  */
+-        ctx->envflags &= ~GUSA_MASK;
++        ctx->envflags &= ~TB_FLAG_GUSA_MASK;
+     }
+ 
+     switch (ctx->base.is_jmp) {
 -- 
 2.34.1
 
