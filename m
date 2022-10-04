@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8305F46EA
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 17:47:39 +0200 (CEST)
-Received: from localhost ([::1]:36140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22DF15F47A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 18:32:34 +0200 (CEST)
+Received: from localhost ([::1]:45506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofk8u-00026X-Vn
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 11:47:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41804)
+	id 1ofkqN-0006vZ-A6
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 12:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ofjgB-0007Tq-4V
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 11:18:00 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:34321)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofjw2-0002Aj-EF
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 11:34:24 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:33719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ofjg9-0001gV-4d
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 11:17:54 -0400
-Received: by mail-ed1-x529.google.com with SMTP id s30so15593476eds.1
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 08:17:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ofjvz-0007FC-Hs
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 11:34:17 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ ay7-20020a05600c1e0700b003b49861bf48so996980wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 08:34:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=+g5J5L2AiW3syJ9AlvX2CVgtK2KjHYvPzZRI84R/46k=;
- b=eO9nE2EprqN7dWVNQStTfpWNY06oN0lkHUOHM2i0aq/RljL31AQKPmszfozlJDcast
- VSjQujwq2oOOiGIR0w/9HEXG1DtiXqzAqszZ41MrxbwL6VvU6itw5Qg/3uUQrArAD5Cu
- r6y7ZdyixgyCCBDAgCZ3cRTMepmpEq+t+mExJ9toJNreeM3KJeIZa0zD42sAqiUfnBrv
- 3l0mo8ccX+WP3kqafBdaJelJ9hM+DVLpQNcqHuWzKxkkzE3JsUJrlrnuXHMxnkBXFRrc
- dhNw6stBoLYIKT5uz7O0zSDCu400E5YrZ28gpy8IswvJTYe5fXIvedXaPiIvCV0os3El
- /Omg==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date;
+ bh=qGwVVZARQtt1ggYvn8UACv1SxmqjKJMNFmd8pFmwv0Y=;
+ b=E84Gb5xUIvXq337xaov7nQK/9OOyNVIcoGJ5Fq1FsiYJgtaYyulQlS20+uySVArtRF
+ RY8nfDwntP0fcV2xv/De52w9zGa0UMdqIggrXEJeN003wsso+Umgff5fGHlos/i9Zn2P
+ LFTYdMjtyedivTSgf5FLo+RUcYw3k0S/5/ncQW7QHbd1kFULHtSVSwxH8kOY+u0VWlKx
+ Nsgc2GPsd4WuCvsozM2RwwivQ2H0vbO8t3/Z5e6xY2hmecjhe7PSRhqAT5CoLW+iYNv8
+ ZOLdOtGUHhUQL1rvyxxH3PbKu6F5mQbpCZsIz1MCaVAVb++4boapLUluwXtNmTje7/ea
+ J00w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=+g5J5L2AiW3syJ9AlvX2CVgtK2KjHYvPzZRI84R/46k=;
- b=hAzhX2eWH63H7qu1Zq2i8tEoxvEpBxAmDrXq/DnNhO3TEraqUCk9auMOwqykHKzsQh
- nxyJtH1c6BUMRr36H9ZEXlLmKbbKBm68XaS9/XClUwJL7YgPexQPWANHsTMSkB+zsS8B
- OQKka+pkijFv27TcsYr9d/w1CVQAx3rQ9EXYV7eeBws3pSYtuQNVvlqZucHStefcUc83
- fJs83cNQroCaDGFskx+tvoFeTCAf+t0bPhXatGFmZCxqlHjLcr1jDQKP56VuM8VouS2+
- UODD2y3pTklPUZCGwW/4KlccN1Txpdzpaa9+ZiIGDdLQwyuvpzw8T+52zSQIpJ5KLTcb
- Ol3A==
-X-Gm-Message-State: ACrzQf1FFba/UN0aseh+xDBkk5iXJVGV75a/0xgSAEB4BekJOB/cewMw
- ORWCMPZgQlzGL0Kf9U09gIDxZKfPbeLBuZCXR2vdSw==
-X-Google-Smtp-Source: AMsMyM7ILE99Pd6jAiYSzUVQrz3Ldu2rg5H75k6Img1Vjx1Cv+r0sTc4ifRSyghT0N0IXuh09M7mjeQjfx/6yxVPZMs=
-X-Received: by 2002:a05:6402:11d4:b0:452:a97c:cd36 with SMTP id
- j20-20020a05640211d400b00452a97ccd36mr24013178edw.53.1664896669749; Tue, 04
- Oct 2022 08:17:49 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date;
+ bh=qGwVVZARQtt1ggYvn8UACv1SxmqjKJMNFmd8pFmwv0Y=;
+ b=Cz9lpFp5xIH/jy4T3njFI0a0YTZAhlVMIeGnR1lo8ErmqUsI+w8g8g89YB1r7CIHWZ
+ 8/1jAMBLuHqmUIbQpXo4pKiCUe+mTpBTL9ym30ZUpiVpFqoZFnH8hW2UKLC4rYBPKrDs
+ dFuMGA9n2W8BMRQ0fGWw+7HpJ+jcFTP5/+dXkdpsnv9EqK6Z39vm4FQSCOvAG5jnXaqt
+ pEDCARbVwt/EBl2XEQBbZ4W8+8oDNk6HfZA2x8uqHiHQePVjdstrvh3ln2aRsvjo7QFX
+ sP1oVMz9dVB+027THa4knYnEdAFMGIMegT6DkE9vDqjHyreNB8lL1cVcAD0u5D8E1y1/
+ uHyg==
+X-Gm-Message-State: ACrzQf3Lcyi6U5y0qydr3TlxKtZlzDtkBu3/DbYWaYNHHcSw69z1An9S
+ Sy4Hfo6aA9g67KziQozYhYUfVA==
+X-Google-Smtp-Source: AMsMyM4cG48p5rlY0PUvu6+KP3HRpoUkOKWR3eiRSofDeqOfGS0jBdvEt+N04q7jmqjtI851yaQGdw==
+X-Received: by 2002:a05:600c:2241:b0:3b4:88aa:dcba with SMTP id
+ a1-20020a05600c224100b003b488aadcbamr221926wmm.203.1664897653403; 
+ Tue, 04 Oct 2022 08:34:13 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ m38-20020a05600c3b2600b003b4ff30e566sm4682237wms.3.2022.10.04.08.34.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Oct 2022 08:34:12 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 39AC81FFB7;
+ Tue,  4 Oct 2022 16:34:12 +0100 (BST)
+References: <20221004141051.110653-1-richard.henderson@linaro.org>
+ <20221004141051.110653-14-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v7 13/18] accel/tcg: Do not align tb->page_addr[0]
+Date: Tue, 04 Oct 2022 16:34:07 +0100
+In-reply-to: <20221004141051.110653-14-richard.henderson@linaro.org>
+Message-ID: <875ygzli17.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20221004072354.27037-1-jerome.forissier@linaro.org>
-In-Reply-To: <20221004072354.27037-1-jerome.forissier@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 Oct 2022 16:17:38 +0100
-Message-ID: <CAFEAcA_hi9Dp-eKRBWZ+yg4Ufp25Q3p3K2+=UKifgka9gz6vzA@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: allow setting SCR_EL3.EnTP2 when FEAT_SME is
- implemented
-To: Jerome Forissier <jerome.forissier@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>, qemu-stable@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,24 +95,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Oct 2022 at 08:24, Jerome Forissier
-<jerome.forissier@linaro.org> wrote:
+
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> Let tb->page_addr[0] contain the address of the first byte of the
+> translated block, rather than the address of the page containing the
+> start of the translated block.  We need to recover this value anyway
+> at various points, and it is easier to discard a page offset when it
+> is not needed, which happens naturally via the existing find_page shift.
 >
-> Updates write_scr() to allow setting SCR_EL3.EnTP2 when FEAT_SME is
-> implemented. SCR_EL3 being a 64-bit register, valid_mask is changed
-> to uint64_t and the SCR_* constants in target/arm/cpu.h are extended
-> to 64-bit so that masking and bitwise not (~) behave as expected.
->
-> This enables booting Linux with Trusted Firmware-A at EL3 with
-> "-M virt,secure=on -cpu max".
->
-> Cc: qemu-stable@nongnu.org
-> Fixes: 78cb9776662a ("target/arm: Enable SME for -cpu max")
-> Signed-off-by: Jerome Forissier <jerome.forissier@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-
-Applied to target-arm.next, thanks.
-
--- PMM
+--=20
+Alex Benn=C3=A9e
 
