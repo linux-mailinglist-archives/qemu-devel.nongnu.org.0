@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731605F43FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:13:41 +0200 (CEST)
-Received: from localhost ([::1]:55228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC20A5F440F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:18:51 +0200 (CEST)
+Received: from localhost ([::1]:60472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofhjw-0003Eb-If
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:13:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40490)
+	id 1ofhow-0000Sk-Q3
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:18:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhYZ-0008G9-J9
+ id 1ofhYa-0008GA-HX
  for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:01:56 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42887)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhYV-0007P9-Ct
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:01:52 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id b7so13595811wrq.9
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:01:50 -0700 (PDT)
+ id 1ofhYW-0007PR-E2
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:01:56 -0400
+Received: by mail-wr1-x430.google.com with SMTP id f11so18561930wrm.6
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:01:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=+ctSIgYDmkKQSBMUMssIqhbHvoTOeaqBn4W9+UBmASc=;
- b=pVPI46SNfpBEm6dtDGX+N2rfUlefuy/6K7xqRh8pgm3wYfX3ST7H9TO1H+0ICjw+qr
- 3gBFRJdT6CENu1NRJ+S7bCyau4SEy3gd2KQ1BP+04bjeF2K8cOlQQHG44fy++5Jh8czJ
- nPhqFV7GGewmDYim3Kdc0J0v0vot3Tv/vazYfpP2cSNGWAt/w82YWGEezhfkRBr/UzGg
- iKu+4pwHyAwdDgqp/6BmgVVR6X3ZNS+hOiyHPQnljGudpp8fsJOLeHZHEKSX3kb6ZQPo
- curPvpistWxbsEYiGVIFOJbSkQxHlOof8CAzR6zuSUmTcWmR53Z5iZWSM15unVxeglNV
- 2m5g==
+ bh=BaHnxjvMW4fTyPvIodljy6k1DRCBm9AVpyaepMnYPJs=;
+ b=XdkOfEtr1cHXCVh0FqZD/w/eD5A3p7Xywrj5y4naHcMng4Q/tfolb9ves4/Eg5zMa5
+ SmhOQNS/JQwG02HRnhioASzR/Oi/atTzFErLZHw385Gy3i/+TDQno0SEzqccCw6ArZb0
+ bwvFumkfJuacc3N3CdDSfOj+W/1kNVx0dtkNBgsxpQJJSdd2eEeEVnhm6XcOjIkzxaBj
+ saqMfjk0fg32lznzFBLumbGrkdyztVAK/11hYXFziddq8Vm0qaevJcnBQwwq9qDvrvMi
+ MZ2DQ8iFg5Q1bH+zSRI3WeWpZaO88mGtNFkeOplMkAmu6Itb4BgMPRuu7nVdgKL0nNvz
+ hubg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=+ctSIgYDmkKQSBMUMssIqhbHvoTOeaqBn4W9+UBmASc=;
- b=zxD3SmbmHwRMYtGEmNtxcfQPvco9sK8IP/z5RDgUsvZu6L7DuvKNwj9x8AqLapW1Vq
- QNCtmMciHeDlQJRJMd/ImngAQ+uMFk45NEuAh+OLR33EKLlcehwLrAXBky8QrJ3pCGkG
- B04hrfnGUeb2fqqnBpIuoWVTa9pte/UoPtdaboM2K+BZvZYKb22eib7MG648OMa2JQNe
- brIK5frM1kxyVr/YwvxAz9+QNocgBBic2a4/vfZb99TIFohn8/F9/sCbhnKTeZ7mHN6i
- S83paFtdBpfVv2vSYCLAEGH8t5kWkXYeouYCzFQD82aExc6Tws98mTuxpqqtCiBNvAJo
- txzw==
-X-Gm-Message-State: ACrzQf0HmoseZnnjXmL159dD8o39RSzjJSqp4tYTsRoRqRZPir3fLg87
- aXtJDC8l9wQnXtsTmOM+ErBA0j/7x2IlrQ==
-X-Google-Smtp-Source: AMsMyM6BHA71uCcK+wvttNCs03dse++2QdtFw3+8RBnem5UuYauL5flVi6E7hPjyDhyoE+pXmF/1Vw==
-X-Received: by 2002:adf:d0d0:0:b0:22d:f735:4730 with SMTP id
- z16-20020adfd0d0000000b0022df7354730mr12510924wrh.297.1664888509930; 
- Tue, 04 Oct 2022 06:01:49 -0700 (PDT)
+ bh=BaHnxjvMW4fTyPvIodljy6k1DRCBm9AVpyaepMnYPJs=;
+ b=2pC8kMLPmB/r0W/ji2wHK8x926A9mbyr3CaoEGZoLu0OXRt/IdE/so2ofxUIhEAbZo
+ hZkZRzc5qKbjMhSc5CDKeNhdC7v/Ph2/pWG/h3QMCpIX2h6bRIVo8z+JSXSbu8xru4aa
+ wzDIcB6W5ileCtHisNlNKOcel5/CZ9kIushfSwYlhSfu0V1fxLs0KBuzCeiwcvxZZ3Bj
+ 1JxXU2QWZBG19BYAr9ksQSZSwZU6uFVDRMNkSoq99idQuomJlPG79Xph9gWsOztnQQtV
+ 7wDZAObHvQCAdGhfeHp95a7cKOsa/3FDBsCnH+l/U2TVCABvhUcdfH6gJPleIZXddPOH
+ cu4Q==
+X-Gm-Message-State: ACrzQf1i1thGRN6bnwWoudnqCvgTK30DoTshhiCg0sIa/evRauxIFQV9
+ MRjKOBrguXDW6zAvoI3/UlTUvA==
+X-Google-Smtp-Source: AMsMyM7umee4xHqM7kJ+E3XsX4+kCFJtT5VyBsiDp8/morzPk7t3HOqbQAns/8WMrfQhIjfU7QW1Cw==
+X-Received: by 2002:a05:6000:156b:b0:22a:a83a:d349 with SMTP id
+ 11-20020a056000156b00b0022aa83ad349mr16481632wrz.277.1664888511012; 
+ Tue, 04 Oct 2022 06:01:51 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- e18-20020adff352000000b0022cdb687bf9sm15755154wrp.0.2022.10.04.06.01.41
+ q11-20020adf9dcb000000b0022ac672654dsm12818823wre.58.2022.10.04.06.01.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 06:01:43 -0700 (PDT)
+ Tue, 04 Oct 2022 06:01:46 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 855951FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id 9E5E61FFC3;
  Tue,  4 Oct 2022 14:01:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 10/54] tests/docker: move alpine from edge to tagged release
-Date: Tue,  4 Oct 2022 14:00:54 +0100
-Message-Id: <20221004130138.2299307-11-alex.bennee@linaro.org>
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: [PULL 11/54] tests/qtest: bump up QOS_PATH_MAX_ELEMENT_SIZE
+Date: Tue,  4 Oct 2022 14:00:55 +0100
+Message-Id: <20221004130138.2299307-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004130138.2299307-1-alex.bennee@linaro.org>
 References: <20221004130138.2299307-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,46 +96,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tracking alpine-edge like debian-sid is a moving target. Usually such
-rolling releases are marked as "allow_failure: true" in our CI.
-However as alpine presents a musl based distro and provides useful
-extra coverage lets track a release branch instead to avoid random
-breakages.
+It seems the depth of stack we need to support can vary depending on
+the order of the init constructors getting called. It seems
+--enable-lto shuffles things around just enough to push you over the
+limit.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220929114231.583801-11-alex.bennee@linaro.org>
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1186
+Acked-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20220929114231.583801-12-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 7d6e95275a..9b7541261a 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -1,10 +1,10 @@
- # THIS FILE WAS AUTO-GENERATED
- #
--#  $ lcitool dockerfile --layers all alpine-edge qemu
-+#  $ lcitool dockerfile --layers all alpine-316 qemu
- #
- # https://gitlab.com/libvirt/libvirt-ci
+diff --git a/tests/qtest/libqos/qgraph.h b/tests/qtest/libqos/qgraph.h
+index 6e94824d09..5c0046e989 100644
+--- a/tests/qtest/libqos/qgraph.h
++++ b/tests/qtest/libqos/qgraph.h
+@@ -24,7 +24,7 @@
+ #include "libqos-malloc.h"
  
--FROM docker.io/library/alpine:edge
-+FROM docker.io/library/alpine:3.16
+ /* maximum path length */
+-#define QOS_PATH_MAX_ELEMENT_SIZE 50
++#define QOS_PATH_MAX_ELEMENT_SIZE 64
  
- RUN apk update && \
-     apk upgrade && \
-diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index 783497a989..ce0b24c0b1 100755
---- a/tests/lcitool/refresh
-+++ b/tests/lcitool/refresh
-@@ -107,7 +107,7 @@ try:
-     #
-     # Standard native builds
-     #
--    generate_dockerfile("alpine", "alpine-edge")
-+    generate_dockerfile("alpine", "alpine-316")
-     generate_dockerfile("centos8", "centos-stream-8")
-     generate_dockerfile("debian-amd64", "debian-11",
-                         trailer="".join(debian11_extras))
+ typedef struct QOSGraphObject QOSGraphObject;
+ typedef struct QOSGraphNode QOSGraphNode;
 -- 
 2.34.1
 
