@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA7F5F43F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:11:14 +0200 (CEST)
-Received: from localhost ([::1]:38062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401A55F4447
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 15:32:03 +0200 (CEST)
+Received: from localhost ([::1]:55054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofhhY-0008RN-G2
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:11:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41090)
+	id 1ofi1i-000887-7p
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 09:32:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhYN-0008FK-T0
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:01:51 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40693)
+ id 1ofhYR-0008FW-IY
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:01:52 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ofhYL-0007MZ-Ne
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:01:43 -0400
-Received: by mail-wr1-x434.google.com with SMTP id w18so12479967wro.7
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:01:41 -0700 (PDT)
+ id 1ofhYM-0007Mk-QO
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:01:44 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id w18so12480081wro.7
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:01:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=gQqgg5f/egxvi99aS1qEctCqnWlivYyyMVbQtjrj3sg=;
- b=ztXyn+25rguDT4HCMDiCINnzU9mP4vm8KjM6cfB4By2ihxDDYL3XKd0D59/b3RVW5N
- ijVdz5zUy3r2ZSmt4aeBDJULs18IE8Qer3i4kQVf6HnhGh1Xg2w8dzT2KAH/MMwAnCT4
- aJtqYXKnYvP5MeHDT5ILPa6m/21hgaJudVwwVzNtaCzkNVpACwyQ4pHz/V3rL1LrlLQq
- lvPg+uN7N0mZZ33Otm3YXD9RTDLnwumzmpYxSzAcBuw0rOFRDh5FAuUn4bkKZftb6dEQ
- lXj+VX17P9JkF2fqymi9Y4D8661KhV7PW0QJ2dsSypL9IDaKTqjVx6KsvkzKfnpMHnVk
- AotQ==
+ bh=aB1kF3qwpcs39ElQH5rD3+kRIa6bkgLvhqm+7ggURIk=;
+ b=qfD1rJLlwaxJz7e4cddk7QSvDATHpUxaSXcGsBl5S+N45mP0JWR7uwAAY0UvR8o+9M
+ K8CQ5709gNb92bCWP6eL2hoL9gMOAeYxTU1cw7pBzidppbZFSz+zTgJiB5HeqWtrnl8A
+ PzgssSvziTWzQavpKjSsxHAef29USPAlEFLhQuIGHTsYcbdch9Xup0b1/74fl1LCweo2
+ RNhIOjNqHTpiky+r0nk0EIFQPmXTq7cQvwWXZWehmvVBS2f9CSXCBX/TAvvccvUX5btw
+ 4PHHStUAOXRoriALZZGbX1KqLfW31vUhK8KT/8+w0Jz3wHdA5gC8hyabw/lCID5HbjNp
+ SZMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=gQqgg5f/egxvi99aS1qEctCqnWlivYyyMVbQtjrj3sg=;
- b=fSjbznjEnBzEO54e8Y1pqmTdoht4ddb0z4c39iLQ3OsxzwgZFhEc6NYIJXF24FdNiF
- GZYZAqf4yLFEfcPpYPRxOBinALPGwWAUqmYgpCLNsEndsm8S1qQm77At2KEXILSC08a0
- 85Ta38W8ONYq//L1imOxVH8qfXIIsdrKM9PRaYja0rKix3nX0p+ocvO+Ii4VWV7L8Juw
- gASrFXCxAE2qRp+K2wAS0XNJys4JM3iukuAL4IbK8tohfqqHE0IR9mfMPyhorsKOLfjN
- 3lYV1wzh+8Y9NGkqvqAwktWYmxBoHYU2l/rPu1jUN2bkqU7oz5DMtutPMeqhrbckdvFm
- lvPQ==
-X-Gm-Message-State: ACrzQf2g+wdvSuYl2mz1fKPTvPeZ4z7cdxlv2LQFKT8Uvq7VgpPxi7cK
- XMjjZv4MRR86B86A8anXsUtYcg==
-X-Google-Smtp-Source: AMsMyM50vQvtFTa35KXHD4gNy5kJ+O50u2vT7zjStn/jouNyMerGIRA92aHxO/w9WXNauQh1neMmxQ==
-X-Received: by 2002:a5d:4e09:0:b0:22e:3a03:a860 with SMTP id
- p9-20020a5d4e09000000b0022e3a03a860mr6853462wrt.289.1664888500102; 
- Tue, 04 Oct 2022 06:01:40 -0700 (PDT)
+ bh=aB1kF3qwpcs39ElQH5rD3+kRIa6bkgLvhqm+7ggURIk=;
+ b=uqYQDXDuoV5mPSHkoTAtJE1BOJHJSRj9fGgo7pdSDBtyf/Kqqp3mhjLKpNqPXewrfc
+ U8dGUu99tCBdEhxu+zWQXe8x/NOmMahzU1iYyFlORSkrGqbsZz/oR2mk+faxGAq8IOZg
+ X8fxfHvn0uQS16w+q1NL2f9K6YhY3SqiCCFMM92KUR2DrEwFFvxjlN1evFcAzO6Ji7sy
+ xqkXTn6VnS3Wj/rTxQaoWlY5H6oW+DGQv6bi0FQcAyNjQN3rvhytFAJY2lNkdbGGZkv5
+ 6MKrUesuq/fclfgmG/zvwGNnMYaMutEbftFb5QQrONglsdXFgj5j1pN0ih0rRaWcEg4V
+ vkTQ==
+X-Gm-Message-State: ACrzQf0lLB117m8vCIRrKy+YbDFTvSDSIFwbxMf/h8kU6VS9vITJJQZT
+ 6gXmZevvII03k+HKMveO646ouA==
+X-Google-Smtp-Source: AMsMyM5wxaBpAU7z/alSPWWMbWoPF7zUvU3sPhUy2F5MPuwlGdXPiNkM6CdtIoyvVAJFAVIc7OytQg==
+X-Received: by 2002:a5d:43ce:0:b0:22e:4acd:2153 with SMTP id
+ v14-20020a5d43ce000000b0022e4acd2153mr2558796wrr.189.1664888501337; 
+ Tue, 04 Oct 2022 06:01:41 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- l9-20020a056000022900b0022b315b4649sm11998436wrz.26.2022.10.04.06.01.38
+ g20-20020a05600c4ed400b003b4931eb435sm21327563wmq.26.2022.10.04.06.01.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 04 Oct 2022 06:01:39 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 866871FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id A0D3F1FFBB;
  Tue,  4 Oct 2022 14:01:38 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 02/54] scripts/ci/setup: Fix libxen requirements
-Date: Tue,  4 Oct 2022 14:00:46 +0100
-Message-Id: <20221004130138.2299307-3-alex.bennee@linaro.org>
+Subject: [PULL 03/54] scripts/ci/setup: spice-server only on x86 aarch64
+Date: Tue,  4 Oct 2022 14:00:47 +0100
+Message-Id: <20221004130138.2299307-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004130138.2299307-1-alex.bennee@linaro.org>
 References: <20221004130138.2299307-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,31 +101,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-XEN hypervisor is only available in ARM and x86, but the yaml only
-checked if the architecture is different from s390x, changed it to
-a more accurate test.
-Tested this change on a Ubuntu 20.04 ppc64le.
+Changed build-environment.yml to only install spice-server on x86_64 and
+aarch64 as this package is only available on those architectures.
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220922135516.33627-3-lucas.araujo@eldorado.org.br>
+Message-Id: <20220922135516.33627-4-lucas.araujo@eldorado.org.br>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220929114231.583801-3-alex.bennee@linaro.org>
+Message-Id: <20220929114231.583801-4-alex.bennee@linaro.org>
 
 diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
-index b5acaf9118..49292715d3 100644
+index 49292715d3..b04c2b7cee 100644
 --- a/scripts/ci/setup/build-environment.yml
 +++ b/scripts/ci/setup/build-environment.yml
-@@ -97,7 +97,7 @@
-         state: present
+@@ -160,7 +160,6 @@
+           - python36
+           - rdma-core-devel
+           - spice-glib-devel
+-          - spice-server
+           - systemtap-sdt-devel
+           - tar
+           - zlib-devel
+@@ -168,3 +167,14 @@
        when:
-         - ansible_facts['distribution'] == 'Ubuntu'
--        - ansible_facts['architecture'] != 's390x'
+         - ansible_facts['distribution_file_variety'] == 'RedHat'
+         - ansible_facts['distribution_version'] == '8'
++
++    - name: Install packages only available on x86 and aarch64
++      dnf:
++        # Spice server not available in ppc64le
++        name:
++          - spice-server
++        state: present
++      when:
++        - ansible_facts['distribution_file_variety'] == 'RedHat'
++        - ansible_facts['distribution_version'] == '8'
 +        - ansible_facts['architecture'] == 'aarch64' or ansible_facts['architecture'] == 'x86_64'
- 
-     - name: Install basic packages to build QEMU on Ubuntu 20.04
-       package:
 -- 
 2.34.1
 
