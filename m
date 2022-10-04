@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD035F403F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 11:48:59 +0200 (CEST)
-Received: from localhost ([::1]:38832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8675F4059
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 11:52:24 +0200 (CEST)
+Received: from localhost ([::1]:52012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofeXq-00069M-65
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 05:48:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37560)
+	id 1ofeb9-0000IK-5e
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 05:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ofeVh-0004jP-IC
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 05:46:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50441)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ofeVd-0007P1-Q3
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 05:46:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664876800;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MLmH+R7aXiwIPURkIbdLOtJGdap2Q7t/xRpB8BXK5bc=;
- b=VGrU+cAcNyLueQX8jvB8tplxlvdzxpzIERm3wKry6i3in7QRFMP592G47EXAaxQr2YdB0x
- w17K+2CIoGv12VB0/UF9AzrGDEAox9PvNGDeTGKxrZ5F4FGGL9tKE5hp5wGHAz7X1nEeKn
- EIRJl0mjNSNvJI8vo6Vtnr7NeClw+qc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-108-mpdz_gMIP3uIaezz7lekaA-1; Tue, 04 Oct 2022 05:46:37 -0400
-X-MC-Unique: mpdz_gMIP3uIaezz7lekaA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C99E1C05EB4;
- Tue,  4 Oct 2022 09:46:37 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E239492CA5;
- Tue,  4 Oct 2022 09:46:36 +0000 (UTC)
-Date: Tue, 4 Oct 2022 10:46:34 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Andreas Schwab <schwab@linux-m68k.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH for 7.1] linux-user: fix compat with glibc >= 2.36
- sys/mount.h
-Message-ID: <YzwA+oekCPBFeWKb@redhat.com>
-References: <20220802164134.1851910-1-berrange@redhat.com>
- <878rlzkz37.fsf@igel.home> <Yzqd+Pyuy7fC4wj3@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ofeYp-0006Fo-MS
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 05:49:59 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:38699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ofeYo-0007iU-1E
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 05:49:59 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id nb11so27676874ejc.5
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 02:49:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=xyuttHu2pdDbTYbbpKnoOENYxMMVk5hwNh2JwJEZ9a0=;
+ b=UEeA6+/Fj9NtIaKCq4fHgFBgBg1yRd+BOYel2G43QHJPfYxmARJEjEgu2UzMDILEXM
+ XXOKcJwCLQora3Lnfusal2Wjmq8A3X54RRsifmJPywyfcvya8IxwrAaafgZdxGC34qRg
+ eVfY1c7DB177yrdIFLHMEFPm44pU2bGXyYUHn0uBf0+BXsdpfvBR2viNDk/gnsuYH/Pt
+ 73K0p2su3m8dnYGpSSDmyTI/y9KlANfr4HOYxjhsiaW6NtXjY0qmYmjHi9hGf6Z8hIRw
+ BYwiRIXAH6bnQS3fm/yDX/BRh6gCqPVBn98ihK2onRdgaoyBxsrUJyW9aLULJoc5I7ji
+ t8PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=xyuttHu2pdDbTYbbpKnoOENYxMMVk5hwNh2JwJEZ9a0=;
+ b=Zhm5QsLGQ+PsjOMzArZ5MFXGVApx0+IJLZQl16B4Cy8LqyGjAq6f437HSQuWEn1tpA
+ jOeHpZBU/JTEqds4AhoCkroMly+A6xj6dUI1SFQDyCQ4tXhLaqyR1Ivd+v7RK+QwdG6q
+ TBP1EvQxUkxsstMqnmahm2U9/KTgC+flbNuUQz0WMHjKYZ/DiGJNFdEmch4Q0q/1fbe3
+ Pg4QJ9ww1GX3zyoi/spdnDyVFHz8eyreViXIZ2q9CCfFpXkpBPjDY4H3lTcFFkCjXa+V
+ kaJC+TZ+4XhiyxjJGZqBM2AeZISnJhjHzdzeAkXqPwGHYiuxqDcNqtcm6GjC98peh23m
+ zYfA==
+X-Gm-Message-State: ACrzQf1OKs/kkkD6eMv5dIqcPMKJl6wFnwo91p2poiqZ7S2nZKcT4zDa
+ 9zzXJulQG9z7t9ZytwoKxugN/Huu3QO+oypygXuYcQ==
+X-Google-Smtp-Source: AMsMyM7+avvvtUZRm/yHBKqkxwPTMrZehhyTcuDKpILOuStI3kvTHuW2H0AZgX8Apc4T89XANBeRhr3zIlox0LyNNYE=
+X-Received: by 2002:a17:907:2bd5:b0:76f:591c:466b with SMTP id
+ gv21-20020a1709072bd500b0076f591c466bmr17817297ejc.504.1664876995848; Tue, 04
+ Oct 2022 02:49:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yzqd+Pyuy7fC4wj3@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221004093206.652431-1-berrange@redhat.com>
+ <20221004093206.652431-4-berrange@redhat.com>
+In-Reply-To: <20221004093206.652431-4-berrange@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 4 Oct 2022 10:49:44 +0100
+Message-ID: <CAFEAcA_UkN17_eitD7ft+y5HBhiD8zmrttWzfaBGM92O6eNTrg@mail.gmail.com>
+Subject: Re: [PATCH 3/4] meson: enforce a minimum Linux kernel headers version
+ >= 4.18
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, 
+ Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,55 +86,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 03, 2022 at 09:31:52AM +0100, Daniel P. Berrangé wrote:
-> On Sat, Oct 01, 2022 at 11:34:20PM +0200, Andreas Schwab wrote:
-> > On Aug 02 2022, Daniel P. Berrangé wrote:
-> > 
-> > > This patch removes linux/fs.h, meaning we have to define
-> > > various FS_IOC constants that are now unavailable.
-> > 
-> > This breaks a lot of ioctl emulations, as it lacks their definitions:
-> 
-> Urgh, very sorry about that. I of course tested it compiled, but not
-> realizing a bunch of ioctls were #ifdef'd, so we ended up silently
-> disabling them.
-> 
-> > 
-> > #define BLKGETSIZE64                   _IOR(0x12,114,size_t)
-> > #define BLKDISCARD                     _IO(0x12,119)
-> > #define BLKIOMIN                       _IO(0x12,120)
-> > #define BLKIOOPT                       _IO(0x12,121)
-> > #define BLKALIGNOFF                    _IO(0x12,122)
-> > #define BLKPBSZGET                     _IO(0x12,123)
-> > #define BLKDISCARDZEROES               _IO(0x12,124)
-> > #define BLKSECDISCARD                  _IO(0x12,125)
-> > #define BLKROTATIONAL                  _IO(0x12,126)
-> > #define BLKZEROOUT                     _IO(0x12,127)
-> > 
-> > #define FIBMAP                         _IO(0x00,1)
-> > #define FICLONE                        _IOW(0x94, 9, int)
-> > #define FIGETBSZ                       _IO(0x00,2)
-> 
-> With the exception of FICLONE from 2015, all the others here have exited
-> in Linux header since 2012. Given that length of time there's no reason
-> for us to conditionalize their usage. We want to see failure if they're
-> unexpectedly missing from headers.
-> 
-> I'll prepare a patch to fix all this.
+On Tue, 4 Oct 2022 at 10:46, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
+wrote:
+>
+> Various areas of QEMU have a dependency on Linux kernel header
+> definitions. This falls under the scope of our supported platforms
+> matrix, but historically we've not checked for a minimum kernel
+> headers version. This has made it unclear when we can drop support
+> for older kernel headers.
+>
+>   * Alpine 3.14: 5.10
+>   * CentOS 8: 4.18
+>   * CentOS 9: 5.14
+>   * Debian 10: 4.19
+>   * Debian 11: 5.10
+>   * Fedora 35: 5.19
+>   * Fedora 36: 5.19
+>   * OpenSUSE 15.3: 5.3.0
+>   * Ubuntu 20.04: 5.4
+>   * Ubuntu 22.04: 5.15
+>
+> The above ignores the 3rd version digit since distros update their
+> packages periodically and such updates don't generally affect public
+> APIs to the extent that it matters for our build time check.
+>
+> Overall, we can set the baseline to 4.18 currently.
 
-I have a patch series here:
+I wonder if we want to be a bit more conservative about this
+than we would for other library-type dependency setting ?
+At the moment, even if you don't meet our minimum distro
+baseline, you can still build by, for instance, building
+local copies of newer versions of our dependencies and using
+those. That seems harder to do for the system header files.
 
-https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg00351.html
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
