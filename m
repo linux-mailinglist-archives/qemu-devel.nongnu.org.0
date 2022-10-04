@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772F35F45D1
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 16:41:55 +0200 (CEST)
-Received: from localhost ([::1]:58572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AFD85F4582
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 16:31:47 +0200 (CEST)
+Received: from localhost ([::1]:45564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofj7K-00074F-IP
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 10:41:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43246)
+	id 1ofixW-0003TV-DH
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 10:31:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ofiMr-0004lU-CJ
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:53:53 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:36714)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ofiMp-0004IO-CQ
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:53:52 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id 126so16863993ybw.3
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:53:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=Hs3jvXYRoW9cue3NWCTKTBo720DcB8K81r/kuPpiKLg=;
- b=NKVA9fTuWcg09Dku5bT/SxrAfaWTl4KWWCzK5e1YEmWxMcBMAtGeke6u6Uzeys0MpG
- orqbTldkVSP4mEZ8pETdfFsIDjm3bdLtsGBnnVcs/0AXfagv8f4hTMz5TA+pYUNezVR9
- x8B+dJxYJ2XAwOxtZDxCBt8/hC128iqbGxU0GCOPcd4Ga5TqAjZftpXyK2ofqDnwrWS9
- nAYxOQDRUb7XuRKggMq9a7V4oh3Qjmytldrn5bEOpmMJGrPcTr8wx8zlH/xspYCjhwD4
- 2xOYNNERdQPKQ6fEQFdKFUl7h2mgA8nxiAO7+O8VgotTWu8yHzRHPuuhawFfZ6UEVlio
- pX0w==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ofiOJ-0005hq-Pd
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:55:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1ofiOF-00063N-UO
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 09:55:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664891718;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=s0LiOhogjHqkYTazvm90ozpckrrkfzXSlVjhe9B4VJs=;
+ b=Pa/wMl/+nhyF5oba4X4eV7WYzOOb/9+P4JZPtH+29ipIhUFk34fwU94H8ybWabusDC/2Bd
+ rD5K3iC1ODqO09kbsYPqNcnnZv8kh99pgKPBS6fiEYMN2xufGYLEXwI4972TgLUM++YFZd
+ Hc2+n56BkaapjcbuZqE0/8j82Os15bk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-517-RP1l-OSnOnWCtddTqZfPnw-1; Tue, 04 Oct 2022 09:55:14 -0400
+X-MC-Unique: RP1l-OSnOnWCtddTqZfPnw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ e14-20020adf9bce000000b0022d18139c79so3193868wrc.5
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 06:55:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=Hs3jvXYRoW9cue3NWCTKTBo720DcB8K81r/kuPpiKLg=;
- b=uRWBMoRqai39JcGLFpRuE7KBucc9G3htdZNs7iTPlSL3BxE45dI8Q/M9kQPnmpFio9
- mPVNzqvw9tKEeptZMsjzF4K+TKGXVMvbVM+GTzNBLKFmkoX9+lkKBCY5nfcpSWQ+ZKea
- qtuYSop0w1luKxnngQVsSB+gLwI8K97Gw1/nNT9JTCsqDtIUpGQ8Vhwg0acnXzjsnvI+
- AQIIWtHUP+osyEJzEki9dnzCUeoVmL+Ij5UD5pilRljOKmWkb2dJa9fvjuagqf/NNmad
- MCmyacvcreU4s8EJNaVe5zslEzVEz4ihRewhm4LztvAFe0iYUag7P3cvyaIVI0k6qFVq
- SjXQ==
-X-Gm-Message-State: ACrzQf1QbDU6+4bQsia6pAybsdKe0vfDzREqicIclU/odiZL5ZmI3RyG
- CCQvNJ0M7BWSsF9f+XS0a4bUqVtPFPqACBNagUA=
-X-Google-Smtp-Source: AMsMyM6+zGsuKsj2AwyUhlrPTvcMauXh5gjI+oX3NcpIaTUUvACKUgqczJK/iCDAJc9ZZht8ZphALvXUKQeyqyY04SE=
-X-Received: by 2002:a05:6902:44:b0:6af:f412:cfb7 with SMTP id
- m4-20020a056902004400b006aff412cfb7mr23782496ybh.366.1664891624610; Tue, 04
- Oct 2022 06:53:44 -0700 (PDT)
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=s0LiOhogjHqkYTazvm90ozpckrrkfzXSlVjhe9B4VJs=;
+ b=P5phBKbVB4Cr7hrrS4Wez27CVoCN7MhTTz4Wv2OT2KkI2J6VOcgU78dG127UKXekZL
+ EEdl93x1A/GUv6xuQd2qc5yrMIuKI1nVSTC5Jlo0kgnZgBvuNB0lQDDy+yaNpn8dHW/n
+ 0dGjnGdPUYxeagLyi5TNvcb0EzBOjpHEpqrN5OU5ffWX0Jc5QPipphWqkt6+TUldMza7
+ YQ+Y+4oaCUuh90KTNZLaNGyti8ss3FXPUe0+wwYWOgc60bt3oevud1kD6bPiNxBgNffk
+ dSQ9xh90KvUnrBI287lqudUHPFKu7DpW4sYa5FL0DnQ583wuM4VQc1mDVKhC+3mAxMiM
+ iedA==
+X-Gm-Message-State: ACrzQf0vuavxXK3K/m5lrSZRrxtzdvMfPsd2uVx1OjAFoDn6eeTVp6JQ
+ yN/QPtkbqm4t/V3iC8OAE2hZJE2V0TieZl/NwID1zJCba4TZimKDno1C1TaXk+tMuUw+WcBsQJd
+ N5Mk0ZW/yJVjpoCY=
+X-Received: by 2002:a05:600c:358f:b0:3b4:a699:3121 with SMTP id
+ p15-20020a05600c358f00b003b4a6993121mr10518280wmq.166.1664891713681; 
+ Tue, 04 Oct 2022 06:55:13 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6E63iLqQ2RtcdAFz0ZXuD8MAmKb3M1kMKGawz5vTJ1fzTmCqDUNqYEEyR5j9zvJDNYU8jRvA==
+X-Received: by 2002:a05:600c:358f:b0:3b4:a699:3121 with SMTP id
+ p15-20020a05600c358f00b003b4a6993121mr10518273wmq.166.1664891713446; 
+ Tue, 04 Oct 2022 06:55:13 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ z6-20020adfec86000000b0022b1d74dc56sm12539927wrn.79.2022.10.04.06.55.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Oct 2022 06:55:12 -0700 (PDT)
+Date: Tue, 4 Oct 2022 14:55:10 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Manish Mishra <manish.mishra@nutanix.com>,
+ Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH 05/14] migration: Yield bitmap_mutex properly when
+ sending/sleeping
+Message-ID: <Yzw7Po4Qg/0WJNke@work-vm>
+References: <20220920225106.48451-1-peterx@redhat.com>
+ <20220920225210.48732-1-peterx@redhat.com>
 MIME-Version: 1.0
-References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
- <YzwARuAZdaoGTUfP@T590>
-In-Reply-To: <YzwARuAZdaoGTUfP@T590>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 4 Oct 2022 09:53:32 -0400
-Message-ID: <CAJSP0QXVK=wUy_JgJ9NmNMtKTRoRX0MwOZUuFWU-1mVWWKij8A@mail.gmail.com>
-Subject: Re: ublk-qcow2: ublk-qcow2 is available
-To: Ming Lei <tom.leiming@gmail.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, io-uring@vger.kernel.org, 
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Kirill Tkhai <kirill.tkhai@openvz.org>,
- Manuel Bentele <development@manuel-bentele.de>, 
- qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>, rjones@redhat.com, 
- Xie Yongji <xieyongji@bytedance.com>, "Denis V. Lunev" <den@openvz.org>, 
- Stefano Garzarella <sgarzare@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220920225210.48732-1-peterx@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,127 +104,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Oct 2022 at 05:44, Ming Lei <tom.leiming@gmail.com> wrote:
->
-> On Mon, Oct 03, 2022 at 03:53:41PM -0400, Stefan Hajnoczi wrote:
-> > On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
-> > > ublk-qcow2 is available now.
-> >
-> > Cool, thanks for sharing!
-> >
-> > >
-> > > So far it provides basic read/write function, and compression and snapshot
-> > > aren't supported yet. The target/backend implementation is completely
-> > > based on io_uring, and share the same io_uring with ublk IO command
-> > > handler, just like what ublk-loop does.
-> > >
-> > > Follows the main motivations of ublk-qcow2:
-> > >
-> > > - building one complicated target from scratch helps libublksrv APIs/functions
-> > >   become mature/stable more quickly, since qcow2 is complicated and needs more
-> > >   requirement from libublksrv compared with other simple ones(loop, null)
-> > >
-> > > - there are several attempts of implementing qcow2 driver in kernel, such as
-> > >   ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`` [4], so ublk-qcow2
-> > >   might useful be for covering requirement in this field
-> > >
-> > > - performance comparison with qemu-nbd, and it was my 1st thought to evaluate
-> > >   performance of ublk/io_uring backend by writing one ublk-qcow2 since ublksrv
-> > >   is started
-> > >
-> > > - help to abstract common building block or design pattern for writing new ublk
-> > >   target/backend
-> > >
-> > > So far it basically passes xfstest(XFS) test by using ublk-qcow2 block
-> > > device as TEST_DEV, and kernel building workload is verified too. Also
-> > > soft update approach is applied in meta flushing, and meta data
-> > > integrity is guaranteed, 'make test T=qcow2/040' covers this kind of
-> > > test, and only cluster leak is reported during this test.
-> > >
-> > > The performance data looks much better compared with qemu-nbd, see
-> > > details in commit log[1], README[5] and STATUS[6]. And the test covers both
-> > > empty image and pre-allocated image, for example of pre-allocated qcow2
-> > > image(8GB):
-> > >
-> > > - qemu-nbd (make test T=qcow2/002)
-> >
-> > Single queue?
->
-> Yeah.
->
-> >
-> > >     randwrite(4k): jobs 1, iops 24605
-> > >     randread(4k): jobs 1, iops 30938
-> > >     randrw(4k): jobs 1, iops read 13981 write 14001
-> > >     rw(512k): jobs 1, iops read 724 write 728
-> >
-> > Please try qemu-storage-daemon's VDUSE export type as well. The
-> > command-line should be similar to this:
-> >
-> >   # modprobe virtio_vdpa # attaches vDPA devices to host kernel
->
-> Not found virtio_vdpa module even though I enabled all the following
-> options:
->
->         --- vDPA drivers
->           <M>   vDPA device simulator core
->           <M>     vDPA simulator for networking device
->           <M>     vDPA simulator for block device
->           <M>   VDUSE (vDPA Device in Userspace) support
->           <M>   Intel IFC VF vDPA driver
->           <M>   Virtio PCI bridge vDPA driver
->           <M>   vDPA driver for Alibaba ENI
->
-> BTW, my test environment is VM and the shared data is done in VM too, and
-> can virtio_vdpa be used inside VM?
+* Peter Xu (peterx@redhat.com) wrote:
+> Don't take the bitmap mutex when sending pages, or when being throttled by
+> migration_rate_limit() (which is a bit tricky to call it here in ram code,
+> but seems still helpful).
+> 
+> It prepares for the possibility of concurrently sending pages in >1 threads
+> using the function ram_save_host_page() because all threads may need the
+> bitmap_mutex to operate on bitmaps, so that either sendmsg() or any kind of
+> qemu_sem_wait() blocking for one thread will not block the other from
+> progressing.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-I hope Xie Yongji can help explain how to benchmark VDUSE.
+I generally dont like taking locks conditionally; but this kind of looks
+OK; I think it needs a big comment on the start of the function saying
+that it's called and left with the lock held but that it might drop it
+temporarily.
 
-virtio_vdpa is available inside guests too. Please check that
-VIRTIO_VDPA ("vDPA driver for virtio devices") is enabled in "Virtio
-drivers" menu.
+> ---
+>  migration/ram.c | 42 +++++++++++++++++++++++++++++++-----------
+>  1 file changed, 31 insertions(+), 11 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 8303252b6d..6e7de6087a 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2463,6 +2463,7 @@ static void postcopy_preempt_reset_channel(RAMState *rs)
+>   */
+>  static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+>  {
+> +    bool page_dirty, release_lock = postcopy_preempt_active();
 
->
-> >   # modprobe vduse
-> >   # qemu-storage-daemon \
-> >       --blockdev file,filename=test.qcow2,cache.direct=of|off,aio=native,node-name=file \
-> >       --blockdev qcow2,file=file,node-name=qcow2 \
-> >       --object iothread,id=iothread0 \
-> >       --export vduse-blk,id=vduse0,name=vduse0,num-queues=$(nproc),node-name=qcow2,writable=on,iothread=iothread0
-> >   # vdpa dev add name vduse0 mgmtdev vduse
-> >
-> > A virtio-blk device should appear and xfstests can be run on it
-> > (typically /dev/vda unless you already have other virtio-blk devices).
-> >
-> > Afterwards you can destroy the device using:
-> >
-> >   # vdpa dev del vduse0
-> >
-> > >
-> > > - ublk-qcow2 (make test T=qcow2/022)
-> >
-> > There are a lot of other factors not directly related to NBD vs ublk. In
-> > order to get an apples-to-apples comparison with qemu-* a ublk export
-> > type is needed in qemu-storage-daemon. That way only the difference is
-> > the ublk interface and the rest of the code path is identical, making it
-> > possible to compare NBD, VDUSE, ublk, etc more precisely.
->
-> Maybe not true.
->
-> ublk-qcow2 uses io_uring to handle all backend IO(include meta IO) completely,
-> and so far single io_uring/pthread is for handling all qcow2 IOs and IO
-> command.
+Could you rename that to something like 'drop_lock' - you are taking the
+lock at the end even when you have 'release_lock' set - which is a bit
+strange naming.
 
-qemu-nbd doesn't use io_uring to handle the backend IO, so we don't
-know whether the benchmark demonstrates that ublk is faster than NBD,
-that the ublk-qcow2 implementation is faster than qemu-nbd's qcow2,
-whether there are miscellaneous implementation differences between
-ublk-qcow2 and qemu-nbd (like using the same io_uring context for both
-ublk and backend IO), or something else.
+>      int tmppages, pages = 0;
+>      size_t pagesize_bits =
+>          qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
+> @@ -2486,22 +2487,41 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+>              break;
+>          }
+>  
+> +        page_dirty = migration_bitmap_clear_dirty(rs, pss->block, pss->page);
+> +        /*
+> +         * Properly yield the lock only in postcopy preempt mode because
+> +         * both migration thread and rp-return thread can operate on the
+> +         * bitmaps.
+> +         */
+> +        if (release_lock) {
+> +            qemu_mutex_unlock(&rs->bitmap_mutex);
+> +        }
 
-I'm suggesting measuring changes to just 1 variable at a time.
-Otherwise it's hard to reach a conclusion about the root cause of the
-performance difference. Let's learn why ublk-qcow2 performs well.
+Shouldn't the unlock/lock move inside the 'if (page_dirty) {' ?
 
-Stefan
+
+>          /* Check the pages is dirty and if it is send it */
+> -        if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+> +        if (page_dirty) {
+>              tmppages = ram_save_target_page(rs, pss);
+> -            if (tmppages < 0) {
+> -                return tmppages;
+> +            if (tmppages >= 0) {
+> +                pages += tmppages;
+> +                /*
+> +                 * Allow rate limiting to happen in the middle of huge pages if
+> +                 * something is sent in the current iteration.
+> +                 */
+> +                if (pagesize_bits > 1 && tmppages > 0) {
+> +                    migration_rate_limit();
+
+This feels interesting, I know it's no change from before, and it's
+difficult to do here, but it seems odd to hold the lock around the
+sleeping in the rate limit.
+
+Dave
+
+> +                }
+>              }
+> +        } else {
+> +            tmppages = 0;
+> +        }
+>  
+> -            pages += tmppages;
+> -            /*
+> -             * Allow rate limiting to happen in the middle of huge pages if
+> -             * something is sent in the current iteration.
+> -             */
+> -            if (pagesize_bits > 1 && tmppages > 0) {
+> -                migration_rate_limit();
+> -            }
+> +        if (release_lock) {
+> +            qemu_mutex_lock(&rs->bitmap_mutex);
+>          }
+> +
+> +        if (tmppages < 0) {
+> +            return tmppages;
+> +        }
+> +
+>          pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
+>      } while ((pss->page < hostpage_boundary) &&
+>               offset_in_ramblock(pss->block,
+> -- 
+> 2.32.0
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
