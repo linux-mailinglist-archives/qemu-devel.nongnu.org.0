@@ -2,79 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A025F3D8B
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 09:57:19 +0200 (CEST)
-Received: from localhost ([::1]:60420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49FB05F3D81
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 09:54:57 +0200 (CEST)
+Received: from localhost ([::1]:35074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofcnl-0001Md-Ui
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 03:57:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43566)
+	id 1ofclT-0007fx-TD
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 03:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jerome.forissier@linaro.org>)
- id 1ofcHu-0001EU-IC
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:24:25 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jerome.forissier@linaro.org>)
- id 1ofcHq-0003Ed-Vo
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:24:21 -0400
-Received: by mail-wm1-x329.google.com with SMTP id e18so8317676wmq.3
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 00:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=7KxfoyuFQagqXmavj2v8+0ki0SqsX5n7Mp4v9IxaovY=;
- b=qZLBACt6mWa8u7TbH1WkNZQhfKHmG+tPM2AvaUb52kdYE9dICPe019AqcwwIPm3mkA
- eYI0z727VbUdK2QZVpAlFOSIBzbAVJygm//xDtBoow3zBk4olJI3zfwO4Zco5uYM8Xkz
- twmFphDw2uiiaLBgzwGBKCbHtiRMljXwRC7K2HCTCqMlgWMEInU2FfMNTFVA3C3g/Po/
- EJBBRKneP7cWXO9ci/cUrZnfmEdx5ucuC5A6NiMA6pI09lEYgrgo0QfNfA6a00kXRLfr
- cwpH1COpoiR7QmRqXILGQ3a+HieoEDK/w/Shl3jL9zKtLGlS19kz/nqj7Yv0KK0PYNYY
- NosA==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1ofcPS-0006Qn-7a
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:32:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1ofcPK-0002Zt-Ik
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 03:32:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664868720;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T/xtdbWZ1e9LRotxrs+E6aJ7kYEFbIFz/8CVzp8HEA0=;
+ b=aUz61dicIRNGZkoLy8CxY/wuEGfDfZ6j44FG2wetXCxL9adTxd7pB4kUyOIXbnf+QMvp6/
+ mmimn5FOKv/kleiF8ByGllqC6qmKicoON/wfACYX//OCglw8W0K/QfR1/QvQ/wayefJJiw
+ HkXW4dHHuFRHceD/3z6J2bNOm3m3qos=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-402-qStxum8LMTq7GFArRPL-KQ-1; Tue, 04 Oct 2022 03:30:37 -0400
+X-MC-Unique: qStxum8LMTq7GFArRPL-KQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ ay21-20020a05600c1e1500b003b45fd14b53so218281wmb.1
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 00:30:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=7KxfoyuFQagqXmavj2v8+0ki0SqsX5n7Mp4v9IxaovY=;
- b=ag30infLz3w0lidcnDQa9KMA+y4BXno7c8JW2JHUt5yBmD3nemW0JDMyyuYa4N2m+O
- hkcMs5Q6eFKkzevoqrjoB5pb/apizazbAY2mICQMBmQ29Ozsff8uJ90n+jgS/ij/RfJP
- 3FEBlJqBWFQiFS9Pq7IedqfJX6FEGSLuXjfC3g2Wydh7+J4cAbpfZIyWu6wgCVVAT4p6
- g7AvXN+dwnUhrsEh6i0IwONHJqcxo1Tmx7rvX3s9Ij7XuYTyCHgVf3AtO4P0BJMnffw3
- esHncaS41gm2ND4Z0VvRZDCB2hOKOoogaYRVc7v5tASNP4P3CaLRvjVGP15h5ebSp8H+
- n9yw==
-X-Gm-Message-State: ACrzQf0jm0eKDEgETi8+3vk+2Msf5AHjqsDKJ0irNyOQYY+p0UYdagM6
- d1rRPzebV4YCB4AMgmjaHDyC4w==
-X-Google-Smtp-Source: AMsMyM6X6WdJp+bq1b/mrhzqCijgj7s/cGziNBibmRZXlAHcWUhdhHbduU9BIgWmmpPsWZ+Pf48KUg==
-X-Received: by 2002:a05:600c:474a:b0:3b4:cb3f:2f5f with SMTP id
- w10-20020a05600c474a00b003b4cb3f2f5fmr9186883wmo.8.1664868257123; 
- Tue, 04 Oct 2022 00:24:17 -0700 (PDT)
-Received: from jerome-XPS-13-9310.localdomain
- (laubervilliers-657-1-83-120.w92-154.abo.wanadoo.fr. [92.154.90.120])
- by smtp.gmail.com with ESMTPSA id
- t187-20020a1c46c4000000b003b4a699ce8esm18795936wma.6.2022.10.04.00.24.16
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=T/xtdbWZ1e9LRotxrs+E6aJ7kYEFbIFz/8CVzp8HEA0=;
+ b=GRzyuAk/IXzwFHmGHMMZ4gbdgu1ZndPZfEBzp143N66YAI2GbQZd/KODlvOYXcX5Pb
+ jY8OmKWNelibI4jloRnB2Ph+IEVOY2l2BB1qKOr7bQyUywbvun2Ce8tsrF0Fb9Mv1TPs
+ n2i6ntfaYn06cMSJCA0tCIY4lvJ/sry0xP53Qeoc9XwtWalfpRauhFO19wLszcsmjxWB
+ tp9Uu4z32MyrLwWZXgdV8wlFtrV06djLXRJ42nMa/QixQMglfYxJIlwHsoQmu+uwg7vU
+ VceF56P3YkhcjfABE5rta/FXkw/x4J7gSURCnvxVnkp+JCDf/ztN8iJ0ppmVuIw1rewX
+ rKZg==
+X-Gm-Message-State: ACrzQf1yWd3bvkDGIxA8Zo8AJI1Pkoa7d7IZA+nZ6N38r1xo2BFu03mu
+ Rfz66YkMSnGzAQHdeyxF6OgzQEyqo7qNiMA9cEnV1U2PjrsqV7o+/h1jj2xF7qnibT2NKXP9wws
+ pIyTSm2UBJ982+F0=
+X-Received: by 2002:a1c:44d5:0:b0:3b4:9c41:439f with SMTP id
+ r204-20020a1c44d5000000b003b49c41439fmr9155755wma.13.1664868635662; 
+ Tue, 04 Oct 2022 00:30:35 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4U31B/Onr4jmeeAp3cDhTUeLjCVRMrtbVyfzlUkglWQidoFwswSxjrgWQwxpmoFFEVLlz12A==
+X-Received: by 2002:a1c:44d5:0:b0:3b4:9c41:439f with SMTP id
+ r204-20020a1c44d5000000b003b49c41439fmr9155739wma.13.1664868635406; 
+ Tue, 04 Oct 2022 00:30:35 -0700 (PDT)
+Received: from sgarzare-redhat (host-79-46-200-222.retail.telecomitalia.it.
+ [79.46.200.222]) by smtp.gmail.com with ESMTPSA id
+ f14-20020a1c6a0e000000b003a5fa79007fsm13586455wmc.7.2022.10.04.00.30.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 00:24:16 -0700 (PDT)
-From: Jerome Forissier <jerome.forissier@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- Jerome Forissier <jerome.forissier@linaro.org>, qemu-stable@nongnu.org
-Subject: [PATCH] target/arm: allow setting SCR_EL3.EnTP2 when FEAT_SME is
- implemented
-Date: Tue,  4 Oct 2022 09:23:54 +0200
-Message-Id: <20221004072354.27037-1-jerome.forissier@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ Tue, 04 Oct 2022 00:30:34 -0700 (PDT)
+Date: Tue, 4 Oct 2022 09:30:30 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ David Hildenbrand <david@redhat.com>, peter.maydell@linaro.org,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 4/5] pci-ids: drop PCI_DEVICE_ID_VIRTIO_VSOCK
+Message-ID: <20221004073030.nbi632tchiokqfv5@sgarzare-redhat>
+References: <20220930135810.1892149-1-kraxel@redhat.com>
+ <20220930135810.1892149-5-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=jerome.forissier@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220930135810.1892149-5-kraxel@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,111 +101,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Updates write_scr() to allow setting SCR_EL3.EnTP2 when FEAT_SME is
-implemented. SCR_EL3 being a 64-bit register, valid_mask is changed
-to uint64_t and the SCR_* constants in target/arm/cpu.h are extended
-to 64-bit so that masking and bitwise not (~) behave as expected.
+Hi Gerd,
 
-This enables booting Linux with Trusted Firmware-A at EL3 with
-"-M virt,secure=on -cpu max".
+On Fri, Sep 30, 2022 at 03:58:09PM +0200, Gerd Hoffmann wrote:
+>Not needed for a virtio 1.0 device.
+>
+>Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>---
+> include/hw/pci/pci.h             | 1 -
+> hw/virtio/vhost-user-vsock-pci.c | 2 --
+> hw/virtio/vhost-vsock-pci.c      | 2 --
+> 3 files changed, 5 deletions(-)
+>
+>diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+>index 42c83cb5ed00..fe103f35d9d6 100644
+>--- a/include/hw/pci/pci.h
+>+++ b/include/hw/pci/pci.h
+>@@ -83,7 +83,6 @@ extern bool pci_available;
+> #define PCI_DEVICE_ID_VIRTIO_SCSI        0x1004
+> #define PCI_DEVICE_ID_VIRTIO_RNG         0x1005
+> #define PCI_DEVICE_ID_VIRTIO_9P          0x1009
+>-#define PCI_DEVICE_ID_VIRTIO_VSOCK       0x1012
+>
+> #define PCI_VENDOR_ID_REDHAT             0x1b36
+> #define PCI_DEVICE_ID_REDHAT_BRIDGE      0x0001
+>diff --git a/hw/virtio/vhost-user-vsock-pci.c b/hw/virtio/vhost-user-vsock-pci.c
+>index e5a86e801362..8499b6871f50 100644
+>--- a/hw/virtio/vhost-user-vsock-pci.c
+>+++ b/hw/virtio/vhost-user-vsock-pci.c
+>@@ -55,8 +55,6 @@ static void vhost_user_vsock_pci_class_init(ObjectClass *klass, void *data)
+>     k->realize = vhost_user_vsock_pci_realize;
+>     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>     device_class_set_props(dc, vhost_user_vsock_pci_properties);
+>-    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
+>-    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_VSOCK;
+>     pcidev_k->revision = 0x00;
+>     pcidev_k->class_id = PCI_CLASS_COMMUNICATION_OTHER;
+> }
+>diff --git a/hw/virtio/vhost-vsock-pci.c b/hw/virtio/vhost-vsock-pci.c
+>index 9f34414d3814..170a806b6765 100644
+>--- a/hw/virtio/vhost-vsock-pci.c
+>+++ b/hw/virtio/vhost-vsock-pci.c
+>@@ -65,8 +65,6 @@ static void vhost_vsock_pci_class_init(ObjectClass *klass, void *data)
+>     k->realize = vhost_vsock_pci_realize;
+>     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>     device_class_set_props(dc, vhost_vsock_pci_properties);
+>-    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
+>-    pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_VSOCK;
+>     pcidev_k->revision = 0x00;
+>     pcidev_k->class_id = PCI_CLASS_COMMUNICATION_OTHER;
+> }
 
-Cc: qemu-stable@nongnu.org
-Fixes: 78cb9776662a ("target/arm: Enable SME for -cpu max")
-Signed-off-by: Jerome Forissier <jerome.forissier@linaro.org>
----
- target/arm/cpu.h    | 54 ++++++++++++++++++++++-----------------------
- target/arm/helper.c |  5 ++++-
- 2 files changed, 31 insertions(+), 28 deletions(-)
+Could we have migration issues with this change?
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 5168e3d837..d5e9949eb6 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1653,33 +1653,33 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
- 
- #define HPFAR_NS      (1ULL << 63)
- 
--#define SCR_NS                (1U << 0)
--#define SCR_IRQ               (1U << 1)
--#define SCR_FIQ               (1U << 2)
--#define SCR_EA                (1U << 3)
--#define SCR_FW                (1U << 4)
--#define SCR_AW                (1U << 5)
--#define SCR_NET               (1U << 6)
--#define SCR_SMD               (1U << 7)
--#define SCR_HCE               (1U << 8)
--#define SCR_SIF               (1U << 9)
--#define SCR_RW                (1U << 10)
--#define SCR_ST                (1U << 11)
--#define SCR_TWI               (1U << 12)
--#define SCR_TWE               (1U << 13)
--#define SCR_TLOR              (1U << 14)
--#define SCR_TERR              (1U << 15)
--#define SCR_APK               (1U << 16)
--#define SCR_API               (1U << 17)
--#define SCR_EEL2              (1U << 18)
--#define SCR_EASE              (1U << 19)
--#define SCR_NMEA              (1U << 20)
--#define SCR_FIEN              (1U << 21)
--#define SCR_ENSCXT            (1U << 25)
--#define SCR_ATA               (1U << 26)
--#define SCR_FGTEN             (1U << 27)
--#define SCR_ECVEN             (1U << 28)
--#define SCR_TWEDEN            (1U << 29)
-+#define SCR_NS                (1ULL << 0)
-+#define SCR_IRQ               (1ULL << 1)
-+#define SCR_FIQ               (1ULL << 2)
-+#define SCR_EA                (1ULL << 3)
-+#define SCR_FW                (1ULL << 4)
-+#define SCR_AW                (1ULL << 5)
-+#define SCR_NET               (1ULL << 6)
-+#define SCR_SMD               (1ULL << 7)
-+#define SCR_HCE               (1ULL << 8)
-+#define SCR_SIF               (1ULL << 9)
-+#define SCR_RW                (1ULL << 10)
-+#define SCR_ST                (1ULL << 11)
-+#define SCR_TWI               (1ULL << 12)
-+#define SCR_TWE               (1ULL << 13)
-+#define SCR_TLOR              (1ULL << 14)
-+#define SCR_TERR              (1ULL << 15)
-+#define SCR_APK               (1ULL << 16)
-+#define SCR_API               (1ULL << 17)
-+#define SCR_EEL2              (1ULL << 18)
-+#define SCR_EASE              (1ULL << 19)
-+#define SCR_NMEA              (1ULL << 20)
-+#define SCR_FIEN              (1ULL << 21)
-+#define SCR_ENSCXT            (1ULL << 25)
-+#define SCR_ATA               (1ULL << 26)
-+#define SCR_FGTEN             (1ULL << 27)
-+#define SCR_ECVEN             (1ULL << 28)
-+#define SCR_TWEDEN            (1ULL << 29)
- #define SCR_TWEDEL            MAKE_64BIT_MASK(30, 4)
- #define SCR_TME               (1ULL << 34)
- #define SCR_AMVOFFEN          (1ULL << 35)
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d7bc467a2a..5cde8a0425 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -1669,7 +1669,7 @@ static void vbar_write(CPUARMState *env, const ARMCPRegInfo *ri,
- static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
- {
-     /* Begin with base v8.0 state.  */
--    uint32_t valid_mask = 0x3fff;
-+    uint64_t valid_mask = 0x3fff;
-     ARMCPU *cpu = env_archcpu(env);
- 
-     /*
-@@ -1706,6 +1706,9 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-         if (cpu_isar_feature(aa64_doublefault, cpu)) {
-             valid_mask |= SCR_EASE | SCR_NMEA;
-         }
-+        if (cpu_isar_feature(aa64_sme, cpu)) {
-+            valid_mask |= SCR_ENTP2;
-+        }
-     } else {
-         valid_mask &= ~(SCR_RW | SCR_ST);
-         if (cpu_isar_feature(aa32_ras, cpu)) {
--- 
-2.34.1
+This reminded me that we've had issues already with vsock being 
+incorrectly exported as legacy, that we discovered when we added commit 
+9b3a35ec82 ("virtio: verify that legacy support is not accidentally 
+on").
+
+Then we needed commit d55f518248 ("virtio: skip legacy support check on 
+machine types less than 5.1") to avoid migration issues.
+
+And we merged the following commits to force 1.0 in virtio-vsock devices 
+for machine types >= 5.1 :
+- 6209070503 ("vhost-vsock-pci: force virtio version 1")
+- 27eda699f5 ("vhost-user-vsock-pci: force virtio version 1")
+
+Thanks,
+Stefano
 
 
