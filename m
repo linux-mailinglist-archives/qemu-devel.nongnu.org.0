@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCEA5F40F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 12:40:38 +0200 (CEST)
-Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34105F40F4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 12:43:51 +0200 (CEST)
+Received: from localhost ([::1]:48762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1offLp-0008Oj-CY
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 06:40:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35896)
+	id 1offOx-0003aL-0a
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 06:43:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org>)
- id 1offJN-0005ex-BB
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:38:05 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:58564)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1offMf-0000WB-HY
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:41:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org>)
- id 1offJK-0001oj-MS
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:38:05 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A0626B819A2;
- Tue,  4 Oct 2022 10:37:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A43FC433C1;
- Tue,  4 Oct 2022 10:37:50 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="I+yr63xM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1664879868;
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1offMZ-0002Ru-FX
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 06:41:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664880082;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+uuXyz6ODMCn8eE/GSnCUiibQIaNdSdi0qY50roQ2TY=;
- b=I+yr63xM6MVGbU/ja/1NoHxtBP1PUMlIoOYTgwPsGHRtNZOlO03qK1aHf5Jwl0qVrixt05
- QynFlZexNrSPne85nzKqPpqEdqXVq9/YR9lOmXAfwdByPpPVB3gW+SFZpDHc9TbZCZkEKy
- kmmcUGT/wWd8TnMlAX6uV8kf8vHrzvM=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 869645c6
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 4 Oct 2022 10:37:48 +0000 (UTC)
-Date: Tue, 4 Oct 2022 12:37:44 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Cc: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, kvm-devel <kvm@vger.kernel.org>,
- Laurent Vivier <lvivier@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v2] mips/malta: pass RNG seed to to kernel via env var
-Message-ID: <YzwM+KhUG0bg+P2e@zx2c4.com>
-References: <YziPyCqwl5KIE2cf@zx2c4.com>
- <20221003103627.947985-1-Jason@zx2c4.com>
- <b529059a-7819-e49d-e4dc-7ae79ee21ec5@amsat.org>
- <CAHmME9pUuduiEcmi2xaY3cd87D_GNX1bkVeXNqVq6AL_e=Kt+Q@mail.gmail.com>
+ bh=1M+NgUM5GZ5+imRVNWwYLnc6H57LmwBusuOnXas8ihg=;
+ b=SYpCuDEGL+el3yDrPhQ7m+luR8EKvwq1+yK7genSsbTfC01+YE954iarcLX3YXHdd/sPMk
+ Et9m5/IHoVZpvl+J31DHiIoI6TYgAsPSHqz7eASrtvJkoKrXPUPTzzK0EgU3qrX/to5MkU
+ X99U4kofQh63Kkw/XMopA8K7L86Q7vE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-557-0V2BPLTPOwOKy122kn9yRA-1; Tue, 04 Oct 2022 06:41:18 -0400
+X-MC-Unique: 0V2BPLTPOwOKy122kn9yRA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FDAA857F8F;
+ Tue,  4 Oct 2022 10:41:18 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F9AA2027061;
+ Tue,  4 Oct 2022 10:41:17 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
+ zhenyzha@redhat.com, richard.henderson@linaro.org,
+ peter.maydell@linaro.org, shan.gavin@gmail.com
+Subject: Re: [PATCH v4 4/6] hw/arm/virt: Introduce
+ virt_get_high_memmap_enabled() helper
+In-Reply-To: <20221004002627.59172-5-gshan@redhat.com>
+Organization: Red Hat GmbH
+References: <20221004002627.59172-1-gshan@redhat.com>
+ <20221004002627.59172-5-gshan@redhat.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Tue, 04 Oct 2022 12:41:16 +0200
+Message-ID: <87edvnooqb.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHmME9pUuduiEcmi2xaY3cd87D_GNX1bkVeXNqVq6AL_e=Kt+Q@mail.gmail.com>
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=YHNL=2F=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,125 +81,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And just to give you some idea that this truly is possible from firmware
-and I'm not just making it up, consider this patch to U-Boot:
+On Tue, Oct 04 2022, Gavin Shan <gshan@redhat.com> wrote:
 
-u-boot:
-diff --git a/arch/mips/lib/bootm.c b/arch/mips/lib/bootm.c
-index cab8da4860..27f3ee68c0 100644
---- a/arch/mips/lib/bootm.c
-+++ b/arch/mips/lib/bootm.c
-@@ -211,6 +211,8 @@ static void linux_env_legacy(bootm_headers_t *images)
- 		sprintf(env_buf, "%un8r", gd->baudrate);
- 		linux_env_set("modetty0", env_buf);
- 	}
-+
-+	linux_env_set("rngseed", "4142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f60");
- }
+> This introduces virt_get_high_memmap_enabled() helper, which returns
+> the pointer to vms->highmem_{redists, ecam, mmio}. The pointer will
+> be used in the subsequent patches.
+>
+> No functional change intended.
+>
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  hw/arm/virt.c | 30 +++++++++++++++++-------------
+>  1 file changed, 17 insertions(+), 13 deletions(-)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index b0b679d1f4..59de7b78b5 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1689,14 +1689,29 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+>      return arm_cpu_mp_affinity(idx, clustersz);
+>  }
+>  
+> +static inline bool *virt_get_high_memmap_enabled(VirtMachineState *vms,
+> +                                                 int index)
+> +{
+> +    bool *enabled_array[] = {
+> +        &vms->highmem_redists,
+> +        &vms->highmem_ecam,
+> +        &vms->highmem_mmio,
+> +    };
+> +
+> +    assert(index - VIRT_LOWMEMMAP_LAST < ARRAY_SIZE(enabled_array));
 
- static int boot_reloc_fdt(bootm_headers_t *images)
+I wonder whether we want an assert(ARRAY_SIZE(extended_memmap) ==
+ARRAY_SIZE(enabled_array))? IIUC, we never want those two to get out of
+sync?
 
-Now, obviously that seed should be generated from some real method (a
-seed file in flash, a hardware RNG U-Boot knows about, etc), but for the
-purposes of showing that this is how things are passed to Linux, the
-above suffices. To show that this ingested by Linux, let's then add:
+> +
+> +    return enabled_array[index - VIRT_LOWMEMMAP_LAST];
+> +}
+> +
 
-linux:
-diff --git a/drivers/char/random.c b/drivers/char/random.c
-index a007e3dad80f..05d5b8bcb7e9 100644
---- a/drivers/char/random.c
-+++ b/drivers/char/random.c
-@@ -890,6 +890,7 @@ EXPORT_SYMBOL_GPL(add_hwgenerator_randomness);
-  */
- void __init add_bootloader_randomness(const void *buf, size_t len)
- {
-+	print_hex_dump(KERN_ERR, "SARU seed: ", DUMP_PREFIX_OFFSET, 16, 1, buf, len, 1);
- 	mix_pool_bytes(buf, len);
- 	if (trust_bootloader)
- 		credit_init_bits(len * 8);
-
-And now let's boot it:
-
-$ qemu-system-mips -nographic -bios ./u-boot.bin -m 1G -netdev user,tftp=arch/mips/boot,bootfile=/uImage,id=net -device pcnet,netdev=net
-
-U-Boot 2022.10-dirty (Oct 04 2022 - 12:31:05 +0200)
-
-Board: MIPS Malta CoreLV
-DRAM:  256 MiB
-Core:  3 devices, 3 uclasses, devicetree: separate
-PCI: Failed autoconfig bar 10
-PCI: Failed autoconfig bar 14
-PCI: Failed autoconfig bar 18
-PCI: Failed autoconfig bar 1c
-PCI: Failed autoconfig bar 20
-PCI: Failed autoconfig bar 24
-Flash: 4 MiB
-Loading Environment from Flash... *** Warning - bad CRC, using default environment
-
-In:    serial@3f8
-Out:   serial@3f8
-Err:   serial@3f8
-Net:   eth0: pcnet#0
-IDE:   Bus 0: not available
-malta # bootp
-BOOTP broadcast 1
-DHCP client bound to address 10.0.2.15 (1 ms)
-Using pcnet#0 device
-TFTP from server 10.0.2.2; our IP address is 10.0.2.15
-Filename '/uImage'.
-Load address: 0x81000000
-Loading: #################################################################
-         #################################################################
-         #################################################################
-         #################################################################
-         ####################################################
-         169.6 MiB/s
-done
-Bytes transferred = 4446702 (43d9ee hex)
-malta # bootm
-## Booting kernel from Legacy Image at 81000000 ...
-   Image Name:   Linux-6.0.0-rc6+
-   Created:      2022-10-04  10:23:27 UTC
-   Image Type:   MIPS Linux Kernel Image (gzip compressed)
-   Data Size:    4446638 Bytes = 4.2 MiB
-   Load Address: 80100000
-   Entry Point:  8054939c
-   Verifying Checksum ... OK
-   Uncompressing Kernel Image
-[    0.000000] Linux version 6.0.0-rc6+ (zx2c4@thinkpad) (mips-linux-musl-gcc (GCC) 11.2.1 20211120, GNU ld (GNU Binutils) 2.37) #5 SMP PREEMPT Fri Jun 5 15:58:00 CEST 2015
-[    0.000000] earlycon: uart8250 at I/O port 0x3f8 (options '38400n8')
-[    0.000000] printk: bootconsole [uart8250] enabled
-[    0.000000] Config serial console: console=ttyS0,38400n8r
-[    0.000000] MIPS CPS SMP unable to proceed without a CM
-[    0.000000] CPU0 revision is: 00019300 (MIPS 24Kc)
-[    0.000000] FPU revision is: 00739300
-[    0.000000] OF: fdt: No chosen node found, continuing without
-[    0.000000] OF: fdt: Ignoring memory range 0x100000000 - 0x17ffff000
-[    0.000000] MIPS: machine is mti,malta
-[    0.000000] Software DMA cache coherency enabled
-[    0.000000] Initrd not found or empty - disabling initrd
-[    0.000000] Primary instruction cache 2kB, VIPT, 2-way, linesize 16 bytes.
-[    0.000000] Primary data cache 2kB, 2-way, VIPT, no aliases, linesize 16 bytes
-[    0.000000] Zone ranges:
-[    0.000000]   DMA      [mem 0x0000000000000000-0x0000000000ffffff]
-[    0.000000]   Normal   [mem 0x0000000001000000-0x000000001fffffff]
-[    0.000000] Movable zone start for each node
-[    0.000000] Early memory node ranges
-[    0.000000]   node   0: [mem 0x0000000000000000-0x000000000fffffff]
-[    0.000000]   node   0: [mem 0x0000000090000000-0x00000000ffffefff]
-[    0.000000] Initmem setup node 0 [mem 0x0000000000000000-0x00000000ffffefff]
-[    0.000000] SARU seed: 00000000: 41 42 43 44 45 46 47 48 49 4a 4b 4c 4d 4e 4f 50  ABCDEFGHIJKLMNOP
-[    0.000000] SARU seed: 00000010: 51 52 53 54 55 56 57 58 59 5a 5b 5c 5d 5e 5f 60  QRSTUVWXYZ[\]^_`
-[    0.000000] random: crng init done
-...
-
-So, as you can see, it works perfectly. Thus, setting this in QEMU
-follows *exactly* *the* *same* *pattern* as every other architecture
-that allows for this kind of mechanism. There's nothing weird or unusual
-or out of place happening here.
-
-Hope this helps clarify.
-
-Regards,
-Jason
 
