@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FA05F4355
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 14:44:05 +0200 (CEST)
-Received: from localhost ([::1]:57764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780C55F4377
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 14:49:24 +0200 (CEST)
+Received: from localhost ([::1]:36068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofhHI-0005gA-8E
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 08:44:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40550)
+	id 1ofhMR-0003Df-ID
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 08:49:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ofhBC-0006m0-67
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ofhBE-0006me-Ft
  for qemu-devel@nongnu.org; Tue, 04 Oct 2022 08:37:49 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:36490)
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:36500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ofhB9-0005r9-TP
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 08:37:45 -0400
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ofhB9-0005rN-Tw
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 08:37:48 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9C7BD2188C;
- Tue,  4 Oct 2022 12:37:38 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 242272188D;
+ Tue,  4 Oct 2022 12:37:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1664887058; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1664887059; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oJF5O7EmDwv6m28nykB6f/nZh10KH48Qx+3g0d6GRcw=;
- b=LVCZ/r1951xwnPmzL5TFQxEhk4ruurEJWF5Ju7JWBIc0F3V8RlMGkWePvG2mIfPyLAEzZG
- oCmV+kn8/rESgNfm+XyXExYdfR4Wks6DCQ4rRhljuAYQPH7fts/beKXZVvTtLSm6Su+n13
- Po3XjSTS0Vb760DVaaPM10IElBBelkw=
+ bh=0C6zIHlvsOwNHoKLjVfG9Y4tnfVGgpb6vsEK+n6Ucb0=;
+ b=hW3ZbXSxmCb6kdv5sEzHbWhEI/GHnIN9cAuhjHixVo8VlaKXJImNxNJdZbwFCGAggkyJUb
+ RLhQk0eXKFTjMBI1HS5h5AkVQd6UtukoL1xQRKQ7FntFdyyDDaLz1iByZouVJTsxMQNpWE
+ kgkI9dSYLg2eDE3cSptixx0hMJwFxNk=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3033B139EF;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE0C0139EF;
  Tue,  4 Oct 2022 12:37:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kHoFCRIpPGNlRQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id kE/kJxIpPGNlRQAAMHmgww
  (envelope-from <nborisov@suse.com>); Tue, 04 Oct 2022 12:37:38 +0000
 From: Nikolay Borisov <nborisov@suse.com>
 To: dgilbert@redhat.com,
 	berrange@redhat.com
 Cc: qemu-devel@nongnu.org, jfehlig@suse.com, Claudio.Fontana@suse.com,
  dfaggioli@suse.com, Nikolay Borisov <nborisov@suse.com>
-Subject: [PATCH 01/11] migration: support file: uri for source migration
-Date: Tue,  4 Oct 2022 15:37:23 +0300
-Message-Id: <20221004123733.2745519-2-nborisov@suse.com>
+Subject: [PATCH 02/11] migration: Add support for 'file:' uri for incoming
+ migration
+Date: Tue,  4 Oct 2022 15:37:24 +0300
+Message-Id: <20221004123733.2745519-3-nborisov@suse.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004123733.2745519-1-nborisov@suse.com>
 References: <20221004123733.2745519-1-nborisov@suse.com>
@@ -78,96 +79,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement support for a "file:" uri so that a migration can be initiated
-directly to a file from QEMU.
+This is a counterpart to the 'file:' uri support for source migration,
+now a file can also serve as the source of an incoming migration.
 
 Signed-off-by: Nikolay Borisov <nborisov@suse.com>
 ---
- migration/file.c      | 23 +++++++++++++++++++++++
- migration/file.h      |  9 +++++++++
- migration/meson.build |  1 +
- migration/migration.c |  3 +++
- 4 files changed, 36 insertions(+)
- create mode 100644 migration/file.c
- create mode 100644 migration/file.h
+ migration/file.c      | 15 +++++++++++++++
+ migration/file.h      |  1 +
+ migration/migration.c |  2 ++
+ 3 files changed, 18 insertions(+)
 
 diff --git a/migration/file.c b/migration/file.c
-new file mode 100644
-index 000000000000..02896a7cab99
---- /dev/null
+index 02896a7cab99..93eb718aa0f4 100644
+--- a/migration/file.c
 +++ b/migration/file.c
-@@ -0,0 +1,23 @@
-+#include "qemu/osdep.h"
-+#include "channel.h"
-+#include "io/channel-file.h"
-+#include "file.h"
-+#include "qemu/error-report.h"
-+
-+
-+void file_start_outgoing_migration(MigrationState *s, const char *fname, Error **errp)
+@@ -21,3 +21,18 @@ void file_start_outgoing_migration(MigrationState *s, const char *fname, Error *
+ }
+ 
+ 
++void file_start_incoming_migration(const char *fname, Error **errp)
 +{
 +	QIOChannelFile *ioc;
 +
-+	ioc = qio_channel_file_new_path(fname, O_CREAT|O_TRUNC|O_WRONLY, 0660, errp);
++	ioc = qio_channel_file_new_path(fname, O_RDONLY, 0, errp);
 +	if (!ioc) {
 +		error_report("Error creating a channel");
 +		return;
 +	}
 +
-+	qio_channel_set_name(QIO_CHANNEL(ioc), "migration-file-outgoing");
-+	migration_channel_connect(s, QIO_CHANNEL(ioc), NULL, NULL);
++	qio_channel_set_name(QIO_CHANNEL(ioc), "migration-file-incoming");
++	migration_channel_process_incoming(QIO_CHANNEL(ioc));
 +	object_unref(OBJECT(ioc));
 +}
 +
-+
 diff --git a/migration/file.h b/migration/file.h
-new file mode 100644
-index 000000000000..d476eb1157f9
---- /dev/null
+index d476eb1157f9..cdbd291322d4 100644
+--- a/migration/file.h
 +++ b/migration/file.h
-@@ -0,0 +1,9 @@
-+#ifndef QEMU_MIGRATION_FILE_H
-+#define QEMU_MIGRATION_FILE_H
-+
-+void file_start_outgoing_migration(MigrationState *s,
-+                                   const char *filename,
-+                                   Error **errp);
-+
-+#endif
-+
-diff --git a/migration/meson.build b/migration/meson.build
-index 690487cf1a81..30a8392701c3 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -17,6 +17,7 @@ softmmu_ss.add(files(
-   'colo.c',
-   'exec.c',
-   'fd.c',
-+  'file.c',
-   'global_state.c',
-   'migration.c',
-   'multifd.c',
+@@ -5,5 +5,6 @@ void file_start_outgoing_migration(MigrationState *s,
+                                    const char *filename,
+                                    Error **errp);
+ 
++void file_start_incoming_migration(const char *fname, Error **errp);
+ #endif
+ 
 diff --git a/migration/migration.c b/migration/migration.c
-index bb8bbddfe467..8813b78b9a6b 100644
+index 8813b78b9a6b..140b0f1a54bd 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -20,6 +20,7 @@
- #include "migration/blocker.h"
- #include "exec.h"
- #include "fd.h"
-+#include "file.h"
- #include "socket.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
-@@ -2414,6 +2415,8 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
-         exec_start_outgoing_migration(s, p, &local_err);
+@@ -506,6 +506,8 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+         exec_start_incoming_migration(p, errp);
      } else if (strstart(uri, "fd:", &p)) {
-         fd_start_outgoing_migration(s, p, &local_err);
+         fd_start_incoming_migration(p, errp);
 +    } else if (strstart(uri, "file:", &p)) {
-+	file_start_outgoing_migration(s, p, &local_err);
++	file_start_incoming_migration(p, errp);
      } else {
-         if (!(has_resume && resume)) {
-             yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+         error_setg(errp, "unknown migration protocol: %s", uri);
+     }
 -- 
 2.34.1
 
