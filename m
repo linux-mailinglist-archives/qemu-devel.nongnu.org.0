@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43805F3CE1
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 08:48:43 +0200 (CEST)
-Received: from localhost ([::1]:46014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4157C5F3CFD
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 09:03:30 +0200 (CEST)
+Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofbjO-0007Mq-7W
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 02:48:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40110)
+	id 1ofbxe-0006Iy-8N
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 03:03:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ofbbO-0003aN-9i
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 02:40:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60228)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ofbb6-0007Mo-Lj
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 02:40:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664865604;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k6PEhVwsUdblHwK3rj087xFdWJz6Ber5xF9LonashWM=;
- b=b+Q/GGgWNrdx4MalOz9kkKGLTTIesud4If1cooqNlJdRb4eIdZIUsslPrrzBtuBrpkYMjO
- i+QwvBybAYF4oCdpl6MkqduzlpGd9+S2NZz1stoXTUlvNam/Vmg8E8V073EktekpE6bEyI
- dX1m9nxhtuNgOdmxMb5UGCuY+DhMqz8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-472-PeQ0Dm9qOOSFsYJ04dglHg-1; Tue, 04 Oct 2022 02:40:01 -0400
-X-MC-Unique: PeQ0Dm9qOOSFsYJ04dglHg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D03EF862FE4;
- Tue,  4 Oct 2022 06:40:00 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.163])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B9DDC2166B26;
- Tue,  4 Oct 2022 06:39:59 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8BEF021E691D; Tue,  4 Oct 2022 08:39:57 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,  BALATON Zoltan
- <balaton@eik.bme.hu>,  qemu-devel@nongnu.org,  qemu-ppc@nongnu.org,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Paolo Bonzini
- <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 06/13] mac_newworld: Simplify creation of Uninorth
- devices
-References: <cover.1664108862.git.balaton@eik.bme.hu>
- <4a039abeeddcc6c987065ca526c6fa0457784615.1664108862.git.balaton@eik.bme.hu>
- <fbb38c03-6092-78e2-c1af-e37f1674bad4@ilande.co.uk>
- <76294919-528e-4174-b8df-8e97c10c788a@amsat.org>
-Date: Tue, 04 Oct 2022 08:39:57 +0200
-In-Reply-To: <76294919-528e-4174-b8df-8e97c10c788a@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 3 Oct 2022 16:05:49
- +0200")
-Message-ID: <87pmf8gkhu.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1ofbmd-0000Oj-TC
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 02:52:09 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:51185)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1ofbmY-0000iQ-Ut
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 02:52:03 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id lx7so12115935pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 03 Oct 2022 23:51:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:user-agent:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date; bh=uYcUCfxcK1MsH06I3SCNIhSOaFuiEdHlYJWDpClgBKU=;
+ b=FT26xavB0fWj1KfUarEyUpvl3QPebtCZX/jc+rDKfshN04qKn+obcfubSfcA03C0V3
+ mKaz0XIqO+Pys0qvKYRRJAcPrI7fKGTv7nZ5vZyGD2nkRF2kPz87SXIpRovMy6No7Fv4
+ yqFS6PU8Duc6Y5WkBT+Re03X1D2X7gJOd8FTCoXG/NcdqZ3rYNeCGXFsVOWkKsS/JMV2
+ h1bf9PnefhEewhF54v5z2TXbM/N+/U5QpMvm8I+vzvGUcgyTGemI9Ohaa7+OH7aQ5E87
+ lD9vLD8Lx590AbeHYDgcgY4f2nSvWoxlyLvWUmzEptZFJEmQA23KEZZBNQAeIiva+vcn
+ oebQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:user-agent:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date;
+ bh=uYcUCfxcK1MsH06I3SCNIhSOaFuiEdHlYJWDpClgBKU=;
+ b=eS9tzbtIAoJ2P1gEsXp1KKRokpU3cuYc0HN2lrQRzH5CZbi8YS3oW0OYlrH/tT4NW2
+ 92B02lEf0hxJFMac5UGL3eVUMbAsk0/a2xNpDz5BXOECzmf0wqOxrSSKukwba9JxZRcx
+ z1k3pi1ZdPe1KmT4gV2jbZKJckGu+wLkEdY1c2cx5RwKZgCiiH6F8biXiCD2iSWrdIy4
+ EZ+YPwE9ymyd9+uwBqou3dJanojZpH0L5rWhxCBtK1El/BOw3cCQe2UK1GUTJQxrx0uG
+ 7vt8LMBi+KvnIYoFuvQM2urIis037VecdyYgrF6D0mfxq9DPSpDd2ASwT/C59ijmn00y
+ 9sfQ==
+X-Gm-Message-State: ACrzQf0Wwlyv2ibKHT1f4Lpg9BEPZnLSVfMwGE76pfWF02NXFFisiMNU
+ qEY2WBvrhm3AB97zS/zYyam2bA==
+X-Google-Smtp-Source: AMsMyM5+LxEs1kxMKv0naHeU7OjRVWL/Ss+/jvcypjViBgApXTtWnhnI8jzq3cODRq12b2tLWZqnnA==
+X-Received: by 2002:a17:90b:3903:b0:202:affa:1c9f with SMTP id
+ ob3-20020a17090b390300b00202affa1c9fmr16266598pjb.27.1664866317144; 
+ Mon, 03 Oct 2022 23:51:57 -0700 (PDT)
+Received: from [192.168.1.5] ([103.97.165.210])
+ by smtp.gmail.com with ESMTPSA id
+ b15-20020a1709027e0f00b001752216ca51sm1194562plm.39.2022.10.03.23.51.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Oct 2022 23:51:56 -0700 (PDT)
+Message-ID: <d7c8fc4fc255a23850d78da6c937e57e85ce09c7.camel@ventanamicro.com>
+Subject: Re: [PATCH v10 4/5] target/riscv: smstateen check for fcsr
+From: mchitale@ventanamicro.com
+To: weiwei <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: alistair.francis@wdc.com
+Date: Tue, 04 Oct 2022 12:21:51 +0530
+In-Reply-To: <404205f5-9626-23b3-d388-b2288293c7d1@iscas.ac.cn>
+References: <20221003114718.30659-1-mchitale@ventanamicro.com>
+ <20221003114718.30659-5-mchitale@ventanamicro.com>
+ <404205f5-9626-23b3-d388-b2288293c7d1@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,67 +93,212 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+On Mon, 2022-10-03 at 21:02 +0800, weiwei wrote:
+> On 2022/10/3 19:47, Mayuresh Chitale wrote:
+> > If smstateen is implemented and sstateen0.fcsr is clear then the
+> > floating point
+> > operations must return illegal instruction exception or virtual
+> > instruction
+> > trap, if relevant.
+> > 
+> > Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> > ---
+> >   target/riscv/csr.c                        | 23 ++++++++++++
+> >   target/riscv/insn_trans/trans_rvf.c.inc   | 43
+> > +++++++++++++++++++++--
+> >   target/riscv/insn_trans/trans_rvzfh.c.inc | 12 +++++++
+> >   3 files changed, 75 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index 71236f2b5d..8b25f885ec 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -84,6 +84,10 @@ static RISCVException fs(CPURISCVState *env, int
+> > csrno)
+> >           !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
+> >           return RISCV_EXCP_ILLEGAL_INST;
+> >       }
+> > +
+> > +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+> > +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
+> > +    }
+> >   #endif
+> >       return RISCV_EXCP_NONE;
+> >   }
+> > @@ -2023,6 +2027,9 @@ static RISCVException
+> > write_mstateen0(CPURISCVState *env, int csrno,
+> >                                         target_ulong new_val)
+> >   {
+> >       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+> > +    if (!riscv_has_ext(env, RVF)) {
+> > +        wr_mask |= SMSTATEEN0_FCSR;
+> > +    }
+> >   
+> >       return write_mstateen(env, csrno, wr_mask, new_val);
+> >   }
+> > @@ -2059,6 +2066,10 @@ static RISCVException
+> > write_mstateen0h(CPURISCVState *env, int csrno,
+> >   {
+> >       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+> >   
+> > +    if (!riscv_has_ext(env, RVF)) {
+> > +        wr_mask |= SMSTATEEN0_FCSR;
+> > +    }
+> > +
+> >       return write_mstateenh(env, csrno, wr_mask, new_val);
+> >   }
+> >   
+> > @@ -2096,6 +2107,10 @@ static RISCVException
+> > write_hstateen0(CPURISCVState *env, int csrno,
+> >   {
+> >       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+> >   
+> > +    if (!riscv_has_ext(env, RVF)) {
+> > +        wr_mask |= SMSTATEEN0_FCSR;
+> > +    }
+> > +
+> >       return write_hstateen(env, csrno, wr_mask, new_val);
+> >   }
+> >   
+> > @@ -2135,6 +2150,10 @@ static RISCVException
+> > write_hstateen0h(CPURISCVState *env, int csrno,
+> >   {
+> >       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+> >   
+> > +    if (!riscv_has_ext(env, RVF)) {
+> > +        wr_mask |= SMSTATEEN0_FCSR;
+> > +    }
+> > +
+> >       return write_hstateenh(env, csrno, wr_mask, new_val);
+> >   }
+> >   
+> > @@ -2182,6 +2201,10 @@ static RISCVException
+> > write_sstateen0(CPURISCVState *env, int csrno,
+> >   {
+> >       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
+> >   
+> > +    if (!riscv_has_ext(env, RVF)) {
+> > +        wr_mask |= SMSTATEEN0_FCSR;
+> > +    }
+> > +
+> >       return write_sstateen(env, csrno, wr_mask, new_val);
+> >   }
+> >   
+> > diff --git a/target/riscv/insn_trans/trans_rvf.c.inc
+> > b/target/riscv/insn_trans/trans_rvf.c.inc
+> > index a1d3eb52ad..93657680c6 100644
+> > --- a/target/riscv/insn_trans/trans_rvf.c.inc
+> > +++ b/target/riscv/insn_trans/trans_rvf.c.inc
+> > @@ -24,9 +24,46 @@
+> >               return false; \
+> >   } while (0)
+> >   
+> > -#define REQUIRE_ZFINX_OR_F(ctx) do {\
+> > -    if (!ctx->cfg_ptr->ext_zfinx) { \
+> > -        REQUIRE_EXT(ctx, RVF); \
+> > +#ifndef CONFIG_USER_ONLY
+> > +static inline bool smstateen_fcsr_check(DisasContext *ctx, int
+> > index)
+> > +{
+> > +    CPUState *cpu = ctx->cs;
+> > +    CPURISCVState *env = cpu->env_ptr;
+> > +    uint64_t stateen = env->mstateen[index];
+> > +
+> > +    if (!ctx->cfg_ptr->ext_smstateen || env->priv == PRV_M) {
+> > +        return true;
+> > +    }
+> > +
+> > +    if (ctx->virt_enabled) {
+> > +        stateen &= env->hstateen[index];
+> > +    }
+> > +
+> > +    if (env->priv == PRV_U && has_ext(ctx, RVS)) {
+> > +        stateen &= env->sstateen[index];
+> > +    }
+> > +
+> > +    if (!(stateen & SMSTATEEN0_FCSR)) {
+> > +        if (ctx->virt_enabled) {
+> > +            ctx->virt_inst_excp = true;
+> > +        }
+> 
+> Are there any considerations for adding  virt_inst_excp instead of
+> directly
+> 
+> "generate_exception(ctx, RISCV_EXCP_VIRT_INSTRUCTION_FAULT)" here?
+> 
+> Regards,
+> 
+> Weiwei Li
 
-> Cc'ing CLI refactor team.
->
-> On 29/9/22 09:39, Mark Cave-Ayland wrote:
->> On 25/09/2022 13:38, BALATON Zoltan wrote:
->>=20
->>> Avoid open coding sysbus_mmio_map() and map regions in ascending
->>> otder. Reorganise code a bit to avoid some casts.
->>>
->>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>> ---
->>> =C2=A0 hw/ppc/mac_newworld.c | 42 +++++++++++++++++--------------------=
------
->>> =C2=A0 1 file changed, 17 insertions(+), 25 deletions(-)
->
->> Same comment here re: sysbus. Also the patch seems correct here, but it =
-is worth noting that the PCI bus initialisation is order sensitive: the=20
->> last bus created is the one that becomes the default PCI bus for -device=
-, so changing this would break quite a few command lines...
->
-> Eh, I was not aware of this API fragility. So when using -device without
-> expliciting the 'bus' key, the default is the latest bus created... OK.
-
-Yes, our external interface is in part defined implicitly by the order
-in board code execution.  It goes deeper than just CLI, I'm afraid.
-
-Omitting bus=3D is a convenience feature for users.  It's clearly useful.
-But what's the default?  We walk the qdev tree rooted at the main system
-bus looking for a bus of suitable bus type that is not full, or else of
-suitable type that is full.  See qdev_find_recursive().  The tree walk
-visits children in creation order.  Therefore, bus creation order is
-ABI.
-
-Related: bus names.
-
-For user-created buses, the bus name depends on the owning device's qdev
-ID (specified with id=3DID).  If it has none, the system picks a bus name;
-more on that below.  Else, it is ID.N, where N counts from zero.  When a
-device creates multiple buses of the same type, its bus creation order
-is ABI.
-
-For onboard devices, the bus name can be specified by board code.  If
-board code elects not to, the system picks a name.
-
-System-picked names are TYPE.N, where TYPE is the bus type name such as
-"pci" or "isa", and N counts from zero separately for each type.  Again,
-bus creation order is ABI.
-
-This is qbus_init_internal().
-
-Letting users omit qdev IDs is a convenience feature.
-
-Letting developers delegate bus name picking to the system is also a
-convenience feature.  Without it, we'd need bus name logic in board code
-and not just qbus_init_internal().
-
-I dislike implicit ABI definitions.
-
-Rarely met a QEMU convenience feature that didn't bite us in the
-posterior later (the sensitivity of my posterior may well cloud my
-memory, though).
+I had considered it but I think this is a simpler approach as the rest
+of the code path stays the same as generating an illegal instruction
+exception, for e.g setting the bins value (tval). Also we need to
+return true from all the caller trans_* functions even if the smstateen
+check has failed.
+> 
+> > +        return false;
+> > +    }
+> > +
+> > +    return true;
+> > +}
+> > +#else
+> > +#define smstateen_fcsr_check(ctx, index) (true)
+> > +#endif
+> > +
+> > +#define REQUIRE_ZFINX_OR_F(ctx) do { \
+> > +    if (!has_ext(ctx, RVF)) { \
+> > +        if (!ctx->cfg_ptr->ext_zfinx) { \
+> > +            return false; \
+> > +        } \
+> > +        if (!smstateen_fcsr_check(ctx, 0)) { \
+> > +            return false; \
+> > +        } \
+> >       } \
+> >   } while (0)
+> >   
+> > diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc
+> > b/target/riscv/insn_trans/trans_rvzfh.c.inc
+> > index 5d07150cd0..6c2e338c0a 100644
+> > --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
+> > +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
+> > @@ -20,18 +20,27 @@
+> >       if (!ctx->cfg_ptr->ext_zfh) {      \
+> >           return false;         \
+> >       }                         \
+> > +    if (!smstateen_fcsr_check(ctx, 0)) { \
+> > +        return false; \
+> > +    } \
+> >   } while (0)
+> >   
+> >   #define REQUIRE_ZHINX_OR_ZFH(ctx) do { \
+> >       if (!ctx->cfg_ptr->ext_zhinx && !ctx->cfg_ptr->ext_zfh) { \
+> >           return false;                  \
+> >       }                                  \
+> > +    if (!smstateen_fcsr_check(ctx, 0)) { \
+> > +        return false; \
+> > +    } \
+> >   } while (0)
+> >   
+> >   #define REQUIRE_ZFH_OR_ZFHMIN(ctx) do {       \
+> >       if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin)) { \
+> >           return false;                         \
+> >       }                                         \
+> > +    if (!smstateen_fcsr_check(ctx, 0)) { \
+> > +        return false; \
+> > +    } \
+> >   } while (0)
+> >   
+> >   #define REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx) do { \
+> > @@ -39,6 +48,9 @@
+> >             ctx->cfg_ptr->ext_zhinx || ctx->cfg_ptr->ext_zhinxmin)) 
+> > {     \
+> >           return false;                                        \
+> >       }                                                        \
+> > +    if (!smstateen_fcsr_check(ctx, 0)) { \
+> > +        return false; \
+> > +    } \
+> >   } while (0)
+> >   
+> >   static bool trans_flh(DisasContext *ctx, arg_flh *a)
 
 
