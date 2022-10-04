@@ -2,86 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7205F4692
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 17:23:15 +0200 (CEST)
-Received: from localhost ([::1]:34978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A865F46B6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 17:30:45 +0200 (CEST)
+Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofjlG-0006eT-Gk
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 11:23:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38132)
+	id 1ofjsa-00005z-Er
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 11:30:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofieR-0003kZ-Ll
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:12:03 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:39492)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofieP-0004dH-KA
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:12:03 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- v10-20020a17090a634a00b00205e48cf845so18719845pjs.4
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 07:12:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=MJVyuPVBD48xSBVP2xrv5sz9Q6OCQ+oSBSXO1FooiQo=;
- b=fJDxwqJYeM/4GxoSm6i01oP82c7oH29bmTsFIwkaPKjyJzwT1P3Sn7YgQ2ioizqJKf
- gugVJJaz9ff0yFOe2EwjO2Yt7wQYTZ7b4SoUoY5XqLJqBFAEytSSK68iBVEmGRfoF9Ig
- hkKdsZOigIAwxH/RlukuRnEFwZsaWJ2Ff1GfmjSdIEDzALZutX1+VrrLyG4vPFVwdMJ6
- kPcajUZ2R8ZCD8UhlN+uVB+lmqqtSl9VH9ktcN1kE3y2Gnmh2k+sR3pGsXmRj9Hv4oBN
- 4LOFneX0of3cFzakD0U5zfI/TaKMR6c7AROEQkWB6jC79dOj2AKgiU9OgBzvWWvlCIaE
- txlA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ofisY-0006MN-L6
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:26:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ofiry-0007oX-FN
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:26:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664893559;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Qd6jHh7Gqjv9AAlMZcbefqRFB5lydLhRci7/Mda5vU=;
+ b=TCS+ow4P64XOKgcf90ro6XEbY7bi5WGU6GagCTFJG8L0pBw2g84rnOscJpdCVL6AGtAISp
+ kH543icSID+R9vzC49D++Xox/exrPLKOjlDlcdnEt94lDQ+3ARsQunkF8DqQF+TVmi8bTL
+ KMs8VByACCiTMUi1SAFjQHBccWbGxZQ=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-582-UXIwCD80NS-h51_MI0gZ4A-1; Tue, 04 Oct 2022 10:25:55 -0400
+X-MC-Unique: UXIwCD80NS-h51_MI0gZ4A-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ w4-20020a05622a134400b0035cbc5ec9a2so9455141qtk.14
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 07:25:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=MJVyuPVBD48xSBVP2xrv5sz9Q6OCQ+oSBSXO1FooiQo=;
- b=B/3lUtq9+cyjaCL76XmS9JjbNe9fdiIlXPQsUyPn+/evv68xLp/1EmlSAiZPxzhhhv
- rHAshdOo50lvdpM0+GzcBwof1aVeWcGIajN2J38U0miBfVBtxa06+GQY0t/mK0GH6twK
- iP45t2bXppqZaO5g3OQ80PIPifs2lj+zWKL3qMzGtTYinU+aPTyj7PabOFhdfosITZ/y
- WOuzhCUGGzaL6+S15STPqBRrqx6IVjR9U4tcm8J88FMtkwuMX3lUmjjAAyHINoQCL342
- lqdHBcMGIcBCRknXjuKmZqhkMELeCmISPmm66O2ExA6nrLynJgjYttBsvQ2BCF/6jAQ7
- mocQ==
-X-Gm-Message-State: ACrzQf3+5p0Mvx8javjldMVTsZV2bOesReoImX7LFI5xtrj7iefLiItH
- D2kNoRMvFijvt03bM7/ZZu2elA==
-X-Google-Smtp-Source: AMsMyM7JlHHVzaVGifbi2zHXk9muYIStTQT96FtQBRkcmhkLHK+mIGjJHLuBkAx4XSwh6n1hjQJ3CQ==
-X-Received: by 2002:a17:90b:30d5:b0:20a:6453:43f with SMTP id
- hi21-20020a17090b30d500b0020a6453043fmr17941361pjb.74.1664892720163; 
- Tue, 04 Oct 2022 07:12:00 -0700 (PDT)
-Received: from ?IPV6:2605:ef80:8015:12b0:403e:a15b:ff5e:d439?
- ([2605:ef80:8015:12b0:403e:a15b:ff5e:d439])
- by smtp.gmail.com with ESMTPSA id
- x24-20020a63db58000000b0042f62120c1bsm8468672pgi.17.2022.10.04.07.11.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Oct 2022 07:11:59 -0700 (PDT)
-Message-ID: <afc00ecd-9750-e369-dda0-3c51fefb3baf@linaro.org>
-Date: Tue, 4 Oct 2022 07:11:56 -0700
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=7Qd6jHh7Gqjv9AAlMZcbefqRFB5lydLhRci7/Mda5vU=;
+ b=AnxgJsOSBiml6+hV9FKETp4yXmpt4t8S++oFjKCPj9oipVVh354252VXzh5a1GgBHD
+ ACRH+WEAOFBoiEp0B1vYio1h51ErSvx6FI++mCrvFaPPVwweYNNgfgvYHUmOVoGpBvpv
+ wvfjTHTt/1i3PopF5SrwdOnu1PKiKfZiKuD2yjEr98YIkJOq8BV18Cyg7NQIMp2l6hCT
+ YXbyEFKMxR7jb+5jzI/rhCw/4hH7vbHvC9uX1IHFQZYjUaXIwz/WIe9VY7Yz2+JhmrM2
+ Pwc2YvnFryaSGWA64HB+NOPxK7vAiQTMYiF3pAsI4TMyf5eD5c2ZLGlIhYCJC5AguLfM
+ fZ5g==
+X-Gm-Message-State: ACrzQf0ED0WmhXOiE4pHoHyhLfSkD48nmQebsByU0n4SqN6vjt7R8+zN
+ Io+mo6P/0cpg6pH39rVAE7oeBYIg0ht87D649Mi9GQZ1rfVCoGaxx7r/y/MdAnOaxOQOOPZ0UYx
+ M3UG5lv3bSK2ha0o=
+X-Received: by 2002:ac8:580d:0:b0:35c:3fcc:2442 with SMTP id
+ g13-20020ac8580d000000b0035c3fcc2442mr19722319qtg.501.1664893555487; 
+ Tue, 04 Oct 2022 07:25:55 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7voV8amNIAj6BTpxWC+pFbOGNG41Wu7RMmhY/MUOF2twlnaqrurt2jvD8HdQtzWR6Okni+3A==
+X-Received: by 2002:ac8:580d:0:b0:35c:3fcc:2442 with SMTP id
+ g13-20020ac8580d000000b0035c3fcc2442mr19722296qtg.501.1664893555221; 
+ Tue, 04 Oct 2022 07:25:55 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ k4-20020ac84784000000b0033b30e8e7a5sm11545911qtq.58.2022.10.04.07.25.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Oct 2022 07:25:54 -0700 (PDT)
+Date: Tue, 4 Oct 2022 10:25:53 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH 1/5] migration: Fix possible deadloop of ram save process
+Message-ID: <YzxCcdPSewXDDwB+@x1n>
+References: <20220920223800.47467-1-peterx@redhat.com>
+ <20220920223800.47467-2-peterx@redhat.com>
+ <Yyx2An+YcgYCbsDx@work-vm> <Yyx+cs9ihNx+WE6G@xz-m1.local>
+ <YyyQOlxaSHRbZIK6@work-vm>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3] tcg/ppc: Optimize 26-bit jumps
-Content-Language: en-US
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: npiggin@gmail.com
-References: <20220919175614.32879-1-leandro.lupori@eldorado.org.br>
- <2ae7b41c-0a1a-dc2a-d7cf-bb14096f524f@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <2ae7b41c-0a1a-dc2a-d7cf-bb14096f524f@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.449,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YyyQOlxaSHRbZIK6@work-vm>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,30 +100,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/3/22 11:32, Leandro Lupori wrote:
-> On 9/19/22 14:56, Leandro Lupori wrote:
->> PowerPC64 processors handle direct branches better than indirect
->> ones, resulting in less stalled cycles and branch misses.
->>
->> However, PPC's tb_target_set_jmp_target() was only using direct
->> branches for 16-bit jumps, while PowerPC64's unconditional branch
->> instructions are able to handle displacements of up to 26 bits.
->> To take advantage of this, now jumps whose displacements fit in
->> between 17 and 26 bits are also converted to direct branches.
->>
->> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
->> ---
->> v3:
->>    - make goto tb code 16-byte aligned
->>    - code cleanup
->>
+On Thu, Sep 22, 2022 at 05:41:30PM +0100, Dr. David Alan Gilbert wrote:
+> * Peter Xu (peterx@redhat.com) wrote:
+> > On Thu, Sep 22, 2022 at 03:49:38PM +0100, Dr. David Alan Gilbert wrote:
+> > > * Peter Xu (peterx@redhat.com) wrote:
+> > > > When starting ram saving procedure (especially at the completion phase),
+> > > > always set last_seen_block to non-NULL to make sure we can always correctly
+> > > > detect the case where "we've migrated all the dirty pages".
+> > > > 
+> > > > Then we'll guarantee both last_seen_block and pss.block will be valid
+> > > > always before the loop starts.
+> > > > 
+> > > > See the comment in the code for some details.
+> > > > 
+> > > > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > > 
+> > > Yeh I guess it can currently only happen during restart?
+> > 
+> > There're only two places to clear last_seen_block:
+> > 
+> > ram_state_reset[2683]          rs->last_seen_block = NULL;
+> > ram_postcopy_send_discard_bitmap[2876] rs->last_seen_block = NULL;
+> > 
+> > Where for the reset case:
+> > 
+> > ram_state_init[2994]           ram_state_reset(*rsp);
+> > ram_state_resume_prepare[3110] ram_state_reset(rs);
+> > ram_save_iterate[3271]         ram_state_reset(rs);
+> > 
+> > So I think it can at least happen in two places, either (1) postcopy just
+> > started (assume when postcopy starts accidentally when all dirty pages were
+> > migrated?), or (2) postcopy recover from failure.
 > 
-> Ping?
+> Oh, (1) is a more general problem then; yeh.
 > 
-> Does v3 look good now?
+> > In my case I triggered this deadloop when I was debugging the other bug
+> > fixed by the next patch where it was postcopy recovery (on tls), but only
+> > once..  So currently I'm still not 100% sure whether this is the same
+> > problem, but logically it could trigger.
+> > 
+> > I also remember I used to hit very rare deadloops before too, maybe they're
+> > the same thing because I did test recovery a lot.
+> 
+> Note; 'deadlock' not 'deadloop'.
 
-It does, thanks.  I will queue it for tcg-next.
+(Oops I somehow forgot there's still this series pending..)
 
+Here it's not about a lock, or maybe I should add a space ("dead loop")?
 
-r~
+-- 
+Peter Xu
+
 
