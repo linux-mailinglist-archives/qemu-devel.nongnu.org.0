@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4943A5F45AB
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 16:38:45 +0200 (CEST)
-Received: from localhost ([::1]:42496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 129705F4617
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 17:01:49 +0200 (CEST)
+Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofj4F-0003LV-OT
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 10:38:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59820)
+	id 1ofjQY-0004Kq-RK
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 11:01:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofidP-000238-RS
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:10:59 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:35473)
+ id 1ofidS-0002AU-9A
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:11:02 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:47078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofidN-0004Hm-Vt
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:10:59 -0400
-Received: by mail-pf1-x433.google.com with SMTP id i6so13258191pfb.2
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 07:10:57 -0700 (PDT)
+ id 1ofidQ-0004II-LR
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 10:11:01 -0400
+Received: by mail-pf1-x430.google.com with SMTP id u21so7596026pfc.13
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 07:10:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=nRMEXB7YPadVE5hdI4341oxvhxYYKiN9qf3uVsx6pus=;
- b=XWj2HLRvJXtFgF9UIpAXphNml4iv/Ofefy0h3sYt4KBgigALpnHbkrIPlqGKZAth9d
- N/GwtYw3EIW+rt90GKWCmxyvA2PQM9TJuvuRFq40kfnsFDxc4Bwhio+4tFzcbAJSlkDq
- 4psdD7KmqoSoZIGyK/RORBSN8U+x7LIwc4W0bhtbLjZ1sB4WA8MqZr+KIXtWLkw6pfRS
- v/p+uczaJRz49obUXQz6Oq/c9jMy6DFTfTtxPDlYEpzDJGvlDjQh3bB9tlj5WFqoN/Ar
- E9eO1H4yFn0zHrFVuT3gfWG7zwQWODsoid/i+95cVDaQqe9IimpIAVsrI3Z9QWhzYSv/
- B2Hw==
+ bh=FcUiK2Okdru3cG4LiS1rgcAo1RAHSsbMmma9k9kUJWI=;
+ b=GvH38QsivHGSJsi1S5pIpAQDCJG9W7vPFdfHHljzOZEeRzBxWKV0fwbYt3FZPzzSG1
+ Q2xhxQenjVsGZhjVDHpNaiv1xGtIA0JqCJDFy70fthkLLSOtIrk2b/JXLVe910HeU2Us
+ zIGTEyHdAPYkTIW0ykDKV6o2ChcJAG9WUAepJ0H1MRD8DhXEjFzeXl3zKec5+4Qu4tzW
+ iSDUhyn29oRrIpDv810KESY98zWDstXXF6g2yZLuWRTi9Lk0QQ2FBPVcmgDSJhsdlm31
+ SiXjM+K08tPQnRsbJJ8Elp3HPB4/NfpjvuEYjJJh2WVz/+2g8pe2RB07SKs8Qj8YXg/P
+ 1qAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=nRMEXB7YPadVE5hdI4341oxvhxYYKiN9qf3uVsx6pus=;
- b=eWz0U3HVbaA4PLLI4okkV0GF/poA5wTxxKjCfAEkYUUWzI4CJPbaB/nPKFX08/j072
- MdkHQ82q3Oz/Ev/0CTySmjclzDSS/C8kRTX4GkkQ0i01Xg8uCzx+XEGEPsL7CV9MDxEC
- zIk+pSUS9AP1bp3jLqLrr3mJE4ePChH7+PTDXCJubj4VbRfVx/mWEPs5P2A7ybfSMpve
- hR4Y2y+tmz4tm4DZR/qZ9lCV3JNknha6SkX1VQ9L/8qyObsfXcw639ACi8KlB8uGwpcJ
- M0QwnPfbEhET+77XPey+mWwzn3j+nM2zRyctKBqX+nL9OkDM0Qsrp36BKiYv0T8FbcW4
- /bCA==
-X-Gm-Message-State: ACrzQf13cWcTCOVNblRIfuoSxJYC+8TGJNEwXc3gDDbSunzcnFk6gCkk
- glKtLfQcHwbafdLWfEVx5c/GIV2ncNJcIg==
-X-Google-Smtp-Source: AMsMyM6HCuZBXjLbcKAb0kZzzGe1I3stP7eXZ/1xyPXUaz+tC7h7/Hsv6m6UXUVnQd6Znq5rkoMefQ==
-X-Received: by 2002:a63:5322:0:b0:44e:11f7:b414 with SMTP id
- h34-20020a635322000000b0044e11f7b414mr9471813pgb.226.1664892656512; 
- Tue, 04 Oct 2022 07:10:56 -0700 (PDT)
+ bh=FcUiK2Okdru3cG4LiS1rgcAo1RAHSsbMmma9k9kUJWI=;
+ b=qWNf2IBOoaRq26gDVGdn/zbkznszoiy+2tKT9Ppl6syMRmxbG4PFvFp6p7OETXwTf0
+ D7rvFRF5mIuet1Dd6Qb2awq1SUsTEcAf+6lXA1SAvoGQTyEc8hV0zdDtbEVCN2AEicFq
+ pLOXDr/RuzU/vS+7umsiLc75LC3cyAUDjIR0BvbHMPoNIM1b9TeDZi9tf+WFWyPyNE1v
+ QMGRUXPXOpfKCB7QrGBYHu5h+JZQQTDng1R0tVRRj/ZoK51FKTZl2meW8TyO45PN9u/f
+ GjXvmGUYl+uypee/wDYjkuLzYa+xzRgPZSKJNsFoIwCx6FB70OJZjGjjl+mAkoxbZ3zC
+ I29w==
+X-Gm-Message-State: ACrzQf0lXZrG0UH72e+YadQuUIJV7gbMMd3iA9XaHvnvWm1mWRLTGTQ0
+ FTrZg5oniKXZKHojDLjmCyXs/H6OjWt3IA==
+X-Google-Smtp-Source: AMsMyM7aDi8e8Q3+2bH+LErwbvQyRlGZYUIOXKUbzucpyQGPs6oD3V7wyN+O/k6yUX6L21/FV5ED6w==
+X-Received: by 2002:a62:6544:0:b0:561:7446:fdf4 with SMTP id
+ z65-20020a626544000000b005617446fdf4mr10139530pfb.41.1664892658167; 
+ Tue, 04 Oct 2022 07:10:58 -0700 (PDT)
 Received: from stoup.. ([2605:ef80:8015:12b0:403e:a15b:ff5e:d439])
  by smtp.gmail.com with ESMTPSA id
- y5-20020aa79ae5000000b00561382a5a25sm1240357pfp.26.2022.10.04.07.10.54
+ y5-20020aa79ae5000000b00561382a5a25sm1240357pfp.26.2022.10.04.07.10.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 07:10:55 -0700 (PDT)
+ Tue, 04 Oct 2022 07:10:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v7 01/18] cpu: cache CPUClass in CPUState for hot code paths
-Date: Tue,  4 Oct 2022 07:10:34 -0700
-Message-Id: <20221004141051.110653-2-richard.henderson@linaro.org>
+Subject: [PATCH v7 02/18] hw/core/cpu-sysemu: used cached class in
+ cpu_asidx_from_attrs
+Date: Tue,  4 Oct 2022 07:10:35 -0700
+Message-Id: <20221004141051.110653-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004141051.110653-1-richard.henderson@linaro.org>
 References: <20221004141051.110653-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,76 +94,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-The class cast checkers are quite expensive and always on (unlike the
-dynamic case who's checks are gated by CONFIG_QOM_CAST_DEBUG). To
-avoid the overhead of repeatedly checking something which should never
-change we cache the CPUClass reference for use in the hot code paths.
+This is a heavily used function so lets avoid the cost of
+CPU_GET_CLASS. On the romulus-bmc run it has a modest effect:
+
+  Before: 36.812 s ±  0.506 s
+  After:  35.912 s ±  0.168 s
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220811151413.3350684-3-alex.bennee@linaro.org>
+Message-Id: <20220811151413.3350684-4-alex.bennee@linaro.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220923084803.498337-3-clg@kaod.org>
+Message-Id: <20220923084803.498337-4-clg@kaod.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h | 9 +++++++++
- cpu.c                 | 9 ++++-----
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ hw/core/cpu-sysemu.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 500503da13..1a7e1a9380 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -51,6 +51,13 @@ typedef int (*WriteCoreDumpFunction)(const void *buf, size_t size,
-  */
- #define CPU(obj) ((CPUState *)(obj))
+diff --git a/hw/core/cpu-sysemu.c b/hw/core/cpu-sysemu.c
+index 00253f8929..5eaf2e79e6 100644
+--- a/hw/core/cpu-sysemu.c
++++ b/hw/core/cpu-sysemu.c
+@@ -69,11 +69,10 @@ hwaddr cpu_get_phys_page_debug(CPUState *cpu, vaddr addr)
  
-+/*
-+ * The class checkers bring in CPU_GET_CLASS() which is potentially
-+ * expensive given the eventual call to
-+ * object_class_dynamic_cast_assert(). Because of this the CPUState
-+ * has a cached value for the class in cs->cc which is set up in
-+ * cpu_exec_realizefn() for use in hot code paths.
-+ */
- typedef struct CPUClass CPUClass;
- DECLARE_CLASS_CHECKERS(CPUClass, CPU,
-                        TYPE_CPU)
-@@ -317,6 +324,8 @@ struct qemu_work_item;
- struct CPUState {
-     /*< private >*/
-     DeviceState parent_obj;
-+    /* cache to avoid expensive CPU_GET_CLASS */
-+    CPUClass *cc;
-     /*< public >*/
- 
-     int nr_cores;
-diff --git a/cpu.c b/cpu.c
-index 584ac78baf..14365e36f3 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -131,9 +131,8 @@ const VMStateDescription vmstate_cpu_common = {
- 
- void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+ int cpu_asidx_from_attrs(CPUState *cpu, MemTxAttrs attrs)
  {
--#ifndef CONFIG_USER_ONLY
 -    CPUClass *cc = CPU_GET_CLASS(cpu);
--#endif
-+    /* cache the cpu class for the hotpath */
-+    cpu->cc = CPU_GET_CLASS(cpu);
+     int ret = 0;
  
-     cpu_list_add(cpu);
-     if (!accel_cpu_realizefn(cpu, errp)) {
-@@ -151,8 +150,8 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-         vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
+-    if (cc->sysemu_ops->asidx_from_attrs) {
+-        ret = cc->sysemu_ops->asidx_from_attrs(cpu, attrs);
++    if (cpu->cc->sysemu_ops->asidx_from_attrs) {
++        ret = cpu->cc->sysemu_ops->asidx_from_attrs(cpu, attrs);
+         assert(ret < cpu->num_ases && ret >= 0);
      }
--    if (cc->sysemu_ops->legacy_vmsd != NULL) {
--        vmstate_register(NULL, cpu->cpu_index, cc->sysemu_ops->legacy_vmsd, cpu);
-+    if (cpu->cc->sysemu_ops->legacy_vmsd != NULL) {
-+        vmstate_register(NULL, cpu->cpu_index, cpu->cc->sysemu_ops->legacy_vmsd, cpu);
-     }
- #endif /* CONFIG_USER_ONLY */
- }
+     return ret;
 -- 
 2.34.1
 
