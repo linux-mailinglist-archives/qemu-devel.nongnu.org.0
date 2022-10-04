@@ -2,135 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D615F3C96
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 07:56:53 +0200 (CEST)
-Received: from localhost ([::1]:58530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED6B5F3CA6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 08:10:27 +0200 (CEST)
+Received: from localhost ([::1]:37336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofavD-0004JV-4n
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 01:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38366)
+	id 1ofb8L-0000kI-R5
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 02:10:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1ofagS-0001Bz-QG
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 01:41:42 -0400
-Received: from mail-eopbgr50093.outbound.protection.outlook.com
- ([40.107.5.93]:64670 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1ofagP-0003ya-PF
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 01:41:35 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fNi/8RFSaqzUH/UOwGqKCtQUBhvd7dKfq1YfFJdOe4pRT7JeN3jctDUh1jrhxUuzARqy8FgaSIOTP8Xb5DARFQanj+sq9V9Iw1ZSy09jTK6V4bKk04F1CgKCyIsdVlLow12bVkUGikPTXHQOsb076C+F+xiZoCmSfbKz8QXK7/kcckaYGF0Sf3OlMBGGNVrCeSPPpoYevQ2r2rUMAQ1casOmo1Q/WDvqNEfSWZSOFhg68x07vnmxejtR3kv/AdnR4hMqssM/gqJG8ZmO7SMnsauSC09gsX94SD8b9c/LlOToL9A1rrfAyywzShOLFXF9vGG129DCpeBYG8yZbASW9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kuTDWpfQTzkjSjp84J6CbxzJVUNYEJ3WqomTa52vSGg=;
- b=K3uLNnaX51GA27DgdXbAjjWceDVdFxeZejK9m61xO/n79J4yZRMm/wuChwdWPBmQPfeyTAYtMr0IffF53G58qVGPcox4koPJaeKxvRVhaR2ICXwjnLfv0V7NHilNKJLZzYmGP0ZaBeAnXvpgFd2cbQyLfU/5M5LL3ogN+a5VaGKTiayuvVjHiPhHQ3I8yAqL1OfxmU6oJRbtHJaiLBiVu3ThvPaOkQsK7K42ktGisT5B5dxF6OWj29fYWESYQK86ESJS9tfv5Gsyi8/dALb9I1tkbzJm+J0jvFh+LG41TD2clNGAm/OlMvPJXeWQlB3lOOtRYCTYJ36gdIQM3PQG1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kuTDWpfQTzkjSjp84J6CbxzJVUNYEJ3WqomTa52vSGg=;
- b=UlBdhCNl45kRSiwPXJB+5DZiGNVV3ZDE7FewVBGkKC6GU7Fg8+WhG3mtIoxHihiblv90rZIHseGcPpUXNlgMBDtL3guuAchuf+yNw2OLP5dyUs5eJ5ja5+w6KWwetU4icNVnxVuBbvBtEDBEJmbqUTGSiTheh+lercMkv1UAUCPxQX6NDX6Lsb06NrWjVBvUUPBLxcpc4tuvqK8tCrmfMNrIrc0lkllsURQySEQ3L63jdXm3HdRCZ3k9aA349YDf1BY5uk1b/mHtdhVhd94QboTd2lEmos09ZKZSWjqSt/YWlpedkcZAc96ny5FPuiuAIsFRN1qFCs3JapwTEWflOQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
- by DB4PR08MB9311.eurprd08.prod.outlook.com (2603:10a6:10:3f5::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.23; Tue, 4 Oct
- 2022 05:41:26 +0000
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::c82b:333d:9400:dbc9]) by PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::c82b:333d:9400:dbc9%5]) with mapi id 15.20.5676.031; Tue, 4 Oct 2022
- 05:41:26 +0000
-Message-ID: <78f7c71f-4232-505a-e865-8e921f63815e@virtuozzo.com>
-Date: Tue, 4 Oct 2022 07:41:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/1] qxl: add subsystem_vendor_id property
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, Denis Plotnikov <den-plotnikov@yandex-team.ru>,
- Yan Vugenfirer <yvugenfi@redhat.com>, Vadim Rozenfeld <vrozenfe@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Ben Warren <ben@skyportsystems.com>
-References: <20220928155244.1837455-1-den@openvz.org>
- <20220929073747.psazwl2cxwuynt5n@sirius.home.kraxel.org>
-From: "Denis V. Lunev" <den@virtuozzo.com>
-In-Reply-To: <20220929073747.psazwl2cxwuynt5n@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0102CA0066.eurprd01.prod.exchangelabs.com
- (2603:10a6:803::43) To PAXPR08MB6956.eurprd08.prod.outlook.com
- (2603:10a6:102:1db::9)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR08MB6956:EE_|DB4PR08MB9311:EE_
-X-MS-Office365-Filtering-Correlation-Id: 187f7e5e-2cc6-4a32-dd3c-08daa5cb1467
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sNy0d9fe6qvZTgV6c5Us+/PVoJL+u4AtcP9mldparAduqHDuzKxJqTps7jpdCXiFjAvpTHlSnDcanp2tsGHloSp16pF8F5pyzpYjbXhgyNRZgle+T3iZ/j51n6+dwr/dDw6m1h5ah+2Tw6m9vhMEGRs4QeiIp6E63lrBc+l7Pl+GFa6YXy8/zRKu5U82kXVLNWRrZfvyi9+n5bQgWQi30u3ZGD7iY+E6lfFiPtrXYYhH+L8oFC4t5r577ng5HwuLRiQ29zycGV8OiCe1IGDSnwe9qaW7Wg1qrRwWlPl5qFxr3FgUKcvVDuOLBapyQhKfxvFdHh5pClfe5fDf/0mHHWiFjvgrPwjCS8jSUgVng0jKW5vyTHWcRlw3NQisslHbKS8zhWewZMyHSy4AQAP97Nxw9SaqpLo9CiWWR5oAr6y//7AtG7xTIuwGj38dQ07qGNn1aedbEWByA934a4WbLCcqTwEFxZTBeHmV5IjfL19I9NKH5yQIC3m6xk6mY76FNgoEXBq3kpNwqUkZXnuNlHP/ag9APQCMxTtJAhvMY8fXLTK7iMfe0kbbvPqIMSyOkCyHg7qHgRSo9Kdi4GwZ79avoOVesho34Sxat4Jusksv62UagSqMlEOqu2zwLNsluAf80SSWb0HKzWPeR7Osph1guxSlkhcPPcY2g4farVn3iHah7aTlx/U7EK1ccrOdS26bBf6zgu0ocpswhpCxkkd+XIqKSDcU/25+VOi10RfjtdZiZYHcURk+yqVW+r26PB9M/w5ALX1KiNS8utGMbTDPFBAQaaPT4TRlRL8TCubTlcNqfJ3Q195PtPAFMXSRWBG1vbrLC4kC/0OGVkfg6nOhA8BLNjppIGFxMWQmuVE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(376002)(366004)(396003)(136003)(346002)(39840400004)(451199015)(186003)(38350700002)(38100700002)(8936002)(31696002)(86362001)(36756003)(4326008)(6506007)(52116002)(41300700001)(53546011)(66476007)(66556008)(66946007)(5660300002)(6512007)(26005)(478600001)(45080400002)(6486002)(54906003)(8676002)(316002)(6916009)(966005)(2616005)(2906002)(83380400001)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cE5Kcmp6VDhkQlRZclc1UUdSWnpmcnkvNmFybUtXVmhnSkNITzRnNGNrL2Fl?=
- =?utf-8?B?K1NqNVlPdjVoTnZveUVIZXozMTFqbFhsdmI2MExoTUdzdEQwbS9Vei9KcWtL?=
- =?utf-8?B?TkRPMU9Eam1nOUIxbWNaSzhZblEyNDlTVnhMVndobi80SmFuL1VuZEk5Mmw0?=
- =?utf-8?B?QjhJOUFvVzJHaUlRNE8rMWd3eDhUam9zZnord1l3SEg3WjhRakRnc0tpVis2?=
- =?utf-8?B?dnZJQzUxSHpUbEs2dnVmNFYycm81dVM3eUxuSHdGOEowV0RBNEtrUFF6NE1S?=
- =?utf-8?B?cVE1QTRiaGxvbmxzT1BFVEVPT3lyV0YrRjgzNXpHbE9HNmtrcTNlRDFrQXpX?=
- =?utf-8?B?dVdFSVhhbkNZWllTQi81b1BkLzJhQzZwVlUvc0cxT0YyY05kWmdncEFOYlN1?=
- =?utf-8?B?eDhrV2hJQklGdXJBL3RTUGdzUTJEbmpoNDBxSDhFbHdTNENkVVVWNEE2c3NG?=
- =?utf-8?B?T1ljRFJ0YTNwR1dRUFlvR3Q1RVNFU0hpQlhRSEF5Y0tqODJCMWhUTTBsL2Vr?=
- =?utf-8?B?anBtcE04eDVlejJGbTNvdUtyMy9UemFIK3lhVUVJTWw0Y29sN3ZtS0hqTSt5?=
- =?utf-8?B?U3ZEM1ZjTUNKcDhEZncrN3FxOG5iYzdFMG1DcURYT1ExZTRnZTd6aE5na3gy?=
- =?utf-8?B?em9aZkJ1dUdoT21zR2dGTDNKZk1HbUYxaWtvZkQ1Syt0aVBqUkVnT0Vlc1k1?=
- =?utf-8?B?L21rUkQ3VXl4ZVpkZCtBY0NKT1V6emp6YnljeGpWcGF6NWNNblIwSmZVQ05B?=
- =?utf-8?B?b1FTMlZoUk0wSFF6RnRmMDA0N0NQRDQvOWY2RkhWNzNyaldLZ3ZQRjBPdDV3?=
- =?utf-8?B?dTRrVXZkVUtydmZIRUpDU3FRTlN6L2pkYXVMMW5aWXVmcFNTZTUyYytRWWgz?=
- =?utf-8?B?RmN4MGlaMHNoa2JzVzRlVkNZa25TRXRFa0E1OTcvcVRQRUp2N3RiU2JOYVQ0?=
- =?utf-8?B?bno0OUY5UmZsOU1DUW5qUnJnN2RzZXYrbFBVSTJwd0VTMm5wWHZZZGRtTWV5?=
- =?utf-8?B?MU5kUTc0c0wrNjdnV0xJdFJSc2ZNRGZML3BZVWdnSFVjVFU5cE5pWVk1RTlI?=
- =?utf-8?B?V3VGQzEwQmtNVmxVenhSQmlVdm5HdzA0UGRSWHpDMnlaZyszS1VGRmowWVF0?=
- =?utf-8?B?TDdteFBISzIwOUkvWktCR3lxeGlNUythMG5GNWtqY0R0aUZHSTBpaEZoV2ti?=
- =?utf-8?B?UkVlaXZMOGovV0JmODNhWWV4MG1RNTVTNzNvTldKa1d6QldoeFZvQytBbjdY?=
- =?utf-8?B?cFE2b2o2bU14SzlneEJ4QkMrcHFYQTlPRG0zL3JjZG84MjdERy9VRDVwYjF6?=
- =?utf-8?B?YWNFWVF3M0IvRm5BSHZmdGVmZ3pzYTdFN3owUFdZeEVnWUJYT0IvbFFqdjVm?=
- =?utf-8?B?WjhaWnRINDdRRm5YWWVzMnplNnJnOUlUV0ZxYStOakdlRU9sbS84ZHIrd2ZH?=
- =?utf-8?B?ZW5OUEF3dUpzUUMvci9pVFd4Lzk0dmpOR0dQZmdtVnVPb3l5VlFlY2RJUllm?=
- =?utf-8?B?ajVobHErVFIvOXdGUGw3cURvdm56bXExOTNkbkNaRWFPQkhnK1R0UXlVTXh5?=
- =?utf-8?B?VWkzRHUzZ3BJMUE2NWw1Zlhrb0dicmRrTFBjL1VVcC9pYnhiSEdiZVg0S2Iy?=
- =?utf-8?B?dlBXSnFyRG91L1U5Z3JPSVBmdVVtdjlsMkJOVUpOL3QvSTU5RC9saklSWXkv?=
- =?utf-8?B?eGJNQTM1dmNaUHR4bjF0U1V0UjlrOVltTjdDdmRjOHg5Q2VyUlF1dXZFNDlR?=
- =?utf-8?B?cUJlUU1CNWV6clFXKy9zTXA4cVFCNlJnOWh0VVM2M3VGN1RESDZoV1ZBTHFC?=
- =?utf-8?B?c01MTjM4ZS82K09lUVJld0NNREdibWhHRTBlblA0WEZadzBtaDhHcElRdW4v?=
- =?utf-8?B?UmxSOHpqYnRmM3UwTWZDTXd1SnkwWkJ1VnVrcGZPRW0yazl1NnJhT1YrUmhz?=
- =?utf-8?B?S2tPZU53TmQ1b05LR3VoVkxWN3ZDY0dZWHRIeXNCWk81ZFVaZXJZcmlIc1Iv?=
- =?utf-8?B?UmVUR3Rka283anRxZkdoYTJrY2h4RmZ2TnhpVVpFZG9lTWxaMDZwR1BYblB6?=
- =?utf-8?B?NFJjbnByNFl1OUNOM0p6dkdMNGpmMnJ1RTZLOXFrNzFPa1l5R1RRMnYrUmdW?=
- =?utf-8?Q?C7dw0prQ3loSLRZvLGUdmnYe8?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 187f7e5e-2cc6-4a32-dd3c-08daa5cb1467
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2022 05:41:26.6891 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7KDaXb8RTEp9ElYLnVBqmDVqCt9AAoIE1mRdh9jXaKQGl8I7paW8k9wm4/WHrFYc6QD0eS81P7DXnQQ8S52EsA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR08MB9311
-Received-SPF: pass client-ip=40.107.5.93; envelope-from=den@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.467,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1ofavD-0004Sv-Gi
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 01:56:51 -0400
+Received: from hsmtpd-def.xspmail.jp ([202.238.198.242]:54768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1ofav7-0008UF-GI
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 01:56:49 -0400
+X-Country-Code: JP
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23])
+ by hsmtpd-out-1.asahinet.cluster.xspmail.jp (Halon) with ESMTPA
+ id 73fc8b18-49e0-4421-8335-e1f1e6aede55;
+ Tue, 04 Oct 2022 14:56:38 +0900 (JST)
+Received: from SIOS1075.ysato.ml (ZM005235.ppp.dion.ne.jp [222.8.5.235])
+ by sakura.ysato.name (Postfix) with ESMTPSA id 099281C0238;
+ Tue,  4 Oct 2022 14:56:36 +0900 (JST)
+Date: Tue, 04 Oct 2022 14:56:35 +0900
+Message-ID: <87y1tw1698.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org,
+	balaton@eik.bme.hu
+Subject: Re: [PATCH v2] target/sh4: Fix TB_FLAG_UNALIGN
+In-Reply-To: <47c53a72-919e-00c6-5cfe-1eb12a2b3593@linaro.org>
+References: <20220901101509.145758-1-richard.henderson@linaro.org>
+ <8735dbcha2.wl-ysato@users.sourceforge.jp>
+ <47c53a72-919e-00c6-5cfe-1eb12a2b3593@linaro.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/27.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: softfail client-ip=202.238.198.242;
+ envelope-from=ysato@users.sourceforge.jp; helo=hsmtpd-def.xspmail.jp
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -146,55 +66,479 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/29/22 09:37, Gerd Hoffmann wrote:
-> On Wed, Sep 28, 2022 at 05:52:44PM +0200, Denis V. Lunev wrote:
->> This property is needed for WHQL/inboxing of Windows drivers. We do need
->> to get drivers to be separated by the hypervisor vendors and that should
->> be done as PCI subvendor ID.
->>
->> This patch adds PCI subsystem vendor ID to QXL device to match that
->> convention.
-> We have pci_default_sub_vendor_id + pci_default_sub_device_id in
-> hw/pci/pci.c.  If you want another subsystem id for another vendor
-> there is a single place to change it for all devices.
->
-> Right now there is no runtime switch for them, so updating it requires
-> a two-liner patch for your vendor build.  We can discuss changing that,
-> but that should best be coordinated with libvirt folks to make sure
-> the management stack actually allows setting the subsystem id without
-> needing hacks.
-Yes. There is no runtime switch for it. I have also checked this.
+On Mon, 03 Oct 2022 02:23:51 +0900,
+Richard Henderson wrote:
+> 
+> Ping, or should I create a PR myself?
+> 
+> r~
 
-The story here seems more complex. We are using in our
-downstream the following patch from Ben Warren
+Sorry.
+I can't work this week, so please submit a PR.
 
-https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg02128.html
+> 
+> On 9/1/22 07:15, Yoshinori Sato wrote:
+> > On Thu, 01 Sep 2022 19:15:09 +0900,
+> > Richard Henderson wrote:
+> >> 
+> >> The value previously chosen overlaps GUSA_MASK.
+> >> 
+> >> Rename all DELAY_SLOT_* and GUSA_* defines to emphasize
+> >> that they are included in TB_FLAGs.  Add aliases for the
+> >> FPSCR and SR bits that are included in TB_FLAGS, so that
+> >> we don't accidentally reassign those bits.
+> >> 
+> >> Fixes: 4da06fb3062 ("target/sh4: Implement prctl_unalign_sigbus")
+> >> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/856
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >> ---
+> >>   target/sh4/cpu.h        | 56 +++++++++++++------------
+> >>   linux-user/sh4/signal.c |  6 +--
+> >>   target/sh4/cpu.c        |  6 +--
+> >>   target/sh4/helper.c     |  6 +--
+> >>   target/sh4/translate.c  | 90 ++++++++++++++++++++++-------------------
+> >>   5 files changed, 88 insertions(+), 76 deletions(-)
+> >> 
+> >> diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+> >> index 9f15ef913c..727b829598 100644
+> >> --- a/target/sh4/cpu.h
+> >> +++ b/target/sh4/cpu.h
+> >> @@ -78,26 +78,33 @@
+> >>   #define FPSCR_RM_NEAREST       (0 << 0)
+> >>   #define FPSCR_RM_ZERO          (1 << 0)
+> >>   -#define DELAY_SLOT_MASK        0x7
+> >> -#define DELAY_SLOT             (1 << 0)
+> >> -#define DELAY_SLOT_CONDITIONAL (1 << 1)
+> >> -#define DELAY_SLOT_RTE         (1 << 2)
+> >> +#define TB_FLAG_DELAY_SLOT       (1 << 0)
+> >> +#define TB_FLAG_DELAY_SLOT_COND  (1 << 1)
+> >> +#define TB_FLAG_DELAY_SLOT_RTE   (1 << 2)
+> >> +#define TB_FLAG_PENDING_MOVCA    (1 << 3)
+> >> +#define TB_FLAG_GUSA_SHIFT       4                      /* [11:4] */
+> >> +#define TB_FLAG_GUSA_EXCLUSIVE   (1 << 12)
+> >> +#define TB_FLAG_UNALIGN          (1 << 13)
+> >> +#define TB_FLAG_SR_FD            (1 << SR_FD)           /* 15 */
+> >> +#define TB_FLAG_FPSCR_PR         FPSCR_PR               /* 19 */
+> >> +#define TB_FLAG_FPSCR_SZ         FPSCR_SZ               /* 20 */
+> >> +#define TB_FLAG_FPSCR_FR         FPSCR_FR               /* 21 */
+> >> +#define TB_FLAG_SR_RB            (1 << SR_RB)           /* 29 */
+> >> +#define TB_FLAG_SR_MD            (1 << SR_MD)           /* 30 */
+> >>   -#define TB_FLAG_PENDING_MOVCA  (1 << 3)
+> >> -#define TB_FLAG_UNALIGN        (1 << 4)
+> >> -
+> >> -#define GUSA_SHIFT             4
+> >> -#ifdef CONFIG_USER_ONLY
+> >> -#define GUSA_EXCLUSIVE         (1 << 12)
+> >> -#define GUSA_MASK              ((0xff << GUSA_SHIFT) | GUSA_EXCLUSIVE)
+> >> -#else
+> >> -/* Provide dummy versions of the above to allow tests against tbflags
+> >> -   to be elided while avoiding ifdefs.  */
+> >> -#define GUSA_EXCLUSIVE         0
+> >> -#define GUSA_MASK              0
+> >> -#endif
+> >> -
+> >> -#define TB_FLAG_ENVFLAGS_MASK  (DELAY_SLOT_MASK | GUSA_MASK)
+> >> +#define TB_FLAG_DELAY_SLOT_MASK  (TB_FLAG_DELAY_SLOT |       \
+> >> +                                  TB_FLAG_DELAY_SLOT_COND |  \
+> >> +                                  TB_FLAG_DELAY_SLOT_RTE)
+> >> +#define TB_FLAG_GUSA_MASK        ((0xff << TB_FLAG_GUSA_SHIFT) | \
+> >> +                                  TB_FLAG_GUSA_EXCLUSIVE)
+> >> +#define TB_FLAG_FPSCR_MASK       (TB_FLAG_FPSCR_PR | \
+> >> +                                  TB_FLAG_FPSCR_SZ | \
+> >> +                                  TB_FLAG_FPSCR_FR)
+> >> +#define TB_FLAG_SR_MASK          (TB_FLAG_SR_FD | \
+> >> +                                  TB_FLAG_SR_RB | \
+> >> +                                  TB_FLAG_SR_MD)
+> >> +#define TB_FLAG_ENVFLAGS_MASK    (TB_FLAG_DELAY_SLOT_MASK | \
+> >> +                                  TB_FLAG_GUSA_MASK)
+> >>     typedef struct tlb_t {
+> >>       uint32_t vpn;		/* virtual page number */
+> >> @@ -258,7 +265,7 @@ static inline int cpu_mmu_index (CPUSH4State *env, bool ifetch)
+> >>   {
+> >>       /* The instruction in a RTE delay slot is fetched in privileged
+> >>          mode, but executed in user mode.  */
+> >> -    if (ifetch && (env->flags & DELAY_SLOT_RTE)) {
+> >> +    if (ifetch && (env->flags & TB_FLAG_DELAY_SLOT_RTE)) {
+> >>           return 0;
+> >>       } else {
+> >>           return (env->sr & (1u << SR_MD)) == 0 ? 1 : 0;
+> >> @@ -366,11 +373,10 @@ static inline void cpu_get_tb_cpu_state(CPUSH4State *env, target_ulong *pc,
+> >>   {
+> >>       *pc = env->pc;
+> >>       /* For a gUSA region, notice the end of the region.  */
+> >> -    *cs_base = env->flags & GUSA_MASK ? env->gregs[0] : 0;
+> >> -    *flags = env->flags /* TB_FLAG_ENVFLAGS_MASK: bits 0-2, 4-12 */
+> >> -            | (env->fpscr & (FPSCR_FR | FPSCR_SZ | FPSCR_PR))  /* Bits 19-21 */
+> >> -            | (env->sr & ((1u << SR_MD) | (1u << SR_RB)))      /* Bits 29-30 */
+> >> -            | (env->sr & (1u << SR_FD))                        /* Bit 15 */
+> >> +    *cs_base = env->flags & TB_FLAG_GUSA_MASK ? env->gregs[0] : 0;
+> >> +    *flags = env->flags
+> >> +            | (env->fpscr & TB_FLAG_FPSCR_MASK)
+> >> +            | (env->sr & TB_FLAG_SR_MASK)
+> >>               | (env->movcal_backup ? TB_FLAG_PENDING_MOVCA : 0); /* Bit 3 */
+> >>   #ifdef CONFIG_USER_ONLY
+> >>       *flags |= TB_FLAG_UNALIGN * !env_cpu(env)->prctl_unalign_sigbus;
+> >> diff --git a/linux-user/sh4/signal.c b/linux-user/sh4/signal.c
+> >> index f6a18bc6b5..c4ba962708 100644
+> >> --- a/linux-user/sh4/signal.c
+> >> +++ b/linux-user/sh4/signal.c
+> >> @@ -161,7 +161,7 @@ static void restore_sigcontext(CPUSH4State *regs, struct target_sigcontext *sc)
+> >>       __get_user(regs->fpul, &sc->sc_fpul);
+> >>         regs->tra = -1;         /* disable syscall checks */
+> >> -    regs->flags &= ~(DELAY_SLOT_MASK | GUSA_MASK);
+> >> +    regs->flags = 0;
+> >>   }
+> >>     void setup_frame(int sig, struct target_sigaction *ka,
+> >> @@ -199,7 +199,7 @@ void setup_frame(int sig, struct target_sigaction *ka,
+> >>       regs->gregs[5] = 0;
+> >>       regs->gregs[6] = frame_addr += offsetof(typeof(*frame), sc);
+> >>       regs->pc = (unsigned long) ka->_sa_handler;
+> >> -    regs->flags &= ~(DELAY_SLOT_MASK | GUSA_MASK);
+> >> +    regs->flags &= ~(TB_FLAG_DELAY_SLOT_MASK | TB_FLAG_GUSA_MASK);
+> >>         unlock_user_struct(frame, frame_addr, 1);
+> >>       return;
+> >> @@ -251,7 +251,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+> >>       regs->gregs[5] = frame_addr + offsetof(typeof(*frame), info);
+> >>       regs->gregs[6] = frame_addr + offsetof(typeof(*frame), uc);
+> >>       regs->pc = (unsigned long) ka->_sa_handler;
+> >> -    regs->flags &= ~(DELAY_SLOT_MASK | GUSA_MASK);
+> >> +    regs->flags &= ~(TB_FLAG_DELAY_SLOT_MASK | TB_FLAG_GUSA_MASK);
+> >>         unlock_user_struct(frame, frame_addr, 1);
+> >>       return;
+> >> diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+> >> index 06b2691dc4..65643b6b1c 100644
+> >> --- a/target/sh4/cpu.c
+> >> +++ b/target/sh4/cpu.c
+> >> @@ -40,7 +40,7 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
+> >>       SuperHCPU *cpu = SUPERH_CPU(cs);
+> >>         cpu->env.pc = tb->pc;
+> >> -    cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
+> >> +    cpu->env.flags = tb->flags;
+> >>   }
+> >>     #ifndef CONFIG_USER_ONLY
+> >> @@ -50,10 +50,10 @@ static bool superh_io_recompile_replay_branch(CPUState *cs,
+> >>       SuperHCPU *cpu = SUPERH_CPU(cs);
+> >>       CPUSH4State *env = &cpu->env;
+> >>   -    if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL)))
+> >> != 0
+> >> +    if ((env->flags & (TB_FLAG_DELAY_SLOT | TB_FLAG_DELAY_SLOT_COND))
+> >>           && env->pc != tb->pc) {
+> >>           env->pc -= 2;
+> >> -        env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
+> >> +        env->flags &= ~(TB_FLAG_DELAY_SLOT | TB_FLAG_DELAY_SLOT_COND);
+> >>           return true;
+> >>       }
+> >>       return false;
+> >> diff --git a/target/sh4/helper.c b/target/sh4/helper.c
+> >> index 6a620e36fc..e02e7af607 100644
+> >> --- a/target/sh4/helper.c
+> >> +++ b/target/sh4/helper.c
+> >> @@ -147,11 +147,11 @@ void superh_cpu_do_interrupt(CPUState *cs)
+> >>       env->sr |= (1u << SR_BL) | (1u << SR_MD) | (1u << SR_RB);
+> >>       env->lock_addr = -1;
+> >>   -    if (env->flags & DELAY_SLOT_MASK) {
+> >> +    if (env->flags & TB_FLAG_DELAY_SLOT_MASK) {
+> >>           /* Branch instruction should be executed again before delay slot. */
+> >>   	env->spc -= 2;
+> >>   	/* Clear flags for exception/interrupt routine. */
+> >> -        env->flags &= ~DELAY_SLOT_MASK;
+> >> +        env->flags &= ~TB_FLAG_DELAY_SLOT_MASK;
+> >>       }
+> >>         if (do_exp) {
+> >> @@ -786,7 +786,7 @@ bool superh_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+> >>           CPUSH4State *env = &cpu->env;
+> >>             /* Delay slots are indivisible, ignore interrupts */
+> >> -        if (env->flags & DELAY_SLOT_MASK) {
+> >> +        if (env->flags & TB_FLAG_DELAY_SLOT_MASK) {
+> >>               return false;
+> >>           } else {
+> >>               superh_cpu_do_interrupt(cs);
+> >> diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+> >> index f1b190e7cf..68d539c7f6 100644
+> >> --- a/target/sh4/translate.c
+> >> +++ b/target/sh4/translate.c
+> >> @@ -175,13 +175,13 @@ void superh_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+> >>   		    i, env->gregs[i], i + 1, env->gregs[i + 1],
+> >>   		    i + 2, env->gregs[i + 2], i + 3, env->gregs[i + 3]);
+> >>       }
+> >> -    if (env->flags & DELAY_SLOT) {
+> >> +    if (env->flags & TB_FLAG_DELAY_SLOT) {
+> >>           qemu_printf("in delay slot (delayed_pc=0x%08x)\n",
+> >>   		    env->delayed_pc);
+> >> -    } else if (env->flags & DELAY_SLOT_CONDITIONAL) {
+> >> +    } else if (env->flags & TB_FLAG_DELAY_SLOT_COND) {
+> >>           qemu_printf("in conditional delay slot (delayed_pc=0x%08x)\n",
+> >>   		    env->delayed_pc);
+> >> -    } else if (env->flags & DELAY_SLOT_RTE) {
+> >> +    } else if (env->flags & TB_FLAG_DELAY_SLOT_RTE) {
+> >>           qemu_fprintf(f, "in rte delay slot (delayed_pc=0x%08x)\n",
+> >>                        env->delayed_pc);
+> >>       }
+> >> @@ -223,7 +223,7 @@ static inline void gen_save_cpu_state(DisasContext *ctx, bool save_pc)
+> >>     static inline bool use_exit_tb(DisasContext *ctx)
+> >>   {
+> >> -    return (ctx->tbflags & GUSA_EXCLUSIVE) != 0;
+> >> +    return (ctx->tbflags & TB_FLAG_GUSA_EXCLUSIVE) != 0;
+> >>   }
+> >>     static bool use_goto_tb(DisasContext *ctx, target_ulong dest)
+> >> @@ -276,12 +276,12 @@ static void gen_conditional_jump(DisasContext *ctx, target_ulong dest,
+> >>       TCGLabel *l1 = gen_new_label();
+> >>       TCGCond cond_not_taken = jump_if_true ? TCG_COND_EQ : TCG_COND_NE;
+> >>   -    if (ctx->tbflags & GUSA_EXCLUSIVE) {
+> >> +    if (ctx->tbflags & TB_FLAG_GUSA_EXCLUSIVE) {
+> >>           /* When in an exclusive region, we must continue to the end.
+> >>              Therefore, exit the region on a taken branch, but otherwise
+> >>              fall through to the next instruction.  */
+> >>           tcg_gen_brcondi_i32(cond_not_taken, cpu_sr_t, 0, l1);
+> >> -        tcg_gen_movi_i32(cpu_flags, ctx->envflags & ~GUSA_MASK);
+> >> +        tcg_gen_movi_i32(cpu_flags, ctx->envflags & ~TB_FLAG_GUSA_MASK);
+> >>           /* Note that this won't actually use a goto_tb opcode because we
+> >>              disallow it in use_goto_tb, but it handles exit + singlestep.  */
+> >>           gen_goto_tb(ctx, 0, dest);
+> >> @@ -307,14 +307,14 @@ static void gen_delayed_conditional_jump(DisasContext * ctx)
+> >>       tcg_gen_mov_i32(ds, cpu_delayed_cond);
+> >>       tcg_gen_discard_i32(cpu_delayed_cond);
+> >>   -    if (ctx->tbflags & GUSA_EXCLUSIVE) {
+> >> +    if (ctx->tbflags & TB_FLAG_GUSA_EXCLUSIVE) {
+> >>           /* When in an exclusive region, we must continue to the end.
+> >>              Therefore, exit the region on a taken branch, but otherwise
+> >>              fall through to the next instruction.  */
+> >>           tcg_gen_brcondi_i32(TCG_COND_EQ, ds, 0, l1);
+> >>             /* Leave the gUSA region.  */
+> >> -        tcg_gen_movi_i32(cpu_flags, ctx->envflags & ~GUSA_MASK);
+> >> +        tcg_gen_movi_i32(cpu_flags, ctx->envflags & ~TB_FLAG_GUSA_MASK);
+> >>           gen_jump(ctx);
+> >>             gen_set_label(l1);
+> >> @@ -361,8 +361,8 @@ static inline void gen_store_fpr64(DisasContext *ctx, TCGv_i64 t, int reg)
+> >>   #define XHACK(x) ((((x) & 1 ) << 4) | ((x) & 0xe))
+> >>     #define CHECK_NOT_DELAY_SLOT \
+> >> -    if (ctx->envflags & DELAY_SLOT_MASK) {  \
+> >> -        goto do_illegal_slot;               \
+> >> +    if (ctx->envflags & TB_FLAG_DELAY_SLOT_MASK) {  \
+> >> +        goto do_illegal_slot;                       \
+> >>       }
+> >>     #define CHECK_PRIVILEGED \
+> >> @@ -436,7 +436,7 @@ static void _decode_opc(DisasContext * ctx)
+> >>       case 0x000b:		/* rts */
+> >>   	CHECK_NOT_DELAY_SLOT
+> >>   	tcg_gen_mov_i32(cpu_delayed_pc, cpu_pr);
+> >> -        ctx->envflags |= DELAY_SLOT;
+> >> +        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+> >>   	ctx->delayed_pc = (uint32_t) - 1;
+> >>   	return;
+> >>       case 0x0028:		/* clrmac */
+> >> @@ -458,7 +458,7 @@ static void _decode_opc(DisasContext * ctx)
+> >>   	CHECK_NOT_DELAY_SLOT
+> >>           gen_write_sr(cpu_ssr);
+> >>   	tcg_gen_mov_i32(cpu_delayed_pc, cpu_spc);
+> >> -        ctx->envflags |= DELAY_SLOT_RTE;
+> >> +        ctx->envflags |= TB_FLAG_DELAY_SLOT_RTE;
+> >>   	ctx->delayed_pc = (uint32_t) - 1;
+> >>           ctx->base.is_jmp = DISAS_STOP;
+> >>   	return;
+> >> @@ -513,12 +513,15 @@ static void _decode_opc(DisasContext * ctx)
+> >>   	return;
+> >>       case 0xe000:		/* mov #imm,Rn */
+> >>   #ifdef CONFIG_USER_ONLY
+> >> -        /* Detect the start of a gUSA region.  If so, update envflags
+> >> -           and end the TB.  This will allow us to see the end of the
+> >> -           region (stored in R0) in the next TB.  */
+> >> +        /*
+> >> +         * Detect the start of a gUSA region (mov #-n, r15).
+> >> +         * If so, update envflags and end the TB.  This will allow us
+> >> +         * to see the end of the region (stored in R0) in the next TB.
+> >> +         */
+> >>           if (B11_8 == 15 && B7_0s < 0 &&
+> >>               (tb_cflags(ctx->base.tb) & CF_PARALLEL)) {
+> >> -            ctx->envflags = deposit32(ctx->envflags, GUSA_SHIFT, 8, B7_0s);
+> >> +            ctx->envflags =
+> >> +                deposit32(ctx->envflags, TB_FLAG_GUSA_SHIFT, 8, B7_0s);
+> >>               ctx->base.is_jmp = DISAS_STOP;
+> >>           }
+> >>   #endif
+> >> @@ -544,13 +547,13 @@ static void _decode_opc(DisasContext * ctx)
+> >>       case 0xa000:		/* bra disp */
+> >>   	CHECK_NOT_DELAY_SLOT
+> >>           ctx->delayed_pc = ctx->base.pc_next + 4 + B11_0s * 2;
+> >> -        ctx->envflags |= DELAY_SLOT;
+> >> +        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+> >>   	return;
+> >>       case 0xb000:		/* bsr disp */
+> >>   	CHECK_NOT_DELAY_SLOT
+> >>           tcg_gen_movi_i32(cpu_pr, ctx->base.pc_next + 4);
+> >>           ctx->delayed_pc = ctx->base.pc_next + 4 + B11_0s * 2;
+> >> -        ctx->envflags |= DELAY_SLOT;
+> >> +        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+> >>   	return;
+> >>       }
+> >>   @@ -1194,7 +1197,7 @@ static void _decode_opc(DisasContext * ctx)
+> >>   	CHECK_NOT_DELAY_SLOT
+> >>           tcg_gen_xori_i32(cpu_delayed_cond, cpu_sr_t, 1);
+> >>           ctx->delayed_pc = ctx->base.pc_next + 4 + B7_0s * 2;
+> >> -        ctx->envflags |= DELAY_SLOT_CONDITIONAL;
+> >> +        ctx->envflags |= TB_FLAG_DELAY_SLOT_COND;
+> >>   	return;
+> >>       case 0x8900:		/* bt label */
+> >>   	CHECK_NOT_DELAY_SLOT
+> >> @@ -1204,7 +1207,7 @@ static void _decode_opc(DisasContext * ctx)
+> >>   	CHECK_NOT_DELAY_SLOT
+> >>           tcg_gen_mov_i32(cpu_delayed_cond, cpu_sr_t);
+> >>           ctx->delayed_pc = ctx->base.pc_next + 4 + B7_0s * 2;
+> >> -        ctx->envflags |= DELAY_SLOT_CONDITIONAL;
+> >> +        ctx->envflags |= TB_FLAG_DELAY_SLOT_COND;
+> >>   	return;
+> >>       case 0x8800:		/* cmp/eq #imm,R0 */
+> >>           tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sr_t, REG(0), B7_0s);
+> >> @@ -1388,14 +1391,14 @@ static void _decode_opc(DisasContext * ctx)
+> >>       case 0x0023:		/* braf Rn */
+> >>   	CHECK_NOT_DELAY_SLOT
+> >>           tcg_gen_addi_i32(cpu_delayed_pc, REG(B11_8), ctx->base.pc_next + 4);
+> >> -        ctx->envflags |= DELAY_SLOT;
+> >> +        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+> >>   	ctx->delayed_pc = (uint32_t) - 1;
+> >>   	return;
+> >>       case 0x0003:		/* bsrf Rn */
+> >>   	CHECK_NOT_DELAY_SLOT
+> >>           tcg_gen_movi_i32(cpu_pr, ctx->base.pc_next + 4);
+> >>   	tcg_gen_add_i32(cpu_delayed_pc, REG(B11_8), cpu_pr);
+> >> -        ctx->envflags |= DELAY_SLOT;
+> >> +        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+> >>   	ctx->delayed_pc = (uint32_t) - 1;
+> >>   	return;
+> >>       case 0x4015:		/* cmp/pl Rn */
+> >> @@ -1411,14 +1414,14 @@ static void _decode_opc(DisasContext * ctx)
+> >>       case 0x402b:		/* jmp @Rn */
+> >>   	CHECK_NOT_DELAY_SLOT
+> >>   	tcg_gen_mov_i32(cpu_delayed_pc, REG(B11_8));
+> >> -        ctx->envflags |= DELAY_SLOT;
+> >> +        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+> >>   	ctx->delayed_pc = (uint32_t) - 1;
+> >>   	return;
+> >>       case 0x400b:		/* jsr @Rn */
+> >>   	CHECK_NOT_DELAY_SLOT
+> >>           tcg_gen_movi_i32(cpu_pr, ctx->base.pc_next + 4);
+> >>   	tcg_gen_mov_i32(cpu_delayed_pc, REG(B11_8));
+> >> -        ctx->envflags |= DELAY_SLOT;
+> >> +        ctx->envflags |= TB_FLAG_DELAY_SLOT;
+> >>   	ctx->delayed_pc = (uint32_t) - 1;
+> >>   	return;
+> >>       case 0x400e:		/* ldc Rm,SR */
+> >> @@ -1839,7 +1842,7 @@ static void _decode_opc(DisasContext * ctx)
+> >>       fflush(stderr);
+> >>   #endif
+> >>    do_illegal:
+> >> -    if (ctx->envflags & DELAY_SLOT_MASK) {
+> >> +    if (ctx->envflags & TB_FLAG_DELAY_SLOT_MASK) {
+> >>    do_illegal_slot:
+> >>           gen_save_cpu_state(ctx, true);
+> >>           gen_helper_raise_slot_illegal_instruction(cpu_env);
+> >> @@ -1852,7 +1855,7 @@ static void _decode_opc(DisasContext * ctx)
+> >>      do_fpu_disabled:
+> >>       gen_save_cpu_state(ctx, true);
+> >> -    if (ctx->envflags & DELAY_SLOT_MASK) {
+> >> +    if (ctx->envflags & TB_FLAG_DELAY_SLOT_MASK) {
+> >>           gen_helper_raise_slot_fpu_disable(cpu_env);
+> >>       } else {
+> >>           gen_helper_raise_fpu_disable(cpu_env);
+> >> @@ -1867,23 +1870,23 @@ static void decode_opc(DisasContext * ctx)
+> >>         _decode_opc(ctx);
+> >>   -    if (old_flags & DELAY_SLOT_MASK) {
+> >> +    if (old_flags & TB_FLAG_DELAY_SLOT_MASK) {
+> >>           /* go out of the delay slot */
+> >> -        ctx->envflags &= ~DELAY_SLOT_MASK;
+> >> +        ctx->envflags &= ~TB_FLAG_DELAY_SLOT_MASK;
+> >>             /* When in an exclusive region, we must continue to the
+> >> end
+> >>              for conditional branches.  */
+> >> -        if (ctx->tbflags & GUSA_EXCLUSIVE
+> >> -            && old_flags & DELAY_SLOT_CONDITIONAL) {
+> >> +        if (ctx->tbflags & TB_FLAG_GUSA_EXCLUSIVE
+> >> +            && old_flags & TB_FLAG_DELAY_SLOT_COND) {
+> >>               gen_delayed_conditional_jump(ctx);
+> >>               return;
+> >>           }
+> >>           /* Otherwise this is probably an invalid gUSA region.
+> >>              Drop the GUSA bits so the next TB doesn't see them.  */
+> >> -        ctx->envflags &= ~GUSA_MASK;
+> >> +        ctx->envflags &= ~TB_FLAG_GUSA_MASK;
+> >>             tcg_gen_movi_i32(cpu_flags, ctx->envflags);
+> >> -        if (old_flags & DELAY_SLOT_CONDITIONAL) {
+> >> +        if (old_flags & TB_FLAG_DELAY_SLOT_COND) {
+> >>   	    gen_delayed_conditional_jump(ctx);
+> >>           } else {
+> >>               gen_jump(ctx);
+> >> @@ -2223,7 +2226,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
+> >>       }
+> >>         /* The entire region has been translated.  */
+> >> -    ctx->envflags &= ~GUSA_MASK;
+> >> +    ctx->envflags &= ~TB_FLAG_GUSA_MASK;
+> >>       ctx->base.pc_next = pc_end;
+> >>       ctx->base.num_insns += max_insns - 1;
+> >>       return;
+> >> @@ -2234,7 +2237,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
+> >>         /* Restart with the EXCLUSIVE bit set, within a TB run via
+> >>          cpu_exec_step_atomic holding the exclusive lock.  */
+> >> -    ctx->envflags |= GUSA_EXCLUSIVE;
+> >> +    ctx->envflags |= TB_FLAG_GUSA_EXCLUSIVE;
+> >>       gen_save_cpu_state(ctx, false);
+> >>       gen_helper_exclusive(cpu_env);
+> >>       ctx->base.is_jmp = DISAS_NORETURN;
+> >> @@ -2267,17 +2270,19 @@ static void sh4_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+> >>                     (tbflags & (1 << SR_RB))) * 0x10;
+> >>       ctx->fbank = tbflags & FPSCR_FR ? 0x10 : 0;
+> >>   -    if (tbflags & GUSA_MASK) {
+> >> +#ifdef CONFIG_USER_ONLY
+> >> +    if (tbflags & TB_FLAG_GUSA_MASK) {
+> >> +        /* In gUSA exclusive region. */
+> >>           uint32_t pc = ctx->base.pc_next;
+> >>           uint32_t pc_end = ctx->base.tb->cs_base;
+> >> -        int backup = sextract32(ctx->tbflags, GUSA_SHIFT, 8);
+> >> +        int backup = sextract32(ctx->tbflags, TB_FLAG_GUSA_SHIFT, 8);
+> >>           int max_insns = (pc_end - pc) / 2;
+> >>             if (pc != pc_end + backup || max_insns < 2) {
+> >>               /* This is a malformed gUSA region.  Don't do anything special,
+> >>                  since the interpreter is likely to get confused.  */
+> >> -            ctx->envflags &= ~GUSA_MASK;
+> >> -        } else if (tbflags & GUSA_EXCLUSIVE) {
+> >> +            ctx->envflags &= ~TB_FLAG_GUSA_MASK;
+> >> +        } else if (tbflags & TB_FLAG_GUSA_EXCLUSIVE) {
+> >>               /* Regardless of single-stepping or the end of the page,
+> >>                  we must complete execution of the gUSA region while
+> >>                  holding the exclusive lock.  */
+> >> @@ -2285,6 +2290,7 @@ static void sh4_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+> >>               return;
+> >>           }
+> >>       }
+> >> +#endif
+> >>         /* Since the ISA is fixed-width, we can bound by the number
+> >>          of instructions remaining on the page.  */
+> >> @@ -2309,8 +2315,8 @@ static void sh4_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+> >>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> >>     #ifdef CONFIG_USER_ONLY
+> >> -    if (unlikely(ctx->envflags & GUSA_MASK)
+> >> -        && !(ctx->envflags & GUSA_EXCLUSIVE)) {
+> >> +    if (unlikely(ctx->envflags & TB_FLAG_GUSA_MASK)
+> >> +        && !(ctx->envflags & TB_FLAG_GUSA_EXCLUSIVE)) {
+> >>           /* We're in an gUSA region, and we have not already fallen
+> >>              back on using an exclusive region.  Attempt to parse the
+> >>              region into a single supported atomic operation.  Failure
+> >> @@ -2330,9 +2336,9 @@ static void sh4_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+> >>   {
+> >>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> >>   -    if (ctx->tbflags & GUSA_EXCLUSIVE) {
+> >> +    if (ctx->tbflags & TB_FLAG_GUSA_EXCLUSIVE) {
+> >>           /* Ending the region of exclusivity.  Clear the bits.  */
+> >> -        ctx->envflags &= ~GUSA_MASK;
+> >> +        ctx->envflags &= ~TB_FLAG_GUSA_MASK;
+> >>       }
+> >>         switch (ctx->base.is_jmp) {
+> >> -- 
+> >> 2.34.1
+> >> 
+> > 
+> > Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> 
 
-and I have mistakenly thought that it was accepted in
-the mainstream. OK, unfortunately that was not happen.
-As this has been pointed out in the above thread
-the discussion was moved into
-
-https://patchwork.kernel.org/project/qemu-devel/patch/20171102133115.19195-1-lprosek@redhat.com/
-
-Anyway, we need to support different PCI sub-vendor IDs
-in order to be compliant with Microsoft WHQL rules. Though,
-actually, at my opinion this requirement has nothing in
-common with libvirt people. The most convenient way
-here would be to specify these properties within vendor
-machine types and this place is a perfect match as any
-respectable has its own machine type.
-
-I would also think that PCI level is not a good place for that
-as we would not be able to apply this change blindly as at
-PCI level this change would be too global and the same
-was initially noted by Michael Tsirkin here
-
-https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg04384.html
-
-Any thoughts?
-What should we do with the original patch from Ben? We
-still need an ability to expose vendor identity in QXL/virtio...
-
-Den
+-- 
+Yosinori Sato
 
