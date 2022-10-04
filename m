@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1465F49F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 21:59:31 +0200 (CEST)
-Received: from localhost ([::1]:41476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429615F49F2
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 21:58:13 +0200 (CEST)
+Received: from localhost ([::1]:57462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofo4g-0001Ne-3p
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 15:59:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41258)
+	id 1ofo3Q-0007tP-BL
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 15:58:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofnyC-0001hR-5d
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 15:52:48 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:45666)
+ id 1ofnyD-0001hq-Kv
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 15:52:50 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:34357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ofny8-0000F8-RF
- for qemu-devel@nongnu.org; Tue, 04 Oct 2022 15:52:46 -0400
-Received: by mail-pg1-x535.google.com with SMTP id r18so446926pgr.12
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 12:52:44 -0700 (PDT)
+ id 1ofnyB-0000FZ-2D
+ for qemu-devel@nongnu.org; Tue, 04 Oct 2022 15:52:49 -0400
+Received: by mail-pl1-x633.google.com with SMTP id n7so13566911plp.1
+ for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 12:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=nRMEXB7YPadVE5hdI4341oxvhxYYKiN9qf3uVsx6pus=;
- b=Ovr8LVjxTZV4jPUkhmNVH/mkP4ioR74o75OUxxB7YAzmGKP+yEx8B2HyRPgvBcubo+
- ZjhA450AErjI0/ZdHO7XfKlU5bfxJcX+O38N3FO1YD3JE/0ZFIFoauOdAM+ga367jBVo
- AIK4sbKwse3aTuLqsq3ASj59GOA8FRKm09LKNHV0qx/APAIJT09QMX6AgxvP4nm/zzL9
- VdwMXytkGaNpgYTUkmDkMb6wWRZqX3wapmaf7z5PlufRFMSBsAOuWBhz8zJ4flq6r/5p
- Pf94sLuWUxeiXEgIW6nhFBtpJKxYV+iTtBozCjBEZTprjPDbDmhbY0OIN/Vz0SKM04sP
- DScA==
+ bh=q0eg+3QiI3aRqtvdrrAtNwv7hcqy9NWtzJtlLArJ6SQ=;
+ b=MF2kf+e30KGYajtSlps4xlAxA2V5HaJx31EtVVrG9j427FWLhwxps+HcmV3H3a4cWg
+ 1jnddZBhLWiTia5Wxpjk6eCsKB+iMEK2ZPVNBpyyGGke1kywWbWtyRVHn64hkt27fv1K
+ GwVwTSoHHb3NPpF/s4Prs0wvhca4t69/fj+aRoMGrsby9XUf6IZrtJodFJYfmGmNrb45
+ uwQLqRYeTHq6rBGPBRlN8+xBJjHpFGXLCd8tPJ7cR/dNQUjwuNdBS3SuUU604J00l8Jb
+ X5OF70vUPRbFKq4J5/YzBQXwHswPECr/faTt8H3rJ2Jq/a+5TXUB2Duno9yi2OqPizue
+ TynA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=nRMEXB7YPadVE5hdI4341oxvhxYYKiN9qf3uVsx6pus=;
- b=VZr0RD54+vUGepN4mwIbsnRZSybqhuJ5wjjRIy/IpYJ+qLQFV+AZ4QYhjr8vZHePHD
- R4VCqg6cVXRKrdt4hAnekEV5Ia7gUX6AaJ6U2mMvUeVNHHjdN/cFVwThm6VrQtdc10RP
- JATvd1iM2+b+wdFarx5MBZQIezN+XQIUoKq3O0g2/z3NRssfMFXOHzfr1MjdMJwlrqpm
- hjobe1WD40A4iXD6AMy77NPD4lmaKzLDtvQ939ADIXIZtZ5fOMHqZ1yLL00iRj5eW/+H
- uLGHxyxeHwOuzWTOAGg/o3zQFpKFaNx4FNWmPw91YhxtP4V9Xe/oCLMlMXI/OxdxHTQt
- N8lg==
-X-Gm-Message-State: ACrzQf0kUKtpJYe21mTphWpIpxUlz14t6hexhOCYSptCUk6fjV5fg5S4
- et6FRj7FTi/j5poqpsXtDhJwqkpN7LKSCw==
-X-Google-Smtp-Source: AMsMyM6kNK9ny1qiTxf01FTX49ldjKcCPs6qbFn2OIL66cUxRscvrLI2nFnL1h9xJHGKdP56DUkyMw==
-X-Received: by 2002:a05:6a00:2449:b0:528:3a29:e79d with SMTP id
- d9-20020a056a00244900b005283a29e79dmr29488266pfj.39.1664913163539; 
- Tue, 04 Oct 2022 12:52:43 -0700 (PDT)
+ bh=q0eg+3QiI3aRqtvdrrAtNwv7hcqy9NWtzJtlLArJ6SQ=;
+ b=hTH145/z0+HsCsfvA4Ab0NU26Jb/DAJqrtuAlqCsz8A8K+xG2i26y47gnIsTz0tHiI
+ XunJMoh3B48aUz9pT4lkzrp0QdBqfPDTN8+oYcb9J0JMmAOQZFOOqUxz4+MybHm1FCdY
+ gH8R8Kwm8NVdwHxv6qi+plevB5QV6lh2nMb9letwWfk/H1Pij+RCreUIvTlJsLyyUOkb
+ sFHwxSSNe7pbI0qRE660p/Uj9erXGzeFrQlDrnx+6+nNYJ6cYiPDxvtqxvDEQcoMmMlN
+ EO70SsQbiwJIJc32LVJbCHBIDY3UYL0Wq39ow3kSeEsgA1vOLK6tdQpOP5drYkblugDR
+ wuow==
+X-Gm-Message-State: ACrzQf2nW3T5wKaSNyqI7u0sJgkb7lfMy5QUVMN+FYEATuWCSzgoTpqA
+ LZpWQSHFTRw80e/7Uh4q4BnTpzp9if2avQ==
+X-Google-Smtp-Source: AMsMyM5Q3DKSLQ5bvOvNuG+AexgH4+43TlI17vPsi77MIUzVy597XKdqc2w3NZKH3ni7Douug5PZZg==
+X-Received: by 2002:a17:902:edcd:b0:17a:6fa:228d with SMTP id
+ q13-20020a170902edcd00b0017a06fa228dmr28581603plk.29.1664913165607; 
+ Tue, 04 Oct 2022 12:52:45 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:526e:3326:a84e:e5e3])
  by smtp.gmail.com with ESMTPSA id
- u23-20020a1709026e1700b00172973d3cd9sm9293406plk.55.2022.10.04.12.52.42
+ u23-20020a1709026e1700b00172973d3cd9sm9293406plk.55.2022.10.04.12.52.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 12:52:43 -0700 (PDT)
+ Tue, 04 Oct 2022 12:52:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 01/20] cpu: cache CPUClass in CPUState for hot code paths
-Date: Tue,  4 Oct 2022 12:52:22 -0700
-Message-Id: <20221004195241.46491-2-richard.henderson@linaro.org>
+Subject: [PULL 03/20] cputlb: used cached CPUClass in our hot-paths
+Date: Tue,  4 Oct 2022 12:52:24 -0700
+Message-Id: <20221004195241.46491-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221004195241.46491-1-richard.henderson@linaro.org>
 References: <20221004195241.46491-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,76 +94,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-The class cast checkers are quite expensive and always on (unlike the
-dynamic case who's checks are gated by CONFIG_QOM_CAST_DEBUG). To
-avoid the overhead of repeatedly checking something which should never
-change we cache the CPUClass reference for use in the hot code paths.
+Before: 35.912 s ±  0.168 s
+  After: 35.565 s ±  0.087 s
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220811151413.3350684-3-alex.bennee@linaro.org>
+Message-Id: <20220811151413.3350684-5-alex.bennee@linaro.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220923084803.498337-3-clg@kaod.org>
+Message-Id: <20220923084803.498337-5-clg@kaod.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h | 9 +++++++++
- cpu.c                 | 9 ++++-----
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ accel/tcg/cputlb.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 500503da13..1a7e1a9380 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -51,6 +51,13 @@ typedef int (*WriteCoreDumpFunction)(const void *buf, size_t size,
-  */
- #define CPU(obj) ((CPUState *)(obj))
- 
-+/*
-+ * The class checkers bring in CPU_GET_CLASS() which is potentially
-+ * expensive given the eventual call to
-+ * object_class_dynamic_cast_assert(). Because of this the CPUState
-+ * has a cached value for the class in cs->cc which is set up in
-+ * cpu_exec_realizefn() for use in hot code paths.
-+ */
- typedef struct CPUClass CPUClass;
- DECLARE_CLASS_CHECKERS(CPUClass, CPU,
-                        TYPE_CPU)
-@@ -317,6 +324,8 @@ struct qemu_work_item;
- struct CPUState {
-     /*< private >*/
-     DeviceState parent_obj;
-+    /* cache to avoid expensive CPU_GET_CLASS */
-+    CPUClass *cc;
-     /*< public >*/
- 
-     int nr_cores;
-diff --git a/cpu.c b/cpu.c
-index 584ac78baf..14365e36f3 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -131,9 +131,8 @@ const VMStateDescription vmstate_cpu_common = {
- 
- void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 8fad2d9b83..193bfc1cfc 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1291,15 +1291,14 @@ void tlb_set_page(CPUState *cpu, target_ulong vaddr,
+ static void tlb_fill(CPUState *cpu, target_ulong addr, int size,
+                      MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
  {
--#ifndef CONFIG_USER_ONLY
 -    CPUClass *cc = CPU_GET_CLASS(cpu);
--#endif
-+    /* cache the cpu class for the hotpath */
-+    cpu->cc = CPU_GET_CLASS(cpu);
+     bool ok;
  
-     cpu_list_add(cpu);
-     if (!accel_cpu_realizefn(cpu, errp)) {
-@@ -151,8 +150,8 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-         vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
-     }
--    if (cc->sysemu_ops->legacy_vmsd != NULL) {
--        vmstate_register(NULL, cpu->cpu_index, cc->sysemu_ops->legacy_vmsd, cpu);
-+    if (cpu->cc->sysemu_ops->legacy_vmsd != NULL) {
-+        vmstate_register(NULL, cpu->cpu_index, cpu->cc->sysemu_ops->legacy_vmsd, cpu);
-     }
- #endif /* CONFIG_USER_ONLY */
+     /*
+      * This is not a probe, so only valid return is success; failure
+      * should result in exception + longjmp to the cpu loop.
+      */
+-    ok = cc->tcg_ops->tlb_fill(cpu, addr, size,
+-                               access_type, mmu_idx, false, retaddr);
++    ok = cpu->cc->tcg_ops->tlb_fill(cpu, addr, size,
++                                    access_type, mmu_idx, false, retaddr);
+     assert(ok);
  }
+ 
+@@ -1307,9 +1306,8 @@ static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
+                                         MMUAccessType access_type,
+                                         int mmu_idx, uintptr_t retaddr)
+ {
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
+-
+-    cc->tcg_ops->do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
++    cpu->cc->tcg_ops->do_unaligned_access(cpu, addr, access_type,
++                                          mmu_idx, retaddr);
+ }
+ 
+ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
+@@ -1539,10 +1537,9 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+     if (!tlb_hit_page(tlb_addr, page_addr)) {
+         if (!victim_tlb_hit(env, mmu_idx, index, elt_ofs, page_addr)) {
+             CPUState *cs = env_cpu(env);
+-            CPUClass *cc = CPU_GET_CLASS(cs);
+ 
+-            if (!cc->tcg_ops->tlb_fill(cs, addr, fault_size, access_type,
+-                                       mmu_idx, nonfault, retaddr)) {
++            if (!cs->cc->tcg_ops->tlb_fill(cs, addr, fault_size, access_type,
++                                           mmu_idx, nonfault, retaddr)) {
+                 /* Non-faulting page table read failed.  */
+                 *phost = NULL;
+                 return TLB_INVALID_MASK;
 -- 
 2.34.1
 
