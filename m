@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7DF5F4379
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 14:49:31 +0200 (CEST)
-Received: from localhost ([::1]:56336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52FA05F4355
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Oct 2022 14:44:05 +0200 (CEST)
+Received: from localhost ([::1]:57764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofhMY-0003TZ-PW
-	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 08:49:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38866)
+	id 1ofhHI-0005gA-8E
+	for lists+qemu-devel@lfdr.de; Tue, 04 Oct 2022 08:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ofhBB-0006lp-S5
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ofhBC-0006m0-67
  for qemu-devel@nongnu.org; Tue, 04 Oct 2022 08:37:49 -0400
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d]:49884)
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:36490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ofhB8-0005rA-K2
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ofhB9-0005r9-TP
  for qemu-devel@nongnu.org; Tue, 04 Oct 2022 08:37:45 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1F0471F894;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9C7BD2188C;
  Tue,  4 Oct 2022 12:37:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
  t=1664887058; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=XHnUtYHqCg0h7EsARYxsBMmSnc3fZP+U4Ej6eypF0UE=;
- b=EC3A/1XlvKpCNMcdNNkqON1p2NcHyidcrkUTDoWCFOuTXTd8ZWo3WTxcghWZgyqXEDOY7q
- nvDZ9cN9QTBu7kO7iDLmu3Y5RLAi8SmKe/BSlGf2AiaBWz6m05lhrfL6u5Dxl54CCTHaom
- fTauoED9AdBqW8+wlUFg2qHdGpci/XI=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oJF5O7EmDwv6m28nykB6f/nZh10KH48Qx+3g0d6GRcw=;
+ b=LVCZ/r1951xwnPmzL5TFQxEhk4ruurEJWF5Ju7JWBIc0F3V8RlMGkWePvG2mIfPyLAEzZG
+ oCmV+kn8/rESgNfm+XyXExYdfR4Wks6DCQ4rRhljuAYQPH7fts/beKXZVvTtLSm6Su+n13
+ Po3XjSTS0Vb760DVaaPM10IElBBelkw=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A6168139EF;
- Tue,  4 Oct 2022 12:37:37 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3033B139EF;
+ Tue,  4 Oct 2022 12:37:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MAzPJREpPGNlRQAAMHmgww
- (envelope-from <nborisov@suse.com>); Tue, 04 Oct 2022 12:37:37 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id kHoFCRIpPGNlRQAAMHmgww
+ (envelope-from <nborisov@suse.com>); Tue, 04 Oct 2022 12:37:38 +0000
 From: Nikolay Borisov <nborisov@suse.com>
 To: dgilbert@redhat.com,
 	berrange@redhat.com
 Cc: qemu-devel@nongnu.org, jfehlig@suse.com, Claudio.Fontana@suse.com,
  dfaggioli@suse.com, Nikolay Borisov <nborisov@suse.com>
-Subject: [RFC PATCH 00/11] Add support for fixed ram offsets during migration
-Date: Tue,  4 Oct 2022 15:37:22 +0300
-Message-Id: <20221004123733.2745519-1-nborisov@suse.com>
+Subject: [PATCH 01/11] migration: support file: uri for source migration
+Date: Tue,  4 Oct 2022 15:37:23 +0300
+Message-Id: <20221004123733.2745519-2-nborisov@suse.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221004123733.2745519-1-nborisov@suse.com>
+References: <20221004123733.2745519-1-nborisov@suse.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d;
- envelope-from=nborisov@suse.com; helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1c;
+ envelope-from=nborisov@suse.com; helo=smtp-out1.suse.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -74,70 +78,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series implements what I call "fixed-ram" capability (I'm happy to change
-the name if people deem it necessary). The idea is that while performing ram
-migration each dirty page will have a specific offset in the resulting file.
-The main benefit this has is that now when migrating to a file it will have an
-upper limit to its size since a page that has been dirtied multiple times won't be
-saved multiple times in the stream. More details about the actual stream changes
-necessary to accommodate this can be found in patch 8.
+Implement support for a "file:" uri so that a migration can be initiated
+directly to a file from QEMU.
 
-Furthermore I intend on using this code as a foundation for implementing DIO-based
-save directly from qemu. The current iteration also introduces the "file:" URI to
-perform the save/restore to a file, however in the past there was a discussion that
-instead of a file an externally passed FD can be used.
-
-What's missing/pending improvements:
-
- - No tests, I've yet to spend some time with qtest to introduce some tests,
- will work on this based on the interest the series garners
-
- - I feel the restore is somewhat suboptimal, namely that each and every page is
- read individually, probably there are some effects of read-ahead caching from
- linux that we are gaining but I feel it'd be more efficient if it'll be possible
- to read multiple pages provided they are sequential ( I have to check what support
- is in there in the bitmap ops to scan for contiguous ranges of sets bits)
-
- - Finish support in analyze-migration.py
-
- - Possibly implement the "external fd" support for "fixed-ram" capability.
-
-All feedback is welcome.
-
-Nikolay Borisov (11):
-  migration: support file: uri for source migration
-  migration: Add support for 'file:' uri for incoming migration
-  migration: Make migration json writer part of MigrationState struct
-  io: add pwritev support to QIOChannelFile
-  io: Add support for seekable channels
-  io: Add preadv support to QIOChannelFile
-  migration: add qemu_get_buffer_at
-  migration/ram: Introduce 'fixed-ram' migration stream capability
-  migration: Refactor precopy ram loading code
-  migration: Add support for 'fixed-ram' migration restore
-  analyze-migration.py: add initial support for fixed ram streams
-
- include/exec/ramblock.h             |   7 +
- include/io/channel-file.h           |  10 +
- include/io/channel.h                |   1 +
- include/migration/qemu-file-types.h |   2 +
- io/channel-file.c                   |  55 +++++
- migration/file.c                    |  38 ++++
- migration/file.h                    |  10 +
- migration/meson.build               |   1 +
- migration/migration.c               |  61 +++++-
- migration/migration.h               |   6 +
- migration/qemu-file.c               |  82 +++++++
- migration/qemu-file.h               |   4 +
- migration/ram.c                     | 322 +++++++++++++++++++++-------
- migration/savevm.c                  |  39 ++--
- qapi/migration.json                 |   2 +-
- scripts/analyze-migration.py        |  49 ++++-
- 16 files changed, 587 insertions(+), 102 deletions(-)
+Signed-off-by: Nikolay Borisov <nborisov@suse.com>
+---
+ migration/file.c      | 23 +++++++++++++++++++++++
+ migration/file.h      |  9 +++++++++
+ migration/meson.build |  1 +
+ migration/migration.c |  3 +++
+ 4 files changed, 36 insertions(+)
  create mode 100644 migration/file.c
  create mode 100644 migration/file.h
 
---
+diff --git a/migration/file.c b/migration/file.c
+new file mode 100644
+index 000000000000..02896a7cab99
+--- /dev/null
++++ b/migration/file.c
+@@ -0,0 +1,23 @@
++#include "qemu/osdep.h"
++#include "channel.h"
++#include "io/channel-file.h"
++#include "file.h"
++#include "qemu/error-report.h"
++
++
++void file_start_outgoing_migration(MigrationState *s, const char *fname, Error **errp)
++{
++	QIOChannelFile *ioc;
++
++	ioc = qio_channel_file_new_path(fname, O_CREAT|O_TRUNC|O_WRONLY, 0660, errp);
++	if (!ioc) {
++		error_report("Error creating a channel");
++		return;
++	}
++
++	qio_channel_set_name(QIO_CHANNEL(ioc), "migration-file-outgoing");
++	migration_channel_connect(s, QIO_CHANNEL(ioc), NULL, NULL);
++	object_unref(OBJECT(ioc));
++}
++
++
+diff --git a/migration/file.h b/migration/file.h
+new file mode 100644
+index 000000000000..d476eb1157f9
+--- /dev/null
++++ b/migration/file.h
+@@ -0,0 +1,9 @@
++#ifndef QEMU_MIGRATION_FILE_H
++#define QEMU_MIGRATION_FILE_H
++
++void file_start_outgoing_migration(MigrationState *s,
++                                   const char *filename,
++                                   Error **errp);
++
++#endif
++
+diff --git a/migration/meson.build b/migration/meson.build
+index 690487cf1a81..30a8392701c3 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -17,6 +17,7 @@ softmmu_ss.add(files(
+   'colo.c',
+   'exec.c',
+   'fd.c',
++  'file.c',
+   'global_state.c',
+   'migration.c',
+   'multifd.c',
+diff --git a/migration/migration.c b/migration/migration.c
+index bb8bbddfe467..8813b78b9a6b 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -20,6 +20,7 @@
+ #include "migration/blocker.h"
+ #include "exec.h"
+ #include "fd.h"
++#include "file.h"
+ #include "socket.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+@@ -2414,6 +2415,8 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+         exec_start_outgoing_migration(s, p, &local_err);
+     } else if (strstart(uri, "fd:", &p)) {
+         fd_start_outgoing_migration(s, p, &local_err);
++    } else if (strstart(uri, "file:", &p)) {
++	file_start_outgoing_migration(s, p, &local_err);
+     } else {
+         if (!(has_resume && resume)) {
+             yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+-- 
 2.34.1
 
 
