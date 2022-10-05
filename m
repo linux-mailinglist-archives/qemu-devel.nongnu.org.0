@@ -2,88 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37FEA5F5B21
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 22:40:49 +0200 (CEST)
-Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB1245F5B97
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 23:20:21 +0200 (CEST)
+Received: from localhost ([::1]:37876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogBCC-0007PX-AQ
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 16:40:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50672)
+	id 1ogBoS-0005qy-DE
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 17:20:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogB8q-0004aF-9y
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 16:37:20 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:46050)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogB8o-0003Oy-Dv
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 16:37:19 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- o9-20020a17090a0a0900b0020ad4e758b3so3008354pjo.4
- for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 13:37:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=BcoldwmVp4YVD2tNA3ZIb3Fc/bHg4MGKzJJDrgADICA=;
- b=te6Jiij+LDpDQSkh1qpasSaoz+ChAqcGZ8pkiqlUH8FPjPwODCRpak8k46H97JIASy
- 35vfKjflS3Fh8CAqeCZl6NYAw8F8qKvpGmC6kwpSksbO2bGr/3I6CZJkD3WpCyZOlq9I
- dtkshTmvD/DMt9/D4hq2ZjRmcUYXMEQtrvYovo56yb71RZ18R1/q3a58+rWtbk3PFWtk
- Qxvdf5bitHwo7J7GEPK+qlF2tRA6hbyvvU2HaPscqR6awPVn80vVgfqs7SMlUNPwymMU
- 81KPatWQhPOTRfTUJI6f8pFmQU1e5EFZiwjliFGS8NS1zpL4dfAz8IRwLNnuV9YEX4L6
- rvUA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ogBbp-0005ZU-E3
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 17:07:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ogBbi-0000uv-UF
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 17:07:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665004029;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PZYc5fqXz2GW1g5U8saGSKCDBe7XafWihCo/UvVcFhM=;
+ b=O5mJ3Q1DSbhqjS7SOM6NGLdgCkChTIaU43KEoXrvCOBPTtNPAJ+Ji3/Pzmw5eDB+C+C+po
+ IVPxdsmn515MZR2ZwUJw9zVyQCJa3KHSqXVcWfXatBtRxaC/AWFjlFKVZ1Ei6SAAMo8mdr
+ OWGFp6DmZyPNE07YCStqKWVMLrR1ITM=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-472-OefIlzV8P4evCUBN8rP3Rg-1; Wed, 05 Oct 2022 17:07:08 -0400
+X-MC-Unique: OefIlzV8P4evCUBN8rP3Rg-1
+Received: by mail-ua1-f69.google.com with SMTP id
+ t21-20020ab04ad5000000b003d6a29c1824so5597618uae.13
+ for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 14:07:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=BcoldwmVp4YVD2tNA3ZIb3Fc/bHg4MGKzJJDrgADICA=;
- b=NsN+aWcgur7paQTkuLxdO1BmZR/foDsDmWqjKKmN+s4Rke96icZ2fen2sNqRa/n9CE
- kDcZ59PF0LsLiVrI1i1cVLh3ETLx/l61uBZO/+XbGJBsef4YhE3B/B0Btp53c2ZX7lub
- 5R0FBifA+dSYF9Bj4NvjHM8NXATe0XbBFZ+dRaWcj4cWyu5l/K7YjLc7xmxbeez1vcYt
- uI9DteZFbbzZz4kARyVuIZlNzCipRzS3ymjryH0L6oNs6GNNWLufpdrrZ0EC4rbD/HHE
- VjLFpPYCZvZbqxpeKjr6FFWTFfcZYICucFivob/6zLlgkcQ27LgMivaBVkNOvU72eNxC
- fsYw==
-X-Gm-Message-State: ACrzQf2m3DjVv8SGdiOTqMhtkzSBPTWDdNbz6KWibWuHFk+C5tGLvK7X
- hVkb2S74/grsaSAOQjZioG3WIg==
-X-Google-Smtp-Source: AMsMyM5hlD0xQlysQpZ2uilJ/2INn/FTV2y5VDQDzFLX8ZGlcKEkLOrM+JQggypxHpyyN28a1PEs2w==
-X-Received: by 2002:a17:90b:4f8f:b0:20a:b147:de1f with SMTP id
- qe15-20020a17090b4f8f00b0020ab147de1fmr6941405pjb.245.1665002236651; 
- Wed, 05 Oct 2022 13:37:16 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:9ad0:4307:7d39:bb61?
- ([2602:47:d49d:ec01:9ad0:4307:7d39:bb61])
- by smtp.gmail.com with ESMTPSA id
- v14-20020a17090ac90e00b0020af2bab83fsm1259154pjt.23.2022.10.05.13.37.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Oct 2022 13:37:15 -0700 (PDT)
-Message-ID: <f78ab23d-6cab-9b60-37c4-7486546c6a0e@linaro.org>
-Date: Wed, 5 Oct 2022 13:37:13 -0700
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=PZYc5fqXz2GW1g5U8saGSKCDBe7XafWihCo/UvVcFhM=;
+ b=UXI+oCkfg7p4RPmIgMJIa+1vR8QSWdc9e7PxCep/22Le4NMu0LdvM1Ve6ULMdn74GW
+ MZVjMddEqt8px64h4LE1vIy8gUW+aaEni/Nt0KSsyJA3Pe1hkycDF/jFopV62anU3L9h
+ D6SLXJcCpf1se7QUAho+MvDDOhHrtM6cLhp97gJV57vjkUjK7wJqvUgQzfEsspQwVfE8
+ XVAnrk6zUfOBsCCBrp/4i1i2a176c9e5XuxFXfG0FGZM1130uMjk/ahNwEaAdbtzthld
+ VQ7kodU8UMd8OkUM905m9J++5fJNXKBHhYqt3ojJtm0hqNT3o+xKjEej7UIdntDG5VKg
+ Lo7A==
+X-Gm-Message-State: ACrzQf0Ib8r6PB2xe8Zjw29VFYBmDDefrSPcfmyeBpY58EwQ6ti3+E78
+ MUKRPy4XS8NTa1zE1DEtNpDK2hppd/04DKksIxdOvykQBOEOBlVnG/2p7PgAsih7IKLuVOgrYRw
+ UsGbgiRliz8q1A0vxpddY2/M8pYndi+c=
+X-Received: by 2002:a67:ed07:0:b0:3a6:5bf7:8ba1 with SMTP id
+ l7-20020a67ed07000000b003a65bf78ba1mr994814vsp.62.1665004022561; 
+ Wed, 05 Oct 2022 14:07:02 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7+gi0iKsB6gP0MhTefUj+UzQVoTHI1eZr8C/my8dtCEcdnaZsY72TgLQW8VymKADMyOETZMPhJCwZRmWLmgek=
+X-Received: by 2002:a67:ed07:0:b0:3a6:5bf7:8ba1 with SMTP id
+ l7-20020a67ed07000000b003a65bf78ba1mr994799vsp.62.1665004022328; Wed, 05 Oct
+ 2022 14:07:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC PATCH 0/4] Idea for using hardfloat in PPC
-Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, aurelien@aurel32.net, peter.maydell@linaro.org,
- alex.bennee@linaro.org, balaton@eik.bme.hu, matheus.ferst@eldorado.org.br,
- lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
- lucas.coutinho@eldorado.org.br
-References: <20221005143719.65241-1-victor.colombo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221005143719.65241-1-victor.colombo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.435,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20221001140935.465607-1-richard.henderson@linaro.org>
+ <CABgObfaCCJRSKpdYKjn4EH1Lf6JjZaBREg51USr9tLc7zvU3Mw@mail.gmail.com>
+ <15240986-73b2-958c-ed7c-275e64c0659c@linaro.org>
+In-Reply-To: <15240986-73b2-958c-ed7c-275e64c0659c@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 5 Oct 2022 17:06:52 -0400
+Message-ID: <CABgObfa10HE49XK0O0uzSdRSy4=e9bO5tTPR5RsS-U3+deQWDw@mail.gmail.com>
+Subject: Re: [PATCH v3 00/26] target/i386: pc-relative translation blocks
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000004d022505ea4ff504"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,20 +93,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/5/22 07:37, Víctor Colombo wrote:
-> However, the impact in performance was not the expected. In x86_64 I
-> had a small 3% improvement, while in a Power9 machine there was a small
-> performance loss, as can be seem below (100 executions).
-> 
-> |        | min [s] | max [s] | avg [s] |
-> | before | 122.309 | 123.459 | 122.747 |
-> | after  | 123.906 | 125.016 | 124.373 |
+--0000000000004d022505ea4ff504
+Content-Type: text/plain; charset="UTF-8"
 
-I hope this is because you didn't handle the most common cases: add, sub, mul, div.
+Great, then if you want I can merge this myself.
 
-The logic seems plausible, as far as it goes, and would work for the FR bit as well which 
-afair isn't handled at all at the moment.  I'll review properly in a little while.
+Paolo
 
+Il mer 5 ott 2022, 16:26 Richard Henderson <richard.henderson@linaro.org>
+ha scritto:
 
-r~
+> On 10/1/22 13:59, Paolo Bonzini wrote:
+> >
+> >
+> > Il sab 1 ott 2022, 16:09 Richard Henderson <richard.henderson@linaro.org
+> > <mailto:richard.henderson@linaro.org>> ha scritto:
+> >
+> >     This is the x86 specific changes required to reduce the
+> >     amount of translation for address space randomization.
+> >     For v3, quite a few changes based on Paolo's feedback.
+> >
+> >
+> > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com <mailto:
+> pbonzini@redhat.com>>
+> >
+> >
+> >
+> >     r~
+> >
+> >     Based-on: 20220930212622.108363-1-richard.henderson@linaro.org
+> >     <mailto:20220930212622.108363-1-richard.henderson@linaro.org>
+> >     ("[PATCH v6 00/18] tcg: CPUTLBEntryFull and TARGET_TB_PCREL")
+>
+> Thanks.  FYI, yhe Based-on dependency is now upstream.
+>
+>
+> r~
+>
+>
+
+--0000000000004d022505ea4ff504
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Great, then if you want I can merge this myself.<div dir=
+=3D"auto"><br></div><div dir=3D"auto">Paolo=C2=A0</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il mer 5 ott 2022, 1=
+6:26 Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">=
+richard.henderson@linaro.org</a>&gt; ha scritto:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">On 10/1/22 13:59, Paolo Bonzini wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; Il sab 1 ott 2022, 16:09 Richard Henderson &lt;<a href=3D"mailto:richa=
+rd.henderson@linaro.org" target=3D"_blank" rel=3D"noreferrer">richard.hende=
+rson@linaro.org</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:richard.henderson@linaro.org" target=3D"_=
+blank" rel=3D"noreferrer">richard.henderson@linaro.org</a>&gt;&gt; ha scrit=
+to:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0This is the x86 specific changes required to reduce=
+ the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0amount of translation for address space randomizati=
+on.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0For v3, quite a few changes based on Paolo&#39;s fe=
+edback.<br>
+&gt; <br>
+&gt; <br>
+&gt; Reviewed-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" =
+target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a> &lt;mailto:<a =
+href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" rel=3D"noreferrer">pb=
+onzini@redhat.com</a>&gt;&gt;<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0r~<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Based-on: <a href=3D"mailto:20220930212622.108363-1=
+-richard.henderson@linaro.org" target=3D"_blank" rel=3D"noreferrer">2022093=
+0212622.108363-1-richard.henderson@linaro.org</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:20220930212622.108363-=
+1-richard.henderson@linaro.org" target=3D"_blank" rel=3D"noreferrer">202209=
+30212622.108363-1-richard.henderson@linaro.org</a>&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0(&quot;[PATCH v6 00/18] tcg: CPUTLBEntryFull and TA=
+RGET_TB_PCREL&quot;)<br>
+<br>
+Thanks.=C2=A0 FYI, yhe Based-on dependency is now upstream.<br>
+<br>
+<br>
+r~<br>
+<br>
+</blockquote></div>
+
+--0000000000004d022505ea4ff504--
+
 
