@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B835F56EE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 16:58:42 +0200 (CEST)
-Received: from localhost ([::1]:42038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B425F56BE
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 16:52:40 +0200 (CEST)
+Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1og5r7-0002AJ-FF
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 10:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41518)
+	id 1og5lF-0002EZ-9x
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 10:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1og5Ar-0000lk-B6
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 10:15:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42741)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1og5Aa-0006fS-Jp
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 10:15:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664979283;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Z1xp3m0B3raXTA2Ul7qlJxxgpFD8rAJ0UOTbRFN1h7k=;
- b=TPu2fuNCtaZPo9wCFSqdSWxYGiGVfhEatl+aSOsChAZsr246rIfeG9y4oiMbqdEsEdOYVk
- 0jQROeOMDd6LVK4FdK/prMII1vcIfunLK6uWERCq9OTv5tRzgQ0Gzs0rGCbkSesIbuYhUW
- S7Lgkv80VO8ZuqVo52ZvjpVTR6BjNz4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-536-LWIeERb0PaCxmAz2_a17VA-1; Wed, 05 Oct 2022 10:14:40 -0400
-X-MC-Unique: LWIeERb0PaCxmAz2_a17VA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65C5D29DD9A5;
- Wed,  5 Oct 2022 14:14:40 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB94B483EFB;
- Wed,  5 Oct 2022 14:14:39 +0000 (UTC)
-Date: Wed, 5 Oct 2022 10:14:38 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PULL 0/8] Trivial branch for 7.2 patches
-Message-ID: <Yz2RTkfl45oU59xp@fedora>
-References: <20221003221345.1324140-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1og5BJ-00017q-MS
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 10:16:00 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:45749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1og5BG-0006xO-QO
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 10:15:29 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id z23so19012313ejw.12
+ for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 07:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dtjn7CZWhhh0QYbxJQV5Gx7SHvrrb+/CR/4o20A8Zmg=;
+ b=BVMJWyl621a1WLdt71d/Nygc6W7GZzyQti3RYQ2xCP9bopNy7xwjtwEdeyiSdhlQZd
+ N+xmZTKtzGHWMQyw4f1lKi0QjR2Q/jyiyIAPr+9vETz1BWHfZu6vH1fdCfYIGdtq03wu
+ N7WDYHJDfphXcW+tRh0qbDexwCl0t5bHHKz7avl5tvMmYKUZDriRs7XmSJStBU6mPRp7
+ nk16461+VMBESYftgItpbsTGoNNP5vBWNgL2qJP3UBAAeMVp9AkfHYD8hjEfcXCfOMut
+ w1/x3AiaSV7mJx2A70mNyX6hpozJ9+e3v2RSt90Rg9g0V5yhlxFlP/KAqxuwNp8zTSqa
+ Nt2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dtjn7CZWhhh0QYbxJQV5Gx7SHvrrb+/CR/4o20A8Zmg=;
+ b=zlbh4n8tHSpfs8X4IiIYI8F2lawe2Q8m54QH7xb41WhV/wNwbFUGMaepCgyxHBoFEL
+ lORPuARTVDMvA8SLi8mnh2erF3iS0xFKWR/dMoweXAG8o3b7UUWCiZRMy6HPvMt+lcaM
+ CxgNAjFsjw7v2JoEuuvp+nB0/NManUNMmTTRVQJr/cffoN6umGKSL4VJxA8TABXIeBhl
+ ZRCRIR78GCPdR0J4uKlKbJqYtFhaDN5lj12eAmf0FCeSdNAgWQ5+me3apJO/ObVNT6J6
+ wSwY6eq8zepTzivDIvlYdAeruRBbPs6JVAr0Bex9zvOzcsQmIrFX8lvuJ1m33XiEZ9E4
+ owsA==
+X-Gm-Message-State: ACrzQf2QPfLqCAswxtEq0YNAmT5wb05AW5MwylkC63s5+i8AimtjwdIR
+ tROtYOtRkhhonxYxSFDvm5B71ItfzwlnCMfHuJdPMQ==
+X-Google-Smtp-Source: AMsMyM6PleMClrBlnsLH4HtgkAqDeO8qv6+1omAWuTaoKirjP4H9n4P557XnmTV9WL8xsMNiwaDohllvhcFpFpF3d+g=
+X-Received: by 2002:a17:906:730d:b0:782:a4e0:bb54 with SMTP id
+ di13-20020a170906730d00b00782a4e0bb54mr24537760ejc.659.1664979323225; Wed, 05
+ Oct 2022 07:15:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KbIwE7KlM2J+t8dv"
-Content-Disposition: inline
-In-Reply-To: <20221003221345.1324140-1-laurent@vivier.eu>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20220930220312.135327-1-richard.henderson@linaro.org>
+ <20220930220312.135327-7-richard.henderson@linaro.org>
+ <CAFEAcA-hH=kqGfPQ3d6wJfo-ti_UvdMAs6pZx6A79QO5Mi-Q=w@mail.gmail.com>
+ <c91da352-f27a-d81d-59e9-43fabd604e8f@linaro.org>
+In-Reply-To: <c91da352-f27a-d81d-59e9-43fabd604e8f@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 5 Oct 2022 15:15:12 +0100
+Message-ID: <CAFEAcA_zKX1RVjHfTnxHOUogVX_JxpnWOPW-yYDCuAvk7J3YEw@mail.gmail.com>
+Subject: Re: [PATCH v5 6/9] target/arm: Change gen_jmp* to work on
+ displacements
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,30 +87,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 4 Oct 2022 at 21:57, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 10/4/22 08:58, Peter Maydell wrote:
+> > On Fri, 30 Sept 2022 at 23:10, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >>
+> >> In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
+> >>
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >> ---
+> >>   target/arm/translate.c | 37 +++++++++++++++++++++----------------
+> >>   1 file changed, 21 insertions(+), 16 deletions(-)
+> >
+> >> @@ -8368,7 +8372,8 @@ static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
+> >>       }
+> >>       tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
+> >>       store_cpu_field_constant(!s->thumb, thumb);
+> >> -    gen_jmp(s, (read_pc(s) & ~3) + a->imm);
+> >> +    /* This difference computes a page offset so ok for TARGET_TB_PCREL. */
+> >> +    gen_jmp(s, (read_pc(s) & ~3) - s->pc_curr + a->imm);
+> >
+> > Could we just calculate the offset of the jump target instead?
+> > read_pc() returns s->pc_curr + a constant, so the s->pc_curr cancels
+> > out anyway:
+> >
+> >    (read_pc(s) & ~3) - s->pc_curr + a->imm
+> > ==
+> >      (pc_curr + (s->thumb ? 4 : 8) & ~3) - pc_curr + imm
+> > ==  pc_curr - pc_curr_low_bits - pc_curr + 4-or-8 + imm
+> > ==  imm + 4-or-8 - low_bits_of_pc
+> >
+> > That's then more obviously not dependent on the absolute value
+> > of the PC.
+>
+> Yes, this works:
+>
+> -    gen_jmp(s, (read_pc(s) & ~3) + a->imm);
+>
+> +    /* This jump is computed from an aligned PC: subtract off the low bits. */
+>
+> +    gen_jmp(s, jmp_diff(s, a->imm - (s->pc_curr & 3)));
 
---KbIwE7KlM2J+t8dv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Cool, that looks a lot clearer. With that change,
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---KbIwE7KlM2J+t8dv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmM9kU4ACgkQnKSrs4Gr
-c8icnwf/XuiY4oAGo2fthpGBrfsAJpJGZJ0uJrOVz9jjbcuqEmxSQfb5shKyezEb
-3Glj4slky9tkK3RzeItXNXev8NIpU2icrGTbLyLwB+fjDnVuL3vfG4lBXHZiw6cf
-82yjhhyn7jnn20Jv1IrOXn/IhBe6FKattkpblcWHMtuvKO+aoZUrW5bTOZnuxYwd
-g8yyhyVcrDgRmNMoxLQ74uU74Z+8+y5h9X8o2D5kGsepNFUmyH8YOkPQHALMt5xy
-aU4q5PEX/TnjTxU1yyzPdfYK7FGcLXfIE1GZfadbTvIaB7hpf03tfGrygqJ+5Gl7
-9zmRp8y0L10o3naEf0A3AMl6xb4nMw==
-=gmhX
------END PGP SIGNATURE-----
-
---KbIwE7KlM2J+t8dv--
-
+thanks
+-- PMM
 
