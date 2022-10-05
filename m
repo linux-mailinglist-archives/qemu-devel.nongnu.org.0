@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C77D5F531C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 13:04:42 +0200 (CEST)
-Received: from localhost ([::1]:33814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6795F5328
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 13:10:31 +0200 (CEST)
+Received: from localhost ([::1]:58072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1og2Ce-00053B-7r
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 07:04:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43720)
+	id 1og2IH-0000SZ-RA
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 07:10:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1og1yL-00066c-RC
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 06:49:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26504)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1og1yK-0002f7-08
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 06:49:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664966987;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JTMu2/S4i0uutoSlvsG2ttwOmiScnjVwgfX8iSIvARY=;
- b=OZO4UOdz+fvn7Gvj9QnP7WCXdOwm9G0XHMLLHyLYgWFtvfcjK3j/561aXSB0OcuvnXd3X8
- 5Wj9HGYaaRhE4zlsSp38TkhEelnJTAXMagcMQZvb0aSxroSMdz08JPzwspUYG6BZyfTn7Z
- c2DVhC9BkweN9RveGkFK7ZJiC5mQ4mE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-460-dx3ZjND6P3iargMGh1VvcA-1; Wed, 05 Oct 2022 06:49:31 -0400
-X-MC-Unique: dx3ZjND6P3iargMGh1VvcA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p24-20020a05600c1d9800b003b4b226903dso775547wms.4
- for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 03:49:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <e14002270@gmail.com>)
+ id 1og22D-0007jd-Is; Wed, 05 Oct 2022 06:53:53 -0400
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:47056)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <e14002270@gmail.com>)
+ id 1og228-0003Jq-Ba; Wed, 05 Oct 2022 06:53:51 -0400
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-35711e5a5ceso119886187b3.13; 
+ Wed, 05 Oct 2022 03:53:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/b9jDzIB4jaggSCzfHz4wdD0iZ8FtFJDugL7cYa3DnE=;
+ b=A/PhdLb7lxs7X+DtfdZL7M5YjFQqkcsbj1oVa5u/hiKhD7X3C7XXsi4XkfRyHlxvKn
+ 8OkJOhaI0ggUKx0Nkgw+Z5+6RQz1yeYvaB34lLiD88njUZyIdtnufCgxWTX2itlQQUto
+ 6HdHuxGMqqDOaey9j8pwT4V6YRKPgQnHpa+Xf/+Q9g7ibyAWWnEgQyIRspclsbavHkaZ
+ NbrA3UfZZ90yKVW7R8vmvG/m8PTXSoscEg5D4Q7kt0qtmdl9aqp270u3RglpubDUp27F
+ HDOXSWyIeR24/0OEFPHsOh4KfnaKGxTp4eVQITXRLhtbpc4dHQn+43DrYce38vzke5/K
+ qq7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=JTMu2/S4i0uutoSlvsG2ttwOmiScnjVwgfX8iSIvARY=;
- b=iKbAvlfMitt1iyW5JcVZ24s5IZAqHTnwgpjMk9jUZqX7sRQ7oiwmwU6iEbUTSkCzUo
- wWUKE4siMO21d8nMYsJiLJNNaKt0cw6x2Px4aAluB/mN1BL0t11AoZyh8fcDsZK0WHoT
- ttozvVxepxONFo5C42GebsgkG9uoSep51CYLv3yjHph5Fvir/Nd/MukTGgZ/VzgTod4R
- +dTY2aRK/L5E5v6CQVtzTSwQcBIJkntGXYiPzhBHfzL6MKeTLor159pWAEBN/VdBO7j6
- /pjWDbm3OOeN3t5Yd+7YggRHdO0UaLnxmvKo6uG9u/W/oTadTI3A2xvcJtXIwGAbDjf1
- 1PhA==
-X-Gm-Message-State: ACrzQf3XPKZCJ/wtehGQeFb3yyZZBdMqVSuToEw4tmSD+IjnXl/KRFz6
- sHmH692OzZhNz3+eOwq+9gU5UtbAt59nc+zB7SlROdJfMjlLQmOC9ZvZupaVzRZI+xnyp27xc3F
- FzCUhPQyFTgaPV3Y=
-X-Received: by 2002:a5d:6c6b:0:b0:225:dde:ab40 with SMTP id
- r11-20020a5d6c6b000000b002250ddeab40mr19355536wrz.690.1664966970105; 
- Wed, 05 Oct 2022 03:49:30 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6y/HgtEfv4v+hoXCONHKogWaFaLkqt69b70muQLZZ/TlgdpSvbRGV8n81eIGGOjIlE9SgJyA==
-X-Received: by 2002:a5d:6c6b:0:b0:225:dde:ab40 with SMTP id
- r11-20020a5d6c6b000000b002250ddeab40mr19355523wrz.690.1664966969865; 
- Wed, 05 Oct 2022 03:49:29 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- d16-20020adfe890000000b0022e035a4e93sm14354157wrm.87.2022.10.05.03.49.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Oct 2022 03:49:28 -0700 (PDT)
-Date: Wed, 5 Oct 2022 11:49:26 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v2 5/5] migration: Disable multifd explicitly with
- compression
-Message-ID: <Yz1hNvh9E/ymQAQ5@work-vm>
-References: <20221004182430.97638-1-peterx@redhat.com>
- <20221004182430.97638-6-peterx@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/b9jDzIB4jaggSCzfHz4wdD0iZ8FtFJDugL7cYa3DnE=;
+ b=t4psE8t/xDzJFiFrLjKmiDvE3gELhmsswCJS102aRnvBlRVK6Ij0i3wwoZ8ePuKf3f
+ n5j6yWvzS8dVXWSJD12XTMPB4ffB1Xk9lFBwGc7DoVEht/MJOgdysGg6uiZabLwqUYRS
+ zDnTEd5CPMNLOkXqLNqRcC4cQvD6c1kyibnhPIf4PGz4ckIN8eSc3jh7fVW+ik49Co1b
+ j9jdwFwAu+A0xZHskzDDccdjzuL8Hn1T9E2rry7mRhdxz8T2wAUk71vD+bkfqXT94kym
+ 3sjCWMZG73X3pfs6Mx+rZBXFjNTT0Wg9R0iYU1q4p4FN5N+Lu7eKNHWu/6tTUCP3g/h/
+ OsbQ==
+X-Gm-Message-State: ACrzQf21tR8jje3DTSzUIUt8mxbv6ra8SBmuOycUzECspUmEp7s7Wuy+
+ NJoOjwqbrdhcdkaPvQ4rAuXZ2daFMyF0Xu1Uc3M=
+X-Google-Smtp-Source: AMsMyM623VnFO47BhuoKlzZwb382wlXPYJZf5XoNvi6qariViE08OisWM7EIi16F3JUdDsEksKZtDEQc/lHDg18Zau8=
+X-Received: by 2002:a81:618a:0:b0:35d:1aa8:1b1c with SMTP id
+ v132-20020a81618a000000b0035d1aa81b1cmr3287433ywb.140.1664967226418; Wed, 05
+ Oct 2022 03:53:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221004182430.97638-6-peterx@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+References: <CACv+nXAT-tfuabs04y5+DE-R=Hn81nmM3bKsgOkVkWTOYpTHFA@mail.gmail.com>
+ <659e3df0-a384-88e0-b121-7fd7416b09a7@amsat.org>
+ <5bb36d59-e112-4354-9abe-c8383002dd03.lzw194868@alibaba-inc.com>
+In-Reply-To: <5bb36d59-e112-4354-9abe-c8383002dd03.lzw194868@alibaba-inc.com>
+From: Eric Chan <e14002270@gmail.com>
+Date: Wed, 5 Oct 2022 18:53:35 +0800
+Message-ID: <CACv+nXD0guSPxPHiPBNR_r5WHjiFecZShEwxNxO_=-K1mffLqg@mail.gmail.com>
+Subject: Re: Question about RISC-V brom register a1 set value
+To: =?UTF-8?B?5YiY5b+X5Lyf?= <zhiwei_liu@c-sky.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ qemu-devel <qemu-devel@nongnu.org>, qemu-riscv <qemu-riscv@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000017ea7f05ea4764e2"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=e14002270@gmail.com; helo=mail-yw1-x112e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,81 +86,260 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Multifd thread model does not work for compression, explicitly disable it.
-> 
-> Note that previuosly even we can enable both of them, nothing will go
-> wrong, because the compression code has higher priority so multifd feature
-> will just be ignored.  Now we'll fail even earlier at config time so the
-> user should be aware of the consequence better.
-> 
-> Note that there can be a slight chance of breaking existing users, but
-> let's assume they're not majority and not serious users, or they should
-> have found that multifd is not working already.
-> 
-> With that, we can safely drop the check in ram_save_target_page() for using
-> multifd, because when multifd=on then compression=off, then the removed
-> check on save_page_use_compression() will also always return false too.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+--00000000000017ea7f05ea4764e2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yes, and of course if they were trying to use it, they should have been
-trying to use multifd-compression parameter instead, which is different
-code.
+Hi  Zhiwei,
 
+thanks for your reply, I make a mistake, t0 is 0x1000 so both
+lw     a1, 32(t0) or ld     a1, 32(t0) just read from the brom offset
+32byte.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Thanks,
+Eric Chan
 
-> ---
->  migration/migration.c |  7 +++++++
->  migration/ram.c       | 11 +++++------
->  2 files changed, 12 insertions(+), 6 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 844bca1ff6..ef00bff0b3 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1349,6 +1349,13 @@ static bool migrate_caps_check(bool *cap_list,
->          }
->      }
->  
-> +    if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
-> +        if (cap_list[MIGRATION_CAPABILITY_COMPRESS]) {
-> +            error_setg(errp, "Multifd is not compatible with compress");
-> +            return false;
-> +        }
-> +    }
-> +
->      return true;
->  }
->  
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 1d42414ecc..1338e47665 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -2305,13 +2305,12 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
->      }
->  
->      /*
-> -     * Do not use multifd for:
-> -     * 1. Compression as the first page in the new block should be posted out
-> -     *    before sending the compressed page
-> -     * 2. In postcopy as one whole host page should be placed
-> +     * Do not use multifd in postcopy as one whole host page should be
-> +     * placed.  Meanwhile postcopy requires atomic update of pages, so even
-> +     * if host page size == guest page size the dest guest during run may
-> +     * still see partially copied pages which is data corruption.
->       */
-> -    if (!save_page_use_compression(rs) && migrate_use_multifd()
-> -        && !migration_in_postcopy()) {
-> +    if (migrate_use_multifd() && !migration_in_postcopy()) {
->          return ram_save_multifd_page(rs, block, offset);
->      }
->  
-> -- 
-> 2.37.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+=E5=88=98=E5=BF=97=E4=BC=9F <zhiwei_liu@c-sky.com> =E6=96=BC 2022=E5=B9=B41=
+0=E6=9C=885=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:47=E5=AF=AB=E9=
+=81=93=EF=BC=9A
 
+> I think the a1 from QEMU reset vector is the device tree(fdt_laddr) thoug=
+h
+> I don't know if it is directly used by the OpenSBI or just passed to the
+> Linux kernel.
+>
+> Thanks,
+> Zhiwei
+>
+> ------------------------------------------------------------------
+> =E5=8F=91=E4=BB=B6=E4=BA=BA=EF=BC=9APhilippe Mathieu-Daud=C3=A9 via <qemu=
+-devel@nongnu.org>
+> =E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4=EF=BC=9A2022=E5=B9=B410=E6=9C=883=E6=
+=97=A5(=E6=98=9F=E6=9C=9F=E4=B8=80) 20:37
+> =E6=94=B6=E4=BB=B6=E4=BA=BA=EF=BC=9AEric Chan <e14002270@gmail.com>; qemu=
+-devel <qemu-devel@nongnu.org>
+> =E6=8A=84 =E9=80=81=EF=BC=9Aqemu-riscv <qemu-riscv@nongnu.org>
+> =E4=B8=BB =E9=A2=98=EF=BC=9ARe: Question about RISC-V brom register a1 se=
+t value
+>
+> Cc'ing the RISC-V specific mailing list.
+>
+> On 1/10/22 01:48, Eric Chan wrote:
+> > Hi, qemu
+> >
+> > As I know, brom will pass 3 parameters to the next stage bootloader, ex=
+:
+> > openSBI.
+> > a0 will pass hartid, a2 will pass fw_dynamic_info start address.
+> > although a1 doesn't use directly in openSBI.
+> > a1 read value is determined in compile time rather than read from the
+> > original a1 that passes from brom.
+> > In qemu/hw/riscv/boot.c
+> > both 32bit and 64bit machines read 4byte that offset 32byte from the
+> > brom start address.
+> >
+> > for 64 bits machine: a1 read low 32bit data member magic of
+> fw_dynamic_info,
+> > the value will same as FW_DYNAMIC_INFO_MAGIC_VALUE because risc-v is
+> > little endian.
+> >
+> > for 32bits machine: each data member of fw_dynamic_info is 4 bytes, so
+> > a1 will read the version rather than magic.
+> >
+> > Do the 32bit and 64bit pass different parameters are expected?
+> > If it is not expected, I guess the original version is 64bit machine,
+> > and then supports 32bit but misses this detail, I hope I can have an
+> > opportunity to fix this problem.
+> > If it is expected, why they must be done?
+> >
+> > Thanks,
+> > Eric Chan
+> >
+> > qemu/include/hw/riscv/boot_opensbi.h
+> > #define FW_DYNAMIC_INFO_MAGIC_VALUE     0x4942534f
+> > qemu/hw/riscv/boot.c
+> > void riscv_setup_rom_reset_vec(MachineState *machine,
+> > RISCVHartArrayState *harts,
+> >                                 hwaddr start_addr,
+> >                                 hwaddr rom_base, hwaddr rom_size,
+> > uint64_t kernel_entry,
+> > uint64_t fdt_load_addr)
+> > {
+> > int i;
+> > uint32_t start_addr_hi32 =3D 0x00000000;
+> > uint32_t fdt_load_addr_hi32 =3D 0x00000000;
+> >
+> > if (!riscv_is_32bit(harts)) {
+> >          start_addr_hi32 =3D start_addr >> 32;
+> >          fdt_load_addr_hi32 =3D fdt_load_addr >> 32;
+> >      }
+> >      /* reset vector */
+> > uint32_t reset_vec[10] =3D {
+> > 0x00000297,                 /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
+> > 0x02828613,                 /*     addi   a2, t0, %pcrel_lo(1b) */
+> > 0xf1402573,                 /*     csrr   a0, mhartid  */
+> > 0,
+> > 0,
+> > 0x00028067,                 /*     jr     t0 */
+> >          start_addr,                 /* start: .dword */
+> >          start_addr_hi32,
+> >          fdt_load_addr,              /* fdt_laddr: .dword */
+> >          fdt_load_addr_hi32,
+> >                                       /* fw_dyn: */
+> >      };
+> > if (riscv_is_32bit(harts)) {
+> > reset_vec[3] =3D 0x0202a583;  /*     lw     a1, 32(t0) */
+> > reset_vec[4] =3D 0x0182a283;  /*     lw     t0, 24(t0) */
+> >      } else {
+> > reset_vec[3] =3D 0x0202b583;  /*     ld     a1, 32(t0) */
+> > reset_vec[4] =3D 0x0182b283;  /*     ld     t0, 24(t0) */
+> >      }
+> >
+> >      /* copy in the reset vector in little_endian byte order */
+> > for (i =3D 0; i < ARRAY_SIZE(reset_vec); i++) {
+> > reset_vec[i] =3D cpu_to_le32(reset_vec[i]);
+> >      }
+> > rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
+> >                            rom_base, &address_space_memory);
+> > riscv_rom_copy_firmware_info(machine, rom_base, rom_size,
+> sizeof(reset_vec),
+> >                                   kernel_entry);
+> > }
+> >
+> > opensbi/firmware/fw_dynamic.S
+> > fw_boot_hart:
+> > /* Sanity checks */
+> > li a1, FW_DYNAMIC_INFO_MAGIC_VALUE
+> >          REG_L a0, FW_DYNAMIC_INFO_MAGIC_OFFSET(a2)
+> > bne a0, a1, _bad_dynamic_info
+> > li a1, FW_DYNAMIC_INFO_VERSION_MAX
+> >          REG_L a0, FW_DYNAMIC_INFO_VERSION_OFFSET(a2)
+> > bgt a0, a1, _bad_dynamic_info
+> >
+> > /* Read boot HART id */
+> > li a1, FW_DYNAMIC_INFO_VERSION_2
+> > blt a0, a1, 2f
+> >          REG_L a0, FW_DYNAMIC_INFO_BOOT_HART_OFFSET(a2)
+> > ret
+> > 2: li a0, -1
+> > ret
+>
+>
+>
+
+--00000000000017ea7f05ea4764e2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi=C2=A0
+
+<span style=3D"color:rgb(0,0,0);font-family:Tahoma,Arial,STHeiti,SimSun;fon=
+t-size:14px">Zhiwei,</span><div><font color=3D"#000000" face=3D"Tahoma, Ari=
+al, STHeiti, SimSun"><span style=3D"font-size:14px"><br></span></font><div>=
+thanks for your reply, I make a mistake, t0 is 0x1000 so both=C2=A0<br>lw =
+=C2=A0 =C2=A0 a1, 32(t0) or ld =C2=A0 =C2=A0 a1, 32(t0) just read from the =
+brom offset 32byte.<br></div></div><div><br></div><div>Thanks,</div><div>Er=
+ic Chan</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">=E5=88=98=E5=BF=97=E4=BC=9F &lt;<a href=3D"mailto:zhiwei_liu@c=
+-sky.com">zhiwei_liu@c-sky.com</a>&gt; =E6=96=BC 2022=E5=B9=B410=E6=9C=885=
+=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:47=E5=AF=AB=E9=81=93=EF=BC=
+=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div><div st=
+yle=3D"line-height:1.7;font-family:Tahoma,Arial,STHeiti,SimSun;font-size:14=
+px;color:rgb(0,0,0)"><div style=3D"clear:both">I think the a1 from QEMU res=
+et vector is the device tree(fdt_laddr) though I don&#39;t know if it is di=
+rectly used by the OpenSBI or just passed to the Linux kernel.<br></div><di=
+v style=3D"clear:both"><br></div><div style=3D"clear:both">Thanks,</div><di=
+v style=3D"clear:both">Zhiwei</div><div style=3D"clear:both"><br></div><blo=
+ckquote style=3D"margin-right:0px;margin-top:0px;margin-bottom:0px;font-fam=
+ily:Tahoma,Arial,STHeiti,SimSun;font-size:14px;color:rgb(0,0,0)"><div style=
+=3D"clear:both">-----------------------------------------------------------=
+-------</div><div style=3D"clear:both">=E5=8F=91=E4=BB=B6=E4=BA=BA=EF=BC=9A=
+Philippe Mathieu-Daud=C3=A9 via &lt;<a href=3D"mailto:qemu-devel@nongnu.org=
+" target=3D"_blank">qemu-devel@nongnu.org</a>&gt;</div><div style=3D"clear:=
+both">=E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4=EF=BC=9A2022=E5=B9=B410=E6=9C=88=
+3=E6=97=A5(=E6=98=9F=E6=9C=9F=E4=B8=80) 20:37</div><div style=3D"clear:both=
+">=E6=94=B6=E4=BB=B6=E4=BA=BA=EF=BC=9AEric Chan &lt;<a href=3D"mailto:e1400=
+2270@gmail.com" target=3D"_blank">e14002270@gmail.com</a>&gt;; qemu-devel &=
+lt;<a href=3D"mailto:qemu-devel@nongnu.org" target=3D"_blank">qemu-devel@no=
+ngnu.org</a>&gt;</div><div style=3D"clear:both">=E6=8A=84=E3=80=80=E9=80=81=
+=EF=BC=9Aqemu-riscv &lt;<a href=3D"mailto:qemu-riscv@nongnu.org" target=3D"=
+_blank">qemu-riscv@nongnu.org</a>&gt;</div><div style=3D"clear:both">=E4=B8=
+=BB=E3=80=80=E9=A2=98=EF=BC=9ARe: Question about RISC-V brom register a1 se=
+t value</div><div style=3D"clear:both"><br></div>Cc&#39;ing the RISC-V spec=
+ific mailing list.<br><br>On 1/10/22 01:48, Eric Chan wrote:<br>&gt; Hi, qe=
+mu<br>&gt; <br>&gt; As I know, brom will pass 3 parameters to the next stag=
+e bootloader, ex: <br>&gt; openSBI.<br>&gt; a0 will pass hartid, a2 will pa=
+ss fw_dynamic_info start address.<br>&gt; although a1 doesn&#39;t use direc=
+tly in openSBI.<br>&gt; a1 read value is determined in compile time rather =
+than read from the <br>&gt; original a1 that passes from brom.<br>&gt; In q=
+emu/hw/riscv/boot.c<br>&gt; both 32bit and 64bit machines read 4byte that o=
+ffset 32byte from the <br>&gt; brom start address.<br>&gt; <br>&gt; for 64 =
+bits machine: a1 read low 32bit data member magic of fw_dynamic_info,<br>&g=
+t; the value will same as FW_DYNAMIC_INFO_MAGIC_VALUE because risc-v is <br=
+>&gt; little endian.<br>&gt; <br>&gt; for 32bits machine: each data member =
+of fw_dynamic_info is 4 bytes, so <br>&gt; a1 will read the version rather =
+than magic.<br>&gt; <br>&gt; Do the 32bit and 64bit pass different paramete=
+rs are expected?<br>&gt; If it is not expected, I guess the original versio=
+n is 64bit machine, <br>&gt; and then supports 32bit but misses this detail=
+, I hope I can have an <br>&gt; opportunity to fix this problem.<br>&gt; If=
+ it is expected, why they must be done?<br>&gt; <br>&gt; Thanks,<br>&gt; Er=
+ic Chan<br>&gt; <br>&gt; qemu/include/hw/riscv/boot_opensbi.h<br>&gt; #defi=
+ne FW_DYNAMIC_INFO_MAGIC_VALUE =C2=A0 =C2=A0 0x4942534f<br>&gt; qemu/hw/ris=
+cv/boot.c<br>&gt; void riscv_setup_rom_reset_vec(MachineState *machine, <br=
+>&gt; RISCVHartArrayState *harts,<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 hwaddr start_addr,<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 hwad=
+dr rom_base, hwaddr rom_size,<br>&gt; uint64_t kernel_entry,<br>&gt; uint64=
+_t fdt_load_addr)<br>&gt; {<br>&gt; int i;<br>&gt; uint32_t start_addr_hi32=
+ =3D 0x00000000;<br>&gt; uint32_t fdt_load_addr_hi32 =3D 0x00000000;<br>&gt=
+; <br>&gt; if (!riscv_is_32bit(harts)) {<br>&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 start_addr_hi32 =3D start_addr &gt;&gt; 32;<br>&gt;=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 fdt_load_addr_hi32 =3D fdt_load_addr &gt;&gt; 32;<br>&=
+gt;=C2=A0 =C2=A0 =C2=A0 }<br>&gt;=C2=A0 =C2=A0 =C2=A0 /* reset vector */<br=
+>&gt; uint32_t reset_vec[10] =3D {<br>&gt; 0x00000297, =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 1:=C2=A0 auipc=C2=A0 t0, %pcrel_hi(f=
+w_dyn) */<br>&gt; 0x02828613, =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 /* =C2=A0 =C2=A0 addi =C2=A0 a2, t0, %pcrel_lo(1b) */<br>&gt; 0x=
+f1402573, =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* =C2=A0=
+ =C2=A0 csrr =C2=A0 a0, mhartid=C2=A0 */<br>&gt; 0,<br>&gt; 0,<br>&gt; 0x00=
+028067, =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* =C2=A0 =
+=C2=A0 jr =C2=A0 =C2=A0 t0 */<br>&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sta=
+rt_addr, =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* start: =
+.dword */<br>&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 start_addr_hi32,<br>&gt=
+;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fdt_load_addr,=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 /* fdt_laddr: .dword */<br>&gt;=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 fdt_load_addr_hi32,<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* fw_dyn: */<br>&gt;=C2=A0 =C2=A0 =C2=A0 }=
+;<br>&gt; if (riscv_is_32bit(harts)) {<br>&gt; reset_vec[3] =3D 0x0202a583;=
+=C2=A0 /* =C2=A0 =C2=A0 lw =C2=A0 =C2=A0 a1, 32(t0) */<br>&gt; reset_vec[4]=
+ =3D 0x0182a283;=C2=A0 /* =C2=A0 =C2=A0 lw =C2=A0 =C2=A0 t0, 24(t0) */<br>&=
+gt;=C2=A0 =C2=A0 =C2=A0 } else {<br>&gt; reset_vec[3] =3D 0x0202b583;=C2=A0=
+ /* =C2=A0 =C2=A0 ld =C2=A0 =C2=A0 a1, 32(t0) */<br>&gt; reset_vec[4] =3D 0=
+x0182b283;=C2=A0 /* =C2=A0 =C2=A0 ld =C2=A0 =C2=A0 t0, 24(t0) */<br>&gt;=C2=
+=A0 =C2=A0 =C2=A0 }<br>&gt; <br>&gt;=C2=A0 =C2=A0 =C2=A0 /* copy in the res=
+et vector in little_endian byte order */<br>&gt; for (i =3D 0; i &lt; ARRAY=
+_SIZE(reset_vec); i++) {<br>&gt; reset_vec[i] =3D cpu_to_le32(reset_vec[i])=
+;<br>&gt;=C2=A0 =C2=A0 =C2=A0 }<br>&gt; rom_add_blob_fixed_as(&quot;mrom.re=
+set&quot;, reset_vec, sizeof(reset_vec),<br>&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rom_=
+base, &amp;address_space_memory);<br>&gt; riscv_rom_copy_firmware_info(mach=
+ine, rom_base, rom_size, sizeof(reset_vec),<br>&gt; =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 kernel_entry);<br>&gt; }<br>&gt; <br>&gt; opensbi/=
+firmware/fw_dynamic.S<br>&gt; fw_boot_hart:<br>&gt; /* Sanity checks */<br>=
+&gt; li a1, FW_DYNAMIC_INFO_MAGIC_VALUE<br>&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 REG_L a0, FW_DYNAMIC_INFO_MAGIC_OFFSET(a2)<br>&gt; bne a0, a1, _bad_=
+dynamic_info<br>&gt; li a1, FW_DYNAMIC_INFO_VERSION_MAX<br>&gt;=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 REG_L a0, FW_DYNAMIC_INFO_VERSION_OFFSET(a2)<br>&g=
+t; bgt a0, a1, _bad_dynamic_info<br>&gt; <br>&gt; /* Read boot HART id */<b=
+r>&gt; li a1, FW_DYNAMIC_INFO_VERSION_2<br>&gt; blt a0, a1, 2f<br>&gt;=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 REG_L a0, FW_DYNAMIC_INFO_BOOT_HART_OFFSET(=
+a2)<br>&gt; ret<br>&gt; 2: li a0, -1<br>&gt; ret<br><br></blockquote><div s=
+tyle=3D"line-height:20px;clear:both"><br></div></div></div></blockquote></d=
+iv>
+
+--00000000000017ea7f05ea4764e2--
 
