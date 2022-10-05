@@ -2,64 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943535F56A7
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 16:46:00 +0200 (CEST)
-Received: from localhost ([::1]:47296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 416C75F576A
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 17:27:40 +0200 (CEST)
+Received: from localhost ([::1]:45266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1og5ep-0005PN-2J
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 10:45:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60616)
+	id 1og6J6-0003Mj-LX
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 11:27:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1og5G5-0004NW-JX
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 10:20:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1og5G3-0007ks-5J
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 10:20:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664979620;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=4l7fQGpm8PtgeTozS+O+nPvUkTy13M6/dRoHZ6edZ+4=;
- b=a3b17tuX4OomUD6gAmXhG7vG3bbj5OiUmFHe+hZFOd/U4OwS+CttvUcCikIDEb8acFoQ4M
- uqI5gzJr4WHsUPxmq5xf/V2anKlGTzGCDsVqLOQ2QaYnB3pXgTzmMnqAdyjD2B1AGz8xGf
- oBnHPX/qHh+hWXTMbyI5pD/aSeKLdj0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-151-BPFSJpfwP9Gwm_A0KReMtg-1; Wed, 05 Oct 2022 10:20:17 -0400
-X-MC-Unique: BPFSJpfwP9Gwm_A0KReMtg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2653E85A583;
- Wed,  5 Oct 2022 14:20:17 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 503DE49BB67;
- Wed,  5 Oct 2022 14:20:15 +0000 (UTC)
-From: Alberto Faria <afaria@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Stefan Weil <sw@weilnetz.de>, Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Alberto Faria <afaria@redhat.com>
-Subject: [PATCH] coroutine: Make qemu_coroutine_self() return NULL if not in
- coroutine
-Date: Wed,  5 Oct 2022 15:20:06 +0100
-Message-Id: <20221005142006.926013-1-afaria@redhat.com>
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1og5Xa-0005of-PX; Wed, 05 Oct 2022 10:38:30 -0400
+Received: from [200.168.210.66] (port=55228 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1og5XY-0004bx-Sv; Wed, 05 Oct 2022 10:38:30 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 5 Oct 2022 11:37:22 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 776E98002A8;
+ Wed,  5 Oct 2022 11:37:21 -0300 (-03)
+From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org, aurelien@aurel32.net,
+ peter.maydell@linaro.org, alex.bennee@linaro.org, balaton@eik.bme.hu,
+ victor.colombo@eldorado.org.br, matheus.ferst@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
+ lucas.coutinho@eldorado.org.br
+Subject: [RFC PATCH 0/4] Idea for using hardfloat in PPC
+Date: Wed,  5 Oct 2022 11:37:15 -0300
+Message-Id: <20221005143719.65241-1-victor.colombo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 05 Oct 2022 14:37:22.0218 (UTC)
+ FILETIME=[FA9E00A0:01D8D8C7]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,107 +64,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_coroutine_self() is used in several places outside of coroutine
-context (mostly in qcow2 tracing calls).
+As can be seem in the mailing thread that added hardfloat support in
+QEMU [1], a requirement for it to work is to have float_flag_inexact
+set when entering the API in softfloat.c. However, in the same thread,
+it was explained that PPC target would not work by default with this
+implementation.
+The problem is that PPC has a non-sticky inexact bit (there is a
+discussion about it in [2]), meaning that we can't just set the flag
+and call the API in softfloat.c, as it would return the same flag set
+to 1, and we wouldn't know if it is supposed to be updated on FPSCR or
+not.
+Over the last couple years, there were attempts to enable hardfpu
+for Power, like [3]. But nothing got to master.
+[5] shows a suggestion by Yonggang Luo and commentaries by Richard and
+Zoltan, about caching the last FP instruction and reexecuting it when
+necessary.
 
-Ensure qemu_coroutine_self() works properly when not called from
-coroutine context, returning NULL in that case, and remove its
-coroutine_fn annotation.
+This patch set is a proposition on the idea to cache the last FP insn,
+to be reexecuted later when the value of FPSCR is to be read by a
+program. When executed in hardfloat, the instruction "context" is saved
+inside `env`, and is expected to be reexecuted later, in softfloat,
+to calculate the correct value of the inexact flag in FPSCR.
+The instruction to be cached is the last instruction that changes FI.
+If the instructions does not change FI, it keeps the cache intact.
+If it changes FI, it caches itself and tries to execute in hardfpu.
+It might or might not use hardfloat, but as the inexact flag was
+artificially set, it will require to be reexecuted later. 'Later'
+means when FPSCR is to be read, like during a call to MFFS, or when
+a signal occurs. There are probably other places, e.g. other mffs-like
+instructions, but this RFC only addresses these two scenarios.
+This is supposed to be more efficient because programs very seldomly
+read FPSCR, meaning the amount of reexecutions will be low.
 
-Signed-off-by: Alberto Faria <afaria@redhat.com>
----
- include/qemu/coroutine.h     |  5 +++--
- util/coroutine-sigaltstack.c |  4 ++--
- util/coroutine-ucontext.c    | 18 +++++++++---------
- util/coroutine-win32.c       |  9 +--------
- 4 files changed, 15 insertions(+), 21 deletions(-)
+For now, this was implemented and tested for linux-user, no softmmu
+work or analysis was done.
+I implemented the base code to keep all instructions working with
+this new behavior (patch 1), and also implemented two instructions
+as an example on what it would be necessary to do for every instruction
+to use hardfpu (patches 1 and 2).
 
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index e55b36f49a..0b9c8b8dac 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -95,9 +95,10 @@ void coroutine_fn qemu_coroutine_yield(void);
- AioContext *qemu_coroutine_get_aio_context(Coroutine *co);
- 
- /**
-- * Get the currently executing coroutine
-+ * Get the currently executing coroutine, or NULL if not called from coroutine
-+ * context
-  */
--Coroutine *coroutine_fn qemu_coroutine_self(void);
-+Coroutine *qemu_coroutine_self(void);
- 
- /**
-  * Return whether or not currently inside a coroutine
-diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
-index e2690c5f41..d9d90187a8 100644
---- a/util/coroutine-sigaltstack.c
-+++ b/util/coroutine-sigaltstack.c
-@@ -289,9 +289,9 @@ CoroutineAction qemu_coroutine_switch(Coroutine *from_, Coroutine *to_,
- 
- Coroutine *qemu_coroutine_self(void)
- {
--    CoroutineThreadState *s = coroutine_get_thread_state();
-+    CoroutineThreadState *s = pthread_getspecific(thread_state_key);
- 
--    return s->current;
-+    return s && s->current->caller ? s->current : NULL;
- }
- 
- bool qemu_in_coroutine(void)
-diff --git a/util/coroutine-ucontext.c b/util/coroutine-ucontext.c
-index ddc98fb4f8..d1dfe0dae5 100644
---- a/util/coroutine-ucontext.c
-+++ b/util/coroutine-ucontext.c
-@@ -320,18 +320,18 @@ qemu_coroutine_switch(Coroutine *from_, Coroutine *to_,
- Coroutine *qemu_coroutine_self(void)
- {
-     Coroutine *self = get_current();
--    CoroutineUContext *leaderp = get_ptr_leader();
- 
--    if (!self) {
--        self = &leaderp->base;
--        set_current(self);
--    }
-+    if (self && self->caller) {
- #ifdef CONFIG_TSAN
--    if (!leaderp->tsan_co_fiber) {
--        leaderp->tsan_co_fiber = __tsan_get_current_fiber();
--    }
-+        CoroutineUContext *leaderp = get_ptr_leader();
-+        if (!leaderp->tsan_co_fiber) {
-+            leaderp->tsan_co_fiber = __tsan_get_current_fiber();
-+        }
- #endif
--    return self;
-+        return self;
-+    } else {
-+        return NULL;
-+    }
- }
- 
- bool qemu_in_coroutine(void)
-diff --git a/util/coroutine-win32.c b/util/coroutine-win32.c
-index 7db2e8f8c8..97a593da7a 100644
---- a/util/coroutine-win32.c
-+++ b/util/coroutine-win32.c
-@@ -91,14 +91,7 @@ Coroutine *qemu_coroutine_self(void)
- {
-     Coroutine *current = get_current();
- 
--    if (!current) {
--        CoroutineWin32 *leader = get_ptr_leader();
--
--        current = &leader->base;
--        set_current(current);
--        leader->fiber = ConvertThreadToFiber(NULL);
--    }
--    return current;
-+    return current && current->caller ? current : NULL;
- }
- 
- bool qemu_in_coroutine(void)
+My tests with risu and other manual tests showed the behavior seems to
+be correct. I tested mainly if FPSCR is the same after using softfloat
+or hardfloat.
+
+However, the impact in performance was not the expected. In x86_64 I
+had a small 3% improvement, while in a Power9 machine there was a small
+performance loss, as can be seem below (100 executions).
+
+|        | min [s] | max [s] | avg [s] |
+| before | 122.309 | 123.459 | 122.747 |
+| after  | 123.906 | 125.016 | 124.373 |
+
+The test code can be found in [4].
+
+The issue is most likely all the overhead with the caching, which is
+negating the improvement from hardfpu execution.
+
+With all that said, could you kindly take a look at my implementation
+and see if it can be improved to result in better performance? Is there
+any chance to save this idea?
+
+Thank you very much!
+
+[1] https://patchwork.kernel.org/project/qemu-devel/patch/20181124235553.17371-8-cota@braap.org/
+[2] https://lists.nongnu.org/archive/html/qemu-ppc/2022-05/msg00246.html
+[3] https://patchwork.kernel.org/project/qemu-devel/patch/20200218171702.979F074637D@zero.eik.bme.hu/
+[4] https://gist.github.com/vcoracolombo/6ad884a402f1bba531e2e3da7e196656
+[5] https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg00064.html
+
+Víctor Colombo (4):
+  target/ppc: prepare instructions to work with caching last FP insn
+  target/ppc: Implement instruction caching for fsqrt
+  target/ppc: Implement instruction caching for muladd
+  fpu/softfloat: Enable hardfpu for ppc target
+
+ fpu/softfloat.c                    |   6 +-
+ target/ppc/cpu.h                   |  28 ++++++
+ target/ppc/excp_helper.c           |   2 +
+ target/ppc/fpu_helper.c            | 132 +++++++++++++++++++++++++++++
+ target/ppc/helper.h                |   1 +
+ target/ppc/translate/fp-impl.c.inc |   1 +
+ 6 files changed, 166 insertions(+), 4 deletions(-)
+
 -- 
-2.37.3
+2.25.1
 
 
