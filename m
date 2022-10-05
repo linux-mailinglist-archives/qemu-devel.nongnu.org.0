@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C53C5F586D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 18:39:04 +0200 (CEST)
-Received: from localhost ([::1]:42324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497B85F5899
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 18:49:26 +0200 (CEST)
+Received: from localhost ([::1]:45340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1og7QF-0006Jk-LQ
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 12:39:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46932)
+	id 1og7aG-0001Lm-QS
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 12:49:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1og794-0007Q1-RN
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 12:21:18 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:40531)
+ id 1og795-0007Ra-Nw
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 12:21:20 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:55049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1og78z-0002oc-OX
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 12:21:18 -0400
+ id 1og790-0002pA-SB
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 12:21:19 -0400
 Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MUXlG-1oowoZ0amm-00QPd4; Wed, 05 Oct 2022 18:21:11 +0200
+ id 1M9Frd-1oatwd12TH-006SDN; Wed, 05 Oct 2022 18:21:12 +0200
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>,
@@ -34,32 +34,33 @@ Cc: Thomas Huth <thuth@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, Greg Kurz <groug@kaod.org>,
  Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v10 13/17] qemu-sockets: move and rename SocketAddress_to_str()
-Date: Wed,  5 Oct 2022 18:20:47 +0200
-Message-Id: <20221005162051.1120041-14-lvivier@redhat.com>
+Subject: [PATCH v10 14/17] qemu-sockets: update socket_uri() and
+ socket_parse() to be consistent
+Date: Wed,  5 Oct 2022 18:20:48 +0200
+Message-Id: <20221005162051.1120041-15-lvivier@redhat.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221005162051.1120041-1-lvivier@redhat.com>
 References: <20221005162051.1120041-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1jrF0lL6Ohw0YL2pOK3R/rMugbDpDLwEW4OfibX+WkjEqLXnTPW
- 8NJr08YJ8OUo5nKwpSmigx2qUOeS5qbsQ/TTpOtpU64Frz9qcwlTgLd10EcxjrxpzljkS/j
- PaQvnPEKs1RKmKjdAl3R2NIL4bl4nGMWRHBM25Y6GLdBB0n5Z4ZwAhTI2RhnwdEuKvDHrCA
- J7I17NNrG1dqLYl6+yCkw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qGaD+3oiPTw=:n+lL7NEbGLu5OoWogHacfv
- 4a21LmklN12v/l1MoXCF07Z0E7TtwaQmcBKbS8RZDYdfpCqMgIDQCwbWlGUdCLUQ5jQXam3GO
- z2grcd7OtbYH5YoOeDVV3lUCwTv3jWlto8ad17/YeVU08cGbXmWE06v3zsVbGHrX/vUUnKXi9
- 5VWPOLWLAbxaznSlwV2YlD6lFJ9/fqN+5dbfv4RtPpXLsBL2VUQ8GiJH/p2L0dI/JYkcAkcbD
- 9WZbUK3pO95XKDbzzvsLKFGD5DVwuMlF9Lb4ipJnq5lqLdXrSYhvgWm2bx2ecCaPUs7TbsS8g
- bFI1AMLPxqgbZSmRADos9JMc4jciHUR0CDgW/zauFuoGG4fbfusg6PSKCAxJcjQ3YdrSVfYD+
- qdsnwe30qB3KzIHiNYdFlyuD+fiwpBr5xwr1LWdGKlgSS3oudxPpyeIk+b3260vU/7elAwLvn
- SPk3FcQ5Fr3443OQ5W335Z5RtFKGMAmoZJPk4Mk6WJDgSYgXWBl17ACgpdd878egks1TL5fRp
- x6yREDt261szj0jCotDrowHyW+vK2vJXBPpT7ZGUo1WnefHc3ZwRxQxITFK9ZMaH7ahG5hs8R
- DWvPNng7gaRMbT5pT8LIi7mw4VUsaW+jgR9UFWq7SoK+8tfvKLSfcpPyLtQZJqhLshi0iR9fA
- cQvbZkl1gJBf96IE+pLF0UYHMOfITF1hVWyk01NKa5uItMv2MteaK/HIUDQDkO3bYfFFMug/e
- E261NuOHm398WwOeBZVGHo/V0G8VIz1R/k6lXNGTULSYQfPNf+uShU8HF6cWo45dBaL6xjIaQ
- Hv6rCmb
-Received-SPF: permerror client-ip=212.227.17.10;
+X-Provags-ID: V03:K1:GWWVYRFEntX6I/jSjnd2IEjmhnoeCfWWgc/s2sp+ncSRf9AxXA7
+ rtOW4Ceoj0to8VlYAFktx3rlhRSydqfF1ahX0LkAvCKBF6fMflpj8u2+DBT1P1V00G0Y685
+ tUfSS7PZK8a5cNOX8fYM+lgs7SJEJ0DlcSC4sGJ6VSl6XC5evs7tQR4zl6QA46hKl2Hp7bw
+ +5NoiZ2TB9EN3wamSn/oQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eesP6tPN5LU=:6CYM2mqKk6LE+83FIgiBnj
+ CAC6yeSWZ7+Y49VQuJBkmA6utdbhSeple7Qr+kocHHEQhUHNSTjJvVl3+a0KTVOscVzS5lX0L
+ l6/3Ddw59kWAk9YvCRQmbZceqWeikBCk9kB6L26O/UN6No63ucU6fLdSLeyc5nwUGLi9PDT1E
+ 07HPGIyMwZaTOgTBG2PWIqsk8pqqXcnZOAXuJ3Y9pD0CBCiSy6RbS5u1KwWq0V1nvd/kEMZs4
+ PS/PkIyU0LqB+o+kL0QWwbrsJuRKAqXe+hzPN6KVGaSOIzJECXAbyMAN05NfonCWmU+KacUdi
+ d8fLz3MzhAfqxS0JomlPUrbA43n8mDUm/ocBIou6stbc21N5Nw90CzYCxNT8xAUuokyyMdZ+l
+ Y8iQ3x64kSOCeGX6zLdpgGs1lojgV/escvfMacZKZOMMZGURWyTQ7i96LGuwv5ofnyatUSFTH
+ c3v01UWf46WpXdXl0miOEf2OToPfLBMOIJvqEKT/OJXH/T9NRKjX9p60IqQJaH7k8MMEEs7ZN
+ 503e9AaGfW5Hsz46Nba1cCvjzejYMG+/z0vQKeepOmIj71czd+PzclQ2HBmAzELOjyB3ScW9B
+ QPXZEFJ5Zu4KuId4Mkx40gUpp1yNpkPGT6OZ8CNoUKnSFjSvTxivm477cwr1+XCIsWEsHrG90
+ pZjxpqQjpqlufZqRRbC5mD+L61ta7fBAn/V4oXs6QmCArDa6tfy3IUoaQ0vccYU1nrSaRN9Ux
+ TmAGChygRJgTy53MHDtf8VO0Nb9nKmn4qTXYeuS5tN4sLAR+ttlPasbOYwYLEEgLVJgFM/lzI
+ /WHvkrA
+Received-SPF: permerror client-ip=212.227.17.24;
  envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -81,111 +82,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename SocketAddress_to_str() to socket_uri() and move it to
-util/qemu-sockets.c close to socket_parse().
+To be consistent with socket_uri(), add 'tcp:' prefix for inet type in
+socket_parse(), by default socket_parse() use tcp when no prefix is
+provided (format is host:port).
 
-socket_uri() generates a string from a SocketAddress while
-socket_parse() generates a SocketAddress from a string.
+In socket_uri(), use 'vsock:' prefix for vsock type rather than 'tcp:'
+because it makes a vsock address look like an inet address with CID
+misinterpreted as host.
+Goes back to commit 9aca82ba31 "migration: Create socket-address parameter"
 
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- include/qemu/sockets.h |  2 +-
- monitor/hmp-cmds.c     | 23 +----------------------
- util/qemu-sockets.c    | 20 ++++++++++++++++++++
- 3 files changed, 22 insertions(+), 23 deletions(-)
+ util/qemu-sockets.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index db4bedb6fa20..214058d8e307 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -58,6 +58,7 @@ NetworkAddressFamily inet_netfamily(int family);
- int unix_listen(const char *path, Error **errp);
- int unix_connect(const char *path, Error **errp);
- 
-+char *socket_uri(SocketAddress *addr);
- SocketAddress *socket_parse(const char *str, Error **errp);
- int socket_connect(SocketAddress *addr, Error **errp);
- int socket_listen(SocketAddress *addr, int num, Error **errp);
-@@ -141,5 +142,4 @@ SocketAddress *socket_address_flatten(SocketAddressLegacy *addr);
-  * Return 0 on success.
-  */
- int socket_address_parse_named_fd(SocketAddress *addr, Error **errp);
--
- #endif /* QEMU_SOCKETS_H */
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index c6cd6f91dde6..cb35059c2d45 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -197,27 +197,6 @@ void hmp_info_mice(Monitor *mon, const QDict *qdict)
-     qapi_free_MouseInfoList(mice_list);
- }
- 
--static char *SocketAddress_to_str(SocketAddress *addr)
--{
--    switch (addr->type) {
--    case SOCKET_ADDRESS_TYPE_INET:
--        return g_strdup_printf("tcp:%s:%s",
--                               addr->u.inet.host,
--                               addr->u.inet.port);
--    case SOCKET_ADDRESS_TYPE_UNIX:
--        return g_strdup_printf("unix:%s",
--                               addr->u.q_unix.path);
--    case SOCKET_ADDRESS_TYPE_FD:
--        return g_strdup_printf("fd:%s", addr->u.fd.str);
--    case SOCKET_ADDRESS_TYPE_VSOCK:
--        return g_strdup_printf("tcp:%s:%s",
--                               addr->u.vsock.cid,
--                               addr->u.vsock.port);
--    default:
--        return g_strdup("unknown address type");
--    }
--}
--
- void hmp_info_migrate(Monitor *mon, const QDict *qdict)
- {
-     MigrationInfo *info;
-@@ -380,7 +359,7 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
-         monitor_printf(mon, "socket address: [\n");
- 
-         for (addr = info->socket_address; addr; addr = addr->next) {
--            char *s = SocketAddress_to_str(addr->value);
-+            char *s = socket_uri(addr->value);
-             monitor_printf(mon, "\t%s\n", s);
-             g_free(s);
-         }
 diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 83f4bd6fd211..9f6f655fd526 100644
+index 9f6f655fd526..a9926af714c4 100644
 --- a/util/qemu-sockets.c
 +++ b/util/qemu-sockets.c
-@@ -1077,6 +1077,26 @@ int unix_connect(const char *path, Error **errp)
-     return sock;
- }
- 
-+char *socket_uri(SocketAddress *addr)
-+{
-+    switch (addr->type) {
-+    case SOCKET_ADDRESS_TYPE_INET:
-+        return g_strdup_printf("tcp:%s:%s",
-+                               addr->u.inet.host,
-+                               addr->u.inet.port);
-+    case SOCKET_ADDRESS_TYPE_UNIX:
-+        return g_strdup_printf("unix:%s",
-+                               addr->u.q_unix.path);
-+    case SOCKET_ADDRESS_TYPE_FD:
-+        return g_strdup_printf("fd:%s", addr->u.fd.str);
-+    case SOCKET_ADDRESS_TYPE_VSOCK:
-+        return g_strdup_printf("tcp:%s:%s",
-+                               addr->u.vsock.cid,
-+                               addr->u.vsock.port);
-+    default:
-+        return g_strdup("unknown address type");
-+    }
-+}
- 
- SocketAddress *socket_parse(const char *str, Error **errp)
- {
+@@ -1090,7 +1090,7 @@ char *socket_uri(SocketAddress *addr)
+     case SOCKET_ADDRESS_TYPE_FD:
+         return g_strdup_printf("fd:%s", addr->u.fd.str);
+     case SOCKET_ADDRESS_TYPE_VSOCK:
+-        return g_strdup_printf("tcp:%s:%s",
++        return g_strdup_printf("vsock:%s:%s",
+                                addr->u.vsock.cid,
+                                addr->u.vsock.port);
+     default:
+@@ -1124,6 +1124,11 @@ SocketAddress *socket_parse(const char *str, Error **errp)
+         if (vsock_parse(&addr->u.vsock, str + strlen("vsock:"), errp)) {
+             goto fail;
+         }
++    } else if (strstart(str, "tcp:", NULL)) {
++        addr->type = SOCKET_ADDRESS_TYPE_INET;
++        if (inet_parse(&addr->u.inet, str + strlen("tcp:"), errp)) {
++            goto fail;
++        }
+     } else {
+         addr->type = SOCKET_ADDRESS_TYPE_INET;
+         if (inet_parse(&addr->u.inet, str, errp)) {
 -- 
 2.37.3
 
