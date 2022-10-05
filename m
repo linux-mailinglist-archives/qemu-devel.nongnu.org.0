@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B425F56BE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 16:52:40 +0200 (CEST)
-Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB205F5719
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 17:07:08 +0200 (CEST)
+Received: from localhost ([::1]:43650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1og5lF-0002EZ-9x
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 10:52:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
+	id 1og5zH-00007e-Jn
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 11:07:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1og5BJ-00017q-MS
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 10:16:00 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:45749)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1og5CU-0001g1-0p
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 10:16:42 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:44812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1og5BG-0006xO-QO
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 10:15:29 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id z23so19012313ejw.12
- for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 07:15:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=dtjn7CZWhhh0QYbxJQV5Gx7SHvrrb+/CR/4o20A8Zmg=;
- b=BVMJWyl621a1WLdt71d/Nygc6W7GZzyQti3RYQ2xCP9bopNy7xwjtwEdeyiSdhlQZd
- N+xmZTKtzGHWMQyw4f1lKi0QjR2Q/jyiyIAPr+9vETz1BWHfZu6vH1fdCfYIGdtq03wu
- N7WDYHJDfphXcW+tRh0qbDexwCl0t5bHHKz7avl5tvMmYKUZDriRs7XmSJStBU6mPRp7
- nk16461+VMBESYftgItpbsTGoNNP5vBWNgL2qJP3UBAAeMVp9AkfHYD8hjEfcXCfOMut
- w1/x3AiaSV7mJx2A70mNyX6hpozJ9+e3v2RSt90Rg9g0V5yhlxFlP/KAqxuwNp8zTSqa
- Nt2g==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1og5CS-0007AP-0s
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 10:16:41 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id n74so6361485yba.11
+ for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 07:16:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jEQn2fDpe7fnIpiIIAlXy4BVVWJYyyLTOAMSftHCm8Q=;
+ b=mSe7BiEK7OEyRvYDjXbzlII5r8x51stQKMc0OAcrORTHumrNkmekIWd2GwqOTC+G5O
+ 62yrqCQRDMqO6dUA/p33yobg5MVYgr8uwKDVSIIT8GaN9tLYZBjGQd+Bi6bYxWma/705
+ F9zY20VtoVBTxX4LZ+IoDwMZMO3AyMaWTsiCg3KT3hQ3gBZO0ivNe0lIGwtjwdXqa7ol
+ 6zBmleRSU1Hhz+1ihjANaNDW5Nd9TpzKcw1o4W53RoRF83O/oWBSqnK/WY0tTlm5J73S
+ BF7txjXQLljq6+FOeFIiNc0nEHQo+KzrdNlLGb4JcGDxLHgIN5c1J6SbAyRRcy1rwONN
+ 11UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dtjn7CZWhhh0QYbxJQV5Gx7SHvrrb+/CR/4o20A8Zmg=;
- b=zlbh4n8tHSpfs8X4IiIYI8F2lawe2Q8m54QH7xb41WhV/wNwbFUGMaepCgyxHBoFEL
- lORPuARTVDMvA8SLi8mnh2erF3iS0xFKWR/dMoweXAG8o3b7UUWCiZRMy6HPvMt+lcaM
- CxgNAjFsjw7v2JoEuuvp+nB0/NManUNMmTTRVQJr/cffoN6umGKSL4VJxA8TABXIeBhl
- ZRCRIR78GCPdR0J4uKlKbJqYtFhaDN5lj12eAmf0FCeSdNAgWQ5+me3apJO/ObVNT6J6
- wSwY6eq8zepTzivDIvlYdAeruRBbPs6JVAr0Bex9zvOzcsQmIrFX8lvuJ1m33XiEZ9E4
- owsA==
-X-Gm-Message-State: ACrzQf2QPfLqCAswxtEq0YNAmT5wb05AW5MwylkC63s5+i8AimtjwdIR
- tROtYOtRkhhonxYxSFDvm5B71ItfzwlnCMfHuJdPMQ==
-X-Google-Smtp-Source: AMsMyM6PleMClrBlnsLH4HtgkAqDeO8qv6+1omAWuTaoKirjP4H9n4P557XnmTV9WL8xsMNiwaDohllvhcFpFpF3d+g=
-X-Received: by 2002:a17:906:730d:b0:782:a4e0:bb54 with SMTP id
- di13-20020a170906730d00b00782a4e0bb54mr24537760ejc.659.1664979323225; Wed, 05
- Oct 2022 07:15:23 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jEQn2fDpe7fnIpiIIAlXy4BVVWJYyyLTOAMSftHCm8Q=;
+ b=f6tgsi8XFt7Bou0Hndd6zQlaNzlqcmR9HZYTk6vNVvvkhCG5qlwGuvMdn4H6jXmt+J
+ U8vWZ65PzlpveArM1yzXI+uTiYyQ17rIm1ZCOPo6fXA8F9S+R4xxhV0/2HKcqMu5QJMg
+ dXS8/l8Jx57zLlhOsptt0RVw8Uf3nA4V2r1AOeMHx/iWlwh6edjuSl8AkqBUU2o9fZs9
+ e9vdcmqhZ3pDR9ECuwlcIvFxeYTPeYEumZPQ6ul6jJz5I5wPBotSm1jhIckq4di878I2
+ p005mOvgUKk32FjrN69WSRWCOU0EKPwGrZJRLSVFYJn45kI9dYaIvXp8Nd9/yIzU2N6O
+ B/OA==
+X-Gm-Message-State: ACrzQf1RCv3s6xqA6ExeyEYg8/Jr1As14+KSvc2je/xAMqqx0ldtH7pZ
+ zUjABVtHtjLgjcUC0YjO650O+OCbYZiOhaziW3w=
+X-Google-Smtp-Source: AMsMyM6NMmciurLSENjoMaaTtJ/mbxkoX8CluV8Wr7eSS7bU2HyL1/wxcsaHw/QDwb0U7oPV4hITxnp05Pc6WrKACwM=
+X-Received: by 2002:a25:4fc1:0:b0:6bc:c570:f99e with SMTP id
+ d184-20020a254fc1000000b006bcc570f99emr103635ybb.58.1664979396889; Wed, 05
+ Oct 2022 07:16:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220930220312.135327-1-richard.henderson@linaro.org>
- <20220930220312.135327-7-richard.henderson@linaro.org>
- <CAFEAcA-hH=kqGfPQ3d6wJfo-ti_UvdMAs6pZx6A79QO5Mi-Q=w@mail.gmail.com>
- <c91da352-f27a-d81d-59e9-43fabd604e8f@linaro.org>
-In-Reply-To: <c91da352-f27a-d81d-59e9-43fabd604e8f@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 5 Oct 2022 15:15:12 +0100
-Message-ID: <CAFEAcA_zKX1RVjHfTnxHOUogVX_JxpnWOPW-yYDCuAvk7J3YEw@mail.gmail.com>
-Subject: Re: [PATCH v5 6/9] target/arm: Change gen_jmp* to work on
- displacements
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20221004130138.2299307-1-alex.bennee@linaro.org>
+In-Reply-To: <20221004130138.2299307-1-alex.bennee@linaro.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 5 Oct 2022 10:16:24 -0400
+Message-ID: <CAJSP0QUCnYVyDfUY7aC+ayJS0RwJ70QRMti6Z-vLfu9==VWRxA@mail.gmail.com>
+Subject: Re: [PULL 00/54] testing, gdbstub, plugin and gitdm updates
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,52 +85,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Oct 2022 at 21:57, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, 4 Oct 2022 at 09:38, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
 >
-> On 10/4/22 08:58, Peter Maydell wrote:
-> > On Fri, 30 Sept 2022 at 23:10, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
-> >>
-> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> >> ---
-> >>   target/arm/translate.c | 37 +++++++++++++++++++++----------------
-> >>   1 file changed, 21 insertions(+), 16 deletions(-)
-> >
-> >> @@ -8368,7 +8372,8 @@ static bool trans_BLX_i(DisasContext *s, arg_BLX_i *a)
-> >>       }
-> >>       tcg_gen_movi_i32(cpu_R[14], s->base.pc_next | s->thumb);
-> >>       store_cpu_field_constant(!s->thumb, thumb);
-> >> -    gen_jmp(s, (read_pc(s) & ~3) + a->imm);
-> >> +    /* This difference computes a page offset so ok for TARGET_TB_PCREL. */
-> >> +    gen_jmp(s, (read_pc(s) & ~3) - s->pc_curr + a->imm);
-> >
-> > Could we just calculate the offset of the jump target instead?
-> > read_pc() returns s->pc_curr + a constant, so the s->pc_curr cancels
-> > out anyway:
-> >
-> >    (read_pc(s) & ~3) - s->pc_curr + a->imm
-> > ==
-> >      (pc_curr + (s->thumb ? 4 : 8) & ~3) - pc_curr + imm
-> > ==  pc_curr - pc_curr_low_bits - pc_curr + 4-or-8 + imm
-> > ==  imm + 4-or-8 - low_bits_of_pc
-> >
-> > That's then more obviously not dependent on the absolute value
-> > of the PC.
+> The following changes since commit efbf38d73e5dcc4d5f8b98c6e7a12be1f3b917=
+45:
 >
-> Yes, this works:
+>   Merge tag 'for-upstream' of git://repo.or.cz/qemu/kevin into staging (2=
+022-10-03 15:06:07 -0400)
 >
-> -    gen_jmp(s, (read_pc(s) & ~3) + a->imm);
+> are available in the Git repository at:
 >
-> +    /* This jump is computed from an aligned PC: subtract off the low bits. */
->
-> +    gen_jmp(s, jmp_diff(s, a->imm - (s->pc_curr & 3)));
+>   https://github.com/stsquad/qemu.git tags/pull-testing-gdbstub-plugins-g=
+itdm-041022-1
 
-Cool, that looks a lot clearer. With that change,
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Hi Alex,
+Please rebase and resend. There is a merge conflict.
 
-thanks
--- PMM
+Thanks,
+Stefan
 
