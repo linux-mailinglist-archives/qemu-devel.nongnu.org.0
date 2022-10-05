@@ -2,96 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE3E5F524A
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 12:11:16 +0200 (CEST)
-Received: from localhost ([::1]:40512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967B05F52B4
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 12:36:37 +0200 (CEST)
+Received: from localhost ([::1]:48758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1og1Mw-0005vM-0k
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 06:11:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55358)
+	id 1og1lU-0007Ln-6H
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 06:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1og1KO-0003yv-1K
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 06:08:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43923)
+ (Exim 4.90_1) (envelope-from <andrey.zhadchenko@virtuozzo.com>)
+ id 1og1db-0002f6-SC; Wed, 05 Oct 2022 06:28:27 -0400
+Received: from mail-am7eur03on2124.outbound.protection.outlook.com
+ ([40.107.105.124]:11219 helo=EUR03-AM7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1og1KK-0008Ar-W4
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 06:08:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664964511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zAUXyKl73wvxH6iP5g5JRgZ09WOzvBwOJcwH8n4Jo6I=;
- b=c+TZo7yhNW9i0t2QVZStJiu68tPRRRnawQInXcHAac8oQ0S1l+n/PmJ/inobWEWjDU0Lvd
- P8X4B1fs2iqJr5V4dH3q9phCVV7w+R5edzm5XIy0fwbpj+kPFJT9lajMkpi0FuI8gvnu69
- 96mXtpguSyJqFRQK2Hz2XHQKzOq1B7M=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-151-Q2GFCyVFOy6Xp2wzYgt2GA-1; Wed, 05 Oct 2022 06:08:30 -0400
-X-MC-Unique: Q2GFCyVFOy6Xp2wzYgt2GA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- ay21-20020a05600c1e1500b003b45fd14b53so899195wmb.1
- for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 03:08:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=zAUXyKl73wvxH6iP5g5JRgZ09WOzvBwOJcwH8n4Jo6I=;
- b=goHazRAj59msgvp0Yjvn+j2brjoaSZY5CYEI54taeo0UmU5zLV+Qzb4Es/v4+ACT55
- T17P3YlKhIeqmQ1mEw221rZd8Muvo5DUTOO1hZ/AR1eyoD9FScE6/pt8KKxbC17R9xdz
- p8vO/ELa40hsZoQImkPgBFg/4TJBOCkMMlmxXeipx/5wj94yrc3l9FpAv/gB0U650jqU
- XxMa05f/M6K7hQWoqBeHwya1jTkgldL8OMzvmNxB33xOYEUfhrnC+poFy/c7QbbkBoI9
- VahcCYD2Tn5igHDNbWHnugi+LGHuI/E6HkU1F2GLztHkcYpHWMeZs0NJpWvD4xTk0aHr
- K1PA==
-X-Gm-Message-State: ACrzQf0w5GMRjas3f/6LJQX5gY3a5g6wOSazL2sgIl1frweGaDW/SyRx
- 58etxC3qa4vLGKz29Vv53I6u9vOYSHRFOtS0GfxWdELLb0IOR08awION2FzRtTd7yh6DubVJb1L
- gc2O0OsJkvCbIAWo=
-X-Received: by 2002:a5d:504a:0:b0:22e:3edd:3c86 with SMTP id
- h10-20020a5d504a000000b0022e3edd3c86mr8734005wrt.360.1664964509601; 
- Wed, 05 Oct 2022 03:08:29 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6zWoTx8NupGDXH1ksvi5bgEE4l7HhB0ptt67d3VMnvmpAxl4iA56quMg7U2e+8j5X8Xb0TGQ==
-X-Received: by 2002:a5d:504a:0:b0:22e:3edd:3c86 with SMTP id
- h10-20020a5d504a000000b0022e3edd3c86mr8733987wrt.360.1664964509342; 
- Wed, 05 Oct 2022 03:08:29 -0700 (PDT)
-Received: from [192.168.100.30] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- w7-20020adfde87000000b0022afedf3c87sm14572919wrl.105.2022.10.05.03.08.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Oct 2022 03:08:28 -0700 (PDT)
-Message-ID: <bb04fbf9-f72c-31a5-a017-e519a701302d@redhat.com>
-Date: Wed, 5 Oct 2022 12:08:27 +0200
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <andrey.zhadchenko@virtuozzo.com>)
+ id 1og1dX-0006xm-P9; Wed, 05 Oct 2022 06:28:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KV3RarfAKLCky1CimnS1zi9tG3sS+3Wta8WOKJxZ5lo5Wsvegsa+RBI8XU/jm1lsNT6dLU4rCRsIZyw6LOXSJzYL+wVRIx8DqPTihZXLHVpjclP75Ramx5rEiRdT220WYr6GFplbiNvF2q0reTzEVoO7n/ii6JptpSs0p1Zx4fTf+0IyHeOTbFCxpA9tHPJVTDqzWnG/3MLdT0Y3Gh27UNeWrwqvzVMMB2iAtVBwFwrpsY/5VPmcHmIC5z7eUH0XmVLfNs/mjmqCK0lIF5UlG7n0/QetiwNERDJ2gq7aegyY82urx9Zq8i6IlLbEGxSVHclbV56GDj6+3kFjove2xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+LSGX3jD3vbb0eTgv2w8AyVQTFA/gyI5etleBE/Iubo=;
+ b=VpJHWAnUWmuKJpju5GmPfov9YfPxzVwMmWJ2WOofC8IhcW9qNf6ixGl1vk5E5O/IYl5I38lzYwrmmF2quh5yvclqus5ZW2qyACIjiKOQmAmDol5i/pZ+U0MV3cxqKuLGzYgHpFZmxgOxBpYlzsAF14y0XgjaoNkTJhGVTIL22hrzpqD6VxKoShBg+cDR7eI4wuci8hXC6zjHypY7YaxlkyBNfCvjVWWvf4Jfl+14UpWwHioBA3z+iQ9yg4LCrLYbRo1xHntn7WaJC8eX7YMkIqg6icvSUpUJRAsQRDg+H8nKNLyjlJ3B1TsJfeRboy2YvlzH2TlfSw7xaVd7P8f+sQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+LSGX3jD3vbb0eTgv2w8AyVQTFA/gyI5etleBE/Iubo=;
+ b=gCoQR19ym0K/BGOxz5OF7x7zCNGo0iceKSospLVwvEUNoTVLHA3D/3s/6W8tXfccRknDVHFq3jYd9iqRrqwmpYz8uFUaSX8HEolIB+eK7x1UPbZ4IiDFkw6uuXJo8J5Jtfnz1plJhCWuPeLkcy1T8Nyq6ryROf3M7yOdE8RTI5DwJxJp26hgJD4msmzMZ8WpnT/8gcU45ltTqAIwFQFyJbjPOHplwRKTpNzP1M2n0ZEtj5K7eVsOzwdtqYDErICTy743QmBqPrTh3xBrdhVyuTZfvu+VoPf+qFs0QeA9GSv93M/c/a5GKbHY9nsahjegb7kZEjE+oBsgU/8eN9Y9mg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM8PR08MB5732.eurprd08.prod.outlook.com (2603:10a6:20b:1d4::16)
+ by VE1PR08MB5661.eurprd08.prod.outlook.com (2603:10a6:800:1b3::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.24; Wed, 5 Oct
+ 2022 10:28:16 +0000
+Received: from AM8PR08MB5732.eurprd08.prod.outlook.com
+ ([fe80::f7fe:fb10:40ef:188d]) by AM8PR08MB5732.eurprd08.prod.outlook.com
+ ([fe80::f7fe:fb10:40ef:188d%5]) with mapi id 15.20.5676.032; Wed, 5 Oct 2022
+ 10:28:16 +0000
+Message-ID: <ae1a9e07-b457-7208-3bff-f53c5de9c3e8@virtuozzo.com>
+Date: Wed, 5 Oct 2022 13:28:14 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH v9 05/16] qapi: net: add stream and dgram netdevs
+ Thunderbird/102.1.0
+Subject: Re: [RFC patch 0/1] block: vhost-blk backend
 Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Greg Kurz <groug@kaod.org>, Thomas Huth <thuth@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefano Brivio <sbrivio@redhat.com>
-References: <20220926195048.487915-1-lvivier@redhat.com>
- <20220926195048.487915-6-lvivier@redhat.com> <YzPh5fhlDgbgddVv@yekko>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <YzPh5fhlDgbgddVv@yekko>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, kwolf@redhat.com,
+ hreitz@redhat.com, mst@redhat.com, den@virtuozzo.com
+References: <20220725205527.313973-1-andrey.zhadchenko@virtuozzo.com>
+ <Yzx6xDCnpIQ0yOi5@fedora>
+From: Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
+In-Reply-To: <Yzx6xDCnpIQ0yOi5@fedora>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.449, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-ClientProxiedBy: FR3P281CA0159.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a2::19) To AM8PR08MB5732.eurprd08.prod.outlook.com
+ (2603:10a6:20b:1d4::16)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM8PR08MB5732:EE_|VE1PR08MB5661:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0af963a3-acf4-43ef-4f05-08daa6bc50a7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 60RLRDP8VQPA9hzuPnUgd6qa5isHu1MkKNxfTjThyeJD34sBjsMpHxfCVomV6DhyiFVdDGU6Yi5ANwy1TEDyd0sco4eeMuFpoiyraaXQGkjtiggDE8e/80jF/klw7NjAH1GvKHKGBuVdXDK1IlUqascg7ePz/52JwcLvhgnsuYfPYG2TlHCLyf5ZRMFYU4rYrMnjY4iw8Pa52oYs7WFHVi5993VlqM2k8z4rXnXyCtA5YJXl9/zvs4bH1ZmycZnmXoDskPmJ3dikgzSjkwZohwi3ERsl+TV+XCWEgcbPwzw1JxfMO3r41adVd6WIzK+Ply2aMrgB6rwjDkpOxIYyvOP10oFsF8I5p9nIZVP9JOD5ztUOzSmFSlGYjsa4R9Lc11AJu6jlSy0bPaJ6FjilrGNsItZsI5H2Fo87h8nv9epvsi5JM0aHJ7VBN07pv6pnx4Oyw62pylWBNGOcaEOuBxki3LEJK4CYWgHF6p8JpRO7dLUYn1SunzGuZLYO83ZlyikcBhW28GhMmEgOyEeGBoQJPDZmAD0O7bz7pfiXybfcmBkWvk2zqHI3LvFswCPIUAO7HXcqKXTGPKkTrhoezNFAkfbPZ+85u7S3FZCZCSFihBEsyEUtkincv+rOtMQayM7z0weTTKJrxbRitTgIysgiLMAewhAkQJeoe6Bqm3JZ8IzVL6fgJ4sL2NLXWchAKxl0an3O3Vb5MeoYDogkMCyBUfnLQeBf6fj/IEAqzL9MO6XUvsYZSxCnkrg2gZtW7GRxDqpcNxg+Y+EQelxJ4Hj8xVZy7CmrBxdGu2BRPcyMZpHMA96S4LjDVZvGPF1Ocuxi6OPPFWkP7eDveD5R8g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM8PR08MB5732.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(39840400004)(396003)(346002)(366004)(376002)(451199015)(83380400001)(86362001)(26005)(6916009)(6512007)(31696002)(316002)(2906002)(53546011)(966005)(478600001)(6486002)(6506007)(41300700001)(4326008)(66946007)(66556008)(8676002)(186003)(2616005)(5660300002)(44832011)(8936002)(38100700002)(66476007)(31686004)(107886003)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NnFiTTNTc3VZcm54cW1WRSs4Y05YYlNvQldVS1FsaHhlMGV0ejFxd2lQTHQw?=
+ =?utf-8?B?S203a3JTU1lxWDhTaERyRHNaMXNsa2FnUFR2dGtHbUJwNTNUeVJGekc4Tlkv?=
+ =?utf-8?B?eTgzN2dQTEVCUWx6Z2gxVXN3cU8zcFNCTG5WNEtqYVhmdlIxVm9lVktYWnVu?=
+ =?utf-8?B?M2VhYzBxSjYwdzF0Vlh2TUF5a3pMdUtSTDhPZ09VRWUzc2h5YXVkaUhNb29X?=
+ =?utf-8?B?cTdpVDZTVGpjd1EwY1FKQldyVW1LM3NjVDNid25BaFEvQnIyNnVqck5NeUU5?=
+ =?utf-8?B?RG1ZaTFYS3NTSTI2STJIdUkyRnFESG9kS2tZN2E5ZGZmc05rV2tPbkM3MWtm?=
+ =?utf-8?B?UzhjQjhTVjRLU1paSGt6ZjZKT3dISjBhd040ancrYytaR0kreVlLeG9BZXRT?=
+ =?utf-8?B?aFF2YXFPOFQ5czB1dTJxNFpoakZBcWNQa3h6cnVTc2ZlNnpuNE9qeWUwbHZy?=
+ =?utf-8?B?NTVTMGhCZVlMaXhicUJReFJpRjllMzdLd1BHQjdsR1NEVFBzeGM2Uzl3T2h4?=
+ =?utf-8?B?SWloMC9XZjZyZytVUEJVSGNuR1czVzFldGRCRDBUc0FWdFFOelBERFdDblVk?=
+ =?utf-8?B?TFVCbEUvbnhBY1dtazdqdWdOMnRObjFXTWtSL3dtNS83TjF1ZlVQSEFBZWh2?=
+ =?utf-8?B?RWtYUXhJNFhQby94am5YWmZhdWh0OElvc0R3TEZTblhIMWlES2tRSGdpRnpN?=
+ =?utf-8?B?cUlhZkZwOVNHWXo0RTNpb1ZuNXExdk44eU1CZXBxQkd2OW9jeHZBZXc0cHNt?=
+ =?utf-8?B?c3J0SThBbUM4Mi8yZGY3SUdxSWZkd2hHNHpHUm14TGxZd0dBVlhraFYwdVRw?=
+ =?utf-8?B?TTlmN1piTGM5Wkl0b2VsNEFTdk5VSXg0L1gxQ0diOEdYKy9oOVJNNDBUME91?=
+ =?utf-8?B?S1psckxScEZHUG5vczhMaGlZRXVwM2x0d1BNY1gxTTY3S012SnNHcFhiSkRZ?=
+ =?utf-8?B?R09KNjZHZFMzdk9YSTUrVGtnZGFsWm5pUEtIa28vSWYvRGJVU2RxVlFZS1FJ?=
+ =?utf-8?B?MWE2TGQvc2xINHpncnVaVW5iT3JvdGM5ZEVWVVNIcUVRcDMwenpZZkdBanlo?=
+ =?utf-8?B?NU9ZWmN0YUUrZ1pFUzRDZ1R6WWpQS3FpYjBGQWZvUGdMelNPd3VCb21hVkxp?=
+ =?utf-8?B?eDlrM0todXlrbkpvejB2WUZMV3NhTEJwNklFTXFud1RZMDFSZVVUa2JHKzV4?=
+ =?utf-8?B?TlVvRU9vQ3hOOG1sSUNNOTdZYjdMTGF1YkxvNXJCU2NDaTQzQ0tGQml4WTA3?=
+ =?utf-8?B?cDYybm45elhrcHowblZZU1gyOVJ5a1I2MnNhK1BzSGJUcVhveE5jNUZFSWEv?=
+ =?utf-8?B?WUlLcFFNNkRkSDBabElCcXlBcUdkRGttU1crMkdOVzYwQytUYXVDTVA0QVl2?=
+ =?utf-8?B?L0RnUU4xazhLTDBnb1J1NFB3eGpnMVBVSmlLSHRZSnVLcEd2dVV2TXRJNGxw?=
+ =?utf-8?B?Z2ltTlFENm1yR0x6MG1WV1JyRlp6UVI3eUpFcXJNMlNBWHkyNUp5ZmtzQitY?=
+ =?utf-8?B?SVVhYTN4Q0o1UjM4QndENmJzZnBXd3dOQlFHMXpzTHkwRllEcW9iSUIyOVlJ?=
+ =?utf-8?B?OUx3R3ZwQTZQMXVTaTdLZjdDTVZWU29JcmRiS2lGeGFISXRCVnZKUFAvcTU1?=
+ =?utf-8?B?aGZWWG9na1Z6T2xGa2N0WnZ5VEdKSWI3ajM1dUQ1dVh0enlyMTdSUnhiaGlx?=
+ =?utf-8?B?ejRlUUtQQVIyRmsvYVNqSWdBdGh5YmlBYnNwTWVXaHN1bUJyUjBXd2IyZ0sw?=
+ =?utf-8?B?T2xuV1QrZ2JiZjRLcmUwV1YzenlvZHdYMjV6dW96RjVIdTg0N2cyRkpmb2p0?=
+ =?utf-8?B?Y3FNQTZ3OVU0c0Y5VS9CK1JhN3pjVnVaQWx4QXhWQlNSTVJXMTllakdlMHNC?=
+ =?utf-8?B?WVZsOHFScEUvbm1VdzlHM1ZlbzRTTXhodE5LQXJzbGxoUzYxY1RnU3hFczAz?=
+ =?utf-8?B?T3A5TWlzOUdMb2hiOVlBSi9CT29MTWx3T0lzY3ZGeGppYWsvWWNGZVVSaDds?=
+ =?utf-8?B?ZXZBVDV4UWhOSVd4NFd5VmtXWHpyeUNOSjR4NTBESGVlczFuRHBJU0V1REpH?=
+ =?utf-8?B?N0dSZnlkS1l4Z3hwcWliZzFQTWZmVXRhMGVpQzUwSVJhKzBJZEpyZjFOdE5V?=
+ =?utf-8?B?WDZVNWI0blVsTFVIMytlckFyQm01L0lGQmR3bUZ0Z2NDMG9mRXpyQ1hNMkQ1?=
+ =?utf-8?Q?/aIVMbpk8bl6GfMraPJpmlg=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0af963a3-acf4-43ef-4f05-08daa6bc50a7
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR08MB5732.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2022 10:28:16.4644 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kYi3NFtfPxuX1S6cyzqthlF2WQgGDNSB6Gh0Dqm1bJ6aiUJBaw8iq6NFs6xS8KDTzUe+mv5Jsd7bl3iOYPkseJg5YzxTrvVevdM0v2EjIfs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5661
+Received-SPF: pass client-ip=40.107.105.124;
+ envelope-from=andrey.zhadchenko@virtuozzo.com;
+ helo=EUR03-AM7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.449,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,104 +147,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/28/22 07:55, David Gibson wrote:
->> +static int net_stream_server_init(NetClientState *peer,
->> +                                  const char *model,
->> +                                  const char *name,
->> +                                  SocketAddress *addr,
->> +                                  Error **errp)
->> +{
->> +    NetClientState *nc;
->> +    NetStreamState *s;
->> +    int fd, ret;
->> +
->> +    switch (addr->type) {
->> +    case SOCKET_ADDRESS_TYPE_INET: {
->> +        struct sockaddr_in saddr_in;
->> +
->> +        if (convert_host_port(&saddr_in, addr->u.inet.host, addr->u.inet.port,
->> +                              errp) < 0) {
->> +            return -1;
->> +        }
->> +
->> +        fd = qemu_socket(PF_INET, SOCK_STREAM, 0);
->> +        if (fd < 0) {
->> +            error_setg_errno(errp, errno, "can't create stream socket");
->> +            return -1;
->> +        }
->> +        qemu_socket_set_nonblock(fd);
->> +
->> +        socket_set_fast_reuse(fd);
->> +
->> +        ret = bind(fd, (struct sockaddr *)&saddr_in, sizeof(saddr_in));
->> +        if (ret < 0) {
->> +            error_setg_errno(errp, errno, "can't bind ip=%s to socket",
->> +                             inet_ntoa(saddr_in.sin_addr));
->> +            closesocket(fd);
->> +            return -1;
->> +        }
->> +        break;
->> +    }
->> +    case SOCKET_ADDRESS_TYPE_FD:
->> +        fd = monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
->> +        if (fd == -1) {
->> +            return -1;
->> +        }
->> +        ret = qemu_socket_try_set_nonblock(fd);
->> +        if (ret < 0) {
->> +            error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
->> +                             name, fd);
->> +            return -1;
->> +        }
->> +        break;
->> +    default:
->> +        error_setg(errp, "only support inet or fd type");
->> +        return -1;
->> +    }
->> +
->> +    ret = listen(fd, 0);
-> Does this make sense for a passed in fd?  If someone passes a "server"
-> fd, are they likely to be passing a socket on which bind() but not
-> listen() has been called?  Or one on which both bind() and listen()
-> have been called?
+
+
+On 10/4/22 21:26, Stefan Hajnoczi wrote:
+> On Mon, Jul 25, 2022 at 11:55:26PM +0300, Andrey Zhadchenko wrote:
+>> Although QEMU virtio-blk is quite fast, there is still some room for
+>> improvements. Disk latency can be reduced if we handle virito-blk requests
+>> in host kernel so we avoid a lot of syscalls and context switches.
+>>
+>> The biggest disadvantage of this vhost-blk flavor is raw format.
+>> Luckily Kirill Thai proposed device mapper driver for QCOW2 format to attach
+>> files as block devices: https://www.spinics.net/lists/kernel/msg4292965.html
+>>
+>> Also by using kernel modules we can bypass iothread limitation and finaly scale
+>> block requests with cpus for high-performance devices. This is planned to be
+>> implemented in next version.
+>>
+>> Linux kernel module part:
+>> https://lore.kernel.org/kvm/20220725202753.298725-1-andrey.zhadchenko@virtuozzo.com/
+>>
+>> test setups and results:
+>> fio --direct=1 --rw=randread  --bs=4k  --ioengine=libaio --iodepth=128
 > 
+>> QEMU drive options: cache=none
+>> filesystem: xfs
+> 
+> Please post the full QEMU command-line so it's clear exactly what this
+> is benchmarking.
 
-Original code in net/socket.c doesn't manage server case with fd.
+The full command for vhost is this:
+qemu-system-x86_64 \
+-kernel bzImage -nographic -append "console=ttyS0 root=/dev/sdb rw 
+systemd.unified_cgroup_hierarchy=0 nokaslr" \
+-m 1024 -s --enable-kvm -smp $2 \
+-drive id=main_drive,file=debian_sid.img,media=disk,format=raw \
+-drive id=vhost_drive,file=$1,media=disk,format=raw,if=none \
+-device vhost-blk-pci,drive=vhost_drive,num-threads=$3
 
-So I have checked what is done for QIO (all this code is overwritten by patch introducing 
-QIO anyway):
+(num-threads option for vhost-blk-pci was not used)
 
-At the end of the series, we use qio_channel_socket_listen_async() in 
-net_stream_server_init(), that in the end calls socket_listen().
+For virtio I used this:
+qemu-system-x86_64 \
+-kernel bzImage -nographic -append "console=ttyS0 root=/dev/sdb rw 
+systemd.unified_cgroup_hierarchy=0 nokaslr" \
+-m 1024 -s --enable-kvm -smp $2 \
+-drive file=debian_sid.img,media=disk \
+-drive file=$1,media=disk,if=virtio,cache=none,if=none,id=d1,aio=threads\
+-device virtio-blk-pci,drive=d1
 
-With SOCKET_ADDRESS_TYPE_FD we does the listen() (without bind()) with the following comment:
+> 
+> A preallocated raw image file is a good baseline with:
+> 
+>    --object iothread,id=iothread0 \
+>    --blockdev file,filename=test.img,cache.direct=on,aio=native,node-name=drive0 >    --device virtio-blk-pci,drive=drive0,iothread=iothread0
+The image I used was preallocated qcow2 image set up with dm-qcow2 
+because this vhost-blk version directly uses bio interface and can't 
+work with regular files.
 
-     case SOCKET_ADDRESS_TYPE_FD:
-         fd = socket_get_fd(addr->u.fd.str, errp);
-         if (fd < 0) {
-             return -1;
-         }
+> 
+> (BTW QEMU's default vq size is 256 descriptors and the number of vqs is
+> the number of vCPUs.)
+> 
+>>
+>> SSD:
+>>                 | randread, IOPS  | randwrite, IOPS |
+>> Host           |      95.8k	 |	85.3k	   |
+>> QEMU virtio    |      57.5k	 |	79.4k	   |
 
-         /*
-          * If the socket is not yet in the listen state, then transition it to
-          * the listen state now.
-          *
-          * If it's already listening then this updates the backlog value as
-          * requested.
-          *
-          * If this socket cannot listen because it's already in another state
-          * (e.g. unbound or connected) then we'll catch the error here.
-          */
-         if (listen(fd, num) != 0) {
-             error_setg_errno(errp, errno, "Failed to listen on fd socket");
-             closesocket(fd);
-             return -1;
-         }
-         break;
+Adding iothread0 and using raw file instead of qcow2 + dm-qcow2 setup 
+brings the numbers to
+                   |      60.4k   |      84.3k      |
 
-So I think we should keep the listen() in our case too.
+>> QEMU vhost-blk |      95.6k	 |	84.3k	   |
+>>
+>> RAMDISK (vq == vcpu):
+> 
+> With fio numjobs=vcpu here?
 
-Thanks,
-Laurent
+Yes
 
+> 
+>>                   | randread, IOPS | randwrite, IOPS |
+>> virtio, 1vcpu    |	123k	  |	 129k       |
+>> virtio, 2vcpu    |	253k (??) |	 250k (??)  |
+> 
+> QEMU's aio=threads (default) gets around the single IOThread. It beats
+> aio=native for this reason in some cases. Were you using aio=native or
+> aio=threads?
+
+At some point of time I started to specify aio=threads (and before that 
+I did not use this option). I am not sure when exactly. I will 
+re-measure all cases for the next submission.
+
+> 
+>> virtio, 4vcpu    |	158k	  |	 154k       |
+>> vhost-blk, 1vcpu |	110k	  |	 113k       |
+>> vhost-blk, 2vcpu |	247k	  |	 252k       |
 
