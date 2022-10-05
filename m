@@ -2,56 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9715F51E6
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 11:43:42 +0200 (CEST)
-Received: from localhost ([::1]:46474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4B25F5215
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 11:53:19 +0200 (CEST)
+Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1og0wH-000825-EW
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 05:43:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42364)
+	id 1og15a-0002kA-3i
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 05:53:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1og0rd-0005hI-LK; Wed, 05 Oct 2022 05:38:53 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:38667)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1og0zd-0008PI-15
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 05:47:09 -0400
+Received: from out29-53.mail.aliyun.com ([115.124.29.53]:56629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1og0rW-0000mm-3V; Wed, 05 Oct 2022 05:38:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=h4/lB2S9xHgfcWNSk4RFK0PdPURdsw+Nhtl8LArSgJE=; b=eaaEIjcwSAj+eyNZsHNpYKncWP
- HKu61OnWnd8u++lNwwJRQduvcJmEMe/UC/C5SaFszsCzCmkeyxqIoAJh2EYL0zzsQblDTMfpNb3Xa
- XAjrx6iNjS3Kz5csYz/5rC1GLSrF2O4PpivZAguiACjj6Dopubq5ra5STCMcSMtPLg3XYWDqkOp7T
- T9WCAcBE779NW7xD54uxhW+13hDgB4XhUz9DahgBahiQxxHRbmWZxEXGgcNBrHvMTwl2BpadyPSH+
- KM955wWEouzbvl4kYX3Z66E4GmZQAiM4STuMvlvPAEq+5ZhMRJi4aaUnrKiwBjyU1wouK91C4pAbo
- 2tg9Vrterh+73Wm8vSdJtm/p9c9A3+PPi9Ir+eq1Ozp74lP8H9Scnrjs0U1lEqaNBvQ4C9nUNz9wL
- tEXytOOwmcYEPS6Sw50a11/aum/X5IzklTVHOf/RoiTYFfOEH518kFCHEKnR8zR/jDaDsMvfhkv1e
- EXOSTI2uuUF9mbijV5dX7FytC5chQk1ruDdkMiltYyxHOzswLiplcMKGqBtYtusgY+5c5Rt2wDhpv
- cLGMpLo5oJ8I35yiubmLaGjDMEnAQ6Qka1sD+x9txpzf+H3Q2att572mgEQWEgWWB7t4+e+F29JaU
- ypZd5sOFozcDnC9wBU63FmvEi+adnCBDvN14ElphA=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org, Linus Heckemann <git@sphalerite.org>
-Cc: Greg Kurz <groug@kaod.org>, Qemu-block <qemu-block@nongnu.org>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v6] 9pfs: use GHashTable for fid table
-Date: Wed, 05 Oct 2022 11:38:39 +0200
-Message-ID: <3864477.uoRi9OHyCq@silver>
-In-Reply-To: <19360658.4YNXD89StS@silver>
-References: <20221004104121.713689-1-git@sphalerite.org>
- <19360658.4YNXD89StS@silver>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1og0zY-00024F-50
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 05:47:08 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0739051|-1;
+ BR=01201311R471S17rulernew998_84748_2000303; CH=blue; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.00781825-0.00151638-0.990665;
+ FP=5427639192614763938|2|1|3|0|-1|-1|-1; HT=ay29a033018047206;
+ MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=2; RT=2; SR=0;
+ TI=SMTPD_---.PUVKl9K_1664963210; 
+Received: from out0-129.mail.aliyun.com(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.PUVKl9K_1664963210) by smtp.aliyun-inc.com;
+ Wed, 05 Oct 2022 17:46:50 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=alibaba-inc.com; s=default;
+ t=1664963210; h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type;
+ bh=MWAaWFZWVlL3GqGBsy/ZG0GfOM/k/668xZDItQSyLOM=;
+ b=X5wT5vLE5cMC3n+FK3PY+yfQuiAh0tHnpxh0ZcQBfDfL0g78xUYcS0yr25FvCbo4heHftRJtlmlZyIz+XJ0BqaaoC2l6oTkT0eTsbiROEk3lweOcriiNzUHX7ZnUYprZ96hqmpdxX5l+BiPF85ZjaxQMl/kfFwpGgqygUzuaGqQ=
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.0739051|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.00781825-0.00151638-0.990665;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047202; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DA; RN=4; RT=4; SR=0;
+ TI=W4_0.1.38_v5ForDingX_210DFFF4_1664962920355_o7001c1881; 
+Received: from WS-web
+ (lzw194868@alibaba-inc.com[W4_0.1.38_v5ForDingX_210DFFF4_1664962920355_o7001c1881])
+ at Wed, 05 Oct 2022 17:46:49 +0800
+Date: Wed, 05 Oct 2022 17:46:49 +0800
+From: "=?UTF-8?B?5YiY5b+X5Lyf?=" <zhiwei_liu@c-sky.com>
+To: "=?UTF-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?=" <f4bug@amsat.org>,
+ "Eric Chan" <e14002270@gmail.com>, "qemu-devel" <qemu-devel@nongnu.org>
+Cc: "qemu-riscv" <qemu-riscv@nongnu.org>
+Message-ID: <5bb36d59-e112-4354-9abe-c8383002dd03.lzw194868@alibaba-inc.com>
+Subject: =?UTF-8?B?5Zue5aSN77yaUXVlc3Rpb24gYWJvdXQgUklTQy1WIGJyb20gcmVnaXN0ZXIgYTEgc2V0IHZh?=
+ =?UTF-8?B?bHVl?=
+X-Mailer: [Alimail-Mailagent revision 38395113][W4_0.1.38][v5ForDingX][Chrome]
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+References: <CACv+nXAT-tfuabs04y5+DE-R=Hn81nmM3bKsgOkVkWTOYpTHFA@mail.gmail.com>,
+ <659e3df0-a384-88e0-b121-7fd7416b09a7@amsat.org>
+x-aliyun-mail-creator: W4_0.1.38_v5ForDingX_LzETW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV09XNjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS85MS4wLjQ0NzIuMTY0IFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoNi41LjMwLVJlbGVhc2UuODAwMTMpIE1vam8vMS4wLjAgTmF0aXZlIEFwcFR5cGUocmVsZWFzZSkgQ2hhbm5lbC8xNjI4NDg3OTcwNzAwIDJuZFR5cGUvZXhjbHVzaXZl2l
+In-Reply-To: <659e3df0-a384-88e0-b121-7fd7416b09a7@amsat.org>
+Content-Type: multipart/alternative;
+ boundary="----=ALIBOUNDARY_5134_7f3c3c71a700_633d5289_2ff5f8"
+Received-SPF: none client-ip=115.124.29.53; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out29-53.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,605 +78,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: =?UTF-8?B?5YiY5b+X5Lyf?= <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 4. Oktober 2022 14:54:16 CEST Christian Schoenebeck wrote:
-> On Dienstag, 4. Oktober 2022 12:41:21 CEST Linus Heckemann wrote:
-> > The previous implementation would iterate over the fid table for
-> > lookup operations, resulting in an operation with O(n) complexity on
-> > the number of open files and poor cache locality -- for every open,
-> > stat, read, write, etc operation.
-> >=20
-> > This change uses a hashtable for this instead, significantly improving
-> > the performance of the 9p filesystem. The runtime of NixOS's simple
-> > installer test, which copies ~122k files totalling ~1.8GiB from 9p,
-> > decreased by a factor of about 10.
-> >=20
-> > Signed-off-by: Linus Heckemann <git@sphalerite.org>
-> > Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> > Reviewed-by: Greg Kurz <groug@kaod.org>
-> > Message-Id: <20220908112353.289267-1-git@sphalerite.org>
-> > [CS: - Retain BUG_ON(f->clunked) in get_fid().
-> >=20
-> >      - Add TODO comment in clunk_fid(). ]
-> >=20
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > ---
->=20
-> In general: LGTM now, but I will definitely go for some longer test runs
-> before queuing this patch. Some minor side notes below ...
+------=ALIBOUNDARY_5134_7f3c3c71a700_633d5289_2ff5f8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-So I was running a compilation marathon on 9p as root fs this night, first=
-=20
-couple hours went smooth, but then after about 12 hours 9p became unusable=
-=20
-with error:
+SSB0aGluayB0aGUgYTEgZnJvbSBRRU1VIHJlc2V0IHZlY3RvciBpcyB0aGUgZGV2aWNlIHRyZWUo
+ZmR0X2xhZGRyKSB0aG91Z2ggSSBkb24ndCBrbm93IGlmIGl0IGlzIGRpcmVjdGx5IHVzZWQgYnkg
+dGhlIE9wZW5TQkkgb3IganVzdCBwYXNzZWQgdG8gdGhlIExpbnV4IGtlcm5lbC4KVGhhbmtzLApa
+aGl3ZWkKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tCuWPkeS7tuS6uu+8mlBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIHZpYSA8
+cWVtdS1kZXZlbEBub25nbnUub3JnPgrlj5HpgIHml7bpl7TvvJoyMDIy5bm0MTDmnIgz5pelKOaY
+n+acn+S4gCkgMjA6MzcK5pS25Lu25Lq677yaRXJpYyBDaGFuIDxlMTQwMDIyNzBAZ21haWwuY29t
+PjsgcWVtdS1kZXZlbCA8cWVtdS1kZXZlbEBub25nbnUub3JnPgrmioTjgIDpgIHvvJpxZW11LXJp
+c2N2IDxxZW11LXJpc2N2QG5vbmdudS5vcmc+CuS4u+OAgOmimO+8mlJlOiBRdWVzdGlvbiBhYm91
+dCBSSVNDLVYgYnJvbSByZWdpc3RlciBhMSBzZXQgdmFsdWUKQ2MnaW5nIHRoZSBSSVNDLVYgc3Bl
+Y2lmaWMgbWFpbGluZyBsaXN0LgpPbiAxLzEwLzIyIDAxOjQ4LCBFcmljIENoYW4gd3JvdGU6Cj4g
+SGksIHFlbXUKPiAKPiBBcyBJIGtub3csIGJyb20gd2lsbCBwYXNzIDMgcGFyYW1ldGVycyB0byB0
+aGUgbmV4dCBzdGFnZSBib290bG9hZGVyLCBleDogCj4gb3BlblNCSS4KPiBhMCB3aWxsIHBhc3Mg
+aGFydGlkLCBhMiB3aWxsIHBhc3MgZndfZHluYW1pY19pbmZvIHN0YXJ0IGFkZHJlc3MuCj4gYWx0
+aG91Z2ggYTEgZG9lc24ndCB1c2UgZGlyZWN0bHkgaW4gb3BlblNCSS4KPiBhMSByZWFkIHZhbHVl
+IGlzIGRldGVybWluZWQgaW4gY29tcGlsZSB0aW1lIHJhdGhlciB0aGFuIHJlYWQgZnJvbSB0aGUg
+Cj4gb3JpZ2luYWwgYTEgdGhhdCBwYXNzZXMgZnJvbSBicm9tLgo+IEluIHFlbXUvaHcvcmlzY3Yv
+Ym9vdC5jCj4gYm90aCAzMmJpdCBhbmQgNjRiaXQgbWFjaGluZXMgcmVhZCA0Ynl0ZSB0aGF0IG9m
+ZnNldCAzMmJ5dGUgZnJvbSB0aGUgCj4gYnJvbSBzdGFydCBhZGRyZXNzLgo+IAo+IGZvciA2NCBi
+aXRzIG1hY2hpbmU6IGExIHJlYWQgbG93IDMyYml0IGRhdGEgbWVtYmVyIG1hZ2ljIG9mIGZ3X2R5
+bmFtaWNfaW5mbywKPiB0aGUgdmFsdWUgd2lsbCBzYW1lIGFzIEZXX0RZTkFNSUNfSU5GT19NQUdJ
+Q19WQUxVRSBiZWNhdXNlIHJpc2MtdiBpcyAKPiBsaXR0bGUgZW5kaWFuLgo+IAo+IGZvciAzMmJp
+dHMgbWFjaGluZTogZWFjaCBkYXRhIG1lbWJlciBvZiBmd19keW5hbWljX2luZm8gaXMgNCBieXRl
+cywgc28gCj4gYTEgd2lsbCByZWFkIHRoZSB2ZXJzaW9uIHJhdGhlciB0aGFuIG1hZ2ljLgo+IAo+
+IERvIHRoZSAzMmJpdCBhbmQgNjRiaXQgcGFzcyBkaWZmZXJlbnQgcGFyYW1ldGVycyBhcmUgZXhw
+ZWN0ZWQ/Cj4gSWYgaXQgaXMgbm90IGV4cGVjdGVkLCBJIGd1ZXNzIHRoZSBvcmlnaW5hbCB2ZXJz
+aW9uIGlzIDY0Yml0IG1hY2hpbmUsIAo+IGFuZCB0aGVuIHN1cHBvcnRzIDMyYml0IGJ1dCBtaXNz
+ZXMgdGhpcyBkZXRhaWwsIEkgaG9wZSBJIGNhbiBoYXZlIGFuIAo+IG9wcG9ydHVuaXR5IHRvIGZp
+eCB0aGlzIHByb2JsZW0uCj4gSWYgaXQgaXMgZXhwZWN0ZWQsIHdoeSB0aGV5IG11c3QgYmUgZG9u
+ZT8KPiAKPiBUaGFua3MsCj4gRXJpYyBDaGFuCj4gCj4gcWVtdS9pbmNsdWRlL2h3L3Jpc2N2L2Jv
+b3Rfb3BlbnNiaS5oCj4gI2RlZmluZSBGV19EWU5BTUlDX0lORk9fTUFHSUNfVkFMVUUgMHg0OTQy
+NTM0Zgo+IHFlbXUvaHcvcmlzY3YvYm9vdC5jCj4gdm9pZCByaXNjdl9zZXR1cF9yb21fcmVzZXRf
+dmVjKE1hY2hpbmVTdGF0ZSAqbWFjaGluZSwgCj4gUklTQ1ZIYXJ0QXJyYXlTdGF0ZSAqaGFydHMs
+Cj4gaHdhZGRyIHN0YXJ0X2FkZHIsCj4gaHdhZGRyIHJvbV9iYXNlLCBod2FkZHIgcm9tX3NpemUs
+Cj4gdWludDY0X3Qga2VybmVsX2VudHJ5LAo+IHVpbnQ2NF90IGZkdF9sb2FkX2FkZHIpCj4gewo+
+IGludCBpOwo+IHVpbnQzMl90IHN0YXJ0X2FkZHJfaGkzMiA9IDB4MDAwMDAwMDA7Cj4gdWludDMy
+X3QgZmR0X2xvYWRfYWRkcl9oaTMyID0gMHgwMDAwMDAwMDsKPiAKPiBpZiAoIXJpc2N2X2lzXzMy
+Yml0KGhhcnRzKSkgewo+IHN0YXJ0X2FkZHJfaGkzMiA9IHN0YXJ0X2FkZHIgPj4gMzI7Cj4gZmR0
+X2xvYWRfYWRkcl9oaTMyID0gZmR0X2xvYWRfYWRkciA+PiAzMjsKPiB9Cj4gLyogcmVzZXQgdmVj
+dG9yICovCj4gdWludDMyX3QgcmVzZXRfdmVjWzEwXSA9IHsKPiAweDAwMDAwMjk3LCAvKiAxOiBh
+dWlwYyB0MCwgJXBjcmVsX2hpKGZ3X2R5bikgKi8KPiAweDAyODI4NjEzLCAvKiBhZGRpIGEyLCB0
+MCwgJXBjcmVsX2xvKDFiKSAqLwo+IDB4ZjE0MDI1NzMsIC8qIGNzcnIgYTAsIG1oYXJ0aWQgKi8K
+PiAwLAo+IDAsCj4gMHgwMDAyODA2NywgLyoganIgdDAgKi8KPiBzdGFydF9hZGRyLCAvKiBzdGFy
+dDogLmR3b3JkICovCj4gc3RhcnRfYWRkcl9oaTMyLAo+IGZkdF9sb2FkX2FkZHIsIC8qIGZkdF9s
+YWRkcjogLmR3b3JkICovCj4gZmR0X2xvYWRfYWRkcl9oaTMyLAo+IC8qIGZ3X2R5bjogKi8KPiB9
+Owo+IGlmIChyaXNjdl9pc18zMmJpdChoYXJ0cykpIHsKPiByZXNldF92ZWNbM10gPSAweDAyMDJh
+NTgzOyAvKiBsdyBhMSwgMzIodDApICovCj4gcmVzZXRfdmVjWzRdID0gMHgwMTgyYTI4MzsgLyog
+bHcgdDAsIDI0KHQwKSAqLwo+IH0gZWxzZSB7Cj4gcmVzZXRfdmVjWzNdID0gMHgwMjAyYjU4Mzsg
+LyogbGQgYTEsIDMyKHQwKSAqLwo+IHJlc2V0X3ZlY1s0XSA9IDB4MDE4MmIyODM7IC8qIGxkIHQw
+LCAyNCh0MCkgKi8KPiB9Cj4gCj4gLyogY29weSBpbiB0aGUgcmVzZXQgdmVjdG9yIGluIGxpdHRs
+ZV9lbmRpYW4gYnl0ZSBvcmRlciAqLwo+IGZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKHJlc2V0
+X3ZlYyk7IGkrKykgewo+IHJlc2V0X3ZlY1tpXSA9IGNwdV90b19sZTMyKHJlc2V0X3ZlY1tpXSk7
+Cj4gfQo+IHJvbV9hZGRfYmxvYl9maXhlZF9hcygibXJvbS5yZXNldCIsIHJlc2V0X3ZlYywgc2l6
+ZW9mKHJlc2V0X3ZlYyksCj4gcm9tX2Jhc2UsICZhZGRyZXNzX3NwYWNlX21lbW9yeSk7Cj4gcmlz
+Y3Zfcm9tX2NvcHlfZmlybXdhcmVfaW5mbyhtYWNoaW5lLCByb21fYmFzZSwgcm9tX3NpemUsIHNp
+emVvZihyZXNldF92ZWMpLAo+IGtlcm5lbF9lbnRyeSk7Cj4gfQo+IAo+IG9wZW5zYmkvZmlybXdh
+cmUvZndfZHluYW1pYy5TCj4gZndfYm9vdF9oYXJ0Ogo+IC8qIFNhbml0eSBjaGVja3MgKi8KPiBs
+aSBhMSwgRldfRFlOQU1JQ19JTkZPX01BR0lDX1ZBTFVFCj4gUkVHX0wgYTAsIEZXX0RZTkFNSUNf
+SU5GT19NQUdJQ19PRkZTRVQoYTIpCj4gYm5lIGEwLCBhMSwgX2JhZF9keW5hbWljX2luZm8KPiBs
+aSBhMSwgRldfRFlOQU1JQ19JTkZPX1ZFUlNJT05fTUFYCj4gUkVHX0wgYTAsIEZXX0RZTkFNSUNf
+SU5GT19WRVJTSU9OX09GRlNFVChhMikKPiBiZ3QgYTAsIGExLCBfYmFkX2R5bmFtaWNfaW5mbwo+
+IAo+IC8qIFJlYWQgYm9vdCBIQVJUIGlkICovCj4gbGkgYTEsIEZXX0RZTkFNSUNfSU5GT19WRVJT
+SU9OXzIKPiBibHQgYTAsIGExLCAyZgo+IFJFR19MIGEwLCBGV19EWU5BTUlDX0lORk9fQk9PVF9I
+QVJUX09GRlNFVChhMikKPiByZXQKPiAyOiBsaSBhMCwgLTEKPiByZXQK
+------=ALIBOUNDARY_5134_7f3c3c71a700_633d5289_2ff5f8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-  Too many open files
-
-The question is, is that a new issue introduced by this patch? I.e. does it=
-=20
-break the reclaim fd code? Or is that rather unrelated to this patch, and a=
-=20
-problem we already had?
-
-Linus, could you look at this? It would probably make sense to force gettin=
-g=20
-into this situation much earlier like:
-
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index aebadeaa03..0c104b81e1 100644
-=2D-- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -4330,6 +4330,6 @@ static void __attribute__((__constructor__))=20
-v9fs_set_fd_limit(void)
-         error_report("Failed to get the resource limit");
-         exit(1);
-     }
-=2D    open_fd_hw =3D rlim.rlim_cur - MIN(400, rlim.rlim_cur / 3);
-+    open_fd_hw =3D rlim.rlim_cur - MIN(50, rlim.rlim_cur / 3);
-     open_fd_rc =3D rlim.rlim_cur / 2;
- }
-
-I can't remember that we had this issue before, so there might still be=20
-something wrong with this GHashTable patch here.
-
-> > Christian Schoenebeck writes:
-> > > Not a big deal, but I start thinking whether to keep BUG_ON() here as
-> > > well.
-> > > That would require using g_hash_table_lookup() here instead of
-> > > g_hash_table_contains(). Not that I would insist.
-> >=20
-> > Done.
-> >=20
-> > > checkpatch.pl
-> >=20
-> > Fixed.
-> >=20
-> > > OK, I get it that you squashed your previous patch and that you ended=
- up
-> > > with this comment instead. But if you read the old comment version he=
-re,
-> > > you'll notice that it describes the actual problem more accurately:
-> > > especially that v9fs_reopen_fid() and put_fid() are the 2 functions t=
-hat
-> > > may cause the coroutine to "yield" here. That's an important informat=
-ion
-> > > to be retained in this comment here as it's not obvious.
-> >=20
-> > Reworded to mention these functions explicitly.
-> >=20
-> > >  I would not move this to the 2nd loop. I would still set the
-> > >=20
-> > > FID_NON_RECLAIMABLE flag here, for the same reasons that you are bump=
-ing
-> > > the refcount already in the first loop below.
-> >=20
-> > Good point! Fixed.
-> >=20
-> > >  ... that's not the same behaviour as before, is it? Old behaviour was
-> > >  to
-> > >  put>
-> > >=20
-> > > the respective (last) fid only on error. And this would now put all
-> > > fids.
-> >=20
-> > Indeed it isn't the old behaviour, but I believe it's correct: since
-> > before we only incremented the reference counter for each one when we
-> > started reopening it. Now, we increment _all_ their refcounts, so we
-> > need to put all of them back as well.
->=20
-> Yeah, commented in v9fs_mark_fids_unreclaim() changes below ...
->=20
-> > >  Wasn't there something like GLIST_FOREACH()? Then you wouldn't need =
-to
-> > >  add
-> > >=20
-> > > that variable.
-> >=20
-> > glib does provide g_list_foreach, but that requires a function
-> > pointer. I'm not aware of a macro for this. I could change this to use
-> > a QLIST (for which we do have a macro) instead of a GList if you
-> > insist, but I'd default to leaving this as is.
->=20
-> That's better handled by a future cleanup patch. Right now I find it
-> prioritized to get this performance fix merged ASAP, as it provides a
-> significant improvement for a lot of people.
->=20
-> I have seen GLIST_FOREACH macros (without function pointer) in other
-> projects, but I guess that macro was defined locally by those projects.
->=20
-> > Thanks for your repeated reviews and patience!
-> >=20
-> > Linus
-> >=20
-> >  hw/9pfs/9p.c | 195 +++++++++++++++++++++++++++++----------------------
-> >  hw/9pfs/9p.h |   2 +-
-> >  2 files changed, 113 insertions(+), 84 deletions(-)
-> >=20
-> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > index aebadeaa03..729d3181e0 100644
-> > --- a/hw/9pfs/9p.c
-> > +++ b/hw/9pfs/9p.c
-> > @@ -256,7 +256,8 @@ static size_t v9fs_string_size(V9fsString *str)
-> >=20
-> >  }
-> > =20
-> >  /*
-> >=20
-> > - * returns 0 if fid got re-opened, 1 if not, < 0 on error */
-> > + * returns 0 if fid got re-opened, 1 if not, < 0 on error
-> > + */
-> >=20
-> >  static int coroutine_fn v9fs_reopen_fid(V9fsPDU *pdu, V9fsFidState *f)
-> >  {
-> > =20
-> >      int err =3D 1;
-> >=20
-> > @@ -282,33 +283,32 @@ static V9fsFidState *coroutine_fn get_fid(V9fsPDU
-> > *pdu, int32_t fid) V9fsFidState *f;
-> >=20
-> >      V9fsState *s =3D pdu->s;
-> >=20
-> > -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> > +    f =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-> > +    if (f) {
-> >=20
-> >          BUG_ON(f->clunked);
-> >=20
-> > -        if (f->fid =3D=3D fid) {
-> > -            /*
-> > -             * Update the fid ref upfront so that
-> > -             * we don't get reclaimed when we yield
-> > -             * in open later.
-> > -             */
-> > -            f->ref++;
-> > -            /*
-> > -             * check whether we need to reopen the
-> > -             * file. We might have closed the fd
-> > -             * while trying to free up some file
-> > -             * descriptors.
-> > -             */
-> > -            err =3D v9fs_reopen_fid(pdu, f);
-> > -            if (err < 0) {
-> > -                f->ref--;
-> > -                return NULL;
-> > -            }
-> > -            /*
-> > -             * Mark the fid as referenced so that the LRU
-> > -             * reclaim won't close the file descriptor
-> > -             */
-> > -            f->flags |=3D FID_REFERENCED;
-> > -            return f;
-> > +        /*
-> > +         * Update the fid ref upfront so that
-> > +         * we don't get reclaimed when we yield
-> > +         * in open later.
-> > +         */
-> > +        f->ref++;
-> > +        /*
-> > +         * check whether we need to reopen the
-> > +         * file. We might have closed the fd
-> > +         * while trying to free up some file
-> > +         * descriptors.
-> > +         */
-> > +        err =3D v9fs_reopen_fid(pdu, f);
-> > +        if (err < 0) {
-> > +            f->ref--;
-> > +            return NULL;
-> >=20
-> >          }
-> >=20
-> > +        /*
-> > +         * Mark the fid as referenced so that the LRU
-> > +         * reclaim won't close the file descriptor
-> > +         */
-> > +        f->flags |=3D FID_REFERENCED;
-> > +        return f;
-> >=20
-> >      }
-> >      return NULL;
-> > =20
-> >  }
-> >=20
-> > @@ -317,12 +317,11 @@ static V9fsFidState *alloc_fid(V9fsState *s, int3=
-2_t
-> > fid) {
-> >=20
-> >      V9fsFidState *f;
-> >=20
-> > -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> > +    f =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-> > +    if (f) {
-> >=20
-> >          /* If fid is already there return NULL */
-> >          BUG_ON(f->clunked);
-> >=20
-> > -        if (f->fid =3D=3D fid) {
-> > -            return NULL;
-> > -        }
-> > +        return NULL;
-> >=20
-> >      }
-> >      f =3D g_new0(V9fsFidState, 1);
-> >      f->fid =3D fid;
-> >=20
-> > @@ -333,7 +332,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
-> > fid) * reclaim won't close the file descriptor
-> >=20
-> >       */
-> >     =20
-> >      f->flags |=3D FID_REFERENCED;
-> >=20
-> > -    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
-> > +    g_hash_table_insert(s->fids, GINT_TO_POINTER(fid), f);
-> >=20
-> >      v9fs_readdir_init(s->proto_version, &f->fs.dir);
-> >      v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
-> >=20
-> > @@ -424,12 +423,12 @@ static V9fsFidState *clunk_fid(V9fsState *s, int3=
-2_t
-> > fid) {
-> >=20
-> >      V9fsFidState *fidp;
-> >=20
-> > -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
-> > -        if (fidp->fid =3D=3D fid) {
-> > -            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
-> > -            fidp->clunked =3D true;
-> > -            return fidp;
-> > -        }
-> > +    /* TODO: Use g_hash_table_steal_extended() instead? */
-> > +    fidp =3D g_hash_table_lookup(s->fids, GINT_TO_POINTER(fid));
-> > +    if (fidp) {
-> > +        g_hash_table_remove(s->fids, GINT_TO_POINTER(fid));
-> > +        fidp->clunked =3D true;
-> > +        return fidp;
-> >=20
-> >      }
-> >      return NULL;
-> > =20
-> >  }
-> >=20
-> > @@ -439,10 +438,15 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
-> >=20
-> >      int reclaim_count =3D 0;
-> >      V9fsState *s =3D pdu->s;
-> >      V9fsFidState *f;
-> >=20
-> > +    GHashTableIter iter;
-> > +    gpointer fid;
-> > +
-> > +    g_hash_table_iter_init(&iter, s->fids);
-> > +
-> >=20
-> >      QSLIST_HEAD(, V9fsFidState) reclaim_list =3D
-> >     =20
-> >          QSLIST_HEAD_INITIALIZER(reclaim_list);
-> >=20
-> > -    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> > +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &f)) {
-> >=20
-> >          /*
-> >         =20
-> >           * Unlink fids cannot be reclaimed. Check
-> >           * for them and skip them. Also skip fids
-> >=20
-> > @@ -514,72 +518,86 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
-> >=20
-> >      }
-> > =20
-> >  }
-> >=20
-> > +/*
-> > + * This is used when a path is removed from the directory tree. Any
-> > + * fids that still reference it must not be closed from then on, since
-> > + * they cannot be reopened.
-> > + */
-> >=20
-> >  static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath
-> >=20
-> > *path) {
-> > -    int err;
-> > +    int err =3D 0;
->=20
-> Not really necessary as `err` was and is never used unitialized, but OK.
->=20
-> >      V9fsState *s =3D pdu->s;
-> >=20
-> > -    V9fsFidState *fidp, *fidp_next;
-> > +    V9fsFidState *fidp;
-> > +    gpointer fid;
-> > +    GHashTableIter iter;
-> > +    /*
-> > +     * The most common case is probably that we have exactly one
-> > +     * fid for the given path, so preallocate exactly one.
-> > +     */
-> > +    g_autoptr(GArray) to_reopen =3D g_array_sized_new(FALSE, FALSE,
-> > +            sizeof(V9fsFidState *), 1);
-> > +    gint i;
-> >=20
-> > -    fidp =3D QSIMPLEQ_FIRST(&s->fid_list);
-> > -    if (!fidp) {
-> > -        return 0;
-> > -    }
-> > +    g_hash_table_iter_init(&iter, s->fids);
-> >=20
-> >      /*
-> >=20
-> > -     * v9fs_reopen_fid() can yield : a reference on the fid must be he=
-ld
-> > -     * to ensure its pointer remains valid and we can safely pass it to
-> > -     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
-> > -     * we must keep a reference on the next fid as well. So the logic
-> > here
-> > -     * is to get a reference on a fid and only put it back during the
-> > next
-> > -     * iteration after we could get a reference on the next fid. Start
-> > with -     * the first one.
-> > +     * We iterate over the fid table looking for the entries we need
-> > +     * to reopen, and store them in to_reopen. This is because
-> > +     * v9fs_reopen_fid() and put_fid() yield. This allows the fid table
-> > +     * to be modified in the meantime, invalidating our iterator.
-> >=20
-> >       */
-> >=20
-> > -    for (fidp->ref++; fidp; fidp =3D fidp_next) {
-> > +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &fidp)) {
-> >=20
-> >          if (fidp->path.size =3D=3D path->size &&
-> >         =20
-> >              !memcmp(fidp->path.data, path->data, path->size)) {
-> >=20
-> > -            /* Mark the fid non reclaimable. */
-> > -            fidp->flags |=3D FID_NON_RECLAIMABLE;
-> > -
-> > -            /* reopen the file/dir if already closed */
-> > -            err =3D v9fs_reopen_fid(pdu, fidp);
-> > -            if (err < 0) {
-> > -                put_fid(pdu, fidp);
-> > -                return err;
-> > -            }
-> > -        }
-> > -
-> > -        fidp_next =3D QSIMPLEQ_NEXT(fidp, next);
-> > -
-> > -        if (fidp_next) {
-> >=20
-> >              /*
-> >=20
-> > -             * Ensure the next fid survives a potential clunk request
-> > during
-> > -             * put_fid() below and v9fs_reopen_fid() in the next
-> > iteration.
-> > +             * Ensure the fid survives a potential clunk
-> > request during
-> > +             * v9fs_reopen_fid or put_fid.
-> >=20
-> >               */
-> >=20
-> > -            fidp_next->ref++;
-> > +            fidp->ref++;
-> > +            fidp->flags |=3D FID_NON_RECLAIMABLE;
-> > +            g_array_append_val(to_reopen, fidp);
-> >=20
-> >          }
-> >=20
-> > +    }
-> >=20
-> > -        /* We're done with this fid */
-> > -        put_fid(pdu, fidp);
-> > +    for (i =3D 0; i < to_reopen->len; i++) {
-> > +        fidp =3D g_array_index(to_reopen, V9fsFidState*, i);
-> > +        /* reopen the file/dir if already closed */
-> > +        err =3D v9fs_reopen_fid(pdu, fidp);
-> > +        if (err < 0) {
-> > +            goto out;
->=20
-> Looks like a simple `break;` here and dropping the `out:` label below is
-> sufficient. But I can do that on my end.
->=20
-> > +        }
-> >=20
-> >      }
-> >=20
-> > -    return 0;
-> > + out:
-> > +    for (i =3D 0; i < to_reopen->len; i++) {
-> > +        put_fid(pdu, g_array_index(to_reopen, V9fsFidState*, i));
-> > +    }
-> > +    return err;
-> >=20
-> >  }
->=20
-> ... so yeah, I think that simple put_fid() loop is fine. Probably I
-> overlooked the 2nd put_fid() call in the original code. So basically the
-> old =3D=3D new behaviour was and is: the sum of refcount increments/decre=
-ments
-> after returning from this function is exactly neutral/zero for each fid,
-> without any exception.
->=20
-> >  static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
-> >  {
-> > =20
-> >      V9fsState *s =3D pdu->s;
-> >      V9fsFidState *fidp;
-> >=20
-> > +    GList *freeing;
-> > +    /*
-> > +     * Get a list of all the values (fid states) in the table, which
-> > +     * we then...
-> > +     */
-> > +    g_autoptr(GList) fids =3D g_hash_table_get_values(s->fids);
-> >=20
-> > -    /* Free all fids */
-> > -    while (!QSIMPLEQ_EMPTY(&s->fid_list)) {
-> > -        /* Get fid */
-> > -        fidp =3D QSIMPLEQ_FIRST(&s->fid_list);
-> > -        fidp->ref++;
-> > +    /* ... remove from the table, taking over ownership. */
-> > +    g_hash_table_steal_all(s->fids);
-> >=20
-> > -        /* Clunk fid */
-> > -        QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
-> > +    /*
-> > +     * This allows us to release our references to them asynchronously
-> > without
-> > +     * iterating over the hash table and risking iterator
-> > invalidation
-> > +     * through concurrent modifications.
-> > +     */
-> > +    for (freeing =3D fids; freeing; freeing =3D freeing->next) {
-> > +        fidp =3D freeing->data;
-> > +        fidp->ref++;
-> >=20
-> >          fidp->clunked =3D true;
-> >=20
-> > -
-> >=20
-> >          put_fid(pdu, fidp);
-> >     =20
-> >      }
-> > =20
-> >  }
-> >=20
-> > @@ -3205,6 +3223,8 @@ static int coroutine_fn v9fs_complete_rename(V9fs=
-PDU
-> > *pdu, V9fsFidState *fidp, V9fsFidState *tfidp;
-> >=20
-> >      V9fsState *s =3D pdu->s;
-> >      V9fsFidState *dirfidp =3D NULL;
-> >=20
-> > +    GHashTableIter iter;
-> > +    gpointer fid;
-> >=20
-> >      v9fs_path_init(&new_path);
-> >      if (newdirfid !=3D -1) {
-> >=20
-> > @@ -3238,11 +3258,13 @@ static int coroutine_fn
-> > v9fs_complete_rename(V9fsPDU *pdu, V9fsFidState *fidp, if (err < 0) {
-> >=20
-> >          goto out;
-> >     =20
-> >      }
-> >=20
-> > +
-> >=20
-> >      /*
-> >     =20
-> >       * Fixup fid's pointing to the old name to
-> >       * start pointing to the new name
-> >       */
-> >=20
-> > -    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-> > +    g_hash_table_iter_init(&iter, s->fids);
-> > +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
-> >=20
-> >          if (v9fs_path_is_ancestor(&fidp->path, &tfidp->path)) {
-> >         =20
-> >              /* replace the name */
-> >              v9fs_fix_path(&tfidp->path, &new_path,
-> >=20
-> > strlen(fidp->path.data)); @@ -3320,6 +3342,8 @@ static int coroutine_fn
-> > v9fs_fix_fid_paths(V9fsPDU *pdu, V9fsPath *olddir, V9fsPath oldpath,
-> > newpath;
-> >=20
-> >      V9fsState *s =3D pdu->s;
-> >      int err;
-> >=20
-> > +    GHashTableIter iter;
-> > +    gpointer fid;
-> >=20
-> >      v9fs_path_init(&oldpath);
-> >      v9fs_path_init(&newpath);
-> >=20
-> > @@ -3336,7 +3360,8 @@ static int coroutine_fn v9fs_fix_fid_paths(V9fsPDU
-> > *pdu, V9fsPath *olddir, * Fixup fid's pointing to the old name to
-> >=20
-> >       * start pointing to the new name
-> >       */
-> >=20
-> > -    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-> > +    g_hash_table_iter_init(&iter, s->fids);
-> > +    while (g_hash_table_iter_next(&iter, &fid, (gpointer *) &tfidp)) {
-> >=20
-> >          if (v9fs_path_is_ancestor(&oldpath, &tfidp->path)) {
-> >         =20
-> >              /* replace the name */
-> >              v9fs_fix_path(&tfidp->path, &newpath, strlen(oldpath.data)=
-);
-> >=20
-> > @@ -4226,7 +4251,7 @@ int v9fs_device_realize_common(V9fsState *s, const
-> > V9fsTransport *t, s->ctx.fmode =3D fse->fmode;
-> >=20
-> >      s->ctx.dmode =3D fse->dmode;
-> >=20
-> > -    QSIMPLEQ_INIT(&s->fid_list);
-> > +    s->fids =3D g_hash_table_new(NULL, NULL);
-> >=20
-> >      qemu_co_rwlock_init(&s->rename_lock);
-> >     =20
-> >      if (s->ops->init(&s->ctx, errp) < 0) {
-> >=20
-> > @@ -4286,6 +4311,10 @@ void v9fs_device_unrealize_common(V9fsState *s)
-> >=20
-> >      if (s->ctx.fst) {
-> >     =20
-> >          fsdev_throttle_cleanup(s->ctx.fst);
-> >     =20
-> >      }
-> >=20
-> > +    if (s->fids) {
-> > +        g_hash_table_destroy(s->fids);
-> > +        s->fids =3D NULL;
-> > +    }
-> >=20
-> >      g_free(s->tag);
-> >      qp_table_destroy(&s->qpd_table);
-> >      qp_table_destroy(&s->qpp_table);
-> >=20
-> > diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> > index 994f952600..10fd2076c2 100644
-> > --- a/hw/9pfs/9p.h
-> > +++ b/hw/9pfs/9p.h
-> > @@ -339,7 +339,7 @@ typedef struct {
-> >=20
-> >  struct V9fsState {
-> > =20
-> >      QLIST_HEAD(, V9fsPDU) free_list;
-> >      QLIST_HEAD(, V9fsPDU) active_list;
-> >=20
-> > -    QSIMPLEQ_HEAD(, V9fsFidState) fid_list;
-> > +    GHashTable *fids;
-> >=20
-> >      FileOperations *ops;
-> >      FsContext ctx;
-> >      char *tag;
-> >=20
-> > --
-> > 2.36.2
-
-
+PGRpdiBjbGFzcz0iX19hbGl5dW5fZW1haWxfYm9keV9ibG9jayI+PGRpdiAgc3R5bGU9ImxpbmUt
+aGVpZ2h0OjEuNztmb250LWZhbWlseTpUYWhvbWEsQXJpYWwsU1RIZWl0aSxTaW1TdW47Zm9udC1z
+aXplOjE0LjBweDtjb2xvcjojMDAwMDAwOyI+PGRpdiAgc3R5bGU9ImNsZWFyOmJvdGg7Ij5JIHRo
+aW5rIHRoZSBhMSBmcm9tIFFFTVUgcmVzZXQgdmVjdG9yIGlzIHRoZSBkZXZpY2UgdHJlZShmZHRf
+bGFkZHIpIHRob3VnaCBJIGRvbid0IGtub3cgaWYgaXQgaXMgZGlyZWN0bHkgdXNlZCBieSB0aGUg
+T3BlblNCSSBvciBqdXN0IHBhc3NlZCB0byB0aGUgTGludXgga2VybmVsLjxiciA+PC9kaXY+PGRp
+diAgc3R5bGU9ImNsZWFyOmJvdGg7Ij48YnIgPjwvZGl2PjxkaXYgIHN0eWxlPSJjbGVhcjpib3Ro
+OyI+VGhhbmtzLDwvZGl2PjxkaXYgIHN0eWxlPSJjbGVhcjpib3RoOyI+Wmhpd2VpPC9kaXY+PGRp
+diAgc3R5bGU9ImNsZWFyOmJvdGg7Ij48YnIgPjwvZGl2PjxibG9ja3F1b3RlICBfcXVvdGU9IjEi
+IHN0eWxlPSJtYXJnaW4tcmlnaHQ6LjBweDttYXJnaW4tdG9wOi4wcHg7bWFyZ2luLWJvdHRvbTou
+MHB4O2ZvbnQtZmFtaWx5OlRhaG9tYSxBcmlhbCxTVEhlaXRpLFNpbVN1bjtmb250LXNpemU6MTQu
+MHB4O2NvbG9yOiMwMDAwMDA7Ij48ZGl2ICBzdHlsZT0iY2xlYXI6Ym90aDsiPi0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTwv
+ZGl2PjxkaXYgIHN0eWxlPSJjbGVhcjpib3RoOyI+5Y+R5Lu25Lq677yaUGhpbGlwcGUgTWF0aGll
+dS1EYXVkw6kgdmlhICZsdDtxZW11LWRldmVsQG5vbmdudS5vcmcmZ3Q7PC9kaXY+PGRpdiAgc3R5
+bGU9ImNsZWFyOmJvdGg7Ij7lj5HpgIHml7bpl7TvvJoyMDIy5bm0MTDmnIgz5pelKOaYn+acn+S4
+gCkgMjA6Mzc8L2Rpdj48ZGl2ICBzdHlsZT0iY2xlYXI6Ym90aDsiPuaUtuS7tuS6uu+8mkVyaWMg
+Q2hhbiAmbHQ7ZTE0MDAyMjcwQGdtYWlsLmNvbSZndDs7IHFlbXUtZGV2ZWwgJmx0O3FlbXUtZGV2
+ZWxAbm9uZ251Lm9yZyZndDs8L2Rpdj48ZGl2ICBzdHlsZT0iY2xlYXI6Ym90aDsiPuaKhOOAgOmA
+ge+8mnFlbXUtcmlzY3YgJmx0O3FlbXUtcmlzY3ZAbm9uZ251Lm9yZyZndDs8L2Rpdj48ZGl2ICBz
+dHlsZT0iY2xlYXI6Ym90aDsiPuS4u+OAgOmimO+8mlJlOiBRdWVzdGlvbiBhYm91dCBSSVNDLVYg
+YnJvbSByZWdpc3RlciBhMSBzZXQgdmFsdWU8L2Rpdj48ZGl2ICBzdHlsZT0iY2xlYXI6Ym90aDsi
+PjxiciA+PC9kaXY+Q2MnaW5nIHRoZSBSSVNDLVYgc3BlY2lmaWMgbWFpbGluZyBsaXN0LjxiciA+
+PGJyID5PbiAxLzEwLzIyIDAxOjQ4LCBFcmljIENoYW4gd3JvdGU6PGJyID4mZ3Q7IEhpLCBxZW11
+PGJyID4mZ3Q7IDxiciA+Jmd0OyBBcyBJIGtub3csIGJyb20gd2lsbCBwYXNzIDMgcGFyYW1ldGVy
+cyB0byB0aGUgbmV4dCBzdGFnZSBib290bG9hZGVyLCBleDogPGJyID4mZ3Q7IG9wZW5TQkkuPGJy
+ID4mZ3Q7IGEwIHdpbGwgcGFzcyBoYXJ0aWQsIGEyIHdpbGwgcGFzcyBmd19keW5hbWljX2luZm8g
+c3RhcnQgYWRkcmVzcy48YnIgPiZndDsgYWx0aG91Z2ggYTEgZG9lc24ndCB1c2UgZGlyZWN0bHkg
+aW4gb3BlblNCSS48YnIgPiZndDsgYTEgcmVhZCB2YWx1ZSBpcyBkZXRlcm1pbmVkIGluIGNvbXBp
+bGUgdGltZSByYXRoZXIgdGhhbiByZWFkIGZyb20gdGhlIDxiciA+Jmd0OyBvcmlnaW5hbCBhMSB0
+aGF0IHBhc3NlcyBmcm9tIGJyb20uPGJyID4mZ3Q7IEluIHFlbXUvaHcvcmlzY3YvYm9vdC5jPGJy
+ID4mZ3Q7IGJvdGggMzJiaXQgYW5kIDY0Yml0IG1hY2hpbmVzIHJlYWQgNGJ5dGUgdGhhdCBvZmZz
+ZXQgMzJieXRlIGZyb20gdGhlIDxiciA+Jmd0OyBicm9tIHN0YXJ0IGFkZHJlc3MuPGJyID4mZ3Q7
+IDxiciA+Jmd0OyBmb3IgNjQgYml0cyBtYWNoaW5lOiBhMSByZWFkIGxvdyAzMmJpdCBkYXRhIG1l
+bWJlciBtYWdpYyBvZiBmd19keW5hbWljX2luZm8sPGJyID4mZ3Q7IHRoZSB2YWx1ZSB3aWxsIHNh
+bWUgYXMgRldfRFlOQU1JQ19JTkZPX01BR0lDX1ZBTFVFIGJlY2F1c2UgcmlzYy12IGlzIDxiciA+
+Jmd0OyBsaXR0bGUgZW5kaWFuLjxiciA+Jmd0OyA8YnIgPiZndDsgZm9yIDMyYml0cyBtYWNoaW5l
+OiBlYWNoIGRhdGEgbWVtYmVyIG9mIGZ3X2R5bmFtaWNfaW5mbyBpcyA0IGJ5dGVzLCBzbyA8YnIg
+PiZndDsgYTEgd2lsbCByZWFkIHRoZSB2ZXJzaW9uIHJhdGhlciB0aGFuIG1hZ2ljLjxiciA+Jmd0
+OyA8YnIgPiZndDsgRG8gdGhlIDMyYml0IGFuZCA2NGJpdCBwYXNzIGRpZmZlcmVudCBwYXJhbWV0
+ZXJzIGFyZSBleHBlY3RlZD88YnIgPiZndDsgSWYgaXQgaXMgbm90IGV4cGVjdGVkLCBJIGd1ZXNz
+IHRoZSBvcmlnaW5hbCB2ZXJzaW9uIGlzIDY0Yml0IG1hY2hpbmUsIDxiciA+Jmd0OyBhbmQgdGhl
+biBzdXBwb3J0cyAzMmJpdCBidXQgbWlzc2VzIHRoaXMgZGV0YWlsLCBJIGhvcGUgSSBjYW4gaGF2
+ZSBhbiA8YnIgPiZndDsgb3Bwb3J0dW5pdHkgdG8gZml4IHRoaXMgcHJvYmxlbS48YnIgPiZndDsg
+SWYgaXQgaXMgZXhwZWN0ZWQsIHdoeSB0aGV5IG11c3QgYmUgZG9uZT88YnIgPiZndDsgPGJyID4m
+Z3Q7IFRoYW5rcyw8YnIgPiZndDsgRXJpYyBDaGFuPGJyID4mZ3Q7IDxiciA+Jmd0OyBxZW11L2lu
+Y2x1ZGUvaHcvcmlzY3YvYm9vdF9vcGVuc2JpLmg8YnIgPiZndDsgI2RlZmluZSBGV19EWU5BTUlD
+X0lORk9fTUFHSUNfVkFMVUUgJm5ic3A7ICZuYnNwOyAweDQ5NDI1MzRmPGJyID4mZ3Q7IHFlbXUv
+aHcvcmlzY3YvYm9vdC5jPGJyID4mZ3Q7IHZvaWQgcmlzY3Zfc2V0dXBfcm9tX3Jlc2V0X3ZlYyhN
+YWNoaW5lU3RhdGUgKm1hY2hpbmUsIDxiciA+Jmd0OyBSSVNDVkhhcnRBcnJheVN0YXRlICpoYXJ0
+cyw8YnIgPiZndDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7IGh3YWRkciBzdGFydF9hZGRyLDxiciA+Jmd0OyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgaHdhZGRyIHJvbV9iYXNlLCBod2Fk
+ZHIgcm9tX3NpemUsPGJyID4mZ3Q7IHVpbnQ2NF90IGtlcm5lbF9lbnRyeSw8YnIgPiZndDsgdWlu
+dDY0X3QgZmR0X2xvYWRfYWRkcik8YnIgPiZndDsgezxiciA+Jmd0OyBpbnQgaTs8YnIgPiZndDsg
+dWludDMyX3Qgc3RhcnRfYWRkcl9oaTMyID0gMHgwMDAwMDAwMDs8YnIgPiZndDsgdWludDMyX3Qg
+ZmR0X2xvYWRfYWRkcl9oaTMyID0gMHgwMDAwMDAwMDs8YnIgPiZndDsgPGJyID4mZ3Q7IGlmICgh
+cmlzY3ZfaXNfMzJiaXQoaGFydHMpKSB7PGJyID4mZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOyBzdGFydF9hZGRyX2hpMzIgPSBzdGFydF9hZGRyICZndDsmZ3Q7IDMyOzxiciA+
+Jmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZmR0X2xvYWRfYWRkcl9oaTMy
+ID0gZmR0X2xvYWRfYWRkciAmZ3Q7Jmd0OyAzMjs8YnIgPiZndDsmbmJzcDsgJm5ic3A7ICZuYnNw
+OyB9PGJyID4mZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgLyogcmVzZXQgdmVjdG9yICovPGJyID4m
+Z3Q7IHVpbnQzMl90IHJlc2V0X3ZlY1sxMF0gPSB7PGJyID4mZ3Q7IDB4MDAwMDAyOTcsICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgLyogMTom
+bmJzcDsgYXVpcGMmbmJzcDsgdDAsICVwY3JlbF9oaShmd19keW4pICovPGJyID4mZ3Q7IDB4MDI4
+Mjg2MTMsICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgLyogJm5ic3A7ICZuYnNwOyBhZGRpICZuYnNwOyBhMiwgdDAsICVwY3JlbF9sbygxYikg
+Ki88YnIgPiZndDsgMHhmMTQwMjU3MywgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAvKiAmbmJzcDsgJm5ic3A7IGNzcnIgJm5ic3A7IGEwLCBt
+aGFydGlkJm5ic3A7ICovPGJyID4mZ3Q7IDAsPGJyID4mZ3Q7IDAsPGJyID4mZ3Q7IDB4MDAwMjgw
+NjcsICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgLyogJm5ic3A7ICZuYnNwOyBqciAmbmJzcDsgJm5ic3A7IHQwICovPGJyID4mZ3Q7Jm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBzdGFydF9hZGRyLCAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IC8qIHN0YXJ0OiAuZHdvcmQg
+Ki88YnIgPiZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHN0YXJ0X2FkZHJf
+aGkzMiw8YnIgPiZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZkdF9sb2Fk
+X2FkZHIsJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IC8q
+IGZkdF9sYWRkcjogLmR3b3JkICovPGJyID4mZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyBmZHRfbG9hZF9hZGRyX2hpMzIsPGJyID4mZ3Q7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAv
+KiBmd19keW46ICovPGJyID4mZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgfTs8YnIgPiZndDsgaWYg
+KHJpc2N2X2lzXzMyYml0KGhhcnRzKSkgezxiciA+Jmd0OyByZXNldF92ZWNbM10gPSAweDAyMDJh
+NTgzOyZuYnNwOyAvKiAmbmJzcDsgJm5ic3A7IGx3ICZuYnNwOyAmbmJzcDsgYTEsIDMyKHQwKSAq
+LzxiciA+Jmd0OyByZXNldF92ZWNbNF0gPSAweDAxODJhMjgzOyZuYnNwOyAvKiAmbmJzcDsgJm5i
+c3A7IGx3ICZuYnNwOyAmbmJzcDsgdDAsIDI0KHQwKSAqLzxiciA+Jmd0OyZuYnNwOyAmbmJzcDsg
+Jm5ic3A7IH0gZWxzZSB7PGJyID4mZ3Q7IHJlc2V0X3ZlY1szXSA9IDB4MDIwMmI1ODM7Jm5ic3A7
+IC8qICZuYnNwOyAmbmJzcDsgbGQgJm5ic3A7ICZuYnNwOyBhMSwgMzIodDApICovPGJyID4mZ3Q7
+IHJlc2V0X3ZlY1s0XSA9IDB4MDE4MmIyODM7Jm5ic3A7IC8qICZuYnNwOyAmbmJzcDsgbGQgJm5i
+c3A7ICZuYnNwOyB0MCwgMjQodDApICovPGJyID4mZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgfTxi
+ciA+Jmd0OyA8YnIgPiZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAvKiBjb3B5IGluIHRoZSByZXNl
+dCB2ZWN0b3IgaW4gbGl0dGxlX2VuZGlhbiBieXRlIG9yZGVyICovPGJyID4mZ3Q7IGZvciAoaSA9
+IDA7IGkgJmx0OyBBUlJBWV9TSVpFKHJlc2V0X3ZlYyk7IGkrKykgezxiciA+Jmd0OyByZXNldF92
+ZWNbaV0gPSBjcHVfdG9fbGUzMihyZXNldF92ZWNbaV0pOzxiciA+Jmd0OyZuYnNwOyAmbmJzcDsg
+Jm5ic3A7IH08YnIgPiZndDsgcm9tX2FkZF9ibG9iX2ZpeGVkX2FzKCJtcm9tLnJlc2V0IiwgcmVz
+ZXRfdmVjLCBzaXplb2YocmVzZXRfdmVjKSw8YnIgPiZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7IHJvbV9iYXNlLCAmYW1wO2FkZHJlc3Nfc3BhY2VfbWVtb3J5KTs8
+YnIgPiZndDsgcmlzY3Zfcm9tX2NvcHlfZmlybXdhcmVfaW5mbyhtYWNoaW5lLCByb21fYmFzZSwg
+cm9tX3NpemUsIHNpemVvZihyZXNldF92ZWMpLDxiciA+Jmd0OyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGtlcm5lbF9lbnRyeSk7
+PGJyID4mZ3Q7IH08YnIgPiZndDsgPGJyID4mZ3Q7IG9wZW5zYmkvZmlybXdhcmUvZndfZHluYW1p
+Yy5TPGJyID4mZ3Q7IGZ3X2Jvb3RfaGFydDo8YnIgPiZndDsgLyogU2FuaXR5IGNoZWNrcyAqLzxi
+ciA+Jmd0OyBsaSBhMSwgRldfRFlOQU1JQ19JTkZPX01BR0lDX1ZBTFVFPGJyID4mZ3Q7Jm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBSRUdfTCBhMCwgRldfRFlOQU1JQ19JTkZPX01B
+R0lDX09GRlNFVChhMik8YnIgPiZndDsgYm5lIGEwLCBhMSwgX2JhZF9keW5hbWljX2luZm88YnIg
+PiZndDsgbGkgYTEsIEZXX0RZTkFNSUNfSU5GT19WRVJTSU9OX01BWDxiciA+Jmd0OyZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgUkVHX0wgYTAsIEZXX0RZTkFNSUNfSU5GT19WRVJT
+SU9OX09GRlNFVChhMik8YnIgPiZndDsgYmd0IGEwLCBhMSwgX2JhZF9keW5hbWljX2luZm88YnIg
+PiZndDsgPGJyID4mZ3Q7IC8qIFJlYWQgYm9vdCBIQVJUIGlkICovPGJyID4mZ3Q7IGxpIGExLCBG
+V19EWU5BTUlDX0lORk9fVkVSU0lPTl8yPGJyID4mZ3Q7IGJsdCBhMCwgYTEsIDJmPGJyID4mZ3Q7
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBSRUdfTCBhMCwgRldfRFlOQU1JQ19J
+TkZPX0JPT1RfSEFSVF9PRkZTRVQoYTIpPGJyID4mZ3Q7IHJldDxiciA+Jmd0OyAyOiBsaSBhMCwg
+LTE8YnIgPiZndDsgcmV0PGJyID48YnIgPjwvYmxvY2txdW90ZT48ZGl2ICBzdHlsZT0ibGluZS1o
+ZWlnaHQ6MjAuMHB4O2NsZWFyOmJvdGg7Ij48YnIgPjwvZGl2PjwvZGl2PjwvZGl2Pg==
+------=ALIBOUNDARY_5134_7f3c3c71a700_633d5289_2ff5f8--
 
 
