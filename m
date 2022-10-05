@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218355F543C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 14:13:33 +0200 (CEST)
-Received: from localhost ([::1]:36168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC565F546B
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 14:29:13 +0200 (CEST)
+Received: from localhost ([::1]:52030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1og3HG-0006G9-Jf
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 08:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35830)
+	id 1og3WS-0004kL-Hh
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 08:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1og36f-0003Bh-6D; Wed, 05 Oct 2022 08:02:33 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19028)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1og36b-00074q-I0; Wed, 05 Oct 2022 08:02:32 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8C01775A15D;
- Wed,  5 Oct 2022 14:02:22 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 459EE75A154; Wed,  5 Oct 2022 14:02:22 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4426875A157;
- Wed,  5 Oct 2022 14:02:22 +0200 (CEST)
-Date: Wed, 5 Oct 2022 14:02:22 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, 
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v6 00/25] ppc4xx_sdram QOMify and clean ups
-In-Reply-To: <a7c2a640-504d-c93e-a27d-5730364aaaa7@eik.bme.hu>
-Message-ID: <945d9dfb-412a-194d-9f86-346e6d172fc2@eik.bme.hu>
-References: <cover.1664021647.git.balaton@eik.bme.hu>
- <6ad5fa00-ac5c-3fd9-48fd-c2cb93daeb21@gmail.com>
- <692bbaaf-2e34-8827-f2a6-73bf5c599099@gmail.com>
- <a7c2a640-504d-c93e-a27d-5730364aaaa7@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1og3Me-00088v-Iz; Wed, 05 Oct 2022 08:19:04 -0400
+Received: from [200.168.210.66] (port=33285 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1og3Ma-0001Vc-25; Wed, 05 Oct 2022 08:19:03 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 5 Oct 2022 09:18:52 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 75A438002A8;
+ Wed,  5 Oct 2022 09:18:51 -0300 (-03)
+From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org,
+ victor.colombo@eldorado.org.br, matheus.ferst@eldorado.org.br,
+ lucas.araujo@eldorado.org.br, leandro.lupori@eldorado.org.br,
+ lucas.coutinho@eldorado.org.br
+Subject: [PATCH] target/ppc: Fix xvcmp* clearing FI bit
+Date: Wed,  5 Oct 2022 09:15:51 -0300
+Message-Id: <20221005121551.27957-1-victor.colombo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-869782972-1664971342=:15873"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 05 Oct 2022 12:18:52.0078 (UTC)
+ FILETIME=[A16344E0:01D8D8B4]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,96 +63,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Vector instructions in general are not supposed to change the FI bit.
+However, xvcmp* instructions are calling gen_helper_float_check_status,
+which is leading to a cleared FI flag where it should be kept
+unchanged.
+As helper_float_check_status only affects inexact, overflow and
+underflow, and the xvcmp* instructions don't change these flags, this
+issue can be fixed by removing the call to helper_float_check_status.
+By doing this, the FI bit in FPSCR will be preserved as expected.
 
---3866299591-869782972-1664971342=:15873
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Fixes: 00084a25adf ("target/ppc: introduce separate VSX_CMP macro for xvcmp* instructions")
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+---
+ target/ppc/translate/vsx-impl.c.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-On Tue, 27 Sep 2022, BALATON Zoltan wrote:
-> On Mon, 26 Sep 2022, Daniel Henrique Barboza wrote:
->> On 9/26/22 14:09, Daniel Henrique Barboza wrote:
->>> Zoltan,
->>> 
->>> I've started to push some patches to ppc-next. Patches 1-13 are already 
->>> pushed
->>> and I'm running tests on patches 14-17. Assuming everything is ok we'll be
->>> left with patches 18-25 to work on.
->> 
->> Patches 01-17 queued in ppc-next.
->> 
->> If a next version is needed you can resend just 18-25.
->
-> Thanks. Hope somebody can review the remaining ones too. Patches 18-20 are 
-> just moving stuff to ppc4xx_sdram.c which are now in 3 patches for easier 
-> review with --color-moved, 21-22 and 25 are already reviewed by Philippe so 
-> only 23-24 need more attention.
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 7acdbceec4..e6e5c45ffd 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -810,7 +810,6 @@ static void gen_##name(DisasContext *ctx)                                     \
+         gen_helper_##name(ignored, cpu_env, xt, xa, xb);                      \
+         tcg_temp_free_i32(ignored);                                           \
+     }                                                                         \
+-    gen_helper_float_check_status(cpu_env);                                   \
+     tcg_temp_free_ptr(xt);                                                    \
+     tcg_temp_free_ptr(xa);                                                    \
+     tcg_temp_free_ptr(xb);                                                    \
+-- 
+2.25.1
 
-Ping for revewing patches mentioned above.
-
-Regards,
-BALATON Zoltan
-
->>> On 9/24/22 09:27, BALATON Zoltan wrote:
->>>> This is the end of the QOMify series started by Cédric. This series
->>>> handles the SDRAM controller models to clean them up, QOMify and unify
->>>> them and at least partially clean up the mess that has accumulated
->>>> around these in the past. This includes the not yet merged patches
->>>> from the last series and new ones that change the DDR2 version used by
->>>> sam460ex.
->>>> 
->>>> v6: Split patch moving sdram controller models together into smaller 
->>>> steps
->>>> v5: Add functions the enable sdram controller and call it from boards
->>>> v4: address more review comments
->>>> v3: Fix patches that got squashed during rebase
->>>> v2: address some review comments and try to avoid compile problem with
->>>> gcc 12.2 (untested)
->>>> 
->>>> BALATON Zoltan (25):
->>>>    ppc440_bamboo: Remove unnecessary memsets
->>>>    ppc4xx: Introduce Ppc4xxSdramBank struct
->>>>    ppc4xx_sdram: Get rid of the init RAM hack
->>>>    ppc4xx: Use Ppc4xxSdramBank in ppc4xx_sdram_banks()
->>>>    ppc440_bamboo: Add missing 4 MiB valid memory size
->>>>    ppc4xx_sdram: Move size check to ppc4xx_sdram_init()
->>>>    ppc4xx_sdram: QOM'ify
->>>>    ppc4xx_sdram: Drop extra zeros for readability
->>>>    ppc440_sdram: Split off map/unmap of sdram banks for later reuse
->>>>    ppc440_sdram: Implement enable bit in the DDR2 SDRAM controller
->>>>    ppc440_sdram: Get rid of the init RAM hack
->>>>    ppc440_sdram: Rename local variable for readability
->>>>    ppc4xx_sdram: Rename functions to prevent name clashes
->>>>    ppc440_sdram: Move RAM size check to ppc440_sdram_init
->>>>    ppc440_sdram: QOM'ify
->>>>    ppc440_uc.c: Move some macros to ppc4xx.h
->>>>    ppc440_uc.c: Remove unneeded parenthesis
->>>>    ppc440_uc.c: Move DDR2 SDRAM controller model to ppc4xx_sdram.c
->>>>    ppc4xx_devs.c: Move DDR SDRAM controller model to ppc4xx_sdram.c
->>>>    ppc4xx_sdram: Move ppc4xx_sdram_banks() to ppc4xx_sdram.c
->>>>    ppc4xx_sdram: Use hwaddr for memory bank size
->>>>    ppc4xx_sdram: Rename local state variable for brevity
->>>>    ppc4xx_sdram: Generalise bank setup
->>>>    ppc4xx_sdram: Convert DDR SDRAM controller to new bank handling
->>>>    ppc4xx_sdram: Add errp parameter to ppc4xx_sdram_banks()
->>>> 
->>>>   hw/ppc/meson.build      |   3 +-
->>>>   hw/ppc/ppc405.h         |   8 +-
->>>>   hw/ppc/ppc405_boards.c  |  13 +-
->>>>   hw/ppc/ppc405_uc.c      |  33 +-
->>>>   hw/ppc/ppc440.h         |   4 -
->>>>   hw/ppc/ppc440_bamboo.c  |  25 +-
->>>>   hw/ppc/ppc440_uc.c      | 267 +-------------
->>>>   hw/ppc/ppc4xx_devs.c    | 413 ----------------------
->>>>   hw/ppc/ppc4xx_sdram.c   | 753 ++++++++++++++++++++++++++++++++++++++++
->>>>   hw/ppc/sam460ex.c       |  44 +--
->>>>   hw/ppc/trace-events     |   1 +
->>>>   include/hw/ppc/ppc4xx.h |  65 +++-
->>>>   12 files changed, 859 insertions(+), 770 deletions(-)
->>>>   create mode 100644 hw/ppc/ppc4xx_sdram.c
->>>> 
->> 
->
---3866299591-869782972-1664971342=:15873--
 
