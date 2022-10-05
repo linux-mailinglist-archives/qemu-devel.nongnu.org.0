@@ -2,91 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BD45F5AC4
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 21:58:33 +0200 (CEST)
-Received: from localhost ([::1]:57680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696AE5F5B15
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 22:37:52 +0200 (CEST)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogAXG-0007P1-Oz
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 15:58:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45774)
+	id 1ogB9K-0005Aq-Jd
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 16:37:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ogANm-0007io-QJ
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 15:48:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21068)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ogANj-0001dh-5z
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 15:48:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664999314;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wFsmPOKPS3njX/TqndsDGT3O9I+Lfc3ck8p74cgzPLk=;
- b=K8A7LN6WuV4IwH2VN8QRQxbQfpiZz2VYYmAtgmddPIwkv1k5O+ypU7iMdhayVoJEvznX9T
- ZbyqTXsnjIMFn8cTydC2n+kHma7CJqV9z8Juqi2nDT4KY4KsCHDbIy+3vo6DipRi3kjOtR
- lghNcUY1izfKWi0dxk1on03hfdhp8Lc=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-13-F7-ZRIobMVuiAfekUvCyMQ-1; Wed, 05 Oct 2022 15:48:33 -0400
-X-MC-Unique: F7-ZRIobMVuiAfekUvCyMQ-1
-Received: by mail-qt1-f200.google.com with SMTP id
- g6-20020ac84b66000000b0035cf832dec9so11777317qts.6
- for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 12:48:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogAy4-0006Ln-QD
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 16:26:22 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:46025)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogAxy-0001U1-Bq
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 16:26:11 -0400
+Received: by mail-pg1-x534.google.com with SMTP id r18so3151289pgr.12
+ for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 13:26:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=UA7dva7BvEVn4KzGHucDBYfpIPbT5k3o1sxAJpnd9nk=;
+ b=OZ66BY052YVDgdiYWvvIAShqNUSDnTGqu91fknHu9gm2RdDwug/Leeq7hc/wNE29c9
+ IO7VTpN6FFq/CwBgrSRTY3OFim/jz5V4yI7q9KlhOR8oaxIVdXWcqqWc9Y0K0XE7HS6z
+ mtUbKZwjALn3xsdYMtqgB9nnlZKZqod7o502PPepeMW1sdv3j/nY8zGBKd22nBa1Ffqz
+ 0R8H2X0XB9J6bFi837BsUE5iN/WfuxTXPFz0W5QN7jVRHUpbZLWwpeEpB93N9b0pKgQk
+ m4MJLmcuJiUpxQxKJ+aF7YMjYXQwNt8G5ptyEUZnEpGBivpLEZgD4PHRnEHxZLHP1vVp
+ pkug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=wFsmPOKPS3njX/TqndsDGT3O9I+Lfc3ck8p74cgzPLk=;
- b=5fNuUR2pCkynF5gk5IdJe23JOw9MyU2ExgwTCt2tG03Sq/lpd+4hMQNQOZ66mdU03e
- EjeaCoj3tsZws8ZphMSLKxIFPMcdv1Qxg6qBUulx12VFPU0qrYYjIoSbYP/06AR+5y91
- 34nCLiaqecoouKxitywRY3ExeV8pRqmzF0qQ/0N9SKGMqGIWTmo3pZZtjR9qXqSoKwg+
- JJGQMJ67uI4f1jYk2Bx5b6cUQhg9BeSGciBYikgXYo4pgYyaawHvb2pjr4zSEqjhEOoq
- zHbn2bMv+pO3rbkO0ujuVqC/PmB2on2adv0wOX+dRf7UjN+nXI5bLqlCmkPDQazlASXa
- hPYQ==
-X-Gm-Message-State: ACrzQf2Ty2QiNEO5kxPQViMcLz4V0ZRSYO38dZwi5n7/vwsgrSD72IB1
- BIIv4RCEE+9b5R8+OupZWQBCIC3QX0LtUJ/GDwPCfXRxbw8Kvues1MYIj4Kd8XuxWXRssxbWjhw
- Rzt1EUeflIxxeyAY=
-X-Received: by 2002:a37:8205:0:b0:6e4:3d36:10a4 with SMTP id
- e5-20020a378205000000b006e43d3610a4mr800533qkd.783.1664999312991; 
- Wed, 05 Oct 2022 12:48:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM44WalaRgqeqWSMf94cq4nzH/uRqznR+/m61n0SEDo6HWAb4rNxrI6fpb+KYVQOiNy75PHAkg==
-X-Received: by 2002:a37:8205:0:b0:6e4:3d36:10a4 with SMTP id
- e5-20020a378205000000b006e43d3610a4mr800509qkd.783.1664999312665; 
- Wed, 05 Oct 2022 12:48:32 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- v1-20020a05620a0f0100b006bb8b5b79efsm19281127qkl.129.2022.10.05.12.48.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Oct 2022 12:48:32 -0700 (PDT)
-Date: Wed, 5 Oct 2022 15:48:30 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, Manish Mishra <manish.mishra@nutanix.com>,
- Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH 05/14] migration: Yield bitmap_mutex properly when
- sending/sleeping
-Message-ID: <Yz3fjhBSNRuq/PjS@x1n>
-References: <20220920225106.48451-1-peterx@redhat.com>
- <20220920225210.48732-1-peterx@redhat.com>
- <Yzw7Po4Qg/0WJNke@work-vm> <YzyF741irw/UEFCf@x1n>
- <Yz1n6JOdz1+QT2ei@work-vm> <Yz2JZT55uhTdP7+m@x1n>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=UA7dva7BvEVn4KzGHucDBYfpIPbT5k3o1sxAJpnd9nk=;
+ b=eEKYZsGDWxoPB0H9CDm1+hLTGJNDgdyukj4clmW/VXsqn724ltXr4IT5tmNbUvKzhE
+ k6hinvOeS9ENZs7E7WvGdhIeug/f90gfP4GovxHjPSocEE8JDWDS45FOWBObyIjsy/TD
+ +8Z0mhoR6u/EGNcFNnBcdQpmXpHcr+KEi//x1f6xiLOfkjXytebxMcYdhDbCG7prZfhQ
+ q5Rd/FTcxN+AAQiU/fsIy++QSHveE0u8MakBggjDc7aDKVeIXVcanAE3ikk8ARJ1kTi/
+ 8CS6eXrOkJw/a8b+qw+kIqJ4MRqRjg++wRMWD8HibRRS1sFzqWYcI4e2mCjn5cigbnIv
+ ENVw==
+X-Gm-Message-State: ACrzQf3PhXLF19eZAQEMo10kATBXO7kmPFZgkIB5H0SKSKQqjq0XML0V
+ 1pRdK7FQxXCo1alBVjv2rSzbdQ==
+X-Google-Smtp-Source: AMsMyM4zq12YHdPOkq8ycxH+4tLkW8cagqJSx8fBEPlOys4R5jnBCq51e1F15bEqZdaXMmZS9yh8Gg==
+X-Received: by 2002:a05:6a00:1907:b0:557:e83b:1671 with SMTP id
+ y7-20020a056a00190700b00557e83b1671mr1154484pfi.65.1665001562864; 
+ Wed, 05 Oct 2022 13:26:02 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:9ad0:4307:7d39:bb61?
+ ([2602:47:d49d:ec01:9ad0:4307:7d39:bb61])
+ by smtp.gmail.com with ESMTPSA id
+ c3-20020a170903234300b0017834a6966csm10981006plh.176.2022.10.05.13.26.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Oct 2022 13:26:01 -0700 (PDT)
+Message-ID: <15240986-73b2-958c-ed7c-275e64c0659c@linaro.org>
+Date: Wed, 5 Oct 2022 13:26:00 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yz2JZT55uhTdP7+m@x1n>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 00/26] target/i386: pc-relative translation blocks
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+References: <20221001140935.465607-1-richard.henderson@linaro.org>
+ <CABgObfaCCJRSKpdYKjn4EH1Lf6JjZaBREg51USr9tLc7zvU3Mw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CABgObfaCCJRSKpdYKjn4EH1Lf6JjZaBREg51USr9tLc7zvU3Mw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.435,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,115 +95,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 05, 2022 at 09:40:53AM -0400, Peter Xu wrote:
-> On Wed, Oct 05, 2022 at 12:18:00PM +0100, Dr. David Alan Gilbert wrote:
-> > * Peter Xu (peterx@redhat.com) wrote:
-> > > On Tue, Oct 04, 2022 at 02:55:10PM +0100, Dr. David Alan Gilbert wrote:
-> > > > * Peter Xu (peterx@redhat.com) wrote:
-> > > > > Don't take the bitmap mutex when sending pages, or when being throttled by
-> > > > > migration_rate_limit() (which is a bit tricky to call it here in ram code,
-> > > > > but seems still helpful).
-> > > > > 
-> > > > > It prepares for the possibility of concurrently sending pages in >1 threads
-> > > > > using the function ram_save_host_page() because all threads may need the
-> > > > > bitmap_mutex to operate on bitmaps, so that either sendmsg() or any kind of
-> > > > > qemu_sem_wait() blocking for one thread will not block the other from
-> > > > > progressing.
-> > > > > 
-> > > > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > > > 
-> > > > I generally dont like taking locks conditionally; but this kind of looks
-> > > > OK; I think it needs a big comment on the start of the function saying
-> > > > that it's called and left with the lock held but that it might drop it
-> > > > temporarily.
-> > > 
-> > > Right, the code is slightly hard to read, I just didn't yet see a good and
-> > > easy solution for it yet.  It's just that we may still want to keep the
-> > > lock as long as possible for precopy in one shot.
-> > > 
-> > > > 
-> > > > > ---
-> > > > >  migration/ram.c | 42 +++++++++++++++++++++++++++++++-----------
-> > > > >  1 file changed, 31 insertions(+), 11 deletions(-)
-> > > > > 
-> > > > > diff --git a/migration/ram.c b/migration/ram.c
-> > > > > index 8303252b6d..6e7de6087a 100644
-> > > > > --- a/migration/ram.c
-> > > > > +++ b/migration/ram.c
-> > > > > @@ -2463,6 +2463,7 @@ static void postcopy_preempt_reset_channel(RAMState *rs)
-> > > > >   */
-> > > > >  static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-> > > > >  {
-> > > > > +    bool page_dirty, release_lock = postcopy_preempt_active();
-> > > > 
-> > > > Could you rename that to something like 'drop_lock' - you are taking the
-> > > > lock at the end even when you have 'release_lock' set - which is a bit
-> > > > strange naming.
-> > > 
-> > > Is there any difference on "drop" or "release"?  I'll change the name
-> > > anyway since I definitely trust you on any English comments, but please
-> > > still let me know - I love to learn more on those! :)
-> > 
-> > I'm not sure 'drop' is much better either; I was struggling to find a
-> > good nam.
+On 10/1/22 13:59, Paolo Bonzini wrote:
 > 
-> I can also call it "preempt_enabled".
 > 
-> Actually I can directly replace it with calling postcopy_preempt_active()
-> always but I just want to make it crystal clear that the value is not
-> changing and lock & unlock are always paired - in our case I think it is
-> not changing, but the var helps to be 100% sure there'll be no possible bug
-> on e.g. deadlock caused by state changing.
+> Il sab 1 ott 2022, 16:09 Richard Henderson <richard.henderson@linaro.org 
+> <mailto:richard.henderson@linaro.org>> ha scritto:
 > 
-> > 
-> > > > 
-> > > > >      int tmppages, pages = 0;
-> > > > >      size_t pagesize_bits =
-> > > > >          qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
-> > > > > @@ -2486,22 +2487,41 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
-> > > > >              break;
-> > > > >          }
-> > > > >  
-> > > > > +        page_dirty = migration_bitmap_clear_dirty(rs, pss->block, pss->page);
-> > > > > +        /*
-> > > > > +         * Properly yield the lock only in postcopy preempt mode because
-> > > > > +         * both migration thread and rp-return thread can operate on the
-> > > > > +         * bitmaps.
-> > > > > +         */
-> > > > > +        if (release_lock) {
-> > > > > +            qemu_mutex_unlock(&rs->bitmap_mutex);
-> > > > > +        }
-> > > > 
-> > > > Shouldn't the unlock/lock move inside the 'if (page_dirty) {' ?
-> > > 
-> > > I think we can move into it, but it may not be as optimal as keeping it
-> > > as-is.
-> > > 
-> > > Consider a case where we've got the bitmap with continous zero bits.
-> > > During postcopy, the migration thread could be spinning here with the lock
-> > > held even if it doesn't send a thing.  It could still block the other
-> > > return path thread on sending urgent pages which may be outside the zero
-> > > zones.
-> > 
-> > OK, that reason needs commenting then - you're going to do a lot of
-> > release/take pairs in that case which is going to show up as very hot;
-> > so hmm, if ti was just for that type of 'yield' behaviour you wouldn't
-> > normally do it for each bit.
+>     This is the x86 specific changes required to reduce the
+>     amount of translation for address space randomization.
+>     For v3, quite a few changes based on Paolo's feedback.
 > 
-> Hold on.. I think my assumption won't easily trigger, because at the end of
-> the loop we'll try to look for the next "dirty" page.  So continuously
-> clean pages are unlikely, or I even think it's impossible because we're
-> holding the mutex during scanning and clear-dirty, so no one will be able
-> to flip the bit.
 > 
-> So yeah I think it's okay to move it into "page_dirty", but since we'll
-> mostly always go into dirty maybe it's just that it won't help a lot
-> either, because it'll be mostly the same as keeping it outside?
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com <mailto:pbonzini@redhat.com>>
+> 
+> 
+> 
+>     r~
+> 
+>     Based-on: 20220930212622.108363-1-richard.henderson@linaro.org
+>     <mailto:20220930212622.108363-1-richard.henderson@linaro.org>
+>     ("[PATCH v6 00/18] tcg: CPUTLBEntryFull and TARGET_TB_PCREL")
 
-IOW, maybe I should drop page_dirty directly and replace it with a check,
-failing migration if migration_bitmap_clear_dirty() returned false?
+Thanks.  FYI, yhe Based-on dependency is now upstream.
 
--- 
-Peter Xu
 
+r~
 
