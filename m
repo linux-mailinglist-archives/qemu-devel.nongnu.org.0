@@ -2,94 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72EC5F5416
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 13:58:20 +0200 (CEST)
-Received: from localhost ([::1]:35712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 218355F543C
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 14:13:33 +0200 (CEST)
+Received: from localhost ([::1]:36168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1og32Z-00027f-Km
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 07:58:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44856)
+	id 1og3HG-0006G9-Jf
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 08:13:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1og2yq-0008VP-GL
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 07:54:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40511)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1og36f-0003Bh-6D; Wed, 05 Oct 2022 08:02:33 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:19028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1og2yo-0002fC-4y
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 07:54:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1664970864;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cNSB7u7S7DM2z4JeNI1ixVq5EHPj/CnyKegZaT3nBL4=;
- b=F3rwkI9XXGEgiXIyuq5y3VOxrFTiYNX/UF9/Reor66s56+ZLYqCBT1Wto5FeWLCqXIzMeL
- Jj0msx8PAiQMY9s7dTQwrOhodGLAjtzhs2Dc2U0HzpXKUFQtcsXrz2254h8P6dO84zvcex
- 5NJXd/m60fNPF64+jG115saSNslnY1E=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-635-XQa6P8HRPJipERcpWtjMsg-1; Wed, 05 Oct 2022 07:54:23 -0400
-X-MC-Unique: XQa6P8HRPJipERcpWtjMsg-1
-Received: by mail-qt1-f199.google.com with SMTP id
- l11-20020ac848cb000000b0038f4394d93aso1604934qtr.21
- for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 04:54:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=cNSB7u7S7DM2z4JeNI1ixVq5EHPj/CnyKegZaT3nBL4=;
- b=x0bByNxmy+QqwbpWHKybY/gC9pfMHDQqKN99aQCR66B1/5BbIEAtq3dPtbYkxUTHts
- ylM9Kw8sXgj2qRp3TuLGFVD6dqmNwiLJuKCikR3MUVTWJJKXZuXrg/OQEvXjoAzoZ3Cs
- 0QVb77hkZtu0rKCMfzzDfq2TVA5BvGEtiwnH/iSFadAS8f5xJSB7mqwk1nhw93RHIskH
- O/fmLIJA1LHzeMZEK92OisNOvwPlaKy9C10zWNyY7p+ltUGaWuJarbPx1jWTK6HI/v5y
- SpgvyKNgUxC8QDgj6PRJ11usB/qx6gjzp0pfs2Lhav07kXdxVl4o2qeoqXKyp+CvlE2a
- ej+Q==
-X-Gm-Message-State: ACrzQf1j3ajhxgJRSAuau8xDIvDuoTzl63qqeK/2KcWrzj8pwipxM4Uc
- 411oThu72UN6SRBc1Fj4C/iLi3sttM7Hr38/2asB3oMJqyfN2WN9h3fwYwh9wTTC+KwZMIEau+d
- gFnSAsdKOwCvLHwA=
-X-Received: by 2002:a05:620a:269a:b0:6cf:3f0b:8fb4 with SMTP id
- c26-20020a05620a269a00b006cf3f0b8fb4mr19950071qkp.100.1664970862650; 
- Wed, 05 Oct 2022 04:54:22 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6gmYf7EgJVAT7DFz75r8qkT0l9l49m+D27vyJDK/u9si4nmnCVXUFrYUTihMu84p3VrP4YXA==
-X-Received: by 2002:a05:620a:269a:b0:6cf:3f0b:8fb4 with SMTP id
- c26-20020a05620a269a00b006cf3f0b8fb4mr19950064qkp.100.1664970862427; 
- Wed, 05 Oct 2022 04:54:22 -0700 (PDT)
-Received: from [172.20.5.108] (rrcs-66-57-248-11.midsouth.biz.rr.com.
- [66.57.248.11]) by smtp.googlemail.com with ESMTPSA id
- y20-20020ac87c94000000b0038cdc487886sm2511794qtv.80.2022.10.05.04.54.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Oct 2022 04:54:21 -0700 (PDT)
-Message-ID: <432d57e3-7559-1fac-9397-2441358b131a@redhat.com>
-Date: Wed, 5 Oct 2022 13:54:20 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1og36b-00074q-I0; Wed, 05 Oct 2022 08:02:32 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 8C01775A15D;
+ Wed,  5 Oct 2022 14:02:22 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 459EE75A154; Wed,  5 Oct 2022 14:02:22 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4426875A157;
+ Wed,  5 Oct 2022 14:02:22 +0200 (CEST)
+Date: Wed, 5 Oct 2022 14:02:22 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, 
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v6 00/25] ppc4xx_sdram QOMify and clean ups
+In-Reply-To: <a7c2a640-504d-c93e-a27d-5730364aaaa7@eik.bme.hu>
+Message-ID: <945d9dfb-412a-194d-9f86-346e6d172fc2@eik.bme.hu>
+References: <cover.1664021647.git.balaton@eik.bme.hu>
+ <6ad5fa00-ac5c-3fd9-48fd-c2cb93daeb21@gmail.com>
+ <692bbaaf-2e34-8827-f2a6-73bf5c599099@gmail.com>
+ <a7c2a640-504d-c93e-a27d-5730364aaaa7@eik.bme.hu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 0/3] Add TCG & KVM support for MSR_CORE_THREAD_COUNT
-Content-Language: en-US
-To: Alexander Graf <agraf@csgraf.de>, qemu-devel@nongnu.org
-Cc: kvm@vger.kernel.org, Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>
-References: <20221004225643.65036-1-agraf@csgraf.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20221004225643.65036-1-agraf@csgraf.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.435, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-869782972-1664971342=:15873"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,36 +63,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/5/22 00:56, Alexander Graf wrote:
-> Commit 027ac0cb516 ("target/i386/hvf: add rdmsr 35H
-> MSR_CORE_THREAD_COUNT") added support for the MSR_CORE_THREAD_COUNT MSR
-> to HVF. This MSR is mandatory to execute macOS when run with -cpu
-> host,+hypervisor.
-> 
-> This patch set adds support for the very same MSR to TCG as well as
-> KVM - as long as host KVM is recent enough to support MSR trapping.
-> 
-> With this support added, I can successfully execute macOS guests in
-> KVM with an APFS enabled OVMF build, a valid applesmc plus OSK and
-> 
->    -cpu Skylake-Client,+invtsc,+hypervisor
-> 
-> 
-> Alex
-> 
-> Alexander Graf (3):
->    x86: Implement MSR_CORE_THREAD_COUNT MSR
->    i386: kvm: Add support for MSR filtering
->    KVM: x86: Implement MSR_CORE_THREAD_COUNT MSR
-> 
->   target/i386/kvm/kvm.c                | 145 +++++++++++++++++++++++++++
->   target/i386/kvm/kvm_i386.h           |  11 ++
->   target/i386/tcg/sysemu/misc_helper.c |   5 +
->   3 files changed, 161 insertions(+)
-> 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Queued, thanks!
+--3866299591-869782972-1664971342=:15873
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Paolo
+On Tue, 27 Sep 2022, BALATON Zoltan wrote:
+> On Mon, 26 Sep 2022, Daniel Henrique Barboza wrote:
+>> On 9/26/22 14:09, Daniel Henrique Barboza wrote:
+>>> Zoltan,
+>>> 
+>>> I've started to push some patches to ppc-next. Patches 1-13 are already 
+>>> pushed
+>>> and I'm running tests on patches 14-17. Assuming everything is ok we'll be
+>>> left with patches 18-25 to work on.
+>> 
+>> Patches 01-17 queued in ppc-next.
+>> 
+>> If a next version is needed you can resend just 18-25.
+>
+> Thanks. Hope somebody can review the remaining ones too. Patches 18-20 are 
+> just moving stuff to ppc4xx_sdram.c which are now in 3 patches for easier 
+> review with --color-moved, 21-22 and 25 are already reviewed by Philippe so 
+> only 23-24 need more attention.
 
+Ping for revewing patches mentioned above.
+
+Regards,
+BALATON Zoltan
+
+>>> On 9/24/22 09:27, BALATON Zoltan wrote:
+>>>> This is the end of the QOMify series started by Cédric. This series
+>>>> handles the SDRAM controller models to clean them up, QOMify and unify
+>>>> them and at least partially clean up the mess that has accumulated
+>>>> around these in the past. This includes the not yet merged patches
+>>>> from the last series and new ones that change the DDR2 version used by
+>>>> sam460ex.
+>>>> 
+>>>> v6: Split patch moving sdram controller models together into smaller 
+>>>> steps
+>>>> v5: Add functions the enable sdram controller and call it from boards
+>>>> v4: address more review comments
+>>>> v3: Fix patches that got squashed during rebase
+>>>> v2: address some review comments and try to avoid compile problem with
+>>>> gcc 12.2 (untested)
+>>>> 
+>>>> BALATON Zoltan (25):
+>>>>    ppc440_bamboo: Remove unnecessary memsets
+>>>>    ppc4xx: Introduce Ppc4xxSdramBank struct
+>>>>    ppc4xx_sdram: Get rid of the init RAM hack
+>>>>    ppc4xx: Use Ppc4xxSdramBank in ppc4xx_sdram_banks()
+>>>>    ppc440_bamboo: Add missing 4 MiB valid memory size
+>>>>    ppc4xx_sdram: Move size check to ppc4xx_sdram_init()
+>>>>    ppc4xx_sdram: QOM'ify
+>>>>    ppc4xx_sdram: Drop extra zeros for readability
+>>>>    ppc440_sdram: Split off map/unmap of sdram banks for later reuse
+>>>>    ppc440_sdram: Implement enable bit in the DDR2 SDRAM controller
+>>>>    ppc440_sdram: Get rid of the init RAM hack
+>>>>    ppc440_sdram: Rename local variable for readability
+>>>>    ppc4xx_sdram: Rename functions to prevent name clashes
+>>>>    ppc440_sdram: Move RAM size check to ppc440_sdram_init
+>>>>    ppc440_sdram: QOM'ify
+>>>>    ppc440_uc.c: Move some macros to ppc4xx.h
+>>>>    ppc440_uc.c: Remove unneeded parenthesis
+>>>>    ppc440_uc.c: Move DDR2 SDRAM controller model to ppc4xx_sdram.c
+>>>>    ppc4xx_devs.c: Move DDR SDRAM controller model to ppc4xx_sdram.c
+>>>>    ppc4xx_sdram: Move ppc4xx_sdram_banks() to ppc4xx_sdram.c
+>>>>    ppc4xx_sdram: Use hwaddr for memory bank size
+>>>>    ppc4xx_sdram: Rename local state variable for brevity
+>>>>    ppc4xx_sdram: Generalise bank setup
+>>>>    ppc4xx_sdram: Convert DDR SDRAM controller to new bank handling
+>>>>    ppc4xx_sdram: Add errp parameter to ppc4xx_sdram_banks()
+>>>> 
+>>>>   hw/ppc/meson.build      |   3 +-
+>>>>   hw/ppc/ppc405.h         |   8 +-
+>>>>   hw/ppc/ppc405_boards.c  |  13 +-
+>>>>   hw/ppc/ppc405_uc.c      |  33 +-
+>>>>   hw/ppc/ppc440.h         |   4 -
+>>>>   hw/ppc/ppc440_bamboo.c  |  25 +-
+>>>>   hw/ppc/ppc440_uc.c      | 267 +-------------
+>>>>   hw/ppc/ppc4xx_devs.c    | 413 ----------------------
+>>>>   hw/ppc/ppc4xx_sdram.c   | 753 ++++++++++++++++++++++++++++++++++++++++
+>>>>   hw/ppc/sam460ex.c       |  44 +--
+>>>>   hw/ppc/trace-events     |   1 +
+>>>>   include/hw/ppc/ppc4xx.h |  65 +++-
+>>>>   12 files changed, 859 insertions(+), 770 deletions(-)
+>>>>   create mode 100644 hw/ppc/ppc4xx_sdram.c
+>>>> 
+>> 
+>
+--3866299591-869782972-1664971342=:15873--
 
