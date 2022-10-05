@@ -2,84 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5295F5C66
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 00:08:43 +0200 (CEST)
-Received: from localhost ([::1]:43938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EA45F5C6F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 00:10:41 +0200 (CEST)
+Received: from localhost ([::1]:35520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogCZF-0000Tt-JV
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 18:08:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45948)
+	id 1ogCb8-0002Eg-Sz
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 18:10:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ogCWv-00075c-S9
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 18:06:17 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:52976)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ogCYE-0008At-W8
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 18:07:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ogCWr-0004RK-Qu
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 18:06:17 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7D3B6617C2;
- Wed,  5 Oct 2022 22:06:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62B71C433C1;
- Wed,  5 Oct 2022 22:06:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665007561;
- bh=FZGWwvWcMPwpxhSCd2CpWK7kBaSufMBeg2cE71W2BOY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kdwp8mBwA4DxgGXMH8RNJfp6niTBmA+A9hvnQifpjbB/DwhTINU4J92nzxhIihcHU
- 3HR6iqLo8aUthnB8oK7k1r0em3qa9j73goc4WNh/TYrAcrV/j62fbfBQtjg7XtfHWo
- qCO/KBvOtXmtDmsgBesgS10c3dnJ6gGWsOHMnVypAyumop+29fsWTApZgz7r0wS7/X
- 6z0++64qq/oG9Y0sPvjb+ba5dE+/RUzUVbhDILKLMRTsU88wTBvOOBUUs6KszlPfrC
- f5joADFiEGvpbEDfO8T7W7oqNqs7Hg84FMWv/ZXI4zp9NyZbNLqY+wby7ze6dNi6ti
- 3a8z6u/Jb6R5g==
-Date: Thu, 6 Oct 2022 01:05:57 +0300
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Yz3/xWWaIRr6k1d3@kernel.org>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
- <Yz2AwVjymt7xb1sL@kernel.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ogCYB-0004mq-72
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 18:07:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665007654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GkaoS9daA1Nn5cKJPrS8LnZu5b+i3yej7ENpvo98fQI=;
+ b=QPQ+kxUSlcmeB35ch0B3S21Jd8T3HMWXmypeIcSbFcxGaZ58N3MgXp25bnyYg79tyti6Zn
+ Hf2cy9WdEag2kXkXnhv/k14fAA8Qx/9nNM0ZLJZLoCIXn0MN14iJtZDBnDMRtKNHCFBnG6
+ mfmpCL90jzAktiTkyeTLON2wbpm5XAc=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-226-au29CdwvPbKNRPukZFbjfw-1; Wed, 05 Oct 2022 18:07:33 -0400
+X-MC-Unique: au29CdwvPbKNRPukZFbjfw-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ d18-20020a05620a241200b006ce80a4d74aso15196275qkn.6
+ for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 15:07:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=GkaoS9daA1Nn5cKJPrS8LnZu5b+i3yej7ENpvo98fQI=;
+ b=P5K+JxbVQSMF/NMKQCQrJjOYl59JDVsKUzaS7Hdfay6xyic9Zdg9siylbNkv+3Vf0q
+ ec7fcxvtzD0p1VtwKdGVOn8GNpgRNSunqorKzy4wkZLTn4FMC3kGSYmkB7ifgh1valWu
+ 9lbut3sh9r4+FfPupg7zflbUXHQltNBShG7LfARTqU3WyXt0fiIwoPEkD2RmAEe0/sw9
+ Nd1iG3Ucz35VVHWb5F8KfhzgkhCo8DWfExWpBNF6kN9XkfijkVSYmkHHn0UWPIf8ciFb
+ i1SzWZtdTidetsHdZ3YGLCQL3aHN0VW+dQxiWkfBE2qNL+61dz5sIrjb641cAeDctvTW
+ YmKw==
+X-Gm-Message-State: ACrzQf2yxe7iNKGID76sXHHzyA3/2Sw58Eytl+6AhuqrgbiPSitdFlFD
+ f50u/9YLJ5j3obw/lF2CcrrT7T23BDkLWgOrg9WJG6doyYn6OGNjcweyH4RJ/+/Db6wpfFnyxqe
+ avpRhQA55TA7ULmQ=
+X-Received: by 2002:a05:620a:488c:b0:6e4:eb0a:4a2f with SMTP id
+ ea12-20020a05620a488c00b006e4eb0a4a2fmr852983qkb.228.1665007652556; 
+ Wed, 05 Oct 2022 15:07:32 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7F/0SN1g99JEyYOzZSB+scCfYNVJOAL5tU/XKt3bSmUKzn8V697ZntIO9USfAST/DOPLHEjA==
+X-Received: by 2002:a05:620a:488c:b0:6e4:eb0a:4a2f with SMTP id
+ ea12-20020a05620a488c00b006e4eb0a4a2fmr852965qkb.228.1665007652272; 
+ Wed, 05 Oct 2022 15:07:32 -0700 (PDT)
+Received: from [172.20.5.108] (rrcs-66-57-248-11.midsouth.biz.rr.com.
+ [66.57.248.11]) by smtp.googlemail.com with ESMTPSA id
+ x6-20020a37ae06000000b006b9c9b7db8bsm17202363qke.82.2022.10.05.15.07.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Oct 2022 15:07:31 -0700 (PDT)
+Message-ID: <118f5553-ec48-53e4-cebe-21ebc3e9b5d6@redhat.com>
+Date: Thu, 6 Oct 2022 00:07:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yz2AwVjymt7xb1sL@kernel.org>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=jarkko@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH] coroutine: Drop coroutine_fn annotation from
+ qemu_coroutine_self()
+Content-Language: en-US
+To: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20221005175209.975797-1-afaria@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20221005175209.975797-1-afaria@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-1.435, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,65 +103,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 05, 2022 at 04:04:05PM +0300, Jarkko Sakkinen wrote:
-> On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
-> > In memory encryption usage, guest memory may be encrypted with special
-> > key and can be accessed only by the VM itself. We call such memory
-> > private memory. It's valueless and sometimes can cause problem to allow
-> > userspace to access guest private memory. This patch extends the KVM
-> > memslot definition so that guest private memory can be provided though
-> > an inaccessible_notifier enlightened file descriptor (fd), without being
-> > mmaped into userspace.
-> > 
-> > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> > additional KVM memslot fields private_fd/private_offset to allow
-> > userspace to specify that guest private memory provided from the
-> > private_fd and guest_phys_addr mapped at the private_offset of the
-> > private_fd, spanning a range of memory_size.
-> > 
-> > The extended memslot can still have the userspace_addr(hva). When use, a
-> > single memslot can maintain both private memory through private
-> > fd(private_fd/private_offset) and shared memory through
-> > hva(userspace_addr). Whether the private or shared part is visible to
-> > guest is maintained by other KVM code.
-> > 
-> > Since there is no userspace mapping for private fd so we cannot
-> > get_user_pages() to get the pfn in KVM, instead we add a new
-> > inaccessible_notifier in the internal memslot structure and rely on it
-> > to get pfn by interacting with the memory file systems.
-> > 
-> > Together with the change, a new config HAVE_KVM_PRIVATE_MEM is added and
-> > right now it is selected on X86_64 for Intel TDX usage.
-> > 
-> > To make code maintenance easy, internally we use a binary compatible
-> > alias struct kvm_user_mem_region to handle both the normal and the
-> > '_ext' variants.
-> > 
-> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+On 10/5/22 19:52, Alberto Faria wrote:
+> qemu_coroutine_self() can be called from outside coroutine context,
+> returning the leader coroutine, and several such invocations currently
+> exist (mostly in qcow2 tracing calls).
 > 
-> What if userspace_addr would contain address of an extension structure,
-> if the flag is set, instead of shared address? I.e. interpret that field
-> differently (could be turned into union too ofc).
+> Signed-off-by: Alberto Faria <afaria@redhat.com>
+> ---
+>   include/qemu/coroutine.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> That idea could be at least re-used, if there's ever any new KVM_MEM_*
-> flags that would need an extension.
-> 
-> E.g. have struct kvm_userspace_memory_private, which contains shared
-> address, fd and the offset.
+> diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+> index c61dd2d3f7..c77ccd80f5 100644
+> --- a/include/qemu/coroutine.h
+> +++ b/include/qemu/coroutine.h
+> @@ -122,7 +122,7 @@ AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co);
+>   /**
+>    * Get the currently executing coroutine
+>    */
+> -Coroutine *coroutine_fn qemu_coroutine_self(void);
+> +Coroutine *qemu_coroutine_self(void);
+>   
+>   /**
+>    * Return whether or not currently inside a coroutine
 
-Or add a new ioctl number instead of messing with the existing
-parameter structure, e.g. KVM_SET_USER_MEMORY_REGION_PRIVATE.
+The alternative would be to have two versions, one that is coroutine_fn 
+and one that isn't, but this is certainly okay too!
 
-With this alternative and the current approach in the patch,
-it would be better just to redefine the struct fields that are
-common.
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-It actually would reduce redundancy because then there is no
-need to create that somewhat confusing kernel version of the
-same struct, right? You don't save any redundancy with this
-"embedded struct" approach.
+Paolo
 
-BR, Jarkko
 
