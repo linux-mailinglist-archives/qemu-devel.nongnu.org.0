@@ -2,86 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 114915F5601
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 15:59:45 +0200 (CEST)
-Received: from localhost ([::1]:33922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0295F5629
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 16:13:05 +0200 (CEST)
+Received: from localhost ([::1]:37480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1og4w4-0003Ap-3W
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 09:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53460)
+	id 1og58v-0006s1-9t
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 10:13:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1og4ns-0003EJ-67
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 09:51:16 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:33524)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1og4np-0000hi-8v
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 09:51:15 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- bu5-20020a17090aee4500b00202e9ca2182so3267858pjb.0
- for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 06:51:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=wFXWFACmVpmt/IpIlA1qGo1vRUFfnZcNTIw6ayDIrZM=;
- b=a4ez28dWShXp2iXkmdZDjfsoS3tFR8+stt4ls7j5HnIxhC6DmbnDMngIvLGqNTHUm3
- bvx0Rcew9hxEAQaW751NX/YykKqqDMectfHAe/GtXpSZKerAblxIWr+h+GIAzNi3S45/
- mh4WY2dfZ0diH0MZxKN6eIGObBsyd5xBkZTlHPk10mPolJk9JdTkl9EDhCchF/jz1Zk/
- ykDaD59uMsZ1+jq6hlWyufkTohc7AMg0FEA7lX32Sg5fNFV4HnsrKayyttPuyi2cyOlF
- GXdVZgw5HYZCjb8PIGD5h52tiC3uZZLdBUSSNPHndXyTVDClvP3WO1bppK90a/UVqC8j
- T/2w==
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1og4bM-0001gU-3S
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 09:38:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35575)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1og4bH-0006p3-Q8
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 09:38:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1664977094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/0mKJFXEYoEDv0XzgGHSrE7UOnP4k/ZITlfG5wZF6sY=;
+ b=iYmiJFu5gCIDRzZesMPTs3kBpo8N4pmZLp3i/DiOVjdQu7D7q0TJBo+QuQWhhhstYrsRqh
+ VrVj4orpfUCXFltp9Iz3v2q2t16TfKJ5vMN6FsgM/H/oYUcrfOx0/qNL3g+vbSk2veIp5V
+ C5NF9/md6KBRLQqVQaVDp63fH2xYZYc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-121-SUWi9tpIMxeTW94AZGtFzA-1; Wed, 05 Oct 2022 09:38:13 -0400
+X-MC-Unique: SUWi9tpIMxeTW94AZGtFzA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ y7-20020a05600c20c700b003bf90b54edbso328213wmm.1
+ for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 06:38:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=wFXWFACmVpmt/IpIlA1qGo1vRUFfnZcNTIw6ayDIrZM=;
- b=2J8MWFzHb/Lt/OzAg+ewU6u+GcbHmFifD6e1lQPVwTVbi6aCGuzG6DIl4nVd+AIhXD
- 1KMBAHgguXy53wahLwh76fsMSWDLi1qyl7K3JZrmWjJ3bNMp3CJnlAiNNC9aK1dQhSpl
- ezDRZ3nO4yR3XLyzh2xwUG+CVEwo/1IMip3ubcWnlJqpwZGA3NQkHVVxy9f0+YIWoUpO
- l1BDlZmFA//99//5ncnwiPgli3bhpV8w5YrwkdbYpiPqWBZv5ZNESDUkhYPB4dRsmwQE
- 5yoaI9eunQdo6BsvpIijdlt7H7ecY8P6q/LBaNk/40MRUFDBm+A4AQdoSUFD4mHEUAJV
- 2ibw==
-X-Gm-Message-State: ACrzQf1KwGg21OjmmXYsX4ERph4ySva3u8RyPMMpsecMx3C/ZTIJ+7yr
- AJNUQNxRIZw7561JcKaf1Eg2mg==
-X-Google-Smtp-Source: AMsMyM7zDEPjFeZx4SXag/QcpOBuPuaV6RZ850A1iHQEWdhEfbVCrYN0AxTMbCSGjChpDN9isezrZQ==
-X-Received: by 2002:a17:902:cf11:b0:178:29d7:4fbd with SMTP id
- i17-20020a170902cf1100b0017829d74fbdmr32403769plg.174.1664977871575; 
- Wed, 05 Oct 2022 06:51:11 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:9ad0:4307:7d39:bb61?
- ([2602:47:d49d:ec01:9ad0:4307:7d39:bb61])
+ bh=/0mKJFXEYoEDv0XzgGHSrE7UOnP4k/ZITlfG5wZF6sY=;
+ b=MT5ETtTCcocjOgN7S+NvECH4gYp7be1BveyRi9UWygbjiCAPtNV1dRZqS3YHCXxHDv
+ JphjRodteIqDjL1JBY3lkX90h1Wov+MYxboDRflvK0A8KxsfYe7s/YaNflS+J9wBS/Rf
+ qmoFAz+p8RW53R29RDMqMIdD23if3Hj8MfsjqDpGM1ut4EA/zXw2rN/p2e4ultPHgWTh
+ wXNhro4nC2bcclroHgjKC19fxKg63CgqiYSCTI7UsRp9g8HC6qagUXpBn4fZQ+iGKMrw
+ lIUZaNQgzvqS7SaGblG+UQaVZoPmR2Tm8eXH7tnO2RX90fWlK1VCJfXhqO/vVFZfznWf
+ Quvw==
+X-Gm-Message-State: ACrzQf16K6UY+jeZGlFgjFovmICeL2m1TzBIJXHgWO4sPXMem8G8S2Vw
+ urZZGg84SXkCn0LyavhY5Ewi2UbV/gSFfx4ADjt0IqJXbnRmLGAwBfMVpjMWXw/MmfDTVStXbZ0
+ nmau6Qpw8JHd0NT0=
+X-Received: by 2002:a5d:5105:0:b0:22e:3ed0:13bf with SMTP id
+ s5-20020a5d5105000000b0022e3ed013bfmr9029213wrt.645.1664977091988; 
+ Wed, 05 Oct 2022 06:38:11 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5qYZDC8DUvFmle2A1zHKyxFy/gpYv6t3sfkEMQmkHt4SIe/me4YX/40oVjS/mrSq+4wG9WjQ==
+X-Received: by 2002:a5d:5105:0:b0:22e:3ed0:13bf with SMTP id
+ s5-20020a5d5105000000b0022e3ed013bfmr9029192wrt.645.1664977091732; 
+ Wed, 05 Oct 2022 06:38:11 -0700 (PDT)
+Received: from [192.168.100.30] ([82.142.8.70])
  by smtp.gmail.com with ESMTPSA id
- d8-20020a621d08000000b005623b769b50sm1127789pfd.202.2022.10.05.06.51.10
+ k25-20020adfd239000000b0022af865810esm14831228wrh.75.2022.10.05.06.38.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Oct 2022 06:51:10 -0700 (PDT)
-Message-ID: <8682898c-4331-1e4f-9a1b-fed129817354@linaro.org>
-Date: Wed, 5 Oct 2022 06:51:08 -0700
+ Wed, 05 Oct 2022 06:38:11 -0700 (PDT)
+Message-ID: <7c2e4538-38bf-38de-51eb-94b8d1ab6d5a@redhat.com>
+Date: Wed, 5 Oct 2022 15:38:09 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] target/ppc: Fix xvcmp* clearing FI bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [PATCH v9 08/16] net: stream: add unix socket
 Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, matheus.ferst@eldorado.org.br, lucas.araujo@eldorado.org.br,
- leandro.lupori@eldorado.org.br, lucas.coutinho@eldorado.org.br
-References: <20221005121551.27957-1-victor.colombo@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221005121551.27957-1-victor.colombo@eldorado.org.br>
+To: David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Thomas Huth <thuth@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefano Brivio <sbrivio@redhat.com>
+References: <20220926195048.487915-1-lvivier@redhat.com>
+ <20220926195048.487915-9-lvivier@redhat.com> <YzPlwbdw8uUbfyFL@yekko>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <YzPlwbdw8uUbfyFL@yekko>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.435,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.435, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,23 +108,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/5/22 05:15, Víctor Colombo wrote:
-> Vector instructions in general are not supposed to change the FI bit.
-> However, xvcmp* instructions are calling gen_helper_float_check_status,
-> which is leading to a cleared FI flag where it should be kept
-> unchanged.
-> As helper_float_check_status only affects inexact, overflow and
-> underflow, and the xvcmp* instructions don't change these flags, this
-> issue can be fixed by removing the call to helper_float_check_status.
-> By doing this, the FI bit in FPSCR will be preserved as expected.
+On 9/28/22 08:12, David Gibson wrote:
+>> @@ -253,9 +253,27 @@ static void net_stream_accept(void *opaque)
+>>       s->fd = fd;
+>>       s->nc.link_down = false;
+>>       net_stream_connect(s);
+>> -    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+>> -             "connection from %s:%d",
+>> -             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
+>> +    switch (saddr.ss_family) {
+>> +    case AF_INET: {
+>> +        struct sockaddr_in *saddr_in = (struct sockaddr_in *)&saddr;
+>> +
+>> +        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+>> +                 "connection from %s:%d",
+>> +                 inet_ntoa(saddr_in->sin_addr), ntohs(saddr_in->sin_port));
+> So, here you print the address from which the connection has come -
+> the remote address.
 > 
-> Fixes: 00084a25adf ("target/ppc: introduce separate VSX_CMP macro for xvcmp* instructions")
-> Signed-off-by: Víctor Colombo<victor.colombo@eldorado.org.br>
-> ---
->   target/ppc/translate/vsx-impl.c.inc | 1 -
->   1 file changed, 1 deletion(-)
+>> +        break;
+>> +    }
+>> +    case AF_UNIX: {
+>> +        struct sockaddr_un saddr_un;
+>> +
+>> +        len = sizeof(saddr_un);
+>> +        getsockname(s->listen_fd, (struct sockaddr *)&saddr_un, &len);
+>> +        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
+>> +                 "connect from %s", saddr_un.sun_path);
+> Here you print the bound address - the local address.  Does that make
+> sense?  I mean, in almost every occasion the remote Unix socket will
+> be anonymous, so it probably doesn't make sense to display that, but
+> is the bound address actually a useful substitute?
+> 
+> Maybe it should just be "connect from Unix socket".
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I agree the needed information is "connected" and type "unix".
 
-r~
+But I think more information we can put here can be useful for a debugging purpose.
+
+Thanks,
+Laurent
+
 
