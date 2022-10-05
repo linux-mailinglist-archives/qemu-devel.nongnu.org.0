@@ -2,84 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865B75F4F07
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 06:21:29 +0200 (CEST)
-Received: from localhost ([::1]:46642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116155F506D
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 09:44:12 +0200 (CEST)
+Received: from localhost ([::1]:51550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ofvuS-0006JS-5p
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 00:21:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47946)
+	id 1ofz4Z-0004F8-EO
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 03:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
- id 1ofvsH-0004f7-QO
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 00:19:14 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:37633)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
- id 1ofvsF-0002oO-IC
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 00:19:13 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- p3-20020a17090a284300b0020a85fa3ffcso645513pjf.2
- for <qemu-devel@nongnu.org>; Tue, 04 Oct 2022 21:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=JqYaSs8nnjKHk4wZ+yCo6aZO+FDfi0LL5kl9tHDj7j8=;
- b=CTFOmMqHKnJPrPJnfFZkFWSrGvYDUeHw5orJcik7dTxKZ4FWH/0cX0PKKWFDr8SaGG
- DpEBF1wLzffxmmTs9mvQBKnXsp2CxOAsVMlPjXmWAjACN4bZwZ6PX5PO53Iz4ofR3XZq
- 3qenV/LYxFaLuDxqSDH/7/gwgnlhXFsV+dJ08tDy8y42q5pBvFYj1hUL4AT6eZYFtaax
- zYKAgem7iYTC4gk5OANoklvycbtf2J94WAXdU608Z5jqm3P0E2cI0VGrbYF7WXWibW7s
- lf0IirVcS03jZbYI5JnryvFTq+hUUBJ4fzvtXJDwPMRUONqiQb+LfA0iza+BOEeg0ttH
- QPew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=JqYaSs8nnjKHk4wZ+yCo6aZO+FDfi0LL5kl9tHDj7j8=;
- b=75/NxesDLGuOBh4fgTbeCgK1cCOls43RBOUocYTUFq8Fzr8FsOG///nAbxX6xOgGMT
- x6aJuBzNxVb1HCHkOhYamTQxQ/+pZjVORz/4b0QoKzT9/uz0zZPM0C9vzVIdwQLn7Vol
- 5S3ziLaXdJyK9kklOYJvHypS+yKQT9ilvXgnMUMSJ3LiO453skPM2iTIz3T7yJnwg7n+
- Fa4LKu2nF46Cs7reAR0l4yCMqmAuMzwKAuFV0XBLlItgUuCWDmS6ld+315zZ2Oo6CvlE
- 1cZzMkwQV5p27DlmKy/ux0B2aQ5dlQsHexnuERCv0eGAm/lmfsaCfSDHRGjwsnz47ThD
- g9rA==
-X-Gm-Message-State: ACrzQf3JAe00yH26lHFNyis/c6Xegh3kRTiUZrv3sSVuCKwHyfu5j8cg
- tkgRVrlyA4yB4Z0SxQsW8aM=
-X-Google-Smtp-Source: AMsMyM6pF3OTw2eCu6EvKnL05epDKzZm0fc+COF4b5oBhaPgBWskpjcYprU3v0FQYxWiHZuSJUV8hg==
-X-Received: by 2002:a17:90b:1a92:b0:20a:f34a:2b9 with SMTP id
- ng18-20020a17090b1a9200b0020af34a02b9mr40921pjb.74.1664943550031; 
- Tue, 04 Oct 2022 21:19:10 -0700 (PDT)
-Received: from T590 ([117.136.79.112]) by smtp.gmail.com with ESMTPSA id
- j23-20020a63cf17000000b0041cd5ddde6fsm9241347pgg.76.2022.10.04.21.19.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Oct 2022 21:19:09 -0700 (PDT)
-Date: Wed, 5 Oct 2022 12:18:55 +0800
-From: Ming Lei <tom.leiming@gmail.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, io-uring@vger.kernel.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kirill Tkhai <kirill.tkhai@openvz.org>,
- Manuel Bentele <development@manuel-bentele.de>,
- qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- rjones@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
- "Denis V. Lunev" <den@openvz.org>, Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: ublk-qcow2: ublk-qcow2 is available
-Message-ID: <Yz0FrzJVZTqlQtJ5@T590>
-References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
- <YzwARuAZdaoGTUfP@T590>
- <CAJSP0QXVK=wUy_JgJ9NmNMtKTRoRX0MwOZUuFWU-1mVWWKij8A@mail.gmail.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=27087a391=damien.lemoal@opensource.wdc.com>)
+ id 1ofyuk-0008W0-Jq
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 03:33:59 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:60570)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=27087a391=damien.lemoal@opensource.wdc.com>)
+ id 1ofyug-0003eI-EF
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 03:33:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1664955235; x=1696491235;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=Yli2JfQR3PzzDtp3qies5/T57XfdT2g4YxN81wirxhk=;
+ b=T1AJ1cNxrbVFPgQSAiBvYbGe8Es1SxxFg6VZvjQH7xBpSdFlrLTmGymH
+ YY+6Znjkum5/XB0JUoSAmjmZ7DwsSs5ZNQulVNHZSfHyEvByvIC+7SZmA
+ gcPMx1xT0bwyokv3IzuoKZZzs7eWm6vStIMddVgHJvQbdPqvaUHVIvFlW
+ fDaiImpAIf7Lw6DKXADu56vVNCjWCQJXqpH/0qjSmLKvvatoVgN/Bzo9j
+ v/8d2sXmw9y859HOElWYVxihfLMlWY0V6C1O5Zhj7MhC+25I20IAtdltt
+ oYG1lqICazMehBk5HSUJoDiBfbAcmcBD5zvXLtCEqmih1oeQ03dUqWyoo A==;
+X-IronPort-AV: E=Sophos;i="5.95,159,1661788800"; d="scan'208";a="325126671"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 05 Oct 2022 15:33:49 +0800
+IronPort-SDR: UgDV8AWypiudIyKGD6CXAwL+6MFaT7fc8QyO5k0c7UtHgS61AnZUowl3y78CCmGQvGbXSAeZI2
+ cqbhsHY9JIhLIxktOgFHKzT3U9Cfqt9UEHFHuIEzX3AsY7ZapFFI3Rj177+hBDQAXUuwrG7OnO
+ Bt7yziHdB7yBhfMi85rVb7GfUpM/uo+6PXW6US7gprDJfhP8I/D94+rPIyaABZkC8vLa1m36OF
+ kJ4hry3m+2pbM6kAxTiY/XG/SsRxzRUUZnRE+sPzCHVuwcfvNruO2k/5ghjRPbbsIRGwu34jZ9
+ JoN60ZhvyvSrHsyMwVGasz8J
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 04 Oct 2022 23:48:01 -0700
+IronPort-SDR: mlAXO2xdcQsh4KPJn2FvqHk8ZfWlxEJiVL+k9NO9O6QVI3eCteyOWzSIv7Z1KbunYhWJCJAr0z
+ oiDQPep5CrMJdBFoFfq+TVbgqEM7htSCIWOVvL2BxLlL5re/3JznsuIfMHXmEKD0I6PwbCbgB3
+ SBdbrQncMXlXmJNyBr6THbS37uKDih3DOWDo5oJr6/vY2zU4OatVfsQ3LpMUSFvyBhPf/3/rh9
+ FKNITx7oRwYSNGvmQ+HdbWeczJFI3BFx03q680j+GELDN5sI8wB1afHmBmznBVMIGzbq0+JDHS
+ FR8=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 05 Oct 2022 00:33:48 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Mj5sl62B5z1RwtC
+ for <qemu-devel@nongnu.org>; Wed,  5 Oct 2022 00:33:47 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :in-reply-to:organization:references:to:from:content-language
+ :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+ 1664955225; x=1667547226; bh=Yli2JfQR3PzzDtp3qies5/T57XfdT2g4YxN
+ 81wirxhk=; b=m64aSevYGVcoG15HKUbsxZVjSKfPs7kR88WdtaJPTdIlUx12sWp
+ tTq9UNAHlj+JnaNWCBoWHIpweixGF/uWcF8N2vaWe9VogTPelmxzRffUW0/CwUbk
+ iDWaVp7Ro9EZWCoveNrU4mhPw3290Qr1vzSU8TuVWm0IMbrkGniN2Kbgwv0GKEpG
+ OfBJBXBwcOV78x51kPYaxMSbTgsoN9mu+bksXx5PRG5sEFxxnPbcsB9sojy5eB8l
+ f+b7GrwsPTkiq8KdTTkIl1f3d9G8uaINvP7aYIT4njMEA/crR9whSZHSoTbX95oY
+ tOAfCOHmKV0zCZ7mxd55W1GdvcmDxSCNvBA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id HQVqGXtf1QrE for <qemu-devel@nongnu.org>;
+ Wed,  5 Oct 2022 00:33:45 -0700 (PDT)
+Received: from [10.225.163.106] (unknown [10.225.163.106])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Mj5sg5Q14z1RvLy;
+ Wed,  5 Oct 2022 00:33:43 -0700 (PDT)
+Message-ID: <4157f45e-b198-717f-891e-1087dfe00a88@opensource.wdc.com>
+Date: Wed, 5 Oct 2022 16:33:42 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJSP0QXVK=wUy_JgJ9NmNMtKTRoRX0MwOZUuFWU-1mVWWKij8A@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=tom.leiming@gmail.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v2 1/2] file-posix: add the tracking of the zones wp
+Content-Language: en-US
+From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+To: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org
+Cc: Hanna Reitz <hreitz@redhat.com>, Fam Zheng <fam@euphon.net>,
+ stefanha@redhat.com, dmitry.fomichev@wdc.com, hare@suse.de,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20220929093134.73974-1-faithilikerun@gmail.com>
+ <20220929093134.73974-2-faithilikerun@gmail.com>
+ <a91dc1d7-1d1f-9137-8ad0-bac01fad3ee7@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <a91dc1d7-1d1f-9137-8ad0-bac01fad3ee7@opensource.wdc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=27087a391=damien.lemoal@opensource.wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.449,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,225 +123,521 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 04, 2022 at 09:53:32AM -0400, Stefan Hajnoczi wrote:
-> On Tue, 4 Oct 2022 at 05:44, Ming Lei <tom.leiming@gmail.com> wrote:
-> >
-> > On Mon, Oct 03, 2022 at 03:53:41PM -0400, Stefan Hajnoczi wrote:
-> > > On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
-> > > > ublk-qcow2 is available now.
-> > >
-> > > Cool, thanks for sharing!
-> > >
-> > > >
-> > > > So far it provides basic read/write function, and compression and snapshot
-> > > > aren't supported yet. The target/backend implementation is completely
-> > > > based on io_uring, and share the same io_uring with ublk IO command
-> > > > handler, just like what ublk-loop does.
-> > > >
-> > > > Follows the main motivations of ublk-qcow2:
-> > > >
-> > > > - building one complicated target from scratch helps libublksrv APIs/functions
-> > > >   become mature/stable more quickly, since qcow2 is complicated and needs more
-> > > >   requirement from libublksrv compared with other simple ones(loop, null)
-> > > >
-> > > > - there are several attempts of implementing qcow2 driver in kernel, such as
-> > > >   ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`` [4], so ublk-qcow2
-> > > >   might useful be for covering requirement in this field
-> > > >
-> > > > - performance comparison with qemu-nbd, and it was my 1st thought to evaluate
-> > > >   performance of ublk/io_uring backend by writing one ublk-qcow2 since ublksrv
-> > > >   is started
-> > > >
-> > > > - help to abstract common building block or design pattern for writing new ublk
-> > > >   target/backend
-> > > >
-> > > > So far it basically passes xfstest(XFS) test by using ublk-qcow2 block
-> > > > device as TEST_DEV, and kernel building workload is verified too. Also
-> > > > soft update approach is applied in meta flushing, and meta data
-> > > > integrity is guaranteed, 'make test T=qcow2/040' covers this kind of
-> > > > test, and only cluster leak is reported during this test.
-> > > >
-> > > > The performance data looks much better compared with qemu-nbd, see
-> > > > details in commit log[1], README[5] and STATUS[6]. And the test covers both
-> > > > empty image and pre-allocated image, for example of pre-allocated qcow2
-> > > > image(8GB):
-> > > >
-> > > > - qemu-nbd (make test T=qcow2/002)
-> > >
-> > > Single queue?
-> >
-> > Yeah.
-> >
-> > >
-> > > >     randwrite(4k): jobs 1, iops 24605
-> > > >     randread(4k): jobs 1, iops 30938
-> > > >     randrw(4k): jobs 1, iops read 13981 write 14001
-> > > >     rw(512k): jobs 1, iops read 724 write 728
-> > >
-> > > Please try qemu-storage-daemon's VDUSE export type as well. The
-> > > command-line should be similar to this:
-> > >
-> > >   # modprobe virtio_vdpa # attaches vDPA devices to host kernel
-> >
-> > Not found virtio_vdpa module even though I enabled all the following
-> > options:
-> >
-> >         --- vDPA drivers
-> >           <M>   vDPA device simulator core
-> >           <M>     vDPA simulator for networking device
-> >           <M>     vDPA simulator for block device
-> >           <M>   VDUSE (vDPA Device in Userspace) support
-> >           <M>   Intel IFC VF vDPA driver
-> >           <M>   Virtio PCI bridge vDPA driver
-> >           <M>   vDPA driver for Alibaba ENI
-> >
-> > BTW, my test environment is VM and the shared data is done in VM too, and
-> > can virtio_vdpa be used inside VM?
+On 10/5/22 10:44, Damien Le Moal wrote:
+> On 9/29/22 18:31, Sam Li wrote:
+>> Since Linux doesn't have a user API to issue zone append operations to
+>> zoned devices from user space, the file-posix driver is modified to add
+>> zone append emulation using regular writes. To do this, the file-posix
+>> driver tracks the wp location of all zones of the device. It uses an
+>> array of uint64_t. The most significant bit of each wp location indicates
+>> if the zone type is sequential write required.
+>>
+>> The zones wp can be changed due to the following operations issued:
+>> - zone reset: change the wp to the start offset of that zone
+>> - zone finish: change to the end location of that zone
+>> - write to a zone
+>> - zone append
+>>
+>> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+
+Replying to myself to add some comments that I forgot.
+
+>> ---
+>>  block/file-posix.c               | 138 ++++++++++++++++++++++++++++++-
+>>  include/block/block-common.h     |  16 ++++
+>>  include/block/block_int-common.h |   5 ++
+>>  include/block/raw-aio.h          |   4 +-
+>>  4 files changed, 159 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/block/file-posix.c b/block/file-posix.c
+>> index 73656d87f2..33e81ac112 100755
+>> --- a/block/file-posix.c
+>> +++ b/block/file-posix.c
+>> @@ -206,6 +206,8 @@ typedef struct RawPosixAIOData {
+>>          struct {
+>>              struct iovec *iov;
+>>              int niov;
+>> +            int64_t *append_sector;
+>> +            BlockZoneWps *wps;
+>>          } io;
+>>          struct {
+>>              uint64_t cmd;
+>> @@ -1332,6 +1334,59 @@ static int hdev_get_max_segments(int fd, struct stat *st) {
+>>  #endif
+>>  }
+>>  
+>> +#if defined(CONFIG_BLKZONED)
+>> +static int report_zone_wp(int64_t offset, int fd, BlockZoneWps *wps,
+>> +                          unsigned int nrz) {
 > 
-> I hope Xie Yongji can help explain how to benchmark VDUSE.
+> Maybe rename this to get_zones_wp() ?
 > 
-> virtio_vdpa is available inside guests too. Please check that
-> VIRTIO_VDPA ("vDPA driver for virtio devices") is enabled in "Virtio
-> drivers" menu.
+>> +    struct blk_zone *blkz;
+>> +    int64_t rep_size;
+>> +    int64_t sector = offset >> BDRV_SECTOR_BITS;
+>> +    int ret, n = 0, i = 0;
+>> +
+>> +    rep_size = sizeof(struct blk_zone_report) + nrz * sizeof(struct blk_zone);
+>> +    g_autofree struct blk_zone_report *rep = NULL;
 > 
-> >
-> > >   # modprobe vduse
-> > >   # qemu-storage-daemon \
-> > >       --blockdev file,filename=test.qcow2,cache.direct=of|off,aio=native,node-name=file \
-> > >       --blockdev qcow2,file=file,node-name=qcow2 \
-> > >       --object iothread,id=iothread0 \
-> > >       --export vduse-blk,id=vduse0,name=vduse0,num-queues=$(nproc),node-name=qcow2,writable=on,iothread=iothread0
-> > >   # vdpa dev add name vduse0 mgmtdev vduse
-> > >
-> > > A virtio-blk device should appear and xfstests can be run on it
-> > > (typically /dev/vda unless you already have other virtio-blk devices).
-> > >
-> > > Afterwards you can destroy the device using:
-> > >
-> > >   # vdpa dev del vduse0
-> > >
-> > > >
-> > > > - ublk-qcow2 (make test T=qcow2/022)
-> > >
-> > > There are a lot of other factors not directly related to NBD vs ublk. In
-> > > order to get an apples-to-apples comparison with qemu-* a ublk export
-> > > type is needed in qemu-storage-daemon. That way only the difference is
-> > > the ublk interface and the rest of the code path is identical, making it
-> > > possible to compare NBD, VDUSE, ublk, etc more precisely.
-> >
-> > Maybe not true.
-> >
-> > ublk-qcow2 uses io_uring to handle all backend IO(include meta IO) completely,
-> > and so far single io_uring/pthread is for handling all qcow2 IOs and IO
-> > command.
+> To be cleaner, move this declaration above with the others ?
 > 
-> qemu-nbd doesn't use io_uring to handle the backend IO, so we don't
+>> +    rep = g_malloc(rep_size);
+>> +
+>> +    blkz = (struct blk_zone *)(rep + 1);
+>> +    while (n < nrz) {
+>> +        memset(rep, 0, rep_size);
+>> +        rep->sector = sector;
+>> +        rep->nr_zones = nrz - n;
+>> +
+>> +        do {
+>> +            ret = ioctl(fd, BLKREPORTZONE, rep);
+>> +        } while (ret != 0 && errno == EINTR);
+>> +        if (ret != 0) {
+>> +            error_report("%d: ioctl BLKREPORTZONE at %" PRId64 " failed %d",
+>> +                    fd, offset, errno);
+>> +            return -errno;
+>> +        }
+>> +
+>> +        if (!rep->nr_zones) {
+>> +            break;
+>> +        }
+>> +
+>> +        for (i = 0; i < rep->nr_zones; i++, n++) {
+>> +            wps->wp[i] = blkz[i].wp << BDRV_SECTOR_BITS;
+>> +            sector = blkz[i].start + blkz[i].len;
+>> +
+>> +            /*
+>> +             * In the wp tracking, it only cares if the zone type is sequential
+>> +             * writes required so that the wp can advance to the right location.
+> 
+> Or sequential write preferred (host aware case)
+> 
+>> +             * Instead of the type of zone_type which is an 8-bit unsigned
+>> +             * integer, use the first most significant bits of the wp location
+>> +             * to indicate the zone type: 0 for SWR zones and 1 for the
+>> +             * others.
+>> +             */
+>> +            if (!(blkz[i].type & BLK_ZONE_TYPE_SEQWRITE_REQ)) {
+> 
+> This should be:
+> 
+> 		if (blkz[i].type != BLK_ZONE_TYPE_CONVENTIONAL) {
+> 
+> Note that the type field is not a bit-field. So you must compare values
+> instead of doing bit operations.
+> 
+>> +                wps->wp[i] += (uint64_t)1 << 63;
+> 
+> You can simplify this:
+> 
+> 		   wps->wp[i] |= 1ULL << 63;
+> 
+> Overall, I would rewrite this like this:
+> 
+> for (i = 0; i < rep->nr_zones; i++, n++) {
+>     /*
+>      * The wp tracking cares only about sequential write required
+>      * and sequential write preferred zones so that the wp can
+>      * advance to the right location.
+>      * Use the most significant bit of the wp location
+>      * to indicate the zone type: 0 for SWR zones and 1 for
+>      * conventional zones.
+>      */
+>     if (blkz[i].type == BLK_ZONE_TYPE_CONVENTIONAL) {
+>         wps->wp[i] = 1ULL << 63;
+>     else
+>         wps->wp[i] = blkz[i].wp << BDRV_SECTOR_BITS;
+> }
+> sector = blkz[i - 1].start + blkz[i - 1].len;
+> 
+> Which I think is a lot simpler.
+> 
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +#endif
+>> +
+>>  static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>>  {
+>>      BDRVRawState *s = bs->opaque;
+>> @@ -1415,6 +1470,20 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>>              error_report("Invalid device capacity %" PRId64 " bytes ", bs->bl.capacity);
+>>              return;
+>>          }
+>> +
+>> +        ret = get_sysfs_long_val(&st, "physical_block_size");
+>> +        if (ret >= 0) {
+>> +            bs->bl.write_granularity = ret;
+>> +        }
+> 
+> This change seems unrelated to the wp tracking. Should this be moved to a
+> different patch ?
+> 
+>> +
+>> +        bs->bl.wps = g_malloc(sizeof(BlockZoneWps) + sizeof(int64_t) * ret);
+>> +        qemu_mutex_init(&bs->bl.wps->lock);
+> 
+> Move this initialization after the if block. Doing so, you do not need to
+> call mutex destroy in case of error.
+> 
+>> +        if (report_zone_wp(0, s->fd, bs->bl.wps, ret) < 0 ) {
+>> +            error_report("report wps failed");
+>> +            qemu_mutex_destroy(&bs->bl.wps->lock);
+>> +            g_free(bs->bl.wps);
+>> +            return;
+>> +        }
+>>      }
+>>  }
+>>  
+>> @@ -1582,7 +1651,7 @@ static ssize_t handle_aiocb_rw_vector(RawPosixAIOData *aiocb)
+>>      ssize_t len;
+>>  
+>>      do {
+>> -        if (aiocb->aio_type & QEMU_AIO_WRITE)
+>> +        if (aiocb->aio_type & (QEMU_AIO_WRITE | QEMU_AIO_ZONE_APPEND))
+>>              len = qemu_pwritev(aiocb->aio_fildes,
+>>                                 aiocb->io.iov,
+>>                                 aiocb->io.niov,
+>> @@ -1612,7 +1681,7 @@ static ssize_t handle_aiocb_rw_linear(RawPosixAIOData *aiocb, char *buf)
+>>      ssize_t len;
+>>  
+>>      while (offset < aiocb->aio_nbytes) {
+>> -        if (aiocb->aio_type & QEMU_AIO_WRITE) {
+>> +        if (aiocb->aio_type & (QEMU_AIO_WRITE | QEMU_AIO_ZONE_APPEND)) {
+>>              len = pwrite(aiocb->aio_fildes,
+>>                           (const char *)buf + offset,
+>>                           aiocb->aio_nbytes - offset,
+>> @@ -1705,7 +1774,7 @@ static int handle_aiocb_rw(void *opaque)
+>>      }
+>>  
+>>      nbytes = handle_aiocb_rw_linear(aiocb, buf);
+>> -    if (!(aiocb->aio_type & QEMU_AIO_WRITE)) {
+>> +    if (!(aiocb->aio_type & (QEMU_AIO_WRITE | QEMU_AIO_ZONE_APPEND))) {
+>>          char *p = buf;
+>>          size_t count = aiocb->aio_nbytes, copy;
+>>          int i;
+>> @@ -1726,6 +1795,23 @@ static int handle_aiocb_rw(void *opaque)
+>>  
+>>  out:
+>>      if (nbytes == aiocb->aio_nbytes) {
+>> +#if defined(CONFIG_BLKZONED)
+>> +        if (aiocb->aio_type & (QEMU_AIO_WRITE | QEMU_AIO_ZONE_APPEND)) {
+>> +            BlockZoneWps *wps = aiocb->io.wps;
+> 
+> Why adding this pointer to the aiocb struct ? You can get the array from
+> aiocb->bs->bl.wps, no ?
+> 
+>> +            int index = aiocb->aio_offset / aiocb->bs->bl.zone_size;
+>> +            if (wps) {
+>> +               if (BDRV_ZT_IS_SWR(wps->wp[index])) {
+>> +                    qemu_mutex_lock(&wps->lock);
+>> +                    wps->wp[index] += aiocb->aio_nbytes;
+>> +                    qemu_mutex_unlock(&wps->lock);
+>> +                }
+>> +
+>> +                if (aiocb->aio_type & QEMU_AIO_ZONE_APPEND) {
+>> +                    *aiocb->io.append_sector = wps->wp[index] >> BDRV_SECTOR_BITS;
+> 
+> Bug: the append sector must be the first sector written, not the wp
+> (sector following the last written sector). So this must be done *before*
+> advancing the wp.
+> 
+> You need to have wps->lock held here too since you are reading
+> wps->wp[index]. So the mutex lock/unlock needs to be around the 2 hunks
+> under "if (wps) {". Also, given that there cannot be any zone append
+> issued to conventional zones (they will fail), you can simplify:
+> 
+>             if (wps) {
+>                 qemu_mutex_lock(&wps->lock);
+>                 if (BDRV_ZT_IS_SWR(wps->wp[index])) {
+>                     if (aiocb->aio_type & QEMU_AIO_ZONE_APPEND) {
+>                         *aiocb->io.append_sector =
+>                            wps->wp[index] >> BDRV_SECTOR_BITS;
+>                     }
+>                     wps->wp[index] += aiocb->aio_nbytes;
+>                 }
+>                 qemu_mutex_unlock(&wps->lock);
+>             }
+> 
+> Now the last problem with this code is sequential write preferred zones.
+> For these, the write may actually be overwriting sectors that have already
+> been written, meaning that the wp may not necessarilly need to be
+> advanced. You can handle that case together with SWR case simply like this:
+> 
+>             if (wps) {
+>                 qemu_mutex_lock(&wps->lock);
+>                 if (BDRV_ZT_IS_SWR(wps->wp[index])) {
+>                     uint64_t wend_offset =
+>                          aiocb->aio_offset + aiocb->aio_nbytes;
+> 
+>                     if (aiocb->aio_type & QEMU_AIO_ZONE_APPEND) {
+>                         *aiocb->io.append_sector =
+>                            wps->wp[index] >> BDRV_SECTOR_BITS;
+>                     }
+> 
+>                     /* Advance the wp if needed */
+>                     if (wend_offset > wps->wp[index])
+>                         wps->wp[index] = wend_offset;
+>                 }
+>                 qemu_mutex_unlock(&wps->lock);
+>             }
+> 
 
-I tried to use it via --aio=io_uring for setting up qemu-nbd, but not succeed.
+Note that you should not increment the wp if the zone is already full. But
+for such case, since write and zone append commands will fail, you can
+fail them immediately.
 
-> know whether the benchmark demonstrates that ublk is faster than NBD,
-> that the ublk-qcow2 implementation is faster than qemu-nbd's qcow2,
-> whether there are miscellaneous implementation differences between
-> ublk-qcow2 and qemu-nbd (like using the same io_uring context for both
-> ublk and backend IO), or something else.
+>> +                }
+>> +            }
+>> +        }
+>> +#endif
+>>          return 0;
+>>      } else if (nbytes >= 0 && nbytes < aiocb->aio_nbytes) {
+>>          if (aiocb->aio_type & QEMU_AIO_WRITE) {
+>> @@ -1737,6 +1823,19 @@ out:
+>>          }
+>>      } else {
+>>          assert(nbytes < 0);
+>> +#if defined(CONFIG_BLKZONED)
+>> +        if (aiocb->aio_type == QEMU_AIO_ZONE_APPEND) {
+> 
+> Why do this only for zone append ? Regular write error also need a refresh
+> of the zone wp.
+> 
+>> +            qemu_mutex_lock(&aiocb->bs->bl.wps->lock);
+>> +            if (report_zone_wp(0, aiocb->aio_fildes, aiocb->bs->bl.wps,
+>> +                           aiocb->bs->bl.nr_zones) < 0) {
+>> +                error_report("report zone wp failed");
+>> +                qemu_mutex_destroy(&aiocb->bs->bl.wps->lock);
+>> +                g_free(aiocb->bs->bl.wps);
+>> +                return -EINVAL;
+>> +            }
+>> +            qemu_mutex_unlock(&aiocb->bs->bl.wps->lock);
+> 
+> This really needs to be a helper function, e.g. update_zone_wp() or
+> something like this. Aslo, why nuke the entire zone array if the refresh
+> for this zone fails ? You could simply leave it as is. The next write may
+> again fail and another attempt at refreshing it done.
+> 
+>> +        }
+>> +#endif
+>>          return nbytes;
+>>      }
+>>  }
+>> @@ -2027,12 +2126,16 @@ static int handle_aiocb_zone_report(void *opaque) {
+>>  static int handle_aiocb_zone_mgmt(void *opaque) {
+>>  #if defined(CONFIG_BLKZONED)
+>>      RawPosixAIOData *aiocb = opaque;
+>> +    BlockDriverState *bs = aiocb->bs;
+>>      int fd = aiocb->aio_fildes;
+>>      int64_t sector = aiocb->aio_offset / 512;
+>>      int64_t nr_sectors = aiocb->aio_nbytes / 512;
+>>      struct blk_zone_range range;
+>>      int ret;
+>>  
+>> +    BlockZoneWps *wps = bs->bl.wps;
+>> +    int index = aiocb->aio_offset / bs->bl.zone_size;
+>> +
+>>      /* Execute the operation */
+>>      range.sector = sector;
+>>      range.nr_sectors = nr_sectors;
+>> @@ -2045,6 +2148,22 @@ static int handle_aiocb_zone_mgmt(void *opaque) {
+>>                       errno);
+>>          return -errno;
+>>      }
+>> +    
+>> +    if (aiocb->zone_mgmt.all) {
 
-The theory shouldn't be too complicated:
+This case should be integrated into the
+if (aiocb->zone_mgmt.zone_op == BLKRESETZONE)
 
-1) io uring passthough(pt) communication is fast than socket, and io command
-is carried over io_uring pt commands, and should be fast than virio
-communication too.
+>> +        for (int i = 0; i < bs->bl.nr_zones; ++i) {
+>> +            qemu_mutex_lock(&wps->lock);
+>> +            wps->wp[i] = i * bs->bl.zone_size;
 
-2) io uring io handling is fast than libaio which is taken in the
-test on qemu-nbd, and all qcow2 backend io(include meta io) is handled
-by io_uring.
+You need to test the zone type bit and only change SWR or SWP zones.
 
-https://github.com/ming1/ubdsrv/blob/master/tests/common/qcow2_common
+>> +            qemu_mutex_unlock(&wps->lock);
+>> +        }
+>> +    } else if (aiocb->zone_mgmt.zone_op == BLKRESETZONE) {
+>> +        qemu_mutex_lock(&wps->lock);
+>> +        wps->wp[index] = aiocb->aio_offset;
+>> +        qemu_mutex_unlock(&wps->lock);
+>> +    } else if (aiocb->zone_mgmt.zone_op == BLKFINISHZONE) {
+>> +        qemu_mutex_lock(&wps->lock);
+>> +        wps->wp[index] = aiocb->aio_offset + bs->bl.zone_size;
+> 
+> This may be the last zone of the device, which may be smaller. So you need
+> to check that here. Same for the first case for reset all: you need to
+> handle the smaller last zone if there is one.
 
-3) ublk uses one single io_uring to handle all io commands and qcow2
-backend IOs, so batching handling is common, and it is easy to see
-dozens of IOs/io commands handled in single syscall, or even more.
+You should fail any zone management commnand targetting a conventional
+zone. You are not checking that.
+
+Also, you can avoid issuing commands by testing if a zone is already full
+(no need to issue finish command) or empty (no need to do a reset).
 
 > 
-> I'm suggesting measuring changes to just 1 variable at a time.
-> Otherwise it's hard to reach a conclusion about the root cause of the
-> performance difference. Let's learn why ublk-qcow2 performs well.
+>> +        qemu_mutex_unlock(&wps->lock);
+>> +    }
+> 
+> Instead of the lock/unlock for each case here, take the mutex lock before
+> the if () and unlock it after it. Less lines :)
+> 
+> Also, if the zone management command fails, you need to do a report zones
+> and refresh the wps array.
+> 
+>>      return ret;
+>>  #else
+>>      return -ENOTSUP;
+>> @@ -2355,6 +2474,8 @@ static int coroutine_fn raw_co_prw(BlockDriverState *bs, uint64_t offset,
+>>          },
+>>      };
+>>  
+>> +    BlockZoneWps *wps = bs->bl.wps;
+>> +    acb.io.wps = wps;
+> 
+> You do not need the pws variable. Simply do:
+> 
+>        acb.io.wps = bs->bl.wps;
+> 
+>>      assert(qiov->size == bytes);
+>>      return raw_thread_pool_submit(bs, handle_aiocb_rw, &acb);
+>>  }
+>> @@ -2465,6 +2586,12 @@ static void raw_close(BlockDriverState *bs)
+>>      BDRVRawState *s = bs->opaque;
+>>  
+>>      if (s->fd >= 0) {
+>> +#if defined(CONFIG_BLKZONED)
+>> +        if (bs->bl.wps) {
+>> +            qemu_mutex_destroy(&bs->bl.wps->lock);
+>> +            g_free(bs->bl.wps);
+>> +        }
+>> +#endif
+>>          qemu_close(s->fd);
+>>          s->fd = -1;
+>>      }
+>> @@ -3299,6 +3426,11 @@ static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, BlockZoneOp op,
+>>          zone_op_name = "BLKRESETZONE";
+>>          zone_op = BLKRESETZONE;
+>>          break;
+>> +    case BLK_ZO_RESET_ALL:
+>> +        zone_op_name = "BLKRESETZONE";
+>> +        zone_op = BLKRESETZONE;
+>> +        is_all = true;
+>> +        break;
+> 
+> This change seems unrelated to the wp tracking. Different patch ?
+> 
+>>      default:
+>>          g_assert_not_reached();
+>>      }
+>> diff --git a/include/block/block-common.h b/include/block/block-common.h
+>> index 8efb6b0c43..43bfc484eb 100644
+>> --- a/include/block/block-common.h
+>> +++ b/include/block/block-common.h
+>> @@ -58,6 +58,7 @@ typedef enum BlockZoneOp {
+>>      BLK_ZO_CLOSE,
+>>      BLK_ZO_FINISH,
+>>      BLK_ZO_RESET,
+>> +    BLK_ZO_RESET_ALL,
+> 
+> same here. Adding reset all support should be a different patch.
+>>  } BlockZoneOp;
+>>  
+>>  typedef enum BlockZoneModel {
+>> @@ -96,6 +97,14 @@ typedef struct BlockZoneDescriptor {
+>>      BlockZoneCondition cond;
+>>  } BlockZoneDescriptor;
+>>  
+>> +/*
+>> + * Track write pointers of a zone in bytes.
+>> + */
+>> +typedef struct BlockZoneWps {
+>> +    QemuMutex lock;
+>> +    uint64_t wp[];
+>> +} BlockZoneWps;
+>> +
+>>  typedef struct BlockDriverInfo {
+>>      /* in bytes, 0 if irrelevant */
+>>      int cluster_size;
+>> @@ -209,6 +218,13 @@ typedef enum {
+>>  #define BDRV_SECTOR_BITS   9
+>>  #define BDRV_SECTOR_SIZE   (1ULL << BDRV_SECTOR_BITS)
+>>  
+>> +/*
+>> + * Get the first most significant bit of WP. If it is zero, then
+>> + * the zone type is SWR.
+>> + */
+>> +#define BDRV_ZT_IS_SWR(WP)    ((WP & 0x8000000000000000) == 0) ? (true) : \
+>> +                              (false)
+> 
+> Simplify:
+> 
+> #define BDRV_ZT_IS_SWR(wp)	(!((wp) & (1ULL << 63))
+> 
+> But since this must be used for both SWR and SWP zones, I would reverse
+> this into:
+> 
+> #define BDRV_ZONE_IS_CONV(wp)	((wp) & (1ULL << 63))
+> 
+> Which is a lot simpler.
+> 
+>> +
+>>  #define BDRV_REQUEST_MAX_SECTORS MIN_CONST(SIZE_MAX >> BDRV_SECTOR_BITS, \
+>>                                             INT_MAX >> BDRV_SECTOR_BITS)
+>>  #define BDRV_REQUEST_MAX_BYTES (BDRV_REQUEST_MAX_SECTORS << BDRV_SECTOR_BITS)
+>> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+>> index 37dddc603c..59c2d1316d 100644
+>> --- a/include/block/block_int-common.h
+>> +++ b/include/block/block_int-common.h
+>> @@ -857,6 +857,11 @@ typedef struct BlockLimits {
+>>  
+>>      /* device capacity expressed in bytes */
+>>      int64_t capacity;
+>> +
+>> +    /* array of write pointers' location of each zone in the zoned device. */
+>> +    BlockZoneWps *wps;
+>> +
+>> +    int64_t write_granularity;
+>>  } BlockLimits;
+>>  
+>>  typedef struct BdrvOpBlocker BdrvOpBlocker;
+>> diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
+>> index 3d26929cdd..f13cc1887b 100644
+>> --- a/include/block/raw-aio.h
+>> +++ b/include/block/raw-aio.h
+>> @@ -31,6 +31,7 @@
+>>  #define QEMU_AIO_TRUNCATE     0x0080
+>>  #define QEMU_AIO_ZONE_REPORT  0x0100
+>>  #define QEMU_AIO_ZONE_MGMT    0x0200
+>> +#define QEMU_AIO_ZONE_APPEND  0x0400
+>>  #define QEMU_AIO_TYPE_MASK \
+>>          (QEMU_AIO_READ | \
+>>           QEMU_AIO_WRITE | \
+>> @@ -41,7 +42,8 @@
+>>           QEMU_AIO_COPY_RANGE | \
+>>           QEMU_AIO_TRUNCATE  | \
+>>           QEMU_AIO_ZONE_REPORT | \
+>> -         QEMU_AIO_ZONE_MGMT)
+>> +         QEMU_AIO_ZONE_MGMT | \
+>> +         QEMU_AIO_ZONE_APPEND)
+> 
+> This should be introduced in patch 2. This patch should be only about zone
+> wp tracking with regular writes and zone management ops. The second patch
+> can implement zone append emulation thanks to this patch. So separate.
+> 
+>>  
+>>  /* AIO flags */
+>>  #define QEMU_AIO_MISALIGNED   0x1000
+> 
 
-Turns out the latest Fedora 37-beta doesn't support vdpa yet, so I built
-qemu from the latest github tree, and finally it starts to work. And test kernel
-is v6.0 release.
+-- 
+Damien Le Moal
+Western Digital Research
 
-Follows the test result, and all three devices are setup as single
-queue, and all tests are run in single job, still done in one VM, and
-the test images are stored on XFS/virito-scsi backed SSD.
-
-The 1st group tests all three block device which is backed by empty
-qcow2 image.
-
-The 2nd group tests all the three block devices backed by pre-allocated
-qcow2 image.
-
-Except for big sequential IO(512K), there is still not small gap between
-vdpa-virtio-blk and ublk.
-
-1. run fio on block device over empty qcow2 image
-1) qemu-nbd
-running qcow2/001
-run perf test on empty qcow2 image via nbd
-	fio (nbd(/mnt/data/ublk_null_8G_nYbgF.qcow2), libaio, bs 4k, dio, hw queues:1)...
-	randwrite: jobs 1, iops 8549
-	randread: jobs 1, iops 34829
-	randrw: jobs 1, iops read 11363 write 11333
-	rw(512k): jobs 1, iops read 590 write 597
-
-
-2) ublk-qcow2
-running qcow2/021
-run perf test on empty qcow2 image via ublk
-	fio (ublk/qcow2( -f /mnt/data/ublk_null_8G_s761j.qcow2), libaio, bs 4k, dio, hw queues:1, uring_comp: 0, get_data: 0).
-	randwrite: jobs 1, iops 16086
-	randread: jobs 1, iops 172720
-	randrw: jobs 1, iops read 35760 write 35702
-	rw(512k): jobs 1, iops read 1140 write 1149
-
-3) vdpa-virtio-blk
-running debug/test_dev
-run io test on specified device
-	fio (vdpa(/dev/vdc), libaio, bs 4k, dio, hw queues:1)...
-	randwrite: jobs 1, iops 8626
-	randread: jobs 1, iops 126118
-	randrw: jobs 1, iops read 17698 write 17665
-	rw(512k): jobs 1, iops read 1023 write 1031
-
-
-2. run fio on block device over pre-allocated qcow2 image
-1) qemu-nbd
-running qcow2/002
-run perf test on pre-allocated qcow2 image via nbd
-	fio (nbd(/mnt/data/ublk_data_8G_sc0SB.qcow2), libaio, bs 4k, dio, hw queues:1)...
-	randwrite: jobs 1, iops 21439
-	randread: jobs 1, iops 30336
-	randrw: jobs 1, iops read 11476 write 11449
-	rw(512k): jobs 1, iops read 718 write 722
-
-2) ublk-qcow2
-running qcow2/022
-run perf test on pre-allocated qcow2 image via ublk
-	fio (ublk/qcow2( -f /mnt/data/ublk_data_8G_yZiaJ.qcow2), libaio, bs 4k, dio, hw queues:1, uring_comp: 0, get_data: 0).
-	randwrite: jobs 1, iops 98757
-	randread: jobs 1, iops 110246
-	randrw: jobs 1, iops read 47229 write 47161
-	rw(512k): jobs 1, iops read 1416 write 1427
-
-3) vdpa-virtio-blk
-running debug/test_dev
-run io test on specified device
-	fio (vdpa(/dev/vdc), libaio, bs 4k, dio, hw queues:1)...
-	randwrite: jobs 1, iops 47317
-	randread: jobs 1, iops 74092
-	randrw: jobs 1, iops read 27196 write 27234
-	rw(512k): jobs 1, iops read 1447 write 1458
-
-
-thanks,
-Ming
 
