@@ -2,85 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D405F5BD3
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 23:38:17 +0200 (CEST)
-Received: from localhost ([::1]:38086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3015F5BDE
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Oct 2022 23:41:39 +0200 (CEST)
+Received: from localhost ([::1]:35942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogC5o-0003Io-Rn
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 17:38:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43220)
+	id 1ogC94-0007Cy-H6
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 17:41:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogBzo-0006uc-67
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 17:32:05 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:37553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogBzm-0005x4-Dk
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 17:32:03 -0400
-Received: by mail-pl1-x636.google.com with SMTP id d24so16621940pls.4
- for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 14:32:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=Aezgq/QB83Q2sr8V7JbCZLbaG1VG5tHQ6lHh1+M2HSg=;
- b=iIHma4A3shQ5aKqmY+EXHl1lWsVoQzIlsrC523MflsbcXdejlC0HefjuyLfTPRk6xc
- HONmg1yS0BtidhCUrqX0VhXODWhMeYn0+bRjmbbGxPl1msj6VU4sD17MRfzrB/VdABWr
- Ks6p2OSXilB4atDPKQyP17+TC0lzTZMsLqAgiPAHMc+uVfzzEWotzdIQXGxwmcZhQAnC
- t7poy1EfF9pyAyA5bbqAIjTRdD0CrV8hI1Rr+LGX/Kp5e/Tgg7ISZm2A+t7cTxzXvL+v
- o56yhA9oui3LxUKodGigi6BdfWQGVemUHaJyXVmUk/bdvT0sRVjsLA8ND9ld2MSVmjv6
- 50HA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ogC5G-0002Hd-CU
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 17:37:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54106)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ogC5C-0006s3-Tl
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 17:37:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665005857;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=INUb+1/wji7Ozu+njRJP0Lv8AEol+llU1VilcPhjLHI=;
+ b=YJwYiEQvva1jYgKNlkLd/BOA6PuBP4gjww3MPa0gV6spysysjGHbeYHIjsQrhTYVj/ktI0
+ v62mQY2w7+SFuXbJOS21IQPeevaCo2NVsI/8bABjnbNr4YUJn7VEgF62f3U+JuaVdtir7K
+ TOdy26feVEbf51hPCxdkrhDJqOuv178=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-643-IeQQNJeFNamk08eTz1ZsEw-1; Wed, 05 Oct 2022 17:37:36 -0400
+X-MC-Unique: IeQQNJeFNamk08eTz1ZsEw-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ g21-20020ac87d15000000b0035bb6f08778so27323qtb.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 14:37:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date;
- bh=Aezgq/QB83Q2sr8V7JbCZLbaG1VG5tHQ6lHh1+M2HSg=;
- b=jNAt8+eWL5PoYHd6vPND2k4NMSaHxAPoIWmVwIAU8Y7Mnx1lMpW/bqYcVUMyfpRSPr
- T4aX1uXdGJMrEcqzer+APtNjLoQKOdcli6r+CDoghMIRxXPod5mDxAf6G50GV9Dx1C+C
- w5Z/+UFOZnCSj82OeevPbZKqqmHwgO4OMTU63SE95ujlCBw3EqL+bC0DtGZXY6dhNSoB
- rsjWosohteioOQfm3JX+Ev7xN49QtN3e8XA4m/+UCNPM6ZDWyGJ7prTps0eWi14n98+w
- ZhuVsAd2O+qzoPy0bCXyzEdeKr6ugnLcRuQYwio4rqqWffyRsedd90HOp49Q9WGbJiCa
- EIrQ==
-X-Gm-Message-State: ACrzQf0H/gNl8cmf7v1qd9ilcq5f2pBP2du0XDmsSy/ue+58zIB8I0pl
- olxJdGxboBLBCrwFZG+yS2VwBw==
-X-Google-Smtp-Source: AMsMyM67tELmyxbbWwKaJ4c3qfSUBX6xzQUSKHGXpefsN4cPYj5vBDtjpazEfOg+PZnFgiqi6kf/bw==
-X-Received: by 2002:a17:90b:2751:b0:20a:e437:a9e8 with SMTP id
- qi17-20020a17090b275100b0020ae437a9e8mr6967701pjb.181.1665005520898; 
- Wed, 05 Oct 2022 14:32:00 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:9ad0:4307:7d39:bb61?
- ([2602:47:d49d:ec01:9ad0:4307:7d39:bb61])
- by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b00176d218889esm11053558plh.228.2022.10.05.14.31.59
+ bh=INUb+1/wji7Ozu+njRJP0Lv8AEol+llU1VilcPhjLHI=;
+ b=KgDRW6svx1PJpNTYsGJRwSu9SzL8c5UDnce2x7nj9qFsFJikCRbYNsGB3Eg+sMt0aM
+ zBwdWax0KoO7l+f2hSs/ZKCKAaJE5WSornmKI8u+jw49uh+3x5bbKNBa7vNV/0F4QZmT
+ oVAcn0N/1oXymkk4D0MWBSBQH82/c7epBA6el8b0fRozPGoSY6MqjearbS3FhYKD8AUO
+ y2JLIqCknnSkKdh+yHA2yvbIC6a2S7ev4dZocANQpmQ6QTl+hsyMoB8ttTniNQXyA1Fd
+ p5/wpDX7VB/MmWVcpahbtzWhpdc6D+kKKNkeYrxEuD+X7TXn3oEHvBRbHWnjxPHGCkLX
+ MmZQ==
+X-Gm-Message-State: ACrzQf3Ik2P2mg++7N1vAR8UYqE9NmR0B53tBk5hNCQfYgV9Q548FnBj
+ LQQiB1LMzqZiz4lbL4wv8Vbu6ssK80Us2J7074rG3lL/RB2pqv/rePm2mIWUP7/De0k5cYTquNx
+ 3mz883WAXM7VDYaI=
+X-Received: by 2002:a05:622a:409:b0:35d:5a1e:888d with SMTP id
+ n9-20020a05622a040900b0035d5a1e888dmr1194172qtx.561.1665005855932; 
+ Wed, 05 Oct 2022 14:37:35 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5FCvRTgffnfnAgRLsqC21rxa2Am1+cJNiG0Sv4emE3HZGwiCZxYjyt5WSEQQhnYFmJ1cjBEw==
+X-Received: by 2002:a05:622a:409:b0:35d:5a1e:888d with SMTP id
+ n9-20020a05622a040900b0035d5a1e888dmr1194159qtx.561.1665005855643; 
+ Wed, 05 Oct 2022 14:37:35 -0700 (PDT)
+Received: from [172.20.5.108] (rrcs-66-57-248-11.midsouth.biz.rr.com.
+ [66.57.248.11]) by smtp.googlemail.com with ESMTPSA id
+ u4-20020a37ab04000000b006e26c6db902sm2878651qke.53.2022.10.05.14.37.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Oct 2022 14:31:59 -0700 (PDT)
-Message-ID: <bded7cf8-0d9d-e1e7-6354-37a61ddd0bc8@linaro.org>
-Date: Wed, 5 Oct 2022 14:31:57 -0700
+ Wed, 05 Oct 2022 14:37:34 -0700 (PDT)
+Message-ID: <bb2d1de3-5622-076a-7282-06c812bb4804@redhat.com>
+Date: Wed, 5 Oct 2022 23:37:33 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 00/26] target/i386: pc-relative translation blocks
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v3] virtio-scsi: Send "REPORTED LUNS CHANGED" sense data
+ upon disk hotplug events.
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-References: <20221001140935.465607-1-richard.henderson@linaro.org>
- <CABgObfaCCJRSKpdYKjn4EH1Lf6JjZaBREg51USr9tLc7zvU3Mw@mail.gmail.com>
- <15240986-73b2-958c-ed7c-275e64c0659c@linaro.org>
- <CABgObfa10HE49XK0O0uzSdRSy4=e9bO5tTPR5RsS-U3+deQWDw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CABgObfa10HE49XK0O0uzSdRSy4=e9bO5tTPR5RsS-U3+deQWDw@mail.gmail.com>
+To: Venu Busireddy <venu.busireddy@oracle.com>
+Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220928180603.101533-1-venu.busireddy@oracle.com>
+ <CABgObfYXMBnVp2NqhyxOGjppDPc81Qk_fKepF6uzTkOBMoj2zA@mail.gmail.com>
+ <YzYcqNqVCiobf/IB@lt>
+ <CABgObfbydWZbUvgQVA4ACaR8GgZuft8c9bMTm7_bM86P44vnig@mail.gmail.com>
+ <YzcAK23fRnohvXNT@lt>
+ <CABgObfZ-8T+=PgPuxtTc5GHgK9sGGTs_HUrcWG0N3kXXLXAZnQ@mail.gmail.com>
+ <YztsgiapfWC78BG+@lt>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YztsgiapfWC78BG+@lt>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.435,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.435, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,11 +110,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/5/22 14:06, Paolo Bonzini wrote:
-> Great, then if you want I can merge this myself.
+On 10/4/22 01:13, Venu Busireddy wrote:
+>> script? Something must be putting the SCSI command in the queue.
+>> Perhaps the driver is doing so when it sees an event? And if it is
+>> bypassing the normal submission mechanism, the REPORT LUNS commands is
+>> hidden in scsitrac; that in turn retruns a unit attention and steals
+> 
+> While SAM does say "if a REPORT LUNS command enters the enabled command
+> state, the device server shall process the REPORT LUNS command and shall
+> not report any unit attention condition;," it also says that the unit
+> attention condition will not be cleared if the UA_INTLCK_CTRL is set to
+> 10b or 11b in the "Control mode page."
+> 
+> It doesn't appear to me that virtio-scsi supports "Control mode pages."
+> Does it? If it doesn't, is the expected handling of REPORT LUNS command
+> be same as the case of UA_INTLCK_CTRL being set to 00b?
 
-Yes, please.
+In QEMU, all HBAs except for esp.c and lsi53c895a.c support autosense. 
+As in the comment below, 00b is the right value for virtio-scsi.
 
+The code to build the 0Ah (control) mode page would be in scsi-disk.c 
+for example.  Nobody ever wrote it because the values mentioned in the 
+comment below (00b if HBA supports autosense and therefore calls 
+scsi_req_get_sense; 10b for HBAs with no autosense, typically very old 
+emulated parallel-SCSI hardware) are the ones that make the most sense 
+and OSes will just assume them.
 
-r~
+00b is also the default UA_INTLCK_CTRL value, so the mode page is not 
+needed at all for virtio-scsi.
+
+Paolo
+
+> If virtio-scsi doesn't support "Control mode pages," why does the above
+> comment even say "assume UA_INTLCK_CTRL to be 00b" or address the case
+> of 10b? Also, other than the reference to it in the above comment,
+> UA_INTLCK_CTRL is not used anywhere else in the code. This comment
+> confused me. Is the comment just wrong, or am I missing something? I am
+> just trying to understand this better so that I am better prepared when
+> the client driver folks start asking me questions about the qemu support.
+> 
+> Venu
+> 
+>> it from the other commands such as TEST UNIT READY, but that's a guest
+>> driver bug.
+>>
+>> But QEMU cannot just return the unit attention twice. I would start
+>> with the patch to use the bus unit attention mechanism. It would be
+>> even better to have two unit tests that check the behavior prescribed
+>> by the standard: 1) UNIT ATTENTION from TEST UNIT READY immediately
+>> after a hotunplug notification; 2) no UNIT ATTENTION from REPORT LUNS
+>> and also no UNIT ATTENTION from a subsequent TEST UNIT READY command.
+>> Debugging the guest is a separate step.
+> 
+
 
