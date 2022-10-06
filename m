@@ -2,94 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B305F7168
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 00:51:50 +0200 (CEST)
-Received: from localhost ([::1]:57390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F8C5F716F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 00:54:44 +0200 (CEST)
+Received: from localhost ([::1]:57722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogZiW-0007bE-VS
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 18:51:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44770)
+	id 1ogZlL-0000zk-RX
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 18:54:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1ogZfz-0005hv-ND; Thu, 06 Oct 2022 18:49:11 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:33999)
+ id 1ogZjO-0007kB-Ce; Thu, 06 Oct 2022 18:52:42 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:47673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1ogZfy-0000iR-BD; Thu, 06 Oct 2022 18:49:11 -0400
+ id 1ogZjN-0001HV-0C; Thu, 06 Oct 2022 18:52:42 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 401EC5C0144;
- Thu,  6 Oct 2022 18:49:09 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 355DC5C00EF;
+ Thu,  6 Oct 2022 18:52:39 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 06 Oct 2022 18:49:09 -0400
+ by compute4.internal (MEProxy); Thu, 06 Oct 2022 18:52:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1665096549; x=1665182949; bh=MNKY3V0usV
- /S/gkbBD8XI1uqHH6SpnFgSOTC3mCTjAo=; b=es8kNSqZ0gOCgRBsLWbp+nVuUD
- 1d8PyCmgOlrtBjFjUR5Gm0NuNdAwst1ZE6S1D6dHyDfC9+v0q9XR6tO8mpXr/PAD
- vq3VOIGp5pNMDhPcfc49MiitGWpc5kQB3Q4wO15rdf6zC8Cq+2I3Da7vTygJ8RXc
- /AB1E5mwnd2QvVFoHE4NnOOxIhW9mtvWjcF7ipbwXO8KWNZRJAQO3DhXKaZGfSi/
- MG0+tzRrpMTrCYg3Crg8ia+K/Xj6RcPRF8wFbdWhp1y2x0BM4Il9YI5RPkcJC1CH
- mPh69YoJhZlHAFTGFni6lINlxoNzWGon+kbHn5iKxfBMMBtLKSYzyMxeiPJA==
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm1; t=1665096759; x=1665183159; bh=ALJ0NB/PSdOEcTUCf6E43qunL
+ S7MEHN+obug10YvKSo=; b=FXnhn6i9dEg5vkugUduQqiVLXTbc4FRoLh5XFw9Z6
+ 9+WdBwZCecn0Rv/9eqPxyQTcogBUtVvXHwcdeFFdTL6lNh5aR97cVO0psp/cK/m9
+ hPIpMCtZ0Gh+4FO9FlIU2+kuknssJMeo/scrtORVVhPcFSurp0z2d8IUXZvcKNcM
+ mOcKokBFlcI19BDJ1kEIJ6oV7tnxh7RMEsSx+aJw2U9NHqzg+bZRdunrk3ew2fRP
+ XlwPl6L2C3RjmRGbDUV1mWHhv+cu7Dp9GMpgwsIDnHO/CrRkyFqD+XWCkQa4juHL
+ OvsLRawUvNo9Jua77cMbIG/hiVe8Sm/+9uFJMHxiC7DvA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1665096549; x=1665182949; bh=MNKY3V0usV/S/gkbBD8XI1uqHH6S
- pnFgSOTC3mCTjAo=; b=VvhEcUpbuQSIivYncRCbLvlCqJkRwi08hIPPd3DtXu9K
- PiJsuuc9IEeiO7pGxJ6sGxMXihNnXacaeWMbI346r6tMoBRThJfCPA7YAsdYtu4l
- viXk3izjhJm63sZ201//j4VfYPuQDs6JS7joDzEYU7ZCIhuB7Ib+RbUZ8NDz7T3c
- 2W1yFdEVbYuLuLWpJmqnkFmDKGayYc8sH0ckHESnowbdQ94yRjdN3h9kY13OIQG7
- 50u34NKj2nIqMfGUNhd+KVJ6KR3hXVp+Ovtj0h2xk5LTTxN/bGZpkcEKyc1qhRFG
- 9cDkVxw8wZU/GpY9mKGLHTqFcuwpiM9O4aQ/B+/+vQ==
-X-ME-Sender: <xms:ZVs_Y7CskwQnvi3B722aHmo-RpSMxTsE09vsFfJsdHi2VFbV0gIasw>
- <xme:ZVs_YxjDPLq3XS-XisGZFtU_-Wi0HBEFnpw0X_lAQUby-oZwtZXhMbI1a8n5LP7Na
- bVTzwTjaeaXMGtjPrM>
-X-ME-Received: <xmr:ZVs_Y2n5poSS8OapUUnm1LzRx4T6VJFtuempsh_GTOPzpjmIbJgpcjYMPitjekc7rBqJJ4r2a6Fnpoicexskfet8fw7h8AyA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeiiedgudegucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1665096759; x=1665183159; bh=ALJ0NB/PSdOEcTUCf6E43qunLS7MEHN+obu
+ g10YvKSo=; b=i21TUM2woQSxeN0XZT09tvDEBq3T+h/ZZ7WGaKkPZIQDPnK4186
+ GYxBKMfeWLl7a3i8QfF0z2cGtM9ftistfmlaCaWySXX4khnlb5lFZ6xqXHI1kjcY
+ KVGbzmRS0FeiVABCyuX+iDMpKqqZtISVkpQYAhWw4uHgFjBbpT2N8CyMsTUAvNiH
+ Ld/Rvy0HZNfJ9LgEjai2MoL7s/oYNhtqj+S1raEkyHDi10fsvK2v5arZLr0dhMnU
+ xgSIA/ple7lks5K/Ye26vajrOqCg/27gDE9mq9wweH+ZJx9xUVYaPrU7TYZ2bQN3
+ oknAOaZpvI874rTJdDsYhgFyGGcpyMv/2Yg==
+X-ME-Sender: <xms:N1w_Y6U53yipKCCK7cdZnAKy2HHg54MhgCHIrAKxFeHEhto0kSZ1zg>
+ <xme:N1w_Y2nl53ahaitVBE67au1LsuWTg_T9a-P3p598O7ZUPx76NnYU2H829mPVHwmA0
+ KatUPS8QOCH1JHpunc>
+X-ME-Received: <xmr:N1w_Y-ZbBXsizV4jFwdJJsAq80sm4YEnYj6z2is5GX1XrYQxeGya5dZY3zkYWJB6Tx1CpnFDe8yFaOo1x1nJSSOGAH9rTWMy>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeiiedgudehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- gfrhhlucfvnfffucdljedtmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredt
- tddunecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghkse
- hsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpedtjeejgfdugefhtedvudfghfej
- feejfefhffeffeelgeduveejleelffefvdffleenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftgigrdighiii
-X-ME-Proxy: <xmx:ZVs_Y9zz276HTCBwKsSUWhD9P8cbB57gMRx8KA8XkOIx13AxWoLMDg>
- <xmx:ZVs_YwRB0rMZ7zyM5rspA1uWcMJ8dygqU-eIAw0ypDvTY4Qgi5Suew>
- <xmx:ZVs_YwbjhV8GHaCW_wp4kjwM5GpWPyGJoSdL72-lOiHfpgERxuiB4w>
- <xmx:ZVs_Y5_DhUrM_zsA3RNXcMAf6Z7yDLA1xsRvpzMQWXBkfirmXSWN4Q>
+ hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnegfrhhlucfvnfffucdljedtmden
+ ogetfedtuddqtdduucdludehmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
+ dtnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghksehs
+ thiftgigrdighiiiqeenucggtffrrghtthgvrhhnpeevtdevgfdthfefveejudelheeghe
+ fhhfdtteetheehudeiueefhfetkeejleefteenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftgigrdighiii
+X-ME-Proxy: <xmx:N1w_YxUxxKJWsmdrXFIjvscBQU-IhR4Ylc_BMS8dMgoOvAmhn_le-A>
+ <xmx:N1w_Y0mIQUOhTdV_Q-nqfDiSid5R4BctatKSN23xTBHmB8zU694tDA>
+ <xmx:N1w_Y2c5i_XB57URXg1slySedz-ehA19sW2vidRArj_2c7Z6-djvjA>
+ <xmx:N1w_Yzvmnd2fILIZb4NtiEu2Op65Dy-lPoQj9AiR0tdl01l73W2FAA>
 Feedback-ID: i68a1478a:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 6 Oct 2022 18:49:08 -0400 (EDT)
-Date: Thu, 6 Oct 2022 17:49:08 -0500
+ 6 Oct 2022 18:52:38 -0400 (EDT)
 From: Patrick Williams <patrick@stwcx.xyz>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Alistair Francis <alistair@alistair23.me>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>
-Subject: Re: [PATCH v3 0/8] m25p80: Add SFDP support
-Message-ID: <Yz9bZGY69fg2Jyuh@heinlein>
-References: <20220722063602.128144-1-clg@kaod.org>
+To: 
+Cc: Patrick Williams <patrick@stwcx.xyz>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org (open list:ASPEED BMCs),
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH] hw/arm/aspeed: increase Bletchley memory size
+Date: Thu,  6 Oct 2022 17:52:32 -0500
+Message-Id: <20221006225232.3558794-1-patrick@stwcx.xyz>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6DeqmZ9NATzA+Htl"
-Content-Disposition: inline
-In-Reply-To: <20220722063602.128144-1-clg@kaod.org>
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.25; envelope-from=patrick@stwcx.xyz;
  helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_SUSPICIOUS_NTLD=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_PDS_OTHER_BAD_TLD=0.01 autolearn=ham autolearn_force=no
+ FROM_SUSPICIOUS_NTLD=0.001, FROM_SUSPICIOUS_NTLD_FP=1.999,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_PDS_OTHER_BAD_TLD=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,69 +103,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+For the PVT-class hardware we have increased the memory size of
+this device to 2 GiB.  Adjust the device model accordingly.
 
---6DeqmZ9NATzA+Htl
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+---
+ hw/arm/aspeed.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Jul 22, 2022 at 08:35:54AM +0200, C=E9dric Le Goater wrote:
->=20
-> C=E9dric Le Goater (8):
->   m25p80: Add basic support for the SFDP command
->   m25p80: Add the n25q256a SFDP table
->   m25p80: Add the mx25l25635e SFPD table
->   m25p80: Add the mx25l25635f SFPD table
->   m25p80: Add the mx66l1g45g SFDP table
->   m25p80: Add the w25q256 SFPD table
->   m25p80: Add the w25q512jv SFPD table
->   arm/aspeed: Replace mx25l25635e chip model
->=20
->  hw/block/m25p80_sfdp.h |  27 ++++
->  hw/arm/aspeed.c        |   6 +-
->  hw/block/m25p80.c      |  49 ++++++-
->  hw/block/m25p80_sfdp.c | 296 +++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS            |   2 +-
->  hw/block/meson.build   |   1 +
->  hw/block/trace-events  |   1 +
->  7 files changed, 371 insertions(+), 11 deletions(-)
->  create mode 100644 hw/block/m25p80_sfdp.h
->  create mode 100644 hw/block/m25p80_sfdp.c
->=20
-> --=20
-> 2.35.3
->=20
->=20
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 7d2162c6ed..ab5725fff1 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -1344,7 +1344,7 @@ static void aspeed_machine_bletchley_class_init(ObjectClass *oc, void *data)
+     amc->num_cs    = 2;
+     amc->macs_mask = ASPEED_MAC2_ON;
+     amc->i2c_init  = bletchley_bmc_i2c_init;
+-    mc->default_ram_size = 512 * MiB;
++    mc->default_ram_size = 2 * GiB;
+     mc->default_cpus = mc->min_cpus = mc->max_cpus =
+         aspeed_soc_num_cpus(amc->soc_name);
+ }
+-- 
+2.35.1
 
-It seems that the kernel spi-nor driver maintainers really prefer to use
-SFDP for parsing rather than relying on flags, so this support would be
-really good to get added to QEMU now.  I've tested this patch set and
-added (in reply to patch 8) support for the w25q01jvq chip.
-
-Tested-by: Patrick Williams <patrick@stwcx.xyz>
-
---=20
-Patrick Williams
-
---6DeqmZ9NATzA+Htl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmM/W2IACgkQqwNHzC0A
-wRnLaw/+IwaofYagGUXreij3UOLwYRatAOxiB1v4A4jXINqmlFvVQ/E7Gnod0aPP
-VXYCf0O/d2zoR1ATyednznlUpNQ7/zf3SiwMNLNWixXOt511yLkNbcgrez67KL6k
-omvfAhWlTXl/YitYOBWw8cvdBPWeo85laTA8rT9PlWbsW9eFjF6h+IRLqYJFP54U
-mLiZfxkXvNY8DBBaPZ5H59R1j/3YiCW3TvhZsSYSDXDqlZMmMmKNgOohz5GuSTNg
-poEtIp/9Ott0eQ9C2eQnQwnQElUfjxUPvXKsIs5b+CLECGFkL/BvQSImH4opnkKi
-MjMZzapwjy8JlA9CNhv9ihyMYZzIctjYQEaIN9cHLs9488yAH3W4H6bVnsYqQfv0
-l/o+72bPmhTypoVvGPN0ASOXFrp2cv/y0IPi+ovihdL4Y95tRuCZFCJBiaoZGSn/
-1TvOd2h8klDxySNCy+CSpjBnxxX6y42ySHvDWT3qml78uFalQdO852WfJPsA+vUr
-P5b79RJAKhR5Clt+5y7Qcidhp6yU1FW2GVKiAMnVpCqcoOB2HHL/eFMNW0Z1r9X/
-0TL7C9IwLVmn1utya8DOyVlela1512AyuWD/wrGOE2nRHXrEPg7yTIxuMcPfHeEs
-5y4q0n7u+lzSUhWRgFISplUmTbtB8pif8vMYPfO0Y86SfSrzcRM=
-=504E
------END PGP SIGNATURE-----
-
---6DeqmZ9NATzA+Htl--
 
