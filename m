@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCD25F6EEB
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 22:23:55 +0200 (CEST)
-Received: from localhost ([::1]:47624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD525F6F3C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 22:35:09 +0200 (CEST)
+Received: from localhost ([::1]:58172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogXPN-0002Pv-0Z
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 16:23:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36210)
+	id 1ogXaF-0003Gr-VP
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 16:35:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1ogXAX-0004Iq-Cb; Thu, 06 Oct 2022 16:08:33 -0400
-Received: from [200.168.210.66] (port=12853 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1ogXAU-0001rM-Hj; Thu, 06 Oct 2022 16:08:33 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Thu, 6 Oct 2022 17:07:04 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id D9B688002BE;
- Thu,  6 Oct 2022 17:07:03 -0300 (-03)
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, farosas@linux.ibm.com,
- Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH 6/6] target/ppc: move msgsync to decodetree
-Date: Thu,  6 Oct 2022 17:06:54 -0300
-Message-Id: <20221006200654.725390-7-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221006200654.725390-1-matheus.ferst@eldorado.org.br>
-References: <20221006200654.725390-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ogXYO-00015j-9B
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 16:33:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37910)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ogXYK-0005il-DT
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 16:33:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665088386;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YiotQuT/vgif3eq9VfrZpECdlG6F8hdBr2QpMAcxcTU=;
+ b=ZBzXKDnKb05sIuqGMr0e6k6mMcSOX9lFDX06lihWtsQI9FMJEFFQzpZpDnf8zcZcvBCF49
+ OLTHGSJ7Y4AtD38ucIjeL3GL4AEFZU4uD+LkdTq05t/1FkFPORzOAlj7ONcfH6QgfXOal9
+ OP5qYwFLxoj0vLMFxLlgXFfUMVqTqmE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-232-BOFfvxuhOdedwRHkRZEeJw-1; Thu, 06 Oct 2022 16:33:05 -0400
+X-MC-Unique: BOFfvxuhOdedwRHkRZEeJw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EF84B862FDC;
+ Thu,  6 Oct 2022 20:33:04 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 696CB14588B6;
+ Thu,  6 Oct 2022 20:33:04 +0000 (UTC)
+Date: Thu, 6 Oct 2022 16:33:02 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 26/54] configure: unify creation of cross-compilation
+ Makefiles
+Message-ID: <Yz87fr2/PLMdX6wK@fedora>
+References: <20221004130138.2299307-1-alex.bennee@linaro.org>
+ <20221004130138.2299307-27-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 06 Oct 2022 20:07:04.0089 (UTC)
- FILETIME=[33F1B890:01D8D9BF]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="f82SccM3T0OeE0pN"
+Content-Disposition: inline
+In-Reply-To: <20221004130138.2299307-27-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,72 +81,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/insn32.decode                       |  1 +
- target/ppc/translate.c                         | 14 --------------
- target/ppc/translate/processor-ctrl-impl.c.inc |  9 +++++++++
- 3 files changed, 10 insertions(+), 14 deletions(-)
 
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 5ba4a6807d..70a3b4de5e 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -915,3 +915,4 @@ MSGCLR          011111 ----- ----- ..... 0011101110 -   @X_rb
- MSGSND          011111 ----- ----- ..... 0011001110 -   @X_rb
- MSGCLRP         011111 ----- ----- ..... 0010101110 -   @X_rb
- MSGSNDP         011111 ----- ----- ..... 0010001110 -   @X_rb
-+MSGSYNC         011111 ----- ----- ----- 1101110110 -
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 087ab8e69d..f092bbeb8b 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -6239,18 +6239,6 @@ static void gen_icbt_440(DisasContext *ctx)
-      */
- }
- 
--/* Embedded.Processor Control */
--
--static void gen_msgsync(DisasContext *ctx)
--{
--#if defined(CONFIG_USER_ONLY)
--    GEN_PRIV(ctx);
--#else
--    CHK_HV(ctx);
--#endif /* defined(CONFIG_USER_ONLY) */
--    /* interpreted as no-op */
--}
--
- #if defined(TARGET_PPC64)
- static void gen_maddld(DisasContext *ctx)
- {
-@@ -6853,8 +6841,6 @@ GEN_HANDLER2_E(tlbivax_booke206, "tlbivax", 0x1F, 0x12, 0x18, 0x00000001,
-                PPC_NONE, PPC2_BOOKE206),
- GEN_HANDLER2_E(tlbilx_booke206, "tlbilx", 0x1F, 0x12, 0x00, 0x03800001,
-                PPC_NONE, PPC2_BOOKE206),
--GEN_HANDLER2_E(msgsync, "msgsync", 0x1F, 0x16, 0x1B, 0x00000000,
--               PPC_NONE, PPC2_ISA300),
- GEN_HANDLER(wrtee, 0x1F, 0x03, 0x04, 0x000FFC01, PPC_WRTEE),
- GEN_HANDLER(wrteei, 0x1F, 0x03, 0x05, 0x000E7C01, PPC_WRTEE),
- GEN_HANDLER(dlmzb, 0x1F, 0x0E, 0x02, 0x00000000, PPC_440_SPEC),
-diff --git a/target/ppc/translate/processor-ctrl-impl.c.inc b/target/ppc/translate/processor-ctrl-impl.c.inc
-index 3703001f31..021e365a57 100644
---- a/target/ppc/translate/processor-ctrl-impl.c.inc
-+++ b/target/ppc/translate/processor-ctrl-impl.c.inc
-@@ -92,3 +92,12 @@ static bool trans_MSGSNDP(DisasContext *ctx, arg_X_rb *a)
- #endif
-     return true;
- }
-+
-+static bool trans_MSGSYNC(DisasContext *ctx, arg_MSGSYNC *a)
-+{
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
-+    REQUIRE_HV(ctx);
-+
-+    /* interpreted as no-op */
-+    return true;
-+}
--- 
-2.25.1
+--f82SccM3T0OeE0pN
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 04, 2022 at 02:01:10PM +0100, Alex Benn=E9e wrote:
+> From: Paolo Bonzini <pbonzini@redhat.com>
+>=20
+> Let write_target_makefile handle both host and container cross compilers.
+>=20
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> Message-Id: <20220929114231.583801-27-alex.bennee@linaro.org>
+
+I think this commit breaks bisection:
+
+  configure: line 2498: syntax error near unexpected token `('
+  configure: line 2498: `      echo "run-tcg-tests-$target: $qemu\$(EXESUF)=
+" >> Makefile.prereqs'
+
+It has already been merged into qemu.git/master, so there's no fixing it
+now. I wanted to leave a comment in case someone hits this problem in
+the future and wonders what's going on.
+
+I had to use git bisect skip.
+
+Stefan
+
+>=20
+> diff --git a/configure b/configure
+> index cbeac99b2b..8b495d4453 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2157,51 +2157,49 @@ probe_target_compiler() {
+> =20
+>  write_target_makefile() {
+>    echo "EXTRA_CFLAGS=3D$target_cflags"
+> -  if test -n "$target_cc"; then
+> -    echo "CC=3D$target_cc"
+> -    echo "CCAS=3D$target_ccas"
+> -  fi
+> -  if test -n "$target_ar"; then
+> -    echo "AR=3D$target_ar"
+> -  fi
+> -  if test -n "$target_as"; then
+> -    echo "AS=3D$target_as"
+> -  fi
+> -  if test -n "$target_ld"; then
+> -    echo "LD=3D$target_ld"
+> -  fi
+> -  if test -n "$target_nm"; then
+> -    echo "NM=3D$target_nm"
+> -  fi
+> -  if test -n "$target_objcopy"; then
+> -    echo "OBJCOPY=3D$target_objcopy"
+> -  fi
+> -  if test -n "$target_ranlib"; then
+> -    echo "RANLIB=3D$target_ranlib"
+> -  fi
+> -  if test -n "$target_strip"; then
+> -    echo "STRIP=3D$target_strip"
+> -  fi
+> -}
+> -
+> -write_container_target_makefile() {
+> -  echo "$1: docker-image-$container_image" >> Makefile.prereqs
+> -  echo "EXTRA_CFLAGS=3D$target_cflags"
+> -  if test -n "$container_cross_cc"; then
+> -    echo "CC=3D$docker_py cc --cc $container_cross_cc -i qemu/$container=
+_image -s $source_path --"
+> -    echo "CCAS=3D$docker_py cc --cc $container_cross_cc -i qemu/$contain=
+er_image -s $source_path --"
+> +  if test -z "$target_cc" && test -z "$target_as"; then
+> +    test -z "$container_image" && error_exit "Internal error: could not =
+find cross compiler for $1?"
+> +    echo "$1: docker-image-$container_image" >> Makefile.prereqs
+> +    if test -n "$container_cross_cc"; then
+> +      echo "CC=3D$docker_py cc --cc $container_cross_cc -i qemu/$contain=
+er_image -s $source_path --"
+> +      echo "CCAS=3D$docker_py cc --cc $container_cross_cc -i qemu/$conta=
+iner_image -s $source_path --"
+> +    fi
+> +    echo "AR=3D$docker_py cc --cc $container_cross_ar -i qemu/$container=
+_image -s $source_path --"
+> +    echo "AS=3D$docker_py cc --cc $container_cross_as -i qemu/$container=
+_image -s $source_path --"
+> +    echo "LD=3D$docker_py cc --cc $container_cross_ld -i qemu/$container=
+_image -s $source_path --"
+> +    echo "NM=3D$docker_py cc --cc $container_cross_nm -i qemu/$container=
+_image -s $source_path --"
+> +    echo "OBJCOPY=3D$docker_py cc --cc $container_cross_objcopy -i qemu/=
+$container_image -s $source_path --"
+> +    echo "RANLIB=3D$docker_py cc --cc $container_cross_ranlib -i qemu/$c=
+ontainer_image -s $source_path --"
+> +    echo "STRIP=3D$docker_py cc --cc $container_cross_strip -i qemu/$con=
+tainer_image -s $source_path --"
+> +  else
+> +    if test -n "$target_cc"; then
+> +      echo "CC=3D$target_cc"
+> +      echo "CCAS=3D$target_ccas"
+> +    fi
+> +    if test -n "$target_ar"; then
+> +      echo "AR=3D$target_ar"
+> +    fi
+> +    if test -n "$target_as"; then
+> +      echo "AS=3D$target_as"
+> +    fi
+> +    if test -n "$target_ld"; then
+> +      echo "LD=3D$target_ld"
+> +    fi
+> +    if test -n "$target_nm"; then
+> +      echo "NM=3D$target_nm"
+> +    fi
+> +    if test -n "$target_objcopy"; then
+> +      echo "OBJCOPY=3D$target_objcopy"
+> +    fi
+> +    if test -n "$target_ranlib"; then
+> +      echo "RANLIB=3D$target_ranlib"
+> +    fi
+> +    if test -n "$target_strip"; then
+> +      echo "STRIP=3D$target_strip"
+> +    fi
+>    fi
+> -  echo "AR=3D$docker_py cc --cc $container_cross_ar -i qemu/$container_i=
+mage -s $source_path --"
+> -  echo "AS=3D$docker_py cc --cc $container_cross_as -i qemu/$container_i=
+mage -s $source_path --"
+> -  echo "LD=3D$docker_py cc --cc $container_cross_ld -i qemu/$container_i=
+mage -s $source_path --"
+> -  echo "NM=3D$docker_py cc --cc $container_cross_nm -i qemu/$container_i=
+mage -s $source_path --"
+> -  echo "OBJCOPY=3D$docker_py cc --cc $container_cross_objcopy -i qemu/$c=
+ontainer_image -s $source_path --"
+> -  echo "RANLIB=3D$docker_py cc --cc $container_cross_ranlib -i qemu/$con=
+tainer_image -s $source_path --"
+> -  echo "STRIP=3D$docker_py cc --cc $container_cross_strip -i qemu/$conta=
+iner_image -s $source_path --"
+>  }
+> =20
+> -
+> -
+>  ##########################################
+>  # check for vfio_user_server
+> =20
+> @@ -2560,15 +2558,9 @@ for target in $target_list; do
+>        ;;
+>    esac
+> =20
+> -  probe_target_compiler $target
+> -  if test $got_cross_cc =3D yes; then
+> -      write_target_makefile >> "$config_target_mak"
+> -  elif test -n "$container_image"; then
+> -      build_static=3Dy
+> -      write_container_target_makefile build-tcg-tests-$target >> "$confi=
+g_target_mak"
+> -      got_cross_cc=3Dyes
+> -  fi
+> -  if test $got_cross_cc =3D yes; then
+> +  if probe_target_compiler $target || test -n "$container_image"; then
+> +      test -n "$container_image" && build_static=3Dy
+> +      write_target_makefile "build-tcg-tests-$target >> "$config_target_=
+mak"
+>        mkdir -p "tests/tcg/$target"
+>        ln -sf "$source_path/tests/tcg/Makefile.target" "tests/tcg/$target=
+/Makefile"
+>        ln -sf "../config-$target.mak" "tests/tcg/$target/config-target.ma=
+k"
+> --=20
+> 2.34.1
+>=20
+
+--f82SccM3T0OeE0pN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmM/O34ACgkQnKSrs4Gr
+c8iXsQf/WxSTyDT2alQ0zIbBfMBgK5Aff5zDkUI2n8jb1jEDntMzqR+o4esbsN+g
+trTycrMm4rvehNmLb7smXiqlZvYOkQg1AefdH72xxJ8nLEQGTVZrZAvI+oJH6gd/
+CVlGEhwpJZvJ23DGeStfvRyfcWlWyQTYRZue8A/dH0+19nBmF2Zf2HXXp9K+x8Dz
+BIxJ8y/Uin+j0yvE2j87BM8E39qjOivy1e/6eAMttNy/aO6dOtRUmRTSVmPyJX9g
+Zy9mFkEhz7bdYnoiZWVSOgvARmuIi/+EOWiuUFsy/T57npRZMOmocerkn598UmMP
+cyeSJ3aLqxQbiWJfMOlF/13lTESWDw==
+=BJFP
+-----END PGP SIGNATURE-----
+
+--f82SccM3T0OeE0pN--
 
 
