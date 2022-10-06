@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9A45F6D7B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 20:27:19 +0200 (CEST)
-Received: from localhost ([::1]:51808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E4B5F6D7A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 20:27:18 +0200 (CEST)
+Received: from localhost ([::1]:40512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogVaY-0005Hn-9A
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 14:27:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50042)
+	id 1ogVaX-0005CQ-68
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 14:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ogV8I-0000a0-W4
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 13:58:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49044)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1ogV8G-0005sP-3z
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 13:58:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665079083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v9mcAc3X1k/KWDSmUQY7SI8xwQu9jH6Q5Ej6Wl9s2CY=;
- b=MmE1OtQ5FpTm8gJSLuC4/MI5Vsh9YTr/4rhiRFHm/EsDuKmbkvG9Zv+dpQ+uHFKJ9spHEP
- h3LxUyf1vgn4Ex7OVmfXSUUVcEJcgxlhmnK3I+croes/uA2/YcY9lv5ip+RGj3Ev2C/KZN
- 6iJATMeArBXqUbbxcCavZW8UOFdfDQk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-636-ELW6I8qTOIaB4PHU3iLW3A-1; Thu, 06 Oct 2022 13:58:02 -0400
-X-MC-Unique: ELW6I8qTOIaB4PHU3iLW3A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h129-20020a1c2187000000b003be5419a7e4so742004wmh.1
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 10:58:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1ogV8q-0001rc-J2
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 13:58:40 -0400
+Received: from mail-ua1-x92b.google.com ([2607:f8b0:4864:20::92b]:34805)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <venture@google.com>)
+ id 1ogV8o-0005yB-Pg
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 13:58:40 -0400
+Received: by mail-ua1-x92b.google.com with SMTP id i16so905800uak.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 10:58:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=a6ks7FKghLJ/QYC3Tjj12iBjlkjw4UZPqDT9HiqIpVQ=;
+ b=q9/mrE8ThEhUsgYRvfRpwEmGqQ20ekC+HR7S6w8iI/sZlVd34BCcqnxPoPo8WNpEkD
+ 6vCTdSi81t8JdTlVZZKGvWKfspdzGbnjA0Sh4dmkHx1AxVfm/XTAywsHSKkzTbHFnPrD
+ shZ2JIOw5Xux4bgSkYeaA46sjy30ZOFO7Vnwyi7izKmOQcogiERwZ8PNIJptHr9tVacz
+ 7eDEhq9n04VZpv0smJL0iFiSUwtJK4nd7/Izm04RqSyiYRaOutA06Nr2LC4z/wmGIU/V
+ gn6foPMTVtjvyXZ/LhyMDisQkh8JvkiqOEEvftN/glWn+D5d1fwqeeQus2v0MVDurHsD
+ RQng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date;
- bh=v9mcAc3X1k/KWDSmUQY7SI8xwQu9jH6Q5Ej6Wl9s2CY=;
- b=Y0jvhExH0sIxJBXO73eUJPgIBVUQO0+rEuKmqtll9Whk8Vp06DZHjwPQFt2aJLnCTj
- OqS//qc/EupnToUQ57buirqSyAX5aTl9s25Qw+VdY6s5AyHDMuBLt+J8OV/oSXZf6bfE
- X6crj9D9qypYISlde0KDWv8cmBiXQ/gYowwOwKzqgU4hh7k+vcSECZQgu226nyn3WvGs
- dAndJFfRB80KYOFypobyBAa4T2NO7z2gQzIwkE8ushgCR9o6s2LXsQEay8vKOu2VK0OO
- QLtiA4hnyXI8i4za8dFJ+ux+d92vI/eRdgFLJZfjkYmQ1LPIBM4X7NfRW6/9JZqc66an
- dSQA==
-X-Gm-Message-State: ACrzQf2CC+sX8mN7W/ZuRXvFvZxivbmRg8ZMHHNJ8C2lra44WJZzR6nA
- x0fIT5A9kVyGcs0q6MbjM/2kwgYhLt+UH6cyb37EYzLotsSB8PpfvasMFXjUZUO/0jf5oPyiTx6
- ddcrVDR9dq1K5hGA=
-X-Received: by 2002:a05:600c:510e:b0:3b5:1ab:fa5 with SMTP id
- o14-20020a05600c510e00b003b501ab0fa5mr7805895wms.204.1665079080893; 
- Thu, 06 Oct 2022 10:58:00 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6mt/0LNuRJfIf5wTeQEM7CaXfB4pbK8JallrArolCTYJg74+MWWKzXf4jlv3VOdbhIdvZkxw==
-X-Received: by 2002:a05:600c:510e:b0:3b5:1ab:fa5 with SMTP id
- o14-20020a05600c510e00b003b501ab0fa5mr7805887wms.204.1665079080722; 
- Thu, 06 Oct 2022 10:58:00 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- h4-20020a05600c350400b003c1a7ea3736sm100128wmq.11.2022.10.06.10.57.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 10:58:00 -0700 (PDT)
-Date: Thu, 6 Oct 2022 18:57:58 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Manish Mishra <manish.mishra@nutanix.com>,
- Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH 14/14] migration: Drop rs->f
-Message-ID: <Yz8XJgpshMNtH8y7@work-vm>
-References: <20220920225106.48451-1-peterx@redhat.com>
- <20220920225229.49212-1-peterx@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=a6ks7FKghLJ/QYC3Tjj12iBjlkjw4UZPqDT9HiqIpVQ=;
+ b=rqKCCq5IhHdL23C/JUjrQEWeefifFq+6JbO8U3DH04vdNgXhpuux+zffiSuX+fHSlU
+ 1cZyFGf1VcbHj3hPBrdzmnwk1myPw6iEbbQkueBMPmQQlIMd0WLWprHqeVFdbP2GoeUS
+ VAUkD1Cw8oZPoA1xcJhwlITJ0pWuwfXdcLVVWbv8SOhzBm3bQRv09K5rMZQFCsffVUrI
+ OWwmBph+wvXydf6j378ayI9wqAdt5QWtjIs7cZIaqu6m05gb5opXH5MM+Gd08s3WdUDO
+ fVC8Slndv1BQb0YXnRG8OYTAZc2jLndW1NwqLEC0W7WDmxuaY95iMC5yogVrmse0tyuz
+ l+KQ==
+X-Gm-Message-State: ACrzQf0z1v4JtienOwFq7XLuTMISow12kX1jU1oEAB4ZbRlXdmkR3OhF
+ XfTL16ki53Y1NA5UFwqGbOf0giUHN5DNCz+upUCv/Q==
+X-Google-Smtp-Source: AMsMyM5wvAuifSCYX1Tg4cmS4FOgG7PtIAiDD6KsOuFRMtgCWugdr5QHD7JPC/d7voCI/bDewJyv/nPbo8qOVUcZKQc=
+X-Received: by 2002:ab0:7509:0:b0:3d6:9dcb:b3db with SMTP id
+ m9-20020ab07509000000b003d69dcbb3dbmr851767uap.9.1665079116839; Thu, 06 Oct
+ 2022 10:58:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220920225229.49212-1-peterx@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20220906163138.2831353-1-venture@google.com>
+ <98b23697-00ec-2952-31c1-258419bd5440@redhat.com>
+ <CAO=notzNRHaJvqnBx34qN0ovvwiwXNPRt73VnWqxyYhvnZMXnA@mail.gmail.com>
+ <eccfd9bd-2900-f437-778c-74a8052fc045@redhat.com>
+In-Reply-To: <eccfd9bd-2900-f437-778c-74a8052fc045@redhat.com>
+From: Patrick Venture <venture@google.com>
+Date: Thu, 6 Oct 2022 10:58:26 -0700
+Message-ID: <CAO=notzEJer6rfBxqGrHdzw9S+bHCQ1jcW0WYBdP3G1nuHJ8nQ@mail.gmail.com>
+Subject: Re: [PATCH] tests/qtest: npcm7xx-emc-test: Skip checking MAC
+To: Thomas Huth <thuth@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, 
+ CS20 KFTing <kfting@nuvoton.com>, qemu-arm <qemu-arm@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>
+Content-Type: multipart/alternative; boundary="00000000000048a79205ea617118"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92b;
+ envelope-from=venture@google.com; helo=mail-ua1-x92b.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,87 +90,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Now with rs->pss we can already cache channels in pss->pss_channels.  That
-> pss_channel contains more infromation than rs->f because it's per-channel.
-> So rs->f could be replaced by rss->pss[RAM_CHANNEL_PRECOPY].pss_channel,
-> while rs->f itself is a bit vague now.
-> 
-> Note that vanilla postcopy still send pages via pss[RAM_CHANNEL_PRECOPY],
-> that's slightly confusing but it reflects the reality.
-> 
-> Then, after the replacement we can safely drop rs->f.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+--00000000000048a79205ea617118
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On Tue, Sep 20, 2022 at 12:00 AM Thomas Huth <thuth@redhat.com> wrote:
 
-> ---
->  migration/ram.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index f42efe02fc..03bf2324ab 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -345,8 +345,6 @@ struct RAMSrcPageRequest {
->  
->  /* State of RAM for migration */
->  struct RAMState {
-> -    /* QEMUFile used for this migration */
-> -    QEMUFile *f;
->      /*
->       * PageSearchStatus structures for the channels when send pages.
->       * Protected by the bitmap_mutex.
-> @@ -2555,8 +2553,6 @@ static int ram_find_and_save_block(RAMState *rs)
->          }
->  
->          if (found) {
-> -            /* Cache rs->f in pss_channel (TODO: remove rs->f) */
-> -            pss->pss_channel = rs->f;
->              pages = ram_save_host_page(rs, pss);
->          }
->      } while (!pages && again);
-> @@ -3112,7 +3108,7 @@ static void ram_state_resume_prepare(RAMState *rs, QEMUFile *out)
->      ram_state_reset(rs);
->  
->      /* Update RAMState cache of output QEMUFile */
-> -    rs->f = out;
-> +    rs->pss[RAM_CHANNEL_PRECOPY].pss_channel = out;
->  
->      trace_ram_state_resume_prepare(pages);
->  }
-> @@ -3203,7 +3199,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
->              return -1;
->          }
->      }
-> -    (*rsp)->f = f;
-> +    (*rsp)->pss[RAM_CHANNEL_PRECOPY].pss_channel = f;
->  
->      WITH_RCU_READ_LOCK_GUARD() {
->          qemu_put_be64(f, ram_bytes_total_common(true) | RAM_SAVE_FLAG_MEM_SIZE);
-> @@ -3338,7 +3334,7 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
->  out:
->      if (ret >= 0
->          && migration_is_setup_or_active(migrate_get_current()->state)) {
-> -        ret = multifd_send_sync_main(rs->f);
-> +        ret = multifd_send_sync_main(rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
->          if (ret < 0) {
->              return ret;
->          }
-> @@ -3406,7 +3402,7 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
->          return ret;
->      }
->  
-> -    ret = multifd_send_sync_main(rs->f);
-> +    ret = multifd_send_sync_main(rs->pss[RAM_CHANNEL_PRECOPY].pss_channel);
->      if (ret < 0) {
->          return ret;
->      }
-> -- 
-> 2.32.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> On 20/09/2022 00.37, Patrick Venture wrote:
+> >
+> >
+> > On Mon, Sep 19, 2022 at 5:44 AM Thomas Huth <thuth@redhat.com
+> > <mailto:thuth@redhat.com>> wrote:
+> >
+> >     On 06/09/2022 18.31, Patrick Venture wrote:
+> >      > The register tests walks all the registers to verify they are
+> initially
+> >      > 0 when appropriate.  However, if the MAC address is set in the
+> register
+> >      >    space, this should not be checked against 0.
+> >      >
+> >      > Reviewed-by: Hao Wu <wuhaotsh@google.com <mailto:
+> wuhaotsh@google.com>>
+> >      > Change-Id: I02426e39bdab33ceedd42c49d233e8680d4ec058
+> >
+> >     What's that change-id good for?
+> >
+> >
+> > Oops, sorry about that.  I can send out a v2 without it, or during
+> > application someone can nicely trim it? :)
+>
+> I can take the patch through my qtest branch - I'll drop the line there.
+>
+> >     Basically ack, but one question: Where should that non-zero MAC
+> address
+> >     come
+> >     from / when did you hit a problem here? If QEMU is started without
+> any mac
+> >     settings at all (like it is done here), the register never contains a
+> >     non-zero value, does it?
+> >
+> >
+> > So, there's a bug in the emc device presently where that value isn't set
+> > when it should be.  I have that bug fixed, but for whatever reason,
+> probably
+> > not enough caffeine, I didn't bundle the two patches together.
+>
+> OK, makes sense now, thanks for the explanation!
+>
 
+The follow-on patch was just applied to arm.next, so I wanted to check if
+this was applied to your .next or if you wanted a v2.
+
+
+>
+>   Thomas
+>
+>
+>
+
+--00000000000048a79205ea617118
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 20, 2022 at 12:00 AM Thom=
+as Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 20/09/20=
+22 00.37, Patrick Venture wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Mon, Sep 19, 2022 at 5:44 AM Thomas Huth &lt;<a href=3D"mailto:thut=
+h@redhat.com" target=3D"_blank">thuth@redhat.com</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:thuth@redhat.com" target=3D"_blank">thuth=
+@redhat.com</a>&gt;&gt; wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0On 06/09/2022 18.31, Patrick Venture wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; The register tests walks all the registers to=
+ verify they are initially<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; 0 when appropriate.=C2=A0 However, if the MAC=
+ address is set in the register<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;=C2=A0 =C2=A0 space, this should not be checke=
+d against 0.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuh=
+aotsh@google.com" target=3D"_blank">wuhaotsh@google.com</a> &lt;mailto:<a h=
+ref=3D"mailto:wuhaotsh@google.com" target=3D"_blank">wuhaotsh@google.com</a=
+>&gt;&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Change-Id: I02426e39bdab33ceedd42c49d233e8680=
+d4ec058<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0What&#39;s that change-id good for?<br>
+&gt; <br>
+&gt; <br>
+&gt; Oops, sorry about that.=C2=A0 I can send out a v2 without it, or durin=
+g <br>
+&gt; application someone can nicely trim it? :)<br>
+<br>
+I can take the patch through my qtest branch - I&#39;ll drop the line there=
+.<br>
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Basically ack, but one question: Where should that =
+non-zero MAC address<br>
+&gt;=C2=A0 =C2=A0 =C2=A0come<br>
+&gt;=C2=A0 =C2=A0 =C2=A0from / when did you hit a problem here? If QEMU is =
+started without any mac<br>
+&gt;=C2=A0 =C2=A0 =C2=A0settings at all (like it is done here), the registe=
+r never contains a<br>
+&gt;=C2=A0 =C2=A0 =C2=A0non-zero value, does it?<br>
+&gt; <br>
+&gt; <br>
+&gt; So, there&#39;s a bug in the emc device presently where that value isn=
+&#39;t set <br>
+&gt; when it should be.=C2=A0 I have that bug fixed, but for whatever reaso=
+n, probably <br>
+&gt; not enough caffeine, I didn&#39;t bundle the two patches together.<br>
+<br>
+OK, makes sense now, thanks for the explanation!<br></blockquote><div><br><=
+/div><div>The follow-on patch was just applied to arm.next, so I wanted to =
+check if this was applied to your .next or if you wanted a v2.</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+=C2=A0 Thomas<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--00000000000048a79205ea617118--
 
