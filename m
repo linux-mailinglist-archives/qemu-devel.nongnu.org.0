@@ -2,84 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA14C5F6D8C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 20:32:29 +0200 (CEST)
-Received: from localhost ([::1]:47794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7835F6DAE
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 20:45:04 +0200 (CEST)
+Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogVfX-0002rX-UJ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 14:32:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47140)
+	id 1ogVri-00033g-UC
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 14:45:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ogVAZ-00059v-5W
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:00:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54528)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ogVKE-0007Dn-V5
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:10:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ogVAW-0006SP-Pa
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:00:26 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ogVKB-0007vS-QW
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:10:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665079223;
+ s=mimecast20190719; t=1665079822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=7bbnaIdd4yx7d+MDCwSSFFKchMFEdLkqalWafTSVwbg=;
- b=gWCh8ugEQ/1ACzivgJycC41uK6OuUdRaILHbLPdIsqW+Qa287CVGGOtcFtPTPzol5MqFzu
- M9GYjSkKl/YipiSqTPgIHJ1b18iJssEDMScwdIMJdH4Q18wIIiNbRiWOgnps7xn6+AqdJU
- I2m6ixBQzeE+0erT077tlLVS5xFWSgQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633-5In9SqCxMFquWU5FAh6mcw-1; Thu, 06 Oct 2022 14:00:19 -0400
-X-MC-Unique: 5In9SqCxMFquWU5FAh6mcw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EFB6B3C025CA;
- Thu,  6 Oct 2022 18:00:18 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 92F8A145888E;
- Thu,  6 Oct 2022 18:00:17 +0000 (UTC)
-Date: Thu, 6 Oct 2022 14:00:15 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alberto Campinho Faria <afaria@redhat.com>
-Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
- Kevin Wolf <kwolf@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Eric Blake <eblake@redhat.com>, integration@gluster.org,
- David Hildenbrand <david@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Laurent Vivier <lvivier@redhat.com>,
- "Richard W.M. Jones" <rjones@redhat.com>,
- Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Jeff Cody <codyprime@gmail.com>, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, sgarzare@redhat.com
-Subject: Re: [PATCH v5 11/12] blkio: implement BDRV_REQ_REGISTERED_BUF
- optimization
-Message-ID: <Yz8Xr81Dw8M9rj3c@fedora>
+ bh=dYs6I/qvwXw5nK7QQnMgF3NBl78b/q6pDuTyJVcv/1w=;
+ b=aqTZYG4eE1OMzSTZjU05vyILnWrj7aAism6jSLA5/AI6cPuyFCRxd36N1XuC6CZe8rffHH
+ Vpy3uYuy8Kzggmi+UtuUSohII9cfYugxxIbFFctddzKw+iZrMnL1kDBLuIpfH7Wc65j+zA
+ sXaKVwIDySYSh6I2OWcurEpD5KtbaHQ=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-460-vriowyIVOuOOmVdUFChYzA-1; Thu, 06 Oct 2022 14:10:13 -0400
+X-MC-Unique: vriowyIVOuOOmVdUFChYzA-1
+Received: by mail-il1-f198.google.com with SMTP id
+ z4-20020a921a44000000b002f8da436b83so2074172ill.19
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 11:10:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dYs6I/qvwXw5nK7QQnMgF3NBl78b/q6pDuTyJVcv/1w=;
+ b=LnecpSQUDeE26s3GcTgVDaPty9BOL2+jhnUpBuE9RuFaJBnzKPJP6D9eWPPzV7ikvD
+ fst01D0VJAjKI0kS4WyElVOLuRCuKk9RHCHZnsEEapdc913pv7s+gfUPMnLQacJKvII7
+ p/EmWRb2JoAqWczZNiW3EWnrewNN9Dm9LofJNWp7njYtfhS+rThHYWXsmLyB6qSI4wSv
+ QJj7/NDUl1qk54Vo/JooSKfWG30C3LYSEo+HO9uEOCKVFtYjTSdBxRKlo+BakbNP691c
+ ZH2cCsrhoZap1YccFDHAfO7okxEvQW34/+BJlHNIIaUlKJ8BrzZiIvLz2htuTM4r7cY3
+ CacA==
+X-Gm-Message-State: ACrzQf0L1Yu4XDgVgBCEjOXSftN2ivZdgqBZacqTPUDuS32lR8icYdb4
+ cEeoaIV0V2V49z81Dn4H/6ogXxSMCR+TNELnvtDCS9jjuVd9RYOVj9st/PVqzD6V5a1mNmBXgql
+ ieItFnleeItXp08KRo4tkqa9V6/elmWI=
+X-Received: by 2002:a05:6602:1554:b0:6a1:de25:9ce8 with SMTP id
+ h20-20020a056602155400b006a1de259ce8mr487309iow.202.1665079812823; 
+ Thu, 06 Oct 2022 11:10:12 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5szYrEps4FuICkoJt37xdHxo8KMQ5U6uYeOZgUvGQQmHFxnZd+5QhaGP0GpbxfNH+80yks8xifV6yr9m5t3N8=
+X-Received: by 2002:a05:6602:1554:b0:6a1:de25:9ce8 with SMTP id
+ h20-20020a056602155400b006a1de259ce8mr487286iow.202.1665079812637; Thu, 06
+ Oct 2022 11:10:12 -0700 (PDT)
+MIME-Version: 1.0
 References: <20220927193431.22302-1-stefanha@redhat.com>
  <20220927193431.22302-12-stefanha@redhat.com>
  <YzSex5t0UIAT+LPU@fedora>
  <CAELaAXyURC9YJvtjY3O5iXsA5Q0WCTxM21++iqJ__pna9CSNOQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Ps8be3DsCuESDjvJ"
-Content-Disposition: inline
-In-Reply-To: <CAELaAXyURC9YJvtjY3O5iXsA5Q0WCTxM21++iqJ__pna9CSNOQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ <Yz8Xr81Dw8M9rj3c@fedora>
+In-Reply-To: <Yz8Xr81Dw8M9rj3c@fedora>
+From: Alberto Faria <afaria@redhat.com>
+Date: Thu, 6 Oct 2022 19:09:36 +0100
+Message-ID: <CAELaAXw+sLHOX9drshJbZmpryRkQFd4ozuX-ZoCq+uTRwXsaWg@mail.gmail.com>
+Subject: Re: [PATCH v5 11/12] blkio: implement BDRV_REQ_REGISTERED_BUF
+ optimization
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>, 
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>, 
+ "Denis V. Lunev" <den@openvz.org>, Xie Changlong <xiechanglong.d@gmail.com>, 
+ Eric Blake <eblake@redhat.com>, integration@gluster.org, 
+ David Hildenbrand <david@redhat.com>, Wen Congyang <wencongyang2@huawei.com>, 
+ Laurent Vivier <lvivier@redhat.com>, "Richard W.M. Jones" <rjones@redhat.com>,
+ Fam Zheng <fam@euphon.net>, 
+ Thomas Huth <thuth@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>, 
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Jeff Cody <codyprime@gmail.com>, qemu-block@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, sgarzare@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,62 +112,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Oct 6, 2022 at 7:00 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> s->needs_mem_regions determines if we'll use libblkio memory regions at
+> all. When it's false we skip blkio_map_mem_region() and therefore it's
+> safe to set s->mem_regions_pinned to false.
 
---Ps8be3DsCuESDjvJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+blkio_register_buf() calls blkio_map_mem_region(). Is the
+bdrv_register_buf callback maybe skipped somehow when
+needs_mem_regions is false?
 
-On Wed, Sep 28, 2022 at 09:12:36PM +0100, Alberto Campinho Faria wrote:
-> On Wed, Sep 28, 2022 at 8:21 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
-te:
-> > On Tue, Sep 27, 2022 at 03:34:30PM -0400, Stefan Hajnoczi wrote:
-> > > +    ret =3D blkio_get_bool(s->blkio,
-> > > +                         "mem-regions-pinned",
-> > > +                         &s->mem_regions_pinned);
-> > > +    if (ret < 0) {
-> > > +        /* Be conservative (assume pinning) if the property is not s=
-upported */
-> > > +        s->mem_regions_pinned =3D true;
-> >
-> > This is too conservative :). It can be changed to:
-> >
-> >   s->mem_regions_pinned =3D s->needs_mem_regions;
-> >
-> > That way we avoid ram_block_discard_disable() for libblkio drivers (like
-> > io_uring in libblkio 1.0) that don't use memory regions and don't
-> > support the "mem-regions-pinned" property yet.
->=20
-> Even if a driver doesn't _need_ memory regions to be mapped before
-> use, it may still do something special with the ones that _are_
-> mapped, so we may have no choice but to set s->mem_regions_pinned =3D
-> true.
->=20
-> (Unless we are assuming that all future libblkio versions will either
-> not have such drivers, or will provide a "mem-regions-pinned"
-> property, but that feels brittle.)
+Regardless, I'd say we want to map memory regions even if we don't
+strictly need to (in cases where we can do so at no additional cost),
+since that may improve performance for some drivers.
 
-s->needs_mem_regions determines if we'll use libblkio memory regions at
-all. When it's false we skip blkio_map_mem_region() and therefore it's
-safe to set s->mem_regions_pinned to false.
-
-Stefan
-
---Ps8be3DsCuESDjvJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmM/F68ACgkQnKSrs4Gr
-c8gRWwf7B+a4Ajr1oCZKuGoGSP+MgZ0C2SHFVwOlEF5ZjcGGkep2UmnraED2pqnR
-A8ty5hL7+dJHf7uXaLynxAm+zapV7j9VcTNbRzb4x8HUjTib5HYfSIm93Ypa2UQI
-zeVbCoxL6AMtCXDz6NyahXzVnuJcdMijCnTYSBuRNNPcm+14QlwMl1uVVU5vwyg0
-l7BxfGMp9Iwxlqy9bCOU41NR91qx5eO7Uy1DTDiGgnSrHfBKmY8P1zTMbUmyZT4Y
-Dkh4FTiFrHW/WIWGX+TkcKO719mYlkoYYcSaBLQPeIH74ibaBLCLEjx/rEd9Sosu
-VUCdaRCAw8Wj4BMGJdi25fEvpdQkQA==
-=tEqP
------END PGP SIGNATURE-----
-
---Ps8be3DsCuESDjvJ--
+Alberto
 
 
