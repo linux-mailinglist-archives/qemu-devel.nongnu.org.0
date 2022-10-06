@@ -2,73 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682705F6A49
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:09:12 +0200 (CEST)
-Received: from localhost ([::1]:41972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE43E5F6A50
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:10:12 +0200 (CEST)
+Received: from localhost ([::1]:59914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogSUo-0007tc-Nn
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52468)
+	id 1ogSVn-0000z4-Sh
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ogSQL-00045D-NF
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:04:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43533)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ogSRV-0004Q8-Pm
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:05:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ogSQI-0003DZ-0H
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:04:32 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ogSRS-0003Wo-Js
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:05:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665068669;
+ s=mimecast20190719; t=1665068736;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aB8/oPG4Z7dZUpBgf48v8VcgC40+KlabrBnoyv9mzSE=;
- b=cEEe9R5zWNl8R9SoEItXB/rpr0vwWoInszLh6PeMr4kPn+I7S6PjM05zVvy2d+xmxlDVgF
- NL6/smySoH2BJK5XnTHtMlob0OARWWLA+EC84YD3ElJFFhde+vW0qedvcVDjiETjeJDGZp
- p/Q7vEravIY5Qi0j2KHWBQJ7uPwyHrI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-147-w6ag9kIpMKusyRiLqT0mjw-1; Thu, 06 Oct 2022 11:04:24 -0400
-X-MC-Unique: w6ag9kIpMKusyRiLqT0mjw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A898857F90;
- Thu,  6 Oct 2022 15:04:23 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 410EB535936;
- Thu,  6 Oct 2022 15:04:22 +0000 (UTC)
-Date: Thu, 6 Oct 2022 11:04:20 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, dmitry.fomichev@wdc.com,
- damien.lemoal@opensource.wdc.com, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, hare@suse.de
-Subject: Re: [PATCH v2 2/2] virtio-blk: add zoned storage emulation for zoned
- devices
-Message-ID: <Yz7udH9Ab2axs3sT@fedora>
-References: <20220929094821.78596-1-faithilikerun@gmail.com>
- <20220929094821.78596-3-faithilikerun@gmail.com>
+ bh=KsDQCZivcs5q3LIQk4JqK7qJdKXwyCza9bMFTKn2SaE=;
+ b=NkVylDZLPvkcF1VLZgvDYzMuTLvYdsvOSrelzrW2DZDfiK1pBEp471jYrub2hqOtSBNW4d
+ 34TOE5cBzVD59VhR8LLGvTQqGXw7glMHmIU6VwEXAQCyBADQSujZrmwF6PAwTWGnjrDewC
+ 6nfvbvOrdDKOcpVblBdV0c1sGPSQU9g=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-192-T17otGC3Pb69BO_wKRqxPg-1; Thu, 06 Oct 2022 11:05:35 -0400
+X-MC-Unique: T17otGC3Pb69BO_wKRqxPg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g10-20020a7bc4ca000000b003c29da13d23so91003wmk.0
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:05:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:organization:from
+ :references:cc:to:content-language:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KsDQCZivcs5q3LIQk4JqK7qJdKXwyCza9bMFTKn2SaE=;
+ b=bCYJ23CDJWP3ML9jDt0QBWJxhnUElvUzFJIIuWAuCmzdncpjXgtAmz9zO5TnBB9ah3
+ hozvtLoDqI/hCIzFb7Dg6GruswKmga2a7Iu7dqAIB7OmFyysrmbqVpv0c7UUgU37LYmx
+ KJCr4DJt9ubYOXj+/3f5t9n9ncNL+aLU2pjXiPn4GbMtmyUfSFphIGpFG/LB6fVyQv20
+ 5QL4GbdwAx2ZUywbMMRmnFqoY7sF5Th4Xhwcs2v38QbFh/ITtJ2Rx1/YBTOKlnwS9rAa
+ CYwo4jUHCJgtV5stLEFaPp++a0cde1Gq9x2KaimMP5iyWppTTr1g2DnSkxWR5EAiD9kJ
+ pdBA==
+X-Gm-Message-State: ACrzQf2kLvwWZlfRQ+a0MeU1vO/tSPBRL7IfsTwP+emBJYh5igx/kTWC
+ WwZba2Fh+HIpKyvaspi7PO2hh8vNHFszDxqe7SxiYcSRnFNWYMSNcSJh0Ou5Cr3xp+EiQJ4/eJx
+ vtTBU/wtSGyXSkIY=
+X-Received: by 2002:a05:600c:524b:b0:3b4:8c0c:f3b6 with SMTP id
+ fc11-20020a05600c524b00b003b48c0cf3b6mr7566109wmb.50.1665068732153; 
+ Thu, 06 Oct 2022 08:05:32 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM58CxfaUhDp+jzJqAO0QQvreqx3cQZQArtNnrcWO2rDAkIAqEoAOiIkx72p7sKYYDiMeMPrOg==
+X-Received: by 2002:a05:600c:524b:b0:3b4:8c0c:f3b6 with SMTP id
+ fc11-20020a05600c524b00b003b48c0cf3b6mr7566082wmb.50.1665068731850; 
+ Thu, 06 Oct 2022 08:05:31 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c705:3700:aed2:a0f8:c270:7f30?
+ (p200300cbc7053700aed2a0f8c2707f30.dip0.t-ipconnect.de.
+ [2003:cb:c705:3700:aed2:a0f8:c270:7f30])
+ by smtp.gmail.com with ESMTPSA id
+ k16-20020adfd850000000b0022e3538d305sm15603883wrl.117.2022.10.06.08.05.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Oct 2022 08:05:31 -0700 (PDT)
+Message-ID: <88875089-b671-f2d6-07c7-7c6f1a2a26f3@redhat.com>
+Date: Thu, 6 Oct 2022 17:05:29 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ofLv1sK8X2EpWe2k"
-Content-Disposition: inline
-In-Reply-To: <20220929094821.78596-3-faithilikerun@gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qiaonuohan@cn.fujitsu.com,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
+References: <20220905125741.95516-1-marcandre.lureau@redhat.com>
+ <20220905125741.95516-3-marcandre.lureau@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v2 2/2] dump: fix kdump to work over non-aligned blocks
+In-Reply-To: <20220905125741.95516-3-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-1.435, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,625 +107,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---ofLv1sK8X2EpWe2k
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Sep 29, 2022 at 05:48:21PM +0800, Sam Li wrote:
-> This patch extends virtio-blk emulation to handle zoned device commands
-> by calling the new block layer APIs to perform zoned device I/O on
-> behalf of the guest. It supports Report Zone, four zone oparations (open,
-> close, finish, reset), and Append Zone.
->=20
-> The VIRTIO_BLK_F_ZONED feature bit will only be set if the host does
-> support zoned block devices. Regular block devices(conventional zones)
-> will not be set.
->=20
-> The guest os having zoned device support can use blkzone(8) to test those
-> commands. Furthermore, using zonefs to test zone append write is also
-> supported.
->=20
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+On 05.09.22 14:57, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Rewrite get_next_page() to work over non-aligned blocks. When it
+> encounters non aligned addresses, it will try to fill a page provided by
+> the caller.
+> 
+> This solves a kdump crash with "tpm-crb-cmd" RAM memory region,
+> qemu-kvm: ../dump/dump.c:1162: _Bool get_next_page(GuestPhysBlock **,
+> uint64_t *, uint8_t **, DumpState *): Assertion `(block->target_start &
+> ~target_page_mask) == 0' failed.
+> 
+> because:
+> guest_phys_block_add_section: target_start=00000000fed40080 target_end=00000000fed41000: added (count: 4)
+> 
+> Fixes:
+> https://bugzilla.redhat.com/show_bug.cgi?id=2120480
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  hw/block/virtio-blk.c | 393 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 393 insertions(+)
->=20
-> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-> index e9ba752f6b..1c2535bfeb 100644
-> --- a/hw/block/virtio-blk.c
-> +++ b/hw/block/virtio-blk.c
-> @@ -26,6 +26,9 @@
->  #include "hw/virtio/virtio-blk.h"
->  #include "dataplane/virtio-blk.h"
->  #include "scsi/constants.h"
-> +#if defined(CONFIG_BLKZONED)
-> +#include <linux/blkzoned.h>
-> +#endif
-
-Why is this Linux-specific header file included? The virtio-blk
-emulation code should only use QEMU block layer APIs, not Linux APIs.
-
->  #ifdef __linux__
->  # include <scsi/sg.h>
->  #endif
-> @@ -46,6 +49,8 @@ static const VirtIOFeature feature_sizes[] =3D {
->       .end =3D endof(struct virtio_blk_config, discard_sector_alignment)},
->      {.flags =3D 1ULL << VIRTIO_BLK_F_WRITE_ZEROES,
->       .end =3D endof(struct virtio_blk_config, write_zeroes_may_unmap)},
-> +    {.flags =3D 1ULL << VIRTIO_BLK_F_ZONED,
-> +     .end =3D endof(struct virtio_blk_config, zoned)},
->      {}
->  };
-> =20
-> @@ -614,6 +619,340 @@ err:
->      return err_status;
->  }
-> =20
-> +typedef struct ZoneCmdData {
-> +    VirtIOBlockReq *req;
-> +    union {
-> +        struct {
-> +            unsigned int nr_zones;
-> +            BlockZoneDescriptor *zones;
-> +        } zone_report_data;
-> +        struct {
-> +            int64_t append_sector;
-> +        } zone_append_data;
-> +    };
-> +} ZoneCmdData;
-> +
-> +/*
-> + * check zoned_request: error checking before issuing requests. If all c=
-hecks
-> + * passed, return true.
-> + * append: true if only zone append requests issued.
-> + */
-> +static bool check_zoned_request(VirtIOBlock *s, int64_t offset, int64_t =
-len,
-> +                             bool append, uint8_t *status) {
-> +    BlockDriverState *bs =3D blk_bs(s->blk);
-> +    int index =3D offset / bs->bl.zone_size;
-
-This function doesn't check that offset+len is in the same zone as
-offset. Maybe that's correct because some request types allow [offset,
-offset+len) to cross zones?
-
-> +
-> +    if (offset < 0 || offset + len > bs->bl.capacity) {
-
-Other cases that are not checked:
-1. len < 0
-2. offset >=3D bs->bl.capacity
-3. len > bs->bl.capacity - offset (catches integer overflow)
-
-It may be possible to combine these cases, but be careful about integer
-overflow.
-
-> +        *status =3D VIRTIO_BLK_S_ZONE_INVALID_CMD;
-> +        return false;
-> +    }
-> +
-> +    if (!virtio_has_feature(s->host_features, VIRTIO_BLK_F_ZONED)) {
-> +        *status =3D VIRTIO_BLK_S_UNSUPP;
-> +        return false;
-> +    }
-> +
-> +    if (append) {
-> +        if ((offset % bs->bl.write_granularity) !=3D 0) {
-> +            *status =3D VIRTIO_BLK_S_ZONE_UNALIGNED_WP;
-> +            return false;
-> +        }
-> +
-> +        if (!BDRV_ZT_IS_SWR(bs->bl.wps->wp[index])) {
-> +            *status =3D VIRTIO_BLK_S_ZONE_INVALID_CMD;
-> +            return false;
-> +        }
-
-Where does the virtio-blk zone spec say that only SWR zones allow zone
-append commands? Should it work for SWP zones too?
-
-> +
-> +        if (len / 512 > bs->bl.max_append_sectors) {
-> +            if (bs->bl.max_append_sectors =3D=3D 0) {
-> +                *status =3D VIRTIO_BLK_S_UNSUPP;
-> +            } else {
-> +                *status =3D VIRTIO_BLK_S_ZONE_INVALID_CMD;
+>   dump/dump.c | 79 +++++++++++++++++++++++++++++++++++++----------------
+>   1 file changed, 56 insertions(+), 23 deletions(-)
+> 
+> diff --git a/dump/dump.c b/dump/dump.c
+> index f465830371..500357bafe 100644
+> --- a/dump/dump.c
+> +++ b/dump/dump.c
+> @@ -1094,50 +1094,81 @@ static uint64_t dump_pfn_to_paddr(DumpState *s, uint64_t pfn)
+>   }
+>   
+>   /*
+> - * exam every page and return the page frame number and the address of the page.
+> - * bufptr can be NULL. note: the blocks here is supposed to reflect guest-phys
+> - * blocks, so block->target_start and block->target_end should be interal
+> - * multiples of the target page size.
+> + * Return the page frame number and the page content in *bufptr. bufptr can be
+> + * NULL. If not NULL, *bufptr must contains a target page size of pre-allocated
+> + * memory. This is not necessarily the memory returned.
+>    */
+>   static bool get_next_page(GuestPhysBlock **blockptr, uint64_t *pfnptr,
+>                             uint8_t **bufptr, DumpState *s)
+>   {
+>       GuestPhysBlock *block = *blockptr;
+> -    hwaddr addr, target_page_mask = ~((hwaddr)s->dump_info.page_size - 1);
+> -    uint8_t *buf;
+> +    uint32_t page_size = s->dump_info.page_size;
+> +    uint8_t *buf = NULL, *hbuf;
+> +    hwaddr addr;
+>   
+>       /* block == NULL means the start of the iteration */
+>       if (!block) {
+>           block = QTAILQ_FIRST(&s->guest_phys_blocks.head);
+>           *blockptr = block;
+>           addr = block->target_start;
+> +        *pfnptr = dump_paddr_to_pfn(s, addr);
+>       } else {
+> -        addr = dump_pfn_to_paddr(s, *pfnptr + 1);
+> +        *pfnptr += 1;
+> +        addr = dump_pfn_to_paddr(s, *pfnptr);
+>       }
+>       assert(block != NULL);
+>   
+> -    if ((addr >= block->target_start) &&
+> -        (addr + s->dump_info.page_size <= block->target_end)) {
+> -        buf = block->host_addr + (addr - block->target_start);
+> -    } else {
+> -        /* the next page is in the next block */
+> -        block = QTAILQ_NEXT(block, next);
+> -        *blockptr = block;
+> -        if (!block) {
+> -            return false;
+> +    while (1) {
+> +        if (addr >= block->target_start && addr < block->target_end) {
+> +            size_t n = MIN(block->target_end - addr, page_size - addr % page_size);
+> +            hbuf = block->host_addr + (addr - block->target_start);
+> +            if (!buf) {
+> +                if (n == page_size) {
+> +                    /* this is a whole target page, go for it */
+> +                    assert(addr % page_size == 0);
+> +                    buf = hbuf;
+> +                    break;
+> +                } else if (bufptr) {
+> +                    assert(*bufptr);
+> +                    buf = *bufptr;
+> +                    memset(buf, 0, page_size);
+> +                } else {
+> +                    return true;
+> +                }
 > +            }
-> +            return false;
-> +        }
-> +    }
-> +    return true;
-> +}
 > +
-> +static void virtio_blk_zone_report_complete(void *opaque, int ret)
-> +{
-> +    ZoneCmdData *data =3D opaque;
-> +    VirtIOBlockReq *req =3D data->req;
-> +    VirtIOBlock *s =3D req->dev;
-> +    VirtIODevice *vdev =3D VIRTIO_DEVICE(req->dev);
-> +    struct iovec *in_iov =3D req->elem.in_sg;
-> +    unsigned in_num =3D req->elem.in_num;
-> +    int64_t zrp_size, nz, n, j =3D 0;
-> +    int8_t err_status =3D VIRTIO_BLK_S_OK;
-> +
-> +    if (ret) {
-> +        err_status =3D VIRTIO_BLK_S_ZONE_INVALID_CMD;
-> +        goto out;
-> +    }
-> +
-> +    nz =3D data->zone_report_data.nr_zones;
-> +    struct virtio_blk_zone_report zrp_hdr =3D (struct virtio_blk_zone_re=
-port) {
-> +            .nr_zones =3D cpu_to_le64(nz),
-> +    };
-> +
-> +    zrp_size =3D sizeof(struct virtio_blk_zone_report)
-> +               + sizeof(struct virtio_blk_zone_descriptor) * nz;
-> +    n =3D iov_from_buf(in_iov, in_num, 0, &zrp_hdr, sizeof(zrp_hdr));
-> +    if (n !=3D sizeof(zrp_hdr)) {
-> +        virtio_error(vdev, "Driver provided intput buffer that is too sm=
-all!");
-> +        err_status =3D VIRTIO_BLK_S_ZONE_INVALID_CMD;
-> +        goto out;
-> +    }
-> +
-> +    for (size_t i =3D sizeof(zrp_hdr); i < zrp_size; i +=3D sizeof(struc=
-t virtio_blk_zone_descriptor), ++j) {
-> +        struct virtio_blk_zone_descriptor desc =3D
-> +                (struct virtio_blk_zone_descriptor) {
-> +                        .z_start =3D cpu_to_le64(data->zone_report_data.=
-zones[j].start) >> BDRV_SECTOR_BITS,
-> +                        .z_cap =3D cpu_to_le64(data->zone_report_data.zo=
-nes[j].cap) >> BDRV_SECTOR_BITS,
-> +                        .z_wp =3D cpu_to_le64(data->zone_report_data.zon=
-es[j].wp) >> BDRV_SECTOR_BITS,
-> +                };
-> +
-> +        switch (data->zone_report_data.zones[j].type) {
-> +        case BLK_ZT_CONV:
-> +            desc.z_type =3D BLK_ZONE_TYPE_CONVENTIONAL;
-> +            break;
-> +        case BLK_ZT_SWR:
-> +            desc.z_type =3D BLK_ZONE_TYPE_SEQWRITE_REQ;
-> +            break;
-> +        case BLK_ZT_SWP:
-> +            desc.z_type =3D BLK_ZONE_TYPE_SEQWRITE_PREF;
-> +            break;
-> +        default:
-> +            g_assert_not_reached();
-> +        }
-> +
-> +        switch (data->zone_report_data.zones[j].cond) {
-> +        case BLK_ZS_RDONLY:
-> +            desc.z_state =3D BLK_ZONE_COND_READONLY;
-> +            break;
-> +        case BLK_ZS_OFFLINE:
-> +            desc.z_state =3D BLK_ZONE_COND_OFFLINE;
-> +            break;
-> +        case BLK_ZS_EMPTY:
-> +            desc.z_state =3D BLK_ZONE_COND_EMPTY;
-> +            break;
-> +        case BLK_ZS_CLOSED:
-> +            desc.z_state =3D BLK_ZONE_COND_CLOSED;
-> +            break;
-> +        case BLK_ZS_FULL:
-> +            desc.z_state =3D BLK_ZONE_COND_FULL;
-> +            break;
-> +        case BLK_ZS_EOPEN:
-> +            desc.z_state =3D BLK_ZONE_COND_EXP_OPEN;
-> +            break;
-> +        case BLK_ZS_IOPEN:
-> +            desc.z_state =3D BLK_ZONE_COND_IMP_OPEN;
-> +            break;
-> +        case BLK_ZS_NOT_WP:
-> +            desc.z_state =3D BLK_ZONE_COND_NOT_WP;
-> +            break;
-> +        default:
-> +            g_assert_not_reached();
-> +            break;
-> +        }
-> +
-> +        /* TODO: it takes O(n^2) time complexity. Optimizations required=
- here. */
-> +        n =3D iov_from_buf(in_iov, in_num, i, &desc, sizeof(desc));
-> +        if (n !=3D sizeof(desc)) {
-> +            virtio_error(vdev, "Driver provided input buffer "
-> +                               "for descriptors that is too small!");
-> +            err_status =3D VIRTIO_BLK_S_ZONE_INVALID_CMD;
-> +            goto out;
-> +        }
-> +    }
-> +    goto out;
-> +
-> +out:
-> +    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-> +    virtio_blk_req_complete(req, err_status);
-> +    virtio_blk_free_request(req);
-> +    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-> +    g_free(data->zone_report_data.zones);
-> +    g_free(data);
-> +}
-> +
-> +static int virtio_blk_handle_zone_report(VirtIOBlockReq *req) {
-> +    VirtIOBlock *s =3D req->dev;
-> +    VirtIODevice *vdev =3D VIRTIO_DEVICE(s);
-> +    unsigned int nr_zones;
-> +    ZoneCmdData *data;
-> +    int64_t zone_size, offset;
-> +    uint8_t err_status;
-> +
-> +    if (req->in_len < sizeof(struct virtio_blk_inhdr) +
-> +            sizeof(struct virtio_blk_zone_report) +
-> +            sizeof(struct virtio_blk_zone_descriptor)) {
-> +        virtio_error(vdev, "in buffer too small for zone report");
-> +        return -1;
-> +    }
-> +
-> +    /* start byte offset of the zone report */
-> +    offset =3D virtio_ldq_p(vdev, &req->out.sector) * 512;
-> +    if (!check_zoned_request(s, offset, 0, false, &err_status)) {
-> +        goto out;
-> +    }
-> +
-> +    nr_zones =3D (req->in_len - sizeof(struct virtio_blk_inhdr) -
-> +                sizeof(struct virtio_blk_zone_report)) /
-> +               sizeof(struct virtio_blk_zone_descriptor);
-> +
-> +    zone_size =3D sizeof(BlockZoneDescriptor) * nr_zones;
-> +    data =3D g_malloc(sizeof(ZoneCmdData));
-> +    data->req =3D req;
-> +    data->zone_report_data.nr_zones =3D nr_zones;
-> +    data->zone_report_data.zones =3D g_malloc(zone_size),
-> +
-> +    blk_aio_zone_report(s->blk, offset, &data->zone_report_data.nr_zones,
-> +                        data->zone_report_data.zones,
-> +                        virtio_blk_zone_report_complete, data);
-> +    return 0;
-> +
-> +out:
-> +    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-> +    virtio_blk_req_complete(req, err_status);
-> +    virtio_blk_free_request(req);
-> +    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-> +    return err_status;
-> +}
-> +
-> +static void virtio_blk_zone_mgmt_complete(void *opaque, int ret) {
-> +    ZoneCmdData *data =3D opaque;
-> +    VirtIOBlockReq *req =3D data->req;
-> +    VirtIOBlock *s =3D req->dev;
-> +    int8_t err_status =3D VIRTIO_BLK_S_OK;
-> +
-> +    if (ret) {
-> +        err_status =3D VIRTIO_BLK_S_ZONE_INVALID_CMD;
-> +        goto out;
-> +    }
-> +    goto out;
-> +
-> +out:
-> +    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-> +    virtio_blk_req_complete(req, err_status);
-> +    virtio_blk_free_request(req);
-> +    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-> +    g_free(data);
-> +}
-> +
-> +static int virtio_blk_handle_zone_mgmt(VirtIOBlockReq *req, BlockZoneOp =
-op) {
-> +    VirtIOBlock *s =3D req->dev;
-> +    VirtIODevice *vdev =3D VIRTIO_DEVICE(s);
-> +    BlockDriverState *bs =3D blk_bs(s->blk);
-> +    int64_t offset =3D virtio_ldq_p(vdev, &req->out.sector) * 512;
-> +    uint64_t len;
-> +    uint32_t type;
-> +    uint8_t err_status =3D VIRTIO_BLK_S_OK;
-> +
-> +    if (!check_zoned_request(s, offset, 0, false, &err_status)) {
-> +        goto out;
-> +    }
-> +
-> +    ZoneCmdData *data =3D g_malloc(sizeof(ZoneCmdData));
-> +    data->req =3D req;
-> +
-> +    type =3D virtio_ldl_p(vdev, &req->out.type);
-> +    if (type =3D=3D VIRTIO_BLK_T_ZONE_RESET_ALL) {
-> +        /* Entire drive capacity */
-> +        offset =3D 0;
-> +        len =3D bs->bl.capacity;
-> +    } else {
-> +        if (bs->bl.zone_size * bs->bl.nr_zones =3D=3D bs->bl.capacity) {
-> +            len =3D bs->bl.zone_size;
+> +            memcpy(buf + addr % page_size, hbuf, n);
+> +            addr += n;
+> +            if (addr % page_size == 0) {
+> +                /* we filled up the page */
+> +                break;
+> +            }
 > +        } else {
-> +            /* when the SWR drive has one last small zone, calculate its=
- len */
-> +            len =3D bs->bl.capacity - bs->bl.zone_size * (bs->bl.nr_zone=
-s - 1);
-> +        }
-> +        if (offset + len > bs->bl.capacity) {
-> +            err_status =3D VIRTIO_BLK_S_ZONE_INVALID_CMD;
-> +            goto out;
-
-data is leaked here.
-
-> +        }
-> +    }
+> +            /* the next page is in the next block */
+> +            *blockptr = block = QTAILQ_NEXT(block, next);
+> +            if (!block) {
+> +                break;
+> +            }
 > +
-> +    blk_aio_zone_mgmt(s->blk, op, offset, len,
-> +                      virtio_blk_zone_mgmt_complete, data);
-> +
-> +    return 0;
-> +out:
-> +    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-> +    virtio_blk_req_complete(req, err_status);
-> +    virtio_blk_free_request(req);
-> +    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-> +    return err_status;
-> +}
-> +
-> +static void virtio_blk_zone_append_complete(void *opaque, int ret) {
-> +    ZoneCmdData *data =3D opaque;
-> +    VirtIOBlockReq *req =3D data->req;
-> +    VirtIOBlock *s =3D req->dev;
-> +    VirtIODevice *vdev =3D VIRTIO_DEVICE(req->dev);
-> +    int64_t append_sector, n;
-> +    struct iovec *out_iov =3D req->elem.out_sg;
-> +    unsigned out_num =3D req->elem.out_num;
-> +    uint8_t err_status =3D VIRTIO_BLK_S_OK;
-> +
-> +    if (ret) {
-> +        err_status =3D VIRTIO_BLK_S_ZONE_INVALID_CMD;
-> +        goto out;
-> +    }
-> +
-> +    virtio_stl_p(vdev, &append_sector, data->zone_append_data.append_sec=
-tor);
-> +    n =3D iov_to_buf(out_iov, out_num, 0, &append_sector, sizeof(append_=
-sector));
+> +            addr = block->target_start;
+> +            /* are we still in the same page? */
+> +            if (dump_paddr_to_pfn(s, addr) != *pfnptr) {
+> +                if (buf) {
+> +                    /* no, but we already filled something earlier, return it */
+> +                    break;
+> +                } else {
+> +                    /* else continue from there */
+> +                    *pfnptr = dump_paddr_to_pfn(s, addr);
+> +                }
+> +            }
+>           }
 
-out_iov contains the driver->device buffers. The device is only allowed
-to read from out_iov, not write to it.
+The loop is a bit confusing and the code is not that easy to follow.
 
-The device->driver buffers are in in_iov.
+... but I don't have a good idea to do it any better/cleaner. :)
 
-According to the spec the zone append in hdr looks like this:
+So I assume as long as testing is good, this is fine
 
-  struct {
-      u8 status;
-      u8 reserved[7];
-      le64 append_sector;
-  } virtio_blk_zone_append_inhdr;
+Acked-by: David Hildenbrand <david@redhat.com>
 
-In virtio_blk_handle_request() we used iov_discard_back_undoable() to
-take the last byte (the status field for non-zone append requests) from
-in_iov[]. This is incorrect for zone append requests because they have
-the larger struct zone_append_inhdr instead of struct
-virtio_blk_inhdr.
+-- 
+Thanks,
 
-I think it might be time to stop using req->in in virtio-blk.c and
-instead use iov_from_buf() to write the status byte. For zone append
-requests we also need to write reserved[] and append_sector:
-
-  iov_discard_undo(&req->inhdr_undo);
-  inhdr_len =3D is_zone_append ?
-               sizeof(struct virtio_blk_zone_append_inhdr) :
-	       sizeof(struct virtio_blk_inhdr);
-  iov_from_buf(req->elem.in_sg, req->elem.in_num,
-               req->in_len - inhdr_len,
-	       &req->in, inhdr_len);
-
-where req->in changes to:
-
-  union {
-      struct virtio_blk_inhdr inhdr;
-      struct virtio_blk_zone_append_inhdr zone_append_inhdr;
-  } in;
-
-Most requests will just use in.inhdr but zone append will fill out the
-full in.zone_append_inhdr struct.
-
-> +    if (n !=3D sizeof(append_sector)) {
-> +        virtio_error(vdev, "Driver provided input buffer less than size =
-of "
-> +                     "append_sector");
-> +        err_status =3D VIRTIO_BLK_S_ZONE_INVALID_CMD;
-> +        goto out;
-> +    }
-> +    goto out;
-> +
-> +out:
-> +    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-> +    virtio_blk_req_complete(req, err_status);
-> +    virtio_blk_free_request(req);
-> +    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-> +    g_free(data);
-> +}
-> +
-> +static int virtio_blk_handle_zone_append(VirtIOBlockReq *req) {
-> +    VirtIOBlock *s =3D req->dev;
-> +    VirtIODevice *vdev =3D VIRTIO_DEVICE(s);
-> +    uint64_t niov =3D req->elem.out_num;
-> +    struct iovec *out_iov =3D req->elem.out_sg;
-> +    uint8_t err_status =3D VIRTIO_BLK_S_OK;
-> +
-> +    int64_t offset =3D virtio_ldq_p(vdev, &req->out.sector) * 512;
-> +    int64_t len =3D 0;
-> +    for (int i =3D 1; i < niov; ++i) {
-> +        len +=3D out_iov[i].iov_len;
-
-Please pass in out_iov and out_num instead of using req->elem.out_sg and
-req->elem.out_num. virtio_blk_handle_request() modifies the iovecs
-pointed to by req->elem.out_sg using iov_discard_front_undoable() and it
-is not safe to access req->elem.out_sg directly.
-
-Also, VIRTIO devices are not allowed to make assumptions about the iovec
-layout. That means skipping the first iovec in the for loop violates the
-spec. The driver could send struct virtio_blk_req as two or more iovecs
-instead of putting it into just 1 iovec. This is why the device is not
-allowed to assume out_iov[0] is struct virtio_blk_req.
-
-The for loop can be replaced with:
-
-  len =3D iov_size(out_iov, out_num);
-
-and out_iov[1]/niov-1 can be replaced with just out_iov and out_num (if
-you pass them in from virtio_blk_handle_request()).
-
-> +    }
-> +
-> +    if (!check_zoned_request(s, offset, len, true, &err_status)) {
-> +        goto out;
-> +    }
-> +
-> +    ZoneCmdData *data =3D g_malloc(sizeof(ZoneCmdData));
-> +    data->req =3D req;
-> +    data->zone_append_data.append_sector =3D offset;
-> +    qemu_iovec_init_external(&req->qiov, &out_iov[1], niov-1);
-> +    blk_aio_zone_append(s->blk, &data->zone_append_data.append_sector, &=
-req->qiov, 0,
-> +                        virtio_blk_zone_append_complete, data);
-> +    return 0;
-> +
-> +out:
-> +    aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-> +    virtio_blk_req_complete(req, err_status);
-> +    virtio_blk_free_request(req);
-> +    aio_context_release(blk_get_aio_context(s->conf.conf.blk));
-> +    return err_status;
-> +}
-> +
->  static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer=
- *mrb)
->  {
->      uint32_t type;
-> @@ -700,6 +1039,24 @@ static int virtio_blk_handle_request(VirtIOBlockReq=
- *req, MultiReqBuffer *mrb)
->      case VIRTIO_BLK_T_FLUSH:
->          virtio_blk_handle_flush(req, mrb);
->          break;
-> +    case VIRTIO_BLK_T_ZONE_REPORT:
-> +        virtio_blk_handle_zone_report(req);
-> +        break;
-> +    case VIRTIO_BLK_T_ZONE_OPEN:
-> +        virtio_blk_handle_zone_mgmt(req, BLK_ZO_OPEN);
-> +        break;
-> +    case VIRTIO_BLK_T_ZONE_CLOSE:
-> +        virtio_blk_handle_zone_mgmt(req, BLK_ZO_CLOSE);
-> +        break;
-> +    case VIRTIO_BLK_T_ZONE_FINISH:
-> +        virtio_blk_handle_zone_mgmt(req, BLK_ZO_FINISH);
-> +        break;
-> +    case VIRTIO_BLK_T_ZONE_RESET:
-> +        virtio_blk_handle_zone_mgmt(req, BLK_ZO_RESET);
-> +        break;
-> +    case VIRTIO_BLK_T_ZONE_RESET_ALL:
-> +        virtio_blk_handle_zone_mgmt(req, BLK_ZO_RESET_ALL);
-> +        break;
->      case VIRTIO_BLK_T_SCSI_CMD:
->          virtio_blk_handle_scsi(req);
->          break;
-> @@ -718,6 +1075,9 @@ static int virtio_blk_handle_request(VirtIOBlockReq =
-*req, MultiReqBuffer *mrb)
->          virtio_blk_free_request(req);
->          break;
->      }
-> +   case VIRTIO_BLK_T_ZONE_APPEND & ~VIRTIO_BLK_T_OUT:
-
-Indentation is off. QEMU uses 4-space indentation.
-
-> +       virtio_blk_handle_zone_append(req);
-> +       break;
->      /*
->       * VIRTIO_BLK_T_DISCARD and VIRTIO_BLK_T_WRITE_ZEROES are defined wi=
-th
->       * VIRTIO_BLK_T_OUT flag set. We masked this flag in the switch stat=
-ement,
-> @@ -917,6 +1277,7 @@ static void virtio_blk_update_config(VirtIODevice *v=
-dev, uint8_t *config)
->  {
->      VirtIOBlock *s =3D VIRTIO_BLK(vdev);
->      BlockConf *conf =3D &s->conf.conf;
-> +    BlockDriverState *bs =3D blk_bs(s->blk);
->      struct virtio_blk_config blkcfg;
->      uint64_t capacity;
->      int64_t length;
-> @@ -976,6 +1337,30 @@ static void virtio_blk_update_config(VirtIODevice *=
-vdev, uint8_t *config)
->          blkcfg.write_zeroes_may_unmap =3D 1;
->          virtio_stl_p(vdev, &blkcfg.max_write_zeroes_seg, 1);
->      }
-> +    if (bs->bl.zoned !=3D BLK_Z_NONE) {
-> +        switch (bs->bl.zoned) {
-> +        case BLK_Z_HM:
-> +            blkcfg.zoned.model =3D VIRTIO_BLK_Z_HM;
-> +            break;
-> +        case BLK_Z_HA:
-> +            blkcfg.zoned.model =3D VIRTIO_BLK_Z_HA;
-> +            break;
-> +        default:
-> +            g_assert_not_reached();
-> +        }
-> +
-> +        virtio_stl_p(vdev, &blkcfg.zoned.zone_sectors,
-> +                     bs->bl.zone_size / 512);
-> +        virtio_stl_p(vdev, &blkcfg.zoned.max_active_zones,
-> +                     bs->bl.max_active_zones);
-> +        virtio_stl_p(vdev, &blkcfg.zoned.max_open_zones,
-> +                     bs->bl.max_open_zones);
-> +        virtio_stl_p(vdev, &blkcfg.zoned.write_granularity, blk_size);
-> +        virtio_stl_p(vdev, &blkcfg.zoned.max_append_sectors,
-> +                     bs->bl.max_append_sectors);
-> +    } else {
-> +        blkcfg.zoned.model =3D VIRTIO_BLK_Z_NONE;
-> +    }
->      memcpy(config, &blkcfg, s->config_size);
->  }
-> =20
-> @@ -1140,6 +1525,7 @@ static void virtio_blk_device_realize(DeviceState *=
-dev, Error **errp)
->      VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
->      VirtIOBlock *s =3D VIRTIO_BLK(dev);
->      VirtIOBlkConf *conf =3D &s->conf;
-> +    BlockDriverState *bs =3D blk_bs(conf->conf.blk);
->      Error *err =3D NULL;
->      unsigned i;
-> =20
-> @@ -1185,6 +1571,13 @@ static void virtio_blk_device_realize(DeviceState =
-*dev, Error **errp)
->          return;
->      }
-> =20
-> +    if (bs->bl.zoned !=3D BLK_Z_NONE) {
-> +        virtio_add_feature(&s->host_features, VIRTIO_BLK_F_ZONED);
-> +        if (bs->bl.zoned =3D=3D BLK_Z_HM) {
-> +            virtio_clear_feature(&s->host_features, VIRTIO_BLK_F_DISCARD=
-);
-> +        }
-> +    }
-> +
->      if (virtio_has_feature(s->host_features, VIRTIO_BLK_F_DISCARD) &&
->          (!conf->max_discard_sectors ||
->           conf->max_discard_sectors > BDRV_REQUEST_MAX_SECTORS)) {
-> --=20
-> 2.37.3
->=20
-
---ofLv1sK8X2EpWe2k
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmM+7nQACgkQnKSrs4Gr
-c8hg8gf8DeR5N0HXyMFmSoqthLZlNs+CILs0Mn/dEHJUtjTDeldhkdVxsnGzyl9o
-VItjhPq9kD5iSch1mz+eBMra+Mtl/QijIcu/ZVpzS4BlDIIw2zLQqAhgnnChyIWm
-1ziMd9Kz3LShCjeo/LiKxKOog6DGwSWgWmgCnGP9GIrTHSDGCxJ7clndZoQGv9wI
-JkMqNtEywLbffVewnvlP1DlkgJY/LCHsqBDetDAjPO6ktWOhQrAhuvjAqv+WWEMA
-obMaXpO+0WfMwvUnVd3j+94Hzs+1KX5YfrJu6YMV4IjkM/pbASOzk8DGlmx1Q2lq
-ux004YpXfeKdMdo1HIjHasKxLl4ijg==
-=n2Ql
------END PGP SIGNATURE-----
-
---ofLv1sK8X2EpWe2k--
+David / dhildenb
 
 
