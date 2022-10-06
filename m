@@ -2,92 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97E35F6F8C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 22:43:22 +0200 (CEST)
-Received: from localhost ([::1]:46656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AB9C5F6FDA
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 23:00:35 +0200 (CEST)
+Received: from localhost ([::1]:48416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogXiD-00039v-KV
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 16:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34184)
+	id 1ogXyr-0001fw-Nk
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 17:00:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ogXfI-0000fE-6D
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 16:40:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53619)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ogXfE-0006oD-Rv
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 16:40:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665088812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pPJ36IUiOXzpVHY7EhDOQBq2+GKNCQQ3zuflTJsV474=;
- b=JyG5cD1HSWUwQSjl025GzPbq95CMX1ZBD/d55O98KnInTSnIPDHfd+047KiNO6yOrcBFXQ
- YutLk4LeEVdfesxdEQwsqrkPNmeYGu3jeLzkyb7NW2Nl9//43whbmVHtiepZavD+zpzIqY
- gF4U3FU04WelXpsaJSfx9/NB5zM9804=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-444-7EEcs74UPcG5xErg_EC1RA-1; Thu, 06 Oct 2022 16:40:11 -0400
-X-MC-Unique: 7EEcs74UPcG5xErg_EC1RA-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bp17-20020a05620a459100b006ce7f4bb0b7so2370572qkb.5
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 13:40:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogXx5-0008PW-ID
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 16:58:46 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:36534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogXx3-0001IL-RP
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 16:58:43 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id s206so2916065pgs.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 13:58:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=pq1msKz+wIDW/rYUGOrF9YdCo02fAvSjM7c0uxTtfMw=;
+ b=SuzGv2PZWF73WKtucEOyCJ1cogYPsoPfasP3sjjWrKZILvNDMQwwP47rgqmHNMomjZ
+ 6aCBKMRmcrogRgs5nYxCYLzylwbtANXqCGVq9RZLNrlA4JogwLYPui6HUtPiMgLa+B4F
+ NksmSXyzW+9Fh0rN5Ue4QxtSiGCRZeDikpZuJ0zhrATnlSkBVhw3RvUFCu8vgvd/56GQ
+ Yukwd16xmgfLGh8ghn2POB4GL4JElZBu2j+qDcHy+z4XxAhVDjFsZ4b/yYFOmvrYFPlf
+ xnRu3BqOgOoplUjnXbS7v/T4dfu/Xh7MWjIHupV6GaDpsk6nwVRlb4NyYM1MMQD1GuLg
+ tf6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pPJ36IUiOXzpVHY7EhDOQBq2+GKNCQQ3zuflTJsV474=;
- b=PnNoQgeP9WuNEzQAk9S2vTJ+4YCpGLVVonDPZcglFWrHd/POJL4GRHf1P4CHdOICAN
- eeqouVfSDFZXNTscVuTMcUOACOL1wd60fUgao3Ov0tlsb01bL8/Bt3QljWpJfThvTghM
- x1KShqveRZMtoKZxYyeMMCJCiVfOQBubWr3Qk5fAEraABUpNJBYXAfB9CcqEKXy9f72t
- vTKiwyWg1DwfQ2KicqSt4PJVwgN216A18tuq+lM2WeGXRntM3IAutvExVhW1uUk/j2fP
- rM6a42LHaxRSO3s9DFkWOoHNTwjd/3q2O6JjOYymKThPV4QM/hevn+WJcVDZJ9VoLZSp
- 2oaw==
-X-Gm-Message-State: ACrzQf1SayDBhrH5fkET8qMuFBwqEcpE7+KOpYv4VQnQzLnte2qD0Vmb
- 5Sp2Y3xngGUo0OHtR9jvEG7qht+oOIX3YcAjf9A9dmxzdBYHFffrHCSyGmLLA7hjIgt4319zsyM
- 4XbkNlatKWweRhrU=
-X-Received: by 2002:a05:6214:e64:b0:4b1:b3ed:8fd7 with SMTP id
- jz4-20020a0562140e6400b004b1b3ed8fd7mr1831771qvb.95.1665088810865; 
- Thu, 06 Oct 2022 13:40:10 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6b7doQonsvRKHYFyfFyV00oRVqNbIJ6HLPTZjW5uQaV/DiOhc3B5oO3gtiM/jtdht3QOKYmA==
-X-Received: by 2002:a05:6214:e64:b0:4b1:b3ed:8fd7 with SMTP id
- jz4-20020a0562140e6400b004b1b3ed8fd7mr1831755qvb.95.1665088810607; 
- Thu, 06 Oct 2022 13:40:10 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- r9-20020a05620a298900b006ce3cffa2c8sm88316qkp.43.2022.10.06.13.40.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 13:40:09 -0700 (PDT)
-Date: Thu, 6 Oct 2022 16:40:08 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, Manish Mishra <manish.mishra@nutanix.com>,
- Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH 06/14] migration: Use atomic ops properly for page
- accountings
-Message-ID: <Yz89KMXz+eBGGAs4@x1n>
-References: <20220920225106.48451-1-peterx@redhat.com>
- <20220920225212.48785-1-peterx@redhat.com>
- <YzxmeMMEq52IDGit@work-vm> <YzyITnjOH63AbK2h@x1n>
- <Yz1snQobPKt8nGRD@work-vm> <Yz2MdboZUHujXcEa@x1n>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=pq1msKz+wIDW/rYUGOrF9YdCo02fAvSjM7c0uxTtfMw=;
+ b=XNj1TCp9A+Lvl1nxTeglbduqNKNkkYnEzSdAQdJigtBGtnHUmag50F7CJnFY3Xtx65
+ t3ZUxVLlXg5M0SSqSEHqSPysgXjDrCbjdB0UBv0pAp3D5YGuq6k8vFaK7hWWj1gmesoy
+ Os6OTJgmuFVsoyZVo2A2vVwf/tIzO9WBFkrv0BdSzxNMAU1q+65gsBT2LH2oa3O+5UKJ
+ A1OCmKN3vNVZ+OngGmOFYjAZ86TSA5KqWraC/+P8vNh1K0i7S5dCl+F/0v7ikEwPpWNb
+ EiaMzBO/+z/ReEU1v+jV/MiTpEE1jDRmd9EO0Jnz1o4mMljw74U/Ct2YN40HKUM8jn1h
+ Ah8Q==
+X-Gm-Message-State: ACrzQf1egNQBtfzlKcV0STWIzN4s0pZ8FmimUclYYX6Jcjmr1cZVey4f
+ bvTcLZOuQdZAoC9bWZl2x3E92Q==
+X-Google-Smtp-Source: AMsMyM5S2LNmOKy9GaMyT+W8mpXfAu4F+HTwH7PFe/YhfxQKyOe7jDfXQtaNGFUpmWAppxdgshxHSg==
+X-Received: by 2002:a05:6a00:1592:b0:562:b7a9:5c69 with SMTP id
+ u18-20020a056a00159200b00562b7a95c69mr19692pfk.80.1665089919067; 
+ Thu, 06 Oct 2022 13:58:39 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:bc82:8006:f19e:85e?
+ ([2602:47:d49d:ec01:bc82:8006:f19e:85e])
+ by smtp.gmail.com with ESMTPSA id
+ z9-20020a17090a8b8900b001f8c532b93dsm172157pjn.15.2022.10.06.13.58.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Oct 2022 13:58:38 -0700 (PDT)
+Message-ID: <cbae421e-906a-6d33-8480-a3f103c119b1@linaro.org>
+Date: Thu, 6 Oct 2022 13:58:36 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yz2MdboZUHujXcEa@x1n>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 01/42] target/arm: Split s2walk_secure from ipa_secure
+ in get_phys_addr
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20221001162318.153420-1-richard.henderson@linaro.org>
+ <20221001162318.153420-2-richard.henderson@linaro.org>
+ <CAFEAcA_LSd9mPFiDHyofdHVq2kshiL6FjxNG2aSXXc8jkGb3vg@mail.gmail.com>
+ <ed6e925a-ea37-5575-bc3c-aee2a887d5bc@linaro.org>
+ <CAFEAcA_8Fc5033cRHp9rhgnX4spUsGNPxAdYRNtiE11Beg4w9A@mail.gmail.com>
+ <7339c803-8cfb-f2c1-bfbf-b07aa4f596f4@linaro.org>
+ <CAFEAcA_ch9xe0gTQipKg-QMRorZjS6=OKqfRn=WhiSxTsqFe2g@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_ch9xe0gTQipKg-QMRorZjS6=OKqfRn=WhiSxTsqFe2g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.435,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,77 +101,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 05, 2022 at 09:53:57AM -0400, Peter Xu wrote:
-> On Wed, Oct 05, 2022 at 12:38:05PM +0100, Dr. David Alan Gilbert wrote:
-> > * Peter Xu (peterx@redhat.com) wrote:
-> > > On Tue, Oct 04, 2022 at 05:59:36PM +0100, Dr. David Alan Gilbert wrote:
-> > > > * Peter Xu (peterx@redhat.com) wrote:
-> > > > > To prepare for thread-safety on page accountings, at least below counters
-> > > > > need to be accessed only atomically, they are:
-> > > > > 
-> > > > >         ram_counters.transferred
-> > > > >         ram_counters.duplicate
-> > > > >         ram_counters.normal
-> > > > >         ram_counters.postcopy_bytes
-> > > > > 
-> > > > > There are a lot of other counters but they won't be accessed outside
-> > > > > migration thread, then they're still safe to be accessed without atomic
-> > > > > ops.
-> > > > > 
-> > > > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > > > 
-> > > > I think this is OK; I'm not sure whether the memset 0's of ram_counters
-> > > > technically need changing.
-> > > 
-> > > IMHO they're fine - what we need there should be thing like WRITE_ONCE()
-> > > just to make sure no register caches (actually atomic_write() is normally
-> > > implemented with WRITE_ONCE afaik).  But I think that's already guaranteed
-> > > by memset() as the function call does, so we should be 100% safe.
-> > 
-> > I agree you're probably OK.
-> > 
-> > > > I'd love to put a comment somewhere saying these fields need to be
-> > > > atomically read, but their qapi defined so I don't think we can.
-> > > 
-> > > How about I add a comment above ram_counters declarations in ram.c?
-> > 
-> > Yeh.
-> > 
-> > > > 
-> > > > Finally, we probably need to check these are happy on 32 bit builds,
-> > > > sometimes it's a bit funny with atomic adds.
-> > > 
-> > > Yeah.. I hope using qatomic_*() APIs can help me avoid any issues.  Or
-> > > anything concerning?  I'd be happy to test on specific things if there are.
-> > 
-> > I just remember hitting problems in the past; especially if we end up
-> > with trying to do a 64 bit atomic on a platofmr that can only do 32???
+On 10/6/22 11:55, Peter Maydell wrote:
+> On Thu, 6 Oct 2022 at 19:20, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 10/6/22 08:22, Peter Maydell wrote:
+>>> Yeah, cleared-at-start is fine. But here we're also relying on
+>>> the stage 2 call to get_phys_addr_lpae() not setting it to 1,
+>>> because we pass that the same 'result' pointer, not a fresh one.
+>>
+>> I clear it first: that patch is already merged:
+>>
+>>               memset(result, 0, sizeof(*result));
+>>               ret = get_phys_addr_lpae(env, ipa, access_type, s2_mmu_idx,
+>>                                        is_el0, result, fi);
 > 
-> I see what you meant... when I was looking in the existing callers of
-> qatomic_add(), I do find that we seem to have Stat64 just for that
-> !CONFIG_ATOMIC64 problem.
-> 
-> I'll dig a bit on whether and how we can do that; the thing is these
-> counters are in the qapi so I need to make sure it can support Stat64
-> somehow.  Hmm..
+> Yes, but that doesn't help if this ^^^ get_phys_addr_lpae()
+> call sets result->attrs.secure = true.
 
-I think I can't directly change the qapi MigrationStats to make some of
-them to Stat64 since for !ATOMIC_64 systems Stat64 actually takes more than
-64 bits space (since we'll need to do the locking with Stat64.lock), so
-it'll definitely break the ABI no matter what..
+Ok, sure, let's make the write to .secure be unconditional.
+I've split this out into a new patch 2 for clarity.
 
-I don't have a better option but introduce another ram_counters_internal to
-maintain the fields that need atomic access, declaring as a Stat64 array.
-Then we only mirror those values to MigrationStats in QMP queries when
-needed.  The mirror will not contain the lock itself so it'll keep the ABI.
 
-Let me know if there's early comment for that, or I'll go with it.  I'll
-definitely add some comment for ram_counters to explain the mirror counters
-in that case.
-
-Thanks,
-
--- 
-Peter Xu
-
+r~
 
