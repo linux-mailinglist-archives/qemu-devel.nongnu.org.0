@@ -2,61 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BC0F5F5ED8
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 04:50:52 +0200 (CEST)
-Received: from localhost ([::1]:57028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6805F5F44
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 05:05:41 +0200 (CEST)
+Received: from localhost ([::1]:49662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogGyJ-0001xv-EX
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 22:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42600)
+	id 1ogHCd-0002XY-Ml
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 23:05:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1ogGt8-0007KM-2C
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 22:45:32 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:35995)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1ogGt3-0002K4-F2
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 22:45:28 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4MjbQM09Zbz4xGn; Thu,  6 Oct 2022 13:45:15 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1665024315;
- bh=6MLyjK+B89RmzCSfsyvu7y5FZdxTalUfM4CJ3ToSyrc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IgI/EoUDmY6NGJTouGbZPv2STCrUrsBLEbfQAiCeSpqVlKjM1Uj2WXiZ7H1Beih6S
- ZDk+Xr8Dpee8vgvr4v6qZ0LDDXgUPh1EXLdDDU/zdw3DNcAyAebwIjfewdrQARK0+6
- 9rsmZf7HgZNaHubiE6fvhEbIl1sFmuA0KGRDFig4=
-Date: Thu, 6 Oct 2022 11:39:17 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Greg Kurz <groug@kaod.org>, Thomas Huth <thuth@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [PATCH v9 08/16] net: stream: add unix socket
-Message-ID: <Yz4jtR8nwsYUvqP2@yekko>
-References: <20220926195048.487915-1-lvivier@redhat.com>
- <20220926195048.487915-9-lvivier@redhat.com>
- <YzPlwbdw8uUbfyFL@yekko>
- <7c2e4538-38bf-38de-51eb-94b8d1ab6d5a@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ogHAM-0000zp-64
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:03:20 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:39447)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ogHAJ-0005ft-OE
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:03:17 -0400
+Received: by mail-qt1-x833.google.com with SMTP id s21so335131qtx.6
+ for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 20:03:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date;
+ bh=pg1scIM8pfTVaikXq/CLIgRDXvvFSOWposduzdP7HEY=;
+ b=KD38ZWd2C/O+zTtlL49RXF2LXoHMpYG84BR8WdjdfcPOXcpsRouePz6yX9JVzjI72w
+ RxuQdfw9zJxj098dpl14L3Atjo/4NDzkpik8A9ArZBTlfv0t4V2d8/sd6tsHLBs2BeCL
+ nNi1zTfXfA1UY4akvk6NL6kXG4v2Wid/0C0rTMTHbpwiMNo3CSrml0qLCFVvScYnrOqv
+ iQeyoS8U6CRPShVCLEwQhZeVz7x2QPmdwqAEhsrWd3lbaxrXSrBfQVRzkx8SUcoRj+2i
+ ohDIkAkQyPHk60XfE4F9Ld2mn+wx+PmPvWreiMxtYCkPnEqPVZJCTv1U3cBjRp0oJQjV
+ z3VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=pg1scIM8pfTVaikXq/CLIgRDXvvFSOWposduzdP7HEY=;
+ b=dQu+MDKlpRxz7cUBIMuxlPG2GqSXoUBRqjjWrHAIoHeN3QeKEKyICa6NTDVNnkX8Ga
+ JJYSmo36paftuXEXEJtNoD5mSLf+LxpTFNLxSlPHqQkuDXCqwsBXqpNW0MXzzG5B3Z2X
+ //4jpsZhKYu+xZP1wWLqpDVBREtrzT62C5OCVROvOgnEoFzNFT5YxK15CmCzbch1EUl1
+ 6ZGnMOQr8J7o+IYeUCg0ofpkA/PwGEYqAgzKyREjobx2IOKBH7wmmmJ8192X22jNff42
+ vGsQAtO+dX/x4RcWXZWyuETIH/zhTXxw+UcWuRtYRGQt6QMWZNmA/vBAYmK94DdojAIt
+ Laug==
+X-Gm-Message-State: ACrzQf2ds5KUCUHL1w9Iem57SP3OL0Osx8Rg66f3f6wwFY60Zx/Yvshh
+ 8EWMmF17MMbHnNhnwMTbDHvk1iBwd+jIV+x2yGs=
+X-Google-Smtp-Source: AMsMyM6tSvLfoRXgkIetC/UpsHR3OimToeeuxfVK/A9ysS3/QHk4gktGawgL/n61N0M8y3FxoirOC4FBaWc/kwfjdAU=
+X-Received: by 2002:a05:622a:1803:b0:35b:aff1:aba0 with SMTP id
+ t3-20020a05622a180300b0035baff1aba0mr2009506qtc.334.1665025394330; Wed, 05
+ Oct 2022 20:03:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="m9FerXEOH9YFFB9v"
-Content-Disposition: inline
-In-Reply-To: <7c2e4538-38bf-38de-51eb-94b8d1ab6d5a@redhat.com>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20220824094029.1634519-1-bmeng.cn@gmail.com>
+ <20220824094029.1634519-50-bmeng.cn@gmail.com>
+ <CAJ+F1C+-4U1huf=Jv_uJP-XXnXu88Gj9HHvrGS0dTFyKGv=qBg@mail.gmail.com>
+ <CAEUhbmV_UU1TpRXfyz5U9kRj5r1ihm-HrXhzw_D-L96_Skxy+g@mail.gmail.com>
+ <CAJ+F1CJo-0isj2LKdabMHu854e7kukwjp=CCejgk_TzLRwtA3w@mail.gmail.com>
+ <CAEUhbmXjHCEOy+U3zABsvCU20rDj5pogNVTUCUEevdrqhcjuoA@mail.gmail.com>
+ <CAJ307EiOGrHqfdzSfb6L3MPKtAWLPCQT8ZVY7M+R5mT6d9wVvQ@mail.gmail.com>
+ <CAEUhbmW0v_5Ro3mY6Ztt=MmZJf=ueApmNGpT=+1RTPLrWd4=Rg@mail.gmail.com>
+ <CAJ307EhBSg4ENykkbqsT=5oBjc34JR+d3bJAVSTaxRM-uG4LGg@mail.gmail.com>
+ <CAEUhbmUAF0W_SCtYOuAZ+xc7Y4So3J4QB29Us0AV44eVF8KtLg@mail.gmail.com>
+ <CAJ307EjyXxbGLK-PhBjf18p3AApYM-jGqA2L9q3xLS9wX16h_w@mail.gmail.com>
+ <CAEUhbmWStgz4oUEgrtAVU_YFdKSPFJrK-4kd+DP4jqLS51+X+A@mail.gmail.com>
+ <CAEUhbmVYPo46nx8LLXcS21myzxcwT0HAzKt+cTRprmn06+g0PQ@mail.gmail.com>
+ <CAEUhbmUSLgiZM4w-rnrOeW+tER8SBdj5=1DvC85jp1e4GvKFoA@mail.gmail.com>
+ <CAEUhbmUXUiW_Gr4wpeJR-32djq=-E_UJRYc8KN86Ko16w_ysNw@mail.gmail.com>
+In-Reply-To: <CAEUhbmUXUiW_Gr4wpeJR-32djq=-E_UJRYc8KN86Ko16w_ysNw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 6 Oct 2022 11:03:04 +0800
+Message-ID: <CAEUhbmVs3QXP7iDH1O5M9utLeyVmkMwf7hW8gty49SDcSBFj+w@mail.gmail.com>
+Subject: Re: [PATCH 49/51] io/channel-watch: Fix socket watch on Windows
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ =?UTF-8?Q?Cl=C3=A9ment_Chigot?= <chigot@adacore.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x833.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,84 +102,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Paolo,
 
---m9FerXEOH9YFFB9v
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Sep 28, 2022 at 2:10 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi Paolo,
+>
+> On Wed, Sep 21, 2022 at 9:02 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > On Wed, Sep 14, 2022 at 4:08 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > On Wed, Sep 7, 2022 at 1:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > >
+> > > > Hi Cl=C3=A9ment,
+> > > >
+> > > > On Tue, Sep 6, 2022 at 8:06 PM Cl=C3=A9ment Chigot <chigot@adacore.=
+com> wrote:
+> > > > >
+> > > > > > > > I checked your patch, what you did seems to be something on=
+e would
+> > > > > > > > naturally write, but what is currently in the QEMU sources =
+seems to be
+> > > > > > > > written intentionally.
+> > > > > > > >
+> > > > > > > > +Paolo Bonzini , you are the one who implemented the socket=
+ watch on
+> > > > > > > > Windows. Could you please help analyze this issue?
+> > > > > > > >
+> > > > > > > > > to avoid WSAEnumNetworkEvents for the master GSource whic=
+h only has
+> > > > > > > > > G_IO_HUP (or for any GSource having only that).
+> > > > > > > > > As I said above, the current code doesn't do anything wit=
+h it anyway.
+> > > > > > > > > So, IMO, it's safe to do so.
+> > > > > > > > >
+> > > > > > > > > I'll send you my patch attached. I was planning to send i=
+t in the following
+> > > > > > > > > weeks anyway. I was just waiting to be sure everything lo=
+oks fine on our
+> > > > > > > > > CI. Feel free to test and modify it if needed.
+> > > > > > > >
+> > > > > > > > I tested your patch. Unfortunately there is still one test =
+case
+> > > > > > > > (migration-test.exe) throwing up the "Broken pipe" message.
+> > > > > > >
+> > > > > > > I must say I didn't fully test it against qemu testsuite yet.=
+ Maybe there are
+> > > > > > > some refinements to be done. "Broken pipe" might be linked to=
+ the missing
+> > > > > > > G_IO_HUP support.
+> > > > > > >
+> > > > > > > > Can you test my patch instead to see if your gdb issue can =
+be fixed?
+> > > > > > >
+> > > > > > > Yeah sure. I'll try to do it this afternoon.
+> > > > >
+> > > > > I can't explain how mad at me I am... I'm pretty sure your patch =
+was the first
+> > > > > thing I've tried when I encountered this issue. But it wasn't wor=
+king
+> > > > > or IIRC the
+> > > > > issue went away but that was because the polling was actually dis=
+abled (looping
+> > > > > indefinitely)...I'm suspecting that I already had changed the Cre=
+ateEvent for
+> > > > > WSACreateEvent which forces you to handle the reset.
+> > > > > Finally, I end up struggling reworking the whole check function..=
+.
+> > > > > But yeah, your patch does work fine on my gdb issues too.
+> > > >
+> > > > Good to know this patch works for you too.
+> > > >
+> > > > > And I guess the events are reset when recv() is being called beca=
+use of the
+> > > > > auto-reset feature set up by CreateEvent().
+> > > > > IIUC, what Marc-Andr=C3=A9 means by busy loop is the polling bein=
+g looping
+> > > > > indefinitely as I encountered. I can ensure that this patch doesn=
+'t do that.
+> > > > > It can be easily checked by setting the env variable G_MAIN_POLL_=
+DEBUG.
+> > > > > It'll show what g_poll is doing and it's normally always availabl=
+e on
+> > > > > Windows.
+> > > > >
+> > > > > Anyway, we'll wait for Paolo to see if he remembers why he had to=
+ call
+> > > > > WSAEnumNetworkEvents. Otherwize, let's go for your patch. Mine mi=
+ght
+> > > > > be a good start to improve the whole polling on Windows but if it=
+ doesn't
+> > > > > work in your case, it then needs some refinements.
+> > > > >
+> > > >
+> > > > Yeah, this issue bugged me quite a lot. If we want to reset the eve=
+nt
+> > > > in qio_channel_socket_source_check(), we will have to do the follow=
+ing
+> > > > to make sure qtests are happy.
+> > > >
+> > > > diff --git a/io/channel-watch.c b/io/channel-watch.c
+> > > > index 43d38494f7..f1e1650b81 100644
+> > > > --- a/io/channel-watch.c
+> > > > +++ b/io/channel-watch.c
+> > > > @@ -124,8 +124,6 @@ qio_channel_socket_source_check(GSource *source=
+)
+> > > > return 0;
+> > > > }
+> > > > - WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev);
+> > > > -
+> > > > FD_ZERO(&rfds);
+> > > > FD_ZERO(&wfds);
+> > > > FD_ZERO(&xfds);
+> > > > @@ -153,6 +151,10 @@ qio_channel_socket_source_check(GSource *sourc=
+e)
+> > > > ssource->revents |=3D G_IO_PRI;
+> > > > }
+> > > > + if (ssource->revents) {
+> > > > + WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev);
+> > > > + }
+> > > > +
+> > > > return ssource->revents;
+> > > > }
+> > > >
+> > > > Removing "if (ssource->revents)" won't work.
+> > > >
+> > > > It seems to me that resetting the event twice (one time with the
+> > > > master Gsource, and the other time with the child GSource) causes s=
+ome
+> > > > bizarre behavior. But MSDN [1] says
+> > > >
+> > > >     "Resetting an event that is already reset has no effect."
+> > > >
+> > > > [1] https://docs.microsoft.com/en-us/windows/win32/api/synchapi/nf-=
+synchapi-resetevent
+> > > >
+> > >
+> > > Paolo, any comments about this issue?
+> > >
+> >
+> > v2 series has been sent out, and this patch remains unchanged.
+> >
+> > Paolo, still would appreciate your comments.
+> >
+>
+> Ping?
+>
 
-On Wed, Oct 05, 2022 at 03:38:09PM +0200, Laurent Vivier wrote:
-> On 9/28/22 08:12, David Gibson wrote:
-> > > @@ -253,9 +253,27 @@ static void net_stream_accept(void *opaque)
-> > >       s->fd =3D fd;
-> > >       s->nc.link_down =3D false;
-> > >       net_stream_connect(s);
-> > > -    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-> > > -             "connection from %s:%d",
-> > > -             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
-> > > +    switch (saddr.ss_family) {
-> > > +    case AF_INET: {
-> > > +        struct sockaddr_in *saddr_in =3D (struct sockaddr_in *)&sadd=
-r;
-> > > +
-> > > +        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-> > > +                 "connection from %s:%d",
-> > > +                 inet_ntoa(saddr_in->sin_addr), ntohs(saddr_in->sin_=
-port));
-> > So, here you print the address from which the connection has come -
-> > the remote address.
-> >=20
-> > > +        break;
-> > > +    }
-> > > +    case AF_UNIX: {
-> > > +        struct sockaddr_un saddr_un;
-> > > +
-> > > +        len =3D sizeof(saddr_un);
-> > > +        getsockname(s->listen_fd, (struct sockaddr *)&saddr_un, &len=
-);
-> > > +        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-> > > +                 "connect from %s", saddr_un.sun_path);
-> > Here you print the bound address - the local address.  Does that make
-> > sense?  I mean, in almost every occasion the remote Unix socket will
-> > be anonymous, so it probably doesn't make sense to display that, but
-> > is the bound address actually a useful substitute?
-> >=20
-> > Maybe it should just be "connect from Unix socket".
-> >=20
->=20
-> I agree the needed information is "connected" and type "unix".
->=20
-> But I think more information we can put here can be useful for a debuggin=
-g purpose.
+Ping? Can you please comment??
 
-Fair enough.  I feel like "connect from" is still possible
-misleading.  Maybe "connect via"?  Or even "connection to Unix socket %s"?
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---m9FerXEOH9YFFB9v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmM+I60ACgkQgypY4gEw
-YSIRehAAntN5u2qC8Np1be6oYHzP5EAN/8Wx9w9cJDCNBd4TPfi8vQO+KT2BsHJj
-nkd6ZN/xxd8TRiL1vjtpty6pxD7UE04eaGFky/u/vAvWwmlYyWkYKVx4NahnpwI+
-0R45/lgZMfkqv3WC+T4H5jvIRE+HWwC8JnPITilPg+1DTDUU7rQZhZVjcFucl1xm
-B72Xu6StqBSDsRFX/L8nX7fnZ5rHNvpbhdts4ZWTmoZhLu6HvDOmHqP+ymiN0Gzp
-xGa1qeLr4YtkndQ97bS6mBtBBZlkgBiJBDn6Nleu5l9/7Li4gJ3P1KYtt27IoSQc
-YHM+425RVHdq18vTykKrTK21lXEj4oEGablq1oSklNPcONikImBLEDKEV2bma+Tk
-f/bK4j82KQOzD+H6/lnrZnv1phpdSMASB0WLf82HZj++28HzBWpQ5lIdN+8BE5Wy
-n8iEYxp9fDQef2QvJacrtIl5mVCKXNvm0HKFeIP5mFHTZv4S7+uWi+sOP+fkQ7Yp
-BNc/nevq9ms4Xjqp7K2MImlogMdeXT9XByLO5NJSPSXuLKBhdhSdsx4Sishkm2uR
-xpLAWDyiAr0HZSzs41k8Vf+6ZO7vqoEI/vWrLKSxaQghq0Haq1IeA1AyXf+sAv2l
-fFHfPfUbLOtBsNy6yytKp98t3PurniJQS9Wz27DjFz+qm6wlx2k=
-=z/AO
------END PGP SIGNATURE-----
-
---m9FerXEOH9YFFB9v--
+Regards,
+Bin
 
