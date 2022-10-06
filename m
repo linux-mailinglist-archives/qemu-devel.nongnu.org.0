@@ -2,83 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0EE5F6E08
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 21:16:30 +0200 (CEST)
-Received: from localhost ([::1]:37694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EACD95F6E0D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 21:18:44 +0200 (CEST)
+Received: from localhost ([::1]:56716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogWM9-0003gY-8H
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 15:16:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45118)
+	id 1ogWOK-0006AJ-0g
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 15:18:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogW0E-0006wx-4j
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:53:50 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:38442)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogW0C-0006lR-4g
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:53:49 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id w191so2883883pfc.5
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 11:53:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=+dPuwhOH1yoJY8fkVSnyed714ZhRTh3NCFjinHaVSFE=;
- b=GQZSfEE3ahsCnZOnZsIUNU3zojVamZHCWDT/Hewg8QnGAMgbwFP2gAEIlRPcFXVWLe
- 2OSY/LtdLoMuP+RRK5q67zbgj247p7p/FCmG3QjJwVRKs+ogxy4vgXlpXxie0He6eQJO
- Y3pIaEU7xLnkdfHNLxnMRwxuLoo2/YzHduyPKV876Q68cO4b9OkORA97MrddWiO85ktz
- Dayj8qH0kfNeWsFSsLWcUxVcNGMp39if2UjOhdSKQOoRbABZHYlQ+ST1QU8G0rq9lW9j
- PLA+TL+VUx8YBPOLmM4Wryjg1+gvHKc/gJ/xzTfSS9Otibx2EJM1eUviv6JqIuVuV6VS
- FP1g==
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ogW1g-0001ap-Gp
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:55:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33478)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ogW1e-0007B7-NS
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:55:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665082517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IWMZgsQrCmR6JpYaxE9bs22P3TDmlcFhSLZFk4YPQVM=;
+ b=KMDJs949t6FfGmOFk5V80I4ogS1xhTdJ+bN2FLVhiRrrkpsoAq6swWAOwTmYr4/aNHFXGK
+ /Dw9Zqn/aHlq2bSyv4VAtrKsYUpAEp+8vb1fIrfX9tSvEWt8I/JDVOxejHM3sr/Z83HpYL
+ f4E+9a/sjimp+29eDdwUAyRCYsAWedM=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-470-x0Y510ZDO86ZhGUMDCWmtg-1; Thu, 06 Oct 2022 14:55:16 -0400
+X-MC-Unique: x0Y510ZDO86ZhGUMDCWmtg-1
+Received: by mail-io1-f71.google.com with SMTP id
+ f25-20020a5d8799000000b006a44e33ddb6so1733318ion.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 11:55:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=+dPuwhOH1yoJY8fkVSnyed714ZhRTh3NCFjinHaVSFE=;
- b=z4IlW90f+/B8WCOziSy3W/IzL4HTi2j1J1d/UU9QvYguUGsPG02h8YZXbH0CRn5D9s
- giwXG7cg5loDwF4C6IIqFbkneHS/xoMU7z95fQC5uzzI5rOJDAbLjTLPehlIpazvHV3G
- Deqz6F+yj4yhxU1EItop8Ra7K37WtuNOrqGmPRpMIU7BRuw2ENoqCqhoflrl9LFlsh9z
- PqBBvDegzz7E7eG7ER2ND5v7eeps3dZak7+1yDd4Nip40vc81saPv7pHhNOMmFVCaBnM
- NXMg+Q4UNgHacBLxU1JmxocjR4JsHHpk6lSaSsgmGqF4sYPhSDA5I15wo6JjIVJTQdjo
- PmBQ==
-X-Gm-Message-State: ACrzQf1XldKEv9d0dJru9pat3YYk5LSpMdTe7mZe8C1kChUsMqzaOKnT
- 1+b7ATPyWxJLdCkduFsf3zfLjQ==
-X-Google-Smtp-Source: AMsMyM7JDBaI+nF+NaLE+f/1aQ6TuJib0uQAmH/su4gpZr41TDRif0uUrsWedPmmpE2gZJWUepobEQ==
-X-Received: by 2002:a63:f358:0:b0:43c:5e1:985 with SMTP id
- t24-20020a63f358000000b0043c05e10985mr1074072pgj.5.1665082426097; 
- Thu, 06 Oct 2022 11:53:46 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:bc82:8006:f19e:85e?
- ([2602:47:d49d:ec01:bc82:8006:f19e:85e])
- by smtp.gmail.com with ESMTPSA id
- e126-20020a621e84000000b005360da6b26bsm13224618pfe.159.2022.10.06.11.53.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Oct 2022 11:53:45 -0700 (PDT)
-Message-ID: <5d3984c4-54c3-463b-4595-361c5e65e43d@linaro.org>
-Date: Thu, 6 Oct 2022 11:53:43 -0700
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IWMZgsQrCmR6JpYaxE9bs22P3TDmlcFhSLZFk4YPQVM=;
+ b=QhbEDwge8kLzpjw7A1dEQJ0dg0tgyjUnZM5TlRpArh5KAKZczEEvnxIJY3vF47UIQa
+ q3uVls0U9HJYohyE5h0Saa4m3gIBtl47UCLG8GuGUA+KpuYEOonkmMkxwKa9/2WjZBJv
+ z8n5Eaklb59jRL1FWjc8o4/q3Yk5VCeWq1EX6B0sVaZHWYGl8kPjYKjNOCe0Spn4Ruhr
+ 8i9klo1mTpxXaiZaam5CysuBTlhaa5NWGQn7gb2R3eDTuaSz/Vj2FAP/Axd05QRr53NR
+ x6yju5U0tFuCjnel0R+hpOrwS7fB2LpfNLymoap4EA9QovvXTijsqepZWk9cb1dj6QYQ
+ LO9A==
+X-Gm-Message-State: ACrzQf3N4GJt/IFcKepu8VFj2d4DNGZcMST/bcEAV5Pr7CfKUn1CEp3a
+ lq83E3pfJkDIh0WM65vAjC3xipv3COmnJ30VJBY+wj5LMPnbE2NtXFZEB2gl7IG2Zj1EUq8cuF2
+ JN85XT7Fcgub9hqOyNBLnRoI8CKBYdx4=
+X-Received: by 2002:a02:b80d:0:b0:35a:f049:b8b with SMTP id
+ o13-20020a02b80d000000b0035af0490b8bmr612525jam.141.1665082515480; 
+ Thu, 06 Oct 2022 11:55:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6Wr381F5U+vSW10poCt0Kp7Vkne8tq4cHOZaTpOiAjLsV8kXoevnwEiASXcRZrhZzpz7+OPvBJpgHR5M7rTSc=
+X-Received: by 2002:a02:b80d:0:b0:35a:f049:b8b with SMTP id
+ o13-20020a02b80d000000b0035af0490b8bmr612492jam.141.1665082515334; Thu, 06
+ Oct 2022 11:55:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 23/42] target/arm: Use probe_access_full for BTI
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20221001162318.153420-1-richard.henderson@linaro.org>
- <20221001162318.153420-24-richard.henderson@linaro.org>
- <CAFEAcA8L7BBHZ0Gfi7fm4pbZvYBd=Shu9bV6M5rQqcU-EU-p6Q@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8L7BBHZ0Gfi7fm4pbZvYBd=Shu9bV6M5rQqcU-EU-p6Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.435,
+References: <20220927193431.22302-1-stefanha@redhat.com>
+ <20220927193431.22302-12-stefanha@redhat.com>
+ <YzSex5t0UIAT+LPU@fedora>
+ <CAELaAXyURC9YJvtjY3O5iXsA5Q0WCTxM21++iqJ__pna9CSNOQ@mail.gmail.com>
+ <Yz8Xr81Dw8M9rj3c@fedora>
+ <CAELaAXw+sLHOX9drshJbZmpryRkQFd4ozuX-ZoCq+uTRwXsaWg@mail.gmail.com>
+ <Yz8imZI9Bb0WGzKZ@fedora>
+In-Reply-To: <Yz8imZI9Bb0WGzKZ@fedora>
+From: Alberto Faria <afaria@redhat.com>
+Date: Thu, 6 Oct 2022 19:54:39 +0100
+Message-ID: <CAELaAXxLqaQE-NvPi1yVXWNZLnLtBQEbfDiaUS2Sf3J8U8-tEg@mail.gmail.com>
+Subject: Re: [PATCH v5 11/12] blkio: implement BDRV_REQ_REGISTERED_BUF
+ optimization
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>, 
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>, 
+ "Denis V. Lunev" <den@openvz.org>, Xie Changlong <xiechanglong.d@gmail.com>, 
+ Eric Blake <eblake@redhat.com>, integration@gluster.org, 
+ David Hildenbrand <david@redhat.com>, Wen Congyang <wencongyang2@huawei.com>, 
+ Laurent Vivier <lvivier@redhat.com>, "Richard W.M. Jones" <rjones@redhat.com>,
+ Fam Zheng <fam@euphon.net>, 
+ Thomas Huth <thuth@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>, 
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Jeff Cody <codyprime@gmail.com>, qemu-block@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, sgarzare@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,70 +114,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/6/22 07:57, Peter Maydell wrote:
-> On Sat, 1 Oct 2022 at 17:38, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Add a field to TARGET_PAGE_ENTRY_EXTRA to hold the guarded bit.
->> In is_guarded_page, use probe_access_full instead of just guessing
->> that the tlb entry is still present.  Also handles the FIXME about
->> executing from device memory.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   target/arm/cpu-param.h     |  8 ++++----
->>   target/arm/cpu.h           | 13 -------------
->>   target/arm/internals.h     |  1 +
->>   target/arm/ptw.c           |  7 ++++---
->>   target/arm/translate-a64.c | 22 ++++++++--------------
->>   5 files changed, 17 insertions(+), 34 deletions(-)
->>
->> diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
->> index 118ca0e5c0..689a9645dc 100644
->> --- a/target/arm/cpu-param.h
->> +++ b/target/arm/cpu-param.h
->> @@ -32,12 +32,12 @@
->>   # define TARGET_PAGE_BITS_MIN  10
->>
->>   /*
->> - * Cache the attrs and sharability fields from the page table entry.
->> + * Cache the attrs, sharability, and gp fields from the page table entry.
->>    */
->>   # define TARGET_PAGE_ENTRY_EXTRA  \
->> -     uint8_t pte_attrs;           \
->> -     uint8_t shareability;
->> -
->> +    uint8_t pte_attrs;            \
->> +    uint8_t shareability;         \
->> +    bool guarded;
-> 
-> I notice this now brings this very close to just having an ARMCacheAttrs
-> struct in it (in fact it's going to be one byte bigger than the ARMCachettrs).
-> But it's probably better to keep them separate since we care a lot more
-> about keeping the TLB entry small I suppose.
+On Thu, Oct 6, 2022 at 7:46 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > Regardless, I'd say we want to map memory regions even if we don't
+> > strictly need to (in cases where we can do so at no additional cost),
+> > since that may improve performance for some drivers.
+>
+> The downside is that when s->mem_regions_pinned is true, virtio-mem and
+> anything else that calls ram discard cannot be used.
 
-I kept them as separate fields like this for simplicity.  Since CPUTLBEntryFull is 4 or 
-8-byte aligned (depending on the host), the structure still has 1 or 5 bytes of padding 
-after the addition of this bool.
+Hmm right, losing that functionality would probably be worse than
+potentially losing some performance for some drivers. Maybe a good
+middle point would be to call blkio_map_mem_region() in
+blkio_register_buf() iff s->needs_mem_regions ||
+!s->mem_regions_pinned.
 
->> -    /*
->> -     * We test this immediately after reading an insn, which means
->> -     * that any normal page must be in the TLB.  The only exception
->> -     * would be for executing from flash or device memory, which
->> -     * does not retain the TLB entry.
->> -     *
->> -     * FIXME: Assume false for those, for now.  We could use
->> -     * arm_cpu_get_phys_page_attrs_debug to re-read the page
->> -     * table entry even for that case.
->> -     */
-> 
-> I think we should keep at least some of this comment: the part
-> about the reason we can assert that probe_access_full() doesn't
-> return TLB_INVALID being that we tested immediately after the
-> insn read is still true, right?
+Alberto
 
-Yes.
-
-
-r~
 
