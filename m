@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1DD5F64BE
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 13:01:41 +0200 (CEST)
-Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB885F651C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 13:19:43 +0200 (CEST)
+Received: from localhost ([::1]:52356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogOdG-0006ye-09
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 07:01:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52492)
+	id 1ogOuk-0005uw-AB
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 07:19:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ogOXq-0001iI-3X
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 06:56:02 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37761)
+ id 1ogOZ7-0003sN-Es
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 06:57:27 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ogOXn-00029K-Pt
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 06:56:01 -0400
-Received: by mail-wr1-x435.google.com with SMTP id bq9so2114084wrb.4
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 03:55:59 -0700 (PDT)
+ id 1ogOZ4-0002Ds-7d
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 06:57:20 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ v130-20020a1cac88000000b003bcde03bd44so2565615wme.5
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 03:57:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=gotVvwCcfckEWZvfeeyVuuIFWix7Zqdk8u78JUZcuaw=;
- b=LOO8Vr4GUtqottRe7ldNA/XTu28LTuTMQQ3cE4etvKc/snrp3IcHL4uLlqIuRRX8Bi
- BiaVzPA7oIEym2tGOB+i18LQxwykGCa+dWNIdb3fgRkl5+pjZ+ha11rx3ZdCqwr0iBDx
- kta5Stl1xyfDerrqLnxUSIHdBDV6MRAHG2m1nW/y8LYkJs1TzIa/1dOkslyPKkAGZms8
- IiYlgCli0PWTfCgvEToSjdT36VtUZUIgC02GTNaCEBC+s8MWzUVRr6dNBPB3glsT53dB
- G9HZh3OwDl3x1kmbNC4lwuTGadqBvfWI2/1WjlLLeIvKusyIi2z2B0Yc6TDprMyz8hqN
- 6eFw==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=w4yYX/+zZiGNRXO3H6dR3A+iGMiAy1yv/nFYbyEdzNU=;
+ b=rI38d5iBE+wlB6WVeoEjfFvMY1shRvev58ou1I350qebcwIc9idqaNAx1tifCSy5/A
+ /gfB0FZfMgwKneG71k/5I8cr8jOmJcQ9n//ShOW5PuZ3Hj+YXS4AV0hIIlAW9n9JXJr6
+ A0w2hdYJIH8wxcWZO3Z7+vPFA6dNp3sYX7S7kmbxtycwMOfqx+mJjl6Ol0Th0f3I0qAT
+ 9Z7RJgzbAwVUM+uMJZBoBRpyHEhHhxhyMHe3/4376RJ3Xm4ucOFLuWYKLXElMmfX/iaK
+ JB9NgYmB1Hk0ltgLHJn2hhzJW6z6HGP/cRXfV41jJkCar1oTIzGdpHoI3lfK+HUlMHI7
+ msQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gotVvwCcfckEWZvfeeyVuuIFWix7Zqdk8u78JUZcuaw=;
- b=dCXTvWI8JqYS3CAbMlPAt0UXJkQtWPwVgSmNKK3Hr3NqGq+2+iczvMvp1GYHoKE8aX
- B0IHYKsK2Nj6jBjZ6HuIrSA79eJc1iZQ2CX1uC9DUeJHm/OxsIJ/cuGR1lRmOOegxDOu
- Jo97q5gIvOZNMXuq52Wasx8DEuC77+Nk3/MSxC0YrNXhokeWDmC5kwX+Fftp5XHxIsXm
- 4hdz7eLMpA+1GVh93830Ue+Xl1zHtrXvezX6SJqYK0Y7oDqfYnhqf05u5lsNNL71EiwN
- jpeGYCIuT2F1V/1U5Vo8WEuUmMKSUmZ7uFFkxionmeezRAEk13vzU+SZnX8O/D8ZQhas
- 2//w==
-X-Gm-Message-State: ACrzQf25g227vyUNP1zPowkSYwwOVyle3RaSL+WdUqHwEhWW99e8KXFU
- NaZ2lvRuAqPS4Jut0ZbxN1KUhw==
-X-Google-Smtp-Source: AMsMyM5/PtMTv143/fupAdiV4ijd9GXSoFF3PtYwxUSbU+PJQPe1Rx8iwbSGc2Jhk+0PUYGQ20/XZQ==
-X-Received: by 2002:a5d:64a1:0:b0:228:46e1:285d with SMTP id
- m1-20020a5d64a1000000b0022846e1285dmr2724806wrp.64.1665053757974; 
- Thu, 06 Oct 2022 03:55:57 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=w4yYX/+zZiGNRXO3H6dR3A+iGMiAy1yv/nFYbyEdzNU=;
+ b=xGoCFKKCSRMP93IH+coOMWH4je6nXHxFqNwTrNeWdsIS4PHQ1FXePYCBIeKq/A4i6F
+ 0Gt+HgP8RdK+jrmufOdmzvfwig1AZjM9dkbleJgIvVjWOx/HyreZDvsSPVA1iHlRGBtd
+ ziY4BTn5jnGNHzn76Wy4JZgcmnx9PoZjyI/mTV3ut0z6gtjkgFvUxZMDHOfEs7hOhjuL
+ 2V511q5sai+kMpXIecONbGcVXo8xpfUILDPOkLFQW951C9RIcToJMhwR47u7dgeP6xY3
+ RD7Pl2QyQr5Qx7P3OeXEK+LZe1JFMYUymru+NdgKULLFizvv49sN1W52+u4mFUiuhc1C
+ YOrg==
+X-Gm-Message-State: ACrzQf1NyV32YeFzI637KFldU+5L2sXke0giN2cnxqQRA69thK05McG5
+ K5XqBIicCT2Y3JD1vIzaSsBZ1g==
+X-Google-Smtp-Source: AMsMyM5ycl0xAL4vnx+0ClOfi/R21NEZ+FagxY7ngfiOoYV94sdM9owEbsmwgzieh1DO40iRHXq3Lg==
+X-Received: by 2002:a05:600c:524d:b0:3b4:91ee:933e with SMTP id
+ fc13-20020a05600c524d00b003b491ee933emr2826422wmb.80.1665053836802; 
+ Thu, 06 Oct 2022 03:57:16 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- d3-20020a5d6dc3000000b0022e3cba367fsm10985281wrz.100.2022.10.06.03.55.56
+ y6-20020a5d4ac6000000b0022e309d35f8sm13813850wrs.12.2022.10.06.03.57.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 03:55:56 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 36D7E1FFB7;
- Thu,  6 Oct 2022 11:55:56 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL v3 00/52] testing, gdbstub, plugin and gitdm updates
-Date: Thu,  6 Oct 2022 11:55:56 +0100
-Message-Id: <20221006105556.3319342-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ Thu, 06 Oct 2022 03:57:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8EF301FFB7;
+ Thu,  6 Oct 2022 11:57:15 +0100 (BST)
+References: <20221005170318.3055568-1-alex.bennee@linaro.org>
+ <CAJSP0QUoU+tu6o5qL3eoyYYygukmNA74OONe35RoOjx-QitvUA@mail.gmail.com>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com
+Subject: Re: [PULL v2 00/53] testing, gdbstub, plugin and gitdm updates
+Date: Thu, 06 Oct 2022 11:55:59 +0100
+In-reply-to: <CAJSP0QUoU+tu6o5qL3eoyYYygukmNA74OONe35RoOjx-QitvUA@mail.gmail.com>
+Message-ID: <87v8oxi5is.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,214 +96,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 1dcdc92c72af5311666df64f5f04d6600af262ed:
 
-  Merge tag 'pull-hex-20221003' of https://github.com/quic/qemu into staging (2022-10-05 10:17:32 -0400)
+Stefan Hajnoczi <stefanha@gmail.com> writes:
 
-are available in the Git repository at:
+> Hi Alex,
+> This pull request fails two CI jobs:
+> 1. https://gitlab.com/qemu-project/qemu/-/jobs/3132270506
+> 2. https://gitlab.com/qemu-project/qemu/-/jobs/3132270625
+>
+> Maybe there is an issue with the "tests/docker: update
+> fedora-win[32|64]-cross with lcitool" commit (I haven't bisected)?
 
-  https://github.com/stsquad/qemu.git tags/pull-testing-gdbstub-plugins-gitdm-061022-3
+It appears there is a subtle difference in running:
 
-for you to fetch changes up to f7e15affa8e574a800180de3bde1a6462aec7241:
+  make docker-test-build@fedora-win64-cross=20
 
-  plugins: add [pre|post]fork helpers to linux-user (2022-10-06 11:53:41 +0100)
+and what is done when it hits CI. The test-mingw build has been broken
+for a while but should have caught it.
 
-----------------------------------------------------------------
-testing, gdbstub, plugin and gitdm updates
+I've dropped the patch and sent v3.
 
-  - cleanup scripts/ci/setup in advance of ppc64 runner
-  - ensure detected gdb reported to TCG tests
-  - update hexagon container with build deps
-  - move alpine container to tagged release
-  - fix overflow during qos-test test tree iteration
-  - allow bios blobs to be built with test cross compilers
-  - introduce monitor_puts for plain strings
-  - share disas code between monitor and plugins
-  - fix bug in execlog plugin
-  - add more tcg plugin documentation, reorg
-  - fix link to semihosting spec
-  - re-factor gdbstub to use AccelClass/Ops
-  - many gitdm updates
-  - fix race with plugin mutex lock and linux-user fork()
+>
+> Thanks,
+> Stefan
 
-----------------------------------------------------------------
-Alex Bennée (25):
-      configure: move detected gdb to TCG's config-host.mak
-      tests/docker: move alpine from edge to tagged release
-      tests/qtest: bump up QOS_PATH_MAX_ELEMENT_SIZE
-      monitor: expose monitor_puts to rest of code
-      disas: generalise plugin_printf and use for monitor_disas
-      disas: use result of ->read_memory_func
-      plugins: extend execlog to filter matches
-      docs/devel: clean-up qemu invocations in tcg-plugins
-      docs/devel: move API to end of tcg-plugins.rst
-      contrib/plugins: reset skip when matching in execlog
-      docs/devel: document the test plugins
-      semihosting: update link to spec
-      gdbstub: move into its own sub directory
-      gdbstub: move sstep flags probing into AccelClass
-      gdbstub: move breakpoint logic to accel ops
-      gdbstub: move guest debug support check to ops
-      accel/kvm: move kvm_update_guest_debug to inline stub
-      contrib/gitdm: add mapping for Loongson Technology
-      contrib/gitdm: add Paul to individual contributors
-      contrib/gitdm: add WANG Xuerui to individual contributers
-      contrib/gitdm: add ISCAS to the academics group
-      contrib/gitdm: add China Telecom to the domain map
-      contrib/gitdm: add Simon to individual contributors
-      contrib/gitdm: add Université Grenoble Alpes
-      plugins: add [pre|post]fork helpers to linux-user
 
-Anton Johansson (3):
-      target/hexagon: add flex/bison/glib2 to qemu.yml
-      target/hexagon: regenerate docker/cirrus files
-      target/hexagon: manually add flex/bison/glib2 to remaining containers
-
-Lucas Mateus Castro (alqotel) (4):
-      scripts/ci/setup: ninja missing from build-environment
-      scripts/ci/setup: Fix libxen requirements
-      scripts/ci/setup: spice-server only on x86 aarch64
-      tests/docker: run script use realpath instead of readlink
-
-Paolo Bonzini (19):
-      pc-bios/optionrom: detect CC options just once
-      pc-bios/s390-ccw: detect CC options just once
-      vof: add distclean target
-      build: add recursive distclean rules
-      configure: return status code from probe_target_compiler
-      configure: store container engine in config-host.mak
-      tests: simplify Makefile invocation for tests/tcg
-      tests/tcg: remove -f from Makefile invocation
-      tests/tcg: add distclean rule
-      tests/tcg: unify ppc64 and ppc64le Makefiles
-      tests/tcg: clean up calls to run-test
-      tests/tcg: move compiler tests to Makefiles
-      configure: move tests/tcg/Makefile.prereqs to root build directory
-      configure: unify creation of cross-compilation Makefiles
-      configure: cleanup creation of tests/tcg target config
-      configure: build ROMs with container-based cross compilers
-      pc-bios/optionrom: Adopt meson style Make output
-      pc-bios/s390-ccw: Adopt meson style Make output
-      pc-bios/vof: Adopt meson style Make output
-
-Richard Henderson (1):
-      plugins: Assert mmu_idx in range before use in qemu_plugin_get_hwaddr
-
- docs/devel/tcg-plugins.rst                         | 175 +++++++++++++--
- docs/devel/writing-monitor-commands.rst            |   2 +-
- configure                                          | 238 ++++++++-------------
- Makefile                                           |  12 +-
- pc-bios/s390-ccw/netboot.mak                       |  27 ++-
- meson.build                                        |   6 +-
- accel/kvm/kvm-cpus.h                               |   4 +
- gdbstub/internals.h                                |  17 ++
- gdbstub/trace.h                                    |   1 +
- include/monitor/monitor.h                          |   1 +
- include/qemu/accel.h                               |  12 ++
- include/qemu/plugin.h                              |  24 +++
- include/sysemu/accel-ops.h                         |   7 +
- include/sysemu/cpus.h                              |   3 +
- include/sysemu/kvm.h                               |  36 ++--
- monitor/monitor-internal.h                         |   1 -
- tests/qtest/libqos/qgraph.h                        |   2 +-
- accel/accel-common.c                               |  10 +
- accel/kvm/kvm-accel-ops.c                          |   9 +
- accel/kvm/kvm-all.c                                |  48 ++---
- accel/stubs/kvm-stub.c                             |  21 --
- accel/tcg/tcg-accel-ops.c                          |  98 +++++++++
- accel/tcg/tcg-all.c                                |  17 ++
- block/monitor/block-hmp-cmds.c                     |  10 +-
- contrib/plugins/execlog.c                          |  99 +++++++--
- disas.c                                            |  43 ++--
- disas/capstone.c                                   |  73 ++++---
- gdbstub.c => gdbstub/gdbstub.c                     | 156 ++------------
- gdbstub/softmmu.c                                  |  51 +++++
- gdbstub/user.c                                     |  68 ++++++
- hw/misc/mos6522.c                                  |   2 +-
- linux-user/main.c                                  |   2 +
- monitor/hmp-cmds.c                                 |   8 +-
- monitor/hmp.c                                      |   2 +-
- plugins/api.c                                      |   2 +
- plugins/core.c                                     |  20 ++
- semihosting/arm-compat-semi.c                      |   2 +-
- softmmu/cpus.c                                     |   7 +
- target/i386/helper.c                               |   2 +-
- tests/tcg/{ppc64le => ppc64}/bcdsub.c              |   0
- tests/tcg/{ppc64le => ppc64}/byte_reverse.c        |   0
- tests/tcg/{ppc64le => ppc64}/mffsce.c              |   0
- tests/tcg/{ppc64le => ppc64}/mtfsf.c               |   0
- tests/tcg/{ppc64le => ppc64}/non_signalling_xscv.c |   0
- .../{ppc64le => ppc64}/signal_save_restore_xer.c   |   0
- tests/tcg/{ppc64le => ppc64}/xxspltw.c             |   0
- .gitlab-ci.d/cirrus/freebsd-12.vars                |   2 +-
- .gitlab-ci.d/cirrus/freebsd-13.vars                |   2 +-
- .gitlab-ci.d/cirrus/macos-11.vars                  |   2 +-
- .gitlab-ci.d/windows.yml                           |   6 +-
- .mailmap                                           |   1 +
- MAINTAINERS                                        |   2 +-
- contrib/gitdm/domain-map                           |   2 +
- contrib/gitdm/group-map-academics                  |   6 +
- contrib/gitdm/group-map-individuals                |   3 +
- gdbstub/meson.build                                |   9 +
- gdbstub/trace-events                               |  29 +++
- pc-bios/optionrom/Makefile                         |  47 ++--
- pc-bios/s390-ccw/Makefile                          |  43 ++--
- pc-bios/vof/Makefile                               |  19 +-
- scripts/ci/setup/build-environment.yml             |  15 +-
- tests/Makefile.include                             |  24 ++-
- tests/docker/Makefile.include                      |   2 +-
- tests/docker/dockerfiles/alpine.docker             |   6 +-
- tests/docker/dockerfiles/centos8.docker            |   2 +
- tests/docker/dockerfiles/debian-amd64-cross.docker |   3 +
- tests/docker/dockerfiles/debian-amd64.docker       |   2 +
- tests/docker/dockerfiles/debian-arm64-cross.docker |   3 +
- tests/docker/dockerfiles/debian-armel-cross.docker |   3 +
- tests/docker/dockerfiles/debian-armhf-cross.docker |   3 +
- .../dockerfiles/debian-mips64el-cross.docker       |   3 +
- .../docker/dockerfiles/debian-mipsel-cross.docker  |   3 +
- .../docker/dockerfiles/debian-ppc64el-cross.docker |   3 +
- .../docker/dockerfiles/debian-riscv64-cross.docker |   3 +
- tests/docker/dockerfiles/debian-s390x-cross.docker |   3 +
- tests/docker/dockerfiles/fedora-i386-cross.docker  |   2 +
- tests/docker/dockerfiles/fedora-win32-cross.docker |   3 +
- tests/docker/dockerfiles/fedora-win64-cross.docker |   3 +
- tests/docker/dockerfiles/fedora.docker             |   2 +
- tests/docker/dockerfiles/opensuse-leap.docker      |   2 +
- tests/docker/dockerfiles/ubuntu2004.docker         |   2 +
- tests/docker/run                                   |   2 +-
- tests/lcitool/projects/qemu.yml                    |   3 +
- tests/lcitool/refresh                              |   2 +-
- tests/tcg/Makefile.target                          |  34 +--
- tests/tcg/aarch64/Makefile.softmmu-target          |  11 +-
- tests/tcg/aarch64/Makefile.target                  |  15 +-
- tests/tcg/arm/Makefile.target                      |   9 +-
- tests/tcg/cris/Makefile.target                     |   2 +-
- tests/tcg/i386/Makefile.softmmu-target             |   3 +-
- tests/tcg/i386/Makefile.target                     |  11 +-
- tests/tcg/multiarch/Makefile.target                |  18 +-
- tests/tcg/multiarch/system/Makefile.softmmu-target |   2 +-
- tests/tcg/ppc64/Makefile.target                    |   8 +-
- tests/tcg/ppc64le/Makefile.target                  |  26 +--
- tests/tcg/s390x/Makefile.target                    |   2 +-
- tests/tcg/x86_64/Makefile.softmmu-target           |   3 +-
- trace-events                                       |  28 ---
- 98 files changed, 1138 insertions(+), 624 deletions(-)
- create mode 100644 gdbstub/internals.h
- create mode 100644 gdbstub/trace.h
- rename gdbstub.c => gdbstub/gdbstub.c (95%)
- create mode 100644 gdbstub/softmmu.c
- create mode 100644 gdbstub/user.c
- rename tests/tcg/{ppc64le => ppc64}/bcdsub.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/byte_reverse.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/mffsce.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/mtfsf.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/non_signalling_xscv.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/signal_save_restore_xer.c (100%)
- rename tests/tcg/{ppc64le => ppc64}/xxspltw.c (100%)
- create mode 100644 gdbstub/meson.build
- create mode 100644 gdbstub/trace-events
-
--- 
-2.34.1
-
+--=20
+Alex Benn=C3=A9e
 
