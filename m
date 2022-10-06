@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095735F6779
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 15:13:44 +0200 (CEST)
-Received: from localhost ([::1]:57080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B62C5F682F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 15:32:29 +0200 (CEST)
+Received: from localhost ([::1]:46534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogQh4-0004kE-6J
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 09:13:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57520)
+	id 1ogQzE-0008T3-J2
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 09:32:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogQSk-0000oR-C0
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 08:58:54 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:42611)
+ id 1ogQWq-0003gV-MW
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:03:10 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:41517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogQSi-00070V-Ig
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 08:58:54 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id e129so1811277pgc.9
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 05:58:52 -0700 (PDT)
+ id 1ogQWo-0007l4-Ro
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:03:08 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ q10-20020a17090a304a00b0020b1d5f6975so582828pjl.0
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 06:03:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=X6ChZlVUOmmtoUCfM1DDjMELIKwMSRGWtmOBzY9QgOM=;
- b=Gy3dZx78Wu6jpPAHZIOurpib9VC8rupPrEAt71cN9e3s7ioq4S1zngHGD4kQSmiu+B
- IKV5Dah0/1wwYSPTyZjgx/5mbt9L87ABEpHTVjfgS6vDysxHJdTvqK2ZR/qn1xQLFnCl
- t/IGxQVLwGahAhIg3bK+3kesKkS3cbn/IAFwTBX4uHEHYfaNllC1L7oSWSO27jv5mwkZ
- JJH1ForhlgnpQgjqh59nyvRJ3U30Zz5/mTAcgb91nyiOhu0B70UGAxQNogSbdRgojQ0M
- brJFJy2ETSPcxlIGnkNAeAV1Sb2J21fKaiZL1BzdBZSgdUjUQLVh9LNGeXgwMZqhmD1u
- chAA==
+ bh=YqjAhC54G+EIkgBOYuSZHUlo9+hbZNd6wOb6LaFYIDw=;
+ b=mVB0oHmQPnf2F9M8eieZWmMFzsm2RhYBGyGkNVPdgGCCJM3FPY9piWgJkAemC5V9th
+ fmerpBZV9qUEgz6opjP2DEYkTHvEaTH6luoYYimJ8T/6im12HPzCrs4QovwIVQCV10Ac
+ 2H2elkwrGvTZ0vDndhpLDoGIDZRAcbLWl+sWzQ0ClUDmDx8oqrW4Yc6VQsgYxfxhV4bU
+ v5a8S7MbFokoYCTc1ZdVBrjEL3FQhR6be3BDTg71fGTjD9qnMCdhjrtfWAWwd70FSBxb
+ RZtSDQJM9IOknLkcYRoDqlQjQRR4S6RfJS2hp9gZKEPySMAbzysf7Qg1jDAzkrSmaZ6D
+ busA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=X6ChZlVUOmmtoUCfM1DDjMELIKwMSRGWtmOBzY9QgOM=;
- b=Y1Hwe3pfjeDht0npF3ktZhIeRsmWRn88RohzbAJ7fKYSsP55gQ/cGjhG+nZhTA35uh
- /szzuPmRiZJ84IIo1XCFgZ0ocIIw1d1wdywNxd9tvJk97M2T1hI+Hvm2K0VrRnJQi5Y8
- tyujAlM/yqR5FrnYk+hSokMUBAAmTKgEkeELrAF9+9/8ZAuFxFW9GeQvx8fTazcH7wXZ
- jqAZ3njWc0UzbFgrAjr8j6sJEM31lZtJ9H9nUUjb0Saxq6R7XpgzJwy393hUfwyoHRCx
- N8QV4I9BMcUPbQCICezh9YeFWNhq+yoDVLk9AlomuxvNK7ziQVekQhuzxXxccMLwSM6x
- x+cQ==
-X-Gm-Message-State: ACrzQf1L3lqdaxNA07CDLCbBspqjjZrY2D11DRvU94yZPiP2gWkjQUsd
- SEuE9TphrAMv3Ak/GjPBlIPaMTLC3Ch9Hf7ZfhZrqg==
-X-Google-Smtp-Source: AMsMyM5cN+NsTTpyZmvQIeF3jZoO83adNcvjqGXqc/ztvaFXMy2KqY9sbNkAGYYMxOcNjcAKQcaCGu0VP8nircoEFtQ=
-X-Received: by 2002:a63:2212:0:b0:43b:f03d:856a with SMTP id
- i18-20020a632212000000b0043bf03d856amr4497887pgi.192.1665061130631; Thu, 06
- Oct 2022 05:58:50 -0700 (PDT)
+ bh=YqjAhC54G+EIkgBOYuSZHUlo9+hbZNd6wOb6LaFYIDw=;
+ b=4j0ifU5Wgqz8SFsV90eBrkTYnPQLeHXsfHPnJgZjd63RUwufryrmandNmioFphoaYr
+ n2gO+pKfEa1OiJjU4bqmq0HC90Uvao6880Yxi+DWvz/CXz5fVhvmuDCmWrDIH1nWgrNC
+ SAqkY3eLGwc1byDZE5ZbZ9bxyH3zbFEw2QZiTNY9om2TX9fA5V6YOxxUjjUIswml8ECX
+ gj+WYXyk2jYyiPxQ70vY75VqVmQUiWk3NNFQdPt/VBixwsSM8W9QFzTSpFr5RCS34j/Y
+ tyNA2LPaMJxntSJBHFQM5mMf0T5KP7oSs0lG+MosGqsGvYiG95LMc3U+/2xDyuG1VuER
+ iPBQ==
+X-Gm-Message-State: ACrzQf1BV05IuRbBWdkr1gfvhsvYbGQYNRAEj8DfLVBtr/1dUFWOz3Ma
+ NpD11Hd+FedOhEBUHwgWtWgnChVPWeqn/+2pAWqxkg==
+X-Google-Smtp-Source: AMsMyM6sBDEHxAGOuTK2ujuGqPRaQUslma6ncMXT+xEDJPJ+tshnAMbuOl3k7hhmS1tT/fBu9Xbjl9Zkwn5BxCsmYtY=
+X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
+ jm23-20020a17090304d700b001788564f754mr4630873plb.60.1665061385149; Thu, 06
+ Oct 2022 06:03:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <54930451-d85f-4ce0-9a45-b3478c5a6468@www.fastmail.com>
- <CAFEAcA_bip7nifW-Zq8qrSmZTCUQA1VMpMR8HSHsKVBAeQxy0A@mail.gmail.com>
- <CAMVc7JXPi3kbFyrN9757uKt-cUprKUBLM9nuDMRjawtVePVVAw@mail.gmail.com>
-In-Reply-To: <CAMVc7JXPi3kbFyrN9757uKt-cUprKUBLM9nuDMRjawtVePVVAw@mail.gmail.com>
+References: <20221006113906.179963-1-mst@redhat.com>
+In-Reply-To: <20221006113906.179963-1-mst@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Oct 2022 13:58:39 +0100
-Message-ID: <CAFEAcA96Qmj0HeTyt8Ng+JZ8ZJiWBsoN0aavA_PUs+hOyfay2w@mail.gmail.com>
-Subject: Re: [PATCH] ui/cocoa: Support hardware cursor interface
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: Elliot Nunn <elliot@nunn.io>, qemu-devel@nongnu.org, f4bug@amsat.org
+Date: Thu, 6 Oct 2022 14:02:53 +0100
+Message-ID: <CAFEAcA8K-4KdjuG8QqFU9gLEiZ7A3Xx3zG0FP4uP4482p0GFfA@mail.gmail.com>
+Subject: Re: [PATCH] gitmodules: recurse by default
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,33 +89,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Oct 2022 at 13:16, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+On Thu, 6 Oct 2022 at 13:36, Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> Thanks Peter and Elliot,
->
-> Unfortunately Patchew seems to have failed to apply the patch to the
-> current master. It would be nice if you rebase it to the current
-> master.
+> The most commmon complaint about submodules is that
+> they don't follow when one switches branches in the
+> main repo. Enable recursing into submodules by default
+> to address that.
 
-I think this is probably mostly because the patch got sent in
-quoted-printable or something similar. I found that grabbing the
-mbox from lore.kernel.org gave me something I could apply. But
-it would probably be helpful if Elliot could rebase and resend making
-sure it's in plain text without linewraps or quoted-printable or other
-encoding.
+Just to check, because the git docs are a bit unclear to me,
+does this retain the existing behaviour that if a submodule
+isn't checked out at all then it remains not-checked-out ?
+(That is, we don't want to force developers to have checked
+out submodule sources for all the edk2 and other rom blob
+sources which aren't needed for day-to-day QEMU development.)
 
-> Actually I have a patch to add hardware support to ui/cocoa, but I
-> have not submitted to the mailing list because it depends on a number
-> of other patches:
-> https://github.com/akihikodaki/qemu/commit/34199fcd4080ce8c705b46df26fdf02966b1610c
->
-> My patch avoided using CGWarpMouseCursorPosition because of its
-> quirks. I'd like to test your patch by myself to see if it avoids them
-> properly for my own workloads.
->
-> I have also added some comments to the patch. Please see the below.
-
-Thanks for taking a look at the patch.
-
+thanks
 -- PMM
 
