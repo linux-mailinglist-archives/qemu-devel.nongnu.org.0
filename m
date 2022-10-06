@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C7D5F69CA
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 16:39:27 +0200 (CEST)
-Received: from localhost ([::1]:60920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C685F6A0B
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 16:52:58 +0200 (CEST)
+Received: from localhost ([::1]:49376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogS21-0000VW-2P
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 10:39:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49712)
+	id 1ogSF7-0002BK-92
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 10:52:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogRzf-0004dl-Ik
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 10:36:59 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:50730)
+ id 1ogS7G-0005Ji-En
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 10:44:51 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:42511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogRzc-0007Yc-SC
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 10:36:59 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id lx7so1980947pjb.0
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 07:36:56 -0700 (PDT)
+ id 1ogS7E-0000B1-Sg
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 10:44:50 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id i3so2225921pfk.9
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 07:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=eQU6bqWNs3L7lCQx7GERfMRZmgqYiLbhYE1tNAB2m6M=;
- b=Y5bWWAapi1YPLGtNfVEb8dUHSeIIwDX2Gq0aXDgEWyzEiVjfGHb1c4/7tm29mDQZRp
- uBSPFcoGuoKYpqJlGY600/+ajdPib0bGvKTK+k6HmO1zTjeJbszeyw2s5APZhoALgMzy
- AZvKBctDgQeZOXFYStXiw0qN98gfbAp0RdnQ45gPAXY4+JECQqJGKQj94V01Iw36ZRGb
- fc0s/RjPhhJmT10/XP30V1CCB/Z5+9xfok6cyNCYprgLLOa6fnMaC4etojSOHoKAtojb
- zcFLhKo4HH2Y5quOndsuYpJNqCGUpQ4YP7XxAFNb2CV2OYjSrXjPN5EaUEnbXZCAOss6
- HGdA==
+ bh=qQQC5C/Fq3WcEaAGlJ7iXt69ARtQYzjczXq/0FOr2sk=;
+ b=cK5PzXqzWrzYBLZJdis1y4FwJ0qxXcTMjNS7/F8ey6W353smI6mAqxKBMtgDJrGgtY
+ N6UJJDelJrRxz081UlItBoWew0s9oD/AEPdXFuzwcuLX0D99MvjbDMczFv/2lXGwj9sK
+ TpMPz8B9+QqH7iamfKvwbCUK0JJnnQZ2v1wQJBphhfcPAptNWztEJMFW5Ykg6wY4UNdW
+ Or7Fbiz3c9YaaupjyWovGqCgUHX0Hwwha/SQn/ypsxLl9fkTIfs5cguSNYR2dKWa0WnO
+ CgR3PKEQoFoCzI2GLxt0FIlgNZNaazbsASKbOUxgx6uOyHhT3xidi7gMSW8xb99x8u5X
+ LpBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=eQU6bqWNs3L7lCQx7GERfMRZmgqYiLbhYE1tNAB2m6M=;
- b=X0BK1aQ+1gDVcMo44YDYC4kvh6AVpdHNhRefgKYMIpR3RnyWw52f3BHwNDWOw0/Zwo
- Xed7ABRsm5NQdbjqfXgF94GHk8/PWYDhpueM7jBQvp3fJQVOQvLCcuZEXJTi8yE1Rkx9
- s0qNAc5ojkO4COP9JHsPAtLM3W2lTLw3zwjAHQk/+In9XBUpbazw7SQMhcWmaXATC5mT
- ubfokyhifiJqjoDz0czgf/pLROF30KdC+bsILktn2X6kIePwCMgvFYI/NbIZI/rXddIv
- NVoInqO4VdNcp4r7SBOzRO2p1VHm7qkMA7KB73J3aol071CTgWGwBNoiYk1lxR85SzHK
- B1xQ==
-X-Gm-Message-State: ACrzQf0QSrEgyZrHlppHS6oQS1S0qs24Qa2w14RT5vdGrw5TleWJN7aa
- xrw5YatqnNsYKyTbJ5cRfgWkIk+GvdmFy8IDx5kg4+jwsCQ=
-X-Google-Smtp-Source: AMsMyM4LudB4G29eGMaKh/TgDnLi3Ggy+o//C6r7U1zQTmUjL3Q7YgV+N2qF8LQlA4iTuRF4RkQQMLUTDpwmB8ef/PM=
-X-Received: by 2002:a17:902:7c97:b0:17f:5abf:9450 with SMTP id
- y23-20020a1709027c9700b0017f5abf9450mr222699pll.19.1665067015432; Thu, 06 Oct
- 2022 07:36:55 -0700 (PDT)
+ bh=qQQC5C/Fq3WcEaAGlJ7iXt69ARtQYzjczXq/0FOr2sk=;
+ b=7Z+bM6X/45ilCopnnSad5buO7h/lC4U1wXJ9EiPi7QasjCoRKmu+JedtiEwR0pIB9L
+ CCLboaXMNw/W84Tzy312N3TNQsaJGwkmK5tEfb1M6+KWcSu1EfBjX7YPU+/xM/SOga96
+ uV32FI22i5QPp19nS5lysn7Zuwszr0TbRrTnDmoXRQVEUM3q7M4s74/mNg4HytTOg4Wz
+ X1hgzzpxTIqFAUYcu05L/KD0CFtBP7vZ8MG8JRNUenFtgU1JT48PiU6n2txdI5oaB+JP
+ BH/uDKNBA6yRTpjZGr6rdB4Sw0EDw4a0rwxG8mzggKCF4cYmkqpmOBNL1HaHZp05jqjg
+ 2Pkg==
+X-Gm-Message-State: ACrzQf3QjAYbwVFEHLYQlSgq4DK9kpEsbAql1oxKU3ycJJKmJ/Xn/Qwp
+ 1LkDpgqOYqEV4AtGVSDZCmhLIbCoJudlNPqo7HndlA==
+X-Google-Smtp-Source: AMsMyM584Jy6ZIKZukOnoDCqb3WkCQX/e4V2KdirU86HvgwJXy+9kmx9uSfcOXv2YwddG774lAO+opNkvZzt42TgUb4=
+X-Received: by 2002:a05:6a00:1584:b0:561:e48f:9faa with SMTP id
+ u4-20020a056a00158400b00561e48f9faamr153433pfk.51.1665067486875; Thu, 06 Oct
+ 2022 07:44:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221001162318.153420-1-richard.henderson@linaro.org>
- <20221001162318.153420-21-richard.henderson@linaro.org>
-In-Reply-To: <20221001162318.153420-21-richard.henderson@linaro.org>
+ <20221001162318.153420-22-richard.henderson@linaro.org>
+In-Reply-To: <20221001162318.153420-22-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Oct 2022 15:36:43 +0100
-Message-ID: <CAFEAcA_nr8FaB790u_YQHrBhtrRqHs5Z3uopNiVwSP1+LkxJvQ@mail.gmail.com>
-Subject: Re: [PATCH v3 20/42] target/arm: Use tlb_set_page_full
+Date: Thu, 6 Oct 2022 15:44:34 +0100
+Message-ID: <CAFEAcA8M+d1ytbZD6WmLik8RiGjv9=bPA3YOQm7V6XrH2fxmLQ@mail.gmail.com>
+Subject: Re: [PATCH v3 21/42] target/arm: Enable TARGET_PAGE_ENTRY_EXTRA
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,19 +84,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 1 Oct 2022 at 17:44, Richard Henderson
+On Sat, 1 Oct 2022 at 17:54, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Adjust GetPhysAddrResult to fill in CPUTLBEntryFull,
-> so that it may be passed directly to tlb_set_page_full.
->
-> The change is large, but mostly mechanical.  The major
-> non-mechanical change is page_size -> lg_page_size.
-> Most of the time this is obvious, and is related to
-> TARGET_PAGE_BITS.
+> Copy attrs and sharability, into the TLB.  This will eventually
+
+"shareability" is how the Arm ARM spells it.
+
+> be used by S1_ptw_translate to report stage1 translation failures,
+> and by do_ats_write to fill in PAR_EL1.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu-param.h  | 8 ++++++++
+>  target/arm/tlb_helper.c | 3 +++
+>  2 files changed, 11 insertions(+)
+>
+> diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+> index 08681828ac..118ca0e5c0 100644
+> --- a/target/arm/cpu-param.h
+> +++ b/target/arm/cpu-param.h
+> @@ -30,6 +30,14 @@
+>   */
+>  # define TARGET_PAGE_BITS_VARY
+>  # define TARGET_PAGE_BITS_MIN  10
+> +
+> +/*
+> + * Cache the attrs and sharability fields from the page table entry.
 
+"shareability".
+
+We should document the format of these fields, similarly to
+how the ARMCacheAttrs struct does. In particular, do we guarantee
+at the point we fill this in that pte_attrs is in the MAIR_EL1
+8-bit format and never the S2 descriptor-bits format?
+
+> + */
+> +# define TARGET_PAGE_ENTRY_EXTRA  \
+> +     uint8_t pte_attrs;           \
+> +     uint8_t shareability;
+> +
+>  #endif
+>
+>  #define NB_MMU_MODES 8
+> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+> index 49601394ec..353edbeb1d 100644
+> --- a/target/arm/tlb_helper.c
+> +++ b/target/arm/tlb_helper.c
+> @@ -236,6 +236,9 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>              arm_tlb_mte_tagged(&res.f.attrs) = true;
+>          }
+>
+> +        res.f.pte_attrs = res.cacheattrs.attrs;
+> +        res.f.shareability = res.cacheattrs.shareability;
+> +
+>          tlb_set_page_full(cs, mmu_idx, address, &res.f);
+>          return true;
+>      } else if (probe) {
+> --
+
+Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
