@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314275F6BE6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 18:37:39 +0200 (CEST)
-Received: from localhost ([::1]:43872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CA65F6BF1
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 18:41:39 +0200 (CEST)
+Received: from localhost ([::1]:41600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogTsQ-0005FG-97
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 12:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
+	id 1ogTwI-00026y-26
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 12:41:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSfa-0004XK-O3
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:20:21 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36836)
+ id 1ogSfm-0004aa-4K
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:20:36 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:37516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSfY-0006E3-MS
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:20:17 -0400
-Received: by mail-pf1-x432.google.com with SMTP id y136so2351291pfb.3
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:20:14 -0700 (PDT)
+ id 1ogSfa-0006EM-G4
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:20:19 -0400
+Received: by mail-pg1-x529.google.com with SMTP id bh13so2159716pgb.4
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wJ46lPbUundlzLry/XhmGks2ORwcj9XXEHBkBSD1tlY=;
- b=Zqjk/nphJPYClpAauW9PZi7lPE2xcLmKmrKgOj9i2xbnBlnod0tLmu38Vx6J1LZ5vd
- 2e+KEpLMGyCMLDDTkqjNSxBUo6FmsBX3c9cwBegnJpGmxXWjiROw0grV5++kkQJXbv54
- XDzew7dFbhqYu9hXSGGEBiAZqv/Buh7gwsn/YN5WpzMIqiXRqBYWnjSWnevak9H4dy8N
- a8ulqXKdm9bbywc7kZfZ6Y3Cr9+DkgvhMfn+RPe7k/Tg2Jtg0GlNwCkDhckjUNYVW7Qf
- /CUUVoNd7bAaSYenO/QaLHzCRYOPy5n9VHsk20MJuuBjRGRYl3pFA3pnaKBzDOTlhPjN
- WGig==
+ bh=FMvqR5WvHSrhd6FoBOh5bPNiyVgL3g0xwaaD6f1HGpU=;
+ b=eRCB+g2PpDfez7VPNZ001FqIWxt/NN3NZsF/gb2yRH7dF+vkLW86Sh+3BFrgqp9Djy
+ QKSxyh18zDQNH/kLMbZYq5KIkEFli5QpVT1aa91HZ2rIbJKeD/7/L2W3IuhZ/O+HdAiH
+ XBsPGzS7/9yWZq7Cp4g3h7qngI4jcHrJ1E7wl65CWzYgytV/yiA0HmjA15wttJ6xhuLG
+ Be9xtEeO/mLo2imp677f4MBeftaVr4gZizZ37BUSWpAw/dwlmcJdnXd9bEInxsmaR/iu
+ qtsHvFBE3tQtg1F0NJeJDuKQ91gKxTO4kCQEGqtX7vM8H7CJQbj0iXfuilIQgF2wdjkr
+ oKDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wJ46lPbUundlzLry/XhmGks2ORwcj9XXEHBkBSD1tlY=;
- b=N97CLYl0K5NxLglop/J2oayCNnxTCmOW1ZK6PejmHdP6wlosqgBaI+/Lv8ZoXR96XY
- KVniUt8pzbXZtmGhTYPwElNFf8aO4p1JJgDvd7uwN4hcpg1rN9q6ttYck7Dl+pxYhpeo
- LAKf8qlZMQZobS6c2x/WuQNA3j9Q5N1I/LB4+lqADfr0hPRtMpt7Dik6/vcT77H/oulm
- RCTPxWROOPgBqrO576xvZKWa6csGorz7yQqHVC6Arhjy9IXW2j4AoQYzyw1tsuLINSb/
- tCwTM1JK9w6gav5SjnEV6PMRYlkBIuytLWiBjKkm6C9SbsinUOPBmZ+uUWyfEpRyT5lX
- GTJQ==
-X-Gm-Message-State: ACrzQf38YZRE5cYFNd5tdTMzWfl1qJzRgDc0AeQ9pdZvPfWPICimuXte
- Qwbc6mij2oBz2J3W9kbk14SXD0+q60o=
-X-Google-Smtp-Source: AMsMyM4Ecs2u/rG+40QKzlQjiaa9eXr/a2sa6QjdkAbR2XQ/KokpJwWzuEwJiA9f3ynDvwA+rH9AKg==
-X-Received: by 2002:a05:6a00:23ca:b0:557:a75c:b430 with SMTP id
- g10-20020a056a0023ca00b00557a75cb430mr37674pfc.16.1665069613292; 
- Thu, 06 Oct 2022 08:20:13 -0700 (PDT)
+ bh=FMvqR5WvHSrhd6FoBOh5bPNiyVgL3g0xwaaD6f1HGpU=;
+ b=DIX3H5DCP0G6SwUoR/I+LDCatvR//K4KC4QQj+LO8By8XE5AcrvpKaLOHtTBqNEEs6
+ gmHK6jx9RZDMA6ZVdyDNxUxtxG8i5IS0rxO7wgi32eDP0ubVUOHPq+eowzHmJ6QFWch2
+ HOCjBXlYnKw2rbvSA7DvJ9PL9vw6bNUVgfS0vndSOZA1cTsdJ7s9b0SMKY3/wEGuNRU2
+ i+xNmzsIeW5qui6werp2T9tlqnuVzOwpB09t49PEk8AuL8oWVG8YLb4Mm/ZAwkZrBQk7
+ hfETrGjw3CWeA21Xd9ExQ/tHpZX+4S7qGaorZDjJJ+/QazH8pQmZafMfb9Xy6jygKoJU
+ 2zYQ==
+X-Gm-Message-State: ACrzQf3fv5T6NOiaG3NpLBN/mk8fPYssaj2KwYEWJJI8dhyARD+21YVU
+ auy6wOHp3yWhT9WT6pQk9DDWwqQLQ3o=
+X-Google-Smtp-Source: AMsMyM49DkLLwFXH+5jjyrq6oAvFg9ftXL9unjV6uOVVx4Fy8dig0b/D9yoMM/a2J2usye1WpdsSkw==
+X-Received: by 2002:a63:33cf:0:b0:439:f026:aab2 with SMTP id
+ z198-20020a6333cf000000b00439f026aab2mr372812pgz.86.1665069615558; 
+ Thu, 06 Oct 2022 08:20:15 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a170902780d00b0017c37a5a2fdsm11426759pll.216.2022.10.06.08.20.11
+ p13-20020a170902780d00b0017c37a5a2fdsm11426759pll.216.2022.10.06.08.20.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 08:20:12 -0700 (PDT)
+ Thu, 06 Oct 2022 08:20:15 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v5 14/18] io/channel-watch: Drop a superfluous '#ifdef WIN32'
-Date: Thu,  6 Oct 2022 23:19:23 +0800
-Message-Id: <20221006151927.2079583-15-bmeng.cn@gmail.com>
+Subject: [PATCH v5 15/18] io/channel-watch: Drop the unnecessary cast
+Date: Thu,  6 Oct 2022 23:19:24 +0800
+Message-Id: <20221006151927.2079583-16-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221006151927.2079583-1-bmeng.cn@gmail.com>
 References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,34 +95,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-In the win32 version qio_channel_create_socket_watch() body there is
-no need to do a '#ifdef WIN32'.
+There is no need to do a type cast on ssource->socket as it is
+already declared as a SOCKET.
 
+Suggested-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-(no changes since v1)
+(no changes since v2)
 
- io/channel-watch.c | 2 --
- 1 file changed, 2 deletions(-)
+Changes in v2:
+- new patch: "io/channel-watch: Drop the unnecessary cast"
+
+ io/channel-watch.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/io/channel-watch.c b/io/channel-watch.c
-index 0289b3647c..89f3c8a88a 100644
+index 89f3c8a88a..43d38494f7 100644
 --- a/io/channel-watch.c
 +++ b/io/channel-watch.c
-@@ -285,11 +285,9 @@ GSource *qio_channel_create_socket_watch(QIOChannel *ioc,
-     GSource *source;
-     QIOChannelSocketSource *ssource;
- 
--#ifdef WIN32
-     WSAEventSelect(socket, ioc->event,
-                    FD_READ | FD_ACCEPT | FD_CLOSE |
-                    FD_CONNECT | FD_WRITE | FD_OOB);
--#endif
- 
-     source = g_source_new(&qio_channel_socket_source_funcs,
-                           sizeof(QIOChannelSocketSource));
+@@ -130,13 +130,13 @@ qio_channel_socket_source_check(GSource *source)
+     FD_ZERO(&wfds);
+     FD_ZERO(&xfds);
+     if (ssource->condition & G_IO_IN) {
+-        FD_SET((SOCKET)ssource->socket, &rfds);
++        FD_SET(ssource->socket, &rfds);
+     }
+     if (ssource->condition & G_IO_OUT) {
+-        FD_SET((SOCKET)ssource->socket, &wfds);
++        FD_SET(ssource->socket, &wfds);
+     }
+     if (ssource->condition & G_IO_PRI) {
+-        FD_SET((SOCKET)ssource->socket, &xfds);
++        FD_SET(ssource->socket, &xfds);
+     }
+     ssource->revents = 0;
+     if (select(0, &rfds, &wfds, &xfds, &tv0) == 0) {
 -- 
 2.34.1
 
