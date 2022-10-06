@@ -2,117 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65B65F6DF5
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 21:12:25 +0200 (CEST)
-Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F0EE5F6E08
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 21:16:30 +0200 (CEST)
+Received: from localhost ([::1]:37694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogWIB-0006DN-Hn
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 15:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58348)
+	id 1ogWM9-0003gY-8H
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 15:16:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1ogVwd-0000pM-It
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:50:07 -0400
-Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:27723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
- id 1ogVwY-00063o-MS
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:50:07 -0400
-Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits)
- client-signature RSA-PSS (4096 bits))
- (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id 4Mk0qW0rTMz4CVb
- for <qemu-devel@nongnu.org>; Thu,  6 Oct 2022 18:49:59 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: from smtp.freebsd.org (smtp.freebsd.org
- [IPv6:2610:1c1:1:606c::24b:4])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4Mk0qW06tqz3h0D
- for <qemu-devel@nongnu.org>; Thu,  6 Oct 2022 18:49:59 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
- t=1665082199;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1IDqeNv+wxc/imNmped9aXyIkyRmqwAAdagPofWYa78=;
- b=pNREQX4IeRQFVpmRxuZ065m+EUmHrW1F6ilpsbs7pkNWKa9IN62W8ILJ95xNDYIGWXfbXH
- rpJVttXhAIv+W7xg/QMriQH55QqStYuRipEsYRL3Gnw7onWPui+52XtLbpPhc7dNYZ8p6+
- KJKL709gh8gkVVxzcL0puD4XamnHKJDkjEPsTwzTDhwXwtt818ZMIq2BvqiHqnR/UGcjdk
- hcSI/0/i+DXyU75Omp66VVrWzivexNSRToXIxHaxKrbCEGPORI0/VK6U9HE4vZTKRMVcS0
- +XQz0bArSlNRs7mhBMpjYf3JboC5FJ9gfSTyku84TyhH7joCG9aV10WS02oR2g==
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
- (Authenticated sender: kevans)
- by smtp.freebsd.org (Postfix) with ESMTPSA id 4Mk0qV5lzmzYmG
- for <qemu-devel@nongnu.org>; Thu,  6 Oct 2022 18:49:58 +0000 (UTC)
- (envelope-from kevans@freebsd.org)
-Received: by mail-qk1-f174.google.com with SMTP id d15so1606075qka.9
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 11:49:58 -0700 (PDT)
-X-Gm-Message-State: ACrzQf1vEmafUmEdb2iUIoCg/oCuLQl/IFp7vWve0HErXOqZ5oWkzt7M
- UTszdG/umppEu/PiTScrM1m3Ys5/laPwn7uasXw=
-X-Google-Smtp-Source: AMsMyM6ZVNoDEJ3Eo45Hp73eVre3bD58fSAYmO5A0M3chcR2cD7nffG7WS1+HESLmhi14va19jpXgesHJ99Jm5Mb+9Q=
-X-Received: by 2002:a05:620a:2045:b0:6df:9c34:5184 with SMTP id
- d5-20020a05620a204500b006df9c345184mr1214250qka.425.1665082198262; Thu, 06
- Oct 2022 11:49:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogW0E-0006wx-4j
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:53:50 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:38442)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogW0C-0006lR-4g
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:53:49 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id w191so2883883pfc.5
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 11:53:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date;
+ bh=+dPuwhOH1yoJY8fkVSnyed714ZhRTh3NCFjinHaVSFE=;
+ b=GQZSfEE3ahsCnZOnZsIUNU3zojVamZHCWDT/Hewg8QnGAMgbwFP2gAEIlRPcFXVWLe
+ 2OSY/LtdLoMuP+RRK5q67zbgj247p7p/FCmG3QjJwVRKs+ogxy4vgXlpXxie0He6eQJO
+ Y3pIaEU7xLnkdfHNLxnMRwxuLoo2/YzHduyPKV876Q68cO4b9OkORA97MrddWiO85ktz
+ Dayj8qH0kfNeWsFSsLWcUxVcNGMp39if2UjOhdSKQOoRbABZHYlQ+ST1QU8G0rq9lW9j
+ PLA+TL+VUx8YBPOLmM4Wryjg1+gvHKc/gJ/xzTfSS9Otibx2EJM1eUviv6JqIuVuV6VS
+ FP1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=+dPuwhOH1yoJY8fkVSnyed714ZhRTh3NCFjinHaVSFE=;
+ b=z4IlW90f+/B8WCOziSy3W/IzL4HTi2j1J1d/UU9QvYguUGsPG02h8YZXbH0CRn5D9s
+ giwXG7cg5loDwF4C6IIqFbkneHS/xoMU7z95fQC5uzzI5rOJDAbLjTLPehlIpazvHV3G
+ Deqz6F+yj4yhxU1EItop8Ra7K37WtuNOrqGmPRpMIU7BRuw2ENoqCqhoflrl9LFlsh9z
+ PqBBvDegzz7E7eG7ER2ND5v7eeps3dZak7+1yDd4Nip40vc81saPv7pHhNOMmFVCaBnM
+ NXMg+Q4UNgHacBLxU1JmxocjR4JsHHpk6lSaSsgmGqF4sYPhSDA5I15wo6JjIVJTQdjo
+ PmBQ==
+X-Gm-Message-State: ACrzQf1XldKEv9d0dJru9pat3YYk5LSpMdTe7mZe8C1kChUsMqzaOKnT
+ 1+b7ATPyWxJLdCkduFsf3zfLjQ==
+X-Google-Smtp-Source: AMsMyM7JDBaI+nF+NaLE+f/1aQ6TuJib0uQAmH/su4gpZr41TDRif0uUrsWedPmmpE2gZJWUepobEQ==
+X-Received: by 2002:a63:f358:0:b0:43c:5e1:985 with SMTP id
+ t24-20020a63f358000000b0043c05e10985mr1074072pgj.5.1665082426097; 
+ Thu, 06 Oct 2022 11:53:46 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:bc82:8006:f19e:85e?
+ ([2602:47:d49d:ec01:bc82:8006:f19e:85e])
+ by smtp.gmail.com with ESMTPSA id
+ e126-20020a621e84000000b005360da6b26bsm13224618pfe.159.2022.10.06.11.53.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Oct 2022 11:53:45 -0700 (PDT)
+Message-ID: <5d3984c4-54c3-463b-4595-361c5e65e43d@linaro.org>
+Date: Thu, 6 Oct 2022 11:53:43 -0700
 MIME-Version: 1.0
-References: <20221004120047.857591-1-berrange@redhat.com>
- <5c5849a3-6830-8577-c427-02cb3244ba8c@linaro.org>
- <Yz8aqBq7m0wn0jvS@redhat.com>
- <0d3f27ab-de02-c5b5-488f-08fb7e329bd8@linaro.org>
-In-Reply-To: <0d3f27ab-de02-c5b5-488f-08fb7e329bd8@linaro.org>
-From: Kyle Evans <kevans@freebsd.org>
-Date: Thu, 6 Oct 2022 11:49:47 -0700
-X-Gmail-Original-Message-ID: <CACNAnaHN=xv14PycQ3_nvu60AkSyFc=mAXeh_EVcats8UnrbrA@mail.gmail.com>
-Message-ID: <CACNAnaHN=xv14PycQ3_nvu60AkSyFc=mAXeh_EVcats8UnrbrA@mail.gmail.com>
-Subject: Re: [PATCH] linux-user,bsd-user: re-exec with G_SLICE=always-malloc
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- qemu-devel@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Laurent Vivier <laurent@vivier.eu>, ncopa@alpinelinux.org,
- Warner Losh <imp@bsdimp.com>, Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
- s=dkim; t=1665082199;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1IDqeNv+wxc/imNmped9aXyIkyRmqwAAdagPofWYa78=;
- b=d2ebDQ6Uc6nwcn+sBBnZqPs/DDnPLtCDjpjdG58a7sTiRc52a3Va1xbz5sAHLypy8olKiR
- H559F5elx6x0jkITvqdMWpws8+nuIWpzdJ5vd5vvWE4A7iXd4uyHIrO/1jXkJ+MYAwBIv1
- Gh+eXnagmYsNLw8/nHUufArLKQP+hsg/UDc06INjKFKrEtRrRxPFQMD3AGNh01lYIfdPlD
- CqLJprDkbl6NICo37ElBVOjAdSt9tVanpESV+/tTtODTcCzmEjBTPDrW9gwi20axglBWI4
- BYb8co04wirxrFUrjZsllPIpTr5TMdoSTMQ32V1h/RT73wTuCFNiVLGpmsCYEA==
-ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1665082199; a=rsa-sha256; cv=none;
- b=HQMc2+XYZKCssO61R6/rX5MFrdc0ov0aBE5a7ntImUaMtOXBHBWzXFIIU6DX+iY4rv9xyJ
- 1UD6qqzElkhNCrj+QpWItXuFHAYSUALdMZhp6YJLBjJohiDDJGjkZBy4CqYBn/nctQSX0J
- J2NPkSGvADPiYbYMuybyFX83958aBdyRe10K9AFDUfgwXO3ojAbD2Md3jw1HRADAjDERc8
- POySFAiRWycB7YVAdzsqAUHz5N0Rr6IChDyRMtYl8LJ2ST8Pga4dIXwXwjrIOLGrubEo1M
- DVwyxI8O1bRbN7mBENuBLC50cRr5ZkE6BoTOPaLA/kzYCnxx8jnZ7xSSNVc4ag==
-ARC-Authentication-Results: i=1;
-	mx1.freebsd.org;
-	none
-Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
- envelope-from=kevans@freebsd.org; helo=mx2.freebsd.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 23/42] target/arm: Use probe_access_full for BTI
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20221001162318.153420-1-richard.henderson@linaro.org>
+ <20221001162318.153420-24-richard.henderson@linaro.org>
+ <CAFEAcA8L7BBHZ0Gfi7fm4pbZvYBd=Shu9bV6M5rQqcU-EU-p6Q@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8L7BBHZ0Gfi7fm4pbZvYBd=Shu9bV6M5rQqcU-EU-p6Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.435,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -128,33 +96,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 6, 2022 at 11:29 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 10/6/22 11:12, Daniel P. Berrang=C3=A9 wrote:
-> > The only possible silver linining is that in static linked builds,
-> > it appears that a QEMU constructor with priority 101, will pre-empt
-> > the constructor from any library. This is kind of crazy, as it means
-> > if any library or app code uses priorities, it'll get totally different
-> > execution ordering depending on whether it is dynamic or statically
-> > built.
->
-> Plausible...
->
+On 10/6/22 07:57, Peter Maydell wrote:
+> On Sat, 1 Oct 2022 at 17:38, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Add a field to TARGET_PAGE_ENTRY_EXTRA to hold the guarded bit.
+>> In is_guarded_page, use probe_access_full instead of just guessing
+>> that the tlb entry is still present.  Also handles the FIXME about
+>> executing from device memory.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   target/arm/cpu-param.h     |  8 ++++----
+>>   target/arm/cpu.h           | 13 -------------
+>>   target/arm/internals.h     |  1 +
+>>   target/arm/ptw.c           |  7 ++++---
+>>   target/arm/translate-a64.c | 22 ++++++++--------------
+>>   5 files changed, 17 insertions(+), 34 deletions(-)
+>>
+>> diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+>> index 118ca0e5c0..689a9645dc 100644
+>> --- a/target/arm/cpu-param.h
+>> +++ b/target/arm/cpu-param.h
+>> @@ -32,12 +32,12 @@
+>>   # define TARGET_PAGE_BITS_MIN  10
+>>
+>>   /*
+>> - * Cache the attrs and sharability fields from the page table entry.
+>> + * Cache the attrs, sharability, and gp fields from the page table entry.
+>>    */
+>>   # define TARGET_PAGE_ENTRY_EXTRA  \
+>> -     uint8_t pte_attrs;           \
+>> -     uint8_t shareability;
+>> -
+>> +    uint8_t pte_attrs;            \
+>> +    uint8_t shareability;         \
+>> +    bool guarded;
+> 
+> I notice this now brings this very close to just having an ARMCacheAttrs
+> struct in it (in fact it's going to be one byte bigger than the ARMCachettrs).
+> But it's probably better to keep them separate since we care a lot more
+> about keeping the TLB entry small I suppose.
 
-> > I guess we could rely on this hack if we declare that everyone using
-> > binfmt is probably relying on static linked QEMU, and in non-binfmt
-> > cases people can set the env var themselves.  It still feels pretty
-> > dirty.
->
-> ... but as you say, dirty.
+I kept them as separate fields like this for simplicity.  Since CPUTLBEntryFull is 4 or 
+8-byte aligned (depending on the host), the structure still has 1 or 5 bytes of padding 
+after the addition of this bool.
 
-FWIW, on FreeBSD at least, we don't support dynamically linked
-bsd-user and I'd go as far as to say that we have no desire to change
-that in the future, either -- the benefits are simply not there to
-outweigh the pain for our use-cases.
+>> -    /*
+>> -     * We test this immediately after reading an insn, which means
+>> -     * that any normal page must be in the TLB.  The only exception
+>> -     * would be for executing from flash or device memory, which
+>> -     * does not retain the TLB entry.
+>> -     *
+>> -     * FIXME: Assume false for those, for now.  We could use
+>> -     * arm_cpu_get_phys_page_attrs_debug to re-read the page
+>> -     * table entry even for that case.
+>> -     */
+> 
+> I think we should keep at least some of this comment: the part
+> about the reason we can assert that probe_access_full() doesn't
+> return TLB_INVALID being that we tested immediately after the
+> insn read is still true, right?
 
-Thanks,
+Yes.
 
-Kyle Evans
+
+r~
 
