@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F9C5F6A6C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:18:54 +0200 (CEST)
-Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77F95F6A90
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:27:11 +0200 (CEST)
+Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogSeC-0002ui-VP
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:18:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54862)
+	id 1ogSm5-0002Dl-DU
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:27:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogSVu-0001CZ-32
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:10:23 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:45819)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ogSXL-0002bw-O8; Thu, 06 Oct 2022 11:11:47 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:37472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogSVs-0004Ey-E8
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:10:17 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id r18so2085464pgr.12
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:10:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=JduTXW6PLGdKWzmUjZZhmO+OtGT4XeVNrt4EO4Tuu9A=;
- b=gQLbPe5SssuViN30WDK281fiEm+eGyxdiaZysMGDPyf61TpDZH0KtG28nKfHZt331x
- op37IQtJmZyZxs4ugqJrNmBQDal59CpmC9dgkmLs21MpsAbe007+IypQE6rguEJNecEB
- U+Pz+JHVeVbRZSrXOU3ksYuRcVCW8yAMRYdKkJ8NOCSvbBz+IYU4uZ3IYI86H9ke12fB
- KExsHjgpdr71KV4uUwRjhd7UZXo9+VU//OEnH/fUy4OS3nCiRZntU3j9QQ+2h2KFwMTd
- 6cTkXHyWWg51lQI0h0smEtrBXETTaWKQW9Bq/NDQ1GaE4ycW68mM0qghot6syWnsnL9N
- gOuw==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ogSXJ-0004YZ-VD; Thu, 06 Oct 2022 11:11:47 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id bh13so2139101pgb.4;
+ Thu, 06 Oct 2022 08:11:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z6o+30SmN2bco3CjzBwlafSMtQ2m68d1i+due7WP7eU=;
+ b=j9YvNGBdhswSvkESLCAeqzKNaKfhGWs/BRcaxqrtoOjOPBKpoXSNy4DKYBB5SEUSXj
+ InOEakXznMq+ExyZNqt9vKjg66mZCNmYXj65PuMsdNOnbDsPYna2pbCrqrPvEfXnhWoj
+ YgRmKwfXldmD95Phevox5JqqvnqeR/1X2MLbDYuvUVF+pHs48oZ23VL7IMriiOsxNmwF
+ bYSqu5s0LqJRr1NDRPwrQF2e/AbGf5XzWp5mSrOhXKweq/ESq5Ol92WSz9F9LHl0IiYS
+ 9gzgxDwAzn/iIoKZQ70Nu/UgHOe+DKdxacp4h2ifWYy2U99PDKet8bNMpVcqiS4X2lZW
+ Dd4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=JduTXW6PLGdKWzmUjZZhmO+OtGT4XeVNrt4EO4Tuu9A=;
- b=cTZk5irVDJZGvm2AOJ1sadZ2BDlB52mi6goO+pRXF8YiwK5J74VgA3TgQcxuNc4pxL
- AZpSYoIxN0aNstMGUXRg31XHD6QqomSGjNV89YCxP8FUTvW7jcLl5vzdDzi9N4WB87b9
- uqXy8tiy2gG9a6v9H5rjHcKbx8fH/zI6J0CdD83BJcuJxnfNhVPqF7cbp5s0qxAtYjk3
- y6VHhRM6WrCOoXp/CrLcF0KhVpPjUh9zUYCroHUaYX+lSAWrRH8wpyLAuo/X+37drDjd
- 59GCswhG0w7yeUAu4DJgxJYUUr8Q/dz5DN2PbPuDuZJYjgRYOz23n7gUm2n6XQQUwUsZ
- botQ==
-X-Gm-Message-State: ACrzQf3Oecs5iLjHZu6MqHSWRjkvPRrXSfBo/lqZPSeHqK/unfgqwrAc
- 4gUb0XrrmQFTEdajLFiWnBj6lw==
-X-Google-Smtp-Source: AMsMyM7y79UVS3PSlo0PMlq/Jf42b0JegBf9gO+Hn5+OkYGKCACgVgVRCXlFvFCwCnf7zCj+td5kWQ==
-X-Received: by 2002:a05:6a00:1312:b0:536:fefd:e64a with SMTP id
- j18-20020a056a00131200b00536fefde64amr300148pfu.26.1665069015004; 
- Thu, 06 Oct 2022 08:10:15 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:bc82:8006:f19e:85e?
- ([2602:47:d49d:ec01:bc82:8006:f19e:85e])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Z6o+30SmN2bco3CjzBwlafSMtQ2m68d1i+due7WP7eU=;
+ b=GyfHKzzChvsjbUQpVeR0CkIA9VDyB3P5j7xgk7/oVFgTSYzBuinyU/SdQ41ldAgROR
+ GbtjGK95daSc9AdFvIeeflynda7cL6WVfdB+2GoamSeDPxpXt6zvqn8S6Va7gcDYjiS1
+ a0ovo2naseomzdectdAyDlyvvtcJoKgYwlHB/ORZohMDcDSxVSlOd1pgika+4FfkGk46
+ 0SRB12pvEGgZ3fcTASnAB0VMhwBlLUo9fXzcGQe9R0JYsaSQWz+b/iGLzoHPm7O1OrkY
+ z9eVNks2xqLSavXUtSctaTqWkIlayrMkeGVvxeMXx8MLS+hUTGZQCmiX5wpPkmkTGq2M
+ zF9w==
+X-Gm-Message-State: ACrzQf0ojbLOkicZCT913JTLEnvrr702ttxGmNFHPLhmcpdLRWcUv/V8
+ uJM9pDNugQBGQOd6ig1SvIXa1VGwgt8=
+X-Google-Smtp-Source: AMsMyM4RextZm9HdkkAODR7vvD7uPtFHyhQblGpXCVwwwn4cFBXfwd/NXH7MG8DN60mvqeYvzsBnBg==
+X-Received: by 2002:a63:9143:0:b0:458:c565:6518 with SMTP id
+ l64-20020a639143000000b00458c5656518mr305151pge.219.1665069103871; 
+ Thu, 06 Oct 2022 08:11:43 -0700 (PDT)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- x25-20020aa79419000000b00561c179e17dsm5279180pfo.76.2022.10.06.08.10.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Oct 2022 08:10:14 -0700 (PDT)
-Message-ID: <ed6e925a-ea37-5575-bc3c-aee2a887d5bc@linaro.org>
-Date: Thu, 6 Oct 2022 08:10:12 -0700
+ 135-20020a62148d000000b00540c8ed61ddsm8589067pfu.150.2022.10.06.08.11.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Oct 2022 08:11:43 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Gerd Hoffmann <kraxel@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Hanna Reitz <hreitz@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>, qemu-block@nongnu.org
+Subject: [PATCH 00/18] tests/qtest: Enable running qtest on Windows
+Date: Thu,  6 Oct 2022 23:11:17 +0800
+Message-Id: <20221006151135.2078908-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 01/42] target/arm: Split s2walk_secure from ipa_secure
- in get_phys_addr
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20221001162318.153420-1-richard.henderson@linaro.org>
- <20221001162318.153420-2-richard.henderson@linaro.org>
- <CAFEAcA_LSd9mPFiDHyofdHVq2kshiL6FjxNG2aSXXc8jkGb3vg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA_LSd9mPFiDHyofdHVq2kshiL6FjxNG2aSXXc8jkGb3vg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.435,
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,35 +102,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/6/22 07:27, Peter Maydell wrote:
-> On Sat, 1 Oct 2022 at 17:24, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> The starting security state comes with the translation regime,
->> not the current state of arm_is_secure_below_el3().
->>
->> Create a new local variable, s2walk_secure, which does not need
->> to be written back to result->attrs.secure -- we compute that
->> value later, after the S2 walk is complete.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->> v3: Do not modify ipa_secure, per review.
->> ---
-> 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> I did find myself wondering if we should explicitly set
->    result->attrs.secure = false;
-> in an else-branch of the last "if (is_secure)", though.
-> At the moment we rely on get_phys_addr_lpae() for the stage2
-> doing that for us, I think. Having the code here always set
-> result->attrs.secure before the 'return 0' avoids having to think
-> about that...
+In preparation to adding virtio-9p support on Windows, this series
+enables running qtest on Windows, so that we can run the virtio-9p
+tests on Windows to make sure it does not break accidently.
 
-Yes, we're currently (and predating this patch set) relying on the attrs structure being 
-cleared to start.  But I can certainly add the assignment if you like.
+Changes in v5:
+- Rebase on qemu/master
+- Drop patches that are already merged
+- Use g_autoptr(GError)
+- Restore to v1 version which does not touch the posix implementation
+- Replace sighandler_t with its actual definition, since it is not
+  available on BSD hosts
 
+Changes in v4:
+- Update the error reporting by using the GError "error" argument
+  of g_dir_make_tmp()
+- Remove the const from tmpfs declaration
 
-r~
+Changes in v3:
+- Split to a separate patch
+- Add a usleep(1) in the busy wait loop
+- Drop the host test
+
+Changes in v2:
+- Use g_autofree to declare the variable
+- Change to use g_mkdir()
+- Change to use g_mkdir()
+- Change to use g_mkdir()
+- Introduce qemu_send_full() and use it
+- Move the enabling of building qtests on Windows to a separate
+  patch to keep bisectablity
+- Call socket_init() unconditionally
+- Add a missing CloseHandle() call
+- Change to a busy wait after migration is canceled
+- new patch: "io/channel-watch: Drop the unnecessary cast"
+- Change the timeout limit to 90 minutes
+- new patch: "tests/qtest: Enable qtest build on Windows"
+
+Bin Meng (15):
+  semihosting/arm-compat-semi: Avoid using hardcoded /tmp
+  tcg: Avoid using hardcoded /tmp
+  util/qemu-sockets: Use g_get_tmp_dir() to get the directory for
+    temporary files
+  tests/qtest: migration-test: Avoid using hardcoded /tmp
+  block/vvfat: Unify the mkdir() call
+  fsdev/virtfs-proxy-helper: Use g_mkdir()
+  hw/usb: dev-mtp: Use g_mkdir()
+  tests/qtest: libqtest: Install signal handler via signal()
+  tests/qtest: Support libqtest to build and run on Windows
+  tests/qtest: libqtest: Correct the timeout unit of blocking receive
+    calls for win32
+  io/channel-watch: Drop a superfluous '#ifdef WIN32'
+  io/channel-watch: Drop the unnecessary cast
+  io/channel-watch: Fix socket watch on Windows
+  .gitlab-ci.d/windows.yml: Increase the timeout to 90 minutes
+  tests/qtest: Enable qtest build on Windows
+
+Xuzhou Cheng (3):
+  accel/qtest: Support qtest accelerator for Windows
+  tests/qtest: Use send/recv for socket communication
+  tests/qtest: migration-test: Make sure QEMU process "to" exited after
+    migration is canceled
+
+ include/hw/core/cpu.h         |   1 +
+ include/qemu/sockets.h        |   2 +
+ accel/dummy-cpus.c            |  14 +++-
+ block/vvfat.c                 |   9 +--
+ fsdev/virtfs-proxy-helper.c   |   3 +-
+ hw/usb/dev-mtp.c              |   4 +-
+ io/channel-watch.c            |  12 +---
+ semihosting/arm-compat-semi.c |   3 +-
+ softmmu/cpus.c                |   9 +--
+ tcg/tcg.c                     |   3 +-
+ tests/qtest/libqmp.c          |   5 +-
+ tests/qtest/libqtest.c        | 124 +++++++++++++++++++++++++++++-----
+ tests/qtest/migration-test.c  |  14 ++--
+ util/osdep.c                  |  33 +++++++++
+ util/qemu-sockets.c           |   5 +-
+ .gitlab-ci.d/windows.yml      |   4 +-
+ accel/meson.build             |   1 +
+ accel/qtest/meson.build       |   1 +
+ tests/qtest/meson.build       |   6 --
+ 19 files changed, 194 insertions(+), 59 deletions(-)
+
+-- 
+2.34.1
+
 
