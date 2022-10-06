@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D125F688A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 15:50:43 +0200 (CEST)
-Received: from localhost ([::1]:55386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9AD75F6842
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 15:34:25 +0200 (CEST)
+Received: from localhost ([::1]:42768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogRGq-00066c-Ts
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 09:50:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44206)
+	id 1ogR16-0002Bl-A3
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 09:34:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogQm6-0001D0-7n
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:18:54 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38613)
+ id 1ogQsD-0008V4-Gi
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:25:14 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:56278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogQm4-00025X-Lm
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:18:53 -0400
-Received: by mail-pl1-x630.google.com with SMTP id x1so1696638plv.5
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 06:18:52 -0700 (PDT)
+ id 1ogQsB-0003Dv-Fh
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:25:13 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id gf8so1727444pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 06:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=eTB+vUn+2e6AI6dzJ525GBpI7RaDj6C8DPcqMmmXbDU=;
- b=wvqYy/RZX1KuglQP5iPpZhLMW3sulwlGfOr3F3otJrDdgxkH9FiQA+/oiDZzyP65JI
- EU+SoTDE3L54r82mZmxLFt4zeEjdMALm3ZZDOF2+wtzq0B1o7/r6lcdpBUK4hc6uT/a1
- EMmRXkE75g7zOoMNc9lZYYtufPG/mLELj0SeYie1eB8KBzseEtIXDQxygwQDLna7erw0
- HBBNmpjdBwu1PNE7p40nAEH/16VtuUGM9Lx0fAKFpxWddJLCHF243i9HR2iGtaR0baXQ
- +mbVFfdsFJuVYlZ2UOvEQ7OFZhpAQtF/Q930zjLqJJpJv+BO7cHQxYEMqLUwdM8xY0Ig
- KbsQ==
+ bh=wh6HpxJ/CirDaAgIS0qYprbWI9Imbl2zTI6V5eZm4fs=;
+ b=twSbEpG9HrVSoPXmEnslvgiP9CG57kUPX5gN13qyQzOdjYgS24snYFzV6o6YF2lNOX
+ d53u0VZW8jchPwmoSRstkSGSROxFP7G/BVIiR1AQyoHpOhZeO4HZpxljod650ov9cBzs
+ ATxGyrg/Xmmq0p3GvovCY8XFuyz0EJR/RBZ1UItJOwURpUyoJaYavMNp6yKCO+LMZZyE
+ R7EQWsG394zvJ9SNSTE4updGzof3R1eNDga+/oG4VlpUKnp1MuBHL78d5KzZ1Tfn5Rei
+ k8lUdfzTLdydfZfXtI0sXCj8Xf9jal0iMdRWQbju8uHY/EOh8Xf7/z4afCtelFO/KkI6
+ k2eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=eTB+vUn+2e6AI6dzJ525GBpI7RaDj6C8DPcqMmmXbDU=;
- b=1zve6d7hAbfFKb0QGplkQN6NYbNgypGRjJ48mnqf/EIDbblhtTTmh2ktNkuT4NlD88
- vNBIr5+/lua2/LsB8yIntJOg5GE6jXYAIW3Atz9/JE4DIrE78BWZuGUE7bDTegkPqrmn
- 3VD19l5MKbPeymUgDBWPR50uC0dzNtTdJXtQeAIK0LYTs0A1vwapEVtUoS6a0E5YtPYe
- aU8d2p/TfsU2QORkppmuJq/HoR/tZIUpRSylHEDp1uMDmhU8fmsEBx/gb/mSg5G2WvJd
- X9Zvc99ZtreAvAkflW+wCiqT9MOS33dkF/LRTnt/AJDoRZrD8Rm8pYVgsV3rKxF24tFS
- WKZQ==
-X-Gm-Message-State: ACrzQf2yYax/qUDKkJq/5DrV/A/KM7ZDSE2sZwC+RAiNP0iqyIcyjhWR
- Yti3fkdP/oIEOb31Jh/cGGwsTcSYygwucMX+AEc79g==
-X-Google-Smtp-Source: AMsMyM5+ciBrGotVl1VowLc21SD3xxDrOnJB07YAB4OS8fWURUUJhS/IJt+fyDWZbKhatPluHAPlgfcReXq4Q80RklI=
-X-Received: by 2002:a17:902:7c97:b0:17f:5abf:9450 with SMTP id
- y23-20020a1709027c9700b0017f5abf9450mr4712608pll.19.1665062331380; Thu, 06
- Oct 2022 06:18:51 -0700 (PDT)
+ bh=wh6HpxJ/CirDaAgIS0qYprbWI9Imbl2zTI6V5eZm4fs=;
+ b=lCPZoRF7/m+JDXbd1WAzenfaNhBp2tKDvRX8QH6WNgRiMBLPhpKeXgQXbCYgeNvxGq
+ GMJLp28/cHDU0tNwN0+Fpe1qvUsoAyWBQRvmjRWrue+PJ9TP8WtFFIddSiod1i71H98e
+ hCY2poOcap/TCGGLzpli+dl3Yu8y4xQjEIS5hq+d7e+X0wkGvHDjDEhfdqsFf29iwnq+
+ VXliz9RQWTQRHDDzo929Ia91n4ETyAIvExUg77QsTz14XKxzZQu72FHlBCvueWM0pjwI
+ WIaVlTYtppia74kNdmMjc8YDFIpA0DdMp8w+rWSHEAgBvD+PkggT9dNgdxjl0on8DphM
+ X9fg==
+X-Gm-Message-State: ACrzQf19ZrnzH3O1xeK3DAVjvtR12GJPt3JqCHm8MM5oVNFaB4luq56b
+ Tl3VdktUeyU8YRSCjJ9++kFAPfScKCXXVGOZtKFQfA==
+X-Google-Smtp-Source: AMsMyM4B6DBM0pFOZ1KKgfndInpYyK7jZjv8UTC00zpYvFkxETXhY4gAbs3yhsYafvF7npVKZ7Ceb7xRizr9SkXgOiQ=
+X-Received: by 2002:a17:902:aa8b:b0:178:8f1d:6936 with SMTP id
+ d11-20020a170902aa8b00b001788f1d6936mr4870573plr.168.1665062709072; Thu, 06
+ Oct 2022 06:25:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221003173810.1933849-1-venture@google.com>
-In-Reply-To: <20221003173810.1933849-1-venture@google.com>
+References: <20220929094821.78596-1-faithilikerun@gmail.com>
+ <20220929094821.78596-2-faithilikerun@gmail.com>
+In-Reply-To: <20220929094821.78596-2-faithilikerun@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Oct 2022 14:18:38 +0100
-Message-ID: <CAFEAcA9x7oC9sQy8XNJ8-WRc3X=qBVL1nMLB==dGM=+O5Z-CAQ@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/net: npcm7xx_emc: set MAC in register space
-To: Patrick Venture <venture@google.com>
-Cc: hskinnemoen@google.com, kfting@nuvoton.com, qemu-devel@nongnu.org, 
- qemu-arm@nongnu.org, jasowang@redhat.com, Hao Wu <wuhaotsh@google.com>
+Date: Thu, 6 Oct 2022 14:24:56 +0100
+Message-ID: <CAFEAcA8Dqq8+5wACvEw3hu-m-FPjKoW1ZBwQi5D203CTWCpPNw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] include: update virtio_blk headers from Linux
+ 5.19-rc2+
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel@nongnu.org, dmitry.fomichev@wdc.com, 
+ damien.lemoal@opensource.wdc.com, qemu-block@nongnu.org, stefanha@redhat.com, 
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, hare@suse.de
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,19 +88,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 3 Oct 2022 at 18:38, Patrick Venture <venture@google.com> wrote:
+On Thu, 29 Sept 2022 at 11:14, Sam Li <faithilikerun@gmail.com> wrote:
 >
-> The MAC address set from Qemu wasn't being saved into the register space.
+> Use scripts/update-linux-headers.sh to update virtio-blk headers
+> from Dmitry's "virtio-blk:add support for zoned block devices"
+> linux patch. There is a link for more information:
+> https://github.com/dmitry-fomichev/virtblk-zbd
 >
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> Signed-off-by: Patrick Venture <venture@google.com>
-> ---
-> v2: only set the registers from qemu on reset
->     once registers set, only read and write to them
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
 
+Just as a process note, if that patchset isn't upstream in the kernel
+yet then this QEMU patchseries should be marked as an RFC, as a guard
+against our applying it to QEMU before the kernel ABI has been
+fixed.
 
-
-Applied to target-arm.next, thanks.
-
+thanks
 -- PMM
 
