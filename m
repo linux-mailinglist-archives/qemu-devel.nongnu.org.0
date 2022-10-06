@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579435F5FF6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 06:14:37 +0200 (CEST)
-Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660D05F6014
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 06:25:17 +0200 (CEST)
+Received: from localhost ([::1]:52596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogIHK-0005Xq-M1
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 00:14:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50938)
+	id 1ogIRg-0005v9-GC
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 00:25:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogHoa-0004Mx-Dn
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:44:52 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:33597)
+ id 1ogHob-0004P4-L9
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:44:53 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:33598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogHoX-0003zg-D4
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:44:52 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- n18-20020a17090ade9200b0020b0012097cso1009941pjv.0
- for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 20:44:47 -0700 (PDT)
+ id 1ogHoY-00040F-PO
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:44:53 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ n18-20020a17090ade9200b0020b0012097cso1009971pjv.0
+ for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 20:44:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=dymtBTjNDFvkVseJCTMJpwyHfk/v6x0F+7yT+M5DpeU=;
- b=oRn4GGuY+A/QoidPix4q4HRHXppdiW6Q+9V/dzObUiJAJgN5vB6YxaWdGp+Pmv1uYT
- VHGXac3b8hleEP4eUI2SROmHH2WPX2SOL6z0x0WI+9pyMdI6jbdk4YUdCbDUJ8BHQjMb
- +6MKtAMCNZEUm8uVs+089mpcTutodiv/dabS9Ws0nCDKfYHIu58UabPiDA0zSAiALK+a
- p1pD5L7DAKA1PGQsxSvPhJMYXB4Zv3xtauGS//r0PEXLU9pP+Td7qewG1EcmepyZwVSN
- G3q8lZsPiTUIe0KpZTmcYCPors/GJa3Hgl0wlRb+kXn35Cw1jxKwyuiDqTpfIiTnNjlM
- izjw==
+ bh=1Q41KTfEeoa+dlW3TQe8h7vnXWIPJTTZEuUzFK2vahQ=;
+ b=MhYUUJayIX+M6/WUngbEHu1krtVLOOrFzC0/MRJsKIh7gLPmeYyaT7L1XRnTYeZK/E
+ B2vDNtIUxaq2++C7Uzp669jRTWVUP/ztMJLUU7zVnGm8F3MS3j32I4d956VpnVh2WcDR
+ ea5019sWmGPxL0hLfpONjR3pdGCPzh3ESPvXtfBzBLKQu2RhYA1GOeKztONnstD3Yqqv
+ 7ssCz+w6I7DH2p7Rq3h3rWJfap63XefAnUAcwQfgXW3CKF9cg/71W7W8sFSGEAQkqlww
+ 4CAhxBrpa/874YM9AYqtpJd1NcLhlOUd0Z443bBh7isaTxxEUIhRbj+PjKI6lFqEkPJo
+ ROAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=dymtBTjNDFvkVseJCTMJpwyHfk/v6x0F+7yT+M5DpeU=;
- b=i0xcwODsVEHpufVz6YuBGZ5BcS3gZsv88R8zFA+dRqR/b65q0VcYPx6oHsRXtQZcaQ
- KZJj5/ZLJ9AtRjn47jfUDTLx7b+dxpXGmmErpitUnWG6EQCt+Qfdn0d6CAfG7JouxqjS
- 2rtqZrEytfegDIBRUJ4DlIuJhWsuld2WrajawzJ4j4wXi+MkoASjvTMUIBVZUCzVPVXL
- RfvPLf+VsPdd7+SrVj3S+HSlprw+LZwKXWrc4uEdu41Ald4/Zh3hmk50hSo9c/Wb5byK
- PDo6J4RcZEHy5b6UuKtWDRzTa7LmUt3q9F+t6Du2eLjRb/hU/MPweMpdMU1H8K8aZN/l
- eJ9g==
-X-Gm-Message-State: ACrzQf0AAqmLuUBVAPJa5+BFmqGRUZmHZmd34Z+Q/EenQ+gRXm7BAQ2S
- MoOZXJhsEktagSp+7S24JZ4ljIULIByHMA==
-X-Google-Smtp-Source: AMsMyM6O+bFIziMyJ9A0LbCL5AUkiCfpAelMy3tFvM2dHKf4j1Vk0ktEXuj1jbsABTetDGmAuBgxtQ==
-X-Received: by 2002:a17:90b:1b06:b0:202:c7c2:b66d with SMTP id
- nu6-20020a17090b1b0600b00202c7c2b66dmr3020498pjb.77.1665027886775; 
- Wed, 05 Oct 2022 20:44:46 -0700 (PDT)
+ bh=1Q41KTfEeoa+dlW3TQe8h7vnXWIPJTTZEuUzFK2vahQ=;
+ b=4Po6qjnOuUHAcaXuP8RXmyTA3grHDryiCqsJCyozaBO0Fwoxez4iQd/wB6nrSav6IB
+ h9Vt76diteO6fCMCyBHcOKsVxBohqt+PE1Y5cGB7nXRb9JtW5301ZTU6yhyl5fmAAAbX
+ 7ATbXEsbo0oQSvQHu6C9Pw4BhY581qTRhgd+sCLf74NKIll/TslyIh6junkd8VvYJ4Rq
+ JCb01Rb6zinqshbVfKBGCUYICtYHI4SplrkChAWYg9BUOxfgFeCSs4kOCAt4Jy06gHnS
+ ekH+O7TBQ+HYKbnJQRUAoiKaiOzpcO2yUqdc62mQ3LC+0YK87hJcKNSzTBoQ3p36DwL6
+ QHyQ==
+X-Gm-Message-State: ACrzQf2Vx2a/5UV4a8vq0xB4iYk2iO7YaEFJYkdG32zWxOsbgT1GVWVX
+ CJIN09Vrhd6do11bK81140trysTtSphfTQ==
+X-Google-Smtp-Source: AMsMyM79SgGgOhrJLax0ODzthJnH+NsbLcnwuUbtfeoaDIyHlfn3iE2llesF2eUW+yPpFq56KZaCog==
+X-Received: by 2002:a17:90b:1e0a:b0:202:e897:9bb3 with SMTP id
+ pg10-20020a17090b1e0a00b00202e8979bb3mr8359406pjb.169.1665027887784; 
+ Wed, 05 Oct 2022 20:44:47 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:9ad0:4307:7d39:bb61])
  by smtp.gmail.com with ESMTPSA id
- y6-20020a17090ad0c600b00205f4f7a3b3sm1905086pjw.21.2022.10.05.20.44.46
+ y6-20020a17090ad0c600b00205f4f7a3b3sm1905086pjw.21.2022.10.05.20.44.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Oct 2022 20:44:46 -0700 (PDT)
+ Wed, 05 Oct 2022 20:44:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH 25/26] tcg: Introduce tcg_temp_is_normal_*
-Date: Wed,  5 Oct 2022 20:44:20 -0700
-Message-Id: <20221006034421.1179141-26-richard.henderson@linaro.org>
+Cc: qemu-s390x@nongnu.org
+Subject: [PATCH 26/26] target/s390x: Enable TARGET_TB_PCREL
+Date: Wed,  5 Oct 2022 20:44:21 -0700
+Message-Id: <20221006034421.1179141-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221006034421.1179141-1-richard.henderson@linaro.org>
 References: <20221006034421.1179141-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,61 +90,243 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow targets to determine if a given temp will die across a branch.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op.h |  2 ++
- include/tcg/tcg.h    | 15 +++++++++++++++
- 2 files changed, 17 insertions(+)
+ target/s390x/cpu-param.h     |  1 +
+ target/s390x/cpu.c           | 12 +++++
+ target/s390x/tcg/translate.c | 88 +++++++++++++++++++++++-------------
+ 3 files changed, 69 insertions(+), 32 deletions(-)
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index 0ebbee6e24..4b06895a32 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -850,6 +850,7 @@ static inline void tcg_gen_plugin_cb_end(void)
- #define tcg_temp_local_new() tcg_temp_local_new_i32()
- #define tcg_temp_ebb_new() tcg_temp_ebb_new_i32()
- #define tcg_temp_free tcg_temp_free_i32
-+#define tcg_temp_is_normal tcg_temp_is_normal_i32
- #define tcg_gen_qemu_ld_tl tcg_gen_qemu_ld_i32
- #define tcg_gen_qemu_st_tl tcg_gen_qemu_st_i32
- #else
-@@ -858,6 +859,7 @@ static inline void tcg_gen_plugin_cb_end(void)
- #define tcg_temp_local_new() tcg_temp_local_new_i64()
- #define tcg_temp_ebb_new() tcg_temp_ebb_new_i64()
- #define tcg_temp_free tcg_temp_free_i64
-+#define tcg_temp_is_normal tcg_temp_is_normal_i64
- #define tcg_gen_qemu_ld_tl tcg_gen_qemu_ld_i64
- #define tcg_gen_qemu_st_tl tcg_gen_qemu_st_i64
+diff --git a/target/s390x/cpu-param.h b/target/s390x/cpu-param.h
+index bf951a002e..467ecade8c 100644
+--- a/target/s390x/cpu-param.h
++++ b/target/s390x/cpu-param.h
+@@ -13,5 +13,6 @@
+ #define TARGET_PHYS_ADDR_SPACE_BITS 64
+ #define TARGET_VIRT_ADDR_SPACE_BITS 64
+ #define NB_MMU_MODES 4
++#define TARGET_TB_PCREL 1
+ 
  #endif
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 3835711d52..0659c465da 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -871,6 +871,21 @@ static inline void tcg_temp_free_vec(TCGv_vec arg)
-     tcg_temp_free_internal(tcgv_vec_temp(arg));
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index df00040e95..e77849dd50 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -35,6 +35,7 @@
+ #include "fpu/softfloat-helpers.h"
+ #include "disas/capstone.h"
+ #include "sysemu/tcg.h"
++#include "exec/exec-all.h"
+ 
+ #define CR0_RESET       0xE0UL
+ #define CR14_RESET      0xC2000000UL;
+@@ -81,6 +82,16 @@ uint64_t s390_cpu_get_psw_mask(CPUS390XState *env)
+     return r;
  }
  
-+static inline bool tcg_temp_is_normal_i32(TCGv_i32 arg)
++static void s390_cpu_synchronize_from_tb(CPUState *cs,
++                                         const TranslationBlock *tb)
 +{
-+    return tcgv_i32_temp(arg)->kind == TEMP_NORMAL;
++    /* The program counter is always up to date with TARGET_TB_PCREL. */
++    if (!TARGET_TB_PCREL) {
++        S390CPU *cpu = S390_CPU(cs);
++        cpu->env.psw.addr = tb_pc(tb);
++    }
 +}
 +
-+static inline bool tcg_temp_is_normal_i64(TCGv_i64 arg)
-+{
-+    return tcgv_i64_temp(arg)->kind == TEMP_NORMAL;
-+}
-+
-+static inline bool tcg_temp_is_normal_ptr(TCGv_ptr arg)
-+{
-+    return tcgv_ptr_temp(arg)->kind == TEMP_NORMAL;
-+}
-+
- static inline TCGv_i32 tcg_global_mem_new_i32(TCGv_ptr reg, intptr_t offset,
-                                               const char *name)
+ static void s390_cpu_set_pc(CPUState *cs, vaddr value)
  {
+     S390CPU *cpu = S390_CPU(cs);
+@@ -272,6 +283,7 @@ static void s390_cpu_reset_full(DeviceState *dev)
+ 
+ static const struct TCGCPUOps s390_tcg_ops = {
+     .initialize = s390x_translate_init,
++    .synchronize_from_tb = s390_cpu_synchronize_from_tb,
+ 
+ #ifdef CONFIG_USER_ONLY
+     .record_sigsegv = s390_cpu_record_sigsegv,
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index b27e34f712..c33dcc115d 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -139,6 +139,7 @@ struct DisasContext {
+     DisasContextBase base;
+     const DisasInsn *insn;
+     TCGOp *insn_start;
++    target_ulong pc_save;
+     DisasFields fields;
+     uint64_t ex_value;
+     uint32_t ilen;
+@@ -163,29 +164,6 @@ static uint64_t inline_branch_hit[CC_OP_MAX];
+ static uint64_t inline_branch_miss[CC_OP_MAX];
+ #endif
+ 
+-static void gen_psw_addr_disp(DisasContext *s, TCGv_i64 dest, int64_t disp)
+-{
+-    tcg_gen_movi_i64(dest, s->base.pc_next + disp);
+-}
+-
+-static void pc_to_link_info(TCGv_i64 out, DisasContext *s)
+-{
+-    TCGv_i64 tmp;
+-
+-    if (s->base.tb->flags & FLAG_MASK_64) {
+-        gen_psw_addr_disp(s, out, s->ilen);
+-        return;
+-    }
+-
+-    tmp = tcg_temp_new_i64();
+-    gen_psw_addr_disp(s, tmp, s->ilen);
+-    if (s->base.tb->flags & FLAG_MASK_32) {
+-        tcg_gen_ori_i64(tmp, tmp, 0x80000000);
+-    }
+-    tcg_gen_deposit_i64(out, out, tmp, 0, 32);
+-    tcg_temp_free_i64(tmp);
+-}
+-
+ static TCGv_i64 psw_addr;
+ static TCGv_i64 psw_mask;
+ static TCGv_i64 gbea;
+@@ -336,9 +314,39 @@ static void return_low128(TCGv_i64 dest)
+     tcg_gen_ld_i64(dest, cpu_env, offsetof(CPUS390XState, retxl));
+ }
+ 
++static void gen_psw_addr_disp(DisasContext *s, TCGv_i64 dest, int64_t disp)
++{
++    assert(s->pc_save != -1);
++    if (TARGET_TB_PCREL) {
++        disp += s->base.pc_next - s->pc_save;
++        tcg_gen_addi_i64(dest, psw_addr, disp);
++    } else {
++        tcg_gen_movi_i64(dest, s->base.pc_next + disp);
++    }
++}
++
++static void pc_to_link_info(TCGv_i64 out, DisasContext *s)
++{
++    TCGv_i64 tmp;
++
++    if (s->base.tb->flags & FLAG_MASK_64) {
++        gen_psw_addr_disp(s, out, s->ilen);
++        return;
++    }
++
++    tmp = tcg_temp_new_i64();
++    gen_psw_addr_disp(s, tmp, s->ilen);
++    if (s->base.tb->flags & FLAG_MASK_32) {
++        tcg_gen_ori_i64(tmp, tmp, 0x80000000);
++    }
++    tcg_gen_deposit_i64(out, out, tmp, 0, 32);
++    tcg_temp_free_i64(tmp);
++}
++
+ static void update_psw_addr_disp(DisasContext *s, int64_t disp)
+ {
+     gen_psw_addr_disp(s, psw_addr, disp);
++    s->pc_save = s->base.pc_next + disp;
+ }
+ 
+ static inline bool per_enabled(DisasContext *s)
+@@ -1172,6 +1180,7 @@ static DisasJumpType help_goto_indirect(DisasContext *s, TCGv_i64 dest)
+ {
+     per_breaking_event(s);
+     tcg_gen_mov_i64(psw_addr, dest);
++    s->pc_save = -1;
+     per_branch_dest(s, psw_addr);
+     return DISAS_PC_UPDATED;
+ }
+@@ -1181,6 +1190,7 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+ {
+     DisasJumpType ret;
+     int64_t disp = (int64_t)imm * 2;
++    TCGv_i64 cdest_save = NULL;
+     TCGLabel *lab;
+ 
+     /* Take care of the special cases first.  */
+@@ -1213,12 +1223,12 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+     update_cc_op(s);
+ 
+     /*
+-     * Store taken branch destination before the brcond.  This
+-     * avoids having to allocate a new local temp to hold it.
+-     * We'll overwrite this in the not taken case anyway.
++     * Save taken branch destination across the brcond if required.
+      */
+-    if (!is_imm) {
+-        tcg_gen_mov_i64(psw_addr, cdest);
++    if (!is_imm && tcg_temp_is_normal_i64(cdest)) {
++        cdest_save = tcg_temp_ebb_new_i64();
++        tcg_gen_mov_i64(cdest_save, cdest);
++        cdest = cdest_save;
+     }
+ 
+     lab = gen_new_label();
+@@ -1234,6 +1244,11 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+     per_breaking_event(s);
+     if (is_imm) {
+         gen_psw_addr_disp(s, psw_addr, disp);
++    } else {
++        tcg_gen_mov_i64(psw_addr, cdest);
++    }
++    if (cdest_save) {
++        tcg_temp_free_i64(cdest_save);
+     }
+     per_branch_dest(s, psw_addr);
+ 
+@@ -1247,15 +1262,15 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+     gen_set_label(lab);
+ 
+     /* Branch not taken.  */
++    gen_psw_addr_disp(s, psw_addr, s->ilen);
+     if (use_goto_tb(s, s->base.pc_next + s->ilen)) {
+         tcg_gen_goto_tb(1);
+-        gen_psw_addr_disp(s, psw_addr, s->ilen);
+         tcg_gen_exit_tb(s->base.tb, 1);
+     } else {
+-        gen_psw_addr_disp(s, psw_addr, s->ilen);
+         tcg_gen_lookup_and_goto_ptr();
+     }
+ 
++    s->pc_save = -1;
+     ret = DISAS_NORETURN;
+ 
+  egress:
+@@ -6443,6 +6458,7 @@ static void s390x_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ {
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
+ 
++    dc->pc_save = dc->base.pc_first;
+     dc->cc_op = CC_OP_DYNAMIC;
+     dc->ex_value = dc->base.tb->cs_base;
+     dc->exit_to_mainloop = per_enabled(dc) || dc->ex_value;
+@@ -6455,9 +6471,13 @@ static void s390x_tr_tb_start(DisasContextBase *db, CPUState *cs)
+ static void s390x_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
+ {
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
++    target_ulong pc_arg = dc->base.pc_next;
+ 
++    if (TARGET_TB_PCREL) {
++        pc_arg &= ~TARGET_PAGE_MASK;
++    }
+     /* Delay the set of ilen until we've read the insn. */
+-    tcg_gen_insn_start(dc->base.pc_next, dc->cc_op, 0);
++    tcg_gen_insn_start(pc_arg, dc->cc_op, 0);
+     dc->insn_start = tcg_last_op();
+ }
+ 
+@@ -6548,7 +6568,11 @@ void restore_state_to_opc(CPUS390XState *env, TranslationBlock *tb,
+ {
+     int cc_op = data[1];
+ 
+-    env->psw.addr = data[0];
++    if (TARGET_TB_PCREL) {
++        env->psw.addr = (env->psw.addr & TARGET_PAGE_MASK) | data[0];
++    } else {
++        env->psw.addr = data[0];
++    }
+ 
+     /* Update the CC opcode if it is not already up-to-date.  */
+     if ((cc_op != CC_OP_DYNAMIC) && (cc_op != CC_OP_STATIC)) {
 -- 
 2.34.1
 
