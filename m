@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF135F62FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 10:45:16 +0200 (CEST)
-Received: from localhost ([::1]:59936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F165F6336
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 11:03:40 +0200 (CEST)
+Received: from localhost ([::1]:55004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogMVH-0002Im-Kt
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 04:45:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45800)
+	id 1ogMn4-0007Wc-HL
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 05:03:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1ogM2K-00013k-SU
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:15:21 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:60903)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ogMCI-0008N5-7r
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:25:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1ogM2G-00033f-12
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:15:19 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Mjkl31xb2z4xGp; Thu,  6 Oct 2022 19:15:11 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1665044111;
- bh=YoFcQZRp5xIwY61iCIL4XDA4TzqzHX6ccG4ZQdLlzYo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SV+FcFUKQTgSGUqr6WjETq8pdCil2iMUt8Ti0R/hzpZ5dsyyT6rxXGEmLjJOoCEQn
- kW4M5iZ4tLJyzCFOEd8trtP6xZohEutZ7Ms8dJOlXijTESgcKoX+OqX1ThWY/Oj3uK
- sHOwojP6aVuvm2CMvT8PjCcve4Vb96PVoWTsamwk=
-Date: Thu, 6 Oct 2022 19:14:23 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Greg Kurz <groug@kaod.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [PATCH v10 08/17] net: stream: Don't ignore EINVAL on netdev
- socket connection
-Message-ID: <Yz6OX21D6yKKjk7Z@yekko>
-References: <20221005162051.1120041-1-lvivier@redhat.com>
- <20221005162051.1120041-9-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ogMCF-0004w1-FZ
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:25:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665044734;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DOM+4P0FSRi9naV5liXYAmhT8/2yh9OMmHBHPfDz4SA=;
+ b=Dsi/p2TKb4vm0ekefvYMhdrhM1lav0ROXBaInKlNEY0zzyRzq1hW0qlFt2xUdfsRfMoH85
+ zH7Tjhk2fMHO4suPYzE6HqFG+m3D1ayzBXve7jJcZqrR+b8ykaJplhZDukU7S/DaMJ1Yrf
+ g7b33UVWqDyVjSDWwBklzxrugrPzIio=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-224-s-6vlGTOPL6Bq06Fgxr5Jg-1; Thu, 06 Oct 2022 04:25:32 -0400
+X-MC-Unique: s-6vlGTOPL6Bq06Fgxr5Jg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D0ABD38041C7
+ for <qemu-devel@nongnu.org>; Thu,  6 Oct 2022 08:25:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C0D59400E88C;
+ Thu,  6 Oct 2022 08:25:30 +0000 (UTC)
+Date: Thu, 6 Oct 2022 09:25:27 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 2/5] tests/channel-helper: set blocking in main thread
+Message-ID: <Yz6Q90gX45EZ50Ip@redhat.com>
+References: <20221006081222.2606746-1-marcandre.lureau@redhat.com>
+ <20221006081222.2606746-3-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QF8ZkaI8jpuEV5R0"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221005162051.1120041-9-lvivier@redhat.com>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221006081222.2606746-3-marcandre.lureau@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,75 +79,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Oct 06, 2022 at 12:12:19PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> The /io/channel/command/echo tests run the reader side and the writer
+> side with the same underlying command channel. Setting the blocking mode
+> of the fd/handles while the other end is already reading/writing may
+> create issues (deadlock in win32 when earlier attempt of this series
+> were using SetNamedPipeHandleState). Let's just do it before spawning
+> the threads to avoid further concurrency issues.
 
---QF8ZkaI8jpuEV5R0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Curious, makes me wonder why I did this in the threads in the first
+place...
 
-On Wed, Oct 05, 2022 at 06:20:42PM +0200, Laurent Vivier wrote:
-> From: Stefano Brivio <sbrivio@redhat.com>
->=20
-> Other errors are treated as failure by net_stream_client_init(),
-> but if connect() returns EINVAL, we'll fail silently. Remove the
-> related exception.
->=20
-> Signed-off-by: Stefano Brivio <sbrivio@redhat.com>
-> [lvivier: applied to net/stream.c]
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> Reviewed-by: Daniel P. Berrang=E9 <berrange@redhat.com>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  net/stream.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/net/stream.c b/net/stream.c
-> index 37965eb74e1a..26e485438718 100644
-> --- a/net/stream.c
-> +++ b/net/stream.c
-> @@ -360,8 +360,7 @@ static int net_stream_client_init(NetClientState *pee=
-r,
->                  if (errno =3D=3D EINTR || errno =3D=3D EWOULDBLOCK) {
->                      /* continue */
->                  } else if (errno =3D=3D EINPROGRESS ||
-> -                           errno =3D=3D EALREADY ||
-> -                           errno =3D=3D EINVAL) {
-> +                           errno =3D=3D EALREADY) {
->                      break;
->                  } else {
->                      error_setg_errno(errp, errno, "can't connect socket"=
-);
+>  tests/unit/io-channel-helpers.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
---QF8ZkaI8jpuEV5R0
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+> 
+> diff --git a/tests/unit/io-channel-helpers.c b/tests/unit/io-channel-helpers.c
+> index ff156ed3c4..c0799c21c2 100644
+> --- a/tests/unit/io-channel-helpers.c
+> +++ b/tests/unit/io-channel-helpers.c
+> @@ -25,7 +25,6 @@
+>  struct QIOChannelTest {
+>      QIOChannel *src;
+>      QIOChannel *dst;
+> -    bool blocking;
+>      size_t len;
+>      size_t niov;
+>      char *input;
+> @@ -42,8 +41,6 @@ static gpointer test_io_thread_writer(gpointer opaque)
+>  {
+>      QIOChannelTest *data = opaque;
+>  
+> -    qio_channel_set_blocking(data->src, data->blocking, NULL);
+> -
+>      qio_channel_writev_all(data->src,
+>                             data->inputv,
+>                             data->niov,
+> @@ -58,8 +55,6 @@ static gpointer test_io_thread_reader(gpointer opaque)
+>  {
+>      QIOChannelTest *data = opaque;
+>  
+> -    qio_channel_set_blocking(data->dst, data->blocking, NULL);
+> -
+>      qio_channel_readv_all(data->dst,
+>                            data->outputv,
+>                            data->niov,
+> @@ -113,7 +108,9 @@ void qio_channel_test_run_threads(QIOChannelTest *test,
+>  
+>      test->src = src;
+>      test->dst = dst;
+> -    test->blocking = blocking;
+> +
+> +    qio_channel_set_blocking(test->dst, blocking, NULL);
+> +    qio_channel_set_blocking(test->src, blocking, NULL);
+>  
+>      reader = g_thread_new("reader",
+>                            test_io_thread_reader,
+> -- 
+> 2.37.3
+> 
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmM+jlQACgkQgypY4gEw
-YSL1wA/8DJ5Ixx1awFRhjy2vSaHE0tZRgX2SvjTgZd5SIg+BIjmrSIwznt1wuxT0
-X/wwoec0YHy0Ldw+wf8Y3Fr3O3B0fjApueyK4z677elI8AkNQdq8cgxhSRx0MMZj
-sFhNIMCnkmmmEBoHnSyiw6XH++8u3CAC1nsv80NiiVo1al6YZrAfsHEit9nIC51p
-xIXRW6J92l7wecms5cIgQXVXJrex0iv6QUTqXtT47cpnqWfyFbO/pRSgDP2wqH42
-wAT5B6b+LfZeyC3ZkEXXgF+3m0xehUc+SuoEuxqjQhyDCUEUSwbF+EH8UzpkFirJ
-NbU9o9JGiBgbB5mz+wsN5Tmo0mYMjQfwLwV8H4dtWH1IW2uauGIfYnL0cRWFeCWS
-1wzyaCJpXEsgw1SbWtfY4/ewPRUZ7ZtEssEMvHkrrA2LF4fPx3wKF8jU4vl9O3fL
-aZ2kgqhGL/eTBQ8y2mICEutPbOrgFRy2vCtbJNuu7JVs44gODIM4m0Csv3Qg78YZ
-2rWipX41kNZW2fwKzKIwQDsQNz9dMpCk2SUHhG+MaWhNepK4v1Wci2PDOr2jkxkb
-gMCsONDgiiUJb0pw95AHqK+Y6N3r6fQHoScN5UJgF0Q1z0KMvFu/wXdW7/0ng/O0
-TMMv67xXGA45SZxBz7IEvp85e5gtIrmTeuwTIu9iEG+wKfzbZlk=
-=PZWF
------END PGP SIGNATURE-----
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---QF8ZkaI8jpuEV5R0--
 
