@@ -2,94 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1065F6DBE
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 20:54:37 +0200 (CEST)
-Received: from localhost ([::1]:51004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D65B65F6DF5
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 21:12:25 +0200 (CEST)
+Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogW0v-0007iH-Vy
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 14:54:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50250)
+	id 1ogWIB-0006DN-Hn
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 15:12:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ogVtb-0005dQ-MK
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:47:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27691)
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1ogVwd-0000pM-It
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:50:07 -0400
+Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:27723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ogVta-0005pP-9w
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:46:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665082017;
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1ogVwY-00063o-MS
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:50:07 -0400
+Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits)
+ client-signature RSA-PSS (4096 bits))
+ (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
+ by mx2.freebsd.org (Postfix) with ESMTPS id 4Mk0qW0rTMz4CVb
+ for <qemu-devel@nongnu.org>; Thu,  6 Oct 2022 18:49:59 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: from smtp.freebsd.org (smtp.freebsd.org
+ [IPv6:2610:1c1:1:606c::24b:4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4Mk0qW06tqz3h0D
+ for <qemu-devel@nongnu.org>; Thu,  6 Oct 2022 18:49:59 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
+ t=1665082199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p9dSohB9/fkF2X4INbQTygIW6/JzlEQTAlJJH4Vhi8Q=;
- b=e/3Bm9G8nz00hb6XVeYntN1HFnarG+bSflVyrgUKiVI4NYeaW9fSDX53y8aV6IVsH8WwVJ
- YW+z6pOG0+q4eUpBphw/Xkx4pOTm/KvJy58sNkpwExIGwCIxVLZARIRWs4eNjG9a1o2m22
- +PUn145A7G+ImxeQEZEyfoVAgpblmdk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-TLs2M8RWNBuC8jE2nGN6Ag-1; Thu, 06 Oct 2022 14:46:54 -0400
-X-MC-Unique: TLs2M8RWNBuC8jE2nGN6Ag-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A0CE38164C0;
- Thu,  6 Oct 2022 18:46:54 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E61C3145888E;
- Thu,  6 Oct 2022 18:46:51 +0000 (UTC)
-Date: Thu, 6 Oct 2022 14:46:49 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alberto Faria <afaria@redhat.com>
-Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
- Kevin Wolf <kwolf@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Eric Blake <eblake@redhat.com>, integration@gluster.org,
- David Hildenbrand <david@redhat.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Laurent Vivier <lvivier@redhat.com>,
- "Richard W.M. Jones" <rjones@redhat.com>,
- Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Jeff Cody <codyprime@gmail.com>, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, sgarzare@redhat.com
-Subject: Re: [PATCH v5 11/12] blkio: implement BDRV_REQ_REGISTERED_BUF
- optimization
-Message-ID: <Yz8imZI9Bb0WGzKZ@fedora>
-References: <20220927193431.22302-1-stefanha@redhat.com>
- <20220927193431.22302-12-stefanha@redhat.com>
- <YzSex5t0UIAT+LPU@fedora>
- <CAELaAXyURC9YJvtjY3O5iXsA5Q0WCTxM21++iqJ__pna9CSNOQ@mail.gmail.com>
- <Yz8Xr81Dw8M9rj3c@fedora>
- <CAELaAXw+sLHOX9drshJbZmpryRkQFd4ozuX-ZoCq+uTRwXsaWg@mail.gmail.com>
+ bh=1IDqeNv+wxc/imNmped9aXyIkyRmqwAAdagPofWYa78=;
+ b=pNREQX4IeRQFVpmRxuZ065m+EUmHrW1F6ilpsbs7pkNWKa9IN62W8ILJ95xNDYIGWXfbXH
+ rpJVttXhAIv+W7xg/QMriQH55QqStYuRipEsYRL3Gnw7onWPui+52XtLbpPhc7dNYZ8p6+
+ KJKL709gh8gkVVxzcL0puD4XamnHKJDkjEPsTwzTDhwXwtt818ZMIq2BvqiHqnR/UGcjdk
+ hcSI/0/i+DXyU75Omp66VVrWzivexNSRToXIxHaxKrbCEGPORI0/VK6U9HE4vZTKRMVcS0
+ +XQz0bArSlNRs7mhBMpjYf3JboC5FJ9gfSTyku84TyhH7joCG9aV10WS02oR2g==
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
+ [209.85.222.174])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "smtp.gmail.com", Issuer "GTS CA 1D4" (verified OK))
+ (Authenticated sender: kevans)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id 4Mk0qV5lzmzYmG
+ for <qemu-devel@nongnu.org>; Thu,  6 Oct 2022 18:49:58 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: by mail-qk1-f174.google.com with SMTP id d15so1606075qka.9
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 11:49:58 -0700 (PDT)
+X-Gm-Message-State: ACrzQf1vEmafUmEdb2iUIoCg/oCuLQl/IFp7vWve0HErXOqZ5oWkzt7M
+ UTszdG/umppEu/PiTScrM1m3Ys5/laPwn7uasXw=
+X-Google-Smtp-Source: AMsMyM6ZVNoDEJ3Eo45Hp73eVre3bD58fSAYmO5A0M3chcR2cD7nffG7WS1+HESLmhi14va19jpXgesHJ99Jm5Mb+9Q=
+X-Received: by 2002:a05:620a:2045:b0:6df:9c34:5184 with SMTP id
+ d5-20020a05620a204500b006df9c345184mr1214250qka.425.1665082198262; Thu, 06
+ Oct 2022 11:49:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SQDsPrkrnDdOueww"
-Content-Disposition: inline
-In-Reply-To: <CAELaAXw+sLHOX9drshJbZmpryRkQFd4ozuX-ZoCq+uTRwXsaWg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20221004120047.857591-1-berrange@redhat.com>
+ <5c5849a3-6830-8577-c427-02cb3244ba8c@linaro.org>
+ <Yz8aqBq7m0wn0jvS@redhat.com>
+ <0d3f27ab-de02-c5b5-488f-08fb7e329bd8@linaro.org>
+In-Reply-To: <0d3f27ab-de02-c5b5-488f-08fb7e329bd8@linaro.org>
+From: Kyle Evans <kevans@freebsd.org>
+Date: Thu, 6 Oct 2022 11:49:47 -0700
+X-Gmail-Original-Message-ID: <CACNAnaHN=xv14PycQ3_nvu60AkSyFc=mAXeh_EVcats8UnrbrA@mail.gmail.com>
+Message-ID: <CACNAnaHN=xv14PycQ3_nvu60AkSyFc=mAXeh_EVcats8UnrbrA@mail.gmail.com>
+Subject: Re: [PATCH] linux-user,bsd-user: re-exec with G_SLICE=always-malloc
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ qemu-devel@nongnu.org, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Laurent Vivier <laurent@vivier.eu>, ncopa@alpinelinux.org,
+ Warner Losh <imp@bsdimp.com>, Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
+ s=dkim; t=1665082199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1IDqeNv+wxc/imNmped9aXyIkyRmqwAAdagPofWYa78=;
+ b=d2ebDQ6Uc6nwcn+sBBnZqPs/DDnPLtCDjpjdG58a7sTiRc52a3Va1xbz5sAHLypy8olKiR
+ H559F5elx6x0jkITvqdMWpws8+nuIWpzdJ5vd5vvWE4A7iXd4uyHIrO/1jXkJ+MYAwBIv1
+ Gh+eXnagmYsNLw8/nHUufArLKQP+hsg/UDc06INjKFKrEtRrRxPFQMD3AGNh01lYIfdPlD
+ CqLJprDkbl6NICo37ElBVOjAdSt9tVanpESV+/tTtODTcCzmEjBTPDrW9gwi20axglBWI4
+ BYb8co04wirxrFUrjZsllPIpTr5TMdoSTMQ32V1h/RT73wTuCFNiVLGpmsCYEA==
+ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1665082199; a=rsa-sha256; cv=none;
+ b=HQMc2+XYZKCssO61R6/rX5MFrdc0ov0aBE5a7ntImUaMtOXBHBWzXFIIU6DX+iY4rv9xyJ
+ 1UD6qqzElkhNCrj+QpWItXuFHAYSUALdMZhp6YJLBjJohiDDJGjkZBy4CqYBn/nctQSX0J
+ J2NPkSGvADPiYbYMuybyFX83958aBdyRe10K9AFDUfgwXO3ojAbD2Md3jw1HRADAjDERc8
+ POySFAiRWycB7YVAdzsqAUHz5N0Rr6IChDyRMtYl8LJ2ST8Pga4dIXwXwjrIOLGrubEo1M
+ DVwyxI8O1bRbN7mBENuBLC50cRr5ZkE6BoTOPaLA/kzYCnxx8jnZ7xSSNVc4ag==
+ARC-Authentication-Results: i=1;
+	mx1.freebsd.org;
+	none
+Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
+ envelope-from=kevans@freebsd.org; helo=mx2.freebsd.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,56 +128,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Oct 6, 2022 at 11:29 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 10/6/22 11:12, Daniel P. Berrang=C3=A9 wrote:
+> > The only possible silver linining is that in static linked builds,
+> > it appears that a QEMU constructor with priority 101, will pre-empt
+> > the constructor from any library. This is kind of crazy, as it means
+> > if any library or app code uses priorities, it'll get totally different
+> > execution ordering depending on whether it is dynamic or statically
+> > built.
+>
+> Plausible...
+>
 
---SQDsPrkrnDdOueww
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > I guess we could rely on this hack if we declare that everyone using
+> > binfmt is probably relying on static linked QEMU, and in non-binfmt
+> > cases people can set the env var themselves.  It still feels pretty
+> > dirty.
+>
+> ... but as you say, dirty.
 
-On Thu, Oct 06, 2022 at 07:09:36PM +0100, Alberto Faria wrote:
-> On Thu, Oct 6, 2022 at 7:00 PM Stefan Hajnoczi <stefanha@redhat.com> wrot=
-e:
-> > s->needs_mem_regions determines if we'll use libblkio memory regions at
-> > all. When it's false we skip blkio_map_mem_region() and therefore it's
-> > safe to set s->mem_regions_pinned to false.
->=20
-> blkio_register_buf() calls blkio_map_mem_region(). Is the
-> bdrv_register_buf callback maybe skipped somehow when
-> needs_mem_regions is false?
+FWIW, on FreeBSD at least, we don't support dynamically linked
+bsd-user and I'd go as far as to say that we have no desire to change
+that in the future, either -- the benefits are simply not there to
+outweigh the pain for our use-cases.
 
-You're right. blkio_register_buf() will be called by virtio-blk's ram
-block registrar even when s->needs_mem_regions is false.
+Thanks,
 
-s->mem_regions_pinned therefore has to default to true even when
-s->needs_mem_regions is false.
-
-> Regardless, I'd say we want to map memory regions even if we don't
-> strictly need to (in cases where we can do so at no additional cost),
-> since that may improve performance for some drivers.
-
-The downside is that when s->mem_regions_pinned is true, virtio-mem and
-anything else that calls ram discard cannot be used.
-
-I think we can try that for now and see if the policy needs to be
-refined.
-
-Stefan
-
---SQDsPrkrnDdOueww
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmM/IpkACgkQnKSrs4Gr
-c8jXBwf+IO2xpRZ90QGXb0JcG2RpWeFMZJOVbu/DMqQ53ed9XGIS93J69BZurSaa
-5n8tbcc+wd7Voz5HDJZoufROM4VoymBXOzfPJ1mVD2md3B1/u1WcyI/yj4hlZpiW
-7J69TkFxHx30kViwGyoz0khIHw+iwxRGaTIr+GRnHQXu+PZZVudPAjelZFTJlw13
-S4QlEx2mPfiBIUK5rAKSvism3H4qGBX1JjY8dogKaBYpFaZb7/3/1Ova8VlvHSsc
-q4vvwzEYYWyM/g5bYcIkbXWG8pU6+7BLrSEoFW37y7K3/wNQtgrDCQW0tI4JgCU3
-VtD/cIfLtPCgFqXLwRBLnj4Q+H4NVQ==
-=M9AP
------END PGP SIGNATURE-----
-
---SQDsPrkrnDdOueww--
-
+Kyle Evans
 
