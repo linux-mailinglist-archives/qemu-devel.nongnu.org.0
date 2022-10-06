@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40655F645B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 12:31:12 +0200 (CEST)
-Received: from localhost ([::1]:53436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62FF75F64E9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 13:10:49 +0200 (CEST)
+Received: from localhost ([::1]:52470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogO9n-00070K-60
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 06:31:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35818)
+	id 1ogOm7-0004fI-Tw
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 07:10:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
- id 1ogO5F-0003Rp-Pf
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 06:26:29 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:43552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
- id 1ogO5E-0006DQ-5l
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 06:26:29 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id 204so1629023pfx.10
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 03:26:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date;
- bh=Dpy86RHsOIyY8RatM+wRIJiLlfwuHhPTmUB4qFPEGJk=;
- b=QyTJYnqNYvFxy+QOXNMXGWq5rkSrku5U4cGVmTMYztO94pjdDCtcniWrbsv3zVsVnA
- U7aPHSBXaSm+bS1jXS17QYABexfxn2vfK6RYxYy4DlugO+n6Sto76TArIGr5raIDr5aI
- PGMh+BveQvkSa6wGOrM8LU18VEdZcWWoWsdS3IozhgVpMe+5fHCSH6aWe2m033385AEZ
- VaraQ8XtmkD9max5LVhLT/zvqySD97JfN/9/yMQGCge26Qd4Eg3zsjrgvyS+GMaxzqSF
- a0WUx8Se//2ZG0xaHKWeNLhloxMVOCbe1KbvVRaMscJR0HIfkskOLXVihXPkdqUpbh0b
- 6h4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=Dpy86RHsOIyY8RatM+wRIJiLlfwuHhPTmUB4qFPEGJk=;
- b=48iHQe1KvNbAdowD87yuw06k+x5S4KZfep3G4mJd78r7i6yO8Ocsj/tizj+HlaHX6P
- iO3qyeJt6rz0wXMucMgJxMda2t4fWzbUAACI+ZQl9f7C3fhPkgKzDWWga2IqQF5VrBxr
- I6IabKaJzRoJTuFRQZppxvXM6mqy3/FmrsHvAD8P4z+MzXfPSq2x0/0S6331HOrhId6k
- wXC3N8qlF23HimaDEReIxVgw0x1mR7ab7OQKCDuj5nsc/XnF9gS2Rvx2WHGE2pM5ULY5
- Hg6Ur92jhIIux4XaIixxc8MrV8vA1GbWfgIOePQxbLjNfOUUA2MwfdSyrme6wJLEXR7k
- 4PLQ==
-X-Gm-Message-State: ACrzQf3NUu0UdRaTg4LyocJrwWIhpCruIeWmgurbs35Ki47en3Jll/po
- bVk6+mUtVmfiCcielErhikk=
-X-Google-Smtp-Source: AMsMyM60r7beaY8MBsKwg8FNKuPP0I9lUDdCdQls0RgHH1ZQtjQ3dyWhKvC9ux903RHdbZjhwBjDDQ==
-X-Received: by 2002:a63:20f:0:b0:43c:1ef6:ebd6 with SMTP id
- 15-20020a63020f000000b0043c1ef6ebd6mr3906197pgc.217.1665051986555; 
- Thu, 06 Oct 2022 03:26:26 -0700 (PDT)
-Received: from T590 ([209.132.188.80]) by smtp.gmail.com with ESMTPSA id
- i13-20020a170902cf0d00b001784a45511asm11977254plg.79.2022.10.06.03.26.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 03:26:25 -0700 (PDT)
-Date: Thu, 6 Oct 2022 18:26:15 +0800
-From: Ming Lei <tom.leiming@gmail.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: "Denis V. Lunev" <den@virtuozzo.com>, io-uring@vger.kernel.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kirill Tkhai <kirill.tkhai@openvz.org>,
- Manuel Bentele <development@manuel-bentele.de>,
- qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- rjones@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Josef Bacik <josef@toxicpanda.com>
-Subject: Re: ublk-qcow2: ublk-qcow2 is available
-Message-ID: <Yz6tR24T8HPHJ70D@T590>
-References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
- <6659a0d5-60ab-9ac7-d25d-b4ff1940c6ab@virtuozzo.com>
- <Yz2epPwoufj0mug/@fedora>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ogO5l-0003oZ-Hf
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 06:27:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ogO5h-0006Fx-Nl
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 06:26:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665052016;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0qp6ahU6wiEFY2qte7+FwfL/LnKj/VcDgjgOio3imPI=;
+ b=eaaUtlpmqWKA0zGC82ySjkSkNjW6LkEZIuo4BxMRaIw2SHE4m/GNwM9sYpr8tSdnDT+vPE
+ LStUIMuZD6C+XujLmBxC5vYe6gtv1FopzYg6eqU0GHigaqxNrwMbmmpVbBHeSVb9O2AM4I
+ l6vNhZLUh7+jAOHYiW5364NnTj/jc/E=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-408-7JNsnAOkMvKCm21uc474Kw-1; Thu, 06 Oct 2022 06:26:53 -0400
+X-MC-Unique: 7JNsnAOkMvKCm21uc474Kw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4BD89185A79C;
+ Thu,  6 Oct 2022 10:26:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 53C4F40C6F9F;
+ Thu,  6 Oct 2022 10:26:52 +0000 (UTC)
+Date: Thu, 6 Oct 2022 11:26:50 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
+ jb-gnumlists@wisemo.com, thuth@redhat.com, jasowang@redhat.com
+Subject: Re: [PATCH v2] build-sys: error when slirp is not found and not
+ disabled
+Message-ID: <Yz6tatckDbvSxN40@redhat.com>
+References: <20221006083322.2612639-1-marcandre.lureau@redhat.com>
+ <Yz6iNj5vTrMlunD2@redhat.com> <4315090.nadSx8SW9V@silver>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yz2epPwoufj0mug/@fedora>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=tom.leiming@gmail.com; helo=mail-pf1-x42a.google.com
+In-Reply-To: <4315090.nadSx8SW9V@silver>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,55 +82,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 05, 2022 at 11:11:32AM -0400, Stefan Hajnoczi wrote:
-> On Tue, Oct 04, 2022 at 01:57:50AM +0200, Denis V. Lunev wrote:
-> > On 10/3/22 21:53, Stefan Hajnoczi wrote:
-> > > On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
-> > > > ublk-qcow2 is available now.
-> > > Cool, thanks for sharing!
-> > yep
+On Thu, Oct 06, 2022 at 12:12:07PM +0200, Christian Schoenebeck wrote:
+> On Donnerstag, 6. Oktober 2022 11:39:02 CEST Daniel P. Berrang√© wrote:
+> > On Thu, Oct 06, 2022 at 12:33:22PM +0400, marcandre.lureau@redhat.com wrote:
+> > > From: Marc-Andr√© Lureau <marcandre.lureau@redhat.com>
+> > > 
+> > > This is an alternative configure-time solution to "[PATCH] net:
+> > > print a more actionable error when slirp is not found".
+> > > 
+> > > See also "If your networking is failing after updating to the latest git
+> > > version of QEMU..." ML thread.
+> > > 
+> > > Signed-off-by: Marc-Andr√© Lureau <marcandre.lureau@redhat.com>
+> > > ---
+> > > 
+> > >  meson.build | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > > 
+> > > diff --git a/meson.build b/meson.build
+> > > index 4321b8f8da..b05080b051 100644
+> > > --- a/meson.build
+> > > +++ b/meson.build
+> > > @@ -690,6 +690,13 @@ if not get_option('slirp').auto() or have_system
+> > > 
+> > >    endif
+> > >  
+> > >  endif
+> > > 
+> > > +# Remove this error after QEMU 8.1 has been released.
+> > > +if not get_option('slirp').disabled() and not slirp.found()
+> > > +  error('libslirp is not explicitely disabled and was not found. ' +
+> > > +        'Since qemu 7.2, libslirp is no longer included as a submodule '
+> > > +
+> > > +        'fallback, you must install it on your system or
+> > > --disable-slirp.') +endif
+> > > +
 > > 
-> > > > So far it provides basic read/write function, and compression and snapshot
-> > > > aren't supported yet. The target/backend implementation is completely
-> > > > based on io_uring, and share the same io_uring with ublk IO command
-> > > > handler, just like what ublk-loop does.
-> > > > 
-> > > > Follows the main motivations of ublk-qcow2:
-> > > > 
-> > > > - building one complicated target from scratch helps libublksrv APIs/functions
-> > > >    become mature/stable more quickly, since qcow2 is complicated and needs more
-> > > >    requirement from libublksrv compared with other simple ones(loop, null)
-> > > > 
-> > > > - there are several attempts of implementing qcow2 driver in kernel, such as
-> > > >    ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`` [4], so ublk-qcow2
-> > > >    might useful be for covering requirement in this field
-> > There is one important thing to keep in mind about all partly-userspace
-> > implementations though:
-> > * any single allocation happened in the context of the
-> > †† userspace daemon through try_to_free_pages() in
-> > †† kernel has a possibility to trigger the operation,
-> > †† which will require userspace daemon action, which
-> > †† is inside the kernel now.
-> > * the probability of this is higher in the overcommitted
-> > †† environment
+> > I'm still not convinced we should be making this a fatal error, as
+> > opposed to treating it as a warning we display at the end of meson
+> > execution, which is what we do in other cases where we want to
+> > alert users to something important about their build environment.
 > > 
-> > This was the main motivation of us in favor for the in-kernel
-> > implementation.
+> > We have this for example:
+> >   message()
+> >   warning('SUPPORT FOR THIS HOST CPU WILL GO AWAY IN FUTURE RELEASES!')
+> >   message()
+> >   message('CPU host architecture ' + cpu + ' support is not currently
+> >   maintained.') message('The QEMU project intends to remove support for
+> >   this host CPU in') message('a future release if nobody volunteers to
+> >   maintain it and to') message('provide a build host for our continuous
+> >   integration setup.') message('configure has succeeded and you can
+> >   continue to build, but') message('if you care about QEMU on this platform
+> >   you should contact') message('us upstream at qemu-devel@nongnu.org.')
+> > 
+> > This is just as important to show users as the slirp case IMHO, so
+> > it isn't clear why this approach is insufficient for slirp too.
 > 
-> CCed Josef Bacik because the Linux NBD driver has dealt with memory
-> reclaim hangs in the past.
+> There is a substantial difference between those two cases: the user
+> immediately realizes that the missing CPU arch is not available, whereas in
+> this missing SLIRP case it happened to myself that I was just testing a VM
+> (without any networking args) and scratched my head why networking on VM
+> stopped working without any error message at all, so I started to check my
+> networking, routing, VM network config, host config, found nothing, and
+> eventually git-bisected the issue just to find out that its because slirp has
+> been removed as a submodule. And I am a developer, so imagine what a regular
+> user might think.
 > 
-> Josef: Any thoughts on userspace block drivers (whether NBD or ublk) and
-> how to avoid hangs in memory reclaim?
+> And yes, with that warning it would have saved my trouble at least, but 
+> considering that binaries are often auto built, chances are high that they are
+> at first rolled out without SLIRP and hence without user networking, and hence
+> still causing those wondering moments to users.
+> 
+> > One irritation though, is that there's no way to get this text to
+> > display *after* meson prints the summary() data, so it is likely
+> > scrolled off the screen.
+> > 
+> > I think 'summary()'  ought to have a way to register warning messages
+> > that are guaranteed to be the last thing printed, with boldness.
+> > 
+> > In absence of that, we can partially mitigate this by using a custom
+> > summary section though.
+> > 
+> > Consider this:
+> > 
+> > @@ -3936,3 +3937,20 @@ if not supported_oses.contains(targetos)
+> > 
+> >    message('if you care about QEMU on this platform you should contact')
+> >    message('us upstream at qemu-devel@nongnu.org.')
+> >  
+> >  endif
+> > 
+> > +
+> > +warning_info = {}
+> > +
+> > +# Remove this warning after QEMU 8.1 has been released.
+> > +if not get_option('slirp').disabled() and not slirp.found()
+> > +    warning_info += {'SLIRP': 'libslirp not present, "user" network backend
+> > will not be available'} +    message()
+> > +    warning('libslirp not present, "user" network backend will not be
+> > available') +    message()
+> > +    message('Since qemu 7.2, libslirp is no longer included as a
+> > submodule')
+> > +    message('fallback, you must install it on your system if you require')
+> > +    message('-netdev user / -net user to be a supported network backend')
+> > +    message()
+> > +endif
+> > +
+> > +summary(warning_info, bool_yn: true,
+> > +        section: 'WARNINGS üí• WARNINGS üí• WARNINGS üí• WARNINGS üí•
+> > WARNINGS')
+> > 
+> > Would mean that meson/configures ends  with:
+> > 
+> > 
+> > 
+> > 
+> > Message:
+> > ../meson.build:3946: WARNING: libslirp not present, "user" network backend
+> > will not be available Message:
+> > Message: Since qemu 7.2, libslirp is no longer included as a submodule
+> > Message: fallback, you must install it on your system if you require
+> > Message: -netdev user / -net user to be a supported network backend
+> > Message:
+> > Build targets in project: 576
+> > 
+> > qemu 7.1.50
+> > 
+> >   Directories
+> >   
+> >     Install prefix               : /usr/local
+> >     BIOS directory               : share/qemu
+> >     firmware path                : share/qemu-firmware
+> > 
+> > ...snip a page or two more summary...
+> > 
+> >     zstd support                 : YES 1.5.2
+> >     NUMA host support            : YES
+> >     capstone                     : YES 4.0.2
+> >     libpmem support              : YES 1.11.1
+> >     libdaxctl support            : YES 74
+> >     libudev                      : YES 250
+> >     FUSE lseek                   : YES
+> >     selinux                      : YES 3.3
+> >   
+> >   WARNINGS üí• WARNINGS üí• WARNINGS üí• WARNINGS üí• WARNINGS
+> >   
+> >     SLIRP                        : libslirp not present, "user" network
+> >     backend will not be available>   
+> >   Subprojects
+> >   
+> >     libvduse                     : YES
+> >     libvhost-user                : YES
+> >   
+> >   User defined options
+> >   
+> >     Native files                 : config-meson.cross
+> >     prefix                       : /usr/local
+> >     werror                       : true
+> >     vfio_user_server             : disabled
+> > 
+> > Found ninja-1.10.2 at /usr/bin/ninja
+> > Running postconf script '/usr/bin/python3
+> > /home/berrange/src/virt/qemu/scripts/symlink-install-tree.py'
+> > 
+> > 
+> > 
+> > Is that really not sufficiently alerting to users that they might be
+> > loosing the 'user' network feature ?
+> 
+> As I asked before: do you rather want to risk a backlash, binaries being auto
+> built, and users filing bug reports because their network no longer works and
+> they don't know why?
 
-If I remember correctly, there isn't new report after the last NBD(TCMU) deadlock
-in memory reclaim was addressed by 8d19f1c8e193 ("prctl: PR_{G,S}ET_IO_FLUSHER
-to support controlling memory reclaim").
+The current status is that there's no visible warning - just an
+easily missing line in configure outpout  "slirp: no". I accept
+that is not sufficiently visible as it.
+
+What i'm questioning is the length we have to go to in order to
+make it more visible to users.
+
+Implicitly you are suggesting that no one bothers to look at the output
+of configure/meson, because if they did, then IMHO the suggested extra
+visible warning messages would handle this scenario sufficiently well.
 
 
-Thanks, 
-Ming
+> What is the real-world problem you see with making this temporarily an error
+> and then restoring symmetry later on?
+
+This is a divergance from our normal precedent for handling optional
+build dependencies, and it is not clear that is is justified. We have
+a deprecation process for dropping features, but in terms of build deps
+we have always considered that we are free to change those at any time
+with zero notice. We expect people to read the release notes and/or
+configure output, in order to decide if they're lacking features.
+
+Consider if we bump the minimum verson of any other library, perhaps
+liburing. If a user runs configure with new QEMU, liburing support
+will get automatically disabled if they host only has the older version,
+meaning their QEMU build looses the io-uring features.  This is not
+inherently different to the slirp case, as they have to look at the
+configure output to see the missing feature, and/or read the release
+notes. I don't want us to be in a situation where we have to give
+extra warnings every time we make a change to expected build deps
+that could result in users loosing features that their builds
+previously had.
+
+Making slirp a hard error is setting a new precedent for how to
+deal with external library deps that I don't think is justified.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
