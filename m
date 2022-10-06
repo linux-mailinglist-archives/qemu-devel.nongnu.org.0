@@ -2,77 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B62C5F682F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 15:32:29 +0200 (CEST)
-Received: from localhost ([::1]:46534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B6A5F6856
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 15:39:20 +0200 (CEST)
+Received: from localhost ([::1]:33352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogQzE-0008T3-J2
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 09:32:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43646)
+	id 1ogR5q-0007sD-Oo
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 09:39:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogQWq-0003gV-MW
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:03:10 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:41517)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogQWo-0007l4-Ro
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:03:08 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- q10-20020a17090a304a00b0020b1d5f6975so582828pjl.0
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 06:03:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=YqjAhC54G+EIkgBOYuSZHUlo9+hbZNd6wOb6LaFYIDw=;
- b=mVB0oHmQPnf2F9M8eieZWmMFzsm2RhYBGyGkNVPdgGCCJM3FPY9piWgJkAemC5V9th
- fmerpBZV9qUEgz6opjP2DEYkTHvEaTH6luoYYimJ8T/6im12HPzCrs4QovwIVQCV10Ac
- 2H2elkwrGvTZ0vDndhpLDoGIDZRAcbLWl+sWzQ0ClUDmDx8oqrW4Yc6VQsgYxfxhV4bU
- v5a8S7MbFokoYCTc1ZdVBrjEL3FQhR6be3BDTg71fGTjD9qnMCdhjrtfWAWwd70FSBxb
- RZtSDQJM9IOknLkcYRoDqlQjQRR4S6RfJS2hp9gZKEPySMAbzysf7Qg1jDAzkrSmaZ6D
- busA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YqjAhC54G+EIkgBOYuSZHUlo9+hbZNd6wOb6LaFYIDw=;
- b=4j0ifU5Wgqz8SFsV90eBrkTYnPQLeHXsfHPnJgZjd63RUwufryrmandNmioFphoaYr
- n2gO+pKfEa1OiJjU4bqmq0HC90Uvao6880Yxi+DWvz/CXz5fVhvmuDCmWrDIH1nWgrNC
- SAqkY3eLGwc1byDZE5ZbZ9bxyH3zbFEw2QZiTNY9om2TX9fA5V6YOxxUjjUIswml8ECX
- gj+WYXyk2jYyiPxQ70vY75VqVmQUiWk3NNFQdPt/VBixwsSM8W9QFzTSpFr5RCS34j/Y
- tyNA2LPaMJxntSJBHFQM5mMf0T5KP7oSs0lG+MosGqsGvYiG95LMc3U+/2xDyuG1VuER
- iPBQ==
-X-Gm-Message-State: ACrzQf1BV05IuRbBWdkr1gfvhsvYbGQYNRAEj8DfLVBtr/1dUFWOz3Ma
- NpD11Hd+FedOhEBUHwgWtWgnChVPWeqn/+2pAWqxkg==
-X-Google-Smtp-Source: AMsMyM6sBDEHxAGOuTK2ujuGqPRaQUslma6ncMXT+xEDJPJ+tshnAMbuOl3k7hhmS1tT/fBu9Xbjl9Zkwn5BxCsmYtY=
-X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
- jm23-20020a17090304d700b001788564f754mr4630873plb.60.1665061385149; Thu, 06
- Oct 2022 06:03:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1ogQYD-0004CW-EA
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:04:41 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:49435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1ogQXy-0007zD-Ep
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:04:20 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 023085803FD;
+ Thu,  6 Oct 2022 09:04:16 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 06 Oct 2022 09:04:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1665061455; x=1665068655; bh=N6
+ it90zhKBeS6kpjpWHzwwnMSuYeK60zqUPbb7rWWk4=; b=XTgNicp/w6VyyZaRPv
+ n4u89Y3VpJN0otlae1qyySdCkPUukZ695QdJy/OCy3++7pohYhDzlWsBkWKlQJnF
+ zawbDkPiWAL+qX37FxpvztDyhcIQ7u804FSnaWHTxgf00r6YgtQGLMJkZ5U6GYbR
+ YubxB3iGl1ZgFlNzemCy84m07QUj0p16Zi9PQzv/5PwIHtMNwZL2Dhc+BED6Kl8b
+ M5lKq1X5teQz4f9aj4K3r2NpFmepGMiE+WN6QNx1P8/w4AntZGlp4rCO0gzvzW69
+ sDnJ7MAI0QQdTetsS2DYE/U8hSNjrA7HIjuawWRV7bLDET+jfZ08TCMnecqIqjrY
+ GAdw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1665061455; x=1665068655; bh=N6it90zhKBeS6kpjpWHzwwnMSuYe
+ K60zqUPbb7rWWk4=; b=FAaPD96zc+b9K5xKH2cUqvkpol+I33Kkf0et42qgz8z+
+ o1eNBQnQKM1AvC//U+cQVmrrqBd30HogyMEDiVxKvZdgTerM/pTVx2QnyIXOEv7d
+ 60qslQZq3oWYM357Kd0o2xFwFf/0neVFntfmjMVLCvmPvsd4RUTzfau1b5gQuKjR
+ iwPI146Sf0m0L9eJr2iXTgvFnYamJOGcYab+IB4nXczcS1og8ic4XumxPvS6Inuh
+ MF5f8pJHOqfKa4fTi/Zc+HEg6NZRImJn1PwL0WZzUPoojpighNgVGN7e2QnppkQB
+ AyzUbVcL6ZrNN0AxCHcceqU3axK2l7bbi73RHaGaXw==
+X-ME-Sender: <xms:TNI-Y_cADBTmEGpGSZoXpsnbr5cBkxj_NhkFnZrsm2yluGABn--W0w>
+ <xme:TNI-Y1NvpK9thKw86UCe7rJ8yiX5AWUXVuvUmS7BsbCYx7l1rgp1Hf06pA9ptdAMn
+ e03yjclKp-CO2o26go>
+X-ME-Received: <xmr:TNI-Y4hQ7BaMUuWbsk8OvMCD4cp_6m7IvvkagIaoMywvoSSwmfD-0JJnobBS8vCOG5tQtw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeihedgiedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+ ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+ grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
+ tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+ epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
+X-ME-Proxy: <xmx:TNI-Yw_mO4XX1-1h6dzQ5GGjTnQKz-0-O6J5r-Li9YBWT8GUM4OAQw>
+ <xmx:TNI-Y7sySt_8cYEM97yWcmGUiiP8-42qYLx8qLDtOk4nm5HGI0M94g>
+ <xmx:TNI-Y_E3ditAwkEwtCuCVsNs7bzaIfKHo7-Kml0mjUdfSlcsiX7qpw>
+ <xmx:T9I-Ywqn5ZabLPAsbikF_Gw5naaIf9n3eKnvmUiBpBnm0z1YXEjQRw>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 6 Oct 2022 09:04:11 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id 7C346104D90; Thu,  6 Oct 2022 16:04:08 +0300 (+03)
+Date: Thu, 6 Oct 2022 16:04:08 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Fuad Tabba <tabba@google.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,	Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
+ Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,	luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com,	ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com,	ddutile@redhat.com,
+ dhildenb@redhat.com,	Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
+Message-ID: <20221006130408.2bnuikg6peilaycp@box.shutemov.name>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
+ <CA+EHjTz=o9M47frGCXgNJ8J5_Rn=YjzZR5uvCTxStw+GfGE5kg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221006113906.179963-1-mst@redhat.com>
-In-Reply-To: <20221006113906.179963-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Oct 2022 14:02:53 +0100
-Message-ID: <CAFEAcA8K-4KdjuG8QqFU9gLEiZ7A3Xx3zG0FP4uP4482p0GFfA@mail.gmail.com>
-Subject: Re: [PATCH] gitmodules: recurse by default
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+EHjTz=o9M47frGCXgNJ8J5_Rn=YjzZR5uvCTxStw+GfGE5kg@mail.gmail.com>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=kirill@shutemov.name;
+ helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,20 +128,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Oct 2022 at 13:36, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The most commmon complaint about submodules is that
-> they don't follow when one switches branches in the
-> main repo. Enable recursing into submodules by default
-> to address that.
+On Thu, Oct 06, 2022 at 09:50:28AM +0100, Fuad Tabba wrote:
+> Hi,
+> 
+> <...>
+> 
+> 
+> > diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
+> > new file mode 100644
+> > index 000000000000..2d33cbdd9282
+> > --- /dev/null
+> > +++ b/mm/memfd_inaccessible.c
+> 
+> <...>
+> 
+> > +struct file *memfd_mkinaccessible(struct file *memfd)
+> > +{
+> > +       struct inaccessible_data *data;
+> > +       struct address_space *mapping;
+> > +       struct inode *inode;
+> > +       struct file *file;
+> > +
+> > +       data = kzalloc(sizeof(*data), GFP_KERNEL);
+> > +       if (!data)
+> > +               return ERR_PTR(-ENOMEM);
+> > +
+> > +       data->memfd = memfd;
+> > +       mutex_init(&data->lock);
+> > +       INIT_LIST_HEAD(&data->notifiers);
+> > +
+> > +       inode = alloc_anon_inode(inaccessible_mnt->mnt_sb);
+> > +       if (IS_ERR(inode)) {
+> > +               kfree(data);
+> > +               return ERR_CAST(inode);
+> > +       }
+> > +
+> > +       inode->i_mode |= S_IFREG;
+> > +       inode->i_op = &inaccessible_iops;
+> > +       inode->i_mapping->private_data = data;
+> > +
+> > +       file = alloc_file_pseudo(inode, inaccessible_mnt,
+> > +                                "[memfd:inaccessible]", O_RDWR,
+> > +                                &inaccessible_fops);
+> > +       if (IS_ERR(file)) {
+> > +               iput(inode);
+> > +               kfree(data);
+> 
+> I think this might be missing a return at this point.
 
-Just to check, because the git docs are a bit unclear to me,
-does this retain the existing behaviour that if a submodule
-isn't checked out at all then it remains not-checked-out ?
-(That is, we don't want to force developers to have checked
-out submodule sources for all the edk2 and other rom blob
-sources which aren't needed for day-to-day QEMU development.)
+Good catch! Thanks!
 
-thanks
--- PMM
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
