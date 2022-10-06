@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8615F6575
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 13:56:18 +0200 (CEST)
-Received: from localhost ([::1]:36208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF375F653C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 13:31:24 +0200 (CEST)
+Received: from localhost ([::1]:41716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogPU9-0007v8-KY
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 07:56:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36066)
+	id 1ogP63-0008Nm-RH
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 07:31:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
- id 1ogOzj-0001Mm-0o
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 07:24:55 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:53793)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ogP1c-0002cC-1j
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 07:26:48 -0400
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:41764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
- id 1ogOzg-00075p-Ls
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 07:24:50 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id fw14so1483527pjb.3
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 04:24:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ogP1Z-0007hR-NW
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 07:26:47 -0400
+Received: by mail-lj1-x22c.google.com with SMTP id j23so1747312lji.8
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 04:26:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=BpFSg9LuSCYS6D8CaL5sijtn38cFPDzi94PRgHabYXs=;
- b=ABiWBx4gjUVdB5sWwtWY4QbbYmo8EDhLmQxfaC/FITnKm7ctmOOfwndp/ztCEOaX2K
- juL9gx5jmDIqwnhSIjMBVF6iOJQCiKsyhkIj3yajQVl8dDwt+m6fmqetlk0gRSc4GDZH
- Og4PL114F+pDQnZtnzIb0eLrHLZJQGWyhiGVYJ7OmiGFn1u20jGdhEijsSBL+g1du034
- HVIomIosqHrw0Xg4u+QinBquJL2K6L3zhO8SiaztaG+739VsPKJTjzbPQP3FALTvhZuD
- +oK1S4cCu5KeuxBiW6mUEkQObN4kRyu6bMSRJncHjneMpo7c7iBJLQ2bqlZWwiYR54tK
- 3riA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date;
+ bh=5UHMTqcb22SnraLTPGDXGZI5S6FTD6Ci0UIML/12oCY=;
+ b=aL1OiXJJ5wR8/N9WoG2egtl1zZ8WJaZfPXd4DUWqyxCJkfZr3l5mU2FQc3KiHziosM
+ rEOWIXy6U0vrqw9dWzY4x5sPUOYxD1XyflN6l0u10WHCRo/WvUWK5OBiMYtByvwqFDyx
+ XHqX/Gj9axu0oRBISPlNug36oxEvtAoyu/TxBCopDTxcBEKAvSKLf1Frpphz09ZIXmu8
+ 5iWH3OjV7VHOsHT1NsgZvDkQi/x6Z9oUEwfJiHjVYTEIPqnTikWGunAgh0I9sR+1iREj
+ c5Ubu4BRse/n4j8S6mX32Hze0iDZmuJ/bJlYolHpCdIqP7XZdwbBftIXbroKlwtdoDup
+ iGxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=BpFSg9LuSCYS6D8CaL5sijtn38cFPDzi94PRgHabYXs=;
- b=HzMvM4I3JvBc88wRtq1ymdzoSoXn+ZSMVkawiy58Y22exu9kFsLe5j06DVVm78RFaf
- o6QuP7V+2aDSR+VUGLGlB8mpl7BHJLFaksHEc2B7dY+ao6zMbp5vCyDTHOG6t9jhroVr
- We/MGs/SdEF5oLVt41YVoN5VoswEdjk/RYxYrN5Q1TwxR7BaGsfGPohAPy0cJ/6inzEd
- gISN0659WIQUsCE6N6smEwTas5TT6D+vvyMVIXThUfWhQolOGGJ7vv+Xcc/2SPlKxXpu
- snBWWUaIy8AlW+PqDwY1Kc1sdI5JoUb2OzuSrKyIEuMHfzpuOYvbyTgnzmaXtV3TDqH5
- QbJg==
-X-Gm-Message-State: ACrzQf0b682+cfjkjKo7llJY4mFSjxFM91LpddWWME53dtcyirJ2qzbR
- UxklsXh6WSVViGIh+ScLqrQ=
-X-Google-Smtp-Source: AMsMyM68dWsWlMa98h+rsvBVcFhv0u+XW+tiX/ZS4i28U2sYwyWP2mqkOhew8/+aUosi18FbcM/Qjw==
-X-Received: by 2002:a17:903:2343:b0:17f:6711:1faf with SMTP id
- c3-20020a170903234300b0017f67111fafmr4355286plh.106.1665055487001; 
- Thu, 06 Oct 2022 04:24:47 -0700 (PDT)
-Received: from T590 ([209.132.188.80]) by smtp.gmail.com with ESMTPSA id
- o8-20020aa79788000000b0056276759957sm1357646pfp.141.2022.10.06.04.24.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 04:24:46 -0700 (PDT)
-Date: Thu, 6 Oct 2022 19:24:34 +0800
-From: Ming Lei <tom.leiming@gmail.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, io-uring@vger.kernel.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kirill Tkhai <kirill.tkhai@openvz.org>,
- Manuel Bentele <development@manuel-bentele.de>,
- qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- rjones@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
- "Denis V. Lunev" <den@openvz.org>, Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: ublk-qcow2: ublk-qcow2 is available
-Message-ID: <Yz668hfMAuES2/lt@T590>
-References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
- <YzwARuAZdaoGTUfP@T590>
- <CAJSP0QXVK=wUy_JgJ9NmNMtKTRoRX0MwOZUuFWU-1mVWWKij8A@mail.gmail.com>
- <Yz0FrzJVZTqlQtJ5@T590>
- <CAJSP0QUQgA8Az3Kx8-6ynbWxDxaSVW3xWOPj4VBPhhUhsRYT9g@mail.gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date;
+ bh=5UHMTqcb22SnraLTPGDXGZI5S6FTD6Ci0UIML/12oCY=;
+ b=emVjT5Z/Cz1oGRWiZ6cDGo9CuqYNywkBmKS2BmvwNuivSt+oK7OrVrsQioaijHINbz
+ HRUx7Row5DE2MrVlBj+N0aVN3xvHT9W77GfPhewwybfkVXfFnYM10fFPDQmrsujCI2U7
+ 2bREsoLGCKIiT0z+YenMN5X1/RVdMMvGPa9MjfpiqsXelSfF5UvTxd3JdnqoBAaajzna
+ h5gYxaS4QuzKqtex8/gSGy4gSHQZBKczd+B4zv8c5w1WZXqjtTvUe3iYRbGg9+ynRdJa
+ SB+lvQrQfu8g691cR5RKwlPVZLUDK9dkZ9UwkiDwhOAOn9HiMXn4h9BIDEUgxMgqEFrl
+ M+9A==
+X-Gm-Message-State: ACrzQf11EjKkZv5cHlrp4+72ZiubLHncxN1l5P53aCVZjZK6Fb7H29ut
+ MuYcZkPjiF01FWHAG067affd8gFYpkQlEu51aeU=
+X-Google-Smtp-Source: AMsMyM4bVkSYhrnMCBNU7iazC4SIDioXocVxvgwEllvWY3yoZBlTEQA1RKk71unjSgCxYnPh5V1dCU1Le3txJ2Twc8s=
+X-Received: by 2002:a2e:7c12:0:b0:26d:fc11:d35f with SMTP id
+ x18-20020a2e7c12000000b0026dfc11d35fmr1521903ljc.449.1665055603275; Thu, 06
+ Oct 2022 04:26:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJSP0QUQgA8Az3Kx8-6ynbWxDxaSVW3xWOPj4VBPhhUhsRYT9g@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=tom.leiming@gmail.com; helo=mail-pj1-x102c.google.com
+References: <20221006081222.2606746-1-marcandre.lureau@redhat.com>
+ <20221006081222.2606746-6-marcandre.lureau@redhat.com>
+ <Yz6U7GXKg+Ctb3t0@redhat.com>
+ <CAMxuvawpOSiGYFnGgmh4mb7jKbbKvd5UD_QP6FMZZh8gUAzVBQ@mail.gmail.com>
+ <Yz6YPR+MGo72TOAF@redhat.com>
+In-Reply-To: <Yz6YPR+MGo72TOAF@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 6 Oct 2022 15:26:31 +0400
+Message-ID: <CAJ+F1CLJrXLPtpqt8oG-Ob5hmG8Sg5ZaCdLbNGjJ=B3ZfMqECQ@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] tests/unit: make test-io-channel-command work on
+ win32
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000c3bbff05ea5bf765"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,169 +87,190 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 05, 2022 at 08:21:45AM -0400, Stefan Hajnoczi wrote:
-> On Wed, 5 Oct 2022 at 00:19, Ming Lei <tom.leiming@gmail.com> wrote:
+--000000000000c3bbff05ea5bf765
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Thu, Oct 6, 2022 at 2:14 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+>
+wrote:
+
+> On Thu, Oct 06, 2022 at 12:46:17PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+> > Hi
 > >
-> > On Tue, Oct 04, 2022 at 09:53:32AM -0400, Stefan Hajnoczi wrote:
-> > > On Tue, 4 Oct 2022 at 05:44, Ming Lei <tom.leiming@gmail.com> wrote:
-> > > >
-> > > > On Mon, Oct 03, 2022 at 03:53:41PM -0400, Stefan Hajnoczi wrote:
-> > > > > On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
-> > > > > > ublk-qcow2 is available now.
-> > > > >
-> > > > > Cool, thanks for sharing!
-> > > > >
-> > > > > >
-> > > > > > So far it provides basic read/write function, and compression and snapshot
-> > > > > > aren't supported yet. The target/backend implementation is completely
-> > > > > > based on io_uring, and share the same io_uring with ublk IO command
-> > > > > > handler, just like what ublk-loop does.
-> > > > > >
-> > > > > > Follows the main motivations of ublk-qcow2:
-> > > > > >
-> > > > > > - building one complicated target from scratch helps libublksrv APIs/functions
-> > > > > >   become mature/stable more quickly, since qcow2 is complicated and needs more
-> > > > > >   requirement from libublksrv compared with other simple ones(loop, null)
-> > > > > >
-> > > > > > - there are several attempts of implementing qcow2 driver in kernel, such as
-> > > > > >   ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`` [4], so ublk-qcow2
-> > > > > >   might useful be for covering requirement in this field
-> > > > > >
-> > > > > > - performance comparison with qemu-nbd, and it was my 1st thought to evaluate
-> > > > > >   performance of ublk/io_uring backend by writing one ublk-qcow2 since ublksrv
-> > > > > >   is started
-> > > > > >
-> > > > > > - help to abstract common building block or design pattern for writing new ublk
-> > > > > >   target/backend
-> > > > > >
-> > > > > > So far it basically passes xfstest(XFS) test by using ublk-qcow2 block
-> > > > > > device as TEST_DEV, and kernel building workload is verified too. Also
-> > > > > > soft update approach is applied in meta flushing, and meta data
-> > > > > > integrity is guaranteed, 'make test T=qcow2/040' covers this kind of
-> > > > > > test, and only cluster leak is reported during this test.
-> > > > > >
-> > > > > > The performance data looks much better compared with qemu-nbd, see
-> > > > > > details in commit log[1], README[5] and STATUS[6]. And the test covers both
-> > > > > > empty image and pre-allocated image, for example of pre-allocated qcow2
-> > > > > > image(8GB):
-> > > > > >
-> > > > > > - qemu-nbd (make test T=qcow2/002)
-> > > > >
-> > > > > Single queue?
-> > > >
-> > > > Yeah.
-> > > >
-> > > > >
-> > > > > >     randwrite(4k): jobs 1, iops 24605
-> > > > > >     randread(4k): jobs 1, iops 30938
-> > > > > >     randrw(4k): jobs 1, iops read 13981 write 14001
-> > > > > >     rw(512k): jobs 1, iops read 724 write 728
-> > > > >
-> > > > > Please try qemu-storage-daemon's VDUSE export type as well. The
-> > > > > command-line should be similar to this:
-> > > > >
-> > > > >   # modprobe virtio_vdpa # attaches vDPA devices to host kernel
-> > > >
-> > > > Not found virtio_vdpa module even though I enabled all the following
-> > > > options:
-> > > >
-> > > >         --- vDPA drivers
-> > > >           <M>   vDPA device simulator core
-> > > >           <M>     vDPA simulator for networking device
-> > > >           <M>     vDPA simulator for block device
-> > > >           <M>   VDUSE (vDPA Device in Userspace) support
-> > > >           <M>   Intel IFC VF vDPA driver
-> > > >           <M>   Virtio PCI bridge vDPA driver
-> > > >           <M>   vDPA driver for Alibaba ENI
-> > > >
-> > > > BTW, my test environment is VM and the shared data is done in VM too, and
-> > > > can virtio_vdpa be used inside VM?
+> > On Thu, Oct 6, 2022 at 12:42 PM Daniel P. Berrang=C3=A9 <berrange@redha=
+t.com>
+> wrote:
 > > >
-> > > I hope Xie Yongji can help explain how to benchmark VDUSE.
-> > >
-> > > virtio_vdpa is available inside guests too. Please check that
-> > > VIRTIO_VDPA ("vDPA driver for virtio devices") is enabled in "Virtio
-> > > drivers" menu.
-> > >
+> > > On Thu, Oct 06, 2022 at 12:12:22PM +0400, marcandre.lureau@redhat.com
+> wrote:
+> > > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > > > >
-> > > > >   # modprobe vduse
-> > > > >   # qemu-storage-daemon \
-> > > > >       --blockdev file,filename=test.qcow2,cache.direct=of|off,aio=native,node-name=file \
-> > > > >       --blockdev qcow2,file=file,node-name=qcow2 \
-> > > > >       --object iothread,id=iothread0 \
-> > > > >       --export vduse-blk,id=vduse0,name=vduse0,num-queues=$(nproc),node-name=qcow2,writable=on,iothread=iothread0
-> > > > >   # vdpa dev add name vduse0 mgmtdev vduse
-> > > > >
-> > > > > A virtio-blk device should appear and xfstests can be run on it
-> > > > > (typically /dev/vda unless you already have other virtio-blk devices).
-> > > > >
-> > > > > Afterwards you can destroy the device using:
-> > > > >
-> > > > >   # vdpa dev del vduse0
-> > > > >
-> > > > > >
-> > > > > > - ublk-qcow2 (make test T=qcow2/022)
-> > > > >
-> > > > > There are a lot of other factors not directly related to NBD vs ublk. In
-> > > > > order to get an apples-to-apples comparison with qemu-* a ublk export
-> > > > > type is needed in qemu-storage-daemon. That way only the difference is
-> > > > > the ublk interface and the rest of the code path is identical, making it
-> > > > > possible to compare NBD, VDUSE, ublk, etc more precisely.
+> > > > This has been tested under msys2 & windows 11. I haven't tried to
+> make
+> > > > it work with other environments yet, but that should be enough to
+> > > > validate the channel-command implementation anyway.
 > > > >
-> > > > Maybe not true.
+> > > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > > > ---
+> > > >  tests/unit/test-io-channel-command.c | 32
+> ++++++++++++----------------
+> > > >  tests/unit/meson.build               |  2 +-
+> > > >  2 files changed, 15 insertions(+), 19 deletions(-)
 > > > >
-> > > > ublk-qcow2 uses io_uring to handle all backend IO(include meta IO) completely,
-> > > > and so far single io_uring/pthread is for handling all qcow2 IOs and IO
-> > > > command.
+> > > > diff --git a/tests/unit/test-io-channel-command.c
+> b/tests/unit/test-io-channel-command.c
+> > > > index aa09c559cd..be98c3452a 100644
+> > > > --- a/tests/unit/test-io-channel-command.c
+> > > > +++ b/tests/unit/test-io-channel-command.c
+> > > > @@ -24,29 +24,27 @@
+> > > >  #include "qapi/error.h"
+> > > >  #include "qemu/module.h"
+> > > >
+> > > > -#ifndef WIN32
+> > > > +#define TEST_PATH "test-io-channel-command.fifo"
+> > > > +
+> > > > +#define SOCAT_SRC "PIPE:" TEST_PATH ",wronly"
+> > > > +#define SOCAT_DST "PIPE:" TEST_PATH ",rdonly"
+> > > > +
+> > > >  static void test_io_channel_command_fifo(bool async)
+> > > >  {
+> > > > -#define TEST_FIFO "tests/test-io-channel-command.fifo"
+> > > >      QIOChannel *src, *dst;
+> > > >      QIOChannelTest *test;
+> > > > -    const char *srcfifo =3D "PIPE:" TEST_FIFO ",wronly";
+> > > > -    const char *dstfifo =3D "PIPE:" TEST_FIFO ",rdonly";
+> > > >      const char *srcargv[] =3D {
+> > > > -        "/bin/socat", "-", srcfifo, NULL,
+> > > > +        g_getenv("SOCAT"), "-", SOCAT_SRC, NULL,
 > > >
-> > > qemu-nbd doesn't use io_uring to handle the backend IO, so we don't
+> > > Please don't rely on env variables, as it complicates the ability to
+> > > invoke the test directly, without the meson harness. Either pass the
+> > > path from meson at compile time in config-host.h, or make this code
+> > > use an unqualified path, so it honours $PATH at runtime.
 > >
-> > I tried to use it via --aio=io_uring for setting up qemu-nbd, but not succeed.
-> >
-> > > know whether the benchmark demonstrates that ublk is faster than NBD,
-> > > that the ublk-qcow2 implementation is faster than qemu-nbd's qcow2,
-> > > whether there are miscellaneous implementation differences between
-> > > ublk-qcow2 and qemu-nbd (like using the same io_uring context for both
-> > > ublk and backend IO), or something else.
-> >
-> > The theory shouldn't be too complicated:
-> >
-> > 1) io uring passthough(pt) communication is fast than socket, and io command
-> > is carried over io_uring pt commands, and should be fast than virio
-> > communication too.
-> >
-> > 2) io uring io handling is fast than libaio which is taken in the
-> > test on qemu-nbd, and all qcow2 backend io(include meta io) is handled
-> > by io_uring.
-> >
-> > https://github.com/ming1/ubdsrv/blob/master/tests/common/qcow2_common
-> >
-> > 3) ublk uses one single io_uring to handle all io commands and qcow2
-> > backend IOs, so batching handling is common, and it is easy to see
-> > dozens of IOs/io commands handled in single syscall, or even more.
-> 
-> I agree with the theory but theory has to be tested through
-> experiments in order to validate it. We can all learn from systematic
-> performance analysis - there might even be bottlenecks in ublk that
-> can be solved to improve performance further.
+> > I tried to pass it through config-host.h, but I dont see a way to
+> > escape the \ is the paths.
+>
+> This must be possible, as we have lots of strings in config-host.h
+> that are paths - eg many CONFIG_QEMU_xxxDIR variables
+>
 
-Indeed, one thing is that ublk uses get user pages to retrieve user pages
-for copying data, this way may add latency for big chunk IO, since
-latency of get user pages should be increased linearly by nr_pages.
+Those paths, generated by meson I believe, use /-dir separators. But
+find_program() returns \-seperated paths.. Maybe the solution is to replace
+\ with / ? (hopefully the path is not quoted already...)
 
-I looked into vduse code a bit too, and vduse still needs the page copy,
-but lots of bounce pages are allocated and cached in the whole device
-lifetime, this way can void the latency for retrieving & allocating
-pages runtime with cost of extra memory consumption. Correct me
-if it is wrong, Xie Yongji or anyone?
+There is a proposal for to_quoted():
+https://github.com/mesonbuild/meson/issues/10417
 
-ublk has code to deal with device idle, and it may apply the similar
-cache approach intelligently in future.
+I found another solution, using g_find_program_in_path(). See v3.
 
-But I think here the final solution could be applying zero copy for
-avoiding the big chunk copy, or use hardware engine.
+thanks
 
+--=20
+Marc-Andr=C3=A9 Lureau
 
-Thanks,
-Ming
+--000000000000c3bbff05ea5bf765
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Thu, Oct 6, 2022 at 2:14 PM Daniel P. Berr=
+ang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com" target=3D"_blank">berr=
+ange@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">On Thu, Oct 06, 2022 at 12:46:17PM +0400, Marc-Andr=C3=A9 Lu=
+reau wrote:<br>
+&gt; Hi<br>
+&gt; <br>
+&gt; On Thu, Oct 6, 2022 at 12:42 PM Daniel P. Berrang=C3=A9 &lt;<a href=3D=
+"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt; =
+wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; On Thu, Oct 06, 2022 at 12:12:22PM +0400, <a href=3D"mailto:marca=
+ndre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> w=
+rote:<br>
+&gt; &gt; &gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre=
+.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<b=
+r>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; This has been tested under msys2 &amp; windows 11. I haven&#=
+39;t tried to make<br>
+&gt; &gt; &gt; it work with other environments yet, but that should be enou=
+gh to<br>
+&gt; &gt; &gt; validate the channel-command implementation anyway.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:=
+marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com<=
+/a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;=C2=A0 tests/unit/test-io-channel-command.c | 32 ++++++++++++=
+----------------<br>
+&gt; &gt; &gt;=C2=A0 tests/unit/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
+&gt; &gt; &gt;=C2=A0 2 files changed, 15 insertions(+), 19 deletions(-)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; diff --git a/tests/unit/test-io-channel-command.c b/tests/un=
+it/test-io-channel-command.c<br>
+&gt; &gt; &gt; index aa09c559cd..be98c3452a 100644<br>
+&gt; &gt; &gt; --- a/tests/unit/test-io-channel-command.c<br>
+&gt; &gt; &gt; +++ b/tests/unit/test-io-channel-command.c<br>
+&gt; &gt; &gt; @@ -24,29 +24,27 @@<br>
+&gt; &gt; &gt;=C2=A0 #include &quot;qapi/error.h&quot;<br>
+&gt; &gt; &gt;=C2=A0 #include &quot;qemu/module.h&quot;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; -#ifndef WIN32<br>
+&gt; &gt; &gt; +#define TEST_PATH &quot;test-io-channel-command.fifo&quot;<=
+br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +#define SOCAT_SRC &quot;PIPE:&quot; TEST_PATH &quot;,wronly=
+&quot;<br>
+&gt; &gt; &gt; +#define SOCAT_DST &quot;PIPE:&quot; TEST_PATH &quot;,rdonly=
+&quot;<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt;=C2=A0 static void test_io_channel_command_fifo(bool async)<b=
+r>
+&gt; &gt; &gt;=C2=A0 {<br>
+&gt; &gt; &gt; -#define TEST_FIFO &quot;tests/test-io-channel-command.fifo&=
+quot;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 QIOChannel *src, *dst;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 QIOChannelTest *test;<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 const char *srcfifo =3D &quot;PIPE:&quot; TES=
+T_FIFO &quot;,wronly&quot;;<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 const char *dstfifo =3D &quot;PIPE:&quot; TES=
+T_FIFO &quot;,rdonly&quot;;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 const char *srcargv[] =3D {<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;/bin/socat&quot;, &quot;-=
+&quot;, srcfifo, NULL,<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_getenv(&quot;SOCAT&quot;), &q=
+uot;-&quot;, SOCAT_SRC, NULL,<br>
+&gt; &gt;<br>
+&gt; &gt; Please don&#39;t rely on env variables, as it complicates the abi=
+lity to<br>
+&gt; &gt; invoke the test directly, without the meson harness. Either pass =
+the<br>
+&gt; &gt; path from meson at compile time in config-host.h, or make this co=
+de<br>
+&gt; &gt; use an unqualified path, so it honours $PATH at runtime.<br>
+&gt; <br>
+&gt; I tried to pass it through config-host.h, but I dont see a way to<br>
+&gt; escape the \ is the paths.<br>
+<br>
+This must be possible, as we have lots of strings in config-host.h<br>
+that are paths - eg many CONFIG_QEMU_xxxDIR variables<br></blockquote><div>=
+<br></div><div>Those paths, generated by meson I believe, use /-dir separat=
+ors. But find_program() returns \-seperated paths.. Maybe the solution is t=
+o replace \ with / ? (hopefully the path is not quoted already...)<br></div=
+></div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Ther=
+e is a proposal for to_quoted(): <a href=3D"https://github.com/mesonbuild/m=
+eson/issues/10417" target=3D"_blank">https://github.com/mesonbuild/meson/is=
+sues/10417</a></div><div class=3D"gmail_quote"><br></div><div class=3D"gmai=
+l_quote">I found another solution, using g_find_program_in_path(). See v3.<=
+/div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">thanks=
+<br></div><div class=3D"gmail_quote"><br></div>-- <br><div dir=3D"ltr">Marc=
+-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000c3bbff05ea5bf765--
 
