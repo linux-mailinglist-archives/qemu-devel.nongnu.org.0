@@ -2,95 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2A65F6376
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 11:17:10 +0200 (CEST)
-Received: from localhost ([::1]:52336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BEF5F638A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 11:22:59 +0200 (CEST)
+Received: from localhost ([::1]:40186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogN09-0002MG-Fx
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 05:17:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56666)
+	id 1ogN5m-0008E9-T6
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 05:22:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1ogMb7-0005qD-3j
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:51:18 -0400
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:44767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tabba@google.com>) id 1ogMb4-0008RB-Mr
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:51:16 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id s20so1671299lfi.11
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 01:51:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=tIvLoyAzCOVKOX99D0R9AADU51C3uknT25CXCqDgD1U=;
- b=syjvuFslfwj1fipmU574j5/yWZL2S3jYhnbWtJ5/bW8iUM/V71vSmb5AsxhaQ/2G0o
- ctXQnXj/0GSOAbOLK304yQgqsFpIlw2wn3vENsIXReAQESQ7FYQ3e3iDUnXAdUxwt4Td
- kB2rW56eQNiKHDXyNU3pU/c0Ku79mAkkC7m5TZZLTqHBqVkt65rb0q9hLTPBpEEa/mRq
- eX1zzMQ6IXkPCewSrX8mVTXOcPVRl/qAef1AVJ52kW5/Ujtn6X047jAV62EnnUX9Aztm
- 0/+I6X+EdhcVKtpUJDxafJIJ2F5NBl87Wqp+wSebFHrCPcoC3fkGq5u8ifnCkUUfBbKO
- WVFw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ogMcg-0006Ky-ER
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:52:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42598)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ogMcc-00008Z-UV
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:52:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665046369;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ne1hcZA/IvNixK9YxcfJq6ZgDN4PbML19r6o7ECGmAs=;
+ b=O4UgT9GqePdPNYBUX2xNXxKOys+RKXc8asYNvf5G8o4eOfoDMPUgV+IO7srnposXhLNNdK
+ 4ijii3CC56qqFgMklQpB7249zeR+zERbIYyQofs+aVgTwDANP4fyUtXzj0IE2e4uWc9FX0
+ UrdSWU1pgasOS8HlMGEYK07UJtJiNwM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-352-eYMm5dbmM5yfvA4HRF5o2A-1; Thu, 06 Oct 2022 04:52:48 -0400
+X-MC-Unique: eYMm5dbmM5yfvA4HRF5o2A-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ s17-20020a056402521100b004511c8d59e3so1074600edd.11
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 01:52:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=tIvLoyAzCOVKOX99D0R9AADU51C3uknT25CXCqDgD1U=;
- b=50Pj+PNvJ/9ThoHfvY2LyhqzP/CVQnJ5dmtC/GSHjPL67Bj89XaoitrrQPmix/UOi6
- 1UMWV4VyXAZSQd/g8QPFjB5MjSkjJ6+gVe3wso3eYHCw8me6nT13PStsmCB5O60Dv6QW
- c/F+NLiE4nzbvVg2+j1K7k8UAaKZkl9ECzzaO06B+MxIlhkTf7odzjL65aApyIyP6nPb
- 8VYUaFtKVlkXPcfDmGjZADDKiOfXEoZtXXTpxH+pEB8obNU87ptz0jCuwq8SANi36cgV
- ugl6S1jtEy2wZB9MH4WZ9kuNsAOIHUPmrd/3CIS/xpLJZ3TEDOtoZscT7iBhnuvoJ54E
- Yqzw==
-X-Gm-Message-State: ACrzQf2Etu7i34X0ZUoKRXYWgR/ffRM2wB48cDBRqwi94m4fHofB8fYt
- E9oD4VrO9gCZerb1Uyz4rV5Sr2LufTJRE9W7PNDM/Q==
-X-Google-Smtp-Source: AMsMyM5ikUdU3CKf42PjcY0cjPjhnAUfk+hgFVaVlzCr5IsHwJzEJDOSLagw5jbRXrOt3sxCo/qZdi3EfGbbRlMYSzI=
-X-Received: by 2002:ac2:4c8b:0:b0:4a2:2432:93ff with SMTP id
- d11-20020ac24c8b000000b004a2243293ffmr1387544lfl.26.1665046264888; Thu, 06
- Oct 2022 01:51:04 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=ne1hcZA/IvNixK9YxcfJq6ZgDN4PbML19r6o7ECGmAs=;
+ b=rRopS2q5yY43/GQ9uvcvu+QAtDTRCMeJaQNWk/Il4TImDtTWoGx+D+g+e4yPNwazCO
+ HKlDrpIDujUZ/Xl7ZQdraRAbqPyyONXozv7QXESNSIgFm06GKoJl7bg1XkcANaIx1Mqo
+ dtQ0eQr5dVxYYsQqIR3qZ/oosL/J897wao7q5jTaet7hejmvFCwoOZ5AQ/sNY6m38g6c
+ 6EqgbsMSxYosR7pxzqi7Boigb0KUuCSk2aYrsSga9MT03dxDueeaRuQXQ0l5ybrFfTC8
+ z3bh+/FsSVCHh9azwhQDQoRPhnoetr7e6Aw90c8/DielMNaRQ0Ud40223GaP8J+dR0ko
+ En1w==
+X-Gm-Message-State: ACrzQf0PfcGFgGSMkG4iB/rb+0Nbq5YYK+CIInuKe2AJ+1yBOjm5plQZ
+ dGCoFonL1lVUXL+kBaJBofIo/76beJJ4ZrptfExFY7TlXaJ32KtNIjUb18ArDscVeGY2x3kjb66
+ rdB+tlw75d2fRmNA=
+X-Received: by 2002:a17:906:cc10:b0:77a:fe95:eae2 with SMTP id
+ ml16-20020a170906cc1000b0077afe95eae2mr3179813ejb.466.1665046367210; 
+ Thu, 06 Oct 2022 01:52:47 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5a9LoVO0eSO8cw70rCqqaojHWQ7mHKwsLJ1l12gv39UJ8aw7UiqyMD6YFrOZ48d6D0eoHxOQ==
+X-Received: by 2002:a17:906:cc10:b0:77a:fe95:eae2 with SMTP id
+ ml16-20020a170906cc1000b0077afe95eae2mr3179801ejb.466.1665046366986; 
+ Thu, 06 Oct 2022 01:52:46 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-179-124.web.vodafone.de.
+ [109.43.179.124]) by smtp.gmail.com with ESMTPSA id
+ r19-20020aa7d153000000b0045754cd5e08sm5371138edo.39.2022.10.06.01.52.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Oct 2022 01:52:46 -0700 (PDT)
+Message-ID: <74f4b4f3-53df-e44e-513b-052550bd3c2f@redhat.com>
+Date: Thu, 6 Oct 2022 10:52:44 +0200
 MIME-Version: 1.0
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
-In-Reply-To: <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Thu, 6 Oct 2022 09:50:28 +0100
-Message-ID: <CA+EHjTz=o9M47frGCXgNJ8J5_Rn=YjzZR5uvCTxStw+GfGE5kg@mail.gmail.com>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, 
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, 
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=tabba@google.com; helo=mail-lf1-x12f.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2] build-sys: error when slirp is not found and not
+ disabled
+Content-Language: en-US
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: jb-gnumlists@wisemo.com, jasowang@redhat.com, qemu_oss@crudebyte.com
+References: <20221006083322.2612639-1-marcandre.lureau@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221006083322.2612639-1-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.435, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,125 +101,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 06/10/2022 10.33, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> This is an alternative configure-time solution to "[PATCH] net:
+> print a more actionable error when slirp is not found".
+> 
+> See also "If your networking is failing after updating to the latest git
+> version of QEMU..." ML thread.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   meson.build | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/meson.build b/meson.build
+> index 4321b8f8da..b05080b051 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -690,6 +690,13 @@ if not get_option('slirp').auto() or have_system
+>     endif
+>   endif
+>   
+> +# Remove this error after QEMU 8.1 has been released.
+> +if not get_option('slirp').disabled() and not slirp.found()
+> +  error('libslirp is not explicitely disabled and was not found. ' +
+> +        'Since qemu 7.2, libslirp is no longer included as a submodule ' +
 
-<...>
+Maybe s/qemu/QEMU/
 
+> +        'fallback, you must install it on your system or --disable-slirp.')
+> +endif
+> +
+>   vde = not_found
+>   if not get_option('vde').auto() or have_system or have_tools
+>     vde = cc.find_library('vdeplug', has_headers: ['libvdeplug.h'],
 
-> diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
-> new file mode 100644
-> index 000000000000..2d33cbdd9282
-> --- /dev/null
-> +++ b/mm/memfd_inaccessible.c
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-<...>
-
-> +struct file *memfd_mkinaccessible(struct file *memfd)
-> +{
-> +       struct inaccessible_data *data;
-> +       struct address_space *mapping;
-> +       struct inode *inode;
-> +       struct file *file;
-> +
-> +       data = kzalloc(sizeof(*data), GFP_KERNEL);
-> +       if (!data)
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +       data->memfd = memfd;
-> +       mutex_init(&data->lock);
-> +       INIT_LIST_HEAD(&data->notifiers);
-> +
-> +       inode = alloc_anon_inode(inaccessible_mnt->mnt_sb);
-> +       if (IS_ERR(inode)) {
-> +               kfree(data);
-> +               return ERR_CAST(inode);
-> +       }
-> +
-> +       inode->i_mode |= S_IFREG;
-> +       inode->i_op = &inaccessible_iops;
-> +       inode->i_mapping->private_data = data;
-> +
-> +       file = alloc_file_pseudo(inode, inaccessible_mnt,
-> +                                "[memfd:inaccessible]", O_RDWR,
-> +                                &inaccessible_fops);
-> +       if (IS_ERR(file)) {
-> +               iput(inode);
-> +               kfree(data);
-
-I think this might be missing a return at this point.
-
-> +       }
-> +
-> +       file->f_flags |= O_LARGEFILE;
-> +
-> +       mapping = memfd->f_mapping;
-> +       mapping_set_unevictable(mapping);
-> +       mapping_set_gfp_mask(mapping,
-> +                            mapping_gfp_mask(mapping) & ~__GFP_MOVABLE);
-> +
-> +       return file;
-> +}
-
-Thanks,
-/fuad
-
-
-
-> +
-> +void inaccessible_register_notifier(struct file *file,
-> +                                   struct inaccessible_notifier *notifier)
-> +{
-> +       struct inaccessible_data *data = file->f_mapping->private_data;
-> +
-> +       mutex_lock(&data->lock);
-> +       list_add(&notifier->list, &data->notifiers);
-> +       mutex_unlock(&data->lock);
-> +}
-> +EXPORT_SYMBOL_GPL(inaccessible_register_notifier);
-> +
-> +void inaccessible_unregister_notifier(struct file *file,
-> +                                     struct inaccessible_notifier *notifier)
-> +{
-> +       struct inaccessible_data *data = file->f_mapping->private_data;
-> +
-> +       mutex_lock(&data->lock);
-> +       list_del(&notifier->list);
-> +       mutex_unlock(&data->lock);
-> +}
-> +EXPORT_SYMBOL_GPL(inaccessible_unregister_notifier);
-> +
-> +int inaccessible_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-> +                        int *order)
-> +{
-> +       struct inaccessible_data *data = file->f_mapping->private_data;
-> +       struct file *memfd = data->memfd;
-> +       struct page *page;
-> +       int ret;
-> +
-> +       ret = shmem_getpage(file_inode(memfd), offset, &page, SGP_WRITE);
-> +       if (ret)
-> +               return ret;
-> +
-> +       *pfn = page_to_pfn_t(page);
-> +       *order = thp_order(compound_head(page));
-> +       SetPageUptodate(page);
-> +       unlock_page(page);
-> +
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(inaccessible_get_pfn);
-> +
-> +void inaccessible_put_pfn(struct file *file, pfn_t pfn)
-> +{
-> +       struct page *page = pfn_t_to_page(pfn);
-> +
-> +       if (WARN_ON_ONCE(!page))
-> +               return;
-> +
-> +       put_page(page);
-> +}
-> +EXPORT_SYMBOL_GPL(inaccessible_put_pfn);
-> --
-> 2.25.1
->
 
