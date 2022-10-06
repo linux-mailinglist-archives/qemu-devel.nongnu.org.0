@@ -2,55 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08DC5F6C82
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 19:09:43 +0200 (CEST)
-Received: from localhost ([::1]:35530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792265F6D02
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 19:31:47 +0200 (CEST)
+Received: from localhost ([::1]:57480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogUNS-0006rC-2k
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 13:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46670)
+	id 1ogUio-0001ln-Av
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 13:31:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ogTUM-0003f5-Q0; Thu, 06 Oct 2022 12:12:49 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:48085)
+ (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
+ id 1ogTXA-0007OR-JX; Thu, 06 Oct 2022 12:15:40 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:49094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ogTUK-0006It-QS; Thu, 06 Oct 2022 12:12:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=DYd7OLbsoP3rMHvf/Bn3LMDYKygIPiL+4S1EFDLp53I=; b=XCWhZjEvABnWFH3O3DDP6CUgqA
- YcRiQL0NtaFnyu5TLtmUKDnFluQReSAKR0ZeKj4JtWCT6Bjl2QVFt4tVDnvgp2PgdNtXKgBvPGTHK
- W/b9yx6gTLGuiXcxWIPHUZWLbYgbrzUcDC9M3R1QUM6Kx1waxJvbGIzAGrCGVfCBLzVv0IjKJV1hF
- wtUOtlKZGjuHjCRBbPEo25zJoVSaKxwy2q5joRII9r7JCxX9fRQ9On0kP8IGSsb/PUMyiVKmPmnAD
- qj9fqePTodYSxrRqHEd/ye0eU2VREfmSW+6bi0drtp6llAyfMp1wwEyfSVD0F2KfPOUy5MN8jiuK5
- qg3MASwnOjipJ9pkhvlgC17qy8Vo9Za59Xf+xuM3crjbA4bhzJJeS7KwabY/GD1ewh8HwLoZV+gfU
- k0dHx/05XywaB6Sf2giO7vrh1LzoTxNvYpkXwuT1M53sJrioaAr5egmDoFJkhvjdNCL6x8DFklivw
- aSe7lsjdtYXHAxplSc8hfejSE2WiGoj72oyH7KMv+4wAwf+HzI3tHRlQO3jbos6TG7/BzmB1E6rwV
- K09DrPVB8aK6rZTbD0IvZRO+9SZFcxKWPDhobMiobdhipYI05XmJwlezrLftisINzHwkpqtEZeJYw
- zJgMLIYW+62YalE9jznz2IcIeyu0et2//DqkZ0x/s=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org, Linus Heckemann <git@sphalerite.org>
-Cc: Greg Kurz <groug@kaod.org>, Qemu-block <qemu-block@nongnu.org>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v6] 9pfs: use GHashTable for fid table
-Date: Thu, 06 Oct 2022 18:12:38 +0200
-Message-ID: <2980150.NV5oU9txOS@silver>
-In-Reply-To: <3864477.uoRi9OHyCq@silver>
-References: <20221004104121.713689-1-git@sphalerite.org>
- <19360658.4YNXD89StS@silver> <3864477.uoRi9OHyCq@silver>
+ (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
+ id 1ogTX8-0006n2-GG; Thu, 06 Oct 2022 12:15:40 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 296FhkfE009472;
+ Thu, 6 Oct 2022 16:15:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : reply-to : mime-version :
+ content-transfer-encoding; s=corp-2022-7-12;
+ bh=9H81aPdgl1UExUuG98zsEQrT8Z5iFKbGoxiLFepC7Wk=;
+ b=MYI0xbzSjQpWFK+QJNJmYGc498CSCyWfNvhqO+BLj5z1ZVdzBgmJ2omFZiBJUmegXdcG
+ a/7DDgBFaeERq8cFC3YgVI4iId91ju7TUsak4HTFAajekCxVUwnrfZ9eCvBTNy9Qy6Fy
+ A5YrOxVfZfpFEvsQ4eAon0ShzmooxTGbzOjibCChMJLK0TvVhAPW+PSCq0OeZRR4ndlE
+ ve23cubwYN2w0xFcSiXFNobUEDlvkPmqKik434T0x0sKBiSd1lqWR9HGCRPhrSWswTwJ
+ L6N5UtOORMU3m4ergifjA0ety8rG8H9YH+VKk3dBvVrGcMHBNpYc7bo6TmouN5ZYPF6x DA== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3k15up4405-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 06 Oct 2022 16:15:23 +0000
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 296FAfJf028246; Thu, 6 Oct 2022 16:15:22 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3jxc06eq3p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 06 Oct 2022 16:15:22 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 296GFLrf001092;
+ Thu, 6 Oct 2022 16:15:21 GMT
+Received: from mlluis-mac.uk.oracle.com (dhcp-10-175-170-234.vpn.oracle.com
+ [10.175.170.234])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
+ 3jxc06eq1e-1; Thu, 06 Oct 2022 16:15:21 +0000
+From: Miguel Luis <miguel.luis@oracle.com>
+To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
+ shannon.zhaosl@gmail.com, peter.maydell@linaro.org, miguel.luis@oracle.com
+Subject: [RFC PATCH 0/4] ACPI MADT and FADT update according to the ACPI 6.0
+ spec
+Date: Thu,  6 Oct 2022 16:14:46 +0000
+Message-Id: <20221006161450.69912-1-miguel.luis@oracle.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-06_04,2022-10-06_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxscore=0 mlxlogscore=999
+ bulkscore=0 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2210060094
+X-Proofpoint-GUID: 5kvbw4DjOIRNqxtgox_KKM61-7XBVnxb
+X-Proofpoint-ORIG-GUID: 5kvbw4DjOIRNqxtgox_KKM61-7XBVnxb
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=miguel.luis@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,86 +94,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: miguel.luis@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 5. Oktober 2022 11:38:39 CEST Christian Schoenebeck wrote:
-> On Dienstag, 4. Oktober 2022 14:54:16 CEST Christian Schoenebeck wrote:
-> > On Dienstag, 4. Oktober 2022 12:41:21 CEST Linus Heckemann wrote:
-> > > The previous implementation would iterate over the fid table for
-> > > lookup operations, resulting in an operation with O(n) complexity on
-> > > the number of open files and poor cache locality -- for every open,
-> > > stat, read, write, etc operation.
-> > >=20
-> > > This change uses a hashtable for this instead, significantly improving
-> > > the performance of the 9p filesystem. The runtime of NixOS's simple
-> > > installer test, which copies ~122k files totalling ~1.8GiB from 9p,
-> > > decreased by a factor of about 10.
-> > >=20
-> > > Signed-off-by: Linus Heckemann <git@sphalerite.org>
-> > > Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-> > > Reviewed-by: Greg Kurz <groug@kaod.org>
-> > > Message-Id: <20220908112353.289267-1-git@sphalerite.org>
-> > > [CS: - Retain BUG_ON(f->clunked) in get_fid().
-> > >=20
-> > >      - Add TODO comment in clunk_fid(). ]
-> > >=20
-> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > ---
-> >=20
-> > In general: LGTM now, but I will definitely go for some longer test runs
-> > before queuing this patch. Some minor side notes below ...
->=20
-> So I was running a compilation marathon on 9p as root fs this night, first
-> couple hours went smooth, but then after about 12 hours 9p became unusable
-> with error:
->=20
->   Too many open files
->=20
-> The question is, is that a new issue introduced by this patch? I.e. does =
-it
-> break the reclaim fd code? Or is that rather unrelated to this patch, and=
- a
-> problem we already had?
->=20
-> Linus, could you look at this? It would probably make sense to force gett=
-ing
-> into this situation much earlier like:
->=20
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index aebadeaa03..0c104b81e1 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -4330,6 +4330,6 @@ static void __attribute__((__constructor__))
-> v9fs_set_fd_limit(void)
->          error_report("Failed to get the resource limit");
->          exit(1);
->      }
-> -    open_fd_hw =3D rlim.rlim_cur - MIN(400, rlim.rlim_cur / 3);
-> +    open_fd_hw =3D rlim.rlim_cur - MIN(50, rlim.rlim_cur / 3);
->      open_fd_rc =3D rlim.rlim_cur / 2;
->  }
->=20
-> I can't remember that we had this issue before, so there might still be
-> something wrong with this GHashTable patch here.
+The MADT table structure has been updated in commit 37f33084ed2e 
+("acpi: arm/virt: madt: use build_append_int_noprefix() API to compose MADT table")
+to include the 5.2.12.18 GIC ITS Structure and so table's revision also needs to
+be updated. MADT and the FADT tables from the same spec need to be in sync and in
+this case also the FADT needs to be updated.
 
-Much easier reproducer; and no source changes required whatsoever:
+Revision 6.0 of the ACPI FADT table introduces the field "Hypervisor Vendor
+Identity" which is missing and must be included. Patch 2/4 includes a suggestion
+for the value of this field by using the current acceleration name. This would
+provide values like 'KVM' for example when KVM is used.
 
-  prlimit --nofile=3D140 -- qemu-system-x86_64 ...
+Ref: https://uefi.org/sites/default/files/resources/ACPI_6_0_Errata_A.PDF
 
-And I actually get this error without this patch as well, which suggests th=
-at=20
-we already had a bug in the reclaim FDs code before? :/
+Open to discussion, your comments, thoughts and suggestions are very welcome.
 
-Anyway, as it seems that this bug was not introduced by this particular pat=
-ch,=20
-and with the unnecesary `goto` and `out:` label removed:
+Thanks in advance.
+Miguel
 
-Queued on 9p.next:
-https://github.com/cschoenebeck/qemu/commits/9p.next
+Miguel Luis (4):
+  tests/acpi: virt: allow acpi MADT and FADT changes
+  acpi: fadt: support revision 6.0 of the ACPI specification
+  acpi: arm/virt: madt: bump to revision 4 accordingly to ACPI 6.0
+    Errata A
+  Step 6 & 7 of the bios-tables-test.c documented procedure.
 
-Best regards,
-Christian Schoenebeck
+ hw/acpi/aml-build.c               |  14 +++++++++++---
+ hw/arm/virt-acpi-build.c          |  26 ++++++++++++--------------
+ tests/data/acpi/virt/APIC         | Bin 168 -> 172 bytes
+ tests/data/acpi/virt/APIC.memhp   | Bin 168 -> 172 bytes
+ tests/data/acpi/virt/APIC.numamem | Bin 168 -> 172 bytes
+ tests/data/acpi/virt/FACP         | Bin 268 -> 276 bytes
+ tests/data/acpi/virt/FACP.memhp   | Bin 268 -> 276 bytes
+ tests/data/acpi/virt/FACP.numamem | Bin 268 -> 276 bytes
+ 8 files changed, 23 insertions(+), 17 deletions(-)
 
+-- 
+2.37.3
 
 
