@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFBF05F6539
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 13:29:43 +0200 (CEST)
-Received: from localhost ([::1]:36610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911605F6550
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 13:40:11 +0200 (CEST)
+Received: from localhost ([::1]:41416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogP4Q-0006fy-RH
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 07:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41564)
+	id 1ogPEY-000564-2i
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 07:40:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ogOoX-0008HY-SE
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 07:13:17 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:39841)
+ id 1ogOqA-0001yy-Nv; Thu, 06 Oct 2022 07:14:58 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:41670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ogOoW-0005Vj-3R
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 07:13:17 -0400
-Received: by mail-pf1-x433.google.com with SMTP id d10so1739743pfh.6
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 04:13:15 -0700 (PDT)
+ id 1ogOq9-0005ff-7P; Thu, 06 Oct 2022 07:14:58 -0400
+Received: by mail-pl1-x636.google.com with SMTP id l4so1403323plb.8;
+ Thu, 06 Oct 2022 04:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=uiV1FvVVqtv3qEC5FgBwvWdH+Bp3y7YVpCeWS18KaYc=;
- b=onTqCjKgy0G3J83zUGMUBGCA1dSa+anhdbRlHpzDJJFk3aC5Wnf1UZHmtqZKxnprpI
- AP2C36on6IZJJGR+s9zCXhwTscirtvn6BzpwdSRcClkEBMoxiQ+AZkZ9v0e5bzeJgdLt
- Uu43G2BTDf7I80imXBx6NAQLTY6e11KreaN06oxGjYlGz9ljJUmSCaG2c/WKQZpoLp2P
- sykIw4R/mkw3esD6IM4mE+ANbqPBr26uEUERzMY7bgCaGLA/i1DYIwaw01X00q3s3GBC
- nXpTKYlDXijbUdrt40D03BLcHX7NSBL7+HBK3K3osME1llpqrsTsXyRXOfWtde9liKB8
- W34g==
+ bh=2OoRN9LEWNoLUS7jRehhoJv18hilbJr4/Y3PnSMBACM=;
+ b=jnMn4CQKu1FlorNGgik2kqskhcHi4EHZN6aQj3y/4mCBPYfOly+4Bu/ANaW7pOIFX9
+ EeT0iegKV41UY4q5vmMJ6Po4msXj1gifPDfp2tTSSz5Nf//E8GGVHY+kD0MHvCVyfvVg
+ FLG8ymUPiLYZAAwTQWXD6oImAF4JVcte1/KUd3EFDi8kGwIA+u+DQXPufM6n0xwq86Cd
+ kyuGGHilnjj/823mMwXZ+K1Mh7CH525amQ3+a43zng/SEEAID5TU0Mon+1vUInun86K4
+ Jqcz3QkpWPIcYn1HM+M31yHlfQq5/6ERam3OC1h22fUItCNCbxpcyIMqBbtNDDrEwNca
+ 39vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :sender:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=uiV1FvVVqtv3qEC5FgBwvWdH+Bp3y7YVpCeWS18KaYc=;
- b=6Vc57hg4+fd3HQjRJM5VQMDOSFyPT2sker7Bvn7AMKYGvRHpNd2RP/H2zwAipGGLV4
- 32nT/mHf6msnQavd7RUF5exYxyEFFju6LJnqz8gsQE2mhWftHucpZhIabOvyfGitF/jJ
- lSwRhisjylD64pLgAayhfHDxgCW+jOVljcS3eFXcrjmn/S7Mk9nBkptqUJZgJS3YRzDP
- TJCB0PSYOzYBXdmISICKKJQMkCdf4/DCwcbO+S+eh+TnO8SIVn5Li3p3Mu12aYDV7QkX
- 33SF9jn/h3sKiUGmIBUP1pMdwPqD6DiSUzk+/7yqrI9T98DG22QtDUbVbeNmYf2H+TIo
- ugpQ==
-X-Gm-Message-State: ACrzQf1tQwPH0APwtGFdPjQIo/Hq1Xl78lWXTiqKrnGkH1K9n91yL6HB
- +YoDai6HUb7G0Y2E6YrQ0/M=
-X-Google-Smtp-Source: AMsMyM5cS+b01Q0UxyOmqxLmu9wkIrM8YUXiXhY34POMBNaclATuZFBng974uw+97A4T+hPOYTBYPw==
-X-Received: by 2002:aa7:9083:0:b0:55f:9827:42e7 with SMTP id
- i3-20020aa79083000000b0055f982742e7mr4176943pfa.15.1665054794723; 
- Thu, 06 Oct 2022 04:13:14 -0700 (PDT)
+ bh=2OoRN9LEWNoLUS7jRehhoJv18hilbJr4/Y3PnSMBACM=;
+ b=PaNBHLlCad9YhIxv+c3ZskXOV1ZTOJ9dFs1gyvEqORiTn58DejAvmgetf56q+0948E
+ jr/cWhYj6f9JwjsC1P70UqK/7CS2DVLFby1xa/+DTdHaz/zrvKXnLU7oUfmTFz6oESBB
+ luLDCRRa6If5ncX2dNjIZDW9HqZTueLRnrrsBHxs4FkEDtkQPTLyXpKTjmfcm/CVAVhy
+ 0eOe+vwvU5Gj5SMnD8CFN5nTM9Yoe9A0S01FUR1Jx9724zwHHlJz2eAlisGjccPl1aDs
+ 1TdAAm2v8m4yA94sIHyw27zwI0SVfWP5huoKNdDr63ygsT7+Zz1ehIYCa68AFBAE1Hjk
+ IiPQ==
+X-Gm-Message-State: ACrzQf05S/AlDNgXLSiL/96uaVi5bSE+uIWRySqtSPBib29/8fZ9V7nR
+ OZ7E7MwdSdqz5CZqhS80zh4=
+X-Google-Smtp-Source: AMsMyM4UAwFCbpClUhFLS0eY/bHsrRI3xh4FwxjXdqxsojSxiuTYZwsD5HodoTL5D8qJIQHrg7BhIg==
+X-Received: by 2002:a17:90b:1bcd:b0:203:27a3:6d0f with SMTP id
+ oa13-20020a17090b1bcd00b0020327a36d0fmr4775731pjb.234.1665054895474; 
+ Thu, 06 Oct 2022 04:14:55 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n7-20020a170902e54700b00174f61a7d09sm12205664plf.247.2022.10.06.04.13.12
+ y1-20020a626401000000b0053e8f4a10c1sm12596774pfb.217.2022.10.06.04.14.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Oct 2022 04:13:14 -0700 (PDT)
-Message-ID: <c8e01827-60d4-e3a0-07dd-70ced5beb106@amsat.org>
-Date: Thu, 6 Oct 2022 13:13:10 +0200
+ Thu, 06 Oct 2022 04:14:55 -0700 (PDT)
+Message-ID: <f98d71c2-994d-28d5-b5e0-52913cc656df@amsat.org>
+Date: Thu, 6 Oct 2022 13:14:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH] linux-user: Fix more MIPS n32 syscall ABI issues
+Subject: Re: [PATCH] docs/nuvoton: Update URL for images
 Content-Language: en-US
-To: WANG Xuerui <xen0n@gentoo.org>, qemu-devel@nongnu.org
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?Q?Andreas_K_=2e_H=c3=bcttel?= <dilfridge@gentoo.org>,
- Joshua Kinard <kumba@gentoo.org>
-References: <20221006085500.290341-1-xen0n@gentoo.org>
-In-Reply-To: <20221006085500.290341-1-xen0n@gentoo.org>
+To: Joel Stanley <joel@jms.id.au>, Havard Skinnemoen
+ <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20221004050042.22681-1-joel@jms.id.au>
+In-Reply-To: <20221004050042.22681-1-joel@jms.id.au>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.435,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_PDS_OTHER_BAD_TLD=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,29 +95,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 6/10/22 10:55, WANG Xuerui wrote:
-> In commit 80f0fe3a85 ("linux-user: Fix syscall parameter handling for
-> MIPS n32") the ABI problem regarding offset64 on MIPS n32 was fixed,
-> but still some cases remain where the n32 is incorrectly treated as any
-> other 32-bit ABI that passes 64-bit arguments in pairs of GPRs. Fix by
-> excluding TARGET_ABI_MIPSN32 from various TARGET_ABI_BITS == 32 checks.
+On 4/10/22 07:00, Joel Stanley wrote:
+> openpower.xyz was retired some time ago. The OpenBMC Jenkins is where
+> images can be found these days.
 > 
-> Closes: https://gitlab.com/qemu-project/qemu/-/issues/1238
-> Signed-off-by: WANG Xuerui <xen0n@gentoo.org>
-> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Cc: Andreas K. Hüttel <dilfridge@gentoo.org>
-> Cc: Joshua Kinard <kumba@gentoo.org>
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 > ---
-> 
-> Note: I can't reproduce the crash with neither MIPS n32 sysroot at my hand
-> (a self-built one for Loongson-2F, and stage3-mips64_n32-openrc-20221001T170527Z),
-> so I can only verify by looking at the (host and qemu) strace outputs, and
-> would have to ask you to review/test this harder. Thanks.
-> 
->   linux-user/syscall.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
+>   docs/system/arm/nuvoton.rst | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
