@@ -2,95 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE43E5F6A50
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:10:12 +0200 (CEST)
-Received: from localhost ([::1]:59914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C470A5F6A4F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:10:10 +0200 (CEST)
+Received: from localhost ([::1]:59912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogSVn-0000z4-Sh
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:10:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55354)
+	id 1ogSVl-0000uj-Ir
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:10:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ogSRV-0004Q8-Pm
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:05:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26432)
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ogST1-0005wS-3A
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:07:19 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:43202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ogSRS-0003Wo-Js
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:05:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665068736;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KsDQCZivcs5q3LIQk4JqK7qJdKXwyCza9bMFTKn2SaE=;
- b=NkVylDZLPvkcF1VLZgvDYzMuTLvYdsvOSrelzrW2DZDfiK1pBEp471jYrub2hqOtSBNW4d
- 34TOE5cBzVD59VhR8LLGvTQqGXw7glMHmIU6VwEXAQCyBADQSujZrmwF6PAwTWGnjrDewC
- 6nfvbvOrdDKOcpVblBdV0c1sGPSQU9g=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-192-T17otGC3Pb69BO_wKRqxPg-1; Thu, 06 Oct 2022 11:05:35 -0400
-X-MC-Unique: T17otGC3Pb69BO_wKRqxPg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g10-20020a7bc4ca000000b003c29da13d23so91003wmk.0
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:05:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:organization:from
- :references:cc:to:content-language:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KsDQCZivcs5q3LIQk4JqK7qJdKXwyCza9bMFTKn2SaE=;
- b=bCYJ23CDJWP3ML9jDt0QBWJxhnUElvUzFJIIuWAuCmzdncpjXgtAmz9zO5TnBB9ah3
- hozvtLoDqI/hCIzFb7Dg6GruswKmga2a7Iu7dqAIB7OmFyysrmbqVpv0c7UUgU37LYmx
- KJCr4DJt9ubYOXj+/3f5t9n9ncNL+aLU2pjXiPn4GbMtmyUfSFphIGpFG/LB6fVyQv20
- 5QL4GbdwAx2ZUywbMMRmnFqoY7sF5Th4Xhwcs2v38QbFh/ITtJ2Rx1/YBTOKlnwS9rAa
- CYwo4jUHCJgtV5stLEFaPp++a0cde1Gq9x2KaimMP5iyWppTTr1g2DnSkxWR5EAiD9kJ
- pdBA==
-X-Gm-Message-State: ACrzQf2kLvwWZlfRQ+a0MeU1vO/tSPBRL7IfsTwP+emBJYh5igx/kTWC
- WwZba2Fh+HIpKyvaspi7PO2hh8vNHFszDxqe7SxiYcSRnFNWYMSNcSJh0Ou5Cr3xp+EiQJ4/eJx
- vtTBU/wtSGyXSkIY=
-X-Received: by 2002:a05:600c:524b:b0:3b4:8c0c:f3b6 with SMTP id
- fc11-20020a05600c524b00b003b48c0cf3b6mr7566109wmb.50.1665068732153; 
- Thu, 06 Oct 2022 08:05:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM58CxfaUhDp+jzJqAO0QQvreqx3cQZQArtNnrcWO2rDAkIAqEoAOiIkx72p7sKYYDiMeMPrOg==
-X-Received: by 2002:a05:600c:524b:b0:3b4:8c0c:f3b6 with SMTP id
- fc11-20020a05600c524b00b003b48c0cf3b6mr7566082wmb.50.1665068731850; 
- Thu, 06 Oct 2022 08:05:31 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c705:3700:aed2:a0f8:c270:7f30?
- (p200300cbc7053700aed2a0f8c2707f30.dip0.t-ipconnect.de.
- [2003:cb:c705:3700:aed2:a0f8:c270:7f30])
- by smtp.gmail.com with ESMTPSA id
- k16-20020adfd850000000b0022e3538d305sm15603883wrl.117.2022.10.06.08.05.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Oct 2022 08:05:31 -0700 (PDT)
-Message-ID: <88875089-b671-f2d6-07c7-7c6f1a2a26f3@redhat.com>
-Date: Thu, 6 Oct 2022 17:05:29 +0200
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ogSSz-0003nZ-4I
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:07:18 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 686EB619EB;
+ Thu,  6 Oct 2022 15:07:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FB2EC433D6;
+ Thu,  6 Oct 2022 15:07:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1665068832;
+ bh=aOkXuECcbSjQISc+01I1tvXXXenJbSlH28e8M1BvI94=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ipL5LglSgB96d6J8L2HRVMl+jXPn9WaZCDeQ01bYQBl4fNvQ1dM3lsq4Q1rZT43/e
+ 04qttZa16SWURI2GfkK0oPR51suEX+KmL9EsCjFdWia96LnfzBWvtuqNVtpUW3BtJU
+ vcNgsuDIFvSsLikBs88sxH/LdhpbfjE4y6loO4Mu7LZwOPT9sRBT/8sLT04H22RAal
+ QWzkjxZVHXql+4CQTc3Zt3ML52Z7jwbzo3dBaWVQ7tNHxkNILSrzI4WPmGEaVVk6pI
+ qS7RDP6QwQGatrjUNvs0hohnNuzTtFZ1Mq8tk9g2NPUW0j9qCUC4fQjJGqzWtnoJZi
+ NyQ6cXDs2lPnw==
+Date: Thu, 6 Oct 2022 18:07:09 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Yz7vHXZmU3EpmI0j@kernel.org>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <Yz7s+JIexAHJm5dc@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Content-Language: en-US
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qiaonuohan@cn.fujitsu.com,
- Peter Maydell <peter.maydell@linaro.org>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
-References: <20220905125741.95516-1-marcandre.lureau@redhat.com>
- <20220905125741.95516-3-marcandre.lureau@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v2 2/2] dump: fix kdump to work over non-aligned blocks
-In-Reply-To: <20220905125741.95516-3-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yz7s+JIexAHJm5dc@kernel.org>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=jarkko@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.435, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,133 +96,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.09.22 14:57, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
+> On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> > additional KVM memslot fields private_fd/private_offset to allow
+> > userspace to specify that guest private memory provided from the
+> > private_fd and guest_phys_addr mapped at the private_offset of the
+> > private_fd, spanning a range of memory_size.
+> > 
+> > The extended memslot can still have the userspace_addr(hva). When use, a
+> > single memslot can maintain both private memory through private
+> > fd(private_fd/private_offset) and shared memory through
+> > hva(userspace_addr). Whether the private or shared part is visible to
+> > guest is maintained by other KVM code.
 > 
-> Rewrite get_next_page() to work over non-aligned blocks. When it
-> encounters non aligned addresses, it will try to fill a page provided by
-> the caller.
+> What is anyway the appeal of private_offset field, instead of having just
+> 1:1 association between regions and files, i.e. one memfd per region?
 > 
-> This solves a kdump crash with "tpm-crb-cmd" RAM memory region,
-> qemu-kvm: ../dump/dump.c:1162: _Bool get_next_page(GuestPhysBlock **,
-> uint64_t *, uint8_t **, DumpState *): Assertion `(block->target_start &
-> ~target_page_mask) == 0' failed.
+> If this was the case, then an extended struct would not be needed in the
+> first place. A simple union inside the existing struct would do:
 > 
-> because:
-> guest_phys_block_add_section: target_start=00000000fed40080 target_end=00000000fed41000: added (count: 4)
-> 
-> Fixes:
-> https://bugzilla.redhat.com/show_bug.cgi?id=2120480
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   dump/dump.c | 79 +++++++++++++++++++++++++++++++++++++----------------
->   1 file changed, 56 insertions(+), 23 deletions(-)
-> 
-> diff --git a/dump/dump.c b/dump/dump.c
-> index f465830371..500357bafe 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -1094,50 +1094,81 @@ static uint64_t dump_pfn_to_paddr(DumpState *s, uint64_t pfn)
->   }
->   
->   /*
-> - * exam every page and return the page frame number and the address of the page.
-> - * bufptr can be NULL. note: the blocks here is supposed to reflect guest-phys
-> - * blocks, so block->target_start and block->target_end should be interal
-> - * multiples of the target page size.
-> + * Return the page frame number and the page content in *bufptr. bufptr can be
-> + * NULL. If not NULL, *bufptr must contains a target page size of pre-allocated
-> + * memory. This is not necessarily the memory returned.
->    */
->   static bool get_next_page(GuestPhysBlock **blockptr, uint64_t *pfnptr,
->                             uint8_t **bufptr, DumpState *s)
->   {
->       GuestPhysBlock *block = *blockptr;
-> -    hwaddr addr, target_page_mask = ~((hwaddr)s->dump_info.page_size - 1);
-> -    uint8_t *buf;
-> +    uint32_t page_size = s->dump_info.page_size;
-> +    uint8_t *buf = NULL, *hbuf;
-> +    hwaddr addr;
->   
->       /* block == NULL means the start of the iteration */
->       if (!block) {
->           block = QTAILQ_FIRST(&s->guest_phys_blocks.head);
->           *blockptr = block;
->           addr = block->target_start;
-> +        *pfnptr = dump_paddr_to_pfn(s, addr);
->       } else {
-> -        addr = dump_pfn_to_paddr(s, *pfnptr + 1);
-> +        *pfnptr += 1;
-> +        addr = dump_pfn_to_paddr(s, *pfnptr);
->       }
->       assert(block != NULL);
->   
-> -    if ((addr >= block->target_start) &&
-> -        (addr + s->dump_info.page_size <= block->target_end)) {
-> -        buf = block->host_addr + (addr - block->target_start);
-> -    } else {
-> -        /* the next page is in the next block */
-> -        block = QTAILQ_NEXT(block, next);
-> -        *blockptr = block;
-> -        if (!block) {
-> -            return false;
-> +    while (1) {
-> +        if (addr >= block->target_start && addr < block->target_end) {
-> +            size_t n = MIN(block->target_end - addr, page_size - addr % page_size);
-> +            hbuf = block->host_addr + (addr - block->target_start);
-> +            if (!buf) {
-> +                if (n == page_size) {
-> +                    /* this is a whole target page, go for it */
-> +                    assert(addr % page_size == 0);
-> +                    buf = hbuf;
-> +                    break;
-> +                } else if (bufptr) {
-> +                    assert(*bufptr);
-> +                    buf = *bufptr;
-> +                    memset(buf, 0, page_size);
-> +                } else {
-> +                    return true;
-> +                }
-> +            }
-> +
-> +            memcpy(buf + addr % page_size, hbuf, n);
-> +            addr += n;
-> +            if (addr % page_size == 0) {
-> +                /* we filled up the page */
-> +                break;
-> +            }
-> +        } else {
-> +            /* the next page is in the next block */
-> +            *blockptr = block = QTAILQ_NEXT(block, next);
-> +            if (!block) {
-> +                break;
-> +            }
-> +
-> +            addr = block->target_start;
-> +            /* are we still in the same page? */
-> +            if (dump_paddr_to_pfn(s, addr) != *pfnptr) {
-> +                if (buf) {
-> +                    /* no, but we already filled something earlier, return it */
-> +                    break;
-> +                } else {
-> +                    /* else continue from there */
-> +                    *pfnptr = dump_paddr_to_pfn(s, addr);
-> +                }
-> +            }
->           }
+>         union {
+>                 __u64 userspace_addr,
+>                 __u64 private_fd,
+>         };
 
-The loop is a bit confusing and the code is not that easy to follow.
+Also, why is this mechanism just for fd's with MFD_INACCESSIBLE flag? I'd
+consider instead having KVM_MEM_FD flag. For generic KVM (if memfd does not
+have MFD_INACCESSIBLE set), KVM could just use the memory as it is using
+mapped memory. This would simplify user space code, as you can the use the
+same thing for both cases.
 
-... but I don't have a good idea to do it any better/cleaner. :)
-
-So I assume as long as testing is good, this is fine
-
-Acked-by: David Hildenbrand <david@redhat.com>
-
--- 
-Thanks,
-
-David / dhildenb
-
+BR, Jarkko
 
