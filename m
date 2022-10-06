@@ -2,85 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B77B5F6DCC
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 21:00:31 +0200 (CEST)
-Received: from localhost ([::1]:33666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0885F6DE9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 21:07:51 +0200 (CEST)
+Received: from localhost ([::1]:38838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogW6g-0007mo-1I
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 15:00:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56670)
+	id 1ogWDl-0003IZ-UP
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 15:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogVeZ-0002V7-Ia
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:31:28 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:36706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogVeX-00038o-Vg
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:31:27 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- e11-20020a17090a77cb00b00205edbfd646so5120439pjs.1
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 11:31:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=gI4PgX/cNiQ9Ubah2GF7hH96dpJjDojj2/SuSlGQYe0=;
- b=kNnxBOHIkIjP3CY/RfBTYg3npUZKwE/glixUYgEAAHV80nbm0oU8RPGoo+w20qiec/
- Hhzrnu4CGw+T57JSf3woSNuLFn9gLOjDGyHKeBeTAi2zjoU1UbU4msyZpZblZqRTuKPI
- omJfuzWPftPN1arJBeG+1MR1KnbZMObI3dWstnYe29GetEEEMDpFjj3ox/RhVUd5h6mQ
- VXpi4RYzExtL2K18s2usnbnWx9NWyB5b8ecQUu2X4I+/HHKNkOBRBeFgmPWMEZmZc5JM
- LX01xpdicouqQIFMw6lSD8kWrMPrdbAiKXhTgBs2dgulTINfiADIWrtMHduvAYzvlhLW
- tTtg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ogViA-0006I3-15
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:35:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32079)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1ogVht-0003X1-Js
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:34:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665081291;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SmAidqdAldfI0aYc9un6mpJ1AIzCeIflPCYxS25KLUg=;
+ b=I21yDakT8lnxFUNf971sFtoGSK9xRnNzZZ6WWPy7naRfWdUJFzr1+Bjbn2/NC2irXhSL0e
+ +Elt+VD8YMuTAu27i0opy3if3Bo4VNPgverWChAtjFPTBsC6D8rJqiOWscoLLW35p2RPNt
+ EKGtUehVTzbnimCHw5dXB1w8WiWsHcM=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-252-UB7vMGmMNgaxjXLVAW8LiA-1; Thu, 06 Oct 2022 14:34:50 -0400
+X-MC-Unique: UB7vMGmMNgaxjXLVAW8LiA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ n13-20020a05620a294d00b006cf933c40feso2123233qkp.20
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 11:34:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=gI4PgX/cNiQ9Ubah2GF7hH96dpJjDojj2/SuSlGQYe0=;
- b=eTr67e4PskoUP00NNj6wlX5o+q+iMkr/0vLtG40Tqjwb0h5eiW9KkxvrHeu6g1PIXy
- aH8CeY6KLesEeiam3IniAsvPXledUMYBaSdE3/jiGG1pHmUI8rjPCJnPx7SWEccMi3Yc
- 5+dcqig7gZajyvqcmG+i8C32OUheMHdDMMVzypALm501Y1FN9x0cjDCduyqKT2LMq/sl
- CJbDY0WVYhlaVnG9Jf8N5ISazTe8c8d63PkOPsxhR+Q9JEINFOeHKiHUOnnkDjKNXagv
- 8vPts38YKozLnk+3zjEWow13Twz9Y69HJ1CfvA7B0LJ/VOemJNzc33ebXtFrf851d/HU
- MQ3Q==
-X-Gm-Message-State: ACrzQf35wgF9JkojcLQ5EdlDrnmyj4GLnhUt9xy+IqxQaoYsqdQ+g+Ax
- Di9e541TW7fsVXoTz3eZ8OSWRw==
-X-Google-Smtp-Source: AMsMyM53ekvhetoQZtOBdqRKxdANw3Jn4tHEv1UTe9YW7RTnGyyS+NKdUBcg8yn+rVgKLqnoS++DFg==
-X-Received: by 2002:a17:902:c209:b0:17f:7da5:b884 with SMTP id
- 9-20020a170902c20900b0017f7da5b884mr850564pll.26.1665081084202; 
- Thu, 06 Oct 2022 11:31:24 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:bc82:8006:f19e:85e?
- ([2602:47:d49d:ec01:bc82:8006:f19e:85e])
- by smtp.gmail.com with ESMTPSA id
- w23-20020a1709026f1700b00178acc7ef16sm7746189plk.253.2022.10.06.11.31.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Oct 2022 11:31:23 -0700 (PDT)
-Message-ID: <15c94fb7-3861-7933-91e9-49a6983a185d@linaro.org>
-Date: Thu, 6 Oct 2022 11:31:21 -0700
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SmAidqdAldfI0aYc9un6mpJ1AIzCeIflPCYxS25KLUg=;
+ b=E8UOojStlAwLIvFQpy6Mf/zrhC3LO89GCeOpfyI6OJBwyabQINiWN6eLAo5r4wJKfP
+ wwItpOFS9PkGAK5KRf95S7Zak5xRLCxrPbI2BqpUh9wykzS5O6zz+EmtzOAQllRbBkso
+ KQJc3WZHLdXl820Lwd4BguADwcInfgy0S3RiRG2KMs4BOeWRwQY1Ach5ST4jjSARJVn7
+ Lx0Vx3uLkxykygu0T+e1Ia8tvvh3zgki/Fmgs5VReC6vg+D8Q71Dl6VdI3omhZ2SuV1y
+ 3sNEFzR3U492KLk0HewXcQJaVGWqFXJHBZ9qUoxn5huP9SyI955g+sbVJGCv+i0ErhcS
+ 6fJA==
+X-Gm-Message-State: ACrzQf1bgKm3RtS5RTd8yJWW+OhfdIKKPt4t4REOIxllZNf5CfxXTBTn
+ /5T55wjpOUBDGrsDukxZ9l5qgtdd9ivOLD6sMbueBENZ1fg7MExiumBf3CTmiX4g35xVniHfZ46
+ iiGcmS3XepnVdyBs=
+X-Received: by 2002:ad4:596b:0:b0:4b1:ee66:1cb8 with SMTP id
+ eq11-20020ad4596b000000b004b1ee661cb8mr1376076qvb.3.1665081289919; 
+ Thu, 06 Oct 2022 11:34:49 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6wCMF0W6fb4SZ6IWp0/KDUcYqyN4+ODbqWnnJhenIT2Ajjz86frKRtC7HialLcqIgELkPDdA==
+X-Received: by 2002:ad4:596b:0:b0:4b1:ee66:1cb8 with SMTP id
+ eq11-20020ad4596b000000b004b1ee661cb8mr1376059qvb.3.1665081289718; 
+ Thu, 06 Oct 2022 11:34:49 -0700 (PDT)
+Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
+ [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
+ q19-20020a37f713000000b006bba46e5eeasm19151215qkj.37.2022.10.06.11.34.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Oct 2022 11:34:49 -0700 (PDT)
+Date: Thu, 6 Oct 2022 14:34:47 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Manish Mishra <manish.mishra@nutanix.com>,
+ Juan Quintela <quintela@redhat.com>, ani@anisinha.ca,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH 11/14] migration: Move last_sent_block into
+ PageSearchStatus
+Message-ID: <Yz8fx2wO5f3gNPsJ@x1n>
+References: <20220920225106.48451-1-peterx@redhat.com>
+ <20220920225223.49052-1-peterx@redhat.com>
+ <Yz8Jhyd6b5DscLxr@work-vm>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] linux-user: mprotect() should returns 0 when len is 0.
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Soichiro Isshiki <sisshiki@isshiki-clinic.com>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org,
- sisshiki1969 <sisshiki@mac.com>
-References: <20221006153841.10750-1-sisshiki@mac.com>
- <CAFEAcA-fXq47T2kNUcjbpZ9fQbLdc=jzkT_phMqJ5wyKrdXNmg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA-fXq47T2kNUcjbpZ9fQbLdc=jzkT_phMqJ5wyKrdXNmg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.435,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Yz8Jhyd6b5DscLxr@work-vm>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,33 +102,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/6/22 11:13, Peter Maydell wrote:
-> On Thu, 6 Oct 2022 at 19:05, Soichiro Isshiki
-> <sisshiki@isshiki-clinic.com> wrote:
->>
->> From: sisshiki1969 <sisshiki@mac.com>
->>
->> For now, qemu-x86_64 returns ENOMEM when mprotect() was called with an argument
->> len is 0 from a guest process.
->> This behavior is incompatible with the current Linux implementation,
->> which mprotect() with len = 0 does nothing and returns 0,
->> although it does not appear to be explicitly described in man.
->>
->> This is due to the following function which always returns false if len = 0.
->>
->> ```C
->> static inline bool guest_range_valid_untagged(abi_ulong start, abi_ulong len)
->> {
->>      return len - 1 <= GUEST_ADDR_MAX && start <= GUEST_ADDR_MAX - len + 1;
->> }
->>
-...
-> Cc'ing Richard -- is this the right fix, or would it be better instead
-> to make guest_range_valid_untagged() correctly handle a zero-length
-> range ?
+On Thu, Oct 06, 2022 at 05:59:51PM +0100, Dr. David Alan Gilbert wrote:
+> > @@ -2999,8 +3010,8 @@ void ram_postcopy_send_discard_bitmap(MigrationState *ms)
+> >      migration_bitmap_sync(rs);
+> >  
+> >      /* Easiest way to make sure we don't resume in the middle of a host-page */
+> > +    rs->pss[RAM_CHANNEL_PRECOPY].last_sent_block = NULL;
+> 
+> Why don't we reset the postcopy one here as well?
 
-I think fixing the range check might be best.
+Because ram_postcopy_send_discard_bitmap() is only called before postcopy
+starts, so the other field should be NULL already.  Thanks,
 
+-- 
+Peter Xu
 
-r~
 
