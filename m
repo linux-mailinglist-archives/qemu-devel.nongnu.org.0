@@ -2,88 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B545F6D4A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 19:59:02 +0200 (CEST)
-Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7E05F6D29
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 19:43:33 +0200 (CEST)
+Received: from localhost ([::1]:50420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogV99-00026A-GC
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 13:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43178)
+	id 1ogUuB-0003T2-Uk
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 13:43:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1ogTXN-0007UW-0d; Thu, 06 Oct 2022 12:15:53 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:62948)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ogTxC-0003mM-G1
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 12:42:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
- id 1ogTXL-0006oZ-0w; Thu, 06 Oct 2022 12:15:52 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 296FhvjP000936;
- Thu, 6 Oct 2022 16:15:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : reply-to :
- mime-version : content-transfer-encoding; s=corp-2022-7-12;
- bh=c85NEeMAhiMZOT22pp35vTykoioDeAbLJB4fqL2JFdg=;
- b=043Hhjc77UgULZwJ6GOJBGHz02gdyHVbEbaV7jzLw6SjiDu+4zrQqO+cm6Tu9rmAeDol
- Vsr31UqpaRLO5u0vRsVvpHH0fnXdMaAbuBl2QV3ISlFTJQwXrmHzrglqaLLRCAIp4Iwg
- n1/HW9gC9mOrv8huvH5Iw1Fa9iEB8W4tX6FpgqGmkczELlbKweA8v2kbPeHEMTal4IvQ
- FhizcxKE6MEGNSFkZy0+1YCB3RwpqK7h9k01Mwv1Bb3jXuIMFxL0E352KO02q2P4SP9n
- yuwpWJwG78P3T31t0j9bn+6gT/sv+d+WbV1obr7YwfNGECgKZj/2kbtDvdn30+cbYr0x 8A== 
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jxcb2vsne-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 06 Oct 2022 16:15:48 +0000
-Received: from pps.filterd
- (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 296FEXcf028313; Thu, 6 Oct 2022 16:15:47 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3jxc06eqg5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 06 Oct 2022 16:15:47 +0000
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 296GFLrn001092;
- Thu, 6 Oct 2022 16:15:47 GMT
-Received: from mlluis-mac.uk.oracle.com (dhcp-10-175-170-234.vpn.oracle.com
- [10.175.170.234])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3jxc06eq1e-5; Thu, 06 Oct 2022 16:15:46 +0000
-From: Miguel Luis <miguel.luis@oracle.com>
-To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Cc: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca,
- shannon.zhaosl@gmail.com, peter.maydell@linaro.org, miguel.luis@oracle.com
-Subject: [RFC PATCH 4/4] Step 6 & 7 of the bios-tables-test.c documented
- procedure.
-Date: Thu,  6 Oct 2022 16:14:50 +0000
-Message-Id: <20221006161450.69912-5-miguel.luis@oracle.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221006161450.69912-1-miguel.luis@oracle.com>
-References: <20221006161450.69912-1-miguel.luis@oracle.com>
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ogTww-0002PE-PW
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 12:42:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665074537;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pO+P+v29jkNj3yZE6EqtVX3LtORai6z2qEWVMQ1ur9M=;
+ b=EoK0iAg5ec+4ruITDRrJLc7DUjkGY0Mgc1oWU3AdSrMa9Ukzf/KpRLBBzWOZstBAkUTA0l
+ Ho5SXtyPyXwtpIgiXRzXduupuol3ML/dkV7q2ahI1i7DgMjOKs5Fr3/vibZvXt79PNpbop
+ DrnpaKWcJTSi0EcXrEKTmhMOf8JrGk0=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-581-QXj9L143MBepfxHv8pZZfg-1; Thu, 06 Oct 2022 12:42:16 -0400
+X-MC-Unique: QXj9L143MBepfxHv8pZZfg-1
+Received: by mail-io1-f70.google.com with SMTP id
+ n23-20020a056602341700b00689fc6dbfd6so1482226ioz.8
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 09:42:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pO+P+v29jkNj3yZE6EqtVX3LtORai6z2qEWVMQ1ur9M=;
+ b=kEyCLJLxzRPlq8S04W6aAVLm/re9jOxyrtecncjVone6Y2Bf3lcm+lBbupEEhn22T6
+ FsX6fTFggYDiQDDXPDAJWKwPg2TuXmwBUYtC75lU8Mz233IOazKyZaXV/qG8HRQe3ze+
+ w6YSo7sUrieQ6+wif9s+YNtAPoKrfT7SeTYmFsukDbS3ivKpi6WQNDNhfZ1va4jH9Grg
+ Bnei5o/8f1eVSoRvWjYR4NaeDV6+ufnmMUDZNFTBXxdqYCuTPVYknEx8rtqgouBaUJlu
+ FaIkJVsvOR1KPQV9+WoTFAp1ompYQrR4FVU48qlAiL0Ub9d3dIav/lVVlypDO7SuzTL7
+ 7bYw==
+X-Gm-Message-State: ACrzQf21mGvWvpjnPNt6YaiLH1PTolWTLJqbJrw1rWg8DTdTlLwBF3FJ
+ rxL3MbZ73SQV1Z4Duj0UnhkAji2p6NMjmBBnjrELt0vvA6nOnt61WwY0+DLhosCiEkAIy3O/EdE
+ Vz6vTlEUcFNsoeI68/ojDeFvNO1tz4PA=
+X-Received: by 2002:a05:6e02:144f:b0:2fa:7ede:ece9 with SMTP id
+ p15-20020a056e02144f00b002fa7edeece9mr256901ilo.106.1665074535651; 
+ Thu, 06 Oct 2022 09:42:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4rOhP9tiWUIaxCLecl3KDDafRXHIHt0j8bMpE9ianP5eVwKQzT0+KqCoIRZ68l9cpSkjcq91uMhlFZzJmmID0=
+X-Received: by 2002:a05:6e02:144f:b0:2fa:7ede:ece9 with SMTP id
+ p15-20020a056e02144f00b002fa7edeece9mr256878ilo.106.1665074535356; Thu, 06
+ Oct 2022 09:42:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-06_04,2022-10-06_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxscore=0 mlxlogscore=886
- bulkscore=0 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
- definitions=main-2210060094
-X-Proofpoint-GUID: gQKf0mvAnwH_1paHq1p5MFU_Dgo5iYA7
-X-Proofpoint-ORIG-GUID: gQKf0mvAnwH_1paHq1p5MFU_Dgo5iYA7
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=miguel.luis@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220927193431.22302-1-stefanha@redhat.com>
+ <20220927193431.22302-3-stefanha@redhat.com>
+In-Reply-To: <20220927193431.22302-3-stefanha@redhat.com>
+From: Alberto Faria <afaria@redhat.com>
+Date: Thu, 6 Oct 2022 17:41:39 +0100
+Message-ID: <CAELaAXxC1o+MWj-Ew2CQ1UhtHQmS8weS0jSDk2Y1ObV4pqKQEA@mail.gmail.com>
+Subject: Re: [PATCH v5 02/12] blkio: add libblkio block driver
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>, 
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>, 
+ "Denis V. Lunev" <den@openvz.org>, Xie Changlong <xiechanglong.d@gmail.com>, 
+ Eric Blake <eblake@redhat.com>, integration@gluster.org, 
+ David Hildenbrand <david@redhat.com>, Wen Congyang <wencongyang2@huawei.com>, 
+ Laurent Vivier <lvivier@redhat.com>, "Richard W.M. Jones" <rjones@redhat.com>,
+ Fam Zheng <fam@euphon.net>, 
+ Thomas Huth <thuth@redhat.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>, 
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Jeff Cody <codyprime@gmail.com>, qemu-block@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, sgarzare@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,213 +105,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: miguel.luis@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Differences between disassembled ASL files for MADT:
+On Tue, Sep 27, 2022 at 8:34 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> +static int blkio_virtio_blk_vhost_user_open(BlockDriverState *bs,
+> +        QDict *options, int flags, Error **errp)
+> +{
+> +    const char *path = qdict_get_try_str(options, "path");
+> +    BDRVBlkioState *s = bs->opaque;
+> +    int ret;
+> +
+> +    if (!path) {
+> +        error_setg(errp, "missing 'path' option");
+> +        return -EINVAL;
+> +    }
+> +
+> +    ret = blkio_set_str(s->blkio, "path", path);
+> +    qdict_del(options, "path");
+> +    if (ret < 0) {
+> +        error_setg_errno(errp, -ret, "failed to set path: %s",
+> +                         blkio_get_error_msg());
+> +        return ret;
+> +    }
+> +
+> +    if (!(flags & BDRV_O_NOCACHE)) {
+> +        error_setg(errp, "cache.direct=off is not supported");
+> +        return -EINVAL;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static int blkio_virtio_blk_vhost_vdpa_open(BlockDriverState *bs,
+> +        QDict *options, int flags, Error **errp)
+> +{
+> +    const char *path = qdict_get_try_str(options, "path");
+> +    BDRVBlkioState *s = bs->opaque;
+> +    int ret;
+> +
+> +    if (!path) {
+> +        error_setg(errp, "missing 'path' option");
+> +        return -EINVAL;
+> +    }
+> +
+> +    ret = blkio_set_str(s->blkio, "path", path);
+> +    qdict_del(options, "path");
+> +    if (ret < 0) {
+> +        error_setg_errno(errp, -ret, "failed to set path: %s",
+> +                         blkio_get_error_msg());
+> +        return ret;
+> +    }
+> +
+> +    if (!(flags & BDRV_O_NOCACHE)) {
+> +        error_setg(errp, "cache.direct=off is not supported");
+> +        return -EINVAL;
+> +    }
+> +    return 0;
+> +}
 
-@@ -11,9 +11,9 @@
-  */
+These two functions are (currently) exact duplicates. Should we just
+have a single blkio_virtio_blk_open() function?
 
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
--[004h 0004   4]                 Table Length : 000000A8
--[008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 50
-+[004h 0004   4]                 Table Length : 000000AC
-+[008h 0008   1]                     Revision : 04
-+[009h 0009   1]                     Checksum : 47
- [00Ah 0010   6]                       Oem ID : "BOCHS "
- [010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
-@@ -34,7 +34,7 @@
- [041h 0065   3]                     Reserved : 000000
+> +static BlockDriver bdrv_io_uring = {
+> +    .format_name                = DRIVER_IO_URING,
+> +    .protocol_name              = DRIVER_IO_URING,
+> +    .instance_size              = sizeof(BDRVBlkioState),
+> +    .bdrv_needs_filename        = true,
+> +    .bdrv_file_open             = blkio_file_open,
+> +    .bdrv_close                 = blkio_close,
+> +    .bdrv_getlength             = blkio_getlength,
+> +    .bdrv_get_info              = blkio_get_info,
+> +    .bdrv_attach_aio_context    = blkio_attach_aio_context,
+> +    .bdrv_detach_aio_context    = blkio_detach_aio_context,
+> +    .bdrv_co_pdiscard           = blkio_co_pdiscard,
+> +    .bdrv_co_preadv             = blkio_co_preadv,
+> +    .bdrv_co_pwritev            = blkio_co_pwritev,
+> +    .bdrv_co_flush_to_disk      = blkio_co_flush,
+> +    .bdrv_co_pwrite_zeroes      = blkio_co_pwrite_zeroes,
+> +    .bdrv_io_unplug             = blkio_io_unplug,
+> +    .bdrv_refresh_limits        = blkio_refresh_limits,
+> +};
+> +
+> +static BlockDriver bdrv_virtio_blk_vhost_user = {
+> +    .format_name                = DRIVER_VIRTIO_BLK_VHOST_USER,
+> +    .protocol_name              = DRIVER_VIRTIO_BLK_VHOST_USER,
+> +    .instance_size              = sizeof(BDRVBlkioState),
+> +    .bdrv_file_open             = blkio_file_open,
+> +    .bdrv_close                 = blkio_close,
+> +    .bdrv_getlength             = blkio_getlength,
+> +    .bdrv_get_info              = blkio_get_info,
+> +    .bdrv_attach_aio_context    = blkio_attach_aio_context,
+> +    .bdrv_detach_aio_context    = blkio_detach_aio_context,
+> +    .bdrv_co_pdiscard           = blkio_co_pdiscard,
+> +    .bdrv_co_preadv             = blkio_co_preadv,
+> +    .bdrv_co_pwritev            = blkio_co_pwritev,
+> +    .bdrv_co_flush_to_disk      = blkio_co_flush,
+> +    .bdrv_co_pwrite_zeroes      = blkio_co_pwrite_zeroes,
+> +    .bdrv_io_unplug             = blkio_io_unplug,
+> +    .bdrv_refresh_limits        = blkio_refresh_limits,
+> +};
+> +
+> +static BlockDriver bdrv_virtio_blk_vhost_vdpa = {
+> +    .format_name                = DRIVER_VIRTIO_BLK_VHOST_VDPA,
+> +    .protocol_name              = DRIVER_VIRTIO_BLK_VHOST_VDPA,
+> +    .instance_size              = sizeof(BDRVBlkioState),
+> +    .bdrv_file_open             = blkio_file_open,
+> +    .bdrv_close                 = blkio_close,
+> +    .bdrv_getlength             = blkio_getlength,
+> +    .bdrv_get_info              = blkio_get_info,
+> +    .bdrv_attach_aio_context    = blkio_attach_aio_context,
+> +    .bdrv_detach_aio_context    = blkio_detach_aio_context,
+> +    .bdrv_co_pdiscard           = blkio_co_pdiscard,
+> +    .bdrv_co_preadv             = blkio_co_preadv,
+> +    .bdrv_co_pwritev            = blkio_co_pwritev,
+> +    .bdrv_co_flush_to_disk      = blkio_co_flush,
+> +    .bdrv_co_pwrite_zeroes      = blkio_co_pwrite_zeroes,
+> +    .bdrv_io_unplug             = blkio_io_unplug,
+> +    .bdrv_refresh_limits        = blkio_refresh_limits,
+> +};
 
- [044h 0068   1]                Subtable Type : 0B [Generic Interrupt Controller]
--[045h 0069   1]                       Length : 4C
-+[045h 0069   1]                       Length : 50
- [046h 0070   2]                     Reserved : 0000
- [048h 0072   4]         CPU Interface Number : 00000000
- [04Ch 0076   4]                Processor UID : 00000000
-@@ -51,28 +51,29 @@
- [07Ch 0124   4]        Virtual GIC Interrupt : 00000000
- [080h 0128   8]   Redistributor Base Address : 0000000000000000
- [088h 0136   8]                    ARM MPIDR : 0000000000000000
--/**** ACPI subtable terminates early - may be older version (dump table) */
-+[090h 0144   1]             Efficiency Class : 00
-+[091h 0145   3]                     Reserved : 000000
+It's difficult to identify the fields that differ between
+BlockDrivers. Maybe we could do something like:
 
--[090h 0144   1]                Subtable Type : 0D [Generic MSI Frame]
--[091h 0145   1]                       Length : 18
--[092h 0146   2]                     Reserved : 0000
--[094h 0148   4]                 MSI Frame ID : 00000000
--[098h 0152   8]                 Base Address : 0000000008020000
--[0A0h 0160   4]        Flags (decoded below) : 00000001
-+[094h 0148   1]                Subtable Type : 0D [Generic MSI Frame]
-+[095h 0149   1]                       Length : 18
-+[096h 0150   2]                     Reserved : 0000
-+[098h 0152   4]                 MSI Frame ID : 00000000
-+[09Ch 0156   8]                 Base Address : 0000000008020000
-+[0A4h 0164   4]        Flags (decoded below) : 00000001
-                                   Select SPI : 1
--[0A4h 0164   2]                    SPI Count : 0040
--[0A6h 0166   2]                     SPI Base : 0050
-+[0A8h 0168   2]                    SPI Count : 0040
-+[0AAh 0170   2]                     SPI Base : 0050
+    #define DRIVER(name, ...) \
+        { \
+            .format_name             = name, \
+            .protocol_name           = name, \
+            .instance_size           = sizeof(BDRVBlkioState), \
+            .bdrv_file_open          = blkio_file_open, \
+            .bdrv_close              = blkio_close, \
+            .bdrv_getlength          = blkio_getlength, \
+            .bdrv_get_info           = blkio_get_info, \
+            .bdrv_attach_aio_context = blkio_attach_aio_context, \
+            .bdrv_detach_aio_context = blkio_detach_aio_context, \
+            .bdrv_co_pdiscard        = blkio_co_pdiscard, \
+            .bdrv_co_preadv          = blkio_co_preadv, \
+            .bdrv_co_pwritev         = blkio_co_pwritev, \
+            .bdrv_co_flush_to_disk   = blkio_co_flush, \
+            .bdrv_co_pwrite_zeroes   = blkio_co_pwrite_zeroes, \
+            .bdrv_io_unplug          = blkio_io_unplug, \
+            .bdrv_refresh_limits     = blkio_refresh_limits, \
+            __VA_ARGS__
+        } \
 
--Raw Table Data: Length 168 (0xA8)
-+Raw Table Data: Length 172 (0xAC)
+    static BlockDriver bdrv_io_uring = DRIVER(
+        DRIVER_IO_URING,
+        .bdrv_needs_filename = true,
+    );
 
--    0000: 41 50 49 43 A8 00 00 00 03 50 42 4F 43 48 53 20  // APIC.....PBOCHS
-+    0000: 41 50 49 43 AC 00 00 00 04 47 42 4F 43 48 53 20  // APIC.....GBOCHS
-     0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-     0020: 01 00 00 00 00 00 00 00 00 00 00 00 0C 18 00 00  // ................
-     0030: 00 00 00 00 00 00 00 08 00 00 00 00 00 00 00 00  // ................
--    0040: 02 00 00 00 0B 4C 00 00 00 00 00 00 00 00 00 00  // .....L..........
-+    0040: 02 00 00 00 0B 50 00 00 00 00 00 00 00 00 00 00  // .....P..........
-     0050: 01 00 00 00 00 00 00 00 17 00 00 00 00 00 00 00  // ................
-     0060: 00 00 00 00 00 00 01 08 00 00 00 00 00 00 04 08  // ................
-     0070: 00 00 00 00 00 00 03 08 00 00 00 00 00 00 00 00  // ................
-     0080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
--    0090: 0D 18 00 00 00 00 00 00 00 00 02 08 00 00 00 00  // ................
--    00A0: 01 00 00 00 40 00 50 00                          // ....@.P.
-+    0090: 00 00 00 00 0D 18 00 00 00 00 00 00 00 00 02 08  // ................
-+    00A0: 00 00 00 00 01 00 00 00 40 00 50 00              // ........@.P.
+    static BlockDriver bdrv_virtio_blk_vhost_user = DRIVER(
+        DRIVER_VIRTIO_BLK_VHOST_USER
+    );
 
-Differences between disassembled ASL files for FADT:
+    static BlockDriver bdrv_virtio_blk_vhost_vdpa = DRIVER(
+        DRIVER_VIRTIO_BLK_VHOST_VDPA
+    );
 
-@@ -11,9 +11,9 @@
-  */
-
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
--[004h 0004   4]                 Table Length : 0000010C
--[008h 0008   1]                     Revision : 05
--[009h 0009   1]                     Checksum : 55
-+[004h 0004   4]                 Table Length : 00000114
-+[008h 0008   1]                     Revision : 06
-+[009h 0009   1]                     Checksum : 0F
- [00Ah 0010   6]                       Oem ID : "BOCHS "
- [010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
-@@ -99,7 +99,7 @@
-                               PSCI Compliant : 1
-                        Must use HVC for PSCI : 1
-
--[083h 0131   1]          FADT Minor Revision : 01
-+[083h 0131   1]          FADT Minor Revision : 00
- [084h 0132   8]                 FACS Address : 0000000000000000
- [08Ch 0140   8]                 DSDT Address : 0000000000000000
- [094h 0148  12]             PM1A Event Block : [Generic Address Structure]
-@@ -173,11 +173,11 @@
- [103h 0259   1]         Encoded Access Width : 00 [Undefined/Legacy]
- [104h 0260   8]                      Address : 0000000000000000
-
--/**** ACPI table terminates in the middle of a data structure! (dump table) */
-+[10Ch 0268   8]                Hypervisor ID : 0000000000676374
-
--Raw Table Data: Length 268 (0x10C)
-+Raw Table Data: Length 276 (0x114)
-
--    0000: 46 41 43 50 0C 01 00 00 05 55 42 4F 43 48 53 20  // FACP.....UBOCHS
-+    0000: 46 41 43 50 14 01 00 00 06 0F 42 4F 43 48 53 20  // FACP......BOCHS
-     0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-     0020: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-@@ -185,7 +185,7 @@ Raw Table Data: Length 268 (0x10C)
-     0050: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     0060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     0070: 00 00 10 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
--    0080: 00 03 00 01 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-+    0080: 00 03 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     0090: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     00A0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     00B0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-@@ -193,4 +193,5 @@ Raw Table Data: Length 268 (0x10C)
-     00D0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     00E0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-     00F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
--    0100: 00 00 00 00 00 00 00 00 00 00 00 00              // ............
-+    0100: 00 00 00 00 00 00 00 00 00 00 00 00 74 63 67 00  // ............tcg.
-+    0110: 00 00 00 00                                      // ....
-
-Signed-off-by: Miguel Luis <miguel.luis@oracle.com>
----
- tests/data/acpi/virt/APIC                   | Bin 168 -> 172 bytes
- tests/data/acpi/virt/APIC.memhp             | Bin 168 -> 172 bytes
- tests/data/acpi/virt/APIC.numamem           | Bin 168 -> 172 bytes
- tests/data/acpi/virt/FACP                   | Bin 268 -> 276 bytes
- tests/data/acpi/virt/FACP.memhp             | Bin 268 -> 276 bytes
- tests/data/acpi/virt/FACP.numamem           | Bin 268 -> 276 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   6 ------
- 7 files changed, 6 deletions(-)
-
-diff --git a/tests/data/acpi/virt/APIC b/tests/data/acpi/virt/APIC
-index 023f15f12e74fb9a3a6d3d9dc994541016947d6a..179d274770a23209b949c90a929525e22368568b 100644
-GIT binary patch
-delta 26
-hcmZ3%xQ3C-F~HM#4FdxMi~B?_YsP?yZeA06WB^*d2KE2|
-
-delta 26
-icmZ3(xPp<(F~HM#1p@;EbHGF{Yet`mZeA0oNB{s@&<6Sd
-
-diff --git a/tests/data/acpi/virt/APIC.memhp b/tests/data/acpi/virt/APIC.memhp
-index 023f15f12e74fb9a3a6d3d9dc994541016947d6a..179d274770a23209b949c90a929525e22368568b 100644
-GIT binary patch
-delta 26
-hcmZ3%xQ3C-F~HM#4FdxMi~B?_YsP?yZeA06WB^*d2KE2|
-
-delta 26
-icmZ3(xPp<(F~HM#1p@;EbHGF{Yet`mZeA0oNB{s@&<6Sd
-
-diff --git a/tests/data/acpi/virt/APIC.numamem b/tests/data/acpi/virt/APIC.numamem
-index 023f15f12e74fb9a3a6d3d9dc994541016947d6a..179d274770a23209b949c90a929525e22368568b 100644
-GIT binary patch
-delta 26
-hcmZ3%xQ3C-F~HM#4FdxMi~B?_YsP?yZeA06WB^*d2KE2|
-
-delta 26
-icmZ3(xPp<(F~HM#1p@;EbHGF{Yet`mZeA0oNB{s@&<6Sd
-
-diff --git a/tests/data/acpi/virt/FACP b/tests/data/acpi/virt/FACP
-index 1f764220f8533c427168e80ccf298604826a00b4..bd514078decb368815482e5d1db2faf5371fc48e 100644
-GIT binary patch
-delta 33
-mcmeBSn!?28=I9(C!pOkD#y^p(a^j?_i3a=}CCTXwAOHY?_6Iru
-
-delta 26
-hcmbQj)WgK(=I9*2!^ptE8ak1yl96%Z#OjF#yZ}u&1~C8t
-
-diff --git a/tests/data/acpi/virt/FACP.memhp b/tests/data/acpi/virt/FACP.memhp
-index 1f764220f8533c427168e80ccf298604826a00b4..bd514078decb368815482e5d1db2faf5371fc48e 100644
-GIT binary patch
-delta 33
-mcmeBSn!?28=I9(C!pOkD#y^p(a^j?_i3a=}CCTXwAOHY?_6Iru
-
-delta 26
-hcmbQj)WgK(=I9*2!^ptE8ak1yl96%Z#OjF#yZ}u&1~C8t
-
-diff --git a/tests/data/acpi/virt/FACP.numamem b/tests/data/acpi/virt/FACP.numamem
-index 1f764220f8533c427168e80ccf298604826a00b4..bd514078decb368815482e5d1db2faf5371fc48e 100644
-GIT binary patch
-delta 33
-mcmeBSn!?28=I9(C!pOkD#y^p(a^j?_i3a=}CCTXwAOHY?_6Iru
-
-delta 26
-hcmbQj)WgK(=I9*2!^ptE8ak1yl96%Z#OjF#yZ}u&1~C8t
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 8dc50f7a8a..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,7 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/FACP",
--"tests/data/acpi/virt/FACP.numamem",
--"tests/data/acpi/virt/FACP.memhp",
--"tests/data/acpi/virt/APIC",
--"tests/data/acpi/virt/APIC.memhp",
--"tests/data/acpi/virt/APIC.numamem",
--- 
-2.37.3
+Alberto
 
 
