@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6C85F63B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 11:35:08 +0200 (CEST)
-Received: from localhost ([::1]:42470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A3A5F63CC
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 11:47:57 +0200 (CEST)
+Received: from localhost ([::1]:47736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogNHV-00012q-6j
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 05:35:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50476)
+	id 1ogNTv-0007zI-NM
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 05:47:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ogMPE-0008O5-Va
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:39:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34361)
+ id 1ogMSd-0001WK-2t
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:42:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ogMPC-0006dl-Pp
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:39:00 -0400
+ id 1ogMSa-0007C6-Nw
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:42:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665045537;
+ s=mimecast20190719; t=1665045748;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BBT0+PzBYIx/v+i08zYs2QCVbJF941S+KEo3n50GCF0=;
- b=glAkCrGTBEpYCLeid+dED5rVXg98WPcpbYGIRMyWuKeT4AgtuD3TwmvOX9UinI6qdo7O6V
- RWRCZj9lFnRfnLAffuv7Q+emDMKGi9H/b19kxV7uSlWRpgX1i8Gl9VlTLU/XoXYCWFV+33
- KM+Nab0BUk0XBzbbXMBMkrBMvHG2izQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UATs+OPDsK+a6vqkWr97EVZVS74wneGl7DgDlNpgCAU=;
+ b=DmQxQKZniwqxOe0vcZVPRcRfECchXS024Nr34aJ2INghOJDLZiAmEp4QzRgsEUY470dfSB
+ 1qDGJik5zNNjkFXuiXl2F8MZJrmxRdAOXSqetJxXhUKachvjJgq8FrdR9aF8hxdNEv/pCX
+ 5s3sAJS9GdbpmcWr8Kt5O1AzK3Ph0jg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-114-HTxoSL4ZPbi2a_fohLFYMw-1; Thu, 06 Oct 2022 04:38:56 -0400
-X-MC-Unique: HTxoSL4ZPbi2a_fohLFYMw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-623-lOH_z0IUM-ybJufBpz_XQw-1; Thu, 06 Oct 2022 04:42:27 -0400
+X-MC-Unique: lOH_z0IUM-ybJufBpz_XQw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DD6BD862FE2
- for <qemu-devel@nongnu.org>; Thu,  6 Oct 2022 08:38:55 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C50B03817965
+ for <qemu-devel@nongnu.org>; Thu,  6 Oct 2022 08:42:26 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.96])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2636C40C6F75;
- Thu,  6 Oct 2022 08:38:55 +0000 (UTC)
-Date: Thu, 6 Oct 2022 09:38:52 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1E5749BB67;
+ Thu,  6 Oct 2022 08:42:25 +0000 (UTC)
+Date: Thu, 6 Oct 2022 09:42:20 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: marcandre.lureau@redhat.com
 Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 4/5] io/command: implement support for win32
-Message-ID: <Yz6UHB2e6Iccvx8Q@redhat.com>
+Subject: Re: [PATCH v3 5/5] tests/unit: make test-io-channel-command work on
+ win32
+Message-ID: <Yz6U7GXKg+Ctb3t0@redhat.com>
 References: <20221006081222.2606746-1-marcandre.lureau@redhat.com>
- <20221006081222.2606746-5-marcandre.lureau@redhat.com>
+ <20221006081222.2606746-6-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221006081222.2606746-5-marcandre.lureau@redhat.com>
+In-Reply-To: <20221006081222.2606746-6-marcandre.lureau@redhat.com>
 User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,36 +85,141 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 06, 2022 at 12:12:21PM +0400, marcandre.lureau@redhat.com wrote:
+On Thu, Oct 06, 2022 at 12:12:22PM +0400, marcandre.lureau@redhat.com wrote:
 > From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> The initial implementation was changing the pipe state created by GLib
-> to PIPE_NOWAIT, but it turns out it doesn't work (read/write returns an
-> error). Since reading may return less than the requested amount, it
-> seems to be non-blocking already. However, the IO operation may block
-> until the FD is ready, I can't find good sources of information, to be
-> safe we can just poll for readiness before.
-
-The downside is that we double the number of syscalls for each blocking
-I/O. Doesn't matter if we do actually block, but if there was data
-already pending, this is extra overhead.
-
-But then this code never worked on Windows, so users will likely not
-have performance expectations at this time.
-
-> 
-> Alternatively, we could setup the FDs ourself, and use UNIX sockets on
-> Windows, which can be used in blocking/non-blocking mode. I haven't
-> tried it, as I am not sure it is necessary.
+> This has been tested under msys2 & windows 11. I haven't tried to make
+> it work with other environments yet, but that should be enough to
+> validate the channel-command implementation anyway.
 > 
 > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  include/io/channel-command.h |  3 ++
->  io/channel-command.c         | 80 ++++++++++++++++++++++++++----------
->  2 files changed, 62 insertions(+), 21 deletions(-)
+>  tests/unit/test-io-channel-command.c | 32 ++++++++++++----------------
+>  tests/unit/meson.build               |  2 +-
+>  2 files changed, 15 insertions(+), 19 deletions(-)
+> 
+> diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+> index aa09c559cd..be98c3452a 100644
+> --- a/tests/unit/test-io-channel-command.c
+> +++ b/tests/unit/test-io-channel-command.c
+> @@ -24,29 +24,27 @@
+>  #include "qapi/error.h"
+>  #include "qemu/module.h"
+>  
+> -#ifndef WIN32
+> +#define TEST_PATH "test-io-channel-command.fifo"
+> +
+> +#define SOCAT_SRC "PIPE:" TEST_PATH ",wronly"
+> +#define SOCAT_DST "PIPE:" TEST_PATH ",rdonly"
+> +
+>  static void test_io_channel_command_fifo(bool async)
+>  {
+> -#define TEST_FIFO "tests/test-io-channel-command.fifo"
+>      QIOChannel *src, *dst;
+>      QIOChannelTest *test;
+> -    const char *srcfifo = "PIPE:" TEST_FIFO ",wronly";
+> -    const char *dstfifo = "PIPE:" TEST_FIFO ",rdonly";
+>      const char *srcargv[] = {
+> -        "/bin/socat", "-", srcfifo, NULL,
+> +        g_getenv("SOCAT"), "-", SOCAT_SRC, NULL,
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Please don't rely on env variables, as it complicates the ability to
+invoke the test directly, without the meson harness. Either pass the
+path from meson at compile time in config-host.h, or make this code
+use an unqualified path, so it honours $PATH at runtime.
 
+>      };
+>      const char *dstargv[] = {
+> -        "/bin/socat", dstfifo, "-", NULL,
+> +        g_getenv("SOCAT"), SOCAT_DST, "-", NULL,
+>      };
+>  
+> -    unlink(TEST_FIFO);
+> -    if (access("/bin/socat", X_OK) < 0) {
+> +    unlink(TEST_PATH);
+> +    if (!g_file_test(g_getenv("SOCAT"), G_FILE_TEST_IS_EXECUTABLE)) {
+>          g_test_skip("socat is missing");
+>          return;
+>      }
+> -    if (mkfifo(TEST_FIFO, 0600) < 0) {
+> -        abort();
+> -    }
+>      src = QIO_CHANNEL(qio_channel_command_new_spawn(srcargv,
+>                                                      O_WRONLY,
+>                                                      &error_abort));
+> @@ -61,7 +59,7 @@ static void test_io_channel_command_fifo(bool async)
+>      object_unref(OBJECT(src));
+>      object_unref(OBJECT(dst));
+>  
+> -    unlink(TEST_FIFO);
+> +    unlink(TEST_PATH);
+>  }
+>  
+>  
+> @@ -81,11 +79,12 @@ static void test_io_channel_command_echo(bool async)
+>      QIOChannel *ioc;
+>      QIOChannelTest *test;
+>      const char *socatargv[] = {
+> -        "/bin/socat", "-", "-", NULL,
+> +        g_getenv("SOCAT"), "-", "-", NULL,
+>      };
+>  
+> -    if (access("/bin/socat", X_OK) < 0) {
+> -        return; /* Pretend success if socat is not present */
+> +    if (!g_file_test(g_getenv("SOCAT"), G_FILE_TEST_IS_EXECUTABLE)) {
+> +        g_test_skip("socat is missing");
+> +        return;
+>      }
+>  
+>      ioc = QIO_CHANNEL(qio_channel_command_new_spawn(socatargv,
+> @@ -108,7 +107,6 @@ static void test_io_channel_command_echo_sync(void)
+>  {
+>      test_io_channel_command_echo(false);
+>  }
+> -#endif
+>  
+>  int main(int argc, char **argv)
+>  {
+> @@ -116,7 +114,6 @@ int main(int argc, char **argv)
+>  
+>      g_test_init(&argc, &argv, NULL);
+>  
+> -#ifndef WIN32
+>      g_test_add_func("/io/channel/command/fifo/sync",
+>                      test_io_channel_command_fifo_sync);
+>      g_test_add_func("/io/channel/command/fifo/async",
+> @@ -125,7 +122,6 @@ int main(int argc, char **argv)
+>                      test_io_channel_command_echo_sync);
+>      g_test_add_func("/io/channel/command/echo/async",
+>                      test_io_channel_command_echo_async);
+> -#endif
+>  
+>      return g_test_run();
+>  }
+> diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+> index b497a41378..42e8218ac2 100644
+> --- a/tests/unit/meson.build
+> +++ b/tests/unit/meson.build
+> @@ -1,4 +1,3 @@
+> -
+>  testblock = declare_dependency(dependencies: [block], sources: 'iothread.c')
+>  
+>  tests = {
+
+Spurious line deletion.
+
+
+> @@ -164,6 +163,7 @@ endif
+>  test_env = environment()
+>  test_env.set('G_TEST_SRCDIR', meson.current_source_dir())
+>  test_env.set('G_TEST_BUILDDIR', meson.current_build_dir())
+> +test_env.set('SOCAT', find_program('socat').full_path())
+>  
+>  slow_tests = {
+>    'test-crypto-tlscredsx509': 45,
+> -- 
+> 2.37.3
+> 
 
 With regards,
 Daniel
