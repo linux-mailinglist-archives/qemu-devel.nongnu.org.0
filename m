@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050B85F708A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 23:51:15 +0200 (CEST)
-Received: from localhost ([::1]:34472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DC15F7126
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 00:32:37 +0200 (CEST)
+Received: from localhost ([::1]:60042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogYlu-0008WO-3S
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 17:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40016)
+	id 1ogZPw-00010N-EO
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 18:32:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ogYX1-0003KU-5q
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 17:35:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44849)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ogYWz-0006wq-9E
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 17:35:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665092147;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q3k5xxgLci7w3NjYeetRfQM1HfpM0zNoEvNQR10IswI=;
- b=RgfQRwgve+f9SK5rjRYjWHFR8qJXbfMh3/8lpGczARcU8ImvxTFK8r8SnXg00xl6GMqSe/
- AqphVMKEKqu+02uZqLVqg5VItiKJ9BvzfZDxx+GmdAndCFdxU2EEXrm1uf0qrL3H6vjTZR
- pZIky8RP+9pQABeDeL+HG4X+bsrwBtc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-646-KVq_KIJXN5y5TJfRZptsIw-1; Thu, 06 Oct 2022 17:35:44 -0400
-X-MC-Unique: KVq_KIJXN5y5TJfRZptsIw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3950D29324B5;
- Thu,  6 Oct 2022 21:35:44 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69E45207B317;
- Thu,  6 Oct 2022 21:35:43 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Yanan Wang <wangyanan55@huawei.com>, sgarzare@redhat.com,
- "Richard W.M. Jones" <rjones@redhat.com>, Fam Zheng <fam@euphon.net>,
- Hanna Reitz <hreitz@redhat.com>, David Hildenbrand <david@redhat.com>,
- integration@gluster.org, qemu-block@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- afaria@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Xie Changlong <xiechanglong.d@gmail.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Jeff Cody <codyprime@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Denis V. Lunev" <den@openvz.org>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Peter Xu <peterx@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wen Congyang <wencongyang2@huawei.com>
-Subject: [PATCH v6 13/13] virtio-blk: use BDRV_REQ_REGISTERED_BUF optimization
- hint
-Date: Thu,  6 Oct 2022 17:35:07 -0400
-Message-Id: <20221006213507.645402-14-stefanha@redhat.com>
-In-Reply-To: <20221006213507.645402-1-stefanha@redhat.com>
-References: <20221006213507.645402-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <sisshiki@isshiki-clinic.com>)
+ id 1ogZMc-0006oZ-Hl
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 18:29:11 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43962)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sisshiki@isshiki-clinic.com>)
+ id 1ogZMa-0006K5-0F
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 18:29:10 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id d26so538621eje.10
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 15:29:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=isshiki-clinic-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=xpI351UrllS7Ljrxf9V9Bg0QJKUNdw28YyQClhM6U6k=;
+ b=TyigxujBm9e0mTOfefFhSJzJSVGma188UN+rTOc1eNkqPl3MbZkSyBTxjLzr2KPTDH
+ t/FV7lFSiE8ofrs0N3u4vcMHQDWdfOndB5nOgFKwRnEPC3HJp3OWlTNSX3liNwbWGM96
+ v4/sgQrWfuv05iWu+a+Lwe4gqm0Qiqb7u1kP14mJ5R2iYz09iXka6iYcJ1isKK0MzBVb
+ qDCM5h871Rhq9RP7pvsk2KGm1OGliLiKhulj2zU9WyK06rv7zL5EwiZdrCQSK9JBWUcl
+ 5DRGguUKhXYbaQq8haH9SskW12xloIkla6mq0q0tERx7ia5jDF+A5toftBBlZ3IDJlt9
+ wvog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xpI351UrllS7Ljrxf9V9Bg0QJKUNdw28YyQClhM6U6k=;
+ b=AKWaa9THL2TR8U4QMQNAFCJkgPTz/Pim5dMkLaUS8NmUa2MUgqRG5Csu68eg86BBc0
+ o5B6aC0c7MZgyAEqvfYfmojNWQODzyKBG3/mHbR8mPJP7lhidoDVXISx31cGUwEYITY0
+ g5lVunnMs7Lwysy5Rod6yY3uGB0cSYVF6LZTHFCqniAVRld6UlOD437H4MSnNF+/4upa
+ 4qapnweJ/+P3dzK+UlkgCaKLravM03x9wZwy1+Il1MXBC99ZlzRbEkecM/b3CT+QR0Ly
+ 2OO7PBfbqr4Hbk7UU57YUDa+S9zu4vUGD21rw2KPwjw20vEU1iE9TjS27fagcn+u9JHO
+ skog==
+X-Gm-Message-State: ACrzQf2vUiqGnpefwuZCa2piJ2fLgHsBqMeB9ve9GstX/89er52xtYb9
+ fqfnSZIEWpYABcL2GncORe+wqLbr1jmehXbcUJHirQ==
+X-Google-Smtp-Source: AMsMyM6F65SLLis+Y2ihZmTmAiNK03FxZNrTux5wVXtfqCrN6J3dQ8RPYCtcm/DTHqwSNFdybkWfC8F3aTRmjO76obc=
+X-Received: by 2002:a17:907:1c24:b0:78d:3518:2e58 with SMTP id
+ nc36-20020a1709071c2400b0078d35182e58mr1646903ejc.574.1665095345535; Thu, 06
+ Oct 2022 15:29:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221006153841.10750-1-sisshiki@mac.com>
+ <CAFEAcA-fXq47T2kNUcjbpZ9fQbLdc=jzkT_phMqJ5wyKrdXNmg@mail.gmail.com>
+ <15c94fb7-3861-7933-91e9-49a6983a185d@linaro.org>
+In-Reply-To: <15c94fb7-3861-7933-91e9-49a6983a185d@linaro.org>
+From: =?UTF-8?B?5LiA6Imy6IGh5LiA6YOO?= <sisshiki@isshiki-clinic.com>
+Date: Fri, 7 Oct 2022 07:28:55 +0900
+Message-ID: <CAJ159us2mdn=wOqK3p3YMqg07pg9FtObnvphT_CN6=M7WfHKUg@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: mprotect() should returns 0 when len is 0.
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
+ qemu-trivial@nongnu.org, sisshiki1969 <sisshiki@mac.com>
+Content-Type: multipart/alternative; boundary="0000000000009691e105ea6538ff"
+Received-SPF: none client-ip=2a00:1450:4864:20::62f;
+ envelope-from=sisshiki@isshiki-clinic.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,183 +86,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Register guest RAM using BlockRAMRegistrar and set the
-BDRV_REQ_REGISTERED_BUF flag so block drivers can optimize memory
-accesses in I/O requests.
+--0000000000009691e105ea6538ff
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is for vdpa-blk, vhost-user-blk, and other I/O interfaces that rely
-on DMA mapping/unmapping.
+Thank you for your response.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- include/hw/virtio/virtio-blk.h |  2 ++
- hw/block/virtio-blk.c          | 39 ++++++++++++++++++++++------------
- 2 files changed, 27 insertions(+), 14 deletions(-)
+Yes, we can also modify guest_range_valid_untagged() like this:
 
-diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-blk.h
-index d311c57cca..7f589b4146 100644
---- a/include/hw/virtio/virtio-blk.h
-+++ b/include/hw/virtio/virtio-blk.h
-@@ -19,6 +19,7 @@
- #include "hw/block/block.h"
- #include "sysemu/iothread.h"
- #include "sysemu/block-backend.h"
-+#include "sysemu/block-ram-registrar.h"
- #include "qom/object.h"
- 
- #define TYPE_VIRTIO_BLK "virtio-blk-device"
-@@ -64,6 +65,7 @@ struct VirtIOBlock {
-     struct VirtIOBlockDataPlane *dataplane;
-     uint64_t host_features;
-     size_t config_size;
-+    BlockRAMRegistrar blk_ram_registrar;
- };
- 
- typedef struct VirtIOBlockReq {
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index e9ba752f6b..907f012c45 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -21,6 +21,7 @@
- #include "hw/block/block.h"
- #include "hw/qdev-properties.h"
- #include "sysemu/blockdev.h"
-+#include "sysemu/block-ram-registrar.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/runstate.h"
- #include "hw/virtio/virtio-blk.h"
-@@ -384,12 +385,14 @@ static void virtio_blk_handle_scsi(VirtIOBlockReq *req)
-     }
- }
- 
--static inline void submit_requests(BlockBackend *blk, MultiReqBuffer *mrb,
-+static inline void submit_requests(VirtIOBlock *s, MultiReqBuffer *mrb,
-                                    int start, int num_reqs, int niov)
+ static inline bool guest_range_valid_untagged(abi_ulong start, abi_ulong
+len)
  {
-+    BlockBackend *blk = s->blk;
-     QEMUIOVector *qiov = &mrb->reqs[start]->qiov;
-     int64_t sector_num = mrb->reqs[start]->sector_num;
-     bool is_write = mrb->is_write;
-+    BdrvRequestFlags flags = 0;
- 
-     if (num_reqs > 1) {
-         int i;
-@@ -420,12 +423,18 @@ static inline void submit_requests(BlockBackend *blk, MultiReqBuffer *mrb,
-                               num_reqs - 1);
-     }
- 
-+    if (blk_ram_registrar_ok(&s->blk_ram_registrar)) {
-+        flags |= BDRV_REQ_REGISTERED_BUF;
-+    }
-+
-     if (is_write) {
--        blk_aio_pwritev(blk, sector_num << BDRV_SECTOR_BITS, qiov, 0,
--                        virtio_blk_rw_complete, mrb->reqs[start]);
-+        blk_aio_pwritev(blk, sector_num << BDRV_SECTOR_BITS, qiov,
-+                        flags, virtio_blk_rw_complete,
-+                        mrb->reqs[start]);
-     } else {
--        blk_aio_preadv(blk, sector_num << BDRV_SECTOR_BITS, qiov, 0,
--                       virtio_blk_rw_complete, mrb->reqs[start]);
-+        blk_aio_preadv(blk, sector_num << BDRV_SECTOR_BITS, qiov,
-+                       flags, virtio_blk_rw_complete,
-+                       mrb->reqs[start]);
-     }
+-    return len - 1 <=3D GUEST_ADDR_MAX && start <=3D GUEST_ADDR_MAX - len =
++ 1;
++   return !len || len - 1 <=3D GUEST_ADDR_MAX && start <=3D GUEST_ADDR_MAX=
+ -
+len + 1;
  }
- 
-@@ -447,14 +456,14 @@ static int multireq_compare(const void *a, const void *b)
-     }
- }
- 
--static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
-+static void virtio_blk_submit_multireq(VirtIOBlock *s, MultiReqBuffer *mrb)
- {
-     int i = 0, start = 0, num_reqs = 0, niov = 0, nb_sectors = 0;
-     uint32_t max_transfer;
-     int64_t sector_num = 0;
- 
-     if (mrb->num_reqs == 1) {
--        submit_requests(blk, mrb, 0, 1, -1);
-+        submit_requests(s, mrb, 0, 1, -1);
-         mrb->num_reqs = 0;
-         return;
-     }
-@@ -474,11 +483,11 @@ static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
-              * 3. merge would exceed maximum transfer length of backend device
-              */
-             if (sector_num + nb_sectors != req->sector_num ||
--                niov > blk_get_max_iov(blk) - req->qiov.niov ||
-+                niov > blk_get_max_iov(s->blk) - req->qiov.niov ||
-                 req->qiov.size > max_transfer ||
-                 nb_sectors > (max_transfer -
-                               req->qiov.size) / BDRV_SECTOR_SIZE) {
--                submit_requests(blk, mrb, start, num_reqs, niov);
-+                submit_requests(s, mrb, start, num_reqs, niov);
-                 num_reqs = 0;
-             }
-         }
-@@ -494,7 +503,7 @@ static void virtio_blk_submit_multireq(BlockBackend *blk, MultiReqBuffer *mrb)
-         num_reqs++;
-     }
- 
--    submit_requests(blk, mrb, start, num_reqs, niov);
-+    submit_requests(s, mrb, start, num_reqs, niov);
-     mrb->num_reqs = 0;
- }
- 
-@@ -509,7 +518,7 @@ static void virtio_blk_handle_flush(VirtIOBlockReq *req, MultiReqBuffer *mrb)
-      * Make sure all outstanding writes are posted to the backing device.
-      */
-     if (mrb->is_write && mrb->num_reqs > 0) {
--        virtio_blk_submit_multireq(s->blk, mrb);
-+        virtio_blk_submit_multireq(s, mrb);
-     }
-     blk_aio_flush(s->blk, virtio_blk_flush_complete, req);
- }
-@@ -689,7 +698,7 @@ static int virtio_blk_handle_request(VirtIOBlockReq *req, MultiReqBuffer *mrb)
-         if (mrb->num_reqs > 0 && (mrb->num_reqs == VIRTIO_BLK_MAX_MERGE_REQS ||
-                                   is_write != mrb->is_write ||
-                                   !s->conf.request_merging)) {
--            virtio_blk_submit_multireq(s->blk, mrb);
-+            virtio_blk_submit_multireq(s, mrb);
-         }
- 
-         assert(mrb->num_reqs < VIRTIO_BLK_MAX_MERGE_REQS);
-@@ -796,7 +805,7 @@ void virtio_blk_handle_vq(VirtIOBlock *s, VirtQueue *vq)
-     } while (!virtio_queue_empty(vq));
- 
-     if (mrb.num_reqs) {
--        virtio_blk_submit_multireq(s->blk, &mrb);
-+        virtio_blk_submit_multireq(s, &mrb);
-     }
- 
-     blk_io_unplug(s->blk);
-@@ -845,7 +854,7 @@ void virtio_blk_process_queued_requests(VirtIOBlock *s, bool is_bh)
-     }
- 
-     if (mrb.num_reqs) {
--        virtio_blk_submit_multireq(s->blk, &mrb);
-+        virtio_blk_submit_multireq(s, &mrb);
-     }
-     if (is_bh) {
-         blk_dec_in_flight(s->conf.conf.blk);
-@@ -1227,6 +1236,7 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
-     }
- 
-     s->change = qemu_add_vm_change_state_handler(virtio_blk_dma_restart_cb, s);
-+    blk_ram_registrar_init(&s->blk_ram_registrar, s->blk);
-     blk_set_dev_ops(s->blk, &virtio_block_ops, s);
- 
-     blk_iostatus_enable(s->blk);
-@@ -1252,6 +1262,7 @@ static void virtio_blk_device_unrealize(DeviceState *dev)
-         virtio_del_queue(vdev, i);
-     }
-     qemu_coroutine_dec_pool_size(conf->num_queues * conf->queue_size / 2);
-+    blk_ram_registrar_destroy(&s->blk_ram_registrar);
-     qemu_del_vm_change_state_handler(s->change);
-     blockdev_mark_auto_del(s->blk);
-     virtio_cleanup(vdev);
--- 
-2.37.3
 
+But actually, guest_range_valid_untagged() is called from several sites
+other than target_mprotect().
+(1) target_mmap() in bsd-user
+(2) target_madvise() in linux-user
+(3) target_mmap() in linux-user
+(4) target_munmap() in linux-user
+(5) access_ok_untagged() in linux-user/qemu.h
+(6) target_mremap() in linux-user
+(7) do_shmat() in linux-user/syscall.c
+
+(1)-(5) have explicit guards for the condition of len =3D 0 in front of
+calling  guest_range_valid_untagged().
+(1) https://gitlab.com/qemu-project/qemu/-/blob/master/bsd-user/mmap.c#L477
+(2)
+https://gitlab.com/qemu-project/qemu/-/blob/master/linux-user/mmap.c#L900
+(3)
+https://gitlab.com/qemu-project/qemu/-/blob/master/linux-user/mmap.c#L456
+(4)
+https://gitlab.com/qemu-project/qemu/-/blob/master/linux-user/mmap.c#L724
+(5)
+https://gitlab.com/qemu-project/qemu/-/blob/master/linux-user/qemu.h#L176
+
+But I'm not sure whether this change is correct for (6) and (7).
+
+2022=E5=B9=B410=E6=9C=887=E6=97=A5(=E9=87=91) 3:31 Richard Henderson <richa=
+rd.henderson@linaro.org>:
+
+> On 10/6/22 11:13, Peter Maydell wrote:
+> > On Thu, 6 Oct 2022 at 19:05, Soichiro Isshiki
+> > <sisshiki@isshiki-clinic.com> wrote:
+> >>
+> >> From: sisshiki1969 <sisshiki@mac.com>
+> >>
+> >> For now, qemu-x86_64 returns ENOMEM when mprotect() was called with an
+> argument
+> >> len is 0 from a guest process.
+> >> This behavior is incompatible with the current Linux implementation,
+> >> which mprotect() with len =3D 0 does nothing and returns 0,
+> >> although it does not appear to be explicitly described in man.
+> >>
+> >> This is due to the following function which always returns false if le=
+n
+> =3D 0.
+> >>
+> >> ```C
+> >> static inline bool guest_range_valid_untagged(abi_ulong start,
+> abi_ulong len)
+> >> {
+> >>      return len - 1 <=3D GUEST_ADDR_MAX && start <=3D GUEST_ADDR_MAX -=
+ len
+> + 1;
+> >> }
+> >>
+> ...
+> > Cc'ing Richard -- is this the right fix, or would it be better instead
+> > to make guest_range_valid_untagged() correctly handle a zero-length
+> > range ?
+>
+> I think fixing the range check might be best.
+>
+>
+> r~
+>
+
+--0000000000009691e105ea6538ff
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div><div dir=3D"ltr" class=3D"gmail_sign=
+ature"><div>Thank you for your response.</div><div><br></div><div>Yes, we c=
+an also modify guest_range_valid_untagged() like this:</div><div><br></div>=
+=C2=A0static inline bool guest_range_valid_untagged(abi_ulong start, abi_ul=
+ong len)<br>=C2=A0{<br>-=C2=A0 =C2=A0 return len - 1 &lt;=3D GUEST_ADDR_MAX=
+ &amp;&amp; start &lt;=3D GUEST_ADDR_MAX - len + 1;</div><div dir=3D"ltr" c=
+lass=3D"gmail_signature"><a class=3D"gmail_plusreply" id=3D"plusReplyChip-0=
+">+</a>=C2=A0 =C2=A0return !len || len - 1 &lt;=3D GUEST_ADDR_MAX &amp;&amp=
+; start &lt;=3D GUEST_ADDR_MAX - len + 1;<br>=C2=A0}</div><div dir=3D"ltr" =
+class=3D"gmail_signature"><div><br></div><div>But actually, guest_range_val=
+id_untagged() is called from several sites other=C2=A0than target_mprotect(=
+).</div><div>(1) target_mmap() in bsd-user</div><div>(2) target_madvise() i=
+n linux-user<br></div><div>(3) target_mmap() in linux-user</div><div>(4) ta=
+rget_munmap() in linux-user</div><div>(5)=C2=A0access_ok_untagged() in linu=
+x-user/qemu.h<br></div><div>(6) target_mremap() in linux-user</div></div></=
+div>(7) do_shmat() in linux-user/syscall.c</div><div dir=3D"ltr"><br></div>=
+<div>(1)-(5) have explicit guards for the condition of len =3D 0 in front o=
+f calling=C2=A0
+
+guest_range_valid_untagged().</div><div>(1) <a href=3D"https://gitlab.com/q=
+emu-project/qemu/-/blob/master/bsd-user/mmap.c#L477">https://gitlab.com/qem=
+u-project/qemu/-/blob/master/bsd-user/mmap.c#L477</a><br></div><div>(2)=C2=
+=A0<a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/linux-user=
+/mmap.c#L900">https://gitlab.com/qemu-project/qemu/-/blob/master/linux-user=
+/mmap.c#L900</a></div><div>(3)=C2=A0<a href=3D"https://gitlab.com/qemu-proj=
+ect/qemu/-/blob/master/linux-user/mmap.c#L456">https://gitlab.com/qemu-proj=
+ect/qemu/-/blob/master/linux-user/mmap.c#L456</a></div><div>(4)=C2=A0<a hre=
+f=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/linux-user/mmap.c#L=
+724">https://gitlab.com/qemu-project/qemu/-/blob/master/linux-user/mmap.c#L=
+724</a></div><div>(5) <a href=3D"https://gitlab.com/qemu-project/qemu/-/blo=
+b/master/linux-user/qemu.h#L176">https://gitlab.com/qemu-project/qemu/-/blo=
+b/master/linux-user/qemu.h#L176</a></div><div><br></div><div>But I&#39;m no=
+t sure whether this change=C2=A0is correct for (6) and (7).</div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">2022=E5=B9=B410=
+=E6=9C=887=E6=97=A5(=E9=87=91) 3:31 Richard Henderson &lt;<a href=3D"mailto=
+:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt;:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">On 10/6/22 11:13, Pete=
+r Maydell wrote:<br>
+&gt; On Thu, 6 Oct 2022 at 19:05, Soichiro Isshiki<br>
+&gt; &lt;<a href=3D"mailto:sisshiki@isshiki-clinic.com" target=3D"_blank">s=
+isshiki@isshiki-clinic.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; From: sisshiki1969 &lt;<a href=3D"mailto:sisshiki@mac.com" target=
+=3D"_blank">sisshiki@mac.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; For now, qemu-x86_64 returns ENOMEM when mprotect() was called wit=
+h an argument<br>
+&gt;&gt; len is 0 from a guest process.<br>
+&gt;&gt; This behavior is incompatible with the current Linux implementatio=
+n,<br>
+&gt;&gt; which mprotect() with len =3D 0 does nothing and returns 0,<br>
+&gt;&gt; although it does not appear to be explicitly described in man.<br>
+&gt;&gt;<br>
+&gt;&gt; This is due to the following function which always returns false i=
+f len =3D 0.<br>
+&gt;&gt;<br>
+&gt;&gt; ```C<br>
+&gt;&gt; static inline bool guest_range_valid_untagged(abi_ulong start, abi=
+_ulong len)<br>
+&gt;&gt; {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 return len - 1 &lt;=3D GUEST_ADDR_MAX &amp;&am=
+p; start &lt;=3D GUEST_ADDR_MAX - len + 1;<br>
+&gt;&gt; }<br>
+&gt;&gt;<br>
+...<br>
+&gt; Cc&#39;ing Richard -- is this the right fix, or would it be better ins=
+tead<br>
+&gt; to make guest_range_valid_untagged() correctly handle a zero-length<br=
+>
+&gt; range ?<br>
+<br>
+I think fixing the range check might be best.<br>
+<br>
+<br>
+r~<br>
+</blockquote></div></div>
+
+--0000000000009691e105ea6538ff--
 
