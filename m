@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43F85F6A5A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:13:45 +0200 (CEST)
-Received: from localhost ([::1]:54106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE175F6A5B
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:13:51 +0200 (CEST)
+Received: from localhost ([::1]:36562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogSZE-0005TO-UN
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:13:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
+	id 1ogSZK-0005lI-8d
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:13:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
- id 1ogSVf-0000nD-76
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:10:03 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:37829)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ogSVv-0001Cd-Mr
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:10:25 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:47020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
- id 1ogSVd-00042j-IP
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:10:02 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- p3-20020a17090a284300b0020a85fa3ffcso4611167pjf.2
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:09:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ogSVt-0004F7-3C
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:10:19 -0400
+Received: by mail-pf1-x430.google.com with SMTP id y8so2272527pfp.13
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:10:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date;
- bh=TDjphh1QdcaQ9ECGpDAMca94QNs69RGi+PB3mg6hmDA=;
- b=Md88KWJT/EWX1VvDMAXJccXtQoPCFfF8/m40LJ9uU0boab9RANFM6c2e0Bff6pg0Rb
- DUv+aZCuqc1czFRezxz7HARKch62TdoWedlMIY6kY6lI8+w3e3MjapciWzT9FhinAkiN
- 5umP0vstYS17YClKveHiDtGcLMW0VY8YoWG6qfMMM9K0+OByKmO12Z69S+mLDBIrJ2JD
- Qwd5+PQthIuSVWSfnYd1+Sta8DWPX1/XYXzPPul1VOicH3JXWEFz7T9SUIK+kmp4TLBN
- /fl5PenIslLO68/VWOXJanL23/dgNCNUwn4rlisUcAVq1Syz470i4Cwkp4iUV94ktjsu
- b64g==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=1LoMlyVE8CzThCTOT887LOx78WStN/+cMePcMwv13Us=;
+ b=Q5B98w5Uwlht7fcBxcPPUQW8arPXhZqAx3mMEA+BNBthJWEQ1IvD6NNPWVr83Li/Jh
+ vLfS8O3oFTCX5+goU4b6X8BNhTJl/rBcLB88aZozyFE6zrawTrox2llOu8hdgI7FWCsp
+ SE8VZGjZwYkBNlRVw4qJsrPQbdKUVo6Cl5apKAd6+8iI7bKE4bzKWVODY1FNR83NbZfi
+ 5D6REZBNS4b4KkbWVuq/uAegCe4WDoClNhEZxT8R1bJ75sg1fX5e236wN1ui8TTPdeFW
+ 3PgyYhuIaOJjV5CPeEmSJz6Y7gUNOy9h0rJve/DkXQ32I/xQ2Tid6gCsKgxZraHJvZ2U
+ Aszg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date;
- bh=TDjphh1QdcaQ9ECGpDAMca94QNs69RGi+PB3mg6hmDA=;
- b=wfx69fjO4Zq5god0RnWlBmuOOVDYPHETFdEguycXqwBXlJPNoa3Uz2g5w81iFZV4hX
- GbNgCNQszZ3TEig+QGFwgWkWSNBeq04kXFVjoEA3LM0RNu2oJOacAk72cKrBGQuwqEpO
- DH09yy6IZGCmFCeh7msOz3gZkMhvlpPNpnKJhKZLbi2xIXyLrsVtTOI1k+yyaALUSOSH
- zCmykb61N7MWm5bqGGyABGcDwZmGmCeM3A95DvzFmY+m0nnpXdINBlRQm0HKjkEkBN/o
- 7uIi+L34338HTfLHyigb5OISINJ6UA47WBJ7myOsE64Dfc+fCekwal4CiDQ7Gid/5B4j
- eM9Q==
-X-Gm-Message-State: ACrzQf2FdDrj1VyDJSuEJ92D4X+d7U5LhPs8+Ze5XiLAduCdc5xhT8iH
- F2D72Ixe2Ct2AjmIyyOXGWg=
-X-Google-Smtp-Source: AMsMyM5e+oKrl4FKRNapq/rzhRs5YOwwV2H/HtcCSmY4AVIRvz7EQI+AGHZ3ItSqQBgv/4yvd2z6IQ==
-X-Received: by 2002:a17:902:bcc3:b0:178:639a:1a10 with SMTP id
- o3-20020a170902bcc300b00178639a1a10mr326763pls.159.1665068998112; 
- Thu, 06 Oct 2022 08:09:58 -0700 (PDT)
-Received: from T590 ([209.132.188.80]) by smtp.gmail.com with ESMTPSA id
- n10-20020a170903404a00b00172a670607asm12335746pla.300.2022.10.06.08.09.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 08:09:57 -0700 (PDT)
-Date: Thu, 6 Oct 2022 23:09:48 +0800
-From: Ming Lei <tom.leiming@gmail.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: "Denis V. Lunev" <den@virtuozzo.com>, io-uring@vger.kernel.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kirill Tkhai <kirill.tkhai@openvz.org>,
- Manuel Bentele <development@manuel-bentele.de>,
- qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- rjones@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Josef Bacik <josef@toxicpanda.com>
-Subject: Re: ublk-qcow2: ublk-qcow2 is available
-Message-ID: <Yz7vvNKSNRyBVObo@T590>
-References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
- <6659a0d5-60ab-9ac7-d25d-b4ff1940c6ab@virtuozzo.com>
- <Yz2epPwoufj0mug/@fedora> <Yz6tR24T8HPHJ70D@T590>
- <Yz7fTANAxAQ8KT4v@fedora>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1LoMlyVE8CzThCTOT887LOx78WStN/+cMePcMwv13Us=;
+ b=I/ChJJFtIeb3x7A/RplQ7k+zYqIjyr7mNu93unzntzE8dyuQqmz/WFgQI+kHV39nly
+ zSolHo/iLG7saGmMG5n6BcBqJYBL+dgwcDI4wZuNM4KazcuqvA77yPp65mnple+EapPZ
+ x/mz43fk7Iaf8PA+xv0XfGw1GNVOalXPM5EtMOjJ6wfk8f97px4YMxtoW2quwQLQ1GPA
+ C66sQlPFtj+nAi6WO2ARCKUlWllmfFPzRkpREE7npvKkpNl7fT4ajQBsHzv5XwOlIr25
+ 4JbsLjIWEIebOdHvLKZfzvLaLZ/yCbGUx4fvY7zzIFo3W3FtXuWRIDlZTApPpJVjP7a6
+ Cdxw==
+X-Gm-Message-State: ACrzQf09NY70a2qc47r1EXA61YWXpHxtPjisQZbI6Iu5x8zZwdYdSxwl
+ WPKppXW8EXAxqvqaP9LwNZYQ7y9G5ik=
+X-Google-Smtp-Source: AMsMyM7orU/fMg5AWAvcRo5a+FmG6kpTiK6jcJlQV6dx4J25dqaD5w2w4LJoZz4KVyA3u0ooJMKwFw==
+X-Received: by 2002:a63:451a:0:b0:439:246e:807e with SMTP id
+ s26-20020a63451a000000b00439246e807emr278441pga.347.1665069015486; 
+ Thu, 06 Oct 2022 08:10:15 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ d1-20020a170903230100b00177efb56475sm12597001plh.85.2022.10.06.08.10.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Oct 2022 08:10:14 -0700 (PDT)
+Message-ID: <27e666ae-0a91-1843-8eb0-c816ab261eb1@amsat.org>
+Date: Thu, 6 Oct 2022 17:10:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Yz7fTANAxAQ8KT4v@fedora>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=tom.leiming@gmail.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH] gitmodules: recurse by default
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20221006113906.179963-1-mst@redhat.com>
+In-Reply-To: <20221006113906.179963-1-mst@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.435,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,78 +96,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Thu, Oct 06, 2022 at 09:59:40AM -0400, Stefan Hajnoczi wrote:
-> On Thu, Oct 06, 2022 at 06:26:15PM +0800, Ming Lei wrote:
-> > On Wed, Oct 05, 2022 at 11:11:32AM -0400, Stefan Hajnoczi wrote:
-> > > On Tue, Oct 04, 2022 at 01:57:50AM +0200, Denis V. Lunev wrote:
-> > > > On 10/3/22 21:53, Stefan Hajnoczi wrote:
-> > > > > On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
-> > > > > > ublk-qcow2 is available now.
-> > > > > Cool, thanks for sharing!
-> > > > yep
-> > > > 
-> > > > > > So far it provides basic read/write function, and compression and snapshot
-> > > > > > aren't supported yet. The target/backend implementation is completely
-> > > > > > based on io_uring, and share the same io_uring with ublk IO command
-> > > > > > handler, just like what ublk-loop does.
-> > > > > > 
-> > > > > > Follows the main motivations of ublk-qcow2:
-> > > > > > 
-> > > > > > - building one complicated target from scratch helps libublksrv APIs/functions
-> > > > > >    become mature/stable more quickly, since qcow2 is complicated and needs more
-> > > > > >    requirement from libublksrv compared with other simple ones(loop, null)
-> > > > > > 
-> > > > > > - there are several attempts of implementing qcow2 driver in kernel, such as
-> > > > > >    ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`` [4], so ublk-qcow2
-> > > > > >    might useful be for covering requirement in this field
-> > > > There is one important thing to keep in mind about all partly-userspace
-> > > > implementations though:
-> > > > * any single allocation happened in the context of the
-> > > >    userspace daemon through try_to_free_pages() in
-> > > >    kernel has a possibility to trigger the operation,
-> > > >    which will require userspace daemon action, which
-> > > >    is inside the kernel now.
-> > > > * the probability of this is higher in the overcommitted
-> > > >    environment
-> > > > 
-> > > > This was the main motivation of us in favor for the in-kernel
-> > > > implementation.
-> > > 
-> > > CCed Josef Bacik because the Linux NBD driver has dealt with memory
-> > > reclaim hangs in the past.
-> > > 
-> > > Josef: Any thoughts on userspace block drivers (whether NBD or ublk) and
-> > > how to avoid hangs in memory reclaim?
-> > 
-> > If I remember correctly, there isn't new report after the last NBD(TCMU) deadlock
-> > in memory reclaim was addressed by 8d19f1c8e193 ("prctl: PR_{G,S}ET_IO_FLUSHER
-> > to support controlling memory reclaim").
+Hi Michael,
+
+On 6/10/22 13:39, Michael S. Tsirkin wrote:
+> The most commmon complaint about submodules is that
+
+Typo "common"
+
+> they don't follow when one switches branches in the
+> main repo. Enable recursing into submodules by default
+> to address that.
 > 
-> Denis: I'm trying to understand the problem you described. Is this
-> correct:
-> 
-> Due to memory pressure, the kernel reclaims pages and submits a write to
-> a ublk block device. The userspace process attempts to allocate memory
-> in order to service the write request, but it gets stuck because there
-> is no memory available. As a result reclaim gets stuck, the system is
-> unable to free more memory and therefore it hangs?
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>   .gitmodules | 23 +++++++++++++++++++++++
+>   1 file changed, 23 insertions(+)
 
-The process should be killed in this situation if PR_SET_IO_FLUSHER
-is applied since the page allocation is done in VM fault handler.
+We have 3 kinds of submodule (or more?):
+1/ required to *build* QEMU
+2/ required to *test* QEMU
+3/ only here for satisfies license of firmware blobs shipped with QEMU.
 
-Firstly in theory the userspace part should provide forward progress
-guarantee in code path for handling IO, such as reserving/mlock pages
-for such situation. However, this issue isn't unique for nbd or ublk,
-all userspace block device should have such potential risk, and vduse
-is no exception, IMO.
+IIUC, long-term we want to move 3/ in another repository.
 
-Secondly with proper/enough swap space, I think it is hard to trigger
-such kind of issue.
+Could we only set "recurse=true" for 1/ ?
 
-Finally ublk driver has added user recovery commands for recovering from
-crash, and ublksrv will support it soon.
+What is your use-case? Do we need it also for 2/ ?
 
-Thanks,
-Ming
+> diff --git a/.gitmodules b/.gitmodules
+> index aedd9a03d4..5f32332aff 100644
+> --- a/.gitmodules
+> +++ b/.gitmodules
+> @@ -1,69 +1,92 @@
+>   [submodule "roms/seabios"]
+>   	path = roms/seabios
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/seabios.git/
+>   [submodule "roms/SLOF"]
+>   	path = roms/SLOF
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/SLOF.git
+>   [submodule "roms/ipxe"]
+>   	path = roms/ipxe
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/ipxe.git
+>   [submodule "roms/openbios"]
+>   	path = roms/openbios
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/openbios.git
+>   [submodule "roms/qemu-palcode"]
+>   	path = roms/qemu-palcode
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/qemu-palcode.git
+>   [submodule "roms/sgabios"]
+>   	path = roms/sgabios
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/sgabios.git
+>   [submodule "dtc"]
+>   	path = dtc
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/dtc.git
+>   [submodule "roms/u-boot"]
+>   	path = roms/u-boot
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/u-boot.git
+>   [submodule "roms/skiboot"]
+>   	path = roms/skiboot
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/skiboot.git
+>   [submodule "roms/QemuMacDrivers"]
+>   	path = roms/QemuMacDrivers
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/QemuMacDrivers.git
+>   [submodule "ui/keycodemapdb"]
+>   	path = ui/keycodemapdb
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/keycodemapdb.git
+>   [submodule "roms/seabios-hppa"]
+>   	path = roms/seabios-hppa
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/seabios-hppa.git
+>   [submodule "roms/u-boot-sam460ex"]
+>   	path = roms/u-boot-sam460ex
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/u-boot-sam460ex.git
+>   [submodule "tests/fp/berkeley-testfloat-3"]
+>   	path = tests/fp/berkeley-testfloat-3
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/berkeley-testfloat-3.git
+>   [submodule "tests/fp/berkeley-softfloat-3"]
+>   	path = tests/fp/berkeley-softfloat-3
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/berkeley-softfloat-3.git
+>   [submodule "roms/edk2"]
+>   	path = roms/edk2
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/edk2.git
+>   [submodule "slirp"]
+>   	path = slirp
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/libslirp.git
+>   [submodule "roms/opensbi"]
+>   	path = roms/opensbi
+> +	recurse = true
+>   	url = 	https://gitlab.com/qemu-project/opensbi.git
+>   [submodule "roms/qboot"]
+>   	path = roms/qboot
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/qboot.git
+>   [submodule "meson"]
+>   	path = meson
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/meson.git
+>   [submodule "roms/vbootrom"]
+>   	path = roms/vbootrom
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/vbootrom.git
+>   [submodule "tests/lcitool/libvirt-ci"]
+>   	path = tests/lcitool/libvirt-ci
+> +	recurse = true
+>   	url = https://gitlab.com/libvirt/libvirt-ci.git
+>   [submodule "subprojects/libvfio-user"]
+>   	path = subprojects/libvfio-user
+> +	recurse = true
+>   	url = https://gitlab.com/qemu-project/libvfio-user.git
+
 
