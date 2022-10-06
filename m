@@ -2,80 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BE65F5E26
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 03:01:22 +0200 (CEST)
-Received: from localhost ([::1]:59132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0745F5ED7
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 04:50:49 +0200 (CEST)
+Received: from localhost ([::1]:57026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogFGL-0005mF-8S
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 21:01:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54826)
+	id 1ogGyG-0001ul-CF
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 22:50:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1ogEK6-0005ow-Q2
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 20:01:10 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:47012)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <gourry.memverge@gmail.com>)
- id 1ogEK3-00089w-U2
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 20:01:10 -0400
-Received: by mail-qk1-x744.google.com with SMTP id z30so101740qkz.13
- for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 17:01:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=UBVwWgULhLFdOJ8/yh2JcEmMtkMZ7Qr893AfvaYDDm8=;
- b=Cgi8YQNanL6xwenTx079WNpTELbUVZSiEvOIslbONiLXcbQ94Ah5bAmBFuEXROjnhR
- K6AgivHSwCT8Li8VrhTtkIWYORHcRrIJr7bMNBqfoUt3KmaeGlnypk8Iq8cgeCbZsPev
- fdi7ROX1A5lY7MDSG976GHEtc9CRniEDkk/ERh36iCaUJb0KNa9WNCz277zJFnfvEMfk
- 2s/lF4e4RtKzAdkIT1g0nR6iHo3Cl4+8ofCr2aG3Y1QA4L4SnmTlJbxIO4p48Z5xRXPK
- zFidxN0BhPT3YC9gAoqiXEv21kuXlQ4n43S64yZukDyEmbpMUu1jJ3vEph5kyDQVWNbD
- 8M3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=UBVwWgULhLFdOJ8/yh2JcEmMtkMZ7Qr893AfvaYDDm8=;
- b=jccfkrK56IkYLFUgA2HgTRwkQxnF/dVmeNxhm2bjs+0EburVHE1rvYGLLFASyh20JF
- pKE++Pf6QP04N6QDCWKP749Ca2Wk73ufNVrC9eVsJ33VooxCMAFYakmATqdlXD5QBHtp
- YHLbD3aP07VomDmu9pWlrO1senYxNpqb8c7qZPuahVGDVMjM65lhg5ugQz9e70F0wbv+
- AzbfXe+RO01fEeKNYsJl5UR1fHtAk7EmvBUIpTm41mQBOBBcGaIDm577FmCcsWA2PYUM
- lbEVGb62X9BV7iKti4T+FjfmzHNK6JDs3TircOvk293H9KIgzvs8pdW0gUdgUSQcjN/2
- R1Mg==
-X-Gm-Message-State: ACrzQf1ftX2JLmhh6cQ4SsgmfRrgrkvNuaEPEi8QmJcW2sCEtf+DFjOM
- WmWnEXvJUeMrxfkHPx8hUKnKNo9nhw==
-X-Google-Smtp-Source: AMsMyM7bUeZZfNtYrg6lNpBcwbsowWrN0Hq0CSAaHr0Sp/JEftmZ7fpuBC2QszaMZriXhFGnhbCDMA==
-X-Received: by 2002:a05:620a:1239:b0:6ce:24c1:12d7 with SMTP id
- v25-20020a05620a123900b006ce24c112d7mr1482773qkj.496.1665014466057; 
- Wed, 05 Oct 2022 17:01:06 -0700 (PDT)
-Received: from fedora.mshome.net (pool-173-79-56-208.washdc.fios.verizon.net.
- [173.79.56.208]) by smtp.gmail.com with ESMTPSA id
- u5-20020a05622a17c500b0035d0655b079sm14701090qtk.30.2022.10.05.17.01.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Oct 2022 17:01:05 -0700 (PDT)
-From: Gourry <gourry.memverge@gmail.com>
-X-Google-Original-From: Gourry <gregory.price@memverge.com>
-To: qemu-devel@nongnu.org
-Cc: jonathan.cameron@huawei.com,
-	Gourry <gregory.price@memverge.com>
-Subject: [PATCH RFC] hw/cxl: type 3 devices can now present volatile or
- persistent memory
-Date: Wed,  5 Oct 2022 20:01:03 -0400
-Message-Id: <20221006000103.49542-1-gregory.price@memverge.com>
-X-Mailer: git-send-email 2.37.3
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1ogGt8-0007KN-Am
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 22:45:32 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:38937)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1ogGt3-0002K2-F7
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 22:45:29 -0400
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4MjbQM0421z4xGm; Thu,  6 Oct 2022 13:45:15 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1665024315;
+ bh=aw8c9F0obw1Hlw3Dp77nW6Q1CVy2Xz1PRtNckX1Ydxk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XNIyzKczfWdfiFRfOf5zxXEpJhMlyOmJndwsRGt0atFbgIbUugs2RzgzABRM9xHSR
+ AFrOwio/+yqkUxKoqI8iepIZB863AFv/q9ajaG3sD2pi8UeN0wn/cNB+4Npjttej0k
+ WWqz+mr2dCr7ddGIsiIBbhaouAqjtqW9rAHOwpp0=
+Date: Thu, 6 Oct 2022 11:37:50 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Thomas Huth <thuth@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefano Brivio <sbrivio@redhat.com>
+Subject: Re: [PATCH v9 05/16] qapi: net: add stream and dgram netdevs
+Message-ID: <Yz4jXvlVQMn0f8S1@yekko>
+References: <20220926195048.487915-1-lvivier@redhat.com>
+ <20220926195048.487915-6-lvivier@redhat.com>
+ <YzPh5fhlDgbgddVv@yekko>
+ <bb04fbf9-f72c-31a5-a017-e519a701302d@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::744;
- envelope-from=gourry.memverge@gmail.com; helo=mail-qk1-x744.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Mitt8X/ROnWemzFf"
+Content-Disposition: inline
+In-Reply-To: <bb04fbf9-f72c-31a5-a017-e519a701302d@redhat.com>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 05 Oct 2022 20:57:20 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,331 +72,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Type 3 devices were hard-coded to always present as persistent memory devices.
-This patch adds the "is_pmem" attribute which can be used to instantiate
-a device as either a pmem or vmem.
 
-Right now it is only possible to choose one or the other, but future
-devices may present both (such as multi-logical devices with different
-regions backed by different types of memory).
----
- docs/system/devices/cxl.rst    | 31 ++++++++++++++++---------
- hw/cxl/cxl-mailbox-utils.c     | 24 +++++++++++---------
- hw/mem/cxl_type3.c             | 10 +++++----
- include/hw/cxl/cxl_device.h    |  5 +++--
- tests/qtest/bios-tables-test.c |  8 +++----
- tests/qtest/cxl-test.c         | 41 ++++++++++++++++++++++++++++------
- 6 files changed, 82 insertions(+), 37 deletions(-)
+--Mitt8X/ROnWemzFf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-index f25783a4ec..3a62d46e8a 100644
---- a/docs/system/devices/cxl.rst
-+++ b/docs/system/devices/cxl.rst
-@@ -300,7 +300,7 @@ Example topology involving a switch::
- 
- Example command lines
- ---------------------
--A very simple setup with just one directly attached CXL Type 3 device::
-+A very simple setup with just one directly attached CXL Type 3 Persistent Memory device::
- 
-   qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-   ...
-@@ -308,7 +308,18 @@ A very simple setup with just one directly attached CXL Type 3 device::
-   -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M \
-   -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
-   -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
--  -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
-+  -device cxl-type3,bus=root_port13,pmem=true,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
-+  -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
-+
-+A very simple setup with just one directly attached CXL Type 3 Volatile Memory device::
-+
-+  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-+  ...
-+  -object memory-backend-ram,id=cxl-mem1,share=on,size=256M \
-+  -object memory-backend-ram,id=cxl-lsa1,share=on,size=256M \
-+  -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
-+  -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
-+  -device cxl-type3,bus=root_port13,pmem=false,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
-   -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
- 
- A setup suitable for 4 way interleave. Only one fixed window provided, to enable 2 way
-@@ -328,13 +339,13 @@ the CXL Type3 device directly attached (no switches).::
-   -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
-   -device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2 \
-   -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
--  -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
-+  -device cxl-type3,bus=root_port13,pmem=true,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
-   -device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3 \
--  -device cxl-type3,bus=root_port14,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem1 \
-+  -device cxl-type3,bus=root_port14,pmem=true,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem1 \
-   -device cxl-rp,port=0,bus=cxl.2,id=root_port15,chassis=0,slot=5 \
--  -device cxl-type3,bus=root_port15,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem2 \
-+  -device cxl-type3,bus=root_port15,pmem=true,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem2 \
-   -device cxl-rp,port=1,bus=cxl.2,id=root_port16,chassis=0,slot=6 \
--  -device cxl-type3,bus=root_port16,memdev=cxl-mem4,lsa=cxl-lsa4,id=cxl-pmem3 \
-+  -device cxl-type3,bus=root_port16,pmem=true,memdev=cxl-mem4,lsa=cxl-lsa4,id=cxl-pmem3 \
-   -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.targets.1=cxl.2,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k
- 
- An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
-@@ -354,13 +365,13 @@ An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
-   -device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1 \
-   -device cxl-upstream,bus=root_port0,id=us0 \
-   -device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
--  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
-+  -device cxl-type3,bus=swport0,pmem=true,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
-   -device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
--  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
-+  -device cxl-type3,bus=swport1,pmem=true,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
-   -device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
--  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
-+  -device cxl-type3,bus=swport2,pmem=true,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
-   -device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
--  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
-+  -device cxl-type3,bus=swport3,pmem=true,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
-   -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
- 
- Kernel Configuration Options
-diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-index bc1bb18844..3ed4dfeb69 100644
---- a/hw/cxl/cxl-mailbox-utils.c
-+++ b/hw/cxl/cxl-mailbox-utils.c
-@@ -138,7 +138,7 @@ static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
-     } QEMU_PACKED *fw_info;
-     QEMU_BUILD_BUG_ON(sizeof(*fw_info) != 0x50);
- 
--    if (cxl_dstate->pmem_size < (256 << 20)) {
-+    if (cxl_dstate->mem_size < (256 << 20)) {
-         return CXL_MBOX_INTERNAL_ERROR;
-     }
- 
-@@ -281,7 +281,7 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
- 
-     CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
-     CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
--    uint64_t size = cxl_dstate->pmem_size;
-+    uint64_t size = cxl_dstate->mem_size;
- 
-     if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
-         return CXL_MBOX_INTERNAL_ERROR;
-@@ -290,11 +290,13 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
-     id = (void *)cmd->payload;
-     memset(id, 0, sizeof(*id));
- 
--    /* PMEM only */
--    snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 0);
-+    /* Version 0: PMEM Only.  Version 1: PMEM and VMEM */
-+    snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 1);
- 
--    id->total_capacity = size / (256 << 20);
--    id->persistent_capacity = size / (256 << 20);
-+    size /= (256 << 20);
-+    id->total_capacity = size;
-+    id->persistent_capacity = ct3d->is_pmem ? size : 0;
-+    id->volatile_capacity = ct3d->is_pmem ? 0 : size;
-     id->lsa_size = cvc->get_lsa_size(ct3d);
- 
-     *len = sizeof(*id);
-@@ -312,16 +314,18 @@ static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
-         uint64_t next_pmem;
-     } QEMU_PACKED *part_info = (void *)cmd->payload;
-     QEMU_BUILD_BUG_ON(sizeof(*part_info) != 0x20);
--    uint64_t size = cxl_dstate->pmem_size;
-+
-+    CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
-+    uint64_t size = cxl_dstate->mem_size;
- 
-     if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
-         return CXL_MBOX_INTERNAL_ERROR;
-     }
- 
--    /* PMEM only */
--    part_info->active_vmem = 0;
-+    size /= (256 << 20);
-+    part_info->active_vmem = ct3d->is_pmem ? 0 : size;
-     part_info->next_vmem = 0;
--    part_info->active_pmem = size / (256 << 20);
-+    part_info->active_pmem = ct3d->is_pmem ? size : 0;
-     part_info->next_pmem = 0;
- 
-     *len = sizeof(*part_info);
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index ada2108fac..18c5b9ff90 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -111,7 +111,7 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
-         error_setg(errp, "memdev property must be set");
-         return false;
-     }
--    memory_region_set_nonvolatile(mr, true);
-+    memory_region_set_nonvolatile(mr, ct3d->is_pmem);
-     memory_region_set_enabled(mr, true);
-     host_memory_backend_set_mapped(ct3d->hostmem, true);
- 
-@@ -123,7 +123,7 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
-     address_space_init(&ct3d->hostmem_as, mr, name);
-     g_free(name);
- 
--    ct3d->cxl_dstate.pmem_size = ct3d->hostmem->size;
-+    ct3d->cxl_dstate.mem_size = ct3d->hostmem->size;
- 
-     if (!ct3d->lsa) {
-         error_setg(errp, "lsa property must be set");
-@@ -271,6 +271,7 @@ static void ct3d_reset(DeviceState *dev)
- }
- 
- static Property ct3_props[] = {
-+    DEFINE_PROP_BOOL("pmem", CXLType3Dev, is_pmem, false),
-     DEFINE_PROP_LINK("memdev", CXLType3Dev, hostmem, TYPE_MEMORY_BACKEND,
-                      HostMemoryBackend *),
-     DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
-@@ -278,6 +279,7 @@ static Property ct3_props[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-+
- static uint64_t get_lsa_size(CXLType3Dev *ct3d)
- {
-     MemoryRegion *mr;
-@@ -338,10 +340,10 @@ static void ct3_class_init(ObjectClass *oc, void *data)
-     pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
-     pc->vendor_id = PCI_VENDOR_ID_INTEL;
-     pc->device_id = 0xd93; /* LVF for now */
--    pc->revision = 1;
-+    pc->revision = 2;
- 
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
--    dc->desc = "CXL PMEM Device (Type 3)";
-+    dc->desc = "CXL Memory Device (Type 3)";
-     dc->reset = ct3d_reset;
-     device_class_set_props(dc, ct3_props);
- 
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index 1e141b6621..67fc65f047 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -117,8 +117,8 @@ typedef struct cxl_device_state {
-         uint64_t host_set;
-     } timestamp;
- 
--    /* memory region for persistent memory, HDM */
--    uint64_t pmem_size;
-+    /* memory region for persistent and volatile memory, HDM */
-+    uint64_t mem_size;
- } CXLDeviceState;
- 
- /* Initialize the register block for a device */
-@@ -235,6 +235,7 @@ struct CXLType3Dev {
-     PCIDevice parent_obj;
- 
-     /* Properties */
-+    bool is_pmem;
-     HostMemoryBackend *hostmem;
-     HostMemoryBackend *lsa;
- 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 2ebeb530b2..40c392056d 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1578,13 +1578,13 @@ static void test_acpi_q35_cxl(void)
-                              " -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1"
-                              " -device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2"
-                              " -device cxl-rp,port=0,bus=cxl.1,id=rp1,chassis=0,slot=2"
--                             " -device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1"
-+                             " -device cxl-type3,bus=rp1,pmem=true,memdev=cxl-mem1,lsa=lsa1"
-                              " -device cxl-rp,port=1,bus=cxl.1,id=rp2,chassis=0,slot=3"
--                             " -device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2"
-+                             " -device cxl-type3,bus=rp2,pmem=true,memdev=cxl-mem2,lsa=lsa2"
-                              " -device cxl-rp,port=0,bus=cxl.2,id=rp3,chassis=0,slot=5"
--                             " -device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3"
-+                             " -device cxl-type3,bus=rp3,pmem=true,memdev=cxl-mem3,lsa=lsa3"
-                              " -device cxl-rp,port=1,bus=cxl.2,id=rp4,chassis=0,slot=6"
--                             " -device cxl-type3,bus=rp4,memdev=cxl-mem4,lsa=lsa4"
-+                             " -device cxl-type3,bus=rp4,pmem=true,memdev=cxl-mem4,lsa=lsa4"
-                              " -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k,"
-                              "cxl-fmw.1.targets.0=cxl.1,cxl-fmw.1.targets.1=cxl.2,cxl-fmw.1.size=4G,cxl-fmw.1.interleave-granularity=8k",
-                              tmp_path, tmp_path, tmp_path, tmp_path,
-diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-index cbe0fb549b..667e590c5f 100644
---- a/tests/qtest/cxl-test.c
-+++ b/tests/qtest/cxl-test.c
-@@ -31,27 +31,40 @@
- 
- #define QEMU_T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
-                  "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
--                 "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 "
-+                 "-device cxl-type3,bus=rp0,pmem=false,memdev=cxl-mem0," \
-+                  "lsa=lsa0,id=cxl-pmem0 "
-+
-+#define QEMU_T3DV "-object memory-backend-ram,id=cxl-mem0,size=256M " \
-+                  "-object memory-backend-ram,id=lsa0,size=256M "    \
-+                  "-device cxl-type3,bus=rp0,pmem=true,memdev=cxl-mem0," \
-+                   "lsa=lsa0,id=cxl-pmem0 "
-+
- 
- #define QEMU_2T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M "    \
-                   "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
--                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
-+                  "-device cxl-type3,bus=rp0,pmem=true,memdev=cxl-mem0," \
-+                   "lsa=lsa0,id=cxl-pmem0 " \
-                   "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
-                   "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
--                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 "
-+                  "-device cxl-type3,bus=rp1,pmem=true,memdev=cxl-mem1," \
-+                   "lsa=lsa1,id=cxl-pmem1 "
- 
- #define QEMU_4T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
-                   "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
--                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
-+                  "-device cxl-type3,bus=rp0,pmem=true,memdev=cxl-mem0," \
-+                   "lsa=lsa0,id=cxl-pmem0 " \
-                   "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
-                   "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
--                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 " \
-+                  "-device cxl-type3,bus=rp1,pmem=true,memdev=cxl-mem1," \
-+                   "lsa=lsa1,id=cxl-pmem1 " \
-                   "-object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M "    \
-                   "-object memory-backend-file,id=lsa2,mem-path=%s,size=256M "    \
--                  "-device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2,id=cxl-pmem2 " \
-+                  "-device cxl-type3,bus=rp2,pmem=true,memdev=cxl-mem2," \
-+                   "lsa=lsa2,id=cxl-pmem2 " \
-                   "-object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M "    \
-                   "-object memory-backend-file,id=lsa3,mem-path=%s,size=256M "    \
--                  "-device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3,id=cxl-pmem3 "
-+                  "-device cxl-type3,bus=rp3,pmem=true,memdev=cxl-mem3," \
-+                   "lsa=lsa3,id=cxl-pmem3 "
- 
- static void cxl_basic_hb(void)
- {
-@@ -103,6 +116,19 @@ static void cxl_t3d(void)
-     qtest_end();
- }
- 
-+static void cxl_t3d_vmem(void)
-+{
-+    g_autoptr(GString) cmdline = g_string_new(NULL);
-+    g_autofree const char *tmpfs = NULL;
-+
-+    tmpfs = g_dir_make_tmp("cxl-test-XXXXXX", NULL);
-+
-+    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3DV);
-+
-+    qtest_start(cmdline->str);
-+    qtest_end();
-+}
-+
- static void cxl_1pxb_2rp_2t3d(void)
- {
-     g_autoptr(GString) cmdline = g_string_new(NULL);
-@@ -145,6 +171,7 @@ int main(int argc, char **argv)
-     qtest_add_func("/pci/cxl/rp_x2", cxl_2root_port);
- #ifdef CONFIG_POSIX
-     qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
-+    qtest_add_func("/pci/cxl/type3_vmem_device", cxl_t3d_vmem);
-     qtest_add_func("/pci/cxl/rp_x2_type3_x2", cxl_1pxb_2rp_2t3d);
-     qtest_add_func("/pci/cxl/pxb_x2_root_port_x4_type3_x4", cxl_2pxb_4rp_4t3d);
- #endif
--- 
-2.37.3
+On Wed, Oct 05, 2022 at 12:08:27PM +0200, Laurent Vivier wrote:
+> On 9/28/22 07:55, David Gibson wrote:
+> > > +static int net_stream_server_init(NetClientState *peer,
+> > > +                                  const char *model,
+> > > +                                  const char *name,
+> > > +                                  SocketAddress *addr,
+> > > +                                  Error **errp)
+> > > +{
+> > > +    NetClientState *nc;
+> > > +    NetStreamState *s;
+> > > +    int fd, ret;
+> > > +
+> > > +    switch (addr->type) {
+> > > +    case SOCKET_ADDRESS_TYPE_INET: {
+> > > +        struct sockaddr_in saddr_in;
+> > > +
+> > > +        if (convert_host_port(&saddr_in, addr->u.inet.host, addr->u.=
+inet.port,
+> > > +                              errp) < 0) {
+> > > +            return -1;
+> > > +        }
+> > > +
+> > > +        fd =3D qemu_socket(PF_INET, SOCK_STREAM, 0);
+> > > +        if (fd < 0) {
+> > > +            error_setg_errno(errp, errno, "can't create stream socke=
+t");
+> > > +            return -1;
+> > > +        }
+> > > +        qemu_socket_set_nonblock(fd);
+> > > +
+> > > +        socket_set_fast_reuse(fd);
+> > > +
+> > > +        ret =3D bind(fd, (struct sockaddr *)&saddr_in, sizeof(saddr_=
+in));
+> > > +        if (ret < 0) {
+> > > +            error_setg_errno(errp, errno, "can't bind ip=3D%s to soc=
+ket",
+> > > +                             inet_ntoa(saddr_in.sin_addr));
+> > > +            closesocket(fd);
+> > > +            return -1;
+> > > +        }
+> > > +        break;
+> > > +    }
+> > > +    case SOCKET_ADDRESS_TYPE_FD:
+> > > +        fd =3D monitor_fd_param(monitor_cur(), addr->u.fd.str, errp);
+> > > +        if (fd =3D=3D -1) {
+> > > +            return -1;
+> > > +        }
+> > > +        ret =3D qemu_socket_try_set_nonblock(fd);
+> > > +        if (ret < 0) {
+> > > +            error_setg_errno(errp, -ret, "%s: Can't use file descrip=
+tor %d",
+> > > +                             name, fd);
+> > > +            return -1;
+> > > +        }
+> > > +        break;
+> > > +    default:
+> > > +        error_setg(errp, "only support inet or fd type");
+> > > +        return -1;
+> > > +    }
+> > > +
+> > > +    ret =3D listen(fd, 0);
+> > Does this make sense for a passed in fd?  If someone passes a "server"
+> > fd, are they likely to be passing a socket on which bind() but not
+> > listen() has been called?  Or one on which both bind() and listen()
+> > have been called?
+> >=20
+>=20
+> Original code in net/socket.c doesn't manage server case with fd.
+>=20
+> So I have checked what is done for QIO (all this code is overwritten by
+> patch introducing QIO anyway):
+>=20
+> At the end of the series, we use qio_channel_socket_listen_async() in
+> net_stream_server_init(), that in the end calls socket_listen().
+>=20
+> With SOCKET_ADDRESS_TYPE_FD we does the listen() (without bind()) with th=
+e following comment:
+>=20
+>     case SOCKET_ADDRESS_TYPE_FD:
+>         fd =3D socket_get_fd(addr->u.fd.str, errp);
+>         if (fd < 0) {
+>             return -1;
+>         }
+>=20
+>         /*
+>          * If the socket is not yet in the listen state, then transition =
+it to
+>          * the listen state now.
+>          *
+>          * If it's already listening then this updates the backlog value =
+as
+>          * requested.
+>          *
+>          * If this socket cannot listen because it's already in another s=
+tate
+>          * (e.g. unbound or connected) then we'll catch the error here.
+>          */
+>         if (listen(fd, num) !=3D 0) {
+>             error_setg_errno(errp, errno, "Failed to listen on fd socket"=
+);
+>             closesocket(fd);
+>             return -1;
+>         }
+>         break;
+>=20
+> So I think we should keep the listen() in our case too.
 
+Ok, that makes sense to me.  Or at least, if it's not correct we
+should fix it later for all the places at the same time in the qio
+code.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Mitt8X/ROnWemzFf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmM+IzEACgkQgypY4gEw
+YSLQYA//Q75d8TUUo3roGF5Wo6NiUTvExquDQrLO/VWBpPwrSen3fjArstTA3CF/
+O9qlTVYp3kbJHe/Xkk4IueXqIW1aNrEKIu3fzE0NwoW0/ciTuNOyVxUyLdFI44Z3
+F95xnxjRNIgXazM+B95Sg1n6YzZricto8mayK7nCPa9qNPXvBDpVCMzcSAED2BrR
+mm+33cFSTS/PgAOnlvHdgI5Veak7h3jSQl+rsKSCpCThWlJg1TZtxueInCDcRjRy
++sDlGWwGyhR0VmQJlXmuOvgiHjXZ7JPWqDdZiRrRUexG4XMUUzhGvZs7BzwWw5fB
+nkM0sKaLQwNqhNa59Yzer8DoTil2smv1CReZaZibT3dna+FiypaaYaXN7FRC7aIq
++BgCj2ApVRaqP41JXOLhls9EUw+b42j9JOZhS0aY/mGCqd4AXuUgJi/aSYRs2O0P
+2x7EC8eNUQyRYm+HGImkXXqbqG7aVs++JpgVrnZQcOQnyYij/L5KsHibgQTkL8L3
+4SF0il+zyu4FAnm4MB6u/nGJA1FdpiHH0ale6IS243xe3W7BF4blHX3CPj9PEjzF
+B/yCCiuVfkkDhqyJ997FI3DJ3SCd92lrSdBuWtWmLwYiogLZGKfHuPIZozeQhbkT
+fOc4Q790l+arkIQFAdyPOc7fdezhIQ7/hxEIZk6MUe6OBkBfnqc=
+=8DTH
+-----END PGP SIGNATURE-----
+
+--Mitt8X/ROnWemzFf--
 
