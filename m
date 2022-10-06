@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF8E5F6EB1
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 22:11:58 +0200 (CEST)
-Received: from localhost ([::1]:58992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083B25F6EB2
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 22:12:01 +0200 (CEST)
+Received: from localhost ([::1]:54334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogXDn-0008Uq-Oo
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 16:11:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37302)
+	id 1ogXDq-00009I-DY
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 16:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1ogX9E-0002d4-2t; Thu, 06 Oct 2022 16:07:12 -0400
+ id 1ogX9I-0002iT-R7; Thu, 06 Oct 2022 16:07:18 -0400
 Received: from [200.168.210.66] (port=39047 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1ogX9C-0001fe-20; Thu, 06 Oct 2022 16:07:11 -0400
+ id 1ogX9F-0001fe-Mg; Thu, 06 Oct 2022 16:07:15 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Thu, 6 Oct 2022 17:07:03 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 3E7438002BE;
+ by p9ibm (Postfix) with ESMTP id 563D98002D8;
  Thu,  6 Oct 2022 17:07:03 -0300 (-03)
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 To: qemu-devel@nongnu.org,
@@ -29,14 +29,16 @@ To: qemu-devel@nongnu.org,
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, farosas@linux.ibm.com,
  Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH 0/6] Enable doorbell instruction for POWER8 CPUs
-Date: Thu,  6 Oct 2022 17:06:48 -0300
-Message-Id: <20221006200654.725390-1-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 1/6] target/ppc: fix msgclr/msgsnd insns flags
+Date: Thu,  6 Oct 2022 17:06:49 -0300
+Message-Id: <20221006200654.725390-2-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221006200654.725390-1-matheus.ferst@eldorado.org.br>
+References: <20221006200654.725390-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 06 Oct 2022 20:07:03.0542 (UTC)
- FILETIME=[339E4160:01D8D9BF]
+X-OriginalArrivalTime: 06 Oct 2022 20:07:03.0605 (UTC)
+ FILETIME=[33A7DE50:01D8D9BF]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -60,48 +62,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewing the interrupt rework patch series, Fabiano noted[1] that the
-POWER8 User's Manual lists the Directed Hypervisor Doorbell interrupt,
-even without implementing the "Embedded.Processor Control" category. The
-manual also lists the msgclr and msgsnd instructions, but the decode
-legacy code currently gates them with the PPC2_PRCNTL flag, which is not
-enabled for this CPU.
+On Power ISA v2.07, the category for these instructions became
+"Embedded.Processor Control" or "Book S".
 
-Reading the Power ISA v2.07, we noticed that the title of the
-Processor Control chapter does not include the category information like
-in Power ISA v2.06, and the instruction listing in the appendices says
-that their category is "S\nE.PC". The document is not clear about this
-notation, but since implementations should support only one environment
-(embedded or server), I'd interpret this change as "these instructions
-are now available if the processor implements the server environment or
-E.PC category."
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-While reviewing the flag for those instructions, we also saw that the
-msgsync, introduced in PowerISA v3.0, was available on all processors
-with the PPC2_PRCNTL flag, which includes older CPUs like e500mc and
-e6500.
-
-This patch series fixes the instruction flags for these three
-instructions. We then take this opportunity to move processor control
-instruction to decodetree, fixing an embarrassing error in the
-definition of the REQUIRE_HV macro along the way.
-
-[1] https://lists.gnu.org/archive/html/qemu-ppc/2022-09/msg00586.html
-
-Matheus Ferst (6):
-  target/ppc: fix msgclr/msgsnd insns flags
-  target/ppc: fix msgsync insns flags
-  target/ppc: fix REQUIRE_HV macro definition
-  target/ppc: move msgclr/msgsnd to decodetree
-  target/ppc: move msgclrp/msgsndp to decodetree
-  target/ppc: move msgsync to decodetree
-
- target/ppc/insn32.decode                      |   8 ++
- target/ppc/translate.c                        |  86 ++-------------
- .../ppc/translate/processor-ctrl-impl.c.inc   | 103 ++++++++++++++++++
- 3 files changed, 119 insertions(+), 78 deletions(-)
- create mode 100644 target/ppc/translate/processor-ctrl-impl.c.inc
-
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index e810842925..37d7018d18 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -6902,9 +6902,9 @@ GEN_HANDLER2_E(tlbivax_booke206, "tlbivax", 0x1F, 0x12, 0x18, 0x00000001,
+ GEN_HANDLER2_E(tlbilx_booke206, "tlbilx", 0x1F, 0x12, 0x00, 0x03800001,
+                PPC_NONE, PPC2_BOOKE206),
+ GEN_HANDLER2_E(msgsnd, "msgsnd", 0x1F, 0x0E, 0x06, 0x03ff0001,
+-               PPC_NONE, PPC2_PRCNTL),
++               PPC_NONE, (PPC2_PRCNTL | PPC2_ISA207S)),
+ GEN_HANDLER2_E(msgclr, "msgclr", 0x1F, 0x0E, 0x07, 0x03ff0001,
+-               PPC_NONE, PPC2_PRCNTL),
++               PPC_NONE, (PPC2_PRCNTL | PPC2_ISA207S)),
+ GEN_HANDLER2_E(msgsync, "msgsync", 0x1F, 0x16, 0x1B, 0x00000000,
+                PPC_NONE, PPC2_PRCNTL),
+ GEN_HANDLER(wrtee, 0x1F, 0x03, 0x04, 0x000FFC01, PPC_WRTEE),
 -- 
 2.25.1
 
