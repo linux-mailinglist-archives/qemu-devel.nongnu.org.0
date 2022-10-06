@@ -2,116 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B6A5F6856
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 15:39:20 +0200 (CEST)
-Received: from localhost ([::1]:33352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2DF5F6864
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 15:43:00 +0200 (CEST)
+Received: from localhost ([::1]:58528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogR5q-0007sD-Oo
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 09:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43244)
+	id 1ogR9O-0004rD-DG
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 09:42:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1ogQYD-0004CW-EA
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:04:41 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:49435)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ogQZ2-0004iA-40
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:05:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1ogQXy-0007zD-Ep
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:04:20 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id 023085803FD;
- Thu,  6 Oct 2022 09:04:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 06 Oct 2022 09:04:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1665061455; x=1665068655; bh=N6
- it90zhKBeS6kpjpWHzwwnMSuYeK60zqUPbb7rWWk4=; b=XTgNicp/w6VyyZaRPv
- n4u89Y3VpJN0otlae1qyySdCkPUukZ695QdJy/OCy3++7pohYhDzlWsBkWKlQJnF
- zawbDkPiWAL+qX37FxpvztDyhcIQ7u804FSnaWHTxgf00r6YgtQGLMJkZ5U6GYbR
- YubxB3iGl1ZgFlNzemCy84m07QUj0p16Zi9PQzv/5PwIHtMNwZL2Dhc+BED6Kl8b
- M5lKq1X5teQz4f9aj4K3r2NpFmepGMiE+WN6QNx1P8/w4AntZGlp4rCO0gzvzW69
- sDnJ7MAI0QQdTetsS2DYE/U8hSNjrA7HIjuawWRV7bLDET+jfZ08TCMnecqIqjrY
- GAdw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1665061455; x=1665068655; bh=N6it90zhKBeS6kpjpWHzwwnMSuYe
- K60zqUPbb7rWWk4=; b=FAaPD96zc+b9K5xKH2cUqvkpol+I33Kkf0et42qgz8z+
- o1eNBQnQKM1AvC//U+cQVmrrqBd30HogyMEDiVxKvZdgTerM/pTVx2QnyIXOEv7d
- 60qslQZq3oWYM357Kd0o2xFwFf/0neVFntfmjMVLCvmPvsd4RUTzfau1b5gQuKjR
- iwPI146Sf0m0L9eJr2iXTgvFnYamJOGcYab+IB4nXczcS1og8ic4XumxPvS6Inuh
- MF5f8pJHOqfKa4fTi/Zc+HEg6NZRImJn1PwL0WZzUPoojpighNgVGN7e2QnppkQB
- AyzUbVcL6ZrNN0AxCHcceqU3axK2l7bbi73RHaGaXw==
-X-ME-Sender: <xms:TNI-Y_cADBTmEGpGSZoXpsnbr5cBkxj_NhkFnZrsm2yluGABn--W0w>
- <xme:TNI-Y1NvpK9thKw86UCe7rJ8yiX5AWUXVuvUmS7BsbCYx7l1rgp1Hf06pA9ptdAMn
- e03yjclKp-CO2o26go>
-X-ME-Received: <xmr:TNI-Y4hQ7BaMUuWbsk8OvMCD4cp_6m7IvvkagIaoMywvoSSwmfD-0JJnobBS8vCOG5tQtw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeihedgiedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
- ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
- grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
- tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
- epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
-X-ME-Proxy: <xmx:TNI-Yw_mO4XX1-1h6dzQ5GGjTnQKz-0-O6J5r-Li9YBWT8GUM4OAQw>
- <xmx:TNI-Y7sySt_8cYEM97yWcmGUiiP8-42qYLx8qLDtOk4nm5HGI0M94g>
- <xmx:TNI-Y_E3ditAwkEwtCuCVsNs7bzaIfKHo7-Kml0mjUdfSlcsiX7qpw>
- <xmx:T9I-Ywqn5ZabLPAsbikF_Gw5naaIf9n3eKnvmUiBpBnm0z1YXEjQRw>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 6 Oct 2022 09:04:11 -0400 (EDT)
-Received: by box.shutemov.name (Postfix, from userid 1000)
- id 7C346104D90; Thu,  6 Oct 2022 16:04:08 +0300 (+03)
-Date: Thu, 6 Oct 2022 16:04:08 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Fuad Tabba <tabba@google.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,	Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
- Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,	luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com,	ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com,	ddutile@redhat.com,
- dhildenb@redhat.com,	Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-Message-ID: <20221006130408.2bnuikg6peilaycp@box.shutemov.name>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <CA+EHjTz=o9M47frGCXgNJ8J5_Rn=YjzZR5uvCTxStw+GfGE5kg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ogQYy-0008GC-0m
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:05:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665061518;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xrntVulnB4p29VRx7T0EXSmSdvp8xD+G+ZZWi5DhMXs=;
+ b=BhDzFGu1cdgSRkCX5J7MJiprX+9eqfOUHhaywbSO/fxzm2Wo8uEH2f+nUnHn5OOLp9XFaT
+ pa2ZmXu7oQdzqEuGiS0GO78Xvxw2T33R9UZw54G10CzuEDEHT/sLYapA+sQiQFb4IUvJh3
+ boPa3BRXF0NJHXl7k/9TzmvYDJ8L+3U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-153-W6mrM89mOKypAMfIoWcEuQ-1; Thu, 06 Oct 2022 09:05:16 -0400
+X-MC-Unique: W6mrM89mOKypAMfIoWcEuQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 700C6833949
+ for <qemu-devel@nongnu.org>; Thu,  6 Oct 2022 13:05:16 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82203111E3E8;
+ Thu,  6 Oct 2022 13:05:15 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] qtest: start a VNC test
+Date: Thu,  6 Oct 2022 17:05:13 +0400
+Message-Id: <20221006130513.2683873-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTz=o9M47frGCXgNJ8J5_Rn=YjzZR5uvCTxStw+GfGE5kg@mail.gmail.com>
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=kirill@shutemov.name;
- helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -128,56 +80,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 06, 2022 at 09:50:28AM +0100, Fuad Tabba wrote:
-> Hi,
-> 
-> <...>
-> 
-> 
-> > diff --git a/mm/memfd_inaccessible.c b/mm/memfd_inaccessible.c
-> > new file mode 100644
-> > index 000000000000..2d33cbdd9282
-> > --- /dev/null
-> > +++ b/mm/memfd_inaccessible.c
-> 
-> <...>
-> 
-> > +struct file *memfd_mkinaccessible(struct file *memfd)
-> > +{
-> > +       struct inaccessible_data *data;
-> > +       struct address_space *mapping;
-> > +       struct inode *inode;
-> > +       struct file *file;
-> > +
-> > +       data = kzalloc(sizeof(*data), GFP_KERNEL);
-> > +       if (!data)
-> > +               return ERR_PTR(-ENOMEM);
-> > +
-> > +       data->memfd = memfd;
-> > +       mutex_init(&data->lock);
-> > +       INIT_LIST_HEAD(&data->notifiers);
-> > +
-> > +       inode = alloc_anon_inode(inaccessible_mnt->mnt_sb);
-> > +       if (IS_ERR(inode)) {
-> > +               kfree(data);
-> > +               return ERR_CAST(inode);
-> > +       }
-> > +
-> > +       inode->i_mode |= S_IFREG;
-> > +       inode->i_op = &inaccessible_iops;
-> > +       inode->i_mapping->private_data = data;
-> > +
-> > +       file = alloc_file_pseudo(inode, inaccessible_mnt,
-> > +                                "[memfd:inaccessible]", O_RDWR,
-> > +                                &inaccessible_fops);
-> > +       if (IS_ERR(file)) {
-> > +               iput(inode);
-> > +               kfree(data);
-> 
-> I think this might be missing a return at this point.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Good catch! Thanks!
+This is some of the simplest test we could perform, it simply connects
+to the VNC server via passed-in socket FDs and checks the connection can
+be established.
 
+Another series will make this test work on Windows as well.
+
+As always, more tests can be added later! :)
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ tests/qtest/vnc-display-test.c | 103 +++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build        |   8 ++-
+ 2 files changed, 110 insertions(+), 1 deletion(-)
+ create mode 100644 tests/qtest/vnc-display-test.c
+
+diff --git a/tests/qtest/vnc-display-test.c b/tests/qtest/vnc-display-test.c
+new file mode 100644
+index 0000000000..e2a9d682bb
+--- /dev/null
++++ b/tests/qtest/vnc-display-test.c
+@@ -0,0 +1,103 @@
++/*
++ * VNC display tests
++ *
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/sockets.h"
++#include "libqtest.h"
++#include <gio/gio.h>
++#include <gvnc.h>
++
++typedef struct Test {
++    QTestState *qts;
++    VncConnection *conn;
++    GMainLoop *loop;
++} Test;
++
++static void on_vnc_error(VncConnection* self,
++                         const char* msg)
++{
++    g_error("vnc-error: %s", msg);
++}
++
++static void on_vnc_auth_failure(VncConnection *self,
++                                const char *msg)
++{
++    g_error("vnc-auth-failure: %s", msg);
++}
++
++static bool
++test_setup(Test *test)
++{
++#ifdef WIN32
++    g_test_skip("Not supported on Windows yet");
++    return false;
++#else
++    int pair[2];
++
++    test->qts = qtest_init("-vnc none -name vnc-test");
++
++    g_assert_cmpint(qemu_socketpair(AF_UNIX, SOCK_STREAM, 0, pair), ==, 0);
++
++    qtest_qmp_add_client(test->qts, "vnc", pair[1]);
++
++    test->conn = vnc_connection_new();
++    g_signal_connect(test->conn, "vnc-error",
++                     G_CALLBACK(on_vnc_error), NULL);
++    g_signal_connect(test->conn, "vnc-auth-failure",
++                     G_CALLBACK(on_vnc_auth_failure), NULL);
++    vnc_connection_set_auth_type(test->conn, VNC_CONNECTION_AUTH_NONE);
++    vnc_connection_open_fd(test->conn, pair[0]);
++
++    test->loop = g_main_loop_new(NULL, FALSE);
++    return true;
++#endif
++}
++
++static void
++test_vnc_basic_on_vnc_initialized(VncConnection *self,
++                                 Test *test)
++{
++    const char *name = vnc_connection_get_name(test->conn);
++
++    g_assert_cmpstr(name, ==, "QEMU (vnc-test)");
++    g_main_loop_quit(test->loop);
++}
++
++static void
++test_vnc_basic(void)
++{
++    Test test;
++
++    if (!test_setup(&test)) {
++        return;
++    }
++
++    g_signal_connect(test.conn, "vnc-initialized",
++                     G_CALLBACK(test_vnc_basic_on_vnc_initialized), &test);
++
++    g_main_loop_run(test.loop);
++
++    qtest_quit(test.qts);
++    g_object_unref(test.conn);
++    g_main_loop_unref(test.loop);
++}
++
++int
++main(int argc, char **argv)
++{
++    if (getenv("GTK_VNC_DEBUG")) {
++        vnc_util_set_debug(true);
++    }
++
++    g_test_init(&argc, &argv, NULL);
++
++    qtest_add_func("/vnc-display/basic", test_vnc_basic);
++
++    return g_test_run();
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 455f1bbb7e..c07a5b1a5f 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -306,8 +306,14 @@ qtests = {
+   'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
+ }
+ 
++gvnc = dependency('gvnc-1.0', required: false)
++if gvnc.found()
++  qtests += {'vnc-display-test': [gvnc]}
++  qtests_generic += [ 'vnc-display-test' ]
++endif
++
+ if dbus_display
+-qtests += {'dbus-display-test': [dbus_display1, gio]}
++  qtests += {'dbus-display-test': [dbus_display1, gio]}
+ endif
+ 
+ qtest_executables = {}
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.37.3
+
 
