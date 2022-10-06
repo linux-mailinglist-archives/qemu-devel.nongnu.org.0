@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2C85F5F91
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 05:24:24 +0200 (CEST)
-Received: from localhost ([::1]:53352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598425F5F93
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 05:24:42 +0200 (CEST)
+Received: from localhost ([::1]:37198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogHUl-0001wN-M6
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 23:24:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48130)
+	id 1ogHV3-0002tH-Fn
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 23:24:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogHIJ-0005bT-69
+ id 1ogHIJ-0005fl-UG
  for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:11:31 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:42639)
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:41868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogHIH-0006xa-Gh
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:11:30 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- l1-20020a17090a72c100b0020a6949a66aso533161pjk.1
+ id 1ogHII-0006xh-Bs
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:11:31 -0400
+Received: by mail-pf1-x430.google.com with SMTP id g28so853136pfk.8
  for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 20:11:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=rigLTfOjEWhrby8dAtjv2G2EQPsehXz3okL3LRGUdH4=;
- b=mTVByTsW/smJ+SUY88RjumFYZ+2Nn6vIKiQGOF9dEkOUVzuSbxFHuP3FVKMLDB71oY
- QfzoI4u2G1WGXWglm03iNr+RcPvo16yArSQcTtGQ6YY3p6uLRS3AoP30rqZ8B15bMsZ4
- 6HvoXGU1e/7tl4lZxBAqWxNciE6Ym+3LK9eqlX5/5bcxxUo/GAh5h8u/rhmZnyiTMUCN
- WdXgtXOsevfSBu3aBJ9LT5TvFllSb35D2ALsjgl6YYThR9pLMTR9B+iUCsMniFBj6V7J
- U6s+BqgrT2mLkJ09I+J+jEFhGWnEnT3Of5aitA5YUY8IQpaEnSWFLPaqwfi0T2MwFKM6
- byXg==
+ bh=a7Aglx93RFVrz7iNIRH3QorEiqL8BPiOrMD+Ih+/A4s=;
+ b=uFCPEFgtmw/LX60HcDFFguvWylfRw0B6cwtJySQohTBaxxxP69DFdPPgL14UyIDD7U
+ +rCxcoPULS6l9pDwqEZiFKwf71QKfPl8H0c+7uvyxOQY1fdCWv5Wjd9lwM3bgHRpX/G+
+ 642IzKWAlCLWJ3eQSN3XIsPBySpMtEvQOoLwuo01pyEFZJZnPxcYRDC3adCdDprB21+I
+ 1p7cSp4spc/EgKQECFVVBke3vKRP8XKHrLEmR9LYykmLnFqW3Ro4NDcCflhurTXkfxfL
+ bz6qxXgXPEwGQncSO3a+9sEVHUP6yVhsACZ4xGqqjqp1jba7ChwKDYynLBx6jRqxfOns
+ neQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=rigLTfOjEWhrby8dAtjv2G2EQPsehXz3okL3LRGUdH4=;
- b=UTQp58GpHFKy2MCgKybpUOPlr9wBjxaDEYUO+KQPIN0hhraSdS0Qi6CfFrun0WWUyv
- JAbw5bN3GZr/yekZpGEcNCMINbzfWXJdbxO7HHPvfyvnyBkIPdwAAu3MegfDYF8t1yYn
- tmpdCOW11fZWKLwIfi79sfbQN9PO+f/GhU2aECcjiNdiyzChXidYH0Mc849ca5HVm/aF
- E9EoqV5DU7Ok0CQqGGY7iYU0Zbt6zae39gxb2buQ8fl7EGbWq7Yl0sgBRSOS84lQ3KRX
- VSIQq/h0LO3syuoDGgmDRq0Dgal6gfmsfJ0HXsUmvU+7pA4aw8XNCy4Vaw8+fC4y9nIj
- BRNw==
-X-Gm-Message-State: ACrzQf0OH2SXJWMhIOqPvZUkHRvU35+nyGryAxl5EaxAeaEz7SgYas9o
- ZCGrleV5zOoM0vgul8Q8etUDm0fqXNWuug==
-X-Google-Smtp-Source: AMsMyM4Rp/LvoKn/RKgn23CgnlQTzAJ9GGK61VCpkhXXLN22FkxkUADyE2tLyPUP+SJtyRPEoVbJ8g==
-X-Received: by 2002:a17:903:32d2:b0:17a:e62:16e2 with SMTP id
- i18-20020a17090332d200b0017a0e6216e2mr2302608plr.93.1665025888062; 
- Wed, 05 Oct 2022 20:11:28 -0700 (PDT)
+ bh=a7Aglx93RFVrz7iNIRH3QorEiqL8BPiOrMD+Ih+/A4s=;
+ b=ilMb8vGHIiHwVZtiLg+wIrXQp+frF34bQg997o01iWTj0r7D+VRdqr32LKjYKMK5GW
+ H1N8wMm2BTb7a3fMkExDvCZKWEmUNTe0qYmt/Fj8yfXkwQ/zOWUKcTbm93ARvE0C5h82
+ Lff6Wo9hhWEm7h8S/dWD63yM08StURjScTOGRfMdO6sQKldrbTW7pYTGWMrtmsKxcm4u
+ 5LZ9WGS2aRD/U0z5mAZnWNoV3Yw96yPF61Lo1qutbVGQ3TkXKAte6rZtJvkefSZC8mmW
+ Oijv9WG8ygui1Bxm5KqmIb+uxWB5885Tv+OU6A6bxvzkx2BPPRz0vS8catx6JrAqmvob
+ qeFg==
+X-Gm-Message-State: ACrzQf2A8oE813G4Mzi/rRdpgqXyyZ7M6wJbp55N1XAnH4m6ffSQJxo/
+ tPiBbslVmL/h97DakKZs/ZFt7jRdtCav0w==
+X-Google-Smtp-Source: AMsMyM7r/G0/hxE6H1lkK+Kgo80kZakpvBRPvyyy90TLcMRa6Gv32eYLNnU/Mimxaag1mJJxurItig==
+X-Received: by 2002:a63:4283:0:b0:457:dced:8ba3 with SMTP id
+ p125-20020a634283000000b00457dced8ba3mr2571816pga.220.1665025889043; 
+ Wed, 05 Oct 2022 20:11:29 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:9ad0:4307:7d39:bb61])
  by smtp.gmail.com with ESMTPSA id
- u128-20020a627986000000b0056281da3bcbsm58360pfc.149.2022.10.05.20.11.26
+ u128-20020a627986000000b0056281da3bcbsm58360pfc.149.2022.10.05.20.11.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Oct 2022 20:11:27 -0700 (PDT)
+ Wed, 05 Oct 2022 20:11:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org, laurent@vivier.eu, pbonzini@redhat.com,
  imp@bsdimp.com, f4bug@amsat.org
-Subject: [PATCH 10/24] accel/tcg: Rename tb_invalidate_phys_page
-Date: Wed,  5 Oct 2022 20:10:59 -0700
-Message-Id: <20221006031113.1139454-11-richard.henderson@linaro.org>
+Subject: [PATCH 11/24] accel/tcg: Rename tb_invalidate_phys_page_range and
+ drop end parameter
+Date: Wed,  5 Oct 2022 20:11:00 -0700
+Message-Id: <20221006031113.1139454-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221006031113.1139454-1-richard.henderson@linaro.org>
 References: <20221006031113.1139454-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,66 +91,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename to tb_invalidate_phys_page_unwind to emphasize that
-we also detect invalidating the current TB, and also to free
-up that name for other usage.
+This function is is never called with a real range,
+only for a single page.  Drop the second parameter
+and rename to tb_invalidate_phys_page.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/internal.h      | 2 +-
- accel/tcg/tb-maint.c      | 2 +-
- accel/tcg/translate-all.c | 5 +++--
- 3 files changed, 5 insertions(+), 4 deletions(-)
+ include/exec/translate-all.h |  2 +-
+ accel/tcg/tb-maint.c         | 15 ++++++++-------
+ cpu.c                        |  4 ++--
+ 3 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-index 1a704ee14f..1227bb69bd 100644
---- a/accel/tcg/internal.h
-+++ b/accel/tcg/internal.h
-@@ -105,7 +105,7 @@ void tb_htable_init(void);
- void tb_reset_jump(TranslationBlock *tb, int n);
- TranslationBlock *tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
-                                tb_page_addr_t phys_page2);
--bool tb_invalidate_phys_page(tb_page_addr_t addr, uintptr_t pc);
-+bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc);
- int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
-                               uintptr_t searched_pc, bool reset_icount);
+diff --git a/include/exec/translate-all.h b/include/exec/translate-all.h
+index 9f646389af..3e9cb91565 100644
+--- a/include/exec/translate-all.h
++++ b/include/exec/translate-all.h
+@@ -29,7 +29,7 @@ void page_collection_unlock(struct page_collection *set);
+ void tb_invalidate_phys_page_fast(struct page_collection *pages,
+                                   tb_page_addr_t start, int len,
+                                   uintptr_t retaddr);
+-void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end);
++void tb_invalidate_phys_page(tb_page_addr_t addr);
+ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr);
  
+ #ifdef CONFIG_USER_ONLY
 diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
-index 15ec2f741d..92170cbbc1 100644
+index 92170cbbc1..bac43774c0 100644
 --- a/accel/tcg/tb-maint.c
 +++ b/accel/tcg/tb-maint.c
-@@ -657,7 +657,7 @@ void tb_invalidate_phys_page_fast(struct page_collection *pages,
-  * TB (because it was modified by this store and the guest CPU has
-  * precise-SMC semantics).
-  */
--bool tb_invalidate_phys_page(tb_page_addr_t addr, uintptr_t pc)
-+bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc)
- {
-     TranslationBlock *tb;
-     PageDesc *p;
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index bef4c56cff..aa8d213514 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1382,7 +1382,7 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
-         if (!(p->flags & PAGE_WRITE) &&
-             (flags & PAGE_WRITE) &&
-             p->first_tb) {
--            tb_invalidate_phys_page(addr, 0);
-+            tb_invalidate_phys_page_unwind(addr, 0);
-         }
-         if (reset_target_data) {
-             g_free(p->target_data);
-@@ -1580,7 +1580,8 @@ int page_unprotect(target_ulong address, uintptr_t pc)
+@@ -565,25 +565,26 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
+ }
  
-                 /* and since the content will be modified, we must invalidate
-                    the corresponding translated code. */
--                current_tb_invalidated |= tb_invalidate_phys_page(addr, pc);
-+                current_tb_invalidated |=
-+                    tb_invalidate_phys_page_unwind(addr, pc);
-             }
-             mprotect((void *)g2h_untagged(host_start), qemu_host_page_size,
-                      prot & PAGE_BITS);
+ /*
+- * Invalidate all TBs which intersect with the target physical address range
+- * [start;end[. NOTE: start and end must refer to the *same* physical page.
+- * 'is_cpu_write_access' should be true if called from a real cpu write
+- * access: the virtual CPU will exit the current TB if code is modified inside
+- * this TB.
++ * Invalidate all TBs which intersect with the target physical
++ * address page @addr.
+  *
+  * Called with mmap_lock held for user-mode emulation
+  */
+-void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end)
++void tb_invalidate_phys_page(tb_page_addr_t addr)
+ {
+     struct page_collection *pages;
++    tb_page_addr_t start, end;
+     PageDesc *p;
+ 
+     assert_memory_lock();
+ 
+-    p = page_find(start >> TARGET_PAGE_BITS);
++    p = page_find(addr >> TARGET_PAGE_BITS);
+     if (p == NULL) {
+         return;
+     }
++
++    start = addr & TARGET_PAGE_MASK;
++    end = start + TARGET_PAGE_SIZE;
+     pages = page_collection_lock(start, end);
+     tb_invalidate_phys_page_range__locked(pages, p, start, end, 0);
+     page_collection_unlock(pages);
+diff --git a/cpu.c b/cpu.c
+index 14365e36f3..2a09b05205 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -277,7 +277,7 @@ void list_cpus(const char *optarg)
+ void tb_invalidate_phys_addr(target_ulong addr)
+ {
+     mmap_lock();
+-    tb_invalidate_phys_page_range(addr, addr + 1);
++    tb_invalidate_phys_page(addr);
+     mmap_unlock();
+ }
+ #else
+@@ -298,7 +298,7 @@ void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs attrs)
+         return;
+     }
+     ram_addr = memory_region_get_ram_addr(mr) + addr;
+-    tb_invalidate_phys_page_range(ram_addr, ram_addr + 1);
++    tb_invalidate_phys_page(ram_addr);
+ }
+ #endif
+ 
 -- 
 2.34.1
 
