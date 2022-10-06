@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE175F6A5B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:13:51 +0200 (CEST)
-Received: from localhost ([::1]:36562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F9C5F6A6C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:18:54 +0200 (CEST)
+Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogSZK-0005lI-8d
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:13:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54866)
+	id 1ogSeC-0002ui-VP
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:18:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ogSVv-0001Cd-Mr
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:10:25 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:47020)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogSVu-0001CZ-32
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:10:23 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:45819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ogSVt-0004F7-3C
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:10:19 -0400
-Received: by mail-pf1-x430.google.com with SMTP id y8so2272527pfp.13
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogSVs-0004Ey-E8
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:10:17 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id r18so2085464pgr.12
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:10:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc:subject:date:message-id:reply-to;
- bh=1LoMlyVE8CzThCTOT887LOx78WStN/+cMePcMwv13Us=;
- b=Q5B98w5Uwlht7fcBxcPPUQW8arPXhZqAx3mMEA+BNBthJWEQ1IvD6NNPWVr83Li/Jh
- vLfS8O3oFTCX5+goU4b6X8BNhTJl/rBcLB88aZozyFE6zrawTrox2llOu8hdgI7FWCsp
- SE8VZGjZwYkBNlRVw4qJsrPQbdKUVo6Cl5apKAd6+8iI7bKE4bzKWVODY1FNR83NbZfi
- 5D6REZBNS4b4KkbWVuq/uAegCe4WDoClNhEZxT8R1bJ75sg1fX5e236wN1ui8TTPdeFW
- 3PgyYhuIaOJjV5CPeEmSJz6Y7gUNOy9h0rJve/DkXQ32I/xQ2Tid6gCsKgxZraHJvZ2U
- Aszg==
+ :from:to:cc:subject:date;
+ bh=JduTXW6PLGdKWzmUjZZhmO+OtGT4XeVNrt4EO4Tuu9A=;
+ b=gQLbPe5SssuViN30WDK281fiEm+eGyxdiaZysMGDPyf61TpDZH0KtG28nKfHZt331x
+ op37IQtJmZyZxs4ugqJrNmBQDal59CpmC9dgkmLs21MpsAbe007+IypQE6rguEJNecEB
+ U+Pz+JHVeVbRZSrXOU3ksYuRcVCW8yAMRYdKkJ8NOCSvbBz+IYU4uZ3IYI86H9ke12fB
+ KExsHjgpdr71KV4uUwRjhd7UZXo9+VU//OEnH/fUy4OS3nCiRZntU3j9QQ+2h2KFwMTd
+ 6cTkXHyWWg51lQI0h0smEtrBXETTaWKQW9Bq/NDQ1GaE4ycW68mM0qghot6syWnsnL9N
+ gOuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1LoMlyVE8CzThCTOT887LOx78WStN/+cMePcMwv13Us=;
- b=I/ChJJFtIeb3x7A/RplQ7k+zYqIjyr7mNu93unzntzE8dyuQqmz/WFgQI+kHV39nly
- zSolHo/iLG7saGmMG5n6BcBqJYBL+dgwcDI4wZuNM4KazcuqvA77yPp65mnple+EapPZ
- x/mz43fk7Iaf8PA+xv0XfGw1GNVOalXPM5EtMOjJ6wfk8f97px4YMxtoW2quwQLQ1GPA
- C66sQlPFtj+nAi6WO2ARCKUlWllmfFPzRkpREE7npvKkpNl7fT4ajQBsHzv5XwOlIr25
- 4JbsLjIWEIebOdHvLKZfzvLaLZ/yCbGUx4fvY7zzIFo3W3FtXuWRIDlZTApPpJVjP7a6
- Cdxw==
-X-Gm-Message-State: ACrzQf09NY70a2qc47r1EXA61YWXpHxtPjisQZbI6Iu5x8zZwdYdSxwl
- WPKppXW8EXAxqvqaP9LwNZYQ7y9G5ik=
-X-Google-Smtp-Source: AMsMyM7orU/fMg5AWAvcRo5a+FmG6kpTiK6jcJlQV6dx4J25dqaD5w2w4LJoZz4KVyA3u0ooJMKwFw==
-X-Received: by 2002:a63:451a:0:b0:439:246e:807e with SMTP id
- s26-20020a63451a000000b00439246e807emr278441pga.347.1665069015486; 
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=JduTXW6PLGdKWzmUjZZhmO+OtGT4XeVNrt4EO4Tuu9A=;
+ b=cTZk5irVDJZGvm2AOJ1sadZ2BDlB52mi6goO+pRXF8YiwK5J74VgA3TgQcxuNc4pxL
+ AZpSYoIxN0aNstMGUXRg31XHD6QqomSGjNV89YCxP8FUTvW7jcLl5vzdDzi9N4WB87b9
+ uqXy8tiy2gG9a6v9H5rjHcKbx8fH/zI6J0CdD83BJcuJxnfNhVPqF7cbp5s0qxAtYjk3
+ y6VHhRM6WrCOoXp/CrLcF0KhVpPjUh9zUYCroHUaYX+lSAWrRH8wpyLAuo/X+37drDjd
+ 59GCswhG0w7yeUAu4DJgxJYUUr8Q/dz5DN2PbPuDuZJYjgRYOz23n7gUm2n6XQQUwUsZ
+ botQ==
+X-Gm-Message-State: ACrzQf3Oecs5iLjHZu6MqHSWRjkvPRrXSfBo/lqZPSeHqK/unfgqwrAc
+ 4gUb0XrrmQFTEdajLFiWnBj6lw==
+X-Google-Smtp-Source: AMsMyM7y79UVS3PSlo0PMlq/Jf42b0JegBf9gO+Hn5+OkYGKCACgVgVRCXlFvFCwCnf7zCj+td5kWQ==
+X-Received: by 2002:a05:6a00:1312:b0:536:fefd:e64a with SMTP id
+ j18-20020a056a00131200b00536fefde64amr300148pfu.26.1665069015004; 
  Thu, 06 Oct 2022 08:10:15 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+Received: from ?IPV6:2602:47:d49d:ec01:bc82:8006:f19e:85e?
+ ([2602:47:d49d:ec01:bc82:8006:f19e:85e])
  by smtp.gmail.com with ESMTPSA id
- d1-20020a170903230100b00177efb56475sm12597001plh.85.2022.10.06.08.10.12
+ x25-20020aa79419000000b00561c179e17dsm5279180pfo.76.2022.10.06.08.10.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
  Thu, 06 Oct 2022 08:10:14 -0700 (PDT)
-Message-ID: <27e666ae-0a91-1843-8eb0-c816ab261eb1@amsat.org>
-Date: Thu, 6 Oct 2022 17:10:10 +0200
+Message-ID: <ed6e925a-ea37-5575-bc3c-aee2a887d5bc@linaro.org>
+Date: Thu, 6 Oct 2022 08:10:12 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH] gitmodules: recurse by default
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 01/42] target/arm: Split s2walk_secure from ipa_secure
+ in get_phys_addr
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20221006113906.179963-1-mst@redhat.com>
-In-Reply-To: <20221006113906.179963-1-mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20221001162318.153420-1-richard.henderson@linaro.org>
+ <20221001162318.153420-2-richard.henderson@linaro.org>
+ <CAFEAcA_LSd9mPFiDHyofdHVq2kshiL6FjxNG2aSXXc8jkGb3vg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_LSd9mPFiDHyofdHVq2kshiL6FjxNG2aSXXc8jkGb3vg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x430.google.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.435,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.435,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,132 +96,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Hi Michael,
-
-On 6/10/22 13:39, Michael S. Tsirkin wrote:
-> The most commmon complaint about submodules is that
-
-Typo "common"
-
-> they don't follow when one switches branches in the
-> main repo. Enable recursing into submodules by default
-> to address that.
+On 10/6/22 07:27, Peter Maydell wrote:
+> On Sat, 1 Oct 2022 at 17:24, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> The starting security state comes with the translation regime,
+>> not the current state of arm_is_secure_below_el3().
+>>
+>> Create a new local variable, s2walk_secure, which does not need
+>> to be written back to result->attrs.secure -- we compute that
+>> value later, after the S2 walk is complete.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>> v3: Do not modify ipa_secure, per review.
+>> ---
 > 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->   .gitmodules | 23 +++++++++++++++++++++++
->   1 file changed, 23 insertions(+)
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> I did find myself wondering if we should explicitly set
+>    result->attrs.secure = false;
+> in an else-branch of the last "if (is_secure)", though.
+> At the moment we rely on get_phys_addr_lpae() for the stage2
+> doing that for us, I think. Having the code here always set
+> result->attrs.secure before the 'return 0' avoids having to think
+> about that...
 
-We have 3 kinds of submodule (or more?):
-1/ required to *build* QEMU
-2/ required to *test* QEMU
-3/ only here for satisfies license of firmware blobs shipped with QEMU.
+Yes, we're currently (and predating this patch set) relying on the attrs structure being 
+cleared to start.  But I can certainly add the assignment if you like.
 
-IIUC, long-term we want to move 3/ in another repository.
 
-Could we only set "recurse=true" for 1/ ?
-
-What is your use-case? Do we need it also for 2/ ?
-
-> diff --git a/.gitmodules b/.gitmodules
-> index aedd9a03d4..5f32332aff 100644
-> --- a/.gitmodules
-> +++ b/.gitmodules
-> @@ -1,69 +1,92 @@
->   [submodule "roms/seabios"]
->   	path = roms/seabios
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/seabios.git/
->   [submodule "roms/SLOF"]
->   	path = roms/SLOF
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/SLOF.git
->   [submodule "roms/ipxe"]
->   	path = roms/ipxe
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/ipxe.git
->   [submodule "roms/openbios"]
->   	path = roms/openbios
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/openbios.git
->   [submodule "roms/qemu-palcode"]
->   	path = roms/qemu-palcode
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/qemu-palcode.git
->   [submodule "roms/sgabios"]
->   	path = roms/sgabios
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/sgabios.git
->   [submodule "dtc"]
->   	path = dtc
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/dtc.git
->   [submodule "roms/u-boot"]
->   	path = roms/u-boot
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/u-boot.git
->   [submodule "roms/skiboot"]
->   	path = roms/skiboot
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/skiboot.git
->   [submodule "roms/QemuMacDrivers"]
->   	path = roms/QemuMacDrivers
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/QemuMacDrivers.git
->   [submodule "ui/keycodemapdb"]
->   	path = ui/keycodemapdb
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/keycodemapdb.git
->   [submodule "roms/seabios-hppa"]
->   	path = roms/seabios-hppa
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/seabios-hppa.git
->   [submodule "roms/u-boot-sam460ex"]
->   	path = roms/u-boot-sam460ex
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/u-boot-sam460ex.git
->   [submodule "tests/fp/berkeley-testfloat-3"]
->   	path = tests/fp/berkeley-testfloat-3
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/berkeley-testfloat-3.git
->   [submodule "tests/fp/berkeley-softfloat-3"]
->   	path = tests/fp/berkeley-softfloat-3
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/berkeley-softfloat-3.git
->   [submodule "roms/edk2"]
->   	path = roms/edk2
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/edk2.git
->   [submodule "slirp"]
->   	path = slirp
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/libslirp.git
->   [submodule "roms/opensbi"]
->   	path = roms/opensbi
-> +	recurse = true
->   	url = 	https://gitlab.com/qemu-project/opensbi.git
->   [submodule "roms/qboot"]
->   	path = roms/qboot
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/qboot.git
->   [submodule "meson"]
->   	path = meson
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/meson.git
->   [submodule "roms/vbootrom"]
->   	path = roms/vbootrom
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/vbootrom.git
->   [submodule "tests/lcitool/libvirt-ci"]
->   	path = tests/lcitool/libvirt-ci
-> +	recurse = true
->   	url = https://gitlab.com/libvirt/libvirt-ci.git
->   [submodule "subprojects/libvfio-user"]
->   	path = subprojects/libvfio-user
-> +	recurse = true
->   	url = https://gitlab.com/qemu-project/libvfio-user.git
-
+r~
 
