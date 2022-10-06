@@ -2,60 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347BE5F63EC
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 11:56:48 +0200 (CEST)
-Received: from localhost ([::1]:41844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED305F635C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 11:15:05 +0200 (CEST)
+Received: from localhost ([::1]:37984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogNcU-0005cU-PR
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 05:56:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39446)
+	id 1ogMy6-0001GY-W6
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 05:15:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ogMWK-0003KO-1n
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:46:26 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2699)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1ogMWY-0003ef-Am
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:46:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ogMWG-0007ia-89
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:46:19 -0400
-Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MjlNz3swgz67yc5;
- Thu,  6 Oct 2022 16:44:35 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.31; Thu, 6 Oct 2022 10:46:00 +0200
-Received: from localhost (10.81.206.0) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 6 Oct
- 2022 09:46:00 +0100
-Date: Thu, 6 Oct 2022 09:45:57 +0100
-To: Gourry <gourry.memverge@gmail.com>
-CC: <qemu-devel@nongnu.org>, Gourry <gregory.price@memverge.com>,
- <linux-cxl@vger.kernel.org>, Alison Schofield <alison.schofield@intel.com>,
- Davidlohr Bueso <dave@stgolabs.net>, "a.manzanares@samsung.com"
- <a.manzanares@samsung.com>, Ben Widawsky <bwidawsk@kernel.org>
-Subject: Re: [PATCH RFC] hw/cxl: type 3 devices can now present volatile or
- persistent memory
-Message-ID: <20221006094557.000035ab@huawei.com>
-In-Reply-To: <20221006000103.49542-1-gregory.price@memverge.com>
-References: <20221006000103.49542-1-gregory.price@memverge.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1ogMWW-0007kg-E8
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:46:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665045991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=P+K5oIKiRkuX35MrLNkGrEEJ2m9Z7fa4knnki1oFo6A=;
+ b=gsHgNvmJWpbgahnoMLpzS68ZH0+h6SMDg71E6Z+xvjIQ/T0Q6MiNAJg0gLgHhuc5J9zuX7
+ BvZHYp5qVD2KWRMQqcq5U+LOyZmwvcEV0DqitzySxoas9SqCFITpv2KjBCkkSHkLXAMA2b
+ Xd8AP7LTXvM506QNEME0fVNvc4KItMA=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-433-UwwAheZEM0WuM_yz3nTWvQ-1; Thu, 06 Oct 2022 04:46:30 -0400
+X-MC-Unique: UwwAheZEM0WuM_yz3nTWvQ-1
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-13234741239so697937fac.7
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 01:46:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=P+K5oIKiRkuX35MrLNkGrEEJ2m9Z7fa4knnki1oFo6A=;
+ b=fGXSwMQuVFfpY5UX5CbZu98x6SMAv4uPetXCqJfvDi7eHSH1+RSHxgFtH2GgiIBFDc
+ mA2aFmbkCr7k2PCR7xsbYH3K2VRCnbzhLWES/MeyO2zldcNQl0OhDc+ZS78EuysH8SSD
+ liULvO1P6TKN+42IcTrPHpLGMWyA6O4PgbLJuEce3ClBMQJFP4WAl45GOhXokBQnSvyD
+ GX1Ud3haf7tmuqIT3bAAdyel1lwVUdIYonCqfBlvIMt7YF8jSSRhTvMXC6JHpIn42WeP
+ 6EGt9ZphrKTRIw97yW65PnmxJWaW/8JCgQg2bbd9XyCQdffANYbdzvsEl5+Hxt894Cwq
+ GuSQ==
+X-Gm-Message-State: ACrzQf3ORIxIFaTuAMkv3tjkOe7boO7HlTCefPh4BAgRc7hdtoO7LU1N
+ H+5o7NWPBTepo2ouKEPpyL7Aiat3TyOiDuc19xRaDAPNO2iPt8db0Y6xVn7DHzRYOl97pEz27gd
+ SfzUSxXU9n7uPqE9PBCzsy9zl6qfoGrM=
+X-Received: by 2002:a05:6830:b8d:b0:65f:22fb:be09 with SMTP id
+ a13-20020a0568300b8d00b0065f22fbbe09mr1418727otv.38.1665045989491; 
+ Thu, 06 Oct 2022 01:46:29 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7Lc0dmHtPhPqFf9R8GgYRr+7xYG3s4+cYJuvLSJZMU70vSFv647sse94vyJbzj/Mk/qzhm86mvJ2kUXyumAYI=
+X-Received: by 2002:a05:6830:b8d:b0:65f:22fb:be09 with SMTP id
+ a13-20020a0568300b8d00b0065f22fbbe09mr1418721otv.38.1665045989202; Thu, 06
+ Oct 2022 01:46:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.81.206.0]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20221006081222.2606746-1-marcandre.lureau@redhat.com>
+ <20221006081222.2606746-6-marcandre.lureau@redhat.com>
+ <Yz6U7GXKg+Ctb3t0@redhat.com>
+In-Reply-To: <Yz6U7GXKg+Ctb3t0@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 6 Oct 2022 12:46:17 +0400
+Message-ID: <CAMxuvawpOSiGYFnGgmh4mb7jKbbKvd5UD_QP6FMZZh8gUAzVBQ@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] tests/unit: make test-io-channel-command work on
+ win32
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,425 +96,167 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Wed,  5 Oct 2022 20:01:03 -0400
-Gourry <gourry.memverge@gmail.com> wrote:
+Hi
 
-> Type 3 devices were hard-coded to always present as persistent memory devices.
-> This patch adds the "is_pmem" attribute which can be used to instantiate
-> a device as either a pmem or vmem.
+On Thu, Oct 6, 2022 at 12:42 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Thu, Oct 06, 2022 at 12:12:22PM +0400, marcandre.lureau@redhat.com wro=
+te:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > This has been tested under msys2 & windows 11. I haven't tried to make
+> > it work with other environments yet, but that should be enough to
+> > validate the channel-command implementation anyway.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  tests/unit/test-io-channel-command.c | 32 ++++++++++++----------------
+> >  tests/unit/meson.build               |  2 +-
+> >  2 files changed, 15 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-=
+channel-command.c
+> > index aa09c559cd..be98c3452a 100644
+> > --- a/tests/unit/test-io-channel-command.c
+> > +++ b/tests/unit/test-io-channel-command.c
+> > @@ -24,29 +24,27 @@
+> >  #include "qapi/error.h"
+> >  #include "qemu/module.h"
+> >
+> > -#ifndef WIN32
+> > +#define TEST_PATH "test-io-channel-command.fifo"
+> > +
+> > +#define SOCAT_SRC "PIPE:" TEST_PATH ",wronly"
+> > +#define SOCAT_DST "PIPE:" TEST_PATH ",rdonly"
+> > +
+> >  static void test_io_channel_command_fifo(bool async)
+> >  {
+> > -#define TEST_FIFO "tests/test-io-channel-command.fifo"
+> >      QIOChannel *src, *dst;
+> >      QIOChannelTest *test;
+> > -    const char *srcfifo =3D "PIPE:" TEST_FIFO ",wronly";
+> > -    const char *dstfifo =3D "PIPE:" TEST_FIFO ",rdonly";
+> >      const char *srcargv[] =3D {
+> > -        "/bin/socat", "-", srcfifo, NULL,
+> > +        g_getenv("SOCAT"), "-", SOCAT_SRC, NULL,
+>
+> Please don't rely on env variables, as it complicates the ability to
+> invoke the test directly, without the meson harness. Either pass the
+> path from meson at compile time in config-host.h, or make this code
+> use an unqualified path, so it honours $PATH at runtime.
 
-Hi Gourry,
+I tried to pass it through config-host.h, but I dont see a way to
+escape the \ is the paths.
 
-Great to see this.
+Unqualified path doesn't work under msys2.
 
-Missing Signed-off by so we can't apply this (no developer certificate of
-origin)  Probably want your from address to match that and I've no idea
-if your fully name is Gourry (apologies if it is!)
-
-+CC linux-cxl as most folks who will be interested in this hang out there
-and are more likely to noticed it than burried on qemu-devel.
-Also +CC some others who will be interested in this discussion.
-
-Please also cc the listed CXL QEMU maintainers (myself and Ben W) - see
-MAINTAINERS
-
-> 
-> Right now it is only possible to choose one or the other, but future
-> devices may present both (such as multi-logical devices with different
-> regions backed by different types of memory).
-
-Would it be possible to introduce this support in a fashion that allowed
-us to transition to devices presenting both without needing a change of
-interface?  With hindsight the memdev naming of the existing parameter is
-less than helpful, but one path to doing this would be to allow for
-an alternative memdev-volatile= parameter.  For now we can keep the patch
-small by only supporting either memdev or memdev-volatile
-
-That way when we want to come along and add mixed devices later, we simply
-enable supporting the specification of two different memory backends.
-
-The tricky bit then would be to support variable capacity (devices can
-support a region of memory which may be persistent or non persistent
-depending on settings - see Set Partition Info).
-
-So my gut feeling is we may eventually allow all of:
-
-1) single memory backend for persistent or volatile.
-2) two memory backends, covering a persistent region and a volatile region
-  (likely you may want actual non volatile backend for the persistent
-   region but not the volatile one).
-3) single memory backend in which we can allow for the Set Partition Info stuff
-   to work.
-
-As we move beyond just one backend that is presented as persistent we need
-to define the interface...
-
-I can think of far too many options!  Let me lay out a few for comment.
-
-A) Array of memory backends, separate control of configurable size
-   + starting persistent size, starting volatile size.
-   Default of one memory backend gives you current non-volatile only.
-   To get volatile only you provide one memory backend and set
-   persistent size to 0 and volatile size to size of memory backend.
-
-B) Two memory backends, (later add some trickery around presented size)
-   memdev as defined is persistent memory (maybe we deprecate that interface
-   and make it memdev-persistent) memdev-volatile as volatile.
-
-   Steps to add functionality.
-   1. Add your code to enable volatile but use 'which memdev is supplied' to
-      act as the flag.  For now supply both is an error.
-   2. Enable static volatile + non-volatile devices (both memdevs supplied).
-   3. (hackish) Add a control for amount of partionable capacity.  Cheat
-      and remove that capacity from both memdevs.  Changing partition just
-      messes without how much of each memdev is used.  We'd need to be a little
-      careful to ensure we wipe data etc.
-
-You code mostly looks good to me so I think discussion here is going to be
-all about the interface and how we build one more suitable for the future!
-
-Jonathan
-
-
-
-
-> ---
->  docs/system/devices/cxl.rst    | 31 ++++++++++++++++---------
->  hw/cxl/cxl-mailbox-utils.c     | 24 +++++++++++---------
->  hw/mem/cxl_type3.c             | 10 +++++----
->  include/hw/cxl/cxl_device.h    |  5 +++--
->  tests/qtest/bios-tables-test.c |  8 +++----
->  tests/qtest/cxl-test.c         | 41 ++++++++++++++++++++++++++++------
->  6 files changed, 82 insertions(+), 37 deletions(-)
-> 
-> diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-> index f25783a4ec..3a62d46e8a 100644
-> --- a/docs/system/devices/cxl.rst
-> +++ b/docs/system/devices/cxl.rst
-> @@ -300,7 +300,7 @@ Example topology involving a switch::
->  
->  Example command lines
->  ---------------------
-> -A very simple setup with just one directly attached CXL Type 3 device::
-> +A very simple setup with just one directly attached CXL Type 3 Persistent Memory device::
->  
->    qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
->    ...
-> @@ -308,7 +308,18 @@ A very simple setup with just one directly attached CXL Type 3 device::
->    -object memory-backend-file,id=cxl-lsa1,share=on,mem-path=/tmp/lsa.raw,size=256M \
->    -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
->    -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
-> -  -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
-> +  -device cxl-type3,bus=root_port13,pmem=true,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
-> +  -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
-
-Can't do this as it breaks any existing setup.  If a flag makes sense (I don't think
-it is flexible enough) then would need to be volatile so it not being present
-will correspond to false and current situation.
-
-> +
-> +A very simple setup with just one directly attached CXL Type 3 Volatile Memory device::
-> +
-> +  qemu-system-aarch64 -M virt,gic-version=3,cxl=on -m 4g,maxmem=8G,slots=8 -cpu max \
-> +  ...
-> +  -object memory-backend-ram,id=cxl-mem1,share=on,size=256M \
-> +  -object memory-backend-ram,id=cxl-lsa1,share=on,size=256M \
-> +  -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
-> +  -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
-> +  -device cxl-type3,bus=root_port13,pmem=false,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
->    -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G
->  
->  A setup suitable for 4 way interleave. Only one fixed window provided, to enable 2 way
-> @@ -328,13 +339,13 @@ the CXL Type3 device directly attached (no switches).::
->    -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1 \
->    -device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2 \
->    -device cxl-rp,port=0,bus=cxl.1,id=root_port13,chassis=0,slot=2 \
-> -  -device cxl-type3,bus=root_port13,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
-> +  -device cxl-type3,bus=root_port13,pmem=true,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem0 \
->    -device cxl-rp,port=1,bus=cxl.1,id=root_port14,chassis=0,slot=3 \
-> -  -device cxl-type3,bus=root_port14,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem1 \
-> +  -device cxl-type3,bus=root_port14,pmem=true,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem1 \
->    -device cxl-rp,port=0,bus=cxl.2,id=root_port15,chassis=0,slot=5 \
-> -  -device cxl-type3,bus=root_port15,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem2 \
-> +  -device cxl-type3,bus=root_port15,pmem=true,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem2 \
->    -device cxl-rp,port=1,bus=cxl.2,id=root_port16,chassis=0,slot=6 \
-> -  -device cxl-type3,bus=root_port16,memdev=cxl-mem4,lsa=cxl-lsa4,id=cxl-pmem3 \
-> +  -device cxl-type3,bus=root_port16,pmem=true,memdev=cxl-mem4,lsa=cxl-lsa4,id=cxl-pmem3 \
->    -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.targets.1=cxl.2,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k
->  
->  An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
-> @@ -354,13 +365,13 @@ An example of 4 devices below a switch suitable for 1, 2 or 4 way interleave::
->    -device cxl-rp,port=1,bus=cxl.1,id=root_port1,chassis=0,slot=1 \
->    -device cxl-upstream,bus=root_port0,id=us0 \
->    -device cxl-downstream,port=0,bus=us0,id=swport0,chassis=0,slot=4 \
-> -  -device cxl-type3,bus=swport0,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
-> +  -device cxl-type3,bus=swport0,pmem=true,memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0,size=256M \
->    -device cxl-downstream,port=1,bus=us0,id=swport1,chassis=0,slot=5 \
-> -  -device cxl-type3,bus=swport1,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
-> +  -device cxl-type3,bus=swport1,pmem=true,memdev=cxl-mem1,lsa=cxl-lsa1,id=cxl-pmem1,size=256M \
->    -device cxl-downstream,port=2,bus=us0,id=swport2,chassis=0,slot=6 \
-> -  -device cxl-type3,bus=swport2,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
-> +  -device cxl-type3,bus=swport2,pmem=true,memdev=cxl-mem2,lsa=cxl-lsa2,id=cxl-pmem2,size=256M \
->    -device cxl-downstream,port=3,bus=us0,id=swport3,chassis=0,slot=7 \
-> -  -device cxl-type3,bus=swport3,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
-> +  -device cxl-type3,bus=swport3,pmem=true,memdev=cxl-mem3,lsa=cxl-lsa3,id=cxl-pmem3,size=256M \
->    -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=4k
->  
->  Kernel Configuration Options
-> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> index bc1bb18844..3ed4dfeb69 100644
-> --- a/hw/cxl/cxl-mailbox-utils.c
-> +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -138,7 +138,7 @@ static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
->      } QEMU_PACKED *fw_info;
->      QEMU_BUILD_BUG_ON(sizeof(*fw_info) != 0x50);
->  
-> -    if (cxl_dstate->pmem_size < (256 << 20)) {
-> +    if (cxl_dstate->mem_size < (256 << 20)) {
-
-Huh.  I wonder why this check is here in the first place? Looks very odd given why
-should we be checking the memory size in a firmware update based command.
-
-Probably cut and paste error long ago. 
-
->          return CXL_MBOX_INTERNAL_ERROR;
->      }
->  
-> @@ -281,7 +281,7 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
->  
->      CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
->      CXLType3Class *cvc = CXL_TYPE3_GET_CLASS(ct3d);
-> -    uint64_t size = cxl_dstate->pmem_size;
-> +    uint64_t size = cxl_dstate->mem_size;
->  
->      if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
->          return CXL_MBOX_INTERNAL_ERROR;
-> @@ -290,11 +290,13 @@ static ret_code cmd_identify_memory_device(struct cxl_cmd *cmd,
->      id = (void *)cmd->payload;
->      memset(id, 0, sizeof(*id));
->  
-> -    /* PMEM only */
-> -    snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 0);
-> +    /* Version 0: PMEM Only.  Version 1: PMEM and VMEM */
-> +    snprintf(id->fw_revision, 0x10, "BWFW VERSION %02d", 1);
->  
-> -    id->total_capacity = size / (256 << 20);
-> -    id->persistent_capacity = size / (256 << 20);
-> +    size /= (256 << 20);
-> +    id->total_capacity = size;
-> +    id->persistent_capacity = ct3d->is_pmem ? size : 0;
-> +    id->volatile_capacity = ct3d->is_pmem ? 0 : size;
->      id->lsa_size = cvc->get_lsa_size(ct3d);
->  
->      *len = sizeof(*id);
-> @@ -312,16 +314,18 @@ static ret_code cmd_ccls_get_partition_info(struct cxl_cmd *cmd,
->          uint64_t next_pmem;
->      } QEMU_PACKED *part_info = (void *)cmd->payload;
->      QEMU_BUILD_BUG_ON(sizeof(*part_info) != 0x20);
-> -    uint64_t size = cxl_dstate->pmem_size;
-> +
-> +    CXLType3Dev *ct3d = container_of(cxl_dstate, CXLType3Dev, cxl_dstate);
-> +    uint64_t size = cxl_dstate->mem_size;
->  
->      if (!QEMU_IS_ALIGNED(size, 256 << 20)) {
->          return CXL_MBOX_INTERNAL_ERROR;
->      }
->  
-> -    /* PMEM only */
-> -    part_info->active_vmem = 0;
-> +    size /= (256 << 20);
-> +    part_info->active_vmem = ct3d->is_pmem ? 0 : size;
->      part_info->next_vmem = 0;
-> -    part_info->active_pmem = size / (256 << 20);
-> +    part_info->active_pmem = ct3d->is_pmem ? size : 0;
->      part_info->next_pmem = 0;
->  
->      *len = sizeof(*part_info);
-> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> index ada2108fac..18c5b9ff90 100644
-> --- a/hw/mem/cxl_type3.c
-> +++ b/hw/mem/cxl_type3.c
-> @@ -111,7 +111,7 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
->          error_setg(errp, "memdev property must be set");
->          return false;
->      }
-> -    memory_region_set_nonvolatile(mr, true);
-> +    memory_region_set_nonvolatile(mr, ct3d->is_pmem);
->      memory_region_set_enabled(mr, true);
->      host_memory_backend_set_mapped(ct3d->hostmem, true);
->  
-> @@ -123,7 +123,7 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
->      address_space_init(&ct3d->hostmem_as, mr, name);
->      g_free(name);
->  
-> -    ct3d->cxl_dstate.pmem_size = ct3d->hostmem->size;
-> +    ct3d->cxl_dstate.mem_size = ct3d->hostmem->size;
->  
->      if (!ct3d->lsa) {
->          error_setg(errp, "lsa property must be set");
-> @@ -271,6 +271,7 @@ static void ct3d_reset(DeviceState *dev)
->  }
->  
->  static Property ct3_props[] = {
-> +    DEFINE_PROP_BOOL("pmem", CXLType3Dev, is_pmem, false),
->      DEFINE_PROP_LINK("memdev", CXLType3Dev, hostmem, TYPE_MEMORY_BACKEND,
->                       HostMemoryBackend *),
->      DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
-> @@ -278,6 +279,7 @@ static Property ct3_props[] = {
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> +
->  static uint64_t get_lsa_size(CXLType3Dev *ct3d)
->  {
->      MemoryRegion *mr;
-> @@ -338,10 +340,10 @@ static void ct3_class_init(ObjectClass *oc, void *data)
->      pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
->      pc->vendor_id = PCI_VENDOR_ID_INTEL;
->      pc->device_id = 0xd93; /* LVF for now */
-> -    pc->revision = 1;
-> +    pc->revision = 2;
-Given the driver isn't checking this and your code change isn't breaking
-older versions I would not update the revision for this.
-
->  
->      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-> -    dc->desc = "CXL PMEM Device (Type 3)";
-> +    dc->desc = "CXL Memory Device (Type 3)";
->      dc->reset = ct3d_reset;
->      device_class_set_props(dc, ct3_props);
->  
-> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> index 1e141b6621..67fc65f047 100644
-> --- a/include/hw/cxl/cxl_device.h
-> +++ b/include/hw/cxl/cxl_device.h
-> @@ -117,8 +117,8 @@ typedef struct cxl_device_state {
->          uint64_t host_set;
->      } timestamp;
->  
-> -    /* memory region for persistent memory, HDM */
-> -    uint64_t pmem_size;
-> +    /* memory region for persistent and volatile memory, HDM */
-> +    uint64_t mem_size;
->  } CXLDeviceState;
->  
->  /* Initialize the register block for a device */
-> @@ -235,6 +235,7 @@ struct CXLType3Dev {
->      PCIDevice parent_obj;
->  
->      /* Properties */
-> +    bool is_pmem;
->      HostMemoryBackend *hostmem;
->      HostMemoryBackend *lsa;
->  
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 2ebeb530b2..40c392056d 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1578,13 +1578,13 @@ static void test_acpi_q35_cxl(void)
->                               " -device pxb-cxl,bus_nr=12,bus=pcie.0,id=cxl.1"
->                               " -device pxb-cxl,bus_nr=222,bus=pcie.0,id=cxl.2"
->                               " -device cxl-rp,port=0,bus=cxl.1,id=rp1,chassis=0,slot=2"
-> -                             " -device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1"
-> +                             " -device cxl-type3,bus=rp1,pmem=true,memdev=cxl-mem1,lsa=lsa1"
->                               " -device cxl-rp,port=1,bus=cxl.1,id=rp2,chassis=0,slot=3"
-> -                             " -device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2"
-> +                             " -device cxl-type3,bus=rp2,pmem=true,memdev=cxl-mem2,lsa=lsa2"
->                               " -device cxl-rp,port=0,bus=cxl.2,id=rp3,chassis=0,slot=5"
-> -                             " -device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3"
-> +                             " -device cxl-type3,bus=rp3,pmem=true,memdev=cxl-mem3,lsa=lsa3"
->                               " -device cxl-rp,port=1,bus=cxl.2,id=rp4,chassis=0,slot=6"
-> -                             " -device cxl-type3,bus=rp4,memdev=cxl-mem4,lsa=lsa4"
-> +                             " -device cxl-type3,bus=rp4,pmem=true,memdev=cxl-mem4,lsa=lsa4"
->                               " -M cxl-fmw.0.targets.0=cxl.1,cxl-fmw.0.size=4G,cxl-fmw.0.interleave-granularity=8k,"
->                               "cxl-fmw.1.targets.0=cxl.1,cxl-fmw.1.targets.1=cxl.2,cxl-fmw.1.size=4G,cxl-fmw.1.interleave-granularity=8k",
->                               tmp_path, tmp_path, tmp_path, tmp_path,
-> diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-> index cbe0fb549b..667e590c5f 100644
-> --- a/tests/qtest/cxl-test.c
-> +++ b/tests/qtest/cxl-test.c
-> @@ -31,27 +31,40 @@
->  
->  #define QEMU_T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
->                   "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
-> -                 "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 "
-> +                 "-device cxl-type3,bus=rp0,pmem=false,memdev=cxl-mem0," \
-> +                  "lsa=lsa0,id=cxl-pmem0 "
-> +
-> +#define QEMU_T3DV "-object memory-backend-ram,id=cxl-mem0,size=256M " \
-> +                  "-object memory-backend-ram,id=lsa0,size=256M "    \
-> +                  "-device cxl-type3,bus=rp0,pmem=true,memdev=cxl-mem0," \
-> +                   "lsa=lsa0,id=cxl-pmem0 "
-> +
->  
->  #define QEMU_2T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M "    \
->                    "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
-> +                  "-device cxl-type3,bus=rp0,pmem=true,memdev=cxl-mem0," \
-> +                   "lsa=lsa0,id=cxl-pmem0 " \
->                    "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
->                    "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 "
-> +                  "-device cxl-type3,bus=rp1,pmem=true,memdev=cxl-mem1," \
-> +                   "lsa=lsa1,id=cxl-pmem1 "
->  
->  #define QEMU_4T3D "-object memory-backend-file,id=cxl-mem0,mem-path=%s,size=256M " \
->                    "-object memory-backend-file,id=lsa0,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 " \
-> +                  "-device cxl-type3,bus=rp0,pmem=true,memdev=cxl-mem0," \
-> +                   "lsa=lsa0,id=cxl-pmem0 " \
->                    "-object memory-backend-file,id=cxl-mem1,mem-path=%s,size=256M "    \
->                    "-object memory-backend-file,id=lsa1,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp1,memdev=cxl-mem1,lsa=lsa1,id=cxl-pmem1 " \
-> +                  "-device cxl-type3,bus=rp1,pmem=true,memdev=cxl-mem1," \
-> +                   "lsa=lsa1,id=cxl-pmem1 " \
->                    "-object memory-backend-file,id=cxl-mem2,mem-path=%s,size=256M "    \
->                    "-object memory-backend-file,id=lsa2,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp2,memdev=cxl-mem2,lsa=lsa2,id=cxl-pmem2 " \
-> +                  "-device cxl-type3,bus=rp2,pmem=true,memdev=cxl-mem2," \
-> +                   "lsa=lsa2,id=cxl-pmem2 " \
->                    "-object memory-backend-file,id=cxl-mem3,mem-path=%s,size=256M "    \
->                    "-object memory-backend-file,id=lsa3,mem-path=%s,size=256M "    \
-> -                  "-device cxl-type3,bus=rp3,memdev=cxl-mem3,lsa=lsa3,id=cxl-pmem3 "
-> +                  "-device cxl-type3,bus=rp3,pmem=true,memdev=cxl-mem3," \
-> +                   "lsa=lsa3,id=cxl-pmem3 "
->  
->  static void cxl_basic_hb(void)
->  {
-> @@ -103,6 +116,19 @@ static void cxl_t3d(void)
->      qtest_end();
->  }
->  
-> +static void cxl_t3d_vmem(void)
-> +{
-> +    g_autoptr(GString) cmdline = g_string_new(NULL);
-> +    g_autofree const char *tmpfs = NULL;
-> +
-> +    tmpfs = g_dir_make_tmp("cxl-test-XXXXXX", NULL);
-> +
-> +    g_string_printf(cmdline, QEMU_PXB_CMD QEMU_RP QEMU_T3DV);
-> +
-> +    qtest_start(cmdline->str);
-> +    qtest_end();
-> +}
-> +
->  static void cxl_1pxb_2rp_2t3d(void)
->  {
->      g_autoptr(GString) cmdline = g_string_new(NULL);
-> @@ -145,6 +171,7 @@ int main(int argc, char **argv)
->      qtest_add_func("/pci/cxl/rp_x2", cxl_2root_port);
->  #ifdef CONFIG_POSIX
->      qtest_add_func("/pci/cxl/type3_device", cxl_t3d);
-> +    qtest_add_func("/pci/cxl/type3_vmem_device", cxl_t3d_vmem);
->      qtest_add_func("/pci/cxl/rp_x2_type3_x2", cxl_1pxb_2rp_2t3d);
->      qtest_add_func("/pci/cxl/pxb_x2_root_port_x4_type3_x4", cxl_2pxb_4rp_4t3d);
->  #endif
-
-Great to see tests covered. Those often get forgotten.
-
-Jonathan
+>
+> >      };
+> >      const char *dstargv[] =3D {
+> > -        "/bin/socat", dstfifo, "-", NULL,
+> > +        g_getenv("SOCAT"), SOCAT_DST, "-", NULL,
+> >      };
+> >
+> > -    unlink(TEST_FIFO);
+> > -    if (access("/bin/socat", X_OK) < 0) {
+> > +    unlink(TEST_PATH);
+> > +    if (!g_file_test(g_getenv("SOCAT"), G_FILE_TEST_IS_EXECUTABLE)) {
+> >          g_test_skip("socat is missing");
+> >          return;
+> >      }
+> > -    if (mkfifo(TEST_FIFO, 0600) < 0) {
+> > -        abort();
+> > -    }
+> >      src =3D QIO_CHANNEL(qio_channel_command_new_spawn(srcargv,
+> >                                                      O_WRONLY,
+> >                                                      &error_abort));
+> > @@ -61,7 +59,7 @@ static void test_io_channel_command_fifo(bool async)
+> >      object_unref(OBJECT(src));
+> >      object_unref(OBJECT(dst));
+> >
+> > -    unlink(TEST_FIFO);
+> > +    unlink(TEST_PATH);
+> >  }
+> >
+> >
+> > @@ -81,11 +79,12 @@ static void test_io_channel_command_echo(bool async=
+)
+> >      QIOChannel *ioc;
+> >      QIOChannelTest *test;
+> >      const char *socatargv[] =3D {
+> > -        "/bin/socat", "-", "-", NULL,
+> > +        g_getenv("SOCAT"), "-", "-", NULL,
+> >      };
+> >
+> > -    if (access("/bin/socat", X_OK) < 0) {
+> > -        return; /* Pretend success if socat is not present */
+> > +    if (!g_file_test(g_getenv("SOCAT"), G_FILE_TEST_IS_EXECUTABLE)) {
+> > +        g_test_skip("socat is missing");
+> > +        return;
+> >      }
+> >
+> >      ioc =3D QIO_CHANNEL(qio_channel_command_new_spawn(socatargv,
+> > @@ -108,7 +107,6 @@ static void test_io_channel_command_echo_sync(void)
+> >  {
+> >      test_io_channel_command_echo(false);
+> >  }
+> > -#endif
+> >
+> >  int main(int argc, char **argv)
+> >  {
+> > @@ -116,7 +114,6 @@ int main(int argc, char **argv)
+> >
+> >      g_test_init(&argc, &argv, NULL);
+> >
+> > -#ifndef WIN32
+> >      g_test_add_func("/io/channel/command/fifo/sync",
+> >                      test_io_channel_command_fifo_sync);
+> >      g_test_add_func("/io/channel/command/fifo/async",
+> > @@ -125,7 +122,6 @@ int main(int argc, char **argv)
+> >                      test_io_channel_command_echo_sync);
+> >      g_test_add_func("/io/channel/command/echo/async",
+> >                      test_io_channel_command_echo_async);
+> > -#endif
+> >
+> >      return g_test_run();
+> >  }
+> > diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+> > index b497a41378..42e8218ac2 100644
+> > --- a/tests/unit/meson.build
+> > +++ b/tests/unit/meson.build
+> > @@ -1,4 +1,3 @@
+> > -
+> >  testblock =3D declare_dependency(dependencies: [block], sources: 'ioth=
+read.c')
+> >
+> >  tests =3D {
+>
+> Spurious line deletion.
+>
+>
+> > @@ -164,6 +163,7 @@ endif
+> >  test_env =3D environment()
+> >  test_env.set('G_TEST_SRCDIR', meson.current_source_dir())
+> >  test_env.set('G_TEST_BUILDDIR', meson.current_build_dir())
+> > +test_env.set('SOCAT', find_program('socat').full_path())
+> >
+> >  slow_tests =3D {
+> >    'test-crypto-tlscredsx509': 45,
+> > --
+> > 2.37.3
+> >
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
 
