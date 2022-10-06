@@ -2,96 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1E35F6562
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 13:48:28 +0200 (CEST)
-Received: from localhost ([::1]:40936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8615F6575
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 13:56:18 +0200 (CEST)
+Received: from localhost ([::1]:36208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogPMY-0002vi-Kk
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 07:48:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55082)
+	id 1ogPU9-0007v8-KY
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 07:56:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ogOw9-00073n-UF
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 07:21:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50686)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ogOw2-0006ed-F3
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 07:21:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665055260;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eRypsCRR4ra913jPAeQLSPgYrboGHFis297PGvUBvTc=;
- b=OsK0sjdE+P2Ir4HKt9Uj93tBAvv76CJlt0tGF9o36ndIOoB5EOfugrcaz9nqosKqDGc2+i
- hbUJcY9ZAfLkE9OpFaWY+jd65ZMHU6bMnA1pvEfwi9IQ6TTAYoTvoF/QkibpHb6tZhFW+C
- PoN76EqxGz8HOTp7bHr0i7JtlqDBps4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-367-7BqrIVbXP-yQRdxMyyCp8Q-1; Thu, 06 Oct 2022 07:20:59 -0400
-X-MC-Unique: 7BqrIVbXP-yQRdxMyyCp8Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h129-20020a1c2187000000b003be5419a7e4so245110wmh.1
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 04:20:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
+ id 1ogOzj-0001Mm-0o
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 07:24:55 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:53793)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
+ id 1ogOzg-00075p-Ls
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 07:24:50 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id fw14so1483527pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 04:24:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date;
+ bh=BpFSg9LuSCYS6D8CaL5sijtn38cFPDzi94PRgHabYXs=;
+ b=ABiWBx4gjUVdB5sWwtWY4QbbYmo8EDhLmQxfaC/FITnKm7ctmOOfwndp/ztCEOaX2K
+ juL9gx5jmDIqwnhSIjMBVF6iOJQCiKsyhkIj3yajQVl8dDwt+m6fmqetlk0gRSc4GDZH
+ Og4PL114F+pDQnZtnzIb0eLrHLZJQGWyhiGVYJ7OmiGFn1u20jGdhEijsSBL+g1du034
+ HVIomIosqHrw0Xg4u+QinBquJL2K6L3zhO8SiaztaG+739VsPKJTjzbPQP3FALTvhZuD
+ +oK1S4cCu5KeuxBiW6mUEkQObN4kRyu6bMSRJncHjneMpo7c7iBJLQ2bqlZWwiYR54tK
+ 3riA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eRypsCRR4ra913jPAeQLSPgYrboGHFis297PGvUBvTc=;
- b=6H+hYq0ufe2xKfo0Wb1VovqT1XLJVvvYzeXuf7ngFWMxDPokLMICCYnYXOopmholus
- FfjjqtoDFJP719O0HzW3tmXSY0J2iFziY5CV/PKKm/AnC9E3j7oXTdDwbUzjgiU8KQqO
- nBfVA3w+HDU9MQ+h5RNanDzyYnDOX3da9KedNJpjNCuXS5ieblrfL/vNuT6/G8kbGjzb
- Yo3juT+RcEEQl+PRlr3EGDl2BqpBn+4Ef5W3IqcwpJkgLS0u6+usPhQSGnY5DGRKEyVF
- MJImCc1THJLp8X0k29uvZdy5nf1kEstjUXPJ7KJslDiv1LOvYGBYjxA+IpHUQQMhfNDo
- 0/nA==
-X-Gm-Message-State: ACrzQf23r0CBqGg3e21Z4X/wg1B2sfz5rOvYs/wII/D4OUXl6QH+NhLd
- do/FnqwQum42EzNXUCLmBnibLXIFThxrp2FMKuTTBvt0TGT9uh3cVlUJCW5rzSBC1Wx288tvKQr
- PEV8pbzLl00xF0HE=
-X-Received: by 2002:a5d:59c7:0:b0:229:b76f:e2bf with SMTP id
- v7-20020a5d59c7000000b00229b76fe2bfmr2690691wry.128.1665055258768; 
- Thu, 06 Oct 2022 04:20:58 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM69/6z+ZT0xkIsfK9pbi22PaTJrEZVuwr/UeVp5CDdQ9uapDOvBHmMwfgeS+qVpxScXxwVDEg==
-X-Received: by 2002:a5d:59c7:0:b0:229:b76f:e2bf with SMTP id
- v7-20020a5d59c7000000b00229b76fe2bfmr2690663wry.128.1665055258543; 
- Thu, 06 Oct 2022 04:20:58 -0700 (PDT)
-Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- bg34-20020a05600c3ca200b003a6a3595edasm4790692wmb.27.2022.10.06.04.20.55
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+ bh=BpFSg9LuSCYS6D8CaL5sijtn38cFPDzi94PRgHabYXs=;
+ b=HzMvM4I3JvBc88wRtq1ymdzoSoXn+ZSMVkawiy58Y22exu9kFsLe5j06DVVm78RFaf
+ o6QuP7V+2aDSR+VUGLGlB8mpl7BHJLFaksHEc2B7dY+ao6zMbp5vCyDTHOG6t9jhroVr
+ We/MGs/SdEF5oLVt41YVoN5VoswEdjk/RYxYrN5Q1TwxR7BaGsfGPohAPy0cJ/6inzEd
+ gISN0659WIQUsCE6N6smEwTas5TT6D+vvyMVIXThUfWhQolOGGJ7vv+Xcc/2SPlKxXpu
+ snBWWUaIy8AlW+PqDwY1Kc1sdI5JoUb2OzuSrKyIEuMHfzpuOYvbyTgnzmaXtV3TDqH5
+ QbJg==
+X-Gm-Message-State: ACrzQf0b682+cfjkjKo7llJY4mFSjxFM91LpddWWME53dtcyirJ2qzbR
+ UxklsXh6WSVViGIh+ScLqrQ=
+X-Google-Smtp-Source: AMsMyM68dWsWlMa98h+rsvBVcFhv0u+XW+tiX/ZS4i28U2sYwyWP2mqkOhew8/+aUosi18FbcM/Qjw==
+X-Received: by 2002:a17:903:2343:b0:17f:6711:1faf with SMTP id
+ c3-20020a170903234300b0017f67111fafmr4355286plh.106.1665055487001; 
+ Thu, 06 Oct 2022 04:24:47 -0700 (PDT)
+Received: from T590 ([209.132.188.80]) by smtp.gmail.com with ESMTPSA id
+ o8-20020aa79788000000b0056276759957sm1357646pfp.141.2022.10.06.04.24.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 04:20:58 -0700 (PDT)
-Date: Thu, 6 Oct 2022 07:20:53 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Jason Wang <jasowang@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Greg Kurz <groug@kaod.org>, Ralph Schmieder <ralph.schmieder@gmail.com>,
- Stefano Brivio <sbrivio@redhat.com>
-Subject: Re: [PATCH v10 00/17] qapi: net: add unix socket type support to
- netdev backend
-Message-ID: <20221006071948-mutt-send-email-mst@kernel.org>
-References: <20221005162051.1120041-1-lvivier@redhat.com>
+ Thu, 06 Oct 2022 04:24:46 -0700 (PDT)
+Date: Thu, 6 Oct 2022 19:24:34 +0800
+From: Ming Lei <tom.leiming@gmail.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, io-uring@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Kirill Tkhai <kirill.tkhai@openvz.org>,
+ Manuel Bentele <development@manuel-bentele.de>,
+ qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ rjones@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
+ "Denis V. Lunev" <den@openvz.org>, Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: ublk-qcow2: ublk-qcow2 is available
+Message-ID: <Yz668hfMAuES2/lt@T590>
+References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
+ <YzwARuAZdaoGTUfP@T590>
+ <CAJSP0QXVK=wUy_JgJ9NmNMtKTRoRX0MwOZUuFWU-1mVWWKij8A@mail.gmail.com>
+ <Yz0FrzJVZTqlQtJ5@T590>
+ <CAJSP0QUQgA8Az3Kx8-6ynbWxDxaSVW3xWOPj4VBPhhUhsRYT9g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221005162051.1120041-1-lvivier@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <CAJSP0QUQgA8Az3Kx8-6ynbWxDxaSVW3xWOPj4VBPhhUhsRYT9g@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=tom.leiming@gmail.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,188 +97,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 05, 2022 at 06:20:34PM +0200, Laurent Vivier wrote:
-> "-netdev socket" only supports inet sockets.
+On Wed, Oct 05, 2022 at 08:21:45AM -0400, Stefan Hajnoczi wrote:
+> On Wed, 5 Oct 2022 at 00:19, Ming Lei <tom.leiming@gmail.com> wrote:
+> >
+> > On Tue, Oct 04, 2022 at 09:53:32AM -0400, Stefan Hajnoczi wrote:
+> > > On Tue, 4 Oct 2022 at 05:44, Ming Lei <tom.leiming@gmail.com> wrote:
+> > > >
+> > > > On Mon, Oct 03, 2022 at 03:53:41PM -0400, Stefan Hajnoczi wrote:
+> > > > > On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
+> > > > > > ublk-qcow2 is available now.
+> > > > >
+> > > > > Cool, thanks for sharing!
+> > > > >
+> > > > > >
+> > > > > > So far it provides basic read/write function, and compression and snapshot
+> > > > > > aren't supported yet. The target/backend implementation is completely
+> > > > > > based on io_uring, and share the same io_uring with ublk IO command
+> > > > > > handler, just like what ublk-loop does.
+> > > > > >
+> > > > > > Follows the main motivations of ublk-qcow2:
+> > > > > >
+> > > > > > - building one complicated target from scratch helps libublksrv APIs/functions
+> > > > > >   become mature/stable more quickly, since qcow2 is complicated and needs more
+> > > > > >   requirement from libublksrv compared with other simple ones(loop, null)
+> > > > > >
+> > > > > > - there are several attempts of implementing qcow2 driver in kernel, such as
+> > > > > >   ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`` [4], so ublk-qcow2
+> > > > > >   might useful be for covering requirement in this field
+> > > > > >
+> > > > > > - performance comparison with qemu-nbd, and it was my 1st thought to evaluate
+> > > > > >   performance of ublk/io_uring backend by writing one ublk-qcow2 since ublksrv
+> > > > > >   is started
+> > > > > >
+> > > > > > - help to abstract common building block or design pattern for writing new ublk
+> > > > > >   target/backend
+> > > > > >
+> > > > > > So far it basically passes xfstest(XFS) test by using ublk-qcow2 block
+> > > > > > device as TEST_DEV, and kernel building workload is verified too. Also
+> > > > > > soft update approach is applied in meta flushing, and meta data
+> > > > > > integrity is guaranteed, 'make test T=qcow2/040' covers this kind of
+> > > > > > test, and only cluster leak is reported during this test.
+> > > > > >
+> > > > > > The performance data looks much better compared with qemu-nbd, see
+> > > > > > details in commit log[1], README[5] and STATUS[6]. And the test covers both
+> > > > > > empty image and pre-allocated image, for example of pre-allocated qcow2
+> > > > > > image(8GB):
+> > > > > >
+> > > > > > - qemu-nbd (make test T=qcow2/002)
+> > > > >
+> > > > > Single queue?
+> > > >
+> > > > Yeah.
+> > > >
+> > > > >
+> > > > > >     randwrite(4k): jobs 1, iops 24605
+> > > > > >     randread(4k): jobs 1, iops 30938
+> > > > > >     randrw(4k): jobs 1, iops read 13981 write 14001
+> > > > > >     rw(512k): jobs 1, iops read 724 write 728
+> > > > >
+> > > > > Please try qemu-storage-daemon's VDUSE export type as well. The
+> > > > > command-line should be similar to this:
+> > > > >
+> > > > >   # modprobe virtio_vdpa # attaches vDPA devices to host kernel
+> > > >
+> > > > Not found virtio_vdpa module even though I enabled all the following
+> > > > options:
+> > > >
+> > > >         --- vDPA drivers
+> > > >           <M>   vDPA device simulator core
+> > > >           <M>     vDPA simulator for networking device
+> > > >           <M>     vDPA simulator for block device
+> > > >           <M>   VDUSE (vDPA Device in Userspace) support
+> > > >           <M>   Intel IFC VF vDPA driver
+> > > >           <M>   Virtio PCI bridge vDPA driver
+> > > >           <M>   vDPA driver for Alibaba ENI
+> > > >
+> > > > BTW, my test environment is VM and the shared data is done in VM too, and
+> > > > can virtio_vdpa be used inside VM?
+> > >
+> > > I hope Xie Yongji can help explain how to benchmark VDUSE.
+> > >
+> > > virtio_vdpa is available inside guests too. Please check that
+> > > VIRTIO_VDPA ("vDPA driver for virtio devices") is enabled in "Virtio
+> > > drivers" menu.
+> > >
+> > > >
+> > > > >   # modprobe vduse
+> > > > >   # qemu-storage-daemon \
+> > > > >       --blockdev file,filename=test.qcow2,cache.direct=of|off,aio=native,node-name=file \
+> > > > >       --blockdev qcow2,file=file,node-name=qcow2 \
+> > > > >       --object iothread,id=iothread0 \
+> > > > >       --export vduse-blk,id=vduse0,name=vduse0,num-queues=$(nproc),node-name=qcow2,writable=on,iothread=iothread0
+> > > > >   # vdpa dev add name vduse0 mgmtdev vduse
+> > > > >
+> > > > > A virtio-blk device should appear and xfstests can be run on it
+> > > > > (typically /dev/vda unless you already have other virtio-blk devices).
+> > > > >
+> > > > > Afterwards you can destroy the device using:
+> > > > >
+> > > > >   # vdpa dev del vduse0
+> > > > >
+> > > > > >
+> > > > > > - ublk-qcow2 (make test T=qcow2/022)
+> > > > >
+> > > > > There are a lot of other factors not directly related to NBD vs ublk. In
+> > > > > order to get an apples-to-apples comparison with qemu-* a ublk export
+> > > > > type is needed in qemu-storage-daemon. That way only the difference is
+> > > > > the ublk interface and the rest of the code path is identical, making it
+> > > > > possible to compare NBD, VDUSE, ublk, etc more precisely.
+> > > >
+> > > > Maybe not true.
+> > > >
+> > > > ublk-qcow2 uses io_uring to handle all backend IO(include meta IO) completely,
+> > > > and so far single io_uring/pthread is for handling all qcow2 IOs and IO
+> > > > command.
+> > >
+> > > qemu-nbd doesn't use io_uring to handle the backend IO, so we don't
+> >
+> > I tried to use it via --aio=io_uring for setting up qemu-nbd, but not succeed.
+> >
+> > > know whether the benchmark demonstrates that ublk is faster than NBD,
+> > > that the ublk-qcow2 implementation is faster than qemu-nbd's qcow2,
+> > > whether there are miscellaneous implementation differences between
+> > > ublk-qcow2 and qemu-nbd (like using the same io_uring context for both
+> > > ublk and backend IO), or something else.
+> >
+> > The theory shouldn't be too complicated:
+> >
+> > 1) io uring passthough(pt) communication is fast than socket, and io command
+> > is carried over io_uring pt commands, and should be fast than virio
+> > communication too.
+> >
+> > 2) io uring io handling is fast than libaio which is taken in the
+> > test on qemu-nbd, and all qcow2 backend io(include meta io) is handled
+> > by io_uring.
+> >
+> > https://github.com/ming1/ubdsrv/blob/master/tests/common/qcow2_common
+> >
+> > 3) ublk uses one single io_uring to handle all io commands and qcow2
+> > backend IOs, so batching handling is common, and it is easy to see
+> > dozens of IOs/io commands handled in single syscall, or even more.
 > 
-> It's not a complex task to add support for unix sockets, but
-> the socket netdev parameters are not defined to manage well unix
-> socket parameters.
+> I agree with the theory but theory has to be tested through
+> experiments in order to validate it. We can all learn from systematic
+> performance analysis - there might even be bottlenecks in ublk that
+> can be solved to improve performance further.
 
-Looks good.
+Indeed, one thing is that ublk uses get user pages to retrieve user pages
+for copying data, this way may add latency for big chunk IO, since
+latency of get user pages should be increased linearly by nr_pages.
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+I looked into vduse code a bit too, and vduse still needs the page copy,
+but lots of bounce pages are allocated and cached in the whole device
+lifetime, this way can void the latency for retrieving & allocating
+pages runtime with cost of extra memory consumption. Correct me
+if it is wrong, Xie Yongji or anyone?
 
-Belongs in Jason's tree.
+ublk has code to deal with device idle, and it may apply the similar
+cache approach intelligently in future.
 
-> As discussed in:
-> 
->   "socket.c added support for unix domain socket datagram transport"
->   https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com/
-> 
-> This series adds support of unix socket type using SocketAddress QAPI structure.
-> 
-> Two new netdev backends, "stream" and "dgram" are added, that are barely a copy of "socket"
-> backend but they use the SocketAddress QAPI to provide socket parameters.
-> And then they also implement unix sockets (TCP and UDP).
-> 
-> Some examples of CLI syntax:
-> 
->   for TCP:
-> 
->   -netdev stream,id=socket0,addr.type=inet,addr.host=localhost,addr.port=1234
->   -netdev stream,id=socket0,server=off,addr.type=inet,addr.host=localhost,addr.port=1234
-> 
->   -netdev dgram,id=socket0,\
->           local.type=inet,local.host=localhost,local.port=1234,\
->           remote.type=inet,remote.host=localhost,remote.port=1235
-> 
->   for UNIX:
-> 
->   -netdev stream,id=socket0,addr.type=unix,addr.path=/tmp/qemu0
->   -netdev stream,id=socket0,server=off,addr.type=unix,addr.path=/tmp/qemu0
-> 
->   -netdev dgram,id=socket0,\
->           local.type=unix,local.path=/tmp/qemu0,\
->           remote.type=unix,remote.path=/tmp/qemu1
-> 
->   for FD:
-> 
->   -netdev stream,id=socket0,addr.type=fd,addr.str=4
->   -netdev stream,id=socket0,server=off,addr.type=fd,addr.str=5
-> 
->   -netdev dgram,id=socket0,local.type=fd,addr.str=4
-> 
-> v10:
->   - add Red Hat copyright
->   - initialize dgram_dst to NULL in SOCKET_ADDRESS_TYPE_FD
->   - remove redundente _stream / _dgram in functions name
->   - move net_dgram_init() into net_init_dgram()
->   - address Thomas' comments on qtest
->   - add a function qemu_set_info_str() to set info string
->   - tested stream netdev with fd type using qrap/passt and
->     "-netdev stream,addr.type=fd,server=off,addr.str=5,id=netdev0"
-> 
-> v9:
->   - add events to report stream connection/disconnection
->   - remove from net/dgram.c send_fn, listen_fd, net_dgram_accept()
->     net_dgram_connect() and net_dgram_send() that are only
->     needed by net/stream.c
->   - remove from net/stream.c send_fn
->   - add Red Hat copyright
->   - add original net/socket.c Stefano's patch (EINVAL)
-> 
-> v8:
->   - test ipv4 and ipv6 parameters (stream inet)
->   - test abstract parameter (stream unix)
->   - add SocketAddressInet supported parameters in qemu-options.hx
->     (only stream, supported by the move to QIO)
->   - with qio_channel_writev() replace (ret == -1 && errno == EAGAIN)
->     by (ret == QIO_CHANNEL_ERR_BLOCK)
-> 
-> v7:
->   - add qtests
->   - update parameters table in net.json
->   - update socket_uri() and socket_parse()
-> 
-> v6:
->   - s/netdev option/-netdev option/ PATCH 4
->   - s/ / /
->   - update @NetdevStreamOptions and @NetdevDgramOptions comments
->   - update PATCH 4 description message
->   - add missing return in error case for unix stream socket
->   - split socket_uri() patch: move and rename, then change content
-> 
-> v5:
->   - remove RFC prefix
->   - put the change of net_client_parse() into its own patch (exit() in the
->     function)
->   - update comments regarding netdev_is_modern() and netdev_parse_modern()
->   - update error case in net_stream_server_init()
->   - update qemu-options.hx with unix type
->   - fix HMP "info network" with unix protocol/server side.
-> 
-> v4:
->   - net_client_parse() fails with exit() rather than with return.
->   - keep "{ 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' }" on its
->     own line in qapi/net.json
->   - add a comment in qapi/net.json about parameters usage
->   - move netdev_is_modern() check to qemu_init()
->   - in netdev_is_modern(), check for JSON and use qemu_opts_do_parse()
->     to parse parameters and detect type value.
->   - add a blank line after copyright comment
-> 
-> v3:
->   - remove support of "-net" for dgram and stream. They are only
->     supported with "-netdev" option.
->   - use &error_fatal directly in net_client_inits()
->   - update qemu-options.hx
->   - move to QIO for stream socket
-> 
-> v2:
->   - use "stream" and "dgram" rather than "socket-ng,mode=stream"
->     and ""socket-ng,mode=dgram"
->   - extract code to bypass qemu_opts_parse_noisily() to
->     a new patch
->   - do not ignore EINVAL (Stefano)
->   - fix "-net" option
-> 
-> CC: Ralph Schmieder <ralph.schmieder@gmail.com>
-> CC: Stefano Brivio <sbrivio@redhat.com>
-> CC: Daniel P. Berrangé <berrange@redhat.com>
-> CC: Markus Armbruster <armbru@redhat.com>
-> 
-> Laurent Vivier (15):
->   net: introduce convert_host_port()
->   net: remove the @errp argument of net_client_inits()
->   net: simplify net_client_parse() error management
->   qapi: net: introduce a way to bypass qemu_opts_parse_noisily()
->   net: introduce qemu_set_info_str() function
->   qapi: net: add stream and dgram netdevs
->   net: stream: add unix socket
->   net: dgram: make dgram_dst generic
->   net: dgram: move mcast specific code from net_socket_fd_init_dgram()
->   net: dgram: add unix socket
->   qemu-sockets: move and rename SocketAddress_to_str()
->   qemu-sockets: update socket_uri() and socket_parse()  to be consistent
->   net: stream: move to QIO to enable additional parameters
->   tests/qtest: netdev: test stream and dgram backends
->   net: stream: add QAPI events to report connection state
-> 
-> Stefano Brivio (2):
->   net: socket: Don't ignore EINVAL on netdev socket connection
->   net: stream: Don't ignore EINVAL on netdev socket connection
-> 
->  hmp-commands.hx             |   2 +-
->  include/net/net.h           |   7 +-
->  include/qemu/sockets.h      |   4 +-
->  monitor/hmp-cmds.c          |  23 +-
->  net/clients.h               |   6 +
->  net/dgram.c                 | 622 ++++++++++++++++++++++++++++++++++++
->  net/hub.c                   |   2 +
->  net/l2tpv3.c                |   3 +-
->  net/meson.build             |   2 +
->  net/net.c                   | 186 ++++++++---
->  net/slirp.c                 |   5 +-
->  net/socket.c                |  36 +--
->  net/stream.c                | 382 ++++++++++++++++++++++
->  net/tap-win32.c             |   3 +-
->  net/tap.c                   |  13 +-
->  net/vde.c                   |   3 +-
->  net/vhost-user.c            |   3 +-
->  net/vhost-vdpa.c            |   2 +-
->  qapi/net.json               | 108 ++++++-
->  qemu-options.hx             |  14 +
->  softmmu/vl.c                |  16 +-
->  tests/qtest/meson.build     |   1 +
->  tests/qtest/netdev-socket.c | 417 ++++++++++++++++++++++++
->  util/qemu-sockets.c         |  25 ++
->  24 files changed, 1757 insertions(+), 128 deletions(-)
->  create mode 100644 net/dgram.c
->  create mode 100644 net/stream.c
->  create mode 100644 tests/qtest/netdev-socket.c
-> 
-> -- 
-> 2.37.3
-> 
+But I think here the final solution could be applying zero copy for
+avoiding the big chunk copy, or use hardware engine.
 
+
+Thanks,
+Ming
 
