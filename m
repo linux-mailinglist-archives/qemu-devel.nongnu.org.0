@@ -2,73 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D837D5F6CA2
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 19:20:43 +0200 (CEST)
-Received: from localhost ([::1]:43462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A08DC5F6C82
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 19:09:43 +0200 (CEST)
+Received: from localhost ([::1]:35530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogUY6-0002fo-VC
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 13:20:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58510)
+	id 1ogUNS-0006rC-2k
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 13:09:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogTJk-0006FK-6l
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 12:01:54 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:45793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogTJi-0004W0-1N
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 12:01:47 -0400
-Received: by mail-pl1-x631.google.com with SMTP id u24so2077710plq.12
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 09:01:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sz0k/lyX15waWgrb3OMxfwnjeC0Z94k3iFysFjz4qUg=;
- b=DfC1ozbJmYA9LDLX2qkxcm5gizEL/jvJoh/n2P+Lq7Pz+23x0YxsltpGWUOBhRpbLe
- gk3XHBEbaUzg06IUc//ncDztODWJB5yilW92U9p92UtnaCKguQb7UOfZT0PqVQBsYa50
- JCmux1I+BYmd4YlTjXs8wTvkDOAzVbQoMlXtkPRaSWBai5SOOxXcsgd+5c7atC/i1QEd
- ZlL0lh3OYtXbjOMi3mJIcaOEeovvtwb4Hgaoa0xTGIbi6wxv0l4JI02Es2Z6FMtXwxxZ
- 01hgB91jDZFqJsWQfnYuOuGEFjCOyMcXJriTHHiO6eT+EnmX4q6GdMn69RcB9A2M6E1F
- Uiog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sz0k/lyX15waWgrb3OMxfwnjeC0Z94k3iFysFjz4qUg=;
- b=ZlrMw4YI9CXRaR8q4iNTnPFWrXFuEzekrXi6eAP82cJCbYvCe/dmcGXX/umf/R0m6X
- WuetfqwxHZYrQwykKEpUvrSM8vVjr6ENh11Ir4D5Yt564wRXwoicaEVP/GTD9IT8NUJu
- 87u2bOH5meuaMLdoHwkULmdOOQy2erZIhZltAiZWfRqQszA2aBw+zsNHzJmZCsp5wpNL
- lP9GhMBSU2l8wkdffNTzw3k4f1OyjOpm/0DRAQSGvSgiczf2tysRrgfRo0w/jkYw1iTE
- LSPFne+aRzLhJmMpEyaUep5efMGzA+wEu+su3NiiaT91zpNN2eA6akYkVYs74nrjf35a
- ++rA==
-X-Gm-Message-State: ACrzQf30mjcfc12mGlrB89WJGy/38U5BV1AbipiHBC8c3aP0NhM5HZJB
- +zVQPO6H2cow/WM50H85SHyW2tW+UR7fPu+cqQFEYA==
-X-Google-Smtp-Source: AMsMyM4kA3fTktv93I4wJKKed3dyRiL8BiJfdUeDy7v4ZswIdPiyOoJgke/Rf7VvrNUlQ8fDr/Yei/85ijXSbCctzTs=
-X-Received: by 2002:a17:90b:1d11:b0:20a:9b3a:bf10 with SMTP id
- on17-20020a17090b1d1100b0020a9b3abf10mr345351pjb.215.1665072102955; Thu, 06
- Oct 2022 09:01:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1ogTUM-0003f5-Q0; Thu, 06 Oct 2022 12:12:49 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:48085)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1ogTUK-0006It-QS; Thu, 06 Oct 2022 12:12:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=DYd7OLbsoP3rMHvf/Bn3LMDYKygIPiL+4S1EFDLp53I=; b=XCWhZjEvABnWFH3O3DDP6CUgqA
+ YcRiQL0NtaFnyu5TLtmUKDnFluQReSAKR0ZeKj4JtWCT6Bjl2QVFt4tVDnvgp2PgdNtXKgBvPGTHK
+ W/b9yx6gTLGuiXcxWIPHUZWLbYgbrzUcDC9M3R1QUM6Kx1waxJvbGIzAGrCGVfCBLzVv0IjKJV1hF
+ wtUOtlKZGjuHjCRBbPEo25zJoVSaKxwy2q5joRII9r7JCxX9fRQ9On0kP8IGSsb/PUMyiVKmPmnAD
+ qj9fqePTodYSxrRqHEd/ye0eU2VREfmSW+6bi0drtp6llAyfMp1wwEyfSVD0F2KfPOUy5MN8jiuK5
+ qg3MASwnOjipJ9pkhvlgC17qy8Vo9Za59Xf+xuM3crjbA4bhzJJeS7KwabY/GD1ewh8HwLoZV+gfU
+ k0dHx/05XywaB6Sf2giO7vrh1LzoTxNvYpkXwuT1M53sJrioaAr5egmDoFJkhvjdNCL6x8DFklivw
+ aSe7lsjdtYXHAxplSc8hfejSE2WiGoj72oyH7KMv+4wAwf+HzI3tHRlQO3jbos6TG7/BzmB1E6rwV
+ K09DrPVB8aK6rZTbD0IvZRO+9SZFcxKWPDhobMiobdhipYI05XmJwlezrLftisINzHwkpqtEZeJYw
+ zJgMLIYW+62YalE9jznz2IcIeyu0et2//DqkZ0x/s=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org, Linus Heckemann <git@sphalerite.org>
+Cc: Greg Kurz <groug@kaod.org>, Qemu-block <qemu-block@nongnu.org>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v6] 9pfs: use GHashTable for fid table
+Date: Thu, 06 Oct 2022 18:12:38 +0200
+Message-ID: <2980150.NV5oU9txOS@silver>
+In-Reply-To: <3864477.uoRi9OHyCq@silver>
+References: <20221004104121.713689-1-git@sphalerite.org>
+ <19360658.4YNXD89StS@silver> <3864477.uoRi9OHyCq@silver>
 MIME-Version: 1.0
-References: <20221001162318.153420-1-richard.henderson@linaro.org>
- <20221001162318.153420-30-richard.henderson@linaro.org>
-In-Reply-To: <20221001162318.153420-30-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Oct 2022 17:01:31 +0100
-Message-ID: <CAFEAcA_UOxOdcxYWbcVFd+DEX-nfQ7gsE6GaTpnjAqR5avsOow@mail.gmail.com>
-Subject: Re: [PATCH v3 29/42] target/arm: Use bool consistently for
- get_phys_addr subroutines
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,17 +67,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 1 Oct 2022 at 17:41, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The return type of the functions is already bool, but in a few
-> instances we used an integer type with the return statement.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+On Mittwoch, 5. Oktober 2022 11:38:39 CEST Christian Schoenebeck wrote:
+> On Dienstag, 4. Oktober 2022 14:54:16 CEST Christian Schoenebeck wrote:
+> > On Dienstag, 4. Oktober 2022 12:41:21 CEST Linus Heckemann wrote:
+> > > The previous implementation would iterate over the fid table for
+> > > lookup operations, resulting in an operation with O(n) complexity on
+> > > the number of open files and poor cache locality -- for every open,
+> > > stat, read, write, etc operation.
+> > >=20
+> > > This change uses a hashtable for this instead, significantly improving
+> > > the performance of the 9p filesystem. The runtime of NixOS's simple
+> > > installer test, which copies ~122k files totalling ~1.8GiB from 9p,
+> > > decreased by a factor of about 10.
+> > >=20
+> > > Signed-off-by: Linus Heckemann <git@sphalerite.org>
+> > > Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+> > > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > > Message-Id: <20220908112353.289267-1-git@sphalerite.org>
+> > > [CS: - Retain BUG_ON(f->clunked) in get_fid().
+> > >=20
+> > >      - Add TODO comment in clunk_fid(). ]
+> > >=20
+> > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > ---
+> >=20
+> > In general: LGTM now, but I will definitely go for some longer test runs
+> > before queuing this patch. Some minor side notes below ...
+>=20
+> So I was running a compilation marathon on 9p as root fs this night, first
+> couple hours went smooth, but then after about 12 hours 9p became unusable
+> with error:
+>=20
+>   Too many open files
+>=20
+> The question is, is that a new issue introduced by this patch? I.e. does =
+it
+> break the reclaim fd code? Or is that rather unrelated to this patch, and=
+ a
+> problem we already had?
+>=20
+> Linus, could you look at this? It would probably make sense to force gett=
+ing
+> into this situation much earlier like:
+>=20
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index aebadeaa03..0c104b81e1 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -4330,6 +4330,6 @@ static void __attribute__((__constructor__))
+> v9fs_set_fd_limit(void)
+>          error_report("Failed to get the resource limit");
+>          exit(1);
+>      }
+> -    open_fd_hw =3D rlim.rlim_cur - MIN(400, rlim.rlim_cur / 3);
+> +    open_fd_hw =3D rlim.rlim_cur - MIN(50, rlim.rlim_cur / 3);
+>      open_fd_rc =3D rlim.rlim_cur / 2;
+>  }
+>=20
+> I can't remember that we had this issue before, so there might still be
+> something wrong with this GHashTable patch here.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Much easier reproducer; and no source changes required whatsoever:
 
-thanks
--- PMM
+  prlimit --nofile=3D140 -- qemu-system-x86_64 ...
+
+And I actually get this error without this patch as well, which suggests th=
+at=20
+we already had a bug in the reclaim FDs code before? :/
+
+Anyway, as it seems that this bug was not introduced by this particular pat=
+ch,=20
+and with the unnecesary `goto` and `out:` label removed:
+
+Queued on 9p.next:
+https://github.com/cschoenebeck/qemu/commits/9p.next
+
+Best regards,
+Christian Schoenebeck
+
+
 
