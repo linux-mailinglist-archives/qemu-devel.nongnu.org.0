@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A34D5F6DC5
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 20:55:44 +0200 (CEST)
-Received: from localhost ([::1]:38706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31C75F6DB8
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 20:51:41 +0200 (CEST)
+Received: from localhost ([::1]:50818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogW23-0001Wu-6K
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 14:55:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41966)
+	id 1ogVy8-0002Yh-NX
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 14:51:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogVcN-0008RO-KJ
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:29:11 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:35590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogVcL-0002VP-Mc
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:29:11 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id h10so2480970plb.2
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 11:29:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date;
- bh=1SWXbgeUuWpV0TlfB84vbq95+569Ht5O5wI8MwLg8MM=;
- b=ns4kIjc63WTwOpwleCOg/qXXs74JULE03Ha5DYXqdns53xibck4HbPe/L0F7w5nrra
- 0D3xj0w6KOZZ43q59nuzTdmt+mgoeV3rFXYo5Fj5iqv4yIq1NxDl8KZGUG+TcQxs6nGX
- G1nuIwDGQZeUtdSa8Ua+rA628H0+/vUG4LUCxNPKjFjzDAEr8tQdnyI/gr+Rsf6dPdGU
- nM/FclqgH0yB82rjNF68ti01ykoQLN4ihT/QLodGcBaJ2BDIiiMnBjlUyGU47CUI1jLN
- HXf2LsGUjNLoLeq90TTULPEhZTz3rYXKHpcK2S/UqdpKv4JIizKmg323XHJHDOC/U4u6
- ERgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date;
- bh=1SWXbgeUuWpV0TlfB84vbq95+569Ht5O5wI8MwLg8MM=;
- b=ssa5rkj2AM/Td5Y4h6RpQReMDSVFZ9D9v/yTPhvOJ2NNizFGPDFmdXIV2X3AtkDje5
- 6hx81zO+qDH7vPrMD0qqPzDbj57rbG2bdMk1cOXemljAMBBfWD/z0mtJRpCbQ/EE8awv
- w16Y9JT2zqV2t6IGNoNzPJII76Ouc1w20EB2KL9zJHhiyBzJqvmG9Kk9aiYRm2fP2yRm
- W9dq1KJTg6HRNBfdvzbRy9Dd12NRPxal7TJpQurTk5vVRQNo76LsEhSQmhoHKFdFGUu/
- wCDiLyPV0tZL+5PF4S+sUFCp0m95rFhcIpO+HWcSN552dVRT1GAIJoMQD1yk8M1EYrCC
- /nRw==
-X-Gm-Message-State: ACrzQf3TZNsx4aUEM6zdK//chGE8loOvKIoBAZkC0/WYeP0DTPaOfP4n
- 4/oJMbRZJQYgW6Y4u+4/t0BIgw==
-X-Google-Smtp-Source: AMsMyM50F+Zu66jMZx/FkqJCHbfpbT2E+iDYOAdiRvUvjbZ4gxuoTyJVR6w1KStrkzVf8m7OuQ7oHA==
-X-Received: by 2002:a17:902:a9c6:b0:178:b2d4:f8b2 with SMTP id
- b6-20020a170902a9c600b00178b2d4f8b2mr1106230plr.79.1665080948199; 
- Thu, 06 Oct 2022 11:29:08 -0700 (PDT)
-Received: from ?IPV6:2602:47:d49d:ec01:bc82:8006:f19e:85e?
- ([2602:47:d49d:ec01:bc82:8006:f19e:85e])
- by smtp.gmail.com with ESMTPSA id
- 188-20020a6204c5000000b005289a50e4c2sm13155235pfe.23.2022.10.06.11.29.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Oct 2022 11:29:07 -0700 (PDT)
-Message-ID: <0d3f27ab-de02-c5b5-488f-08fb7e329bd8@linaro.org>
-Date: Thu, 6 Oct 2022 11:29:05 -0700
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ogVdK-0001q4-1c
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:30:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29965)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1ogVdG-0002pF-9D
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 14:30:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665081004;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GR/VmE/JFWufoxQNscwIseQIsTcoM3u27LXR33wIOdM=;
+ b=IcQerrmivRAi+ZB8uuFw0WQ8k6WuuydHsP6OLqp9SypOYTJ63e+u4gp7jr5/1cK2Uz0Z0H
+ iW1ydY3Q9vUONs/KkyphxoNdMwwjB/frQFab0coCGM1yJI9hfPGkXnFHt7tCNgOZ78KuvY
+ 4kvRPsEqAWSI4qBSYRjYYIJKMGN8EuU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-73-qRnYg_nkMKS5aQJDVxoO_A-1; Thu, 06 Oct 2022 14:29:59 -0400
+X-MC-Unique: qRnYg_nkMKS5aQJDVxoO_A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 682443C0F66F;
+ Thu,  6 Oct 2022 18:29:58 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B6561121330;
+ Thu,  6 Oct 2022 18:29:56 +0000 (UTC)
+Date: Thu, 6 Oct 2022 14:29:55 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Ming Lei <tom.leiming@gmail.com>
+Cc: "Denis V. Lunev" <den@virtuozzo.com>, io-uring@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Kirill Tkhai <kirill.tkhai@openvz.org>,
+ Manuel Bentele <development@manuel-bentele.de>,
+ qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ rjones@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Josef Bacik <josef@toxicpanda.com>, Mike Christie <mchristi@redhat.com>
+Subject: Re: ublk-qcow2: ublk-qcow2 is available
+Message-ID: <Yz8eo0IWMAJOwKWn@fedora>
+References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
+ <6659a0d5-60ab-9ac7-d25d-b4ff1940c6ab@virtuozzo.com>
+ <Yz2epPwoufj0mug/@fedora> <Yz6tR24T8HPHJ70D@T590>
+ <Yz7fTANAxAQ8KT4v@fedora> <Yz7vvNKSNRyBVObo@T590>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] linux-user,bsd-user: re-exec with G_SLICE=always-malloc
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Laurent Vivier <laurent@vivier.eu>,
- ncopa@alpinelinux.org, Kyle Evans <kevans@freebsd.org>,
- Warner Losh <imp@bsdimp.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20221004120047.857591-1-berrange@redhat.com>
- <5c5849a3-6830-8577-c427-02cb3244ba8c@linaro.org>
- <Yz8aqBq7m0wn0jvS@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <Yz8aqBq7m0wn0jvS@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.435,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6RwoVJ4k64p8vK98"
+Content-Disposition: inline
+In-Reply-To: <Yz7vvNKSNRyBVObo@T590>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,59 +89,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/6/22 11:12, Daniel P. Berrangé wrote:
-> On Tue, Oct 04, 2022 at 07:59:18AM -0700, Richard Henderson wrote:
->> On 10/4/22 05:00, Daniel P. Berrangé wrote:
->>> g_slice uses a one-time initializer to check the G_SLICE env variable
->>> making it hard for QEMU to set the env before any GLib API call has
->>> triggered the initializer. Even attribute((constructor)) is not
->>> sufficient as QEMU has many constructors and there is no ordering
->>> guarantee between them.
->>
->> There are orderings for constructors, see __attribute__((constructor(priority))).
-> 
-> Oh, thanks for pointing that out. I tried it, but glib threw
-> a bag of rocks at me ;-P
-> 
-> The priority works for ordering within the scope of the binary
-> containing the constructor.
 
-Yes.
+--6RwoVJ4k64p8vK98
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> libglib.so itself has a constructor function registered, and that
-> calls APIs that trigger GSlice initialization:
+On Thu, Oct 06, 2022 at 11:09:48PM +0800, Ming Lei wrote:
+> On Thu, Oct 06, 2022 at 09:59:40AM -0400, Stefan Hajnoczi wrote:
+> > On Thu, Oct 06, 2022 at 06:26:15PM +0800, Ming Lei wrote:
+> > > On Wed, Oct 05, 2022 at 11:11:32AM -0400, Stefan Hajnoczi wrote:
+> > > > On Tue, Oct 04, 2022 at 01:57:50AM +0200, Denis V. Lunev wrote:
+> > > > > On 10/3/22 21:53, Stefan Hajnoczi wrote:
+> > > > > > On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
+> > > > > > > ublk-qcow2 is available now.
+> > > > > > Cool, thanks for sharing!
+> > > > > yep
+> > > > >=20
+> > > > > > > So far it provides basic read/write function, and compression=
+ and snapshot
+> > > > > > > aren't supported yet. The target/backend implementation is co=
+mpletely
+> > > > > > > based on io_uring, and share the same io_uring with ublk IO c=
+ommand
+> > > > > > > handler, just like what ublk-loop does.
+> > > > > > >=20
+> > > > > > > Follows the main motivations of ublk-qcow2:
+> > > > > > >=20
+> > > > > > > - building one complicated target from scratch helps libublks=
+rv APIs/functions
+> > > > > > >    become mature/stable more quickly, since qcow2 is complica=
+ted and needs more
+> > > > > > >    requirement from libublksrv compared with other simple one=
+s(loop, null)
+> > > > > > >=20
+> > > > > > > - there are several attempts of implementing qcow2 driver in =
+kernel, such as
+> > > > > > >    ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`=
+` [4], so ublk-qcow2
+> > > > > > >    might useful be for covering requirement in this field
+> > > > > There is one important thing to keep in mind about all partly-use=
+rspace
+> > > > > implementations though:
+> > > > > * any single allocation happened in the context of the
+> > > > > =A0=A0 userspace daemon through try_to_free_pages() in
+> > > > > =A0=A0 kernel has a possibility to trigger the operation,
+> > > > > =A0=A0 which will require userspace daemon action, which
+> > > > > =A0=A0 is inside the kernel now.
+> > > > > * the probability of this is higher in the overcommitted
+> > > > > =A0=A0 environment
+> > > > >=20
+> > > > > This was the main motivation of us in favor for the in-kernel
+> > > > > implementation.
+> > > >=20
+> > > > CCed Josef Bacik because the Linux NBD driver has dealt with memory
+> > > > reclaim hangs in the past.
+> > > >=20
+> > > > Josef: Any thoughts on userspace block drivers (whether NBD or ublk=
+) and
+> > > > how to avoid hangs in memory reclaim?
+> > >=20
+> > > If I remember correctly, there isn't new report after the last NBD(TC=
+MU) deadlock
+> > > in memory reclaim was addressed by 8d19f1c8e193 ("prctl: PR_{G,S}ET_I=
+O_FLUSHER
+> > > to support controlling memory reclaim").
+> >=20
+> > Denis: I'm trying to understand the problem you described. Is this
+> > correct:
+> >=20
+> > Due to memory pressure, the kernel reclaims pages and submits a write to
+> > a ublk block device. The userspace process attempts to allocate memory
+> > in order to service the write request, but it gets stuck because there
+> > is no memory available. As a result reclaim gets stuck, the system is
+> > unable to free more memory and therefore it hangs?
+>=20
+> The process should be killed in this situation if PR_SET_IO_FLUSHER
+> is applied since the page allocation is done in VM fault handler.
 
-Ah.  I had been hoping that gslice would be initialized on first use, so as long as we 
-could get the setenv done before any other qemu code ran, we'd be fine.
+Thanks for mentioning PR_SET_IO_FLUSHER. There is more info in commit
+8d19f1c8e1937baf74e1962aae9f90fa3aeab463 ("prctl: PR_{G,S}ET_IO_FLUSHER
+to support controlling memory reclaim").
 
-> This all takes place when libglib.so is loaded, which happens prior
-> to any code in QEMU being loaded / executed. So no constructor in
-> QEMU code can ever pre-empt this in dynamic builds.
+It requires CAP_SYS_RESOURCE :/. This makes me wonder whether
+unprivileged ublk will ever be possible.
 
-Shared libraries have a defined initialization order too, but we'd have to play real 
-irritating games to make this happen, installing a shared library of our own (linked later 
-in the sequence to qemu, and itself *not* linked to libglib.so).  Not worth it.
+I think this addresses Denis' concern about hangs, but it doesn't solve
+them because I/O will fail. The real solution is probably what you
+mentioned...
 
-> The only possible silver linining is that in static linked builds,
-> it appears that a QEMU constructor with priority 101, will pre-empt
-> the constructor from any library. This is kind of crazy, as it means
-> if any library or app code uses priorities, it'll get totally different
-> execution ordering depending on whether it is dynamic or statically
-> built.
+> Firstly in theory the userspace part should provide forward progress
+> guarantee in code path for handling IO, such as reserving/mlock pages
+> for such situation. However, this issue isn't unique for nbd or ublk,
+> all userspace block device should have such potential risk, and vduse
+> is no exception, IMO.
 
-Plausible...
+=2E..here. Userspace needs to minimize memory allocations in the I/O code
+path and reserve sufficient resources to make forward progress.
 
-> I guess we could rely on this hack if we declare that everyone using
-> binfmt is probably relying on static linked QEMU, and in non-binfmt
-> cases people can set the env var themselves.  It still feels pretty
-> dirty.
+Stefan
 
-... but as you say, dirty.
+--6RwoVJ4k64p8vK98
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Alternately, report it as a bug to glib, because we can't be the only project impacted by 
-this.
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmM/HqMACgkQnKSrs4Gr
+c8gdMwgAt2uBqb9BuOBYhclEKVi/V4v2vRqAzrMlGSsU3j6ZvtIH+JwfF420xYiA
+hhHDMxUwRyexA6SwnBN245+Mi5gxoOLZA/OjwQLyWCIuVNv8CS9UbwXdaQoa5IB1
+3iRSALpCD913qK70W/gAYmjX3p3aDq67F05bE8QQoz3F7D82iUmY3Nm96vQPIdzn
+4oyvKmSH8OoY4d566nNSqDKwIcQZ/dnRWmuDODjXDdSajoHjNzpKDAwU2L7oa4HF
+2CegrkFKNRuBqjdeoA6xfm1F6SXdxgwyfDuIFXoCk0E9o8QkggUX6Dm6Lx5AKW8u
+qa3d11zuwWY0scCPDzLp9bTitS7H7w==
+=1Utp
+-----END PGP SIGNATURE-----
 
-r~
+--6RwoVJ4k64p8vK98--
+
 
