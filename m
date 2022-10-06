@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5FD5F6AD9
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:40:58 +0200 (CEST)
-Received: from localhost ([::1]:57102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42EF75F6AFB
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:47:00 +0200 (CEST)
+Received: from localhost ([::1]:51372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogSzY-0007Sh-6W
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:40:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43662)
+	id 1ogT5P-0005Jc-BR
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:46:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSY1-0003gO-CR
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:12:31 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:39459)
+ id 1ogSY5-0003hr-V4
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:12:34 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:33639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSXz-0004dD-QQ
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:12:29 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- v10-20020a17090a634a00b00205e48cf845so4598239pjs.4
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:12:27 -0700 (PDT)
+ id 1ogSY3-0004dR-O7
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:12:33 -0400
+Received: by mail-pl1-x631.google.com with SMTP id 10so2049876pli.0
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:12:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FMvqR5WvHSrhd6FoBOh5bPNiyVgL3g0xwaaD6f1HGpU=;
- b=DHx779G3S85pf5a8Ust8Zyz34MSSTB3Q8SpXdN/VEjCZqeB+yHPRKX+Rj4elVQIxoG
- OWU1nWiNJDLXJ/cgUb3enKnd2K3HoIMUxan0zAzEmugXPvGey/Gwc0K2RsyNaJzWHXUY
- HMdYmij8Mi8GidT68vGjUe+Xf/VOnFhNcELiL+KxSBvSVv338S/w4jrWEEFk1LBMsdeG
- aw7WWdoJZeC4Ehc+bdUqgtACAKFnDv3cm+C4NO717qW+0biARg3QGciqykeO1Xv4tkSv
- xWgyriVM+oiY7jo71Wz4xsbqAUxWRSHzX6jGdgpasDUnZa5xhmt6hmAex+UJ76s8acx+
- T9jQ==
+ bh=xIwwdkQ/UueIjTq9LmfxXmdWH0OF4K6cF8/Wmny7JFg=;
+ b=ptjH96eZLcOPZIa89aXnOna4fjBx+XdIXzRoKJYPVSb5+JOPAdfLboRINLsamvzI4w
+ C6shwD/eEmKzJG6s4LgG4aHBvc10M/ClolM7Aaw5Rt1FA6aNnRlcttjwn0hbgZ+83xIb
+ i62wPyGLdKMlII0V6mGRQFmgGa3Pf5Zr3/WgQBrmo6wGhqFBW/YGqxgITHZkwwxs7WjM
+ sBUDrZvYtZh6biqGVtrWZECtq2WUxi0vKLmPyhtuGd49XC5AJfFuae8bZq7NBANZKdcT
+ EpjTwJkch9h7QGE9FC+Fd7OzuI5Y9fEEDq6SczCJpf9D9fHnnO3imlUPUrgqXooc2MMp
+ TjzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FMvqR5WvHSrhd6FoBOh5bPNiyVgL3g0xwaaD6f1HGpU=;
- b=7Q7TsN6Zz7dIg8Cdncq3+0AHpLLuk657t7rESmoH5KVjwaLige4ETjbE39TPaaoZKg
- uIDCEy2OmKINuDMzM5NGymt535wgS5g5lrnuS+xDcl77vNO/ov8iY5OiermYNZlWSi3v
- 6OvgoU2SmwJHukcdvKtSMuGDzOwD4lPjF+WCvGsTC7qAYGz3qGu0fBQMyKGrcLrWooTD
- 2KMFuQf0+4RErNzavTSimC8hLp1FLvYKxGCHAXPF5xYRjLcvDMjqxtHGhRB57dNLQiMy
- qyM8m/guT9ZbUwpu3tgy8ZUFhTXieOPixTCJzF3itrmdurItoinFl+iSzV/WARN2yCgC
- w6Hw==
-X-Gm-Message-State: ACrzQf2t8zj3uvVbCV1pHZrthESr7E4ULYaglF4YSTLJ6pL7aKc8xSya
- n3tDkd6s2+DxdfwRfDKq0UIbkLdPvsY=
-X-Google-Smtp-Source: AMsMyM5F3E7TReYXhBylrX09pIoyAiiA9WEu0XzzOGhuKDb3K/mQZCTuhPj7Li+UzxmljRp5exuF/w==
-X-Received: by 2002:a17:90b:38d1:b0:200:8178:1c94 with SMTP id
- nn17-20020a17090b38d100b0020081781c94mr11207237pjb.219.1665069146237; 
- Thu, 06 Oct 2022 08:12:26 -0700 (PDT)
+ bh=xIwwdkQ/UueIjTq9LmfxXmdWH0OF4K6cF8/Wmny7JFg=;
+ b=WrqtrYkjww6eEKJVNSq7UKPnnj+cMOXVlOL6eKrnbaOtVa4dxNyFzxUvMBI+zOgYIk
+ Vvz3E+HH2A+0kRA2n3sCml0ldQbM3JAu2Qx6MtRCIFDogYzHqBAfGKNqKpwNaARfstHp
+ CLhhbebpeQR+3Hf0cQWs8IfeVRzzzWJmUeZo4rFcXiHBR+utlY97u21zt6YfP5ky4XRt
+ ChZLWagDnmfVCpOQ/SF8K429KuAPAlEG7thbSe8kNecb08nRx0hc7WeMmblRRXhuEYF0
+ Gm95z++ZwB1HPTIas45kGsxBDie28qy6g4Fnhie4fB2YMu7icwfxH+H4EiUlQjpczEUT
+ EZpQ==
+X-Gm-Message-State: ACrzQf1ZHW+EhGb2KBKoxYgboxVN1IuJhevfYVtYDMAbG2J+uDv7w17m
+ z4j793J18rmlkDZ7X8oB6dGbsaQ8tus=
+X-Google-Smtp-Source: AMsMyM7QkylIpN/Rw0Sa9lka17lluY0zgdKUv1quQUllwRo8JObz309J9UrHTvdSutDcqygEh+9CKg==
+X-Received: by 2002:a17:90b:1c88:b0:203:8400:13a9 with SMTP id
+ oo8-20020a17090b1c8800b00203840013a9mr237936pjb.46.1665069148469; 
+ Thu, 06 Oct 2022 08:12:28 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- 135-20020a62148d000000b00540c8ed61ddsm8589067pfu.150.2022.10.06.08.12.24
+ 135-20020a62148d000000b00540c8ed61ddsm8589067pfu.150.2022.10.06.08.12.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 08:12:25 -0700 (PDT)
+ Thu, 06 Oct 2022 08:12:28 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 15/18] io/channel-watch: Drop the unnecessary cast
-Date: Thu,  6 Oct 2022 23:11:32 +0800
-Message-Id: <20221006151135.2078908-16-bmeng.cn@gmail.com>
+Subject: [PATCH 16/18] io/channel-watch: Fix socket watch on Windows
+Date: Thu,  6 Oct 2022 23:11:33 +0800
+Message-Id: <20221006151135.2078908-17-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221006151135.2078908-1-bmeng.cn@gmail.com>
 References: <20221006151135.2078908-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,43 +94,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-There is no need to do a type cast on ssource->socket as it is
-already declared as a SOCKET.
+Random failure was observed when running qtests on Windows due to
+"Broken pipe" detected by qmp_fd_receive(). What happened is that
+the qtest executable sends testing data over a socket to the QEMU
+under test but no response is received. The errno of the recv()
+call from the qtest executable indicates ETIMEOUT, due to the qmp
+chardev's tcp_chr_read() is never called to receive testing data
+hence no response is sent to the other side.
 
-Suggested-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+tcp_chr_read() is registered as the callback of the socket watch
+GSource. The reason of the callback not being called by glib, is
+that the source check fails to indicate the source is ready. There
+are two socket watch sources created to monitor the same socket
+event object from the char-socket backend in update_ioc_handlers().
+During the source check phase, qio_channel_socket_source_check()
+calls WSAEnumNetworkEvents() to discover occurrences of network
+events for the indicated socket, clear internal network event records,
+and reset the event object. Testing shows that if we don't reset the
+event object by not passing the event handle to WSAEnumNetworkEvents()
+the symptom goes away and qtest runs very stably.
+
+It seems we don't need to call WSAEnumNetworkEvents() at all, as we
+don't parse the result of WSANETWORKEVENTS returned from this API.
+We use select() to poll the socket status. Fix this instability by
+dropping the WSAEnumNetworkEvents() call.
+
+Some side notes:
+
+During the testing, I removed the following codes in update_ioc_handlers():
+
+  remove_hup_source(s);
+  s->hup_source = qio_channel_create_watch(s->ioc, G_IO_HUP);
+  g_source_set_callback(s->hup_source, (GSourceFunc)tcp_chr_hup,
+                        chr, NULL);
+  g_source_attach(s->hup_source, chr->gcontext);
+
+and such change also makes the symptom go away.
+
+And if I moved the above codes to the beginning, before the call to
+io_add_watch_poll(), the symptom also goes away.
+
+It seems two sources watching on the same socket event object is
+the key that leads to the instability. The order of adding a source
+watch seems to also play a role but I can't explain why.
+Hopefully a Windows and glib expert could explain this behavior.
+
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-(no changes since v2)
+(no changes since v1)
 
-Changes in v2:
-- new patch: "io/channel-watch: Drop the unnecessary cast"
-
- io/channel-watch.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ io/channel-watch.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/io/channel-watch.c b/io/channel-watch.c
-index 89f3c8a88a..43d38494f7 100644
+index 43d38494f7..ad7c568a84 100644
 --- a/io/channel-watch.c
 +++ b/io/channel-watch.c
-@@ -130,13 +130,13 @@ qio_channel_socket_source_check(GSource *source)
+@@ -115,17 +115,13 @@ static gboolean
+ qio_channel_socket_source_check(GSource *source)
+ {
+     static struct timeval tv0;
+-
+     QIOChannelSocketSource *ssource = (QIOChannelSocketSource *)source;
+-    WSANETWORKEVENTS ev;
+     fd_set rfds, wfds, xfds;
+ 
+     if (!ssource->condition) {
+         return 0;
+     }
+ 
+-    WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev);
+-
+     FD_ZERO(&rfds);
      FD_ZERO(&wfds);
      FD_ZERO(&xfds);
-     if (ssource->condition & G_IO_IN) {
--        FD_SET((SOCKET)ssource->socket, &rfds);
-+        FD_SET(ssource->socket, &rfds);
-     }
-     if (ssource->condition & G_IO_OUT) {
--        FD_SET((SOCKET)ssource->socket, &wfds);
-+        FD_SET(ssource->socket, &wfds);
-     }
-     if (ssource->condition & G_IO_PRI) {
--        FD_SET((SOCKET)ssource->socket, &xfds);
-+        FD_SET(ssource->socket, &xfds);
-     }
-     ssource->revents = 0;
-     if (select(0, &rfds, &wfds, &xfds, &tv0) == 0) {
 -- 
 2.34.1
 
