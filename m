@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1595F6B0E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:53:51 +0200 (CEST)
-Received: from localhost ([::1]:47940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0795F6AE0
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:43:31 +0200 (CEST)
+Received: from localhost ([::1]:40408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogTC2-0002qi-2s
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43666)
+	id 1ogT22-0001UF-18
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:43:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSY7-0003iv-06
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:12:35 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:52765)
+ id 1ogSYA-0003k4-Bb
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:12:38 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSY5-0004dc-DG
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:12:34 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id pq16so2014083pjb.2
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:12:32 -0700 (PDT)
+ id 1ogSY8-0004du-6l
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:12:37 -0400
+Received: by mail-pg1-x536.google.com with SMTP id c7so2100887pgt.11
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NCD0OoweK2TuN+Pq4vH+vNDBt5GFzsQ5yHOp5dnrTlM=;
- b=F5X/2N/rWtMDYx/WvEnIuaPQo+YKXUC89n58/WZ3vFWn43ebFcXAuMvjxFQbdFJF7e
- WFicPCJIMeEJwc63+ONlOjCj/dCo5V6Mcte5b0wu/KxEn4+ch+imj5N+0IMmczF3iOIk
- tlgxjDFpBo4Uh7S0LRO1iD4etLK0B0tHOwoybOzlFq/NrWNjKA4zT1ybHCuoDSXwBQkW
- jJiWWdh1jMi0ulmajBeSOHSTKOINUJBqxFJS6JitoF7Y0Ui5P9aVbsJxdOVk2pQLNYMK
- qri5+GgxVTpUa3W0pBpcNoBgi7gimEZICILyqPxzW4kRiHNiiG637DIazJQHt5KMriEp
- BTmQ==
+ bh=WkoA3/IdgkFbPFM7JOrL7Fwi0zdak8HIGCewrWVpcWg=;
+ b=UXducB6WIlPHbBbEwxzKyEAsQyjAYTnngzjFpmvuF08AizvF9HTSGbdPlE4PAVxyqa
+ 12vIFLK5+8EKr3w2J0Dt9NyJucakRuviQLFG9uM+YZC47z8HnECWoBNsWMRuxj807I7m
+ l+HrYxLAaGE6XEMsCFPH8RQBEriT9Yvq1zF3aZQmKhHrWBj/yAAb1nTLDX3yS7f7Mjzu
+ QL92KkNLQq5YZfTBC4UlK+rCcaysMVpnWMPxybFeFVy+vo0RgKhO9ibPV1U8aMunMYak
+ jtVy4Nwt1spFyQdVOtge4joW0Hz51kLZi+fcVUQug9ydzIdOYa7yuWLyj5iNPKMtf7wn
+ 7New==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NCD0OoweK2TuN+Pq4vH+vNDBt5GFzsQ5yHOp5dnrTlM=;
- b=ImjxB/DJuJ24anaJhRSHaHdPpduUSnc6kFGcETaxig0PQt2htUktwob9SwSd6T11t/
- PyuGGVD83ATntVCcVVbSzsJwQr/LeY29Zd7uGv34lPf33wVV/pBVvYy5oPNLqgZnG13L
- ZkrEiwd41yidCsDJJ2EFUqKzoXfCxzKgYDup5Me87lXM8OmJ5v2yD6VOFGDa4JWXwIgx
- p4OO63kyFoXX48CUHMBPfNK/QEfZmogxE+Sa95NT7GErcQt6dbveljELKvSP/gjCIWRG
- Ej7OQWKehcIFFc/tMHYjOGyMT59eAoUE1W9kEebzo8GCpCIe1w3uHqUuDrC95J1XGoUG
- QgYg==
-X-Gm-Message-State: ACrzQf1NsveFfFJKfRfbYJ7uNBtkJ2ousHTbJafnLhToYwdCBbxmR2bO
- Rh7X2luwkVLfkC8vQiD2IjiAqGWxa1U=
-X-Google-Smtp-Source: AMsMyM63ycZXVFnhinYaES9biplx1D/d2pwLAMMvDjiz7NTkcFdwowBgDH8f0JtqWLpF6VW33Naa3g==
-X-Received: by 2002:a17:903:18b:b0:178:1c0d:da22 with SMTP id
- z11-20020a170903018b00b001781c0dda22mr359154plg.95.1665069151742; 
- Thu, 06 Oct 2022 08:12:31 -0700 (PDT)
+ bh=WkoA3/IdgkFbPFM7JOrL7Fwi0zdak8HIGCewrWVpcWg=;
+ b=N3SRyVH48z+pffzd7ZT1NHUzy7tayjqA5PmLD21po5ViB/z5luVgxEf9Gta5c9mtHL
+ GRVrW1JXKm6/IzQnM/UAqJgxHLsuscq9V1uTfMLjAGMGXZVHv+Oxm68vxNGfHsFzG4Nt
+ YeXetuXxft2+60Oe8UnAJpc9bp2RKsm5AXK2m9oyJMbKDsBBJBKPxWw8LpWEHbYZF83H
+ SD8+M2hB8mvQLzap2iaCLRKD276zmEB3kXjR3zgMwy+Mmc/2p9WW7GFjPGx6iPTa42CZ
+ tmECSqQDvp7wGeTyPZFavNhMNiVzSkE6/rKxXThF/NWQE3vwcSKzPybzLybHKn86jenP
+ pNzw==
+X-Gm-Message-State: ACrzQf21EzjE+4s0tWHkO3x5XdI9f3X64UuyN3xtp+a7x9T2rMSLAiV6
+ AKFjnFLKl9G83QDiU4ccaAYLzxDaIqc=
+X-Google-Smtp-Source: AMsMyM4jETCHZxXBwjGwCJa0zoIlWOe9kh3+CKs2RNPaOV0XvYTl+I4nil3sZzMnoVmA+2M3VbEezQ==
+X-Received: by 2002:a63:e442:0:b0:438:7919:adf with SMTP id
+ i2-20020a63e442000000b0043879190adfmr347912pgk.4.1665069154525; 
+ Thu, 06 Oct 2022 08:12:34 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- 135-20020a62148d000000b00540c8ed61ddsm8589067pfu.150.2022.10.06.08.12.28
+ 135-20020a62148d000000b00540c8ed61ddsm8589067pfu.150.2022.10.06.08.12.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 08:12:31 -0700 (PDT)
+ Thu, 06 Oct 2022 08:12:34 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: [PATCH 17/18] .gitlab-ci.d/windows.yml: Increase the timeout to 90
- minutes
-Date: Thu,  6 Oct 2022 23:11:34 +0800
-Message-Id: <20221006151135.2078908-18-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH 18/18] tests/qtest: Enable qtest build on Windows
+Date: Thu,  6 Oct 2022 23:11:35 +0800
+Message-Id: <20221006151135.2078908-19-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221006151135.2078908-1-bmeng.cn@gmail.com>
 References: <20221006151135.2078908-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,50 +94,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-commit 9f8e6cad65a6 ("gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices"
-changed to compile QEMU with the --without-default-devices switch for
-the msys2-64bit job, due to the build could not complete within the
-project timeout (1h), and also mentioned that a bigger timeout was
-getting ignored on the shared Gitlab-CI Windows runners.
-
-However as of today it seems the shared Gitlab-CI Windows runners does
-honor the job timeout, and the runner has the timeout limit of 2h, so
-let's increase the timeout to 90 minutes and drop the configure switch
-"--without-default-devices" to get a larger build coverage.
+Now that we have fixed various test case issues as seen when running
+on Windows, let's enable the qtest build on Windows.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
 
-(no changes since v2)
+Changes in v3:
+- Drop the host test
 
 Changes in v2:
-- Change the timeout limit to 90 minutes
+- new patch: "tests/qtest: Enable qtest build on Windows"
 
- .gitlab-ci.d/windows.yml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/meson.build | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index a3e7a37022..093276ddbc 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -10,7 +10,7 @@
-       - ${CI_PROJECT_DIR}/msys64/var/cache
-   needs: []
-   stage: build
--  timeout: 70m
-+  timeout: 90m
-   before_script:
-   - If ( !(Test-Path -Path msys64\var\cache ) ) {
-       mkdir msys64\var\cache
-@@ -60,7 +60,7 @@ msys2-64bit:
-   - $env:MSYSTEM = 'MINGW64'     # Start a 64 bit Mingw environment
-   - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
-   - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
--      --enable-capstone --without-default-devices'
-+      --enable-capstone'
-   - .\msys64\usr\bin\bash -lc 'make'
-   - .\msys64\usr\bin\bash -lc 'make check || { cat build/meson-logs/testlog.txt; exit 1; } ;'
- 
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 455f1bbb7e..8701c3a8e7 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -1,9 +1,3 @@
+-# All QTests for now are POSIX-only, but the dependencies are
+-# really in libqtest, not in the testcases themselves.
+-if not config_host.has_key('CONFIG_POSIX')
+-  subdir_done()
+-endif
+-
+ slow_qtests = {
+   'ahci-test' : 60,
+   'bios-tables-test' : 120,
 -- 
 2.34.1
 
