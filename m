@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16DB95F6C74
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 19:01:32 +0200 (CEST)
-Received: from localhost ([::1]:37418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0355D5F6BEB
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 18:39:25 +0200 (CEST)
+Received: from localhost ([::1]:48316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogUFV-00069j-2L
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 13:01:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37274)
+	id 1ogTu9-0007wW-2W
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 12:39:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ogSth-0003Tn-3X
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:34:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30827)
+ id 1ogSts-0003Zi-BH
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:35:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ogStf-00009X-Gc
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:34:52 -0400
+ id 1ogSto-0000BO-6P
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:35:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665070490;
+ s=mimecast20190719; t=1665070499;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xAq2xlqRdVIbUoDtOLarQdrR1IEKv+tZdV05JKo94l4=;
- b=Y8qfWcfnsABWyH8CelMmcSwf3ULkcVq+aXr6FoUnEY/B1lYaEqGXD+fsxuDNUjtavSYtfJ
- QN/dhXRMX4ckXAq4J6saP95JMCuhaVjn6MCtLADomS2nc0Fe7DN8usVDGdb+si6aB5PjXg
- UI2vw0cw9Z6ow0MgllGYO+fyIISQGjs=
+ bh=hOe6/bXHtInA3YwKjW6+QwwmoXeYh/XCY11FblVu8TQ=;
+ b=eHJAd3fbGAeeuKnBWpEq4gNW8YKsDrOHuz7cT0kST/p5MYy881nGTWWSDIMCec4KgNk/ae
+ ERfETCCS/oYWnaJRrMYoSa0NWY9EycO7n5JXPYScfsizGsgWqJMdKGQ8MjJI69gaDIhF4y
+ HBbtjG/WsiTM/HFUvXUZnaVZ37ZUJMI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-531-0Qayu6ugPd-eEXtvMmJMFA-1; Thu, 06 Oct 2022 11:34:49 -0400
-X-MC-Unique: 0Qayu6ugPd-eEXtvMmJMFA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-606-5ZQCxANkNLennBI02oULMQ-1; Thu, 06 Oct 2022 11:34:53 -0400
+X-MC-Unique: 5ZQCxANkNLennBI02oULMQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6F66185A7AA;
- Thu,  6 Oct 2022 15:34:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 95C1C185A7AA;
+ Thu,  6 Oct 2022 15:34:52 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F7C32166B2E;
- Thu,  6 Oct 2022 15:34:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7FA22202323C;
+ Thu,  6 Oct 2022 15:34:51 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -57,17 +57,16 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>, qemu-arm@nongnu.org,
  Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PULL 03/10] dump: Refactor dump_iterate and introduce
- dump_filter_memblock_*()
-Date: Thu,  6 Oct 2022 19:34:22 +0400
-Message-Id: <20221006153430.2775580-4-marcandre.lureau@redhat.com>
+Subject: [PULL 04/10] dump: Rework get_start_block
+Date: Thu,  6 Oct 2022 19:34:23 +0400
+Message-Id: <20221006153430.2775580-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20221006153430.2775580-1-marcandre.lureau@redhat.com>
 References: <20221006153430.2775580-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -75,8 +74,7 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,126 +92,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-The iteration over the memblocks in dump_iterate() is hard to
-understand so it's about time to clean it up. Instead of manually
-grabbing the next memblock we can use QTAILQ_FOREACH to iterate over
-all memblocks.
+get_start_block() returns the start address of the first memory block
+or -1.
 
-Additionally we move the calculation of the offset and length out by
-introducing and using the dump_filter_memblock_*() functions. These
-functions will later be used to cleanup other parts of dump.c.
+With the GuestPhysBlock iterator conversion we don't need to set the
+start address and can therefore remove that code and the "start"
+DumpState struct member. The only functionality left is the validation
+of the start block so it only makes sense to re-name the function to
+validate_start_block()
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220811121111.9878-4-frankja@linux.ibm.com>
+Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+Message-Id: <20220811121111.9878-5-frankja@linux.ibm.com>
 ---
- dump/dump.c | 74 ++++++++++++++++++++++++++++++-----------------------
- 1 file changed, 42 insertions(+), 32 deletions(-)
+ include/sysemu/dump.h |  2 --
+ dump/dump.c           | 20 ++++++--------------
+ 2 files changed, 6 insertions(+), 16 deletions(-)
 
+diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+index ffc2ea1072..7fce1d4af6 100644
+--- a/include/sysemu/dump.h
++++ b/include/sysemu/dump.h
+@@ -166,8 +166,6 @@ typedef struct DumpState {
+     hwaddr memory_offset;
+     int fd;
+ 
+-    GuestPhysBlock *next_block;
+-    ram_addr_t start;
+     bool has_filter;
+     int64_t begin;
+     int64_t length;
 diff --git a/dump/dump.c b/dump/dump.c
-index 0ed7cf9c7b..340de5a1e7 100644
+index 340de5a1e7..e204912a89 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -591,31 +591,43 @@ static void dump_begin(DumpState *s, Error **errp)
-     write_elf_notes(s, errp);
- }
- 
--static int get_next_block(DumpState *s, GuestPhysBlock *block)
-+static int64_t dump_filtered_memblock_size(GuestPhysBlock *block,
-+                                           int64_t filter_area_start,
-+                                           int64_t filter_area_length)
- {
--    while (1) {
--        block = QTAILQ_NEXT(block, next);
--        if (!block) {
--            /* no more block */
--            return 1;
--        }
-+    int64_t size, left, right;
- 
--        s->start = 0;
--        s->next_block = block;
--        if (s->has_filter) {
--            if (block->target_start >= s->begin + s->length ||
--                block->target_end <= s->begin) {
--                /* This block is out of the range */
--                continue;
--            }
-+    /* No filter, return full size */
-+    if (!filter_area_length) {
-+        return block->target_end - block->target_start;
-+    }
- 
--            if (s->begin > block->target_start) {
--                s->start = s->begin - block->target_start;
--            }
-+    /* calculate the overlapped region. */
-+    left = MAX(filter_area_start, block->target_start);
-+    right = MIN(filter_area_start + filter_area_length, block->target_end);
-+    size = right - left;
-+    size = size > 0 ? size : 0;
-+
-+    return size;
-+}
-+
-+static int64_t dump_filtered_memblock_start(GuestPhysBlock *block,
-+                                            int64_t filter_area_start,
-+                                            int64_t filter_area_length)
-+{
-+    if (filter_area_length) {
-+        /* return -1 if the block is not within filter area */
-+        if (block->target_start >= filter_area_start + filter_area_length ||
-+            block->target_end <= filter_area_start) {
-+            return -1;
-         }
- 
--        return 0;
-+        if (filter_area_start > block->target_start) {
-+            return filter_area_start - block->target_start;
-+        }
+@@ -1500,30 +1500,22 @@ static void create_kdump_vmcore(DumpState *s, Error **errp)
      }
-+
-+    return 0;
  }
  
- /* write all memory to vmcore */
-@@ -623,24 +635,22 @@ static void dump_iterate(DumpState *s, Error **errp)
+-static ram_addr_t get_start_block(DumpState *s)
++static int validate_start_block(DumpState *s)
  {
-     ERRP_GUARD();
      GuestPhysBlock *block;
--    int64_t size;
--
--    do {
--        block = s->next_block;
-+    int64_t memblock_size, memblock_start;
  
--        size = block->target_end - block->target_start;
--        if (s->has_filter) {
--            size -= s->start;
--            if (s->begin + s->length < block->target_end) {
--                size -= block->target_end - (s->begin + s->length);
--            }
-+    QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-+        memblock_start = dump_filtered_memblock_start(block, s->begin, s->length);
-+        if (memblock_start == -1) {
-+            continue;
-         }
--        write_memory(s, block, s->start, size, errp);
-+
-+        memblock_size = dump_filtered_memblock_size(block, s->begin, s->length);
-+
-+        /* Write the memory to file */
-+        write_memory(s, block, memblock_start, memblock_size, errp);
-         if (*errp) {
-             return;
+     if (!s->has_filter) {
+-        s->next_block = QTAILQ_FIRST(&s->guest_phys_blocks.head);
+         return 0;
+     }
+ 
+     QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
++        /* This block is out of the range */
+         if (block->target_start >= s->begin + s->length ||
+             block->target_end <= s->begin) {
+-            /* This block is out of the range */
+             continue;
          }
 -
--    } while (!get_next_block(s, block));
-+    }
+-        s->next_block = block;
+-        if (s->begin > block->target_start) {
+-            s->start = s->begin - block->target_start;
+-        } else {
+-            s->start = 0;
+-        }
+-        return s->start;
+-    }
++        return 0;
++   }
+ 
+     return -1;
  }
+@@ -1670,8 +1662,8 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+         goto cleanup;
+     }
  
- static void create_vmcore(DumpState *s, Error **errp)
+-    s->start = get_start_block(s);
+-    if (s->start == -1) {
++    /* Is the filter filtering everything? */
++    if (validate_start_block(s) == -1) {
+         error_setg(errp, QERR_INVALID_PARAMETER, "begin");
+         goto cleanup;
+     }
 -- 
 2.37.3
 
