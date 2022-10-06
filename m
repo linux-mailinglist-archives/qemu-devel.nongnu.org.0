@@ -2,64 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B385F60C6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 07:49:09 +0200 (CEST)
-Received: from localhost ([::1]:42846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D25175F61D4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 09:44:00 +0200 (CEST)
+Received: from localhost ([::1]:52578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogJkq-0002iT-5c
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 01:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44938)
+	id 1ogLXz-0000qz-GX
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 03:43:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1ogJd6-0008I1-Kw
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 01:41:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27065)
+ (Exim 4.90_1) (envelope-from <blue_3too@hotmail.com>)
+ id 1ogLTk-0007O3-Tf
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 03:39:37 -0400
+Received: from mail-dm6nam12olkn20823.outbound.protection.outlook.com
+ ([2a01:111:f400:fe59::823]:48938
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1ogJd1-0005zY-Ol
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 01:41:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665034861;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=ODSnti626kpiPqgQelulgmeuAjLLUggz2FHyAXnvt3E=;
- b=Cycgejg4itwaJbXbxlOholxJ1s0j2yakruNlXe/LFPQzYFbn2N3oaKbe24iOrNBEr2sPg8
- oV6CqS7e5ZVeysu+gk+s78gSDKwYbIe6YVWfOni6OGkBzkMO20EC7ei9coqyISEK3bHIm2
- SCVWL+I5zCdnhkfdBq6BJEakcUsy3To=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-iMeWNvZVM2KfChtWOql13w-1; Thu, 06 Oct 2022 01:39:32 -0400
-X-MC-Unique: iMeWNvZVM2KfChtWOql13w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E265986E91C
- for <qemu-devel@nongnu.org>; Thu,  6 Oct 2022 05:39:31 +0000 (UTC)
-Received: from server.redhat.com (ovpn-12-47.pek2.redhat.com [10.72.12.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F42E2166B26;
- Thu,  6 Oct 2022 05:39:28 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: mst@redhat.com,
-	jasowang@redhat.com,
-	lulu@redhat.com
-Cc: qemu-devel@nongnu.org,
-	stefanha@redhat.com
-Subject: [PATCH v1] vhost-vdpa : add support for vIOMMU
-Date: Thu,  6 Oct 2022 13:39:01 +0800
-Message-Id: <20221006053901.754178-1-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <blue_3too@hotmail.com>)
+ id 1ogLTi-0006IO-4N
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 03:39:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hxVFq0CbjUPw6auDzso28bW/hNcZKaG9LFPXzCddJmoOJt94oAMEf30Dtw5OIRxRARgHTEuUpjTaxjhwsRseNq+zSdGQ8+MfxNkADSe3kDYPIVF0JTsZFVii/P90Azxr0L8OAf94IkJgEUbXv1jeYDBMzrPwFpzFKWKS11umNHyKmxaTNsPjyLlusMTXgizPN7Hr9T3ItYW9baXMtKuzK3f/eVpPkP3sDoP2o7kbGQK9tdNyaZ4if1lhKoJnHcrZIwNtZlsrlFamJy9Yi4//V93rh3Ho7tp6eXLaDsokKniOEYVOjZQGCGXRYAtHKJ5/sIY/68u7tXowPrJ5e4pc1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=f7eO4rJ6+n1rDJ3Wz35eJRhOdZRVgp7JLEuBKPZKV7g=;
+ b=Q7rR1jCg1Ml4A/p7mJWLxXvVyhbS/Lcyp8RefBxnd8vrZ/qqO1OAel81aXhit/4MWjvfaUUNkmUTcsVV6lx2Zwa4Df7mhqglfjZoYfQIo39TkIbSWCoOQHyxWYRpKJm7kEoUe4VKVSlpt9A2AkgSl/3TZ+qaEC2p5Lc7I4Rn2uZq24G5cfhnoCyMDcRFM8lOO18h2qy6ELE5rEyEKbIM8T1mpu615LsEMBRglSTQy4hZ3eby87mmO2zQ36HvUFMTb+MKaMkEjrSSBQCp0VufayYgoyLvccSv9Kpvffwt2sc5OscvnUXTE2I5Gy+VYQhzxTx+bUAuOTBFIrj1Qk4wbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f7eO4rJ6+n1rDJ3Wz35eJRhOdZRVgp7JLEuBKPZKV7g=;
+ b=aAT1FGA6/HPKyEtD1NnyY+yPFFIWDF6HeufN5bnT+gdt3VtSVs4DqhLE8kK1B0bN37a0I3h9kE/FXDi7pD3YfAUHF9matSC1aMhXr6lDcMl5q3yvg0lDYbkwBvM2mMiPLiJv+Y+XturyRtFlMzthptKmGD77z/2UUF/gd5Wo3RJ72kq8KgIRlp7v/lkkNEV2fobLeRksM4Mxnxuc9D1FHaRY0aHCurae3zw7VSf188vLQYFf8Yt8QkKRNARiXb6Kp1IALFq/aU4cjvS2lNgSNuhpSIJakKhqxPkr229kHhP7nZZaM39Vz5Hg0CVhFD+wZv1TFSaIaxQ+tuggnaGsLQ==
+Received: from SJ1PR12MB6290.namprd12.prod.outlook.com (2603:10b6:a03:457::22)
+ by IA1PR12MB6140.namprd12.prod.outlook.com (2603:10b6:208:3e8::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.32; Thu, 6 Oct
+ 2022 07:34:29 +0000
+Received: from SJ1PR12MB6290.namprd12.prod.outlook.com
+ ([fe80::e9ff:a76f:2f26:fa75]) by SJ1PR12MB6290.namprd12.prod.outlook.com
+ ([fe80::e9ff:a76f:2f26:fa75%6]) with mapi id 15.20.5676.032; Thu, 6 Oct 2022
+ 07:34:29 +0000
+From: a b <blue_3too@hotmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: A few QEMU questiosn
+Thread-Topic: A few QEMU questiosn
+Thread-Index: AQHY12p/vsJc5BbzP0O9/uPBNihaZq399loAgAKNKKo=
+Date: Thu, 6 Oct 2022 07:34:28 +0000
+Message-ID: <SJ1PR12MB6290CCA4E526946666A4005FC95C9@SJ1PR12MB6290.namprd12.prod.outlook.com>
+References: <SJ1PR12MB6290BE35913F0FEACB426B4EC95B9@SJ1PR12MB6290.namprd12.prod.outlook.com>
+ <CAFEAcA-6HprXJ9u3orCMyPtaVGgDAU6R_zZ4jQi_NG2NmyaYvA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-6HprXJ9u3orCMyPtaVGgDAU6R_zZ4jQi_NG2NmyaYvA@mail.gmail.com>
+Accept-Language: en-CA, en-US
+Content-Language: en-CA
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [WeN1+Jc3OLGAi56fTARNrFkkNTZzaq1odEGk7v/NzuKdM6n8NLK+c/ifKN5kUjX9]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR12MB6290:EE_|IA1PR12MB6140:EE_
+x-ms-office365-filtering-correlation-id: 8e4d46bf-9b26-4270-ccdb-08daa76d33e2
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: q6fo/AiD5IP2XAJghHnwOQ1N7SzYP1N5G3lamZokgctVmHNfxCu5ViFgDCArz2qsw9wzTh4NwoN9EeY84M7mo9JCv2KF2k35/gMGT7QT5X4MmsbUfAyYTXQ12Hk9UuBbxfssmX28E6hXpgTY3Sv9Da3ZvrhWkDvZWKa+KyR7yAv/ddGWa0wIgPljEpkGjMYS3+YgKYFn+vbmmII72XmKTTwNQ+DbgjodUcVL7W+qVSWxlkgyAuJ7glFFdEzGRiGkphpo8p9xJ7qFK62OYDMhQ4/VF8V02NG93c64BuabcpLc3wfkxDHA5vDUxgdeFTVmkUb/LRr7wOpX4CX0pNp46z2H2QtVdIKMiJJGCWRSGLLGpsp+oolpfyefLMiMtDKkAxikJiO4GtxwCcaOn5hINGHHcSyWYGNkwVr1GHePdGQapMeCL1Oxd1KNB4MzRX3scpGRYpFFgIZXio8z8RCDsSg9bh43snZ++4q3+OcelKvxZKTI7V3mCS6oJ7cIYAPGDLKp2KvfR5zt+BlKnAoIT0M9Z/2aryI+LCr6Qme+rMRoIUiGsxu9/sBe6qlYwchoiC1GEfBLScRmVypPgs7ZK7cGe2FiOqSYHaeoQNQudw0nMKbAroCNpgBMWKHy1Gjg8V2B4Gf3xZgqR1H++EnBt7yvOFfLb0Ve0KBeHi0i42acQgQZJdxHe8RN5/sXJllr
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?4OSRCvVDY3g7EmniQdov9UMSoWk9BfHPVRKoU3eZ7WRDUJubNcamFIC5zzq4?=
+ =?us-ascii?Q?XpQH25O/hfyIwjZuFoh6T/ezUDGcdC308WEm8Q8QzkmOBROgg78hW23ADo/E?=
+ =?us-ascii?Q?JKtMzLjzPRzo5VVu3VFRpL3JDaZTzFbZb7z5u+/slftl3dTGZrGe4XdmDu57?=
+ =?us-ascii?Q?5RypqvU2IwxNi71KrjKeQjQla5eUVTSmQD1CTFAif9ZTLzYxX13Y0G1KoSkm?=
+ =?us-ascii?Q?fe6+hnBRnWHKUCYVlijz65FxfnfWYokPB4xnzyk1Gvjhn2kVAOjfDdJfU7rn?=
+ =?us-ascii?Q?vioXPNyxH8fbRQagE5ltU+pBXo2qKOHMoqgu8IS462uOg9ycDYHiEi4TjHHQ?=
+ =?us-ascii?Q?nJ6r/TANQVqQcX0g/spS4SkAL6bUQA0KXKwzr3qxS7JpO6y7ko3xhgzn1frU?=
+ =?us-ascii?Q?5UPuAyuycAYJDOKO/o1N+/q3iyxr/eFnskHlZFj+3ULvBH3rVuICeSpwG4q0?=
+ =?us-ascii?Q?twBEt+4qrxl7hBDlC7o1KQUHrgE+E9Jo4YqoRktaYzz1ajcwDcBl0kL/uPTj?=
+ =?us-ascii?Q?Szlyu6F11kmSgIZlkPWYLsHePoXrMqo/bNFKBGcXa5UVCcAzGlo8K9ADjdId?=
+ =?us-ascii?Q?HZK3muibm2R2r+zQFYHp2E2PbRB+uJN8Adj++XI7qawIpAp1iuminK1Tp63A?=
+ =?us-ascii?Q?weDoiPN++mahVQMhASV//2GwO7Mt15nlOdhN8ve/URIgFEU3CUZhYVavr4CW?=
+ =?us-ascii?Q?3Zza4fe9FQ2LGt5YcbJYSp7g6hEUgfyrhTHrkx1sQOnsbEyyYZTLZsDXnohI?=
+ =?us-ascii?Q?Xvv6x60GrSJcAgJDW5qsQ1btqkdEkSWiD9/FvKHPwe0UOoFPipZbhi2xh99D?=
+ =?us-ascii?Q?0Pr8ydKOiPyGR+GIDcwH+K4rLq7DN6IetTZFaOoXW/7Hfpk+y0OdlTx0S3UY?=
+ =?us-ascii?Q?P1Rxbcsh/JfotBlxhutslGCoEdOJFfQQE2YuA1KMY4KFtMdRxd11uc0ccKNm?=
+ =?us-ascii?Q?E6Pu8+pHgyuIfFI/xO4oFG7paxiuKMn0JK1A2nTw76cCwVkdkV6YiX6jecz3?=
+ =?us-ascii?Q?BBwf2bSQYTpiTBBe00A//EzBXfqQFlj4i2dGauKUtxaUYu/c3sXp105clVbK?=
+ =?us-ascii?Q?Sgu38IccXLWi5Ym6CMJPHJNJ6TQNvyxv/sBeyxPfKOOXTyFKxkhOn0pz05d3?=
+ =?us-ascii?Q?0xeIVkhPkxrPxXaH4E1WitNERUqKvonPuZNQMjbrRq5spiGUk67v9atc5OgU?=
+ =?us-ascii?Q?O+X6EkkfJf2BeR3RkIcctksIISpdvJxWkejZoleTfcGI3DlhEl8KUzRyZ1iN?=
+ =?us-ascii?Q?vntpbtRTkv83EENEQe4FO3nJI4DJ83BpHXhwowS73QaxsUSzsJuUrbLCgJNt?=
+ =?us-ascii?Q?6LZi3cb9pu+LE9v00z7nK7pQ?=
+Content-Type: multipart/alternative;
+ boundary="_000_SJ1PR12MB6290CCA4E526946666A4005FC95C9SJ1PR12MB6290namp_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-71ea3.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6290.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e4d46bf-9b26-4270-ccdb-08daa76d33e2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Oct 2022 07:34:28.9497 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6140
+Received-SPF: pass client-ip=2a01:111:f400:fe59::823;
+ envelope-from=blue_3too@hotmail.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,430 +129,268 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for vIOMMU. Register a memory listener to dma_as in
-vhost_vdpa_dev_start
-- during region_add register a specific IOMMU notifier, and store all notifiers in a list.
-- during region_del, compare and delete the IOMMU notifier from the list
-- also change the IOTLB batch flag to support IOMMU batch send
+--_000_SJ1PR12MB6290CCA4E526946666A4005FC95C9SJ1PR12MB6290namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Verified in vp_vdpa and vdpa_sim_net driver
+Thanks a lot Peter for the clarification. It is very helpful.
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/vhost-vdpa.c         | 253 +++++++++++++++++++++++++++++++--
- include/hw/virtio/vhost-vdpa.h |  26 +++-
- 2 files changed, 267 insertions(+), 12 deletions(-)
+My naive understanding is that each MMU has only 1 TLB, why do we need an a=
+rray of CPUTLBDescFast structures? How are these different CPUTLBDescFast d=
+ata structures correlate with a hardware TLB?
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 3ff9ce3501..d2ac40c261 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -26,6 +26,7 @@
- #include "cpu.h"
- #include "trace.h"
- #include "qapi/error.h"
-+#include "hw/virtio/virtio-access.h"
- 
- /*
-  * Return one past the end of the end of section. Be careful with uint64_t
-@@ -136,14 +137,15 @@ static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
-     }
- }
- 
--static void vhost_vdpa_iotlb_batch_begin_once(struct vhost_vdpa *v)
-+static void vhost_vdpa_iotlb_batch_begin_once(struct vhost_vdpa *v,
-+                                              enum iotlb_batch_flag flag)
- {
-     if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH) &&
-         !v->iotlb_batch_begin_sent) {
-         vhost_vdpa_listener_begin_batch(v);
-     }
- 
--    v->iotlb_batch_begin_sent = true;
-+    v->iotlb_batch_begin_sent |= flag;
- }
- 
- static void vhost_vdpa_listener_commit(MemoryListener *listener)
-@@ -157,7 +159,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
-         return;
-     }
- 
--    if (!v->iotlb_batch_begin_sent) {
-+    if (!(v->iotlb_batch_begin_sent & VDPA_IOTLB_BATCH_SEND)) {
-         return;
-     }
- 
-@@ -169,8 +171,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
-         error_report("failed to write, fd=%d, errno=%d (%s)",
-                      fd, errno, strerror(errno));
-     }
--
--    v->iotlb_batch_begin_sent = false;
-+    v->iotlb_batch_begin_sent &= ~VDPA_IOTLB_BATCH_SEND;
- }
- 
- static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-@@ -186,6 +187,9 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-                                             v->iova_range.last)) {
-         return;
-     }
-+    if (memory_region_is_iommu(section->mr)) {
-+        return;
-+    }
- 
-     if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
-                  (section->offset_within_region & ~TARGET_PAGE_MASK))) {
-@@ -227,9 +231,9 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-         iova = mem_region.iova;
-     }
- 
--    vhost_vdpa_iotlb_batch_begin_once(v);
--    ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
--                             vaddr, section->readonly);
-+    vhost_vdpa_iotlb_batch_begin_once(v, VDPA_IOTLB_BATCH_SEND);
-+    ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize), vaddr,
-+                             section->readonly);
-     if (ret) {
-         error_report("vhost vdpa map fail!");
-         goto fail;
-@@ -260,6 +264,9 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
-                                             v->iova_range.last)) {
-         return;
-     }
-+    if (memory_region_is_iommu(section->mr)) {
-+        return;
-+    }
- 
-     if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
-                  (section->offset_within_region & ~TARGET_PAGE_MASK))) {
-@@ -292,7 +299,7 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
-         iova = result->iova;
-         vhost_iova_tree_remove(v->iova_tree, result);
-     }
--    vhost_vdpa_iotlb_batch_begin_once(v);
-+    vhost_vdpa_iotlb_batch_begin_once(v, VDPA_IOTLB_BATCH_SEND);
-     ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-     if (ret) {
-         error_report("vhost_vdpa dma unmap error!");
-@@ -312,6 +319,212 @@ static const MemoryListener vhost_vdpa_memory_listener = {
-     .region_del = vhost_vdpa_listener_region_del,
- };
- 
-+static void vhost_vdpa_listener_iommu_commit(MemoryListener *listener)
-+{
-+    struct vhost_vdpa *v =
-+        container_of(listener, struct vhost_vdpa, iommu_listener);
-+    struct vhost_dev *dev = v->dev;
-+    struct vhost_msg_v2 msg = {};
-+    int fd = v->device_fd;
-+
-+    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
-+        return;
-+    }
-+
-+    if (!(v->iotlb_batch_begin_sent & VDPA_IOTLB_BATCH_IOMMU_SEND)) {
-+        return;
-+    }
-+
-+    msg.type = v->msg_type;
-+    msg.iotlb.type = VHOST_IOTLB_BATCH_END;
-+
-+    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
-+    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-+        error_report("failed to write, fd=%d, errno=%d (%s)", fd, errno,
-+                     strerror(errno));
-+    }
-+    v->iotlb_batch_begin_sent &= ~VDPA_IOTLB_BATCH_IOMMU_SEND;
-+}
-+
-+/* Called with rcu_read_lock held.  */
-+static bool vhost_vdpa_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-+                                     ram_addr_t *ram_addr, bool *read_only)
-+{
-+    MemoryRegion *mr;
-+    hwaddr xlat;
-+    hwaddr len = iotlb->addr_mask + 1;
-+    bool writable = iotlb->perm & IOMMU_WO;
-+
-+    /*
-+     * The IOMMU TLB entry we have just covers translation through
-+     * this IOMMU to its immediate target.  We need to translate
-+     * it the rest of the way through to memory.
-+     */
-+    mr = address_space_translate(&address_space_memory, iotlb->translated_addr,
-+                                 &xlat, &len, writable, MEMTXATTRS_UNSPECIFIED);
-+    if (!memory_region_is_ram(mr)) {
-+        error_report("iommu map to non memory area %" HWADDR_PRIx "", xlat);
-+        return false;
-+    } else if (memory_region_has_ram_discard_manager(mr)) {
-+        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
-+        MemoryRegionSection tmp = {
-+            .mr = mr,
-+            .offset_within_region = xlat,
-+            .size = int128_make64(len),
-+        };
-+
-+        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
-+            error_report("iommu map to discarded memory (e.g., unplugged via"
-+                         " virtio-mem): %" HWADDR_PRIx "",
-+                         iotlb->translated_addr);
-+            return false;
-+        }
-+    }
-+
-+    /*
-+     * Translation truncates length to the IOMMU page size,
-+     * check that it did not truncate too much.
-+     */
-+    if (len & iotlb->addr_mask) {
-+        error_report("iommu has granularity incompatible with target AS");
-+        return false;
-+    }
-+
-+    if (vaddr) {
-+        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
-+    }
-+
-+    if (ram_addr) {
-+        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
-+    }
-+
-+    if (read_only) {
-+        *read_only = !writable || mr->readonly;
-+    }
-+
-+    return true;
-+}
-+
-+static void vhost_vdpa_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-+{
-+    struct vdpa_iommu *iommu = container_of(n, struct vdpa_iommu, n);
-+
-+    hwaddr iova = iotlb->iova + iommu->iommu_offset;
-+    struct vhost_vdpa *v = iommu->dev;
-+    void *vaddr;
-+    int ret;
-+
-+
-+    if (iotlb->target_as != &address_space_memory) {
-+        error_report("Wrong target AS \"%s\", only system memory is allowed",
-+                     iotlb->target_as->name ? iotlb->target_as->name : "none");
-+        return;
-+    }
-+    rcu_read_lock();
-+    vhost_vdpa_iotlb_batch_begin_once(v, VDPA_IOTLB_BATCH_IOMMU_SEND);
-+
-+    if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
-+        bool read_only;
-+
-+        if (!vhost_vdpa_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)) {
-+            goto out;
-+        }
-+        ret =
-+            vhost_vdpa_dma_map(v, iova, iotlb->addr_mask + 1, vaddr, read_only);
-+        if (ret) {
-+            error_report("vhost_vdpa_dma_map(%p, 0x%" HWADDR_PRIx ", "
-+                         "0x%" HWADDR_PRIx ", %p) = %d (%m)",
-+                         v, iova, iotlb->addr_mask + 1, vaddr, ret);
-+        }
-+    } else {
-+        ret = vhost_vdpa_dma_unmap(v, iova, iotlb->addr_mask + 1);
-+        if (ret) {
-+            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
-+                         "0x%" HWADDR_PRIx ") = %d (%m)",
-+                         v, iova, iotlb->addr_mask + 1, ret);
-+        }
-+    }
-+out:
-+    rcu_read_unlock();
-+}
-+
-+static void vhost_vdpa_iommu_region_add(MemoryListener *listener,
-+                                        MemoryRegionSection *section)
-+{
-+    struct vhost_vdpa *v =
-+        container_of(listener, struct vhost_vdpa, iommu_listener);
-+
-+    struct vdpa_iommu *iommu;
-+    Int128 end;
-+    int iommu_idx;
-+    IOMMUMemoryRegion *iommu_mr;
-+    int ret;
-+
-+    if (!memory_region_is_iommu(section->mr)) {
-+        return;
-+    }
-+
-+    iommu_mr = IOMMU_MEMORY_REGION(section->mr);
-+
-+    iommu = g_malloc0(sizeof(*iommu));
-+    end =
-+        int128_add(int128_make64(section->offset_within_region), section->size);
-+    end = int128_sub(end, int128_one());
-+    iommu_idx =
-+        memory_region_iommu_attrs_to_index(iommu_mr, MEMTXATTRS_UNSPECIFIED);
-+    iommu->iommu_mr = iommu_mr;
-+
-+    iommu_notifier_init(
-+        &iommu->n, vhost_vdpa_iommu_map_notify, IOMMU_NOTIFIER_IOTLB_EVENTS,
-+        section->offset_within_region, int128_get64(end), iommu_idx);
-+    iommu->iommu_offset =
-+        section->offset_within_address_space - section->offset_within_region;
-+    iommu->dev = v;
-+
-+
-+    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, NULL);
-+    if (ret) {
-+        g_free(iommu);
-+        return;
-+    }
-+
-+    QLIST_INSERT_HEAD(&v->iommu_list, iommu, iommu_next);
-+    memory_region_iommu_replay(iommu->iommu_mr, &iommu->n);
-+
-+    return;
-+}
-+
-+static void vhost_vdpa_iommu_region_del(MemoryListener *listener,
-+                                        MemoryRegionSection *section)
-+{
-+    struct vhost_vdpa *v =
-+        container_of(listener, struct vhost_vdpa, iommu_listener);
-+
-+    struct vdpa_iommu *iommu;
-+
-+    if (!memory_region_is_iommu(section->mr)) {
-+        return;
-+    }
-+
-+    QLIST_FOREACH(iommu, &v->iommu_list, iommu_next)
-+    {
-+        if (MEMORY_REGION(iommu->iommu_mr) == section->mr &&
-+            iommu->n.start == section->offset_within_region) {
-+            memory_region_unregister_iommu_notifier(section->mr, &iommu->n);
-+            QLIST_REMOVE(iommu, iommu_next);
-+            g_free(iommu);
-+            break;
-+        }
-+    }
-+}
-+
-+static const MemoryListener vhost_vdpa_iommu_listener = {
-+    .name = "vhost-vdpa-iommu",
-+    .region_add = vhost_vdpa_iommu_region_add,
-+    .region_del = vhost_vdpa_iommu_region_del,
-+    .commit = vhost_vdpa_listener_iommu_commit,
-+};
-+
- static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
-                              void *arg)
- {
-@@ -432,6 +645,17 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
-     v->shadow_vqs = g_steal_pointer(&shadow_vqs);
-     return 0;
- }
-+static bool vdpa_dev_has_iommu(struct vhost_dev *dev)
-+{
-+    VirtIODevice *vdev = dev->vdev;
-+
-+    if (vdev) {
-+        return virtio_bus_device_iommu_enabled(vdev) &&
-+               virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
-+    } else {
-+        return false;
-+    }
-+}
- 
- static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
- {
-@@ -454,6 +678,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
-     v->dev = dev;
-     dev->opaque =  opaque ;
-     v->listener = vhost_vdpa_memory_listener;
-+    v->iommu_listener = vhost_vdpa_iommu_listener;
-     v->msg_type = VHOST_IOTLB_MSG_V2;
-     ret = vhost_vdpa_init_svq(dev, v, errp);
-     if (ret) {
-@@ -587,7 +812,6 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
-     v = dev->opaque;
-     trace_vhost_vdpa_cleanup(dev, v);
-     vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
--    memory_listener_unregister(&v->listener);
-     vhost_vdpa_svq_cleanup(dev);
- 
-     dev->opaque = NULL;
-@@ -1128,11 +1352,18 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
- 
-     if (started) {
-         memory_listener_register(&v->listener, &address_space_memory);
-+        if (vdpa_dev_has_iommu(dev)) {
-+            memory_listener_register(&v->iommu_listener, dev->vdev->dma_as);
-+        }
-+
-         return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-     } else {
-         vhost_vdpa_reset_device(dev);
-         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
--                                   VIRTIO_CONFIG_S_DRIVER);
-+                                       VIRTIO_CONFIG_S_DRIVER);
-+        if (vdpa_dev_has_iommu(dev)) {
-+            memory_listener_unregister(&v->iommu_listener);
-+        }
-         memory_listener_unregister(&v->listener);
- 
-         return 0;
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index d10a89303e..4fcd144c06 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -24,12 +24,25 @@ typedef struct VhostVDPAHostNotifier {
-     void *addr;
- } VhostVDPAHostNotifier;
- 
-+
-+typedef enum iotlb_batch_flag {
-+    /* Notify IOTLB_BATCH start*/
-+    VDPA_IOTLB_BATCH_SEND = 0x1,
-+    /* Notify IOTLB_BATCH iommu start*/
-+    VDPA_IOTLB_BATCH_IOMMU_SEND = 0x2,
-+    /* Notify IOTLB_BATCH stop*/
-+    VDPA_IOTLB_BATCH_SEND_STOP = 0x4,
-+    /* Notify IOTLB_BATCH iommu stop*/
-+    VDPA_IOTLB_BATCH_IOMMU_SEND_STOP = 0x08,
-+} IotlbBatchFlag;
-+
- typedef struct vhost_vdpa {
-     int device_fd;
-     int index;
-     uint32_t msg_type;
--    bool iotlb_batch_begin_sent;
-+    uint32_t iotlb_batch_begin_sent;
-     MemoryListener listener;
-+    MemoryListener iommu_listener;
-     struct vhost_vdpa_iova_range iova_range;
-     uint64_t acked_features;
-     bool shadow_vqs_enabled;
-@@ -41,8 +54,19 @@ typedef struct vhost_vdpa {
-     void *shadow_vq_ops_opaque;
-     struct vhost_dev *dev;
-     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-+    QLIST_HEAD(, vdpa_iommu) iommu_list;
-+    IOMMUNotifier n;
-+
- } VhostVDPA;
- 
-+struct vdpa_iommu {
-+    struct vhost_vdpa *dev;
-+    IOMMUMemoryRegion *iommu_mr;
-+    hwaddr iommu_offset;
-+    IOMMUNotifier n;
-+    QLIST_ENTRY(vdpa_iommu) iommu_next;
-+};
-+
- int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-                        void *vaddr, bool readonly);
- int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size);
--- 
-2.34.3
+220 typedef struct CPUTLB {
+221     CPUTLBCommon c;
+222     CPUTLBDesc d[NB_MMU_MODES];
+223     CPUTLBDescFast f[NB_MMU_MODES];
+224 } CPUTLB;
 
+
+Why do we want to store a shifted (n_entries-1) in mask?
+184 typedef struct CPUTLBDescFast {
+185     /* Contains (n_entries - 1) << CPU_TLB_ENTRY_BITS */
+186     uintptr_t mask;
+187     /* The array of tlb entries itself. */
+188     CPUTLBEntry *table;
+189 } CPUTLBDescFast QEMU_ALIGNED(2 * sizeof(void *));
+
+
+Why doesn't CPUTLBEntry have information like ASID, shared (or global) bits=
+?  How do we know if the TLB entry is a match for a particular process?
+
+In include/exec/cpu-defs.h:
+111 typedef struct CPUTLBEntry {
+112     /* bit TARGET_LONG_BITS to TARGET_PAGE_BITS : virtual address
+113        bit TARGET_PAGE_BITS-1..4  : Nonzero for accesses that should no=
+t
+114                                     go directly to ram.
+115        bit 3                      : indicates that the entry is invalid
+116        bit 2..0                   : zero
+117     */
+118     union {
+119         struct {
+120             target_ulong addr_read;
+121             target_ulong addr_write;
+122             target_ulong addr_code;
+123             /* Addend to virtual address to get host address.  IO acces=
+ses
+124                use the corresponding iotlb value.  */
+125             uintptr_t addend;
+126         };
+127         /* padding to get a power of two size */
+128         uint8_t dummy[1 << CPU_TLB_ENTRY_BITS];
+129     };
+130 } CPUTLBEntry;
+
+
+Thanks!
+________________________________
+From: Peter Maydell <peter.maydell@linaro.org>
+Sent: October 4, 2022 9:20 AM
+To: a b <blue_3too@hotmail.com>
+Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
+Subject: Re: A few QEMU questiosn
+
+On Tue, 4 Oct 2022 at 02:10, a b <blue_3too@hotmail.com> wrote:
+> I have a few newbie QEMU questions.  I found that mmu_idx in aarch64-soft=
+mmu  falls in 8, 10 and 12.
+>
+> I need some help to understand what they are for.
+>
+> I cannot find which macros are for mmu-idx 8, 10 and 12 at target/arm/cpu=
+.h. It looks like all the values from ARMMMUIdx are greater than 0x10 (ARM_=
+MMU_IDX_A). Am I looking at the wrong place or missing something for the di=
+fferent MMU modes in aarch64?
+
+The comment in target/arm/cpu.h and the various enum definitions
+should be what you need. Note in particular the part that says
+"The ARMMMUIdx and the mmu index value used by the core QEMU
+ TLB code are not quite the same" and also the functions in
+internals.h arm_to_core_mmu_idx() and core_to_arm_mmu_idx()
+which convert between these two representations.
+
+PS: there is a refactoring patch set currently in review which
+changes the MMU index allocation (essentially it collapses
+the separate Secure and NonSecure MMUIdx values together),
+so the specific details will likely change at some point this
+release cycle.
+
+thanks
+-- PMM
+
+--_000_SJ1PR12MB6290CCA4E526946666A4005FC95C9SJ1PR12MB6290namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+Thanks a lot Peter for the clarification. It is very helpful.</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+<b>My naive understanding is that each MMU has only 1 TLB, why do we need a=
+n array of&nbsp;<span style=3D"background-color:rgb(255, 255, 255);display:=
+inline !important" class=3D"ContentPasted2">CPUTLBDescFast structures? How =
+are these different&nbsp;<span style=3D"background-color:rgb(255, 255, 255)=
+;display:inline !important" class=3D"ContentPasted3">CPUTLBDescFast
+ data structures correlate with a hardware TLB?&nbsp;&nbsp;</span></span></=
+b></div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted1">
+220 typedef struct CPUTLB {
+<div class=3D"ContentPasted1">221 &nbsp; &nbsp; CPUTLBCommon c;</div>
+<div class=3D"ContentPasted1">222 &nbsp; &nbsp; CPUTLBDesc d[NB_MMU_MODES];=
+</div>
+<div class=3D"ContentPasted1">223 &nbsp; &nbsp; CPUTLBDescFast f[NB_MMU_MOD=
+ES];</div>
+<div class=3D"ContentPasted1">224 } CPUTLB;</div>
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted1">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted1">
+<b>Why do we want to store a shifted (n_entries-1) in mask?</b></div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted1 ContentPasted=
+4">
+184 typedef struct CPUTLBDescFast {
+<div class=3D"ContentPasted4">185 &nbsp; &nbsp; /* Contains (n_entries - 1)=
+ &lt;&lt; CPU_TLB_ENTRY_BITS */</div>
+<div class=3D"ContentPasted4">186 &nbsp; &nbsp; uintptr_t mask;</div>
+<div class=3D"ContentPasted4">187 &nbsp; &nbsp; /* The array of tlb entries=
+ itself. */</div>
+<div class=3D"ContentPasted4">188 &nbsp; &nbsp; CPUTLBEntry *table;</div>
+<div class=3D"ContentPasted4">189 } CPUTLBDescFast QEMU_ALIGNED(2 * sizeof(=
+void *));</div>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted1">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+<b>Why doesn't CPUTLBEntry have information like ASID, shared (or global) b=
+its?&nbsp; How do we know if the TLB entry is a match for a particular proc=
+ess?</b></div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0">
+In include/exec/cpu-defs.h:
+<div class=3D"ContentPasted0">111 typedef struct CPUTLBEntry {</div>
+<div class=3D"ContentPasted0">112 &nbsp; &nbsp; /* bit TARGET_LONG_BITS to =
+TARGET_PAGE_BITS : virtual address</div>
+<div class=3D"ContentPasted0">113 &nbsp; &nbsp; &nbsp; &nbsp;bit TARGET_PAG=
+E_BITS-1..4 &nbsp;: Nonzero for accesses that should not</div>
+<div class=3D"ContentPasted0">114 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
+p; &nbsp; go directly to ram.
+</div>
+<div class=3D"ContentPasted0">115 &nbsp; &nbsp; &nbsp; &nbsp;bit 3 &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: indic=
+ates that the entry is invalid</div>
+<div class=3D"ContentPasted0">116 &nbsp; &nbsp; &nbsp; &nbsp;bit 2..0 &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : zero</div>
+<div class=3D"ContentPasted0">117 &nbsp; &nbsp; */</div>
+<div class=3D"ContentPasted0">118 &nbsp; &nbsp; union {</div>
+<div class=3D"ContentPasted0">119 &nbsp; &nbsp; &nbsp; &nbsp; struct {</div=
+>
+<div class=3D"ContentPasted0">120 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ target_ulong addr_read;</div>
+<div class=3D"ContentPasted0">121 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ target_ulong addr_write;</div>
+<div class=3D"ContentPasted0">122 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ target_ulong addr_code;</div>
+<div class=3D"ContentPasted0">123 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ /* Addend to virtual address to get host address. &nbsp;IO accesses</div>
+<div class=3D"ContentPasted0">124 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp;use the corresponding iotlb value. &nbsp;*/</div>
+<div class=3D"ContentPasted0">125 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ uintptr_t addend;</div>
+<div class=3D"ContentPasted0">126 &nbsp; &nbsp; &nbsp; &nbsp; };</div>
+<div class=3D"ContentPasted0">127 &nbsp; &nbsp; &nbsp; &nbsp; /* padding to=
+ get a power of two size */</div>
+<div class=3D"ContentPasted0">128 &nbsp; &nbsp; &nbsp; &nbsp; uint8_t dummy=
+[1 &lt;&lt; CPU_TLB_ENTRY_BITS];</div>
+<div class=3D"ContentPasted0">129 &nbsp; &nbsp; };</div>
+<div class=3D"ContentPasted0">130 } CPUTLBEntry;</div>
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof ContentPasted0">
+Thanks!</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Peter Maydell &lt;pet=
+er.maydell@linaro.org&gt;<br>
+<b>Sent:</b> October 4, 2022 9:20 AM<br>
+<b>To:</b> a b &lt;blue_3too@hotmail.com&gt;<br>
+<b>Cc:</b> qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;<br>
+<b>Subject:</b> Re: A few QEMU questiosn</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Tue, 4 Oct 2022 at 02:10, a b &lt;blue_3too@hot=
+mail.com&gt; wrote:<br>
+&gt; I have a few newbie QEMU questions.&nbsp; I found that mmu_idx in aarc=
+h64-softmmu&nbsp; falls in 8, 10 and 12.<br>
+&gt;<br>
+&gt; I need some help to understand what they are for.<br>
+&gt;<br>
+&gt; I cannot find which macros are for mmu-idx 8, 10 and 12 at target/arm/=
+cpu.h. It looks like all the values from ARMMMUIdx are greater than 0x10 (A=
+RM_MMU_IDX_A). Am I looking at the wrong place or missing something for the=
+ different MMU modes in aarch64?<br>
+<br>
+The comment in target/arm/cpu.h and the various enum definitions<br>
+should be what you need. Note in particular the part that says<br>
+&quot;The ARMMMUIdx and the mmu index value used by the core QEMU<br>
+&nbsp;TLB code are not quite the same&quot; and also the functions in<br>
+internals.h arm_to_core_mmu_idx() and core_to_arm_mmu_idx()<br>
+which convert between these two representations.<br>
+<br>
+PS: there is a refactoring patch set currently in review which<br>
+changes the MMU index allocation (essentially it collapses<br>
+the separate Secure and NonSecure MMUIdx values together),<br>
+so the specific details will likely change at some point this<br>
+release cycle.<br>
+<br>
+thanks<br>
+-- PMM<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_SJ1PR12MB6290CCA4E526946666A4005FC95C9SJ1PR12MB6290namp_--
 
