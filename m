@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84C55F6BB6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 18:26:49 +0200 (CEST)
-Received: from localhost ([::1]:33258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714A55F6B83
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 18:23:13 +0200 (CEST)
+Received: from localhost ([::1]:49630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogThw-0001gA-VF
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 12:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38736)
+	id 1ogTeQ-0004TB-Rw
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 12:23:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSfn-0004ak-AX
+ id 1ogSfn-0004aj-Ag
  for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:20:36 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:43897)
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:38692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSfg-0006EX-Jm
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:20:31 -0400
-Received: by mail-pf1-x435.google.com with SMTP id 204so2315089pfx.10
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:20:18 -0700 (PDT)
+ id 1ogSfj-0006Fy-H1
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:20:30 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id w191so2339807pfc.5
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xIwwdkQ/UueIjTq9LmfxXmdWH0OF4K6cF8/Wmny7JFg=;
- b=dPAIlMgKwepgRTty/NDEoITtl0JLP7tXGdz52h4rcoo2V8w27NMAMVla/eESrJF9bX
- F1GjM1/ud6p45O7Vyhu8lp5AbDz8LUKfD1Hp7YrZ3AdkOv0xS2C6XFvSmIzQQ4AD3DUB
- Kv8PVdYE2GM7fQQp2xKtx54LF05NRJSbkjZUh/18qib4Ziede/vT2cHpOaqrvWL+ctLM
- vZUbPJ7AbHqwhp0anLUH6iHKSyFDNWBEHJKs3ydDYqwIFBDMNazdkQzozC8vlTuBGk+o
- ozibjA1O13jz2ZY8Om2Vpgk366wIhEgc3oZDsartCBc0obuB+xdJAzcl0XfF4oWmKmpC
- GRfQ==
+ bh=NCD0OoweK2TuN+Pq4vH+vNDBt5GFzsQ5yHOp5dnrTlM=;
+ b=QhvallwTJPbdxeFpM8wYgY0YdRkfi7EhU2bc9layvuheF2AAEzdP1xtXSoLSX1Pf4i
+ bUvylpqdRpv0RhjYocIdn9KSCkFG2nsHXSuEbfXCQYTO185bmQiJhX2EVVdsuwo4wBTK
+ wQSDBNeJ9xBY7QCGN2HrU/KDghDMOZ/eM0AKRR7Zo6a9QM0dJwIEUa6WL5BnbVOQtPO7
+ +GgyjPJ9rwEJ5DZu2uuFSikJNUvKL4Otjoa2EvG/LVPXR3lIQ3yh53pPGrMTliud9B1w
+ S95fU1hn+234XNbALYD7IlDzBansnOQ6EFoX8/wZFt3dX9RJ10fHGo5QdGHp7qyweWFE
+ W8Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xIwwdkQ/UueIjTq9LmfxXmdWH0OF4K6cF8/Wmny7JFg=;
- b=IYXpFiN/daAZn6E91k7k9Z8p9naz4UBmnJjwZlBoeJQUCD65ae7I6THFJs3IuPOanx
- BG7mVUd9aTYMG9vZYCQaTbRKel/pP2nWQjnHg55dyPaLBe1zxevtEr1BGJCcuSlJ6sk7
- 5xudt82U7BorBIIAaCVdAER3d2xMqh9WpWpKz3OZP9qzrs16qqreeOoVrwqQnKDGkZUd
- qxB/0onGFrVv+ZK3i8KsvVhQuBvs8pBFKyyzScNhLvZ4rMDfLxY4OqYiT6f7loKAb4Cz
- UF2SkiIwNjxfuStEPKTHYJxvgXHAbEKTqYYQA4R0f9VRt+BQYiQl9aNiwHxiExgBdzgx
- pBNg==
-X-Gm-Message-State: ACrzQf2w+fXn+ExpV0sk0KccbtmkBoV2Ak5BjhJtSx9HA/rVpLGvHSdL
- W/YFptmym3Yr4594nVl+Kqu0k4kjzu0=
-X-Google-Smtp-Source: AMsMyM69mSTPVYipH4koxmC8nn5BpHAoul++typ5SuBdVXify7duM1KeEthiontTR73r0KKSnRlRCg==
-X-Received: by 2002:a63:f556:0:b0:44e:12bf:2dd8 with SMTP id
- e22-20020a63f556000000b0044e12bf2dd8mr360161pgk.400.1665069617726; 
- Thu, 06 Oct 2022 08:20:17 -0700 (PDT)
+ bh=NCD0OoweK2TuN+Pq4vH+vNDBt5GFzsQ5yHOp5dnrTlM=;
+ b=T9oDP0wj6sNb0LYiSm63vqGWRalcb+XC9Vx+oGTEKsCddvd1odHGIX65km9bEAJs3C
+ sWmiwyp3R9aXxWplCx76b0+Cv1hNd5ZiqY0OzqwXEAcXGF7q/zjq5mgxVNP68VeR000+
+ mfKdr+lLhLtH6eRt3FNo+wm/wZAyxvzfw3wFRAODZSjTwVu44egxOsZAuQvE19EadX8m
+ PxWkosUR+Tk3pASLdfsgX7aBJcG6rbHVHxLrpKsLILtNFmzNk5bLH/YNK1lEV6dPC72D
+ kyASiIdJb8CiyAaYySrwvOu7KKszHt6re0q01CkKMKyI6mvACG4tDN4qTtbIVV2t968B
+ K/9Q==
+X-Gm-Message-State: ACrzQf1L1IQtFRKssCO3ZF4NyCWdbkPNhoqGvNUL8DGiVqqZeJT42U6t
+ FODHx9x4nNBBesWTn+ExSUmg14gFOBM=
+X-Google-Smtp-Source: AMsMyM4ivDF41zgBTAGSnrcRRmksfF5o42/cSns1/6wjOzy/OYrDD7dgqtZY2zuoUf0Cmke75Uc/Bg==
+X-Received: by 2002:a05:6a00:1c5d:b0:562:7125:ff10 with SMTP id
+ s29-20020a056a001c5d00b005627125ff10mr426894pfw.60.1665069620856; 
+ Thu, 06 Oct 2022 08:20:20 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a170902780d00b0017c37a5a2fdsm11426759pll.216.2022.10.06.08.20.16
+ p13-20020a170902780d00b0017c37a5a2fdsm11426759pll.216.2022.10.06.08.20.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 08:20:17 -0700 (PDT)
+ Thu, 06 Oct 2022 08:20:20 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v5 16/18] io/channel-watch: Fix socket watch on Windows
-Date: Thu,  6 Oct 2022 23:19:25 +0800
-Message-Id: <20221006151927.2079583-17-bmeng.cn@gmail.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: [PATCH v5 17/18] .gitlab-ci.d/windows.yml: Increase the timeout to 90
+ minutes
+Date: Thu,  6 Oct 2022 23:19:26 +0800
+Message-Id: <20221006151927.2079583-18-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221006151927.2079583-1-bmeng.cn@gmail.com>
 References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,81 +99,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Random failure was observed when running qtests on Windows due to
-"Broken pipe" detected by qmp_fd_receive(). What happened is that
-the qtest executable sends testing data over a socket to the QEMU
-under test but no response is received. The errno of the recv()
-call from the qtest executable indicates ETIMEOUT, due to the qmp
-chardev's tcp_chr_read() is never called to receive testing data
-hence no response is sent to the other side.
+commit 9f8e6cad65a6 ("gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices"
+changed to compile QEMU with the --without-default-devices switch for
+the msys2-64bit job, due to the build could not complete within the
+project timeout (1h), and also mentioned that a bigger timeout was
+getting ignored on the shared Gitlab-CI Windows runners.
 
-tcp_chr_read() is registered as the callback of the socket watch
-GSource. The reason of the callback not being called by glib, is
-that the source check fails to indicate the source is ready. There
-are two socket watch sources created to monitor the same socket
-event object from the char-socket backend in update_ioc_handlers().
-During the source check phase, qio_channel_socket_source_check()
-calls WSAEnumNetworkEvents() to discover occurrences of network
-events for the indicated socket, clear internal network event records,
-and reset the event object. Testing shows that if we don't reset the
-event object by not passing the event handle to WSAEnumNetworkEvents()
-the symptom goes away and qtest runs very stably.
-
-It seems we don't need to call WSAEnumNetworkEvents() at all, as we
-don't parse the result of WSANETWORKEVENTS returned from this API.
-We use select() to poll the socket status. Fix this instability by
-dropping the WSAEnumNetworkEvents() call.
-
-Some side notes:
-
-During the testing, I removed the following codes in update_ioc_handlers():
-
-  remove_hup_source(s);
-  s->hup_source = qio_channel_create_watch(s->ioc, G_IO_HUP);
-  g_source_set_callback(s->hup_source, (GSourceFunc)tcp_chr_hup,
-                        chr, NULL);
-  g_source_attach(s->hup_source, chr->gcontext);
-
-and such change also makes the symptom go away.
-
-And if I moved the above codes to the beginning, before the call to
-io_add_watch_poll(), the symptom also goes away.
-
-It seems two sources watching on the same socket event object is
-the key that leads to the instability. The order of adding a source
-watch seems to also play a role but I can't explain why.
-Hopefully a Windows and glib expert could explain this behavior.
+However as of today it seems the shared Gitlab-CI Windows runners does
+honor the job timeout, and the runner has the timeout limit of 2h, so
+let's increase the timeout to 90 minutes and drop the configure switch
+"--without-default-devices" to get a larger build coverage.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
-(no changes since v1)
+(no changes since v2)
 
- io/channel-watch.c | 4 ----
- 1 file changed, 4 deletions(-)
+Changes in v2:
+- Change the timeout limit to 90 minutes
 
-diff --git a/io/channel-watch.c b/io/channel-watch.c
-index 43d38494f7..ad7c568a84 100644
---- a/io/channel-watch.c
-+++ b/io/channel-watch.c
-@@ -115,17 +115,13 @@ static gboolean
- qio_channel_socket_source_check(GSource *source)
- {
-     static struct timeval tv0;
--
-     QIOChannelSocketSource *ssource = (QIOChannelSocketSource *)source;
--    WSANETWORKEVENTS ev;
-     fd_set rfds, wfds, xfds;
+ .gitlab-ci.d/windows.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index a3e7a37022..093276ddbc 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -10,7 +10,7 @@
+       - ${CI_PROJECT_DIR}/msys64/var/cache
+   needs: []
+   stage: build
+-  timeout: 70m
++  timeout: 90m
+   before_script:
+   - If ( !(Test-Path -Path msys64\var\cache ) ) {
+       mkdir msys64\var\cache
+@@ -60,7 +60,7 @@ msys2-64bit:
+   - $env:MSYSTEM = 'MINGW64'     # Start a 64 bit Mingw environment
+   - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+   - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
+-      --enable-capstone --without-default-devices'
++      --enable-capstone'
+   - .\msys64\usr\bin\bash -lc 'make'
+   - .\msys64\usr\bin\bash -lc 'make check || { cat build/meson-logs/testlog.txt; exit 1; } ;'
  
-     if (!ssource->condition) {
-         return 0;
-     }
- 
--    WSAEnumNetworkEvents(ssource->socket, ssource->ioc->event, &ev);
--
-     FD_ZERO(&rfds);
-     FD_ZERO(&wfds);
-     FD_ZERO(&xfds);
 -- 
 2.34.1
 
