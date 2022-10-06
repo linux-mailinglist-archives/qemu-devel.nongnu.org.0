@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6849A5F6A27
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 16:59:51 +0200 (CEST)
-Received: from localhost ([::1]:37386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 093C85F6A31
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:01:54 +0200 (CEST)
+Received: from localhost ([::1]:33318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogSLm-0002UT-79
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 10:59:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57964)
+	id 1ogSNl-0003oc-1T
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:01:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogSJU-0007SQ-Uo
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 10:57:28 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:41770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogSJS-0002K6-88
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 10:57:28 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- q10-20020a17090a304a00b0020b1d5f6975so905435pjl.0
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 07:57:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=h+tUr/9l1CJj5Pt5bJRVxccYDsGjcFlBvCJJg7EqzJg=;
- b=QcK2fjEp5hrd3mGPXgQ4zwna9hDFWxUXWQ2YFsU9XHCEi/c94gz6VUPfO1tgvNGNGj
- CFCvkdVY4xUxg4/h0gvcR3c9D8sFtrK+6u7VmpkKPvtjOP929/LjSsQAynHVIrc7LD5C
- t3QttCji/dzwa2ztdqBWS7wmOjMXaLh6rjNBDsGx1/fNTo89WKTj8hk1exwgV0jozb1Z
- eFLVGWwdYVNUjQhc9N3uJvkxbI3xqQLVvAFqyBYnH5WX3d49Z/SW3Q17pKJWuc0vRxau
- GUFTuwZNAd++lwD7eebTDN6otf0hkDo91FwpOmyGSi8KF/1fdLpdy+kCwUmGT/VyexCn
- /pXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=h+tUr/9l1CJj5Pt5bJRVxccYDsGjcFlBvCJJg7EqzJg=;
- b=zb4KrzkXoZd0M3eEw6VZDiFxsWTmi2dtw9Yarbm4tXUA83yJ/5BSyPeRW5uYFEHYdE
- jbJQhFLsHr9bWHSd6Yj47SWKQCfI0cts8DcPaIQt5WZMcslPAGY5Y/gf3PH3RxbLDwEZ
- AyO13hKP/MrHr3nKxVKhvkpGxDpA2dvBDdeaso/Sywn1Gzujaj3ZxOnojF4iPQzawePp
- KIPi+hYqybtDWqZEsLHAgbBrF+6kQYrw+tiQ3IWCj4fz2SBuqw8QNOuEA3URYXUGp4Ht
- ysGLlwgu6k5bllqHluFXIkqHQGgEDzGcbsB5JHQf/YHLZSjP1PACUSEzXHC3Ocp83lTt
- DhxQ==
-X-Gm-Message-State: ACrzQf0vS+gittwZe1K98FwBotDaWopYELE4l8day31iy0M/gDf6JXex
- kQewh/JfQLacSHxtw2Fwzt/2pMXx3dyqSNcTEWOMJg==
-X-Google-Smtp-Source: AMsMyM7PVTZQwYzbe1IoyXblulABNjGYNs+DPfbKhxX2SieBFvxXbBvkJhQIxyuZQtx6Op4u4Jf/BJCro2LGdLBe9Ag=
-X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
- jm23-20020a17090304d700b001788564f754mr5092882plb.60.1665068244700; Thu, 06
- Oct 2022 07:57:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ogSK9-0000T1-9O
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 10:58:09 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:38786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ogSK6-0002O5-Ct
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 10:58:07 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DF0B1619EE;
+ Thu,  6 Oct 2022 14:58:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0517C433D6;
+ Thu,  6 Oct 2022 14:58:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1665068284;
+ bh=RXFhbjUEgArTx+F4zk5xpYjaKPlDHCDpb+OAY/+J95w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DDoMTX6Mmge49xaH/Vf5qGs8klHW630VPsGgLM9+rj8RQP0JHyiHH1uczV+b1R4eR
+ 37mGDnn/YEoya/uO44EFk31UHV1p6PNcV0Vy+zXZmhY8UWa6Tli2sQX7eKSvMhk/bQ
+ WE6Q59ypwNyBMj2o8/le4Po0t1AibRVXGwyP8VOyi31XeJPyDSOKVtYbT0Me5TjbVc
+ e6dC8MmxQL8IuMlafX5xmn2+S8RswUwiq5FpgRmaM3wy9qU6nBVGLxHWXFFDhsy4JS
+ n2vkyUsGfyQbB67wXJD6MtcBFZCO3uv8vw8Cu6jrwr1HCPgxfxepmXSMpOxXVVaVvd
+ AlmTRLMGWJbbA==
+Date: Thu, 6 Oct 2022 17:58:00 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Yz7s+JIexAHJm5dc@kernel.org>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-References: <20221001162318.153420-1-richard.henderson@linaro.org>
- <20221001162318.153420-24-richard.henderson@linaro.org>
-In-Reply-To: <20221001162318.153420-24-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Oct 2022 15:57:13 +0100
-Message-ID: <CAFEAcA8L7BBHZ0Gfi7fm4pbZvYBd=Shu9bV6M5rQqcU-EU-p6Q@mail.gmail.com>
-Subject: Re: [PATCH v3 23/42] target/arm: Use probe_access_full for BTI
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=jarkko@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,91 +95,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 1 Oct 2022 at 17:38, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Add a field to TARGET_PAGE_ENTRY_EXTRA to hold the guarded bit.
-> In is_guarded_page, use probe_access_full instead of just guessing
-> that the tlb entry is still present.  Also handles the FIXME about
-> executing from device memory.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu-param.h     |  8 ++++----
->  target/arm/cpu.h           | 13 -------------
->  target/arm/internals.h     |  1 +
->  target/arm/ptw.c           |  7 ++++---
->  target/arm/translate-a64.c | 22 ++++++++--------------
->  5 files changed, 17 insertions(+), 34 deletions(-)
->
-> diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
-> index 118ca0e5c0..689a9645dc 100644
-> --- a/target/arm/cpu-param.h
-> +++ b/target/arm/cpu-param.h
-> @@ -32,12 +32,12 @@
->  # define TARGET_PAGE_BITS_MIN  10
->
->  /*
-> - * Cache the attrs and sharability fields from the page table entry.
-> + * Cache the attrs, sharability, and gp fields from the page table entry.
->   */
->  # define TARGET_PAGE_ENTRY_EXTRA  \
-> -     uint8_t pte_attrs;           \
-> -     uint8_t shareability;
-> -
-> +    uint8_t pte_attrs;            \
-> +    uint8_t shareability;         \
-> +    bool guarded;
+On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> additional KVM memslot fields private_fd/private_offset to allow
+> userspace to specify that guest private memory provided from the
+> private_fd and guest_phys_addr mapped at the private_offset of the
+> private_fd, spanning a range of memory_size.
+> 
+> The extended memslot can still have the userspace_addr(hva). When use, a
+> single memslot can maintain both private memory through private
+> fd(private_fd/private_offset) and shared memory through
+> hva(userspace_addr). Whether the private or shared part is visible to
+> guest is maintained by other KVM code.
 
-I notice this now brings this very close to just having an ARMCacheAttrs
-struct in it (in fact it's going to be one byte bigger than the ARMCachettrs).
-But it's probably better to keep them separate since we care a lot more
-about keeping the TLB entry small I suppose.
+What is anyway the appeal of private_offset field, instead of having just
+1:1 association between regions and files, i.e. one memfd per region?
 
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index 5b67375f4e..22802d1d2f 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -14601,22 +14601,16 @@ static bool is_guarded_page(CPUARMState *env, DisasContext *s)
->  #ifdef CONFIG_USER_ONLY
->      return page_get_flags(addr) & PAGE_BTI;
->  #else
-> +    CPUTLBEntryFull *full;
-> +    void *host;
->      int mmu_idx = arm_to_core_mmu_idx(s->mmu_idx);
-> -    unsigned int index = tlb_index(env, mmu_idx, addr);
-> -    CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
-> +    int flags;
->
-> -    /*
-> -     * We test this immediately after reading an insn, which means
-> -     * that any normal page must be in the TLB.  The only exception
-> -     * would be for executing from flash or device memory, which
-> -     * does not retain the TLB entry.
-> -     *
-> -     * FIXME: Assume false for those, for now.  We could use
-> -     * arm_cpu_get_phys_page_attrs_debug to re-read the page
-> -     * table entry even for that case.
-> -     */
+If this was the case, then an extended struct would not be needed in the
+first place. A simple union inside the existing struct would do:
 
-I think we should keep at least some of this comment: the part
-about the reason we can assert that probe_access_full() doesn't
-return TLB_INVALID being that we tested immediately after the
-insn read is still true, right?
+        union {
+                __u64 userspace_addr,
+                __u64 private_fd,
+        };
 
-> -    return (tlb_hit(entry->addr_code, addr) &&
-> -            arm_tlb_bti_gp(&env_tlb(env)->d[mmu_idx].fulltlb[index].attrs));
-> +    flags = probe_access_full(env, addr, MMU_INST_FETCH, mmu_idx,
-> +                              false, &host, &full, 0);
-> +    assert(!(flags & TLB_INVALID_MASK));
-> +
-> +    return full->guarded;
->  #endif
->  }
-
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
+BR, Jarkko
 
