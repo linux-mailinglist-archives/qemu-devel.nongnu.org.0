@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA205F6B48
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 18:13:32 +0200 (CEST)
-Received: from localhost ([::1]:43808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D36B75F6B38
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 18:07:13 +0200 (CEST)
+Received: from localhost ([::1]:52806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogTV4-0004Hh-ON
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 12:13:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60560)
+	id 1ogTOy-0000Qh-Kb
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 12:07:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSf5-0003yr-1Z
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:19:50 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:43565)
+ id 1ogSf7-0003z5-3x
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:19:51 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:34771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSf1-0005yn-P4
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:19:45 -0400
-Received: by mail-pl1-x634.google.com with SMTP id z20so1980855plb.10
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:19:43 -0700 (PDT)
+ id 1ogSf4-0005yg-Qz
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:19:48 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id n7so2028899plp.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ptPSCcbuG++AcglR+Ify0H9lkcBvjcAqRFsbcccQhHg=;
- b=ZhwhknIGiG/U++w+Picxj+KnZGanlKXHbjEv5zgh8B0Ewn9NlLBgJRRGIdX4Dn+4bT
- NEuP/1meI63j9s4oXiRU54ILDT+XB5yHE8K0GBBUN4c5ZmR0S8OrcM+5wg0keBlkMveN
- 3Q9e8NXap44GUVxevilE1AxTsGJvs76w4IGtpXElYEYSbu5xjeyGsiEC6csEdAILNPoh
- WV2mcv97WCDPpEsmVLkK+nrthzFVWT0ZOWC7HrKfw0CG/B99r2t0iqzcRqohtXcG8rZG
- AHu6LdbY0BxgHXJbjSxpFH+2PgzHES18dJCu3fxJ2M/yRdQ5fAwId5XpWfmTk3FqamHq
- HBKQ==
+ bh=EgL4d6VdvWsoCo8DlQTj5egD3vl1ynzfG1/OtpHXHWg=;
+ b=Yvm7LVup3S11TcY3ioEeG2zBmfFyjypbz6jXagmGJJsUgCLyK5T+Lem8vNXuyVC34a
+ yKSlabDg38VUVh9lcWqiaM2sXfVUmjk8cQYz9pLUX0NDNaVi6+ztjplyfJ0PHEO5juOi
+ DPRS/HUbC4y+J9+3S+Sj4roN9Z3sYHt498hNm4EKPnViHVEcpiazKnTG+BWEgwJc7ypF
+ FWfEIpMmxIgi6dO9UE7df30Eei4QI1FEHTtITQzmMKcG1bsC4cFfCHDLYI1FZQzKj9Zv
+ 2ifMZfCKJKCcVwHiCwgxNIi3pEEMjRgtQoR3DgMDI1tvfSuVUqeIX3BYWB3rhErJlgE0
+ p5jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ptPSCcbuG++AcglR+Ify0H9lkcBvjcAqRFsbcccQhHg=;
- b=vzAfQRAifYcPjkiRYUl/jaiMZWpynd1ZRP4odjZbgkgRooBh9zqTxcw9lhqC40od+l
- YslEauuVVEsX+ilSeVGkR/zqsLIewCkj+q9d3+HppzWLYnSiyAx0l5ltPTX3u+gq/eYm
- UaS/N8XCVAMJ3q4FpTtWGbJ0iKR7y1fPSx9lrMQP8WyMgclrRJMfN34OSKv4Vx+nHA/u
- +tI8/vH7krUSi32+0pxfqyg2NHosijd8U7C7Yh/2/hVqOOqoyyqTh61xtvOz+/i0PCnB
- 8+zZxW0aRKBn5rin+aRQ6bsmzrdFeXyjkaLCg4fFpsYH4E6srnM2oZ0K168E7/0bgB+u
- FZRw==
-X-Gm-Message-State: ACrzQf01v7kGQh4SXa+h7qhLdsrPgioxm6xUg73tB8CSudr1EINgczKj
- uOvp7ac5FvpnddB2EG8/P1+KK0sP6R0=
-X-Google-Smtp-Source: AMsMyM4t1WBkaRwZ2pnxrjL3vOeBziQVxpXDmA0vWW+SFvDtZRAnZPukDXQCO7M5+CXqZD0WqGOMLQ==
-X-Received: by 2002:a17:903:509:b0:179:ffcf:d275 with SMTP id
- jn9-20020a170903050900b00179ffcfd275mr8754plb.150.1665069582169; 
- Thu, 06 Oct 2022 08:19:42 -0700 (PDT)
+ bh=EgL4d6VdvWsoCo8DlQTj5egD3vl1ynzfG1/OtpHXHWg=;
+ b=1fdAAvDZyRYh2iym2+g+f6hqy2Das0Bpm/bj70/205ij8S8N3dcuHK9obzww15Enqc
+ o5KhfcODQ/x4AoV7UAGy+9x8T0TDNCEiMoAZzExUHfBQt8HksBLBDUA3Ha8/4x/FZefy
+ Qgww33oBnyyJXmxfg6SqhJEStSBWlouI833fOcFZIdbCA/oVtzKlAtHF5wCa8JHBhlYS
+ AwJn4ySMtbcShcTNxVvAbrNiffW5FUxnIHU08wWLVaWNCfhXnai8d6A0UD9yMHGdzaNo
+ +XvyRM61/hfy5EUaZJu9wilbhPgtSo24y9E3WTZavIz5T6hgUEoOMswyCEQK3+d2YTTF
+ BqXg==
+X-Gm-Message-State: ACrzQf1bK44tBbX0P9pmC9U2ic5A9bD3HkzW9DwZnfpvEpk6r4+MtAo+
+ /AxSPXoyH1koWNQ6+4i24/5lRIYJs78=
+X-Google-Smtp-Source: AMsMyM4blxQXKTL/DyEmsKuQO8c/0aXkxuvBAoovcZsUftLmdb6a5bKRBAweCxBoBR32CPDZc7K84A==
+X-Received: by 2002:a17:902:ce8f:b0:176:d5af:a175 with SMTP id
+ f15-20020a170902ce8f00b00176d5afa175mr388822plg.123.1665069585216; 
+ Thu, 06 Oct 2022 08:19:45 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a170902780d00b0017c37a5a2fdsm11426759pll.216.2022.10.06.08.19.40
+ p13-20020a170902780d00b0017c37a5a2fdsm11426759pll.216.2022.10.06.08.19.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 08:19:41 -0700 (PDT)
+ Thu, 06 Oct 2022 08:19:44 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v5 03/18] util/qemu-sockets: Use g_get_tmp_dir() to get the
- directory for temporary files
-Date: Thu,  6 Oct 2022 23:19:12 +0800
-Message-Id: <20221006151927.2079583-4-bmeng.cn@gmail.com>
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v5 04/18] tests/qtest: migration-test: Avoid using hardcoded
+ /tmp
+Date: Thu,  6 Oct 2022 23:19:13 +0800
+Message-Id: <20221006151927.2079583-5-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221006151927.2079583-1-bmeng.cn@gmail.com>
 References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,34 +98,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Replace the existing logic to get the directory for temporary files
-with g_get_tmp_dir(), which works for win32 too.
+This case was written to use hardcoded /tmp directory for temporary
+files. Update to use g_dir_make_tmp() for a portable implementation.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-(no changes since v1)
+Changes in v5:
+- Use g_autoptr(GError)
 
- util/qemu-sockets.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Changes in v4:
+- Update the error reporting by using the GError "error" argument
+  of g_dir_make_tmp()
+- Remove the const from tmpfs declaration
 
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 83f4bd6fd2..0c41ca9e42 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -919,9 +919,8 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,
-     if (saddr->path[0] || abstract) {
-         path = saddr->path;
-     } else {
--        const char *tmpdir = getenv("TMPDIR");
--        tmpdir = tmpdir ? tmpdir : "/tmp";
--        path = pathbuf = g_strdup_printf("%s/qemu-socket-XXXXXX", tmpdir);
-+        path = pathbuf = g_strdup_printf("%s/qemu-socket-XXXXXX",
-+                                         g_get_tmp_dir());
+Changes in v3:
+- Split to a separate patch
+
+ tests/qtest/migration-test.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 0d153d6b5e..ef4427ff4d 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -102,7 +102,7 @@ static bool ufd_version_check(void)
+ 
+ #endif
+ 
+-static const char *tmpfs;
++static char *tmpfs;
+ 
+ /* The boot file modifies memory area in [start_address, end_address)
+  * repeatedly. It outputs a 'B' at a fixed rate while it's still running.
+@@ -2451,10 +2451,10 @@ static bool kvm_dirty_ring_supported(void)
+ 
+ int main(int argc, char **argv)
+ {
+-    char template[] = "/tmp/migration-test-XXXXXX";
+     const bool has_kvm = qtest_has_accel("kvm");
+     const bool has_uffd = ufd_version_check();
+     const char *arch = qtest_get_arch();
++    g_autoptr(GError) err = NULL;
+     int ret;
+ 
+     g_test_init(&argc, &argv, NULL);
+@@ -2479,9 +2479,10 @@ int main(int argc, char **argv)
+         return g_test_run();
      }
  
-     pathlen = strlen(path);
+-    tmpfs = g_mkdtemp(template);
++    tmpfs = g_dir_make_tmp("migration-test-XXXXXX", &err);
+     if (!tmpfs) {
+-        g_test_message("g_mkdtemp on path (%s): %s", template, strerror(errno));
++        g_test_message("g_dir_make_tmp on path (%s): %s", tmpfs,
++                       err->message);
+     }
+     g_assert(tmpfs);
+ 
+@@ -2612,6 +2613,7 @@ int main(int argc, char **argv)
+         g_test_message("unable to rmdir: path (%s): %s",
+                        tmpfs, strerror(errno));
+     }
++    g_free(tmpfs);
+ 
+     return ret;
+ }
 -- 
 2.34.1
 
