@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9955F6860
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 15:42:01 +0200 (CEST)
-Received: from localhost ([::1]:47884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CDEE5F6891
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 15:51:33 +0200 (CEST)
+Received: from localhost ([::1]:51516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogR8S-0002Vp-Jz
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 09:42:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42964)
+	id 1ogRHg-0007Fo-59
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 09:51:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ogR4K-0005HM-J9
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:37:45 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:50411)
+ id 1ogR6e-0000bh-7U
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:40:09 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:46939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ogR4E-00066P-Vf
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:37:44 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 1F53B5C0144;
- Thu,  6 Oct 2022 09:37:29 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 06 Oct 2022 09:37:29 -0400
+ id 1ogR6a-0006If-77
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 09:40:08 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id BCA1D5C0162;
+ Thu,  6 Oct 2022 09:40:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 06 Oct 2022 09:40:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  cc:cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1665063449; x=
- 1665149849; bh=zIBppDbThD8UJ95r9LPUjtKYEulMSvsJZDF90HB72fY=; b=M
- 4vDay6zWRCTMv5+y4pQXnDmDqLwFJ6mFGw7bx07c6Kv/AJsrhiP70AQ6UjasIcTN
- e2CM7xGSrJB28tpfFMCQrKt7ZvAcFvOpqCm1QWZmU2zn8sRPj7HEjrAIIogd2AMe
- bofKAmI+5y+QAziWp3x/LJL5sLkvTDmDgnA0RNnV0bfhohqx/Qf07p9+3JfEeUQA
- 9W0gfoLPnOvexnlYkFddBjrS1FJP1desQDCqeXtxrrR2e5bcN/1GQWlANAknjQul
- p1RpoPLTRJil73AoqM2lBuSJCYofZrajXc1yb1ngqEkrg0dXkgR9p+2wzjCfgut4
- 3kfKfjQzLP+DPWrUjsEgA==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1665063602; x=
+ 1665150002; bh=1C1wEX15uByUqjN2r42i46Q9I5ny9oN7Y+r71cilWbo=; b=1
+ uAg3MRlR3AeHMVK3t/okGiocAbWhM/qqRwSNqVLYmEBQpl0zwbEjBOoBOdxV4nNV
+ 0/fLOkucS2Krt5WyIvAQIbE5cytUjP8a17IuG6+jxXuJc12nScBl7kMAab6Q3T3N
+ GHWcAdboyOti/6FQzKL7GV9nzSvdbloIFbWDRh/67W5287s/x9Pi30+TiI8/GjLj
+ tmhgD2QQcIQAxUWYM31zjRDNjj1ZS4iKD+Bqzu0EMsF81JCZztMcbeS6wiiWKmjm
+ FTwKjhEPOcm8ayb6TWWMKz19lcGeXx7HDmOlDEjmku5nKrrz1ddFOjihlftldMDg
+ QUmG27wNXwHf9aYuD/T6g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1665063449; x=
- 1665149849; bh=zIBppDbThD8UJ95r9LPUjtKYEulMSvsJZDF90HB72fY=; b=g
- PVyndfq9XjZQYuszB9g/yywl5nFix+q4yHS25dUt5ITbR1TlSGDCbjiQz9W4SfMq
- vAjZe50dyy4hyfjPiKinPF+86KbCyvYK8spxczKbqfgHJ1m62OukbfVbKs8UTQbb
- s9vxR314ZG5RfsefU0OZfl0phebFsUNOFC5wMwGltd+6L3jf5G24e7Fa6do3o5Pk
- Sz5B6DE+JcK7ilYIhgkUcVm7gXy4ozU64SVvVEBIpnvOMojXAjrjylnkzwKFiyjb
- fUeLL/SqA2b+HslqW8ZzvYzb94ieBzRxhC/0aIrJjGGSXhN8dhW2ykVLo5+CzDBz
- wMW7V/OibrhN3dGMh3tig==
-X-ME-Sender: <xms:GNo-Yxa9o-B_p_WqDyiGlSJMcJdnCd82nXK8BUo-_7QtQU4krGvaoA>
- <xme:GNo-Y4Zi1237K6W7hLAAuQ6YLCZnIMD0EnyHGiBqhRnTo2mxa-RNPJ-SM7kNVfASD
- FYDNGytigHtUxWCZtM>
-X-ME-Received: <xmr:GNo-Yz-vIUbNr3cQMLMJeagsGNeyp8opa1lqh1bzgCiogmH_lDB0eVQmdCgWgErl9RcB>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1665063602; x=
+ 1665150002; bh=1C1wEX15uByUqjN2r42i46Q9I5ny9oN7Y+r71cilWbo=; b=W
+ 2lk6XgOu7W1w/J8Uh/H6QlDThjnGR8Pj6kIXRYZHl2UJ1c3CcZgzzQrWhFA2sjoS
+ QCNnxxPgQTM7cAgP2vMtSo787ZQkFkAtJjexYTV7infWa9ex7SKoe2urxeMmOl77
+ TuzbECVdO8O4p4fMdJTiMzGk2Db1dSiS83Wi4QNkg9ZDhxwlN0yxCXAHriE4XcRn
+ EYciI2M9jmaRUZ4P5fH0yro+q2vVzYEsSwN7ZWvUpFFTjKRZjp5ukUEofqSVuSl3
+ gd4tfBay1NQvaqTALsQJRy2XOhX8F7VerWsl17+G9nwBTSJCucB1h5dnQfP0z1NT
+ yfu4r878gSQ207f07FxxA==
+X-ME-Sender: <xms:sto-Y8PVlKMZav7KfoSeX4r1Sc3HEQE2kj1ypjkNTmax82SUPQ9uZQ>
+ <xme:sto-Yy9SJtDHRriYY7q2KVgQirYl5doOSizJmEGakoISwKzzhIVb52qsZgBi8UsmD
+ XjK76Lyh_JmhmZszSU>
+X-ME-Received: <xmr:sto-YzSQ24ovP0ziS9mloBpwVPuQ26ljL-MHaWO2VKeNDQCQsETMBUIKTYJnS93ZSE22>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeihedgieejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpeflihgr
- gihunhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqne
- cuggftrfgrthhtvghrnhepuddtjeffteetfeekjeeiheefueeigeeutdevieejveeihfff
- ledvgfduiefhvddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+ uceurghilhhouhhtmecufedttdenucenucfjughrpegtggfuhfgjffevgffkfhfvofesth
+ hqmhdthhdtjeenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigr
+ nhhgsehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpedtleefhfeuudelke
+ ehieetuddtieegkeeuhfetvdeivdefjeduhefhkeefkeejvdenucffohhmrghinhepghhi
+ thhlrggsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
  hfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:GNo-Y_qjwZQlJ7fJeGocNX6_NJPahXGyKgjmii7gAAsi9N4k2Br9bA>
- <xmx:GNo-Y8oxgYLKngJTlpvg056rMbjhzuHldbPCtB3gc5ib1NBvlCXgFA>
- <xmx:GNo-Y1RL3DbBBfEGQfH8HQVjf7N-BB7tHnEIs-7SbdV_09Wd76kfLQ>
- <xmx:Gdo-Y5B0R4a_LqI8ZfjMLtuiEEz4YlqDrLj5JHwbEXuTRyc71aEUXw>
+X-ME-Proxy: <xmx:sto-Y0uK3q8oy2Z8BhYRCQjGdLh-JqE9pH6ZH1eSOxV4Pn4LJroLOw>
+ <xmx:sto-Y0cIaJW6wSILUFYskrcENK7Y2pRZJW483GnV1PlCxLe24y86hw>
+ <xmx:sto-Y43sFckYfOIoSddi2clUhnArlE9LZNgNhNchwQYhxm7TgCkEkA>
+ <xmx:sto-Y852yDJXzN9UYEHWwtxKtfD_2OdPiC2J8RG05V6qH5kTQfUjJA>
 Feedback-ID: ifd894703:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 6 Oct 2022 09:37:28 -0400 (EDT)
+ 6 Oct 2022 09:40:01 -0400 (EDT)
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.2\))
-Subject: Re: [RFC PATCH 0/3] MIPS decodetree conversion attempt
+Subject: Re: [PATCH] linux-user: Fix more MIPS n32 syscall ABI issues
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <FC5AE5D2-9EC2-45F4-A8CB-326CCE3D548F@flygoat.com>
-Date: Thu, 6 Oct 2022 14:37:16 +0100
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221006085500.290341-1-xen0n@gentoo.org>
+Date: Thu, 6 Oct 2022 14:39:50 +0100
+Cc: qemu-devel@nongnu.org,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?utf-8?B?IkFuZHJlYXMgSyAuIEjDvHR0ZWwi?= <dilfridge@gentoo.org>,
+ Joshua Kinard <kumba@gentoo.org>
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <700CEB38-7652-4C76-8E0F-69EF39B415AD@flygoat.com>
-References: <20220921124105.3824962-1-jiaxun.yang@flygoat.com>
- <E9443B6B-D245-4F31-B3BF-85011CB6B9FD@flygoat.com>
- <CAAdtpL6dnKwDRtXTzDCw9_-+6H0+vgqGqbEdTb+cAmsxO-oOWg@mail.gmail.com>
- <FC5AE5D2-9EC2-45F4-A8CB-326CCE3D548F@flygoat.com>
-To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Message-Id: <A0B62AE8-13F3-4BD0-BE76-1F72E2B242C6@flygoat.com>
+References: <20221006085500.290341-1-xen0n@gentoo.org>
+To: WANG Xuerui <xen0n@gentoo.org>
 X-Mailer: Apple Mail (2.3731.200.110.1.2)
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=jiaxun.yang@flygoat.com;
  helo=out5-smtp.messagingengine.com
@@ -110,57 +109,112 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-> 2022=E5=B9=B49=E6=9C=8827=E6=97=A5 11:33=EF=BC=8CJiaxun Yang =
-<jiaxun.yang@flygoat.com> =E5=86=99=E9=81=93=EF=BC=9A
+> 2022=E5=B9=B410=E6=9C=886=E6=97=A5 09:55=EF=BC=8CWANG Xuerui =
+<xen0n@gentoo.org> =E5=86=99=E9=81=93=EF=BC=9A
 >=20
+> In commit 80f0fe3a85 ("linux-user: Fix syscall parameter handling for
+> MIPS n32") the ABI problem regarding offset64 on MIPS n32 was fixed,
+> but still some cases remain where the n32 is incorrectly treated as =
+any
+> other 32-bit ABI that passes 64-bit arguments in pairs of GPRs. Fix by
+> excluding TARGET_ABI_MIPSN32 from various TARGET_ABI_BITS =3D=3D 32 =
+checks.
 >=20
->=20
->> 2022=E5=B9=B49=E6=9C=8826=E6=97=A5 22:35=EF=BC=8CPhilippe =
-Mathieu-Daud=C3=A9 <f4bug@amsat.org> =E5=86=99=E9=81=93=EF=BC=9A
->>=20
->> Hi Jiaxun,
->>=20
->> On Mon, Sep 26, 2022 at 4:44 PM Jiaxun Yang <jiaxun.yang@flygoat.com> =
-wrote:
->>>> 2022=E5=B9=B49=E6=9C=8821=E6=97=A5 13:41=EF=BC=8CJiaxun Yang =
-<jiaxun.yang@flygoat.com> =E5=86=99=E9=81=93=EF=BC=9A
->>>>=20
->>>> Hi,
->>>>=20
->>>> This is my attempt of converting MIPS translation code into =
-decodetree.
->>>>=20
->>>> Currently only MIPS I to MIPS Release 5 arithmatic functions are =
-converted.
->>>> Old decoding functions are perserved in codebase for now due to =
-dependencies
->>>> from microMIPS/nanoMIPS translation code. Will remove them after =
-dealing with
->>>> release 6.
->>>>=20
->>>> Both instruction encoding and test cases are generated form MIPS's =
-internal
->>>> architecture validation tools so they are gureented to be correct.
->>>=20
->>> A kindly ping :-)
->>>=20
->>> Will send v1 tomorrow if no objection.
->>=20
->> Thanks for this work! On a first pass it looks good, but I'd like to
->> spend more time reviewing in the next few days. What did you change
->> between RFC->v1?
->=20
-> Nothing much, just tidy up test cases a little bit.
+> Closes: https://gitlab.com/qemu-project/qemu/-/issues/1238
+> Signed-off-by: WANG Xuerui <xen0n@gentoo.org>
+> Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Cc: Andreas K. H=C3=BCttel <dilfridge@gentoo.org>
+> Cc: Joshua Kinard <kumba@gentoo.org>
 
-Any inputs?
+Good catch.
 
-Thanks.
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Tested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
->=20
-> Thanks.
+Managed to chroot into a n32 =E2=80=9C=E5=85=B1=E5=88=9B Linux=E2=80=9D =
+rootfs and ran some test.
+Looks good.
+
+Thanks
+- Jiaxun
+
+
 > ---
-> Jiaxun Yang
 >=20
+> Note: I can't reproduce the crash with neither MIPS n32 sysroot at my =
+hand
+> (a self-built one for Loongson-2F, and =
+stage3-mips64_n32-openrc-20221001T170527Z),
+> so I can only verify by looking at the (host and qemu) strace outputs, =
+and
+> would have to ask you to review/test this harder. Thanks.
+>=20
+> linux-user/syscall.c | 10 +++++-----
+> 1 file changed, 5 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 2e954d8dbd..8b2d39fe73 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -11793,7 +11793,7 @@ static abi_long do_syscall1(CPUArchState =
+*cpu_env, int num, abi_long arg1,
+>         return -host_to_target_errno(ret);
+> #endif
+>=20
+> -#if TARGET_ABI_BITS =3D=3D 32
+> +#if TARGET_ABI_BITS =3D=3D 32 && !defined(TARGET_ABI_MIPSN32)
+>=20
+> #ifdef TARGET_NR_fadvise64_64
+>     case TARGET_NR_fadvise64_64:
+> @@ -11920,7 +11920,7 @@ static abi_long do_syscall1(CPUArchState =
+*cpu_env, int num, abi_long arg1,
+>         return get_errno(sys_gettid());
+> #ifdef TARGET_NR_readahead
+>     case TARGET_NR_readahead:
+> -#if TARGET_ABI_BITS =3D=3D 32
+> +#if TARGET_ABI_BITS =3D=3D 32 && !defined(TARGET_ABI_MIPSN32)
+>         if (regpairs_aligned(cpu_env, num)) {
+>             arg2 =3D arg3;
+>             arg3 =3D arg4;
+> @@ -12612,7 +12612,7 @@ static abi_long do_syscall1(CPUArchState =
+*cpu_env, int num, abi_long arg1,
+> #endif /* CONFIG_EVENTFD  */
+> #if defined(CONFIG_FALLOCATE) && defined(TARGET_NR_fallocate)
+>     case TARGET_NR_fallocate:
+> -#if TARGET_ABI_BITS =3D=3D 32
+> +#if TARGET_ABI_BITS =3D=3D 32 && !defined(TARGET_ABI_MIPSN32)
+>         ret =3D get_errno(fallocate(arg1, arg2, target_offset64(arg3, =
+arg4),
+>                                   target_offset64(arg5, arg6)));
+> #else
+> @@ -12623,7 +12623,7 @@ static abi_long do_syscall1(CPUArchState =
+*cpu_env, int num, abi_long arg1,
+> #if defined(CONFIG_SYNC_FILE_RANGE)
+> #if defined(TARGET_NR_sync_file_range)
+>     case TARGET_NR_sync_file_range:
+> -#if TARGET_ABI_BITS =3D=3D 32
+> +#if TARGET_ABI_BITS =3D=3D 32 && !defined(TARGET_ABI_MIPSN32)
+> #if defined(TARGET_MIPS)
+>         ret =3D get_errno(sync_file_range(arg1, target_offset64(arg3, =
+arg4),
+>                                         target_offset64(arg5, arg6), =
+arg7));
+> @@ -12645,7 +12645,7 @@ static abi_long do_syscall1(CPUArchState =
+*cpu_env, int num, abi_long arg1,
+>     case TARGET_NR_arm_sync_file_range:
+> #endif
+>         /* This is like sync_file_range but the arguments are =
+reordered */
+> -#if TARGET_ABI_BITS =3D=3D 32
+> +#if TARGET_ABI_BITS =3D=3D 32 && !defined(TARGET_ABI_MIPSN32)
+>         ret =3D get_errno(sync_file_range(arg1, target_offset64(arg3, =
+arg4),
+>                                         target_offset64(arg5, arg6), =
+arg2));
+> #else
+> --=20
+> 2.38.0
 >=20
 
 ---
