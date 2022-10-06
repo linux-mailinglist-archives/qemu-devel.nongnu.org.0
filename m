@@ -2,63 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1D35F6318
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 10:54:39 +0200 (CEST)
-Received: from localhost ([::1]:54098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 190D05F628E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 10:25:12 +0200 (CEST)
+Received: from localhost ([::1]:45396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogMeM-00086R-7Z
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 04:54:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45802)
+	id 1ogMBq-0007e7-0F
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 04:25:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1ogM2K-00013l-TF
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:15:21 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:54343
- helo=gandalf.ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1ogM2G-00033k-9n
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:15:19 -0400
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4Mjkl31fw6z4xFv; Thu,  6 Oct 2022 19:15:11 +1100 (AEDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ogLyP-0005Vi-8M
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:11:23 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:46769)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ogLyN-0002fL-GS
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 04:11:17 -0400
+Received: by mail-pg1-x534.google.com with SMTP id 78so1187158pgb.13
+ for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 01:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1665044111;
- bh=+1evIHzfddRQ/GGJvA8TWQx2+QvK0NYUMJ5F+xh4xSY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cnPtojDnaf21RmbXU0rBE3ED1glokJs0jJ2Nu3UvYWmuc4posNjeO/vgfgzoesbSw
- z2/gFG0dZofO8ICCmTUJfNFrTd+Hf8pBJX9GU7VfPhTc7fKYW01ZVDkZt6UCZtzLBw
- sKQSaEiEdaRzh85YB5YVErnR1YKSkr396LSCId1o=
-Date: Thu, 6 Oct 2022 19:08:20 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Greg Kurz <groug@kaod.org>, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v10 05/17] net: introduce qemu_set_info_str() function
-Message-ID: <Yz6M9Azhfa9RRYA2@yekko>
-References: <20221005162051.1120041-1-lvivier@redhat.com>
- <20221005162051.1120041-6-lvivier@redhat.com>
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=IYlCwtOASZ9hbWekQnWG8eZJoe89ZYNcCZOsx854CPw=;
+ b=FfNipnLqzS6spn+njToY4lcglK7fTHDXVNNLEg7GW89oV0Dmz3As8nyK9BZGDeYDI/
+ BGE72F4bcirEI9JWpX952lGtRipLsUi/nZjnOZlu9SJtnOeT7HuRQG1w1OJVqoADKLVQ
+ WyNWTDvDYzFCLMWap+B4AK7B+zf+WyNqLsldKK3m3tzS3E1vq8mMcYzuGjhVJkRiAwWT
+ Vzojuluxi8C8fnGrC42r0ppq5cp0VFHTRxXN4fdUK9e5SQ6APDEvHcxFF76cNEaVDItr
+ ZiJ+EWGGco+8mX7HTB+FF/E66EBdtKxFPMhkUvVsGk6ScKLDTJQ2q47ZAE0FTpCxX0iW
+ RXZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IYlCwtOASZ9hbWekQnWG8eZJoe89ZYNcCZOsx854CPw=;
+ b=hOitivpxsQIVE2dkkHb955qxPleT+jqVPf9vQUEOrXjlU6/tjWyHJ4jPmOTxANHBOp
+ RL7ViP/Ct78D+neUmTj3XQiBMqVHJiydrDHWRLvDd4DuxZlLO3k0eexSeA7GsZJQfLNA
+ 0diSx0dxECLzelrIL86RUO11kjmdyO1MFXQsGHo85Pq10oL8TYIuRjkDgjbRUeHhy3L9
+ XyOM5u2ngpGtfhOsrhtvCSI3u0pY+u5NMdHRy1poQEvIy15HzhI2mikx/W9VkplsEN0F
+ CTSqQgLQSJs38RGXalNOu2vb/ZhsC7vV2dIvnKRhzbXGPTo0JMrXfzwkU5rGvN5V6dmg
+ cvtg==
+X-Gm-Message-State: ACrzQf1QrR6VX7hiDTq9b9UzIjgiOT6EB2B/kHTKAjvbBG7271QsH8Bt
+ ecf1uF7Wc5iFzFEV0omBoCrPbw==
+X-Google-Smtp-Source: AMsMyM7NX6N6qDPoahqFZ/BDu31lsD6fghUZnSA990Ebi6ZT3TsJ7nO0cQGOTtA58zxZ5vQyKgOZbQ==
+X-Received: by 2002:a63:5415:0:b0:439:e932:e025 with SMTP id
+ i21-20020a635415000000b00439e932e025mr3383337pgb.63.1665043873812; 
+ Thu, 06 Oct 2022 01:11:13 -0700 (PDT)
+Received: from 192.168.1.12 ([115.96.122.113])
+ by smtp.googlemail.com with ESMTPSA id
+ d9-20020a170902654900b001768517f99esm11638407pln.244.2022.10.06.01.11.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Oct 2022 01:11:13 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Thu, 6 Oct 2022 13:41:07 +0530 (IST)
+To: Ani Sinha <ani@anisinha.ca>
+cc: "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, pbonzini@redhat.com, 
+ =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>, 
+ imammedo@redhat.com, jsnow@redhat.com, peter.maydell@linaro.org, 
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
+ QEMU bios tables using biosbits
+In-Reply-To: <5b2c3c2c-c3bc-ae74-f554-fed4a0f64f56@anisinha.ca>
+Message-ID: <125d5b7-2f90-635c-cc8f-1f893d947e92@anisinha.ca>
+References: <YzK1VzoU05vnlxY4@redhat.com>
+ <CAARzgwxpm-tF3OwK95gHe+9_6qBebiqPFLug-59RUt85aCnuZQ@mail.gmail.com>
+ <YzLN3Y1pNO8SVn9M@redhat.com>
+ <CAARzgwx+ZitnYKvmkDGA1+Aq3_yPQFSs5GfTvGaAeNmHxUSNOQ@mail.gmail.com>
+ <CAARzgwwLXp9rDkQ4OTW2TUgnp_XDyMTXf6OhsKE9qAL1HTuMRQ@mail.gmail.com>
+ <YzMahUpNtsas18rN@redhat.com> <20220927172044-mutt-send-email-mst@kernel.org>
+ <2a5c6c18-e0b1-aaf8-78fa-5a12396fef87@redhat.com>
+ <20220928053421-mutt-send-email-mst@kernel.org>
+ <17d249fc-d1b7-4336-fa4c-dc5e245e10c8@redhat.com>
+ <20220928055339-mutt-send-email-mst@kernel.org>
+ <5b2c3c2c-c3bc-ae74-f554-fed4a0f64f56@anisinha.ca>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0UzPK+7sv693mhX+"
-Content-Disposition: inline
-In-Reply-To: <20221005162051.1120041-6-lvivier@redhat.com>
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="2088271309-2000309641-1665043873=:3799686"
+Received-SPF: none client-ip=2607:f8b0:4864:20::534;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,332 +102,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
---0UzPK+7sv693mhX+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--2088271309-2000309641-1665043873=:3799686
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: 8BIT
 
-On Wed, Oct 05, 2022 at 06:20:39PM +0200, Laurent Vivier wrote:
-> Embed the setting of info_str in a function.
->=20
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-> ---
->  include/net/net.h |  1 +
->  net/l2tpv3.c      |  3 +--
->  net/net.c         | 17 ++++++++++++-----
->  net/slirp.c       |  5 ++---
->  net/socket.c      | 33 ++++++++++++++-------------------
->  net/tap-win32.c   |  3 +--
->  net/tap.c         | 13 +++++--------
->  net/vde.c         |  3 +--
->  net/vhost-user.c  |  3 +--
->  net/vhost-vdpa.c  |  2 +-
->  10 files changed, 39 insertions(+), 44 deletions(-)
->=20
-> diff --git a/include/net/net.h b/include/net/net.h
-> index 025dbf1e143b..3db75ff841ff 100644
-> --- a/include/net/net.h
-> +++ b/include/net/net.h
-> @@ -177,6 +177,7 @@ ssize_t qemu_send_packet_async(NetClientState *nc, co=
-nst uint8_t *buf,
->  void qemu_purge_queued_packets(NetClientState *nc);
->  void qemu_flush_queued_packets(NetClientState *nc);
->  void qemu_flush_or_purge_queued_packets(NetClientState *nc, bool purge);
-> +void qemu_set_info_str(NetClientState *nc, const char *fmt, ...);
->  void qemu_format_nic_info_str(NetClientState *nc, uint8_t macaddr[6]);
->  bool qemu_has_ufo(NetClientState *nc);
->  bool qemu_has_vnet_hdr(NetClientState *nc);
-> diff --git a/net/l2tpv3.c b/net/l2tpv3.c
-> index af373e5c300c..350041a0d6c0 100644
-> --- a/net/l2tpv3.c
-> +++ b/net/l2tpv3.c
-> @@ -723,8 +723,7 @@ int net_init_l2tpv3(const Netdev *netdev,
-> =20
->      l2tpv3_read_poll(s, true);
-> =20
-> -    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-> -             "l2tpv3: connected");
-> +    qemu_set_info_str(&s->nc, "l2tpv3: connected");
->      return 0;
->  outerr:
->      qemu_del_net_client(nc);
-> diff --git a/net/net.c b/net/net.c
-> index ffe3e5a2cf1d..41e05137d431 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -141,13 +141,20 @@ char *qemu_mac_strdup_printf(const uint8_t *macaddr)
->                             macaddr[3], macaddr[4], macaddr[5]);
->  }
-> =20
-> +void qemu_set_info_str(NetClientState *nc, const char *fmt, ...)
-> +{
-> +    va_list ap;
-> +
-> +    va_start(ap, fmt);
-> +    vsnprintf(nc->info_str, sizeof(nc->info_str), fmt, ap);
-> +    va_end(ap);
-> +}
-> +
->  void qemu_format_nic_info_str(NetClientState *nc, uint8_t macaddr[6])
->  {
-> -    snprintf(nc->info_str, sizeof(nc->info_str),
-> -             "model=3D%s,macaddr=3D%02x:%02x:%02x:%02x:%02x:%02x",
-> -             nc->model,
-> -             macaddr[0], macaddr[1], macaddr[2],
-> -             macaddr[3], macaddr[4], macaddr[5]);
-> +    qemu_set_info_str(nc, "model=3D%s,macaddr=3D%02x:%02x:%02x:%02x:%02x=
-:%02x",
-> +                      nc->model, macaddr[0], macaddr[1], macaddr[2],
-> +                      macaddr[3], macaddr[4], macaddr[5]);
->  }
-> =20
->  static int mac_table[256] =3D {0};
-> diff --git a/net/slirp.c b/net/slirp.c
-> index 8679be644420..14a8d592774c 100644
-> --- a/net/slirp.c
-> +++ b/net/slirp.c
-> @@ -611,9 +611,8 @@ static int net_slirp_init(NetClientState *peer, const=
- char *model,
-> =20
->      nc =3D qemu_new_net_client(&net_slirp_info, peer, model, name);
-> =20
-> -    snprintf(nc->info_str, sizeof(nc->info_str),
-> -             "net=3D%s,restrict=3D%s", inet_ntoa(net),
-> -             restricted ? "on" : "off");
-> +    qemu_set_info_str(nc, "net=3D%s,restrict=3D%s", inet_ntoa(net),
-> +                      restricted ? "on" : "off");
-> =20
->      s =3D DO_UPCAST(SlirpState, nc, nc);
-> =20
-> diff --git a/net/socket.c b/net/socket.c
-> index bfd8596250c4..ade1ecf38b87 100644
-> --- a/net/socket.c
-> +++ b/net/socket.c
-> @@ -179,7 +179,7 @@ static void net_socket_send(void *opaque)
->          s->fd =3D -1;
->          net_socket_rs_init(&s->rs, net_socket_rs_finalize, false);
->          s->nc.link_down =3D true;
-> -        memset(s->nc.info_str, 0, sizeof(s->nc.info_str));
-> +        qemu_set_info_str(&s->nc, "");
-> =20
->          return;
->      }
-> @@ -387,16 +387,15 @@ static NetSocketState *net_socket_fd_init_dgram(Net=
-ClientState *peer,
->      /* mcast: save bound address as dst */
->      if (is_connected && mcast !=3D NULL) {
->          s->dgram_dst =3D saddr;
-> -        snprintf(nc->info_str, sizeof(nc->info_str),
-> -                 "socket: fd=3D%d (cloned mcast=3D%s:%d)",
-> -                 fd, inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
-> +        qemu_set_info_str(nc, "socket: fd=3D%d (cloned mcast=3D%s:%d)", =
-fd,
-> +                          inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_por=
-t));
->      } else {
->          if (sa_type =3D=3D SOCKET_ADDRESS_TYPE_UNIX) {
->              s->dgram_dst.sin_family =3D AF_UNIX;
->          }
-> =20
-> -        snprintf(nc->info_str, sizeof(nc->info_str),
-> -                 "socket: fd=3D%d %s", fd, SocketAddressType_str(sa_type=
-));
-> +        qemu_set_info_str(nc, "socket: fd=3D%d %s", fd,
-> +                          SocketAddressType_str(sa_type));
->      }
-> =20
->      return s;
-> @@ -430,7 +429,7 @@ static NetSocketState *net_socket_fd_init_stream(NetC=
-lientState *peer,
-> =20
->      nc =3D qemu_new_net_client(&net_socket_info, peer, model, name);
-> =20
-> -    snprintf(nc->info_str, sizeof(nc->info_str), "socket: fd=3D%d", fd);
-> +    qemu_set_info_str(nc, "socket: fd=3D%d", fd);
-> =20
->      s =3D DO_UPCAST(NetSocketState, nc, nc);
-> =20
-> @@ -497,9 +496,8 @@ static void net_socket_accept(void *opaque)
->      s->fd =3D fd;
->      s->nc.link_down =3D false;
->      net_socket_connect(s);
-> -    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-> -             "socket: connection from %s:%d",
-> -             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
-> +    qemu_set_info_str(&s->nc, "socket: connection from %s:%d",
-> +                      inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
->  }
-> =20
->  static int net_socket_listen_init(NetClientState *peer,
-> @@ -597,9 +595,8 @@ static int net_socket_connect_init(NetClientState *pe=
-er,
->          return -1;
->      }
-> =20
-> -    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-> -             "socket: connect to %s:%d",
-> -             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
-> +    qemu_set_info_str(&s->nc, "socket: connect to %s:%d",
-> +                      inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
->      return 0;
->  }
-> =20
-> @@ -642,9 +639,8 @@ static int net_socket_mcast_init(NetClientState *peer,
-> =20
->      s->dgram_dst =3D saddr;
-> =20
-> -    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-> -             "socket: mcast=3D%s:%d",
-> -             inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
-> +    qemu_set_info_str(&s->nc, "socket: mcast=3D%s:%d",
-> +                      inet_ntoa(saddr.sin_addr), ntohs(saddr.sin_port));
->      return 0;
-> =20
->  }
-> @@ -697,9 +693,8 @@ static int net_socket_udp_init(NetClientState *peer,
-> =20
->      s->dgram_dst =3D raddr;
-> =20
-> -    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-> -             "socket: udp=3D%s:%d",
-> -             inet_ntoa(raddr.sin_addr), ntohs(raddr.sin_port));
-> +    qemu_set_info_str(&s->nc, "socket: udp=3D%s:%d", inet_ntoa(raddr.sin=
-_addr),
-> +                      ntohs(raddr.sin_port));
->      return 0;
->  }
-> =20
-> diff --git a/net/tap-win32.c b/net/tap-win32.c
-> index 7466f22e77a4..a49c28ba5dc5 100644
-> --- a/net/tap-win32.c
-> +++ b/net/tap-win32.c
-> @@ -789,8 +789,7 @@ static int tap_win32_init(NetClientState *peer, const=
- char *model,
-> =20
->      s =3D DO_UPCAST(TAPState, nc, nc);
-> =20
-> -    snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-> -             "tap: ifname=3D%s", ifname);
-> +    qemu_set_info_str(&s->nc, "tap: ifname=3D%s", ifname);
-> =20
->      s->handle =3D handle;
-> =20
-> diff --git a/net/tap.c b/net/tap.c
-> index e203d07a1216..1210a0436de8 100644
-> --- a/net/tap.c
-> +++ b/net/tap.c
-> @@ -630,8 +630,7 @@ int net_init_bridge(const Netdev *netdev, const char =
-*name,
->      }
->      s =3D net_tap_fd_init(peer, "bridge", name, fd, vnet_hdr);
-> =20
-> -    snprintf(s->nc.info_str, sizeof(s->nc.info_str), "helper=3D%s,br=3D%=
-s", helper,
-> -             br);
-> +    qemu_set_info_str(&s->nc, "helper=3D%s,br=3D%s", helper, br);
-> =20
->      return 0;
->  }
-> @@ -690,14 +689,12 @@ static void net_init_tap_one(const NetdevTapOptions=
- *tap, NetClientState *peer,
->      }
-> =20
->      if (tap->has_fd || tap->has_fds) {
-> -        snprintf(s->nc.info_str, sizeof(s->nc.info_str), "fd=3D%d", fd);
-> +        qemu_set_info_str(&s->nc, "fd=3D%d", fd);
->      } else if (tap->has_helper) {
-> -        snprintf(s->nc.info_str, sizeof(s->nc.info_str), "helper=3D%s",
-> -                 tap->helper);
-> +        qemu_set_info_str(&s->nc, "helper=3D%s", tap->helper);
->      } else {
-> -        snprintf(s->nc.info_str, sizeof(s->nc.info_str),
-> -                 "ifname=3D%s,script=3D%s,downscript=3D%s", ifname, scri=
-pt,
-> -                 downscript);
-> +        qemu_set_info_str(&s->nc, "ifname=3D%s,script=3D%s,downscript=3D=
-%s", ifname,
-> +                          script, downscript);
-> =20
->          if (strcmp(downscript, "no") !=3D 0) {
->              snprintf(s->down_script, sizeof(s->down_script), "%s", downs=
-cript);
-> diff --git a/net/vde.c b/net/vde.c
-> index 1083916bcf52..c0a08662cc30 100644
-> --- a/net/vde.c
-> +++ b/net/vde.c
-> @@ -98,8 +98,7 @@ static int net_vde_init(NetClientState *peer, const cha=
-r *model,
-> =20
->      nc =3D qemu_new_net_client(&net_vde_info, peer, model, name);
-> =20
-> -    snprintf(nc->info_str, sizeof(nc->info_str), "sock=3D%s,fd=3D%d",
-> -             sock, vde_datafd(vde));
-> +    qemu_set_info_str(nc, "sock=3D%s,fd=3D%d", sock, vde_datafd(vde));
-> =20
->      s =3D DO_UPCAST(VDEState, nc, nc);
-> =20
-> diff --git a/net/vhost-user.c b/net/vhost-user.c
-> index b1a0247b5981..3a6b90da8661 100644
-> --- a/net/vhost-user.c
-> +++ b/net/vhost-user.c
-> @@ -341,8 +341,7 @@ static int net_vhost_user_init(NetClientState *peer, =
-const char *device,
->      user =3D g_new0(struct VhostUserState, 1);
->      for (i =3D 0; i < queues; i++) {
->          nc =3D qemu_new_net_client(&net_vhost_user_info, peer, device, n=
-ame);
-> -        snprintf(nc->info_str, sizeof(nc->info_str), "vhost-user%d to %s=
-",
-> -                 i, chr->label);
-> +        qemu_set_info_str(nc, "vhost-user%d to %s", i, chr->label);
->          nc->queue_index =3D i;
->          if (!nc0) {
->              nc0 =3D nc;
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 4bc3fd01a878..e1865bea6aa3 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -593,7 +593,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientS=
-tate *peer,
->          nc =3D qemu_new_net_control_client(&net_vhost_vdpa_cvq_info, pee=
-r,
->                                           device, name);
->      }
-> -    snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
-> +    qemu_set_info_str(nc, TYPE_VHOST_VDPA);
->      s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> =20
->      s->vhost_vdpa.device_fd =3D vdpa_device_fd;
+On Thu, 6 Oct 2022, Ani Sinha wrote:
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+>
+>
+> On Wed, 28 Sep 2022, Michael S. Tsirkin wrote:
+>
+> > On Wed, Sep 28, 2022 at 11:39:36AM +0200, Thomas Huth wrote:
+> > > On 28/09/2022 11.35, Michael S. Tsirkin wrote:
+> > > > On Wed, Sep 28, 2022 at 10:31:39AM +0200, Thomas Huth wrote:
+> > > > > On 27/09/2022 23.21, Michael S. Tsirkin wrote:
+> > > > > > On Tue, Sep 27, 2022 at 04:45:09PM +0100, Daniel P. Berrangé wrote:
+> > > > > > > On Tue, Sep 27, 2022 at 07:35:13PM +0530, Ani Sinha wrote:
+> > > > > ...
+> > > > > > > > Alright, .gitlab-ci.yml is produced and the pipeline succeeds.
+> > > > > > > > However, the question still remains, where do we keep the generated
+> > > > > > > > artifacts?
+> > > > > > >
+> > > > > > > The following link will always reflect the published artifacts from
+> > > > > > > the most recently fully successful CI pipeline, on the 'qemu-bits'
+> > > > > > > branch, and 'qemu-bits-build' CI job:
+> > > > > > >
+> > > > > > > https://gitlab.com/qemu-project/biosbits-bits/-/jobs/artifacts/qemu-bits/download?job=qemu-bits-build
+> > > > > > >
+> > > > > > > Tweak as needed if you push the CI to master branch instead. This
+> > > > > > > link can be considered the permanent home of the artifact. I'd just
+> > > > > > > suggest that the QEMU job automatically skip if it fails to download
+> > > > > > > the artifact, as occassionally transient infra errors can impact
+> > > > > > > it.
+> > > > > >
+> > > > > > This just means once we change the test old qemu source can no longer use it.
+> > > > > > Why is this a good idea? Are we so short on disk space? I thought CPU
+> > > > > > is the limiting factor?
+>
+>
+> I did some expriments and it seems we can keep latest artifacts for every
+> tagged release of bits. So I have adjusted the yaml file so that everytime
+> I push a new tag, a build is
+> triggered and the artifacts are preserved without expiry. Ofcourse for
+> non-tagged changes, one can trigger the build manually from the web UI as
+> well.
+>
+> For exmaple, this link
+> https://gitlab.com/qemu-project/biosbits-bits/-/jobs/3134519120/artifacts/download?file_type=archive
+> should download the current artifacts for the tag qemu-bits-latest.
+>
+> What I am not sure is how to get a downloadable link for the latest build
+> for a particular tag without the numeric job ID (which can change across
+> builds)? So for example, we can have a consistent URLs to download
+> archives
+> for every tagged releases and then the test can choose which tagged
+> release to
+> use. If we can have this then its as good as keeping binaries in a version
+> control system like git.
 
---0UzPK+7sv693mhX+
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+To answer my own question, this is the URL for the qemu-bits-latest tag:
 
-iQIzBAEBCAAdFiEEoULxWu4/Ws0dB+XtgypY4gEwYSIFAmM+jOMACgkQgypY4gEw
-YSJU/xAAxYpMSiEOQHhugQn4ANmCtXw6uPBZ0bRoxO88MEwgKT/cF+d0JycKXyKR
-G4rffpk+KQNbDW9m7xQE/ujq4hfsl+aRjU+j7LeSwOoDmwuAuUtmjp5C2FWH5/sa
-k/B7ncUBn7M6SDnwp/Fd06XIP/lYuOw/A7chTsUsKGO58X74TlImxX1qpxFdOvsc
-CjjoIzwBVrtsjqYb27T9TSCSGFKf6Km3QQkieY4AKjTWBG8+WfL490VMICcyBQLR
-oE88UMrLUBS3DLP0nCDkoXn9EO9rUS5+3Cf0XNj4Rdu88At5d6PxyYoPG4rLybiu
-0Wgo7oRt5EE38mityrVp2ddAoIOAzhwCYoWxRtXuP9CM2f1/B98QBUzggSpMzFfE
-HqeWfSTxzShQAFU8tsI8RK9YPm9cvRB51jCeAtV8lc5WjXLb+woQWd5F33VQFMEV
-OBp1U7uqfJ1kCXR3f6pF+uMm973X12puX/9v4+7wIpukgq03kiwSzKKsZ+wo0PLR
-7RH41GrWjVP5M/s8GqernfBCvMa/DjzJ4QT79g4RM1O/MqHqg0UKdc7IxyF3RVIQ
-LNOGwU1rRgBZOob1N/s9g71AwTbHIQ/op8QwYd4EKSRHQwKBxcTArBJFPu8ZYk2x
-UMP2s33498a6D5v9ZEdUe0gqTslDZoYmqhiGCFGrQNWOCdXbe2g=
-=IEB5
------END PGP SIGNATURE-----
+https://gitlab.com/qemu-project/biosbits-bits/-/jobs/artifacts/qemu-bits-latest/download?job=qemu-bits-build
 
---0UzPK+7sv693mhX+--
+which is the same as
+
+https://gitlab.com/qemu-project/biosbits-bits/-/jobs/artifacts/qemu-bits-09272022/download?job=qemu-bits-build
+
+currently.
+
+If the latest version of bits changes, we can make "qemu-bits-latest" tag
+always point to the latest version while artifacts for the older tagged
+releases will continue to be available.
+
+danPB, please correct if I am mistaken.
+
+>
+> > > > >
+> > > > > FYI, we'll soon be short on disk space, gitlab plans to introduce storage
+> > > > > limits:
+> > > > >
+> > > > >   https://about.gitlab.com/pricing/faq-paid-storage-transfer/
+> > > > >
+> > > > >   Thomas
+> > > >
+> > > > A good reason not to use CI artifacts to store images maybe?
+> > > > I was proposing storing binaries on qemu.org not on gitlab.
+> > >
+> > > For qemu.org, you should maybe talk to Paolo and Stefan first, I'm not sure
+> > > whether we could allow additional network traffic
+> > > beside the normal release tarballs there...
+> > >
+> > >  Thomas
+> >
+> > I guess we need to design this sensibly to checksum local files
+> > and only fetch if there's change, and that only for
+> > people who work on ACPI.
+> >
+> > --
+> > MST
+> >
+> >
+--2088271309-2000309641-1665043873=:3799686--
 
