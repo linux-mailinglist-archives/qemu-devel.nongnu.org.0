@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EED45F6980
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 16:22:19 +0200 (CEST)
-Received: from localhost ([::1]:52694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9DB5F6987
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 16:24:18 +0200 (CEST)
+Received: from localhost ([::1]:45232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogRlO-0007O6-VY
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 10:22:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
+	id 1ogRnN-0002C4-G2
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 10:24:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <baruch@tkos.co.il>)
- id 1ogNzJ-0007rU-MF; Thu, 06 Oct 2022 06:20:22 -0400
-Received: from guitar.tkos.co.il ([84.110.109.230]:47869 helo=mail.tkos.co.il)
+ id 1ogOw6-00073h-7r; Thu, 06 Oct 2022 07:21:07 -0400
+Received: from hours.tkos.co.il ([84.110.109.230]:47914 helo=mail.tkos.co.il)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <baruch@tkos.co.il>)
- id 1ogNzC-0004u9-62; Thu, 06 Oct 2022 06:20:21 -0400
-Received: from tarshish.tkos.co.il (unknown [10.0.8.2])
+ id 1ogOw1-0006d8-Hk; Thu, 06 Oct 2022 07:21:05 -0400
+Received: from tarshish (unknown [10.0.8.2])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.tkos.co.il (Postfix) with ESMTPS id 577024403AE;
- Thu,  6 Oct 2022 13:18:14 +0300 (IDT)
+ by mail.tkos.co.il (Postfix) with ESMTPS id C1FB1440072;
+ Thu,  6 Oct 2022 14:19:03 +0300 (IDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
- s=default; t=1665051494;
- bh=4H8rCxoz7VuT/+k8uFgTre/SvEacLxL28faqEWXnC6w=;
- h=From:To:Cc:Subject:Date:From;
- b=OLB3HCxbAB7YEKmx9nXCVFVrt2AWeCLUI1KqgeKvUjfHfE4M2Oh3rER2cgmdevbV4
- D4d0LThAYV1y0pxHKO9s+8mmAnl1WuyUQom1puNJZvZK8aRMhJYprsTY8LvSEoJylm
- AKjFOxJWwd1tWQ4bSdmhVOdlhvs+16eCV9gwFcUaU1d5rXWaldRoK1KGpYq4rTfkEM
- mnLgTSPUSajoT3RHBGK4qJT8wrgPCVuMJ1gyAdyNXBH42uu9+FjDRc8ldaMfwp2/SI
- 0UIm+ZwD3YIajuNDhmC3yMJtCS3RiSdGOpTAsRT8wXuGAG5SnUwUr3tjg0XeqWZctC
- TviQKKeexVmUg==
+ s=default; t=1665055143;
+ bh=dC3jzoD9auFoIHAZd8QJL7uy0WTrFUZalGXvAp4PSFM=;
+ h=References:From:To:Cc:Subject:Date:In-reply-to:From;
+ b=IYdJaxhV8Vm/j5vZ7q/2y8HzQfJDuM4MXU5uc29agKfbJkyQgbq0K5QUFcUJ1orvo
+ wkQCSLZuLmTqfHcqsLuu7H721fIGIp1sBjQ04dqPcXqYP3LbiXa3CVSsIVNyww8rVl
+ 6mb4tboKe1k7eLtKBCFU+UG26JrwpdkO8g6ihEmw0X/nxcAN73BjRDFMSTls1YM1N8
+ 4XhCUaF9UiQObpvqv+cs1doMmnOHLu5mW+rooPP+uKPE08eGShKWuT6s7S8BtvhajN
+ 6g8q3r+QXN+xT2UqQ3+1BTKC9sgo5HEP2Mz7UMGh4kplZnDcwUEnR0r26MI2bDkHGC
+ 2GxOL1bYrMB5A==
+References: <1408f62a2e45665816527d4845ffde650957d5ab.1665051588.git.baruchs-c@neureality.ai>
+ <CAFEAcA8fbToN9D4cm=2VfaUn3GHyYZhbETa3CY-Y0-2jqwbYcA@mail.gmail.com>
+User-agent: mu4e 1.8.7; emacs 27.1
 From: Baruch Siach <baruch@tkos.co.il>
 To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Baruch Siach <baruch@tkos.co.il>
-Subject: [PATCH] hw/char/pl011: fix baud rate calculation
-Date: Thu,  6 Oct 2022 13:19:48 +0300
-Message-Id: <1408f62a2e45665816527d4845ffde650957d5ab.1665051588.git.baruchs-c@neureality.ai>
-X-Mailer: git-send-email 2.35.1
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/char/pl011: fix baud rate calculation
+Date: Thu, 06 Oct 2022 14:12:43 +0300
+In-reply-to: <CAFEAcA8fbToN9D4cm=2VfaUn3GHyYZhbETa3CY-Y0-2jqwbYcA@mail.gmail.com>
+Message-ID: <87tu4hci5m.fsf@tarshish>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Received-SPF: pass client-ip=84.110.109.230; envelope-from=baruch@tkos.co.il;
  helo=mail.tkos.co.il
 X-Spam_score_int: -20
@@ -66,29 +68,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PL011 TRM says that "UARTIBRD = 0 is invalid and UARTFBRD is ignored
-when this is the case". But the code looks at FBRD for the invalid case.
-Fix this.
+Hi Peter,
 
-Signed-off-by: Baruch Siach <baruch@tkos.co.il>
----
- hw/char/pl011.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Oct 06 2022, Peter Maydell wrote:
+> On Thu, 6 Oct 2022 at 11:20, Baruch Siach <baruch@tkos.co.il> wrote:
+>>
+>> The PL011 TRM says that "UARTIBRD = 0 is invalid and UARTFBRD is ignored
+>> when this is the case". But the code looks at FBRD for the invalid case.
+>> Fix this.
+>>
+>> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+>> ---
+>>  hw/char/pl011.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> Thanks for this patch (I'll review it in a bit). Did you find this
+> because it caused problems for a guest, or just because you were
+> looking at the QEMU source code? (If it's the former, we like to
+> include some details of that in the commit message.)
 
-diff --git a/hw/char/pl011.c b/hw/char/pl011.c
-index 6e2d7f75095c..c076813423fc 100644
---- a/hw/char/pl011.c
-+++ b/hw/char/pl011.c
-@@ -176,7 +176,7 @@ static unsigned int pl011_get_baudrate(const PL011State *s)
- {
-     uint64_t clk;
- 
--    if (s->fbrd == 0) {
-+    if (s->ibrd == 0) {
-         return 0;
-     }
- 
+Initially I only looked at the source code while trying to understand
+how clock initialization and use is meant to work. Once I figured that
+out I confirmed the issue with ATF code that first sets IBRD and then
+FBRD.
+
+Before patch:
+
+pl011_baudrate_change new baudrate 0 (clk: 100000000hz, ibrd: 54, fbrd: 0)
+pl011_baudrate_change new baudrate 115204 (clk: 100000000hz, ibrd: 54, fbrd: 16)
+
+With patch:
+
+pl011_baudrate_change new baudrate 115740 (clk: 100000000hz, ibrd: 54, fbrd: 0)
+pl011_baudrate_change new baudrate 115204 (clk: 100000000hz, ibrd: 54, fbrd: 16)
+
+baruch
+
 -- 
-2.35.1
-
+                                                     ~. .~   Tk Open Systems
+=}------------------------------------------------ooO--U--Ooo------------{=
+   - baruch@tkos.co.il - tel: +972.52.368.4656, http://www.tkos.co.il -
 
