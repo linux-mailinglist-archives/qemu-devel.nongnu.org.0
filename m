@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969205F6B15
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:57:44 +0200 (CEST)
-Received: from localhost ([::1]:42296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301395F6B16
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 17:57:46 +0200 (CEST)
+Received: from localhost ([::1]:37396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogTFn-0000tZ-NB
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:57:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56354)
+	id 1ogTFp-00013E-9F
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 11:57:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSf2-0003yo-VX
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:19:48 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:34771)
+ id 1ogSf9-000405-H3; Thu, 06 Oct 2022 11:19:52 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ogSf0-0005yg-FL
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 11:19:44 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id n7so2028714plp.1
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 08:19:41 -0700 (PDT)
+ id 1ogSf8-0005z4-0W; Thu, 06 Oct 2022 11:19:51 -0400
+Received: by mail-pl1-x630.google.com with SMTP id x1so2003790plv.5;
+ Thu, 06 Oct 2022 08:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Gs5GKe8FO5KCXA2mO1WuiuwajzHIA5xIM/tzyVScXS0=;
- b=dN7nKpeJIdM8NBYJnNQM+pRuLA5C81zn9FdLb7lSdBumFHWbSPUVDZE84IGQfve+CD
- JUY7G2KmBt4Byba3QbyJ1Ip+OxloH3R1z1X/CTFFD1GFo5Bz+25M2TXaInb1UwqAlErd
- yqGQi1h55t0cxhi98ZoD0cyYOsw8QLjFgXSY0GSUu3SbUmM4pPcVNN+0Vq0YyLL/hvIY
- iJnY3Ot8VwcFHTyiDHZUXWr/97ySMDi3yTJHGo61IcxOGKHJh3sAZ+OdLNASin71xENN
- 6+dQSgamAh1n8A4MsAN/6RPHWcW8SB4GIpe94NEoJTqCNRwsLJ5DTL19+Oj+3HtPGmgl
- 27tA==
+ bh=mASgTbgC1fZZDNGRrUnVCNQGIWuAR0DCWfyrQC7EGTU=;
+ b=bMVRBtF3rB9T4NqykypNCMk2ByApFkJzbP0tPQbYH9zFBXwv76pzcKh0GQsssA0fe9
+ 84Gma0ShLPS74WDZIfb73cEu7wRi7Fl1RYG0V72ZfM3Io/ga+1TjZJPs+kkyaBsFSUZc
+ wM/jDUWW2YC7+/WgoX3iwEuJ+RFlzdSpI/4HE/mh2SLnJyv86t9hx/SbClXPj1eOr6J7
+ YnBMT6yJIhj9zk1JVdjfkHFPgZ0RNx1f5mw5KG9wiZyGV/Q2ZYQgrgW6WvcbxdJR+Z/E
+ 2BfOJXgEJtMe+KdQu96Cq1FOF6T0p3369rfOWc+A7sgxInu/4qBKib+sDWVl96N9arCx
+ W4EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Gs5GKe8FO5KCXA2mO1WuiuwajzHIA5xIM/tzyVScXS0=;
- b=wQDEkkdyDSmz4LHheXN7y9fSeemEd5XN532P/uF3bzGD3mOsI1drMJCKUSkCbLIAlH
- z3GZGAenKYClyhTKAKJ0XmiA03ZMrqf5aCjxKQ5kA9Vj6VxOe3qJeyl/Mp+1KxDfEcMt
- XTGy1ycoLWN266QI1BOUfKLR9+U6KpR7wFrq165fZPqJg9UsdkResCsQx8V+Tji+2Xc0
- Rr/17YInG5bJn0/hdvRM8jb+HB8zH/hhvpklaTQRiSdPcITqQK4QM1Nkw0SlWQAksbp2
- xjpL+AxcGNL17Rb+BY+sLhU0BTlgd63DhgBbc9aJw1jxUnCsO5/pX2zNypC0+szSXVm5
- NGqA==
-X-Gm-Message-State: ACrzQf1iTsD2c58W60TCa6XCETdku7AY9T/K3bIpotStdqEVQwv3phDz
- 5NSEUzAfZV4rxIjKzdwZBYjDYLUZnjc=
-X-Google-Smtp-Source: AMsMyM7F1/efsc87zTIZmrbQ8YCKGUBE65czdNmKWVNVZCX6eXsT+kju9ZNiSgClXxIGqKBffeYOEQ==
-X-Received: by 2002:a17:902:e742:b0:17f:6a44:ee4a with SMTP id
- p2-20020a170902e74200b0017f6a44ee4amr5229310plf.103.1665069580070; 
- Thu, 06 Oct 2022 08:19:40 -0700 (PDT)
+ bh=mASgTbgC1fZZDNGRrUnVCNQGIWuAR0DCWfyrQC7EGTU=;
+ b=0eFhMYgBZFRvSnyAQm/cJh17mmS5e3Oa70Dok/rLIyP9XGvmv3rZepM3SP9FE0/ybA
+ LRDT+b+pDLSw37ai6zULMg4ve4MpGj9c38Rhi3zCeBpk1kSAqv5V2n4UTKxqjG0h+7Im
+ afpK7YYeD+Yt4/mRVKyMtWqmz2W+ykpWnPVEVIREXdeRxPA85o3jGm1xEuGTT09axv4I
+ npD5QWru5Iqp4Zfea9pFeQc7S+BG7O8SxR8nxr88Xm2sYPkmnAjQTewNlxbPJpm/nb/Y
+ NYzotps7bIn2qbS3HVSalh6/8KBaCalQaWAIbZJ6ocxhTeXQYhTuMNkaarRmrD+Xi4U8
+ lhPw==
+X-Gm-Message-State: ACrzQf0AoFIE65yqTxHE++Xl8YdTkHvunEQi4Nm1Q9UJavK+NejHvMjl
+ 5PiylFN6eAPFasMtIXx3JoiV3X64yAk=
+X-Google-Smtp-Source: AMsMyM7tTZtw8TsZNcGbFjxrNfD6VzPtYHliDYnsoAWF3N0tNRJ9MsnmcXnn3GIibw40ZnJFklfqcg==
+X-Received: by 2002:a17:902:b907:b0:178:2898:8084 with SMTP id
+ bf7-20020a170902b90700b0017828988084mr405257plb.140.1665069588006; 
+ Thu, 06 Oct 2022 08:19:48 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a170902780d00b0017c37a5a2fdsm11426759pll.216.2022.10.06.08.19.38
+ p13-20020a170902780d00b0017c37a5a2fdsm11426759pll.216.2022.10.06.08.19.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 08:19:39 -0700 (PDT)
+ Thu, 06 Oct 2022 08:19:47 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v5 02/18] tcg: Avoid using hardcoded /tmp
-Date: Thu,  6 Oct 2022 23:19:11 +0800
-Message-Id: <20221006151927.2079583-3-bmeng.cn@gmail.com>
+ Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Subject: [PATCH v5 05/18] block/vvfat: Unify the mkdir() call
+Date: Thu,  6 Oct 2022 23:19:14 +0800
+Message-Id: <20221006151927.2079583-6-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221006151927.2079583-1-bmeng.cn@gmail.com>
 References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,35 +93,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Use g_get_tmp_dir() to get the directory to use for temporary files.
+There is a difference in the mkdir() call for win32 and non-win32
+platforms, and currently is handled in the codes with #ifdefs.
+
+glib provides a portable g_mkdir() API and we can use it to unify
+the codes without #ifdefs.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
 
 (no changes since v2)
 
 Changes in v2:
-- Use g_autofree to declare the variable
+- Change to use g_mkdir()
 
- tcg/tcg.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ block/vvfat.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 612a12f58f..84921b64f7 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -4729,7 +4729,8 @@ static void tcg_register_jit_int(const void *buf_ptr, size_t buf_size,
-     /* Enable this block to be able to debug the ELF image file creation.
-        One can use readelf, objdump, or other inspection utilities.  */
-     {
--        FILE *f = fopen("/tmp/qemu.jit", "w+b");
-+        g_autofree char *jit = g_strdup_printf("%s/qemu.jit", g_get_tmp_dir());
-+        FILE *f = fopen(jit, "w+b");
-         if (f) {
-             if (fwrite(img, img_size, 1, f) != img_size) {
-                 /* Avoid stupid unused return value warning for fwrite.  */
+diff --git a/block/vvfat.c b/block/vvfat.c
+index d6dd919683..723beef025 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -25,6 +25,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include <dirent.h>
++#include <glib/gstdio.h>
+ #include "qapi/error.h"
+ #include "block/block_int.h"
+ #include "block/qdict.h"
+@@ -2726,13 +2727,9 @@ static int handle_renames_and_mkdirs(BDRVVVFATState* s)
+             mapping_t* mapping;
+             int j, parent_path_len;
+ 
+-#ifdef __MINGW32__
+-            if (mkdir(commit->path))
++            if (g_mkdir(commit->path, 0755)) {
+                 return -5;
+-#else
+-            if (mkdir(commit->path, 0755))
+-                return -5;
+-#endif
++            }
+ 
+             mapping = insert_mapping(s, commit->param.mkdir.cluster,
+                     commit->param.mkdir.cluster + 1);
 -- 
 2.34.1
 
