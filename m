@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B675D5F5F9B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 05:26:52 +0200 (CEST)
-Received: from localhost ([::1]:60888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83E65F5F9F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 05:30:23 +0200 (CEST)
+Received: from localhost ([::1]:54306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogHX9-0006Ld-S5
-	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 23:26:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42018)
+	id 1ogHaY-0002Mr-Bc
+	for lists+qemu-devel@lfdr.de; Wed, 05 Oct 2022 23:30:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogHIU-00066v-55
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:11:42 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:43623)
+ id 1ogHIW-0006Bb-2B
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:11:44 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:37441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ogHIS-00070e-2x
- for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:11:41 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- g1-20020a17090a708100b00203c1c66ae3so525493pjk.2
- for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 20:11:39 -0700 (PDT)
+ id 1ogHIT-00070q-7e
+ for qemu-devel@nongnu.org; Wed, 05 Oct 2022 23:11:43 -0400
+Received: by mail-pg1-x529.google.com with SMTP id bh13so717596pgb.4
+ for <qemu-devel@nongnu.org>; Wed, 05 Oct 2022 20:11:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
- bh=0dnjfsBXDy5rRQ39KsZnlcakGwGZWrxEz9jQMseFkII=;
- b=iX41Gad281pokn2zxnAmHJGFQdL8UfofTU0X5OKlMFYenav0ZakTVNMT6bBDhZTXyc
- 2HlfXXXjOh44ZorSKULegkAluyInhGd85ks48g3ibGkkFHbWK00gJJmmTUPWEmoYr7zq
- hBJYfWkROnhrEo7xdH/v0UYSn6eAM7vNR8jn9uL/exazzRX58SmrfYoCzcZvDN3AldxU
- D+3dqA77uQfArtepDJw/LWv0MAFIAs/F4UNgz5704K/l8IBL1TPbzezoF1XXGKim+4Vn
- 6zMOVrUrftAfUY51yBee4JDusdnqY3p2JZQyFl1q2m9LHTxgFJwZJNHKuGRpsAHVa+RC
- dfow==
+ bh=fMNzVDjZno1MDGZKBogmjYP5Xb4oEHZ4nbrRSgPIHno=;
+ b=kMSfNngl6T80Y7wxEjAeFMYD+mM3xMZc3HqpAxcCGe4D3LFDYdJtuGcONYsSxXSg33
+ sezHon3kU4r+wIXklSP8ABec5obpbVvsePk26b1S4CLMMlMci5tZ2bKFNr5xQa509j5f
+ rN1xTyGA6dYIuIttXpsANPaNgbtmixDH+AzgjGGD/dDAzC/Usud3AAxkAThU6F/2w+6o
+ kAuzqC1BPjK4m2bSGkyrehVmg1VA6j1/psZvpw9Qg6/FP7KdXexrWSdKSJLCwFZp8FV/
+ /hNA/TetP9cuIU8CImVkUCylJMZ0RHAyv+R64mxZ1Z6MAjq8OmML0TSwnhKrEoPR+syb
+ TTbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date;
- bh=0dnjfsBXDy5rRQ39KsZnlcakGwGZWrxEz9jQMseFkII=;
- b=QdwyNz723Va/HCxjB/JEyOBZsREUD/QdD1CikipiOl7XkLWpY0GW+GdYoWhiDvlREY
- JLOj78al6cVa5pIzQyrWcW/p7yg+jmBUyco7rD0v+v0K9o05wHaZkY5oXWupibmMZXAW
- 8hM46MaxukqGfB77EgzeBbamJCcn4C/khB7+jQ4V1vfAaAFfaEX02EjhgISaSqsBUwD5
- KKgQ/yl/RuFZyeBOEj66+ps8NofXBd6SgJeMMEdae3oaISeiRWzA0pIT48tWdURoV3Jz
- j0a61Hm+07nPZmUmUvx4W3gxGJUr1s/5/dCH8oL7alj5TVOLMfEqaB4K+pT6UyhsGCWH
- 4Z8Q==
-X-Gm-Message-State: ACrzQf1moWleJe7JCD4BiQ93sqMY9LH+QCUhHcLHpBRstovZyVXKMkiy
- ISS7e3KR4T3eIxSbqd/sJExk7ieko44b1g==
-X-Google-Smtp-Source: AMsMyM56ymvsq5MI8sbXZ7pawwxNbOGOL6b3cJzDL21JvGRwDCSIYipP8kZwwZvK05BJjrUpxRDtjQ==
-X-Received: by 2002:a17:902:da8f:b0:178:399b:89bb with SMTP id
- j15-20020a170902da8f00b00178399b89bbmr2539812plx.57.1665025898689; 
- Wed, 05 Oct 2022 20:11:38 -0700 (PDT)
+ bh=fMNzVDjZno1MDGZKBogmjYP5Xb4oEHZ4nbrRSgPIHno=;
+ b=PNSpD1iPq4QB2V6RqXqmamifljttcUcWaVVQx2MnxAfye+ayppaWed9bVdj2iCr43z
+ 2J5TX+5+FLb3Wnw8+QN2j1rSMoLwc5X0Ys2+7rCuYeC5Zq9O+eBYSeZeU4PYTZS+sNem
+ x7d5+GBtmjy1E+9mpbqg/NHhEH3vueAYVixLfQOvZLzc5CFW1udkGHIZT/AuK27Y8KRZ
+ Seg+XCUP06KjBkzlIXbwARwqWEIOIROfUZly4mLq3GBc0ud4qbNayqQoLcD5ox9ddcqj
+ 05hAB8Wet06YsfIvi/Nom0PBmOQAxwKX+o77abnbgbbvwahEyikXN8QqfneGuGliIVbN
+ 0Wnw==
+X-Gm-Message-State: ACrzQf1wWAiz/qiiVq5mYKvSSPYY6j8IGQYu0tJmuMJkWSS+onrMEZxO
+ 5+39NhfqabjF6DueoeNz96qLgjdJB2ivHg==
+X-Google-Smtp-Source: AMsMyM6wXCtrCCA9iaVmUsKa3e1sTxVVSfBgkGpcxQcPJL33gCfGjgqNrZpBo4tcQ3kvv8GxiwESHw==
+X-Received: by 2002:a05:6a00:a8c:b0:558:991a:6691 with SMTP id
+ b12-20020a056a000a8c00b00558991a6691mr2584469pfl.53.1665025899866; 
+ Wed, 05 Oct 2022 20:11:39 -0700 (PDT)
 Received: from stoup.. ([2602:47:d49d:ec01:9ad0:4307:7d39:bb61])
  by smtp.gmail.com with ESMTPSA id
- u128-20020a627986000000b0056281da3bcbsm58360pfc.149.2022.10.05.20.11.37
+ u128-20020a627986000000b0056281da3bcbsm58360pfc.149.2022.10.05.20.11.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Oct 2022 20:11:38 -0700 (PDT)
+ Wed, 05 Oct 2022 20:11:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org, laurent@vivier.eu, pbonzini@redhat.com,
  imp@bsdimp.com, f4bug@amsat.org
-Subject: [PATCH 19/24] accel/tcg: Simplify page_get/alloc_target_data
-Date: Wed,  5 Oct 2022 20:11:08 -0700
-Message-Id: <20221006031113.1139454-20-richard.henderson@linaro.org>
+Subject: [PATCH 20/24] accel/tcg: Use interval tree for TARGET_PAGE_DATA_SIZE
+Date: Wed,  5 Oct 2022 20:11:09 -0700
+Message-Id: <20221006031113.1139454-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221006031113.1139454-1-richard.henderson@linaro.org>
 References: <20221006031113.1139454-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,99 +90,166 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the only user, Arm MTE, always requires allocation,
-merge the get and alloc functions to always produce a
-non-null result.  Also assume that the user has already
-checked page validity.
+Continue weaning user-only away from PageDesc.
+
+Use an interval tree to record target data.
+Chunk the data, to minimize allocation overhead.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h  | 21 ++++++---------------
- accel/tcg/user-exec.c   | 16 ++++------------
- target/arm/mte_helper.c |  4 ----
- 3 files changed, 10 insertions(+), 31 deletions(-)
+ accel/tcg/internal.h  |   1 -
+ accel/tcg/user-exec.c | 110 ++++++++++++++++++++++++++++++++----------
+ 2 files changed, 85 insertions(+), 26 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 854adc4ac2..2eb1176538 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -281,27 +281,18 @@ void page_reset_target_data(target_ulong start, target_ulong end);
- int page_check_range(target_ulong start, target_ulong len, int flags);
- 
- /**
-- * page_alloc_target_data(address)
-+ * page_get_target_data(address)
-  * @address: guest virtual address
-  *
-- * Allocate TARGET_PAGE_DATA_SIZE bytes of out-of-band data to associate
-- * with the guest page at @address.  If the page is not mapped, NULL will
-- * be returned.  If there is existing data associated with @address,
-- * no new memory will be allocated.
-+ * Return TARGET_PAGE_DATA_SIZE bytes of out-of-band data to associate
-+ * with the guest page at @address, allocating it if necessary.  The
-+ * caller should already have verified that the address is valid.
-  *
-  * The memory will be freed when the guest page is deallocated,
-  * e.g. with the munmap system call.
-  */
--void *page_alloc_target_data(target_ulong address);
--
--/**
-- * page_get_target_data(address)
-- * @address: guest virtual address
-- *
-- * Return any out-of-bound memory assocated with the guest page
-- * at @address, as per page_alloc_target_data.
-- */
--void *page_get_target_data(target_ulong address);
-+void *page_get_target_data(target_ulong address)
-+    __attribute__((returns_nonnull));
- #endif
- 
- CPUArchState *cpu_copy(CPUArchState *env);
+diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+index 1bd5a02911..8731dc52e2 100644
+--- a/accel/tcg/internal.h
++++ b/accel/tcg/internal.h
+@@ -26,7 +26,6 @@
+ typedef struct PageDesc {
+ #ifdef CONFIG_USER_ONLY
+     unsigned long flags;
+-    void *target_data;
+ #else
+     QemuSpin lock;
+     /* list of TBs intersecting this ram page */
 diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 927b91900f..fb7d6ee9e9 100644
+index fb7d6ee9e9..bce3d5f335 100644
 --- a/accel/tcg/user-exec.c
 +++ b/accel/tcg/user-exec.c
-@@ -242,19 +242,11 @@ void page_reset_target_data(target_ulong start, target_ulong end)
+@@ -210,47 +210,107 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
+     return addr;
+ }
+ 
++#ifdef TARGET_PAGE_DATA_SIZE
++/*
++ * Allocate chunks of target data together.  For the only current user,
++ * if we allocate one hunk per page, we have overhead of 40/128 or 40%.
++ * Therefore, allocate memory for 64 pages at a time for overhead < 1%.
++ */
++#define TPD_PAGES  64
++#define TBD_MASK   (TARGET_PAGE_MASK * TPD_PAGES)
++
++typedef struct TargetPageDataNode {
++    IntervalTreeNode itree;
++    char data[TPD_PAGES][TARGET_PAGE_DATA_SIZE] __attribute__((aligned));
++} TargetPageDataNode;
++
++static IntervalTreeRoot targetdata_root;
++
+ void page_reset_target_data(target_ulong start, target_ulong end)
+ {
+-#ifdef TARGET_PAGE_DATA_SIZE
+-    target_ulong addr, len;
++    IntervalTreeNode *n, *next;
++    target_ulong last;
+ 
+-    /*
+-     * This function should never be called with addresses outside the
+-     * guest address space.  If this assert fires, it probably indicates
+-     * a missing call to h2g_valid.
+-     */
+-    assert(end - 1 <= GUEST_ADDR_MAX);
+-    assert(start < end);
+     assert_memory_lock();
+ 
+     start = start & TARGET_PAGE_MASK;
+-    end = TARGET_PAGE_ALIGN(end);
++    last = TARGET_PAGE_ALIGN(end) - 1;
+ 
+-    for (addr = start, len = end - start;
+-         len != 0;
+-         len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
+-        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
++    for (n = interval_tree_iter_first(&targetdata_root, start, last),
++         next = n ? interval_tree_iter_next(n, start, last) : NULL;
++         n != NULL;
++         n = next,
++         next = next ? interval_tree_iter_next(n, start, last) : NULL) {
++        target_ulong n_start, n_last, p_ofs, p_len;
++        TargetPageDataNode *t;
+ 
+-        g_free(p->target_data);
+-        p->target_data = NULL;
++        if (n->start >= start && n->last <= last) {
++            interval_tree_remove(n, &targetdata_root);
++            g_free(n);
++            continue;
++        }
++
++        if (n->start < start) {
++            n_start = start;
++            p_ofs = (start - n->start) >> TARGET_PAGE_BITS;
++        } else {
++            n_start = n->start;
++            p_ofs = 0;
++        }
++        n_last = MIN(last, n->last);
++        p_len = (n_last + 1 - n_start) >> TARGET_PAGE_BITS;
++
++        t = container_of(n, TargetPageDataNode, itree);
++        memset(t->data[p_ofs], 0, p_len * TARGET_PAGE_DATA_SIZE);
+     }
+-#endif
+ }
+ 
+-#ifdef TARGET_PAGE_DATA_SIZE
  void *page_get_target_data(target_ulong address)
  {
-     PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
--    return p ? p->target_data : NULL;
--}
-+    void *ret = p->target_data;
- 
--void *page_alloc_target_data(target_ulong address)
--{
 -    PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
--    void *ret = NULL;
--
--    if (p->flags & PAGE_VALID) {
--        ret = p->target_data;
--        if (!ret) {
--            p->target_data = ret = g_malloc0(TARGET_PAGE_DATA_SIZE);
--        }
-+    if (!ret) {
-+        ret = g_malloc0(TARGET_PAGE_DATA_SIZE);
-+        p->target_data = ret;
+-    void *ret = p->target_data;
++    IntervalTreeNode *n;
++    TargetPageDataNode *t;
++    target_ulong page, region;
++    bool locked;
+ 
+-    if (!ret) {
+-        ret = g_malloc0(TARGET_PAGE_DATA_SIZE);
+-        p->target_data = ret;
++    page = address & TARGET_PAGE_MASK;
++    region = address & TBD_MASK;
++
++    n = interval_tree_iter_first(&targetdata_root, page, page);
++    if (n) {
++        goto found;
      }
-     return ret;
+-    return ret;
++
++    /*
++     * See util/interval-tree.c re lockless lookups: no false positives but
++     * there are false negatives.  If we find nothing, retry with the mmap
++     * lock acquired.  We also need the lock for the allocation + insert.
++     */
++    locked = have_mmap_lock();
++    if (!locked) {
++        mmap_lock();
++        n = interval_tree_iter_first(&targetdata_root, page, page);
++        if (n) {
++            mmap_unlock();
++            goto found;
++        }
++    }
++
++    t = g_new0(TargetPageDataNode, 1);
++    n = &t->itree;
++    n->start = region;
++    n->last = region | ~TBD_MASK;
++    interval_tree_insert(n, &targetdata_root);
++    if (!locked) {
++        mmap_unlock();
++    }
++
++ found:
++    t = container_of(n, TargetPageDataNode, itree);
++    return t->data[(page - region) >> TARGET_PAGE_BITS];
  }
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index 62d36c127f..d8eefabcd3 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -95,10 +95,6 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
-     }
+-#endif
++#else
++void page_reset_target_data(target_ulong start, target_ulong end) { }
++#endif /* TARGET_PAGE_DATA_SIZE */
  
-     tags = page_get_target_data(clean_ptr);
--    if (tags == NULL) {
--        tags = page_alloc_target_data(clean_ptr);
--        assert(tags != NULL);
--    }
+ /* The softmmu versions of these helpers are in cputlb.c.  */
  
-     index = extract32(ptr, LOG2_TAG_GRANULE + 1,
-                       TARGET_PAGE_BITS - LOG2_TAG_GRANULE - 1);
 -- 
 2.34.1
 
