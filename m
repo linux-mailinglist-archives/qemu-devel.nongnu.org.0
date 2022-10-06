@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43AC45F6476
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 12:42:22 +0200 (CEST)
-Received: from localhost ([::1]:48760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 376FD5F6428
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Oct 2022 12:10:40 +0200 (CEST)
+Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogOKY-0006EL-Bd
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 06:42:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47120)
+	id 1ogNpv-0008DT-BB
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 06:10:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xen0n@gentoo.org>) id 1ogNei-0007l1-J6
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 05:59:04 -0400
-Received: from woodpecker.gentoo.org ([140.211.166.183]:57756
- helo=smtp.gentoo.org)
+ (Exim 4.90_1) (envelope-from <xen0n@gentoo.org>) id 1ogNmo-0005EL-Cc
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 06:07:26 -0400
+Received: from woodpecker.gentoo.org
+ ([2001:470:ea4a:1:5054:ff:fec7:86e4]:40813 helo=smtp.gentoo.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <xen0n@gentoo.org>) id 1ogNef-0001fE-Vt
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 05:59:03 -0400
+ (Exim 4.90_1) (envelope-from <xen0n@gentoo.org>) id 1ogNml-0003DE-LP
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 06:07:25 -0400
 From: WANG Xuerui <xen0n@gentoo.org>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -25,21 +25,20 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  WANG Xuerui <xen0n@gentoo.org>, Song Gao <gaosong@loongson.cn>,
  Xiaojuan Yang <yangxiaojuan@loongson.cn>,
  =?UTF-8?q?Andreas=20K=20=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>
-Subject: [PATCH] linux-user: Fix struct statfs ABI on loongarch64
-Date: Thu,  6 Oct 2022 17:58:39 +0800
-Message-Id: <20221006095839.425262-1-xen0n@gentoo.org>
+Subject: [PATCH RESEND] linux-user: Fix struct statfs ABI on loongarch64
+Date: Thu,  6 Oct 2022 18:07:10 +0800
+Message-Id: <20221006100710.427252-1-xen0n@gentoo.org>
 X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=140.211.166.183; envelope-from=xen0n@gentoo.org;
- helo=smtp.gentoo.org
+Received-SPF: pass client-ip=2001:470:ea4a:1:5054:ff:fec7:86e4;
+ envelope-from=xen0n@gentoo.org; helo=smtp.gentoo.org
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,7 +80,10 @@ int main(int argc, const char *argv[])
   return 0;
 }
 
-// Native and expected emulated output after the fix:
+// Example output on my amd64 box, with the test binary residing on a
+// btrfs partition.
+
+// Native and emulated output after the fix:
 //
 // f_type = 0x9123683e
 // f_bsize = 4096
@@ -104,6 +106,11 @@ Cc: Song Gao <gaosong@loongson.cn>
 Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Cc: Andreas K. Hüttel <dilfridge@gentoo.org>
 ---
+
+Resend with amended commit message to 100% clarify the example output
+are generated on my box and will differ for everyone else. Sorry for
+the noise.
+
  linux-user/syscall_defs.h | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
