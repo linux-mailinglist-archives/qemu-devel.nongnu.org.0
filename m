@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646795F754F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 10:29:12 +0200 (CEST)
-Received: from localhost ([::1]:32788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13ABA5F7531
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 10:20:32 +0200 (CEST)
+Received: from localhost ([::1]:45296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogijH-0001Fn-0T
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 04:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55812)
+	id 1ogias-0004z8-Kg
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 04:20:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ogiOL-0007Di-Ba
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 04:07:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58363)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ogiOG-0005jQ-1F
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 04:07:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665130047;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GB6iyD/wWpM8xS+FZ6rbEs3MA/Sc7F/p7LDsMkDkWQw=;
- b=RBhTFeEjrM9Z7zh1tvLemGs0fMsaqz5K4XCx2SrynHygIng+Naq2Fg34dngqxx4PIj/BDY
- KSyxT8xrYBo8bGCeldW2b8ejWPlMlvrQoT/HieQAx/DqGVAltSJi4/0zMtKC4YAbt/e4cM
- QlwTT1gkFf9NjqaU8c+/v8b/+yPMnA0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-452-J5T0-gFuMWqoLffGyHpHQQ-1; Fri, 07 Oct 2022 04:07:23 -0400
-X-MC-Unique: J5T0-gFuMWqoLffGyHpHQQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53A70811E81;
- Fri,  7 Oct 2022 08:07:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DF4A2024CBB;
- Fri,  7 Oct 2022 08:07:20 +0000 (UTC)
-Date: Fri, 7 Oct 2022 09:07:17 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] gitmodules: recurse by default
-Message-ID: <Yz/eNaP994pc+P6Q@redhat.com>
-References: <20221006113906.179963-1-mst@redhat.com>
- <Yz8kfJcfbbTAnmuR@redhat.com>
- <20221006202250-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ogiPM-0007Zf-H5
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 04:08:37 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:44578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ogiPL-0005mX-1W
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 04:08:36 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ t10-20020a17090a4e4a00b0020af4bcae10so4068406pjl.3
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 01:08:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Xx18lHJrJa25XpeylvaXYsd+YwQwXe9Yw+bbuhBl8ys=;
+ b=ktXfQ58e8A5ADWaWQBK1zfljs2h1bWl/47izBE6RZ6dEg1VlWAOf3jPZCB2RAriCui
+ ld2c5kXXTNin2WpQx3JR29/oPn82JRI2bE2cXsmjmUmpo6MnRRdh+uS7d9og9En0OsWI
+ E4CvkAMKKK8hPWoornQOP0HNV7UANtwV931SAfbIkx0kG6wH92ZOnVMSZiclA1HmoiEC
+ yNk+3+WdFYIYB/BlN2GCwG60fwXxjyhQDvDZwv3pNWfoXGjVf2JZfi/rBLEfw2My1hkL
+ iPPV0vje/Aho2t6JgUGIZpHg+mHf6CaLDY5rDd60uC9IiRKxoYeQnsAgdBEHwcwJQM4H
+ /kEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Xx18lHJrJa25XpeylvaXYsd+YwQwXe9Yw+bbuhBl8ys=;
+ b=vnfncK7h56ImM6CXhz3z8/JANcVcQJHNu8wqBN/WozmVbTwqcrqnkU4AEd0Rt6majZ
+ NgHgYcNbEOABYu6h3RtXdZPeCANr3AclW+YqodaLKlmG5SZPdTN4i+g78pNRj3cRwC00
+ R2RVdg3nBcd4ylY/XuN9BgyYkuZikc0slKN+n7TPqDqyll541wnuInLagiGNbY/fXHHU
+ rLwm7qYTkqo3Nq+QIN/K48NH/8/mJkPjkzxSJU6e0F/CJCaUJqHgsnTb5xsy0SLkanRD
+ IP3UYmoox54SBBM/MKAIO13nA8RgX3SHg0VBTVXiLG8fqVBEhL+WtcqD8yVO+Sm7qS3l
+ di1A==
+X-Gm-Message-State: ACrzQf15vXf+XpN4sEaHa0wpBKNS+JbGG1Mj49b1RUC7mxUNP7osq5Yj
+ KEDdRfrwSdEWcd8qBwtjG0+gv1dkYbHuoSj6rBvO7A==
+X-Google-Smtp-Source: AMsMyM6vFae8K4e+CC2fFHMukI1gi3YMuhcBYK4kPNnPfNiYduEyedou13y4OL3j07A6WeVVflYW+wU+q6mrRV3LUZs=
+X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
+ jm23-20020a17090304d700b001788564f754mr3598554plb.60.1665130113509; Fri, 07
+ Oct 2022 01:08:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221006202250-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221006225232.3558794-1-patrick@stwcx.xyz>
+ <fb8c58b9-35d9-55ab-5164-a28530ba38a8@kaod.org>
+In-Reply-To: <fb8c58b9-35d9-55ab-5164-a28530ba38a8@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Oct 2022 09:08:21 +0100
+Message-ID: <CAFEAcA_UNe+3-i6T8vrRNSVWg9nO6RWGi6bF7SX0Sf9xO5k17A@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/aspeed: increase Bletchley memory size
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Patrick Williams <patrick@stwcx.xyz>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>, 
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, 
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,100 +88,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 06, 2022 at 08:24:01PM -0400, Michael S. Tsirkin wrote:
-> On Thu, Oct 06, 2022 at 07:54:52PM +0100, Daniel P. Berrangé wrote:
-> > On Thu, Oct 06, 2022 at 07:39:07AM -0400, Michael S. Tsirkin wrote:
-> > > The most commmon complaint about submodules is that
-> > > they don't follow when one switches branches in the
-> > > main repo. Enable recursing into submodules by default
-> > > to address that.
-> > > 
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > ---
-> > >  .gitmodules | 23 +++++++++++++++++++++++
-> > >  1 file changed, 23 insertions(+)
-> > 
-> > What am I missing, as I tried something equiv to this change
-> > with one submodule and it didn't appear to have any effect.
-> > I started from a clean slate:
-> > 
-> > $ git submodule  deinit --all --force
-> > 
-> > The .gitmodules config has 'recurse = true' for the ui/keycodemapdb
-> > module:
-> > 
-> > $ grep keycodemap --after 1 .gitmodules 
-> > [submodule "ui/keycodemapdb"]
-> > 	path = ui/keycodemapdb
-> > 	url = https://gitlab.com/qemu-project/keycodemapdb.git
-> > 	recurse = true
-> > 
-> > I have a change on master setting the submodule commit:
-> > 
-> > $ git show master | grep +Sub
-> > +Subproject commit 7381b9bfadd31c4c9e9a10b5bb5032f9189d4352
-> > 
-> > and check it out:
-> > 
-> > $ git submodule update --init ui/keycodemapdb
-> > Submodule 'ui/keycodemapdb' (https://gitlab.com/qemu-project/keycodemapdb.git) registered for path 'ui/keycodemapdb'
-> > Submodule path 'ui/keycodemapdb': checked out '7381b9bfadd31c4c9e9a10b5bb5032f9189d4352'
-> > 
-> > 
-> > In another branch I have a different commit:
-> > 
-> > $ git show sub-foo  | grep +Sub
-> > +Subproject commit 57ba70da5312170883a3d622cd2aa3fd0e2ec7ae
-> > 
-> > 
-> > Now I switch branches and nothing happens, the submodule
-> > is marked as dirty:
-> > 
-> > $ git checkout sub-foo
-> > M	ui/keycodemapdb
-> > Switched to branch 'sub-foo'
-> > 
-> > $ (cd ui/keycodemapdb && git show | head -1)
-> > commit 7381b9bfadd31c4c9e9a10b5bb5032f9189d4352
-> > 
-> > 
-> > >From your description (and indeed that of the man page) it
-> > sounded like ui/keycodemapdb should have got updated to
-> > commit 57ba70da5312170883a3d622cd2aa3fd0e2ec7ae when I did
-> > 'git checkout', but that didn't happen
-> 
-> I think .gitmodules got overwritten when you checked out the branch.
-> Possible?
+On Fri, 7 Oct 2022 at 08:28, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> On 10/7/22 00:52, Patrick Williams wrote:
+> > For the PVT-class hardware we have increased the memory size of
+> > this device to 2 GiB.  Adjust the device model accordingly.
+>
+> You should add some defines similar to  :
+>
+>      /* On 32-bit hosts, lower RAM to 1G because of the 2047 MB limit */
+>      #if HOST_LONG_BITS =3D=3D 32
+>      #define FUJI_BMC_RAM_SIZE (1 * GiB)
+>      #else
+>      #define FUJI_BMC_RAM_SIZE (2 * GiB)
+>      #endif
+>
+> or are we done with 32bit hosts ?
 
-No, it the same in both branches, since they share a common
-ancestor commit which added the recurse tag
+We are not.
 
-$ git checkout master
-Switched to branch 'master'
-$ git grep keycodemapdb --after 1 .gitmodules 
-[submodule "ui/keycodemapdb"]
-	path = ui/keycodemapdb
-	url = https://gitlab.com/qemu-project/keycodemapdb.git
-	recurse = true
-$ git checkout sub-foo 
-M	ui/keycodemapdb
-Switched to branch 'sub-foo'
-$ grep keycodemapdb --after 1 .gitmodules 
-[submodule "ui/keycodemapdb"]
-	path = ui/keycodemapdb
-	url = https://gitlab.com/qemu-project/keycodemapdb.git
-	recurse = true
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
