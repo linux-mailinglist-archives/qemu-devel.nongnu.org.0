@@ -2,74 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CE15F7643
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 11:30:37 +0200 (CEST)
-Received: from localhost ([::1]:44266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 327555F765E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 11:37:53 +0200 (CEST)
+Received: from localhost ([::1]:54850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogjgi-00033M-D3
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 05:30:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55808)
+	id 1ogjnj-0006xV-TG
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 05:37:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogjad-0006MP-HT
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 05:24:19 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:38469)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogjaa-0007hJ-Bd
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 05:24:18 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id 129so4153865pgc.5
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 02:24:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BdMCYTCIJXpxF2dZ4tfztJSQ18pf6vOBS4zdHGeHeOA=;
- b=SeDvxRYvSuLIaLe0gdip0fS8oVq0xLSFQUjKVpt9j2oGNy1Ho00G0uzQFy1WgCGojm
- eD/3vHqFtQS5GcRynqRKH2FLWR5iKas7nSE6DVnNLfs3Cxf7YXZArBlBp6wF5mYOde6k
- /b4z/cmXxKsfGPS6f0RmWMEjR0AcrIAQBlRRqb5haVI266CQovTeTwzFR6nqkOxmJJMs
- asjAnm5nbuHUiynVVclwHntO0RocAopLwRpJafZTTyGoMoe/YgHQ7723UTaY/Wfr6g3w
- QNWQAneUX3N16hKAPemibJ5PB1JsU4uH3JbIXcT8lkDAdKghzlqXUir81jqWlF1P82vX
- apuw==
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1ogjcd-0000Dj-F4
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 05:26:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52118)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1ogjca-0008Da-1K
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 05:26:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665134778;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QjSYSUWBG0AVYzLnxyior/qeZxRXaWTwtQTI/En/joU=;
+ b=IjxyZb13jI6V+k89CJXT3Z/5DHgwRCm/Qc4DHYuBYcR0X56AWhkY9N981y/TI0LemVkmrp
+ yKM9vJVr9rYIy7sTVWzAMKiP5dKImeNQOHOmzmXqjN6Z/EIauzpBZm29COg6B48OJh5K6m
+ ysGDYsUah6hveXePgvN4+HTmuBsMKeY=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-330-J_Y1ZBs-MQmw2MMsGq-D6Q-1; Fri, 07 Oct 2022 05:26:17 -0400
+X-MC-Unique: J_Y1ZBs-MQmw2MMsGq-D6Q-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ ht14-20020a170907608e00b0078d437c268dso2347060ejc.20
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 02:26:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BdMCYTCIJXpxF2dZ4tfztJSQ18pf6vOBS4zdHGeHeOA=;
- b=tQuwm4liNjNbmK+/FkSO8wQHHcm3JKH27U/6Ukiyb3yzRePhw8RqjXAIL+a7LSoi2r
- cGLFCy9ESeYeDRotgvZyn02CXiHF/Il7Ygq28vp4y/XYoSY79MC8TOwq6yXZol72qkAa
- mjF+oM85bOVjTDOGAAm+1ek8MyLhg/YylIr7idktRNXyKutH9X+RaNOlNgS+u8oFLfkU
- rYIeDdDZ2TbCX6KkOjrqFDSj+oVPdeYOp4faQrgTtvIi0Zyo1TGYbsMWxS4DN81rrtf4
- p4G1gsivIE1nxz2TJsdSoA5P2p0KNKaftW7d3LrQWp87BigiiFSz+ic8k1ZiqLMZhqLK
- oPBw==
-X-Gm-Message-State: ACrzQf1gAFAUDfHl+suTVpKF+6jPPNgo2JiNKQgjlO4mZSNC9LIcR9H/
- Hi2HMgvIxfcj2nv7xiWz1bIOoRx5mJqX46YCOsSjlA==
-X-Google-Smtp-Source: AMsMyM4q/KgpMd1GLoTkqbH9ghq5UljpByBS0qHnrQBMHlZvoZbbUw5wg/bhcll1s5VB1iMpdCBdaLNWdGsQDLJnbNg=
-X-Received: by 2002:a63:89c3:0:b0:452:f2ad:52b9 with SMTP id
- v186-20020a6389c3000000b00452f2ad52b9mr3655314pgd.105.1665134654939; Fri, 07
- Oct 2022 02:24:14 -0700 (PDT)
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QjSYSUWBG0AVYzLnxyior/qeZxRXaWTwtQTI/En/joU=;
+ b=BkhMsQiXVsVP620nj530OnORjguriOt0zeSe2hDyg6+8EfT2dvavDAFhz/nxMP/2WU
+ LkjaoJqTLBfWfM4YnyAEH0Q8ZQeIiEbtoW94WiMVpP6kRMTK124oJw3iH8aE3ATkT5vs
+ XdCbJTVKMveecSS2psLFU5wLejAFgk4OVfrGV5hGOink4fLll5aXcfkfutGtq+1zZ1/j
+ sWqlwzlxgqTRroZbt+D18PrCEqFTWE5z5oJrlrMh1tn16HOQC3mbevlhz9yCFt4H5vg1
+ ezeoqz+qxL9tJIJEq9d7Ziprdqc9VQH8/AJs1szwIWh4lP28Zb21eAelrfiKCdCrxiJg
+ fwTA==
+X-Gm-Message-State: ACrzQf1xrv/K7Yt1AnCYiRrwzKqdJ6ISSA0cpIlOqnog3taCBgSJxCem
+ MpN2yzE4/M8pfyeQ5wl/cqhXxuB1FaOz5B5O377w6sm7+RaGcORekZf38EIbn6lNwLhuIVabuP4
+ W3HpkeQPC4xa+IWY=
+X-Received: by 2002:a05:6402:50d1:b0:45a:fc:86f4 with SMTP id
+ h17-20020a05640250d100b0045a00fc86f4mr3749006edb.344.1665134776111; 
+ Fri, 07 Oct 2022 02:26:16 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM48ex39ISJWNkAYM1KlGOX7o3/de6btDElJRB7+a7b+/9GD8X+d4zqvSSODBWOwT/S8Gsfr4w==
+X-Received: by 2002:a05:6402:50d1:b0:45a:fc:86f4 with SMTP id
+ h17-20020a05640250d100b0045a00fc86f4mr3748989edb.344.1665134775828; 
+ Fri, 07 Oct 2022 02:26:15 -0700 (PDT)
+Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id
+ kx22-20020a170907775600b0078ba492db81sm975153ejc.9.2022.10.07.02.26.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Oct 2022 02:26:15 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>, Oliver Upton <oupton@google.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH] i386: Fix KVM_CAP_ADJUST_CLOCK capability check
+In-Reply-To: <87wn9pkv6e.fsf@redhat.com>
+References: <20220920144024.3559708-1-vkuznets@redhat.com>
+ <87wn9pkv6e.fsf@redhat.com>
+Date: Fri, 07 Oct 2022 11:26:14 +0200
+Message-ID: <87sfk07znt.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20221001162318.153420-1-richard.henderson@linaro.org>
- <20221001162318.153420-33-richard.henderson@linaro.org>
-In-Reply-To: <20221001162318.153420-33-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Oct 2022 10:24:03 +0100
-Message-ID: <CAFEAcA94XFJ1d0Trn08cMvxnDCxd+SGwJuG1ZQZaUb9g_FZg_Q@mail.gmail.com>
-Subject: Re: [PATCH v3 32/42] target/arm: Extract HA and HD in
- aa64_va_parameters
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,71 +98,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 1 Oct 2022 at 17:42, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/internals.h | 2 ++
->  target/arm/helper.c    | 8 +++++++-
->  2 files changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/target/arm/internals.h b/target/arm/internals.h
-> index a50189e2e4..e95b6b1b8f 100644
-> --- a/target/arm/internals.h
-> +++ b/target/arm/internals.h
-> @@ -1014,6 +1014,8 @@ typedef struct ARMVAParameters {
->      bool using64k   : 1;
->      bool tsz_oob    : 1;  /* tsz has been clamped to legal range */
->      bool ds         : 1;
-> +    bool ha         : 1;
-> +    bool hd         : 1;
->  } ARMVAParameters;
->
->  ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 19a03eb200..70ae3816b9 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -10280,7 +10280,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
->                                     ARMMMUIdx mmu_idx, bool data)
->  {
->      uint64_t tcr = regime_tcr(env, mmu_idx);
-> -    bool epd, hpd, using16k, using64k, tsz_oob, ds;
-> +    bool epd, hpd, using16k, using64k, tsz_oob, ds, ha, hd;
->      int select, tsz, tbi, max_tsz, min_tsz, ps, sh;
->      ARMCPU *cpu = env_archcpu(env);
->
-> @@ -10298,6 +10298,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
->          epd = false;
->          sh = extract32(tcr, 12, 2);
->          ps = extract32(tcr, 16, 3);
-> +        ha = extract32(tcr, 21, 1) && cpu_isar_feature(aa64_hafs, cpu);
-> +        hd = extract32(tcr, 22, 1) && cpu_isar_feature(aa64_hdbs, cpu);
->          ds = extract64(tcr, 32, 1);
->      } else {
->          /*
-> @@ -10322,6 +10324,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
->              hpd = extract64(tcr, 42, 1);
->          }
->          ps = extract64(tcr, 32, 3);
-> +        ha = extract64(tcr, 39, 1) && cpu_isar_feature(aa64_hafs, cpu);
-> +        hd = extract64(tcr, 40, 1) && cpu_isar_feature(aa64_hdbs, cpu);
->          ds = extract64(tcr, 59, 1);
->      }
->
-> @@ -10393,6 +10397,8 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
->          .using64k = using64k,
->          .tsz_oob = tsz_oob,
->          .ds = ds,
-> +        .ha = ha,
-> +        .hd = ha & hd,
+Vitaly Kuznetsov <vkuznets@redhat.com> writes:
 
-This is a bitwise operation on two bools, should be && ?
+> Vitaly Kuznetsov <vkuznets@redhat.com> writes:
+>
+>> KVM commit c68dc1b577ea ("KVM: x86: Report host tsc and realtime values in
+>> KVM_GET_CLOCK") broke migration of certain workloads, e.g. Win11 + WSL2
+>> guest reboots immediately after migration. KVM, however, is not to
+>> blame this time. When KVM_CAP_ADJUST_CLOCK capability is checked, the
+>> result is all supported flags (which the above mentioned KVM commit
+>> enhanced) but kvm_has_adjust_clock_stable() wants it to be
+>> KVM_CLOCK_TSC_STABLE precisely. The result is that 'clock_is_reliable'
+>> is not set in vmstate and the saved clock reading is discarded in
+>> kvmclock_vm_state_change().
+>>
+>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> ---
+>>  target/i386/kvm/kvm.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+>> index a1fd1f53791d..c33192a87dcb 100644
+>> --- a/target/i386/kvm/kvm.c
+>> +++ b/target/i386/kvm/kvm.c
+>> @@ -157,7 +157,7 @@ bool kvm_has_adjust_clock_stable(void)
+>>  {
+>>      int ret = kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
+>>  
+>> -    return (ret == KVM_CLOCK_TSC_STABLE);
+>> +    return ret & KVM_CLOCK_TSC_STABLE;
+>>  }
+>>  
+>>  bool kvm_has_adjust_clock(void)
+>
+> Ping) This issue seems to introduce major migration issues with KVM >= v5.16
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Ping)
 
-thanks
--- PMM
+-- 
+Vitaly
+
 
