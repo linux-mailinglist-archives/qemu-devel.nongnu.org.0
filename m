@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72D95F7B8D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:34:32 +0200 (CEST)
-Received: from localhost ([::1]:37776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF235F7BD6
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:56:25 +0200 (CEST)
+Received: from localhost ([::1]:36688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogqIx-0000OD-Sx
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:34:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45660)
+	id 1ogqe8-0000Tw-KT
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogpvx-0006mV-ST
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:10:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40652)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogpvt-0005wV-Du
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:10:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665159040;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EoXnTMqZIexoxb06RHpGrCYMmI9m0D1+DbL86Revn+M=;
- b=Q4zJGHo4ycz1E02I5/ww2ZzcBbmouTwBqhgG7shpzmty2KG6gP8ziHt1xZXVr21K/papZE
- LDrbFGagjGxPB6ApONUXzfs/DXQJPpxYb60k/mEK828yhkwf2fuq5LN3cQjtebBQa/AkgS
- T8vCLP6CdmVlnFA+JzXJLFo+GzsLk64=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-114-BYQUebbTP6WvSG1mnCmzhA-1; Fri, 07 Oct 2022 12:10:38 -0400
-X-MC-Unique: BYQUebbTP6WvSG1mnCmzhA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8FDE6384C6C7;
- Fri,  7 Oct 2022 16:10:38 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.109])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 16CCE1457F37;
- Fri,  7 Oct 2022 16:10:36 +0000 (UTC)
-Date: Fri, 7 Oct 2022 18:10:35 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 04/11] bdrv_child_try_change_aio_context: add
- transaction parameter
-Message-ID: <Y0BPe6+f/db7hvnt@redhat.com>
-References: <20220725122120.309236-1-eesposit@redhat.com>
- <20220725122120.309236-5-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ogpwe-0000gk-Sq
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:11:28 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:43975)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ogpwV-00064a-Oj
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:11:28 -0400
+Received: by mail-pf1-x434.google.com with SMTP id 204so5275251pfx.10
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 09:11:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=DRR5Vxo77shyz1gpQGn8nfsniOVpFa4god68254hExE=;
+ b=eoCGk2E+VQf57UQL0CKk24OrGRx38F+ASpafJtESTi1vM36ibpW7WPuiZD8fZu/mxl
+ iUoP6Tw24koqmGruczWf615zCDrEGd/WoFIUzrT1itps5gUdf2zTmMMF2vU4Xvfp4MAJ
+ Plt+Te65ooukQXFBh5PSCSOpx13ZUTLqotYW1QPDGLAFqmYB9DGE+OIQCe9FFYVolUzJ
+ 2W38qxGp7thBI4x/2W3mcKgFD7BMw/W2C1J/3qz8ghDbTWZqRMC0sxnn7QJSM1d51BDE
+ v4xxM3rMvgX3XeWCtTANbxUWxXxo7xvsquyh8RmLkDeK8EYaG7S2GDDdeDrIaDDEZM8w
+ 03jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DRR5Vxo77shyz1gpQGn8nfsniOVpFa4god68254hExE=;
+ b=0NJUQoOOrJJ3p2eF9gtsaE8DgFt0wcKfVuDF7470t7LgganwdNjVhlYutBgYHDzsDi
+ NMf2g6Khq+NcfB0eFj+iqtj+fYKNGcFGxRpsOR2FwptcwB+kY4DDmUmxkawhDNTas6ne
+ fA3sCFu8T5A0ALLIbgpaKPlPA5tnhA8s8mUfC2nsdCulbLmgGycMkTyU2UNmTWrnbxr0
+ FYc0YjeebYTHKREu7gmS09Mlr+23sxV8Mg2Vi766JnDHiA+UY2yKhBof4WAYGs3sylMe
+ nIntucSRaBaRKf3hKviRQfata6vDL4drjp6a/AfRlylkbZYOKHIbAtTUUvLlc/P8fdKW
+ w0xQ==
+X-Gm-Message-State: ACrzQf2b2fm3y2bE3ViJnIwy5SXwD6UroqkNQHDrZzbCLRdjyzWKedVT
+ USqhWr6ooz54SnyhKvr3G+3mGt6BRDVLcdoK2o9Muw==
+X-Google-Smtp-Source: AMsMyM6cm4Z0pioaixWVp633tkYM1VVOuTOEIYNgLN/LYlJVsBmVSDYTRYkgfrQ9XAtdLn0A36+5NnKaLUaSfptbkCM=
+X-Received: by 2002:a05:6a00:181f:b0:562:8e02:ec29 with SMTP id
+ y31-20020a056a00181f00b005628e02ec29mr6131359pfa.3.1665159077326; Fri, 07 Oct
+ 2022 09:11:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220725122120.309236-5-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221001162318.153420-1-richard.henderson@linaro.org>
+ <20221001162318.153420-33-richard.henderson@linaro.org>
+ <CAFEAcA94XFJ1d0Trn08cMvxnDCxd+SGwJuG1ZQZaUb9g_FZg_Q@mail.gmail.com>
+ <21eab094-34a5-6e02-6bf4-3ac4c70955dd@linaro.org>
+In-Reply-To: <21eab094-34a5-6e02-6bf4-3ac4c70955dd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Oct 2022 17:11:05 +0100
+Message-ID: <CAFEAcA8Tg2Vmy2B0a_QcF9wYMHsQUY8HhEOXhmhTF6qO_3RGtw@mail.gmail.com>
+Subject: Re: [PATCH v3 32/42] target/arm: Extract HA and HD in
+ aa64_va_parameters
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,55 +87,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.07.2022 um 14:21 hat Emanuele Giuseppe Esposito geschrieben:
-> This enables the caller to use the same transaction to also
-> keep track of aiocontext changes.
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+On Fri, 7 Oct 2022 at 16:37, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 10/7/22 02:24, Peter Maydell wrote:
+> >> +        .ha = ha,
+> >> +        .hd = ha & hd,
+> >
+> > This is a bitwise operation on two bools, should be && ?
+>
+> Bitwise works fine, but I can use boolean if you like.
+>
+> I'd be surprised (and filing a missed optimization bug) if the compiler treated these two
+> operations differently in this case (simple bool operands with no side effects).
 
-What you're really doing here is factoring out the recursive phase.
-However, the factored out function is never used from anywhere else,
-so I don't understand the purpose of this patch. It feels like an
-unnecessary complication of the code.
+The different treatment I would expect would be that in the '&'
+case it warns you about using a bitwise operation on a boolean :-)
 
-The commit message is unclear to me, too: Who is the caller of
-bdrv_child_try_change_aio_context() that it mentions, and why does it
-make a difference to it how the code is organised internally?
-
-Is this some artifact of changes you made and we don't need it any more
-now?
-
->  block.c                            | 31 ++++++++++++++++++++++++------
->  include/block/block-global-state.h |  5 +++++
->  2 files changed, 30 insertions(+), 6 deletions(-)
-> 
-> diff --git a/block.c b/block.c
-> index c02a628336..221bf90268 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -7643,17 +7643,16 @@ int bdrv_child_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
->   * For the same reason, it temporarily holds also the new AioContext, since
->   * bdrv_drained_end calls BDRV_POLL_WHILE that assumes the lock is taken too.
->   */
-> -int bdrv_child_try_change_aio_context(BlockDriverState *bs, AioContext *ctx,
-> -                                      BdrvChild *ignore_child, Error **errp)
-> +int bdrv_child_try_change_aio_context_tran(BlockDriverState *bs,
-> +                                           AioContext *ctx,
-> +                                           BdrvChild *ignore_child,
-> +                                           Transaction *tran,
-> +                                           Error **errp)
-
-As mentioned above, this is never used anywhere else than from
-bdrv_child_try_change_aio_context(), so if we want to keep the patch, it
-should be static at least.
-
-Maybe find a better name, too, because all of the transaction related
-operations are in the caller.
-
-The function comment is not accurate any more either because it
-described the whole of bdrv_child_try_change_aio_context(), while this
-function only contains the recursive part.
-
-Kevin
-
+-- PMM
 
