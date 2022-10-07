@@ -2,45 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39885F7FB5
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 23:18:30 +0200 (CEST)
-Received: from localhost ([::1]:48632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9F95F8059
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 23:56:19 +0200 (CEST)
+Received: from localhost ([::1]:58588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogujl-0004s4-BQ
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 17:18:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50424)
+	id 1ogvKM-0001Kz-7P
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 17:56:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
- id 1oguhN-0003Mb-KT
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 17:16:07 -0400
-Received: from smtp.gentoo.org ([2001:470:ea4a:1:5054:ff:fec7:86e4]:37575)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
- id 1oguh7-00063B-7R
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 17:16:00 -0400
-From: "Andreas K. Huettel" <dilfridge@gentoo.org>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <f4bug@amsat.org>,
- WANG Xuerui <xen0n@gentoo.org>, Song Gao <gaosong@loongson.cn>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>, WANG Xuerui <xen0n@gentoo.org>
-Subject: Re: [PATCH RESEND] linux-user: Fix struct statfs ABI on loongarch64
-Date: Fri, 07 Oct 2022 23:15:33 +0200
-Message-ID: <4766451.GXAFRqVoOG@pinacolada>
-Organization: Gentoo Linux
-In-Reply-To: <20221006100710.427252-1-xen0n@gentoo.org>
-References: <20221006100710.427252-1-xen0n@gentoo.org>
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ogvIm-0008F9-Rb
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 17:54:40 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:56620)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ogvIk-0002E3-Rl
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 17:54:40 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B2571B8075B;
+ Fri,  7 Oct 2022 21:54:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B8EC433C1;
+ Fri,  7 Oct 2022 21:54:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1665179674;
+ bh=G2Bpq4X4c8Ld9teic5MSWuwfYmtsWLlVtQM7SvLz7EM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NJdWRQVjYLReY1JTMnenjvtgVCZt4egbIwOAesAgJ0c5LRyiJ6FS2Is1wil1ZXdTz
+ AJ1kwpOlrcj05wS26ZoEzT3/8h530P4CX+wFcr9u1OEiqHvLE+PC7ho2e7GJFdEUru
+ 7tzvwEpp+KSGnrXLeNvlQNkIzXs14GKQ2UEf9fckV+owFuT9iIYNbE89lYFrF4/9i6
+ RXxYXRFq8nqmJMmmQd4o6QJMRj+U707HR9qwU7r4/1xjmo4p6qYx/RPgcl8VWzrfqq
+ vMBKtC9AalFy4+WmipyZkd+XoDdrkbKg+xypPSWQwhnm8oQlSaLdzQoYjHHrShp+pT
+ +BMOJNADjwkmA==
+Date: Sat, 8 Oct 2022 00:54:28 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y0CgFIq6JnHmdWrL@kernel.org>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <Yz7s+JIexAHJm5dc@kernel.org> <Yz7vHXZmU3EpmI0j@kernel.org>
+ <Yz71ogila0mSHxxJ@google.com> <Y0AJ++m/TxoscOZg@kernel.org>
+ <Y0A+rogB6TRDtbyE@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart1850213.tdWV9SEqCh";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=2001:470:ea4a:1:5054:ff:fec7:86e4;
- envelope-from=dilfridge@gentoo.org; helo=smtp.gentoo.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y0A+rogB6TRDtbyE@google.com>
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=jarkko@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,113 +98,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nextPart1850213.tdWV9SEqCh
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: "Andreas K. Huettel" <dilfridge@gentoo.org>
-To: qemu-devel@nongnu.org
-Date: Fri, 07 Oct 2022 23:15:33 +0200
-Message-ID: <4766451.GXAFRqVoOG@pinacolada>
-Organization: Gentoo Linux
-In-Reply-To: <20221006100710.427252-1-xen0n@gentoo.org>
-References: <20221006100710.427252-1-xen0n@gentoo.org>
-MIME-Version: 1.0
+On Fri, Oct 07, 2022 at 02:58:54PM +0000, Sean Christopherson wrote:
+> On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
+> > On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
+> > > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
+> > > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
+> > > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> > > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> > > > > > additional KVM memslot fields private_fd/private_offset to allow
+> > > > > > userspace to specify that guest private memory provided from the
+> > > > > > private_fd and guest_phys_addr mapped at the private_offset of the
+> > > > > > private_fd, spanning a range of memory_size.
+> > > > > > 
+> > > > > > The extended memslot can still have the userspace_addr(hva). When use, a
+> > > > > > single memslot can maintain both private memory through private
+> > > > > > fd(private_fd/private_offset) and shared memory through
+> > > > > > hva(userspace_addr). Whether the private or shared part is visible to
+> > > > > > guest is maintained by other KVM code.
+> > > > > 
+> > > > > What is anyway the appeal of private_offset field, instead of having just
+> > > > > 1:1 association between regions and files, i.e. one memfd per region?
+> > > 
+> > > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
+> > > E.g. if a vCPU converts a single page, it will be forced to wait until all other
+> > > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
+> > > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
+> > > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
+> > > the SRCU problem.
+> > > 
+> > > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
+> > > memslot is deleted.
+> > > 
+> > > Taking both a private_fd and a shared userspace address allows userspace to convert
+> > > between private and shared without having to manipulate memslots.
+> > 
+> > Right, this was really good explanation, thank you.
+> > 
+> > Still wondering could this possibly work (or not):
+> > 
+> > 1. Union userspace_addr and private_fd.
+> 
+> No, because userspace needs to be able to provide both userspace_addr (shared
+> memory) and private_fd (private memory) for a single memslot.
 
-Am Donnerstag, 6. Oktober 2022, 12:07:10 CEST schrieb WANG Xuerui:
-> Previously the 32-bit version was incorrectly chosen, leading to funny
-> but incorrect output from e.g. df(1). Simply select the version
-> corresponding to the 64-bit asm-generic definition.
->=20
-> For reference, this program should produce the same output no matter
-> natively compiled or not, for loongarch64 or not:
->=20
-> ```c
-> #include <stdio.h>
-> #include <sys/statfs.h>
->=20
-> int main(int argc, const char *argv[])
-> {
->   struct statfs b;
->   if (statfs(argv[0], &b))
->     return 1;
->=20
->   printf("f_type =3D 0x%lx\n", b.f_type);
->   printf("f_bsize =3D %ld\n", b.f_bsize);
->   printf("f_blocks =3D %ld\n", b.f_blocks);
->   printf("f_bfree =3D %ld\n", b.f_bfree);
->   printf("f_bavail =3D %ld\n", b.f_bavail);
->=20
->   return 0;
-> }
->=20
-> // Example output on my amd64 box, with the test binary residing on a
-> // btrfs partition.
->=20
-> // Native and emulated output after the fix:
-> //
-> // f_type =3D 0x9123683e
-> // f_bsize =3D 4096
-> // f_blocks =3D 268435456
-> // f_bfree =3D 168406890
-> // f_bavail =3D 168355058
->=20
-> // Output before the fix, note the messed layout:
-> //
-> // f_type =3D 0x10009123683e
-> // f_bsize =3D 723302085239504896
-> // f_blocks =3D 168355058
-> // f_bfree =3D 2250817541779750912
-> // f_bavail =3D 1099229433104
-> ```
->=20
-> Fixes: 1f63019632 ("linux-user: Add LoongArch syscall support")
-> Signed-off-by: WANG Xuerui <xen0n@gentoo.org>
-> Cc: Song Gao <gaosong@loongson.cn>
-> Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Cc: Andreas K. H=FCttel <dilfridge@gentoo.org>
-> ---
->=20
-> Resend with amended commit message to 100% clarify the example output
-> are generated on my box and will differ for everyone else. Sorry for
-> the noise.
->=20
+Got it, thanks for clearing my misunderstandings on this topic, and it
+is quite obviously visible in 5/8 and 7/8. I.e. if I got it right,
+memblock can be partially private, and you dig the shared holes with
+KVM_MEMORY_ENCRYPT_UNREG_REGION. We have (in Enarx) ATM have memblock
+per host mmap, I was looking into this dilated by that mindset but makes
+definitely sense to support that.
 
-Definitely fixes df.
-
-Tested-by: Andreas K. Huettel <dilfridge@gentoo.org>
-
-=2D-=20
-Andreas K. H=FCttel
-dilfridge@gentoo.org
-Gentoo Linux developer
-(council, toolchain, base-system, perl, libreoffice)
---nextPart1850213.tdWV9SEqCh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQKTBAABCgB9FiEE/Rnm0xsZLuTcY+rT3CsWIV7VQSoFAmNAlvVfFIAAAAAALgAo
-aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldEZE
-MTlFNkQzMUIxOTJFRTREQzYzRUFEM0RDMkIxNjIxNUVENTQxMkEACgkQ3CsWIV7V
-QSqyvBAAyh9NHKNfY575zQkNA7zE/ytkHCtmxDR81KAYVhPiYkloqs1mv8rhKo8q
-0CKt+fgK8GGtyQGW8auzEMLZ2vBRO7CWby2hlrMzmfIMMoiQYXhPjdFfG5aSs6qU
-gesRE3+L1CuYQ+XR1/nGQSTdQoA3BLmQyX5UMxzssHCDKMVk/Rit3Mg21viVguMN
-2a+yisQKxgPbLW55sheFYTUYSPL/HbbJncPyCah2FYWpM7kUJY+hR86V7DQt2gmd
-/U+DMdmVfQ24xpvZO3sAt8VUm7jkfjg22opKNZdAlDkue+ortaOOMwgIzbVfmvzQ
-RvM771Hc8swTqFbx+bDiD9XmUJKyrndDPA7kTtyczslCsIn4G1QKrGn4eiIEhZU6
-ep9N4yNSwAeVuncj1InVtHIXh9X/FV448xQxO0rLJHOjlsXxWlvSSE7VM/0NJRyZ
-e4/yYyZazuUMLQakLkwmCpSVy1N3sRurhYRKWbU7reA8+L5843Aj31OcDo3KMPjM
-QWJJ9X5XaQNkEcZPur/wtbSd804DpCBfDlJ5XGEoTMAVil1qhD+RhOpHh7uXalHM
-sG7EyURQ+ULxaqkmmkM+IfzUC8bs96UmuKQv90Rm6jTPLapQUKsS5gbFC3KF+16w
-VpxPikI3luqgrh0dk5Ah3oATYIEuBlxM5+zaL3wwm1+urr7hDJg=
-=yjXU
------END PGP SIGNATURE-----
-
---nextPart1850213.tdWV9SEqCh--
-
-
-
+BR, Jarkko
 
