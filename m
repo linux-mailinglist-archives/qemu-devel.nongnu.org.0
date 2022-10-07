@@ -2,61 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848545F7BA4
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:40:00 +0200 (CEST)
-Received: from localhost ([::1]:47570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C5E25F7BD2
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:52:21 +0200 (CEST)
+Received: from localhost ([::1]:33696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogqOF-00064k-G9
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:39:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54570)
+	id 1ogqaC-000348-39
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:52:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ogqJk-0000pO-Dg
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:35:22 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ogqJi-0001WI-7S
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:35:20 -0400
-Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MkYlt5Fm6z683fS;
- Sat,  8 Oct 2022 00:33:46 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.31; Fri, 7 Oct 2022 18:35:13 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 7 Oct
- 2022 17:35:13 +0100
-Date: Fri, 7 Oct 2022 17:35:12 +0100
-To: Gregory Price <gourry.memverge@gmail.com>
-CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>,
- <alison.schofield@intel.com>, <dave@stgolabs.net>,
- <a.manzanares@samsung.com>, <bwidawsk@kernel.org>, Gregory Price
- <gregory.price@memverge.com>, Michael Tsirkin <mst@redhat.com>
-Subject: Re: [PATCH 1/2] hw/cxl: set cxl-type3 device type to
- PCI_CLASS_MEMORY_CXL
-Message-ID: <20221007173512.00006bb5@huawei.com>
-In-Reply-To: <20221006233702.18532-1-gregory.price@memverge.com>
-References: <20221006233702.18532-1-gregory.price@memverge.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogqU9-00063Y-4m
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:46:05 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:40828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogqTv-0003Cu-5b
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:46:03 -0400
+Received: by mail-pf1-x433.google.com with SMTP id h13so3943417pfr.7
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 09:45:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YjKcAW1hxwlU3hdHTNn8AUZZ4Ce3sTTG7K+u9186FJ0=;
+ b=TDNr64k6m8IZSrIs2bzG5HP0v+p4H6TQUM52dStrQy2jemr7VnHrecG3wqUcUGwdrX
+ vC0FV6vhC5478K2EyzB5byoVxEr/7A2YEGi0n7wODpRvEAruVRudDJP0VLeIiOKq3eI0
+ o7Oq4Wybo5fWzbT22DxMeu79rEfkiofR7ShmhID0o5AHfz2QM/a5OZr5IVxqWPZOpJqN
+ 8RMhvbZSnid7imu5/LQbCQcApoYhD+WN2F/++7ayGzZ/QHVaoZxLyWQQuseccqcv//U7
+ WDOwqZe1MBMULFBoLVhdQ8F8vdJUAKfEvQZED5Er6rlp+RAgIQCPnomxfpE5tLYfBn4e
+ Kivw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YjKcAW1hxwlU3hdHTNn8AUZZ4Ce3sTTG7K+u9186FJ0=;
+ b=pi+/W3MCVQPliKBEX+KUu2s3keVjfw76DJsdpJJpktPYJg2gSFcWzcXu32l5MX+q0f
+ RgNl3O7JM1GjAQsPhmFZS+REsAKRprhVOX1D+1U6hgPU1AvsDXsqZ/RKUoD6g6LQ4JPa
+ 1ETfsVmKerhTcTA6NvFdJ1q/4YePh4xyErpRRb/KYFuQwAtvYmeOaUN21KUDpSx+RE7R
+ 9Z88KJyCN+40H+iJmMjCJ7WuyIbZ1fvHHG3ejTRDvqUHgPRMNm36m3Wtzrrz6Zg6XSIe
+ OkIIPcSUB29BgZqo7bMSDbWAtzqZE24V//BRJXHuz5EdgARGtNittljf9+q6IuKhtjIT
+ dEhg==
+X-Gm-Message-State: ACrzQf3a8uvqZgfvmCtiBMAudZiGIEYCkMGW6k2WCeWwNGaFXeeqiv4/
+ pugHLPfsRgUkIKDvAUbqvxWfI57luIyRTQ==
+X-Google-Smtp-Source: AMsMyM7n3rJhRtaqyJZwPUbNSq5cmHUChx56fdc3KRfoYIRSW2ne5ceFt9h+m3W6f/WebLbkg67KEg==
+X-Received: by 2002:a63:1349:0:b0:44b:2240:b311 with SMTP id
+ 9-20020a631349000000b0044b2240b311mr5310292pgt.405.1665161149564; 
+ Fri, 07 Oct 2022 09:45:49 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:3b6c:3864:9643:140a?
+ ([2602:47:d49d:ec01:3b6c:3864:9643:140a])
+ by smtp.gmail.com with ESMTPSA id
+ m5-20020a170902db0500b001745662d568sm1742796plx.278.2022.10.07.09.45.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Oct 2022 09:45:48 -0700 (PDT)
+Message-ID: <52ec3b12-b9bb-b2a9-52c8-54a7016182c6@linaro.org>
+Date: Fri, 7 Oct 2022 09:45:47 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 41/42] target/arm: Implement FEAT_HAFDBS
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20221001162318.153420-1-richard.henderson@linaro.org>
+ <20221001162318.153420-42-richard.henderson@linaro.org>
+ <CAFEAcA-LhvMYbTTcsC+eAcAeA61e9Kq=zf6fKr5j_4dusuRDiw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA-LhvMYbTTcsC+eAcAeA61e9Kq=zf6fKr5j_4dusuRDiw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.699,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,44 +95,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Thu,  6 Oct 2022 19:37:01 -0400
-Gregory Price <gourry.memverge@gmail.com> wrote:
-
-> Current code sets to STORAGE_EXPRESS and then overrides it.
+On 10/7/22 06:47, Peter Maydell wrote:
+> On Sat, 1 Oct 2022 at 18:04, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Perform the atomic update for hardware management of the access flag
+>> and the dirty bit.
+>>
+>> A limitation of the implementation so far is that the page table
+>> itself must already be writable, i.e. the dirty bit for the stage2
+>> page table must already be set, i.e. we cannot set both dirty bits
+>> at the same time.
+>>
+>> This is allowed because it is CONSTRAINED UNPREDICTABLE whether any
+>> atomic update happens at all.  The implementation is allowed to simply
+>> fall back on software update at any time.
 > 
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
-
-I'm carry the same patch after you reported it the other day.
-
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-> ---
->  hw/mem/cxl_type3.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> I can't see where in the Arm ARM this is stated.
 > 
-> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> index ada2108fac..1837c1c83a 100644
-> --- a/hw/mem/cxl_type3.c
-> +++ b/hw/mem/cxl_type3.c
-> @@ -146,7 +146,6 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
->      }
->  
->      pci_config_set_prog_interface(pci_conf, 0x10);
-> -    pci_config_set_class(pci_conf, PCI_CLASS_MEMORY_CXL);
->  
->      pcie_endpoint_cap_init(pci_dev, 0x80);
->      cxl_cstate->dvsec_offset = 0x100;
-> @@ -335,7 +334,7 @@ static void ct3_class_init(ObjectClass *oc, void *data)
->  
->      pc->realize = ct3_realize;
->      pc->exit = ct3_exit;
-> -    pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
-> +    pc->class_id = PCI_CLASS_MEMORY_CXL;
->      pc->vendor_id = PCI_VENDOR_ID_INTEL;
->      pc->device_id = 0xd93; /* LVF for now */
->      pc->revision = 1;
+> In any case, if HA is set you can't simply return ARMFault_AccessFlag
+> without breaking the bit in D5.4.12 which says
+> "When hardware updates of the Access flag are enabled for a stage of
+>   translation an address translation instruction that uses that stage
+>   of translation will not report that the address will give rise to
+>   an Access flag fault in the PAR"
 
+I think this may have been loose (or incorrect) reading of what has become R_QSPMS in I_a, 
+via "access generates ... a Permission fault", due to the pte page being read-only, due to 
+the dirty bit being clear.
+
+However, having performed the same atomic update conversion for x86, I can see now that I 
+merely need to perform the lookup for s1 ptw with MMU_DATA_STORE rather than MMU_DATA_LOAD 
+in order for the s1 pte page to have its own dirty bit processed and become writable.
+
+>> +    t = FIELD_DP64(t, ID_AA64MMFR1, HAFDBS, 2);   /* FEAT_HAFDBS */
+> 
+> I think we should split the access flag update and the
+> dirty-bit update into separate commits. It might be useful
+> for bisection purposes later, and it looks like they're pretty
+> cleanly separable. (Though if you look at my last comment in this
+> email, maybe not quite so clean as in the code as you have it here.)
+
+Shouldn't be too hard to split.  I'll try, at least.
+
+>> +static uint64_t arm_casq_ptw(CPUARMState *env, uint64_t old_val,
+>> +                             uint64_t new_val, const S1TranslateResult *s1,
+>> +                             ARMMMUFaultInfo *fi)
+>> +{
+>> +    uint64_t cur_val;
+>> +
+>> +    if (unlikely(!s1->hphys)) {
+>> +        fi->type = ARMFault_UnsuppAtomicUpdate;
+>> +        fi->s1ptw = true;
+>> +        return 0;
+>> +    }
+>> +
+>> +#ifndef CONFIG_ATOMIC64
+>> +    /*
+>> +     * We can't support the atomic operation on the host.  We should be
+>> +     * running in round-robin mode though, which means that we would only
+>> +     * race with dma i/o.
+>> +     */
+>> +    qemu_mutex_lock_iothread();
+> 
+> Are there definitely no code paths where we might try to do
+> a page table walk with the iothread already locked ?
+
+I'll double-check, but another possibility is to simply perform the atomic operation on 
+the low 32-bits, where both AF and DB are located.  Another trick I learned from x86...
+
+>> +        old_des = descriptor;
+>> +        if (mmu_idx == ARMMMUIdx_Stage2 || mmu_idx == ARMMMUIdx_Stage2_S) {
+>> +            new_des = descriptor | (1ull << 7);   /* S2AP[1] */
+>> +        } else {
+>> +            new_des = descriptor & ~(1ull << 7);  /* AP[2] */
+>> +        }
+> 
+> If we update the prot bits, we need to also re-calculate the exec bit,
+> I think, because the execute-never stuff depends on whether the page is
+> writeable. Alternatively you can do it the way the pseudocode does and
+> pre-figure-out the final permission bits value (see AArch64.S1ApplyOutputPerms()
+> and AArch64.S2ApplyOutputPerms()) so you only need to calculate the
+> exec bit once.
+
+Good catch.
+
+
+r~
 
