@@ -2,78 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981485F7965
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 16:03:13 +0200 (CEST)
-Received: from localhost ([::1]:43508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF73B5F7995
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 16:13:39 +0200 (CEST)
+Received: from localhost ([::1]:48808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ognwW-0002up-8e
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 10:03:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51682)
+	id 1ogo6c-0001IF-7R
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 10:13:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oglEn-0003xW-PV
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 07:09:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58858)
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1oglJ6-0000PN-T7
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 07:14:24 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:35558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oglEj-0006x5-JP
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 07:09:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665140988;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U5/KKQKZhGuh5pVdWl0nmsSVyF+ITn22I2iainSzJU8=;
- b=Eus2HWDBfCKQ0do5exCq+nC+EH/98VexPeJkHbepgoKIk2J9X6yDBqCpIcY0Ge7mmEXy/F
- 2kRXBQqlJZk8ARJl50HbI/EK+ie5BBv5Bp8wwT9PLFo62cwsEyjsIdC+CPIqF0053f43of
- pn4FWpA3Ffl3LY56GKEJIULVvm2dDD8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-77-xP_5vVpzNciekrokkH64-g-1; Fri, 07 Oct 2022 07:09:47 -0400
-X-MC-Unique: xP_5vVpzNciekrokkH64-g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1oglJ5-00081H-1S
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 07:14:20 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 99A401C0515C;
- Fri,  7 Oct 2022 11:09:45 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E0721402C01;
- Fri,  7 Oct 2022 11:09:44 +0000 (UTC)
-Date: Fri, 7 Oct 2022 12:09:40 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] gitmodules: recurse by default
-Message-ID: <Y0AI9G66wl/+vVMB@redhat.com>
-References: <20221006113906.179963-1-mst@redhat.com>
- <Yz8kfJcfbbTAnmuR@redhat.com>
- <20221006202250-mutt-send-email-mst@kernel.org>
- <Yz/eNaP994pc+P6Q@redhat.com>
- <20221007061037-mutt-send-email-mst@kernel.org>
- <Y0ADZAQbjIJMVzXp@redhat.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7290861CBB;
+ Fri,  7 Oct 2022 11:14:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FF19C433C1;
+ Fri,  7 Oct 2022 11:14:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1665141248;
+ bh=iGUUEynvCAjegBrsy6JU4OD39853Ax+NThhfisNR9Vo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fmKEzZfv+NcFm5KZPC8vC7ZMGO+4smagpqxidG4f8sTZ/z8q2aoMCJSNtysPorB+u
+ kk9P97XlyfQbbtnFo8LHPNJFX9dz+rglzxIJfihqhOEfRZ95SMPj67dZ/fvnuNbSqC
+ jqfHkAdl/kZOqmVgzI+rs0S1M/uPV1KhYkYw7RvKkChyMhuiR2/2wEETdeyyy8vdL+
+ xSn8DoYpH/zTYYkmMvP9NOyVC0t2HvDfp9uL80OcPykiAatvUGYg8ebg5q6VkchIVf
+ DXvK7t9XwhCTk3XnR5NXjkt3/qkelWVMPuwnPC3EPAwGRYke53ktd+UBomw4T2mbx6
+ O0+yu62YgKnxg==
+Date: Fri, 7 Oct 2022 14:14:03 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y0AJ++m/TxoscOZg@kernel.org>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <Yz7s+JIexAHJm5dc@kernel.org> <Yz7vHXZmU3EpmI0j@kernel.org>
+ <Yz71ogila0mSHxxJ@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y0ADZAQbjIJMVzXp@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <Yz71ogila0mSHxxJ@google.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=jarkko@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,61 +94,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 07, 2022 at 11:45:56AM +0100, Daniel P. Berrangé wrote:
-> On Fri, Oct 07, 2022 at 06:11:25AM -0400, Michael S. Tsirkin wrote:
-> > On Fri, Oct 07, 2022 at 09:07:17AM +0100, Daniel P. Berrangé wrote:
-> > > On Thu, Oct 06, 2022 at 08:24:01PM -0400, Michael S. Tsirkin wrote:
-> > > > On Thu, Oct 06, 2022 at 07:54:52PM +0100, Daniel P. Berrangé wrote:
-> > > > > On Thu, Oct 06, 2022 at 07:39:07AM -0400, Michael S. Tsirkin wrote:
-> > > > > > The most commmon complaint about submodules is that
-> > > > > > they don't follow when one switches branches in the
-> > > > > > main repo. Enable recursing into submodules by default
-> > > > > > to address that.
-> > > > > > 
-> > > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > > > ---
-> > > > > >  .gitmodules | 23 +++++++++++++++++++++++
-> > > > > >  1 file changed, 23 insertions(+)
-
-snip
-
-> > I just retested and it's not working for me either :(
-> > I was sure it worked but I guess the testing wasn't done properly.
-> > Back to the drawing board sorry.
+On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
+> On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
+> > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
+> > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> > > > additional KVM memslot fields private_fd/private_offset to allow
+> > > > userspace to specify that guest private memory provided from the
+> > > > private_fd and guest_phys_addr mapped at the private_offset of the
+> > > > private_fd, spanning a range of memory_size.
+> > > > 
+> > > > The extended memslot can still have the userspace_addr(hva). When use, a
+> > > > single memslot can maintain both private memory through private
+> > > > fd(private_fd/private_offset) and shared memory through
+> > > > hva(userspace_addr). Whether the private or shared part is visible to
+> > > > guest is maintained by other KVM code.
+> > > 
+> > > What is anyway the appeal of private_offset field, instead of having just
+> > > 1:1 association between regions and files, i.e. one memfd per region?
 > 
-> I think the problem is that this setting doesn't apply in the context
-> of .gitmodules. Various commands take a '--recurse-submodules' parameter,
-> and like many params this can be set in the .git/config file. The
-> problem is .git/config isn't a file we can influence automatically,
-> it is upto the dev to set things for every clone they do :-(
+> Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
+> E.g. if a vCPU converts a single page, it will be forced to wait until all other
+> vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
+> memory.  KVM's memslot updates also hold a mutex for the entire duration of the
+> update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
+> the SRCU problem.
+> 
+> KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
+> memslot is deleted.
+> 
+> Taking both a private_fd and a shared userspace address allows userspace to convert
+> between private and shared without having to manipulate memslots.
 
-With the correct setting in my .git/config, I've just discovered
-an unexpected & undesirable consequence of using recurse=true.
-It affects the 'push' command. If your submodule contains a hash
-that is not present in the upstream of the submodule, then when
-you try to push, it will also try to push the submodule change.
+Right, this was really good explanation, thank you.
 
-eg, I have a qemu.git branch 'work' and i made a change to
-ui/keycodemapdb. If I try to push to my gitlab fork, whose
-remote I called 'gitlab', then it will also try to push
-ui/keycodemapdb to a fork called 'gitlab'.  Except I don't
-have any such fork existing, so my attempt to push my qemu.git
-changes fails because of the submodule.
+Still wondering could this possibly work (or not):
 
-This is going to be annoying to people who are working on branches
-with updates to the git submodules if we were to set recurse=true
-by default, as they'll have to also setup remotes for submodules
-they work on.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+1. Union userspace_addr and private_fd.
+2. Instead of introducing private_offset, use guest_phys_addr as the
+   offset.
+  
+BR, Jarkko
 
