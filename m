@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02465F7B3D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:14:46 +0200 (CEST)
-Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C20645F7B55
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:23:22 +0200 (CEST)
+Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogpzp-0007JM-QN
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:14:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57126)
+	id 1ogq89-0000vV-JI
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sisshiki@isshiki-clinic.com>)
- id 1ogpTw-0003LN-AS
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:41:48 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:43764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sisshiki@isshiki-clinic.com>)
- id 1ogpTo-0000sD-S5
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:41:47 -0400
-Received: by mail-pl1-x632.google.com with SMTP id z20so4861102plb.10
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 08:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=isshiki-clinic-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=myO3ktHeJT6MCrgSHvLKUCdHXWktxN7tncXD07KwBmU=;
- b=ZVCB9kCTOQtpyK0zpD4ysqoq95hu/l1TWqJDZzx9RFwAnWDG1NTf5qHPSXzjx3PsC6
- LerGQ6fA9EesxMec8f4/4Gy0e7SDfI1CtLKQquDAx1XdN9aPrHUm5iawUV6caMvDZfV1
- CZeBi/fQIXYfbrBFKO5iEBJ7eGvRqKGLdohpY2trVexHL4HXzCyi4+Gf1n5nvtyBjJAw
- CjHOPvZFKGZkuPllB3sv8wB1xv9hn29oBCAUeeNW6phl1P+Ll3tOKWghRfYtqoatVfJe
- J3L2Xur8yy4IqpbLCgo6jfKzwe/5T8hOR4aSDOQA/rQZ1SqAAGYHmfwwzLfAGbqw76GW
- FUSA==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ogpVV-0006XG-3z
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:43:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ogpVK-0000yt-GA
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:43:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665157393;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S4l/UgN1ILVTN0rLvAO4fiPys1pRQkJ7Axn2LX26fY0=;
+ b=OnRgoWaMSDumcklyuBy6+71UBiLFAcDCQwbaeoQm4Lcx+58VDz4Kw5CeTXol61l4qDxglu
+ ODWCBcoizb6rv615b8D3/bF6wGEYkVafcyoecDH9+tS1ZgLvROC86PAxF631J0xX0g+S5J
+ lrpcTaL8L5hBxaxujc7VkOgRCJkndQE=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-100-k717h5utP-KvYms5NqMJEw-1; Fri, 07 Oct 2022 11:43:12 -0400
+X-MC-Unique: k717h5utP-KvYms5NqMJEw-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ g66-20020a636b45000000b0043a256d3639so3086870pgc.12
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 08:43:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=myO3ktHeJT6MCrgSHvLKUCdHXWktxN7tncXD07KwBmU=;
- b=wKCkv5YhtVYUERzwaTbDL89uKxnh+ELfBe4qMXk9ZSwFqMHP7Hgpd9ct2ChG065TFm
- /i6/oAvn7Zox4aLCS2xKOaPUtgdZkfKlI80IL5LZJxohDgAgnRLYRitEAPW4PQvu0cGk
- 8Eelp0ZrSScs0AnjjIXKcVzZFgA0rQJDfxsLb8+UjoRP22itLXmAy7YsveQkU7LGqJcF
- Ojl8SrZqRaZ8yvaaQ7k/B3w08bUJHxd8QWrRMswo01Enhg33GaMK7EBwRuwka1XrEYfv
- 8LMpJkkdVLcDrXrgq3mHnEOZ/CNOBATK/lsdfU0NgjJkccIXsAJxCZOv2qXzpokH4kM7
- IwEg==
-X-Gm-Message-State: ACrzQf2Exm3B4Nv6U9vWe+M5w7GYqt7AVUcmUrDvmT+r5bDFzj4HpKGk
- Nz7r4K3BUXSMdzXB8s7HrqeopQ==
-X-Google-Smtp-Source: AMsMyM7Q3gmqye+5MAd+eFw+NrKANIS8IS1sH6Y+4snsm3WbLvZLcBj0Lo64OgnU24viJf9+0f6tIA==
-X-Received: by 2002:a17:902:d48e:b0:178:b5d:ab3 with SMTP id
- c14-20020a170902d48e00b001780b5d0ab3mr5660641plg.22.1665157298350; 
- Fri, 07 Oct 2022 08:41:38 -0700 (PDT)
-Received: from DESKTOP-8TCEJFK.localdomain
- (215.134.178.217.shared.user.transix.jp. [217.178.134.215])
- by smtp.gmail.com with ESMTPSA id
- gm7-20020a17090b100700b0020669c8bd87sm1668482pjb.36.2022.10.07.08.41.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Oct 2022 08:41:37 -0700 (PDT)
-From: Soichiro Isshiki <sisshiki@isshiki-clinic.com>
-X-Google-Original-From: Soichiro Isshiki <sisshiki@mac.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-Cc: sisshiki1969 <sisshiki@mac.com>
-Subject: [PATCH v2] linux-user: mprotect() should returns 0 when len is 0.
-Date: Sat,  8 Oct 2022 00:40:40 +0900
-Message-Id: <20221007154039.10239-1-sisshiki@mac.com>
-X-Mailer: git-send-email 2.25.1
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=S4l/UgN1ILVTN0rLvAO4fiPys1pRQkJ7Axn2LX26fY0=;
+ b=Wl9mfwZmmnegmJa6hcWt57QHO+4/M8/sHolpw8GibXKlqMLk365Z89V8Pc+zQIO8MT
+ cGRPoVE7jbhh4UDi0DmZDRba0XXvG8Tyo2LWLi78oJIjGYlGxdr19lUTW9jwxgaWbuOX
+ y2K4kvGyAo7Ow/GQaK3Xux928hv4Ej/bFyjxQST7gpseBTZRf/bOgNX8q5caZYLEdbp3
+ /0c/7/ZA+VL0eKUSrKSAvPVlkTh8kqG7yt17wz6jGmFmqXW0PQsowfdIUZSwCvisqVth
+ WZUj+xtHEw4UNdKujP0+LFSZ239BJhLw0p/idAWw+BCwsAWOPSwBa8lefP0a7tW2cy6b
+ lyFQ==
+X-Gm-Message-State: ACrzQf17r/1IS+oYagK66xaJWrzXAtFAdRBxqwf3SUhwaQhUwNcOwJdp
+ j/hGJQW2su/TIcKOfm4mLwJa3taPENIU0gsxlncuDzpJTEtoipEZt1CeZSZ2wa5QFsRmCPKfsZj
+ oFBrc1Nk4wQRLWAE1vHyEGmXqxVnBNdw=
+X-Received: by 2002:a17:902:ce8f:b0:176:e0b3:cf14 with SMTP id
+ f15-20020a170902ce8f00b00176e0b3cf14mr5624791plg.153.1665157391378; 
+ Fri, 07 Oct 2022 08:43:11 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5WYmnjzmCQUyCpfs3AJVSSY8yWaa7pQqr/7TjBpXwOfTHofPHE/5csjTBiwfFZafUZSKO2/U9deWZGwHa/XKw=
+X-Received: by 2002:a17:902:ce8f:b0:176:e0b3:cf14 with SMTP id
+ f15-20020a170902ce8f00b00176e0b3cf14mr5624770plg.153.1665157391112; Fri, 07
+ Oct 2022 08:43:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::632;
- envelope-from=sisshiki@isshiki-clinic.com; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <1664913563-3351-1-git-send-email-si-wei.liu@oracle.com>
+In-Reply-To: <1664913563-3351-1-git-send-email-si-wei.liu@oracle.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 7 Oct 2022 17:42:34 +0200
+Message-ID: <CAJaqyWdtDH8FYzvPLqW8PHmwtUP-puHH=n7EB7xgHsy_uur4Dw@mail.gmail.com>
+Subject: Re: [PATCH] vhost-vdpa: fix assert
+ !virtio_net_get_subqueue(nc)->async_tx.elem in virtio_net_reset
+To: Si-Wei Liu <si-wei.liu@oracle.com>
+Cc: qemu-devel@nongnu.org, jasowang@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,113 +95,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: sisshiki1969 <sisshiki@mac.com>
+On Tue, Oct 4, 2022 at 11:05 PM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+>
+> The citing commit has incorrect code in vhost_vdpa_receive() that returns
+> zero instead of full packet size to the caller. This renders pending pack=
+ets
+> unable to be freed so then get clogged in the tx queue forever. When devi=
+ce
+> is being reset later on, below assertion failure ensues:
+>
+> 0  0x00007f86d53bb387 in raise () from /lib64/libc.so.6
+> 1  0x00007f86d53bca78 in abort () from /lib64/libc.so.6
+> 2  0x00007f86d53b41a6 in __assert_fail_base () from /lib64/libc.so.6
+> 3  0x00007f86d53b4252 in __assert_fail () from /lib64/libc.so.6
+> 4  0x000055b8f6ff6fcc in virtio_net_reset (vdev=3D<optimized out>) at /us=
+r/src/debug/qemu/hw/net/virtio-net.c:563
+> 5  0x000055b8f7012fcf in virtio_reset (opaque=3D0x55b8faf881f0) at /usr/s=
+rc/debug/qemu/hw/virtio/virtio.c:1993
+> 6  0x000055b8f71f0086 in virtio_bus_reset (bus=3Dbus@entry=3D0x55b8faf881=
+78) at /usr/src/debug/qemu/hw/virtio/virtio-bus.c:102
+> 7  0x000055b8f71f1620 in virtio_pci_reset (qdev=3D<optimized out>) at /us=
+r/src/debug/qemu/hw/virtio/virtio-pci.c:1845
+> 8  0x000055b8f6fafc6c in memory_region_write_accessor (mr=3D<optimized ou=
+t>, addr=3D<optimized out>, value=3D<optimized out>,
+>    size=3D<optimized out>, shift=3D<optimized out>, mask=3D<optimized out=
+>, attrs=3D...) at /usr/src/debug/qemu/memory.c:483
+> 9  0x000055b8f6fadce9 in access_with_adjusted_size (addr=3Daddr@entry=3D2=
+0, value=3Dvalue@entry=3D0x7f867e7fb7e8, size=3Dsize@entry=3D1,
+>    access_size_min=3D<optimized out>, access_size_max=3D<optimized out>, =
+access_fn=3D0x55b8f6fafc20 <memory_region_write_accessor>,
+>    mr=3D0x55b8faf80a50, attrs=3D...) at /usr/src/debug/qemu/memory.c:544
+> 10 0x000055b8f6fb1d0b in memory_region_dispatch_write (mr=3Dmr@entry=3D0x=
+55b8faf80a50, addr=3Daddr@entry=3D20, data=3D0, op=3D<optimized out>,
+>    attrs=3Dattrs@entry=3D...) at /usr/src/debug/qemu/memory.c:1470
+> 11 0x000055b8f6f62ada in flatview_write_continue (fv=3Dfv@entry=3D0x7f86a=
+c04cd20, addr=3Daddr@entry=3D549755813908, attrs=3D...,
+>    attrs@entry=3D..., buf=3Dbuf@entry=3D0x7f86d0223028 <Address 0x7f86d02=
+23028 out of bounds>, len=3Dlen@entry=3D1, addr1=3D20, l=3D1,
+>    mr=3D0x55b8faf80a50) at /usr/src/debug/qemu/exec.c:3266
+> 12 0x000055b8f6f62c8f in flatview_write (fv=3D0x7f86ac04cd20, addr=3D5497=
+55813908, attrs=3D...,
+>    buf=3D0x7f86d0223028 <Address 0x7f86d0223028 out of bounds>, len=3D1) =
+at /usr/src/debug/qemu/exec.c:3306
+> 13 0x000055b8f6f674cb in address_space_write (as=3D<optimized out>, addr=
+=3D<optimized out>, attrs=3D..., buf=3D<optimized out>,
+>    len=3D<optimized out>) at /usr/src/debug/qemu/exec.c:3396
+> 14 0x000055b8f6f67575 in address_space_rw (as=3D<optimized out>, addr=3D<=
+optimized out>, attrs=3D..., attrs@entry=3D...,
+>    buf=3Dbuf@entry=3D0x7f86d0223028 <Address 0x7f86d0223028 out of bounds=
+>, len=3D<optimized out>, is_write=3D<optimized out>)
+>    at /usr/src/debug/qemu/exec.c:3406
+> 15 0x000055b8f6fc1cc8 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55b8f9aa0e10) =
+at /usr/src/debug/qemu/accel/kvm/kvm-all.c:2410
+> 16 0x000055b8f6fa5f5e in qemu_kvm_cpu_thread_fn (arg=3D0x55b8f9aa0e10) at=
+ /usr/src/debug/qemu/cpus.c:1318
+> 17 0x000055b8f7336e16 in qemu_thread_start (args=3D0x55b8f9ac8480) at /us=
+r/src/debug/qemu/util/qemu-thread-posix.c:519
+> 18 0x00007f86d575aea5 in start_thread () from /lib64/libpthread.so.0
+> 19 0x00007f86d5483b2d in clone () from /lib64/libc.so.6
+>
+> Make vhost_vdpa_receive() return the size passed in as is, so that the
+> caller qemu_deliver_packet_iov() would eventually propagate it back to
+> virtio_net_flush_tx() to release pending packets from the async_tx queue.
+> Which corresponds to the drop path where qemu_sendv_packet_async() return=
+s
+> non-zero in virtio_net_flush_tx().
+>
 
-On Fri, Oct 7, 2022 at 9:38 AM Richard Henderson <richard.henderson@linaro.org> wrote:
-| Although, sorta, this smells like a kernel bug.
-| Why should mprotect(-4096, 0, 0) succeed while mprotect(-4096, 4096, 0) fails?
+Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
-This may be kinda bug compatibility...
 
-| But anyway, if we're going to fix len == 0 to match, we might as well fix all 3 test
-| ordering bugs at the same time.
-
-Yes, I agree, and made another patch.
-A validation for wrap-around was added, I think it is neccesory.
-
-A tiny test code was shown below.
-
-```sh
-> cat test.c
-#include <sys/mman.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-int main(int argc, char *argv[])
-{
-  char *addr;
-  int prot = PROT_READ | PROT_EXEC;
-  int map = MAP_SHARED | MAP_ANONYMOUS;
-  addr = mmap(NULL, 4096, prot, map, -1, 0);
-  if (addr == 0) {
-    perror("mmap");
-    exit(EXIT_FAILURE);
-  }
-  
-  void *addrs[] = { (void *)77, NULL, addr };
-  for (int i = 0; i < 3; i++) {
-    if (mprotect(addrs[i], 0, PROT_READ) == -1) {
-      perror("mprotect");
-    } else {
-      printf("OK\n");
-    }
-  }
-
-  // invalid prot
-  if (mprotect(addr, 2048, PROT_READ | 0x20) == -1) {
-    perror("mprotect");
-  } else {
-    printf("OK\n");
-  }
-}
-> cc test.c -o test
-> ./test
-mprotect: Invalid argument
-OK
-OK
-mprotect: Invalid argument
-> qemu-x86_64 test          # current master
-mprotect: Invalid argument
-OK
-mprotect: Cannot allocate memory
-mprotect: Invalid argument
-> build/qemu-x86_64 test    # after the patch applied
-mprotect: Invalid argument
-OK
-OK
-mprotect: Invalid argument
-```
-
-seems good.
-
-Soichiro Isshiki
-
-Signed-off-by: sisshiki1969 <sisshiki@mac.com>
----
- linux-user/mmap.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 28f3bc85ed..757709eeba 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -124,17 +124,20 @@ int target_mprotect(abi_ulong start, abi_ulong len, int target_prot)
-     if ((start & ~TARGET_PAGE_MASK) != 0) {
-         return -TARGET_EINVAL;
-     }
--    page_flags = validate_prot_to_pageflags(&host_prot, target_prot);
--    if (!page_flags) {
--        return -TARGET_EINVAL;
-+    if (len == 0) {
-+        return 0;
-     }
-     len = TARGET_PAGE_ALIGN(len);
-     end = start + len;
-+    if (end <= start) {
-+        return -TARGET_ENOMEM;
-+    }
-     if (!guest_range_valid_untagged(start, len)) {
-         return -TARGET_ENOMEM;
-     }
--    if (len == 0) {
--        return 0;
-+    page_flags = validate_prot_to_pageflags(&host_prot, target_prot);
-+    if (!page_flags) {
-+        return -TARGET_EINVAL;
-     }
- 
-     mmap_lock();
--- 
-2.25.1
+> Fixes: 846a1e85da64 ("vdpa: Add dummy receive callback")
+> Cc: Eugenio Perez Martin <eperezma@redhat.com>
+> Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
+> ---
+>  net/vhost-vdpa.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 4bc3fd0..182b3a1 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -211,7 +211,7 @@ static bool vhost_vdpa_check_peer_type(NetClientState=
+ *nc, ObjectClass *oc,
+>  static ssize_t vhost_vdpa_receive(NetClientState *nc, const uint8_t *buf=
+,
+>                                    size_t size)
+>  {
+> -    return 0;
+> +    return size;
+>  }
+>
+>  static NetClientInfo net_vhost_vdpa_info =3D {
+> --
+> 1.8.3.1
+>
 
 
