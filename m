@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E729D5F72AB
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 04:03:36 +0200 (CEST)
-Received: from localhost ([::1]:59576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 353605F72B3
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 04:14:27 +0200 (CEST)
+Received: from localhost ([::1]:51584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogci7-0002UW-IC
-	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 22:03:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50938)
+	id 1ogcsb-0006Mg-SW
+	for lists+qemu-devel@lfdr.de; Thu, 06 Oct 2022 22:14:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luzhipeng@cestc.cn>)
- id 1ogcgr-000136-SR
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 22:02:17 -0400
-Received: from [106.39.185.57] (port=39228 helo=smtp.cecloud.com)
+ id 1ogcrX-0004j5-F9
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 22:13:19 -0400
+Received: from [106.39.185.57] (port=58040 helo=smtp.cecloud.com)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luzhipeng@cestc.cn>) id 1ogcgo-0000Qf-U3
- for qemu-devel@nongnu.org; Thu, 06 Oct 2022 22:02:17 -0400
+ (envelope-from <luzhipeng@cestc.cn>) id 1ogcrU-0001nD-D7
+ for qemu-devel@nongnu.org; Thu, 06 Oct 2022 22:13:19 -0400
 Received: from localhost (localhost [127.0.0.1])
- by smtp.cecloud.com (Postfix) with ESMTP id 437B1FC0203;
- Fri,  7 Oct 2022 10:02:05 +0800 (CST)
+ by smtp.cecloud.com (Postfix) with ESMTP id 324D2FC0204;
+ Fri,  7 Oct 2022 10:13:08 +0800 (CST)
 X-MAIL-GRAY: 0
 X-MAIL-DELIVERY: 1
 X-ANTISPAM-LEVEL: 2
 X-ABS-CHECKED: 0
 Received: from localhost.localdomain (unknown [110.188.55.41])
  by smtp.cecloud.com (postfix) whith ESMTP id
- P51403T281471112442224S1665108122326090_; 
- Fri, 07 Oct 2022 10:02:05 +0800 (CST)
-X-UNIQUE-TAG: <dce595579a222316e47d117fbf61dd2b>
+ P51403T281470664831344S1665108786465498_; 
+ Fri, 07 Oct 2022 10:13:08 +0800 (CST)
+X-IP-DOMAINF: 1
+X-UNIQUE-TAG: <35ae28d301d28745bd8b5eb8e179c3f0>
 X-RL-SENDER: luzhipeng@cestc.cn
 X-SENDER: luzhipeng@cestc.cn
 X-LOGIN-NAME: luzhipeng@cestc.cn
@@ -40,11 +41,11 @@ X-ATTACHMENT-NUM: 0
 X-System-Flag: 0
 From: luzhipeng <luzhipeng@cestc.cn>
 To: qemu-devel <qemu-devel@nongnu.org>
-Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
- lu zhipeng <luzhipeng@cestc.cn>
-Subject: [PATCH RESEND] elf2dmp: free memory in failure
-Date: Fri,  7 Oct 2022 10:01:28 +0800
-Message-Id: <20221007020128.760-1-luzhipeng@cestc.cn>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+	lu zhipeng <luzhipeng@cestc.cn>
+Subject: [PATCH RESEND] cirrus_vga: fix potential memory overflow
+Date: Fri,  7 Oct 2022 10:12:54 +0800
+Message-Id: <20221007021254.1295-1-luzhipeng@cestc.cn>
 X-Mailer: git-send-email 2.34.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -73,26 +74,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: lu zhipeng <luzhipeng@cestc.cn>
 
-The 'kdgb' is allocating memory in get_kdbg(), but it is not freed in
-error path. So fix that.
-
 Signed-off-by: lu zhipeng <luzhipeng@cestc.cn>
 ---
- contrib/elf2dmp/main.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/display/cirrus_vga.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
-index b9fc6d230c..d77b8f98f7 100644
---- a/contrib/elf2dmp/main.c
-+++ b/contrib/elf2dmp/main.c
-@@ -125,6 +125,7 @@ static KDDEBUGGER_DATA64 *get_kdbg(uint64_t KernBase, struct pdb_reader *pdb,
- 
-     if (va_space_rw(vs, KdDebuggerDataBlock, kdbg, kdbg_hdr.Size, 0)) {
-         eprintf("Failed to extract entire KDBG\n");
-+        free(kdbg);
-         return NULL;
-     }
- 
+diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
+index 3bb6a58698..2577005d03 100644
+--- a/hw/display/cirrus_vga.c
++++ b/hw/display/cirrus_vga.c
+@@ -834,7 +834,7 @@ static void cirrus_bitblt_cputovideo_next(CirrusVGAState * s)
+                    word alignment, so we keep them for the next line */
+                 /* XXX: keep alignment to speed up transfer */
+                 end_ptr = s->cirrus_bltbuf + s->cirrus_blt_srcpitch;
+-                copy_count = s->cirrus_srcptr_end - end_ptr;
++                copy_count = MIN(s->cirrus_srcptr_end - end_ptr, CIRRUS_BLTBUFSIZE);
+                 memmove(s->cirrus_bltbuf, end_ptr, copy_count);
+                 s->cirrus_srcptr = s->cirrus_bltbuf + copy_count;
+                 s->cirrus_srcptr_end = s->cirrus_bltbuf + s->cirrus_blt_srcpitch;
 -- 
 2.31.1
 
