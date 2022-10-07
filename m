@@ -2,104 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E44C5F7938
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 15:48:11 +0200 (CEST)
-Received: from localhost ([::1]:34160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88C95F7802
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 14:36:38 +0200 (CEST)
+Received: from localhost ([::1]:33782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ognhy-0002Ws-20
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 09:48:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41954)
+	id 1ogmaj-0004P3-Fi
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 08:36:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ogkx3-00077s-QK
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:51:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38310)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ogl0u-0001JL-55
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:55:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ogkx1-0003mD-5Y
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:51:33 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ogl0r-0004KV-9T
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:55:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665139889;
+ s=mimecast20190719; t=1665140128;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pcb8vtz3KDnQhIFYp3GzIRJgcn75LKZ1ISgMGyH0X2c=;
- b=Au5v2xWWB8SsB8dcYN8DLUkPOzTdcQEX8UvdNariQ0sWvOjCJkvnEVbqKTbsNneOIQsMxi
- /iBmBkkxFm00Nmf8h3IQj0viF3ow5+YElu9SIjZKoMCFCZGWPHVjWc/j+auVXs69elwfiy
- HNpp7FRQxOBg3Q7ltTxR/KEiMXl4KZ0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LR64z9tpD5q5kLTHlTIWBzNNn9hIJP7ERF5yiEfl3iM=;
+ b=iztQnmJhEihpv8pofFGNgqn9XpyCsZ5dvHlwwPbwWAE8uudInZ7ZzsmXSbJZY/QwLc2/Zq
+ HmFiROoeJUxhjuT+xi+ANmlhU+YLoonh/NVa8Dc8myZBUz9Au0jGofx+9rN+OIe/n7XZoj
+ SfNKK+6fDGIpHnH52OXz8xF/65bvOjQ=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-46-eNS5AYf1O6e6fObztKIi6Q-1; Fri, 07 Oct 2022 06:51:28 -0400
-X-MC-Unique: eNS5AYf1O6e6fObztKIi6Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h17-20020adfaa91000000b0022e9f2245c8so418747wrc.19
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 03:51:28 -0700 (PDT)
+ us-mta-284-RlYAlLTKOn6B8BByeCfPeg-1; Fri, 07 Oct 2022 06:55:27 -0400
+X-MC-Unique: RlYAlLTKOn6B8BByeCfPeg-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ q185-20020a6743c2000000b003a6ee1e0c90so1144644vsa.17
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 03:55:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pcb8vtz3KDnQhIFYp3GzIRJgcn75LKZ1ISgMGyH0X2c=;
- b=YP3ckp66IsQm33xpokhcN1XnkJtkP+V7+wRwrTgpH5NsnMm+HLKqaX8ck7r+RyzNQ6
- LzjcyrcEJOVyZXLRR70Byo7hyD2Y0O+L+TBq2K0lA9D8DmkIPc+A3L7onW3BlZPakDIm
- LONXAmV9CJswsZrmW4vjeRxyCqsk+lF2vipQCQI9Zn81KseH9Pp8jerVAy24OUjzOHjY
- S10DIbF1Fqqt/VH1GxIQDdlzG7n5g4w2CpYU/UmLeQo9jvoNBKWNgqLjr1+KRxHssbNW
- pZo5h4bf8RWYStPQ9+G4RF5Rz4erh5Cvocnqx3cwKwwaEpI16VR7d+cy++jXqk+WeEtS
- lvCQ==
-X-Gm-Message-State: ACrzQf2uJF/IRVftGJJauBMHmkiHXtYMzsZx1rQAoLXHrWT2couxc5tT
- KbN9KZy9XtDv1Ozm4friBoxKO8WDmbS0KM3yJEXoJ0EbftmRR2+MlXBN3I/K6JifDavwnix0ar8
- pedlq6UDSFTHjN/w=
-X-Received: by 2002:a5d:6da1:0:b0:22b:774:52c3 with SMTP id
- u1-20020a5d6da1000000b0022b077452c3mr2835249wrs.172.1665139887319; 
- Fri, 07 Oct 2022 03:51:27 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4SatOmrtpqRyhQnjqJCqby/l1wz9p22zPC9isxfQB7lWtg4B0IkKsRH3xSAecZj7vNRTTtZw==
-X-Received: by 2002:a5d:6da1:0:b0:22b:774:52c3 with SMTP id
- u1-20020a5d6da1000000b0022b077452c3mr2835201wrs.172.1665139887009; 
- Fri, 07 Oct 2022 03:51:27 -0700 (PDT)
-Received: from sgarzare-redhat (host-79-46-200-222.retail.telecomitalia.it.
- [79.46.200.222]) by smtp.gmail.com with ESMTPSA id
- n19-20020a05600c4f9300b003b4cba4ef71sm7938473wmq.41.2022.10.07.03.51.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Oct 2022 03:51:26 -0700 (PDT)
-Date: Fri, 7 Oct 2022 12:51:21 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Yanan Wang <wangyanan55@huawei.com>,
- "Richard W.M. Jones" <rjones@redhat.com>,
- Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>,
- David Hildenbrand <david@redhat.com>, integration@gluster.org,
- qemu-block@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- afaria@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Xie Changlong <xiechanglong.d@gmail.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Jeff Cody <codyprime@gmail.com>, "Denis V. Lunev" <den@openvz.org>,
- Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Peter Xu <peterx@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wen Congyang <wencongyang2@huawei.com>
-Subject: Re: [PATCH v6 09/13] block: add BlockRAMRegistrar
-Message-ID: <20221007105121.qxhuroqnqhzqkmgo@sgarzare-redhat>
-References: <20221006213507.645402-1-stefanha@redhat.com>
- <20221006213507.645402-10-stefanha@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LR64z9tpD5q5kLTHlTIWBzNNn9hIJP7ERF5yiEfl3iM=;
+ b=26fAoUk6NTLp4Jy5iNHWOofIuvuxe6vbh0vAkajVKRHOvNYfo+P0Bu9Cn9NstS1oZk
+ mjvg0I7RTQgdye22wSdxwZ0/4h3HMuJLZ6LMdNN9IxNu19Nsmc8fkZrxdT4TTtrLOg8b
+ h/7gvtv/bdzyNE10DEpJAe5b4MAojU/xC3kDhzwOo+quunOe1m4O+oIJDqLFPWwTfWtS
+ VbR4HnMdoQ8Rxr6xWcOvpWza3BkOJjQ11czlFg7Iaz7b+oRI8LyMAk5JNnzpxrYuImyP
+ 79QqoT33DRTVy3wRx0qAnx9BwoHDLIWXVVYEkUaWCdkOJJ0koKea5YtXcfxSy5evib1V
+ cJfw==
+X-Gm-Message-State: ACrzQf1Jg3Uba+6zOh2NmEUao1RCFcF2ZjYgMqzdzI7p9j0XP0TpgdNx
+ SZTjgp9cdidskFREIF77v+UhdvBXPxz6xGK4pSg3PKfAZUSa7Fm7xSeoYrPiHXJ2TphCiy/A3kJ
+ 42Lp9QFJtqM3RS4Bqgi0FbFwAv0CXM0A=
+X-Received: by 2002:ab0:7789:0:b0:3be:fd5f:768f with SMTP id
+ x9-20020ab07789000000b003befd5f768fmr2604697uar.109.1665140126554; 
+ Fri, 07 Oct 2022 03:55:26 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7z47vvSNwcJZfMIYVIqV5wsMQyk3FPL1u/LcLv52c5O4BsLPAXI8lCk/WfdaURMULNF5n6yLczT2H2b2yPaPE=
+X-Received: by 2002:ab0:7789:0:b0:3be:fd5f:768f with SMTP id
+ x9-20020ab07789000000b003befd5f768fmr2604689uar.109.1665140126344; Fri, 07
+ Oct 2022 03:55:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20221006213507.645402-10-stefanha@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+References: <20220928180603.101533-1-venu.busireddy@oracle.com>
+ <CABgObfYXMBnVp2NqhyxOGjppDPc81Qk_fKepF6uzTkOBMoj2zA@mail.gmail.com>
+ <YzYcqNqVCiobf/IB@lt>
+ <CABgObfbydWZbUvgQVA4ACaR8GgZuft8c9bMTm7_bM86P44vnig@mail.gmail.com>
+ <YzcAK23fRnohvXNT@lt>
+ <CABgObfZ-8T+=PgPuxtTc5GHgK9sGGTs_HUrcWG0N3kXXLXAZnQ@mail.gmail.com>
+ <YztsgiapfWC78BG+@lt> <bb2d1de3-5622-076a-7282-06c812bb4804@redhat.com>
+ <Yz8rdO34FowbLH/c@lt>
+In-Reply-To: <Yz8rdO34FowbLH/c@lt>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 7 Oct 2022 06:55:15 -0400
+Message-ID: <CABgObfbznb1Yn1TK-4AU5vVd_-fhNqrxjVKJCBbu19_+1Z=mcg@mail.gmail.com>
+Subject: Re: [PATCH v3] virtio-scsi: Send "REPORTED LUNS CHANGED" sense data
+ upon disk hotplug events.
+To: Venu Busireddy <venu.busireddy@oracle.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Fam Zheng <fam@euphon.net>, 
+ "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000bb7c1f05ea6fa58c"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,174 +101,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 06, 2022 at 05:35:03PM -0400, Stefan Hajnoczi wrote:
->Emulated devices and other BlockBackend users wishing to take advantage
->of blk_register_buf() all have the same repetitive job: register
->RAMBlocks with the BlockBackend using RAMBlockNotifier.
->
->Add a BlockRAMRegistrar API to do this. A later commit will use this
->from hw/block/virtio-blk.c.
->
->Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->---
-> MAINTAINERS                          |  1 +
-> include/sysemu/block-ram-registrar.h | 37 ++++++++++++++++++
-> block/block-ram-registrar.c          | 58 ++++++++++++++++++++++++++++
-> block/meson.build                    |  1 +
-> 4 files changed, 97 insertions(+)
-> create mode 100644 include/sysemu/block-ram-registrar.h
-> create mode 100644 block/block-ram-registrar.c
->
->diff --git a/MAINTAINERS b/MAINTAINERS
->index 0dcae6168a..91aed2cdc7 100644
->--- a/MAINTAINERS
->+++ b/MAINTAINERS
->@@ -2498,6 +2498,7 @@ F: block*
-> F: block/
-> F: hw/block/
-> F: include/block/
->+F: include/sysemu/block-*.h
-> F: qemu-img*
-> F: docs/tools/qemu-img.rst
-> F: qemu-io*
->diff --git a/include/sysemu/block-ram-registrar.h b/include/sysemu/block-ram-registrar.h
->new file mode 100644
->index 0000000000..d8b2f7942b
->--- /dev/null
->+++ b/include/sysemu/block-ram-registrar.h
->@@ -0,0 +1,37 @@
->+/*
->+ * BlockBackend RAM Registrar
->+ *
->+ * SPDX-License-Identifier: GPL-2.0-or-later
->+ */
->+
->+#ifndef BLOCK_RAM_REGISTRAR_H
->+#define BLOCK_RAM_REGISTRAR_H
->+
->+#include "exec/ramlist.h"
->+
->+/**
->+ * struct BlockRAMRegistrar:
->+ *
->+ * Keeps RAMBlock memory registered with a BlockBackend using
->+ * blk_register_buf() including hotplugged memory.
->+ *
->+ * Emulated devices or other BlockBackend users initialize a BlockRAMRegistrar
->+ * with blk_ram_registrar_init() before submitting I/O requests with the
->+ * BDRV_REQ_REGISTERED_BUF flag set.
->+ */
->+typedef struct {
->+    BlockBackend *blk;
->+    RAMBlockNotifier notifier;
->+    bool ok;
->+} BlockRAMRegistrar;
->+
->+void blk_ram_registrar_init(BlockRAMRegistrar *r, BlockBackend *blk);
->+void blk_ram_registrar_destroy(BlockRAMRegistrar *r);
->+
->+/* Have all RAMBlocks been registered successfully? */
->+static inline bool blk_ram_registrar_ok(BlockRAMRegistrar *r)
->+{
->+    return r->ok;
->+}
->+
->+#endif /* BLOCK_RAM_REGISTRAR_H */
->diff --git a/block/block-ram-registrar.c b/block/block-ram-registrar.c
->new file mode 100644
->index 0000000000..25dbafa789
->--- /dev/null
->+++ b/block/block-ram-registrar.c
->@@ -0,0 +1,58 @@
->+/*
->+ * BlockBackend RAM Registrar
->+ *
->+ * SPDX-License-Identifier: GPL-2.0-or-later
->+ */
->+
->+#include "qemu/osdep.h"
->+#include "sysemu/block-backend.h"
->+#include "sysemu/block-ram-registrar.h"
->+#include "qapi/error.h"
->+
->+static void ram_block_added(RAMBlockNotifier *n, void *host, size_t size,
->+                            size_t max_size)
->+{
->+    BlockRAMRegistrar *r = container_of(n, BlockRAMRegistrar, notifier);
->+    Error *err = NULL;
->+
->+    if (!r->ok) {
->+        return; /* don't try again if we've already failed */
->+    }
+--000000000000bb7c1f05ea6fa58c
+Content-Type: text/plain; charset="UTF-8"
 
-The segfault I was seeing is gone, though, and I'm getting a doubt.
+Il gio 6 ott 2022, 15:25 Venu Busireddy <venu.busireddy@oracle.com> ha
+scritto:
 
-Here we basically just report the error and prevent new regions from 
-being registered. The VM still starts though and the blkio driver works 
-as if nothing happened.
+> I do see that the Solaris driver does send the 0x1a command during
+> the initialization, perhaps (?) seeking the value of UA_INTLCK_CTRL.
+> Since QEMU currently does not support it, QEMU sends back a
+> key/asc/ascq=0x05/0x24/0x00 response, indicating that 0x1a is an Illegal
+> Request.
 
-For drivers that require all regions to be registered, this can cause 
-problems, so should we stop the VM in case of failure or put the blkio 
-driver in a state such that IOs are not submitted?
 
-Or maybe it's okay and then the device will somehow report the error 
-when it can't find the mapped region?
+What is your QEMU command line and what is the full CDB (apart from 0x1a)?
 
-Thanks,
-Stefano
+I am assuming that the Solaris driver does not handle that
+> response well (I still don't have access to the source code to verify
+> that), confuses itself about the value of UA_INTLCK_CTRL, and hence does
+> not handle the response to the REPORT_LUNS command correctly.
 
->+
->+    if (!blk_register_buf(r->blk, host, max_size, &err)) {
->+        error_report_err(err);
->+        ram_block_notifier_remove(&r->notifier);
->+        r->ok = false;
->+    }
->+}
->+
->+static void ram_block_removed(RAMBlockNotifier *n, void *host, size_t size,
->+                              size_t max_size)
->+{
->+    BlockRAMRegistrar *r = container_of(n, BlockRAMRegistrar, notifier);
->+    blk_unregister_buf(r->blk, host, max_size);
->+}
->+
->+void blk_ram_registrar_init(BlockRAMRegistrar *r, BlockBackend *blk)
->+{
->+    r->blk = blk;
->+    r->notifier = (RAMBlockNotifier){
->+        .ram_block_added = ram_block_added,
->+        .ram_block_removed = ram_block_removed,
->+
->+        /*
->+         * .ram_block_resized() is not necessary because we use the max_size
->+         * value that does not change across resize.
->+         */
->+    };
->+    r->ok = true;
->+
->+    ram_block_notifier_add(&r->notifier);
->+}
->+
->+void blk_ram_registrar_destroy(BlockRAMRegistrar *r)
->+{
->+    if (r->ok) {
->+        ram_block_notifier_remove(&r->notifier);
->+    }
->+}
->diff --git a/block/meson.build b/block/meson.build
->index 500878f082..b7c68b83a3 100644
->--- a/block/meson.build
->+++ b/block/meson.build
->@@ -46,6 +46,7 @@ block_ss.add(files(
-> ), zstd, zlib, gnutls)
+
+No this has nothing to do with what's happening. The most likely reason for
+the bug IMO is simple: the event is causing the driver to send the REPORT
+LUNS command, but it does so in a way that does not handle the unit
+attention when it is reported.
+
+Paolo
+
+Maybe the
+> Solaris driver assumes that QEMU will retain the unit attention condition
+> (UA_INTLCK_CTRL = 10b?), and will respond with a REPORTED_LUNS_CHANGED
+> for a subsequent command?
 >
-> softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('blkreplay.c'))
->+softmmu_ss.add(files('block-ram-registrar.c'))
+> Based on your confirmation that we want to handle the REPORT_LUNS command
+> as if UA_INTLCK_CTRL is set to 0, I will proceed with the assumption
+> that the Solaris driver is at fault, and will work with the Solaris
+> driver folks.
 >
-> if get_option('qcow1').allowed()
->   block_ss.add(files('qcow.c'))
->-- 
->2.37.3
+> In the meantime, as you suggested, I will post v4 with the bus unit
+> attention mechanism implemented. We still need that.
 >
+> Venu
+>
+>
+
+--000000000000bb7c1f05ea6fa58c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il gio 6 ott 2022, 15:25 Venu Busireddy &lt;<a href=3D=
+"mailto:venu.busireddy@oracle.com" target=3D"_blank" rel=3D"noreferrer">ven=
+u.busireddy@oracle.com</a>&gt; ha scritto:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex">I do see that the Solaris driver does send the 0x1a command during<=
+br>
+the initialization, perhaps (?) seeking the value of UA_INTLCK_CTRL.<br>
+Since QEMU currently does not support it, QEMU sends back a<br>
+key/asc/ascq=3D0x05/0x24/0x00 response, indicating that 0x1a is an Illegal<=
+br>
+Request.</blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"au=
+to">What is your QEMU command line and what is the full CDB (apart from 0x1=
+a)?</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_=
+quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex">I am assuming that the Solaris driver=
+ does not handle that<br>
+response well (I still don&#39;t have access to the source code to verify<b=
+r>
+that), confuses itself about the value of UA_INTLCK_CTRL, and hence does<br=
+>
+not handle the response to the REPORT_LUNS command correctly.</blockquote><=
+/div></div><div dir=3D"auto"><br></div><div dir=3D"auto">No this has nothin=
+g to do with what&#39;s happening. The most likely reason for the bug IMO i=
+s simple: the event is causing the driver to send the REPORT LUNS command, =
+but it does so in a way that does not handle the unit attention when it is =
+reported.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">Maybe the<br>
+Solaris driver assumes that QEMU will retain the unit attention condition<b=
+r>
+(UA_INTLCK_CTRL =3D 10b?), and will respond with a REPORTED_LUNS_CHANGED<br=
+>
+for a subsequent command?<br>
+<br>
+Based on your confirmation that we want to handle the REPORT_LUNS command<b=
+r>
+as if UA_INTLCK_CTRL is set to 0, I will proceed with the assumption<br>
+that the Solaris driver is at fault, and will work with the Solaris<br>
+driver folks.<br>
+<br>
+In the meantime, as you suggested, I will post v4 with the bus unit<br>
+attention mechanism implemented. We still need that.<br>
+<br>
+Venu<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000bb7c1f05ea6fa58c--
 
 
