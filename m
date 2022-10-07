@@ -2,79 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A8345F738D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 06:29:05 +0200 (CEST)
-Received: from localhost ([::1]:53804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 154E65F73F7
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 07:34:26 +0200 (CEST)
+Received: from localhost ([::1]:45692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogeyu-0002BV-97
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 00:29:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47820)
+	id 1ogg08-00074K-MJ
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 01:34:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ogevs-0000Tf-L8
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 00:25:56 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:43805)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ogfxX-0003Zc-FU; Fri, 07 Oct 2022 01:31:43 -0400
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:36828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ogevq-0001Bf-Cb
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 00:25:56 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id z20so3508553plb.10
- for <qemu-devel@nongnu.org>; Thu, 06 Oct 2022 21:25:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=EeQVZX+sj5rDGmxyvMlV3697jgna7jHM+w35ju21wGo=;
- b=LRmQJWJ6/FOoPGJA+6TZiufE68QRaBPtVo6QXMcgbM2OXg9YVKI/UaYactu2taGR3p
- Jqii604Dy45wc+wDZcreAia05CJzZTThGmxsOFDmvMXmPp1MvSm9Zalx0XhyAjUbZ46o
- zVoqCs3rMXrb4XT971986HUwfCKkK+8p5Mr6s8eJ8XQPZs8Q6ufr+UupqdmsuQDijqct
- e7ieUL4l7HBsrli5ofq1nCRWquXD3YZRQboD3Eo/9BPnwCKMbph9/YvP/NaVoK7KvLf0
- ppVJU+Qbdx37Gtdwwt1YXTmBpV4l/C/hse1xOPwnXFcXlrWKFSRqUQ4CuH5kPQovrUnB
- l8Fw==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ogfxW-00011j-0o; Fri, 07 Oct 2022 01:31:43 -0400
+Received: by mail-qk1-x735.google.com with SMTP id i3so2343665qkl.3;
+ Thu, 06 Oct 2022 22:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ksTe0gu7LiL6mzvprvgp+2nEYKgZPm4Kjth8b5lSvQQ=;
+ b=URRzxhr2YDuYsL0VVvYkypMyD7Xl9kb+3SO0l5EONeSExqL/vpy6b97TkpeDXu7wMA
+ 66S1s8SQx3m0Wv2DmNnXA8bSwwcPAxBGn5luR0rAFebjGb/GC4C7uxp5GuKvqtnj3gTT
+ d/KNkQqglK310d8KOcmbwTi9lLTYFPlfacclwnzxl22/6kQYWsOmRRbSj8UreONgI4wH
+ vWkW2fFwnN+wro6pRTBvQT5nrfSMBRG24UxD4T29lQXXzIoyI1EWBe7IyxHBtDH8gK3o
+ CM1CLVtq0dZKA4vuAuUrNbJTs3UnrbZC+CNSwVn4SGvOxH69QHR3kuTUdj7VaKmTT6RP
+ xmdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:references:message-id:in-reply-to:subject:cc:to:date
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EeQVZX+sj5rDGmxyvMlV3697jgna7jHM+w35ju21wGo=;
- b=kixjiZ6iT8TKdFmzRbM9Cz7IMbwMM4llvSXkjBcbtHQh1QfwSPZDnfsOImBhSf3Wko
- lnwXezTLZgeU5kY8K3FmyoxBrdzR1z33Ux39rZl9l5hXVsyYaqCGtCGURxQad9IJqFGm
- neaySOTfRArGk7vJIP1IwMjqaH3L4GJdupA5KyGk5M4o9S0VCrsPgIT1feKiLIMONIgc
- 29lLK67pnOK/h7JmScsEzumoPRRdbQC+TbIs5GWIInpPbpssmFBnc9rQnYwdYtXbXMKy
- z90K85fV05hzk//KsL/oOONVaX83OI2k+4gYAB3xUeVFWMz+xt0HqrNdzzqZgYM9N+Qg
- sYog==
-X-Gm-Message-State: ACrzQf07dTVsqESqCMgaFKXCBFffiwip5ew5MahV5C8U27lYYoXwq6XJ
- 1rLEOGXwWpKd5xpsjfmNXWxUYQ==
-X-Google-Smtp-Source: AMsMyM4HGzc/gYnldq8KbEXfQxk48llgPMsot6IvCGxqkK9ViD5CZXE9MXnDDKqdGt7GQqtSxdh0wg==
-X-Received: by 2002:a17:90b:3b90:b0:202:80ac:467c with SMTP id
- pc16-20020a17090b3b9000b0020280ac467cmr13619003pjb.17.1665116752546; 
- Thu, 06 Oct 2022 21:25:52 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.124.100])
- by smtp.googlemail.com with ESMTPSA id
- q10-20020a170902f34a00b001767f6f04efsm430206ple.242.2022.10.06.21.25.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Oct 2022 21:25:51 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Fri, 7 Oct 2022 09:55:45 +0530 (IST)
-To: Miguel Luis <miguel.luis@oracle.com>
-cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, mst@redhat.com, 
- imammedo@redhat.com, ani@anisinha.ca, shannon.zhaosl@gmail.com, 
- peter.maydell@linaro.org
-Subject: Re: [RFC PATCH 2/4] acpi: fadt: support revision 6.0 of the ACPI
- specification
-In-Reply-To: <20221006161450.69912-3-miguel.luis@oracle.com>
-Message-ID: <9ad43c7f-7b79-a397-9a4f-61abb3b7fa53@anisinha.ca>
-References: <20221006161450.69912-1-miguel.luis@oracle.com>
- <20221006161450.69912-3-miguel.luis@oracle.com>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ksTe0gu7LiL6mzvprvgp+2nEYKgZPm4Kjth8b5lSvQQ=;
+ b=ewmPO1i8TL4zzmZ+OLxpOGKHvyO3XDQyucfAcNxravV9XxTHkZkfgRvWZq3pZPh5VM
+ FnznL4VnG8zlvbobtOJxlMCPY3h6FqBgrgMa3Q11WuUNBgrWxiaqUGKz5VPexFJuLoXN
+ HjseXNw8W6TOaUAvxYNQeEurmtdyLE1pmS+Y6Pa2HhMAL+S9swZ3Snrb+WNRydiAwT3O
+ 1oDWU1Ol2Dtrnoiq5gbEpFv61nhJlmyqIcZi2h7B6oCqbSCgzbZyjuJlNMR+nRJ7okVr
+ 9iw/zviLiic5LLyxYJhAin1ZeFUU85vHyrONl9lKuVW3hYq6573zt9lDR9e/FWC4fBxn
+ Zc+w==
+X-Gm-Message-State: ACrzQf23dhCNlXZBq2Col8kOBDuT6NPPge33vNb8yqJRfnn3okMWP2q9
+ pDWxyIK5MtzaWqQ6xE8GcfArvXEDh5EN1BoKEHg=
+X-Google-Smtp-Source: AMsMyM5q7sTxWJVtVzE/oMqWKqNo71XXUcvh8gWq2aKft+7KCzVP2pep52JyH/821+7nYtZGX4A6pWVtbRgEK6Cioc8=
+X-Received: by 2002:a05:620a:19a5:b0:6cf:4a24:cccb with SMTP id
+ bm37-20020a05620a19a500b006cf4a24cccbmr2610161qkb.376.1665120700445; Thu, 06
+ Oct 2022 22:31:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::62e;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20221006151927.2079583-1-bmeng.cn@gmail.com>
+ <87ilkwitc6.fsf@linaro.org>
+In-Reply-To: <87ilkwitc6.fsf@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 7 Oct 2022 13:31:28 +0800
+Message-ID: <CAEUhbmUfm+V-pN5j17VxRvYd1RGJYa3KF=op9Z-nB5Xq4RhUmA@mail.gmail.com>
+Subject: Re: [PATCH v5 00/18] tests/qtest: Enable running qtest on Windows
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Beraldo Leal <bleal@redhat.com>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Hanna Reitz <hreitz@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>, qemu-block@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x735.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,119 +100,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Oct 7, 2022 at 4:35 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>
+>
+> Bin Meng <bmeng.cn@gmail.com> writes:
+>
+> > In preparation to adding virtio-9p support on Windows, this series
+> > enables running qtest on Windows, so that we can run the virtio-9p
+> > tests on Windows to make sure it does not break accidently.
+>
+> I'm happy to take this whole series through my testing/next however I
+> don't have working CI for the month so need to wait for my minutes to
+> reset. Have you done a full CI run* with this?
+>
 
+Yes, gitlab CI passed.
 
-On Thu, 6 Oct 2022, Miguel Luis wrote:
+> (*make sure any CI run is only on a repo forked from
+> https://gitlab.com/qemu-project as you won't get the discount cost
+> factor otherwise)
+>
 
-> Update the Fixed ACPI Description Table (FADT) to revision 6.0 of the ACPI
-> specification adding the field "Hypervisor Vendor Identity" that was missing.
->
-> This field's description states the following: "64-bit identifier of hypervisor
-> vendor. All bytes in this field are considered part of the vendor identity.
-> These identifiers are defined independently by the vendors themselves,
-> usually following the name of the hypervisor product. Version information
-> should NOT be included in this field - this shall simply denote the vendor's
-> name or identifier. Version information can be communicated through a
-> supplemental vendor-specific hypervisor API. Firmware implementers would
-> place zero bytes into this field, denoting that no hypervisor is present in
-> the actual firmware."
->
-> Hereupon, what should a valid identifier of an Hypervisor Vendor ID be and
-> where should QEMU provide that information?
->
-> On this RFC there's the suggestion of having this information in sync by the
-> current acceleration name. This also seems to imply that QEMU, which generates
-> the FADT table, and the FADT consumer need to be in sync with the values of this
-> field.
->
-> Signed-off-by: Miguel Luis <miguel.luis@oracle.com>
-> ---
->  hw/acpi/aml-build.c      | 14 +++++++++++---
->  hw/arm/virt-acpi-build.c | 10 +++++-----
->  2 files changed, 16 insertions(+), 8 deletions(-)
->
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index e6bfac95c7..5258c4ac64 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -31,6 +31,7 @@
->  #include "hw/pci/pci_bus.h"
->  #include "hw/pci/pci_bridge.h"
->  #include "qemu/cutils.h"
-> +#include "qemu/accel.h"
->
->  static GArray *build_alloc_array(void)
->  {
-> @@ -2070,7 +2071,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->      acpi_table_end(linker, &table);
->  }
->
-> -/* build rev1/rev3/rev5.1 FADT */
-> +/* build rev1/rev3/rev5.1/rev6.0 FADT */
->  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
->                  const char *oem_id, const char *oem_table_id)
->  {
-> @@ -2193,8 +2194,15 @@ void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
->      /* SLEEP_STATUS_REG */
->      build_append_gas_from_struct(tbl, &f->sleep_sts);
->
-> -    /* TODO: extra fields need to be added to support revisions above rev5 */
-> -    assert(f->rev == 5);
-> +    if (f->rev <= 5) {
-
-<= does not make sense. It should be f->rev == 5.
-The previous code compares f->rev <= 4 since it needs to cover revisions
-2, 3 and 4.
-
-> +        goto done;
-> +    }
-> +
-> +    /* Hypervisor Vendor Identity */
-> +    build_append_padded_str(tbl, current_accel_name(), 8, '\0');
-
-I do not think the vendor identity should change based on the accelerator.
-The accelerator QEMU uses should be hidden from the guest OS as far as
-possible. I would suggest a string like "QEMU" for vendor ID.
-
-> +
-> +    /* TODO: extra fields need to be added to support revisions above rev6 */
-> +    assert(f->rev == 6);
->
->  done:
->      acpi_table_end(linker, &table);
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 9b3aee01bf..72bb6f61a5 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -809,13 +809,13 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->  }
->
->  /* FADT */
-> -static void build_fadt_rev5(GArray *table_data, BIOSLinker *linker,
-> +static void build_fadt_rev6(GArray *table_data, BIOSLinker *linker,
->                              VirtMachineState *vms, unsigned dsdt_tbl_offset)
->  {
-> -    /* ACPI v5.1 */
-> +    /* ACPI v6.0 */
->      AcpiFadtData fadt = {
-> -        .rev = 5,
-> -        .minor_ver = 1,
-> +        .rev = 6,
-> +        .minor_ver = 0,
->          .flags = 1 << ACPI_FADT_F_HW_REDUCED_ACPI,
->          .xdsdt_tbl_offset = &dsdt_tbl_offset,
->      };
-> @@ -945,7 +945,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->
->      /* FADT MADT PPTT GTDT MCFG SPCR DBG2 pointed to by RSDT */
->      acpi_add_table(table_offsets, tables_blob);
-> -    build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
-> +    build_fadt_rev6(tables_blob, tables->linker, vms, dsdt);
->
->      acpi_add_table(table_offsets, tables_blob);
->      build_madt(tables_blob, tables->linker, vms);
-> --
-> 2.37.3
->
->
+Regards,
+Bin
 
