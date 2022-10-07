@@ -2,97 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F27325F7B11
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:54:03 +0200 (CEST)
-Received: from localhost ([::1]:40204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9595F7AB1
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:41:33 +0200 (CEST)
+Received: from localhost ([::1]:42320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogpfl-0003j3-R2
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:54:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42100)
+	id 1ogpTg-0002Tg-2N
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:41:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ogomz-0002h7-B5
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 10:57:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26527)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1ogomv-0001sh-Kl
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 10:57:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665154638;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=53dJ8Yo53Jk8b8Pizdks+jIgRERvGsWrWzy4efdtWbg=;
- b=I/pJDUpgIeUpynGXiGtcL0rL98CcIlo31EJfvQ8eO9YksuQdjchaDdeovVaY+nLKnONsrM
- sn8EipnpF3OfZAvSN27t/MzqWIAE0gnUPm5f8lXJkgTXpE/1aDjXzops/lGnSwg0EYwlKh
- VCPkcUFvcdbjqHms+u+/WNu7wuS05nU=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-52-gIg-jMP_M0SgGx2-YAQUqw-1; Fri, 07 Oct 2022 10:57:12 -0400
-X-MC-Unique: gIg-jMP_M0SgGx2-YAQUqw-1
-Received: by mail-qt1-f199.google.com with SMTP id
- ff14-20020a05622a4d8e00b00394aaf0f653so2749438qtb.19
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 07:57:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ogooa-0005No-2p
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 10:59:04 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:42884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ogooX-000243-WA
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 10:59:03 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ l1-20020a17090a72c100b0020a6949a66aso4994677pjk.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 07:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
+ b=P9at1gy00LaQ67U9E1PqFxXj/+/Ep5lZ2MxNKcytXi47pMqLiyWzEa/Xe2j6FHWM4y
+ /hs7KujqnFNPAE3jZS5MWMfe3+xQAhIhJuW1dyoA1ekhjNaxULNBuqb/2klgeUPGWkYF
+ 5S5WGPJDOLGI8G3dhBrFVznCIwrT7f7u07MoT7kQCn0HddgT1cP9+6D1aAApMjbGxIQJ
+ KQ5lGGS71MMnAnQJ7FClUslBS7YWByNlLuUfhv2PRp7+0dcRnApGUnnJxK061ld3oLrF
+ aqw3+neqPNcUW0v6HArS65p+1L4Mc4p5Eyi3bOlG00rA6Ll3S9qG/ECPlhkMQusT3cha
+ xF/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=53dJ8Yo53Jk8b8Pizdks+jIgRERvGsWrWzy4efdtWbg=;
- b=KU4ICKdw7QJiTqGD5uQaXhXAdMFSLfnVbAkLOSqgjvtwZofHrY9IQWiRH8fhDG9Dpo
- CZ5ndcUJuajUVptGwM4wTNSADQHekzUXxym8St6MA6aXiQfgbAnr32f2YmeQhngalzU5
- ko24OWnTg1tIJ12pQ6bBY7iWeZEg3+EjYZSo2KcUvixJePSzG0k1Y0h8k+ugNE/KuRzW
- U2+qj+LIF1tZYCxFD9N/j459HUtmoiY/ZgIVxHx1aCLpRWcZm8LbnIW57mG/PdpnVjWK
- hecCs61UAmQCoW7wIIrcoku12bGHuyGOaQx8L54Ycx01mRAorlBH6pzzlgmthwOhWGGj
- wbaw==
-X-Gm-Message-State: ACrzQf1UVKAFzdSf2Vn+p+TtSWYTtpZAJZ7cpJXv/TuTBYrWIXjPMTv5
- b5YdcBf7aFoo2JB6f1DNhHKB99a3S87ZRFOtTRSqU5i52e7qxvQioo7q5CkHkTI1ZQw8ROtBaoh
- UTQu5A3fkFhIhet0=
-X-Received: by 2002:a05:620a:2184:b0:6e0:42c5:f47a with SMTP id
- g4-20020a05620a218400b006e042c5f47amr3918375qka.89.1665154632374; 
- Fri, 07 Oct 2022 07:57:12 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6Q8hmU41sO2bTreg/xHZrCWJfC4G2BGZsHtAP6KIgCAfiDVcELtk/+f6vRj4bBHgnxIZSbeQ==
-X-Received: by 2002:a05:620a:2184:b0:6e0:42c5:f47a with SMTP id
- g4-20020a05620a218400b006e042c5f47amr3918353qka.89.1665154632094; 
- Fri, 07 Oct 2022 07:57:12 -0700 (PDT)
-Received: from sgarzare-redhat (host-79-46-200-222.retail.telecomitalia.it.
- [79.46.200.222]) by smtp.gmail.com with ESMTPSA id
- y8-20020ac87048000000b00342f8d4d0basm2299111qtm.43.2022.10.07.07.57.08
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
+ b=p1SEbO+P4Jk4Fb6UImg/8CQQT/jETUWnX8157JwnqMv8Zm8hLyPCkE9yb0GJ8xexWg
+ 3wABVrR3GCPEehwqrG9WfsEexhvJCsS+e1NGPlpbGzVfgd/wwt2a7aH9P1Xid2z3G9cc
+ flx/txvtkSlHmO1WdE5TImRV518uZnB5nExVjT7hHQ2MKF4Q+yHZFHX+BHTCDoZmPaz7
+ FTylrN/Nh+IC0+jRZze1WzSvn7jF6QRLXQtBoD982IJ+wG+na3+RlzsjiiQol/9keaW/
+ ZMnGMjIPN1FwodHYoqD/zak/s4ENrzIkBAEGkhScdZkKzl3FS+v9906HqtgxvnrhFkP7
+ /l2w==
+X-Gm-Message-State: ACrzQf2RIfFVhiHQ9WiTvik/vleezo4QzrIRcYtDyHZB9JwFPhPWrYNW
+ DfBklABlpP4NeNrE/pCGq8wxIw==
+X-Google-Smtp-Source: AMsMyM642quwEQBN0ZX14M9u9coJDsTKuGQ1cCzLKA6Dq2TZW06v6vpj0wGS9syx5rD7OWwlzHZvqw==
+X-Received: by 2002:a17:90b:3ec1:b0:202:f490:e508 with SMTP id
+ rm1-20020a17090b3ec100b00202f490e508mr5980841pjb.156.1665154738493; 
+ Fri, 07 Oct 2022 07:58:58 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ m22-20020a63ed56000000b0043a0de69c94sm1750587pgk.14.2022.10.07.07.58.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Oct 2022 07:57:11 -0700 (PDT)
-Date: Fri, 7 Oct 2022 16:57:04 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Cc: huangy81@chinatelecom.cn, qemu-devel <qemu-devel@nongnu.org>,
- Jason Wang <jasowang@redhat.com>, tugy@chinatelecom.cn,
- baiyw2@chinatelecom.cn, dengpc12@chinatelecom.cn,
- liuym16@chinatelecom.cn, yangchg@chinatelecom.cn,
- yuanmh12@chinatelecom.cn, zhoupx@chinatelecom.cn, lic121@chinatelecom.cn,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH 1/2] vhost-user: Refactor vhost acked features saving
-Message-ID: <20221007145704.qjlbzqndyqf7w6ff@sgarzare-redhat>
-References: <20220926063641.25038-1-huangy81@chinatelecom.cn>
- <20220926063641.25038-2-huangy81@chinatelecom.cn>
- <20221007095800-mutt-send-email-mst@kernel.org>
+ Fri, 07 Oct 2022 07:58:57 -0700 (PDT)
+Date: Fri, 7 Oct 2022 14:58:54 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y0A+rogB6TRDtbyE@google.com>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <Yz7s+JIexAHJm5dc@kernel.org> <Yz7vHXZmU3EpmI0j@kernel.org>
+ <Yz71ogila0mSHxxJ@google.com> <Y0AJ++m/TxoscOZg@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221007095800-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <Y0AJ++m/TxoscOZg@kernel.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,116 +117,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 07, 2022 at 10:01:21AM -0400, Michael S. Tsirkin wrote:
->On Mon, Sep 26, 2022 at 02:36:40PM +0800, huangy81@chinatelecom.cn wrote:
->> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>
->> Abstract vhost acked features saving into
->> vhost_user_save_acked_features, export it as util function.
->>
->> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
->> ---
->>  include/net/vhost-user.h |  2 ++
->>  net/vhost-user.c         | 35 +++++++++++++++++++----------------
->>  2 files changed, 21 insertions(+), 16 deletions(-)
->>
->> diff --git a/include/net/vhost-user.h b/include/net/vhost-user.h
->> index 5bcd8a6285..00d46613d3 100644
->> --- a/include/net/vhost-user.h
->> +++ b/include/net/vhost-user.h
->> @@ -14,5 +14,7 @@
->>  struct vhost_net;
->>  struct vhost_net *vhost_user_get_vhost_net(NetClientState *nc);
->>  uint64_t vhost_user_get_acked_features(NetClientState *nc);
->> +void vhost_user_save_acked_features(NetClientState *nc,
->> +                                    bool cleanup);
->>
->>  #endif /* VHOST_USER_H */
->> diff --git a/net/vhost-user.c b/net/vhost-user.c
->> index b1a0247b59..c512cc9727 100644
->> --- a/net/vhost-user.c
->> +++ b/net/vhost-user.c
->> @@ -45,24 +45,31 @@ uint64_t vhost_user_get_acked_features(NetClientState *nc)
->>      return s->acked_features;
->>  }
->>
->> -static void vhost_user_stop(int queues, NetClientState *ncs[])
->> +void vhost_user_save_acked_features(NetClientState *nc, bool cleanup)
->>  {
->>      NetVhostUserState *s;
->> +
->> +    s = DO_UPCAST(NetVhostUserState, nc, nc);
->> +    if (s->vhost_net) {
->> +        uint64_t features = vhost_net_get_acked_features(s->vhost_net);
->> +        if (features) {
->> +            s->acked_features = features;
->> +        }
->
->Note it does not set  acked_features if features are 0.
->Which might be the case for legacy ...
->I will need to analyze this more to figure out what's
->the correct behaviour....
->
->Stefano? Raphael?
+On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
+> On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
+> > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
+> > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
+> > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> > > > > additional KVM memslot fields private_fd/private_offset to allow
+> > > > > userspace to specify that guest private memory provided from the
+> > > > > private_fd and guest_phys_addr mapped at the private_offset of the
+> > > > > private_fd, spanning a range of memory_size.
+> > > > > 
+> > > > > The extended memslot can still have the userspace_addr(hva). When use, a
+> > > > > single memslot can maintain both private memory through private
+> > > > > fd(private_fd/private_offset) and shared memory through
+> > > > > hva(userspace_addr). Whether the private or shared part is visible to
+> > > > > guest is maintained by other KVM code.
+> > > > 
+> > > > What is anyway the appeal of private_offset field, instead of having just
+> > > > 1:1 association between regions and files, i.e. one memfd per region?
+> > 
+> > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
+> > E.g. if a vCPU converts a single page, it will be forced to wait until all other
+> > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
+> > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
+> > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
+> > the SRCU problem.
+> > 
+> > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
+> > memslot is deleted.
+> > 
+> > Taking both a private_fd and a shared userspace address allows userspace to convert
+> > between private and shared without having to manipulate memslots.
+> 
+> Right, this was really good explanation, thank you.
+> 
+> Still wondering could this possibly work (or not):
+> 
+> 1. Union userspace_addr and private_fd.
 
-I just noticed that we now call vhost_user_stop() only in the error path 
-of vhost_user_start(). We used it elsewhere, but over time we removed 
-those calls.
+No, because userspace needs to be able to provide both userspace_addr (shared
+memory) and private_fd (private memory) for a single memslot.
 
-Do we still need to save acked_feature in that path?
+> 2. Instead of introducing private_offset, use guest_phys_addr as the
+>    offset.
 
-About doing it only if the features aren't 0, it isn't clear to me.
-I see we did in e6bcb1b617 ("vhost-user: keep vhost_net after a 
-disconnection"). @Marc-André do you remember why?
-
-Thanks,
-Stefano
-
->
->> +
->> +        if (cleanup) {
->> +            vhost_net_cleanup(s->vhost_net);
->> +        }
->> +    }
->> +}
->> +
->> +static void vhost_user_stop(int queues, NetClientState *ncs[])
->> +{
->>      int i;
->>
->>      for (i = 0; i < queues; i++) {
->>          assert(ncs[i]->info->type == NET_CLIENT_DRIVER_VHOST_USER);
->>
->> -        s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
->> -
->> -        if (s->vhost_net) {
->> -            /* save acked features */
->> -            uint64_t features = vhost_net_get_acked_features(s->vhost_net);
->> -            if (features) {
->> -                s->acked_features = features;
->> -            }
->> -            vhost_net_cleanup(s->vhost_net);
->> -        }
->> +        vhost_user_save_acked_features(ncs[i], true);
->>      }
->>  }
->>
->> @@ -251,11 +258,7 @@ static void chr_closed_bh(void *opaque)
->>      s = DO_UPCAST(NetVhostUserState, nc, ncs[0]);
->>
->>      for (i = queues -1; i >= 0; i--) {
->> -        s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
->> -
->> -        if (s->vhost_net) {
->> -            s->acked_features = vhost_net_get_acked_features(s->vhost_net);
->> -        }
->> +        vhost_user_save_acked_features(ncs[i], false);
->>      }
->>
->>      qmp_set_link(name, false, &err);
->> --
->> 2.27.0
->
-
+No, because that would force userspace to use a single private_fd for all of guest
+memory since it effectively means private_offset=0.  And userspace couldn't skip
+over holes in guest memory, i.e. the size of the memfd would need to follow the
+max guest gpa.  In other words, dropping private_offset could work, but it'd be
+quite kludgy and not worth saving 8 bytes.
 
