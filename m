@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FCC5F7BE3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:59:17 +0200 (CEST)
-Received: from localhost ([::1]:53952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B4A5F7BE1
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:57:26 +0200 (CEST)
+Received: from localhost ([::1]:45238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogqgu-0004Pv-5H
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48384)
+	id 1ogqf7-0001jq-CZ
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogqYj-00017u-Vg
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:50:53 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:36829)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogqbX-0005V5-S2
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:53:44 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:44951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogqYi-0003zA-AQ
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:50:49 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- e11-20020a17090a77cb00b00205edbfd646so7730016pjs.1
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 09:50:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogqbW-0004CN-3v
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:53:43 -0400
+Received: by mail-pl1-x632.google.com with SMTP id x6so5032872pll.11
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 09:53:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=WmZ1iLaRWTR5WM0lMJr57R9TNS1Stv8HvXzJ5i2EblI=;
- b=CICsygMzgub3EGcE7XFdWJ17zRMTZVEX7qVHIIGWYIQNl8K/Xy7++0pIqiF3JFHSWy
- uumfC9A1nFnICXNNrVK4ikmhHNWw4sJRl1+xTrjz4oEAIXJ2evxD3iUYQZ9t0NXjlwSK
- Q4fdKMy5Gj9LEyyCKMYqdOVLOFnrYirLg+/uZuTrUkjT4cOYet1tEoGAb9082QEL6SQ1
- lvcihu5BrXZ6s2+UNZUaUZh2Kd0F+8KGDIyjDoPE3cKBF63AhDNNVRi5K52graxv+Ta2
- Hw0Up+YVUuLMT8UoUK2CNfLUCVmODpKigQAmNvFa+u/+Hj3qBmh0Go+oHRPgPOKHGtqS
- vhgg==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=z5xqzmugt5DkjtB3vMsGkPUaxnSoqGVu+48O9THx8eo=;
+ b=tGONTX1U4PXO2WlYPy6ZccMH/eSHgXXfoWbEvjFs1WR3srE4opr+MxV/uSBgesJg8w
+ OBM7Ucow03195DWGFR8UmqDeKpFhDwOv5DPLiPaPjwXkkSSLqTqI4Qi9AJH27hmNhkXe
+ XcPYu3mpHM3orK8ac+FrmVW/4g5rN/j+L84btT+LFxA7kdnNdyqL7kuLXb+yYUIsxSkB
+ 5952MKHOPn/lLsR+rZpAto4BrE6U/4V0Ngh4ZyXeeoQCtHdPJzDke76opn16BZKykLZs
+ UPoADHYQ6c2ADQVaLuHCwjVUlHqWAlVbUdsvGZOys5cIoSAewfgQl0Py9W2pm0awsxfW
+ eH4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WmZ1iLaRWTR5WM0lMJr57R9TNS1Stv8HvXzJ5i2EblI=;
- b=eaf6Vj1jlWhEJH6J6rSP+6+u5o8s9RijXsxzfkThs2I0rN38EGlE1Y8BBWNrjOCQqt
- HC11JJhnkRnEEF2Lwh04PUGasSijAnygWXnfmaryF45HPDiLZWE2pJCgmNsY9f/R7mpX
- uNYyzte/BtR5hDlPVaEQ1HdnItKn1ZwnvpxOV3t5SM+k7TAVFF3jmTeRSmCcomBW4Ttv
- vqvEy8EJ0hLg0y3bBzqwUxhP2UUK1OPd2OQgkZwuw7oZVHb52Ld1XZ3SHAgHT5r96ZcT
- ZvknpFuaGgDgnGrvVT1mt3hflVzmoI2Lfdh3jDQQPexsCcSSVSvXSl9haqO8ZSKGXyDR
- JKmQ==
-X-Gm-Message-State: ACrzQf3716bHbOCS/oI/bIdbmfI7tI2dwpV/M/O09BxIDcII6uooUMYF
- jfvmG7tBjvHgPy1gHQ+YWVdaLPzJsxw2x7B1xbMxbQ==
-X-Google-Smtp-Source: AMsMyM4g3YOzcdd/wHLWCuvY4Bzvj4IxslPO5qURlPnigHQha6LlYT7rRmO52sM2dTignpiTXwEQ7VdUl/sm7cYO5LU=
-X-Received: by 2002:a17:90b:1d04:b0:20b:cb40:4b3 with SMTP id
- on4-20020a17090b1d0400b0020bcb4004b3mr3085341pjb.215.1665161444789; Fri, 07
- Oct 2022 09:50:44 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=z5xqzmugt5DkjtB3vMsGkPUaxnSoqGVu+48O9THx8eo=;
+ b=5RBD/yuxf92eA/WK60g1/Yl/ZtSShkwGYWzU47zV6MJpvP0WLyrHp2Q7QVHeh1x7ji
+ WTwtgny1HUtKBnP+K42um2OzcncYTG3RVepT4wECL86ovVqW6UoMgaBFg58xDMngErNK
+ OmyWA+gyqR+GbHtMAofSeJJQ9dZvZ3fO1dpNsRTZDnNRjx8YbhPbaKavGLMGSoXupQn+
+ ynl+KtMeEjOevY5TBychDf6YiR9Eq3V9yjK1I06u7K5ge6aoQHax2ftphme5nAp7Tyxa
+ qNqhbzK14+ZkzHBCRKvdf1/I/uDjiz5tontn7x7WP4DrSfNaaT8dy8vjiEyETiPtCBCH
+ 3r4w==
+X-Gm-Message-State: ACrzQf2bnTJAKYjXff7MSK19qocKPOGcloYRgqeGFFuou377HWdofIJJ
+ Zwb2NI88jV2TqGcgVgAed9TsQA==
+X-Google-Smtp-Source: AMsMyM4a02O3zEuM3l+VIuA+5mi4JKxzCpBQ8EQn0ZtHgOcmSsjKlYczXC22NXGEmT3B7NDrx0p+EQ==
+X-Received: by 2002:a17:903:124b:b0:179:da2f:2457 with SMTP id
+ u11-20020a170903124b00b00179da2f2457mr5551381plh.156.1665161620566; 
+ Fri, 07 Oct 2022 09:53:40 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:3b6c:3864:9643:140a?
+ ([2602:47:d49d:ec01:3b6c:3864:9643:140a])
+ by smtp.gmail.com with ESMTPSA id
+ i11-20020a17090332cb00b00174c235e1fdsm1775577plr.199.2022.10.07.09.53.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Oct 2022 09:53:39 -0700 (PDT)
+Message-ID: <ed0332cf-5bf0-34ef-3233-de6840439e02@linaro.org>
+Date: Fri, 7 Oct 2022 09:53:37 -0700
 MIME-Version: 1.0
-References: <20221001162318.153420-1-richard.henderson@linaro.org>
- <20221001162318.153420-42-richard.henderson@linaro.org>
- <CAFEAcA-LhvMYbTTcsC+eAcAeA61e9Kq=zf6fKr5j_4dusuRDiw@mail.gmail.com>
- <52ec3b12-b9bb-b2a9-52c8-54a7016182c6@linaro.org>
-In-Reply-To: <52ec3b12-b9bb-b2a9-52c8-54a7016182c6@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Oct 2022 17:50:33 +0100
-Message-ID: <CAFEAcA8Qe-Y1HD8ULjDgrcRGbpXruqL=te9NXtTv2OWv2DOBhQ@mail.gmail.com>
-Subject: Re: [PATCH v3 41/42] target/arm: Implement FEAT_HAFDBS
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] target/arm: Make the final stage1+2 write to secure be
+ unconditional
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20221007152159.1414065-1-richard.henderson@linaro.org>
+ <CAFEAcA93Urww5F+_gJonUUaLeS-7W8BhYqRgcJT1hcVY3LaUdA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA93Urww5F+_gJonUUaLeS-7W8BhYqRgcJT1hcVY3LaUdA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.699,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,24 +96,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Oct 2022 at 17:45, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 10/7/22 06:47, Peter Maydell wrote:
-> > Are there definitely no code paths where we might try to do
-> > a page table walk with the iothread already locked ?
->
-> I'll double-check, but another possibility is to simply perform the atomic operation on
-> the low 32-bits, where both AF and DB are located.  Another trick I learned from x86...
+On 10/7/22 09:20, Peter Maydell wrote:
+>> -            /* Check if IPA translates to secure or non-secure PA space. */
+>> -            if (is_secure) {
+>> -                if (ipa_secure) {
+>> -                    result->attrs.secure =
+>> -                        !(env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW));
+>> -                } else {
+>> -                    result->attrs.secure =
+>> -                        !((env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW))
+>> -                        || (env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW)));
+>> -                }
+>> -            }
+> 
+> If:
+>   is_secure == true
+>   ipa_secure == false
+>   (env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW) is non-zero
+>   (env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW) is zero
+> then the old code sets attrs.secure to true...
 
-Doesn't that cause a problem where we don't detect that some other
-CPU wrote to the high 32 bits of the descriptor ? We're supposed to
-be using those high 32 bits, not the ones we have in hand...
+No, I think the misalignment of the two lines wrt the !() may have been confusing:
 
-If we do need the iothread lock, we could do it the way that
-io_readx() does, I guess, where we track whether we needed to
-lock it or not.
+   if (true) {
+     if (false) {
+     } else {
+       secure = !((0) || (non-zero))
+              = !(1)
+              = 0
+     }
+   }
 
-thanks
--- PMM
+
+r~
+
+> 
+>> +            /*
+>> +             * Check if IPA translates to secure or non-secure PA space.
+>> +             * Note that VSTCR overrides VTCR and {N}SW overrides {N}SA.
+>> +             */
+>> +            result->attrs.secure =
+>> +                (is_secure
+>> +                 && !(env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW))
+>> +                 && (ipa_secure
+>> +                     || !(env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW))));
+> 
+> ...but the new code will set it to false, I think ?
+> 
+> thanks
+> -- PMM
+
 
