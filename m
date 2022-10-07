@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECE15F7A96
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:33:18 +0200 (CEST)
-Received: from localhost ([::1]:53910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6B45F7A59
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:14:50 +0200 (CEST)
+Received: from localhost ([::1]:60044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogpLh-0001AP-F8
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57082)
+	id 1ogp3p-0003e1-Ms
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:14:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ognhn-0002UX-3b
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:47:59 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:42497)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ognhj-0007GY-Mf
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:47:58 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- l1-20020a17090a72c100b0020a6949a66aso4823870pjk.1
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 06:47:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+PrtEfpecHSBapt/r6+/1FmwH25AdXTSiY4baPW2Vxg=;
- b=PZ53uNVIgWd/MmxpxxjjQqBF9oPdnKaSj809whMJzTNiFaWvuEnnNsBScTliU5B9Ts
- uTL/Tkgev5iyF2fcqR08ZMj2FapNqqT8CNSLJAfVV8Urm9/SK9W0ye7UBvfnAg+BQxYh
- 1ayqr0Cy8y67QTx/P+I91zk+aPXo8uFuK/iGxeleAx25v3UzL3Qyp4rErHsPWS8q2j6Z
- Tft5JjS1Og0dl6zMDECT1ImoYr61K3EczpUD0lP+aQzMSOKMQf2MqlQt94mymCt67sW0
- nGN4qrTq/11YH2k/+f9BZ+wKp5FfOiHv/Ws63lwqnuSf4y1c2M46jx9OJGmPIQV89D4J
- sFQQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ogni4-0002t0-KP
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:48:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32783)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ogni2-0007KU-Lc
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:48:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665150493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xokSwJiVSdgCHzzTvngqCi+5uldC7LrAchKSEdIcP8s=;
+ b=aUs8YEJZksgxxdfNw2YMXWh3Ztbnx0qPSTslec/kBzp3x2pH57KcE7JsLjkYMQB+pHOmMZ
+ jgJKn+OjuKDR6lR69w2/U0c4rILdyhOAH6d/zuovvWz1nS9GslIF/O4R2Pd+BuL9ep6K/+
+ RrxTSK+vt1prpN1kAnUrkDSQTnVJOFM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-140-ZZU35cGzNDqXsz7z9omu-A-1; Fri, 07 Oct 2022 09:48:12 -0400
+X-MC-Unique: ZZU35cGzNDqXsz7z9omu-A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ o18-20020a05600c339200b003bf24961658so2709299wmp.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 06:48:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+PrtEfpecHSBapt/r6+/1FmwH25AdXTSiY4baPW2Vxg=;
- b=DPm5j0DpzQDJxg40HUJReDiNgXUg2BjKHkaDgjYvC4xwqK61gySKK3+vcPdRRpPdTX
- pjXecXoGaS+S+El02oM/RGlC6d7kWQBK5fLHBJdQWa+uCIWzuL789V8ynDuliU13ywDW
- 5KO+5zgJvNFLI0mI1L857BaGXPnxt+ewAewvGo8gRQhuDYW/6SSxdqHoZice+oWoKFbG
- QZe7JxxTSBuAC+El+Z7OdZdOLbL8ksWFlJP7nw/4Z6qN+DXM+KqsIpI0CEnOvd3JcsSp
- plNPeC4rnUlFrM3wDssjpRP42tK+oRIKCQqDcA7Nl1FfXrzsSMVSKsnR80rb9q9Ce5kl
- z+CA==
-X-Gm-Message-State: ACrzQf3SQrxCSidAhg2O8921c8kAPdhAOWWuR6FkVOjHaOJDsRz4sz5i
- nPHnAlBtRZbY+ie9z8igWxKl3eQig/4Te6aRxoMM7w==
-X-Google-Smtp-Source: AMsMyM7MAYX7XXZRxwp45cF7RkGuTNmpDEUi2n9yIPWRKf8B6s05F29tHWhPVIE/vabrdGt+f65Vnwq4o/YdKSKTbiA=
-X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
- jm23-20020a17090304d700b001788564f754mr4874959plb.60.1665150473883; Fri, 07
- Oct 2022 06:47:53 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xokSwJiVSdgCHzzTvngqCi+5uldC7LrAchKSEdIcP8s=;
+ b=QFZDle9ub5sW3EIUE8h3xwMFSk6tGs+p6ngTmt1RJCywehxZqKEQ/hMtINyDzO/lmK
+ ZyRYK5+RexcDYOSvxOScHZFBcpg3ODAeCreIhT2meJIIaxk2Ni4lplYmtCGxb2unssDv
+ 4/W0oySTzvvU1feiRirQGvPmCBFG4pq7lkX61FjdhLkNtKUwcWI75CgkPFf6xh+cj6k7
+ KvW9kac0Qd0W3g/msvTlB6IVqpaoD2jak7JV9dyku1RRrsljp65SeQrs8y+SdcT6BB8H
+ zS5sSqNqdc2Vv6Y2nIYu3+iz+V1v34orDIClck4peZ195OQC7c2keU+4jRWf5vLax0+o
+ 3OCw==
+X-Gm-Message-State: ACrzQf0Pyg4In6KrP8ZCuBcuN9xvWK2hNBfSQ3i22neU5BuPVrtmUStH
+ w56uFznmiE6D98+h4zY10RxAJkBMSJFWKWWm8kxao2PGAhk58roFaN+MTQqffwr5O8PP7Q6g+76
+ vepUnZdTIdScCLSc=
+X-Received: by 2002:a05:6000:2a3:b0:226:dff3:b031 with SMTP id
+ l3-20020a05600002a300b00226dff3b031mr3309384wry.495.1665150490420; 
+ Fri, 07 Oct 2022 06:48:10 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4nRvhcKsXcuNhE6FvEeolccoh8ZN+yKv5QSxteFQMQOAC2RYGrphXtNhAsZNIbkjRG215TWA==
+X-Received: by 2002:a05:6000:2a3:b0:226:dff3:b031 with SMTP id
+ l3-20020a05600002a300b00226dff3b031mr3309358wry.495.1665150490169; 
+ Fri, 07 Oct 2022 06:48:10 -0700 (PDT)
+Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
+ l12-20020a05600c2ccc00b003b47e8a5d22sm4428360wmc.23.2022.10.07.06.48.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Oct 2022 06:48:09 -0700 (PDT)
+Date: Fri, 7 Oct 2022 09:48:05 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Yicong Yang <yangyicong@huawei.com>
+Cc: imammedo@redhat.com, ani@anisinha.ca, eduardo@habkost.net,
+ marcel.apfelbaum@gmail.com, f4bug@amsat.org, wangyanan55@huawei.com,
+ qemu-devel@nongnu.org, jonathan.cameron@huawei.com,
+ linuxarm@huawei.com, yangyicong@hisilicon.com,
+ prime.zeng@huawei.com, hesham.almatary@huawei.com,
+ ionela.voinescu@arm.com, darren@os.amperecomputing.com
+Subject: Re: [PATCH 1/4] hw/acpi/aml-build: Only generate cluster node in
+ PPTT when specified
+Message-ID: <20221007094701-mutt-send-email-mst@kernel.org>
+References: <20220922131143.58003-1-yangyicong@huawei.com>
+ <20220922131143.58003-2-yangyicong@huawei.com>
 MIME-Version: 1.0
-References: <20221001162318.153420-1-richard.henderson@linaro.org>
- <20221001162318.153420-42-richard.henderson@linaro.org>
-In-Reply-To: <20221001162318.153420-42-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Oct 2022 14:47:41 +0100
-Message-ID: <CAFEAcA-LhvMYbTTcsC+eAcAeA61e9Kq=zf6fKr5j_4dusuRDiw@mail.gmail.com>
-Subject: Re: [PATCH v3 41/42] target/arm: Implement FEAT_HAFDBS
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220922131143.58003-2-yangyicong@huawei.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,278 +102,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 1 Oct 2022 at 18:04, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Perform the atomic update for hardware management of the access flag
-> and the dirty bit.
->
-> A limitation of the implementation so far is that the page table
-> itself must already be writable, i.e. the dirty bit for the stage2
-> page table must already be set, i.e. we cannot set both dirty bits
-> at the same time.
->
-> This is allowed because it is CONSTRAINED UNPREDICTABLE whether any
-> atomic update happens at all.  The implementation is allowed to simply
-> fall back on software update at any time.
+On Thu, Sep 22, 2022 at 09:11:40PM +0800, Yicong Yang wrote:
+> From: Yicong Yang <yangyicong@hisilicon.com>
+> 
+> Currently we'll always generate a cluster node no matter user has
+> specified '-smp clusters=X' or not. Cluster is an optional level
+> and it's unncessary to build it if user don't need. So only generate
+> it when user specify explicitly.
+> 
+> Also update the test ACPI tables.
+> 
+> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
 
-I can't see where in the Arm ARM this is stated.
+This is an example of a commit log repeating what the patch does.
+Which is ok but the important thing is to explain the motivation -
+why is it a bug to generate a cluster node without '-smp clusters'?
 
-In any case, if HA is set you can't simply return ARMFault_AccessFlag
-without breaking the bit in D5.4.12 which says
-"When hardware updates of the Access flag are enabled for a stage of
- translation an address translation instruction that uses that stage
- of translation will not report that the address will give rise to
- an Access flag fault in the PAR"
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  docs/system/arm/emulation.rst |   1 +
->  target/arm/cpu64.c            |   1 +
->  target/arm/ptw.c              | 119 ++++++++++++++++++++++++++++++++--
->  3 files changed, 115 insertions(+), 6 deletions(-)
->
-> diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-> index be7bbffe59..c3582d075e 100644
-> --- a/docs/system/arm/emulation.rst
-> +++ b/docs/system/arm/emulation.rst
-> @@ -31,6 +31,7 @@ the following architecture extensions:
->  - FEAT_FRINTTS (Floating-point to integer instructions)
->  - FEAT_FlagM (Flag manipulation instructions v2)
->  - FEAT_FlagM2 (Enhancements to flag manipulation instructions)
-> +- FEAT_HAFDBS (Hardware management of the access flag and dirty bit state)
->  - FEAT_HCX (Support for the HCRX_EL2 register)
->  - FEAT_HPDS (Hierarchical permission disables)
->  - FEAT_I8MM (AArch64 Int8 matrix multiplication instructions)
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index e6314e86d2..b064dc7964 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -1116,6 +1116,7 @@ static void aarch64_max_initfn(Object *obj)
->      cpu->isar.id_aa64mmfr0 = t;
->
->      t = cpu->isar.id_aa64mmfr1;
-> +    t = FIELD_DP64(t, ID_AA64MMFR1, HAFDBS, 2);   /* FEAT_HAFDBS */
-
-I think we should split the access flag update and the
-dirty-bit update into separate commits. It might be useful
-for bisection purposes later, and it looks like they're pretty
-cleanly separable. (Though if you look at my last comment in this
-email, maybe not quite so clean as in the code as you have it here.)
-
->      t = FIELD_DP64(t, ID_AA64MMFR1, VMIDBITS, 2); /* FEAT_VMID16 */
->      t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);       /* FEAT_VHE */
->      t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1);     /* FEAT_HPDS */
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index 45734b0d28..14ab56d1b5 100644
-> --- a/target/arm/ptw.c
-> +++ b/target/arm/ptw.c
-> @@ -223,6 +223,7 @@ static bool S2_attrs_are_device(uint64_t hcr, uint8_t attrs)
->  typedef struct {
->      bool is_secure;
->      bool be;
-> +    bool rw;
->      void *hphys;
->      hwaddr gphys;
->  } S1TranslateResult;
-> @@ -261,7 +262,8 @@ static bool S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
->              pte_attrs = s2.cacheattrs.attrs;
->              pte_secure = s2.f.attrs.secure;
+>  hw/acpi/aml-build.c   | 2 +-
+>  hw/core/machine-smp.c | 3 +++
+>  include/hw/boards.h   | 2 ++
+>  3 files changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index e6bfac95c7..aab73af66d 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -2030,7 +2030,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>                  0, socket_id, NULL, 0);
 >          }
-> -        res->hphys = NULL;
-> +        res->hphys = NULL;  /* force slow path */
-> +        res->rw = false;    /* debug never modifies */
->      } else {
->          CPUTLBEntryFull *full;
->          int flags;
-> @@ -276,6 +278,7 @@ static bool S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
->              goto fail;
->          }
->          res->gphys = full->phys_addr;
-> +        res->rw = full->prot & PAGE_WRITE;
->          pte_attrs = full->pte_attrs;
->          pte_secure = full->attrs.secure;
->      }
-> @@ -381,6 +384,56 @@ static uint64_t arm_ldq_ptw(CPUARMState *env, const S1TranslateResult *s1,
->      return data;
->  }
->
-> +static uint64_t arm_casq_ptw(CPUARMState *env, uint64_t old_val,
-> +                             uint64_t new_val, const S1TranslateResult *s1,
-> +                             ARMMMUFaultInfo *fi)
-> +{
-> +    uint64_t cur_val;
+>  
+> -        if (mc->smp_props.clusters_supported) {
+> +        if (mc->smp_props.clusters_supported && ms->smp.build_cluster) {
+>              if (cpus->cpus[n].props.cluster_id != cluster_id) {
+>                  assert(cpus->cpus[n].props.cluster_id > cluster_id);
+>                  cluster_id = cpus->cpus[n].props.cluster_id;
+> diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+> index b39ed21e65..5d37e8d07a 100644
+> --- a/hw/core/machine-smp.c
+> +++ b/hw/core/machine-smp.c
+> @@ -158,6 +158,9 @@ void machine_parse_smp_config(MachineState *ms,
+>      ms->smp.threads = threads;
+>      ms->smp.max_cpus = maxcpus;
+>  
+> +    if (config->has_clusters)
+> +        ms->smp.build_cluster = true;
 > +
-> +    if (unlikely(!s1->hphys)) {
-> +        fi->type = ARMFault_UnsuppAtomicUpdate;
-> +        fi->s1ptw = true;
-> +        return 0;
-> +    }
-> +
-> +#ifndef CONFIG_ATOMIC64
-> +    /*
-> +     * We can't support the atomic operation on the host.  We should be
-> +     * running in round-robin mode though, which means that we would only
-> +     * race with dma i/o.
-> +     */
-> +    qemu_mutex_lock_iothread();
+>      /* sanity-check of the computed topology */
+>      if (sockets * dies * clusters * cores * threads != maxcpus) {
+>          g_autofree char *topo_msg = cpu_hierarchy_to_string(ms);
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 7b416c9787..24aafc213d 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -305,6 +305,7 @@ typedef struct DeviceMemoryState {
+>   * @cores: the number of cores in one cluster
+>   * @threads: the number of threads in one core
+>   * @max_cpus: the maximum number of logical processors on the machine
+> + * @build_cluster: build cluster topology or not
+>   */
+>  typedef struct CpuTopology {
+>      unsigned int cpus;
+> @@ -314,6 +315,7 @@ typedef struct CpuTopology {
+>      unsigned int cores;
+>      unsigned int threads;
+>      unsigned int max_cpus;
+> +    bool build_cluster;
+>  } CpuTopology;
+>  
+>  /**
+> -- 
+> 2.24.0
 
-Are there definitely no code paths where we might try to do
-a page table walk with the iothread already locked ?
-
-> +    if (s1->be) {
-> +        cur_val = ldq_be_p(s1->hphys);
-> +        if (cur_val == old_val) {
-> +            stq_be_p(s1->hphys, new_val);
-> +        }
-> +    } else {
-> +        cur_val = ldq_le_p(s1->hphys);
-> +        if (cur_val == old_val) {
-> +            stq_le_p(s1->hphys, new_val);
-> +        }
-> +    }
-> +    qemu_mutex_unlock_iothread();
-> +#else
-> +    if (s1->be) {
-> +        old_val = cpu_to_be64(old_val);
-> +        new_val = cpu_to_be64(new_val);
-> +        cur_val = qatomic_cmpxchg__nocheck((uint64_t *)s1->hphys,
-> +                                           old_val, new_val);
-> +        cur_val = be64_to_cpu(cur_val);
-> +    } else {
-> +        old_val = cpu_to_le64(old_val);
-> +        new_val = cpu_to_le64(new_val);
-> +        cur_val = qatomic_cmpxchg__nocheck((uint64_t *)s1->hphys,
-> +                                           old_val, new_val);
-> +        cur_val = le64_to_cpu(cur_val);
-> +    }
-> +#endif
-> +
-> +    return cur_val;
-> +}
-> +
->  static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
->                                       uint32_t *table, uint32_t address)
->  {
-> @@ -1290,6 +1343,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
->          goto do_fault;
->      }
->
-> + restart_atomic_update:
->      if (!(descriptor & 1) || (!(descriptor & 2) && (level == 3))) {
->          /* Invalid, or the Reserved level 3 encoding */
->          goto do_translation_fault;
-> @@ -1365,10 +1419,28 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
->       * Here descaddr is the final physical address, and attributes
->       * are all in attrs.
->       */
-> -    if ((attrs & (1 << 10)) == 0) {
-> +    if ((attrs & (1 << 10)) == 0 && !debug) {
->          /* Access flag */
-> -        fi->type = ARMFault_AccessFlag;
-> -        goto do_fault;
-> +        uint64_t new_des, old_des;
-> +
-> +        /*
-> +         * If HA is disabled, or if the pte is not writable,
-> +         * pass on the access fault to software.
-> +         */
-> +        if (!param.ha || !s1.rw) {
-> +            fi->type = ARMFault_AccessFlag;
-> +            goto do_fault;
-> +        }
-> +
-> +        old_des = descriptor;
-> +        new_des = descriptor | (1 << 10); /* AF */
-> +        descriptor = arm_casq_ptw(env, old_des, new_des, &s1, fi);
-> +        if (fi->type != ARMFault_None) {
-> +            goto do_fault;
-> +        }
-> +        if (old_des != descriptor) {
-> +            goto restart_atomic_update;
-
-Do we really need to go all the way back to restart_atomic_update?
-My reading of the Arm ARM is that we just need the "write the Access bit"
-to be atomic, not that everything we do with the descriptor must be atomic.
-Though the pseudocode does do a complete loop back like this, so I guess
-that's the 'safe' interpretation. Hmm...
-
-> +        }
->      }
->
->      ap = extract32(attrs, 6, 2);
-> @@ -1385,8 +1457,43 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
->      }
->
->      if (!(result->f.prot & (1 << access_type))) {
-> -        fi->type = ARMFault_Permission;
-> -        goto do_fault;
-> +        uint64_t new_des, old_des;
-> +
-> +        /* Writes may set dirty if DBM attribute is set. */
-> +        if (!param.hd
-> +            || access_type != MMU_DATA_STORE
-> +            || !extract64(attrs, 51, 1)  /* DBM */
-> +            || !s1.rw) {
-> +            fi->type = ARMFault_Permission;
-> +            goto do_fault;
-> +        }
-> +
-> +        old_des = descriptor;
-> +        if (mmu_idx == ARMMMUIdx_Stage2 || mmu_idx == ARMMMUIdx_Stage2_S) {
-> +            new_des = descriptor | (1ull << 7);   /* S2AP[1] */
-> +        } else {
-> +            new_des = descriptor & ~(1ull << 7);  /* AP[2] */
-> +        }
-
-If we update the prot bits, we need to also re-calculate the exec bit,
-I think, because the execute-never stuff depends on whether the page is
-writeable. Alternatively you can do it the way the pseudocode does and
-pre-figure-out the final permission bits value (see AArch64.S1ApplyOutputPerms()
-and AArch64.S2ApplyOutputPerms()) so you only need to calculate the
-exec bit once.
-
-> +
-> +        /*
-> +         * If the descriptor didn't change, then attributes weren't the
-> +         * reason for the permission fault, so deliver it.
-> +         */
-> +        if (old_des == new_des) {
-> +            fi->type = ARMFault_Permission;
-> +            goto do_fault;
-> +        }
-> +
-> +        descriptor = arm_casq_ptw(env, old_des, new_des, &s1, fi);
-
-Are we allowed to do the access and dirty bit updates with separate
-atomic accesses? This bit in D5.4.12 suggests the expectation is
-it will be a single atomic rmw to update the whole thing:
-
-"For a Block or Page Translation Table descriptor for which the AF
- bit is 0, the DBM bit is 1, and either the value of the stage 1
- AP[2] bit is 1 or the value of the stage 2 S2AP[1] bit is 0, both
- AF can be set to 1, and either AP[2] set to 0 or S2AP[1] set to 1,
- in a single atomic read-modify-write operation, as a result of an
- attempted write to a memory location that uses the translation
- table entry."
-
-(though it depends how you interpret that "can"...)
-
-> +        if (fi->type != ARMFault_None) {
-> +            goto do_fault;
-> +        }
-> +        if (old_des != descriptor) {
-> +            goto restart_atomic_update;
-> +        }
-> +
-> +        /* Success: the page is now writable. */
-> +        result->f.prot |= 1 << MMU_DATA_STORE;
->      }
->
->      if (ns) {
-> --
-> 2.34.1
-
-thanks
--- PMM
 
