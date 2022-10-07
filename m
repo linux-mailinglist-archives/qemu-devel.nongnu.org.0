@@ -2,76 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20645F7B55
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:23:22 +0200 (CEST)
-Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B1C5F7BC3
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:45:26 +0200 (CEST)
+Received: from localhost ([::1]:36294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogq89-0000vV-JI
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60204)
+	id 1ogqTV-00058a-Ll
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:45:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ogpVV-0006XG-3z
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:43:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39813)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogpbM-0007EO-Ah
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:49:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ogpVK-0000yt-GA
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:43:23 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogpbH-000201-Ul
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:49:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665157393;
+ s=mimecast20190719; t=1665157762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S4l/UgN1ILVTN0rLvAO4fiPys1pRQkJ7Axn2LX26fY0=;
- b=OnRgoWaMSDumcklyuBy6+71UBiLFAcDCQwbaeoQm4Lcx+58VDz4Kw5CeTXol61l4qDxglu
- ODWCBcoizb6rv615b8D3/bF6wGEYkVafcyoecDH9+tS1ZgLvROC86PAxF631J0xX0g+S5J
- lrpcTaL8L5hBxaxujc7VkOgRCJkndQE=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-100-k717h5utP-KvYms5NqMJEw-1; Fri, 07 Oct 2022 11:43:12 -0400
-X-MC-Unique: k717h5utP-KvYms5NqMJEw-1
-Received: by mail-pg1-f200.google.com with SMTP id
- g66-20020a636b45000000b0043a256d3639so3086870pgc.12
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 08:43:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=S4l/UgN1ILVTN0rLvAO4fiPys1pRQkJ7Axn2LX26fY0=;
- b=Wl9mfwZmmnegmJa6hcWt57QHO+4/M8/sHolpw8GibXKlqMLk365Z89V8Pc+zQIO8MT
- cGRPoVE7jbhh4UDi0DmZDRba0XXvG8Tyo2LWLi78oJIjGYlGxdr19lUTW9jwxgaWbuOX
- y2K4kvGyAo7Ow/GQaK3Xux928hv4Ej/bFyjxQST7gpseBTZRf/bOgNX8q5caZYLEdbp3
- /0c/7/ZA+VL0eKUSrKSAvPVlkTh8kqG7yt17wz6jGmFmqXW0PQsowfdIUZSwCvisqVth
- WZUj+xtHEw4UNdKujP0+LFSZ239BJhLw0p/idAWw+BCwsAWOPSwBa8lefP0a7tW2cy6b
- lyFQ==
-X-Gm-Message-State: ACrzQf17r/1IS+oYagK66xaJWrzXAtFAdRBxqwf3SUhwaQhUwNcOwJdp
- j/hGJQW2su/TIcKOfm4mLwJa3taPENIU0gsxlncuDzpJTEtoipEZt1CeZSZ2wa5QFsRmCPKfsZj
- oFBrc1Nk4wQRLWAE1vHyEGmXqxVnBNdw=
-X-Received: by 2002:a17:902:ce8f:b0:176:e0b3:cf14 with SMTP id
- f15-20020a170902ce8f00b00176e0b3cf14mr5624791plg.153.1665157391378; 
- Fri, 07 Oct 2022 08:43:11 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5WYmnjzmCQUyCpfs3AJVSSY8yWaa7pQqr/7TjBpXwOfTHofPHE/5csjTBiwfFZafUZSKO2/U9deWZGwHa/XKw=
-X-Received: by 2002:a17:902:ce8f:b0:176:e0b3:cf14 with SMTP id
- f15-20020a170902ce8f00b00176e0b3cf14mr5624770plg.153.1665157391112; Fri, 07
- Oct 2022 08:43:11 -0700 (PDT)
+ bh=7syOb34eelszocBUaX7V5sO3QxPMu87I6W0jqZ6JyEc=;
+ b=Jegt5Zdj68qon20YMnLmBclzQnpGBOTplZipkoU48p/H/ZK2Yh63DCIDsfUGB2OzNvAXno
+ quVwewJYUZ6/XxTlPcq/+gpMF31bPHtBF9zApalYXp0hmU3RWLAZmez/+eapF7/9F/oErD
+ pMrjiyJ5bF4RJlSwSN/sEw4oZgJZqgw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-262-dgYR8ipxM9qFexLFzNCGBA-1; Fri, 07 Oct 2022 11:49:19 -0400
+X-MC-Unique: dgYR8ipxM9qFexLFzNCGBA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D1F15855308;
+ Fri,  7 Oct 2022 15:49:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 55B68207B2B0;
+ Fri,  7 Oct 2022 15:49:17 +0000 (UTC)
+Date: Fri, 7 Oct 2022 17:49:16 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 02/11] block: use transactions as a replacement of
+ ->{can_}set_aio_context()
+Message-ID: <Y0BKfBCKOr8Rk99f@redhat.com>
+References: <20220725122120.309236-1-eesposit@redhat.com>
+ <20220725122120.309236-3-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <1664913563-3351-1-git-send-email-si-wei.liu@oracle.com>
-In-Reply-To: <1664913563-3351-1-git-send-email-si-wei.liu@oracle.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 7 Oct 2022 17:42:34 +0200
-Message-ID: <CAJaqyWdtDH8FYzvPLqW8PHmwtUP-puHH=n7EB7xgHsy_uur4Dw@mail.gmail.com>
-Subject: Re: [PATCH] vhost-vdpa: fix assert
- !virtio_net_get_subqueue(nc)->async_tx.elem in virtio_net_reset
-To: Si-Wei Liu <si-wei.liu@oracle.com>
-Cc: qemu-devel@nongnu.org, jasowang@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220725122120.309236-3-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,100 +82,409 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 4, 2022 at 11:05 PM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
->
-> The citing commit has incorrect code in vhost_vdpa_receive() that returns
-> zero instead of full packet size to the caller. This renders pending pack=
-ets
-> unable to be freed so then get clogged in the tx queue forever. When devi=
-ce
-> is being reset later on, below assertion failure ensues:
->
-> 0  0x00007f86d53bb387 in raise () from /lib64/libc.so.6
-> 1  0x00007f86d53bca78 in abort () from /lib64/libc.so.6
-> 2  0x00007f86d53b41a6 in __assert_fail_base () from /lib64/libc.so.6
-> 3  0x00007f86d53b4252 in __assert_fail () from /lib64/libc.so.6
-> 4  0x000055b8f6ff6fcc in virtio_net_reset (vdev=3D<optimized out>) at /us=
-r/src/debug/qemu/hw/net/virtio-net.c:563
-> 5  0x000055b8f7012fcf in virtio_reset (opaque=3D0x55b8faf881f0) at /usr/s=
-rc/debug/qemu/hw/virtio/virtio.c:1993
-> 6  0x000055b8f71f0086 in virtio_bus_reset (bus=3Dbus@entry=3D0x55b8faf881=
-78) at /usr/src/debug/qemu/hw/virtio/virtio-bus.c:102
-> 7  0x000055b8f71f1620 in virtio_pci_reset (qdev=3D<optimized out>) at /us=
-r/src/debug/qemu/hw/virtio/virtio-pci.c:1845
-> 8  0x000055b8f6fafc6c in memory_region_write_accessor (mr=3D<optimized ou=
-t>, addr=3D<optimized out>, value=3D<optimized out>,
->    size=3D<optimized out>, shift=3D<optimized out>, mask=3D<optimized out=
->, attrs=3D...) at /usr/src/debug/qemu/memory.c:483
-> 9  0x000055b8f6fadce9 in access_with_adjusted_size (addr=3Daddr@entry=3D2=
-0, value=3Dvalue@entry=3D0x7f867e7fb7e8, size=3Dsize@entry=3D1,
->    access_size_min=3D<optimized out>, access_size_max=3D<optimized out>, =
-access_fn=3D0x55b8f6fafc20 <memory_region_write_accessor>,
->    mr=3D0x55b8faf80a50, attrs=3D...) at /usr/src/debug/qemu/memory.c:544
-> 10 0x000055b8f6fb1d0b in memory_region_dispatch_write (mr=3Dmr@entry=3D0x=
-55b8faf80a50, addr=3Daddr@entry=3D20, data=3D0, op=3D<optimized out>,
->    attrs=3Dattrs@entry=3D...) at /usr/src/debug/qemu/memory.c:1470
-> 11 0x000055b8f6f62ada in flatview_write_continue (fv=3Dfv@entry=3D0x7f86a=
-c04cd20, addr=3Daddr@entry=3D549755813908, attrs=3D...,
->    attrs@entry=3D..., buf=3Dbuf@entry=3D0x7f86d0223028 <Address 0x7f86d02=
-23028 out of bounds>, len=3Dlen@entry=3D1, addr1=3D20, l=3D1,
->    mr=3D0x55b8faf80a50) at /usr/src/debug/qemu/exec.c:3266
-> 12 0x000055b8f6f62c8f in flatview_write (fv=3D0x7f86ac04cd20, addr=3D5497=
-55813908, attrs=3D...,
->    buf=3D0x7f86d0223028 <Address 0x7f86d0223028 out of bounds>, len=3D1) =
-at /usr/src/debug/qemu/exec.c:3306
-> 13 0x000055b8f6f674cb in address_space_write (as=3D<optimized out>, addr=
-=3D<optimized out>, attrs=3D..., buf=3D<optimized out>,
->    len=3D<optimized out>) at /usr/src/debug/qemu/exec.c:3396
-> 14 0x000055b8f6f67575 in address_space_rw (as=3D<optimized out>, addr=3D<=
-optimized out>, attrs=3D..., attrs@entry=3D...,
->    buf=3Dbuf@entry=3D0x7f86d0223028 <Address 0x7f86d0223028 out of bounds=
->, len=3D<optimized out>, is_write=3D<optimized out>)
->    at /usr/src/debug/qemu/exec.c:3406
-> 15 0x000055b8f6fc1cc8 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55b8f9aa0e10) =
-at /usr/src/debug/qemu/accel/kvm/kvm-all.c:2410
-> 16 0x000055b8f6fa5f5e in qemu_kvm_cpu_thread_fn (arg=3D0x55b8f9aa0e10) at=
- /usr/src/debug/qemu/cpus.c:1318
-> 17 0x000055b8f7336e16 in qemu_thread_start (args=3D0x55b8f9ac8480) at /us=
-r/src/debug/qemu/util/qemu-thread-posix.c:519
-> 18 0x00007f86d575aea5 in start_thread () from /lib64/libpthread.so.0
-> 19 0x00007f86d5483b2d in clone () from /lib64/libc.so.6
->
-> Make vhost_vdpa_receive() return the size passed in as is, so that the
-> caller qemu_deliver_packet_iov() would eventually propagate it back to
-> virtio_net_flush_tx() to release pending packets from the async_tx queue.
-> Which corresponds to the drop path where qemu_sendv_packet_async() return=
-s
-> non-zero in virtio_net_flush_tx().
->
+Am 25.07.2022 um 14:21 hat Emanuele Giuseppe Esposito geschrieben:
+> Simplify the way the aiocontext can be changed in a BDS graph.
+> There are currently two problems in bdrv_try_set_aio_context:
+> - There is a confusion of AioContext locks taken and released, because
+>   we assume that old aiocontext is always taken and new one is
+>   taken inside.
+> 
+> - It doesn't look very safe to call bdrv_drained_begin while some
+>   nodes have already switched to the new aiocontext and others haven't.
+>   This could be especially dangerous because bdrv_drained_begin polls, so
+>   something else could be executed while graph is in an inconsistent
+>   state.
+> 
+> Additional minor nitpick: can_set and set_ callbacks both traverse the
+> graph, both using the ignored list of visited nodes in a different way.
+> 
+> Therefore, get rid of all of this and introduce a new callback,
+> change_aio_context, that uses transactions to efficiently, cleanly
+> and most importantly safely change the aiocontext of a graph.
+> 
+> This new callback is a "merge" of the two previous ones:
+> - Just like can_set_aio_context, recursively traverses the graph.
+>   Marks all nodes that are visited using a GList, and checks if
+>   they *could* change the aio_context.
+> - For each node that passes the above check, drain it and add a new transaction
+>   that implements a callback that effectively changes the aiocontext.
+> - Once done, the recursive function returns if *all* nodes can change
+>   the AioContext. If so, commit the above transactions.
+>   Regardless of the outcome, call transaction.clean() to undo all drains
+>   done in the recursion.
+> - The transaction list is scanned only after all nodes are being drained, so
+>   we are sure that they all are in the same context, and then
+>   we switch their AioContext, concluding the drain only after all nodes
+>   switched to the new AioContext. In this way we make sure that
+>   bdrv_drained_begin() is always called under the old AioContext, and
+>   bdrv_drained_end() under the new one.
+> - Because of the above, we don't need to release and re-acquire the
+>   old AioContext every time, as everything is done once (and not
+>   per-node drain and aiocontext change).
+> 
+> Note that the "change" API is not yet invoked anywhere.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+For future work, please change the way you construct your series. It's
+not good practice to have many patches that just add dead code (and even
+patches that optimise that dead code!) and then a final patch to enable
+everything at once.
 
+It's not only hard to review because you never know what to compare it
+to, but also any regression will always happen on the final patch and
+you can't know which patch actually contains the broken code.
 
-> Fixes: 846a1e85da64 ("vdpa: Add dummy receive callback")
-> Cc: Eugenio Perez Martin <eperezma@redhat.com>
-> Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
-> ---
->  net/vhost-vdpa.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 4bc3fd0..182b3a1 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -211,7 +211,7 @@ static bool vhost_vdpa_check_peer_type(NetClientState=
- *nc, ObjectClass *oc,
->  static ssize_t vhost_vdpa_receive(NetClientState *nc, const uint8_t *buf=
-,
->                                    size_t size)
->  {
-> -    return 0;
-> +    return size;
+Or looking at it from a slightly different angle, we should also try to
+ensure that the code makes sense after each individual commit. Having
+lots of duplicated code doesn't necessarily make a lot of sense.
+
+> diff --git a/block.c b/block.c
+> index 58a9cfc8b7..c80e49009a 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -108,6 +108,10 @@ static void bdrv_reopen_abort(BDRVReopenState *reopen_state);
+>  
+>  static bool bdrv_backing_overridden(BlockDriverState *bs);
+>  
+> +static bool bdrv_change_aio_context(BlockDriverState *bs, AioContext *ctx,
+> +                                    GSList **visited, Transaction *tran,
+> +                                    Error **errp);
+> +
+>  /* If non-zero, use only whitelisted block drivers */
+>  static int use_bdrv_whitelist;
+>  
+> @@ -7325,7 +7329,7 @@ static void bdrv_attach_aio_context(BlockDriverState *bs,
+>   * must not own the AioContext lock for new_context (unless new_context is the
+>   * same as the current context of bs).
+>   *
+> - * @ignore will accumulate all visited BdrvChild object. The caller is
+> + * @ignore will accumulate all visited BdrvChild objects. The caller is
+>   * responsible for freeing the list afterwards.
+>   */
+>  void bdrv_set_aio_context_ignore(BlockDriverState *bs,
+> @@ -7434,6 +7438,38 @@ static bool bdrv_parent_can_set_aio_context(BdrvChild *c, AioContext *ctx,
+>      return true;
 >  }
->
->  static NetClientInfo net_vhost_vdpa_info =3D {
-> --
-> 1.8.3.1
->
+>  
+> +typedef struct BdrvStateSetAioContext {
+> +    AioContext *new_ctx;
+> +    BlockDriverState *bs;
+> +} BdrvStateSetAioContext;
+> +
+> +static bool bdrv_parent_change_aio_context(BdrvChild *c, AioContext *ctx,
+> +                                           GSList **visited, Transaction *tran,
+> +                                           Error **errp)
+> +{
+> +    GLOBAL_STATE_CODE();
+> +    if (g_slist_find(*visited, c)) {
+> +        return true;
+> +    }
+> +    *visited = g_slist_prepend(*visited, c);
+> +
+> +    /*
+> +     * A BdrvChildClass that doesn't handle AioContext changes cannot
+> +     * tolerate any AioContext changes
+> +     */
+> +    if (!c->klass->change_aio_ctx) {
+> +        char *user = bdrv_child_user_desc(c);
+> +        error_setg(errp, "Changing iothreads is not supported by %s", user);
+> +        g_free(user);
+> +        return false;
+> +    }
+> +    if (!c->klass->change_aio_ctx(c, ctx, visited, tran, errp)) {
+> +        assert(!errp || *errp);
+> +        return false;
+> +    }
+> +    return true;
+> +}
+
+This is an exact copy of bdrv_parent_can_set_aio_context() except for
+renames and adding a tran parameter.
+
+Of course, nobody implements .change_aio_ctx() yet, so this doesn't
+actually work yet after this patch.
+
+>  bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
+>                                      GSList **ignore, Error **errp)
+>  {
+> @@ -7445,6 +7481,18 @@ bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
+>      return bdrv_can_set_aio_context(c->bs, ctx, ignore, errp);
+>  }
+>  
+> +bool bdrv_child_change_aio_context(BdrvChild *c, AioContext *ctx,
+> +                                   GSList **visited, Transaction *tran,
+> +                                   Error **errp)
+> +{
+> +    GLOBAL_STATE_CODE();
+> +    if (g_slist_find(*visited, c)) {
+> +        return true;
+> +    }
+> +    *visited = g_slist_prepend(*visited, c);
+> +    return bdrv_change_aio_context(c->bs, ctx, visited, tran, errp);
+> +}
+
+This is an exact copy of bdrv_child_can_set_aio_context() except for
+renames and adding a tran parameter.
+
+Same as above, doesn't work yet after this patch.
+
+>  /* @ignore will accumulate all visited BdrvChild object. The caller is
+>   * responsible for freeing the list afterwards. */
+>  bool bdrv_can_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+> @@ -7472,6 +7520,85 @@ bool bdrv_can_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+>      return true;
+>  }
+>  
+> +static void bdrv_drained_end_clean(void *opaque)
+
+bdrv_set_aio_context_clean() is a better name for this given that the
+transaction is called set_aio_context.
+
+> +{
+> +    BdrvStateSetAioContext *state = (BdrvStateSetAioContext *) opaque;
+> +    BlockDriverState *bs = (BlockDriverState *) state->bs;
+> +
+> +    /* Paired with bdrv_drained_begin in bdrv_change_aio_context() */
+> +    bdrv_drained_end(bs);
+> +
+> +    g_free(state);
+> +}
+> +
+> +static void bdrv_set_aio_context_commit(void *opaque)
+> +{
+> +    BdrvStateSetAioContext *state = (BdrvStateSetAioContext *) opaque;
+> +    BlockDriverState *bs = (BlockDriverState *) state->bs;
+> +    AioContext *new_context = state->new_ctx;
+> +    assert_bdrv_graph_writable(bs);
+> +
+> +    bdrv_detach_aio_context(bs);
+> +    bdrv_attach_aio_context(bs, new_context);
+> +}
+
+This replaces bdrv_set_aio_context_ignore(), except for draining and
+AioContext locking, which is now handled on the top level by
+bdrv_child_try_change_aio_context().
+
+Let's see what other differences I can find:
+
+* bdrv_set_aio_context_ignore() has a old_context == new_context check
+  and does nothing in this case. bdrv_change_aio_context() wouldn't even
+  have put the node into the transaction in this case, so this callback
+  won't be called in the first place and we don't need it here. Good.
+
+* Recursion to children and parents: To be covered by the commit action
+  of transaction action added by new and not yet implemented callback
+  .change_aio_ctx().
+
+* bdrv_detach_aio_context(bs) used to run with the AioContext lock of
+  the old context, from which we are detachting. Now it runs with the
+  AioContext lock of the new AioContext. Are we sure that this is safe?
+  Please explain in the commit message.
+
+> +static TransactionActionDrv set_aio_context = {
+> +    .commit = bdrv_set_aio_context_commit,
+> +    .clean = bdrv_drained_end_clean,
+> +};
+> +
+> +/*
+> + * Changes the AioContext used for fd handlers, timers, and BHs by this
+> + * BlockDriverState and all its children and parents.
+> + *
+> + * Must be called from the main AioContext.
+> + *
+> + * The caller must own the AioContext lock for the old AioContext of bs, but it
+> + * must not own the AioContext lock for new_context (unless new_context is the
+> + * same as the current context of bs).
+> + *
+> + * @visited will accumulate all visited BdrvChild object. The caller is
+
+s/object/objects/
+
+> + * responsible for freeing the list afterwards.
+> + */
+> +static bool bdrv_change_aio_context(BlockDriverState *bs, AioContext *ctx,
+> +                                    GSList **visited, Transaction *tran,
+> +                                    Error **errp)
+
+This is roughly speaking the replacement for bdrv_can_set_aio_context().
+Let's see what changes in the details.
+
+> +{
+> +    BdrvChild *c;
+> +    BdrvStateSetAioContext *state;
+> +
+> +    GLOBAL_STATE_CODE();
+> +
+> +    if (bdrv_get_aio_context(bs) == ctx) {
+> +        return true;
+> +    }
+> +
+> +    QLIST_FOREACH(c, &bs->parents, next_parent) {
+> +        if (!bdrv_parent_change_aio_context(c, ctx, visited, tran, errp)) {
+> +            return false;
+> +        }
+> +    }
+> +
+> +    QLIST_FOREACH(c, &bs->children, next) {
+> +        if (!bdrv_child_change_aio_context(c, ctx, visited, tran, errp)) {
+> +            return false;
+> +        }
+> +    }
+
+Assuming that bdrv_child/parent_change_aio_context() still do the same
+as their existing counterparts, until here it's the same as before.
+
+> +    state = g_new(BdrvStateSetAioContext, 1);
+> +    *state = (BdrvStateSetAioContext) {
+> +        .new_ctx = ctx,
+> +        .bs = bs,
+> +    };
+> +
+> +    /* Paired with bdrv_drained_end in bdrv_drained_end_clean() */
+> +    bdrv_drained_begin(bs);
+
+This one is the new thing.
+
+> +    tran_add(tran, &set_aio_context, state);
+> +    return true;
+> +}
+> +
+>  int bdrv_child_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+>                                     BdrvChild *ignore_child, Error **errp)
+>  {
+> @@ -7495,6 +7622,80 @@ int bdrv_child_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+>      return 0;
+>  }
+>  
+> +/*
+> + * Change bs's and recursively all of its parents' and children's AioContext
+> + * to the given new context, returning an error if that isn't possible.
+> + *
+> + * There are two phases: recursion check and linear change
+> + * Recursion takes care of checking that all nodes support changing AioContext
+> + * and drains them, builing a linear list of callbacks to run if it is
+> + * successful (the transaction itself).
+> + * Linear change consists in running all callbacks collected in the recursion
+> + * to switch all nodes AioContext lock (transaction commit).
+
+This sounds more like implementation details that are not relevant for
+the caller, and could be documented in the body of the function.
+
+> + * If ignore_child is not NULL, that child (and its subgraph) will not
+> + * be touched.
+> + *
+> + * This function still requires the caller to take the bs current
+> + * AioContext lock, otherwise draining will fail since AIO_WAIT_WHILE
+> + * assumes the lock is always held if bs is in another AioContext.
+> + * For the same reason, it temporarily holds also the new AioContext, since
+> + * bdrv_drained_end calls BDRV_POLL_WHILE that assumes the lock is taken too.
+
+So what is the contract regarding the new context? Like in
+bdrv_child_try_set_aio_context(), the caller must *not* hold its lock?
+
+> + */
+> +int bdrv_child_try_change_aio_context(BlockDriverState *bs, AioContext *ctx,
+> +                                      BdrvChild *ignore_child, Error **errp)
+> +{
+> +    Transaction *tran;
+> +    GSList *visited;
+> +    int ret;
+> +    AioContext *old_context = bdrv_get_aio_context(bs);
+> +    GLOBAL_STATE_CODE();
+> +
+> +    /* Recursion phase: go through all nodes of the graph */
+> +    tran = tran_new();
+> +    visited = ignore_child ? g_slist_prepend(NULL, ignore_child) : NULL;
+> +    ret = bdrv_change_aio_context(bs, ctx, &visited, tran, errp);
+> +    g_slist_free(visited);
+
+So the immediate action of bdrv_change_aio_context() replaces
+bdrv_can_set_aio_context(). The code here is identical to
+bdrv_child_try_set_aio_context() then.
+
+> +    /* Linear phase: go through all callbacks collected in the transaction */
+> +
+> +    if (!ret) {
+> +        /* Just run clean() callbacks. No AioContext changed. */
+> +        tran_abort(tran);
+> +        return -EPERM;
+> +    }
+> +
+> +    /*
+> +     * Release old AioContext, it won't be needed anymore, as all
+> +     * bdrv_drained_begin() have been called already.
+> +     */
+> +    if (qemu_get_aio_context() != old_context) {
+> +        aio_context_release(old_context);
+> +    }
+> +
+> +    /*
+> +     * Acquire new AioContext since bdrv_drained_end() is going to be called
+> +     * after we switched all nodes in the new AioContext, and the function
+> +     * assumes that the lock of the bs is always taken.
+> +     */
+> +    if (qemu_get_aio_context() != ctx) {
+> +        aio_context_acquire(ctx);
+> +    }
+
+This part is new compared to bdrv_child_try_set_aio_context(). So
+essentially the part that was bdrv_set_aio_context_ignore() runs under
+the new AioContext's lock instead of the old one.
+
+> +    tran_commit(tran);
+
+This is what replaces bdrv_set_aio_context_ignore(). We don't build the
+ignore list a second time because we're still using the list of nodes
+that we collected above.
+
+It is also what undrains all nodes again. This is why we now need to
+hold the lock of the new AioContext.
+
+> +    if (qemu_get_aio_context() != ctx) {
+> +        aio_context_release(ctx);
+> +    }
+> +
+> +    /* Re-acquire the old AioContext, since the caller takes and releases it. */
+> +    if (qemu_get_aio_context() != old_context) {
+> +        aio_context_acquire(old_context);
+> +    }
+> +
+> +    return 0;
+> +}
+
+Trying to summarise the differences in this function compared to the
+existing mechanism:
+
+* bdrv_set_aio_context_ignore() run with the old AioContext locked and
+  the new one not locked, bdrv_set_aio_context_commit() runs with the
+  new one locked and the old one not locked.
+
+* All affected nodes are now drained before calling what was
+  bdrv_set_aio_context_ignore() instead of individually inside the
+  function. This is the improvement promised in the commit message as it
+  avoids polling while the graph is in an inconsistent state.
+
+Everything else is essentially just a copy of the existing code.
+
+>  int bdrv_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+>                               Error **errp)
+>  {
+
+So this looks good under two conditions that I haven't checked yet: That
+bdrv_detach_aio_context() is actually safe when called with the "wrong"
+AioContext lock held, and that the .change_aio_context() callbacks are
+implemented correctly in a later patch.
+
+To reiterate my initial point, reviewing this took me some effort to
+match the new functions with the existing ones they duplicate and then
+manual diffing of each, which is kind of error prone. I feel the better
+approach would have been adding a tran parameter (with empty commit and
+abort) to the existing functions in a first patch and then change stuff
+in a second patch (in the real code, not dead code to be enabled later),
+so that you would actually see the real changes instead of having to
+find them between lots of unchanged copied code.
+
+Kevin
 
 
