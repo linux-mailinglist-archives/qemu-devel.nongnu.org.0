@@ -2,93 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7145F781B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 14:41:37 +0200 (CEST)
-Received: from localhost ([::1]:36212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB00F5F78C1
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 15:17:10 +0200 (CEST)
+Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogmfX-0002y2-GM
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 08:41:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34216)
+	id 1ognDx-0006wM-T9
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 09:17:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1oglAg-0000DC-TJ; Fri, 07 Oct 2022 07:05:53 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:35747)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1oglAf-000615-0H; Fri, 07 Oct 2022 07:05:38 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 7F74C5C00C4;
- Fri,  7 Oct 2022 07:05:33 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 07 Oct 2022 07:05:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1665140733; x=1665227133; bh=oa
- hjePKX/9AFaZuKtf2PieQ6PORi0jemTR9iFNh3+ow=; b=cTYNQkzvf0MpvcLjxY
- 2TnNUUyr25t7IAyLWPKZIuQcWLQtVXvfwvf93J3FjPAcL+sPoRYzPiBdaCcEnimu
- nTDgpDZIPbJVRmQxZl2LgBZsjwtujnh9GsqEIWOZpM70EvhMKxrsYV3P840MhJ/v
- ldirjNGHoSyL2forlwpl6WOIo+Rm1U3t4lhGz5XWTyhFyNsih7lG0Mc/mw7RNVgq
- IqASjaDnu12mlFHSNj6bkFRlpyfcNJF3Or3djZAtE45ZU4eya8bvmw4lVZTMNWeN
- +Fa369Cj/orCGswlIeYQE2i59Sx3rcLPAeHMr4TC3GQIfRXWcd3zTXig9dSLV/GN
- GNZg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1665140733; x=1665227133; bh=oahjePKX/9AFa
- ZuKtf2PieQ6PORi0jemTR9iFNh3+ow=; b=FRMUAzQC4B739NE8biC+OCgsWPsfQ
- 5NxIdyqIk0qM6kWIw7MseRBXToSy/Ldow6yOCWzOYcYirgzmJCZfe8yD5/uBjQuR
- W+h7+aveYyRriks2DCYVg/NLp4DJp+8/oxB7dj5u7UNjm/7lYQceV22v9aC/txWI
- IU8N36VHn1A8NHdUWKbwkrdO5vo2/YWzPe3m9hHTexARj6Q+QmmRLmq6/FH9PIlV
- kZ9QXj7yZNY0TU8UPvhai18X6Eq7czme80Qi9PfqF4lD0zEn07RMlk+FyfsC/kxq
- vVUyDYfZmOMv3h7ACDPUaySkR7nOjEk6sHMatSQN93WrJiLKZClTs3Gbg==
-X-ME-Sender: <xms:_AdAYyf8Qh57hMffkjjnDZ8o9NTRd-80fb9Z8Qoi30V3_duaWxU1BA>
- <xme:_AdAY8OC-p7PNOOL00EtZ6dMN6tDhBJrZGsUEpcSfxO3s7OGrBWkUA_oFgm6KzYFX
- M7dk8Fx_8fAYz5W50A>
-X-ME-Received: <xmr:_AdAYzg3SV8pm1Q3JAETx398JGVkvqwdRazcgMMag4p4Ewm9Eh6Ebk95RBf2NwrR8zBsH-ivinOS53zTzd6sozFR7wCpxsv6>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeijedgfeeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnegfrhhlucfvnfffucdljedtmden
- ogetfedtuddqtdduucdludehmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertd
- ertddtnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghk
- sehsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpeefveeihfdvgeeguddtveeuud
- euvdelgeetleefhfeukeehteekieeujeehtddtjeenucevlhhushhtvghrufhiiigvpedt
- necurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftgigrdighiii
-X-ME-Proxy: <xmx:_AdAY_8-TBaeG9uAtYau66T_XuRjtTcCmQz5rYSjobJQY3fwkq0gVQ>
- <xmx:_AdAY-uwZ3CnK5VqMxgLEzygVSxOxuRDMB_iOEdiOSkb8MMYGZtbCA>
- <xmx:_AdAY2ESpGg7MBTnDBymSI4q3Pn2YHZT8ByKMWcmZVCiqEE5zfwpLQ>
- <xmx:_QdAYwWwJsHex3ldTXeQXgmfqjwVjJ0baAV5_wpJjlXWe_5btzaYbA>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 7 Oct 2022 07:05:32 -0400 (EDT)
-From: Patrick Williams <patrick@stwcx.xyz>
-To: 
-Cc: Patrick Williams <patrick@stwcx.xyz>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org (open list:ASPEED BMCs),
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v2] hw/arm/aspeed: increase Bletchley memory size
-Date: Fri,  7 Oct 2022 06:05:29 -0500
-Message-Id: <20221007110529.3657749-1-patrick@stwcx.xyz>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221006225232.3558794-1-patrick@stwcx.xyz>
-References: <20221006225232.3558794-1-patrick@stwcx.xyz>
+ (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
+ id 1oglQU-0005pS-Ql
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 07:22:06 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:52196)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
+ id 1oglQS-0000un-36
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 07:21:57 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id b15so4189357pje.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 04:21:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=pamNmJzUJKJNy6FyTVxlPHnqdQUJnUaTsgljCI4D3ew=;
+ b=WY2pgA5K9BMTRxxJmSjLCisnKuJse3zwFSQ/Hld3ttTFFoIdLw2C4Rq6zpdJ2uMpBS
+ 92ku71ANn3TWar6XapgZJKZirLm5iYBkoI90ktciHMEg9IQt1W5fdWr/Y2YGBEyrcLuA
+ iKCSQmVjJELP0qYF+RFa3TiR9PKw8rzwo++viPDYqZdCxUxArjy8uVxVtonEdWO4Q6Dt
+ yOHPv4CtciGDnlYsl02WQwMwXtpSz+IOUxfY8IyhDovTZ30pr7uh240wQWkPwRCCbDpZ
+ v/GRk/XOOZwxgbtaueAHQqBR6SHXYCG+QUTuFo9c79IJKW4zesB8HYYcSUKn+Z6vEJaG
+ 1pFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pamNmJzUJKJNy6FyTVxlPHnqdQUJnUaTsgljCI4D3ew=;
+ b=bciFsierhg5EPLIbSQ2EShKAFIGmcBQecAR8aG2MV3KoQU42qWy7khb49P/uDZJ8eH
+ JYvtSGFyNT5IdRUBjoO3mP8diKnijD3m+5Mqp/K0YAhqfr6pPxU/yZeUECHUkpRI9k40
+ 7QWyliCUilm+GcdxCpODVFiuN34QYcH0SDjXaUb6ylg2dQlUkIp95N0GZFCWqbbCV1aL
+ T9/If2/1V8RkRRBMDHGsOcYec3izncVMZChHvRtLcoeZTwjC92Wzcys+6+gJuCw0hb7S
+ Z21ijtxBhFL63jWPZWqie3WTitcx1Mk6Ps0Pfwa5Rg9xRemY9KXSa/WQ1zWBptt3A/et
+ i9DQ==
+X-Gm-Message-State: ACrzQf2rWN2dDzUMEcWdieXFTq5/NX+NOt3mWQarBBhRbZata7PBT5OH
+ UFv5XLuW/kD0YB6MAoa8u2PkGZP2HI/Ykrw9
+X-Google-Smtp-Source: AMsMyM7dU59UK/R1LAzJHYcDsG9br/NwyKNla0UMuFshhjVuUMXZeq14XRnK2QOrJpZgS4gwzJJkrw==
+X-Received: by 2002:a17:902:c950:b0:17c:2248:11b1 with SMTP id
+ i16-20020a170902c95000b0017c224811b1mr4356494pla.165.1665141714506; 
+ Fri, 07 Oct 2022 04:21:54 -0700 (PDT)
+Received: from T590 ([43.228.180.230]) by smtp.gmail.com with ESMTPSA id
+ e14-20020a056a0000ce00b005626a1c77c8sm1348807pfj.80.2022.10.07.04.21.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Oct 2022 04:21:54 -0700 (PDT)
+Date: Fri, 7 Oct 2022 19:21:45 +0800
+From: Ming Lei <tom.leiming@gmail.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "Denis V. Lunev" <den@virtuozzo.com>, io-uring@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Kirill Tkhai <kirill.tkhai@openvz.org>,
+ Manuel Bentele <development@manuel-bentele.de>,
+ qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ rjones@redhat.com, Xie Yongji <xieyongji@bytedance.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Josef Bacik <josef@toxicpanda.com>, Mike Christie <mchristi@redhat.com>
+Subject: Re: ublk-qcow2: ublk-qcow2 is available
+Message-ID: <Y0ALyTexTFGQ/8VU@T590>
+References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
+ <6659a0d5-60ab-9ac7-d25d-b4ff1940c6ab@virtuozzo.com>
+ <Yz2epPwoufj0mug/@fedora> <Yz6tR24T8HPHJ70D@T590>
+ <Yz7fTANAxAQ8KT4v@fedora> <Yz7vvNKSNRyBVObo@T590>
+ <Yz8eo0IWMAJOwKWn@fedora>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=patrick@stwcx.xyz;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <Yz8eo0IWMAJOwKWn@fedora>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=tom.leiming@gmail.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_SUSPICIOUS_NTLD=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_PDS_OTHER_BAD_TLD=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,42 +101,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the PVT-class hardware we have increased the memory size of
-this device to 2 GiB.  Adjust the device model accordingly.
+On Thu, Oct 06, 2022 at 02:29:55PM -0400, Stefan Hajnoczi wrote:
+> On Thu, Oct 06, 2022 at 11:09:48PM +0800, Ming Lei wrote:
+> > On Thu, Oct 06, 2022 at 09:59:40AM -0400, Stefan Hajnoczi wrote:
+> > > On Thu, Oct 06, 2022 at 06:26:15PM +0800, Ming Lei wrote:
+> > > > On Wed, Oct 05, 2022 at 11:11:32AM -0400, Stefan Hajnoczi wrote:
+> > > > > On Tue, Oct 04, 2022 at 01:57:50AM +0200, Denis V. Lunev wrote:
+> > > > > > On 10/3/22 21:53, Stefan Hajnoczi wrote:
+> > > > > > > On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
+> > > > > > > > ublk-qcow2 is available now.
+> > > > > > > Cool, thanks for sharing!
+> > > > > > yep
+> > > > > > 
+> > > > > > > > So far it provides basic read/write function, and compression and snapshot
+> > > > > > > > aren't supported yet. The target/backend implementation is completely
+> > > > > > > > based on io_uring, and share the same io_uring with ublk IO command
+> > > > > > > > handler, just like what ublk-loop does.
+> > > > > > > > 
+> > > > > > > > Follows the main motivations of ublk-qcow2:
+> > > > > > > > 
+> > > > > > > > - building one complicated target from scratch helps libublksrv APIs/functions
+> > > > > > > >    become mature/stable more quickly, since qcow2 is complicated and needs more
+> > > > > > > >    requirement from libublksrv compared with other simple ones(loop, null)
+> > > > > > > > 
+> > > > > > > > - there are several attempts of implementing qcow2 driver in kernel, such as
+> > > > > > > >    ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`` [4], so ublk-qcow2
+> > > > > > > >    might useful be for covering requirement in this field
+> > > > > > There is one important thing to keep in mind about all partly-userspace
+> > > > > > implementations though:
+> > > > > > * any single allocation happened in the context of the
+> > > > > >    userspace daemon through try_to_free_pages() in
+> > > > > >    kernel has a possibility to trigger the operation,
+> > > > > >    which will require userspace daemon action, which
+> > > > > >    is inside the kernel now.
+> > > > > > * the probability of this is higher in the overcommitted
+> > > > > >    environment
+> > > > > > 
+> > > > > > This was the main motivation of us in favor for the in-kernel
+> > > > > > implementation.
+> > > > > 
+> > > > > CCed Josef Bacik because the Linux NBD driver has dealt with memory
+> > > > > reclaim hangs in the past.
+> > > > > 
+> > > > > Josef: Any thoughts on userspace block drivers (whether NBD or ublk) and
+> > > > > how to avoid hangs in memory reclaim?
+> > > > 
+> > > > If I remember correctly, there isn't new report after the last NBD(TCMU) deadlock
+> > > > in memory reclaim was addressed by 8d19f1c8e193 ("prctl: PR_{G,S}ET_IO_FLUSHER
+> > > > to support controlling memory reclaim").
+> > > 
+> > > Denis: I'm trying to understand the problem you described. Is this
+> > > correct:
+> > > 
+> > > Due to memory pressure, the kernel reclaims pages and submits a write to
+> > > a ublk block device. The userspace process attempts to allocate memory
+> > > in order to service the write request, but it gets stuck because there
+> > > is no memory available. As a result reclaim gets stuck, the system is
+> > > unable to free more memory and therefore it hangs?
+> > 
+> > The process should be killed in this situation if PR_SET_IO_FLUSHER
+> > is applied since the page allocation is done in VM fault handler.
+> 
+> Thanks for mentioning PR_SET_IO_FLUSHER. There is more info in commit
+> 8d19f1c8e1937baf74e1962aae9f90fa3aeab463 ("prctl: PR_{G,S}ET_IO_FLUSHER
+> to support controlling memory reclaim").
+> 
+> It requires CAP_SYS_RESOURCE :/. This makes me wonder whether
+> unprivileged ublk will ever be possible.
 
-Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
----
- hw/arm/aspeed.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+IMO, it shouldn't be one blocker, there might be lots of choices for us
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 7d2162c6ed..f8bc6d4a14 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -1330,6 +1330,13 @@ static void aspeed_machine_fuji_class_init(ObjectClass *oc, void *data)
-         aspeed_soc_num_cpus(amc->soc_name);
- };
- 
-+/* On 32-bit hosts, lower RAM to 1G because of the 2047 MB limit */
-+#if HOST_LONG_BITS == 32
-+#define BLETCHLEY_BMC_RAM_SIZE (1 * GiB)
-+#else
-+#define BLETCHLEY_BMC_RAM_SIZE (2 * GiB)
-+#endif
-+
- static void aspeed_machine_bletchley_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -1344,7 +1351,7 @@ static void aspeed_machine_bletchley_class_init(ObjectClass *oc, void *data)
-     amc->num_cs    = 2;
-     amc->macs_mask = ASPEED_MAC2_ON;
-     amc->i2c_init  = bletchley_bmc_i2c_init;
--    mc->default_ram_size = 512 * MiB;
-+    mc->default_ram_size = BLETCHLEY_BMC_RAM_SIZE;
-     mc->default_cpus = mc->min_cpus = mc->max_cpus =
-         aspeed_soc_num_cpus(amc->soc_name);
- }
--- 
-2.35.1
+- unprivileged ublk can simply not call it, if such io hang is triggered,
+ublksrv is capable of figuring out this problem, then kill & recover the device.
 
+- set PR_IO_FLUSHER for current task in ublk_ch_uring_cmd(UBLK_IO_FETCH_REQ)
+
+- ...
+
+> 
+> I think this addresses Denis' concern about hangs, but it doesn't solve
+> them because I/O will fail. The real solution is probably what you
+> mentioned...
+
+So far, not see real report yet, and it may be never one issue if proper
+swap device/file is configured.
+
+
+Thanks, 
+Ming
 
