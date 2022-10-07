@@ -2,89 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733675F7A72
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:23:35 +0200 (CEST)
-Received: from localhost ([::1]:37290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7115F7A56
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:12:41 +0200 (CEST)
+Received: from localhost ([::1]:41804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogpCI-0003Am-IU
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50796)
+	id 1ogp1i-0008RY-Bd
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:12:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ognoL-0004qJ-QA
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:54:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39554)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ognoK-0008AU-1y
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:54:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665150883;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XCOAU4slaZabQH9RPKVNA0MG/51KF1Uo13foCjJOsho=;
- b=PUQ+laIzAaM+cyyl/bKz4k5/dCxVvVlATrX4JNWZwzD/pjV34xmdqzUrRZIYqUA4ixmXLo
- 9ojEGnE11MDZ9UMiwC7Q/Rjvz950Hu7Ko+1ydDzmwV4Gyc67KYp8sVbIRGxDtW3PeumzUk
- lqyAU8o9lb0iz7A2BIHfK2GC60o+BMY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-534-Xx2TKdAFOwqo1nLe8eYzlg-1; Fri, 07 Oct 2022 09:54:42 -0400
-X-MC-Unique: Xx2TKdAFOwqo1nLe8eYzlg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- d5-20020a05600c34c500b003b4fb42ccdeso4387013wmq.8
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 06:54:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1ognsv-0000rw-L9; Fri, 07 Oct 2022 09:59:29 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:33493)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1ognst-0000Tg-Sc; Fri, 07 Oct 2022 09:59:29 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id j4so7554258lfk.0;
+ Fri, 07 Oct 2022 06:59:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=+TWImL9CpvbptDfjsOz50GyBvr3H40pFIFjnTh3cRNQ=;
+ b=jVY2Co2ENLd0DHW9YhWQGFBZe5QynXg1z7YtCXSIq279tIF2s1si5K+6rHYbi1tQrg
+ tA4ZQMdx2p5tprGvm8C2IylpAOGM/qIt+7MaWVAPtlxu4Sgb7IJIfqekV0KTQKZtIwv8
+ veyF9gLAuJZ6j+j1Zv8+3xu6SC8nSYnl0eSIDBSJEUIeh5QgaRD5Rk/hf+6ywgRxy0+9
+ tHE2njuahJaNF62OpkKSq2CLeNtNPW8VhaVHZ2On4hIK6JyVscTm1743bVA7Zo5sCUNY
+ ISI/pbWMNsFu0PoDqiVBocQJnUxZFquShOL7NfvJ4s2a+sw3McFRS4BymbUDCB5AMLL2
+ NmIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XCOAU4slaZabQH9RPKVNA0MG/51KF1Uo13foCjJOsho=;
- b=Z4UMMINegeDCh+ehSTCkm+uAG3HkT3aB/SkGVY1/DHd1HhUgkuW6vI7OvupkxlR5nu
- HJtcPxiQjwS9ZJ7Yf5gLh5DcB9JYUqGi0iPbPPpuaYzR+tfaMAJMAGqJXQQ/LJHPQtVI
- 7e2l7cDXd+dazU23oqwqjgsRb+S1xLdg+Y2nu8KBm+NEEh+nOEvGSWmTXUUu8I8ZH3iA
- WjZtxur5XzCUk2qOPHXK/ZRjEUXmQLvIn0wWObG2HIWj/UPHcmqgYnti+yvk281ILQ1K
- mcxZaHT8xN6sb4XX5sPBGzCPvoLBoc7FWcFBQbmOSVYZdMH2bp6lDBoGaisXAskKQSQx
- hrSQ==
-X-Gm-Message-State: ACrzQf03uWUzStPeKqsFHnWkkGLPH/DHY2ODoJkqJ9e36wPOUKhr1s1a
- bjiOlJZhMDS2mL7/bq4NVQdN1TWyDkqzVBZXv5I/lRnJBcHz/7GGnBXX0F84RcRVEnM3aqAOEmx
- rRCXBjtfPJmtfdAA=
-X-Received: by 2002:a05:6000:180b:b0:22e:4998:fd55 with SMTP id
- m11-20020a056000180b00b0022e4998fd55mr3455174wrh.399.1665150879789; 
- Fri, 07 Oct 2022 06:54:39 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5HeKkiBhtd/5GqPOGJRUXZ6ouWf73INACIklOsJ07jpzHxNz/I9uW5meWoIgJVJGxZmJv90g==
-X-Received: by 2002:a05:6000:180b:b0:22e:4998:fd55 with SMTP id
- m11-20020a056000180b00b0022e4998fd55mr3455156wrh.399.1665150879523; 
- Fri, 07 Oct 2022 06:54:39 -0700 (PDT)
-Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- q5-20020adff945000000b0022ae401e9e0sm2032796wrr.78.2022.10.07.06.54.37
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+TWImL9CpvbptDfjsOz50GyBvr3H40pFIFjnTh3cRNQ=;
+ b=rpG4DLZ6kssX49/Ik3eM0lY4O4TzlwNnZanPmPggBTO/u2lqHWOyv4ZCEO1KUqJa7x
+ ejE0n9oktp+QSYTMvPREtYQ6YwDKi7Hu8tIdT+zSFfpGqhuk9cH5oaSIZzcAZUQds0/6
+ lWMnQAts3PT9yvBoz02s6kWy+8ymoHkJ8um2Lj5GQwd5Qy77I6uYEENWB7zgTp6sm+Sz
+ VE0awUXkDDSjwMMsTcNwvjIQeYnYH+gyKQnh3Wnmq7VgThCVGiKhJNdeQizlSpVF+CEB
+ PuR1cZVqoA4Oq66X8MO9irCWz0theFZNQmK+26TVbmh0l0PvvbJBOD7aLU/2+5FbPnIr
+ CHBA==
+X-Gm-Message-State: ACrzQf3zdFTZwOrqMHGmsPSskB35gp03C4HAzPGe3CqukJbsMrY+TbFJ
+ UUuVHFBvxiP8A9Sx2Ggn+X0=
+X-Google-Smtp-Source: AMsMyM6Z6+f9v1kw0POhW9ABOMbJZz4L4kBHztP8a3Dli+st/DlS2e+I7wuBF/D68g/vR61Z1nhi3w==
+X-Received: by 2002:a05:6512:b17:b0:4a0:13c:9b3f with SMTP id
+ w23-20020a0565120b1700b004a0013c9b3fmr1860420lfu.91.1665151165036; 
+ Fri, 07 Oct 2022 06:59:25 -0700 (PDT)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ f7-20020a056512360700b0048af4dc964asm309779lfs.73.2022.10.07.06.59.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Oct 2022 06:54:39 -0700 (PDT)
-Date: Fri, 7 Oct 2022 09:54:35 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Lev Kujawski <lkujaw@mailbox.org>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 2/2] hw/ide/piix: Ignore writes of hardwired PCI
- command register bits
-Message-ID: <20221007095229-mutt-send-email-mst@kernel.org>
-References: <20220922060325-mutt-send-email-mst@kernel.org>
- <20220925093759.1598617-1-lkujaw@mailbox.org>
- <20220925093759.1598617-3-lkujaw@mailbox.org>
+ Fri, 07 Oct 2022 06:59:24 -0700 (PDT)
+Date: Fri, 7 Oct 2022 15:59:22 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>,
+ Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>
+Subject: Re: [PATCH v3 3/8] m25p80: Add the mx25l25635e SFPD table
+Message-ID: <20221007135921.GB20384@fralle-msi>
+References: <20220722063602.128144-1-clg@kaod.org>
+ <20220722063602.128144-4-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220925093759.1598617-3-lkujaw@mailbox.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220722063602.128144-4-clg@kaod.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,199 +97,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 25, 2022 at 09:37:59AM +0000, Lev Kujawski wrote:
-> One method to enable PCI bus mastering for IDE controllers, often used
-> by x86 firmware, is to write 0x7 to the PCI command register.  Neither
-> the PIIX3 specification nor actual hardware (a Tyan S1686D system)
-> permit modification of the Memory Space Enable (MSE) bit, 1, and thus
-> the command register would be left in an unspecified state without
-> this patch.
+Hi Cedric,
+
+On [2022 Jul 22] Fri 08:35:57, Cédric Le Goater wrote:
+> The SFDP table is 0x80 bytes long. The mandatory table for basic
+> features is available at byte 0x30 and an extra Macronix specific
+> table is available at 0x60.
 > 
-> * hw/ide/pci.c
->   Call post_load if provided by derived IDE controller.
-> * hw/ide/piix.c
->   a) Add references to the PIIX data sheets.
->   b) Mask the MSE bit using the QEMU PCI device wmask field.
->   c) Add a post_load function to mask bits from saved machine states.
->   d) Specify post_load for both the PIIX3/4 IDE controllers.
-> * include/hw/ide/pci.h
->   Switch from SIMPLE_TYPE to TYPE, explicitly create a PCIIDEClass
->   that includes the post_load function pointer.
-> * tests/qtest/ide-test.c
->   Use the command_disabled field of the QPCIDevice testing model to
->   indicate that PCI_COMMAND_MEMORY is hardwired in the PIIX3/4 IDE
->   controller.
+> 4B opcodes are not supported.
 > 
-> Signed-off-by: Lev Kujawski <lkujaw@mailbox.org>
-
-
-I guess this cna work but what I had in mind is much
-simpler. Add an internal property (name starting with "x-")
-enabling the buggy behaviour and set it in hw compat array.
-If set - do not touch the wmask register.
-
-post load hooks are harder to reason about.
-
-Sorry about not being clear originally.
-
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
-> (v2) Use QEMU's built-in PCI bit-masking support rather than attempting
->      to manually filter writes.  Thanks to Philippe Mathieu-Daude and
->      Michael S. Tsirkin for review and the pointer.
-> (v3) Handle migration of older machine states, which may have set bits
->      masked by this patch, via a new post_load method of PCIIDEClass.
->      Thanks to Michael S. Tsirkin for catching this via review.
+>  hw/block/m25p80_sfdp.h |  3 +++
+>  hw/block/m25p80.c      |  3 ++-
+>  hw/block/m25p80_sfdp.c | 26 ++++++++++++++++++++++++++
+>  3 files changed, 31 insertions(+), 1 deletion(-)
 > 
->  hw/ide/pci.c           |  5 +++++
->  hw/ide/piix.c          | 39 +++++++++++++++++++++++++++++++++++++++
->  include/hw/ide/pci.h   |  7 ++++++-
->  tests/qtest/ide-test.c |  1 +
->  4 files changed, 51 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-> index 84ba733548..e42c7b9415 100644
-> --- a/hw/ide/pci.c
-> +++ b/hw/ide/pci.c
-> @@ -447,6 +447,7 @@ static const VMStateDescription vmstate_bmdma = {
+> diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
+> index d3a0a778ae84..0c46e669b335 100644
+> --- a/hw/block/m25p80_sfdp.h
+> +++ b/hw/block/m25p80_sfdp.h
+> @@ -17,4 +17,7 @@
 >  
->  static int ide_pci_post_load(void *opaque, int version_id)
->  {
-> +    PCIIDEClass *dc = PCI_IDE_GET_CLASS(opaque);
->      PCIIDEState *d = opaque;
->      int i;
+>  extern uint8_t m25p80_sfdp_n25q256a(uint32_t addr);
 >  
-> @@ -457,6 +458,10 @@ static int ide_pci_post_load(void *opaque, int version_id)
->          ide_bmdma_post_load(&d->bmdma[i], -1);
->      }
->  
-> +    if (dc->post_load) {
-> +        dc->post_load(d, version_id);
-> +    }
-> +
->      return 0;
->  }
->  
-> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-> index 9a9b28078e..fd55ecbd36 100644
-> --- a/hw/ide/piix.c
-> +++ b/hw/ide/piix.c
-> @@ -21,6 +21,12 @@
->   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
->   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
->   * THE SOFTWARE.
-> + *
-> + * References:
-> + *  [1] 82371FB (PIIX) AND 82371SB (PIIX3) PCI ISA IDE XCELERATOR,
-> + *      290550-002, Intel Corporation, April 1997.
-> + *  [2] 82371AB PCI-TO-ISA / IDE XCELERATOR (PIIX4), 290562-001,
-> + *      Intel Corporation, April 1997.
->   */
->  
->  #include "qemu/osdep.h"
-> @@ -159,6 +165,19 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
->      uint8_t *pci_conf = dev->config;
->      int rc;
->  
-> +    /*
-> +     * Mask all IDE PCI command register bits except for Bus Master
-> +     * Function Enable (bit 2) and I/O Space Enable (bit 0), as the
-> +     * remainder are hardwired to 0 [1, p.48] [2, p.89-90].
-> +     *
-> +     * NOTE: According to the PIIX3 datasheet [1], the Memory Space
-> +     * Enable (MSE, bit 1) is hardwired to 1, but this is contradicted
-> +     * by actual PIIX3 hardware, the datasheet itself (viz., Default
-> +     * Value: 0000h), and the PIIX4 datasheet [2].
-> +     */
-> +    pci_set_word(dev->wmask + PCI_COMMAND,
-> +                 PCI_COMMAND_MASTER | PCI_COMMAND_IO);
-> +
->      pci_conf[PCI_CLASS_PROG] = 0x80; // legacy ATA mode
->  
->      bmdma_setup_bar(d);
-> @@ -184,11 +203,28 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
->      }
->  }
->  
-> +static int pci_piix_ide_post_load(PCIIDEState *s, int version_id)
-> +{
-> +    PCIDevice *dev = PCI_DEVICE(s);
-> +    uint8_t *pci_conf = dev->config;
-> +
-> +    /*
-> +     * To preserve backward compatibility, handle saved machine states
-> +     * with reserved bits set (see comment in pci_piix_ide_realize()).
-> +     */
-> +    pci_set_word(pci_conf + PCI_COMMAND,
-> +                 pci_get_word(pci_conf + PCI_COMMAND) &
-> +                 (PCI_COMMAND_MASTER | PCI_COMMAND_IO));
-> +
-> +    return 0;
-> +}
-> +
->  /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
->  static void piix3_ide_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
->      PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-> +    PCIIDEClass *ic = PCI_IDE_CLASS(klass);
->  
->      dc->reset = piix_ide_reset;
->      k->realize = pci_piix_ide_realize;
-> @@ -196,6 +232,7 @@ static void piix3_ide_class_init(ObjectClass *klass, void *data)
->      k->vendor_id = PCI_VENDOR_ID_INTEL;
->      k->device_id = PCI_DEVICE_ID_INTEL_82371SB_1;
->      k->class_id = PCI_CLASS_STORAGE_IDE;
-> +    ic->post_load = pci_piix_ide_post_load;
->      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->      dc->hotpluggable = false;
->  }
-> @@ -211,6 +248,7 @@ static void piix4_ide_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
->      PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-> +    PCIIDEClass *ic = PCI_IDE_CLASS(klass);
->  
->      dc->reset = piix_ide_reset;
->      k->realize = pci_piix_ide_realize;
-> @@ -218,6 +256,7 @@ static void piix4_ide_class_init(ObjectClass *klass, void *data)
->      k->vendor_id = PCI_VENDOR_ID_INTEL;
->      k->device_id = PCI_DEVICE_ID_INTEL_82371AB;
->      k->class_id = PCI_CLASS_STORAGE_IDE;
-> +    ic->post_load = pci_piix_ide_post_load;
->      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->      dc->hotpluggable = false;
->  }
-> diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-> index d8384e1c42..727c748a0f 100644
-> --- a/include/hw/ide/pci.h
-> +++ b/include/hw/ide/pci.h
-> @@ -40,7 +40,12 @@ typedef struct BMDMAState {
->  } BMDMAState;
->  
->  #define TYPE_PCI_IDE "pci-ide"
-> -OBJECT_DECLARE_SIMPLE_TYPE(PCIIDEState, PCI_IDE)
-> +OBJECT_DECLARE_TYPE(PCIIDEState, PCIIDEClass, PCI_IDE)
-> +
-> +struct PCIIDEClass {
-> +    IDEDeviceClass parent_class;
-> +    int (*post_load)(PCIIDEState *s, int version_id);
-> +};
->  
->  struct PCIIDEState {
->      /*< private >*/
-> diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-> index 5bcb75a7e5..85a3967063 100644
-> --- a/tests/qtest/ide-test.c
-> +++ b/tests/qtest/ide-test.c
-> @@ -173,6 +173,7 @@ static QPCIDevice *get_pci_device(QTestState *qts, QPCIBar *bmdma_bar,
->  
->      *ide_bar = qpci_legacy_iomap(dev, IDE_BASE);
->  
-> +    dev->command_disabled = PCI_COMMAND_MEMORY;
->      qpci_device_enable(dev);
->  
->      return dev;
-> -- 
-> 2.34.1
+> +extern uint8_t m25p80_sfdp_mx25l25635e(uint32_t addr);
 
+We could be without 'extern' in above hdr if we like (also the other patches),
+either way:
+
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+
+> +
+> +
+>  #endif
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 13e7b28fd2b0..028b026d8ba2 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -232,7 +232,8 @@ static const FlashPartInfo known_devices[] = {
+>      { INFO("mx25l6405d",  0xc22017,      0,  64 << 10, 128, 0) },
+>      { INFO("mx25l12805d", 0xc22018,      0,  64 << 10, 256, 0) },
+>      { INFO("mx25l12855e", 0xc22618,      0,  64 << 10, 256, 0) },
+> -    { INFO6("mx25l25635e", 0xc22019,     0xc22019,  64 << 10, 512, 0) },
+> +    { INFO6("mx25l25635e", 0xc22019,     0xc22019,  64 << 10, 512, 0),
+> +      .sfdp_read = m25p80_sfdp_mx25l25635e },
+>      { INFO("mx25l25655e", 0xc22619,      0,  64 << 10, 512, 0) },
+>      { INFO("mx66l51235f", 0xc2201a,      0,  64 << 10, 1024, ER_4K | ER_32K) },
+>      { INFO("mx66u51235f", 0xc2253a,      0,  64 << 10, 1024, ER_4K | ER_32K) },
+> diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
+> index 24ec05de79a1..6499c4c39954 100644
+> --- a/hw/block/m25p80_sfdp.c
+> +++ b/hw/block/m25p80_sfdp.c
+> @@ -56,3 +56,29 @@ static const uint8_t sfdp_n25q256a[] = {
+>      0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>  };
+>  define_sfdp_read(n25q256a);
+> +
+> +
+> +/*
+> + * Matronix
+> + */
+> +
+> +/* mx25l25635e. No 4B opcodes */
+> +static const uint8_t sfdp_mx25l25635e[] = {
+> +    0x53, 0x46, 0x44, 0x50, 0x00, 0x01, 0x01, 0xff,
+> +    0x00, 0x00, 0x01, 0x09, 0x30, 0x00, 0x00, 0xff,
+> +    0xc2, 0x00, 0x01, 0x04, 0x60, 0x00, 0x00, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xe5, 0x20, 0xf3, 0xff, 0xff, 0xff, 0xff, 0x0f,
+> +    0x44, 0xeb, 0x08, 0x6b, 0x08, 0x3b, 0x04, 0xbb,
+> +    0xee, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0xff,
+> +    0xff, 0xff, 0x00, 0xff, 0x0c, 0x20, 0x0f, 0x52,
+> +    0x10, 0xd8, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0x00, 0x36, 0x00, 0x27, 0xf7, 0x4f, 0xff, 0xff,
+> +    0xd9, 0xc8, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +};
+> +define_sfdp_read(mx25l25635e)
+> -- 
+> 2.35.3
+> 
 
