@@ -2,58 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEC9D5F7BC2
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:44:59 +0200 (CEST)
-Received: from localhost ([::1]:51886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2923F5F7B24
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:03:01 +0200 (CEST)
+Received: from localhost ([::1]:53286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogqT4-0004sN-VY
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38442)
+	id 1ogpoR-000857-Uv
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:03:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ogpCh-0004N7-UL
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:23:59 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ogpCf-0005vl-Tj
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:23:59 -0400
-Received: from fraeml745-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MkXBj3vx4z67xX3;
- Fri,  7 Oct 2022 23:23:25 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml745-chm.china.huawei.com (10.206.15.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 7 Oct 2022 17:23:56 +0200
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 7 Oct 2022 16:23:55 +0100
-To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
- <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, Huai-Cheng Kuo
- <hchkuo@avery-design.com.tw>, Chris Browy <cbrowy@avery-design.com>
-CC: <linuxarm@huawei.com>, <ira.weiny@intel.com>
-Subject: [PATCH v7 4/5] hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
-Date: Fri, 7 Oct 2022 16:21:55 +0100
-Message-ID: <20221007152156.24883-5-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20221007152156.24883-1-Jonathan.Cameron@huawei.com>
-References: <20221007152156.24883-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogpAq-00016s-Nb
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:22:08 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:51948)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogpAo-0005l3-Mw
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:22:04 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id b15so4709656pje.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 08:22:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=g9B6N1pLHmw9apXhytCYAiivYvGiSWVPO4ktlKtyCTM=;
+ b=lDVL8ItL1TpuExARtXb3iNNo3PvJeng7rsWBqj/S3Du6W9QV8iOY8RTrxbWIZGO0Ju
+ w1zD9YJmLMYZT76Q9zlsjtkWJE7faF4zWqPThw4bgEJdW30C4dAg1HnbvzDgpY5m7esG
+ GpcLlJgGvVCTLSSvAvW97ETgXwgBgnCvQfmTwaxqPsbu2GYtBgaYuV06PJJA0oL3I6HL
+ ffEPfTyj4RPhelYrJimqm7FLSz2Vy5mec3LD4sAh31Q26Qf+7owhkCqy1XkVjId6k9sz
+ PH94Yp7vnr6TuX4nBsvfvpbbXIcH1QMp6L3jYQlUd42o4pfPxmyXV9yN+qYyerhAXsK7
+ 6lhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=g9B6N1pLHmw9apXhytCYAiivYvGiSWVPO4ktlKtyCTM=;
+ b=rVbgHQx4LLNz39A3fLVFl5VBhXMXQPZZHoSiXIpU8bL11qNbB9hWB+5M6jKbqYBP6J
+ rGEByTArzVUZC3dIGW19mrvz50byyqDCksWAXyde9WQam4yi5p4P+8OZNWRHTQ8KPLWP
+ wyH3tN0u/QM02PuK7MAyoGxoPxdZxA8F+F0CfffxH3SS88Xa3JeGa2S34CEv+hL/ZJyL
+ i76vxj9TaNzGiftapu8LaYQeH52Jb2/gd/y+zP8m28DE6cCiPL7Tlqb+6f8J79NpGZp+
+ sJSfVvAC/30qa8M2DlssrYs6kPOjLqZY9KqdBfmzxvwMJQiXbqR3ln49v4DktTvfvoQR
+ qdNA==
+X-Gm-Message-State: ACrzQf3qj9yzQjTqM47Di6So32+Sui2GfdLNZqnM5ZI0SEIu5Wh+cKxR
+ uItcJnxfchr86pA1vr+XwXrSufWo1snH6w==
+X-Google-Smtp-Source: AMsMyM5MJL+FS+PxvhPKAMOrktRlJ6wXc3/KuTyXz2yv6w8H24MG0mjIy5G+6NMFZZ1RJav9VP0j0Q==
+X-Received: by 2002:a17:903:4d4:b0:17f:7ecc:88e3 with SMTP id
+ jm20-20020a17090304d400b0017f7ecc88e3mr5283578plb.169.1665156121054; 
+ Fri, 07 Oct 2022 08:22:01 -0700 (PDT)
+Received: from stoup.. ([2602:47:d49d:ec01:3b6c:3864:9643:140a])
+ by smtp.gmail.com with ESMTPSA id
+ h14-20020a170902f54e00b00179f370dbfasm1706318plf.26.2022.10.07.08.22.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Oct 2022 08:22:00 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Subject: [PATCH] target/arm: Make the final stage1+2 write to secure be
+ unconditional
+Date: Fri,  7 Oct 2022 08:21:59 -0700
+Message-Id: <20221007152159.1414065-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,311 +87,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-From: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
+While the stage2 call to get_phys_addr_lpae should never set
+attrs.secure when given a non-secure input, it's just as easy
+to make the final update to attrs.secure be unconditional and
+false in the case of non-secure input.
 
-The CDAT can be specified in two ways. One is to add ",cdat=<filename>"
-in "-device cxl-type3"'s command option. The file is required to provide
-the whole CDAT table in binary mode. The other is to use the default
-that provides some 'reasonable' numbers based on type of memory and
-size.
-
-The DOE capability supporting CDAT is added to hw/mem/cxl_type3.c with
-capability offset 0x190. The config read/write to this capability range
-can be generated in the OS to request the CDAT data.
-
-Signed-off-by: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
-Signed-off-by: Chris Browy <cbrowy@avery-design.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
---
-Changes since RFC:
-- Break out type 3 user of library as separate patch.
-- Change reported data for default to be based on the options provided
-  for the type 3 device.
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/mem/cxl_type3.c | 227 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 227 insertions(+)
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 568c9d62f5..3fa5d70662 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -12,9 +12,218 @@
- #include "qemu/range.h"
- #include "qemu/rcu.h"
- #include "sysemu/hostmem.h"
-+#include "sysemu/numa.h"
- #include "hw/cxl/cxl.h"
- #include "hw/pci/msix.h"
+Hi Peter,
+
+This is the promised patch 1.5 for v3 FEAT_HAFDBS.  It generates minor
+conflicts down the line, which I have already fixed up locally.  I think
+the first one you would encounter is beyond the proposed 20 that you
+indicated that you intend to take into target-arm.next right now.
+
+
+r~
+
+---
+ target/arm/ptw.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
+
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index b8c494ad9f..7d763a5847 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -2365,17 +2365,16 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+             result->cacheattrs = combine_cacheattrs(env, cacheattrs1,
+                                                     result->cacheattrs);
  
-+#define DWORD_BYTE 4
+-            /* Check if IPA translates to secure or non-secure PA space. */
+-            if (is_secure) {
+-                if (ipa_secure) {
+-                    result->attrs.secure =
+-                        !(env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW));
+-                } else {
+-                    result->attrs.secure =
+-                        !((env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW))
+-                        || (env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW)));
+-                }
+-            }
++            /*
++             * Check if IPA translates to secure or non-secure PA space.
++             * Note that VSTCR overrides VTCR and {N}SW overrides {N}SA.
++             */
++            result->attrs.secure =
++                (is_secure
++                 && !(env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW))
++                 && (ipa_secure
++                     || !(env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW))));
 +
-+static int ct3_build_cdat_table(CDATSubHeader ***cdat_table,
-+                                void *priv)
-+{
-+    g_autofree CDATDsmas *dsmas_nonvolatile = NULL;
-+    g_autofree CDATDslbis *dslbis_nonvolatile = NULL;
-+    g_autofree CDATDsemts *dsemts_nonvolatile = NULL;
-+    CXLType3Dev *ct3d = priv;
-+    int len = 0;
-+    int i = 0;
-+    int next_dsmad_handle = 0;
-+    int nonvolatile_dsmad = -1;
-+    int dslbis_nonvolatile_num = 4;
-+    MemoryRegion *mr;
-+
-+    /* Non volatile aspects */
-+    if (ct3d->hostmem) {
-+        dsmas_nonvolatile = g_malloc(sizeof(*dsmas_nonvolatile));
-+        if (!dsmas_nonvolatile) {
-+            return -ENOMEM;
-+        }
-+        nonvolatile_dsmad = next_dsmad_handle++;
-+        mr = host_memory_backend_get_memory(ct3d->hostmem);
-+        if (!mr) {
-+            return -EINVAL;
-+        }
-+        *dsmas_nonvolatile = (CDATDsmas) {
-+            .header = {
-+                .type = CDAT_TYPE_DSMAS,
-+                .length = sizeof(*dsmas_nonvolatile),
-+            },
-+            .DSMADhandle = nonvolatile_dsmad,
-+            .flags = CDAT_DSMAS_FLAG_NV,
-+            .DPA_base = 0,
-+            .DPA_length = int128_get64(mr->size),
-+        };
-+        len++;
-+
-+        /* For now, no memory side cache, plausiblish numbers */
-+        dslbis_nonvolatile = g_malloc(sizeof(*dslbis_nonvolatile) * dslbis_nonvolatile_num);
-+        if (!dslbis_nonvolatile)
-+            return -ENOMEM;
-+
-+        dslbis_nonvolatile[0] = (CDATDslbis) {
-+            .header = {
-+                .type = CDAT_TYPE_DSLBIS,
-+                .length = sizeof(*dslbis_nonvolatile),
-+            },
-+            .handle = nonvolatile_dsmad,
-+            .flags = HMAT_LB_MEM_MEMORY,
-+            .data_type = HMAT_LB_DATA_READ_LATENCY,
-+            .entry_base_unit = 10000, /* 10ns base */
-+            .entry[0] = 15, /* 150ns */
-+        };
-+        len++;
-+
-+        dslbis_nonvolatile[1] = (CDATDslbis) {
-+            .header = {
-+                .type = CDAT_TYPE_DSLBIS,
-+                .length = sizeof(*dslbis_nonvolatile),
-+            },
-+            .handle = nonvolatile_dsmad,
-+            .flags = HMAT_LB_MEM_MEMORY,
-+            .data_type = HMAT_LB_DATA_WRITE_LATENCY,
-+            .entry_base_unit = 10000,
-+            .entry[0] = 25, /* 250ns */
-+        };
-+        len++;
-+       
-+        dslbis_nonvolatile[2] = (CDATDslbis) {
-+            .header = {
-+                .type = CDAT_TYPE_DSLBIS,
-+                .length = sizeof(*dslbis_nonvolatile),
-+            },
-+            .handle = nonvolatile_dsmad,
-+            .flags = HMAT_LB_MEM_MEMORY,
-+            .data_type = HMAT_LB_DATA_READ_BANDWIDTH,
-+            .entry_base_unit = 1000, /* GB/s */
-+            .entry[0] = 16,
-+        };
-+        len++;
-+
-+        dslbis_nonvolatile[3] = (CDATDslbis) {
-+            .header = {
-+                .type = CDAT_TYPE_DSLBIS,
-+                .length = sizeof(*dslbis_nonvolatile),
-+            },
-+            .handle = nonvolatile_dsmad,
-+            .flags = HMAT_LB_MEM_MEMORY,
-+            .data_type = HMAT_LB_DATA_WRITE_BANDWIDTH,
-+            .entry_base_unit = 1000, /* GB/s */
-+            .entry[0] = 16,
-+        };
-+        len++;
-+
-+        mr = host_memory_backend_get_memory(ct3d->hostmem);
-+        if (!mr) {
-+            return -EINVAL;
-+        }
-+        dsemts_nonvolatile = g_malloc(sizeof(*dsemts_nonvolatile));
-+        *dsemts_nonvolatile = (CDATDsemts) {
-+            .header = {
-+                .type = CDAT_TYPE_DSEMTS,
-+                .length = sizeof(*dsemts_nonvolatile),
-+            },
-+            .DSMAS_handle = nonvolatile_dsmad,
-+            .EFI_memory_type_attr = 2, /* Reserved - the non volatile from DSMAS matters */
-+            .DPA_offset = 0,
-+            .DPA_length = int128_get64(mr->size),
-+        };
-+        len++;
-+    }
-+
-+    *cdat_table = g_malloc0(len * sizeof(*cdat_table));
-+    /* Header always at start of structure */
-+    if (dsmas_nonvolatile) {
-+        (*cdat_table)[i++] = g_steal_pointer(&dsmas_nonvolatile);
-+    }
-+    if (dslbis_nonvolatile) {
-+        CDATDslbis *dslbis = g_steal_pointer(&dslbis_nonvolatile);        
-+        int j;
-+
-+        for (j = 0; j < dslbis_nonvolatile_num; j++) {
-+            (*cdat_table)[i++] = (CDATSubHeader *)&dslbis[j];
-+        }
-+    }
-+    if (dsemts_nonvolatile) {
-+        (*cdat_table)[i++] = g_steal_pointer(&dsemts_nonvolatile);
-+    }
-+    
-+    return len;
-+}
-+
-+static void ct3_free_cdat_table(CDATSubHeader **cdat_table, int num, void *priv)
-+{
-+    int i;
-+
-+    for (i = 0; i < num; i++) {
-+        g_free(cdat_table[i]);
-+    }
-+    g_free(cdat_table);
-+}
-+
-+static bool cxl_doe_cdat_rsp(DOECap *doe_cap)
-+{
-+    CDATObject *cdat = &CXL_TYPE3(doe_cap->pdev)->cxl_cstate.cdat;
-+    uint16_t ent;
-+    void *base;
-+    uint32_t len;
-+    CDATReq *req = pcie_doe_get_write_mbox_ptr(doe_cap);
-+    CDATRsp rsp;
-+
-+    assert(cdat->entry_len);
-+
-+    /* Discard if request length mismatched */
-+    if (pcie_doe_get_obj_len(req) <
-+        DIV_ROUND_UP(sizeof(CDATReq), DWORD_BYTE)) {
-+        return false;
-+    }
-+
-+    ent = req->entry_handle;
-+    base = cdat->entry[ent].base;
-+    len = cdat->entry[ent].length;
-+
-+    rsp = (CDATRsp) {
-+        .header = {
-+            .vendor_id = CXL_VENDOR_ID,
-+            .data_obj_type = CXL_DOE_TABLE_ACCESS,
-+            .reserved = 0x0,
-+            .length = DIV_ROUND_UP((sizeof(rsp) + len), DWORD_BYTE),
-+        },
-+        .rsp_code = CXL_DOE_TAB_RSP,
-+        .table_type = CXL_DOE_TAB_TYPE_CDAT,
-+        .entry_handle = (ent < cdat->entry_len - 1) ?
-+                        ent + 1 : CXL_DOE_TAB_ENT_MAX,
-+    };
-+
-+    memcpy(doe_cap->read_mbox, &rsp, sizeof(rsp));
-+    memcpy(doe_cap->read_mbox + DIV_ROUND_UP(sizeof(rsp), DWORD_BYTE),
-+           base, len);
-+
-+    doe_cap->read_mbox_len += rsp.header.length;
-+
-+    return true;
-+}
-+
-+static uint32_t ct3d_config_read(PCIDevice *pci_dev, uint32_t addr, int size)
-+{
-+    CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
-+    uint32_t val;
-+
-+    if (pcie_doe_read_config(&ct3d->doe_cdat, addr, size, &val)) {
-+        return val;
-+    }
-+
-+    return pci_default_read_config(pci_dev, addr, size);
-+}
-+
-+static void ct3d_config_write(PCIDevice *pci_dev, uint32_t addr, uint32_t val,
-+                              int size)
-+{
-+    CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
-+
-+    pcie_doe_write_config(&ct3d->doe_cdat, addr, val, size);
-+    pci_default_write_config(pci_dev, addr, val, size);
-+}
-+
- /*
-  * Null value of all Fs suggested by IEEE RA guidelines for use of
-  * EU, OUI and CID
-@@ -140,6 +349,11 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
-     return true;
- }
- 
-+static DOEProtocol doe_cdat_prot[] = {
-+    { CXL_VENDOR_ID, CXL_DOE_TABLE_ACCESS, cxl_doe_cdat_rsp },
-+    { }
-+};
-+
- static void ct3_realize(PCIDevice *pci_dev, Error **errp)
- {
-     CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
-@@ -189,6 +403,14 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-     for (i = 0; i < msix_num; i++) {
-         msix_vector_use(pci_dev, i);
-     }
-+
-+    /* DOE Initailization */
-+    pcie_doe_init(pci_dev, &ct3d->doe_cdat, 0x190, doe_cdat_prot, true, 0);
-+
-+    cxl_cstate->cdat.build_cdat_table = ct3_build_cdat_table;
-+    cxl_cstate->cdat.free_cdat_table = ct3_free_cdat_table;
-+    cxl_cstate->cdat.private = ct3d;
-+    cxl_doe_cdat_init(cxl_cstate, errp);
- }
- 
- static void ct3_exit(PCIDevice *pci_dev)
-@@ -197,6 +419,7 @@ static void ct3_exit(PCIDevice *pci_dev)
-     CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
-     ComponentRegisters *regs = &cxl_cstate->crb;
- 
-+    cxl_doe_cdat_release(cxl_cstate);
-     g_free(regs->special_ops);
-     address_space_destroy(&ct3d->hostmem_as);
- }
-@@ -296,6 +519,7 @@ static Property ct3_props[] = {
-     DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
-                      HostMemoryBackend *),
-     DEFINE_PROP_UINT64("sn", CXLType3Dev, sn, UI64_NULL),
-+    DEFINE_PROP_STRING("cdat", CXLType3Dev, cxl_cstate.cdat.filename),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -361,6 +585,9 @@ static void ct3_class_init(ObjectClass *oc, void *data)
-     pc->device_id = 0xd93; /* LVF for now */
-     pc->revision = 1;
- 
-+    pc->config_write = ct3d_config_write;
-+    pc->config_read = ct3d_config_read;
-+
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-     dc->desc = "CXL PMEM Device (Type 3)";
-     dc->reset = ct3d_reset;
+             return 0;
+         } else {
+             /*
 -- 
-2.37.2
+2.34.1
 
 
