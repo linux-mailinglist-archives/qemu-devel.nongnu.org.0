@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E00C5F7B83
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:33:20 +0200 (CEST)
-Received: from localhost ([::1]:43460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C4F5F7BBC
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:43:46 +0200 (CEST)
+Received: from localhost ([::1]:35558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogqHn-0007hy-2I
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:33:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48906)
+	id 1ogqRt-0003qI-Lg
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogq5z-0007J3-Av
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:21:07 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:40745)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogq5f-0007dy-GR
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:21:06 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id 2so5075494pgl.7
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 09:20:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GWBQuup7Xt2go2dIhZaR+wARjclSaiNYCYbFs9aPIBc=;
- b=kadM7VHjOnaiqjQyPUzbeTs2E9s4gkVUVD6OTchCUSq6lmfgwzAyZFdkoJ+g9//g4a
- o9qvJrG5dMFzmzsmDOQ+a8EATxp4JatjWotMFkl6YMQmA8F7pHr/N1ElfZZ23rl3lzM5
- 57KAW3iGa1GyiU4P4rmzAWkwba44SAzKnqRVQIoqPe0v6HLtIP2zVTboJNqwSDlXjN0K
- PysEzy64Lq1mJ2Uh65N41opoYxNdGcJp1Rtaf54zTJYwn9BN5ksWppD5l/PrtWQ5RWs6
- /jlFciZcSocbD1etEXcYFPMsX443+jjv/QTdXknlIY4ps1pigoUYmZ4V32b0yDsYJkFV
- I57Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GWBQuup7Xt2go2dIhZaR+wARjclSaiNYCYbFs9aPIBc=;
- b=GEbGhiat2XdTuZC1+69hAf7K7LPmMfGedRRamzqDNUUgpiqH+7wVVT582ekHUbqKFO
- ZzPrWoUYgFtAYiloirY23xsRrRbicJMVRN31KmolsHxTnywjq9t6pobk08W31bvtQcVG
- JNkH3rE2UWZGPGvHX3nsA3DnoHnt+MXR2JwoB3qSkbtvFTVCaF2JoUH/uikuH6+tZyd9
- PUH5cvTsnMN8wbR22WO/O+PDMCZ2fz6x6nTcciAPWufdkcHXainSGg+mMgiVLdOa83CQ
- KXI6bmaBtbGIJRAmt2B842p1BREgfyndzypUjeUP64Ci1grQR2S70d7aKpFSerfcSeI5
- b9XQ==
-X-Gm-Message-State: ACrzQf3QtCkgv+AnAmuZjipzcCcb2IY5Yb4Q67v+0tDUcKm3E5NAj/B9
- fOYeWHwDlcJIZN/x+IPQ5LI76fqouk7Pt8FrzMTzsQ==
-X-Google-Smtp-Source: AMsMyM6LQYVmZzY29AF0O+gsirJvhAI642koEiq6NOLHnnjA/4zzEvB1lsADjiRXZq6rfTC9kdcRoOe17yUqIQ6/NIY=
-X-Received: by 2002:a63:89c3:0:b0:452:f2ad:52b9 with SMTP id
- v186-20020a6389c3000000b00452f2ad52b9mr5161927pgd.105.1665159645622; Fri, 07
- Oct 2022 09:20:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1ogq8E-0001L5-4m
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:23:26 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:54552
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1ogq88-0007tr-GE
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:23:25 -0400
+HMM_SOURCE_IP: 172.18.0.218:57282.325216893
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.138.181.38 (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 7098C2800E2;
+ Sat,  8 Oct 2022 00:23:03 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([182.138.181.38])
+ by app0025 with ESMTP id 24993334c10045b28f2070b6d513277c for
+ armbru@redhat.com; Sat, 08 Oct 2022 00:23:04 CST
+X-Transaction-ID: 24993334c10045b28f2070b6d513277c
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 182.138.181.38
+X-MEDUSA-Status: 0
+Message-ID: <9fc910bf-1dd4-dc05-34bf-556084a6d06f@chinatelecom.cn>
+Date: Sat, 8 Oct 2022 00:22:59 +0800
 MIME-Version: 1.0
-References: <20221007152159.1414065-1-richard.henderson@linaro.org>
-In-Reply-To: <20221007152159.1414065-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Oct 2022 17:20:33 +0100
-Message-ID: <CAFEAcA93Urww5F+_gJonUUaLeS-7W8BhYqRgcJT1hcVY3LaUdA@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Make the final stage1+2 write to secure be
- unconditional
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v1 5/8] migration: Export dirty-limit time info
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>
+References: <cover.1662052189.git.huangy81@chinatelecom.cn>
+ <cover.1662052189.git.huangy81@chinatelecom.cn>
+ <5ca0b4ae2aa787c1547d798521ab0e67867437a8.1662052189.git.huangy81@chinatelecom.cn>
+ <87o7uvjszm.fsf@pond.sub.org>
+ <00eac029-89b0-04ae-f591-c91ac5baba51@chinatelecom.cn>
+ <8735bzr7pa.fsf@pond.sub.org>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <8735bzr7pa.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.699,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,71 +77,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Oct 2022 at 16:22, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> While the stage2 call to get_phys_addr_lpae should never set
-> attrs.secure when given a non-secure input, it's just as easy
-> to make the final update to attrs.secure be unconditional and
-> false in the case of non-secure input.
->
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->
-> Hi Peter,
->
-> This is the promised patch 1.5 for v3 FEAT_HAFDBS.  It generates minor
-> conflicts down the line, which I have already fixed up locally.  I think
-> the first one you would encounter is beyond the proposed 20 that you
-> indicated that you intend to take into target-arm.next right now.
->
->
-> r~
->
-> ---
->  target/arm/ptw.c | 21 ++++++++++-----------
->  1 file changed, 10 insertions(+), 11 deletions(-)
->
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index b8c494ad9f..7d763a5847 100644
-> --- a/target/arm/ptw.c
-> +++ b/target/arm/ptw.c
-> @@ -2365,17 +2365,16 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
->              result->cacheattrs = combine_cacheattrs(env, cacheattrs1,
->                                                      result->cacheattrs);
->
-> -            /* Check if IPA translates to secure or non-secure PA space. */
-> -            if (is_secure) {
-> -                if (ipa_secure) {
-> -                    result->attrs.secure =
-> -                        !(env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW));
-> -                } else {
-> -                    result->attrs.secure =
-> -                        !((env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW))
-> -                        || (env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW)));
-> -                }
-> -            }
 
-If:
- is_secure == true
- ipa_secure == false
- (env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW) is non-zero
- (env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW) is zero
-then the old code sets attrs.secure to true...
 
-> +            /*
-> +             * Check if IPA translates to secure or non-secure PA space.
-> +             * Note that VSTCR overrides VTCR and {N}SW overrides {N}SA.
-> +             */
-> +            result->attrs.secure =
-> +                (is_secure
-> +                 && !(env->cp15.vstcr_el2 & (VSTCR_SA | VSTCR_SW))
-> +                 && (ipa_secure
-> +                     || !(env->cp15.vtcr_el2 & (VTCR_NSA | VTCR_NSW))));
+在 2022/10/7 23:09, Markus Armbruster 写道:
+> Hyman Huang <huangy81@chinatelecom.cn> writes:
+> 
+>> 在 2022/10/2 2:31, Markus Armbruster 写道:
+>>> huangy81@chinatelecom.cn writes:
+>>>
+>>>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>>>
+>>>> Export dirty limit throttle time and estimated ring full
+>>>> time, through which we can observe the process of dirty
+>>>> limit during live migration.
+>>>>
+>>>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>> [...]
+>>>
+>>>> diff --git a/qapi/migration.json b/qapi/migration.json
+>>>> index bc4bc96..c263d54 100644
+>>>> --- a/qapi/migration.json
+>>>> +++ b/qapi/migration.json
+>>>> @@ -242,6 +242,12 @@
+>>>>    #                   Present and non-empty when migration is blocked.
+>>>>    #                   (since 6.0)
+>>>>    #
+>>>> +# @dirty-limit-throttle-us-per-full: Throttle time (us) during the period of
+>>>> +#                                    dirty ring full (since 7.0)
+>>>> +#
+>>>> +# @dirty-limit-us-ring-full: Estimated periodic time (us) of dirty ring full.
+>>>> +#                            (since 7.0)
+>>>> +#
+>>>
+>>> Can you explain what is measured here a bit more verbosely?
+>>
+>> The two fields of migration info aims to export dirty-limit throttle time so that upper apps can check out the process of live migration,
+>> like 'cpu-throttle-percentage'.
+>>
+>> The commit "tests: Add migration dirty-limit capability test" make use of the 'dirty-limit-throttle-us-per-full' to checkout if dirty-limit has
+>> started, the commit "tests/migration: Introduce dirty-limit into guestperf" introduce the two field so guestperf tools also show the
+>> process of dirty-limit migration.
+>>
+>> And i also use qmp_query_migrate to observe the migration by checkout these two fields.
+>>
+>> I'm not sure if above explantation is what you want exactly, please be free to start any discussion about this features.
+> 
+> You explained use cases, which is always welcome.
+> 
+> I'm trying to understand the two new members' meaning, i.e. what exactly
+> is being measured.
 
-...but the new code will set it to false, I think ?
+dirty-limit-throttle-us-per-full：
+Means the time vCPU should sleep once it's dirty ring get full, since we 
+set limit on vCPU every time it returns to Qemu for the 
+KVM_EXIT_DIRTY_RING_FULL reason, the sleep time may also changes everty 
+time dirty ring get full. 'dirty-limit-throttle-us-per-full' can be 
+simplified as 'throttle time(us) every time vCPU's dirty ring full get 
+full'. The 'dirty-limit' is just the prefix to mark that parameter is 
+dirty-limit-related.
 
-thanks
--- PMM
+dirty-limit-us-ring-full:
+It is an estimated value which means the time a vCPU's dirty ring get 
+full. It depends on the vCPU's dirty page rate, the higher the rate is, 
+the smaller dirty-limit-us-ring-full is.
+
+dirty-limit-throttle-us-per-full / dirty-limit-us-ring-full * 100 is 
+kind of like 'cpu-throttle-percentage'.
+
+Thanks,
+
+Yong
+
+> 
+> For existing @cpu-throttle-percentage, the doc comment tells me:
+> "percentage of time guest cpus are being throttled during
+> auto-converge."
+> 
+> For the your new members, the doc comment tries to tell me, but it
+> doesn't succeed.  If you explain what is being measured more verbosely,
+> we may be able to improve the doc comment.
+> 
+
+-- 
+Best regard
+
+Hyman Huang(黄勇)
 
