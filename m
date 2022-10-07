@@ -2,71 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05085F7B72
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:29:45 +0200 (CEST)
-Received: from localhost ([::1]:47898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1495F7B86
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:33:29 +0200 (CEST)
+Received: from localhost ([::1]:36510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogqEK-0002RP-6h
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:29:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44984)
+	id 1ogqHw-0007zg-8E
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:33:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ogpAa-0000xB-5Q
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:21:48 -0400
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:39853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ogpAX-0005jq-Vh
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:21:47 -0400
-Received: by mail-io1-xd2c.google.com with SMTP id s16so3860742ioa.6
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 08:21:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bt7NkM+EMtiy3WCIZyEKf5tH+Uangx7p5pMQz++WuWI=;
- b=QsTL/XHBPfMcjsNywqce21l4p0C8vUT6gd3spMM3iiaBFmDEzJsMwyTAmsvBJBI9Q6
- +EIoz7BaFfkaHNiV5n11RnowvSbZ1vwih3BHWec7oU77oCJqgXH7kcysbCfqC2Vle8oA
- ktLIexmKcFyT0CHQIXtOYEKXK7a+t3aobskF4YiEe9IkCpC1JMeVwPf+IvDdluacumD5
- cSs14xK+YsFZ9mTpZ5+fWW9qDBkHXTssPO+g2OIUx6T+84X9zEQQ8PlYNIKAFVOqzuev
- lNrzvFqUuqBOEChetv1TcUdUNR0JB81nYXm2fOkD5alES0W+rv4OByZBGwIo3kcX8F02
- 00Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bt7NkM+EMtiy3WCIZyEKf5tH+Uangx7p5pMQz++WuWI=;
- b=1iuCCrO+sjZY9A27nlydlo4bg3QgDaF/zgRXaaLhLTQeNaHfX6+Hn0k1Ij2JMDw5Wc
- kCiOmFW0cSJeqAQflQSgfWGRUERahE21JzdYmv4kVm6w8Wg/LhTvpWXZAcou+vPuE0EB
- 6G4iaRSOPTrxJC+GX3fGoS1qxy6sEowfY1kLGDqagVewzvD/832EjV0ebgnEDT7JKxn4
- N3dynOcM82KQv0m60apXvcW3BR8mb+4wYI4xwef++WPZAAsOjAqnvnd3aZ9v/QFoIPp6
- s2BmBq8iPENGJvQbb3cRrsVFXLDJYXwKZzhI+Mi5z8Dw/rlisfhMI6YWlZ+lOpBOPRpq
- zR4Q==
-X-Gm-Message-State: ACrzQf0soZg3e7aXBuiiHlbSt35e5N5gq3D6Km+Hu5+Z5/v1KJG0m4YH
- sRpvu4RGZ5NhwRXfZCZNiK1TPzTNFNBUFCirF+ZJtw==
-X-Google-Smtp-Source: AMsMyM44quv6DFUUE+UzmID3qSrU5DWxIL+iKHtU/bvlra0QmXlYzpb00zJzDrQvVWhdyBbPZkHv+aaDQths81MWgLY=
-X-Received: by 2002:a5d:9452:0:b0:6a3:4fab:d98e with SMTP id
- x18-20020a5d9452000000b006a34fabd98emr2484746ior.185.1665156103699; Fri, 07
- Oct 2022 08:21:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ogpAw-00017j-Mw
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:22:10 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2702)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1ogpAt-0005kp-AM
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:22:09 -0400
+Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MkX7G6ldqz6883d;
+ Fri,  7 Oct 2022 23:20:26 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 7 Oct 2022 17:21:54 +0200
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 7 Oct 2022 16:21:53 +0100
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
+ <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, Huai-Cheng Kuo
+ <hchkuo@avery-design.com.tw>, Chris Browy <cbrowy@avery-design.com>
+CC: <linuxarm@huawei.com>, <ira.weiny@intel.com>
+Subject: [PATCH v7 0/5] QEMU PCIe DOE for PCIe 4.0/5.0 and CXL 2.0
+Date: Fri, 7 Oct 2022 16:21:51 +0100
+Message-ID: <20221007152156.24883-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20221007144553.79648-1-miguel.luis@oracle.com>
-In-Reply-To: <20221007144553.79648-1-miguel.luis@oracle.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 7 Oct 2022 20:51:32 +0530
-Message-ID: <CAARzgwxpjfioHSWq3iyzbOT2LgfX_93A5Sje0e1K1tiXtz0wLw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] fix for two ACPI GTDT physical addresses
-To: miguel.luis@oracle.com
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, mst@redhat.com, 
- imammedo@redhat.com, shannon.zhaosl@gmail.com, peter.maydell@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=ani@anisinha.ca; helo=mail-io1-xd2c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,40 +67,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Fri, Oct 7, 2022 at 8:16 PM Miguel Luis <miguel.luis@oracle.com> wrote:
->
-> The ACPI GTDT table contains two invalid 64-bit physical addresses according to
-> the ACPI spec. 6.5 [1]. Those are the Counter Control Base physical address and
-> the Counter Read Base physical address. Those fields of the GTDT table should be
-> set to 0xFFFFFFFFFFFFFFFF if not provided, rather than 0x0.
->
-> [1]: https://uefi.org/specs/ACPI/6.5/05_ACPI_Software_Programming_Model.html#gtdt-table-structure
->
-> Changelog:
->
-> v2:
->     Updated with collected tags from v1.
+Whilst I have carried on Huai-Cheng Kuo's series version numbering and
+naming, there have been very substantial changes since v6 so I would
+suggest fresh review makes sense for anyone who has looked at this before.
+In particularly if the Avery design folks could check I haven't broken
+anything that would be great.
 
-For future reference, there is no need to send out a new version with
-just the tags added. The tooling make sure that the tags are collected
-correctly from the last version.
+For reference v6: QEMU PCIe DOE for PCIe 4.0/5.0 and CXL 2.0
+https://lore.kernel.org/qemu-devel/1623330943-18290-1-git-send-email-cbrowy@avery-design.com/
 
->
-> v1: https://lists.nongnu.org/archive/html/qemu-devel/2022-09/msg02847.html
->
-> Miguel Luis (3):
->   tests/acpi: virt: allow acpi GTDT changes
->   acpi: arm/virt: build_gtdt: fix invalid 64-bit physical addresses
->   tests/acpi: virt: update ACPI GTDT binaries
->
->  hw/arm/virt-acpi-build.c          |   5 ++---
->  tests/data/acpi/virt/GTDT         | Bin 96 -> 96 bytes
->  tests/data/acpi/virt/GTDT.memhp   | Bin 96 -> 96 bytes
->  tests/data/acpi/virt/GTDT.numamem | Bin 96 -> 96 bytes
->  4 files changed, 2 insertions(+), 3 deletions(-)
->
-> --
-> 2.37.3
->
+Summary of changes:
+1) Linux headers definitions for DOE are now upstream so drop that patch.
+2) Add CDAT for switch upstream port.
+3) Generate 'plausible' default CDAT tables when a file is not provided.
+4) General refactoring to calculate the correct table sizes and allocate
+   based on that rather than copying from a local static array.
+5) Changes from earlier reviews such as matching QEMU type naming style.
+6) Moved compliance and SPDM usecases to future patch sets.
+
+Sign-offs on these are complex because the patches were originally developed
+by Huai-Cheng Kuo, but posted by Chris Browy and then picked up by Jonathan
+Cameron who made substantial changes.
+
+Huai-Cheng Kuo / Chris Browy, please confirm you are still happy to maintain this
+code as per the original MAINTAINERS entry.
+
+What's here?
+
+This series brings generic PCI Express Data Object Exchange support (DOE)
+DOE is defined in the PCIe Base Spec r6.0. It consists of a mailbox in PCI
+config space via a PCIe Extended Capability Structure.
+The PCIe spec defines several protocols (including one to discover what
+protocols a given DOE instance supports) and other specification such as
+CXL define additional protocols using their own vendor IDs.
+
+In this series we make use of the DOE to support the CXL spec defined
+Table Access Protocol, specifically to provide access to CDAT - a
+table specified in a specification that is hosted by the UEFI forum
+and is used to provide runtime discoverability of the sort of information
+that would otherwise be available in firmware tables (memory types,
+latency and bandwidth information etc).
+
+The Linux kernel gained support for DOE / CDAT on CXL type 3 EPs in 6.0.
+The version merged did not support interrupts (earlier versions did
+so that support in the emulation was tested a while back).
+
+This series provides CDAT emulation for CXL switch upstream ports
+and CXL type 3 memory devices. Note that to exercise the switch support
+additional Linux kernel patches are needed.
+https://lore.kernel.org/linux-cxl/20220503153449.4088-1-Jonathan.Cameron@huawei.com/
+(I'll post a new version of that support shortly)
+
+Additional protocols will be supported by follow on patch sets:
+* CXL compliance protocol.
+* CMA / SPDM device attestation.
+(Old version at https://gitlab.com/jic23/qemu/-/commits/cxl-next - will refresh
+that tree next week)
+
+Huai-Cheng Kuo (3):
+  hw/pci: PCIe Data Object Exchange emulation
+  hw/cxl/cdat: CXL CDAT Data Object Exchange implementation
+  hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
+
+Jonathan Cameron (2):
+  hw/mem/cxl-type3: Add MSIX support
+  hw/pci-bridge/cxl-upstream: Add a CDAT table access DOE
+
+ MAINTAINERS                    |   7 +
+ hw/cxl/cxl-cdat.c              | 222 ++++++++++++++++++++
+ hw/cxl/meson.build             |   1 +
+ hw/mem/cxl_type3.c             | 236 +++++++++++++++++++++
+ hw/pci-bridge/cxl_upstream.c   | 182 +++++++++++++++-
+ hw/pci/meson.build             |   1 +
+ hw/pci/pcie_doe.c              | 367 +++++++++++++++++++++++++++++++++
+ include/hw/cxl/cxl_cdat.h      | 166 +++++++++++++++
+ include/hw/cxl/cxl_component.h |   7 +
+ include/hw/cxl/cxl_device.h    |   3 +
+ include/hw/cxl/cxl_pci.h       |   1 +
+ include/hw/pci/pci_ids.h       |   3 +
+ include/hw/pci/pcie.h          |   1 +
+ include/hw/pci/pcie_doe.h      | 123 +++++++++++
+ include/hw/pci/pcie_regs.h     |   4 +
+ 15 files changed, 1323 insertions(+), 1 deletion(-)
+ create mode 100644 hw/cxl/cxl-cdat.c
+ create mode 100644 hw/pci/pcie_doe.c
+ create mode 100644 include/hw/cxl/cxl_cdat.h
+ create mode 100644 include/hw/pci/pcie_doe.h
+
+-- 
+2.37.2
+
 
