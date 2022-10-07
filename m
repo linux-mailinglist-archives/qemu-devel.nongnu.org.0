@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69BE55F7B69
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:28:09 +0200 (CEST)
-Received: from localhost ([::1]:52650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72D95F7B8D
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:34:32 +0200 (CEST)
+Received: from localhost ([::1]:37776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogqCm-0007pG-FS
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:28:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46910)
+	id 1ogqIx-0000OD-Sx
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:34:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogpuB-0004QA-4I
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:08:55 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:36620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogpu7-0005Vg-QD
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:08:53 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- e11-20020a17090a77cb00b00205edbfd646so7628931pjs.1
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 09:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ebO80EGiEl1K01kjnElVpT7a/cmS7kvWbcW65J3edjg=;
- b=hV1xi/p6QeWaQXvTJYffeuRt694Psrv6eguZepGMxW77/h4wikWSgCx8Lt/euT5EKq
- 2ujgRu8HMwAxsjsJPxE+THSrVGHhNOEctuMhWewizRc4Kwm0ifeywmPiO69iDZ0iGQ7x
- gORXlKAJ+7JTZL77eHGTfUrcOss1viF+u1dp3Y7+NTCsoD4wM3uxFdLYRuwoZyFwLrP0
- 8eyRs8KHF2EiQFTNRVmsDNBGIz/TkKTGyTg5FuHsfzRhphNowY0Kc8lBysu2uDcbfRMu
- srVPmOXz6RXiGx/NBfEWzH9icqa/QpPKQmh4oRN8x24ndFNV4jtkJE3mk9TH09nzWTK8
- ynpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ebO80EGiEl1K01kjnElVpT7a/cmS7kvWbcW65J3edjg=;
- b=XZx1tgDeaOJtHeDZMkj20DV4mzjDyDG6KDdRwCW6DWSN+d71WdrihLJsBKukRd4TM/
- j6GNe5zdj6R5g8CLL4pf4E5IVa3t49fb3I0iIBzGivvMEt/Yd8vZqYFYGka06wfsERyA
- Rt770/SSqAt0jyIA9FsMEBd21j/BvdzXDesB8t6035+IlMRCGdhfNgSzeb9WMcN/f2Cz
- EHKpIHpL5WvBs4gj8B3fMM44AJDNG2d2vXMRGXN3sqY/YbEkwFGcrEX88NwA6sps1/iy
- RLI46GNJbpYAtPkIHLIgUquZm3WsLtmsOoybovFOcMMQ3QFoEH8cDMtrzww8ruPD23J3
- 6NTg==
-X-Gm-Message-State: ACrzQf3I8glpypBSi+TxRcIv3yS0FGqNcUKdsp6Ylt8AqCB2PozxaNtR
- EL9S8wiaEnzyJATBFXOpZTCU8DCNCIZ4UF8YRS2iyA==
-X-Google-Smtp-Source: AMsMyM62XJwDS+E9F1j85GiwiopEVn20SR9Jd3KLHoLGfDJhFjr+PA4E/Sylo78vJnvUt8g0DE6HH7BfSS2Bt3Ri83w=
-X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
- jm23-20020a17090304d700b001788564f754mr5451213plb.60.1665158930414; Fri, 07
- Oct 2022 09:08:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogpvx-0006mV-ST
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:10:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogpvt-0005wV-Du
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 12:10:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665159040;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EoXnTMqZIexoxb06RHpGrCYMmI9m0D1+DbL86Revn+M=;
+ b=Q4zJGHo4ycz1E02I5/ww2ZzcBbmouTwBqhgG7shpzmty2KG6gP8ziHt1xZXVr21K/papZE
+ LDrbFGagjGxPB6ApONUXzfs/DXQJPpxYb60k/mEK828yhkwf2fuq5LN3cQjtebBQa/AkgS
+ T8vCLP6CdmVlnFA+JzXJLFo+GzsLk64=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-114-BYQUebbTP6WvSG1mnCmzhA-1; Fri, 07 Oct 2022 12:10:38 -0400
+X-MC-Unique: BYQUebbTP6WvSG1mnCmzhA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8FDE6384C6C7;
+ Fri,  7 Oct 2022 16:10:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 16CCE1457F37;
+ Fri,  7 Oct 2022 16:10:36 +0000 (UTC)
+Date: Fri, 7 Oct 2022 18:10:35 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 04/11] bdrv_child_try_change_aio_context: add
+ transaction parameter
+Message-ID: <Y0BPe6+f/db7hvnt@redhat.com>
+References: <20220725122120.309236-1-eesposit@redhat.com>
+ <20220725122120.309236-5-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20221001162318.153420-1-richard.henderson@linaro.org>
- <20221001162318.153420-28-richard.henderson@linaro.org>
- <CAFEAcA9Vd6mwMf9-70vo=t_Yec+fPh3kM_jo7wn=oNi1+cvgkQ@mail.gmail.com>
- <92b19bab-1115-cbd2-40e9-45deaa14e857@linaro.org>
-In-Reply-To: <92b19bab-1115-cbd2-40e9-45deaa14e857@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Oct 2022 17:08:39 +0100
-Message-ID: <CAFEAcA_HHn_7zoF2pMfKM+rmFy4iPj3575V0u61d=z33geg43g@mail.gmail.com>
-Subject: Re: [PATCH v3 27/42] target/arm: Use softmmu tlbs for page table
- walking
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220725122120.309236-5-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,25 +82,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Oct 2022 at 16:27, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 10/7/22 02:01, Peter Maydell wrote:
-> > The upcoming v8R support has its stage 2 attributes in the MAIR
-> > format, so it might be a little awkward to assume the v8A-stage-2
-> > format here rather than being able to add the "if !is_s2_format"
-> > condition. I guess we'll deal with that when we get to it...
->
-> Ah.  I had wondered whether it would be better to convert the result here, so that we
-> always have the MAIR format.  I decided against it within the scope of this patch set
-> because it meant that I kept the existing s1+s2 attribute merging logic unchanged.
+Am 25.07.2022 um 14:21 hat Emanuele Giuseppe Esposito geschrieben:
+> This enables the caller to use the same transaction to also
+> keep track of aiocontext changes.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Unfortunately, for A-profile you can't just convert the s2 attrs
-to MAIR format, because their interpretation depends on the
-s1 attr values in the FWB case. So you have to keep the s2
-attrs as raw until they get to the point of combination.
-(v8R doesn't have any equivalent of FWB.)
+What you're really doing here is factoring out the recursive phase.
+However, the factored out function is never used from anywhere else,
+so I don't understand the purpose of this patch. It feels like an
+unnecessary complication of the code.
 
-thanks
--- PMM
+The commit message is unclear to me, too: Who is the caller of
+bdrv_child_try_change_aio_context() that it mentions, and why does it
+make a difference to it how the code is organised internally?
+
+Is this some artifact of changes you made and we don't need it any more
+now?
+
+>  block.c                            | 31 ++++++++++++++++++++++++------
+>  include/block/block-global-state.h |  5 +++++
+>  2 files changed, 30 insertions(+), 6 deletions(-)
+> 
+> diff --git a/block.c b/block.c
+> index c02a628336..221bf90268 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -7643,17 +7643,16 @@ int bdrv_child_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+>   * For the same reason, it temporarily holds also the new AioContext, since
+>   * bdrv_drained_end calls BDRV_POLL_WHILE that assumes the lock is taken too.
+>   */
+> -int bdrv_child_try_change_aio_context(BlockDriverState *bs, AioContext *ctx,
+> -                                      BdrvChild *ignore_child, Error **errp)
+> +int bdrv_child_try_change_aio_context_tran(BlockDriverState *bs,
+> +                                           AioContext *ctx,
+> +                                           BdrvChild *ignore_child,
+> +                                           Transaction *tran,
+> +                                           Error **errp)
+
+As mentioned above, this is never used anywhere else than from
+bdrv_child_try_change_aio_context(), so if we want to keep the patch, it
+should be static at least.
+
+Maybe find a better name, too, because all of the transaction related
+operations are in the caller.
+
+The function comment is not accurate any more either because it
+described the whole of bdrv_child_try_change_aio_context(), while this
+function only contains the recursive part.
+
+Kevin
+
 
