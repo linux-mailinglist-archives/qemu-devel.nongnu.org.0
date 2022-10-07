@@ -2,139 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8284C5F7B9E
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:39:43 +0200 (CEST)
-Received: from localhost ([::1]:50368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02465F7B3D
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:14:46 +0200 (CEST)
+Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogqNy-00059n-1t
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:39:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40622)
+	id 1ogpzp-0007JM-QN
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:14:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1ogpQU-00076v-RW; Fri, 07 Oct 2022 11:38:15 -0400
-Received: from mail-eopbgr60060.outbound.protection.outlook.com
- ([40.107.6.60]:6565 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dfaggioli@suse.com>)
- id 1ogpQP-0000KE-VE; Fri, 07 Oct 2022 11:38:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P2tDfV8XUZmggC0SGeyZreDE6I5HPscdRsMLsxxnDrxrm0oGQ83gdHtFrVz9nLFIKSlJySI08ZVyBQ2uaG4HQPOmIuu7l6gd5ezOmpLh3AF4lv7jTSDnUVXsJ64aw4FHM3Lh7FVDgFsq+f5T2/vRC41wVd/+oK3pibw0+5DvgSgAz3CJOFsDwm5a3f5k4gvkQ8bVYfFWIvxM5JYNmYSDyfpr2/zUj0wMtHKC0YkuLcFsiISAUR+3FvqpNroQvAFXz+6zqAWYrOSH05D1WapxuLYvMRmDeW+SXIf9NUlsklnQv+YbTjb6hTHwV0K1ly2X/6GdeJw0xvC2WBtIoQArOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vKuHFwCsDfc3Q73tY2FDuPiwQZO37+xGU5WfwjnK+zY=;
- b=RacHrJENdbEWgq1u7YauirFav6a+/yGZNnMeKpQI0X3d9+HKId0w5Xi8qw7ySt7+QXPh2/5Qjexk7MQ2koL5UPUXb5bmKHzxqbrclXatbuN+dh2JlLHplxrTP3p5ocreBF0O1TyJdNGS7RvLC8Q8ttM1c3ycJpNPa2uKFv+qkYbYphGjd5v/L0eVbRJlZ2HQs4xz3AAJq2m6qCrzUqtrQwtSEe2Ez1STOLoglxzlKqkyRdftndFNYWTSUoJ65kHxpOH7JQpSr5vV2Oo9qojP5a38OLkxuJGVAQmARUyELwTrCd+rmoJBAGwT2aeEbILF9ArdypUbDCkFyd+VJOchXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vKuHFwCsDfc3Q73tY2FDuPiwQZO37+xGU5WfwjnK+zY=;
- b=A3QNuTp+kYt57bCTbPKI0+wcwXT3IOVYACwBSpA9QrBa4xluQ9QEjhgJ70CKeUY2ixd1JE4yv3T8m9CknJoRNsfqbzPOsS3wR8HHL1imeLXgWRozTSSnYvzU8kiCyEB8acN3F+e+OKBNwEKfpmIRiBX3PXkmKKdI/uzBJbaow7ra9tnlvtKoJs9FNDbq9RXYdDwuK6y7M0G/sas92uO1U0UkhVBUrExYnYpPRt3qHQMdibl9OOIx1sQIrlRJIU2nrhuVKLTTWaHcBYRY8+2Wbm5XwmEjaUFnLAg4vpXvvloRooKieY+v8XXhSxTVT6CsapyfYlFcP3Lz+0NIfwgvYg==
-Received: from PAXPR04MB8366.eurprd04.prod.outlook.com (2603:10a6:102:1be::12)
- by PA4PR04MB7520.eurprd04.prod.outlook.com (2603:10a6:102:e9::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.38; Fri, 7 Oct
- 2022 15:38:05 +0000
-Received: from PAXPR04MB8366.eurprd04.prod.outlook.com
- ([fe80::28f3:38af:cc6f:f83d]) by PAXPR04MB8366.eurprd04.prod.outlook.com
- ([fe80::28f3:38af:cc6f:f83d%6]) with mapi id 15.20.5676.034; Fri, 7 Oct 2022
- 15:38:05 +0000
-From: Dario Faggioli <dfaggioli@suse.com>
-To: "faithilikerun@gmail.com" <faithilikerun@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-CC: "stefanha@redhat.com" <stefanha@redhat.com>, "hreitz@redhat.com"
- <hreitz@redhat.com>, "kwolf@redhat.com" <kwolf@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>, "jusual@redhat.com" <jusual@redhat.com>,
- "mehta.aaru20@gmail.com" <mehta.aaru20@gmail.com>
-Subject: Re: [PATCH] block/io_uring: revert "Use io_uring_register_ring_fd()
- to skip fd operations"
-Thread-Topic: [PATCH] block/io_uring: revert "Use io_uring_register_ring_fd()
- to skip fd operations"
-Thread-Index: AQHY2mLKZjUUx/P5OUWf4lg6XvTmFw==
-Date: Fri, 7 Oct 2022 15:38:05 +0000
-Message-ID: <5ead5696ff9b4cd7ce89190d368d53a7e16c30a3.camel@suse.com>
-References: <20220924144815.5591-1-faithilikerun@gmail.com>
-In-Reply-To: <20220924144815.5591-1-faithilikerun@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4 (by Flathub.org) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=suse.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB8366:EE_|PA4PR04MB7520:EE_
-x-ms-office365-filtering-correlation-id: 65c94cee-91c0-4a98-53ae-08daa879ed94
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: T4OK2t8pwjbCrozhRFUu7nVnLpxB0tyT2KgwW/onH71TAmUel/mNAXvvuHWGfo8iHQdK5UZUYzkFx+eOighIC+EbjQjZyu5Pgu8zS7CyUsfrtpjrXMdNtAkMCbGwgbSkV9eWBfY5K0lhWRAKgE6JRg1WUwK1tLUMMd39wM87zV0MwPfSvrrWO0ZFZMHNI3mRZHHF70OHQBUxTEjyv9CNEzDpecawb1bxtr2TL9hhel6n2oWWpRZVWCPe9FCoWVTkWkJ+7nBayfTggOa31kOszMnG2mEAo7KzoFxLk9hF8c7XtfXmR3LcS+fmR4j05qP+6PuV4G4k3p8WRUaDlRvaIGfH8GRERQigm4n7Tf4vmgzm61bEvsPEVe2tlRMsxUWp6b0k+EV+P1OU2re1Effj0pA6wtvSDgEhWisT3eLcrTLpWlcG8V4uJZUGRVhjWBu7KM+1rf9Ntm0BgVxcN4+Gcx/BQKB7clp+Ts4+mvQjwamj6WtZekN4t/deFRpknxMUy1kibNszlq1JSf1o3Y2tNdqyhm/XhU4tC6MnBmceUQIIHB7BtTJgnlxn0valeD7wisDXHl4vRSoM1Vzo4QyS0oN6WNN8ivuibRDwzP1nxmdQ7OVRJKHCk50N7IE45y/lPT9u2Ml+V/3vnH3hC4SpKPJN5MhfTFenTe6V4cv5uJQ87tzIteEDsKdPhYngWd10S+idw/uZFegRX9hVtyUVDT/0x20/UKBzeQCqBH1u4L7VaKDWVDXlVoToxpuoN6zmoiecKRrRjBUOuZAAP5JhV07xhFJOjvvuvFOovHto8in4iKrsZap+2mLCpFQi+nG7kEEQG3m3JDTnuPTQQg/12A==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR04MB8366.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(136003)(366004)(396003)(39860400002)(376002)(346002)(451199015)(99936003)(38070700005)(38100700002)(66946007)(2906002)(6512007)(4744005)(86362001)(36756003)(91956017)(5660300002)(66556008)(66446008)(8676002)(4326008)(64756008)(8936002)(41300700001)(66476007)(76116006)(122000001)(83380400001)(316002)(110136005)(478600001)(54906003)(6506007)(2616005)(71200400001)(26005)(186003)(966005)(6486002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NWJFdXBaZzRkZXBLQzRtc2ZZa291WGJidW9PYWdtdGNQV3craHQrOU5FbEs4?=
- =?utf-8?B?WlhnYjI2dkFlOEEwWTFkeVZ4RVdSMUk5aE9SUVhVV1Nrb0xXY1Bwd3hTSjUz?=
- =?utf-8?B?LzVvWlRqWVlhVnpwbXpodGYzN2hrR1R5UzFyRjIvR3lzbjlydm1DZERHMWZo?=
- =?utf-8?B?RFpLVFZGdlRPZ3g5bVVZdUVNc0tYckZ6bmhzbjlzeGYwL212ZFQyb1ZTWjVp?=
- =?utf-8?B?aU1mYjRZdHZxbFNNMDZGQ200L0h5UUpaMHRadUV2UVdsRThLM0RtdG1nSURR?=
- =?utf-8?B?b01OQjFucHNOeElrMWhUK3ZzOXg0eHdHdzYwa3FHdkR1M24xWWhpT1ozeElk?=
- =?utf-8?B?N2VIUUpDa0lTa0ZFbzg4eFc1d0JHMzV3bnVGTXpzaXYzSXhYQW5pUXZDWStt?=
- =?utf-8?B?bCs4b2w5U1g4eFpxMXpzRDRDM29nWWdkcHRjS0E1QzhoK2dGSHhZWENicXhZ?=
- =?utf-8?B?ai84Y0p6VVN2Y0o3NXI0RVZYSGIrZjRxY1p5K1Fib2xURWpiSlRtMGcrQm5k?=
- =?utf-8?B?TDc1WWt3aDNVVnBPWWVtSjhjNVFrVFRCVEVGZS9rVmErV0VnVW52NjJXaGZS?=
- =?utf-8?B?TTJRNnZCQ3ZEalBLdFZxM0JDSzFIaEFpaU81UTh0Zk9SRlA4Yk0wdmFyeG1F?=
- =?utf-8?B?RFRhZnRuRHFKZ3JTVjg2TXRnQTBwZENJZTN5SEc2a0ZSUmszZnVRQm1Fc2pW?=
- =?utf-8?B?dFRZNHEvbUppMHdhZnR2UWZIK3ZqTmpRWnlLV01hSmJoYWlnN0VvR1RBR2Rj?=
- =?utf-8?B?dUxqZ3g5VXM1eTFhcmtXbVp5QTd0R25UOXpBTFYwRkJoNXNEU1hVUnpNajFm?=
- =?utf-8?B?QW5xR1Y2Z0NrWVBBTzNabmZIYzhJRHVsVVpwd3d4OFhqUU56aTJwdXJXZTJQ?=
- =?utf-8?B?K1J2dHpaWDdGazArN0ZrNjAzWHJ3TERFdjRjSllOV1BickxIMU1GZS9KbUUr?=
- =?utf-8?B?UUZzV2dXRDYrUE9HUjdiZ055Ty8rKzBFUHBENkFIcmd2dHJCV1g0ZnFidGZZ?=
- =?utf-8?B?TktJSm9oTWQxTU1oY0ErZUNrNGtRekVjdWE4S3ljNlJvcG1mRUFVZ2FIVkxL?=
- =?utf-8?B?Mkt6OERpOGhJejlGUFJOci92WHlEUVhCVFRtMDZiODFPMDZQekc4MmVmYnkv?=
- =?utf-8?B?ZFJqSHl5MXZiUFdMeklwQXdON3Y1T2R0a2VFaXl0RXVKRWY1RzFjL3VRVGhX?=
- =?utf-8?B?OEdFREtBdVRWWlR3cDAxUFJRN2Z5MTdRb3V6c3QxT1pSWjBjb0lucVZpY1Rn?=
- =?utf-8?B?dDdzL2tqaFhjdVRNR1hKaUxUcWtiaXFROXZUTlE1MVlGNXl5bHpyWkZnZ3Ir?=
- =?utf-8?B?a3pLOGlDQ0xMTlhhWVUyRVJZNEZuUFR5bEp4OXVXY0VZZnlaMUw0MHNxQnBy?=
- =?utf-8?B?OVUxaWdRNldYM2gxQlI2V0x0TlU5NTY5ZkV3d2pvTCt4NGpwbm1hZmRGUXFK?=
- =?utf-8?B?anhRdkt0dnpBUjNPNWtuQ2hRSGo5Y01BS3ZNVE1SbVkrRWFMc0xLTGRldWNl?=
- =?utf-8?B?bjE2VEhiemJ6UW9PMCszWXdiS0ZqMVNhd3FPbW5LYkx1ZXc1dGVuOEJ1Q2J0?=
- =?utf-8?B?bWlQMEM3QjgxQkxWR3lCcDFDMERxUVhxRjJ5MmsyV3FZSUxDaWM0VXQvR3Yw?=
- =?utf-8?B?anovSTRodXp4Y001Q2VrQzY5THo3VllWSmZsaFFpZzhpZDU4eUs2OGVvdkJW?=
- =?utf-8?B?Z0lNcmk4aEdJcVI0cHpiMHYvYm10M24yeU5WV3lzSVlQV1FNcHVjNVpUOEJM?=
- =?utf-8?B?UzNBSDkyZUhZOW5DTGJmNmFmRzJvRTJkbXRSYWYwOWppMzhQYkpHSmFDbGs4?=
- =?utf-8?B?M3NCZnQzb1dTd2MyYVBiNWVnNHlFQUNkUFladUVGdVA5dzF3ZDNBZDZwRFZG?=
- =?utf-8?B?ckVSU0NoZkMzNWlWYkxuZjNvTG5QdzJWcUtMRDA1MG9UOEVoUGhjd0xLbFJs?=
- =?utf-8?B?Qm9zK2RPV3lxSDI3UHNMMHhLRXdrR0RxVVVBbk1yK0U3TTkwSlFnV0F1Szh3?=
- =?utf-8?B?V3pQTmJKQjRkOUtxZW1WOFVQbmNhaUJyTUs0eFhsbHFTWWZadk5ZaXZqNzMr?=
- =?utf-8?B?Mmk2bHpYd25EQ2hFOHlkOGJ1R1JKZzlHc05CR3FNcElXS0pNd1QrREtxRmRQ?=
- =?utf-8?Q?sO8PqjtymZNlOP6Gqxv1Fua+Y?=
-Content-Type: multipart/signed; micalg="pgp-sha256";
- protocol="application/pgp-signature"; boundary="=-Cwfkz3m495Z3t6K2gH02"
+ (Exim 4.90_1) (envelope-from <sisshiki@isshiki-clinic.com>)
+ id 1ogpTw-0003LN-AS
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:41:48 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:43764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sisshiki@isshiki-clinic.com>)
+ id 1ogpTo-0000sD-S5
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:41:47 -0400
+Received: by mail-pl1-x632.google.com with SMTP id z20so4861102plb.10
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 08:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=isshiki-clinic-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=myO3ktHeJT6MCrgSHvLKUCdHXWktxN7tncXD07KwBmU=;
+ b=ZVCB9kCTOQtpyK0zpD4ysqoq95hu/l1TWqJDZzx9RFwAnWDG1NTf5qHPSXzjx3PsC6
+ LerGQ6fA9EesxMec8f4/4Gy0e7SDfI1CtLKQquDAx1XdN9aPrHUm5iawUV6caMvDZfV1
+ CZeBi/fQIXYfbrBFKO5iEBJ7eGvRqKGLdohpY2trVexHL4HXzCyi4+Gf1n5nvtyBjJAw
+ CjHOPvZFKGZkuPllB3sv8wB1xv9hn29oBCAUeeNW6phl1P+Ll3tOKWghRfYtqoatVfJe
+ J3L2Xur8yy4IqpbLCgo6jfKzwe/5T8hOR4aSDOQA/rQZ1SqAAGYHmfwwzLfAGbqw76GW
+ FUSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=myO3ktHeJT6MCrgSHvLKUCdHXWktxN7tncXD07KwBmU=;
+ b=wKCkv5YhtVYUERzwaTbDL89uKxnh+ELfBe4qMXk9ZSwFqMHP7Hgpd9ct2ChG065TFm
+ /i6/oAvn7Zox4aLCS2xKOaPUtgdZkfKlI80IL5LZJxohDgAgnRLYRitEAPW4PQvu0cGk
+ 8Eelp0ZrSScs0AnjjIXKcVzZFgA0rQJDfxsLb8+UjoRP22itLXmAy7YsveQkU7LGqJcF
+ Ojl8SrZqRaZ8yvaaQ7k/B3w08bUJHxd8QWrRMswo01Enhg33GaMK7EBwRuwka1XrEYfv
+ 8LMpJkkdVLcDrXrgq3mHnEOZ/CNOBATK/lsdfU0NgjJkccIXsAJxCZOv2qXzpokH4kM7
+ IwEg==
+X-Gm-Message-State: ACrzQf2Exm3B4Nv6U9vWe+M5w7GYqt7AVUcmUrDvmT+r5bDFzj4HpKGk
+ Nz7r4K3BUXSMdzXB8s7HrqeopQ==
+X-Google-Smtp-Source: AMsMyM7Q3gmqye+5MAd+eFw+NrKANIS8IS1sH6Y+4snsm3WbLvZLcBj0Lo64OgnU24viJf9+0f6tIA==
+X-Received: by 2002:a17:902:d48e:b0:178:b5d:ab3 with SMTP id
+ c14-20020a170902d48e00b001780b5d0ab3mr5660641plg.22.1665157298350; 
+ Fri, 07 Oct 2022 08:41:38 -0700 (PDT)
+Received: from DESKTOP-8TCEJFK.localdomain
+ (215.134.178.217.shared.user.transix.jp. [217.178.134.215])
+ by smtp.gmail.com with ESMTPSA id
+ gm7-20020a17090b100700b0020669c8bd87sm1668482pjb.36.2022.10.07.08.41.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Oct 2022 08:41:37 -0700 (PDT)
+From: Soichiro Isshiki <sisshiki@isshiki-clinic.com>
+X-Google-Original-From: Soichiro Isshiki <sisshiki@mac.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+Cc: sisshiki1969 <sisshiki@mac.com>
+Subject: [PATCH v2] linux-user: mprotect() should returns 0 when len is 0.
+Date: Sat,  8 Oct 2022 00:40:40 +0900
+Message-Id: <20221007154039.10239-1-sisshiki@mac.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65c94cee-91c0-4a98-53ae-08daa879ed94
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2022 15:38:05.6464 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AL6A0ar4lZO40fOFtmTIOLpUavPlgaWjdJ9UtuoN/+4P83CWNnwLQI3M8xlsC3PLZgt2a2ldthXbjj6CtAQlCw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7520
-Received-SPF: pass client-ip=40.107.6.60; envelope-from=dfaggioli@suse.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::632;
+ envelope-from=sisshiki@isshiki-clinic.com; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -150,58 +91,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-Cwfkz3m495Z3t6K2gH02
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: sisshiki1969 <sisshiki@mac.com>
 
-Yes, we did hit this bug as well, in the QEMU 7.1 package, for openSUSE
-Tumbleweed (more info
-here:=C2=A0https://bugzilla.suse.com/show_bug.cgi?id=3D1204082)
+On Fri, Oct 7, 2022 at 9:38 AM Richard Henderson <richard.henderson@linaro.org> wrote:
+| Although, sorta, this smells like a kernel bug.
+| Why should mprotect(-4096, 0, 0) succeed while mprotect(-4096, 4096, 0) fails?
 
-FWIW, I can confirm that applying this patch fixes the issue, so this
-can have:
+This may be kinda bug compatibility...
 
-On Sat, 2022-09-24 at 22:48 +0800, Sam Li wrote:
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1193
->=20
-> [...]
->
-> This reverts commit e2848bc574fe2715c694bf8fe9a1ba7f78a1125a
-> and 77e3f038af1764983087e3551a0fde9951952c4d.
->=20
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
->
-Tested-by: Dario Faggioli <dfaggioli@suse.com>
+| But anyway, if we're going to fix len == 0 to match, we might as well fix all 3 test
+| ordering bugs at the same time.
 
-Regards
---=20
-Dario Faggioli, Ph.D
-http://about.me/dario.faggioli
-Virtualization Software Engineer
-SUSE Labs, SUSE https://www.suse.com/
--------------------------------------------------------------------
-<<This happens because _I_ choose it to happen!>> (Raistlin Majere)
+Yes, I agree, and made another patch.
+A validation for wrap-around was added, I think it is neccesory.
 
---=-Cwfkz3m495Z3t6K2gH02
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+A tiny test code was shown below.
 
------BEGIN PGP SIGNATURE-----
+```sh
+> cat test.c
+#include <sys/mman.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-iQIzBAABCAAdFiEES5ssOj3Vhr0WPnOLFkJ4iaW4c+4FAmNAR9wACgkQFkJ4iaW4
-c+5JWQ//cmiCnSA/9qbqAiDizlLyQ+OJw9x3ARqUV2Dt8B49DQp4Ri8mOmzHYJzZ
-O5CtOx/SSXjg+Fqj9onljuUVroGZoh5vLw6ML9v22SM7tV1WRU4XfuakNWJcaIfb
-t//oz2g0J7ysMcyCSrTNj6SA9dc4Hqv7Ghw+XvzYMTdlZQO6zpEVyC+6NearA1kC
-4ewAa7nijy8NJFwasfd4VVTdjtEv0FRqfbg/iQ2wmltJUlTubLwZ4KCUUOS6CrXW
-nY2PvrN1q4dKI6IcliZ61HmpxcYXy1gBIKqfzlzN4Ir0LoKQIOD5oGZvKVD1rgCt
-B0OGesCWDlSPK/hSJJ6KnPGIJ8TI6dt6xqZPv8kGSkA+mVuoHQZRu+5gc23e2z7P
-fgsW1sjmqnsWyV+cdW0bOGLDBorlYBJB6WMpfv7FpxXBfSBzWbOMm/HKUuBkvOFy
-sYjB273K0A1XjgxGEfBQ6TKqPQ4h7HCu7ozf3eD9JChTQHQlGQECgXc9qdvhZJbl
-vFS4VYwiaOyzoSC/n8T/MzpqMvYq4DNPBtCm0CrIUAlFMPvVACvLygDXSdi77uHz
-7IixaTwJLncaulPW/gnNt+4k9cnXNRaEUKIDdK4zZxuMzGHEq8b0YgeATvKHHnmQ
-2b/JreaQYT6pXthAsXw5UdNrYaIho704OMN1lgPVRgUEGuq2eJY=
-=Y5qg
------END PGP SIGNATURE-----
+int main(int argc, char *argv[])
+{
+  char *addr;
+  int prot = PROT_READ | PROT_EXEC;
+  int map = MAP_SHARED | MAP_ANONYMOUS;
+  addr = mmap(NULL, 4096, prot, map, -1, 0);
+  if (addr == 0) {
+    perror("mmap");
+    exit(EXIT_FAILURE);
+  }
+  
+  void *addrs[] = { (void *)77, NULL, addr };
+  for (int i = 0; i < 3; i++) {
+    if (mprotect(addrs[i], 0, PROT_READ) == -1) {
+      perror("mprotect");
+    } else {
+      printf("OK\n");
+    }
+  }
 
---=-Cwfkz3m495Z3t6K2gH02--
+  // invalid prot
+  if (mprotect(addr, 2048, PROT_READ | 0x20) == -1) {
+    perror("mprotect");
+  } else {
+    printf("OK\n");
+  }
+}
+> cc test.c -o test
+> ./test
+mprotect: Invalid argument
+OK
+OK
+mprotect: Invalid argument
+> qemu-x86_64 test          # current master
+mprotect: Invalid argument
+OK
+mprotect: Cannot allocate memory
+mprotect: Invalid argument
+> build/qemu-x86_64 test    # after the patch applied
+mprotect: Invalid argument
+OK
+OK
+mprotect: Invalid argument
+```
+
+seems good.
+
+Soichiro Isshiki
+
+Signed-off-by: sisshiki1969 <sisshiki@mac.com>
+---
+ linux-user/mmap.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 28f3bc85ed..757709eeba 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -124,17 +124,20 @@ int target_mprotect(abi_ulong start, abi_ulong len, int target_prot)
+     if ((start & ~TARGET_PAGE_MASK) != 0) {
+         return -TARGET_EINVAL;
+     }
+-    page_flags = validate_prot_to_pageflags(&host_prot, target_prot);
+-    if (!page_flags) {
+-        return -TARGET_EINVAL;
++    if (len == 0) {
++        return 0;
+     }
+     len = TARGET_PAGE_ALIGN(len);
+     end = start + len;
++    if (end <= start) {
++        return -TARGET_ENOMEM;
++    }
+     if (!guest_range_valid_untagged(start, len)) {
+         return -TARGET_ENOMEM;
+     }
+-    if (len == 0) {
+-        return 0;
++    page_flags = validate_prot_to_pageflags(&host_prot, target_prot);
++    if (!page_flags) {
++        return -TARGET_EINVAL;
+     }
+ 
+     mmap_lock();
+-- 
+2.25.1
+
 
