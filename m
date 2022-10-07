@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327555F765E
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 11:37:53 +0200 (CEST)
-Received: from localhost ([::1]:54850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0B65F7662
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 11:39:58 +0200 (CEST)
+Received: from localhost ([::1]:39038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogjnj-0006xV-TG
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 05:37:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45952)
+	id 1ogjpk-0007m9-HL
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 05:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1ogjcd-0000Dj-F4
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 05:26:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52118)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1ogjca-0008Da-1K
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 05:26:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665134778;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QjSYSUWBG0AVYzLnxyior/qeZxRXaWTwtQTI/En/joU=;
- b=IjxyZb13jI6V+k89CJXT3Z/5DHgwRCm/Qc4DHYuBYcR0X56AWhkY9N981y/TI0LemVkmrp
- yKM9vJVr9rYIy7sTVWzAMKiP5dKImeNQOHOmzmXqjN6Z/EIauzpBZm29COg6B48OJh5K6m
- ysGDYsUah6hveXePgvN4+HTmuBsMKeY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-330-J_Y1ZBs-MQmw2MMsGq-D6Q-1; Fri, 07 Oct 2022 05:26:17 -0400
-X-MC-Unique: J_Y1ZBs-MQmw2MMsGq-D6Q-1
-Received: by mail-ej1-f70.google.com with SMTP id
- ht14-20020a170907608e00b0078d437c268dso2347060ejc.20
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 02:26:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ogjeJ-00014c-TP
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 05:28:08 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:42574)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ogjeH-0008IA-RG
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 05:28:07 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ l1-20020a17090a72c100b0020a6949a66aso4272986pjk.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 02:28:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=nFfMQRVrkkZCR1IRInfVRaFJ4kwCPqGUOajdlJilwDc=;
+ b=duEc54iDzMOgqAQbPpZttPa2W0edfy1RTGM2VGnoPYAM2Y+llVCLZRohTwR3Qj4Guw
+ Ev8tkUdOQ1yD/BdVfS7MEeib/0OdHHQRL/LbyG/d7RGlefW29AName/tbXr2GTGrd7JL
+ LINxQe7B4KZHUAA88PVGcPxzO5uzL7VJWGq6LjM64rwPlxLj7b4of7j46FL44uYs/dQ9
+ YzMrWfZcilL0vAe+W5dpBIMGg7qGiuvnmTEidxGQhWF/fN9kJXBSpYL9BXodbNzd3riQ
+ yXRQ2HTqn38igeeBIWLbBkjAC2Lm9WbEpeBvU7K/iDRuOlwanUqzXGJNZZ0A3c6nKrED
+ czZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QjSYSUWBG0AVYzLnxyior/qeZxRXaWTwtQTI/En/joU=;
- b=BkhMsQiXVsVP620nj530OnORjguriOt0zeSe2hDyg6+8EfT2dvavDAFhz/nxMP/2WU
- LkjaoJqTLBfWfM4YnyAEH0Q8ZQeIiEbtoW94WiMVpP6kRMTK124oJw3iH8aE3ATkT5vs
- XdCbJTVKMveecSS2psLFU5wLejAFgk4OVfrGV5hGOink4fLll5aXcfkfutGtq+1zZ1/j
- sWqlwzlxgqTRroZbt+D18PrCEqFTWE5z5oJrlrMh1tn16HOQC3mbevlhz9yCFt4H5vg1
- ezeoqz+qxL9tJIJEq9d7Ziprdqc9VQH8/AJs1szwIWh4lP28Zb21eAelrfiKCdCrxiJg
- fwTA==
-X-Gm-Message-State: ACrzQf1xrv/K7Yt1AnCYiRrwzKqdJ6ISSA0cpIlOqnog3taCBgSJxCem
- MpN2yzE4/M8pfyeQ5wl/cqhXxuB1FaOz5B5O377w6sm7+RaGcORekZf38EIbn6lNwLhuIVabuP4
- W3HpkeQPC4xa+IWY=
-X-Received: by 2002:a05:6402:50d1:b0:45a:fc:86f4 with SMTP id
- h17-20020a05640250d100b0045a00fc86f4mr3749006edb.344.1665134776111; 
- Fri, 07 Oct 2022 02:26:16 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM48ex39ISJWNkAYM1KlGOX7o3/de6btDElJRB7+a7b+/9GD8X+d4zqvSSODBWOwT/S8Gsfr4w==
-X-Received: by 2002:a05:6402:50d1:b0:45a:fc:86f4 with SMTP id
- h17-20020a05640250d100b0045a00fc86f4mr3748989edb.344.1665134775828; 
- Fri, 07 Oct 2022 02:26:15 -0700 (PDT)
-Received: from fedora (nat-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id
- kx22-20020a170907775600b0078ba492db81sm975153ejc.9.2022.10.07.02.26.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Oct 2022 02:26:15 -0700 (PDT)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>, Oliver Upton <oupton@google.com>,
- Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH] i386: Fix KVM_CAP_ADJUST_CLOCK capability check
-In-Reply-To: <87wn9pkv6e.fsf@redhat.com>
-References: <20220920144024.3559708-1-vkuznets@redhat.com>
- <87wn9pkv6e.fsf@redhat.com>
-Date: Fri, 07 Oct 2022 11:26:14 +0200
-Message-ID: <87sfk07znt.fsf@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nFfMQRVrkkZCR1IRInfVRaFJ4kwCPqGUOajdlJilwDc=;
+ b=onPVy7ix2QVAcALrpDSxT6BwiGytTTUCK/yggahDeX3114+s6comEt9IPua452UjON
+ 10Wx2L2GZFzWygYahCibHcGo13F2dIXTdYUmve5OA6trqCS0NGYFB2Z51zt4pmckQaqK
+ YvwRSjpoF6Gi0uhlUOE5N3EoR4VBzLhfQcUXdPZLN5NRUrCFW/fmWHg421a/rRIXd+qu
+ snxY9hoNQel16wuF3Gt1HDgXl2ZePog08KLUdWsgymNf8sqVROhOiixn0/lHzd2yfntr
+ cW28eT+pridG/emEN5sm6XULsi+P+th98a5kwUVvaZELYmAk1xLZ8CsBc7c52bqeZc9o
+ /gsQ==
+X-Gm-Message-State: ACrzQf3epIdF4jEQ3CWjRG7v8BbqX2Elm7Ce5CTOGQetMJA/sZXBbj/q
+ ex8VDRt+kVomwRB81TOmWFH0b3mwEYvsxHys1OJYng==
+X-Google-Smtp-Source: AMsMyM4u98GtOTZE1Zp9lrDY5nrmuklW3rBnaPY4vEmgLhF9R5tM4vJOm7/s9Vtsce3GVgugOiGjnpcPQTneviJ7Xhk=
+X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
+ jm23-20020a17090304d700b001788564f754mr3871708plb.60.1665134883950; Fri, 07
+ Oct 2022 02:28:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221001162318.153420-1-richard.henderson@linaro.org>
+ <20221001162318.153420-34-richard.henderson@linaro.org>
+In-Reply-To: <20221001162318.153420-34-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Oct 2022 10:27:52 +0100
+Message-ID: <CAFEAcA9cz5MjnH5h_BbtesK+JBeOkUxoMVDNG5jmRaXQmQBfTw@mail.gmail.com>
+Subject: Re: [PATCH v3 33/42] target/arm: Split out S1TranslateResult type
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,44 +85,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vitaly Kuznetsov <vkuznets@redhat.com> writes:
-
-> Vitaly Kuznetsov <vkuznets@redhat.com> writes:
+On Sat, 1 Oct 2022 at 17:56, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
->> KVM commit c68dc1b577ea ("KVM: x86: Report host tsc and realtime values in
->> KVM_GET_CLOCK") broke migration of certain workloads, e.g. Win11 + WSL2
->> guest reboots immediately after migration. KVM, however, is not to
->> blame this time. When KVM_CAP_ADJUST_CLOCK capability is checked, the
->> result is all supported flags (which the above mentioned KVM commit
->> enhanced) but kvm_has_adjust_clock_stable() wants it to be
->> KVM_CLOCK_TSC_STABLE precisely. The result is that 'clock_is_reliable'
->> is not set in vmstate and the saved clock reading is discarded in
->> kvmclock_vm_state_change().
->>
->> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->> ---
->>  target/i386/kvm/kvm.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
->> index a1fd1f53791d..c33192a87dcb 100644
->> --- a/target/i386/kvm/kvm.c
->> +++ b/target/i386/kvm/kvm.c
->> @@ -157,7 +157,7 @@ bool kvm_has_adjust_clock_stable(void)
->>  {
->>      int ret = kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
->>  
->> -    return (ret == KVM_CLOCK_TSC_STABLE);
->> +    return ret & KVM_CLOCK_TSC_STABLE;
->>  }
->>  
->>  bool kvm_has_adjust_clock(void)
+> Consolidate the results of S1_ptw_translate in one struct.
 >
-> Ping) This issue seems to introduce major migration issues with KVM >= v5.16
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/ptw.c | 70 +++++++++++++++++++++++++-----------------------
+>  1 file changed, 36 insertions(+), 34 deletions(-)
+>
+> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+> index 7a77bea2c7..99ad894180 100644
+> --- a/target/arm/ptw.c
+> +++ b/target/arm/ptw.c
+> @@ -220,13 +220,18 @@ static bool S2_attrs_are_device(uint64_t hcr, uint8_t attrs)
+>      }
+>  }
+>
+> +typedef struct {
+> +    bool is_secure;
+> +    void *hphys;
+> +    hwaddr gphys;
+> +} S1TranslateResult;
 
-Ping)
+Ah, I was wondering whether to suggest this for the previous patch
+that added the hphys and gphys arguments :-)
 
--- 
-Vitaly
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
+-- PMM
 
