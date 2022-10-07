@@ -2,106 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9595F7AB1
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:41:33 +0200 (CEST)
-Received: from localhost ([::1]:42320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC605F7AC8
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:44:46 +0200 (CEST)
+Received: from localhost ([::1]:40346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogpTg-0002Tg-2N
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:41:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49406)
+	id 1ogpWn-00009N-7c
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:44:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ogooa-0005No-2p
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 10:59:04 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:42884)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1ogopK-0006bc-Jk; Fri, 07 Oct 2022 10:59:50 -0400
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:34469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1ogooX-000243-WA
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 10:59:03 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- l1-20020a17090a72c100b0020a6949a66aso4994677pjk.1
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 07:59:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
- b=P9at1gy00LaQ67U9E1PqFxXj/+/Ep5lZ2MxNKcytXi47pMqLiyWzEa/Xe2j6FHWM4y
- /hs7KujqnFNPAE3jZS5MWMfe3+xQAhIhJuW1dyoA1ekhjNaxULNBuqb/2klgeUPGWkYF
- 5S5WGPJDOLGI8G3dhBrFVznCIwrT7f7u07MoT7kQCn0HddgT1cP9+6D1aAApMjbGxIQJ
- KQ5lGGS71MMnAnQJ7FClUslBS7YWByNlLuUfhv2PRp7+0dcRnApGUnnJxK061ld3oLrF
- aqw3+neqPNcUW0v6HArS65p+1L4Mc4p5Eyi3bOlG00rA6Ll3S9qG/ECPlhkMQusT3cha
- xF/g==
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1ogopI-00029C-QF; Fri, 07 Oct 2022 10:59:50 -0400
+Received: by mail-lj1-x234.google.com with SMTP id bs18so6021821ljb.1;
+ Fri, 07 Oct 2022 07:59:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=5nykDTcSspWQFFbUGhp1l1JeZ3Ayr5wXPQIPxOxRbu4=;
+ b=P9Y/OpzixNO9O8jNhfK9I2CbCjiXzvpKx9bpeJcIvgWfu+T1/0YTQDvEh8VUeFZwh2
+ tFgTb5awmlziQR/9yfppOgZ75IMBDrYGvGvLx6auLs/J4ge8BeuCM86j4oAblDY29AbA
+ n/t4uCuALQReaNCgFg0/ThmxmSuVys5uaCT1xVCj/+80qTowQq0f4EpqagSbC4aBiRv6
+ DUo8eH4qAZl5W3nrQY/wNtTqDbaCo+2h7JKKycxuYMdQLp7gCaakkgRS54+hs/DIbfX2
+ CUDTGam74x0BBf5DXFFlv3MMZRUxZjRdlccpsLirBvFfSOQHKHLV0e63MwCOhsNTt6tz
+ ScuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ApS1gjiguDXZcZz0fMT7VsMAGGvTEXNN7etXS65aF2E=;
- b=p1SEbO+P4Jk4Fb6UImg/8CQQT/jETUWnX8157JwnqMv8Zm8hLyPCkE9yb0GJ8xexWg
- 3wABVrR3GCPEehwqrG9WfsEexhvJCsS+e1NGPlpbGzVfgd/wwt2a7aH9P1Xid2z3G9cc
- flx/txvtkSlHmO1WdE5TImRV518uZnB5nExVjT7hHQ2MKF4Q+yHZFHX+BHTCDoZmPaz7
- FTylrN/Nh+IC0+jRZze1WzSvn7jF6QRLXQtBoD982IJ+wG+na3+RlzsjiiQol/9keaW/
- ZMnGMjIPN1FwodHYoqD/zak/s4ENrzIkBAEGkhScdZkKzl3FS+v9906HqtgxvnrhFkP7
- /l2w==
-X-Gm-Message-State: ACrzQf2RIfFVhiHQ9WiTvik/vleezo4QzrIRcYtDyHZB9JwFPhPWrYNW
- DfBklABlpP4NeNrE/pCGq8wxIw==
-X-Google-Smtp-Source: AMsMyM642quwEQBN0ZX14M9u9coJDsTKuGQ1cCzLKA6Dq2TZW06v6vpj0wGS9syx5rD7OWwlzHZvqw==
-X-Received: by 2002:a17:90b:3ec1:b0:202:f490:e508 with SMTP id
- rm1-20020a17090b3ec100b00202f490e508mr5980841pjb.156.1665154738493; 
- Fri, 07 Oct 2022 07:58:58 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- m22-20020a63ed56000000b0043a0de69c94sm1750587pgk.14.2022.10.07.07.58.57
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5nykDTcSspWQFFbUGhp1l1JeZ3Ayr5wXPQIPxOxRbu4=;
+ b=SQuz3ySnTHxRKHU7Jm9Qqnc7MZSNzl+jkmKgVMeacNnh8hjQ+GxoE9b0ZBTATrlsxv
+ cGF+TycgnW0JhLeam/otrqu3DEYpF6baOoMavEstJRBtHwpylSHrKZd2yyZDVRN/JJgr
+ DI2ZLNg/sp3Wo+bT02eBvpHNYKgp8X0rSrDuwwwStRYCZb6GAk8stnq5HmU4x0ieAMtK
+ sMtFCMdiqEOG7QOvwduoZmlZz7VP/Aa9D0JncBUf8CS6Rhsn3L2vXKattkLZSfpnzWJO
+ fB0N2bbpcM5g7lj4W1PBTJYzBI/50/zmm7rdpf+yWr1idyGiKczxZsfn4smq1iS5gsBG
+ GRHQ==
+X-Gm-Message-State: ACrzQf0AYE+MPMqjazHXlGhihvRHgjo/HfWwOXVVbUaGehTjC7N8vXlR
+ sepAwr/9q5/tDPVq7MVm5oA=
+X-Google-Smtp-Source: AMsMyM7vI2WlKD33KeKEkBSWd2eMIGNMG2VgPu1PQKzZOZ9bFvrn2xNkrpVz75Lo5iRdgAYZqKBSvw==
+X-Received: by 2002:a2e:9606:0:b0:26e:3d2:782c with SMTP id
+ v6-20020a2e9606000000b0026e03d2782cmr1919066ljh.164.1665154785999; 
+ Fri, 07 Oct 2022 07:59:45 -0700 (PDT)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ v9-20020a2ea449000000b0026c4374a2a4sm291587ljn.139.2022.10.07.07.59.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Oct 2022 07:58:57 -0700 (PDT)
-Date: Fri, 7 Oct 2022 14:58:54 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Y0A+rogB6TRDtbyE@google.com>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
- <Yz7s+JIexAHJm5dc@kernel.org> <Yz7vHXZmU3EpmI0j@kernel.org>
- <Yz71ogila0mSHxxJ@google.com> <Y0AJ++m/TxoscOZg@kernel.org>
+ Fri, 07 Oct 2022 07:59:45 -0700 (PDT)
+Date: Fri, 7 Oct 2022 16:59:43 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>,
+ Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>
+Subject: Re: [PATCH v3 5/8] m25p80: Add the mx66l1g45g SFDP table
+Message-ID: <20221007145942.GF20384@fralle-msi>
+References: <20220722063602.128144-1-clg@kaod.org>
+ <20220722063602.128144-6-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <Y0AJ++m/TxoscOZg@kernel.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=seanjc@google.com; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220722063602.128144-6-clg@kaod.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::234;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x234.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,54 +97,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
-> On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
-> > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
-> > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
-> > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
-> > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> > > > > additional KVM memslot fields private_fd/private_offset to allow
-> > > > > userspace to specify that guest private memory provided from the
-> > > > > private_fd and guest_phys_addr mapped at the private_offset of the
-> > > > > private_fd, spanning a range of memory_size.
-> > > > > 
-> > > > > The extended memslot can still have the userspace_addr(hva). When use, a
-> > > > > single memslot can maintain both private memory through private
-> > > > > fd(private_fd/private_offset) and shared memory through
-> > > > > hva(userspace_addr). Whether the private or shared part is visible to
-> > > > > guest is maintained by other KVM code.
-> > > > 
-> > > > What is anyway the appeal of private_offset field, instead of having just
-> > > > 1:1 association between regions and files, i.e. one memfd per region?
-> > 
-> > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
-> > E.g. if a vCPU converts a single page, it will be forced to wait until all other
-> > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
-> > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
-> > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
-> > the SRCU problem.
-> > 
-> > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
-> > memslot is deleted.
-> > 
-> > Taking both a private_fd and a shared userspace address allows userspace to convert
-> > between private and shared without having to manipulate memslots.
+On [2022 Jul 22] Fri 08:35:59, Cédric Le Goater wrote:
+> The SFDP table size is 0x200 bytes long. The mandatory table for basic
+> features is available at byte 0x30 plus some more Macronix specific
+> tables.
 > 
-> Right, this was really good explanation, thank you.
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>  hw/block/m25p80_sfdp.h |  2 +-
+>  hw/block/m25p80.c      |  3 +-
+>  hw/block/m25p80_sfdp.c | 68 ++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 71 insertions(+), 2 deletions(-)
 > 
-> Still wondering could this possibly work (or not):
+> diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
+> index 87690a173c78..468e3434151b 100644
+> --- a/hw/block/m25p80_sfdp.h
+> +++ b/hw/block/m25p80_sfdp.h
+> @@ -19,6 +19,6 @@ extern uint8_t m25p80_sfdp_n25q256a(uint32_t addr);
+>  
+>  extern uint8_t m25p80_sfdp_mx25l25635e(uint32_t addr);
+>  extern uint8_t m25p80_sfdp_mx25l25635f(uint32_t addr);
+> -
+> +extern uint8_t m25p80_sfdp_mx66l1g45g(uint32_t addr);
+
+(optional -extern)
+
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+
+>  
+>  #endif
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 6b120ce65212..52df24d24751 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -240,7 +240,8 @@ static const FlashPartInfo known_devices[] = {
+>      { INFO("mx66l51235f", 0xc2201a,      0,  64 << 10, 1024, ER_4K | ER_32K) },
+>      { INFO("mx66u51235f", 0xc2253a,      0,  64 << 10, 1024, ER_4K | ER_32K) },
+>      { INFO("mx66u1g45g",  0xc2253b,      0,  64 << 10, 2048, ER_4K | ER_32K) },
+> -    { INFO("mx66l1g45g",  0xc2201b,      0,  64 << 10, 2048, ER_4K | ER_32K) },
+> +    { INFO("mx66l1g45g",  0xc2201b,      0,  64 << 10, 2048, ER_4K | ER_32K),
+> +      .sfdp_read = m25p80_sfdp_mx66l1g45g },
+>  
+>      /* Micron */
+>      { INFO("n25q032a11",  0x20bb16,      0,  64 << 10,  64, ER_4K) },
+> diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
+> index 70c13aea7c63..38c3ced34d2e 100644
+> --- a/hw/block/m25p80_sfdp.c
+> +++ b/hw/block/m25p80_sfdp.c
+> @@ -150,3 +150,71 @@ static const uint8_t sfdp_mx25l25635f[] = {
+>      0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>  };
+>  define_sfdp_read(mx25l25635f);
+> +
+> +static const uint8_t sfdp_mx66l1g45g[] = {
+> +    0x53, 0x46, 0x44, 0x50, 0x06, 0x01, 0x02, 0xff,
+> +    0x00, 0x06, 0x01, 0x10, 0x30, 0x00, 0x00, 0xff,
+> +    0xc2, 0x00, 0x01, 0x04, 0x10, 0x01, 0x00, 0xff,
+> +    0x84, 0x00, 0x01, 0x02, 0xc0, 0x00, 0x00, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xe5, 0x20, 0xfb, 0xff, 0xff, 0xff, 0xff, 0x3f,
+> +    0x44, 0xeb, 0x08, 0x6b, 0x08, 0x3b, 0x04, 0xbb,
+> +    0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0xff,
+> +    0xff, 0xff, 0x44, 0xeb, 0x0c, 0x20, 0x0f, 0x52,
+> +    0x10, 0xd8, 0x00, 0xff, 0xd6, 0x49, 0xc5, 0x00,
+> +    0x85, 0xdf, 0x04, 0xe3, 0x44, 0x03, 0x67, 0x38,
+> +    0x30, 0xb0, 0x30, 0xb0, 0xf7, 0xbd, 0xd5, 0x5c,
+> +    0x4a, 0x9e, 0x29, 0xff, 0xf0, 0x50, 0xf9, 0x85,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0x7f, 0xef, 0xff, 0xff, 0x21, 0x5c, 0xdc, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0x00, 0x36, 0x00, 0x27, 0x9d, 0xf9, 0xc0, 0x64,
+> +    0x85, 0xcb, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xc2, 0xf5, 0x08, 0x00, 0x0c, 0x04, 0x08, 0x08,
+> +    0x01, 0x00, 0x19, 0x0f, 0x01, 0x01, 0x06, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +};
+> +define_sfdp_read(mx66l1g45g);
+> -- 
+> 2.35.3
 > 
-> 1. Union userspace_addr and private_fd.
-
-No, because userspace needs to be able to provide both userspace_addr (shared
-memory) and private_fd (private memory) for a single memslot.
-
-> 2. Instead of introducing private_offset, use guest_phys_addr as the
->    offset.
-
-No, because that would force userspace to use a single private_fd for all of guest
-memory since it effectively means private_offset=0.  And userspace couldn't skip
-over holes in guest memory, i.e. the size of the memfd would need to follow the
-max guest gpa.  In other words, dropping private_offset could work, but it'd be
-quite kludgy and not worth saving 8 bytes.
 
