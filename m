@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB8B5F7AFE
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:48:19 +0200 (CEST)
-Received: from localhost ([::1]:36286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A53635F7A58
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:14:44 +0200 (CEST)
+Received: from localhost ([::1]:34996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogpaE-0005h9-M7
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:48:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57128)
+	id 1ogp3j-0003Lf-G7
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:14:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1ognxB-0003RW-Jm; Fri, 07 Oct 2022 10:03:55 -0400
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:34469)
+ id 1ognxi-0003VV-NM; Fri, 07 Oct 2022 10:04:29 -0400
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:35546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1ognx6-00018k-Cn; Fri, 07 Oct 2022 10:03:53 -0400
-Received: by mail-lf1-x130.google.com with SMTP id a29so7482510lfo.1;
- Fri, 07 Oct 2022 07:03:46 -0700 (PDT)
+ id 1ognxf-0001Dg-3k; Fri, 07 Oct 2022 10:04:26 -0400
+Received: by mail-lj1-x232.google.com with SMTP id m14so5840202ljg.2;
+ Fri, 07 Oct 2022 07:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=user-agent:in-reply-to:content-transfer-encoding
  :content-disposition:mime-version:references:message-id:subject:cc
  :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=I3FsUtEdz8eRgdJEYD+dMXSNHOFwTB9u3Mc+602Wzec=;
- b=WBZ2gmF0rV5QFJTi9WoLHbW/8SKk7fpn4kS9jGuMFcnb2zqfznmUPwNu1zLUSXFdRe
- 4XhDFQhbu2+QkzuLVdG7GIcdgYrzRzj9Y58LooQH61tKRCSR95nWr8/x8xtnH3WhWyju
- WzMjlaVttLI6nXPZ4RwGZK39YDWa8h+jEwIDCtpSBVe0i1q1OBVWwE9Kms3ZY0iEuAcF
- tPHdaE4vn0FaJxSflSHYS4rtNzUr57R2xTPIkLhrJo+q8sFeGpuzaaMOfplfCbOq8m9s
- ER6hU6NSYAvQORJ/NX4EHsxPL6Kg0xlSfz73jz+hobTpHq9SZR5yQeKYWhNwr4T8PNGH
- S40w==
+ bh=zLjZJqgVBLa0R+74x38dqaCOPvajibRWCIf/G8J0xz4=;
+ b=TgcYFyxxCVqzc5Z9+O/FTmX0M/LXB4zO1cSBFE6xpps/PEN+yLoGuYeWo6ntwXBdZg
+ wJd+oMTIi33SVof9Da7esTHFPSsalt7He6VjXGnisaWYVoDXtL5sWoLKCRYFH7SIzJRQ
+ oYgcXwRXHknz0KjEFHc3KbxJNsyZxL9eo7pQKl8rNWsjEkTs3HrmlzDpAT/8dEuk66XK
+ GvtbkfgQPyRDgbwaIgbyA1e5XrFYQKi3opn4Z0NGbW1wEAvy1giX+GQeMpXoCZGdqZa3
+ yjw/wZdxCygzc3Gusqg/n3WoBA6napbwe6rqtbsI08EQOgegKjV6TMBd5aOyAv1jIW2t
+ Eeew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=user-agent:in-reply-to:content-transfer-encoding
  :content-disposition:mime-version:references:message-id:subject:cc
  :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=I3FsUtEdz8eRgdJEYD+dMXSNHOFwTB9u3Mc+602Wzec=;
- b=LFARfR6yvLbAhYhJVqG+100oGVDDet6deojt2inzfOZIp08NUEQzVzMJzG5YFIhC2+
- p7wTf8FnWrcvze2r8PuBwfJS5fYg+bKeG+Rb6gifz2lCX1OA12SOmvo5cxG6snYBsr4C
- jjJulDqJyqwz5XFffj2JTVZafvW6zzjy8r7L0dXqc2VxGHXcESYaiKbW3qHYakX0vpDR
- kOc+KaWs39P0HI3vOCkBPNyDcd0iTT0UP+qEXHK3yTRsiskH6/pmORJ3+eTEd0RH1tSb
- X/fNKDFAFqU8Tct8YDTBcYJICIUf3Ky5S5mBtm5rN/oAhOKJcD2H81FlK3u2FfFiUr4Z
- IV1Q==
-X-Gm-Message-State: ACrzQf3yhiBTjz5PZfzmv4nWwyO4VT9OVP0fo1Y4AsjMUHKeTy3KKwSO
- G50cp/GaAGLRlcDQYzf54osC4GsH8UwCkA==
-X-Google-Smtp-Source: AMsMyM6xHOAqcWqXOLZqON4yVx/htew/FuKJtuitpk5fNKybDsJpBJCQTPOA3jr3JUpLbUk6mLjeNg==
-X-Received: by 2002:a05:6512:3f08:b0:4a1:af5e:5643 with SMTP id
- y8-20020a0565123f0800b004a1af5e5643mr1954821lfa.86.1665151423846; 
- Fri, 07 Oct 2022 07:03:43 -0700 (PDT)
+ bh=zLjZJqgVBLa0R+74x38dqaCOPvajibRWCIf/G8J0xz4=;
+ b=4RMXfjYs2BDK4zWw2YZ0o/j+6Y81WgsVJZ+BU1IEEvQKKNG4NOmbbLrHR2eiGA2XdE
+ pgdr6hlz0zLzqPZvOJuzncgGpLGyNRMZ2HRp9Vcy8P6cVBN2JrAXg7AtRRsVmQUfjbYO
+ NMmr6CnlKSPAG0IayYAGMyImd4IDm+FFr0DT0ePrNmTbsmzT7FP+JoIJtW6uqu/inUbl
+ Yl2Ck1xRZ/gXIlPxcnO5Ml5dUKAdDiy8efMMGLkdbTncfImlxICrc3OS1ccHtb5aCOU/
+ 5s9d3AX2iS17YR6sRd1bzRHu2I7sLAZN9muy+HVzrU6OZYpH7Bkg+gEExSBMWplmYpE9
+ O6bA==
+X-Gm-Message-State: ACrzQf3EPIf41UzEkA0BwO7Gd5hOOZ3LnQBm1vrXqZW6mo/AEuWY+KQo
+ Af9HvrE147Obg4Ao+gkiFp8=
+X-Google-Smtp-Source: AMsMyM51Bc/CtgW9SW1ddYWKrKy57lveisq7cWRxHXafNpnY46MlB2OjcZ42liSOBQEXssTRagFOxA==
+X-Received: by 2002:a05:651c:3da:b0:26d:fd58:cb3a with SMTP id
+ f26-20020a05651c03da00b0026dfd58cb3amr1796092ljp.454.1665151459765; 
+ Fri, 07 Oct 2022 07:04:19 -0700 (PDT)
 Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
  by smtp.gmail.com with ESMTPSA id
- j6-20020a2eb706000000b0026dcf81d804sm277347ljo.31.2022.10.07.07.03.41
+ h7-20020a2ea487000000b0026bdb7ad643sm276456lji.50.2022.10.07.07.04.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Oct 2022 07:03:42 -0700 (PDT)
-Date: Fri, 7 Oct 2022 16:03:40 +0200
+ Fri, 07 Oct 2022 07:04:18 -0700 (PDT)
+Date: Fri, 7 Oct 2022 16:04:16 +0200
 From: Francisco Iglesias <frasse.iglesias@gmail.com>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org,
@@ -62,18 +62,18 @@ Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org,
  Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
  Alistair Francis <alistair@alistair23.me>,
  Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>
-Subject: Re: [PATCH v3 2/8] m25p80: Add the n25q256a SFDP table
-Message-ID: <20221007140337.GC20384@fralle-msi>
+Subject: Re: [PATCH v3 8/8] arm/aspeed: Replace mx25l25635e chip model
+Message-ID: <20221007140414.GD20384@fralle-msi>
 References: <20220722063602.128144-1-clg@kaod.org>
- <20220722063602.128144-3-clg@kaod.org>
+ <20220722063602.128144-9-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220722063602.128144-3-clg@kaod.org>
+In-Reply-To: <20220722063602.128144-9-clg@kaod.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x130.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x232.google.com
 X-Spam_score_int: -1020
 X-Spam_score: -102.1
 X-Spam_bar: ---------------------------------------------------
@@ -97,143 +97,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On [2022 Jul 22] Fri 08:35:56, Cédric Le Goater wrote:
-> The same values were collected on 4 differents OpenPower systems,
-> palmettos, romulus and tacoma.
-> 
-> The SFDP table size is defined as being 0x100 bytes but it could be
-> bigger. Only the mandatory table for basic features is available at
-> byte 0x30.
+On [2022 Jul 22] Fri 08:36:02, Cédric Le Goater wrote:
+> A mx25l25635f chip model is generally found on these machines. It's
+> newer and uses 4B opcodes which is better to exercise the support in
+> the Linux kernel.
 > 
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->  hw/block/m25p80_sfdp.h |  2 ++
->  hw/block/m25p80.c      |  8 +++---
->  hw/block/m25p80_sfdp.c | 58 ++++++++++++++++++++++++++++++++++++++++++
->  hw/block/meson.build   |  1 +
->  4 files changed, 66 insertions(+), 3 deletions(-)
->  create mode 100644 hw/block/m25p80_sfdp.c
-> 
-> diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
-> index 230b07ef3308..d3a0a778ae84 100644
-> --- a/hw/block/m25p80_sfdp.h
-> +++ b/hw/block/m25p80_sfdp.h
-> @@ -15,4 +15,6 @@
->   */
->  #define M25P80_SFDP_MAX_SIZE  (1 << 24)
->  
-> +extern uint8_t m25p80_sfdp_n25q256a(uint32_t addr);
-
-(-extern above if we would like)
-
-
-> +
->  #endif
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index abdc4c0b0da7..13e7b28fd2b0 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -247,13 +247,15 @@ static const FlashPartInfo known_devices[] = {
->      { INFO("n25q128a11",  0x20bb18,      0,  64 << 10, 256, ER_4K) },
->      { INFO("n25q128a13",  0x20ba18,      0,  64 << 10, 256, ER_4K) },
->      { INFO("n25q256a11",  0x20bb19,      0,  64 << 10, 512, ER_4K) },
-> -    { INFO("n25q256a13",  0x20ba19,      0,  64 << 10, 512, ER_4K) },
-> +    { INFO("n25q256a13",  0x20ba19,      0,  64 << 10, 512, ER_4K),
-> +      .sfdp_read = m25p80_sfdp_n25q256a },
->      { INFO("n25q512a11",  0x20bb20,      0,  64 << 10, 1024, ER_4K) },
->      { INFO("n25q512a13",  0x20ba20,      0,  64 << 10, 1024, ER_4K) },
->      { INFO("n25q128",     0x20ba18,      0,  64 << 10, 256, 0) },
->      { INFO("n25q256a",    0x20ba19,      0,  64 << 10, 512,
-> -           ER_4K | HAS_SR_BP3_BIT6 | HAS_SR_TB) },
-> -    { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
-> +           ER_4K | HAS_SR_BP3_BIT6 | HAS_SR_TB),
-> +      .sfdp_read = m25p80_sfdp_n25q256a },
-> +   { INFO("n25q512a",    0x20ba20,      0,  64 << 10, 1024, ER_4K) },
->      { INFO("n25q512ax3",  0x20ba20,  0x1000,  64 << 10, 1024, ER_4K) },
->      { INFO("mt25ql512ab", 0x20ba20, 0x1044, 64 << 10, 1024, ER_4K | ER_32K) },
->      { INFO_STACKED("mt35xu01g", 0x2c5b1b, 0x104100, 128 << 10, 1024,
-> diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
-> new file mode 100644
-> index 000000000000..24ec05de79a1
-> --- /dev/null
-> +++ b/hw/block/m25p80_sfdp.c
-> @@ -0,0 +1,58 @@
-> +/*
-> + * M25P80 Serial Flash Discoverable Parameter (SFDP)
-> + *
-> + * Copyright (c) 2020, IBM Corporation.
-> + *
-> + * This code is licensed under the GPL version 2 or later. See the
-> + * COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/host-utils.h"
-> +#include "m25p80_sfdp.h"
-> +
-> +#define define_sfdp_read(model)                                       \
-> +    uint8_t m25p80_sfdp_##model(uint32_t addr)                        \
-> +    {                                                                 \
-> +        assert(is_power_of_2(sizeof(sfdp_##model)));                  \
-> +        return sfdp_##model[addr & (sizeof(sfdp_##model) - 1)];       \
-> +    }
-> +
-> +/*
-> + * Micron
-> + */
-> +static const uint8_t sfdp_n25q256a[] = {
-
-The datasheets I found wasn't completetly as this table but I can't argue
-with the hw read out of 4 flashes.
 
 Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 
-> +    0x53, 0x46, 0x44, 0x50, 0x00, 0x01, 0x00, 0xff,
-> +    0x00, 0x00, 0x01, 0x09, 0x30, 0x00, 0x00, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xe5, 0x20, 0xfb, 0xff, 0xff, 0xff, 0xff, 0x0f,
-> +    0x29, 0xeb, 0x27, 0x6b, 0x08, 0x3b, 0x27, 0xbb,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x27, 0xbb,
-> +    0xff, 0xff, 0x29, 0xeb, 0x0c, 0x20, 0x10, 0xd8,
-> +    0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-> +};
-> +define_sfdp_read(n25q256a);
-> diff --git a/hw/block/meson.build b/hw/block/meson.build
-> index 2389326112ae..3129ca4c52eb 100644
-> --- a/hw/block/meson.build
-> +++ b/hw/block/meson.build
-> @@ -12,6 +12,7 @@ softmmu_ss.add(when: 'CONFIG_ONENAND', if_true: files('onenand.c'))
->  softmmu_ss.add(when: 'CONFIG_PFLASH_CFI01', if_true: files('pflash_cfi01.c'))
->  softmmu_ss.add(when: 'CONFIG_PFLASH_CFI02', if_true: files('pflash_cfi02.c'))
->  softmmu_ss.add(when: 'CONFIG_SSI_M25P80', if_true: files('m25p80.c'))
-> +softmmu_ss.add(when: 'CONFIG_SSI_M25P80', if_true: files('m25p80_sfdp.c'))
->  softmmu_ss.add(when: 'CONFIG_SWIM', if_true: files('swim.c'))
->  softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
->  softmmu_ss.add(when: 'CONFIG_TC58128', if_true: files('tc58128.c'))
+> ---
+>  hw/arm/aspeed.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 1c611284819d..7e95abc55b09 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -1157,7 +1157,7 @@ static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
+>      amc->soc_name  = "ast2400-a1";
+>      amc->hw_strap1 = PALMETTO_BMC_HW_STRAP1;
+>      amc->fmc_model = "n25q256a";
+> -    amc->spi_model = "mx25l25635e";
+> +    amc->spi_model = "mx25l25635f";
+>      amc->num_cs    = 1;
+>      amc->i2c_init  = palmetto_bmc_i2c_init;
+>      mc->default_ram_size       = 256 * MiB;
+> @@ -1208,7 +1208,7 @@ static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
+>      amc->soc_name  = "ast2500-a1";
+>      amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
+>      amc->fmc_model = "mx25l25635e";
+> -    amc->spi_model = "mx25l25635e";
+> +    amc->spi_model = "mx25l25635f";
+>      amc->num_cs    = 1;
+>      amc->i2c_init  = ast2500_evb_i2c_init;
+>      mc->default_ram_size       = 512 * MiB;
+> @@ -1258,7 +1258,7 @@ static void aspeed_machine_witherspoon_class_init(ObjectClass *oc, void *data)
+>      mc->desc       = "OpenPOWER Witherspoon BMC (ARM1176)";
+>      amc->soc_name  = "ast2500-a1";
+>      amc->hw_strap1 = WITHERSPOON_BMC_HW_STRAP1;
+> -    amc->fmc_model = "mx25l25635e";
+> +    amc->fmc_model = "mx25l25635f";
+>      amc->spi_model = "mx66l1g45g";
+>      amc->num_cs    = 2;
+>      amc->i2c_init  = witherspoon_bmc_i2c_init;
 > -- 
 > 2.35.3
 > 
