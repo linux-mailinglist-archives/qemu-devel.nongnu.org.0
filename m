@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4015F7909
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 15:33:26 +0200 (CEST)
-Received: from localhost ([::1]:55088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B474F5F785E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 14:54:28 +0200 (CEST)
+Received: from localhost ([::1]:44984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ognTg-0001kj-Nd
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 09:33:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37720)
+	id 1ogmrz-000760-PV
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 08:54:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ogkvX-0006je-PI
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:50:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51174)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ogkvW-0003QW-8A
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:49:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665139795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=r/BAgIzClzAGx5jh6u6jtBMGZR9/zeToWliBhmBv7Xg=;
- b=BHKiCDopr9nA78Acnnju+Sa6T2fWRyRAymXLeODN3igoJYa/dLD8HCgmFjlShEMxzYhQUc
- i2OpAQ3XtrodT3sxfg01agmU9uKFf5rb//emIep6yDrDdgFFsVRUhv9WLkMehaasD9RP9f
- PASAeeTX7j2BS3gxzOeUqADE+C2R5UA=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-26-6som78jAMmqA2_eFmoxD7Q-1; Fri, 07 Oct 2022 06:49:54 -0400
-X-MC-Unique: 6som78jAMmqA2_eFmoxD7Q-1
-Received: by mail-vs1-f69.google.com with SMTP id
- j17-20020a056102001100b003a71f301ad9so359058vsp.5
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 03:49:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
+ id 1ogkx2-00077m-4g
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:51:37 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:37558)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tom.leiming@gmail.com>)
+ id 1ogkwz-0003ln-BA
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:51:31 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ p3-20020a17090a284300b0020a85fa3ffcso6900000pjf.2
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 03:51:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=MTvt+1KxN81nv4emVPFwVSM2mZYXcyeZO34VlI7n2Wc=;
+ b=Ptsz1USi/2TGDKKhXt66WFQjg4TRl7WzX4+ZrlKZfSHWwiQmiC8iGrcvvomXWgUCYK
+ UntPFqZNlggVnlGjJsybKCjlhf1NeRb76Rju0Ljnl1ZZFGjG36NPVwuNnz0uS7e5PIxM
+ rIzYZq3iykU82MDWJMjfVUNXa8b+xMARDUm1TZ+sIh75vYPgaTg6UzjPPElkANf9wziV
+ OZkFD9CiLD1Afxw6F3msIFRWLqKIwTi8beQVm3XSSQ7GtxqN5i68rQ8zuZUlsMiYrd6F
+ EIwZw001N25staHphYbII+E2Bo10kfj2X1RSlY4jXTAsToGdBZ6rIGk78LnbGOg23DuD
+ kpoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=r/BAgIzClzAGx5jh6u6jtBMGZR9/zeToWliBhmBv7Xg=;
- b=ddqGesIJKR2kkbdBonGgzh4eb375AeyO6K4YsY5qTW754la7GfmVq5RBalGtoVnfXe
- G8uGj/j7Od6n5Vl9NFDrGd7N7zmuN42pThe7U2pua0dXWo62DQ4DJwAf2MgI9DoYCWyZ
- AMHTT8IVm54oAz6H5eWWWwaiAVxlq9N15hiWkP9tRFSR9Kqt20vPX3gXIcLPxGhyYXcX
- IMVOL33v46aTn4RGLiXVmqkVSBhtWxk1uh8NtBshjUVPZQiWLu6LdnIyF4b1gMaIfWRj
- RNgfv5AZ0EwQXHXAvtxXjiVTOuR2AQ3Zrq26oxnC17hyQVPY5616ScRXZh8nqFVqITL/
- F8dQ==
-X-Gm-Message-State: ACrzQf35F60F4nKBeU5KEVDyocIVBt1MAJ2bdQl33P3Iw9/Bq541EN/i
- 5fNa2VzgCZPNOH9kjNuogjmpzIHYfnQrE7fRuO4xi44iyjsA07cXxjhNOsz9BESrQyFq4EsotWx
- BwErPxEiyYKe+YrGFSFghRdinVN7YzFs=
-X-Received: by 2002:ab0:1e8d:0:b0:3d9:6cb0:4a87 with SMTP id
- o13-20020ab01e8d000000b003d96cb04a87mr2524547uak.42.1665139794005; 
- Fri, 07 Oct 2022 03:49:54 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6lLy5j2cb3DAv949NR0JmsX4+GEM67JLk+ipLX3BP9mP49lFs0m+murif24VtU7b3fKSYM6VSZhn2Ei7hIjac=
-X-Received: by 2002:ab0:1e8d:0:b0:3d9:6cb0:4a87 with SMTP id
- o13-20020ab01e8d000000b003d96cb04a87mr2524541uak.42.1665139793817; Fri, 07
- Oct 2022 03:49:53 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MTvt+1KxN81nv4emVPFwVSM2mZYXcyeZO34VlI7n2Wc=;
+ b=O1rmZgAAX1pUszNrFfyHFtn0EfOLe8k8tnZ7I3rAS+z1OhV7vu8BpnXXFUkiTUHDel
+ 7eQMZHjbhRHN4VFTrJB4ZhCbga67TqKqcONI2x4NBiEjh0rGZbd6X7PKdn1jSZ6vBYLs
+ skdTlw2qC6j1Rcc8nQu2ip+FmafpWAiAxBJQ0s6TZ97xF9slX4IhrdCLDko3WEkrjpts
+ xLRgoVbnCKlI6AnBl1m8+G2amD3EnrAx+69uS3E3KQZ44Vy2MafzWGx9KgL5QSNZlTNp
+ XHzLgtGX4QeOYLqjNRjT67vCM6HD8L+LTeb01nhodh7AfRwa3G/EwIwEvSZu7pe+AuYn
+ nXMg==
+X-Gm-Message-State: ACrzQf3vphmr0TAao1ZSA08wtRSNPG3G9WsOPQzDBV1rtNMu3JCQiWpo
+ bV4C/CDL+yYiVRx2lyTDv1Q=
+X-Google-Smtp-Source: AMsMyM4UYj9mPdx6CGqi1jcII/NdOQBi/Xafy7j5/o5rhD7M/PKmw8DBeBhklWk7ab+7xo5lxD1ozg==
+X-Received: by 2002:a17:902:e547:b0:178:7cf4:90e9 with SMTP id
+ n7-20020a170902e54700b001787cf490e9mr4385567plf.158.1665139886761; 
+ Fri, 07 Oct 2022 03:51:26 -0700 (PDT)
+Received: from T590 ([209.132.188.80]) by smtp.gmail.com with ESMTPSA id
+ x13-20020aa79acd000000b00561c3ec5346sm1271459pfp.129.2022.10.07.03.51.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Oct 2022 03:51:25 -0700 (PDT)
+Date: Fri, 7 Oct 2022 18:51:16 +0800
+From: Ming Lei <tom.leiming@gmail.com>
+To: Yongji Xie <xieyongji@bytedance.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, io-uring@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-kernel <linux-kernel@vger.kernel.org>,
+ Kirill Tkhai <kirill.tkhai@openvz.org>,
+ Manuel Bentele <development@manuel-bentele.de>,
+ qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ rjones@redhat.com, "Denis V. Lunev" <den@openvz.org>,
+ Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: ublk-qcow2: ublk-qcow2 is available
+Message-ID: <Y0AEpCWzXmupJ8K3@T590>
+References: <Yza1u1KfKa7ycQm0@T590> <Yzs9xQlVuW41TuNC@fedora>
+ <YzwARuAZdaoGTUfP@T590>
+ <CAJSP0QXVK=wUy_JgJ9NmNMtKTRoRX0MwOZUuFWU-1mVWWKij8A@mail.gmail.com>
+ <Yz0FrzJVZTqlQtJ5@T590>
+ <CAJSP0QUQgA8Az3Kx8-6ynbWxDxaSVW3xWOPj4VBPhhUhsRYT9g@mail.gmail.com>
+ <Yz668hfMAuES2/lt@T590>
+ <CACycT3t346g2gc9anp_T8vz5=9ds=NAGJhcSU8T2EmyCNuDCSw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220920144024.3559708-1-vkuznets@redhat.com>
- <87wn9pkv6e.fsf@redhat.com> <87sfk07znt.fsf@redhat.com>
-In-Reply-To: <87sfk07znt.fsf@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 7 Oct 2022 06:49:42 -0400
-Message-ID: <CABgObfaAFnnJDmgtsF69qUrayYf9+yg6GTX7wfCTkk1r1DkCdQ@mail.gmail.com>
-Subject: Re: [PATCH] i386: Fix KVM_CAP_ADJUST_CLOCK capability check
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Marcelo Tosatti <mtosatti@redhat.com>, 
- Oliver Upton <oupton@google.com>, Maxim Levitsky <mlevitsk@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e9879c05ea6f91a5"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACycT3t346g2gc9anp_T8vz5=9ds=NAGJhcSU8T2EmyCNuDCSw@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=tom.leiming@gmail.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,124 +102,181 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e9879c05ea6f91a5
-Content-Type: text/plain; charset="UTF-8"
-
-Hi, a similar patch is now in.
-
-Paolo
-
-Il ven 7 ott 2022, 05:26 Vitaly Kuznetsov <vkuznets@redhat.com> ha scritto:
-
-> Vitaly Kuznetsov <vkuznets@redhat.com> writes:
->
-> > Vitaly Kuznetsov <vkuznets@redhat.com> writes:
+On Fri, Oct 07, 2022 at 06:04:29PM +0800, Yongji Xie wrote:
+> On Thu, Oct 6, 2022 at 7:24 PM Ming Lei <tom.leiming@gmail.com> wrote:
 > >
-> >> KVM commit c68dc1b577ea ("KVM: x86: Report host tsc and realtime values
-> in
-> >> KVM_GET_CLOCK") broke migration of certain workloads, e.g. Win11 + WSL2
-> >> guest reboots immediately after migration. KVM, however, is not to
-> >> blame this time. When KVM_CAP_ADJUST_CLOCK capability is checked, the
-> >> result is all supported flags (which the above mentioned KVM commit
-> >> enhanced) but kvm_has_adjust_clock_stable() wants it to be
-> >> KVM_CLOCK_TSC_STABLE precisely. The result is that 'clock_is_reliable'
-> >> is not set in vmstate and the saved clock reading is discarded in
-> >> kvmclock_vm_state_change().
-> >>
-> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> >> ---
-> >>  target/i386/kvm/kvm.c | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> >> index a1fd1f53791d..c33192a87dcb 100644
-> >> --- a/target/i386/kvm/kvm.c
-> >> +++ b/target/i386/kvm/kvm.c
-> >> @@ -157,7 +157,7 @@ bool kvm_has_adjust_clock_stable(void)
-> >>  {
-> >>      int ret = kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
-> >>
-> >> -    return (ret == KVM_CLOCK_TSC_STABLE);
-> >> +    return ret & KVM_CLOCK_TSC_STABLE;
-> >>  }
-> >>
-> >>  bool kvm_has_adjust_clock(void)
+> > On Wed, Oct 05, 2022 at 08:21:45AM -0400, Stefan Hajnoczi wrote:
+> > > On Wed, 5 Oct 2022 at 00:19, Ming Lei <tom.leiming@gmail.com> wrote:
+> > > >
+> > > > On Tue, Oct 04, 2022 at 09:53:32AM -0400, Stefan Hajnoczi wrote:
+> > > > > On Tue, 4 Oct 2022 at 05:44, Ming Lei <tom.leiming@gmail.com> wrote:
+> > > > > >
+> > > > > > On Mon, Oct 03, 2022 at 03:53:41PM -0400, Stefan Hajnoczi wrote:
+> > > > > > > On Fri, Sep 30, 2022 at 05:24:11PM +0800, Ming Lei wrote:
+> > > > > > > > ublk-qcow2 is available now.
+> > > > > > >
+> > > > > > > Cool, thanks for sharing!
+> > > > > > >
+> > > > > > > >
+> > > > > > > > So far it provides basic read/write function, and compression and snapshot
+> > > > > > > > aren't supported yet. The target/backend implementation is completely
+> > > > > > > > based on io_uring, and share the same io_uring with ublk IO command
+> > > > > > > > handler, just like what ublk-loop does.
+> > > > > > > >
+> > > > > > > > Follows the main motivations of ublk-qcow2:
+> > > > > > > >
+> > > > > > > > - building one complicated target from scratch helps libublksrv APIs/functions
+> > > > > > > >   become mature/stable more quickly, since qcow2 is complicated and needs more
+> > > > > > > >   requirement from libublksrv compared with other simple ones(loop, null)
+> > > > > > > >
+> > > > > > > > - there are several attempts of implementing qcow2 driver in kernel, such as
+> > > > > > > >   ``qloop`` [2], ``dm-qcow2`` [3] and ``in kernel qcow2(ro)`` [4], so ublk-qcow2
+> > > > > > > >   might useful be for covering requirement in this field
+> > > > > > > >
+> > > > > > > > - performance comparison with qemu-nbd, and it was my 1st thought to evaluate
+> > > > > > > >   performance of ublk/io_uring backend by writing one ublk-qcow2 since ublksrv
+> > > > > > > >   is started
+> > > > > > > >
+> > > > > > > > - help to abstract common building block or design pattern for writing new ublk
+> > > > > > > >   target/backend
+> > > > > > > >
+> > > > > > > > So far it basically passes xfstest(XFS) test by using ublk-qcow2 block
+> > > > > > > > device as TEST_DEV, and kernel building workload is verified too. Also
+> > > > > > > > soft update approach is applied in meta flushing, and meta data
+> > > > > > > > integrity is guaranteed, 'make test T=qcow2/040' covers this kind of
+> > > > > > > > test, and only cluster leak is reported during this test.
+> > > > > > > >
+> > > > > > > > The performance data looks much better compared with qemu-nbd, see
+> > > > > > > > details in commit log[1], README[5] and STATUS[6]. And the test covers both
+> > > > > > > > empty image and pre-allocated image, for example of pre-allocated qcow2
+> > > > > > > > image(8GB):
+> > > > > > > >
+> > > > > > > > - qemu-nbd (make test T=qcow2/002)
+> > > > > > >
+> > > > > > > Single queue?
+> > > > > >
+> > > > > > Yeah.
+> > > > > >
+> > > > > > >
+> > > > > > > >     randwrite(4k): jobs 1, iops 24605
+> > > > > > > >     randread(4k): jobs 1, iops 30938
+> > > > > > > >     randrw(4k): jobs 1, iops read 13981 write 14001
+> > > > > > > >     rw(512k): jobs 1, iops read 724 write 728
+> > > > > > >
+> > > > > > > Please try qemu-storage-daemon's VDUSE export type as well. The
+> > > > > > > command-line should be similar to this:
+> > > > > > >
+> > > > > > >   # modprobe virtio_vdpa # attaches vDPA devices to host kernel
+> > > > > >
+> > > > > > Not found virtio_vdpa module even though I enabled all the following
+> > > > > > options:
+> > > > > >
+> > > > > >         --- vDPA drivers
+> > > > > >           <M>   vDPA device simulator core
+> > > > > >           <M>     vDPA simulator for networking device
+> > > > > >           <M>     vDPA simulator for block device
+> > > > > >           <M>   VDUSE (vDPA Device in Userspace) support
+> > > > > >           <M>   Intel IFC VF vDPA driver
+> > > > > >           <M>   Virtio PCI bridge vDPA driver
+> > > > > >           <M>   vDPA driver for Alibaba ENI
+> > > > > >
+> > > > > > BTW, my test environment is VM and the shared data is done in VM too, and
+> > > > > > can virtio_vdpa be used inside VM?
+> > > > >
+> > > > > I hope Xie Yongji can help explain how to benchmark VDUSE.
+> > > > >
+> > > > > virtio_vdpa is available inside guests too. Please check that
+> > > > > VIRTIO_VDPA ("vDPA driver for virtio devices") is enabled in "Virtio
+> > > > > drivers" menu.
+> > > > >
+> > > > > >
+> > > > > > >   # modprobe vduse
+> > > > > > >   # qemu-storage-daemon \
+> > > > > > >       --blockdev file,filename=test.qcow2,cache.direct=of|off,aio=native,node-name=file \
+> > > > > > >       --blockdev qcow2,file=file,node-name=qcow2 \
+> > > > > > >       --object iothread,id=iothread0 \
+> > > > > > >       --export vduse-blk,id=vduse0,name=vduse0,num-queues=$(nproc),node-name=qcow2,writable=on,iothread=iothread0
+> > > > > > >   # vdpa dev add name vduse0 mgmtdev vduse
+> > > > > > >
+> > > > > > > A virtio-blk device should appear and xfstests can be run on it
+> > > > > > > (typically /dev/vda unless you already have other virtio-blk devices).
+> > > > > > >
+> > > > > > > Afterwards you can destroy the device using:
+> > > > > > >
+> > > > > > >   # vdpa dev del vduse0
+> > > > > > >
+> > > > > > > >
+> > > > > > > > - ublk-qcow2 (make test T=qcow2/022)
+> > > > > > >
+> > > > > > > There are a lot of other factors not directly related to NBD vs ublk. In
+> > > > > > > order to get an apples-to-apples comparison with qemu-* a ublk export
+> > > > > > > type is needed in qemu-storage-daemon. That way only the difference is
+> > > > > > > the ublk interface and the rest of the code path is identical, making it
+> > > > > > > possible to compare NBD, VDUSE, ublk, etc more precisely.
+> > > > > >
+> > > > > > Maybe not true.
+> > > > > >
+> > > > > > ublk-qcow2 uses io_uring to handle all backend IO(include meta IO) completely,
+> > > > > > and so far single io_uring/pthread is for handling all qcow2 IOs and IO
+> > > > > > command.
+> > > > >
+> > > > > qemu-nbd doesn't use io_uring to handle the backend IO, so we don't
+> > > >
+> > > > I tried to use it via --aio=io_uring for setting up qemu-nbd, but not succeed.
+> > > >
+> > > > > know whether the benchmark demonstrates that ublk is faster than NBD,
+> > > > > that the ublk-qcow2 implementation is faster than qemu-nbd's qcow2,
+> > > > > whether there are miscellaneous implementation differences between
+> > > > > ublk-qcow2 and qemu-nbd (like using the same io_uring context for both
+> > > > > ublk and backend IO), or something else.
+> > > >
+> > > > The theory shouldn't be too complicated:
+> > > >
+> > > > 1) io uring passthough(pt) communication is fast than socket, and io command
+> > > > is carried over io_uring pt commands, and should be fast than virio
+> > > > communication too.
+> > > >
+> > > > 2) io uring io handling is fast than libaio which is taken in the
+> > > > test on qemu-nbd, and all qcow2 backend io(include meta io) is handled
+> > > > by io_uring.
+> > > >
+> > > > https://github.com/ming1/ubdsrv/blob/master/tests/common/qcow2_common
+> > > >
+> > > > 3) ublk uses one single io_uring to handle all io commands and qcow2
+> > > > backend IOs, so batching handling is common, and it is easy to see
+> > > > dozens of IOs/io commands handled in single syscall, or even more.
+> > >
+> > > I agree with the theory but theory has to be tested through
+> > > experiments in order to validate it. We can all learn from systematic
+> > > performance analysis - there might even be bottlenecks in ublk that
+> > > can be solved to improve performance further.
 > >
-> > Ping) This issue seems to introduce major migration issues with KVM >=
-> v5.16
->
-> Ping)
->
-> --
-> Vitaly
->
->
+> > Indeed, one thing is that ublk uses get user pages to retrieve user pages
+> > for copying data, this way may add latency for big chunk IO, since
+> > latency of get user pages should be increased linearly by nr_pages.
+> >
+> > I looked into vduse code a bit too, and vduse still needs the page copy,
+> > but lots of bounce pages are allocated and cached in the whole device
+> > lifetime, this way can void the latency for retrieving & allocating
+> > pages runtime with cost of extra memory consumption. Correct me
+> > if it is wrong, Xie Yongji or anyone?
+> >
+> 
+> Yes, you are right. Another way is registering the preallocated
+> userspace memory as bounce buffer.
 
---000000000000e9879c05ea6f91a5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks for the clarification.
 
-<div dir=3D"auto">Hi, a similar patch is now in.<div dir=3D"auto"><br></div=
-><div dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">Il ven 7 ott 2022, 05:26 Vitaly Kuznetsov &lt=
-;<a href=3D"mailto:vkuznets@redhat.com">vkuznets@redhat.com</a>&gt; ha scri=
-tto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">Vitaly Kuznetsov &lt;<a href=
-=3D"mailto:vkuznets@redhat.com" target=3D"_blank" rel=3D"noreferrer">vkuzne=
-ts@redhat.com</a>&gt; writes:<br>
-<br>
-&gt; Vitaly Kuznetsov &lt;<a href=3D"mailto:vkuznets@redhat.com" target=3D"=
-_blank" rel=3D"noreferrer">vkuznets@redhat.com</a>&gt; writes:<br>
-&gt;<br>
-&gt;&gt; KVM commit c68dc1b577ea (&quot;KVM: x86: Report host tsc and realt=
-ime values in<br>
-&gt;&gt; KVM_GET_CLOCK&quot;) broke migration of certain workloads, e.g. Wi=
-n11 + WSL2<br>
-&gt;&gt; guest reboots immediately after migration. KVM, however, is not to=
-<br>
-&gt;&gt; blame this time. When KVM_CAP_ADJUST_CLOCK capability is checked, =
-the<br>
-&gt;&gt; result is all supported flags (which the above mentioned KVM commi=
-t<br>
-&gt;&gt; enhanced) but kvm_has_adjust_clock_stable() wants it to be<br>
-&gt;&gt; KVM_CLOCK_TSC_STABLE precisely. The result is that &#39;clock_is_r=
-eliable&#39;<br>
-&gt;&gt; is not set in vmstate and the saved clock reading is discarded in<=
-br>
-&gt;&gt; kvmclock_vm_state_change().<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Vitaly Kuznetsov &lt;<a href=3D"mailto:vkuznets@red=
-hat.com" target=3D"_blank" rel=3D"noreferrer">vkuznets@redhat.com</a>&gt;<b=
-r>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 target/i386/kvm/kvm.c | 2 +-<br>
-&gt;&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c<br>
-&gt;&gt; index a1fd1f53791d..c33192a87dcb 100644<br>
-&gt;&gt; --- a/target/i386/kvm/kvm.c<br>
-&gt;&gt; +++ b/target/i386/kvm/kvm.c<br>
-&gt;&gt; @@ -157,7 +157,7 @@ bool kvm_has_adjust_clock_stable(void)<br>
-&gt;&gt;=C2=A0 {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 int ret =3D kvm_check_extension(kvm_state, KVM=
-_CAP_ADJUST_CLOCK);<br>
-&gt;&gt;=C2=A0 <br>
-&gt;&gt; -=C2=A0 =C2=A0 return (ret =3D=3D KVM_CLOCK_TSC_STABLE);<br>
-&gt;&gt; +=C2=A0 =C2=A0 return ret &amp; KVM_CLOCK_TSC_STABLE;<br>
-&gt;&gt;=C2=A0 }<br>
-&gt;&gt;=C2=A0 <br>
-&gt;&gt;=C2=A0 bool kvm_has_adjust_clock(void)<br>
-&gt;<br>
-&gt; Ping) This issue seems to introduce major migration issues with KVM &g=
-t;=3D v5.16<br>
-<br>
-Ping)<br>
-<br>
--- <br>
-Vitaly<br>
-<br>
-</blockquote></div>
+IMO, the pages consumption is too much for vduse, each vdpa device
+has one vduse_iova_domain which may allocate 64K bounce pages at most,
+and these pages won't be freed until freeing the device.
 
---000000000000e9879c05ea6f91a5--
+But it is one solution for implementing generic userspace device(not
+limit to block device), and this idea seems great.
 
+
+
+
+Thanks,
+Ming
 
