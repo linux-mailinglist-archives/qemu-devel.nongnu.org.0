@@ -2,80 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D065F7A37
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:04:25 +0200 (CEST)
-Received: from localhost ([::1]:43090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84F75F7AB0
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:41:02 +0200 (CEST)
+Received: from localhost ([::1]:33952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogotj-0000qD-EI
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:04:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54020)
+	id 1ogpTB-0001c2-Jp
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:41:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ognkN-0003pU-Vm
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:50:40 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:42636)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ognkM-0007oA-9W
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:50:39 -0400
-Received: by mail-pl1-x631.google.com with SMTP id c24so4580895pls.9
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 06:50:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=W0BglreLrwH5fUyC2ggrR2MYe6iUcEpenq/p4enk0kE=;
- b=XrG0ixbSG2GXzXs44skoOPDt+nZcrkFflWSvipCFG+xKJOlecuIKSmreaYCg0GT8vq
- HbSjAEtlOXQyean4ZHa8NmCy3Xqqt0dm303VqvcC48RU4CECspukvfDsR4VRwDhqg+wR
- dnlmiatJjuBuOAnCpaHjtfXOMXTrHYKwMM1DXOxjG9yG2lfVHR5x5J54kuo0EV2popoL
- NAaSarGShaltz1q40B+Hr9lPBC3Dc/RsxuRMPxsc1Pq8dsftzVQN83E6oBRaEeHI9Hny
- ebglzKQxxncZPtT0+MSDnxFGs35Ch7kW0NL2RLP1kaE1XmlWez8mUCFLSgsuPgHhWsaK
- wuTA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ognmF-0004Ox-Rz
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:52:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21878)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ognmD-000800-Td
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:52:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665150749;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=i70+oSe4U/BczlqRYkQ+xyhMHFltOGtVMaZLuEpj/l0=;
+ b=GRMlfenZOtm/xqZjqukn0Uqmur7/seEZxXViX5YX4LBVCBBvO0ebTxdQOq0tNTEGBkg16S
+ pj+71Wqr58pZbKx2sOFmXqNWYK4b6cDS8rGgzpAZlIAFvo59A+akdKbsJFEpII0FaG7WqQ
+ DVsiXZzhaUMfBxhYihVCxPAaMxqUJ48=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-205-MaCBJLXqNx2J3JnOzot5eQ-1; Fri, 07 Oct 2022 09:52:28 -0400
+X-MC-Unique: MaCBJLXqNx2J3JnOzot5eQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r4-20020adfbb04000000b0022e5ec02713so1464094wrg.18
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 06:52:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=W0BglreLrwH5fUyC2ggrR2MYe6iUcEpenq/p4enk0kE=;
- b=o3pPoJ/xQGSBlvNX4LUsx+DubiNKxuN26hHOlcJi9vSH1rDFi7huWGW/f3gk/vmAm3
- nLrGGA00wMynflMzuR3216uoKmwSubqjVP6M0jDZmq3briBJfdl0dADfaOJDovfIC3WI
- LyqNcC3SUcztMMMHjYGnf28rArGKwIGhYR5RxKYzrq9eWI6vXH1aJcqZJtyj4QBly45p
- pAgRsFGe6QGlCMJOBgVtL3hZygQ0NWVFXoyKckXAVNcjl8qIR9c9VQxhEikhfUmvm52R
- l4r7sfjeXt23ArNCRN5zJbUGTPoqm92QC3Dc9IwLKlrHst3CdkumnzIWu+sxrAbDylwR
- nOpQ==
-X-Gm-Message-State: ACrzQf0M+wa2qwIJhjE+1Uv9Ojzx+PYdfKEzCIs/U1/kFZVycNq57FeC
- wMyy3WbUdBV1U3XpVn+FDWmGSA4UQbKMiKMnLMKj9A==
-X-Google-Smtp-Source: AMsMyM6yvCCGSWNsveEE4WUu4p3aecEIRbJEqa97TngMRV5gFio9rD/jm6I80RjJbhHcLOVWi0emJDS/UX9PcTU+mWM=
-X-Received: by 2002:a17:902:7c97:b0:17f:5abf:9450 with SMTP id
- y23-20020a1709027c9700b0017f5abf9450mr5085766pll.19.1665150636821; Fri, 07
- Oct 2022 06:50:36 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=i70+oSe4U/BczlqRYkQ+xyhMHFltOGtVMaZLuEpj/l0=;
+ b=nGEzXsdmMRhkXw7O5l99rj2N147O6J6ke+bIxByG7BXoYdWeMkpDPXOh5sXcqAhUeg
+ BZ2acRLnpZprAzkmX2SsMPnJ4hktyLJ6xgX31ZkaDuVAx4vii+vKirFye9giUZlNcJqJ
+ 0zqJDOnj75jwFn6FyvUQf6bxhhUhST9RcN3/Uera5DKc8dsa3XqczniqYzd86/XJZzBq
+ svKL1VnRri067X3afVEG67SGj0U5P/KtpSmbKEi/QlRg4MSUhLO8K+o0Y5wOp7BA5Zge
+ OI3xx5kU81V3yP+O04Ps/6v0Ay+ugCUFYL24+ttLPalUImaIUYc2cNRLupGRx5Lif10Q
+ 8Szg==
+X-Gm-Message-State: ACrzQf1FpjCmQ6p0EClalXrArcFeAEDj0AaMkRkussgT/tEPCPAn6Cub
+ 2N1SzD/wvNd3crQLDHWU0wswvvxGD4fUJ+GkPgZlIMdTnZBT9nkKH1j1+uTBjn1KcrwU3U5VaVn
+ GPZg3whArhtNU9hE=
+X-Received: by 2002:a05:6000:1688:b0:22e:58cd:5a2b with SMTP id
+ y8-20020a056000168800b0022e58cd5a2bmr3262557wrd.365.1665150746897; 
+ Fri, 07 Oct 2022 06:52:26 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7yPgzkt0PZceLv+9jRyG3zbuxVLTbuPlT9bjAPkcZbDjK7ich+OUDNdvopen9LOFzVlyTXOg==
+X-Received: by 2002:a05:6000:1688:b0:22e:58cd:5a2b with SMTP id
+ y8-20020a056000168800b0022e58cd5a2bmr3262539wrd.365.1665150746611; 
+ Fri, 07 Oct 2022 06:52:26 -0700 (PDT)
+Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
+ o5-20020adfe805000000b00228cd9f6349sm2106917wrm.106.2022.10.07.06.52.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Oct 2022 06:52:26 -0700 (PDT)
+Date: Fri, 7 Oct 2022 09:52:22 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Lev Kujawski <lkujaw@mailbox.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 1/2] qpci_device_enable: Allow for command bits
+ hardwired to 0
+Message-ID: <20221007095122-mutt-send-email-mst@kernel.org>
+References: <20220922060325-mutt-send-email-mst@kernel.org>
+ <20220925093759.1598617-1-lkujaw@mailbox.org>
+ <20220925093759.1598617-2-lkujaw@mailbox.org>
 MIME-Version: 1.0
-References: <20221001162318.153420-1-richard.henderson@linaro.org>
- <20221001162318.153420-2-richard.henderson@linaro.org>
- <CAFEAcA_LSd9mPFiDHyofdHVq2kshiL6FjxNG2aSXXc8jkGb3vg@mail.gmail.com>
- <ed6e925a-ea37-5575-bc3c-aee2a887d5bc@linaro.org>
- <CAFEAcA_8Fc5033cRHp9rhgnX4spUsGNPxAdYRNtiE11Beg4w9A@mail.gmail.com>
- <7339c803-8cfb-f2c1-bfbf-b07aa4f596f4@linaro.org>
- <CAFEAcA_ch9xe0gTQipKg-QMRorZjS6=OKqfRn=WhiSxTsqFe2g@mail.gmail.com>
- <cbae421e-906a-6d33-8480-a3f103c119b1@linaro.org>
-In-Reply-To: <cbae421e-906a-6d33-8480-a3f103c119b1@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Oct 2022 14:50:25 +0100
-Message-ID: <CAFEAcA_5iKqXx0VYBJ6zzFdGqGVTBxCfMGvX07E806ZHUTA+LA@mail.gmail.com>
-Subject: Re: [PATCH v3 01/42] target/arm: Split s2walk_secure from ipa_secure
- in get_phys_addr
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x631.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220925093759.1598617-2-lkujaw@mailbox.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,34 +100,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Oct 2022 at 21:58, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 10/6/22 11:55, Peter Maydell wrote:
-> > On Thu, 6 Oct 2022 at 19:20, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> On 10/6/22 08:22, Peter Maydell wrote:
-> >>> Yeah, cleared-at-start is fine. But here we're also relying on
-> >>> the stage 2 call to get_phys_addr_lpae() not setting it to 1,
-> >>> because we pass that the same 'result' pointer, not a fresh one.
-> >>
-> >> I clear it first: that patch is already merged:
-> >>
-> >>               memset(result, 0, sizeof(*result));
-> >>               ret = get_phys_addr_lpae(env, ipa, access_type, s2_mmu_idx,
-> >>                                        is_el0, result, fi);
-> >
-> > Yes, but that doesn't help if this ^^^ get_phys_addr_lpae()
-> > call sets result->attrs.secure = true.
->
-> Ok, sure, let's make the write to .secure be unconditional.
-> I've split this out into a new patch 2 for clarity.
+On Sun, Sep 25, 2022 at 09:37:58AM +0000, Lev Kujawski wrote:
+> Devices like the PIIX3/4 IDE controller do not support certain modes
+> of operation, such as memory space accesses, and indicate this lack of
+> support by hardwiring the applicable bits to zero.  Extend the QEMU
+> PCI device testing framework to accommodate such devices.
+> 
+> * tests/qtest/libqos/pci.h: Add the command_disabled word to indicate
+>   bits hardwired to 0.
+> * tests/qtest/libqos/pci.c: Verify that hardwired bits are actually
+>   hardwired.
+> 
+> Signed-off-by: Lev Kujawski <lkujaw@mailbox.org>
+> ---
+>  tests/qtest/libqos/pci.c | 13 +++++++------
+>  tests/qtest/libqos/pci.h |  1 +
+>  2 files changed, 8 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/qtest/libqos/pci.c b/tests/qtest/libqos/pci.c
+> index b23d72346b..4f3d28d8d9 100644
+> --- a/tests/qtest/libqos/pci.c
+> +++ b/tests/qtest/libqos/pci.c
+> @@ -220,18 +220,19 @@ int qpci_secondary_buses_init(QPCIBus *bus)
+>  
+>  void qpci_device_enable(QPCIDevice *dev)
+>  {
+> -    uint16_t cmd;
+> +    const uint16_t enable_bits =
+> +        PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
+> +    uint16_t cmd, new_cmd;
+>  
+>      /* FIXME -- does this need to be a bus callout? */
+>      cmd = qpci_config_readw(dev, PCI_COMMAND);
+> -    cmd |= PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
+> +    cmd |= enable_bits;
+>      qpci_config_writew(dev, PCI_COMMAND, cmd);
+>  
+>      /* Verify the bits are now set. */
+> -    cmd = qpci_config_readw(dev, PCI_COMMAND);
+> -    g_assert_cmphex(cmd & PCI_COMMAND_IO, ==, PCI_COMMAND_IO);
+> -    g_assert_cmphex(cmd & PCI_COMMAND_MEMORY, ==, PCI_COMMAND_MEMORY);
+> -    g_assert_cmphex(cmd & PCI_COMMAND_MASTER, ==, PCI_COMMAND_MASTER);
+> +    new_cmd = qpci_config_readw(dev, PCI_COMMAND);
+> +    new_cmd &= enable_bits;
+> +    g_assert_cmphex(new_cmd, ==, enable_bits & ~dev->command_disabled);
+>  }
+>  
+>  /**
+> diff --git a/tests/qtest/libqos/pci.h b/tests/qtest/libqos/pci.h
+> index 8389614523..eaedb98588 100644
+> --- a/tests/qtest/libqos/pci.h
+> +++ b/tests/qtest/libqos/pci.h
+> @@ -68,6 +68,7 @@ struct QPCIDevice
+>      bool msix_enabled;
+>      QPCIBar msix_table_bar, msix_pba_bar;
+>      uint64_t msix_table_off, msix_pba_off;
+> +    uint16_t command_disabled;
 
-If you can send that extra patch out, I can take it plus
-1..20 from this series into target-arm.next, so your next revision
-of this series can be smaller.
 
-thanks
--- PMM
+Can we get this from device's wmask?
+
+>  };
+>  
+>  struct QPCIAddress {
+> -- 
+> 2.34.1
+
 
