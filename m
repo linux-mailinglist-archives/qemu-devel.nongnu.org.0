@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAE65F7C2A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 19:21:12 +0200 (CEST)
-Received: from localhost ([::1]:44414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02CF75F7C25
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 19:18:34 +0200 (CEST)
+Received: from localhost ([::1]:50792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogr27-0004uk-MM
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 13:21:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51522)
+	id 1ogqzY-00030v-Eu
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 13:18:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org>)
- id 1ogqre-0003Uu-73
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 13:10:22 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:56690)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ogqsd-0004F7-4q
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 13:11:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org>)
- id 1ogqrb-0006vF-Pg
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 13:10:21 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1987FB817AC;
- Fri,  7 Oct 2022 17:10:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53636C433C1;
- Fri,  7 Oct 2022 17:10:14 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="FyRPl8il"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1665162612;
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ogqsZ-00074e-3r
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 13:11:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665162677;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=9hqEEx2siLVp1468XZg3R6R+vgGc98IrPj6WZG5BgOY=;
- b=FyRPl8ilSbDNl+uWTwWPPObwwyTqdpOlA3jijHnMgaMOCAvIyVX7cydF+JK4Ldy2/F7CD7
- sfLwuIagObjbq0RyyEBbyfXa4mgY4RV4u+l+bQ+joMaQc+oua2YDX5MS2HOcemlLtl5DyM
- BkDpSSqJ26TfrMr64I4d73pQVTHtxQY=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id ea080109
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Fri, 7 Oct 2022 17:10:12 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: f4bug@amsat.org,
-	qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH v3] mips/malta: pass RNG seed to to kernel via env var
-Date: Fri,  7 Oct 2022 11:09:58 -0600
-Message-Id: <20221007170958.181433-1-Jason@zx2c4.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AG40aITCsQKtj2ZIW5qV0Rrvhbbfq8fsoGtPELzZ36k=;
+ b=RVIjh2GdPMX1jkOCWdZu1QjBmkYuib5/bWnEUGiHOsJJBKf+Z0WIsM1UH6B8Si2zfRN4Fz
+ 4ypDTRtfEYlUvWXptKyWcE3DzuNe9NP6yZCb6iJPtRfR7ogPVIEq1tzI6s7vVAeDV/aXwf
+ hmpIF9ilSbb6p2uvY2/zD3HqdcinyV8=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-658-6ciYlK8ONUif9qXRFbKlPQ-1; Fri, 07 Oct 2022 13:11:14 -0400
+X-MC-Unique: 6ciYlK8ONUif9qXRFbKlPQ-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ w15-20020a17090a8a0f00b0020afece09efso4021471pjn.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 10:11:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AG40aITCsQKtj2ZIW5qV0Rrvhbbfq8fsoGtPELzZ36k=;
+ b=leypeDuc8bugS0nwvIuqe50HfzAsxSa+DfMy9LQw9f8h/YuLAztZBo6cNUgyHTAqjg
+ xpFuDljtvRpAu5uHUGaLILsghubmMlEkmdX93trCA0yIi/XZBiykqAHa1cky40MOHFx2
+ uK3QBtlPuPFOYYi5uQANSq86OwF367zNNPUzknjooZYAtg5FHqqinLIrTq/DKx+HHMuu
+ 1Nx8ZKLmgwSAMCMfCCU/AjwBsPal6XqEW/9DIOyuQLsq2bYYfoRRnR+rJGZQmB+4NzfK
+ Jfw5PisWFIPxHiwj9hOLzaN6qlXiRcgc4lEBJUzuVWkIgcJly7HitCxGycn3ljVX3Ko1
+ kavw==
+X-Gm-Message-State: ACrzQf1enmfzhU9753V/j9dZmW7NmMuk0GX7ugR1VFZdFnn6J+V4ZIBG
+ clzYIcODgwgk/0U1Y38cBes100Dm01z1l7/tL2uK/yqUvc/89KfvKTz9quMlXiMB/NjqMXqDyqZ
+ /LCetQMSAcCZ/dXrOqQ0Et6MLKWYnJaw=
+X-Received: by 2002:a17:902:ec8d:b0:178:2914:b5a0 with SMTP id
+ x13-20020a170902ec8d00b001782914b5a0mr5959431plg.17.1665162673172; 
+ Fri, 07 Oct 2022 10:11:13 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4a5VhO8HBtH/2EFF0g+xPrGggbwWIswhFmEKRGJuVE6z7yRq0oxZH2w8JRyes/THLRPR2Gy6BFlUtSasw2Rn8=
+X-Received: by 2002:a17:902:ec8d:b0:178:2914:b5a0 with SMTP id
+ x13-20020a170902ec8d00b001782914b5a0mr5959404plg.17.1665162672745; Fri, 07
+ Oct 2022 10:11:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=JVfI=2I=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+References: <20221006053901.754178-1-lulu@redhat.com>
+In-Reply-To: <20221006053901.754178-1-lulu@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 7 Oct 2022 19:10:36 +0200
+Message-ID: <CAJaqyWdjT6wMBe=PGqxhS-=QQWwxuWcTfjrjHe5zH74xkJKo9w@mail.gmail.com>
+Subject: Re: [PATCH v1] vhost-vdpa : add support for vIOMMU
+To: Cindy Lu <lulu@redhat.com>
+Cc: mst@redhat.com, jasowang@redhat.com, qemu-devel@nongnu.org, 
+ stefanha@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,87 +93,464 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As of the kernel commit linked below, Linux ingests an RNG seed
-passed as part of the environment block by the bootloader or firmware.
-This mechanism works across all different environment block types,
-generically, which pass some block via the second firmware argument. On
-malta, this has been tested to work when passed as an argument from
-U-Boot's linux_env_set.
+On Thu, Oct 6, 2022 at 7:44 AM Cindy Lu <lulu@redhat.com> wrote:
+>
+> Add support for vIOMMU. Register a memory listener to dma_as in
+> vhost_vdpa_dev_start
+> - during region_add register a specific IOMMU notifier, and store all notifiers in a list.
+> - during region_del, compare and delete the IOMMU notifier from the list
+> - also change the IOTLB batch flag to support IOMMU batch send
+>
+> Verified in vp_vdpa and vdpa_sim_net driver
+>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> ---
+>  hw/virtio/vhost-vdpa.c         | 253 +++++++++++++++++++++++++++++++--
+>  include/hw/virtio/vhost-vdpa.h |  26 +++-
+>  2 files changed, 267 insertions(+), 12 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 3ff9ce3501..d2ac40c261 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -26,6 +26,7 @@
+>  #include "cpu.h"
+>  #include "trace.h"
+>  #include "qapi/error.h"
+> +#include "hw/virtio/virtio-access.h"
+>
+>  /*
+>   * Return one past the end of the end of section. Be careful with uint64_t
+> @@ -136,14 +137,15 @@ static void vhost_vdpa_listener_begin_batch(struct vhost_vdpa *v)
+>      }
+>  }
+>
+> -static void vhost_vdpa_iotlb_batch_begin_once(struct vhost_vdpa *v)
+> +static void vhost_vdpa_iotlb_batch_begin_once(struct vhost_vdpa *v,
+> +                                              enum iotlb_batch_flag flag)
+>  {
+>      if (v->dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH) &&
+>          !v->iotlb_batch_begin_sent) {
+>          vhost_vdpa_listener_begin_batch(v);
+>      }
+>
+> -    v->iotlb_batch_begin_sent = true;
+> +    v->iotlb_batch_begin_sent |= flag;
+>  }
+>
+>  static void vhost_vdpa_listener_commit(MemoryListener *listener)
+> @@ -157,7 +159,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+>          return;
+>      }
+>
+> -    if (!v->iotlb_batch_begin_sent) {
+> +    if (!(v->iotlb_batch_begin_sent & VDPA_IOTLB_BATCH_SEND)) {
+>          return;
+>      }
+>
+> @@ -169,8 +171,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+>          error_report("failed to write, fd=%d, errno=%d (%s)",
+>                       fd, errno, strerror(errno));
+>      }
+> -
+> -    v->iotlb_batch_begin_sent = false;
+> +    v->iotlb_batch_begin_sent &= ~VDPA_IOTLB_BATCH_SEND;
+>  }
+>
+>  static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+> @@ -186,6 +187,9 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>                                              v->iova_range.last)) {
+>          return;
+>      }
+> +    if (memory_region_is_iommu(section->mr)) {
+> +        return;
+> +    }
+>
+>      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+>                   (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+> @@ -227,9 +231,9 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>          iova = mem_region.iova;
+>      }
+>
+> -    vhost_vdpa_iotlb_batch_begin_once(v);
+> -    ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
+> -                             vaddr, section->readonly);
+> +    vhost_vdpa_iotlb_batch_begin_once(v, VDPA_IOTLB_BATCH_SEND);
+> +    ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize), vaddr,
+> +                             section->readonly);
+>      if (ret) {
+>          error_report("vhost vdpa map fail!");
+>          goto fail;
+> @@ -260,6 +264,9 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+>                                              v->iova_range.last)) {
+>          return;
+>      }
+> +    if (memory_region_is_iommu(section->mr)) {
+> +        return;
+> +    }
+>
+>      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+>                   (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+> @@ -292,7 +299,7 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+>          iova = result->iova;
+>          vhost_iova_tree_remove(v->iova_tree, result);
+>      }
+> -    vhost_vdpa_iotlb_batch_begin_once(v);
+> +    vhost_vdpa_iotlb_batch_begin_once(v, VDPA_IOTLB_BATCH_SEND);
+>      ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
+>      if (ret) {
+>          error_report("vhost_vdpa dma unmap error!");
+> @@ -312,6 +319,212 @@ static const MemoryListener vhost_vdpa_memory_listener = {
+>      .region_del = vhost_vdpa_listener_region_del,
+>  };
+>
+> +static void vhost_vdpa_listener_iommu_commit(MemoryListener *listener)
+> +{
+> +    struct vhost_vdpa *v =
+> +        container_of(listener, struct vhost_vdpa, iommu_listener);
+> +    struct vhost_dev *dev = v->dev;
+> +    struct vhost_msg_v2 msg = {};
+> +    int fd = v->device_fd;
+> +
+> +    if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
+> +        return;
+> +    }
+> +
+> +    if (!(v->iotlb_batch_begin_sent & VDPA_IOTLB_BATCH_IOMMU_SEND)) {
+> +        return;
+> +    }
+> +
+> +    msg.type = v->msg_type;
+> +    msg.iotlb.type = VHOST_IOTLB_BATCH_END;
+> +
+> +    trace_vhost_vdpa_listener_commit(v, fd, msg.type, msg.iotlb.type);
+> +    if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+> +        error_report("failed to write, fd=%d, errno=%d (%s)", fd, errno,
+> +                     strerror(errno));
+> +    }
+> +    v->iotlb_batch_begin_sent &= ~VDPA_IOTLB_BATCH_IOMMU_SEND;
+> +}
+> +
+> +/* Called with rcu_read_lock held.  */
+> +static bool vhost_vdpa_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+> +                                     ram_addr_t *ram_addr, bool *read_only)
+> +{
+> +    MemoryRegion *mr;
+> +    hwaddr xlat;
+> +    hwaddr len = iotlb->addr_mask + 1;
+> +    bool writable = iotlb->perm & IOMMU_WO;
+> +
+> +    /*
+> +     * The IOMMU TLB entry we have just covers translation through
+> +     * this IOMMU to its immediate target.  We need to translate
+> +     * it the rest of the way through to memory.
+> +     */
+> +    mr = address_space_translate(&address_space_memory, iotlb->translated_addr,
+> +                                 &xlat, &len, writable, MEMTXATTRS_UNSPECIFIED);
+> +    if (!memory_region_is_ram(mr)) {
+> +        error_report("iommu map to non memory area %" HWADDR_PRIx "", xlat);
+> +        return false;
+> +    } else if (memory_region_has_ram_discard_manager(mr)) {
+> +        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
+> +        MemoryRegionSection tmp = {
+> +            .mr = mr,
+> +            .offset_within_region = xlat,
+> +            .size = int128_make64(len),
+> +        };
+> +
+> +        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
+> +            error_report("iommu map to discarded memory (e.g., unplugged via"
+> +                         " virtio-mem): %" HWADDR_PRIx "",
+> +                         iotlb->translated_addr);
+> +            return false;
+> +        }
+> +    }
+> +
+> +    /*
+> +     * Translation truncates length to the IOMMU page size,
+> +     * check that it did not truncate too much.
+> +     */
+> +    if (len & iotlb->addr_mask) {
+> +        error_report("iommu has granularity incompatible with target AS");
+> +        return false;
+> +    }
+> +
+> +    if (vaddr) {
+> +        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
+> +    }
+> +
+> +    if (ram_addr) {
+> +        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
+> +    }
+> +
+> +    if (read_only) {
+> +        *read_only = !writable || mr->readonly;
+> +    }
+> +
+> +    return true;
+> +}
+> +
+> +static void vhost_vdpa_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+> +{
+> +    struct vdpa_iommu *iommu = container_of(n, struct vdpa_iommu, n);
+> +
+> +    hwaddr iova = iotlb->iova + iommu->iommu_offset;
+> +    struct vhost_vdpa *v = iommu->dev;
+> +    void *vaddr;
+> +    int ret;
+> +
+> +
 
-As is the case on most other architectures (such as boston), when
-booting with `-kernel`, QEMU, acting as the bootloader, should pass the
-RNG seed, so that the machine has good entropy for Linux to consume. So
-this commit implements that quite simply by using the guest random API,
-which is what is used on nearly all other archs too. It also
-reinitializes the seed on reboot, so that it is always fresh.
+Extra space here.
 
-Link: https://git.kernel.org/torvalds/c/056a68cea01
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/mips/malta.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+> +    if (iotlb->target_as != &address_space_memory) {
+> +        error_report("Wrong target AS \"%s\", only system memory is allowed",
+> +                     iotlb->target_as->name ? iotlb->target_as->name : "none");
+> +        return;
+> +    }
+> +    rcu_read_lock();
+> +    vhost_vdpa_iotlb_batch_begin_once(v, VDPA_IOTLB_BATCH_IOMMU_SEND);
+> +
+> +    if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
+> +        bool read_only;
+> +
+> +        if (!vhost_vdpa_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)) {
+> +            goto out;
+> +        }
+> +        ret =
+> +            vhost_vdpa_dma_map(v, iova, iotlb->addr_mask + 1, vaddr, read_only);
+> +        if (ret) {
+> +            error_report("vhost_vdpa_dma_map(%p, 0x%" HWADDR_PRIx ", "
+> +                         "0x%" HWADDR_PRIx ", %p) = %d (%m)",
+> +                         v, iova, iotlb->addr_mask + 1, vaddr, ret);
+> +        }
+> +    } else {
+> +        ret = vhost_vdpa_dma_unmap(v, iova, iotlb->addr_mask + 1);
+> +        if (ret) {
+> +            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
+> +                         "0x%" HWADDR_PRIx ") = %d (%m)",
+> +                         v, iova, iotlb->addr_mask + 1, ret);
+> +        }
+> +    }
+> +out:
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 0e932988e0..9d793b3c17 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -26,6 +26,7 @@
- #include "qemu/units.h"
- #include "qemu/bitops.h"
- #include "qemu/datadir.h"
-+#include "qemu/guest-random.h"
- #include "hw/clock.h"
- #include "hw/southbridge/piix.h"
- #include "hw/isa/superio.h"
-@@ -1017,6 +1018,17 @@ static void G_GNUC_PRINTF(3, 4) prom_set(uint32_t *prom_buf, int index,
-     va_end(ap);
- }
- 
-+static void reinitialize_rng_seed(void *opaque)
-+{
-+    char *rng_seed_hex = opaque;
-+    uint8_t rng_seed[32];
-+
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
-+        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
-+    }
-+}
-+
- /* Kernel */
- static uint64_t load_kernel(void)
- {
-@@ -1028,6 +1040,8 @@ static uint64_t load_kernel(void)
-     long prom_size;
-     int prom_index = 0;
-     uint64_t (*xlate_to_kseg0) (void *opaque, uint64_t addr);
-+    uint8_t rng_seed[32];
-+    char rng_seed_hex[sizeof(rng_seed) * 2 + 1];
- 
- #if TARGET_BIG_ENDIAN
-     big_endian = 1;
-@@ -1115,9 +1129,20 @@ static uint64_t load_kernel(void)
- 
-     prom_set(prom_buf, prom_index++, "modetty0");
-     prom_set(prom_buf, prom_index++, "38400n8r");
-+
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    for (size_t i = 0; i < sizeof(rng_seed); ++i) {
-+        sprintf(rng_seed_hex + i * 2, "%02x", rng_seed[i]);
-+    }
-+    prom_set(prom_buf, prom_index++, "rngseed");
-+    prom_set(prom_buf, prom_index++, "%s", rng_seed_hex);
-+
-     prom_set(prom_buf, prom_index++, NULL);
- 
-     rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
-+    qemu_register_reset(reinitialize_rng_seed,
-+                        memmem(rom_ptr(ENVP_PADDR, prom_size), prom_size,
-+                               rng_seed_hex, sizeof(rng_seed_hex)));
- 
-     g_free(prom_buf);
-     return kernel_entry;
--- 
-2.37.3
+Maybe we can simplify this goto with RCU_READ_LOCK_GUARD macro?
+
+> +    rcu_read_unlock();
+> +}
+> +
+> +static void vhost_vdpa_iommu_region_add(MemoryListener *listener,
+> +                                        MemoryRegionSection *section)
+> +{
+> +    struct vhost_vdpa *v =
+> +        container_of(listener, struct vhost_vdpa, iommu_listener);
+> +
+> +    struct vdpa_iommu *iommu;
+> +    Int128 end;
+> +    int iommu_idx;
+> +    IOMMUMemoryRegion *iommu_mr;
+> +    int ret;
+> +
+> +    if (!memory_region_is_iommu(section->mr)) {
+> +        return;
+> +    }
+> +
+> +    iommu_mr = IOMMU_MEMORY_REGION(section->mr);
+> +
+> +    iommu = g_malloc0(sizeof(*iommu));
+> +    end =
+> +        int128_add(int128_make64(section->offset_within_region), section->size);
+> +    end = int128_sub(end, int128_one());
+> +    iommu_idx =
+> +        memory_region_iommu_attrs_to_index(iommu_mr, MEMTXATTRS_UNSPECIFIED);
+> +    iommu->iommu_mr = iommu_mr;
+> +
+> +    iommu_notifier_init(
+> +        &iommu->n, vhost_vdpa_iommu_map_notify, IOMMU_NOTIFIER_IOTLB_EVENTS,
+> +        section->offset_within_region, int128_get64(end), iommu_idx);
+> +    iommu->iommu_offset =
+> +        section->offset_within_address_space - section->offset_within_region;
+> +    iommu->dev = v;
+> +
+> +
+
+Extra newline.
+
+> +    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, NULL);
+> +    if (ret) {
+> +        g_free(iommu);
+> +        return;
+> +    }
+> +
+> +    QLIST_INSERT_HEAD(&v->iommu_list, iommu, iommu_next);
+> +    memory_region_iommu_replay(iommu->iommu_mr, &iommu->n);
+> +
+> +    return;
+> +}
+> +
+> +static void vhost_vdpa_iommu_region_del(MemoryListener *listener,
+> +                                        MemoryRegionSection *section)
+> +{
+> +    struct vhost_vdpa *v =
+> +        container_of(listener, struct vhost_vdpa, iommu_listener);
+> +
+> +    struct vdpa_iommu *iommu;
+> +
+> +    if (!memory_region_is_iommu(section->mr)) {
+> +        return;
+> +    }
+> +
+> +    QLIST_FOREACH(iommu, &v->iommu_list, iommu_next)
+> +    {
+> +        if (MEMORY_REGION(iommu->iommu_mr) == section->mr &&
+> +            iommu->n.start == section->offset_within_region) {
+> +            memory_region_unregister_iommu_notifier(section->mr, &iommu->n);
+> +            QLIST_REMOVE(iommu, iommu_next);
+> +            g_free(iommu);
+> +            break;
+> +        }
+> +    }
+> +}
+> +
+> +static const MemoryListener vhost_vdpa_iommu_listener = {
+> +    .name = "vhost-vdpa-iommu",
+> +    .region_add = vhost_vdpa_iommu_region_add,
+> +    .region_del = vhost_vdpa_iommu_region_del,
+> +    .commit = vhost_vdpa_listener_iommu_commit,
+> +};
+> +
+>  static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
+>                               void *arg)
+>  {
+> @@ -432,6 +645,17 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
+>      v->shadow_vqs = g_steal_pointer(&shadow_vqs);
+>      return 0;
+>  }
+> +static bool vdpa_dev_has_iommu(struct vhost_dev *dev)
+> +{
+> +    VirtIODevice *vdev = dev->vdev;
+> +
+> +    if (vdev) {
+> +        return virtio_bus_device_iommu_enabled(vdev) &&
+> +               virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+> +    } else {
+> +        return false;
+> +    }
+> +}
+>
+>  static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+>  {
+> @@ -454,6 +678,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+>      v->dev = dev;
+>      dev->opaque =  opaque ;
+>      v->listener = vhost_vdpa_memory_listener;
+> +    v->iommu_listener = vhost_vdpa_iommu_listener;
+>      v->msg_type = VHOST_IOTLB_MSG_V2;
+>      ret = vhost_vdpa_init_svq(dev, v, errp);
+>      if (ret) {
+> @@ -587,7 +812,6 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+>      v = dev->opaque;
+>      trace_vhost_vdpa_cleanup(dev, v);
+>      vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+> -    memory_listener_unregister(&v->listener);
+>      vhost_vdpa_svq_cleanup(dev);
+>
+>      dev->opaque = NULL;
+> @@ -1128,11 +1352,18 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+>
+>      if (started) {
+>          memory_listener_register(&v->listener, &address_space_memory);
+> +        if (vdpa_dev_has_iommu(dev)) {
+> +            memory_listener_register(&v->iommu_listener, dev->vdev->dma_as);
+> +        }
+> +
+>          return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+>      } else {
+>          vhost_vdpa_reset_device(dev);
+>          vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+> -                                   VIRTIO_CONFIG_S_DRIVER);
+> +                                       VIRTIO_CONFIG_S_DRIVER);
+
+Why this extra indentation?
+
+> +        if (vdpa_dev_has_iommu(dev)) {
+> +            memory_listener_unregister(&v->iommu_listener);
+> +        }
+>          memory_listener_unregister(&v->listener);
+>
+>          return 0;
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+> index d10a89303e..4fcd144c06 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -24,12 +24,25 @@ typedef struct VhostVDPAHostNotifier {
+>      void *addr;
+>  } VhostVDPAHostNotifier;
+>
+> +
+
+Extra newline.
+
+> +typedef enum iotlb_batch_flag {
+> +    /* Notify IOTLB_BATCH start*/
+> +    VDPA_IOTLB_BATCH_SEND = 0x1,
+> +    /* Notify IOTLB_BATCH iommu start*/
+> +    VDPA_IOTLB_BATCH_IOMMU_SEND = 0x2,
+> +    /* Notify IOTLB_BATCH stop*/
+> +    VDPA_IOTLB_BATCH_SEND_STOP = 0x4,
+> +    /* Notify IOTLB_BATCH iommu stop*/
+> +    VDPA_IOTLB_BATCH_IOMMU_SEND_STOP = 0x08,
+
+It seems to me that VDPA_IOTLB_BATCH_SEND_STOP and
+VDPA_IOTLB_BATCH_IOMMU_SEND_STOP are never used in the patch.
+
+Also, I'm not sure about the interactions between them. We should have
+either only a batch of GPA->QEMU VA or a batch of GVA->QEMU VA, but
+never to interleave them. So I would either go back to a boolean or I
+would check if they are interleaving, something I think must not
+happen in a sane QEMU.
+
+> +} IotlbBatchFlag;
+> +
+>  typedef struct vhost_vdpa {
+>      int device_fd;
+>      int index;
+>      uint32_t msg_type;
+> -    bool iotlb_batch_begin_sent;
+> +    uint32_t iotlb_batch_begin_sent;
+>      MemoryListener listener;
+> +    MemoryListener iommu_listener;
+>      struct vhost_vdpa_iova_range iova_range;
+>      uint64_t acked_features;
+>      bool shadow_vqs_enabled;
+> @@ -41,8 +54,19 @@ typedef struct vhost_vdpa {
+>      void *shadow_vq_ops_opaque;
+>      struct vhost_dev *dev;
+>      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> +    QLIST_HEAD(, vdpa_iommu) iommu_list;
+> +    IOMMUNotifier n;
+> +
+
+Extra newline.
+
+Thanks!
+
+>  } VhostVDPA;
+>
+> +struct vdpa_iommu {
+> +    struct vhost_vdpa *dev;
+> +    IOMMUMemoryRegion *iommu_mr;
+> +    hwaddr iommu_offset;
+> +    IOMMUNotifier n;
+> +    QLIST_ENTRY(vdpa_iommu) iommu_next;
+> +};
+> +
+>  int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+>                         void *vaddr, bool readonly);
+>  int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size);
+> --
+> 2.34.3
+>
+>
 
 
