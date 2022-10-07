@@ -2,91 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBBA45F7C37
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 19:28:32 +0200 (CEST)
-Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B795F7C5D
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 19:39:30 +0200 (CEST)
+Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogr9D-00082A-55
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 13:28:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52398)
+	id 1ogrJo-0005bH-Mw
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 13:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ogr7F-0005uJ-It; Fri, 07 Oct 2022 13:26:31 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:41510)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogrFq-0002NO-BH
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 13:35:22 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:34725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1ogr7D-0000x3-8V; Fri, 07 Oct 2022 13:26:29 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id j7so6495228ybb.8;
- Fri, 07 Oct 2022 10:26:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fVRcQCUDrb1HrU5YN6s1FDmrw2CxPoDhhdO+ks1gi5w=;
- b=gNb9zs2nV4+z9dy/dkip4i7v3ANiV8tt+zgtWqV0/l9G9j/ppTFPyrIbBAhCaBCrzu
- mZfmLeYIyqyahWfYUwsN2Eta4Yk15HSOd/FyC8nKat1sMTe36om8ztyrtUpVIYlINfjS
- GPLL7h5i39Tx2qBauqbDTjmIk9QhXqPuL/rCD4hA1J6FyhsQfRd8sdZLUgfqqd93GT3P
- Rt2PQZrF3Dv31n/HswLq88dyxNIZwaRYLJr6BtfQ8NVVuwBdF4rhrVBlsmkZuMxsgQH7
- rVmMqUVAbwt0QMOWBcefIdYxuL86I3WFxHuLQPzgu5XmyjeP0a4nk87LcjAiKHZ6iUIP
- ZKiw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ogrFm-000272-Hh
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 13:35:20 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id e205so4167190iof.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 10:35:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=UoCZAjL06IF4MTDyYFvN5gdKC5Sn7AX9BG2iOUSrdWg=;
+ b=wiWAxC4HVbivmgAkpjbr3hwp3oSfL5qyp1wYForgXA8neCCLFVMYZRaLh9A/SYJypq
+ je+J49avb9AO0GuXe61ws/KwDpxOJAdMol4rL398H1KvhE3UZkJJpztS9D2x1Essgb7X
+ rmknVUWh83rZVfzMZyp9EgEUduZnZNDUDSxrjS80CxqK84QJa/u68XZQnl5sDqLpbixh
+ mwg1Kj5wvurYhjxuqcrTcTAPWBvASQCg7CksSeOXGkhM1DPZs4UnhBi1Y3qQOxg7BGdA
+ S/e/ytZokJCuqzQhTsCgE1wos0krGV3FIs2qqb5aLI9W6RC99Vs6FAwDnefQsrwVqGx0
+ /Xbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fVRcQCUDrb1HrU5YN6s1FDmrw2CxPoDhhdO+ks1gi5w=;
- b=gsYNNQtj5iz/zSaDV0CImusuZwvg+p47U/G5zY5ZoJrJ2wuibGS21karHpiSrOnmnq
- L+fnYW+xZVyIVvwr+VT0SP5yrdY2/PYkOFBCs0MvSa3yGFJyVM54EWKcRQhIrKu4/T9E
- /yqXl7YsBVtuwjdblyp3O1EAddHvPihH/jvvyLWw/NLrvWicsLLise+C1sF08lMb4NCV
- 0J741R0+w16Sjpj09ssXA6iWIa4flx8bHNhjHdVdKG460aUOnEkaSbUur/DPMsbiXKOy
- UKKgkFp6k9yUmo+1E9hgUKp7XbOIJKZo3QHwuS17qvpSDnAbTP8ti7GVbXL7dN9ljcC3
- wPbQ==
-X-Gm-Message-State: ACrzQf0bY0A6fYF4wS7gd+IrIUqA2Onv8PV+Weh6wIOagubntw9so8u2
- z+3uuWyBMJONNbl95lXuyKueeXOtaNwYaroJnqM=
-X-Google-Smtp-Source: AMsMyM4hwhwms8OxNtbP0xSr7IyBG0JjzGdng/ZRz8Jsk8ua4RJ8w7CZGqHNOnmWsNbw4blymn1kE78dfaqa7kwRoFI=
-X-Received: by 2002:a25:1e89:0:b0:6bf:9e55:5cb4 with SMTP id
- e131-20020a251e89000000b006bf9e555cb4mr2011045ybe.642.1665163584172; Fri, 07
- Oct 2022 10:26:24 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UoCZAjL06IF4MTDyYFvN5gdKC5Sn7AX9BG2iOUSrdWg=;
+ b=208tGeNEYNZJIuJF8vv2eCZhWWelIqNadvRWogDyKo5Sk5lUZIEEYywMscJzMjeVw9
+ ZIWWOiFrnzZq+53vJybb720VdI67Z74SI0GTC+3t70MwTOOLjxZo67bLWVts6U+beGqJ
+ c4QcO8KZh1Z9zPvH+ZrvaJvKHHb+9FRUWXYeLHkeo870ZqDuyj0rviWBzEMWakUfco/y
+ REqt8nE+S9j3K3133IRyww5wW1gIvVMqtoSd+xGzOoIFRggsa96u89H6hfbkncDrvl4j
+ C/m3M/2P0HlObfNbU0T0Ey8oBAFEX66arR3ZkCLV+3lksoNtq5C7UCzKLrXgQLZFopGY
+ 534A==
+X-Gm-Message-State: ACrzQf2OIFzWVBFtTa1flvh+alOaG1Lb7HvB7XovRH6lbywWC60lKqfG
+ 1Y8NzuawDYPV+ZhsCZtyMD6zxd8GSlhfDQ==
+X-Google-Smtp-Source: AMsMyM6ghjw+114ICaKQxHQvTvp3MkbhEl9gJT6Ke0xqFGRA1sTLP058VOc7GpjMltEE/XoH12Yvgg==
+X-Received: by 2002:a65:4508:0:b0:43c:e3c6:d1c2 with SMTP id
+ n8-20020a654508000000b0043ce3c6d1c2mr5449035pgq.582.1665164106203; 
+ Fri, 07 Oct 2022 10:35:06 -0700 (PDT)
+Received: from ?IPV6:2602:47:d49d:ec01:3b6c:3864:9643:140a?
+ ([2602:47:d49d:ec01:3b6c:3864:9643:140a])
+ by smtp.gmail.com with ESMTPSA id
+ s23-20020a17090a1c1700b001fabcd994c1sm4855679pjs.9.2022.10.07.10.35.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Oct 2022 10:35:05 -0700 (PDT)
+Message-ID: <630e438d-1ef5-dc22-c9ad-4576de22b24f@linaro.org>
+Date: Fri, 7 Oct 2022 10:35:03 -0700
 MIME-Version: 1.0
-References: <20221006213507.645402-1-stefanha@redhat.com>
- <20221006213507.645402-3-stefanha@redhat.com>
- <874jwfr875.fsf@pond.sub.org>
-In-Reply-To: <874jwfr875.fsf@pond.sub.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 7 Oct 2022 13:26:12 -0400
-Message-ID: <CAJSP0QU53OaaY9PwYiYYOL655Qx_3f04durtXh7uE9vgieeHvQ@mail.gmail.com>
-Subject: Re: [PATCH v6 02/13] blkio: add libblkio block driver
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org, 
- Yanan Wang <wangyanan55@huawei.com>, sgarzare@redhat.com, 
- "Richard W.M. Jones" <rjones@redhat.com>, Fam Zheng <fam@euphon.net>,
- Hanna Reitz <hreitz@redhat.com>, 
- David Hildenbrand <david@redhat.com>, integration@gluster.org,
- qemu-block@nongnu.org, 
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Kevin Wolf <kwolf@redhat.com>, afaria@redhat.com, 
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- Xie Changlong <xiechanglong.d@gmail.com>, John Snow <jsnow@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>, Jeff Cody <codyprime@gmail.com>, 
- "Denis V. Lunev" <den@openvz.org>, Laurent Vivier <lvivier@redhat.com>,
- Peter Xu <peterx@redhat.com>, 
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Wen Congyang <wencongyang2@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 41/42] target/arm: Implement FEAT_HAFDBS
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20221001162318.153420-1-richard.henderson@linaro.org>
+ <20221001162318.153420-42-richard.henderson@linaro.org>
+ <CAFEAcA-LhvMYbTTcsC+eAcAeA61e9Kq=zf6fKr5j_4dusuRDiw@mail.gmail.com>
+ <52ec3b12-b9bb-b2a9-52c8-54a7016182c6@linaro.org>
+ <CAFEAcA8Qe-Y1HD8ULjDgrcRGbpXruqL=te9NXtTv2OWv2DOBhQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA8Qe-Y1HD8ULjDgrcRGbpXruqL=te9NXtTv2OWv2DOBhQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2f.google.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.699,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,221 +98,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Oct 2022 at 11:41, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Stefan Hajnoczi <stefanha@redhat.com> writes:
->
-> > libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
-> > high-performance disk I/O. It currently supports io_uring,
-> > virtio-blk-vhost-user, and virtio-blk-vhost-vdpa with additional drivers
-> > under development.
-> >
-> > One of the reasons for developing libblkio is that other applications
-> > besides QEMU can use it. This will be particularly useful for
-> > virtio-blk-vhost-user which applications may wish to use for connecting
-> > to qemu-storage-daemon.
-> >
-> > libblkio also gives us an opportunity to develop in Rust behind a C API
-> > that is easy to consume from QEMU.
-> >
-> > This commit adds io_uring, virtio-blk-vhost-user, and
-> > virtio-blk-vhost-vdpa BlockDrivers to QEMU using libblkio. It will be
-> > easy to add other libblkio drivers since they will share the majority of
-> > code.
-> >
-> > For now I/O buffers are copied through bounce buffers if the libblkio
-> > driver requires it. Later commits add an optimization for
-> > pre-registering guest RAM to avoid bounce buffers.
-> >
-> > The syntax is:
-> >
-> >   --blockdev io_uring,node-name=drive0,filename=test.img,readonly=on|off,cache.direct=on|off
-> >
-> > and:
-> >
-> >   --blockdev virtio-blk-vhost-vdpa,node-name=drive0,path=/dev/vdpa...,readonly=on|off
->
-> The patch also adds nvme-io_uring.  Shouldn't the commit message mention
-> it?
+On 10/7/22 09:50, Peter Maydell wrote:
+> On Fri, 7 Oct 2022 at 17:45, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 10/7/22 06:47, Peter Maydell wrote:
+>>> Are there definitely no code paths where we might try to do
+>>> a page table walk with the iothread already locked ?
+>>
+>> I'll double-check, but another possibility is to simply perform the atomic operation on
+>> the low 32-bits, where both AF and DB are located.  Another trick I learned from x86...
+> 
+> Doesn't that cause a problem where we don't detect that some other
+> CPU wrote to the high 32 bits of the descriptor ? We're supposed to
+> be using those high 32 bits, not the ones we have in hand...
 
-Yes, will fix in the next revision. Thanks!
->
-> >
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > Acked-by: Markus Armbruster <armbru@redhat.com>
-> > ---
-> >  MAINTAINERS                   |   6 +
-> >  meson_options.txt             |   2 +
-> >  qapi/block-core.json          |  75 ++-
-> >  meson.build                   |   9 +
-> >  block/blkio.c                 | 830 ++++++++++++++++++++++++++++++++++
-> >  tests/qtest/modules-test.c    |   3 +
-> >  block/meson.build             |   1 +
-> >  scripts/meson-buildoptions.sh |   3 +
-> >  8 files changed, 925 insertions(+), 4 deletions(-)
-> >  create mode 100644 block/blkio.c
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index e1530b51a2..0dcae6168a 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -3403,6 +3403,12 @@ L: qemu-block@nongnu.org
-> >  S: Maintained
-> >  F: block/vdi.c
-> >
-> > +blkio
-> > +M: Stefan Hajnoczi <stefanha@redhat.com>
-> > +L: qemu-block@nongnu.org
-> > +S: Maintained
-> > +F: block/blkio.c
-> > +
-> >  iSCSI
-> >  M: Ronnie Sahlberg <ronniesahlberg@gmail.com>
-> >  M: Paolo Bonzini <pbonzini@redhat.com>
-> > diff --git a/meson_options.txt b/meson_options.txt
-> > index 79c6af18d5..66128178bf 100644
-> > --- a/meson_options.txt
-> > +++ b/meson_options.txt
-> > @@ -117,6 +117,8 @@ option('bzip2', type : 'feature', value : 'auto',
-> >         description: 'bzip2 support for DMG images')
-> >  option('cap_ng', type : 'feature', value : 'auto',
-> >         description: 'cap_ng support')
-> > +option('blkio', type : 'feature', value : 'auto',
-> > +       description: 'libblkio block device driver')
-> >  option('bpf', type : 'feature', value : 'auto',
-> >          description: 'eBPF support')
-> >  option('cocoa', type : 'feature', value : 'auto',
-> > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> > index f21fa235f2..6c6ae2885c 100644
-> > --- a/qapi/block-core.json
-> > +++ b/qapi/block-core.json
-> > @@ -2951,11 +2951,18 @@
-> >              'file', 'snapshot-access', 'ftp', 'ftps', 'gluster',
-> >              {'name': 'host_cdrom', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
-> >              {'name': 'host_device', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
-> > -            'http', 'https', 'iscsi',
-> > -            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
-> > -            'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
-> > +            'http', 'https',
-> > +            { 'name': 'io_uring', 'if': 'CONFIG_BLKIO' },
-> > +            'iscsi',
-> > +            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme',
-> > +            { 'name': 'nvme-io_uring', 'if': 'CONFIG_BLKIO' },
->
-> This enumeration value and ...
->
-> > +            'parallels', 'preallocate', 'qcow', 'qcow2', 'qed', 'quorum',
-> > +            'raw', 'rbd',
-> >              { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
-> > -            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
-> > +            'ssh', 'throttle', 'vdi', 'vhdx',
-> > +            { 'name': 'virtio-blk-vhost-user', 'if': 'CONFIG_BLKIO' },
-> > +            { 'name': 'virtio-blk-vhost-vdpa', 'if': 'CONFIG_BLKIO' },
-> > +            'vmdk', 'vpc', 'vvfat' ] }
-> >
-> >  ##
-> >  # @BlockdevOptionsFile:
-> > @@ -3678,6 +3685,58 @@
-> >              '*debug': 'int',
-> >              '*logfile': 'str' } }
-> >
-> > +##
-> > +# @BlockdevOptionsIoUring:
-> > +#
-> > +# Driver specific block device options for the io_uring backend.
-> > +#
-> > +# @filename: path to the image file
-> > +#
-> > +# Since: 7.2
-> > +##
-> > +{ 'struct': 'BlockdevOptionsIoUring',
-> > +  'data': { 'filename': 'str' },
-> > +  'if': 'CONFIG_BLKIO' }
-> > +
-> > +##
-> > +# @BlockdevOptionsNvmeIoUring:
-> > +#
-> > +# Driver specific block device options for the nvme-io_uring backend.
-> > +#
-> > +# @filename: path to the image file
-> > +#
-> > +# Since: 7.2
-> > +##
-> > +{ 'struct': 'BlockdevOptionsNvmeIoUring',
-> > +  'data': { 'filename': 'str' },
-> > +  'if': 'CONFIG_BLKIO' }
->
-> ... this type aren't used in this patch.  Did you ...
->
-> > +
-> > +##
-> > +# @BlockdevOptionsVirtioBlkVhostUser:
-> > +#
-> > +# Driver specific block device options for the virtio-blk-vhost-user backend.
-> > +#
-> > +# @path: path to the vhost-user UNIX domain socket.
-> > +#
-> > +# Since: 7.2
-> > +##
-> > +{ 'struct': 'BlockdevOptionsVirtioBlkVhostUser',
-> > +  'data': { 'path': 'str' },
-> > +  'if': 'CONFIG_BLKIO' }
-> > +
-> > +##
-> > +# @BlockdevOptionsVirtioBlkVhostVdpa:
-> > +#
-> > +# Driver specific block device options for the virtio-blk-vhost-vdpa backend.
-> > +#
-> > +# @path: path to the vhost-vdpa character device.
-> > +#
-> > +# Since: 7.2
-> > +##
-> > +{ 'struct': 'BlockdevOptionsVirtioBlkVhostVdpa',
-> > +  'data': { 'path': 'str' },
-> > +  'if': 'CONFIG_BLKIO' }
-> > +
-> >  ##
-> >  # @IscsiTransport:
-> >  #
-> > @@ -4305,6 +4364,8 @@
-> >                         'if': 'HAVE_HOST_BLOCK_DEVICE' },
-> >        'http':       'BlockdevOptionsCurlHttp',
-> >        'https':      'BlockdevOptionsCurlHttps',
-> > +      'io_uring':   { 'type': 'BlockdevOptionsIoUring',
-> > +                      'if': 'CONFIG_BLKIO' },
-> >        'iscsi':      'BlockdevOptionsIscsi',
-> >        'luks':       'BlockdevOptionsLUKS',
-> >        'nbd':        'BlockdevOptionsNbd',
-> > @@ -4327,6 +4388,12 @@
-> >        'throttle':   'BlockdevOptionsThrottle',
-> >        'vdi':        'BlockdevOptionsGenericFormat',
-> >        'vhdx':       'BlockdevOptionsGenericFormat',
-> > +      'virtio-blk-vhost-user':
-> > +                    { 'type': 'BlockdevOptionsVirtioBlkVhostUser',
-> > +                      'if': 'CONFIG_BLKIO' },
-> > +      'virtio-blk-vhost-vdpa':
-> > +                    { 'type': 'BlockdevOptionsVirtioBlkVhostVdpa',
-> > +                      'if': 'CONFIG_BLKIO' },
-> >        'vmdk':       'BlockdevOptionsGenericCOWFormat',
-> >        'vpc':        'BlockdevOptionsGenericFormat',
-> >        'vvfat':      'BlockdevOptionsVVFAT'
->
-> ... forget to add a branch here?
+Hmm, yes.  Which now makes me wonder if the x86 case is in fact buggy...
 
-Yes! Alberto tried to run it earlier today and hit this problem. Will
-fix in the next revision:
+> If we do need the iothread lock, we could do it the way that
+> io_readx() does, I guess, where we track whether we needed to
+> lock it or not.
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 6c6ae2885c..d752e8550d 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4373,6 +4373,8 @@
-       'null-aio':   'BlockdevOptionsNull',
-       'null-co':    'BlockdevOptionsNull',
-       'nvme':       'BlockdevOptionsNVMe',
-+      'nvme-io_uring': { 'type': 'BlockdevOptionsNvmeIoUring',
-+                         'if': 'CONFIG_BLKIO' },
-       'parallels':  'BlockdevOptionsGenericFormat',
-       'preallocate':'BlockdevOptionsPreallocate',
-       'qcow2':      'BlockdevOptionsQcow2',
+yes.
+
+
+r~
 
