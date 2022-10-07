@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9F95F8059
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 23:56:19 +0200 (CEST)
-Received: from localhost ([::1]:58588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC915F80C9
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Oct 2022 00:29:12 +0200 (CEST)
+Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogvKM-0001Kz-7P
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 17:56:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60412)
+	id 1ogvqB-0002fE-9R
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 18:29:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ogvIm-0008F9-Rb
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 17:54:40 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:56620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ogvIk-0002E3-Rl
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 17:54:40 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B2571B8075B;
- Fri,  7 Oct 2022 21:54:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B8EC433C1;
- Fri,  7 Oct 2022 21:54:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1665179674;
- bh=G2Bpq4X4c8Ld9teic5MSWuwfYmtsWLlVtQM7SvLz7EM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NJdWRQVjYLReY1JTMnenjvtgVCZt4egbIwOAesAgJ0c5LRyiJ6FS2Is1wil1ZXdTz
- AJ1kwpOlrcj05wS26ZoEzT3/8h530P4CX+wFcr9u1OEiqHvLE+PC7ho2e7GJFdEUru
- 7tzvwEpp+KSGnrXLeNvlQNkIzXs14GKQ2UEf9fckV+owFuT9iIYNbE89lYFrF4/9i6
- RXxYXRFq8nqmJMmmQd4o6QJMRj+U707HR9qwU7r4/1xjmo4p6qYx/RPgcl8VWzrfqq
- vMBKtC9AalFy4+WmipyZkd+XoDdrkbKg+xypPSWQwhnm8oQlSaLdzQoYjHHrShp+pT
- +BMOJNADjwkmA==
-Date: Sat, 8 Oct 2022 00:54:28 +0300
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
- private memory
-Message-ID: <Y0CgFIq6JnHmdWrL@kernel.org>
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
- <Yz7s+JIexAHJm5dc@kernel.org> <Yz7vHXZmU3EpmI0j@kernel.org>
- <Yz71ogila0mSHxxJ@google.com> <Y0AJ++m/TxoscOZg@kernel.org>
- <Y0A+rogB6TRDtbyE@google.com>
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1ogvoe-0001I2-OK
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 18:27:36 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:44387
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1ogvod-0006lY-1I
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 18:27:36 -0400
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4Mkjc40P6Rz8PbN;
+ Fri,  7 Oct 2022 18:27:32 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=
+ content-type:message-id:date:mime-version:subject:to:cc
+ :references:from:in-reply-to; s=default; bh=ylkw5m/wuTtUBqdaWQqD
+ MW9ryO4=; b=K4492hijzhEsNriKknHH5LmaZJkdIyA0esanEMAByG2b/CX+RbD2
+ puEaX9iNT5SEY0HTPMefaoW5wnXVvGEAgrULvLvDPs7xOXEUbadcowI5X92aBEAj
+ duBKtIMPb8mIlRXe69kPJc+9U1TBqh5svns8dStSvF/YWUsJ40rFKg0=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=content-type
+ :message-id:date:mime-version:subject:to:cc:references:from
+ :in-reply-to; q=dns; s=default; b=QaVzSidslquRcL6fTDropB/bAYbH17
+ drjl7xMky55W/dqbY07P+Ob9n6IC8/ZsiBKkMEWK2DYXWsnDP9k/VGZXiHSyUR7K
+ kwuWjwuGgNNczTUvhKtMDeg0/7QCQlV/nwkt3RzufwfencXrNHmXDZh6B6t4Fv9u
+ Ns7JWdKwmhQsI=
+Received: from [IPV6:2001:470:b050:6:ac54:f63e:f6b4:9cd1] (unknown
+ [IPv6:2001:470:b050:6:ac54:f63e:f6b4:9cd1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4Mkjc361B4z8PbK;
+ Fri,  7 Oct 2022 18:27:31 -0400 (EDT)
+Content-Type: multipart/alternative;
+ boundary="------------eiXhQt5hiMeDzl0LlUoiJUEl"
+Message-ID: <56a8c363-d2f2-3aa5-6b35-5c11cc967bf8@comstyle.com>
+Date: Fri, 7 Oct 2022 18:27:29 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y0A+rogB6TRDtbyE@google.com>
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=jarkko@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101
+ Thunderbird/106.0
+Subject: Re: [PATCH v2] tests: Add sndio to the FreeBSD CI containers / VM
+Content-Language: en-US
+To: Warner Losh <imp@bsdimp.com>
+Cc: Kyle Evans <kevans@freebsd.org>, Ed Maste <emaste@freebsd.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Alex Benn_e <alex.bennee@linaro.org>,
+ Philippe Mathieu-Daud_ <f4bug@amsat.org>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
+References: <Yz/TeblRI77AIHJe@humpty.home.comstyle.com>
+ <CANCZdfoE=cXBnamXYFLV0ZDOYUsPKGr8RNpOLMmpRT3=w6ug8A@mail.gmail.com>
+From: Brad Smith <brad@comstyle.com>
+In-Reply-To: <CANCZdfoE=cXBnamXYFLV0ZDOYUsPKGr8RNpOLMmpRT3=w6ug8A@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-2.699, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,55 +82,194 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 07, 2022 at 02:58:54PM +0000, Sean Christopherson wrote:
-> On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
-> > On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
-> > > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
-> > > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
-> > > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
-> > > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> > > > > > additional KVM memslot fields private_fd/private_offset to allow
-> > > > > > userspace to specify that guest private memory provided from the
-> > > > > > private_fd and guest_phys_addr mapped at the private_offset of the
-> > > > > > private_fd, spanning a range of memory_size.
-> > > > > > 
-> > > > > > The extended memslot can still have the userspace_addr(hva). When use, a
-> > > > > > single memslot can maintain both private memory through private
-> > > > > > fd(private_fd/private_offset) and shared memory through
-> > > > > > hva(userspace_addr). Whether the private or shared part is visible to
-> > > > > > guest is maintained by other KVM code.
-> > > > > 
-> > > > > What is anyway the appeal of private_offset field, instead of having just
-> > > > > 1:1 association between regions and files, i.e. one memfd per region?
-> > > 
-> > > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
-> > > E.g. if a vCPU converts a single page, it will be forced to wait until all other
-> > > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
-> > > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
-> > > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
-> > > the SRCU problem.
-> > > 
-> > > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
-> > > memslot is deleted.
-> > > 
-> > > Taking both a private_fd and a shared userspace address allows userspace to convert
-> > > between private and shared without having to manipulate memslots.
-> > 
-> > Right, this was really good explanation, thank you.
-> > 
-> > Still wondering could this possibly work (or not):
-> > 
-> > 1. Union userspace_addr and private_fd.
-> 
-> No, because userspace needs to be able to provide both userspace_addr (shared
-> memory) and private_fd (private memory) for a single memslot.
+This is a multi-part message in MIME format.
+--------------eiXhQt5hiMeDzl0LlUoiJUEl
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Got it, thanks for clearing my misunderstandings on this topic, and it
-is quite obviously visible in 5/8 and 7/8. I.e. if I got it right,
-memblock can be partially private, and you dig the shared holes with
-KVM_MEMORY_ENCRYPT_UNREG_REGION. We have (in Enarx) ATM have memblock
-per host mmap, I was looking into this dilated by that mindset but makes
-definitely sense to support that.
+On 10/7/2022 4:33 PM, Warner Losh wrote:
+>
+>
+> On Fri, Oct 7, 2022 at 1:21 AM Brad Smith <brad@comstyle.com> wrote:
+>
+>     tests: Add sndio to the FreeBSD CI containers / VM
+>
+>     ---
+>     =C2=A0.gitlab-ci.d/cirrus/freebsd-12.vars=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-
+>     =C2=A0.gitlab-ci.d/cirrus/freebsd-13.vars=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-
+>     =C2=A0tests/docker/dockerfiles/alpine.docker=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A03 +-
+>     =C2=A0tests/docker/dockerfiles/centos8.docker=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A02 +-
+>     =C2=A0.../dockerfiles/debian-amd64-cross.docker=C2=A0 =C2=A0 =C2=A0=
+| 235 ++++++++---------
+>     =C2=A0tests/docker/dockerfiles/debian-amd64.docker=C2=A0 | 237
+>     +++++++++---------
+>     =C2=A0.../dockerfiles/debian-arm64-cross.docker=C2=A0 =C2=A0 =C2=A0=
+| 233 ++++++++---------
+>     =C2=A0.../dockerfiles/debian-armel-cross.docker=C2=A0 =C2=A0 =C2=A0=
+| 231 ++++++++---------
+>     =C2=A0.../dockerfiles/debian-armhf-cross.docker=C2=A0 =C2=A0 =C2=A0=
+| 233 ++++++++---------
+>     =C2=A0.../dockerfiles/debian-mips64el-cross.docker=C2=A0 | 227 ++++=
+++++---------
+>     =C2=A0.../dockerfiles/debian-mipsel-cross.docker=C2=A0 =C2=A0 | 227=
+ ++++++++---------
+>     =C2=A0.../dockerfiles/debian-ppc64el-cross.docker=C2=A0 =C2=A0| 231=
+ ++++++++---------
+>     =C2=A0.../dockerfiles/debian-s390x-cross.docker=C2=A0 =C2=A0 =C2=A0=
+| 229 ++++++++---------
+>     =C2=A0tests/docker/dockerfiles/fedora.docker=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 230 ++++++++---------
+>     =C2=A0tests/docker/dockerfiles/opensuse-leap.docker |=C2=A0 =C2=A03=
+ +-
+>     =C2=A0tests/docker/dockerfiles/ubuntu2004.docker=C2=A0 =C2=A0 | 235=
+ ++++++++---------
+>     =C2=A0tests/lcitool/libvirt-ci=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-
+>     =C2=A0tests/lcitool/projects/qemu.yml=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +
+>     =C2=A0tests/vm/freebsd=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0=
+3 +
+>     =C2=A019 files changed, 1291 insertions(+), 1275 deletions(-)
+>
+>
+> This looks good to me. Why did the Linux containers need updating for=20
+> the FreeBSD update?
+>
+> Otherwise, the changes look good to my eye
+>
+> Reviewed-by:=C2=A0 Warner Losh <imp@bsdimp.com>
 
-BR, Jarkko
+
+Because the CI configs are auto-generated. When refreshing them it=20
+generates them all. The intent was
+to update the FreeBSD configs, but when adding the dependency to=20
+tests/lcitool/projects/qemu.yml
+the FreeBSD configs are updated as well as the rest. Whatever OS's have=20
+a corresponding mapping
+in libvirt-ci are updated.
+
+--------------eiXhQt5hiMeDzl0LlUoiJUEl
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <div class=3D"moz-cite-prefix">On 10/7/2022 4:33 PM, Warner Losh
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite"
+cite=3D"mid:CANCZdfoE=3DcXBnamXYFLV0ZDOYUsPKGr8RNpOLMmpRT3=3Dw6ug8A@mail.=
+gmail.com">
+      <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DU=
+TF-8">
+      <div dir=3D"ltr">
+        <div dir=3D"ltr"><br>
+        </div>
+        <br>
+        <div class=3D"gmail_quote">
+          <div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 7, 2022 at 1:=
+21
+            AM Brad Smith &lt;<a href=3D"mailto:brad@comstyle.com"
+              moz-do-not-send=3D"true" class=3D"moz-txt-link-freetext">br=
+ad@comstyle.com</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">tests: Add sndio to the
+            FreeBSD CI containers / VM<br>
+            <br>
+            ---<br>
+            =C2=A0.gitlab-ci.d/cirrus/freebsd-12.vars=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+            =C2=A0.gitlab-ci.d/cirrus/freebsd-13.vars=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+            =C2=A0tests/docker/dockerfiles/alpine.docker=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A03 +-<br>
+            =C2=A0tests/docker/dockerfiles/centos8.docker=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+            =C2=A0.../dockerfiles/debian-amd64-cross.docker=C2=A0 =C2=A0 =
+=C2=A0| 235
+            ++++++++---------<br>
+            =C2=A0tests/docker/dockerfiles/debian-amd64.docker=C2=A0 | 23=
+7
+            +++++++++---------<br>
+            =C2=A0.../dockerfiles/debian-arm64-cross.docker=C2=A0 =C2=A0 =
+=C2=A0| 233
+            ++++++++---------<br>
+            =C2=A0.../dockerfiles/debian-armel-cross.docker=C2=A0 =C2=A0 =
+=C2=A0| 231
+            ++++++++---------<br>
+            =C2=A0.../dockerfiles/debian-armhf-cross.docker=C2=A0 =C2=A0 =
+=C2=A0| 233
+            ++++++++---------<br>
+            =C2=A0.../dockerfiles/debian-mips64el-cross.docker=C2=A0 | 22=
+7
+            ++++++++---------<br>
+            =C2=A0.../dockerfiles/debian-mipsel-cross.docker=C2=A0 =C2=A0=
+ | 227
+            ++++++++---------<br>
+            =C2=A0.../dockerfiles/debian-ppc64el-cross.docker=C2=A0 =C2=A0=
+| 231
+            ++++++++---------<br>
+            =C2=A0.../dockerfiles/debian-s390x-cross.docker=C2=A0 =C2=A0 =
+=C2=A0| 229
+            ++++++++---------<br>
+            =C2=A0tests/docker/dockerfiles/fedora.docker=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | 230
+            ++++++++---------<br>
+            =C2=A0tests/docker/dockerfiles/opensuse-leap.docker |=C2=A0 =C2=
+=A03 +-<br>
+            =C2=A0tests/docker/dockerfiles/ubuntu2004.docker=C2=A0 =C2=A0=
+ | 235
+            ++++++++---------<br>
+            =C2=A0tests/lcitool/libvirt-ci=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+            =C2=A0tests/lcitool/projects/qemu.yml=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
+            =C2=A0tests/vm/freebsd=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A03 +<br>
+            =C2=A019 files changed, 1291 insertions(+), 1275 deletions(-)=
+<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>This looks good to me. Why did the Linux containers need
+            updating for the FreeBSD update?</div>
+          <div><br>
+          </div>
+          <div>Otherwise, the changes look good to my eye</div>
+          <div><br>
+          </div>
+          <div>Reviewed-by:=C2=A0 Warner Losh &lt;<a
+              href=3D"mailto:imp@bsdimp.com" moz-do-not-send=3D"true"
+              class=3D"moz-txt-link-freetext">imp@bsdimp.com</a>&gt;</div=
+>
+        </div>
+      </div>
+    </blockquote>
+    <p><br>
+      Because the CI configs are auto-generated. When refreshing them it
+      generates them all. The intent was<br>
+      to update the FreeBSD configs, but when adding the dependency to
+      tests/lcitool/projects/qemu.yml<br>
+      the FreeBSD configs are updated as well as the rest. Whatever OS's
+      have a corresponding mapping<br>
+      in libvirt-ci are updated.<br>
+    </p>
+  </body>
+</html>
+
+--------------eiXhQt5hiMeDzl0LlUoiJUEl--
 
