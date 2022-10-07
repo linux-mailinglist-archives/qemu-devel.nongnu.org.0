@@ -2,99 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527855F7DD0
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 21:17:45 +0200 (CEST)
-Received: from localhost ([::1]:40802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF25C5F7E8A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 22:15:08 +0200 (CEST)
+Received: from localhost ([::1]:46120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogsqt-0001Vu-VY
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 15:17:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32862)
+	id 1ogtkR-0006mw-Et
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 16:15:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ogsk8-0003Su-Cs; Fri, 07 Oct 2022 15:10:44 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57918)
+ (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1ogtiv-000591-8d
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 16:13:33 -0400
+Received: from bee.birch.relay.mailchannels.net ([23.83.209.14]:32879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1ogsk4-0006Po-C8; Fri, 07 Oct 2022 15:10:41 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 297J7xl7025864;
- Fri, 7 Oct 2022 19:10:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=jH53fcqsszRbZx1TTa49kVZRS0s8zdfWbb2JBgDXRus=;
- b=cR6dCenDCHitUts17ekvoznvSgs9qFeaHGh4EtcVjILTiu0lXllxpgwTfZ0LsQh82Xqy
- dnzU2VEriuu25KvYKjydVWf7afvxZNuKRi0bRI+zeZL0WtA/qgxhalOJ02qxBK2dBIs4
- Beb2hVOvbidOaEYsnJ6mXwuLeXiAydbn5nIQ5ZnGIg97KlwH0d52bkEN/i+ygGJ2oW1d
- 4ib3uEJdusVhUJ927T1OIruJ6v4DcwMDQ5AioCQhFdFT9AidD7GwoSoR5MJcVTFVal3f
- 7HPq3q1F2sdGCC8aSLO3I0LS01VJ8z4+tjbCn9yN1THUKeDMIicvqAvXv5PpL09mAgN/ ZA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k2mfq458p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Oct 2022 19:10:24 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 297J8kRB001116;
- Fri, 7 Oct 2022 19:10:24 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3k2mfq457v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Oct 2022 19:10:24 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 297J5kVh031679;
- Fri, 7 Oct 2022 19:10:23 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma02dal.us.ibm.com with ESMTP id 3k28d2eenr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Oct 2022 19:10:23 +0000
-Received: from smtpav04.wdc07v.mail.ibm.com ([9.208.128.116])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 297JALRx51642624
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 7 Oct 2022 19:10:22 GMT
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ACF7658054;
- Fri,  7 Oct 2022 19:10:21 +0000 (GMT)
-Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 124AD58050;
- Fri,  7 Oct 2022 19:10:21 +0000 (GMT)
-Received: from localhost (unknown [9.160.33.130])
- by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTPS;
- Fri,  7 Oct 2022 19:10:20 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: Re: [PATCH 2/6] target/ppc: fix msgsync insns flags
-In-Reply-To: <20221006200654.725390-3-matheus.ferst@eldorado.org.br>
-References: <20221006200654.725390-1-matheus.ferst@eldorado.org.br>
- <20221006200654.725390-3-matheus.ferst@eldorado.org.br>
-Date: Fri, 07 Oct 2022 16:10:19 -0300
-Message-ID: <874jwf8n6s.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1ogtir-0006Fv-9G
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 16:13:32 -0400
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+ by relay.mailchannels.net (Postfix) with ESMTP id EB710260988;
+ Fri,  7 Oct 2022 20:13:25 +0000 (UTC)
+Received: from pdx1-sub0-mail-a282 (unknown [127.0.0.6])
+ (Authenticated sender: dreamhost)
+ by relay.mailchannels.net (Postfix) with ESMTPA id ED93426116C;
+ Fri,  7 Oct 2022 20:13:24 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1665173605; a=rsa-sha256;
+ cv=none;
+ b=XN3v2on9PoFSdZPQKOtGyzrtKz7aVAZUlmGsLOH7t0VebHa5ga/vDh7BX7oI3D1KylC+Q+
+ 9lFZ0YFmjWoMlKBHa39j/uMfGzMxpoOKgnW9WRXBRNrmR02uTRetaK0NX16mKjpXUBr/9I
+ IjJdN9EANDGA0kljR3XC2gHieBI3I6Hwin+Jmj4WYyFAg/lhG6nay3ljBwtBhc1GYfrTPD
+ FPCPbYqXtngXCXVm5lpXc1ZUZ50eSPfRVNBbQdmhxrnPeTIF6coFn0jhXR0/2GxF1u0N80
+ Wa92aEl8Cun8pegSvZMG066TI6OHR+2olsIaoUxy0irqm+D3VxIG+1oLQNcdSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net; s=arc-2022; t=1665173605;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:dkim-signature;
+ bh=NAm1LUEGY44NNwjL2IJ/5MomV8aO8u78kjmZAIx7voU=;
+ b=zPWPhJhzO+eI4WDB0uY9od8/UDNVxR6qFUNjoRge7dWnRYqxYq3072PgZsl/LYwIn0CcGe
+ 4qHMa3CsMnnFUgLrZmPTf+t7q9Xpp3fj9rXMMl+/Up1xW8XcoIibywUtOfxW6pj52GnRGj
+ OKotVxr8biA0e17cTj6TXafZ1zqNO9doa40yH6AMqC8bom/Cy6qObPIw3jqs31pKItyi2d
+ 1DVm5JGi3stQAg9CTECXoIJ4VBKEBY1Sfam/ZLqb8jrwfAOH3WsptvuS0AcYAAYQ+6Y44l
+ IwegDtey0nrZeXaeBkjAdx4zXhQcxwWTSw2CBafLq+THhNDVXXWV0GJj2vs6Zg==
+ARC-Authentication-Results: i=1; rspamd-755f899884-2b47f;
+ auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Bitter-Illegal: 25145ad5026fc4f2_1665173605286_648685402
+X-MC-Loop-Signature: 1665173605286:3480309679
+X-MC-Ingress-Time: 1665173605285
+Received: from pdx1-sub0-mail-a282 (pop.dreamhost.com [64.90.62.162])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+ by 100.106.246.134 (trex/6.7.1); Fri, 07 Oct 2022 20:13:25 +0000
+Received: from offworld (ip72-199-50-187.sd.sd.cox.net [72.199.50.187])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: dave@stgolabs.net)
+ by pdx1-sub0-mail-a282 (Postfix) with ESMTPSA id 4MkfdH6N0jz2Z;
+ Fri,  7 Oct 2022 13:13:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+ s=dreamhost; t=1665173604;
+ bh=NAm1LUEGY44NNwjL2IJ/5MomV8aO8u78kjmZAIx7voU=;
+ h=Date:From:To:Cc:Subject:Content-Type;
+ b=hDJLtBvGgzAURSGTDeqeZUTHxKLK82jACUyxYz4ZwX4JKHko2poWa+HYRPoKnShqL
+ +TWYFNBUFtp9lwvmG25trmodSlWQOCNcAtRNJ7fJPDZ/64/IcLcT+kUH8n579L25gs
+ GCX9NSR7JTvKClvz5MFEkF5ErM3ZFxuxLXmWUF3iJRrc5K4aOhTWB09oVKS+cO01q5
+ +ugTTOZCvxsAwna9DUzJ2fGIp5TRYsoAyMgz7HENU+rKHatLphclVV0kCsl+11WVCw
+ h3iQPBON5BKfpiS6T2mYGQyc+RrnncXlyH2foOEvqhPfXRZ2XxkZzWFebjlSoenmTq
+ ntDn/dk2LL8Qg==
+Date: Fri, 7 Oct 2022 12:52:48 -0700
+From: Davidlohr Bueso <dave@stgolabs.net>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Gourry <gourry.memverge@gmail.com>, qemu-devel@nongnu.org,
+ Gourry <gregory.price@memverge.com>, linux-cxl@vger.kernel.org,
+ Alison Schofield <alison.schofield@intel.com>,
+ "a.manzanares@samsung.com" <a.manzanares@samsung.com>,
+ Ben Widawsky <bwidawsk@kernel.org>
+Subject: Re: [PATCH RFC] hw/cxl: type 3 devices can now present volatile or
+ persistent memory
+Message-ID: <20221007195248.2i7a44fuujpbfdof@offworld>
+References: <20221006000103.49542-1-gregory.price@memverge.com>
+ <20221006094557.000035ab@huawei.com>
+ <20221006095007.00001271@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ylZOLnwwp4fbH6kxh9aM9YAYpIEn1sGS
-X-Proofpoint-ORIG-GUID: cRIx-BFwb4nmwc5oMuk3f9dTEaf1rR4L
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
- definitions=2022-10-07_04,2022-10-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015
- priorityscore=1501 phishscore=0 malwarescore=0 bulkscore=0 mlxscore=0
- adultscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
- mlxlogscore=550 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2210070112
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20221006095007.00001271@huawei.com>
+User-Agent: NeoMutt/20220429
+Received-SPF: pass client-ip=23.83.209.14; envelope-from=dave@stgolabs.net;
+ helo=bee.birch.relay.mailchannels.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,31 +115,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Matheus Ferst <matheus.ferst@eldorado.org.br> writes:
+On Thu, 06 Oct 2022, Jonathan Cameron wrote:
 
-> This instruction was added by Power ISA 3.0, using PPC2_PRCNTL makes it
-> available for older processors, like de e5500 and e6500.
->
-> Fixes: 7af1e7b02264 ("target/ppc: add support for hypervisor doorbells on book3s CPUs")
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>One of the blockers for volatile support was that we had no means to poke
+>it properly as the kernel doesn't yet support volatile capacity and
+>no one has done the relevant work in EDK2 or similar to do it before the kernel boots.
+>There has been some work on EDK2 support for ARM N2 FVPs from
+>Saanta Pattanayak, but not upstream eyt.
+>https://lpc.events/event/16/contributions/1254/
 
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+fwiw I had been trying to build some of the firmware bootup for the required
+acpi tables that are particular to volatile capacity steps (srat/slit, hmat and
+EFI Memory Map) by parameters, but got quickly out of hand. For example, the srat
+could use a passed 'node' and have a cxl_build_srat(), etc. But yeah it would
+be nice for the EDK2 work to advance on the x86 end.
 
-> ---
->  target/ppc/translate.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 37d7018d18..eaac8670b1 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -6906,7 +6906,7 @@ GEN_HANDLER2_E(msgsnd, "msgsnd", 0x1F, 0x0E, 0x06, 0x03ff0001,
->  GEN_HANDLER2_E(msgclr, "msgclr", 0x1F, 0x0E, 0x07, 0x03ff0001,
->                 PPC_NONE, (PPC2_PRCNTL | PPC2_ISA207S)),
->  GEN_HANDLER2_E(msgsync, "msgsync", 0x1F, 0x16, 0x1B, 0x00000000,
-> -               PPC_NONE, PPC2_PRCNTL),
-> +               PPC_NONE, PPC2_ISA300),
->  GEN_HANDLER(wrtee, 0x1F, 0x03, 0x04, 0x000FFC01, PPC_WRTEE),
->  GEN_HANDLER(wrteei, 0x1F, 0x03, 0x05, 0x000E7C01, PPC_WRTEE),
->  GEN_HANDLER(dlmzb, 0x1F, 0x0E, 0x02, 0x00000000, PPC_440_SPEC),
+Thanks,
+Davidlohr
+
+diff --git a/hw/acpi/cxl.c b/hw/acpi/cxl.c
+index 2bf8c0799359..1c3c6d17c222 100644
+--- a/hw/acpi/cxl.c
++++ b/hw/acpi/cxl.c
+@@ -254,3 +255,46 @@ void build_cxl_osc_method(Aml *dev)
++static int cxl_device_list(Object *obj, void *opaque)
++{
++    GSList **list = opaque;
++
++    if (object_dynamic_cast(obj, TYPE_CXL_TYPE3)) {
++        *list = g_slist_append(*list, DEVICE(obj));
++    }
++
++    object_child_foreach(obj, cxl_device_list, opaque);
++    return 0;
++}
++
++static GSList *cxl_get_device_list(void)
++{
++    GSList *list = NULL;
++
++    object_child_foreach(qdev_get_machine(), cxl_device_list, &list);
++    return list;
++}
++
++void cxl_build_srat(GArray *table_data)
++{
++    GSList *device_list, *list = cxl_get_device_list();
++
++    for (device_list = list; device_list; device_list = device_list->next) {
++        DeviceState *dev = device_list->data;
++        Object *obj = OBJECT(dev);
++        CXLType3Dev *ct3d = CXL_TYPE3(dev);
++        MemoryRegion *mr;
++        int node;
++
++        mr = host_memory_backend_get_memory(ct3d->hostmem);
++        if (!mr) {
++            continue;
++        }
++        node = object_property_get_uint(obj, "node", &error_abort);
++
++        build_srat_memory(table_data, mr->addr, mr->size, node, MEM_AFFINITY_ENABLED);
++    }
++
++    g_slist_free(list);
++}
 
