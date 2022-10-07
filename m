@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681725F77C5
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 13:59:33 +0200 (CEST)
-Received: from localhost ([::1]:45652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9A75F778C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 13:37:11 +0200 (CEST)
+Received: from localhost ([::1]:32768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogm0p-0004qR-Ve
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 07:59:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54218)
+	id 1oglfC-0008Rq-C9
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 07:37:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogkuI-0005pJ-JP
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogkuI-0005pS-MJ
  for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:48:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42218)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogkuF-0003GV-GN
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogkuE-0003G3-8b
  for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:48:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665139718;
+ s=mimecast20190719; t=1665139717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=efVycWThdQ0UYqUmznlpdEAoqAnDvWY6bNbCBuW9B1s=;
- b=AVWT1/zJGbeiK/nySeEluWdfy+JhDoYWp7MSh3bx6GXVruos3nVXG4nes/ObxbzKecRQ/W
- 5CgD6bjo0zO+hPt8wzMsFvfz65eZ9RzbFEpXtjnxx8kKzZzl3sFhP+/y7m3GDcqr/Qj/Bi
- +Hbpii60rwhkowp8tlTQIOlXsP+qp3g=
+ bh=p/+v3H6aSx0QXLvioRW8RWOD3PtTXuSNfQdTQyBTUco=;
+ b=gecgdg5UK+fZBIDLvXtiBgoPXCvJWIrfqxakVa40KodPKNGLf0Gso8WMjRfeOI2aQ+kSKa
+ 15PVqUYavZbQ94D8G4PLoTfCVn/hhL68UWebpbpzzWQb4kXPqaN2yACb9XsqHXF2DunWT5
+ XTNDF9SdPxNOL4UsyIwfrHXds2Inc8o=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-CFygWq0DNZOnh0z_IiWmjA-1; Fri, 07 Oct 2022 06:48:35 -0400
-X-MC-Unique: CFygWq0DNZOnh0z_IiWmjA-1
+ us-mta-668-Du2-zZZ4Na6QgqydDcrmpQ-1; Fri, 07 Oct 2022 06:48:36 -0400
+X-MC-Unique: Du2-zZZ4Na6QgqydDcrmpQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AAF23826243;
- Fri,  7 Oct 2022 10:48:35 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55D3A382624C;
+ Fri,  7 Oct 2022 10:48:36 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.192.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 99D552028DC1;
- Fri,  7 Oct 2022 10:48:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 933DB2024CBB;
+ Fri,  7 Oct 2022 10:48:35 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 35/50] blockjob: introduce block_job _locked() APIs
-Date: Fri,  7 Oct 2022 12:47:37 +0200
-Message-Id: <20221007104752.141361-36-kwolf@redhat.com>
+Subject: [PULL 36/50] jobs: add job lock in find_* functions
+Date: Fri,  7 Oct 2022 12:47:38 +0200
+Message-Id: <20221007104752.141361-37-kwolf@redhat.com>
 In-Reply-To: <20221007104752.141361-1-kwolf@redhat.com>
 References: <20221007104752.141361-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,229 +80,365 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Just as done with job.h, create _locked() functions in blockjob.h
-
-These functions will be later useful when caller has already taken
-the lock. All blockjob _locked functions call job _locked functions.
+Both blockdev.c and job-qmp.c have TOC/TOU conditions, because
+they first search for the job and then perform an action on it.
+Therefore, we need to do the search + action under the same
+job mutex critical section.
 
 Note: at this stage, job_{lock/unlock} and job lock guard macros
 are *nop*.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20220926093214.506243-8-eesposit@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20220926093214.506243-9-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/blockjob.h | 18 ++++++++++++++
- blockjob.c               | 52 ++++++++++++++++++++++++++++++++--------
- 2 files changed, 60 insertions(+), 10 deletions(-)
+ blockdev.c | 67 +++++++++++++++++++++++++++++++++++++-----------------
+ job-qmp.c  | 57 ++++++++++++++++++++++++++++++++--------------
+ 2 files changed, 86 insertions(+), 38 deletions(-)
 
-diff --git a/include/block/blockjob.h b/include/block/blockjob.h
-index 6525e16fd5..8b65d3949d 100644
---- a/include/block/blockjob.h
-+++ b/include/block/blockjob.h
-@@ -92,6 +92,9 @@ typedef struct BlockJob {
-  */
- BlockJob *block_job_next(BlockJob *job);
+diff --git a/blockdev.c b/blockdev.c
+index 392d9476e6..2e941e2979 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -3313,9 +3313,13 @@ out:
+     aio_context_release(aio_context);
+ }
  
-+/* Same as block_job_next(), but called with job lock held. */
-+BlockJob *block_job_next_locked(BlockJob *job);
-+
- /**
-  * block_job_get:
-  * @id: The id of the block job.
-@@ -102,6 +105,9 @@ BlockJob *block_job_next(BlockJob *job);
-  */
- BlockJob *block_job_get(const char *id);
- 
-+/* Same as block_job_get(), but called with job lock held. */
-+BlockJob *block_job_get_locked(const char *id);
-+
- /**
-  * block_job_add_bdrv:
-  * @job: A block job
-@@ -145,6 +151,12 @@ bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs);
-  */
- bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
- 
+-/* Get a block job using its ID and acquire its AioContext */
+-static BlockJob *find_block_job(const char *id, AioContext **aio_context,
+-                                Error **errp)
 +/*
-+ * Same as block_job_set_speed(), but called with job lock held.
-+ * Might release the lock temporarily.
++ * Get a block job using its ID and acquire its AioContext.
++ * Called with job_mutex held.
 + */
-+bool block_job_set_speed_locked(BlockJob *job, int64_t speed, Error **errp);
-+
- /**
-  * block_job_query:
-  * @job: The job to get information about.
-@@ -153,6 +165,9 @@ bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp);
-  */
- BlockJobInfo *block_job_query(BlockJob *job, Error **errp);
- 
-+/* Same as block_job_query(), but called with job lock held. */
-+BlockJobInfo *block_job_query_locked(BlockJob *job, Error **errp);
-+
- /**
-  * block_job_iostatus_reset:
-  * @job: The job whose I/O status should be reset.
-@@ -162,6 +177,9 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp);
-  */
- void block_job_iostatus_reset(BlockJob *job);
- 
-+/* Same as block_job_iostatus_reset(), but called with job lock held. */
-+void block_job_iostatus_reset_locked(BlockJob *job);
-+
- /*
-  * block_job_get_aio_context:
-  *
-diff --git a/blockjob.c b/blockjob.c
-index 7da59a1f1c..0d59aba439 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -44,21 +44,27 @@ static bool is_block_job(Job *job)
-            job_type(job) == JOB_TYPE_STREAM;
- }
- 
--BlockJob *block_job_next(BlockJob *bjob)
-+BlockJob *block_job_next_locked(BlockJob *bjob)
++static BlockJob *find_block_job_locked(const char *id,
++                                       AioContext **aio_context,
++                                       Error **errp)
  {
-     Job *job = bjob ? &bjob->job : NULL;
-     GLOBAL_STATE_CODE();
+     BlockJob *job;
  
-     do {
--        job = job_next(job);
-+        job = job_next_locked(job);
-     } while (job && !is_block_job(job));
+@@ -3323,7 +3327,7 @@ static BlockJob *find_block_job(const char *id, AioContext **aio_context,
  
-     return job ? container_of(job, BlockJob, job) : NULL;
- }
+     *aio_context = NULL;
  
--BlockJob *block_job_get(const char *id)
-+BlockJob *block_job_next(BlockJob *bjob)
+-    job = block_job_get(id);
++    job = block_job_get_locked(id);
+ 
+     if (!job) {
+         error_set(errp, ERROR_CLASS_DEVICE_NOT_ACTIVE,
+@@ -3340,13 +3344,16 @@ static BlockJob *find_block_job(const char *id, AioContext **aio_context,
+ void qmp_block_job_set_speed(const char *device, int64_t speed, Error **errp)
  {
--    Job *job = job_get(id);
+     AioContext *aio_context;
+-    BlockJob *job = find_block_job(device, &aio_context, errp);
++    BlockJob *job;
++
 +    JOB_LOCK_GUARD();
-+    return block_job_next_locked(bjob);
-+}
-+
-+BlockJob *block_job_get_locked(const char *id)
-+{
-+    Job *job = job_get_locked(id);
-     GLOBAL_STATE_CODE();
++    job = find_block_job_locked(device, &aio_context, errp);
  
-     if (job && is_block_job(job)) {
-@@ -68,6 +74,12 @@ BlockJob *block_job_get(const char *id)
-     }
- }
- 
-+BlockJob *block_job_get(const char *id)
-+{
-+    JOB_LOCK_GUARD();
-+    return block_job_get_locked(id);
-+}
-+
- void block_job_free(Job *job)
- {
-     BlockJob *bjob = container_of(job, BlockJob, job);
-@@ -256,14 +268,14 @@ static bool job_timer_pending(Job *job)
-     return timer_pending(&job->sleep_timer);
- }
- 
--bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
-+bool block_job_set_speed_locked(BlockJob *job, int64_t speed, Error **errp)
- {
-     const BlockJobDriver *drv = block_job_driver(job);
-     int64_t old_speed = job->speed;
- 
-     GLOBAL_STATE_CODE();
- 
--    if (job_apply_verb(&job->job, JOB_VERB_SET_SPEED, errp) < 0) {
-+    if (job_apply_verb_locked(&job->job, JOB_VERB_SET_SPEED, errp) < 0) {
-         return false;
-     }
-     if (speed < 0) {
-@@ -277,7 +289,9 @@ bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
-     job->speed = speed;
- 
-     if (drv->set_speed) {
-+        job_unlock();
-         drv->set_speed(job, speed);
-+        job_lock();
+     if (!job) {
+         return;
      }
  
-     if (speed && speed <= old_speed) {
-@@ -285,18 +299,24 @@ bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
+-    block_job_set_speed(job, speed, errp);
++    block_job_set_speed_locked(job, speed, errp);
+     aio_context_release(aio_context);
+ }
+ 
+@@ -3354,7 +3361,10 @@ void qmp_block_job_cancel(const char *device,
+                           bool has_force, bool force, Error **errp)
+ {
+     AioContext *aio_context;
+-    BlockJob *job = find_block_job(device, &aio_context, errp);
++    BlockJob *job;
++
++    JOB_LOCK_GUARD();
++    job = find_block_job_locked(device, &aio_context, errp);
+ 
+     if (!job) {
+         return;
+@@ -3364,14 +3374,14 @@ void qmp_block_job_cancel(const char *device,
+         force = false;
      }
  
-     /* kick only if a timer is pending */
--    job_enter_cond(&job->job, job_timer_pending);
-+    job_enter_cond_locked(&job->job, job_timer_pending);
+-    if (job_user_paused(&job->job) && !force) {
++    if (job_user_paused_locked(&job->job) && !force) {
+         error_setg(errp, "The block job for device '%s' is currently paused",
+                    device);
+         goto out;
+     }
  
-     return true;
+     trace_qmp_block_job_cancel(job);
+-    job_user_cancel(&job->job, force, errp);
++    job_user_cancel_locked(&job->job, force, errp);
+ out:
+     aio_context_release(aio_context);
  }
- 
-+bool block_job_set_speed(BlockJob *job, int64_t speed, Error **errp)
-+{
-+    JOB_LOCK_GUARD();
-+    return block_job_set_speed_locked(job, speed, errp);
-+}
+@@ -3379,57 +3389,69 @@ out:
+ void qmp_block_job_pause(const char *device, Error **errp)
+ {
+     AioContext *aio_context;
+-    BlockJob *job = find_block_job(device, &aio_context, errp);
++    BlockJob *job;
 +
- int64_t block_job_ratelimit_get_delay(BlockJob *job, uint64_t n)
- {
-     IO_CODE();
-     return ratelimit_calculate_delay(&job->limit, n);
- }
- 
--BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
-+BlockJobInfo *block_job_query_locked(BlockJob *job, Error **errp)
- {
-     BlockJobInfo *info;
-     uint64_t progress_current, progress_total;
-@@ -320,7 +340,7 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
-     info->len       = progress_total;
-     info->speed     = job->speed;
-     info->io_status = job->iostatus;
--    info->ready     = job_is_ready(&job->job),
-+    info->ready     = job_is_ready_locked(&job->job),
-     info->status    = job->job.status;
-     info->auto_finalize = job->job.auto_finalize;
-     info->auto_dismiss  = job->job.auto_dismiss;
-@@ -333,6 +353,12 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
-     return info;
- }
- 
-+BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
-+{
 +    JOB_LOCK_GUARD();
-+    return block_job_query_locked(job, errp);
-+}
++    job = find_block_job_locked(device, &aio_context, errp);
+ 
+     if (!job) {
+         return;
+     }
+ 
+     trace_qmp_block_job_pause(job);
+-    job_user_pause(&job->job, errp);
++    job_user_pause_locked(&job->job, errp);
+     aio_context_release(aio_context);
+ }
+ 
+ void qmp_block_job_resume(const char *device, Error **errp)
+ {
+     AioContext *aio_context;
+-    BlockJob *job = find_block_job(device, &aio_context, errp);
++    BlockJob *job;
 +
- static void block_job_iostatus_set_err(BlockJob *job, int error)
- {
-     if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
-@@ -478,7 +504,7 @@ fail:
-     return NULL;
- }
- 
--void block_job_iostatus_reset(BlockJob *job)
-+void block_job_iostatus_reset_locked(BlockJob *job)
- {
-     GLOBAL_STATE_CODE();
-     if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
-@@ -488,6 +514,12 @@ void block_job_iostatus_reset(BlockJob *job)
-     job->iostatus = BLOCK_DEVICE_IO_STATUS_OK;
- }
- 
-+void block_job_iostatus_reset(BlockJob *job)
-+{
 +    JOB_LOCK_GUARD();
-+    block_job_iostatus_reset_locked(job);
-+}
-+
- void block_job_user_resume(Job *job)
++    job = find_block_job_locked(device, &aio_context, errp);
+ 
+     if (!job) {
+         return;
+     }
+ 
+     trace_qmp_block_job_resume(job);
+-    job_user_resume(&job->job, errp);
++    job_user_resume_locked(&job->job, errp);
+     aio_context_release(aio_context);
+ }
+ 
+ void qmp_block_job_complete(const char *device, Error **errp)
  {
-     BlockJob *bjob = container_of(job, BlockJob, job);
+     AioContext *aio_context;
+-    BlockJob *job = find_block_job(device, &aio_context, errp);
++    BlockJob *job;
++
++    JOB_LOCK_GUARD();
++    job = find_block_job_locked(device, &aio_context, errp);
+ 
+     if (!job) {
+         return;
+     }
+ 
+     trace_qmp_block_job_complete(job);
+-    job_complete(&job->job, errp);
++    job_complete_locked(&job->job, errp);
+     aio_context_release(aio_context);
+ }
+ 
+ void qmp_block_job_finalize(const char *id, Error **errp)
+ {
+     AioContext *aio_context;
+-    BlockJob *job = find_block_job(id, &aio_context, errp);
++    BlockJob *job;
++
++    JOB_LOCK_GUARD();
++    job = find_block_job_locked(id, &aio_context, errp);
+ 
+     if (!job) {
+         return;
+     }
+ 
+     trace_qmp_block_job_finalize(job);
+-    job_ref(&job->job);
+-    job_finalize(&job->job, errp);
++    job_ref_locked(&job->job);
++    job_finalize_locked(&job->job, errp);
+ 
+     /*
+      * Job's context might have changed via job_finalize (and job_txn_apply
+@@ -3437,23 +3459,26 @@ void qmp_block_job_finalize(const char *id, Error **errp)
+      * one.
+      */
+     aio_context = block_job_get_aio_context(job);
+-    job_unref(&job->job);
++    job_unref_locked(&job->job);
+     aio_context_release(aio_context);
+ }
+ 
+ void qmp_block_job_dismiss(const char *id, Error **errp)
+ {
+     AioContext *aio_context;
+-    BlockJob *bjob = find_block_job(id, &aio_context, errp);
++    BlockJob *bjob;
+     Job *job;
+ 
++    JOB_LOCK_GUARD();
++    bjob = find_block_job_locked(id, &aio_context, errp);
++
+     if (!bjob) {
+         return;
+     }
+ 
+     trace_qmp_block_job_dismiss(bjob);
+     job = &bjob->job;
+-    job_dismiss(&job, errp);
++    job_dismiss_locked(&job, errp);
+     aio_context_release(aio_context);
+ }
+ 
+diff --git a/job-qmp.c b/job-qmp.c
+index 829a28aa70..b1c456482a 100644
+--- a/job-qmp.c
++++ b/job-qmp.c
+@@ -29,14 +29,19 @@
+ #include "qapi/error.h"
+ #include "trace/trace-root.h"
+ 
+-/* Get a job using its ID and acquire its AioContext */
+-static Job *find_job(const char *id, AioContext **aio_context, Error **errp)
++/*
++ * Get a job using its ID and acquire its AioContext.
++ * Called with job_mutex held.
++ */
++static Job *find_job_locked(const char *id,
++                            AioContext **aio_context,
++                            Error **errp)
+ {
+     Job *job;
+ 
+     *aio_context = NULL;
+ 
+-    job = job_get(id);
++    job = job_get_locked(id);
+     if (!job) {
+         error_setg(errp, "Job not found");
+         return NULL;
+@@ -51,71 +56,86 @@ static Job *find_job(const char *id, AioContext **aio_context, Error **errp)
+ void qmp_job_cancel(const char *id, Error **errp)
+ {
+     AioContext *aio_context;
+-    Job *job = find_job(id, &aio_context, errp);
++    Job *job;
++
++    JOB_LOCK_GUARD();
++    job = find_job_locked(id, &aio_context, errp);
+ 
+     if (!job) {
+         return;
+     }
+ 
+     trace_qmp_job_cancel(job);
+-    job_user_cancel(job, true, errp);
++    job_user_cancel_locked(job, true, errp);
+     aio_context_release(aio_context);
+ }
+ 
+ void qmp_job_pause(const char *id, Error **errp)
+ {
+     AioContext *aio_context;
+-    Job *job = find_job(id, &aio_context, errp);
++    Job *job;
++
++    JOB_LOCK_GUARD();
++    job = find_job_locked(id, &aio_context, errp);
+ 
+     if (!job) {
+         return;
+     }
+ 
+     trace_qmp_job_pause(job);
+-    job_user_pause(job, errp);
++    job_user_pause_locked(job, errp);
+     aio_context_release(aio_context);
+ }
+ 
+ void qmp_job_resume(const char *id, Error **errp)
+ {
+     AioContext *aio_context;
+-    Job *job = find_job(id, &aio_context, errp);
++    Job *job;
++
++    JOB_LOCK_GUARD();
++    job = find_job_locked(id, &aio_context, errp);
+ 
+     if (!job) {
+         return;
+     }
+ 
+     trace_qmp_job_resume(job);
+-    job_user_resume(job, errp);
++    job_user_resume_locked(job, errp);
+     aio_context_release(aio_context);
+ }
+ 
+ void qmp_job_complete(const char *id, Error **errp)
+ {
+     AioContext *aio_context;
+-    Job *job = find_job(id, &aio_context, errp);
++    Job *job;
++
++    JOB_LOCK_GUARD();
++    job = find_job_locked(id, &aio_context, errp);
+ 
+     if (!job) {
+         return;
+     }
+ 
+     trace_qmp_job_complete(job);
+-    job_complete(job, errp);
++    job_complete_locked(job, errp);
+     aio_context_release(aio_context);
+ }
+ 
+ void qmp_job_finalize(const char *id, Error **errp)
+ {
+     AioContext *aio_context;
+-    Job *job = find_job(id, &aio_context, errp);
++    Job *job;
++
++    JOB_LOCK_GUARD();
++    job = find_job_locked(id, &aio_context, errp);
+ 
+     if (!job) {
+         return;
+     }
+ 
+     trace_qmp_job_finalize(job);
+-    job_ref(job);
+-    job_finalize(job, errp);
++    job_ref_locked(job);
++    job_finalize_locked(job, errp);
+ 
+     /*
+      * Job's context might have changed via job_finalize (and job_txn_apply
+@@ -123,21 +143,24 @@ void qmp_job_finalize(const char *id, Error **errp)
+      * one.
+      */
+     aio_context = job->aio_context;
+-    job_unref(job);
++    job_unref_locked(job);
+     aio_context_release(aio_context);
+ }
+ 
+ void qmp_job_dismiss(const char *id, Error **errp)
+ {
+     AioContext *aio_context;
+-    Job *job = find_job(id, &aio_context, errp);
++    Job *job;
++
++    JOB_LOCK_GUARD();
++    job = find_job_locked(id, &aio_context, errp);
+ 
+     if (!job) {
+         return;
+     }
+ 
+     trace_qmp_job_dismiss(job);
+-    job_dismiss(&job, errp);
++    job_dismiss_locked(&job, errp);
+     aio_context_release(aio_context);
+ }
+ 
 -- 
 2.37.3
 
