@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94045F7A28
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 16:59:10 +0200 (CEST)
-Received: from localhost ([::1]:54756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E865F7A00
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 16:54:27 +0200 (CEST)
+Received: from localhost ([::1]:56086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogoof-0005EH-Of
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 10:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56258)
+	id 1ogok5-00070a-G0
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 10:54:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ognAq-00050O-1z
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:13:56 -0400
-Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:39757)
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1ognNw-0006eQ-8d
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:27:35 -0400
+Received: from mga06b.intel.com ([134.134.136.31]:20163 helo=mga06.intel.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1ognAn-0001ny-1S
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:13:55 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.114])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id B992929A6A;
- Fri,  7 Oct 2022 13:13:48 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Fri, 7 Oct
- 2022 15:13:48 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G0046e35eb97-5fe7-4fe7-a214-752ce9903440,
- 72EF84A86A0CAB1F8CEB0FBBC9371DA6A893A50B) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-Message-ID: <97d016d5-802b-41db-0a6e-e1c03dc8dd67@kaod.org>
-Date: Fri, 7 Oct 2022 15:13:42 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v2] hw/arm/aspeed: increase Bletchley memory size
-Content-Language: en-US
-To: Patrick Williams <patrick@stwcx.xyz>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
- <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, "open list:ASPEED BMCs"
- <qemu-arm@nongnu.org>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-References: <20221006225232.3558794-1-patrick@stwcx.xyz>
- <20221007110529.3657749-1-patrick@stwcx.xyz>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20221007110529.3657749-1-patrick@stwcx.xyz>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 7c8190a8-6fbe-4d01-ae62-d275511db632
-X-Ovh-Tracer-Id: 2741566275865447206
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -77
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeijedgiedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrhhlucfvnfffucdlvdefmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeetjedtleekjedvveffudfhteetleeifeegfeffuefghfefkeehffeufeeludejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvd
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
- helo=3.mo552.mail-out.ovh.net
-X-Spam_score_int: -45
-X-Spam_score: -4.6
+ (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
+ id 1ognNt-00040Z-L2
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:27:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1665149245; x=1696685245;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Rzk32TQk/zuJpsh0wz/FSXpA7oGUKDP0ec75h9XyrPU=;
+ b=Mskj2yI1Rnq+lCOy59AfPJ3n3KuX6K/wyaayfQ4kTX0DDLl54fc6w07l
+ dvWWZYtvKX1AUBCXPqxeCTjLwJdFYh4oY5/EBfPCzB4h9ZOAQuC7/0d+O
+ 11mZQJZP1ojrjWVy6wloZmm1rbFOIAA4dpGxnfUbFtm6gZije/IQ28LIH
+ NJPy6sHLJnhc4ikbS3NlZotXNi2oP01sdalEIc/jfISimUeGkyY5jn9Gf
+ HRtEbbT+xxocqNQfcBcyxWIgU+NWGiwyccO6KN3nXZXe5Sv2njwj89nNH
+ yfwbftM1Xqm/hvYQEEuHfhd0I9tLH4ejES2PLn7q/Y8jsELcRH02snx4H w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10493"; a="365675724"
+X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="365675724"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2022 06:27:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10493"; a="729608169"
+X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="729608169"
+Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
+ ([10.239.48.212])
+ by fmsmga002.fm.intel.com with ESMTP; 07 Oct 2022 06:27:20 -0700
+Message-ID: <8e4cf298f32424bd1a18033eba94a8eeb35f2950.camel@linux.intel.com>
+Subject: Re: [PATCH v4 5/5] test/acpi/bios-tables-test: SSDT: update golden
+ master binaries
+From: Robert Hoo <robert.hu@linux.intel.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca, 
+ jingqi.liu@intel.com, qemu-devel@nongnu.org, robert.hu@intel.com
+Date: Fri, 07 Oct 2022 21:27:20 +0800
+In-Reply-To: <05c1d96492beaa8ec12b8807877903744d97e109.camel@linux.intel.com>
+References: <20220922122155.1326543-1-robert.hu@linux.intel.com>
+ <20220922122155.1326543-6-robert.hu@linux.intel.com>
+ <783af0cd89700c2c3ae9c6b2b1e49dab0a2d3f70.camel@linux.intel.com>
+ <20220926152214.05255edf@redhat.com>
+ <05c1d96492beaa8ec12b8807877903744d97e109.camel@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=134.134.136.31;
+ envelope-from=robert.hu@linux.intel.com; helo=mga06.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.699,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,49 +83,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/7/22 13:05, Patrick Williams wrote:
-> For the PVT-class hardware we have increased the memory size of
-> this device to 2 GiB.  Adjust the device model accordingly.
+Ping...
+On Tue, 2022-09-27 at 08:30 +0800, Robert Hoo wrote:
+> On Mon, 2022-09-26 at 15:22 +0200, Igor Mammedov wrote:
+> > > > 0800200c9a66"), One, 0x05, Local0, One)
+> > > > +                    CreateDWordField (Local3, Zero, STTS)
+> > > > +                    CreateField (Local3, 0x20, (LEN << 0x03),
+> > > > LDAT)
+> > > > +                    Name (LSA, Buffer (Zero){})
+> > > > +                    ToBuffer (LDAT, LSA) /*
+> > > > \_SB_.NVDR.NV00._LSR.LSA_ */
+> > > > +                    Local1 = Package (0x02)
+> > > > +                        {
+> > > > +                            STTS,
+> > > > +                            LSA
+> > > > +                        }  
+> > > 
+> > > Hi Igor,
+> > > 
+> > > Here is a little different from original proposal 
+> > > https://lore.kernel.org/qemu-devel/80b09055416c790922c7c3db60d2ba865792d1b0.camel@linux.intel.com/
+> > > 
+> > >    Local1 = Package (0x2) {STTS, toBuffer(LDAT)}
+> > > 
+> > > Because in my test, Linux guest complains:
+> > > 
+> > > [    3.884656] ACPI Error: AE_SUPPORT, Expressions within package
+> > > elements are not supported (20220331/dspkginit-172)
+> > > [    3.887104] ACPI Error: Aborting method \_SB.NVDR.NV00._LSR
+> > > due
+> > > to
+> > > previous error (AE_SUPPORT) (20220331/psparse-531)
+> > > 
+> > > 
+> > > So I have to move toBuffer() out of Package{} and name LSA to
+> > > hold
+> > > the
+> > > buffer. If you have better idea, pls. let me know.
+> > 
+> > Would something like following work?
+> > 
+> > LocalX =  Buffer (Zero){}
+> > LocalY = Package (0x01) { LocalX }
 > 
-> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-
-> ---
->   hw/arm/aspeed.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 7d2162c6ed..f8bc6d4a14 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -1330,6 +1330,13 @@ static void aspeed_machine_fuji_class_init(ObjectClass *oc, void *data)
->           aspeed_soc_num_cpus(amc->soc_name);
->   };
->   
-> +/* On 32-bit hosts, lower RAM to 1G because of the 2047 MB limit */
-> +#if HOST_LONG_BITS == 32
-> +#define BLETCHLEY_BMC_RAM_SIZE (1 * GiB)
-> +#else
-> +#define BLETCHLEY_BMC_RAM_SIZE (2 * GiB)
-> +#endif
-> +
->   static void aspeed_machine_bletchley_class_init(ObjectClass *oc, void *data)
->   {
->       MachineClass *mc = MACHINE_CLASS(oc);
-> @@ -1344,7 +1351,7 @@ static void aspeed_machine_bletchley_class_init(ObjectClass *oc, void *data)
->       amc->num_cs    = 2;
->       amc->macs_mask = ASPEED_MAC2_ON;
->       amc->i2c_init  = bletchley_bmc_i2c_init;
-> -    mc->default_ram_size = 512 * MiB;
-> +    mc->default_ram_size = BLETCHLEY_BMC_RAM_SIZE;
->       mc->default_cpus = mc->min_cpus = mc->max_cpus =
->           aspeed_soc_num_cpus(amc->soc_name);
->   }
+> No, Package{} doesn't accept LocalX as elements.
+> 
+> PackageTerm :=
+> Package (
+> NumElements // Nothing | ByteConstExpr | TermArg => Integer
+> ) {PackageList} => Package
+> 
+> PackageList :=
+> Nothing | <PackageElement PackageListTail>
+> 
+> PackageElement :=
+> DataObject | NameString
 
 
