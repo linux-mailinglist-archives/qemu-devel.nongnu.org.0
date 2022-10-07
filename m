@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BE85F7B20
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:02:28 +0200 (CEST)
-Received: from localhost ([::1]:35446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DAC25F7B39
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:13:38 +0200 (CEST)
+Received: from localhost ([::1]:53304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogpns-0006kZ-8W
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:02:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57848)
+	id 1ogpyh-0005Sk-HP
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:13:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ogpDC-0004zM-By
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:24:30 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2707)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ogoor-0005rw-3n
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 10:59:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ogpDA-0005yK-EA
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:24:30 -0400
-Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MkXCJ0bn1z6872P;
- Fri,  7 Oct 2022 23:23:56 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 7 Oct 2022 17:24:26 +0200
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Fri, 7 Oct 2022 16:24:26 +0100
-To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
- <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, Huai-Cheng Kuo
- <hchkuo@avery-design.com.tw>, Chris Browy <cbrowy@avery-design.com>
-CC: <linuxarm@huawei.com>, <ira.weiny@intel.com>
-Subject: [PATCH v7 5/5] hw/pci-bridge/cxl-upstream: Add a CDAT table access DOE
-Date: Fri, 7 Oct 2022 16:21:56 +0100
-Message-ID: <20221007152156.24883-6-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20221007152156.24883-1-Jonathan.Cameron@huawei.com>
-References: <20221007152156.24883-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ogoon-00025W-Ok
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 10:59:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665154757;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NuLAOqt2bfOCiLESVxa+xK8M47JOdxc97BavJWIQT+8=;
+ b=WtxlM6vdlZ9nHG0O5p+jT+Yp7hUS6dSt4fjc++4gVc7kv8tLqaZvqqqt/wIATXsqBolb4o
+ KnShxTjbP0bLq8g58kIX2txZsYb16AiOOQJe2ilrpdAKkPpIH1yLKAykyvwXlzhLpl3CaT
+ AgOeyOdKUFV8dDntqJyf065ZA8Jp1WA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-104-M8rhBsfxOgGe3Nksc-VPXg-1; Fri, 07 Oct 2022 10:59:13 -0400
+X-MC-Unique: M8rhBsfxOgGe3Nksc-VPXg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39D673826A4C;
+ Fri,  7 Oct 2022 14:59:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 65EA1403167;
+ Fri,  7 Oct 2022 14:59:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 35DAE21E691D; Fri,  7 Oct 2022 16:59:10 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org,  Yanan Wang <wangyanan55@huawei.com>,
+ sgarzare@redhat.com,  "Richard W.M. Jones" <rjones@redhat.com>,  Fam
+ Zheng <fam@euphon.net>,  Hanna Reitz <hreitz@redhat.com>,  David
+ Hildenbrand <david@redhat.com>,  integration@gluster.org,
+ qemu-block@nongnu.org,  Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>,  Paolo Bonzini <pbonzini@redhat.com>,  Kevin
+ Wolf <kwolf@redhat.com>,  afaria@redhat.com,  Richard Henderson
+ <richard.henderson@linaro.org>,  Eric Blake <eblake@redhat.com>,  "Michael
+ S. Tsirkin" <mst@redhat.com>,  Thomas Huth <thuth@redhat.com>,  Xie
+ Changlong <xiechanglong.d@gmail.com>,  John Snow <jsnow@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,  Jeff Cody <codyprime@gmail.com>,
+ "Denis V. Lunev" <den@openvz.org>,  Laurent Vivier <lvivier@redhat.com>,
+ Peter Xu <peterx@redhat.com>,  Raphael Norwitz
+ <raphael.norwitz@nutanix.com>,  Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>,  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>, Wen Congyang <wencongyang2@huawei.com>
+Subject: Re: [PATCH v6 02/13] blkio: add libblkio block driver
+References: <20221006213507.645402-1-stefanha@redhat.com>
+ <20221006213507.645402-3-stefanha@redhat.com>
+Date: Fri, 07 Oct 2022 16:59:10 +0200
+In-Reply-To: <20221006213507.645402-3-stefanha@redhat.com> (Stefan Hajnoczi's
+ message of "Thu, 6 Oct 2022 17:34:56 -0400")
+Message-ID: <874jwfr875.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,286 +94,205 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-This Data Object Exchange Mailbox allows software to query the
-latency and bandwidth between ports on the switch. For now
-only provide information on routes between the upstream port and
-each downstream port (not p2p).
+Stefan Hajnoczi <stefanha@redhat.com> writes:
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/pci-bridge/cxl_upstream.c | 182 ++++++++++++++++++++++++++++++++++-
- include/hw/cxl/cxl_cdat.h    |   1 +
- 2 files changed, 182 insertions(+), 1 deletion(-)
+> libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
+> high-performance disk I/O. It currently supports io_uring,
+> virtio-blk-vhost-user, and virtio-blk-vhost-vdpa with additional drivers
+> under development.
+>
+> One of the reasons for developing libblkio is that other applications
+> besides QEMU can use it. This will be particularly useful for
+> virtio-blk-vhost-user which applications may wish to use for connecting
+> to qemu-storage-daemon.
+>
+> libblkio also gives us an opportunity to develop in Rust behind a C API
+> that is easy to consume from QEMU.
+>
+> This commit adds io_uring, virtio-blk-vhost-user, and
+> virtio-blk-vhost-vdpa BlockDrivers to QEMU using libblkio. It will be
+> easy to add other libblkio drivers since they will share the majority of
+> code.
+>
+> For now I/O buffers are copied through bounce buffers if the libblkio
+> driver requires it. Later commits add an optimization for
+> pre-registering guest RAM to avoid bounce buffers.
+>
+> The syntax is:
+>
+>   --blockdev io_uring,node-name=drive0,filename=test.img,readonly=on|off,cache.direct=on|off
+>
+> and:
+>
+>   --blockdev virtio-blk-vhost-vdpa,node-name=drive0,path=/dev/vdpa...,readonly=on|off
 
-diff --git a/hw/pci-bridge/cxl_upstream.c b/hw/pci-bridge/cxl_upstream.c
-index a83a3e81e4..9209c704ae 100644
---- a/hw/pci-bridge/cxl_upstream.c
-+++ b/hw/pci-bridge/cxl_upstream.c
-@@ -10,11 +10,12 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "hw/qdev-properties.h"
- #include "hw/pci/msi.h"
- #include "hw/pci/pcie.h"
- #include "hw/pci/pcie_port.h"
- 
--#define CXL_UPSTREAM_PORT_MSI_NR_VECTOR 1
-+#define CXL_UPSTREAM_PORT_MSI_NR_VECTOR 2
- 
- #define CXL_UPSTREAM_PORT_MSI_OFFSET 0x70
- #define CXL_UPSTREAM_PORT_PCIE_CAP_OFFSET 0x90
-@@ -28,6 +29,7 @@ typedef struct CXLUpstreamPort {
- 
-     /*< public >*/
-     CXLComponentState cxl_cstate;
-+    DOECap doe_cdat;
- } CXLUpstreamPort;
- 
- CXLComponentState *cxl_usp_to_cstate(CXLUpstreamPort *usp)
-@@ -60,6 +62,9 @@ static void cxl_usp_dvsec_write_config(PCIDevice *dev, uint32_t addr,
- static void cxl_usp_write_config(PCIDevice *d, uint32_t address,
-                                  uint32_t val, int len)
- {
-+    CXLUpstreamPort *usp = CXL_USP(d);
-+
-+    pcie_doe_write_config(&usp->doe_cdat, address, val, len);
-     pci_bridge_write_config(d, address, val, len);
-     pcie_cap_flr_write_config(d, address, val, len);
-     pcie_aer_write_config(d, address, val, len);
-@@ -67,6 +72,18 @@ static void cxl_usp_write_config(PCIDevice *d, uint32_t address,
-     cxl_usp_dvsec_write_config(d, address, val, len);
- }
- 
-+static uint32_t cxl_usp_read_config(PCIDevice *d, uint32_t address, int len)
-+{
-+    CXLUpstreamPort *usp = CXL_USP(d);
-+    uint32_t val;
-+    
-+    if (pcie_doe_read_config(&usp->doe_cdat, address, len, &val)) {
-+        return val;
-+    }
-+
-+    return pci_default_read_config(d, address, len);
-+}
-+
- static void latch_registers(CXLUpstreamPort *usp)
- {
-     uint32_t *reg_state = usp->cxl_cstate.crb.cache_mem_registers;
-@@ -119,6 +136,155 @@ static void build_dvsecs(CXLComponentState *cxl)
-                                REG_LOC_DVSEC_REVID, dvsec);
- }
- 
-+static bool cxl_doe_cdat_rsp(DOECap *doe_cap)
-+{
-+    CDATObject *cdat = &CXL_USP(doe_cap->pdev)->cxl_cstate.cdat;
-+    uint16_t ent;
-+    void *base;
-+    uint32_t len;
-+    CDATReq *req = pcie_doe_get_write_mbox_ptr(doe_cap);
-+    CDATRsp rsp;
-+
-+    cxl_doe_cdat_update(&CXL_USP(doe_cap->pdev)->cxl_cstate, &error_fatal);
-+    assert(cdat->entry_len);
-+
-+    /* Discard if request length mismatched */
-+    if (pcie_doe_get_obj_len(req) <
-+        DIV_ROUND_UP(sizeof(CDATReq), sizeof(uint32_t))) {
-+        return false;
-+    }
-+
-+    ent = req->entry_handle;
-+    base = cdat->entry[ent].base;
-+    len = cdat->entry[ent].length;
-+
-+    rsp = (CDATRsp) {
-+        .header = {
-+            .vendor_id = CXL_VENDOR_ID,
-+            .data_obj_type = CXL_DOE_TABLE_ACCESS,
-+            .reserved = 0x0,
-+            .length = DIV_ROUND_UP((sizeof(rsp) + len), sizeof(uint32_t)),
-+        },
-+        .rsp_code = CXL_DOE_TAB_RSP,
-+        .table_type = CXL_DOE_TAB_TYPE_CDAT,
-+        .entry_handle = (ent < cdat->entry_len - 1) ?
-+                        ent + 1 : CXL_DOE_TAB_ENT_MAX,
-+    };
-+
-+    memcpy(doe_cap->read_mbox, &rsp, sizeof(rsp));
-+        memcpy(doe_cap->read_mbox + DIV_ROUND_UP(sizeof(rsp), sizeof(uint32_t)),
-+           base, len);
-+
-+    doe_cap->read_mbox_len += rsp.header.length;
-+
-+    return true;
-+}
-+
-+static DOEProtocol doe_cdat_prot[] = {
-+    { CXL_VENDOR_ID, CXL_DOE_TABLE_ACCESS, cxl_doe_cdat_rsp },
-+    { }
-+};
-+
-+static int build_cdat_table(CDATSubHeader ***cdat_table, void *priv)
-+{
-+    g_autofree CDATSslbis *sslbis_latency = NULL;
-+    g_autofree CDATSslbis *sslbis_bandwidth = NULL;
-+    CXLUpstreamPort *us = CXL_USP(priv);
-+    PCIBus *bus = &PCI_BRIDGE(us)->sec_bus;
-+    int devfn, sslbis_size;
-+    int len = 0;
-+    int i = 0;
-+    int count = 0;
-+    uint16_t port_ids[256];
-+
-+    for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
-+        PCIDevice *d = bus->devices[devfn];
-+        PCIEPort *port;
-+        
-+        if (!d || !pci_is_express(d) || !d->exp.exp_cap) {
-+            continue;
-+        }
-+
-+        /*
-+         * Whilst the PCI express spec doesn't allow anything other than
-+         * downstream ports on this bus, let us be a little paranoid
-+         */
-+        if (!object_dynamic_cast(OBJECT(d), TYPE_PCIE_PORT)) {
-+            continue;
-+        }
-+
-+        port = PCIE_PORT(d);
-+        port_ids[count] = port->port;
-+        count++;
-+    }
-+
-+    /* May not yet have any ports - try again later */
-+    if (count == 0) {
-+        return 0;
-+    }
-+
-+    sslbis_size = sizeof(CDATSslbis) + sizeof(*sslbis_latency->sslbe) * count;
-+    sslbis_latency = g_malloc(sslbis_size);
-+    *sslbis_latency = (CDATSslbis) {
-+        .sslbis_header = {
-+            .header = {
-+                .type = CDAT_TYPE_SSLBIS,
-+                .length = sslbis_size,
-+            },
-+            .data_type = HMATLB_DATA_TYPE_ACCESS_LATENCY,
-+            .entry_base_unit = 10000,
-+        },
-+    };
-+    
-+    for (i = 0; i < count; i++) {
-+        sslbis_latency->sslbe[i] = (CDATSslbe) {
-+            .port_x_id = CDAT_PORT_ID_USP,
-+            .port_y_id = port_ids[i],
-+            .latency_bandwidth = 15, /* 150ns */
-+        };
-+    }
-+    len++;
-+    
-+    sslbis_bandwidth = g_malloc(sslbis_size);
-+    *sslbis_bandwidth = (CDATSslbis) {
-+        .sslbis_header = {
-+            .header = {
-+                .type = CDAT_TYPE_SSLBIS,
-+                .length = sslbis_size,
-+            },
-+            .data_type = HMATLB_DATA_TYPE_ACCESS_BANDWIDTH,
-+            .entry_base_unit = 1000,
-+        },
-+    };
-+    
-+    for (i = 0; i < count; i++) {
-+        sslbis_bandwidth->sslbe[i] = (CDATSslbe) {
-+            .port_x_id = CDAT_PORT_ID_USP,
-+            .port_y_id = port_ids[i],
-+            .latency_bandwidth = 16, /* 16 GB/s */
-+        };
-+    }
-+    len++;
-+    *cdat_table = g_malloc0(len * sizeof(*cdat_table));
-+    /* Header always at start of structure */
-+    i = 0;
-+    (*cdat_table)[i++] = g_steal_pointer(&sslbis_latency);
-+    (*cdat_table)[i++] = g_steal_pointer(&sslbis_bandwidth);
-+    
-+    return len;
-+}
-+
-+static void free_default_cdat_table(CDATSubHeader **cdat_table, int num,
-+                                    void *priv)
-+{
-+    int i;
-+
-+    for (i = 0; i < num; i++) {
-+        g_free(cdat_table[i]);
-+    }
-+    g_free(cdat_table);
-+}
-+
- static void cxl_usp_realize(PCIDevice *d, Error **errp)
- {
-     PCIEPort *p = PCIE_PORT(d);
-@@ -161,6 +327,13 @@ static void cxl_usp_realize(PCIDevice *d, Error **errp)
-                      PCI_BASE_ADDRESS_MEM_TYPE_64,
-                      component_bar);
- 
-+    pcie_doe_init(d, &usp->doe_cdat, cxl_cstate->dvsec_offset, doe_cdat_prot, true, 1);
-+
-+    cxl_cstate->cdat.build_cdat_table = build_cdat_table;
-+    cxl_cstate->cdat.free_cdat_table = free_default_cdat_table;
-+    cxl_cstate->cdat.private = d;
-+    cxl_doe_cdat_init(cxl_cstate, errp);
-+
-     return;
- 
- err_cap:
-@@ -179,6 +352,11 @@ static void cxl_usp_exitfn(PCIDevice *d)
-     pci_bridge_exitfn(d);
- }
- 
-+static Property cxl_upstream_props[] = {
-+    DEFINE_PROP_STRING("cdat", CXLUpstreamPort, cxl_cstate.cdat.filename),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
- static void cxl_upstream_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -186,6 +364,7 @@ static void cxl_upstream_class_init(ObjectClass *oc, void *data)
- 
-     k->is_bridge = true;
-     k->config_write = cxl_usp_write_config;
-+    k->config_read = cxl_usp_read_config;
-     k->realize = cxl_usp_realize;
-     k->exit = cxl_usp_exitfn;
-     k->vendor_id = 0x19e5; /* Huawei */
-@@ -194,6 +373,7 @@ static void cxl_upstream_class_init(ObjectClass *oc, void *data)
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-     dc->desc = "CXL Switch Upstream Port";
-     dc->reset = cxl_usp_reset;
-+    device_class_set_props(dc, cxl_upstream_props);
- }
- 
- static const TypeInfo cxl_usp_info = {
-diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
-index fdb1fa98f4..6d251dc0fb 100644
---- a/include/hw/cxl/cxl_cdat.h
-+++ b/include/hw/cxl/cxl_cdat.h
-@@ -131,6 +131,7 @@ typedef struct CDATSslbisHeader {
-     uint64_t entry_base_unit;
- } QEMU_PACKED CDATSslbisHeader;
- 
-+#define CDAT_PORT_ID_USP 0x100
- /* Switch Scoped Latency and Bandwidth Entry - CDAT Table 10 */
- typedef struct CDATSslbe {
-     uint16_t port_x_id;
--- 
-2.37.2
+The patch also adds nvme-io_uring.  Shouldn't the commit message mention
+it?
+
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Acked-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  MAINTAINERS                   |   6 +
+>  meson_options.txt             |   2 +
+>  qapi/block-core.json          |  75 ++-
+>  meson.build                   |   9 +
+>  block/blkio.c                 | 830 ++++++++++++++++++++++++++++++++++
+>  tests/qtest/modules-test.c    |   3 +
+>  block/meson.build             |   1 +
+>  scripts/meson-buildoptions.sh |   3 +
+>  8 files changed, 925 insertions(+), 4 deletions(-)
+>  create mode 100644 block/blkio.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e1530b51a2..0dcae6168a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3403,6 +3403,12 @@ L: qemu-block@nongnu.org
+>  S: Maintained
+>  F: block/vdi.c
+>  
+> +blkio
+> +M: Stefan Hajnoczi <stefanha@redhat.com>
+> +L: qemu-block@nongnu.org
+> +S: Maintained
+> +F: block/blkio.c
+> +
+>  iSCSI
+>  M: Ronnie Sahlberg <ronniesahlberg@gmail.com>
+>  M: Paolo Bonzini <pbonzini@redhat.com>
+> diff --git a/meson_options.txt b/meson_options.txt
+> index 79c6af18d5..66128178bf 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -117,6 +117,8 @@ option('bzip2', type : 'feature', value : 'auto',
+>         description: 'bzip2 support for DMG images')
+>  option('cap_ng', type : 'feature', value : 'auto',
+>         description: 'cap_ng support')
+> +option('blkio', type : 'feature', value : 'auto',
+> +       description: 'libblkio block device driver')
+>  option('bpf', type : 'feature', value : 'auto',
+>          description: 'eBPF support')
+>  option('cocoa', type : 'feature', value : 'auto',
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index f21fa235f2..6c6ae2885c 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2951,11 +2951,18 @@
+>              'file', 'snapshot-access', 'ftp', 'ftps', 'gluster',
+>              {'name': 'host_cdrom', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
+>              {'name': 'host_device', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
+> -            'http', 'https', 'iscsi',
+> -            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
+> -            'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+> +            'http', 'https',
+> +            { 'name': 'io_uring', 'if': 'CONFIG_BLKIO' },
+> +            'iscsi',
+> +            'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme',
+> +            { 'name': 'nvme-io_uring', 'if': 'CONFIG_BLKIO' },
+
+This enumeration value and ...
+
+> +            'parallels', 'preallocate', 'qcow', 'qcow2', 'qed', 'quorum',
+> +            'raw', 'rbd',
+>              { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
+> -            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
+> +            'ssh', 'throttle', 'vdi', 'vhdx',
+> +            { 'name': 'virtio-blk-vhost-user', 'if': 'CONFIG_BLKIO' },
+> +            { 'name': 'virtio-blk-vhost-vdpa', 'if': 'CONFIG_BLKIO' },
+> +            'vmdk', 'vpc', 'vvfat' ] }
+>  
+>  ##
+>  # @BlockdevOptionsFile:
+> @@ -3678,6 +3685,58 @@
+>              '*debug': 'int',
+>              '*logfile': 'str' } }
+>  
+> +##
+> +# @BlockdevOptionsIoUring:
+> +#
+> +# Driver specific block device options for the io_uring backend.
+> +#
+> +# @filename: path to the image file
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'BlockdevOptionsIoUring',
+> +  'data': { 'filename': 'str' },
+> +  'if': 'CONFIG_BLKIO' }
+> +
+> +##
+> +# @BlockdevOptionsNvmeIoUring:
+> +#
+> +# Driver specific block device options for the nvme-io_uring backend.
+> +#
+> +# @filename: path to the image file
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'BlockdevOptionsNvmeIoUring',
+> +  'data': { 'filename': 'str' },
+> +  'if': 'CONFIG_BLKIO' }
+
+... this type aren't used in this patch.  Did you ...
+
+> +
+> +##
+> +# @BlockdevOptionsVirtioBlkVhostUser:
+> +#
+> +# Driver specific block device options for the virtio-blk-vhost-user backend.
+> +#
+> +# @path: path to the vhost-user UNIX domain socket.
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'BlockdevOptionsVirtioBlkVhostUser',
+> +  'data': { 'path': 'str' },
+> +  'if': 'CONFIG_BLKIO' }
+> +
+> +##
+> +# @BlockdevOptionsVirtioBlkVhostVdpa:
+> +#
+> +# Driver specific block device options for the virtio-blk-vhost-vdpa backend.
+> +#
+> +# @path: path to the vhost-vdpa character device.
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'BlockdevOptionsVirtioBlkVhostVdpa',
+> +  'data': { 'path': 'str' },
+> +  'if': 'CONFIG_BLKIO' }
+> +
+>  ##
+>  # @IscsiTransport:
+>  #
+> @@ -4305,6 +4364,8 @@
+>                         'if': 'HAVE_HOST_BLOCK_DEVICE' },
+>        'http':       'BlockdevOptionsCurlHttp',
+>        'https':      'BlockdevOptionsCurlHttps',
+> +      'io_uring':   { 'type': 'BlockdevOptionsIoUring',
+> +                      'if': 'CONFIG_BLKIO' },
+>        'iscsi':      'BlockdevOptionsIscsi',
+>        'luks':       'BlockdevOptionsLUKS',
+>        'nbd':        'BlockdevOptionsNbd',
+> @@ -4327,6 +4388,12 @@
+>        'throttle':   'BlockdevOptionsThrottle',
+>        'vdi':        'BlockdevOptionsGenericFormat',
+>        'vhdx':       'BlockdevOptionsGenericFormat',
+> +      'virtio-blk-vhost-user':
+> +                    { 'type': 'BlockdevOptionsVirtioBlkVhostUser',
+> +                      'if': 'CONFIG_BLKIO' },
+> +      'virtio-blk-vhost-vdpa':
+> +                    { 'type': 'BlockdevOptionsVirtioBlkVhostVdpa',
+> +                      'if': 'CONFIG_BLKIO' },
+>        'vmdk':       'BlockdevOptionsGenericCOWFormat',
+>        'vpc':        'BlockdevOptionsGenericFormat',
+>        'vvfat':      'BlockdevOptionsVVFAT'
+
+... forget to add a branch here?
+
+
+[...]
 
 
