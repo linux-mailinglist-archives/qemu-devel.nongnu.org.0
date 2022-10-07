@@ -2,81 +2,166 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07635F7BD3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:53:21 +0200 (CEST)
-Received: from localhost ([::1]:42270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C775F7B33
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 18:12:33 +0200 (CEST)
+Received: from localhost ([::1]:51740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogqbA-0004fR-Lw
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:53:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57598)
+	id 1ogpxg-0002fq-N5
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 12:12:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogpKz-0008RK-W3
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:32:34 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:44932)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ogpKw-0007xk-Qo
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 11:32:32 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id c7so4931691pgt.11
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 08:32:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fBlxAcVyKdmy+sbnCnD0Ius7jbmrAMca/hw40oT9yW8=;
- b=bmxfxwS1OaO/ViL/Hs+2IGNvEWcWVn21Y2NWolU9oyJCxU1dLTst9RlOwbcqYtkp2n
- u9b7VmZAh3jFLP7iLLTYX3Ph6YQogcaFzP2dnI6El/ynGL3U4Wq1GPWoQDqx3Zvw6U0g
- rLw7vzGpO/g3P9/j0g0vQ2hkMP4SSQ9Ep96kBkWR3UMBAE5J166cBmVsY8HjsWfubV6+
- mp2XRepKaAFR3cgcvYuPTgAyrjblROjpol/sbF3Qt/lxZZdNQT7YKasnwpUZ/yC9VU+Y
- 1TMyqsEu5x7UBqT2cVwy5hzXa8iAPmZK3JtLT2eDrm7BZpk1cYhpcMSJ79K2U7M5Fr+B
- DPyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fBlxAcVyKdmy+sbnCnD0Ius7jbmrAMca/hw40oT9yW8=;
- b=RgEe1f2LOa39OmtspgxfRrvM8Q6Bq2072wXx9vrgYRYBMQhd6ibcKtDhCdzp9FAmlv
- 5rPWOGo1PYmM04oqHgOShXyZau2GXPMgpyXBzI9VLDPJPQS+Z0pjZSqkf9pjiz821J3T
- HeXos5TO7aPhmlnl8G7ASG8HpKu7G36WvXyvTPvZdtpOWNKwkDW4e3gi6XRXfR+LSVe2
- vVbLFqYNMVKkK5W1rU+J5yPhZ361QN0XY0BXp63cT6PJLAPphJbA27qWrm2VS6RA/RUD
- UqzaCmtmrkmw8Q4grd0PahTXCi/wFkkLCenBBZifIB71hp+BCLSACdqvtEEOWF2uEuSl
- k0fQ==
-X-Gm-Message-State: ACrzQf0TM9E/WRUHt09dcsYipp183uGkDpcrXEazW2QuPwIRgZ62lwgf
- w1oufSt9qzDPRMaU22kh+D6yEVv1u3BN4Igjj6jBzDuTCNI=
-X-Google-Smtp-Source: AMsMyM4CkMvpqw3Ew1e1Yl83JjLGqVayvq3+0dT9MPGeHB2MWWVQyV/I7hJ/QXHl2dDiVc6hoETR19Q+Xw4eWW1i7SU=
-X-Received: by 2002:a05:6a00:b4d:b0:561:b974:94b9 with SMTP id
- p13-20020a056a000b4d00b00561b97494b9mr5725510pfo.26.1665156748892; Fri, 07
- Oct 2022 08:32:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
+ id 1ogpL2-00007y-Kj; Fri, 07 Oct 2022 11:32:37 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:21144)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <miguel.luis@oracle.com>)
+ id 1ogpL0-0007xr-FF; Fri, 07 Oct 2022 11:32:36 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 297EmlE3019409;
+ Fri, 7 Oct 2022 15:32:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2022-7-12;
+ bh=tDmKXzeMIoTNzieqAD1xVHsJpiQym7inF/dpXYPRfS8=;
+ b=dcsI3DE8wMknZsDWdrR6DAq8NwtUvHrLZE9SbGdGzl4sMC1eTmhr8F0Zjt9NPnp7JjA/
+ KWYuAjR+JbFCZljziYNdZ8QzmX1Pqj0rhK8SCKg2UWL+jjzDBalfiED7gp7L2ZZhd0UX
+ 8w6rk6LrGimfD87MfB64DET3iqLS2pJaxsNasLY5IH9rto7MLNlN5wLq9fNdRuvhvdSx
+ 95ZVBRgzKC4Q0SrkCfBfBuLqsc63JIze1AwuaFGybwKU+pD4jWoGjhxPWN3xMvw3nw47
+ eXPWnOe1I5DCQM0cgXaziqASHrpI09uxtZXWTS8WaRLzvqBC/15vKy7K/92AyH9qQNif Ww== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3jxcb2yh8c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 07 Oct 2022 15:32:29 +0000
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 297DYcCU020628; Fri, 7 Oct 2022 15:32:28 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11lp2172.outbound.protection.outlook.com [104.47.57.172])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3jxc079jmn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 07 Oct 2022 15:32:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ww3yIcmPTc87THC1wow3RNtSBKFBVcA8hajRXfItCinOxszC8PgDWQS6cNg5VYURmD02+NJQazGv/OPhDazi1G5vwTJJDC4Gomd6hVtCp5E8EEva/2xyLYLc6LPprNLFxze3uDk/KEd1rOUZp2LfWiOvRyyqnFSHkzIHnguqtlQFB4psPFKrGV/BP66yxddXGnR7EgDAwLo+G3PaiG1ALPCaXL/ztrRfHTtU/ixqa+xgdvIY21Tyc4RoQ0yIDjM+M+sW8egJj2W1gODsFG6ympG3H+5687+400/XbntzxK8zSU0azYbHglHV9jix7H/GfPCirq4i4KRHFHKLC2tEMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tDmKXzeMIoTNzieqAD1xVHsJpiQym7inF/dpXYPRfS8=;
+ b=RjKctR7EL5N8iF0+MV49krTQMT8+Fnty+1QpxloDtZ1O8Kw/YdZrtyk8u6Ue6rJMBw04zI5YnBNAkefBZkHs5beTliGHJlNoqah6p7/Wp/4mulu+TnjG42b01l6a9u3ROo0vqnl+n6qTvGXBJ5CNOGBjo4RNOAyReFn0qJo4Fjh/9AjNoCx/HSoCaMTkgYYLgNdxJvXMS3T1diaylUMNtZHLXa14Lobm6PAsVpRAAotwemomzocGSvB0MpApJD2iSv7ol212DtTyZS0LkyoB8pd0nwxmwjG9q89pujkm4CSIMssAtD9jXfU75mOVVtB4A8P6egd7unjFjDskxDlyaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tDmKXzeMIoTNzieqAD1xVHsJpiQym7inF/dpXYPRfS8=;
+ b=BIqgwpkdYNH/f9iUiLuh+oW45t2uMoKbd5WtQIqHiWvB/RPY76Fto9MIMh5lX44DHv/ydmy9iQpcy8qbmAFn0RpIZwouYOyu9zWAuKZc61gfAnXurBSK5lWifcmJt1mZSn28fFi31/wsezA6qYYo2wrlEQwDovrmcfbk8+nX7LA=
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
+ by PH0PR10MB4677.namprd10.prod.outlook.com (2603:10b6:510:3d::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.24; Fri, 7 Oct
+ 2022 15:32:25 +0000
+Received: from PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::4c04:3c29:4a50:d882]) by PH0PR10MB5433.namprd10.prod.outlook.com
+ ([fe80::4c04:3c29:4a50:d882%6]) with mapi id 15.20.5709.015; Fri, 7 Oct 2022
+ 15:32:25 +0000
+From: Miguel Luis <miguel.luis@oracle.com>
+To: Ani Sinha <ani@anisinha.ca>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-arm@nongnu.org"
+ <qemu-arm@nongnu.org>, "mst@redhat.com" <mst@redhat.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>, "shannon.zhaosl@gmail.com"
+ <shannon.zhaosl@gmail.com>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>
+Subject: Re: [External] : Re: [PATCH v2 0/3] fix for two ACPI GTDT physical
+ addresses
+Thread-Topic: [External] : Re: [PATCH v2 0/3] fix for two ACPI GTDT physical
+ addresses
+Thread-Index: AQHY2luN89dX00ryfUmXMGLyKlEYca4DDD4AgAADCIA=
+Date: Fri, 7 Oct 2022 15:32:25 +0000
+Message-ID: <F894152C-824D-4599-A048-B92398EA9539@oracle.com>
+References: <20221007144553.79648-1-miguel.luis@oracle.com>
+ <CAARzgwxpjfioHSWq3iyzbOT2LgfX_93A5Sje0e1K1tiXtz0wLw@mail.gmail.com>
+In-Reply-To: <CAARzgwxpjfioHSWq3iyzbOT2LgfX_93A5Sje0e1K1tiXtz0wLw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR10MB5433:EE_|PH0PR10MB4677:EE_
+x-ms-office365-filtering-correlation-id: a3f4db8b-1419-4075-50b0-08daa87922cd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0z95X11QhvKpQr0Akc3hKwxVmoqo1ammE4XfZt0RK5bKsIYQa/b6ccmCBhN9JPfnBVz5BQIyWbC8M6wc5ilfrfGywVl1bNczA4p8oXeD/1jZADhrdVm+E4moToxY9YOS1e+8ZFWmzU0gt/fTRLixlzuyGycelz/3uFUvzsfQczJ29WgegtX8L3vwfbR/1Gs0Mql01yg5gGqQhom7qx/aBB4XxoqpDBuZ1igX5VZh87xich089oS+E5EPv5JmsB6fY6e00jz1gDRO1KvuLEzyJBzblHbk7XsAqw98nw8caprDihqgrU++TcAYxASNpOlh+PfzGRvapMb7QFm05zLCokPQjGCBMNgAj/vFUWXDx9LpmzCPNi/W7ZyCM9JQolEvp0tGKVXxwmNRFwxWdMvBLFZXIsnOPxMihldzhq80yCWzmkOWq9ourr3sDLRBAKxHGu40ziDHthD/r4Y9wi5Zet3WBpfFqBxEEd4BGbmYeFwnPOSjhpxZCP3O8VkPhiUqy0KfjIeIqnbrnkA4N4Z17h5sq2O8qvIgdGTEi86Ag6JcRgov1h7wjBeeuEJy9QBj2JSvpALUJLtUf/+K4fNhzKjIMPipjrP4LtnKDxnSJIwHbucthc95F0xeycroRO2D6VFCejs/ePq/jGrurI2RNAEOfVQ1kBIHPXwGMSVUM5mLfefIHFsRWa5tuzTvHoI5yQcfC0w6++vw+6f+9AiwvtxF67PluGRs5kso+u2fs1It4RfgS9hoIgZwQnZQVp0xuLR3f96HPcTlGyEhlKr6Z8d6wkKSmgmblNu5JC0i6ZLFZ4E7w/avpxMW8uRydFhJyHOGI4ofliZ7zCBlZNXDOhFajUZCAvhbMKKzNp9PC/4=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR10MB5433.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(39860400002)(376002)(346002)(366004)(396003)(136003)(451199015)(8936002)(53546011)(122000001)(91956017)(38070700005)(86362001)(316002)(66476007)(76116006)(4326008)(8676002)(64756008)(66446008)(66556008)(66946007)(33656002)(38100700002)(36756003)(83380400001)(6512007)(6506007)(966005)(6486002)(478600001)(71200400001)(6916009)(54906003)(2906002)(44832011)(2616005)(186003)(41300700001)(5660300002)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?BG/bURYUHxgvbrzfKla7V1XoTQ1vmErJLSeOLiZGX+vnPX0wtsZhasmpU7HU?=
+ =?us-ascii?Q?qyYQmHdMoXtFL9G+On9lnoBnVPDKt5iF3VQl3kfzoHGaJCp2c0lMHPg4aDuG?=
+ =?us-ascii?Q?oz8WTXB2/55jI0VdZAGSZcJ8yYv7cpDW1Do5WvGMn2YNrvXVUBWGCZQorhdN?=
+ =?us-ascii?Q?ytFunRPaWIYtQNpvO3GKbRCvbCG834meU3tKVMoZIF5p7uSZ39N46RQJTt2E?=
+ =?us-ascii?Q?bQMH0RnlDbhHfD4iMgyAZkzMAw+fkGXeQRbEqqdgzIGi96AHgUkrRln8gpTO?=
+ =?us-ascii?Q?Dnch219ey/Scm8stAc9V8D2iu7SL1rXzuKBmg8cxtMFUI82OBsM6AGovS59e?=
+ =?us-ascii?Q?tmWwMaAjAPpqJ5+gz6+5MouFP23Q3c+CFyLG7OxYpNSiejXW+gUUXTNhJrAL?=
+ =?us-ascii?Q?IcRj2mOI0tubMfYqGXtP5baG5SYTTsF57i99hfK9uY7ipylUGIbhwEyRazf8?=
+ =?us-ascii?Q?QVO3oRBlWR4deN8agXjhA3EbTFwJhZkMaGe7Zk1M9LGpn9KU9DeRAz+s5Urj?=
+ =?us-ascii?Q?UH62WeZM+vVfntjs3ZNAcxCgDvfFEtve2op1asltm0KaPBTW2pPEs1IWZ7nq?=
+ =?us-ascii?Q?HaG5pYkwwI/Ny5EWZ1QORq/q1KvxLIokr83CLyi1xOhl48u/pRJDEHooR5rp?=
+ =?us-ascii?Q?BRrjEfQFZg4u+mL3+18d9qqGxgjB7reU8Gevc88NkzKdbUIPnU84dSr8bS5B?=
+ =?us-ascii?Q?o2F3C5Si1FpmR5PE/9ovTXYZKNAREl5HA58zlAvPgQigcOB1keEAbvsG1pu4?=
+ =?us-ascii?Q?iEtVtyudOEsHBKsqUNrtXgfv7uDSXKnnmZ4DsGz8IfFxL8dRnq6UhkS+V1lf?=
+ =?us-ascii?Q?OicobvI1JkccFQ+8sUL1/UT+rBK480w9mDyI4KGQY3zwnculUCPh6MAbUfjS?=
+ =?us-ascii?Q?jbZbVr1BMiKwa4vivR2DdP2OYkKKAnOuGu+3fCGV5ejVnXgu2GVe0ADBrvin?=
+ =?us-ascii?Q?Bupiwzl7Tch9R7+RdR0YimQCNf0s3R4oF4x1Wzd2aIE7FlPHT+DQPFhsavyy?=
+ =?us-ascii?Q?6ojpTDniaf9OXnHs+fwhJ2JwYA0ey5BCp3orOBao8ApN7/MC/fGMSmtVpw2W?=
+ =?us-ascii?Q?GBqcq56rAziTV6EaGH2VKQHuEi7nuJJmTlmd9VqYh69pvp3bcVHLYfN7GrpI?=
+ =?us-ascii?Q?mizA6RA2QRhUu8cN/lGxkd5I9fn0FHu7h1bSXW1aZwL01LQ9609TFnSV+QA+?=
+ =?us-ascii?Q?zpgYmNYHkkc+lfswaz+OzC1ynIYo5kZgR1BgfMczOZMi89ZsAz83ephGpvmG?=
+ =?us-ascii?Q?fjYssVODORyh11FXWkxSxEwGV2nzDF1APThjmMrre/MaIMPO07Z0/Kn7zXPe?=
+ =?us-ascii?Q?FUT3QicpfffKlY5LcwCVBcbinXiwEeOQc0LtIwopxx6RlfL3kiBINt2CI1ub?=
+ =?us-ascii?Q?IiArKq35J/cUnr9WdFm1OMO0rnwAIGRW+0UUEufHkWV/kJjnGRji5Jz/Fj/Y?=
+ =?us-ascii?Q?CqpG1nKujJI6fHV5HGo2YC3lhtCatNX9pI8sq/iiUhGjZSy5AFm6Kj7u2mcs?=
+ =?us-ascii?Q?pm0NrKpfe/DSRHhdyTtEDJlIJc78FJDI9al3+2tB6TLC0dQY1roKhG+cf3FA?=
+ =?us-ascii?Q?JyaNlEky2XoZNkY//4jgNgn7hyX32Gw48VrFtAP4/5YwTNxSDMHoVf6+Xans?=
+ =?us-ascii?Q?7/6dLK0o4kLwoohB+c3v3JE=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <719CFA924792414586EFFCF0803AE291@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <CAAJ4Ao9crXap1OYiutSgG5caZHzVkM=WvQYpVD2XN1M8JsD3cQ@mail.gmail.com>
- <CAAJ4Ao9M8CnfBtiricqteAfhPhV9sOhiicSYVsrqtCp7CisK_Q@mail.gmail.com>
- <CAFEAcA80d1Qd3VrzV79_ywEryikfLrLNMbe50hjMEP8_HKNBvg@mail.gmail.com>
- <1727925.InMztqvFxb@silver>
- <CAFEAcA9PcDk5pnRrKQf2zRaX8h8KSA9SDHODS102iK3jd_fpUQ@mail.gmail.com>
- <CAAJ4Ao8sxnuxgeUFwvdwceMn6=xy_QxYuOzhAJcGthnSd1pRgQ@mail.gmail.com>
-In-Reply-To: <CAAJ4Ao8sxnuxgeUFwvdwceMn6=xy_QxYuOzhAJcGthnSd1pRgQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Oct 2022 16:32:16 +0100
-Message-ID: <CAFEAcA-jRHEGyW-oA1rSXDuYa81x2SNt+vqrvUPtgK6Wr93sJg@mail.gmail.com>
-Subject: Re: [PATCH] error handling: Use TFR() macro where applicable
-To: Nikita Ivanov <nivanov@cloudlinux.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org, 
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Greg Kurz <groug@kaod.org>, Jason Wang <jasowang@redhat.com>, 
- Michael Roth <michael.roth@amd.com>, Konstantin Kostiuk <kkostiuk@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5433.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3f4db8b-1419-4075-50b0-08daa87922cd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2022 15:32:25.4111 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: N/F8mSXRggtIlNtCkQflfGTlb8JAVdrxjoOctW8taFDLGoTl6cHXJkT+zBKJMWDHuiTXX6odwgAGx6j9BinhDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4677
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.528,FMLib:17.11.122.1
+ definitions=2022-10-06_05,2022-10-07_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ phishscore=0 bulkscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2209130000
+ definitions=main-2210070092
+X-Proofpoint-GUID: 8l6XThK4U16itTF6EQ_l_w3CgwgJJwgG
+X-Proofpoint-ORIG-GUID: 8l6XThK4U16itTF6EQ_l_w3CgwgJJwgG
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=miguel.luis@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,137 +178,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Oct 2022 at 12:44, Nikita Ivanov <nivanov@cloudlinux.com> wrote:
->
-> Hi!
-> Sorry for such a long absence, I've been resolving some other issues in my life for a while. I've adjusted the patch according to your latest comments. Could you check it out, please?
-
-Hi; thanks for coming back to this. (I'd been meaning to re-read the
-thread but hadn't found time to do so; sorry.) As Christian says,
-you should send the patches as a proper new patchset thread of their
-own, but for the moment:
-
-> From 5389c5ccc8789f8f666ab99e50d38af728bd2c9c Mon Sep 17 00:00:00 2001
-> From: Nikita Ivanov <nivanov@cloudlinux.com>
-> Date: Wed, 3 Aug 2022 12:54:00 +0300
-> Subject: [PATCH 1/2] error handling: Use TFR() macro where applicable
->
-> There is a defined TFR() macro in qemu/osdep.h which
-> handles the same while loop.
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/415
->
-> Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
-
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 66fdb07820..7892bdea31 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1238,9 +1238,9 @@ static int hdev_get_max_segments(int fd, struct stat *st)
->          ret = -errno;
->          goto out;
->      }
-> -    do {
-> -        ret = read(sysfd, buf, sizeof(buf) - 1);
-> -    } while (ret == -1 && errno == EINTR);
-> +    TFR(
-> +        ret = read(sysfd, buf, sizeof(buf) - 1)
-> +    );
-
-I think this patch is doing things in the wrong order. Instead of
-converting code to use the old macro that we don't like and then
-updating it again in patch 2 to use the new macro, we should
-first introduce the new macro, and then after that we can update
-code that's currently not using a macro at all to use the new one.
-This makes code review easier because we don't have to look at a
-change to this code which is then going to be rewritten anyway.
 
 
-> From 7a9fccf00ec2d1c6b30b2ed1cb98398b49ddb0bc Mon Sep 17 00:00:00 2001
-> From: Nikita Ivanov <nivanov@cloudlinux.com>
-> Date: Mon, 8 Aug 2022 20:43:45 +0300
-> Subject: [PATCH 2/2] Refactoring: rename TFR() to TEMP_FAILURE_RETRY()
->
-> glibc's unistd.h header provides the same macro with the
-> subtle difference in type casting. Adjust macro name to the
-> common standard and refactor it to expression.
->
-> Signed-off-by: Nikita Ivanov <nivanov@cloudlinux.com>
+> On 7 Oct 2022, at 15:21, Ani Sinha <ani@anisinha.ca> wrote:
+>=20
+> On Fri, Oct 7, 2022 at 8:16 PM Miguel Luis <miguel.luis@oracle.com> wrote=
+:
+>>=20
+>> The ACPI GTDT table contains two invalid 64-bit physical addresses accor=
+ding to
+>> the ACPI spec. 6.5 [1]. Those are the Counter Control Base physical addr=
+ess and
+>> the Counter Read Base physical address. Those fields of the GTDT table s=
+hould be
+>> set to 0xFFFFFFFFFFFFFFFF if not provided, rather than 0x0.
+>>=20
+>> [1]: https://urldefense.com/v3/__https://uefi.org/specs/ACPI/6.5/05_ACPI=
+_Software_Programming_Model.html*gtdt-table-structure__;Iw!!ACWV5N9M2RV99hQ=
+!I-YqmAwYNhk19YHxcbjQBMwEE9a8rZOvufvOOonAPEtgTynOYOf5AyYKLTTGJ2RRzsjvkjIule=
+Subpg$ =20
+>>=20
+>> Changelog:
+>>=20
+>> v2:
+>>    Updated with collected tags from v1.
+>=20
+> For future reference, there is no need to send out a new version with
+> just the tags added. The tooling make sure that the tags are collected
+> correctly from the last version.
+>=20
 
+Great! Thanks for the tip which is very helpful.
 
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 7892bdea31..ee7f60c78a 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1238,8 +1238,8 @@ static int hdev_get_max_segments(int fd, struct stat *st)
->          ret = -errno;
->          goto out;
->      }
-> -    TFR(
-> -        ret = read(sysfd, buf, sizeof(buf) - 1)
-> +    ret = TEMP_FAILURE_RETRY(
-> +        read(sysfd, buf, sizeof(buf) - 1)
->      );
+Miguel
 
-This doesn't need these newlines in it. If the whole thing fits on
-a single line, that's easier to read.
+>>=20
+>> v1: https://urldefense.com/v3/__https://lists.nongnu.org/archive/html/qe=
+mu-devel/2022-09/msg02847.html__;!!ACWV5N9M2RV99hQ!I-YqmAwYNhk19YHxcbjQBMwE=
+E9a8rZOvufvOOonAPEtgTynOYOf5AyYKLTTGJ2RRzsjvkjIulSis4m4$ =20
+>>=20
+>> Miguel Luis (3):
+>>  tests/acpi: virt: allow acpi GTDT changes
+>>  acpi: arm/virt: build_gtdt: fix invalid 64-bit physical addresses
+>>  tests/acpi: virt: update ACPI GTDT binaries
+>>=20
+>> hw/arm/virt-acpi-build.c          |   5 ++---
+>> tests/data/acpi/virt/GTDT         | Bin 96 -> 96 bytes
+>> tests/data/acpi/virt/GTDT.memhp   | Bin 96 -> 96 bytes
+>> tests/data/acpi/virt/GTDT.numamem | Bin 96 -> 96 bytes
+>> 4 files changed, 2 insertions(+), 3 deletions(-)
+>>=20
+>> --
+>> 2.37.3
+>>=20
 
->      if (ret < 0) {
->          ret = -errno;
-
-
-> @@ -1472,8 +1472,8 @@ static ssize_t handle_aiocb_rw_vector(RawPosixAIOData *aiocb)
->  {
->      ssize_t len;
->
-> -    TFR(
-> -        len = (aiocb->aio_type & QEMU_AIO_WRITE) ?
-> +    len = TEMP_FAILURE_RETRY(
-> +        (aiocb->aio_type & QEMU_AIO_WRITE) ?
->              qemu_pwritev(aiocb->aio_fildes,
->                             aiocb->io.iov,
->                             aiocb->io.niov,
-
-I'm not sure why you've put the TEMP_FAILURE_RETRY on the outside here
-rather than just on the individual function calls.
-
-
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index b1c161c035..6e244f15fa 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -243,7 +243,13 @@ void QEMU_ERROR("code path is reachable")
->  #define ESHUTDOWN 4099
->  #endif
->
-> -#define TFR(expr) do { if ((expr) != -1) break; } while (errno == EINTR)
-> +#define TEMP_FAILURE_RETRY(expr) \
-
-We can't call the macro this, because the glibc system headers already
-may define a macro of that name, so the compiler will complain if they're
-both defined at the same time, and depending on header ordering it might
-not be clear which version you're getting.
-
-> +    (__extension__                                          \
-> +        ({ typeof(int64_t) __result;                               \
-
-As Christian says, the point of the typeof is to use the type
-of the expression. "typeof(int64_t)" is always just "int64_t".
-You want "typeof(expr) __result;".
-
-> +           do {                                             \
-> +                __result = (typeof(int64_t)) (expression);         \
-
-Then you don't need this cast, because both __result and expr
-are the same type anyway.
-
-Also, how did this compile? 'expression' isn't the name of the macro argument.
-
-> +           } while (__result == -1L && errno == EINTR);     \
-
-I think you don't need the 'L' suffix here.
-
-> +           __result; }))
-
-thanks
--- PMM
 
