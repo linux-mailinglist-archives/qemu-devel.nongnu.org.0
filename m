@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E865F7A00
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 16:54:27 +0200 (CEST)
-Received: from localhost ([::1]:56086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 939465F7A89
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 17:29:09 +0200 (CEST)
+Received: from localhost ([::1]:50654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogok5-00070a-G0
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 10:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38808)
+	id 1ogpHe-0003av-DY
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 11:29:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1ognNw-0006eQ-8d
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:27:35 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:20163 helo=mga06.intel.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.hu@linux.intel.com>)
- id 1ognNt-00040Z-L2
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:27:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665149245; x=1696685245;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Rzk32TQk/zuJpsh0wz/FSXpA7oGUKDP0ec75h9XyrPU=;
- b=Mskj2yI1Rnq+lCOy59AfPJ3n3KuX6K/wyaayfQ4kTX0DDLl54fc6w07l
- dvWWZYtvKX1AUBCXPqxeCTjLwJdFYh4oY5/EBfPCzB4h9ZOAQuC7/0d+O
- 11mZQJZP1ojrjWVy6wloZmm1rbFOIAA4dpGxnfUbFtm6gZije/IQ28LIH
- NJPy6sHLJnhc4ikbS3NlZotXNi2oP01sdalEIc/jfISimUeGkyY5jn9Gf
- HRtEbbT+xxocqNQfcBcyxWIgU+NWGiwyccO6KN3nXZXe5Sv2njwj89nNH
- yfwbftM1Xqm/hvYQEEuHfhd0I9tLH4ejES2PLn7q/Y8jsELcRH02snx4H w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10493"; a="365675724"
-X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="365675724"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2022 06:27:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10493"; a="729608169"
-X-IronPort-AV: E=Sophos;i="5.95,166,1661842800"; d="scan'208";a="729608169"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by fmsmga002.fm.intel.com with ESMTP; 07 Oct 2022 06:27:20 -0700
-Message-ID: <8e4cf298f32424bd1a18033eba94a8eeb35f2950.camel@linux.intel.com>
-Subject: Re: [PATCH v4 5/5] test/acpi/bios-tables-test: SSDT: update golden
- master binaries
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, ani@anisinha.ca, 
- jingqi.liu@intel.com, qemu-devel@nongnu.org, robert.hu@intel.com
-Date: Fri, 07 Oct 2022 21:27:20 +0800
-In-Reply-To: <05c1d96492beaa8ec12b8807877903744d97e109.camel@linux.intel.com>
-References: <20220922122155.1326543-1-robert.hu@linux.intel.com>
- <20220922122155.1326543-6-robert.hu@linux.intel.com>
- <783af0cd89700c2c3ae9c6b2b1e49dab0a2d3f70.camel@linux.intel.com>
- <20220926152214.05255edf@redhat.com>
- <05c1d96492beaa8ec12b8807877903744d97e109.camel@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-10.el7) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=134.134.136.31;
- envelope-from=robert.hu@linux.intel.com; helo=mga06.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ogney-0000ev-D5
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:45:04 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41723)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ognew-0006i1-JZ
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 09:45:04 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id bu30so7362057wrb.8
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 06:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7qYRJtrJLjzmBVoNiWl95ssE0Z+o9iqE2SKt6mBGqBo=;
+ b=G0Suqt5WlWTqC7j28JPiMxWkDGsOf1QCSeGHTtAdZwJoMtEaxBMvuo5qk/ofrqskpp
+ ZRlSZIJj6j4Go/4aI9W1oCtbvWILXNVRs31AMQe5BBV2/SSogjkgmvXOPnMrHzHlhYlN
+ x/Lnlns+PXBrdHCRIGIPndeuSpa0l70cjFPDwx9DJWNCBBzIFntHhfZ7I8MSUKpGSlQx
+ iSVv/etzinToc8rR6G0PNEpqoZiExP8hwOBWL+fjgUYBUBoSjgmF/WQAuXTM7VDs2o6m
+ j3NeNVB5BOTEGXh/joiJNnXUkCL2kEhEg9qMpLzhHXG0crKTtV0j3kM1TO4B5Khc1//+
+ eXeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=7qYRJtrJLjzmBVoNiWl95ssE0Z+o9iqE2SKt6mBGqBo=;
+ b=RS3UFnh/yAlMurIL/ugIFOHZ0+Satm33Zi5e4IE8/b+zFjCQlf8N+/1di6DitSiwZb
+ N1cWrpS5PNlwDuD9AS5ZuEHGMx7kAYA7HESuV6/R6lceUgiSz0UxyHL6gN6H7QBuqqS2
+ K2U4nS/y9ad0Wo+yyDnknSZPoVlB6TFejbSr1Zb45gAut3t4FK480J78Y4kxd2S2gVQK
+ IlpVu4RcaJber8PsyqaoWTf93lw0FPzjrrQ981b2kcM+/f1AuXgNR/7c/nCUWIekRUrH
+ z54E9bLKXcSDRgP/q6AqykM+aOGP7VzNf7Tp8SAlS0VEsX2P5o42a789hX/Z66U5RhFb
+ 6nAQ==
+X-Gm-Message-State: ACrzQf2eSRBedrzWWOwMe03OXH63nGEJOHXpmCEEcABjbsoi4sfT2E5J
+ 0cXf1LNVQfSHSIWz3+aWEONGTSMFQeMa9Q==
+X-Google-Smtp-Source: AMsMyM6joDYlXVKXX2gOEVduKmhie1aZcNjSlWqyoQTOYcOlmpKqy68TSMPZMx44gOdyKzOjTEdKBA==
+X-Received: by 2002:a5d:58d3:0:b0:22c:e8e4:1461 with SMTP id
+ o19-20020a5d58d3000000b0022ce8e41461mr3295413wrf.227.1665150301152; 
+ Fri, 07 Oct 2022 06:45:01 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ r11-20020a05600c2c4b00b003bf3fe1d0c4sm2301631wmg.22.2022.10.07.06.45.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Oct 2022 06:45:00 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D02F61FFB7;
+ Fri,  7 Oct 2022 14:44:59 +0100 (BST)
+References: <20221005143719.65241-1-victor.colombo@eldorado.org.br>
+ <f78ab23d-6cab-9b60-37c4-7486546c6a0e@linaro.org>
+User-agent: mu4e 1.9.0; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: =?utf-8?Q?V=C3=ADctor?= Colombo <victor.colombo@eldorado.org.br>,
+ qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, danielhb413@gmail.com,
+ david@gibson.dropbear.id.au, groug@kaod.org, aurelien@aurel32.net,
+ peter.maydell@linaro.org, balaton@eik.bme.hu,
+ matheus.ferst@eldorado.org.br, lucas.araujo@eldorado.org.br,
+ leandro.lupori@eldorado.org.br, lucas.coutinho@eldorado.org.br
+Subject: Re: [RFC PATCH 0/4] Idea for using hardfloat in PPC
+Date: Fri, 07 Oct 2022 14:42:55 +0100
+In-reply-to: <f78ab23d-6cab-9b60-37c4-7486546c6a0e@linaro.org>
+Message-ID: <87a667iw84.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,61 +101,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping...
-On Tue, 2022-09-27 at 08:30 +0800, Robert Hoo wrote:
-> On Mon, 2022-09-26 at 15:22 +0200, Igor Mammedov wrote:
-> > > > 0800200c9a66"), One, 0x05, Local0, One)
-> > > > +                    CreateDWordField (Local3, Zero, STTS)
-> > > > +                    CreateField (Local3, 0x20, (LEN << 0x03),
-> > > > LDAT)
-> > > > +                    Name (LSA, Buffer (Zero){})
-> > > > +                    ToBuffer (LDAT, LSA) /*
-> > > > \_SB_.NVDR.NV00._LSR.LSA_ */
-> > > > +                    Local1 = Package (0x02)
-> > > > +                        {
-> > > > +                            STTS,
-> > > > +                            LSA
-> > > > +                        }  
-> > > 
-> > > Hi Igor,
-> > > 
-> > > Here is a little different from original proposal 
-> > > https://lore.kernel.org/qemu-devel/80b09055416c790922c7c3db60d2ba865792d1b0.camel@linux.intel.com/
-> > > 
-> > >    Local1 = Package (0x2) {STTS, toBuffer(LDAT)}
-> > > 
-> > > Because in my test, Linux guest complains:
-> > > 
-> > > [    3.884656] ACPI Error: AE_SUPPORT, Expressions within package
-> > > elements are not supported (20220331/dspkginit-172)
-> > > [    3.887104] ACPI Error: Aborting method \_SB.NVDR.NV00._LSR
-> > > due
-> > > to
-> > > previous error (AE_SUPPORT) (20220331/psparse-531)
-> > > 
-> > > 
-> > > So I have to move toBuffer() out of Package{} and name LSA to
-> > > hold
-> > > the
-> > > buffer. If you have better idea, pls. let me know.
-> > 
-> > Would something like following work?
-> > 
-> > LocalX =  Buffer (Zero){}
-> > LocalY = Package (0x01) { LocalX }
-> 
-> 
-> No, Package{} doesn't accept LocalX as elements.
-> 
-> PackageTerm :=
-> Package (
-> NumElements // Nothing | ByteConstExpr | TermArg => Integer
-> ) {PackageList} => Package
-> 
-> PackageList :=
-> Nothing | <PackageElement PackageListTail>
-> 
-> PackageElement :=
-> DataObject | NameString
 
+Richard Henderson <richard.henderson@linaro.org> writes:
+
+> On 10/5/22 07:37, V=C3=ADctor Colombo wrote:
+>> However, the impact in performance was not the expected. In x86_64 I
+>> had a small 3% improvement, while in a Power9 machine there was a small
+>> performance loss, as can be seem below (100 executions).
+>> |        | min [s] | max [s] | avg [s] |
+>> | before | 122.309 | 123.459 | 122.747 |
+>> | after  | 123.906 | 125.016 | 124.373 |
+>
+> I hope this is because you didn't handle the most common cases: add, sub,=
+ mul, div.
+>
+> The logic seems plausible, as far as it goes, and would work for the
+> FR bit as well which afair isn't handled at all at the moment.  I'll
+> review properly in a little while.
+
+I wonder if this is something that could be generalised and pushed up
+into the fpu stuff itself. We could after all cache the op and
+decomposed parameters here in a generic way. The trick would be working
+out how to do that without slowing down the current common case.
+
+Is ppc unique in not persisting the inexact flag from previous
+operations?
+
+>
+>
+> r~
+
+
+--=20
+Alex Benn=C3=A9e
 
