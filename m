@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B641C5F75AF
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 10:57:56 +0200 (CEST)
-Received: from localhost ([::1]:54870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4D45F75BD
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 11:09:57 +0200 (CEST)
+Received: from localhost ([::1]:50530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogjB5-0006Op-BT
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 04:57:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51646)
+	id 1ogjMi-00021J-6k
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 05:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogj2N-00036h-04
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 04:48:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25815)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogj2K-0002zj-Ce
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 04:48:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665132531;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VRAbd6ZL48bQT4Lzrynbs2hww7QTMtxX+KANV0rYZ7A=;
- b=e7phxmCiw9CbYy+csQLK8WKgZfJ9D+7MrtZzhMPFwOCDD9GWtFpDqwMp/cR8UclC55vF8P
- njeblu7p8vEfrnIpYqFmbQRwLPz4xXl2ECUD/C2wHZLkHUks+MdN2Ohjz1oJ+tHNvHCzw4
- PeSizFBXYhE1N+pdP2N14vPlp8auFYc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-46-9t1WI16lPnSCrEiicq9d1Q-1; Fri, 07 Oct 2022 04:48:46 -0400
-X-MC-Unique: 9t1WI16lPnSCrEiicq9d1Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E654811E87;
- Fri,  7 Oct 2022 08:48:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.109])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA8B22024CBB;
- Fri,  7 Oct 2022 08:48:45 +0000 (UTC)
-Date: Fri, 7 Oct 2022 10:48:44 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 2/3] block-backend: Update ctx immediately after root
-Message-ID: <Yz/n7Pkb4ePJhWwv@redhat.com>
-References: <20220923125227.300202-1-hreitz@redhat.com>
- <20220923125227.300202-3-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ogjF3-0006xl-HM
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 05:02:08 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:46036)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ogjF1-00051b-PU
+ for qemu-devel@nongnu.org; Fri, 07 Oct 2022 05:02:01 -0400
+Received: by mail-pf1-x436.google.com with SMTP id 67so4337275pfz.12
+ for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 02:01:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qXbBURHkGIrzTawmhhvYXAGr5Yq0Fg78373cxDqTwlo=;
+ b=M7GFPVFaLOwIre0fjXEGB8xVJ4+PJ6Ijtthr/dvOfJvK5dUAOAKYsMeMpoLtYxWiP3
+ BOhj1QmN2xDx6mfMCFdxAkcGcTXdQNnVJWsfY2R1x4wdONbKcnMgZeicA2RnoGy0Bmyv
+ ou3LiNFPqcPAulFDjsnjn83XxLJFyG+2g7YXrY524zfUVkTSvL6rPUI+8JFuTb1zQomg
+ Db+e9nCq5orQ20ev5IyKt4azbOEWB6ouRWqnw7KUgCvR5rh6w5bxUGgUA9na1fFR2HAH
+ NQOVxrsWS9yuxNJNN59RNnsNAXQrVtXhQmq/uKQ+ZPTzCNkvnAke8DO5U3XvhHwAe03J
+ x8sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qXbBURHkGIrzTawmhhvYXAGr5Yq0Fg78373cxDqTwlo=;
+ b=i5a5JQnJiD9ZhygkNYJpVQVAYq4gkH23klKroMSzpsVKBQYmdRQkjrj5O0TSq3ir0t
+ Wt85Y6+AVNmla89argqVBA1GaURDUEMMMrH5cfyhQcajIa3rO5Jhue5Oui+2VWNibBpt
+ u7w0f5ERwBgmKwEbLoZS5HV/QaIKKDwasTXqD06bhQNc+LkbKuhe0C84pLdxwhaMT5vu
+ +Pr64/DCsO09Ldd1NQca49rhuqqGJa6qbCdCTVBru1Ama0G+2sdYIOqVCN3T6qIdJ4wz
+ IRv/zQCXqLQlOQyY55zFWXfkg8RRo7G+qUceyCEbVpsQCKjqvqBjgunxa/7bPbs9rr5F
+ 6y6w==
+X-Gm-Message-State: ACrzQf0RW/nWY6ELWFGCpod45xhITCDkNN3GBHacS2Tcb9dzqYGH7ofZ
+ Pkf4b8ZIr4fHwSxqxZkT6eddBpUgoMO+nA6eXfJ72A==
+X-Google-Smtp-Source: AMsMyM7Vtos7+OLrHHPfzNh62cUx5JiZXuYizNLWdgIi1/M1oOn/PS5Ze4HRL7dMTA1+46Lb253S0cIYEwtO9nuptHY=
+X-Received: by 2002:a05:6a00:1584:b0:561:e48f:9faa with SMTP id
+ u4-20020a056a00158400b00561e48f9faamr4200738pfk.51.1665133317741; Fri, 07 Oct
+ 2022 02:01:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220923125227.300202-3-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221001162318.153420-1-richard.henderson@linaro.org>
+ <20221001162318.153420-28-richard.henderson@linaro.org>
+In-Reply-To: <20221001162318.153420-28-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Oct 2022 10:01:45 +0100
+Message-ID: <CAFEAcA9Vd6mwMf9-70vo=t_Yec+fPh3kM_jo7wn=oNi1+cvgkQ@mail.gmail.com>
+Subject: Re: [PATCH v3 27/42] target/arm: Use softmmu tlbs for page table
+ walking
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,52 +85,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.09.2022 um 14:52 hat Hanna Reitz geschrieben:
-> blk_get_aio_context() asserts that blk->ctx is always equal to the root
-> BDS's context (if there is a root BDS).  Therefore,
-> blk_do_set_aio_context() must update blk->ctx immediately after the root
-> BDS's context has changed.
-> 
-> Without this patch, the next patch would break iotest 238, because
-> bdrv_drained_begin() (called by blk_do_set_aio_context()) may then
-> invoke bdrv_child_get_parent_aio_context() on the root child, i.e.
-> blk_get_aio_context().  However, by this point, blk->ctx would not have
-> been updated and thus differ from the root node's context.  This patch
-> fixes that.
-> 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+On Sat, 1 Oct 2022 at 17:52, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> So far, limit the change to S1_ptw_translate, arm_ldl_ptw, and
+> arm_ldq_ptw.  Use probe_access_full to find the host address,
+> and if so use a host load.  If the probe fails, we've got our
+> fault info already.  On the off chance that page tables are not
+> in RAM, continue to use the address_space_ld* functions.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  block/block-backend.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/block/block-backend.c b/block/block-backend.c
-> index d4a5df2ac2..abdb5ff5af 100644
-> --- a/block/block-backend.c
-> +++ b/block/block-backend.c
-> @@ -2156,6 +2156,7 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
->                  return ret;
->              }
->          }
-> +        blk->ctx = new_context;
->          if (tgm->throttle_state) {
->              bdrv_drained_begin(bs);
->              throttle_group_detach_aio_context(tgm);
-> @@ -2164,9 +2165,10 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
->          }
->  
->          bdrv_unref(bs);
-> +    } else {
-> +        blk->ctx = new_context;
+
+
+> -static bool ptw_attrs_are_device(uint64_t hcr, ARMCacheAttrs cacheattrs)
+> +static bool S2_attrs_are_device(uint64_t hcr, uint8_t attrs)
+>  {
+>      /*
+>       * For an S1 page table walk, the stage 1 attributes are always
+> @@ -202,41 +203,72 @@ static bool ptw_attrs_are_device(uint64_t hcr, ARMCacheAttrs cacheattrs)
+>       * With HCR_EL2.FWB == 1 this is when descriptor bit [4] is 0, ie
+>       * when cacheattrs.attrs bit [2] is 0.
+>       */
+> -    assert(cacheattrs.is_s2_format);
+>      if (hcr & HCR_FWB) {
+> -        return (cacheattrs.attrs & 0x4) == 0;
+> +        return (attrs & 0x4) == 0;
+>      } else {
+> -        return (cacheattrs.attrs & 0xc) == 0;
+> +        return (attrs & 0xc) == 0;
 >      }
->  
-> -    blk->ctx = new_context;
->      return 0;
->  }
 
-Makes sense. Maybe in the first branch a comment wouldn't hurt (like
-"make blk->ctx consistent with the root node again before any other
-operations like drain").
+The upcoming v8R support has its stage 2 attributes in the MAIR
+format, so it might be a little awkward to assume the v8A-stage-2
+format here rather than being able to add the "if !is_s2_format"
+condition. I guess we'll deal with that when we get to it...
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+> +        env->tlb_fi = fi;
+> +        flags = probe_access_full(env, addr, MMU_DATA_LOAD,
+> +                                  arm_to_core_mmu_idx(s2_mmu_idx),
+> +                                  true, hphys, &full, 0);
+> +        env->tlb_fi = NULL;
+> +
+> +        if (unlikely(flags & TLB_INVALID_MASK)) {
+> +            goto fail;
+> +        }
+> +        *gphys = full->phys_addr;
+> +        pte_attrs = full->pte_attrs;
+> +        pte_secure = full->attrs.secure;
+> +    }
+> +
 
+> --- a/target/arm/tlb_helper.c
+> +++ b/target/arm/tlb_helper.c
+> @@ -208,10 +208,21 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                        bool probe, uintptr_t retaddr)
+>  {
+>      ARMCPU *cpu = ARM_CPU(cs);
+> -    ARMMMUFaultInfo fi = {};
+>      GetPhysAddrResult res = {};
+> +    ARMMMUFaultInfo local_fi, *fi;
+>      int ret;
+>
+> +    /*
+> +     * Allow S1_ptw_translate to see any fault generated here.
+> +     * Since this may recurse, read and clear.
+> +     */
+> +    fi = cpu->env.tlb_fi;
+> +    if (fi) {
+> +        cpu->env.tlb_fi = NULL;
+> +    } else {
+> +        fi = memset(&local_fi, 0, sizeof(local_fi));
+> +    }
+
+This makes two architectures now that want to do "call a probe_access
+function, and get information that's known in the architecture-specific
+tlb_fill function", and need to do it via this awkward "have tlb_fill
+know that it should stash the info away in the CPU state struct somewhere"
+trick (the other being s390 tlb_fill_exc/tlb_fill_tec). But I don't
+really have a better idea, so
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
