@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493E85F7724
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 12:59:44 +0200 (CEST)
-Received: from localhost ([::1]:38202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F43D5F7772
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 13:31:47 +0200 (CEST)
+Received: from localhost ([::1]:55876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogl4x-0004b3-Cd
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 06:59:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34520)
+	id 1oglZy-0004tO-IO
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 07:31:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogktt-0005PW-Ok
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogktt-0005PY-QF
  for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:48:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37394)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogktp-00036M-CA
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ogktp-00036V-Cc
  for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:48:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1665139690;
@@ -23,38 +23,38 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iMx0BlH40I5oytPM1g8+WFNlkj+8vJwA5jh1izJZAZY=;
- b=UHd3HunOR0VQ9LS3a0Ythks6Uw3zM4WnsBRMxbKAZaIsEwfADD2G6Vc0zkCLp61FeXXXtW
- lFizuuBsCtwVwphHzlNrv5q57hyIruB+0PsCcCm3D9VkHe/uoCOEl/7Dd5KaiVJ5P2+jcF
- Uj4InNnmgeNkLs3ncAgaRKJqlkhf8Ls=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NUvz7xynFawGgr2XSghEm6iDllUZfUc8HxABBcVLalA=;
+ b=XReaYHQfCGKRyytpS8qaST7G1E+Lg6AeldfE3uBnuH/3rzAzdoH44kJcOfYYOIM/T2T8pu
+ KevPJ5cWJNLq21hpsJbXQQiBIaU7iTEi1A14FJb+mPUoRBA3APxgK3Bvf4TfSmgp2i0tST
+ fWD7uNpDJQaQKEMf3rbfPgwuMfraAEQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-19-YNRH_wx9PcuDQs2jkYpPOA-1; Fri, 07 Oct 2022 06:48:06 -0400
-X-MC-Unique: YNRH_wx9PcuDQs2jkYpPOA-1
+ us-mta-170-SQ-5RE07N4mM1w93SSvP0w-1; Fri, 07 Oct 2022 06:48:07 -0400
+X-MC-Unique: SQ-5RE07N4mM1w93SSvP0w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9468F1C0515C;
- Fri,  7 Oct 2022 10:48:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90E07185A78F;
+ Fri,  7 Oct 2022 10:48:07 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.192.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CFE372024CBB;
- Fri,  7 Oct 2022 10:48:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDE9A2024CBB;
+ Fri,  7 Oct 2022 10:48:06 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 06/50] nbd: remove incorrect coroutine_fn annotations
-Date: Fri,  7 Oct 2022 12:47:08 +0200
-Message-Id: <20221007104752.141361-7-kwolf@redhat.com>
+Subject: [PULL 07/50] coroutine: remove incorrect coroutine_fn annotations
+Date: Fri,  7 Oct 2022 12:47:09 +0200
+Message-Id: <20221007104752.141361-8-kwolf@redhat.com>
 In-Reply-To: <20221007104752.141361-1-kwolf@redhat.com>
 References: <20221007104752.141361-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,32 +80,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paolo Bonzini <pbonzini@redhat.com>
 
-nbd_co_establish_connection_cancel() cancels a coroutine but is not called
-from coroutine context itself, for example in nbd_cancel_in_flight()
-and in timer callbacks reconnect_delay_timer_cb() and open_timer_cb().
+qemu_coroutine_get_aio_context inspects a coroutine, but it does
+not have to be called from the coroutine itself (or from any
+coroutine).
 
 Reviewed-by: Alberto Faria <afaria@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220922084924.201610-5-pbonzini@redhat.com>
+Message-Id: <20220922084924.201610-6-pbonzini@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/nbd.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qemu/coroutine.h | 2 +-
+ util/qemu-coroutine.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index c74b7a9d2e..4ede3b2bd0 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -424,6 +424,6 @@ QIOChannel *coroutine_fn
- nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
-                             bool blocking, Error **errp);
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index 414b677302..aae33cce17 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -92,7 +92,7 @@ void coroutine_fn qemu_coroutine_yield(void);
+ /**
+  * Get the AioContext of the given coroutine
+  */
+-AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co);
++AioContext *qemu_coroutine_get_aio_context(Coroutine *co);
  
--void coroutine_fn nbd_co_establish_connection_cancel(NBDClientConnection *conn);
-+void nbd_co_establish_connection_cancel(NBDClientConnection *conn);
+ /**
+  * Get the currently executing coroutine
+diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
+index 4a8bd63ef0..356b746f0b 100644
+--- a/util/qemu-coroutine.c
++++ b/util/qemu-coroutine.c
+@@ -213,7 +213,7 @@ bool qemu_coroutine_entered(Coroutine *co)
+     return co->caller;
+ }
  
- #endif
+-AioContext *coroutine_fn qemu_coroutine_get_aio_context(Coroutine *co)
++AioContext *qemu_coroutine_get_aio_context(Coroutine *co)
+ {
+     return co->ctx;
+ }
 -- 
 2.37.3
 
