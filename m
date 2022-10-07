@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88C95F7802
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 14:36:38 +0200 (CEST)
-Received: from localhost ([::1]:33782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7145F781B
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Oct 2022 14:41:37 +0200 (CEST)
+Received: from localhost ([::1]:36212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ogmaj-0004P3-Fi
-	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 08:36:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36046)
+	id 1ogmfX-0002y2-GM
+	for lists+qemu-devel@lfdr.de; Fri, 07 Oct 2022 08:41:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ogl0u-0001JL-55
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:55:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20786)
+ (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
+ id 1oglAg-0000DC-TJ; Fri, 07 Oct 2022 07:05:53 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:35747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1ogl0r-0004KV-9T
- for qemu-devel@nongnu.org; Fri, 07 Oct 2022 06:55:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665140128;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LR64z9tpD5q5kLTHlTIWBzNNn9hIJP7ERF5yiEfl3iM=;
- b=iztQnmJhEihpv8pofFGNgqn9XpyCsZ5dvHlwwPbwWAE8uudInZ7ZzsmXSbJZY/QwLc2/Zq
- HmFiROoeJUxhjuT+xi+ANmlhU+YLoonh/NVa8Dc8myZBUz9Au0jGofx+9rN+OIe/n7XZoj
- SfNKK+6fDGIpHnH52OXz8xF/65bvOjQ=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-284-RlYAlLTKOn6B8BByeCfPeg-1; Fri, 07 Oct 2022 06:55:27 -0400
-X-MC-Unique: RlYAlLTKOn6B8BByeCfPeg-1
-Received: by mail-vs1-f72.google.com with SMTP id
- q185-20020a6743c2000000b003a6ee1e0c90so1144644vsa.17
- for <qemu-devel@nongnu.org>; Fri, 07 Oct 2022 03:55:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LR64z9tpD5q5kLTHlTIWBzNNn9hIJP7ERF5yiEfl3iM=;
- b=26fAoUk6NTLp4Jy5iNHWOofIuvuxe6vbh0vAkajVKRHOvNYfo+P0Bu9Cn9NstS1oZk
- mjvg0I7RTQgdye22wSdxwZ0/4h3HMuJLZ6LMdNN9IxNu19Nsmc8fkZrxdT4TTtrLOg8b
- h/7gvtv/bdzyNE10DEpJAe5b4MAojU/xC3kDhzwOo+quunOe1m4O+oIJDqLFPWwTfWtS
- VbR4HnMdoQ8Rxr6xWcOvpWza3BkOJjQ11czlFg7Iaz7b+oRI8LyMAk5JNnzpxrYuImyP
- 79QqoT33DRTVy3wRx0qAnx9BwoHDLIWXVVYEkUaWCdkOJJ0koKea5YtXcfxSy5evib1V
- cJfw==
-X-Gm-Message-State: ACrzQf1Jg3Uba+6zOh2NmEUao1RCFcF2ZjYgMqzdzI7p9j0XP0TpgdNx
- SZTjgp9cdidskFREIF77v+UhdvBXPxz6xGK4pSg3PKfAZUSa7Fm7xSeoYrPiHXJ2TphCiy/A3kJ
- 42Lp9QFJtqM3RS4Bqgi0FbFwAv0CXM0A=
-X-Received: by 2002:ab0:7789:0:b0:3be:fd5f:768f with SMTP id
- x9-20020ab07789000000b003befd5f768fmr2604697uar.109.1665140126554; 
- Fri, 07 Oct 2022 03:55:26 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7z47vvSNwcJZfMIYVIqV5wsMQyk3FPL1u/LcLv52c5O4BsLPAXI8lCk/WfdaURMULNF5n6yLczT2H2b2yPaPE=
-X-Received: by 2002:ab0:7789:0:b0:3be:fd5f:768f with SMTP id
- x9-20020ab07789000000b003befd5f768fmr2604689uar.109.1665140126344; Fri, 07
- Oct 2022 03:55:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
+ id 1oglAf-000615-0H; Fri, 07 Oct 2022 07:05:38 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7F74C5C00C4;
+ Fri,  7 Oct 2022 07:05:33 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 07 Oct 2022 07:05:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1665140733; x=1665227133; bh=oa
+ hjePKX/9AFaZuKtf2PieQ6PORi0jemTR9iFNh3+ow=; b=cTYNQkzvf0MpvcLjxY
+ 2TnNUUyr25t7IAyLWPKZIuQcWLQtVXvfwvf93J3FjPAcL+sPoRYzPiBdaCcEnimu
+ nTDgpDZIPbJVRmQxZl2LgBZsjwtujnh9GsqEIWOZpM70EvhMKxrsYV3P840MhJ/v
+ ldirjNGHoSyL2forlwpl6WOIo+Rm1U3t4lhGz5XWTyhFyNsih7lG0Mc/mw7RNVgq
+ IqASjaDnu12mlFHSNj6bkFRlpyfcNJF3Or3djZAtE45ZU4eya8bvmw4lVZTMNWeN
+ +Fa369Cj/orCGswlIeYQE2i59Sx3rcLPAeHMr4TC3GQIfRXWcd3zTXig9dSLV/GN
+ GNZg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1665140733; x=1665227133; bh=oahjePKX/9AFa
+ ZuKtf2PieQ6PORi0jemTR9iFNh3+ow=; b=FRMUAzQC4B739NE8biC+OCgsWPsfQ
+ 5NxIdyqIk0qM6kWIw7MseRBXToSy/Ldow6yOCWzOYcYirgzmJCZfe8yD5/uBjQuR
+ W+h7+aveYyRriks2DCYVg/NLp4DJp+8/oxB7dj5u7UNjm/7lYQceV22v9aC/txWI
+ IU8N36VHn1A8NHdUWKbwkrdO5vo2/YWzPe3m9hHTexARj6Q+QmmRLmq6/FH9PIlV
+ kZ9QXj7yZNY0TU8UPvhai18X6Eq7czme80Qi9PfqF4lD0zEn07RMlk+FyfsC/kxq
+ vVUyDYfZmOMv3h7ACDPUaySkR7nOjEk6sHMatSQN93WrJiLKZClTs3Gbg==
+X-ME-Sender: <xms:_AdAYyf8Qh57hMffkjjnDZ8o9NTRd-80fb9Z8Qoi30V3_duaWxU1BA>
+ <xme:_AdAY8OC-p7PNOOL00EtZ6dMN6tDhBJrZGsUEpcSfxO3s7OGrBWkUA_oFgm6KzYFX
+ M7dk8Fx_8fAYz5W50A>
+X-ME-Received: <xmr:_AdAYzg3SV8pm1Q3JAETx398JGVkvqwdRazcgMMag4p4Ewm9Eh6Ebk95RBf2NwrR8zBsH-ivinOS53zTzd6sozFR7wCpxsv6>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeijedgfeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ hmihhsshhinhhgucfvqfcufhhivghlugculdeftddmnegfrhhlucfvnfffucdljedtmden
+ ogetfedtuddqtdduucdludehmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertd
+ ertddtnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghk
+ sehsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpeefveeihfdvgeeguddtveeuud
+ euvdelgeetleefhfeukeehteekieeujeehtddtjeenucevlhhushhtvghrufhiiigvpedt
+ necurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrhhitghksehsthiftgigrdighiii
+X-ME-Proxy: <xmx:_AdAY_8-TBaeG9uAtYau66T_XuRjtTcCmQz5rYSjobJQY3fwkq0gVQ>
+ <xmx:_AdAY-uwZ3CnK5VqMxgLEzygVSxOxuRDMB_iOEdiOSkb8MMYGZtbCA>
+ <xmx:_AdAY2ESpGg7MBTnDBymSI4q3Pn2YHZT8ByKMWcmZVCiqEE5zfwpLQ>
+ <xmx:_QdAYwWwJsHex3ldTXeQXgmfqjwVjJ0baAV5_wpJjlXWe_5btzaYbA>
+Feedback-ID: i68a1478a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 7 Oct 2022 07:05:32 -0400 (EDT)
+From: Patrick Williams <patrick@stwcx.xyz>
+To: 
+Cc: Patrick Williams <patrick@stwcx.xyz>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>, qemu-arm@nongnu.org (open list:ASPEED BMCs),
+ qemu-devel@nongnu.org (open list:All patches CC here)
+Subject: [PATCH v2] hw/arm/aspeed: increase Bletchley memory size
+Date: Fri,  7 Oct 2022 06:05:29 -0500
+Message-Id: <20221007110529.3657749-1-patrick@stwcx.xyz>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221006225232.3558794-1-patrick@stwcx.xyz>
+References: <20221006225232.3558794-1-patrick@stwcx.xyz>
 MIME-Version: 1.0
-References: <20220928180603.101533-1-venu.busireddy@oracle.com>
- <CABgObfYXMBnVp2NqhyxOGjppDPc81Qk_fKepF6uzTkOBMoj2zA@mail.gmail.com>
- <YzYcqNqVCiobf/IB@lt>
- <CABgObfbydWZbUvgQVA4ACaR8GgZuft8c9bMTm7_bM86P44vnig@mail.gmail.com>
- <YzcAK23fRnohvXNT@lt>
- <CABgObfZ-8T+=PgPuxtTc5GHgK9sGGTs_HUrcWG0N3kXXLXAZnQ@mail.gmail.com>
- <YztsgiapfWC78BG+@lt> <bb2d1de3-5622-076a-7282-06c812bb4804@redhat.com>
- <Yz8rdO34FowbLH/c@lt>
-In-Reply-To: <Yz8rdO34FowbLH/c@lt>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 7 Oct 2022 06:55:15 -0400
-Message-ID: <CABgObfbznb1Yn1TK-4AU5vVd_-fhNqrxjVKJCBbu19_+1Z=mcg@mail.gmail.com>
-Subject: Re: [PATCH v3] virtio-scsi: Send "REPORTED LUNS CHANGED" sense data
- upon disk hotplug events.
-To: Venu Busireddy <venu.busireddy@oracle.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Fam Zheng <fam@euphon.net>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000bb7c1f05ea6fa58c"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=patrick@stwcx.xyz;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_SUSPICIOUS_NTLD=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_PDS_OTHER_BAD_TLD=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,104 +104,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bb7c1f05ea6fa58c
-Content-Type: text/plain; charset="UTF-8"
+For the PVT-class hardware we have increased the memory size of
+this device to 2 GiB.  Adjust the device model accordingly.
 
-Il gio 6 ott 2022, 15:25 Venu Busireddy <venu.busireddy@oracle.com> ha
-scritto:
+Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+---
+ hw/arm/aspeed.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-> I do see that the Solaris driver does send the 0x1a command during
-> the initialization, perhaps (?) seeking the value of UA_INTLCK_CTRL.
-> Since QEMU currently does not support it, QEMU sends back a
-> key/asc/ascq=0x05/0x24/0x00 response, indicating that 0x1a is an Illegal
-> Request.
-
-
-What is your QEMU command line and what is the full CDB (apart from 0x1a)?
-
-I am assuming that the Solaris driver does not handle that
-> response well (I still don't have access to the source code to verify
-> that), confuses itself about the value of UA_INTLCK_CTRL, and hence does
-> not handle the response to the REPORT_LUNS command correctly.
-
-
-No this has nothing to do with what's happening. The most likely reason for
-the bug IMO is simple: the event is causing the driver to send the REPORT
-LUNS command, but it does so in a way that does not handle the unit
-attention when it is reported.
-
-Paolo
-
-Maybe the
-> Solaris driver assumes that QEMU will retain the unit attention condition
-> (UA_INTLCK_CTRL = 10b?), and will respond with a REPORTED_LUNS_CHANGED
-> for a subsequent command?
->
-> Based on your confirmation that we want to handle the REPORT_LUNS command
-> as if UA_INTLCK_CTRL is set to 0, I will proceed with the assumption
-> that the Solaris driver is at fault, and will work with the Solaris
-> driver folks.
->
-> In the meantime, as you suggested, I will post v4 with the bus unit
-> attention mechanism implemented. We still need that.
->
-> Venu
->
->
-
---000000000000bb7c1f05ea6fa58c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il gio 6 ott 2022, 15:25 Venu Busireddy &lt;<a href=3D=
-"mailto:venu.busireddy@oracle.com" target=3D"_blank" rel=3D"noreferrer">ven=
-u.busireddy@oracle.com</a>&gt; ha scritto:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">I do see that the Solaris driver does send the 0x1a command during<=
-br>
-the initialization, perhaps (?) seeking the value of UA_INTLCK_CTRL.<br>
-Since QEMU currently does not support it, QEMU sends back a<br>
-key/asc/ascq=3D0x05/0x24/0x00 response, indicating that 0x1a is an Illegal<=
-br>
-Request.</blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"au=
-to">What is your QEMU command line and what is the full CDB (apart from 0x1=
-a)?</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_=
-quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex">I am assuming that the Solaris driver=
- does not handle that<br>
-response well (I still don&#39;t have access to the source code to verify<b=
-r>
-that), confuses itself about the value of UA_INTLCK_CTRL, and hence does<br=
->
-not handle the response to the REPORT_LUNS command correctly.</blockquote><=
-/div></div><div dir=3D"auto"><br></div><div dir=3D"auto">No this has nothin=
-g to do with what&#39;s happening. The most likely reason for the bug IMO i=
-s simple: the event is causing the driver to send the REPORT LUNS command, =
-but it does so in a way that does not handle the unit attention when it is =
-reported.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">Maybe the<br>
-Solaris driver assumes that QEMU will retain the unit attention condition<b=
-r>
-(UA_INTLCK_CTRL =3D 10b?), and will respond with a REPORTED_LUNS_CHANGED<br=
->
-for a subsequent command?<br>
-<br>
-Based on your confirmation that we want to handle the REPORT_LUNS command<b=
-r>
-as if UA_INTLCK_CTRL is set to 0, I will proceed with the assumption<br>
-that the Solaris driver is at fault, and will work with the Solaris<br>
-driver folks.<br>
-<br>
-In the meantime, as you suggested, I will post v4 with the bus unit<br>
-attention mechanism implemented. We still need that.<br>
-<br>
-Venu<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000bb7c1f05ea6fa58c--
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 7d2162c6ed..f8bc6d4a14 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -1330,6 +1330,13 @@ static void aspeed_machine_fuji_class_init(ObjectClass *oc, void *data)
+         aspeed_soc_num_cpus(amc->soc_name);
+ };
+ 
++/* On 32-bit hosts, lower RAM to 1G because of the 2047 MB limit */
++#if HOST_LONG_BITS == 32
++#define BLETCHLEY_BMC_RAM_SIZE (1 * GiB)
++#else
++#define BLETCHLEY_BMC_RAM_SIZE (2 * GiB)
++#endif
++
+ static void aspeed_machine_bletchley_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -1344,7 +1351,7 @@ static void aspeed_machine_bletchley_class_init(ObjectClass *oc, void *data)
+     amc->num_cs    = 2;
+     amc->macs_mask = ASPEED_MAC2_ON;
+     amc->i2c_init  = bletchley_bmc_i2c_init;
+-    mc->default_ram_size = 512 * MiB;
++    mc->default_ram_size = BLETCHLEY_BMC_RAM_SIZE;
+     mc->default_cpus = mc->min_cpus = mc->max_cpus =
+         aspeed_soc_num_cpus(amc->soc_name);
+ }
+-- 
+2.35.1
 
 
