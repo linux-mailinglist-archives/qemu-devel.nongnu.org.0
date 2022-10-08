@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5655F8600
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Oct 2022 18:14:04 +0200 (CEST)
-Received: from localhost ([::1]:51840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E93045F8608
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Oct 2022 18:19:27 +0200 (CEST)
+Received: from localhost ([::1]:47262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohCSf-0000JJ-Db
-	for lists+qemu-devel@lfdr.de; Sat, 08 Oct 2022 12:14:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50924)
+	id 1ohCXu-00026g-Qo
+	for lists+qemu-devel@lfdr.de; Sat, 08 Oct 2022 12:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ohCQ7-0006YB-In; Sat, 08 Oct 2022 12:11:23 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:37737)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ohCQ5-0007FI-MK; Sat, 08 Oct 2022 12:11:23 -0400
-Received: by mail-ed1-x533.google.com with SMTP id w10so10703749edd.4;
- Sat, 08 Oct 2022 09:11:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TJi9FEKycwRJVGwbktHckOWHEnMu4SclfXNUDofcTc4=;
- b=DxmYYGsuOlO2uiQT7fxpeLMa0ETHu0yF3+z14ivQwf6nAWS17929U+kHxylaaq8jX0
- IAbn/pPVqKeGnTwnheMHmX5I8/HV2NXOaexQu0rME2OKnazUso2JqV2jIrd19z2dZpRd
- KsOgmyOTI6UxPKzc+jlLhFJnAwK/ZAZtv5DcWuMWsH/bjkPaVgpPQaGfiZaaHo5OQ8UR
- 5afXuiVmcaBpeOQ8zU9nC+fVmp4uFak5Nps2GFGa8k8d7MaXJHqYEiko3xgUvS3Xc2qv
- RUOtIbjsXrYKrsm9BC66wkcQka+wDzbFMPup5IKyEU8Dh1lcMwPbWVqB/F4H+hlMppZx
- hEfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TJi9FEKycwRJVGwbktHckOWHEnMu4SclfXNUDofcTc4=;
- b=ACH1WlBd9TWgeLTjZeKmJGFuFhhb8rUInXgZ+XByRiZsI3jWS8hI8eXDQ35T6b/35m
- kapK025KIjJQZomDzqjknKREmkhiuS58IRPQbglYzpxVS+wwASv8nORA+T6fEn+2nfmb
- H3oLiOWsT+VpkdahHlC2kuVARxrsQWPO+INRHLd0nW8abNbkFMALOjhbqk3jmti75DpF
- r2kuYDssOUn1N8YECj/jkfsd40al8I82KDPEpxKoF1nbnmxaKkf9bZMoOxYH5oC0tQoN
- 72m84bCy5YSz0h+Wb1e5WFDnvNrPRXEuNFbLejuu8BUZDP0g4FrppPi/kRiNUGjlTWXx
- IgXw==
-X-Gm-Message-State: ACrzQf1crlOxJE4ngNi6cKKUoSJyT+q0IamyP1EoFxnUhzxJnnbaIzgi
- w4dkeVT08FV2VmEG5RV9+bA=
-X-Google-Smtp-Source: AMsMyM66ZiIphLuWbqNAdhrUIx75oHF1OKJ3Bz4jmiQhMXGRQdQVtIOij1gnHsv0GYq22bPJCP6jLg==
-X-Received: by 2002:a05:6402:ea0:b0:454:38bf:aa3d with SMTP id
- h32-20020a0564020ea000b0045438bfaa3dmr9457193eda.291.1665245478161; 
- Sat, 08 Oct 2022 09:11:18 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-077-183-038-045.77.183.pool.telefonica.de.
- [77.183.38.45]) by smtp.gmail.com with ESMTPSA id
- o8-20020aa7d3c8000000b0045769dee1fdsm3680453edr.29.2022.10.08.09.11.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 08 Oct 2022 09:11:17 -0700 (PDT)
-Date: Sat, 08 Oct 2022 16:11:14 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>
-CC: qemu-ppc@nongnu.org, qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_00/13=5D_ppc/e500=3A_Add_su?=
- =?US-ASCII?Q?pport_for_two_types_of_flash=2C_cleanup?=
-In-Reply-To: <ba62aabc-0023-c5e6-d156-67d027bb6ff3@gmail.com>
-References: <20221003203142.24355-1-shentey@gmail.com>
- <da8a2a03-0e54-fe81-7a13-cd5e79d69d18@amsat.org>
- <ba62aabc-0023-c5e6-d156-67d027bb6ff3@gmail.com>
-Message-ID: <45BEF5EF-3259-4B50-8F17-115C31A0D3EB@gmail.com>
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ohCU8-0000bh-80
+ for qemu-devel@nongnu.org; Sat, 08 Oct 2022 12:15:32 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:36034)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1ohCU6-0007sX-3t
+ for qemu-devel@nongnu.org; Sat, 08 Oct 2022 12:15:31 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 283906068C;
+ Sat,  8 Oct 2022 16:15:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A207C433D6;
+ Sat,  8 Oct 2022 16:15:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1665245719;
+ bh=NIgNigZexN067z2ad+UvtpUHM+JSZc0JYM0evS6yNx0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VAGeVVDf6KIOhTWVugZOJTuKPzDIFSGBDrGjIzZCQaYbWM1BU4NBt3yHdh/p+QB8Z
+ Mx6iHaLe+DEGh+bDFLK83w/Rr0LUpsfWq5pCWNpvvFsJhEEnvolwGToq7kVMYm16C7
+ QcypgNRE4zg87Wqm9iJT8rOYJDbQxSGv57JHugrmcHqPoIxRdFRiHZJqRPFSyCDMtn
+ VuP1L+Zw3IgC/rMVlFF4fXoapnhUapUQB/vBk7S49rXo0meL1hSUbsDRuB/MFvpsc1
+ IrKiCJ6IemXXuaxmEzEV+cS22e0yEOJl6KXc6pQBJg1bl7a6cOxdRgEbitVsWeCajN
+ r4dGxRV6nD9YQ==
+Date: Sat, 8 Oct 2022 19:15:13 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v8 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <Y0GiEW0cYCNx5jyK@kernel.org>
+References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
+ <20220915142913.2213336-3-chao.p.peng@linux.intel.com>
+ <Yz7s+JIexAHJm5dc@kernel.org> <Yz7vHXZmU3EpmI0j@kernel.org>
+ <Yz71ogila0mSHxxJ@google.com> <Y0AJ++m/TxoscOZg@kernel.org>
+ <Y0A+rogB6TRDtbyE@google.com> <Y0CgFIq6JnHmdWrL@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y0CgFIq6JnHmdWrL@kernel.org>
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=jarkko@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,71 +98,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 4=2E Oktober 2022 12:43:35 UTC schrieb Daniel Henrique Barboza <danielhb=
-413@gmail=2Ecom>:
->Hey,
->
->On 10/3/22 18:27, Philippe Mathieu-Daud=C3=A9 wrote:
->> Hi Daniel,
->>=20
->> On 3/10/22 22:31, Bernhard Beschow wrote:
->>> Cover letter:
->>> ~~~~~~~~~~~~~
->>>=20
->>> This series adds support for -pflash and direct SD card access to the
->>> PPC e500 boards=2E The idea is to increase compatibility with "real" f=
-irmware
->>> images where only the bare minimum of drivers is compiled in=2E
->>=20
->>> Bernhard Beschow (13):
->>> =C2=A0=C2=A0 hw/ppc/meson: Allow e500 boards to be enabled separately
->>> =C2=A0=C2=A0 hw/gpio/meson: Introduce dedicated config switch for hw/g=
-pio/mpc8xxx
->>> =C2=A0=C2=A0 docs/system/ppc/ppce500: Add heading for networking chapt=
-er
->>> =C2=A0=C2=A0 hw/ppc/e500: Reduce usage of sysbus API
->>> =C2=A0=C2=A0 hw/ppc/mpc8544ds: Rename wrongly named method
->>> =C2=A0=C2=A0 hw/ppc/mpc8544ds: Add platform bus
->>> =C2=A0=C2=A0 hw/ppc/e500: Remove if statement which is now always true
->>=20
->> This first part is mostly reviewed and can already go via your
->> ppc-next queue=2E
->
->We're missing an ACK in patch 6/13:
->
->hw/ppc/mpc8544ds: Add platform bus
+On Sat, Oct 08, 2022 at 12:54:32AM +0300, Jarkko Sakkinen wrote:
+> On Fri, Oct 07, 2022 at 02:58:54PM +0000, Sean Christopherson wrote:
+> > On Fri, Oct 07, 2022, Jarkko Sakkinen wrote:
+> > > On Thu, Oct 06, 2022 at 03:34:58PM +0000, Sean Christopherson wrote:
+> > > > On Thu, Oct 06, 2022, Jarkko Sakkinen wrote:
+> > > > > On Thu, Oct 06, 2022 at 05:58:03PM +0300, Jarkko Sakkinen wrote:
+> > > > > > On Thu, Sep 15, 2022 at 10:29:07PM +0800, Chao Peng wrote:
+> > > > > > > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> > > > > > > additional KVM memslot fields private_fd/private_offset to allow
+> > > > > > > userspace to specify that guest private memory provided from the
+> > > > > > > private_fd and guest_phys_addr mapped at the private_offset of the
+> > > > > > > private_fd, spanning a range of memory_size.
+> > > > > > > 
+> > > > > > > The extended memslot can still have the userspace_addr(hva). When use, a
+> > > > > > > single memslot can maintain both private memory through private
+> > > > > > > fd(private_fd/private_offset) and shared memory through
+> > > > > > > hva(userspace_addr). Whether the private or shared part is visible to
+> > > > > > > guest is maintained by other KVM code.
+> > > > > > 
+> > > > > > What is anyway the appeal of private_offset field, instead of having just
+> > > > > > 1:1 association between regions and files, i.e. one memfd per region?
+> > > > 
+> > > > Modifying memslots is slow, both in KVM and in QEMU (not sure about Google's VMM).
+> > > > E.g. if a vCPU converts a single page, it will be forced to wait until all other
+> > > > vCPUs drop SRCU, which can have severe latency spikes, e.g. if KVM is faulting in
+> > > > memory.  KVM's memslot updates also hold a mutex for the entire duration of the
+> > > > update, i.e. conversions on different vCPUs would be fully serialized, exacerbating
+> > > > the SRCU problem.
+> > > > 
+> > > > KVM also has historical baggage where it "needs" to zap _all_ SPTEs when any
+> > > > memslot is deleted.
+> > > > 
+> > > > Taking both a private_fd and a shared userspace address allows userspace to convert
+> > > > between private and shared without having to manipulate memslots.
+> > > 
+> > > Right, this was really good explanation, thank you.
+> > > 
+> > > Still wondering could this possibly work (or not):
+> > > 
+> > > 1. Union userspace_addr and private_fd.
+> > 
+> > No, because userspace needs to be able to provide both userspace_addr (shared
+> > memory) and private_fd (private memory) for a single memslot.
+> 
+> Got it, thanks for clearing my misunderstandings on this topic, and it
+> is quite obviously visible in 5/8 and 7/8. I.e. if I got it right,
+> memblock can be partially private, and you dig the shared holes with
+> KVM_MEMORY_ENCRYPT_UNREG_REGION. We have (in Enarx) ATM have memblock
+> per host mmap, I was looking into this dilated by that mindset but makes
+> definitely sense to support that.
 
-Bin: Ping?
+For me the most useful reference with this feature is kvm_set_phys_mem()
+implementation in privmem-v8 branch. Took while to find it because I did
+not have much experience with QEMU code base. I'd even recommend to mention
+that function in the cover letter because it is really good reference on
+how this feature is supposed to be used.
 
-Best regards,
-Bernhard
->
->I'll need some time to understand what's been doing there to provide my o=
-wn
->R-b=2E Or you can toss a R-b there :D
->
->
->Thanks,
->
->
->Daniel
->
->
->
->>=20
->>> =C2=A0=C2=A0 hw/block/pflash_cfi01: Error out if device length isn't a=
- power of two
->>> =C2=A0=C2=A0 hw/ppc/e500: Implement pflash handling
->>> =C2=A0=C2=A0 hw/sd/sdhci-internal: Unexport ESDHC defines
->>> =C2=A0=C2=A0 hw/sd/sdhci: Rename ESDHC_* defines to USDHC_*
->>> =C2=A0=C2=A0 hw/sd/sdhci: Implement Freescale eSDHC device model
->>> =C2=A0=C2=A0 hw/ppc/e500: Add Freescale eSDHC to e500 boards
->>=20
->> This second part still need work=2E I can take it via the sdmmc-next
->> queue=2E
->>=20
->> Regards,
->>=20
->> Phil=2E
-
+BR, Jarkko
 
