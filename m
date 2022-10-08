@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E755F85EF
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Oct 2022 17:46:58 +0200 (CEST)
-Received: from localhost ([::1]:58132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5655F8600
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Oct 2022 18:14:04 +0200 (CEST)
+Received: from localhost ([::1]:51840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohC2T-0003yZ-Tn
-	for lists+qemu-devel@lfdr.de; Sat, 08 Oct 2022 11:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47844)
+	id 1ohCSf-0000JJ-Db
+	for lists+qemu-devel@lfdr.de; Sat, 08 Oct 2022 12:14:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ohBzc-0002Rr-09
- for qemu-devel@nongnu.org; Sat, 08 Oct 2022 11:44:00 -0400
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:36573)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1ohCQ7-0006YB-In; Sat, 08 Oct 2022 12:11:23 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:37737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ohBza-0001Yz-DC
- for qemu-devel@nongnu.org; Sat, 08 Oct 2022 11:43:59 -0400
-Received: by mail-qt1-x830.google.com with SMTP id f22so448661qto.3
- for <qemu-devel@nongnu.org>; Sat, 08 Oct 2022 08:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zI+RIP0fo9nZSagkZN97VHwHnX5FW6Ghm+pZkCvl3Rc=;
- b=v3UTKX7cOGkxfq65jQFdOvmqBfFuKXIcJsHWVPOP4YzPwAhMaJ0a0uQptQEbARt5wR
- Hth+inF1PCiEH3JHlhjr1oYbKLKdiXuep3usCDEb+UJobEwUXJPh/kSoH4MMcPZQR8x8
- W0wQwsi4tHAPf9NBDr3zjXsb2B0JMIUcKZbL3Jm9OyzOrP684pUpqXCVzJ4qHas/tMAd
- 4e+NXgwsIhyCeco5xMoh9h3BPlfznFi4kqP4L/dcFnICO69iZiszd4DwQlyuIi/uEMG/
- A1OTCkO0SWfRGCmcdJ/A4TRTLpGptj8mcncTqTkOG+cR+JhsfJ2/w40q+QizGJ38C1W4
- QO/A==
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1ohCQ5-0007FI-MK; Sat, 08 Oct 2022 12:11:23 -0400
+Received: by mail-ed1-x533.google.com with SMTP id w10so10703749edd.4;
+ Sat, 08 Oct 2022 09:11:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TJi9FEKycwRJVGwbktHckOWHEnMu4SclfXNUDofcTc4=;
+ b=DxmYYGsuOlO2uiQT7fxpeLMa0ETHu0yF3+z14ivQwf6nAWS17929U+kHxylaaq8jX0
+ IAbn/pPVqKeGnTwnheMHmX5I8/HV2NXOaexQu0rME2OKnazUso2JqV2jIrd19z2dZpRd
+ KsOgmyOTI6UxPKzc+jlLhFJnAwK/ZAZtv5DcWuMWsH/bjkPaVgpPQaGfiZaaHo5OQ8UR
+ 5afXuiVmcaBpeOQ8zU9nC+fVmp4uFak5Nps2GFGa8k8d7MaXJHqYEiko3xgUvS3Xc2qv
+ RUOtIbjsXrYKrsm9BC66wkcQka+wDzbFMPup5IKyEU8Dh1lcMwPbWVqB/F4H+hlMppZx
+ hEfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zI+RIP0fo9nZSagkZN97VHwHnX5FW6Ghm+pZkCvl3Rc=;
- b=2VKX69ht/tQLrmREzrRCPETDmzo5F4lgc9pI5BKzVaTYw+8AyTmpFSRjPuFLQcHayT
- 5FYswyHmcExRf3/yVreZV3SMrS9KmEyNjgly/KI9MsJHCWUvMfyqwRnlDZJzBbEx/ZSZ
- 4i5WbVZR+hs1sgstYXKk9DfbqllpSXMNe9w8dd7tm8LUt2rLndXOuSvFUFTJRBwr2kgb
- FIK0pIlw/1Bm5IWZc6Z59snBXVtg0bORnPlY7W7wlrSBEM3rDzMouS7ts+3KRMDwq4wd
- 7JkzvjDRSLN5MEkOB/dmhaMQ4SdWcqk2xCAH3dFvIPqS+/3OX2hnYlguRR/QgqFAxdnI
- +CRg==
-X-Gm-Message-State: ACrzQf2+wJuQgnKGq0LlFE7BU7vzGWpCzjbgbVU7Zf4G0yCm+0YsOtjg
- NAJkSWl2dKJULR7pfGsjfir2b8kXE1ZV9A==
-X-Google-Smtp-Source: AMsMyM7RyVr5mUAQirXcOLuZbUSPLz7d3ySprF+o0ej9oSp8Q7V8KCYCrRRA71uqgCK55kwbeA8Okw==
-X-Received: by 2002:ac8:584a:0:b0:35c:bf11:9e42 with SMTP id
- h10-20020ac8584a000000b0035cbf119e42mr8548664qth.425.1665243837365; 
- Sat, 08 Oct 2022 08:43:57 -0700 (PDT)
-Received: from [10.11.66.157] ([50.204.134.210])
- by smtp.gmail.com with ESMTPSA id
- i19-20020a05620a249300b006cf3592cc20sm5466835qkn.55.2022.10.08.08.43.56
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TJi9FEKycwRJVGwbktHckOWHEnMu4SclfXNUDofcTc4=;
+ b=ACH1WlBd9TWgeLTjZeKmJGFuFhhb8rUInXgZ+XByRiZsI3jWS8hI8eXDQ35T6b/35m
+ kapK025KIjJQZomDzqjknKREmkhiuS58IRPQbglYzpxVS+wwASv8nORA+T6fEn+2nfmb
+ H3oLiOWsT+VpkdahHlC2kuVARxrsQWPO+INRHLd0nW8abNbkFMALOjhbqk3jmti75DpF
+ r2kuYDssOUn1N8YECj/jkfsd40al8I82KDPEpxKoF1nbnmxaKkf9bZMoOxYH5oC0tQoN
+ 72m84bCy5YSz0h+Wb1e5WFDnvNrPRXEuNFbLejuu8BUZDP0g4FrppPi/kRiNUGjlTWXx
+ IgXw==
+X-Gm-Message-State: ACrzQf1crlOxJE4ngNi6cKKUoSJyT+q0IamyP1EoFxnUhzxJnnbaIzgi
+ w4dkeVT08FV2VmEG5RV9+bA=
+X-Google-Smtp-Source: AMsMyM66ZiIphLuWbqNAdhrUIx75oHF1OKJ3Bz4jmiQhMXGRQdQVtIOij1gnHsv0GYq22bPJCP6jLg==
+X-Received: by 2002:a05:6402:ea0:b0:454:38bf:aa3d with SMTP id
+ h32-20020a0564020ea000b0045438bfaa3dmr9457193eda.291.1665245478161; 
+ Sat, 08 Oct 2022 09:11:18 -0700 (PDT)
+Received: from [127.0.0.1] (dynamic-077-183-038-045.77.183.pool.telefonica.de.
+ [77.183.38.45]) by smtp.gmail.com with ESMTPSA id
+ o8-20020aa7d3c8000000b0045769dee1fdsm3680453edr.29.2022.10.08.09.11.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 08 Oct 2022 08:43:56 -0700 (PDT)
-Message-ID: <b843a6fd-dc27-d3dd-70ad-2861124de510@linaro.org>
-Date: Sat, 8 Oct 2022 08:43:54 -0700
+ Sat, 08 Oct 2022 09:11:17 -0700 (PDT)
+Date: Sat, 08 Oct 2022 16:11:14 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>
+CC: qemu-ppc@nongnu.org, qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_00/13=5D_ppc/e500=3A_Add_su?=
+ =?US-ASCII?Q?pport_for_two_types_of_flash=2C_cleanup?=
+In-Reply-To: <ba62aabc-0023-c5e6-d156-67d027bb6ff3@gmail.com>
+References: <20221003203142.24355-1-shentey@gmail.com>
+ <da8a2a03-0e54-fe81-7a13-cd5e79d69d18@amsat.org>
+ <ba62aabc-0023-c5e6-d156-67d027bb6ff3@gmail.com>
+Message-ID: <45BEF5EF-3259-4B50-8F17-115C31A0D3EB@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] include/qemu/atomic128: Support 16-byte atomic read/write
- for Intel AVX
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com
-References: <20221008153646.1504760-1-richard.henderson@linaro.org>
-In-Reply-To: <20221008153646.1504760-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x830.google.com
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.588,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,24 +95,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/8/22 08:36, Richard Henderson wrote:
-> Intel has now given guarantees about the atomicity of SSE read
-> and write instructions on cpus supporting AVX.  We can use these
-> instead of the much slower cmpxchg16b.
-> 
-> Derived from https://gcc.gnu.org/bugzilla/show_bug.cgi?id=104688
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> 
-> Paolo, we probably ought to modify gen_ld[oy]_env_A0 to match,
-> at least with CF_PARALLEL set.
+Am 4=2E Oktober 2022 12:43:35 UTC schrieb Daniel Henrique Barboza <danielhb=
+413@gmail=2Ecom>:
+>Hey,
+>
+>On 10/3/22 18:27, Philippe Mathieu-Daud=C3=A9 wrote:
+>> Hi Daniel,
+>>=20
+>> On 3/10/22 22:31, Bernhard Beschow wrote:
+>>> Cover letter:
+>>> ~~~~~~~~~~~~~
+>>>=20
+>>> This series adds support for -pflash and direct SD card access to the
+>>> PPC e500 boards=2E The idea is to increase compatibility with "real" f=
+irmware
+>>> images where only the bare minimum of drivers is compiled in=2E
+>>=20
+>>> Bernhard Beschow (13):
+>>> =C2=A0=C2=A0 hw/ppc/meson: Allow e500 boards to be enabled separately
+>>> =C2=A0=C2=A0 hw/gpio/meson: Introduce dedicated config switch for hw/g=
+pio/mpc8xxx
+>>> =C2=A0=C2=A0 docs/system/ppc/ppce500: Add heading for networking chapt=
+er
+>>> =C2=A0=C2=A0 hw/ppc/e500: Reduce usage of sysbus API
+>>> =C2=A0=C2=A0 hw/ppc/mpc8544ds: Rename wrongly named method
+>>> =C2=A0=C2=A0 hw/ppc/mpc8544ds: Add platform bus
+>>> =C2=A0=C2=A0 hw/ppc/e500: Remove if statement which is now always true
+>>=20
+>> This first part is mostly reviewed and can already go via your
+>> ppc-next queue=2E
+>
+>We're missing an ACK in patch 6/13:
+>
+>hw/ppc/mpc8544ds: Add platform bus
 
-Or, rather, just gen_ldo/sto.
-Curiously, there are no guarantees at all for
+Bin: Ping?
 
-   vmovdqa mem, %ymmN
+Best regards,
+Bernhard
+>
+>I'll need some time to understand what's been doing there to provide my o=
+wn
+>R-b=2E Or you can toss a R-b there :D
+>
+>
+>Thanks,
+>
+>
+>Daniel
+>
+>
+>
+>>=20
+>>> =C2=A0=C2=A0 hw/block/pflash_cfi01: Error out if device length isn't a=
+ power of two
+>>> =C2=A0=C2=A0 hw/ppc/e500: Implement pflash handling
+>>> =C2=A0=C2=A0 hw/sd/sdhci-internal: Unexport ESDHC defines
+>>> =C2=A0=C2=A0 hw/sd/sdhci: Rename ESDHC_* defines to USDHC_*
+>>> =C2=A0=C2=A0 hw/sd/sdhci: Implement Freescale eSDHC device model
+>>> =C2=A0=C2=A0 hw/ppc/e500: Add Freescale eSDHC to e500 boards
+>>=20
+>> This second part still need work=2E I can take it via the sdmmc-next
+>> queue=2E
+>>=20
+>> Regards,
+>>=20
+>> Phil=2E
 
-
-r~
 
