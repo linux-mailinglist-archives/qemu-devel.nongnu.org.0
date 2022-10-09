@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7B85F89B5
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 08:36:16 +0200 (CEST)
-Received: from localhost ([::1]:53528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED8B5F89D2
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 08:51:10 +0200 (CEST)
+Received: from localhost ([::1]:40892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohPv5-0002qc-EP
-	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 02:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42028)
+	id 1ohQ9T-00012O-AD
+	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 02:51:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohPq3-0000VV-Ky
- for qemu-devel@nongnu.org; Sun, 09 Oct 2022 02:31:05 -0400
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:38636)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohPq0-0003p4-1j
- for qemu-devel@nongnu.org; Sun, 09 Oct 2022 02:31:01 -0400
-Received: by mail-il1-x132.google.com with SMTP id u10so4360653ilm.5
- for <qemu-devel@nongnu.org>; Sat, 08 Oct 2022 23:30:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=1CfZpMHsaROaYGp7U6CBbKLUTjHajURMC2r+k5aR/ck=;
- b=ch8KzMiVKBVvej9MYsNAZWdY1ToRDR5DIgtnGo9GjLP9wBsqjUlUey75e5ZLcVbNK/
- jWvQ9ATuFLssRbIUcgDTXpD/l+u3ci4OS79xjNMC0DEiPq8sACPwtHBHBevzDvqAeBb9
- 3366xjabXzAOg27Cc4JFI8FsEQ6nHAlJ+D5nX7jOy/kGHxEing1bpSFEsbtHaVmPsM1M
- By6nxsrHWA6HEtNzixBMbMUyxkB5AjArG3LnQerrCUdnzFbyFVSrkYBsQrdxW3ogu8+A
- cDIGZaTVwwZNctn6vm7x9tm4jpRwT7NGq4PyqpGEarBtZjXt/6SIrN6TtMItQI1usWNB
- kIZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1CfZpMHsaROaYGp7U6CBbKLUTjHajURMC2r+k5aR/ck=;
- b=Cqdr5EbU7HeDDyrHaDJTTZuIlF3awHbunINYpQ/yL05HeX4iBo2Vz5OT0oF42IBS+D
- 3TaMWQOXLwc2qPXGsDYb4OCZSx74ISmRj3gBLVcWaUO9hwubbaPxdMOW1/RdsvjEDnr5
- TgsQq8qXzQdA9Oow/+vrpM2TzKtiF2wTwBNUOTyl68IMhhaFSGP6yUJJCCHd7ujhLw2Z
- jG17o0kAbHQq7uSiUV5/Z5YEUbqKnF0UiUSpkUTq5nzO72VPvuV2uynhtwcgR0ZWWCm7
- bNiFoLxP7eFyixya7Jm3/kqleMxaiAZV5S3U12kaW8I4pvB3R2/unIPT4hfBAC2tKrvY
- VteA==
-X-Gm-Message-State: ACrzQf1B8GiELihDT9ioIFbGIky9Rh/RjlIlfUG/v0gvBJLGfkQtcI1l
- 2A+dOFWhFMsBeUaO2zFp0BoJDquE4apHm1yn18bUfA==
-X-Google-Smtp-Source: AMsMyM6TA/ioFM7Tdri9JUktBL44O1BCZ1T5Hj0iepoVxuWNYcF1z9zyGz/+7y/uUPVO8lPv5L3FDDzOzufZIFtCLTY=
-X-Received: by 2002:a05:6e02:1a82:b0:2fa:2077:5028 with SMTP id
- k2-20020a056e021a8200b002fa20775028mr6219386ilv.129.1665297058633; Sat, 08
- Oct 2022 23:30:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1ohQ5n-0007kc-9O
+ for qemu-devel@nongnu.org; Sun, 09 Oct 2022 02:47:19 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3823)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1ohQ5k-000675-6R
+ for qemu-devel@nongnu.org; Sun, 09 Oct 2022 02:47:18 -0400
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MlXXn6Xy1zVhqM;
+ Sun,  9 Oct 2022 14:42:33 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Sun, 9 Oct 2022 14:46:55 +0800
+Subject: Re: [PATCH 1/4] hw/acpi/aml-build: Only generate cluster node in PPTT
+ when specified
+To: Yicong Yang <yangyicong@huawei.com>
+CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
+ <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
+ <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
+ <darren@os.amperecomputing.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor
+ Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, Eduardo Habkost
+ <eduardo@habkost.net>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ <qemu-devel@nongnu.org>
+References: <20220922131143.58003-1-yangyicong@huawei.com>
+ <20220922131143.58003-2-yangyicong@huawei.com>
+Message-ID: <a3bf8337-b257-8f2c-be3f-25ce59e7a3da@huawei.com>
+Date: Sun, 9 Oct 2022 14:46:54 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220710170014.1673480-8-ani@anisinha.ca>
- <CABgObfYW8O-JGhjLm47HmHG7WRhOQDO1EhUCTP59TZo4DnkQVg@mail.gmail.com>
- <20220927175440-mutt-send-email-mst@kernel.org> <YzPyasEmJcKLJNvX@redhat.com>
- <6850c0d0-b578-9239-406e-e6c379cff3df@redhat.com>
- <CAARzgwz3WSefwFLi-hZnv8kLEJPfurfJNDxFFkQwOT88pF3aNA@mail.gmail.com>
-In-Reply-To: <CAARzgwz3WSefwFLi-hZnv8kLEJPfurfJNDxFFkQwOT88pF3aNA@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Sun, 9 Oct 2022 12:00:47 +0530
-Message-ID: <CAARzgwxCFU3Wb_7GzzvtvEc2E0A7TOXOAC3_GWOAzmkQx=WE+Q@mail.gmail.com>
-Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
- QEMU bios tables using biosbits
-To: Thomas Huth <thuth@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, 
- "Maydell, Peter" <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>, 
- "Mammedov, Igor" <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2607:f8b0:4864:20::132;
- envelope-from=ani@anisinha.ca; helo=mail-il1-x132.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20220922131143.58003-2-yangyicong@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.588,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,61 +74,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-On Sun, Oct 9, 2022 at 10:51 AM Ani Sinha <ani@anisinha.ca> wrote:
->
-> On Wed, Sep 28, 2022 at 1:14 PM Thomas Huth <thuth@redhat.com> wrote:
-> >
-> >
-> > > Do not do any of this stuff, it is irrelevant to QEMU's needs.
-> > > A developer using Avocado with QEMU does nothing more than:
-> > >
-> > >      make check-avocado
-> >
-> > Right. And if you want to run individual tests, you can also do it like this:
-> >
-> >      make check-venv   # Only for the first time
-> >      ./tests/venv/bin/avocado run tests/avocado/boot_linux.py
->
-> Ok this seems to work after I did a pip3 install of avocado in the host.
->
->  ./tests/venv/bin/avocado run tests/avocado/version.py
-> JOB ID     : 8dd90b1cb5baf3780cc764ca4a1ae838374a0a5f
-> JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-09T10.48-8dd90b1/job.log
->  (1/1) tests/avocado/version.py:Version.test_qmp_human_info_version:
-> PASS (0.04 s)
-> RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0
-> | CANCEL 0
-> JOB TIME   : 3.51 s
->
-> I see that the output is not tap compliant like the qtests tests are.
-> how do I choose tap?
->
->  ./tests/venv/bin/avocado-runner-tap --help
-> usage: avocado-runner-tap [-h]
-> {capabilities,runnable-run,runnable-run-recipe,task-run,task-run-recipe}
-> ...
->
-> nrunner application for executable tests that produce TAP
->
-> positional arguments:
->   {capabilities,runnable-run,runnable-run-recipe,task-run,task-run-recipe}
->     capabilities        Outputs capabilities, including runnables and commands
->     runnable-run        Runs a runnable definition from arguments
->     runnable-run-recipe
->                         Runs a runnable definition from a recipe
->     task-run            Runs a task from arguments
->     task-run-recipe     Runs a task from a recipe
->
-> options:
->   -h, --help            show this help message and exit
->
+Hi Yicong,
 
-Never mind
+On 2022/9/22 21:11, Yicong Yang wrote:
+> From: Yicong Yang<yangyicong@hisilicon.com>
+>
+> Currently we'll always generate a cluster node no matter user has
+> specified '-smp clusters=X' or not. Cluster is an optional level
+> and it's unncessary to build it if user don't need. So only generate
+> it when user specify explicitly.
+>
+> Also update the test ACPI tables.
+It would be much more helpful to explain the problem you
+have met in practice without this patch. (maybe have some
+description or a link of the issue in the cover-letter if we
+need a v2).
 
-$ ./tests/venv/bin/avocado run tests/avocado/version.py --tap -
-1..1
-ok 1 tests/avocado/version.py:Version.test_qmp_human_info_version
+In qemu which behaves as like a firmware vendor for VM,
+the ACPI PPTT is built based on the topology info produced
+by machine_parse_smp_config(). And machine_parse_smp_config
+will always calculate a complete topology hierarchy using its
+algorithm, if the user gives an incomplete -smp CLI.
 
-from https://avocado-framework.readthedocs.io/en/52.0/ResultFormats.html .
+I think there are two options for us to chose:
+1) approach described in this patch
+2) qemu will always generate a full topology hierarchy in PPTT
+with all the topo members it currently supports. While users
+need to consider the necessity to use an incomplete -smp or
+an complete one according to their specific scenario, and
+should be aware of the kernel behavior resulted from the
+config.
+
+There is some Doc for users to explain how qemu will
+parse user-specified -smp in [1].
+[1] https://www.mankier.com/1/qemu#Options
+
+Thanks,
+Yanan
+> Signed-off-by: Yicong Yang<yangyicong@hisilicon.com>
+> ---
+>   hw/acpi/aml-build.c   | 2 +-
+>   hw/core/machine-smp.c | 3 +++
+>   include/hw/boards.h   | 2 ++
+>   3 files changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index e6bfac95c7..aab73af66d 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -2030,7 +2030,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>                   0, socket_id, NULL, 0);
+>           }
+>   
+> -        if (mc->smp_props.clusters_supported) {
+> +        if (mc->smp_props.clusters_supported && ms->smp.build_cluster) {
+>               if (cpus->cpus[n].props.cluster_id != cluster_id) {
+>                   assert(cpus->cpus[n].props.cluster_id > cluster_id);
+>                   cluster_id = cpus->cpus[n].props.cluster_id;
+> diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+> index b39ed21e65..5d37e8d07a 100644
+> --- a/hw/core/machine-smp.c
+> +++ b/hw/core/machine-smp.c
+> @@ -158,6 +158,9 @@ void machine_parse_smp_config(MachineState *ms,
+>       ms->smp.threads = threads;
+>       ms->smp.max_cpus = maxcpus;
+>   
+> +    if (config->has_clusters)
+> +        ms->smp.build_cluster = true;
+> +
+>       /* sanity-check of the computed topology */
+>       if (sockets * dies * clusters * cores * threads != maxcpus) {
+>           g_autofree char *topo_msg = cpu_hierarchy_to_string(ms);
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 7b416c9787..24aafc213d 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -305,6 +305,7 @@ typedef struct DeviceMemoryState {
+>    * @cores: the number of cores in one cluster
+>    * @threads: the number of threads in one core
+>    * @max_cpus: the maximum number of logical processors on the machine
+> + * @build_cluster: build cluster topology or not
+>    */
+>   typedef struct CpuTopology {
+>       unsigned int cpus;
+> @@ -314,6 +315,7 @@ typedef struct CpuTopology {
+>       unsigned int cores;
+>       unsigned int threads;
+>       unsigned int max_cpus;
+> +    bool build_cluster;
+>   } CpuTopology;
+>   
+>   /**
+
 
