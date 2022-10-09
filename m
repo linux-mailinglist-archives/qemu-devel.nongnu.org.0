@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED8B5F89D2
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 08:51:10 +0200 (CEST)
-Received: from localhost ([::1]:40892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4CD65F8A3E
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 10:56:40 +0200 (CEST)
+Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohQ9T-00012O-AD
-	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 02:51:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35404)
+	id 1ohS6x-0002zJ-G2
+	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 04:56:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1ohQ5n-0007kc-9O
- for qemu-devel@nongnu.org; Sun, 09 Oct 2022 02:47:19 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3823)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1ohS5f-0001YT-42
+ for qemu-devel@nongnu.org; Sun, 09 Oct 2022 04:55:19 -0400
+Received: from mout.gmx.net ([212.227.15.19]:50083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1ohQ5k-000675-6R
- for qemu-devel@nongnu.org; Sun, 09 Oct 2022 02:47:18 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MlXXn6Xy1zVhqM;
- Sun,  9 Oct 2022 14:42:33 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sun, 9 Oct 2022 14:46:55 +0800
-Subject: Re: [PATCH 1/4] hw/acpi/aml-build: Only generate cluster node in PPTT
- when specified
-To: Yicong Yang <yangyicong@huawei.com>
-CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
- <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
- <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
- <darren@os.amperecomputing.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor
- Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, Eduardo Habkost
- <eduardo@habkost.net>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- <qemu-devel@nongnu.org>
-References: <20220922131143.58003-1-yangyicong@huawei.com>
- <20220922131143.58003-2-yangyicong@huawei.com>
-Message-ID: <a3bf8337-b257-8f2c-be3f-25ce59e7a3da@huawei.com>
-Date: Sun, 9 Oct 2022 14:46:54 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1ohS5d-00037b-CT
+ for qemu-devel@nongnu.org; Sun, 09 Oct 2022 04:55:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1665305713;
+ bh=tnmfyZA+Z8LelPZ3FU0dGzNpzaT4JeTaccrHxSPAuZc=;
+ h=X-UI-Sender-Class:Date:Subject:From:To:References:In-Reply-To;
+ b=id8JzKVdX8Vss+65isAN7vkOKlEMvGhslgxMn3cDnmTgJA+oqk91S00djE+fO3du1
+ zm6U9kXBAjYNyvDy/+R/sazo0LRhPwL5zZn02/7Z+P/lQjUsfUi+wnQEDfz2pY1Shu
+ 8JKAduwPzXir/MO1sO+8pScakY8zcJocujF/rJ+8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.161.163]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MMXQ5-1oQkHm3N03-00Jefz; Sun, 09
+ Oct 2022 10:55:13 +0200
+Message-ID: <71552d05-d8be-5161-e476-a55ac80844b5@gmx.de>
+Date: Sun, 9 Oct 2022 10:55:13 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220922131143.58003-2-yangyicong@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v3] linux-user: Add close_range() syscall
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.588,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <YzLXsPYR2OjfKWy6@p100>
+In-Reply-To: <YzLXsPYR2OjfKWy6@p100>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:/W+c/zZAkAvgO3CyvvZRb089bTgFwpryImvVu3h9xpLLYTtCEWJ
+ oG8s9CX5OUF4Dth0tRPz0JJV3Be7oPtivjjWfZqQOo5vBAATW46KAQqcsWnMY9TN4YGpXjo
+ kdyBcu9LVz5C9dHaIqzurfyDcvs344v3fLTRg7FWBZYKkf6UMMRYrXHd9NKKqVcrjpHexQd
+ rjuU8pvXg4rPIVWjzFhQQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:K1C6J5k7llM=:HCuxgcZ2hGMxZ5y6Ny4TH2
+ m2nnMvUrc8SyVvfK7cBhatronJYMJas5JHjfXdBJpia8zHm4HZ7d9J0A9MnaLNiVUsmfKmVxe
+ F7oaFJS5kIjIUf/8evWraPXXbyMvv8bjSmkOJv+f6I2D+48jYN1FOLTLr0U6VsS86YI9WvYkO
+ oZX130iunZQxwkFj7Eg1GDTDUWVpBIYtCffMbCCV+Sn0JuXbmmEG0i5pY76XgaJMcZTVkTWoR
+ grgWBMIV7LoGjJRxmlVRfEQmUceZBauLeYQF88I55QAV6SCqE5ovYAJX5q/mAw0MGzVYv1vOK
+ WiBQGI0CVUml9yPQWlrFaaHu0a/KG4C8+eKOSSJsNePgXTVlpDIasHM7gNpFsApn9fojhdezV
+ ZyPU5rD3iS78Cq6NDE55nULbxbvgWoo65qQvUj8cMAfghvic8sJingf53oQciY6fViTLAJ6XY
+ tcgAvhgAytNjQqetSUBd6r6TAl6Cq1Y/yfQPVom+T3xjYDbGTRSDXtTw8tjgD6RH8gzHe389F
+ gkBvXsDIMudbMEEvlGcT5dVszXj/D1VpCSXpLQfEiH2W1KOE5iR5e6yTLzj8iamUQzwwzqBhu
+ 8NRDBq8IHmNYZNFJV6/Y4iGvVGmxZ8+jg+bMP490sZVp3n1q4xGjwVepP98nF5xyZynPiTg9y
+ bB+6ram4aT91g05RYkfQ2Gcja4VYQ25vcwY1eSLP2H+ZOi3jpMCJBBTc7G/Ot2S3dvh7oPada
+ yZQ6/vVUO6832Eosy+crJX5h3Tgp6AldJFR6qx1H/mZz3icu5Y3jiibc8vOTAZMNufupn341S
+ S3JpU8J+Qm6ETzvxENInq22b1Y7lcB7l+LY46I1KBxNfzfbs6dcFkaacTh37UY0oSywhvhWSw
+ kzkUetJIfmAmAQCrWqdYfvY6HR40utXuxRVAFGr50abVQiCRWlqSns2uno1vr/aFYwncu733k
+ wyXjLr5Sd9EqnznR76ezXZRBW6DjYqFhMcd4UhSlZf5W8nl+4F0rBPrRYtvu2k9m5znoG46q/
+ woB0HqI6rYnjHXmyTDpaeIIX7/ySpbO+2AQbxthpBE5sJ5a6qQAbPmy0tVK7yj008mr++Rxx/
+ 4Et31O0IEdxzmkL26nWxJqoQyn2YOdlPDCeENiP3WXK4Tbpp9b5RFWLKDfsCgSVa7a3ak3xxl
+ bIBgraSWNXvBysFEGfct7dJK5F/6KxgRXF5N62Y/Nevi/iw5zJkqVP2GmHObzY7neAmEUq97D
+ a+VoY68JLIwXRxdzrJ0MOnVjGxjDYpEihReto1HsbxN7FBNGhiqI3dN5iMdMbV3XeD5yaO4F5
+ PaIeslaA+89yD0NuN++NygyZlApKTDHIyrnVM0l1pwo58ylHbBBL8u13vwokuLwOoFxZZQIJj
+ AWOk7F4LEr0+womItKi6CLcaib8EnqVTrnJylOVJb5ylPqpZLyiJiEJ6vW0QH0Ivm5ewcHp0l
+ bOwd00a/yaoS+GDVGpFiXa+kJieTs781Bs6rBl4/TF18s384Nb2GhGhpeLM7kSotzEpSPCzWz
+ p8/xIFJ7jLWHgqF9487H5KqTKFuM0+I+sEO0dz7pwnVvT
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.588,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,99 +91,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-Hi Yicong,
-
-On 2022/9/22 21:11, Yicong Yang wrote:
-> From: Yicong Yang<yangyicong@hisilicon.com>
+On 9/27/22 13:00, Helge Deller wrote:
+> Signed-off-by: Helge Deller <deller@gmx.de>
 >
-> Currently we'll always generate a cluster node no matter user has
-> specified '-smp clusters=X' or not. Cluster is an optional level
-> and it's unncessary to build it if user don't need. So only generate
-> it when user specify explicitly.
->
-> Also update the test ACPI tables.
-It would be much more helpful to explain the problem you
-have met in practice without this patch. (maybe have some
-description or a link of the issue in the cover-letter if we
-need a v2).
 
-In qemu which behaves as like a firmware vendor for VM,
-the ACPI PPTT is built based on the topology info produced
-by machine_parse_smp_config(). And machine_parse_smp_config
-will always calculate a complete topology hierarchy using its
-algorithm, if the user gives an incomplete -smp CLI.
+> +#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
+> +    case TARGET_NR_close_range:
+> +        ret =3D get_errno(sys_close_range(arg1, arg2, arg3));
+> +        if (ret =3D=3D 0 && !(arg3 & CLOSE_RANGE_CLOEXEC)) {
+> +            abi_long fd;
+> +            abi_long maxfd =3D (arg2 =3D=3D (abi_long)-1) ? target_fd_m=
+ax : arg2;
 
-I think there are two options for us to chose:
-1) approach described in this patch
-2) qemu will always generate a full topology hierarchy in PPTT
-with all the topo members it currently supports. While users
-need to consider the necessity to use an incomplete -smp or
-an complete one according to their specific scenario, and
-should be aware of the kernel behavior resulted from the
-config.
+This check against "-1" is wrong.
+Please ignore this patch - I'll resend a fixed patch.
 
-There is some Doc for users to explain how qemu will
-parse user-specified -smp in [1].
-[1] https://www.mankier.com/1/qemu#Options
-
-Thanks,
-Yanan
-> Signed-off-by: Yicong Yang<yangyicong@hisilicon.com>
-> ---
->   hw/acpi/aml-build.c   | 2 +-
->   hw/core/machine-smp.c | 3 +++
->   include/hw/boards.h   | 2 ++
->   3 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index e6bfac95c7..aab73af66d 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -2030,7 +2030,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->                   0, socket_id, NULL, 0);
->           }
->   
-> -        if (mc->smp_props.clusters_supported) {
-> +        if (mc->smp_props.clusters_supported && ms->smp.build_cluster) {
->               if (cpus->cpus[n].props.cluster_id != cluster_id) {
->                   assert(cpus->cpus[n].props.cluster_id > cluster_id);
->                   cluster_id = cpus->cpus[n].props.cluster_id;
-> diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
-> index b39ed21e65..5d37e8d07a 100644
-> --- a/hw/core/machine-smp.c
-> +++ b/hw/core/machine-smp.c
-> @@ -158,6 +158,9 @@ void machine_parse_smp_config(MachineState *ms,
->       ms->smp.threads = threads;
->       ms->smp.max_cpus = maxcpus;
->   
-> +    if (config->has_clusters)
-> +        ms->smp.build_cluster = true;
-> +
->       /* sanity-check of the computed topology */
->       if (sockets * dies * clusters * cores * threads != maxcpus) {
->           g_autofree char *topo_msg = cpu_hierarchy_to_string(ms);
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 7b416c9787..24aafc213d 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -305,6 +305,7 @@ typedef struct DeviceMemoryState {
->    * @cores: the number of cores in one cluster
->    * @threads: the number of threads in one core
->    * @max_cpus: the maximum number of logical processors on the machine
-> + * @build_cluster: build cluster topology or not
->    */
->   typedef struct CpuTopology {
->       unsigned int cpus;
-> @@ -314,6 +315,7 @@ typedef struct CpuTopology {
->       unsigned int cores;
->       unsigned int threads;
->       unsigned int max_cpus;
-> +    bool build_cluster;
->   } CpuTopology;
->   
->   /**
+Helge
 
 
