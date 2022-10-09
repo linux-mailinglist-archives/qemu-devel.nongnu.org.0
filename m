@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616885F88D4
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 04:20:33 +0200 (CEST)
-Received: from localhost ([::1]:40276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A78EC5F88D7
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 04:22:35 +0200 (CEST)
+Received: from localhost ([::1]:48708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohLvb-0003IB-Ud
-	for lists+qemu-devel@lfdr.de; Sat, 08 Oct 2022 22:20:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54578)
+	id 1ohLxa-0004pN-QU
+	for lists+qemu-devel@lfdr.de; Sat, 08 Oct 2022 22:22:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ohLuJ-0001fG-Ee; Sat, 08 Oct 2022 22:19:11 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:34640)
+ id 1ohLwX-0003UG-Ml; Sat, 08 Oct 2022 22:21:29 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:45996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ohLuH-0004sS-Mo; Sat, 08 Oct 2022 22:19:10 -0400
-Received: by mail-qk1-x731.google.com with SMTP id s7so1067798qkj.1;
- Sat, 08 Oct 2022 19:19:08 -0700 (PDT)
+ id 1ohLwV-0005Lj-Pr; Sat, 08 Oct 2022 22:21:29 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id fb18so4864969qtb.12;
+ Sat, 08 Oct 2022 19:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=SjkVJtx1zMG4ukF+LaYVeryDklvJ+Qo8HRqyMPyyyik=;
- b=KlilnJw6v93nakGDgcSn3/iQumWAJcTz0Y85OSSsmh3igLfdqiT2c8n5tfhOXbBYzq
- zRNbwT2lldN4CbC/VHHUiLAJYuziUSWcbsSezhXuCICYCxwdzvLNulqO2WYTyATvmwGe
- x7R/nFBVc55GuO/AVgwdVyWArjjYYxAsP2zl37AxUmUF3PeX3MO9d3G+SSmilbIc2x/w
- 4sm2+ofPgJx0MbqLKgZ1y+NrOTiLf4g63p42vFB4iR4I4C5XqtGnN/fvXeuU7LGuylzn
- jACLnr8jWry3alUnW+xfhvKpsHRWwT4jUBjIaWrQ+pqb9lbJaw49IYvdMBPVDlQc7H41
- qmfA==
+ bh=P1U4oa6YGtSErPiKjQw2GvyDCiSwfNfPDDfhSlUoaO4=;
+ b=DHy6AyOyyxE5L32X9P6KPkvhLuWKZlrdTB8y88LvUr8Sw7l+cEdPEOE/Gh78RMCoJ/
+ SbQDypy7+c2IdXsUKKP0PTVCLoQ+3BcybZcwS8SIyOvbSZLZkcxd+hDNU8LNEfitRpZC
+ XtXbfOuDVtbB4wn51eqfy9GrPSFS/tWgKeoM5m4QaOpEGsnxLr+2Pp73nwSQr4YXgRKO
+ z12b1eSLz/8eadX5OkLhkf+e57EUwOsCJ9AzGseDVtXOfyZeUnxfVZ7a3MHJJ8aw+1KL
+ hh2MVBZPRLfgBXKym4/xR1SzHQoDIz9gOCYQu7IaGBWt7fOahI/QyfHtC7s9F7/+JCi2
+ MMVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=SjkVJtx1zMG4ukF+LaYVeryDklvJ+Qo8HRqyMPyyyik=;
- b=a/sv7AbM1mPue+FZMvqkTiLBCJI/eMgKilfogozH4cM+/DEMPesKqygv0kbBRQJqMv
- AHMR1Kbt7Mx7D5WwFXkZZ6htia+ZBhQwdpG66wsS7HNPDEEEcPxMJcb8nYjwDXFrLoph
- K1+4rpS2+CovqC1LNelxVmhYFrr3LLoYMrms5eN8RSIId3yYXnfGJFbZ9zYAnvJx5DgQ
- cmR8MlDuxxH+T0NzK4A8g46saKfetjbc1SbU/R8u0oUwDWaGsvlHNccPfuCO0o0PITKU
- F92H17MfJJnA+thjWWW/6AqdpwDF8Ss9RZQ7pXUXMXo/nofN8Hl8DNetiK9WgkYKfiJq
- fqSw==
-X-Gm-Message-State: ACrzQf28khD8bpBYQUYE74QPd/jsZnpOHXFoMeXLfdM1etaEspgjUXH7
- 7ateSP/zcR8Y+GViyJEXmKHvsvkmV6YJSXlRTeM=
-X-Google-Smtp-Source: AMsMyM61f4Z5d0UIDlekVw1JFIGaIBf1dPU8VbOkn2RX3lhQMiH+GD1hwPUpOwmL0Vd8QjhHZS94BX8kzp2K3AmCFEE=
-X-Received: by 2002:a05:620a:29cf:b0:6d3:2762:57e5 with SMTP id
- s15-20020a05620a29cf00b006d3276257e5mr8572732qkp.389.1665281947588; Sat, 08
- Oct 2022 19:19:07 -0700 (PDT)
+ bh=P1U4oa6YGtSErPiKjQw2GvyDCiSwfNfPDDfhSlUoaO4=;
+ b=SwA0IU3NRSSruts74iY2vKvCTRJUvri8nQmlrcZ5w7klJ+b7QiWmN3xz4GJB8S+qEa
+ XNJBVvgGA3sNgk5oh5a5+Py1oEYvnQrkygLSTPnCVpPeXN2qMx4cRr79me+NP0w46JUy
+ Eq/QH/Nvwp52N4Qv9LjGqlP5BXXuDpXm2vwqDkAEGIcFm2er14hq/qQSzgFIntZbu573
+ XqhZt4VE6451NzR0D8WoHUA+s9LK1A02oQrzRCCL33tgEPPLLB40A7thKP/n9QDJgia2
+ XBkC468uOFURSsFTWNHrSS/MEWAVN/xPTuzm5LnLY9RtwnSiTzUHcVXrnwMcVr1ybwoq
+ OWKw==
+X-Gm-Message-State: ACrzQf1Wlll+voC+yz6XVRUtxp+G/J1Ne3ajR31LOqB2wAz+masEQT0g
+ MNHNTw+N7g0WIcjhJkCrf0QY0dYKcL0+hfSTWYjhd0sVva0=
+X-Google-Smtp-Source: AMsMyM4vDsiXSCTOhDdUOMqf+Zar3a6UpD+uKdKds/annLjooZaWBVt1TfR09lGEwH3pQg0FlD6nY5/joGu6Tg2Uhm8=
+X-Received: by 2002:a05:622a:258b:b0:388:aaf0:62b0 with SMTP id
+ cj11-20020a05622a258b00b00388aaf062b0mr10107776qtb.543.1665282086127; Sat, 08
+ Oct 2022 19:21:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221003203142.24355-1-shentey@gmail.com>
- <20221003203142.24355-5-shentey@gmail.com>
-In-Reply-To: <20221003203142.24355-5-shentey@gmail.com>
+ <20221003203142.24355-6-shentey@gmail.com>
+In-Reply-To: <20221003203142.24355-6-shentey@gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 9 Oct 2022 10:18:56 +0800
-Message-ID: <CAEUhbmUGhTLmd2uocnGGXSCgkqxSuFJyhrg-v+OWH8r8Nh4VqQ@mail.gmail.com>
-Subject: Re: [PATCH v2 04/13] hw/ppc/e500: Reduce usage of sysbus API
+Date: Sun, 9 Oct 2022 10:21:15 +0800
+Message-ID: <CAEUhbmXCV2aUheyHuiJwHUi6ExRiPJ_db2SWdmJUFMv+WV3o9g@mail.gmail.com>
+Subject: Re: [PATCH v2 05/13] hw/ppc/mpc8544ds: Rename wrongly named method
 To: Bernhard Beschow <shentey@gmail.com>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  qemu-ppc <qemu-ppc@nongnu.org>, 
@@ -62,8 +62,8 @@ Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>, 
  Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x731.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x82c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,16 +86,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 4, 2022 at 5:24 AM Bernhard Beschow <shentey@gmail.com> wrote:
->
-> PlatformBusDevice has an mmio attribute which gets aliased to
-> SysBusDevice::mmio[0]. So PlatformbusDevice::mmio can be used directly,
-> avoiding the sysbus API.
+On Tue, Oct 4, 2022 at 5:15 AM Bernhard Beschow <shentey@gmail.com> wrote:
 >
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->  hw/ppc/e500.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/ppc/mpc8544ds.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
