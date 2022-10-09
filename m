@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78EC5F88D7
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 04:22:35 +0200 (CEST)
-Received: from localhost ([::1]:48708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD5A5F88E9
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 04:34:18 +0200 (CEST)
+Received: from localhost ([::1]:52054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohLxa-0004pN-QU
-	for lists+qemu-devel@lfdr.de; Sat, 08 Oct 2022 22:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35172)
+	id 1ohM8v-00006B-2u
+	for lists+qemu-devel@lfdr.de; Sat, 08 Oct 2022 22:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ohLwX-0003UG-Ml; Sat, 08 Oct 2022 22:21:29 -0400
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:45996)
+ id 1ohM6m-0006A0-OY; Sat, 08 Oct 2022 22:32:05 -0400
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:37424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ohLwV-0005Lj-Pr; Sat, 08 Oct 2022 22:21:29 -0400
-Received: by mail-qt1-x82c.google.com with SMTP id fb18so4864969qtb.12;
- Sat, 08 Oct 2022 19:21:26 -0700 (PDT)
+ id 1ohM6k-0007AX-M1; Sat, 08 Oct 2022 22:32:04 -0400
+Received: by mail-qk1-x733.google.com with SMTP id oo23so5012772qkn.4;
+ Sat, 08 Oct 2022 19:32:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=P1U4oa6YGtSErPiKjQw2GvyDCiSwfNfPDDfhSlUoaO4=;
- b=DHy6AyOyyxE5L32X9P6KPkvhLuWKZlrdTB8y88LvUr8Sw7l+cEdPEOE/Gh78RMCoJ/
- SbQDypy7+c2IdXsUKKP0PTVCLoQ+3BcybZcwS8SIyOvbSZLZkcxd+hDNU8LNEfitRpZC
- XtXbfOuDVtbB4wn51eqfy9GrPSFS/tWgKeoM5m4QaOpEGsnxLr+2Pp73nwSQr4YXgRKO
- z12b1eSLz/8eadX5OkLhkf+e57EUwOsCJ9AzGseDVtXOfyZeUnxfVZ7a3MHJJ8aw+1KL
- hh2MVBZPRLfgBXKym4/xR1SzHQoDIz9gOCYQu7IaGBWt7fOahI/QyfHtC7s9F7/+JCi2
- MMVg==
+ bh=bTGoLJKpmEHEmSIAtw1CNizaDz1VjAT4NSkCv4sAylc=;
+ b=mE6vGTgEo+JH61o2wW4Ek9UIoMtxlMO1SVhl9G7IJtcgnKVFnzRSt2lSFNObe4nMhh
+ jwfF91U87v2N5zx0umcNSe4nRYllIeCAAOfKJc5lasqZ4KbwG8JCnB7baB9DPyxffLzE
+ wuzKzd4Feh/xAPwfmZXURkYUzLhBBJCBAkQ34Lj66UOlAtnkAbgR2tbd/G1oKDRZ8btA
+ Q/gSSKmv9Wl5aVXyKDIidyh2Wua3Avu6hWirumewJ3wOx4Z/3/XCmJRs+Eh9KXl6wYWW
+ sdu3UMSmFgBg/xYPfROW1YYotbxVQVDTe7FlrokuDJAO+A+c1HWKm0zEDqvXCtmTzW9e
+ AGqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=P1U4oa6YGtSErPiKjQw2GvyDCiSwfNfPDDfhSlUoaO4=;
- b=SwA0IU3NRSSruts74iY2vKvCTRJUvri8nQmlrcZ5w7klJ+b7QiWmN3xz4GJB8S+qEa
- XNJBVvgGA3sNgk5oh5a5+Py1oEYvnQrkygLSTPnCVpPeXN2qMx4cRr79me+NP0w46JUy
- Eq/QH/Nvwp52N4Qv9LjGqlP5BXXuDpXm2vwqDkAEGIcFm2er14hq/qQSzgFIntZbu573
- XqhZt4VE6451NzR0D8WoHUA+s9LK1A02oQrzRCCL33tgEPPLLB40A7thKP/n9QDJgia2
- XBkC468uOFURSsFTWNHrSS/MEWAVN/xPTuzm5LnLY9RtwnSiTzUHcVXrnwMcVr1ybwoq
- OWKw==
-X-Gm-Message-State: ACrzQf1Wlll+voC+yz6XVRUtxp+G/J1Ne3ajR31LOqB2wAz+masEQT0g
- MNHNTw+N7g0WIcjhJkCrf0QY0dYKcL0+hfSTWYjhd0sVva0=
-X-Google-Smtp-Source: AMsMyM4vDsiXSCTOhDdUOMqf+Zar3a6UpD+uKdKds/annLjooZaWBVt1TfR09lGEwH3pQg0FlD6nY5/joGu6Tg2Uhm8=
-X-Received: by 2002:a05:622a:258b:b0:388:aaf0:62b0 with SMTP id
- cj11-20020a05622a258b00b00388aaf062b0mr10107776qtb.543.1665282086127; Sat, 08
- Oct 2022 19:21:26 -0700 (PDT)
+ bh=bTGoLJKpmEHEmSIAtw1CNizaDz1VjAT4NSkCv4sAylc=;
+ b=vlgfIrCZGRGJmas/E43IosAtwVkHD8N+/Sn8eAm2tjzWY235j89EKkwK3DKAykqKxm
+ nnd+JXzjgGhwgkaFnzJMKUsvP1w+8nDlyF/lncIUqwJLrXjGKMkSJtvv5Pyf4/hfLEWz
+ 2kFoUTM4/FZu/Z943Fh6TLj2ZEfNsBijxFeWiXQwMzwOZZ3spcHi6N+cvcga//bTvMDw
+ kY69omqlaPIqZTcdf+ODA4YNS/5dbA+tN4LCr83Z703HX8F9Elo0/GKtmQIIqHJH5XaM
+ Jat0k5pHNzl98OPr+DvUNYxaezgw6ZXaECwP8KRYqk3SpNyjpIsAYRcUxlItX59Sse/b
+ Wm7w==
+X-Gm-Message-State: ACrzQf3luGMHUDWm/X8GHkCIG8qdcO4PGdOGfSets3v2FQ0N/AgnosHL
+ yRyvLS1HBnRljkV9G89cC7KT2YYH5zsxaIx86mk/BFFW
+X-Google-Smtp-Source: AMsMyM4FSKIxqu2kseYNvsv4xMPiZEQfJmOBp6ek3pLsv4tpsa+k9FLI/KGt0QCB1htmNKFX3gVdy6d8p07HhZw2Plw=
+X-Received: by 2002:a05:620a:439f:b0:6e2:a440:b10b with SMTP id
+ a31-20020a05620a439f00b006e2a440b10bmr8618209qkp.94.1665282720802; Sat, 08
+ Oct 2022 19:32:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221003203142.24355-1-shentey@gmail.com>
- <20221003203142.24355-6-shentey@gmail.com>
-In-Reply-To: <20221003203142.24355-6-shentey@gmail.com>
+References: <20220915152520.21948-1-shentey@gmail.com>
+ <20220915152520.21948-5-shentey@gmail.com>
+ <CAEUhbmW6Zu3Uv5Qo=7cwFeydW7zkeOGkE5jVP04HiExJy9wOHQ@mail.gmail.com>
+ <1890577F-7230-4E0C-A375-F0A215F6F543@gmail.com>
+In-Reply-To: <1890577F-7230-4E0C-A375-F0A215F6F543@gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 9 Oct 2022 10:21:15 +0800
-Message-ID: <CAEUhbmXCV2aUheyHuiJwHUi6ExRiPJ_db2SWdmJUFMv+WV3o9g@mail.gmail.com>
-Subject: Re: [PATCH v2 05/13] hw/ppc/mpc8544ds: Rename wrongly named method
+Date: Sun, 9 Oct 2022 10:31:49 +0800
+Message-ID: <CAEUhbmVh3XXEjOKumF9JY1LKXMiKa+=ddQDZssRAkTP8K5KM+A@mail.gmail.com>
+Subject: Re: [PATCH 04/11] hw/ppc/mpc8544ds: Add platform bus
 To: Bernhard Beschow <shentey@gmail.com>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, 
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>, 
- Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-ppc <qemu-ppc@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x82c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x733.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,13 +88,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 4, 2022 at 5:15 AM Bernhard Beschow <shentey@gmail.com> wrote:
+Hi Bernhard,
+
+On Sat, Sep 17, 2022 at 1:19 AM Bernhard Beschow <shentey@gmail.com> wrote:
 >
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->  hw/ppc/mpc8544ds.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Am 16. September 2022 06:15:53 UTC schrieb Bin Meng <bmeng.cn@gmail.com>:
+> >On Thu, Sep 15, 2022 at 11:29 PM Bernhard Beschow <shentey@gmail.com> wrote:
+> >>
+> >> Models the real device more closely.
+> >
+> >Please describe the source (e.g.: I assume it's MPC8544DS board manual
+> >or something like that?) that describe such memory map for the
+> >platform bus.
+> >
+> >Is this the eLBC bus range that includes the NOR flash device?
+>
+> Good point. My numbers come from a different board. I'll fix them according to the  mpc8544ds.dts in the Linux tree.
+>
+> This will leave an eLBC memory window of just 8MB while my proprietary load needs 64MB. My proprietary load doesn't seem to have 64 bit physical memory support so I can't use e500plat either. Any suggestions?
 >
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Currently QEMU does not model the eLBC registers so these memory
+regions have to be hardcoded, unfortunately. Once we support eLBC
+memory map completely I think we can remove such limitations by having
+QEMU dynamically create the memory map per programmed values.
+
+I guess you have to create another machine for your board at this point.
+
+Regards,
+Bin
 
