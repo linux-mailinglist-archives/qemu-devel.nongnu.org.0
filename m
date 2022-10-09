@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB745F892B
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 05:35:21 +0200 (CEST)
-Received: from localhost ([::1]:47074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 381AE5F893D
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 05:41:56 +0200 (CEST)
+Received: from localhost ([::1]:41688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohN5z-0003fi-K6
-	for lists+qemu-devel@lfdr.de; Sat, 08 Oct 2022 23:35:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44626)
+	id 1ohNCM-00006S-Ga
+	for lists+qemu-devel@lfdr.de; Sat, 08 Oct 2022 23:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ohN1l-0007gO-0d; Sat, 08 Oct 2022 23:30:57 -0400
-Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:34782)
+ id 1ohNAj-0006ll-Kg; Sat, 08 Oct 2022 23:40:13 -0400
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:44771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ohN1j-0007v9-IT; Sat, 08 Oct 2022 23:30:56 -0400
-Received: by mail-qk1-x733.google.com with SMTP id s7so1109370qkj.1;
- Sat, 08 Oct 2022 20:30:54 -0700 (PDT)
+ id 1ohNAh-0000yt-OF; Sat, 08 Oct 2022 23:40:13 -0400
+Received: by mail-qt1-x82b.google.com with SMTP id cn9so4907101qtb.11;
+ Sat, 08 Oct 2022 20:40:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=q2QbXE+bY7bbkK0ORnsPfCSpnriLteycwJJYj/+hSss=;
- b=dwZ3jdkT96GI8D/cLYmVz1Zfitb1XJBmG335d1C+wy+N1exdHpfwxBnLh5vcpzI1oH
- JgamQilXO23dDDfNn/hP6SrbjhahFgO5zFxhnEXjHqR/0PHmocXn5LSltE4KoGjiLEpj
- zznwKMDEi7BsbzjFwj6s4xiFzgQ4YQfofNRLEIZKS2BiV1oUux+0th8QaBm4zGmrpSey
- UhHd3WMjAW7MbOG8W9qUKf7gTCBz4bVxuj8xKd8W9vwzLJDGb+r2GAHwu8Jd7mhM5dW9
- 0965lcC8nvOdzWL5f4FNE6NdhoBt0huTv7vdbfpDyuQYsK+aOcu/tPw9CH1fkHC+D+Xz
- GHYg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=+fh8DInve+Oa7yqEdFxuf4mzYk4fjX9XpQ2jx8MeTCo=;
+ b=qkWHgjwIUYWaAhJfV5Ai1Z/vPk+6en+HmoztyO/m4qK3AoS87DFjmu/TvQnSYPiG+p
+ juJWKUBT5e06QkjsPSC9njpcLI96X5MbAmVruCoKdHKaHNlxBa5zBMWbkxn8Z6oIr+Uu
+ thAZl4aFnH86S2H4OMCkF3P7+D4WbX6xmvvM7vMpktaU4vATEVCQPZe7xTX9kN6sseiL
+ u9EpzVWAynhS29HCl/wFaIZ/7ag3ltRtIfszn8By5DC/fM3lAcbTkNUulLNh/y0LOaTa
+ cc3nRTRZ14kArq+yuwRuL7V0fYormaBkqc12Ln4yRlChK4/s7Ee0RrrmnpGX0W//qmK9
+ Vr/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=q2QbXE+bY7bbkK0ORnsPfCSpnriLteycwJJYj/+hSss=;
- b=Jwr3XREm9xSQspOmnWvTp3G1w0uZk6i6u8+lcVYM3WKLVCZfEEE3QjwPwfhh+X9Ozi
- HmcKac7JOQuKw3kzJJbdXuKHjqjxozhQyzxLuKgkNuMLK3jDsPlKvIOrv1474Y9bNYmM
- 7nYwH3rhHR67meHS3MruRFj9iY7C1TOKcqX5UTE4sNG1KzrkBfSYeLg/SW1j60p2zLDt
- p+fqoF+k2K4lxBSVp2HmGIusCBwziemm7omNhEctCNpbDCmFxJLJf2rp72kozzfgBSoW
- krVFOWBexCyMS7WUBYr5aYr08sQwOFo8fbzfWfaAkDYEIJMNVzvU+OULQosiph0Rz1ep
- TipQ==
-X-Gm-Message-State: ACrzQf2m4DrD8eXl5Qn5tlAP+iIP8Qc+5/gkscNGP5U4ZA7gnEt+Z+kA
- MbyRcYFEk06N354caYpMwo62imWI1N7Qk/j7Udk=
-X-Google-Smtp-Source: AMsMyM6CXs5p5xiOXbIUcyk5B+tdcGG04gJPanqJoZZecILv/8Md8fZKuB29b6hc8bHT00aPGFjFCodCU6P5MfuKCvU=
-X-Received: by 2002:a05:620a:439f:b0:6e2:a440:b10b with SMTP id
- a31-20020a05620a439f00b006e2a440b10bmr8701220qkp.94.1665286253982; Sat, 08
- Oct 2022 20:30:53 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+fh8DInve+Oa7yqEdFxuf4mzYk4fjX9XpQ2jx8MeTCo=;
+ b=U/ZtMZAgEJI7Z/a6EhkqgV5cD5xhz2tuqSsp1BVXVFi/9/1W++ri2lDZWimfIR1woT
+ I7XglnLkzByFbvraMViECYg4Rd2Zjfq49bHcrM+wcwat6l0N5DeshHT7bo0LQlmN05NP
+ menQT4pBeRBxyg5PAMh7h49vY3UO/jYeRjniboKn0vAh5scwdZmFN9YuqQqvXktQfOQV
+ 71RW36Afv/GduVIULFhV1BvFPHV2uytp98ommpc5VfWd/nJn2jaCh8X3yXBk16qgWJSz
+ rX86q8CmDkvWz5BCtxWKWUL7GMEjvLLGD9X8Dl95zS/nY1Qz7ekNr9lDJFyQ0kO/jVrf
+ B9ig==
+X-Gm-Message-State: ACrzQf1ws2AnRp8sBGllBYE5Qf+PThGDRLXmNMAmIrWy9U1pp8XRbFvo
+ NzYILIM4gzVczOxoiuQcYXm0vnXRJ+0uEml70Jc=
+X-Google-Smtp-Source: AMsMyM7fwJ0uUjrStk0WKMOZdmlDUOBpbS0h5KjYh5PoVS7Elzu3c3YxMDpHVsDrTbd2V5/HUVsa6ovG1VKUaHQef/w=
+X-Received: by 2002:ac8:57ca:0:b0:35b:b51f:94fc with SMTP id
+ w10-20020ac857ca000000b0035bb51f94fcmr10198859qta.276.1665286809968; Sat, 08
+ Oct 2022 20:40:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221003203142.24355-1-shentey@gmail.com>
- <da8a2a03-0e54-fe81-7a13-cd5e79d69d18@amsat.org>
- <ba62aabc-0023-c5e6-d156-67d027bb6ff3@gmail.com>
- <45BEF5EF-3259-4B50-8F17-115C31A0D3EB@gmail.com>
-In-Reply-To: <45BEF5EF-3259-4B50-8F17-115C31A0D3EB@gmail.com>
+ <20221003203142.24355-10-shentey@gmail.com>
+In-Reply-To: <20221003203142.24355-10-shentey@gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 9 Oct 2022 11:30:43 +0800
-Message-ID: <CAEUhbmXPo67x67ckQSYGb4XNg+TbWYn1NT+Xap8qzCLAm+zA=Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/13] ppc/e500: Add support for two types of flash,
- cleanup
+Date: Sun, 9 Oct 2022 11:39:58 +0800
+Message-ID: <CAEUhbmUAunQf6bDb=qD+KkmtCQBGxBc7wbO5A3YJFYvTaTn3Dg@mail.gmail.com>
+Subject: Re: [PATCH v2 09/13] hw/ppc/e500: Implement pflash handling
 To: Bernhard Beschow <shentey@gmail.com>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, 
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
- qemu-ppc <qemu-ppc@nongnu.org>, Qemu-block <qemu-block@nongnu.org>, 
- Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+ Qemu-block <qemu-block@nongnu.org>, Hanna Reitz <hreitz@redhat.com>, 
+ Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x733.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,46 +86,186 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 9, 2022 at 12:11 AM Bernhard Beschow <shentey@gmail.com> wrote:
+On Tue, Oct 4, 2022 at 5:40 AM Bernhard Beschow <shentey@gmail.com> wrote:
 >
-> Am 4. Oktober 2022 12:43:35 UTC schrieb Daniel Henrique Barboza <danielhb=
-413@gmail.com>:
-> >Hey,
-> >
-> >On 10/3/22 18:27, Philippe Mathieu-Daud=C3=A9 wrote:
-> >> Hi Daniel,
-> >>
-> >> On 3/10/22 22:31, Bernhard Beschow wrote:
-> >>> Cover letter:
-> >>> ~~~~~~~~~~~~~
-> >>>
-> >>> This series adds support for -pflash and direct SD card access to the
-> >>> PPC e500 boards. The idea is to increase compatibility with "real" fi=
-rmware
-> >>> images where only the bare minimum of drivers is compiled in.
-> >>
-> >>> Bernhard Beschow (13):
-> >>>    hw/ppc/meson: Allow e500 boards to be enabled separately
-> >>>    hw/gpio/meson: Introduce dedicated config switch for hw/gpio/mpc8x=
-xx
-> >>>    docs/system/ppc/ppce500: Add heading for networking chapter
-> >>>    hw/ppc/e500: Reduce usage of sysbus API
-> >>>    hw/ppc/mpc8544ds: Rename wrongly named method
-> >>>    hw/ppc/mpc8544ds: Add platform bus
-> >>>    hw/ppc/e500: Remove if statement which is now always true
-> >>
-> >> This first part is mostly reviewed and can already go via your
-> >> ppc-next queue.
-> >
-> >We're missing an ACK in patch 6/13:
-> >
-> >hw/ppc/mpc8544ds: Add platform bus
+> Allows e500 boards to have their root file system reside on flash using
+> only builtin devices located in the eLBC memory region.
 >
-> Bin: Ping?
+> Note that the flash memory area is only created when a -pflash argument is
+> given, and that the size is determined by the given file. The idea is to
+> put users into control.
 >
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>  docs/system/ppc/ppce500.rst | 12 ++++++
+>  hw/ppc/Kconfig              |  1 +
+>  hw/ppc/e500.c               | 76 +++++++++++++++++++++++++++++++++++++
+>  3 files changed, 89 insertions(+)
+>
+> diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
+> index ba6bcb7314..1ed6c36599 100644
+> --- a/docs/system/ppc/ppce500.rst
+> +++ b/docs/system/ppc/ppce500.rst
+> @@ -119,6 +119,18 @@ To boot the 32-bit Linux kernel:
+>        -initrd /path/to/rootfs.cpio \
+>        -append "root=/dev/ram"
+>
+> +Rather than using a root file system on ram disk, it is possible to have it on
+> +emulated flash. Given an ext2 image whose size must be a power of two, it can
+> +be used as follows:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-ppc{64|32} -M ppce500 -cpu e500mc -smp 4 -m 2G \
+> +      -display none -serial stdio \
+> +      -kernel vmlinux \
+> +      -drive if=pflash,file=/path/to/rootfs.ext2,format=raw \
+> +      -append "rootwait root=/dev/mtdblock0"
 
-Sorry for the delay. I have provided the R-b to this patch.
+Could we add a separate sub-section "pflash" after the "networking"
+part you did before?
 
-Regards,
-Bin
+> +
+>  Running U-Boot
+>  --------------
+>
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index 791fe78a50..769a1ead1c 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -126,6 +126,7 @@ config E500
+>      select ETSEC
+>      select GPIO_MPC8XXX
+>      select OPENPIC
+> +    select PFLASH_CFI01
+>      select PLATFORM_BUS
+>      select PPCE500_PCI
+>      select SERIAL
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index 3e950ea3ba..2b1430fca4 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -23,8 +23,10 @@
+>  #include "e500-ccsr.h"
+>  #include "net/net.h"
+>  #include "qemu/config-file.h"
+> +#include "hw/block/flash.h"
+>  #include "hw/char/serial.h"
+>  #include "hw/pci/pci.h"
+> +#include "sysemu/block-backend-io.h"
+>  #include "sysemu/sysemu.h"
+>  #include "sysemu/kvm.h"
+>  #include "sysemu/reset.h"
+> @@ -267,6 +269,31 @@ static void sysbus_device_create_devtree(SysBusDevice *sbdev, void *opaque)
+>      }
+>  }
+>
+> +static void create_devtree_flash(SysBusDevice *sbdev,
+> +                                 PlatformDevtreeData *data)
+> +{
+> +    g_autofree char *name = NULL;
+> +    uint64_t num_blocks = object_property_get_uint(OBJECT(sbdev),
+> +                                                   "num-blocks",
+> +                                                   &error_fatal);
+> +    uint64_t sector_length = object_property_get_uint(OBJECT(sbdev),
+> +                                                      "sector-length",
+> +                                                      &error_fatal);
+> +    uint64_t bank_width = object_property_get_uint(OBJECT(sbdev),
+> +                                                   "width",
+> +                                                   &error_fatal);
+> +    hwaddr flashbase = 0;
+> +    hwaddr flashsize = num_blocks * sector_length;
+> +    void *fdt = data->fdt;
+> +
+> +    name = g_strdup_printf("%s/nor@%" PRIx64, data->node, flashbase);
+> +    qemu_fdt_add_subnode(fdt, name);
+> +    qemu_fdt_setprop_string(fdt, name, "compatible", "cfi-flash");
+> +    qemu_fdt_setprop_sized_cells(fdt, name, "reg",
+> +                                 1, flashbase, 1, flashsize);
+> +    qemu_fdt_setprop_cell(fdt, name, "bank-width", bank_width);
+> +}
+> +
+>  static void platform_bus_create_devtree(PPCE500MachineState *pms,
+>                                          void *fdt, const char *mpic)
+>  {
+> @@ -276,6 +303,8 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
+>      uint64_t addr = pmc->platform_bus_base;
+>      uint64_t size = pmc->platform_bus_size;
+>      int irq_start = pmc->platform_bus_first_irq;
+> +    SysBusDevice *sbdev;
+> +    bool ambiguous;
+>
+>      /* Create a /platform node that we can put all devices into */
+>
+> @@ -302,6 +331,13 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
+>      /* Loop through all dynamic sysbus devices and create nodes for them */
+>      foreach_dynamic_sysbus_device(sysbus_device_create_devtree, &data);
+>
+> +    sbdev = SYS_BUS_DEVICE(object_resolve_path_type("", TYPE_PFLASH_CFI01,
+> +                                                    &ambiguous));
+> +    if (sbdev) {
+> +        assert(!ambiguous);
+> +        create_devtree_flash(sbdev, &data);
+> +    }
+> +
+>      g_free(node);
+>  }
+>
+> @@ -856,6 +892,7 @@ void ppce500_init(MachineState *machine)
+>      unsigned int pci_irq_nrs[PCI_NUM_PINS] = {1, 2, 3, 4};
+>      IrqLines *irqs;
+>      DeviceState *dev, *mpicdev;
+> +    DriveInfo *dinfo;
+>      CPUPPCState *firstenv = NULL;
+>      MemoryRegion *ccsr_addr_space;
+>      SysBusDevice *s;
+> @@ -1024,6 +1061,45 @@ void ppce500_init(MachineState *machine)
+>                                  pmc->platform_bus_base,
+>                                  &pms->pbus_dev->mmio);
+>
+> +    dinfo = drive_get(IF_PFLASH, 0, 0);
+> +    if (dinfo) {
+> +        BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
+> +        BlockDriverState *bs = blk_bs(blk);
+> +        uint64_t size = bdrv_getlength(bs);
+> +        uint64_t mmio_size = pms->pbus_dev->mmio.size;
+> +        uint32_t sector_len = 64 * KiB;
+> +
+> +        if (ctpop64(size) != 1) {
+> +            error_report("Size of pflash file must be a power of two.");
+> +            exit(1);
+> +        }
+> +
+> +        if (size > mmio_size) {
+> +            error_report("Size of pflash file must not be bigger than %" PRIu64
+> +                         " bytes.", mmio_size);
+> +            exit(1);
+> +        }
+> +
+> +        assert(QEMU_IS_ALIGNED(size, sector_len));
+> +
+> +        dev = qdev_new(TYPE_PFLASH_CFI01);
+> +        qdev_prop_set_drive(dev, "drive", blk);
+> +        qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
+> +        qdev_prop_set_uint64(dev, "sector-length", sector_len);
+> +        qdev_prop_set_uint8(dev, "width", 2);
+> +        qdev_prop_set_bit(dev, "big-endian", true);
+> +        qdev_prop_set_uint16(dev, "id0", 0x89);
+> +        qdev_prop_set_uint16(dev, "id1", 0x18);
+> +        qdev_prop_set_uint16(dev, "id2", 0x0000);
+> +        qdev_prop_set_uint16(dev, "id3", 0x0);
+> +        qdev_prop_set_string(dev, "name", "e500.flash");
+> +        s = SYS_BUS_DEVICE(dev);
+> +        sysbus_realize_and_unref(s, &error_fatal);
+> +
+> +        memory_region_add_subregion(&pms->pbus_dev->mmio, 0,
+> +                                    sysbus_mmio_get_region(s, 0));
+> +    }
+> +
+>      /*
+>       * Smart firmware defaults ahead!
+>       *
+
+Otherwise LGTM:
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
