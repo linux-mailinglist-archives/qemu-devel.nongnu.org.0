@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837B85F896F
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 07:23:52 +0200 (CEST)
-Received: from localhost ([::1]:37868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C865F897F
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Oct 2022 07:46:05 +0200 (CEST)
+Received: from localhost ([::1]:44572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohOn1-0002x4-4e
-	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 01:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52218)
+	id 1ohP8W-0001tJ-76
+	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 01:46:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohOlL-0001Zh-58
- for qemu-devel@nongnu.org; Sun, 09 Oct 2022 01:22:07 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:45953)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohOlJ-0001NR-5D
- for qemu-devel@nongnu.org; Sun, 09 Oct 2022 01:22:06 -0400
-Received: by mail-il1-x12c.google.com with SMTP id q18so1557951ils.12
- for <qemu-devel@nongnu.org>; Sat, 08 Oct 2022 22:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ua24RJGild1PnFfuqPPbYKfWZw/06RqzSRj2PQwi+Xk=;
- b=HmNTrmdzzQtMUOZrLJJ9eVZAoy57InD1BPF5yfUiE9mpuu9HwafKRXgfAAubjSb/N2
- hTcjEH70c8izf/K37R0Fxim+tLR5km1wg43rSQHXRX03vE+pTEgQm3XE70cgwwYy4emn
- hS2LDOrsQy5TOGPZmsd/s+Msho4C4c6AegQN6suGhvwacNvetc5HowRZifIChv2yimXP
- iKayvtgGV6J+LK3h15tQ3GeL+i8LVo0K1kYQCNhjFrJErpA7uUGuFi8nunpCUC/u7/Io
- nJLTCInk/D7QbSil1Vud7Np7IF/rpkBBa8fOm0g3WasFe+qzViXy6AcuQ42znSNZtEyI
- lbzw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ohP6J-0000P7-HZ
+ for qemu-devel@nongnu.org; Sun, 09 Oct 2022 01:43:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39358)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ohP6G-0004du-DR
+ for qemu-devel@nongnu.org; Sun, 09 Oct 2022 01:43:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1665294220;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nRKHLYYi2irziAI06Kja7PtQlW9hPele5Bcod66Or+w=;
+ b=Uy8UazdAHMcscRSOi8mJOsnfF7V9Yixw0BLQdhC7dVJ6hYDQ9uc+hjJdPq3SiNH8fbR9dw
+ kKMfNg3RD9pxfC0tsdFl3dJ4q36Z1cwkC+vgL6Wk+65HkD47Vwq3sKd333OArJUUBUim3o
+ O4w5fZggBDoQDNm4yTACUUl1Lag0KJQ=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-363-AoDyO2VKOdKcS0p__vQpKQ-1; Sun, 09 Oct 2022 01:43:39 -0400
+X-MC-Unique: AoDyO2VKOdKcS0p__vQpKQ-1
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-13631a68551so1718927fac.22
+ for <qemu-devel@nongnu.org>; Sat, 08 Oct 2022 22:43:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ua24RJGild1PnFfuqPPbYKfWZw/06RqzSRj2PQwi+Xk=;
- b=MFHTfztxRImMCEta5Y56GX6L2Szitt2D2fbeJQilFbEevOdtaWj4vrK+W+bcc9yWUk
- GEnbeSb+6jg3geZs/5Itr6OxcbH7S3WRyWt6OCltBlTLbeeqWYUpbkNEU4KgR+wgoCNA
- Iozn3NuaC3I4caE3T9gHy6tOwh3IDOkNRM+4jGq4DgULxGCuPPYAATRXvXb6qwTlJW8s
- KOzmh5RK8l1JOw+z8RVFFAVMMPEWDUEQ6rV+QPOQSekKSLNJoGUiMTXRaeJHDB2h54u5
- AjD50MoaKNDN6fRohvXwX4N/4zEhDlRkb29wun/N6gKfzZuF00KPHqBI71YS5+gGARbp
- p3qA==
-X-Gm-Message-State: ACrzQf3IaAYWos7rXVLb08A9TLQEAt+78g4PgIaUrPEObstYkIEsS5oV
- AJISBTB8wC3CI9ItoIDi2DxPLVoa9nrTDFcrsV5qng==
-X-Google-Smtp-Source: AMsMyM7bYdZSLKw5gA/Oou4MhMAUPrwDlLe41UAIsBgGyoEIXAWZKWXMnaKsA9ym2BW54IzIsIqGd/2MPaYcKQHwbKI=
-X-Received: by 2002:a05:6e02:174d:b0:2fa:1b65:106e with SMTP id
- y13-20020a056e02174d00b002fa1b65106emr6281841ill.63.1665292923086; Sat, 08
- Oct 2022 22:22:03 -0700 (PDT)
+ bh=nRKHLYYi2irziAI06Kja7PtQlW9hPele5Bcod66Or+w=;
+ b=KVjmiz6Nq1uZMVRR+lwQMZ6ElA4WdTGWa3xp1XV4Jo7YYsWqlJXWCf/w2p3Ykb1Kex
+ RFD1+E8sr6DE3kL10YBEmsCkb9dSh4woYMnTLsBJ79LKRwaIOPgNaDlJaHZrLhBuwrU0
+ mxBvYXTo/oLfNuigKtNL4fu5jPLQaC7zwtGu4pYp7SyW1s0v3VmD3e9vZHH+PToe25oY
+ 6IK156WNEicEeyIPhikrETahQg+UsO9KPZpyo3LI3R7ezj1SSbNB/w0fhXJUcfBsMFfd
+ tVyPlEzQbLqCVQLl0+FfakKLtrVY9iHjsE+fav+V+a4XxUnGQ0/V3TlBYk2vso4hmsiz
+ n0WA==
+X-Gm-Message-State: ACrzQf1JHBrPi4bHr5B+QdknK4qf9cYo4XuoHAwJ6UyafTehWKz5FeGS
+ zOQvwFBaRar2mvKnNPGDbQHtOO1fGODK3J8lTuoIpE7pCUnfIpReq2sAofwZdlN5aU1Tbam43aU
+ hPVhidPk+ju+HK6axR8w3AdwkvECHj1k=
+X-Received: by 2002:a4a:1101:0:b0:476:7b37:e379 with SMTP id
+ 1-20020a4a1101000000b004767b37e379mr4748053ooc.57.1665294218864; 
+ Sat, 08 Oct 2022 22:43:38 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM51ZeKhCF9kUTLUARFk9cMu8mrhmwU8sSAlpbB1HjKcgJWj3odNd9HkS8dW9kL44XM6k4Mykws0SG9RX5n0mO4=
+X-Received: by 2002:a4a:1101:0:b0:476:7b37:e379 with SMTP id
+ 1-20020a4a1101000000b004767b37e379mr4748042ooc.57.1665294218524; Sat, 08 Oct
+ 2022 22:43:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220710170014.1673480-8-ani@anisinha.ca>
- <CABgObfYW8O-JGhjLm47HmHG7WRhOQDO1EhUCTP59TZo4DnkQVg@mail.gmail.com>
- <20220927175440-mutt-send-email-mst@kernel.org> <YzPyasEmJcKLJNvX@redhat.com>
- <6850c0d0-b578-9239-406e-e6c379cff3df@redhat.com>
-In-Reply-To: <6850c0d0-b578-9239-406e-e6c379cff3df@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Sun, 9 Oct 2022 10:51:51 +0530
-Message-ID: <CAARzgwz3WSefwFLi-hZnv8kLEJPfurfJNDxFFkQwOT88pF3aNA@mail.gmail.com>
-Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
- QEMU bios tables using biosbits
-To: Thomas Huth <thuth@redhat.com>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, 
- "Maydell, Peter" <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>, 
- "Mammedov, Igor" <imammedo@redhat.com>
+References: <1665215938-24473-1-git-send-email-si-wei.liu@oracle.com>
+In-Reply-To: <1665215938-24473-1-git-send-email-si-wei.liu@oracle.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Sun, 9 Oct 2022 13:43:23 +0800
+Message-ID: <CACGkMEuc3Kwjt8r7HsU_-s-AVsAiMXddYZ0Um0sAhN6igaMn7Q@mail.gmail.com>
+Subject: Re: [PATCH v2] vhost-vdpa: allow passing opened vhostfd to vhost-vdpa
+To: Si-Wei Liu <si-wei.liu@oracle.com>
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com, 
+ eperezma@redhat.com, Cindy Lu <lulu@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
- envelope-from=ani@anisinha.ca; helo=mail-il1-x12c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,81 +95,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 28, 2022 at 1:14 PM Thomas Huth <thuth@redhat.com> wrote:
+On Sat, Oct 8, 2022 at 5:04 PM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
 >
-> On 28/09/2022 09.06, Daniel P. Berrang=C3=A9 wrote:
-> > On Tue, Sep 27, 2022 at 06:09:22PM -0400, Michael S. Tsirkin wrote:
-> >> On Tue, Sep 27, 2022 at 11:44:56PM +0200, Paolo Bonzini wrote:
-> >>> I also second the idea of using avocado instead of pytest, by the way=
-.
-> >
-> > snip
-> >
-> >> Problem is I don't think avocado is yet at the level where I can
-> >> ask random developers to use it to check their ACPI patches.
-> >>
-> >> I just went ahead and rechecked and the situation isn't much better
-> >> yet. I think the focus of avocado is system testing of full guests wit=
-h
-> >> KVM, not unit testing of ACPI.
-> >>
-> >> Let's start with installation on a clean box:
-> >
-> > ...snip...
-> >
-> > Do not do any of this stuff, it is irrelevant to QEMU's needs.
-> > A developer using Avocado with QEMU does nothing more than:
-> >
-> >      make check-avocado
+> Similar to other vhost backends, vhostfd can be passed to vhost-vdpa
+> backend as another parameter to instantiate vhost-vdpa net client.
+> This would benefit the use case where only open file descriptors, as
+> opposed to raw vhost-vdpa device paths, are accessible from the QEMU
+> process.
 >
-> Right. And if you want to run individual tests, you can also do it like t=
-his:
->
->      make check-venv   # Only for the first time
->      ./tests/venv/bin/avocado run tests/avocado/boot_linux.py
+> (qemu) netdev_add type=3Dvhost-vdpa,vhostfd=3D61,id=3Dvhost-vdpa1
 
-Ok this seems to work after I did a pip3 install of avocado in the host.
+Adding Cindy.
 
- ./tests/venv/bin/avocado run tests/avocado/version.py
-JOB ID     : 8dd90b1cb5baf3780cc764ca4a1ae838374a0a5f
-JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-09T10.48-8dd90b=
-1/job.log
- (1/1) tests/avocado/version.py:Version.test_qmp_human_info_version:
-PASS (0.04 s)
-RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0
-| CANCEL 0
-JOB TIME   : 3.51 s
+This has been discussed before, we've already had
+vhostdev=3D/dev/fdset/$fd which should be functional equivalent to what
+has been proposed here. (And this is how libvirt works if I understand
+correctly).
 
-I see that the output is not tap compliant like the qtests tests are.
-how do I choose tap?
-
- ./tests/venv/bin/avocado-runner-tap --help
-usage: avocado-runner-tap [-h]
-{capabilities,runnable-run,runnable-run-recipe,task-run,task-run-recipe}
-...
-
-nrunner application for executable tests that produce TAP
-
-positional arguments:
-  {capabilities,runnable-run,runnable-run-recipe,task-run,task-run-recipe}
-    capabilities        Outputs capabilities, including runnables and comma=
-nds
-    runnable-run        Runs a runnable definition from arguments
-    runnable-run-recipe
-                        Runs a runnable definition from a recipe
-    task-run            Runs a task from arguments
-    task-run-recipe     Runs a task from a recipe
-
-options:
-  -h, --help            show this help message and exit
-
+Thanks
 
 >
-> Or run tests via tags (very convenient for maintainers):
+> Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
+> Acked-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 >
->     ./tests/venv/bin/avocado run -t arch:s390x tests/avocado/
+> ---
+> v2:
+>   - fixed typo in commit message
+>   - s/fd's/file descriptors/
+> ---
+>  net/vhost-vdpa.c | 25 ++++++++++++++++++++-----
+>  qapi/net.json    |  3 +++
+>  qemu-options.hx  |  6 ++++--
+>  3 files changed, 27 insertions(+), 7 deletions(-)
 >
->   HTH,
->    Thomas
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 182b3a1..366b070 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -683,14 +683,29 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
+ char *name,
 >
+>      assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+>      opts =3D &netdev->u.vhost_vdpa;
+> -    if (!opts->vhostdev) {
+> -        error_setg(errp, "vdpa character device not specified with vhost=
+dev");
+> +    if (!opts->has_vhostdev && !opts->has_vhostfd) {
+> +        error_setg(errp,
+> +                   "vhost-vdpa: neither vhostdev=3D nor vhostfd=3D was s=
+pecified");
+>          return -1;
+>      }
+>
+> -    vdpa_device_fd =3D qemu_open(opts->vhostdev, O_RDWR, errp);
+> -    if (vdpa_device_fd =3D=3D -1) {
+> -        return -errno;
+> +    if (opts->has_vhostdev && opts->has_vhostfd) {
+> +        error_setg(errp,
+> +                   "vhost-vdpa: vhostdev=3D and vhostfd=3D are mutually =
+exclusive");
+> +        return -1;
+> +    }
+> +
+> +    if (opts->has_vhostdev) {
+> +        vdpa_device_fd =3D qemu_open(opts->vhostdev, O_RDWR, errp);
+> +        if (vdpa_device_fd =3D=3D -1) {
+> +            return -errno;
+> +        }
+> +    } else if (opts->has_vhostfd) {
+> +        vdpa_device_fd =3D monitor_fd_param(monitor_cur(), opts->vhostfd=
+, errp);
+> +        if (vdpa_device_fd =3D=3D -1) {
+> +            error_prepend(errp, "vhost-vdpa: unable to parse vhostfd: ")=
+;
+> +            return -1;
+> +        }
+>      }
+>
+>      r =3D vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
+> diff --git a/qapi/net.json b/qapi/net.json
+> index dd088c0..926ecc8 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -442,6 +442,8 @@
+>  # @vhostdev: path of vhost-vdpa device
+>  #            (default:'/dev/vhost-vdpa-0')
+>  #
+> +# @vhostfd: file descriptor of an already opened vhost vdpa device
+> +#
+>  # @queues: number of queues to be created for multiqueue vhost-vdpa
+>  #          (default: 1)
+>  #
+> @@ -456,6 +458,7 @@
+>  { 'struct': 'NetdevVhostVDPAOptions',
+>    'data': {
+>      '*vhostdev':     'str',
+> +    '*vhostfd':      'str',
+>      '*queues':       'int',
+>      '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
+>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 913c71e..c040f74 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2774,8 +2774,10 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+>      "                configure a vhost-user network, backed by a chardev=
+ 'dev'\n"
+>  #endif
+>  #ifdef __linux__
+> -    "-netdev vhost-vdpa,id=3Dstr,vhostdev=3D/path/to/dev\n"
+> +    "-netdev vhost-vdpa,id=3Dstr[,vhostdev=3D/path/to/dev][,vhostfd=3Dh]=
+\n"
+>      "                configure a vhost-vdpa network,Establish a vhost-vd=
+pa netdev\n"
+> +    "                use 'vhostdev=3D/path/to/dev' to open a vhost vdpa =
+device\n"
+> +    "                use 'vhostfd=3Dh' to connect to an already opened v=
+host vdpa device\n"
+>  #endif
+>  #ifdef CONFIG_VMNET
+>      "-netdev vmnet-host,id=3Dstr[,isolated=3Don|off][,net-uuid=3Duuid]\n=
+"
+> @@ -3280,7 +3282,7 @@ SRST
+>               -netdev type=3Dvhost-user,id=3Dnet0,chardev=3Dchr0 \
+>               -device virtio-net-pci,netdev=3Dnet0
+>
+> -``-netdev vhost-vdpa,vhostdev=3D/path/to/dev``
+> +``-netdev vhost-vdpa[,vhostdev=3D/path/to/dev][,vhostfd=3Dh]``
+>      Establish a vhost-vdpa netdev.
+>
+>      vDPA device is a device that uses a datapath which complies with
+> --
+> 1.8.3.1
+>
+
 
