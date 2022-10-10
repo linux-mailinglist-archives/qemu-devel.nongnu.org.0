@@ -2,151 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D00D5FA7DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 00:53:52 +0200 (CEST)
-Received: from localhost ([::1]:45942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BA85FA8A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 01:32:32 +0200 (CEST)
+Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oi1eh-0003Or-Fj
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 18:53:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57822)
+	id 1oi2G6-0002tq-Jr
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 19:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1oi1Wr-0001fS-4q
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:45:51 -0400
-Received: from mga05.intel.com ([192.55.52.43]:64331)
+ (Exim 4.90_1) (envelope-from
+ <BATV+df8904472a2a380df65b+6987+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1oi20y-0000G5-Hu
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 19:16:53 -0400
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1]:51280)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1oi1Wo-0007dQ-T0
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:45:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665441942; x=1696977942;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=8ENVfp7hhTyEYCyuIIdwQuJ+R0FkpDeMhhOGeXBEmEA=;
- b=CiCNjFuvK2bHx59rK5o1VTEw5aAAqsDAC1zLiskJI07ge42lV1k7iSw0
- aso9WEFuNajSEwtWH6kL4dJhXeseaIaqs4GpXqDYdcV3gfbwP61ER7m62
- Cy0c4BSy0ujRy8vsOdsvRtMu7QMuJwMWbf0ebCTTrXwIZnmwjiZ07n5Pi
- iKc54xiaLgIaRk/DUX7dbHL7RrhuV60HCN6fyMQcjll2GITX7gYmW6Eub
- yodCDYkLJMUBTlolHrw4uNZVGGZSU1iSbaZUJsKFVQyMCmiX95EilzgQ+
- Mu08y2h4q+S6kd3Bnee4/dFceVcv+dGY+tAPJiLE94WiEaBZEUbiaqqXh w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="390659383"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="390659383"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 15:45:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="626137958"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="626137958"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga002.jf.intel.com with ESMTP; 10 Oct 2022 15:45:40 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 10 Oct 2022 15:45:39 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Mon, 10 Oct 2022 15:45:39 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Mon, 10 Oct 2022 15:45:39 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lKCM11DaAGiUx57KQm6MJk0zHp/4WDHk4OAtB89W1WKUlGORmUDMnM1d9cEKElRiOXecQe0FyGfDt/QhqLpv49bBjzReND7bcDRPW8Pc8PFQDWjxwW5htl8exzSuPqsNpWyUP1C8JXp+3Umtv3IgLNepWZSor85maXGMaKcCJe1QUitBK9Wb8GeJndkQ4A5YPj/5pAAieGZMBAc7fMdF5g1ewvnpyTyjH/67TznioQh/8L7xTxy4ZtjcSP10MGe7ll1X/M3pe67vYP2o9MjDJ9d5T01xilHdrMHC8q16H3FLup/kqYPFudA7Qok4+IMbZS9Lz7+u7xmUj4do+wr4nQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GE80gOualzcvbV8YvP7n8sh55poj3CVpJwO8zKrENRw=;
- b=aHK8Qx5XWb1VDytroP7mkBBly1iAD6/fkPAKgQuv7TVivOYeFau8O/zaWklbWhhE1d5HnFyLQ3/OCTMnPDuW7bVCq17h58xmFA7xF2s3bVuZyBrIyNRdGq1gNjrCs5UrSthmTmh9dGyUMYFHFsvPxPezBImwApH6hDEfQ5Gv+54FCNLaP7kYBOX4eVzqjsisVG9EVd12VkUYV3HY+NRr8ZDGNjvXyjVW5k/jVaWSrjV+eRiyDu4o1XIMunik8/vrQb4J+lppOL61LkUibhvrmqObyy7PNsx2iww3XtsZKSw/4DpdKgwb2cBPaiQcWb6uV9kU4DWMjUB9jn87cP6+mQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by IA1PR11MB7270.namprd11.prod.outlook.com (2603:10b6:208:42a::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Mon, 10 Oct
- 2022 22:45:36 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::6f83:c165:aa0c:efae]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::6f83:c165:aa0c:efae%6]) with mapi id 15.20.5676.032; Mon, 10 Oct 2022
- 22:45:35 +0000
-Date: Mon, 10 Oct 2022 15:45:30 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>
-Subject: Re: [RFC PATCH 0/6] QEMU CXL Provide mock CXL events and irq support
-Message-ID: <Y0Sgiq+WMwOmqToe@iweiny-desk3>
-References: <20221010222944.3923556-1-ira.weiny@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20221010222944.3923556-1-ira.weiny@intel.com>
-X-ClientProxiedBy: SJ0PR05CA0204.namprd05.prod.outlook.com
- (2603:10b6:a03:330::29) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+ (Exim 4.90_1) (envelope-from
+ <BATV+df8904472a2a380df65b+6987+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1oi20v-00043d-Qa
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 19:16:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=N3ZCqILE1/B3o4yn8+2gGZ4EFLxAqUHbMJl+uMueKDo=; b=n6tOBzheHMcUhhBoYCniAB/ts5
+ 5jjMIdbt3AS05D2P/5M5ENON/ECadtHwefkM/rYwBsK3iTlp7fOdhfcY+2i+/QUVSYCIeTJEmNB7R
+ 3bX9vEhjNlGSrAuUzOdmNk3FoFjuqLexySK87KnrQ2xIqHGZX9/ZhOYEe85hcceBHONDVX7dvCfkw
+ hU7AGzrcASslmRhxLPRKL1Bbf2wOC5y5XGtj+jJBpD72sFzBj7aqx0D8Fw5lNUW4R0wvzqGFJI6oA
+ UD6LAIuBA3qugAeBvOv4ctto8BgopTMhXbB8SmCWBectZ6RJ6TWAo3V02hhd35guJECRdxN4AngTK
+ yuGjM7mA==;
+Received: from [205.251.233.104] (helo=edge-cache-186.e-lhr50.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1oi20n-004YPU-Hs; Mon, 10 Oct 2022 23:16:42 +0000
+Message-ID: <42339a0a365fe8abba801089e27822cac463da45.camel@infradead.org>
+Subject: Re: [PULL 29/55] Revert "intel_iommu: Fix irqchip / X2APIC
+ configuration checks"
+From: David Woodhouse <dwmw2@infradead.org>
+To: Peter Xu <peterx@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, Peter
+ Maydell <peter.maydell@linaro.org>, Claudio Fontana <cfontana@suse.de>,
+ Igor Mammedov <imammedo@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Date: Mon, 10 Oct 2022 16:16:33 -0700
+In-Reply-To: <Y0RtkAWh28ALg1oB@xz-m1.local>
+References: <20221010172813.204597-1-mst@redhat.com>
+ <20221010172813.204597-30-mst@redhat.com>
+ <ff11454f877ce7ccb0a02a9343715bbb8f32194f.camel@infradead.org>
+ <Y0RtkAWh28ALg1oB@xz-m1.local>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-YJ5tQ3/4xiwgP1FndEws"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|IA1PR11MB7270:EE_
-X-MS-Office365-Filtering-Correlation-Id: a8b511e3-9036-4b17-503a-08daab1124ee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: przfpM0M3btrjwKBKAJ9eiWXHXfbli5P5FEe8UJWmU0SGxZO9n8YDE/EXrvmiBabAXUce+tORLz+8D/J3nNdmD5FVHBseYiBeYIm4Yr8J/RSJ+3akxwETIeiAddaqQjXeoxZJBMbe4rp1xJYi3kflk+rsQQt4I+Mfwn0myBwbHVQoFZ5XylYjnT1PvYSfJwTizj7icVLctOrgItgMGpDQAGCUD/VRdafMqPQ4WU7+AY+H0gVK6wgYuOz9BD4vSX4idlmyQT61WcuuPjS0JufRXB9wxdx/Vq8JIm+1aAQvlzJ04XOrYmihO/owXTIyouyO/Lv9osvzN5fgRh+6vP8lv6OAhleLsx8dIj5C6VBgC99lhIjMKl+7skKcitWYu8CdmReK3E0pcJx+FqbJJgJ8aa84DxJJ+shZszCaRIr7fkkGWVQbr4MDPrFlF58sVpEdhxTaLVRymZilE3BNbwBBkvyZ4mIXrXCHlSgNpQmDm7oj2OmosoeywSVc5nCd7bHUiPUbuOsfuz2yj3N3VmWMK9/LE5tY8I/3yU0lOo0CO+emurNuTMSaBFQbSFJcvmYzp9hvmy3X+quFOfjuqJsFVD5P7s98LGBUB4WDa4G0IJzKcn/7HqduW/C5P1pdOparHqN+wzUbJvIFM8NYctqPaDMUrNXvpKoKsHs34aO6bgjE1TopSkE92kGNANu3IjT726ftvynvz5AroyKq0b0kemgEJMw1UJ5aMwAlhuuw8brByhRVJ1otUywbSPtc40nKFEw21Caf3dOLE3l1EgsRW7rY3TfI0mPhfDpwDzt6RNaeuRQe3rh+u5xbr94NCKeITtjVV9lsDXrPTXpkQOgjQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(7916004)(366004)(396003)(346002)(136003)(39860400002)(376002)(451199015)(5660300002)(8936002)(6666004)(26005)(6512007)(9686003)(6506007)(2906002)(186003)(44832011)(316002)(33716001)(83380400001)(110136005)(41300700001)(478600001)(966005)(86362001)(66556008)(66476007)(4326008)(8676002)(66946007)(6486002)(38100700002)(82960400001)(67856001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YLxlecVqHjH1Q60HXCZNvShcD4XwN5eqsuikY65K5hfmZgHlEB348v73NOjE?=
- =?us-ascii?Q?VsE31nhOrOMe54V4Qjh7SotsBxu7YMRDpudZjuMFqhqyjg+Kn/KyWeYOVn8G?=
- =?us-ascii?Q?opA46TeWNk9p3C4t1mp9UkZ8dCIE8ucXNT6RJxx0gBzBWbdrhixgEM4NZOcu?=
- =?us-ascii?Q?DAZYFLXxUQI8+UfhLwG4jaX3hCUTnjkn7SK6jdE6aDZIDxzS8ZMe/MqjfF1g?=
- =?us-ascii?Q?HNkhR8WFo6njc3tZTrgXy0DduLV7KF++yNfMPXavXT1M8WYUp7LXz90ied47?=
- =?us-ascii?Q?TmXNB0xEPXnRf/jnyHY1/rw2obrA8M8CYY0igWRhbgcxjIamw2xqXcKf564T?=
- =?us-ascii?Q?Tgx+Lt20t6UaYf6Y1aYMNGpv97pPYH2CPzZyksiSeqEs59Zv6Nr4dYfq1civ?=
- =?us-ascii?Q?lnetbFsGo8xg+XjvIeqzr/shXinCVH7LhwaD24AZyOHCxNnLQ7uLR9WZuOJa?=
- =?us-ascii?Q?v/TxNDeZPx7dsEfGr3pmWegb2flVALTH/QZmoMto/ss9+tNvh59lTgLzZzmg?=
- =?us-ascii?Q?C7G+OokM2cWUg8cWNRoJ2gspGSQJJ2S053uW7rKRvF5HLVkjX1WY5GMtCu65?=
- =?us-ascii?Q?z//1JqOHA/dskskRRkd1Z4QobWxC6UQaYxC+SWOJlLaYO0R8HPM4YejCF8+/?=
- =?us-ascii?Q?RJWeAspQRXXkmyiiUT1PLCG1/if3zmKD3DmBReWfPslAfQTAv35W1QaoT2T5?=
- =?us-ascii?Q?zD/zt7pH8MZwMSVakZjkSbmE6dU+epdf8euPH3UmrX1rWHVeAuRrfdcUeG34?=
- =?us-ascii?Q?EwLu1Obz4QElFvUBgd9lvPQICXk51y23POQVTJFE62q5zxkbzESmYUKtP5kq?=
- =?us-ascii?Q?BZJYq5IWBx172Flx6pfgoiRChf5JbELIEedW6hSQQJN0AhzTjbC+IgO/mkrV?=
- =?us-ascii?Q?wZUTWregFaXXkWt5T9yjSQu8NgKf+0DDAbMBB2dLtrH+oHcdbTO5kSI+BBfz?=
- =?us-ascii?Q?6dR/PzWPARol65v0END3JYTRe6kfpnB0Vqek9DW+y1BBZ7dcxZt3HOaZadFM?=
- =?us-ascii?Q?Mwt08sbF6GQ/fMMJJgl4fGM0NBO5rCwzsDWA34URKmE7kS9Y4nQmCZXE8bPg?=
- =?us-ascii?Q?vY0dLUtKmFOS2UbV0GRi0pZ1L07I3/gYTf3DnmYD075RK2QSueT2mzzXFOLf?=
- =?us-ascii?Q?j8mrFk8wIHwNlYArDhsaiQYguqpQe4OqLQj9wJ3SzbiiZKisnqc88BmaqoP7?=
- =?us-ascii?Q?NLcL0YNU9lhgELZDNod9bR1Ned0gtycbEcI9BekojRlrfWf1g+ammpVyoXc8?=
- =?us-ascii?Q?a2DuSOm3pR0F5F9OjVxQmAz0BpHTBmmrVd0I9pTIgHAT8Wdzr5E0txVKwdCF?=
- =?us-ascii?Q?2cxQtk052MmArCDrKgGFKhV0+EuNG5rMn9lRCipx3nAQQNNlca9kbz3+fExs?=
- =?us-ascii?Q?SWzbwZ8lG6tMRce7Lnbf8hMpqndCOTNr8VWbDKMmlxClO1toK0REH/NYeQOX?=
- =?us-ascii?Q?NyHWQ46VmhL7gPRUbbARopgSZVuUhpipSN9L6Df47kp5TfwOAEv+35abV+uY?=
- =?us-ascii?Q?c0KODThdKLEQLig7BWzt1f82wrrLnYkri5wIVKAqCsdyjLakOExItyDHJwEF?=
- =?us-ascii?Q?mRfTl9JLmYEZ9DixfgQYgzup9few9cPaUg3DXSSv?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8b511e3-9036-4b17-503a-08daab1124ee
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2022 22:45:34.9987 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nFcDhN5nKSOZrFY4o4VesDz4KEJzdTK5Z6gtMku7AeyrtWv335CMsMGBpfOyezg2mLxq4kUif4oGWhcJUBaZdg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7270
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=ira.weiny@intel.com;
- helo=mga05.intel.com
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+df8904472a2a380df65b+6987+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -162,84 +83,225 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 10, 2022 at 03:29:38PM -0700, Ira wrote:
-> From: Ira Weiny <ira.weiny@intel.com>
-> 
-> CXL Event records inform the OS of various CXL device events.  Thus far CXL
-> memory devices are emulated and therefore don't naturally have events which
-> will occur.
-> 
-> Add mock events and a HMP trigger mechanism to facilitate guest OS testing of
-> event support.
-> 
-> This support requires a follow on version of the event patch set.  The RFC was
-> submitted and discussed here:
-> 
-> 	https://lore.kernel.org/linux-cxl/20220813053243.757363-1-ira.weiny@intel.com/
-> 
-> I'll post the lore link to the new version shortly.
 
-Kernel support now posted here:
+--=-YJ5tQ3/4xiwgP1FndEws
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-	https://lore.kernel.org/all/20221010224131.1866246-1-ira.weiny@intel.com/
+On Mon, 2022-10-10 at 15:08 -0400, Peter Xu wrote:
+> On Mon, Oct 10, 2022 at 10:39:52AM -0700, David Woodhouse wrote:
+> > On Mon, 2022-10-10 at 13:30 -0400, Michael S. Tsirkin wrote:
+> > > From: Peter Xu <
+> > > peterx@redhat.com
+> > >=20
+> > >=20
+> > > It's true that when vcpus<=3D255 we don't require the length of 32bit=
+ APIC
+> > > IDs.  However here since we already have EIM=3DON it means the hyperv=
+isor
+> > > will declare the VM as x2apic supported (e.g. VT-d ECAP register will=
+ have
+> > > EIM bit 4 set), so the guest should assume the APIC IDs are 32bits wi=
+dth
+> > > even if vcpus<=3D255.  In short, commit 77250171bdc breaks any simple=
+ cmdline
+> > > that wants to boot a VM with >=3D9 but <=3D255 vcpus with:
+> >=20
+> > I find that paragraph really hard to parse. What does it even mean that
+> > "guest should assume the APIC IDs are 32bits"?=20
+>=20
+> Quotting EIM definition:
+>=20
+>  0: On Intel=C2=AE 64 platforms, hardware supports only 8-bit APIC-IDs (x=
+APIC
+>     Mode).
+>=20
+>  1: On Intel=C2=AE 64 platforms, hardware supports 32-bit APIC- IDs (x2AP=
+IC
+>     mode).  Hardware implementation reporting Interrupt Remapping support
+>     (IR) field as Clear also report this field as Clear.
+>=20
+> I hope the statement was matching the spec.  Please let me know if you ha=
+ve
+> better way to reword it.
 
-Ira
+It needs to mention logical mode addressing. Because that, I presume,
+is why it broke only when you had more than 8 vCPUs. Because that's
+when the *logical* destination ID grew past 0xFF.
 
-> 
-> Instructions for running this test.
-> 
-> Add qmp option to qemu:
-> 
-> 	<host> $ qemu-system-x86_64 ... -qmp unix:/tmp/run_qemu_qmp_0,server,nowait ...
-> 
-> 	OR
-> 
-> 	<host> $ run_qemu.sh ... --qmp ...
-> 
-> Enable tracing of events within the guest:
-> 
-> 	<guest> $ echo "" > /sys/kernel/tracing/trace
-> 	<guest> $ echo 1 > /sys/kernel/tracing/events/cxl/enable
-> 	<guest> $ echo 1 > /sys/kernel/tracing/tracing_on
-> 
-> Trigger event generation and interrupts in the host:
-> 
-> 	<host> $ echo "cxl_event_inject cxl-devX" | qmp-shell -H /tmp/run_qemu_qmp_0
-> 
-> 	Where X == one of the memory devices; cxl-dev0 should work.
-> 
-> View events on the guest:
-> 
-> 	<guest> $ cat /sys/kernel/tracing/trace
-> 
-> 
-> Ira Weiny (6):
->   qemu/bswap: Add const_le64()
->   qemu/uuid: Add UUID static initializer
->   hw/cxl/cxl-events: Add CXL mock events
->   hw/cxl/mailbox: Wire up get/clear event mailbox commands
->   hw/cxl/cxl-events: Add event interrupt support
->   hw/cxl/mailbox: Wire up Get/Set Event Interrupt policy
-> 
->  hmp-commands.hx             |  14 ++
->  hw/cxl/cxl-device-utils.c   |   1 +
->  hw/cxl/cxl-events.c         | 330 ++++++++++++++++++++++++++++++++++++
->  hw/cxl/cxl-host-stubs.c     |   5 +
->  hw/cxl/cxl-mailbox-utils.c  | 224 +++++++++++++++++++++---
->  hw/cxl/meson.build          |   1 +
->  hw/mem/cxl_type3.c          |   7 +-
->  include/hw/cxl/cxl_device.h |  22 +++
->  include/hw/cxl/cxl_events.h | 194 +++++++++++++++++++++
->  include/qemu/bswap.h        |  10 ++
->  include/qemu/uuid.h         |  12 ++
->  include/sysemu/sysemu.h     |   3 +
->  12 files changed, 802 insertions(+), 21 deletions(-)
->  create mode 100644 hw/cxl/cxl-events.c
->  create mode 100644 include/hw/cxl/cxl_events.h
-> 
-> 
-> base-commit: 6f7f81898e4437ea544ee4ca24bef7ec543b1f06
-> -- 
-> 2.37.2
-> 
+> > In practice, all the EIM bit does is *allow* 32 bits of APIC ID in the
+> > tables. Which is perfectly fine if there are only 254 CPUs anyway, and
+> > we never need to use a higher value.
+> >=20
+> > I *think* the actual problem here is when logical addressing is used,
+> > which puts the APIC cluster ID into higher bits? But it's kind of weird
+> > that the message doesn't mention that at all?
+>=20
+> The commit message actually doesn't even need to contain a lot of
+> information in this case, IMO.
+
+Well, it would be kind of useful if it said what the actual problem
+was, no?
+
+> Literally it can be seen as a revert of a commit which breaks guest with
+> > 8vcpu from boot.  I kept the other lines because that still make sense,=
+ or
+>=20
+> it can be a full revert with "something broke with commit xxx, revert it =
+to
+> fix" and anything else could be reworked.  AFAICT that's how it normally
+> works with QEMU or Linux.
+>=20
+> I am not 100% familiar with the original purpose of the patch, would
+> eim=3Doff work for you even after patch applied?  Anything severely wrong
+> with this patch?
+
+I think the patch itself is fine; I'd just like the commit message to
+be clearer about what the problem was.
+
+> > That's fixable by just setting the X2APIC_PHYSICAL bit in the ACPI
+> > FADT, isn't it? Then the only values that a guest may put into those
+> > fields =E2=80=94 32-bit fields or not =E2=80=94 are lower than 0xff any=
+way.
+>=20
+> It's still not clear to me why we need to make it inconsistent between th=
+e
+> EIM we declare to the guest and the KVM behavior on understanding EIM bit=
+.
+> Even if enforced physical mode will work we loose the possibility of
+> cluster mode, and I also don't see what's the major benefit since EIM=3Do=
+ff
+> will just work, afaiu, meanwhile make everything aligned.
+
+Yeah, I think turning EIM off is absolutely fine.
+
+> Are you fine if we proceed with this pull request first and revisit later=
+?
+> Follow up patches will always be fine, and we're unbreaking something.  I
+> have copied you since the 1st patch I posted and the small patch was ther=
+e
+> for weeks, it'll be appreciated if either you could comment earlier next
+> time, or even propose a better fix then we can discuss what's the best wa=
+y
+> to fix.  Thanks.
+
+Yeah, sorry for the delay. But that was partly because the commit
+message was confusing me and it took me a while to work out what was
+actually going on... which is really all I'm heckling now.
+
+
+--=-YJ5tQ3/4xiwgP1FndEws
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMDEwMjMxNjMzWjAvBgkqhkiG9w0BCQQxIgQgtlA8zlr9
+djgQhVbxba0/y8nsRfOXLDIxPFzctUtgrdQwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBp/1W+2AAYA+AqXaeA0WecfVPmYL6GNOZo
+8D7dbwGKTx4V3fqndLFqQorEcOr0ie7ioBzj133w/sbxWgs1De6TlqpL2G8nGeQju5MwxyIcKCem
+WoJ5RF6iXrvCkvJwlDYKn3iDX3rnYzzOkfoYCYUPOub5o/PsmBpJ/C27KNFTN+HodmQp8tKx57U4
+DuwGDuyiFcj0rPKPAHpbruOwmWbY9KCbiwc32rtxNxFtkQR1yT2KA2ShMEN07+6gufRacB7blF83
+dEsXUx0kzLbM3M1tgGCbSz6aYU5W1vJaVACRvM4ip63kwzjZ9brAs8Zv3hWzRjIquJZEU15yZZkm
+jxISh0aumg99Y7G4sl3CfoJSkqdvAXVG3ZovqWY/dSaWp8XVnRM5Gb3y2XRyweRhKlUT00dpaQhH
+i6HP6zZDhYGEAhjqwRagc8CWWmz6mZzhtpETu0abxRh6e4ClqJODzgTJ5H4mCibgvUaSQjInnLaa
+GdSXpkc33RhRz10BAqeheTViOsq9wM1c2/B3s/kMctvKPUYQ4LvsbhRleBtArLsCHO5Ffj8S+9mf
+u/QWVLlpW6XJ0DQH8JTnqfp01BxnMD3WLAL9XLyPAri5zG3fqhTpphnIuegh+yrlqK8wGCDdLqEq
+mVJ6maWT5JDT1f53aurwXDrah0NZBixZBNmbHrsiWAAAAAAAAA==
+
+
+--=-YJ5tQ3/4xiwgP1FndEws--
+
 
