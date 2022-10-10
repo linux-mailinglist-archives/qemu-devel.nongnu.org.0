@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308A75FA7D4
+	by mail.lfdr.de (Postfix) with ESMTPS id 7328E5FA7D5
 	for <lists+qemu-devel@lfdr.de>; Tue, 11 Oct 2022 00:48:54 +0200 (CEST)
-Received: from localhost ([::1]:34128 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:58252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oi1Zt-0004ai-99
+	id 1oi1Zt-0004Zi-8k
 	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 18:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49332)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1oi1I9-0005wr-8S
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:34 -0400
-Received: from mga02.intel.com ([134.134.136.20]:24675)
+ id 1oi1IB-0005z1-EW
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:36 -0400
+Received: from mga02.intel.com ([134.134.136.20]:24672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1oi1I7-0005Dj-AV
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:33 -0400
+ id 1oi1I9-0005CM-2n
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 18:30:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1665441031; x=1696977031;
+ t=1665441033; x=1696977033;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=oFuJH3V9v+i1P+Dh0Wc+EVn5PyOw5woJfSZ6SrKW7v0=;
- b=VCfw2yuP9M1hX+OBPP6Nro73m5dV3v/0h++2u2sJAT5KgW/XM+cSE8Po
- bYKXQo2njBrpHPFK1AQNFXkmiKwHS9rEPZh9xKb8nr1vZlpb2YyKNoRPv
- kyrBCcPi7IbM2qR/aySfR87e/7rqwjHTUEdJjq6FgjsEyV6nIlKccLw2N
- ZzVT0uqaApbmq68WIwPaUyAaKfusknOmCypBVFgdZjdQg8FlwfXiUxam4
- acSY3fUXrCW5Hh6a6BD860GIX+yBSVAoeN5QNmzq2QUWj1KqATIYxB0xl
- Z/iRrylrnuJpiRCOZxrq7HDwbRYXXJZtvLrQ8S0Z3rOiHE+4z3AA6pPT6 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="291661250"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="291661250"
+ bh=FYIhp/lfplx+aqHt/7Dq3xswYQzfhxppIKNEfK/6qE8=;
+ b=cBAk8IYvSfbVJrByFnM2hCVot4U8zKELZDW/IwoeZrMyv8MALHAJnpQI
+ 30tvGuyB0Ue0labYsqRwLfcJzt0PtW+++Llp3ha7H5pxW4EggudBb6HFG
+ kQEIfqBWZo+qPWUIXgnUd6I7p5Yr49KQqHdxG2DGxU0NgJmib7h5lyNBu
+ OGiShVgSE5PPDlUkC2GTObwFTxuaPIGvqMW50H49raU52FYsGToNee0dF
+ ATzZXg+DFESnC1GNOP79T+8q9bTc9gYucIdQv80Shh51By0JiO7xh5lZk
+ beqh8p7dUff8ArXrOCJ5A1UTrSJ2oZg/vOBwOujsWwtcaUOeG91Svz/sE g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="291661253"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="291661253"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 15:30:21 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="628457013"
-X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="628457013"
+ 10 Oct 2022 15:30:22 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10496"; a="628457026"
+X-IronPort-AV: E=Sophos;i="5.95,173,1661842800"; d="scan'208";a="628457026"
 Received: from iweiny-mobl.amr.corp.intel.com (HELO localhost) ([10.212.104.4])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Oct 2022 15:30:21 -0700
+ 10 Oct 2022 15:30:22 -0700
 From: ira.weiny@intel.com
 To: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Cc: Ira Weiny <ira.weiny@intel.com>, qemu-devel@nongnu.org,
  linux-cxl@vger.kernel.org
-Subject: [RFC PATCH 5/6] hw/cxl/cxl-events: Add event interrupt support
-Date: Mon, 10 Oct 2022 15:29:43 -0700
-Message-Id: <20221010222944.3923556-6-ira.weiny@intel.com>
+Subject: [RFC PATCH 6/6] hw/cxl/mailbox: Wire up Get/Set Event Interrupt policy
+Date: Mon, 10 Oct 2022 15:29:44 -0700
+Message-Id: <20221010222944.3923556-7-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20221010222944.3923556-1-ira.weiny@intel.com>
 References: <20221010222944.3923556-1-ira.weiny@intel.com>
@@ -81,225 +81,201 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-To facilitate testing of event interrupt support add a QMP HMP command
-to reset the event logs and issue interrupts when the guest has enabled
-those interrupts.
+Replace the stubbed out CXL Get/Set Event interrupt policy mailbox
+commands.  Enable those commands to control interrupts for each of the
+event log types.
 
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 ---
- hmp-commands.hx             | 14 +++++++
- hw/cxl/cxl-events.c         | 82 +++++++++++++++++++++++++++++++++++++
- hw/cxl/cxl-host-stubs.c     |  5 +++
- hw/mem/cxl_type3.c          |  7 +++-
- include/hw/cxl/cxl_device.h |  3 ++
- include/sysemu/sysemu.h     |  3 ++
- 6 files changed, 113 insertions(+), 1 deletion(-)
+ hw/cxl/cxl-mailbox-utils.c  | 129 ++++++++++++++++++++++++++++++------
+ include/hw/cxl/cxl_events.h |  21 ++++++
+ 2 files changed, 129 insertions(+), 21 deletions(-)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 564f1de364df..c59a98097317 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1266,6 +1266,20 @@ SRST
-   Inject PCIe AER error
- ERST
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index df345f23a30c..52e8804c24ed 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -101,25 +101,6 @@ struct cxl_cmd {
+     uint8_t *payload;
+ };
  
-+    {
-+        .name       = "cxl_event_inject",
-+        .args_type  = "id:s",
-+        .params     = "id <error_status>",
-+        .help       = "inject cxl events and interrupt\n\t\t\t"
-+                      "<id> = qdev device id\n\t\t\t",
-+        .cmd        = hmp_cxl_event_inject,
-+    },
-+
-+SRST
-+``cxl_event_inject``
-+  Inject CXL Events
-+ERST
-+
-     {
-         .name       = "netdev_add",
-         .args_type  = "netdev:O",
-diff --git a/hw/cxl/cxl-events.c b/hw/cxl/cxl-events.c
-index c275280bcb64..6ece6f252462 100644
---- a/hw/cxl/cxl-events.c
-+++ b/hw/cxl/cxl-events.c
-@@ -10,8 +10,14 @@
- #include <stdint.h>
- 
- #include "qemu/osdep.h"
-+#include "sysemu/sysemu.h"
-+#include "monitor/monitor.h"
- #include "qemu/bswap.h"
- #include "qemu/typedefs.h"
-+#include "qapi/qmp/qdict.h"
-+#include "hw/pci/pci.h"
-+#include "hw/pci/msi.h"
-+#include "hw/pci/msix.h"
- #include "hw/cxl/cxl.h"
- #include "hw/cxl/cxl_events.h"
- 
-@@ -68,6 +74,11 @@ uint16_t log_overflow(struct cxl_event_log *log)
-     return cnt;
+-#define DEFINE_MAILBOX_HANDLER_ZEROED(name, size)                         \
+-    uint16_t __zero##name = size;                                         \
+-    static ret_code cmd_##name(struct cxl_cmd *cmd,                       \
+-                               CXLDeviceState *cxl_dstate, uint16_t *len) \
+-    {                                                                     \
+-        *len = __zero##name;                                              \
+-        memset(cmd->payload, 0, *len);                                    \
+-        return CXL_MBOX_SUCCESS;                                          \
+-    }
+-#define DEFINE_MAILBOX_HANDLER_NOP(name)                                  \
+-    static ret_code cmd_##name(struct cxl_cmd *cmd,                       \
+-                               CXLDeviceState *cxl_dstate, uint16_t *len) \
+-    {                                                                     \
+-        return CXL_MBOX_SUCCESS;                                          \
+-    }
+-
+-DEFINE_MAILBOX_HANDLER_ZEROED(events_get_interrupt_policy, 4);
+-DEFINE_MAILBOX_HANDLER_NOP(events_set_interrupt_policy);
+-
+ static ret_code cmd_events_get_records(struct cxl_cmd *cmd,
+                                        CXLDeviceState *cxlds,
+                                        uint16_t *len)
+@@ -218,6 +199,110 @@ static ret_code cmd_events_clear_records(struct cxl_cmd *cmd,
+     return CXL_MBOX_SUCCESS;
  }
  
-+static void reset_log(struct cxl_event_log *log)
++static ret_code cmd_events_get_interrupt_policy(struct cxl_cmd *cmd,
++                                                CXLDeviceState *cxl_dstate,
++                                                uint16_t *len)
 +{
-+    log->cur_event = 0;
-+}
++    struct cxl_event_interrupt_policy *policy;
++    struct cxl_event_log *log;
 +
- #define CXL_EVENT_RECORD_FLAG_PERMANENT         BIT(2)
- #define CXL_EVENT_RECORD_FLAG_MAINT_NEEDED      BIT(3)
- #define CXL_EVENT_RECORD_FLAG_PERF_DEGRADED     BIT(4)
-@@ -246,3 +257,74 @@ void cxl_mock_add_event_logs(CXLDeviceState *cxlds)
-     event_store_add_event(cxlds, CXL_EVENT_TYPE_FATAL,
-                           (struct cxl_event_record_raw *)&dram);
- }
++    policy = (struct cxl_event_interrupt_policy *)cmd->payload;
++    memset(policy, 0, sizeof(*policy));
 +
-+static void cxl_reset_all_logs(CXLDeviceState *cxlds)
-+{
-+    int i;
-+
-+    for (i = 0; i < CXL_EVENT_TYPE_MAX; i++) {
-+        struct cxl_event_log *log = find_event_log(cxlds, i);
-+
-+        if (!log) {
-+            continue;
-+        }
-+
-+        reset_log(log);
-+    }
-+}
-+
-+static void cxl_event_irq_assert(PCIDevice *pdev)
-+{
-+    CXLType3Dev *ct3d = container_of(pdev, struct CXLType3Dev, parent_obj);
-+    CXLDeviceState *cxlds = &ct3d->cxl_dstate;
-+    int i;
-+
-+    for (i = 0; i < CXL_EVENT_TYPE_MAX; i++) {
-+        struct cxl_event_log *log;
-+
-+        log = find_event_log(cxlds, i);
-+        if (!log || !log->irq_enabled || log_empty(log)) {
-+            continue;
-+        }
-+
-+        /* Notifies interrupt, legacy IRQ is not supported */
-+        if (msix_enabled(pdev)) {
-+            msix_notify(pdev, log->irq_vec);
-+        } else if (msi_enabled(pdev)) {
-+            msi_notify(pdev, log->irq_vec);
-+        }
-+    }
-+}
-+
-+static int do_cxl_event_inject(Monitor *mon, const QDict *qdict)
-+{
-+    const char *id = qdict_get_str(qdict, "id");
-+    CXLType3Dev *ct3d;
-+    PCIDevice *pdev;
-+    int ret;
-+
-+    ret = pci_qdev_find_device(id, &pdev);
-+    if (ret < 0) {
-+        monitor_printf(mon,
-+                       "id or cxl device path is invalid or device not "
-+                       "found. %s\n", id);
-+        return ret;
++    log = find_event_log(cxl_dstate, CXL_EVENT_TYPE_INFO);
++    if (log->irq_enabled) {
++        policy->info_settings = CXL_EVENT_INT_SETTING(log->irq_vec);
 +    }
 +
-+    ct3d = container_of(pdev, struct CXLType3Dev, parent_obj);
-+    cxl_reset_all_logs(&ct3d->cxl_dstate);
-+
-+    cxl_event_irq_assert(pdev);
-+    return 0;
-+}
-+
-+void hmp_cxl_event_inject(Monitor *mon, const QDict *qdict)
-+{
-+    const char *id = qdict_get_str(qdict, "id");
-+
-+    if (do_cxl_event_inject(mon, qdict) < 0) {
-+        return;
++    log = find_event_log(cxl_dstate, CXL_EVENT_TYPE_WARN);
++    if (log->irq_enabled) {
++        policy->warn_settings = CXL_EVENT_INT_SETTING(log->irq_vec);
 +    }
 +
-+    monitor_printf(mon, "OK id: %s\n", id);
++    log = find_event_log(cxl_dstate, CXL_EVENT_TYPE_FAIL);
++    if (log->irq_enabled) {
++        policy->failure_settings = CXL_EVENT_INT_SETTING(log->irq_vec);
++    }
++
++    log = find_event_log(cxl_dstate, CXL_EVENT_TYPE_FATAL);
++    if (log->irq_enabled) {
++        policy->fatal_settings = CXL_EVENT_INT_SETTING(log->irq_vec);
++    }
++
++    log = find_event_log(cxl_dstate, CXL_EVENT_TYPE_DYNAMIC_CAP);
++    if (log->irq_enabled) {
++        /* Dynamic Capacity borrows the same vector as info */
++        policy->dyn_cap_settings = CXL_INT_MSI_MSIX;
++    }
++
++    *len = sizeof(*policy);
++    return CXL_MBOX_SUCCESS;
 +}
-diff --git a/hw/cxl/cxl-host-stubs.c b/hw/cxl/cxl-host-stubs.c
-index cae4afcdde26..61039263f25a 100644
---- a/hw/cxl/cxl-host-stubs.c
-+++ b/hw/cxl/cxl-host-stubs.c
-@@ -12,4 +12,9 @@ void cxl_fmws_link_targets(CXLState *stat, Error **errp) {};
- void cxl_machine_init(Object *obj, CXLState *state) {};
- void cxl_hook_up_pxb_registers(PCIBus *bus, CXLState *state, Error **errp) {};
- 
-+void hmp_cxl_event_inject(Monitor *mon, const QDict *qdict)
++
++static ret_code cmd_events_set_interrupt_policy(struct cxl_cmd *cmd,
++                                                CXLDeviceState *cxl_dstate,
++                                                uint16_t *len)
 +{
-+    monitor_printf(mon, "CXL devices not supported\n");
++    struct cxl_event_interrupt_policy *policy;
++    struct cxl_event_log *log;
++
++    policy = (struct cxl_event_interrupt_policy *)cmd->payload;
++
++    log = find_event_log(cxl_dstate, CXL_EVENT_TYPE_INFO);
++    if ((policy->info_settings & CXL_EVENT_INT_MODE_MASK) ==
++                                                    CXL_INT_MSI_MSIX) {
++        log->irq_enabled = true;
++        log->irq_vec = cxl_dstate->event_vector[CXL_EVENT_TYPE_INFO];
++    } else {
++        log->irq_enabled = false;
++        log->irq_vec = 0;
++    }
++
++    log = find_event_log(cxl_dstate, CXL_EVENT_TYPE_WARN);
++    if ((policy->warn_settings & CXL_EVENT_INT_MODE_MASK) ==
++                                                    CXL_INT_MSI_MSIX) {
++        log->irq_enabled = true;
++        log->irq_vec = cxl_dstate->event_vector[CXL_EVENT_TYPE_WARN];
++    } else {
++        log->irq_enabled = false;
++        log->irq_vec = 0;
++    }
++
++    log = find_event_log(cxl_dstate, CXL_EVENT_TYPE_FAIL);
++    if ((policy->failure_settings & CXL_EVENT_INT_MODE_MASK) ==
++                                                    CXL_INT_MSI_MSIX) {
++        log->irq_enabled = true;
++        log->irq_vec = cxl_dstate->event_vector[CXL_EVENT_TYPE_FAIL];
++    } else {
++        log->irq_enabled = false;
++        log->irq_vec = 0;
++    }
++
++    log = find_event_log(cxl_dstate, CXL_EVENT_TYPE_FATAL);
++    if ((policy->fatal_settings & CXL_EVENT_INT_MODE_MASK) ==
++                                                    CXL_INT_MSI_MSIX) {
++        log->irq_enabled = true;
++        log->irq_vec = cxl_dstate->event_vector[CXL_EVENT_TYPE_FATAL];
++    } else {
++        log->irq_enabled = false;
++        log->irq_vec = 0;
++    }
++
++    log = find_event_log(cxl_dstate, CXL_EVENT_TYPE_DYNAMIC_CAP);
++    if ((policy->dyn_cap_settings & CXL_EVENT_INT_MODE_MASK) ==
++                                                    CXL_INT_MSI_MSIX) {
++        log->irq_enabled = true;
++        /* Dynamic Capacity borrows the same vector as info */
++        log->irq_vec = cxl_dstate->event_vector[CXL_EVENT_TYPE_INFO];
++    } else {
++        log->irq_enabled = false;
++        log->irq_vec = 0;
++    }
++
++    *len = sizeof(*policy);
++    return CXL_MBOX_SUCCESS;
 +}
 +
- const MemoryRegionOps cfmws_ops;
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 2b13179d116d..b4a90136d190 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -459,7 +459,7 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-     ComponentRegisters *regs = &cxl_cstate->crb;
-     MemoryRegion *mr = &regs->component_registers;
-     uint8_t *pci_conf = pci_dev->config;
--    unsigned short msix_num = 3;
-+    unsigned short msix_num = 7;
-     int i;
+ /* 8.2.9.2.1 */
+ static ret_code cmd_firmware_update_get_info(struct cxl_cmd *cmd,
+                                              CXLDeviceState *cxl_dstate,
+@@ -490,9 +575,11 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
+     [EVENTS][CLEAR_RECORDS] = { "EVENTS_CLEAR_RECORDS",
+         cmd_events_clear_records, 8, IMMEDIATE_LOG_CHANGE },
+     [EVENTS][GET_INTERRUPT_POLICY] = { "EVENTS_GET_INTERRUPT_POLICY",
+-        cmd_events_get_interrupt_policy, 0, 0 },
++                                      cmd_events_get_interrupt_policy, 0, 0 },
+     [EVENTS][SET_INTERRUPT_POLICY] = { "EVENTS_SET_INTERRUPT_POLICY",
+-        cmd_events_set_interrupt_policy, 4, IMMEDIATE_CONFIG_CHANGE },
++                                      cmd_events_set_interrupt_policy,
++                                      sizeof(struct cxl_event_interrupt_policy),
++                                      IMMEDIATE_CONFIG_CHANGE },
+     [FIRMWARE_UPDATE][GET_INFO] = { "FIRMWARE_UPDATE_GET_INFO",
+         cmd_firmware_update_get_info, 0, 0 },
+     [TIMESTAMP][GET] = { "TIMESTAMP_GET", cmd_timestamp_get, 0, 0 },
+diff --git a/include/hw/cxl/cxl_events.h b/include/hw/cxl/cxl_events.h
+index 255111f3dcfb..c121e504a6db 100644
+--- a/include/hw/cxl/cxl_events.h
++++ b/include/hw/cxl/cxl_events.h
+@@ -170,4 +170,25 @@ struct cxl_event_mem_module {
+     uint8_t reserved[CXL_EVENT_MEM_MOD_RES_SIZE];
+ } QEMU_PACKED;
  
-     if (!cxl_setup_memory(ct3d, errp)) {
-@@ -502,6 +502,11 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-         msix_vector_use(pci_dev, i);
-     }
- 
-+    ct3d->cxl_dstate.event_vector[CXL_EVENT_TYPE_INFO] = 6;
-+    ct3d->cxl_dstate.event_vector[CXL_EVENT_TYPE_WARN] = 5;
-+    ct3d->cxl_dstate.event_vector[CXL_EVENT_TYPE_FAIL] = 4;
-+    ct3d->cxl_dstate.event_vector[CXL_EVENT_TYPE_FATAL] = 3;
++/**
++ * Event Interrupt Policy
++ *
++ * CXL rev 3.0 section 8.2.9.2.4; Table 8-52
++ */
++enum cxl_event_int_mode {
++    CXL_INT_NONE     = 0x00,
++    CXL_INT_MSI_MSIX = 0x01,
++    CXL_INT_FW       = 0x02,
++    CXL_INT_RES      = 0x03,
++};
++#define CXL_EVENT_INT_MODE_MASK 0x3
++#define CXL_EVENT_INT_SETTING(vector) ((((uint8_t)vector & 0xf) << 4) | CXL_INT_MSI_MSIX)
++struct cxl_event_interrupt_policy {
++    uint8_t info_settings;
++    uint8_t warn_settings;
++    uint8_t failure_settings;
++    uint8_t fatal_settings;
++    uint8_t dyn_cap_settings;
++} QEMU_PACKED;
 +
-     /* DOE Initailization */
-     if (ct3d->spdm_port) {
-         pcie_doe_init(pci_dev, &ct3d->doe_spdm, 0x160, doe_spdm_prot, true, 2);
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index 46c50c1c13a6..41232d3b3476 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -84,6 +84,8 @@
- #define CXL_TEST_EVENT_CNT_MAX 15
- 
- struct cxl_event_log {
-+    bool irq_enabled;
-+    int irq_vec;
-     int cur_event;
-     int nr_events;
-     struct cxl_event_record_raw *events[CXL_TEST_EVENT_CNT_MAX];
-@@ -129,6 +131,7 @@ typedef struct cxl_device_state {
-     /* memory region for persistent memory, HDM */
-     uint64_t pmem_size;
- 
-+    uint16_t event_vector[CXL_EVENT_TYPE_MAX];
-     struct cxl_event_log event_logs[CXL_EVENT_TYPE_MAX];
- } CXLDeviceState;
- 
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 812f66a31a90..39476cc50190 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -64,6 +64,9 @@ extern unsigned int nb_prom_envs;
- /* pcie aer error injection */
- void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
- 
-+/* CXL */
-+void hmp_cxl_event_inject(Monitor *mon, const QDict *qdict);
-+
- /* serial ports */
- 
- /* Return the Chardev for serial port i, or NULL if none */
+ #endif /* CXL_EVENTS_H */
 -- 
 2.37.2
 
