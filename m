@@ -2,64 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011FE5FA22F
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 18:52:37 +0200 (CEST)
-Received: from localhost ([::1]:46678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78015FA227
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 18:50:40 +0200 (CEST)
+Received: from localhost ([::1]:46046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohw16-0006yE-48
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 12:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49948)
+	id 1ohvzD-0002oi-El
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 12:50:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ohvhz-0003eu-Ay
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 12:32:51 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2715)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ohvhw-0002Kz-M6
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 12:32:50 -0400
-Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MmPZX1t35z682sD;
- Tue, 11 Oct 2022 00:32:04 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.31; Mon, 10 Oct 2022 18:32:43 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 10 Oct
- 2022 17:32:43 +0100
-Date: Mon, 10 Oct 2022 17:32:42 +0100
-To: Gregory Price <gourry.memverge@gmail.com>
-CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>, Alison Schofield
- <alison.schofield@intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
- "a.manzanares@samsung.com" <a.manzanares@samsung.com>, Ben Widawsky
- <bwidawsk@kernel.org>
-Subject: Re: [PATCH RFC] hw/cxl: type 3 devices can now present volatile or
- persistent memory
-Message-ID: <20221010173242.000032a8@huawei.com>
-In-Reply-To: <20221010154343.00007afd@huawei.com>
-References: <20221006000103.49542-1-gregory.price@memverge.com>
- <20221006094557.000035ab@huawei.com>
- <20221006095007.00001271@huawei.com> <Yz75ppPOwYCvNamy@fedora>
- <20221006174214.000059c7@huawei.com> <Yz8QlQ9yLFrWxWsN@fedora>
- <20221010154343.00007afd@huawei.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ohvjo-000545-NE
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 12:34:44 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41821)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1ohvjm-0002bP-2j
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 12:34:43 -0400
+Received: by mail-wr1-x435.google.com with SMTP id bu30so17823382wrb.8
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 09:34:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CMvU8YeL67VXZOBkYqaJVIt3yvyLd13KdIqoDYLD9ng=;
+ b=NtDUrhdCX+lsi+6uM5q4zxLf9gHmpHUBBaojVMqoAObR80YrSIgSlwV73+lJCxOFmB
+ MmUXr1xvle2W06uT8N4zXUhSVEkr5UOn5Kf1WrN77BbVMK8EGejoN8Hr/mefjadMMmqC
+ jCuibJ1/IXxySujNdaycH3aQkgnRa/n789HPq6heWqoxCyEwWzXDP9p+zQ4ym2fKaHvq
+ 1XBkNfg/+Q7vM4qns7x7MiJfk3023LvSsLkXmvk+Yq2h3v1hR8ACEJ4+w9lqMOS9mnIf
+ p0U4IFFRWgA2YO5ICqh/8Yvd3dwKVXPektstDGrF/eYdDjR5nZ7ZJmwGLsGN2f7s24vw
+ KUSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=CMvU8YeL67VXZOBkYqaJVIt3yvyLd13KdIqoDYLD9ng=;
+ b=UFmkqLekM+RQ+Ck4S2+QsymIrUCZ4l3gMvUnhGdp2lGOWXnzG04mSOGSelVy2vmSjQ
+ pCDbTO4YRogeqnNIzhn+vzkyR+NRG+IaQOYCDUAAvyLiYrgjjRe7fV0DlNmeF/Hn3pzc
+ sVNAT/KFU3ZUJzQv3/irk7rlzgy+X3W46nhl0ko4qpkXqEItR/XsV+nSXixxOOf8v3IO
+ L3rTsIN3fB+ZStjiJNZDVw07//cuq5wFOPUfnFvRbs0D2zcpqdV7KB9OhX+w3rVNRHnC
+ mjkrfbtcjeg3HKgENt8RGSwVwkbm7TPh0qmJZeSAx2B+8vvogV4brG1mRltoNOviEHUr
+ jvmQ==
+X-Gm-Message-State: ACrzQf35TE4xl7a2l5REmB7geg0tcu1DVD/stnffGBsrR+1uhybsEgF4
+ 1J4wezHMNJ+vxwj7ZDqVrxVRWQ==
+X-Google-Smtp-Source: AMsMyM7BcmSVPTU/JC7FWBcyjT6OufaHLSpeNPlMc1X9B1dk6tLkuoll8slLvnlD9gAf/+AONkgQcA==
+X-Received: by 2002:a5d:68cb:0:b0:22e:6545:9969 with SMTP id
+ p11-20020a5d68cb000000b0022e65459969mr11740971wrw.666.1665419680244; 
+ Mon, 10 Oct 2022 09:34:40 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ bt7-20020a056000080700b0022e62529888sm9468159wrb.67.2022.10.10.09.34.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Oct 2022 09:34:39 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B2F701FFB7;
+ Mon, 10 Oct 2022 17:34:38 +0100 (BST)
+References: <MW3PR18MB3532CFE7760D160B6F27F1E594209@MW3PR18MB3532.namprd18.prod.outlook.com>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Yedelli Navya <yedelli.navya@axiado.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: Building Qemu Error
+Date: Mon, 10 Oct 2022 17:33:12 +0100
+In-reply-to: <MW3PR18MB3532CFE7760D160B6F27F1E594209@MW3PR18MB3532.namprd18.prod.outlook.com>
+Message-ID: <87r0zfskm9.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,86 +93,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
 
-> > but i'm not sure of what to do with this info.  We have some proof
-> > that real hardware works with this no problem, and the only difference
-> > is that the EFI/bios/firmware is setting the memory regions as `usable`
-> > or `soft reserved`, which would imply the EDK2 is the blocker here
-> > regardless of the OS driver status.
-> > 
-> > But I'd seen elsewhere you had gotten some of this working, and I'm
-> > failing to get anything working at the moment.  If you have any input i
-> > would greatly appreciate the help.
-> > 
-> > QEMU config:
-> > 
-> > /opt/qemu-cxl2/bin/qemu-system-x86_64 \
-> > -drive file=/var/lib/libvirt/images/cxl.qcow2,format=qcow2,index=0,media=d\
-> > -m 2G,slots=4,maxmem=4G \
-> > -smp 4 \
-> > -machine type=q35,accel=kvm,cxl=on \
-> > -enable-kvm \
-> > -nographic \
-> > -device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 \
-> > -device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 \
-> > -object memory-backend-file,id=cxl-mem0,mem-path=/tmp/cxl-mem0,size=256M \
-> > -object memory-backend-file,id=lsa0,mem-path=/tmp/cxl-lsa0,size=256M \
-> > -device cxl-type3,bus=rp0,pmem=true,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 \
-> > -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=256M
-> > 
-> > I'd seen on the lists that you had seen issues with single-rp setups,
-> > but no combination of configuration I've tried (including all the ones
-> > in the docs and tests) lead to a successful region creation with
-> > `cxl create-region`  
-> 
-> Hmm. Let me have a play.  I've not run x86 tests for a while so
-> perhaps something is missing there.
-> 
-> I'm carrying a patch to override check_last_peer() in
-> cxl_port_setup_targets() as that is wrong for some combinations,
-> but that doesn't look like it's related to what you are seeing.
+Yedelli Navya <yedelli.navya@axiado.com> writes:
 
-I'm not sure if it's relevant, but turned out I'd forgotten I'm carrying 3
-patches that aren't upstream (and one is a horrible hack).
+> Hi,
+>
+> I am working on zynq qemu. Downloaded the qemu source from " https://gith=
+ub.com/Xilinx/qemu.git".
+> Followed the compilation steps from
+> "https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/822312999/Building=
++and+Running+QEMU+from+Source+Code"
+> while executing the Make command following error is appeared.
+>
+> *
+>
+> Please provide working sources or any other solutions is highly
+> appriciated.
 
-Hack: https://lore.kernel.org/linux-cxl/20220819094655.000005ed@huawei.com/
-Shouldn't affect a simple case like this...
+You need to contact the downstream repository owners - this mailing list
+is for the upstream qemu project:
 
-https://lore.kernel.org/linux-cxl/20220819093133.00006c22@huawei.com/T/#t
-(Dan's version)
+  https://gitlab.com/qemu-project/qemu/
 
-https://lore.kernel.org/linux-cxl/20220815154044.24733-1-Jonathan.Cameron@huawei.com/T/#t
-
-For writes to work you will currently need two rps (nothing on the second is fine)
-as we still haven't resolved if the kernel should support an HDM decoder on
-a host bridge with one port.  I think it should (Spec allows it), others unconvinced.
-
-Note I haven't shifted over to x86 yet so may still be something different from
-arm64.
-
-Jonathan
-
-
-> 
-> >   
-> > > > 
-> > > > 3) Upstream linux drivers haven't touched ram configurations yet.  I
-> > > > just configured this with Dan Williams yesterday on IRC.  My
-> > > > understanding is that it's been worked on but nothing has been
-> > > > upstreamed, in part because there are only a very small set of devices
-> > > > available to developers at the moment.    
-> > > 
-> > > There was an offer of similar volatile memory QEMU emulation in the
-> > > session on QEMU CXL at Linux Plumbers.  That will look something like you have
-> > > here and maybe reflects that someone has hardware as well...
-> > >     
-> > 
-> > I saw that, and I figured I'd start the conversation by pushing
-> > something :].  
-> 
-> 
-
+--=20
+Alex Benn=C3=A9e
 
