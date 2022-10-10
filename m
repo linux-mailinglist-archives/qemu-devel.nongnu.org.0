@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CA45FA052
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:42:47 +0200 (CEST)
-Received: from localhost ([::1]:44286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A485B5FA05D
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 16:44:04 +0200 (CEST)
+Received: from localhost ([::1]:53092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohtzS-000177-C6
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:42:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52958)
+	id 1ohu0h-0003UM-Cv
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 10:44:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohtkw-0006GE-PN
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:27:46 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38835)
+ id 1ohtl1-0006Nk-8l
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:27:53 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:37779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ohtkv-0005Z2-3X
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:27:46 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- r8-20020a1c4408000000b003c47d5fd475so3428281wma.3
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:27:44 -0700 (PDT)
+ id 1ohtkv-0005ZE-UH
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 10:27:51 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ bi26-20020a05600c3d9a00b003c1e11f54d2so5421096wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 07:27:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=sCOloJHZeHe5fACLnqjx6IG4hS5rmNF8WAFU0jQEu+w=;
- b=auIbe8PW8r8nDIl7SZtwWVk8lk4xuXv1RKsC6JaP+w03HG3hF0xET8qfQQhrMZk7SV
- XV8NOuzYdY+G6oqhlx/6O0/vO4uyP27ZSFviMR5O7TpghjLQIvLOEqJ/V/hGZwtxNoWw
- 80Xceu8E6GlzDKPrDquW9fLdvliC2eof6zixDDyk4OcY32fHK0NuqB1/UqHnKagueLVe
- v8ph497s7LKRC7fDu/49nZz3T1XElxfqPi7c9sCFliNmpUeQJbubAHKQ1N3j0x2ubGJx
- 72xicsgzKXuoTCvdhPJlF8BVlZMY9gpHuxskGsAydB4umCz7OjykxtWaOAo4Ri0v1U/r
- xMFg==
+ :reply-to; bh=7cxLu4UXCoYBUifAO+tW7g0KPLs2vmro0DH/gpL87Mc=;
+ b=wo4GKH7wBkW6zy0LLxJyaIJE5iTs1NiQkWiQG/3GVz8VrKIThEtcBZM8MoKmuVCx0Z
+ UAX94RJs7xS7DkqL94G7Y9NkfudGBF/zX+zow/59huOzqy8BvyRIi2i0PnaqLZmC017/
+ Yb3v5QndEtIDsnnG5FRR7CUvs8sYcTfm1y5+zcTI1sH15LP3vd9BZM4+dCq5M8N23B/j
+ lq9W4pKzHZrLud+4AcJ0vXKoFc/i9mjNlEB2air5p+KNk+8glAhNwYF9ynpX+SkK9fKE
+ snw0Bnu1/U6ZcYh71FgJ8NCjOu4PJzHEFq95tWgwX70nBOAxF6+gd9YrldDPT/RU43eY
+ 4sFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sCOloJHZeHe5fACLnqjx6IG4hS5rmNF8WAFU0jQEu+w=;
- b=ZuI43QjafZj9zxqKauiSeSYthqx0Ju4Xw28Xm3csJH9xrbedpt+lYU7Deqnm5wvqrh
- JXGz6gCspQPRAQ0Xf0xS0xzqsH48rNPPlJX7i5v6tWyTbaj5X9WVA4U5EIFij8zZG0Qq
- poYtgs/ahyNqaeb6zUvspxEkrDSO0Ku5iVwphYJWMqeX0HXJh5Mc3hZvtPOUHPWwE5Nr
- Rbiv+54mtO6dKxqC3H8zmI8sf/Ff0DsWGnGmwyNIHGBBpoi91VYDK2BVtvTTMvwTpapq
- uCu1542Pdqw7S4cxA6HEfXHWgyUbpO+z1pBdqaRigElri/Pa6WD1M5oHAiXY6UmYANUy
- DZrw==
-X-Gm-Message-State: ACrzQf34Q1tqM+Pp3ShMt6bHQrWtP/9KjTEUOFB2cJrbqFl6617Mf56P
- b0kW7JE/jF3ZS7mb4PU/rnKodPVS6LtMew==
-X-Google-Smtp-Source: AMsMyM67zG2IX4jptFXnZfPr5Xc6KY3FCPsjiq6H9mlyjuhN59DmFHT0apE7f1B/YRRxiA/6McjTAQ==
-X-Received: by 2002:a7b:c5c2:0:b0:3c4:fd96:fb68 with SMTP id
- n2-20020a7bc5c2000000b003c4fd96fb68mr7556742wmk.36.1665412063194; 
- Mon, 10 Oct 2022 07:27:43 -0700 (PDT)
+ bh=7cxLu4UXCoYBUifAO+tW7g0KPLs2vmro0DH/gpL87Mc=;
+ b=M2t49csZqWEerzf6+U22G9XT2rzAiS719DMgcvMqrtgcoJsDqMKTwZRDwJD6vB47gD
+ k1+hB9eB4H3QM2a7esbwd1AYZ0HH9rNhmpRbCs5B31Pb8F/xCiLQh2N6k5BiAjjCLxgp
+ 5MdoeQtnu7e+b54kUsHfZ3zS4YZu5caO9wWn9xBBNcG7Flpn/CzNpwp8JKiiIcFPm8nr
+ dhx9h5W0eth+SODD3E2lSYK7Frf0vhv/Vdr5QvR150kgh63g3vxn7i+tAL09FdoxVGDt
+ 1znGWOjEu0uuIWfKjultd3piLN3KnNf56HIOhZwwV3euFG/JVZSiU/MqXDy0N/8SVSBt
+ hFEg==
+X-Gm-Message-State: ACrzQf3NApplZgKuwCUwjEH4+PLxr5evfMcUNTPc/tNqQB01c++axtd8
+ x+gwmADmP+eu07YaQ676ScjExRriUIEFYw==
+X-Google-Smtp-Source: AMsMyM7g5T3Fb6GVUWfoBX18AVk0J9lMI5kqg9Af45dHxoAWwqk6HpBSOZuDmkjQLa36G5e2FJ3Esg==
+X-Received: by 2002:a05:600c:1c16:b0:3c6:bb05:702c with SMTP id
+ j22-20020a05600c1c1600b003c6bb05702cmr2519110wms.203.1665412064363; 
+ Mon, 10 Oct 2022 07:27:44 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- u6-20020adfed46000000b0022e04bfa661sm9037054wro.59.2022.10.10.07.27.42
+ u6-20020adfed46000000b0022e04bfa661sm9037054wro.59.2022.10.10.07.27.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 07:27:42 -0700 (PDT)
+ Mon, 10 Oct 2022 07:27:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/28] target/arm: Add is_secure parameter to v7m_read_half_insn
-Date: Mon, 10 Oct 2022 15:27:12 +0100
-Message-Id: <20221010142730.502083-11-peter.maydell@linaro.org>
+Subject: [PULL 11/28] target/arm: Add TBFLAG_M32.SECURE
+Date: Mon, 10 Oct 2022 15:27:13 +0100
+Message-Id: <20221010142730.502083-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221010142730.502083-1-peter.maydell@linaro.org>
 References: <20221010142730.502083-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,64 +92,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Remove the use of regime_is_secure from v7m_read_half_insn, using
-the new parameter instead.
-
-As it happens, both callers pass true, propagated from the argument
-to arm_v7m_mmu_idx_for_secstate which created the mmu_idx argument,
-but that is a detail of v7m_handle_execute_nsc we need not expose
-to the callee.
+Remove the use of regime_is_secure from arm_tr_init_disas_context.
+Instead, provide the value of v8m_secure directly from tb_flags.
+Rather than use regime_is_secure, use the env->v7m.secure directly,
+as per arm_mmu_idx_el.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20221001162318.153420-7-richard.henderson@linaro.org
+Message-id: 20221001162318.153420-8-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/m_helper.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ target/arm/cpu.h       | 2 ++
+ target/arm/helper.c    | 4 ++++
+ target/arm/translate.c | 3 +--
+ 3 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 5ee4ee15b36..203ba411f64 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -1981,7 +1981,7 @@ static bool do_v7m_function_return(ARMCPU *cpu)
-     return true;
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 68d99565ac4..a085c172974 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3203,6 +3203,8 @@ FIELD(TBFLAG_M32, NEW_FP_CTXT_NEEDED, 3, 1)     /* Not cached. */
+ FIELD(TBFLAG_M32, FPCCR_S_WRONG, 4, 1)          /* Not cached. */
+ /* Set if MVE insns are definitely not predicated by VPR or LTPSIZE */
+ FIELD(TBFLAG_M32, MVE_NO_PRED, 5, 1)            /* Not cached. */
++/* Set if in secure mode */
++FIELD(TBFLAG_M32, SECURE, 6, 1)
+ 
+ /*
+  * Bit usage when in AArch64 state
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index c08a7b35a04..8d82c147623 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10948,6 +10948,10 @@ static CPUARMTBFlags rebuild_hflags_m32(CPUARMState *env, int fp_el,
+         DP_TBFLAG_M32(flags, STACKCHECK, 1);
+     }
+ 
++    if (arm_feature(env, ARM_FEATURE_M_SECURITY) && env->v7m.secure) {
++        DP_TBFLAG_M32(flags, SECURE, 1);
++    }
++
+     return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
  }
  
--static bool v7m_read_half_insn(ARMCPU *cpu, ARMMMUIdx mmu_idx,
-+static bool v7m_read_half_insn(ARMCPU *cpu, ARMMMUIdx mmu_idx, bool secure,
-                                uint32_t addr, uint16_t *insn)
- {
-     /*
-@@ -2003,8 +2003,7 @@ static bool v7m_read_half_insn(ARMCPU *cpu, ARMMMUIdx mmu_idx,
-     ARMMMUFaultInfo fi = {};
-     MemTxResult txres;
- 
--    v8m_security_lookup(env, addr, MMU_INST_FETCH, mmu_idx,
--                        regime_is_secure(env, mmu_idx), &sattrs);
-+    v8m_security_lookup(env, addr, MMU_INST_FETCH, mmu_idx, secure, &sattrs);
-     if (!sattrs.nsc || sattrs.ns) {
-         /*
-          * This must be the second half of the insn, and it straddles a
-@@ -2109,7 +2108,7 @@ static bool v7m_handle_execute_nsc(ARMCPU *cpu)
-     /* We want to do the MPU lookup as secure; work out what mmu_idx that is */
-     mmu_idx = arm_v7m_mmu_idx_for_secstate(env, true);
- 
--    if (!v7m_read_half_insn(cpu, mmu_idx, env->regs[15], &insn)) {
-+    if (!v7m_read_half_insn(cpu, mmu_idx, true, env->regs[15], &insn)) {
-         return false;
-     }
- 
-@@ -2125,7 +2124,7 @@ static bool v7m_handle_execute_nsc(ARMCPU *cpu)
-         goto gen_invep;
-     }
- 
--    if (!v7m_read_half_insn(cpu, mmu_idx, env->regs[15] + 2, &insn)) {
-+    if (!v7m_read_half_insn(cpu, mmu_idx, true, env->regs[15] + 2, &insn)) {
-         return false;
-     }
- 
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 5aaccbbf71d..ac647e02628 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -9351,8 +9351,7 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+         dc->vfp_enabled = 1;
+         dc->be_data = MO_TE;
+         dc->v7m_handler_mode = EX_TBFLAG_M32(tb_flags, HANDLER);
+-        dc->v8m_secure = arm_feature(env, ARM_FEATURE_M_SECURITY) &&
+-            regime_is_secure(env, dc->mmu_idx);
++        dc->v8m_secure = EX_TBFLAG_M32(tb_flags, SECURE);
+         dc->v8m_stackcheck = EX_TBFLAG_M32(tb_flags, STACKCHECK);
+         dc->v8m_fpccr_s_wrong = EX_TBFLAG_M32(tb_flags, FPCCR_S_WRONG);
+         dc->v7m_new_fp_ctxt_needed =
 -- 
 2.25.1
 
