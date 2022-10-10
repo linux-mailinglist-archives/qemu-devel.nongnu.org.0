@@ -2,61 +2,133 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D255FA156
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 17:44:49 +0200 (CEST)
-Received: from localhost ([::1]:50846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC67C5FA15F
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 17:47:54 +0200 (CEST)
+Received: from localhost ([::1]:47994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohuxU-0005WU-8X
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 11:44:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52066)
+	id 1ohv0T-000117-RV
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 11:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ohueh-0005ZV-LQ
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:25:23 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2712)
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1ohuew-0005vF-13
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:25:38 -0400
+Received: from mail-dm6nam12on2078.outbound.protection.outlook.com
+ ([40.107.243.78]:27968 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1ohuef-0006Dw-Ll
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:25:23 -0400
-Received: from fraeml745-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MmN4j1dHGz67dBN;
- Mon, 10 Oct 2022 23:24:37 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml745-chm.china.huawei.com (10.206.15.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 10 Oct 2022 17:25:16 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 10 Oct
- 2022 16:25:15 +0100
-Date: Mon, 10 Oct 2022 16:25:15 +0100
-To: Gregory Price <gourry.memverge@gmail.com>
-CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>,
- <alison.schofield@intel.com>, <dave@stgolabs.net>,
- <a.manzanares@samsung.com>, <bwidawsk@kernel.org>, Gregory Price
- <gregory.price@memverge.com>
-Subject: Re: [PATCH 2/2] hw/cxl: Allow CXL type-3 devices to be persistent
- or volatile
-Message-ID: <20221010162515.000009f8@huawei.com>
-In-Reply-To: <20221006233702.18532-2-gregory.price@memverge.com>
-References: <20221006233702.18532-1-gregory.price@memverge.com>
- <20221006233702.18532-2-gregory.price@memverge.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1ohuet-0006MZ-QP
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 11:25:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mzvHecqbLJVEqp2raDH+vUrLiaIHFGgJioh9wHsfyc8YEeogp7ls+8FuqpgYIMscjHgFF50kAODwTutk1ZEXVxf/r5OIg+67W9WVlRip3zXiQnoum1bA+AV5uYehiUCo4+jANBIJPAek7QDIuO7OVAlgGLCnP9sp7F4rzPYN3srwE13dxHFhbvKqpVgbNssae20DRhHD5zp1Akz6+Mlgh5j/LIU11ODU8fkMYLvxaes4KCGaxgk3cMnucar4rBZz0uItw+R1B8PvVusbNnGF7MGuTWjjhrltwUl1SUaJ1YPCZf+9dC7FutcGTGx4OQ3BrcvLkdUBPDrr/k/0GswMYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=URviAwFUgt9C6jojsiVOF7kKCZJijZKnDhzNk4RtHPs=;
+ b=FtTidGYa5937fx6+1CAV70R/XKqLBcznVoAACI6E3t1ROEKHVuC4yh3XS6jNqyEJlHwjIJR5iGY2mxpFbC9UGofNAR+u6o5kN/ReTPX+56pII4iQwe+HtLgdx+vjjyVykmFbilh84eeKFYSGCp8pOyC4uKHY0SANOo3RqSASaTMRQJl+0enVaMkOoboY3iTlWk8EAAhDWGXLnq2GB1D2vHeZf2LWKsnFIKRMYGLs0sHX2Cp57oeGlTo0I74mAMvvwd6axsgkwQXpP/e2mJcI8h5l+RNz+wSg0R/K/9IF+yoPouJxwVnv3uLWKznLCrL++5Xwp0WzY5r3rdaq7NDSfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=URviAwFUgt9C6jojsiVOF7kKCZJijZKnDhzNk4RtHPs=;
+ b=lLsMdYXXbJ3kV8hCMLUxRDPSGmYUjQCcO3PsMvukLYYiz9VEmW2OqfhzpBOuPrJqDlO6giRrLHoFHj8BaKtp/Me/KoZusUBK3w23FPGaFyNfn/ol8hQp6GKQ344NJqQbpwp5XcLvVVb2qM2UrNHQjUPxroiqlQgJNgfBgoUJLg0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
+ by SA0PR17MB4268.namprd17.prod.outlook.com (2603:10b6:806:e9::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5709.15; Mon, 10 Oct
+ 2022 15:25:33 +0000
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::655f:bfa9:e33a:5af4]) by BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::655f:bfa9:e33a:5af4%5]) with mapi id 15.20.5709.015; Mon, 10 Oct 2022
+ 15:25:33 +0000
+Date: Mon, 10 Oct 2022 11:25:31 -0400
+From: Gregory Price <gregory.price@memverge.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Gregory Price <gourry.memverge@gmail.com>, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org, Alison Schofield <alison.schofield@intel.com>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ "a.manzanares@samsung.com" <a.manzanares@samsung.com>,
+ Ben Widawsky <bwidawsk@kernel.org>
+Subject: Re: [PATCH RFC] hw/cxl: type 3 devices can now present volatile or
+ persistent memory
+Message-ID: <Y0Q5a2Wx3qFB2eKI@memverge.com>
+References: <20221006000103.49542-1-gregory.price@memverge.com>
+ <20221006094557.000035ab@huawei.com>
+ <20221006095007.00001271@huawei.com> <Yz75ppPOwYCvNamy@fedora>
+ <20221006174214.000059c7@huawei.com> <Yz8QlQ9yLFrWxWsN@fedora>
+ <CAD3UvdT1ZHJDaqj05C+n7t4rM7yhjZyM6fooXAfG12rAYnBqmw@mail.gmail.com>
+ <20221010161809.00006f8e@huawei.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221010161809.00006f8e@huawei.com>
+X-ClientProxiedBy: MN2PR19CA0019.namprd19.prod.outlook.com
+ (2603:10b6:208:178::32) To BN6PR17MB3121.namprd17.prod.outlook.com
+ (2603:10b6:405:7c::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|SA0PR17MB4268:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7c5faaed-9a75-44b4-c79b-08daaad3ac19
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mv+TbUk/PPmjTCGVUQJDqEQvhJoPu4B3ChNOm5Ko1igT+pnuAWLb9M6JCwxMJPff2h44MZp2/g0iB3JAt1zLR84DSotxLgnopak/PVG2ckE6bEdbTM1C1MjJiEwRwr4UkY0XFj65U+VNae7KaDH4AimQa4gp0zC1pD7bRJbbsYvWMeeKjvDEAkjMSXYif41zBJwPSxqYQMYHA+Xu1QhbHUPIIrCCV9dLDQHPvQMnxxe7cVe9NnGudnv6EB9V2BoBGCllEuOG6VQiCNMzEnUIKGzJ5HUxLzRlnf8UAi5j3i+R8P07sM5jM1Mw9eW5vy1LFxJaqKCotru7G5irH4ylEGEnpPIqGbMyb2uD3QlfrWRKFX+6bz8+daUljySztUpszCkkVg1GG4bN506HQhUxFTrk46Tq9nRX4stkiyh0p/fUnw+qYaJsDOnH5xVZ5yYamTp73HwN1VILx/Ccs0BlGF9hqd8Q7p4P4nMBWulbADaZE7AKNRkEfCV4tTVmnXL7wd8Gs9+EL/wmS/Ho22M9EHW85eiFJQFOhTPDU/Chu3JrVoe/rPwdFGEaXGXCiKPp1S9yVVpWCBgtnmGKcJwtRu5j7PBq9Fbn0hky+QMFGdAOYmDJZThB2TfRG6dLnG1G3VoAZ9K9193UDrgLx8G6rvNRbhcAz/JDezBVb27Zy6VwxqYPRdETZe5UU98IbJLUxYXWA8JWMI9SKlhYWjlP03oCNHKmjin3CeyF3Cy57Xeh2jnG26bzHUhfP2NeY/hYL6PXR+nE1TitwBeFnH9dbKCwsQp9wv7kpyrUrzpp4eQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(366004)(346002)(39840400004)(136003)(376002)(396003)(451199015)(316002)(6916009)(54906003)(2906002)(6486002)(4744005)(186003)(2616005)(66476007)(41300700001)(83380400001)(66556008)(66946007)(478600001)(8936002)(8676002)(4326008)(5660300002)(966005)(44832011)(6506007)(26005)(52116002)(38100700002)(36756003)(86362001)(38350700002)(6512007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TlCDQ9pj2X8DolJdqZjGm635lYkaO9ExACDLY5IYl4tEwofegmJmx92zTi50?=
+ =?us-ascii?Q?OwJbh6hR0qPzKL9/CG6OTziYxTh4rC8+hX5wNgbJVPf6dn07VO2huBuFHFL/?=
+ =?us-ascii?Q?OWPp3uHCoU87S98A0m0e/2Ck4UpyeMr0EiRWXfBDaVKGlpGl0CqT6yozSW2j?=
+ =?us-ascii?Q?wjNRjbhckKOKVX+I9UNXTBijDxfbcBUtj9jaCGbfufSJ4zH42skpK5Jhm64W?=
+ =?us-ascii?Q?0RIziNepDPlBFVirx1bF12fGa0+izfkrX297refexp/esBfmUZhqh+Hcvwdv?=
+ =?us-ascii?Q?J3kwVHPZggTgYBEkIl/wf/FpwOcdzZc1+wLEsQjeT4X+rzumpdavGJ7eU4iW?=
+ =?us-ascii?Q?yCwop9DnUHD9on30wzFkF/PCJ219jkM6fyRi6AS1hUborA+MKzqqrfuSqGuz?=
+ =?us-ascii?Q?K+j8dkpV9fHajzlNccfK2G7JyTd0gRcd13FlZj2BlBPEyYy3mKBXUC7RBYjq?=
+ =?us-ascii?Q?Ez4W6X+273c9t7ia5zdanIy1Nvx1ZHggko7yWCBFu/NLNNQWKHKU1U4Xf407?=
+ =?us-ascii?Q?C/NYhWJeeXjpw2KAVr+ctC2Tk/XVAhAiJwu7YjUnlILbEiIh+ohDxnKniRAU?=
+ =?us-ascii?Q?BfK7ONB8PeZQDPbz8hO8gI381e0PdOjXEa5LRPP/2xffVqtu8nbKotU+Ykju?=
+ =?us-ascii?Q?sZqf3ezDRx8vDJaEsIQwJAbXTayPucKgXXY7GcPnFb2a3/DJi+9wpnbVY/1U?=
+ =?us-ascii?Q?dtCQc1XmgkFtBay2vj4e3vbdmFeNQg/FB4Vd82KTpn1uRaOpF7Ts2FoxfgBh?=
+ =?us-ascii?Q?a34I7RgRrYy/ELCO9x2dLhW5taqIUz3dCNE9lsZo1KYtbSqj8ZRy38N5GkQP?=
+ =?us-ascii?Q?dGEAj2QgFoMJobQioChCeSX6vrXISkWj7hDwivjODOaZ0laXzhj9yijyM/6K?=
+ =?us-ascii?Q?ZCLy9gJfKXaUMWPx8kTYC+6BtkvQeOeY+pVRWHKA1GKqqGib2oqqg9iRGNrm?=
+ =?us-ascii?Q?8ZNicRXmQwfzpqty4+XAgx2iXaDat1yFUHfLcgjRFO8n9M6V32d3ZoTUn3PU?=
+ =?us-ascii?Q?EtJc9noAXkvBLTgNk+5JgSanmi5/9dPn1LOh9yjNGsQXKCR+2whc9O56U9Dt?=
+ =?us-ascii?Q?0dhhcbRV4r7bqybmCRGXrnNkUE6DwFxBpwVcd5D16esECw3SIbYjQG9lft07?=
+ =?us-ascii?Q?74Bu1tH4fzjGiuorBkUk5w33e5XhKvi05g0lLstw5QC3fbF+Kkww/KknUwxX?=
+ =?us-ascii?Q?TjPd6GD69KB2lcvc0SyR7X05r6PQA55jfTcjFRasDeKoaSBRvql/84atquWi?=
+ =?us-ascii?Q?i4f72kOgAmmrSIYt4fw5SU8mkmQbLY+szss1A+aIbRVkEGe3BBGi7WaxTeSl?=
+ =?us-ascii?Q?CDKqLQ5F98jBqi/pdwIv6wCr1N26A3908SG5Iqj9exySuWVg/uUkZ2zHN/dK?=
+ =?us-ascii?Q?JRhIKpAXLE32BvPA8HthOcB1ILFwlpzui1ze0lS3AGeKfxlH69jps5bT2vKI?=
+ =?us-ascii?Q?5ORy6RQge7DO0YeKUNb63jvk2eEUMFpObu0/uBeFgzUZdY3W+SmNsa4vE+T8?=
+ =?us-ascii?Q?gmhnlz5j7UA48BnewCQIhhCXeGNsQyAtbkzPxbe+AZu67dtDnMGbfp/I5AEa?=
+ =?us-ascii?Q?QbX6sXlNQe6kxgneJedtdjWAD55P+4kGx6ljN2eVGnNqXrl7ODwqB/6nGtVc?=
+ =?us-ascii?Q?Og=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c5faaed-9a75-44b4-c79b-08daaad3ac19
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2022 15:25:32.9163 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kfEvlHJNov2eSbmxcFNocZ297VHQymOpHoN7imQtuUBRXjXC1EMJ/U7f4ujkPWJbi7P5e7klrBe56jxHBk+SxE4A1NOmf8CCBUPOOIdqeGs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR17MB4268
+Received-SPF: pass client-ip=40.107.243.78;
+ envelope-from=gregory.price@memverge.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,82 +144,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 
-On Thu,  6 Oct 2022 19:37:02 -0400
-Gregory Price <gourry.memverge@gmail.com> wrote:
-
-> This commit enables setting one memory region for a type-3 device, but
-> that region may now be either a persistent region or volatile region.
 > 
-> Future work may enable setting both regions simultaneously, as this is
-> a possible configuration on a real type-3 device.  The scaffolding was
-> put in for this, but is left for further work.
+> https://gitlab.com/jic23/qemu/-/commits/cxl-2022-10-09
+> There are a few messy corners in that tree but it should work. I'll be
+> pushing out a new version in a few days.
 > 
-> The existing [memdev] property has been deprecated and will default the
-> memory region to a persistent memory region (although a user may assign
-> the region to a ram or file backed region).
+> I updated that in latest version to build the tables based on the
+> memdev provided.  We'll want to add the volatile support to that alongside
+> your patch.
 > 
-> There is presently no interface with which to expose a MemoryRegion's
-> real backing type (HostMemoryBackendRam/File), otherwise we could have
-> used File to imply pmem (or inspected HostMemoryBackendFile->is_pmem) to
-> deterine whether the backing device supported pmem mode.  This should be
-> considered for future work, as it would make creating an array of
-> HostMemory devices to represent DIMMs on a Single-Logical-Device
-> MemoryExpander fairly straightforward.
-> 
-> Signed-off-by: Gregory Price <gregory.price@memverge.com>
-> ---
-Looks good to me, though I haven't tested it yet.
 
-A few trivial comments inline.
-
->      *len = sizeof(*part_info);
-> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-> index 1837c1c83a..998461dac1 100644
-> --- a/hw/mem/cxl_type3.c
-> +++ b/hw/mem/cxl_type3.c
-> @@ -100,18 +100,47 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
->      DeviceState *ds = DEVICE(ct3d);
->      MemoryRegion *mr;
->      char *name;
-> +    bool is_pmem = false;
->  
-> -    if (!ct3d->hostmem) {
-> -        error_setg(errp, "memdev property must be set");
-> +    /*
-> +     * FIXME: For now we only allow a single host memory region.
-
-TODO maybe?  FIXME tends to lead to reviewers asking why we haven't
-fixed it yet!
-
-> +     * Handle the deprecated memdev property usage cases
-> +     */
-> +    if (!ct3d->hostmem && !ct3d->host_vmem && !ct3d->host_pmem) {
-> +        error_setg(errp, "at least one memdev property must be set");
->          return false;
-> +    } else if (ct3d->hostmem && (ct3d->host_vmem || ct3d->host_pmem)) {
-> +        error_setg(errp, "deprecated [memdev] cannot be used with new "
-> +                         "persistent and volatile memdev properties");
-> +        return false;
-> +    } else if (ct3d->hostmem) {
-> +        warn_report("memdev is deprecated and defaults to pmem. "
-> +                    "Use (persistent|volatile)-memdev instead.");
-
-I'd suggest we don't warn on this yet. There is limited advantage in
-doing so given it's easy to carry on supporting by just treating
-it as another name for persistent-memdev
-
-
-> +        is_pmem = true;
-> +    } else {
-> +        if (ct3d->host_vmem && ct3d->host_pmem) {
-> +            error_setg(errp, "Multiple memory devices not supported yet");
-> +            return false;
-> +        }
-> +        is_pmem = !!ct3d->host_pmem;
-> +        ct3d->hostmem = ct3d->host_pmem ? ct3d->host_pmem : ct3d->host_vmem;
->      }
->  
+I will rebase my --persistent-memdev and --volatile-memdev patch on your
+branch and send out the commits when i'm done.  I may also add the
+scafolding for the partitionable-pmem field but not actually expose it.
 
