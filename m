@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CC55FA352
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:23:37 +0200 (CEST)
-Received: from localhost ([::1]:60972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C8A5FA335
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:14:53 +0200 (CEST)
+Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohxRA-000379-5i
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
+	id 1ohxIi-0002xH-Ja
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:14:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwc7-0002zJ-Td
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59795)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcD-00030V-6K
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwc5-00075a-PP
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:51 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwcA-00076t-FC
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:30:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665423048;
+ s=mimecast20190719; t=1665423053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=y2BU0beyMHYAmxpgtdUqHlk2qyLNMIAsJObAZ7rSWfo=;
- b=WT25WjewejQLYSiGeCMKMlwvI4Ls6dWjhEJhIbT4zUUqltjuMnuksshuhy4E5mXAtejfBc
- ZbR9Brk609fwf88gL3HIwwFUMotayX6WJhcbjzwlUqDVFI+fDG/RT+QwArVXLHzDlpYWJE
- RYaiQbqc14hwAEo550JVAzb5GyNvfkc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nVrfuhIwqzfInAD0rVBmDi4J8sT2us7b0lHytetQ4rc=;
+ b=GCD+tnsduQd13ciM6UDDuLvXvpkSy1lCBcYlROMWCUtz9csVIAwwYHkLDIgWDlpMKnHryB
+ wlxhiIWtFEdlZDS4l89bs6RRIF6n5uFl5J0wvKHiUQu5Vc8O/Ls0p7xpQJGEPo6NWaT5ux
+ o6EEsZgocO+tUp1xEKPQD7nHMaWsx5c=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-210-_tcSYkXwMY20VUnyzuir_w-1; Mon, 10 Oct 2022 13:30:47 -0400
-X-MC-Unique: _tcSYkXwMY20VUnyzuir_w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- g4-20020adfbc84000000b0022fc417f87cso1104841wrh.12
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:30:47 -0700 (PDT)
+ us-mta-549-vWbj0mvPM_aZa20nGm7cuQ-1; Mon, 10 Oct 2022 13:30:52 -0400
+X-MC-Unique: vWbj0mvPM_aZa20nGm7cuQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h4-20020adfa4c4000000b0022ec3966c3aso1991743wrb.6
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:30:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=y2BU0beyMHYAmxpgtdUqHlk2qyLNMIAsJObAZ7rSWfo=;
- b=t1MMd/US6d069wvX9FZ531H7vDWUiFKbH8yIsAhqG7iMxYZ4dwF275AkenZgiWnbjB
- zGyo0dgEeR3MgmXSCKyCYL34mh3asiibB5PX/iNapYgnUh56vh4D0UttH2ojmkMzUIEr
- s/Xgj1V7QZqAXBbHQM8ElGDVf/WArbZ5bNAEYs2w/vlh0829JPtsvQlsVqZZp6iDoxaY
- tygynEEz4Gt2qwmQuYTezBVPkr+e8GVdSGha1BnV79KgTGGUkwX31YLcnHSlRVA02j+r
- 7sWU3yptHlQjne2DyJe0rNhE6xM4wJ0NdhMZN2oMg5PmUh1nRnYKLpwu/cJ6g9Vyaxxr
- +diA==
-X-Gm-Message-State: ACrzQf0zRbmWT40fyrfbibQh9wU3a7HSHNZ7boqQRvJvhJueQmAe7wYX
- lUAjknlixMXxE+TN2JS4Tg05AE0TxBSbaqGSavwnXm2SZNwMO5w2xaiTkFXs/z52iyG3X/+Wiie
- NAIiGl5JpBEgOqAl0BBGfwucLm2lnyIg6NQZwnrUyOhPHmIKDz1e3xwRkNp8f
-X-Received: by 2002:a05:600c:b4e:b0:3c5:c61c:8e20 with SMTP id
- k14-20020a05600c0b4e00b003c5c61c8e20mr6060507wmr.103.1665423046062; 
- Mon, 10 Oct 2022 10:30:46 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5IxZRLTOL79Rt0P4k1f8bnZqAuiG2KKBJqwFQ8W+dKcIqJEObDMtmPOJrs/Uyr5+4WtRpIWg==
-X-Received: by 2002:a05:600c:b4e:b0:3c5:c61c:8e20 with SMTP id
- k14-20020a05600c0b4e00b003c5c61c8e20mr6060485wmr.103.1665423045750; 
- Mon, 10 Oct 2022 10:30:45 -0700 (PDT)
+ bh=nVrfuhIwqzfInAD0rVBmDi4J8sT2us7b0lHytetQ4rc=;
+ b=ttuDMJy238jBgekOW3QdJBifHM0CkVYzhfLIqrBWTHRUmxx9Mh0MuJzkjsIqDi6oCL
+ PaIP413tnslhcoLViQqSgt1sGLihVi1Oo8wD2mNjFKddnvKNzl5EjulyOp3ctGovem3I
+ 4k24jQYhpp+rPV4Hc4nm2jU0G50P2Wv7z+W/3AYiZGpdvsiYWSGnCMzQIiM/0OJUSN3g
+ Aa2yd0qCMRdEA6kwCtLxhxQqhGQ3cd//8UDHlGZh4G0jGFR9bGirddi7MVcNrfT0cYEj
+ TVvdIzpSUnPZQsDxdF+VEMzumPHgNuM/CQBTXMFgd0JzahkFwgLK5wOgE6nrJVsEk67L
+ Bgcw==
+X-Gm-Message-State: ACrzQf30FJlvcNvtkl8WsIOfSvI8pZjn1tQkpfuBd9d0RH7sS6n5MYXh
+ tjsh9vJNCvH+MaSa69FRjNd3h66jYJy+LRsqRQ6hZ2BWtZtzRxsTFfo1iNffWd9VxrfHURU27E4
+ iXyi5EuvaVHvSa/L8wR1yhcGJVuTwlzehgFWeVOLe2Qw+YVW0nfC8bF0n0QBM
+X-Received: by 2002:a5d:51d1:0:b0:22e:4701:fc5d with SMTP id
+ n17-20020a5d51d1000000b0022e4701fc5dmr12735660wrv.515.1665423051315; 
+ Mon, 10 Oct 2022 10:30:51 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM43HoqHI7zjtEKz7g+0aKhCWluLbs5BMmKNwC0KB/7De8H949WGJehpXM45xwr+WkenLknAQw==
+X-Received: by 2002:a5d:51d1:0:b0:22e:4701:fc5d with SMTP id
+ n17-20020a5d51d1000000b0022e4701fc5dmr12735631wrv.515.1665423050990; 
+ Mon, 10 Oct 2022 10:30:50 -0700 (PDT)
 Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- d34-20020a05600c4c2200b003c6b874a0dfsm2862024wmp.14.2022.10.10.10.30.43
+ z10-20020a05600c0a0a00b003a2f2bb72d5sm24621241wmp.45.2022.10.10.10.30.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:30:45 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:30:41 -0400
+ Mon, 10 Oct 2022 10:30:50 -0700 (PDT)
+Date: Mon, 10 Oct 2022 13:30:46 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Ben Widawsky <bwidawsk@kernel.org>, Ben Widawsky <ben.widawsky@intel.com>
-Subject: [PULL 28/55] mem/cxl-type3: Add sn option to provide serial number
- for PCI ecap
-Message-ID: <20221010172813.204597-29-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Xu <peterx@redhat.com>,
+ David Woodhouse <dwmw2@infradead.org>, Claudio Fontana <cfontana@suse.de>,
+ Igor Mammedov <imammedo@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PULL 29/55] Revert "intel_iommu: Fix irqchip / X2APIC configuration
+ checks"
+Message-ID: <20221010172813.204597-30-mst@redhat.com>
 References: <20221010172813.204597-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -76,7 +80,7 @@ Content-Disposition: inline
 In-Reply-To: <20221010172813.204597-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,77 +104,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From: Peter Xu <peterx@redhat.com>
 
-The Device Serial Number Extended Capability PCI r6.0 sec 7.9.3
-provides a standard way to provide a device serial number as
-an IEEE defined 64-bit extended unique identifier EUI-64.
+It's true that when vcpus<=255 we don't require the length of 32bit APIC
+IDs.  However here since we already have EIM=ON it means the hypervisor
+will declare the VM as x2apic supported (e.g. VT-d ECAP register will have
+EIM bit 4 set), so the guest should assume the APIC IDs are 32bits width
+even if vcpus<=255.  In short, commit 77250171bdc breaks any simple cmdline
+that wants to boot a VM with >=9 but <=255 vcpus with:
 
-CXL 2.0 section 8.1.12.2 Memory Device PCIe Capabilities and
-Extended Capabilities requires this to be used to uniquely
-identify CXL memory devices.
+  -device intel-iommu,intremap=on
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Message-Id: <20220923161835.9805-1-Jonathan.Cameron@huawei.com>
+For anyone who does not want to enable x2apic, we can use eim=off in the
+intel-iommu parameters to skip enabling KVM x2apic.
+
+This partly reverts commit 77250171bdc02aee106083fd2a068147befa1a38, while
+keeping the valid bit on checking split irqchip, but revert the other change.
+
+One thing to mention is that this patch may break migration compatibility
+of such VM, however that's probably the best thing we can do, because the
+old behavior was simply wrong and not working for >8 vcpus.  For <=8 vcpus,
+there could be a light guest ABI change (by enabling KVM x2apic after this
+patch), but logically it shouldn't affect the migration from working.
+
+Also, this is not the 1st commit to change x2apic behavior.  Igor provided
+a full history of how this evolved for the past few years:
+
+https://lore.kernel.org/qemu-devel/20220922154617.57d1a1fb@redhat.com/
+
+Relevant commits for reference:
+
+  fb506e701e ("intel_iommu: reject broken EIM", 2016-10-17)
+  c1bb5418e3 ("target/i386: Support up to 32768 CPUs without IRQ remapping", 2020-12-10)
+  77250171bd ("intel_iommu: Fix irqchip / X2APIC configuration checks", 2022-05-16)
+  dc89f32d92 ("target/i386: Fix sanity check on max APIC ID / X2APIC enablement", 2022-05-16)
+
+We may want to have this for stable too (mostly for 7.1.0 only).  Adding a
+fixes tag.
+
+Cc: David Woodhouse <dwmw2@infradead.org>
+Cc: Claudio Fontana <cfontana@suse.de>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Fixes: 77250171bd ("intel_iommu: Fix irqchip / X2APIC configuration checks")
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20220926153206.10881-1-peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Ben Widawsky <bwidawsk@kernel.org>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- include/hw/cxl/cxl_device.h |  1 +
- hw/mem/cxl_type3.c          | 14 +++++++++++++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ hw/i386/intel_iommu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index 1e141b6621..e4d221cdb3 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -237,6 +237,7 @@ struct CXLType3Dev {
-     /* Properties */
-     HostMemoryBackend *hostmem;
-     HostMemoryBackend *lsa;
-+    uint64_t sn;
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 05d53a1aa9..6524c2ee32 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3818,6 +3818,11 @@ static bool vtd_decide_config(IntelIOMMUState *s, Error **errp)
+             error_setg(errp, "eim=on requires accel=kvm,kernel-irqchip=split");
+             return false;
+         }
++        if (!kvm_enable_x2apic()) {
++            error_setg(errp, "eim=on requires support on the KVM side"
++                             "(X2APIC_API, first shipped in v4.7)");
++            return false;
++        }
+     }
  
-     /* State */
-     AddressSpace hostmem_as;
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index ada2108fac..a71bf1afeb 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -14,6 +14,12 @@
- #include "sysemu/hostmem.h"
- #include "hw/cxl/cxl.h"
- 
-+/*
-+ * Null value of all Fs suggested by IEEE RA guidelines for use of
-+ * EU, OUI and CID
-+ */
-+#define UI64_NULL ~(0ULL)
-+
- static void build_dvsecs(CXLType3Dev *ct3d)
- {
-     CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
-@@ -149,7 +155,12 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-     pci_config_set_class(pci_conf, PCI_CLASS_MEMORY_CXL);
- 
-     pcie_endpoint_cap_init(pci_dev, 0x80);
--    cxl_cstate->dvsec_offset = 0x100;
-+    if (ct3d->sn != UI64_NULL) {
-+        pcie_dev_ser_num_init(pci_dev, 0x100, ct3d->sn);
-+        cxl_cstate->dvsec_offset = 0x100 + 0x0c;
-+    } else {
-+        cxl_cstate->dvsec_offset = 0x100;
-+    }
- 
-     ct3d->cxl_cstate.pdev = pci_dev;
-     build_dvsecs(ct3d);
-@@ -275,6 +286,7 @@ static Property ct3_props[] = {
-                      HostMemoryBackend *),
-     DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
-                      HostMemoryBackend *),
-+    DEFINE_PROP_UINT64("sn", CXLType3Dev, sn, UI64_NULL),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+     /* Currently only address widths supported are 39 and 48 bits */
 -- 
 MST
 
