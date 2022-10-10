@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF5D5FA3A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 20:51:37 +0200 (CEST)
-Received: from localhost ([::1]:37396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0054E5FA411
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 21:19:51 +0200 (CEST)
+Received: from localhost ([::1]:51822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohxsG-0004Nf-Rl
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 14:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49932)
+	id 1ohyJZ-0003V1-6Q
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 15:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwe8-0005MW-Bs
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:32:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42331)
+ (Exim 4.90_1) (envelope-from
+ <BATV+df8904472a2a380df65b+6987+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1ohwl9-0002Kv-7y
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:40:23 -0400
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1]:51278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ohwe2-0007hc-Gs
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:32:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1665423170;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5bysEFpqvfb0vnOAHiSAOOyWiN95lODHFTH7Hy6GPk0=;
- b=ZJdiR2OQFpACFhtlPcQVBOhBVZj8sTR2gkILO6DU7QvxtFsc6Y1pDzMpZZgbvGBQ0dznQP
- mrydPsTZ01FlRskj85MpMg+RaaJ5D+jJFW22vq03RdNDtaffZcZKbTO/QWKWEf+lF+WvH/
- Eb1BvvRcRAfd8/rrcM/JFQ7T1ZfoFXk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-487-Y47RBxDUObmp226iVFCZCw-1; Mon, 10 Oct 2022 13:32:48 -0400
-X-MC-Unique: Y47RBxDUObmp226iVFCZCw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- u20-20020adfc654000000b0022cc05e9119so2953661wrg.16
- for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:32:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5bysEFpqvfb0vnOAHiSAOOyWiN95lODHFTH7Hy6GPk0=;
- b=v43blivVUdpqlwQn7M1J25ygvF6/HZMaJdWXG+2h1bJFRYHlmVnibC480jrjtG7IEY
- kzoaPyzt2MpvkQ1nqu6HaeRK00VkTvypFA2Ih8ukS94Ihb5LLNjpBfn/uI04FJcAoeKJ
- rm0bSMmi7AMfjNtO2tm2eVWqZ0GqxnN7ATMFW7bIEwQPP7VuZKShImb/hoNYz7OLFv4g
- fRX/S1wrY8u8YbawG5m1wxBoj0srfD00Aqws02HXD/xlkrpBxTVveVT67p5XaFb+U1ne
- mPAe/lcR1LPCpq+0RIpzIQJZAOcsP8TH91oLv116E3dEoNhUjtFSeXgetHwYRPZynfEQ
- H6Fw==
-X-Gm-Message-State: ACrzQf3sWjGrqHK4WGUbD8w157LWh02nAdn7imfEoGbMMvEj7I/NAA5E
- PGz7sPe6GihYPCKWO3S93PQHZTpEBbq1RLX3aPm8BNawwKHdDxudQrf8yDaGZNV3qOHL2qIxa7m
- 5ch3P9iAB8tvZzdx42Y2FYtBj4hqNxUZFw65hqsnVJfDw4VrKchgHF3bMFNqI
-X-Received: by 2002:a05:6000:1882:b0:230:9595:4131 with SMTP id
- a2-20020a056000188200b0023095954131mr3780874wri.17.1665423167546; 
- Mon, 10 Oct 2022 10:32:47 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7D7cWCeXh7IB2Ej7acYNXoc972Z/js1NDAB4zMpAGmZBzQT6ytSfyf3hyMmZFMlfrOIr8kNg==
-X-Received: by 2002:a05:6000:1882:b0:230:9595:4131 with SMTP id
- a2-20020a056000188200b0023095954131mr3780851wri.17.1665423167245; 
- Mon, 10 Oct 2022 10:32:47 -0700 (PDT)
-Received: from redhat.com ([2.55.183.131]) by smtp.gmail.com with ESMTPSA id
- u9-20020a5d4349000000b0022cdb687bf9sm12070076wrr.0.2022.10.10.10.32.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Oct 2022 10:32:46 -0700 (PDT)
-Date: Mon, 10 Oct 2022 13:32:43 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 55/55] x86: pci: acpi: consolidate PCI slots creation
-Message-ID: <20221010172813.204597-56-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from
+ <BATV+df8904472a2a380df65b+6987+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1ohwl5-0000Ya-Vr
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:40:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=ODwM/j0JynAMB5UmwNwBgHSMxDPelntynZLv9Ujbm5c=; b=sMSRyf279Cv8B8YpHrbSkWNdbD
+ 7N0Wdf3u4/yOVqdPVBWV/b3jN4X+OyKsrWnHCyBDvY7BTvj0JffDZRW8UQ3Fw+kmFMX1VoehFyg88
+ MHfLL8+ZI+cf9A7vodq+99ebJylEG7TLchU93SbFCwuoYTmYGbxLnNj2LfDWmRLi5NT/Cf3q3Xg/6
+ 2YjjZqfvIZYhqQID91fFkrXC7QRrT4Cp4UJz8BtgluG+v3gBL/lRjVOTrnua08knBe7HO0Prtrcnd
+ 7iDkfL5VtJNL3dd608972JpsiPvhHC+mswpTnO9d4a3fX7+EXAtgmlSLI8pQryGhRUSwTtapSqMVV
+ 7jvGEBAg==;
+Received: from [205.251.233.105] (helo=freeip.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1ohwky-004NwD-OZ; Mon, 10 Oct 2022 17:40:01 +0000
+Message-ID: <ff11454f877ce7ccb0a02a9343715bbb8f32194f.camel@infradead.org>
+Subject: Re: [PULL 29/55] Revert "intel_iommu: Fix irqchip / X2APIC
+ configuration checks"
+From: David Woodhouse <dwmw2@infradead.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Xu <peterx@redhat.com>, 
+ Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Eduardo Habkost
+ <eduardo@habkost.net>
+Date: Mon, 10 Oct 2022 10:39:52 -0700
+In-Reply-To: <20221010172813.204597-30-mst@redhat.com>
 References: <20221010172813.204597-1-mst@redhat.com>
+ <20221010172813.204597-30-mst@redhat.com>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-PWmMG8UXj+PsRVyM85G1"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221010172813.204597-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+df8904472a2a380df65b+6987+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,178 +81,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
 
-No functional changes nor AML bytecode changes.
-Consolidate code that generates empty and populated slot
-descriptors. Besides eliminating duplication,
-it helps consolidate conditions for generating
-parts of Device{} desriptor in one place, which makes
-code more compact and easier to read.
+--=-PWmMG8UXj+PsRVyM85G1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220701133515.137890-18-imammedo@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/i386/acpi-build.c | 111 +++++++++++++++++++++----------------------
- 1 file changed, 54 insertions(+), 57 deletions(-)
+On Mon, 2022-10-10 at 13:30 -0400, Michael S. Tsirkin wrote:
+> From: Peter Xu <
+> peterx@redhat.com
+> >
+>=20
+> It's true that when vcpus<=3D255 we don't require the length of 32bit API=
+C
+> IDs.  However here since we already have EIM=3DON it means the hypervisor
+> will declare the VM as x2apic supported (e.g. VT-d ECAP register will hav=
+e
+> EIM bit 4 set), so the guest should assume the APIC IDs are 32bits width
+> even if vcpus<=3D255.  In short, commit 77250171bdc breaks any simple cmd=
+line
+> that wants to boot a VM with >=3D9 but <=3D255 vcpus with:
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index fc23cb08c3..4f54b61904 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -427,13 +427,41 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         int func = PCI_FUNC(devfn);
-         /* ACPI spec: 1.0b: Table 6-2 _ADR Object Bus Types, PCI type */
-         int adr = slot << 16 | func;
--        bool hotplug_enabled_dev;
--        bool bridge_in_acpi;
--        bool cold_plugged_bridge;
-+        bool hotpluggbale_slot = false;
-+        bool bridge_in_acpi = false;
-+        bool cold_plugged_bridge = false;
-+        bool is_vga = false;
-+
-+        if (pdev) {
-+            pc = PCI_DEVICE_GET_CLASS(pdev);
-+            dc = DEVICE_GET_CLASS(pdev);
-+
-+            if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
-+                continue;
-+            }
-+
-+            is_vga = pc->class_id == PCI_CLASS_DISPLAY_VGA;
- 
--        if (!pdev) {
-             /*
--             * add hotplug slots for non present devices.
-+             * Cold plugged bridges aren't themselves hot-pluggable.
-+             * Hotplugged bridges *are* hot-pluggable.
-+             */
-+            cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
-+            bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
-+
-+            hotpluggbale_slot = bsel && dc->hotpluggable &&
-+                                !cold_plugged_bridge;
-+
-+            /*
-+             * allow describing coldplugged bridges in ACPI even if they are not
-+             * on function 0, as they are not unpluggable, for all other devices
-+             * generate description only for function 0 per slot
-+             */
-+            if (func && !bridge_in_acpi) {
-+                continue;
-+            }
-+        } else {
-+            /*
-              * hotplug is supported only for non-multifunction device
-              * so generate device description only for function 0
-              */
-@@ -441,46 +469,11 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-                 if (pci_bus_is_express(bus) && slot > 0) {
-                     break;
-                 }
--                dev = aml_device("S%.02X", devfn);
--                aml_append(dev, aml_name_decl("_ADR", aml_int(adr)));
--                aml_append(dev, aml_name_decl("ASUN", aml_int(slot)));
--                aml_append(dev, aml_pci_device_dsm());
--                aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
--                method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
--                aml_append(method,
--                    aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
--                );
--                aml_append(dev, method);
--                aml_append(parent_scope, dev);
--
--                build_append_pcihp_notify_entry(notify_method, slot);
-+                /* mark it as empty hotpluggable slot */
-+                hotpluggbale_slot = true;
-+            } else {
-+                continue;
-             }
--            continue;
--        }
--
--        pc = PCI_DEVICE_GET_CLASS(pdev);
--        dc = DEVICE_GET_CLASS(pdev);
--
--        /*
--         * Cold plugged bridges aren't themselves hot-pluggable.
--         * Hotplugged bridges *are* hot-pluggable.
--         */
--        cold_plugged_bridge = pc->is_bridge && !DEVICE(pdev)->hotplugged;
--        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
--
--        hotplug_enabled_dev = bsel && dc->hotpluggable && !cold_plugged_bridge;
--
--        if (pc->class_id == PCI_CLASS_BRIDGE_ISA) {
--            continue;
--        }
--
--        /*
--         * allow describing coldplugged bridges in ACPI even if they are not
--         * on function 0, as they are not unpluggable, for all other devices
--         * generate description only for function 0 per slot
--         */
--        if (func && !bridge_in_acpi) {
--            continue;
-         }
- 
-         /* start to compose PCI device descriptor */
-@@ -496,7 +489,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-             aml_append(dev, aml_pci_device_dsm());
-         }
- 
--        if (pc->class_id == PCI_CLASS_DISPLAY_VGA) {
-+        if (is_vga) {
-             /* add VGA specific AML methods */
-             int s3d;
- 
-@@ -517,19 +510,10 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-             method = aml_method("_S3D", 0, AML_NOTSERIALIZED);
-             aml_append(method, aml_return(aml_int(s3d)));
-             aml_append(dev, method);
--        } else if (hotplug_enabled_dev) {
--            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
--            /* add _EJ0 to make slot hotpluggable  */
--            method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
--            aml_append(method,
--                aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
--            );
--            aml_append(dev, method);
-+        }
- 
--            if (bsel) {
--                build_append_pcihp_notify_entry(notify_method, slot);
--            }
--        } else if (bridge_in_acpi) {
-+        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
-+        if (bridge_in_acpi) {
-             /*
-              * device is coldplugged bridge,
-              * add child device descriptions into its scope
-@@ -538,6 +522,19 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
- 
-             build_append_pci_bus_devices(dev, sec_bus, pcihp_bridge_en);
-         }
-+
-+        if (hotpluggbale_slot) {
-+            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-+            /* add _EJ0 to make slot hotpluggable  */
-+            method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
-+            aml_append(method,
-+                aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
-+            );
-+            aml_append(dev, method);
-+
-+            build_append_pcihp_notify_entry(notify_method, slot);
-+        }
-+
-         /* device descriptor has been composed, add it into parent context */
-         aml_append(parent_scope, dev);
-     }
--- 
-MST
+I find that paragraph really hard to parse. What does it even mean that
+"guest should assume the APIC IDs are 32bits"?=20
+
+In practice, all the EIM bit does is *allow* 32 bits of APIC ID in the
+tables. Which is perfectly fine if there are only 254 CPUs anyway, and
+we never need to use a higher value.
+
+I *think* the actual problem here is when logical addressing is used,
+which puts the APIC cluster ID into higher bits? But it's kind of weird
+that the message doesn't mention that at all?
+
+That's fixable by just setting the X2APIC_PHYSICAL bit in the ACPI
+FADT, isn't it? Then the only values that a guest may put into those
+fields =E2=80=94 32-bit fields or not =E2=80=94 are lower than 0xff anyway.
+
+
+--=-PWmMG8UXj+PsRVyM85G1
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMDEwMTczOTUyWjAvBgkqhkiG9w0BCQQxIgQgHkKKGyxY
+YkIuz/NxYB+IVU65FVQIMMjZ5WLVJFW+b98wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBCv8ES5/u/avRJR1x0+ITZqDTwmHsA8Xfy
+WlmVqEtOFNEsLjJI87BO14M5ExoDXICzx7+YwpB4PDdcMqxJOPk8M72m0T10iJ8bXuccUmHnHexx
+MoR8XXsu8FVVxv2xtNFh03FKhfMsgG8Ky7o0b9FHqQFsR1ZwfR9Hv+wORok4unCyK/YlGrA7kSLM
++tT3XjeNq+nlpt9z+yCJYm/REOWF4XIk2mEagGnTrQsXL2N76223jt8vvvN8gA0KGoFMnmgdc77w
+NFGpa8NPNAnMaXmRmZsuye77GWX08rftoYiO0b/asiEDkyaxfRVZqs5cqvY37/fMv50oSMI90OI7
+GwXk93xV+8jipZ2ymY5//nSpZGVtgxUENfpHRqKzHt36pvDTDkLZTGDx0eN5zo3Wbdbk99N884sl
+08GqURTRpfBe9zoynCNf1kBTuqWTwft8V+eqooOUGtzQPoFCYnh6adRJqYK8Q3FJLg+LLemT0WMu
+GnFKpe3lAMcIYcgo8GVCfPazE+6D2RBXv7MfZBmPmbO/QZ1EWMzDTlixfzJ1GMQl70S6kTKPhtjh
+ojMgznphJleyidcuw1pBD2ObdN1tmZ6HSPH9UzFuz0TB3oYJkkT0vHfUfxTmj7Yb5OqVEvaJzYSj
+vrLDVvHSrvH4EURGyd2wg9mHnnbZfcqnJUEr+ka9WwAAAAAAAA==
+
+
+--=-PWmMG8UXj+PsRVyM85G1--
 
 
