@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF675F971E
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 04:59:12 +0200 (CEST)
-Received: from localhost ([::1]:33806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 280735F9746
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 05:57:01 +0200 (CEST)
+Received: from localhost ([::1]:59692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohj0Z-0000iu-8e
-	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 22:59:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47792)
+	id 1ohjuV-000376-Pc
+	for lists+qemu-devel@lfdr.de; Sun, 09 Oct 2022 23:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ohiyi-0006ka-9j; Sun, 09 Oct 2022 22:57:16 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:35678)
+ id 1ohjt4-0001cv-Kn
+ for qemu-devel@nongnu.org; Sun, 09 Oct 2022 23:55:30 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:41684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ohiyg-0002Wc-L0; Sun, 09 Oct 2022 22:57:15 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- i7-20020a17090a65c700b0020ad9666a86so11961141pjs.0; 
- Sun, 09 Oct 2022 19:57:13 -0700 (PDT)
+ id 1ohjt3-0002E3-0f
+ for qemu-devel@nongnu.org; Sun, 09 Oct 2022 23:55:30 -0400
+Received: by mail-pg1-x536.google.com with SMTP id q9so9327646pgq.8
+ for <qemu-devel@nongnu.org>; Sun, 09 Oct 2022 20:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vBojqzeB3GBJXyOJmO903B73puF82ggIHf8D9UgjdHs=;
- b=ooLfHyU2De3efvh9BzGNMo2IR0SQ/KPB9UDhPcylgjFTbrkUD/5H1aqcCjJ746n0Up
- Nl2jta5dUUA6b58RUDp/5KXqIWryTVlMnonhIcopmJF6maRIaTHam2MLMNbIRatqHV0l
- qnCRSJBFSZ4BQAVj7v3Kg01TqahgRa7asP5dgUGITIG3kAOj8E4ueB6df6hkM/FPKMsm
- lU9hX9OHATQWXi2uLZA1zwLdTz55x/ODW0fRmROB1KNIRvhxG7F7UwaplVDD88ERaGRA
- JvvHCmVpx9T039Rt0/hjjKXI+5jZXp9XItd8YS/TOSf76W48PkES4IGXuMFJ4vW3C2Qa
- LJKw==
+ bh=R+ct7dzgZh3HHcaBGOahJXeo8uvzSvby2EkmUs4iIaQ=;
+ b=cCZ65diF7kd2wvutLB6kn4j3h4OSqNWZDBPFDXHd60/M7Klcu7YIlQlNt4w7K38acc
+ w/y/zUbQ1SgYwH+HBPCGhcqYipkfRCV07RmbK+KXJ5khzCBf+6Kl4hnjiBz+Ts2VCQ4h
+ VnRwd6IdJEZumsQURyXwB2R7mW/fB1hTd5+Zz9Q8q5GIsNT1/OykRDi2rkoY3wKpCtd5
+ TbVhwqTpRUczkWwHFo1eptpr8KXuOq3H1KAGLJzKX4uxTr/U3AlLpn6yn2UulX1kLcYM
+ DHBOBWscB+WmtZ3j3Jg8B9WErjCdHwnqGg3MJKctSacEbXmwcTaIJ8gc07Jtk+3UhbIg
+ wQ7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=vBojqzeB3GBJXyOJmO903B73puF82ggIHf8D9UgjdHs=;
- b=ARpBHpyOKjhqqXeZGCla6IaB09XJ1PXhuUbK8iy06120uZhUqf9DFClOkMsCaAuzit
- 1Q49o8UDWO4WB18lnYGjdy6e8J0YIOWkT99OnJDt6yZv9PHhzHtpkir8+8PMEdkcYpRp
- BKPgIl+TePJ62RoJem8lg3WciN7SeskezTYZGHQhsT7nNtwcgwcoFDx3FtzavCVUGKkm
- X6CCuWOITLqVBqQqPJ6hRZXu7l1czSGjDeWGZIMX4R37CNBHitGS1OEP7iaNpBqkUPXI
- omvmHaLON7LtHPLGeNJZX25ipPIK3Cy7+Kb5zIytWyS75G+InHJxAFT/bxTkEZBAb2Y3
- j8ag==
-X-Gm-Message-State: ACrzQf1BxBGr2tZ3bOuX0jS/q4G+ZTTJDytt0Jrv7qytRdMDSMmIjyKN
- kF5g4hrhje9KAJZSZ8fUHl22UuF2v3FIif5+pdg=
-X-Google-Smtp-Source: AMsMyM5gFftlYN8RwM/xcUDMYcxtjrb7tWvx7RNDVqlZN3EqQQYm14HVmVfWNXvPmixsH8R4kJWqtGsPP+FeYo1q32s=
-X-Received: by 2002:a17:90b:3149:b0:202:e9e9:632f with SMTP id
- ip9-20020a17090b314900b00202e9e9632fmr29916139pjb.96.1665370632852; Sun, 09
- Oct 2022 19:57:12 -0700 (PDT)
+ bh=R+ct7dzgZh3HHcaBGOahJXeo8uvzSvby2EkmUs4iIaQ=;
+ b=1P0Idb0LPgQRl8E8zYcA+NsO4XY24B8QxgPv1dbg4GNghzf016RwHhfmNf+5kUIxdn
+ 1kBmB6sPntdZa8nGZezLP6mmpbUUrEdTe84lRQ2cMoaBew8VtBeE09lUkEudGwNZpVup
+ +5PrzWIIWV5WyhjExI0uY65MnyZb5fkDAF/K60F8hWBZaAprvY5qfZB2SN2b6MWj+tfm
+ YpGDjf1MyW5q7L2Nv7sfXZqB3y8s94iPkDZRSK9KifK72FyOmomG2COVQ5qRZPHIUGJT
+ WaNeJh/WHP2z1kJY9B5Zofx5qw8qguxhqfo+Wo0UpTsZupbZEGX6mt7sPsSHkIjIVBYJ
+ BpGg==
+X-Gm-Message-State: ACrzQf15vJNlaDbjtWq7JgPgsYyuS+qAxVVO5HePYjRzid66grZ/pVU1
+ i+Eb2qmFlSO5gu9mFofSZsmdVxP9BNOoDskYMsk=
+X-Google-Smtp-Source: AMsMyM68/zZA2Yb696fMAC0/VWmQ4nSWBkXfvnh8J/EphHZPgLkl3kj4TG9rqS8JVK8OsQXVpu/w3PAA6mDemihUcEk=
+X-Received: by 2002:a63:1a65:0:b0:460:d5db:8688 with SMTP id
+ a37-20020a631a65000000b00460d5db8688mr7095786pgm.221.1665374127361; Sun, 09
+ Oct 2022 20:55:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220929232339.372813-1-Jason@zx2c4.com>
- <20220929232339.372813-3-Jason@zx2c4.com>
-In-Reply-To: <20220929232339.372813-3-Jason@zx2c4.com>
+References: <CACv+nXAT-tfuabs04y5+DE-R=Hn81nmM3bKsgOkVkWTOYpTHFA@mail.gmail.com>
+In-Reply-To: <CACv+nXAT-tfuabs04y5+DE-R=Hn81nmM3bKsgOkVkWTOYpTHFA@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 10 Oct 2022 12:56:46 +1000
-Message-ID: <CAKmqyKMvWETo5jyVfq-PGBKK=_hqNSAEfo6fBrjyEngbodmpJA@mail.gmail.com>
-Subject: Re: [PATCH 3/6] riscv: re-randomize rng-seed on reboot
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org
+Date: Mon, 10 Oct 2022 13:55:00 +1000
+Message-ID: <CAKmqyKNAi1NS=6BSANK2HeeN=GH3kkDtQaH8AwkSetdxMmuy3Q@mail.gmail.com>
+Subject: Re: Question about RISC-V brom register a1 set value
+To: Eric Chan <e14002270@gmail.com>
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,50 +84,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 30, 2022 at 9:24 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+On Sat, Oct 1, 2022 at 11:33 AM Eric Chan <e14002270@gmail.com> wrote:
 >
-> When the system reboots, the rng-seed that the FDT has should be
-> re-randomized, so that the new boot gets a new seed. Since the FDT is in
-> the ROM region at this point, we add a hook right after the ROM has been
-> added, so that we have a pointer to that copy of the FDT.
+> Hi, qemu
 >
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Alistair Francis <alistair.francis@wdc.com>
-> Cc: Bin Meng <bin.meng@windriver.com>
-> Cc: qemu-riscv@nongnu.org
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> As I know, brom will pass 3 parameters to the next stage bootloader, ex: openSBI.
+> a0 will pass hartid, a2 will pass fw_dynamic_info start address.
+> although a1 doesn't use directly in openSBI.
+> a1 read value is determined in compile time rather than read from the original a1 that passes from brom.
+> In qemu/hw/riscv/boot.c
+> both 32bit and 64bit machines read 4byte that offset 32byte from the brom start address.
+>
+> for 64 bits machine: a1 read low 32bit data member magic of fw_dynamic_info,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Hello Eric,
+
+a2 will contain the address of the fw_dynamic_info
+
+> the value will same as FW_DYNAMIC_INFO_MAGIC_VALUE because risc-v is little endian.
+>
+> for 32bits machine: each data member of fw_dynamic_info is 4 bytes, so a1 will read the version rather than magic.
+
+On 32-bit RISC-V a2 will also contain the address of fw_dynamic_info
+
+>
+> Do the 32bit and 64bit pass different parameters are expected?
+
+I'm not clear what the difference between the 32-bit and 64-bit
+variants are. We use different load instructions, but otherwise they
+should be the same functionality.
+
+> If it is not expected, I guess the original version is 64bit machine, and then supports 32bit but misses this detail, I hope I can have an opportunity to fix this problem.
+> If it is expected, why they must be done?
+
+It might be easier to send a patch with any fixes you think should be
+made. That way it's easy to understand what you think needs to be
+fixed.
 
 Alistair
 
-> ---
->  hw/riscv/boot.c | 3 +++
->  1 file changed, 3 insertions(+)
 >
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 1ae7596873..aaecf21543 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -30,6 +30,7 @@
->  #include "sysemu/device_tree.h"
->  #include "sysemu/qtest.h"
->  #include "sysemu/kvm.h"
-> +#include "sysemu/reset.h"
+> Thanks,
+> Eric Chan
 >
->  #include <libfdt.h>
+> qemu/include/hw/riscv/boot_opensbi.h
+> #define FW_DYNAMIC_INFO_MAGIC_VALUE     0x4942534f
+> qemu/hw/riscv/boot.c
+> void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
+>                                hwaddr start_addr,
+>                                hwaddr rom_base, hwaddr rom_size,
+>                                uint64_t kernel_entry,
+>                                uint64_t fdt_load_addr)
+> {
+>     int i;
+>     uint32_t start_addr_hi32 = 0x00000000;
+>     uint32_t fdt_load_addr_hi32 = 0x00000000;
 >
-> @@ -241,6 +242,8 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+>     if (!riscv_is_32bit(harts)) {
+>         start_addr_hi32 = start_addr >> 32;
+>         fdt_load_addr_hi32 = fdt_load_addr >> 32;
+>     }
+>     /* reset vector */
+>     uint32_t reset_vec[10] = {
+>         0x00000297,                  /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
+>         0x02828613,                  /*     addi   a2, t0, %pcrel_lo(1b) */
+>         0xf1402573,                  /*     csrr   a0, mhartid  */
+>         0,
+>         0,
+>         0x00028067,                  /*     jr     t0 */
+>         start_addr,                  /* start: .dword */
+>         start_addr_hi32,
+>         fdt_load_addr,               /* fdt_laddr: .dword */
+>         fdt_load_addr_hi32,
+>                                      /* fw_dyn: */
+>     };
+>     if (riscv_is_32bit(harts)) {
+>         reset_vec[3] = 0x0202a583;   /*     lw     a1, 32(t0) */
+>         reset_vec[4] = 0x0182a283;   /*     lw     t0, 24(t0) */
+>     } else {
+>         reset_vec[3] = 0x0202b583;   /*     ld     a1, 32(t0) */
+>         reset_vec[4] = 0x0182b283;   /*     ld     t0, 24(t0) */
+>     }
 >
->      rom_add_blob_fixed_as("fdt", fdt, fdtsize, fdt_addr,
->                            &address_space_memory);
-> +    qemu_register_reset(qemu_fdt_randomize_seeds,
-> +                        rom_ptr_for_as(&address_space_memory, fdt_addr, fdtsize));
+>     /* copy in the reset vector in little_endian byte order */
+>     for (i = 0; i < ARRAY_SIZE(reset_vec); i++) {
+>         reset_vec[i] = cpu_to_le32(reset_vec[i]);
+>     }
+>     rom_add_blob_fixed_as("mrom.reset", reset_vec, sizeof(reset_vec),
+>                           rom_base, &address_space_memory);
+>     riscv_rom_copy_firmware_info(machine, rom_base, rom_size, sizeof(reset_vec),
+>                                  kernel_entry);
+> }
 >
->      return fdt_addr;
->  }
-> --
-> 2.37.3
+> opensbi/firmware/fw_dynamic.S
+> fw_boot_hart:
+>         /* Sanity checks */
+>         li      a1, FW_DYNAMIC_INFO_MAGIC_VALUE
+>         REG_L   a0, FW_DYNAMIC_INFO_MAGIC_OFFSET(a2)
+>         bne     a0, a1, _bad_dynamic_info
+>         li      a1, FW_DYNAMIC_INFO_VERSION_MAX
+>         REG_L   a0, FW_DYNAMIC_INFO_VERSION_OFFSET(a2)
+>         bgt     a0, a1, _bad_dynamic_info
 >
->
+>         /* Read boot HART id */
+>         li      a1, FW_DYNAMIC_INFO_VERSION_2
+>         blt     a0, a1, 2f
+>         REG_L   a0, FW_DYNAMIC_INFO_BOOT_HART_OFFSET(a2)
+>         ret
+> 2:      li      a0, -1
+>         ret
 
