@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0054E5FA411
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 21:19:51 +0200 (CEST)
-Received: from localhost ([::1]:51822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A9A5FA417
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Oct 2022 21:23:47 +0200 (CEST)
+Received: from localhost ([::1]:60670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ohyJZ-0003V1-6Q
-	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 15:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42774)
+	id 1ohyNN-000208-MF
+	for lists+qemu-devel@lfdr.de; Mon, 10 Oct 2022 15:23:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+df8904472a2a380df65b+6987+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1ohwl9-0002Kv-7y
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:40:23 -0400
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1]:51278)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+df8904472a2a380df65b+6987+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1ohwl5-0000Ya-Vr
- for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:40:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=ODwM/j0JynAMB5UmwNwBgHSMxDPelntynZLv9Ujbm5c=; b=sMSRyf279Cv8B8YpHrbSkWNdbD
- 7N0Wdf3u4/yOVqdPVBWV/b3jN4X+OyKsrWnHCyBDvY7BTvj0JffDZRW8UQ3Fw+kmFMX1VoehFyg88
- MHfLL8+ZI+cf9A7vodq+99ebJylEG7TLchU93SbFCwuoYTmYGbxLnNj2LfDWmRLi5NT/Cf3q3Xg/6
- 2YjjZqfvIZYhqQID91fFkrXC7QRrT4Cp4UJz8BtgluG+v3gBL/lRjVOTrnua08knBe7HO0Prtrcnd
- 7iDkfL5VtJNL3dd608972JpsiPvhHC+mswpTnO9d4a3fX7+EXAtgmlSLI8pQryGhRUSwTtapSqMVV
- 7jvGEBAg==;
-Received: from [205.251.233.105] (helo=freeip.amazon.com)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1ohwky-004NwD-OZ; Mon, 10 Oct 2022 17:40:01 +0000
-Message-ID: <ff11454f877ce7ccb0a02a9343715bbb8f32194f.camel@infradead.org>
-Subject: Re: [PULL 29/55] Revert "intel_iommu: Fix irqchip / X2APIC
- configuration checks"
-From: David Woodhouse <dwmw2@infradead.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Xu <peterx@redhat.com>, 
- Claudio Fontana <cfontana@suse.de>, Igor Mammedov <imammedo@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>
-Date: Mon, 10 Oct 2022 10:39:52 -0700
-In-Reply-To: <20221010172813.204597-30-mst@redhat.com>
-References: <20221010172813.204597-1-mst@redhat.com>
- <20221010172813.204597-30-mst@redhat.com>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-PWmMG8UXj+PsRVyM85G1"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohwzZ-00063t-3D
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:55:05 -0400
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:46768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ohwzW-0003cT-02
+ for qemu-devel@nongnu.org; Mon, 10 Oct 2022 13:55:04 -0400
+Received: by mail-il1-x12f.google.com with SMTP id a2so5985383iln.13
+ for <qemu-devel@nongnu.org>; Mon, 10 Oct 2022 10:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=AUG4Nq8CrcLKuHEeKG8XjxYNAOAnVVWBVw2eP2GyseI=;
+ b=s9lt2GLJoE7Wfysoo2RBl4i0aCjgc34gVZStAF13/jr2bQvBhUcoglAAqaqj4yrher
+ JiKIA7kEqKMswzfG0z2pbptXrp4bAmMj3gExHB2PPrOUV2+Pe7OJbsPNlvFt1DxZ6/II
+ TE8bG+44mVZaqOHZho9ehHrSbhbapH2jd9+3V8p5GhKl9UKD53i0dXAaVWpT2M1uDPSn
+ rISp+5lUloxwaIzWXYoRmJc2W2Ntl4pesYtfYhcGNjf3WqaSs29RU1rXx8pfDdorevcR
+ 9s6Go2jJMc4MjFqh01NtgUEPFm2wDBEL8u3Pvt9gJkzZcsfjsT2mkb3WDYkTJwKQuS6a
+ jXTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=AUG4Nq8CrcLKuHEeKG8XjxYNAOAnVVWBVw2eP2GyseI=;
+ b=PWXVrO9plE4JW6nDRsKk04x32qCUNyBpphLyWD+hciB/g5pdJBK9w5Ra1YzbGNQW6X
+ FyZ9PKtiA7cTs6Z0RzBMtatV9d08yp6x3etWI5/gYo5V3AyzLjv9UGYPgWM60D58j06D
+ MCo1W+SXI0V0cGCzMVXDWw9Po3cbOi5jWOIYBEV/v12y02dU4PMjb55ZeAtdfRTauJgF
+ lug9DiB3JrunYuOBCfLSDoY0ZT1eysB9xJq+38jcgkfqSJ4zsTkPH5nZNN5kt23qxZ/B
+ JuWFfT7BB5wuuyB1xhJCIOvnJaiztsiy6AKF79dj3jF6OkVxxN1TgA6ZD1LYriHDQJgu
+ uhog==
+X-Gm-Message-State: ACrzQf2/zJagczGt3Lf6z4BnS6KDHosAoo33s29AX8Q/L2lV9HE2MlMp
+ RRuKAl/wbiDV82CPMi2RYFrKhH4mMSQgLH2+aDG4Pg==
+X-Google-Smtp-Source: AMsMyM7jZr9mXNM/ceYsOiKNCoPUQaqTKPZ6nbf1QskrkM7LxWfKxIhO0kYyHEgX1Qt3YOjyuvv1j11wBq3/EcRXFFQ=
+X-Received: by 2002:a92:2601:0:b0:2fc:48be:e77a with SMTP id
+ n1-20020a922601000000b002fc48bee77amr2499423ile.202.1665424500188; Mon, 10
+ Oct 2022 10:55:00 -0700 (PDT)
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+df8904472a2a380df65b+6987+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20220831045311.33083-1-ani@anisinha.ca>
+ <CAARzgwz8vFEs06U--LWuFrXO_oN3beynysedMxpDZ6EFpJDXQg@mail.gmail.com>
+In-Reply-To: <CAARzgwz8vFEs06U--LWuFrXO_oN3beynysedMxpDZ6EFpJDXQg@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 10 Oct 2022 23:24:49 +0530
+Message-ID: <CAARzgwyfAFZAawL8zY2assm0nKcFbi40AGO4381CAHBo1CdtxQ@mail.gmail.com>
+Subject: Re: [PATCH REPOST] hw/i386/e820: remove legacy reserved entries for
+ e820
+To: Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, Sergio Lopez <slp@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000bc057605eab1db45"
+Received-SPF: none client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x12f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,154 +86,406 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---=-PWmMG8UXj+PsRVyM85G1
+--000000000000bc057605eab1db45
 Content-Type: text/plain; charset="UTF-8"
+
+On Wed, Sep 7, 2022 at 18:18 Ani Sinha <ani@anisinha.ca> wrote:
+
+> On Wed, Aug 31, 2022 at 10:23 AM Ani Sinha <ani@anisinha.ca> wrote:
+> >
+> > e820 reserved entries were used before the dynamic entries with fw
+> config files
+> > were intoduced. Please see the following change:
+> > 7d67110f2d9a6("pc: add etc/e820 fw_cfg file")
+> >
+> > Identical support was introduced into seabios as well with the following
+> commit:
+> > ce39bd4031820 ("Add support for etc/e820 fw_cfg file")
+> >
+> > Both the above commits are now quite old. QEMU machines 1.7 and newer no
+> longer
+> > use the reserved entries. Seabios uses fw config files and
+> > dynamic e820 entries by default and only falls back to using reserved
+> entries
+> > when it has to work with old qemu (versions earlier than 1.7). Please see
+> > functions qemu_cfg_e820() and qemu_early_e820(). It is safe to remove
+> legacy
+> > FW_CFG_E820_TABLE and associated code now as QEMU 7.0 has deprecated
+> i440fx
+> > machines 1.7 and older. It would be incredibly rare to run the latest
+> qemu
+> > version with a very old version of seabios that did not support fw
+> config files
+> > for e820.
+> >
+> > As far as I could see, edk2/ovfm never supported reserved entries and
+> uses fw
+> > config files from the beginning. So there should be no incompatibilities
+> with
+> > ovfm as well.
+> >
+> > CC: Gerd Hoffmann <kraxel@redhat.com>
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+>
+> michael, please pick this one as well for the next pull. thanks.
+
+
+Michael, seems you kissed this one.
+
+
+>
+> > ---
+> >  hw/i386/e820_memory_layout.c | 20 +-------------------
+> >  hw/i386/e820_memory_layout.h |  8 --------
+> >  hw/i386/fw_cfg.c             |  3 ---
+> >  hw/i386/fw_cfg.h             |  1 -
+> >  hw/i386/microvm.c            |  2 --
+> >  5 files changed, 1 insertion(+), 33 deletions(-)
+> >
+> > Please see:
+> >
+> https://patchwork.ozlabs.org/project/qemu-devel/patch/20220420043904.1225153-1-ani@anisinha.ca/
+> > for the previous post. Now that we are in 7.2 devel cycle, time to push
+> > this patch.
+> >
+> > diff --git a/hw/i386/e820_memory_layout.c b/hw/i386/e820_memory_layout.c
+> > index bcf9eaf837..06970ac44a 100644
+> > --- a/hw/i386/e820_memory_layout.c
+> > +++ b/hw/i386/e820_memory_layout.c
+> > @@ -11,29 +11,11 @@
+> >  #include "e820_memory_layout.h"
+> >
+> >  static size_t e820_entries;
+> > -struct e820_table e820_reserve;
+> >  struct e820_entry *e820_table;
+> >
+> >  int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
+> >  {
+> > -    int index = le32_to_cpu(e820_reserve.count);
+> > -    struct e820_entry *entry;
+> > -
+> > -    if (type != E820_RAM) {
+> > -        /* old FW_CFG_E820_TABLE entry -- reservations only */
+> > -        if (index >= E820_NR_ENTRIES) {
+> > -            return -EBUSY;
+> > -        }
+> > -        entry = &e820_reserve.entry[index++];
+> > -
+> > -        entry->address = cpu_to_le64(address);
+> > -        entry->length = cpu_to_le64(length);
+> > -        entry->type = cpu_to_le32(type);
+> > -
+> > -        e820_reserve.count = cpu_to_le32(index);
+> > -    }
+> > -
+> > -    /* new "etc/e820" file -- include ram too */
+> > +    /* new "etc/e820" file -- include ram and reserved entries */
+> >      e820_table = g_renew(struct e820_entry, e820_table, e820_entries +
+> 1);
+> >      e820_table[e820_entries].address = cpu_to_le64(address);
+> >      e820_table[e820_entries].length = cpu_to_le64(length);
+> > diff --git a/hw/i386/e820_memory_layout.h b/hw/i386/e820_memory_layout.h
+> > index 04f93780f9..7c239aa033 100644
+> > --- a/hw/i386/e820_memory_layout.h
+> > +++ b/hw/i386/e820_memory_layout.h
+> > @@ -16,20 +16,12 @@
+> >  #define E820_NVS        4
+> >  #define E820_UNUSABLE   5
+> >
+> > -#define E820_NR_ENTRIES 16
+> > -
+> >  struct e820_entry {
+> >      uint64_t address;
+> >      uint64_t length;
+> >      uint32_t type;
+> >  } QEMU_PACKED __attribute((__aligned__(4)));
+> >
+> > -struct e820_table {
+> > -    uint32_t count;
+> > -    struct e820_entry entry[E820_NR_ENTRIES];
+> > -} QEMU_PACKED __attribute((__aligned__(4)));
+> > -
+> > -extern struct e820_table e820_reserve;
+> >  extern struct e820_entry *e820_table;
+> >
+> >  int e820_add_entry(uint64_t address, uint64_t length, uint32_t type);
+> > diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+> > index a283785a8d..72a42f3c66 100644
+> > --- a/hw/i386/fw_cfg.c
+> > +++ b/hw/i386/fw_cfg.c
+> > @@ -36,7 +36,6 @@ const char *fw_cfg_arch_key_name(uint16_t key)
+> >          {FW_CFG_ACPI_TABLES, "acpi_tables"},
+> >          {FW_CFG_SMBIOS_ENTRIES, "smbios_entries"},
+> >          {FW_CFG_IRQ0_OVERRIDE, "irq0_override"},
+> > -        {FW_CFG_E820_TABLE, "e820_table"},
+> >          {FW_CFG_HPET, "hpet"},
+> >      };
+> >
+> > @@ -127,8 +126,6 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
+> >  #endif
+> >      fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, 1);
+> >
+> > -    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
+> > -                     &e820_reserve, sizeof(e820_reserve));
+> >      fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
+> >                      sizeof(struct e820_entry) * e820_get_num_entries());
+> >
+> > diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
+> > index 275f15c1c5..86ca7c1c0c 100644
+> > --- a/hw/i386/fw_cfg.h
+> > +++ b/hw/i386/fw_cfg.h
+> > @@ -17,7 +17,6 @@
+> >  #define FW_CFG_ACPI_TABLES      (FW_CFG_ARCH_LOCAL + 0)
+> >  #define FW_CFG_SMBIOS_ENTRIES   (FW_CFG_ARCH_LOCAL + 1)
+> >  #define FW_CFG_IRQ0_OVERRIDE    (FW_CFG_ARCH_LOCAL + 2)
+> > -#define FW_CFG_E820_TABLE       (FW_CFG_ARCH_LOCAL + 3)
+> >  #define FW_CFG_HPET             (FW_CFG_ARCH_LOCAL + 4)
+> >
+> >  FWCfgState *fw_cfg_arch_create(MachineState *ms,
+> > diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> > index 52cafa003d..a591161c02 100644
+> > --- a/hw/i386/microvm.c
+> > +++ b/hw/i386/microvm.c
+> > @@ -324,8 +324,6 @@ static void microvm_memory_init(MicrovmMachineState
+> *mms)
+> >      fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, machine->smp.max_cpus);
+> >      fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE,
+> (uint64_t)machine->ram_size);
+> >      fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, 1);
+> > -    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
+> > -                     &e820_reserve, sizeof(e820_reserve));
+> >      fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
+> >                      sizeof(struct e820_entry) * e820_get_num_entries());
+> >
+> > --
+> > 2.34.1
+> >
+>
+
+--000000000000bc057605eab1db45
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2022-10-10 at 13:30 -0400, Michael S. Tsirkin wrote:
-> From: Peter Xu <
-> peterx@redhat.com
-> >
->=20
-> It's true that when vcpus<=3D255 we don't require the length of 32bit API=
-C
-> IDs.  However here since we already have EIM=3DON it means the hypervisor
-> will declare the VM as x2apic supported (e.g. VT-d ECAP register will hav=
-e
-> EIM bit 4 set), so the guest should assume the APIC IDs are 32bits width
-> even if vcpus<=3D255.  In short, commit 77250171bdc breaks any simple cmd=
-line
-> that wants to boot a VM with >=3D9 but <=3D255 vcpus with:
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Sep 7, 2022 at 18:18 Ani Sinha &lt;<a href=3D"mailt=
+o:ani@anisinha.ca">ani@anisinha.ca</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;b=
+order-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)"=
+>On Wed, Aug 31, 2022 at 10:23 AM Ani Sinha &lt;<a href=3D"mailto:ani@anisi=
+nha.ca" target=3D"_blank">ani@anisinha.ca</a>&gt; wrote:<br>
+&gt;<br>
+&gt; e820 reserved entries were used before the dynamic entries with fw con=
+fig files<br>
+&gt; were intoduced. Please see the following change:<br>
+&gt; 7d67110f2d9a6(&quot;pc: add etc/e820 fw_cfg file&quot;)<br>
+&gt;<br>
+&gt; Identical support was introduced into seabios as well with the followi=
+ng commit:<br>
+&gt; ce39bd4031820 (&quot;Add support for etc/e820 fw_cfg file&quot;)<br>
+&gt;<br>
+&gt; Both the above commits are now quite old. QEMU machines 1.7 and newer =
+no longer<br>
+&gt; use the reserved entries. Seabios uses fw config files and<br>
+&gt; dynamic e820 entries by default and only falls back to using reserved =
+entries<br>
+&gt; when it has to work with old qemu (versions earlier than 1.7). Please =
+see<br>
+&gt; functions qemu_cfg_e820() and qemu_early_e820(). It is safe to remove =
+legacy<br>
+&gt; FW_CFG_E820_TABLE and associated code now as QEMU 7.0 has deprecated i=
+440fx<br>
+&gt; machines 1.7 and older. It would be incredibly rare to run the latest =
+qemu<br>
+&gt; version with a very old version of seabios that did not support fw con=
+fig files<br>
+&gt; for e820.<br>
+&gt;<br>
+&gt; As far as I could see, edk2/ovfm never supported reserved entries and =
+uses fw<br>
+&gt; config files from the beginning. So there should be no incompatibiliti=
+es with<br>
+&gt; ovfm as well.<br>
+&gt;<br>
+&gt; CC: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_=
+blank">kraxel@redhat.com</a>&gt;<br>
+&gt; Signed-off-by: Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" target=
+=3D"_blank">ani@anisinha.ca</a>&gt;<br>
+&gt; Acked-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
+t=3D"_blank">kraxel@redhat.com</a>&gt;<br>
+<br>
+michael, please pick this one as well for the next pull. thanks.</blockquot=
+e><div dir=3D"auto"><br></div><div dir=3D"auto">Michael, seems you kissed t=
+his one.</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:=
+solid;padding-left:1ex;border-left-color:rgb(204,204,204)" dir=3D"auto"><br=
+>
+<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/i386/e820_memory_layout.c | 20 +-------------------<br>
+&gt;=C2=A0 hw/i386/e820_memory_layout.h |=C2=A0 8 --------<br>
+&gt;=C2=A0 hw/i386/fw_cfg.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 3 ---<br>
+&gt;=C2=A0 hw/i386/fw_cfg.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 1 -<br>
+&gt;=C2=A0 hw/i386/microvm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 2 --<br>
+&gt;=C2=A0 5 files changed, 1 insertion(+), 33 deletions(-)<br>
+&gt;<br>
+&gt; Please see:<br>
+&gt; <a href=3D"https://patchwork.ozlabs.org/project/qemu-devel/patch/20220=
+420043904.1225153-1-ani@anisinha.ca/" rel=3D"noreferrer" target=3D"_blank">=
+https://patchwork.ozlabs.org/project/qemu-devel/patch/20220420043904.122515=
+3-1-ani@anisinha.ca/</a><br>
+&gt; for the previous post. Now that we are in 7.2 devel cycle, time to pus=
+h<br>
+&gt; this patch.<br>
+&gt;<br>
+&gt; diff --git a/hw/i386/e820_memory_layout.c b/hw/i386/e820_memory_layout=
+.c<br>
+&gt; index bcf9eaf837..06970ac44a 100644<br>
+&gt; --- a/hw/i386/e820_memory_layout.c<br>
+&gt; +++ b/hw/i386/e820_memory_layout.c<br>
+&gt; @@ -11,29 +11,11 @@<br>
+&gt;=C2=A0 #include &quot;e820_memory_layout.h&quot;<br>
+&gt;<br>
+&gt;=C2=A0 static size_t e820_entries;<br>
+&gt; -struct e820_table e820_reserve;<br>
+&gt;=C2=A0 struct e820_entry *e820_table;<br>
+&gt;<br>
+&gt;=C2=A0 int e820_add_entry(uint64_t address, uint64_t length, uint32_t t=
+ype)<br>
+&gt;=C2=A0 {<br>
+&gt; -=C2=A0 =C2=A0 int index =3D le32_to_cpu(e820_reserve.count);<br>
+&gt; -=C2=A0 =C2=A0 struct e820_entry *entry;<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 if (type !=3D E820_RAM) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* old FW_CFG_E820_TABLE entry -- reserva=
+tions only */<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (index &gt;=3D E820_NR_ENTRIES) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EBUSY;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 entry =3D &amp;e820_reserve.entry[index++=
+];<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 entry-&gt;address =3D cpu_to_le64(address=
+);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 entry-&gt;length =3D cpu_to_le64(length);=
+<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 entry-&gt;type =3D cpu_to_le32(type);<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 e820_reserve.count =3D cpu_to_le32(index)=
+;<br>
+&gt; -=C2=A0 =C2=A0 }<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0 /* new &quot;etc/e820&quot; file -- include ram too */<=
+br>
+&gt; +=C2=A0 =C2=A0 /* new &quot;etc/e820&quot; file -- include ram and res=
+erved entries */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 e820_table =3D g_renew(struct e820_entry, e820_tab=
+le, e820_entries + 1);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 e820_table[e820_entries].address =3D cpu_to_le64(a=
+ddress);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 e820_table[e820_entries].length =3D cpu_to_le64(le=
+ngth);<br>
+&gt; diff --git a/hw/i386/e820_memory_layout.h b/hw/i386/e820_memory_layout=
+.h<br>
+&gt; index 04f93780f9..7c239aa033 100644<br>
+&gt; --- a/hw/i386/e820_memory_layout.h<br>
+&gt; +++ b/hw/i386/e820_memory_layout.h<br>
+&gt; @@ -16,20 +16,12 @@<br>
+&gt;=C2=A0 #define E820_NVS=C2=A0 =C2=A0 =C2=A0 =C2=A0 4<br>
+&gt;=C2=A0 #define E820_UNUSABLE=C2=A0 =C2=A05<br>
+&gt;<br>
+&gt; -#define E820_NR_ENTRIES 16<br>
+&gt; -<br>
+&gt;=C2=A0 struct e820_entry {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 uint64_t address;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 uint64_t length;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 uint32_t type;<br>
+&gt;=C2=A0 } QEMU_PACKED __attribute((__aligned__(4)));<br>
+&gt;<br>
+&gt; -struct e820_table {<br>
+&gt; -=C2=A0 =C2=A0 uint32_t count;<br>
+&gt; -=C2=A0 =C2=A0 struct e820_entry entry[E820_NR_ENTRIES];<br>
+&gt; -} QEMU_PACKED __attribute((__aligned__(4)));<br>
+&gt; -<br>
+&gt; -extern struct e820_table e820_reserve;<br>
+&gt;=C2=A0 extern struct e820_entry *e820_table;<br>
+&gt;<br>
+&gt;=C2=A0 int e820_add_entry(uint64_t address, uint64_t length, uint32_t t=
+ype);<br>
+&gt; diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c<br>
+&gt; index a283785a8d..72a42f3c66 100644<br>
+&gt; --- a/hw/i386/fw_cfg.c<br>
+&gt; +++ b/hw/i386/fw_cfg.c<br>
+&gt; @@ -36,7 +36,6 @@ const char *fw_cfg_arch_key_name(uint16_t key)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {FW_CFG_ACPI_TABLES, &quot;acpi_tabl=
+es&quot;},<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {FW_CFG_SMBIOS_ENTRIES, &quot;smbios=
+_entries&quot;},<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {FW_CFG_IRQ0_OVERRIDE, &quot;irq0_ov=
+erride&quot;},<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 {FW_CFG_E820_TABLE, &quot;e820_table&quot=
+;},<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {FW_CFG_HPET, &quot;hpet&quot;},<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 };<br>
+&gt;<br>
+&gt; @@ -127,8 +126,6 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,<b=
+r>
+&gt;=C2=A0 #endif<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, 1);<b=
+r>
+&gt;<br>
+&gt; -=C2=A0 =C2=A0 fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0&amp;e820_reserve, sizeof(e820_reserve));<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 fw_cfg_add_file(fw_cfg, &quot;etc/e820&quot;, e820=
+_table,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 sizeof(struct e820_entry) * e820_get_num_entries());<br>
+&gt;<br>
+&gt; diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h<br>
+&gt; index 275f15c1c5..86ca7c1c0c 100644<br>
+&gt; --- a/hw/i386/fw_cfg.h<br>
+&gt; +++ b/hw/i386/fw_cfg.h<br>
+&gt; @@ -17,7 +17,6 @@<br>
+&gt;=C2=A0 #define FW_CFG_ACPI_TABLES=C2=A0 =C2=A0 =C2=A0 (FW_CFG_ARCH_LOCA=
+L + 0)<br>
+&gt;=C2=A0 #define FW_CFG_SMBIOS_ENTRIES=C2=A0 =C2=A0(FW_CFG_ARCH_LOCAL + 1=
+)<br>
+&gt;=C2=A0 #define FW_CFG_IRQ0_OVERRIDE=C2=A0 =C2=A0 (FW_CFG_ARCH_LOCAL + 2=
+)<br>
+&gt; -#define FW_CFG_E820_TABLE=C2=A0 =C2=A0 =C2=A0 =C2=A0(FW_CFG_ARCH_LOCA=
+L + 3)<br>
+&gt;=C2=A0 #define FW_CFG_HPET=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0(FW_CFG_ARCH_LOCAL + 4)<br>
+&gt;<br>
+&gt;=C2=A0 FWCfgState *fw_cfg_arch_create(MachineState *ms,<br>
+&gt; diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c<br>
+&gt; index 52cafa003d..a591161c02 100644<br>
+&gt; --- a/hw/i386/microvm.c<br>
+&gt; +++ b/hw/i386/microvm.c<br>
+&gt; @@ -324,8 +324,6 @@ static void microvm_memory_init(MicrovmMachineStat=
+e *mms)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, machine-&g=
+t;smp.max_cpus);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)=
+machine-&gt;ram_size);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, 1);<b=
+r>
+&gt; -=C2=A0 =C2=A0 fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0&amp;e820_reserve, sizeof(e820_reserve));<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 fw_cfg_add_file(fw_cfg, &quot;etc/e820&quot;, e820=
+_table,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 sizeof(struct e820_entry) * e820_get_num_entries());<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.34.1<br>
+&gt;<br>
+</blockquote></div></div>
 
-I find that paragraph really hard to parse. What does it even mean that
-"guest should assume the APIC IDs are 32bits"?=20
-
-In practice, all the EIM bit does is *allow* 32 bits of APIC ID in the
-tables. Which is perfectly fine if there are only 254 CPUs anyway, and
-we never need to use a higher value.
-
-I *think* the actual problem here is when logical addressing is used,
-which puts the APIC cluster ID into higher bits? But it's kind of weird
-that the message doesn't mention that at all?
-
-That's fixable by just setting the X2APIC_PHYSICAL bit in the ACPI
-FADT, isn't it? Then the only values that a guest may put into those
-fields =E2=80=94 32-bit fields or not =E2=80=94 are lower than 0xff anyway.
-
-
---=-PWmMG8UXj+PsRVyM85G1
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIxMDEwMTczOTUyWjAvBgkqhkiG9w0BCQQxIgQgHkKKGyxY
-YkIuz/NxYB+IVU65FVQIMMjZ5WLVJFW+b98wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBCv8ES5/u/avRJR1x0+ITZqDTwmHsA8Xfy
-WlmVqEtOFNEsLjJI87BO14M5ExoDXICzx7+YwpB4PDdcMqxJOPk8M72m0T10iJ8bXuccUmHnHexx
-MoR8XXsu8FVVxv2xtNFh03FKhfMsgG8Ky7o0b9FHqQFsR1ZwfR9Hv+wORok4unCyK/YlGrA7kSLM
-+tT3XjeNq+nlpt9z+yCJYm/REOWF4XIk2mEagGnTrQsXL2N76223jt8vvvN8gA0KGoFMnmgdc77w
-NFGpa8NPNAnMaXmRmZsuye77GWX08rftoYiO0b/asiEDkyaxfRVZqs5cqvY37/fMv50oSMI90OI7
-GwXk93xV+8jipZ2ymY5//nSpZGVtgxUENfpHRqKzHt36pvDTDkLZTGDx0eN5zo3Wbdbk99N884sl
-08GqURTRpfBe9zoynCNf1kBTuqWTwft8V+eqooOUGtzQPoFCYnh6adRJqYK8Q3FJLg+LLemT0WMu
-GnFKpe3lAMcIYcgo8GVCfPazE+6D2RBXv7MfZBmPmbO/QZ1EWMzDTlixfzJ1GMQl70S6kTKPhtjh
-ojMgznphJleyidcuw1pBD2ObdN1tmZ6HSPH9UzFuz0TB3oYJkkT0vHfUfxTmj7Yb5OqVEvaJzYSj
-vrLDVvHSrvH4EURGyd2wg9mHnnbZfcqnJUEr+ka9WwAAAAAAAA==
-
-
---=-PWmMG8UXj+PsRVyM85G1--
-
+--000000000000bc057605eab1db45--
 
